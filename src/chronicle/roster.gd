@@ -75,6 +75,15 @@ func enlist(character_id: String) -> bool:
 	return true
 
 
+## Part ways. The player cannot walk out on their own run.
+func dismiss(character_id: String) -> bool:
+	var character := by_id(character_id)
+	if character == null or character.is_player or character_id not in party:
+		return false
+	party.erase(character_id)
+	return true
+
+
 func rest() -> void:
 	for character in party_members():
 		if character.is_alive():
@@ -85,9 +94,11 @@ func is_wounded() -> bool:
 	return party_members().any(func(c: Character) -> bool: return c.is_wounded())
 
 
-## True when nobody is left standing — the run is over.
-func is_broken() -> bool:
-	return fit_to_fight().is_empty()
+## The run belongs to the player character. Companions come and go — some do not
+## get to see the end of it — but the story only stops when *they* do.
+func run_is_over() -> bool:
+	var lead := player()
+	return lead == null or lead.is_lost()
 
 
 func awaiting_class_choice() -> Character:

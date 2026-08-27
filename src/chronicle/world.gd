@@ -31,6 +31,8 @@ var steps: int = 0
 var player_cell: Vector2i = Vector2i.ZERO
 ## Highest Tower floor anyone has come back down from.
 var tower_floor: int = 0
+## Set once the top has been reached. What waits there is not decided yet.
+var tower_topped: bool = false
 ## Generated skill trees, id -> tree dict (see [AbilityGrammar]).
 var trees: Dictionary = {}
 ## Themes the world has catalogued, for the Codex readout.
@@ -83,6 +85,14 @@ func tower() -> Site:
 	return towers[0] if not towers.is_empty() else null
 
 
+func tower_floors() -> int:
+	return int(Database.world_rules.get("tower", {}).get("floors", 10))
+
+
+func tower_is_topped() -> bool:
+	return tower_floor >= tower_floors()
+
+
 ## Distance to the nearest open gate — what makes the wild dangerous.
 func distance_to_open_gate(cell: Vector2i) -> int:
 	var best := 9999
@@ -99,6 +109,26 @@ func distance_to_haven(cell: Vector2i) -> int:
 		if site.kind == Site.VILLAGE or site.kind == Site.KEEP or site.kind == Site.HUT:
 			best = mini(best, Pathfinder.distance(cell, site.cell))
 	return best
+
+
+## A gate that has broken is pouring rather than spilling, and the land around
+## it is far worse for it.
+func broken_gates() -> Array[Site]:
+	return sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.broken)
+
+
+## Shut a gate for good. Cleared gates never swing open again.
+func close_gate(site: Site) -> void:
+	site.open = false
+	site.broken = false
+	site.cleared = true
+
+
+func open_gate(site: Site) -> void:
+	if site.cleared:
+		return
+	site.open = true
+	site.opened_at = steps
 
 
 # --- powers -------------------------------------------------------------------
@@ -144,15 +174,22 @@ func step() -> Array:
 
 func _upkeep() -> Array:
 	var notices: Array = []
+	var rules: Dictionary = Database.world_rules.get("gate", {})
+	var patience := int(rules.get("break_after_steps", 600))
+
+	# A cleared gate is finished with. The danger is the ones left standing open:
+	# what is behind them piles up until it comes out on its own.
 	for site in sites_of_kind(Site.GATE):
-		if site.open:
+		if not site.open or site.broken:
 			continue
-		# A cleared gate stays shut longer, but nothing stays shut forever.
-		var chance := 0.10 if site.cleared else 0.25
-		if rng.randf() < chance:
-			site.open = true
-			site.cleared = false
-			notices.append("A %s-rank gate has opened at %s." % [site.rank, site.display_name])
+		if steps - site.opened_at < patience:
+			continue
+		if rng.randf() < float(rules.get("break_chance", 0.75)):
+			site.broken = true
+			notices.append("%s has broken. Whatever was behind it is out." % site.display_name)
+		else:
+			# It held this time; the clock starts again.
+			site.opened_at = steps
 	return notices
 
 
@@ -168,6 +205,7 @@ func to_dict() -> Dictionary:
 		"steps": steps,
 		"player_cell": [player_cell.x, player_cell.y],
 		"tower_floor": tower_floor,
+		"tower_topped": tower_topped,
 		"trees": trees,
 		"codex": codex,
 		# A 64-bit state would lose precision as a JSON number.
@@ -185,6 +223,7 @@ static func from_dict(payload: Dictionary) -> World:
 	var cell_pair: Array = payload.get("player_cell", [0, 0])
 	world.player_cell = Vector2i(int(cell_pair[0]), int(cell_pair[1]))
 	world.tower_floor = int(payload.get("tower_floor", 0))
+	world.tower_topped = bool(payload.get("tower_topped", false))
 	world.trees = payload.get("trees", {})
 	world.codex = payload.get("codex", {})
 	for entry: Dictionary in payload.get("sites", []):

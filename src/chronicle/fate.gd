@@ -113,7 +113,7 @@ static func _apply(character: Character, grace: Dictionary, context: Dictionary)
 		character.status = CAPTURED
 		character.hp = maxi(1, roundi(character.max_hp() * float(rules.get("capture_recovery", 0.1))))
 		var world: World = context.get("world", null)
-		character.captured_at = _nearest_stronghold(world, context.get("cell", Vector2i.ZERO))
+		Captivity.take(character, world, _nearest_stronghold(world, context.get("cell", Vector2i.ZERO)))
 		return {
 			"outcome": CAPTURED,
 			"reason": reason,
@@ -144,13 +144,13 @@ static func _escape_line(character: Character, grace: Dictionary) -> String:
 	return "%s lives, for %s." % [who, detail]
 
 
-static func _nearest_stronghold(world: World, cell: Vector2i) -> String:
+static func _nearest_stronghold(world: World, cell: Vector2i) -> Site:
 	if world == null:
-		return "somewhere unmarked"
+		return null
 	var best: Site = null
 	for site in world.sites:
 		if site.kind != Site.KEEP and site.kind != Site.GATE:
 			continue
 		if best == null or Pathfinder.distance(site.cell, cell) < Pathfinder.distance(best.cell, cell):
 			best = site
-	return best.display_name if best != null else "somewhere unmarked"
+	return best

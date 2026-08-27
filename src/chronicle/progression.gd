@@ -90,15 +90,25 @@ static func settle_class(character: Character, class_id: String) -> bool:
 
 
 ## Discover a tree compatible with the character's class and take its first rung.
-static func unlock_tree(character: Character, world: World) -> Array:
+## [param theme] may be named once the Codex is complete — the world stops
+## handing out powers and starts letting you ask for them.
+static func unlock_tree(character: Character, world: World, theme: String = "") -> Array:
 	var themes := AbilityGrammar.themes_for(character)
-	var theme: String = themes[world.rng.randi() % themes.size()]
-	var tree := AbilityGrammar.generate_tree(theme, world.rng)
+	if theme == "" or not can_craft(world):
+		theme = themes[world.rng.randi() % themes.size()]
+	var tree := AbilityGrammar.generate_tree(theme, world.rng, world.codex_understanding())
 	world.register_tree(tree)
 	character.trees.append(tree["id"])
 	var lines: Array = ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
 	lines.append_array(learn_next(character, world))
 	return lines
+
+
+## A fully catalogued grammar can be worked deliberately rather than stumbled into.
+static func can_craft(world: World) -> bool:
+	return world.codex_understanding() >= float(
+		Database.world_rules.get("codex", {}).get("crafting_at", 1.0)
+	)
 
 
 ## Take the next unlearned rung from any unlocked tree.

@@ -1,0 +1,31 @@
+{
+	"tower": {
+		"floors": 10,
+		"gold_per_floor": 35,
+		"doctrine_every": 3,
+		"tree_every": 4
+	},
+	"gate": {
+		"break_after_steps": 600,
+		"break_chance": 0.75,
+		"break_danger": 0.25,
+		"break_level_bonus": 3
+	},
+	"captive": {
+		"ransom_base": 120,
+		"ransom_per_level": 25,
+		"deadline_steps": 900,
+		"sold_chance": 0.5
+	},
+	"recruit": {
+		"cost_base": 70,
+		"cost_per_level": 35,
+		"pool_size": 2,
+		"refresh_steps": 400,
+		"templates": ["bram", "sera", "toln"]
+	},
+	"codex": {
+		"power_per_understanding": 0.2,
+		"crafting_at": 1.0
+	}
+}

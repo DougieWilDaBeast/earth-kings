@@ -36,10 +36,15 @@ const RUNG_SCALERS := [0.85, 1.0, 1.25]
 
 ## Build a new tree in [param theme]. The returned dict carries the full ability
 ## definitions so a save file can restore the world's powers exactly.
-static func generate_tree(theme: String, rng: RandomNumberGenerator) -> Dictionary:
+## [param understanding] is the world's Codex share: the better the grammar is
+## catalogued, the more the world can get out of it.
+static func generate_tree(theme: String, rng: RandomNumberGenerator, understanding: float = 0.0) -> Dictionary:
 	var theme_data: Dictionary = THEMES.get(theme, THEMES["edge"])
 	var words: Array = theme_data["words"]
 	var tree_id := "%s_%06x" % [theme, rng.randi() & 0xFFFFFF]
+	var mastery := 1.0 + understanding * float(
+		Database.world_rules.get("codex", {}).get("power_per_understanding", 0.2)
+	)
 
 	var abilities: Dictionary = {}
 	var order: Array = []
@@ -53,7 +58,7 @@ static func generate_tree(theme: String, rng: RandomNumberGenerator) -> Dictiona
 
 		archetype["display_name"] = "%s %s" % [word, noun]
 		archetype["description"] = "A %s power, catalogued rung %d." % [theme_data["name"].to_lower(), rung + 1]
-		archetype["power"] = _scaled_power(archetype, RUNG_SCALERS[rung])
+		archetype["power"] = _scaled_power(archetype, RUNG_SCALERS[rung] * mastery)
 		archetype["theme"] = theme
 		abilities[ability_id] = archetype
 		order.append(ability_id)

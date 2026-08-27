@@ -21,6 +21,12 @@ static func chance_at(world: World, cell: Vector2i) -> float:
 		var closeness := 1.0 - float(to_gate) / float(gate_range)
 		chance += float(rules.get("gate_pressure", 0.3)) * closeness
 
+	# A broken gate is not spilling any more, it is pouring.
+	for broken in world.broken_gates():
+		if Pathfinder.distance(cell, broken.cell) <= gate_range * 2:
+			chance += float(Database.world_rules.get("gate", {}).get("break_danger", 0.25))
+			break
+
 	if world.distance_to_haven(cell) <= int(rules.get("haven_range", 4)):
 		chance -= float(rules.get("haven_relief", 0.06))
 
@@ -39,6 +45,14 @@ static func wild(world: World, cell: Vector2i, party: Array, rng: RandomNumberGe
 	var level := _party_level(party)
 	var danger := _danger_at(world, cell)
 	var count := clampi(1 + danger, 1, 4)
+
+	# Things that came out of a broken gate are not local wildlife.
+	var near_break := world.broken_gates().any(
+		func(s: Site) -> bool: return Pathfinder.distance(cell, s.cell) <= 16
+	)
+	if near_break:
+		level += int(Database.world_rules.get("gate", {}).get("break_level_bonus", 3))
+		count = clampi(count + 1, 1, 4)
 
 	return _build(world, cell, WILD, _pick(pool, count, level, rng), rng,
 		"Something moves in the %s." % world.terrain_at(cell).get("name", "open").to_lower())
@@ -62,6 +76,17 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 		title = "%s, deeper in." % site.display_name
 
 	return _build(world, site.cell, GATE, enemies, rng, title)
+
+
+## The people holding one of yours. They are not a gate garrison, they are a
+## band that took a prisoner and expected to be paid for it.
+static func for_captors(world: World, site: Site, party: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var pool: Array = Database.encounters.get("captors", ["brigand", "brigand_archer"])
+	var level := _party_level(party) + 1
+	return _build(
+		world, site.cell if site != null else world.player_cell, GATE,
+		_pick(pool, 3, level, rng), rng, "The ones holding your friend."
+	)
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.

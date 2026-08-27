@@ -24,10 +24,14 @@ var hp: int = -1
 var status: String = "alive"
 ## Where they are being held, if taken alive.
 var captured_at: String = ""
+## Terms of that captivity: cell, ransom, and the step it runs out (see [Captivity]).
+var captive: Dictionary = {}
 var is_player: bool = false
 
 ## Charms and relics carried; some are spent to cheat death (see [Fate]).
 var charms: Array = []
+## Bought gear, overriding whatever the template came with.
+var equipment: String = ""
 
 ## Generated skill trees unlocked at levels 5 and 10 (see [AbilityGrammar]).
 var trees: Array = []
@@ -161,8 +165,10 @@ func to_dict() -> Dictionary:
 		"hp": hp,
 		"status": status,
 		"captured_at": captured_at,
+		"captive": captive,
 		"is_player": is_player,
 		"charms": charms,
+		"equipment": equipment,
 		"trees": trees,
 		"learned": learned,
 		"doctrine": doctrine,
@@ -183,8 +189,10 @@ static func from_dict(data: Dictionary) -> Character:
 	character.hp = int(data.get("hp", -1))
 	character.status = data.get("status", "alive")
 	character.captured_at = data.get("captured_at", "")
+	character.captive = data.get("captive", {})
 	character.is_player = bool(data.get("is_player", false))
 	character.charms = data.get("charms", [])
+	character.equipment = data.get("equipment", "")
 	character.trees = data.get("trees", [])
 	character.learned = data.get("learned", [])
 	character.doctrine = data.get("doctrine", [])

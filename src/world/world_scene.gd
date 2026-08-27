@@ -41,6 +41,8 @@ var _notices: Array[String] = []
 var _repeat_timer: float = 0.0
 var _held: Vector2i = Vector2i.ZERO
 var _busy: bool = false
+## Someone of yours being held at the tile you are standing on.
+var _captive_here: Character = null
 
 
 func _ready() -> void:
@@ -92,6 +94,7 @@ func _step(direction: Vector2i) -> void:
 		return
 
 	world.player_cell = target
+	_captive_here = null
 	for notice: String in world.step():
 		_note(notice)
 	_centre_camera()
@@ -132,6 +135,20 @@ func _arrive_at(site: Site) -> void:
 			_enter_gate(site)
 		Site.TOWER:
 			_climb(site)
+	_check_for_captives(site)
+
+
+## Anyone of yours being held here can be bought back, or taken back.
+func _check_for_captives(site: Site) -> void:
+	for character in GameState.roster.characters:
+		if character.status != Fate.CAPTURED:
+			continue
+		if Captivity.held_at(character) != site.cell:
+			continue
+		_captive_here = character
+		var price := int(character.captive.get("ransom", 0))
+		_note("%s is being held here. They want %d gold." % [character.display_name, price])
+		return
 
 
 func _rest_at(site: Site) -> void:
@@ -140,6 +157,8 @@ func _rest_at(site: Site) -> void:
 		_note("You rest at %s. Everyone is patched up." % site.display_name)
 	else:
 		_note("%s is quiet." % site.display_name)
+	if site.kind != Site.HUT:
+		Market.refresh(site, world)
 
 
 func _read_at(site: Site) -> void:
@@ -159,23 +178,37 @@ func _read_at(site: Site) -> void:
 
 
 func _enter_gate(site: Site) -> void:
+	if site.cleared:
+		_note("%s is shut for good." % site.display_name)
+		return
 	if not site.open:
 		_note("%s is shut." % site.label())
 		return
+
 	var party := GameState.party_characters()
 	_note("%s stands open." % site.label())
 	_begin_battle(Encounter.for_gate(world, site, 0, true, party, world.rng))
-	# The gate is settled the moment you commit; surviving is the reward.
-	site.open = false
-	site.cleared = true
-	GameState.gold += 40 * (Site.rank_index(site.rank) + 1)
+	# Shutting a gate is permanent; nothing behind it comes back.
+	world.close_gate(site)
+	for line: String in Spoils.for_gate(world, site, party):
+		_note(line)
 
 
 func _climb(site: Site) -> void:
+	if world.tower_is_topped():
+		_note("You have already stood on the last floor.")
+		return
+
 	var next_floor := world.tower_floor + 1
-	_note("The Tower opens onto floor %d." % next_floor)
+	_note("The Tower opens onto floor %d of %d." % [next_floor, world.tower_floors()])
 	world.tower_floor = next_floor
 	_begin_battle(Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng))
+	for line: String in Spoils.for_tower_floor(world, next_floor, GameState.party_characters()):
+		_note(line)
+
+	if world.tower_is_topped():
+		world.tower_topped = true
+		_note("There are no more floors above you.")
 
 
 # --- party --------------------------------------------------------------------
@@ -186,18 +219,56 @@ func _check_party() -> void:
 		for forgotten: String in Doctrine.decay(character, world.steps):
 			_note("%s can no longer recall %s." % [character.display_name, Doctrine.title(forgotten)])
 
-	if GameState.roster.is_broken():
+	# Nobody waits forever for their friends.
+	for character in GameState.roster.characters:
+		if Captivity.is_overdue(character, world):
+			if Captivity.resolve_deadline(character, world) == Captivity.SOLD:
+				_note("%s was sold on. They are not coming back." % character.display_name)
+			else:
+				_note("%s is still being held, and the price has gone up." % character.display_name)
+
+	if GameState.roster.run_is_over():
 		_end_run()
 		return
 
+	_hint.text = _prompt()
+
+
+## The one line at the bottom telling you what you can do where you stand.
+func _prompt() -> String:
 	var choosing := GameState.roster.awaiting_class_choice()
-	_hint.text = "%s is ready to choose a path — press P." % choosing.display_name if choosing != null else "P for the party  ·  Esc for the menu"
+	if choosing != null:
+		return "%s is ready to choose a path — press P." % choosing.display_name
+
+	if _captive_here != null:
+		return "R to ransom %s for %d gold  ·  F to take them back by force." % [
+			_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
+		]
+
+	var site := world.site_at(world.player_cell)
+	if site != null and site.kind != Site.HUT:
+		var offer := Market.hire_offer(site)
+		var parts: Array[String] = []
+		if not offer.is_empty():
+			parts.append("H to hire %s (level %d, %d gold)" % [
+				offer["display_name"], offer["level"], Market.hire_cost(offer)
+			])
+		var goods := Market.wares(site)
+		if not goods.is_empty():
+			parts.append("B to buy %s (%d gold)" % [
+				Database.equipment_piece(goods[0]).get("display_name", goods[0]), Market.price_of(goods[0])
+			])
+		if not parts.is_empty():
+			return "  ·  ".join(parts)
+
+	return "P for the party  ·  Esc for the menu"
 
 
-## Permadeath has to mean something at the end of the line, not just mid-fight.
+## Permadeath follows the player. Companions come and go, and some of them do
+## not get to see the end of it.
 func _end_run() -> void:
 	_busy = true
-	_note("Nobody is left standing. The run is over.")
+	_note("%s falls, and the story stops here." % GameState.roster.player().display_name)
 	_hint.text = ""
 	EventBus.run_ended.emit()
 	await get_tree().create_timer(RUN_OVER_DELAY).timeout
@@ -205,11 +276,88 @@ func _end_run() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _busy or not event.is_pressed() or event.is_echo():
+	if _busy or not event.is_pressed() or event.is_echo() or not event is InputEventKey:
 		return
-	if event is InputEventKey and event.keycode == KEY_P:
-		get_viewport().set_input_as_handled()
-		EventBus.party_screen_requested.emit()
+	match event.keycode:
+		KEY_P:
+			get_viewport().set_input_as_handled()
+			EventBus.party_screen_requested.emit()
+		KEY_H:
+			get_viewport().set_input_as_handled()
+			_hire_here()
+		KEY_B:
+			get_viewport().set_input_as_handled()
+			_buy_here()
+		KEY_R:
+			get_viewport().set_input_as_handled()
+			_ransom_here()
+		KEY_F:
+			get_viewport().set_input_as_handled()
+			_fight_for_captive()
+
+
+func _hire_here() -> void:
+	var site := world.site_at(world.player_cell)
+	if site == null:
+		return
+	var offer := Market.hire_offer(site)
+	if offer.is_empty():
+		return
+	if GameState.roster.party.size() >= Roster.MAX_PARTY:
+		_note("You have nobody to spare a place for.")
+		return
+
+	var hired := Market.hire(site, GameState.roster, world)
+	if hired == null:
+		_note("You cannot afford %d gold." % Market.hire_cost(offer))
+		return
+	_note("%s falls in with you." % hired.display_name)
+	_refresh()
+	_hint.text = _prompt()
+
+
+func _buy_here() -> void:
+	var site := world.site_at(world.player_cell)
+	if site == null:
+		return
+	var goods := Market.wares(site)
+	if goods.is_empty():
+		return
+
+	var equipment_id: String = goods[0]
+	var name: String = Database.equipment_piece(equipment_id).get("display_name", equipment_id)
+	if not Market.buy(site, equipment_id, GameState.roster.player()):
+		_note("You cannot afford the %s." % name)
+		return
+	_note("%s takes up the %s." % [GameState.roster.player().display_name, name])
+	_refresh()
+	_hint.text = _prompt()
+
+
+func _ransom_here() -> void:
+	if _captive_here == null:
+		return
+	var price := int(_captive_here.captive.get("ransom", 0))
+	if not Captivity.ransom(_captive_here, GameState.roster):
+		_note("They want %d gold and you do not have it." % price)
+		return
+	_note("%s is bought back for %d gold." % [_captive_here.display_name, price])
+	_captive_here = null
+	_refresh()
+	_hint.text = _prompt()
+
+
+## The other way to get someone back. Surviving it is the price.
+func _fight_for_captive() -> void:
+	if _captive_here == null:
+		return
+	var freed := _captive_here
+	var site := world.site_at(world.player_cell)
+	_note("You come for %s the hard way." % freed.display_name)
+	_begin_battle(Encounter.for_captors(world, site, GameState.party_characters(), world.rng))
+	Captivity.free_by_force(freed, GameState.roster)
+	_captive_here = null
+	_refresh()
 
 
 # --- presentation -------------------------------------------------------------

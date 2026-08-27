@@ -25,6 +25,7 @@
 		"S": "wraith"
 	},
 	"tower": ["goblin", "brigand", "ogre", "wraith"],
+	"captors": ["brigand", "brigand_archer", "brigand_chief"],
 	"base_chance": 0.07,
 	"gate_range": 8,
 	"gate_pressure": 0.3,

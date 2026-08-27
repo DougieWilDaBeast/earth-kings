@@ -5,6 +5,11 @@ extends RefCounted
 const NAME_PREFIX := ["Grey", "Hollow", "Ash", "Wither", "Bright", "Storm", "Cold", "Elder", "Fen", "Mourn"]
 const NAME_SUFFIX := ["water", "ford", "reach", "hold", "march", "gate", "barrow", "vale", "run", "spire"]
 
+const GIVEN_NAMES := [
+	"Aldric", "Bryn", "Cael", "Dara", "Edran", "Fenn", "Gale", "Hesk", "Isolde", "Joran",
+	"Kestrel", "Lys", "Maren", "Nel", "Orin", "Perrin", "Quill", "Rusk", "Sable", "Tamsin",
+]
+
 ## Sites are kept this far apart so the map doesn't clump.
 const MIN_SITE_SPACING := 5
 
@@ -99,6 +104,7 @@ static func _rank_gates(world: World) -> void:
 		gates[i].rank = Site.RANKS[rung]
 		# Half the world's gates are already spilling when you arrive.
 		gates[i].open = world.rng.randf() < 0.5
+		gates[i].opened_at = 0
 
 
 static func _seed_first_doctrine(world: World) -> void:
@@ -171,3 +177,12 @@ static func _place_name(rng: RandomNumberGenerator, used: Dictionary) -> String:
 			used[name_] = true
 			return name_
 	return "Nameless %d" % used.size()
+
+
+## A name for someone you meet on the road.
+static func person_name(rng: RandomNumberGenerator) -> String:
+	return "%s of %s%s" % [
+		GIVEN_NAMES[rng.randi() % GIVEN_NAMES.size()],
+		NAME_PREFIX[rng.randi() % NAME_PREFIX.size()],
+		NAME_SUFFIX[rng.randi() % NAME_SUFFIX.size()],
+	]

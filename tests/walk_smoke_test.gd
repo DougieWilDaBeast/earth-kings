@@ -30,6 +30,9 @@ func _ready() -> void:
 	_check_gate()
 	_check_tower()
 	_check_class_prompt()
+	_check_gate_lifecycle()
+	_check_town_and_captives()
+	_check_tower_top()
 	_check_save_round_trip()
 	_check_run_ends()
 
@@ -219,14 +222,154 @@ func _check_party_screen(screen: PartyScreen) -> void:
 func _check_run_ends() -> void:
 	var ended := [false]
 	EventBus.run_ended.connect(func() -> void: ended[0] = true)
-	for character in GameState.roster.party_members():
-		character.status = Fate.DEAD
-	GameState.roster.drop_the_lost()
-	_expect(GameState.roster.is_broken(), "killing everyone did not break the roster")
 
+	# Losing a companion is a loss, not the end of the story.
+	var companion: Character = GameState.roster.party_members()[1]
+	companion.status = Fate.DEAD
+	GameState.roster.drop_the_lost()
 	_scene._check_party()
-	_expect(ended[0], "losing the whole party did not end the run")
-	print("run end: the last death ended the run")
+	_expect(not ended[0], "losing a companion ended the whole run")
+	_expect(not GameState.roster.run_is_over(), "the run is over while the player still stands")
+
+	# The player falling is where it stops.
+	GameState.roster.player().status = Fate.DEAD
+	GameState.roster.drop_the_lost()
+	_expect(GameState.roster.run_is_over(), "the player died and the run continued")
+	_scene._check_party()
+	_expect(ended[0], "the player's death did not end the run")
+	print("run end: a companion's death carried on, the player's did not")
+
+
+func _check_gate_lifecycle() -> void:
+	var world: World = GameState.world
+	var shut := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and s.cleared)
+	if shut != null:
+		var before_open := shut.open
+		for i in 40:
+			world._upkeep()
+		_expect(shut.open == before_open and not shut.open, "a cleared gate swung open again")
+
+	# Left open long enough, a gate stops spilling and breaks.
+	var standing := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
+	if standing == null:
+		_expect(false, "no gate is left standing to break")
+		return
+	world.open_gate(standing)
+	standing.opened_at = world.steps - 100000
+
+	# A failed roll resets the gate's clock, so it gets one chance per patience
+	# window. Let whole windows pass rather than spinning on the same instant.
+	var patience := int(Database.world_rules.get("gate", {}).get("break_after_steps", 600))
+	var broke := false
+	for i in 30:
+		world.steps += patience + 1
+		world._upkeep()
+		if standing.broken:
+			broke = true
+			break
+	_expect(broke, "a gate left open forever never broke")
+
+	var danger_broken := Encounter.chance_at(world, standing.cell)
+	standing.broken = false
+	var danger_open := Encounter.chance_at(world, standing.cell)
+	standing.broken = broke
+	_expect(danger_broken > danger_open, "a broken gate is no worse than an open one")
+	print("gates: cleared stays shut; a neglected gate broke and took danger %d%% -> %d%%" % [
+		roundi(danger_open * 100.0), roundi(danger_broken * 100.0)
+	])
+
+
+func _check_town_and_captives() -> void:
+	var world: World = GameState.world
+	var town := _site_where(func(s: Site) -> bool: return s.kind == Site.VILLAGE)
+	Market.refresh(town, world)
+	GameState.gold = 5000
+
+	# Hiring: parties are temporary, and everyone has a price.
+	# Forced rather than rolled, so the path is actually exercised every run.
+	town.data["hire"] = { "template": "sera", "display_name": "Kestrel of Greyford", "level": 3 }
+	var before := GameState.roster.party.size()
+	_expect(before < Roster.MAX_PARTY, "the party is already full before hiring")
+
+	var cost := Market.hire_cost(Market.hire_offer(town))
+	GameState.gold = cost - 1
+	_expect(Market.hire(town, GameState.roster, world) == null, "hired without the money")
+
+	GameState.gold = 5000
+	var hired := Market.hire(town, GameState.roster, world)
+	_expect(hired != null, "could not hire with 5000 gold in hand")
+	if hired != null:
+		_expect(GameState.roster.party.size() == before + 1, "the hire never joined the party")
+		_expect(GameState.roster.by_id(hired.id) != null, "the hire is not on the roster")
+		_expect(hired.level == 3, "the hire arrived at level %d, not the level advertised" % hired.level)
+		_expect(Market.hire_offer(town).is_empty(), "the town is still offering someone it already sold")
+		print("hire: %s joined at level %d for %d gold" % [hired.display_name, hired.level, cost])
+		_expect(GameState.roster.dismiss(hired.id), "could not part ways with a hire")
+		_expect(
+			not GameState.roster.dismiss(GameState.roster.player().id),
+			"the player could walk out on their own run"
+		)
+
+	# Buying: gold is the standard of trade.
+	var goods := Market.wares(town)
+	if not goods.is_empty():
+		var equipment_id: String = goods[0]
+		var purse := GameState.gold
+		_expect(Market.buy(town, equipment_id, GameState.roster.player()), "could not buy with 5000 gold")
+		_expect(GameState.gold < purse, "buying cost nothing")
+		_expect(equipment_id not in Market.wares(town), "the shop still has the thing it sold")
+		print("market: bought %s for %d gold" % [equipment_id, purse - GameState.gold])
+
+	# Captives: buyable, and on a clock.
+	var taken := Character.create("sera", "Captive")
+	GameState.roster.add(taken)
+	taken.status = Fate.CAPTURED
+	Captivity.take(taken, world, town)
+	_expect(taken.captive.has("ransom"), "a captive was taken without a price")
+	_expect(Captivity.held_at(taken) == town.cell, "the captive is not where they were taken to")
+
+	GameState.gold = 0
+	_expect(not Captivity.ransom(taken, GameState.roster), "bought a captive back with no money")
+	GameState.gold = 5000
+	_expect(Captivity.ransom(taken, GameState.roster), "could not buy a captive back")
+	_expect(taken.is_alive(), "the ransomed captive is not free")
+	_expect(taken.id in GameState.roster.party, "the ransomed captive did not rejoin")
+	print("captive: ransomed for %d gold" % Captivity.ransom_for(taken))
+
+	# Or taken back the hard way.
+	var stolen := Character.create("bram", "Stolen")
+	GameState.roster.add(stolen)
+	stolen.status = Fate.CAPTURED
+	Captivity.take(stolen, world, town)
+	var captors := Encounter.for_captors(world, town, GameState.party_characters(), world.rng)
+	_check_field(captors, "captors")
+	Captivity.free_by_force(stolen, GameState.roster)
+	_expect(stolen.is_alive(), "fighting for a captive did not free them")
+	_expect(stolen.captive.is_empty(), "a freed captive still has terms on them")
+	print("captive: %d captors fought, freed by force" % captors["enemies"].size())
+
+	# Left too long, they are moved on or sold off.
+	var forgotten := Character.create("toln", "Forgotten")
+	GameState.roster.add(forgotten)
+	forgotten.status = Fate.CAPTURED
+	Captivity.take(forgotten, world, town)
+	forgotten.captive["due"] = world.steps - 1
+	_expect(Captivity.is_overdue(forgotten, world), "the deadline did not run out")
+	var outcome := Captivity.resolve_deadline(forgotten, world)
+	_expect(outcome in [Captivity.SOLD, Captivity.HELD], "an overdue captive resolved to '%s'" % outcome)
+	print("captive: overdue and %s" % outcome)
+
+
+func _check_tower_top() -> void:
+	var world: World = GameState.world
+	var purse := GameState.gold
+	var lines := Spoils.for_tower_floor(world, 4, GameState.party_characters())
+	_expect(not lines.is_empty(), "a Tower floor paid nothing")
+	_expect(GameState.gold > purse, "a Tower floor paid no gold")
+
+	world.tower_floor = world.tower_floors()
+	_expect(world.tower_is_topped(), "standing on the last floor is not the top")
+	print("tower: %d floors, floor 4 paid %d gold" % [world.tower_floors(), GameState.gold - purse])
 
 
 func _check_save_round_trip() -> void:
@@ -262,6 +405,16 @@ func _check_save_round_trip() -> void:
 
 
 # --- helpers ------------------------------------------------------------------
+
+
+## Every generated battlefield has to be one a fight can actually happen on.
+func _check_field(meeting: Dictionary, label: String) -> void:
+	var map: Dictionary = meeting.get("map", {})
+	var rows: Array = map.get("tiles", [])
+	_expect(not rows.is_empty(), "%s encounter generated no ground" % label)
+	_expect(not meeting["enemies"].is_empty(), "%s encounter has nobody in it" % label)
+	for entry: Dictionary in map.get("enemies", []):
+		_expect(entry.has("cell"), "%s encounter left an enemy unplaced" % label)
 
 
 ## Put the player beside [param cell], then step onto it for real.

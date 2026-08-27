@@ -87,6 +87,10 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 	unit.job = source.class_name_text()
 	unit.max_hp = source.max_hp()
 	unit.hp = source.current_hp()
+	if source.equipment != "":
+		unit.weapon = {}
+		unit.weapon_sprites = {}
+		unit._equip(source.equipment)
 	# create() already folded the template weapon in; keep it on top of the
 	# character's own numbers rather than losing it.
 	unit.attack = source.attack() + int(unit.weapon.get("attack", 0))

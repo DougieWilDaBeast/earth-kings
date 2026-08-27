@@ -18,32 +18,39 @@ Never edit a past entry — supersede it with a new one.
 | D11 | **Death is the default; survival is earned.** Supersedes D05. A fallen character rolls their _graces_ in order — charm, rescue, lore, ground, luck, capture — and the first to land decides both whether they live and the reason why. Nothing lands, they die. | 2026-08-27 | A flat 25% drag-out made permadeath a lie. Making survival come from something you _brought_ — an item, an ally still standing, a book you read, the ground you fell on — means the reason a character lived is always a specific, tellable thing. |
 | D12 | **The player picks their class at level 2.** The world waits (`pending_class_choice`); NPCs settle into one on their own.                                                                                                                                       | 2026-08-27 | The one irreversible build decision in the game should be the player's. NPCs cannot wait for a prompt nobody will answer.                                                                                                                          |
 | D13 | **The run ends when the party is gone.** Losing everyone emits `run_ended` and returns to the title.                                                                                                                                                            | 2026-08-27 | Permadeath that leaves you walking an empty world is not permadeath, it is a bug. Whether the save survives the run is still open — see Q8.                                                                                                        |
+| D14 | ~~D13~~ **The run follows the *player character*, not the party.** Companions can all die and the story continues; when the player falls, it stops. **Supersedes D13.**                                                                                          | 2026-08-27 | Parties are temporary — every adventurer is looking out for themselves. Some of them do not get to see the end of it, and that is the point.                                                                                                       |
+| D15 | **A shut gate never reopens. An open one left too long *breaks*** — what is behind it piles up and comes out. One roll per `break_after_steps` window; a failed roll resets the clock. A broken gate raises local danger by 25pp and enemy level by 3.            | 2026-08-27 | Clearing a gate should be worth something permanent. The pressure comes from neglect, not from respawns — the world would rather you cleared them first. Usually.                                                                                  |
+| D16 | **The Tower is finite: 10 floors, with a reward on every one.** Gold each floor, doctrine every 3rd, a generated skill tree every 4th. What happens at the top is *not decided yet* — `tower_topped` flags it.                                                    | 2026-08-27 | An endless climb has no shape. A finite one is a goal you can actually reach; the ending can be designed later without changing the climb.                                                                                                         |
+| D17 | **A complete Codex makes you formidable.** Understanding raises the power of every generated tree (+20% at 100%), and a full Codex unlocks *choosing* the theme instead of being handed one.                                                                      | 2026-08-27 | Cataloguing the grammar should pay off along the journey, not just as a number on a screen. Discovery becomes craft.                                                                                                                               |
+| D18 | **Captives can be bought, fought for, or lost.** A ransom and a deadline are set when they are taken; walking to where they are held offers the price. Miss the deadline and they are moved on — or sold, and gone.                                              | 2026-08-27 | Nobody waits forever for their friends. A captive who is guaranteed to be waiting is not really in danger.                                                                                                                                        |
+| D19 | **Gold is the standard of trade** — weapons, armour, consumables, hires and ransoms all price in it.                                                                                                                                                             | 2026-08-27 | A currency with no sink is a score. Every other open system needed a price attached anyway.                                                                                                                                                        |
+| D20 | **You can recruit, and you can part ways.** Settlements offer a hire for gold; anyone but the player can be dismissed. `MAX_PARTY` is 4.                                                                                                                        | 2026-08-27 | Permadeath without replacement is a countdown. Recruiting turns a loss into a decision about who walks with you next.                                                                                                                              |
+| D21 | **Save-scumming is allowed.** Save/load stays free; reloading after a death is left to the player's conscience.                                                                                                                                                  | 2026-08-27 | It is a normal way people get around a mechanic they find frightening, and policing it costs more than it is worth. To be revisited.                                                                                                               |
 
 ## Open questions
 
 Discuss before implementing the affected component.
 
-- **Q8 — Does save/load defeat permadeath?** The system menu saves and loads freely, so reloading
-  after a death undoes [D11](#) entirely. Options: a single autosave overwritten every step, save
-  only on quit, or accept it and let honesty do the work. **This one contradicts a pillar.**
-- **Q9 — What is gold for?** Gate clears pay 40–240 and there is nothing to spend it on.
-- **Q10 — Can you recruit?** `MAX_PARTY` is 4, the founding party is 3, and `enlist()` is never
-  called. Losing someone is currently permanent shrinkage.
-
-- **Q3 — Can the Tower be finished?** A final floor implies an ending; endless floors imply
-  walking forward forever.
-- **Q4 — What does a completed Codex unlock?** Reading the grammar's shape, or deliberately
-  _crafting_ powers instead of discovering them.
-- **Q5 — Should gates that reopen escalate in rank?** A world that is quietly getting worse is
-  more interesting than one at equilibrium.
-- **Q6 — How is a captive recovered?** Currently a captured character is held at the nearest keep
-  or gate and leaves the party. Walking there to free them is the obvious answer; whether that is
-  a fight, a price, or a trade is open.
-- **Q7 — Where do charms come from?** Gate clears and hut secrets are the natural sources. Whether
-  they can be bought decides how much of the death system is buyable.
+- **Q7 — Where do charms come from?** Still undecided. They can currently be *bought* if a
+  settlement happens to stock one, which quietly makes the death system partly buyable. Gate
+  clears and hut secrets remain the obvious alternatives.
+- **Q11 — Does the world ever gain new gates?** [D15](#) means gates only ever get cleared, so a
+  world tends towards safety and eventually runs out of things to do outside the Tower. Whether new
+  gates open elsewhere, or whether the Tower is simply the endgame, is unanswered.
+- **Q12 — What is at the top of the Tower?** [D16](#) makes it reachable in 10 floors and
+  deliberately leaves the ending open.
 
 ## Answered
 
 - **Q1 — Where does permadeath actually bite?** → [D11](#). Everywhere. Death is the default
   outcome of falling and only a named grace prevents it.
 - **Q2 — Does the player pick their class at level 2?** → [D12](#). The player picks.
+- **Q3 — Can the Tower be finished?** → [D16](#). Yes, 10 floors, rewards on each. The ending
+  itself is deferred to Q12.
+- **Q4 — What does a completed Codex unlock?** → [D17](#). Stronger generated trees as
+  understanding rises, and deliberate theme choice at 100%.
+- **Q5 — Should reopening gates escalate?** → [D15](#). Gates never reopen; neglected ones break.
+- **Q6 — How is a captive recovered?** → [D18](#). Bought, fought for, or lost to a deadline.
+- **Q8 — Does save/load defeat permadeath?** → [D21](#). Allowed, and revisited later.
+- **Q9 — What is gold for?** → [D19](#). Gear, hires and ransoms.
+- **Q10 — Can you recruit?** → [D20](#). Yes, and dismiss.

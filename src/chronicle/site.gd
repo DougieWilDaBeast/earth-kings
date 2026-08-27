@@ -18,6 +18,10 @@ var display_name: String = ""
 var rank: String = ""
 ## Gates only: an open gate spills monsters into the land around it.
 var open: bool = false
+## World step the gate last swung open, for the dungeon-break clock.
+var opened_at: int = 0
+## An open gate left too long stops spilling and starts pouring (see [World]).
+var broken: bool = false
 var cleared: bool = false
 var data: Dictionary = {}
 
@@ -42,6 +46,8 @@ func expected_level() -> int:
 
 func label() -> String:
 	if kind == GATE:
+		if broken:
+			return "%s (BROKEN %s-rank gate)" % [display_name, rank]
 		return "%s (%s-rank gate)" % [display_name, rank]
 	return display_name
 
@@ -53,6 +59,8 @@ func to_dict() -> Dictionary:
 		"display_name": display_name,
 		"rank": rank,
 		"open": open,
+		"opened_at": opened_at,
+		"broken": broken,
 		"cleared": cleared,
 		"data": data,
 	}
@@ -66,6 +74,8 @@ static func from_dict(payload: Dictionary) -> Site:
 	site.display_name = payload.get("display_name", "")
 	site.rank = payload.get("rank", "")
 	site.open = bool(payload.get("open", false))
+	site.opened_at = int(payload.get("opened_at", 0))
+	site.broken = bool(payload.get("broken", false))
 	site.cleared = bool(payload.get("cleared", false))
 	site.data = payload.get("data", {})
 	return site

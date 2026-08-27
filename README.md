@@ -28,7 +28,13 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **Danger is a property of place.** Near an open gate the wild is thick with what came out of it;
   near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.
 - **Sites** — step on a village, keep or hut to rest; a library to read; an open gate to fight it;
-  the Tower to climb the next floor.
+  the Tower to climb the next floor. In a settlement, `H` hires whoever is drinking there and `B`
+  buys the gear on the shelf. Where one of your people is being held, `R` ransoms them and `F`
+  takes them back by force.
+- **Gates never reopen once shut** — but one left standing open too long **breaks**, and what was
+  behind it comes out. Danger near a broken gate jumps and its monsters come levelled up.
+- **The Tower is ten floors**, each paying gold, a book every third and a generated skill tree
+  every fourth.
 - **Battle** — on your unit's turn: **Move** (blue tiles), an ability (red tiles), then **Wait**
   to end the turn. `Esc` cancels a selection. Hover any tile to inspect it.
 - **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.2×, back hits
@@ -38,6 +44,9 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **Falling is usually fatal.** A downed character rolls their graces — a charm carried, an ally
   still standing, a book they read, the ground they fell on — and dies if none of them land.
   Raiders may take them alive instead. See [docs/02-design.md](docs/02-design.md).
+- **The run follows you, not the party.** Companions can all die and the story goes on; when your
+  own character falls, it stops. Hire replacements in towns — everyone is looking out for
+  themselves, and they all have a price.
 - **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `P`.
 - **The party screen** (`P`) is where the run is managed: pick a class, teach a book to someone
   who lacks it, take the **Training Yoke** on or off (−25% attack for +50% XP), and see what each
