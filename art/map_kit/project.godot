@@ -1,0 +1,29 @@
+config_version=5
+
+[application]
+config/name="Untitled Map"
+run/main_scene="res://scenes/pixellab_map.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[display/window]
+size/viewport_width=640
+size/viewport_height=360
+size/window_width_override=640
+size/window_height_override=360
+stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/pixellab_stack_paint/plugin.cfg")
+
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Triggers"
+
+[rendering]
+
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

@@ -1,0 +1,12 @@
+{
+  "transitions": [
+    {
+      "from": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+      "to": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+      "fromId": 1,
+      "toId": 2,
+      "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+      "transitionSize": 0.23
+    }
+  ]
+}

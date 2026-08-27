@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "name": "Untitled Map",
+  "exportDate": "2026-08-27T15:12:26.199824Z",
+  "engine": "pixellab-map-editor",
+  "mapConfig": {
+    "tileSize": 32,
+    "dimensions": {
+      "width": 14,
+      "height": 10,
+      "pixelWidth": 448,
+      "pixelHeight": 320
+    },
+    "boundingBox": {
+      "maxX": 22,
+      "maxY": 12,
+      "minX": 9,
+      "minY": 3
+    }
+  },
+  "terrains": [
+    {
+      "id": 1,
+      "name": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+      "color": "#2563eb",
+      "baseTileId": "adc5c62f-9cfb-4f0c-be03-4d85b9438ed2",
+      "walkable": null
+    },
+    {
+      "id": 2,
+      "name": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+      "color": "#22c55e",
+      "baseTileId": "0e35f95d-b0b5-4b69-b5bc-c8b8f53bd567",
+      "walkable": null
+    }
+  ],
+  "tilesets": [
+    {
+      "id": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+      "filename": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections-lush verdant grassy field with moderate surface texture and gentle green blade variations.png",
+      "lowerTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+      "upperTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+      "lowerTerrainId": 1,
+      "upperTerrainId": 2,
+      "transitionSize": 0.23,
+      "transitionDescription": "thin vertical cut face of crumbling damp earth featuring embedded small pebbles and modest layered strata",
+      "tileSize": 32,
+      "gridLayout": "4x4",
+      "wangIndexMapping": "standard",
+      "view": "high top-down",
+      "metadataFilename": "8107034a-f8e7-4fb2-8ade-39fdf1784adc.json"
+    }
+  ],
+  "overlays": [],
+  "background": null,
+  "mapId": "2c8eaa4c-0c6d-4a2e-b233-2e699af3897a"
+}

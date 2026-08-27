@@ -6,6 +6,35 @@ extends RefCounted
 ## Damage/heal roll varies by +/- this fraction so identical trades aren't identical.
 const VARIANCE := 0.1
 
+## Which face of the target an attack lands on.
+enum Flank { FRONT, SIDE, BACK }
+
+const FLANK_MULTIPLIER := {
+	Flank.FRONT: 1.0,
+	Flank.SIDE: 1.2,
+	Flank.BACK: 1.5,
+}
+
+const FLANK_LABEL := {
+	Flank.FRONT: "",
+	Flank.SIDE: " (flank)",
+	Flank.BACK: " (from behind)",
+}
+
+
+## Where [param attacker_cell] sits relative to the way [param target] is looking.
+static func flank_of(attacker_cell: Vector2i, target: Unit) -> Flank:
+	var approach := Unit.dominant_direction(attacker_cell - target.cell)
+	if attacker_cell == target.cell or approach == target.facing:
+		return Flank.FRONT
+	if approach == -target.facing:
+		return Flank.BACK
+	return Flank.SIDE
+
+
+static func flank_multiplier(attacker_cell: Vector2i, target: Unit) -> float:
+	return FLANK_MULTIPLIER[flank_of(attacker_cell, target)]
+
 
 static func is_valid_target(user: Unit, ability: Dictionary, target: Unit) -> bool:
 	if target == null or not target.is_alive():
@@ -49,9 +78,12 @@ static func apply(user: Unit, ability: Dictionary, target: Unit) -> String:
 		return "%s used %s — %s recovers %d HP." % [user.display_name, name, target.display_name, healing]
 
 	var raw := _roll(roundi(user.attack * float(ability.get("power", 1.0))))
-	var damage := maxi(1, raw - target.defense)
+	var flank := flank_of(user.cell, target)
+	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
 	target.take_damage(damage)
-	var line := "%s used %s — %s takes %d damage." % [user.display_name, name, target.display_name, damage]
+	var line := "%s used %s — %s takes %d damage%s." % [
+		user.display_name, name, target.display_name, damage, FLANK_LABEL[flank]
+	]
 	if not target.is_alive():
 		line += " %s falls." % target.display_name
 	return line

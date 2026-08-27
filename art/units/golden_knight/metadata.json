@@ -1,0 +1,36 @@
+{
+  "group_id": "497636f3-d81e-4279-9488-1a31d58fe8e2",
+  "states": [
+    {
+      "character": {
+        "id": "a9ed0145-7d38-4e11-96f7-5d2a62152a1a",
+        "name": "Idle",
+        "prompt": "Golden knight with demonic powers, Has a devil Sword, Golden and black wings",
+        "size": {
+          "width": 48,
+          "height": 48
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-27T12:39:49.051486+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T15:13:19.314929"
+}

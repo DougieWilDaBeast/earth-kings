@@ -7,6 +7,8 @@ enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_TARGET, BUSY, FINISHED }
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 1.6
+## Fraction of max HP a fallen party member is dragged out of the fight with.
+const RECOVERY_RATIO := 0.25
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -47,9 +49,12 @@ func _build_battlefield() -> void:
 
 	camera.position = grid.centre_world()
 	camera.enabled = true
+	# Taller-than-a-tile sprites need to overlap by depth, not by spawn order.
+	units_root.y_sort_enabled = true
 
 	_spawn_party(map.get("player_spawns", []))
 	_spawn_enemies(map.get("enemies", []))
+	_orient_starting_facings()
 	turns.setup(units)
 
 
@@ -58,7 +63,11 @@ func _spawn_party(spawns: Array) -> void:
 		if i >= spawns.size():
 			push_warning("Battle: map %s has fewer spawns than party members" % map_id)
 			break
-		_add_unit(GameState.party[i], Unit.Team.PLAYER, _to_cell(spawns[i]))
+		var template_id: String = GameState.party[i]
+		var unit := _add_unit(template_id, Unit.Team.PLAYER, _to_cell(spawns[i]))
+		var carried := GameState.hp_for(template_id)
+		if carried > 0:
+			unit.hp = mini(carried, unit.max_hp)
 
 
 func _spawn_enemies(enemies: Array) -> void:
@@ -66,11 +75,12 @@ func _spawn_enemies(enemies: Array) -> void:
 		_add_unit(entry.get("unit", ""), Unit.Team.ENEMY, _to_cell(entry.get("cell", [0, 0])))
 
 
-func _add_unit(template_id: String, team: Unit.Team, cell: Vector2i) -> void:
+func _add_unit(template_id: String, team: Unit.Team, cell: Vector2i) -> Unit:
 	var unit := Unit.create(template_id, team, cell)
 	unit.snap_to_cell(grid)
 	units_root.add_child(unit)
 	units.append(unit)
+	return unit
 
 
 func _connect_hud() -> void:
@@ -253,6 +263,7 @@ func _apply_ability(user: Unit, ability: Dictionary, centre: Vector2i) -> bool:
 	if hits.is_empty():
 		return false
 
+	user.face_towards(centre)
 	for target in hits:
 		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target))
 		if not target.is_alive():
@@ -275,6 +286,7 @@ func _resolve_outcome() -> bool:
 	overlay.clear()
 	hud.hide_commands()
 	hud.show_result(players_alive)
+	_store_party_hp()
 	if players_alive:
 		GameState.mark_battle_cleared(map_id)
 	else:
@@ -283,6 +295,18 @@ func _resolve_outcome() -> bool:
 	EventBus.battle_finished.emit({"victory": players_alive, "map_id": map_id})
 	_return_to_overworld()
 	return true
+
+
+## Wounds follow the party onto the overworld. The fallen are carried out
+## barely standing rather than lost, so a costly fight can't end the run.
+func _store_party_hp() -> void:
+	for unit in units:
+		if unit.team != Unit.Team.PLAYER:
+			continue
+		var carried := unit.hp
+		if not unit.is_alive():
+			carried = maxi(1, roundi(unit.max_hp * RECOVERY_RATIO))
+		GameState.set_hp(unit.template_id, carried)
 
 
 func _return_to_overworld() -> void:
@@ -314,3 +338,17 @@ func _build_move_field(unit: Unit) -> MoveField:
 func _to_cell(value: Variant) -> Vector2i:
 	var pair: Array = value
 	return Vector2i(int(pair[0]), int(pair[1]))
+
+
+## Both sides start looking at the opposing line, so the opening exchange isn't
+## a free back attack on whoever happens to be facing the wrong way.
+func _orient_starting_facings() -> void:
+	for unit in units:
+		var centre := Vector2.ZERO
+		var count := 0
+		for other in units:
+			if other.is_hostile_to(unit):
+				centre += Vector2(other.cell)
+				count += 1
+		if count > 0:
+			unit.face_towards(Vector2i((centre / float(count)).round()))

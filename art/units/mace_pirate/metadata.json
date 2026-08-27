@@ -1,0 +1,36 @@
+{
+  "group_id": "309e8ae4-40a0-41d9-b645-446c4118a1ff",
+  "states": [
+    {
+      "character": {
+        "id": "20b563a2-962a-4165-90d6-8c181547bf58",
+        "name": "Idle",
+        "prompt": "Swordsman dual wielding maces. Looks like a pirate king",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "dog",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-27T12:04:05.889344+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T15:13:26.315478"
+}

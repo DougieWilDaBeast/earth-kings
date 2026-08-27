@@ -1,0 +1,1265 @@
+{
+  "format": "sparse",
+  "transitions": [
+    {
+      "x": 10,
+      "y": 3,
+      "edges": {
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 16,
+      "y": 3,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 17,
+      "y": 3,
+      "edges": {
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 16,
+      "y": 4,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "east": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 17,
+      "y": 4,
+      "edges": {
+        "west": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 16,
+      "y": 5,
+      "edges": {
+        "east": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 17,
+      "y": 5,
+      "edges": {
+        "west": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 16,
+      "y": 6,
+      "edges": {
+        "east": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 17,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "west": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 18,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 19,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 20,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 21,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 22,
+      "y": 6,
+      "edges": {
+        "south": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 16,
+      "y": 7,
+      "edges": {
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 17,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 18,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 19,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 20,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 21,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 22,
+      "y": 7,
+      "edges": {
+        "north": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "edges": {
+        "south": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "edges": {
+        "south": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "edges": {
+        "south": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 8,
+      "edges": {
+        "south": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 8,
+      "edges": {
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "edges": {
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "edges": {
+        "north": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "edges": {
+        "north": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 13,
+      "y": 9,
+      "edges": {
+        "north": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 9,
+      "edges": {
+        "north": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 9,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 10,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 10,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 11,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 11,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "southwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 14,
+      "y": 12,
+      "edges": {
+        "east": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northeast": {
+          "fromTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "toTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    },
+    {
+      "x": 15,
+      "y": 12,
+      "edges": {
+        "west": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        },
+        "northwest": {
+          "fromTerrain": "lush verdant grassy field with moderate surface texture and gentle green blade variations under soft ambient light",
+          "toTerrain": "shimmering turquoise water surface with gentle undulating ripples and soft medium-depth blue-green reflections",
+          "tilesetId": "8107034a-f8e7-4fb2-8ade-39fdf1784adc",
+          "transitionSize": 0.23
+        }
+      }
+    }
+  ]
+}

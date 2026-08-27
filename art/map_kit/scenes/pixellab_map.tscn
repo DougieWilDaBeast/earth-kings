@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/pixellab_map_builder.gd" id="Script_builder"]
+
+[node name="Untitled Map" type="Node2D"]
+metadata/pixellab_format = "pixellab-engine-map"
+metadata/pixellab_version = "2.1.0"
+script = ExtResource("Script_builder")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Gameplay" type="Node2D" parent="."]
+position = Vector2(16, 16)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(224, 160)
+enabled = true

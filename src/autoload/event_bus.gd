@@ -20,5 +20,8 @@ signal unit_died(unit: Node)
 signal dialogue_requested(dialogue_id: String)
 signal dialogue_finished(dialogue_id: String)
 
+## Ask the always-present system menu (save / load / title) to open.
+signal system_menu_requested
+
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)

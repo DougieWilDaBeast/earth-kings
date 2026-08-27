@@ -9,7 +9,8 @@
 		"jump": 2,
 		"speed": 10,
 		"abilities": ["strike", "cleave"],
-		"color": "#4c8bf5"
+		"color": "#4c8bf5",
+		"sprite_dir": "res://art/units/golden_knight/idle"
 	},
 	"sera": {
 		"display_name": "Sera",
@@ -33,7 +34,8 @@
 		"jump": 1,
 		"speed": 9,
 		"abilities": ["mend", "ember"],
-		"color": "#c9a0f5"
+		"color": "#c9a0f5",
+		"sprite_dir": "res://art/units/duck_wizard/idle"
 	},
 	"brigand": {
 		"display_name": "Brigand",
@@ -45,7 +47,8 @@
 		"jump": 2,
 		"speed": 10,
 		"abilities": ["strike"],
-		"color": "#d2603f"
+		"color": "#d2603f",
+		"sprite_dir": "res://art/units/mace_pirate/idle"
 	},
 	"brigand_archer": {
 		"display_name": "Poacher",

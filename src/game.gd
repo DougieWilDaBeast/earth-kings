@@ -3,6 +3,7 @@ extends Node
 ## Scene changes go through [EventBus] so no scene needs to know about another.
 
 const SCENES := {
+	"title": "res://src/ui/title_screen.tscn",
 	"overworld": "res://src/overworld/overworld.tscn",
 	"battle": "res://src/battle/battle.tscn",
 }
@@ -12,7 +13,7 @@ const SCENES := {
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
-	_change_scene("overworld", {})
+	_change_scene("title", {})
 
 
 func _change_scene(scene_key: String, payload: Dictionary) -> void:

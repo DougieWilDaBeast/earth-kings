@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_title_screen"]
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_title_screen")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.08, 0.11, 1)
+
+[node name="Items" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -170.0
+offset_right = 160.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Items"]
+theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
+text = "Earth Kings"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Items"]
+theme_override_colors/font_color = Color(0.75, 0.79, 0.86, 1)
+text = "A grid tactical RPG"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Items"]
+custom_minimum_size = Vector2(0, 24)
+
+[node name="ContinueButton" type="Button" parent="Items"]
+unique_name_in_owner = true
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="Items"]
+unique_name_in_owner = true
+text = "New Game"
+
+[node name="QuitButton" type="Button" parent="Items"]
+unique_name_in_owner = true
+text = "Quit"

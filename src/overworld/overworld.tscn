@@ -18,6 +18,15 @@ offset_bottom = 42.0
 theme_override_font_sizes/font_size = 22
 text = "Overworld"
 
+[node name="PartyLabel" type="Label" parent="UI"]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 900.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.75, 0.79, 0.86, 1)
+text = "Party"
+
 [node name="HintLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
 anchor_top = 1.0

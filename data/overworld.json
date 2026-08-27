@@ -4,7 +4,8 @@
 			"name": "Hollow Ford",
 			"pos": [260, 520],
 			"connections": ["verdant_pass"],
-			"dialogue": "prologue"
+			"dialogue": "prologue",
+			"rest": true
 		},
 		"verdant_pass": {
 			"name": "Verdant Pass",
@@ -17,7 +18,8 @@
 			"name": "Greywater",
 			"pos": [770, 470],
 			"connections": ["verdant_pass", "ganel_camp"],
-			"dialogue": "respite"
+			"dialogue": "respite",
+			"rest": true
 		},
 		"ganel_camp": {
 			"name": "Ganel's Camp",

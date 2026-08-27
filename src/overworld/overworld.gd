@@ -9,6 +9,7 @@ var boot_payload: Dictionary = {}
 
 @onready var camera: Camera2D = $Camera2D
 @onready var _title: Label = %TitleLabel
+@onready var _party: Label = %PartyLabel
 @onready var _hint: Label = %HintLabel
 
 var _locations: Dictionary = {}
@@ -34,6 +35,11 @@ func _arrive(location_id: String) -> void:
 		EventBus.dialogue_requested.emit(dialogue_id)
 		await EventBus.dialogue_finished
 
+	if location.get("rest", false) and GameState.party_is_wounded():
+		GameState.heal_party()
+		_refresh_labels()
+		_hint.text = "The party rests at %s and recovers." % location.get("name", location_id)
+
 	var battle_map: String = location.get("battle", "")
 	if battle_map != "" and not GameState.is_battle_cleared(battle_map):
 		EventBus.request_scene.emit("battle", {"map_id": battle_map})
@@ -54,7 +60,10 @@ func _can_travel_to(location_id: String) -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		EventBus.system_menu_requested.emit()
+	elif event is InputEventMouseMotion:
 		var hovered := _location_at(get_global_mouse_position())
 		if hovered != _hovered:
 			_hovered = hovered
@@ -82,14 +91,27 @@ func _position_of(location_id: String) -> Vector2:
 func _refresh_labels() -> void:
 	var here: Dictionary = _locations.get(GameState.current_location, {})
 	_title.text = "%s  ·  %d gold" % [here.get("name", "Unknown"), GameState.gold]
+	_party.text = _party_summary()
 	if _hovered == "":
-		_hint.text = "Click a connected location to travel."
+		_hint.text = "Click a connected location to travel.  ·  Esc for the menu."
 	elif _hovered == GameState.current_location:
 		_hint.text = "You are here."
 	elif _can_travel_to(_hovered):
 		_hint.text = "Travel to %s" % _locations[_hovered].get("name", _hovered)
 	else:
 		_hint.text = "%s is not reachable from here." % _locations[_hovered].get("name", _hovered)
+
+
+func _party_summary() -> String:
+	var entries: Array[String] = []
+	for template_id: String in GameState.party:
+		var template := Database.unit_template(template_id)
+		var max_hp := int(template.get("max_hp", 1))
+		var hp := GameState.hp_for(template_id)
+		entries.append("%s  %d/%d" % [
+			template.get("display_name", template_id), max_hp if hp < 0 else hp, max_hp
+		])
+	return "  ·  ".join(entries)
 
 
 func _draw() -> void:

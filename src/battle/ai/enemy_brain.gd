@@ -41,8 +41,10 @@ static func plan(
 		var target := _best_target_from(cell, ability, unit, foes)
 		var score := -float(field.cost_to(cell)) * 0.1
 		if target != null:
-			# Attacking beats repositioning; finish off the weakest reachable foe.
+			# Attacking beats repositioning; finish off the weakest reachable foe,
+			# and break ties towards the tile that lands on a softer face.
 			score += 1000.0 - float(target.hp)
+			score += AbilityResolver.flank_multiplier(cell, target) * 20.0
 		else:
 			score -= float(_distance_to_nearest(cell, foes))
 		if score > best_score:

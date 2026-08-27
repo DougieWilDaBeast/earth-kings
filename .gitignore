@@ -14,3 +14,6 @@ mono_crash.*.json
 Thumbs.db
 *.tmp
 *.swp
+
+# Art delivery archives — the extracted PNGs under art/ are what ships
+*.zip
