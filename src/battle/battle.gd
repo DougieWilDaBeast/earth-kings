@@ -7,8 +7,6 @@ enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_TARGET, BUSY, FINISHED }
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 1.6
-## Fraction of max HP a fallen party member is dragged out of the fight with.
-const RECOVERY_RATIO := 0.25
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -21,6 +19,8 @@ var boot_payload: Dictionary = {}
 @onready var hud: BattleHUD = $HUD
 
 var map_id: String = DEFAULT_MAP
+## Set when the fight came from the world rather than an authored map.
+var encounter: Dictionary = {}
 var pathfinder: Pathfinder
 var units: Array[Unit] = []
 var active_unit: Unit
@@ -32,6 +32,7 @@ var _pending_ability: String = ""
 
 func _ready() -> void:
 	map_id = boot_payload.get("map_id", DEFAULT_MAP)
+	encounter = boot_payload.get("encounter", {})
 	_build_battlefield()
 	_connect_hud()
 	EventBus.battle_started.emit(map_id)
@@ -42,7 +43,7 @@ func _ready() -> void:
 
 
 func _build_battlefield() -> void:
-	var map := Database.map(map_id)
+	var map: Dictionary = encounter.get("map", {}) if not encounter.is_empty() else Database.map(map_id)
 	grid.load_map(map)
 	overlay.grid = grid
 	pathfinder = Pathfinder.new(grid)
@@ -59,20 +60,31 @@ func _build_battlefield() -> void:
 
 
 func _spawn_party(spawns: Array) -> void:
-	for i in GameState.party.size():
+	var members := GameState.party_characters()
+	for i in members.size():
 		if i >= spawns.size():
 			push_warning("Battle: map %s has fewer spawns than party members" % map_id)
 			break
-		var template_id: String = GameState.party[i]
-		var unit := _add_unit(template_id, Unit.Team.PLAYER, _to_cell(spawns[i]))
-		var carried := GameState.hp_for(template_id)
-		if carried > 0:
-			unit.hp = mini(carried, unit.max_hp)
+		var unit := Unit.from_character(members[i], Unit.Team.PLAYER, _to_cell(spawns[i]))
+		unit.snap_to_cell(grid)
+		units_root.add_child(unit)
+		units.append(unit)
 
 
 func _spawn_enemies(enemies: Array) -> void:
 	for entry: Dictionary in enemies:
-		_add_unit(entry.get("unit", ""), Unit.Team.ENEMY, _to_cell(entry.get("cell", [0, 0])))
+		var cell := _to_cell(entry.get("cell", [0, 0]))
+		var level := int(entry.get("level", 0))
+		if level <= 0:
+			_add_unit(entry.get("unit", ""), Unit.Team.ENEMY, cell)
+			continue
+		# Levelled foes are throwaway Characters so they grow the same way we do.
+		var foe := Character.create(entry.get("unit", ""))
+		Progression.raise_quietly(foe, level, GameState.world)
+		var unit := Unit.from_character(foe, Unit.Team.ENEMY, cell)
+		unit.snap_to_cell(grid)
+		units_root.add_child(unit)
+		units.append(unit)
 
 
 func _add_unit(template_id: String, team: Unit.Team, cell: Vector2i) -> Unit:
@@ -268,8 +280,18 @@ func _apply_ability(user: Unit, ability: Dictionary, centre: Vector2i) -> bool:
 		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target))
 		if not target.is_alive():
 			target.visible = false
+			_award_kill(user, target)
 	user.has_acted = true
 	return true
+
+
+## XP goes to whoever landed the blow, so who does the work matters.
+func _award_kill(killer: Unit, victim: Unit) -> void:
+	if killer.character == null or killer.team == victim.team:
+		return
+	var level := victim.character.level if victim.character != null else 1
+	for line: String in Progression.award(killer.character, Progression.bounty_for(level), GameState.world):
+		EventBus.battle_log.emit(line)
 
 
 func _resolve_outcome() -> bool:
@@ -286,32 +308,61 @@ func _resolve_outcome() -> bool:
 	overlay.clear()
 	hud.hide_commands()
 	hud.show_result(players_alive)
-	_store_party_hp()
+	_settle_the_party()
 	if players_alive:
 		GameState.mark_battle_cleared(map_id)
-	else:
+	elif encounter.is_empty():
 		# Retreat, or arriving back on the overworld would restart the fight.
 		GameState.current_location = GameState.previous_location
+	GameState.set_flag("last_victory", players_alive)
 	EventBus.battle_finished.emit({"victory": players_alive, "map_id": map_id})
 	_return_to_overworld()
 	return true
 
 
-## Wounds follow the party onto the overworld. The fallen are carried out
-## barely standing rather than lost, so a costly fight can't end the run.
-func _store_party_hp() -> void:
+## Write the fight back onto the people who fought it: wounds carry, and anyone
+## who fell rolls for their life (see [Fate]).
+func _settle_the_party() -> void:
+	var survivors := units.filter(
+		func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER and u.is_alive()
+	)
+	var standing: Array = survivors.map(func(u: Unit) -> Character: return u.character)
+
 	for unit in units:
-		if unit.team != Unit.Team.PLAYER:
+		if unit.team != Unit.Team.PLAYER or unit.character == null:
 			continue
-		var carried := unit.hp
-		if not unit.is_alive():
-			carried = maxi(1, roundi(unit.max_hp * RECOVERY_RATIO))
-		GameState.set_hp(unit.template_id, carried)
+		if unit.is_alive():
+			unit.character.hp = unit.hp
+			Doctrine.reinforce_all(unit.character, GameState.world.steps)
+			continue
+
+		var outcome := Fate.resolve(
+			unit.character,
+			{
+				"allies": standing,
+				"enemy_kind": _killer_kind(),
+				"world": GameState.world,
+				"cell": GameState.world.player_cell,
+			},
+			GameState.world.rng
+		)
+		EventBus.battle_log.emit(outcome["line"])
+		EventBus.character_fell.emit(unit.character, outcome)
+
+	GameState.roster.drop_the_lost()
+
+
+## What kind of thing won the fight, which decides whether prisoners are taken.
+func _killer_kind() -> String:
+	for unit in units:
+		if unit.team == Unit.Team.ENEMY and unit.is_alive():
+			return unit.kind()
+	return "default"
 
 
 func _return_to_overworld() -> void:
 	await get_tree().create_timer(END_SCREEN_DELAY).timeout
-	EventBus.request_scene.emit("overworld", {})
+	EventBus.request_scene.emit(boot_payload.get("return_scene", "overworld"), {})
 
 
 # --- queries -----------------------------------------------------------------

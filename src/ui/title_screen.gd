@@ -22,9 +22,9 @@ func _ready() -> void:
 
 func _on_continue_pressed() -> void:
 	if GameState.load_save():
-		EventBus.request_scene.emit("overworld", {})
+		EventBus.request_scene.emit("world", {})
 
 
 func _on_new_game_pressed() -> void:
 	GameState.new_game()
-	EventBus.request_scene.emit("overworld", {})
+	EventBus.request_scene.emit("world", {})

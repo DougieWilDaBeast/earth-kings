@@ -104,12 +104,9 @@ func _refresh_labels() -> void:
 
 func _party_summary() -> String:
 	var entries: Array[String] = []
-	for template_id: String in GameState.party:
-		var template := Database.unit_template(template_id)
-		var max_hp := int(template.get("max_hp", 1))
-		var hp := GameState.hp_for(template_id)
-		entries.append("%s  %d/%d" % [
-			template.get("display_name", template_id), max_hp if hp < 0 else hp, max_hp
+	for character in GameState.roster.party_members():
+		entries.append("%s  L%d  %d/%d" % [
+			character.display_name, character.level, character.current_hp(), character.max_hp()
 		])
 	return "  ·  ".join(entries)
 

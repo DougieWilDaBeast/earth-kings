@@ -22,6 +22,9 @@ func _ready() -> void:
 	_check_doctrine(hero, world)
 	_check_class_choice(world)
 	_check_fate(world)
+	_check_roster(world)
+	_check_encounters(world)
+	_check_walking(world)
 	_check_round_trip(world, hero)
 
 	print("")
@@ -230,6 +233,143 @@ func _total_odds(character: Character, context: Dictionary) -> float:
 	for grace: Dictionary in Fate.graces_for(character, context):
 		total += float(grace["chance"])
 	return total
+
+
+# --- persistence --------------------------------------------------------------
+
+
+func _check_roster(world: World) -> void:
+	var roster := Roster.found()
+	_expect(roster.characters.size() == Roster.FOUNDING.size(), "founding roster is the wrong size")
+	_expect(roster.party.size() == Roster.FOUNDING.size(), "not everyone founding is marching")
+	_expect(roster.player() != null and roster.player().is_player, "nobody on the roster is the player")
+	_expect(roster.fit_to_fight().size() == 3, "the founding party cannot fight")
+	_expect(not roster.is_broken(), "a fresh roster is already broken")
+
+	# The dead and the taken come off the marching order but stay on the books.
+	var fallen: Character = roster.party_members()[1]
+	fallen.status = Fate.DEAD
+	var taken: Character = roster.party_members()[2]
+	taken.status = Fate.CAPTURED
+	taken.captured_at = "Hollowbarrow"
+
+	var lost := roster.drop_the_lost()
+	_expect(lost.size() == 2, "lost %d characters, expected 2" % lost.size())
+	_expect(roster.party.size() == 1, "the party did not shrink")
+	_expect(roster.characters.size() == 3, "a lost character was deleted instead of remembered")
+	_expect(roster.by_id(taken.id) != null, "the captive is gone from the world entirely")
+	_expect(not roster.is_broken(), "one survivor should still be a run")
+
+	roster.party_members()[0].status = Fate.DEAD
+	roster.drop_the_lost()
+	_expect(roster.is_broken(), "losing everyone did not end the run")
+
+
+# --- encounters ---------------------------------------------------------------
+
+
+func _check_encounters(world: World) -> void:
+	print("")
+	var party := Roster.found().party_members()
+
+	# Danger is a property of place: loud near an open gate, quiet by a hearth.
+	var open_gates := world.sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.open)
+	_expect(not open_gates.is_empty(), "no gate is open, so nothing is dangerous")
+	if not open_gates.is_empty():
+		var at_gate := Encounter.chance_at(world, open_gates[0].cell)
+		var at_home := Encounter.chance_at(world, world.player_cell)
+		print("danger at an open gate %d%%, at the starting village %d%%" % [
+			roundi(at_gate * 100.0), roundi(at_home * 100.0)
+		])
+		_expect(at_gate > at_home, "standing in a gate's mouth is no worse than standing at home")
+		_expect(at_gate <= 0.45, "encounter chance %f is out of bounds" % at_gate)
+
+	_check_field(Encounter.wild(world, world.player_cell, party, world.rng), "wild")
+
+	var gate: Site = world.sites_of_kind(Site.GATE)[0]
+	var delve := Encounter.for_gate(world, gate, 0, true, party, world.rng)
+	_check_field(delve, "gate")
+	_expect(delve["enemies"].size() >= 3, "a guarded gate fielded only %d" % delve["enemies"].size())
+
+	var climb := Encounter.for_tower(world, world.tower(), 6, party, world.rng)
+	_check_field(climb, "tower")
+	var shallow := Encounter.for_tower(world, world.tower(), 1, party, world.rng)
+	_expect(
+		_top_level(climb) > _top_level(shallow),
+		"the Tower is no harder at floor 6 than at floor 1"
+	)
+	print("tower floor 1 fields level %d, floor 6 fields level %d" % [_top_level(shallow), _top_level(climb)])
+
+
+## Every generated battlefield has to be one a fight can actually happen on.
+func _check_field(meeting: Dictionary, label: String) -> void:
+	var map: Dictionary = meeting.get("map", {})
+	var rows: Array = map.get("tiles", [])
+	_expect(not rows.is_empty(), "%s encounter generated no ground" % label)
+	_expect(rows.size() == BattleMapGen.SIZE.y, "%s field is %d rows" % [label, rows.size()])
+	for row: String in rows:
+		if row.length() != BattleMapGen.SIZE.x:
+			_expect(false, "%s field has a ragged row" % label)
+			break
+
+	_expect(not meeting["enemies"].is_empty(), "%s encounter has nobody in it" % label)
+	_expect(
+		map["player_spawns"].size() >= Roster.FOUNDING.size(),
+		"%s field has room for only %d of the party" % [label, map["player_spawns"].size()]
+	)
+
+	var legend: Dictionary = map["legend"]
+	for spawn: Array in map["player_spawns"]:
+		_expect(_walkable(rows, legend, spawn), "%s field spawns the party in a wall" % label)
+	for entry: Dictionary in map["enemies"]:
+		_expect(entry.has("cell"), "%s encounter left an enemy unplaced" % label)
+		_expect(int(entry.get("level", 0)) > 0, "%s encounter fielded a level-zero foe" % label)
+		_expect(_walkable(rows, legend, entry["cell"]), "%s field spawns a foe in a wall" % label)
+
+
+func _walkable(rows: Array, legend: Dictionary, cell: Array) -> bool:
+	var symbol: String = rows[int(cell[1])][int(cell[0])]
+	return Database.terrain_type(legend.get(symbol, "grass")).get("walkable", true)
+
+
+func _top_level(meeting: Dictionary) -> int:
+	var best := 0
+	for entry: Dictionary in meeting["enemies"]:
+		best = maxi(best, int(entry.get("level", 0)))
+	return best
+
+
+## Walk a long way and make sure the loop survives it.
+func _check_walking(world: World) -> void:
+	print("")
+	var party := Roster.found().party_members()
+	var walker := world.player_cell
+	var fights := 0
+	var notices := 0
+	var steps := 800
+
+	for i in steps:
+		var options: Array[Vector2i] = []
+		for offset: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			if world.is_walkable(walker + offset):
+				options.append(walker + offset)
+		_expect(not options.is_empty(), "walked into a dead end at %s" % walker)
+		if options.is_empty():
+			break
+
+		walker = options[world.rng.randi() % options.size()]
+		world.player_cell = walker
+		notices += world.step().size()
+		if not Encounter.roll(world, walker, party, world.rng).is_empty():
+			fights += 1
+
+	_expect(world.steps >= steps, "the clock did not keep up with the walking")
+	_expect(fights > 0, "walked %d steps without meeting anything" % steps)
+	_expect(fights < steps / 2, "met something on %d of %d steps" % [fights, steps])
+	print("walked %d steps: %d encounters, %d world notices" % [steps, fights, notices])
+
+	var open_now := world.sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.open).size()
+	print("gates open after the walk: %d" % open_now)
 
 
 # --- persistence --------------------------------------------------------------

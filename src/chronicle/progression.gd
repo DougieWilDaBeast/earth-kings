@@ -121,3 +121,13 @@ static func raise_to(character: Character, target_level: int, world: World) -> v
 		if character.pending_class_choice:
 			settle_class(character, choose_class(character, world.rng))
 	character.hp = -1
+
+
+## Scale a throwaway character — a wolf, a gate guardian — to a level without
+## generating trees. Nothing spawned for one fight should leave powers behind in
+## the world's permanent record.
+static func raise_quietly(character: Character, target_level: int, world: World) -> void:
+	character.level = maxi(1, target_level)
+	if character.class_id == "" and character.level >= CLASS_LEVEL:
+		character.class_id = choose_class(character, world.rng)
+	character.hp = -1

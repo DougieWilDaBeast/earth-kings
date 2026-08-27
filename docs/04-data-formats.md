@@ -111,7 +111,12 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   "ally_rescue_cap": 0.36,
   "haven_range": 6,
   "haven_grace": 0.15,
-  "capture_by": { "raider": 0.4, "soldier": 0.3, "beast": 0.0, "default": 0.15 },
+  "capture_by": {
+    "raider": 0.4,
+    "soldier": 0.3,
+    "beast": 0.0,
+    "default": 0.15
+  },
   "escape_recovery": 0.25,
   "capture_recovery": 0.1
 }

@@ -19,6 +19,8 @@ const SPRITE_ROTATIONS := {
 }
 
 var template_id: String = ""
+## The persistent person this unit stands in for; null for scratch enemies.
+var character: Character = null
 var display_name: String = "Unit"
 var job: String = ""
 var team: Team = Team.PLAYER
@@ -69,6 +71,30 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.cell = start_cell
 	unit.ct = randi_range(0, 40)
 	unit._equip(data.get("weapon", ""))
+	return unit
+
+
+## Kind of foe this is, for the capture roll when someone falls to it.
+func kind() -> String:
+	return Database.unit_template(template_id).get("kind", "default")
+
+
+## Spawn the battle puppet for a persistent [Character].
+static func from_character(source: Character, unit_team: Team, start_cell: Vector2i) -> Unit:
+	var unit := create(source.template_id, unit_team, start_cell)
+	unit.character = source
+	unit.display_name = source.display_name
+	unit.job = source.class_name_text()
+	unit.max_hp = source.max_hp()
+	unit.hp = source.current_hp()
+	# create() already folded the template weapon in; keep it on top of the
+	# character's own numbers rather than losing it.
+	unit.attack = source.attack() + int(unit.weapon.get("attack", 0))
+	unit.defense = source.defense() + int(unit.weapon.get("defense", 0))
+	unit.move_points = source.move_points()
+	unit.jump = source.jump()
+	unit.speed = source.speed()
+	unit.abilities = source.abilities()
 	return unit
 
 

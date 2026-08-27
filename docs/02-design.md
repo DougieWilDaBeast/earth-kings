@@ -42,20 +42,20 @@ length of a fight and thrown away afterwards. The save file remembers Characters
 
 ## Falling — death and its graces
 
-**Death is the default.** A character who falls is gone unless something they *brought with them*
+**Death is the default.** A character who falls is gone unless something they _brought with them_
 buys their way out ([D11](06-decisions.md)). Each possible reason is a **grace** with its own
 chance; they are rolled in order and the **first to land claims the moment**, so the reason a
 character survived is always a specific, tellable thing rather than a shrug.
 
-| Grace | Where the chance comes from | What happens |
-|---|---|---|
-| **Charm** | A relic carried — Grave Token 50%, Knotted Cord 25% | Lives. The charm is **spent** and gone |
-| **Rescue** | 12% per ally still standing, capped at 36% | Lives. The ally who pulled them out is named |
-| **Lore** | Sum of the `grace` on doctrine they have read, capped at 30% | Lives, *because* of a specific book |
-| **Ground** | 15% if they fell within 6 tiles of a hearth | Lives. Crawls to safety |
-| **Luck** | A flat 7% | Lives, for no reason at all |
-| **Capture** | Set by who beat them — raiders 40%, soldiers 30%, beasts 0% | **Taken alive.** Leaves the party, held at the nearest keep or gate |
-| — | Nothing landed | **Dead.** Permanently |
+| Grace       | Where the chance comes from                                  | What happens                                                        |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------------- |
+| **Charm**   | A relic carried — Grave Token 50%, Knotted Cord 25%          | Lives. The charm is **spent** and gone                              |
+| **Rescue**  | 12% per ally still standing, capped at 36%                   | Lives. The ally who pulled them out is named                        |
+| **Lore**    | Sum of the `grace` on doctrine they have read, capped at 30% | Lives, _because_ of a specific book                                 |
+| **Ground**  | 15% if they fell within 6 tiles of a hearth                  | Lives. Crawls to safety                                             |
+| **Luck**    | A flat 7%                                                    | Lives, for no reason at all                                         |
+| **Capture** | Set by who beat them — raiders 40%, soldiers 30%, beasts 0%  | **Taken alive.** Leaves the party, held at the nearest keep or gate |
+| —           | Nothing landed                                               | **Dead.** Permanently                                               |
 
 Survivors come back at 25% of max HP; captives at 10%. Measured over 200 falls: a lone,
 unarmed, unread character against a beast dies **186 times out of 200**. Two allies standing lifts

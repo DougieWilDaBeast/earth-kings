@@ -52,6 +52,7 @@
 		"speed": 10,
 		"abilities": ["strike"],
 		"classes": ["raider"],
+		"kind": "raider",
 		"color": "#d2603f",
 		"sprite_dir": "res://art/units/mace_pirate/idle"
 	},
@@ -66,6 +67,7 @@
 		"speed": 11,
 		"abilities": ["arc_shot"],
 		"classes": ["raider", "wildling"],
+		"kind": "raider",
 		"color": "#c98b3f"
 	},
 	"brigand_chief": {
@@ -79,6 +81,63 @@
 		"speed": 9,
 		"abilities": ["cleave", "strike"],
 		"classes": ["raider", "sworn_blade"],
+		"kind": "raider",
 		"color": "#a33b3b"
+	},
+	"wolf": {
+		"display_name": "Wolf",
+		"job": "Wild",
+		"max_hp": 26,
+		"attack": 10,
+		"defense": 2,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": ["strike"],
+		"classes": ["wildling"],
+		"kind": "beast",
+		"color": "#7d7f8a"
+	},
+	"goblin": {
+		"display_name": "Goblin",
+		"job": "Wild",
+		"max_hp": 24,
+		"attack": 9,
+		"defense": 3,
+		"move": 4,
+		"jump": 1,
+		"speed": 11,
+		"abilities": ["strike"],
+		"classes": ["wildling"],
+		"kind": "wild",
+		"color": "#6f9350"
+	},
+	"ogre": {
+		"display_name": "Ogre",
+		"job": "Wild",
+		"max_hp": 78,
+		"attack": 18,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": ["cleave", "strike"],
+		"classes": ["wildling"],
+		"kind": "beast",
+		"color": "#8a6a4a"
+	},
+	"wraith": {
+		"display_name": "Wraith",
+		"job": "Wild",
+		"max_hp": 46,
+		"attack": 17,
+		"defense": 5,
+		"move": 4,
+		"jump": 3,
+		"speed": 13,
+		"abilities": ["ember", "strike"],
+		"classes": ["wildling"],
+		"kind": "beast",
+		"color": "#5a4a7d"
 	}
 }

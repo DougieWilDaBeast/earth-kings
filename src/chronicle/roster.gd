@@ -1,0 +1,112 @@
+class_name Roster
+extends RefCounted
+## Everyone the player has. Characters stay on the roster after they die or are
+## taken — losing someone should leave a gap you can see, not a silent deletion.
+
+## Who the game starts you with; the first is yours.
+const FOUNDING := ["bram", "sera", "toln"]
+## Most that can be taken into a single fight.
+const MAX_PARTY := 4
+
+var characters: Array[Character] = []
+## Character ids currently marching, in order.
+var party: Array = []
+
+
+static func found() -> Roster:
+	var roster := Roster.new()
+	for i in FOUNDING.size():
+		var character := Character.create(FOUNDING[i], "", i == 0)
+		roster.characters.append(character)
+		roster.party.append(character.id)
+	return roster
+
+
+func add(character: Character) -> Character:
+	characters.append(character)
+	return character
+
+
+func by_id(character_id: String) -> Character:
+	for character in characters:
+		if character.id == character_id:
+			return character
+	return null
+
+
+func player() -> Character:
+	for character in characters:
+		if character.is_player:
+			return character
+	return characters[0] if not characters.is_empty() else null
+
+
+func party_members() -> Array[Character]:
+	var out: Array[Character] = []
+	for character_id: String in party:
+		var character := by_id(character_id)
+		if character != null:
+			out.append(character)
+	return out
+
+
+## Party members who can actually fight right now.
+func fit_to_fight() -> Array[Character]:
+	return party_members().filter(func(c: Character) -> bool: return c.is_available())
+
+
+## Anyone lost to death or capture is quietly taken off the marching order.
+func drop_the_lost() -> Array[Character]:
+	var lost: Array[Character] = []
+	for character in party_members():
+		if character.is_lost():
+			party.erase(character.id)
+			lost.append(character)
+	return lost
+
+
+func enlist(character_id: String) -> bool:
+	if party.size() >= MAX_PARTY or character_id in party:
+		return false
+	var character := by_id(character_id)
+	if character == null or not character.is_available():
+		return false
+	party.append(character_id)
+	return true
+
+
+func rest() -> void:
+	for character in party_members():
+		if character.is_alive():
+			character.hp = -1
+
+
+func is_wounded() -> bool:
+	return party_members().any(func(c: Character) -> bool: return c.is_wounded())
+
+
+## True when nobody is left standing — the run is over.
+func is_broken() -> bool:
+	return fit_to_fight().is_empty()
+
+
+func awaiting_class_choice() -> Character:
+	for character in party_members():
+		if character.pending_class_choice:
+			return character
+	return null
+
+
+func to_dict() -> Dictionary:
+	return {
+		"characters": characters.map(func(c: Character) -> Dictionary: return c.to_dict()),
+		"party": party,
+	}
+
+
+static func from_dict(payload: Dictionary) -> Roster:
+	var roster := Roster.new()
+	for entry: Dictionary in payload.get("characters", []):
+		roster.characters.append(Character.from_dict(entry))
+	roster.party = payload.get("party", [])
+	return roster

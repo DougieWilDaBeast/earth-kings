@@ -19,19 +19,26 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 
 ## Playing the vertical slice
 
-- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ starts a fresh run.
-- **Overworld** — click a connected location to travel. Red nodes have an unfought battle.
-  `Esc` opens the menu (save, load, return to title). Locations flagged `"rest": true` in
-  `overworld.json` patch the party back up to full when you arrive.
+- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
+- **Walking** — arrow keys move you one tile at a time; hold to keep going. Every step advances
+  the world clock. The top bar shows where you are and your current **danger %**.
+  `Esc` opens the menu (save, load, return to title).
+- **The map** — green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
+  (a ring means it is open and spilling), gold is **the Tower**.
+- **Danger is a property of place.** Near an open gate the wild is thick with what came out of it;
+  near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.
+- **Sites** — step on a village, keep or hut to rest; a library to read; an open gate to fight it;
+  the Tower to climb the next floor.
 - **Battle** — on your unit's turn: **Move** (blue tiles), an ability (red tiles), then **Wait**
-  to end the turn. Right-click or `Esc` cancels a selection. Hover any tile to inspect it.
-- **Facing matters** — the wedge on a token shows where it looks. Hitting a unit from the side
-  deals 1.2x damage, from behind 1.5x. Units turn as they move and turn to face what they attack,
-  so the tile you finish your move on decides how exposed you are.
-- **Wounds persist** — HP carries between battles. Anyone who falls is dragged out at a quarter
-  of their max HP, so a costly win hurts but can't end the run. Rest to recover.
-- Turn order is **charge time**: each tick every unit gains CT equal to its speed, and the first
-  to 100 acts. Fast units act _more often_, not just sooner.
+  to end the turn. `Esc` cancels a selection. Hover any tile to inspect it.
+- **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.2×, back hits
+  1.5×. Units turn as they move, so the tile you finish on decides how exposed you are.
+- **Turn order is charge time** — each tick every unit gains CT equal to its speed and acts at 100.
+  Fast units act _more often_, not just sooner.
+- **Falling is usually fatal.** A downed character rolls their graces — a charm carried, an ally
+  still standing, a book they read, the ground they fell on — and dies if none of them land.
+  Raiders may take them alive instead. See [docs/02-design.md](docs/02-design.md).
+- **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `C`.
 
 ## Project layout
 
@@ -108,6 +115,7 @@ to catch runtime breakage without clicking through the game:
 
 ```powershell
 godot --headless --path . res://tests/battle_smoke_test.tscn
+godot --headless --path . res://tests/world_smoke_test.tscn
 ```
 
 ## Roadmap

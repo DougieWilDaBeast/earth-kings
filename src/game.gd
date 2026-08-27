@@ -4,6 +4,7 @@ extends Node
 
 const SCENES := {
 	"title": "res://src/ui/title_screen.tscn",
+	"world": "res://src/world/world_scene.tscn",
 	"overworld": "res://src/overworld/overworld.tscn",
 	"battle": "res://src/battle/battle.tscn",
 }
