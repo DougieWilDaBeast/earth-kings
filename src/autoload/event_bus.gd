@@ -28,6 +28,10 @@ signal character_fell(character: RefCounted, outcome: Dictionary)
 
 ## Ask the always-present system menu (save / load / title) to open.
 signal system_menu_requested
+## Ask the always-present party screen to open.
+signal party_screen_requested
+## The last of the party is gone; the run is over.
+signal run_ended
 
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)

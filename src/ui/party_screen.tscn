@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/party_screen.gd" id="1_party"]
+
+[node name="PartyScreen" type="CanvasLayer"]
+layer = 8
+script = ExtResource("1_party")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.03, 0.05, 0.88)
+
+[node name="Margin" type="MarginContainer" parent="Backdrop"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 28
+
+[node name="Column" type="VBoxContainer" parent="Backdrop/Margin"]
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Backdrop/Margin/Column"]
+theme_override_font_sizes/font_size = 24
+text = "The Party"
+
+[node name="Scroll" type="ScrollContainer" parent="Backdrop/Margin/Column"]
+size_flags_vertical = 3
+
+[node name="RosterList" type="VBoxContainer" parent="Backdrop/Margin/Column/Scroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
+
+[node name="FooterLabel" type="Label" parent="Backdrop/Margin/Column"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+text = "P or Esc to close"

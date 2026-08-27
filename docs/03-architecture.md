@@ -83,6 +83,26 @@ Places deliberately shaped so deferred features drop in without surgery.
 generation, gate ranks, tree generation, class choice. Same seed, same world. Battle-time
 variance (damage rolls, CT jitter) uses global randomness and is intentionally not reproducible.
 
+## Testing
+
+Three headless scenes, run as scenes rather than with `-s` because `--script` starts before the
+autoloads exist.
+
+| Test                           | Covers                                                                                                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/world_smoke_test.tscn`  | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
+| `tests/walk_smoke_test.tscn`   | The real walk scene: walls, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
+| `tests/battle_smoke_test.tscn` | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
+
+`tools/coverage.tscn` reports static reachability from those tests — which functions a test can
+reach, which only the engine reaches, and which nothing references at all. It resolves scenes a
+test instantiates to their scripts, so scene-driven code is not counted as unreachable. It
+measures **reach, not assertion strength**, so it also prints the assertion count per test.
+
+```powershell
+godot --headless --path . res://tools/coverage.tscn
+```
+
 ## Autoload order
 
 `EventBus` → `Database` → `GameState`. Database must be up before anything reads content;

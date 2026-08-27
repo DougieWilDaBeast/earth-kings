@@ -8,6 +8,8 @@ const CELL := 24
 ## Seconds between steps while a direction is held down.
 const REPEAT_DELAY := 0.11
 const FIRST_REPEAT_DELAY := 0.28
+## Beat between the last of the party falling and the title screen.
+const RUN_OVER_DELAY := 3.0
 
 const DIRECTIONS := {
 	"ui_up": Vector2i.UP,
@@ -100,6 +102,7 @@ func _step(direction: Vector2i) -> void:
 		_arrive_at(site)
 	else:
 		_roll_for_trouble(target)
+	_check_party()
 	_refresh()
 
 
@@ -183,35 +186,30 @@ func _check_party() -> void:
 		for forgotten: String in Doctrine.decay(character, world.steps):
 			_note("%s can no longer recall %s." % [character.display_name, Doctrine.title(forgotten)])
 
-	var choosing := GameState.roster.awaiting_class_choice()
-	if choosing != null:
-		_hint.text = "%s is ready to choose a path — press C." % choosing.display_name
-
 	if GameState.roster.is_broken():
-		_note("Nobody is left standing.")
+		_end_run()
+		return
+
+	var choosing := GameState.roster.awaiting_class_choice()
+	_hint.text = "%s is ready to choose a path — press P." % choosing.display_name if choosing != null else "P for the party  ·  Esc for the menu"
+
+
+## Permadeath has to mean something at the end of the line, not just mid-fight.
+func _end_run() -> void:
+	_busy = true
+	_note("Nobody is left standing. The run is over.")
+	_hint.text = ""
+	EventBus.run_ended.emit()
+	await get_tree().create_timer(RUN_OVER_DELAY).timeout
+	EventBus.request_scene.emit("title", {})
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _busy or not event.is_pressed() or event.is_echo():
 		return
-	if event is InputEventKey and event.keycode == KEY_C:
-		_offer_class_choice()
-
-
-## Cycles the pending character through their options; a proper picker comes
-## with the party screen.
-func _offer_class_choice() -> void:
-	var character := GameState.roster.awaiting_class_choice()
-	if character == null:
-		return
-	var options := Progression.class_options(character)
-	if options.is_empty():
-		return
-	var picked: String = options[world.rng.randi() % options.size()]
-	Progression.settle_class(character, picked)
-	_note("%s takes up the way of the %s." % [character.display_name, character.class_name_text()])
-	_hint.text = ""
-	_refresh()
+	if event is InputEventKey and event.keycode == KEY_P:
+		get_viewport().set_input_as_handled()
+		EventBus.party_screen_requested.emit()
 
 
 # --- presentation -------------------------------------------------------------

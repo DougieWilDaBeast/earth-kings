@@ -58,18 +58,20 @@ previous milestone demonstrably works.
 - Permanent floor log on the world ✅
 - **Remaining:** a reason to stop climbing, and floor rewards
 
-## M7 — The Library and doctrine — PARTIAL
+## M7 — The Library and doctrine — SHIPPED
 
 - Reading at a library; per-character knowledge ✅
 - Entropy pass folded into walking ✅
-- **Remaining:** teaching between party members, and UI for what each character
-  knows and is about to lose
+- Teaching between party members, on the party screen ✅
+- Each character's shelf shown, with anything close to fading marked ✅
 
-## M8 — Fit to play
+## M8 — Fit to play — PARTIAL
 
-- World in the save file ✅
-- **Remaining:** a real class picker (currently `C` picks at random), a party screen,
-  a new-game seed entry, and a balance pass across levels 1–10
+- World in the save file, verified by a round-trip test ✅
+- A real class picker on the party screen ✅
+- Party screen: class choice, teaching, the Training Yoke, the Codex readout ✅
+- The run ends when the party is gone ([D13](06-decisions.md)) ✅
+- **Remaining:** a new-game seed entry, and a balance pass across levels 1–10
 - ✅ Done when: two people can play a session without hitting a wall
 
 ## Deferred

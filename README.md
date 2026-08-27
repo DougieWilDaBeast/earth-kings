@@ -38,7 +38,12 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **Falling is usually fatal.** A downed character rolls their graces — a charm carried, an ally
   still standing, a book they read, the ground they fell on — and dies if none of them land.
   Raiders may take them alive instead. See [docs/02-design.md](docs/02-design.md).
-- **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `C`.
+- **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `P`.
+- **The party screen** (`P`) is where the run is managed: pick a class, teach a book to someone
+  who lacks it, take the **Training Yoke** on or off (−25% attack for +50% XP), and see what each
+  character has read and what is close to fading. It also shows the **Codex** — how much of the
+  world's power grammar has been catalogued.
+- **Losing everyone ends the run** and returns you to the title.
 
 ## Project layout
 
@@ -116,6 +121,8 @@ to catch runtime breakage without clicking through the game:
 ```powershell
 godot --headless --path . res://tests/battle_smoke_test.tscn
 godot --headless --path . res://tests/world_smoke_test.tscn
+godot --headless --path . res://tests/walk_smoke_test.tscn
+godot --headless --path . res://tools/coverage.tscn
 ```
 
 ## Roadmap

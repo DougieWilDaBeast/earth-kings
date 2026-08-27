@@ -17,10 +17,18 @@ Never edit a past entry — supersede it with a new one.
 | D10 | **Two-player means passing the pad**, one character, one world.                                                                                                                                                                                                 | 2026-08-27 | Cheapest thing that works this weekend. Hotseat and PvP duels are not ruled out later.                                                                                                                                                             |
 | D11 | **Death is the default; survival is earned.** Supersedes D05. A fallen character rolls their _graces_ in order — charm, rescue, lore, ground, luck, capture — and the first to land decides both whether they live and the reason why. Nothing lands, they die. | 2026-08-27 | A flat 25% drag-out made permadeath a lie. Making survival come from something you _brought_ — an item, an ally still standing, a book you read, the ground you fell on — means the reason a character lived is always a specific, tellable thing. |
 | D12 | **The player picks their class at level 2.** The world waits (`pending_class_choice`); NPCs settle into one on their own.                                                                                                                                       | 2026-08-27 | The one irreversible build decision in the game should be the player's. NPCs cannot wait for a prompt nobody will answer.                                                                                                                          |
+| D13 | **The run ends when the party is gone.** Losing everyone emits `run_ended` and returns to the title.                                                                                                                                                            | 2026-08-27 | Permadeath that leaves you walking an empty world is not permadeath, it is a bug. Whether the save survives the run is still open — see Q8.                                                                                                        |
 
 ## Open questions
 
 Discuss before implementing the affected component.
+
+- **Q8 — Does save/load defeat permadeath?** The system menu saves and loads freely, so reloading
+  after a death undoes [D11](#) entirely. Options: a single autosave overwritten every step, save
+  only on quit, or accept it and let honesty do the work. **This one contradicts a pillar.**
+- **Q9 — What is gold for?** Gate clears pay 40–240 and there is nothing to spend it on.
+- **Q10 — Can you recruit?** `MAX_PARTY` is 4, the founding party is 3, and `enlist()` is never
+  called. Losing someone is currently permanent shrinkage.
 
 - **Q3 — Can the Tower be finished?** A final floor implies an ending; endless floors imply
   walking forward forever.
