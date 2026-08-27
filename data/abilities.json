@@ -1,0 +1,48 @@
+{
+	"strike": {
+		"display_name": "Strike",
+		"description": "A basic melee attack on an adjacent foe.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 0,
+		"power": 1.0
+	},
+	"cleave": {
+		"display_name": "Cleave",
+		"description": "A heavy swing that also clips foes beside the target.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 1,
+		"power": 0.8
+	},
+	"arc_shot": {
+		"display_name": "Arc Shot",
+		"description": "A lobbed arrow that cannot hit adjacent foes.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 4,
+		"splash": 0,
+		"power": 0.9
+	},
+	"ember": {
+		"display_name": "Ember",
+		"description": "A burst of flame at range.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 1,
+		"power": 1.1
+	},
+	"mend": {
+		"display_name": "Mend",
+		"description": "Restore an ally's health.",
+		"target": "ally",
+		"min_range": 1,
+		"range": 3,
+		"splash": 0,
+		"heal": true,
+		"power": 16
+	}
+}

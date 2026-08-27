@@ -1,0 +1,51 @@
+{
+	"grass": {
+		"name": "Grass",
+		"move_cost": 1,
+		"height": 0,
+		"walkable": true,
+		"color": "#4f7d3f"
+	},
+	"road": {
+		"name": "Road",
+		"move_cost": 1,
+		"height": 0,
+		"walkable": true,
+		"color": "#8a7a55"
+	},
+	"brush": {
+		"name": "Brush",
+		"move_cost": 2,
+		"height": 0,
+		"walkable": true,
+		"color": "#3f6b34"
+	},
+	"hill": {
+		"name": "Hill",
+		"move_cost": 2,
+		"height": 1,
+		"walkable": true,
+		"color": "#6b8f4e"
+	},
+	"crag": {
+		"name": "Crag",
+		"move_cost": 3,
+		"height": 2,
+		"walkable": true,
+		"color": "#7d7f6a"
+	},
+	"water": {
+		"name": "Shallows",
+		"move_cost": 3,
+		"height": -1,
+		"walkable": true,
+		"color": "#3a6ea5"
+	},
+	"wall": {
+		"name": "Rock face",
+		"move_cost": 99,
+		"height": 4,
+		"walkable": false,
+		"color": "#3b3b46"
+	}
+}

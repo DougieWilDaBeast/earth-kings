@@ -1,0 +1,16 @@
+# Godot 4 generated files
+.godot/
+/android/
+/builds/
+export_presets.cfg
+
+# Godot Mono
+.mono/
+data_*/
+mono_crash.*.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp

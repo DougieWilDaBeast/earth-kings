@@ -1,0 +1,32 @@
+{
+	"id": "ganel_camp",
+	"name": "Ganel's Camp",
+	"legend": {
+		".": "grass",
+		",": "brush",
+		"=": "road",
+		"^": "hill",
+		"A": "crag",
+		"~": "water",
+		"#": "wall"
+	},
+	"tiles": [
+		"############",
+		"#..^^..^^..#",
+		"#....==....#",
+		"#.,,.==.,,.#",
+		"..,,.==.,,..",
+		"~~...==...~~",
+		"~~..A==A..~~",
+		"#...^==^...#",
+		"#....==....#",
+		"####.==.####"
+	],
+	"player_spawns": [[5, 8], [6, 8], [4, 8]],
+	"enemies": [
+		{ "unit": "brigand_chief", "cell": [5, 2] },
+		{ "unit": "brigand", "cell": [6, 2] },
+		{ "unit": "brigand_archer", "cell": [2, 3] },
+		{ "unit": "brigand_archer", "cell": [9, 3] }
+	]
+}

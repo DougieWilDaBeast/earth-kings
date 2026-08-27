@@ -1,0 +1,74 @@
+{
+	"bram": {
+		"display_name": "Bram",
+		"job": "Sworn Blade",
+		"max_hp": 52,
+		"attack": 15,
+		"defense": 7,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": ["strike", "cleave"],
+		"color": "#4c8bf5"
+	},
+	"sera": {
+		"display_name": "Sera",
+		"job": "Longbow",
+		"max_hp": 38,
+		"attack": 13,
+		"defense": 4,
+		"move": 4,
+		"jump": 1,
+		"speed": 12,
+		"abilities": ["arc_shot", "strike"],
+		"color": "#59c3a1"
+	},
+	"toln": {
+		"display_name": "Toln",
+		"job": "Hedge Priest",
+		"max_hp": 34,
+		"attack": 9,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": ["mend", "ember"],
+		"color": "#c9a0f5"
+	},
+	"brigand": {
+		"display_name": "Brigand",
+		"job": "Raider",
+		"max_hp": 40,
+		"attack": 12,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": ["strike"],
+		"color": "#d2603f"
+	},
+	"brigand_archer": {
+		"display_name": "Poacher",
+		"job": "Raider",
+		"max_hp": 30,
+		"attack": 11,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 11,
+		"abilities": ["arc_shot"],
+		"color": "#c98b3f"
+	},
+	"brigand_chief": {
+		"display_name": "Ganel",
+		"job": "Raid Chief",
+		"max_hp": 62,
+		"attack": 16,
+		"defense": 8,
+		"move": 4,
+		"jump": 2,
+		"speed": 9,
+		"abilities": ["cleave", "strike"],
+		"color": "#a33b3b"
+	}
+}
