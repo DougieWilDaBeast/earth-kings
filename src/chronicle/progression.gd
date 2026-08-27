@@ -1,0 +1,105 @@
+class_name Progression
+extends RefCounted
+## Levels, classes and tree unlocks. Every character in the world grows the
+## same way; what differs is the class they settle into and what the world
+## happens to hand them.
+
+## A main class is chosen once the character has proved they'll survive.
+const CLASS_LEVEL := 2
+const FIRST_TREE_LEVEL := 5
+const SECOND_TREE_LEVEL := 10
+## Health returned on a level-up, so growth feels like relief mid-delve.
+const LEVEL_UP_HEAL := 8
+
+
+static func xp_to_next(level: int) -> int:
+	return 20 + level * level * 6
+
+
+## XP a defeated character is worth to its killer.
+static func bounty_for(level: int) -> int:
+	return 9 + level * 7
+
+
+## Give [param character] experience and apply every level-up it triggers.
+## Returns human-readable lines for the battle log.
+static func award(character: Character, amount: int, world: World) -> Array:
+	var lines: Array = []
+	if not character.alive or amount <= 0:
+		return lines
+
+	var gained := amount
+	if character.yoke:
+		gained = roundi(gained * (1.0 + Character.YOKE_XP_BONUS))
+
+	character.xp += gained
+	while character.xp >= xp_to_next(character.level):
+		character.xp -= xp_to_next(character.level)
+		lines.append_array(_level_up(character, world))
+	return lines
+
+
+static func _level_up(character: Character, world: World) -> Array:
+	var lines: Array = []
+	character.level += 1
+	if character.hp >= 0:
+		character.hp = mini(character.hp + LEVEL_UP_HEAL, character.max_hp())
+	lines.append("%s reaches level %d." % [character.display_name, character.level])
+
+	if character.level == CLASS_LEVEL and character.class_id == "":
+		var chosen := choose_class(character, world.rng)
+		if chosen != "":
+			character.class_id = chosen
+			lines.append("%s takes up the way of the %s." % [character.display_name, character.class_name_text()])
+
+	if character.level == FIRST_TREE_LEVEL or character.level == SECOND_TREE_LEVEL:
+		lines.append_array(unlock_tree(character, world))
+	else:
+		lines.append_array(learn_next(character, world))
+
+	return lines
+
+
+## Classes the character's template allows; empty means the grammar picks.
+static func class_options(character: Character) -> Array:
+	var options: Array = character.template().get("classes", [])
+	return options if not options.is_empty() else Database.classes.keys()
+
+
+static func choose_class(character: Character, rng: RandomNumberGenerator) -> String:
+	var options := class_options(character)
+	if options.is_empty():
+		return ""
+	return options[rng.randi() % options.size()]
+
+
+## Discover a tree compatible with the character's class and take its first rung.
+static func unlock_tree(character: Character, world: World) -> Array:
+	var themes := AbilityGrammar.themes_for(character)
+	var theme: String = themes[world.rng.randi() % themes.size()]
+	var tree := AbilityGrammar.generate_tree(theme, world.rng)
+	world.register_tree(tree)
+	character.trees.append(tree["id"])
+	var lines: Array = ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
+	lines.append_array(learn_next(character, world))
+	return lines
+
+
+## Take the next unlearned rung from any unlocked tree.
+static func learn_next(character: Character, world: World) -> Array:
+	for tree_id: String in character.trees:
+		var tree := world.tree(tree_id)
+		for ability_id: String in tree.get("abilities", []):
+			if ability_id not in character.learned:
+				character.learned.append(ability_id)
+				var ability := Database.ability(ability_id)
+				return ["%s learns %s." % [character.display_name, ability.get("display_name", ability_id)]]
+	return []
+
+
+## Bring a character up to [param target_level] at world generation time, without
+## narrating any of it.
+static func raise_to(character: Character, target_level: int, world: World) -> void:
+	while character.level < target_level:
+		_level_up(character, world)
+	character.hp = -1

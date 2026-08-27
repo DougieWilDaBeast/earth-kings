@@ -1,8 +1,12 @@
 # Earth Kings
 
-A 2D top-down, grid-based tactical RPG built in **Godot 4 (GDScript)** — turn-based battles on
-square tile maps with movement ranges and per-tile terrain cost, plus an overworld for travel and
-NPC dialogue between fights.
+A tactical RPG in a persistent, hostile world, built in **Godot 4 (GDScript)**. You walk a
+generated map tile by tile, fight what finds you on a Final Fantasy Tactics–style grid, and grow
+characters who can die for good. Power is scarce, knowledge is carried rather than inherited, and
+the world advances every step you take.
+
+**Start here: [docs/00-index.md](docs/00-index.md)** — vision, design, architecture, data formats,
+roadmap and the decision log.
 
 ## Running it
 
@@ -52,6 +56,12 @@ src/
     event_bus.gd          Global signal hub — how systems talk without coupling
     database.gd           Loads and caches everything in data/
     game_state.gd         Party, party HP, gold, progress flags, save/load
+  chronicle/              The world model — pure logic, no scene nodes, serialisable
+    character.gd          The persistent person: level, class, doctrine, permadeath
+    progression.gd        XP curve, level-ups, class choice, tree unlocks
+    ability_grammar.gd    Hidden grammar that generates skill trees
+    doctrine.gd           Read / teach / forget, and what knowledge grants
+    site.gd · world.gd · world_gen.gd   Places, the step clock, world generation
   battle/
     battle.tscn/.gd       Phase machine, input routing, turn loop
     turn_manager.gd       Charge-time turn order + lookahead
@@ -102,12 +112,6 @@ godot --headless --path . res://tests/battle_smoke_test.tscn
 
 ## Roadmap
 
-- [x] Facing and directional damage bonuses (back/side attacks)
-- [ ] Height advantage in the damage formula
-- [ ] Jobs, levels, and ability unlocks
-- [x] Persistent party HP between battles
-- [ ] Counter-attacks and reaction abilities
-- [ ] Sprites + animation to replace the placeholder tokens
-- [ ] Win conditions beyond "defeat all" (survive N turns, escort, seize a tile)
-- [x] Save/load wired to a menu
-- [ ] Unit tests for `Pathfinder` and `AbilityResolver` (via GUT)
+Tracked properly in [docs/05-roadmap.md](docs/05-roadmap.md). In short: the tactics core is
+shipped; characters, the generated power system, the world and walk mode, gates, the Tower and the
+Library are in flight.

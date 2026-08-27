@@ -9,6 +9,7 @@
 		"jump": 2,
 		"speed": 10,
 		"abilities": ["strike", "cleave"],
+		"classes": ["sworn_blade", "magic_swordsman"],
 		"color": "#4c8bf5",
 		"sprite_dir": "res://art/units/golden_knight/idle",
 		"weapon": "bone_sword"
@@ -23,6 +24,7 @@
 		"jump": 1,
 		"speed": 12,
 		"abilities": ["arc_shot", "strike"],
+		"classes": ["longbow", "wildling"],
 		"color": "#59c3a1"
 	},
 	"toln": {
@@ -35,6 +37,7 @@
 		"jump": 1,
 		"speed": 9,
 		"abilities": ["mend", "ember"],
+		"classes": ["hedge_priest", "magic_swordsman"],
 		"color": "#c9a0f5",
 		"sprite_dir": "res://art/units/duck_wizard/idle"
 	},
@@ -48,6 +51,7 @@
 		"jump": 2,
 		"speed": 10,
 		"abilities": ["strike"],
+		"classes": ["raider"],
 		"color": "#d2603f",
 		"sprite_dir": "res://art/units/mace_pirate/idle"
 	},
@@ -61,6 +65,7 @@
 		"jump": 1,
 		"speed": 11,
 		"abilities": ["arc_shot"],
+		"classes": ["raider", "wildling"],
 		"color": "#c98b3f"
 	},
 	"brigand_chief": {
@@ -73,6 +78,7 @@
 		"jump": 2,
 		"speed": 9,
 		"abilities": ["cleave", "strike"],
+		"classes": ["raider", "sworn_blade"],
 		"color": "#a33b3b"
 	}
 }

@@ -11,7 +11,11 @@ var units: Dictionary = {}
 var abilities: Dictionary = {}
 var equipment: Dictionary = {}
 var overworld: Dictionary = {}
+var classes: Dictionary = {}
+var doctrines: Dictionary = {}
 
+## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
+var _generated_abilities: Dictionary = {}
 var _maps: Dictionary = {}
 var _dialogues: Dictionary = {}
 
@@ -22,6 +26,8 @@ func _ready() -> void:
 	abilities = _load_json("%s/abilities.json" % DATA_DIR)
 	equipment = _load_json("%s/equipment.json" % DATA_DIR)
 	overworld = _load_json("%s/overworld.json" % DATA_DIR)
+	classes = _load_json("%s/classes.json" % DATA_DIR)
+	doctrines = _load_json("%s/doctrine.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
@@ -33,7 +39,26 @@ func unit_template(id: String) -> Dictionary:
 
 
 func ability(id: String) -> Dictionary:
-	return abilities.get(id, {})
+	if abilities.has(id):
+		return abilities[id]
+	return _generated_abilities.get(id, {})
+
+
+## Make a generated ability castable for the rest of the session.
+func register_ability(id: String, definition: Dictionary) -> void:
+	_generated_abilities[id] = definition
+
+
+func character_class(id: String) -> Dictionary:
+	return classes.get(id, {})
+
+
+func doctrine(id: String) -> Dictionary:
+	return doctrines.get(id, {})
+
+
+func doctrine_ids() -> Array:
+	return doctrines.keys()
 
 
 func equipment_piece(id: String) -> Dictionary:

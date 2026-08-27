@@ -1,0 +1,37 @@
+{
+	"keen_edge": {
+		"title": "On the Keening of Edges",
+		"text": "A blade kept hungry cuts before the arm commits. Sharpen at dusk, never at dawn.",
+		"bonus": { "attack": 2 }
+	},
+	"heavy_mail": {
+		"title": "The Weight That Saves",
+		"text": "Mail is not worn to stop a blow. It is worn to make the blow arrive late.",
+		"bonus": { "defense": 2 }
+	},
+	"long_stride": {
+		"title": "Marches of the Ninth",
+		"text": "Ground taken before the fight is ground you are not asked to bleed for.",
+		"bonus": { "move": 1 }
+	},
+	"the_vigil": {
+		"title": "A Vigil Kept in Winter",
+		"text": "Those who learn to stand awake learn also to stand wounded.",
+		"bonus": { "max_hp": 8 }
+	},
+	"swift_water": {
+		"title": "Reading of Swift Water",
+		"text": "The current does not hurry. It simply never stops to consider.",
+		"bonus": { "speed": 2 }
+	},
+	"the_climb": {
+		"title": "Concerning the Climb",
+		"text": "Height is only an obstacle to those who arrive at it in a hurry.",
+		"bonus": { "jump": 1 }
+	},
+	"the_open_palm": {
+		"title": "Fist of the Open Palm",
+		"text": "The first doctrine any world discovers. It says almost nothing, and is never wrong.",
+		"bonus": { "attack": 1, "max_hp": 4 }
+	}
+}
