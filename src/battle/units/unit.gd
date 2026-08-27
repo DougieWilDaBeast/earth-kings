@@ -38,6 +38,9 @@ var abilities: Array = []
 var colour: Color = Color.WHITE
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
 var sprites: Dictionary = {}
+## The equipped piece from `data/equipment.json`, plus its rotation art.
+var weapon: Dictionary = {}
+var weapon_sprites: Dictionary = {}
 
 ## Charge time — see [TurnManager]. At 100 the unit acts.
 var ct: int = 0
@@ -65,6 +68,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.team = unit_team
 	unit.cell = start_cell
 	unit.ct = randi_range(0, 40)
+	unit._equip(data.get("weapon", ""))
 	return unit
 
 
@@ -92,6 +96,18 @@ static func _load_sprites(dir_path: String, template_id_: String) -> Dictionary:
 
 func is_alive() -> bool:
 	return hp > 0
+
+
+func _equip(equipment_id: String) -> void:
+	if equipment_id == "":
+		return
+	weapon = Database.equipment_piece(equipment_id)
+	if weapon.is_empty():
+		push_warning("Unit: %s carries unknown equipment '%s'" % [template_id, equipment_id])
+		return
+	attack += int(weapon.get("attack", 0))
+	defense += int(weapon.get("defense", 0))
+	weapon_sprites = _load_sprites(weapon.get("sprite_dir", ""), equipment_id)
 
 
 func is_hostile_to(other: Unit) -> bool:
@@ -154,9 +170,25 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, radius, colour)
 	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 24, outline, 2.0, true)
 	_draw_facing(radius, outline)
+	# Held behind the body only when the unit has its back to us.
+	if facing == Vector2i.UP:
+		_draw_weapon()
 	if sprite != null:
 		draw_texture_rect(sprite, _sprite_rect(sprite), false)
+	if facing != Vector2i.UP:
+		_draw_weapon()
 	_draw_hp_bar(sprite)
+
+
+func _draw_weapon() -> void:
+	var texture: Texture2D = weapon_sprites.get(facing)
+	if texture == null:
+		return
+	var drawn := texture.get_size() * float(weapon.get("scale", 0.8))
+	var offsets: Dictionary = weapon.get("offsets", {})
+	var pair: Array = offsets.get(SPRITE_ROTATIONS[facing], [0, 0])
+	var centre := Vector2(pair[0], pair[1])
+	draw_texture_rect(texture, Rect2(centre - drawn * 0.5, drawn), false)
 
 
 func current_sprite() -> Texture2D:

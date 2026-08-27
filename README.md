@@ -36,12 +36,14 @@ data/                     Game content as plain JSON — edit without opening th
   terrain.json            Move cost, height and colour per tile type
   units.json              Unit templates (party + enemies)
   abilities.json          Range, splash, power, targeting
+  equipment.json          Weapons: stat bonus, art folder, per-facing offsets
   overworld.json          Travel nodes, connections, what each triggers
   maps/*.json             Battle maps as ASCII tile rows + spawns
   dialogue/*.json         Conversation scripts
 
 art/
   units/<character>/<state>/  Directional unit art (north/south/east/west + diagonals)
+  items/<item>/           Directional item art, same rotation names
   map_kit/                Unused PixelLab tileset project, .gdignore'd until wired up
 
 src/
@@ -80,6 +82,10 @@ through `EventBus`** rather than holding references to each other.
   list or `GameState.party`.
 - **An ability** — add it to `data/abilities.json` and list its key on a unit. `splash` gives it
   an area, `min_range` makes it unusable up close, `heal: true` flips it to restoration.
+- **A weapon** — add it to `data/equipment.json` with its stat bonus, `sprite_dir` and a pixel
+  `offsets` entry per facing, then put `"weapon": "<key>"` on a unit template. The art is drawn
+  over the unit (behind it when facing away) and rotates with facing; tune `offsets` and `scale`
+  until it sits in the hand.
 - **Sprite art** — drop PixelLab-style rotations in `art/units/<character>/<state>/` as
   `north|south|east|west.png`, then add `"sprite_dir": "res://art/units/<character>/<state>"` to a
   unit template. Units draw the rotation matching their facing; templates without one keep the

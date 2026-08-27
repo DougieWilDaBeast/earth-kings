@@ -1,0 +1,29 @@
+{
+  "group_id": "46abb5c8-3288-46bb-9874-ff7f969d2df4",
+  "objects": [
+    {
+      "id": "bfb7b333-c3ad-4a66-b9a7-436029aeee2a",
+      "name": "base",
+      "prompt": "Sword made of bone",
+      "size": {
+        "width": 37,
+        "height": 37
+      },
+      "directions": 8,
+      "view": "high top-down",
+      "rotations": {
+        "south": "rotations/south.png",
+        "south-east": "rotations/south-east.png",
+        "east": "rotations/east.png",
+        "north-east": "rotations/north-east.png",
+        "north": "rotations/north.png",
+        "north-west": "rotations/north-west.png",
+        "west": "rotations/west.png",
+        "south-west": "rotations/south-west.png"
+      },
+      "animations": {}
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-08-27T15:34:04.069008"
+}

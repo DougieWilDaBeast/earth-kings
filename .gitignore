@@ -17,3 +17,6 @@ Thumbs.db
 
 # Art delivery archives — the extracted PNGs under art/ are what ships
 *.zip
+
+# Local reference material from other projects, not part of this game
+/possible-relevant-game-material/

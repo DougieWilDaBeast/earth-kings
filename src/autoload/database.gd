@@ -9,6 +9,7 @@ const DATA_DIR := "res://data"
 var terrain: Dictionary = {}
 var units: Dictionary = {}
 var abilities: Dictionary = {}
+var equipment: Dictionary = {}
 var overworld: Dictionary = {}
 
 var _maps: Dictionary = {}
@@ -19,6 +20,7 @@ func _ready() -> void:
 	terrain = _load_json("%s/terrain.json" % DATA_DIR)
 	units = _load_json("%s/units.json" % DATA_DIR)
 	abilities = _load_json("%s/abilities.json" % DATA_DIR)
+	equipment = _load_json("%s/equipment.json" % DATA_DIR)
 	overworld = _load_json("%s/overworld.json" % DATA_DIR)
 
 
@@ -32,6 +34,10 @@ func unit_template(id: String) -> Dictionary:
 
 func ability(id: String) -> Dictionary:
 	return abilities.get(id, {})
+
+
+func equipment_piece(id: String) -> Dictionary:
+	return equipment.get(id, {})
 
 
 func map(id: String) -> Dictionary:

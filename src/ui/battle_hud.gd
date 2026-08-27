@@ -50,9 +50,10 @@ func set_turn_order(order: Array[Unit]) -> void:
 
 func set_inspected(unit: Unit, terrain: Dictionary) -> void:
 	if unit != null:
-		_inspect_label.text = "%s (%s)  HP %d/%d  ATK %d  DEF %d  MOV %d  JMP %d" % [
+		_inspect_label.text = "%s (%s)  HP %d/%d  ATK %d  DEF %d  MOV %d  JMP %d%s" % [
 			unit.display_name, unit.job, unit.hp, unit.max_hp,
-			unit.attack, unit.defense, unit.move_points, unit.jump
+			unit.attack, unit.defense, unit.move_points, unit.jump,
+			"" if unit.weapon.is_empty() else "  ·  " + str(unit.weapon.get("display_name", ""))
 		]
 	elif not terrain.is_empty():
 		_inspect_label.text = "%s  ·  move cost %d  ·  height %d" % [

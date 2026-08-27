@@ -10,7 +10,8 @@
 		"speed": 10,
 		"abilities": ["strike", "cleave"],
 		"color": "#4c8bf5",
-		"sprite_dir": "res://art/units/golden_knight/idle"
+		"sprite_dir": "res://art/units/golden_knight/idle",
+		"weapon": "bone_sword"
 	},
 	"sera": {
 		"display_name": "Sera",

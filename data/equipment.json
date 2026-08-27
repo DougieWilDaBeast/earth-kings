@@ -1,0 +1,14 @@
+{
+	"bone_sword": {
+		"display_name": "Bone Sword",
+		"attack": 4,
+		"sprite_dir": "res://art/items/bone_sword",
+		"scale": 0.8,
+		"offsets": {
+			"south": [-11, -2],
+			"north": [11, -8],
+			"east": [10, -4],
+			"west": [-10, -4]
+		}
+	}
+}
