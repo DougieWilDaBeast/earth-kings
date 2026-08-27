@@ -67,6 +67,15 @@ through `EventBus`** rather than holding references to each other.
 - **An ability** — add it to `data/abilities.json` and list its key on a unit. `splash` gives it
   an area, `min_range` makes it unusable up close, `heal: true` flips it to restoration.
 
+## Smoke test
+
+Boots a battle headlessly, auto-passes every player turn and lets the AI play it out — a fast way
+to catch runtime breakage without clicking through the game:
+
+```powershell
+godot --headless --path . res://tests/battle_smoke_test.tscn
+```
+
 ## Roadmap
 
 - [ ] Facing and directional damage bonuses (back/side attacks)
