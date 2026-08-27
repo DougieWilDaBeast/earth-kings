@@ -12,22 +12,26 @@
 	"long_stride": {
 		"title": "Marches of the Ninth",
 		"text": "Ground taken before the fight is ground you are not asked to bleed for.",
-		"bonus": { "move": 1 }
+		"bonus": { "move": 1 },
+		"grace": 0.08
 	},
 	"the_vigil": {
 		"title": "A Vigil Kept in Winter",
 		"text": "Those who learn to stand awake learn also to stand wounded.",
-		"bonus": { "max_hp": 8 }
+		"bonus": { "max_hp": 8 },
+		"grace": 0.1
 	},
 	"swift_water": {
 		"title": "Reading of Swift Water",
 		"text": "The current does not hurry. It simply never stops to consider.",
-		"bonus": { "speed": 2 }
+		"bonus": { "speed": 2 },
+		"grace": 0.06
 	},
 	"the_climb": {
 		"title": "Concerning the Climb",
 		"text": "Height is only an obstacle to those who arrive at it in a hurry.",
-		"bonus": { "jump": 1 }
+		"bonus": { "jump": 1 },
+		"grace": 0.05
 	},
 	"the_open_palm": {
 		"title": "Fist of the Open Palm",

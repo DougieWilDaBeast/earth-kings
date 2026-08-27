@@ -20,6 +20,12 @@ signal unit_died(unit: Node)
 signal dialogue_requested(dialogue_id: String)
 signal dialogue_finished(dialogue_id: String)
 
+## A party member hit level 2 and owes the player a decision.
+signal class_choice_required(character: RefCounted)
+signal class_chosen(character: RefCounted)
+## A character went down. outcome: { "outcome": "alive"|"captured"|"dead", "reason": String, "line": String }
+signal character_fell(character: RefCounted, outcome: Dictionary)
+
 ## Ask the always-present system menu (save / load / title) to open.
 signal system_menu_requested
 

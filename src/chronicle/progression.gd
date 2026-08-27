@@ -25,7 +25,7 @@ static func bounty_for(level: int) -> int:
 ## Returns human-readable lines for the battle log.
 static func award(character: Character, amount: int, world: World) -> Array:
 	var lines: Array = []
-	if not character.alive or amount <= 0:
+	if not character.is_alive() or amount <= 0:
 		return lines
 
 	var gained := amount
@@ -47,10 +47,16 @@ static func _level_up(character: Character, world: World) -> Array:
 	lines.append("%s reaches level %d." % [character.display_name, character.level])
 
 	if character.level == CLASS_LEVEL and character.class_id == "":
-		var chosen := choose_class(character, world.rng)
-		if chosen != "":
-			character.class_id = chosen
-			lines.append("%s takes up the way of the %s." % [character.display_name, character.class_name_text()])
+		if character.is_player:
+			# The player picks; the world waits until they do.
+			character.pending_class_choice = true
+			lines.append("%s must choose a path." % character.display_name)
+			EventBus.class_choice_required.emit(character)
+		else:
+			var chosen := choose_class(character, world.rng)
+			if chosen != "":
+				character.class_id = chosen
+				lines.append("%s takes up the way of the %s." % [character.display_name, character.class_name_text()])
 
 	if character.level == FIRST_TREE_LEVEL or character.level == SECOND_TREE_LEVEL:
 		lines.append_array(unlock_tree(character, world))
@@ -71,6 +77,16 @@ static func choose_class(character: Character, rng: RandomNumberGenerator) -> St
 	if options.is_empty():
 		return ""
 	return options[rng.randi() % options.size()]
+
+
+## Commit the player's pick. Returns false if it wasn't one of their options.
+static func settle_class(character: Character, class_id: String) -> bool:
+	if class_id not in class_options(character):
+		return false
+	character.class_id = class_id
+	character.pending_class_choice = false
+	EventBus.class_chosen.emit(character)
+	return true
 
 
 ## Discover a tree compatible with the character's class and take its first rung.
@@ -98,8 +114,10 @@ static func learn_next(character: Character, world: World) -> Array:
 
 
 ## Bring a character up to [param target_level] at world generation time, without
-## narrating any of it.
+## narrating any of it. Classes are settled immediately rather than queued.
 static func raise_to(character: Character, target_level: int, world: World) -> void:
 	while character.level < target_level:
 		_level_up(character, world)
+		if character.pending_class_choice:
+			settle_class(character, choose_class(character, world.rng))
 	character.hp = -1

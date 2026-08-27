@@ -20,6 +20,8 @@ func _ready() -> void:
 	var hero := _grow_a_hero(world)
 	_check_progression(hero, world)
 	_check_doctrine(hero, world)
+	_check_class_choice(world)
+	_check_fate(world)
 	_check_round_trip(world, hero)
 
 	print("")
@@ -136,8 +138,101 @@ func _check_doctrine(hero: Character, world: World) -> void:
 	_expect(not student.knows("keen_edge"), "forgotten doctrine is still known")
 
 
-# --- persistence --------------------------------------------------------------
+# --- fate ---------------------------------------------------------------------
 
+
+func _check_class_choice(world: World) -> void:
+	# A party member is asked; the world waits for the answer.
+	var mine := Character.create("bram", "", true)
+	Progression.award(mine, Progression.xp_to_next(1), world)
+	_expect(mine.level == 2, "one level's worth of XP did not level anyone")
+	_expect(mine.pending_class_choice, "a player character was not offered a class choice")
+	_expect(mine.class_id == "", "a player character was assigned a class without asking")
+	_expect(not Progression.settle_class(mine, "hedge_priest"), "accepted a class outside the options")
+	_expect(Progression.settle_class(mine, "magic_swordsman"), "rejected a valid class choice")
+	_expect(not mine.pending_class_choice, "the choice stayed pending after being made")
+
+	# Anyone who is not the player settles into a class on their own.
+	var theirs := Character.create("brigand")
+	Progression.award(theirs, Progression.xp_to_next(1), world)
+	_expect(theirs.class_id != "", "an NPC never settled into a class")
+	_expect(not theirs.pending_class_choice, "an NPC is waiting on the player")
+
+
+func _check_fate(world: World) -> void:
+	print("")
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4242
+
+	# Alone, unarmed, unread, in the middle of nowhere: death is the default.
+	var doomed := Character.create("sera")
+	var graces := Fate.graces_for(doomed, {"enemy_kind": "beast"})
+	var bare_odds := 0.0
+	for grace: Dictionary in graces:
+		bare_odds += float(grace["chance"])
+	print("bare survival odds: %d%%" % roundi(bare_odds * 100.0))
+	_expect(bare_odds < 0.2, "dying alone is too survivable at %d%%" % roundi(bare_odds * 100.0))
+
+	var deaths := 0
+	for i in 200:
+		var victim := Character.create("sera")
+		if Fate.resolve(victim, {"enemy_kind": "beast"}, rng)["outcome"] == Fate.DEAD:
+			deaths += 1
+	print("fell alone 200 times, died %d" % deaths)
+	_expect(deaths > 150, "only %d of 200 lone deaths stuck" % deaths)
+
+	# A charm is spent to buy one life, and is gone afterwards.
+	var carried := Character.create("bram")
+	carried.charms.append("grave_token")
+	var saved_by_charm := 0
+	for i in 200:
+		var victim := Character.create("bram")
+		victim.charms.append("grave_token")
+		var outcome := Fate.resolve(victim, {"enemy_kind": "beast"}, rng)
+		if outcome["reason"] == Fate.BY_CHARM:
+			saved_by_charm += 1
+			_expect(victim.charms.is_empty(), "the charm was not spent")
+			_expect(victim.is_alive(), "the charm saved a corpse")
+	print("grave token caught %d of 200" % saved_by_charm)
+	_expect(saved_by_charm > 60, "the charm fired only %d times in 200" % saved_by_charm)
+
+	# Raiders take prisoners; captives leave the party but not the world.
+	var captures := 0
+	for i in 200:
+		var victim := Character.create("toln")
+		var outcome := Fate.resolve(victim, {"enemy_kind": "raider", "world": world, "cell": world.player_cell}, rng)
+		if outcome["outcome"] == Fate.CAPTURED:
+			captures += 1
+			_expect(victim.captured_at != "", "a captive is being held nowhere")
+			_expect(not victim.is_alive() and victim.is_lost(), "a captive is still in the party")
+	print("taken alive by raiders %d of 200" % captures)
+	_expect(captures > 30, "raiders captured only %d in 200" % captures)
+
+	# Standing allies and read books both buy real odds.
+	var alone := Character.create("bram")
+	var lone_odds := _total_odds(alone, {"enemy_kind": "beast"})
+	var helped := Character.create("bram")
+	var friends: Array = [Character.create("sera"), Character.create("toln")]
+	var helped_odds := _total_odds(helped, {"enemy_kind": "beast", "allies": friends})
+	_expect(helped_odds > lone_odds, "allies did not improve the odds")
+
+	var read := Character.create("bram")
+	Doctrine.learn(read, "the_vigil", 0)
+	_expect(_total_odds(read, {"enemy_kind": "beast"}) > lone_odds, "doctrine did not improve the odds")
+	print("odds alone %d%%, with two allies %d%%, having read one book %d%%" % [
+		roundi(lone_odds * 100.0), roundi(helped_odds * 100.0),
+		roundi(_total_odds(read, {"enemy_kind": "beast"}) * 100.0)
+	])
+
+
+func _total_odds(character: Character, context: Dictionary) -> float:
+	var total := 0.0
+	for grace: Dictionary in Fate.graces_for(character, context):
+		total += float(grace["chance"])
+	return total
+
+
+# --- persistence --------------------------------------------------------------
 
 func _check_round_trip(world: World, hero: Character) -> void:
 	var payload: Dictionary = JSON.parse_string(JSON.stringify(world.to_dict()))

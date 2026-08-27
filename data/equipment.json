@@ -10,5 +10,17 @@
 			"east": [10, -4],
 			"west": [-10, -4]
 		}
+	},
+	"grave_token": {
+		"display_name": "Grave Token",
+		"charm": true,
+		"grace": 0.5,
+		"text": "Cold to the touch. Spent once, and never twice."
+	},
+	"knotted_cord": {
+		"display_name": "Knotted Cord",
+		"charm": true,
+		"grace": 0.25,
+		"text": "One knot for every time it held."
 	}
 }

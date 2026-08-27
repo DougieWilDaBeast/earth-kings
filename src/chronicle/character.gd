@@ -14,12 +14,20 @@ var id: String = ""
 var display_name: String = ""
 var template_id: String = ""
 var class_id: String = ""
+## Set when the character reaches level 2 with a choice still to make.
+var pending_class_choice: bool = false
 var level: int = 1
 var xp: int = 0
 ## Current health; -1 means untracked, i.e. full.
 var hp: int = -1
-var alive: bool = true
+## alive | captured | dead (see [Fate]).
+var status: String = "alive"
+## Where they are being held, if taken alive.
+var captured_at: String = ""
 var is_player: bool = false
+
+## Charms and relics carried; some are spent to cheat death (see [Fate]).
+var charms: Array = []
 
 ## Generated skill trees unlocked at levels 5 and 10 (see [AbilityGrammar]).
 var trees: Array = []
@@ -111,6 +119,19 @@ func current_hp() -> int:
 	return max_hp() if hp < 0 else clampi(hp, 0, max_hp())
 
 
+func is_alive() -> bool:
+	return status == Fate.ALIVE
+
+
+func is_lost() -> bool:
+	return status == Fate.DEAD or status == Fate.CAPTURED
+
+
+## Can this character be taken into a fight right now?
+func is_available() -> bool:
+	return is_alive() and current_hp() > 0
+
+
 func is_wounded() -> bool:
 	return hp >= 0 and hp < max_hp()
 
@@ -134,11 +155,14 @@ func to_dict() -> Dictionary:
 		"display_name": display_name,
 		"template_id": template_id,
 		"class_id": class_id,
+		"pending_class_choice": pending_class_choice,
 		"level": level,
 		"xp": xp,
 		"hp": hp,
-		"alive": alive,
+		"status": status,
+		"captured_at": captured_at,
 		"is_player": is_player,
+		"charms": charms,
 		"trees": trees,
 		"learned": learned,
 		"doctrine": doctrine,
@@ -153,11 +177,14 @@ static func from_dict(data: Dictionary) -> Character:
 	character.display_name = data.get("display_name", "")
 	character.template_id = data.get("template_id", "")
 	character.class_id = data.get("class_id", "")
+	character.pending_class_choice = bool(data.get("pending_class_choice", false))
 	character.level = int(data.get("level", 1))
 	character.xp = int(data.get("xp", 0))
 	character.hp = int(data.get("hp", -1))
-	character.alive = bool(data.get("alive", true))
+	character.status = data.get("status", "alive")
+	character.captured_at = data.get("captured_at", "")
 	character.is_player = bool(data.get("is_player", false))
+	character.charms = data.get("charms", [])
 	character.trees = data.get("trees", [])
 	character.learned = data.get("learned", [])
 	character.doctrine = data.get("doctrine", [])

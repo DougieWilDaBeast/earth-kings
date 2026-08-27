@@ -70,20 +70,56 @@ are stored inside the save's tree definitions, not in this file.
 ## `doctrine.json` — the Library's shelves
 
 ```json
-"keen_edge": {
-  "title": "On the Keening of Edges",
-  "text": "A blade kept hungry cuts before the arm commits.",
-  "bonus": { "attack": 2 }
+"the_vigil": {
+  "title": "A Vigil Kept in Winter",
+  "text": "Those who learn to stand awake learn also to stand wounded.",
+  "bonus": { "max_hp": 8 },
+  "grace": 0.1
 }
 ```
 
-`bonus` keys may be any of `max_hp`, `attack`, `defense`, `speed`, `move`, `jump`.
+- `bonus` keys may be any of `max_hp`, `attack`, `defense`, `speed`, `move`, `jump`.
+- `grace` (optional) — the chance this book alone gives a fallen reader of surviving. Summed
+  across everything they know and capped at 30%.
 
 ## `equipment.json` — weapons
 
 ```json
 "bone_sword": { "display_name": "Bone Sword", "attack": 3, "sprite_dir": "res://art/items/bone_sword" }
 ```
+
+Charms live here too. A charm has no stats — it has a `grace`, and is **spent** the moment it
+saves someone:
+
+```json
+"grave_token": {
+  "display_name": "Grave Token",
+  "charm": true,
+  "grace": 0.5,
+  "text": "Cold to the touch. Spent once, and never twice."
+}
+```
+
+## `fate.json` — the price of dying
+
+Every number behind [D11](06-decisions.md), tunable without touching code.
+
+```json
+{
+  "base_luck": 0.07,
+  "ally_rescue_per_ally": 0.12,
+  "ally_rescue_cap": 0.36,
+  "haven_range": 6,
+  "haven_grace": 0.15,
+  "capture_by": { "raider": 0.4, "soldier": 0.3, "beast": 0.0, "default": 0.15 },
+  "escape_recovery": 0.25,
+  "capture_recovery": 0.1
+}
+```
+
+- `capture_by` is keyed on whatever the encounter reports as its `enemy_kind`. A missing key
+  falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
+- `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
 ## `maps/*.json` — hand-authored battlefields
 

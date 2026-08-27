@@ -34,13 +34,35 @@ length of a fight and thrown away afterwards. The save file remembers Characters
 - **Classes.** At **level 2** a character takes a main class from the options their template
   allows. The class supplies stat growth per level, granted abilities, and the _themes_ their
   generated powers will be drawn from.
+- **Classes.** At **level 2** a character takes a main class. The **player chooses** theirs and the
+  world waits for the answer; everyone else settles into one on their own ([D12](06-decisions.md)).
 - **Stats** = template base + class growth × (level − 1) + doctrine bonuses.
 - **The Training Yoke.** An optional stance: −25% attack in exchange for +50% XP. Training
   through self-imposed handicap, as a first-class mechanic.
-- **Permadeath.** Real, and the point.
-- **Wounds persist** between battles. Anyone who falls is dragged out at a quarter of max HP
-  rather than lost outright, so a costly win hurts without ending the run. (Where the line
-  between "dragged out" and "dead" sits is [D05](06-decisions.md).)
+
+## Falling — death and its graces
+
+**Death is the default.** A character who falls is gone unless something they *brought with them*
+buys their way out ([D11](06-decisions.md)). Each possible reason is a **grace** with its own
+chance; they are rolled in order and the **first to land claims the moment**, so the reason a
+character survived is always a specific, tellable thing rather than a shrug.
+
+| Grace | Where the chance comes from | What happens |
+|---|---|---|
+| **Charm** | A relic carried — Grave Token 50%, Knotted Cord 25% | Lives. The charm is **spent** and gone |
+| **Rescue** | 12% per ally still standing, capped at 36% | Lives. The ally who pulled them out is named |
+| **Lore** | Sum of the `grace` on doctrine they have read, capped at 30% | Lives, *because* of a specific book |
+| **Ground** | 15% if they fell within 6 tiles of a hearth | Lives. Crawls to safety |
+| **Luck** | A flat 7% | Lives, for no reason at all |
+| **Capture** | Set by who beat them — raiders 40%, soldiers 30%, beasts 0% | **Taken alive.** Leaves the party, held at the nearest keep or gate |
+| — | Nothing landed | **Dead.** Permanently |
+
+Survivors come back at 25% of max HP; captives at 10%. Measured over 200 falls: a lone,
+unarmed, unread character against a beast dies **186 times out of 200**. Two allies standing lifts
+that from 7% to 31%; one book read lifts it to 17%.
+
+The design consequence is deliberate — **preparation is what buys lives**. Walking into bad
+country alone, with nothing read and nothing carried, is close to suicide, and it should be.
 
 ## The power system
 
@@ -55,7 +77,8 @@ with effect archetypes at rising intensity.
   permitted output, not a bug.
 
 Nine themes exist (edge, ember, storm, hunt, iron, vigil, hearth, mourning, wind) and seven
-effect archetypes (blow, reach, loose, burst, sweep, mend, rally).
+effect archetypes (blow, reach, loose, burst, sweep, mend, rally). Each theme draws from its own
+subset, so a Sworn Blade's trees come out sharp and a Hedge Priest's come out restorative.
 
 ## Doctrine and the Library
 
@@ -64,7 +87,8 @@ Written knowledge, and the sharpest expression of pillar 2.
 - **Read** at a library — that one character learns it. Nobody else.
 - **Teach** it to a party member, if they do not already know it.
 - **Forget** it: doctrine not read, taught or fought with for **900 steps** fades away.
-- Effect is a flat stat bonus while known (`attack`, `defense`, `max_hp`, `speed`, `move`, `jump`).
+- Effect is a flat stat bonus while known (`attack`, `defense`, `max_hp`, `speed`, `move`, `jump`),
+  and some books also carry a `grace` — knowledge that can keep you alive.
 - Every world starts with one book already on a shelf: _Fist of the Open Palm_.
 
 ## The world

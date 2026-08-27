@@ -25,6 +25,28 @@ static func bonus(character: Character, stat_key: String) -> int:
 	return total
 
 
+## How much of what this character has read might keep them alive (see [Fate]).
+## Knowledge compounds, but with diminishing returns — reading everything does
+## not make you immortal.
+static func grace(character: Character) -> float:
+	var total := 0.0
+	for doctrine_id: String in character.doctrine:
+		total += float(entry(doctrine_id).get("grace", 0.0))
+	return minf(total, 0.3)
+
+
+## The single book most responsible for that, so the moment can name it.
+static func most_useful_grace(character: Character) -> String:
+	var best := ""
+	var best_value := 0.0
+	for doctrine_id: String in character.doctrine:
+		var value := float(entry(doctrine_id).get("grace", 0.0))
+		if value > best_value:
+			best_value = value
+			best = doctrine_id
+	return best
+
+
 ## Returns false if they already knew it.
 static func learn(character: Character, doctrine_id: String, step: int) -> bool:
 	if character.knows(doctrine_id):

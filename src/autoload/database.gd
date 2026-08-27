@@ -13,6 +13,7 @@ var equipment: Dictionary = {}
 var overworld: Dictionary = {}
 var classes: Dictionary = {}
 var doctrines: Dictionary = {}
+var fate: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -28,6 +29,7 @@ func _ready() -> void:
 	overworld = _load_json("%s/overworld.json" % DATA_DIR)
 	classes = _load_json("%s/classes.json" % DATA_DIR)
 	doctrines = _load_json("%s/doctrine.json" % DATA_DIR)
+	fate = _load_json("%s/fate.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
