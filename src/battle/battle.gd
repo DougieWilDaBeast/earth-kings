@@ -3,10 +3,12 @@ extends Node2D
 ## drives enemy turns. Systems it coordinates (grid, pathfinder, turn order,
 ## abilities, AI) live in their own files and know nothing about this one.
 
-enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_TARGET, BUSY, FINISHED }
+enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_FLASH, PICK_TARGET, BUSY, FINISHED }
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 1.6
+## How fast the fight plays out, cycled by the speed button.
+const SPEEDS := [1.0, 2.0, 4.0]
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -14,25 +16,37 @@ var boot_payload: Dictionary = {}
 @onready var grid: BattleGrid = $Grid
 @onready var overlay: GridOverlay = $Overlay
 @onready var units_root: Node2D = $Units
-@onready var camera: Camera2D = $Camera2D
+@onready var camera: CameraRig = $Camera2D
 @onready var turns: TurnManager = $TurnManager
 @onready var hud: BattleHUD = $HUD
 
 var map_id: String = DEFAULT_MAP
 ## Set when the fight came from the world rather than an authored map.
 var encounter: Dictionary = {}
+## A training fight: nobody really dies and the world is not told about it.
+var sandbox: bool = false
 var pathfinder: Pathfinder
 var units: Array[Unit] = []
+## The player units taking the current phase together; empty on an enemy phase.
+var squad: Array[Unit] = []
+## Whoever the player is commanding right now, or the enemy taking its turn.
 var active_unit: Unit
 var phase: Phase = Phase.SETUP
+## The AI is playing the party's turns too, until the player says otherwise.
+var auto_battle: bool = false
+
+var _speed: int = 0
 
 var _move_field: MoveField
 var _pending_ability: String = ""
+## Everyone who owes CT when this phase ends.
+var _phase_units: Array[Unit] = []
 
 
 func _ready() -> void:
 	map_id = boot_payload.get("map_id", DEFAULT_MAP)
 	encounter = boot_payload.get("encounter", {})
+	sandbox = bool(boot_payload.get("sandbox", false))
 	_build_battlefield()
 	_connect_hud()
 	EventBus.battle_started.emit(map_id)
@@ -48,8 +62,8 @@ func _build_battlefield() -> void:
 	overlay.grid = grid
 	pathfinder = Pathfinder.new(grid)
 
-	camera.position = grid.centre_world()
-	camera.enabled = true
+	camera.frame(Rect2(Vector2.ZERO, Vector2(grid.width, grid.height) * BattleGrid.CELL_SIZE))
+	camera.focus_on(grid.centre_world(), true)
 	# Taller-than-a-tile sprites need to overlap by depth, not by spawn order.
 	units_root.y_sort_enabled = true
 
@@ -97,8 +111,20 @@ func _add_unit(template_id: String, team: Unit.Team, cell: Vector2i) -> Unit:
 
 func _connect_hud() -> void:
 	hud.move_requested.connect(_on_move_requested)
+	hud.flash_step_requested.connect(_on_flash_step_requested)
 	hud.ability_requested.connect(_on_ability_requested)
-	hud.wait_requested.connect(_end_turn)
+	hud.wait_requested.connect(_on_wait_requested)
+	hud.preview_requested.connect(_on_preview_requested)
+	hud.preview_cleared.connect(_on_preview_cleared)
+	hud.auto_toggled.connect(_set_auto)
+	hud.speed_cycled.connect(_cycle_speed)
+	hud.set_auto(auto_battle)
+	hud.set_speed(SPEEDS[_speed])
+
+
+## Time scale is global, so the fight must hand it back on the way out.
+func _exit_tree() -> void:
+	Engine.time_scale = 1.0
 
 
 # --- turn loop ---------------------------------------------------------------
@@ -108,51 +134,103 @@ func _next_turn() -> void:
 	if _resolve_outcome():
 		return
 
-	active_unit = turns.advance()
-	if active_unit == null:
+	var group := turns.advance_group()
+	if group.is_empty():
 		return
 
-	active_unit.begin_turn()
-	EventBus.turn_started.emit(active_unit)
+	_phase_units = group
+	for unit in group:
+		unit.begin_turn()
+		EventBus.turn_started.emit(unit)
 	hud.set_turn_order(turns.forecast(6))
 
-	if active_unit.team == Unit.Team.PLAYER:
-		_enter_command()
+	if group[0].team == Unit.Team.PLAYER:
+		squad = group
+		_select(group[0])
 	else:
+		squad = []
+		active_unit = group[0]
 		phase = Phase.BUSY
+		hud.set_squad([], null)
 		hud.hide_commands()
-		await _take_enemy_turn(active_unit)
-		_end_turn()
+		_mark_active()
+		await _take_ai_turn(active_unit)
+		_end_phase()
+
+
+## Hand control to [param unit] and redraw everything that depends on it.
+func _select(unit: Unit) -> void:
+	active_unit = unit
+	_move_field = null
+	_pending_ability = ""
+	_enter_command()
 
 
 func _enter_command() -> void:
 	phase = Phase.COMMAND
 	overlay.clear()
+	_mark_active()
+	hud.set_squad(squad, active_unit)
 	hud.show_commands(active_unit)
+	if auto_battle:
+		_run_auto_phase()
 
 
-func _end_turn() -> void:
-	if active_unit != null:
-		turns.end_turn(active_unit)
-		EventBus.turn_ended.emit(active_unit)
+## Tab order runs over the squad members who still have something left to spend.
+func _cycle_squad(step: int) -> void:
+	var ready := _ready_squad()
+	if ready.size() < 2:
+		return
+	var index := ready.find(active_unit)
+	_select(ready[posmod(index + step, ready.size())])
+
+
+func _ready_squad() -> Array[Unit]:
+	return squad.filter(func(u: Unit) -> bool: return u.is_alive() and not u.is_done())
+
+
+## Move on once the current character is spent; the phase ends when all are.
+func _advance_selection() -> void:
+	var ready := _ready_squad()
+	if ready.is_empty():
+		_end_phase()
+	elif active_unit != null and not active_unit.is_done():
+		_enter_command()
+	else:
+		_select(ready[0])
+
+
+func _end_phase() -> void:
+	for unit in _phase_units:
+		turns.end_turn(unit)
+		EventBus.turn_ended.emit(unit)
+	_phase_units = []
+	squad = []
 	active_unit = null
 	_move_field = null
 	_pending_ability = ""
 	overlay.clear()
+	overlay.clear_active()
+	hud.set_squad([], null)
 	hud.hide_commands()
 	# Deferred so long battles don't grow the call stack turn after turn.
 	call_deferred("_next_turn")
 
 
-func _take_enemy_turn(unit: Unit) -> void:
+func _take_ai_turn(unit: Unit) -> void:
 	await get_tree().create_timer(0.35).timeout
 	var plan := EnemyBrain.plan(unit, grid, pathfinder, units)
 
 	var destination: Vector2i = plan["move_cell"]
 	if destination != unit.cell:
-		var field := _build_move_field(unit)
-		await unit.walk_path(grid, field.path_to(destination))
+		overlay.clear_active()
+		if plan.get("flash", false):
+			await unit.flash_to(grid, destination)
+		else:
+			var field := _build_move_field(unit)
+			await unit.walk_path(grid, field.path_to(destination))
 		unit.snap_to_cell(grid)
+		_mark_active()
 
 	var target: Unit = plan["target"]
 	if target != null and target.is_alive():
@@ -161,12 +239,65 @@ func _take_enemy_turn(unit: Unit) -> void:
 		await get_tree().create_timer(0.4).timeout
 
 
+# --- auto battle -------------------------------------------------------------
+
+
+func _set_auto(enabled: bool) -> void:
+	if auto_battle == enabled:
+		return
+	auto_battle = enabled
+	hud.set_auto(enabled)
+	EventBus.battle_log.emit(
+		"The party fights on its own." if enabled else "You take the party back."
+	)
+	if enabled and _is_choosing():
+		_run_auto_phase()
+
+
+func _cycle_speed() -> void:
+	_speed = (_speed + 1) % SPEEDS.size()
+	Engine.time_scale = SPEEDS[_speed]
+	hud.set_speed(SPEEDS[_speed])
+
+
+## Play the party's phase for them, one member at a time. The loop checks in
+## between, so switching auto off hands control back after the current move.
+func _run_auto_phase() -> void:
+	while auto_battle and not squad.is_empty() and phase != Phase.FINISHED:
+		var ready := _ready_squad()
+		if ready.is_empty():
+			break
+		var unit := ready[0]
+		active_unit = unit
+		_move_field = null
+		_pending_ability = ""
+		phase = Phase.BUSY
+		overlay.clear()
+		_mark_active()
+		hud.set_squad(squad, unit)
+		hud.hide_commands()
+		await _take_ai_turn(unit)
+		if phase == Phase.FINISHED:
+			return
+		unit.finish_turn()
+		if _resolve_outcome():
+			return
+
+	if phase == Phase.FINISHED or squad.is_empty():
+		return
+	if _ready_squad().is_empty():
+		_end_phase()
+	else:
+		_enter_command()
+
+
 # --- player commands ---------------------------------------------------------
 
 
 func _on_move_requested() -> void:
-	if phase != Phase.COMMAND or active_unit == null or active_unit.has_moved:
+	if not _is_choosing() or active_unit == null or not active_unit.can_move():
 		return
+	_arm()
 	_move_field = _build_move_field(active_unit)
 	overlay.move_cells = _move_field.stoppable_cells(
 		func(cell: Vector2i) -> bool: return unit_at(cell) != null
@@ -175,11 +306,23 @@ func _on_move_requested() -> void:
 	phase = Phase.PICK_MOVE
 
 
-func _on_ability_requested(ability_id: String) -> void:
-	if phase != Phase.COMMAND or active_unit == null or active_unit.has_acted:
+func _on_flash_step_requested() -> void:
+	if not _is_choosing() or active_unit == null or not active_unit.can_flash_step():
 		return
-	_pending_ability = ability_id
+	_arm()
+	overlay.flash_cells = _build_flash_cells(active_unit)
+	overlay.queue_redraw()
+	phase = Phase.PICK_FLASH
+
+
+func _on_ability_requested(ability_id: String) -> void:
+	if not _is_choosing() or active_unit == null:
+		return
 	var ability := Database.ability(ability_id)
+	if not active_unit.can_pay(Unit.ability_cost(ability)):
+		return
+	_arm()
+	_pending_ability = ability_id
 	overlay.action_cells = pathfinder.cells_in_range(
 		active_unit.cell, int(ability.get("min_range", 1)), int(ability.get("range", 1))
 	)
@@ -187,15 +330,82 @@ func _on_ability_requested(ability_id: String) -> void:
 	phase = Phase.PICK_TARGET
 
 
+## Drop whatever was armed before, so picking a second command replaces the first
+## instead of needing a cancel in between.
+func _arm() -> void:
+	overlay.clear()
+	_move_field = null
+	_pending_ability = ""
+
+
+## True while the player still owns the choice: the menu or any targeting step.
+func _is_choosing() -> bool:
+	return phase == Phase.COMMAND or phase == Phase.PICK_MOVE \
+			or phase == Phase.PICK_FLASH or phase == Phase.PICK_TARGET
+
+
+## Show the reach of a hovered command without committing to it.
+func _on_preview_requested(kind: String, ability_id: String) -> void:
+	if not _is_choosing() or active_unit == null:
+		return
+	match kind:
+		"move":
+			var field := _build_move_field(active_unit)
+			var cells := field.stoppable_cells(
+				func(cell: Vector2i) -> bool: return unit_at(cell) != null
+			)
+			overlay.set_preview(cells, GridOverlay.MOVE_COLOUR)
+		"flash":
+			overlay.set_preview(_build_flash_cells(active_unit), GridOverlay.FLASH_COLOUR)
+		"ability":
+			var ability := Database.ability(ability_id)
+			overlay.set_preview(pathfinder.cells_in_range(
+				active_unit.cell,
+				int(ability.get("min_range", 1)),
+				int(ability.get("range", 1))
+			), GridOverlay.ACTION_COLOUR)
+
+
+func _on_preview_cleared() -> void:
+	overlay.clear_preview()
+
+
+## "Wait" gives up what this character has left rather than the whole phase.
+func _on_wait_requested() -> void:
+	if active_unit == null or active_unit.team != Unit.Team.PLAYER:
+		return
+	active_unit.finish_turn()
+	_advance_selection()
+
+
 func _cancel_selection() -> void:
-	if phase == Phase.PICK_MOVE or phase == Phase.PICK_TARGET:
+	if phase == Phase.PICK_MOVE or phase == Phase.PICK_FLASH or phase == Phase.PICK_TARGET:
 		_enter_command()
 
 
 # --- input -------------------------------------------------------------------
 
 
+## Tab is claimed before the UI can use it for focus navigation.
+func _input(event: InputEvent) -> void:
+	if squad.size() < 2 or phase == Phase.BUSY or phase == Phase.FINISHED:
+		return
+	if event.is_action_pressed("cycle_next"):
+		_cycle_squad(-1 if Input.is_key_pressed(KEY_SHIFT) else 1)
+		get_viewport().set_input_as_handled()
+
+
 func _unhandled_input(event: InputEvent) -> void:
+	# Auto and speed answer at any point in the fight, including mid-animation.
+	if event.is_action_pressed("battle_auto"):
+		get_viewport().set_input_as_handled()
+		_set_auto(not auto_battle)
+		return
+	if event.is_action_pressed("battle_speed"):
+		get_viewport().set_input_as_handled()
+		_cycle_speed()
+		return
+
 	if phase == Phase.SETUP or phase == Phase.BUSY or phase == Phase.FINISHED:
 		return
 
@@ -203,14 +413,59 @@ func _unhandled_input(event: InputEvent) -> void:
 		_update_hover(grid.world_to_cell(get_global_mouse_position()))
 		return
 
-	if event.is_action_pressed("ui_cancel"):
+	# Backing out of a selection is Escape or a right-click. From the command
+	# menu there is nothing to back out of, so Escape belongs to the system menu.
+	if _is_cancel(event):
+		if phase == Phase.COMMAND:
+			return
 		_cancel_selection()
+		get_viewport().set_input_as_handled()
+		return
+
+	if _is_choosing() and _run_command_shortcut(event):
 		get_viewport().set_input_as_handled()
 		return
 
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_on_cell_clicked(grid.world_to_cell(get_global_mouse_position()))
 		get_viewport().set_input_as_handled()
+
+
+func _is_cancel(event: InputEvent) -> bool:
+	if event.is_action_pressed("ui_cancel"):
+		return true
+	return event is InputEventMouseButton and event.pressed \
+			and event.button_index == MOUSE_BUTTON_RIGHT
+
+
+## Keyboard shortcuts that mirror the command buttons, so a whole turn can be
+## given without leaving the keyboard.
+func _run_command_shortcut(event: InputEvent) -> bool:
+	if active_unit == null:
+		return false
+	if event.is_action_pressed("command_move"):
+		_on_move_requested()
+		return true
+	if event.is_action_pressed("command_flash_step"):
+		_on_flash_step_requested()
+		return true
+	if event.is_action_pressed("command_wait"):
+		_on_wait_requested()
+		return true
+	var slot := _ability_slot(event)
+	if slot >= 0 and slot < active_unit.abilities.size():
+		_on_ability_requested(active_unit.abilities[slot])
+		return true
+	return false
+
+
+## 1-9 pick abilities in the order the HUD lists them.
+func _ability_slot(event: InputEvent) -> int:
+	if not (event is InputEventKey and event.pressed and not event.echo):
+		return -1
+	if event.keycode < KEY_1 or event.keycode > KEY_9:
+		return -1
+	return event.keycode - KEY_1
 
 
 func _update_hover(cell: Vector2i) -> void:
@@ -224,10 +479,20 @@ func _update_hover(cell: Vector2i) -> void:
 
 func _on_cell_clicked(cell: Vector2i) -> void:
 	match phase:
+		Phase.COMMAND:
+			_try_select_at(cell)
 		Phase.PICK_MOVE:
 			_try_move_to(cell)
+		Phase.PICK_FLASH:
+			_try_flash_to(cell)
 		Phase.PICK_TARGET:
 			_try_act_on(cell)
+
+
+func _try_select_at(cell: Vector2i) -> void:
+	var clicked := unit_at(cell)
+	if clicked != null and clicked != active_unit and clicked in _ready_squad():
+		_select(clicked)
 
 
 func _try_move_to(cell: Vector2i) -> void:
@@ -235,9 +500,27 @@ func _try_move_to(cell: Vector2i) -> void:
 		return
 	phase = Phase.BUSY
 	overlay.clear()
+	overlay.clear_active()
 	var mover := active_unit
 	await mover.walk_path(grid, _move_field.path_to(cell))
 	mover.snap_to_cell(grid)
+	mover.pay(Unit.Cost.EITHER)
+	_mark_active()
+	_after_player_action()
+
+
+func _try_flash_to(cell: Vector2i) -> void:
+	if cell not in overlay.flash_cells:
+		return
+	phase = Phase.BUSY
+	overlay.clear()
+	overlay.clear_active()
+	var blinker := active_unit
+	await blinker.flash_to(grid, cell)
+	blinker.snap_to_cell(grid)
+	blinker.pay(Unit.Cost.BONUS)
+	_mark_active()
+	EventBus.battle_log.emit("%s flash steps." % blinker.display_name)
 	_after_player_action()
 
 
@@ -256,10 +539,7 @@ func _try_act_on(cell: Vector2i) -> void:
 func _after_player_action() -> void:
 	if _resolve_outcome():
 		return
-	if active_unit != null and active_unit.has_moved and active_unit.has_acted:
-		_end_turn()
-	else:
-		_enter_command()
+	_advance_selection()
 
 
 # --- resolution --------------------------------------------------------------
@@ -281,7 +561,7 @@ func _apply_ability(user: Unit, ability: Dictionary, centre: Vector2i) -> bool:
 		if not target.is_alive():
 			target.visible = false
 			_award_kill(user, target)
-	user.has_acted = true
+	user.pay(Unit.ability_cost(ability))
 	return true
 
 
@@ -306,8 +586,14 @@ func _resolve_outcome() -> bool:
 
 	phase = Phase.FINISHED
 	overlay.clear()
+	overlay.clear_active()
+	hud.set_squad([], null)
 	hud.hide_commands()
 	hud.show_result(players_alive)
+	if sandbox:
+		GameState.heal_party()
+		_return_to_overworld()
+		return true
 	_settle_the_party()
 	if players_alive:
 		GameState.mark_battle_cleared(map_id)
@@ -348,6 +634,8 @@ func _settle_the_party() -> void:
 		)
 		EventBus.battle_log.emit(outcome["line"])
 		EventBus.character_fell.emit(unit.character, outcome)
+		if outcome["outcome"] == Fate.DEAD:
+			Memorial.raise(GameState.world, unit.character, GameState.world.player_cell, _killer_kind())
 
 	GameState.roster.drop_the_lost()
 
@@ -375,6 +663,19 @@ func unit_at(cell: Vector2i) -> Unit:
 	return null
 
 
+func _mark_active() -> void:
+	var waiting: Array[Vector2i] = []
+	for unit in _ready_squad():
+		if unit != active_unit:
+			waiting.append(unit.cell)
+	overlay.pending_cells = waiting
+	if active_unit == null:
+		overlay.clear_active()
+		return
+	overlay.set_active(active_unit.cell, active_unit.team == Unit.Team.ENEMY)
+	camera.focus_on(active_unit.position)
+
+
 func _build_move_field(unit: Unit) -> MoveField:
 	return pathfinder.build_move_field(
 		unit.cell,
@@ -383,6 +684,14 @@ func _build_move_field(unit: Unit) -> MoveField:
 		func(cell: Vector2i) -> bool:
 			var other := unit_at(cell)
 			return other != null and other.is_hostile_to(unit)
+	)
+
+
+func _build_flash_cells(unit: Unit) -> Array[Vector2i]:
+	return pathfinder.flash_cells(
+		unit.cell,
+		unit.flash_step,
+		func(cell: Vector2i) -> bool: return unit_at(cell) == null
 	)
 
 

@@ -17,6 +17,7 @@ var _notice: String = ""
 
 func _ready() -> void:
 	_backdrop.hide()
+	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.party_screen_requested.connect(open)
 
 
@@ -38,7 +39,7 @@ func close() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_open() or not event.is_pressed() or event.is_echo():
 		return
-	if event.is_action("ui_cancel") or (event is InputEventKey and event.keycode == KEY_P):
+	if event.is_action("ui_cancel") or event.is_action("open_party"):
 		get_viewport().set_input_as_handled()
 		close()
 

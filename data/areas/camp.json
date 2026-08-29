@@ -1,0 +1,32 @@
+{
+	"display_name": "the fire",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  stand by one of your own and press E  ·  take the road when you are ready to move on",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#4a5170",
+	"opening": "the_camp",
+	"fire": [7, 5],
+	"spawn": [7, 7],
+	"seats": [[7, 3], [5, 4], [9, 4], [5, 6], [9, 6]],
+	"exits": [[7, 10], [8, 10]],
+	"spots": [
+		{ "cell": [7, 9], "line": "The road is still there, and it will still be there in the morning." }
+	],
+	"rows": [
+		"mmmm.......mmmm",
+		"mmm.........mmm",
+		"mm...,,,,,...mm",
+		"m...,,,,,,,...m",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"....,,,,,,,....",
+		"mm...,,,,,...mm",
+		"mmm....,,...mmm",
+		"mmmm...,,..mmmm"
+	]
+}

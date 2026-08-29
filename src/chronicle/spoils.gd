@@ -34,6 +34,12 @@ static func for_gate(world: World, site: Site, party: Array) -> Array:
 	GameState.gold += gold
 	lines.append("%s is shut. %d gold recovered." % [site.display_name, gold])
 
+	Renown.record(
+		world, Renown.GATE_SHUT, site.cell,
+		int(Renown.rules().get("gate_shut", 2)) * (Site.rank_index(site.rank) + 1),
+		"the %s-rank gate at %s was shut" % [site.rank, site.display_name]
+	)
+
 	# The harder the gate, the likelier something written was behind it.
 	var chance := 0.2 + 0.12 * float(Site.rank_index(site.rank))
 	if not party.is_empty() and world.rng.randf() < chance:

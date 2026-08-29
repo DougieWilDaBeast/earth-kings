@@ -25,13 +25,19 @@ func _ready() -> void:
 
 	_check_walls()
 	_check_clock()
+	_check_watchers()
+	_check_banter()
 	_check_rest()
+	_check_home()
 	_check_library()
 	_check_gate()
 	_check_tower()
 	_check_class_prompt()
 	_check_gate_lifecycle()
 	_check_town_and_captives()
+	_check_loot()
+	_check_renown()
+	_check_raid_and_rescue()
 	_check_tower_top()
 	_check_save_round_trip()
 	_check_run_ends()
@@ -85,6 +91,162 @@ func _check_clock() -> void:
 	print("clock: %d steps walked, %d steps counted" % [taken, world.steps - start])
 
 
+## The party talk to each other, and what they say depends on how well the two
+## of them have come to get on.
+func _check_banter() -> void:
+	var world: World = GameState.world
+	var party := GameState.party_characters()
+	if party.size() < 2:
+		_expect(false, "nobody to talk to")
+		return
+	var a: Character = party[0]
+	var b: Character = party[1]
+
+	# Two people who have never met owe each other nothing.
+	var stranger := Character.create("sera")
+	_expect(Banter.bond(a, stranger) == 0, "a stranger already has a bond")
+
+	# By now the road has already had them talking, so measure the change.
+	var before := Banter.bond(a, b)
+	Banter.shared(party, 3)
+	_expect(
+		Banter.bond(a, b) == before + 3,
+		"coming through something together moved the bond %d, not 3" % (Banter.bond(a, b) - before)
+	)
+	_expect(Banter.bond(b, a) == Banter.bond(a, b), "a bond only went one way")
+
+	# A pair who have been through a lot tell stories; a pair who have not, bicker.
+	Banter.remember(a, b, int(Banter.rules().get("warm_at", 6)))
+	_expect(Banter.mood(a, b) == Banter.WARM, "a well-earned bond did not read as warm")
+	a.bonds[b.id] = int(Banter.rules().get("cold_at", -3))
+	b.bonds[a.id] = a.bonds[b.id]
+	_expect(Banter.mood(a, b) == Banter.COLD, "a soured bond did not read as cold")
+
+	# Its own generator, so listening in never shifts the world's dice.
+	var rng := RandomNumberGenerator.new()
+	rng.seed = SEED
+	var heard := 0
+	for occasion: String in [Banter.ROAD, Banter.REST, Banter.AFTER_BATTLE]:
+		var exchange := Banter.pick(world, party, occasion, rng)
+		if exchange.is_empty():
+			_expect(false, "nobody had anything to say on the %s" % occasion)
+			continue
+		heard += 1
+		for line: Dictionary in exchange:
+			var speakers := party.map(func(c: Character) -> String: return c.display_name)
+			_expect(line["speaker"] in speakers, "a stranger spoke: %s" % line["speaker"])
+			_expect(
+				not (line["text"] as String).contains("{"),
+				"a line went out unfilled: %s" % line["text"]
+			)
+
+	_check_banter_content()
+	var written := int(Database.banter.get("exchanges", []).size())
+	print("banter: %d exchanges written, %d occasions spoke, bond survived at %d" % [
+		written, heard, Banter.bond(a, b)
+	])
+
+
+## Every exchange has to be playable: known occasion and mood, two speakers, and
+## no token in the text that nothing will ever fill in.
+func _check_banter_content() -> void:
+	const SLOTS := ["a", "b", "deed", "fallen", "place"]
+	const OCCASIONS := [Banter.ROAD, Banter.REST, Banter.AFTER_BATTLE, Banter.GRAVE]
+	const MOODS := [Banter.ANY, Banter.WARM, Banter.COLD, Banter.EVEN]
+	for exchange: Dictionary in Database.banter.get("exchanges", []):
+		var where: String = exchange.get("occasion", "")
+		_expect(where in OCCASIONS, "an exchange is set at '%s', which never happens" % where)
+		_expect(exchange.get("mood", Banter.ANY) in MOODS, "'%s' has a mood nobody is in" % where)
+		var lines: Array = exchange.get("lines", [])
+		_expect(lines.size() >= 2, "an exchange at '%s' is one person talking to themselves" % where)
+		for line: Dictionary in lines:
+			_expect(line.get("who", "") in ["a", "b"], "a line at '%s' has no speaker" % where)
+			for token in _tokens_in(line.get("text", "")):
+				_expect(token in SLOTS, "'%s' uses {%s}, which nothing fills" % [where, token])
+
+
+func _tokens_in(text: String) -> Array[String]:
+	var out: Array[String] = []
+	var rest := text
+	while rest.contains("{"):
+		rest = rest.substr(rest.find("{") + 1)
+		var close := rest.find("}")
+		if close < 0:
+			break
+		out.append(rest.substr(0, close))
+	return out
+
+
+## Nothing ambushes you. A band has to see you first, and you can see the ground
+## it is watching before you set foot on it.
+func _check_watchers() -> void:
+	var world: World = GameState.world
+	# Bands already out there stand their ground as you approach; it is only the
+	# fresh ones that have to appear somewhere you are not looking.
+	world.prowlers.clear()
+	Encounter.restock(world, world.rng)
+	_expect(not world.prowlers.is_empty(), "the country put no bands out at all")
+	var sprung := world.prowlers.any(func(p: Prowler) -> bool:
+		return Pathfinder.distance(p.cell, world.player_cell) < Encounter.SPAWN_CLEARANCE
+	)
+	_expect(not sprung, "a band was placed within reach of the party")
+	var abroad := world.prowlers.size()
+
+	# Country with nobody in it starts no fights, however far you walk across it.
+	world.prowlers.clear()
+	_requests.clear()
+	_wander(20)
+	var ambush := _last_battle_request()
+	var ambushed: bool = not ambush.is_empty() \
+		and ambush["payload"].get("encounter", {}).get("kind", "") == Encounter.WILD
+	_expect(not ambushed, "empty country ambushed the party anyway")
+
+	# Now one band, on ground open enough that we know what it can see.
+	var post := _find_cell(func(cell: Vector2i) -> bool:
+		if world.site_at(cell) != null or Pathfinder.distance(cell, world.player_cell) < 6:
+			return false
+		for offset: Vector2i in [Vector2i.ZERO, Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			if world.terrain_id_at(cell + offset) != "grass":
+				return false
+		return true
+	)
+	if post.x < 0:
+		_expect(false, "nowhere open enough to post a band")
+		return
+
+	# Walking those 20 steps let the country restock itself. Clear it again, so
+	# the only thing that can see the tile we are about to step on is ours.
+	world.prowlers.clear()
+	var band := Prowler.create(post, ["wolf", "wolf"], 3)
+	world.prowlers.append(band)
+	var watched := band.watched(world)
+	_expect(watched.has(post), "a band cannot see the ground under its own feet")
+	_expect(watched.size() > 4, "a band on open ground watches only %d tiles" % watched.size())
+
+	var red := post + Vector2i.UP
+	_expect(band.sees(world, red), "the tile beside a band is not watched")
+	_scene._busy = false
+	_requests.clear()
+	if not _step_onto(red):
+		return
+
+	var fight := _last_battle_request()
+	_expect(not fight.is_empty(), "walking into watched ground started no fight")
+	if not fight.is_empty():
+		var meeting: Dictionary = fight["payload"]["encounter"]
+		_expect(meeting["kind"] == Encounter.WILD, "being spotted started a %s fight" % meeting["kind"])
+		_expect(
+			meeting["enemies"].size() == band.pack.size(),
+			"the band fielded %d of its %d" % [meeting["enemies"].size(), band.pack.size()]
+		)
+		_check_field(meeting, "band")
+	_expect(not world.prowlers.has(band), "the band that spotted us is still out on the map")
+	_scene._busy = false
+	print("watchers: %d bands abroad, %d tiles watched from open ground, red ground started the fight" % [
+		abroad, watched.size()
+	])
+
+
 # --- sites --------------------------------------------------------------------
 
 
@@ -97,6 +259,49 @@ func _check_rest() -> void:
 		return
 	_expect(not GameState.party_is_wounded(), "resting at a village healed nobody")
 	print("rest: the party recovered at a village")
+
+
+## Home: always safe, always heals, and the bed is the one thing you can build.
+func _check_home() -> void:
+	var world: World = GameState.world
+	var house := world.home()
+	if house == null:
+		_expect(false, "the world generated no home")
+		return
+	_expect(world.distance_to_haven(house.cell) == 0, "home does not count as a haven")
+	_expect(not Encounter._can_camp_at(world, house.cell), "a band could camp on the doorstep of home")
+
+	var sleeper: Character = GameState.roster.party_members()[0]
+	sleeper.hp = 2
+	var plain_hp := sleeper.max_hp()
+	if not _walk_onto(Site.HOME):
+		return
+	_expect(not GameState.party_is_wounded(), "sleeping at home healed nobody")
+	_expect(sleeper.max_hp() == plain_hp, "the starting bed handed out free health")
+
+	var better := Home.next_bed(house)
+	_expect(not better.is_empty(), "there is no bed to upgrade to")
+	GameState.gold = 0
+	_scene._upgrade_bed_here()
+	_expect(Home.tier(house) == 0, "bought a bed with no money")
+
+	GameState.gold = int(better.get("cost", 0))
+	_scene._upgrade_bed_here()
+	_expect(Home.tier(house) == 1, "could not buy a bed with the asking price in hand")
+	_expect(GameState.gold == 0, "the bed was not paid for")
+	_expect(
+		sleeper.max_hp() == plain_hp + int(better.get("vigour", 0)),
+		"a %s left %s no tougher" % [better.get("display_name", "bed"), sleeper.display_name]
+	)
+
+	# Sleeping somewhere worse must not take the comfort back off them.
+	if not _walk_onto(Site.VILLAGE):
+		return
+	_expect(sleeper.max_hp() == plain_hp + int(better.get("vigour", 0)), "a night away undid the bed")
+	print("home: %s at %s, %s took %s from %d to %d HP" % [
+		Home.bed_name(house), house.cell, sleeper.display_name,
+		better.get("display_name", "a bed"), plain_hp, sleeper.max_hp()
+	])
 
 
 func _check_library() -> void:
@@ -291,7 +496,7 @@ func _check_town_and_captives() -> void:
 	var before := GameState.roster.party.size()
 	_expect(before < Roster.MAX_PARTY, "the party is already full before hiring")
 
-	var cost := Market.hire_cost(Market.hire_offer(town))
+	var cost := Market.asking_hire_cost(town, world, Market.hire_offer(town))
 	GameState.gold = cost - 1
 	_expect(Market.hire(town, GameState.roster, world) == null, "hired without the money")
 
@@ -315,7 +520,7 @@ func _check_town_and_captives() -> void:
 	if not goods.is_empty():
 		var equipment_id: String = goods[0]
 		var purse := GameState.gold
-		_expect(Market.buy(town, equipment_id, GameState.roster.player()), "could not buy with 5000 gold")
+		_expect(Market.buy(town, equipment_id, GameState.roster.player(), world), "could not buy with 5000 gold")
 		_expect(GameState.gold < purse, "buying cost nothing")
 		_expect(equipment_id not in Market.wares(town), "the shop still has the thing it sold")
 		print("market: bought %s for %d gold" % [equipment_id, purse - GameState.gold])
@@ -360,6 +565,116 @@ func _check_town_and_captives() -> void:
 	print("captive: overdue and %s" % outcome)
 
 
+## Chests and caches: gold always lands, and gear finds a wearer or a buyer.
+func _check_loot() -> void:
+	var world: World = GameState.world
+	var taker: Character = GameState.roster.party_members()[0]
+	taker.equipment = ""
+
+	var purse := GameState.gold
+	var lines := Loot.claim({ "gold": 90, "item": "bone_sword" }, GameState.roster)
+	_expect(GameState.gold >= purse + 90, "the gold in the chest never arrived")
+	_expect(lines.size() == 2, "a chest with gold and gear reported %d lines" % lines.size())
+	var worn := GameState.roster.party_members().any(
+		func(c: Character) -> bool: return c.equipment == "bone_sword"
+	)
+	_expect(worn, "nobody picked up the sword out of the chest")
+
+	# Once everyone is already carrying one, another improves nobody, so it is
+	# sold on the spot rather than shelved somewhere nobody will look.
+	for member: Character in GameState.roster.party_members():
+		member.equipment = "bone_sword"
+	purse = GameState.gold
+	Loot.claim({ "gold": 0, "item": "bone_sword" }, GameState.roster)
+	_expect(GameState.gold > purse, "a piece nobody wanted was neither worn nor sold")
+
+	# A charm is carried, never worn, so it always has a taker.
+	var charms := GameState.roster.player().charms.size()
+	Loot.claim({ "gold": 0, "item": "grave_token" }, GameState.roster)
+	_expect(GameState.roster.player().charms.size() == charms + 1, "the charm went nowhere")
+
+	var haul := Loot.roll(world, 1.0)
+	_expect(int(haul.get("gold", 0)) > 0, "a rolled cache held no gold at all")
+	print("loot: sword worn, spare sold, charm pocketed, cache rolled %d gold" % int(haul["gold"]))
+
+
+## Word does not teleport. What you do is known where you did it at once, and
+## everywhere else only once word has had time to walk there.
+func _check_renown() -> void:
+	var world: World = GameState.world
+	world.deeds.clear()
+	var here := world.player_cell
+	var away := here + Vector2i(20, 0)
+
+	_expect(Renown.title(world, here) == "a stranger", "the party is famous before doing anything")
+	Renown.record(world, Renown.GATE_SHUT, here, 4, "a gate was shut")
+	_expect(Renown.standing(world, here) == 4, "the place it happened has not heard about it")
+	_expect(Renown.standing(world, away) == 0, "word crossed twenty tiles instantly")
+	_expect(Renown.greeting(world, away, "Bram") == "", "somewhere that has not heard still greeted us")
+
+	world.steps += Renown.steps_per_tile() * 20
+	_expect(Renown.standing(world, away) == 4, "word never travelled at all")
+	_expect(Renown.title(world, away) != "a stranger", "word arrived and nobody drew a conclusion")
+	_expect(Renown.greeting(world, away, "Bram") != "", "a place that knows us said nothing")
+
+	# Being welcome is worth money; being hated costs it.
+	var welcome := Renown.price_multiplier(world, here)
+	Renown.record(world, Renown.TOWN_RAIDED, here, -20, "a town was burnt")
+	_expect(Renown.price_multiplier(world, here) > welcome, "burning a town did not raise a single price")
+	print("renown: %s where it happened, %s twenty tiles off" % [
+		Renown.title(world, here), Renown.title(world, away)
+	])
+
+
+## The two things you can do about a town, and what each costs you.
+func _check_raid_and_rescue() -> void:
+	var world: World = GameState.world
+	world.deeds.clear()
+
+	var saved := _site_where(func(s: Site) -> bool:
+		return Town.is_settlement(s) and not Town.is_ruined(s)
+	)
+	if saved == null:
+		_expect(false, "the world has no town to defend")
+		return
+	saved.data["threatened_at"] = world.steps
+	_expect(Town.is_threatened(saved), "the siege did not take hold")
+
+	var purse := GameState.gold
+	var rescue := Town.save(saved, world)
+	_expect(not rescue.is_empty(), "saving a town said nothing")
+	_expect(not Town.is_threatened(saved), "the siege outlived the fight")
+	_expect(GameState.gold > purse, "saving a town paid nothing")
+	_expect(Renown.standing(world, saved.cell) > 0, "saving a town won no goodwill at all")
+
+	var robbed := _site_where(func(s: Site) -> bool:
+		return Town.is_settlement(s) and not Town.is_ruined(s) and s != saved
+	)
+	if robbed == null:
+		_expect(false, "the world has only one town")
+		return
+	Market.refresh(robbed, world)
+	purse = GameState.gold
+	var goodwill := Renown.standing(world, robbed.cell)
+	Town.raid(robbed, world, GameState.roster)
+	_expect(GameState.gold >= purse + Town.purse(robbed), "raiding a town paid less than its strongbox")
+	_expect(Town.is_ruined(robbed), "the town carried on as though nothing had happened")
+	_expect(Market.wares(robbed).is_empty(), "a burnt town is still keeping shop")
+	_expect(Renown.standing(world, robbed.cell) < goodwill, "burning a town cost nothing")
+
+	# A town nobody answers for falls on its own.
+	var doomed := _site_where(func(s: Site) -> bool:
+		return Town.is_settlement(s) and not Town.is_ruined(s) and s != saved and s != robbed
+	)
+	if doomed != null:
+		doomed.data["threatened_at"] = world.steps - int(Town.rules().get("falls_after_steps", 900)) - 1
+		Town.upkeep(world)
+		_expect(doomed.data.get(Town.SACKED, false), "a town nobody answered for never fell")
+	print("towns: %s held, %s burnt for %d gold" % [
+		saved.display_name, robbed.display_name, Town.purse(robbed)
+	])
+
+
 func _check_tower_top() -> void:
 	var world: World = GameState.world
 	var purse := GameState.gold
@@ -381,6 +696,9 @@ func _check_save_round_trip() -> void:
 		"gold": GameState.gold,
 		"party": GameState.roster.party.size(),
 		"doctrine": GameState.roster.party_members()[0].doctrine.size(),
+		"deeds": world.deeds.size(),
+		"ruined": world.sites.filter(func(s: Site) -> bool: return Town.is_ruined(s)).size(),
+		"bond": Banter.bond(GameState.roster.party_members()[0], GameState.roster.party_members()[1]),
 	}
 
 	GameState.save()
@@ -394,10 +712,20 @@ func _check_save_round_trip() -> void:
 	_expect(after.player_cell == before["cell"], "the player moved across a save")
 	_expect(after.tower_floor == before["floor"], "the floor log did not survive the save")
 	_expect(GameState.gold == before["gold"], "gold did not survive the save")
+	_expect(after.deeds.size() == before["deeds"], "what the country remembers did not survive the save")
+	_expect(
+		after.sites.filter(func(s: Site) -> bool: return Town.is_ruined(s)).size() == before["ruined"],
+		"a burnt town came back across a save"
+	)
 	_expect(GameState.roster.party.size() == before["party"], "the party did not survive the save")
 	_expect(
 		GameState.roster.party_members()[0].doctrine.size() == before["doctrine"],
 		"what a character had read did not survive the save"
+	)
+	_expect(
+		Banter.bond(GameState.roster.party_members()[0], GameState.roster.party_members()[1])
+			== before["bond"],
+		"how well the party get on did not survive the save"
 	)
 	print("save: %d steps, floor %d and %d gold all came back" % [
 		before["steps"], before["floor"], before["gold"]

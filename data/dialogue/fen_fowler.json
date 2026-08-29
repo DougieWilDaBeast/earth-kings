@@ -1,0 +1,116 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Sedge the Bird Archer": "bird_archer"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Sedge the Bird Archer",
+			"text": [
+				"Sit where you like. Everyone who comes in wet sits by the bell, and everyone who comes in armed sits by the door. You're both, so choose.",
+				"Careful of the boards by the water. They're older than the village and prouder than the priest.",
+				"Don't stand between me and the reeds. Nothing personal — I've lost two dinners that way this week."
+			],
+			"options": [
+				{
+					"text": "By the door.",
+					"goto": "the_door"
+				},
+				{
+					"text": "You shoot. Who taught you?",
+					"goto": "the_bow"
+				},
+				{
+					"text": "What does the bell ring for?",
+					"once": true,
+					"goto": "the_bell"
+				},
+				{
+					"text": "Ale for the whole room.",
+					"requires_gold": 20,
+					"gold": -20,
+					"set_flag": "bought_the_bell_a_round",
+					"goto": "the_round"
+				},
+				{
+					"text": "The fen's been picked over. Somebody's been through here already.",
+					"check": {
+						"skill": "wits",
+						"dc": 13,
+						"success": "she_admits_it",
+						"failure": "she_deflects"
+					}
+				}
+			]
+		},
+		"again": {
+			"speaker": "Sedge the Bird Archer",
+			"text": [
+				"You know where to sit now. That's most of belonging, out here.",
+				"The water's up since you were last through. So is everything that lives in it.",
+				"I heard a version of you before I saw you. It had more horses."
+			],
+			"options": [
+				{ "text": "What's come out of the reeds since?", "goto": "the_reeds_since" },
+				{
+					"text": "Those riders. Did they come back?",
+					"requires": "heard_of_the_fen_riders",
+					"goto": "the_riders_again"
+				},
+				{
+					"text": "Ale for the room, and keep the change.",
+					"requires_gold": 20,
+					"gold": -20,
+					"goto": "the_round"
+				},
+				{ "text": "Just drying out. Carry on.", "goto": "end" }
+			]
+		},
+		"the_door": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Sensible. The bell rings for the water and I'd not want it ringing behind you.",
+			"next": "end"
+		},
+		"the_bow": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Hunger did. Fowl won't wait for a second arrow and neither will anything walking out of the reeds.",
+			"next": "end"
+		},
+		"the_round": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Then you'll get names, and names travel further out here than coin does.",
+			"next": "end"
+		},
+		"she_admits_it": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Riders. Two weeks back. Took the smoked eel and left the traps, which means they weren't hungry, which is worse.",
+			"set_flag": "heard_of_the_fen_riders",
+			"next": "end"
+		},
+		"she_deflects": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "The fen picks itself over. Ask the water what it took, if you've got the afternoon.",
+			"next": "end"
+		},
+		"the_bell": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Water coming up, or something coming in. Same rope, different number of pulls. Learn the difference before you sleep here.",
+			"next": "end"
+		},
+		"the_reeds_since": {
+			"speaker": "Sedge the Bird Archer",
+			"text": [
+				"A boat with nobody in it and the oars still shipped. I burnt it. Don't ask me why.",
+				"Birds going up at dusk with nothing under them. Three nights running.",
+				"Less than usual, and that's the part I don't like."
+			],
+			"next": "end"
+		},
+		"the_riders_again": {
+			"speaker": "Sedge the Bird Archer",
+			"text": "Once. They looked at the bell rope and rode on. Whoever sent them wanted us counted, not robbed.",
+			"next": "end"
+		}
+	}
+}

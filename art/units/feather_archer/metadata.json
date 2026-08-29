@@ -1,0 +1,14 @@
+{
+  "id": "feather_archer",
+  "source": "pixellab selected_characters.zip 2026-08-28",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "A sentient feather Archer, it looks graceful, agile, has sharp edges and a bow that is apart of its own body",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

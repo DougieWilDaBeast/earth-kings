@@ -4,19 +4,36 @@ extends CanvasLayer
 ## hovered tile, and the combat log. Emits intent only — the controller decides.
 
 signal move_requested
+signal flash_step_requested
 signal ability_requested(ability_id: String)
 signal wait_requested
+## A command is hovered but not chosen; [param kind] is move, flash or ability.
+signal preview_requested(kind: String, ability_id: String)
+signal preview_cleared
+## The player handed the fight to the AI, or took it back.
+signal auto_toggled(enabled: bool)
+signal speed_cycled
 
 const LOG_LINES := 4
+const PIP_FULL := "◆"
+const PIP_SPENT := "◇"
+const SELECTED_COLOUR := "#ffdb57"
+const SPENT_COLOUR := "#7d838f"
+## Shown along the bottom whenever nothing is being hovered.
+const CONTROL_HINT := "Hover a command to preview it  ·  pick another to switch  ·  wheel to zoom  ·  middle-drag to pan  ·  C to recentre"
 
 @onready var _turn_label: Label = %TurnLabel
 @onready var _order_label: Label = %TurnOrderLabel
+@onready var _squad_bar: RichTextLabel = %SquadBar
 @onready var _inspect_label: Label = %InspectLabel
 @onready var _log_label: Label = %LogLabel
 @onready var _commands: VBoxContainer = %Commands
 @onready var _abilities: VBoxContainer = %Abilities
 @onready var _move_button: Button = %MoveButton
+@onready var _flash_button: Button = %FlashStepButton
 @onready var _wait_button: Button = %WaitButton
+@onready var _auto_button: Button = %AutoButton
+@onready var _speed_button: Button = %SpeedButton
 @onready var _result_label: Label = %ResultLabel
 
 var _log: Array[String] = []
@@ -24,8 +41,17 @@ var _log: Array[String] = []
 
 func _ready() -> void:
 	_move_button.pressed.connect(func() -> void: move_requested.emit())
+	_flash_button.pressed.connect(func() -> void: flash_step_requested.emit())
 	_wait_button.pressed.connect(func() -> void: wait_requested.emit())
+	_watch_hover(_move_button, "move", "")
+	_watch_hover(_flash_button, "flash", "")
+	_auto_button.toggled.connect(func(on: bool) -> void: auto_toggled.emit(on))
+	_speed_button.pressed.connect(func() -> void: speed_cycled.emit())
+	# Buttons must never hold focus, or Tab would walk the menu instead of the squad.
+	for button: Button in [_move_button, _flash_button, _wait_button, _auto_button, _speed_button]:
+		button.focus_mode = Control.FOCUS_NONE
 	_commands.hide()
+	_squad_bar.text = ""
 	_result_label.hide()
 	EventBus.battle_log.connect(_append_log)
 
@@ -34,17 +60,55 @@ func show_commands(unit: Unit) -> void:
 	_turn_label.text = "%s's turn  ·  %s  ·  HP %d/%d" % [
 		unit.display_name, unit.job, unit.hp, unit.max_hp
 	]
-	_move_button.disabled = unit.has_moved
+	_move_button.disabled = not unit.can_move()
+	_flash_button.visible = unit.flash_step > 0
+	_flash_button.disabled = not unit.can_flash_step()
+	_flash_button.text = "Flash Step (F)  ·  %d" % unit.flash_step
 	_rebuild_ability_buttons(unit)
 	_commands.show()
 
 
+## The squad taking this phase, with each member's remaining action and bonus action.
+func set_squad(squad: Array[Unit], selected: Unit) -> void:
+	if squad.is_empty():
+		_squad_bar.text = ""
+		return
+	var parts: Array[String] = []
+	for unit in squad:
+		var pips := "%s%s" % [
+			PIP_FULL if not unit.action_spent else PIP_SPENT,
+			PIP_FULL if not unit.bonus_spent else PIP_SPENT,
+		]
+		var entry := "%s %s" % [unit.display_name, pips]
+		if unit == selected:
+			entry = "[color=%s]▸ %s[/color]" % [SELECTED_COLOUR, entry]
+		elif unit.is_done():
+			entry = "[color=%s]%s[/color]" % [SPENT_COLOUR, entry]
+		parts.append(entry)
+	var hint := ""
+	if squad.size() > 1:
+		hint = "   [color=%s][Tab] switch[/color]" % SPENT_COLOUR
+	_squad_bar.text = "   ".join(parts) + hint
+
+
 func hide_commands() -> void:
 	_commands.hide()
+	preview_cleared.emit()
+
+
+func set_auto(enabled: bool) -> void:
+	_auto_button.set_pressed_no_signal(enabled)
+	_auto_button.text = "Auto: on (Q)" if enabled else "Auto (Q)"
+
+
+func set_speed(scale: float) -> void:
+	_speed_button.text = "Speed x%s (E)" % String.num(scale, 1).trim_suffix(".0")
 
 
 func set_turn_order(order: Array[Unit]) -> void:
-	var names := order.map(func(u: Unit) -> String: return u.display_name)
+	var names := order.map(func(u: Unit) -> String:
+		return "Your party" if u.team == Unit.Team.PLAYER else u.display_name
+	)
 	_order_label.text = "Next: " + " → ".join(names)
 
 
@@ -62,7 +126,7 @@ func set_inspected(unit: Unit, terrain: Dictionary) -> void:
 			int(terrain.get("height", 0)),
 		]
 	else:
-		_inspect_label.text = ""
+		_inspect_label.text = CONTROL_HINT
 
 
 func show_result(victory: bool) -> void:
@@ -73,14 +137,26 @@ func show_result(victory: bool) -> void:
 func _rebuild_ability_buttons(unit: Unit) -> void:
 	for child in _abilities.get_children():
 		child.queue_free()
-	for ability_id: String in unit.abilities:
+	for i in unit.abilities.size():
+		var ability_id: String = unit.abilities[i]
 		var ability := Database.ability(ability_id)
+		var cost := Unit.ability_cost(ability)
 		var button := Button.new()
-		button.text = ability.get("display_name", ability_id)
+		button.text = "%d. %s" % [i + 1, ability.get("display_name", ability_id)]
+		if cost == Unit.Cost.BONUS:
+			button.text += "  (bonus)"
 		button.tooltip_text = ability.get("description", "")
-		button.disabled = unit.has_acted
+		button.disabled = not unit.can_pay(cost)
+		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(func() -> void: ability_requested.emit(ability_id))
+		_watch_hover(button, "ability", ability_id)
 		_abilities.add_child(button)
+
+
+## Hovering a command shows its range on the map; leaving it takes the range away.
+func _watch_hover(button: Button, kind: String, ability_id: String) -> void:
+	button.mouse_entered.connect(func() -> void: preview_requested.emit(kind, ability_id))
+	button.mouse_exited.connect(func() -> void: preview_cleared.emit())
 
 
 func _append_log(line: String) -> void:

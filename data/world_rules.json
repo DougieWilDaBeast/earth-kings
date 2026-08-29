@@ -26,6 +26,42 @@
 	},
 	"codex": {
 		"power_per_understanding": 0.2,
+		"trivia_weight": 0.4,
 		"crafting_at": 1.0
+	},
+	"home": {
+		"beds": [
+			{ "id": "straw", "display_name": "A straw pallet", "cost": 0, "vigour": 0 },
+			{ "id": "rope", "display_name": "A rope cot", "cost": 200, "vigour": 4 },
+			{ "id": "feather", "display_name": "A feather bed", "cost": 550, "vigour": 9 },
+			{ "id": "eiderdown", "display_name": "An eiderdown bed", "cost": 1300, "vigour": 15 },
+			{ "id": "canopy", "display_name": "A canopied bed", "cost": 2800, "vigour": 22 }
+		]
+	},
+	"renown": {
+		"steps_per_tile": 14,
+		"known_at": 3,
+		"renowned_at": 10,
+		"feared_at": 6,
+		"price_swing": 0.03,
+		"price_cap": 0.3,
+		"gate_shut": 2,
+		"town_saved": 5,
+		"town_raided": -7,
+		"tower_topped": 8
+	},
+	"loot": {
+		"gold_base": 40,
+		"gold_spread": 60,
+		"item_chance": 0.35,
+		"resale": 0.5,
+		"cache_chance": 0.04
+	},
+	"town": {
+		"purse_base": 120,
+		"purse_per_rank": 90,
+		"threat_after_steps": 240,
+		"falls_after_steps": 900,
+		"defence_reward": 160
 	}
 }

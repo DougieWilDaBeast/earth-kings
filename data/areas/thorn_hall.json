@@ -1,0 +1,63 @@
+{
+	"display_name": "the muster hall",
+	"layers": ["dirt", "stone"],
+	"legend": {
+		"o": "stone",
+		",": "dirt"
+	},
+	"spawn": [6, 7],
+	"exits": [[6, 8]],
+	"spots": [
+		{ "cell": [6, 5], "line": "A muster board covers the far wall, ruled for four hundred names." },
+		{ "cell": [10, 3], "line": "The candles have been lit and relit so long the sconces have grown stalactites." }
+	],
+	"chests": [
+		{
+			"cell": [2, 2],
+			"line": "A pay chest, sealed the season the pay stopped coming.",
+			"gold": 145,
+			"item": "grave_token"
+		}
+	],
+	"people": [
+		{
+			"name": "the Timeless One",
+			"unit": "timeless_one",
+			"cell": [6, 3],
+			"facing": [0, 1],
+			"dialogue": "thorn_timeless"
+		},
+		{
+			"name": "a knight standing his watch",
+			"unit": "castellan",
+			"cell": [3, 5],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Ser Valis will not have the muster rolls moved. So they stay where they are.",
+				"Do not look the old one in the eye for long. It is a courtesy to yourself."
+			]
+		},
+		{
+			"name": "a wisp that followed you in",
+			"unit": "feather_wisp",
+			"cell": [10, 5],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"It has been drifting behind you since the gate and nobody else has remarked on it."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo"
+	]
+}

@@ -1,0 +1,120 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Halbrec the Pirate Man": "pirate_man"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": [
+				"Before you ask: yes. Before you ask the next one: not for eleven years, and not in this bay.",
+				"You've been told what I was before you got within ten paces. Everyone is. Go on.",
+				"Stand upwind. The tar's fresh and the story's old, and only one of them is worth your time."
+			],
+			"options": [
+				{
+					"text": "Then why are the boats all up the beach?",
+					"goto": "the_boats"
+				},
+				{
+					"text": "Eleven years is a long time to stand facing the water.",
+					"goto": "the_water"
+				},
+				{
+					"text": "Why did this village let you stay?",
+					"once": true,
+					"goto": "why_they_kept_him"
+				},
+				{
+					"text": "Your crew's still out there and this village knows it.",
+					"check": {
+						"skill": "renown",
+						"dc": 13,
+						"success": "he_yields",
+						"failure": "he_hardens"
+					}
+				},
+				{
+					"text": "We've no quarrel with you.",
+					"goto": "no_quarrel"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": [
+				"You said it on the way out and you've said it again on the way in. That's twice. I'm listening now.",
+				"The bay's the same. You're not. I've watched enough men change to know which way you're going.",
+				"Back again. Nobody comes to this end of the shingle twice by accident."
+			],
+			"options": [
+				{ "text": "What's come up the channel since?", "goto": "the_channel_now" },
+				{
+					"text": "Tell me what you'd do to this hamlet, then.",
+					"requires": "halbrec_will_help",
+					"once": true,
+					"goto": "the_plan"
+				},
+				{
+					"text": "Your crew's still out there and this village knows it.",
+					"requires_not": "halbrec_will_help",
+					"check": {
+						"skill": "renown",
+						"dc": 13,
+						"success": "he_yields",
+						"failure": "he_hardens"
+					}
+				},
+				{ "text": "Nothing. Watch your water.", "goto": "end" }
+			]
+		},
+		"the_boats": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "Because something comes up the channel at slack water and the nets come back cut clean. Fish don't cut nets. Neither do men, that neat.",
+			"set_flag": "heard_of_the_channel",
+			"next": "end"
+		},
+		"the_water": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "It's the only direction that never asks me anything.",
+			"next": "end"
+		},
+		"he_yields": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "...They know. They let me stay because a man who knows how raiders think is worth the shame of feeding one. Ask me what I'd do to this hamlet, and I'll tell you exactly, and then we can stop it.",
+			"set_flag": "halbrec_will_help",
+			"next": "end"
+		},
+		"he_hardens": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "My crew is at the bottom of the channel and so is the part of me that answers questions like that.",
+			"next": "end"
+		},
+		"no_quarrel": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "Everyone says that on the way in. Say it again on the way out and I'll believe it.",
+			"next": "end"
+		},
+		"why_they_kept_him": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "Because I mended the sea wall with my own hands and they could not decide whether that made it theirs or mine. Eleven years on, neither can I.",
+			"next": "end"
+		},
+		"the_channel_now": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": [
+				"A light, three nights running, where there is no shore to put a light on.",
+				"Nets cut again, and this time they left the fish. That's not hunger, that's a message.",
+				"Nothing, and the water's been too polite about it."
+			],
+			"next": "end"
+		},
+		"the_plan": {
+			"speaker": "Halbrec the Pirate Man",
+			"text": "Come in on the slack, fire the net store first so they run to the water, and take them on the shingle with their backs wet. So: wet the store, and put your people where the shingle narrows. That's the whole of it, and I've hated knowing it for eleven years.",
+			"set_flag": "knows_the_raid_plan",
+			"next": "end"
+		}
+	}
+}

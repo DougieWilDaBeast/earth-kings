@@ -1,0 +1,102 @@
+{
+	"display_name": "the causeway keep",
+	"layers": ["dirt", "flagstone", "crag", "meadow", "water"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"o": "flagstone",
+		"^": "crag",
+		"m": "meadow",
+		"~": "water"
+	},
+	"spawn": [9, 14],
+	"exits": [[9, 15], [10, 15]],
+	"spots": [
+		{ "cell": [9, 7], "line": "The yard is swept. Somebody here still keeps standards." },
+		{ "cell": [9, 12], "line": "The causeway is the only way across the moat." }
+	],
+	"chests": [
+		{
+			"cell": [6, 5],
+			"line": "An armoury chest in the corner of the yard, unlocked and half empty.",
+			"gold": 60,
+			"item": "bone_sword"
+		},
+		{
+			"cell": [12, 10],
+			"line": "A footlocker nobody has claimed since the last watch changed.",
+			"gold": 175,
+			"item": "grave_token"
+		}
+	],
+	"buildings": [
+		{
+			"name": "the great hall",
+			"cell": [8, 5],
+			"size": [4, 2],
+			"door": [9, 6],
+			"area": "keep_hall"
+		}
+	],
+	"people": [
+		{
+			"name": "Rook the Watchman",
+			"unit": "keep_watchman",
+			"cell": [9, 11],
+			"facing": [0, 1],
+			"cutscene": "the_watchman",
+			"dialogue": "keep_watchman"
+		},
+		{
+			"name": "a watchman off the wall",
+			"unit": "keep_watchman",
+			"cell": [6, 9],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"Six hours up, six hours down, and the six down are the hard ones.",
+				"Rook has the causeway. I have everything he cannot see."
+			]
+		},
+		{
+			"name": "Vance the Duelist",
+			"unit": "ember_duelist",
+			"cell": [13, 8],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"The yard is swept because sweeping it is the only order left to give.",
+				"Drill at dawn. Two of us. It is still a drill."
+			]
+		},
+		{
+			"name": "Corvel the Butler",
+			"unit": "devil_butler",
+			"cell": [11, 4],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"The hall is aired daily. Nobody comes, but it is aired.",
+				"My contract predates the family. They were most surprised too."
+			]
+		}
+	],
+	"rows": [
+		"mmm^^..........^^mmm",
+		"mm^^............^^mm",
+		"m..................m",
+		"..~~~~~~~~~~~~~~~~..",
+		"..~~,,,,,,,,,,,,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,oooooooooo,~~..",
+		"..~~,,,,,,,,,,,,~~..",
+		"..~~~~~~~,,~~~~~~~..",
+		"mmm......,,......mmm",
+		"mmmm.....,,.....mmmm",
+		"mmmmm....,,....mmmmm"
+	]
+}

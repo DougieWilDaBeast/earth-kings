@@ -1,0 +1,32 @@
+{
+	"bram": {
+		"title": "The Sworn Blade",
+		"difficulty": 1,
+		"blurb": "An oath-sworn swordsman with a scar for every promise he kept. He can hold a road on his own, and he does not have to: the archer and the priest came with him.",
+		"companions": ["sera", "toln"]
+	},
+	"sera": {
+		"title": "The Longbow",
+		"difficulty": 2,
+		"blurb": "A ranger who would rather end a fight from the treeline. Nothing about her survives being caught in the open, and there is only Toln behind her to put it right.",
+		"companions": ["toln"]
+	},
+	"toln": {
+		"title": "The Hedge Priest",
+		"difficulty": 3,
+		"blurb": "A village healer walking well past the last village. He mends what Bram breaks, and if Bram goes down there is nobody left who can swing anything.",
+		"companions": ["bram"]
+	},
+	"fox_knight": {
+		"title": "The Fox Fire Knight",
+		"difficulty": 4,
+		"blurb": "Fast, burning, and travelling alone by choice. Strong enough to win most fights outright, with nobody to pick him up out of the one he loses.",
+		"companions": []
+	},
+	"village_idiot": {
+		"title": "The Village Idiot",
+		"difficulty": 5,
+		"blurb": "No oath, no training, no company, and no idea what any of this is for. Everything the valley throws at you, you take on the chin — alone.",
+		"companions": []
+	}
+}

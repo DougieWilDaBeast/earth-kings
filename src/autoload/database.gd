@@ -15,12 +15,25 @@ var classes: Dictionary = {}
 var doctrines: Dictionary = {}
 var fate: Dictionary = {}
 var encounters: Dictionary = {}
+var errands: Dictionary = {}
+var trivia: Dictionary = {}
+var grimoires: Dictionary = {}
+var memorials: Dictionary = {}
 var world_rules: Dictionary = {}
+## Leads a run can be started as, in the order they are offered.
+var heroes: Dictionary = {}
+## Terrain names and the tileset sheets that draw them (see [TileForge]).
+var tilesets: Dictionary = {}
+## Staged beats played before a conversation (see [AreaCutscene]).
+var cutscenes: Dictionary = {}
+## What the party say to each other on the road (see [Banter]).
+var banter: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
 var _maps: Dictionary = {}
 var _dialogues: Dictionary = {}
+var _areas: Dictionary = {}
 
 
 func _ready() -> void:
@@ -33,7 +46,15 @@ func _ready() -> void:
 	doctrines = _load_json("%s/doctrine.json" % DATA_DIR)
 	fate = _load_json("%s/fate.json" % DATA_DIR)
 	encounters = _load_json("%s/encounters.json" % DATA_DIR)
+	errands = _load_json("%s/errands.json" % DATA_DIR)
+	trivia = _load_json("%s/trivia.json" % DATA_DIR)
+	grimoires = _load_json("%s/grimoires.json" % DATA_DIR)
+	memorials = _load_json("%s/memorials.json" % DATA_DIR)
 	world_rules = _load_json("%s/world_rules.json" % DATA_DIR)
+	heroes = _load_json("%s/heroes.json" % DATA_DIR)
+	tilesets = _load_json("%s/tilesets.json" % DATA_DIR)
+	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
+	banter = _load_json("%s/banter.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
@@ -42,6 +63,20 @@ func terrain_type(id: String) -> Dictionary:
 
 func unit_template(id: String) -> Dictionary:
 	return units.get(id, {})
+
+
+## The forward-facing sprite a unit is drawn with, or null when it has no art.
+func unit_face(id: String) -> Texture2D:
+	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
+	var path := "%s/south.png" % sprite_dir
+	if sprite_dir == "" or not ResourceLoader.exists(path):
+		return null
+	return load(path)
+
+
+## A lead a run can be started as (see `data/heroes.json`).
+func hero(id: String) -> Dictionary:
+	return heroes.get(id, {})
 
 
 func ability(id: String) -> Dictionary:
@@ -53,6 +88,11 @@ func ability(id: String) -> Dictionary:
 ## Make a generated ability castable for the rest of the session.
 func register_ability(id: String, definition: Dictionary) -> void:
 	_generated_abilities[id] = definition
+
+
+## Put a conversation built at runtime where [DialogueScript] can find it.
+func register_dialogue(id: String, payload: Dictionary) -> void:
+	_dialogues[id] = payload
 
 
 func character_class(id: String) -> Dictionary:
@@ -77,11 +117,41 @@ func map(id: String) -> Dictionary:
 	return _maps[id]
 
 
-func dialogue(id: String) -> Array:
+## The raw conversation file: either a flat `lines` array or branching `nodes`
+## (see [DialogueScript]).
+func dialogue(id: String) -> Dictionary:
+	if id == "":
+		return {}
 	if not _dialogues.has(id):
-		var data: Dictionary = _load_json("%s/dialogue/%s.json" % [DATA_DIR, id])
-		_dialogues[id] = data.get("lines", [])
+		_dialogues[id] = _load_json("%s/dialogue/%s.json" % [DATA_DIR, id])
 	return _dialogues[id]
+
+
+## A walkable place drawn from tilesets (see [AreaMap]).
+func area(id: String) -> Dictionary:
+	if not _areas.has(id):
+		_areas[id] = _load_json(_area_path(id))
+	return _areas[id]
+
+
+func has_area(id: String) -> bool:
+	return id != "" and FileAccess.file_exists(_area_path(id))
+
+
+func tileset_sheet(id: String) -> Dictionary:
+	return tilesets.get("sheets", {}).get(id, {})
+
+
+func area_terrain(id: String) -> Dictionary:
+	return tilesets.get("terrains", {}).get(id, {})
+
+
+func cutscene(id: String) -> Array:
+	return cutscenes.get(id, {}).get("beats", [])
+
+
+func _area_path(id: String) -> String:
+	return "%s/areas/%s.json" % [DATA_DIR, id]
 
 
 func _load_json(path: String) -> Dictionary:

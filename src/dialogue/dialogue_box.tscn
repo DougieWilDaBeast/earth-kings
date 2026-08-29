@@ -24,23 +24,40 @@ theme_override_constants/margin_top = 18
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 18
 
-[node name="Lines" type="VBoxContainer" parent="Panel/Margin"]
+[node name="Row" type="HBoxContainer" parent="Panel/Margin"]
+theme_override_constants/separation = 18
+
+[node name="Portrait" type="TextureRect" parent="Panel/Margin/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+size_flags_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+
+[node name="Lines" type="VBoxContainer" parent="Panel/Margin/Row"]
+size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="SpeakerLabel" type="Label" parent="Panel/Margin/Lines"]
+[node name="SpeakerLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 20
 theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
 text = "Speaker"
 
-[node name="BodyLabel" type="Label" parent="Panel/Margin/Lines"]
+[node name="BodyLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
 size_flags_vertical = 3
 text = "..."
 autowrap_mode = 3
 
-[node name="HintLabel" type="Label" parent="Panel/Margin/Lines"]
+[node name="Options" type="VBoxContainer" parent="Panel/Margin/Row/Lines"]
+unique_name_in_owner = true
+theme_override_constants/separation = 4
+
+[node name="HintLabel" type="Label" parent="Panel/Margin/Row/Lines"]
+unique_name_in_owner = true
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.65, 0.68, 0.75, 1)
-text = "Click or press Enter to continue"
+text = "Click to continue"
 horizontal_alignment = 2

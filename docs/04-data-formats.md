@@ -31,6 +31,7 @@ The base stat block a `Character` is built from, and what a monster is.
 ```
 
 - `classes` — options offered when this character hits level 2. Omit to allow any class.
+- `flash_step` — blink range in tiles. Omit or leave at 0 for units that cannot flash step.
 - `sprite_dir` — a folder holding `north.png` / `south.png` / `east.png` / `west.png`. Omit to
   render a coloured token instead.
 
@@ -48,6 +49,7 @@ The base stat block a `Character` is built from, and what a monster is.
 - `growth` — added per level above 1, then rounded. Floats are fine.
 - `themes` — which ability-grammar themes this class's generated trees are drawn from.
 - `grants` — abilities the class hands over on the spot.
+- `flash_step` — blink range the class grants; the higher of this and the template's wins.
 - `yoke: true` — flags a class as one that can hold the Training Yoke stance.
 
 ## `abilities.json` — authored abilities
@@ -63,6 +65,7 @@ The base stat block a `Character` is built from, and what a monster is.
 - `target` — `enemy` · `ally` · `any` · `self`
 - `power` — multiplier on attack. With `"heal": true` it is instead flat HP restored.
 - `splash` — Manhattan radius around the target cell. `0` is single-target.
+- `bonus: true` — a minor ability that costs the bonus action instead of the main action.
 
 Generated abilities have the same shape and are registered at runtime by `AbilityGrammar`; they
 are stored inside the save's tree definitions, not in this file.
@@ -78,7 +81,7 @@ are stored inside the save's tree definitions, not in this file.
 }
 ```
 
-- `bonus` keys may be any of `max_hp`, `attack`, `defense`, `speed`, `move`, `jump`.
+- `bonus` keys may be any of `max_hp`, `attack`, `defense`, `speed`, `move`, `jump`, `flash_step`.
 - `grace` (optional) — the chance this book alone gives a fallen reader of surviving. Summed
   across everything they know and capped at 30%.
 
@@ -148,9 +151,58 @@ All rows must be the same length, and every spawn must sit on walkable terrain.
 
 ## `dialogue/*.json`
 
+A conversation is either a flat script:
+
 ```json
 { "lines": [{ "speaker": "Sera", "text": "Movement in the brush." }] }
 ```
+
+…or a branching one, with replies the player picks:
+
+```json
+{
+  "start": "greeting",
+  "nodes": {
+    "greeting": {
+      "speaker": "Ganel",
+      "text": "I expected an army, or at least a bribe.",
+      "options": [
+        { "text": "Stand down.", "goto": "defiance" },
+        {
+          "text": "Your men haven't eaten in days.",
+          "check": {
+            "skill": "wits",
+            "dc": 12,
+            "success": "starving",
+            "failure": "laughed_off"
+          }
+        },
+        {
+          "text": "A hundred gold and we never met.",
+          "requires_gold": 100,
+          "gold": -100,
+          "set_flag": "chief_bribed",
+          "goto": "bribe"
+        }
+      ]
+    },
+    "defiance": {
+      "speaker": "Ganel",
+      "text": "Then take the high ground.",
+      "next": "end"
+    }
+  }
+}
+```
+
+- A node with no `options` waits for a click and moves to `next`; `"end"` closes the box.
+- `skill` is one of `might`, `guard`, `wits`, `renown`. The best-suited party member rolls
+  `d20 + skill / 2` against `dc`; a natural 20 always lands and a natural 1 never does. The
+  check may carry `success_effects` / `failure_effects`.
+- Nodes and options share the same effect keys: `set_flag`, `clear_flag` (a string or a list of
+  them) and `gold` (a signed amount).
+- An option is hidden unless the party satisfies its `requires` / `requires_not` flags and its
+  `requires_gold`.
 
 ## Save file — `user://earth-kings.save.json`
 

@@ -1,0 +1,14 @@
+{
+  "id": "emo_swordsman",
+  "source": "pixellab Sleepy_emo_swordsman.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "Sleepy emo swordsman",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

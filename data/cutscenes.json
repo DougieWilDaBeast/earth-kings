@@ -1,0 +1,74 @@
+{
+	"the_camp": {
+		"beats": [
+			{ "do": "look", "at": "between", "time": 1.1 },
+			{ "do": "say", "text": "Wood is found, the fire is coaxed up, and the day is set down where everyone can see it.", "time": 2.6 },
+			{ "do": "face", "who": "you", "at": "them" },
+			{ "do": "say", "text": "Nobody says much at first. Then somebody always does.", "time": 2.2 },
+			{ "do": "look", "at": "you", "time": 0.7 }
+		]
+	},
+	"the_steward": {
+		"beats": [
+			{ "do": "look", "at": "them", "time": 0.7 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "say", "text": "He sets down what he is carrying, and waits for you to reach him.", "time": 2.2 },
+			{ "do": "approach", "who": "them", "gap": 84 },
+			{ "do": "look", "at": "between", "time": 0.6 }
+		]
+	},
+	"the_well_child": {
+		"beats": [
+			{ "do": "say", "text": "A cabin hand off some ship that never came back sits on the lip of the well, kicking his heels, a cutlass too big for him across his knees.", "time": 2.0 },
+			{ "do": "look", "at": "them", "time": 0.8 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "say", "text": "He sees the swords and does not run, which tells you something about this year.", "time": 2.4 }
+		]
+	},
+	"the_watchman": {
+		"beats": [
+			{ "do": "look", "at": "them", "time": 0.8 },
+			{ "do": "say", "text": "The watchman has been awake a long time. He hears the armour before he sees it.", "time": 2.4 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "approach", "who": "them", "gap": 96 },
+			{ "do": "face", "who": "you", "at": "them" },
+			{ "do": "look", "at": "between", "time": 0.6 }
+		]
+	},
+	"the_fen_wizard": {
+		"beats": [
+			{ "do": "look", "at": "them", "time": 0.8 },
+			{ "do": "say", "text": "The duckboards flex under you, and the wizard does not look up until they stop.", "time": 2.2 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "say", "text": "He has been counting something in the water, and he has lost the count.", "time": 2.2 },
+			{ "do": "look", "at": "between", "time": 0.6 }
+		]
+	},
+	"the_pine_woodcutter": {
+		"beats": [
+			{ "do": "say", "text": "The axe comes down once more, unhurried, before anyone acknowledges you.", "time": 2.0 },
+			{ "do": "look", "at": "them", "time": 0.8 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "approach", "who": "them", "gap": 100 },
+			{ "do": "say", "text": "He rests the haft on his shoulder and waits, which is its own kind of question.", "time": 2.2 }
+		]
+	},
+	"the_shore_pirate": {
+		"beats": [
+			{ "do": "look", "at": "them", "time": 1.0 },
+			{ "do": "say", "text": "He is facing the water, and he keeps facing it while your whole company walks up the shingle behind him.", "time": 2.6 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "look", "at": "between", "time": 0.6 }
+		]
+	},
+	"the_thorn_knight": {
+		"beats": [
+			{ "do": "look", "at": "them", "time": 0.8 },
+			{ "do": "face", "who": "them", "at": "you" },
+			{ "do": "say", "text": "Gilt armour in a bailey with nobody in it. He straightens anyway, out of habit older than the habit is useful.", "time": 2.6 },
+			{ "do": "approach", "who": "them", "gap": 92 },
+			{ "do": "face", "who": "you", "at": "them" },
+			{ "do": "look", "at": "between", "time": 0.6 }
+		]
+	}
+}

@@ -1,0 +1,14 @@
+{
+  "id": "neuron_chief",
+  "source": "pixellab Negative_charged_motor_neuron_chief.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "Negative charged motor neuron chief of village",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

@@ -10,29 +10,69 @@ const DEFAULT_LOCATION := "hollow_ford"
 var world: World
 var roster: Roster
 
-var gold: int = DEFAULT_GOLD
+## Everything the run summary is retold from (see [Ledger]).
+var ledger: Dictionary = Ledger.fresh()
+## Cleared while the training sandbox borrows the purse, so play money never
+## reaches the ledger.
+var tallying: bool = true
+
+var gold: int = DEFAULT_GOLD:
+	set(value):
+		var delta := value - gold
+		gold = value
+		if tallying:
+			Ledger.add(ledger, "gold_earned" if delta > 0 else "gold_spent", absi(delta))
 var current_location: String = DEFAULT_LOCATION
 ## Where to fall back to after a lost battle.
 var previous_location: String = DEFAULT_LOCATION
 var cleared_battles: Array = []
 var flags: Dictionary = {}
+## Conversation id -> how many times it has been played, so somebody you have
+## already met does not greet you as a stranger.
+var talks: Dictionary = {}
+## Errands taken and not yet settled (see [Errand]).
+var errands: Array = []
 
 
 func _ready() -> void:
+	EventBus.unit_died.connect(_on_unit_died)
+	EventBus.unit_damaged.connect(_on_unit_damaged)
+	EventBus.battle_finished.connect(_on_battle_finished)
 	if world == null:
 		new_game()
 
 
-func new_game(world_seed: int = 0) -> void:
+func _on_unit_damaged(unit: Node, amount: int) -> void:
+	if tallying:
+		Ledger.add(ledger, "damage_taken" if unit.team == Unit.Team.PLAYER else "damage_dealt", amount)
+
+
+## Culls are counted wherever the fighting happens, so this listens globally.
+func _on_unit_died(unit: Node) -> void:
+	if unit.team == Unit.Team.ENEMY:
+		Errand.record_kill(errands, unit.template_id)
+		if tallying:
+			Ledger.record_kill(ledger, unit.template_id)
+
+
+func _on_battle_finished(result: Dictionary) -> void:
+	if tallying:
+		Ledger.add(ledger, "battles_won" if result.get("victory", false) else "battles_lost")
+
+
+func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	if world_seed == 0:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
-	roster = Roster.found()
+	roster = Roster.found(lead_id)
 	gold = DEFAULT_GOLD
+	ledger = Ledger.fresh()
 	current_location = DEFAULT_LOCATION
 	previous_location = DEFAULT_LOCATION
 	cleared_battles = []
 	flags = {}
+	talks = {}
+	errands = []
 
 
 # --- the party ----------------------------------------------------------------
@@ -70,6 +110,16 @@ func is_battle_cleared(map_id: String) -> bool:
 	return map_id in cleared_battles
 
 
+func times_told(dialogue_id: String) -> int:
+	return int(talks.get(dialogue_id, 0))
+
+
+func remember_talk(dialogue_id: String) -> void:
+	if dialogue_id == "":
+		return
+	talks[dialogue_id] = times_told(dialogue_id) + 1
+
+
 # --- persistence --------------------------------------------------------------
 
 
@@ -87,6 +137,9 @@ func save() -> void:
 		"previous_location": previous_location,
 		"cleared_battles": cleared_battles,
 		"flags": flags,
+		"talks": talks,
+		"errands": errands,
+		"ledger": ledger,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
@@ -112,8 +165,12 @@ func load_save() -> bool:
 	world = World.from_dict(data.get("world", {}))
 	roster = Roster.from_dict(data.get("roster", {}))
 	gold = int(data.get("gold", DEFAULT_GOLD))
+	# After the purse, so restoring it does not read as income.
+	ledger = Ledger.restore(data.get("ledger", {}))
 	current_location = data.get("current_location", DEFAULT_LOCATION)
 	previous_location = data.get("previous_location", DEFAULT_LOCATION)
 	cleared_battles = data.get("cleared_battles", [])
 	flags = data.get("flags", {})
+	talks = data.get("talks", {})
+	errands = data.get("errands", [])
 	return true

@@ -1,0 +1,64 @@
+{
+	"display_name": "the Ford and Crown",
+	"layers": ["dirt", "stone"],
+	"legend": {
+		"o": "stone",
+		",": "dirt"
+	},
+	"spawn": [5, 7],
+	"exits": [[5, 8]],
+	"spots": [
+		{ "cell": [5, 5], "line": "Low beams, low talk, and every head turning at once." },
+		{ "cell": [2, 2], "line": "The hearth has been kept in since before the raiding started." }
+	],
+	"chests": [
+		{
+			"cell": [8, 2],
+			"line": "A traveller's pack left under the bench, and no traveller with it.",
+			"gold": 45,
+			"item": "knotted_cord"
+		}
+	],
+	"people": [
+		{
+			"name": "Bole the Innkeep",
+			"unit": "innkeeper",
+			"cell": [5, 3],
+			"facing": [0, 1],
+			"dialogue": "the_innkeeper"
+		},
+		{
+			"name": "a farmhand three cups in",
+			"unit": "village_idiot",
+			"cell": [3, 5],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Forty for the room. Forty! I have slept in the field for nothing my whole life.",
+				"Mind the beam. Everyone says it after."
+			]
+		},
+		{
+			"name": "Merrow the Sword Monkey",
+			"unit": "sword_monkey",
+			"cell": [8, 4],
+			"facing": [-1, 0],
+			"wander": 2,
+			"chatter": [
+				"Three swords. One for each of the last three arguments.",
+				"I drink here because the ogre does not water it."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo"
+	]
+}

@@ -1,0 +1,95 @@
+[gd_resource type="Theme" load_steps=9 format=3]
+
+[ext_resource type="Texture2D" uid="uid://d1o0swvpiwfgd" path="res://art/ui/frame_bar.png" id="1_bar"]
+[ext_resource type="Texture2D" uid="uid://cbtu857ji5gfj" path="res://art/ui/frame_panel.png" id="2_panel"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
+content_margin_left = 40.0
+content_margin_top = 14.0
+content_margin_right = 40.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_bar")
+texture_margin_left = 36.0
+texture_margin_top = 18.0
+texture_margin_right = 36.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.86, 0.84, 0.82, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+content_margin_left = 40.0
+content_margin_top = 14.0
+content_margin_right = 40.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_bar")
+texture_margin_left = 36.0
+texture_margin_top = 18.0
+texture_margin_right = 36.0
+texture_margin_bottom = 18.0
+modulate_color = Color(1.25, 1.12, 0.94, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed"]
+content_margin_left = 40.0
+content_margin_top = 16.0
+content_margin_right = 40.0
+content_margin_bottom = 12.0
+texture = ExtResource("1_bar")
+texture_margin_left = 36.0
+texture_margin_top = 18.0
+texture_margin_right = 36.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.68, 0.62, 0.55, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_focus"]
+content_margin_left = 40.0
+content_margin_top = 14.0
+content_margin_right = 40.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_bar")
+texture_margin_left = 36.0
+texture_margin_top = 18.0
+texture_margin_right = 36.0
+texture_margin_bottom = 18.0
+modulate_color = Color(1.35, 1.14, 0.86, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_disabled"]
+content_margin_left = 40.0
+content_margin_top = 14.0
+content_margin_right = 40.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_bar")
+texture_margin_left = 36.0
+texture_margin_top = 18.0
+texture_margin_right = 36.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.42, 0.4, 0.4, 0.8)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+content_margin_left = 64.0
+content_margin_top = 62.0
+content_margin_right = 64.0
+content_margin_bottom = 62.0
+texture = ExtResource("2_panel")
+texture_margin_left = 78.0
+texture_margin_top = 78.0
+texture_margin_right = 78.0
+texture_margin_bottom = 78.0
+modulate_color = Color(0.72, 0.7, 0.7, 1)
+
+[resource]
+Button/colors/font_color = Color(0.9, 0.85, 0.73, 1)
+Button/colors/font_disabled_color = Color(0.52, 0.5, 0.48, 1)
+Button/colors/font_focus_color = Color(1, 0.94, 0.76, 1)
+Button/colors/font_hover_color = Color(1, 0.94, 0.76, 1)
+Button/colors/font_outline_color = Color(0.06, 0.05, 0.05, 1)
+Button/colors/font_pressed_color = Color(1, 0.88, 0.6, 1)
+Button/constants/outline_size = 6
+Button/font_sizes/font_size = 24
+Button/styles/disabled = SubResource("StyleBoxTexture_btn_disabled")
+Button/styles/focus = SubResource("StyleBoxTexture_btn_focus")
+Button/styles/hover = SubResource("StyleBoxTexture_btn_hover")
+Button/styles/normal = SubResource("StyleBoxTexture_btn_normal")
+Button/styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+Label/colors/font_color = Color(0.86, 0.82, 0.72, 1)
+Label/colors/font_outline_color = Color(0.05, 0.05, 0.06, 1)
+Label/constants/outline_size = 6
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_panel")

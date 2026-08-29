@@ -1,0 +1,121 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Ser Valis the Golden Knight": "golden_knight"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": [
+				"This keep musters four hundred. You are looking at the muster. Say what you came to say and let me get back to pretending otherwise.",
+				"If you have come to be impressed, the light is better in the morning and the walls are worse. Speak.",
+				"Do not salute. There is nobody left for whom it would mean anything."
+			],
+			"options": [
+				{
+					"text": "Where did four hundred go?",
+					"goto": "the_muster"
+				},
+				{
+					"text": "The gilt is scoured off the left pauldron and nowhere else. You've been holding a line alone.",
+					"check": {
+						"skill": "wits",
+						"dc": 13,
+						"success": "seen_through",
+						"failure": "not_seen",
+						"success_effects": { "set_flag": "valis_respects_you" }
+					}
+				},
+				{
+					"text": "Who are you holding it for?",
+					"once": true,
+					"goto": "for_whom"
+				},
+				{
+					"text": "We'll stand the wall tonight.",
+					"goto": "the_offer"
+				},
+				{
+					"text": "Then stand aside and let people who can fight through.",
+					"check": {
+						"skill": "might",
+						"dc": 15,
+						"success": "he_gives_ground",
+						"failure": "he_holds"
+					}
+				}
+			]
+		},
+		"again": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": [
+				"You came back to a place with nothing in it. I have stopped assuming that means stupidity.",
+				"The wall is where you left it. So am I. Between us we have managed very little movement.",
+				"They still talk about you on the ramp. I let them. It is cheaper than bread."
+			],
+			"options": [
+				{ "text": "How many nights now?", "goto": "the_nights" },
+				{
+					"text": "We stood your wall. Was it worth the standing?",
+					"requires": "thorn_wall_offered",
+					"once": true,
+					"goto": "worth_it"
+				},
+				{ "text": "We'll stand the wall again tonight.", "goto": "the_offer" },
+				{ "text": "Hold your gate, ser.", "goto": "end" }
+			]
+		},
+		"the_muster": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "Sixty to the gates. The rest to whichever lord promised bread last. I don't blame them and I'd thank you not to make me.",
+			"next": "end"
+		},
+		"seen_through": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "...Eleven nights. The scrub gives them cover to forty paces and there is only one of me at forty paces. If you can see that from where you stand, come up on the wall.",
+			"set_flag": "thorn_wall_offered",
+			"next": "end"
+		},
+		"not_seen": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "It's armour. It scours. Try being inside it for a season.",
+			"next": "end"
+		},
+		"the_offer": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "Then you'll be the first company that offered before asking the price. Go up. I'll take the ramp.",
+			"set_flag": "thorn_wall_offered",
+			"next": "end"
+		},
+		"he_gives_ground": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "I have stood aside for worse than you and buried what came after. Go on, then. Prove me wrong for once.",
+			"next": "end"
+		},
+		"he_holds": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "No. The gate is mine until somebody with a better claim relieves me, and you are not carrying one.",
+			"next": "end"
+		},
+		"for_whom": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "A house that has not written to me in two years. I have decided that the letter is merely late. It is a small madness and it gets me up the ramp each evening.",
+			"next": "end"
+		},
+		"the_nights": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": [
+				"I stopped counting at forty, which is itself a kind of answer.",
+				"Enough that the scrub has learned where I stand. That is the part that worries me.",
+				"Fewer than there will be. Ask me a question with an end to it."
+			],
+			"next": "end"
+		},
+		"worth_it": {
+			"speaker": "Ser Valis the Golden Knight",
+			"text": "Two farms still have roofs that would not have. You may have that, and I will keep the rest of the arithmetic to myself.",
+			"next": "end"
+		}
+	}
+}

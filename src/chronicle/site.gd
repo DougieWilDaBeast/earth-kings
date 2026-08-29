@@ -8,6 +8,10 @@ const LIBRARY := "library"
 const GATE := "gate"
 const TOWER := "tower"
 const HUT := "hut"
+## The party's own roof — safe, and the only bed they can improve (see [Home]).
+const HOME := "home"
+## Where somebody of yours went down (see [Memorial]).
+const GRAVE := "grave"
 
 ## Gate difficulty, weakest first. A gate's rank sets its guardian and its reward.
 const RANKS := ["E", "D", "C", "B", "A", "S"]

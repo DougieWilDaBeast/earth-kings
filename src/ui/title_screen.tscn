@@ -1,56 +1,195 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_title_screen"]
+[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" uid="uid://jt534gf8wcg3" path="res://art/ui/emblem.png" id="4_emblem"]
+[ext_resource type="Texture2D" uid="uid://b1vmjplvffi2s" path="res://art/units/sworn_blade/idle/south.png" id="5_crest"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("2_backdrop")
+
+[sub_resource type="Gradient" id="Gradient_ember"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 0.898, 0.663, 1, 1, 0.639, 0.29, 0.541, 1, 0.435, 0.145, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ember"]
+gradient = SubResource("Gradient_ember")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_ember_life"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_theme")
 script = ExtResource("1_title_screen")
 
 [node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07, 0.08, 0.11, 1)
+color = Color(0.05, 0.055, 0.075, 1)
 
-[node name="Items" type="VBoxContainer" parent="."]
+[node name="Embers" type="CPUParticles2D" parent="."]
+position = Vector2(640, 748)
+amount = 70
+lifetime = 11.0
+preprocess = 8.0
+randomness = 0.6
+lifetime_randomness = 0.5
+texture = SubResource("GradientTexture2D_ember")
+emission_shape = 3
+emission_rect_extents = Vector2(680, 24)
+spread = 14.0
+gravity = Vector2(0, -7)
+initial_velocity_min = 10.0
+initial_velocity_max = 34.0
+scale_amount_min = 0.3
+scale_amount_max = 0.95
+color = Color(1, 0.749, 0.435, 0.5)
+color_ramp = SubResource("Gradient_ember_life")
+
+[node name="Content" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -170.0
-offset_right = 160.0
-offset_bottom = 170.0
+offset_left = -340.0
+offset_top = -330.0
+offset_right = 340.0
+offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 34
 
-[node name="TitleLabel" type="Label" parent="Items"]
-theme_override_font_sizes/font_size = 44
-theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
-text = "Earth Kings"
-horizontal_alignment = 1
+[node name="Header" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="Items"]
-theme_override_colors/font_color = Color(0.75, 0.79, 0.86, 1)
-text = "A grid tactical RPG"
-horizontal_alignment = 1
+[node name="EmblemFrame" type="Control" parent="Content/Header"]
+custom_minimum_size = Vector2(171, 171)
+layout_mode = 2
 
-[node name="Spacer" type="Control" parent="Items"]
-custom_minimum_size = Vector2(0, 24)
+[node name="Emblem" type="TextureRect" parent="Content/Header/EmblemFrame"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_emblem")
+stretch_mode = 5
 
-[node name="ContinueButton" type="Button" parent="Items"]
+[node name="Crest" type="TextureRect" parent="Content/Header/EmblemFrame"]
 unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("5_crest")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleBlock" type="VBoxContainer" parent="Content/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Content/Header/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_colors/font_outline_color = Color(0.075, 0.055, 0.043, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.588)
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 5
+theme_override_font_sizes/font_size = 62
+text = "EARTH KINGS"
+
+[node name="Rule" type="ColorRect" parent="Content/Header/TitleBlock"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.478, 0.376, 0.204, 1)
+
+[node name="SubtitleLabel" type="Label" parent="Content/Header/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "a grid tactical RPG of small wars and long roads"
+
+[node name="Menu" type="PanelContainer" parent="Content"]
+custom_minimum_size = Vector2(516, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Items" type="VBoxContainer" parent="Content/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ContinueButton" type="Button" parent="Content/Menu/Items"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "Continue"
 
-[node name="NewGameButton" type="Button" parent="Items"]
+[node name="NewGameButton" type="Button" parent="Content/Menu/Items"]
 unique_name_in_owner = true
+layout_mode = 2
 text = "New Game"
 
-[node name="QuitButton" type="Button" parent="Items"]
+[node name="TrainingButton" type="Button" parent="Content/Menu/Items"]
 unique_name_in_owner = true
+layout_mode = 2
+text = "Training Ground"
+
+[node name="QuitButton" type="Button" parent="Content/Menu/Items"]
+unique_name_in_owner = true
+layout_mode = 2
 text = "Quit"
+
+[node name="Footer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -46.0
+offset_right = -28.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VersionLabel" type="Label" parent="Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Earth Kings"
+
+[node name="Spacer" type="Control" parent="Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HintLabel" type="Label" parent="Footer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "W / S to choose     Enter to confirm"

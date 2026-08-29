@@ -4,9 +4,13 @@ extends Node
 
 const SCENES := {
 	"title": "res://src/ui/title_screen.tscn",
+	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
 	"overworld": "res://src/overworld/overworld.tscn",
+	"area": "res://src/area/area_scene.tscn",
 	"battle": "res://src/battle/battle.tscn",
+	"training": "res://src/training/training_ground.tscn",
+	"summary": "res://src/ui/run_summary.tscn",
 }
 
 @onready var _container: Node = $CurrentScene

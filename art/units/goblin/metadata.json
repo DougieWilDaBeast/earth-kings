@@ -1,0 +1,14 @@
+{
+  "id": "goblin",
+  "source": "pixellab 9_goblin_goblin_Goblin_a_small_hunched.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "9\tgoblin\tgoblin\tGoblin — a small hunched green-grey creature in scavenged sackcloth, oversized ears, rusted crooked knife, sharp teeth",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

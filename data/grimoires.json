@@ -1,0 +1,45 @@
+{
+	"price_base": 90,
+	"price_spread": 70,
+	"weights": {
+		"doctrine": 0.3,
+		"trivia": 0.45,
+		"dud": 0.25
+	},
+	"covers": [
+		"A water-stained folio nobody has opened in years",
+		"A thin book with the title scratched off",
+		"Somebody's grandfather's book, sold with the house",
+		"A grimoire, allegedly",
+		"A bound sheaf that smells of smoke",
+		"A very heavy book with a very small amount of writing in it",
+		"A book with three different hands in it and none of them finished",
+		"A codex missing its first eleven pages"
+	],
+	"patter": [
+		"The seller will not quite meet your eye about it.",
+		"\"It is what it is. I cannot read, so I could not tell you.\"",
+		"\"Worth twice that in the capital.\" She does not say which capital.",
+		"\"My brother swore by it.\" Her brother is not mentioned again.",
+		"\"No refunds, and no arguments about it afterwards.\"",
+		"He seems relieved to be rid of it.",
+		"\"It was in the roof. It has been in the roof a long time.\""
+	],
+	"duds": [
+		"It is a ledger. Somebody's sheep, forty years of them.",
+		"The pages are blank after the third. Whoever started it lost interest.",
+		"It is a recipe book, and not a good one.",
+		"Every page is the same page, copied by someone who could not read it.",
+		"It is written in a cipher, and the cipher is the whole of the content.",
+		"Devotional verse. Long devotional verse.",
+		"It is a real grimoire, for a kind of magic this world does not have.",
+		"Half of it is a letter to a woman named Enn, and none of it is spellcraft.",
+		"The binding is worth more than the book, and the binding is not worth much."
+	],
+	"dud_reactions": [
+		"You paid for it. That is the arrangement.",
+		"Somebody warned you. You went ahead anyway.",
+		"It goes in the pack. You are not leaving it in the road.",
+		"This is how it goes, most of the time."
+	]
+}

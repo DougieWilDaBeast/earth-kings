@@ -1,0 +1,141 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Alder the Steward": "toln"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Alder the Steward",
+			"text": [
+				"You're armed, and you came in by the road instead of over the wall. That already puts you ahead of the last lot.",
+				"Armed, and walking slowly. I've learned to read both. Say your business.",
+				"Whatever you're selling, we bought it last spring and buried it by autumn. Talk anyway."
+			],
+			"options": [
+				{
+					"text": "What happened to the last lot?",
+					"goto": "the_last_lot"
+				},
+				{
+					"text": "We're only passing through. Is there work?",
+					"goto": "work"
+				},
+				{
+					"text": "Who speaks for this place when you're not standing in the road?",
+					"once": true,
+					"goto": "who_speaks"
+				},
+				{
+					"text": "The well is dry and the fields are cut short. You're not going to last the winter.",
+					"check": {
+						"skill": "wits",
+						"dc": 11,
+						"success": "read_the_village",
+						"failure": "misread",
+						"success_effects": { "set_flag": "steward_respects_you" }
+					}
+				},
+				{
+					"text": "Take this for the grain store. Don't make a speech about it.",
+					"requires_gold": 60,
+					"gold": -60,
+					"once": true,
+					"set_flag": "paid_the_village",
+					"goto": "the_gift"
+				},
+				{
+					"text": "Stand aside.",
+					"goto": "cold"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Alder the Steward",
+			"text": [
+				"You came back. Nobody comes back. I've had to think of something to say and I've not managed it.",
+				"Same road, same boots, fewer of you than I remember. Or more. I've stopped counting other people's.",
+				"The village saw you on the ridge and argued about whether to hope. You can settle it."
+			],
+			"options": [
+				{ "text": "How has the village fared?", "goto": "how_it_fares" },
+				{ "text": "Is there work?", "goto": "work" },
+				{
+					"text": "We said we'd bring the grain back. We've not forgotten.",
+					"requires": "promised_the_grain",
+					"goto": "the_promise"
+				},
+				{
+					"text": "Take this for the grain store. Don't make a speech about it.",
+					"requires_gold": 60,
+					"gold": -60,
+					"once": true,
+					"set_flag": "paid_the_village",
+					"goto": "the_gift"
+				},
+				{ "text": "Nothing today.", "goto": "end" }
+			]
+		},
+		"the_last_lot": {
+			"speaker": "Alder the Steward",
+			"text": "Took the grain and the name of protectors with it. If you're the same, take it now and spare us the speech.",
+			"options": [
+				{
+					"text": "We're not. You'll have it back if we find it.",
+					"set_flag": "promised_the_grain",
+					"goto": "held_to_it"
+				},
+				{ "text": "Understood.", "goto": "end" }
+			]
+		},
+		"work": {
+			"speaker": "Alder the Steward",
+			"text": "There's always work. Whether there's coin behind it is a different question — ask at the board and don't hold your breath.",
+			"next": "end"
+		},
+		"read_the_village": {
+			"speaker": "Alder the Steward",
+			"text": "...No. We won't. You're the first one through here who bothered to look at us instead of past us.",
+			"next": "end"
+		},
+		"misread": {
+			"speaker": "Alder the Steward",
+			"text": "We've lasted worse winters than you've seen summers. Move along.",
+			"next": "end"
+		},
+		"held_to_it": {
+			"speaker": "Alder the Steward",
+			"text": "Then I'll hold you to it, and so will everyone standing behind me.",
+			"next": "end"
+		},
+		"cold": {
+			"speaker": "Alder the Steward",
+			"text": "I've stood aside for better and worse than you. Go on, then.",
+			"next": "end"
+		},
+		"who_speaks": {
+			"speaker": "Alder the Steward",
+			"text": "Nobody. There was a reeve, and there was a lord above him, and both of them are a rumour now. So it's me, in the road, arguing with strangers.",
+			"next": "end"
+		},
+		"how_it_fares": {
+			"speaker": "Alder the Steward",
+			"text": [
+				"Two fewer roofs and one more grave. That's a quiet month, by our reckoning.",
+				"The children have started playing at being you. I've not decided whether to stop them.",
+				"We ate. Nobody left in the night. I'll take it and not ask for more."
+			],
+			"next": "end"
+		},
+		"the_promise": {
+			"speaker": "Alder the Steward",
+			"text": "I know. I've had it repeated to me by every man who saw you say it. Bring it or don't, but come back and say which.",
+			"next": "end"
+		},
+		"the_gift": {
+			"speaker": "Alder the Steward",
+			"text": "...Then I won't make one. It'll be in the store by dark and nobody will be told whose it was.",
+			"next": "end"
+		}
+	}
+}

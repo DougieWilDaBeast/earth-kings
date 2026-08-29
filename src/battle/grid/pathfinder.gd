@@ -53,6 +53,19 @@ func cells_in_range(origin: Vector2i, min_range: int, max_range: int) -> Array[V
 	return out
 
 
+## Blink destinations within [param blink_range]: move cost, height and anything
+## standing in between are all ignored — only the landing tile has to be free.
+## [param is_open] is called with a [Vector2i] and returns true if it can be landed on.
+func flash_cells(origin: Vector2i, blink_range: int, is_open: Callable) -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	if blink_range <= 0:
+		return out
+	for cell in cells_in_range(origin, 1, blink_range):
+		if _grid.is_walkable(cell) and is_open.call(cell):
+			out.append(cell)
+	return out
+
+
 static func distance(a: Vector2i, b: Vector2i) -> int:
 	return absi(a.x - b.x) + absi(a.y - b.y)
 

@@ -6,11 +6,15 @@ extends RefCounted
 ## Returns a plan the battle controller executes, so the AI never mutates state
 ## itself and can be swapped out (aggressive / defensive / scripted) per unit.
 
-## Plan shape: { "move_cell": Vector2i, "ability": String, "target": Unit|null }
+## Plan shape: { "move_cell": Vector2i, "ability": String, "target": Unit|null, "flash": bool }
+
+## Blinking is loud, so it only wins when walking cannot match the same tile.
+const FLASH_PENALTY := 5.0
+
 static func plan(
 	unit: Unit, grid: BattleGrid, pathfinder: Pathfinder, all_units: Array[Unit]
 ) -> Dictionary:
-	var result := {"move_cell": unit.cell, "ability": "", "target": null}
+	var result := {"move_cell": unit.cell, "ability": "", "target": null, "flash": false}
 
 	var foes := all_units.filter(
 		func(u: Unit) -> bool: return u.is_alive() and u.is_hostile_to(unit)
@@ -36,10 +40,22 @@ static func plan(
 	)
 	candidates.append(unit.cell)
 
-	var best_score := -INF
+	var options: Array[Dictionary] = []
 	for cell in candidates:
+		options.append({"cell": cell, "cost": float(field.cost_to(cell)) * 0.1, "flash": false})
+	for cell in pathfinder.flash_cells(
+		unit.cell,
+		unit.flash_step,
+		func(landing: Vector2i) -> bool: return _unit_at(all_units, landing) == null
+	):
+		if not field.can_reach(cell):
+			options.append({"cell": cell, "cost": FLASH_PENALTY, "flash": true})
+
+	var best_score := -INF
+	for option in options:
+		var cell: Vector2i = option["cell"]
 		var target := _best_target_from(cell, ability, unit, foes)
-		var score := -float(field.cost_to(cell)) * 0.1
+		var score: float = -float(option["cost"])
 		if target != null:
 			# Attacking beats repositioning; finish off the weakest reachable foe,
 			# and break ties towards the tile that lands on a softer face.
@@ -51,6 +67,7 @@ static func plan(
 			best_score = score
 			result["move_cell"] = cell
 			result["target"] = target
+			result["flash"] = option["flash"]
 
 	return result
 

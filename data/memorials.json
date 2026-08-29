@@ -1,0 +1,28 @@
+{
+	"elapsed": [
+		{ "under": 60, "text": "It was not long ago. The ground is still turned." },
+		{ "under": 300, "text": "The grass has started to come back over it." },
+		{ "under": 900, "text": "Long enough that you had stopped walking this way on purpose." },
+		{ "under": 2400, "text": "Long enough that you have to think about the face." },
+		{ "under": 999999, "text": "Long enough that you had stopped counting, which is its own kind of answer." }
+	],
+	"first_visit": [
+		"You stand at it a while. Nobody says very much.",
+		"Someone starts a sentence about them and does not finish it.",
+		"It is a poor marker. It is the one they got.",
+		"You clear the growth off it. It will be back."
+	],
+	"return_visit": [
+		"You come back past. It is still here, which is the whole of the news.",
+		"Nothing has changed. You did not expect it to.",
+		"You stop. Not for long.",
+		"Somebody has left a stone on it. Not one of yours."
+	],
+	"inheritance": [
+		"They told you this once, and you had not thought about it since.",
+		"You remember them explaining it badly, and it lands anyway.",
+		"It was their book. Somebody may as well carry it."
+	],
+	"reinforced": "You talk about them for a while. Everything you were carrying sits a little firmer.",
+	"lonely": "There is nobody left to say anything, so you say it yourself."
+}

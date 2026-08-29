@@ -1,0 +1,22 @@
+{
+  "id": "ember_duelist",
+  "source": "pixellab selected_characters (1).zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "Magic swordsman — a duelist in a slashed dark coat over light mail, one sword wreathed in faint ember light, half-mask, ash-marked hands",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    },
+    {
+      "state": "attack",
+      "prompt": "Magic swordsman — a duelist in a slashed dark coat over light mail, one sword wreathed in faint ember light, half-mask, ash-marked hands",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

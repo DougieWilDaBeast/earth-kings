@@ -37,9 +37,9 @@
 	},
 	"mend": {
 		"display_name": "Mend",
-		"description": "Restore an ally's health.",
+		"description": "Restore the health of an ally, or your own.",
 		"target": "ally",
-		"min_range": 1,
+		"min_range": 0,
 		"range": 3,
 		"splash": 0,
 		"heal": true,

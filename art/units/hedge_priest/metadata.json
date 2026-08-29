@@ -1,0 +1,14 @@
+{
+  "id": "hedge_priest",
+  "source": "pixellab 3_hedge_priest_toln_replaces_duck_wizard_Hedge_Pri.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "3\thedge_priest\ttoln (replaces duck_wizard)\tHedge Priest — a stooped village healer in a patched violet-grey robe, satchel of herbs, knotted rope belt, gnarled walking staff, no armour",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

@@ -1,6 +1,34 @@
 {
+	"cast": {
+		"Bram": "bram",
+		"Sera": "sera"
+	},
 	"lines": [
-		{ "speaker": "Sera", "text": "Movement in the brush. They've seen us." },
-		{ "speaker": "Bram", "text": "Hold the road. Make them come down off the hills." }
+		{
+			"speaker": "",
+			"text": [
+				"Movement in the brush on both shoulders of the road, and it is not the wind.",
+				"A bird goes up from the scrub with nothing under it, and then the scrub itself moves.",
+				"The road narrows, the birdsong stops, and somebody up the slope shifts their weight."
+			]
+		},
+		{
+			"who": "sera",
+			"speaker": "Sera",
+			"text": [
+				"They've seen us. They stopped pretending about a hundred paces back.",
+				"Both sides. Whoever set this has done it before and been paid for it.",
+				"They want us strung out on the road. Don't give it to them."
+			]
+		},
+		{
+			"who": "bram",
+			"speaker": "Bram",
+			"text": [
+				"Hold the road. Make them come down off the hills.",
+				"Backs together, feet on the stone. Let them spend the hill.",
+				"Nobody chases. They break on us or not at all."
+			]
+		}
 	]
 }

@@ -1,0 +1,63 @@
+{
+	"display_name": "the Sawyer's Rest",
+	"layers": ["dirt", "stone"],
+	"legend": {
+		"o": "stone",
+		",": "dirt"
+	},
+	"spawn": [6, 7],
+	"exits": [[6, 8]],
+	"spots": [
+		{ "cell": [6, 5], "line": "A longhouse of green timber, still weeping sap out of the roof beams." },
+		{ "cell": [10, 2], "line": "Axes on the wall, hung by men who meant to come back for them." }
+	],
+	"chests": [
+		{
+			"cell": [2, 2],
+			"line": "The foreman's strongbox, and the foreman two seasons gone.",
+			"gold": 110,
+			"item": "knotted_cord"
+		}
+	],
+	"people": [
+		{
+			"name": "Tem the Sword Monkey",
+			"unit": "sword_monkey",
+			"cell": [6, 3],
+			"facing": [0, 1],
+			"dialogue": "pine_sellsword"
+		},
+		{
+			"name": "Hask the Axe Bear",
+			"unit": "axe_bear",
+			"cell": [3, 4],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Bruin fells them. I carry them. Nobody writes songs about the carrying.",
+				"There is a shield by the door. It is mine. Leave it."
+			]
+		},
+		{
+			"name": "a caterpillar asleep on the bench",
+			"unit": "caterpillar_warrior",
+			"cell": [10, 5],
+			"facing": [-1, 0],
+			"wander": 1,
+			"chatter": [
+				"It takes up the entire bench and nobody has the nerve to say so."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo"
+	]
+}

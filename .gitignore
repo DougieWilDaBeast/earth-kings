@@ -24,3 +24,6 @@ err.log
 
 # Local reference material from other projects, not part of this game
 /possible-relevant-game-material/
+
+# Scratch staging for incoming art drops
+/.art_stage/

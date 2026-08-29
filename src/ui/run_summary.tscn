@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/ui/run_summary.gd" id="1_run_summary"]
+[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("2_backdrop")
+shader_parameter/sky_top = Color(0.02, 0.02, 0.031, 1)
+shader_parameter/sky_bottom = Color(0.129, 0.067, 0.059, 1)
+shader_parameter/mist_tint = Color(0.29, 0.25, 0.3, 1)
+shader_parameter/fire_tint = Color(0.36, 0.12, 0.05, 1)
+shader_parameter/mist_strength = 0.4
+shader_parameter/drift_speed = 0.012
+shader_parameter/vignette_strength = 1.35
+
+[sub_resource type="Gradient" id="Gradient_ember"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 0.867, 0.6, 1, 1, 0.549, 0.243, 0.541, 1, 0.353, 0.118, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ember"]
+gradient = SubResource("Gradient_ember")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_ember_life"]
+offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[node name="RunSummary" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_run_summary")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.04, 0.05, 1)
+
+[node name="Embers" type="CPUParticles2D" parent="."]
+position = Vector2(640, 748)
+amount = 90
+lifetime = 12.0
+preprocess = 9.0
+randomness = 0.6
+lifetime_randomness = 0.5
+texture = SubResource("GradientTexture2D_ember")
+emission_shape = 3
+emission_rect_extents = Vector2(680, 24)
+spread = 16.0
+gravity = Vector2(0, -6)
+initial_velocity_min = 8.0
+initial_velocity_max = 30.0
+scale_amount_min = 0.3
+scale_amount_max = 1.0
+color = Color(1, 0.663, 0.353, 0.55)
+color_ramp = SubResource("Gradient_ember_life")
+
+[node name="Content" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 34.0
+offset_right = -64.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.906, 0.447, 0.322, 1)
+theme_override_colors/font_outline_color = Color(0.067, 0.043, 0.039, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 44
+text = "THE RUN IS OVER"
+horizontal_alignment = 1
+
+[node name="EpitaphLabel" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.686, 0.663, 0.616, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 17
+text = "The company walked a long way."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Panel" type="PanelContainer" parent="Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Body" type="VBoxContainer" parent="Content/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Chapters" type="GridContainer" parent="Content/Panel/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 46
+theme_override_constants/v_separation = 22
+columns = 3
+
+[node name="FallenLabel" type="Label" parent="Content/Panel/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.769, 0.612, 0.494, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15
+text = "Buried on the way:"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TitleButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back to the title"
+
+[node name="QuitButton" type="Button" parent="Content/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"

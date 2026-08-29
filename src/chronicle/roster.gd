@@ -13,13 +13,25 @@ var characters: Array[Character] = []
 var party: Array = []
 
 
-static func found() -> Roster:
+static func found(lead_id: String = "") -> Roster:
 	var roster := Roster.new()
-	for i in FOUNDING.size():
-		var character := Character.create(FOUNDING[i], "", i == 0)
+	var band := _band(lead_id)
+	for i in band.size():
+		var character := Character.create(band[i], "", i == 0)
 		roster.characters.append(character)
 		roster.party.append(character.id)
 	return roster
+
+
+## Who rides out on day one: the chosen lead and whoever still follows them, or
+## the founding three when nobody has chosen.
+static func _band(lead_id: String) -> Array:
+	var hero := Database.hero(lead_id)
+	if hero.is_empty():
+		return FOUNDING
+	var band := [lead_id]
+	band.append_array(hero.get("companions", []))
+	return band
 
 
 func add(character: Character) -> Character:

@@ -1,0 +1,113 @@
+{
+	"terrains": {
+		"grass": {
+			"display_name": "grass",
+			"walkable": true
+		},
+		"dirt": {
+			"display_name": "bare earth",
+			"walkable": true
+		},
+		"stone": {
+			"display_name": "broken stone",
+			"walkable": true
+		},
+		"water": {
+			"display_name": "water",
+			"walkable": false
+		},
+		"sand": {
+			"display_name": "sand",
+			"walkable": true
+		},
+		"meadow": {
+			"display_name": "long grass",
+			"walkable": true
+		},
+		"flagstone": {
+			"display_name": "flagstones",
+			"walkable": true
+		},
+		"crag": {
+			"display_name": "rock face",
+			"walkable": false
+		},
+		"raised": {
+			"display_name": "higher ground",
+			"walkable": true
+		},
+		"cinder": {
+			"display_name": "burnt rubble",
+			"walkable": true
+		},
+		"thunderstone": {
+			"display_name": "thunderstone",
+			"walkable": true
+		}
+	},
+	"sheets": {
+		"dirt": {
+			"texture": "res://art/tilesets/dirt_grass.png",
+			"tile_size": 64,
+			"lower": "dirt",
+			"upper": "grass",
+			"feature": "dirt"
+		},
+		"stone": {
+			"texture": "res://art/tilesets/grass_stone.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "stone",
+			"feature": "stone"
+		},
+		"water": {
+			"texture": "res://art/tilesets/water_grass.png",
+			"tile_size": 32,
+			"lower": "water",
+			"upper": "grass",
+			"feature": "water"
+		},
+		"sand": {
+			"texture": "res://art/tilesets/grass_earth.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "sand",
+			"feature": "sand"
+		},
+		"meadow": {
+			"texture": "res://art/tilesets/meadow_grass.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "meadow",
+			"feature": "meadow"
+		},
+		"flagstone": {
+			"texture": "res://art/tilesets/battle_ground.png",
+			"tile_size": 64,
+			"lower": "dirt",
+			"upper": "flagstone",
+			"feature": "flagstone"
+		},
+		"crag": {
+			"texture": "res://art/tilesets/grass_stone.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "crag",
+			"feature": "crag"
+		},
+		"raised": {
+			"texture": "res://art/tilesets/grass_raised.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "raised",
+			"feature": "raised"
+		},
+		"thunderstone": {
+			"texture": "res://art/tilesets/thunderstone.png",
+			"tile_size": 64,
+			"lower": "cinder",
+			"upper": "thunderstone",
+			"feature": "thunderstone"
+		}
+	}
+}

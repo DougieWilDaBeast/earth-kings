@@ -1,0 +1,102 @@
+{
+	"display_name": "the salt hamlet",
+	"layers": ["dirt", "sand", "meadow", "water"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"~": "water",
+		"s": "sand",
+		"m": "meadow"
+	},
+	"spawn": [11, 16],
+	"exits": [[11, 17], [12, 17]],
+	"spots": [
+		{ "cell": [12, 5], "line": "Nets on every frame, and every frame turned away from the water." },
+		{ "cell": [4, 8], "line": "A keel laid down years ago. Nobody has added a rib to it since." },
+		{ "cell": [14, 11], "line": "The shingle is scraped smooth where the boats used to be dragged up." }
+	],
+	"chests": [
+		{
+			"cell": [13, 2],
+			"line": "A salt barrel with a false bottom, which is exactly where you looked.",
+			"gold": 80,
+			"item": "grave_token"
+		},
+		{
+			"cell": [15, 14],
+			"line": "A sea chest come in on the tide, still locked, still heavy.",
+			"gold": 165
+		}
+	],
+	"buildings": [
+		{
+			"name": "the Salt and Line",
+			"cell": [3, 2],
+			"size": [5, 4],
+			"door": [5, 5],
+			"area": "shore_taphouse"
+		}
+	],
+	"people": [
+		{
+			"name": "Halbrec the Pirate Man",
+			"unit": "pirate_man",
+			"cell": [12, 7],
+			"facing": [-1, 0],
+			"cutscene": "the_shore_pirate",
+			"dialogue": "shore_pirate"
+		},
+		{
+			"name": "Gill the Cabin Hand",
+			"unit": "cabin_boy",
+			"cell": [14, 3],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"Every net on the frames and not one of them wet since spring.",
+				"Halbrec says the tide brings things back. He never says what."
+			]
+		},
+		{
+			"name": "a gull with a temper",
+			"unit": "flame_dove",
+			"cell": [17, 11],
+			"facing": [-1, 0],
+			"wander": 5,
+			"chatter": [
+				"It has taken two hats and a knife off this beach today."
+			]
+		},
+		{
+			"name": "Nettle the Cutpurse",
+			"unit": "hat_fox",
+			"cell": [8, 9],
+			"facing": [1, 0],
+			"wander": 4,
+			"chatter": [
+				"There is no law down here, only tide tables.",
+				"Count your coin before the shingle and after it."
+			]
+		}
+	],
+	"rows": [
+		"mmmm................ss~~",
+		"mmm.......,,,,,,...ss~~~",
+		"mm.......,,,,,,,,.ss~~~~",
+		"m........,,,,,,,,.ss~~~~",
+		".........,,,,,,,,.ss~~~~",
+		".........,,,,,,,,.ss~~~~",
+		".........,,,,,,,,.ss~~~~",
+		"..........,,,,,,,.ss~~~~",
+		"....ss....,,,,,,.sss~~~~",
+		"....ss.....,,...ssss~~~~",
+		"...........,,..ssss~~~~~",
+		"...........,,.sssss~~~~~",
+		"mmmmm......,,.ssss~~~~~~",
+		"mmmmmm.....,,.ssss~~~~~~",
+		"mmmmmm.....,,.ssss~~~~~~",
+		"mmmmmmm....,,..ssss~~~~~",
+		"mmmmmmm....,,...ssss~~~~",
+		"mmmmmm.....,,....ssss~~~"
+	]
+}

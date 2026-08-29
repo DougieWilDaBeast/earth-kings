@@ -1,0 +1,119 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Codge the Village Idiot": "village_idiot"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Codge the Village Idiot",
+			"text": [
+				"They call me the idiot because I count the boats. Nobody else counts the boats. Nine went out. Nine is wrong.",
+				"Don't stand there, that's where I count from. Nine went out. It's still wrong.",
+				"You've come at the wrong tide for talking and the right one for counting. Nine. Wrong."
+			],
+			"options": [
+				{
+					"text": "Nine sounds right to me.",
+					"goto": "nine_is_wrong"
+				},
+				{
+					"text": "How many should there be?",
+					"goto": "the_count"
+				},
+				{
+					"text": "Who told you to stop counting?",
+					"once": true,
+					"goto": "who_stopped_him"
+				},
+				{
+					"text": "You're not wrong. Say it slower and say it to me.",
+					"check": {
+						"skill": "guard",
+						"dc": 11,
+						"success": "he_trusts_you",
+						"failure": "he_shuts_up",
+						"success_effects": { "set_flag": "codge_counted_for_you" }
+					}
+				},
+				{
+					"text": "Here. Eat something.",
+					"requires_gold": 5,
+					"gold": -5,
+					"goto": "the_meal"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Codge the Village Idiot",
+			"text": [
+				"You came back and you didn't tell me to stop. I've written that down. Not on anything. In my head.",
+				"Still nine. I checked at first light and I checked at slack and it's still nine.",
+				"The others walk round me. You walk up to me. I count that too."
+			],
+			"options": [
+				{ "text": "What's the count today?", "goto": "todays_count" },
+				{
+					"text": "Show me where the shingle is scraped smooth.",
+					"requires": "heard_of_the_tenth_boat",
+					"once": true,
+					"goto": "the_scrape"
+				},
+				{
+					"text": "Here. Eat something.",
+					"requires_gold": 5,
+					"gold": -5,
+					"goto": "the_meal"
+				},
+				{ "text": "Keep counting, Codge.", "goto": "end" }
+			]
+		},
+		"nine_is_wrong": {
+			"speaker": "Codge the Village Idiot",
+			"text": "Nine went out. Ten came back. Nobody wants that arithmetic so they gave it to me and told me to stop doing it.",
+			"next": "end"
+		},
+		"the_count": {
+			"speaker": "Codge the Village Idiot",
+			"text": "Nine. Always nine. I know every keel by the noise it makes on the shingle and one of them makes no noise at all.",
+			"set_flag": "heard_of_the_tenth_boat",
+			"next": "end"
+		},
+		"he_trusts_you": {
+			"speaker": "Codge the Village Idiot",
+			"text": "...The tenth comes in on the slack and goes out before the light. It ties up where the shingle is scraped smooth. You've walked past it already.",
+			"set_flag": "heard_of_the_tenth_boat",
+			"next": "end"
+		},
+		"he_shuts_up": {
+			"speaker": "Codge the Village Idiot",
+			"text": "No. No, I'm the idiot. Ask the ones who can read.",
+			"next": "end"
+		},
+		"the_meal": {
+			"speaker": "Codge the Village Idiot",
+			"text": "You didn't tell me to stop counting first. Nobody does that.",
+			"next": "end"
+		},
+		"who_stopped_him": {
+			"speaker": "Codge the Village Idiot",
+			"text": "The headman. He said the number frightens the women. It doesn't. It frightens him. I know the difference, I count that too.",
+			"next": "end"
+		},
+		"todays_count": {
+			"speaker": "Codge the Village Idiot",
+			"text": [
+				"Nine out. Nine back. And a keel that made no noise, so that's ten, so that's wrong.",
+				"Eight out. One didn't go. He didn't say why and I didn't ask, because asking makes them stop telling.",
+				"Nine, nine, nine, and a rope tied by somebody who isn't from here."
+			],
+			"next": "end"
+		},
+		"the_scrape": {
+			"speaker": "Codge the Village Idiot",
+			"text": "Past the last net pole, where the shingle goes flat and quiet. Don't go at slack. Go now, when whoever it belongs to is asleep somewhere warm.",
+			"set_flag": "shown_the_scrape",
+			"next": "end"
+		}
+	}
+}

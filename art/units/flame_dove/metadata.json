@@ -1,0 +1,14 @@
+{
+  "id": "flame_dove",
+  "source": "pixellab selected_characters (1).zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "dove with fire, has pink eyes and hat",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "horse"
+    }
+  ]
+}

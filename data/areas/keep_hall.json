@@ -1,0 +1,64 @@
+{
+	"display_name": "the great hall",
+	"layers": ["dirt", "stone"],
+	"legend": {
+		"o": "stone",
+		",": "dirt"
+	},
+	"spawn": [6, 7],
+	"exits": [[6, 8]],
+	"spots": [
+		{ "cell": [6, 5], "line": "A hall built for a hundred, holding eleven." },
+		{ "cell": [10, 3], "line": "Banners of houses that no longer answer when called." }
+	],
+	"chests": [
+		{
+			"cell": [2, 2],
+			"line": "The muster chest, and nobody left to muster.",
+			"gold": 120,
+			"item": "grave_token"
+		}
+	],
+	"people": [
+		{
+			"name": "Castellan Ruve",
+			"unit": "castellan",
+			"cell": [6, 3],
+			"facing": [0, 1],
+			"dialogue": "the_castellan"
+		},
+		{
+			"name": "a watchman warming through",
+			"unit": "keep_watchman",
+			"cell": [3, 5],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Off the wall, into the hall, back onto the wall. That is the year.",
+				"The castellan counts nine of us. He counts generously."
+			]
+		},
+		{
+			"name": "Corvel's second",
+			"unit": "devil_butler",
+			"cell": [10, 4],
+			"facing": [-1, 0],
+			"wander": 2,
+			"chatter": [
+				"The long table is laid for forty. It has been for some time.",
+				"Touch nothing on the wall. The names are all we have left up there."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo",
+		"ooooooooooooo"
+	]
+}

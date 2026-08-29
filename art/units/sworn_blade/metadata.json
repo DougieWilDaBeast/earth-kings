@@ -1,0 +1,14 @@
+{
+  "id": "sworn_blade",
+  "source": "pixellab 1_sworn_blade_bram_replaces_golden_knight_Sworn_Bl (1).zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "1\tsworn_blade\tbram (replaces golden_knight)\tSworn Blade — a scarred oath-sworn swordsman in dark riveted mail over a blue-grey surcoat, cropped beard, plain arming sword and small kite shield, no helmet",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

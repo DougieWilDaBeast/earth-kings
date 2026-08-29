@@ -1,0 +1,117 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Castellan Ruve": "castellan"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Castellan Ruve",
+			"text": [
+				"The hall is open because there is nothing left in it worth shutting the door on. Say your piece.",
+				"Mind the rushes. They were laid for a feast that was cancelled, and nobody has had the heart to sweep them.",
+				"Come in, then. The fire is small and the welcome is smaller, but both are honest."
+			],
+			"options": [
+				{
+					"text": "Who holds this keep now?",
+					"goto": "who_holds_it"
+				},
+				{
+					"text": "You've no garrison. Eleven men and a hall built for a hundred.",
+					"check": {
+						"skill": "wits",
+						"dc": 12,
+						"success": "counted",
+						"failure": "rebuffed"
+					}
+				},
+				{
+					"text": "Whose names are on that wall?",
+					"once": true,
+					"goto": "the_wall"
+				},
+				{
+					"text": "Open the muster rolls to us and we'll hold the pass for you.",
+					"check": {
+						"skill": "renown",
+						"dc": 13,
+						"success": "sworn_in",
+						"failure": "rebuffed",
+						"success_effects": { "set_flag": "keep_backs_you" }
+					}
+				},
+				{ "text": "Then we'll leave you to it.", "goto": "end" }
+			]
+		},
+		"again": {
+			"speaker": "Castellan Ruve",
+			"text": [
+				"You are becoming a fixture, and I am short of those. Sit if you like.",
+				"I had a letter about you. Badly spelled, and half of it was praise. Make of that what I did.",
+				"Back from the pass, and fewer of you than went. I will not ask; I have been asked before."
+			],
+			"options": [
+				{ "text": "How does the keep stand?", "goto": "how_it_stands" },
+				{
+					"text": "You put our name on your wall. Was that a kindness or a debt?",
+					"requires": "keep_backs_you",
+					"once": true,
+					"goto": "the_debt"
+				},
+				{
+					"text": "Open the muster rolls to us and we'll hold the pass for you.",
+					"requires_not": "keep_backs_you",
+					"check": {
+						"skill": "renown",
+						"dc": 13,
+						"success": "sworn_in",
+						"failure": "rebuffed",
+						"success_effects": { "set_flag": "keep_backs_you" }
+					}
+				},
+				{ "text": "Nothing today, castellan.", "goto": "end" }
+			]
+		},
+		"who_holds_it": {
+			"speaker": "Castellan Ruve",
+			"text": "I do, on paper. The valley holds it in practice, and the valley is being emptied a farm at a time.",
+			"next": "end"
+		},
+		"counted": {
+			"speaker": "Castellan Ruve",
+			"text": "Nine, and two of them green. You count well. Don't say the number out loud past that door.",
+			"set_flag": "knows_the_garrison",
+			"next": "end"
+		},
+		"sworn_in": {
+			"speaker": "Castellan Ruve",
+			"text": "Then the hall is yours to muster from. Bring back the pass, and I'll put your name on the wall with the ones who held it before you.",
+			"next": "end"
+		},
+		"rebuffed": {
+			"speaker": "Castellan Ruve",
+			"text": "The keep has heard enough from strangers this season. Walk the yard, touch nothing, and go.",
+			"next": "end"
+		},
+		"the_wall": {
+			"speaker": "Castellan Ruve",
+			"text": "Men who held the pass. The last four are cut smaller than the rest, because by then we were saving stone. I would rather not save any more.",
+			"next": "end"
+		},
+		"how_it_stands": {
+			"speaker": "Castellan Ruve",
+			"text": [
+				"Standing. That is the whole of the report and it took me a fortnight to be able to give it.",
+				"Two more gone over the wall at night. I have stopped having them fetched back.",
+				"Better, since the road began to carry your name instead of theirs."
+			],
+			"next": "end"
+		},
+		"the_debt": {
+			"speaker": "Castellan Ruve",
+			"text": "Both. That is what a wall of names is. Every one of them was a kindness at the time and a debt by the spring.",
+			"next": "end"
+		}
+	}
+}

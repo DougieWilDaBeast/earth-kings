@@ -100,17 +100,41 @@ water, grass, brush, hill, crag and mountain. Then places are scattered on it, n
 | Kind    | Count | Role                                                      |
 | ------- | ----- | --------------------------------------------------------- |
 | Tower   | 1     | Claims the far corner; everything else arranges around it |
+| Home    | 1     | Yours; beside the first village, and where you start      |
 | Keep    | 2     | Safe ground                                               |
-| Village | 4     | Safe ground, rest, and where you start                    |
+| Village | 4     | Safe ground and rest                                      |
 | Library | 3     | Doctrine                                                  |
 | Gate    | 6     | Ranked dungeons                                           |
 | Hut     | 4     | Safe ground on a long road                                |
+
+**Home and the bed.** Home is the only site the player owns and the only one with nothing to sell.
+Sleeping there heals the party outright, and the bed installed in it grants every sleeper a
+permanent bonus to max HP — the one stat the player buys rather than earns. Beds are a fixed ladder
+in `world_rules.home.beds` (straw pallet 0 HP → canopied bed +22 HP) and only ever go up. The
+bonus is stored per character as `hearth`, so a companion who never came home never gained it, and
+a night in a village never takes it away.
 
 **Gate ranks** run E → D → C → B → A → S. Rank is set by distance from the Tower — the gates near
 it are the bad ones — with a little jitter. Expected delver level is `1 + rank_index × 4`.
 
 **The world clock.** Every 30 steps the world takes an upkeep pass: closed gates may open again
 (25% normally, 10% if recently cleared). Nothing stays shut forever.
+
+**Towns under threat.** The same pass puts the settlement nearest a long-open gate under siege.
+A siege you answer (`Town.save`) pays gold and buys goodwill; one you ignore for 900 steps takes
+the town, which stops trading for good. Raiding (`Town.raid`) is the other end of the same lever:
+you fight the town's own people, empty its strongbox, and it is ruined either way — the difference
+is only who did it, and that is the part the country remembers.
+
+**Renown is local.** There is no single number for how famous the party is. Every notable act is a
+_deed_ recorded at the cell it happened on, and word travels outward at a fixed number of steps per
+tile (`renown.steps_per_tile`). `Renown.standing` sums the deeds that have reached a given cell, so
+the same party is renowned in one valley and unknown in the next. Standing sets the greeting a
+place gives you, moves its prices, and feeds the `renown` skill in dialogue checks.
+
+**Loot has no bag.** `Loot.take` hands a piece to the party member it most improves; charms go to
+the player; anything nobody gains from is sold immediately. Nothing accumulates in a screen that
+would never be read.
 
 ## Battle
 
@@ -119,7 +143,14 @@ Unchanged from the tactics core and already working:
 - Square grid, per-tile move cost, height and jump.
 - **Charge-time turn order** — each tick every unit gains CT equal to its speed and acts at 100,
   so fast units act _more often_, not merely sooner.
-- Move, then act, then wait. Abilities have min range, max range and splash.
+- **Your ready units act as a squad.** Every player unit at 100 CT takes the phase together;
+  **Tab** (Shift+Tab to go back) switches between the ones who still have something to spend,
+  and clicking one selects it. Enemies still act one at a time.
+- **An action and a bonus action each turn.** An ability costs the action; moving costs either
+  and spends the bonus first; flash stepping and abilities flagged `"bonus": true` cost the bonus.
+  "Wait" gives up what that character has left, not the whole phase.
+- **Flash step** — a blink to any free tile within range, ignoring move cost, height and anyone
+  in the way. Granted by a unit template or a class (`flash_step`).
 - **Facing matters**: side hits deal 1.2×, back hits 1.5×. Units turn as they move.
 - Damage is `max(1, attack × power − defense)` with ±10% variance.
 

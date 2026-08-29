@@ -31,7 +31,14 @@ const LEGEND := {
 
 ## [param enemies] is a list of { "unit": template_id, "level": int }.
 static func generate(world: World, cell: Vector2i, enemies: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var palette: Array = PALETTES.get(world.terrain_id_at(cell), PALETTES["grass"])
+	var map := generate_on(world.terrain_id_at(cell), world.terrain_at(cell).get("name", "Open ground"), enemies, rng)
+	map["id"] = "field_%d_%d" % [cell.x, cell.y]
+	return map
+
+
+## Same field, built from a terrain id alone — for fights with no world behind them.
+static func generate_on(terrain_id: String, display_name: String, enemies: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var palette: Array = PALETTES.get(terrain_id, PALETTES["grass"])
 
 	var rows: Array = []
 	for y in SIZE.y:
@@ -50,8 +57,8 @@ static func generate(world: World, cell: Vector2i, enemies: Array, rng: RandomNu
 		placed.append(entry)
 
 	return {
-		"id": "field_%d_%d" % [cell.x, cell.y],
-		"name": world.terrain_at(cell).get("name", "Open ground"),
+		"id": "field_%s" % terrain_id,
+		"name": display_name,
 		"legend": LEGEND,
 		"tiles": rows,
 		"player_spawns": player_spawns,

@@ -40,7 +40,25 @@ func advance() -> Unit:
 
 
 func end_turn(unit: Unit) -> void:
-	unit.ct -= CT_THRESHOLD
+	# Anyone who acted before their charge was full pays only what they had, so
+	# the party's slower members never sink into permanent debt.
+	unit.ct = maxi(0, unit.ct - CT_THRESHOLD)
+
+
+## Who acts next. Enemies come one at a time; when a player unit is ready the
+## whole living party takes the phase together, so any of them can be played in
+## any order. Everyone who takes part pays the full 100 CT for it.
+func advance_group() -> Array[Unit]:
+	var leader := advance()
+	if leader == null:
+		return []
+	if leader.team != Unit.Team.PLAYER:
+		return [leader]
+	var squad: Array[Unit] = living_units().filter(
+		func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER
+	)
+	squad.sort_custom(_by_ct_desc)
+	return squad
 
 
 ## Non-destructive lookahead for the turn-order bar in the HUD.
@@ -64,7 +82,13 @@ func forecast(count: int) -> Array[Unit]:
 				simulated[unit] += unit.speed
 			continue
 		order.append(best)
-		simulated[best] -= CT_THRESHOLD
+		if best.team != Unit.Team.PLAYER:
+			simulated[best] -= CT_THRESHOLD
+			continue
+		# The party comes up as a single phase, so the bar bills it as one.
+		for unit: Unit in simulated:
+			if unit.team == Unit.Team.PLAYER:
+				simulated[unit] -= CT_THRESHOLD
 	return order
 
 

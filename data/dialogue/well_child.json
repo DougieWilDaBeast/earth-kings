@@ -1,0 +1,87 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Pell the Cabin Hand": "cabin_boy"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Pell the Cabin Hand",
+			"text": [
+				"You've got the good boots. That means you walked here on purpose.",
+				"Nobody comes to this end of the village unless they're lost or looking. Which?",
+				"I've been counting the crows on the well rope. You've made me lose the number."
+			],
+			"options": [
+				{
+					"text": "What's under the pond?",
+					"goto": "the_pond"
+				},
+				{
+					"text": "Shouldn't you be somewhere safer?",
+					"goto": "safer"
+				},
+				{
+					"text": "What happened to the crew?",
+					"once": true,
+					"goto": "the_crew"
+				},
+				{
+					"text": "Here. Buy your family something.",
+					"requires_gold": 10,
+					"gold": -10,
+					"set_flag": "kind_to_the_cabin_hand",
+					"goto": "coin"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Pell the Cabin Hand",
+			"text": [
+				"I told them you'd come back and they said I made you up. Stand still a moment so they can see.",
+				"Still the good boots. Muddier, though. Where've they been?",
+				"You're the second thing this week that came back when it wasn't supposed to. The other was a gull."
+			],
+			"options": [
+				{ "text": "What have you heard about us?", "goto": "the_story" },
+				{ "text": "Anything new in the water?", "goto": "the_pond" },
+				{
+					"text": "Here. Same as last time.",
+					"requires_gold": 10,
+					"gold": -10,
+					"goto": "coin"
+				},
+				{ "text": "Stay out of the reeds, Pell.", "goto": "end" }
+			]
+		},
+		"the_pond": {
+			"speaker": "Pell the Cabin Hand",
+			"text": "Something that was a horse. Nobody will fish it out, so nobody drinks from that end any more.",
+			"next": "end"
+		},
+		"safer": {
+			"speaker": "Pell the Cabin Hand",
+			"text": "This is the safer place. That's the whole joke. I was crew until the crew stopped coming back, and all the sea left me was the scabbard.",
+			"next": "end"
+		},
+		"coin": {
+			"speaker": "Pell the Cabin Hand",
+			"text": "I'll tell them a knight gave it me. They won't believe the knight part.",
+			"next": "end"
+		},
+		"the_crew": {
+			"speaker": "Pell the Cabin Hand",
+			"text": "They went out on a good tide and came back as wood. I keep the scabbard because it's the only bit that came back whole.",
+			"next": "end"
+		},
+		"the_story": {
+			"speaker": "Pell the Cabin Hand",
+			"text": [
+				"That you don't sleep. I said that was daft. Do you sleep?",
+				"The smith says you'll come to nothing. The smith says that about the weather too.",
+				"They've started using your name to make us come in at dark. It works."
+			],
+			"next": "end"
+		}
+	}
+}

@@ -22,6 +22,7 @@
 		"growth": { "max_hp": 5, "attack": 1.9, "defense": 1.0, "speed": 0.5 },
 		"themes": ["edge", "ember", "storm"],
 		"grants": ["cleave", "ember"],
+		"flash_step": 3,
 		"yoke": true
 	},
 	"raider": {

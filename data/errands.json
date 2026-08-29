@@ -1,0 +1,123 @@
+{
+	"max_accepted": 3,
+	"min_distance": 5,
+	"max_distance": 18,
+	"reward_base": 40,
+	"reward_per_distance": 3,
+	"cull_reward_per_head": 30,
+	"doctrine_chance": 0.18,
+	"trades": [
+		"the cooper",
+		"the miller",
+		"who keeps the bees",
+		"who mends the roofs",
+		"the smith's widow",
+		"who sits by the door",
+		"the carter",
+		"who used to hold a sword",
+		"the herbalist",
+		"who remembers the old road"
+	],
+	"fetch": [
+		{
+			"title": "A ring in the reeds",
+			"text": "It came off her hand at {place} the summer her husband died. She would like it back before she forgets which finger."
+		},
+		{
+			"title": "The good knife",
+			"text": "Left at {place}. It is a perfectly ordinary knife. It is also the only one that cuts bread properly."
+		},
+		{
+			"title": "Blue flowers",
+			"text": "They only grow at {place}, and only briefly. Bring an armful. Do not ask who they are for."
+		},
+		{
+			"title": "A name on a stone",
+			"text": "There is a marker at {place}. Read what it says and bring the words back. I cannot make the walk any more."
+		},
+		{
+			"title": "My father's boots",
+			"text": "He walked to {place} and did not walk back. The boots are worth more than the sentiment, but only just."
+		},
+		{
+			"title": "The other half",
+			"text": "We broke a coin between us at {place} and each took a piece. He is dead. I would like the set."
+		}
+	],
+	"deliver": [
+		{
+			"title": "A letter, unhurried",
+			"text": "Take this to {place}. There is no rush. He has waited nine years; he can wait for you to arrive."
+		},
+		{
+			"title": "Seed for the spring",
+			"text": "{place} lost their store to the rain. It will keep. Walk carefully with it."
+		},
+		{
+			"title": "Six coppers",
+			"text": "A debt owed to a man in {place}. I have been meaning to send it since before you were born."
+		},
+		{
+			"title": "Word of a death",
+			"text": "Someone in {place} should be told. Do not soften it. She will know if you do."
+		},
+		{
+			"title": "A jar of preserves",
+			"text": "For my sister at {place}. She will say she did not want any. Leave it anyway."
+		}
+	],
+	"cull": [
+		{
+			"title": "The wolves again",
+			"text": "{count} of them at least, and they have had the ewe already."
+		},
+		{
+			"title": "Something in the field",
+			"text": "{count} {target}, near enough. Nobody will go out after dark now."
+		},
+		{
+			"title": "Bad neighbours",
+			"text": "Clear out {count} {target}. They have been told once. They did not take it well."
+		},
+		{
+			"title": "The road is not safe",
+			"text": "{count} {target} working the road. The carts have stopped coming and the price of everything has gone up."
+		},
+		{
+			"title": "It comes back",
+			"text": "We drove them off last winter and the winter before. {count} {target}. We will be asking again next year."
+		}
+	],
+	"look": [
+		{
+			"title": "See if it still stands",
+			"text": "There was a tree at {place}. I planted it. Go and see whether it is still there, and come back and lie to me if it is not."
+		},
+		{
+			"title": "The flowers at {place}",
+			"text": "They open once and they do not last. I have never been. Go and see them for me."
+		},
+		{
+			"title": "Where the field was",
+			"text": "There was a battle at {place}, long enough ago that the grass has forgotten it. Stand there a while."
+		},
+		{
+			"title": "The view",
+			"text": "From {place} you can see the whole valley. That is all. That is the whole errand."
+		},
+		{
+			"title": "The names we carved",
+			"text": "My party cut their names into the rock at {place}. I am the last of them. See that it is still legible."
+		},
+		{
+			"title": "Sunrise, apparently",
+			"text": "Someone told me the light comes up over {place} in a way worth walking for. I have never had the time."
+		}
+	],
+	"seen": [
+		"You stand a while at {place}. It is exactly as small as it was described.",
+		"{place}, and it is still there. Somebody will be glad, and somebody will pretend not to be.",
+		"There is nothing at {place} but the thing you were sent to look at. It was worth the walk.",
+		"You look at {place} for as long as it takes. Then you go on."
+	]
+}

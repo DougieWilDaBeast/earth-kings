@@ -1,0 +1,14 @@
+{
+  "id": "blood_mosquito",
+  "source": "pixellab selected_characters.zip 2026-08-28",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "A mosquito with 4 arms and 2 legs, each arm has a different dagger. has a blood container on his back that connects with his mouth",
+      "size": "48x48",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

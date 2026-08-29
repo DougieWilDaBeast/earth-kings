@@ -1,0 +1,101 @@
+{
+	"display_name": "the pine camp",
+	"layers": ["dirt", "crag", "meadow"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"^": "crag",
+		"m": "meadow"
+	},
+	"spawn": [10, 16],
+	"exits": [[10, 17], [11, 17]],
+	"spots": [
+		{ "cell": [10, 8], "line": "Sawdust to the ankle, and not one log squared off since spring." },
+		{ "cell": [2, 3], "line": "The whetstone outcrop. Every blade in the camp has been dragged across it." },
+		{ "cell": [17, 13], "line": "Somebody has been sleeping in the lee of the rocks, and left in a hurry." }
+	],
+	"chests": [
+		{
+			"cell": [6, 10],
+			"line": "A felling crate: wedges, spare heads, and coin the foreman forgot he hid.",
+			"gold": 95,
+			"item": "bone_sword"
+		},
+		{
+			"cell": [3, 7],
+			"line": "A stump hollowed out and packed with rags, and something heavier under them.",
+			"gold": 130
+		}
+	],
+	"buildings": [
+		{
+			"name": "the Sawyer's Rest",
+			"cell": [16, 5],
+			"size": [5, 4],
+			"door": [18, 8],
+			"area": "pine_longhouse"
+		}
+	],
+	"people": [
+		{
+			"name": "Bruin the Axe Bear",
+			"unit": "axe_bear",
+			"cell": [8, 9],
+			"facing": [1, 0],
+			"cutscene": "the_pine_woodcutter",
+			"dialogue": "pine_woodcutter"
+		},
+		{
+			"name": "Rush the Caterpillar Warrior",
+			"unit": "caterpillar_warrior",
+			"cell": [12, 7],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"I can carry one end of a log. I am the one end.",
+				"Bruin swings, I steady. It has worked for eleven winters."
+			]
+		},
+		{
+			"name": "Old Stump",
+			"unit": "tree_sentinel",
+			"cell": [5, 10],
+			"facing": [1, 0],
+			"chatter": [
+				"They cut around me. They have always cut around me.",
+				"One side of me bears fruit. Do not eat from the other."
+			]
+		},
+		{
+			"name": "Nix the Cutpurse",
+			"unit": "hat_fox",
+			"cell": [9, 11],
+			"facing": [0, -1],
+			"wander": 4,
+			"chatter": [
+				"Sawdust hides a great many footprints.",
+				"I am only here for the offcuts. Truly."
+			]
+		}
+	],
+	"rows": [
+		"mmmm..................",
+		"mm.^^^^^..............",
+		"mm.^^^^^^.............",
+		"mm.^^^^^^.............",
+		"......................",
+		"........,,,,,,,.,,,,,.",
+		".....,,,,,,,,,,.,,,,,.",
+		"....,,,,,,,,,,,.,,,,,.",
+		"....,,,,,,,,,,,,,,,,,.",
+		".....,,,,,,,,,,.......",
+		"......,,,,,,,,........",
+		".........,,,,.........",
+		"mmmm......,,......^^^^",
+		"mmmmm.....,,......^^^^",
+		"mmmmm.....,,......^^^^",
+		"mmmm......,,.......^^^",
+		"mmmm......,,..........",
+		"mmm.......,,.........."
+	]
+}

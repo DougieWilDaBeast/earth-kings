@@ -1,7 +1,13 @@
 {
+	"cast": {
+		"Bram": "bram",
+		"Sera": "sera",
+		"Toln": "toln"
+	},
 	"lines": [
-		{ "speaker": "Sera", "text": "The ford's low enough to cross. Whoever's been raiding the valley came through here." },
-		{ "speaker": "Bram", "text": "Then we follow the tracks. The pass first." },
-		{ "speaker": "Toln", "text": "Three of us against a whole raiding band. I'd like the record to show I said that out loud." }
+		{ "speaker": "", "text": "The ford is low enough to cross. Whoever has been raiding the valley came through here, and did not bother to hide it." },
+		{ "who": "sera", "speaker": "Sera", "text": "Tracks on the far bank. Two days old, and heavy \u2014 they were carrying somebody's winter out." },
+		{ "who": "bram", "speaker": "Bram", "text": "Then we follow them. The pass first." },
+		{ "who": "toln", "speaker": "Toln", "text": "A whole raiding band, and this many of us. I'd like the record to show I said that out loud." }
 	]
 }

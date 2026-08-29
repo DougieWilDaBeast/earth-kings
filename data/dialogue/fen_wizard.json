@@ -1,0 +1,123 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Wick the Duck Wizard": "duck_wizard"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Wick the Duck Wizard",
+			"text": [
+				"Mind the third board. It's been meaning to drop somebody all week and I'd rather it wasn't a guest.",
+				"Don't touch the pots. Two of them are supper and I've forgotten which.",
+				"Ah. Boots, iron, and a question. Always in that order."
+			],
+			"options": [
+				{
+					"text": "You're a wizard, in a bog.",
+					"goto": "the_bog"
+				},
+				{
+					"text": "What's the fen been giving up lately?",
+					"goto": "the_water"
+				},
+				{
+					"text": "Teach me something useless.",
+					"once": true,
+					"goto": "the_useless"
+				},
+				{
+					"text": "That charm on the post is drawn wrong. Whoever cut it was copying from memory.",
+					"check": {
+						"skill": "wits",
+						"dc": 12,
+						"success": "read_the_charm",
+						"failure": "misread_the_charm",
+						"success_effects": { "set_flag": "wick_respects_you" }
+					}
+				},
+				{
+					"text": "Buy your village a dry winter.",
+					"requires_gold": 25,
+					"gold": -25,
+					"set_flag": "paid_the_fen",
+					"goto": "paid"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Wick the Duck Wizard",
+			"text": [
+				"The third board went. Took the tax collector. I've decided that's magic and I'm not hearing otherwise.",
+				"You're back, and the fen didn't keep you. It usually insists.",
+				"I put the kettle on when the ducks got restless. They were right, as ever."
+			],
+			"options": [
+				{ "text": "What's the water said since we left?", "goto": "the_water" },
+				{
+					"text": "That banner nobody could read. Have you got further with it?",
+					"requires": "heard_of_the_fen_banner",
+					"goto": "the_banner"
+				},
+				{
+					"text": "Look at us and tell me what you see.",
+					"once": true,
+					"check": { "skill": "renown", "dc": 11, "success": "the_reading", "failure": "no_reading" }
+				},
+				{
+					"text": "Another twenty-five for the tar.",
+					"requires_gold": 25,
+					"gold": -25,
+					"goto": "paid"
+				},
+				{ "text": "Nothing. Mind your board.", "goto": "end" }
+			]
+		},
+		"the_bog": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "The bog was here before the wizard. I only learned to argue with it. Some seasons I even win.",
+			"next": "end"
+		},
+		"the_water": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "Boots without feet. A saddle without a horse. And last week, a banner nobody here can read. Take that how you like.",
+			"set_flag": "heard_of_the_fen_banner",
+			"next": "end"
+		},
+		"read_the_charm": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "...It is. I cut it in the dark with the water coming up. If you can see that, you can see what's coming out of the gates — stay a while.",
+			"next": "end"
+		},
+		"misread_the_charm": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "It's drawn for a fen, not a book. Different grammar out here.",
+			"next": "end"
+		},
+		"paid": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "Then I'll buy tar with it, and the tar will buy the winter. That's most of what magic is.",
+			"next": "end"
+		},
+		"the_useless": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "Here: a word that makes still water ring like a struck cup. Does nothing. Frightens herons. I've had forty years out of it.",
+			"next": "end"
+		},
+		"the_banner": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "I've got as far as knowing it isn't a language. It's a list. Somebody was writing down places, and we were on it.",
+			"next": "end"
+		},
+		"the_reading": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "People who've begun to be a thing that happens to places, rather than people who arrive at them. Sit down. That's not a compliment, it's a warning.",
+			"next": "end"
+		},
+		"no_reading": {
+			"speaker": "Wick the Duck Wizard",
+			"text": "Tired, wet, and hoping I'll say something grand. I'm a bog wizard, not a mirror.",
+			"next": "end"
+		}
+	}
+}

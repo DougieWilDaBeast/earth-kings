@@ -43,6 +43,10 @@ var doctrine: Array = []
 var doctrine_seen: Dictionary = {}
 ## Self-imposed handicap traded for faster growth.
 var yoke: bool = false
+## Extra max HP carried from the bed last slept in at home (see [Home]).
+var hearth: int = 0
+## Other character id -> how well the two of them get on (see [Banter]).
+var bonds: Dictionary = {}
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -77,7 +81,7 @@ func class_name_text() -> String:
 
 
 func max_hp() -> int:
-	return maxi(1, _stat("max_hp", 20))
+	return maxi(1, _stat("max_hp", 20) + hearth)
 
 
 func attack() -> int:
@@ -101,6 +105,16 @@ func move_points() -> int:
 
 func jump() -> int:
 	return maxi(0, int(template().get("jump", 1)) + Doctrine.bonus(self, "jump"))
+
+
+## Blink range in tiles; 0 means this character cannot flash step at all.
+func flash_step() -> int:
+	var base := maxi(
+		int(template().get("flash_step", 0)), int(class_data().get("flash_step", 0))
+	)
+	if base <= 0:
+		return 0
+	return maxi(0, base + Doctrine.bonus(self, "flash_step"))
 
 
 ## Everything this character can actually cast: template kit + class grants +
@@ -174,6 +188,8 @@ func to_dict() -> Dictionary:
 		"doctrine": doctrine,
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
+		"hearth": hearth,
+		"bonds": bonds,
 	}
 
 
@@ -198,4 +214,7 @@ static func from_dict(data: Dictionary) -> Character:
 	character.doctrine = data.get("doctrine", [])
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))
+	character.hearth = int(data.get("hearth", 0))
+	for other_id: String in data.get("bonds", {}):
+		character.bonds[other_id] = int(data["bonds"][other_id])
 	return character

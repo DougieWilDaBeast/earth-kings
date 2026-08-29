@@ -1,0 +1,110 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Bruin the Axe Bear": "axe_bear"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Bruin the Axe Bear",
+			"text": [
+				"Stand out of the fall line and we'll get on. Everything else about you I can work around.",
+				"Wait for the crack, then move. That's the whole of the safety talk and it's saved more men than prayer.",
+				"Mind your feet. Half this camp is stump and the other half is what fell on it."
+			],
+			"options": [
+				{
+					"text": "A bear with an axe.",
+					"goto": "the_axe"
+				},
+				{
+					"text": "Why has nothing been cut since spring?",
+					"goto": "the_stoppage"
+				},
+				{
+					"text": "Who's left in the camp?",
+					"once": true,
+					"goto": "the_camp"
+				},
+				{
+					"text": "Hand it here. I'll take a turn at the stump.",
+					"check": {
+						"skill": "might",
+						"dc": 13,
+						"success": "took_the_stump",
+						"failure": "missed_the_stump",
+						"success_effects": { "set_flag": "bruin_owes_you" }
+					}
+				},
+				{
+					"text": "We're only through for the road.",
+					"goto": "passing"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Bruin the Axe Bear",
+			"text": [
+				"You're back and the road's still crooked. One of those I can do something about.",
+				"Sit on the stump. It's the only chair in the valley that's never given anyone a splinter.",
+				"Heard you before I saw you. You walk like the ground owes you money."
+			],
+			"options": [
+				{ "text": "Is the cut road any better?", "goto": "the_road_now" },
+				{
+					"text": "You said you'd swing for us. Still good for it?",
+					"requires": "bruin_owes_you",
+					"once": true,
+					"goto": "the_offer"
+				},
+				{ "text": "Another turn at the stump.", "check": { "skill": "might", "dc": 13, "success": "took_the_stump", "failure": "missed_the_stump" } },
+				{ "text": "Just passing. Keep your line clear.", "goto": "end" }
+			]
+		},
+		"the_axe": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "A bear with an axe is a woodcutter. A bear without one is a problem. The camp worked that out early and we've all been happier since.",
+			"next": "end"
+		},
+		"the_stoppage": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "Because the cut road goes past a gate, and the gate is open, and the carters have decided timber isn't worth it. They're not wrong.",
+			"set_flag": "heard_of_the_pine_road",
+			"next": "end"
+		},
+		"took_the_stump": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "...Hah. You've done it before. Come back when the road's clear and I'll swing for you instead of at wood.",
+			"next": "end"
+		},
+		"missed_the_stump": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "You buried it and now you'll get to learn the second half of the job. Pull.",
+			"next": "end"
+		},
+		"passing": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "Then go quick and go loud. The quiet ones on that road are the ones we find later.",
+			"next": "end"
+		},
+		"the_camp": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "Nine, two saws and a cook who can't cook. We were forty. The rest went to look for work, or for the ones who went to look for work.",
+			"next": "end"
+		},
+		"the_road_now": {
+			"speaker": "Bruin the Axe Bear",
+			"text": [
+				"A cart got through. One. We stood and watched it like it was a parade.",
+				"Better where you've been. Worse where you haven't. That's been true all year.",
+				"Still bad, but the badness has moved up the valley, and moving is something."
+			],
+			"next": "end"
+		},
+		"the_offer": {
+			"speaker": "Bruin the Axe Bear",
+			"text": "I'm good for it. Say the word and I'll leave the axe in a stump for the first time in nine years. Just be sure it's a word worth the walk.",
+			"next": "end"
+		}
+	}
+}

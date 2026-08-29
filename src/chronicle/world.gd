@@ -27,6 +27,8 @@ var size: Vector2i = SIZE
 ## One string per row; each character is a [constant LEGEND] symbol.
 var tiles: Array = []
 var sites: Array[Site] = []
+## Bands out in the country, each watching the ground around it (see [Prowler]).
+var prowlers: Array[Prowler] = []
 var steps: int = 0
 var player_cell: Vector2i = Vector2i.ZERO
 ## Highest Tower floor anyone has come back down from.
@@ -37,6 +39,10 @@ var tower_topped: bool = false
 var trees: Dictionary = {}
 ## Themes the world has catalogued, for the Codex readout.
 var codex: Dictionary = {}
+## Small useless spells this world has written down (see [Trivia]).
+var trivia: Array = []
+## Everything you have done that anyone would repeat, and where (see [Renown]).
+var deeds: Array = []
 
 var rng := RandomNumberGenerator.new()
 
@@ -80,9 +86,24 @@ func sites_of_kind(kind: String) -> Array[Site]:
 	return sites.filter(func(s: Site) -> bool: return s.kind == kind)
 
 
+## The band with eyes on [param cell], if any. Walking onto a tile one of these
+## is watching is the only way a fight starts in the open.
+func prowler_watching(cell: Vector2i) -> Prowler:
+	for band in prowlers:
+		if band.sees(self, cell):
+			return band
+	return null
+
+
 func tower() -> Site:
 	var towers := sites_of_kind(Site.TOWER)
 	return towers[0] if not towers.is_empty() else null
+
+
+## The one place that is yours. Every world has exactly one.
+func home() -> Site:
+	var homes := sites_of_kind(Site.HOME)
+	return homes[0] if not homes.is_empty() else null
 
 
 func tower_floors() -> int:
@@ -106,7 +127,8 @@ func distance_to_open_gate(cell: Vector2i) -> int:
 func distance_to_haven(cell: Vector2i) -> int:
 	var best := 9999
 	for site in sites:
-		if site.kind == Site.VILLAGE or site.kind == Site.KEEP or site.kind == Site.HUT:
+		if site.kind == Site.VILLAGE or site.kind == Site.KEEP or site.kind == Site.HUT \
+				or site.kind == Site.HOME:
 			best = mini(best, Pathfinder.distance(cell, site.cell))
 	return best
 
@@ -147,10 +169,16 @@ func tree(tree_id: String) -> Dictionary:
 
 
 ## Share of the ability grammar the world has catalogued, 0.0–1.0.
+##
+## Trivial spells count towards this. Understanding the grammar is not the same
+## as owning powerful things, and a world that has bothered to write down how to
+## get a wine stain out of cloth understands it better.
 func codex_understanding() -> float:
-	if AbilityGrammar.THEMES.is_empty():
-		return 0.0
-	return float(codex.size()) / float(AbilityGrammar.THEMES.size())
+	var themes := 0.0
+	if not AbilityGrammar.THEMES.is_empty():
+		themes = float(codex.size()) / float(AbilityGrammar.THEMES.size())
+	var weight := float(Database.world_rules.get("codex", {}).get("trivia_weight", 0.4))
+	return clampf(themes * (1.0 - weight) + Trivia.share_found(self) * weight, 0.0, 1.0)
 
 
 ## Re-register every generated ability after a load, so saved characters can
@@ -167,6 +195,8 @@ func restore_abilities() -> void:
 ## Advance the world by one step. Returns notices worth showing the player.
 func step() -> Array:
 	steps += 1
+	for band in prowlers:
+		band.wander(self, rng)
 	if steps % UPKEEP_INTERVAL != 0:
 		return []
 	return _upkeep()
@@ -190,6 +220,7 @@ func _upkeep() -> Array:
 		else:
 			# It held this time; the clock starts again.
 			site.opened_at = steps
+	notices.append_array(Town.upkeep(self))
 	return notices
 
 
@@ -202,12 +233,15 @@ func to_dict() -> Dictionary:
 		"size": [size.x, size.y],
 		"tiles": tiles,
 		"sites": sites.map(func(s: Site) -> Dictionary: return s.to_dict()),
+		"prowlers": prowlers.map(func(p: Prowler) -> Dictionary: return p.to_dict()),
 		"steps": steps,
 		"player_cell": [player_cell.x, player_cell.y],
 		"tower_floor": tower_floor,
 		"tower_topped": tower_topped,
 		"trees": trees,
 		"codex": codex,
+		"trivia": trivia,
+		"deeds": deeds,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -226,8 +260,12 @@ static func from_dict(payload: Dictionary) -> World:
 	world.tower_topped = bool(payload.get("tower_topped", false))
 	world.trees = payload.get("trees", {})
 	world.codex = payload.get("codex", {})
+	world.trivia = payload.get("trivia", [])
+	world.deeds = payload.get("deeds", [])
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
+	for entry: Dictionary in payload.get("prowlers", []):
+		world.prowlers.append(Prowler.from_dict(entry))
 	world.rng.seed = world.world_seed
 	var saved_state: String = payload.get("rng_state", "")
 	if saved_state.is_valid_int():

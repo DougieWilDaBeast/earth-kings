@@ -6,8 +6,13 @@ extends Node2D
 signal died
 
 enum Team { PLAYER, ENEMY }
+## What a command costs. EITHER spends the bonus action first, so the main
+## action stays open for as long as possible.
+enum Cost { ACTION, BONUS, EITHER }
 
 const WALK_TIME_PER_TILE := 0.14
+## Half a blink: fade out, reappear, fade back in.
+const FLASH_TIME := 0.11
 ## Sprite height as a multiple of a tile.
 const SPRITE_HEIGHT_CELLS := 1.15
 ## Facing -> the rotation file PixelLab exports for it.
@@ -35,6 +40,8 @@ var attack: int = 1
 var defense: int = 0
 var move_points: int = 3
 var jump: int = 1
+## Blink range in tiles; 0 for units that cannot flash step.
+var flash_step: int = 0
 var speed: int = 8
 var abilities: Array = []
 var colour: Color = Color.WHITE
@@ -47,8 +54,8 @@ var weapon_sprites: Dictionary = {}
 ## Charge time — see [TurnManager]. At 100 the unit acts.
 var ct: int = 0
 
-var has_moved: bool = false
-var has_acted: bool = false
+var action_spent: bool = false
+var bonus_spent: bool = false
 
 
 static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) -> Unit:
@@ -63,6 +70,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.defense = int(data.get("defense", 0))
 	unit.move_points = int(data.get("move", 3))
 	unit.jump = int(data.get("jump", 1))
+	unit.flash_step = int(data.get("flash_step", 0))
 	unit.speed = int(data.get("speed", 8))
 	unit.abilities = data.get("abilities", ["strike"])
 	unit.colour = Color(data.get("color", "#cccccc"))
@@ -97,6 +105,7 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 	unit.defense = source.defense() + int(unit.weapon.get("defense", 0))
 	unit.move_points = source.move_points()
 	unit.jump = source.jump()
+	unit.flash_step = source.flash_step()
 	unit.speed = source.speed()
 	unit.abilities = source.abilities()
 	return unit
@@ -145,8 +154,50 @@ func is_hostile_to(other: Unit) -> bool:
 
 
 func begin_turn() -> void:
-	has_moved = false
-	has_acted = false
+	action_spent = false
+	bonus_spent = false
+
+
+## Abilities cost the main action unless they are flagged as minor.
+static func ability_cost(ability: Dictionary) -> Cost:
+	return Cost.BONUS if bool(ability.get("bonus", false)) else Cost.ACTION
+
+
+func can_pay(cost: Cost) -> bool:
+	match cost:
+		Cost.ACTION:
+			return not action_spent
+		Cost.BONUS:
+			return not bonus_spent
+		_:
+			return not action_spent or not bonus_spent
+
+
+func pay(cost: Cost) -> void:
+	match cost:
+		Cost.ACTION:
+			action_spent = true
+		Cost.BONUS:
+			bonus_spent = true
+		_:
+			if bonus_spent:
+				action_spent = true
+			else:
+				bonus_spent = true
+
+
+## Give up whatever is left, ending this unit's part of the phase.
+func finish_turn() -> void:
+	action_spent = true
+	bonus_spent = true
+
+
+func is_done() -> bool:
+	return action_spent and bonus_spent
+
+
+func can_move() -> bool:
+	return can_pay(Cost.EITHER)
 
 
 func take_damage(amount: int) -> void:
@@ -187,7 +238,27 @@ func walk_path(grid: BattleGrid, path: Array[Vector2i]) -> void:
 	var penultimate: Vector2i = path[-2] if path.size() > 1 else cell
 	cell = path[-1]
 	facing = dominant_direction(cell - penultimate)
-	has_moved = true
+	queue_redraw()
+
+
+func can_flash_step() -> bool:
+	return flash_step > 0 and can_pay(Cost.BONUS)
+
+
+## Blink straight to [param target_cell]; awaitable like [method walk_path].
+func flash_to(grid: BattleGrid, target_cell: Vector2i) -> void:
+	if target_cell == cell:
+		return
+	facing = dominant_direction(target_cell - cell)
+	var tween := create_tween()
+	tween.tween_property(self, "modulate:a", 0.1, FLASH_TIME)
+	tween.tween_callback(
+		func() -> void:
+			cell = target_cell
+			position = grid.cell_to_world(target_cell)
+	)
+	tween.tween_property(self, "modulate:a", 1.0, FLASH_TIME)
+	await tween.finished
 	queue_redraw()
 
 

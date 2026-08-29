@@ -1,0 +1,63 @@
+{
+	"display_name": "the Salt and Line",
+	"layers": ["dirt", "stone"],
+	"legend": {
+		"o": "stone",
+		",": "dirt"
+	},
+	"spawn": [5, 7],
+	"exits": [[5, 8]],
+	"spots": [
+		{ "cell": [5, 5], "line": "It smells of tar and old fish and nobody apologises for it." },
+		{ "cell": [2, 2], "line": "A slate by the door counts debts. Half the names have been scratched out with a knife." }
+	],
+	"chests": [
+		{
+			"cell": [9, 2],
+			"line": "A locker behind the barrels, tallied to a name nobody will say aloud.",
+			"gold": 65,
+			"item": "knotted_cord"
+		}
+	],
+	"people": [
+		{
+			"name": "Codge the Village Idiot",
+			"unit": "village_idiot",
+			"cell": [5, 3],
+			"facing": [0, 1],
+			"dialogue": "shore_idiot"
+		},
+		{
+			"name": "Rell the Pirate Man",
+			"unit": "pirate_man",
+			"cell": [3, 4],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Halbrec keeps the beach. I keep the corner. It works.",
+				"Two maces and nowhere left worth taking with them."
+			]
+		},
+		{
+			"name": "a gull that got in",
+			"unit": "flame_dove",
+			"cell": [8, 5],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"Nobody has been able to get it back out since the spring."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo"
+	]
+}

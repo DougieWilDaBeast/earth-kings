@@ -9,6 +9,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	_root.hide()
+	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.system_menu_requested.connect(open)
 	var save_button: Button = %SaveButton
 	save_button.pressed.connect(_on_save_pressed)
@@ -27,6 +28,10 @@ func open() -> void:
 
 func close() -> void:
 	_root.hide()
+
+
+func is_open() -> bool:
+	return _root.visible
 
 
 func _unhandled_input(event: InputEvent) -> void:

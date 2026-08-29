@@ -1,36 +1,40 @@
 {
 	"wild": {
-		"grass": ["wolf", "goblin"],
-		"brush": ["wolf", "wolf", "goblin"],
-		"road": ["brigand", "brigand_archer"],
-		"hill": ["goblin", "brigand"],
-		"crag": ["goblin", "brigand_archer"],
-		"water": ["wolf"],
+		"grass": ["wolf", "goblin", "feather_wisp", "flame_dove"],
+		"brush": ["wolf", "wolf", "goblin", "tree_sentinel"],
+		"road": ["brigand", "brigand_archer", "cabin_boy", "hat_fox", "village_idiot"],
+		"hill": ["goblin", "brigand", "pig_warlock", "frozen_wolfman"],
+		"crag": ["goblin", "brigand_archer", "turret_cannon", "frozen_wolfman"],
+		"water": ["wolf", "feather_wisp", "flame_dove"],
 		"wall": ["goblin"]
 	},
 	"gate": {
-		"E": ["wolf", "goblin"],
-		"D": ["goblin", "brigand"],
-		"C": ["goblin", "brigand", "brigand_archer"],
-		"B": ["brigand", "brigand_archer", "ogre"],
-		"A": ["brigand_archer", "ogre", "brigand_chief"],
-		"S": ["ogre", "brigand_chief", "wraith"]
+		"E": ["wolf", "goblin", "cabin_boy"],
+		"D": ["goblin", "brigand", "feather_wisp", "hat_fox"],
+		"C": ["goblin", "brigand", "brigand_archer", "cabin_boy", "village_idiot"],
+		"B": ["brigand", "brigand_archer", "ogre", "pig_warlock", "frozen_wolfman"],
+		"A": ["brigand_archer", "ogre", "brigand_chief", "turret_cannon", "ember_duelist", "emo_swordsman"],
+		"S": ["ogre", "brigand_chief", "wraith", "fox_knight", "ember_duelist", "devil_butler", "emo_swordsman"]
 	},
 	"guardian": {
 		"E": "goblin",
 		"D": "brigand",
 		"C": "brigand_chief",
-		"B": "ogre",
-		"A": "wraith",
+		"B": "tree_sentinel",
+		"A": "fox_knight",
 		"S": "wraith"
 	},
-	"tower": ["goblin", "brigand", "ogre", "wraith"],
-	"captors": ["brigand", "brigand_archer", "brigand_chief"],
+	"tower": ["goblin", "brigand", "ogre", "wraith", "feather_wisp", "fox_knight", "tree_sentinel", "turret_cannon", "ember_duelist", "frozen_wolfman", "emo_swordsman", "devil_butler"],
+	"captors": ["brigand", "brigand_archer", "brigand_chief", "cabin_boy", "hat_fox"],
+	"siege": ["brigand", "brigand_archer", "goblin", "frozen_wolfman", "cabin_boy"],
+	"guard": ["village_idiot", "neuron_chief", "emo_swordsman", "cabin_boy"],
 	"base_chance": 0.07,
 	"gate_range": 8,
 	"gate_pressure": 0.3,
 	"haven_range": 4,
 	"haven_relief": 0.06,
 	"min_chance": 0.01,
-	"max_chance": 0.45
+	"max_chance": 0.45,
+	"bands": 14,
+	"sight": 2
 }

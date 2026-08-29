@@ -1,0 +1,130 @@
+{
+	"display_name": "the ford village",
+	"layers": ["dirt", "sand", "meadow", "water"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"~": "water",
+		"s": "sand",
+		"m": "meadow"
+	},
+	"spawn": [12, 16],
+	"exits": [[12, 17], [13, 17]],
+	"spots": [
+		{ "cell": [12, 7], "line": "The square is worn flat by market days." },
+		{ "cell": [6, 3], "line": "Somebody has stacked firewood against the wall." },
+		{ "cell": [17, 12], "line": "The pond is still, and something moves under it." }
+	],
+	"chests": [
+		{
+			"cell": [4, 4],
+			"line": "A strongbox behind the firewood, and the lock already broken.",
+			"art": "strongbox",
+			"gold": 85,
+			"item": "knotted_cord"
+		},
+		{
+			"cell": [5, 12],
+			"line": "Somebody buried a jar under the fence and did not come back for it.",
+			"gold": 140
+		}
+	],
+	"props": [
+		{ "art": "street_lamp", "cell": [11, 9] },
+		{ "art": "street_lamp", "cell": [13, 9] },
+		{ "art": "stone_bench", "cell": [10, 7] },
+		{ "art": "potted_plant", "cell": [14, 7] },
+		{ "art": "coin_pile", "cell": [6, 4] }
+	],
+	"buildings": [
+		{
+			"name": "the Ford and Crown",
+			"cell": [18, 3],
+			"size": [5, 4],
+			"door": [20, 6],
+			"area": "village_inn"
+		}
+	],
+	"people": [
+		{
+			"name": "Alder the Steward",
+			"unit": "toln",
+			"cell": [11, 8],
+			"facing": [0, 1],
+			"cutscene": "the_steward",
+			"dialogue": "village_steward"
+		},
+		{
+			"name": "Pell the Cabin Hand",
+			"unit": "cabin_boy",
+			"cell": [15, 11],
+			"facing": [-1, 0],
+			"cutscene": "the_well_child",
+			"dialogue": "well_child"
+		},
+		{
+			"name": "Wat the Village Idiot",
+			"unit": "village_idiot",
+			"cell": [14, 5],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"I counted the geese twice and got a different answer twice.",
+				"Steward says stand somewhere else. I've stood everywhere else.",
+				"You've got the good boots and all."
+			]
+		},
+		{
+			"name": "a fox in a stolen hat",
+			"unit": "hat_fox",
+			"cell": [10, 10],
+			"facing": [1, 0],
+			"wander": 4,
+			"chatter": [
+				"It looks at your purse the way you look at a river you have to cross.",
+				"Nobody in the village will say whose hat that was."
+			]
+		},
+		{
+			"name": "Grist the Caterpillar",
+			"unit": "caterpillar_warrior",
+			"cell": [5, 5],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Eight boots. Eight. You try affording that on a farm wage.",
+				"The firewood stacks itself if you have enough hands, and I do."
+			]
+		},
+		{
+			"name": "a dove that will not settle",
+			"unit": "flame_dove",
+			"cell": [16, 14],
+			"facing": [-1, 0],
+			"wander": 5,
+			"chatter": [
+				"It burns where it lands, and it never lands twice in the same place."
+			]
+		}
+	],
+	"rows": [
+		"mmmmm.....................",
+		"mmmm......................",
+		"mm..,,,,,.................",
+		"...,,,,,,.........,,,,,...",
+		"..,,,,,..,,,,,,,,.,,,,,...",
+		"..,,,,,..,,,,,,,,.,,,,,...",
+		"...,,,...,,,,,,,,.,,,,,...",
+		".........,,,,,,,,.,,,,,...",
+		".........,,,,,,,,.........",
+		".........,,,,,,,,.s~~~~~~.",
+		"..........,,,,,,.ss~~~~~~.",
+		"...........,,,,..ss~~~~~~.",
+		"mmmmmm......,,..sss~~~~~~.",
+		"mmmmmm......,,..sss~~~~~~.",
+		"mmmmmmm.....,,..ssss~~~~~.",
+		"mmmmmmm.....,,............",
+		"mmmmmm......,,............",
+		"mmmmm.......,,............"
+	]
+}

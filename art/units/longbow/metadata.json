@@ -1,0 +1,14 @@
+{
+  "id": "longbow",
+  "source": "pixellab 2_longbow_sera_Longbow_ranger_a_lean.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "2\tlongbow\tsera\tLongbow ranger — a lean woman in a hooded green-grey cloak and studded leather jerkin, quiver at hip, tall yew longbow held low, braided hair",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

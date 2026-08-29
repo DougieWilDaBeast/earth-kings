@@ -1,0 +1,119 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Rook the Watchman": "keep_watchman"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Rook the Watchman",
+			"text": [
+				"Nobody crosses the causeway at this hour without a reason. Let's hear yours.",
+				"Stop there. Hands where the torch can find them, and talk.",
+				"Four hours I've had of nothing but wind, and now you. Make it worth the walk over."
+			],
+			"options": [
+				{
+					"text": "We're expected.",
+					"check": {
+						"skill": "renown",
+						"dc": 12,
+						"success": "known",
+						"failure": "not_known"
+					}
+				},
+				{
+					"text": "We fought whatever's been coming out of the gate. Ask anyone on the road.",
+					"goto": "the_gate"
+				},
+				{
+					"text": "Long watch. Who set it?",
+					"once": true,
+					"goto": "the_watch"
+				},
+				{
+					"text": "Something for the cold, and no questions from us.",
+					"requires_gold": 30,
+					"gold": -30,
+					"set_flag": "keep_admitted",
+					"goto": "the_coin"
+				},
+				{
+					"text": "Try to stop us and find out.",
+					"check": {
+						"skill": "might",
+						"dc": 14,
+						"success": "backed_down",
+						"failure": "not_known",
+						"success_effects": { "set_flag": "keep_gate_forced" }
+					}
+				}
+			]
+		},
+		"again": {
+			"speaker": "Rook the Watchman",
+			"text": [
+				"It's you. Go up — I'll not do the whole speech twice in one season.",
+				"Same causeway, same wind. You're the only thing that changes out here.",
+				"They've stopped asking me who you are. That's either good for you or very bad."
+			],
+			"options": [
+				{ "text": "Anything crossed since we left?", "goto": "since_you_left" },
+				{ "text": "How's the wife?", "once": true, "goto": "the_wife" },
+				{
+					"text": "Something for the cold.",
+					"requires_gold": 30,
+					"gold": -30,
+					"goto": "the_coin"
+				},
+				{ "text": "Keep your watch.", "goto": "end" }
+			]
+		},
+		"known": {
+			"speaker": "Rook the Watchman",
+			"text": "...I know that name. Go up. Don't make me regret saying so.",
+			"set_flag": "keep_admitted",
+			"next": "end"
+		},
+		"not_known": {
+			"speaker": "Rook the Watchman",
+			"text": "Then you wait out here with everyone else who is expected.",
+			"next": "end"
+		},
+		"the_gate": {
+			"speaker": "Rook the Watchman",
+			"text": "Everyone on the road says that. The difference is you still have the mud on you. Go up.",
+			"set_flag": "keep_admitted",
+			"next": "end"
+		},
+		"backed_down": {
+			"speaker": "Rook the Watchman",
+			"text": "Steady. Steady. I've a wife inside that wall and I'd like to see her again — go up.",
+			"next": "end"
+		},
+		"the_watch": {
+			"speaker": "Rook the Watchman",
+			"text": "The castellan set it, back when there were enough of us to take turns. Now it's set itself, and I'm what's left standing in it.",
+			"next": "end"
+		},
+		"the_coin": {
+			"speaker": "Rook the Watchman",
+			"text": "That's not a bribe, that's a kindness, and I'll take it as the second. Go up.",
+			"next": "end"
+		},
+		"since_you_left": {
+			"speaker": "Rook the Watchman",
+			"text": [
+				"Carts going the wrong way. Full ones, leaving. Nobody comes back for a full cart.",
+				"Something walked the causeway at third watch and didn't ring the boards. I've said nothing until now.",
+				"Nothing. Which used to be the good answer."
+			],
+			"next": "end"
+		},
+		"the_wife": {
+			"speaker": "Rook the Watchman",
+			"text": "Furious. She's counted the hours I've stood out here and put a number on it, and the number is unkind. Ask me again in spring.",
+			"next": "end"
+		}
+	}
+}

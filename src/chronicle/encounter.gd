@@ -9,6 +9,12 @@ const WILD := "wild"
 const GATE := "gate"
 const TOWER := "tower"
 
+## No band ever appears within this many tiles of the party. They are found,
+## not sprung.
+const SPAWN_CLEARANCE := 10
+## Give up looking for somewhere to put a band after this many tries.
+const SPAWN_ATTEMPTS := 40
+
 
 ## Odds of meeting something on this tile, 0.0–1.0.
 static func chance_at(world: World, cell: Vector2i) -> float:
@@ -87,6 +93,72 @@ static func for_captors(world: World, site: Site, party: Array, rng: RandomNumbe
 		world, site.cell if site != null else world.player_cell, GATE,
 		_pick(pool, 3, level, rng), rng, "The ones holding your friend."
 	)
+
+
+## Whoever is currently sacking a town. Beating them lifts the siege.
+static func for_siege(world: World, site: Site, party: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var pool: Array = Database.encounters.get("siege", ["brigand", "goblin"])
+	var level := _party_level(party) + 1
+	return _build(
+		world, site.cell, WILD, _pick(pool, 4, level, rng), rng,
+		"They are already inside %s." % site.display_name
+	)
+
+
+## The town turning out to defend itself, because you are the one raiding it.
+static func for_town_guard(world: World, site: Site, party: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var pool: Array = Database.encounters.get("guard", ["brigand", "village_idiot"])
+	var level := _party_level(party) + (2 if site.kind == Site.KEEP else 0)
+	var count := 4 if site.kind == Site.KEEP else 3
+	return _build(
+		world, site.cell, WILD, _pick(pool, count, level, rng), rng,
+		"%s turns out to defend itself." % site.display_name
+	)
+
+
+# --- bands in the open --------------------------------------------------------
+
+
+## Top the country back up to its share of wandering bands. They only ever
+## appear out of sight, in country the danger rating says can hold them.
+static func restock(world: World, rng: RandomNumberGenerator) -> void:
+	var target := int(Database.encounters.get("bands", 12))
+	var tries := 0
+	while world.prowlers.size() < target and tries < SPAWN_ATTEMPTS:
+		tries += 1
+		var cell := Vector2i(rng.randi() % world.size.x, rng.randi() % world.size.y)
+		if not _can_camp_at(world, cell):
+			continue
+		# Thick country takes bands, quiet country mostly refuses them.
+		if rng.randf() > chance_at(world, cell) / float(Database.encounters.get("max_chance", 0.45)):
+			continue
+		world.prowlers.append(_band_at(world, cell, rng))
+
+
+## The fight that starts when a band finally sees you.
+static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var level := _party_level(party) + _danger_at(world, band.cell)
+	var enemies: Array = []
+	for unit_id: String in band.pack:
+		enemies.append({"unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1))})
+	return _build(world, band.cell, WILD, enemies, rng, "%s has seen you." % band.label())
+
+
+static func _can_camp_at(world: World, cell: Vector2i) -> bool:
+	if not world.is_walkable(cell) or world.site_at(cell) != null:
+		return false
+	if Pathfinder.distance(cell, world.player_cell) < SPAWN_CLEARANCE:
+		return false
+	# Nobody camps on a doorstep.
+	return world.distance_to_haven(cell) > 2
+
+
+static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -> Prowler:
+	var pool: Array = Database.encounters.get("wild", {}).get(world.terrain_id_at(cell), ["wolf"])
+	var pack: Array = []
+	for i in clampi(1 + _danger_at(world, cell), 1, 4):
+		pack.append(pool[rng.randi() % pool.size()])
+	return Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.

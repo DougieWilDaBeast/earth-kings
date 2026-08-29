@@ -1,0 +1,100 @@
+{
+	"display_name": "the thorn keep",
+	"layers": ["dirt", "stone", "meadow"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"o": "stone",
+		"m": "meadow"
+	},
+	"spawn": [9, 14],
+	"exits": [[9, 15], [10, 15]],
+	"spots": [
+		{ "cell": [8, 6], "line": "The bailey grass is knee high. Nobody has drilled in it for a year." },
+		{ "cell": [9, 11], "line": "The ramp up is cut for horses that this keep no longer has." },
+		{ "cell": [3, 3], "line": "The rampart walk. From up here the thorn scrub runs to the horizon." }
+	],
+	"chests": [
+		{
+			"cell": [5, 8],
+			"line": "A quartermaster's chest, inventoried in a hand that stops mid-line.",
+			"gold": 90,
+			"item": "bone_sword"
+		},
+		{
+			"cell": [12, 5],
+			"line": "A strongbox let into the rampart, and the key long since thrown into the scrub.",
+			"gold": 190,
+			"item": "grave_token"
+		}
+	],
+	"buildings": [
+		{
+			"name": "the muster hall",
+			"cell": [7, 4],
+			"size": [4, 2],
+			"door": [8, 5],
+			"area": "thorn_hall"
+		}
+	],
+	"people": [
+		{
+			"name": "Ser Valis the Golden Knight",
+			"unit": "golden_knight",
+			"cell": [9, 9],
+			"facing": [0, 1],
+			"cutscene": "the_thorn_knight",
+			"dialogue": "thorn_knight"
+		},
+		{
+			"name": "a knight of the muster",
+			"unit": "castellan",
+			"cell": [6, 7],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"Knee high. It was ankle high when I swore in.",
+				"We drill in the scrub now. It is honest ground, at least."
+			]
+		},
+		{
+			"name": "Ilm the Butler",
+			"unit": "devil_butler",
+			"cell": [12, 6],
+			"facing": [-1, 0],
+			"wander": 2,
+			"chatter": [
+				"Ser Valis takes his supper in the hall. Alone. Every night.",
+				"The thorn comes in under the door. I sweep it back out."
+			]
+		},
+		{
+			"name": "a caterpillar on the rampart",
+			"unit": "caterpillar_warrior",
+			"cell": [5, 3],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"It walks the wall all day. Eight feet make short work of a rampart."
+			]
+		}
+	],
+	"rows": [
+		"..mmmmmmmmmmmmmmmm..",
+		"mmmmmmmmmmmmmmmmmmmm",
+		"mmooooooooooooooommm",
+		"mmooooooooooooooommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmoommmmmmmmmmmoommm",
+		"mmooooooooooooooommm",
+		"mmmmmmmm.,,.mmmmmmmm",
+		"mmmmmmmm.,,.mmmmmmmm",
+		"mmmmmmmm.,,.mmmmmmmm",
+		"mmmmmmmm.,,.mmmmmmmm",
+		"mmmmmmmm.,,.mmmmmmmm"
+	]
+}

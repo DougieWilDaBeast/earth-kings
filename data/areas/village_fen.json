@@ -1,0 +1,101 @@
+{
+	"display_name": "the fen village",
+	"layers": ["dirt", "meadow", "water"],
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"~": "water",
+		"m": "meadow"
+	},
+	"spawn": [11, 16],
+	"exits": [[11, 17], [12, 17]],
+	"spots": [
+		{ "cell": [12, 8], "line": "Duckboards over black water, and everything built a foot above the wet." },
+		{ "cell": [4, 6], "line": "Eel traps hang drying on poles. Most of them are empty." },
+		{ "cell": [3, 11], "line": "The reeds here were cut back in a hurry and nobody came to finish." }
+	],
+	"chests": [
+		{
+			"cell": [8, 4],
+			"line": "A tackle crate wedged under the boards, swollen shut with damp.",
+			"gold": 70,
+			"item": "knotted_cord"
+		},
+		{
+			"cell": [16, 12],
+			"line": "A votive box on a post, left for the water and never collected.",
+			"gold": 120
+		}
+	],
+	"buildings": [
+		{
+			"name": "the Drowned Bell",
+			"cell": [17, 6],
+			"size": [5, 4],
+			"door": [19, 9],
+			"area": "fen_alehouse"
+		}
+	],
+	"people": [
+		{
+			"name": "Wick the Duck Wizard",
+			"unit": "duck_wizard",
+			"cell": [10, 7],
+			"facing": [1, 0],
+			"cutscene": "the_fen_wizard",
+			"dialogue": "fen_wizard"
+		},
+		{
+			"name": "Sump the Blood Mosquito",
+			"unit": "blood_mosquito",
+			"cell": [13, 10],
+			"facing": [-1, 0],
+			"wander": 4,
+			"chatter": [
+				"Four hands, four knives, and still no trade that will have me.",
+				"Nobody here asks what is in the flask on my back. That is manners."
+			]
+		},
+		{
+			"name": "a wisp over the black water",
+			"unit": "feather_wisp",
+			"cell": [9, 13],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"It drifts along the reed line and never quite crosses the boards."
+			]
+		},
+		{
+			"name": "Halder the Bird Archer",
+			"unit": "bird_archer",
+			"cell": [14, 7],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"Eels are down, herons are up. Draw your own conclusion.",
+				"The bow is not carried. The bow is me. It is not a long story."
+			]
+		}
+	],
+	"rows": [
+		"...~~~.mmmm......~~~~~~.",
+		"..~~~~~mmm........~~~~~.",
+		".~~~~~~mmm.......~~~~~~.",
+		"..~~~~.mmm.........~~~~.",
+		"...~~...,,,,,,,,....~~~.",
+		"mmmm....,,,,,,,,,.......",
+		"mmmmm...,,,,,,,,,,,,,,..",
+		"mmmmm...,,,,,,,,,,,,,,..",
+		"mmmm....,,,,,,,,,,,,,,..",
+		"mmm.....,,,,,,,,,,,,,,..",
+		"mm.......,,,,,,,,,,,,,..",
+		"mmmmm......,,.....mmmm..",
+		"...~~~~mmm.,,...mmmm....",
+		".~~~~~~mmm.,,...mmmm....",
+		"..~~~~~mmm.,,...mmmm....",
+		"...~~~.mmm.,,....mmmm...",
+		"mmmmm......,,.....mmmm..",
+		"mmmm.......,,......mmmm."
+	]
+}

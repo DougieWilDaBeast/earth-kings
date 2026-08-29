@@ -33,10 +33,15 @@ static func price_of(equipment_id: String) -> int:
 	return worth + roundi(float(piece.get("grace", 0.0)) * 400.0)
 
 
-static func buy(site: Site, equipment_id: String, buyer: Character) -> bool:
+## What this particular place will ask, once they have heard who you are.
+static func asking_price(site: Site, world: World, equipment_id: String) -> int:
+	return maxi(1, roundi(price_of(equipment_id) * Renown.price_multiplier(world, site.cell)))
+
+
+static func buy(site: Site, equipment_id: String, buyer: Character, world: World) -> bool:
 	if equipment_id not in wares(site):
 		return false
-	var price := price_of(equipment_id)
+	var price := asking_price(site, world, equipment_id)
 	if GameState.gold < price:
 		return false
 	GameState.gold -= price
@@ -68,12 +73,17 @@ static func hire_cost(offer: Dictionary) -> int:
 	return int(rules().get("cost_base", 70)) + int(rules().get("cost_per_level", 35)) * int(offer.get("level", 1))
 
 
+## What they will take to walk with you, knowing what they know about you.
+static func asking_hire_cost(site: Site, world: World, offer: Dictionary) -> int:
+	return maxi(1, roundi(hire_cost(offer) * Renown.price_multiplier(world, site.cell)))
+
+
 ## Take on whoever is drinking here. They join the roster and the party.
 static func hire(site: Site, roster: Roster, world: World) -> Character:
 	var offer := hire_offer(site)
 	if offer.is_empty():
 		return null
-	var cost := hire_cost(offer)
+	var cost := asking_hire_cost(site, world, offer)
 	if GameState.gold < cost or roster.party.size() >= Roster.MAX_PARTY:
 		return null
 
@@ -82,6 +92,7 @@ static func hire(site: Site, roster: Roster, world: World) -> Character:
 	Progression.raise_quietly(recruit, int(offer.get("level", 1)), world)
 	roster.add(recruit)
 	roster.enlist(recruit.id)
+	Ledger.add(GameState.ledger, "recruited")
 	site.data["hire"] = {}
 	return recruit
 

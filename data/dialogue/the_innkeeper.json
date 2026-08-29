@@ -1,0 +1,114 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Bole the Innkeep": "innkeeper"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Bole the Innkeep",
+			"text": [
+				"Mind the beam. Beds are up the stair, ale is down here, and trouble goes back out the door it came in by.",
+				"Wipe the road off before you sit on my settle. Beds up, drink down, trouble outside.",
+				"You'll want the far bench. The near one's got a leg that argues, and so has the man on it."
+			],
+			"options": [
+				{
+					"text": "A bed for the party. What does that cost?",
+					"goto": "beds"
+				},
+				{
+					"text": "Who's been drinking here that shouldn't be?",
+					"check": {
+						"skill": "wits",
+						"dc": 12,
+						"success": "the_quiet_table",
+						"failure": "nothing_doing",
+						"success_effects": { "set_flag": "heard_of_the_raiders" }
+					}
+				},
+				{
+					"text": "How long have you had this place?",
+					"once": true,
+					"goto": "the_house"
+				},
+				{
+					"text": "Two silver for whatever the house is pouring.",
+					"requires_gold": 20,
+					"gold": -20,
+					"goto": "poured"
+				},
+				{ "text": "Nothing. We're only out of the rain.", "goto": "end" }
+			]
+		},
+		"again": {
+			"speaker": "Bole the Innkeep",
+			"text": [
+				"Back, and still upright. That's better than half my regulars manage.",
+				"You again. The beam hasn't moved, in case you were hoping.",
+				"I kept the far bench clear. Don't make me regret the sentiment."
+			],
+			"options": [
+				{ "text": "A bed for the party.", "goto": "beds" },
+				{ "text": "Anything said about us in here?", "goto": "said_of_you" },
+				{
+					"text": "Who's been drinking here that shouldn't be?",
+					"check": {
+						"skill": "wits",
+						"dc": 12,
+						"success": "the_quiet_table",
+						"failure": "nothing_doing",
+						"success_effects": { "set_flag": "heard_of_the_raiders" }
+					}
+				},
+				{
+					"text": "A round for the room, on us.",
+					"requires_gold": 40,
+					"gold": -40,
+					"set_flag": "bought_the_house_a_round",
+					"goto": "the_round"
+				},
+				{ "text": "Only passing the door.", "goto": "end" }
+			]
+		},
+		"beds": {
+			"speaker": "Bole the Innkeep",
+			"text": "Forty for the room, and I'll not charge you for the snoring. Come back when you've slept somewhere worse.",
+			"next": "end"
+		},
+		"the_quiet_table": {
+			"speaker": "Bole the Innkeep",
+			"text": "The table by the shutter. Three of them, paying in coin that was minted a long way east of here. They ask about the pass, never about the road home.",
+			"next": "end"
+		},
+		"nothing_doing": {
+			"speaker": "Bole the Innkeep",
+			"text": "Farmers and their sons, same as every night. Drink or don't.",
+			"next": "end"
+		},
+		"poured": {
+			"speaker": "Bole the Innkeep",
+			"text": "Sit where you like. You're the first company all week that came in wearing its own blood instead of somebody else's.",
+			"next": "end"
+		},
+		"the_house": {
+			"speaker": "Bole the Innkeep",
+			"text": "My father's, and his before that. Three generations of listening to other people's plans and never once being asked along.",
+			"next": "end"
+		},
+		"said_of_you": {
+			"speaker": "Bole the Innkeep",
+			"text": [
+				"Plenty. None of it agrees with the rest, which is how I know some of it's true.",
+				"A carter had a version where there were nine of you and one was on fire. I told him the beam was more interesting.",
+				"Enough that men stop talking when you come in. Enjoy it while it's still respect."
+			],
+			"next": "end"
+		},
+		"the_round": {
+			"speaker": "Bole the Innkeep",
+			"text": "That'll be remembered longer than whatever you do with a sword. Sit down before they start thanking you.",
+			"next": "end"
+		}
+	}
+}

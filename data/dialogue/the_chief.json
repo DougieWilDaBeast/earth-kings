@@ -1,7 +1,117 @@
 {
-	"lines": [
-		{ "speaker": "Ganel", "text": "Three of you. I expected an army, or at least a bribe." },
-		{ "speaker": "Bram", "text": "You expected the wrong valley." },
-		{ "speaker": "Ganel", "text": "Then take the high ground, sworn blade. You'll want it." }
-	]
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Ganel": "brigand_chief"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Ganel",
+			"text": [
+				"Three of you. I expected an army, or at least a bribe.",
+				"You walked up the hill in the open. Either that's confidence or you've never done this before.",
+				"My lookout said soldiers. You're not soldiers. Soldiers get paid."
+			],
+			"options": [
+				{
+					"text": "You expected the wrong valley. Stand down or be put down.",
+					"goto": "defiance"
+				},
+				{
+					"text": "Your men haven't eaten in three days. I can smell it on the camp.",
+					"check": { "skill": "wits", "dc": 12, "success": "starving", "failure": "laughed_off" }
+				},
+				{
+					"text": "Who put you in this valley? You didn't choose it.",
+					"once": true,
+					"check": { "skill": "renown", "dc": 12, "success": "the_man_above", "failure": "laughed_off" }
+				},
+				{
+					"text": "Shove past his guard and take the high ground now.",
+					"check": {
+						"skill": "might",
+						"dc": 13,
+						"success": "cowed",
+						"failure": "laughed_off",
+						"success_effects": { "set_flag": "chief_cowed" }
+					}
+				},
+				{
+					"text": "A hundred gold, and the valley never hears your name again.",
+					"requires_gold": 100,
+					"gold": -100,
+					"set_flag": "chief_bribed",
+					"goto": "bribe"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Ganel",
+			"text": [
+				"You. I've had a month to think of what to say to you, and it's all gone.",
+				"Word came up the valley before you did. I let it. I wanted to see which version was true.",
+				"Back on my hill. You'll understand if nobody offers you a seat."
+			],
+			"options": [
+				{ "text": "Last time was talk. This time isn't.", "goto": "defiance" },
+				{
+					"text": "You took my coin and you're still here.",
+					"requires": "chief_bribed",
+					"goto": "the_debt"
+				},
+				{
+					"text": "Your camp is thinner than it was. Some of them walked.",
+					"check": { "skill": "wits", "dc": 13, "success": "thinner", "failure": "laughed_off" }
+				},
+				{
+					"text": "Another hundred. Same terms.",
+					"requires_gold": 100,
+					"gold": -100,
+					"goto": "bribe"
+				}
+			]
+		},
+		"defiance": {
+			"speaker": "Ganel",
+			"text": "Then take the high ground, sworn blade. You'll want it.",
+			"next": "end"
+		},
+		"starving": {
+			"speaker": "Ganel",
+			"text": "Hungry men fight harder. But they hold a line worse. Come and see.",
+			"set_flag": "chief_read",
+			"next": "end"
+		},
+		"cowed": {
+			"speaker": "Ganel",
+			"text": "Steady. You've made your point in front of my whole camp, and that will cost one of us.",
+			"next": "end"
+		},
+		"laughed_off": {
+			"speaker": "Ganel",
+			"text": "Try that again when you've grown into your armour. Weapons up — the rest is talk.",
+			"next": "end"
+		},
+		"bribe": {
+			"speaker": "Ganel",
+			"text": "Generous. I'll spend it on the widows of whoever you kill getting up this hill.",
+			"next": "end"
+		},
+		"the_man_above": {
+			"speaker": "Ganel",
+			"text": "...Somebody with a seal ring told us which road to sit on and which carts to leave alone. Work out who that helps, and you'll know why I don't say his name.",
+			"set_flag": "heard_of_the_seal_ring",
+			"next": "end"
+		},
+		"the_debt": {
+			"speaker": "Ganel",
+			"text": "I said the valley wouldn't hear my name. It hasn't. You're the one who came looking for it.",
+			"next": "end"
+		},
+		"thinner": {
+			"speaker": "Ganel",
+			"text": "Eleven of them, after they heard what you did. Cost me nothing to lose the ones who scare easy. That's what I tell the rest.",
+			"next": "end"
+		}
+	}
 }

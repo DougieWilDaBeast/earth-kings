@@ -1,0 +1,14 @@
+{
+  "id": "wraith",
+  "source": "pixellab wraith_wraith_Wraith_a_tattered_purple-black_hoode.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "wraith\twraith\tWraith — a tattered purple-black hooded figure with no face, frayed dissolving hem, pale cold light where hands should be, floating",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "dog"
+    }
+  ]
+}

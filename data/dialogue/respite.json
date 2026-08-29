@@ -1,7 +1,13 @@
 {
+	"cast": {
+		"Bram": "bram",
+		"Sera": "sera",
+		"Toln": "toln"
+	},
 	"lines": [
-		{ "speaker": "Toln", "text": "Greywater. Nobody's drawn from this well in a season." },
-		{ "speaker": "Sera", "text": "They ran the villagers off. Their chief keeps a camp east of here — a man called Ganel." },
-		{ "speaker": "Bram", "text": "Rest while you can. We finish this at his camp." }
+		{ "speaker": "", "text": "Greywater, and nobody has drawn from this well in a season. The raiders ran the villagers off; their chief keeps a camp east of here — a man called Ganel." },
+		{ "who": "toln", "speaker": "Toln", "text": "A whole village, run off its own well. That is a new kind of small." },
+		{ "who": "sera", "speaker": "Sera", "text": "East, then. Uphill, in daylight, into a camp that knows the ground. Wonderful." },
+		{ "who": "bram", "speaker": "Bram", "text": "Rest while you can. We finish this at his camp." }
 	]
 }

@@ -18,6 +18,9 @@ signal unit_healed(unit: Node, amount: int)
 signal unit_died(unit: Node)
 
 signal dialogue_requested(dialogue_id: String)
+## A conversation built at runtime rather than authored in a file: an array of
+## `{ speaker, text }` (see [Banter]). Finishes as [signal dialogue_finished].
+signal conversation_requested(lines: Array)
 signal dialogue_finished(dialogue_id: String)
 
 ## A party member hit level 2 and owes the player a decision.
@@ -35,3 +38,10 @@ signal run_ended
 
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
+
+## Overlays that swallow the game's input while they are up. Anything in this
+## group answers `is_open()`.
+const MODAL_OVERLAY_GROUP := "modal_overlay"
+
+## The always-present letterbox a cutscene plays inside.
+const CUTSCENE_FRAME_GROUP := "cutscene_frame"

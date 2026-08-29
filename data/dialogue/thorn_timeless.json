@@ -1,0 +1,110 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"the Timeless One": "timeless_one"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "the Timeless One",
+			"text": [
+				"Four hundred names on that board. I have watched every one of them go up and most of them come down. Ask me quickly; I lose the thread of a century easily.",
+				"Sit, or do not. I have seen both, and the difference took two hundred years to stop mattering to me.",
+				"You are new. Everything in this hall is new except the floor and the thing under it."
+			],
+			"options": [
+				{
+					"text": "How long have you been in this hall?",
+					"goto": "how_long"
+				},
+				{
+					"text": "What was here before the keep?",
+					"goto": "before"
+				},
+				{
+					"text": "Does any of it stay with you? Any one of the four hundred?",
+					"once": true,
+					"goto": "the_one_kept"
+				},
+				{
+					"text": "You aren't remembering the past. You're reading it off the board like the rest of us.",
+					"check": {
+						"skill": "wits",
+						"dc": 15,
+						"success": "the_admission",
+						"failure": "the_deflection"
+					}
+				},
+				{
+					"text": "Then tell me something worth carrying out of here.",
+					"goto": "the_gift"
+				}
+			]
+		},
+		"again": {
+			"speaker": "the Timeless One",
+			"text": [
+				"You. I have put you on the board in pencil. Do not take it personally; everyone begins in pencil.",
+				"Back. Good. Companies that come back are the only ones I bother learning the names of.",
+				"Something has changed in you since the last time and I cannot tell whether it is the armour."
+			],
+			"options": [
+				{ "text": "What have you remembered since we left?", "goto": "remembered_since" },
+				{
+					"text": "The gate under the floor. Why did that one stay shut?",
+					"requires": "heard_of_the_buried_gate",
+					"once": true,
+					"goto": "why_it_stayed"
+				},
+				{ "text": "Tell me something worth carrying out of here.", "goto": "the_gift" },
+				{ "text": "Rest, then.", "goto": "end" }
+			]
+		},
+		"how_long": {
+			"speaker": "the Timeless One",
+			"text": "Long enough that the question stopped being interesting and started being rude. Longer than the walls. Not longer than the thorn.",
+			"next": "end"
+		},
+		"before": {
+			"speaker": "the Timeless One",
+			"text": "A gate. Not one of yours — one that stayed shut. Somebody built a keep on top of it, which is either the wisest or the stupidest thing anyone has done in this country.",
+			"set_flag": "heard_of_the_buried_gate",
+			"next": "end"
+		},
+		"the_admission": {
+			"speaker": "the Timeless One",
+			"text": "...Yes. I forget in the order it happened, so I keep the board. But I remember the gate under the floor without looking, and you should ask yourself why that one stayed.",
+			"set_flag": "heard_of_the_buried_gate",
+			"next": "end"
+		},
+		"the_deflection": {
+			"speaker": "the Timeless One",
+			"text": "Everyone reads. Not everyone remembers what the reading is for.",
+			"next": "end"
+		},
+		"the_gift": {
+			"speaker": "the Timeless One",
+			"text": "Every company that held this hall did it by deciding early who was worth losing. The ones that decided late lost everyone. Decide early. Then prove yourself wrong.",
+			"next": "end"
+		},
+		"the_one_kept": {
+			"speaker": "the Timeless One",
+			"text": "One. A girl who carried water and was never on the board at all. I could not tell you a single captain's face, and I could draw hers.",
+			"next": "end"
+		},
+		"remembered_since": {
+			"speaker": "the Timeless One",
+			"text": [
+				"That the thorn was planted, not grown. Somebody wanted this place hard to reach.",
+				"A winter I had mislaid. Nothing happened in it. That is why I mislaid it.",
+				"Your name, which is new, and which I have not had to look up. Take that as you find it."
+			],
+			"next": "end"
+		},
+		"why_it_stayed": {
+			"speaker": "the Timeless One",
+			"text": "Because it was shut from this side, by people who then built a house on it and lived there so no one would be tempted. Every gate since has been opened by somebody who thought they were the first.",
+			"next": "end"
+		}
+	}
+}

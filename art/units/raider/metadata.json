@@ -1,0 +1,14 @@
+{
+  "id": "raider",
+  "source": "pixellab 5_raider_brigand_replaces_mace_pirate_Raider_a.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "5\traider\tbrigand (replaces mace_pirate)\tRaider — a brutish bandit in mismatched scavenged armour over rust-red rags, iron-studded mace, cloth wrapped over the lower face",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

@@ -20,11 +20,15 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 ## Playing the vertical slice
 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
-- **Walking** — arrow keys move you one tile at a time; hold to keep going. Every step advances
+- **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
   the world clock. The top bar shows where you are and your current **danger %**.
   `Esc` opens the menu (save, load, return to title).
 - **The map** — green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
-  (a ring means it is open and spilling), gold is **the Tower**.
+  (a ring means it is open and spilling), gold is **the Tower**, and the orange roof is **home**.
+- **Home** — the run starts on your own doorstep. Nothing camps within sight of it and sleeping
+  there always patches the party up. `U` buys the next **bed** up, and everyone who sleeps on it
+  carries that comfort around as permanent extra HP — a straw pallet gives nothing, a canopied bed
+  gives +22.
 - **Danger is a property of place.** Near an open gate the wild is thick with what came out of it;
   near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.
 - **Sites** — step on a village, keep or hut to rest; a library to read; an open gate to fight it;
@@ -33,6 +37,17 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
   takes them back by force.
 - **Gates never reopen once shut** — but one left standing open too long **breaks**, and what was
   behind it comes out. Danger near a broken gate jumps and its monsters come levelled up.
+- **Towns can be saved or taken.** A gate left open long enough puts the nearest settlement under
+  siege; walk in while it is happening and `V` fights the besiegers off for gold and goodwill.
+  Leave it too long and the town falls on its own. `K` raids a town instead — you fight its people,
+  empty its strongbox, and it never trades again.
+- **Word spreads from where it happened.** Every notable act is written down at the place you did
+  it and travels outward about a tile every fourteen steps. A village on the far side of the map
+  has not heard yet; one down the road has heard of nothing else. What they have heard sets what
+  they call you, and moves their prices up to 30% either way.
+- **Chests and caches.** Towns you walk around inside have chests worth finding, and open country
+  sometimes has something buried in it. Gold goes in the purse; gear goes to whoever it actually
+  improves, and anything nobody wants is sold on the spot.
 - **The Tower is ten floors**, each paying gold, a book every third and a generated skill tree
   every fourth.
 - **Battle** — on your unit's turn: **Move** (blue tiles), an ability (red tiles), then **Wait**

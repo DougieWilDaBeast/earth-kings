@@ -13,6 +13,13 @@ const GIVEN_NAMES := [
 ## Sites are kept this far apart so the map doesn't clump.
 const MIN_SITE_SPACING := 5
 
+## Hand-built places under `data/areas`, dealt out one per site so two villages
+## are never the same village.
+const AREA_POOLS := {
+	Site.VILLAGE: ["village", "village_fen", "village_pines", "village_shore"],
+	Site.KEEP: ["keep", "keep_thorn"],
+}
+
 const COUNTS := {
 	Site.KEEP: 2,
 	Site.VILLAGE: 4,
@@ -85,7 +92,43 @@ static func _place_sites(world: World) -> void:
 			if cell.x < 0:
 				continue
 			world.sites.append(Site.create(kind, cell, _place_name(world.rng, used_names)))
+	_deal_areas(world)
 	_rank_gates(world)
+	_place_home(world)
+
+
+static func _deal_areas(world: World) -> void:
+	for kind: String in AREA_POOLS:
+		var pool: Array = AREA_POOLS[kind].duplicate()
+		_shuffle(pool, world.rng)
+		var sites := world.sites_of_kind(kind)
+		for i in sites.size():
+			sites[i].data["area"] = pool[i % pool.size()]
+
+
+static func _shuffle(items: Array, rng: RandomNumberGenerator) -> void:
+	for i in range(items.size() - 1, 0, -1):
+		var j := rng.randi() % (i + 1)
+		var swap: Variant = items[i]
+		items[i] = items[j]
+		items[j] = swap
+
+
+## Somewhere of your own, put down within reach of the first village so the run
+## always starts with a roof you can walk back to.
+static func _place_home(world: World) -> void:
+	var villages := world.sites_of_kind(Site.VILLAGE)
+	var anchor: Vector2i = villages[0].cell if not villages.is_empty() else world.size / 2
+	for radius in range(1, 9):
+		for dx in range(-radius, radius + 1):
+			for dy in range(-radius, radius + 1):
+				var cell := anchor + Vector2i(dx, dy)
+				if world.site_at(cell) != null or not world.is_walkable(cell):
+					continue
+				if world.terrain_id_at(cell) == "water":
+					continue
+				world.sites.append(Site.create(Site.HOME, cell, "Home"))
+				return
 
 
 ## Spread gates across the whole E-to-S ladder by how far they sit from the
@@ -157,6 +200,10 @@ static func _find_open_cell(world: World, around: Vector2i, radius: int) -> Vect
 
 
 static func _starting_cell(world: World) -> Vector2i:
+	var house := world.home()
+	if house != null:
+		return house.cell
+
 	var villages := world.sites_of_kind(Site.VILLAGE)
 	if villages.is_empty():
 		return _find_open_cell(world, world.size / 2, 12)
@@ -183,6 +230,14 @@ static func _place_name(rng: RandomNumberGenerator, used: Dictionary) -> String:
 static func person_name(rng: RandomNumberGenerator) -> String:
 	return "%s of %s%s" % [
 		GIVEN_NAMES[rng.randi() % GIVEN_NAMES.size()],
+		NAME_PREFIX[rng.randi() % NAME_PREFIX.size()],
+		NAME_SUFFIX[rng.randi() % NAME_SUFFIX.size()],
+	]
+
+
+## A name for somewhere nobody built anything — a spot people still talk about.
+static func wild_name(rng: RandomNumberGenerator) -> String:
+	return "%s%s" % [
 		NAME_PREFIX[rng.randi() % NAME_PREFIX.size()],
 		NAME_SUFFIX[rng.randi() % NAME_SUFFIX.size()],
 	]

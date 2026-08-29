@@ -1,0 +1,174 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/ui/character_select.gd" id="1_character_select"]
+[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("2_backdrop")
+
+[node name="CharacterSelect" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_character_select")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.055, 0.075, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 26
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeadingLabel" type="Label" parent="Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 34
+text = "Whose life are you living?"
+
+[node name="Body" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Lives" type="VBoxContainer" parent="Margin/Content/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Detail" type="PanelContainer" parent="Margin/Content/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Lines" type="VBoxContainer" parent="Margin/Content/Body/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NameLabel" type="Label" parent="Margin/Content/Body/Detail/Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_font_sizes/font_size = 30
+text = "Bram"
+
+[node name="TitleLabel" type="Label" parent="Margin/Content/Body/Detail/Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "The Sworn Blade"
+
+[node name="Rule" type="ColorRect" parent="Margin/Content/Body/Detail/Lines"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.478, 0.376, 0.204, 1)
+
+[node name="Facing" type="HBoxContainer" parent="Margin/Content/Body/Detail/Lines"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Portrait" type="TextureRect" parent="Margin/Content/Body/Detail/Lines/Facing"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_vertical = 0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Facts" type="VBoxContainer" parent="Margin/Content/Body/Detail/Lines/Facing"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Difficulty" type="HBoxContainer" parent="Margin/Content/Body/Detail/Lines/Facing/Facts"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DifficultyLabel" type="Label" parent="Margin/Content/Body/Detail/Lines/Facing/Facts/Difficulty"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Difficulty"
+
+[node name="Pips" type="HBoxContainer" parent="Margin/Content/Body/Detail/Lines/Facing/Facts/Difficulty"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 5
+
+[node name="RatingLabel" type="Label" parent="Margin/Content/Body/Detail/Lines/Facing/Facts/Difficulty"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.6, 0.28, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "Steady"
+
+[node name="WarbandLabel" type="Label" parent="Margin/Content/Body/Detail/Lines/Facing/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Warband"
+autowrap_mode = 3
+
+[node name="StatsLabel" type="Label" parent="Margin/Content/Body/Detail/Lines/Facing/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "HP"
+
+[node name="BlurbLabel" type="Label" parent="Margin/Content/Body/Detail/Lines"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "..."
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="BackButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"
+
+[node name="Spacer" type="Control" parent="Margin/Content/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HintLabel" type="Label" parent="Margin/Content/Footer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "W / S to look them over     Enter to take that road"

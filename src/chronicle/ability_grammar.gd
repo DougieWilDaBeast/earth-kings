@@ -26,7 +26,7 @@ const ARCHETYPES := {
 	"loose": { "target": "enemy", "min_range": 2, "range": 4, "splash": 0, "power": 1.15 },
 	"burst": { "target": "enemy", "min_range": 1, "range": 3, "splash": 1, "power": 0.95 },
 	"sweep": { "target": "enemy", "min_range": 1, "range": 1, "splash": 1, "power": 0.9 },
-	"mend": { "target": "ally", "min_range": 1, "range": 3, "splash": 0, "heal": true, "power": 20 },
+	"mend": { "target": "ally", "min_range": 0, "range": 3, "splash": 0, "heal": true, "power": 20 },
 	"rally": { "target": "ally", "min_range": 1, "range": 2, "splash": 1, "heal": true, "power": 12 },
 }
 

@@ -1,0 +1,14 @@
+{
+  "id": "tree_sentinel",
+  "source": "pixellab selected_characters.zip 2026-08-28",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "A tree sentinal, it is 100 percent a tree, it is sentient but not human like, only tree form. half its body is possessed left side is good, and right side is bad. different colour differentiation between the two sides. a robe around the tree. i want a ripe apple on the good side, and a rotten apple on the other side of the tree.",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

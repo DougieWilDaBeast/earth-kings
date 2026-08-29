@@ -1,0 +1,14 @@
+{
+  "id": "axe_bear",
+  "source": "pixellab selected_characters.zip 2026-08-28",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "A Shield and axe weilding bear",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "bear"
+    }
+  ]
+}

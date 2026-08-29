@@ -1,0 +1,52 @@
+{
+	"discovery_chance_look": 0.45,
+	"discovery_chance_library": 0.2,
+	"spells": [
+		{ "name": "Field-bloom", "text": "to make the flowers in a dead field open for one afternoon" },
+		{ "name": "The Long Grass", "text": "to find a ring dropped in long grass" },
+		{ "name": "The Cold Cup", "text": "to keep a cup of tea from ever going cold" },
+		{ "name": "Widow's Mercy", "text": "to take a wine stain out of cloth" },
+		{ "name": "The Quiet Hinge", "text": "to make a door stop creaking" },
+		{ "name": "Thin Wall", "text": "to hear what is being said in the next room, badly" },
+		{ "name": "Second Day Bread", "text": "to keep bread from going stale quite so fast" },
+		{ "name": "Tomorrow's Weather", "text": "to tell whether it will rain, no better than a farmer can" },
+		{ "name": "Blue Candle", "text": "to make a candle burn blue" },
+		{ "name": "The Straight Nail", "text": "to straighten a bent nail" },
+		{ "name": "Horsefly", "text": "to keep the flies off a horse" },
+		{ "name": "Summer Ice", "text": "to freeze over a puddle in high summer" },
+		{ "name": "One Bird", "text": "to call a single bird, and only that bird" },
+		{ "name": "Dry Ink", "text": "to dry ink the instant it is written" },
+		{ "name": "The Older Road", "text": "to tell which of two roads was walked more recently" },
+		{ "name": "Called Coin", "text": "to make a coin land the way you called it, one time in three" },
+		{ "name": "The Still Sleeper", "text": "to stop a sleeping person snoring" },
+		{ "name": "Patient Knot", "text": "to make a rope untie itself, eventually" },
+		{ "name": "Indoor Snow", "text": "to make snow fall inside a room, briefly" },
+		{ "name": "Late Recall", "text": "to remember where you put a thing, about an hour too late" },
+		{ "name": "The Even Pour", "text": "to split a drink into two exactly equal cups" },
+		{ "name": "Bootless", "text": "to walk a muddy road without dirtying your boots, if you go slowly" },
+		{ "name": "The Kept Smell", "text": "to hold the smell of a room after the room is gone" },
+		{ "name": "Grandmother's Trick", "text": "to make a child stop crying, for as long as it amuses them" }
+	],
+	"notes": [
+		"It works. Nobody has ever needed it to.",
+		"The effect lasts about as long as it takes to explain.",
+		"It fails if anyone is watching who does not believe in it.",
+		"It cost somebody their whole life to write down.",
+		"It is the only thing its author is remembered for.",
+		"It takes longer to cast than the job takes by hand.",
+		"There is a note in the margin: do not bother.",
+		"It has no use in a fight, which is rather the point of it.",
+		"It is beautiful and it is useless, and those are different things.",
+		"Whoever copied it drew a small flower beside it.",
+		"It only ever works on the second attempt.",
+		"It smells faintly of a house nobody lives in any more.",
+		"Three people have died carrying this. None of them for this.",
+		"The last hand to write it out was shaking."
+	],
+	"found": [
+		"You write it down. The Codex is one small, useless entry longer.",
+		"Nobody will ever need this. You copy it out anyway.",
+		"It goes in the book with the others.",
+		"A thing worth knowing, for no reason you could defend."
+	]
+}

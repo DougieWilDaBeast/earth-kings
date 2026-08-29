@@ -1,0 +1,14 @@
+{
+  "id": "frozen_wolfman",
+  "source": "pixellab Frozen_wolf_man_born_with.zip 2026-08-29",
+  "states": [
+    {
+      "state": "idle",
+      "prompt": "Frozen wolf man born with wolverine claws",
+      "size": "64x64",
+      "view": "low top-down",
+      "directions": 8,
+      "template": "mannequin"
+    }
+  ]
+}

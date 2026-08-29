@@ -1,0 +1,112 @@
+{
+	"start": "greeting",
+	"again": "again",
+	"cast": {
+		"Tem the Sword Monkey": "sword_monkey"
+	},
+	"nodes": {
+		"greeting": {
+			"speaker": "Tem the Sword Monkey",
+			"text": [
+				"You're the fourth company through this month and the first that walked in facing the room. I notice things like that. It's most of my trade.",
+				"Sit down before you're counted. Everyone in here is counting, including the man pretending to be asleep.",
+				"New boots, old scabbard. That's a company that spends on the walking and not the killing. Sensible."
+			],
+			"options": [
+				{
+					"text": "What are the other three doing?",
+					"goto": "the_others"
+				},
+				{
+					"text": "You fight for coin?",
+					"goto": "for_coin"
+				},
+				{
+					"text": "What's your price, then?",
+					"once": true,
+					"goto": "the_price"
+				},
+				{
+					"text": "You're sat where you can see both doors and neither window. You're waiting for somebody.",
+					"check": {
+						"skill": "wits",
+						"dc": 14,
+						"success": "caught_out",
+						"failure": "shrugged_off",
+						"success_effects": { "set_flag": "tem_marked_you" }
+					}
+				},
+				{
+					"text": "Drink on us.",
+					"requires_gold": 15,
+					"gold": -15,
+					"goto": "the_drink"
+				}
+			]
+		},
+		"again": {
+			"speaker": "Tem the Sword Monkey",
+			"text": [
+				"Still the same table. He's still late. I'm beginning to take it personally.",
+				"You came back with the same number of arms. That puts you above three of the four companies I've watched leave.",
+				"I've been hearing about you between drinks. Some of it was even about this valley."
+			],
+			"options": [
+				{ "text": "What are they saying about us?", "goto": "what_they_say" },
+				{ "text": "Did he ever come?", "requires": "tem_marked_you", "once": true, "goto": "he_came" },
+				{
+					"text": "Drink on us. Again.",
+					"requires_gold": 15,
+					"gold": -15,
+					"goto": "the_drink"
+				},
+				{ "text": "Keep your seat, Tem.", "goto": "end" }
+			]
+		},
+		"the_others": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "Two went up the cut road and came back thinner. The third didn't come back and nobody's gone to look.",
+			"set_flag": "heard_of_the_pine_road",
+			"next": "end"
+		},
+		"for_coin": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "For coin, for a roof, for a reason. Mostly the reason. Coin I can get anywhere and roofs are cheap this year.",
+			"next": "end"
+		},
+		"caught_out": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "...I am. He's late. If he stays late, I'm free, and if I'm free you'll want to hear my price before somebody worse offers me theirs.",
+			"next": "end"
+		},
+		"shrugged_off": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "I'm sat where the fire is. Read that however you want, it'll still be warm.",
+			"next": "end"
+		},
+		"the_drink": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "Generous. That buys you one true thing: don't camp on the cut road. Camp off it, and don't light anything.",
+			"next": "end"
+		},
+		"the_price": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "More than you have and less than you think. I'm not for sale today. Ask me on a day I've been insulted.",
+			"next": "end"
+		},
+		"what_they_say": {
+			"speaker": "Tem the Sword Monkey",
+			"text": [
+				"That you finish things. In this trade that's not praise, it's a price.",
+				"That somebody paid you and you did the work anyway. Nobody can decide if that's stupid or dangerous.",
+				"Two men argued about your name last night. Neither had met you. That's how it starts."
+			],
+			"next": "end"
+		},
+		"he_came": {
+			"speaker": "Tem the Sword Monkey",
+			"text": "He came, saw you'd been sitting where I was, and left again. So whatever you are, he already knows. I'd think about that on the road.",
+			"next": "end"
+		}
+	}
+}
