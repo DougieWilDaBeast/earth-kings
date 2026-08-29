@@ -14,7 +14,7 @@ roadmap and the decision log.
 2. Open Godot → **Import** → select `project.godot` in this folder.
 3. Press **F5**.
 
-Nothing to download — terrain, UI and any unit without art render from primitives, so systems can
+Nothing to download —terrain, UI and any unit without art render from primitives, so systems can
 be built and tested before the art exists. Units with a `sprite_dir` draw their art instead.
 
 ## Playing the vertical slice
