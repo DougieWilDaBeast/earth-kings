@@ -25,6 +25,7 @@ func _change_scene(scene_key: String, payload: Dictionary) -> void:
 	if not SCENES.has(scene_key):
 		push_error("Game: unknown scene key '%s'" % scene_key)
 		return
+	Music.for_scene(scene_key)
 	# Deferred so a scene can request its own replacement mid-callback.
 	_swap.call_deferred(scene_key, payload)
 

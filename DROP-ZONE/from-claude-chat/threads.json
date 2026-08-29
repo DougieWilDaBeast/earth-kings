@@ -1,0 +1,144 @@
+{
+	"rules": {
+		"note": "Threads ignite from what is already written down. Nothing here is offered, accepted or logged."
+	},
+	"threads": {
+		"the_gatewarden": {
+			"title": "The Gatewarden",
+			"ignite": { "deed": "gate_shut", "count": 2 },
+			"stages": [
+				{
+					"id": "word_gets_around",
+					"when": { "steps_since_stage": 60 },
+					"then": [
+						{
+							"rumour": "somebody has been asking which gates you shut, and in what order",
+							"at": "last_deed",
+							"weight": 0
+						},
+						{ "tag": "watched" }
+					]
+				},
+				{
+					"id": "the_camp",
+					"when": { "steps_since_stage": 90 },
+					"then": [
+						{
+							"site": {
+								"kind": "hut",
+								"name": "A cold camp",
+								"near": "last_deed"
+							}
+						},
+						{
+							"rumour": "a man is camped near the gate you shut, and has not moved on",
+							"at": "here",
+							"weight": -1
+						},
+						{ "remember": { "camped": true } }
+					]
+				},
+				{
+					"id": "the_meeting",
+					"when": { "arrive_kind": "gate" },
+					"deadline": 400,
+					"goto": "he_stopped_waiting",
+					"then": [
+						{ "hint": "Somebody is already standing in the mouth of it." },
+						{ "tag": "gatewarden_met" },
+						{ "remember": { "met_at_step": 1 } }
+					],
+					"instead": [
+						{ "hint": "The camp near the gate is cold and empty." }
+					]
+				},
+				{
+					"id": "he_stopped_waiting",
+					"when": { "steps_since_stage": 120 },
+					"then": [
+						{
+							"rumour": "the man who was watching the gates has gone somewhere else",
+							"at": "here",
+							"weight": -2
+						},
+						{ "untag": "watched" }
+					]
+				}
+			]
+		},
+
+		"the_debt": {
+			"title": "Somebody Was Owed",
+			"ignite": { "character_dead": "any" },
+			"stages": [
+				{
+					"id": "the_asking",
+					"when": { "steps_since_stage": 40 },
+					"then": [
+						{
+							"errand": {
+								"site_kind": "village",
+								"kind": "look",
+								"title": "Where they went down",
+								"text": "She heard there was a grave put up out that way and would like to know whose. She will not ask twice.",
+								"giver": "who sits by the door",
+								"gold": 60
+							}
+						},
+						{ "tag": "grieving" }
+					]
+				},
+				{
+					"id": "the_quiet_after",
+					"when": { "steps_since_stage": 200 },
+					"then": [
+						{
+							"rumour": "they carry their dead with them, and the names are getting long",
+							"at": "here",
+							"weight": 1
+						},
+						{ "untag": "grieving" }
+					]
+				}
+			]
+		},
+
+		"the_closed_doors": {
+			"title": "The Closed Doors",
+			"ignite": { "standing_below": -6 },
+			"stages": [
+				{
+					"id": "the_word",
+					"when": {},
+					"then": [
+						{ "hint": "Nobody here will meet your eye." },
+						{ "tag": "unwelcome" }
+					]
+				},
+				{
+					"id": "it_travels",
+					"when": { "steps_since_stage": 80 },
+					"then": [
+						{
+							"rumour": "the roads west are being watched for you, and not by anybody official",
+							"at": "here",
+							"weight": -2
+						}
+					]
+				},
+				{
+					"id": "or_it_does_not",
+					"when": { "standing_above": 0 },
+					"then": [
+						{
+							"rumour": "whatever they say about them, they came back and put it right",
+							"at": "here",
+							"weight": 2
+						},
+						{ "untag": "unwelcome" }
+					]
+				}
+			]
+		}
+	}
+}

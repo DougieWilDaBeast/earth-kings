@@ -1,0 +1,23 @@
+{
+	"fade": 1.4,
+	"scenes": {
+		"world": "overworld",
+		"overworld": "overworld",
+		"area": "overworld",
+		"battle": "battle",
+		"summary": "game_over"
+	},
+	"sets": {
+		"overworld": [
+			{ "path": "res://audio/music/angelic.wav", "volume_db": -10.0 }
+		],
+		"battle": [
+			{ "path": "res://audio/music/bday_project.wav", "volume_db": -10.0 },
+			{ "path": "res://audio/music/peace_sign.mp3", "volume_db": -6.0 },
+			{ "path": "res://audio/music/crossing_field.mp3", "volume_db": -6.0 }
+		],
+		"game_over": [
+			{ "path": "res://audio/music/unravel.mp3", "volume_db": -6.0 }
+		]
+	}
+}

@@ -12,4 +12,7 @@
 *.jpg binary
 *.ogg binary
 *.wav binary
+*.mp3 binary
+*.als binary
+*.asd binary
 *.ttf binary
