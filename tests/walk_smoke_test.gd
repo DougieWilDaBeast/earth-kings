@@ -346,10 +346,21 @@ func _check_gate() -> void:
 		_expect(meeting["kind"] == Encounter.GATE, "the gate started a %s fight" % meeting["kind"])
 		_expect(fight["payload"]["return_scene"] == "world", "a gate fight would not come back to the world")
 		_expect(meeting["enemies"].size() >= 3, "the gate fielded only %d" % meeting["enemies"].size())
-	_expect(not gate.open, "the gate is still open after being entered")
+	_expect(gate.open, "the gate shut before the fight was fought")
+	_expect(GameState.gold == gold_before, "the gate paid out before the fight was fought")
+
+	# Walked out of, it is left exactly as it was found.
+	_scene._settle_up(false)
+	_expect(gate.open and not gate.cleared, "a gate nobody beat still shut itself")
+	_expect(GameState.gold == gold_before, "a gate nobody beat still paid")
+
+	if not _step_onto(gate.cell):
+		return
+	_scene._settle_up(true)
+	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s fought and shut, paid %d gold" % [gate.label(), GameState.gold - gold_before])
+	print("gate: %s walked out of once, then shut for %d gold" % [gate.label(), GameState.gold - gold_before])
 
 
 func _check_tower() -> void:
@@ -360,12 +371,15 @@ func _check_tower() -> void:
 	_requests.clear()
 	if not _step_onto(tower.cell):
 		return
-	_expect(world.tower_floor == 1, "climbing did not advance the floor log")
+	_expect(world.tower_floor == 0, "the floor log advanced before the fight was fought")
 
 	var fight := _last_battle_request()
 	_expect(not fight.is_empty(), "the Tower started no fight")
 	if not fight.is_empty():
 		_expect(fight["payload"]["encounter"]["kind"] == Encounter.TOWER, "the Tower fought the wrong thing")
+
+	_scene._settle_up(true)
+	_expect(world.tower_floor == 1, "climbing did not advance the floor log")
 	print("tower: floor %d entered" % world.tower_floor)
 
 

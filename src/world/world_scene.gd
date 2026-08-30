@@ -34,7 +34,7 @@ const SITE_COLOURS := {
 var boot_payload: Dictionary = {}
 
 @onready var _map: Node2D = $Map
-@onready var _camera: Camera2D = $Camera2D
+@onready var _camera: CameraRig = $Camera2D
 @onready var _place: Label = %PlaceLabel
 @onready var _party: Label = %PartyLabel
 @onready var _log: Label = %LogLabel
@@ -54,9 +54,12 @@ var _captive_here: Character = null
 func _ready() -> void:
 	world = GameState.world
 	Encounter.restock(world, world.rng)
+	if world.steps == 0:
+		Encounter.first_blood(world, world.rng)
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
-	_centre_camera()
+	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
+	_centre_camera(true)
 	_refresh()
 
 	if GameState.has_flag("last_victory"):
@@ -64,11 +67,16 @@ func _ready() -> void:
 		# Coming through a fight together is worth something to the people who did.
 		Banter.shared(GameState.party_characters(), int(Banter.rules().get("bond_per_battle", 1)))
 		_talk(Banter.AFTER_BATTLE, true)
+	_settle_up(GameState.has_flag("last_victory"))
 	if not GameState.has_flag("seen:watched_ground"):
 		GameState.set_flag("seen:watched_ground")
 		_note("Red ground is being watched. Step onto it and you have been seen.")
 	GameState.set_flag("last_victory", false)
 	_check_party()
+
+	if world.steps == 0 and not GameState.has_flag("seen:prologue"):
+		GameState.set_flag("seen:prologue")
+		EventBus.dialogue_requested.emit("prologue")
 
 
 func _process(delta: float) -> void:
@@ -153,10 +161,64 @@ func _watch_check(cell: Vector2i) -> void:
 	_begin_battle(Encounter.for_band(world, band, GameState.party_characters(), world.rng))
 
 
-func _begin_battle(meeting: Dictionary) -> void:
+func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	_busy = true
+	GameState.pending_outcome = outcome
 	_note(meeting["title"])
 	EventBus.request_scene.emit("battle", {"encounter": meeting, "return_scene": "world"})
+
+
+## Nothing a fight was worth is handed over until the fight has been won. The
+## scene swap is deferred, so anything written here rather than after the call
+## to [method _begin_battle] would otherwise be paid out win or lose.
+func _settle_up(won: bool) -> void:
+	var outcome := GameState.pending_outcome
+	GameState.pending_outcome = {}
+	if outcome.is_empty():
+		return
+	if not won:
+		_note(str(outcome.get("lost", "You came away with nothing.")))
+		return
+
+	var party := GameState.party_characters()
+	var cell: Vector2i = outcome.get("cell", world.player_cell)
+	var site := world.site_at(cell)
+	match str(outcome.get("kind", "")):
+		"gate":
+			if site == null:
+				return
+			world.close_gate(site)
+			for line: String in Spoils.for_gate(world, site, party):
+				_note(line)
+		"tower":
+			world.tower_floor = int(outcome.get("floor", world.tower_floor))
+			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
+				_note(line)
+			if world.tower_is_topped() and not world.tower_topped:
+				world.tower_topped = true
+				Renown.record(
+					world, Renown.TOWER_TOPPED, cell,
+					int(Renown.rules().get("tower_topped", 8)), "somebody reached the top of the Tower"
+				)
+				_note("There are no more floors above you.")
+		"siege":
+			if site == null:
+				return
+			for line: String in Town.save(site, world):
+				_note(line)
+		"raid":
+			if site == null:
+				return
+			for line: String in Town.raid(site, world, GameState.roster):
+				_note(line)
+		"captive":
+			var freed := GameState.roster.by_id(str(outcome.get("character", "")))
+			if freed == null:
+				return
+			Captivity.free_by_force(freed, GameState.roster)
+			_note("%s walks out with you." % freed.display_name)
+	_map.queue_redraw()
+	_refresh()
 
 
 # --- places -------------------------------------------------------------------
@@ -272,11 +334,11 @@ func _enter_gate(site: Site) -> void:
 
 	var party := GameState.party_characters()
 	_note("%s stands open." % site.label())
-	_begin_battle(Encounter.for_gate(world, site, 0, true, party, world.rng))
-	# Shutting a gate is permanent; nothing behind it comes back.
-	world.close_gate(site)
-	for line: String in Spoils.for_gate(world, site, party):
-		_note(line)
+	# Shutting a gate is permanent, so it only shuts if you walk back out of it.
+	_begin_battle(
+		Encounter.for_gate(world, site, 0, true, party, world.rng),
+		{"kind": "gate", "cell": site.cell, "lost": "%s is still standing open." % site.display_name}
+	)
 
 
 func _climb(site: Site) -> void:
@@ -286,18 +348,13 @@ func _climb(site: Site) -> void:
 
 	var next_floor := world.tower_floor + 1
 	_note("The Tower opens onto floor %d of %d." % [next_floor, world.tower_floors()])
-	world.tower_floor = next_floor
-	_begin_battle(Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng))
-	for line: String in Spoils.for_tower_floor(world, next_floor, GameState.party_characters()):
-		_note(line)
-
-	if world.tower_is_topped():
-		world.tower_topped = true
-		Renown.record(
-			world, Renown.TOWER_TOPPED, site.cell,
-			int(Renown.rules().get("tower_topped", 8)), "somebody reached the top of the Tower"
-		)
-		_note("There are no more floors above you.")
+	_begin_battle(
+		Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng),
+		{
+			"kind": "tower", "cell": site.cell, "floor": next_floor,
+			"lost": "You come back down to the floor you started on.",
+		}
+	)
 
 
 # --- party --------------------------------------------------------------------
@@ -403,6 +460,10 @@ func _end_run() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _busy or not event.is_pressed() or event.is_echo() or not event is InputEventKey:
 		return
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		EventBus.system_menu_requested.emit()
+		return
 	match event.keycode:
 		KEY_P:
 			get_viewport().set_input_as_handled()
@@ -507,10 +568,10 @@ func _defend_here() -> void:
 	if site == null or not Town.is_threatened(site):
 		return
 	_note("You put yourself between %s and the people taking it apart." % site.display_name)
-	_begin_battle(Encounter.for_siege(world, site, GameState.party_characters(), world.rng))
-	for line: String in Town.save(site, world):
-		_note(line)
-	_refresh()
+	_begin_battle(
+		Encounter.for_siege(world, site, GameState.party_characters(), world.rng),
+		{"kind": "siege", "cell": site.cell, "lost": "%s is left to them." % site.display_name}
+	)
 
 
 ## The other thing you can do to a town. It pays better and it costs more.
@@ -522,10 +583,10 @@ func _raid_here() -> void:
 		_note("Somebody is already sacking %s." % site.display_name)
 		return
 	_note("You draw on %s." % site.display_name)
-	_begin_battle(Encounter.for_town_guard(world, site, GameState.party_characters(), world.rng))
-	for line: String in Town.raid(site, world, GameState.roster):
-		_note(line)
-	_refresh()
+	_begin_battle(
+		Encounter.for_town_guard(world, site, GameState.party_characters(), world.rng),
+		{"kind": "raid", "cell": site.cell, "lost": "%s drives you back out." % site.display_name}
+	)
 
 
 ## The board: settle what you have finished, or take what is pinned to it.
@@ -601,18 +662,21 @@ func _fight_for_captive() -> void:
 	var freed := _captive_here
 	var site := world.site_at(world.player_cell)
 	_note("You come for %s the hard way." % freed.display_name)
-	_begin_battle(Encounter.for_captors(world, site, GameState.party_characters(), world.rng))
-	Captivity.free_by_force(freed, GameState.roster)
+	_begin_battle(
+		Encounter.for_captors(world, site, GameState.party_characters(), world.rng),
+		{
+			"kind": "captive", "cell": world.player_cell, "character": freed.id,
+			"lost": "%s is still being held." % freed.display_name,
+		}
+	)
 	_captive_here = null
-	_refresh()
 
 
 # --- presentation -------------------------------------------------------------
 
 
-func _centre_camera() -> void:
-	_camera.position = Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
-	_camera.enabled = true
+func _centre_camera(immediate: bool = false) -> void:
+	_camera.focus_on(Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5, immediate)
 
 
 ## Two of them say something to each other. On the road it goes up over the

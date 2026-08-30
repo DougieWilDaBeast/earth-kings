@@ -5,6 +5,8 @@ extends CanvasLayer
 @onready var _root: Control = %Root
 @onready var _load_button: Button = %LoadButton
 @onready var _status: Label = %StatusLabel
+@onready var _mute_button: Button = %MuteButton
+@onready var _music_slider: HSlider = %MusicSlider
 
 
 func _ready() -> void:
@@ -18,10 +20,16 @@ func _ready() -> void:
 	title_button.pressed.connect(_on_title_pressed)
 	var close_button: Button = %CloseButton
 	close_button.pressed.connect(close)
+	_music_slider.value = Music.volume
+	_music_slider.value_changed.connect(func(level: float) -> void: Music.set_volume(level))
+	_mute_button.button_pressed = Music.muted
+	_mute_button.toggled.connect(_on_mute_toggled)
+	_on_mute_toggled(Music.muted)
 
 
 func open() -> void:
-	_status.text = ""
+	# The seed lives here so a world worth replaying can be written down.
+	_status.text = "World seed %d" % GameState.world.world_seed if GameState.world != null else ""
 	_load_button.disabled = not GameState.has_save()
 	_root.show()
 
@@ -51,9 +59,14 @@ func _on_load_pressed() -> void:
 		_status.text = "No save to load."
 		return
 	close()
-	EventBus.request_scene.emit("overworld", {})
+	EventBus.request_scene.emit("world", {})
 
 
 func _on_title_pressed() -> void:
 	close()
 	EventBus.request_scene.emit("title", {})
+
+
+func _on_mute_toggled(silent: bool) -> void:
+	_mute_button.text = "Music: off" if silent else "Music"
+	Music.set_muted(silent)

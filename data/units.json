@@ -543,35 +543,5 @@
 		"kind": "beast",
 		"color": "#a8465a",
 		"sprite_dir": "res://art/units/blood_mosquito/idle"
-	},
-	"castellan": {
-		"display_name": "Castellan",
-		"job": "Magic Swordsman",
-		"max_hp": 54,
-		"attack": 16,
-		"defense": 8,
-		"move": 4,
-		"jump": 2,
-		"speed": 11,
-		"abilities": ["strike", "ember"],
-		"classes": ["magic_swordsman", "sworn_blade"],
-		"kind": "soldier",
-		"color": "#6f6a8c",
-		"sprite_dir": "res://art/units/magic_swordsman/idle"
-	},
-	"innkeeper": {
-		"display_name": "Innkeep",
-		"job": "Wildling",
-		"max_hp": 70,
-		"attack": 14,
-		"defense": 9,
-		"move": 3,
-		"jump": 1,
-		"speed": 8,
-		"abilities": ["strike"],
-		"classes": ["wildling", "sworn_blade"],
-		"kind": "wild",
-		"color": "#8a6a4a",
-		"sprite_dir": "res://art/units/club_ogre/idle"
 	}
 }

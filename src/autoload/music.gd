@@ -7,6 +7,14 @@ extends Node
 
 const SILENT_DB := -80.0
 const DEFAULT_FADE := 1.4
+## Its own bus, so the player's volume and the crossfade never fight over the
+## same number.
+const BUS := "Music"
+const SETTINGS_PATH := "user://settings.cfg"
+
+## 0.0 - 1.0, what the player set. Mute is kept separate so it can be undone.
+var volume: float = 0.8
+var muted: bool = false
 
 var _players: Array[AudioStreamPlayer] = []
 var _active := 0
@@ -23,11 +31,59 @@ func _ready() -> void:
 	# Music should carry on over a paused game and through scene swaps.
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_rng.randomize()
+	_ensure_bus()
+	_load_settings()
 	for _i in 2:
 		var player := AudioStreamPlayer.new()
+		player.bus = BUS
 		player.volume_db = SILENT_DB
 		add_child(player)
 		_players.append(player)
+
+
+func set_volume(level: float) -> void:
+	volume = clampf(level, 0.0, 1.0)
+	_apply_settings()
+	_save_settings()
+
+
+func set_muted(silent: bool) -> void:
+	muted = silent
+	_apply_settings()
+	_save_settings()
+
+
+func _ensure_bus() -> void:
+	if AudioServer.get_bus_index(BUS) != -1:
+		return
+	var index := AudioServer.bus_count
+	AudioServer.add_bus(index)
+	AudioServer.set_bus_name(index, BUS)
+	AudioServer.set_bus_send(index, "Master")
+
+
+func _apply_settings() -> void:
+	var index := AudioServer.get_bus_index(BUS)
+	if index == -1:
+		return
+	AudioServer.set_bus_volume_db(index, linear_to_db(maxf(volume, 0.0001)))
+	AudioServer.set_bus_mute(index, muted or volume <= 0.0)
+
+
+func _load_settings() -> void:
+	var config := ConfigFile.new()
+	if config.load(SETTINGS_PATH) == OK:
+		volume = clampf(float(config.get_value("audio", "music_volume", volume)), 0.0, 1.0)
+		muted = bool(config.get_value("audio", "music_muted", muted))
+	_apply_settings()
+
+
+func _save_settings() -> void:
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)
+	config.set_value("audio", "music_volume", volume)
+	config.set_value("audio", "music_muted", muted)
+	config.save(SETTINGS_PATH)
 
 
 ## Play whatever `data/music.json` gives this scene key (silence if nothing).

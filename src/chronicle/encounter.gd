@@ -14,6 +14,10 @@ const TOWER := "tower"
 const SPAWN_CLEARANCE := 10
 ## Give up looking for somewhere to put a band after this many tries.
 const SPAWN_ATTEMPTS := 40
+## How far off the opening band is put: near enough that the first fight is a
+## short walk, far enough that it is still walked into rather than sprung.
+const OPENING_NEAR := 4
+const OPENING_FAR := 6
 
 
 ## Odds of meeting something on this tile, 0.0–1.0.
@@ -142,6 +146,27 @@ static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumbe
 	for unit_id: String in band.pack:
 		enemies.append({"unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1))})
 	return _build(world, band.cell, WILD, enemies, rng, "%s has seen you." % band.label())
+
+
+## A run that opens on an empty country teaches nothing about the country. One
+## band is put down inside the normal clearance so the road out has something
+## on it from the first minute.
+static func first_blood(world: World, rng: RandomNumberGenerator) -> void:
+	var candidates: Array[Vector2i] = []
+	for y in range(-OPENING_FAR, OPENING_FAR + 1):
+		for x in range(-OPENING_FAR, OPENING_FAR + 1):
+			var cell := world.player_cell + Vector2i(x, y)
+			var reach := Pathfinder.distance(cell, world.player_cell)
+			if reach < OPENING_NEAR or reach > OPENING_FAR:
+				continue
+			if not world.is_walkable(cell) or world.site_at(cell) != null:
+				continue
+			if world.distance_to_haven(cell) <= 2:
+				continue
+			candidates.append(cell)
+	if candidates.is_empty():
+		return
+	world.prowlers.append(_band_at(world, candidates[rng.randi() % candidates.size()], rng))
 
 
 static func _can_camp_at(world: World, cell: Vector2i) -> bool:

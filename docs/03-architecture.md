@@ -44,9 +44,10 @@ src/
     units/unit.gd              The battle puppet spawned from a Character
     abilities/ability_resolver.gd   Targeting rules, facing bonuses, damage maths
     ai/enemy_brain.gd          Plans a move + attack; returns it for the controller to execute
-  world/                       Walk mode (planned — M3)
+  world/                       Walk mode: the map, the step clock, every site interaction
+  area/                        Places walked around close up — towns, halls, the camp fire
   dialogue/                    Conversation overlay
-  ui/                          Battle HUD, title screen, system menu
+  ui/                          Battle HUD, title screen, party screen, system menu
 ```
 
 ## Character vs Unit
@@ -92,6 +93,7 @@ autoloads exist.
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/world_smoke_test.tscn`  | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
 | `tests/walk_smoke_test.tscn`   | The real walk scene: walls, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
+| `tests/area_smoke_test.tscn`   | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
 | `tests/battle_smoke_test.tscn` | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 
 `tools/coverage.tscn` reports static reachability from those tests — which functions a test can
@@ -105,5 +107,5 @@ godot --headless --path . res://tools/coverage.tscn
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState`. Database must be up before anything reads content;
-GameState reads content while restoring a save.
+`EventBus` → `Database` → `GameState` → `Music`. Database must be up before anything reads
+content; GameState reads content while restoring a save, and Music reads `data/music.json`.

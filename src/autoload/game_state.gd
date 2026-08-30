@@ -32,6 +32,9 @@ var flags: Dictionary = {}
 var talks: Dictionary = {}
 ## Errands taken and not yet settled (see [Errand]).
 var errands: Array = []
+## What the fight being walked into will settle on the way back, if it is won.
+## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
+var pending_outcome: Dictionary = {}
 
 
 func _ready() -> void:

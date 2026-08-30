@@ -87,7 +87,7 @@ func _name_of(unit_id: String) -> String:
 
 
 func _begin(hero_id: String) -> void:
-	GameState.new_game(0, hero_id)
+	GameState.new_game(randi(), hero_id)
 	EventBus.request_scene.emit("world", {})
 
 
