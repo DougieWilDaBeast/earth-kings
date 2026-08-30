@@ -1,0 +1,10 @@
+{
+  "id": "element_monk",
+  "source": "pixellab selected_characters (1)/Idle_12 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Multiple magic elements monk, fire, water, air, earth, lightning, dark, light",
+  "size": "64x64",
+  "view": "high top-down"
+}

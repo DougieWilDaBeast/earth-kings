@@ -610,7 +610,12 @@ func _settle_the_party() -> void:
 		if unit.team != Unit.Team.PLAYER or unit.character == null:
 			continue
 		if unit.is_alive():
-			unit.character.hp = unit.hp
+			# Wounds carry as a fraction, so a difficulty that made the party
+			# hardier does not write an impossible number back onto them.
+			var carried := float(unit.hp) / float(maxi(1, unit.max_hp))
+			unit.character.hp = clampi(
+				roundi(carried * float(unit.character.max_hp())), 1, unit.character.max_hp()
+			)
 			Doctrine.reinforce_all(unit.character, GameState.world.steps)
 			continue
 

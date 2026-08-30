@@ -1,0 +1,11 @@
+{
+  "id": "storm_blade",
+  "source": "pixellab selected_characters/Idle_7 2026-08-30",
+  "states": [
+    "idle",
+    "lighting_blade_slash"
+  ],
+  "prompt": "Sleepy emo swordsman",
+  "size": "64x64",
+  "view": "low top-down"
+}

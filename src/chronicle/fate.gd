@@ -89,8 +89,13 @@ static func graces_for(character: Character, context: Dictionary) -> Array:
 ## Decide a fallen character's fate and apply it. Returns the outcome plus a
 ## line for the log.
 static func resolve(character: Character, context: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	var leniency := Difficulty.dial("grace")
 	for grace: Dictionary in graces_for(character, context):
-		if rng.randf() >= float(grace["chance"]):
+		# Capture is a fate, not a reprieve, so leniency does not push people into it.
+		var chance := float(grace["chance"])
+		if grace["reason"] != BY_CAPTURE:
+			chance = minf(chance * leniency, 0.95)
+		if rng.randf() >= chance:
 			continue
 		if grace.has("consumes"):
 			character.charms.erase(grace["consumes"])

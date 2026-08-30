@@ -1,0 +1,10 @@
+{
+  "id": "flame_lion",
+  "source": "pixellab selected_characters/Idle_14 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Lion but its mane is made of fire",
+  "size": "64x64",
+  "view": "high top-down"
+}

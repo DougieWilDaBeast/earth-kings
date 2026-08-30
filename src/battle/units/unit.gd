@@ -79,6 +79,10 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.cell = start_cell
 	unit.ct = randi_range(0, 40)
 	unit._equip(data.get("weapon", ""))
+	if unit_team == Team.ENEMY:
+		unit.max_hp = Difficulty.scaled(unit.max_hp, "enemy_hp")
+		unit.hp = unit.max_hp
+		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
 	return unit
 
 
@@ -108,6 +112,16 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 	unit.flash_step = source.flash_step()
 	unit.speed = source.speed()
 	unit.abilities = source.abilities()
+	if unit_team == Team.ENEMY:
+		unit.max_hp = Difficulty.scaled(unit.max_hp, "enemy_hp")
+		unit.hp = mini(unit.hp, unit.max_hp)
+		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
+	else:
+		var hardier := Difficulty.scaled(unit.max_hp, "party_hp")
+		# Wounds are carried as a fraction, so a tougher party is not healed by it.
+		unit.hp = maxi(1, roundi(float(unit.hp) / float(unit.max_hp) * float(hardier)))
+		unit.max_hp = hardier
+		unit.attack = Difficulty.scaled(unit.attack, "party_attack")
 	return unit
 
 

@@ -1,0 +1,10 @@
+{
+  "id": "eye_slinger",
+  "source": "pixellab selected_characters/Idle_10 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "an eyeball slingshot man",
+  "size": "64x64",
+  "view": "low top-down"
+}

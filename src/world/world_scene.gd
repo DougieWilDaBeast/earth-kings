@@ -36,6 +36,23 @@ const SITE_COLOURS := {
 	Site.HOME: Color(0.96, 0.6, 0.35),
 }
 
+## What a place is drawn as on the map. Gates and keeps override this with the
+## hold of whoever owns them (see [Faction]).
+const SITE_ART := {
+	Site.TOWER: "res://art/world/hold_spire.png",
+	Site.KEEP: "res://art/world/hold_grey.png",
+	Site.VILLAGE: "res://art/world/hold_pale.png",
+	Site.LIBRARY: "res://art/world/hold_white.png",
+	Site.GATE: "res://art/world/hold_dark.png",
+	Site.HUT: "res://art/world/hold_dun.png",
+	Site.GRAVE: "res://art/world/tomb.png",
+	Site.HOME: "res://art/world/hold_red.png",
+}
+## Cells tall a place is drawn, so a keep overhangs the tile it sits on.
+const SITE_SCALE := 2.1
+## Cells tall a person is drawn on the map.
+const MARKER_SCALE := 1.2
+
 var boot_payload: Dictionary = {}
 
 @onready var _map: Node2D = $Map
@@ -56,6 +73,8 @@ var _bubble: SpeechBubble = null
 var _captive_here: Character = null
 ## The way the party was last walking itself, so auto does not pace on the spot.
 var _auto_last: Vector2i = Vector2i.ZERO
+## Map art kept between redraws, since the whole map is redrawn every step.
+var _art: Dictionary = {}
 
 
 func _ready() -> void:
@@ -862,35 +881,129 @@ func _pace_text() -> String:
 
 ## Runs inside the Map node's draw pass, so its draw_* calls are legal here.
 func _draw_world() -> void:
+	_draw_ground()
+	_draw_watched_ground()
+	_draw_places()
+	_draw_errand_marks()
+	_draw_bands()
+	_draw_party()
+
+
+## A single flat green for every grass tile reads as a spreadsheet. Each cell
+## gets a fixed wobble in brightness and whatever its terrain grows.
+func _draw_ground() -> void:
 	for y in world.size.y:
 		for x in world.size.x:
 			var cell := Vector2i(x, y)
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
-			_map.draw_rect(rect, Color(world.terrain_at(cell).get("color", "#4f7d3f")))
+			var terrain := world.terrain_at(cell)
+			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
+			_dress(cell, world.terrain_id_at(cell))
 
-	# Ground somebody has eyes on. Walk onto it and the fight has already started.
+
+## Deterministic, so the country does not shimmer as you walk across it.
+func _shade(cell: Vector2i) -> Color:
+	var lift := 0.92 + float(absi(hash(cell)) % 1000) / 1000.0 * 0.16
+	return Color(lift, lift, lift, 1.0)
+
+
+## What grows on a tile, drawn from the cell's own hash so it stays put.
+func _dress(cell: Vector2i, terrain_id: String) -> void:
+	var seed_value := absi(hash(cell))
+	var origin := Vector2(cell) * CELL
+	match terrain_id:
+		"brush":
+			for i in 3:
+				var at := origin + _scatter(seed_value, i)
+				_map.draw_circle(at, CELL * 0.1, Color(0.18, 0.32, 0.16, 0.7))
+		"crag":
+			if seed_value % 2 == 0:
+				var chip := origin + _scatter(seed_value, 7)
+				var span := CELL * 0.17
+				_map.draw_colored_polygon(
+					PackedVector2Array([
+						chip + Vector2(-span, span * 0.5),
+						chip + Vector2(-span * 0.4, -span),
+						chip + Vector2(span * 0.8, -span * 0.3),
+						chip + Vector2(span * 0.3, span * 0.7),
+					]),
+					Color(0.42, 0.42, 0.4, 0.55)
+				)
+		"hill":
+			# Only some of the ridge shows, or high ground reads as corduroy.
+			if seed_value % 3 == 0:
+				var ridge := origin + Vector2(CELL * 0.18, CELL * 0.3 + float(seed_value % 6))
+				_map.draw_line(ridge, ridge + Vector2(CELL * 0.6, 0), Color(1, 1, 1, 0.08), 1.0)
+		"water":
+			if seed_value % 2 == 0:
+				var wave := origin + _scatter(seed_value, 3)
+				_map.draw_line(wave, wave + Vector2(CELL * 0.26, 0), Color(1, 1, 1, 0.14), 1.0)
+		"grass":
+			if seed_value % 5 == 0:
+				_map.draw_circle(origin + _scatter(seed_value, 2), CELL * 0.06, Color(0.32, 0.48, 0.26, 0.55))
+
+
+func _scatter(seed_value: int, index: int) -> Vector2:
+	var a := float((seed_value >> (index * 3)) % 100) / 100.0
+	var b := float((seed_value >> (index * 3 + 5)) % 100) / 100.0
+	return Vector2(0.18 + a * 0.64, 0.18 + b * 0.64) * CELL
+
+
+## Ground somebody has eyes on, in the colours of whoever is watching it.
+func _draw_watched_ground() -> void:
 	for band: Prowler in world.prowlers:
+		var wash := Faction.banner(band.faction)
+		wash.a = 0.26
 		for watched: Vector2i in band.watched(world):
-			_map.draw_rect(
-				Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), Color(0.85, 0.18, 0.18, 0.3)
-			)
+			_map.draw_rect(Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), wash)
 
+
+func _draw_places() -> void:
 	for site in world.sites:
+		var art := _site_art(site)
 		var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
-		var colour: Color = SITE_COLOURS.get(site.kind, Color.WHITE)
-		_map.draw_rect(Rect2(Vector2(site.cell) * CELL, Vector2.ONE * CELL), Color(0, 0, 0, 0.45))
-		_map.draw_circle(centre, CELL * 0.34, colour)
-		if site.kind == Site.GATE and site.open:
-			_map.draw_arc(centre, CELL * 0.48, 0.0, TAU, 20, colour, 2.0, true)
-		if site.kind == Site.GRAVE:
-			_map.draw_line(centre + Vector2(0, -CELL * 0.3), centre + Vector2(0, CELL * 0.3), Color(0.15, 0.15, 0.18), 2.0)
-			_map.draw_line(centre + Vector2(-CELL * 0.2, -CELL * 0.1), centre + Vector2(CELL * 0.2, -CELL * 0.1), Color(0.15, 0.15, 0.18), 2.0)
-		if site.kind == Site.HOME:
-			var roof := Color(0.22, 0.13, 0.1)
-			_map.draw_line(centre + Vector2(-CELL * 0.3, -CELL * 0.02), centre + Vector2(0, -CELL * 0.34), roof, 2.0)
-			_map.draw_line(centre + Vector2(0, -CELL * 0.34), centre + Vector2(CELL * 0.3, -CELL * 0.02), roof, 2.0)
+		if art == null:
+			_map.draw_circle(centre, CELL * 0.34, SITE_COLOURS.get(site.kind, Color.WHITE))
+			continue
 
-	# Where the errands point. Nobody drew you a map, but you know roughly.
+		# Stood on the bottom edge of its tile, so the tile still reads as the
+		# thing you walk onto and the building rises up behind it.
+		var size := Vector2.ONE * CELL * SITE_SCALE
+		var foot := Vector2(site.cell) * CELL + Vector2(CELL * 0.5, CELL * 0.95)
+		_map.draw_texture_rect(
+			art, Rect2(foot - Vector2(size.x * 0.5, size.y * 0.88), size), false, _site_tint(site)
+		)
+		if site.kind == Site.GATE and site.open:
+			_map.draw_arc(centre, CELL * 0.55, 0.0, TAU, 24, Color(0.95, 0.35, 0.3, 0.9), 2.0, true)
+
+
+## A place looks like what has happened to it: shut gates go dark, burnt towns
+## go grey, and a town being sacked is lit by it.
+func _site_tint(site: Site) -> Color:
+	if site.kind == Site.GATE and site.cleared:
+		return Color(0.45, 0.45, 0.5)
+	if Town.is_ruined(site):
+		return Color(0.42, 0.38, 0.36)
+	if Town.is_threatened(site):
+		return Color(1.25, 0.72, 0.55)
+	return Color.WHITE
+
+
+func _site_art(site: Site) -> Texture2D:
+	var path := ""
+	if site.kind == Site.GATE or site.kind == Site.KEEP:
+		path = Faction.hold_art(str(site.data.get("faction", "")))
+	if path == "":
+		path = str(SITE_ART.get(site.kind, ""))
+	if path == "":
+		return null
+	if not _art.has(path):
+		_art[path] = load(path) if ResourceLoader.exists(path) else null
+	return _art[path]
+
+
+## Where the errands point. Nobody drew you a map, but you know roughly.
+func _draw_errand_marks() -> void:
 	for errand: Dictionary in GameState.errands:
 		var pair: Array = errand.get("to", [])
 		if pair.size() < 2 or Errand.is_complete(errand):
@@ -898,11 +1011,28 @@ func _draw_world() -> void:
 		var mark := Vector2(int(pair[0]), int(pair[1])) * CELL + Vector2.ONE * CELL * 0.5
 		_map.draw_arc(mark, CELL * 0.42, 0.0, TAU, 16, Color(0.95, 0.88, 0.55, 0.85), 2.0, true)
 
-	for band: Prowler in world.prowlers:
-		var camp := Vector2(band.cell) * CELL + Vector2.ONE * CELL * 0.5
-		_map.draw_circle(camp, CELL * 0.3, Color(0.85, 0.22, 0.22))
-		_map.draw_arc(camp, CELL * 0.3, 0.0, TAU, 20, Color(0.2, 0.05, 0.05), 2.0, true)
 
-	var player := Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
-	_map.draw_circle(player, CELL * 0.3, Color(0.98, 0.95, 0.85))
-	_map.draw_arc(player, CELL * 0.3, 0.0, TAU, 20, Color(0.1, 0.1, 0.12), 2.0, true)
+## Bands are drawn as whoever is leading them, so the country tells you what is
+## in it before you are close enough to be told the hard way.
+func _draw_bands() -> void:
+	for band: Prowler in world.prowlers:
+		var centre := Vector2(band.cell) * CELL + Vector2.ONE * CELL * 0.5
+		_map.draw_circle(centre, CELL * 0.42, Faction.banner(band.faction))
+		var face: Texture2D = Database.unit_face(band.pack[0]) if not band.pack.is_empty() else null
+		if face == null:
+			_map.draw_circle(centre, CELL * 0.26, Color(0.12, 0.08, 0.09))
+			continue
+		var size := Vector2.ONE * CELL * MARKER_SCALE
+		_map.draw_texture_rect(face, Rect2(centre - size * Vector2(0.5, 0.78), size), false)
+
+
+func _draw_party() -> void:
+	var centre := Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
+	_map.draw_circle(centre, CELL * 0.44, Color(0.98, 0.95, 0.85, 0.85))
+	_map.draw_arc(centre, CELL * 0.44, 0.0, TAU, 24, Color(0.12, 0.1, 0.12), 2.0, true)
+	var lead := GameState.roster.player()
+	var face: Texture2D = Database.unit_face(lead.template_id) if lead != null else null
+	if face == null:
+		return
+	var size := Vector2.ONE * CELL * MARKER_SCALE
+	_map.draw_texture_rect(face, Rect2(centre - size * Vector2(0.5, 0.78), size), false)

@@ -1,0 +1,10 @@
+{
+  "id": "beast_titan",
+  "source": "pixellab selected_characters/Idle_4 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Attack on titan beast titan",
+  "size": "256x256",
+  "view": "high top-down"
+}

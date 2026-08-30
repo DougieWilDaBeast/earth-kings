@@ -1,4 +1,54 @@
 {
+	"difficulty": {
+		"setting": "gentle",
+		"settings": {
+			"gentle": {
+				"display_name": "Gentle",
+				"blurb": "For finding out what is in the game. The country still bites, but it does not eat you.",
+				"enemy_level": -3,
+				"enemy_count": -1,
+				"enemy_attack": 0.55,
+				"enemy_hp": 0.6,
+				"party_hp": 1.6,
+				"party_attack": 1.35,
+				"encounter_chance": 0.5,
+				"grace": 2.5,
+				"xp": 3.0,
+				"gold": 2.5,
+				"price": 0.5
+			},
+			"even": {
+				"display_name": "Even",
+				"blurb": "The game as it is written.",
+				"enemy_level": 0,
+				"enemy_count": 0,
+				"enemy_attack": 1.0,
+				"enemy_hp": 1.0,
+				"party_hp": 1.0,
+				"party_attack": 1.0,
+				"encounter_chance": 1.0,
+				"grace": 1.0,
+				"xp": 1.0,
+				"gold": 1.0,
+				"price": 1.0
+			},
+			"hard": {
+				"display_name": "Unkind",
+				"blurb": "Preparation is the only thing between you and the ground.",
+				"enemy_level": 2,
+				"enemy_count": 1,
+				"enemy_attack": 1.15,
+				"enemy_hp": 1.2,
+				"party_hp": 1.0,
+				"party_attack": 1.0,
+				"encounter_chance": 1.25,
+				"grace": 0.75,
+				"xp": 0.85,
+				"gold": 0.8,
+				"price": 1.15
+			}
+		}
+	},
 	"tower": {
 		"floors": 10,
 		"gold_per_floor": 35,

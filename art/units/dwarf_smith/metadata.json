@@ -1,0 +1,10 @@
+{
+  "id": "dwarf_smith",
+  "source": "pixellab selected_characters (1)/Idle_9 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Dwarf blacksmith, 3 eyes, The most standard hammer for blacksmithing",
+  "size": "64x64",
+  "view": "high top-down"
+}

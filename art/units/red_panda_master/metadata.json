@@ -1,0 +1,10 @@
+{
+  "id": "red_panda_master",
+  "source": "pixellab selected_characters/Idle_17 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Red panda, like master shifu",
+  "size": "64x64",
+  "view": "high top-down"
+}

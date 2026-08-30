@@ -35,7 +35,9 @@ static func price_of(equipment_id: String) -> int:
 
 ## What this particular place will ask, once they have heard who you are.
 static func asking_price(site: Site, world: World, equipment_id: String) -> int:
-	return maxi(1, roundi(price_of(equipment_id) * Renown.price_multiplier(world, site.cell)))
+	return maxi(1, roundi(
+		price_of(equipment_id) * Renown.price_multiplier(world, site.cell) * Difficulty.dial("price")
+	))
 
 
 static func buy(site: Site, equipment_id: String, buyer: Character, world: World) -> bool:
@@ -75,7 +77,9 @@ static func hire_cost(offer: Dictionary) -> int:
 
 ## What they will take to walk with you, knowing what they know about you.
 static func asking_hire_cost(site: Site, world: World, offer: Dictionary) -> int:
-	return maxi(1, roundi(hire_cost(offer) * Renown.price_multiplier(world, site.cell)))
+	return maxi(1, roundi(
+		hire_cost(offer) * Renown.price_multiplier(world, site.cell) * Difficulty.dial("price")
+	))
 
 
 ## Take on whoever is drinking here. They join the roster and the party.

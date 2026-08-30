@@ -1,0 +1,10 @@
+{
+  "id": "sword_bear",
+  "source": "pixellab selected_characters/Idle_16 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Black bear, dual-wielding sword god",
+  "size": "64x64",
+  "view": "high top-down"
+}

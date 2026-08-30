@@ -1,0 +1,10 @@
+{
+  "id": "staff_panda",
+  "source": "pixellab selected_characters/Idle_15 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "panda bear, bamboo staff, martial arts god",
+  "size": "64x64",
+  "view": "high top-down"
+}

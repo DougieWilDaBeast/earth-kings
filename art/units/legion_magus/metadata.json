@@ -1,0 +1,10 @@
+{
+  "id": "legion_magus",
+  "source": "pixellab selected_characters (1)/Idle 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart, Wizard",
+  "size": "64x64",
+  "view": "high top-down"
+}

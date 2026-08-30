@@ -42,7 +42,9 @@ static func roll(world: World, richness: float) -> Dictionary:
 	var base := int(rules().get("gold_base", 40))
 	var spread := maxi(1, int(rules().get("gold_spread", 60)))
 	var haul := {
-		"gold": roundi((base + world.rng.randi() % spread) * maxf(0.2, richness)),
+		"gold": Difficulty.scaled(
+			roundi((base + world.rng.randi() % spread) * maxf(0.2, richness)), "gold"
+		),
 		"item": "",
 	}
 	if world.rng.randf() < float(rules().get("item_chance", 0.35)) * richness:

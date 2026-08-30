@@ -1,0 +1,154 @@
+{
+	"heart_empire": {
+		"display_name": "The Heart Empire",
+		"blurb": "Armour and a dark visor, and a heart stamped where a face should be. They came up the road one spring and never named a reason. Rank is read off the metal: copper stands the gate, white stands beside the throne.",
+		"banner": "#b4304a",
+		"hold": "res://art/world/hold_crown.png",
+		"seat": "keep",
+		"ground": ["road", "grass", "hill"],
+		"ranks": [
+			"legion_copper",
+			"legion_black",
+			"legion_silver",
+			"legion_emerald",
+			"legion_gold",
+			"legion_white"
+		],
+		"champion": "dirte",
+		"hostile": true
+	},
+	"bamboo_court": {
+		"display_name": "The Bamboo Court",
+		"blurb": "A school high in the crags that took its students from the beasts when no people were left worth teaching. They do not raid, they do not trade, and they will not be walked past.",
+		"banner": "#4f9d6a",
+		"hold": "res://art/world/hold_pagoda.png",
+		"seat": "keep",
+		"ground": ["crag", "hill", "brush"],
+		"ranks": [
+			"red_panda_master",
+			"staff_panda",
+			"element_monk",
+			"sword_bear",
+			"cannon_bear",
+			"avatar_adept"
+		],
+		"champion": "storm_blade",
+		"hostile": true
+	},
+	"the_tide": {
+		"display_name": "The Tide",
+		"blurb": "Things with water where their hair should be. They keep to the shallows and the wet ground behind them, and they take the drowning personally \u2014 either as a rescue or as a recruitment.",
+		"banner": "#3f8fd2",
+		"hold": "res://art/world/hold_blue.png",
+		"seat": "gate",
+		"ground": ["water", "brush", "grass"],
+		"ranks": ["sea_horse", "sea_man", "tide_lion"],
+		"champion": "tide_lion",
+		"hostile": true
+	},
+	"the_ooze": {
+		"display_name": "The Ooze",
+		"blurb": "Nobody knows where the first one came from and nobody has ever cared enough to find out. They are the reason a beginner has anything to practise on.",
+		"banner": "#6cbf4a",
+		"hold": "res://art/world/hold_dun.png",
+		"seat": "gate",
+		"ground": ["grass", "brush", "road", "water"],
+		"ranks": ["slime", "blue_slime", "king_slime"],
+		"champion": "king_slime",
+		"hostile": true
+	},
+	"the_dusk": {
+		"display_name": "The Dusk",
+		"blurb": "What comes through a gate nobody shut. You get one look at them, and only at last light; if you got the look, it is already too late to have been somewhere else.",
+		"banner": "#6b4f8f",
+		"hold": "res://art/world/hold_black.png",
+		"seat": "gate",
+		"ground": ["crag", "brush", "hill"],
+		"ranks": [
+			"eye_leprechaun",
+			"lizard_wizard",
+			"eye_slinger",
+			"ice_wolf",
+			"wraith",
+			"dusk_shadow"
+		],
+		"champion": "dusk_shadow",
+		"hostile": true
+	},
+	"ember_wilds": {
+		"display_name": "The Ember Wilds",
+		"blurb": "The high country burns quietly and always has. What grows up there grew up around the burning, and some of it has learned to carry a little of it about.",
+		"banner": "#e0793a",
+		"hold": "res://art/world/hold_red.png",
+		"seat": "gate",
+		"ground": ["hill", "crag", "brush"],
+		"ranks": [
+			"ember_lizard",
+			"seed_beast",
+			"flame_dove",
+			"mending_lion",
+			"flame_lion"
+		],
+		"champion": "flame_lion",
+		"hostile": true
+	},
+	"broken_oath": {
+		"display_name": "The Broken Oath",
+		"blurb": "Sworn men who stopped being paid and carried on being armed. They know exactly how a village is defended, because most of them used to do it.",
+		"banner": "#c0563a",
+		"hold": "res://art/world/hold_dark.png",
+		"seat": "gate",
+		"ground": ["road", "grass", "brush"],
+		"ranks": [
+			"cabin_boy",
+			"brigand_archer",
+			"hat_fox",
+			"brigand",
+			"pirate_man",
+			"brigand_chief"
+		],
+		"champion": "brigand_chief",
+		"hostile": true
+	},
+	"the_wild": {
+		"display_name": "The Wild",
+		"blurb": "Not a faction and it would not understand the word. It is simply what the country does to anything that stands still in it for long enough.",
+		"banner": "#7f8c5a",
+		"hold": "res://art/world/hold_grey.png",
+		"seat": "gate",
+		"ground": ["grass", "brush", "hill", "crag"],
+		"ranks": [
+			"blood_mosquito",
+			"goblin",
+			"wolf",
+			"sword_monkey",
+			"frozen_wolfman",
+			"axe_bear",
+			"ogre"
+		],
+		"champion": "ogre",
+		"hostile": true
+	},
+	"freeholds": {
+		"display_name": "The Freeholds",
+		"blurb": "Everyone still trying to get a crop in. They are not a power and never will be, but they are why any of the rest of it matters, and they will pick up a hammer if it comes to the door.",
+		"banner": "#c8a457",
+		"hold": "res://art/world/hold_pale.png",
+		"seat": "village",
+		"ground": ["road", "grass"],
+		"ranks": ["peasant", "drunk_elf", "rank_f_grunt", "quant_monkey", "dwarf_smith"],
+		"champion": "dwarf_smith",
+		"hostile": false
+	},
+	"titans": {
+		"display_name": "The Titans",
+		"blurb": "Two of them. Nobody has written down where the second came from, because nobody who saw it arrive was in a state to write.",
+		"banner": "#9a3b3b",
+		"hold": "res://art/world/hold_spire.png",
+		"seat": "tower",
+		"ground": ["crag"],
+		"ranks": ["beast_titan", "colossal_titan"],
+		"champion": "colossal_titan",
+		"hostile": true
+	}
+}

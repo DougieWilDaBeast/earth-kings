@@ -1,0 +1,10 @@
+{
+  "id": "tide_lion",
+  "source": "pixellab selected_characters (1)/Idle_2 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Water lion, mane is liquid water",
+  "size": "64x64",
+  "view": "high top-down"
+}

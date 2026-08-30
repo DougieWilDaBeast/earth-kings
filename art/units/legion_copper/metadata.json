@@ -1,0 +1,10 @@
+{
+  "id": "legion_copper",
+  "source": "pixellab selected_characters/Idle_22 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart",
+  "size": "64x64",
+  "view": "high top-down"
+}

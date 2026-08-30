@@ -1,0 +1,10 @@
+{
+  "id": "ember_lizard",
+  "source": "pixellab selected_characters/Idle_12 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Charmander pokemon",
+  "size": "64x64",
+  "view": "high top-down"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "blue_slime",
+  "source": "pixellab selected_characters (1)/Idle_14 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Slime, dragon quest",
+  "size": "64x64",
+  "view": "low top-down"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "sea_man",
+  "source": "pixellab selected_characters (1)/Idle_7 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Sea man, water hair, natural skin colour",
+  "size": "64x64",
+  "view": "high top-down"
+}

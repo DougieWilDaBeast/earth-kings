@@ -1,0 +1,10 @@
+{
+  "id": "rank_f_grunt",
+  "source": "pixellab selected_characters (1)/Idle_8 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Level, rank F grunt, pawn, looking goblin, weak",
+  "size": "64x64",
+  "view": "high top-down"
+}

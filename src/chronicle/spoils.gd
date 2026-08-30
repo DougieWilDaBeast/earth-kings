@@ -11,7 +11,7 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 	var rules := tower_rules()
 	var lines: Array = []
 
-	var gold := int(rules.get("gold_per_floor", 35)) * floor_number
+	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 35)) * floor_number, "gold")
 	GameState.gold += gold
 	lines.append("Floor %d yields %d gold." % [floor_number, gold])
 
@@ -30,7 +30,7 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 ## Paid for shutting a gate for good.
 static func for_gate(world: World, site: Site, party: Array) -> Array:
 	var lines: Array = []
-	var gold := 40 * (Site.rank_index(site.rank) + 1)
+	var gold := Difficulty.scaled(40 * (Site.rank_index(site.rank) + 1), "gold")
 	GameState.gold += gold
 	lines.append("%s is shut. %d gold recovered." % [site.display_name, gold])
 

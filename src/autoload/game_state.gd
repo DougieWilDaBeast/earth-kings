@@ -31,6 +31,8 @@ var errands: Array = []
 ## What the fight being walked into will settle on the way back, if it is won.
 ## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
 var pending_outcome: Dictionary = {}
+## How hard the country is (see [Difficulty]).
+var difficulty: String = Difficulty.DEFAULT
 
 
 func _ready() -> void:
@@ -130,6 +132,7 @@ func save() -> void:
 		"world": world.to_dict(),
 		"roster": roster.to_dict(),
 		"gold": gold,
+		"difficulty": difficulty,
 		"cleared_battles": cleared_battles,
 		"flags": flags,
 		"talks": talks,
@@ -162,6 +165,7 @@ func load_save() -> bool:
 	gold = int(data.get("gold", DEFAULT_GOLD))
 	# After the purse, so restoring it does not read as income.
 	ledger = Ledger.restore(data.get("ledger", {}))
+	difficulty = str(data.get("difficulty", Difficulty.DEFAULT))
 	cleared_battles = data.get("cleared_battles", [])
 	flags = data.get("flags", {})
 	talks = data.get("talks", {})

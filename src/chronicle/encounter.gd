@@ -40,6 +40,7 @@ static func chance_at(world: World, cell: Vector2i) -> float:
 	if world.distance_to_haven(cell) <= int(rules.get("haven_range", 4)):
 		chance -= float(rules.get("haven_relief", 0.06))
 
+	chance *= Difficulty.dial("encounter_chance")
 	return clampf(chance, float(rules.get("min_chance", 0.01)), float(rules.get("max_chance", 0.45)))
 
 
@@ -51,10 +52,10 @@ static func roll(world: World, cell: Vector2i, party: Array, rng: RandomNumberGe
 
 
 static func wild(world: World, cell: Vector2i, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var pool: Array = Database.encounters.get("wild", {}).get(world.terrain_id_at(cell), ["wolf"])
 	var level := _party_level(party)
 	var danger := _danger_at(world, cell)
 	var count := clampi(1 + danger, 1, 4)
+	var terrain := world.terrain_id_at(cell)
 
 	# Things that came out of a broken gate are not local wildlife.
 	var near_break := world.broken_gates().any(
@@ -64,23 +65,41 @@ static func wild(world: World, cell: Vector2i, party: Array, rng: RandomNumberGe
 		level += int(Database.world_rules.get("gate", {}).get("break_level_bonus", 3))
 		count = clampi(count + 1, 1, 4)
 
-	return _build(world, cell, WILD, _pick(pool, count, level, rng), rng,
-		"Something moves in the %s." % world.terrain_at(cell).get("name", "open").to_lower())
+	var faction := Faction.pick_on(terrain, rng)
+	var pool := _pool_on(faction, terrain, level)
+	var title := "%s of %s are on the %s." % [
+		"Something" if count < 2 else "A band",
+		Faction.display_name(faction),
+		world.terrain_at(cell).get("name", "open").to_lower(),
+	]
+	return _build(world, cell, WILD, _pick(pool, count, level, rng), rng, title)
+
+
+## Who a piece of ground fields. The faction that walks it comes first; the old
+## terrain table is the floor under it, so ground nobody claims still fights.
+static func _pool_on(faction: String, terrain: String, level: int) -> Array:
+	var pool := Faction.pool(faction, level)
+	if pool.is_empty():
+		pool = Database.encounters.get("wild", {}).get(terrain, ["wolf"])
+	return pool
 
 
 ## One floor of a gate delve. [param depth] is 0-based; the last is the guardian.
 static func for_gate(world: World, site: Site, depth: int, final: bool, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var rules := Database.encounters
-	var pool: Array = rules.get("gate", {}).get(site.rank, ["goblin"])
 	var level := maxi(_party_level(party), site.expected_level()) + depth
+	# A gate belongs to whoever came through it (see [WorldGen]).
+	var faction: String = site.data.get("faction", Faction.FALLBACK)
+	var pool := _pool_on(faction, world.terrain_id_at(site.cell), level)
 
 	var enemies: Array
 	var title: String
 	if final:
-		var guardian: String = rules.get("guardian", {}).get(site.rank, "brigand_chief")
+		var guardian := Faction.champion(faction)
 		enemies = _pick(pool, 2, level, rng)
 		enemies.append({ "unit": guardian, "level": level + 2 })
-		title = "The guardian of %s is waiting." % site.display_name
+		title = "%s keeps the far side of %s." % [
+			Database.unit_template(guardian).get("display_name", "Something"), site.display_name
+		]
 	else:
 		enemies = _pick(pool, clampi(2 + Site.rank_index(site.rank) / 2, 2, 4), level, rng)
 		title = "%s, deeper in." % site.display_name
@@ -179,11 +198,15 @@ static func _can_camp_at(world: World, cell: Vector2i) -> bool:
 
 
 static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -> Prowler:
-	var pool: Array = Database.encounters.get("wild", {}).get(world.terrain_id_at(cell), ["wolf"])
+	var terrain := world.terrain_id_at(cell)
+	var faction := Faction.pick_on(terrain, rng)
+	var pool := _pool_on(faction, terrain, _danger_at(world, cell) * 3 + 1)
 	var pack: Array = []
 	for i in clampi(1 + _danger_at(world, cell), 1, 4):
 		pack.append(pool[rng.randi() % pool.size()])
-	return Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
+	var band := Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
+	band.faction = faction
+	return band
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.
@@ -214,10 +237,12 @@ static func _build(
 
 static func _pick(pool: Array, count: int, level: int, rng: RandomNumberGenerator) -> Array:
 	var out: Array = []
-	for i in count:
+	# Every fight in the game is built here, so the difficulty dials only have to
+	# be applied once (see [Difficulty]).
+	for i in Difficulty.counted(count):
 		out.append({
 			"unit": pool[rng.randi() % pool.size()],
-			"level": maxi(1, level + rng.randi_range(-1, 1)),
+			"level": Difficulty.levelled(level + rng.randi_range(-1, 1)),
 		})
 	return out
 

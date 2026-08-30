@@ -31,6 +31,7 @@ static func award(character: Character, amount: int, world: World) -> Array:
 	var gained := amount
 	if character.yoke:
 		gained = roundi(gained * (1.0 + Character.YOKE_XP_BONUS))
+	gained = Difficulty.scaled(gained, "xp")
 
 	character.xp += gained
 	while character.xp >= xp_to_next(character.level):

@@ -1,0 +1,10 @@
+{
+  "id": "eye_leprechaun",
+  "source": "pixellab selected_characters/Idle_9 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "leprachaun who will tear your eyes out. holding a barrel of eyeballs",
+  "size": "64x64",
+  "view": "low top-down"
+}

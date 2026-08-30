@@ -1,0 +1,10 @@
+{
+  "id": "ice_wolf",
+  "source": "pixellab selected_characters (1)/Idle_16 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Ice wolf",
+  "size": "64x64",
+  "view": "high top-down"
+}

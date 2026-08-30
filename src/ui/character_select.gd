@@ -22,6 +22,7 @@ const PIP_DARK := Color(0.24, 0.22, 0.22)
 @onready var _stats: Label = %StatsLabel
 @onready var _blurb: Label = %BlurbLabel
 @onready var _back: Button = %BackButton
+@onready var _difficulty: Button = %DifficultyButton
 
 
 func _ready() -> void:
@@ -35,6 +36,9 @@ func _ready() -> void:
 		_lives.add_child(_life_button(hero_id))
 	_back.theme_type_variation = &"GrandButton"
 	_back.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
+	_difficulty.theme_type_variation = &"GrandButton"
+	_difficulty.pressed.connect(_cycle_difficulty)
+	_show_difficulty()
 	if ids.is_empty():
 		return
 	_show(ids[0])
@@ -86,6 +90,21 @@ func _band_text(hero: Dictionary) -> String:
 
 func _name_of(unit_id: String) -> String:
 	return Database.unit_template(unit_id).get("display_name", unit_id)
+
+
+## How hard the country is, separate from which life you take into it.
+func _cycle_difficulty() -> void:
+	var settings: Array = Difficulty.settings().keys()
+	if settings.is_empty():
+		return
+	var at := settings.find(GameState.difficulty)
+	GameState.difficulty = settings[(at + 1) % settings.size()]
+	_show_difficulty()
+
+
+func _show_difficulty() -> void:
+	_difficulty.text = "Difficulty: %s" % Difficulty.display_name()
+	_difficulty.tooltip_text = Difficulty.blurb()
 
 
 func _begin(hero_id: String) -> void:

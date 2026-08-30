@@ -1,0 +1,10 @@
+{
+  "id": "cannon_bear",
+  "source": "pixellab selected_characters/Idle_18 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Polar bear, cannon on his back",
+  "size": "64x64",
+  "view": "high top-down"
+}

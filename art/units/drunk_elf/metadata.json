@@ -1,0 +1,10 @@
+{
+  "id": "drunk_elf",
+  "source": "pixellab selected_characters (1)/Idle_10 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "drunk bum, village idiot no friends, elf",
+  "size": "64x64",
+  "view": "high top-down"
+}

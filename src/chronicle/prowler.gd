@@ -23,6 +23,8 @@ var home: Vector2i = Vector2i.ZERO
 var pack: Array = []
 ## What they see before the ground they are standing on has its say.
 var sight: int = BASE_SIGHT
+## Whose people these are (see [Faction]), for the banner the map paints them in.
+var faction: String = Faction.FALLBACK
 
 
 static func create(cell_: Vector2i, pack_: Array, sight_: int = BASE_SIGHT) -> Prowler:
@@ -100,6 +102,7 @@ func to_dict() -> Dictionary:
 		"home": [home.x, home.y],
 		"pack": pack,
 		"sight": sight,
+		"faction": faction,
 	}
 
 
@@ -111,4 +114,5 @@ static func from_dict(payload: Dictionary) -> Prowler:
 	band.home = Vector2i(int(settled[0]), int(settled[1]))
 	band.pack = payload.get("pack", [])
 	band.sight = int(payload.get("sight", BASE_SIGHT))
+	band.faction = str(payload.get("faction", Faction.FALLBACK))
 	return band

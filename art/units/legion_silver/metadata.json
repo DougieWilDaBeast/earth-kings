@@ -1,0 +1,10 @@
+{
+  "id": "legion_silver",
+  "source": "pixellab selected_characters/Idle_20 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Empire legionnaire, Silver armour, dark visor, symbol of a heart",
+  "size": "64x64",
+  "view": "high top-down"
+}

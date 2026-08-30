@@ -94,6 +94,7 @@ static func _place_sites(world: World) -> void:
 			world.sites.append(Site.create(kind, cell, _place_name(world.rng, used_names)))
 	_deal_areas(world)
 	_rank_gates(world)
+	_deal_factions(world)
 	_place_home(world)
 
 
@@ -158,6 +159,34 @@ static func _seed_first_doctrine(world: World) -> void:
 	libraries[0].data["doctrine"] = "the_open_palm"
 	for i in range(1, libraries.size()):
 		libraries[i].data["doctrine"] = _random_doctrine(world)
+
+
+## Hand every gate and keep to somebody, so two gates on the same map are two
+## different fights and the country reads as occupied rather than infested.
+## The worst gates go to whoever is worst, and no two neighbours share an owner
+## while there are owners left to go round.
+static func _deal_factions(world: World) -> void:
+	var claimants := Faction.seated_at(Site.GATE)
+	if not claimants.is_empty():
+		var gates := world.sites_of_kind(Site.GATE)
+		gates.sort_custom(func(a: Site, b: Site) -> bool:
+			return Site.rank_index(a.rank) < Site.rank_index(b.rank)
+		)
+		var dealt := claimants.duplicate()
+		_shuffle(dealt, world.rng)
+		for i in gates.size():
+			gates[i].data["faction"] = dealt[i % dealt.size()]
+
+	var keepers := Faction.seated_at(Site.KEEP)
+	if keepers.is_empty():
+		return
+	var held := keepers.duplicate()
+	_shuffle(held, world.rng)
+	var keeps := world.sites_of_kind(Site.KEEP)
+	for i in keeps.size():
+		keeps[i].data["faction"] = held[i % held.size()]
+	for village in world.sites_of_kind(Site.VILLAGE):
+		village.data["faction"] = "freeholds"
 
 
 static func _random_doctrine(world: World) -> String:

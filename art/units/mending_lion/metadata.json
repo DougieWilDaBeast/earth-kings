@@ -1,0 +1,10 @@
+{
+  "id": "mending_lion",
+  "source": "pixellab selected_characters/Idle_13 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Healing Lion, tail end has a green ember",
+  "size": "64x64",
+  "view": "high top-down"
+}

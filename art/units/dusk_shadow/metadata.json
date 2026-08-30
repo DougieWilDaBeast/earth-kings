@@ -1,0 +1,10 @@
+{
+  "id": "dusk_shadow",
+  "source": "pixellab selected_characters/Idle_8 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "a shadow. the only chance you have of seeing him is at dusk. if you do see him there is a strong chance you'll lose your eyesight. he could be your nightmare or your dream. cursed to always travel the whole earth. cant stay in one place",
+  "size": "64x64",
+  "view": "low top-down"
+}

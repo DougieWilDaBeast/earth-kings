@@ -1,0 +1,10 @@
+{
+  "id": "lizard_wizard",
+  "source": "pixellab selected_characters/Idle 2026-08-30",
+  "states": [
+    "idle"
+  ],
+  "prompt": "Tiny blind wizard riding a lizard",
+  "size": "64x64",
+  "view": "low top-down"
+}

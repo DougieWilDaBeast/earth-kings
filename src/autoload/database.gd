@@ -27,6 +27,8 @@ var tilesets: Dictionary = {}
 var cutscenes: Dictionary = {}
 ## What the party say to each other on the road (see [Banter]).
 var banter: Dictionary = {}
+## Who holds what, and who you meet where (see [Faction]).
+var factions: Dictionary = {}
 ## Which scene hears which tracks (see [Music]).
 var music: Dictionary = {}
 
@@ -55,6 +57,7 @@ func _ready() -> void:
 	tilesets = _load_json("%s/tilesets.json" % DATA_DIR)
 	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
 	banter = _load_json("%s/banter.json" % DATA_DIR)
+	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
 
 

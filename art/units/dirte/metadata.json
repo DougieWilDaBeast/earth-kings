@@ -1,0 +1,11 @@
+{
+  "id": "dirte",
+  "source": "pixellab selected_characters (1)/Idle_6 2026-08-30",
+  "states": [
+    "holding_boulder_in_r",
+    "idle"
+  ],
+  "prompt": "The heroes hero, the god of kings, Dirte is the strongest pinicle knight in the heart empire. exudes Aura",
+  "size": "64x64",
+  "view": "high top-down"
+}
