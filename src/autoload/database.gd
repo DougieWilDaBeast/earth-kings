@@ -10,7 +10,6 @@ var terrain: Dictionary = {}
 var units: Dictionary = {}
 var abilities: Dictionary = {}
 var equipment: Dictionary = {}
-var overworld: Dictionary = {}
 var classes: Dictionary = {}
 var doctrines: Dictionary = {}
 var fate: Dictionary = {}
@@ -43,7 +42,6 @@ func _ready() -> void:
 	units = _load_json("%s/units.json" % DATA_DIR)
 	abilities = _load_json("%s/abilities.json" % DATA_DIR)
 	equipment = _load_json("%s/equipment.json" % DATA_DIR)
-	overworld = _load_json("%s/overworld.json" % DATA_DIR)
 	classes = _load_json("%s/classes.json" % DATA_DIR)
 	doctrines = _load_json("%s/doctrine.json" % DATA_DIR)
 	fate = _load_json("%s/fate.json" % DATA_DIR)

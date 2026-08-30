@@ -7,6 +7,11 @@ extends CanvasLayer
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
 ## The reply that is never written down in a file.
 const REFLECT_REPLY := "(Say nothing, and let one of your own speak.)"
+## Beat between lines while the game is playing itself.
+const AUTO_BEAT := 0.5
+## Replies a conversation on auto may take before it is shown the door. Scripts
+## are allowed to loop; a soak is not allowed to loop with them.
+const AUTO_REPLY_LIMIT := 12
 
 @onready var _panel: PanelContainer = %Panel
 @onready var _portrait: TextureRect = %Portrait
@@ -25,6 +30,8 @@ var _pending_goto: String = ""
 ## Where it goes back to once the party has had its say, and whether it already has.
 var _reflect_back: String = ""
 var _reflected: bool = false
+var _auto_wait: float = 0.0
+var _auto_replies: int = 0
 
 
 func _ready() -> void:
@@ -68,6 +75,8 @@ func _reset() -> void:
 	_pending_goto = ""
 	_reflect_back = ""
 	_reflected = false
+	_auto_wait = AUTO_BEAT
+	_auto_replies = 0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -89,6 +98,24 @@ func _on_panel_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_panel.accept_event()
 		_advance()
+
+
+## While the game is playing itself, conversations answer themselves too.
+func _process(delta: float) -> void:
+	if not Pace.auto or not _panel.visible:
+		return
+	_auto_wait -= delta
+	if _auto_wait > 0.0:
+		return
+	_auto_wait = AUTO_BEAT
+	if _shown_options.is_empty():
+		_advance()
+		return
+	_auto_replies += 1
+	if _auto_replies > AUTO_REPLY_LIMIT:
+		_finish()
+		return
+	_choose(0)
 
 
 func _goto(node_id: String, effects: bool = true) -> void:

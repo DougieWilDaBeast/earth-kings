@@ -13,12 +13,15 @@ var boot_payload: Dictionary = {}
 
 
 func _ready() -> void:
+	# A soak left running is not something to carry into the next run.
+	Pace.reset()
 	_continue_button.disabled = not GameState.has_save()
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_new_game_button.pressed.connect(_on_new_game_pressed)
 	_training_button.pressed.connect(func() -> void: EventBus.request_scene.emit("training", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
 	for button in [_continue_button, _new_game_button, _training_button, _quit_button]:
+		button.theme_type_variation = &"GrandButton"
 		# Keeps the mouse and the keyboard pointing at the same entry.
 		button.mouse_entered.connect(_on_button_hovered.bind(button))
 	if _continue_button.disabled:

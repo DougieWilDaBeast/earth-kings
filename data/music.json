@@ -1,14 +1,13 @@
 {
 	"fade": 1.4,
 	"scenes": {
-		"world": "overworld",
-		"overworld": "overworld",
-		"area": "overworld",
+		"world": "road",
+		"area": "road",
 		"battle": "battle",
 		"summary": "game_over"
 	},
 	"sets": {
-		"overworld": [
+		"road": [
 			{ "path": "res://audio/music/angelic.wav", "volume_db": -10.0 }
 		],
 		"battle": [

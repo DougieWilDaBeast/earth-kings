@@ -348,6 +348,20 @@ func _approach_step() -> Vector2:
 	return Vector2.ZERO
 
 
+## Soak mode: make for the way out, so a run that is playing itself never
+## settles down inside a town.
+func _auto_axis() -> Vector2:
+	if map == null or map.exits.is_empty():
+		return Vector2.ZERO
+	var nearest := map.centre_of(map.exits[0])
+	for cell: Vector2i in map.exits:
+		var point := map.centre_of(cell)
+		if _leader.position.distance_to(point) < _leader.position.distance_to(nearest):
+			nearest = point
+	var apart := nearest - _leader.position
+	return apart.normalized() if apart.length() > 4.0 else Vector2.ZERO
+
+
 ## A person is spoken to; anything else is looked at.
 func _engage(target: AreaThing) -> void:
 	if target is AreaProp:
@@ -461,6 +475,8 @@ func _physics_process(delta: float) -> void:
 	if axis != Vector2.ZERO:
 		# Taking the keys back calls off whatever the player was walking towards.
 		_approach = null
+	elif Pace.auto:
+		axis = _auto_axis()
 	elif _approach != null:
 		axis = _approach_step()
 	if axis == Vector2.ZERO:
@@ -647,6 +663,14 @@ func _overlay_open() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		_mouse_input(event)
+		return
+	if event.is_action_pressed("battle_auto"):
+		get_viewport().set_input_as_handled()
+		Pace.auto = not Pace.auto
+		return
+	if event.is_action_pressed("battle_speed"):
+		get_viewport().set_input_as_handled()
+		Pace.cycle_speed()
 		return
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()

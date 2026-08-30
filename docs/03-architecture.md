@@ -107,5 +107,7 @@ godot --headless --path . res://tools/coverage.tscn
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState` → `Music`. Database must be up before anything reads
-content; GameState reads content while restoring a save, and Music reads `data/music.json`.
+`EventBus` → `Database` → `GameState` → `Music` → `Pace`. Database must be up before anything
+reads content; GameState reads content while restoring a save, and Music reads `data/music.json`.
+`Pace` owns `Engine.time_scale` and whether the game is playing itself, so both survive a scene
+swap — a soak started on the road carries through the fight it walks into.

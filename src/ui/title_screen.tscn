@@ -139,6 +139,7 @@ text = "a grid tactical RPG of small wars and long roads"
 custom_minimum_size = Vector2(516, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_type_variation = &"FramedPanel"
 
 [node name="Items" type="VBoxContainer" parent="Content/Menu"]
 layout_mode = 2

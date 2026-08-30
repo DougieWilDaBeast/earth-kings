@@ -33,6 +33,7 @@ func _ready() -> void:
 	var ids: Array = Database.heroes.keys()
 	for hero_id: String in ids:
 		_lives.add_child(_life_button(hero_id))
+	_back.theme_type_variation = &"GrandButton"
 	_back.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	if ids.is_empty():
 		return
@@ -42,6 +43,7 @@ func _ready() -> void:
 
 func _life_button(hero_id: String) -> Button:
 	var button := Button.new()
+	button.theme_type_variation = &"GrandButton"
 	button.text = _name_of(hero_id)
 	button.focus_entered.connect(_show.bind(hero_id))
 	# Keeps the mouse and the keyboard pointing at the same entry.

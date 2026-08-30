@@ -2,9 +2,9 @@ extends Node
 ## Global signal hub (autoload: `EventBus`).
 ##
 ## Systems emit and listen here instead of holding references to each other,
-## so battle / overworld / UI stay decoupled and independently testable.
+## so battle / world / UI stay decoupled and independently testable.
 
-## Ask the root [Game] node to swap the active scene ("overworld" | "battle").
+## Ask the root [Game] node to swap the active scene ("world" | "area" | "battle").
 signal request_scene(scene_key: String, payload: Dictionary)
 
 signal battle_started(map_id: String)

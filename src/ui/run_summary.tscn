@@ -98,6 +98,7 @@ autowrap_mode = 3
 [node name="Panel" type="PanelContainer" parent="Content"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"FramedPanel"
 
 [node name="Body" type="VBoxContainer" parent="Content/Panel"]
 layout_mode = 2

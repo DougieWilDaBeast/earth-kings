@@ -7,8 +7,6 @@ enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_FLASH, PICK_TARGET, BUSY, FINISHED 
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 1.6
-## How fast the fight plays out, cycled by the speed button.
-const SPEEDS := [1.0, 2.0, 4.0]
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -32,10 +30,6 @@ var squad: Array[Unit] = []
 ## Whoever the player is commanding right now, or the enemy taking its turn.
 var active_unit: Unit
 var phase: Phase = Phase.SETUP
-## The AI is playing the party's turns too, until the player says otherwise.
-var auto_battle: bool = false
-
-var _speed: int = 0
 
 var _move_field: MoveField
 var _pending_ability: String = ""
@@ -118,13 +112,8 @@ func _connect_hud() -> void:
 	hud.preview_cleared.connect(_on_preview_cleared)
 	hud.auto_toggled.connect(_set_auto)
 	hud.speed_cycled.connect(_cycle_speed)
-	hud.set_auto(auto_battle)
-	hud.set_speed(SPEEDS[_speed])
-
-
-## Time scale is global, so the fight must hand it back on the way out.
-func _exit_tree() -> void:
-	Engine.time_scale = 1.0
+	hud.set_auto(Pace.auto)
+	hud.set_speed(Pace.speed())
 
 
 # --- turn loop ---------------------------------------------------------------
@@ -172,7 +161,7 @@ func _enter_command() -> void:
 	_mark_active()
 	hud.set_squad(squad, active_unit)
 	hud.show_commands(active_unit)
-	if auto_battle:
+	if Pace.auto:
 		_run_auto_phase()
 
 
@@ -243,9 +232,9 @@ func _take_ai_turn(unit: Unit) -> void:
 
 
 func _set_auto(enabled: bool) -> void:
-	if auto_battle == enabled:
+	if Pace.auto == enabled:
 		return
-	auto_battle = enabled
+	Pace.auto = enabled
 	hud.set_auto(enabled)
 	EventBus.battle_log.emit(
 		"The party fights on its own." if enabled else "You take the party back."
@@ -255,15 +244,14 @@ func _set_auto(enabled: bool) -> void:
 
 
 func _cycle_speed() -> void:
-	_speed = (_speed + 1) % SPEEDS.size()
-	Engine.time_scale = SPEEDS[_speed]
-	hud.set_speed(SPEEDS[_speed])
+	Pace.cycle_speed()
+	hud.set_speed(Pace.speed())
 
 
 ## Play the party's phase for them, one member at a time. The loop checks in
 ## between, so switching auto off hands control back after the current move.
 func _run_auto_phase() -> void:
-	while auto_battle and not squad.is_empty() and phase != Phase.FINISHED:
+	while Pace.auto and not squad.is_empty() and phase != Phase.FINISHED:
 		var ready := _ready_squad()
 		if ready.is_empty():
 			break
@@ -344,6 +332,11 @@ func _is_choosing() -> bool:
 			or phase == Phase.PICK_FLASH or phase == Phase.PICK_TARGET
 
 
+## Mid-selection, as opposed to sitting on the command menu having chosen nothing.
+func _is_picking() -> bool:
+	return phase == Phase.PICK_MOVE or phase == Phase.PICK_FLASH or phase == Phase.PICK_TARGET
+
+
 ## Show the reach of a hovered command without committing to it.
 func _on_preview_requested(kind: String, ability_id: String) -> void:
 	if not _is_choosing() or active_unit == null:
@@ -399,11 +392,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Auto and speed answer at any point in the fight, including mid-animation.
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
-		_set_auto(not auto_battle)
+		_set_auto(not Pace.auto)
 		return
 	if event.is_action_pressed("battle_speed"):
 		get_viewport().set_input_as_handled()
 		_cycle_speed()
+		return
+
+	# Backing out of a selection is Escape or a right-click. With nothing to back
+	# out of, Escape is how a fight reaches the menu.
+	if _is_cancel(event):
+		if _is_picking():
+			_cancel_selection()
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("ui_cancel"):
+			get_viewport().set_input_as_handled()
+			EventBus.system_menu_requested.emit()
 		return
 
 	if phase == Phase.SETUP or phase == Phase.BUSY or phase == Phase.FINISHED:
@@ -411,15 +415,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		_update_hover(grid.world_to_cell(get_global_mouse_position()))
-		return
-
-	# Backing out of a selection is Escape or a right-click. From the command
-	# menu there is nothing to back out of, so Escape belongs to the system menu.
-	if _is_cancel(event):
-		if phase == Phase.COMMAND:
-			return
-		_cancel_selection()
-		get_viewport().set_input_as_handled()
 		return
 
 	if _is_choosing() and _run_command_shortcut(event):
@@ -592,17 +587,14 @@ func _resolve_outcome() -> bool:
 	hud.show_result(players_alive)
 	if sandbox:
 		GameState.heal_party()
-		_return_to_overworld()
+		_leave_the_field()
 		return true
 	_settle_the_party()
 	if players_alive:
 		GameState.mark_battle_cleared(map_id)
-	elif encounter.is_empty():
-		# Retreat, or arriving back on the overworld would restart the fight.
-		GameState.current_location = GameState.previous_location
 	GameState.set_flag("last_victory", players_alive)
 	EventBus.battle_finished.emit({"victory": players_alive, "map_id": map_id})
-	_return_to_overworld()
+	_leave_the_field()
 	return true
 
 
@@ -648,9 +640,9 @@ func _killer_kind() -> String:
 	return "default"
 
 
-func _return_to_overworld() -> void:
+func _leave_the_field() -> void:
 	await get_tree().create_timer(END_SCREEN_DELAY).timeout
-	EventBus.request_scene.emit(boot_payload.get("return_scene", "overworld"), {})
+	EventBus.request_scene.emit(boot_payload.get("return_scene", "world"), {})
 
 
 # --- queries -----------------------------------------------------------------

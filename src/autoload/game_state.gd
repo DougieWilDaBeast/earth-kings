@@ -5,7 +5,6 @@ const SAVE_PATH := "user://earth-kings.save.json"
 const SAVE_VERSION := 2
 
 const DEFAULT_GOLD := 250
-const DEFAULT_LOCATION := "hollow_ford"
 
 var world: World
 var roster: Roster
@@ -22,9 +21,6 @@ var gold: int = DEFAULT_GOLD:
 		gold = value
 		if tallying:
 			Ledger.add(ledger, "gold_earned" if delta > 0 else "gold_spent", absi(delta))
-var current_location: String = DEFAULT_LOCATION
-## Where to fall back to after a lost battle.
-var previous_location: String = DEFAULT_LOCATION
 var cleared_battles: Array = []
 var flags: Dictionary = {}
 ## Conversation id -> how many times it has been played, so somebody you have
@@ -70,8 +66,6 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	roster = Roster.found(lead_id)
 	gold = DEFAULT_GOLD
 	ledger = Ledger.fresh()
-	current_location = DEFAULT_LOCATION
-	previous_location = DEFAULT_LOCATION
 	cleared_battles = []
 	flags = {}
 	talks = {}
@@ -136,8 +130,6 @@ func save() -> void:
 		"world": world.to_dict(),
 		"roster": roster.to_dict(),
 		"gold": gold,
-		"current_location": current_location,
-		"previous_location": previous_location,
 		"cleared_battles": cleared_battles,
 		"flags": flags,
 		"talks": talks,
@@ -170,8 +162,6 @@ func load_save() -> bool:
 	gold = int(data.get("gold", DEFAULT_GOLD))
 	# After the purse, so restoring it does not read as income.
 	ledger = Ledger.restore(data.get("ledger", {}))
-	current_location = data.get("current_location", DEFAULT_LOCATION)
-	previous_location = data.get("previous_location", DEFAULT_LOCATION)
 	cleared_battles = data.get("cleared_battles", [])
 	flags = data.get("flags", {})
 	talks = data.get("talks", {})

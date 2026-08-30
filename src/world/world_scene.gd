@@ -12,6 +12,11 @@ const FIRST_REPEAT_DELAY := 0.28
 const RUN_OVER_DELAY := 3.0
 ## Steps between the country putting fresh bands out where you cannot see them.
 const RESTOCK_INTERVAL := 12
+## Seconds between steps while the party is walking itself.
+const AUTO_DELAY := 0.09
+## How far the party will turn aside for a band while walking itself. The road
+## to anywhere is thick with them, so chasing every one means never arriving.
+const AUTO_DETOUR := 6
 
 const DIRECTIONS := {
 	"move_up": Vector2i.UP,
@@ -49,6 +54,8 @@ var _busy: bool = false
 var _bubble: SpeechBubble = null
 ## Someone of yours being held at the tile you are standing on.
 var _captive_here: Character = null
+## The way the party was last walking itself, so auto does not pace on the spot.
+var _auto_last: Vector2i = Vector2i.ZERO
 
 
 func _ready() -> void:
@@ -82,6 +89,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if _busy:
 		return
+	if Pace.auto:
+		_auto_walk(delta)
+		return
 	var direction := _pressed_direction()
 	if direction == Vector2i.ZERO:
 		_held = Vector2i.ZERO
@@ -104,6 +114,80 @@ func _pressed_direction() -> Vector2i:
 		if Input.is_action_pressed(action):
 			return DIRECTIONS[action]
 	return Vector2i.ZERO
+
+
+# --- walking itself -----------------------------------------------------------
+
+
+## Soak mode: head for whatever is worth reaching and keep walking into it.
+func _auto_walk(delta: float) -> void:
+	_repeat_timer -= delta
+	if _repeat_timer > 0.0:
+		return
+	_repeat_timer = AUTO_DELAY
+	var direction := _auto_direction(_auto_errand())
+	if direction == Vector2i.ZERO:
+		return
+	_auto_last = direction
+	_step(direction)
+
+
+## What the party walks towards when nobody is steering: a fight worth the
+## detour, then the nearest gate still standing, then the Tower.
+func _auto_errand() -> Vector2i:
+	var target := Vector2i(-1, -1)
+	var best := AUTO_DETOUR + 1
+	for band: Prowler in world.prowlers:
+		var reach := Pathfinder.distance(band.cell, world.player_cell)
+		if reach < best:
+			best = reach
+			target = band.cell
+	if target.x >= 0:
+		return target
+
+	best = 1 << 30
+	for site in world.sites:
+		if site.kind != Site.GATE or not site.open or site.cleared:
+			continue
+		if Pace.avoided.has(site.cell):
+			continue
+		var reach := Pathfinder.distance(site.cell, world.player_cell)
+		if reach < best:
+			best = reach
+			target = site.cell
+	if target.x >= 0:
+		return target
+
+	var tower := world.tower()
+	if tower == null or world.tower_is_topped() or Pace.avoided.has(tower.cell):
+		return Vector2i(-1, -1)
+	return tower.cell
+
+
+## A greedy step towards [param target]: the longer axis first, the other axis
+## when that is walled, and anything at all rather than stand still.
+func _auto_direction(target: Vector2i) -> Vector2i:
+	var options: Array[Vector2i] = []
+	if target.x >= 0:
+		var apart := target - world.player_cell
+		var horizontal := Vector2i(signi(apart.x), 0)
+		var vertical := Vector2i(0, signi(apart.y))
+		if absi(apart.x) >= absi(apart.y):
+			options.append_array([horizontal, vertical])
+		else:
+			options.append_array([vertical, horizontal])
+	for option: Vector2i in options:
+		if option != Vector2i.ZERO and world.is_walkable(world.player_cell + option):
+			return option
+
+	# Walled in on the way there, so shake loose without doubling straight back.
+	var loose: Array[Vector2i] = []
+	for offset: Vector2i in DIRECTIONS.values():
+		if world.is_walkable(world.player_cell + offset) and offset != -_auto_last:
+			loose.append(offset)
+	if loose.is_empty():
+		return -_auto_last if world.is_walkable(world.player_cell - _auto_last) else Vector2i.ZERO
+	return loose[world.rng.randi() % loose.size()]
 
 
 # --- walking ------------------------------------------------------------------
@@ -163,6 +247,8 @@ func _watch_check(cell: Vector2i) -> void:
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	_busy = true
+	if Pace.auto:
+		Pace.avoided[world.player_cell] = true
 	GameState.pending_outcome = outcome
 	_note(meeting["title"])
 	EventBus.request_scene.emit("battle", {"encounter": meeting, "return_scene": "world"})
@@ -464,6 +550,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		EventBus.system_menu_requested.emit()
 		return
+	if event.is_action_pressed("battle_auto"):
+		get_viewport().set_input_as_handled()
+		Pace.auto = not Pace.auto
+		_note("The party walks itself." if Pace.auto else "You take the party back.")
+		_refresh()
+		return
+	if event.is_action_pressed("battle_speed"):
+		get_viewport().set_input_as_handled()
+		Pace.cycle_speed()
+		_refresh()
+		return
 	match event.keycode:
 		KEY_P:
 			get_viewport().set_input_as_handled()
@@ -746,7 +843,21 @@ func _refresh() -> void:
 		])
 	for errand: Dictionary in GameState.errands:
 		entries.append(Errand.summary(errand))
+	var pace := _pace_text()
+	if pace != "":
+		entries.append(pace)
 	_party.text = "  ·  ".join(entries)
+
+
+## Says out loud that the game is driving itself, so a soak is never mistaken
+## for the controls having stopped answering.
+func _pace_text() -> String:
+	var parts: Array[String] = []
+	if Pace.auto:
+		parts.append("walking itself")
+	if Pace.speed() != 1.0:
+		parts.append("x%s" % String.num(Pace.speed(), 1).trim_suffix(".0"))
+	return " ".join(parts)
 
 
 ## Runs inside the Map node's draw pass, so its draw_* calls are legal here.

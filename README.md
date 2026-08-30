@@ -22,7 +22,10 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
 - **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
   the world clock. The top bar shows where you are and your current **danger %**.
-  `Esc` opens the menu (save, load, return to title).
+  `Esc` opens the menu (save, load, music, return to title).
+- **Letting it play itself** — `Q` hands the run to the game and `E` cycles the speed, on the road,
+  inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
+  and answers its own conversations. Both survive a scene change, so a soak keeps going.
 - **The map** — green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
   (a ring means it is open and spilling), gold is **the Tower**, and the orange roof is **home**.
 - **Home** — the run starts on your own doorstep. Nothing camps within sight of it and sleeping
@@ -77,7 +80,6 @@ data/                     Game content as plain JSON — edit without opening th
   units.json              Unit templates (party + enemies)
   abilities.json          Range, splash, power, targeting
   equipment.json          Weapons: stat bonus, art folder, per-facing offsets
-  overworld.json          Travel nodes, connections, what each triggers
   maps/*.json             Battle maps as ASCII tile rows + spawns
   dialogue/*.json         Conversation scripts
 
@@ -109,7 +111,8 @@ src/
     units/unit.gd         Combatant stats, facing, damage, walk animation
     abilities/ability_resolver.gd  Targeting rules, flanking, damage maths
     ai/enemy_brain.gd     Plans a move + attack; returns it for the controller to execute
-  overworld/              Travel map
+  world/                  Walk mode: the map, the step clock, every site interaction
+  area/                   Places walked around close up — towns, halls, the camp fire
   dialogue/               Conversation overlay
   ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
@@ -122,8 +125,9 @@ through `EventBus`** rather than holding references to each other.
 ## Adding content
 
 - **A battle map** — drop a JSON file in `data/maps/`. Tile rows use the `legend` map, so
-  `"^": "hill"` means every `^` is a hill. Add `player_spawns` and `enemies`, then point an
-  overworld location's `battle` field at the filename.
+  `"^": "hill"` means every `^` is a hill. Add `player_spawns` and `enemies`. These are set
+  pieces only — wild encounters, delves and Tower floors generate their fields from the world
+  terrain you were standing on.
 - **A unit** — add a template to `data/units.json` and reference its key from a map's `enemies`
   list or `GameState.party`.
 - **An ability** — add it to `data/abilities.json` and list its key on a unit. `splash` gives it

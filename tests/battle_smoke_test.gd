@@ -31,7 +31,7 @@ func _on_turn_started(unit: Node) -> void:
 		get_tree().quit(1)
 		return
 	if unit.team == Unit.Team.PLAYER:
-		if _battle.auto_battle:
+		if Pace.auto:
 			return
 		if not _switching_checked:
 			_switching_checked = true
@@ -50,7 +50,7 @@ func _on_turn_started(unit: Node) -> void:
 func _start_auto() -> void:
 	_battle.hud.speed_cycled.emit()
 	_battle.hud.auto_toggled.emit(true)
-	if not _battle.auto_battle:
+	if not Pace.auto:
 		push_error("Smoke test: auto battle would not switch on")
 		get_tree().quit(1)
 
@@ -91,6 +91,6 @@ func _check_switching() -> void:
 
 func _on_battle_finished(result: Dictionary) -> void:
 	print("Battle finished after %d turns - victory: %s (auto: %s)" % [
-		_turns, result["victory"], _battle.auto_battle
+		_turns, result["victory"], Pace.auto
 	])
 	get_tree().quit(0)

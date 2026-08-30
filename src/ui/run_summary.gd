@@ -24,6 +24,8 @@ func _ready() -> void:
 
 	_title_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
+	for button in [_title_button, _quit_button]:
+		button.theme_type_variation = &"GrandButton"
 	_title_button.grab_focus()
 
 	modulate = Color(1.0, 1.0, 1.0, 0.0)
