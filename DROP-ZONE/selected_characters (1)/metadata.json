@@ -1,0 +1,1118 @@
+{
+  "groups": [
+    {
+      "group_id": "179bf120-d48e-40f9-b466-fdbaf0ded88f",
+      "folder": "characters/Idle",
+      "states": [
+        {
+          "character": {
+            "id": "0deb990b-b765-46f7-9d47-9d3cc09626da",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart, Wizard",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:46:58.340189+00:00"
+          },
+          "folder": "characters/Idle/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle/Idle/rotations/south.png",
+              "south-east": "characters/Idle/Idle/rotations/south-east.png",
+              "east": "characters/Idle/Idle/rotations/east.png",
+              "north-east": "characters/Idle/Idle/rotations/north-east.png",
+              "north": "characters/Idle/Idle/rotations/north.png",
+              "north-west": "characters/Idle/Idle/rotations/north-west.png",
+              "west": "characters/Idle/Idle/rotations/west.png",
+              "south-west": "characters/Idle/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "984e500f-9749-4630-ad89-e8e3e3ddcb35",
+      "folder": "characters/Idle_2",
+      "states": [
+        {
+          "character": {
+            "id": "074272e4-31df-4c1f-8151-93427d7067eb",
+            "name": "Idle",
+            "prompt": "Water lion, mane is liquid water",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "lion",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:48:30.867368+00:00"
+          },
+          "folder": "characters/Idle_2/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_2/Idle/rotations/south.png",
+              "south-east": "characters/Idle_2/Idle/rotations/south-east.png",
+              "east": "characters/Idle_2/Idle/rotations/east.png",
+              "north-east": "characters/Idle_2/Idle/rotations/north-east.png",
+              "north": "characters/Idle_2/Idle/rotations/north.png",
+              "north-west": "characters/Idle_2/Idle/rotations/north-west.png",
+              "west": "characters/Idle_2/Idle/rotations/west.png",
+              "south-west": "characters/Idle_2/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "b155af1e-0986-44e5-b9e1-1fa5f32558dd",
+      "folder": "characters/Idle_3",
+      "states": [
+        {
+          "character": {
+            "id": "f0a0d156-51bf-437f-b910-85591091943f",
+            "name": "Idle",
+            "prompt": "Monkey with 4 arms, holding two calculators, two phones. ready for fighting",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:49:29.426092+00:00"
+          },
+          "folder": "characters/Idle_3/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_3/Idle/rotations/south.png",
+              "south-east": "characters/Idle_3/Idle/rotations/south-east.png",
+              "east": "characters/Idle_3/Idle/rotations/east.png",
+              "north-east": "characters/Idle_3/Idle/rotations/north-east.png",
+              "north": "characters/Idle_3/Idle/rotations/north.png",
+              "north-west": "characters/Idle_3/Idle/rotations/north-west.png",
+              "west": "characters/Idle_3/Idle/rotations/west.png",
+              "south-west": "characters/Idle_3/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "7fd47d8c-efba-42be-ac43-69afa5a92d85",
+      "folder": "characters/Idle_4",
+      "states": [
+        {
+          "character": {
+            "id": "123f72d7-469d-4edb-afd5-ebc834ec2534",
+            "name": "Idle",
+            "prompt": "Sea Horse, Water for hair, blows bubbles",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "horse",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:50:53.477261+00:00"
+          },
+          "folder": "characters/Idle_4/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_4/Idle/rotations/south.png",
+              "south-east": "characters/Idle_4/Idle/rotations/south-east.png",
+              "east": "characters/Idle_4/Idle/rotations/east.png",
+              "north-east": "characters/Idle_4/Idle/rotations/north-east.png",
+              "north": "characters/Idle_4/Idle/rotations/north.png",
+              "north-west": "characters/Idle_4/Idle/rotations/north-west.png",
+              "west": "characters/Idle_4/Idle/rotations/west.png",
+              "south-west": "characters/Idle_4/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "4f847284-a42f-4cd1-8f17-bb05e875ebe7",
+      "folder": "characters/Idle_5",
+      "states": [
+        {
+          "character": {
+            "id": "1cafcde5-109c-4271-80db-a2be4b5e9ed7",
+            "name": "Idle",
+            "prompt": "Civilian, peasant",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:52:29.953934+00:00"
+          },
+          "folder": "characters/Idle_5/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_5/Idle/rotations/south.png",
+              "south-east": "characters/Idle_5/Idle/rotations/south-east.png",
+              "east": "characters/Idle_5/Idle/rotations/east.png",
+              "north-east": "characters/Idle_5/Idle/rotations/north-east.png",
+              "north": "characters/Idle_5/Idle/rotations/north.png",
+              "north-west": "characters/Idle_5/Idle/rotations/north-west.png",
+              "west": "characters/Idle_5/Idle/rotations/west.png",
+              "south-west": "characters/Idle_5/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "e7d3028a-eaca-489b-9f6b-d4cf04997968",
+      "folder": "characters/Idle_6",
+      "states": [
+        {
+          "character": {
+            "id": "5981a35b-6eb5-4205-bae9-d1d67521dd0d",
+            "name": "Idle",
+            "prompt": "The heroes hero, the god of kings, Dirte is the strongest pinicle knight in the heart empire. exudes Aura",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:03:01.215401+00:00"
+          },
+          "folder": "characters/Idle_6/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_6/Idle/rotations/south.png",
+              "south-east": "characters/Idle_6/Idle/rotations/south-east.png",
+              "east": "characters/Idle_6/Idle/rotations/east.png",
+              "north-east": "characters/Idle_6/Idle/rotations/north-east.png",
+              "north": "characters/Idle_6/Idle/rotations/north.png",
+              "north-west": "characters/Idle_6/Idle/rotations/north-west.png",
+              "west": "characters/Idle_6/Idle/rotations/west.png",
+              "south-west": "characters/Idle_6/Idle/rotations/south-west.png"
+            },
+            "animations": {
+              "Picking_up_a_boulder_and_throwing_it": {
+                "south": [
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_000.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_001.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_002.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_003.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_004.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_005.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_006.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_007.png",
+                  "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_008.png"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "character": {
+            "id": "098c963d-f423-40a9-8c99-bcdfe9c5fb50",
+            "name": "Holding boulder in r",
+            "prompt": "The heroes hero, the god of kings, Dirte is the strongest pinicle knight in the heart empire. exudes Aura",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:08:48.234656+00:00"
+          },
+          "folder": "characters/Idle_6/Holding_boulder_in_r",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_6/Holding_boulder_in_r/rotations/south.png",
+              "south-east": "characters/Idle_6/Holding_boulder_in_r/rotations/south-east.png",
+              "east": "characters/Idle_6/Holding_boulder_in_r/rotations/east.png",
+              "north-east": "characters/Idle_6/Holding_boulder_in_r/rotations/north-east.png",
+              "north": "characters/Idle_6/Holding_boulder_in_r/rotations/north.png",
+              "north-west": "characters/Idle_6/Holding_boulder_in_r/rotations/north-west.png",
+              "west": "characters/Idle_6/Holding_boulder_in_r/rotations/west.png",
+              "south-west": "characters/Idle_6/Holding_boulder_in_r/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "1901db2e-41af-4c66-89c8-0af15c73a4b0",
+      "folder": "characters/Idle_7",
+      "states": [
+        {
+          "character": {
+            "id": "c4459753-40a1-4967-b51b-b639582bc00c",
+            "name": "Idle",
+            "prompt": "Sea man, water hair, natural skin colour",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:03:54.948210+00:00"
+          },
+          "folder": "characters/Idle_7/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_7/Idle/rotations/south.png",
+              "south-east": "characters/Idle_7/Idle/rotations/south-east.png",
+              "east": "characters/Idle_7/Idle/rotations/east.png",
+              "north-east": "characters/Idle_7/Idle/rotations/north-east.png",
+              "north": "characters/Idle_7/Idle/rotations/north.png",
+              "north-west": "characters/Idle_7/Idle/rotations/north-west.png",
+              "west": "characters/Idle_7/Idle/rotations/west.png",
+              "south-west": "characters/Idle_7/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "59a5fc3f-dfe8-4818-99e3-d73ba4edfd98",
+      "folder": "characters/Idle_8",
+      "states": [
+        {
+          "character": {
+            "id": "8add1416-b010-4ac9-9013-f63c4432dbd0",
+            "name": "Idle",
+            "prompt": "Level, rank F grunt, pawn, looking goblin, weak",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:12:06.534826+00:00"
+          },
+          "folder": "characters/Idle_8/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_8/Idle/rotations/south.png",
+              "south-east": "characters/Idle_8/Idle/rotations/south-east.png",
+              "east": "characters/Idle_8/Idle/rotations/east.png",
+              "north-east": "characters/Idle_8/Idle/rotations/north-east.png",
+              "north": "characters/Idle_8/Idle/rotations/north.png",
+              "north-west": "characters/Idle_8/Idle/rotations/north-west.png",
+              "west": "characters/Idle_8/Idle/rotations/west.png",
+              "south-west": "characters/Idle_8/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "093fd18f-44dc-4254-83fc-411936717e77",
+      "folder": "characters/Idle_9",
+      "states": [
+        {
+          "character": {
+            "id": "844844d7-c46f-4416-a0d6-e24497fb8a5c",
+            "name": "Idle",
+            "prompt": "Dwarf blacksmith, 3 eyes, The most standard hammer for blacksmithing",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:14:07.414778+00:00"
+          },
+          "folder": "characters/Idle_9/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_9/Idle/rotations/south.png",
+              "south-east": "characters/Idle_9/Idle/rotations/south-east.png",
+              "east": "characters/Idle_9/Idle/rotations/east.png",
+              "north-east": "characters/Idle_9/Idle/rotations/north-east.png",
+              "north": "characters/Idle_9/Idle/rotations/north.png",
+              "north-west": "characters/Idle_9/Idle/rotations/north-west.png",
+              "west": "characters/Idle_9/Idle/rotations/west.png",
+              "south-west": "characters/Idle_9/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "b283faaa-fd38-4051-9c07-02c0adf8fdcb",
+      "folder": "characters/Idle_10",
+      "states": [
+        {
+          "character": {
+            "id": "e52f4847-006e-4afe-aa44-1fa4bb6bb8da",
+            "name": "Idle",
+            "prompt": "drunk bum, village idiot no friends, elf",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:15:08.818856+00:00"
+          },
+          "folder": "characters/Idle_10/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_10/Idle/rotations/south.png",
+              "south-east": "characters/Idle_10/Idle/rotations/south-east.png",
+              "east": "characters/Idle_10/Idle/rotations/east.png",
+              "north-east": "characters/Idle_10/Idle/rotations/north-east.png",
+              "north": "characters/Idle_10/Idle/rotations/north.png",
+              "north-west": "characters/Idle_10/Idle/rotations/north-west.png",
+              "west": "characters/Idle_10/Idle/rotations/west.png",
+              "south-west": "characters/Idle_10/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "014ca960-4a58-43f8-a289-7d979c70131f",
+      "folder": "characters/Idle_11",
+      "states": [
+        {
+          "character": {
+            "id": "35ebee0a-39a7-4fc7-aa59-5a95bb2e8a8a",
+            "name": "Idle",
+            "prompt": "legend of avatar max powers",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:16:00.670388+00:00"
+          },
+          "folder": "characters/Idle_11/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_11/Idle/rotations/south.png",
+              "south-east": "characters/Idle_11/Idle/rotations/south-east.png",
+              "east": "characters/Idle_11/Idle/rotations/east.png",
+              "north-east": "characters/Idle_11/Idle/rotations/north-east.png",
+              "north": "characters/Idle_11/Idle/rotations/north.png",
+              "north-west": "characters/Idle_11/Idle/rotations/north-west.png",
+              "west": "characters/Idle_11/Idle/rotations/west.png",
+              "south-west": "characters/Idle_11/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "2e14dcac-6b23-475a-923f-84a443882d5a",
+      "folder": "characters/Idle_12",
+      "states": [
+        {
+          "character": {
+            "id": "6c21a5b2-5609-4e5b-80bd-deed3aea4645",
+            "name": "Idle",
+            "prompt": "Multiple magic elements monk, fire, water, air, earth, lightning, dark, light",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "horse",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:17:29.520034+00:00"
+          },
+          "folder": "characters/Idle_12/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_12/Idle/rotations/south.png",
+              "south-east": "characters/Idle_12/Idle/rotations/south-east.png",
+              "east": "characters/Idle_12/Idle/rotations/east.png",
+              "north-east": "characters/Idle_12/Idle/rotations/north-east.png",
+              "north": "characters/Idle_12/Idle/rotations/north.png",
+              "north-west": "characters/Idle_12/Idle/rotations/north-west.png",
+              "west": "characters/Idle_12/Idle/rotations/west.png",
+              "south-west": "characters/Idle_12/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "6a660f86-33f9-4805-960b-4c175b08e4c9",
+      "folder": "characters/Idle_13",
+      "states": [
+        {
+          "character": {
+            "id": "17b13ebc-acd3-4c15-b016-ac4735b42f21",
+            "name": "Idle",
+            "prompt": "Slime ball, like jelly",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "dog",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-30T01:18:29.308271+00:00"
+          },
+          "folder": "characters/Idle_13/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_13/Idle/rotations/south.png",
+              "south-east": "characters/Idle_13/Idle/rotations/south-east.png",
+              "east": "characters/Idle_13/Idle/rotations/east.png",
+              "north-east": "characters/Idle_13/Idle/rotations/north-east.png",
+              "north": "characters/Idle_13/Idle/rotations/north.png",
+              "north-west": "characters/Idle_13/Idle/rotations/north-west.png",
+              "west": "characters/Idle_13/Idle/rotations/west.png",
+              "south-west": "characters/Idle_13/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "ee09c33a-c026-4dbf-ba4b-58dab1379088",
+      "folder": "characters/Idle_14",
+      "states": [
+        {
+          "character": {
+            "id": "9430ce89-c7ff-4e69-aa64-3ed020e93fdc",
+            "name": "Idle",
+            "prompt": "Slime, dragon quest",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-30T01:22:36.877269+00:00"
+          },
+          "folder": "characters/Idle_14/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_14/Idle/rotations/south.png",
+              "south-east": "characters/Idle_14/Idle/rotations/south-east.png",
+              "east": "characters/Idle_14/Idle/rotations/east.png",
+              "north-east": "characters/Idle_14/Idle/rotations/north-east.png",
+              "north": "characters/Idle_14/Idle/rotations/north.png",
+              "north-west": "characters/Idle_14/Idle/rotations/north-west.png",
+              "west": "characters/Idle_14/Idle/rotations/west.png",
+              "south-west": "characters/Idle_14/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "daf64b4b-570b-4e5c-a54c-525aa13992e5",
+      "folder": "characters/Idle_15",
+      "states": [
+        {
+          "character": {
+            "id": "bdc2b544-7498-457a-b503-14b383a24ee3",
+            "name": "Idle",
+            "prompt": "King slime, dragon quest",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:23:00.442489+00:00"
+          },
+          "folder": "characters/Idle_15/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_15/Idle/rotations/south.png",
+              "south-east": "characters/Idle_15/Idle/rotations/south-east.png",
+              "east": "characters/Idle_15/Idle/rotations/east.png",
+              "north-east": "characters/Idle_15/Idle/rotations/north-east.png",
+              "north": "characters/Idle_15/Idle/rotations/north.png",
+              "north-west": "characters/Idle_15/Idle/rotations/north-west.png",
+              "west": "characters/Idle_15/Idle/rotations/west.png",
+              "south-west": "characters/Idle_15/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "f19526dd-68e9-4955-9c8b-fe0699db940c",
+      "folder": "characters/Idle_16",
+      "states": [
+        {
+          "character": {
+            "id": "be95a360-4a0f-4226-a721-55c60cc1d796",
+            "name": "Idle",
+            "prompt": "Ice wolf",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "dog",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T01:24:07.190659+00:00"
+          },
+          "folder": "characters/Idle_16/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_16/Idle/rotations/south.png",
+              "south-east": "characters/Idle_16/Idle/rotations/south-east.png",
+              "east": "characters/Idle_16/Idle/rotations/east.png",
+              "north-east": "characters/Idle_16/Idle/rotations/north-east.png",
+              "north": "characters/Idle_16/Idle/rotations/north.png",
+              "north-west": "characters/Idle_16/Idle/rotations/north-west.png",
+              "west": "characters/Idle_16/Idle/rotations/west.png",
+              "south-west": "characters/Idle_16/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    }
+  ],
+  "states": [
+    {
+      "character": {
+        "id": "0deb990b-b765-46f7-9d47-9d3cc09626da",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart, Wizard",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:46:58.340189+00:00"
+      },
+      "folder": "characters/Idle/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle/Idle/rotations/south.png",
+          "south-east": "characters/Idle/Idle/rotations/south-east.png",
+          "east": "characters/Idle/Idle/rotations/east.png",
+          "north-east": "characters/Idle/Idle/rotations/north-east.png",
+          "north": "characters/Idle/Idle/rotations/north.png",
+          "north-west": "characters/Idle/Idle/rotations/north-west.png",
+          "west": "characters/Idle/Idle/rotations/west.png",
+          "south-west": "characters/Idle/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "074272e4-31df-4c1f-8151-93427d7067eb",
+        "name": "Idle",
+        "prompt": "Water lion, mane is liquid water",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "lion",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:48:30.867368+00:00"
+      },
+      "folder": "characters/Idle_2/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_2/Idle/rotations/south.png",
+          "south-east": "characters/Idle_2/Idle/rotations/south-east.png",
+          "east": "characters/Idle_2/Idle/rotations/east.png",
+          "north-east": "characters/Idle_2/Idle/rotations/north-east.png",
+          "north": "characters/Idle_2/Idle/rotations/north.png",
+          "north-west": "characters/Idle_2/Idle/rotations/north-west.png",
+          "west": "characters/Idle_2/Idle/rotations/west.png",
+          "south-west": "characters/Idle_2/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "f0a0d156-51bf-437f-b910-85591091943f",
+        "name": "Idle",
+        "prompt": "Monkey with 4 arms, holding two calculators, two phones. ready for fighting",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:49:29.426092+00:00"
+      },
+      "folder": "characters/Idle_3/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_3/Idle/rotations/south.png",
+          "south-east": "characters/Idle_3/Idle/rotations/south-east.png",
+          "east": "characters/Idle_3/Idle/rotations/east.png",
+          "north-east": "characters/Idle_3/Idle/rotations/north-east.png",
+          "north": "characters/Idle_3/Idle/rotations/north.png",
+          "north-west": "characters/Idle_3/Idle/rotations/north-west.png",
+          "west": "characters/Idle_3/Idle/rotations/west.png",
+          "south-west": "characters/Idle_3/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "123f72d7-469d-4edb-afd5-ebc834ec2534",
+        "name": "Idle",
+        "prompt": "Sea Horse, Water for hair, blows bubbles",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "horse",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:50:53.477261+00:00"
+      },
+      "folder": "characters/Idle_4/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_4/Idle/rotations/south.png",
+          "south-east": "characters/Idle_4/Idle/rotations/south-east.png",
+          "east": "characters/Idle_4/Idle/rotations/east.png",
+          "north-east": "characters/Idle_4/Idle/rotations/north-east.png",
+          "north": "characters/Idle_4/Idle/rotations/north.png",
+          "north-west": "characters/Idle_4/Idle/rotations/north-west.png",
+          "west": "characters/Idle_4/Idle/rotations/west.png",
+          "south-west": "characters/Idle_4/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "1cafcde5-109c-4271-80db-a2be4b5e9ed7",
+        "name": "Idle",
+        "prompt": "Civilian, peasant",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:52:29.953934+00:00"
+      },
+      "folder": "characters/Idle_5/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_5/Idle/rotations/south.png",
+          "south-east": "characters/Idle_5/Idle/rotations/south-east.png",
+          "east": "characters/Idle_5/Idle/rotations/east.png",
+          "north-east": "characters/Idle_5/Idle/rotations/north-east.png",
+          "north": "characters/Idle_5/Idle/rotations/north.png",
+          "north-west": "characters/Idle_5/Idle/rotations/north-west.png",
+          "west": "characters/Idle_5/Idle/rotations/west.png",
+          "south-west": "characters/Idle_5/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "5981a35b-6eb5-4205-bae9-d1d67521dd0d",
+        "name": "Idle",
+        "prompt": "The heroes hero, the god of kings, Dirte is the strongest pinicle knight in the heart empire. exudes Aura",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:03:01.215401+00:00"
+      },
+      "folder": "characters/Idle_6/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_6/Idle/rotations/south.png",
+          "south-east": "characters/Idle_6/Idle/rotations/south-east.png",
+          "east": "characters/Idle_6/Idle/rotations/east.png",
+          "north-east": "characters/Idle_6/Idle/rotations/north-east.png",
+          "north": "characters/Idle_6/Idle/rotations/north.png",
+          "north-west": "characters/Idle_6/Idle/rotations/north-west.png",
+          "west": "characters/Idle_6/Idle/rotations/west.png",
+          "south-west": "characters/Idle_6/Idle/rotations/south-west.png"
+        },
+        "animations": {
+          "Picking_up_a_boulder_and_throwing_it": {
+            "south": [
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_000.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_001.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_002.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_003.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_004.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_005.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_006.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_007.png",
+              "characters/Idle_6/Idle/animations/Picking_up_a_boulder_and_throwing_it/south/frame_008.png"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "character": {
+        "id": "098c963d-f423-40a9-8c99-bcdfe9c5fb50",
+        "name": "Holding boulder in r",
+        "prompt": "The heroes hero, the god of kings, Dirte is the strongest pinicle knight in the heart empire. exudes Aura",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:08:48.234656+00:00"
+      },
+      "folder": "characters/Idle_6/Holding_boulder_in_r",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_6/Holding_boulder_in_r/rotations/south.png",
+          "south-east": "characters/Idle_6/Holding_boulder_in_r/rotations/south-east.png",
+          "east": "characters/Idle_6/Holding_boulder_in_r/rotations/east.png",
+          "north-east": "characters/Idle_6/Holding_boulder_in_r/rotations/north-east.png",
+          "north": "characters/Idle_6/Holding_boulder_in_r/rotations/north.png",
+          "north-west": "characters/Idle_6/Holding_boulder_in_r/rotations/north-west.png",
+          "west": "characters/Idle_6/Holding_boulder_in_r/rotations/west.png",
+          "south-west": "characters/Idle_6/Holding_boulder_in_r/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "c4459753-40a1-4967-b51b-b639582bc00c",
+        "name": "Idle",
+        "prompt": "Sea man, water hair, natural skin colour",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:03:54.948210+00:00"
+      },
+      "folder": "characters/Idle_7/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_7/Idle/rotations/south.png",
+          "south-east": "characters/Idle_7/Idle/rotations/south-east.png",
+          "east": "characters/Idle_7/Idle/rotations/east.png",
+          "north-east": "characters/Idle_7/Idle/rotations/north-east.png",
+          "north": "characters/Idle_7/Idle/rotations/north.png",
+          "north-west": "characters/Idle_7/Idle/rotations/north-west.png",
+          "west": "characters/Idle_7/Idle/rotations/west.png",
+          "south-west": "characters/Idle_7/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "8add1416-b010-4ac9-9013-f63c4432dbd0",
+        "name": "Idle",
+        "prompt": "Level, rank F grunt, pawn, looking goblin, weak",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:12:06.534826+00:00"
+      },
+      "folder": "characters/Idle_8/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_8/Idle/rotations/south.png",
+          "south-east": "characters/Idle_8/Idle/rotations/south-east.png",
+          "east": "characters/Idle_8/Idle/rotations/east.png",
+          "north-east": "characters/Idle_8/Idle/rotations/north-east.png",
+          "north": "characters/Idle_8/Idle/rotations/north.png",
+          "north-west": "characters/Idle_8/Idle/rotations/north-west.png",
+          "west": "characters/Idle_8/Idle/rotations/west.png",
+          "south-west": "characters/Idle_8/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "844844d7-c46f-4416-a0d6-e24497fb8a5c",
+        "name": "Idle",
+        "prompt": "Dwarf blacksmith, 3 eyes, The most standard hammer for blacksmithing",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:14:07.414778+00:00"
+      },
+      "folder": "characters/Idle_9/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_9/Idle/rotations/south.png",
+          "south-east": "characters/Idle_9/Idle/rotations/south-east.png",
+          "east": "characters/Idle_9/Idle/rotations/east.png",
+          "north-east": "characters/Idle_9/Idle/rotations/north-east.png",
+          "north": "characters/Idle_9/Idle/rotations/north.png",
+          "north-west": "characters/Idle_9/Idle/rotations/north-west.png",
+          "west": "characters/Idle_9/Idle/rotations/west.png",
+          "south-west": "characters/Idle_9/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "e52f4847-006e-4afe-aa44-1fa4bb6bb8da",
+        "name": "Idle",
+        "prompt": "drunk bum, village idiot no friends, elf",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:15:08.818856+00:00"
+      },
+      "folder": "characters/Idle_10/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_10/Idle/rotations/south.png",
+          "south-east": "characters/Idle_10/Idle/rotations/south-east.png",
+          "east": "characters/Idle_10/Idle/rotations/east.png",
+          "north-east": "characters/Idle_10/Idle/rotations/north-east.png",
+          "north": "characters/Idle_10/Idle/rotations/north.png",
+          "north-west": "characters/Idle_10/Idle/rotations/north-west.png",
+          "west": "characters/Idle_10/Idle/rotations/west.png",
+          "south-west": "characters/Idle_10/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "35ebee0a-39a7-4fc7-aa59-5a95bb2e8a8a",
+        "name": "Idle",
+        "prompt": "legend of avatar max powers",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:16:00.670388+00:00"
+      },
+      "folder": "characters/Idle_11/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_11/Idle/rotations/south.png",
+          "south-east": "characters/Idle_11/Idle/rotations/south-east.png",
+          "east": "characters/Idle_11/Idle/rotations/east.png",
+          "north-east": "characters/Idle_11/Idle/rotations/north-east.png",
+          "north": "characters/Idle_11/Idle/rotations/north.png",
+          "north-west": "characters/Idle_11/Idle/rotations/north-west.png",
+          "west": "characters/Idle_11/Idle/rotations/west.png",
+          "south-west": "characters/Idle_11/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "6c21a5b2-5609-4e5b-80bd-deed3aea4645",
+        "name": "Idle",
+        "prompt": "Multiple magic elements monk, fire, water, air, earth, lightning, dark, light",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "horse",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:17:29.520034+00:00"
+      },
+      "folder": "characters/Idle_12/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_12/Idle/rotations/south.png",
+          "south-east": "characters/Idle_12/Idle/rotations/south-east.png",
+          "east": "characters/Idle_12/Idle/rotations/east.png",
+          "north-east": "characters/Idle_12/Idle/rotations/north-east.png",
+          "north": "characters/Idle_12/Idle/rotations/north.png",
+          "north-west": "characters/Idle_12/Idle/rotations/north-west.png",
+          "west": "characters/Idle_12/Idle/rotations/west.png",
+          "south-west": "characters/Idle_12/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "17b13ebc-acd3-4c15-b016-ac4735b42f21",
+        "name": "Idle",
+        "prompt": "Slime ball, like jelly",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "dog",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-30T01:18:29.308271+00:00"
+      },
+      "folder": "characters/Idle_13/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_13/Idle/rotations/south.png",
+          "south-east": "characters/Idle_13/Idle/rotations/south-east.png",
+          "east": "characters/Idle_13/Idle/rotations/east.png",
+          "north-east": "characters/Idle_13/Idle/rotations/north-east.png",
+          "north": "characters/Idle_13/Idle/rotations/north.png",
+          "north-west": "characters/Idle_13/Idle/rotations/north-west.png",
+          "west": "characters/Idle_13/Idle/rotations/west.png",
+          "south-west": "characters/Idle_13/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "9430ce89-c7ff-4e69-aa64-3ed020e93fdc",
+        "name": "Idle",
+        "prompt": "Slime, dragon quest",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-30T01:22:36.877269+00:00"
+      },
+      "folder": "characters/Idle_14/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_14/Idle/rotations/south.png",
+          "south-east": "characters/Idle_14/Idle/rotations/south-east.png",
+          "east": "characters/Idle_14/Idle/rotations/east.png",
+          "north-east": "characters/Idle_14/Idle/rotations/north-east.png",
+          "north": "characters/Idle_14/Idle/rotations/north.png",
+          "north-west": "characters/Idle_14/Idle/rotations/north-west.png",
+          "west": "characters/Idle_14/Idle/rotations/west.png",
+          "south-west": "characters/Idle_14/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "bdc2b544-7498-457a-b503-14b383a24ee3",
+        "name": "Idle",
+        "prompt": "King slime, dragon quest",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:23:00.442489+00:00"
+      },
+      "folder": "characters/Idle_15/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_15/Idle/rotations/south.png",
+          "south-east": "characters/Idle_15/Idle/rotations/south-east.png",
+          "east": "characters/Idle_15/Idle/rotations/east.png",
+          "north-east": "characters/Idle_15/Idle/rotations/north-east.png",
+          "north": "characters/Idle_15/Idle/rotations/north.png",
+          "north-west": "characters/Idle_15/Idle/rotations/north-west.png",
+          "west": "characters/Idle_15/Idle/rotations/west.png",
+          "south-west": "characters/Idle_15/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "be95a360-4a0f-4226-a721-55c60cc1d796",
+        "name": "Idle",
+        "prompt": "Ice wolf",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "dog",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T01:24:07.190659+00:00"
+      },
+      "folder": "characters/Idle_16/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_16/Idle/rotations/south.png",
+          "south-east": "characters/Idle_16/Idle/rotations/south-east.png",
+          "east": "characters/Idle_16/Idle/rotations/east.png",
+          "north-east": "characters/Idle_16/Idle/rotations/north-east.png",
+          "north": "characters/Idle_16/Idle/rotations/north.png",
+          "north-west": "characters/Idle_16/Idle/rotations/north-west.png",
+          "west": "characters/Idle_16/Idle/rotations/west.png",
+          "south-west": "characters/Idle_16/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-30T01:26:47.158284"
+}

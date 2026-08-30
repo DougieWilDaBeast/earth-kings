@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "e786ae73-5b24-45bb-9374-ac31ea706294",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b63385ad-2298-457e-bfba-04acefaea112",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "9a2774e6-2d3e-4629-be65-86dcba869898",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "833e30a7-deca-4822-a33d-2f2ff2a3d57c",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "05e63e1e-4add-4fde-ad9c-583a575d580e",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ab72e6fd-946c-4bf0-abe9-0071635b957c",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "43f7c46b-9778-4f66-b224-0a80384ee01e",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c54516a0-306b-4819-bcbd-37f49581b050",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "17acf61b-15aa-42c2-8310-919aef1fe503",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "fa39bec4-e15b-4579-abd8-5df2cd535b83",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5afc2621-7b3b-44d4-bbe5-1cac800d63fe",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c960203d-a00c-4ac8-857a-46b965510a6d",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2289f3f1-4ef7-49d2-a7ca-354f7c481e95",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d9d60b5b-27fb-47bb-91d8-8b2e81052901",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_14.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "bcf000de-d4d8-41cd-9f8d-ca2eb3dc1e5b",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d6d840b3-ec4e-4938-8e69-28aae802af5a",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "9903cacd-69c9-47cf-a405-fdd81dd86ec1",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ef76cf10-2c70-4e8c-b466-ae8925a47246",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ed90e3e7-0025-44da-8b4f-7d1deb8b208d",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "380391ef-571b-43bd-97b8-3b8a2ca3ad62",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2b38651b-299f-4110-b654-e40891ce0b66",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d9189051-d4e4-43cf-a97e-64cab79f3ba7",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "7c2c6394-232f-46ea-8af6-52cfd19fa64e",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "11ac1fd2-2df5-4ec7-9255-2430dd6c7fc4",
+      "name": "base",
+      "prompt": "Overworld map details",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Overworld_map_details_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e3b34a51-901d-446b-8854-410310d9f5ae",
+      "name": "base",
+      "prompt": "household objects, fantasy items",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/household_objects_fantasy_ite.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "4282156f-4244-417a-b9a1-fed7c35be711",
+      "folder": "objects/Adventure_guild",
+      "objects": [
+        {
+          "id": "e786ae73-5b24-45bb-9374-ac31ea706294",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4282e1f6-d5c1-46f4-96f8-33d6cce3d0cc",
+      "folder": "objects/Adventure_guild_2",
+      "objects": [
+        {
+          "id": "b63385ad-2298-457e-bfba-04acefaea112",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2456a2c3-c8d6-4ce5-be90-876e2b57bdb7",
+      "folder": "objects/Adventure_guild_3",
+      "objects": [
+        {
+          "id": "9a2774e6-2d3e-4629-be65-86dcba869898",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4b0c5b92-400a-40b2-abf7-fef32a392152",
+      "folder": "objects/Adventure_guild_4",
+      "objects": [
+        {
+          "id": "833e30a7-deca-4822-a33d-2f2ff2a3d57c",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "21d34457-97c4-4269-b2ab-853cc2b8c620",
+      "folder": "objects/Adventure_guild_5",
+      "objects": [
+        {
+          "id": "05e63e1e-4add-4fde-ad9c-583a575d580e",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5c58ff34-936d-462b-8c83-0a107cdbf611",
+      "folder": "objects/Adventure_guild_6",
+      "objects": [
+        {
+          "id": "ab72e6fd-946c-4bf0-abe9-0071635b957c",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5dd6aca4-78bd-4bb6-a3b0-dcc25ecb1da0",
+      "folder": "objects/Adventure_guild_7",
+      "objects": [
+        {
+          "id": "43f7c46b-9778-4f66-b224-0a80384ee01e",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5ea34f9e-553b-42bb-be5b-a39312cfd220",
+      "folder": "objects/Adventure_guild_8",
+      "objects": [
+        {
+          "id": "c54516a0-306b-4819-bcbd-37f49581b050",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f0e7f36e-435f-46c3-94ec-9c66185489cc",
+      "folder": "objects/Adventure_guild_9",
+      "objects": [
+        {
+          "id": "17acf61b-15aa-42c2-8310-919aef1fe503",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a2d019d9-fb43-4325-8bc6-f03aeb7555f1",
+      "folder": "objects/Adventure_guild_10",
+      "objects": [
+        {
+          "id": "fa39bec4-e15b-4579-abd8-5df2cd535b83",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a0bb6621-f8c2-469d-9659-591a5affb895",
+      "folder": "objects/Adventure_guild_11",
+      "objects": [
+        {
+          "id": "5afc2621-7b3b-44d4-bbe5-1cac800d63fe",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "7ec41d5a-4e82-41b7-be00-39f7728f6b71",
+      "folder": "objects/Adventure_guild_12",
+      "objects": [
+        {
+          "id": "c960203d-a00c-4ac8-857a-46b965510a6d",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f51acc58-5140-47cd-bc94-de4bbb4b14bc",
+      "folder": "objects/Adventure_guild_13",
+      "objects": [
+        {
+          "id": "2289f3f1-4ef7-49d2-a7ca-354f7c481e95",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3070b737-3a03-43fe-811e-3fc90bb1d052",
+      "folder": "objects/Adventure_guild_14",
+      "objects": [
+        {
+          "id": "d9d60b5b-27fb-47bb-91d8-8b2e81052901",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_14.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "fead2b4e-4d58-40f5-ad5a-36e0c74dbd6a",
+      "folder": "objects/Overworld_map_details",
+      "objects": [
+        {
+          "id": "bcf000de-d4d8-41cd-9f8d-ca2eb3dc1e5b",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "104d914b-6d68-4bd0-8968-70083578332c",
+      "folder": "objects/Overworld_map_details_2",
+      "objects": [
+        {
+          "id": "d6d840b3-ec4e-4938-8e69-28aae802af5a",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2b4dcda8-2436-4078-9b12-aff3664f8d40",
+      "folder": "objects/Overworld_map_details_3",
+      "objects": [
+        {
+          "id": "9903cacd-69c9-47cf-a405-fdd81dd86ec1",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2c346f88-9e6f-4b79-91f7-cd42bc411a6d",
+      "folder": "objects/Overworld_map_details_4",
+      "objects": [
+        {
+          "id": "ef76cf10-2c70-4e8c-b466-ae8925a47246",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "30f186cc-566f-480f-a1ab-115ccbdee6cd",
+      "folder": "objects/Overworld_map_details_5",
+      "objects": [
+        {
+          "id": "ed90e3e7-0025-44da-8b4f-7d1deb8b208d",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "313223d2-0dab-4631-ada7-acd0ee8d3352",
+      "folder": "objects/Overworld_map_details_6",
+      "objects": [
+        {
+          "id": "380391ef-571b-43bd-97b8-3b8a2ca3ad62",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "39365277-2ad8-4776-ad4c-7283c2fd60ca",
+      "folder": "objects/Overworld_map_details_7",
+      "objects": [
+        {
+          "id": "2b38651b-299f-4110-b654-e40891ce0b66",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3b7517bf-95ce-4b00-911e-aff2e4fe857f",
+      "folder": "objects/Overworld_map_details_8",
+      "objects": [
+        {
+          "id": "d9189051-d4e4-43cf-a97e-64cab79f3ba7",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4201efff-3431-42f0-98e4-cfaa53f301b9",
+      "folder": "objects/Overworld_map_details_9",
+      "objects": [
+        {
+          "id": "7c2c6394-232f-46ea-8af6-52cfd19fa64e",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4f79650a-c6b7-411f-a394-afee8ee174f6",
+      "folder": "objects/Overworld_map_details_10",
+      "objects": [
+        {
+          "id": "11ac1fd2-2df5-4ec7-9255-2430dd6c7fc4",
+          "name": "base",
+          "prompt": "Overworld map details",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Overworld_map_details_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4dc9bab2-28fd-4914-8d7e-715d985e773a",
+      "folder": "objects/household_objects_fantasy_ite",
+      "objects": [
+        {
+          "id": "e3b34a51-901d-446b-8854-410310d9f5ae",
+          "name": "base",
+          "prompt": "household objects, fantasy items",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/household_objects_fantasy_ite.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-08-30T01:35:38.669958"
+}

@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "e001e9a4-6da7-486b-b1e0-88999ca801bf",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "af2cfdcf-40a4-4ce7-b2bd-a04ddec80280",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "41c4cb12-589e-4f21-a884-7090b90e8078",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e94bd6c4-f8f1-402f-a53e-7670ad489db1",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b9f3f3e6-98d6-40e1-9306-305fbccb5f2b",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "4c8ed456-f3da-47e5-bc97-0bcf6a6231e5",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "39170f1a-5df3-4be1-a405-06eed0272a0a",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "54671ca5-ff78-4df1-ab0e-66d76cfcdd4c",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "91b734a5-556b-4bf3-8507-77b46511dd8f",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "14bde138-fda8-4de8-a1ee-0af40df937e0",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "7c32b78b-7407-4977-852e-efbf656326bc",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "1febf87d-128f-4760-a605-b94af6101e2c",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "9db1fe34-59ea-4d79-8b4d-2a2f64fc8ee4",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "11a38b6f-75ce-4704-9d10-0768c3d54413",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_14.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "95f4c0d3-5f51-4a0e-8823-29916d7ed3bc",
+      "name": "base",
+      "prompt": "Consumables",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Consumables_15.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e6001800-795e-4453-ac79-4d32742e9606",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "1ace12c0-f7d9-433b-97a9-da2be9f3bb4b",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "02c8a30f-ba5a-46df-bc73-2a3fec459e68",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "31798407-51a7-4a41-980a-9adf923f29c8",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "42c9c790-09a4-4b13-b86e-9d532195993b",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "fe4b4771-4b59-4c2c-8b52-7774efc246e6",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2d76a4a4-b23f-457c-966f-ce3a27ed735b",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "7c346b28-ae4c-4bd6-8e43-d06bed2bd444",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "acb0563d-214f-4446-aa3f-9c5df0690062",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f8589971-24ba-43b5-993a-b3cefa0de946",
+      "name": "base",
+      "prompt": "Adventure guild",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Adventure_guild_2.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "d5776686-ab8d-4706-9b59-c2a154c730b7",
+      "folder": "objects/Consumables",
+      "objects": [
+        {
+          "id": "e001e9a4-6da7-486b-b1e0-88999ca801bf",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4368c279-4ba0-4260-9d59-4c075712f324",
+      "folder": "objects/Consumables_2",
+      "objects": [
+        {
+          "id": "af2cfdcf-40a4-4ce7-b2bd-a04ddec80280",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "bdd727d9-71db-4f10-9b78-5e44d34a593c",
+      "folder": "objects/Consumables_3",
+      "objects": [
+        {
+          "id": "41c4cb12-589e-4f21-a884-7090b90e8078",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e8107b0b-e846-45ab-b8d8-bab87f78bd61",
+      "folder": "objects/Consumables_4",
+      "objects": [
+        {
+          "id": "e94bd6c4-f8f1-402f-a53e-7670ad489db1",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0bd46252-0fe9-4f4a-99fe-9a2b0ddaacfe",
+      "folder": "objects/Consumables_5",
+      "objects": [
+        {
+          "id": "b9f3f3e6-98d6-40e1-9306-305fbccb5f2b",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "41114a29-8a8c-460d-b35a-ab729d9f2c30",
+      "folder": "objects/Consumables_6",
+      "objects": [
+        {
+          "id": "4c8ed456-f3da-47e5-bc97-0bcf6a6231e5",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f48e6096-4005-4176-995d-aba13b1ad994",
+      "folder": "objects/Consumables_7",
+      "objects": [
+        {
+          "id": "39170f1a-5df3-4be1-a405-06eed0272a0a",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "622a0407-474a-4714-a995-5c7dbfd3bbfc",
+      "folder": "objects/Consumables_8",
+      "objects": [
+        {
+          "id": "54671ca5-ff78-4df1-ab0e-66d76cfcdd4c",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "94eb5507-968a-44fe-8293-f7eeaf83640a",
+      "folder": "objects/Consumables_9",
+      "objects": [
+        {
+          "id": "91b734a5-556b-4bf3-8507-77b46511dd8f",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "7bef5ec5-2faf-402c-8ffa-7cc559176810",
+      "folder": "objects/Consumables_10",
+      "objects": [
+        {
+          "id": "14bde138-fda8-4de8-a1ee-0af40df937e0",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "06fa583f-d069-4d36-a415-97313db29aa2",
+      "folder": "objects/Consumables_11",
+      "objects": [
+        {
+          "id": "7c32b78b-7407-4977-852e-efbf656326bc",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9d086a9b-3ab9-4989-a1d8-f459e81cb0c7",
+      "folder": "objects/Consumables_12",
+      "objects": [
+        {
+          "id": "1febf87d-128f-4760-a605-b94af6101e2c",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "8194d761-e2fd-4196-8e28-1266119c6c99",
+      "folder": "objects/Consumables_13",
+      "objects": [
+        {
+          "id": "9db1fe34-59ea-4d79-8b4d-2a2f64fc8ee4",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "daea09b2-9b41-46ed-8116-ad5dc9b1e0ff",
+      "folder": "objects/Consumables_14",
+      "objects": [
+        {
+          "id": "11a38b6f-75ce-4704-9d10-0768c3d54413",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_14.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f7fb46f5-1d68-457d-8f9d-825916adddf9",
+      "folder": "objects/Consumables_15",
+      "objects": [
+        {
+          "id": "95f4c0d3-5f51-4a0e-8823-29916d7ed3bc",
+          "name": "base",
+          "prompt": "Consumables",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Consumables_15.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c7c319b0-ae8f-47b3-aad5-a8783bf497f7",
+      "folder": "objects/Campfire_and_campsite",
+      "objects": [
+        {
+          "id": "e6001800-795e-4453-ac79-4d32742e9606",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "83c08064-a801-4e62-ad5d-26be86042043",
+      "folder": "objects/Campfire_and_campsite_2",
+      "objects": [
+        {
+          "id": "1ace12c0-f7d9-433b-97a9-da2be9f3bb4b",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "73573beb-d3e6-4e78-92a1-6022b0ade9a9",
+      "folder": "objects/Campfire_and_campsite_3",
+      "objects": [
+        {
+          "id": "02c8a30f-ba5a-46df-bc73-2a3fec459e68",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "7f6e13cd-8c48-4614-84e7-76cab2b01942",
+      "folder": "objects/Campfire_and_campsite_4",
+      "objects": [
+        {
+          "id": "31798407-51a7-4a41-980a-9adf923f29c8",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "36ce2976-8e7f-467e-8ca6-6273cec9cbec",
+      "folder": "objects/Campfire_and_campsite_5",
+      "objects": [
+        {
+          "id": "42c9c790-09a4-4b13-b86e-9d532195993b",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "aaf03e1f-8e51-429c-88f8-4dfef7577765",
+      "folder": "objects/Campfire_and_campsite_6",
+      "objects": [
+        {
+          "id": "fe4b4771-4b59-4c2c-8b52-7774efc246e6",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2debb03d-db15-4cca-bc03-75474a73f6e8",
+      "folder": "objects/Campfire_and_campsite_7",
+      "objects": [
+        {
+          "id": "2d76a4a4-b23f-457c-966f-ce3a27ed735b",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b6e83190-f4db-4ad3-b2c6-e8d14a82af30",
+      "folder": "objects/Campfire_and_campsite_8",
+      "objects": [
+        {
+          "id": "7c346b28-ae4c-4bd6-8e43-d06bed2bd444",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c05f71e1-a91f-432c-b118-388730ffac8d",
+      "folder": "objects/Adventure_guild",
+      "objects": [
+        {
+          "id": "acb0563d-214f-4446-aa3f-9c5df0690062",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2b0ab18a-5878-41c2-8132-b5079620e002",
+      "folder": "objects/Adventure_guild_2",
+      "objects": [
+        {
+          "id": "f8589971-24ba-43b5-993a-b3cefa0de946",
+          "name": "base",
+          "prompt": "Adventure guild",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Adventure_guild_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-08-30T01:35:03.535211"
+}

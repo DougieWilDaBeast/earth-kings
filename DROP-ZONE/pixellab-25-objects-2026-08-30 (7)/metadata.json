@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "f52c1e58-0739-44d7-a36e-fb2948c37938",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5ebeea7e-19f3-4613-82db-3fc35911c87d",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ecb28ecb-c481-4e22-9411-75d939727c0e",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c2eb57ee-25d7-44bf-9d87-551a3ccb8802",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "38d113e8-ab87-4f56-ae2d-03d899886786",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "120def55-5a24-4fed-bb50-41a2c4052366",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "9c8aa913-f3f9-4b2b-bbb9-828833aaf600",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "a5db396b-a9e9-485a-88f2-599e4136dfee",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "dcc2040d-096a-4a5c-9072-12024cc29d7b",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f8dcc959-779f-4790-b2a4-b7a533d9db7d",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ef1817d8-e3a7-406d-9b47-d15e8b659b2a",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "648c07d8-ae1b-48c4-abf3-f9714c3da443",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ce05c873-0980-43e2-8f55-2a40ed2a580a",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2e0412b2-034c-4098-a9b6-9a898ea700cf",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_14.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ce851a63-d6ea-4db8-af69-dbfc39aede0e",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_15.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "87340d13-53d0-4d69-8e15-e9593be7a10b",
+      "name": "base",
+      "prompt": "Armour of natural materials, with honey tinted angelicness",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Armour_of_natural_materials_w_16.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "60a7cbf5-b3c6-4e4f-8148-cee010a81ad7",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "85ab68d6-1036-4a18-9c2d-b0fc724796fa",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "908202a4-fb62-442e-bbcb-8945b83cb943",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "503e2549-4704-480b-a25f-a2cd280a25c1",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "dcd8189c-1790-41d6-b565-95fbb81442ce",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "8bd66f8a-13cd-423e-86f4-4ab095a8cfe5",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e8461299-6229-4629-a42a-c9e5e42a7452",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f8fdbbff-7812-474e-9301-d41c475ac9d5",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "16d3c1db-7f1b-4ab2-9af6-cb9ea6d22439",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Uncommon_loot_9.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "12cbeb0f-7e87-4039-aad6-ad8448a9c2a6",
+      "folder": "objects/Armour_of_natural_materials_w",
+      "objects": [
+        {
+          "id": "f52c1e58-0739-44d7-a36e-fb2948c37938",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "25814000-6792-41b1-b88d-76b7899eb6de",
+      "folder": "objects/Armour_of_natural_materials_w_2",
+      "objects": [
+        {
+          "id": "5ebeea7e-19f3-4613-82db-3fc35911c87d",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "ddc2ae5b-04bf-434a-9eac-515f06700f76",
+      "folder": "objects/Armour_of_natural_materials_w_3",
+      "objects": [
+        {
+          "id": "ecb28ecb-c481-4e22-9411-75d939727c0e",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5f941540-7f29-44a8-a395-f6bd8b8ad4d2",
+      "folder": "objects/Armour_of_natural_materials_w_4",
+      "objects": [
+        {
+          "id": "c2eb57ee-25d7-44bf-9d87-551a3ccb8802",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "203102a2-1fbc-4aab-b6b2-0626ba6fd39d",
+      "folder": "objects/Armour_of_natural_materials_w_5",
+      "objects": [
+        {
+          "id": "38d113e8-ab87-4f56-ae2d-03d899886786",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "ceed4bd7-2cba-4785-86a8-e4d26460a1af",
+      "folder": "objects/Armour_of_natural_materials_w_6",
+      "objects": [
+        {
+          "id": "120def55-5a24-4fed-bb50-41a2c4052366",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "d6df175a-b1b5-42cc-9ba4-fdb7c4766199",
+      "folder": "objects/Armour_of_natural_materials_w_7",
+      "objects": [
+        {
+          "id": "9c8aa913-f3f9-4b2b-bbb9-828833aaf600",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4937f158-dc7c-46ef-bb6f-83e736da9851",
+      "folder": "objects/Armour_of_natural_materials_w_8",
+      "objects": [
+        {
+          "id": "a5db396b-a9e9-485a-88f2-599e4136dfee",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "77d8f78a-42b3-4ca9-b3cb-b63e4cb7eb7d",
+      "folder": "objects/Armour_of_natural_materials_w_9",
+      "objects": [
+        {
+          "id": "dcc2040d-096a-4a5c-9072-12024cc29d7b",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3cf26a4e-8122-4239-aa67-c1c73eba95a5",
+      "folder": "objects/Armour_of_natural_materials_w_10",
+      "objects": [
+        {
+          "id": "f8dcc959-779f-4790-b2a4-b7a533d9db7d",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "8d89b77e-a255-432d-885c-8480307f2e8c",
+      "folder": "objects/Armour_of_natural_materials_w_11",
+      "objects": [
+        {
+          "id": "ef1817d8-e3a7-406d-9b47-d15e8b659b2a",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b7314eb1-f880-4b65-a0a0-5dc545414258",
+      "folder": "objects/Armour_of_natural_materials_w_12",
+      "objects": [
+        {
+          "id": "648c07d8-ae1b-48c4-abf3-f9714c3da443",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b2c9df6a-4931-4e0b-a09a-1c83189faadc",
+      "folder": "objects/Armour_of_natural_materials_w_13",
+      "objects": [
+        {
+          "id": "ce05c873-0980-43e2-8f55-2a40ed2a580a",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "501397f7-afe5-4a1a-8b44-5ad17b5e78fb",
+      "folder": "objects/Armour_of_natural_materials_w_14",
+      "objects": [
+        {
+          "id": "2e0412b2-034c-4098-a9b6-9a898ea700cf",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_14.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "30270cd9-f7f9-4ae6-aca2-c2ed5f9f6ba8",
+      "folder": "objects/Armour_of_natural_materials_w_15",
+      "objects": [
+        {
+          "id": "ce851a63-d6ea-4db8-af69-dbfc39aede0e",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_15.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f7244a9c-3219-4e4c-a3ef-fbf592a39356",
+      "folder": "objects/Armour_of_natural_materials_w_16",
+      "objects": [
+        {
+          "id": "87340d13-53d0-4d69-8e15-e9593be7a10b",
+          "name": "base",
+          "prompt": "Armour of natural materials, with honey tinted angelicness",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Armour_of_natural_materials_w_16.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3aa83065-7935-4375-950f-5bdbc1a0afba",
+      "folder": "objects/Uncommon_loot",
+      "objects": [
+        {
+          "id": "60a7cbf5-b3c6-4e4f-8148-cee010a81ad7",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9e726914-3bda-4195-b68b-8a798d75c904",
+      "folder": "objects/Uncommon_loot_2",
+      "objects": [
+        {
+          "id": "85ab68d6-1036-4a18-9c2d-b0fc724796fa",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a0b92b5b-3bb1-45d4-9013-ae69e3fff8f7",
+      "folder": "objects/Uncommon_loot_3",
+      "objects": [
+        {
+          "id": "908202a4-fb62-442e-bbcb-8945b83cb943",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "caf83a6e-907a-4dac-9889-6ccd151035c5",
+      "folder": "objects/Uncommon_loot_4",
+      "objects": [
+        {
+          "id": "503e2549-4704-480b-a25f-a2cd280a25c1",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "6da19d6c-43c6-471a-b24d-c5c23a18c70e",
+      "folder": "objects/Uncommon_loot_5",
+      "objects": [
+        {
+          "id": "dcd8189c-1790-41d6-b565-95fbb81442ce",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "6dd69ec6-94b9-4001-9b1a-8788c95b6725",
+      "folder": "objects/Uncommon_loot_6",
+      "objects": [
+        {
+          "id": "8bd66f8a-13cd-423e-86f4-4ab095a8cfe5",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f4aad004-35e1-4762-bf50-0fd9b3cd44d9",
+      "folder": "objects/Uncommon_loot_7",
+      "objects": [
+        {
+          "id": "e8461299-6229-4629-a42a-c9e5e42a7452",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "28d30b79-b798-4d38-b7da-749b3fc23e77",
+      "folder": "objects/Uncommon_loot_8",
+      "objects": [
+        {
+          "id": "f8fdbbff-7812-474e-9301-d41c475ac9d5",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3e708f31-9879-43bc-be15-7efc7400db8c",
+      "folder": "objects/Uncommon_loot_9",
+      "objects": [
+        {
+          "id": "16d3c1db-7f1b-4ab2-9af6-cb9ea6d22439",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Uncommon_loot_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-08-30T01:38:34.652147"
+}

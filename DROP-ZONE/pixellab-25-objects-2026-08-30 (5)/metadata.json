@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "508d0db2-2180-4b97-ae2f-b306f8efe684",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ea59f80d-12b6-4789-a45d-b2d88e764ce4",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "08d3940c-1e92-4d59-b271-652d27fceea1",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "0fa1e887-5bea-4021-94cd-692997ce627a",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "38f472a2-625d-4779-900f-2a3235a3f2d0",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ec0b8ac0-7a46-489c-aa4e-f222566054bc",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c6b1775a-d9ce-4430-ba82-df80e3affd08",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "32a2f2e8-8df2-427d-9d39-15fff6bbffa7",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "15dc8f19-0b02-4122-90e7-a6753d174c35",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "84d608ae-78b3-4a1f-8a3f-7b2fe907dad6",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3f1d73b5-33c1-4730-bf7c-5c2f0867047a",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "4639ae5b-9289-493f-a315-3be663d709fd",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "0d8250af-96ac-4881-926a-c12fa9cb219c",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2316bed0-d5b8-4738-80b6-e6c650306881",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_14.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "84cf7ffa-ec63-4cf2-9664-738daf317324",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_15.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b6bd922d-d01d-434e-af23-29c3c2d28670",
+      "name": "base",
+      "prompt": "Starting equipment",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Starting_equipment_16.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b2eddfb5-1ae8-4195-9514-ac5abd37d084",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ca221ef5-f86f-4699-b9b2-c778c4cba2bc",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ffdbad62-a734-4820-a34c-135b3277c560",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5dd9da5f-9bf0-4439-be54-7013d73895f7",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3184d3b6-3192-45ae-a6d3-0c0b7eb118db",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3b62c167-2af5-4d38-a5be-4f54c94e3029",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "6b1302b6-4069-4ed9-b3c7-e3a0efa68687",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5797e036-bb01-462f-b66c-375fe2097cbd",
+      "name": "base",
+      "prompt": "Campfire and campsite",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Campfire_and_campsite_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "708db92c-3acd-4fcd-8f08-a4025ac545e8",
+      "name": "base",
+      "prompt": "castle, any era",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/castle_any_era.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "368ea2a7-76e6-424f-b406-0c33ffa1d89a",
+      "folder": "objects/Starting_equipment",
+      "objects": [
+        {
+          "id": "508d0db2-2180-4b97-ae2f-b306f8efe684",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4d4e3d6b-96b9-490a-b5f3-fc141224509a",
+      "folder": "objects/Starting_equipment_2",
+      "objects": [
+        {
+          "id": "ea59f80d-12b6-4789-a45d-b2d88e764ce4",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "447a8c25-9113-4688-a094-fbece096ffe6",
+      "folder": "objects/Starting_equipment_3",
+      "objects": [
+        {
+          "id": "08d3940c-1e92-4d59-b271-652d27fceea1",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c0a215fa-b7fd-49b1-a582-66116b720a53",
+      "folder": "objects/Starting_equipment_4",
+      "objects": [
+        {
+          "id": "0fa1e887-5bea-4021-94cd-692997ce627a",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9f3ff95c-874a-4c9d-ba12-8ca8e59097fe",
+      "folder": "objects/Starting_equipment_5",
+      "objects": [
+        {
+          "id": "38f472a2-625d-4779-900f-2a3235a3f2d0",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "08c587c1-2d28-4f86-8372-3b529c2cec88",
+      "folder": "objects/Starting_equipment_6",
+      "objects": [
+        {
+          "id": "ec0b8ac0-7a46-489c-aa4e-f222566054bc",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e48a71a2-1947-4aa6-a77e-32e6ffe53bda",
+      "folder": "objects/Starting_equipment_7",
+      "objects": [
+        {
+          "id": "c6b1775a-d9ce-4430-ba82-df80e3affd08",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "85d63224-f57e-4155-a9dd-15711b78131f",
+      "folder": "objects/Starting_equipment_8",
+      "objects": [
+        {
+          "id": "32a2f2e8-8df2-427d-9d39-15fff6bbffa7",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c2fef5ad-9fa6-4ccf-857e-aee853f3749c",
+      "folder": "objects/Starting_equipment_9",
+      "objects": [
+        {
+          "id": "15dc8f19-0b02-4122-90e7-a6753d174c35",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "6203a909-6160-4014-9343-6c419a1291d8",
+      "folder": "objects/Starting_equipment_10",
+      "objects": [
+        {
+          "id": "84d608ae-78b3-4a1f-8a3f-7b2fe907dad6",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "84f0ae78-6a09-4041-8703-04dd8f8baa63",
+      "folder": "objects/Starting_equipment_11",
+      "objects": [
+        {
+          "id": "3f1d73b5-33c1-4730-bf7c-5c2f0867047a",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "7a2fa119-9be5-4c05-8fc7-f6b4ab473d7c",
+      "folder": "objects/Starting_equipment_12",
+      "objects": [
+        {
+          "id": "4639ae5b-9289-493f-a315-3be663d709fd",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "065a20bc-0da7-41ef-bacf-23ef34bebb8f",
+      "folder": "objects/Starting_equipment_13",
+      "objects": [
+        {
+          "id": "0d8250af-96ac-4881-926a-c12fa9cb219c",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "55247fce-4b46-4f8c-ad51-c9ddb112543e",
+      "folder": "objects/Starting_equipment_14",
+      "objects": [
+        {
+          "id": "2316bed0-d5b8-4738-80b6-e6c650306881",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_14.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a6bdb4ea-7546-46b8-abc7-5683e0bfd224",
+      "folder": "objects/Starting_equipment_15",
+      "objects": [
+        {
+          "id": "84cf7ffa-ec63-4cf2-9664-738daf317324",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_15.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9c546550-4f25-4428-889d-f0527df9e247",
+      "folder": "objects/Starting_equipment_16",
+      "objects": [
+        {
+          "id": "b6bd922d-d01d-434e-af23-29c3c2d28670",
+          "name": "base",
+          "prompt": "Starting equipment",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Starting_equipment_16.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "d2278be2-1f4c-4370-9898-81cd5baedcce",
+      "folder": "objects/Campfire_and_campsite",
+      "objects": [
+        {
+          "id": "b2eddfb5-1ae8-4195-9514-ac5abd37d084",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9d1752c0-963e-4cc7-bc82-10d3cf91a8ed",
+      "folder": "objects/Campfire_and_campsite_2",
+      "objects": [
+        {
+          "id": "ca221ef5-f86f-4699-b9b2-c778c4cba2bc",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3e2d4139-9fca-4222-bb33-9120a49c2290",
+      "folder": "objects/Campfire_and_campsite_3",
+      "objects": [
+        {
+          "id": "ffdbad62-a734-4820-a34c-135b3277c560",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0353f96d-c929-423b-9092-69c1b3bb6863",
+      "folder": "objects/Campfire_and_campsite_4",
+      "objects": [
+        {
+          "id": "5dd9da5f-9bf0-4439-be54-7013d73895f7",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "6cb9e4d4-9d9d-43a0-9617-442e76f59b5d",
+      "folder": "objects/Campfire_and_campsite_5",
+      "objects": [
+        {
+          "id": "3184d3b6-3192-45ae-a6d3-0c0b7eb118db",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "8de673bf-393e-4926-823d-70d60e295896",
+      "folder": "objects/Campfire_and_campsite_6",
+      "objects": [
+        {
+          "id": "3b62c167-2af5-4d38-a5be-4f54c94e3029",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "76792800-ac8c-4cbc-8710-1deaacbbd1b1",
+      "folder": "objects/Campfire_and_campsite_7",
+      "objects": [
+        {
+          "id": "6b1302b6-4069-4ed9-b3c7-e3a0efa68687",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b6406de2-fb07-4fe1-a415-4ee1b8987aa3",
+      "folder": "objects/Campfire_and_campsite_8",
+      "objects": [
+        {
+          "id": "5797e036-bb01-462f-b66c-375fe2097cbd",
+          "name": "base",
+          "prompt": "Campfire and campsite",
+          "size": {
+            "width": 48,
+            "height": 48
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Campfire_and_campsite_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5db8969b-dfd3-467f-871c-8bae8433ec55",
+      "folder": "objects/castle_any_era",
+      "objects": [
+        {
+          "id": "708db92c-3acd-4fcd-8f08-a4025ac545e8",
+          "name": "base",
+          "prompt": "castle, any era",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/castle_any_era.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-08-30T01:37:07.641194"
+}

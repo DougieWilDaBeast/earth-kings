@@ -1,0 +1,1602 @@
+{
+  "groups": [
+    {
+      "group_id": "561b54e3-022d-4673-a2a6-2f086fb6cf96",
+      "folder": "characters/Idle",
+      "states": [
+        {
+          "character": {
+            "id": "7f07e0bb-6c37-4ef4-aca1-989e3abbb5e0",
+            "name": "Idle",
+            "prompt": "Tiny blind wizard riding a lizard",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "bear",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T01:05:47.117046+00:00"
+          },
+          "folder": "characters/Idle/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle/Idle/rotations/south.png",
+              "south-east": "characters/Idle/Idle/rotations/south-east.png",
+              "east": "characters/Idle/Idle/rotations/east.png",
+              "north-east": "characters/Idle/Idle/rotations/north-east.png",
+              "north": "characters/Idle/Idle/rotations/north.png",
+              "north-west": "characters/Idle/Idle/rotations/north-west.png",
+              "west": "characters/Idle/Idle/rotations/west.png",
+              "south-west": "characters/Idle/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "22ecbd67-52a0-4fe9-9810-0fd19fc7c2fd",
+      "folder": "characters/Idle_2",
+      "states": [
+        {
+          "character": {
+            "id": "95a221a8-299a-4204-869a-130653b422f9",
+            "name": "Idle",
+            "prompt": "A devil butler",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T01:07:54.854667+00:00"
+          },
+          "folder": "characters/Idle_2/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_2/Idle/rotations/south.png",
+              "south-east": "characters/Idle_2/Idle/rotations/south-east.png",
+              "east": "characters/Idle_2/Idle/rotations/east.png",
+              "north-east": "characters/Idle_2/Idle/rotations/north-east.png",
+              "north": "characters/Idle_2/Idle/rotations/north.png",
+              "north-west": "characters/Idle_2/Idle/rotations/north-west.png",
+              "west": "characters/Idle_2/Idle/rotations/west.png",
+              "south-west": "characters/Idle_2/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "67cea024-f303-460e-8b3f-e347e2f83ea5",
+      "folder": "characters/Idle_3",
+      "states": [
+        {
+          "character": {
+            "id": "f48c2c05-962e-445e-93e7-1aaf776c9f2e",
+            "name": "Idle",
+            "prompt": "9\tgoblin\tgoblin\tGoblin \u2014 a small hunched green-grey creature in scavenged sackcloth, oversized ears, rusted crooked knife, sharp teeth",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T01:07:59.275560+00:00"
+          },
+          "folder": "characters/Idle_3/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_3/Idle/rotations/south.png",
+              "south-east": "characters/Idle_3/Idle/rotations/south-east.png",
+              "east": "characters/Idle_3/Idle/rotations/east.png",
+              "north-east": "characters/Idle_3/Idle/rotations/north-east.png",
+              "north": "characters/Idle_3/Idle/rotations/north.png",
+              "north-west": "characters/Idle_3/Idle/rotations/north-west.png",
+              "west": "characters/Idle_3/Idle/rotations/west.png",
+              "south-west": "characters/Idle_3/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "92a929a5-f5e6-425e-b9b7-d1717b20abee",
+      "folder": "characters/Idle_4",
+      "states": [
+        {
+          "character": {
+            "id": "b543e81a-e8e3-4c8c-b065-dcfab016b017",
+            "name": "Idle",
+            "prompt": "Attack on titan beast titan",
+            "size": {
+              "width": 256,
+              "height": 256
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-29T16:50:12.633860+00:00"
+          },
+          "folder": "characters/Idle_4/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_4/Idle/rotations/south.png",
+              "south-east": "characters/Idle_4/Idle/rotations/south-east.png",
+              "east": "characters/Idle_4/Idle/rotations/east.png",
+              "north-east": "characters/Idle_4/Idle/rotations/north-east.png",
+              "north": "characters/Idle_4/Idle/rotations/north.png",
+              "north-west": "characters/Idle_4/Idle/rotations/north-west.png",
+              "west": "characters/Idle_4/Idle/rotations/west.png",
+              "south-west": "characters/Idle_4/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "90ef5ada-7e16-4c4d-8337-bae23b5a0f6a",
+      "folder": "characters/Idle_5",
+      "states": [
+        {
+          "character": {
+            "id": "24f1390d-06d7-4c8c-8b51-4f25e696ce91",
+            "name": "Idle",
+            "prompt": "Attack on titan, colossal titan",
+            "size": {
+              "width": 256,
+              "height": 256
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-29T16:52:04.737442+00:00"
+          },
+          "folder": "characters/Idle_5/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_5/Idle/rotations/south.png",
+              "south-east": "characters/Idle_5/Idle/rotations/south-east.png",
+              "east": "characters/Idle_5/Idle/rotations/east.png",
+              "north-east": "characters/Idle_5/Idle/rotations/north-east.png",
+              "north": "characters/Idle_5/Idle/rotations/north.png",
+              "north-west": "characters/Idle_5/Idle/rotations/north-west.png",
+              "west": "characters/Idle_5/Idle/rotations/west.png",
+              "south-west": "characters/Idle_5/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "d9d607de-630b-470c-b758-ac946b6b4abd",
+      "folder": "characters/Idle_6",
+      "states": [
+        {
+          "character": {
+            "id": "aaf98c42-8aff-4fed-bbc0-460c8ed1d7be",
+            "name": "Idle",
+            "prompt": "wraith\twraith\tWraith \u2014 a tattered purple-black hooded figure with no face, frayed dissolving hem, pale cold light where hands should be, floating",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "dog",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T01:25:05.561727+00:00"
+          },
+          "folder": "characters/Idle_6/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_6/Idle/rotations/south.png",
+              "south-east": "characters/Idle_6/Idle/rotations/south-east.png",
+              "east": "characters/Idle_6/Idle/rotations/east.png",
+              "north-east": "characters/Idle_6/Idle/rotations/north-east.png",
+              "north": "characters/Idle_6/Idle/rotations/north.png",
+              "north-west": "characters/Idle_6/Idle/rotations/north-west.png",
+              "west": "characters/Idle_6/Idle/rotations/west.png",
+              "south-west": "characters/Idle_6/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "2ae802d6-5b27-4218-83f8-57e8f926962c",
+      "folder": "characters/Idle_7",
+      "states": [
+        {
+          "character": {
+            "id": "ed8e72d4-f624-4218-9e83-64fd936d076b",
+            "name": "Idle",
+            "prompt": "Sleepy emo swordsman",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T01:18:26.138043+00:00"
+          },
+          "folder": "characters/Idle_7/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_7/Idle/rotations/south.png",
+              "south-east": "characters/Idle_7/Idle/rotations/south-east.png",
+              "east": "characters/Idle_7/Idle/rotations/east.png",
+              "north-east": "characters/Idle_7/Idle/rotations/north-east.png",
+              "north": "characters/Idle_7/Idle/rotations/north.png",
+              "north-west": "characters/Idle_7/Idle/rotations/north-west.png",
+              "west": "characters/Idle_7/Idle/rotations/west.png",
+              "south-west": "characters/Idle_7/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        },
+        {
+          "character": {
+            "id": "cf18b6ad-25eb-46e7-b991-fa9d9d7f47b9",
+            "name": "Lighting blade slash",
+            "prompt": "Sleepy emo swordsman",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-30T01:13:06.642712+00:00"
+          },
+          "folder": "characters/Idle_7/Lighting_blade_slash",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_7/Lighting_blade_slash/rotations/south.png",
+              "south-east": "characters/Idle_7/Lighting_blade_slash/rotations/south-east.png",
+              "east": "characters/Idle_7/Lighting_blade_slash/rotations/east.png",
+              "north-east": "characters/Idle_7/Lighting_blade_slash/rotations/north-east.png",
+              "north": "characters/Idle_7/Lighting_blade_slash/rotations/north.png",
+              "north-west": "characters/Idle_7/Lighting_blade_slash/rotations/north-west.png",
+              "west": "characters/Idle_7/Lighting_blade_slash/rotations/west.png",
+              "south-west": "characters/Idle_7/Lighting_blade_slash/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "2269974d-9972-44d8-8f1d-68a34af1ccd6",
+      "folder": "characters/Idle_8",
+      "states": [
+        {
+          "character": {
+            "id": "4e3d1c72-d6d0-4625-96ea-b957d6e38ec2",
+            "name": "Idle",
+            "prompt": "a shadow. the only chance you have of seeing him is at dusk. if you do see him there is a strong chance you'll lose your eyesight. he could be your nightmare or your dream. cursed to always travel the whole earth. cant stay in one place",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T10:33:28.660637+00:00"
+          },
+          "folder": "characters/Idle_8/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_8/Idle/rotations/south.png",
+              "south-east": "characters/Idle_8/Idle/rotations/south-east.png",
+              "east": "characters/Idle_8/Idle/rotations/east.png",
+              "north-east": "characters/Idle_8/Idle/rotations/north-east.png",
+              "north": "characters/Idle_8/Idle/rotations/north.png",
+              "north-west": "characters/Idle_8/Idle/rotations/north-west.png",
+              "west": "characters/Idle_8/Idle/rotations/west.png",
+              "south-west": "characters/Idle_8/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "be2cca6d-7eba-4d7f-9b2a-f59aeca44832",
+      "folder": "characters/Idle_9",
+      "states": [
+        {
+          "character": {
+            "id": "91185192-3d8a-4f8c-9df4-61edb640fdb9",
+            "name": "Idle",
+            "prompt": "leprachaun who will tear your eyes out. holding a barrel of eyeballs",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T10:34:57.362176+00:00"
+          },
+          "folder": "characters/Idle_9/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_9/Idle/rotations/south.png",
+              "south-east": "characters/Idle_9/Idle/rotations/south-east.png",
+              "east": "characters/Idle_9/Idle/rotations/east.png",
+              "north-east": "characters/Idle_9/Idle/rotations/north-east.png",
+              "north": "characters/Idle_9/Idle/rotations/north.png",
+              "north-west": "characters/Idle_9/Idle/rotations/north-west.png",
+              "west": "characters/Idle_9/Idle/rotations/west.png",
+              "south-west": "characters/Idle_9/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "f95d732c-71e7-42a7-abf5-211409f73eca",
+      "folder": "characters/Idle_10",
+      "states": [
+        {
+          "character": {
+            "id": "f7bce9fb-07dc-4194-8377-8477c7cd0e02",
+            "name": "Idle",
+            "prompt": "an eyeball slingshot man",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "low top-down",
+            "created_at": "2026-08-29T10:35:26.160415+00:00"
+          },
+          "folder": "characters/Idle_10/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_10/Idle/rotations/south.png",
+              "south-east": "characters/Idle_10/Idle/rotations/south-east.png",
+              "east": "characters/Idle_10/Idle/rotations/east.png",
+              "north-east": "characters/Idle_10/Idle/rotations/north-east.png",
+              "north": "characters/Idle_10/Idle/rotations/north.png",
+              "north-west": "characters/Idle_10/Idle/rotations/north-west.png",
+              "west": "characters/Idle_10/Idle/rotations/west.png",
+              "south-west": "characters/Idle_10/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "336ca432-6dfe-4a65-89ef-a82a6630f0a0",
+      "folder": "characters/Idle_11",
+      "states": [
+        {
+          "character": {
+            "id": "13e97c2e-5169-471d-8b73-d62f334db404",
+            "name": "Idle",
+            "prompt": "",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "dog",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-29T16:58:04.029981+00:00"
+          },
+          "folder": "characters/Idle_11/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_11/Idle/rotations/south.png",
+              "south-east": "characters/Idle_11/Idle/rotations/south-east.png",
+              "east": "characters/Idle_11/Idle/rotations/east.png",
+              "north-east": "characters/Idle_11/Idle/rotations/north-east.png",
+              "north": "characters/Idle_11/Idle/rotations/north.png",
+              "north-west": "characters/Idle_11/Idle/rotations/north-west.png",
+              "west": "characters/Idle_11/Idle/rotations/west.png",
+              "south-west": "characters/Idle_11/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "22c41b9d-1bed-4ef3-8d18-0d94df32816f",
+      "folder": "characters/Idle_12",
+      "states": [
+        {
+          "character": {
+            "id": "96aaabb1-8d8d-45a4-95ed-0f80e733414f",
+            "name": "Idle",
+            "prompt": "Charmander pokemon",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-29T16:58:35.706073+00:00"
+          },
+          "folder": "characters/Idle_12/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_12/Idle/rotations/south.png",
+              "south-east": "characters/Idle_12/Idle/rotations/south-east.png",
+              "east": "characters/Idle_12/Idle/rotations/east.png",
+              "north-east": "characters/Idle_12/Idle/rotations/north-east.png",
+              "north": "characters/Idle_12/Idle/rotations/north.png",
+              "north-west": "characters/Idle_12/Idle/rotations/north-west.png",
+              "west": "characters/Idle_12/Idle/rotations/west.png",
+              "south-west": "characters/Idle_12/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "c51cd61e-c1d9-41f3-a09f-44510b8aa454",
+      "folder": "characters/Idle_13",
+      "states": [
+        {
+          "character": {
+            "id": "e8c89a5e-c034-4ec2-b97e-b6ff08fbc907",
+            "name": "Idle",
+            "prompt": "Healing Lion, tail end has a green ember",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "lion",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:34:25.928748+00:00"
+          },
+          "folder": "characters/Idle_13/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_13/Idle/rotations/south.png",
+              "south-east": "characters/Idle_13/Idle/rotations/south-east.png",
+              "east": "characters/Idle_13/Idle/rotations/east.png",
+              "north-east": "characters/Idle_13/Idle/rotations/north-east.png",
+              "north": "characters/Idle_13/Idle/rotations/north.png",
+              "north-west": "characters/Idle_13/Idle/rotations/north-west.png",
+              "west": "characters/Idle_13/Idle/rotations/west.png",
+              "south-west": "characters/Idle_13/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "3ea5ceb6-bd47-420b-a1c8-3eaf5f7c8d49",
+      "folder": "characters/Idle_14",
+      "states": [
+        {
+          "character": {
+            "id": "67c4abce-7434-423c-809f-74bf78ec3bbf",
+            "name": "Idle",
+            "prompt": "Lion but its mane is made of fire",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "lion",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:35:09.835403+00:00"
+          },
+          "folder": "characters/Idle_14/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_14/Idle/rotations/south.png",
+              "south-east": "characters/Idle_14/Idle/rotations/south-east.png",
+              "east": "characters/Idle_14/Idle/rotations/east.png",
+              "north-east": "characters/Idle_14/Idle/rotations/north-east.png",
+              "north": "characters/Idle_14/Idle/rotations/north.png",
+              "north-west": "characters/Idle_14/Idle/rotations/north-west.png",
+              "west": "characters/Idle_14/Idle/rotations/west.png",
+              "south-west": "characters/Idle_14/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "17ab3b05-a674-4cc5-933d-919d2e4013ae",
+      "folder": "characters/Idle_15",
+      "states": [
+        {
+          "character": {
+            "id": "8b26692c-6097-419c-8506-385b6f541e9e",
+            "name": "Idle",
+            "prompt": "panda bear, bamboo staff, martial arts god",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "bear",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:35:57.402265+00:00"
+          },
+          "folder": "characters/Idle_15/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_15/Idle/rotations/south.png",
+              "south-east": "characters/Idle_15/Idle/rotations/south-east.png",
+              "east": "characters/Idle_15/Idle/rotations/east.png",
+              "north-east": "characters/Idle_15/Idle/rotations/north-east.png",
+              "north": "characters/Idle_15/Idle/rotations/north.png",
+              "north-west": "characters/Idle_15/Idle/rotations/north-west.png",
+              "west": "characters/Idle_15/Idle/rotations/west.png",
+              "south-west": "characters/Idle_15/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "8d1b55f6-74ab-46bd-b669-d574b0cdb816",
+      "folder": "characters/Idle_16",
+      "states": [
+        {
+          "character": {
+            "id": "868c6545-24fd-4b12-9efc-0f27e99ecacc",
+            "name": "Idle",
+            "prompt": "Black bear, dual-wielding sword god",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "bear",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:36:48.004141+00:00"
+          },
+          "folder": "characters/Idle_16/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_16/Idle/rotations/south.png",
+              "south-east": "characters/Idle_16/Idle/rotations/south-east.png",
+              "east": "characters/Idle_16/Idle/rotations/east.png",
+              "north-east": "characters/Idle_16/Idle/rotations/north-east.png",
+              "north": "characters/Idle_16/Idle/rotations/north.png",
+              "north-west": "characters/Idle_16/Idle/rotations/north-west.png",
+              "west": "characters/Idle_16/Idle/rotations/west.png",
+              "south-west": "characters/Idle_16/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "8127ce77-4338-4d34-8e61-3b544cdec45d",
+      "folder": "characters/Idle_17",
+      "states": [
+        {
+          "character": {
+            "id": "8465cded-d1dc-41b7-b4c7-2c3bf78d4996",
+            "name": "Idle",
+            "prompt": "Red panda, like master shifu",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "bear",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:37:25.335496+00:00"
+          },
+          "folder": "characters/Idle_17/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_17/Idle/rotations/south.png",
+              "south-east": "characters/Idle_17/Idle/rotations/south-east.png",
+              "east": "characters/Idle_17/Idle/rotations/east.png",
+              "north-east": "characters/Idle_17/Idle/rotations/north-east.png",
+              "north": "characters/Idle_17/Idle/rotations/north.png",
+              "north-west": "characters/Idle_17/Idle/rotations/north-west.png",
+              "west": "characters/Idle_17/Idle/rotations/west.png",
+              "south-west": "characters/Idle_17/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "7edf0231-50b9-42dd-9a9a-7279f104f28a",
+      "folder": "characters/Idle_18",
+      "states": [
+        {
+          "character": {
+            "id": "8a6e0521-0441-4cd5-bace-b6b4321fcbd6",
+            "name": "Idle",
+            "prompt": "Polar bear, cannon on his back",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "bear",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:37:58.078186+00:00"
+          },
+          "folder": "characters/Idle_18/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_18/Idle/rotations/south.png",
+              "south-east": "characters/Idle_18/Idle/rotations/south-east.png",
+              "east": "characters/Idle_18/Idle/rotations/east.png",
+              "north-east": "characters/Idle_18/Idle/rotations/north-east.png",
+              "north": "characters/Idle_18/Idle/rotations/north.png",
+              "north-west": "characters/Idle_18/Idle/rotations/north-west.png",
+              "west": "characters/Idle_18/Idle/rotations/west.png",
+              "south-west": "characters/Idle_18/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "b5d1053d-230c-4c5b-96ab-71a438a476d0",
+      "folder": "characters/Idle_19",
+      "states": [
+        {
+          "character": {
+            "id": "e73e8f0c-7d6e-4985-b230-62cfb7f5c204",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, black armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:38:59.586994+00:00"
+          },
+          "folder": "characters/Idle_19/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_19/Idle/rotations/south.png",
+              "south-east": "characters/Idle_19/Idle/rotations/south-east.png",
+              "east": "characters/Idle_19/Idle/rotations/east.png",
+              "north-east": "characters/Idle_19/Idle/rotations/north-east.png",
+              "north": "characters/Idle_19/Idle/rotations/north.png",
+              "north-west": "characters/Idle_19/Idle/rotations/north-west.png",
+              "west": "characters/Idle_19/Idle/rotations/west.png",
+              "south-west": "characters/Idle_19/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "63761b07-8ecc-4474-bcd5-3864dab54ba9",
+      "folder": "characters/Idle_20",
+      "states": [
+        {
+          "character": {
+            "id": "8fe75d07-6c29-4abc-945b-078c29588d18",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, Silver armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:39:43.282722+00:00"
+          },
+          "folder": "characters/Idle_20/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_20/Idle/rotations/south.png",
+              "south-east": "characters/Idle_20/Idle/rotations/south-east.png",
+              "east": "characters/Idle_20/Idle/rotations/east.png",
+              "north-east": "characters/Idle_20/Idle/rotations/north-east.png",
+              "north": "characters/Idle_20/Idle/rotations/north.png",
+              "north-west": "characters/Idle_20/Idle/rotations/north-west.png",
+              "west": "characters/Idle_20/Idle/rotations/west.png",
+              "south-west": "characters/Idle_20/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "39e48da3-098b-49f8-b20f-0149678817a5",
+      "folder": "characters/Idle_21",
+      "states": [
+        {
+          "character": {
+            "id": "9ba3a7f4-1e56-47e7-9ab1-2e18f4f266ab",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, Gold armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:40:24.451039+00:00"
+          },
+          "folder": "characters/Idle_21/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_21/Idle/rotations/south.png",
+              "south-east": "characters/Idle_21/Idle/rotations/south-east.png",
+              "east": "characters/Idle_21/Idle/rotations/east.png",
+              "north-east": "characters/Idle_21/Idle/rotations/north-east.png",
+              "north": "characters/Idle_21/Idle/rotations/north.png",
+              "north-west": "characters/Idle_21/Idle/rotations/north-west.png",
+              "west": "characters/Idle_21/Idle/rotations/west.png",
+              "south-west": "characters/Idle_21/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "9b135586-9129-4abe-a50a-a39476d8463a",
+      "folder": "characters/Idle_22",
+      "states": [
+        {
+          "character": {
+            "id": "1e85ee92-a778-4687-9ddd-601e78c20b52",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:40:39.233267+00:00"
+          },
+          "folder": "characters/Idle_22/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_22/Idle/rotations/south.png",
+              "south-east": "characters/Idle_22/Idle/rotations/south-east.png",
+              "east": "characters/Idle_22/Idle/rotations/east.png",
+              "north-east": "characters/Idle_22/Idle/rotations/north-east.png",
+              "north": "characters/Idle_22/Idle/rotations/north.png",
+              "north-west": "characters/Idle_22/Idle/rotations/north-west.png",
+              "west": "characters/Idle_22/Idle/rotations/west.png",
+              "south-west": "characters/Idle_22/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "fb67e4f7-93b2-4cf7-84ab-082e7ff46e8c",
+      "folder": "characters/Idle_23",
+      "states": [
+        {
+          "character": {
+            "id": "b3d38f57-107f-4637-a17f-f9d5da68d556",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, Emerald armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:40:52.472077+00:00"
+          },
+          "folder": "characters/Idle_23/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_23/Idle/rotations/south.png",
+              "south-east": "characters/Idle_23/Idle/rotations/south-east.png",
+              "east": "characters/Idle_23/Idle/rotations/east.png",
+              "north-east": "characters/Idle_23/Idle/rotations/north-east.png",
+              "north": "characters/Idle_23/Idle/rotations/north.png",
+              "north-west": "characters/Idle_23/Idle/rotations/north-west.png",
+              "west": "characters/Idle_23/Idle/rotations/west.png",
+              "south-west": "characters/Idle_23/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "dac805cc-3183-457d-b97f-bf2c4c1c1c78",
+      "folder": "characters/Idle_24",
+      "states": [
+        {
+          "character": {
+            "id": "3f3d0512-3708-4986-989d-eee64391beb4",
+            "name": "Idle",
+            "prompt": "Empire legionnaire, White armour, dark visor, symbol of a heart",
+            "size": {
+              "width": 64,
+              "height": 64
+            },
+            "template_id": "mannequin",
+            "directions": 8,
+            "view": "high top-down",
+            "created_at": "2026-08-30T00:41:10.755391+00:00"
+          },
+          "folder": "characters/Idle_24/Idle",
+          "frames": {
+            "rotations": {
+              "south": "characters/Idle_24/Idle/rotations/south.png",
+              "south-east": "characters/Idle_24/Idle/rotations/south-east.png",
+              "east": "characters/Idle_24/Idle/rotations/east.png",
+              "north-east": "characters/Idle_24/Idle/rotations/north-east.png",
+              "north": "characters/Idle_24/Idle/rotations/north.png",
+              "north-west": "characters/Idle_24/Idle/rotations/north-west.png",
+              "west": "characters/Idle_24/Idle/rotations/west.png",
+              "south-west": "characters/Idle_24/Idle/rotations/south-west.png"
+            },
+            "animations": {}
+          }
+        }
+      ]
+    }
+  ],
+  "states": [
+    {
+      "character": {
+        "id": "7f07e0bb-6c37-4ef4-aca1-989e3abbb5e0",
+        "name": "Idle",
+        "prompt": "Tiny blind wizard riding a lizard",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "bear",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T01:05:47.117046+00:00"
+      },
+      "folder": "characters/Idle/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle/Idle/rotations/south.png",
+          "south-east": "characters/Idle/Idle/rotations/south-east.png",
+          "east": "characters/Idle/Idle/rotations/east.png",
+          "north-east": "characters/Idle/Idle/rotations/north-east.png",
+          "north": "characters/Idle/Idle/rotations/north.png",
+          "north-west": "characters/Idle/Idle/rotations/north-west.png",
+          "west": "characters/Idle/Idle/rotations/west.png",
+          "south-west": "characters/Idle/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "95a221a8-299a-4204-869a-130653b422f9",
+        "name": "Idle",
+        "prompt": "A devil butler",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T01:07:54.854667+00:00"
+      },
+      "folder": "characters/Idle_2/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_2/Idle/rotations/south.png",
+          "south-east": "characters/Idle_2/Idle/rotations/south-east.png",
+          "east": "characters/Idle_2/Idle/rotations/east.png",
+          "north-east": "characters/Idle_2/Idle/rotations/north-east.png",
+          "north": "characters/Idle_2/Idle/rotations/north.png",
+          "north-west": "characters/Idle_2/Idle/rotations/north-west.png",
+          "west": "characters/Idle_2/Idle/rotations/west.png",
+          "south-west": "characters/Idle_2/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "f48c2c05-962e-445e-93e7-1aaf776c9f2e",
+        "name": "Idle",
+        "prompt": "9\tgoblin\tgoblin\tGoblin \u2014 a small hunched green-grey creature in scavenged sackcloth, oversized ears, rusted crooked knife, sharp teeth",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T01:07:59.275560+00:00"
+      },
+      "folder": "characters/Idle_3/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_3/Idle/rotations/south.png",
+          "south-east": "characters/Idle_3/Idle/rotations/south-east.png",
+          "east": "characters/Idle_3/Idle/rotations/east.png",
+          "north-east": "characters/Idle_3/Idle/rotations/north-east.png",
+          "north": "characters/Idle_3/Idle/rotations/north.png",
+          "north-west": "characters/Idle_3/Idle/rotations/north-west.png",
+          "west": "characters/Idle_3/Idle/rotations/west.png",
+          "south-west": "characters/Idle_3/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "b543e81a-e8e3-4c8c-b065-dcfab016b017",
+        "name": "Idle",
+        "prompt": "Attack on titan beast titan",
+        "size": {
+          "width": 256,
+          "height": 256
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-29T16:50:12.633860+00:00"
+      },
+      "folder": "characters/Idle_4/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_4/Idle/rotations/south.png",
+          "south-east": "characters/Idle_4/Idle/rotations/south-east.png",
+          "east": "characters/Idle_4/Idle/rotations/east.png",
+          "north-east": "characters/Idle_4/Idle/rotations/north-east.png",
+          "north": "characters/Idle_4/Idle/rotations/north.png",
+          "north-west": "characters/Idle_4/Idle/rotations/north-west.png",
+          "west": "characters/Idle_4/Idle/rotations/west.png",
+          "south-west": "characters/Idle_4/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "24f1390d-06d7-4c8c-8b51-4f25e696ce91",
+        "name": "Idle",
+        "prompt": "Attack on titan, colossal titan",
+        "size": {
+          "width": 256,
+          "height": 256
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-29T16:52:04.737442+00:00"
+      },
+      "folder": "characters/Idle_5/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_5/Idle/rotations/south.png",
+          "south-east": "characters/Idle_5/Idle/rotations/south-east.png",
+          "east": "characters/Idle_5/Idle/rotations/east.png",
+          "north-east": "characters/Idle_5/Idle/rotations/north-east.png",
+          "north": "characters/Idle_5/Idle/rotations/north.png",
+          "north-west": "characters/Idle_5/Idle/rotations/north-west.png",
+          "west": "characters/Idle_5/Idle/rotations/west.png",
+          "south-west": "characters/Idle_5/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "aaf98c42-8aff-4fed-bbc0-460c8ed1d7be",
+        "name": "Idle",
+        "prompt": "wraith\twraith\tWraith \u2014 a tattered purple-black hooded figure with no face, frayed dissolving hem, pale cold light where hands should be, floating",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "dog",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T01:25:05.561727+00:00"
+      },
+      "folder": "characters/Idle_6/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_6/Idle/rotations/south.png",
+          "south-east": "characters/Idle_6/Idle/rotations/south-east.png",
+          "east": "characters/Idle_6/Idle/rotations/east.png",
+          "north-east": "characters/Idle_6/Idle/rotations/north-east.png",
+          "north": "characters/Idle_6/Idle/rotations/north.png",
+          "north-west": "characters/Idle_6/Idle/rotations/north-west.png",
+          "west": "characters/Idle_6/Idle/rotations/west.png",
+          "south-west": "characters/Idle_6/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "ed8e72d4-f624-4218-9e83-64fd936d076b",
+        "name": "Idle",
+        "prompt": "Sleepy emo swordsman",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T01:18:26.138043+00:00"
+      },
+      "folder": "characters/Idle_7/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_7/Idle/rotations/south.png",
+          "south-east": "characters/Idle_7/Idle/rotations/south-east.png",
+          "east": "characters/Idle_7/Idle/rotations/east.png",
+          "north-east": "characters/Idle_7/Idle/rotations/north-east.png",
+          "north": "characters/Idle_7/Idle/rotations/north.png",
+          "north-west": "characters/Idle_7/Idle/rotations/north-west.png",
+          "west": "characters/Idle_7/Idle/rotations/west.png",
+          "south-west": "characters/Idle_7/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "cf18b6ad-25eb-46e7-b991-fa9d9d7f47b9",
+        "name": "Lighting blade slash",
+        "prompt": "Sleepy emo swordsman",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-30T01:13:06.642712+00:00"
+      },
+      "folder": "characters/Idle_7/Lighting_blade_slash",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_7/Lighting_blade_slash/rotations/south.png",
+          "south-east": "characters/Idle_7/Lighting_blade_slash/rotations/south-east.png",
+          "east": "characters/Idle_7/Lighting_blade_slash/rotations/east.png",
+          "north-east": "characters/Idle_7/Lighting_blade_slash/rotations/north-east.png",
+          "north": "characters/Idle_7/Lighting_blade_slash/rotations/north.png",
+          "north-west": "characters/Idle_7/Lighting_blade_slash/rotations/north-west.png",
+          "west": "characters/Idle_7/Lighting_blade_slash/rotations/west.png",
+          "south-west": "characters/Idle_7/Lighting_blade_slash/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "4e3d1c72-d6d0-4625-96ea-b957d6e38ec2",
+        "name": "Idle",
+        "prompt": "a shadow. the only chance you have of seeing him is at dusk. if you do see him there is a strong chance you'll lose your eyesight. he could be your nightmare or your dream. cursed to always travel the whole earth. cant stay in one place",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T10:33:28.660637+00:00"
+      },
+      "folder": "characters/Idle_8/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_8/Idle/rotations/south.png",
+          "south-east": "characters/Idle_8/Idle/rotations/south-east.png",
+          "east": "characters/Idle_8/Idle/rotations/east.png",
+          "north-east": "characters/Idle_8/Idle/rotations/north-east.png",
+          "north": "characters/Idle_8/Idle/rotations/north.png",
+          "north-west": "characters/Idle_8/Idle/rotations/north-west.png",
+          "west": "characters/Idle_8/Idle/rotations/west.png",
+          "south-west": "characters/Idle_8/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "91185192-3d8a-4f8c-9df4-61edb640fdb9",
+        "name": "Idle",
+        "prompt": "leprachaun who will tear your eyes out. holding a barrel of eyeballs",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T10:34:57.362176+00:00"
+      },
+      "folder": "characters/Idle_9/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_9/Idle/rotations/south.png",
+          "south-east": "characters/Idle_9/Idle/rotations/south-east.png",
+          "east": "characters/Idle_9/Idle/rotations/east.png",
+          "north-east": "characters/Idle_9/Idle/rotations/north-east.png",
+          "north": "characters/Idle_9/Idle/rotations/north.png",
+          "north-west": "characters/Idle_9/Idle/rotations/north-west.png",
+          "west": "characters/Idle_9/Idle/rotations/west.png",
+          "south-west": "characters/Idle_9/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "f7bce9fb-07dc-4194-8377-8477c7cd0e02",
+        "name": "Idle",
+        "prompt": "an eyeball slingshot man",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-29T10:35:26.160415+00:00"
+      },
+      "folder": "characters/Idle_10/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_10/Idle/rotations/south.png",
+          "south-east": "characters/Idle_10/Idle/rotations/south-east.png",
+          "east": "characters/Idle_10/Idle/rotations/east.png",
+          "north-east": "characters/Idle_10/Idle/rotations/north-east.png",
+          "north": "characters/Idle_10/Idle/rotations/north.png",
+          "north-west": "characters/Idle_10/Idle/rotations/north-west.png",
+          "west": "characters/Idle_10/Idle/rotations/west.png",
+          "south-west": "characters/Idle_10/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "13e97c2e-5169-471d-8b73-d62f334db404",
+        "name": "Idle",
+        "prompt": "",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "dog",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-29T16:58:04.029981+00:00"
+      },
+      "folder": "characters/Idle_11/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_11/Idle/rotations/south.png",
+          "south-east": "characters/Idle_11/Idle/rotations/south-east.png",
+          "east": "characters/Idle_11/Idle/rotations/east.png",
+          "north-east": "characters/Idle_11/Idle/rotations/north-east.png",
+          "north": "characters/Idle_11/Idle/rotations/north.png",
+          "north-west": "characters/Idle_11/Idle/rotations/north-west.png",
+          "west": "characters/Idle_11/Idle/rotations/west.png",
+          "south-west": "characters/Idle_11/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "96aaabb1-8d8d-45a4-95ed-0f80e733414f",
+        "name": "Idle",
+        "prompt": "Charmander pokemon",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-29T16:58:35.706073+00:00"
+      },
+      "folder": "characters/Idle_12/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_12/Idle/rotations/south.png",
+          "south-east": "characters/Idle_12/Idle/rotations/south-east.png",
+          "east": "characters/Idle_12/Idle/rotations/east.png",
+          "north-east": "characters/Idle_12/Idle/rotations/north-east.png",
+          "north": "characters/Idle_12/Idle/rotations/north.png",
+          "north-west": "characters/Idle_12/Idle/rotations/north-west.png",
+          "west": "characters/Idle_12/Idle/rotations/west.png",
+          "south-west": "characters/Idle_12/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "e8c89a5e-c034-4ec2-b97e-b6ff08fbc907",
+        "name": "Idle",
+        "prompt": "Healing Lion, tail end has a green ember",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "lion",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:34:25.928748+00:00"
+      },
+      "folder": "characters/Idle_13/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_13/Idle/rotations/south.png",
+          "south-east": "characters/Idle_13/Idle/rotations/south-east.png",
+          "east": "characters/Idle_13/Idle/rotations/east.png",
+          "north-east": "characters/Idle_13/Idle/rotations/north-east.png",
+          "north": "characters/Idle_13/Idle/rotations/north.png",
+          "north-west": "characters/Idle_13/Idle/rotations/north-west.png",
+          "west": "characters/Idle_13/Idle/rotations/west.png",
+          "south-west": "characters/Idle_13/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "67c4abce-7434-423c-809f-74bf78ec3bbf",
+        "name": "Idle",
+        "prompt": "Lion but its mane is made of fire",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "lion",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:35:09.835403+00:00"
+      },
+      "folder": "characters/Idle_14/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_14/Idle/rotations/south.png",
+          "south-east": "characters/Idle_14/Idle/rotations/south-east.png",
+          "east": "characters/Idle_14/Idle/rotations/east.png",
+          "north-east": "characters/Idle_14/Idle/rotations/north-east.png",
+          "north": "characters/Idle_14/Idle/rotations/north.png",
+          "north-west": "characters/Idle_14/Idle/rotations/north-west.png",
+          "west": "characters/Idle_14/Idle/rotations/west.png",
+          "south-west": "characters/Idle_14/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "8b26692c-6097-419c-8506-385b6f541e9e",
+        "name": "Idle",
+        "prompt": "panda bear, bamboo staff, martial arts god",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "bear",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:35:57.402265+00:00"
+      },
+      "folder": "characters/Idle_15/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_15/Idle/rotations/south.png",
+          "south-east": "characters/Idle_15/Idle/rotations/south-east.png",
+          "east": "characters/Idle_15/Idle/rotations/east.png",
+          "north-east": "characters/Idle_15/Idle/rotations/north-east.png",
+          "north": "characters/Idle_15/Idle/rotations/north.png",
+          "north-west": "characters/Idle_15/Idle/rotations/north-west.png",
+          "west": "characters/Idle_15/Idle/rotations/west.png",
+          "south-west": "characters/Idle_15/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "868c6545-24fd-4b12-9efc-0f27e99ecacc",
+        "name": "Idle",
+        "prompt": "Black bear, dual-wielding sword god",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "bear",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:36:48.004141+00:00"
+      },
+      "folder": "characters/Idle_16/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_16/Idle/rotations/south.png",
+          "south-east": "characters/Idle_16/Idle/rotations/south-east.png",
+          "east": "characters/Idle_16/Idle/rotations/east.png",
+          "north-east": "characters/Idle_16/Idle/rotations/north-east.png",
+          "north": "characters/Idle_16/Idle/rotations/north.png",
+          "north-west": "characters/Idle_16/Idle/rotations/north-west.png",
+          "west": "characters/Idle_16/Idle/rotations/west.png",
+          "south-west": "characters/Idle_16/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "8465cded-d1dc-41b7-b4c7-2c3bf78d4996",
+        "name": "Idle",
+        "prompt": "Red panda, like master shifu",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "bear",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:37:25.335496+00:00"
+      },
+      "folder": "characters/Idle_17/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_17/Idle/rotations/south.png",
+          "south-east": "characters/Idle_17/Idle/rotations/south-east.png",
+          "east": "characters/Idle_17/Idle/rotations/east.png",
+          "north-east": "characters/Idle_17/Idle/rotations/north-east.png",
+          "north": "characters/Idle_17/Idle/rotations/north.png",
+          "north-west": "characters/Idle_17/Idle/rotations/north-west.png",
+          "west": "characters/Idle_17/Idle/rotations/west.png",
+          "south-west": "characters/Idle_17/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "8a6e0521-0441-4cd5-bace-b6b4321fcbd6",
+        "name": "Idle",
+        "prompt": "Polar bear, cannon on his back",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "bear",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:37:58.078186+00:00"
+      },
+      "folder": "characters/Idle_18/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_18/Idle/rotations/south.png",
+          "south-east": "characters/Idle_18/Idle/rotations/south-east.png",
+          "east": "characters/Idle_18/Idle/rotations/east.png",
+          "north-east": "characters/Idle_18/Idle/rotations/north-east.png",
+          "north": "characters/Idle_18/Idle/rotations/north.png",
+          "north-west": "characters/Idle_18/Idle/rotations/north-west.png",
+          "west": "characters/Idle_18/Idle/rotations/west.png",
+          "south-west": "characters/Idle_18/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "e73e8f0c-7d6e-4985-b230-62cfb7f5c204",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, black armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:38:59.586994+00:00"
+      },
+      "folder": "characters/Idle_19/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_19/Idle/rotations/south.png",
+          "south-east": "characters/Idle_19/Idle/rotations/south-east.png",
+          "east": "characters/Idle_19/Idle/rotations/east.png",
+          "north-east": "characters/Idle_19/Idle/rotations/north-east.png",
+          "north": "characters/Idle_19/Idle/rotations/north.png",
+          "north-west": "characters/Idle_19/Idle/rotations/north-west.png",
+          "west": "characters/Idle_19/Idle/rotations/west.png",
+          "south-west": "characters/Idle_19/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "8fe75d07-6c29-4abc-945b-078c29588d18",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, Silver armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:39:43.282722+00:00"
+      },
+      "folder": "characters/Idle_20/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_20/Idle/rotations/south.png",
+          "south-east": "characters/Idle_20/Idle/rotations/south-east.png",
+          "east": "characters/Idle_20/Idle/rotations/east.png",
+          "north-east": "characters/Idle_20/Idle/rotations/north-east.png",
+          "north": "characters/Idle_20/Idle/rotations/north.png",
+          "north-west": "characters/Idle_20/Idle/rotations/north-west.png",
+          "west": "characters/Idle_20/Idle/rotations/west.png",
+          "south-west": "characters/Idle_20/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "9ba3a7f4-1e56-47e7-9ab1-2e18f4f266ab",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, Gold armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:40:24.451039+00:00"
+      },
+      "folder": "characters/Idle_21/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_21/Idle/rotations/south.png",
+          "south-east": "characters/Idle_21/Idle/rotations/south-east.png",
+          "east": "characters/Idle_21/Idle/rotations/east.png",
+          "north-east": "characters/Idle_21/Idle/rotations/north-east.png",
+          "north": "characters/Idle_21/Idle/rotations/north.png",
+          "north-west": "characters/Idle_21/Idle/rotations/north-west.png",
+          "west": "characters/Idle_21/Idle/rotations/west.png",
+          "south-west": "characters/Idle_21/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "1e85ee92-a778-4687-9ddd-601e78c20b52",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, Copper armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:40:39.233267+00:00"
+      },
+      "folder": "characters/Idle_22/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_22/Idle/rotations/south.png",
+          "south-east": "characters/Idle_22/Idle/rotations/south-east.png",
+          "east": "characters/Idle_22/Idle/rotations/east.png",
+          "north-east": "characters/Idle_22/Idle/rotations/north-east.png",
+          "north": "characters/Idle_22/Idle/rotations/north.png",
+          "north-west": "characters/Idle_22/Idle/rotations/north-west.png",
+          "west": "characters/Idle_22/Idle/rotations/west.png",
+          "south-west": "characters/Idle_22/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "b3d38f57-107f-4637-a17f-f9d5da68d556",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, Emerald armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:40:52.472077+00:00"
+      },
+      "folder": "characters/Idle_23/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_23/Idle/rotations/south.png",
+          "south-east": "characters/Idle_23/Idle/rotations/south-east.png",
+          "east": "characters/Idle_23/Idle/rotations/east.png",
+          "north-east": "characters/Idle_23/Idle/rotations/north-east.png",
+          "north": "characters/Idle_23/Idle/rotations/north.png",
+          "north-west": "characters/Idle_23/Idle/rotations/north-west.png",
+          "west": "characters/Idle_23/Idle/rotations/west.png",
+          "south-west": "characters/Idle_23/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    },
+    {
+      "character": {
+        "id": "3f3d0512-3708-4986-989d-eee64391beb4",
+        "name": "Idle",
+        "prompt": "Empire legionnaire, White armour, dark visor, symbol of a heart",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "high top-down",
+        "created_at": "2026-08-30T00:41:10.755391+00:00"
+      },
+      "folder": "characters/Idle_24/Idle",
+      "frames": {
+        "rotations": {
+          "south": "characters/Idle_24/Idle/rotations/south.png",
+          "south-east": "characters/Idle_24/Idle/rotations/south-east.png",
+          "east": "characters/Idle_24/Idle/rotations/east.png",
+          "north-east": "characters/Idle_24/Idle/rotations/north-east.png",
+          "north": "characters/Idle_24/Idle/rotations/north.png",
+          "north-west": "characters/Idle_24/Idle/rotations/north-west.png",
+          "west": "characters/Idle_24/Idle/rotations/west.png",
+          "south-west": "characters/Idle_24/Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-30T01:26:05.963457"
+}
