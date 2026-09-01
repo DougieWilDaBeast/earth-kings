@@ -7,6 +7,7 @@
 		"world": "road",
 		"area": "road",
 		"battle": "battle",
+		"coliseum": "battle",
 		"summary": "game_over"
 	},
 	"sets": {

@@ -618,7 +618,13 @@ func _resolve_outcome() -> bool:
 	hud.hide_commands()
 	hud.show_result(players_alive)
 	if sandbox:
-		GameState.heal_party()
+		# The coliseum carries its wounds between rounds; the training ground
+		# does not. Either way nothing is written back onto the world.
+		if bool(boot_payload.get("heal", true)):
+			GameState.heal_party()
+		else:
+			_carry_wounds()
+		GameState.set_flag(Arena.VICTORY_FLAG, players_alive)
 		_leave_the_field()
 		return true
 	_settle_the_party()
@@ -628,6 +634,18 @@ func _resolve_outcome() -> bool:
 	EventBus.battle_finished.emit({"victory": players_alive, "map_id": map_id})
 	_leave_the_field()
 	return true
+
+
+## Wounds only. Used on the sand, where nobody rolls for their life because
+## nobody is really dying.
+func _carry_wounds() -> void:
+	for unit in units:
+		if unit.team != Unit.Team.PLAYER or unit.character == null:
+			continue
+		var carried := float(maxi(0, unit.hp)) / float(maxi(1, unit.max_hp))
+		unit.character.hp = clampi(
+			roundi(carried * float(unit.character.max_hp())), 0, unit.character.max_hp()
+		)
 
 
 ## Write the fight back onto the people who fought it: wounds carry, and anyone

@@ -7,6 +7,7 @@ var boot_payload: Dictionary = {}
 @onready var _continue_button: Button = %ContinueButton
 @onready var _new_game_button: Button = %NewGameButton
 @onready var _training_button: Button = %TrainingButton
+@onready var _coliseum_button: Button = %ColiseumButton
 @onready var _museum_button: Button = %MuseumButton
 @onready var _quit_button: Button = %QuitButton
 @onready var _crest: TextureRect = %Crest
@@ -20,9 +21,13 @@ func _ready() -> void:
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_new_game_button.pressed.connect(_on_new_game_pressed)
 	_training_button.pressed.connect(func() -> void: EventBus.request_scene.emit("training", {}))
+	_coliseum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", {}))
 	_museum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("museum", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
-	for button in [_continue_button, _new_game_button, _training_button, _museum_button, _quit_button]:
+	for button in [
+		_continue_button, _new_game_button, _training_button, _coliseum_button,
+		_museum_button, _quit_button,
+	]:
 		button.theme_type_variation = &"GrandButton"
 		# Keeps the mouse and the keyboard pointing at the same entry.
 		button.mouse_entered.connect(_on_button_hovered.bind(button))

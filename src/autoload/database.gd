@@ -29,6 +29,8 @@ var cutscenes: Dictionary = {}
 var banter: Dictionary = {}
 ## Long-running story that ignites off world state (see [Skein]).
 var threads: Dictionary = {}
+## Waves, cards and purses for the coliseum (see [Arena]).
+var coliseum: Dictionary = {}
 ## Who holds what, and who you meet where (see [Faction]).
 var factions: Dictionary = {}
 ## Which scene hears which tracks (see [Music]).
@@ -60,6 +62,7 @@ func _ready() -> void:
 	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
 	banter = _load_json("%s/banter.json" % DATA_DIR)
 	threads = _load_json("%s/threads.json" % DATA_DIR)
+	coliseum = _load_json("%s/coliseum.json" % DATA_DIR)
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
 

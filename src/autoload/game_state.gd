@@ -31,6 +31,8 @@ var errands: Array = []
 ## What the fight being walked into will settle on the way back, if it is won.
 ## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
 var pending_outcome: Dictionary = {}
+## Live coliseum state (see [Arena]). Never saved — the sand is not the run.
+var arena: Dictionary = {}
 ## How hard the country is (see [Difficulty]).
 var difficulty: String = Difficulty.DEFAULT
 

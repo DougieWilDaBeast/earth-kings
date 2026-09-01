@@ -10,6 +10,7 @@ const SCENES := {
 	"area": "res://src/area/area_scene.tscn",
 	"battle": "res://src/battle/battle.tscn",
 	"training": "res://src/training/training_ground.tscn",
+	"coliseum": "res://src/coliseum/coliseum.tscn",
 	"museum": "res://src/ui/museum.tscn",
 	"summary": "res://src/ui/run_summary.tscn",
 }

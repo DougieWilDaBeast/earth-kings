@@ -24,7 +24,7 @@
 		"the_free_companies": {
 			"title": "The Free Companies",
 			"blurb": "Paid men who have done this before and expect to again.",
-			"foes": ["brigand", "brigand_archer", "cabin_boy", "raider", "mace_pirate"]
+			"foes": ["brigand", "brigand_archer", "cabin_boy", "brigand_chief", "hat_fox"]
 		},
 		"the_heart_legion": {
 			"title": "The Heart Legion",
