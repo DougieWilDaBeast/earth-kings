@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/journal_screen.gd" id="1_journal"]
+
+[node name="JournalScreen" type="CanvasLayer"]
+layer = 8
+script = ExtResource("1_journal")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03, 0.03, 0.05, 0.88)
+
+[node name="Margin" type="MarginContainer" parent="Backdrop"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 28
+
+[node name="Column" type="VBoxContainer" parent="Backdrop/Margin"]
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Backdrop/Margin/Column"]
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+text = "The Journal"
+
+[node name="FullnessLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
+unique_name_in_owner = true
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.66, 0.64, 0.59, 1)
+text = "0 of 0 written up"
+
+[node name="Body" type="HBoxContainer" parent="Backdrop/Margin/Column"]
+size_flags_vertical = 3
+theme_override_constants/separation = 22
+
+[node name="ListScroll" type="ScrollContainer" parent="Backdrop/Margin/Column/Body"]
+custom_minimum_size = Vector2(240, 0)
+horizontal_scroll_mode = 0
+
+[node name="EntryList" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/ListScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+
+[node name="PageScroll" type="ScrollContainer" parent="Backdrop/Margin/Column/Body"]
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Page" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/PageScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="FooterLabel" type="Label" parent="Backdrop/Margin/Column"]
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+text = "N or Esc to close"

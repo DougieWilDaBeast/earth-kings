@@ -11,6 +11,8 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 05  | [Roadmap](05-roadmap.md)           | Milestones and honest status                                    |
 | 06  | [Decisions](06-decisions.md)       | What was decided, when, and why — append-only                   |
 | 07  | [Lineage](07-lineage.md)           | Where this came from, so the trail is not lost                  |
+| 08  | [Threads](08-threads.md)           | Long-running story in a game with no quest log                  |
+| 09  | [Wishlist](09-wishlist.md)         | Spoken notes, transcribed, and what was done about each         |
 
 ## Working rules
 

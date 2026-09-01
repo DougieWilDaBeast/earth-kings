@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_title_screen"]
 [ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
 [ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
 [ext_resource type="Texture2D" uid="uid://jt534gf8wcg3" path="res://art/ui/emblem.png" id="4_emblem"]
 [ext_resource type="Texture2D" uid="uid://b1vmjplvffi2s" path="res://art/units/sworn_blade/idle/south.png" id="5_crest"]
+[ext_resource type="Script" path="res://src/ui/title_parade.gd" id="6_parade"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = ExtResource("2_backdrop")
@@ -59,6 +60,17 @@ scale_amount_min = 0.3
 scale_amount_max = 0.95
 color = Color(1, 0.749, 0.435, 0.5)
 color_ramp = SubResource("Gradient_ember_life")
+
+[node name="Parade" type="Control" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -160.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("6_parade")
 
 [node name="Content" type="VBoxContainer" parent="."]
 anchor_left = 0.5
@@ -159,6 +171,11 @@ text = "New Game"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Training Ground"
+
+[node name="MuseumButton" type="Button" parent="Content/Menu/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Museum"
 
 [node name="QuitButton" type="Button" parent="Content/Menu/Items"]
 unique_name_in_owner = true

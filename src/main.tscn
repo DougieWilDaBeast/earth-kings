@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://src/game.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://src/dialogue/dialogue_box.tscn" id="2_dialogue"]
 [ext_resource type="PackedScene" path="res://src/ui/system_menu.tscn" id="3_system_menu"]
 [ext_resource type="PackedScene" path="res://src/ui/party_screen.tscn" id="4_party"]
 [ext_resource type="PackedScene" path="res://src/ui/cutscene_layer.tscn" id="5_cutscene"]
+[ext_resource type="PackedScene" path="res://src/ui/journal_screen.tscn" id="6_journal"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_game")
@@ -16,5 +17,7 @@ script = ExtResource("1_game")
 [node name="DialogueBox" parent="." instance=ExtResource("2_dialogue")]
 
 [node name="PartyScreen" parent="." instance=ExtResource("4_party")]
+
+[node name="JournalScreen" parent="." instance=ExtResource("6_journal")]
 
 [node name="SystemMenu" parent="." instance=ExtResource("3_system_menu")]

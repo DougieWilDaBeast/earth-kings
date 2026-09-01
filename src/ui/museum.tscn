@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/museum.gd" id="1_museum"]
+
+[node name="Museum" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_museum")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.055, 0.075, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 26
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_font_sizes/font_size = 30
+text = "The Museum"
+
+[node name="SubtitleLabel" type="Label" parent="Margin/Column"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_font_sizes/font_size = 15
+text = "everyone who walked out, and how far they got"
+
+[node name="Body" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 26
+
+[node name="Left" type="VBoxContainer" parent="Margin/Column/Body"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EmptyLabel" type="Label" parent="Margin/Column/Body/Left"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+autowrap_mode = 3
+text = "Nothing here yet. The hall fills up when a run ends."
+
+[node name="JourneyScroll" type="ScrollContainer" parent="Margin/Column/Body/Left"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="JourneyList" type="VBoxContainer" parent="Margin/Column/Body/Left/JourneyScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="PlaqueScroll" type="ScrollContainer" parent="Margin/Column/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Plaque" type="VBoxContainer" parent="Margin/Column/Body/PlaqueScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Footer" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Margin/Column/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="Margin/Column/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back to Title"

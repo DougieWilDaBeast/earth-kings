@@ -1,0 +1,96 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/ui/cinematic.gd" id="1_cinematic"]
+[ext_resource type="Script" path="res://src/ui/camera_rig.gd" id="2_camera"]
+[ext_resource type="Shader" path="res://src/ui/cinematic_haze.gdshader" id="3_haze"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_haze"]
+shader = ExtResource("3_haze")
+
+[node name="Cinematic" type="Node2D"]
+script = ExtResource("1_cinematic")
+
+[node name="Under" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Backdrop" type="ColorRect" parent="Under"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.055, 0.075, 1)
+
+[node name="Map" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_camera")
+default_zoom = 1.35
+follow_speed = 1.1
+
+[node name="Over" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Haze" type="ColorRect" parent="Over"]
+material = SubResource("ShaderMaterial_haze")
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TitleBlock" type="VBoxContainer" parent="Over"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -420.0
+offset_top = -110.0
+offset_right = 420.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Over/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_colors/font_outline_color = Color(0.075, 0.055, 0.043, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.588)
+theme_override_constants/outline_size = 16
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 6
+theme_override_font_sizes/font_size = 84
+text = "EARTH KINGS"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="Over/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.76, 0.7, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 18
+text = "a grid tactical RPG of small wars and long roads"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="Over"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -74.0
+offset_right = 220.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.76, 0.72, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 17
+text = "press anything to go on"
+horizontal_alignment = 1

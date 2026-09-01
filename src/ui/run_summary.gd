@@ -17,6 +17,8 @@ var boot_payload: Dictionary = {}
 func _ready() -> void:
 	var world: World = GameState.world
 	var roster: Roster = GameState.roster
+	# The save is about to be started over; the hall is where these people keep.
+	Museum.remember(world, roster, GameState.ledger, Museum.FELL)
 	_epitaph.text = Ledger.epitaph(world, roster, GameState.ledger)
 	for chapter: Dictionary in Ledger.chapters(world, roster, GameState.ledger):
 		_chapters.add_child(_chapter_block(chapter))
@@ -26,6 +28,7 @@ func _ready() -> void:
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
 	for button in [_title_button, _quit_button]:
 		button.theme_type_variation = &"GrandButton"
+		Sfx.attend(button)
 	_title_button.grab_focus()
 
 	modulate = Color(1.0, 1.0, 1.0, 0.0)

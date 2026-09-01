@@ -38,6 +38,8 @@ func _ready() -> void:
 	_back.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_difficulty.theme_type_variation = &"GrandButton"
 	_difficulty.pressed.connect(_cycle_difficulty)
+	Sfx.attend(_back)
+	Sfx.attend(_difficulty)
 	_show_difficulty()
 	if ids.is_empty():
 		return
@@ -53,6 +55,7 @@ func _life_button(hero_id: String) -> Button:
 	# Keeps the mouse and the keyboard pointing at the same entry.
 	button.mouse_entered.connect(button.grab_focus)
 	button.pressed.connect(_begin.bind(hero_id))
+	Sfx.attend(button)
 	return button
 
 

@@ -17,6 +17,7 @@ EventBus="*res://src/autoload/event_bus.gd"
 Database="*res://src/autoload/database.gd"
 GameState="*res://src/autoload/game_state.gd"
 Music="*res://src/autoload/music.gd"
+Sfx="*res://src/autoload/sfx.gd"
 Pace="*res://src/autoload/pace.gd"
 
 [display]

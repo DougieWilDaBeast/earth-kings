@@ -43,6 +43,10 @@ var codex: Dictionary = {}
 var trivia: Array = []
 ## Everything you have done that anyone would repeat, and where (see [Renown]).
 var deeds: Array = []
+## Live story threads, id -> { stage, entered_at, memory, tags, done } (see [Skein]).
+var threads: Dictionary = {}
+## What you have worked out about what you fight (see [Journal]).
+var journal: Dictionary = {}
 
 var rng := RandomNumberGenerator.new()
 
@@ -221,6 +225,7 @@ func _upkeep() -> Array:
 			# It held this time; the clock starts again.
 			site.opened_at = steps
 	notices.append_array(Town.upkeep(self))
+	notices.append_array(Skein.on_step(self))
 	return notices
 
 
@@ -242,6 +247,8 @@ func to_dict() -> Dictionary:
 		"codex": codex,
 		"trivia": trivia,
 		"deeds": deeds,
+		"threads": threads,
+		"journal": journal,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -262,6 +269,8 @@ static func from_dict(payload: Dictionary) -> World:
 	world.codex = payload.get("codex", {})
 	world.trivia = payload.get("trivia", [])
 	world.deeds = payload.get("deeds", [])
+	world.threads = payload.get("threads", {})
+	world.journal = payload.get("journal", {})
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

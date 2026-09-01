@@ -64,7 +64,22 @@ func _build_battlefield() -> void:
 	_spawn_party(map.get("player_spawns", []))
 	_spawn_enemies(map.get("enemies", []))
 	_orient_starting_facings()
+	_write_them_up(map)
 	turns.setup(units)
+
+
+## Open a journal entry for anything the party has not stood across from before.
+## Training fights are not written down — knowing a thing from the sandbox
+## would be knowing it for free.
+func _write_them_up(map: Dictionary) -> void:
+	if sandbox:
+		return
+	var place := str(map.get("name", encounter.get("title", "somewhere")))
+	for unit in units:
+		if unit.team != Unit.Team.ENEMY:
+			continue
+		if Journal.sighted(GameState.world, unit.template_id, place):
+			EventBus.battle_log.emit("%s is new. The journal opens a page." % unit.display_name)
 
 
 func _spawn_party(spawns: Array) -> void:
@@ -224,7 +239,7 @@ func _take_ai_turn(unit: Unit) -> void:
 	var target: Unit = plan["target"]
 	if target != null and target.is_alive():
 		await get_tree().create_timer(0.2).timeout
-		_apply_ability(unit, Database.ability(plan["ability"]), target.cell)
+		_apply_ability(unit, plan["ability"], target.cell)
 		await get_tree().create_timer(0.4).timeout
 
 
@@ -522,8 +537,7 @@ func _try_flash_to(cell: Vector2i) -> void:
 func _try_act_on(cell: Vector2i) -> void:
 	if cell not in overlay.action_cells:
 		return
-	var ability := Database.ability(_pending_ability)
-	if not _apply_ability(active_unit, ability, cell):
+	if not _apply_ability(active_unit, _pending_ability, cell):
 		return
 	phase = Phase.BUSY
 	overlay.clear()
@@ -541,7 +555,8 @@ func _after_player_action() -> void:
 
 
 ## Returns false if nothing valid was hit, so the player keeps their selection.
-func _apply_ability(user: Unit, ability: Dictionary, centre: Vector2i) -> bool:
+func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
+	var ability := Database.ability(ability_id)
 	var hits: Array[Unit] = []
 	for cell in AbilityResolver.affected_cells(ability, centre):
 		var target := unit_at(cell)
@@ -553,11 +568,28 @@ func _apply_ability(user: Unit, ability: Dictionary, centre: Vector2i) -> bool:
 	user.face_towards(centre)
 	for target in hits:
 		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target))
+		_note_in_the_journal(user, ability_id, target)
 		if not target.is_alive():
 			target.visible = false
 			_award_kill(user, target)
 	user.pay(Unit.ability_cost(ability))
 	return true
+
+
+## Watching is how the journal fills in. You learn what a thing hits like by
+## being hit, what it is wearing by hitting it, and how much of it there is by
+## putting one down.
+func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
+	if sandbox or user.team == target.team:
+		return
+	var world: World = GameState.world
+	if user.team == Unit.Team.ENEMY:
+		Journal.note_ability(world, user.template_id, ability_id)
+		Journal.note_struck(world, user.template_id)
+		return
+	Journal.note_wounded(world, target.template_id)
+	if not target.is_alive():
+		Journal.note_felled(world, target.template_id)
 
 
 ## XP goes to whoever landed the blow, so who does the work matters.

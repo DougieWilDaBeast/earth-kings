@@ -3,12 +3,14 @@ extends Node
 ## Scene changes go through [EventBus] so no scene needs to know about another.
 
 const SCENES := {
+	"cinematic": "res://src/ui/cinematic.tscn",
 	"title": "res://src/ui/title_screen.tscn",
 	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
 	"area": "res://src/area/area_scene.tscn",
 	"battle": "res://src/battle/battle.tscn",
 	"training": "res://src/training/training_ground.tscn",
+	"museum": "res://src/ui/museum.tscn",
 	"summary": "res://src/ui/run_summary.tscn",
 }
 
@@ -17,7 +19,7 @@ const SCENES := {
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
-	_change_scene("title", {})
+	_change_scene("cinematic", {})
 
 
 func _change_scene(scene_key: String, payload: Dictionary) -> void:

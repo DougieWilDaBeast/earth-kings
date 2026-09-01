@@ -16,6 +16,31 @@ const GRAVE := "grave"
 ## Gate difficulty, weakest first. A gate's rank sets its guardian and its reward.
 const RANKS := ["E", "D", "C", "B", "A", "S"]
 
+## How a place is drawn on a map. A faction that holds a gate or a keep
+## overrides the art (see [Faction]); the colour is the fallback token for a
+## kind with no art at all.
+const ART := {
+	TOWER: "res://art/world/hold_spire.png",
+	KEEP: "res://art/world/hold_grey.png",
+	VILLAGE: "res://art/world/hold_pale.png",
+	LIBRARY: "res://art/world/hold_white.png",
+	GATE: "res://art/world/hold_dark.png",
+	HUT: "res://art/world/hold_dun.png",
+	GRAVE: "res://art/world/tomb.png",
+	HOME: "res://art/world/hold_red.png",
+}
+
+const COLOURS := {
+	TOWER: Color(0.92, 0.85, 0.45),
+	KEEP: Color(0.72, 0.74, 0.82),
+	VILLAGE: Color(0.55, 0.78, 0.55),
+	LIBRARY: Color(0.55, 0.7, 0.95),
+	GATE: Color(0.85, 0.35, 0.35),
+	HUT: Color(0.78, 0.66, 0.48),
+	GRAVE: Color(0.62, 0.62, 0.66),
+	HOME: Color(0.96, 0.6, 0.35),
+}
+
 var kind: String = VILLAGE
 var cell: Vector2i = Vector2i.ZERO
 var display_name: String = ""

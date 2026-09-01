@@ -25,29 +25,6 @@ const DIRECTIONS := {
 	"move_right": Vector2i.RIGHT,
 }
 
-const SITE_COLOURS := {
-	Site.TOWER: Color(0.92, 0.85, 0.45),
-	Site.KEEP: Color(0.72, 0.74, 0.82),
-	Site.VILLAGE: Color(0.55, 0.78, 0.55),
-	Site.LIBRARY: Color(0.55, 0.7, 0.95),
-	Site.GATE: Color(0.85, 0.35, 0.35),
-	Site.HUT: Color(0.78, 0.66, 0.48),
-	Site.GRAVE: Color(0.62, 0.62, 0.66),
-	Site.HOME: Color(0.96, 0.6, 0.35),
-}
-
-## What a place is drawn as on the map. Gates and keeps override this with the
-## hold of whoever owns them (see [Faction]).
-const SITE_ART := {
-	Site.TOWER: "res://art/world/hold_spire.png",
-	Site.KEEP: "res://art/world/hold_grey.png",
-	Site.VILLAGE: "res://art/world/hold_pale.png",
-	Site.LIBRARY: "res://art/world/hold_white.png",
-	Site.GATE: "res://art/world/hold_dark.png",
-	Site.HUT: "res://art/world/hold_dun.png",
-	Site.GRAVE: "res://art/world/tomb.png",
-	Site.HOME: "res://art/world/hold_red.png",
-}
 ## Cells tall a place is drawn, so a keep overhangs the tile it sits on.
 const SITE_SCALE := 2.1
 ## Cells tall a person is drawn on the map.
@@ -222,6 +199,8 @@ func _step(direction: Vector2i) -> void:
 	for notice: String in world.step():
 		_note(notice)
 	for notice: String in Errand.on_arrive(GameState.errands, target, world):
+		_note(notice)
+	for notice: String in Skein.on_arrive(world, target, world.site_at(target)):
 		_note(notice)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
@@ -584,6 +563,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_P:
 			get_viewport().set_input_as_handled()
 			EventBus.party_screen_requested.emit()
+		KEY_N:
+			get_viewport().set_input_as_handled()
+			EventBus.journal_requested.emit()
 		KEY_H:
 			get_viewport().set_input_as_handled()
 			_hire_here()
@@ -963,7 +945,7 @@ func _draw_places() -> void:
 		var art := _site_art(site)
 		var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 		if art == null:
-			_map.draw_circle(centre, CELL * 0.34, SITE_COLOURS.get(site.kind, Color.WHITE))
+			_map.draw_circle(centre, CELL * 0.34, Site.COLOURS.get(site.kind, Color.WHITE))
 			continue
 
 		# Stood on the bottom edge of its tile, so the tile still reads as the
@@ -994,7 +976,7 @@ func _site_art(site: Site) -> Texture2D:
 	if site.kind == Site.GATE or site.kind == Site.KEEP:
 		path = Faction.hold_art(str(site.data.get("faction", "")))
 	if path == "":
-		path = str(SITE_ART.get(site.kind, ""))
+		path = str(Site.ART.get(site.kind, ""))
 	if path == "":
 		return null
 	if not _art.has(path):

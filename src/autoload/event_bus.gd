@@ -33,6 +33,8 @@ signal character_fell(character: RefCounted, outcome: Dictionary)
 signal system_menu_requested
 ## Ask the always-present party screen to open.
 signal party_screen_requested
+## Ask the always-present journal to open.
+signal journal_requested
 ## The last of the party is gone; the run is over.
 signal run_ended
 
