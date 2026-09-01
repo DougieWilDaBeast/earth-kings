@@ -32,6 +32,7 @@ var _stops: Array[Vector2i] = []
 var _at := 0
 var _hold := 0.0
 var _walkers: Array[Dictionary] = []
+var _art: Dictionary = {}
 var _handed_over := false
 
 
@@ -40,6 +41,10 @@ func _ready() -> void:
 	_world = WorldGen.generate(randi())
 	_stops = _worth_seeing()
 	_walkers = _people_about()
+	for kind: String in Site.ART:
+		var path: String = Site.ART[kind]
+		if ResourceLoader.exists(path):
+			_art[kind] = load(path)
 
 	_map.draw.connect(_draw_country)
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(_world.size) * CELL))
@@ -171,17 +176,14 @@ func _draw_country() -> void:
 
 
 func _draw_place(site: Site) -> void:
-	var art := str(Site.ART.get(site.kind, ""))
 	var origin := Vector2(site.cell) * CELL
-	if art != "" and ResourceLoader.exists(art):
-		var texture: Texture2D = load(art)
-		var span := Vector2(CELL, CELL) * 1.9
-		_map.draw_texture_rect(texture, Rect2(origin + Vector2(CELL, CELL) * 0.5 - span * 0.5, span), false)
+	var centre := origin + Vector2(CELL, CELL) * 0.5
+	var texture: Texture2D = _art.get(site.kind)
+	if texture == null:
+		_map.draw_circle(centre, CELL * 0.4, Site.COLOURS.get(site.kind, Color.WHITE))
 		return
-	_map.draw_circle(
-		origin + Vector2(CELL, CELL) * 0.5, CELL * 0.4,
-		Site.COLOURS.get(site.kind, Color.WHITE)
-	)
+	var span := Vector2(CELL, CELL) * 1.9
+	_map.draw_texture_rect(texture, Rect2(centre - span * 0.5, span), false)
 
 
 func _centre_of(cell: Vector2i) -> Vector2:

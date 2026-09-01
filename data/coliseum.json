@@ -1,0 +1,40 @@
+{
+	"rules": {
+		"note": "Waves, not a story. Nobody dies here and nothing you win leaves the sand.",
+		"purse_per_round": 60,
+		"purse_growth": 1.35,
+		"level_per_round": 1.4,
+		"base_count": 2,
+		"count_per_round": 0.45,
+		"max_count": 6,
+		"heal_between_rounds": 0.45
+	},
+	"grounds": [
+		{ "terrain": "grass", "name": "The Sand" },
+		{ "terrain": "dirt", "name": "The Dry Yard" },
+		{ "terrain": "hill", "name": "The Terraces" },
+		{ "terrain": "crag", "name": "The Broken Ring" }
+	],
+	"cards": {
+		"the_pens": {
+			"title": "The Pens",
+			"blurb": "Whatever they could catch, let out a few at a time.",
+			"foes": ["wolf", "goblin", "rank_f_grunt", "village_idiot", "hat_fox"]
+		},
+		"the_free_companies": {
+			"title": "The Free Companies",
+			"blurb": "Paid men who have done this before and expect to again.",
+			"foes": ["brigand", "brigand_archer", "cabin_boy", "raider", "mace_pirate"]
+		},
+		"the_heart_legion": {
+			"title": "The Heart Legion",
+			"blurb": "Empire steel, brought out when the crowd wants a real one.",
+			"foes": ["legion_black", "legion_silver", "legion_copper", "legion_emerald", "legion_magus"]
+		},
+		"the_unnatural": {
+			"title": "The Unnatural",
+			"blurb": "Things the pits should not have been able to hold.",
+			"foes": ["wraith", "ogre", "tree_sentinel", "turret_cannon", "frozen_wolfman", "devil_butler"]
+		}
+	}
+}
