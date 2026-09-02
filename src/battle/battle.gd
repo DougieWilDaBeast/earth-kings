@@ -567,14 +567,17 @@ func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
 
 	user.face_towards(centre)
 	for target in hits:
-		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target))
+		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target, ability_id))
 		_note_in_the_journal(user, ability_id, target)
 		if not target.is_alive():
 			target.visible = false
-			_award_kill(user, target)	# Counted once for the swing, not once per body it caught.
+			_award_kill(user, target)
+
+	# Counted once for the swing, not once per body it caught.
 	var better := Proficiency.record(user.character, ability_id)
 	if better != "":
-		EventBus.battle_log.emit(better)	user.pay(Unit.ability_cost(ability))
+		EventBus.battle_log.emit(better)
+	user.pay(Unit.ability_cost(ability))
 	return true
 
 
