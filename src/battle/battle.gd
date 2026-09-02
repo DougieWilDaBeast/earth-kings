@@ -413,6 +413,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_cycle_speed()
 		return
+	# The journal is most wanted while you are stood across from the thing it is
+	# about, so it opens here as well as on the road.
+	if event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_N:
+		get_viewport().set_input_as_handled()
+		EventBus.journal_requested.emit()
+		return
 
 	# Backing out of a selection is Escape or a right-click. With nothing to back
 	# out of, Escape is how a fight reaches the menu.

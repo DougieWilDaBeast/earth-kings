@@ -80,6 +80,10 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	if gold > 0:
 		GameState.gold += gold
 		lines.append("%d gold." % gold)
+	var found_key: String = haul.get("key", "")
+	if found_key != "" and not GameState.keys.has(found_key):
+		GameState.keys.append(found_key)
+		lines.append("A key. It opens something you have not reached yet.")
 	var item: String = haul.get("item", "")
 	if item != "":
 		var line := take(item, roster)

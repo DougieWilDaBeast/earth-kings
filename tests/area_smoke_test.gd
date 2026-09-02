@@ -259,6 +259,11 @@ func _check_fireside(scene: Node) -> void:
 	while scene.get("_talking") and patience.time_left > 0.0:
 		await get_tree().process_frame
 
+	# This checks the dialogue-box path, so the player's preference for keeping
+	# chatter in the log has to be set aside for it (see [Pace]).
+	var chatter := Pace.quiet_banter
+	Pace.quiet_banter = false
+
 	var party := GameState.party_characters()
 	var before := Banter.bond(party[0], party[1])
 	_opened.clear()
@@ -267,6 +272,7 @@ func _check_fireside(scene: Node) -> void:
 	scene.call("_speak_to", 0)
 	await get_tree().process_frame
 	EventBus.dialogue_requested.disconnect(watch)
+	Pace.quiet_banter = chatter
 
 	if _opened.is_empty():
 		_fail("camp: %s had nothing to say at the fire" % party[1].display_name)

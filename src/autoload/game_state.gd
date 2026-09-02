@@ -30,6 +30,9 @@ var talks: Dictionary = {}
 var errands: Array = []
 ## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
 var stores: Array = []
+## Keys found and kept. Not equipment — they weigh nothing and open one thing
+## each (see [Ward]).
+var keys: Array = []
 ## What the fight being walked into will settle on the way back, if it is won.
 ## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
 var pending_outcome: Dictionary = {}
@@ -66,6 +69,10 @@ func _on_battle_finished(result: Dictionary) -> void:
 
 
 func new_game(world_seed: int = 0, lead_id: String = "") -> void:
+	# A run that is being started over is a run that is finished, whatever the
+	# player calls it. File it before it is written on top of (see [Museum]).
+	if world != null and roster != null and world.steps > 0 and tallying:
+		Museum.remember(world, roster, ledger, Museum.WALKED_AWAY)
 	if world_seed == 0:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
@@ -77,6 +84,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	talks = {}
 	errands = []
 	stores = []
+	keys = []
 
 
 # --- the party ----------------------------------------------------------------
@@ -143,6 +151,7 @@ func save() -> void:
 		"talks": talks,
 		"errands": errands,
 		"stores": stores,
+		"keys": keys,
 		"ledger": ledger,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -177,4 +186,5 @@ func load_save() -> bool:
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
 	stores = data.get("stores", [])
+	keys = data.get("keys", [])
 	return true

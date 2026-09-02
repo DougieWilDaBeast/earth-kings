@@ -58,6 +58,8 @@ var _notes: Array[String] = []
 var _visited_spots: Dictionary = {}
 ## cell -> the [AreaProp] drawn for the chest there, so it can be shown opened.
 var _chest_props: Dictionary = {}
+## Wards already leaned on and refused, so the refusal is said once.
+var _shut_wards: Dictionary = {}
 var _return_scene: String = "world"
 ## What the bottom of the screen falls back to when nobody is near.
 var _idle_hint: String = HINT
@@ -489,6 +491,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var before := _leader.position
+	_try_the_way(before, axis.normalized() * WALK_SPEED * delta)
 	_leader.position = _slide(before, axis.normalized() * WALK_SPEED * delta)
 	_leader.face(_leader.position - before)
 	if _approach != null and _leader.position.is_equal_approx(before):
@@ -556,6 +559,24 @@ func _slide(from: Vector2, step: Vector2) -> Vector2:
 
 func _can_stand(point: Vector2) -> bool:
 	return map.is_walkable(map.cell_at(point))
+
+
+## Walking into a thing in the way is how you find out whether anyone with you
+## can shift it. Only the party ever tries; the townsfolk walk around (see [Ward]).
+func _try_the_way(from: Vector2, step: Vector2) -> void:
+	for point in [Vector2(from.x + step.x, from.y), Vector2(from.x, from.y + step.y)]:
+		var cell := map.cell_at(point)
+		if not map.wards.has(cell) or Ward.is_open(map.id, cell):
+			continue
+		var outcome := Ward.force(map.id, map.wards[cell], GameState.party_characters())
+		if bool(outcome["opened"]):
+			_note(str(outcome["line"]))
+			_shut_wards.erase(cell)
+			return
+		# The refusal is worth hearing once, not every frame you lean on it.
+		if not _shut_wards.has(cell):
+			_shut_wards[cell] = true
+			_note(str(outcome["line"]))
 
 
 func _drop_crumbs() -> void:
@@ -684,6 +705,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("open_party"):
 		get_viewport().set_input_as_handled()
 		EventBus.party_screen_requested.emit()
+	elif event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_N:
+		get_viewport().set_input_as_handled()
+		EventBus.journal_requested.emit()
 	elif event.is_action_pressed("cycle_next") and not _leaving:
 		get_viewport().set_input_as_handled()
 		_cycle_leader()

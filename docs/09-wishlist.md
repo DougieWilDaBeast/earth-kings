@@ -60,8 +60,8 @@ Each line is earned: its reach once it has hit you, its guard once you have hit 
 constitution once you have put one down, and an ability the first time you watch it used. Training
 fights are not written down.
 
-**Open:** only reachable from walk mode, not from battle or area mode. Nothing yet reads the
-journal back — knowing a thing does not help you fight it.
+**Open:** nothing yet reads the journal back — knowing a thing does not help you fight it. Opens
+with **N** from the road, from inside a place, and from the battle itself.
 
 ## W5 — A museum
 
@@ -75,9 +75,9 @@ people who came before. The screen lists journeys newest first, with the one sti
 the front, and shows the company's faces, callings, levels and fates beside what the run amounted
 to. Reached from the title.
 
-**Open:** a run is only filed when it _ends_, so quitting a run forever leaves it as "still
-walking" until it is finished or overwritten. Only forty are kept. No per-person detail beyond the
-plaque — the memo asked for "great depth".
+**Open:** only forty journeys are kept, and there is no per-person detail beyond the plaque — the
+memo asked for "great depth". A run that is started over is now filed as "walked away" before the
+save is written on top of it, so an abandoned company still reaches the hall.
 
 ## W6 — Your player icon on the title screen
 
@@ -224,6 +224,17 @@ icon out of `art/items/`, so the ~70 imported pieces of art are finally on scree
 
 **Not built.** Wants obstacles that read as locks and abilities that read as keys, in both world
 and area mode.
+
+**Built for area mode.** [`Ward`](../src/chronicle/ward.gd) is a cell that is shut until somebody
+with you can shift it. An area file names it under `wards` with an `ability` and/or a `key`;
+walking into it is what tries it, and it opens for anyone in the party who knows that ability or
+for a key in `GameState.keys`. Refused, it says what it would take rather than nothing — a locked
+door you cannot read is just a wall. Once opened it stays opened, on a flag.
+
+Live example: the gate interior has an iron grate across the arch with a rich chest behind it,
+opened by **Crush** or by the warden's key, which is in a footlocker in a keep. Keys come out of
+chests (`"key": "gate_key"`) and weigh nothing.
+**Open:** nothing in _world_ mode is warded yet — a site you cannot enter until you find the way.
 
 ## W17 — A real skill tree
 
