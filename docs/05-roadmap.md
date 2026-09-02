@@ -49,7 +49,10 @@ previous milestone demonstrably works.
 
 - Stepping on an open gate fights its garrison and its guardian ✅
 - Clearing shuts the gate and pays out; the world reopens gates over time ✅
-- **Remaining:** multi-floor delves (currently one battle per gate), tree finds, charm drops
+- Multi-floor delves: a gate's rank sets how many fights deep it goes, retreating keeps the floors
+  you took and losing gives them back — **written, never played.** See
+  [10 — Manual tests](10-manual-tests.md)
+- **Remaining:** verifying the above, then tree finds and charm drops between floors
 
 ## M6 — The Tower — SHIPPED
 

@@ -14,6 +14,8 @@ const GEAR_OFFERS := 4
 ## Level the first tree turns up at, so somebody without one is told to wait
 ## rather than told nothing.
 const TREE_AT := Progression.FIRST_TREE_LEVEL
+## Big enough to tell a sword from a robe at a glance, small enough for a row.
+const ICON_SIZE := Vector2(32, 32)
 
 @onready var _backdrop: ColorRect = %Backdrop
 @onready var _roster_list: VBoxContainer = %RosterList
@@ -136,9 +138,21 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 	known.text = "Read: %s" % _doctrine_summary(character)
 	row.add_child(known)
 
-	var carried := Label.new()
-	carried.add_theme_color_override("font_color", Color(0.84, 0.79, 0.66))
-	carried.text = "Carrying: %s%s" % [_gear_summary(character), _charm_summary(character)]
+	var carried := HBoxContainer.new()
+	carried.add_theme_constant_override("separation", 6)
+	if character.equipment != "":
+		carried.add_child(_icon(character.equipment))
+	var carried_text := Label.new()
+	carried_text.add_theme_color_override("font_color", Color(0.84, 0.79, 0.66))
+	carried_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	carried_text.text = "Carrying: %s" % _gear_summary(character)
+	carried.add_child(carried_text)
+	for charm_id: String in character.charms:
+		var charm := _icon(charm_id)
+		charm.tooltip_text = "%s — %s" % [
+			Gear.display_name(charm_id), Gear.summary(charm_id, character)
+		]
+		carried.add_child(charm)
 	row.add_child(carried)
 
 	for block in _tree_blocks(character):
@@ -185,12 +199,29 @@ func _add_gear_buttons(into: HBoxContainer, character: Character) -> void:
 		if shown >= GEAR_OFFERS:
 			break
 		var swing := Gear.swing(equipment_id, character)
+		# The theme's button art swallows `Button.icon`, so the picture is its
+		# own node sitting against the button it belongs to.
+		var offer := HBoxContainer.new()
+		offer.add_theme_constant_override("separation", 2)
+		offer.add_child(_icon(equipment_id))
 		var button := Button.new()
 		button.text = "%s (%+d)" % [Gear.display_name(equipment_id), swing]
 		button.tooltip_text = Gear.summary(equipment_id, character)
 		button.pressed.connect(func() -> void: equip(character, equipment_id))
-		into.add_child(button)
+		offer.add_child(button)
+		into.add_child(offer)
 		shown += 1
+
+
+## A piece as its picture, at a size a row can carry.
+func _icon(equipment_id: String) -> TextureRect:
+	var art := TextureRect.new()
+	art.custom_minimum_size = ICON_SIZE
+	art.texture = Gear.icon(equipment_id)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.tooltip_text = Gear.display_name(equipment_id)
+	return art
 
 
 func _gear_summary(character: Character) -> String:
@@ -199,15 +230,6 @@ func _gear_summary(character: Character) -> String:
 	return "%s (%s)" % [
 		Gear.display_name(character.equipment), Gear.summary(character.equipment, character)
 	]
-
-
-func _charm_summary(character: Character) -> String:
-	if character.charms.is_empty():
-		return ""
-	var names: Array[String] = []
-	for charm_id: String in character.charms:
-		names.append(Gear.display_name(charm_id))
-	return "  ·  charms: %s" % ", ".join(names)
 
 
 func _add_teaching_buttons(into: HBoxContainer, teacher: Character, party: Array[Character]) -> void:

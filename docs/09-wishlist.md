@@ -155,9 +155,6 @@ broken into the pieces that can actually be picked up separately.
 > should be a lot more noticeable, because when the characters move they seem to just levitate to
 > the next tile. I want them to move to that tile.
 
-**Not built.** Only `sworn_blade` has a `run` cycle (see W8). `Unit.walk_path` slides a static
-sprite between cells.
-
 **Built, waiting on art.** [`Database.unit_run`](../src/autoload/database.gd) loads and caches a
 cycle from `art/units/<id>/run/<heading>/frame_000.png`. In battle a unit steps its run frames
 while it crosses and turns at each corner rather than at the end; in area mode [`AreaActor`]
@@ -183,9 +180,11 @@ of steps, so the size is not a one-line change.
 > trade, a friendly spar. You might arrive at a location holding a tournament and take part with
 > your team for rewards. A lot more depth to the world is needed, massively.
 
-**Partly there already.** Area mode (`src/area/`) is exactly "step into the tile", but only
-villages and keeps have one. Wants it for ordinary ground too, and wants what is inside to be worth
-the trip. The tournament is the coliseum (W3) placed in the world rather than on the title screen.
+**Partly there already.** Area mode (`src/area/`) is exactly "step into the tile", and since W10b
+every _named_ place has an inside — village, keep, library, gate, hut, Tower and Home. What is
+missing is ordinary ground: you cannot step into a field or a wood, which is most of the map.
+Wants what is inside to be worth the trip, too. The tournament is the coliseum (W3) placed in the
+world rather than on the title screen.
 
 ## W14 — Quests, events and consequences
 
@@ -205,19 +204,17 @@ roadside events you interrupt, escort as a thing you can do, and trade routes as
 > their inventory and see what weapons they have, and equip different weapons that give them stats
 > like plus twenty, or minus twenty if it doesn't fit that character.
 
-**Not built.** `Character.equipment` is a single id, and there is no bag and no screen.
+**Built.** The table went from 3 pieces to 34, and [`Gear`](../src/chronicle/gear.gd) makes fit
+matter: every piece names the callings it `suits`, and anyone else carries it at a fraction of its
+worth plus a penalty — so "minus twenty if it doesn't fit that character" now reads. Somebody who
+has not chosen a calling yet is judged on the ones they could still take.
 
-**Half fixed.** The table went from 3 pieces to 34, and [`Gear`](../src/chronicle/gear.gd) makes
-fit matter: every piece names the callings it `suits`, and anyone else carries it at a fraction of
-its worth plus a penalty — so "minus twenty if it doesn't fit that character" now reads. `Loot`
-hands a find to whoever gains most _after_ fit, and a piece can name its own `price`.
-**Open:** no bag and no screen. `art/items/` still has ~70 icons with nothing drawing them.
-
-**Built.** The party has stores now (`GameState.stores`, saved): a find that improves nobody goes
-in the packs instead of being sold from under you, and swapping never destroys what was being
-carried. The party screen shows what each person carries, what it is worth _to them_, their
-charms, and the best few pieces out of the packs with the swing each swap would make.
-**Open:** the item icons are still not drawn — the screen is text.
+The party has stores (`GameState.stores`, saved): a find that improves nobody goes in the packs
+instead of being sold from under you, and swapping never destroys what was being carried. The
+party screen shows what each person carries, what it is worth _to them_, their charms, and the
+best few pieces out of the packs with the swing each swap would make — each drawn with its own
+icon out of `art/items/`, so the ~70 imported pieces of art are finally on screen.
+**Open:** nothing. Consumables are drawn but not usable — that is W-new, not this.
 
 ## W16 — Ways in, and ways past
 
@@ -235,18 +232,16 @@ and area mode.
 > more they use it. There should be a skill tree you can look at, like Skyrim — level up, choose a
 > path, or let the character choose his own path and give them a sense of intelligence.
 
-**Half built.** `AbilityGrammar` already generates trees onto `world.trees` and `Doctrine` handles
-learned passives.
+**Mostly built.** `data/abilities.json` went from 5 to 28, spread across the nine `AbilityGrammar`
+themes, including bonus-action moves that cost a beat rather than a turn. Every class grants four
+of them, so two callings no longer play the same. The party screen draws every tree a character
+has uncovered, its theme, and its three rungs marked taken or locked with reach, splash and weight
+spelled out; somebody too low to have one is told which level it arrives at.
 
-**Half fixed.** `data/abilities.json` went from 5 to 28, spread across the nine `AbilityGrammar`
-themes, including bonus-action moves that cost a beat rather than a turn. Every class now grants
-four of them, so two callings no longer play the same.
-**Open:** none of it is drawn — there is still no tree screen — and there is no proficiency-by-use.
-
-**Trees are drawn now.** The party screen shows every tree a character has uncovered, its theme,
-and its three rungs marked taken or locked, each with its reach, splash and weight spelled out.
-Somebody too low to have one is told which level it arrives at rather than shown nothing.
-**Open:** no proficiency-by-use, and you still cannot choose a path up a tree — rungs come in order.
+Proficiency-by-use is written ([`Proficiency`](../src/chronicle/proficiency.gd), counted on
+`Character.practice`) but **has never been played** — see the half-finished note in
+[10 — Manual tests](10-manual-tests.md).
+**Open:** you still cannot choose a path up a tree — rungs come in order.
 
 ## W18 — Backgrounds, origins and alignment
 
@@ -271,13 +266,13 @@ alignment that feeds `Character.bonds`.
 > It needs to be a lot more lifelike. Also: characters in a battle feel mismatched, like a lot of
 > different people thrown together; group ones that belong together.
 
-**Partly there.** `Banter` has occasions and moods and `Recollection` looks back at the run.
-
-**Mostly fixed.** Banter went from 27 exchanges to 70 and from 19 reflections to 41, weighted at
+**Mostly built.** Banter went from 27 exchanges to 70 and from 19 reflections to 41, weighted at
 the campfire — `rest` 5 → 22 and `grave` 1 → 8 — and the new lines lean on the `{deed}`,
 `{fallen}` and `{place}` tokens so they talk about the run rather than about nothing. Heroes went
 from 5 to 12, sorted gentlest first with their rating on the button, so the easy-to-impossible
 labelling reads off the list itself.
-**Open:** the campfire still has nothing to open or store (`data/areas/camp.json` has a fire and
-seats and no chest). The mismatched-warband point is untouched: `Encounter._band_at` already picks
-a faction per terrain, so the complaint is probably about gate and tower pools, which do not.
+**Open:** the campfire has bedrolls, a hammock, braziers, a woodpile and a strongbox now, and
+four things to look at, but you still cannot **put** anything into the strongbox — the memo asked
+for a stash and it is a chest. The mismatched-warband point is untouched: `Encounter._band_at`
+already picks a faction per terrain, so the complaint is probably about gate and tower pools,
+which do not.

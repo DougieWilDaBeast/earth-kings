@@ -14,6 +14,8 @@ const MISFIT_SHARE := 0.4
 ## And what it costs on top, for a piece badly out of its calling.
 const MISFIT_PENALTY := 2
 
+static var _icons: Dictionary = {}
+
 
 static func piece(equipment_id: String) -> Dictionary:
 	return Database.equipment_piece(equipment_id)
@@ -31,6 +33,17 @@ static func is_charm(equipment_id: String) -> bool:
 ## and for saying what somebody is short of.
 static func kind(equipment_id: String) -> String:
 	return str(piece(equipment_id).get("kind", "gear"))
+
+
+## The picture of it, or null. Cached, because a texture first loaded part-way
+## through a draw pass comes out white.
+static func icon(equipment_id: String) -> Texture2D:
+	if _icons.has(equipment_id):
+		return _icons[equipment_id]
+	var name_ := str(piece(equipment_id).get("icon", ""))
+	var path := "res://art/items/%s.png" % name_
+	_icons[equipment_id] = load(path) if name_ != "" and ResourceLoader.exists(path) else null
+	return _icons[equipment_id]
 
 
 ## Does this piece belong in this person's hands? A piece with no `suits` list
