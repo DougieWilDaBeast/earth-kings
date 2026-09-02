@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "b38b8620-de0d-4269-98d1-3558dd264cdb",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "a6f2393b-2111-451f-b068-9b5f1d8d1d7d",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "73646156-d802-46df-9868-2731db5cffff",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "bfc6cb01-1b6b-4f21-93d9-2d6ae33607a3",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b415cdbd-6579-49f5-980c-7b02521b6adb",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "aabdab51-7316-4aa0-85f7-cf83beb7a27f",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "a4453d70-d7e6-4f45-a5a9-5d932458da77",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "909e1409-1824-47db-9537-7a111809be6e",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5940b6f3-84dc-4f21-bb2c-fcffc463b40f",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3081f830-a391-4f85-ada0-e24248735006",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "01377b67-e798-4400-ada9-90605f44ed96",
+      "name": "base",
+      "prompt": "spiders",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/spiders_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "dbb625aa-3eae-4f76-a7d1-9318686382e4",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d72a51f5-e3fd-4d75-802e-e4c37f1c857c",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b354d557-6a0f-41ba-ab1b-34b1bedd5cc4",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "b34cdcd4-e8fe-471b-92e5-80b3285af767",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "96be7d4f-f704-4d7d-8ba6-613589812aeb",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "7704ea10-d757-410d-917d-68efeaa167f2",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5d2b0a09-1be8-4eed-83ca-b0389fa3639c",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3b0cfcaf-02fd-44c7-a7cc-5fd31cdfcee4",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3591035f-77b0-4d9e-ae4a-0963e3684c16",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3176732a-f126-4a14-a08b-37ff7db83fce",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "18450222-e34b-4ae0-a232-8073ff09e872",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "1798a2e4-3953-49de-850c-4a047dcae2e9",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "1328dc95-bbc8-4088-a236-ae9915d0f9a8",
+      "name": "base",
+      "prompt": "snails",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/snails_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "573279f2-0dbd-4926-8b89-437c61f1313f",
+      "name": "base",
+      "prompt": "Grasshoppers",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Grasshoppers.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "1dcc669b-d074-4182-a141-5859a2cd0465",
+      "folder": "objects/ants",
+      "objects": [
+        {
+          "id": "b38b8620-de0d-4269-98d1-3558dd264cdb",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a8065d07-e3c8-44a7-956e-5d1f201e8afe",
+      "folder": "objects/ants_2",
+      "objects": [
+        {
+          "id": "a6f2393b-2111-451f-b068-9b5f1d8d1d7d",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "cfff53dc-532e-4fc8-b808-ff6301fdc834",
+      "folder": "objects/ants_3",
+      "objects": [
+        {
+          "id": "73646156-d802-46df-9868-2731db5cffff",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e270968e-3055-4370-89e9-eed9816821b4",
+      "folder": "objects/spiders",
+      "objects": [
+        {
+          "id": "bfc6cb01-1b6b-4f21-93d9-2d6ae33607a3",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "eefac97b-ca9f-4830-9d7b-716419dfad44",
+      "folder": "objects/spiders_2",
+      "objects": [
+        {
+          "id": "b415cdbd-6579-49f5-980c-7b02521b6adb",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e3746f68-5de0-47ec-93cc-56c3950a047d",
+      "folder": "objects/spiders_3",
+      "objects": [
+        {
+          "id": "aabdab51-7316-4aa0-85f7-cf83beb7a27f",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "1a7927bc-a8f9-487d-a86b-a07d7d039a7f",
+      "folder": "objects/spiders_4",
+      "objects": [
+        {
+          "id": "a4453d70-d7e6-4f45-a5a9-5d932458da77",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b5727f74-5517-478e-9c90-8e55902ef610",
+      "folder": "objects/spiders_5",
+      "objects": [
+        {
+          "id": "909e1409-1824-47db-9537-7a111809be6e",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "af70de52-a2a4-4210-a65a-cb8f1e6aafdb",
+      "folder": "objects/spiders_6",
+      "objects": [
+        {
+          "id": "5940b6f3-84dc-4f21-bb2c-fcffc463b40f",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "48f52300-5d00-485d-9d64-99c1cc2cfd25",
+      "folder": "objects/spiders_7",
+      "objects": [
+        {
+          "id": "3081f830-a391-4f85-ada0-e24248735006",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f1b844b5-75f4-4287-a7b5-fe99c28da3c4",
+      "folder": "objects/spiders_8",
+      "objects": [
+        {
+          "id": "01377b67-e798-4400-ada9-90605f44ed96",
+          "name": "base",
+          "prompt": "spiders",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/spiders_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "30141a52-9d0c-4162-9829-f30af8f30526",
+      "folder": "objects/snails",
+      "objects": [
+        {
+          "id": "dbb625aa-3eae-4f76-a7d1-9318686382e4",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f98f5caa-8b9e-44fa-ae84-9904bb437781",
+      "folder": "objects/snails_2",
+      "objects": [
+        {
+          "id": "d72a51f5-e3fd-4d75-802e-e4c37f1c857c",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "70b49399-0abf-4478-9bc5-9d10e55c9716",
+      "folder": "objects/snails_3",
+      "objects": [
+        {
+          "id": "b354d557-6a0f-41ba-ab1b-34b1bedd5cc4",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "ffeb6891-619f-4ba8-b8a8-7382124231e4",
+      "folder": "objects/snails_4",
+      "objects": [
+        {
+          "id": "b34cdcd4-e8fe-471b-92e5-80b3285af767",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5eac5cde-beda-4950-b308-3a22684b0b05",
+      "folder": "objects/snails_5",
+      "objects": [
+        {
+          "id": "96be7d4f-f704-4d7d-8ba6-613589812aeb",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "8055d34e-876e-4f4b-a06e-3a283dadffb3",
+      "folder": "objects/snails_6",
+      "objects": [
+        {
+          "id": "7704ea10-d757-410d-917d-68efeaa167f2",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "60d4618e-af9e-4efb-82ac-5eb1d0e43533",
+      "folder": "objects/snails_7",
+      "objects": [
+        {
+          "id": "5d2b0a09-1be8-4eed-83ca-b0389fa3639c",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "43fdfcd9-b5d8-4975-afcf-8b6108564955",
+      "folder": "objects/snails_8",
+      "objects": [
+        {
+          "id": "3b0cfcaf-02fd-44c7-a7cc-5fd31cdfcee4",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "948f93be-a58a-4e43-b517-5dbed8c115d1",
+      "folder": "objects/snails_9",
+      "objects": [
+        {
+          "id": "3591035f-77b0-4d9e-ae4a-0963e3684c16",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "cfa9d4d2-7a83-4b99-8359-53b09da6d1c4",
+      "folder": "objects/snails_10",
+      "objects": [
+        {
+          "id": "3176732a-f126-4a14-a08b-37ff7db83fce",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "60e08dae-f73a-4e87-9150-9ace83a29875",
+      "folder": "objects/snails_11",
+      "objects": [
+        {
+          "id": "18450222-e34b-4ae0-a232-8073ff09e872",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "125a52dd-95ee-4a29-b89e-469f7e39f914",
+      "folder": "objects/snails_12",
+      "objects": [
+        {
+          "id": "1798a2e4-3953-49de-850c-4a047dcae2e9",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "dc15223b-d29f-4cb5-b4da-4ca0371e0381",
+      "folder": "objects/snails_13",
+      "objects": [
+        {
+          "id": "1328dc95-bbc8-4088-a236-ae9915d0f9a8",
+          "name": "base",
+          "prompt": "snails",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/snails_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "74288713-1147-4332-9263-3d2509675d4c",
+      "folder": "objects/Grasshoppers",
+      "objects": [
+        {
+          "id": "573279f2-0dbd-4926-8b89-437c61f1313f",
+          "name": "base",
+          "prompt": "Grasshoppers",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Grasshoppers.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-09-02T23:05:04.341823"
+}

@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "658e76b0-b660-4a38-8794-8f15fdd78442",
+      "name": "base",
+      "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Briar_bush_blackberry_blackc.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "623ede74-7c9a-4121-beb6-37c83eaa8767",
+      "name": "base",
+      "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Briar_bush_blackberry_blackc_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "59a61303-febc-4cc9-8dc2-3917a5d8b685",
+      "name": "base",
+      "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Briar_bush_blackberry_blackc_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3ce54eae-bf29-4eb9-8511-a9b18cd9cdd4",
+      "name": "base",
+      "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Briar_bush_blackberry_blackc_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c9af255e-6aed-43ae-ac3f-d0782ce60282",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c0f2938c-1a82-4581-966b-46415ef74925",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "846d4e44-7f15-4532-b10a-1c9bfa9f2707",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "729698e0-d5d7-4731-99a3-b74e73ae8475",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "69691ae3-148c-4815-9e9a-728a9e2cae7b",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "02582662-aa8e-43cb-aecc-553e45e74f73",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "004b2279-a845-4cc0-8224-8b4f0008fbd3",
+      "name": "base",
+      "prompt": "butterflys",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/butterflys_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f59bd7df-7961-4a9e-9d7c-4ccc508ea209",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f4423fca-860a-46a6-8afe-f22bb9c8f6a1",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d0b6c227-cc0b-425a-abbd-be82d8c1cf36",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "cc1f694d-e44e-44cd-a6d1-a59f0a35fe43",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "be1c12e2-5c16-441a-bd12-c8a046bb03bf",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "7b4690e8-bc71-4ec9-8b74-8c10c336e8cd",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "69d96895-735c-4de4-8512-09c7a2303c7e",
+      "name": "base",
+      "prompt": "bees",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/bees_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "fa6bb84e-07de-473e-ae4c-a3440db6bef2",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f182dd58-e284-4d93-9191-ae83aa746ac4",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e93ff8aa-d251-4e22-96dd-7e4ad50d93ba",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e8478f9c-ae67-48b9-98a6-2f0008684e0c",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e7440d8f-d38f-415d-83f7-f72532bed3a2",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "dcb83fdf-524b-4402-ad02-4f8619fb466b",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "cdd73e40-0ded-4822-9aec-cf0df7c6f68d",
+      "name": "base",
+      "prompt": "ants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/ants_7.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "7b729c5d-1bc8-4487-b443-9bc692433565",
+      "folder": "objects/Briar_bush_blackberry_blackc",
+      "objects": [
+        {
+          "id": "658e76b0-b660-4a38-8794-8f15fdd78442",
+          "name": "base",
+          "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Briar_bush_blackberry_blackc.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4c059d11-14ee-42f1-aaa8-f87d01844810",
+      "folder": "objects/Briar_bush_blackberry_blackc_2",
+      "objects": [
+        {
+          "id": "623ede74-7c9a-4121-beb6-37c83eaa8767",
+          "name": "base",
+          "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Briar_bush_blackberry_blackc_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5e19745a-1c0a-4830-8c68-a48c5416ac41",
+      "folder": "objects/Briar_bush_blackberry_blackc_3",
+      "objects": [
+        {
+          "id": "59a61303-febc-4cc9-8dc2-3917a5d8b685",
+          "name": "base",
+          "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Briar_bush_blackberry_blackc_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "254e4dea-5fec-4510-b3a8-6e95d5c4ee2c",
+      "folder": "objects/Briar_bush_blackberry_blackc_4",
+      "objects": [
+        {
+          "id": "3ce54eae-bf29-4eb9-8511-a9b18cd9cdd4",
+          "name": "base",
+          "prompt": "Briar bush, blackberry, blackcurrent, raspberry",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Briar_bush_blackberry_blackc_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "ed8b271c-51ce-4aca-b1c7-5b7d1e497055",
+      "folder": "objects/butterflys",
+      "objects": [
+        {
+          "id": "c9af255e-6aed-43ae-ac3f-d0782ce60282",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "dc25f290-a70e-45da-a283-0717681cb630",
+      "folder": "objects/butterflys_2",
+      "objects": [
+        {
+          "id": "c0f2938c-1a82-4581-966b-46415ef74925",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0cb2aaea-4ed0-49f7-9e2a-1320e0f8e16d",
+      "folder": "objects/butterflys_3",
+      "objects": [
+        {
+          "id": "846d4e44-7f15-4532-b10a-1c9bfa9f2707",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "263fd0e8-2497-410c-b3d2-8440f8a735cb",
+      "folder": "objects/butterflys_4",
+      "objects": [
+        {
+          "id": "729698e0-d5d7-4731-99a3-b74e73ae8475",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "647b2c23-436b-46ab-9ce2-116baca08917",
+      "folder": "objects/butterflys_5",
+      "objects": [
+        {
+          "id": "69691ae3-148c-4815-9e9a-728a9e2cae7b",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "483e2ee8-3f00-47de-9889-476efdc491ad",
+      "folder": "objects/butterflys_6",
+      "objects": [
+        {
+          "id": "02582662-aa8e-43cb-aecc-553e45e74f73",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c474f1a3-4212-473d-b4d4-613bd66b0cb8",
+      "folder": "objects/butterflys_7",
+      "objects": [
+        {
+          "id": "004b2279-a845-4cc0-8224-8b4f0008fbd3",
+          "name": "base",
+          "prompt": "butterflys",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/butterflys_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e9c132c2-7f2c-4cb1-a6cd-da32677554fd",
+      "folder": "objects/bees",
+      "objects": [
+        {
+          "id": "f59bd7df-7961-4a9e-9d7c-4ccc508ea209",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "ca5f6948-225e-4c77-8697-0900cfea82fe",
+      "folder": "objects/bees_2",
+      "objects": [
+        {
+          "id": "f4423fca-860a-46a6-8afe-f22bb9c8f6a1",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3828cb11-f705-402f-87f6-a287654eef85",
+      "folder": "objects/bees_3",
+      "objects": [
+        {
+          "id": "d0b6c227-cc0b-425a-abbd-be82d8c1cf36",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "08094dc2-9fb3-4fdc-9ac5-c3fbfe5eb0b3",
+      "folder": "objects/bees_4",
+      "objects": [
+        {
+          "id": "cc1f694d-e44e-44cd-a6d1-a59f0a35fe43",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9bd480d8-3e74-4234-9286-dfd60ec79eae",
+      "folder": "objects/bees_5",
+      "objects": [
+        {
+          "id": "be1c12e2-5c16-441a-bd12-c8a046bb03bf",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "3576bde4-802c-4273-b55a-4dea0974aeb2",
+      "folder": "objects/bees_6",
+      "objects": [
+        {
+          "id": "7b4690e8-bc71-4ec9-8b74-8c10c336e8cd",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f4e345f5-e8f1-4621-a11a-20bfbfbe4208",
+      "folder": "objects/bees_7",
+      "objects": [
+        {
+          "id": "69d96895-735c-4de4-8512-09c7a2303c7e",
+          "name": "base",
+          "prompt": "bees",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/bees_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "509c321c-d0c1-4f54-8b37-484452c0fc29",
+      "folder": "objects/ants",
+      "objects": [
+        {
+          "id": "fa6bb84e-07de-473e-ae4c-a3440db6bef2",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4e7d4e34-d795-4ee6-a2bb-a04cbca16707",
+      "folder": "objects/ants_2",
+      "objects": [
+        {
+          "id": "f182dd58-e284-4d93-9191-ae83aa746ac4",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c3b52344-0e36-4160-b437-373a77dc7064",
+      "folder": "objects/ants_3",
+      "objects": [
+        {
+          "id": "e93ff8aa-d251-4e22-96dd-7e4ad50d93ba",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "b641bf6c-aa17-49c4-895c-62682b76bb59",
+      "folder": "objects/ants_4",
+      "objects": [
+        {
+          "id": "e8478f9c-ae67-48b9-98a6-2f0008684e0c",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a3b56754-f957-4942-a1ca-9fee160e0965",
+      "folder": "objects/ants_5",
+      "objects": [
+        {
+          "id": "e7440d8f-d38f-415d-83f7-f72532bed3a2",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0351ce70-e26f-4c7e-bfd9-6b990c9ccc9d",
+      "folder": "objects/ants_6",
+      "objects": [
+        {
+          "id": "dcb83fdf-524b-4402-ad02-4f8619fb466b",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "5241d03a-7633-444c-a9b1-e962b9dc1f67",
+      "folder": "objects/ants_7",
+      "objects": [
+        {
+          "id": "cdd73e40-0ded-4822-9aec-cf0df7c6f68d",
+          "name": "base",
+          "prompt": "ants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/ants_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-09-02T23:03:20.604333"
+}
