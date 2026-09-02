@@ -1,0 +1,67 @@
+{
+	"display_name": "your own roof",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the road out is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#8a7c66",
+	"fire": [8, 4],
+	"spawn": [8, 10],
+	"seats": [[6, 5], [10, 5], [6, 3], [10, 3]],
+	"exits": [[8, 12], [9, 12]],
+	"spots": [
+		{ "cell": [8, 6], "line": "The floor is swept. Somebody did that, and it was one of you." },
+		{ "cell": [4, 7], "line": "Marks on the doorframe where somebody measured a child, years back." },
+		{ "cell": [12, 7], "line": "A shelf of things nobody has thrown out and nobody uses." }
+	],
+	"chests": [
+		{
+			"cell": [4, 3],
+			"line": "The box under the floorboard. Still where you left it.",
+			"art": "strongbox",
+			"gold": 60
+		}
+	],
+	"props": [
+		{ "art": "bed", "cell": [4, 5] },
+		{ "art": "cabinet", "cell": [12, 5] },
+		{ "art": "tall_clock", "cell": [12, 3] },
+		{ "art": "writing_desk", "cell": [4, 9] },
+		{ "art": "chair", "cell": [6, 9] },
+		{ "art": "potted_plant", "cell": [12, 9] },
+		{ "art": "oil_lamp", "cell": [10, 7] }
+	],
+	"people": [
+		{
+			"name": "Merrow the Housekeeper",
+			"unit": "peasant",
+			"cell": [10, 8],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"I kept it aired. You were gone long enough for it to matter.",
+				"There's bread, if you can call it that by now.",
+				"Somebody came asking after you. I said I didn't know, which was true.",
+				"The bed's better than it was. You paid for that, so use it."
+			]
+		}
+	],
+	"rows": [
+		"mmmm.........mmmm",
+		"mmm...........mmm",
+		"mm.....,,,.....mm",
+		"m....,,,,,,,....m",
+		"....,,,,,,,,,....",
+		"...,,,,,,,,,,,...",
+		"...,,,,,,,,,,,...",
+		"...,,,,,,,,,,,...",
+		"....,,,,,,,,,....",
+		"m....,,,,,,,....m",
+		"mm.....,,,.....mm",
+		"mmm....,,,....mmm",
+		"mmmm...,,,...mmmm"
+	]
+}

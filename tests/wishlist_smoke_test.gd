@@ -12,6 +12,8 @@ var _failures: Array[String] = []
 
 
 func _ready() -> void:
+	_check_content()
+	_check_animation()
 	_check_journal()
 	_check_museum()
 	_check_arena()
@@ -31,6 +33,108 @@ func _ready() -> void:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+# --- the data tables ----------------------------------------------------------
+
+
+## Every id one table uses has to exist in the table it points at. A typo here
+## is a hero nobody can pick or an ability nobody can cast, and neither says so.
+func _check_content() -> void:
+	var known_ability_keys := [
+		"display_name", "description", "target", "min_range", "range", "splash",
+		"power", "heal", "bonus",
+	]
+	for ability_id: String in Database.abilities:
+		var ability: Dictionary = Database.abilities[ability_id]
+		for key: String in ability:
+			_expect(known_ability_keys.has(key), "ability %s has unknown field '%s'" % [ability_id, key])
+		_expect(
+			str(ability.get("target", "enemy")) in ["enemy", "ally"],
+			"ability %s targets '%s'" % [ability_id, ability.get("target", "")]
+		)
+		_expect(
+			int(ability.get("min_range", 1)) <= int(ability.get("range", 1)),
+			"ability %s cannot reach its own minimum range" % ability_id
+		)
+
+	for class_id: String in Database.classes:
+		for ability_id: String in Database.classes[class_id].get("grants", []):
+			_expect(
+				Database.abilities.has(ability_id),
+				"class %s grants missing ability '%s'" % [class_id, ability_id]
+			)
+
+	for hero_id: String in Database.heroes:
+		_expect(Database.units.has(hero_id), "hero '%s' has no unit template" % hero_id)
+		for companion_id: String in Database.hero(hero_id).get("companions", []):
+			_expect(
+				Database.units.has(companion_id),
+				"hero %s brings missing companion '%s'" % [hero_id, companion_id]
+			)
+
+	for template_id: String in Database.units:
+		for ability_id: String in Database.units[template_id].get("abilities", []):
+			_expect(
+				Database.abilities.has(ability_id),
+				"unit %s knows missing ability '%s'" % [template_id, ability_id]
+			)
+		for class_id: String in Database.units[template_id].get("classes", []):
+			_expect(
+				Database.classes.has(class_id),
+				"unit %s takes missing class '%s'" % [template_id, class_id]
+			)
+
+	# Gear only reads as a choice if the wrong hands are worse than the right ones.
+	var wearer := Character.create("bram")
+	wearer.class_id = "sworn_blade"
+	for equipment_id: String in Database.equipment:
+		var piece: Dictionary = Database.equipment[equipment_id]
+		if bool(piece.get("charm", false)):
+			_expect(piece.has("grace"), "charm %s buys no grace" % equipment_id)
+			continue
+		if Gear.is_draught(equipment_id):
+			_expect(Gear.mends(equipment_id) > 0, "draught %s mends nothing" % equipment_id)
+			continue
+		_expect(
+			int(piece.get("attack", 0)) + int(piece.get("defense", 0)) > 0,
+			"equipment %s is worth nothing to anybody" % equipment_id
+		)
+		for calling: String in piece.get("suits", []):
+			_expect(
+				Database.classes.has(calling) or Database.units.has(calling),
+				"equipment %s suits missing calling '%s'" % [equipment_id, calling]
+			)
+		if piece.get("suits", []).has("sworn_blade"):
+			_expect(
+				Gear.worth(equipment_id, wearer) > 0,
+				"%s is no use to the calling it was made for" % equipment_id
+			)
+
+
+# --- W11 ----------------------------------------------------------------------
+
+
+## A unit with a run cycle has to actually reach for it, and a unit without one
+## has to keep standing rather than drawing nothing at all.
+func _check_animation() -> void:
+	var frames := Database.unit_run("bram", "east")
+	_expect(frames.size() > 1, "the sworn blade's run cycle is %d frames" % frames.size())
+	for heading: String in ["north", "south", "east", "west"]:
+		_expect(
+			not Database.unit_run("bram", heading).is_empty(),
+			"the sworn blade cannot run %s" % heading
+		)
+	_expect(Database.unit_run("goblin", "east").is_empty(), "a goblin grew a run cycle")
+
+	var runner := Unit.create("bram", Unit.Team.PLAYER, Vector2i.ZERO)
+	_expect(not runner.run_frames.is_empty(), "a unit with art loaded no run cycle")
+	_expect(runner.current_sprite() != null, "a standing unit is drawn as nothing")
+	var still := Unit.create("goblin", Unit.Team.ENEMY, Vector2i.ZERO)
+	_expect(still.run_frames.is_empty(), "a unit with no cycle claims one")
+	_expect(still.current_sprite() != null, "a unit with no cycle lost its standing pose")
+	runner.free()
+	still.free()
 
 
 # --- W4 -----------------------------------------------------------------------

@@ -12,6 +12,9 @@ const FIRST_REPEAT_DELAY := 0.28
 const RUN_OVER_DELAY := 3.0
 ## Steps between the country putting fresh bands out where you cannot see them.
 const RESTOCK_INTERVAL := 12
+## Lines of world log kept on screen. Everything still happens when it is off;
+## the log is a record, not the game.
+const LOG_LINES := 3
 ## Seconds between steps while the party is walking itself.
 const AUTO_DELAY := 0.09
 ## How far the party will turn aside for a band while walking itself. The road
@@ -48,10 +51,14 @@ var _busy: bool = false
 var _bubble: SpeechBubble = null
 ## Someone of yours being held at the tile you are standing on.
 var _captive_here: Character = null
+## A scene happening in front of the party that they have not answered yet.
+var _roadside_here: String = ""
 ## The way the party was last walking itself, so auto does not pace on the spot.
 var _auto_last: Vector2i = Vector2i.ZERO
 ## Map art kept between redraws, since the whole map is redrawn every step.
 var _art: Dictionary = {}
+## Where the camera was last time the ground was laid out (x, y, zoom).
+var _last_view: Vector3 = Vector3.INF
 
 
 func _ready() -> void:
@@ -59,6 +66,7 @@ func _ready() -> void:
 	Encounter.restock(world, world.rng)
 	if world.steps == 0:
 		Encounter.first_blood(world, world.rng)
+	_warm_art()
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
@@ -83,6 +91,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_watch_the_view()
 	if _busy:
 		return
 	if Pace.auto:
@@ -194,17 +203,29 @@ func _step(direction: Vector2i) -> void:
 	if not world.is_walkable(target):
 		return
 
+	var was_at_the_tower := _standing_at_the_tower()
+	# Leaving the tile you were offered something on is how you turn it down.
+	if _roadside_here != "":
+		for line: String in Roadside.walk_by(world, world.player_cell, _roadside_here):
+			_note(line)
+		_roadside_here = ""
 	world.player_cell = target
+	if was_at_the_tower and not _standing_at_the_tower():
+		_carry_the_hoard_out()
 	_captive_here = null
 	for notice: String in world.step():
 		_note(notice)
 	for notice: String in Errand.on_arrive(GameState.errands, target, world):
+		_note(notice)
+	for notice: String in Roadside.on_arrive(world, world.site_at(target), GameState.party_characters()):
 		_note(notice)
 	for notice: String in Skein.on_arrive(world, target, world.site_at(target)):
 		_note(notice)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)
+		# New bands mean new faces, and a face first loaded mid-draw comes out white.
+		_warm_art()
 	_road_talk()
 	_centre_camera()
 	_map.queue_redraw()
@@ -215,8 +236,44 @@ func _step(direction: Vector2i) -> void:
 	else:
 		_look_for_a_cache(target)
 	_watch_check(target)
+	_look_down_the_road(target)
 	_check_party()
 	_refresh()
+
+
+## Somebody else's fight, in front of you, that you did not cause and do not
+## have to take. It waits on the tile: walking off is how you refuse it.
+func _look_down_the_road(cell: Vector2i) -> void:
+	if _busy:
+		return
+	var found := Roadside.look(world, cell)
+	if found == "":
+		return
+	_roadside_here = found
+	# A party walking itself would pace straight past somebody dying.
+	Pace.auto = false
+	_note(Roadside.title(found))
+	EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
+
+
+## Step in. The purse and everything after it waits on winning.
+func _step_into_the_road() -> void:
+	if _roadside_here == "" or _busy:
+		return
+	var found := _roadside_here
+	_roadside_here = ""
+	_begin_battle(
+		Roadside.meeting(world, world.player_cell, found, GameState.party_characters(), world.rng),
+		{ "kind": "roadside", "event": found, "cell": world.player_cell,
+		  "lost": "You are driven off, and they finish what they started." }
+	)
+
+
+func _as_conversation(lines: Array) -> Array:
+	var out: Array = []
+	for line: String in lines:
+		out.append({ "speaker": "", "text": line })
+	return out
 
 
 ## Country nobody is watching still has things left lying about in it. The
@@ -262,6 +319,11 @@ func _settle_up(won: bool) -> void:
 		return
 	if not won:
 		_note(str(outcome.get("lost", "You came away with nothing.")))
+		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
+			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
+			world.tower_hoard = 0
+		if str(outcome.get("kind", "")) == "gate":
+			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
 		return
 
 	var party := GameState.party_characters()
@@ -271,9 +333,17 @@ func _settle_up(won: bool) -> void:
 		"gate":
 			if site == null:
 				return
-			world.close_gate(site)
-			for line: String in Spoils.for_gate(world, site, party):
-				_note(line)
+			if not bool(outcome.get("final", true)):
+				site.data["depth"] = site.depth() + 1
+				_note("%s gives up a floor. %d of %d behind you." % [
+					site.display_name, site.depth(), site.floors()
+				])
+				for line: String in Spoils.for_gate_floor(world, site, party):
+					_note(line)
+			else:
+				world.close_gate(site)
+				for line: String in Spoils.for_gate(world, site, party):
+					_note(line)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
@@ -301,6 +371,11 @@ func _settle_up(won: bool) -> void:
 				return
 			Captivity.free_by_force(freed, GameState.roster)
 			_note("%s walks out with you." % freed.display_name)
+		"roadside":
+			var lines := Roadside.saved(world, cell, str(outcome.get("event", "")), party)
+			for line: String in lines:
+				_note(line)
+			EventBus.conversation_requested.emit(_as_conversation(lines))
 	_map.queue_redraw()
 	_refresh()
 
@@ -417,11 +492,22 @@ func _enter_gate(site: Site) -> void:
 		return
 
 	var party := GameState.party_characters()
-	_note("%s stands open." % site.label())
-	# Shutting a gate is permanent, so it only shuts if you walk back out of it.
+	var depth := site.depth()
+	var final := site.is_final_floor()
+	if site.floors() > 1:
+		_note("%s, floor %d of %d." % [site.label(), depth + 1, site.floors()])
+		if depth > 0:
+			_note("Lose down here and you come out at the mouth of it again.")
+	else:
+		_note("%s stands open." % site.label())
+
+	# Shutting a gate is permanent, so it only shuts once the last floor is won.
 	_begin_battle(
-		Encounter.for_gate(world, site, 0, true, party, world.rng),
-		{"kind": "gate", "cell": site.cell, "lost": "%s is still standing open." % site.display_name}
+		Encounter.for_gate(world, site, depth, final, party, world.rng),
+		{
+			"kind": "gate", "cell": site.cell, "final": final,
+			"lost": "%s is still standing open." % site.display_name,
+		}
 	)
 
 
@@ -432,6 +518,8 @@ func _climb(site: Site) -> void:
 
 	var next_floor := world.tower_floor + 1
 	_note("The Tower opens onto floor %d of %d." % [next_floor, world.tower_floors()])
+	if world.tower_hoard > 0:
+		_note("You are still carrying %d gold. Lose here and it stays here." % world.tower_hoard)
 	_begin_battle(
 		Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng),
 		{
@@ -439,6 +527,31 @@ func _climb(site: Site) -> void:
 			"lost": "You come back down to the floor you started on.",
 		}
 	)
+
+
+## A delve you walk out of keeps the floors you took; a delve you lose does not.
+## You are carried back to the mouth of it and it fills in behind you.
+func _lose_the_ground(site: Site) -> void:
+	if site == null or site.depth() <= 0:
+		return
+	site.data["depth"] = 0
+	_note("%s closes over the way you came. You are back at the mouth of it." % site.display_name)
+
+
+## Walking off the Tower's step is what banks an ascent. Nothing else does, so
+## every extra floor is a decision about what you are already holding.
+func _carry_the_hoard_out() -> void:
+	if world.tower_hoard <= 0:
+		return
+	var carried := world.tower_hoard
+	world.tower_hoard = 0
+	GameState.gold += carried
+	_note("You walk away from the Tower with %d gold." % carried)
+
+
+func _standing_at_the_tower() -> bool:
+	var site := world.site_at(world.player_cell)
+	return site != null and site.kind == Site.TOWER
 
 
 # --- party --------------------------------------------------------------------
@@ -470,10 +583,17 @@ func _prompt() -> String:
 	if choosing != null:
 		return "%s is ready to choose a path — press P." % choosing.display_name
 
+	var owed := _somebody_owed_a_power()
+	if owed != null:
+		return "%s has %d power to take — press P." % [owed.display_name, owed.rungs]
+
 	if _captive_here != null:
 		return "R to ransom %s for %d gold  ·  F to take them back by force." % [
 			_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
 		]
+
+	if _roadside_here != "":
+		return "E to step in  ·  walk on to leave them to it."
 
 	var site := world.site_at(world.player_cell)
 	if site != null:
@@ -505,7 +625,19 @@ func _prompt() -> String:
 		if not parts.is_empty():
 			return "  ·  ".join(parts)
 
+	if Roadside.escorting(world):
+		return Roadside.escort_prompt(world)
+
 	return "P for the party  ·  Esc for the menu"
+
+
+## A power earned and not placed does nothing at all, so it is worth saying so
+## on the walk rather than only on the screen nobody has opened.
+func _somebody_owed_a_power() -> Character:
+	for member: Character in GameState.roster.party_members():
+		if member.rungs > 0:
+			return member
+	return null
 
 
 ## What the board where you are standing has to say, if anything.
@@ -548,6 +680,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		EventBus.system_menu_requested.emit()
 		return
+	# Before the pace keys: walking into a place is what the player came here to
+	# do, and E was quietly being eaten by the speed cycle.
+	if event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
+		if _roadside_here != "":
+			_step_into_the_road()
+		else:
+			_walk_into_site()
+		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto
@@ -566,6 +707,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_N:
 			get_viewport().set_input_as_handled()
 			EventBus.journal_requested.emit()
+		KEY_L:
+			get_viewport().set_input_as_handled()
+			_log.visible = not _log.visible
 		KEY_H:
 			get_viewport().set_input_as_handled()
 			_hire_here()
@@ -593,9 +737,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_K:
 			get_viewport().set_input_as_handled()
 			_raid_here()
-		KEY_E:
-			get_viewport().set_input_as_handled()
-			_walk_into_site()
 
 
 ## Places big enough to walk around in have an area of the same name as their
@@ -609,10 +750,16 @@ func _area_here() -> String:
 
 
 func _walk_into_site() -> void:
+	var site := world.site_at(world.player_cell)
 	var area_id := _area_here()
 	if area_id == "":
+		# Most places on the map have no inside yet. Say so, rather than
+		# swallowing the key and reading as broken.
+		_note(
+			"There is no way into %s." % site.display_name if site != null
+			else "There is nothing here to walk into."
+		)
 		return
-	var site := world.site_at(world.player_cell)
 	_busy = true
 	EventBus.request_scene.emit("area", {
 		"area_id": area_id,
@@ -786,7 +933,9 @@ func _talk(occasion: String, stopped: bool) -> void:
 	var exchange := Banter.pick(world, GameState.party_characters(), occasion, world.rng)
 	if exchange.is_empty():
 		return
-	if stopped:
+	# Banter is not a conversation the player asked for, so it is allowed to be
+	# demoted to the log and a bubble (see [Pace]).
+	if stopped and not Pace.quiet_banter:
 		EventBus.conversation_requested.emit(exchange)
 		return
 	for line: String in Banter.as_lines(exchange):
@@ -824,8 +973,8 @@ func _road_talk() -> void:
 
 func _note(line: String) -> void:
 	_notices.append(line)
-	if _notices.size() > 4:
-		_notices = _notices.slice(_notices.size() - 4)
+	if _notices.size() > LOG_LINES:
+		_notices = _notices.slice(_notices.size() - LOG_LINES)
 	_log.text = "\n".join(_notices)
 
 
@@ -871,16 +1020,46 @@ func _draw_world() -> void:
 	_draw_party()
 
 
+## The ground is drawn to the camera, so panning or zooming has to redraw it.
+## Compared rather than hooked, because the rig moves by tween as well as by key.
+func _watch_the_view() -> void:
+	var now := Vector3(
+		_camera.get_screen_center_position().x,
+		_camera.get_screen_center_position().y,
+		_camera.zoom.x
+	)
+	if now.distance_squared_to(_last_view) < 1.0:
+		return
+	_last_view = now
+	_map.queue_redraw()
+
+
 ## A single flat green for every grass tile reads as a spreadsheet. Each cell
 ## gets a fixed wobble in brightness and whatever its terrain grows.
+##
+## Only what the camera can see is drawn. The country is far too large to lay
+## out in full every time somebody takes a step.
 func _draw_ground() -> void:
-	for y in world.size.y:
-		for x in world.size.x:
+	var seen := _cells_in_view()
+	for y in range(seen.position.y, seen.end.y):
+		for x in range(seen.position.x, seen.end.x):
 			var cell := Vector2i(x, y)
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
 			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
 			_dress(cell, world.terrain_id_at(cell))
+
+
+## The block of cells the camera has in front of it, clamped to the map and
+## grown by a tile so nothing pops in at the edge of the screen.
+func _cells_in_view() -> Rect2i:
+	var span := get_viewport_rect().size / _camera.zoom
+	var origin := _camera.get_screen_center_position() - span * 0.5
+	var first := Vector2i((origin / CELL).floor()) - Vector2i.ONE
+	var last := Vector2i(((origin + span) / CELL).ceil()) + Vector2i.ONE
+	first = first.clamp(Vector2i.ZERO, world.size)
+	last = last.clamp(Vector2i.ZERO, world.size)
+	return Rect2i(first, last - first)
 
 
 ## Deterministic, so the country does not shimmer as you walk across it.
@@ -923,6 +1102,26 @@ func _dress(cell: Vector2i, terrain_id: String) -> void:
 		"grass":
 			if seed_value % 5 == 0:
 				_map.draw_circle(origin + _scatter(seed_value, 2), CELL * 0.06, Color(0.32, 0.48, 0.26, 0.55))
+		"forest":
+			# Denser and darker than brush, so a wood reads as somewhere to go round.
+			for i in 4:
+				var trunk := origin + _scatter(seed_value, i)
+				_map.draw_circle(trunk, CELL * 0.13, Color(0.13, 0.26, 0.12, 0.8))
+		"snow":
+			if seed_value % 3 == 0:
+				_map.draw_circle(origin + _scatter(seed_value, 4), CELL * 0.07, Color(1, 1, 1, 0.5))
+		"sand":
+			if seed_value % 2 == 0:
+				var dune := origin + _scatter(seed_value, 5)
+				_map.draw_line(dune, dune + Vector2(CELL * 0.3, 0), Color(1, 0.94, 0.78, 0.3), 1.0)
+		"marsh":
+			for i in 2:
+				var tuft := origin + _scatter(seed_value, i + 2)
+				_map.draw_circle(tuft, CELL * 0.08, Color(0.3, 0.38, 0.25, 0.7))
+		"ocean", "lake":
+			if seed_value % 4 == 0:
+				var swell := origin + _scatter(seed_value, 6)
+				_map.draw_line(swell, swell + Vector2(CELL * 0.3, 0), Color(1, 1, 1, 0.09), 1.0)
 
 
 func _scatter(seed_value: int, index: int) -> Vector2:
@@ -982,6 +1181,19 @@ func _site_art(site: Site) -> Texture2D:
 	if not _art.has(path):
 		_art[path] = load(path) if ResourceLoader.exists(path) else null
 	return _art[path]
+
+
+## Everything the map is about to draw, loaded up front. A texture that first
+## reaches the GPU part-way through a draw pass is drawn as a white rectangle,
+## so nothing here may be loaded lazily from inside [method _draw_world].
+func _warm_art() -> void:
+	for site in world.sites:
+		_site_art(site)
+	for band: Prowler in world.prowlers:
+		if not band.pack.is_empty():
+			Database.unit_face(band.pack[0])
+	for character in GameState.roster.characters:
+		Database.unit_face(character.template_id)
 
 
 ## Where the errands point. Nobody drew you a map, but you know roughly.

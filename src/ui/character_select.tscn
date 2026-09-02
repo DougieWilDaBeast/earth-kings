@@ -167,6 +167,22 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Difficulty"
 
+[node name="SeedLabel" type="Label" parent="Margin/Content/Footer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.639, 0.62, 0.573, 1)
+theme_override_font_sizes/font_size = 14
+text = "Seed"
+
+[node name="SeedField" type="LineEdit" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+placeholder_text = "any"
+max_length = 10
+alignment = 1
+
 [node name="Spacer" type="Control" parent="Margin/Content/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3

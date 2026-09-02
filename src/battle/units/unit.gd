@@ -13,6 +13,8 @@ enum Cost { ACTION, BONUS, EITHER }
 const WALK_TIME_PER_TILE := 0.14
 ## Half a blink: fade out, reappear, fade back in.
 const FLASH_TIME := 0.11
+## Frames a second for a unit that has a run cycle to step through.
+const RUN_FPS := 12.0
 ## Sprite height as a multiple of a tile.
 const SPRITE_HEIGHT_CELLS := 1.15
 ## Facing -> the rotation file PixelLab exports for it.
@@ -47,6 +49,8 @@ var abilities: Array = []
 var colour: Color = Color.WHITE
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
 var sprites: Dictionary = {}
+## Facing -> the run cycle, for the few units that have one (see [Database]).
+var run_frames: Dictionary = {}
 ## The equipped piece from `data/equipment.json`, plus its rotation art.
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
@@ -56,6 +60,10 @@ var ct: int = 0
 
 var action_spent: bool = false
 var bonus_spent: bool = false
+
+## Set while the unit is crossing the ground, so it is drawn mid-stride.
+var _running: bool = false
+var _run_time: float = 0.0
 
 
 static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) -> Unit:
@@ -75,6 +83,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.abilities = data.get("abilities", ["strike"])
 	unit.colour = Color(data.get("color", "#cccccc"))
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
+	unit.run_frames = _load_run(template_id_)
 	unit.team = unit_team
 	unit.cell = start_cell
 	unit.ct = randi_range(0, 40)
@@ -105,8 +114,9 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit._equip(source.equipment)
 	# create() already folded the template weapon in; keep it on top of the
 	# character's own numbers rather than losing it.
-	unit.attack = source.attack() + int(unit.weapon.get("attack", 0))
-	unit.defense = source.defense() + int(unit.weapon.get("defense", 0))
+	var carried := Gear.bonus(source.equipment, source) if source.equipment != "" else {}
+	unit.attack = source.attack() + int(carried.get("attack", unit.weapon.get("attack", 0)))
+	unit.defense = source.defense() + int(carried.get("defense", unit.weapon.get("defense", 0)))
 	unit.move_points = source.move_points()
 	unit.jump = source.jump()
 	unit.flash_step = source.flash_step()
@@ -144,6 +154,17 @@ static func _load_sprites(dir_path: String, template_id_: String) -> Dictionary:
 			out[facing_dir] = load(path)
 		else:
 			push_warning("Unit: %s is missing the rotation %s" % [template_id_, path])
+	return out
+
+
+## Only a handful of units have a run cycle. The rest keep their standing pose
+## and slide, which is what the game did for everybody until now.
+static func _load_run(template_id_: String) -> Dictionary:
+	var out := {}
+	for facing_dir: Vector2i in SPRITE_ROTATIONS:
+		var frames := Database.unit_run(template_id_, SPRITE_ROTATIONS[facing_dir])
+		if not frames.is_empty():
+			out[facing_dir] = frames
 	return out
 
 
@@ -245,13 +266,31 @@ func snap_to_cell(grid: BattleGrid) -> void:
 func walk_path(grid: BattleGrid, path: Array[Vector2i]) -> void:
 	if path.is_empty():
 		return
+	var started_at := cell
+	_running = not run_frames.is_empty()
+	set_process(_running)
+
 	var tween := create_tween()
+	var previous := cell
 	for step in path:
+		# Turning at each corner rather than at the end, so a unit rounding a
+		# rock is facing where it is going while it does it.
+		var heading := dominant_direction(step - previous)
+		tween.tween_callback(func() -> void: facing = heading)
 		tween.tween_property(self, "position", grid.cell_to_world(step), WALK_TIME_PER_TILE)
+		previous = step
 	await tween.finished
-	var penultimate: Vector2i = path[-2] if path.size() > 1 else cell
+
+	var penultimate: Vector2i = path[-2] if path.size() > 1 else started_at
 	cell = path[-1]
 	facing = dominant_direction(cell - penultimate)
+	_running = false
+	set_process(false)
+	queue_redraw()
+
+
+func _process(delta: float) -> void:
+	_run_time += delta
 	queue_redraw()
 
 
@@ -307,6 +346,10 @@ func _draw_weapon() -> void:
 
 
 func current_sprite() -> Texture2D:
+	if _running:
+		var frames: Array = run_frames.get(facing, [])
+		if not frames.is_empty():
+			return frames[int(_run_time * RUN_FPS) % frames.size()]
 	return sprites.get(facing, sprites.get(Vector2i.DOWN, null))
 
 

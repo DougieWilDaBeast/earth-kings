@@ -150,6 +150,10 @@ func _check_doctrine(hero: Character, world: World) -> void:
 
 
 func _check_class_choice(world: World) -> void:
+	# The XP curve is what is under test, not the difficulty dial on top of it.
+	var setting := GameState.difficulty
+	GameState.difficulty = "even"
+
 	# A party member is asked; the world waits for the answer.
 	var mine := Character.create("bram", "", true)
 	Progression.award(mine, Progression.xp_to_next(1), world)
@@ -165,6 +169,7 @@ func _check_class_choice(world: World) -> void:
 	Progression.award(theirs, Progression.xp_to_next(1), world)
 	_expect(theirs.class_id != "", "an NPC never settled into a class")
 	_expect(not theirs.pending_class_choice, "an NPC is waiting on the player")
+	GameState.difficulty = setting
 
 
 func _check_fate(world: World) -> void:
@@ -494,6 +499,9 @@ func _check_roster(world: World) -> void:
 func _check_encounters(world: World) -> void:
 	print("")
 	var party := Roster.found().party_members()
+	# Composition is what is under test; the difficulty dials thin every band.
+	var setting := GameState.difficulty
+	GameState.difficulty = "even"
 
 	# Danger is a property of place: loud near an open gate, quiet by a hearth.
 	var open_gates := world.sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.open)
@@ -522,6 +530,7 @@ func _check_encounters(world: World) -> void:
 		"the Tower is no harder at floor 6 than at floor 1"
 	)
 	print("tower floor 1 fields level %d, floor 6 fields level %d" % [_top_level(shallow), _top_level(climb)])
+	GameState.difficulty = setting
 
 
 ## Every generated battlefield has to be one a fight can actually happen on.

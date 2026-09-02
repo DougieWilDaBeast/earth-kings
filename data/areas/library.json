@@ -1,0 +1,101 @@
+{
+	"display_name": "the reading hall",
+	"layers": ["flagstone"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the door out is south",
+	"legend": {
+		".": "grass",
+		"f": "flagstone"
+	},
+	"tint": "#a8adc0",
+	"spawn": [9, 13],
+	"exits": [[9, 14], [10, 14]],
+	"spots": [
+		{ "cell": [9, 4], "line": "Shelves to the ceiling, and a ladder nobody has moved in a while." },
+		{ "cell": [4, 6], "line": "A table of open books, all of them held down with stones." },
+		{ "cell": [14, 6], "line": "A map of the country with three towns on it that are not there any more." },
+		{ "cell": [9, 9], "line": "Somebody has been copying the same page over and over. The hand gets worse." }
+	],
+	"chests": [
+		{
+			"cell": [3, 3],
+			"line": "A case at the end of the stacks, and the catch has gone soft with age.",
+			"art": "chest_dark",
+			"gold": 110,
+			"item": "whetstone"
+		},
+		{
+			"cell": [15, 3],
+			"line": "A drawer of nothing but ink, and one thing that is not ink.",
+			"art": "drawers_wood",
+			"gold": 70,
+			"item": "salt_pouch"
+		}
+	],
+	"props": [
+		{ "art": "scroll_rack", "cell": [5, 3] },
+		{ "art": "scroll_rack", "cell": [7, 3] },
+		{ "art": "scroll_rack", "cell": [11, 3] },
+		{ "art": "scroll_rack", "cell": [13, 3] },
+		{ "art": "writing_desk", "cell": [5, 8] },
+		{ "art": "writing_desk", "cell": [13, 8] },
+		{ "art": "globe", "cell": [9, 6] },
+		{ "art": "crystal_ball", "cell": [11, 10] },
+		{ "art": "lamp_globe", "cell": [7, 10] },
+		{ "art": "tapestry", "cell": [3, 10] },
+		{ "art": "tall_clock", "cell": [15, 10] }
+	],
+	"people": [
+		{
+			"name": "Ondry the Keeper",
+			"unit": "neuron_chief",
+			"cell": [9, 7],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"Read what you like. Put it back where it was, not where it should be.",
+				"Half of this is wrong. I have not worked out which half.",
+				"The lamps stay lit. That is the whole of my duty and it takes all day.",
+				"Somebody copied a page badly two hundred years ago and we are all still living in it."
+			]
+		},
+		{
+			"name": "Wick the Duck Wizard",
+			"unit": "duck_wizard",
+			"cell": [13, 5],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"I am not lost. I am between shelves.",
+				"There is a book here that I am not allowed to want.",
+				"Quills. They ask where I get the quills. I do not answer."
+			]
+		},
+		{
+			"name": "a wisp above the stacks",
+			"unit": "feather_wisp",
+			"cell": [5, 5],
+			"facing": [1, 0],
+			"wander": 4,
+			"chatter": [
+				"It hangs over whichever page is being read, as if it were reading too."
+			]
+		}
+	],
+	"rows": [
+		".................",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		".fffffffffffffff.",
+		"..fffffffffffff..",
+		"........fff......",
+		"........fff......"
+	]
+}

@@ -26,7 +26,8 @@
 			"cell": [12, 10],
 			"line": "A footlocker nobody has claimed since the last watch changed.",
 			"gold": 175,
-			"item": "grave_token"
+			"item": "grave_token",
+			"key": "gate_key"
 		}
 	],
 	"buildings": [

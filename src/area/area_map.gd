@@ -31,6 +31,8 @@ var people: Array[Dictionary] = []
 var fire: Vector2i = Vector2i(-1, -1)
 ## Where the party sits when there is a fire to sit around.
 var seats: Array[Vector2i] = []
+## cell -> a thing in the way that is not a wall (see [Ward]).
+var wards: Dictionary = {}
 ## Light the whole place is seen in, for areas that are not at noon.
 var tint: String = ""
 ## A cutscene played the moment the party walks in.
@@ -89,6 +91,10 @@ static func load_area(area_id: String) -> AreaMap:
 		map.fire = _to_cell(data["fire"])
 	for pair: Array in data.get("seats", []):
 		map.seats.append(_to_cell(pair))
+	for entry: Dictionary in data.get("wards", []):
+		var ward := entry.duplicate(true)
+		ward["cell"] = _to_cell(entry.get("cell", [0, 0]))
+		map.wards[ward["cell"]] = ward
 	map.tint = data.get("tint", "")
 	map.opening = data.get("opening", "")
 	map.hint = data.get("hint", "")
@@ -110,6 +116,8 @@ func is_walkable(cell: Vector2i) -> bool:
 	if not in_bounds(cell):
 		return false
 	if cell == fire or _blocked.has(cell):
+		return false
+	if wards.has(cell) and not Ward.is_open(id, cell):
 		return false
 	var building := building_at(cell)
 	if not building.is_empty() and building["door"] != cell:

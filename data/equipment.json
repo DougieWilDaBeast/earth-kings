@@ -1,6 +1,7 @@
 {
 	"bone_sword": {
 		"display_name": "Bone Sword",
+		"icon": "blade/blade_bone",
 		"attack": 4,
 		"sprite_dir": "res://art/items/bone_sword",
 		"scale": 0.8,
@@ -13,14 +14,335 @@
 	},
 	"grave_token": {
 		"display_name": "Grave Token",
+		"icon": "staff/staff_skull",
 		"charm": true,
 		"grace": 0.5,
 		"text": "Cold to the touch. Spent once, and never twice."
 	},
 	"knotted_cord": {
 		"display_name": "Knotted Cord",
+		"icon": "kit/kit_traveller",
 		"charm": true,
 		"grace": 0.25,
 		"text": "One knot for every time it held."
+	},
+
+	"iron_blade": {
+		"display_name": "Iron Blade",
+		"icon": "blade/blade_iron",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman", "raider"],
+		"attack": 3,
+		"price": 90
+	},
+	"steel_blade": {
+		"display_name": "Steel Blade",
+		"icon": "blade/blade_steel",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman", "raider"],
+		"attack": 6,
+		"price": 210
+	},
+	"silver_blade": {
+		"display_name": "Silver Blade",
+		"icon": "blade/blade_silver",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman"],
+		"attack": 8,
+		"defense": 1,
+		"price": 380
+	},
+	"ember_blade": {
+		"display_name": "Ember Blade",
+		"icon": "blade/blade_ember",
+		"kind": "blade",
+		"suits": ["magic_swordsman"],
+		"attack": 11,
+		"price": 620
+	},
+	"rune_blade": {
+		"display_name": "Rune Blade",
+		"icon": "blade/blade_rune",
+		"kind": "blade",
+		"suits": ["magic_swordsman", "hedge_priest"],
+		"attack": 9,
+		"defense": 2,
+		"price": 700
+	},
+	"thorn_blade": {
+		"display_name": "Thorn Blade",
+		"icon": "blade/blade_thorn",
+		"kind": "blade",
+		"suits": ["raider", "wildling"],
+		"attack": 10,
+		"price": 540
+	},
+	"gilt_blade": {
+		"display_name": "Gilt Blade",
+		"icon": "blade/blade_gilt",
+		"kind": "blade",
+		"suits": ["sworn_blade"],
+		"attack": 12,
+		"defense": 1,
+		"price": 820
+	},
+	"storm_blade": {
+		"display_name": "Storm Blade",
+		"icon": "blade/blade_storm",
+		"kind": "blade",
+		"suits": ["magic_swordsman", "wildling"],
+		"attack": 13,
+		"price": 950
+	},
+
+	"hunting_bow": {
+		"display_name": "Hunting Bow",
+		"icon": "kit/kit_hunter",
+		"kind": "bow",
+		"suits": ["longbow", "wildling"],
+		"attack": 4,
+		"price": 120
+	},
+	"horn_bow": {
+		"display_name": "Horn Bow",
+		"icon": "kit/kit_scout",
+		"kind": "bow",
+		"suits": ["longbow", "wildling"],
+		"attack": 7,
+		"price": 300
+	},
+	"yew_longbow": {
+		"display_name": "Yew Longbow",
+		"icon": "kit/kit_wildling",
+		"kind": "bow",
+		"suits": ["longbow"],
+		"attack": 11,
+		"price": 660
+	},
+
+	"orrery_staff": {
+		"display_name": "Orrery Staff",
+		"icon": "staff/staff_orrery",
+		"kind": "staff",
+		"suits": ["hedge_priest", "magic_swordsman"],
+		"attack": 5,
+		"defense": 1,
+		"price": 180
+	},
+	"lantern_staff": {
+		"display_name": "Lantern Staff",
+		"icon": "staff/staff_lantern",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 6,
+		"defense": 2,
+		"price": 290
+	},
+	"skull_staff": {
+		"display_name": "Skull Staff",
+		"icon": "staff/staff_skull",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 9,
+		"price": 470
+	},
+	"frost_staff": {
+		"display_name": "Frost Staff",
+		"icon": "staff/staff_frost",
+		"kind": "staff",
+		"suits": ["hedge_priest", "magic_swordsman"],
+		"attack": 10,
+		"defense": 1,
+		"price": 610
+	},
+	"comet_staff": {
+		"display_name": "Comet Staff",
+		"icon": "staff/staff_comet",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 13,
+		"price": 880
+	},
+
+	"padded_coat": {
+		"display_name": "Padded Coat",
+		"icon": "armour/armour_amber_coat",
+		"kind": "armour",
+		"defense": 3,
+		"price": 80
+	},
+	"scale_shirt": {
+		"display_name": "Scale Shirt",
+		"icon": "armour/armour_scale_shirt",
+		"kind": "armour",
+		"suits": ["sworn_blade", "raider", "magic_swordsman"],
+		"defense": 6,
+		"price": 240
+	},
+	"bark_harness": {
+		"display_name": "Bark Harness",
+		"icon": "armour/armour_bark",
+		"kind": "armour",
+		"suits": ["wildling", "longbow"],
+		"defense": 5,
+		"price": 200
+	},
+	"filigree_plate": {
+		"display_name": "Filigree Plate",
+		"icon": "armour/armour_filigree",
+		"kind": "armour",
+		"suits": ["sworn_blade"],
+		"defense": 9,
+		"price": 520
+	},
+	"gilded_plate": {
+		"display_name": "Gilded Plate",
+		"icon": "armour/armour_gilded_plate",
+		"kind": "armour",
+		"suits": ["sworn_blade", "raider"],
+		"defense": 12,
+		"attack": 1,
+		"price": 780
+	},
+	"feather_mail": {
+		"display_name": "Feather Mail",
+		"icon": "armour/armour_feather",
+		"kind": "armour",
+		"suits": ["longbow", "wildling", "hedge_priest"],
+		"defense": 7,
+		"price": 400
+	},
+	"halo_robe": {
+		"display_name": "Halo Robe",
+		"icon": "armour/armour_halo",
+		"kind": "armour",
+		"suits": ["hedge_priest"],
+		"defense": 8,
+		"attack": 2,
+		"price": 690
+	},
+	"owl_helm": {
+		"display_name": "Owl Helm",
+		"icon": "armour/armour_owl",
+		"kind": "armour",
+		"suits": ["sworn_blade", "longbow"],
+		"defense": 4,
+		"price": 160
+	},
+
+	"whetstone": {
+		"display_name": "Whetstone",
+		"icon": "kit/kit_soldier",
+		"charm": true,
+		"grace": 0.15,
+		"text": "Worn hollow in the middle. Somebody used it every night."
+	},
+	"soldiers_ring": {
+		"display_name": "Soldier's Ring",
+		"icon": "kit/kit_knight",
+		"charm": true,
+		"grace": 0.3,
+		"text": "Plain iron, sized for a bigger hand than yours."
+	},
+	"hearth_coin": {
+		"display_name": "Hearth Coin",
+		"icon": "kit/kit_merchant",
+		"charm": true,
+		"grace": 0.35,
+		"text": "Struck for a town that is not there any more."
+	},
+	"salt_pouch": {
+		"display_name": "Salt Pouch",
+		"icon": "kit/kit_fisher",
+		"charm": true,
+		"grace": 0.2,
+		"text": "Thrown over the shoulder, mostly out of habit."
+	},
+	"black_feather": {
+		"display_name": "Black Feather",
+		"icon": "staff/staff_shell",
+		"charm": true,
+		"grace": 0.4,
+		"text": "Picked up on a field where things went badly and you walked off it."
+	},
+	"childs_carving": {
+		"display_name": "Child's Carving",
+		"icon": "kit/kit_minstrel",
+		"charm": true,
+		"grace": 0.45,
+		"text": "A dog, probably. Given to you by somebody who could not come."
+	},
+
+	"bread": {
+		"display_name": "Loaf",
+		"icon": "bread",
+		"kind": "draught",
+		"mends": 14,
+		"price": 20,
+		"text": "Yesterday's, and still better than nothing."
+	},
+	"cheese": {
+		"display_name": "Hard Cheese",
+		"icon": "cheese",
+		"kind": "draught",
+		"mends": 18,
+		"price": 28,
+		"text": "Keeps for a month and tastes like it."
+	},
+	"apple": {
+		"display_name": "Apple",
+		"icon": "apple",
+		"kind": "draught",
+		"mends": 10,
+		"price": 12,
+		"text": "Somebody's orchard, and nobody asked whose."
+	},
+	"herbs": {
+		"display_name": "Bitter Herbs",
+		"icon": "herbs",
+		"kind": "draught",
+		"mends": 24,
+		"price": 45,
+		"text": "Chewed, not brewed. It works faster and it is worse."
+	},
+	"ale_flask": {
+		"display_name": "Flask of Ale",
+		"icon": "ale_barrel",
+		"kind": "draught",
+		"mends": 16,
+		"price": 26,
+		"text": "Warm, flat, and the best part of somebody's day."
+	},
+	"red_draught": {
+		"display_name": "Red Draught",
+		"icon": "potion_red",
+		"kind": "draught",
+		"mends": 40,
+		"price": 95,
+		"text": "The common one. Every apothecary from here to the coast sells it."
+	},
+	"blue_draught": {
+		"display_name": "Blue Draught",
+		"icon": "potion_blue",
+		"kind": "draught",
+		"mends": 65,
+		"price": 170,
+		"text": "Cold going down, and it keeps working after you have stopped noticing."
+	},
+	"green_draught": {
+		"display_name": "Green Draught",
+		"icon": "potion_green",
+		"kind": "draught",
+		"mends": 90,
+		"price": 280,
+		"text": "Tastes of a hedgerow after rain. Nobody will say what is in it."
+	},
+	"amber_draught": {
+		"display_name": "Amber Draught",
+		"icon": "potion_amber",
+		"kind": "draught",
+		"mends": 140,
+		"price": 460,
+		"text": "In a bottle worth more than the road you found it on."
 	}
 }

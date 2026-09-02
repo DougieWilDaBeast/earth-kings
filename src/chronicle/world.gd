@@ -6,7 +6,7 @@ extends RefCounted
 ## There are no eras. The world advances by *steps* — gates stir, doctrine
 ## fades, and monsters return as you walk, not on a turn of some larger wheel.
 
-const SIZE := Vector2i(44, 44)
+const SIZE := Vector2i(128, 128)
 
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
@@ -17,6 +17,12 @@ const LEGEND := {
 	"~": "water",
 	"#": "wall",
 	"=": "road",
+	"o": "ocean",
+	"l": "lake",
+	"s": "sand",
+	"w": "snow",
+	"f": "forest",
+	"b": "marsh",
 }
 
 ## Steps between world upkeep passes (gates stirring, doctrine fading).
@@ -33,6 +39,9 @@ var steps: int = 0
 var player_cell: Vector2i = Vector2i.ZERO
 ## Highest Tower floor anyone has come back down from.
 var tower_floor: int = 0
+## Gold won on the current ascent and not yet carried out of the Tower. It is
+## banked by walking away and lost by losing a floor — the reason to stop.
+var tower_hoard: int = 0
 ## Set once the top has been reached. What waits there is not decided yet.
 var tower_topped: bool = false
 ## Generated skill trees, id -> tree dict (see [AbilityGrammar]).
@@ -47,6 +56,12 @@ var deeds: Array = []
 var threads: Dictionary = {}
 ## What you have worked out about what you fight (see [Journal]).
 var journal: Dictionary = {}
+## Trade routes you have opened by seeing somebody home (see [Roadside]).
+var routes: Array = []
+## Whoever is walking with you and where they are going, or empty.
+var escort: Dictionary = {}
+## The step the last roadside scene played out on, so they do not crowd.
+var roadside_at: int = -999
 
 var rng := RandomNumberGenerator.new()
 
@@ -226,6 +241,7 @@ func _upkeep() -> Array:
 			site.opened_at = steps
 	notices.append_array(Town.upkeep(self))
 	notices.append_array(Skein.on_step(self))
+	notices.append_array(Roadside.upkeep(self))
 	return notices
 
 
@@ -242,6 +258,7 @@ func to_dict() -> Dictionary:
 		"steps": steps,
 		"player_cell": [player_cell.x, player_cell.y],
 		"tower_floor": tower_floor,
+		"tower_hoard": tower_hoard,
 		"tower_topped": tower_topped,
 		"trees": trees,
 		"codex": codex,
@@ -249,6 +266,9 @@ func to_dict() -> Dictionary:
 		"deeds": deeds,
 		"threads": threads,
 		"journal": journal,
+		"routes": routes,
+		"escort": escort,
+		"roadside_at": roadside_at,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -264,6 +284,7 @@ static func from_dict(payload: Dictionary) -> World:
 	var cell_pair: Array = payload.get("player_cell", [0, 0])
 	world.player_cell = Vector2i(int(cell_pair[0]), int(cell_pair[1]))
 	world.tower_floor = int(payload.get("tower_floor", 0))
+	world.tower_hoard = int(payload.get("tower_hoard", 0))
 	world.tower_topped = bool(payload.get("tower_topped", false))
 	world.trees = payload.get("trees", {})
 	world.codex = payload.get("codex", {})
@@ -271,6 +292,9 @@ static func from_dict(payload: Dictionary) -> World:
 	world.deeds = payload.get("deeds", [])
 	world.threads = payload.get("threads", {})
 	world.journal = payload.get("journal", {})
+	world.routes = payload.get("routes", [])
+	world.escort = payload.get("escort", {})
+	world.roadside_at = int(payload.get("roadside_at", -999))
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

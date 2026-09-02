@@ -6,14 +6,17 @@ static func tower_rules() -> Dictionary:
 	return Database.world_rules.get("tower", {})
 
 
-## Paid on reaching a floor. Returns lines for the log.
+## Paid on reaching a floor. The gold does not go in the purse: it goes into the
+## hoard, which is only carried out by walking back down. Returns lines for the log.
 static func for_tower_floor(world: World, floor_number: int, party: Array) -> Array:
 	var rules := tower_rules()
 	var lines: Array = []
 
 	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 35)) * floor_number, "gold")
-	GameState.gold += gold
-	lines.append("Floor %d yields %d gold." % [floor_number, gold])
+	world.tower_hoard += gold
+	lines.append("Floor %d yields %d gold. You are carrying %d out of here, if you get out." % [
+		floor_number, gold, world.tower_hoard
+	])
 
 	var every_doctrine := int(rules.get("doctrine_every", 3))
 	if every_doctrine > 0 and floor_number % every_doctrine == 0 and not party.is_empty():
@@ -24,6 +27,25 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 		var finder: Character = party[world.rng.randi() % party.size()]
 		lines.append_array(Progression.unlock_tree(finder, world))
 
+	return lines
+
+
+## Taken off a floor of a gate that is not its last. There is no gold down here
+## — a gate pays when it is shut — but there is what the last lot were carrying.
+static func for_gate_floor(world: World, site: Site, party: Array) -> Array:
+	var lines: Array = []
+	if party.is_empty():
+		return lines
+	var rank := Site.rank_index(site.rank)
+
+	if world.rng.randf() < 0.25 + 0.08 * float(rank):
+		var found := Loot.roll(world, 0.6 + 0.15 * float(rank))
+		lines.append_array(Loot.claim(found, GameState.roster))
+
+	# The deeper gates are where the written things are, and where somebody was
+	# carrying a charm because they knew what was down there.
+	if world.rng.randf() < 0.1 + 0.06 * float(rank):
+		lines.append_array(_grant_doctrine(world, party))
 	return lines
 
 

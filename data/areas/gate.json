@@ -1,0 +1,104 @@
+{
+	"display_name": "the mouth of the gate",
+	"layers": ["stone", "crag"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the way back is south",
+	"legend": {
+		".": "grass",
+		"s": "stone",
+		"A": "crag"
+	},
+	"tint": "#8f8a98",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 4],
+			"name": "the inner grate",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "An iron grate, dropped and seized in its runners. Somebody strong enough to break it, or the warden's key, and not otherwise.",
+			"opened": "The grate goes over with a noise the whole gate hears."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 3], "line": "The arch. Nothing beyond it agrees to be looked at directly." },
+		{ "cell": [8, 5], "line": "Past the grate the stair goes down, and keeps going." },
+		{ "cell": [4, 6], "line": "Shields stacked against the rock, all of them somebody else's." },
+		{ "cell": [12, 6], "line": "Scorching up the stone, from the inside out." },
+		{ "cell": [8, 9], "line": "A line scratched across the ground. Somebody decided this was far enough." }
+	],
+	"chests": [
+		{
+			"cell": [3, 9],
+			"line": "A pack nobody came back for. It has been here a while.",
+			"art": "chest_iron",
+			"gold": 160,
+			"item": "soldiers_ring"
+		},
+		{
+			"cell": [13, 9],
+			"line": "Coin scattered where somebody dropped it running.",
+			"art": "coin_pile",
+			"gold": 210
+		},
+		{
+			"cell": [8, 2],
+			"line": "Past the grate, and nobody has been past the grate in a long time.",
+			"art": "chest_gold",
+			"gold": 420,
+			"item": "black_feather"
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [6, 4] },
+		{ "art": "brazier", "cell": [10, 4] },
+		{ "art": "lamp_post_twin", "cell": [5, 11] },
+		{ "art": "lamp_post_twin", "cell": [11, 11] },
+		{ "art": "village/signpost", "cell": [8, 11] },
+		{ "art": "chest_broken", "cell": [4, 4] }
+	],
+	"people": [
+		{
+			"name": "Hask the Gatewatch",
+			"unit": "legion_black",
+			"cell": [8, 10],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"Nobody stops you going in. Stopping people coming out is the job.",
+				"Count yourselves on the way through. Count again on the way back.",
+				"I have been here eleven years. It has never once been quiet.",
+				"That line on the ground is not superstition. Stand behind it."
+			]
+		},
+		{
+			"name": "Orin who came back",
+			"unit": "rank_f_grunt",
+			"cell": [5, 12],
+			"facing": [1, 0],
+			"wander": 1,
+			"chatter": [
+				"I went in. I am not going to describe it.",
+				"There were four of us. Do the sum yourself.",
+				"They give you water and they do not ask questions. That is decent of them."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAAAA",
+		"AAAAAAA.....AAAAA",
+		"AAAA...sssss..AAA",
+		"AAA...sssssss..AA",
+		"AA...sssssssss..A",
+		"A...sssssssssss..",
+		"...sssssssssssss.",
+		"...sssssssssssss.",
+		"...sssssssssssss.",
+		"...sssssssssssss.",
+		"A...sssssssssss.A",
+		"AA...sssssssss..A",
+		"AAA...sssssss..AA",
+		"AAAA...sssss..AAA",
+		"AAAAA...sss..AAAA"
+	]
+}

@@ -1,0 +1,83 @@
+{
+	"rules": {
+		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd.",
+		"chance": 0.05,
+		"rest_steps": 40,
+		"clear_of_sites": 3,
+		"purse_base": 55,
+		"purse_per_level": 22,
+		"escort_span": 26,
+		"escort_patience": 260,
+		"delivery_base": 90,
+		"delivery_per_level": 30,
+		"route_pay": 18,
+		"route_cap": 5,
+		"renown_saved": 3,
+		"renown_walked_by": -2,
+		"renown_delivered": 2
+	},
+
+	"events": {
+		"trader_ambush": {
+			"title": "A cart has been stopped on the road ahead.",
+			"seen": [
+				"The horse is screaming before you see why.",
+				"A cart sits crossways in the ruts with its wheel off, and four of them are working the driver over with the butts of their spears.",
+				"Nobody down there has noticed you yet."
+			],
+			"walked_by": [
+				"You take the long way round the hill.",
+				"The noise stops before you are clear of it."
+			],
+			"saved": [
+				"They break before you have finished with them, which tells you what they were.",
+				"The driver comes out from under his cart with a split lip and both hands up."
+			],
+			"asks": [
+				"\"You'll want paying,\" he says, counting it out on the boards. \"Everyone does.\"",
+				"\"But there's better than coin, if you've the patience. Get me and this cart as far as %s and I'll see you right, and keep seeing you right after.\""
+			],
+			"pack": ["brigand", "brigand", "brigand_archer", "brigand_chief"],
+			"escort": true
+		},
+
+		"burnt_wagon": {
+			"title": "Something is burning off the road.",
+			"seen": [
+				"A wagon, still going up, and the ones who set it are stood watching it burn.",
+				"They have not bothered to move the driver out of the way of it."
+			],
+			"walked_by": [
+				"You keep the smoke on your left and say nothing about it at the next hearth."
+			],
+			"saved": [
+				"The fire outlasts them.",
+				"A woman crawls out of the ditch where she had the sense to go, and looks at the wagon, and then at you."
+			],
+			"asks": [
+				"\"That was everything,\" she says. \"All of it. Every bolt of it.\"",
+				"\"There's a cousin in %s who owes me a start. Walk me there and you'll have a share of whatever I make after.\""
+			],
+			"pack": ["brigand", "brigand_archer", "brigand_archer"],
+			"escort": true
+		},
+
+		"toll_post": {
+			"title": "Somebody has put a rope across the road.",
+			"seen": [
+				"A rope, a fire, and three men who have decided this stretch is theirs.",
+				"They want a toll. They are not the sort who stop at a toll."
+			],
+			"walked_by": [
+				"You pay, because it is cheaper than the alternative, and it costs you the taste of it all afternoon."
+			],
+			"saved": [
+				"The rope comes down. The road is a road again.",
+				"Whatever they had taken off the last few through here is still in the sack by the fire."
+			],
+			"asks": [],
+			"pack": ["brigand_chief", "brigand", "brigand"],
+			"escort": false
+		}
+	}
+}

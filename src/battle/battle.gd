@@ -413,6 +413,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_cycle_speed()
 		return
+	# The journal is most wanted while you are stood across from the thing it is
+	# about, so it opens here as well as on the road.
+	if event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_N:
+		get_viewport().set_input_as_handled()
+		EventBus.journal_requested.emit()
+		return
 
 	# Backing out of a selection is Escape or a right-click. With nothing to back
 	# out of, Escape is how a fight reaches the menu.
@@ -567,11 +574,16 @@ func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
 
 	user.face_towards(centre)
 	for target in hits:
-		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target))
+		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target, ability_id))
 		_note_in_the_journal(user, ability_id, target)
 		if not target.is_alive():
 			target.visible = false
 			_award_kill(user, target)
+
+	# Counted once for the swing, not once per body it caught.
+	var better := Proficiency.record(user.character, ability_id)
+	if better != "":
+		EventBus.battle_log.emit(better)
 	user.pay(Unit.ability_cost(ability))
 	return true
 

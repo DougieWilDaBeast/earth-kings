@@ -73,6 +73,25 @@ func expected_level() -> int:
 	return 1 + rank_index(rank) * 4
 
 
+## How many fights deep a gate goes before the thing keeping it. A rank E gate
+## is a doorway; an S is somewhere you have to decide how far into.
+func floors() -> int:
+	var rules: Dictionary = Database.world_rules.get("gate", {})
+	var base := int(rules.get("floors_base", 1))
+	var per_rank := float(rules.get("floors_per_rank", 0.6))
+	return maxi(1, base + roundi(per_rank * float(rank_index(rank))))
+
+
+## Floors of this gate already fought through. Retreating keeps the ground you
+## took; losing gives it all back (see `world_scene._settle_up`).
+func depth() -> int:
+	return int(data.get("depth", 0))
+
+
+func is_final_floor() -> bool:
+	return depth() >= floors() - 1
+
+
 func label() -> String:
 	if kind == GATE:
 		if broken:

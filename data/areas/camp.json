@@ -13,8 +13,29 @@
 	"spawn": [7, 7],
 	"seats": [[7, 3], [5, 4], [9, 4], [5, 6], [9, 6]],
 	"exits": [[7, 10], [8, 10]],
+	"props": [
+		{ "art": "camp/fire_bedrolls", "cell": [4, 7] },
+		{ "art": "camp/fire_hammock", "cell": [10, 7] },
+		{ "art": "village/log_pile", "cell": [3, 4] },
+		{ "art": "village/barrels", "cell": [11, 4] },
+		{ "art": "village/crates", "cell": [11, 3] },
+		{ "art": "camp/fire_shelter", "cell": [3, 6] },
+		{ "art": "brazier", "cell": [5, 2] },
+		{ "art": "brazier", "cell": [9, 2] }
+	],
+	"chests": [
+		{
+			"cell": [11, 6],
+			"line": "The strongbox travels with you. Whatever nobody is carrying ends up in it.",
+			"art": "strongbox",
+			"gold": 0
+		}
+	],
 	"spots": [
-		{ "cell": [7, 9], "line": "The road is still there, and it will still be there in the morning." }
+		{ "cell": [7, 9], "line": "The road is still there, and it will still be there in the morning." },
+		{ "cell": [4, 7], "line": "Bedrolls, laid out in the order people gave up arguing about it." },
+		{ "cell": [10, 7], "line": "Somebody slung a hammock. Nobody has admitted to it." },
+		{ "cell": [3, 4], "line": "Enough wood for tonight, and none spare for tomorrow." }
 	],
 	"rows": [
 		"mmmm.......mmmm",

@@ -334,9 +334,13 @@ func _check_gate() -> void:
 		_expect(false, "no gate is open to walk into")
 		return
 
+	# The garrison's composition is under test, not the dial that thins it.
+	var setting := GameState.difficulty
+	GameState.difficulty = "even"
 	var gold_before := GameState.gold
 	_requests.clear()
 	if not _step_onto(gate.cell):
+		GameState.difficulty = setting
 		return
 
 	var fight := _last_battle_request()
@@ -348,19 +352,34 @@ func _check_gate() -> void:
 		_expect(meeting["enemies"].size() >= 3, "the gate fielded only %d" % meeting["enemies"].size())
 	_expect(gate.open, "the gate shut before the fight was fought")
 	_expect(GameState.gold == gold_before, "the gate paid out before the fight was fought")
+	GameState.difficulty = setting
 
 	# Walked out of, it is left exactly as it was found.
 	_scene._settle_up(false)
 	_expect(gate.open and not gate.cleared, "a gate nobody beat still shut itself")
 	_expect(GameState.gold == gold_before, "a gate nobody beat still paid")
 
-	if not _step_onto(gate.cell):
-		return
-	_scene._settle_up(true)
+	# A gate is as deep as its rank. Every floor but the last gives ground
+	# rather than shutting it, so a delve is walked through rather than won once.
+	var floors := gate.floors()
+	for floor_number in floors:
+		if not _step_onto(gate.cell):
+			return
+		_scene._settle_up(true)
+		if floor_number >= floors - 1:
+			break
+		_expect(gate.open, "%s shut on floor %d of %d" % [gate.label(), floor_number + 1, floors])
+		_expect(
+			gate.depth() == floor_number + 1,
+			"floor %d left the delve at depth %d" % [floor_number + 1, gate.depth()]
+		)
+
 	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s walked out of once, then shut for %d gold" % [gate.label(), GameState.gold - gold_before])
+	print("gate: %s is %d floors deep, walked out of once, then shut for %d gold" % [
+		gate.label(), floors, GameState.gold - gold_before
+	])
 
 
 func _check_tower() -> void:
@@ -579,11 +598,12 @@ func _check_town_and_captives() -> void:
 	print("captive: overdue and %s" % outcome)
 
 
-## Chests and caches: gold always lands, and gear finds a wearer or a buyer.
+## Chests and caches: gold always lands, and gear finds a wearer or the packs.
 func _check_loot() -> void:
 	var world: World = GameState.world
 	var taker: Character = GameState.roster.party_members()[0]
 	taker.equipment = ""
+	GameState.stores.clear()
 
 	var purse := GameState.gold
 	var lines := Loot.claim({ "gold": 90, "item": "bone_sword" }, GameState.roster)
@@ -594,13 +614,28 @@ func _check_loot() -> void:
 	)
 	_expect(worn, "nobody picked up the sword out of the chest")
 
-	# Once everyone is already carrying one, another improves nobody, so it is
-	# sold on the spot rather than shelved somewhere nobody will look.
+	# Once everyone is already carrying one, another improves nobody. It is
+	# still a sword, so it goes in the packs rather than being sold from under
+	# a party who might lose the one they have.
 	for member: Character in GameState.roster.party_members():
 		member.equipment = "bone_sword"
-	purse = GameState.gold
+	GameState.stores.clear()
 	Loot.claim({ "gold": 0, "item": "bone_sword" }, GameState.roster)
-	_expect(GameState.gold > purse, "a piece nobody wanted was neither worn nor sold")
+	_expect(GameState.stores.has("bone_sword"), "a spare nobody could wear went nowhere")
+
+	# Junk is a different matter: worth nothing to anybody here, so it is sold.
+	purse = GameState.gold
+	Loot.stow("yew_longbow", GameState.roster)
+	var kept := GameState.stores.has("yew_longbow")
+	_expect(kept or GameState.gold > purse, "a piece nobody wanted was neither packed nor sold")
+
+	# Handing gear out never destroys what was being carried.
+	GameState.stores.clear()
+	GameState.stores.append("steel_blade")
+	var held := taker.equipment
+	_expect(Gear.equip(taker, "steel_blade"), "the packs would not give up a blade")
+	_expect(taker.equipment == "steel_blade", "the blade was not taken up")
+	_expect(GameState.stores.has(held), "what they were carrying was thrown away")
 
 	# A charm is carried, never worn, so it always has a taker.
 	var charms := GameState.roster.player().charms.size()
@@ -609,7 +644,7 @@ func _check_loot() -> void:
 
 	var haul := Loot.roll(world, 1.0)
 	_expect(int(haul.get("gold", 0)) > 0, "a rolled cache held no gold at all")
-	print("loot: sword worn, spare sold, charm pocketed, cache rolled %d gold" % int(haul["gold"]))
+	print("loot: sword worn, spare packed, blade swapped, charm pocketed, cache rolled %d gold" % int(haul["gold"]))
 
 
 ## Word does not teleport. What you do is known where you did it at once, and
@@ -692,13 +727,24 @@ func _check_raid_and_rescue() -> void:
 func _check_tower_top() -> void:
 	var world: World = GameState.world
 	var purse := GameState.gold
+	world.tower_hoard = 0
 	var lines := Spoils.for_tower_floor(world, 4, GameState.party_characters())
 	_expect(not lines.is_empty(), "a Tower floor paid nothing")
-	_expect(GameState.gold > purse, "a Tower floor paid no gold")
+	# The floor pays into the hoard, not the purse. Carrying it out is the
+	# decision the Tower is built around, so nothing lands until you leave.
+	_expect(world.tower_hoard > 0, "a Tower floor added nothing to the hoard")
+	_expect(GameState.gold == purse, "a Tower floor paid straight into the purse")
+
+	var carried := world.tower_hoard
+	_scene._carry_the_hoard_out()
+	_expect(world.tower_hoard == 0, "the hoard did not leave the Tower")
+	_expect(GameState.gold == purse + carried, "the hoard did not reach the purse")
 
 	world.tower_floor = world.tower_floors()
 	_expect(world.tower_is_topped(), "standing on the last floor is not the top")
-	print("tower: %d floors, floor 4 paid %d gold" % [world.tower_floors(), GameState.gold - purse])
+	print("tower: %d floors, floor 4 hoarded %d gold and carried it out" % [
+		world.tower_floors(), carried
+	])
 
 
 func _check_save_round_trip() -> void:

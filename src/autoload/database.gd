@@ -29,6 +29,8 @@ var cutscenes: Dictionary = {}
 var banter: Dictionary = {}
 ## Long-running story that ignites off world state (see [Skein]).
 var threads: Dictionary = {}
+## Scenes you come upon on the open road (see [Roadside]).
+var roadside: Dictionary = {}
 ## Waves, cards and purses for the coliseum (see [Arena]).
 var coliseum: Dictionary = {}
 ## Who holds what, and who you meet where (see [Faction]).
@@ -41,6 +43,8 @@ var _generated_abilities: Dictionary = {}
 var _maps: Dictionary = {}
 var _dialogues: Dictionary = {}
 var _areas: Dictionary = {}
+var _faces: Dictionary = {}
+var _runs: Dictionary = {}
 
 
 func _ready() -> void:
@@ -62,6 +66,7 @@ func _ready() -> void:
 	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
 	banter = _load_json("%s/banter.json" % DATA_DIR)
 	threads = _load_json("%s/threads.json" % DATA_DIR)
+	roadside = _load_json("%s/roadside.json" % DATA_DIR)
 	coliseum = _load_json("%s/coliseum.json" % DATA_DIR)
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
@@ -76,12 +81,34 @@ func unit_template(id: String) -> Dictionary:
 
 
 ## The forward-facing sprite a unit is drawn with, or null when it has no art.
+## Cached, because a texture loaded part-way through a draw pass comes out white.
 func unit_face(id: String) -> Texture2D:
+	if _faces.has(id):
+		return _faces[id]
 	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
 	var path := "%s/south.png" % sprite_dir
-	if sprite_dir == "" or not ResourceLoader.exists(path):
-		return null
-	return load(path)
+	_faces[id] = load(path) if sprite_dir != "" and ResourceLoader.exists(path) else null
+	return _faces[id]
+
+
+## A unit's run cycle for one heading ("north" | "south" | "east" | "west"), or
+## an empty array for the many units that only have a standing pose. Frames live
+## at `art/units/<id>/run/<heading>/frame_000.png` and are numbered from zero.
+func unit_run(id: String, heading: String) -> Array:
+	var key := "%s/%s" % [id, heading]
+	if _runs.has(key):
+		return _runs[key]
+	var frames: Array = []
+	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
+	if sprite_dir != "":
+		var folder := "%s/run/%s" % [sprite_dir.get_base_dir(), heading]
+		while true:
+			var path := "%s/frame_%03d.png" % [folder, frames.size()]
+			if not ResourceLoader.exists(path):
+				break
+			frames.append(load(path))
+	_runs[key] = frames
+	return frames
 
 
 ## A lead a run can be started as (see `data/heroes.json`).

@@ -23,6 +23,7 @@ const PIP_DARK := Color(0.24, 0.22, 0.22)
 @onready var _blurb: Label = %BlurbLabel
 @onready var _back: Button = %BackButton
 @onready var _difficulty: Button = %DifficultyButton
+@onready var _seed: LineEdit = %SeedField
 
 
 func _ready() -> void:
@@ -32,6 +33,12 @@ func _ready() -> void:
 		_pips.add_child(pip)
 
 	var ids: Array = Database.heroes.keys()
+	# Gentlest first, so the list itself reads as the warning.
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		var left := int(Database.hero(a).get("difficulty", 1))
+		var right := int(Database.hero(b).get("difficulty", 1))
+		return left < right if left != right else a < b
+	)
 	for hero_id: String in ids:
 		_lives.add_child(_life_button(hero_id))
 	_back.theme_type_variation = &"GrandButton"
@@ -40,6 +47,7 @@ func _ready() -> void:
 	_difficulty.pressed.connect(_cycle_difficulty)
 	Sfx.attend(_back)
 	Sfx.attend(_difficulty)
+	_seed.tooltip_text = "Leave it empty for a country nobody has walked yet."
 	_show_difficulty()
 	if ids.is_empty():
 		return
@@ -50,7 +58,8 @@ func _ready() -> void:
 func _life_button(hero_id: String) -> Button:
 	var button := Button.new()
 	button.theme_type_variation = &"GrandButton"
-	button.text = _name_of(hero_id)
+	var rating := clampi(int(Database.hero(hero_id).get("difficulty", 1)), 1, PIPS)
+	button.text = "%s  ·  %s" % [_name_of(hero_id), RATINGS[rating]]
 	button.focus_entered.connect(_show.bind(hero_id))
 	# Keeps the mouse and the keyboard pointing at the same entry.
 	button.mouse_entered.connect(button.grab_focus)
@@ -111,8 +120,19 @@ func _show_difficulty() -> void:
 
 
 func _begin(hero_id: String) -> void:
-	GameState.new_game(randi(), hero_id)
+	GameState.new_game(_chosen_seed(), hero_id)
 	EventBus.request_scene.emit("world", {})
+
+
+## A country you can go back to. Anything that is not a number is nothing, and
+## nothing means a fresh one — which is what almost everybody wants.
+func _chosen_seed() -> int:
+	var typed := _seed.text.strip_edges()
+	if typed.is_valid_int():
+		# new_game() reads zero as "pick one", so a typed zero has to become
+		# something else rather than silently doing what it was not asked to.
+		return maxi(1, absi(typed.to_int()))
+	return randi()
 
 
 func _unhandled_input(event: InputEvent) -> void:

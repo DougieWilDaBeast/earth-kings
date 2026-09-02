@@ -2,9 +2,10 @@ class_name Loot
 extends RefCounted
 ## Picking things up: what a chest holds, and who ends up carrying it.
 ##
-## There is no bag. A piece of gear goes to whoever it actually improves, and
-## anything nobody in the party wants is sold on the spot rather than becoming
-## a line on a screen that never gets read.
+## A piece of gear goes straight onto whoever it actually improves, so the good
+## find is never sitting unread on a screen. Anything nobody is better off in
+## goes into the party's stores (`GameState.stores`) to be handed out later, and
+## only a piece worth less than what everyone already carries is sold on.
 
 
 static func rules() -> Dictionary:
@@ -26,14 +27,37 @@ static func take(equipment_id: String, roster: Roster) -> String:
 		keeper.charms.append(equipment_id)
 		return "%s pockets the %s." % [keeper.display_name, name_]
 
+	# Food and physic go straight in the packs, to be spent later.
+	if Gear.is_draught(equipment_id):
+		GameState.stores.append(equipment_id)
+		return "The %s goes in the packs." % name_
+
 	var taker := _best_taker(equipment_id, roster)
 	if taker == null:
-		var worth := roundi(float(Market.price_of(equipment_id)) * float(rules().get("resale", 0.5)))
-		GameState.gold += worth
-		return "Nobody has a use for the %s. It goes for %d gold." % [name_, worth]
+		return stow(equipment_id, roster)
 
+	var displaced := taker.equipment
 	taker.equipment = equipment_id
-	return "%s takes up the %s." % [taker.display_name, name_]
+	if displaced == "":
+		return "%s takes up the %s." % [taker.display_name, name_]
+	GameState.stores.append(displaced)
+	return "%s takes up the %s, and the %s goes in the packs." % [
+		taker.display_name, name_, Gear.display_name(displaced)
+	]
+
+
+## Into the packs, or sold if it is worse than everything already being carried.
+static func stow(equipment_id: String, roster: Roster) -> String:
+	var name_ := Gear.display_name(equipment_id)
+	var worth_keeping := roster.party_members().any(
+		func(c: Character) -> bool: return Gear.worth(equipment_id, c) > 0
+	)
+	if worth_keeping:
+		GameState.stores.append(equipment_id)
+		return "The %s goes in the packs." % name_
+	var worth := roundi(float(Market.price_of(equipment_id)) * float(rules().get("resale", 0.5)))
+	GameState.gold += worth
+	return "Nobody has a use for the %s. It goes for %d gold." % [name_, worth]
 
 
 ## Roll what is inside a container of a given richness. Gold is always there;
@@ -61,6 +85,10 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	if gold > 0:
 		GameState.gold += gold
 		lines.append("%d gold." % gold)
+	var found_key: String = haul.get("key", "")
+	if found_key != "" and not GameState.keys.has(found_key):
+		GameState.keys.append(found_key)
+		lines.append("A key. It opens something you have not reached yet.")
 	var item: String = haul.get("item", "")
 	if item != "":
 		var line := take(item, roster)
@@ -69,17 +97,15 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	return lines
 
 
-## Whoever gains the most attack and defence from wearing it, or nobody.
+## Whoever gains the most from wearing it, or nobody. A piece counts for less
+## in the wrong hands, so the best numbers do not always win it (see [Gear]).
 static func _best_taker(equipment_id: String, roster: Roster) -> Character:
-	var piece := Database.equipment_piece(equipment_id)
-	var worth := int(piece.get("attack", 0)) + int(piece.get("defense", 0))
 	var best: Character = null
 	var best_gain := 0
 	for character in roster.party_members():
 		if not character.is_alive():
 			continue
-		var held := Database.equipment_piece(character.equipment)
-		var gain := worth - (int(held.get("attack", 0)) + int(held.get("defense", 0)))
+		var gain := Gear.swing(equipment_id, character)
 		if gain > best_gain:
 			best_gain = gain
 			best = character

@@ -225,6 +225,445 @@
 				{ "who": "a", "text": "We should say something." },
 				{ "who": "b", "text": "We said it at the time. They heard the version that mattered." }
 			]
+		},
+
+		{
+			"occasion": "grave",
+			"needs": "fallen",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "The ground's settled. It looks like it's always been here." },
+				{ "who": "b", "text": "Give it a year and somebody will walk past without slowing down." },
+				{ "who": "a", "text": "Then we'll slow down twice, and it'll come out even." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"mood": "warm",
+			"needs": "fallen",
+			"bond": 2,
+			"lines": [
+				{ "who": "a", "text": "{fallen} would have hated this. All of us stood about being solemn." },
+				{ "who": "b", "text": "They'd have told us to get on. Loudly, and about four times." },
+				{ "who": "a", "text": "Then let's get on. That's the eulogy they'd have picked." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"mood": "cold",
+			"needs": "fallen",
+			"lines": [
+				{ "who": "a", "text": "You've not said a word since we put the stone in." },
+				{ "who": "b", "text": "No." },
+				{ "who": "a", "text": "Right. I'll be over there, then, saying nothing at you." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"needs": "fallen",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Do you think they knew? At the end of it." },
+				{ "who": "b", "text": "I think they were busy. I've decided that's a mercy and I'm not revisiting it." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"needs": "deed",
+			"lines": [
+				{ "who": "a", "text": "They'd want to hear it. \"{deed}\"" },
+				{ "who": "b", "text": "Say it louder, then. It's a quiet spot and they were never one for quiet." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Somebody's been here. There's cut flowers, and they're not old." },
+				{ "who": "b", "text": "Then they're better at this than we are. Let's not tread on them." }
+			]
+		},
+		{
+			"occasion": "grave",
+			"lines": [
+				{ "who": "a", "text": "I want mine somewhere with a view." },
+				{ "who": "b", "text": "You'll be dead. The view is wasted." },
+				{ "who": "a", "text": "It's not for me. It's so whoever's digging gets something out of the afternoon." }
+			]
+		},
+
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"needs": "wounded",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Sit still. You're pulling it open every time you reach for the pot." },
+				{ "who": "b", "text": "Then pass me the pot." },
+				{ "who": "a", "text": "That is a much better solution than the one I was building up to. Here." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "What did you do, before? Actually before." },
+				{ "who": "b", "text": "Nothing that comes up." },
+				{ "who": "a", "text": "It's come up. It's the fire, that's what it's for." },
+				{ "who": "b", "text": "...Fences. I put in fences. And I was good at it, so don't start." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "This wood's green. It'll spit all night." },
+				{ "who": "b", "text": "Then we'll be awake all night, and nothing will come at us out of the dark." },
+				{ "who": "a", "text": "That's either very clever or you picked bad wood and won't say." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "cold",
+			"lines": [
+				{ "who": "a", "text": "You've been counting the coin again." },
+				{ "who": "b", "text": "Somebody has to, and it isn't going to be the one who spent it." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"bond": 2,
+			"lines": [
+				{ "who": "a", "text": "If we came into money — real money — what would you do?" },
+				{ "who": "b", "text": "Buy a bed. A specific bed. I've thought about this more than is healthy." },
+				{ "who": "a", "text": "Go on then. Describe the bed." },
+				{ "who": "b", "text": "It's a bed. It's indoors. That's the whole of the fantasy and I'm not ashamed." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"needs": "deed",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Word's got ahead of us again. \"{deed}\"" },
+				{ "who": "b", "text": "Is that good?" },
+				{ "who": "a", "text": "It's early. Ask me at the next town, when I've seen who crosses the road." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "I keep the watch. You slept badly." },
+				{ "who": "b", "text": "I slept fine." },
+				{ "who": "a", "text": "You said a name twice and it wasn't mine. Lie down." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Your turn to cook." },
+				{ "who": "b", "text": "It was my turn last night." },
+				{ "who": "a", "text": "It was, and that's precisely why I'd like you to have another go at it." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "cold",
+			"needs": "wounded",
+			"lines": [
+				{ "who": "a", "text": "That one was avoidable." },
+				{ "who": "b", "text": "So was saying so." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "What's the plan, then. Honestly." },
+				{ "who": "b", "text": "Get to {place}. After that I've got nothing and I'd rather not pretend." },
+				{ "who": "a", "text": "Good. I trust that more than a plan." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Give me your boots." },
+				{ "who": "b", "text": "Why." },
+				{ "who": "a", "text": "Because you've been walking wrong for two days and I'd like to know which of us is at fault." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "There's a light out east. Been there an hour." },
+				{ "who": "b", "text": "Somebody else's fire." },
+				{ "who": "a", "text": "That's what I thought. Odd, to find that comforting." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "I've been keeping a list. Of things I'd tell somebody, if there were somebody." },
+				{ "who": "b", "text": "There's me." },
+				{ "who": "a", "text": "You're on the list. That's the trouble with the list." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "cold",
+			"lines": [
+				{ "who": "a", "text": "You could take the far side of the fire." },
+				{ "who": "b", "text": "I could." },
+				{ "who": "a", "text": "..." },
+				{ "who": "b", "text": "I'm not going to, but I appreciate you laying it out so clearly." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"needs": "fallen",
+			"bond": 2,
+			"lines": [
+				{ "who": "a", "text": "{fallen} used to bank it up like that. Same way, every night." },
+				{ "who": "b", "text": "I know. That's where I learnt it." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "How long since we slept somewhere we weren't listening?" },
+				{ "who": "b", "text": "I'd have to count, and I'd rather go on not knowing." }
+			]
+		},
+		{
+			"occasion": "rest",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Sing something." },
+				{ "who": "b", "text": "No." },
+				{ "who": "a", "text": "Hum it, then. I only want to know if it's the sad one." },
+				{ "who": "b", "text": "...It's the sad one. They're all the sad one." }
+			]
+		},
+
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"needs": "wounded",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Show me. Now, not at the fire." },
+				{ "who": "b", "text": "It's shallow." },
+				{ "who": "a", "text": "Everything's shallow until it's a week old and you're grey. Show me." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "Anyone counting?" },
+				{ "who": "b", "text": "I stopped. It was making me a person I didn't want to be by suppertime." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "That was close." },
+				{ "who": "b", "text": "It was not close." },
+				{ "who": "a", "text": "You went down on one knee." },
+				{ "who": "b", "text": "I was checking the ground. Tactically." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "cold",
+			"lines": [
+				{ "who": "a", "text": "You were slow on the left." },
+				{ "who": "b", "text": "And you were nowhere at all, so let's call it even and walk." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "One of them was younger than me." },
+				{ "who": "b", "text": "You don't know that." },
+				{ "who": "a", "text": "No. I've decided not to know it. It's working, mostly." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Good throw, that last one." },
+				{ "who": "b", "text": "I was aiming at the other one." },
+				{ "who": "a", "text": "Then it was a superb throw and we'll never speak of it again." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "Do we bury them?" },
+				{ "who": "b", "text": "We haven't the light, and they had friends who'll come looking." },
+				{ "who": "a", "text": "Then we move. I don't want to be the thing those friends find." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "cold",
+			"needs": "wounded",
+			"lines": [
+				{ "who": "a", "text": "That's twice this week I've pulled you out." },
+				{ "who": "b", "text": "Then stop counting, or start asking for wages." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "any",
+			"needs": "deed",
+			"lines": [
+				{ "who": "a", "text": "This'll get told wrong too, you know. Like \"{deed}\"." },
+				{ "who": "b", "text": "Let it. The wrong version's shorter and I've a long way to walk." }
+			]
+		},
+		{
+			"occasion": "after_battle",
+			"mood": "warm",
+			"bond": 2,
+			"lines": [
+				{ "who": "a", "text": "You put yourself between me and that." },
+				{ "who": "b", "text": "I was closer." },
+				{ "who": "a", "text": "You were not closer. You moved to be closer." },
+				{ "who": "b", "text": "Then I was closer. Look at the state of my arm and let it go." }
+			]
+		},
+
+		{
+			"occasion": "road",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "Every milestone out here's been chipped off." },
+				{ "who": "b", "text": "Somebody didn't want to be found. Or didn't want us finding them." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "Name three things you miss." },
+				{ "who": "b", "text": "Bread. Doors. Being bored." },
+				{ "who": "a", "text": "Bored. That's a good one. I'd forgotten bored was available." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "The birds have stopped." },
+				{ "who": "b", "text": "I noticed a while back. I was hoping you hadn't." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "cold",
+			"lines": [
+				{ "who": "a", "text": "This isn't the way." },
+				{ "who": "b", "text": "It's a way." },
+				{ "who": "a", "text": "That is the most expensive sentence you've ever said to me." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "Old cart tracks, and they only go one direction." },
+				{ "who": "b", "text": "So whatever left, left loaded, and nothing's come back for the rest of it." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "If I go down out here, don't carry me. Just the sword." },
+				{ "who": "b", "text": "I'll carry you and the sword, and complain the whole way, and you'll have to listen." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"needs": "wounded",
+			"lines": [
+				{ "who": "a", "text": "Slow up. You're favouring it." },
+				{ "who": "b", "text": "We've light left." },
+				{ "who": "a", "text": "We've light left because we're slowing up. That's how the light works." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "Someone's been through here inside a day." },
+				{ "who": "b", "text": "Ahead of us or behind us?" },
+				{ "who": "a", "text": "I'd like it to be ahead. I'm going to say ahead." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "cold",
+			"lines": [
+				{ "who": "a", "text": "We could have taken the coin and gone home." },
+				{ "who": "b", "text": "Whose home?" },
+				{ "who": "a", "text": "That is exactly the answer I didn't want and precisely the one I expected." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"lines": [
+				{ "who": "a", "text": "{place}, is it? I'd pictured it bigger." },
+				{ "who": "b", "text": "Everything's bigger from a long way off. That's most of why people set out." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "warm",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "You walk on the outside of me. Every road. You think I've not clocked it." },
+				{ "who": "b", "text": "Habit." },
+				{ "who": "a", "text": "It's a good habit. Carry on." }
+			]
+		},
+		{
+			"occasion": "road",
+			"mood": "any",
+			"needs": "fallen",
+			"bond": 1,
+			"lines": [
+				{ "who": "a", "text": "We're four, and we walk like we're five. Still leaving the gap." },
+				{ "who": "b", "text": "{fallen} would've filled it by now with talking. Let it stay empty a bit longer." }
+			]
 		}
 	],
 	"reflections": [
@@ -246,6 +685,29 @@
 		{ "about": "company", "at_least": 4, "text": "There are more of us than there were. I keep waiting to be told which one of us is the mistake." },
 		{ "about": "gold", "at_least": 800, "text": "We're carrying enough coin to buy a farm, and not one of us has said the word out loud." },
 		{ "about": "", "text": "{place}. Another one. They start to run together, and then one of them turns out to matter." },
-		{ "about": "", "text": "Say what you like about the road — it hasn't finished with us yet, and I've stopped expecting it to." }
+		{ "about": "", "text": "Say what you like about the road — it hasn't finished with us yet, and I've stopped expecting it to." },
+
+		{ "about": "deed", "text": "There's a version of \"{deed}\" going round where I come off well. I've not corrected anyone, and that's its own small crime." },
+		{ "about": "deed", "text": "\"{deed}\" — that's what they'll put on it. Four words for a whole bad afternoon." },
+		{ "about": "fallen", "text": "I still set out {fallen}'s bowl. Two weeks now. I've stopped pretending it's absent-mindedness." },
+		{ "about": "fallen", "text": "The worst of it is how ordinary the morning after was. Same bread. Same weather. {fallen} just wasn't in it." },
+		{ "about": "fallen", "text": "I've started telling {fallen} things at the end of the day. Out loud, once. I'd rather nobody heard, and I'd rather keep doing it." },
+		{ "about": "friend", "text": "{friend} has been wrong about almost everything since we met and right about the only two that counted." },
+		{ "about": "friend", "text": "I don't know what {friend} makes of me. I've decided that not asking is a kind of courage." },
+		{ "about": "friend", "text": "If it came to it, {friend} would go back for me. I know that the way you know the ground is there." },
+		{ "about": "battles", "at_least": 2, "text": "Two fields, and I can still tell you what the light was doing at both. I'm told that stops." },
+		{ "about": "battles", "at_least": 15, "text": "{battles}. At some point the number stopped meaning fights and started meaning me." },
+		{ "about": "floors", "at_least": 5, "text": "{floors} floors. Whatever's at the top has had a long while to hear us coming." },
+		{ "about": "floors", "at_least": 8, "text": "I've stopped counting down to the top. I count up from the door, so there's always been a door." },
+		{ "about": "miles", "at_least": 100, "text": "A hundred-odd miles of it now, and not one of them felt like progress at the time." },
+		{ "about": "miles", "at_least": 800, "text": "There's country behind us I'll never see again and didn't look at properly the once." },
+		{ "about": "wounded", "text": "Everyone's carrying something. Nobody's said so. That'll hold until it very suddenly doesn't." },
+		{ "about": "company", "at_least": 2, "text": "Two of us. That's not a company, that's a habit, and I'd defend it in front of anyone." },
+		{ "about": "company", "at_least": 3, "text": "Three of us, and we've worked out who talks in the morning and who doesn't. That took longer than the fighting did." },
+		{ "about": "gold", "at_least": 300, "text": "Enough coin to stop for a season. Nobody's suggested it. I'd like to know which of us says it first." },
+		{ "about": "gold", "at_least": 1500, "text": "We could buy the inn. Both inns. And we'll spend it on arrows, because that is apparently who we are." },
+		{ "about": "", "text": "I keep expecting somebody to arrive and tell us we're doing this wrong. Nobody's come. That's worse." },
+		{ "about": "", "text": "There's a version of me that turned back at the first gate. I think about him. I don't envy him, quite." },
+		{ "about": "", "text": "Nobody set out to be this. You take one job in {place}, and then the next one is already waiting." }
 	]
 }

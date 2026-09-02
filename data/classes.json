@@ -3,25 +3,25 @@
 		"display_name": "Sworn Blade",
 		"growth": { "max_hp": 6, "attack": 2.0, "defense": 1.4, "speed": 0.3 },
 		"themes": ["edge", "iron", "vigil"],
-		"grants": ["cleave"]
+		"grants": ["cleave", "sunder", "shield_bash", "stand_fast"]
 	},
 	"longbow": {
 		"display_name": "Longbow",
 		"growth": { "max_hp": 4, "attack": 1.8, "defense": 0.7, "speed": 0.7 },
 		"themes": ["wind", "hunt", "edge"],
-		"grants": ["arc_shot"]
+		"grants": ["arc_shot", "snipe", "volley", "dart"]
 	},
 	"hedge_priest": {
 		"display_name": "Hedge Priest",
 		"growth": { "max_hp": 4, "attack": 1.2, "defense": 0.8, "speed": 0.5 },
 		"themes": ["hearth", "mourning", "ember"],
-		"grants": ["mend"]
+		"grants": ["mend", "hearthlight", "warding_touch", "grief"]
 	},
 	"magic_swordsman": {
 		"display_name": "Magic Swordsman",
 		"growth": { "max_hp": 5, "attack": 1.9, "defense": 1.0, "speed": 0.5 },
 		"themes": ["edge", "ember", "storm"],
-		"grants": ["cleave", "ember"],
+		"grants": ["cleave", "ember", "riposte", "scorch", "spark"],
 		"flash_step": 3,
 		"yoke": true
 	},
@@ -29,12 +29,12 @@
 		"display_name": "Raider",
 		"growth": { "max_hp": 5, "attack": 1.7, "defense": 1.0, "speed": 0.5 },
 		"themes": ["iron", "hunt"],
-		"grants": ["strike"]
+		"grants": ["strike", "crush", "hamstring", "second_wind"]
 	},
 	"wildling": {
 		"display_name": "Wildling",
 		"growth": { "max_hp": 5, "attack": 1.6, "defense": 0.9, "speed": 0.6 },
 		"themes": ["hunt", "storm"],
-		"grants": ["strike"]
+		"grants": ["strike", "whirl", "gust", "earthshake"]
 	}
 }

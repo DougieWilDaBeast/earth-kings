@@ -13,7 +13,7 @@ const TOWER := "tower"
 ## not sprung.
 const SPAWN_CLEARANCE := 10
 ## Give up looking for somewhere to put a band after this many tries.
-const SPAWN_ATTEMPTS := 40
+const SPAWN_ATTEMPTS := 600
 ## How far off the opening band is put: near enough that the first fight is a
 ## short walk, far enough that it is still walked into rather than sprung.
 const OPENING_NEAR := 4
@@ -220,6 +220,22 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	)
 
 
+## A fight somebody else started, that you have chosen to join (see [Roadside]).
+## The enemies come from the scene rather than from the country, so the same
+## ambush reads the same wherever you find it.
+static func for_roadside(
+	world: World, cell: Vector2i, enemies: Array,
+	rng: RandomNumberGenerator, title: String
+) -> Dictionary:
+	var counted: Array = []
+	for entry: Dictionary in enemies:
+		counted.append({
+			"unit": entry["unit"],
+			"level": Difficulty.levelled(int(entry["level"])),
+		})
+	return _build(world, cell, WILD, counted, rng, title)
+
+
 # --- internals ----------------------------------------------------------------
 
 
@@ -247,13 +263,17 @@ static func _pick(pool: Array, count: int, level: int, rng: RandomNumberGenerato
 	return out
 
 
-static func _party_level(party: Array) -> int:
+static func party_level(party: Array) -> int:
 	if party.is_empty():
 		return 1
 	var total := 0
 	for character: Character in party:
 		total += character.level
 	return maxi(1, total / party.size())
+
+
+static func _party_level(party: Array) -> int:
+	return party_level(party)
 
 
 ## 0 in safe country, rising the closer an open gate gets.
