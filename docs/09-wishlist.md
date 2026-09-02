@@ -215,9 +215,24 @@ world rather than on the title screen.
 > routes with him. Implement renown, so people start to know you — whether you're good or bad, if
 > you're raiding people or destroying civilians or stealing.
 
-**Half built.** [`Renown`](../src/chronicle/renown.gd) already does the standing/notoriety part,
-and [`Skein`](../src/chronicle/skein.gd) is the engine for consequences that arrive later. Missing:
-roadside events you interrupt, escort as a thing you can do, and trade routes as an income.
+**Built.** [`Renown`](../src/chronicle/renown.gd) does the standing/notoriety part and
+[`Skein`](../src/chronicle/skein.gd) is the engine for consequences that arrive later.
+[`Roadside`](../src/chronicle/roadside.gd) over `data/roadside.json` is the memo, in order:
+
+You come over a rise in open country — never within three tiles of a site, never twice in forty
+steps — and somebody else is losing. A cart stopped in the ruts, a wagon burning, a rope across
+the road. The scene waits on the tile you are standing on. **E** steps in; walking off refuses it,
+and refusing costs renown, because the country works out what sort you are. A party walking itself
+stops, so auto-pace cannot stroll past somebody dying.
+
+Win and they pay you, and the ones with a cart to save ask to be walked somewhere: `world.escort`
+names the nearest settlement and how much patience they have left, shown on the hint bar the whole
+way. Get them there and they pay again and open a **trade route** — an entry on `world.routes`
+that pays at every upkeep for 900 steps, five at a time, oldest dropped to make room. So a fight
+you did not have to take turns into money you did not have before, which is exactly what was asked
+for. All of it lives on [`World`](../src/chronicle/world.gd), so it saves with the country.
+
+**Open:** quests proper are still errands and threads; there is no journal page for your routes.
 
 ## W15 — An equipment screen
 
@@ -235,7 +250,13 @@ instead of being sold from under you, and swapping never destroys what was being
 party screen shows what each person carries, what it is worth _to them_, their charms, and the
 best few pieces out of the packs with the swing each swap would make — each drawn with its own
 icon out of `art/items/`, so the ~70 imported pieces of art are finally on screen.
-**Open:** nothing. Consumables are drawn but not usable — that is W-new, not this.
+
+Consumables are real now: nine `"kind": "draught"` pieces from a loaf up to the amber bottle, which
+are never worn, always go to the packs, and are drunk from the party screen. They are only offered
+to somebody with something to mend, and the button says what it would actually give them rather
+than what the bottle claims, so the good one is not wasted on a scratch.
+
+**Open:** you cannot drink one mid-fight — that wants a battle command, and is W-new, not this.
 
 ## W16 — Ways in, and ways past
 
@@ -273,7 +294,16 @@ spelled out; somebody too low to have one is told which level it arrives at.
 Proficiency-by-use is written ([`Proficiency`](../src/chronicle/proficiency.gd), counted on
 `Character.practice`) but **has never been played** — see the half-finished note in
 [10 — Manual tests](10-manual-tests.md).
-**Open:** you still cannot choose a path up a tree — rungs come in order.
+
+Levelling no longer hands the player a move. A player character banks `Character.rungs` — a power
+earned and not yet placed — and spends it on the party screen, where the next rung of every tree
+they have uncovered becomes a **Take** button. Companions and everything on the far side of the
+field still take theirs in order, so `raise_quietly` on a scratch enemy is untouched, and a
+character deciding for himself is the "sense of intelligence" the memo asked for. An unspent power
+does nothing, so the world hint bar says who is owed one until it is gone.
+
+**Open:** with one tree the choice is only _when_, not _which_ — the fork opens at level 10 when
+the second tree arrives.
 
 ## W18 — Backgrounds, origins and alignment
 

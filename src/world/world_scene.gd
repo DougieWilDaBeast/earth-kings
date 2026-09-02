@@ -51,6 +51,8 @@ var _busy: bool = false
 var _bubble: SpeechBubble = null
 ## Someone of yours being held at the tile you are standing on.
 var _captive_here: Character = null
+## A scene happening in front of the party that they have not answered yet.
+var _roadside_here: String = ""
 ## The way the party was last walking itself, so auto does not pace on the spot.
 var _auto_last: Vector2i = Vector2i.ZERO
 ## Map art kept between redraws, since the whole map is redrawn every step.
@@ -202,6 +204,11 @@ func _step(direction: Vector2i) -> void:
 		return
 
 	var was_at_the_tower := _standing_at_the_tower()
+	# Leaving the tile you were offered something on is how you turn it down.
+	if _roadside_here != "":
+		for line: String in Roadside.walk_by(world, world.player_cell, _roadside_here):
+			_note(line)
+		_roadside_here = ""
 	world.player_cell = target
 	if was_at_the_tower and not _standing_at_the_tower():
 		_carry_the_hoard_out()
@@ -209,6 +216,8 @@ func _step(direction: Vector2i) -> void:
 	for notice: String in world.step():
 		_note(notice)
 	for notice: String in Errand.on_arrive(GameState.errands, target, world):
+		_note(notice)
+	for notice: String in Roadside.on_arrive(world, world.site_at(target), GameState.party_characters()):
 		_note(notice)
 	for notice: String in Skein.on_arrive(world, target, world.site_at(target)):
 		_note(notice)
@@ -227,8 +236,44 @@ func _step(direction: Vector2i) -> void:
 	else:
 		_look_for_a_cache(target)
 	_watch_check(target)
+	_look_down_the_road(target)
 	_check_party()
 	_refresh()
+
+
+## Somebody else's fight, in front of you, that you did not cause and do not
+## have to take. It waits on the tile: walking off is how you refuse it.
+func _look_down_the_road(cell: Vector2i) -> void:
+	if _busy:
+		return
+	var found := Roadside.look(world, cell)
+	if found == "":
+		return
+	_roadside_here = found
+	# A party walking itself would pace straight past somebody dying.
+	Pace.auto = false
+	_note(Roadside.title(found))
+	EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
+
+
+## Step in. The purse and everything after it waits on winning.
+func _step_into_the_road() -> void:
+	if _roadside_here == "" or _busy:
+		return
+	var found := _roadside_here
+	_roadside_here = ""
+	_begin_battle(
+		Roadside.meeting(world, world.player_cell, found, GameState.party_characters(), world.rng),
+		{ "kind": "roadside", "event": found, "cell": world.player_cell,
+		  "lost": "You are driven off, and they finish what they started." }
+	)
+
+
+func _as_conversation(lines: Array) -> Array:
+	var out: Array = []
+	for line: String in lines:
+		out.append({ "speaker": "", "text": line })
+	return out
 
 
 ## Country nobody is watching still has things left lying about in it. The
@@ -326,6 +371,11 @@ func _settle_up(won: bool) -> void:
 				return
 			Captivity.free_by_force(freed, GameState.roster)
 			_note("%s walks out with you." % freed.display_name)
+		"roadside":
+			var lines := Roadside.saved(world, cell, str(outcome.get("event", "")), party)
+			for line: String in lines:
+				_note(line)
+			EventBus.conversation_requested.emit(_as_conversation(lines))
 	_map.queue_redraw()
 	_refresh()
 
@@ -533,10 +583,17 @@ func _prompt() -> String:
 	if choosing != null:
 		return "%s is ready to choose a path — press P." % choosing.display_name
 
+	var owed := _somebody_owed_a_power()
+	if owed != null:
+		return "%s has %d power to take — press P." % [owed.display_name, owed.rungs]
+
 	if _captive_here != null:
 		return "R to ransom %s for %d gold  ·  F to take them back by force." % [
 			_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
 		]
+
+	if _roadside_here != "":
+		return "E to step in  ·  walk on to leave them to it."
 
 	var site := world.site_at(world.player_cell)
 	if site != null:
@@ -568,7 +625,19 @@ func _prompt() -> String:
 		if not parts.is_empty():
 			return "  ·  ".join(parts)
 
+	if Roadside.escorting(world):
+		return Roadside.escort_prompt(world)
+
 	return "P for the party  ·  Esc for the menu"
+
+
+## A power earned and not placed does nothing at all, so it is worth saying so
+## on the walk rather than only on the screen nobody has opened.
+func _somebody_owed_a_power() -> Character:
+	for member: Character in GameState.roster.party_members():
+		if member.rungs > 0:
+			return member
+	return null
 
 
 ## What the board where you are standing has to say, if anything.
@@ -615,7 +684,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	# do, and E was quietly being eaten by the speed cycle.
 	if event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
-		_walk_into_site()
+		if _roadside_here != "":
+			_step_into_the_road()
+		else:
+			_walk_into_site()
 		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()

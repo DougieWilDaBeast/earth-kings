@@ -61,6 +61,10 @@ static func _level_up(character: Character, world: World) -> Array:
 
 	if character.level == FIRST_TREE_LEVEL or character.level == SECOND_TREE_LEVEL:
 		lines.append_array(unlock_tree(character, world))
+	elif character.is_player:
+		# The player is owed a power and decides where it goes.
+		character.rungs += 1
+		lines.append("%s has a power to take." % character.display_name)
 	else:
 		lines.append_array(learn_next(character, world))
 
@@ -101,8 +105,34 @@ static func unlock_tree(character: Character, world: World, theme: String = "") 
 	world.register_tree(tree)
 	character.trees.append(tree["id"])
 	var lines: Array = ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
-	lines.append_array(learn_next(character, world))
+	if character.is_player:
+		character.rungs += 1
+		lines.append("%s has a power to take." % character.display_name)
+	else:
+		lines.append_array(learn_next(character, world))
 	return lines
+
+
+## The next unlearned rung of each tree they have uncovered — the choice in
+## front of somebody with a power owed to them.
+static func rung_options(character: Character, world: World) -> Array:
+	var out: Array = []
+	for tree_id: String in character.trees:
+		for ability_id: String in world.tree(tree_id).get("abilities", []):
+			if ability_id not in character.learned:
+				out.append(ability_id)
+				break
+	return out
+
+
+## Take one of them. Refuses anything that is not actually the next rung, so a
+## stale button cannot skip up a tree.
+static func spend_rung(character: Character, ability_id: String, world: World) -> bool:
+	if character.rungs <= 0 or ability_id not in rung_options(character, world):
+		return false
+	character.rungs -= 1
+	character.learned.append(ability_id)
+	return true
 
 
 ## A fully catalogued grammar can be worked deliberately rather than stumbled into.

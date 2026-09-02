@@ -27,6 +27,11 @@ static func take(equipment_id: String, roster: Roster) -> String:
 		keeper.charms.append(equipment_id)
 		return "%s pockets the %s." % [keeper.display_name, name_]
 
+	# Food and physic go straight in the packs, to be spent later.
+	if Gear.is_draught(equipment_id):
+		GameState.stores.append(equipment_id)
+		return "The %s goes in the packs." % name_
+
 	var taker := _best_taker(equipment_id, roster)
 	if taker == null:
 		return stow(equipment_id, roster)

@@ -271,5 +271,78 @@
 		"charm": true,
 		"grace": 0.45,
 		"text": "A dog, probably. Given to you by somebody who could not come."
+	},
+
+	"bread": {
+		"display_name": "Loaf",
+		"icon": "bread",
+		"kind": "draught",
+		"mends": 14,
+		"price": 20,
+		"text": "Yesterday's, and still better than nothing."
+	},
+	"cheese": {
+		"display_name": "Hard Cheese",
+		"icon": "cheese",
+		"kind": "draught",
+		"mends": 18,
+		"price": 28,
+		"text": "Keeps for a month and tastes like it."
+	},
+	"apple": {
+		"display_name": "Apple",
+		"icon": "apple",
+		"kind": "draught",
+		"mends": 10,
+		"price": 12,
+		"text": "Somebody's orchard, and nobody asked whose."
+	},
+	"herbs": {
+		"display_name": "Bitter Herbs",
+		"icon": "herbs",
+		"kind": "draught",
+		"mends": 24,
+		"price": 45,
+		"text": "Chewed, not brewed. It works faster and it is worse."
+	},
+	"ale_flask": {
+		"display_name": "Flask of Ale",
+		"icon": "ale_barrel",
+		"kind": "draught",
+		"mends": 16,
+		"price": 26,
+		"text": "Warm, flat, and the best part of somebody's day."
+	},
+	"red_draught": {
+		"display_name": "Red Draught",
+		"icon": "potion_red",
+		"kind": "draught",
+		"mends": 40,
+		"price": 95,
+		"text": "The common one. Every apothecary from here to the coast sells it."
+	},
+	"blue_draught": {
+		"display_name": "Blue Draught",
+		"icon": "potion_blue",
+		"kind": "draught",
+		"mends": 65,
+		"price": 170,
+		"text": "Cold going down, and it keeps working after you have stopped noticing."
+	},
+	"green_draught": {
+		"display_name": "Green Draught",
+		"icon": "potion_green",
+		"kind": "draught",
+		"mends": 90,
+		"price": 280,
+		"text": "Tastes of a hedgerow after rain. Nobody will say what is in it."
+	},
+	"amber_draught": {
+		"display_name": "Amber Draught",
+		"icon": "potion_amber",
+		"kind": "draught",
+		"mends": 140,
+		"price": 460,
+		"text": "In a bottle worth more than the road you found it on."
 	}
 }

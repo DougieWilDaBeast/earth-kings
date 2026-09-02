@@ -11,6 +11,8 @@ signal closed
 ## Pieces out of the packs offered per person, so a full bag does not run the
 ## row off the edge of the screen.
 const GEAR_OFFERS := 4
+## And how many draughts, so the packs do not bury the rest of the row.
+const DRAUGHT_OFFERS := 3
 ## Level the first tree turns up at, so somebody without one is told to wait
 ## rather than told nothing.
 const TREE_AT := Progression.FIRST_TREE_LEVEL
@@ -101,6 +103,25 @@ func unequip(character: Character) -> bool:
 	return true
 
 
+func drink(character: Character, equipment_id: String) -> bool:
+	var line := Gear.drink(character, equipment_id)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
+func take_rung(character: Character, ability_id: String) -> bool:
+	if not Progression.spend_rung(character, ability_id, GameState.world):
+		return false
+	_notice = "%s takes up %s." % [
+		character.display_name, Database.ability(ability_id).get("display_name", ability_id)
+	]
+	_rebuild()
+	return true
+
+
 # --- rendering ----------------------------------------------------------------
 
 
@@ -125,11 +146,12 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 
 	var heading := Label.new()
 	heading.add_theme_font_size_override("font_size", 18)
-	heading.text = "%s  —  level %d %s  ·  %d/%d HP  ·  %d/%d XP%s" % [
+	heading.text = "%s  —  level %d %s  ·  %d/%d HP  ·  %d/%d XP%s%s" % [
 		character.display_name, character.level, character.class_name_text(),
 		character.current_hp(), character.max_hp(),
 		character.xp, Progression.xp_to_next(character.level),
-		"  ·  YOKED" if character.yoke else ""
+		"  ·  YOKED" if character.yoke else "",
+		"  ·  %d POWER TO TAKE" % character.rungs if character.rungs > 0 else "",
 	]
 	row.add_child(heading)
 
@@ -181,6 +203,7 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 		yoke.pressed.connect(func() -> void: toggle_yoke(character))
 		buttons.add_child(yoke)
 		_add_gear_buttons(buttons, character)
+		_add_draught_buttons(buttons, character)
 		_add_teaching_buttons(buttons, character, party)
 
 	return row
@@ -210,6 +233,28 @@ func _add_gear_buttons(into: HBoxContainer, character: Character) -> void:
 		button.pressed.connect(func() -> void: equip(character, equipment_id))
 		offer.add_child(button)
 		into.add_child(offer)
+		shown += 1
+
+
+## Food and physic in the packs. Only offered to somebody with something to
+## mend, so a full-health party is not tempted to waste the good bottle.
+func _add_draught_buttons(into: HBoxContainer, character: Character) -> void:
+	if character.current_hp() >= character.max_hp():
+		return
+	var shown := 0
+	for equipment_id: String in Gear.draughts():
+		if shown >= DRAUGHT_OFFERS:
+			break
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 2)
+		row.add_child(_icon(equipment_id))
+		var button := Button.new()
+		var short := mini(Gear.mends(equipment_id), character.max_hp() - character.current_hp())
+		button.text = "%s (+%d)" % [Gear.display_name(equipment_id), short]
+		button.tooltip_text = Gear.summary(equipment_id, character)
+		button.pressed.connect(func() -> void: drink(character, equipment_id))
+		row.add_child(button)
+		into.add_child(row)
 		shown += 1
 
 
@@ -272,10 +317,25 @@ func _tree_blocks(character: Character) -> Array[Control]:
 		block.add_child(heading)
 
 		var abilities: Array = tree.get("abilities", [])
+		var offered := Progression.rung_options(character, GameState.world)
 		for rung in abilities.size():
 			var ability_id: String = abilities[rung]
 			var ability := Database.ability(ability_id)
 			var known := ability_id in character.learned
+			var shape := _ability_shape(ability)
+
+			# A power owed makes the next rung of every tree a choice, so the
+			# path up is picked rather than handed out in order.
+			if not known and character.rungs > 0 and offered.has(ability_id):
+				var take := Button.new()
+				take.text = "    Take %s  —  %s" % [
+					ability.get("display_name", ability_id), shape
+				]
+				take.alignment = HORIZONTAL_ALIGNMENT_LEFT
+				take.pressed.connect(func() -> void: take_rung(character, ability_id))
+				block.add_child(take)
+				continue
+
 			var rung_line := Label.new()
 			rung_line.add_theme_color_override(
 				"font_color", Color(0.86, 0.88, 0.92) if known else Color(0.46, 0.47, 0.5)
@@ -283,7 +343,7 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			rung_line.text = "    %s %s  —  %s" % [
 				"■" if known else "□",
 				ability.get("display_name", ability_id),
-				_ability_shape(ability),
+				shape,
 			]
 			block.add_child(rung_line)
 		out.append(block)

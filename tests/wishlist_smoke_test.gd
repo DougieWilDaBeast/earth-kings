@@ -93,6 +93,9 @@ func _check_content() -> void:
 		if bool(piece.get("charm", false)):
 			_expect(piece.has("grace"), "charm %s buys no grace" % equipment_id)
 			continue
+		if Gear.is_draught(equipment_id):
+			_expect(Gear.mends(equipment_id) > 0, "draught %s mends nothing" % equipment_id)
+			continue
 		_expect(
 			int(piece.get("attack", 0)) + int(piece.get("defense", 0)) > 0,
 			"equipment %s is worth nothing to anybody" % equipment_id

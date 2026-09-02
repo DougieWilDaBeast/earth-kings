@@ -35,6 +35,9 @@ var equipment: String = ""
 
 ## Generated skill trees unlocked at levels 5 and 10 (see [AbilityGrammar]).
 var trees: Array = []
+## Powers earned and not yet placed. The player spends these; everyone else
+## takes the next rung on their own (see [Progression]).
+var rungs: int = 0
 ## Ability ids learned from those trees.
 var learned: Array = []
 ## Ability id -> times landed, which is how a move gets better (see [Proficiency]).
@@ -186,6 +189,7 @@ func to_dict() -> Dictionary:
 		"charms": charms,
 		"equipment": equipment,
 		"trees": trees,
+		"rungs": rungs,
 		"learned": learned,
 		"practice": practice,
 		"doctrine": doctrine,
@@ -213,6 +217,7 @@ static func from_dict(data: Dictionary) -> Character:
 	character.charms = data.get("charms", [])
 	character.equipment = data.get("equipment", "")
 	character.trees = data.get("trees", [])
+	character.rungs = int(data.get("rungs", 0))
 	character.learned = data.get("learned", [])
 	for ability_id: String in data.get("practice", {}):
 		character.practice[ability_id] = int(data["practice"][ability_id])

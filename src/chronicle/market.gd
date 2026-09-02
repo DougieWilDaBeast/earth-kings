@@ -53,6 +53,9 @@ static func buy(site: Site, equipment_id: String, buyer: Character, world: World
 
 	if Database.equipment_piece(equipment_id).get("charm", false):
 		buyer.charms.append(equipment_id)
+	elif Gear.is_draught(equipment_id):
+		# Food and physic go in the packs, not on the person who paid for it.
+		GameState.stores.append(equipment_id)
 	else:
 		buyer.equipment = equipment_id
 	return true

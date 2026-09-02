@@ -56,6 +56,12 @@ var deeds: Array = []
 var threads: Dictionary = {}
 ## What you have worked out about what you fight (see [Journal]).
 var journal: Dictionary = {}
+## Trade routes you have opened by seeing somebody home (see [Roadside]).
+var routes: Array = []
+## Whoever is walking with you and where they are going, or empty.
+var escort: Dictionary = {}
+## The step the last roadside scene played out on, so they do not crowd.
+var roadside_at: int = -999
 
 var rng := RandomNumberGenerator.new()
 
@@ -235,6 +241,7 @@ func _upkeep() -> Array:
 			site.opened_at = steps
 	notices.append_array(Town.upkeep(self))
 	notices.append_array(Skein.on_step(self))
+	notices.append_array(Roadside.upkeep(self))
 	return notices
 
 
@@ -259,6 +266,9 @@ func to_dict() -> Dictionary:
 		"deeds": deeds,
 		"threads": threads,
 		"journal": journal,
+		"routes": routes,
+		"escort": escort,
+		"roadside_at": roadside_at,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -282,6 +292,9 @@ static func from_dict(payload: Dictionary) -> World:
 	world.deeds = payload.get("deeds", [])
 	world.threads = payload.get("threads", {})
 	world.journal = payload.get("journal", {})
+	world.routes = payload.get("routes", [])
+	world.escort = payload.get("escort", {})
+	world.roadside_at = int(payload.get("roadside_at", -999))
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

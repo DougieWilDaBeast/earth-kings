@@ -29,6 +29,40 @@ static func is_charm(equipment_id: String) -> bool:
 	return bool(piece(equipment_id).get("charm", false))
 
 
+## Something drunk or eaten rather than carried about: it is spent when used.
+static func is_draught(equipment_id: String) -> bool:
+	return kind(equipment_id) == "draught"
+
+
+static func mends(equipment_id: String) -> int:
+	return int(piece(equipment_id).get("mends", 0))
+
+
+## Drink it. Returns the line worth showing, or an empty string if there was no
+## point — nothing is spent on somebody who is already whole.
+static func drink(character: Character, equipment_id: String) -> String:
+	if not is_draught(equipment_id) or not GameState.stores.has(equipment_id):
+		return ""
+	if character.current_hp() >= character.max_hp():
+		return ""
+	GameState.stores.erase(equipment_id)
+	var before := character.current_hp()
+	character.hp = mini(before + mends(equipment_id), character.max_hp())
+	return "%s takes the %s and comes back %d." % [
+		character.display_name, display_name(equipment_id), character.current_hp() - before
+	]
+
+
+## Draughts in the packs, weakest first, so the small one is spent on a scratch.
+static func draughts() -> Array:
+	var out: Array = []
+	for equipment_id: String in GameState.stores:
+		if is_draught(equipment_id) and not out.has(equipment_id):
+			out.append(equipment_id)
+	out.sort_custom(func(a: String, b: String) -> bool: return mends(a) < mends(b))
+	return out
+
+
 ## What kind of thing it is: blade, bow, staff, armour, charm. Used for grouping
 ## and for saying what somebody is short of.
 static func kind(equipment_id: String) -> String:
@@ -67,7 +101,7 @@ static func suits(equipment_id: String, character: Character) -> bool:
 ## Attack and defence this piece gives [param character], fit already applied.
 static func bonus(equipment_id: String, character: Character) -> Dictionary:
 	var data := piece(equipment_id)
-	if data.is_empty() or bool(data.get("charm", false)):
+	if data.is_empty() or bool(data.get("charm", false)) or is_draught(equipment_id):
 		return { "attack": 0, "defense": 0 }
 	var attack := int(data.get("attack", 0))
 	var defense := int(data.get("defense", 0))
@@ -92,6 +126,10 @@ static func swing(equipment_id: String, character: Character) -> int:
 
 ## A short line for the party screen: what it gives, and whether it fits.
 static func summary(equipment_id: String, character: Character) -> String:
+	if is_draught(equipment_id):
+		return "mends %d  —  %s" % [
+			mends(equipment_id), piece(equipment_id).get("text", "")
+		]
 	if is_charm(equipment_id):
 		return str(piece(equipment_id).get("text", "Carried, not worn."))
 	var gain := bonus(equipment_id, character)
@@ -110,7 +148,7 @@ static func summary(equipment_id: String, character: Character) -> String:
 ## Hand a piece out of the party's stores to somebody. Whatever they were
 ## carrying goes back in, so nothing is ever thrown away by equipping.
 static func equip(character: Character, equipment_id: String) -> bool:
-	if not GameState.stores.has(equipment_id) or is_charm(equipment_id):
+	if not GameState.stores.has(equipment_id) or is_charm(equipment_id) or is_draught(equipment_id):
 		return false
 	GameState.stores.erase(equipment_id)
 	var displaced := character.equipment
@@ -134,7 +172,7 @@ static func unequip(character: Character) -> bool:
 static func offers(character: Character) -> Array:
 	var out: Array = []
 	for equipment_id: String in GameState.stores:
-		if not is_charm(equipment_id) and not out.has(equipment_id):
+		if not is_charm(equipment_id) and not is_draught(equipment_id) and not out.has(equipment_id):
 			out.append(equipment_id)
 	out.sort_custom(func(a: String, b: String) -> bool:
 		return swing(a, character) > swing(b, character)
