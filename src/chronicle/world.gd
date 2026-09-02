@@ -6,7 +6,7 @@ extends RefCounted
 ## There are no eras. The world advances by *steps* — gates stir, doctrine
 ## fades, and monsters return as you walk, not on a turn of some larger wheel.
 
-const SIZE := Vector2i(44, 44)
+const SIZE := Vector2i(128, 128)
 
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
@@ -17,6 +17,12 @@ const LEGEND := {
 	"~": "water",
 	"#": "wall",
 	"=": "road",
+	"o": "ocean",
+	"l": "lake",
+	"s": "sand",
+	"w": "snow",
+	"f": "forest",
+	"b": "marsh",
 }
 
 ## Steps between world upkeep passes (gates stirring, doctrine fading).

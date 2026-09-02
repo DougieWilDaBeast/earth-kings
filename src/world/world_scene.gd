@@ -55,6 +55,8 @@ var _captive_here: Character = null
 var _auto_last: Vector2i = Vector2i.ZERO
 ## Map art kept between redraws, since the whole map is redrawn every step.
 var _art: Dictionary = {}
+## Where the camera was last time the ground was laid out (x, y, zoom).
+var _last_view: Vector3 = Vector3.INF
 
 
 func _ready() -> void:
@@ -87,6 +89,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_watch_the_view()
 	if _busy:
 		return
 	if Pace.auto:
@@ -608,6 +611,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		EventBus.system_menu_requested.emit()
 		return
+	# Before the pace keys: walking into a place is what the player came here to
+	# do, and E was quietly being eaten by the speed cycle.
+	if event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
+		_walk_into_site()
+		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto
@@ -656,9 +665,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_K:
 			get_viewport().set_input_as_handled()
 			_raid_here()
-		KEY_E:
-			get_viewport().set_input_as_handled()
-			_walk_into_site()
 
 
 ## Places big enough to walk around in have an area of the same name as their
@@ -942,16 +948,46 @@ func _draw_world() -> void:
 	_draw_party()
 
 
+## The ground is drawn to the camera, so panning or zooming has to redraw it.
+## Compared rather than hooked, because the rig moves by tween as well as by key.
+func _watch_the_view() -> void:
+	var now := Vector3(
+		_camera.get_screen_center_position().x,
+		_camera.get_screen_center_position().y,
+		_camera.zoom.x
+	)
+	if now.distance_squared_to(_last_view) < 1.0:
+		return
+	_last_view = now
+	_map.queue_redraw()
+
+
 ## A single flat green for every grass tile reads as a spreadsheet. Each cell
 ## gets a fixed wobble in brightness and whatever its terrain grows.
+##
+## Only what the camera can see is drawn. The country is far too large to lay
+## out in full every time somebody takes a step.
 func _draw_ground() -> void:
-	for y in world.size.y:
-		for x in world.size.x:
+	var seen := _cells_in_view()
+	for y in range(seen.position.y, seen.end.y):
+		for x in range(seen.position.x, seen.end.x):
 			var cell := Vector2i(x, y)
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
 			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
 			_dress(cell, world.terrain_id_at(cell))
+
+
+## The block of cells the camera has in front of it, clamped to the map and
+## grown by a tile so nothing pops in at the edge of the screen.
+func _cells_in_view() -> Rect2i:
+	var span := get_viewport_rect().size / _camera.zoom
+	var origin := _camera.get_screen_center_position() - span * 0.5
+	var first := Vector2i((origin / CELL).floor()) - Vector2i.ONE
+	var last := Vector2i(((origin + span) / CELL).ceil()) + Vector2i.ONE
+	first = first.clamp(Vector2i.ZERO, world.size)
+	last = last.clamp(Vector2i.ZERO, world.size)
+	return Rect2i(first, last - first)
 
 
 ## Deterministic, so the country does not shimmer as you walk across it.
@@ -994,6 +1030,26 @@ func _dress(cell: Vector2i, terrain_id: String) -> void:
 		"grass":
 			if seed_value % 5 == 0:
 				_map.draw_circle(origin + _scatter(seed_value, 2), CELL * 0.06, Color(0.32, 0.48, 0.26, 0.55))
+		"forest":
+			# Denser and darker than brush, so a wood reads as somewhere to go round.
+			for i in 4:
+				var trunk := origin + _scatter(seed_value, i)
+				_map.draw_circle(trunk, CELL * 0.13, Color(0.13, 0.26, 0.12, 0.8))
+		"snow":
+			if seed_value % 3 == 0:
+				_map.draw_circle(origin + _scatter(seed_value, 4), CELL * 0.07, Color(1, 1, 1, 0.5))
+		"sand":
+			if seed_value % 2 == 0:
+				var dune := origin + _scatter(seed_value, 5)
+				_map.draw_line(dune, dune + Vector2(CELL * 0.3, 0), Color(1, 0.94, 0.78, 0.3), 1.0)
+		"marsh":
+			for i in 2:
+				var tuft := origin + _scatter(seed_value, i + 2)
+				_map.draw_circle(tuft, CELL * 0.08, Color(0.3, 0.38, 0.25, 0.7))
+		"ocean", "lake":
+			if seed_value % 4 == 0:
+				var swell := origin + _scatter(seed_value, 6)
+				_map.draw_line(swell, swell + Vector2(CELL * 0.3, 0), Color(1, 1, 1, 0.09), 1.0)
 
 
 func _scatter(seed_value: int, index: int) -> Vector2:

@@ -142,7 +142,17 @@ func _open(key: String) -> Node:
 	var scene: Node = load(SCENES[key]).instantiate()
 	scene.set("boot_payload", _payload(key))
 	add_child(scene)
+	if _args.has("zoom"):
+		_pull_back(scene, float(_args["zoom"]))
 	return scene
+
+
+## Stand further off. A camera rig fights for its own framing, so the zoom is
+## set after the scene has settled rather than as it is built.
+func _pull_back(scene: Node, level: float) -> void:
+	await get_tree().process_frame
+	for camera: Camera2D in scene.find_children("*", "Camera2D", true, false):
+		camera.zoom = Vector2(level, level)
 
 
 func _payload(key: String) -> Dictionary:
@@ -313,6 +323,7 @@ what to open
 what to do
   --play            leave it running (drop the --headless flag)
   --shot[=name]     photograph it into .art_stage (drop the --headless flag)
+  --zoom=N          camera zoom; below 1 stands further off
   --frames=N        frames to settle before the shot (default %d)
   --list=WHAT       sites areas units abilities equipment heroes classes
   (none)            build the state, print what it built, quit

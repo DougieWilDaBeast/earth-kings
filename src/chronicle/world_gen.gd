@@ -11,7 +11,7 @@ const GIVEN_NAMES := [
 ]
 
 ## Sites are kept this far apart so the map doesn't clump.
-const MIN_SITE_SPACING := 5
+const MIN_SITE_SPACING := 9
 
 ## Hand-built places under `data/areas`, dealt out one per site so two villages
 ## are never the same village. A kind with a single entry gets the same inside
@@ -27,11 +27,11 @@ const AREA_POOLS := {
 }
 
 const COUNTS := {
-	Site.KEEP: 2,
-	Site.VILLAGE: 4,
-	Site.LIBRARY: 3,
-	Site.GATE: 6,
-	Site.HUT: 4,
+	Site.KEEP: 5,
+	Site.VILLAGE: 11,
+	Site.LIBRARY: 6,
+	Site.GATE: 14,
+	Site.HUT: 10,
 }
 
 
@@ -49,34 +49,88 @@ static func generate(world_seed: int) -> World:
 
 # --- ground -------------------------------------------------------------------
 
+## How far out the land reaches before it gives up and becomes sea. Measured
+## from the middle, where 1.0 is the edge of the map.
+const COAST := 0.82
+## How much the coastline wanders, so the continent is not a circle either.
+const COAST_RAGGED := 0.20
+## Band of shallows between the land and the deep, so you can see where it ends.
+const SHALLOWS := 0.05
+## Share of the map, north and south, given over to snow and to desert.
+const SNOW_LATITUDE := 0.17
+const DESERT_LATITUDE := 0.80
 
+
+## A continent rather than a square: sea all the way round, mountains through
+## the middle of it, and the north and south given over to snow and sand. The
+## bands are warped by their own noise, so nothing reads as a stripe.
 static func _carve_ground(world: World) -> Array:
 	var elevation := FastNoiseLite.new()
 	elevation.seed = world.world_seed
-	elevation.frequency = 0.055
+	elevation.frequency = 0.028
 	var damp := FastNoiseLite.new()
 	damp.seed = world.world_seed + 7717
-	damp.frequency = 0.09
+	damp.frequency = 0.045
+	var coast := FastNoiseLite.new()
+	coast.seed = world.world_seed + 3301
+	coast.frequency = 0.032
+	var band := FastNoiseLite.new()
+	band.seed = world.world_seed + 911
+	band.frequency = 0.020
 
 	var rows: Array = []
 	for y in world.size.y:
 		var row := ""
 		for x in world.size.x:
-			row += _symbol_for(elevation.get_noise_2d(x, y), damp.get_noise_2d(x, y))
+			row += _symbol_for(
+				_shore(x, y, world.size, coast),
+				elevation.get_noise_2d(x, y),
+				damp.get_noise_2d(x, y),
+				_latitude(y, world.size, band.get_noise_2d(x, y))
+			)
 		rows.append(row)
 	return rows
 
 
-static func _symbol_for(height: float, wet: float) -> String:
-	if height < -0.34:
+## How near the edge of the world this cell is: 0 in the middle, 1 or more once
+## it has run out of continent.
+static func _shore(x: int, y: int, size: Vector2i, coast: FastNoiseLite) -> float:
+	var nx := float(x) / float(size.x - 1) * 2.0 - 1.0
+	var ny := float(y) / float(size.y - 1) * 2.0 - 1.0
+	return sqrt(nx * nx + ny * ny) + coast.get_noise_2d(x, y) * COAST_RAGGED
+
+
+## 0 at the top of the map, 1 at the bottom, wandered so the snow line is not
+## a ruled line across the country.
+static func _latitude(y: int, size: Vector2i, wander: float) -> float:
+	return float(y) / float(size.y - 1) + wander * 0.11
+
+
+static func _symbol_for(shore: float, height: float, wet: float, latitude: float) -> String:
+	if shore > COAST:
+		return "o"
+	if shore > COAST - SHALLOWS:
 		return "~"
-	if height > 0.52:
+
+	# Mountains cut across every region, so the middle of the map has a spine.
+	if height > 0.55:
 		return "#"
-	if height > 0.34:
+	if height > 0.38:
 		return "A"
-	if height > 0.16:
+	if height > 0.20:
 		return "^"
-	if wet > 0.22:
+
+	# Water gathers in the low ground wherever it is wet enough.
+	if wet > 0.46 and height < -0.10:
+		return "l"
+
+	if latitude < SNOW_LATITUDE:
+		return "w"
+	if latitude > DESERT_LATITUDE:
+		return "s"
+	if wet > 0.30:
+		return "f" if height > -0.16 else "b"
+	if wet > 0.12:
 		return ","
 	return "."
 
@@ -85,9 +139,12 @@ static func _symbol_for(height: float, wet: float) -> String:
 
 
 static func _place_sites(world: World) -> void:
-	# The Tower goes down first and claims the far corner, so everything else
-	# arranges itself around the thing you are eventually walking towards.
-	var tower_cell := _find_open_cell(world, Vector2i(world.size.x - 6, 5), 8)
+	# The Tower goes down first and claims the cold north, so everything else
+	# arranges itself around the thing you are eventually walking towards. It is
+	# pulled well inside the coast, or it would be looking for ground at sea.
+	var tower_cell := _find_open_cell(
+		world, Vector2i(roundi(world.size.x * 0.5), roundi(world.size.y * 0.18)), 14
+	)
 	var tower := Site.create(Site.TOWER, tower_cell, "The Tower")
 	world.sites.append(tower)
 

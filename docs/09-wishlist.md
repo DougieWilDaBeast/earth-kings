@@ -169,9 +169,30 @@ moves an actor had to change. Anyone without a cycle keeps their standing pose, 
 > be square. I can walk from one side to the other in fifty clicks; it should be almost a thousand.
 > There should be grassland, desert, snow, forest, an ocean, ponds, lakes, mountains.
 
-**Not built.** `World.SIZE` is 44×44 with a rectangular border. Wants a non-rectangular landmass,
-regions with their own terrain, and a much longer crossing. Every seeded test walks a fixed number
-of steps, so the size is not a one-line change.
+**Built.** The world is a continent now, not a paddock. `World.SIZE` went from 44×44 to 128×128 —
+roughly eight and a half times the ground — and the land inside it is shaped rather than square:
+a radial falloff with its own noise gives a ragged coast, so the map is an island in an open sea
+you cannot walk into.
+
+Regions come from latitude warped by noise, so nothing reads as a stripe: snow at the top, desert
+at the bottom, forest and marsh where it is wet, plains where it is not. Elevation cuts mountains
+across all of it, and deep water gathers in the low ground as lakes. Seven new terrains
+(`ocean`, `lake`, `sand`, `snow`, `forest`, `marsh`, plus the existing shallows) each with their
+own colour and dressing on the map.
+
+Sites scaled with it — 11 villages, 14 gates, 10 huts, 6 libraries, 5 keeps, spaced 9 apart — and
+so did the wandering bands (46 sought, `gate_range` 14, `haven_range` 7). `Encounter.SPAWN_ATTEMPTS`
+had to go from 40 to 600: on a map this size most random cells are sea or quiet country, so the
+old budget filled two bands and gave up.
+
+The map only draws what the camera can see (`world_scene._cells_in_view`), redrawing when the view
+moves rather than only when you step. Laying out 16 000 cells per step would not have run.
+
+**Open:** the memo asked for "almost a thousand clicks" to cross; this is about 90 tiles of land,
+roughly three times the old crossing. Getting to a thousand is a pacing problem rather than a size
+one — terrain that costs more than a step, or roads that cost less — because a map big enough to
+take a thousand steps on foot is a quarter of a million cells. Regions are also not _named_ yet,
+so nothing says "the Ashen Waste" when you walk into it.
 
 ## W13 — Step into a tile
 

@@ -13,7 +13,7 @@ const TOWER := "tower"
 ## not sprung.
 const SPAWN_CLEARANCE := 10
 ## Give up looking for somewhere to put a band after this many tries.
-const SPAWN_ATTEMPTS := 40
+const SPAWN_ATTEMPTS := 600
 ## How far off the opening band is put: near enough that the first fight is a
 ## short walk, far enough that it is still walked into rather than sprung.
 const OPENING_NEAR := 4

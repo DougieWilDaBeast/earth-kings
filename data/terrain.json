@@ -47,5 +47,47 @@
 		"height": 4,
 		"walkable": false,
 		"color": "#3b3b46"
+	},
+	"ocean": {
+		"name": "Open sea",
+		"move_cost": 99,
+		"height": -2,
+		"walkable": false,
+		"color": "#1d3f66"
+	},
+	"lake": {
+		"name": "Deep water",
+		"move_cost": 99,
+		"height": -2,
+		"walkable": false,
+		"color": "#2b5a8c"
+	},
+	"sand": {
+		"name": "Desert",
+		"move_cost": 2,
+		"height": 0,
+		"walkable": true,
+		"color": "#c2a86a"
+	},
+	"snow": {
+		"name": "Snowfield",
+		"move_cost": 2,
+		"height": 0,
+		"walkable": true,
+		"color": "#d3dde6"
+	},
+	"forest": {
+		"name": "Forest",
+		"move_cost": 2,
+		"height": 0,
+		"walkable": true,
+		"color": "#2c5228"
+	},
+	"marsh": {
+		"name": "Marsh",
+		"move_cost": 3,
+		"height": 0,
+		"walkable": true,
+		"color": "#54654a"
 	}
 }

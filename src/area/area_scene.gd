@@ -691,6 +691,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		_mouse_input(event)
 		return
+	# Ahead of the pace keys, which used to share E with it.
+	if event.is_action_pressed("interact") and _nearby != null and not _talking:
+		get_viewport().set_input_as_handled()
+		_engage(_nearby)
+		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto
@@ -712,9 +717,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("cycle_next") and not _leaving:
 		get_viewport().set_input_as_handled()
 		_cycle_leader()
-	elif event.is_action_pressed("interact") and _nearby != null and not _talking:
-		get_viewport().set_input_as_handled()
-		_engage(_nearby)
 
 
 ## Picking something out of the square and dealing with it is done with the

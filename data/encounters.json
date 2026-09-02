@@ -29,12 +29,12 @@
 	"siege": ["brigand", "brigand_archer", "goblin", "frozen_wolfman", "cabin_boy"],
 	"guard": ["village_idiot", "neuron_chief", "emo_swordsman", "cabin_boy"],
 	"base_chance": 0.07,
-	"gate_range": 8,
+	"gate_range": 14,
 	"gate_pressure": 0.3,
-	"haven_range": 4,
+	"haven_range": 7,
 	"haven_relief": 0.06,
 	"min_chance": 0.01,
 	"max_chance": 0.45,
-	"bands": 14,
+	"bands": 46,
 	"sight": 2
 }
