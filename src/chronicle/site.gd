@@ -16,6 +16,25 @@ const GRAVE := "grave"
 ## Gate difficulty, weakest first. A gate's rank sets its guardian and its reward.
 const RANKS := ["E", "D", "C", "B", "A", "S"]
 
+
+## How many fights deep a gate goes before the thing keeping it. A rank E gate
+## is a doorway; an S is somewhere you have to decide how far into.
+func floors() -> int:
+	var rules: Dictionary = Database.world_rules.get("gate", {})
+	var base := int(rules.get("floors_base", 1))
+	var per_rank := float(rules.get("floors_per_rank", 0.6))
+	return maxi(1, base + roundi(per_rank * float(rank_index(rank))))
+
+
+## Floors of this gate already fought through. Retreating keeps the ground you
+## took; losing gives it all back (see `world_scene._settle_up`).
+func depth() -> int:
+	return int(data.get("depth", 0))
+
+
+func is_final_floor() -> bool:
+	return depth() >= floors() - 1
+
 ## How a place is drawn on a map. A faction that holds a gate or a keep
 ## overrides the art (see [Faction]); the colour is the fallback token for a
 ## kind with no art at all.

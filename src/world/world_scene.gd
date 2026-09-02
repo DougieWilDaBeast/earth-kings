@@ -274,6 +274,8 @@ func _settle_up(won: bool) -> void:
 		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
 			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
 			world.tower_hoard = 0
+		if str(outcome.get("kind", "")) == "gate":
+			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
 		return
 
 	var party := GameState.party_characters()
@@ -283,9 +285,17 @@ func _settle_up(won: bool) -> void:
 		"gate":
 			if site == null:
 				return
-			world.close_gate(site)
-			for line: String in Spoils.for_gate(world, site, party):
-				_note(line)
+			if not bool(outcome.get("final", true)):
+				site.data["depth"] = site.depth() + 1
+				_note("%s gives up a floor. %d of %d behind you." % [
+					site.display_name, site.depth(), site.floors()
+				])
+				for line: String in Spoils.for_gate_floor(world, site, party):
+					_note(line)
+			else:
+				world.close_gate(site)
+				for line: String in Spoils.for_gate(world, site, party):
+					_note(line)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
@@ -429,11 +439,22 @@ func _enter_gate(site: Site) -> void:
 		return
 
 	var party := GameState.party_characters()
-	_note("%s stands open." % site.label())
-	# Shutting a gate is permanent, so it only shuts if you walk back out of it.
+	var depth := site.depth()
+	var final := site.is_final_floor()
+	if site.floors() > 1:
+		_note("%s, floor %d of %d." % [site.label(), depth + 1, site.floors()])
+		if depth > 0:
+			_note("Lose down here and you come out at the mouth of it again.")
+	else:
+		_note("%s stands open." % site.label())
+
+	# Shutting a gate is permanent, so it only shuts once the last floor is won.
 	_begin_battle(
-		Encounter.for_gate(world, site, 0, true, party, world.rng),
-		{"kind": "gate", "cell": site.cell, "lost": "%s is still standing open." % site.display_name}
+		Encounter.for_gate(world, site, depth, final, party, world.rng),
+		{
+			"kind": "gate", "cell": site.cell, "final": final,
+			"lost": "%s is still standing open." % site.display_name,
+		}
 	)
 
 
@@ -453,6 +474,15 @@ func _climb(site: Site) -> void:
 			"lost": "You come back down to the floor you started on.",
 		}
 	)
+
+
+## A delve you walk out of keeps the floors you took; a delve you lose does not.
+## You are carried back to the mouth of it and it fills in behind you.
+func _lose_the_ground(site: Site) -> void:
+	if site == null or site.depth() <= 0:
+		return
+	site.data["depth"] = 0
+	_note("%s closes over the way you came. You are back at the mouth of it." % site.display_name)
 
 
 ## Walking off the Tower's step is what banks an ascent. Nothing else does, so

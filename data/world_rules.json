@@ -56,10 +56,16 @@
 		"tree_every": 4
 	},
 	"gate": {
+		"floors_base": 1,
+		"floors_per_rank": 0.6,
 		"break_after_steps": 600,
 		"break_chance": 0.75,
 		"break_danger": 0.25,
 		"break_level_bonus": 3
+	},
+	"proficiency": {
+		"steps": [12, 40, 100, 220],
+		"per_rank": 0.06
 	},
 	"captive": {
 		"ransom_base": 120,

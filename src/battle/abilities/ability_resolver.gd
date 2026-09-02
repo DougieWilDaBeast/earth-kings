@@ -70,14 +70,17 @@ static func affected_cells(ability: Dictionary, centre: Vector2i) -> Array[Vecto
 
 
 ## Apply [param ability] from [param user] to [param target]. Returns a log line.
-static func apply(user: Unit, ability: Dictionary, target: Unit) -> String:
+## [param ability_id] is only used to look up how practised the user is with it;
+## a scratch enemy has no [Character] and so is never any better at anything.
+static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: String = "") -> String:
 	var name: String = ability.get("display_name", "Attack")
+	var skill := Proficiency.multiplier(user.character, ability_id)
 	if ability.get("heal", false):
-		var healing := _roll(int(ability.get("power", 10)))
+		var healing := _roll(roundi(float(ability.get("power", 10)) * skill))
 		target.heal(healing)
 		return "%s used %s — %s recovers %d HP." % [user.display_name, name, target.display_name, healing]
 
-	var raw := _roll(roundi(user.attack * float(ability.get("power", 1.0))))
+	var raw := _roll(roundi(user.attack * float(ability.get("power", 1.0)) * skill))
 	var flank := flank_of(user.cell, target)
 	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
 	target.take_damage(damage)

@@ -37,6 +37,8 @@ var equipment: String = ""
 var trees: Array = []
 ## Ability ids learned from those trees.
 var learned: Array = []
+## Ability id -> times landed, which is how a move gets better (see [Proficiency]).
+var practice: Dictionary = {}
 ## Doctrine ids this character has read or been taught (never inherited).
 var doctrine: Array = []
 ## Doctrine id -> the world step it was last read, taught or used.
@@ -185,6 +187,7 @@ func to_dict() -> Dictionary:
 		"equipment": equipment,
 		"trees": trees,
 		"learned": learned,
+		"practice": practice,
 		"doctrine": doctrine,
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
@@ -211,6 +214,8 @@ static func from_dict(data: Dictionary) -> Character:
 	character.equipment = data.get("equipment", "")
 	character.trees = data.get("trees", [])
 	character.learned = data.get("learned", [])
+	for ability_id: String in data.get("practice", {}):
+		character.practice[ability_id] = int(data["practice"][ability_id])
 	character.doctrine = data.get("doctrine", [])
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))

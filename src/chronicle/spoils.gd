@@ -30,6 +30,25 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 	return lines
 
 
+## Taken off a floor of a gate that is not its last. There is no gold down here
+## — a gate pays when it is shut — but there is what the last lot were carrying.
+static func for_gate_floor(world: World, site: Site, party: Array) -> Array:
+	var lines: Array = []
+	if party.is_empty():
+		return lines
+	var rank := Site.rank_index(site.rank)
+
+	if world.rng.randf() < 0.25 + 0.08 * float(rank):
+		var found := Loot.roll(world, 0.6 + 0.15 * float(rank))
+		lines.append_array(Loot.claim(found, GameState.roster))
+
+	# The deeper gates are where the written things are, and where somebody was
+	# carrying a charm because they knew what was down there.
+	if world.rng.randf() < 0.1 + 0.06 * float(rank):
+		lines.append_array(_grant_doctrine(world, party))
+	return lines
+
+
 ## Paid for shutting a gate for good.
 static func for_gate(world: World, site: Site, party: Array) -> Array:
 	var lines: Array = []

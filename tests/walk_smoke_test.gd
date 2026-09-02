@@ -359,13 +359,27 @@ func _check_gate() -> void:
 	_expect(gate.open and not gate.cleared, "a gate nobody beat still shut itself")
 	_expect(GameState.gold == gold_before, "a gate nobody beat still paid")
 
-	if not _step_onto(gate.cell):
-		return
-	_scene._settle_up(true)
+	# A gate is as deep as its rank. Every floor but the last gives ground
+	# rather than shutting it, so a delve is walked through rather than won once.
+	var floors := gate.floors()
+	for floor_number in floors:
+		if not _step_onto(gate.cell):
+			return
+		_scene._settle_up(true)
+		if floor_number >= floors - 1:
+			break
+		_expect(gate.open, "%s shut on floor %d of %d" % [gate.label(), floor_number + 1, floors])
+		_expect(
+			gate.depth() == floor_number + 1,
+			"floor %d left the delve at depth %d" % [floor_number + 1, gate.depth()]
+		)
+
 	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s walked out of once, then shut for %d gold" % [gate.label(), GameState.gold - gold_before])
+	print("gate: %s is %d floors deep, walked out of once, then shut for %d gold" % [
+		gate.label(), floors, GameState.gold - gold_before
+	])
 
 
 func _check_tower() -> void:

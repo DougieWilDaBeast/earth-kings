@@ -571,8 +571,10 @@ func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
 		_note_in_the_journal(user, ability_id, target)
 		if not target.is_alive():
 			target.visible = false
-			_award_kill(user, target)
-	user.pay(Unit.ability_cost(ability))
+			_award_kill(user, target)	# Counted once for the swing, not once per body it caught.
+	var better := Proficiency.record(user.character, ability_id)
+	if better != "":
+		EventBus.battle_log.emit(better)	user.pay(Unit.ability_cost(ability))
 	return true
 
 
