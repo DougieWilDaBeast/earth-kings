@@ -32,6 +32,12 @@ func _ready() -> void:
 		_pips.add_child(pip)
 
 	var ids: Array = Database.heroes.keys()
+	# Gentlest first, so the list itself reads as the warning.
+	ids.sort_custom(func(a: String, b: String) -> bool:
+		var left := int(Database.hero(a).get("difficulty", 1))
+		var right := int(Database.hero(b).get("difficulty", 1))
+		return left < right if left != right else a < b
+	)
 	for hero_id: String in ids:
 		_lives.add_child(_life_button(hero_id))
 	_back.theme_type_variation = &"GrandButton"
@@ -50,7 +56,8 @@ func _ready() -> void:
 func _life_button(hero_id: String) -> Button:
 	var button := Button.new()
 	button.theme_type_variation = &"GrandButton"
-	button.text = _name_of(hero_id)
+	var rating := clampi(int(Database.hero(hero_id).get("difficulty", 1)), 1, PIPS)
+	button.text = "%s  ·  %s" % [_name_of(hero_id), RATINGS[rating]]
 	button.focus_entered.connect(_show.bind(hero_id))
 	# Keeps the mouse and the keyboard pointing at the same entry.
 	button.mouse_entered.connect(button.grab_focus)

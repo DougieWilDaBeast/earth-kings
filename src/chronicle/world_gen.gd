@@ -14,10 +14,16 @@ const GIVEN_NAMES := [
 const MIN_SITE_SPACING := 5
 
 ## Hand-built places under `data/areas`, dealt out one per site so two villages
-## are never the same village.
+## are never the same village. A kind with a single entry gets the same inside
+## every time, which is right for the Tower and for your own roof.
 const AREA_POOLS := {
 	Site.VILLAGE: ["village", "village_fen", "village_pines", "village_shore"],
 	Site.KEEP: ["keep", "keep_thorn"],
+	Site.LIBRARY: ["library"],
+	Site.GATE: ["gate"],
+	Site.HUT: ["hut"],
+	Site.TOWER: ["tower"],
+	Site.HOME: ["home"],
 }
 
 const COUNTS := {

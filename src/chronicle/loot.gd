@@ -69,17 +69,15 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	return lines
 
 
-## Whoever gains the most attack and defence from wearing it, or nobody.
+## Whoever gains the most from wearing it, or nobody. A piece counts for less
+## in the wrong hands, so the best numbers do not always win it (see [Gear]).
 static func _best_taker(equipment_id: String, roster: Roster) -> Character:
-	var piece := Database.equipment_piece(equipment_id)
-	var worth := int(piece.get("attack", 0)) + int(piece.get("defense", 0))
 	var best: Character = null
 	var best_gain := 0
 	for character in roster.party_members():
 		if not character.is_alive():
 			continue
-		var held := Database.equipment_piece(character.equipment)
-		var gain := worth - (int(held.get("attack", 0)) + int(held.get("defense", 0)))
+		var gain := Gear.swing(equipment_id, character)
 		if gain > best_gain:
 			best_gain = gain
 			best = character

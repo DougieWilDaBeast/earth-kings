@@ -28,5 +28,47 @@
 		"difficulty": 5,
 		"blurb": "No oath, no training, no company, and no idea what any of this is for. Everything the valley throws at you, you take on the chin — alone.",
 		"companions": []
+	},
+	"dirte": {
+		"title": "The God of Kings",
+		"difficulty": 1,
+		"blurb": "The strongest knight the Heart Empire ever put a name to, walking out of it with two of its legionnaires still answering to him. Very little on this map can stand in front of him. Almost nothing on it will talk to him either.",
+		"companions": ["legion_silver", "legion_copper"]
+	},
+	"staff_panda": {
+		"title": "The Bamboo Master",
+		"difficulty": 2,
+		"blurb": "A martial god who took a vow about weapons and keeps it with a stick. He hits hard enough that the vow rarely comes up, and the red panda behind him has heard the story before.",
+		"companions": ["red_panda_master"]
+	},
+	"dwarf_smith": {
+		"title": "The Three-Eyed Smith",
+		"difficulty": 2,
+		"blurb": "Sees a weak point in anything forged, which is most of what comes at you. Slow, patient, and carrying a hammer meant for an anvil rather than a man.",
+		"companions": ["peasant", "village_idiot"]
+	},
+	"element_monk": {
+		"title": "The Eightfold Monk",
+		"difficulty": 3,
+		"blurb": "Fire, water, air, earth, lightning, dark and light, and no armour worth the name. Every answer in the world and not much left over if the first one is wrong.",
+		"companions": ["avatar_adept"]
+	},
+	"sea_man": {
+		"title": "The Tidewalker",
+		"difficulty": 3,
+		"blurb": "Came out of the water and has not entirely left it. Steady, unhurried, and travelling with a lion that is also mostly water, for reasons neither will explain.",
+		"companions": ["tide_lion"]
+	},
+	"emo_swordsman": {
+		"title": "The Sleepless Blade",
+		"difficulty": 4,
+		"blurb": "Quick, tired, and disinclined to explain himself. Fights like somebody who has already decided how this ends and is only here to watch it happen.",
+		"companions": ["dusk_shadow"]
+	},
+	"wraith": {
+		"title": "The Tattered One",
+		"difficulty": 5,
+		"blurb": "No face, no name anybody will say out loud, and no village that will open a door to it. Hits like nothing else on the map. Cannot buy bread.",
+		"companions": []
 	}
 }

@@ -137,11 +137,11 @@ broken into the pieces that can actually be picked up separately.
   white rectangle. `world_scene._site_art` was loading lazily from inside `_draw_places`, and
   `Database.unit_face` re-loaded on every call. `unit_face` now caches, and `world_scene._warm_art`
   loads every site hold and every face up front — in `_ready` and again after each `Encounter.restock`.
-- **W10b — cannot enter named places. Partly fixed.** Villages and keeps could always be entered
-  with **E**, and the hint says so; the real problem is that only 6 of 21 places on a map _have_ an
-  inside. **E** now says "There is no way into X" instead of silently doing nothing.
-  **Open:** the Tower, libraries, gates, huts and Home have no area file. Five more
-  `data/areas/*.json` and matching `WorldGen.AREA_POOLS` entries would close it.
+- **W10b — cannot enter named places. Fixed.** Villages and keeps could always be entered with
+  **E**, and the hint said so; the real problem was that only 6 of 21 places on a map _had_ an
+  inside. There are now five more (`data/areas/{tower,library,gate,hut,home}.json`) dealt out
+  through `WorldGen.AREA_POOLS`, so every named place can be walked into. **E** on anything else
+  says "There is no way into X" instead of silently doing nothing.
 - **W10c — the log is too loud. Fixed.** The status, party line and world log are smaller, the log
   is half the width and keeps three lines instead of four, and **L** toggles it off entirely.
   **Open:** the dialogue box itself is untouched, and conversations are not yet toggleable.
@@ -197,8 +197,13 @@ roadside events you interrupt, escort as a thing you can do, and trade routes as
 > their inventory and see what weapons they have, and equip different weapons that give them stats
 > like plus twenty, or minus twenty if it doesn't fit that character.
 
-**Not built.** `Character.equipment` is a single id and `data/equipment.json` exists, but there is
-no bag and no screen. Note `art/items/` now holds ~70 icons with nothing drawing them.
+**Not built.** `Character.equipment` is a single id, and there is no bag and no screen.
+
+**Half fixed.** The table went from 3 pieces to 34, and [`Gear`](../src/chronicle/gear.gd) makes
+fit matter: every piece names the callings it `suits`, and anyone else carries it at a fraction of
+its worth plus a penalty — so "minus twenty if it doesn't fit that character" now reads. `Loot`
+hands a find to whoever gains most _after_ fit, and a piece can name its own `price`.
+**Open:** no bag and no screen. `art/items/` still has ~70 icons with nothing drawing them.
 
 ## W16 — Ways in, and ways past
 
@@ -217,7 +222,12 @@ and area mode.
 > path, or let the character choose his own path and give them a sense of intelligence.
 
 **Half built.** `AbilityGrammar` already generates trees onto `world.trees` and `Doctrine` handles
-learned passives, but none of it is drawn and there is no proficiency-by-use.
+learned passives.
+
+**Half fixed.** `data/abilities.json` went from 5 to 28, spread across the nine `AbilityGrammar`
+themes, including bonus-action moves that cost a beat rather than a turn. Every class now grants
+four of them, so two callings no longer play the same.
+**Open:** none of it is drawn — there is still no tree screen — and there is no proficiency-by-use.
 
 ## W18 — Backgrounds, origins and alignment
 
@@ -242,7 +252,13 @@ alignment that feeds `Character.bonds`.
 > It needs to be a lot more lifelike. Also: characters in a battle feel mismatched, like a lot of
 > different people thrown together; group ones that belong together.
 
-**Partly there.** `Banter` has occasions and moods and `Recollection` looks back at the run, but
-the pool is small. `data/heroes.json` has five entries and a 1–5 difficulty that is shown but not
-used to sort them. `data/areas/camp.json` has a fire and seats but nothing to open or store. The
-mismatched-warband point is about `Encounter` picking foes per terrain with no faction coherence.
+**Partly there.** `Banter` has occasions and moods and `Recollection` looks back at the run.
+
+**Mostly fixed.** Banter went from 27 exchanges to 70 and from 19 reflections to 41, weighted at
+the campfire — `rest` 5 → 22 and `grave` 1 → 8 — and the new lines lean on the `{deed}`,
+`{fallen}` and `{place}` tokens so they talk about the run rather than about nothing. Heroes went
+from 5 to 12, sorted gentlest first with their rating on the button, so the easy-to-impossible
+labelling reads off the list itself.
+**Open:** the campfire still has nothing to open or store (`data/areas/camp.json` has a fire and
+seats and no chest). The mismatched-warband point is untouched: `Encounter._band_at` already picks
+a faction per terrain, so the complaint is probably about gate and tower pools, which do not.

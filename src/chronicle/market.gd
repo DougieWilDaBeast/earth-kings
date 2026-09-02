@@ -28,6 +28,8 @@ static func wares(site: Site) -> Array:
 
 static func price_of(equipment_id: String) -> int:
 	var piece := Database.equipment_piece(equipment_id)
+	if piece.has("price"):
+		return int(piece["price"])
 	var worth := 40 + 30 * int(piece.get("attack", 0)) + 30 * int(piece.get("defense", 0))
 	# A charm is priced on the life it buys, not the numbers it adds.
 	return worth + roundi(float(piece.get("grace", 0.0)) * 400.0)

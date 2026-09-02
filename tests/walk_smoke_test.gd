@@ -334,9 +334,13 @@ func _check_gate() -> void:
 		_expect(false, "no gate is open to walk into")
 		return
 
+	# The garrison's composition is under test, not the dial that thins it.
+	var setting := GameState.difficulty
+	GameState.difficulty = "even"
 	var gold_before := GameState.gold
 	_requests.clear()
 	if not _step_onto(gate.cell):
+		GameState.difficulty = setting
 		return
 
 	var fight := _last_battle_request()
@@ -348,6 +352,7 @@ func _check_gate() -> void:
 		_expect(meeting["enemies"].size() >= 3, "the gate fielded only %d" % meeting["enemies"].size())
 	_expect(gate.open, "the gate shut before the fight was fought")
 	_expect(GameState.gold == gold_before, "the gate paid out before the fight was fought")
+	GameState.difficulty = setting
 
 	# Walked out of, it is left exactly as it was found.
 	_scene._settle_up(false)

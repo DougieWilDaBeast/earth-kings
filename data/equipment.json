@@ -22,5 +22,221 @@
 		"charm": true,
 		"grace": 0.25,
 		"text": "One knot for every time it held."
+	},
+
+	"iron_blade": {
+		"display_name": "Iron Blade",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman", "raider"],
+		"attack": 3,
+		"price": 90
+	},
+	"steel_blade": {
+		"display_name": "Steel Blade",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman", "raider"],
+		"attack": 6,
+		"price": 210
+	},
+	"silver_blade": {
+		"display_name": "Silver Blade",
+		"kind": "blade",
+		"suits": ["sworn_blade", "magic_swordsman"],
+		"attack": 8,
+		"defense": 1,
+		"price": 380
+	},
+	"ember_blade": {
+		"display_name": "Ember Blade",
+		"kind": "blade",
+		"suits": ["magic_swordsman"],
+		"attack": 11,
+		"price": 620
+	},
+	"rune_blade": {
+		"display_name": "Rune Blade",
+		"kind": "blade",
+		"suits": ["magic_swordsman", "hedge_priest"],
+		"attack": 9,
+		"defense": 2,
+		"price": 700
+	},
+	"thorn_blade": {
+		"display_name": "Thorn Blade",
+		"kind": "blade",
+		"suits": ["raider", "wildling"],
+		"attack": 10,
+		"price": 540
+	},
+	"gilt_blade": {
+		"display_name": "Gilt Blade",
+		"kind": "blade",
+		"suits": ["sworn_blade"],
+		"attack": 12,
+		"defense": 1,
+		"price": 820
+	},
+	"storm_blade": {
+		"display_name": "Storm Blade",
+		"kind": "blade",
+		"suits": ["magic_swordsman", "wildling"],
+		"attack": 13,
+		"price": 950
+	},
+
+	"hunting_bow": {
+		"display_name": "Hunting Bow",
+		"kind": "bow",
+		"suits": ["longbow", "wildling"],
+		"attack": 4,
+		"price": 120
+	},
+	"horn_bow": {
+		"display_name": "Horn Bow",
+		"kind": "bow",
+		"suits": ["longbow", "wildling"],
+		"attack": 7,
+		"price": 300
+	},
+	"yew_longbow": {
+		"display_name": "Yew Longbow",
+		"kind": "bow",
+		"suits": ["longbow"],
+		"attack": 11,
+		"price": 660
+	},
+
+	"orrery_staff": {
+		"display_name": "Orrery Staff",
+		"kind": "staff",
+		"suits": ["hedge_priest", "magic_swordsman"],
+		"attack": 5,
+		"defense": 1,
+		"price": 180
+	},
+	"lantern_staff": {
+		"display_name": "Lantern Staff",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 6,
+		"defense": 2,
+		"price": 290
+	},
+	"skull_staff": {
+		"display_name": "Skull Staff",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 9,
+		"price": 470
+	},
+	"frost_staff": {
+		"display_name": "Frost Staff",
+		"kind": "staff",
+		"suits": ["hedge_priest", "magic_swordsman"],
+		"attack": 10,
+		"defense": 1,
+		"price": 610
+	},
+	"comet_staff": {
+		"display_name": "Comet Staff",
+		"kind": "staff",
+		"suits": ["hedge_priest"],
+		"attack": 13,
+		"price": 880
+	},
+
+	"padded_coat": {
+		"display_name": "Padded Coat",
+		"kind": "armour",
+		"defense": 3,
+		"price": 80
+	},
+	"scale_shirt": {
+		"display_name": "Scale Shirt",
+		"kind": "armour",
+		"suits": ["sworn_blade", "raider", "magic_swordsman"],
+		"defense": 6,
+		"price": 240
+	},
+	"bark_harness": {
+		"display_name": "Bark Harness",
+		"kind": "armour",
+		"suits": ["wildling", "longbow"],
+		"defense": 5,
+		"price": 200
+	},
+	"filigree_plate": {
+		"display_name": "Filigree Plate",
+		"kind": "armour",
+		"suits": ["sworn_blade"],
+		"defense": 9,
+		"price": 520
+	},
+	"gilded_plate": {
+		"display_name": "Gilded Plate",
+		"kind": "armour",
+		"suits": ["sworn_blade", "raider"],
+		"defense": 12,
+		"attack": 1,
+		"price": 780
+	},
+	"feather_mail": {
+		"display_name": "Feather Mail",
+		"kind": "armour",
+		"suits": ["longbow", "wildling", "hedge_priest"],
+		"defense": 7,
+		"price": 400
+	},
+	"halo_robe": {
+		"display_name": "Halo Robe",
+		"kind": "armour",
+		"suits": ["hedge_priest"],
+		"defense": 8,
+		"attack": 2,
+		"price": 690
+	},
+	"owl_helm": {
+		"display_name": "Owl Helm",
+		"kind": "armour",
+		"suits": ["sworn_blade", "longbow"],
+		"defense": 4,
+		"price": 160
+	},
+
+	"whetstone": {
+		"display_name": "Whetstone",
+		"charm": true,
+		"grace": 0.15,
+		"text": "Worn hollow in the middle. Somebody used it every night."
+	},
+	"soldiers_ring": {
+		"display_name": "Soldier's Ring",
+		"charm": true,
+		"grace": 0.3,
+		"text": "Plain iron, sized for a bigger hand than yours."
+	},
+	"hearth_coin": {
+		"display_name": "Hearth Coin",
+		"charm": true,
+		"grace": 0.35,
+		"text": "Struck for a town that is not there any more."
+	},
+	"salt_pouch": {
+		"display_name": "Salt Pouch",
+		"charm": true,
+		"grace": 0.2,
+		"text": "Thrown over the shoulder, mostly out of habit."
+	},
+	"black_feather": {
+		"display_name": "Black Feather",
+		"charm": true,
+		"grace": 0.4,
+		"text": "Picked up on a field where things went badly and you walked off it."
+	},
+	"childs_carving": {
+		"display_name": "Child's Carving",
+		"charm": true,
+		"grace": 0.45,
+		"text": "A dog, probably. Given to you by somebody who could not come."
 	}
 }

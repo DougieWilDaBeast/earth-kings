@@ -44,5 +44,259 @@
 		"splash": 0,
 		"heal": true,
 		"power": 16
+	},
+
+	"riposte": {
+		"display_name": "Riposte",
+		"description": "A short answer, taken out of the same breath.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 0,
+		"power": 0.55,
+		"bonus": true
+	},
+	"sunder": {
+		"display_name": "Sunder",
+		"description": "A blow aimed at the join rather than the man.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 0,
+		"power": 1.35
+	},
+	"whirl": {
+		"display_name": "Whirl",
+		"description": "A turn on the spot with the edge out. Everything close pays.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 1,
+		"power": 0.75
+	},
+	"lunge": {
+		"display_name": "Lunge",
+		"description": "Reaching further than a sword ought to.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 2,
+		"splash": 0,
+		"power": 1.15
+	},
+
+	"scorch": {
+		"display_name": "Scorch",
+		"description": "A close, mean flame. Nothing showy about it.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 1.2
+	},
+	"pyre": {
+		"display_name": "Pyre",
+		"description": "Fire laid down over ground rather than aimed at anybody.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 4,
+		"splash": 2,
+		"power": 0.7
+	},
+	"firebrand": {
+		"display_name": "Firebrand",
+		"description": "A handful of heat thrown without much thought.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 0.55,
+		"bonus": true
+	},
+
+	"spark": {
+		"display_name": "Spark",
+		"description": "A quick white line between you and them.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 0,
+		"power": 0.5,
+		"bonus": true
+	},
+	"thunderhead": {
+		"display_name": "Thunderhead",
+		"description": "Weather brought down on a place, not a person.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 4,
+		"splash": 1,
+		"power": 0.9
+	},
+	"chain_bolt": {
+		"display_name": "Chain Bolt",
+		"description": "It finds the far end of the field and stops there.",
+		"target": "enemy",
+		"min_range": 3,
+		"range": 6,
+		"splash": 0,
+		"power": 1.0
+	},
+
+	"snipe": {
+		"display_name": "Snipe",
+		"description": "One arrow, taken slowly, from a long way off.",
+		"target": "enemy",
+		"min_range": 3,
+		"range": 6,
+		"splash": 0,
+		"power": 1.15
+	},
+	"hamstring": {
+		"display_name": "Hamstring",
+		"description": "Low and behind the knee. Not honourable, but effective.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 0.95
+	},
+	"volley": {
+		"display_name": "Volley",
+		"description": "Everything in the quiver, at everything in the way.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 5,
+		"splash": 1,
+		"power": 0.7
+	},
+
+	"crush": {
+		"display_name": "Crush",
+		"description": "Weight brought down from over the shoulder.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 0,
+		"power": 1.45
+	},
+	"shield_bash": {
+		"display_name": "Shield Bash",
+		"description": "The flat of it, hard, before they are ready.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 0,
+		"power": 0.5,
+		"bonus": true
+	},
+	"earthshake": {
+		"display_name": "Earthshake",
+		"description": "A blow into the ground. What is standing on it goes over.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 1,
+		"splash": 2,
+		"power": 0.7
+	},
+
+	"warding_touch": {
+		"display_name": "Warding Touch",
+		"description": "A hand on the shoulder, and whatever was wrong is less so.",
+		"target": "ally",
+		"min_range": 0,
+		"range": 1,
+		"splash": 0,
+		"heal": true,
+		"power": 26
+	},
+	"stand_fast": {
+		"display_name": "Stand Fast",
+		"description": "Said quickly, to somebody who was about to go down.",
+		"target": "ally",
+		"min_range": 0,
+		"range": 2,
+		"splash": 0,
+		"heal": true,
+		"power": 13,
+		"bonus": true
+	},
+
+	"hearthlight": {
+		"display_name": "Hearthlight",
+		"description": "Warmth put over a knot of people at once.",
+		"target": "ally",
+		"min_range": 0,
+		"range": 3,
+		"splash": 1,
+		"heal": true,
+		"power": 12
+	},
+	"second_wind": {
+		"display_name": "Second Wind",
+		"description": "Finding a bit more of yourself than you thought was left.",
+		"target": "ally",
+		"min_range": 0,
+		"range": 0,
+		"splash": 0,
+		"heal": true,
+		"power": 20,
+		"bonus": true
+	},
+
+	"grief": {
+		"display_name": "Grief",
+		"description": "Handed over whole, to somebody who has not earned it.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 0,
+		"power": 1.1
+	},
+	"lament": {
+		"display_name": "Lament",
+		"description": "A sound that gets into more than one of them.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 1,
+		"power": 0.8
+	},
+	"keening": {
+		"display_name": "Keening",
+		"description": "Thin, carrying, and it reaches further than it should.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 5,
+		"splash": 0,
+		"power": 0.95
+	},
+
+	"gust": {
+		"display_name": "Gust",
+		"description": "Air with an edge on it, put through a crowd.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 1,
+		"power": 0.75
+	},
+	"dart": {
+		"display_name": "Dart",
+		"description": "Barely a movement. They are bleeding before they notice.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 0.5,
+		"bonus": true
+	},
+	"long_reach": {
+		"display_name": "Long Reach",
+		"description": "The wind takes it the last few yards for you.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 5,
+		"splash": 0,
+		"power": 0.95
 	}
 }

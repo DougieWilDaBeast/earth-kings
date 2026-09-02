@@ -1,0 +1,99 @@
+{
+	"display_name": "the foot of the Tower",
+	"layers": ["flagstone", "stone"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the steps down are south",
+	"legend": {
+		".": "grass",
+		"s": "stone",
+		"f": "flagstone"
+	},
+	"tint": "#9a96b4",
+	"spawn": [9, 13],
+	"exits": [[9, 14], [10, 14]],
+	"spots": [
+		{ "cell": [9, 3], "line": "The stair. It goes up further than the building appears to." },
+		{ "cell": [5, 5], "line": "Names cut into the wall, in columns. The columns are long." },
+		{ "cell": [13, 5], "line": "A tally scratched beside the door. Two marks, then a gap, then one." },
+		{ "cell": [9, 8], "line": "Whatever was on the floor here has been scrubbed at and not removed." },
+		{ "cell": [3, 11], "line": "Packs laid in a row, tied shut, labelled. Nobody is coming for these." }
+	],
+	"chests": [
+		{
+			"cell": [3, 4],
+			"line": "A footlocker at the wall, and the name on it worn to nothing.",
+			"art": "chest_silver",
+			"gold": 240,
+			"item": "hearth_coin"
+		},
+		{
+			"cell": [15, 4],
+			"line": "Somebody's whole purse, left where the stair begins.",
+			"art": "chest_gold",
+			"gold": 320
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [7, 3] },
+		{ "art": "brazier", "cell": [11, 3] },
+		{ "art": "lamp_globe", "cell": [5, 8] },
+		{ "art": "lamp_globe", "cell": [13, 8] },
+		{ "art": "stone_bench", "cell": [5, 11] },
+		{ "art": "stone_bench", "cell": [13, 11] },
+		{ "art": "tapestry", "cell": [9, 2] },
+		{ "art": "scroll_rack", "cell": [15, 8] }
+	],
+	"people": [
+		{
+			"name": "Sennet the Doorkeeper",
+			"unit": "timeless_one",
+			"cell": [9, 6],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"You may go up. Nobody has ever needed permission.",
+				"I write the names down. It is not much, but it is what I can do.",
+				"Each floor is older than the one under it. Do not ask me how.",
+				"Some come down. I have stopped guessing which."
+			]
+		},
+		{
+			"name": "Bell the Cabin Hand",
+			"unit": "cabin_boy",
+			"cell": [5, 10],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"I carry the packs down. Never up. That's somebody else's job.",
+				"They pay me by the pack. I have never had a slow week.",
+				"You can leave a message with me. I keep them. All of them."
+			]
+		},
+		{
+			"name": "a wisp at the stairhead",
+			"unit": "feather_wisp",
+			"cell": [11, 5],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"It drifts down two steps, thinks better of it, and goes back up."
+			]
+		}
+	],
+	"rows": [
+		"..sssssssssssss..",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".sfffffffffffffs.",
+		".ssfffffffffffss.",
+		"...ssssfffsssss..",
+		"........fff......"
+	]
+}

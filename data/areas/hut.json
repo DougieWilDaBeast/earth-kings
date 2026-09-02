@@ -1,0 +1,76 @@
+{
+	"display_name": "the hedge hut",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#9a9a80",
+	"fire": [7, 4],
+	"spawn": [7, 9],
+	"seats": [[5, 4], [9, 4], [7, 2]],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 6], "line": "Bundles of something dried hang low enough to walk into." },
+		{ "cell": [3, 5], "line": "A hedge grown into a wall, and a gap in it that was made on purpose." },
+		{ "cell": [11, 5], "line": "Bones, arranged. Small ones. Whoever did it was not in a hurry." }
+	],
+	"chests": [
+		{
+			"cell": [11, 3],
+			"line": "A jar wedged in the roots, and something rattling in it.",
+			"art": "chest_broken",
+			"gold": 95,
+			"item": "black_feather"
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [5, 6] },
+		{ "art": "brazier", "cell": [9, 6] },
+		{ "art": "crystal_ball", "cell": [7, 7] },
+		{ "art": "camp/fire_logs", "cell": [3, 7] },
+		{ "art": "village/log_pile", "cell": [11, 7] },
+		{ "art": "village/trough", "cell": [3, 3] }
+	],
+	"people": [
+		{
+			"name": "Grelda of the Hedge",
+			"unit": "pig_warlock",
+			"cell": [7, 5],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"You came the long way. Everyone does. There isn't a short one.",
+				"I don't sell anything. People keep leaving coin anyway.",
+				"Don't touch the small bones. The big ones are fine.",
+				"It'll rain by dark. It always rains by dark out here."
+			]
+		},
+		{
+			"name": "a wolf that will not come closer",
+			"unit": "wolf",
+			"cell": [11, 9],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"It watches from the hedge line and does not come any nearer."
+			]
+		}
+	],
+	"rows": [
+		"mmmm.......mmmm",
+		"mmm.........mmm",
+		"mm...,,,,,...mm",
+		"m...,,,,,,,...m",
+		"...,,,,,,,,,...",
+		"..,,,,,,,,,,,..",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"m...,,,,,,,...m",
+		"mm...,,,,,...mm",
+		"mmm...,,,...mmm",
+		"mmmm...,,..mmmm"
+	]
+}

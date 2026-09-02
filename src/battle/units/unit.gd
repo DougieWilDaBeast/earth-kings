@@ -105,8 +105,9 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit._equip(source.equipment)
 	# create() already folded the template weapon in; keep it on top of the
 	# character's own numbers rather than losing it.
-	unit.attack = source.attack() + int(unit.weapon.get("attack", 0))
-	unit.defense = source.defense() + int(unit.weapon.get("defense", 0))
+	var carried := Gear.bonus(source.equipment, source) if source.equipment != "" else {}
+	unit.attack = source.attack() + int(carried.get("attack", unit.weapon.get("attack", 0)))
+	unit.defense = source.defense() + int(carried.get("defense", unit.weapon.get("defense", 0)))
 	unit.move_points = source.move_points()
 	unit.jump = source.jump()
 	unit.flash_step = source.flash_step()
