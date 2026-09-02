@@ -13,6 +13,7 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	_check_content()
+	_check_animation()
 	_check_journal()
 	_check_museum()
 	_check_arena()
@@ -106,6 +107,31 @@ func _check_content() -> void:
 				Gear.worth(equipment_id, wearer) > 0,
 				"%s is no use to the calling it was made for" % equipment_id
 			)
+
+
+# --- W11 ----------------------------------------------------------------------
+
+
+## A unit with a run cycle has to actually reach for it, and a unit without one
+## has to keep standing rather than drawing nothing at all.
+func _check_animation() -> void:
+	var frames := Database.unit_run("bram", "east")
+	_expect(frames.size() > 1, "the sworn blade's run cycle is %d frames" % frames.size())
+	for heading: String in ["north", "south", "east", "west"]:
+		_expect(
+			not Database.unit_run("bram", heading).is_empty(),
+			"the sworn blade cannot run %s" % heading
+		)
+	_expect(Database.unit_run("goblin", "east").is_empty(), "a goblin grew a run cycle")
+
+	var runner := Unit.create("bram", Unit.Team.PLAYER, Vector2i.ZERO)
+	_expect(not runner.run_frames.is_empty(), "a unit with art loaded no run cycle")
+	_expect(runner.current_sprite() != null, "a standing unit is drawn as nothing")
+	var still := Unit.create("goblin", Unit.Team.ENEMY, Vector2i.ZERO)
+	_expect(still.run_frames.is_empty(), "a unit with no cycle claims one")
+	_expect(still.current_sprite() != null, "a unit with no cycle lost its standing pose")
+	runner.free()
+	still.free()
 
 
 # --- W4 -----------------------------------------------------------------------

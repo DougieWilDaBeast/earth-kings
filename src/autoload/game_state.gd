@@ -28,6 +28,8 @@ var flags: Dictionary = {}
 var talks: Dictionary = {}
 ## Errands taken and not yet settled (see [Errand]).
 var errands: Array = []
+## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
+var stores: Array = []
 ## What the fight being walked into will settle on the way back, if it is won.
 ## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
 var pending_outcome: Dictionary = {}
@@ -74,6 +76,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	flags = {}
 	talks = {}
 	errands = []
+	stores = []
 
 
 # --- the party ----------------------------------------------------------------
@@ -139,6 +142,7 @@ func save() -> void:
 		"flags": flags,
 		"talks": talks,
 		"errands": errands,
+		"stores": stores,
 		"ledger": ledger,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -172,4 +176,5 @@ func load_save() -> bool:
 	flags = data.get("flags", {})
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
+	stores = data.get("stores", [])
 	return true

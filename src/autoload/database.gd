@@ -42,6 +42,7 @@ var _maps: Dictionary = {}
 var _dialogues: Dictionary = {}
 var _areas: Dictionary = {}
 var _faces: Dictionary = {}
+var _runs: Dictionary = {}
 
 
 func _ready() -> void:
@@ -85,6 +86,26 @@ func unit_face(id: String) -> Texture2D:
 	var path := "%s/south.png" % sprite_dir
 	_faces[id] = load(path) if sprite_dir != "" and ResourceLoader.exists(path) else null
 	return _faces[id]
+
+
+## A unit's run cycle for one heading ("north" | "south" | "east" | "west"), or
+## an empty array for the many units that only have a standing pose. Frames live
+## at `art/units/<id>/run/<heading>/frame_000.png` and are numbered from zero.
+func unit_run(id: String, heading: String) -> Array:
+	var key := "%s/%s" % [id, heading]
+	if _runs.has(key):
+		return _runs[key]
+	var frames: Array = []
+	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
+	if sprite_dir != "":
+		var folder := "%s/run/%s" % [sprite_dir.get_base_dir(), heading]
+		while true:
+			var path := "%s/frame_%03d.png" % [folder, frames.size()]
+			if not ResourceLoader.exists(path):
+				break
+			frames.append(load(path))
+	_runs[key] = frames
+	return frames
 
 
 ## A lead a run can be started as (see `data/heroes.json`).

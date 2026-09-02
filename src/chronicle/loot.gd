@@ -2,9 +2,10 @@ class_name Loot
 extends RefCounted
 ## Picking things up: what a chest holds, and who ends up carrying it.
 ##
-## There is no bag. A piece of gear goes to whoever it actually improves, and
-## anything nobody in the party wants is sold on the spot rather than becoming
-## a line on a screen that never gets read.
+## A piece of gear goes straight onto whoever it actually improves, so the good
+## find is never sitting unread on a screen. Anything nobody is better off in
+## goes into the party's stores (`GameState.stores`) to be handed out later, and
+## only a piece worth less than what everyone already carries is sold on.
 
 
 static func rules() -> Dictionary:
@@ -28,12 +29,30 @@ static func take(equipment_id: String, roster: Roster) -> String:
 
 	var taker := _best_taker(equipment_id, roster)
 	if taker == null:
-		var worth := roundi(float(Market.price_of(equipment_id)) * float(rules().get("resale", 0.5)))
-		GameState.gold += worth
-		return "Nobody has a use for the %s. It goes for %d gold." % [name_, worth]
+		return stow(equipment_id, roster)
 
+	var displaced := taker.equipment
 	taker.equipment = equipment_id
-	return "%s takes up the %s." % [taker.display_name, name_]
+	if displaced == "":
+		return "%s takes up the %s." % [taker.display_name, name_]
+	GameState.stores.append(displaced)
+	return "%s takes up the %s, and the %s goes in the packs." % [
+		taker.display_name, name_, Gear.display_name(displaced)
+	]
+
+
+## Into the packs, or sold if it is worse than everything already being carried.
+static func stow(equipment_id: String, roster: Roster) -> String:
+	var name_ := Gear.display_name(equipment_id)
+	var worth_keeping := roster.party_members().any(
+		func(c: Character) -> bool: return Gear.worth(equipment_id, c) > 0
+	)
+	if worth_keeping:
+		GameState.stores.append(equipment_id)
+		return "The %s goes in the packs." % name_
+	var worth := roundi(float(Market.price_of(equipment_id)) * float(rules().get("resale", 0.5)))
+	GameState.gold += worth
+	return "Nobody has a use for the %s. It goes for %d gold." % [name_, worth]
 
 
 ## Roll what is inside a container of a given richness. Gold is always there;

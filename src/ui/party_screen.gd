@@ -8,6 +8,13 @@ extends CanvasLayer
 
 signal closed
 
+## Pieces out of the packs offered per person, so a full bag does not run the
+## row off the edge of the screen.
+const GEAR_OFFERS := 4
+## Level the first tree turns up at, so somebody without one is told to wait
+## rather than told nothing.
+const TREE_AT := Progression.FIRST_TREE_LEVEL
+
 @onready var _backdrop: ColorRect = %Backdrop
 @onready var _roster_list: VBoxContainer = %RosterList
 @onready var _footer: Label = %FooterLabel
@@ -74,6 +81,24 @@ func toggle_yoke(character: Character) -> void:
 	_rebuild()
 
 
+## Public so the tests can move gear about without the UI.
+func equip(character: Character, equipment_id: String) -> bool:
+	if not Gear.equip(character, equipment_id):
+		return false
+	_notice = "%s takes up the %s." % [character.display_name, Gear.display_name(equipment_id)]
+	_rebuild()
+	return true
+
+
+func unequip(character: Character) -> bool:
+	var had := character.equipment
+	if not Gear.unequip(character):
+		return false
+	_notice = "%s puts the %s in the packs." % [character.display_name, Gear.display_name(had)]
+	_rebuild()
+	return true
+
+
 # --- rendering ----------------------------------------------------------------
 
 
@@ -86,8 +111,8 @@ func _rebuild() -> void:
 		_roster_list.add_child(_row_for(character, party))
 
 	var codex := GameState.world.codex_understanding()
-	_footer.text = "Codex %d%%  ·  %d gold  ·  step %d%s  ·  P or Esc to close" % [
-		roundi(codex * 100.0), GameState.gold, GameState.world.steps,
+	_footer.text = "Codex %d%%  ·  %d gold  ·  %d in the packs  ·  step %d%s  ·  P or Esc to close" % [
+		roundi(codex * 100.0), GameState.gold, GameState.stores.size(), GameState.world.steps,
 		"" if _notice == "" else "  ·  " + _notice
 	]
 
@@ -111,6 +136,14 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 	known.text = "Read: %s" % _doctrine_summary(character)
 	row.add_child(known)
 
+	var carried := Label.new()
+	carried.add_theme_color_override("font_color", Color(0.84, 0.79, 0.66))
+	carried.text = "Carrying: %s%s" % [_gear_summary(character), _charm_summary(character)]
+	row.add_child(carried)
+
+	for block in _tree_blocks(character):
+		row.add_child(block)
+
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 6)
 	row.add_child(buttons)
@@ -133,9 +166,48 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 		]
 		yoke.pressed.connect(func() -> void: toggle_yoke(character))
 		buttons.add_child(yoke)
+		_add_gear_buttons(buttons, character)
 		_add_teaching_buttons(buttons, character, party)
 
 	return row
+
+
+## The packs, offered best-first. A piece that would make them worse is still
+## offered — sometimes the only shield left is the wrong shield.
+func _add_gear_buttons(into: HBoxContainer, character: Character) -> void:
+	if character.equipment != "":
+		var off := Button.new()
+		off.text = "Stow the %s" % Gear.display_name(character.equipment)
+		off.pressed.connect(func() -> void: unequip(character))
+		into.add_child(off)
+	var shown := 0
+	for equipment_id: String in Gear.offers(character):
+		if shown >= GEAR_OFFERS:
+			break
+		var swing := Gear.swing(equipment_id, character)
+		var button := Button.new()
+		button.text = "%s (%+d)" % [Gear.display_name(equipment_id), swing]
+		button.tooltip_text = Gear.summary(equipment_id, character)
+		button.pressed.connect(func() -> void: equip(character, equipment_id))
+		into.add_child(button)
+		shown += 1
+
+
+func _gear_summary(character: Character) -> String:
+	if character.equipment == "":
+		return "nothing worth naming"
+	return "%s (%s)" % [
+		Gear.display_name(character.equipment), Gear.summary(character.equipment, character)
+	]
+
+
+func _charm_summary(character: Character) -> String:
+	if character.charms.is_empty():
+		return ""
+	var names: Array[String] = []
+	for charm_id: String in character.charms:
+		names.append(Gear.display_name(charm_id))
+	return "  ·  charms: %s" % ", ".join(names)
 
 
 func _add_teaching_buttons(into: HBoxContainer, teacher: Character, party: Array[Character]) -> void:
@@ -149,6 +221,68 @@ func _add_teaching_buttons(into: HBoxContainer, teacher: Character, party: Array
 			into.add_child(button)
 			# One offer per student keeps the row readable.
 			break
+
+
+## What each uncovered tree holds, and how far up it they have got. A tree is
+## generated for the world rather than looked up in a data file, so this is the
+## only place a player can see what they are actually climbing (see
+## [AbilityGrammar]).
+func _tree_blocks(character: Character) -> Array[Control]:
+	var out: Array[Control] = []
+	if character.trees.is_empty():
+		if character.level < TREE_AT:
+			var waiting := Label.new()
+			waiting.add_theme_color_override("font_color", Color(0.5, 0.52, 0.56))
+			waiting.text = "Powers: nothing uncovered yet — the first comes at level %d." % TREE_AT
+			out.append(waiting)
+		return out
+
+	for tree_id: String in character.trees:
+		var tree := GameState.world.tree(tree_id)
+		if tree.is_empty():
+			continue
+		var block := VBoxContainer.new()
+		block.add_theme_constant_override("separation", 1)
+
+		var heading := Label.new()
+		heading.add_theme_color_override("font_color", Color(0.95, 0.82, 0.45))
+		heading.text = "%s  ·  the %s" % [tree.get("display_name", tree_id), tree.get("theme", "")]
+		block.add_child(heading)
+
+		var abilities: Array = tree.get("abilities", [])
+		for rung in abilities.size():
+			var ability_id: String = abilities[rung]
+			var ability := Database.ability(ability_id)
+			var known := ability_id in character.learned
+			var rung_line := Label.new()
+			rung_line.add_theme_color_override(
+				"font_color", Color(0.86, 0.88, 0.92) if known else Color(0.46, 0.47, 0.5)
+			)
+			rung_line.text = "    %s %s  —  %s" % [
+				"■" if known else "□",
+				ability.get("display_name", ability_id),
+				_ability_shape(ability),
+			]
+			block.add_child(rung_line)
+		out.append(block)
+	return out
+
+
+## Range, splash and weight, said the way the command menu would say it.
+func _ability_shape(ability: Dictionary) -> String:
+	var parts: Array[String] = []
+	var low := int(ability.get("min_range", 1))
+	var high := int(ability.get("range", 1))
+	parts.append("reach %d" % high if low == high else "reach %d-%d" % [low, high])
+	if int(ability.get("splash", 0)) > 0:
+		parts.append("catches %d around" % int(ability.get("splash", 0)))
+	if bool(ability.get("heal", false)):
+		parts.append("mends %d" % int(ability.get("power", 0)))
+	else:
+		parts.append("x%s" % String.num(float(ability.get("power", 1.0)), 2))
+	if bool(ability.get("bonus", false)):
+		parts.append("a moment only")
+	return "  ".join(parts)
 
 
 func _doctrine_summary(character: Character) -> String:

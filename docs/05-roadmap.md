@@ -51,12 +51,15 @@ previous milestone demonstrably works.
 - Clearing shuts the gate and pays out; the world reopens gates over time ✅
 - **Remaining:** multi-floor delves (currently one battle per gate), tree finds, charm drops
 
-## M6 — The Tower — PARTIAL
+## M6 — The Tower — SHIPPED
 
 - One battle per floor, escalating and never scaling down to meet you ✅
   (measured: floor 1 fields level 5, floor 6 fields level 15)
 - Permanent floor log on the world ✅
-- **Remaining:** a reason to stop climbing, and floor rewards
+- Floor rewards: gold every floor, doctrine every third, a new tree every fourth ✅
+- A reason to stop: a floor's gold goes into `world.tower_hoard`, not the purse. It is banked by
+  walking off the Tower and lost by losing a floor, so every extra climb is a decision about what
+  you are already carrying ✅
 
 ## M7 — The Library and doctrine — SHIPPED
 
@@ -72,7 +75,8 @@ previous milestone demonstrably works.
 - Party screen: class choice, teaching, the Training Yoke, the Codex readout ✅
 - The run ends when the party is gone ([D13](06-decisions.md)) ✅
 - Every run generates its own world, with the seed readable from the menu ✅
-- **Remaining:** typing a seed in by hand, and a balance pass across levels 1–10
+- A seed can be typed in on the character select, so a country can be gone back to ✅
+- **Remaining:** a balance pass across levels 1–10, now that abilities and gear have grown
 - ✅ Done when: two people can play a session without hitting a wall
 
 ## Deferred

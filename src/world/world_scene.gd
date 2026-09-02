@@ -198,7 +198,10 @@ func _step(direction: Vector2i) -> void:
 	if not world.is_walkable(target):
 		return
 
+	var was_at_the_tower := _standing_at_the_tower()
 	world.player_cell = target
+	if was_at_the_tower and not _standing_at_the_tower():
+		_carry_the_hoard_out()
 	_captive_here = null
 	for notice: String in world.step():
 		_note(notice)
@@ -268,6 +271,9 @@ func _settle_up(won: bool) -> void:
 		return
 	if not won:
 		_note(str(outcome.get("lost", "You came away with nothing.")))
+		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
+			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
+			world.tower_hoard = 0
 		return
 
 	var party := GameState.party_characters()
@@ -438,6 +444,8 @@ func _climb(site: Site) -> void:
 
 	var next_floor := world.tower_floor + 1
 	_note("The Tower opens onto floor %d of %d." % [next_floor, world.tower_floors()])
+	if world.tower_hoard > 0:
+		_note("You are still carrying %d gold. Lose here and it stays here." % world.tower_hoard)
 	_begin_battle(
 		Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng),
 		{
@@ -445,6 +453,22 @@ func _climb(site: Site) -> void:
 			"lost": "You come back down to the floor you started on.",
 		}
 	)
+
+
+## Walking off the Tower's step is what banks an ascent. Nothing else does, so
+## every extra floor is a decision about what you are already holding.
+func _carry_the_hoard_out() -> void:
+	if world.tower_hoard <= 0:
+		return
+	var carried := world.tower_hoard
+	world.tower_hoard = 0
+	GameState.gold += carried
+	_note("You walk away from the Tower with %d gold." % carried)
+
+
+func _standing_at_the_tower() -> bool:
+	var site := world.site_at(world.player_cell)
+	return site != null and site.kind == Site.TOWER
 
 
 # --- party --------------------------------------------------------------------
@@ -801,7 +825,9 @@ func _talk(occasion: String, stopped: bool) -> void:
 	var exchange := Banter.pick(world, GameState.party_characters(), occasion, world.rng)
 	if exchange.is_empty():
 		return
-	if stopped:
+	# Banter is not a conversation the player asked for, so it is allowed to be
+	# demoted to the log and a bubble (see [Pace]).
+	if stopped and not Pace.quiet_banter:
 		EventBus.conversation_requested.emit(exchange)
 		return
 	for line: String in Banter.as_lines(exchange):

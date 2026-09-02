@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var _status: Label = %StatusLabel
 @onready var _mute_button: Button = %MuteButton
 @onready var _music_slider: HSlider = %MusicSlider
+@onready var _chatter_button: Button = %ChatterButton
 
 
 func _ready() -> void:
@@ -25,6 +26,9 @@ func _ready() -> void:
 	_mute_button.button_pressed = Music.muted
 	_mute_button.toggled.connect(_on_mute_toggled)
 	_on_mute_toggled(Music.muted)
+	_chatter_button.button_pressed = Pace.quiet_banter
+	_chatter_button.toggled.connect(_on_chatter_toggled)
+	_on_chatter_toggled(Pace.quiet_banter)
 
 
 func open() -> void:
@@ -70,3 +74,10 @@ func _on_title_pressed() -> void:
 func _on_mute_toggled(silent: bool) -> void:
 	_mute_button.text = "Music: off" if silent else "Music"
 	Music.set_muted(silent)
+
+
+## Off does not mean silent. The party still talk; it just goes to the log and
+## a bubble instead of stopping the game to say it.
+func _on_chatter_toggled(quiet: bool) -> void:
+	_chatter_button.text = "Chatter: in the log" if quiet else "Chatter: in full"
+	Pace.quiet_banter = quiet

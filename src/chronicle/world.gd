@@ -33,6 +33,9 @@ var steps: int = 0
 var player_cell: Vector2i = Vector2i.ZERO
 ## Highest Tower floor anyone has come back down from.
 var tower_floor: int = 0
+## Gold won on the current ascent and not yet carried out of the Tower. It is
+## banked by walking away and lost by losing a floor — the reason to stop.
+var tower_hoard: int = 0
 ## Set once the top has been reached. What waits there is not decided yet.
 var tower_topped: bool = false
 ## Generated skill trees, id -> tree dict (see [AbilityGrammar]).
@@ -242,6 +245,7 @@ func to_dict() -> Dictionary:
 		"steps": steps,
 		"player_cell": [player_cell.x, player_cell.y],
 		"tower_floor": tower_floor,
+		"tower_hoard": tower_hoard,
 		"tower_topped": tower_topped,
 		"trees": trees,
 		"codex": codex,
@@ -264,6 +268,7 @@ static func from_dict(payload: Dictionary) -> World:
 	var cell_pair: Array = payload.get("player_cell", [0, 0])
 	world.player_cell = Vector2i(int(cell_pair[0]), int(cell_pair[1]))
 	world.tower_floor = int(payload.get("tower_floor", 0))
+	world.tower_hoard = int(payload.get("tower_hoard", 0))
 	world.tower_topped = bool(payload.get("tower_topped", false))
 	world.trees = payload.get("trees", {})
 	world.codex = payload.get("codex", {})

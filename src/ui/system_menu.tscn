@@ -75,6 +75,11 @@ max_value = 1.0
 step = 0.05
 value = 0.8
 
+[node name="ChatterButton" type="Button" parent="Root/Panel/Margin/Items"]
+unique_name_in_owner = true
+toggle_mode = true
+text = "Chatter"
+
 [node name="CloseButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
 text = "Close"

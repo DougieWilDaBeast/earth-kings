@@ -18,6 +18,10 @@ const ROTATIONS := {
 const SPRITE_SIZE := 64
 ## How far up the sprite is lifted so the node sits at the feet.
 const FOOT_OFFSET := 54
+## Frames a second for anyone who has a run cycle to step through.
+const RUN_FPS := 12.0
+## Below this much movement in a frame they are standing still, not walking.
+const STIRRING := 0.5
 ## How much they light up under the mouse.
 const HOVER_LIFT := 0.35
 ## How fast somebody who lives here strolls, and how long they stand about
@@ -32,6 +36,11 @@ var chatter: Array = []
 
 var _sprite: Sprite2D
 var _rotations: Dictionary = {}
+## Facing -> run cycle, for the few who have one (see [Database]).
+var _run: Dictionary = {}
+var _run_time: float = 0.0
+var _was_at: Vector2 = Vector2.INF
+var _moving: bool = false
 var _facing: Vector2 = Vector2.DOWN
 var _tint: Color = Color.WHITE
 var _hovered: bool = false
@@ -58,6 +67,7 @@ static func _from_template(name: String, template_id: String) -> AreaActor:
 	actor.display_name = name
 	var template := Database.unit_template(template_id)
 	actor._rotations = _load_rotations(template.get("sprite_dir", ""))
+	actor._run = _load_run(template_id)
 	actor._build_sprite(Color(template.get("color", "#cccccc")))
 	return actor
 
@@ -100,6 +110,22 @@ func hold_still(on: bool) -> void:
 
 func _ready() -> void:
 	set_physics_process(_roam_reach > 0.0)
+	# Whoever is moving this actor — the party, a stroll, an approach — only ever
+	# writes `position`, so movement is read back off it rather than announced.
+	set_process(not _run.is_empty())
+
+
+func _process(delta: float) -> void:
+	var moving := _was_at != Vector2.INF and position.distance_to(_was_at) > STIRRING * delta * 60.0
+	_was_at = position
+	if not moving:
+		if _moving:
+			_moving = false
+			_apply_texture()
+		return
+	_moving = true
+	_run_time += delta
+	_apply_texture()
 
 
 func _physics_process(delta: float) -> void:
@@ -159,6 +185,11 @@ func _build_sprite(fallback: Color) -> void:
 
 
 func _apply_texture() -> void:
+	if _moving:
+		var frames: Array = _run.get(_facing, [])
+		if not frames.is_empty():
+			_sprite.texture = frames[int(_run_time * RUN_FPS) % frames.size()]
+			return
 	if _rotations.has(_facing):
 		_sprite.texture = _rotations[_facing]
 
@@ -171,4 +202,18 @@ static func _load_rotations(sprite_dir: String) -> Dictionary:
 		var path := "%s/%s.png" % [sprite_dir, ROTATIONS[direction]]
 		if ResourceLoader.exists(path):
 			out[direction] = load(path)
+	return out
+
+
+## Run cycles are exported for the four cardinals only, so a diagonal keeps its
+## standing pose rather than snapping to a heading it is not walking.
+static func _load_run(template_id: String) -> Dictionary:
+	var out := {}
+	for direction: Vector2 in ROTATIONS:
+		var heading: String = ROTATIONS[direction]
+		if heading.contains("-"):
+			continue
+		var frames := Database.unit_run(template_id, heading)
+		if not frames.is_empty():
+			out[direction] = frames
 	return out

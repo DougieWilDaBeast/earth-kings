@@ -452,9 +452,15 @@ func _talk_around_the_fire(index: int) -> void:
 		exchange = [alone]
 
 	var id := "camp:%s" % them.id
-	Database.register_dialogue(id, Banter.as_dialogue(exchange, _leader_character, them))
-	EventBus.dialogue_requested.emit(id)
-	await EventBus.dialogue_finished
+	if Pace.quiet_banter:
+		# Said over their heads instead of over the screen.
+		for line: Dictionary in exchange:
+			_note("%s: %s" % [line.get("speaker", ""), line.get("text", "")])
+		_people[index].say(str(exchange[-1].get("text", "")))
+	else:
+		Database.register_dialogue(id, Banter.as_dialogue(exchange, _leader_character, them))
+		EventBus.dialogue_requested.emit(id)
+		await EventBus.dialogue_finished
 	# One thing each per fire, so the night is not talked in circles.
 	_seated.erase(index)
 	_people[index].set_interactive(false)

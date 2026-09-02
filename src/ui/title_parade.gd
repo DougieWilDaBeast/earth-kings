@@ -102,19 +102,11 @@ func _add_runner(template_id: String) -> void:
 
 ## The eastward run cycle if this unit has one, else its eastward standing pose.
 static func _run_frames(template_id: String) -> Array:
+	var frames := Database.unit_run(template_id, "east")
+	if not frames.is_empty():
+		return frames
 	var sprite_dir: String = Database.unit_template(template_id).get("sprite_dir", "")
 	if sprite_dir == "":
 		return []
-	var unit_dir := sprite_dir.get_base_dir()
-	var frames: Array = []
-	var index := 0
-	while true:
-		var path := "%s/run/east/frame_%03d.png" % [unit_dir, index]
-		if not ResourceLoader.exists(path):
-			break
-		frames.append(load(path))
-		index += 1
-	if not frames.is_empty():
-		return frames
 	var standing := "%s/east.png" % sprite_dir
 	return [load(standing)] if ResourceLoader.exists(standing) else []

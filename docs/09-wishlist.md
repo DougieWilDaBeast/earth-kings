@@ -144,7 +144,9 @@ broken into the pieces that can actually be picked up separately.
   says "There is no way into X" instead of silently doing nothing.
 - **W10c — the log is too loud. Fixed.** The status, party line and world log are smaller, the log
   is half the width and keeps three lines instead of four, and **L** toggles it off entirely.
-  **Open:** the dialogue box itself is untouched, and conversations are not yet toggleable.
+  Unwritten talk no longer has to take the screen either: **Chatter** in the system menu sends
+  banter to the log and a speech bubble instead of the dialogue box. It still happens, and
+  authored conversations are never demoted.
 
 ## W11 — Import the rest of the animations
 
@@ -154,8 +156,14 @@ broken into the pieces that can actually be picked up separately.
 > the next tile. I want them to move to that tile.
 
 **Not built.** Only `sworn_blade` has a `run` cycle (see W8). `Unit.walk_path` slides a static
-sprite between cells; it should step the run frames while it moves and drop back to idle on
-arrival. Needs the remaining PixelLab animation exports.
+sprite between cells.
+
+**Built, waiting on art.** [`Database.unit_run`](../src/autoload/database.gd) loads and caches a
+cycle from `art/units/<id>/run/<heading>/frame_000.png`. In battle a unit steps its run frames
+while it crosses and turns at each corner rather than at the end; in area mode [`AreaActor`]
+(../src/area/area_actor.gd) does the same, reading movement off its own position so nothing that
+moves an actor had to change. Anyone without a cycle keeps their standing pose, exactly as before.
+**Open:** only `sworn_blade` has one. The other 68 units need PixelLab walk/run/attack exports.
 
 ## W12 — A much bigger, less square world
 
@@ -205,6 +213,12 @@ its worth plus a penalty — so "minus twenty if it doesn't fit that character" 
 hands a find to whoever gains most _after_ fit, and a piece can name its own `price`.
 **Open:** no bag and no screen. `art/items/` still has ~70 icons with nothing drawing them.
 
+**Built.** The party has stores now (`GameState.stores`, saved): a find that improves nobody goes
+in the packs instead of being sold from under you, and swapping never destroys what was being
+carried. The party screen shows what each person carries, what it is worth _to them_, their
+charms, and the best few pieces out of the packs with the swing each swap would make.
+**Open:** the item icons are still not drawn — the screen is text.
+
 ## W16 — Ways in, and ways past
 
 > You go to a location and can't immediately access it — a gate is closed and you have to find
@@ -228,6 +242,11 @@ learned passives.
 themes, including bonus-action moves that cost a beat rather than a turn. Every class now grants
 four of them, so two callings no longer play the same.
 **Open:** none of it is drawn — there is still no tree screen — and there is no proficiency-by-use.
+
+**Trees are drawn now.** The party screen shows every tree a character has uncovered, its theme,
+and its three rungs marked taken or locked, each with its reach, splash and weight spelled out.
+Somebody too low to have one is told which level it arrives at rather than shown nothing.
+**Open:** no proficiency-by-use, and you still cannot choose a path up a tree — rungs come in order.
 
 ## W18 — Backgrounds, origins and alignment
 

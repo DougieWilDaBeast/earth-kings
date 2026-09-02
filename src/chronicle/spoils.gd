@@ -6,14 +6,17 @@ static func tower_rules() -> Dictionary:
 	return Database.world_rules.get("tower", {})
 
 
-## Paid on reaching a floor. Returns lines for the log.
+## Paid on reaching a floor. The gold does not go in the purse: it goes into the
+## hoard, which is only carried out by walking back down. Returns lines for the log.
 static func for_tower_floor(world: World, floor_number: int, party: Array) -> Array:
 	var rules := tower_rules()
 	var lines: Array = []
 
 	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 35)) * floor_number, "gold")
-	GameState.gold += gold
-	lines.append("Floor %d yields %d gold." % [floor_number, gold])
+	world.tower_hoard += gold
+	lines.append("Floor %d yields %d gold. You are carrying %d out of here, if you get out." % [
+		floor_number, gold, world.tower_hoard
+	])
 
 	var every_doctrine := int(rules.get("doctrine_every", 3))
 	if every_doctrine > 0 and floor_number % every_doctrine == 0 and not party.is_empty():

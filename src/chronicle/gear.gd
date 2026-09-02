@@ -34,12 +34,21 @@ static func kind(equipment_id: String) -> String:
 
 
 ## Does this piece belong in this person's hands? A piece with no `suits` list
-## is plain enough that anybody can use it.
+## is plain enough that anybody can use it. Somebody who has not chosen a
+## calling yet is judged on the ones they could still take, so a level-one
+## swordsman is not penalised for carrying a sword.
 static func suits(equipment_id: String, character: Character) -> bool:
 	var callings: Array = piece(equipment_id).get("suits", [])
 	if callings.is_empty():
 		return true
-	return callings.has(character.class_id) or callings.has(character.template_id)
+	if callings.has(character.template_id):
+		return true
+	if character.class_id != "":
+		return callings.has(character.class_id)
+	for possible: String in Database.unit_template(character.template_id).get("classes", []):
+		if callings.has(possible):
+			return true
+	return false
 
 
 ## Attack and defence this piece gives [param character], fit already applied.
@@ -83,6 +92,41 @@ static func summary(equipment_id: String, character: Character) -> String:
 	if not suits(equipment_id, character):
 		parts.append("wrong hands")
 	return ", ".join(parts)
+
+
+## Hand a piece out of the party's stores to somebody. Whatever they were
+## carrying goes back in, so nothing is ever thrown away by equipping.
+static func equip(character: Character, equipment_id: String) -> bool:
+	if not GameState.stores.has(equipment_id) or is_charm(equipment_id):
+		return false
+	GameState.stores.erase(equipment_id)
+	var displaced := character.equipment
+	character.equipment = equipment_id
+	if displaced != "":
+		GameState.stores.append(displaced)
+	return true
+
+
+## Take what somebody is carrying off them and put it in the packs.
+static func unequip(character: Character) -> bool:
+	if character.equipment == "":
+		return false
+	GameState.stores.append(character.equipment)
+	character.equipment = ""
+	return true
+
+
+## What is in the packs that would suit [param character] better than what they
+## already have, best first.
+static func offers(character: Character) -> Array:
+	var out: Array = []
+	for equipment_id: String in GameState.stores:
+		if not is_charm(equipment_id) and not out.has(equipment_id):
+			out.append(equipment_id)
+	out.sort_custom(func(a: String, b: String) -> bool:
+		return swing(a, character) > swing(b, character)
+	)
+	return out
 
 
 static func _misfit(value: int) -> int:
