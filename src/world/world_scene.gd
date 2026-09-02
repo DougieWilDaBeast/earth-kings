@@ -12,6 +12,9 @@ const FIRST_REPEAT_DELAY := 0.28
 const RUN_OVER_DELAY := 3.0
 ## Steps between the country putting fresh bands out where you cannot see them.
 const RESTOCK_INTERVAL := 12
+## Lines of world log kept on screen. Everything still happens when it is off;
+## the log is a record, not the game.
+const LOG_LINES := 3
 ## Seconds between steps while the party is walking itself.
 const AUTO_DELAY := 0.09
 ## How far the party will turn aside for a band while walking itself. The road
@@ -59,6 +62,7 @@ func _ready() -> void:
 	Encounter.restock(world, world.rng)
 	if world.steps == 0:
 		Encounter.first_blood(world, world.rng)
+	_warm_art()
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
@@ -205,6 +209,8 @@ func _step(direction: Vector2i) -> void:
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)
+		# New bands mean new faces, and a face first loaded mid-draw comes out white.
+		_warm_art()
 	_road_talk()
 	_centre_camera()
 	_map.queue_redraw()
@@ -566,6 +572,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_N:
 			get_viewport().set_input_as_handled()
 			EventBus.journal_requested.emit()
+		KEY_L:
+			get_viewport().set_input_as_handled()
+			_log.visible = not _log.visible
 		KEY_H:
 			get_viewport().set_input_as_handled()
 			_hire_here()
@@ -609,10 +618,16 @@ func _area_here() -> String:
 
 
 func _walk_into_site() -> void:
+	var site := world.site_at(world.player_cell)
 	var area_id := _area_here()
 	if area_id == "":
+		# Most places on the map have no inside yet. Say so, rather than
+		# swallowing the key and reading as broken.
+		_note(
+			"There is no way into %s." % site.display_name if site != null
+			else "There is nothing here to walk into."
+		)
 		return
-	var site := world.site_at(world.player_cell)
 	_busy = true
 	EventBus.request_scene.emit("area", {
 		"area_id": area_id,
@@ -824,8 +839,8 @@ func _road_talk() -> void:
 
 func _note(line: String) -> void:
 	_notices.append(line)
-	if _notices.size() > 4:
-		_notices = _notices.slice(_notices.size() - 4)
+	if _notices.size() > LOG_LINES:
+		_notices = _notices.slice(_notices.size() - LOG_LINES)
 	_log.text = "\n".join(_notices)
 
 
@@ -982,6 +997,19 @@ func _site_art(site: Site) -> Texture2D:
 	if not _art.has(path):
 		_art[path] = load(path) if ResourceLoader.exists(path) else null
 	return _art[path]
+
+
+## Everything the map is about to draw, loaded up front. A texture that first
+## reaches the GPU part-way through a draw pass is drawn as a white rectangle,
+## so nothing here may be loaded lazily from inside [method _draw_world].
+func _warm_art() -> void:
+	for site in world.sites:
+		_site_art(site)
+	for band: Prowler in world.prowlers:
+		if not band.pack.is_empty():
+			Database.unit_face(band.pack[0])
+	for character in GameState.roster.characters:
+		Database.unit_face(character.template_id)
 
 
 ## Where the errands point. Nobody drew you a map, but you know roughly.

@@ -133,12 +133,18 @@ broken into the pieces that can actually be picked up separately.
 
 **Highest priority — these are defects, not wishes.**
 
-- **W10a — white boxes.** Textures render as flat white. Confirmed independently while building the
-  opening cinematic: `load()`ing a texture _inside_ a `_draw` handler renders it white.
-- **W10b — cannot enter named places.** Standing on a village or keep and pressing **E** should
-  open the area (`world_scene._walk_into_site`).
-- **W10c — the log is too loud.** The world log and the dialogue box take too much of the screen.
-  Wants smaller, off to one side, and toggleable.
+- **W10a — white boxes. Fixed.** A texture first loaded part-way through a draw pass is drawn as a
+  white rectangle. `world_scene._site_art` was loading lazily from inside `_draw_places`, and
+  `Database.unit_face` re-loaded on every call. `unit_face` now caches, and `world_scene._warm_art`
+  loads every site hold and every face up front — in `_ready` and again after each `Encounter.restock`.
+- **W10b — cannot enter named places. Partly fixed.** Villages and keeps could always be entered
+  with **E**, and the hint says so; the real problem is that only 6 of 21 places on a map _have_ an
+  inside. **E** now says "There is no way into X" instead of silently doing nothing.
+  **Open:** the Tower, libraries, gates, huts and Home have no area file. Five more
+  `data/areas/*.json` and matching `WorldGen.AREA_POOLS` entries would close it.
+- **W10c — the log is too loud. Fixed.** The status, party line and world log are smaller, the log
+  is half the width and keeps three lines instead of four, and **L** toggles it off entirely.
+  **Open:** the dialogue box itself is untouched, and conversations are not yet toggleable.
 
 ## W11 — Import the rest of the animations
 

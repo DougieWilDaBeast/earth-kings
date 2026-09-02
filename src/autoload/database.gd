@@ -41,6 +41,7 @@ var _generated_abilities: Dictionary = {}
 var _maps: Dictionary = {}
 var _dialogues: Dictionary = {}
 var _areas: Dictionary = {}
+var _faces: Dictionary = {}
 
 
 func _ready() -> void:
@@ -76,12 +77,14 @@ func unit_template(id: String) -> Dictionary:
 
 
 ## The forward-facing sprite a unit is drawn with, or null when it has no art.
+## Cached, because a texture loaded part-way through a draw pass comes out white.
 func unit_face(id: String) -> Texture2D:
+	if _faces.has(id):
+		return _faces[id]
 	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
 	var path := "%s/south.png" % sprite_dir
-	if sprite_dir == "" or not ResourceLoader.exists(path):
-		return null
-	return load(path)
+	_faces[id] = load(path) if sprite_dir != "" and ResourceLoader.exists(path) else null
+	return _faces[id]
 
 
 ## A lead a run can be started as (see `data/heroes.json`).
