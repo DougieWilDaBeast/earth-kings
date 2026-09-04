@@ -33,6 +33,9 @@ func _ready() -> void:
 	_touch_button.pressed.connect(_on_touch_pressed)
 	_update_touch_button()
 
+	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _chatter_button, _touch_button]:
+		Sfx.attend(btn)
+
 
 func open() -> void:
 	# The seed lives here so a world worth replaying can be written down.

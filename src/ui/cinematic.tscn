@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/ui/cinematic.gd" id="1_cinematic"]
 [ext_resource type="Script" path="res://src/ui/camera_rig.gd" id="2_camera"]
+[ext_resource type="Shader" path="res://src/ui/cinematic_haze.gdshader" id="3_haze"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_haze"]
+shader = ExtResource("3_haze")
 
 [node name="Cinematic" type="Node2D"]
 script = ExtResource("1_cinematic")
@@ -24,6 +28,17 @@ unique_name_in_owner = true
 script = ExtResource("2_camera")
 default_zoom = 1.35
 follow_speed = 1.1
+
+[node name="HazeLayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="HazeOverlay" type="ColorRect" parent="HazeLayer"]
+material = SubResource("ShaderMaterial_haze")
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Over" type="CanvasLayer" parent="."]
 layer = 2

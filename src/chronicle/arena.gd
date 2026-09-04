@@ -49,13 +49,18 @@ static func purse() -> int:
 	return int(state().get("purse", 0))
 
 
-## Take somebody out onto the sand. The run's own roster is put aside until
-## [method close] — anything that happens here happens to a copy.
-static func open(hero_id: String, card_id: String) -> void:
+static func wager_multiplier() -> float:
+	return float(state().get("wager_mult", 1.0))
+
+
+## Take somebody out onto the sand with an optional wager tier (e.g. 1.0 standard, 1.5 blood wager, 2.0 death match).
+## The run's own roster is put aside until [method close] — anything that happens here happens to a copy.
+static func open(hero_id: String, card_id: String, wager_mult: float = 1.0) -> void:
 	close()
 	GameState.arena = {
 		"hero": hero_id,
 		"card": card_id,
+		"wager_mult": wager_mult,
 		"round": 1,
 		"purse": 0,
 		"kept_roster": GameState.roster,
@@ -119,7 +124,8 @@ static func lost() -> void:
 
 static func reward(number: int) -> int:
 	var base := float(rules().get("purse_per_round", 60))
-	return roundi(base * pow(float(rules().get("purse_growth", 1.35)), float(number - 1)))
+	var growth := pow(float(rules().get("purse_growth", 1.35)), float(number - 1))
+	return roundi(base * growth * wager_multiplier())
 
 
 ## Retire between rounds and keep the purse. The only way to bank a run of them.

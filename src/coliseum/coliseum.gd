@@ -24,6 +24,7 @@ var boot_payload: Dictionary = {}
 var _rng := RandomNumberGenerator.new()
 var _hero: String = ""
 var _card: String = ""
+var _wager_mult: float = 1.0
 
 
 func _ready() -> void:
@@ -75,6 +76,20 @@ func _show_the_choosing() -> void:
 				_refresh_choosing()
 		))
 
+	_left.add_child(_heading("The Stakes"))
+	var wagers := [
+		["Standard Bout", 1.0],
+		["Blood Wager (+50% Purse)", 1.5],
+		["High Stakes (+100% Purse)", 2.0]
+	]
+	for w in wagers:
+		_left.add_child(_picker(
+			str(w[0]),
+			func() -> void:
+				_wager_mult = float(w[1])
+				_refresh_choosing()
+		))
+
 	var begin := Button.new()
 	begin.theme_type_variation = &"GrandButton"
 	begin.text = "Go out"
@@ -100,6 +115,9 @@ func _refresh_choosing() -> void:
 		names.append(str(Database.unit_template(foe_id).get("display_name", foe_id)))
 	_body.add_child(_line("Out of the pens: %s" % ", ".join(names), LABEL))
 
+	var wager_text := "Wager multiplier: %.1fx" % _wager_mult
+	_body.add_child(_line(wager_text, VALUE))
+
 	var best := Arena.best(_card)
 	if best.is_empty():
 		_body.add_child(_line("Nobody has lasted a round on this card yet.", LABEL))
@@ -113,7 +131,7 @@ func _refresh_choosing() -> void:
 
 
 func _begin() -> void:
-	Arena.open(_hero, _card)
+	Arena.open(_hero, _card, _wager_mult)
 	EventBus.request_scene.emit("battle", Arena.wave(_rng))
 
 

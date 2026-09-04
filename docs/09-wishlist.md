@@ -18,9 +18,9 @@ throwaway world, glides `CameraRig.focus_on` between the four places furthest ap
 few of the founders along the roads between them, fades the title up and hands over to the menu on
 any key — or on its own after twelve seconds.
 
-**Open:** the world is regenerated every boot, which costs a beat before anything appears. No
-haze or vignette over the country (the first attempt used an opaque shader and painted the screen
-white; see `title_backdrop.gdshader`, which writes `alpha = 1.0`).
+**Atmospheric presentation built.** [`src/ui/cinematic_haze.gdshader`](../src/ui/cinematic_haze.gdshader)
+applies soft drifting atmospheric haze and corner vignette over the country overview, preserving
+color and lighting while focusing the eye on the title and moving characters.
 
 ## W2 — A voice at the end of the cinematic
 
@@ -43,9 +43,13 @@ rounds and bank it, or push on and lose it. `user://earth-kings.arena.json` keep
 per card. It borrows nothing from the run: `Arena.open` stashes the real roster and `Arena.close`
 gives it back, and wounds carry between rounds without anybody actually dying.
 
+**Wager system built.** Gladiators can now select their stakes before entering the arena:
+Standard Bout (1.0×), Blood Wager (1.5×), and High Stakes (2.0× purse multiplier), multiplying round
+payouts and high-score purse records on `user://earth-kings.arena.json`.
+
 **Open:** party versus party versus party is not there. `Unit.Team` is a two-value enum, so more
 than two sides is a real change to `Battle`, `TurnManager` and `EnemyBrain` rather than a data
-edit. Cards are fixed lists; there is no draft or wager.
+edit. Cards are fixed lists.
 
 ## W4 — A journal
 

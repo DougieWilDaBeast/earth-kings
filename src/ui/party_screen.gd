@@ -193,6 +193,7 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 			var pick := Button.new()
 			pick.text = Database.character_class(class_id).get("display_name", class_id)
 			pick.pressed.connect(func() -> void: choose_class(character, class_id))
+			Sfx.attend(pick)
 			buttons.add_child(pick)
 	else:
 		var yoke := Button.new()
@@ -201,6 +202,7 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 			roundi(Character.YOKE_ATTACK_PENALTY * 100.0), roundi(Character.YOKE_XP_BONUS * 100.0)
 		]
 		yoke.pressed.connect(func() -> void: toggle_yoke(character))
+		Sfx.attend(yoke)
 		buttons.add_child(yoke)
 		_add_gear_buttons(buttons, character)
 		_add_draught_buttons(buttons, character)
@@ -216,6 +218,7 @@ func _add_gear_buttons(into: HBoxContainer, character: Character) -> void:
 		var off := Button.new()
 		off.text = "Stow the %s" % Gear.display_name(character.equipment)
 		off.pressed.connect(func() -> void: unequip(character))
+		Sfx.attend(off)
 		into.add_child(off)
 	var shown := 0
 	for equipment_id: String in Gear.offers(character):
@@ -231,6 +234,7 @@ func _add_gear_buttons(into: HBoxContainer, character: Character) -> void:
 		button.text = "%s (%+d)" % [Gear.display_name(equipment_id), swing]
 		button.tooltip_text = Gear.summary(equipment_id, character)
 		button.pressed.connect(func() -> void: equip(character, equipment_id))
+		Sfx.attend(button)
 		offer.add_child(button)
 		into.add_child(offer)
 		shown += 1
@@ -253,6 +257,7 @@ func _add_draught_buttons(into: HBoxContainer, character: Character) -> void:
 		button.text = "%s (+%d)" % [Gear.display_name(equipment_id), short]
 		button.tooltip_text = Gear.summary(equipment_id, character)
 		button.pressed.connect(func() -> void: drink(character, equipment_id))
+		Sfx.attend(button)
 		row.add_child(button)
 		into.add_child(row)
 		shown += 1
@@ -285,6 +290,7 @@ func _add_teaching_buttons(into: HBoxContainer, teacher: Character, party: Array
 			var button := Button.new()
 			button.text = "Teach %s → %s" % [Doctrine.title(doctrine_id), student.display_name]
 			button.pressed.connect(func() -> void: teach(teacher, student, doctrine_id))
+			Sfx.attend(button)
 			into.add_child(button)
 			# One offer per student keeps the row readable.
 			break
@@ -333,6 +339,7 @@ func _tree_blocks(character: Character) -> Array[Control]:
 				]
 				take.alignment = HORIZONTAL_ALIGNMENT_LEFT
 				take.pressed.connect(func() -> void: take_rung(character, ability_id))
+				Sfx.attend(take)
 				block.add_child(take)
 				continue
 
