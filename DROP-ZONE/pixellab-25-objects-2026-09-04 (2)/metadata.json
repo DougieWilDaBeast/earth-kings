@@ -1,0 +1,1000 @@
+{
+  "objects": [
+    {
+      "id": "cbd0785b-8bcb-407a-b2ac-c1ed02c99a1e",
+      "name": "base",
+      "prompt": "chests",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/chests.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "338df805-b8a7-40d7-bb92-446fcd5d270e",
+      "name": "base",
+      "prompt": "chests",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/chests_2.png"
+      },
+      "animations": {
+        "Chest_opening_and_closing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Chest_opening_and_closing/unknown/frame_000.png",
+                "animations/Chest_opening_and_closing/unknown/frame_001.png",
+                "animations/Chest_opening_and_closing/unknown/frame_002.png",
+                "animations/Chest_opening_and_closing/unknown/frame_003.png",
+                "animations/Chest_opening_and_closing/unknown/frame_004.png",
+                "animations/Chest_opening_and_closing/unknown/frame_005.png",
+                "animations/Chest_opening_and_closing/unknown/frame_006.png",
+                "animations/Chest_opening_and_closing/unknown/frame_007.png",
+                "animations/Chest_opening_and_closing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f427cd08-6a5d-49c3-ac75-f4930067753c",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "bfedd0bb-a83f-47a0-b212-b2fd76a74133",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "8cedf319-d275-4f8c-8720-82901b10368c",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_3.png"
+      },
+      "animations": {
+        "Bird_pecking_the_floor_then_wipe_his_peak_with_hi": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_000.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_001.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_002.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_003.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_004.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_005.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_006.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_007.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_008.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_009.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_010.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_011.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_012.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_013.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_014.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_015.png",
+                "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_016.png"
+              ],
+              "frame_count": 17
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "664d1386-e235-40ab-a990-896bcdb4255e",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "628e0bd4-0fb4-41f7-ac4e-be6edffc6781",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5da64d1a-30e1-4648-800f-d596ed6f7e48",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "53f1cc5d-8fe7-49a0-9050-6b148ae9c212",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "35054fac-1515-4119-ab5e-aa2bb848e365",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "0354c03d-c583-4ee3-b038-be1ef71cb0cb",
+      "name": "base",
+      "prompt": "Birds native to ireland",
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Birds_native_to_ireland_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "79722a8f-f8e5-4f71-9faf-6ffc46b6bf9e",
+      "name": "base",
+      "prompt": "Apple Tree",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Apple_Tree.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "6775af3a-f05c-4b38-b4c6-48e502bf8301",
+      "name": "base",
+      "prompt": "Apple Tree",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Apple_Tree_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f7daf920-f877-443e-a032-592df8d81ce7",
+      "name": "base",
+      "prompt": "3 leaf clover",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/3_leaf_clover.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d163ef90-f9be-4b93-800d-0624e27a10d4",
+      "name": "base",
+      "prompt": "3 leaf clover",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/3_leaf_clover_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "fc75b176-2a97-43cc-b9e8-a9a9adf21bb4",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f8833a96-8174-4a08-a032-2e80800b9165",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f5b5d8d7-76eb-4357-9945-2c87b901c74b",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "f172e872-6563-4d89-99bd-bce3ea8c1930",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ea7af9fc-4a0d-4bc7-96ed-b1b63da7ded9",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "e96ae31b-52c1-4b24-ad2d-faee7d8263fa",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "dade5fea-817a-4232-9387-12a4c8cfe65b",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d8372444-ddd2-4d78-b6c4-93d7b2d0650a",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "d4fdf4cf-95c6-440e-99ab-1f7709574698",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "c6825a43-8d07-45fd-81b3-ce75110e3cd8",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_10.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "379274f7-7eb2-4cb5-84b8-66769e24aa9f",
+      "folder": "objects/chests",
+      "objects": [
+        {
+          "id": "cbd0785b-8bcb-407a-b2ac-c1ed02c99a1e",
+          "name": "base",
+          "prompt": "chests",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/chests.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0ea414c4-e56f-45fb-967d-9f0d6713faef",
+      "folder": "objects/chests_2",
+      "objects": [
+        {
+          "id": "338df805-b8a7-40d7-bb92-446fcd5d270e",
+          "name": "base",
+          "prompt": "chests",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/chests_2.png"
+          },
+          "animations": {
+            "Chest_opening_and_closing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Chest_opening_and_closing/unknown/frame_000.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_001.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_002.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_003.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_004.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_005.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_006.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_007.png",
+                    "animations/Chest_opening_and_closing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "4f94b7a9-6cee-4307-9379-e8b96c1b077d",
+      "folder": "objects/Birds_native_to_ireland",
+      "objects": [
+        {
+          "id": "f427cd08-6a5d-49c3-ac75-f4930067753c",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "95f3ca83-805f-44a5-9029-1bf5af5bfe18",
+      "folder": "objects/Birds_native_to_ireland_2",
+      "objects": [
+        {
+          "id": "bfedd0bb-a83f-47a0-b212-b2fd76a74133",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "40e37c6b-b68b-466a-abd6-fe0e2ba1507b",
+      "folder": "objects/Birds_native_to_ireland_3",
+      "objects": [
+        {
+          "id": "8cedf319-d275-4f8c-8720-82901b10368c",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_3.png"
+          },
+          "animations": {
+            "Bird_pecking_the_floor_then_wipe_his_peak_with_hi": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_000.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_001.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_002.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_003.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_004.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_005.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_006.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_007.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_008.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_009.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_010.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_011.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_012.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_013.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_014.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_015.png",
+                    "animations/Bird_pecking_the_floor_then_wipe_his_peak_with_hi/unknown/frame_016.png"
+                  ],
+                  "frame_count": 17
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "4364897c-ba95-4951-b98a-59db0bfb8965",
+      "folder": "objects/Birds_native_to_ireland_4",
+      "objects": [
+        {
+          "id": "664d1386-e235-40ab-a990-896bcdb4255e",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "7973cb7a-ac26-4c86-8f33-270e8bec7cd7",
+      "folder": "objects/Birds_native_to_ireland_5",
+      "objects": [
+        {
+          "id": "628e0bd4-0fb4-41f7-ac4e-be6edffc6781",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "143ea8d3-7e36-4383-8821-fad60030c80c",
+      "folder": "objects/Birds_native_to_ireland_6",
+      "objects": [
+        {
+          "id": "5da64d1a-30e1-4648-800f-d596ed6f7e48",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "18e7e8ae-4624-47ef-8767-b563e22bfc24",
+      "folder": "objects/Birds_native_to_ireland_7",
+      "objects": [
+        {
+          "id": "53f1cc5d-8fe7-49a0-9050-6b148ae9c212",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9c7de521-2f16-452d-9f90-d3bbac010c00",
+      "folder": "objects/Birds_native_to_ireland_8",
+      "objects": [
+        {
+          "id": "35054fac-1515-4119-ab5e-aa2bb848e365",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "c67d6898-96ec-484d-931b-9ff74ccacf06",
+      "folder": "objects/Birds_native_to_ireland_9",
+      "objects": [
+        {
+          "id": "0354c03d-c583-4ee3-b038-be1ef71cb0cb",
+          "name": "base",
+          "prompt": "Birds native to ireland",
+          "size": {
+            "width": 24,
+            "height": 24
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Birds_native_to_ireland_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e2c8c66b-cd2b-4190-9b8e-fe7c9856df0d",
+      "folder": "objects/Apple_Tree",
+      "objects": [
+        {
+          "id": "79722a8f-f8e5-4f71-9faf-6ffc46b6bf9e",
+          "name": "base",
+          "prompt": "Apple Tree",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Apple_Tree.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a140963c-95ec-4c75-88ee-67160d98074b",
+      "folder": "objects/Apple_Tree_2",
+      "objects": [
+        {
+          "id": "6775af3a-f05c-4b38-b4c6-48e502bf8301",
+          "name": "base",
+          "prompt": "Apple Tree",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Apple_Tree_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f7f91351-5e54-426e-8ddc-30e0e91aacf4",
+      "folder": "objects/3_leaf_clover",
+      "objects": [
+        {
+          "id": "f7daf920-f877-443e-a032-592df8d81ce7",
+          "name": "base",
+          "prompt": "3 leaf clover",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/3_leaf_clover.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0ca5dfca-c362-4afc-9c9a-7af9ba136f51",
+      "folder": "objects/3_leaf_clover_2",
+      "objects": [
+        {
+          "id": "d163ef90-f9be-4b93-800d-0624e27a10d4",
+          "name": "base",
+          "prompt": "3 leaf clover",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/3_leaf_clover_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "df8415b0-e867-4829-a034-1883a756a701",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants",
+      "objects": [
+        {
+          "id": "fc75b176-2a97-43cc-b9e8-a9a9adf21bb4",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e5c25a7b-4e7d-4ef6-8647-aef14c308f7a",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_2",
+      "objects": [
+        {
+          "id": "f8833a96-8174-4a08-a032-2e80800b9165",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "d4654e91-5342-4b6f-b649-d2b0ab74cb4f",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_3",
+      "objects": [
+        {
+          "id": "f5b5d8d7-76eb-4357-9945-2c87b901c74b",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "695ff23a-329b-4149-93f8-49e45b95d0cf",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_4",
+      "objects": [
+        {
+          "id": "f172e872-6563-4d89-99bd-bce3ea8c1930",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "adfe530a-f83c-4e23-b719-f3bc2ad39ef3",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_5",
+      "objects": [
+        {
+          "id": "ea7af9fc-4a0d-4bc7-96ed-b1b63da7ded9",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "8a670b2e-8ecb-40d1-bce2-ecace166d749",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_6",
+      "objects": [
+        {
+          "id": "e96ae31b-52c1-4b24-ad2d-faee7d8263fa",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2aa38100-986c-4869-8874-f933fa8f06b7",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_7",
+      "objects": [
+        {
+          "id": "dade5fea-817a-4232-9387-12a4c8cfe65b",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "794ea007-4815-4bd3-b41a-4eb4c078e92f",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_8",
+      "objects": [
+        {
+          "id": "d8372444-ddd2-4d78-b6c4-93d7b2d0650a",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "1237fc40-ac27-4e3e-8c53-e5007e9d1a6c",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_9",
+      "objects": [
+        {
+          "id": "d4fdf4cf-95c6-440e-99ab-1f7709574698",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "320977a5-3e69-4d99-81b7-2c73a059312b",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_10",
+      "objects": [
+        {
+          "id": "c6825a43-8d07-45fd-81b3-ce75110e3cd8",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-09-04T19:54:23.360306"
+}

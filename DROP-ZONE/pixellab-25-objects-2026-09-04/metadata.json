@@ -1,0 +1,908 @@
+{
+  "objects": [
+    {
+      "id": "67674986-82e5-4d36-a856-2130f2ae8668",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "61ddcd10-0b59-43cf-9026-0de0bf8bb036",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "5ad7e2f4-6f15-4d6f-9fda-f10ee90b024a",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_3.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "540353dc-b8a6-460b-9858-b60483fff46d",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_4.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "4b37eec1-b6ee-48ec-992f-6395fadff337",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_5.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "43b38362-9e8b-4328-b7a5-91399b8af620",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "41e564e6-b4be-4202-86b9-8e50b9baa858",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_7.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "406ebfc5-053e-4c4a-b977-ae6322f4f4c2",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3fe16c2a-8834-43c7-94ca-66f903230232",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_9.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3dbdaa4c-ef17-4897-9792-e2ef3c75339b",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_10.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "3b745916-bd10-4e67-917b-51b3d5b360a3",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_11.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "35a8afa4-6d2c-45ea-aa5d-1ad0281e1eed",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_12.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "35622dec-d16b-490e-b588-d6de4cc2c013",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_13.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "33a930df-9e54-41f1-9026-0954efa39683",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_14.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "312b48c9-215a-4a11-934c-81a98d9fefed",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_15.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2ef71200-23ca-46d2-8ee4-421593c3fbda",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_16.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "2ee3e762-2535-4145-9577-a3af21661d74",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_17.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "226f1828-f4ad-4d8d-966a-bc08bd2a8251",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_18.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "1976efe6-091d-4a5d-a719-4d7b980e7c9a",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_19.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "0d3ea992-22a8-4134-ba4f-43f755d39cf6",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_20.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "0b9468ea-bf76-42c0-aac2-2a6c22bebea4",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_21.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "08f6f95b-37c3-457d-8c07-e07bfb52c27d",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_22.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "058dc0b6-cb53-43cb-a4e3-bc919ef14906",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_23.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "034d2982-3731-469d-8017-fe368bd8804a",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_24.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "016400f3-d513-475e-ad6f-913b09403e8e",
+      "name": "base",
+      "prompt": "FLOWERS, MUSHROOMS, plants",
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/FLOWERS_MUSHROOMS_plants_25.png"
+      },
+      "animations": {}
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "ed8781ab-25f4-4e66-be85-b63024b8c8cf",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants",
+      "objects": [
+        {
+          "id": "67674986-82e5-4d36-a856-2130f2ae8668",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9a688ed0-b0e7-4a0c-b43b-b801e3f9b2df",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_2",
+      "objects": [
+        {
+          "id": "61ddcd10-0b59-43cf-9026-0de0bf8bb036",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "96bf7127-7f21-494a-a2ea-6b3c85020c97",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_3",
+      "objects": [
+        {
+          "id": "5ad7e2f4-6f15-4d6f-9fda-f10ee90b024a",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_3.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "89823902-a94b-47f3-9c4b-ac0d44c1f9f4",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_4",
+      "objects": [
+        {
+          "id": "540353dc-b8a6-460b-9858-b60483fff46d",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_4.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0af2a9dc-a749-4b6c-a8b1-eb58aca38d90",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_5",
+      "objects": [
+        {
+          "id": "4b37eec1-b6ee-48ec-992f-6395fadff337",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_5.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "4fa44e37-2eb5-4bf0-8557-ffe26f578907",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_6",
+      "objects": [
+        {
+          "id": "43b38362-9e8b-4328-b7a5-91399b8af620",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "92525d37-c25e-4caf-928d-f3c4eca03a81",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_7",
+      "objects": [
+        {
+          "id": "41e564e6-b4be-4202-86b9-8e50b9baa858",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_7.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "400f81a4-7589-4930-b0eb-dc05f04c5b25",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_8",
+      "objects": [
+        {
+          "id": "406ebfc5-053e-4c4a-b977-ae6322f4f4c2",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "9bc571d0-f678-47da-893c-70396c7930d9",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_9",
+      "objects": [
+        {
+          "id": "3fe16c2a-8834-43c7-94ca-66f903230232",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_9.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "aa9a3359-ba54-479b-a439-bcefbd0c972a",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_10",
+      "objects": [
+        {
+          "id": "3dbdaa4c-ef17-4897-9792-e2ef3c75339b",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_10.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e622e234-68ca-4c1b-a7e7-c26ba9cb7e6a",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_11",
+      "objects": [
+        {
+          "id": "3b745916-bd10-4e67-917b-51b3d5b360a3",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_11.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "0cf84ec6-2d30-4211-b847-7fa795c1ff9b",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_12",
+      "objects": [
+        {
+          "id": "35a8afa4-6d2c-45ea-aa5d-1ad0281e1eed",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_12.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "eeb535f2-1dea-40dd-a8d0-bde5cb2677c0",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_13",
+      "objects": [
+        {
+          "id": "35622dec-d16b-490e-b588-d6de4cc2c013",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_13.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "73a16747-4029-44f0-9c26-96bf6cdd9914",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_14",
+      "objects": [
+        {
+          "id": "33a930df-9e54-41f1-9026-0954efa39683",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_14.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "57a19f64-562f-4ad9-8c7a-16bfb7d17c17",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_15",
+      "objects": [
+        {
+          "id": "312b48c9-215a-4a11-934c-81a98d9fefed",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_15.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "60d5bbcb-f6d6-4d52-b326-b37aa7cb864e",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_16",
+      "objects": [
+        {
+          "id": "2ef71200-23ca-46d2-8ee4-421593c3fbda",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_16.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "357605bc-2e36-43b5-806c-546e33cab29c",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_17",
+      "objects": [
+        {
+          "id": "2ee3e762-2535-4145-9577-a3af21661d74",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_17.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "dc4c3930-41fc-4414-baaa-ddbbc5f6c1dd",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_18",
+      "objects": [
+        {
+          "id": "226f1828-f4ad-4d8d-966a-bc08bd2a8251",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_18.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f1f3454c-8223-4885-b9a2-e428e94a8242",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_19",
+      "objects": [
+        {
+          "id": "1976efe6-091d-4a5d-a719-4d7b980e7c9a",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_19.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "60f0b5bc-6897-48df-8787-40c9db28916e",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_20",
+      "objects": [
+        {
+          "id": "0d3ea992-22a8-4134-ba4f-43f755d39cf6",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_20.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "057f0c2c-d7f4-42d3-85f9-6a7a8f07060c",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_21",
+      "objects": [
+        {
+          "id": "0b9468ea-bf76-42c0-aac2-2a6c22bebea4",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_21.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "f0469d7e-091e-4d3e-ad88-74adf00e531f",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_22",
+      "objects": [
+        {
+          "id": "08f6f95b-37c3-457d-8c07-e07bfb52c27d",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_22.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "a072a980-304e-4251-9a63-a25b619c6a94",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_23",
+      "objects": [
+        {
+          "id": "058dc0b6-cb53-43cb-a4e3-bc919ef14906",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_23.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "193b9ba6-9768-448e-8d5c-adec19a0e459",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_24",
+      "objects": [
+        {
+          "id": "034d2982-3731-469d-8017-fe368bd8804a",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_24.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "84917152-cb68-4dd1-84f8-976629b04d73",
+      "folder": "objects/FLOWERS_MUSHROOMS_plants_25",
+      "objects": [
+        {
+          "id": "016400f3-d513-475e-ad6f-913b09403e8e",
+          "name": "base",
+          "prompt": "FLOWERS, MUSHROOMS, plants",
+          "size": {
+            "width": 16,
+            "height": 16
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/FLOWERS_MUSHROOMS_plants_25.png"
+          },
+          "animations": {}
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-09-04T19:53:08.580674"
+}
