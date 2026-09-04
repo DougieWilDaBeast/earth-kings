@@ -99,6 +99,10 @@ static func hire(site: Site, roster: Roster, world: World) -> Character:
 	GameState.gold -= cost
 	var recruit := Character.create(offer["template"], offer.get("display_name", ""))
 	Progression.raise_quietly(recruit, int(offer.get("level", 1)), world)
+	for member: Character in roster.party_members():
+		var initial := Banter.initial_bond(member, recruit)
+		member.bonds[recruit.id] = initial
+		recruit.bonds[member.id] = initial
 	roster.add(recruit)
 	roster.enlist(recruit.id)
 	Ledger.add(GameState.ledger, "recruited")

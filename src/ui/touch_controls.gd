@@ -30,6 +30,7 @@ func _ready() -> void:
 	EventBus.system_menu_requested.connect(_on_overlay_changed)
 	EventBus.party_screen_requested.connect(_on_overlay_changed)
 	EventBus.journal_requested.connect(_on_overlay_changed)
+	EventBus.stash_requested.connect(_on_overlay_changed)
 	EventBus.dialogue_finished.connect(func(_id: String) -> void: _set_cluster_visible(true))
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _set_cluster_visible(false))
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _set_cluster_visible(false))

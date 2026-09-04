@@ -29,6 +29,49 @@ static func rules() -> Dictionary:
 # --- who gets on with whom ----------------------------------------------------
 
 
+## Initial chemistry between two characters based on their alignments.
+## Morally aligned companions bond naturally; opposed values create friction.
+static func initial_bond(a: Character, b: Character) -> int:
+	if a == b:
+		return 0
+	var delta := alignment_divergence(a.alignment, b.alignment)
+	match delta:
+		0:
+			return 2
+		1:
+			return 1
+		2:
+			return 0
+		3:
+			return -1
+		_:
+			return -2
+
+
+static func alignment_divergence(align_a: String, align_b: String) -> int:
+	var order_a := _order_val(align_a)
+	var order_b := _order_val(align_b)
+	var moral_a := _moral_val(align_a)
+	var moral_b := _moral_val(align_b)
+	return absi(order_a - order_b) + absi(moral_a - moral_b)
+
+
+static func _order_val(align: String) -> int:
+	if align.begins_with("lawful"):
+		return 1
+	if align.begins_with("chaotic"):
+		return -1
+	return 0
+
+
+static func _moral_val(align: String) -> int:
+	if align.ends_with("good"):
+		return 1
+	if align.ends_with("evil"):
+		return -1
+	return 0
+
+
 ## How well two people get on. Symmetric, and kept on both of them.
 static func bond(a: Character, b: Character) -> int:
 	return int(a.bonds.get(b.id, 0))

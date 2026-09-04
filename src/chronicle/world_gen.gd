@@ -325,6 +325,30 @@ static func _starting_cell(world: World) -> Vector2i:
 	return home.cell
 
 
+## Heroes with different backgrounds begin in different places across the continent:
+## nobles at keeps, scholars at libraries, strays at hedge huts, outcasts at gates.
+static func starting_cell_for_hero(world: World, lead_id: String) -> Vector2i:
+	if lead_id == "" or lead_id == "bram":
+		return _starting_cell(world)
+	var hero := Database.hero(lead_id)
+	if hero.is_empty():
+		return _starting_cell(world)
+	var bg_key: String = hero.get("background", "")
+	var bg_data: Dictionary = Character.BACKGROUNDS.get(bg_key, {})
+	var start_kind: String = str(bg_data.get("start_kind", ""))
+	if start_kind == "" or start_kind == "village":
+		return _starting_cell(world)
+	var candidate_sites := world.sites_of_kind(start_kind)
+	if candidate_sites.is_empty():
+		return _starting_cell(world)
+	var site: Site = candidate_sites[0]
+	for offset: Vector2i in [Vector2i.ZERO, Vector2i.DOWN, Vector2i.RIGHT, Vector2i.UP, Vector2i.LEFT]:
+		var c := site.cell + offset
+		if world.is_walkable(c) and world.terrain_id_at(c) != "water":
+			return c
+	return site.cell
+
+
 static func _place_name(rng: RandomNumberGenerator, used: Dictionary) -> String:
 	for attempt in 60:
 		var name_ := "%s%s" % [

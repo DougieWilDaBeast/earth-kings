@@ -30,6 +30,8 @@ var talks: Dictionary = {}
 var errands: Array = []
 ## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
 var stores: Array = []
+## Surplus equipment and supplies deposited at the campfire strongbox.
+var camp_stash: Array = []
 ## Keys found and kept. Not equipment — they weigh nothing and open one thing
 ## each (see [Ward]).
 var keys: Array = []
@@ -77,6 +79,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
 	roster = Roster.found(lead_id)
+	world.player_cell = WorldGen.starting_cell_for_hero(world, lead_id)
 	gold = DEFAULT_GOLD
 	ledger = Ledger.fresh()
 	cleared_battles = []
@@ -84,6 +87,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	talks = {}
 	errands = []
 	stores = []
+	camp_stash = []
 	keys = []
 
 
@@ -151,6 +155,7 @@ func save() -> void:
 		"talks": talks,
 		"errands": errands,
 		"stores": stores,
+		"camp_stash": camp_stash,
 		"keys": keys,
 		"ledger": ledger,
 	}
@@ -186,5 +191,24 @@ func load_save() -> bool:
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
 	stores = data.get("stores", [])
+	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])
 	return true
+
+
+func stash_deposit(equipment_id: String) -> bool:
+	var idx := stores.find(equipment_id)
+	if idx >= 0:
+		stores.remove_at(idx)
+		camp_stash.append(equipment_id)
+		return true
+	return false
+
+
+func stash_withdraw(equipment_id: String) -> bool:
+	var idx := camp_stash.find(equipment_id)
+	if idx >= 0:
+		camp_stash.remove_at(idx)
+		stores.append(equipment_id)
+		return true
+	return false

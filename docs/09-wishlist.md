@@ -232,7 +232,10 @@ that pays at every upkeep for 900 steps, five at a time, oldest dropped to make 
 you did not have to take turns into money you did not have before, which is exactly what was asked
 for. All of it lives on [`World`](../src/chronicle/world.gd), so it saves with the country.
 
-**Open:** quests proper are still errands and threads; there is no journal page for your routes.
+**Journal Ledger built.** The Journal screen ([`src/ui/journal_screen.gd`](../src/ui/journal_screen.gd),
+key **N**) now features a **Routes & Renown** tab displaying all active trade agreements,
+destinations, seasonal income, contract steps remaining, active escort status, and current
+regional standing and renown title across the continent.
 
 ## W15 — An equipment screen
 
@@ -319,9 +322,12 @@ the second tree arrives.
 > a hatred toward that species. Characters can be lawful good, lawful evil, neutral, chaotic —
 > different personalities. Some don't get along in the party; some work well together.
 
-**Not built.** `data/heroes.json` has a blurb and companions; this wants an origin that decides
-where you start, a short cutscene when you pick it, a grudge that changes encounters, and an
-alignment that feeds `Character.bonds`.
+**Built.** Five backgrounds (`apprentice_smith`, `exiled_noble`, `cloistered_scholar`,
+`wilderness_stray`, `outcast_drifter`), alignments on the 3×3 grid, and distinct origin narratives
+are assigned to all twelve heroes in `data/heroes.json`. Starting locations follow background
+(`WorldGen.starting_cell_for_hero`): nobles at ancestral keeps, scholars at libraries, strays at
+hedge huts, outcasts at gates, smiths at hearth villages. Alignments feed starting party affinity
+and friction through `Banter.initial_bond` and `Roster.found`.
 
 ## W19 — Variety, and more to do at the fire
 
@@ -338,8 +344,7 @@ the campfire — `rest` 5 → 22 and `grave` 1 → 8 — and the new lines lean 
 `{fallen}` and `{place}` tokens so they talk about the run rather than about nothing. Heroes went
 from 5 to 12, sorted gentlest first with their rating on the button, so the easy-to-impossible
 labelling reads off the list itself.
-**Open:** the campfire has bedrolls, a hammock, braziers, a woodpile and a strongbox now, and
-four things to look at, but you still cannot **put** anything into the strongbox — the memo asked
-for a stash and it is a chest. The mismatched-warband point is untouched: `Encounter._band_at`
-already picks a faction per terrain, so the complaint is probably about gate and tower pools,
-which do not.
+
+**Stash built.** The strongbox at camp is now an interactive party stash (`GameState.camp_stash`,
+saved) opened with **E** or click, offering a dual-pane modal overlay to stash items from the
+marching packs into camp storage or withdraw them when heading out.

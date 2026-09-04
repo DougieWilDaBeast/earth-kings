@@ -10,6 +10,8 @@ extends CanvasLayer
 
 signal closed
 
+enum Tab { BESTIARY, ROUTES }
+
 const UNKNOWN_COLOUR := Color(0.42, 0.40, 0.38)
 const KNOWN_COLOUR := Color(0.90, 0.87, 0.79)
 const LABEL_COLOUR := Color(0.66, 0.64, 0.59)
@@ -20,14 +22,27 @@ const FACE_SIZE := Vector2(96, 96)
 @onready var _fullness: Label = %FullnessLabel
 @onready var _list: VBoxContainer = %EntryList
 @onready var _page: VBoxContainer = %Page
+@onready var _bestiary_btn: Button = %BestiaryButton
+@onready var _routes_btn: Button = %RoutesButton
 
 var _showing: String = ""
+var _tab: Tab = Tab.BESTIARY
+var _selected_route_idx: int = 0
 
 
 func _ready() -> void:
 	_backdrop.hide()
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.journal_requested.connect(open)
+	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
+	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
+	Sfx.attend(_bestiary_btn)
+	Sfx.attend(_routes_btn)
+
+
+func _set_tab(tab: Tab) -> void:
+	_tab = tab
+	_rebuild()
 
 
 func is_open() -> bool:
@@ -56,24 +71,124 @@ func _rebuild() -> void:
 	for child in _list.get_children():
 		child.queue_free()
 	var world: World = GameState.world
-	var met := Journal.met(world)
-	var fullness := Journal.fullness(world)
-	_fullness.text = "%d of %d written up" % [fullness[0], fullness[1]]
-
-	if met.is_empty():
-		_showing = ""
-		_show_page()
+	if world == null:
 		return
-	for template_id: String in met:
-		var button := Button.new()
-		button.text = str(Database.unit_template(template_id).get("display_name", template_id))
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.pressed.connect(_open_page.bind(template_id))
-		Sfx.attend(button)
-		_list.add_child(button)
-	if not met.has(_showing):
-		_showing = met[0]
-	_show_page()
+
+	if _tab == Tab.BESTIARY:
+		var met := Journal.met(world)
+		var fullness := Journal.fullness(world)
+		_fullness.text = "%d of %d written up" % [fullness[0], fullness[1]]
+
+		if met.is_empty():
+			_showing = ""
+			_show_page()
+			return
+		for template_id: String in met:
+			var button := Button.new()
+			button.text = str(Database.unit_template(template_id).get("display_name", template_id))
+			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			button.pressed.connect(_open_page.bind(template_id))
+			Sfx.attend(button)
+			_list.add_child(button)
+		if not met.has(_showing):
+			_showing = met[0]
+		_show_page()
+	else:
+		_fullness.text = "%d active trade routes" % world.routes.size()
+		if world.routes.is_empty():
+			var label := Label.new()
+			label.text = "No open trade routes."
+			label.add_theme_color_override("font_color", LABEL_COLOUR)
+			_list.add_child(label)
+		else:
+			for idx in world.routes.size():
+				var route: Dictionary = world.routes[idx]
+				var button := Button.new()
+				button.text = "%s (%d gold)" % [route.get("name", "Route"), int(route.get("pay", 0))]
+				button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+				button.pressed.connect(func() -> void:
+					_selected_route_idx = idx
+					_show_routes_page()
+				)
+				Sfx.attend(button)
+				_list.add_child(button)
+		_show_routes_page()
+
+
+func _show_routes_page() -> void:
+	for child in _page.get_children():
+		child.queue_free()
+	var world: World = GameState.world
+	if world == null:
+		return
+
+	var routes_title := _line("Trade Routes", HEADING_COLOUR)
+	routes_title.add_theme_font_size_override("font_size", 22)
+	_page.add_child(routes_title)
+
+	if world.routes.is_empty():
+		_page.add_child(_line("No merchants run goods for you yet. Escort a stranded trader on the roadside to establish a trade route.", LABEL_COLOUR))
+	else:
+		_selected_route_idx = clampi(_selected_route_idx, 0, world.routes.size() - 1)
+		var route: Dictionary = world.routes[_selected_route_idx]
+		var name_str := str(route.get("name", "Unknown"))
+		var pay := int(route.get("pay", 0))
+		var age := world.steps - int(route.get("since", 0))
+		var left := maxi(0, Roadside.ROUTE_LIFE - age)
+
+		var route_head := _line("Contract: The %s Road" % name_str, KNOWN_COLOUR)
+		route_head.add_theme_font_size_override("font_size", 18)
+		_page.add_child(route_head)
+
+		var details := GridContainer.new()
+		details.columns = 2
+		details.add_theme_constant_override("h_separation", 20)
+		details.add_theme_constant_override("v_separation", 4)
+
+		details.add_child(_line("Destination Settlement", LABEL_COLOUR))
+		details.add_child(_line(name_str, KNOWN_COLOUR))
+		details.add_child(_line("Seasonal Income", LABEL_COLOUR))
+		details.add_child(_line("%d gold per upkeep" % pay, KNOWN_COLOUR))
+		details.add_child(_line("Remaining Contract", LABEL_COLOUR))
+		details.add_child(_line("%d steps remaining" % left, KNOWN_COLOUR))
+		_page.add_child(details)
+
+	# Active Caravan Escort Status
+	if Roadside.escorting(world):
+		var escort_title := _line("Caravan Under Escort", HEADING_COLOUR)
+		escort_title.add_theme_font_size_override("font_size", 18)
+		_page.add_child(escort_title)
+		var dest_site := Roadside.destination(world)
+		var dest_name := dest_site.display_name if dest_site != null else "destination"
+		_page.add_child(_line("Escorting wagon to %s. Patience remaining: %d steps." % [
+			dest_name, int(world.escort.get("patience", 0))
+		], KNOWN_COLOUR))
+
+	# Renown & Standing on this Ground
+	var renown_title := _line("Regional Renown & Standing", HEADING_COLOUR)
+	renown_title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(renown_title)
+
+	var here := world.player_cell
+	var standing_val := Renown.standing(world, here)
+	var notoriety_val := Renown.notoriety(world, here)
+	var player_title := Renown.title(world, here)
+
+	var standing_grid := GridContainer.new()
+	standing_grid.columns = 2
+	standing_grid.add_theme_constant_override("h_separation", 20)
+	standing_grid.add_theme_constant_override("v_separation", 4)
+
+	standing_grid.add_child(_line("Title on Current Ground", LABEL_COLOUR))
+	standing_grid.add_child(_line(player_title.capitalize(), KNOWN_COLOUR))
+	standing_grid.add_child(_line("Local Standing", LABEL_COLOUR))
+	standing_grid.add_child(_line("%+d" % standing_val, KNOWN_COLOUR))
+	standing_grid.add_child(_line("Local Notoriety", LABEL_COLOUR))
+	standing_grid.add_child(_line("%d" % notoriety_val, KNOWN_COLOUR))
+	standing_grid.add_child(_line("Total Deeds in Chronicle", LABEL_COLOUR))
+	standing_grid.add_child(_line("%d deeds recorded" % world.deeds.size(), KNOWN_COLOUR))
+
+	_page.add_child(standing_grid)
 
 
 func _open_page(template_id: String) -> void:

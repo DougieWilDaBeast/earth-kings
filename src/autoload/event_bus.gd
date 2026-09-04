@@ -35,6 +35,8 @@ signal system_menu_requested
 signal party_screen_requested
 ## Ask the always-present journal to open.
 signal journal_requested
+## Ask the camp stash screen to open.
+signal stash_requested
 ## The last of the party is gone; the run is over.
 signal run_ended
 

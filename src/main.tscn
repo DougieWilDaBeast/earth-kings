@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://src/game.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://src/dialogue/dialogue_box.tscn" id="2_dialogue"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/cutscene_layer.tscn" id="5_cutscene"]
 [ext_resource type="PackedScene" path="res://src/ui/journal_screen.tscn" id="6_journal"]
 [ext_resource type="PackedScene" path="res://src/ui/touch_controls.tscn" id="7_touch"]
+[ext_resource type="PackedScene" path="res://src/ui/stash_screen.tscn" id="8_stash"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_game")
@@ -22,5 +23,7 @@ script = ExtResource("1_game")
 [node name="PartyScreen" parent="." instance=ExtResource("4_party")]
 
 [node name="JournalScreen" parent="." instance=ExtResource("6_journal")]
+
+[node name="StashScreen" parent="." instance=ExtResource("8_stash")]
 
 [node name="SystemMenu" parent="." instance=ExtResource("3_system_menu")]

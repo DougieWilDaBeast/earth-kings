@@ -225,9 +225,16 @@ func _spawn_props() -> void:
 	for cell: Vector2i in map.chests:
 		var chest: Dictionary = map.chests[cell]
 		var shut: String = chest.get("art", "chest")
-		var opened := GameState.has_flag(map.chest_flag(cell))
+		var is_stash := bool(chest.get("stash", false))
+		var opened := not is_stash and GameState.has_flag(map.chest_flag(cell))
 		var node := AreaProp.create(chest.get("opened_art", "chest_open") if opened else shut)
 		node.position = map.centre_of(cell)
+		node.cell = cell
+		node.line = chest.get("line", "")
+		if is_stash:
+			node.display_name = "strongbox"
+			node.set_interactive(true)
+			_things.append(node)
 		_actors.add_child(node)
 		_chest_props[cell] = node
 
@@ -379,6 +386,9 @@ func _engage(target: AreaThing) -> void:
 func _examine(thing: AreaProp) -> void:
 	_leader.face(thing.position - _leader.position)
 	_note(thing.line)
+	if map.chests.has(thing.cell) and bool(map.chests[thing.cell].get("stash", false)):
+		EventBus.stash_requested.emit()
+		return
 	if thing.haul.is_empty():
 		return
 	GameState.set_flag(map.prop_flag(thing.cell))
@@ -614,13 +624,17 @@ func _arrive_at(cell: Vector2i) -> void:
 ## Whatever is in it is written into the area, so the same chest always holds
 ## the same thing — but it only holds it once.
 func _open_chest(cell: Vector2i) -> void:
+	var chest: Dictionary = map.chests[cell]
+	if bool(chest.get("stash", false)):
+		_note(chest.get("line", "The strongbox travels with you. Whatever nobody is carrying ends up in it."))
+		EventBus.stash_requested.emit()
+		return
 	var flag := map.chest_flag(cell)
 	if GameState.has_flag(flag):
 		return
 	GameState.set_flag(flag)
 	Ledger.add(GameState.ledger, "chests_opened")
 
-	var chest: Dictionary = map.chests[cell]
 	_note(chest.get("line", "A chest, and nobody watching it."))
 	if _chest_props.has(cell):
 		_chest_props[cell].set_art(chest.get("opened_art", "chest_open"))

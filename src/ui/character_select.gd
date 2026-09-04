@@ -19,6 +19,8 @@ const PIP_DARK := Color(0.24, 0.22, 0.22)
 @onready var _pips: HBoxContainer = %Pips
 @onready var _rating: Label = %RatingLabel
 @onready var _warband: Label = %WarbandLabel
+@onready var _background: Label = %BackgroundLabel
+@onready var _alignment: Label = %AlignmentLabel
 @onready var _stats: Label = %StatsLabel
 @onready var _blurb: Label = %BlurbLabel
 @onready var _back: Button = %BackButton
@@ -74,7 +76,13 @@ func _show(hero_id: String) -> void:
 	_name.text = _name_of(hero_id)
 	_title.text = hero.get("title", template.get("job", ""))
 	_portrait.texture = Database.unit_face(hero_id)
-	_blurb.text = hero.get("blurb", "")
+
+	var blurb_text: String = hero.get("blurb", "")
+	var origin_text: String = hero.get("origin", "")
+	if origin_text != "":
+		_blurb.text = "%s\n\nOrigin: %s" % [blurb_text, origin_text]
+	else:
+		_blurb.text = blurb_text
 
 	var rating := clampi(int(hero.get("difficulty", 1)), 1, PIPS)
 	for i in PIPS:
@@ -82,6 +90,13 @@ func _show(hero_id: String) -> void:
 	_rating.text = RATINGS[rating]
 
 	_warband.text = "Warband — %s" % _band_text(hero)
+	var bg_key: String = hero.get("background", "apprentice_smith")
+	var bg_name: String = str(Character.BACKGROUNDS.get(bg_key, {}).get("display_name", bg_key.capitalize()))
+	_background.text = "Background — %s" % bg_name
+	var align_key: String = hero.get("alignment", "true_neutral")
+	var align_name: String = str(Character.ALIGNMENTS.get(align_key, "True Neutral"))
+	_alignment.text = "Alignment — %s" % align_name
+
 	_stats.text = "HP %d    Attack %d    Defence %d    Move %d    Speed %d" % [
 		int(template.get("max_hp", 0)),
 		int(template.get("attack", 0)),

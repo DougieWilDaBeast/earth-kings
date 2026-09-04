@@ -67,7 +67,12 @@ func _check_content() -> void:
 
 	for hero_id: String in Database.heroes:
 		_expect(Database.units.has(hero_id), "hero '%s' has no unit template" % hero_id)
-		for companion_id: String in Database.hero(hero_id).get("companions", []):
+		var hero: Dictionary = Database.hero(hero_id)
+		var bg: String = hero.get("background", "")
+		_expect(Character.BACKGROUNDS.has(bg), "hero '%s' has unknown background '%s'" % [hero_id, bg])
+		var align: String = hero.get("alignment", "")
+		_expect(Character.ALIGNMENTS.has(align), "hero '%s' has unknown alignment '%s'" % [hero_id, align])
+		for companion_id: String in hero.get("companions", []):
 			_expect(
 				Database.units.has(companion_id),
 				"hero %s brings missing companion '%s'" % [hero_id, companion_id]

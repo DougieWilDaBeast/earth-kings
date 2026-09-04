@@ -28,14 +28,12 @@ Never edit a past entry — supersede it with a new one.
 | D21 | **Save-scumming is allowed.** Save/load stays free; reloading after a death is left to the player's conscience.                                                                                                                                                 | 2026-08-27 | It is a normal way people get around a mechanic they find frightening, and policing it costs more than it is worth. To be revisited.                                                                                                               |
 | D22 | **A fight is settled only once it is won.** Gates shut, Tower floors, town spoils and rescues are handed to [`_begin_battle`](../src/world/world_scene.gd) as a pending outcome and applied on the way back, never before.                                      | 2026-08-30 | The scene swap is deferred, so everything written after the call used to run first — you kept the gate, the gold and the floor whether you won or lost. One-way doors that swing shut regardless of the fight are not doors.                       |
 | D23 | **A thread runs out of patience, it never cancels.** A stage may carry a `deadline` in steps and a `goto`; when it lapses the `instead` effects run and the thread goes somewhere worse. See [08 — Threads](08-threads.md).                                     | 2026-09-01 | A thread that expires quietly is a quest log with extra steps. A thread that resolves badly is a one-way door, which is what the rest of the game is made of.                                                                                      |
+| D24 | **Charms are earned through gate delves and deep dungeons.** Intermediate floors of gates roll charms carried by fallen delvers. Gate delves are the canonical source for finding death-defying charms.                                                         | 2026-09-04 | Buying charms in shops made survival purely transactional; earning charms deep in perilous gates makes them hard-won relics that reward delving into danger.                                                                                       |
 
 ## Open questions
 
 Discuss before implementing the affected component.
 
-- **Q7 — Where do charms come from?** Still undecided. They can currently be _bought_ if a
-  settlement happens to stock one, which quietly makes the death system partly buyable. Gate
-  clears and hut secrets remain the obvious alternatives.
 - **Q11 — Does the world ever gain new gates?** [D15](#) means gates only ever get cleared, so a
   world tends towards safety and eventually runs out of things to do outside the Tower. Whether new
   gates open elsewhere, or whether the Tower is simply the endgame, is unanswered.
@@ -46,6 +44,8 @@ Discuss before implementing the affected component.
 
 ## Answered
 
+- **Q7 — Where do charms come from?** → [D24](#). Uncovered on intermediate floors of gate delves,
+  carried by delvers who came before.
 - **Q13 — Can a thread fail?** → [D23](#). No thread ever cancels, but a stage may carry a
   `deadline` in steps that routes to a worse stage rather than to nothing.
 - **Q14 — Does the player ever see the threads they are in?** → No. The party screen keeps showing

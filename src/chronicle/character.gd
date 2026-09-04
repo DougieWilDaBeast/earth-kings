@@ -10,10 +10,55 @@ const YOKE_ATTACK_PENALTY := 0.25
 ## Extra XP earned in exchange for that handicap (docs/16).
 const YOKE_XP_BONUS := 0.5
 
+const BACKGROUNDS := {
+	"apprentice_smith": {
+		"display_name": "Apprentice Smith",
+		"blurb": "Raised at the hearth-forge with hammer and anvil. Forged in loss when raiders sacked the town.",
+		"start_kind": "village",
+	},
+	"exiled_noble": {
+		"display_name": "Exiled Noble",
+		"blurb": "Cast down from halls of ancestral power. Carries heraldic pride, high arms, and an unyielding code.",
+		"start_kind": "keep",
+	},
+	"cloistered_scholar": {
+		"display_name": "Cloistered Scholar",
+		"blurb": "Taught in quiet libraries and hillside hermitages. Seeks lost lore, doctrine, and understanding.",
+		"start_kind": "library",
+	},
+	"wilderness_stray": {
+		"display_name": "Wilderness Stray",
+		"blurb": "Grew up in wild woods, mountain passes, and hidden rivers. Unbound by town law, attuned to nature.",
+		"start_kind": "hut",
+	},
+	"outcast_drifter": {
+		"display_name": "Outcast Drifter",
+		"blurb": "No village hearth welcomes them, and no bell rings their arrival. Walks the treacherous fringes.",
+		"start_kind": "gate",
+	},
+}
+
+const ALIGNMENTS := {
+	"lawful_good": "Lawful Good",
+	"neutral_good": "Neutral Good",
+	"chaotic_good": "Chaotic Good",
+	"lawful_neutral": "Lawful Neutral",
+	"true_neutral": "True Neutral",
+	"chaotic_neutral": "Chaotic Neutral",
+	"lawful_evil": "Lawful Evil",
+	"neutral_evil": "Neutral Evil",
+	"chaotic_evil": "Chaotic Evil",
+}
+
 var id: String = ""
 var display_name: String = ""
 var template_id: String = ""
 var class_id: String = ""
+## Background / origin: apprentice_smith | exiled_noble | cloistered_scholar | wilderness_stray | outcast_drifter
+var background: String = ""
+## Alignment on the 3x3 moral/order grid (e.g. lawful_good, chaotic_neutral).
+var alignment: String = "true_neutral"
+var origin_story: String = ""
 ## Set when the character reaches level 2 with a choice still to make.
 var pending_class_choice: bool = false
 var level: int = 1
@@ -62,7 +107,29 @@ static func create(template_id_: String, name_override: String = "", player: boo
 	character.display_name = name_override if name_override != "" else data.get("display_name", template_id_)
 	character.is_player = player
 	character.hp = -1
+
+	var hero := Database.hero(template_id_)
+	if not hero.is_empty():
+		character.background = str(hero.get("background", "apprentice_smith"))
+		character.alignment = str(hero.get("alignment", "true_neutral"))
+		character.origin_story = str(hero.get("origin", ""))
+	else:
+		character.background = str(data.get("background", "wilderness_stray"))
+		character.alignment = str(data.get("alignment", "true_neutral"))
+		character.origin_story = str(data.get("origin", ""))
 	return character
+
+
+func background_data() -> Dictionary:
+	return BACKGROUNDS.get(background, {})
+
+
+func background_display() -> String:
+	return str(background_data().get("display_name", "Wanderer"))
+
+
+func alignment_display() -> String:
+	return ALIGNMENTS.get(alignment, "True Neutral")
 
 
 func template() -> Dictionary:
@@ -178,6 +245,9 @@ func to_dict() -> Dictionary:
 		"display_name": display_name,
 		"template_id": template_id,
 		"class_id": class_id,
+		"background": background,
+		"alignment": alignment,
+		"origin_story": origin_story,
 		"pending_class_choice": pending_class_choice,
 		"level": level,
 		"xp": xp,
@@ -206,6 +276,9 @@ static func from_dict(data: Dictionary) -> Character:
 	character.display_name = data.get("display_name", "")
 	character.template_id = data.get("template_id", "")
 	character.class_id = data.get("class_id", "")
+	character.background = data.get("background", "")
+	character.alignment = data.get("alignment", "true_neutral")
+	character.origin_story = data.get("origin_story", "")
 	character.pending_class_choice = bool(data.get("pending_class_choice", false))
 	character.level = int(data.get("level", 1))
 	character.xp = int(data.get("xp", 0))

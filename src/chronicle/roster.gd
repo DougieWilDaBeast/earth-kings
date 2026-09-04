@@ -20,6 +20,14 @@ static func found(lead_id: String = "") -> Roster:
 		var character := Character.create(band[i], "", i == 0)
 		roster.characters.append(character)
 		roster.party.append(character.id)
+	# Establish starting affinity or friction based on companions' alignments
+	for i in roster.characters.size():
+		for j in range(i + 1, roster.characters.size()):
+			var c1: Character = roster.characters[i]
+			var c2: Character = roster.characters[j]
+			var initial := Banter.initial_bond(c1, c2)
+			c1.bonds[c2.id] = initial
+			c2.bonds[c1.id] = initial
 	return roster
 
 

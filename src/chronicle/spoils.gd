@@ -2,6 +2,12 @@ class_name Spoils
 extends RefCounted
 ## What the world gives back: floor rewards, gate payouts, and the odd book.
 
+const CHARMS := [
+	"knotted_cord", "salt_pouch", "soldiers_ring", "hearth_coin",
+	"black_feather", "childs_carving", "grave_token"
+]
+
+
 static func tower_rules() -> Dictionary:
 	return Database.world_rules.get("tower", {})
 
@@ -42,8 +48,17 @@ static func for_gate_floor(world: World, site: Site, party: Array) -> Array:
 		var found := Loot.roll(world, 0.6 + 0.15 * float(rank))
 		lines.append_array(Loot.claim(found, GameState.roster))
 
-	# The deeper gates are where the written things are, and where somebody was
-	# carrying a charm because they knew what was down there.
+	# Delving into gate depths yields charms carried by fallen delvers.
+	if world.rng.randf() < 0.2 + 0.1 * float(rank):
+		var charm_id: String = CHARMS[world.rng.randi() % CHARMS.size()]
+		lines.append_array(Loot.claim({ "item": charm_id }, GameState.roster))
+
+	# Deep gates (rank C or higher) hold forgotten skill trees.
+	if rank >= 2 and world.rng.randf() < 0.15 + 0.08 * float(rank):
+		var finder: Character = party[world.rng.randi() % party.size()]
+		lines.append_array(Progression.unlock_tree(finder, world))
+
+	# The deeper gates are where the written things are.
 	if world.rng.randf() < 0.1 + 0.06 * float(rank):
 		lines.append_array(_grant_doctrine(world, party))
 	return lines

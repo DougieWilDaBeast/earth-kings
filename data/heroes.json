@@ -2,72 +2,108 @@
 	"bram": {
 		"title": "The Sworn Blade",
 		"difficulty": 1,
+		"background": "apprentice_smith",
+		"alignment": "lawful_good",
+		"origin": "Apprenticed to an old forge-master who died when raiders struck the borderlands. He swings cold iron with grim duty, keeping every oath made to the fallen.",
 		"blurb": "An oath-sworn swordsman with a scar for every promise he kept. He can hold a road on his own, and he does not have to: the archer and the priest came with him.",
 		"companions": ["sera", "toln"]
 	},
 	"sera": {
 		"title": "The Longbow",
 		"difficulty": 2,
+		"background": "wilderness_stray",
+		"alignment": "chaotic_good",
+		"origin": "Raised under the canopy of untamed woodlands, she trusts the wind and arrow more than city laws. She guides wanderers and ambushes prowling beasts from the brush.",
 		"blurb": "A ranger who would rather end a fight from the treeline. Nothing about her survives being caught in the open, and there is only Toln behind her to put it right.",
 		"companions": ["toln"]
 	},
 	"toln": {
 		"title": "The Hedge Priest",
 		"difficulty": 3,
+		"background": "cloistered_scholar",
+		"alignment": "neutral_good",
+		"origin": "Trained in the secluded sanctuaries of the high hills, recording ancient chants and healing folk remedies. He left the cloisters when war crept past the monastery gates.",
 		"blurb": "A village healer walking well past the last village. He mends what Bram breaks, and if Bram goes down there is nobody left who can swing anything.",
 		"companions": ["bram"]
 	},
 	"fox_knight": {
 		"title": "The Fox Fire Knight",
 		"difficulty": 4,
+		"background": "exiled_noble",
+		"alignment": "lawful_neutral",
+		"origin": "Scion of a disgraced woodland court that fell to political intrigue. He wanders the roads in tarnished mail, seeking to restore his house's sigil through martial valor.",
 		"blurb": "Fast, burning, and travelling alone by choice. Strong enough to win most fights outright, with nobody to pick him up out of the one he loses.",
 		"companions": []
 	},
 	"village_idiot": {
 		"title": "The Village Idiot",
 		"difficulty": 5,
+		"background": "outcast_drifter",
+		"alignment": "chaotic_neutral",
+		"origin": "Chased from town to town for misunderstanding every rule and laughing through thunderstorms. Yet wherever trouble strikes, he somehow blunders into the middle of it.",
 		"blurb": "No oath, no training, no company, and no idea what any of this is for. Everything the valley throws at you, you take on the chin — alone.",
 		"companions": []
 	},
 	"dirte": {
 		"title": "The God of Kings",
 		"difficulty": 1,
+		"background": "exiled_noble",
+		"alignment": "lawful_good",
+		"origin": "Former champion of the Heart Empire's vanguard, cast out when corrupt lords seized the throne. Accompanied by loyal legionnaires, he marches to reclaim honor for the fallen empire.",
 		"blurb": "The strongest knight the Heart Empire ever put a name to, walking out of it with two of its legionnaires still answering to him. Very little on this map can stand in front of him. Almost nothing on it will talk to him either.",
 		"companions": ["legion_silver", "legion_copper"]
 	},
 	"staff_panda": {
 		"title": "The Bamboo Master",
 		"difficulty": 2,
+		"background": "cloistered_scholar",
+		"alignment": "lawful_neutral",
+		"origin": "Disciplined monk who spent decades meditating on bamboo peaks. Bound by a solemn martial code, he travels to test his monastic philosophy against the perils of the world.",
 		"blurb": "A martial god who took a vow about weapons and keeps it with a stick. He hits hard enough that the vow rarely comes up, and the red panda behind him has heard the story before.",
 		"companions": ["red_panda_master"]
 	},
 	"dwarf_smith": {
 		"title": "The Three-Eyed Smith",
 		"difficulty": 2,
+		"background": "apprentice_smith",
+		"alignment": "neutral_good",
+		"origin": "Master smith from deep mountain delves whose clan forge was overrun by subterranean terrors. He carries his heavy forging hammer to break armor and rebuild what was lost.",
 		"blurb": "Sees a weak point in anything forged, which is most of what comes at you. Slow, patient, and carrying a hammer meant for an anvil rather than a man.",
 		"companions": ["peasant", "village_idiot"]
 	},
 	"element_monk": {
 		"title": "The Eightfold Monk",
 		"difficulty": 3,
+		"background": "cloistered_scholar",
+		"alignment": "true_neutral",
+		"origin": "Attuned to the primordial elements in high-altitude hermitages. He views worldly conflicts as shifting tides of stone, wind, and flame that must be kept in harmonic balance.",
 		"blurb": "Fire, water, air, earth, lightning, dark and light, and no armour worth the name. Every answer in the world and not much left over if the first one is wrong.",
 		"companions": ["avatar_adept"]
 	},
 	"sea_man": {
 		"title": "The Tidewalker",
 		"difficulty": 3,
+		"background": "wilderness_stray",
+		"alignment": "chaotic_good",
+		"origin": "Washed ashore from forgotten coastal shoals alongside a watery beast. Unbound by terrestrial customs, he fights to protect coastal settlements from deep-sea incursions.",
 		"blurb": "Came out of the water and has not entirely left it. Steady, unhurried, and travelling with a lion that is also mostly water, for reasons neither will explain.",
 		"companions": ["tide_lion"]
 	},
 	"emo_swordsman": {
 		"title": "The Sleepless Blade",
 		"difficulty": 4,
+		"background": "outcast_drifter",
+		"alignment": "chaotic_neutral",
+		"origin": "A brooding wanderer whose company was wiped out in a forgotten breach. Consumed by survivor's guilt, he seeks daunting odds where his blade can do some fleeting good.",
 		"blurb": "Quick, tired, and disinclined to explain himself. Fights like somebody who has already decided how this ends and is only here to watch it happen.",
 		"companions": ["dusk_shadow"]
 	},
 	"wraith": {
 		"title": "The Tattered One",
 		"difficulty": 5,
+		"background": "outcast_drifter",
+		"alignment": "chaotic_evil",
+		"origin": "A terrifying apparition banished from living settlements, fueled by wrath and shadow. Driven by an insatiable craving to tear down fortresses and unleash chaotic ruin.",
 		"blurb": "No face, no name anybody will say out loud, and no village that will open a door to it. Hits like nothing else on the map. Cannot buy bread.",
 		"companions": []
 	}

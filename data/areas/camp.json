@@ -33,6 +33,7 @@
 			"cell": [11, 6],
 			"line": "The strongbox travels with you. Whatever nobody is carrying ends up in it.",
 			"art": "strongbox",
+			"stash": true,
 			"gold": 0
 		}
 	],

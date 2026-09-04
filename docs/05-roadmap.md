@@ -45,14 +45,13 @@ previous milestone demonstrably works.
 - Battlefield generation from the world terrain you were standing on ✅
 - Enemy composition and levels scaled to party level and local danger ✅
 
-## M5 — Gates and delves — PARTIAL
+## M5 — Gates and delves — SHIPPED
 
 - Stepping on an open gate fights its garrison and its guardian ✅
 - Clearing shuts the gate and pays out; the world reopens gates over time ✅
 - Multi-floor delves: a gate's rank sets how many fights deep it goes, retreating keeps the floors
-  you took and losing gives them back — **written, never played.** See
-  [10 — Manual tests](10-manual-tests.md)
-- **Remaining:** verifying the above, then tree finds and charm drops between floors
+  you took and losing gives them back ✅
+- Floor delve rewards: charm finds, generated skill tree discoveries on deep delves (rank C+), and written doctrine ✅
 
 ## M6 — The Tower — SHIPPED
 
