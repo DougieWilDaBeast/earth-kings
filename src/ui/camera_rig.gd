@@ -31,6 +31,11 @@ var _pan: Vector2 = Vector2.ZERO
 var _bounds: Rect2 = Rect2()
 var _dragging: bool = false
 
+# Touch gesture state for mobile/pinch zoom & touch pan
+var _active_touches: Dictionary = {}
+var _initial_pinch_distance: float = 0.0
+var _initial_pinch_zoom: float = 1.0
+
 
 func _ready() -> void:
 	make_current()
@@ -77,7 +82,11 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("camera_zoom_in", true):
+	if event is InputEventScreenTouch:
+		_on_screen_touch(event)
+	elif event is InputEventScreenDrag:
+		_on_screen_drag(event)
+	elif event.is_action_pressed("camera_zoom_in", true):
 		_zoom_towards(ZOOM_STEP)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("camera_zoom_out", true):
@@ -89,6 +98,37 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE:
 		_set_dragging(event.pressed)
 	elif event is InputEventMouseMotion and _dragging:
+		_pan -= event.relative / zoom.x
+		position = _focus + _pan
+		get_viewport().set_input_as_handled()
+
+
+func _on_screen_touch(event: InputEventScreenTouch) -> void:
+	if event.pressed:
+		_active_touches[event.index] = event.position
+	else:
+		_active_touches.erase(event.index)
+
+	if _active_touches.size() == 2:
+		var touch_positions: Array = _active_touches.values()
+		_initial_pinch_distance = (touch_positions[0] as Vector2).distance_to(touch_positions[1] as Vector2)
+		_initial_pinch_zoom = zoom.x
+	elif _active_touches.size() < 2:
+		_initial_pinch_distance = 0.0
+
+
+func _on_screen_drag(event: InputEventScreenDrag) -> void:
+	_active_touches[event.index] = event.position
+	if _active_touches.size() == 2 and _initial_pinch_distance > 0.0:
+		var touch_positions: Array = _active_touches.values()
+		var cur_dist: float = (touch_positions[0] as Vector2).distance_to(touch_positions[1] as Vector2)
+		if cur_dist > 5.0 and _initial_pinch_distance > 5.0:
+			var pinch_ratio := cur_dist / _initial_pinch_distance
+			_apply_zoom(_initial_pinch_zoom * pinch_ratio)
+			position = _focus + _pan
+			get_viewport().set_input_as_handled()
+	elif _active_touches.size() == 1 and not keyboard_pan:
+		# Single finger swipe pans the camera when keyboard panning is not taking directional keys
 		_pan -= event.relative / zoom.x
 		position = _focus + _pan
 		get_viewport().set_input_as_handled()

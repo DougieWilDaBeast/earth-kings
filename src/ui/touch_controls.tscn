@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/touch_controls.gd" id="1_touch_controls"]
+
+[node name="TouchControls" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_touch_controls")
+
+[node name="Root" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DPad" type="Control" parent="Root"]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -180.0
+offset_right = 192.0
+offset_bottom = -20.0
+grow_vertical = 0
+mouse_filter = 0
+
+[node name="Base" type="Panel" parent="Root/DPad"]
+modulate = Color(1, 1, 1, 0.45)
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Knob" type="Panel" parent="Root/DPad"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.8)
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 104.0
+offset_bottom = 104.0
+mouse_filter = 2
+
+[node name="ActionCluster" type="Control" parent="Root"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -200.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="InteractButton" type="Button" parent="Root/ActionCluster"]
+unique_name_in_owner = true
+offset_left = 140.0
+offset_top = 70.0
+offset_right = 230.0
+offset_bottom = 160.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 20
+text = "Act / E"
+
+[node name="CycleButton" type="Button" parent="Root/ActionCluster"]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 120.0
+offset_bottom = 160.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+text = "Tab"
+
+[node name="PartyButton" type="Button" parent="Root/ActionCluster"]
+unique_name_in_owner = true
+offset_left = 70.0
+offset_top = 20.0
+offset_right = 140.0
+offset_bottom = 80.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+text = "Party"
+
+[node name="JournalButton" type="Button" parent="Root/ActionCluster"]
+unique_name_in_owner = true
+offset_left = 155.0
+offset_top = 0.0
+offset_right = 225.0
+offset_bottom = 55.0
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+text = "Book"
+
+[node name="TopBar" type="HBoxContainer" parent="Root"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -240.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="AutoButton" type="Button" parent="Root/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "Auto"
+
+[node name="SpeedButton" type="Button" parent="Root/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "1x"
+
+[node name="MenuButton" type="Button" parent="Root/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "Menu"

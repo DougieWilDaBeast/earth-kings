@@ -36,17 +36,49 @@ var quiet_banter: bool = false:
 ## gate is walked straight back into, for ever.
 var avoided: Dictionary = {}
 
+## Touch controls mode: "auto" (detects touch/mobile), "on" (force enabled), "off" (force disabled).
+var touch_mode: String = "auto":
+	set(value):
+		if touch_mode == value:
+			return
+		touch_mode = value
+		_save()
+		changed.emit()
+
+
+func is_touch_enabled() -> bool:
+	match touch_mode:
+		"on":
+			return true
+		"off":
+			return false
+		_:
+			return OS.has_feature("android") or OS.has_feature("mobile") \
+					or DisplayServer.is_touchscreen_available()
+
+
+func cycle_touch_mode() -> void:
+	match touch_mode:
+		"auto":
+			touch_mode = "on"
+		"on":
+			touch_mode = "off"
+		_:
+			touch_mode = "auto"
+
 
 func _ready() -> void:
 	var config := ConfigFile.new()
 	if config.load(SETTINGS_PATH) == OK:
 		quiet_banter = bool(config.get_value("ui", "quiet_banter", false))
+		touch_mode = str(config.get_value("ui", "touch_mode", "auto"))
 
 
 func _save() -> void:
 	var config := ConfigFile.new()
 	config.load(SETTINGS_PATH)
 	config.set_value("ui", "quiet_banter", quiet_banter)
+	config.set_value("ui", "touch_mode", touch_mode)
 	config.save(SETTINGS_PATH)
 
 

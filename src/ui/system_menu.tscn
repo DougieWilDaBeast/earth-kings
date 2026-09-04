@@ -80,6 +80,10 @@ unique_name_in_owner = true
 toggle_mode = true
 text = "Chatter"
 
+[node name="TouchButton" type="Button" parent="Root/Panel/Margin/Items"]
+unique_name_in_owner = true
+text = "Touch Controls: Auto"
+
 [node name="CloseButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
 text = "Close"

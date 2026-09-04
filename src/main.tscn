@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://src/game.gd" id="1_game"]
 [ext_resource type="PackedScene" path="res://src/dialogue/dialogue_box.tscn" id="2_dialogue"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/party_screen.tscn" id="4_party"]
 [ext_resource type="PackedScene" path="res://src/ui/cutscene_layer.tscn" id="5_cutscene"]
 [ext_resource type="PackedScene" path="res://src/ui/journal_screen.tscn" id="6_journal"]
+[ext_resource type="PackedScene" path="res://src/ui/touch_controls.tscn" id="7_touch"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_game")
@@ -13,6 +14,8 @@ script = ExtResource("1_game")
 [node name="CurrentScene" type="Node" parent="."]
 
 [node name="CutsceneLayer" parent="." instance=ExtResource("5_cutscene")]
+
+[node name="TouchControls" parent="." instance=ExtResource("7_touch")]
 
 [node name="DialogueBox" parent="." instance=ExtResource("2_dialogue")]
 

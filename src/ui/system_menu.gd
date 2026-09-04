@@ -8,6 +8,7 @@ extends CanvasLayer
 @onready var _mute_button: Button = %MuteButton
 @onready var _music_slider: HSlider = %MusicSlider
 @onready var _chatter_button: Button = %ChatterButton
+@onready var _touch_button: Button = %TouchButton
 
 
 func _ready() -> void:
@@ -29,6 +30,8 @@ func _ready() -> void:
 	_chatter_button.button_pressed = Pace.quiet_banter
 	_chatter_button.toggled.connect(_on_chatter_toggled)
 	_on_chatter_toggled(Pace.quiet_banter)
+	_touch_button.pressed.connect(_on_touch_pressed)
+	_update_touch_button()
 
 
 func open() -> void:
@@ -81,3 +84,18 @@ func _on_mute_toggled(silent: bool) -> void:
 func _on_chatter_toggled(quiet: bool) -> void:
 	_chatter_button.text = "Chatter: in the log" if quiet else "Chatter: in full"
 	Pace.quiet_banter = quiet
+
+
+func _on_touch_pressed() -> void:
+	Pace.cycle_touch_mode()
+	_update_touch_button()
+
+
+func _update_touch_button() -> void:
+	match Pace.touch_mode:
+		"on":
+			_touch_button.text = "Touch Controls: On"
+		"off":
+			_touch_button.text = "Touch Controls: Off"
+		_:
+			_touch_button.text = "Touch Controls: Auto (%s)" % ("On" if Pace.is_touch_enabled() else "Off")
