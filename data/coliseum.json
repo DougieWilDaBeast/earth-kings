@@ -35,6 +35,12 @@
 			"title": "The Unnatural",
 			"blurb": "Things the pits should not have been able to hold.",
 			"foes": ["wraith", "ogre", "tree_sentinel", "turret_cannon", "frozen_wolfman", "devil_butler"]
+		},
+		"the_grand_melee": {
+			"title": "The Grand Melee",
+			"blurb": "Three rival cohorts thrown into the sand at once. They fight each other as readily as they fight you.",
+			"foes": ["ogre", "brigand_chief", "ember_duelist", "legion_silver", "frozen_wolfman", "fox_knight"],
+			"brawl": true
 		}
 	}
 }

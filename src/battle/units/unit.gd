@@ -5,7 +5,7 @@ extends Node2D
 
 signal died
 
-enum Team { PLAYER, ENEMY }
+enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C }
 ## What a command costs. EITHER spends the bonus action first, so the main
 ## action stays open for as long as possible.
 enum Cost { ACTION, BONUS, EITHER }

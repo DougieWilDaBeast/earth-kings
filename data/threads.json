@@ -181,6 +181,82 @@
 					]
 				}
 			]
+		},
+
+		"the_vengeful_oath": {
+			"title": "The Vengeful Oath",
+			"ignite": { "notoriety_above": 10 },
+			"stages": [
+				{
+					"id": "shadows_on_the_road",
+					"when": { "steps_since_stage": 50 },
+					"then": [
+						{
+							"rumour": "mercenary captains have taken coins to track you down; they watch the crossroads",
+							"at": "here",
+							"weight": -2
+						},
+						{ "tag": "hunted" }
+					]
+				},
+				{
+					"id": "the_reckoning",
+					"when": { "arrive_kind": "keep" },
+					"deadline": 300,
+					"goto": "they_scattered",
+					"then": [
+						{ "hint": "A blood bounty hangs over your head. Mercenaries linger at the gatehouse." },
+						{ "tag": "hunters_confronted" },
+						{ "remember": { "bounty_faced": true } }
+					],
+					"instead": [
+						{ "hint": "The mercenary cohort gave up waiting and rode out elsewhere." }
+					]
+				},
+				{
+					"id": "they_scattered",
+					"when": { "steps_since_stage": 100 },
+					"then": [
+						{
+							"rumour": "the warband that swore blood against you has run out of purse and disbanded",
+							"at": "here",
+							"weight": 1
+						},
+						{ "untag": "hunted" }
+					]
+				}
+			]
+		},
+
+		"the_spire_aftermath": {
+			"title": "The Spire Aftermath",
+			"ignite": { "tower_topped": true },
+			"stages": [
+				{
+					"id": "winds_of_ascension",
+					"when": { "steps_since_stage": 60 },
+					"then": [
+						{
+							"rumour": "the light over the Spire has changed; heralds carry word of the ascended champion",
+							"at": "last_deed",
+							"weight": 4
+						},
+						{ "tag": "heralds_abroad" }
+					]
+				},
+				{
+					"id": "beasts_receding",
+					"when": { "steps_since_stage": 100 },
+					"then": [
+						{
+							"rumour": "the mountain passes grow quiet as the Spire's shadow recedes across the continent",
+							"at": "here",
+							"weight": 2
+						},
+						{ "untag": "heralds_abroad" }
+					]
+				}
+			]
 		}
 	}
 }

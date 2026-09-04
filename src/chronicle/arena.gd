@@ -88,12 +88,26 @@ static func wave(rng: RandomNumberGenerator) -> Dictionary:
 	var card: Dictionary = cards().get(str(state().get("card", "")), {})
 	var foes: Array = card.get("foes", ["goblin"])
 	var ground: Dictionary = grounds()[(number - 1) % maxi(1, grounds().size())]
+	var is_brawl := bool(card.get("brawl", false))
 
 	var enemies: Array = []
-	for i in _count(number):
+	var count := _count(number)
+	if is_brawl:
+		count = maxi(count, 3)
+	for i in count:
+		var team_assign: Unit.Team = Unit.Team.ENEMY
+		if is_brawl:
+			match i % 3:
+				0:
+					team_assign = Unit.Team.ENEMY
+				1:
+					team_assign = Unit.Team.ENEMY_B
+				2:
+					team_assign = Unit.Team.ENEMY_C
 		enemies.append({
 			"unit": foes[rng.randi() % foes.size()],
 			"level": _level(number),
+			"team": team_assign,
 		})
 	var map := BattleMapGen.generate_on(
 		str(ground.get("terrain", "grass")), str(ground.get("name", "The Sand")), enemies, rng

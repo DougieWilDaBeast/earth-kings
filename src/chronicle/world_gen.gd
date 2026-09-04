@@ -35,11 +35,11 @@ const COUNTS := {
 }
 
 
-static func generate(world_seed: int) -> World:
+static func generate(world_seed: int, custom_size: Vector2i = Vector2i.ZERO) -> World:
 	var world := World.new()
 	world.world_seed = world_seed
 	world.rng.seed = world_seed
-	world.size = World.SIZE
+	world.size = custom_size if custom_size != Vector2i.ZERO else World.SIZE
 	world.tiles = _carve_ground(world)
 	_place_sites(world)
 	_seed_first_doctrine(world)

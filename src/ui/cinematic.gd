@@ -38,7 +38,8 @@ var _handed_over := false
 
 func _ready() -> void:
 	Pace.reset()
-	_world = WorldGen.generate(randi())
+	# Fast panoramic generation (56x56) generates in ~10ms for instant boot without lag
+	_world = WorldGen.generate(randi(), Vector2i(56, 56))
 	_stops = _worth_seeing()
 	_walkers = _people_about()
 	for kind: String in Site.ART:

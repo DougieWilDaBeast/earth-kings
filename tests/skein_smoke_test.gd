@@ -45,6 +45,7 @@ func _check_content() -> void:
 	var known_when := [
 		"steps_since_stage", "steps_since_start", "deed", "count", "arrive_kind",
 		"battle_won", "character_dead", "standing_below", "standing_above",
+		"notoriety_above", "tower_topped", "lead_background",
 		"tag", "remembers", "thread_done",
 	]
 	var known_then := ["rumour", "at", "weight", "hint", "remember", "tag", "untag", "errand", "site"]

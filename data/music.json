@@ -1,9 +1,9 @@
 {
 	"fade": 1.4,
 	"scenes": {
-		"cinematic": "hearth",
-		"title": "hearth",
-		"character_select": "hearth",
+		"cinematic": "title",
+		"title": "title",
+		"character_select": "title",
 		"world": "road",
 		"area": "road",
 		"battle": "battle",
@@ -11,8 +11,11 @@
 		"summary": "game_over"
 	},
 	"sets": {
-		"hearth": [
+		"title": [
 			{ "path": "res://audio/music/angelic.wav", "volume_db": -16.0 }
+		],
+		"hearth": [
+			{ "path": "res://audio/music/angelic.wav", "volume_db": -14.0 }
 		],
 		"road": [
 			{ "path": "res://audio/music/angelic.wav", "volume_db": -10.0 }

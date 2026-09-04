@@ -76,7 +76,7 @@ func _write_them_up(map: Dictionary) -> void:
 		return
 	var place := str(map.get("name", encounter.get("title", "somewhere")))
 	for unit in units:
-		if unit.team != Unit.Team.ENEMY:
+		if unit.team == Unit.Team.PLAYER:
 			continue
 		if Journal.sighted(GameState.world, unit.template_id, place):
 			EventBus.battle_log.emit("%s is new. The journal opens a page." % unit.display_name)
@@ -98,13 +98,14 @@ func _spawn_enemies(enemies: Array) -> void:
 	for entry: Dictionary in enemies:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
 		var level := int(entry.get("level", 0))
+		var unit_team: Unit.Team = entry.get("team", Unit.Team.ENEMY)
 		if level <= 0:
-			_add_unit(entry.get("unit", ""), Unit.Team.ENEMY, cell)
+			_add_unit(entry.get("unit", ""), unit_team, cell)
 			continue
 		# Levelled foes are throwaway Characters so they grow the same way we do.
 		var foe := Character.create(entry.get("unit", ""))
 		Progression.raise_quietly(foe, level, GameState.world)
-		var unit := Unit.from_character(foe, Unit.Team.ENEMY, cell)
+		var unit := Unit.from_character(foe, unit_team, cell)
 		unit.snap_to_cell(grid)
 		units_root.add_child(unit)
 		units.append(unit)
@@ -642,7 +643,7 @@ func _resolve_outcome() -> bool:
 		func(u: Unit) -> bool: return u.is_alive() and u.team == Unit.Team.PLAYER
 	)
 	var enemies_alive := units.any(
-		func(u: Unit) -> bool: return u.is_alive() and u.team == Unit.Team.ENEMY
+		func(u: Unit) -> bool: return u.is_alive() and u.team != Unit.Team.PLAYER
 	)
 	if players_alive and enemies_alive:
 		return false
@@ -728,7 +729,7 @@ func _settle_the_party() -> void:
 ## What kind of thing won the fight, which decides whether prisoners are taken.
 func _killer_kind() -> String:
 	for unit in units:
-		if unit.team == Unit.Team.ENEMY and unit.is_alive():
+		if unit.team != Unit.Team.PLAYER and unit.is_alive():
 			return unit.kind()
 	return "default"
 
@@ -757,7 +758,7 @@ func _mark_active() -> void:
 	if active_unit == null:
 		overlay.clear_active()
 		return
-	overlay.set_active(active_unit.cell, active_unit.team == Unit.Team.ENEMY)
+	overlay.set_active(active_unit.cell, active_unit.team != Unit.Team.PLAYER)
 	camera.focus_on(active_unit.position)
 
 

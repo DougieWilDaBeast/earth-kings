@@ -233,6 +233,16 @@ static func _holds(world: World, state: Dictionary, condition: Dictionary, conte
 			"standing_above":
 				if Renown.standing(world, cell) <= int(want):
 					return false
+			"notoriety_above":
+				if Renown.notoriety(world, cell) <= int(want):
+					return false
+			"tower_topped":
+				if not world.tower_topped:
+					return false
+			"lead_background":
+				var lead := GameState.roster.player()
+				if lead == null or lead.background != String(want):
+					return false
 			"tag":
 				if not has_tag(world, String(want)):
 					return false
