@@ -81,6 +81,10 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 		return "%s used %s — %s recovers %d HP." % [user.display_name, name, target.display_name, healing]
 
 	var raw := _roll(roundi(user.attack * float(ability.get("power", 1.0)) * skill))
+	# Knowing an enemy's guard from the Journal grants tactical insight into their defense.
+	if user.team == Unit.Team.PLAYER and target.team == Unit.Team.ENEMY and GameState.world != null:
+		if Journal.is_wounded(GameState.world, target.template_id):
+			raw = roundi(raw * 1.05)
 	var flank := flank_of(user.cell, target)
 	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
 	target.take_damage(damage)

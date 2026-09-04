@@ -91,6 +91,32 @@ func is_walkable(cell: Vector2i) -> bool:
 	return in_bounds(cell) and terrain_at(cell).get("walkable", true)
 
 
+## The named geographical province a coordinate falls inside.
+func region_at(cell: Vector2i) -> String:
+	if not in_bounds(cell):
+		return "The Void"
+	var t := terrain_id_at(cell)
+	if t == "snow":
+		return "The Glacial Marches" if cell.x < size.x / 2 else "The Frostpeak Waste"
+	if t == "sand":
+		return "The Ashen Waste" if cell.x < size.x / 2 else "The Sunscorched Expanse"
+	if t == "mountain" or t == "crag":
+		return "The Dragonspine Ridge"
+	if t == "ocean" or t == "lake" or t == "water":
+		return "The Mistbound Waters"
+	if t == "forest":
+		return "The Whispering Wildwood" if cell.x < size.x / 2 else "The Timberlands"
+	if t == "marsh":
+		return "The Drowned Fens"
+	if t == "hill":
+		return "The High Barrows"
+	if cell.y < size.y * 0.40:
+		return "The Northern Reaches"
+	if cell.y > size.y * 0.65:
+		return "The Southern Marches"
+	return "The Western Downs" if cell.x < size.x / 2 else "The Heartlands"
+
+
 # --- places -------------------------------------------------------------------
 
 

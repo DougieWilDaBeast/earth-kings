@@ -104,6 +104,7 @@ func _numbers(journey: Dictionary) -> Array:
 func _portrait(person: Dictionary) -> Control:
 	var block := VBoxContainer.new()
 	block.add_theme_constant_override("separation", 2)
+	block.custom_minimum_size = Vector2(140, 0)
 
 	var face := TextureRect.new()
 	face.custom_minimum_size = FACE
@@ -117,7 +118,21 @@ func _portrait(person: Dictionary) -> Control:
 	if bool(person.get("lead", false)):
 		name_line.add_theme_color_override("font_color", HEADING)
 	block.add_child(name_line)
-	block.add_child(_line("%s %d" % [person.get("job", ""), int(person.get("level", 1))], LABEL))
+	block.add_child(_line("%s L%d" % [person.get("job", ""), int(person.get("level", 1))], LABEL))
+
+	if person.has("background"):
+		block.add_child(_line(str(person["background"]), LABEL))
+	if person.has("alignment"):
+		block.add_child(_line(str(person["alignment"]), LABEL))
+	if person.has("equipment") and str(person["equipment"]) != "":
+		block.add_child(_line("Gear: %s" % str(person["equipment"]), VALUE))
+	if person.has("attack"):
+		block.add_child(_line("HP %d · ATK %d · DEF %d" % [
+			int(person.get("hp", 0)), int(person.get("attack", 0)), int(person.get("defense", 0))
+		], LABEL))
+	if int(person.get("hearth", 0)) > 0:
+		block.add_child(_line("Vigour +%d HP" % int(person["hearth"]), LIVING))
+
 	if not alive:
 		block.add_child(_line(str(person.get("status", "")), LOST))
 	return block

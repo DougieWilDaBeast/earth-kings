@@ -78,6 +78,30 @@ static func note_felled(world: World, template_id: String) -> void:
 		entry["felled"] = int(entry.get("felled", 0)) + 1
 
 
+static func is_struck(world: World, template_id: String) -> bool:
+	if world == null:
+		return false
+	return bool(_entry(world, template_id).get("struck", false))
+
+
+static func is_wounded(world: World, template_id: String) -> bool:
+	if world == null:
+		return false
+	return bool(_entry(world, template_id).get("wounded", false))
+
+
+static func is_felled(world: World, template_id: String) -> bool:
+	if world == null:
+		return false
+	return int(_entry(world, template_id).get("felled", 0)) > 0
+
+
+static func known_abilities(world: World, template_id: String) -> Array:
+	if world == null:
+		return []
+	return _entry(world, template_id).get("abilities", [])
+
+
 static func knows(world: World, template_id: String) -> bool:
 	return world.journal.has(template_id)
 

@@ -6,6 +6,7 @@ extends CanvasLayer
 signal move_requested
 signal flash_step_requested
 signal ability_requested(ability_id: String)
+signal draught_requested(item_id: String)
 signal wait_requested
 ## A command is hovered but not chosen; [param kind] is move, flash or ability.
 signal preview_requested(kind: String, ability_id: String)
@@ -65,7 +66,26 @@ func show_commands(unit: Unit) -> void:
 	_flash_button.disabled = not unit.can_flash_step()
 	_flash_button.text = "Flash Step (F)  ·  %d" % unit.flash_step
 	_rebuild_ability_buttons(unit)
+	_rebuild_draught_buttons(unit)
 	_commands.show()
+
+
+func _rebuild_draught_buttons(unit: Unit) -> void:
+	if unit.team != Unit.Team.PLAYER:
+		return
+	var draughts := Gear.draughts()
+	if draughts.is_empty():
+		return
+	var can_drink := unit.hp < unit.max_hp and unit.can_pay(Unit.Cost.BONUS)
+	for item_id: String in draughts:
+		var button := Button.new()
+		var mends := mini(Gear.mends(item_id), unit.max_hp - unit.hp)
+		button.text = "Drink %s (+%d HP)" % [Gear.display_name(item_id), mends]
+		button.tooltip_text = "Spend bonus action to recover %d HP." % mends
+		button.disabled = not can_drink
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(func() -> void: draught_requested.emit(item_id))
+		_abilities.add_child(button)
 
 
 ## The squad taking this phase, with each member's remaining action and bonus action.
@@ -114,11 +134,31 @@ func set_turn_order(order: Array[Unit]) -> void:
 
 func set_inspected(unit: Unit, terrain: Dictionary) -> void:
 	if unit != null:
-		_inspect_label.text = "%s (%s)  HP %d/%d  ATK %d  DEF %d  MOV %d  JMP %d%s" % [
-			unit.display_name, unit.job, unit.hp, unit.max_hp,
-			unit.attack, unit.defense, unit.move_points, unit.jump,
-			"" if unit.weapon.is_empty() else "  ·  " + str(unit.weapon.get("display_name", ""))
-		]
+		if unit.team == Unit.Team.ENEMY and GameState.world != null:
+			var world := GameState.world
+			var tid := unit.template_id
+			var hp_str := "%d/%d" % [unit.hp, unit.max_hp] if Journal.is_felled(world, tid) else "%d/?" % unit.hp
+			var atk_str := str(unit.attack) if Journal.is_struck(world, tid) else "?"
+			var def_str := str(unit.defense) if Journal.is_wounded(world, tid) else "?"
+			var known_abils := Journal.known_abilities(world, tid)
+			var abil_summary := ""
+			if not known_abils.is_empty():
+				var names: Array[String] = []
+				for aid: String in known_abils:
+					names.append(Database.ability(aid).get("display_name", aid))
+				abil_summary = "  ·  Known: " + ", ".join(names)
+			_inspect_label.text = "%s (%s)  HP %s  ATK %s  DEF %s  MOV %d  JMP %d%s%s" % [
+				unit.display_name, unit.job, hp_str, atk_str, def_str,
+				unit.move_points, unit.jump,
+				"" if unit.weapon.is_empty() else "  ·  " + str(unit.weapon.get("display_name", "")),
+				abil_summary
+			]
+		else:
+			_inspect_label.text = "%s (%s)  HP %d/%d  ATK %d  DEF %d  MOV %d  JMP %d%s" % [
+				unit.display_name, unit.job, unit.hp, unit.max_hp,
+				unit.attack, unit.defense, unit.move_points, unit.jump,
+				"" if unit.weapon.is_empty() else "  ·  " + str(unit.weapon.get("display_name", ""))
+			]
 	elif not terrain.is_empty():
 		_inspect_label.text = "%s  ·  move cost %d  ·  height %d" % [
 			terrain.get("name", "Terrain"),

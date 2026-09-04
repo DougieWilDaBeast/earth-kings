@@ -206,12 +206,16 @@ func _step(direction: Vector2i) -> void:
 		return
 
 	var was_at_the_tower := _standing_at_the_tower()
+	var prior_region := world.region_at(world.player_cell)
 	# Leaving the tile you were offered something on is how you turn it down.
 	if _roadside_here != "":
 		for line: String in Roadside.walk_by(world, world.player_cell, _roadside_here):
 			_note(line)
 		_roadside_here = ""
 	world.player_cell = target
+	var current_region := world.region_at(target)
+	if current_region != prior_region:
+		_note("Entering %s." % current_region)
 	if was_at_the_tower and not _standing_at_the_tower():
 		_carry_the_hoard_out()
 	_captive_here = null
@@ -1027,9 +1031,10 @@ func _note(line: String) -> void:
 func _refresh() -> void:
 	_follow_party()
 	var site := world.site_at(world.player_cell)
+	var region: String = world.region_at(world.player_cell)
 	var where: String = site.label() if site != null else world.terrain_at(world.player_cell).get("name", "open ground")
-	_place.text = "%s  ·  %s  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
-		where, str(world.player_cell), GameState.gold, world.steps, world.prowlers.size()
+	_place.text = "%s  ·  %s  ·  %s  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
+		where, region, str(world.player_cell), GameState.gold, world.steps, world.prowlers.size()
 	]
 
 	var entries: Array[String] = []

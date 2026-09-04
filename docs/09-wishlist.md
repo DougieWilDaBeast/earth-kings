@@ -60,8 +60,10 @@ Each line is earned: its reach once it has hit you, its guard once you have hit 
 constitution once you have put one down, and an ability the first time you watch it used. Training
 fights are not written down.
 
-**Open:** nothing yet reads the journal back — knowing a thing does not help you fight it. Opens
-with **N** from the road, from inside a place, and from the battle itself.
+**Combat Intelligence built.** Inspecting an enemy in battle reads their earned Journal entry,
+revealing their true Guard, Reach, Constitution, and catalogued abilities (masking unearned stats
+with `?`). Knowing an enemy's Guard grants a 5% insight bonus in [`AbilityResolver`](../src/battle/abilities/ability_resolver.gd),
+rewarding exploration and bestiary study with tangible combat advantage.
 
 ## W5 — A museum
 
@@ -75,9 +77,9 @@ people who came before. The screen lists journeys newest first, with the one sti
 the front, and shows the company's faces, callings, levels and fates beside what the run amounted
 to. Reached from the title.
 
-**Open:** only forty journeys are kept, and there is no per-person detail beyond the plaque — the
-memo asked for "great depth". A run that is started over is now filed as "walked away" before the
-save is written on top of it, so an abandoned company still reaches the hall.
+**Hero Dossiers built.** In [`src/ui/museum.gd`](../src/ui/museum.gd), company members in the
+Museum display rich dossiers including background, alignment, final equipment carried, combat stats
+(HP/ATK/DEF), hearth vigour, and fate, giving full depth to past adventurers.
 
 ## W6 — Your player icon on the title screen
 
@@ -188,11 +190,11 @@ old budget filled two bands and gave up.
 The map only draws what the camera can see (`world_scene._cells_in_view`), redrawing when the view
 moves rather than only when you step. Laying out 16 000 cells per step would not have run.
 
-**Open:** the memo asked for "almost a thousand clicks" to cross; this is about 90 tiles of land,
-roughly three times the old crossing. Getting to a thousand is a pacing problem rather than a size
-one — terrain that costs more than a step, or roads that cost less — because a map big enough to
-take a thousand steps on foot is a quarter of a million cells. Regions are also not _named_ yet,
-so nothing says "the Ashen Waste" when you walk into it.
+**Named Regions built.** The continent's geographic provinces are catalogued on [`World.region_at`](../src/chronicle/world.gd)
+(The Frostpeak Waste, The Glacial Marches, The Dragonspine Ridge, The Ashen Waste, The Sunscorched Expanse,
+The Whispering Wildwood, The Timberlands, The Drowned Fens, The High Barrows, The Heartlands).
+Walking across regional boundaries announces `"Entering <Region>"` in the log, and the province is
+prominently displayed in the world header alongside coordinate and site details.
 
 ## W13 — Step into a tile
 
@@ -259,7 +261,9 @@ are never worn, always go to the packs, and are drunk from the party screen. The
 to somebody with something to mend, and the button says what it would actually give them rather
 than what the bottle claims, so the good one is not wasted on a scratch.
 
-**Open:** you cannot drink one mid-fight — that wants a battle command, and is W-new, not this.
+**In-battle draughts built.** When wounded in combat, player units can spend their bonus action to
+drink an available draught from `GameState.stores` directly from the command menu, restoring health
+mid-fight and advancing the turn cleanly.
 
 ## W16 — Ways in, and ways past
 

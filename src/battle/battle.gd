@@ -122,6 +122,7 @@ func _connect_hud() -> void:
 	hud.move_requested.connect(_on_move_requested)
 	hud.flash_step_requested.connect(_on_flash_step_requested)
 	hud.ability_requested.connect(_on_ability_requested)
+	hud.draught_requested.connect(_on_draught_requested)
 	hud.wait_requested.connect(_on_wait_requested)
 	hud.preview_requested.connect(_on_preview_requested)
 	hud.preview_cleared.connect(_on_preview_cleared)
@@ -331,6 +332,29 @@ func _on_ability_requested(ability_id: String) -> void:
 	)
 	overlay.queue_redraw()
 	phase = Phase.PICK_TARGET
+
+
+func _on_draught_requested(item_id: String) -> void:
+	if not _is_choosing() or active_unit == null or active_unit.team != Unit.Team.PLAYER:
+		return
+	if not active_unit.can_pay(Unit.Cost.BONUS):
+		return
+	if not GameState.stores.has(item_id) or not Gear.is_draught(item_id):
+		return
+	if active_unit.hp >= active_unit.max_hp:
+		return
+
+	active_unit.pay(Unit.Cost.BONUS)
+	GameState.stores.erase(item_id)
+	var before := active_unit.hp
+	active_unit.heal(Gear.mends(item_id))
+	if active_unit.character != null:
+		active_unit.character.hp = active_unit.hp
+	var healed := active_unit.hp - before
+	EventBus.battle_log.emit("%s drinks %s and mends %d HP." % [
+		active_unit.display_name, Gear.display_name(item_id), healed
+	])
+	_advance_selection()
 
 
 ## Drop whatever was armed before, so picking a second command replaces the first

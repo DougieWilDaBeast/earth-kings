@@ -104,6 +104,7 @@ static func the_named() -> Array:
 
 
 static func _portrait(character: Character) -> Dictionary:
+	var weapon_text := Gear.display_name(character.equipment) if character.equipment != "" else str(character.template().get("weapon", "unarmed"))
 	return {
 		"name": character.display_name,
 		"template_id": character.template_id,
@@ -113,4 +114,11 @@ static func _portrait(character: Character) -> Dictionary:
 		"lead": character.is_player,
 		"hearth": character.hearth,
 		"doctrine": character.doctrine.size(),
+		"background": character.background_display(),
+		"alignment": character.alignment_display(),
+		"equipment": weapon_text,
+		"hp": character.max_hp(),
+		"attack": character.attack(),
+		"defense": character.defense(),
+		"trees": character.trees.size(),
 	}
