@@ -347,6 +347,13 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			]
 			block.add_child(rung_line)
 		out.append(block)
+
+	if character.trees.size() == 1 and character.level < Progression.SECOND_TREE_LEVEL:
+		var next_hint := Label.new()
+		next_hint.add_theme_color_override("font_color", Color(0.5, 0.52, 0.56))
+		next_hint.text = "Powers: a second path uncovers at level %d." % Progression.SECOND_TREE_LEVEL
+		out.append(next_hint)
+
 	return out
 
 

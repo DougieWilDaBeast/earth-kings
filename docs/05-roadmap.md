@@ -62,6 +62,7 @@ previous milestone demonstrably works.
 - A reason to stop: a floor's gold goes into `world.tower_hoard`, not the purse. It is banked by
   walking off the Tower and lost by losing a floor, so every extra climb is a decision about what
   you are already carrying ✅
+- The Spire Apex: Floor 10 climax battle, hoard claiming, ascension vigour, and conclusion in the Museum ([D25](06-decisions.md)) ✅
 
 ## M7 — The Library and doctrine — SHIPPED
 

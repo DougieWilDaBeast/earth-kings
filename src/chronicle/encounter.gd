@@ -214,6 +214,16 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	var pool: Array = Database.encounters.get("tower", ["goblin"])
 	var level := 2 + floor_number * 2
 	var count := clampi(2 + floor_number / 3, 2, 4)
+	if floor_number >= world.tower_floors():
+		var apex_bosses := ["dirte", "wraith", "element_monk", "emo_swordsman"]
+		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
+		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2) }]
+		var minions: Array = _pick(pool, 3, level, rng)
+		enemies.append_array(minions)
+		return _build(
+			world, site.cell, TOWER, enemies, rng,
+			"The Spire Apex — Floor %d (Final Battle)" % floor_number
+		)
 	return _build(
 		world, site.cell, TOWER, _pick(pool, count, level, rng), rng,
 		"Floor %d." % floor_number

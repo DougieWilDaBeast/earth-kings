@@ -352,11 +352,18 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
+				var hoard := world.tower_hoard
+				world.tower_hoard = 0
+				GameState.gold += hoard
 				Renown.record(
 					world, Renown.TOWER_TOPPED, cell,
-					int(Renown.rules().get("tower_topped", 8)), "somebody reached the top of the Tower"
+					int(Renown.rules().get("tower_topped", 8)) * 2,
+					"the company conquered the pinnacle of the Tower"
 				)
-				_note("There are no more floors above you.")
+				_note("The clouds part over the continent. You stand atop the conquered Tower! %d gold claimed from the hoard." % hoard)
+				for hero: Character in party:
+					hero.hearth += 8
+				_celebrate_tower_conquest()
 		"siege":
 			if site == null:
 				return
@@ -380,6 +387,19 @@ func _settle_up(won: bool) -> void:
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 	_map.queue_redraw()
 	_refresh()
+
+
+func _celebrate_tower_conquest() -> void:
+	var lead := GameState.roster.player()
+	var who: String = lead.display_name if lead != null else "The company"
+	var lines: Array = [
+		"%s stands upon the highest stone in Earth Kings." % who,
+		"The ten floors of the Spire have fallen. The wind over the sea is clear.",
+		"Press E on the Tower to conclude this journey in the Museum, or walk on as an ascended champion."
+	]
+	for line: String in lines:
+		_note(line)
+	EventBus.conversation_requested.emit(_as_conversation(lines))
 
 
 # --- places -------------------------------------------------------------------
@@ -608,6 +628,8 @@ func _prompt() -> String:
 	if site != null:
 		if site.kind == Site.HOME:
 			return _home_prompt(site)
+		if site.kind == Site.TOWER and world.tower_topped:
+			return "E to ascend the throne of the Tower (Conclude Journey)  ·  walk on to keep exploring"
 		var parts: Array[String] = []
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
@@ -763,6 +785,11 @@ func _area_here() -> String:
 
 func _walk_into_site() -> void:
 	var site := world.site_at(world.player_cell)
+	if site != null and site.kind == Site.TOWER and world.tower_topped:
+		_busy = true
+		_note("The company ascends the throne of the Tower, their legend etched into the stones.")
+		EventBus.request_scene.emit("summary", { "ending": Museum.CONQUERED })
+		return
 	if site != null and site.data.has("ward") and not Ward.is_site_open(site):
 		var attempt := Ward.force_site(site, GameState.party_characters())
 		if not attempt.get("opened", false):

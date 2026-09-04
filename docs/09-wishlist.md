@@ -310,8 +310,10 @@ field still take theirs in order, so `raise_quietly` on a scratch enemy is untou
 character deciding for himself is the "sense of intelligence" the memo asked for. An unspent power
 does nothing, so the world hint bar says who is owed one until it is gone.
 
-**Open:** with one tree the choice is only _when_, not _which_ — the fork opens at level 10 when
-the second tree arrives.
+**Forking built.** At level 10 a character uncovers their second generated skill tree from their
+class themes (`Progression.SECOND_TREE_LEVEL`), picking a distinct unheld theme when available.
+Earned power rungs can then be invested into whichever branch the player chooses, giving a real
+fork in character development.
 
 ## W18 — Backgrounds, origins and alignment
 

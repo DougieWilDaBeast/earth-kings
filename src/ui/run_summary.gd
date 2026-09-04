@@ -18,7 +18,8 @@ func _ready() -> void:
 	var world: World = GameState.world
 	var roster: Roster = GameState.roster
 	# The save is about to be started over; the hall is where these people keep.
-	Museum.remember(world, roster, GameState.ledger, Museum.FELL)
+	var ending: String = str(boot_payload.get("ending", Museum.CONQUERED if (world != null and world.tower_topped) else Museum.FELL))
+	Museum.remember(world, roster, GameState.ledger, ending)
 	_epitaph.text = Ledger.epitaph(world, roster, GameState.ledger)
 	for chapter: Dictionary in Ledger.chapters(world, roster, GameState.ledger):
 		_chapters.add_child(_chapter_block(chapter))

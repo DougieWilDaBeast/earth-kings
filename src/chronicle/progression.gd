@@ -100,7 +100,14 @@ static func settle_class(character: Character, class_id: String) -> bool:
 static func unlock_tree(character: Character, world: World, theme: String = "") -> Array:
 	var themes := AbilityGrammar.themes_for(character)
 	if theme == "" or not can_craft(world):
-		theme = themes[world.rng.randi() % themes.size()]
+		var existing_themes: Array = []
+		for tid: String in character.trees:
+			var t := world.tree(tid)
+			if t.has("theme"):
+				existing_themes.append(t["theme"])
+		var unused := themes.filter(func(th: String) -> bool: return th not in existing_themes)
+		var pool := unused if not unused.is_empty() else themes
+		theme = pool[world.rng.randi() % pool.size()]
 	var tree := AbilityGrammar.generate_tree(theme, world.rng, world.codex_understanding())
 	world.register_tree(tree)
 	character.trees.append(tree["id"])

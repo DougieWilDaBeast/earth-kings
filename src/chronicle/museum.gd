@@ -15,6 +15,7 @@ const KEEP := 40
 
 const FELL := "fell"
 const WALKED_AWAY := "walked away"
+const CONQUERED := "conquered the Tower"
 
 
 ## Newest first.

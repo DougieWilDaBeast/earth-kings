@@ -76,13 +76,14 @@ static func nemesis(ledger: Dictionary) -> String:
 
 ## The run in the order you would tell it: `{ title, rows: [[label, value]] }`.
 static func chapters(world: World, roster: Roster, ledger: Dictionary) -> Array:
+	var tower_text := "%d of %d (Conquered!)" % [world.tower_floor, world.tower_floors()] if world.tower_topped else "%d of %d" % [world.tower_floor, world.tower_floors()]
 	return [
 		{
 			"title": "The road",
 			"rows": [
 				["Steps walked", str(world.steps)],
 				["Places stood in", str(_places(ledger).size())],
-				["Tower floors climbed", "%d of %d" % [world.tower_floor, world.tower_floors()]],
+				["Tower floors climbed", tower_text],
 				["Deeds worth repeating", str(world.deeds.size())],
 			],
 		},
@@ -131,6 +132,10 @@ static func chapters(world: World, roster: Roster, ledger: Dictionary) -> Array:
 static func epitaph(world: World, roster: Roster, ledger: Dictionary) -> String:
 	var lead := roster.player()
 	var who: String = lead.display_name if lead != null else "The company"
+	if world != null and world.tower_topped:
+		return "%s conquered the ten floors of the Tower, taking %d gold and overcoming %d foes." % [
+			who, count(ledger, "gold_earned"), count(ledger, "kills")
+		]
 	return "%s walked %d steps, took %d gold, and put down %d of what was waiting." % [
 		who, world.steps, count(ledger, "gold_earned"), count(ledger, "kills")
 	]
