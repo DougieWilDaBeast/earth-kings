@@ -36,7 +36,7 @@ color and lighting while focusing the eye on the title and moving characters.
 > party versus party versus party versus party. You gain rewards for it. A separate system to the
 > Earth Kings main storyline.
 
-**Built, minus the free-for-all.** [`Arena`](../src/chronicle/arena.gd) +
+**Built, including multi-party free-for-all.** [`Arena`](../src/chronicle/arena.gd) +
 [`src/coliseum/`](../src/coliseum/), reached from the title. Pick who goes out and which card they
 face, then fight waves that grow in number and level. The purse compounds; you can stop between
 rounds and bank it, or push on and lose it. `user://earth-kings.arena.json` keeps the best night
@@ -47,9 +47,9 @@ gives it back, and wounds carry between rounds without anybody actually dying.
 Standard Bout (1.0×), Blood Wager (1.5×), and High Stakes (2.0× purse multiplier), multiplying round
 payouts and high-score purse records on `user://earth-kings.arena.json`.
 
-**Open:** party versus party versus party is not there. `Unit.Team` is a two-value enum, so more
-than two sides is a real change to `Battle`, `TurnManager` and `EnemyBrain` rather than a data
-edit. Cards are fixed lists.
+**Free-for-all built.** `Unit.Team` supports multi-faction engagements (`PLAYER`, `ENEMY`, `ENEMY_B`,
+`ENEMY_C`), and [`the_grand_melee`](../data/coliseum.json) pits three rival cohorts against each
+other and the player simultaneously in a 3-way free-for-all brawl on the sand.
 
 ## W4 — A journal
 
@@ -108,10 +108,11 @@ title track of its own is still wanted.
 > continuous running scene where they are just running, fighting opponents and running again. A
 > nice little addition to break up the bleakness of the title screen.
 
-**Built, partly.** [`TitleParade`](../src/ui/title_parade.gd) runs the saved party across the foot
-of the title screen, behind the menu, and the founders when there is no save. Only `sworn_blade`
-has a `run` cycle so far (`art/units/<id>/run/<direction>/frame_NNN.png`, eight frames); anyone
-without one keeps their standing pose. The fighting-and-running-again loop is not there.
+**Built.** [`TitleParade`](../src/ui/title_parade.gd) runs the saved party across the foot
+of the title screen, behind the menu, and the founders when there is no save. The fighting-and-running-again
+combat loop is fully implemented: opposing monster tokens (`goblin`, `wolf`, `slime`, `brigand`, `ogre`)
+stride westward across the bottom line. When heroes collide with them, a strike flash fires, the monster
+recoils and fades down, and the party continues their unbroken march across the screen.
 
 ## W9 — A sound when you hover the title options
 
