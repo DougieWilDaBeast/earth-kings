@@ -27,6 +27,13 @@
 			"gold": 120
 		}
 	],
+	"props": [
+		{ "art": "nature/ivy", "cell": [1, 2] },
+		{ "art": "nature/clover_2", "cell": [3, 10] },
+		{ "art": "nature/mushrooms_cluster", "cell": [6, 12] },
+		{ "art": "nature/snail", "cell": [11, 14] },
+		{ "art": "nature/grasshopper", "cell": [14, 4] }
+	],
 	"buildings": [
 		{
 			"name": "the Drowned Bell",

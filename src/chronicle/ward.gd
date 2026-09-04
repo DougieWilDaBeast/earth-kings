@@ -20,8 +20,18 @@ static func flag_for(area_id: String, cell: Vector2i) -> String:
 	return "ward:%s:%d,%d" % [area_id, cell.x, cell.y]
 
 
+static func site_flag_for(site_cell: Vector2i) -> String:
+	return "ward:site:%d,%d" % [site_cell.x, site_cell.y]
+
+
 static func is_open(area_id: String, cell: Vector2i) -> bool:
 	return GameState.has_flag(flag_for(area_id, cell))
+
+
+static func is_site_open(site: Site) -> bool:
+	if site == null or not site.data.has("ward"):
+		return true
+	return GameState.has_flag(site_flag_for(site.cell))
 
 
 ## Who in the party could open this, and with what. Returns an empty dictionary
@@ -51,6 +61,20 @@ static func force(area_id: String, ward: Dictionary, party: Array) -> Dictionary
 		return { "opened": false, "line": _denied(ward) }
 
 	GameState.set_flag(flag_for(area_id, cell))
+	return { "opened": true, "line": _opened(ward, found) }
+
+
+## Try to breach or unlock a world site's ward.
+static func force_site(site: Site, party: Array) -> Dictionary:
+	var ward: Dictionary = site.data.get("ward", {})
+	if ward.is_empty() or is_site_open(site):
+		return { "opened": true, "line": "" }
+
+	var found := answer(ward, party)
+	if found.is_empty():
+		return { "opened": false, "line": _denied(ward) }
+
+	GameState.set_flag(site_flag_for(site.cell))
 	return { "opened": true, "line": _opened(ward, found) }
 
 

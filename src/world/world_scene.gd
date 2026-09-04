@@ -156,6 +156,8 @@ func _auto_errand() -> Vector2i:
 			continue
 		if Pace.avoided.has(site.cell):
 			continue
+		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
+			continue
 		var reach := Pathfinder.distance(site.cell, world.player_cell)
 		if reach < best:
 			best = reach
@@ -487,6 +489,13 @@ func _enter_gate(site: Site) -> void:
 	if site.cleared:
 		_note("%s is shut for good." % site.display_name)
 		return
+	if site.data.has("ward") and not Ward.is_site_open(site):
+		var attempt := Ward.force_site(site, GameState.party_characters())
+		if not attempt.get("opened", false):
+			_note(attempt.get("line", "%s is sealed." % site.display_name))
+			return
+		if attempt.get("line", "") != "":
+			_note(attempt["line"])
 	if not site.open:
 		_note("%s is shut." % site.label())
 		return
@@ -600,6 +609,9 @@ func _prompt() -> String:
 		if site.kind == Site.HOME:
 			return _home_prompt(site)
 		var parts: Array[String] = []
+		if site.data.has("ward") and not Ward.is_site_open(site):
+			var ward: Dictionary = site.data.get("ward", {})
+			parts.append("E to challenge %s" % str(ward.get("name", site.display_name)))
 		if Town.is_threatened(site):
 			parts.append("V to drive them out of %s" % site.display_name)
 		elif Town.is_settlement(site) and not Town.is_ruined(site):
@@ -751,6 +763,13 @@ func _area_here() -> String:
 
 func _walk_into_site() -> void:
 	var site := world.site_at(world.player_cell)
+	if site != null and site.data.has("ward") and not Ward.is_site_open(site):
+		var attempt := Ward.force_site(site, GameState.party_characters())
+		if not attempt.get("opened", false):
+			_note(attempt.get("line", "%s is sealed." % site.display_name))
+			return
+		if attempt.get("line", "") != "":
+			_note(attempt["line"])
 	var area_id := _area_here()
 	if area_id == "":
 		# Most places on the map have no inside yet. Say so, rather than

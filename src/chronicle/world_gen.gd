@@ -158,6 +158,7 @@ static func _place_sites(world: World) -> void:
 	_deal_areas(world)
 	_rank_gates(world)
 	_deal_factions(world)
+	_deal_wards(world)
 	_place_home(world)
 
 
@@ -168,6 +169,24 @@ static func _deal_areas(world: World) -> void:
 		var sites := world.sites_of_kind(kind)
 		for i in sites.size():
 			sites[i].data["area"] = pool[i % pool.size()]
+
+
+## High-rank gates and remote fortresses can be warded by ancient seals,
+## asking for a key found in a keep or a specific elemental ability to breach.
+static func _deal_wards(world: World) -> void:
+	var s_gates: Array[Site] = []
+	for site: Site in world.sites_of_kind(Site.GATE):
+		if site.rank == "S":
+			s_gates.append(site)
+	if not s_gates.is_empty():
+		var gate: Site = s_gates[world.rng.randi() % s_gates.size()]
+		gate.data["ward"] = {
+			"name": "the Dread Arch",
+			"ability": "ember",
+			"key": "gate_key",
+			"denied": "The Dread Arch is bound in ancient frost. It would take Ember or the Warden's Key to open.",
+			"opened": "The ancient frost shatters, clearing the Dread Arch."
+		}
 
 
 static func _shuffle(items: Array, rng: RandomNumberGenerator) -> void:

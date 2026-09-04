@@ -32,7 +32,12 @@
 		{ "art": "crystal_ball", "cell": [7, 7] },
 		{ "art": "camp/fire_logs", "cell": [3, 7] },
 		{ "art": "village/log_pile", "cell": [11, 7] },
-		{ "art": "village/trough", "cell": [3, 3] }
+		{ "art": "village/trough", "cell": [3, 3] },
+		{ "art": "nature/mushrooms_shelf", "cell": [12, 4] },
+		{ "art": "nature/mushrooms_tall", "cell": [10, 2] },
+		{ "art": "nature/hazel_bush", "cell": [2, 4] },
+		{ "art": "nature/spider", "cell": [11, 6] },
+		{ "art": "nature/snail", "cell": [4, 8] }
 	],
 	"people": [
 		{

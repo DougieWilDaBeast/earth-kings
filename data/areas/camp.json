@@ -21,7 +21,12 @@
 		{ "art": "village/crates", "cell": [11, 3] },
 		{ "art": "camp/fire_shelter", "cell": [3, 6] },
 		{ "art": "brazier", "cell": [5, 2] },
-		{ "art": "brazier", "cell": [9, 2] }
+		{ "art": "brazier", "cell": [9, 2] },
+		{ "art": "nature/mushrooms_red", "cell": [1, 2] },
+		{ "art": "nature/mushrooms_cluster", "cell": [13, 8] },
+		{ "art": "nature/clover", "cell": [2, 8] },
+		{ "art": "nature/hazel_bush", "cell": [13, 2] },
+		{ "art": "nature/briar_bush", "cell": [2, 2] }
 	],
 	"chests": [
 		{

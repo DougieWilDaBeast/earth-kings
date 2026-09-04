@@ -34,7 +34,13 @@
 		{ "art": "street_lamp", "cell": [13, 9] },
 		{ "art": "stone_bench", "cell": [10, 7] },
 		{ "art": "potted_plant", "cell": [14, 7] },
-		{ "art": "coin_pile", "cell": [6, 4] }
+		{ "art": "coin_pile", "cell": [6, 4] },
+		{ "art": "nature/rose_bush", "cell": [2, 1] },
+		{ "art": "nature/sycamore_tree", "cell": [1, 1] },
+		{ "art": "nature/clover", "cell": [3, 2] },
+		{ "art": "nature/mushrooms", "cell": [4, 1] },
+		{ "art": "nature/butterfly", "cell": [12, 12] },
+		{ "art": "nature/jay_bird", "cell": [17, 10] }
 	],
 	"buildings": [
 		{

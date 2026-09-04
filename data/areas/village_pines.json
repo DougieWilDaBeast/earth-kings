@@ -27,6 +27,14 @@
 			"gold": 130
 		}
 	],
+	"props": [
+		{ "art": "nature/holly_tree", "cell": [1, 0] },
+		{ "art": "nature/holly_tree_2", "cell": [2, 0] },
+		{ "art": "nature/briar_bush_2", "cell": [1, 13] },
+		{ "art": "nature/mushrooms", "cell": [3, 14] },
+		{ "art": "nature/irish_bird", "cell": [10, 5] },
+		{ "art": "village/log_pile", "cell": [7, 8] }
+	],
 	"buildings": [
 		{
 			"name": "the Sawyer's Rest",

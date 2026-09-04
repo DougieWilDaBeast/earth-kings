@@ -276,7 +276,12 @@ door you cannot read is just a wall. Once opened it stays opened, on a flag.
 Live example: the gate interior has an iron grate across the arch with a rich chest behind it,
 opened by **Crush** or by the warden's key, which is in a footlocker in a keep. Keys come out of
 chests (`"key": "gate_key"`) and weigh nothing.
-**Open:** nothing in _world_ mode is warded yet — a site you cannot enter until you find the way.
+
+**Built for world mode.** [`Ward`](../src/chronicle/ward.gd) now supports sites (`Ward.force_site`,
+`Ward.is_site_open`). Remote S-rank gates (such as the Dread Arch) are sealed in ancient frost,
+breached only by **Ember** or the Warden's Key found in an ancient keep. Once breached, the site
+stays open for good on flag `ward:site:<x>,<y>`. Auto-pace recognizes sealed sites and will not
+fruitlessly walk into them until the party holds the means to breach them.
 
 ## W17 — A real skill tree
 
