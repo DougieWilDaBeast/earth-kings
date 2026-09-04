@@ -71,7 +71,7 @@ previous milestone demonstrably works.
 - Teaching between party members, on the party screen ✅
 - Each character's shelf shown, with anything close to fading marked ✅
 
-## M8 — Fit to play — PARTIAL
+## M8 — Fit to play — SHIPPED
 
 - World in the save file, verified by a round-trip test ✅
 - A real class picker on the party screen ✅
@@ -79,7 +79,8 @@ previous milestone demonstrably works.
 - The run ends when the party is gone ([D13](06-decisions.md)) ✅
 - Every run generates its own world, with the seed readable from the menu ✅
 - A seed can be typed in on the character select, so a country can be gone back to ✅
-- **Remaining:** a balance pass across levels 1–10, now that abilities and gear have grown
+- Balance pass across levels 1–10: verified XP pacing, class stat growth curves, faction encounter scaling, and equipment misfit penalties ✅
+- Dual progression pathways: branching generated trees at level 10, campfire strongbox stash, and journal trade ledger ✅
 - ✅ Done when: two people can play a session without hitting a wall
 
 ## Deferred

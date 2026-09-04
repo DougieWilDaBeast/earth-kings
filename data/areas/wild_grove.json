@@ -1,0 +1,70 @@
+{
+	"display_name": "the ancient grove",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the path out is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#7f9e80",
+	"spawn": [7, 10],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 5], "line": "A ring of ancient mossy boulders, resting undisturbed beneath the high boughs." },
+		{ "cell": [3, 4], "line": "Sunlight breaks through the canopy in quiet shafts of amber light." },
+		{ "cell": [11, 4], "line": "A crystal spring bubbling from the limestone rock into a clear pool." }
+	],
+	"chests": [
+		{
+			"cell": [7, 3],
+			"line": "A stone cache nestled among deep roots, sealed against rain.",
+			"art": "chest_crystal",
+			"gold": 120,
+			"item": "black_feather"
+		}
+	],
+	"props": [
+		{ "art": "nature/sycamore_tree", "cell": [1, 2] },
+		{ "art": "nature/sycamore_tree_2", "cell": [13, 2] },
+		{ "art": "nature/holly_tree", "cell": [2, 8] },
+		{ "art": "nature/holly_tree_2", "cell": [12, 8] },
+		{ "art": "nature/rose_bush", "cell": [4, 4] },
+		{ "art": "nature/rose_bush_2", "cell": [10, 4] },
+		{ "art": "nature/mushrooms_cluster", "cell": [4, 7] },
+		{ "art": "nature/mushrooms_red", "cell": [10, 7] },
+		{ "art": "nature/clover", "cell": [6, 6] },
+		{ "art": "nature/clover_2", "cell": [8, 6] },
+		{ "art": "nature/jay_bird", "cell": [5, 2] },
+		{ "art": "nature/butterfly_blue", "cell": [9, 3] },
+		{ "art": "crystal_ball", "cell": [7, 4] }
+	],
+	"people": [
+		{
+			"name": "Oakwarden Bramble",
+			"unit": "tree_sentinel",
+			"cell": [7, 6],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"The roots run deeper than the stone castles above.",
+				"Rest your boots here a moment, traveller. The road will wait.",
+				"Birds nested in my branches twice this spring."
+			]
+		}
+	],
+	"rows": [
+		"mmmm.......mmmm",
+		"mmm.........mmm",
+		"mm...,,,,,...mm",
+		"m...,,,,,,,...m",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"....,,,,,,,....",
+		"mm...,,,,,...mm",
+		"mmm....,,...mmm",
+		"mmmm...,,..mmmm",
+		"mmmm...,,..mmmm"
+	]
+}

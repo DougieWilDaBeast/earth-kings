@@ -102,7 +102,9 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 		]
 	else:
 		enemies = _pick(pool, clampi(2 + Site.rank_index(site.rank) / 2, 2, 4), level, rng)
-		title = "%s, deeper in." % site.display_name
+		title = "%s, floor %d (%s)." % [
+			site.display_name, depth + 1, Faction.display_name(faction)
+		]
 
 	return _build(world, site.cell, GATE, enemies, rng, title)
 
@@ -210,10 +212,26 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.
+## Each tier of floors fields a cohesive faction garrison rather than random mobs.
 static func for_tower(world: World, site: Site, floor_number: int, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var pool: Array = Database.encounters.get("tower", ["goblin"])
 	var level := 2 + floor_number * 2
 	var count := clampi(2 + floor_number / 3, 2, 4)
+
+	# Faction theme rotates by floor tiers: lower floors Ooze/Wild, mid floors Dusk/Broken Oath/Ember, high floors Bamboo/Heart Empire
+	var faction_tier: String
+	if floor_number <= 3:
+		faction_tier = ["the_ooze", "the_wild"][floor_number % 2]
+	elif floor_number <= 6:
+		faction_tier = ["the_dusk", "broken_oath", "ember_wilds"][(floor_number - 4) % 3]
+	elif floor_number <= 9:
+		faction_tier = ["bamboo_court", "heart_empire", "the_dusk"][(floor_number - 7) % 3]
+	else:
+		faction_tier = "heart_empire"
+
+	var pool := Faction.pool(faction_tier, level)
+	if pool.is_empty():
+		pool = Database.encounters.get("tower", ["goblin"])
+
 	if floor_number >= world.tower_floors():
 		var apex_bosses := ["dirte", "wraith", "element_monk", "emo_swordsman"]
 		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
@@ -224,9 +242,12 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 			world, site.cell, TOWER, enemies, rng,
 			"The Spire Apex — Floor %d (Final Battle)" % floor_number
 		)
+
+	var enemies := _pick(pool, count, level, rng)
+	var faction_name := Faction.display_name(faction_tier)
 	return _build(
-		world, site.cell, TOWER, _pick(pool, count, level, rng), rng,
-		"Floor %d." % floor_number
+		world, site.cell, TOWER, enemies, rng,
+		"Floor %d — Cohort of %s." % [floor_number, faction_name]
 	)
 
 
