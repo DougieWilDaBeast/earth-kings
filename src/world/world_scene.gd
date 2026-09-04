@@ -323,6 +323,8 @@ func _settle_up(won: bool) -> void:
 	GameState.pending_outcome = {}
 	if outcome.is_empty():
 		return
+	for notice: String in Skein.on_battle(world, { "victory": won, "kind": str(outcome.get("kind", "")) }):
+		_note(notice)
 	if not won:
 		_note(str(outcome.get("lost", "You came away with nothing.")))
 		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
@@ -354,6 +356,10 @@ func _settle_up(won: bool) -> void:
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
 				_note(line)
+			# Tower ascents take time in the outside world: each floor advances one upkeep interval
+			world.steps += World.UPKEEP_INTERVAL
+			for notice: String in world._upkeep():
+				_note(notice)
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
 				var hoard := world.tower_hoard

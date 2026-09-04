@@ -13,6 +13,7 @@ const FETCH := "fetch"
 const DELIVER := "deliver"
 const CULL := "cull"
 const LOOK := "look"
+const BOUNTY := "bounty"
 
 
 static func rules() -> Dictionary:
@@ -77,19 +78,19 @@ static func on_arrive(accepted: Array, cell: Vector2i, world: World) -> Array[St
 	return lines
 
 
-## Count a kill towards any cull that wants it.
+## Count a kill towards any cull or bounty that wants it.
 static func record_kill(accepted: Array, template_id: String) -> void:
 	for errand: Dictionary in accepted:
-		if errand.get("kind", "") != CULL or errand.get("target", "") != template_id:
-			continue
-		errand["done"] = int(errand.get("done", 0)) + 1
+		var kind: String = errand.get("kind", "")
+		if (kind == CULL or kind == BOUNTY) and errand.get("target", "") == template_id:
+			errand["done"] = int(errand.get("done", 0)) + 1
 
 
 static func is_complete(errand: Dictionary) -> bool:
 	match errand.get("kind", FETCH):
 		FETCH:
 			return bool(errand.get("reached", false))
-		CULL:
+		CULL, BOUNTY:
 			return int(errand.get("done", 0)) >= int(errand.get("count", 1))
 	return false
 
@@ -123,6 +124,8 @@ static func progress(errand: Dictionary) -> String:
 	match errand.get("kind", FETCH):
 		CULL:
 			return "%d of %d" % [int(errand.get("done", 0)), int(errand.get("count", 1))]
+		BOUNTY:
+			return "claimed" if is_complete(errand) else "slay %s" % errand.get("target_name", "the fugitive")
 		FETCH:
 			if errand.get("reached", false):
 				return "carry it back to %s" % errand.get("from_name", "the village")
@@ -142,6 +145,8 @@ static func _compose(site: Site, world: World) -> Dictionary:
 	var kinds := [FETCH, LOOK, CULL]
 	if world.sites.any(func(s: Site) -> bool: return _is_settlement(s) and s.cell != site.cell):
 		kinds.append(DELIVER)
+	if not world.prowlers.is_empty():
+		kinds.append(BOUNTY)
 	var kind: String = kinds[world.rng.randi() % kinds.size()]
 
 	var errand := {
@@ -159,6 +164,8 @@ static func _compose(site: Site, world: World) -> Dictionary:
 	match kind:
 		CULL:
 			_compose_cull(errand, site, world)
+		BOUNTY:
+			_compose_bounty(errand, site, world)
 		DELIVER:
 			_compose_deliver(errand, site, world)
 		_:
@@ -167,6 +174,20 @@ static func _compose(site: Site, world: World) -> Dictionary:
 	if world.rng.randf() < float(rules().get("doctrine_chance", 0.18)):
 		errand["doctrine"] = Database.doctrine_ids()[world.rng.randi() % Database.doctrine_ids().size()]
 	return errand
+
+
+static func _compose_bounty(errand: Dictionary, site: Site, world: World) -> void:
+	var band: Prowler = world.prowlers[world.rng.randi() % world.prowlers.size()]
+	var target: String = band.units[band.units.size() - 1] if not band.units.is_empty() else "brigand"
+	var target_name: String = str(Database.unit_template(target).get("display_name", target))
+	errand["target"] = target
+	errand["target_name"] = target_name
+	errand["count"] = 1
+	errand["title"] = "Bounty: %s" % target_name
+	errand["text"] = "A dangerous %s has been prowling near %s. Slay it for the bounty." % [
+		target_name, site.display_name
+	]
+	errand["gold"] = int(rules().get("bounty_reward", 130))
 
 
 static func _compose_cull(errand: Dictionary, site: Site, world: World) -> void:
@@ -244,6 +265,13 @@ static func _settle(accepted: Array, errand: Dictionary, world: World) -> Array[
 	GameState.gold += gold
 	Ledger.add(GameState.ledger, "errands_done")
 	lines.append("%d gold, and the thanks of %s." % [gold, errand.get("giver", "someone")])
+
+	if errand.get("kind", "") == BOUNTY:
+		Renown.record(
+			world, "bounty_claimed", world.player_cell, 3,
+			"claimed the bounty on %s" % str(errand.get("target_name", "a prowler"))
+		)
+		lines.append("Word spreads of your deed. (+3 Renown)")
 
 	var doctrine_id: String = errand.get("doctrine", "")
 	if doctrine_id == "":

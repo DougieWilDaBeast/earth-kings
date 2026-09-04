@@ -719,6 +719,8 @@ func _settle_the_party() -> void:
 		EventBus.character_fell.emit(unit.character, outcome)
 		if outcome["outcome"] == Fate.DEAD:
 			Memorial.raise(GameState.world, unit.character, GameState.world.player_cell, _killer_kind())
+			for line: String in Skein.on_character_fell(GameState.world, unit.character.template_id):
+				EventBus.battle_log.emit(line)
 
 	GameState.roster.drop_the_lost()
 

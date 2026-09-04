@@ -30,19 +30,19 @@ Never edit a past entry — supersede it with a new one.
 | D23 | **A thread runs out of patience, it never cancels.** A stage may carry a `deadline` in steps and a `goto`; when it lapses the `instead` effects run and the thread goes somewhere worse. See [08 — Threads](08-threads.md).                                                     | 2026-09-01 | A thread that expires quietly is a quest log with extra steps. A thread that resolves badly is a one-way door, which is what the rest of the game is made of.                                                                                      |
 | D24 | **Charms are earned through gate delves and deep dungeons.** Intermediate floors of gates roll charms carried by fallen delvers. Gate delves are the canonical source for finding death-defying charms.                                                                         | 2026-09-04 | Buying charms in shops made survival purely transactional; earning charms deep in perilous gates makes them hard-won relics that reward delving into danger.                                                                                       |
 | D25 | **The Spire Apex concludes in victory.** Floor 10 fields an apex battle against a Spire Archon and elite minions. Winning clears the hoard into the purse, awards max renown and hearth vigour, and lets the player enshrine their victory in the Museum or continue exploring. | 2026-09-04 | A 10-floor climb needs an authored climax and a victorious conclusion that rewards the run rather than leaving the conquest as a dead end.                                                                                                         |
+| D26 | **New rifts awaken under continental pressure.** Shut gates stay shut (D15), but shutting multiple gates strains subterranean seals and ignites story threads (`the_deep_breach`) that tear open new abyssal rifts in remote regions.                                           | 2026-09-04 | Preserves D15's rule that cleared gates never un-clear while ensuring the endgame world remains alive with emerging crises.                                                                                                                        |
+| D27 | **Tower ascents advance the continent clock.** Each floor scaled in the Tower advances world time by one upkeep interval (30 steps), stepping prowlers, paying trade routes, and ticking threads.                                                                               | 2026-09-04 | Climbing the Spire takes genuine time; the world outside moves on rather than freezing while you fight.                                                                                                                                            |
 
 ## Open questions
 
 Discuss before implementing the affected component.
 
-- **Q11 — Does the world ever gain new gates?** [D15](#) means gates only ever get cleared, so a
-  world tends towards safety and eventually runs out of things to do outside the Tower. Whether new
-  gates open elsewhere, or whether the Tower is simply the endgame, is unanswered.
-- **Q15 — Do threads survive the Tower?** The Tower is outside the world map, so a thread cannot
-  advance in it. Whether ten floors of elapsed steps should still move the country on is unsettled.
-
 ## Answered
 
+- **Q11 — Does the world ever gain new gates?** → [D26](#). Cleared gates never reopen, but deep
+  continental pressure causes new abyssal rifts to tear open via story threads.
+- **Q15 — Do threads survive the Tower?** → [D27](#). Yes. Each floor climbed advances the
+  continent by one upkeep interval (30 steps), ticking threads and upkeep.
 - **Q12 — What is at the top of the Tower?** → [D25](#). The Spire Apex: a climactic final battle
   against an Archon and guardians. Victory claims the hoard, grants ascension, and allows the run
   to conclude in triumph at the Museum.

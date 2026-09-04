@@ -359,6 +359,12 @@ static func _raise_site(world: World, thread_id: String, spec: Dictionary, here:
 		String(spec.get("kind", Site.HUT)), cell, String(spec.get("name", "A camp"))
 	)
 	site.data["thread"] = thread_id
+	if site.kind == Site.GATE:
+		site.open = true
+		site.rank = String(spec.get("rank", "A"))
+		site.opened_at = world.steps
+		site.data["area"] = "gate"
+		site.data["faction"] = String(spec.get("faction", Faction.FALLBACK))
 	world.sites.append(site)
 	return String(spec.get("hint", ""))
 

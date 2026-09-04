@@ -139,6 +139,48 @@
 					]
 				}
 			]
+		},
+
+		"the_deep_breach": {
+			"title": "The Abyssal Breach",
+			"ignite": { "deed": "gate_shut", "count": 4 },
+			"stages": [
+				{
+					"id": "rumours_of_the_abyss",
+					"when": { "steps_since_stage": 80 },
+					"then": [
+						{
+							"rumour": "deep tremors shake the high country; ancient seals are failing under the earth",
+							"at": "last_deed",
+							"weight": -1
+						},
+						{ "tag": "breach_stirring" }
+					]
+				},
+				{
+					"id": "the_abyssal_rift",
+					"when": { "steps_since_stage": 120 },
+					"then": [
+						{
+							"site": {
+								"kind": "gate",
+								"name": "The Abyssal Breach",
+								"rank": "S",
+								"near": "last_deed",
+								"faction": "the_dusk",
+								"hint": "A terrifying rift has torn through the rock, spilling shadows across the crags."
+							}
+						},
+						{
+							"rumour": "an abyssal rift has opened where no gate ever stood before",
+							"at": "here",
+							"weight": -2
+						},
+						{ "tag": "abyssal_breach_open" },
+						{ "untag": "breach_stirring" }
+					]
+				}
+			]
 		}
 	}
 }
