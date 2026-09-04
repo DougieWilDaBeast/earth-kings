@@ -650,6 +650,21 @@ func _leave() -> void:
 ## Inside is another area, and the way back out is this doorstep.
 func _enter(building: Dictionary) -> void:
 	var inside: String = building.get("area", "")
+	if inside == "coliseum":
+		_leaving = true
+		var doorstep := map.step_out_of(building)
+		EventBus.request_scene.emit("coliseum", {
+			"live_run": true,
+			"return_scene": "area",
+			"return_payload": {
+				"area_id": map.id,
+				"title": boot_payload.get("title", map.display_name),
+				"return_scene": _return_scene,
+				"return_payload": _return_payload,
+				"spawn_cell": [doorstep.x, doorstep.y],
+			},
+		})
+		return
 	if not Database.has_area(inside):
 		_note("The door is shut, and stays shut.")
 		return

@@ -58,6 +58,8 @@ var threads: Dictionary = {}
 var journal: Dictionary = {}
 ## Trade routes you have opened by seeing somebody home (see [Roadside]).
 var routes: Array = []
+## Narrative historical chronicle of milestone events (see [Annals]).
+var annals: Array = []
 ## Whoever is walking with you and where they are going, or empty.
 var escort: Dictionary = {}
 ## The step the last roadside scene played out on, so they do not crowd.
@@ -293,6 +295,7 @@ func to_dict() -> Dictionary:
 		"threads": threads,
 		"journal": journal,
 		"routes": routes,
+		"annals": annals,
 		"escort": escort,
 		"roadside_at": roadside_at,
 		# A 64-bit state would lose precision as a JSON number.
@@ -319,6 +322,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.threads = payload.get("threads", {})
 	world.journal = payload.get("journal", {})
 	world.routes = payload.get("routes", [])
+	world.annals = payload.get("annals", [])
 	world.escort = payload.get("escort", {})
 	world.roadside_at = int(payload.get("roadside_at", -999))
 	for entry: Dictionary in payload.get("sites", []):

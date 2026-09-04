@@ -35,6 +35,13 @@
 			"size": [4, 2],
 			"door": [8, 5],
 			"area": "thorn_hall"
+		},
+		{
+			"name": "the proving arena",
+			"cell": [13, 4],
+			"size": [3, 2],
+			"door": [14, 5],
+			"area": "coliseum"
 		}
 	],
 	"people": [

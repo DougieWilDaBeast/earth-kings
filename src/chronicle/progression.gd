@@ -90,6 +90,8 @@ static func settle_class(character: Character, class_id: String) -> bool:
 		return false
 	character.class_id = class_id
 	character.pending_class_choice = false
+	if GameState.world != null:
+		Annals.record(GameState.world, "%s took up the way of the %s." % [character.display_name, character.class_name_text()])
 	EventBus.class_chosen.emit(character)
 	return true
 
@@ -111,6 +113,7 @@ static func unlock_tree(character: Character, world: World, theme: String = "") 
 	var tree := AbilityGrammar.generate_tree(theme, world.rng, world.codex_understanding())
 	world.register_tree(tree)
 	character.trees.append(tree["id"])
+	Annals.record(world, "%s uncovered %s." % [character.display_name, tree["display_name"]])
 	var lines: Array = ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
 	if character.is_player:
 		character.rungs += 1

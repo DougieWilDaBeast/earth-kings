@@ -208,11 +208,15 @@ prominently displayed in the world header alongside coordinate and site details.
 > trade, a friendly spar. You might arrive at a location holding a tournament and take part with
 > your team for rewards. A lot more depth to the world is needed, massively.
 
-**Partly there already.** Area mode (`src/area/`) is exactly "step into the tile", and since W10b
-every _named_ place has an inside — village, keep, library, gate, hut, Tower and Home. What is
-missing is ordinary ground: you cannot step into a field or a wood, which is most of the map.
-Wants what is inside to be worth the trip, too. The tournament is the coliseum (W3) placed in the
-world rather than on the title screen.
+**Built.** Every named place has an inside (villages, keeps, libraries, gates, huts, Tower, and Home).
+In addition:
+
+- **World Tournament Arena**: Proving arena grounds are built into keeps (`the proving arena`), allowing
+  the player to enter with their live company, select stakes/wagers, battle gladiator waves, and bank
+  purse winnings and renown directly back into their live run.
+- **Wilderness Step-in**: When traversing deep wilderness (forests, marshes, hills, crags), secluded
+  trails to ancient groves (`data/areas/wild_grove.json`) can be discovered on open ground and stepped into
+  with **E**, offering environmental NPCs, hidden crystal caches, and nature lore spots.
 
 ## W14 — Quests, events and consequences
 

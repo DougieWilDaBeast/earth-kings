@@ -101,7 +101,7 @@ func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> voi
 		_fail("%s: the door of %s is not on it" % [area_id, who])
 	if not map.is_walkable(door):
 		_fail("%s: the door of %s cannot be reached" % [area_id, who])
-	if not Database.has_area(building.get("area", "")):
+	if not Database.has_area(building.get("area", "")) and building.get("area", "") != "coliseum":
 		_fail("%s: %s has no inside to walk into" % [area_id, who])
 	if map.step_out_of(building) == door:
 		_fail("%s: coming out of %s puts you back in the doorway" % [area_id, who])

@@ -53,6 +53,8 @@ var _bubble: SpeechBubble = null
 var _captive_here: Character = null
 ## A scene happening in front of the party that they have not answered yet.
 var _roadside_here: String = ""
+## A secluded wilderness clearing discovered on open ground.
+var _wild_here: String = ""
 ## The way the party was last walking itself, so auto does not pace on the spot.
 var _auto_last: Vector2i = Vector2i.ZERO
 ## Map art kept between redraws, since the whole map is redrawn every step.
@@ -212,6 +214,7 @@ func _step(direction: Vector2i) -> void:
 		for line: String in Roadside.walk_by(world, world.player_cell, _roadside_here):
 			_note(line)
 		_roadside_here = ""
+	_wild_here = ""
 	world.player_cell = target
 	var current_region := world.region_at(target)
 	if current_region != prior_region:
@@ -241,6 +244,7 @@ func _step(direction: Vector2i) -> void:
 		_arrive_at(site)
 	else:
 		_look_for_a_cache(target)
+		_check_wild_exploration(target)
 	_watch_check(target)
 	_look_down_the_road(target)
 	_check_party()
@@ -273,6 +277,34 @@ func _step_into_the_road() -> void:
 		{ "kind": "roadside", "event": found, "cell": world.player_cell,
 		  "lost": "You are driven off, and they finish what they started." }
 	)
+
+
+func _step_into_the_wild() -> void:
+	if _wild_here == "" or _busy:
+		return
+	var area_id := _wild_here
+	_wild_here = ""
+	_busy = true
+	EventBus.request_scene.emit("area", {
+		"area_id": area_id,
+		"title": "The Wilds (%s)" % world.region_at(world.player_cell),
+		"return_scene": "world",
+	})
+
+
+func _check_wild_exploration(cell: Vector2i) -> void:
+	if _busy or _roadside_here != "":
+		return
+	var t := world.terrain_id_at(cell)
+	if t not in ["forest", "brush", "marsh", "hill"]:
+		return
+	if world.distance_to_haven(cell) <= 4:
+		return
+	# Deterministic tile hash so we never consume RNG and shift seeded suites
+	var h := absi((cell.x * 73856093 ^ cell.y * 19349663 ^ world.world_seed)) % 100
+	if h < 6:
+		_wild_here = "wild_grove"
+		_note("A sheltered path winds through the boughs into an ancient grove.")
 
 
 func _as_conversation(lines: Array) -> Array:
@@ -350,6 +382,7 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 			else:
 				world.close_gate(site)
+				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
 		"tower":
@@ -370,6 +403,7 @@ func _settle_up(won: bool) -> void:
 					int(Renown.rules().get("tower_topped", 8)) * 2,
 					"the company conquered the pinnacle of the Tower"
 				)
+				Annals.record(world, "The company stood upon the summit of the Tower, claiming %d gold." % hoard)
 				_note("The clouds part over the continent. You stand atop the conquered Tower! %d gold claimed from the hoard." % hoard)
 				for hero: Character in party:
 					hero.hearth += 8
@@ -377,11 +411,13 @@ func _settle_up(won: bool) -> void:
 		"siege":
 			if site == null:
 				return
+			Annals.record(world, "%s was defended against siege." % site.display_name)
 			for line: String in Town.save(site, world):
 				_note(line)
 		"raid":
 			if site == null:
 				return
+			Annals.record(world, "%s was raided and sacked by the company." % site.display_name)
 			for line: String in Town.raid(site, world, GameState.roster):
 				_note(line)
 		"captive":
@@ -389,6 +425,7 @@ func _settle_up(won: bool) -> void:
 			if freed == null:
 				return
 			Captivity.free_by_force(freed, GameState.roster)
+			Annals.record(world, "%s was freed from captivity by force." % freed.display_name)
 			_note("%s walks out with you." % freed.display_name)
 		"roadside":
 			var lines := Roadside.saved(world, cell, str(outcome.get("event", "")), party)
@@ -634,6 +671,9 @@ func _prompt() -> String:
 	if _roadside_here != "":
 		return "E to step in  ·  walk on to leave them to it."
 
+	if _wild_here != "":
+		return "E to explore the ancient grove  ·  walk on to leave it behind"
+
 	var site := world.site_at(world.player_cell)
 	if site != null:
 		if site.kind == Site.HOME:
@@ -649,7 +689,10 @@ func _prompt() -> String:
 		elif Town.is_settlement(site) and not Town.is_ruined(site):
 			parts.append("K to raid %s" % site.display_name)
 		if _area_here() != "":
-			parts.append("E to walk into %s" % site.display_name)
+			if site.kind == Site.KEEP:
+				parts.append("E to enter %s (Halls & Proving Arena)" % site.display_name)
+			else:
+				parts.append("E to walk into %s" % site.display_name)
 		var errand_line := _errand_prompt(site)
 		if errand_line != "":
 			parts.append(errand_line)
@@ -730,6 +773,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		if _roadside_here != "":
 			_step_into_the_road()
+		elif _wild_here != "":
+			_step_into_the_wild()
 		else:
 			_walk_into_site()
 		return

@@ -55,18 +55,26 @@ static func wager_multiplier() -> float:
 
 ## Take somebody out onto the sand with an optional wager tier (e.g. 1.0 standard, 1.5 blood wager, 2.0 death match).
 ## The run's own roster is put aside until [method close] — anything that happens here happens to a copy.
-static func open(hero_id: String, card_id: String, wager_mult: float = 1.0) -> void:
+static func open(hero_id: String, card_id: String, wager_mult: float = 1.0, live_run: bool = false) -> void:
 	close()
+	var kept_roster := GameState.roster
+	var arena_roster: Roster
+	if hero_id == "party" and kept_roster != null and not kept_roster.party_members().is_empty():
+		arena_roster = Roster.from_dict(kept_roster.to_dict())
+	else:
+		arena_roster = Roster.found(hero_id)
+
 	GameState.arena = {
 		"hero": hero_id,
 		"card": card_id,
 		"wager_mult": wager_mult,
 		"round": 1,
 		"purse": 0,
-		"kept_roster": GameState.roster,
+		"kept_roster": kept_roster,
 		"kept_tallying": GameState.tallying,
+		"live_run": live_run,
 	}
-	GameState.roster = Roster.found(hero_id)
+	GameState.roster = arena_roster
 	# Nothing on the sand belongs in the run's ledger.
 	GameState.tallying = false
 
@@ -76,14 +84,24 @@ static func close() -> void:
 	if not is_open():
 		return
 	var kept: Dictionary = GameState.arena
+	var earned_purse := purse()
+	var was_live := bool(kept.get("live_run", false))
 	if kept.get("kept_roster") != null:
 		GameState.roster = kept["kept_roster"]
 	GameState.tallying = bool(kept.get("kept_tallying", true))
 	GameState.arena = {}
+	if was_live and earned_purse > 0:
+		GameState.gold += earned_purse
+		Ledger.add(GameState.ledger, "gold_earned", earned_purse)
+		if GameState.world != null:
+			Renown.record(
+				GameState.world, "tournament_won", GameState.world.player_cell, 4,
+				"won %d gold in the arena tournament" % earned_purse
+			)
 
 
 ## The battle payload for the round about to be fought.
-static func wave(rng: RandomNumberGenerator) -> Dictionary:
+static func wave(rng: RandomNumberGenerator, return_payload: Dictionary = {}) -> Dictionary:
 	var number := round_number()
 	var card: Dictionary = cards().get(str(state().get("card", "")), {})
 	var foes: Array = card.get("foes", ["goblin"])
@@ -116,6 +134,7 @@ static func wave(rng: RandomNumberGenerator) -> Dictionary:
 	return {
 		"encounter": { "map": map, "title": "%s — round %d" % [card.get("title", "The Sand"), number] },
 		"return_scene": "coliseum",
+		"return_payload": return_payload,
 		"sandbox": true,
 		# The crowd does not put you back together between rounds.
 		"heal": false,

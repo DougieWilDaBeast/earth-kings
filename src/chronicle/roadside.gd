@@ -224,6 +224,7 @@ static func _open_route(world: World, from: Vector2i, to: Site) -> Array:
 	while world.routes.size() > cap:
 		dropped = str(world.routes[0].get("name", ""))
 		world.routes.pop_front()
+	Annals.record(world, "A commercial road opened to %s (%d gold per upkeep)." % [to.display_name, pay])
 	var lines: Array = [
 		"A road you can send goods down. %s pays %d a season, so long as it lasts." % [
 			to.display_name, pay

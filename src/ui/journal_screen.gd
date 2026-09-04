@@ -10,7 +10,7 @@ extends CanvasLayer
 
 signal closed
 
-enum Tab { BESTIARY, ROUTES }
+enum Tab { BESTIARY, ROUTES, ANNALS }
 
 const UNKNOWN_COLOUR := Color(0.42, 0.40, 0.38)
 const KNOWN_COLOUR := Color(0.90, 0.87, 0.79)
@@ -24,6 +24,7 @@ const FACE_SIZE := Vector2(96, 96)
 @onready var _page: VBoxContainer = %Page
 @onready var _bestiary_btn: Button = %BestiaryButton
 @onready var _routes_btn: Button = %RoutesButton
+@onready var _annals_btn: Button = %AnnalsButton
 
 var _showing: String = ""
 var _tab: Tab = Tab.BESTIARY
@@ -36,8 +37,10 @@ func _ready() -> void:
 	EventBus.journal_requested.connect(open)
 	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
 	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
+	_annals_btn.pressed.connect(func() -> void: _set_tab(Tab.ANNALS))
 	Sfx.attend(_bestiary_btn)
 	Sfx.attend(_routes_btn)
+	Sfx.attend(_annals_btn)
 
 
 func _set_tab(tab: Tab) -> void:
@@ -93,7 +96,7 @@ func _rebuild() -> void:
 		if not met.has(_showing):
 			_showing = met[0]
 		_show_page()
-	else:
+	elif _tab == Tab.ROUTES:
 		_fullness.text = "%d active trade routes" % world.routes.size()
 		if world.routes.is_empty():
 			var label := Label.new()
@@ -113,6 +116,56 @@ func _rebuild() -> void:
 				Sfx.attend(button)
 				_list.add_child(button)
 		_show_routes_page()
+	else:
+		_fullness.text = "%d chronicle entries" % world.annals.size()
+		var label := Label.new()
+		label.text = "Chronicle of Earth Kings"
+		label.add_theme_color_override("font_color", HEADING_COLOUR)
+		_list.add_child(label)
+		var sub := Label.new()
+		sub.text = "%d notable deeds recorded across the continent." % world.annals.size()
+		sub.add_theme_color_override("font_color", LABEL_COLOUR)
+		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_list.add_child(sub)
+		_show_annals_page()
+
+
+func _show_annals_page() -> void:
+	for child in _page.get_children():
+		child.queue_free()
+	var world: World = GameState.world
+	if world == null:
+		return
+
+	var annals_title := _line("The Annals of the Company", HEADING_COLOUR)
+	annals_title.add_theme_font_size_override("font_size", 22)
+	_page.add_child(annals_title)
+
+	var subtitle := _line("An unbroken chronicle of what this company dared, discovered, and endured.", LABEL_COLOUR)
+	_page.add_child(subtitle)
+
+	if world.annals.is_empty():
+		_page.add_child(_line("The pages are fresh. The history of this company is yet to be written.", LABEL_COLOUR))
+		return
+
+	for i in range(world.annals.size() - 1, -1, -1):
+		var entry: Dictionary = world.annals[i]
+		var step_num: int = int(entry.get("step", 0))
+		var region_str: String = str(entry.get("region", "Wilds"))
+		var text_str: String = str(entry.get("text", ""))
+
+		var entry_row := VBoxContainer.new()
+		entry_row.add_theme_constant_override("separation", 2)
+
+		var meta := _line("Step %d  ·  %s" % [step_num, region_str], HEADING_COLOUR)
+		meta.add_theme_font_size_override("font_size", 14)
+		entry_row.add_child(meta)
+
+		var body_line := _line("  %s" % text_str, KNOWN_COLOUR)
+		body_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		entry_row.add_child(body_line)
+
+		_page.add_child(entry_row)
 
 
 func _show_routes_page() -> void:

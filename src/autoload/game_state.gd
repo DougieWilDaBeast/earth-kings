@@ -80,6 +80,9 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	world = WorldGen.generate(world_seed)
 	roster = Roster.found(lead_id)
 	world.player_cell = WorldGen.starting_cell_for_hero(world, lead_id)
+	var lead := roster.player()
+	var lead_name: String = lead.display_name if lead != null else "The founder"
+	Annals.record(world, "%s founded the company and stepped out into %s." % [lead_name, world.region_at(world.player_cell)])
 	gold = DEFAULT_GOLD
 	ledger = Ledger.fresh()
 	cleared_battles = []

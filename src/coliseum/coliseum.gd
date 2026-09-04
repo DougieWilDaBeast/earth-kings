@@ -40,26 +40,43 @@ func _ready() -> void:
 
 
 func _leave() -> void:
+	var ret_scene := str(boot_payload.get("return_scene", "title"))
+	var ret_payload: Dictionary = boot_payload.get("return_payload", {})
 	Arena.close()
-	EventBus.request_scene.emit("title", {})
+	EventBus.request_scene.emit(ret_scene, ret_payload)
 
 
 # --- choosing a night ---------------------------------------------------------
 
 
 func _show_the_choosing() -> void:
-	_headline.text = "The Coliseum"
-	_blurb.text = "Nothing you win out here follows you home. Neither does anything you lose."
+	var is_live := bool(boot_payload.get("live_run", false))
+	if is_live:
+		_headline.text = "The Tournament Arena"
+		_blurb.text = "Take your company onto the proving sand. Gold won here goes directly into your purse."
+	else:
+		_headline.text = "The Coliseum"
+		_blurb.text = "Nothing you win out here follows you home. Neither does anything you lose."
 
 	var heroes: Array = Database.heroes.keys()
 	var cards: Array = Arena.cards().keys()
 	if heroes.is_empty() or cards.is_empty():
 		_body.add_child(_line("Nobody is fighting today.", LABEL))
 		return
-	_hero = heroes[0]
 	_card = cards[0]
 
 	_left.add_child(_heading("Who goes out"))
+	if is_live and GameState.roster != null and not GameState.roster.party_members().is_empty():
+		_hero = "party"
+		_left.add_child(_picker(
+			"Your Company (%d members)" % GameState.roster.party_members().size(),
+			func() -> void:
+				_hero = "party"
+				_refresh_choosing()
+		))
+	else:
+		_hero = heroes[0]
+
 	for hero_id: String in heroes:
 		_left.add_child(_picker(
 			str(Database.unit_template(hero_id).get("display_name", hero_id)),
@@ -104,7 +121,14 @@ func _refresh_choosing() -> void:
 		child.queue_free()
 	var card: Dictionary = Arena.cards().get(_card, {})
 
-	_body.add_child(_portrait_row([_hero]))
+	if _hero == "party" and GameState.roster != null:
+		var templates: Array[String] = []
+		for member in GameState.roster.party_members():
+			templates.append(member.template_id)
+		_body.add_child(_portrait_row(templates))
+	else:
+		_body.add_child(_portrait_row([_hero]))
+
 	_body.add_child(_heading(str(card.get("title", ""))))
 	var blurb := _line(str(card.get("blurb", "")), VALUE)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -131,8 +155,9 @@ func _refresh_choosing() -> void:
 
 
 func _begin() -> void:
-	Arena.open(_hero, _card, _wager_mult)
-	EventBus.request_scene.emit("battle", Arena.wave(_rng))
+	var live := bool(boot_payload.get("live_run", false))
+	Arena.open(_hero, _card, _wager_mult, live)
+	EventBus.request_scene.emit("battle", Arena.wave(_rng, boot_payload))
 
 
 # --- between rounds -----------------------------------------------------------
@@ -159,17 +184,16 @@ func _settle_the_round() -> void:
 	var again := Button.new()
 	again.theme_type_variation = &"GrandButton"
 	again.text = "Round %d" % Arena.round_number()
-	again.pressed.connect(func() -> void: EventBus.request_scene.emit("battle", Arena.wave(_rng)))
+	again.pressed.connect(func() -> void: EventBus.request_scene.emit("battle", Arena.wave(_rng, boot_payload)))
 	Sfx.attend(again)
 	_actions.add_child(again)
 
 	var stop := Button.new()
 	stop.theme_type_variation = &"GrandButton"
-	stop.text = "Take the purse and stop"
+	stop.text = "Take the purse and leave" if bool(boot_payload.get("live_run", false)) else "Take the purse and stop"
 	stop.pressed.connect(func() -> void:
 		Arena.retire()
-		Arena.close()
-		EventBus.request_scene.emit("coliseum", {})
+		_leave()
 	)
 	Sfx.attend(stop)
 	_actions.add_child(stop)
@@ -185,10 +209,18 @@ func _show_the_loss() -> void:
 	_show_the_company()
 	Arena.close()
 
+	if bool(boot_payload.get("live_run", false)):
+		var leave_btn := Button.new()
+		leave_btn.theme_type_variation = &"GrandButton"
+		leave_btn.text = "Leave Arena"
+		leave_btn.pressed.connect(_leave)
+		Sfx.attend(leave_btn)
+		_actions.add_child(leave_btn)
+
 	var again := Button.new()
 	again.theme_type_variation = &"GrandButton"
 	again.text = "Again"
-	again.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", {}))
+	again.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", boot_payload))
 	Sfx.attend(again)
 	_actions.add_child(again)
 	again.grab_focus()
