@@ -31,6 +31,7 @@ func _ready() -> void:
 		button.theme_type_variation = &"GrandButton"
 		# Keeps the mouse and the keyboard pointing at the same entry.
 		button.mouse_entered.connect(_on_button_hovered.bind(button))
+		button.focus_entered.connect(_on_button_focused.bind(button))
 		Sfx.attend(button)
 	if _continue_button.disabled:
 		_new_game_button.grab_focus()
@@ -67,6 +68,16 @@ func _saved_lead() -> String:
 func _on_button_hovered(button: Button) -> void:
 	if not button.disabled:
 		button.grab_focus()
+
+
+func _on_button_focused(button: Button) -> void:
+	# Subtle responsive spring on focused button for a tactile, slick feel
+	var tw := create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(button, "scale", Vector2(1.025, 1.025), 0.16)
+	button.focus_exited.connect(func() -> void:
+		var back_tw := button.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		back_tw.tween_property(button, "scale", Vector2.ONE, 0.14)
+	, CONNECT_ONE_SHOT)
 
 
 func _fade_in() -> void:

@@ -52,6 +52,7 @@ func end_turn(unit: Unit) -> void:
 	# If an ally was pulled into the group phase before 60 CT, they pay a Readiness Tax (Ruling 1.1).
 	var taxed: bool = unit.has_meta("readiness_tax") and bool(unit.get_meta("readiness_tax"))
 	unit.remove_meta("readiness_tax")
+	unit.remove_meta("ambush_advantage")
 	if taxed:
 		unit.ct = -25
 	else:

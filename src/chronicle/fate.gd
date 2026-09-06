@@ -101,6 +101,15 @@ static func resolve(character: Character, context: Dictionary, rng: RandomNumber
 			character.charms.erase(grace["consumes"])
 		return _apply(character, grace, context)
 
+	if not Difficulty.has_permadeath():
+		character.status = ALIVE
+		character.hp = maxi(1, roundi(character.max_hp() * 0.35))
+		return {
+			"outcome": ALIVE,
+			"reason": "dragged",
+			"line": "%s fell, but was pulled clear of the fray, battered but breathing." % character.display_name,
+		}
+
 	character.status = DEAD
 	character.hp = 0
 	return {

@@ -266,7 +266,7 @@ func _option_button(slot: int, option: Dictionary) -> Button:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	button.add_theme_font_size_override("font_size", 13)
+	button.add_theme_font_size_override("font_size", 11)
 	button.add_theme_color_override("font_hover_color", OPTION_HOVER)
 	button.add_theme_color_override("font_focus_color", OPTION_HOVER)
 
@@ -275,10 +275,10 @@ func _option_button(slot: int, option: Dictionary) -> Button:
 	opt_normal.border_color = Color(0.46, 0.40, 0.30, 0.6)
 	opt_normal.set_border_width_all(1)
 	opt_normal.set_corner_radius_all(3)
-	opt_normal.content_margin_left = 8.0
-	opt_normal.content_margin_right = 8.0
-	opt_normal.content_margin_top = 4.0
-	opt_normal.content_margin_bottom = 4.0
+	opt_normal.content_margin_left = 6.0
+	opt_normal.content_margin_right = 6.0
+	opt_normal.content_margin_top = 2.0
+	opt_normal.content_margin_bottom = 2.0
 	button.add_theme_stylebox_override("normal", opt_normal)
 
 	var opt_hover := opt_normal.duplicate() as StyleBoxFlat

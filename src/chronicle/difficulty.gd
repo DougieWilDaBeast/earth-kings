@@ -16,8 +16,11 @@ const NEUTRAL := {
 	"enemy_hp": 1.0,
 	"party_hp": 1.0,
 	"party_attack": 1.0,
+	"move_bonus": 0.0,
 	"encounter_chance": 1.0,
 	"grace": 1.0,
+	"permadeath": 1.0,
+	"post_battle_heal": 0.0,
 	"xp": 1.0,
 	"gold": 1.0,
 	"price": 1.0,
@@ -67,6 +70,26 @@ static func counted(count: int) -> int:
 
 static func scaled(value: int, key: String) -> int:
 	return maxi(1, roundi(float(value) * dial(key)))
+
+
+static func has_permadeath() -> bool:
+	return dial("permadeath") > 0.0
+
+
+static func post_battle_heal_ratio() -> float:
+	return dial("post_battle_heal")
+
+
+static func move_bonus() -> int:
+	return roundi(dial("move_bonus"))
+
+
+static func cycle(current_setting: String) -> String:
+	var keys: Array = settings().keys()
+	if keys.is_empty():
+		return DEFAULT
+	var idx := keys.find(current_setting)
+	return str(keys[(idx + 1) % keys.size()])
 
 
 static func _of(setting: String) -> Dictionary:

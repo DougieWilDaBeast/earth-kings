@@ -49,6 +49,10 @@ void fragment() {
 	float glow = 1.0 - clamp(length((uv - vec2(0.5, 1.06)) * vec2(1.0, 1.7)), 0.0, 1.0);
 	col += fire_tint * pow(glow, 2.5);
 
+	// Subtle horizon lighting and celestial depth
+	float horizon = exp(-pow((uv.y - 0.42) * 5.0, 2.0)) * 0.12;
+	col += vec3(0.18, 0.12, 0.08) * horizon;
+
 	vec2 d = uv - vec2(0.5);
 	col *= clamp(1.0 - vignette_strength * dot(d, d) * 1.9, 0.0, 1.0);
 

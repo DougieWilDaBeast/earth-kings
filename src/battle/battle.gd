@@ -61,6 +61,7 @@ func _build_battlefield() -> void:
 	# Taller-than-a-tile sprites need to overlap by depth, not by spawn order.
 	units_root.y_sort_enabled = true
 
+	_spawn_nature_decor(map)
 	_spawn_party(map.get("player_spawns", []))
 	_spawn_enemies(map.get("enemies", []))
 	_orient_starting_facings()
@@ -86,6 +87,66 @@ func _write_them_up(map: Dictionary) -> void:
 			continue
 		if Journal.sighted(GameState.world, unit.template_id, place):
 			EventBus.battle_log.emit("%s is new. The journal opens a page." % unit.display_name)
+
+
+func _spawn_nature_decor(map: Dictionary) -> void:
+	var tree_paths := [
+		"res://art/props/nature/sycamore_tree.png",
+		"res://art/props/nature/sycamore_tree_2.png",
+		"res://art/props/nature/apple_tree.png",
+		"res://art/props/nature/apple_tree_2.png",
+		"res://art/props/nature/holly_tree.png",
+	]
+	var bush_paths := [
+		"res://art/props/nature/briar_bush.png",
+		"res://art/props/nature/briar_bush_2.png",
+		"res://art/props/nature/hazel_bush.png",
+		"res://art/props/nature/rose_bush.png",
+	]
+
+	var player_spawns: Array = map.get("player_spawns", [])
+	var spawn_cells: Array[Vector2i] = []
+	for p in player_spawns:
+		spawn_cells.append(_to_cell(p))
+	for e in map.get("enemies", []):
+		spawn_cells.append(_to_cell(e.get("cell", [0, 0])))
+
+	for y in grid.height:
+		for x in grid.width:
+			var cell := Vector2i(x, y)
+			if cell in spawn_cells:
+				continue
+			var terrain_id: String = grid._terrain_ids.get(cell, "grass")
+			var seed_val := absi(hash(cell))
+
+			if terrain_id == "crag" or terrain_id == "wall":
+				var path: String = tree_paths[seed_val % tree_paths.size()]
+				if ResourceLoader.exists(path):
+					var sprite := Sprite2D.new()
+					sprite.texture = load(path)
+					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.15)
+					sprite.offset = Vector2(0, -32)
+					units_root.add_child(sprite)
+			elif terrain_id == "brush":
+				var path: String = bush_paths[seed_val % bush_paths.size()]
+				if ResourceLoader.exists(path):
+					var sprite := Sprite2D.new()
+					sprite.texture = load(path)
+					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.2)
+					sprite.offset = Vector2(0, -30)
+					sprite.modulate = Color(1.0, 1.0, 1.0, 0.88)
+					units_root.add_child(sprite)
+			elif (x == 0 or x == grid.width - 1 or y == 0 or y == grid.height - 1) and seed_val % 3 == 0:
+				var path: String = tree_paths[seed_val % tree_paths.size()]
+				if ResourceLoader.exists(path):
+					var sprite := Sprite2D.new()
+					sprite.texture = load(path)
+					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.15)
+					sprite.offset = Vector2(0, -32)
+					units_root.add_child(sprite)
 
 
 func _spawn_party(spawns: Array) -> void:
@@ -723,6 +784,8 @@ func _settle_the_party() -> void:
 			# Wounds carry as a fraction, so a difficulty that made the party
 			# hardier does not write an impossible number back onto them.
 			var carried := float(unit.hp) / float(maxi(1, unit.max_hp))
+			if Difficulty.post_battle_heal_ratio() > 0.0:
+				carried = maxf(carried, Difficulty.post_battle_heal_ratio())
 			unit.character.hp = clampi(
 				roundi(carried * float(unit.character.max_hp())), 1, unit.character.max_hp()
 			)

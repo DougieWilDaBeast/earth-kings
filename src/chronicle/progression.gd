@@ -55,7 +55,7 @@ static func award_combat_xp(killer: Character, all_living_allies: Array, bounty:
 		var c: Character = ally if ally is Character else (ally.get("character") if "character" in ally else null)
 		if c != null and c.is_alive():
 			active_allies.append(c)
-	if not active_allies.is_empty():
+	if not active_allies.is_empty() and party_share > 0:
 		var each_share := maxi(1, party_share / active_allies.size())
 		for ally_char: Character in active_allies:
 			lines.append_array(award(ally_char, each_share, world))
@@ -83,12 +83,13 @@ static func _level_up(character: Character, world: World) -> Array:
 
 	if character.level == FIRST_TREE_LEVEL or character.level == SECOND_TREE_LEVEL:
 		lines.append_array(unlock_tree(character, world))
-	elif character.is_player:
-		# The player is owed a power and decides where it goes.
-		character.rungs += 1
-		lines.append("%s has a power to take." % character.display_name)
-	else:
-		lines.append_array(learn_next(character, world))
+	elif not character.trees.is_empty():
+		if character.is_player:
+			# The player is owed a power and decides where it goes.
+			character.rungs += 1
+			lines.append("%s has a power to take." % character.display_name)
+		else:
+			lines.append_array(learn_next(character, world))
 
 	return lines
 

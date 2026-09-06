@@ -45,6 +45,18 @@ offset_bottom = 49.0
 theme_override_colors/font_color = Color(0.75, 0.79, 0.86, 1)
 theme_override_font_sizes/font_size = 13
 
+[node name="ViewButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -170.0
+offset_top = 8.0
+offset_right = -16.0
+offset_bottom = 36.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 12
+text = "Planar View (Z)"
+
 [node name="LogLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
 anchor_top = 1.0

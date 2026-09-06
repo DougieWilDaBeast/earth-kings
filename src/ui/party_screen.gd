@@ -151,7 +151,7 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 		character.current_hp(), character.max_hp(),
 		character.xp, Progression.xp_to_next(character.level),
 		"  ·  YOKED" if character.yoke else "",
-		"  ·  %d POWER TO TAKE" % character.rungs if character.rungs > 0 else "",
+		"  ·  %d POWER TO TAKE" % character.rungs if character.rungs > 0 and not character.trees.is_empty() else "",
 	]
 	row.add_child(heading)
 
@@ -394,9 +394,9 @@ func _doctrine_summary(character: Character) -> String:
 	if character.doctrine.is_empty():
 		return "nothing yet"
 	var titles: Array[String] = []
+	var steps := GameState.world.steps if GameState.world != null else 0
 	for doctrine_id: String in character.doctrine:
-		var stale := GameState.world.steps - int(character.doctrine_seen.get(doctrine_id, 0))
-		var fading := stale > Doctrine.FADE_AFTER_STEPS * 0.75
+		var fading := Doctrine.is_fading_memory(character, doctrine_id, steps)
 		titles.append("%s%s" % [Doctrine.title(doctrine_id), "  (fading)" if fading else ""])
 	return "  ·  ".join(titles)
 

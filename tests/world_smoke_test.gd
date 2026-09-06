@@ -174,6 +174,9 @@ func _check_class_choice(world: World) -> void:
 
 func _check_fate(world: World) -> void:
 	print("")
+	# The baseline death odds under the rules are what is under test, not the difficulty dial.
+	var setting := GameState.difficulty
+	GameState.difficulty = "even"
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4242
 
@@ -236,6 +239,7 @@ func _check_fate(world: World) -> void:
 		roundi(lone_odds * 100.0), roundi(helped_odds * 100.0),
 		roundi(_total_odds(read, {"enemy_kind": "beast"}) * 100.0)
 	])
+	GameState.difficulty = setting
 
 
 func _total_odds(character: Character, context: Dictionary) -> float:

@@ -23,6 +23,10 @@ const SPRITE_ROTATIONS := {
 	Vector2i.UP: "north",
 	Vector2i.RIGHT: "east",
 	Vector2i.LEFT: "west",
+	Vector2i(1, 1): "south-east",
+	Vector2i(-1, 1): "south-west",
+	Vector2i(1, -1): "north-east",
+	Vector2i(-1, -1): "north-west",
 }
 
 var template_id: String = ""
@@ -96,6 +100,11 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 		unit.max_hp = Difficulty.scaled(unit.max_hp, "enemy_hp")
 		unit.hp = unit.max_hp
 		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
+	elif unit_team == Team.PLAYER:
+		unit.max_hp = Difficulty.scaled(unit.max_hp, "party_hp")
+		unit.hp = unit.max_hp
+		unit.attack = Difficulty.scaled(unit.attack, "party_attack")
+		unit.move_points += Difficulty.move_bonus()
 	return unit
 
 
@@ -136,6 +145,7 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit.hp = maxi(1, roundi(float(unit.hp) / float(unit.max_hp) * float(hardier)))
 		unit.max_hp = hardier
 		unit.attack = Difficulty.scaled(unit.attack, "party_attack")
+		unit.move_points += Difficulty.move_bonus()
 	return unit
 
 
@@ -156,7 +166,7 @@ static func _load_sprites(dir_path: String, template_id_: String) -> Dictionary:
 		var path := "%s/%s.png" % [dir_path, SPRITE_ROTATIONS[facing_dir]]
 		if ResourceLoader.exists(path):
 			out[facing_dir] = load(path)
-		else:
+		elif not SPRITE_ROTATIONS[facing_dir].contains("-"):
 			push_warning("Unit: %s is missing the rotation %s" % [template_id_, path])
 	return out
 
@@ -275,8 +285,8 @@ func walk_path(grid: BattleGrid, path: Array[Vector2i]) -> void:
 	if path.is_empty():
 		return
 	var started_at := cell
-	_running = not run_frames.is_empty()
-	set_process(_running)
+	_running = true
+	set_process(true)
 
 	var tween := create_tween()
 	var previous := cell
@@ -284,7 +294,11 @@ func walk_path(grid: BattleGrid, path: Array[Vector2i]) -> void:
 		# Turning at each corner rather than at the end, so a unit rounding a
 		# rock is facing where it is going while it does it.
 		var heading := dominant_direction(step - previous)
-		tween.tween_callback(func() -> void: facing = heading)
+		var h := heading
+		tween.tween_callback(func() -> void:
+			facing = h
+			queue_redraw()
+		)
 		tween.tween_property(self, "position", grid.cell_to_world(step), WALK_TIME_PER_TILE)
 		previous = step
 	await tween.finished
@@ -345,10 +359,13 @@ func _draw() -> void:
 func _draw_weapon() -> void:
 	var texture: Texture2D = weapon_sprites.get(facing)
 	if texture == null:
+		var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+		texture = weapon_sprites.get(cardinal)
+	if texture == null:
 		return
 	var drawn := texture.get_size() * float(weapon.get("scale", 0.8))
 	var offsets: Dictionary = weapon.get("offsets", {})
-	var pair: Array = offsets.get(SPRITE_ROTATIONS[facing], [0, 0])
+	var pair: Array = offsets.get(SPRITE_ROTATIONS.get(facing, "south"), [0, 0])
 	var centre := Vector2(pair[0], pair[1])
 	draw_texture_rect(texture, Rect2(centre - drawn * 0.5, drawn), false)
 
@@ -356,17 +373,24 @@ func _draw_weapon() -> void:
 func current_sprite() -> Texture2D:
 	if _running:
 		var frames: Array = run_frames.get(facing, [])
+		if frames.is_empty():
+			var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+			frames = run_frames.get(cardinal, [])
 		if not frames.is_empty():
 			return frames[int(_run_time * RUN_FPS) % frames.size()]
-	return sprites.get(facing, sprites.get(Vector2i.DOWN, null))
+	if sprites.has(facing):
+		return sprites[facing]
+	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+	return sprites.get(cardinal, sprites.get(Vector2i.DOWN, null))
 
 
 ## Top-down art sits centred on its tile, lifted slightly so the ring reads as ground.
 func _sprite_rect(sprite: Texture2D) -> Rect2:
 	var source := sprite.get_size()
 	var drawn := source * (BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS / source.y)
+	var bob := sin(_run_time * 16.0) * 3.0 if _running and run_frames.is_empty() else 0.0
 	return Rect2(
-		Vector2(-drawn.x * 0.5, -drawn.y * 0.5 - BattleGrid.CELL_SIZE * 0.12), drawn
+		Vector2(-drawn.x * 0.5, -drawn.y * 0.5 - BattleGrid.CELL_SIZE * 0.12 + bob), drawn
 	)
 
 

@@ -34,7 +34,7 @@ static func dispatches(world: World) -> Array[String]:
 
 	# 4. Nemesis survivors abroad
 	if world.survivors.size() > 0:
-		var nemesis: Dictionary = world.survivors[world.rng.randi() % world.survivors.size()]
+		var nemesis: Dictionary = world.survivors[randi() % world.survivors.size()]
 		var n_name: String = str(nemesis.get("name", "A scarred survivor"))
 		var n_place: String = str(nemesis.get("place", "the frontier"))
 		pool.append("Whispers in the taprooms: %s survived the battle near %s and is rallying cutthroats in the hills." % [

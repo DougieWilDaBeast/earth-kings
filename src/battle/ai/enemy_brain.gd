@@ -108,7 +108,8 @@ static func _best_heal_target_from(
 			continue
 		if friend.hp >= friend.max_hp:
 			continue
-		if not AbilityResolver.in_range(ability, cell, friend.cell):
+		var target_pos := cell if friend == unit else friend.cell
+		if not AbilityResolver.in_range(ability, cell, target_pos):
 			continue
 		if best == null or (friend.max_hp - friend.hp) > (best.max_hp - best.hp):
 			best = friend

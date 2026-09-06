@@ -13,9 +13,10 @@ const PASSAGE_STEPS_RATIO := 0.4
 
 static func is_port(world: World, cell: Vector2i) -> bool:
 	var site := world.site_at(cell)
-	if site == null or not Town.is_settlement(site) or Town.is_ruined(site):
-		if site == null or site.data.get("area", "") != "village_shore":
-			return false
+	if site == null or Town.is_ruined(site):
+		return false
+	if not (Town.is_settlement(site) or site.data.get("area", "") == "village_shore"):
+		return false
 	return _touches_water(world, cell)
 
 
@@ -68,10 +69,14 @@ static func sail(world: World, from: Site, to: Site) -> Dictionary:
 	var elapsed := passage_steps(from, to)
 	world.steps += elapsed
 	world.player_cell = to.cell
+	var notices: Array = []
+	if elapsed >= World.UPKEEP_INTERVAL:
+		notices.append_array(world._upkeep())
 	return {
 		"success": true,
 		"steps": elapsed,
 		"cost": cost,
+		"notices": notices,
 		"line": "The cutter cuts through the grey swell. After %d leagues at sea, you come ashore at %s." % [
 			elapsed, to.display_name
 		]

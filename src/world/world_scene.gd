@@ -74,6 +74,10 @@ func _ready() -> void:
 	_map.queue_redraw()
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
+	var view_btn: Button = get_node_or_null("%ViewButton")
+	if view_btn != null:
+		view_btn.pressed.connect(switch_to_planar_view)
+		Sfx.attend(view_btn)
 	_refresh()
 
 	if GameState.has_flag("last_victory"):
@@ -766,7 +770,9 @@ func _prompt() -> String:
 ## on the walk rather than only on the screen nobody has opened.
 func _somebody_owed_a_power() -> Character:
 	for member: Character in GameState.roster.party_members():
-		if member.rungs > 0:
+		if member.trees.is_empty() and member.rungs > 0:
+			member.rungs = 0
+		if member.rungs > 0 and not member.trees.is_empty() and not Progression.rung_options(member, world).is_empty():
 			return member
 	return null
 
@@ -821,6 +827,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			_step_into_the_wild()
 		else:
 			_walk_into_site()
+		return
+	if event.is_action_pressed("toggle_view") or (event is InputEventKey and (event.keycode == KEY_Z or event.physical_keycode == KEY_Z)):
+		get_viewport().set_input_as_handled()
+		switch_to_planar_view()
 		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
@@ -887,6 +897,8 @@ func _sail_here() -> void:
 	var outcome := Ferry.sail(world, site, dest)
 	_note(str(outcome.get("line", "")))
 	if outcome.get("success", false):
+		for notice: String in outcome.get("notices", []):
+			_note(notice)
 		_arrive_at(dest)
 		_centre_camera()
 		_map.queue_redraw()
@@ -901,6 +913,35 @@ func _area_here() -> String:
 		return ""
 	var area_id: String = site.data.get("area", site.kind)
 	return area_id if Database.has_area(area_id) else ""
+
+
+## Switches between Continental World View and Ground Planar View.
+func switch_to_planar_view() -> void:
+	if _busy:
+		return
+	var site := world.site_at(world.player_cell)
+	var area_id := _area_here()
+	if site != null and area_id != "":
+		_walk_into_site()
+		return
+	if _wild_here != "":
+		_step_into_the_wild()
+		return
+
+	var terrain_id := world.terrain_id_at(world.player_cell)
+	var wild_pool: Array = WILD_AREAS.get(terrain_id, [])
+	var chosen_area := "camp"
+	if not wild_pool.is_empty():
+		chosen_area = wild_pool[absi(hash(world.player_cell)) % wild_pool.size()]
+	elif terrain_id == "sand":
+		chosen_area = "wild_oasis"
+
+	_busy = true
+	EventBus.request_scene.emit("area", {
+		"area_id": chosen_area,
+		"title": "%s (Planar View)" % world.region_at(world.player_cell),
+		"return_scene": "world",
+	})
 
 
 func _walk_into_site() -> void:
@@ -1195,14 +1236,11 @@ func _draw_world() -> void:
 ## The ground is drawn to the camera, so panning or zooming has to redraw it.
 ## Compared rather than hooked, because the rig moves by tween as well as by key.
 func _watch_the_view() -> void:
-	var now := Vector3(
-		_camera.get_screen_center_position().x,
-		_camera.get_screen_center_position().y,
-		_camera.zoom.x
-	)
-	if now.distance_squared_to(_last_view) < 1.0:
+	var cam_pos := _camera.get_screen_center_position()
+	var cam_zoom := _camera.zoom.x
+	if cam_pos.distance_squared_to(Vector2(_last_view.x, _last_view.y)) < 2.0 and absf(cam_zoom - _last_view.z) < 0.02:
 		return
-	_last_view = now
+	_last_view = Vector3(cam_pos.x, cam_pos.y, cam_zoom)
 	_map.queue_redraw()
 
 
@@ -1213,13 +1251,42 @@ func _watch_the_view() -> void:
 ## out in full every time somebody takes a step.
 func _draw_ground() -> void:
 	var seen := _cells_in_view()
+	var zoom_lvl: float = _camera.zoom.x
+	var dress_lod: bool = zoom_lvl >= 0.65
+	var batch_runs: bool = zoom_lvl < 0.45
+
+	if batch_runs:
+		for y in range(seen.position.y, seen.end.y):
+			var run_start_x := seen.position.x
+			var current_terrain := world.terrain_at(Vector2i(run_start_x, y))
+			var current_color := Color(current_terrain.get("color", "#4f7d3f"))
+			for x in range(seen.position.x + 1, seen.end.x):
+				var cell := Vector2i(x, y)
+				var terrain := world.terrain_at(cell)
+				var color := Color(terrain.get("color", "#4f7d3f"))
+				if color != current_color:
+					var rect := Rect2(
+						Vector2(float(run_start_x) * CELL, float(y) * CELL),
+						Vector2(float(x - run_start_x) * CELL, float(CELL))
+					)
+					_map.draw_rect(rect, current_color)
+					run_start_x = x
+					current_color = color
+			var final_rect := Rect2(
+				Vector2(float(run_start_x) * CELL, float(y) * CELL),
+				Vector2(float(seen.end.x - run_start_x) * CELL, float(CELL))
+			)
+			_map.draw_rect(final_rect, current_color)
+		return
+
 	for y in range(seen.position.y, seen.end.y):
 		for x in range(seen.position.x, seen.end.x):
 			var cell := Vector2i(x, y)
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
 			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
-			_dress(cell, world.terrain_id_at(cell))
+			if dress_lod:
+				_dress(cell, world.terrain_id_at(cell))
 
 
 ## The block of cells the camera has in front of it, clamped to the map and
@@ -1304,19 +1371,31 @@ func _scatter(seed_value: int, index: int) -> Vector2:
 
 ## Ground somebody has eyes on, in the colours of whoever is watching it.
 func _draw_watched_ground() -> void:
+	var seen := _cells_in_view()
 	for band: Prowler in world.prowlers:
 		var wash := Faction.banner(band.faction)
 		wash.a = 0.26
 		for watched: Vector2i in band.watched(world):
-			_map.draw_rect(Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), wash)
+			if seen.has_point(watched):
+				_map.draw_rect(Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), wash)
 
 
 func _draw_places() -> void:
+	var seen := _cells_in_view()
+	var font: Font = _hint.get_theme_font("font") if _hint != null else null
+	if font == null:
+		font = ThemeDB.fallback_font
+	var show_names: bool = _camera.zoom.x >= 0.45
+
 	for site in world.sites:
+		if not seen.has_point(site.cell):
+			continue
 		var art := _site_art(site)
 		var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 		if art == null:
 			_map.draw_circle(centre, CELL * 0.34, Site.COLOURS.get(site.kind, Color.WHITE))
+			if show_names and font != null:
+				_draw_site_label(site.display_name, centre + Vector2(0, -CELL * 0.4), font)
 			continue
 
 		# Stood on the bottom edge of its tile, so the tile still reads as the
@@ -1328,6 +1407,24 @@ func _draw_places() -> void:
 		)
 		if site.kind == Site.GATE and site.open:
 			_map.draw_arc(centre, CELL * 0.55, 0.0, TAU, 24, Color(0.95, 0.35, 0.3, 0.9), 2.0, true)
+
+		# Small legible name banner over the site
+		if show_names and font != null:
+			_draw_site_label(site.display_name, Vector2(foot.x, foot.y - size.y * 0.92 - 6.0), font)
+
+
+func _draw_site_label(text: String, top_centre: Vector2, font: Font) -> void:
+	var font_size := 11
+	var text_size := font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size)
+	var badge_rect := Rect2(
+		top_centre.x - text_size.x * 0.5 - 5.0,
+		top_centre.y - text_size.y * 0.8 - 2.0,
+		text_size.x + 10.0,
+		text_size.y + 4.0
+	)
+	_map.draw_rect(badge_rect, Color(0.06, 0.07, 0.09, 0.82))
+	_map.draw_rect(badge_rect, Color(0.85, 0.78, 0.62, 0.6), false, 1.0)
+	_map.draw_string(font, Vector2(top_centre.x - text_size.x * 0.5, top_centre.y), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0.96, 0.94, 0.88))
 
 
 ## A place looks like what has happened to it: shut gates go dark, burnt towns
@@ -1368,6 +1465,55 @@ func _warm_art() -> void:
 		Database.unit_face(character.template_id)
 
 
+## Draws a glowing, pulsing destination beacon and an animated directional trail from the party.
+func _draw_quest_path_and_beacon(party_pos: Vector2, target_pos: Vector2, color: Color, badge_text: String = "") -> void:
+	var delta := target_pos - party_pos
+	var dist := delta.length()
+	if dist > CELL * 0.7:
+		var dir := delta / dist
+		var step_size := CELL * 1.2
+		var count := int(dist / step_size)
+		var tick := float(Time.get_ticks_msec()) * 0.003
+		var offset := fmod(tick, 1.0) * step_size
+		for i in range(count):
+			var d := float(i) * step_size + offset
+			if d >= dist - CELL * 0.6:
+				break
+			var pt := party_pos + dir * d
+			var alpha_pulse := 0.6 + 0.35 * sin(tick * 3.0 + float(i) * 0.4)
+			var dot_color := color
+			dot_color.a = clampf(dot_color.a * alpha_pulse, 0.25, 0.95)
+			_map.draw_circle(pt, CELL * 0.1, dot_color)
+			# Directional chevron ticks along the trail
+			if i % 3 == 1:
+				var perp := Vector2(-dir.y, dir.x) * (CELL * 0.1)
+				_map.draw_line(pt - perp + dir * (CELL * 0.1), pt + dir * (CELL * 0.16), dot_color, 1.5)
+				_map.draw_line(pt + perp + dir * (CELL * 0.1), pt + dir * (CELL * 0.16), dot_color, 1.5)
+
+	# Destination beacon
+	var pulse := 1.0 + 0.15 * sin(float(Time.get_ticks_msec()) * 0.006)
+	_map.draw_arc(target_pos, CELL * 0.65 * pulse, 0.0, TAU, 24, color, 2.5, true)
+	var d := CELL * 0.26
+	var diamond := PackedVector2Array([
+		target_pos + Vector2(0, -d),
+		target_pos + Vector2(d, 0),
+		target_pos + Vector2(0, d),
+		target_pos + Vector2(-d, 0),
+	])
+	_map.draw_colored_polygon(diamond, color.lightened(0.25))
+
+	if badge_text != "" and _camera.zoom.x >= 0.4:
+		var font: Font = _hint.get_theme_font("font") if _hint != null else null
+		if font == null:
+			font = ThemeDB.fallback_font
+		var text_sz := font.get_string_size(badge_text, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+		var b_pos := target_pos + Vector2(0, -CELL * 0.8)
+		var bg := Rect2(b_pos.x - text_sz.x * 0.5 - 4.0, b_pos.y - text_sz.y * 0.8 - 2.0, text_sz.x + 8.0, text_sz.y + 4.0)
+		_map.draw_rect(bg, Color(0.1, 0.08, 0.02, 0.85))
+		_map.draw_rect(bg, color, false, 1.0)
+		_map.draw_string(font, Vector2(b_pos.x - text_sz.x * 0.5, b_pos.y), badge_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.95, 0.8))
+
+
 ## Where the errands point. Shows target beacon and a directional trail leading from the party.
 func _draw_errand_marks() -> void:
 	var party_pos := Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
@@ -1377,25 +1523,7 @@ func _draw_errand_marks() -> void:
 			continue
 		var target_cell := Vector2i(int(pair[0]), int(pair[1]))
 		var target_pos := Vector2(target_cell) * CELL + Vector2.ONE * CELL * 0.5
-
-		# Pulsing diamond quest beacon at destination
-		_map.draw_arc(target_pos, CELL * 0.65, 0.0, TAU, 20, Color(1.0, 0.88, 0.35, 0.9), 2.5, true)
-		var d := CELL * 0.26
-		var diamond := PackedVector2Array([
-			target_pos + Vector2(0, -d),
-			target_pos + Vector2(d, 0),
-			target_pos + Vector2(0, d),
-			target_pos + Vector2(-d, 0),
-		])
-		_map.draw_colored_polygon(diamond, Color(1.0, 0.92, 0.45, 0.9))
-
-		# Directional breadcrumb trail from the party towards the errand goal
-		var dir := (target_pos - party_pos).normalized()
-		var dist := party_pos.distance_to(target_pos)
-		var trail_count := mini(7, int(dist / (CELL * 1.5)))
-		for i in range(1, trail_count + 1):
-			var dot := party_pos + dir * (CELL * 1.5 * i)
-			_map.draw_circle(dot, CELL * 0.08, Color(1.0, 0.88, 0.35, 0.75 - i * 0.08))
+		_draw_quest_path_and_beacon(party_pos, target_pos, Color(1.0, 0.88, 0.35, 0.9), "ERRAND")
 
 
 ## Active quest markers, escort trails, and landmarks of interest on the continent.
@@ -1406,25 +1534,13 @@ func _draw_quest_markers() -> void:
 		var dest := Roadside.destination(world)
 		if dest != null:
 			var target_pos := Vector2(dest.cell) * CELL + Vector2.ONE * CELL * 0.5
-			_map.draw_arc(target_pos, CELL * 0.65, 0.0, TAU, 24, Color(1.0, 0.85, 0.25, 0.9), 2.5, true)
-			var d := CELL * 0.28
-			var pts := PackedVector2Array([
-				target_pos + Vector2(0, -d),
-				target_pos + Vector2(d, 0),
-				target_pos + Vector2(0, d),
-				target_pos + Vector2(-d, 0),
-			])
-			_map.draw_colored_polygon(pts, Color(1.0, 0.88, 0.35, 0.85))
-
-			var dir := (target_pos - party_pos).normalized()
-			var dist := party_pos.distance_to(target_pos)
-			var trail_count := mini(6, int(dist / (CELL * 1.5)))
-			for i in range(1, trail_count + 1):
-				var dot := party_pos + dir * (CELL * 1.5 * i)
-				_map.draw_circle(dot, CELL * 0.09, Color(1.0, 0.85, 0.25, 0.7 - i * 0.08))
+			_draw_quest_path_and_beacon(party_pos, target_pos, Color(1.0, 0.85, 0.25, 0.95), "ESCORT")
 
 	for site in world.sites:
-		if site.kind == Site.GATE and site.rank == "S" and not site.cleared:
+		if Town.is_threatened(site):
+			var target_pos := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_draw_quest_path_and_beacon(party_pos, target_pos, Color(0.95, 0.35, 0.25, 0.95), "DEFEND")
+		elif site.kind == Site.GATE and site.rank == "S" and not site.cleared:
 			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_map.draw_arc(centre, CELL * 0.62, 0.0, TAU, 20, Color(0.85, 0.35, 0.95, 0.8), 2.0, true)
 		elif Ferry.is_port(world, site.cell):
@@ -1436,6 +1552,7 @@ func _draw_quest_markers() -> void:
 		elif site.data.has("thread"):
 			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_map.draw_arc(centre, CELL * 0.58, 0.0, TAU, 20, Color(0.9, 0.6, 0.3, 0.8), 2.0, true)
+			_draw_quest_path_and_beacon(party_pos, centre, Color(0.9, 0.6, 0.3, 0.85), "QUEST")
 
 
 ## Bands are drawn as whoever is leading them, so the country tells you what is

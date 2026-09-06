@@ -124,11 +124,7 @@ func _name_of(unit_id: String) -> String:
 
 ## How hard the country is, separate from which life you take into it.
 func _cycle_difficulty() -> void:
-	var settings: Array = Difficulty.settings().keys()
-	if settings.is_empty():
-		return
-	var at := settings.find(GameState.difficulty)
-	GameState.difficulty = settings[(at + 1) % settings.size()]
+	GameState.difficulty = Difficulty.cycle(GameState.difficulty)
 	_show_difficulty()
 
 

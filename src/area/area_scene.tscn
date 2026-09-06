@@ -24,10 +24,22 @@ follow_speed = 10.0
 unique_name_in_owner = true
 offset_left = 16.0
 offset_top = 12.0
-offset_right = 900.0
+offset_right = 720.0
 offset_bottom = 40.0
 theme_override_font_sizes/font_size = 18
 text = "..."
+
+[node name="ViewButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -170.0
+offset_top = 10.0
+offset_right = -16.0
+offset_bottom = 38.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 12
+text = "World View (Z)"
 
 [node name="LogLabel" type="Label" parent="UI"]
 unique_name_in_owner = true

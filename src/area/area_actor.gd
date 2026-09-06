@@ -75,11 +75,19 @@ static func _from_template(name: String, template_id: String) -> AreaActor:
 func face(direction: Vector2) -> void:
 	if direction == Vector2.ZERO:
 		return
-	var snapped := Vector2(signf(direction.x), signf(direction.y))
-	if absf(direction.x) > absf(direction.y) * 2.0:
-		snapped.y = 0.0
-	elif absf(direction.y) > absf(direction.x) * 2.0:
-		snapped.x = 0.0
+	var angle := direction.angle()
+	var octant := wrapi(int(roundf(angle / (PI / 4.0))), -4, 4)
+	var snapped: Vector2
+	match octant:
+		0: snapped = Vector2(1, 0)
+		1: snapped = Vector2(1, 1)
+		2: snapped = Vector2(0, 1)
+		3: snapped = Vector2(-1, 1)
+		-4, 4: snapped = Vector2(-1, 0)
+		-3: snapped = Vector2(-1, -1)
+		-2: snapped = Vector2(0, -1)
+		-1: snapped = Vector2(1, -1)
+		_: snapped = Vector2(0, 1)
 	if snapped == _facing:
 		return
 	_facing = snapped
@@ -112,7 +120,7 @@ func _ready() -> void:
 	set_physics_process(_roam_reach > 0.0)
 	# Whoever is moving this actor — the party, a stroll, an approach — only ever
 	# writes `position`, so movement is read back off it rather than announced.
-	set_process(not _run.is_empty())
+	set_process(true)
 
 
 func _process(delta: float) -> void:
@@ -121,10 +129,15 @@ func _process(delta: float) -> void:
 	if not moving:
 		if _moving:
 			_moving = false
+			_run_time = 0.0
+			if _sprite != null:
+				_sprite.position.y = -FOOT_OFFSET
 			_apply_texture()
 		return
 	_moving = true
 	_run_time += delta
+	if _sprite != null and _run.is_empty():
+		_sprite.position.y = -FOOT_OFFSET + sin(_run_time * 14.0) * 2.0
 	_apply_texture()
 
 
@@ -187,6 +200,12 @@ func _build_sprite(fallback: Color) -> void:
 func _apply_texture() -> void:
 	if _moving:
 		var frames: Array = _run.get(_facing, [])
+		if frames.is_empty() and not _run.is_empty():
+			var cardinal := Vector2(_facing.x, 0) if absf(_facing.x) >= absf(_facing.y) else Vector2(0, _facing.y)
+			frames = _run.get(cardinal, [])
+			if frames.is_empty():
+				var other := Vector2(0, _facing.y) if absf(_facing.x) >= absf(_facing.y) else Vector2(_facing.x, 0)
+				frames = _run.get(other, [])
 		if not frames.is_empty():
 			_sprite.texture = frames[int(_run_time * RUN_FPS) % frames.size()]
 			return

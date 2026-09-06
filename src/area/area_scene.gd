@@ -91,6 +91,10 @@ func _ready() -> void:
 	_place.text = boot_payload.get("title", map.display_name)
 	_idle_hint = map.hint if map.hint != "" else HINT
 	_hint.text = _idle_hint
+	var view_btn: Button = get_node_or_null("%ViewButton")
+	if view_btn != null:
+		view_btn.pressed.connect(_leave)
+		Sfx.attend(view_btn)
 	_open_on(map.opening)
 
 
@@ -798,6 +802,10 @@ func _overlay_open() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		_mouse_input(event)
+		return
+	if event.is_action_pressed("toggle_view") or (event is InputEventKey and event.is_pressed() and not event.is_echo() and (event.keycode == KEY_Z or event.physical_keycode == KEY_Z)):
+		get_viewport().set_input_as_handled()
+		_leave()
 		return
 	# Ahead of the pace keys, which used to share E with it.
 	if event.is_action_pressed("interact") and _nearby != null and not _talking:
