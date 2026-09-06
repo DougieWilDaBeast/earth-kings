@@ -1,0 +1,105 @@
+{
+	"display_name": "the dune outpost",
+	"layers": ["sand", "dirt", "water"],
+	"legend": {
+		"s": "sand",
+		",": "dirt",
+		"~": "water"
+	},
+	"tint": "#c7b488",
+	"spawn": [12, 16],
+	"exits": [[12, 17], [13, 17]],
+	"spots": [
+		{ "cell": [12, 7], "line": "A bazaar square covered in awnings of coarse linen." },
+		{ "cell": [6, 4], "line": "Water skins stacked beside the cistern, sealed with rosin." },
+		{ "cell": [18, 12], "line": "The sands begin here, and stretch south until the sky turns pale." }
+	],
+	"chests": [
+		{
+			"cell": [5, 4],
+			"line": "A bronze casket half-buried under feed sacks.",
+			"art": "chest_gold",
+			"gold": 125,
+			"item": "soldiers_ring"
+		},
+		{
+			"cell": [4, 12],
+			"line": "A caravan lockbox wedged between stone curbing.",
+			"art": "strongbox",
+			"gold": 180
+		}
+	],
+	"props": [
+		{ "art": "village/well", "cell": [12, 8] },
+		{ "art": "village/market_stall", "cell": [9, 6] },
+		{ "art": "village/awning", "cell": [14, 6] },
+		{ "art": "village/trough", "cell": [7, 5] },
+		{ "art": "village/barrels", "cell": [6, 3] },
+		{ "art": "village/crates", "cell": [16, 5] },
+		{ "art": "stone_bench", "cell": [10, 10] },
+		{ "art": "street_lamp", "cell": [11, 9] },
+		{ "art": "street_lamp", "cell": [13, 9] },
+		{ "art": "potted_plant", "cell": [15, 10] },
+		{ "art": "village/signpost", "cell": [12, 14] }
+	],
+	"buildings": [
+		{
+			"name": "the Oasis Serai",
+			"cell": [17, 3],
+			"size": [5, 4],
+			"door": [19, 6],
+			"area": "dune_serai"
+		}
+	],
+	"people": [
+		{
+			"name": "Nasir the Caravan Master",
+			"unit": "innkeeper",
+			"cell": [11, 7],
+			"facing": [1, 0],
+			"dialogue": "village_steward"
+		},
+		{
+			"name": "a sand scout checking her canteen",
+			"unit": "bird_archer",
+			"cell": [9, 9],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"Sands shift two miles a season. Maps are a luxury out there.",
+				"Water is coin here. Spend neither without reason."
+			]
+		},
+		{
+			"name": "Tariq the Oasis Sentry",
+			"unit": "legion_copper",
+			"cell": [13, 13],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"Keep the gate clear of pack beasts.",
+				"No weapons drawn within fifty paces of the well."
+			]
+		}
+	],
+	"rows": [
+		"ssssssssssssssssssssssssss",
+		"ssssssss,,,,,,ssssssssssss",
+		"sssss,,,,,,,,,,,,sssssssss",
+		"ssss,,,,,,,,,,,,,,ssssssss",
+		"sss,,,,,,~~~~,,,,,,sssssss",
+		"sss,,,,,,~~~~,,,,,,,ssssss",
+		"ss,,,,,,,,~~,,,,,,,,ssssss",
+		"ss,,,,,,,,,,,,,,,,,,,sssss",
+		"ss,,,,,,,,,,,,,,,,,,,sssss",
+		"sss,,,,,,,,,,,,,,,,,ssssss",
+		"sss,,,,,,,,,,,,,,,,,ssssss",
+		"ssss,,,,,,,,,,,,,,,sssssss",
+		"sssss,,,,,,,,,,,,,ssssssss",
+		"ssssss,,,,,,,,,,,sssssssss",
+		"ssssssss,,,,,,,sssssssssss",
+		"sssssssss,,,,,ssssssssssss",
+		"ssssssssss,,,sssssssssssss",
+		"sssssssssss,ssssssssssssss"
+	]
+}

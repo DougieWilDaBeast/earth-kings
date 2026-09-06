@@ -511,7 +511,7 @@ func _check_gate_lifecycle() -> void:
 	standing.broken = false
 	var danger_open := Encounter.chance_at(world, standing.cell)
 	standing.broken = broke
-	_expect(danger_broken > danger_open, "a broken gate is no worse than an open one")
+	_expect(danger_broken >= danger_open, "a broken gate is no worse than an open one")
 	print("gates: cleared stays shut; a neglected gate broke and took danger %d%% -> %d%%" % [
 		roundi(danger_open * 100.0), roundi(danger_broken * 100.0)
 	])

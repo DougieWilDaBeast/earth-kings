@@ -64,6 +64,8 @@ var annals: Array = []
 var escort: Dictionary = {}
 ## The step the last roadside scene played out on, so they do not crowd.
 var roadside_at: int = -999
+## Enemies who crawled away alive and wander with a grudge (see [Nemesis]).
+var survivors: Array = []
 
 var rng := RandomNumberGenerator.new()
 
@@ -268,7 +270,9 @@ func _upkeep() -> Array:
 			continue
 		if rng.randf() < float(rules.get("break_chance", 0.75)):
 			site.broken = true
-			notices.append("%s has broken. Whatever was behind it is out." % site.display_name)
+			var break_line := "%s has broken. Whatever was behind it is out on the roads." % site.display_name
+			notices.append(break_line)
+			Annals.record(self, break_line)
 		else:
 			# It held this time; the clock starts again.
 			site.opened_at = steps
@@ -307,6 +311,7 @@ func to_dict() -> Dictionary:
 		"annals": annals,
 		"escort": escort,
 		"roadside_at": roadside_at,
+		"survivors": survivors,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -334,6 +339,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.annals = payload.get("annals", [])
 	world.escort = payload.get("escort", {})
 	world.roadside_at = int(payload.get("roadside_at", -999))
+	world.survivors = payload.get("survivors", [])
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

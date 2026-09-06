@@ -7,6 +7,8 @@ extends CanvasLayer
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
 ## The reply that is never written down in a file.
 const REFLECT_REPLY := "(Say nothing, and let one of your own speak.)"
+## Asking for tidings and rumours of the realm.
+const NEWS_REPLY := "What news of the land has reached here?"
 ## Beat between lines while the game is playing itself.
 const AUTO_BEAT := 0.5
 ## Replies a conversation on auto may take before it is shown the door. Scripts
@@ -30,6 +32,8 @@ var _pending_goto: String = ""
 ## Where it goes back to once the party has had its say, and whether it already has.
 var _reflect_back: String = ""
 var _reflected: bool = false
+var _news_back: String = ""
+var _news_asked: bool = false
 var _auto_wait: float = 0.0
 var _auto_replies: int = 0
 
@@ -75,6 +79,8 @@ func _reset() -> void:
 	_pending_goto = ""
 	_reflect_back = ""
 	_reflected = false
+	_news_back = ""
+	_news_asked = false
 	_auto_wait = AUTO_BEAT
 	_auto_replies = 0
 
@@ -130,6 +136,11 @@ func _goto(node_id: String, effects: bool = true) -> void:
 
 
 func _advance() -> void:
+	if _news_back != "":
+		var back := _news_back
+		_news_back = ""
+		_goto(back, false)
+		return
 	if _reflect_back != "":
 		var back := _reflect_back
 		_reflect_back = ""
@@ -148,6 +159,9 @@ func _choose(slot: int) -> void:
 	var option: Dictionary = _shown_options[slot]
 	if option.get("reflect", false):
 		_speak_of_the_past()
+		return
+	if option.get("news", false):
+		_hear_the_news()
 		return
 
 	DialogueScript.apply_effects(option)
@@ -179,6 +193,15 @@ func _speak_of_the_past() -> void:
 	_show(line["speaker"], line["text"])
 
 
+## The NPC shares tidings and rumours that have reached them from across the
+## continent, then conversation returns to the options.
+func _hear_the_news() -> void:
+	_news_asked = true
+	var text := News.tidings_for_inn(GameState.world, _node.get("speaker", "The host"))
+	_news_back = _node_id
+	_show(_node.get("speaker", "The host"), text)
+
+
 func _finish() -> void:
 	_node = {}
 	_clear_options()
@@ -191,13 +214,15 @@ func _show(speaker: String, body: String) -> void:
 	_body.text = body
 	_show_portrait(speaker)
 	_clear_options()
-	if _pending_goto != "" or _reflect_back != "":
+	if _pending_goto != "" or _reflect_back != "" or _news_back != "":
 		_hint.text = "Click to continue"
 		return
 
 	_shown_options = DialogueScript.available_options(_node, _current_id)
 	if not _shown_options.is_empty() and _party_could_reflect():
 		_shown_options.append({ "text": REFLECT_REPLY, "reflect": true })
+	if not _shown_options.is_empty() and _could_ask_news():
+		_shown_options.append({ "text": NEWS_REPLY, "news": true })
 	for slot in _shown_options.size():
 		_options.add_child(_option_button(slot, _shown_options[slot]))
 	if _shown_options.is_empty():
@@ -215,6 +240,18 @@ func _party_could_reflect() -> bool:
 	return Recollection.has_something_to_say(GameState.world, GameState.party_characters())
 
 
+## Whether this conversation is with someone in a settlement, inn or keep
+## who would hear news of the roads.
+func _could_ask_news() -> bool:
+	if _news_asked or _current_id == "" or GameState.world == null:
+		return false
+	return _current_id in [
+		"the_innkeeper", "village_steward", "the_castellan", "keep_watchman",
+		"fen_wizard", "fen_fowler", "pine_woodcutter", "pine_sellsword",
+		"shore_pirate", "shore_idiot", "thorn_knight", "thorn_timeless"
+	]
+
+
 ## Whoever is talking is shown as they are drawn in the world, so a line never
 ## comes out of a face that does not belong to it.
 func _show_portrait(speaker: String) -> void:
@@ -229,9 +266,29 @@ func _option_button(slot: int, option: Dictionary) -> Button:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.add_theme_font_size_override("font_size", 13)
 	button.add_theme_color_override("font_hover_color", OPTION_HOVER)
 	button.add_theme_color_override("font_focus_color", OPTION_HOVER)
+
+	var opt_normal := StyleBoxFlat.new()
+	opt_normal.bg_color = Color(0.10, 0.10, 0.14, 0.75)
+	opt_normal.border_color = Color(0.46, 0.40, 0.30, 0.6)
+	opt_normal.set_border_width_all(1)
+	opt_normal.set_corner_radius_all(3)
+	opt_normal.content_margin_left = 8.0
+	opt_normal.content_margin_right = 8.0
+	opt_normal.content_margin_top = 4.0
+	opt_normal.content_margin_bottom = 4.0
+	button.add_theme_stylebox_override("normal", opt_normal)
+
+	var opt_hover := opt_normal.duplicate() as StyleBoxFlat
+	opt_hover.bg_color = Color(0.20, 0.18, 0.16, 0.95)
+	opt_hover.border_color = OPTION_HOVER
+	button.add_theme_stylebox_override("hover", opt_hover)
+	button.add_theme_stylebox_override("focus", opt_hover)
+
 	button.pressed.connect(_choose.bind(slot))
+	Sfx.attend(button)
 	return button
 
 

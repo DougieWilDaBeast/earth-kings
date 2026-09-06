@@ -300,6 +300,7 @@ const WILD_AREAS := {
 	"brush": ["wild_thicket", "wild_grove"],
 	"marsh": ["wild_fen"],
 	"hill": ["wild_scarp"],
+	"sand": ["wild_oasis"],
 }
 
 
@@ -328,6 +329,8 @@ func _wild_opening(terrain: String) -> String:
 			return "A goat path switches back up the rock towards the shelf."
 		"brush":
 			return "There is a gap in the thorn, and it has been kept open."
+		"sand":
+			return "A line of palms marks a hidden spring sheltered between the dunes."
 	return "A sheltered path winds through the boughs into an ancient grove."
 
 
@@ -359,15 +362,24 @@ func _watch_check(cell: Vector2i) -> void:
 		return
 	world.prowlers.erase(band)
 	_map.queue_redraw()
-	_begin_battle(Encounter.for_band(world, band, GameState.party_characters(), world.rng))
+	var meeting := Encounter.for_band(world, band, GameState.party_characters(), world.rng)
+	var terrain := world.terrain_id_at(cell)
+	if terrain in ["brush", "forest", "marsh"] or band.cell == cell:
+		meeting["ambush"] = true
+	_begin_battle(meeting)
 
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	_busy = true
 	if Pace.auto:
 		Pace.avoided[world.player_cell] = true
+	outcome["enemies"] = meeting.get("enemies", [])
 	GameState.pending_outcome = outcome
 	_note(meeting["title"])
+	var confrontation := Nemesis.check_confrontation(world, meeting)
+	if confrontation != "":
+		meeting["confrontation"] = confrontation
+		_note(confrontation)
 	EventBus.request_scene.emit("battle", {"encounter": meeting, "return_scene": "world"})
 
 
@@ -392,6 +404,10 @@ func _settle_up(won: bool) -> void:
 
 	var party := GameState.party_characters()
 	var cell: Vector2i = outcome.get("cell", world.player_cell)
+	var survivor_line := Nemesis.on_battle_won(world, outcome.get("enemies", []), cell)
+	if survivor_line != "":
+		_note(survivor_line)
+
 	var site := world.site_at(cell)
 	match str(outcome.get("kind", "")):
 		"gate":
@@ -733,6 +749,10 @@ func _prompt() -> String:
 			])
 		if not Grimoire.offer(site).is_empty():
 			parts.append("G for the book, unread (%d gold)" % Grimoire.price(site))
+		if Ferry.is_port(world, site.cell):
+			var dest := Ferry.next_port(world, site.cell)
+			if dest != null:
+				parts.append("O to sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)])
 		if not parts.is_empty():
 			return "  ·  ".join(parts)
 
@@ -850,6 +870,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_K:
 			get_viewport().set_input_as_handled()
 			_raid_here()
+		KEY_O:
+			get_viewport().set_input_as_handled()
+			_sail_here()
+
+
+## Passage by sea to another port along the coast.
+func _sail_here() -> void:
+	var site := world.site_at(world.player_cell)
+	if site == null or not Ferry.is_port(world, site.cell):
+		return
+	var dest := Ferry.next_port(world, site.cell)
+	if dest == null:
+		_note("No boat will take you from here.")
+		return
+	var outcome := Ferry.sail(world, site, dest)
+	_note(str(outcome.get("line", "")))
+	if outcome.get("success", false):
+		_arrive_at(dest)
+		_centre_camera()
+		_map.queue_redraw()
+		_refresh()
 
 
 ## Places big enough to walk around in have an area of the same name as their
@@ -1146,6 +1187,7 @@ func _draw_world() -> void:
 	_draw_watched_ground()
 	_draw_places()
 	_draw_errand_marks()
+	_draw_quest_markers()
 	_draw_bands()
 	_draw_party()
 
@@ -1326,14 +1368,74 @@ func _warm_art() -> void:
 		Database.unit_face(character.template_id)
 
 
-## Where the errands point. Nobody drew you a map, but you know roughly.
+## Where the errands point. Shows target beacon and a directional trail leading from the party.
 func _draw_errand_marks() -> void:
+	var party_pos := Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
 	for errand: Dictionary in GameState.errands:
 		var pair: Array = errand.get("to", [])
 		if pair.size() < 2 or Errand.is_complete(errand):
 			continue
-		var mark := Vector2(int(pair[0]), int(pair[1])) * CELL + Vector2.ONE * CELL * 0.5
-		_map.draw_arc(mark, CELL * 0.42, 0.0, TAU, 16, Color(0.95, 0.88, 0.55, 0.85), 2.0, true)
+		var target_cell := Vector2i(int(pair[0]), int(pair[1]))
+		var target_pos := Vector2(target_cell) * CELL + Vector2.ONE * CELL * 0.5
+
+		# Pulsing diamond quest beacon at destination
+		_map.draw_arc(target_pos, CELL * 0.65, 0.0, TAU, 20, Color(1.0, 0.88, 0.35, 0.9), 2.5, true)
+		var d := CELL * 0.26
+		var diamond := PackedVector2Array([
+			target_pos + Vector2(0, -d),
+			target_pos + Vector2(d, 0),
+			target_pos + Vector2(0, d),
+			target_pos + Vector2(-d, 0),
+		])
+		_map.draw_colored_polygon(diamond, Color(1.0, 0.92, 0.45, 0.9))
+
+		# Directional breadcrumb trail from the party towards the errand goal
+		var dir := (target_pos - party_pos).normalized()
+		var dist := party_pos.distance_to(target_pos)
+		var trail_count := mini(7, int(dist / (CELL * 1.5)))
+		for i in range(1, trail_count + 1):
+			var dot := party_pos + dir * (CELL * 1.5 * i)
+			_map.draw_circle(dot, CELL * 0.08, Color(1.0, 0.88, 0.35, 0.75 - i * 0.08))
+
+
+## Active quest markers, escort trails, and landmarks of interest on the continent.
+func _draw_quest_markers() -> void:
+	var party_pos := Vector2(world.player_cell) * CELL + Vector2.ONE * CELL * 0.5
+
+	if Roadside.escorting(world):
+		var dest := Roadside.destination(world)
+		if dest != null:
+			var target_pos := Vector2(dest.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_map.draw_arc(target_pos, CELL * 0.65, 0.0, TAU, 24, Color(1.0, 0.85, 0.25, 0.9), 2.5, true)
+			var d := CELL * 0.28
+			var pts := PackedVector2Array([
+				target_pos + Vector2(0, -d),
+				target_pos + Vector2(d, 0),
+				target_pos + Vector2(0, d),
+				target_pos + Vector2(-d, 0),
+			])
+			_map.draw_colored_polygon(pts, Color(1.0, 0.88, 0.35, 0.85))
+
+			var dir := (target_pos - party_pos).normalized()
+			var dist := party_pos.distance_to(target_pos)
+			var trail_count := mini(6, int(dist / (CELL * 1.5)))
+			for i in range(1, trail_count + 1):
+				var dot := party_pos + dir * (CELL * 1.5 * i)
+				_map.draw_circle(dot, CELL * 0.09, Color(1.0, 0.85, 0.25, 0.7 - i * 0.08))
+
+	for site in world.sites:
+		if site.kind == Site.GATE and site.rank == "S" and not site.cleared:
+			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_map.draw_arc(centre, CELL * 0.62, 0.0, TAU, 20, Color(0.85, 0.35, 0.95, 0.8), 2.0, true)
+		elif Ferry.is_port(world, site.cell):
+			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_map.draw_arc(centre, CELL * 0.52, 0.0, TAU, 18, Color(0.35, 0.75, 0.95, 0.75), 1.5, true)
+		elif site.kind == Site.GRAVE:
+			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_map.draw_arc(centre, CELL * 0.45, 0.0, TAU, 16, Color(0.8, 0.8, 0.85, 0.7), 1.5, true)
+		elif site.data.has("thread"):
+			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
+			_map.draw_arc(centre, CELL * 0.58, 0.0, TAU, 20, Color(0.9, 0.6, 0.3, 0.8), 2.0, true)
 
 
 ## Bands are drawn as whoever is leading them, so the country tells you what is

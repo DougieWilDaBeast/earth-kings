@@ -166,6 +166,7 @@ static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumbe
 	var enemies: Array = []
 	for unit_id: String in band.pack:
 		enemies.append({"unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1))})
+	Nemesis.inject_survivor(world, enemies)
 	return _build(world, band.cell, WILD, enemies, rng, "%s has seen you." % band.label())
 
 

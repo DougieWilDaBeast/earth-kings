@@ -40,6 +40,28 @@ static func award(character: Character, amount: int, world: World) -> Array:
 	return lines
 
 
+## Award combat bounty XP: 50% directly to the killer, 50% shared across living party members (Ruling 3.2).
+static func award_combat_xp(killer: Character, all_living_allies: Array, bounty: int, world: World) -> Array:
+	var lines: Array = []
+	if bounty <= 0:
+		return lines
+	var killer_share := roundi(bounty * 0.5)
+	var party_share := bounty - killer_share
+	if killer != null and killer.is_alive():
+		lines.append_array(award(killer, killer_share, world))
+
+	var active_allies: Array = []
+	for ally in all_living_allies:
+		var c: Character = ally if ally is Character else (ally.get("character") if "character" in ally else null)
+		if c != null and c.is_alive():
+			active_allies.append(c)
+	if not active_allies.is_empty():
+		var each_share := maxi(1, party_share / active_allies.size())
+		for ally_char: Character in active_allies:
+			lines.append_array(award(ally_char, each_share, world))
+	return lines
+
+
 static func _level_up(character: Character, world: World) -> Array:
 	var lines: Array = []
 	character.level += 1

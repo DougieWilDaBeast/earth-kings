@@ -389,3 +389,134 @@ seasons is an active, tangible part of every journey. The current season's clove
 world status HUD with full tooltip lore, in the Journal screen's "Seasons of the Land" overview,
 in the Museum journey records, and dynamically tints wild clover props placed throughout world
 and area maps.
+
+## W21 — Signposting: quest markers and points of interest
+
+> When helping someone, show a quest marker / trail of where to go, or what to do. Have quest
+> markers, points of interest.
+
+**Built.** `world_scene._draw_quest_markers()` now renders prominent directional aids on the map:
+
+- **Escort Objective**: an amber beacon with a pulsing diamond marks the destination town, and a dotted guide trail stretches out from the party pointing the exact bearing.
+- **Compass & Distance**: `Roadside.escort_prompt` computes distance and cardinal bearing (e.g. `16 leagues SE`), giving immediate heading feedback.
+- **Points of Interest**: S-Rank warded gates glow with crimson rune-rings, while coastal ports display azure beacon halos marking ferry transit.
+
+## W22 — Two views: the whole map, and the tile you are standing on
+
+> 2 views. World view (whole map), and planar view — the tile on world view zooms in, explorable
+> area with things to do.
+
+**Half built, and closer than it looks.** Area mode already _is_ the second view, and W13's
+wilderness step-in already opens ordinary ground: forest, brush, marsh and hill tiles now open
+into `wild_grove`/`wild_thicket`/`wild_fen`/`wild_scarp` (see `world_scene.WILD_AREAS`).
+
+**Open:** it is a 6-in-100 chance on a qualifying tile, not "any tile zooms in". Wants the step-in
+to be available on far more ground, and a generated area for tiles nobody hand-built.
+
+## W23 — More country: forest, desert, and the sea between
+
+> Bigger world. Multiple areas. Forest, desert, example. Travel by boat to different areas.
+
+**Built.**
+
+- **Desert Environments**: `village_dune` (the dune outpost) with its interior `dune_serai`, `gate_dune` (the sun gate), and `wild_oasis` (hidden spring in the dunes) added and wired into `WorldGen.AREA_POOLS` and `world_scene.WILD_AREAS`.
+- **Coastal Boat Travel**: [`Ferry`](../src/chronicle/ferry.gd) enables passage by cutter between coastal ports across oceans and deep sounds for a modest fare (`KEY_O`), advancing the voyage smoothly on the step clock.
+- Area catalog now totals **33 unique areas**: gates (5), huts (4), libraries (3), villages (5), keeps (2), wilderness (5), tower, home, and interiors.
+
+**Open:** boats currently connect coastal ports on the main continent; a separate archipelago landmass is not yet generated.
+
+## W24 — Stealth, and the first blow
+
+> Enter hideouts, or places, or missions undetected and fight enemies with advantage first round to
+> initiate combat. Use range of vision on tilemap to show player where not to step, to stay
+> undetected.
+
+**Half built on the world map, absent everywhere else.** `Prowler.watched()` already paints a
+band's sight radius red, and stepping into it is what starts the fight — the "where not to step"
+idea is live at world scale.
+
+**Open:** there is no reward for avoiding it and no ambush for starting it. Wants an initiative
+advantage when you open the fight, sight cones inside areas and battles, and hideouts you can
+enter unseen.
+
+## W25 — Bigger battles, longer missions
+
+> Boss fights. Bigger tilemap for battles, too small. Multiple fights, longer missions,
+> collectibles, loot.
+
+**Partly built.** The battlefield went from 12×10 to **18×14** — a bit over twice the ground, so
+there is room to flank and to be flanked. Multi-floor gate delves and the Tower already chain
+fights, and the Tower's floor 10 is an Apex fight.
+
+**Open:** no named bosses outside the Tower, no collectibles as a category, and a "mission" is
+still one site.
+
+## W26 — Enemies who remember you
+
+> Enemies defeated add chance to survive, very slim. They might tell the tale about you, more might
+> spread, or fight later on with history. Dialogue should take place when they re-encounter each other.
+
+**Built.** [`Nemesis`](../src/chronicle/nemesis.gd) tracks foes who survived combat:
+
+- When a fight concludes, sentient defeated enemies roll a survival check (20%). A survivor crawls away into the brush, takes on an epithet (e.g. _Garrick the Scarred_, _Farouq who Fled_), and enters `world.survivors`.
+- Their tale spreads outward via `Renown.record` and logs to `Annals`.
+- Survivors can reappear leading roaming prowler bands. When confronted, a tense recognition line triggers before battle begins: _"I survived your blades at [Place]... I swore I would never run twice!"_
+
+## W27 — Enemies with more to do
+
+> Enemies more abilities.
+
+**Built.**
+
+- 52 enemy unit templates in `data/units.json` now carry diverse thematic ability loadouts (archers get snipe/volley/pinning_shot, brutes get crush/earthshake/sunder, rogues get hamstring/lunge/riposte, magi get scorch/pyre/thunderhead/chain_bolt, knights get shield_bash/whirl/stand_fast).
+- [`EnemyBrain`](../src/battle/ai/enemy_brain.gd) now evaluates all abilities on a unit rather than defaulting to `abilities[0]`, selecting optimal moves by range, flanking angles, and tactical damage.
+- **Supportive AI**: Opponent units with healing or warding abilities (`mend`, `warding_touch`) actively evaluate damaged allies and cast support spells to rescue wounded comrades.
+- **AOE Splash Assessment**: AI evaluates splash radii, optimizing tactical placement to catch multiple clustered party members.
+
+## W28 — Animations wired to what is on disk
+
+> Animations on each character need to be inputted with what is in files.
+
+**Barely built.** `Database.unit_run(id, heading)` loads `art/units/<id>/run/<heading>/frame_*.png`
+and only `sworn_blade` has a run cycle. Every other unit is a single PNG per direction.
+
+**Open:** the other ~70 units need their exports wired up, and states beyond `run` (attack, hurt,
+cast) have no loader at all.
+
+## W29 — A UI pass
+
+> UI update.
+
+**Not built as a pass.** The kit theme, framed panels, crest and parade are in, but the readouts
+have grown by accretion: the world hint bar now competes for one line between class choice,
+unspent powers, escort patience, captives, roadside scenes and site actions, and the party screen
+is a tall stack of rows rather than a screen. Wants a deliberate pass over the world HUD, the
+party screen and the battle HUD.
+
+## W30 — A living world
+
+> Living world.
+
+**Built.**
+
+- **Continental News & Tidings**: [`News`](../src/chronicle/news.gd) surveys the living continent (distant sieges, fallen or relieved towns, broken gates, nemeses rallying in the hills, seasonal progress, active caravan routes, and Spire expeditions) and compiles them into living dispatches.
+- **Hearth & Tavern Tidings**: In any settlement, inn, keep or outpost, the dialogue option `"What news of the land has reached here?"` invites the host or steward to share recent reports and rumors carried by post-riders and travelers from distant provinces.
+- **Siege Bells & Annals Integration**: Besieged settlements ring warning bells into the world status notices, and both sieges, ruined towns, and broken gates record automatically into `world.annals` viewable at any time under the Journal's **Annals** tab.
+- **Dynamic Seasonal Shifts**: Four seasonal clovers mark the continental calendar every 120 steps, triggering atmospheric transitions and seasonal announcements in the chronicle.
+
+## W31 — The party trailing the leader
+
+> Characters following leader are glitching, fix it.
+
+**Fixed.** `area_scene` walked the followers only inside the movement branch, so the moment the
+player let go of the keys everyone froze mid-stride wherever they stood, and the trail was never
+closed. It also re-faced each follower off sub-pixel deltas, which read as the sprite flickering
+between directions, and moved them at 1.5× the leader's speed so they snapped up behind.
+
+`_settle_followers(delta)` now runs every frame before the input early-out, ignores anything
+inside a `FOLLOW_DEADZONE` of its crumb, only hurries when more than a full stride behind, and the
+leader no longer re-faces when a wall stopped the step dead.
+
+Additionally, follower placement now samples continuously along the polyline path of breadcrumbs
+(`_point_along_trail`), ensuring followers trace the exact path the leader walked around doorways
+and corners without clipping walls, maintaining stable 24px single-file spacing without crowding.

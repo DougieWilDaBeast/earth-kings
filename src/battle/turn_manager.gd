@@ -10,9 +10,16 @@ var units: Array[Unit] = []
 var round_count: int = 0
 
 
-func setup(all_units: Array[Unit]) -> void:
+func setup(all_units: Array[Unit], ambush: bool = false) -> void:
 	units = all_units
 	round_count = 0
+	if ambush:
+		for unit in units:
+			if unit.team == Unit.Team.PLAYER:
+				unit.ct = CT_THRESHOLD
+				unit.set_meta("ambush_advantage", true)
+			else:
+				unit.ct = 0
 
 
 func living_units() -> Array[Unit]:

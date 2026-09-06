@@ -17,10 +17,10 @@ const MIN_SITE_SPACING := 9
 ## are never the same village. A kind with a single entry gets the same inside
 ## every time, which is right for the Tower and for your own roof.
 const AREA_POOLS := {
-	Site.VILLAGE: ["village", "village_fen", "village_pines", "village_shore"],
+	Site.VILLAGE: ["village", "village_fen", "village_pines", "village_shore", "village_dune"],
 	Site.KEEP: ["keep", "keep_thorn"],
 	Site.LIBRARY: ["library", "library_cloister", "library_vault"],
-	Site.GATE: ["gate", "gate_barrow", "gate_drowned", "gate_ash"],
+	Site.GATE: ["gate", "gate_barrow", "gate_drowned", "gate_ash", "gate_dune"],
 	Site.HUT: ["hut", "hut_stilt", "hut_cairn", "hut_orchard"],
 	Site.TOWER: ["tower"],
 	Site.HOME: ["home"],

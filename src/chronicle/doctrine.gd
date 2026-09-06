@@ -7,6 +7,8 @@ extends RefCounted
 
 ## World steps a doctrine survives without being read, taught or fought with.
 const FADE_AFTER_STEPS := 900
+## Buffer steps during which faded doctrine can still be remembered and taught (Ruling 3.3).
+const FADING_BUFFER_STEPS := 150
 
 
 static func entry(doctrine_id: String) -> Dictionary:
@@ -83,6 +85,14 @@ static func teachable(teacher: Character, student: Character) -> Array:
 		if not student.knows(doctrine_id):
 			out.append(doctrine_id)
 	return out
+
+
+static func is_fading_memory(character: Character, doctrine_id: String, step: int) -> bool:
+	if not character.knows(doctrine_id):
+		return false
+	var last_seen := int(character.doctrine_seen.get(doctrine_id, step))
+	var age := step - last_seen
+	return age >= FADE_AFTER_STEPS - FADING_BUFFER_STEPS and age < FADE_AFTER_STEPS
 
 
 ## Drop anything gone stale. Returns the ids that were lost.

@@ -1,0 +1,75 @@
+{
+	"display_name": "the Oasis Serai",
+	"layers": ["dirt", "stone", "sand"],
+	"legend": {
+		"o": "stone",
+		",": "dirt",
+		"s": "sand"
+	},
+	"tint": "#b59b76",
+	"spawn": [5, 7],
+	"exits": [[5, 8]],
+	"spots": [
+		{ "cell": [5, 4], "line": "Heavy carpets over the stone to keep the desert chill out after dusk." },
+		{ "cell": [2, 2], "line": "Clay amphoras filled with rosewater and dates." }
+	],
+	"chests": [
+		{
+			"cell": [8, 2],
+			"line": "A cedar merchant box under a divan, smelling of clove and resin.",
+			"art": "chest_gold",
+			"gold": 90,
+			"item": "hearth_coin"
+		}
+	],
+	"props": [
+		{ "art": "oil_lamp", "cell": [4, 1] },
+		{ "art": "oil_lamp", "cell": [6, 1] },
+		{ "art": "sofa_gold", "cell": [2, 4] },
+		{ "art": "sideboard", "cell": [8, 3] },
+		{ "art": "tapestry", "cell": [5, 1] },
+		{ "art": "village/barrels", "cell": [1, 6] }
+	],
+	"people": [
+		{
+			"name": "Zuhayr the Serai Host",
+			"unit": "innkeeper",
+			"cell": [5, 3],
+			"facing": [0, 1],
+			"dialogue": "the_innkeeper"
+		},
+		{
+			"name": "a spice trader from the dunes",
+			"unit": "peasant",
+			"cell": [3, 5],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Lost three camels to the sun-scorch. The salt was worth more than the beasts.",
+				"Do not sleep without cloth across your mouth. The sand finds teeth."
+			]
+		},
+		{
+			"name": "Kamil of the Red Blade",
+			"unit": "ember_duelist",
+			"cell": [8, 5],
+			"facing": [-1, 0],
+			"wander": 2,
+			"chatter": [
+				"Steel cools fast in the night. Keep it sheathed close to your ribs.",
+				"The road across the Great Dune is open only when the south wind dies."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooooooooo",
+		"ooooo,ooooo",
+		"ooooo,ooooo"
+	]
+}

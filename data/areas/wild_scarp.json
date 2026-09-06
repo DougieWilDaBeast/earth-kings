@@ -1,10 +1,10 @@
 {
 	"display_name": "the wind scarp",
-	"layers": ["stone", "crag", "dirt"],
+	"layers": ["raised", "crag", "dirt"],
 	"hint": "WASD to walk  ·  E to look at something  ·  the way down is south",
 	"legend": {
 		",": "dirt",
-		"s": "stone",
+		"r": "raised",
 		"A": "crag"
 	},
 	"tint": "#9099a6",
@@ -54,16 +54,16 @@
 	],
 	"rows": [
 		"AAAAAAAAAAAAAAA",
-		"AAAAsssssssAAAA",
-		"AAAsssssssssAAA",
-		"AAsssssssssssAA",
-		"A,,sssssssss,,A",
-		",,,sssssssss,,,",
-		",,,sssssssss,,,",
-		"A,,sssssssss,,A",
-		"AAsssssssssssAA",
-		"AAAsssssssssAAA",
-		"AAAAsssssssAAAA",
+		"AAAArrrrrrrAAAA",
+		"AAArrrrrrrrrAAA",
+		"AArrrrrrrrrrrAA",
+		"A,,rrrrrrrrr,,A",
+		",,,rrrrrrrrr,,,",
+		",,,rrrrrrrrr,,,",
+		"A,,rrrrrrrrr,,A",
+		"AArrrrrrrrrrrAA",
+		"AAArrrrrrrrrAAA",
+		"AAAArrrrrrrAAAA",
 		"AAAAA,,,,,AAAAA"
 	]
 }

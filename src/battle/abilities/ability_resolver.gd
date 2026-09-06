@@ -90,12 +90,20 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 	if user.character != null and user.character.has_grudge_against(target):
 		raw = roundi(raw * 1.10)
 		grudge_hit = true
+	# Ambush surprise advantage grants +15% damage on the opening round.
+	var ambush_hit := false
+	if user.has_meta("ambush_advantage") and bool(user.get_meta("ambush_advantage")):
+		raw = roundi(raw * 1.15)
+		ambush_hit = true
+		user.remove_meta("ambush_advantage")
 	var flank := flank_of(user.cell, target)
 	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
 	target.take_damage(damage)
 	var tags: String = FLANK_LABEL[flank]
 	if grudge_hit:
 		tags += " (grudge)"
+	if ambush_hit:
+		tags += " (ambush)"
 	var line := "%s used %s — %s takes %d damage%s." % [
 		user.display_name, name, target.display_name, damage, tags
 	]

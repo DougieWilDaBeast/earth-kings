@@ -19,6 +19,7 @@ func _ready() -> void:
 	_check_arena()
 	_check_cinematic()
 	_check_seasons()
+	_check_news()
 
 	print("")
 	if _failures.is_empty():
@@ -286,3 +287,14 @@ func _check_seasons() -> void:
 	for sea: Dictionary in Season.SEASONS:
 		_expect(ResourceLoader.exists(sea["texture_path"]), "missing season clover texture at %s" % sea["texture_path"])
 		_expect(ResourceLoader.exists(sea["ui_texture_path"]), "missing season clover UI texture at %s" % sea["ui_texture_path"])
+
+
+# --- W30 ----------------------------------------------------------------------
+
+
+func _check_news() -> void:
+	var world := WorldGen.generate(SEED)
+	var dispatches := News.dispatches(world)
+	_expect(not dispatches.is_empty(), "news dispatches were empty")
+	var tidings := News.tidings_for_inn(world, "The Host")
+	_expect(tidings.contains("Word travels"), "inn tidings missing lead text")

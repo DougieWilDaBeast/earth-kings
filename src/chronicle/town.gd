@@ -55,9 +55,11 @@ static func upkeep(world: World) -> Array:
 			continue
 		victim.data["threatened_at"] = world.steps
 		victim.data["threatened_by"] = gate.display_name
-		notices.append("%s is being raided by whatever came out of %s." % [
+		var line := "Distant bells toll: %s is under assault by whatever came out of %s." % [
 			victim.display_name, gate.display_name
-		])
+		]
+		notices.append(line)
+		Annals.record(world, line)
 
 	var doom := int(rules().get("falls_after_steps", 900))
 	for site in world.sites:
@@ -69,7 +71,9 @@ static func upkeep(world: World) -> Array:
 		site.data[SACKED] = true
 		site.data["wares"] = []
 		site.data["hire"] = {}
-		notices.append("%s has fallen. Nobody was coming." % site.display_name)
+		var fall_line := "%s has fallen to siege. The streets are desolate and trade has ended." % site.display_name
+		notices.append(fall_line)
+		Annals.record(world, fall_line)
 	return notices
 
 
@@ -89,6 +93,7 @@ static func save(site: Site, world: World) -> Array[String]:
 		world, Renown.TOWN_SAVED, site.cell,
 		int(Renown.rules().get("town_saved", 5)), line
 	)
+	Annals.record(world, "%s was relieved and saved from siege." % site.display_name)
 	return [
 		"%s holds. They give you %d gold and every name they know." % [site.display_name, reward],
 		"Word of this will get about.",
@@ -115,6 +120,7 @@ static func raid(site: Site, world: World, roster: Roster) -> Array[String]:
 		world, Renown.TOWN_RAIDED, site.cell,
 		int(Renown.rules().get("town_raided", -7)), line
 	)
+	Annals.record(world, "%s was pillaged and sacked by the company." % site.display_name)
 	lines.append("There were witnesses. There always are.")
 	return lines
 

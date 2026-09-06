@@ -1,0 +1,77 @@
+{
+	"display_name": "the quiet oasis",
+	"layers": ["water", "sand", "dirt"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
+	"legend": {
+		"~": "water",
+		"s": "sand",
+		",": "dirt"
+	},
+	"tint": "#c4af85",
+	"spawn": [7, 10],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 5], "line": "A pool of clear water, fed from somewhere deep under the limestone." },
+		{ "cell": [4, 4], "line": "Tracks of four different things that came to drink in the night." },
+		{ "cell": [10, 4], "line": "Date stones scattered under the shade, clean and dry." },
+		{ "cell": [7, 8], "line": "The heat rises off the sand in waves the moment you step out of the shade." }
+	],
+	"chests": [
+		{
+			"cell": [10, 3],
+			"line": "A brass jar buried to its neck in the drift, stoppered with wax.",
+			"art": "chest_gold",
+			"gold": 160,
+			"item": "salt_pouch"
+		}
+	],
+	"props": [
+		{ "art": "camp/fire_sand", "cell": [4, 7] },
+		{ "art": "village/trough", "cell": [10, 7] },
+		{ "art": "village/barrels", "cell": [11, 4] },
+		{ "art": "nature/ants", "cell": [3, 8] },
+		{ "art": "nature/spider", "cell": [11, 8] },
+		{ "art": "nature/thistle", "cell": [4, 3] },
+		{ "art": "potted_plant", "cell": [9, 3] },
+		{ "art": "stone_bench", "cell": [5, 5] },
+		{ "art": "village/signpost", "cell": [8, 9] }
+	],
+	"people": [
+		{
+			"name": "Sabir the Water-Watcher",
+			"unit": "peasant",
+			"cell": [7, 6],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"Take what you need for the skins. Do not foul the source.",
+				"Three days south before you find another drop. Mind your compass.",
+				"The sand moves every night. The water stays where it is."
+			]
+		},
+		{
+			"name": "a sun lizard on the stone",
+			"unit": "ember_lizard",
+			"cell": [10, 5],
+			"facing": [-1, 0],
+			"wander": 2,
+			"chatter": [
+				"It sits motionless on the warm slab, soaking the noon heat."
+			]
+		}
+	],
+	"rows": [
+		"sssssssssssssss",
+		"sssss~~~~~sssss",
+		"ssss~~~~~~~ssss",
+		"sss~~,,,,,~~sss",
+		"ss~~,,,,,,,~~ss",
+		"ss~~,,,,,,,~~ss",
+		"sss~~,,,,,~~sss",
+		"ssss,,,,,,,ssss",
+		"sssss,,,,,sssss",
+		"sssss,,,,,sssss",
+		"ssssss,,,ssssss",
+		"ssssss,,,ssssss"
+	]
+}

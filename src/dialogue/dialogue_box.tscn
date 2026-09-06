@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/dialogue/dialogue_box.gd" id="1_dialogue"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialogue"]
+bg_color = Color(0.06, 0.06, 0.09, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.62, 0.52, 0.34, 0.85)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 6
 
 [node name="DialogueBox" type="CanvasLayer"]
 layer = 10
@@ -8,28 +22,30 @@ script = ExtResource("1_dialogue")
 
 [node name="Panel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = -208.0
-offset_right = -48.0
-offset_bottom = -40.0
+offset_left = -330.0
+offset_top = -135.0
+offset_right = 330.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialogue")
 
 [node name="Margin" type="MarginContainer" parent="Panel"]
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
 
 [node name="Row" type="HBoxContainer" parent="Panel/Margin"]
-theme_override_constants/separation = 18
+theme_override_constants/separation = 12
 
 [node name="Portrait" type="TextureRect" parent="Panel/Margin/Row"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(64, 64)
 size_flags_vertical = 0
 expand_mode = 1
 stretch_mode = 5
@@ -37,27 +53,30 @@ texture_filter = 1
 
 [node name="Lines" type="VBoxContainer" parent="Panel/Margin/Row"]
 size_flags_horizontal = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 4
 
 [node name="SpeakerLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.95, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.96, 0.82, 0.45, 1)
 text = "Speaker"
 
 [node name="BodyLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.9, 0.88, 0.82, 1)
+theme_override_constants/line_spacing = 2
 text = "..."
 autowrap_mode = 3
 
 [node name="Options" type="VBoxContainer" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="HintLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.65, 0.68, 0.75, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.62, 0.65, 0.72, 1)
 text = "Click to continue"
 horizontal_alignment = 2

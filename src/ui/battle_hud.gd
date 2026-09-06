@@ -76,12 +76,16 @@ func _rebuild_draught_buttons(unit: Unit) -> void:
 	var draughts := Gear.draughts()
 	if draughts.is_empty():
 		return
-	var can_drink := unit.hp < unit.max_hp and unit.can_pay(Unit.Cost.BONUS)
+	var can_drink := unit.hp < unit.max_hp and unit.can_drink_draught()
 	for item_id: String in draughts:
 		var button := Button.new()
 		var mends := mini(Gear.mends(item_id), unit.max_hp - unit.hp)
-		button.text = "Drink %s (+%d HP)" % [Gear.display_name(item_id), mends]
-		button.tooltip_text = "Spend bonus action to recover %d HP." % mends
+		button.text = "Drink %s (+%d HP) [%d/%d]" % [
+			Gear.display_name(item_id), mends, unit.draughts_used, Unit.COMBAT_POUCH_LIMIT
+		]
+		button.tooltip_text = "Spend bonus action to recover %d HP (combat pouch: %d/%d used)." % [
+			mends, unit.draughts_used, Unit.COMBAT_POUCH_LIMIT
+		]
 		button.disabled = not can_drink
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(func() -> void: draught_requested.emit(item_id))

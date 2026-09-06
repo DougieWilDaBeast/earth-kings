@@ -8,8 +8,8 @@ extends Node2D
 ## than stacking up.
 
 ## Widest a bubble gets before the line wraps.
-const WRAP_WIDTH := 240.0
-const FONT_SIZE := 15
+const WRAP_WIDTH := 200.0
+const FONT_SIZE := 13
 ## How long it takes to appear, to fade, and how long it holds in between.
 const FADE_IN := 0.12
 const FADE_OUT := 0.45
@@ -21,12 +21,12 @@ const PANEL := Color(0.09, 0.08, 0.12, 0.92)
 const EDGE := Color(0.74, 0.64, 0.4, 0.9)
 const TEXT := Color(0.94, 0.92, 0.86)
 ## The spike under the bubble that points at whoever is speaking.
-const TAIL := Vector2(9.0, 10.0)
+const TAIL := Vector2(8.0, 8.0)
 
 var _panel: PanelContainer
 var _label: Label
 ## How far above the node's own origin the bubble floats.
-var _height: float = 96.0
+var _height: float = 80.0
 var _age: float = 0.0
 var _hold: float = 0.0
 
@@ -42,11 +42,11 @@ static func create(height: float) -> SpeechBubble:
 	box.bg_color = PANEL
 	box.border_color = EDGE
 	box.set_border_width_all(2)
-	box.set_corner_radius_all(6)
-	box.content_margin_left = 9.0
-	box.content_margin_right = 9.0
-	box.content_margin_top = 5.0
-	box.content_margin_bottom = 5.0
+	box.set_corner_radius_all(5)
+	box.content_margin_left = 7.0
+	box.content_margin_right = 7.0
+	box.content_margin_top = 4.0
+	box.content_margin_bottom = 4.0
 
 	bubble._panel = PanelContainer.new()
 	bubble._panel.mouse_filter = Control.MOUSE_FILTER_IGNORE

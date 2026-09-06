@@ -8,8 +8,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["strike", "cleave"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"strike",
+			"cleave"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"color": "#4c8bf5",
 		"sprite_dir": "res://art/units/sworn_blade/idle",
 		"weapon": "bone_sword"
@@ -23,8 +29,14 @@
 		"move": 4,
 		"jump": 1,
 		"speed": 12,
-		"abilities": ["arc_shot", "strike"],
-		"classes": ["longbow", "wildling"],
+		"abilities": [
+			"arc_shot",
+			"strike"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
 		"color": "#59c3a1",
 		"sprite_dir": "res://art/units/longbow/idle"
 	},
@@ -37,8 +49,14 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["mend", "ember"],
-		"classes": ["hedge_priest", "magic_swordsman"],
+		"abilities": [
+			"mend",
+			"ember"
+		],
+		"classes": [
+			"hedge_priest",
+			"magic_swordsman"
+		],
 		"color": "#c9a0f5",
 		"sprite_dir": "res://art/units/hedge_priest/idle"
 	},
@@ -51,8 +69,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["strike"],
-		"classes": ["raider"],
+		"abilities": [
+			"strike",
+			"hamstring",
+			"lunge"
+		],
+		"classes": [
+			"raider"
+		],
 		"kind": "raider",
 		"color": "#d2603f",
 		"sprite_dir": "res://art/units/raider/idle"
@@ -66,8 +90,15 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 11,
-		"abilities": ["arc_shot"],
-		"classes": ["raider", "wildling"],
+		"abilities": [
+			"arc_shot",
+			"snipe",
+			"volley"
+		],
+		"classes": [
+			"raider",
+			"wildling"
+		],
 		"kind": "raider",
 		"color": "#c98b3f",
 		"sprite_dir": "res://art/units/jester_thief/idle"
@@ -81,8 +112,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 9,
-		"abilities": ["cleave", "strike"],
-		"classes": ["raider", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"sunder",
+			"whirl",
+			"strike"
+		],
+		"classes": [
+			"raider",
+			"sworn_blade"
+		],
 		"kind": "raider",
 		"flash_step": 3,
 		"color": "#a33b3b",
@@ -97,8 +136,13 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike",
+			"hamstring"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#7d7f8a",
 		"sprite_dir": "res://art/units/wolf/idle"
@@ -112,8 +156,12 @@
 		"move": 4,
 		"jump": 1,
 		"speed": 11,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#6f9350",
 		"sprite_dir": "res://art/units/goblin/idle"
@@ -127,8 +175,15 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 7,
-		"abilities": ["cleave", "strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"cleave",
+			"crush",
+			"strike",
+			"earthshake"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#8a6a4a",
 		"sprite_dir": "res://art/units/club_ogre/idle"
@@ -142,8 +197,15 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 13,
-		"abilities": ["ember", "strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"keening",
+			"grief",
+			"lament",
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#5a4a7d",
 		"sprite_dir": "res://art/units/wraith/idle"
@@ -157,8 +219,13 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["strike"],
-		"classes": ["raider"],
+		"abilities": [
+			"strike",
+			"dart"
+		],
+		"classes": [
+			"raider"
+		],
 		"kind": "raider",
 		"color": "#c2a678",
 		"sprite_dir": "res://art/units/cabin_boy/idle"
@@ -172,8 +239,14 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 15,
-		"abilities": ["ember"],
-		"classes": ["wildling"],
+		"abilities": [
+			"gust",
+			"spark",
+			"dart"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#5fbfa8",
 		"sprite_dir": "res://art/units/feather_wisp/idle"
@@ -187,8 +260,15 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["cleave", "ember"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"lunge",
+			"ember"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#e0603a",
@@ -203,8 +283,16 @@
 		"move": 3,
 		"jump": 3,
 		"speed": 10,
-		"abilities": ["ember", "mend"],
-		"classes": ["hedge_priest", "wildling"],
+		"abilities": [
+			"ember",
+			"pyre",
+			"grief",
+			"lament"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#d67ab5",
 		"sprite_dir": "res://art/units/pig_warlock/idle"
@@ -218,8 +306,15 @@
 		"move": 2,
 		"jump": 1,
 		"speed": 6,
-		"abilities": ["cleave", "mend"],
-		"classes": ["wildling"],
+		"abilities": [
+			"cleave",
+			"earthshake",
+			"stand_fast",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#6d8f5a",
 		"sprite_dir": "res://art/units/tree_sentinel/idle"
@@ -233,8 +328,14 @@
 		"move": 1,
 		"jump": 0,
 		"speed": 7,
-		"abilities": ["arc_shot", "ember"],
-		"classes": ["wildling"],
+		"abilities": [
+			"arc_shot",
+			"chain_bolt",
+			"pyre"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "default",
 		"color": "#8fa3b8",
 		"sprite_dir": "res://art/units/turret_cannon/idle"
@@ -248,8 +349,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 13,
-		"abilities": ["ember", "cleave"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"ember",
+			"cleave",
+			"lunge",
+			"riposte"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#b8632f",
@@ -264,8 +373,14 @@
 		"move": 5,
 		"jump": 3,
 		"speed": 16,
-		"abilities": ["ember"],
-		"classes": ["wildling"],
+		"abilities": [
+			"ember",
+			"spark",
+			"pyre"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#e8a35f",
 		"sprite_dir": "res://art/units/flame_dove/idle"
@@ -279,8 +394,15 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["strike"],
-		"classes": ["raider", "wildling"],
+		"abilities": [
+			"strike",
+			"lunge",
+			"dart"
+		],
+		"classes": [
+			"raider",
+			"wildling"
+		],
 		"kind": "raider",
 		"color": "#e07a3a",
 		"sprite_dir": "res://art/units/hat_fox/idle"
@@ -294,8 +416,13 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["cleave", "strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"cleave",
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#8fb6cc",
 		"sprite_dir": "res://art/units/frozen_wolfman/idle"
@@ -309,8 +436,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["ember", "strike"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"scorch",
+			"pyre",
+			"lunge",
+			"strike"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#8c3b52",
@@ -325,8 +460,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"lunge",
+			"hamstring"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"flash_step": 2,
 		"color": "#5b5670",
@@ -341,8 +484,13 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["strike"],
-		"classes": ["wildling", "sworn_blade"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#a89070",
 		"sprite_dir": "res://art/units/village_idiot/idle"
@@ -356,8 +504,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["mend", "strike"],
-		"classes": ["hedge_priest", "sworn_blade"],
+		"abilities": [
+			"mend",
+			"strike"
+		],
+		"classes": [
+			"hedge_priest",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#7a8f6a",
 		"sprite_dir": "res://art/units/neuron_chief/idle"
@@ -371,8 +525,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["strike"],
-		"classes": ["sworn_blade"],
+		"abilities": [
+			"strike",
+			"shield_bash",
+			"stand_fast"
+		],
+		"classes": [
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#6b7a8f",
 		"sprite_dir": "res://art/units/emo_swordsman/idle"
@@ -386,8 +546,12 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["mend"],
-		"classes": ["hedge_priest"],
+		"abilities": [
+			"mend"
+		],
+		"classes": [
+			"hedge_priest"
+		],
 		"kind": "soldier",
 		"color": "#b09a6a",
 		"sprite_dir": "res://art/units/hedge_priest/idle"
@@ -401,8 +565,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"shield_bash",
+			"stand_fast",
+			"strike"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"color": "#8f8a9c",
 		"sprite_dir": "res://art/units/magic_swordsman/idle"
@@ -416,8 +588,15 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 13,
-		"abilities": ["arc_shot", "strike"],
-		"classes": ["longbow", "wildling"],
+		"abilities": [
+			"arc_shot",
+			"volley",
+			"strike"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#7fae8c",
 		"sprite_dir": "res://art/units/feather_archer/idle"
@@ -431,8 +610,16 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 10,
-		"abilities": ["ember", "mend"],
-		"classes": ["hedge_priest", "magic_swordsman"],
+		"abilities": [
+			"ember",
+			"spark",
+			"chain_bolt",
+			"mend"
+		],
+		"classes": [
+			"hedge_priest",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"color": "#d8c05a",
 		"sprite_dir": "res://art/units/duck_wizard/idle"
@@ -446,8 +633,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["cleave", "strike"],
-		"classes": ["raider", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike",
+			"riposte"
+		],
+		"classes": [
+			"raider",
+			"sworn_blade"
+		],
 		"kind": "raider",
 		"color": "#b0553c",
 		"sprite_dir": "res://art/units/mace_pirate/idle"
@@ -461,8 +656,15 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["cleave", "strike"],
-		"classes": ["wildling", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"whirl",
+			"strike"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
 		"kind": "beast",
 		"color": "#8a6440",
 		"sprite_dir": "res://art/units/axe_bear/idle"
@@ -476,8 +678,14 @@
 		"move": 5,
 		"jump": 3,
 		"speed": 14,
-		"abilities": ["strike", "cleave"],
-		"classes": ["sworn_blade", "wildling"],
+		"abilities": [
+			"strike",
+			"cleave"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#c08a52",
@@ -492,8 +700,16 @@
 		"move": 3,
 		"jump": 2,
 		"speed": 9,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"whirl",
+			"shield_bash",
+			"sunder"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"color": "#d4af49",
 		"sprite_dir": "res://art/units/golden_knight/idle"
@@ -507,8 +723,14 @@
 		"move": 2,
 		"jump": 1,
 		"speed": 7,
-		"abilities": ["strike", "mend"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike",
+			"mend",
+			"shield_bash"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#7fa05c",
 		"sprite_dir": "res://art/units/caterpillar_warrior/idle"
@@ -522,8 +744,16 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 13,
-		"abilities": ["ember", "cleave"],
-		"classes": ["magic_swordsman", "hedge_priest"],
+		"abilities": [
+			"keening",
+			"chain_bolt",
+			"thunderhead",
+			"cleave"
+		],
+		"classes": [
+			"magic_swordsman",
+			"hedge_priest"
+		],
 		"kind": "soldier",
 		"flash_step": 4,
 		"color": "#9a7fd6",
@@ -538,13 +768,16 @@
 		"move": 5,
 		"jump": 4,
 		"speed": 16,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#a8465a",
 		"sprite_dir": "res://art/units/blood_mosquito/idle"
 	},
-
 	"legion_copper": {
 		"display_name": "Copper Legionnaire",
 		"job": "Sworn Blade",
@@ -554,8 +787,13 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["strike"],
-		"classes": ["sworn_blade"],
+		"abilities": [
+			"strike",
+			"shield_bash"
+		],
+		"classes": [
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#b5713c",
 		"sprite_dir": "res://art/units/legion_copper/idle"
@@ -569,8 +807,15 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["strike", "cleave"],
-		"classes": ["sworn_blade"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"crush",
+			"sunder"
+		],
+		"classes": [
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#3b3742",
 		"sprite_dir": "res://art/units/legion_black/idle"
@@ -584,8 +829,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 10,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike",
+			"shield_bash"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"color": "#9aa6b5",
 		"sprite_dir": "res://art/units/legion_silver/idle"
@@ -599,8 +852,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["cleave", "ember"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"ember",
+			"scorch",
+			"whirl"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#3f9e6b",
 		"sprite_dir": "res://art/units/legion_emerald/idle"
@@ -614,8 +875,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"whirl",
+			"sunder",
+			"stand_fast"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"flash_step": 2,
 		"color": "#d4a63c",
@@ -630,8 +899,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["cleave", "ember"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"warding_touch",
+			"sunder",
+			"strike"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#e6e3dc",
@@ -646,8 +923,16 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 11,
-		"abilities": ["ember", "mend"],
-		"classes": ["hedge_priest", "magic_swordsman"],
+		"abilities": [
+			"chain_bolt",
+			"thunderhead",
+			"gust",
+			"scorch"
+		],
+		"classes": [
+			"hedge_priest",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"color": "#c06a4a",
 		"sprite_dir": "res://art/units/legion_magus/idle"
@@ -661,14 +946,20 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["cleave", "strike", "ember"],
-		"classes": ["sworn_blade", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"ember"
+		],
+		"classes": [
+			"sworn_blade",
+			"magic_swordsman"
+		],
 		"kind": "soldier",
 		"flash_step": 4,
 		"color": "#8f2f44",
 		"sprite_dir": "res://art/units/dirte/idle"
 	},
-
 	"red_panda_master": {
 		"display_name": "Red Panda Master",
 		"job": "Hedge Priest",
@@ -678,8 +969,14 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 13,
-		"abilities": ["strike", "mend"],
-		"classes": ["hedge_priest", "wildling"],
+		"abilities": [
+			"strike",
+			"mend"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#c86a3a",
 		"sprite_dir": "res://art/units/red_panda_master/idle"
@@ -693,8 +990,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "wildling"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"gust",
+			"shield_bash"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#e8e6e0",
 		"sprite_dir": "res://art/units/staff_panda/idle"
@@ -708,8 +1013,16 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 12,
-		"abilities": ["ember", "mend"],
-		"classes": ["magic_swordsman", "hedge_priest"],
+		"abilities": [
+			"ember",
+			"mend",
+			"spark",
+			"whirl"
+		],
+		"classes": [
+			"magic_swordsman",
+			"hedge_priest"
+		],
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#7a5ac0",
@@ -724,8 +1037,15 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade", "wildling"],
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#3a3a44",
@@ -740,8 +1060,15 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["arc_shot", "ember"],
-		"classes": ["longbow", "wildling"],
+		"abilities": [
+			"arc_shot",
+			"scorch",
+			"pyre"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#dfe6ec",
 		"sprite_dir": "res://art/units/cannon_bear/idle"
@@ -755,8 +1082,16 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 13,
-		"abilities": ["ember", "cleave"],
-		"classes": ["magic_swordsman", "hedge_priest"],
+		"abilities": [
+			"ember",
+			"cleave",
+			"spark",
+			"lunge"
+		],
+		"classes": [
+			"magic_swordsman",
+			"hedge_priest"
+		],
 		"kind": "soldier",
 		"flash_step": 4,
 		"color": "#5aa8c0",
@@ -771,14 +1106,21 @@
 		"move": 4,
 		"jump": 3,
 		"speed": 14,
-		"abilities": ["cleave", "ember"],
-		"classes": ["magic_swordsman", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"thunderhead",
+			"chain_bolt",
+			"lunge"
+		],
+		"classes": [
+			"magic_swordsman",
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"flash_step": 4,
 		"color": "#6f7fc0",
 		"sprite_dir": "res://art/units/storm_blade/idle"
 	},
-
 	"sea_horse": {
 		"display_name": "Sea Horse",
 		"job": "Wild",
@@ -788,8 +1130,14 @@
 		"move": 5,
 		"jump": 3,
 		"speed": 14,
-		"abilities": ["ember"],
-		"classes": ["wildling"],
+		"abilities": [
+			"gust",
+			"chain_bolt",
+			"mend"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#4fb6e0",
 		"sprite_dir": "res://art/units/sea_horse/idle"
@@ -803,8 +1151,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["strike", "ember"],
-		"classes": ["wildling", "magic_swordsman"],
+		"abilities": [
+			"strike",
+			"ember"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
 		"kind": "wild",
 		"color": "#2f7fb5",
 		"sprite_dir": "res://art/units/sea_man/idle"
@@ -818,14 +1172,21 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["ember", "cleave"],
-		"classes": ["wildling", "magic_swordsman"],
+		"abilities": [
+			"ember",
+			"cleave",
+			"gust",
+			"whirl"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#3fa6dc",
 		"sprite_dir": "res://art/units/tide_lion/idle"
 	},
-
 	"slime": {
 		"display_name": "Slime",
 		"job": "Wild",
@@ -835,8 +1196,12 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#c8873f",
 		"sprite_dir": "res://art/units/slime/idle"
@@ -850,8 +1215,12 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#3f9fe0",
 		"sprite_dir": "res://art/units/blue_slime/idle"
@@ -865,13 +1234,18 @@
 		"move": 2,
 		"jump": 1,
 		"speed": 7,
-		"abilities": ["cleave", "strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "wild",
 		"color": "#5cc03f",
 		"sprite_dir": "res://art/units/king_slime/idle"
 	},
-
 	"eye_leprechaun": {
 		"display_name": "The Collector",
 		"job": "Raider",
@@ -881,8 +1255,13 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["strike"],
-		"classes": ["raider", "wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"raider",
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#3f9d5a",
 		"sprite_dir": "res://art/units/eye_leprechaun/idle"
@@ -896,8 +1275,16 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 11,
-		"abilities": ["ember", "mend"],
-		"classes": ["hedge_priest", "wildling"],
+		"abilities": [
+			"ember",
+			"scorch",
+			"pyre",
+			"mend"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#8f7fb5",
 		"sprite_dir": "res://art/units/lizard_wizard/idle"
@@ -911,8 +1298,15 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 10,
-		"abilities": ["arc_shot", "ember"],
-		"classes": ["longbow", "wildling"],
+		"abilities": [
+			"arc_shot",
+			"spark",
+			"ember"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#d2622f",
 		"sprite_dir": "res://art/units/eye_slinger/idle"
@@ -926,8 +1320,14 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 14,
-		"abilities": ["strike", "cleave"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike",
+			"hamstring",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#cfe6f2",
 		"sprite_dir": "res://art/units/ice_wolf/idle"
@@ -941,14 +1341,21 @@
 		"move": 5,
 		"jump": 3,
 		"speed": 15,
-		"abilities": ["cleave", "ember"],
-		"classes": ["magic_swordsman", "wildling"],
+		"abilities": [
+			"cleave",
+			"grief",
+			"lament",
+			"strike"
+		],
+		"classes": [
+			"magic_swordsman",
+			"wildling"
+		],
 		"kind": "beast",
 		"flash_step": 4,
 		"color": "#2f2b3a",
 		"sprite_dir": "res://art/units/dusk_shadow/idle"
 	},
-
 	"ember_lizard": {
 		"display_name": "Ember Lizard",
 		"job": "Wild",
@@ -958,8 +1365,13 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["ember"],
-		"classes": ["wildling"],
+		"abilities": [
+			"ember",
+			"scorch"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#e8873f",
 		"sprite_dir": "res://art/units/ember_lizard/idle"
@@ -973,8 +1385,14 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["strike", "mend"],
-		"classes": ["wildling", "hedge_priest"],
+		"abilities": [
+			"strike",
+			"mend"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
 		"kind": "wild",
 		"color": "#7fc06a",
 		"sprite_dir": "res://art/units/seed_beast/idle"
@@ -988,8 +1406,14 @@
 		"move": 4,
 		"jump": 2,
 		"speed": 12,
-		"abilities": ["mend", "strike"],
-		"classes": ["hedge_priest", "wildling"],
+		"abilities": [
+			"mend",
+			"strike"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
 		"kind": "beast",
 		"color": "#e0c05a",
 		"sprite_dir": "res://art/units/mending_lion/idle"
@@ -1003,14 +1427,21 @@
 		"move": 5,
 		"jump": 2,
 		"speed": 13,
-		"abilities": ["ember", "cleave"],
-		"classes": ["wildling", "magic_swordsman"],
+		"abilities": [
+			"ember",
+			"cleave",
+			"pyre",
+			"whirl"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#e0602f",
 		"sprite_dir": "res://art/units/flame_lion/idle"
 	},
-
 	"peasant": {
 		"display_name": "Freeholder",
 		"job": "Wildling",
@@ -1020,8 +1451,12 @@
 		"move": 4,
 		"jump": 1,
 		"speed": 9,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#a8925a",
 		"sprite_dir": "res://art/units/peasant/idle"
@@ -1035,8 +1470,12 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["strike"],
-		"classes": ["wildling"],
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#9a8f7a",
 		"sprite_dir": "res://art/units/drunk_elf/idle"
@@ -1050,8 +1489,14 @@
 		"move": 4,
 		"jump": 1,
 		"speed": 10,
-		"abilities": ["strike"],
-		"classes": ["raider", "wildling"],
+		"abilities": [
+			"strike",
+			"hamstring"
+		],
+		"classes": [
+			"raider",
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#7fa05c",
 		"sprite_dir": "res://art/units/rank_f_grunt/idle"
@@ -1065,8 +1510,14 @@
 		"move": 5,
 		"jump": 3,
 		"speed": 15,
-		"abilities": ["strike", "arc_shot"],
-		"classes": ["longbow", "wildling"],
+		"abilities": [
+			"strike",
+			"arc_shot"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
 		"kind": "soldier",
 		"color": "#b58a5a",
 		"sprite_dir": "res://art/units/quant_monkey/idle"
@@ -1080,13 +1531,19 @@
 		"move": 3,
 		"jump": 1,
 		"speed": 8,
-		"abilities": ["cleave", "strike"],
-		"classes": ["sworn_blade"],
+		"abilities": [
+			"cleave",
+			"strike",
+			"crush",
+			"sunder"
+		],
+		"classes": [
+			"sworn_blade"
+		],
 		"kind": "soldier",
 		"color": "#b5563a",
 		"sprite_dir": "res://art/units/dwarf_smith/idle"
 	},
-
 	"beast_titan": {
 		"display_name": "The Beast",
 		"job": "Titan",
@@ -1096,8 +1553,16 @@
 		"move": 3,
 		"jump": 2,
 		"speed": 8,
-		"abilities": ["cleave", "strike"],
-		"classes": ["wildling", "sworn_blade"],
+		"abilities": [
+			"cleave",
+			"crush",
+			"earthshake",
+			"sunder"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
 		"kind": "beast",
 		"color": "#8a6440",
 		"sprite_dir": "res://art/units/beast_titan/idle"
@@ -1111,8 +1576,16 @@
 		"move": 2,
 		"jump": 1,
 		"speed": 6,
-		"abilities": ["cleave", "ember"],
-		"classes": ["wildling", "magic_swordsman"],
+		"abilities": [
+			"cleave",
+			"crush",
+			"earthshake",
+			"pyre"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
 		"kind": "beast",
 		"color": "#c0503f",
 		"sprite_dir": "res://art/units/colossal_titan/idle"

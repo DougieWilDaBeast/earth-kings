@@ -1,0 +1,102 @@
+{
+	"display_name": "the sun gate",
+	"layers": ["stone", "sand", "crag"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the way back is south",
+	"legend": {
+		"s": "sand",
+		"o": "stone",
+		"A": "crag"
+	},
+	"tint": "#c9b382",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 4],
+			"name": "the brass gate",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "A gate of verdigris-crusted brass, locked into the sandstone archway. Shatter it, or turn the warden's key, and not otherwise.",
+			"opened": "The brass gate shrieks and falls outward into the dunes."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 2], "line": "Beyond the brass gate the stairs plunge beneath the desert floor into absolute black." },
+		{ "cell": [5, 6], "line": "Pillars scored by ten thousand sandstorms, their inscriptions ground smooth." },
+		{ "cell": [11, 6], "line": "Sun-bleached bones of a desert lizard, half-covered by drifting silt." },
+		{ "cell": [8, 11], "line": "The stone threshold is hot enough to blister leather." }
+	],
+	"chests": [
+		{
+			"cell": [3, 8],
+			"line": "A caravan chest thrown against the sandstone base, baked dry.",
+			"art": "chest_gold",
+			"gold": 175,
+			"item": "ember_blade"
+		},
+		{
+			"cell": [13, 8],
+			"line": "Sunken coins welded together by ancient heat.",
+			"art": "coin_pile",
+			"gold": 220
+		},
+		{
+			"cell": [8, 1],
+			"line": "Past the brass portal, resting in an altar niche untended for centuries.",
+			"art": "chest_silver",
+			"gold": 450,
+			"item": "gilt_blade"
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [6, 4] },
+		{ "art": "brazier", "cell": [10, 4] },
+		{ "art": "camp/fire_sand", "cell": [5, 9] },
+		{ "art": "lamp_post_twin", "cell": [6, 12] },
+		{ "art": "lamp_post_twin", "cell": [10, 12] },
+		{ "art": "chest_broken", "cell": [4, 6] },
+		{ "art": "village/signpost", "cell": [8, 12] }
+	],
+	"people": [
+		{
+			"name": "Hamid the Sunwarden",
+			"unit": "ember_duelist",
+			"cell": [8, 10],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"Nothing walks out of this gate in the daylight. In the dark, we do not sleep.",
+				"The heat in the sands is nothing compared to the heat two flights below.",
+				"Check your water skins before you step past the threshold."
+			]
+		},
+		{
+			"name": "Farouq, watching the horizon",
+			"unit": "legion_black",
+			"cell": [5, 11],
+			"facing": [1, 0],
+			"wander": 1,
+			"chatter": [
+				"Heat shimmering off the dunes plays tricks on eyes.",
+				"If the brass rings begin to vibrate, step back immediately."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAAAA",
+		"AAAAAoooooooAAAAA",
+		"AAAAoooooooooAAAA",
+		"AAAoooooooooooAAA",
+		"AAAAAAAoAAAAAAAAA",
+		"AssssoooooooosssA",
+		"AssssoooooooosssA",
+		"sssssoooooooossss",
+		"sssssoooooooossss",
+		"AssssoooooooosssA",
+		"AsssssoooooossssA",
+		"AAsssssoooossssAA",
+		"AAAAssssssssssAAA",
+		"AAAAAssssssssAAAA",
+		"AAAAAAAssssAAAAAA"
+	]
+}

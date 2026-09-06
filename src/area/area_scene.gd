@@ -7,10 +7,12 @@ extends Node2D
 ## scene sent us here.
 
 const WALK_SPEED := 190.0
-## How far the leader travels between breadcrumbs, and how many breadcrumbs
-## each follower hangs back by.
-const CRUMB_SPACING := 8.0
-const CRUMB_GAP := 4
+## Breadcrumb trail recording spacing and following parameters.
+const CRUMB_SPACING := 6.0
+const FOLLOWER_DISTANCE := 24.0
+## How close counts as arrived. Without it followers twitch on the spot, and
+## re-face themselves off sub-pixel deltas, which reads as the sprite flickering.
+const FOLLOW_DEADZONE := 2.0
 ## How close the leader has to stand before somebody is worth speaking to.
 const TALK_RANGE := 110.0
 ## How close the leader walks before starting on somebody they were clicked at.
@@ -164,6 +166,10 @@ func _spawn_party() -> void:
 			_leader_character = members[index]
 		else:
 			_followers.append(actor)
+	if _leader != null and not _followers.is_empty():
+		_reseed_crumbs()
+		for i in _followers.size():
+			_followers[i].position = _point_along_trail((i + 1) * FOLLOWER_DISTANCE)
 
 
 ## Around a fire nobody trails the leader: they are already sitting down, and
@@ -489,6 +495,9 @@ func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	_refresh_prompt()
+	# Before the early-out below: the party has to keep closing the gap after the
+	# player lets go of the keys, or everyone freezes mid-stride where they stood.
+	_settle_followers(delta)
 	var axis := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if axis != Vector2.ZERO:
 		# Taking the keys back calls off whatever the player was walking towards.
@@ -503,7 +512,9 @@ func _physics_process(delta: float) -> void:
 	var before := _leader.position
 	_try_the_way(before, axis.normalized() * WALK_SPEED * delta)
 	_leader.position = _slide(before, axis.normalized() * WALK_SPEED * delta)
-	_leader.face(_leader.position - before)
+	var moved := _leader.position - before
+	if moved.length_squared() > 0.01:
+		_leader.face(moved)
 	if _approach != null and _leader.position.is_equal_approx(before):
 		# Something is in the way; the player can steer around it themselves.
 		_approach = null
@@ -589,21 +600,67 @@ func _try_the_way(from: Vector2, step: Vector2) -> void:
 			_note(str(outcome["line"]))
 
 
+func _point_along_trail(target_dist: float) -> Vector2:
+	if _crumbs.is_empty() or _leader == null:
+		return _leader.position if _leader != null else Vector2.ZERO
+	var prev := _leader.position
+	var dist_so_far := 0.0
+	for crumb in _crumbs:
+		var seg_len := prev.distance_to(crumb)
+		if dist_so_far + seg_len >= target_dist:
+			var remain := target_dist - dist_so_far
+			var t := remain / seg_len if seg_len > 0.001 else 0.0
+			return prev.lerp(crumb, t)
+		dist_so_far += seg_len
+		prev = crumb
+	return _crumbs.back()
+
+
 func _drop_crumbs() -> void:
-	if _followers.is_empty():
+	if _followers.is_empty() or _leader == null:
 		return
 	if _crumbs.is_empty() or _leader.position.distance_to(_crumbs[0]) >= CRUMB_SPACING:
 		_crumbs.push_front(_leader.position)
-	var needed := (_followers.size() + 1) * CRUMB_GAP
-	if _crumbs.size() > needed:
-		_crumbs.resize(needed)
+	var max_len := float(_followers.size() + 2) * FOLLOWER_DISTANCE
+	var accum := 0.0
+	var prev := _leader.position
+	for i in _crumbs.size():
+		accum += prev.distance_to(_crumbs[i])
+		prev = _crumbs[i]
+		if accum >= max_len:
+			_crumbs.resize(i + 1)
+			break
+
+
+## Walk everyone up the trail the leader left. Runs every frame whether or not
+## the player is holding a key. Follows along the polyline path smoothly.
+func _settle_followers(delta: float) -> void:
+	if _followers.is_empty() or _leader == null:
+		return
 	for index in _followers.size():
-		var crumb: Vector2 = _crumbs[mini((index + 1) * CRUMB_GAP, _crumbs.size() - 1)]
 		var follower := _followers[index]
-		if crumb == follower.position:
+		var target_dist := float(index + 1) * FOLLOWER_DISTANCE
+		var target_pos := _point_along_trail(target_dist)
+		var to_target := target_pos - follower.position
+		var far := to_target.length()
+
+		if far <= FOLLOW_DEADZONE:
+			# When settled, face along the trail towards the member ahead
+			var ahead_dist := maxf(0.0, target_dist - 10.0)
+			var ahead_pos := _point_along_trail(ahead_dist)
+			var trail_dir := ahead_pos - follower.position
+			if trail_dir.length_squared() > 1.0:
+				follower.face(trail_dir)
 			continue
-		follower.face(crumb - follower.position)
-		follower.position = crumb
+
+		if far > FOLLOW_DEADZONE + 2.0:
+			follower.face(to_target)
+
+		var speed_mult := 1.35 if far > FOLLOWER_DISTANCE * 1.5 else (1.15 if far > FOLLOWER_DISTANCE else 1.0)
+		var step := to_target.normalized() * (WALK_SPEED * speed_mult * delta)
+		if step.length() > far:
+			step = to_target
+		follower.position = _slide(follower.position, step)
 
 
 func _arrive_at(cell: Vector2i) -> void:
@@ -695,9 +752,31 @@ func _cycle_leader() -> void:
 	next.position = front
 	_followers.append(_leader)
 	_leader = next
-	_crumbs.clear()
+	for c: Character in GameState.party_characters():
+		if c.display_name == _leader.display_name:
+			_leader_character = c
+			break
+	_reseed_crumbs()
 	_camera.focus_on(_leader.position)
 	_note("%s takes the lead." % _leader.display_name)
+
+
+func _reseed_crumbs() -> void:
+	if _followers.is_empty() or _leader == null:
+		return
+	_crumbs.clear()
+	var points: Array[Vector2] = [_leader.position]
+	for follower in _followers:
+		points.append(follower.position)
+	for seg in range(points.size() - 1):
+		var p0: Vector2 = points[seg]
+		var p1: Vector2 = points[seg + 1]
+		var seg_len := p0.distance_to(p1)
+		var steps_count := maxi(1, roundi(seg_len / CRUMB_SPACING))
+		for step in range(steps_count):
+			var t := float(step) / float(steps_count)
+			_crumbs.append(p0.lerp(p1, t))
+	_crumbs.append(points.back())
 
 
 func _note(line: String) -> void:

@@ -3,7 +3,7 @@ extends RefCounted
 ## Builds a battlefield out of the ground you were standing on when the fight
 ## started, so a scrap in the reeds does not look like a scrap on a ridge.
 
-const SIZE := Vector2i(12, 10)
+const SIZE := Vector2i(18, 14)
 ## Rows kept clear at the top and bottom for the two sides to form up on.
 const MUSTER_ROW := 1
 

@@ -162,7 +162,35 @@ static func escort_prompt(world: World) -> String:
 	if to == null:
 		return ""
 	var left := int(rules().get("escort_patience", 260)) - (world.steps - int(world.escort.get("since", 0)))
-	return "Guiding somebody to %s — %d steps of patience left." % [to.display_name, maxi(0, left)]
+	var guide := bearing(world.player_cell, to.cell)
+	return "Guiding somebody to %s (%s) — %d steps of patience left." % [
+		to.display_name, guide, maxi(0, left)
+	]
+
+
+## Compass direction and distance between two points.
+static func bearing(from: Vector2i, to: Vector2i) -> String:
+	var delta := to - from
+	var dist := roundi(sqrt(delta.x * delta.x + delta.y * delta.y))
+	var angle := rad_to_deg(atan2(delta.y, delta.x))
+	var dir := "E"
+	if angle >= -22.5 and angle < 22.5:
+		dir = "E"
+	elif angle >= 22.5 and angle < 67.5:
+		dir = "SE"
+	elif angle >= 67.5 and angle < 112.5:
+		dir = "S"
+	elif angle >= 112.5 and angle < 157.5:
+		dir = "SW"
+	elif angle >= -67.5 and angle < -22.5:
+		dir = "NE"
+	elif angle >= -112.5 and angle < -67.5:
+		dir = "N"
+	elif angle >= -157.5 and angle < -112.5:
+		dir = "NW"
+	else:
+		dir = "W"
+	return "%d leagues %s" % [dist, dir]
 
 
 ## Called on arriving anywhere. Pays out if this is the place, and gives up on

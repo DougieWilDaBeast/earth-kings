@@ -65,7 +65,13 @@ func _build_battlefield() -> void:
 	_spawn_enemies(map.get("enemies", []))
 	_orient_starting_facings()
 	_write_them_up(map)
-	turns.setup(units)
+	var ambush := bool(encounter.get("ambush", false))
+	turns.setup(units, ambush)
+	if ambush:
+		EventBus.battle_log.emit("Ambush! The company strikes with first-round initiative advantage!")
+	var confrontation := str(encounter.get("confrontation", ""))
+	if confrontation != "":
+		EventBus.battle_log.emit(confrontation)
 
 
 ## Open a journal entry for anything the party has not stood across from before.
@@ -104,8 +110,13 @@ func _spawn_enemies(enemies: Array) -> void:
 			continue
 		# Levelled foes are throwaway Characters so they grow the same way we do.
 		var foe := Character.create(entry.get("unit", ""))
+		var custom_name := str(entry.get("name", ""))
+		if custom_name != "":
+			foe.display_name = custom_name
 		Progression.raise_quietly(foe, level, GameState.world)
 		var unit := Unit.from_character(foe, unit_team, cell)
+		if custom_name != "":
+			unit.display_name = custom_name
 		unit.snap_to_cell(grid)
 		units_root.add_child(unit)
 		units.append(unit)
@@ -244,6 +255,12 @@ func _take_ai_turn(unit: Unit) -> void:
 		_apply_ability(unit, plan["ability"], target.cell)
 		await get_tree().create_timer(0.4).timeout
 
+	# Re-orient dominant facing toward the highest calculated threat vector (Ruling 1.3).
+	var defensive_facing := EnemyBrain.threat_facing(unit, units)
+	if defensive_facing != Vector2i.ZERO and defensive_facing != unit.facing:
+		unit.facing = defensive_facing
+		unit.queue_redraw()
+
 
 # --- auto battle -------------------------------------------------------------
 
@@ -338,7 +355,7 @@ func _on_ability_requested(ability_id: String) -> void:
 func _on_draught_requested(item_id: String) -> void:
 	if not _is_choosing() or active_unit == null or active_unit.team != Unit.Team.PLAYER:
 		return
-	if not active_unit.can_pay(Unit.Cost.BONUS):
+	if not active_unit.can_drink_draught():
 		return
 	if not GameState.stores.has(item_id) or not Gear.is_draught(item_id):
 		return
@@ -346,14 +363,15 @@ func _on_draught_requested(item_id: String) -> void:
 		return
 
 	active_unit.pay(Unit.Cost.BONUS)
+	active_unit.draughts_used += 1
 	GameState.stores.erase(item_id)
 	var before := active_unit.hp
 	active_unit.heal(Gear.mends(item_id))
 	if active_unit.character != null:
 		active_unit.character.hp = active_unit.hp
 	var healed := active_unit.hp - before
-	EventBus.battle_log.emit("%s drinks %s and mends %d HP." % [
-		active_unit.display_name, Gear.display_name(item_id), healed
+	EventBus.battle_log.emit("%s drinks %s from pouch (%d/%d used) and mends %d HP." % [
+		active_unit.display_name, Gear.display_name(item_id), active_unit.draughts_used, Unit.COMBAT_POUCH_LIMIT, healed
 	])
 	_advance_selection()
 
@@ -634,7 +652,12 @@ func _award_kill(killer: Unit, victim: Unit) -> void:
 	if killer.character == null or killer.team == victim.team:
 		return
 	var level := victim.character.level if victim.character != null else 1
-	for line: String in Progression.award(killer.character, Progression.bounty_for(level), GameState.world):
+	var bounty := Progression.bounty_for(level)
+	var party_units: Array[Unit] = []
+	for u in units:
+		if u.is_alive() and u.team == killer.team:
+			party_units.append(u)
+	for line: String in Progression.award_combat_xp(killer.character, party_units, bounty, GameState.world):
 		EventBus.battle_log.emit(line)
 
 
