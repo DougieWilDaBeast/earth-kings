@@ -1,0 +1,82 @@
+{
+	"display_name": "the cairn hut",
+	"layers": ["stone", "crag", "dirt"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
+	"legend": {
+		",": "dirt",
+		"s": "stone",
+		"A": "crag"
+	},
+	"tint": "#8c8b93",
+	"fire": [7, 5],
+	"spawn": [7, 9],
+	"seats": [[5, 5], [9, 5], [7, 4]],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 3], "line": "The hut is half a hut. The other half is the rockfall it was built against." },
+		{ "cell": [3, 5], "line": "A cairn, and then another, and they go up the slope out of sight." },
+		{ "cell": [11, 5], "line": "Tools laid out by size. Every one of them for working stone." },
+		{ "cell": [7, 8], "line": "Chips of stone underfoot everywhere, in a country with no quarry." }
+	],
+	"chests": [
+		{
+			"cell": [11, 3],
+			"line": "A niche in the fall with a flat stone over it, and the stone lifts.",
+			"art": "chest_silver",
+			"gold": 155,
+			"item": "whetstone"
+		}
+	],
+	"props": [
+		{ "art": "village/anvil", "cell": [4, 3] },
+		{ "art": "village/log_pile", "cell": [3, 7] },
+		{ "art": "village/barrels", "cell": [11, 7] },
+		{ "art": "stone_bench", "cell": [4, 6] },
+		{ "art": "stone_bench", "cell": [10, 6] },
+		{ "art": "brazier", "cell": [5, 7] },
+		{ "art": "brazier", "cell": [9, 7] },
+		{ "art": "nature/ivy", "cell": [2, 4] },
+		{ "art": "nature/thistle", "cell": [12, 4] },
+		{ "art": "nature/wildflowers_red", "cell": [5, 9] },
+		{ "art": "nature/mushrooms", "cell": [9, 9] }
+	],
+	"people": [
+		{
+			"name": "Durn the Cairnwright",
+			"unit": "dwarf_smith",
+			"cell": [7, 6],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"One stone a day. Some days two. I am not in a hurry and neither are they.",
+				"The fall came down before my grandfather. The hut came after. That is the whole story.",
+				"Every cairn is somebody. I do not always know which somebody.",
+				"You can sleep here. Do not sleep under the fall."
+			]
+		},
+		{
+			"name": "a bear that has claimed the slope",
+			"unit": "axe_bear",
+			"cell": [11, 9],
+			"facing": [-1, 0],
+			"wander": 3,
+			"chatter": [
+				"It is stood on something it should not be able to stand on."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAA",
+		"AAAAsssssssAAAA",
+		"AAAsssssssssAAA",
+		"AA,,,sssss,,,AA",
+		"A,,,,,,,,,,,,,A",
+		",,,,,,,,,,,,,,,",
+		",,,,,,,,,,,,,,,",
+		"A,,,,,,,,,,,,,A",
+		"AA,,,,,,,,,,,AA",
+		"AAA,,,,,,,,,AAA",
+		"AAAA,,,,,,,AAAA",
+		"AAAAA,,,,,AAAAA"
+	]
+}

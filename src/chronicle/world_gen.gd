@@ -19,9 +19,9 @@ const MIN_SITE_SPACING := 9
 const AREA_POOLS := {
 	Site.VILLAGE: ["village", "village_fen", "village_pines", "village_shore"],
 	Site.KEEP: ["keep", "keep_thorn"],
-	Site.LIBRARY: ["library"],
-	Site.GATE: ["gate"],
-	Site.HUT: ["hut"],
+	Site.LIBRARY: ["library", "library_cloister", "library_vault"],
+	Site.GATE: ["gate", "gate_barrow", "gate_drowned", "gate_ash"],
+	Site.HUT: ["hut", "hut_stilt", "hut_cairn", "hut_orchard"],
 	Site.TOWER: ["tower"],
 	Site.HOME: ["home"],
 }

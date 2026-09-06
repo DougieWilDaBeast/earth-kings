@@ -1,0 +1,107 @@
+{
+	"display_name": "the ash gate",
+	"layers": ["stone", "crag", "dirt"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the way back is south",
+	"legend": {
+		",": "dirt",
+		"s": "stone",
+		"A": "crag"
+	},
+	"tint": "#6b5f63",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 4],
+			"name": "the sealed neck",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "The passage narrows to one man's width and somebody has filled it with a slab of fused stone. Break it, or hold the warden's key, and not otherwise.",
+			"opened": "The slab comes apart and the heat behind it comes out all at once."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 2], "line": "Past the neck the floor is glass, and the glass has things set in it." },
+		{ "cell": [5, 7], "line": "Everything burnt from one side. All of it facing the same way." },
+		{ "cell": [11, 7], "line": "Spears stacked in a rack, and the shafts are gone and the heads are still there." },
+		{ "cell": [8, 10], "line": "Ash, ankle deep, and no wind in here to move it." },
+		{ "cell": [8, 12], "line": "The last clean air. People stop and take some before they go on." }
+	],
+	"chests": [
+		{
+			"cell": [4, 8],
+			"line": "A footlocker, scorched to the bands but shut, which is the only reason it is still worth opening.",
+			"art": "chest_iron",
+			"gold": 165,
+			"item": "ember_blade"
+		},
+		{
+			"cell": [12, 8],
+			"line": "Coin run together into a lump and prised apart again by somebody patient.",
+			"art": "coin_pile",
+			"gold": 230
+		},
+		{
+			"cell": [8, 1],
+			"line": "Past the neck, in the glass, where nothing has walked since it cooled.",
+			"art": "chest_gold",
+			"gold": 460,
+			"item": "gilt_blade"
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [6, 6] },
+		{ "art": "brazier", "cell": [10, 6] },
+		{ "art": "camp/embers", "cell": [5, 9] },
+		{ "art": "camp/fire_dark", "cell": [11, 9] },
+		{ "art": "chest_broken", "cell": [4, 6] },
+		{ "art": "chest_broken", "cell": [12, 10] },
+		{ "art": "lamp_post_twin", "cell": [6, 12] },
+		{ "art": "lamp_post_twin", "cell": [10, 12] },
+		{ "art": "village/signpost", "cell": [8, 11] }
+	],
+	"people": [
+		{
+			"name": "Cass the Ashwarden",
+			"unit": "ember_duelist",
+			"cell": [8, 10],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"It burned for nine days. Nobody lit it and nobody put it out.",
+				"Everything past the neck is still warm. It has been still warm for a lifetime.",
+				"Breathe through cloth. I am not being dramatic.",
+				"You will come out grey. Everyone comes out grey."
+			]
+		},
+		{
+			"name": "Tobrin, counting them out",
+			"unit": "legion_copper",
+			"cell": [5, 11],
+			"facing": [1, 0],
+			"wander": 1,
+			"chatter": [
+				"Names on the way in. Names on the way out. I compare them at dusk.",
+				"Do not tell me you will be quick. They all say quick.",
+				"There is water at the post. Take some. It costs nothing."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAAAA",
+		"AAAAAsssssssAAAAA",
+		"AAAAsssssssssAAAA",
+		"AAAAsssssssssAAAA",
+		"AAAAAAAAsAAAAAAAA",
+		"A,,,sssssssss,,,A",
+		"A,,,sssssssss,,,A",
+		",,,,sssssssss,,,,",
+		",,,,sssssssss,,,,",
+		"A,,,sssssssss,,,A",
+		"A,,,,sssssss,,,,A",
+		"AA,,,,sssss,,,,AA",
+		"AAA,,,,,,,,,,,AAA",
+		"AAAA,,,,,,,,,AAAA",
+		"AAAAAA,,,,,AAAAAA"
+	]
+}

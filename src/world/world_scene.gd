@@ -293,19 +293,42 @@ func _step_into_the_wild() -> void:
 	})
 
 
+## What kind of place hides in what kind of country. Ordinary ground is not all
+## one ground, so the way into it should not always open on the same clearing.
+const WILD_AREAS := {
+	"forest": ["wild_grove", "wild_thicket"],
+	"brush": ["wild_thicket", "wild_grove"],
+	"marsh": ["wild_fen"],
+	"hill": ["wild_scarp"],
+}
+
+
 func _check_wild_exploration(cell: Vector2i) -> void:
 	if _busy or _roadside_here != "":
 		return
 	var t := world.terrain_id_at(cell)
-	if t not in ["forest", "brush", "marsh", "hill"]:
+	if not WILD_AREAS.has(t):
 		return
 	if world.distance_to_haven(cell) <= 4:
 		return
 	# Deterministic tile hash so we never consume RNG and shift seeded suites
 	var h := absi((cell.x * 73856093 ^ cell.y * 19349663 ^ world.world_seed)) % 100
-	if h < 6:
-		_wild_here = "wild_grove"
-		_note("A sheltered path winds through the boughs into an ancient grove.")
+	if h >= 6:
+		return
+	var pool: Array = WILD_AREAS[t]
+	_wild_here = pool[h % pool.size()]
+	_note(_wild_opening(t))
+
+
+func _wild_opening(terrain: String) -> String:
+	match terrain:
+		"marsh":
+			return "A line of duckboards runs off the track into the reeds."
+		"hill":
+			return "A goat path switches back up the rock towards the shelf."
+		"brush":
+			return "There is a gap in the thorn, and it has been kept open."
+	return "A sheltered path winds through the boughs into an ancient grove."
 
 
 func _as_conversation(lines: Array) -> Array:

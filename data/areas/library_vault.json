@@ -1,0 +1,112 @@
+{
+	"display_name": "the vault beneath",
+	"layers": ["flagstone", "stone", "crag"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the stair up is south",
+	"legend": {
+		"o": "flagstone",
+		"s": "stone",
+		"A": "crag"
+	},
+	"tint": "#5f5b66",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 6],
+			"name": "the reading door",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "A door of banded oak with no handle on this side. It was made to be opened from within, by somebody who is not answering.",
+			"opened": "The door gives at the hinge and swings the wrong way entirely."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 2], "line": "The deep presses. Nothing here has been read in living memory, and all of it has been kept." },
+		{ "cell": [3, 4], "line": "Shelves cut into the rock itself, and the rock is dry, which is the whole point." },
+		{ "cell": [13, 4], "line": "A chair, pushed back, and a book open on the desk at a page somebody stopped at." },
+		{ "cell": [8, 8], "line": "Lamps in a line down the middle, all of them lit, none of them by you." },
+		{ "cell": [8, 11], "line": "The stair. Counting the steps on the way down is a habit people pick up here." }
+	],
+	"chests": [
+		{
+			"cell": [3, 8],
+			"line": "A chest of things too odd to shelve and too good to burn.",
+			"art": "chest_dark",
+			"gold": 180,
+			"item": "skull_staff"
+		},
+		{
+			"cell": [13, 8],
+			"line": "The librarian's own press, and the librarian has been gone some time.",
+			"art": "chest_crystal",
+			"gold": 260,
+			"item": "black_feather"
+		},
+		{
+			"cell": [8, 1],
+			"line": "Past the door, at the back of the deep presses, in a box that was never meant to come out.",
+			"art": "chest_gold",
+			"gold": 430,
+			"item": "comet_staff"
+		}
+	],
+	"props": [
+		{ "art": "scroll_rack", "cell": [3, 2] },
+		{ "art": "scroll_rack", "cell": [13, 2] },
+		{ "art": "writing_desk", "cell": [12, 4] },
+		{ "art": "cabinet", "cell": [4, 4] },
+		{ "art": "lamp_hanging", "cell": [6, 5] },
+		{ "art": "lamp_hanging", "cell": [10, 5] },
+		{ "art": "oil_lamp", "cell": [6, 8] },
+		{ "art": "oil_lamp", "cell": [10, 8] },
+		{ "art": "globe", "cell": [4, 10] },
+		{ "art": "tall_clock", "cell": [12, 10] },
+		{ "art": "nature/ivy", "cell": [2, 11] },
+		{ "art": "nature/mushrooms_shelf", "cell": [14, 11] },
+		{ "art": "tapestry", "cell": [8, 12] }
+	],
+	"people": [
+		{
+			"name": "Keeper Ilde",
+			"unit": "legion_magus",
+			"cell": [8, 10],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"Down here it is dry and it is cold and nothing rots. That is the only reason any of it survives.",
+				"The door has been shut since before I took the post. I have never asked who shut it.",
+				"You may read anything on this side of it. That is a great deal already.",
+				"Do not bring a naked flame past the third lamp."
+			]
+		},
+		{
+			"name": "Odger, who dusts",
+			"unit": "quant_monkey",
+			"cell": [5, 12],
+			"facing": [1, 0],
+			"wander": 3,
+			"chatter": [
+				"Twelve years dusting. I have read more of it than she has.",
+				"Some of the shelves are warm. Only some. Always the same ones.",
+				"If you hear pages turning, it is a draught. It is always a draught."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAAAA",
+		"AAoooooooooooooAA",
+		"AAoooooooooooooAA",
+		"AAoooAAAoAAAoooAA",
+		"AAoooooooooooooAA",
+		"AAoooooooooooooAA",
+		"AAAAAAAAoAAAAAAAA",
+		"AAoooooooooooooAA",
+		"AAoooooooooooooAA",
+		"AAoooAAAoAAAoooAA",
+		"AAoooooooooooooAA",
+		"AAoooooooooooooAA",
+		"AAAAAsssssssAAAAA",
+		"AAAAAsssssssAAAAA",
+		"AAAAAAAsssAAAAAAA"
+	]
+}

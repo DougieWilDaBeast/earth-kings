@@ -270,17 +270,18 @@ func _check_cinematic() -> void:
 
 
 func _check_seasons() -> void:
+	var sps := Season.steps_per_season()
 	var s0 := Season.for_step(0)
 	_expect(s0["clover"] == "lesser_green" and s0["display_name"] == "Spring", "step 0 was not Spring (lesser green)")
-	var s1 := Season.for_step(900)
-	_expect(s1["clover"] == "green" and s1["display_name"] == "Summer", "step 900 was not Summer (green)")
-	var s2 := Season.for_step(1800)
-	_expect(s2["clover"] == "brown" and s2["display_name"] == "Autumn", "step 1800 was not Autumn (brown)")
-	var s3 := Season.for_step(2700)
-	_expect(s3["clover"] == "ice" and s3["display_name"] == "Winter", "step 2700 was not Winter (ice)")
-	var s4 := Season.for_step(3600)
-	_expect(s4["clover"] == "lesser_green" and s4["display_name"] == "Spring", "step 3600 was not Year 2 Spring")
-	_expect(Season.just_turned(900) and not Season.just_turned(899), "season transition step detection failed")
+	var s1 := Season.for_step(sps)
+	_expect(s1["clover"] == "green" and s1["display_name"] == "Summer", "step %d was not Summer (green)" % sps)
+	var s2 := Season.for_step(sps * 2)
+	_expect(s2["clover"] == "brown" and s2["display_name"] == "Autumn", "step %d was not Autumn (brown)" % (sps * 2))
+	var s3 := Season.for_step(sps * 3)
+	_expect(s3["clover"] == "ice" and s3["display_name"] == "Winter", "step %d was not Winter (ice)" % (sps * 3))
+	var s4 := Season.for_step(sps * 4)
+	_expect(s4["clover"] == "lesser_green" and s4["display_name"] == "Spring", "step %d was not Year 2 Spring" % (sps * 4))
+	_expect(Season.just_turned(sps) and not Season.just_turned(sps - 1), "season transition step detection failed")
 
 	for sea: Dictionary in Season.SEASONS:
 		_expect(ResourceLoader.exists(sea["texture_path"]), "missing season clover texture at %s" % sea["texture_path"])

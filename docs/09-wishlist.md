@@ -369,3 +369,23 @@ labelling reads off the list itself.
 **Stash built.** The strongbox at camp is now an interactive party stash (`GameState.camp_stash`,
 saved) opened with **E** or click, offering a dual-pane modal overlay to stash items from the
 marching packs into camp storage or withdraw them when heading out.
+
+## W20 — Four seasonal clovers
+
+> The four clovers — green, lesser green, brown, and ice — represent the seasons that the party
+> are in, in the game.
+
+**Built.** [`Season`](../src/chronicle/season.gd) maps the footsteps of the continental clock to
+the four seasons of the year, represented by the four distinct clovers:
+
+- **Lesser Green Clover**: Spring (the thaw, budding life, awakening paths)
+- **Green Clover**: Summer (lush meadows, long sun, full growth)
+- **Brown Clover**: Autumn (withering boughs, harvest, golden winds)
+- **Ice Clover**: Winter (bitter frost, frozen passes, harsh travel)
+
+Configured at a smaller number of **120 steps per season** (defined in `data/world_rules.json`
+under `season.steps_per_season`, with 480 steps completing a continental year), so the turning of
+seasons is an active, tangible part of every journey. The current season's clover appears in the
+world status HUD with full tooltip lore, in the Journal screen's "Seasons of the Land" overview,
+in the Museum journey records, and dynamically tints wild clover props placed throughout world
+and area maps.

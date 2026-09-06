@@ -55,6 +55,10 @@ var run_frames: Dictionary = {}
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
 
+## Combat pouch: draughts consumed during this fight (Ruling 1.2: max 2).
+const COMBAT_POUCH_LIMIT := 2
+var draughts_used: int = 0
+
 ## Charge time — see [TurnManager]. At 100 the unit acts.
 var ct: int = 0
 
@@ -233,6 +237,10 @@ func is_done() -> bool:
 
 func can_move() -> bool:
 	return can_pay(Cost.EITHER)
+
+
+func can_drink_draught() -> bool:
+	return draughts_used < COMBAT_POUCH_LIMIT and can_pay(Cost.BONUS)
 
 
 func take_damage(amount: int) -> void:

@@ -42,7 +42,13 @@ func advance() -> Unit:
 func end_turn(unit: Unit) -> void:
 	# Anyone who acted before their charge was full pays only what they had, so
 	# the party's slower members never sink into permanent debt.
-	unit.ct = maxi(0, unit.ct - CT_THRESHOLD)
+	# If an ally was pulled into the group phase before 60 CT, they pay a Readiness Tax (Ruling 1.1).
+	var taxed: bool = unit.has_meta("readiness_tax") and bool(unit.get_meta("readiness_tax"))
+	unit.remove_meta("readiness_tax")
+	if taxed:
+		unit.ct = -25
+	else:
+		unit.ct = maxi(0, unit.ct - CT_THRESHOLD)
 
 
 ## Who acts next. Enemies come one at a time; when a player unit is ready the
@@ -57,6 +63,11 @@ func advance_group() -> Array[Unit]:
 	var squad: Array[Unit] = living_units().filter(
 		func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER
 	)
+	for member in squad:
+		if member.ct < 60:
+			member.set_meta("readiness_tax", true)
+		else:
+			member.remove_meta("readiness_tax")
 	squad.sort_custom(_by_ct_desc)
 	return squad
 

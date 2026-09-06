@@ -12,7 +12,11 @@ const AREAS := [
 	"village_shore", "shore_taphouse",
 	"keep", "keep_hall",
 	"keep_thorn", "thorn_hall",
-	"library", "gate", "hut", "wild_grove", "tower", "home",
+	"library", "library_cloister", "library_vault",
+	"gate", "gate_barrow", "gate_drowned", "gate_ash",
+	"hut", "hut_stilt", "hut_cairn", "hut_orchard",
+	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket",
+	"tower", "home",
 	"camp",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.

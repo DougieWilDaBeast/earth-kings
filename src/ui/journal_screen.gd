@@ -198,7 +198,7 @@ func _show_routes_page() -> void:
 	s_info.add_child(s_head)
 
 	var s_sub := _line("Step %d of %d in the season  ·  %d steps until next season" % [
-		Season.step_in_season(world), Season.STEPS_PER_SEASON, Season.steps_remaining(world)
+		Season.step_in_season(world), Season.steps_per_season(), Season.steps_remaining(world)
 	], LABEL_COLOUR)
 	s_sub.add_theme_font_size_override("font_size", 13)
 	s_info.add_child(s_sub)

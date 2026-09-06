@@ -119,5 +119,8 @@
 		"threat_after_steps": 240,
 		"falls_after_steps": 900,
 		"defence_reward": 160
+	},
+	"season": {
+		"steps_per_season": 120
 	}
 }

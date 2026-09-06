@@ -1,0 +1,109 @@
+{
+	"display_name": "the barrow gate",
+	"layers": ["dirt", "stone", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the way back is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"s": "stone",
+		"m": "meadow",
+		"A": "crag"
+	},
+	"tint": "#7d8474",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 3],
+			"name": "the barrow door",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "A slab across the mound's throat, cut to fit and settled a thousand years into fitting. Shift it, or hold the warden's key, and not otherwise.",
+			"opened": "The slab grinds aside and the mound breathes out."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 4], "line": "The mound. Grass over it like anywhere else, and nothing grows on the crown." },
+		{ "cell": [5, 7], "line": "Standing stones, set in a ring nobody has finished counting." },
+		{ "cell": [11, 7], "line": "Offerings, left recently, by people who would deny leaving them." },
+		{ "cell": [8, 12], "line": "The turf is worn to earth here. Everyone stops at exactly this distance." }
+	],
+	"chests": [
+		{
+			"cell": [4, 8],
+			"line": "A satchel under a leaning stone, out of the rain and out of mind.",
+			"art": "chest_broken",
+			"gold": 140,
+			"item": "grave_token"
+		},
+		{
+			"cell": [12, 8],
+			"line": "Coin pressed into the turf, one piece at a time, over years.",
+			"art": "coin_pile",
+			"gold": 190
+		},
+		{
+			"cell": [8, 2],
+			"line": "Inside the mound, where the grave goods were laid out for somebody who did not stay.",
+			"art": "chest_gold",
+			"gold": 440,
+			"item": "bone_sword"
+		}
+	],
+	"props": [
+		{ "art": "brazier", "cell": [6, 4] },
+		{ "art": "brazier", "cell": [10, 4] },
+		{ "art": "stone_bench", "cell": [4, 6] },
+		{ "art": "stone_bench", "cell": [12, 6] },
+		{ "art": "nature/ivy", "cell": [3, 5] },
+		{ "art": "nature/ivy", "cell": [13, 5] },
+		{ "art": "nature/thistle", "cell": [5, 10] },
+		{ "art": "nature/wildflowers_white", "cell": [11, 10] },
+		{ "art": "village/signpost", "cell": [8, 11] },
+		{ "art": "camp/fire_stakes", "cell": [6, 12] }
+	],
+	"people": [
+		{
+			"name": "Maerd the Barrow-keeper",
+			"unit": "wraith",
+			"cell": [8, 10],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"They put it under a hill so people would leave it alone. People did not.",
+				"I do not stop anyone. I write down who went in and when.",
+				"The stones were here first. The mound was put among them, not the other way about.",
+				"You will hear it settle. That is all it is. Mostly."
+			]
+		},
+		{
+			"name": "Ninnet, who leaves flowers",
+			"unit": "peasant",
+			"cell": [11, 11],
+			"facing": [-1, 0],
+			"wander": 1,
+			"chatter": [
+				"My great-grandmother did this walk. I do not know for who.",
+				"You are not supposed to take anything out. You will anyway.",
+				"If it goes cold in there, come straight back out. Straight out."
+			]
+		}
+	],
+	"rows": [
+		"mmmmmmAAAAAmmmmmm",
+		"mmmmmA.....Ammmmm",
+		"mmmmA..sss..Ammmm",
+		"mmmA..sssss..Ammm",
+		"mmA..sssssss..Amm",
+		"mA..sssssssss..Am",
+		"m..sssssssssss..m",
+		"..sssssssssssss..",
+		"..sssssssssssss..",
+		"m..sssssssssss..m",
+		"mm..sssssssss..mm",
+		"mmm..,,,,,,,..mmm",
+		"mmmm..,,,,,..mmmm",
+		"mmmm..,,,,,..mmmm",
+		"mmmmm..,,,..mmmmm"
+	]
+}

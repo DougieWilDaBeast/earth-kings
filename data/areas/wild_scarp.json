@@ -1,0 +1,69 @@
+{
+	"display_name": "the wind scarp",
+	"layers": ["stone", "crag", "dirt"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the way down is south",
+	"legend": {
+		",": "dirt",
+		"s": "stone",
+		"A": "crag"
+	},
+	"tint": "#9099a6",
+	"spawn": [7, 10],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 3], "line": "The whole country from here, and none of it looks like it belongs to anyone." },
+		{ "cell": [3, 5], "line": "Wind off the edge, steady enough to lean on." },
+		{ "cell": [11, 5], "line": "A cairn. Somebody counted the stones onto it one at a time." },
+		{ "cell": [7, 8], "line": "Bones of something that fell, picked clean and left tidy." }
+	],
+	"chests": [
+		{
+			"cell": [7, 2],
+			"line": "A cleft in the shelf with a bundle pushed as far back as an arm goes.",
+			"art": "chest_iron",
+			"gold": 175,
+			"item": "whetstone"
+		}
+	],
+	"props": [
+		{ "art": "nature/thistle", "cell": [4, 4] },
+		{ "art": "nature/thistle", "cell": [10, 4] },
+		{ "art": "nature/ivy", "cell": [2, 8] },
+		{ "art": "nature/holly_tree_2", "cell": [12, 8] },
+		{ "art": "nature/wildflowers_yellow", "cell": [5, 6] },
+		{ "art": "nature/wildflowers_red", "cell": [9, 6] },
+		{ "art": "camp/fire_stakes", "cell": [6, 9] },
+		{ "art": "camp/embers", "cell": [8, 9] },
+		{ "art": "chest_broken", "cell": [3, 3] },
+		{ "art": "nature/irish_bird_4", "cell": [11, 3] }
+	],
+	"people": [
+		{
+			"name": "Vell of the High Ground",
+			"unit": "bird_archer",
+			"cell": [7, 6],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"I can see four days of your road from here. None of it is good.",
+				"Sit if you like. Don't stand near the edge in this wind.",
+				"Fire's cold. I don't light it where things can see it.",
+				"Everything that comes up here comes up the way you did."
+			]
+		}
+	],
+	"rows": [
+		"AAAAAAAAAAAAAAA",
+		"AAAAsssssssAAAA",
+		"AAAsssssssssAAA",
+		"AAsssssssssssAA",
+		"A,,sssssssss,,A",
+		",,,sssssssss,,,",
+		",,,sssssssss,,,",
+		"A,,sssssssss,,A",
+		"AAsssssssssssAA",
+		"AAAsssssssssAAA",
+		"AAAAsssssssAAAA",
+		"AAAAA,,,,,AAAAA"
+	]
+}

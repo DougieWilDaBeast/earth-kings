@@ -1,0 +1,72 @@
+{
+	"display_name": "the thorn thicket",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the path out is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#8b9470",
+	"spawn": [7, 10],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 3], "line": "The briar closes over the path behind you at about shoulder height." },
+		{ "cell": [5, 6], "line": "A snare, set well, and old enough that whatever set it is not coming back." },
+		{ "cell": [9, 6], "line": "Fur caught on the thorns in a line, all going the same way." },
+		{ "cell": [7, 8], "line": "It is quieter in here than it should be for this much cover." }
+	],
+	"chests": [
+		{
+			"cell": [7, 4],
+			"line": "A hollow in the briar with a sack in it, and the sack has been mended twice.",
+			"art": "chest_dark",
+			"gold": 110,
+			"item": "salt_pouch"
+		}
+	],
+	"props": [
+		{ "art": "nature/briar_bush", "cell": [4, 4] },
+		{ "art": "nature/briar_bush_2", "cell": [10, 4] },
+		{ "art": "nature/briar_bush", "cell": [3, 7] },
+		{ "art": "nature/briar_bush_2", "cell": [11, 7] },
+		{ "art": "nature/hazel_bush_2", "cell": [2, 5] },
+		{ "art": "nature/hazel_bush", "cell": [12, 5] },
+		{ "art": "nature/rose_bush_2", "cell": [5, 9] },
+		{ "art": "nature/thistle", "cell": [9, 9] },
+		{ "art": "nature/mushrooms", "cell": [6, 7] },
+		{ "art": "nature/mushrooms_tall", "cell": [8, 7] },
+		{ "art": "nature/ants", "cell": [8, 5] },
+		{ "art": "nature/grasshopper", "cell": [6, 5] },
+		{ "art": "nature/jay_bird", "cell": [4, 2] },
+		{ "art": "nature/butterfly", "cell": [10, 2] }
+	],
+	"people": [
+		{
+			"name": "a fox that is not afraid of you",
+			"unit": "hat_fox",
+			"cell": [7, 6],
+			"facing": [0, 1],
+			"wander": 3,
+			"chatter": [
+				"It sits in the path and declines to move.",
+				"It has clearly done this before, and clearly won.",
+				"It follows for a while and then does not."
+			]
+		}
+	],
+	"rows": [
+		"mmmmmmmmmmmmmmm",
+		"mmmm.......mmmm",
+		"mmm.........mmm",
+		"mm....,,,....mm",
+		"mm...,,,,,...mm",
+		"m...,,,,,,,...m",
+		"...,,,,,,,,,...",
+		"m...,,,,,,,...m",
+		"mm...,,,,,...mm",
+		"mmm...,,,...mmm",
+		"mmm...,,,...mmm",
+		"mmmm..,,,..mmmm"
+	]
+}

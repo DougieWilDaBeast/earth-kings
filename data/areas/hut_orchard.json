@@ -1,0 +1,87 @@
+{
+	"display_name": "the orchard hut",
+	"layers": ["dirt", "meadow"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
+	"legend": {
+		".": "grass",
+		",": "dirt",
+		"m": "meadow"
+	},
+	"tint": "#a49b6e",
+	"fire": [7, 4],
+	"spawn": [7, 9],
+	"seats": [[5, 4], [9, 4], [7, 2]],
+	"exits": [[7, 11], [8, 11]],
+	"spots": [
+		{ "cell": [7, 6], "line": "Skeps in a row, all of them working, all of them loud." },
+		{ "cell": [3, 5], "line": "Apple trees in lines older than the lines of the fields around them." },
+		{ "cell": [11, 5], "line": "Jars on a shelf in the sun, and the light comes through them amber." },
+		{ "cell": [7, 8], "line": "Windfalls left where they dropped, on purpose, for the wasps to have instead." }
+	],
+	"chests": [
+		{
+			"cell": [3, 3],
+			"line": "A press-house crock, waxed shut, and the wax has somebody's thumbprint in it.",
+			"art": "chest_gold",
+			"gold": 130,
+			"item": "amber_draught"
+		}
+	],
+	"props": [
+		{ "art": "nature/apple_tree", "cell": [2, 3] },
+		{ "art": "nature/apple_tree_2", "cell": [12, 3] },
+		{ "art": "nature/apple_tree", "cell": [2, 8] },
+		{ "art": "nature/apple_tree_2", "cell": [12, 8] },
+		{ "art": "nature/bee", "cell": [6, 5] },
+		{ "art": "nature/bee", "cell": [9, 6] },
+		{ "art": "nature/butterfly", "cell": [5, 7] },
+		{ "art": "nature/butterfly_blue", "cell": [10, 3] },
+		{ "art": "nature/wildflowers_yellow", "cell": [4, 6] },
+		{ "art": "nature/wildflowers_white", "cell": [10, 7] },
+		{ "art": "nature/clover_green", "cell": [6, 8] },
+		{ "art": "nature/clover_lesser_green", "cell": [8, 8] },
+		{ "art": "village/bread_oven", "cell": [11, 6] },
+		{ "art": "village/barrels", "cell": [3, 6] },
+		{ "art": "camp/cook_pit", "cell": [4, 2] }
+	],
+	"people": [
+		{
+			"name": "Hanna of the Skeps",
+			"unit": "peasant",
+			"cell": [7, 5],
+			"facing": [0, 1],
+			"wander": 2,
+			"chatter": [
+				"Walk slow past the skeps and they will not mind you at all.",
+				"Forty years of trees and I planted four of them. The rest are borrowed.",
+				"I trade honey for news. You look like you have some.",
+				"Take an apple. Take two. Do not take the ones on the ground."
+			]
+		},
+		{
+			"name": "Piotr, who is asleep",
+			"unit": "village_idiot",
+			"cell": [11, 9],
+			"facing": [-1, 0],
+			"wander": 1,
+			"chatter": [
+				"He is under a tree with his hat over his face and he is not moving.",
+				"He says something about the cider and goes back under the hat."
+			]
+		}
+	],
+	"rows": [
+		"mmmm.......mmmm",
+		"mmm.........mmm",
+		"mm...,,,,,...mm",
+		"m...,,,,,,,...m",
+		"...,,,,,,,,,...",
+		"..,,,,,,,,,,,..",
+		"...,,,,,,,,,...",
+		"...,,,,,,,,,...",
+		"m...,,,,,,,...m",
+		"mm...,,,,,...mm",
+		"mmm...,,,...mmm",
+		"mmmm...,,..mmmm"
+	]
+}

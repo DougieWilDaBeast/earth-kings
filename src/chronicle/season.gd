@@ -7,11 +7,12 @@ extends RefCounted
 ## - Ice Clover: Winter (frost, frozen passes, severe travel)
 ##
 ## Like everything in Earth Kings, the seasons advance strictly on footsteps:
-## every 900 steps is one season, four seasons make one continental year (3,600 steps).
+## every 120 steps is one season, four seasons make one continental year (480 steps).
 
-const STEPS_PER_SEASON := 900
+const DEFAULT_STEPS_PER_SEASON := 120
+const STEPS_PER_SEASON := 120
 const SEASONS_PER_YEAR := 4
-const STEPS_PER_YEAR := 3600
+const STEPS_PER_YEAR := 480
 
 const SEASONS: Array[Dictionary] = [
 	{
@@ -67,9 +68,22 @@ const SEASONS: Array[Dictionary] = [
 static var _cached_textures: Dictionary = {}
 
 
+static func rules() -> Dictionary:
+	return Database.world_rules.get("season", {})
+
+
+static func steps_per_season() -> int:
+	return int(rules().get("steps_per_season", STEPS_PER_SEASON))
+
+
+static func steps_per_year() -> int:
+	return steps_per_season() * SEASONS_PER_YEAR
+
+
 ## The season at any step count on the world clock.
 static func for_step(step: int) -> Dictionary:
-	var idx := maxi(0, step / STEPS_PER_SEASON) % SEASONS_PER_YEAR
+	var sps := steps_per_season()
+	var idx := maxi(0, step / sps) % SEASONS_PER_YEAR
 	return SEASONS[idx]
 
 
@@ -84,28 +98,28 @@ static func current(world: World) -> Dictionary:
 static func index(world: World) -> int:
 	if world == null:
 		return 0
-	return maxi(0, world.steps / STEPS_PER_SEASON) % SEASONS_PER_YEAR
+	return maxi(0, world.steps / steps_per_season()) % SEASONS_PER_YEAR
 
 
 ## Continental year (starts at 1).
 static func year(world: World) -> int:
 	if world == null:
 		return 1
-	return (maxi(0, world.steps) / STEPS_PER_YEAR) + 1
+	return (maxi(0, world.steps) / steps_per_year()) + 1
 
 
-## Steps walked into the current season (0 to 899).
+## Steps walked into the current season (0 to steps_per_season - 1).
 static func step_in_season(world: World) -> int:
 	if world == null:
 		return 0
-	return maxi(0, world.steps) % STEPS_PER_SEASON
+	return maxi(0, world.steps) % steps_per_season()
 
 
 ## Steps remaining before the season turns.
 static func steps_remaining(world: World) -> int:
 	if world == null:
-		return STEPS_PER_SEASON
-	return STEPS_PER_SEASON - step_in_season(world)
+		return steps_per_season()
+	return steps_per_season() - step_in_season(world)
 
 
 ## Short label: "Year 1, Spring".
@@ -142,4 +156,5 @@ static func texture_by_key(clover_key: String) -> Texture2D:
 
 ## Checks if the world clock just completed a season transition at [param step].
 static func just_turned(step: int) -> bool:
-	return step > 0 and (step % STEPS_PER_SEASON == 0)
+	var sps := steps_per_season()
+	return step > 0 and (step % sps == 0)

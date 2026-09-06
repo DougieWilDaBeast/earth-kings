@@ -1,0 +1,109 @@
+{
+	"display_name": "the cloister",
+	"layers": ["flagstone", "meadow", "dirt"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the gate out is south",
+	"legend": {
+		"o": "flagstone",
+		"m": "meadow",
+		",": "dirt",
+		".": "grass"
+	},
+	"tint": "#b0a98e",
+	"spawn": [8, 11],
+	"exits": [[8, 12], [9, 12]],
+	"spots": [
+		{ "cell": [8, 5], "line": "A garden square, kept by people who will not say which of them keeps it." },
+		{ "cell": [3, 5], "line": "The walk. Copied out here in good light until the light goes." },
+		{ "cell": [13, 5], "line": "Names cut into the wall in a column, and the column has run out of wall." },
+		{ "cell": [8, 2], "line": "Every arch has a different beast on it. Nobody has explained the beasts." },
+		{ "cell": [8, 9], "line": "Somebody is singing two rooms away and stops when you listen." }
+	],
+	"chests": [
+		{
+			"cell": [3, 10],
+			"line": "A press of spare quires, ruled and never written on.",
+			"art": "chest_iron",
+			"gold": 130,
+			"item": "knotted_cord"
+		},
+		{
+			"cell": [13, 10],
+			"line": "The almoner's box. It is not locked, which says something about the house.",
+			"art": "chest_silver",
+			"gold": 220,
+			"item": "hearth_coin"
+		}
+	],
+	"props": [
+		{ "art": "writing_desk", "cell": [3, 3] },
+		{ "art": "writing_desk", "cell": [13, 3] },
+		{ "art": "scroll_rack", "cell": [3, 7] },
+		{ "art": "scroll_rack", "cell": [13, 7] },
+		{ "art": "village/fountain", "cell": [8, 5] },
+		{ "art": "nature/rose_bush", "cell": [5, 4] },
+		{ "art": "nature/rose_bush_2", "cell": [11, 4] },
+		{ "art": "nature/rose_bush_small", "cell": [5, 7] },
+		{ "art": "nature/wildflowers_blue", "cell": [11, 7] },
+		{ "art": "nature/clover_green", "cell": [7, 6] },
+		{ "art": "nature/bee", "cell": [9, 4] },
+		{ "art": "potted_plant", "cell": [5, 10] },
+		{ "art": "potted_plant", "cell": [11, 10] },
+		{ "art": "lamp_hanging", "cell": [6, 1] },
+		{ "art": "lamp_hanging", "cell": [10, 1] },
+		{ "art": "stone_bench", "cell": [6, 8] },
+		{ "art": "stone_bench", "cell": [10, 8] }
+	],
+	"people": [
+		{
+			"name": "Sister Anwen",
+			"unit": "staff_panda",
+			"cell": [8, 8],
+			"facing": [0, -1],
+			"wander": 3,
+			"chatter": [
+				"We copy in the walk because the light is better and the talk is worse.",
+				"The garden is older than the house. The house was put around it.",
+				"Ask for a book by what it is about. Nobody here knows the titles.",
+				"You may sit. You may not take a candle into the presses."
+			]
+		},
+		{
+			"name": "Brother Cadfan",
+			"unit": "element_monk",
+			"cell": [4, 4],
+			"facing": [1, 0],
+			"wander": 2,
+			"chatter": [
+				"Forty-one years on the same shelf of it. I am nearly at the end of the first half.",
+				"My hand is going. I am training a boy who is worse than me and getting better.",
+				"They ring for meals. You will hear it. Everyone hears it."
+			]
+		},
+		{
+			"name": "a boy sent to fetch ink",
+			"unit": "cabin_boy",
+			"cell": [12, 9],
+			"facing": [-1, 0],
+			"wander": 4,
+			"chatter": [
+				"He is not fetching ink. He is going the long way about not fetching ink.",
+				"He asks if you have been anywhere, and does not wait for the answer."
+			]
+		}
+	],
+	"rows": [
+		"ooooooooooooooooo",
+		"ooooooooooooooooo",
+		"oo.............oo",
+		"oo.mmmmmmmmmmm.oo",
+		"oo.mmmmmmmmmmm.oo",
+		"oo.mmmmmmmmmmm.oo",
+		"oo.mmmmmmmmmmm.oo",
+		"oo.mmmmmmmmmmm.oo",
+		"oo.............oo",
+		"ooooooooooooooooo",
+		"ooooooooooooooooo",
+		"ooooooooooooooooo",
+		"oooooo,,,,,oooooo"
+	]
+}

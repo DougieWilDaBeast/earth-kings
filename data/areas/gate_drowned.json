@@ -1,0 +1,101 @@
+{
+	"display_name": "the drowned gate",
+	"layers": ["water", "sand", "stone"],
+	"hint": "WASD to walk  ·  E to look at something  ·  the causeway back is south",
+	"legend": {
+		"~": "water",
+		"n": "sand",
+		"s": "stone",
+		".": "grass"
+	},
+	"tint": "#6f8296",
+	"spawn": [8, 13],
+	"exits": [[8, 14], [9, 14]],
+	"wards": [
+		{
+			"cell": [8, 6],
+			"name": "the tide gate",
+			"ability": "crush",
+			"key": "gate_key",
+			"denied": "The last stretch of causeway is under a hand's depth of water and a portcullis is down in it. Break it, or hold the warden's key, and not otherwise.",
+			"opened": "The portcullis goes over sideways and the water takes it."
+		}
+	],
+	"spots": [
+		{ "cell": [8, 4], "line": "The arch stands in the lake with nothing holding it up that you can see." },
+		{ "cell": [5, 3], "line": "The water inside the ring does not move with the rest of the lake." },
+		{ "cell": [11, 3], "line": "Mooring rings set into the stone, worn bright. Something still ties up here." },
+		{ "cell": [8, 11], "line": "The causeway is a foot under at high water. It is not high water yet." }
+	],
+	"chests": [
+		{
+			"cell": [8, 3],
+			"line": "A strongbox lashed to the arch itself, above the waterline by a hand.",
+			"art": "chest_silver",
+			"gold": 400,
+			"item": "frost_staff"
+		},
+		{
+			"cell": [6, 12],
+			"line": "A net bag snagged on the causeway edge, heavy with what it caught.",
+			"art": "chest_broken",
+			"gold": 150,
+			"item": "blue_draught"
+		}
+	],
+	"props": [
+		{ "art": "camp/fire_boat", "cell": [4, 12] },
+		{ "art": "camp/fire_sand", "cell": [10, 12] },
+		{ "art": "village/signpost", "cell": [8, 12] },
+		{ "art": "lamp_post_twin", "cell": [6, 10] },
+		{ "art": "lamp_post_twin", "cell": [10, 10] },
+		{ "art": "brazier", "cell": [6, 4] },
+		{ "art": "brazier", "cell": [10, 4] },
+		{ "art": "village/barrels", "cell": [5, 13] },
+		{ "art": "village/crates", "cell": [11, 13] }
+	],
+	"people": [
+		{
+			"name": "Ferrick of the Causeway",
+			"unit": "sea_man",
+			"cell": [8, 11],
+			"facing": [0, -1],
+			"wander": 2,
+			"chatter": [
+				"Tide's out. That's the only reason you're standing where you are.",
+				"Three hours. Then the road you came on is a lake again.",
+				"I ferry people off it who left it too late. I charge them.",
+				"Whatever's under the arch doesn't mind the water. Bear that in mind."
+			]
+		},
+		{
+			"name": "Sull, mending a boat",
+			"unit": "cabin_boy",
+			"cell": [5, 12],
+			"facing": [1, 0],
+			"wander": 1,
+			"chatter": [
+				"She'll float. She won't float far.",
+				"You can't row round it. People try. The water goes wrong out there.",
+				"If you hear the rings knocking, get off the causeway."
+			]
+		}
+	],
+	"rows": [
+		"~~~~~~~~~~~~~~~~~",
+		"~~~~~~sssss~~~~~~",
+		"~~~~~sssssss~~~~~",
+		"~~~~sssssssss~~~~",
+		"~~~~sssssssss~~~~",
+		"~~~~~sssssss~~~~~",
+		"~~~~~~sssss~~~~~~",
+		"~~~~~~~nnn~~~~~~~",
+		"~~~~~~~nnn~~~~~~~",
+		"~~~~~~~nnn~~~~~~~",
+		"~~~~~~nnnnn~~~~~~",
+		"~~~~~nnnnnnn~~~~~",
+		"~~~~nnnnnnnnn~~~~",
+		"~~~nnnnnnnnnnn~~~",
+		"~~..nnnnnnnnn..~~"
+	]
+}
