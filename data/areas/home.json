@@ -32,7 +32,11 @@
 		{ "art": "writing_desk", "cell": [4, 9] },
 		{ "art": "chair", "cell": [6, 9] },
 		{ "art": "potted_plant", "cell": [12, 9] },
-		{ "art": "oil_lamp", "cell": [10, 7] }
+		{ "art": "oil_lamp", "cell": [10, 7] },
+		{ "art": "nature/apple_tree", "cell": [2, 1] },
+		{ "art": "nature/rose_bush_small", "cell": [14, 1] },
+		{ "art": "nature/wildflowers_red", "cell": [13, 11] },
+		{ "art": "nature/wildflowers_blue", "cell": [3, 11] }
 	],
 	"people": [
 		{

@@ -18,6 +18,7 @@ func _ready() -> void:
 	_check_museum()
 	_check_arena()
 	_check_cinematic()
+	_check_seasons()
 
 	print("")
 	if _failures.is_empty():
@@ -263,3 +264,24 @@ func _check_cinematic() -> void:
 			ResourceLoader.exists(str(Site.ART[kind])),
 			"a %s has no art at %s" % [kind, Site.ART[kind]]
 		)
+
+
+# --- W20 ----------------------------------------------------------------------
+
+
+func _check_seasons() -> void:
+	var s0 := Season.for_step(0)
+	_expect(s0["clover"] == "lesser_green" and s0["display_name"] == "Spring", "step 0 was not Spring (lesser green)")
+	var s1 := Season.for_step(900)
+	_expect(s1["clover"] == "green" and s1["display_name"] == "Summer", "step 900 was not Summer (green)")
+	var s2 := Season.for_step(1800)
+	_expect(s2["clover"] == "brown" and s2["display_name"] == "Autumn", "step 1800 was not Autumn (brown)")
+	var s3 := Season.for_step(2700)
+	_expect(s3["clover"] == "ice" and s3["display_name"] == "Winter", "step 2700 was not Winter (ice)")
+	var s4 := Season.for_step(3600)
+	_expect(s4["clover"] == "lesser_green" and s4["display_name"] == "Spring", "step 3600 was not Year 2 Spring")
+	_expect(Season.just_turned(900) and not Season.just_turned(899), "season transition step detection failed")
+
+	for sea: Dictionary in Season.SEASONS:
+		_expect(ResourceLoader.exists(sea["texture_path"]), "missing season clover texture at %s" % sea["texture_path"])
+		_expect(ResourceLoader.exists(sea["ui_texture_path"]), "missing season clover UI texture at %s" % sea["ui_texture_path"])

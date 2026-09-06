@@ -200,6 +200,11 @@ func open_gate(site: Site) -> void:
 	site.opened_at = steps
 
 
+## The active season and clover governing the world clock.
+func season() -> Dictionary:
+	return Season.current(self)
+
+
 # --- powers -------------------------------------------------------------------
 
 
@@ -267,6 +272,10 @@ func _upkeep() -> Array:
 		else:
 			# It held this time; the clock starts again.
 			site.opened_at = steps
+	if Season.just_turned(steps):
+		var s := Season.current(self)
+		notices.append(s.get("arrival", ""))
+		Annals.record(self, "The season turned to %s under the %s." % [s["display_name"], s["clover_name"]])
 	notices.append_array(Town.upkeep(self))
 	notices.append_array(Skein.on_step(self))
 	notices.append_array(Roadside.upkeep(self))

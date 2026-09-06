@@ -312,9 +312,10 @@ of them, so two callings no longer play the same. The party screen draws every t
 has uncovered, its theme, and its three rungs marked taken or locked with reach, splash and weight
 spelled out; somebody too low to have one is told which level it arrives at.
 
-Proficiency-by-use is written ([`Proficiency`](../src/chronicle/proficiency.gd), counted on
-`Character.practice`) but **has never been played** — see the half-finished note in
-[10 — Manual tests](10-manual-tests.md).
+Proficiency-by-use is tracked on [`Proficiency`](../src/chronicle/proficiency.gd)
+(`Character.practice`) and prominently displayed for every known move on the party screen
+([`src/ui/party_screen.gd`](../src/ui/party_screen.gd)), showing uses and progress towards the next
+title (practised, seasoned, expert, masterful).
 
 Levelling no longer hands the player a move. A player character banks `Character.rungs` — a power
 earned and not yet placed — and spends it on the party screen, where the next rung of every tree
@@ -343,6 +344,11 @@ are assigned to all twelve heroes in `data/heroes.json`. Starting locations foll
 (`WorldGen.starting_cell_for_hero`): nobles at ancestral keeps, scholars at libraries, strays at
 hedge huts, outcasts at gates, smiths at hearth villages. Alignments feed starting party affinity
 and friction through `Banter.initial_bond` and `Roster.found`.
+
+**Grudges built.** Each background carries a targeted grudge (`Character.grudge_target` and
+`grudge_label`) against ancestral enemies (e.g. apprentice smiths against raiders and marauders,
+exiled nobles against imperial usurpers, scholars against the dusk). In battle, attacks against
+grudge targets deal +10% bonus damage with explicit combat log confirmation.
 
 ## W19 — Variety, and more to do at the fire
 

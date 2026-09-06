@@ -37,6 +37,7 @@ var boot_payload: Dictionary = {}
 
 @onready var _map: Node2D = $Map
 @onready var _camera: CameraRig = $Camera2D
+@onready var _season_icon: TextureRect = %SeasonIcon
 @onready var _place: Label = %PlaceLabel
 @onready var _party: Label = %PartyLabel
 @onready var _log: Label = %LogLabel
@@ -1081,11 +1082,15 @@ func _note(line: String) -> void:
 
 func _refresh() -> void:
 	_follow_party()
+	var s := Season.current(world)
+	if _season_icon != null:
+		_season_icon.texture = Season.clover_texture(world)
+		_season_icon.tooltip_text = "%s\n%s" % [Season.full_label(world), s.get("blurb", "")]
 	var site := world.site_at(world.player_cell)
 	var region: String = world.region_at(world.player_cell)
 	var where: String = site.label() if site != null else world.terrain_at(world.player_cell).get("name", "open ground")
-	_place.text = "%s  ·  %s  ·  %s  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
-		where, region, str(world.player_cell), GameState.gold, world.steps, world.prowlers.size()
+	_place.text = "%s  ·  %s  ·  %s (%s)  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
+		where, region, Season.label(world), s["clover_name"], GameState.gold, world.steps, world.prowlers.size()
 	]
 
 	var entries: Array[String] = []

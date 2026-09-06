@@ -177,6 +177,11 @@ func _row_for(character: Character, party: Array[Character]) -> Control:
 		carried.add_child(charm)
 	row.add_child(carried)
 
+	var practice_line := Label.new()
+	practice_line.add_theme_color_override("font_color", Color(0.68, 0.78, 0.72))
+	practice_line.text = "Practice: %s" % _practice_summary(character)
+	row.add_child(practice_line)
+
 	for block in _tree_blocks(character):
 		row.add_child(block)
 
@@ -347,10 +352,14 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			rung_line.add_theme_color_override(
 				"font_color", Color(0.86, 0.88, 0.92) if known else Color(0.46, 0.47, 0.5)
 			)
-			rung_line.text = "    %s %s  —  %s" % [
+			var extra := ""
+			if known and Proficiency.uses(character, ability_id) > 0:
+				extra = "  [%s]" % Proficiency.summary(character, ability_id)
+			rung_line.text = "    %s %s  —  %s%s" % [
 				"■" if known else "□",
 				ability.get("display_name", ability_id),
 				shape,
+				extra,
 			]
 			block.add_child(rung_line)
 		out.append(block)
@@ -390,3 +399,12 @@ func _doctrine_summary(character: Character) -> String:
 		var fading := stale > Doctrine.FADE_AFTER_STEPS * 0.75
 		titles.append("%s%s" % [Doctrine.title(doctrine_id), "  (fading)" if fading else ""])
 	return "  ·  ".join(titles)
+
+
+func _practice_summary(character: Character) -> String:
+	var parts: Array[String] = []
+	for ability_id: String in character.abilities():
+		var aname: String = str(Database.ability(ability_id).get("display_name", ability_id))
+		var prof: String = Proficiency.summary(character, ability_id)
+		parts.append("%s (%s)" % [aname, prof])
+	return "  ·  ".join(parts) if not parts.is_empty() else "none"

@@ -62,10 +62,16 @@ static func has_art(art_id: String) -> bool:
 ## Swap the picture in place, so a chest can be shown standing open.
 func set_art(art_id: String) -> void:
 	art = art_id
-	if not has_art(art_id):
-		push_warning("AreaProp: no art for '%s'" % art_id)
+	var resolved_id := art_id
+	if (art_id == "nature/clover" or art_id == "nature/clover_2" or art_id == "nature/seasonal_clover") and GameState.world != null:
+		var s := Season.current(GameState.world)
+		var seasonal_art := "nature/clover_%s" % s.get("clover", "green")
+		if has_art(seasonal_art):
+			resolved_id = seasonal_art
+	if not has_art(resolved_id):
+		push_warning("AreaProp: no art for '%s'" % resolved_id)
 		return
-	var texture: Texture2D = load("%s/%s.png" % [ART_ROOT, art_id])
+	var texture: Texture2D = load("%s/%s.png" % [ART_ROOT, resolved_id])
 	_sprite.texture = texture
 	_sprite.position = Vector2(-texture.get_width() / 2.0, -texture.get_height() * FOOT)
 

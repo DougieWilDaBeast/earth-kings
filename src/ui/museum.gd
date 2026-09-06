@@ -87,8 +87,14 @@ func _show(index: int) -> void:
 
 func _numbers(journey: Dictionary) -> Array:
 	var nemesis := str(journey.get("nemesis", ""))
+	var s_text := "%s (Year %d) · %s" % [
+		journey.get("season", "Spring"),
+		int(journey.get("year", 1)),
+		journey.get("clover", "Lesser Green Clover")
+	]
 	return [
 		["Steps walked", str(int(journey.get("steps", 0)))],
+		["Season", s_text],
 		["Gold taken", str(int(journey.get("gold", 0)))],
 		["Enemies put down", str(int(journey.get("kills", 0)))],
 		["Battles won", str(int(journey.get("battles_won", 0)))],

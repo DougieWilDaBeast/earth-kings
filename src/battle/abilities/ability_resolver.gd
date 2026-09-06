@@ -85,11 +85,19 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 	if user.team == Unit.Team.PLAYER and target.team == Unit.Team.ENEMY and GameState.world != null:
 		if Journal.is_wounded(GameState.world, target.template_id):
 			raw = roundi(raw * 1.05)
+	# Background grudge provides +10% bonus damage against ancestral foes.
+	var grudge_hit := false
+	if user.character != null and user.character.has_grudge_against(target):
+		raw = roundi(raw * 1.10)
+		grudge_hit = true
 	var flank := flank_of(user.cell, target)
 	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
 	target.take_damage(damage)
+	var tags: String = FLANK_LABEL[flank]
+	if grudge_hit:
+		tags += " (grudge)"
 	var line := "%s used %s — %s takes %d damage%s." % [
-		user.display_name, name, target.display_name, damage, FLANK_LABEL[flank]
+		user.display_name, name, target.display_name, damage, tags
 	]
 	if not target.is_alive():
 		line += " %s falls." % target.display_name

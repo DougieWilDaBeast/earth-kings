@@ -15,26 +15,36 @@ const BACKGROUNDS := {
 		"display_name": "Apprentice Smith",
 		"blurb": "Raised at the hearth-forge with hammer and anvil. Forged in loss when raiders sacked the town.",
 		"start_kind": "village",
+		"grudge_target": "brigand",
+		"grudge_label": "Raiders & Marauders",
 	},
 	"exiled_noble": {
 		"display_name": "Exiled Noble",
 		"blurb": "Cast down from halls of ancestral power. Carries heraldic pride, high arms, and an unyielding code.",
 		"start_kind": "keep",
+		"grudge_target": "heart_empire",
+		"grudge_label": "Imperial Usurpers",
 	},
 	"cloistered_scholar": {
 		"display_name": "Cloistered Scholar",
 		"blurb": "Taught in quiet libraries and hillside hermitages. Seeks lost lore, doctrine, and understanding.",
 		"start_kind": "library",
+		"grudge_target": "the_dusk",
+		"grudge_label": "The Dusk & Abominations",
 	},
 	"wilderness_stray": {
 		"display_name": "Wilderness Stray",
 		"blurb": "Grew up in wild woods, mountain passes, and hidden rivers. Unbound by town law, attuned to nature.",
 		"start_kind": "hut",
+		"grudge_target": "beast",
+		"grudge_label": "Prowling Beasts",
 	},
 	"outcast_drifter": {
 		"display_name": "Outcast Drifter",
 		"blurb": "No village hearth welcomes them, and no bell rings their arrival. Walks the treacherous fringes.",
 		"start_kind": "gate",
+		"grudge_target": "goblin",
+		"grudge_label": "Goblins & Vermin",
 	},
 }
 
@@ -126,6 +136,40 @@ func background_data() -> Dictionary:
 
 func background_display() -> String:
 	return str(background_data().get("display_name", "Wanderer"))
+
+
+func grudge_label() -> String:
+	return str(background_data().get("grudge_label", "None"))
+
+
+func grudge_target() -> String:
+	return str(background_data().get("grudge_target", ""))
+
+
+func has_grudge_against(target: Node) -> bool:
+	if target == null:
+		return false
+	var g := grudge_target()
+	if g == "":
+		return false
+	var tid: String = target.get("template_id") if "template_id" in target else ""
+	if tid == g:
+		return true
+	if target.has_method("kind") and target.kind() == g:
+		return true
+	if Faction.of(tid) == g:
+		return true
+	if g == "beast" and (tid in ["wolf", "frozen_wolfman", "blood_mosquito", "seed_beast"] or (target.has_method("kind") and target.kind() == "beast")):
+		return true
+	if g == "brigand" and ("brigand" in tid or tid in ["cabin_boy", "hat_fox", "pirate_man"]):
+		return true
+	if g == "goblin" and ("goblin" in tid or tid in ["ogre", "troll"]):
+		return true
+	if g == "the_dusk" and (tid in ["wraith", "dusk_shadow", "eye_leprechaun", "eye_slinger", "lizard_wizard", "devil_butler"]):
+		return true
+	if g == "heart_empire" and ("legion" in tid or tid in ["dirte", "golden_knight"]):
+		return true
+	return false
 
 
 func alignment_display() -> String:

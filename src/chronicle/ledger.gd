@@ -82,6 +82,7 @@ static func chapters(world: World, roster: Roster, ledger: Dictionary) -> Array:
 			"title": "The road",
 			"rows": [
 				["Steps walked", str(world.steps)],
+				["Time walked", "%s (%s)" % [Season.label(world), Season.current(world)["clover_name"]]],
 				["Places stood in", str(_places(ledger).size())],
 				["Tower floors climbed", tower_text],
 				["Deeds worth repeating", str(world.deeds.size())],

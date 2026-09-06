@@ -21,6 +21,7 @@ const PIP_DARK := Color(0.24, 0.22, 0.22)
 @onready var _warband: Label = %WarbandLabel
 @onready var _background: Label = %BackgroundLabel
 @onready var _alignment: Label = %AlignmentLabel
+@onready var _grudge: Label = %GrudgeLabel
 @onready var _stats: Label = %StatsLabel
 @onready var _blurb: Label = %BlurbLabel
 @onready var _back: Button = %BackButton
@@ -96,6 +97,8 @@ func _show(hero_id: String) -> void:
 	var align_key: String = hero.get("alignment", "true_neutral")
 	var align_name: String = str(Character.ALIGNMENTS.get(align_key, "True Neutral"))
 	_alignment.text = "Alignment — %s" % align_name
+	var grudge_name: String = str(Character.BACKGROUNDS.get(bg_key, {}).get("grudge_label", "None"))
+	_grudge.text = "Grudge — %s" % grudge_name
 
 	_stats.text = "HP %d    Attack %d    Defence %d    Move %d    Speed %d" % [
 		int(template.get("max_hp", 0)),
