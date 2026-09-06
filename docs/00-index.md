@@ -13,6 +13,19 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 07  | [Lineage](07-lineage.md)           | Where this came from, so the trail is not lost                  |
 | 08  | [Threads](08-threads.md)           | Long-running story in a game with no quest log                  |
 | 09  | [Wishlist](09-wishlist.md)         | Spoken notes, transcribed, and what was done about each         |
+| 10  | [Manual tests](10-manual-tests.md) | Human verification checklist across all screens and systems     |
+
+## Forensic Investigation Package
+
+A critical evaluation and comprehensive investigation plan conducted from the perspective of an expert ludological critic:
+
+- [00 — Critic Mandate & Evaluation](investigation/00-critic-mandate-and-evaluation.md)
+- [01 — Tactical Grid & Combat Systems](investigation/01-tactical-grid-and-combat-systems.md)
+- [02 — World Topology & Step Chronometry](investigation/02-world-topology-and-the-step-clock.md)
+- [03 — Character Progression & The Mortality Engine](investigation/03-character-progression-and-the-mortality-engine.md)
+- [04 — Narrative Architecture & The Frieren Layer](investigation/04-narrative-resonance-and-the-frieren-layer.md)
+- [05 — Sensory Presentation & Ergonomics](investigation/05-sensory-presentation-and-ergonomics.md)
+- [06 — Forensic Test Matrix & Benchmarks](investigation/06-forensic-test-matrix-and-benchmarks.md)
 
 ## Working rules
 
