@@ -73,3 +73,28 @@ _Earth Kings_ rejects the bombast of the standard fantasy epic. In its place, it
   .\ek.ps1 --scene=world --at=camp --play
   ```
 - **Focus:** Lighting warmth, flame particle timing, companion placement, and audio transition from overworld wind to intimate hearth quiet.
+
+---
+
+## 4. Adjudication of the Third Judge: Narrative Architecture & The Frieren Layer
+
+### The Deliberation
+
+The Critic raises two sharp concerns: first, that the "Quiet Banter" toggle ([Wishlist W10c](docs/09-wishlist.md#L156)) demotes heartfelt character writing into background noise; second, that the total absence of a quest tracker ([Decision Q14](docs/06-decisions.md#L45)) risks turning expiring thread deadlines ([D23](docs/06-decisions.md#L30)) into arbitrary, punitive shocks. The Architecture defends both decisions as essential to preserving immersion and avoiding the "checklistification" of contemporary gaming.
+
+The Third Judge inspects the balance between diegetic poetry and player awareness:
+
+1. **On the Absence of a Quest Log ([Vision](docs/01-vision.md), [D23](docs/06-decisions.md#L30)):** The court **vigorously upholds** the refusal to implement a glowing yellow compass or a 50-item quest tracker. In _Earth Kings_, events are things that happen in the world, not tasks assigned to an omniscient employee. However, there is a vast difference between an invisible world and a silent world. If a band of raiders has given a 200-step ultimatum to a village, that tension must cast a shadow across the land.
+2. **On Banter Delivery & Quiet Banter:** Dialogue boxes that forcibly freeze gameplay every 50 steps during a long march are indeed disruptive. But when a player sits down at a campfire—the designated emotional sanctuary—dialogue is not clutter; it is the entire point of stopping.
+3. **On Token Exhaustion & Longevity:** With 70 exchanges and 41 single-use reflections, a dedicated 40-hour run will inevitably reach the bottom of the authored barrel. Silence is preferable to jarring repetition, but dynamic procedural reflections based on `GameState.ledger` can extend the horizon indefinitely.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 4.1 (The Campfire Sanctity Decree):** Regardless of the `Pace.quiet_banter` setting, **campfire rest conversations must always render via the full Dialogue Box** with portraits and music dimming. `Pace.quiet_banter` shall only demote road banter muttered while walking. Camp is sacred; the player chose to stop, and the characters must be given the stage.
+- **Ruling 4.2 (The Environmental Shadow of Threads):** While upholding [Decision Q14](docs/06-decisions.md#L45) (no quest log), mandate that whenever an active thread enters its final 100 steps before a catastrophic `instead` trigger, the world environment must communicate the crisis diegetically:
+  - If a village is nearing destruction, smoke columns must rise on the horizon within a 15-tile radius.
+  - Passing wandering travelers must mutter rumors in speech bubbles ("They say the iron gates near Thorn Keep are buckling...").
+- **Ruling 4.3 (Ledger-Driven Reflections):** Expand `Recollection` to synthesize procedural reflections from `GameState.ledger` when authored lines are exhausted (e.g., comparing current gold to starting purse, reminiscing about the longest gate delve, or remarking upon the number of miles walked under snow).
+
+> _"Do not give the player a quest log to turn their journey into a chore list. But when a town is about to burn, let the smoke rise into the sky. A wanderer does not read a quest menu; a wanderer smells fire on the wind."_  
+> — **The Third Judge**

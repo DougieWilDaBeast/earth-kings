@@ -91,3 +91,26 @@ _Earth Kings_ relies on a distinct retro-tactical aesthetic: high-contrast 16-bi
   .\ek.ps1 --scene=world --shot
   ```
 - **Verification:** Ensure camera never snaps to origin `(0, 0)` or exposes void space beyond map bounds.
+
+---
+
+## 4. Adjudication of the Third Judge: Sensory Presentation & Ergonomics
+
+### The Deliberation
+
+The Critic levels the most severe aesthetic charge of the entire inquiry: the **Animation Dissonance Shock**. Exactly one unit (`sworn_blade`) has an imported multi-frame run cycle, while the other 68 units glide stiffly as static figurines. Furthermore, the world mode input cluster demands memorizing 15 distinct single-key shortcuts. The Developer's defense is straightforward: pixel animation production is an arduous asset bottleneck, and single-letter bindings are standard for complex keyboard-driven PC tactics.
+
+The Third Judge inspects the sensory contract:
+
+1. **On the 68-Unit Animation Deficit:** The Critic's outrage is justified, but the reality of solo/indie production must be adjudicated honestly. Halting release until 68 unit packs are fully animated across 8 directions in PixelLab would delay the game by two years. However, the contrast between one fluidly running character and three sliding statues is intolerable—it makes the other 68 units look broken rather than stylized.
+2. **On The 15-Key Control Cluster:** In an era of streamlined gamepads, a control scheme requiring `P, N, L, E, Q, T, J, G, H, B, R, F, U, V, K` is a daunting cognitive wall. While power users enjoy instant hotkeys, discoverability is crippled when keys like `E` and `T` have to be untangled from double-bindings.
+3. **On Camera Rig Stability (`CameraRig`):** The decision to forbid direct mutations of `camera.position` and enforce all panning/zooming through `CameraRig.frame()` and `focus_on()` is an exemplary architectural achievement that preserves pixel stability across all resolutions.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 5.1 (The Procedural Animation Bridge):** While PixelLab run cycles are authored and imported, implement a universal procedural movement squash-and-stretch bobbing tween in `Unit.gd` and `AreaActor.gd` for all units lacking explicit run frames (subtle 2px vertical bob and 3-degree sinusoidal tilt during movement). This instantly eliminates the "sliding cardboard cutout" appearance without requiring hundreds of hand-drawn frames.
+- **Ruling 5.2 (Unified Contextual Action Wheel / HUD Dock):** Retain all 15 keyboard shortcuts for PC veterans, but mandate an expandable onscreen **Quick-Action Radial/Dock** in the bottom-right corner of the world screen. Hovering or clicking reveals categorized actions (Camp, Ledger, Townsfolk, Diplomacy) with their associated hotkeys clearly displayed.
+- **Ruling 5.3 (Wang Border Enforcement):** Require all new area maps to pass `.art_stage/wang_probe.ps1` before inclusion in `WorldGen.AREA_POOLS`. Any 90-degree hard cut between contrasting terrain sheets without a 2-cell transitional buffer is declared a critical visual defect.
+
+> _"Do not let the perfect become the enemy of the played. If you cannot draw ten thousand animation frames today, give the sprites a rhythmic step and a tilt of the shoulders. A walking puppet has charm; a sliding statue is merely an unfinished render."_  
+> — **The Third Judge**

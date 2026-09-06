@@ -93,4 +93,24 @@ The final critical evaluation will rate _Earth Kings_ across six weighted dimens
 - **6.0 – 6.9:** Flawed diamond; brilliant conceptual core compromised by systemic friction.
 - **< 6.0:** Systemic breakdown; fails to fulfill its core design promise.
 
-The comprehensive investigation begins now.
+---
+
+## 5. Adjudication of the Third Judge: The Benchmark & Enforcement Decree
+
+### The Deliberation
+
+The Critic has constructed an uncompromising 14-scenario empirical battery (`T01`–`T14`), demanding that _Earth Kings_ prove its stability and balance through deterministic execution via `.\ek.ps1` and `tests/bench.tscn`. The Developer may argue that comprehensive automated testing on resource-constrained hardware risks stalling development.
+
+The Third Judge inspects the enforcement apparatus:
+
+1. **On Paused Smoke Suites ([Repo Memory L219](earth-kings.md#L219)):** The repo memory explicitly records that routine full-suite smoke testing was paused on 2026-09-02 due to stale expectations and compute starvation. The Critic's protocols must respect this reality: benchmarks must be targeted, modular, and boot directly into specific test states via `.\ek.ps1 --at= --level=` rather than grinding through the entire legacy test folder.
+2. **On Metric Objectivity:** The scoring rubric is affirmed. Weighting Tactical Rigor (25%), World Chronometry (20%), and Progression/Mortality (20%) accurately reflects the game's core value proposition as an uncompromising tactical survival RPG.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 6.1 (Modular Benchmark Execution):** Execution of the test battery shall be conducted individually using the fast boot harness (`.\ek.ps1 --scene=X --play`). Running monolithic multi-suite smoke tests headlessly is declared non-essential.
+- **Ruling 6.2 (The Threshold of Release Certification):** _Earth Kings_ shall not receive final critical certification until it achieves a composite score of **8.0 or higher**, with no individual dimension falling below **7.0**.
+- **Ruling 6.3 (Binding Action Plan):** All engineering remediations decreed in Dossiers 01 through 05 (the combat pouch, readiness tax, chokepoint clearance, shared XP split, campfire dialogue enforcement, and procedural sprite bobbing) are hereby adopted as the official stabilization agenda.
+
+> _"A test that cannot run on the developer's desk is a useless monument to theory. Use the bench harness, test each seam one at a time, and measure what the player actually feels when their sword strikes and their companion falls."_  
+> — **The Third Judge**

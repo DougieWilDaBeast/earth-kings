@@ -86,3 +86,26 @@ The evaluation team will execute the following automated and interactive diagnos
 
 - **Objective:** Profile AI cohort targeting in 3-way arena brawls.
 - **Verification:** Inspect `the_grand_melee` card execution; record whether Enemy B attacks Enemy C with equal probability as attacking Player units.
+
+---
+
+## 4. Adjudication of the Third Judge: Combat & Tactical Grid
+
+### The Deliberation
+
+The Critic raises valid alarm regarding the "Scout Battery" exploit in `TurnManager.advance_group` and the bottomless draught pouch. The Developer's defense rests on player agency: group turns prevent the agonizing wait of 10-unit initiative queues, and bonus-action draughts prevent early-game attrition deaths.
+
+The Third Judge inspects the tension between tactical discipline and action abuse:
+
+1. **On Group Turns (`TurnManager.advance_group`):** Group activation is not inherently an exploit—it is the engine of tactical choreography. What makes _Earth Kings_ distinct from chess is that a team acts as a cohesive martial squad. However, clamping CT at `0` for all actors when a fast scout breaks 100 CT without taxing the slow actors creates an unearned speed subsidy.
+2. **On In-Combat Draughts:** Drinking from `GameState.stores` without a belt limit violates the core design pillar: _Power is scarce; preparation is what buys lives_ ([01-vision.md](docs/01-vision.md)). A party walking into battle with twenty draughts in their infinite backpack turns mortality into a simple gold calculation.
+3. **On AI Positional Naivety:** If the player gains 1.5× back-stab damage while the AI blindly marches forward without turning its back to a wall or ally, the tactical contract is one-sided.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 1.1 (The Initiative Tax):** When `TurnManager.advance_group()` triggers, any ally whose personal CT was below 60 CT must pay a "Readiness Tax" on their next cycle (starting at `-25 CT`), preventing hyper-fast scouts from perpetually pulling heavy knights into free actions.
+- **Ruling 1.2 (The Pouch Mandate):** Strike direct access to `GameState.stores` during combat. Implement a dedicated combat pouch (2 draught slots per character, pre-allocated at camp or world screen). Once consumed, the bag is inaccessible until the battle concludes.
+- **Ruling 1.3 (AI Facing Priority):** In `EnemyBrain`, mandate that the final step of turn resolution evaluates threats in a 3-tile radius and re-orients the unit's dominant facing toward the highest calculated threat vector rather than defaulting to the movement direction.
+
+> _"A victory won because Bram drank eight amber draughts out of an unequipped pack is not a hero's survival—it is an accounting trick. Enforce the combat pouch; make every draught carried into a gate a conscious sacrifice of space."_  
+> — **The Third Judge**

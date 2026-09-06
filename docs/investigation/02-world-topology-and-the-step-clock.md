@@ -89,3 +89,27 @@ The transition of _Earth Kings_ from an austere 44×44 paddock to a 128×128 noi
 ### Test Protocol 2.3: Prowler Pathing & Chokepoint Density
 
 - **Objective:** Audit prowler distribution across seeded worlds (`12345`, `88888`, `99999`) to ensure mountain passes maintain at least a 1-tile stealth bypass corridor.
+
+---
+
+## 4. Adjudication of the Third Judge: World Topology & The Step Clock
+
+### The Deliberation
+
+The Critic warns of "Continental Fatigue" across 16,384 tiles and economic hyper-inflation driven by trade routes paying every 30 steps. Conversely, the Architecture defends the scale as necessary to provide genuine isolation and to prevent the game from feeling like a claustrophobic sandbox.
+
+The Third Judge inspects the balance between geographic scale and temporal meaning:
+
+1. **On Continental Scale (128×128):** The Critic's demand for faster travel or instant fast-travel nodes must be **denied**. Instant travel annihilates the step clock; if you can teleport to a library, doctrine entropy becomes meaningless, and gates will never break while you travel. The isolation is the point. However, empty space that contains neither hazard nor contemplative reward is not isolation—it is dead code.
+2. **On Prowler Sight Cones & Chokepoints:** The anti-ambush philosophy (zero random encounters, visible red cones) is a triumph of fair design. But when mountain passes bottleneck 4 prowler bands into a 1-tile gorge, the game dishonestly transforms a visible encounter into a compulsory fight. Stealth bypasses must remain physically possible for a patient player.
+3. **On Trade Route Economics:** Five routes paying gold every 30 steps for 900 steps generates up to 150 payout events. In an economy where equipment prices are fixed, this floods the party with wealth, trivializing ransoms and gear purchases.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 2.1 (Defend the Ground):** Affirm the rejection of instant fast-travel. All movement must cost steps. Auto-pace (`Q`) and speed cycling (`T`) are the sole sanctioned accelerations.
+- **Ruling 2.2 (Chokepoint Relief):** In `WorldGen._carve_ground`, add a topological sanity pass: ensure that any mountain pass or swamp causeway connecting distinct provinces guarantees a minimum width of 3 standable cells or provides an adjacent brush tile providing stealth cover.
+- **Ruling 2.3 (Economic Attenuation):** Cap active trade routes at **3** (down from 5). Introduce a distance decay modifier: trade routes pay dividends only when the party is within the regional trade basin, or reduce payout frequency to every 60 steps when travelling through hostile wasteland biomes (The Frostpeak Waste, The Ashen Waste).
+- **Ruling 2.4 (Siege Bells):** To prevent distant towns falling into ruin without the player knowing, require that any broken gate advancing a siege emits a mandatory narrative rumor into the world status bar ("Distant bells toll: [Settlement] is under assault from [Gate]").
+
+> _"Distance in Earth Kings is not an obstacle to be skipped; it is the currency you spend to keep your companions alive and your knowledge sharp. Do not shorten the road. Balance the road's toll."_  
+> — **The Third Judge**

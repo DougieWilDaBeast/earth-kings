@@ -103,3 +103,30 @@ When a character’s hit points reach zero, death is the default state. Survival
 
 - **Objective:** Test party screen gear equipping with mismatched class items.
 - **Verification:** Confirm UI cleanly displays the negative swing `(-X)` without obscuring base stats.
+
+---
+
+## 4. Adjudication of the Third Judge: Progression & The Mortality Engine
+
+### The Deliberation
+
+The Critic questions the existential legitimacy of permadeath when save-scumming is unpoliced ([D21](docs/06-decisions.md#L28)), worries that last-hit XP encourages unnatural play, and fears that 900-step doctrine entropy induces logistical fatigue. The Architecture defends [D21](docs/06-decisions.md#L28) as an anti-frustration measure and [D11](docs/06-decisions.md#L18) as the soul of the experience.
+
+The Third Judge inspects the integrity of the mortality contract:
+
+1. **On Save-Scumming vs. Permadeath ([D21](docs/06-decisions.md#L28)):** The court finds no defect in leaving save/load unrestricted. Permadeath in single-player games is an emotional covenant, not a DRM protocol. If a player feels compelled to reload, the failure was theirs; if they accept the grave and walk on, the game achieves transcendence. Policing files in `%APPDATA%` with ironman locks only breeds player resentment when bugs or crashes occur.
+2. **On the Grace Cascade (`Fate.resolve`):** The hierarchy is mathematically sound. Survival is never owed; it is earned by who you stood beside (Rescue), what you carried (Charm), and what you studied (Lore). The flat 7% Luck grace is a vital psychological valve—it creates legendary campfire memories of the one time an arrow glanced off a coin.
+3. **On "Last-Hit" XP:** The Critic's objection is sustained. Forcing a tactical squad to play "feed the kill to the weakest unit" is an artificial relic of early tabletop design. It directly opposes the squad synergy promoted by the unified player turn phase.
+4. **On Doctrine Decay (900 Steps):** 900 steps is approximately 30 minutes of walking. If unread lore simply vanished into thin air, it would be cruel. But because companion teaching at camp preserves knowledge, doctrine behaves like real oral tradition: it must be spoken to survive.
+
+### Judicial Rulings & Remedial Decrees
+
+- **Ruling 3.1 (Affirmation of Honor System Permadeath):** Reaffirm [D21](docs/06-decisions.md#L28). No forced ironman locks. The game shall continue to record the burial in the Museum and allow the player's conscience to bear the weight of a reload.
+- **Ruling 3.2 (Abolition of Pure Last-Hit XP):** Restructure XP allocation in `Progression.award_combat_xp`:
+  - 50% of the defeated enemy's XP bounty is awarded directly to the killer.
+  - 50% is distributed evenly among all living party members who participated in the combat phase. This eliminates awkward turns where players pass actions to let a level 1 recruit finish off an ogre.
+- **Ruling 3.3 (Doctrine Memory Buffer):** When a doctrine reaches 0 steps on a character's shelf, grant a "Fading Memory" grace period (150 steps) during which it can still be taught at a campfire for half value before permanent forgetting.
+- **Ruling 3.4 (The Codex Theme Selection Threshold):** In `AbilityGrammar`, retain the 100% Codex understanding requirement for manual theme choice ([D17](docs/06-decisions.md#L24)). Procedural surprise must remain the law of the land until the continent is truly mastered.
+
+> _"If you reload when your ranger falls, you have not cheated the engine; you have only cheated yourself of a tombstone and a story at the fire. Let the save button remain free, but make sure the XP distribution honours the whole warband, not just the hand that struck the final blow."_  
+> — **The Third Judge**

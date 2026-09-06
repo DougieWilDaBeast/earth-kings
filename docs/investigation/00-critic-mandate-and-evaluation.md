@@ -21,7 +21,17 @@ _Earth Kings_ possesses the intellectual and mechanical architecture of a master
 
 ---
 
-## 2. The Evaluator's Investigative Arsenal
+## 2. The Third Judge: Judicial Concurrence & Adjudication Framework
+
+To ensure that this inquiry neither succumbs to uncritical auteur sycophancy nor dismisses deliberate friction as developer oversight, an independent **Third Judge** (Tribunal Arbitrator & Systems Jurisprudent) has been impaneled alongside the Chief Ludological Critic and Systems Examiner.
+
+### The Judicial Philosophy
+
+The Third Judge does not evaluate _Earth Kings_ against the standard consumer expectations of mass-market, frictionless power-fantasy RPGs. Instead, the Third Judge evaluates against **internal ludic jurisprudence**:
+
+1. **The Contract of Severity:** If a game promises that death is real and knowledge decays, does it keep that promise without cheating the player, and does it reward the exact behaviors it demands?
+2. **The Defense of Intentional Friction:** Friction is not inherently a defect. A slow walk across a bleak country or the agony of losing a scholar can be the artistic core. The Judge distinguishes _vital friction_ (which generates meaning) from _accidental friction_ (which generates irritation).
+3. **The Final Adjudication:** In each investigative dossier, the Third Judge issues a formal, binding ruling—weighing the Critic's indictment against the Architecture's intent—and prescribes non-negotiable remedial rulings.
 
 The evaluation team is equipped with exhaustive analytical, diagnostic, and empirical apparatus to probe every seam of _Earth Kings_:
 
@@ -65,3 +75,10 @@ Before executing the test matrix, the critic poses five core hypotheses that wil
 5. **The Atmospheric Unity Hypothesis:** Can the somber, contemplative storytelling survive the jarring visual dissonance between the fully animated `sworn_blade` and the sliding, static sprites of the remaining 68 units?
 
 The following dossiers lay out the exhaustive investigative procedure to answer each question definitively.
+
+---
+
+## 5. Third Judge Verdict on the Mandate
+
+> _"The court accepts the forensic charter with one paramount caveat: do not sterilize the game's tragedy in the pursuit of mechanical neatness. Many reviewers mistake cruelty for poor balance, and many developers mistake inconvenience for profundity. Our investigation will not reward the game for merely being harsh; it will examine whether every ounce of player suffering yields an equivalent ounce of tellable history."_  
+> — **The Third Judge**
