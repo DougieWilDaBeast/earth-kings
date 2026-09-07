@@ -204,6 +204,34 @@
                 16,
                 8
             ]
+        },
+        {
+            "art": "nature/pine_tree",
+            "cell": [
+                3,
+                2
+            ]
+        },
+        {
+            "art": "nature/crystal_spire",
+            "cell": [
+                26,
+                3
+            ]
+        },
+        {
+            "art": "rubble_large",
+            "cell": [
+                3,
+                13
+            ]
+        },
+        {
+            "art": "nature/pebbles_cluster",
+            "cell": [
+                26,
+                14
+            ]
         }
     ],
     "people": [

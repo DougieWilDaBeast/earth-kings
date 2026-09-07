@@ -40,7 +40,9 @@
 		{ "art": "stone_bench", "cell": [5, 11] },
 		{ "art": "stone_bench", "cell": [13, 11] },
 		{ "art": "tapestry", "cell": [9, 2] },
-		{ "art": "scroll_rack", "cell": [15, 8] }
+		{ "art": "scroll_rack", "cell": [15, 8] },
+		{ "art": "rubble_cracked", "cell": [3, 9] },
+		{ "art": "rubble_pile", "cell": [14, 9] }
 	],
 	"people": [
 		{

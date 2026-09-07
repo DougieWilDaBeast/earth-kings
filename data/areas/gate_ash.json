@@ -50,6 +50,11 @@
 		}
 	],
 	"props": [
+		{ "art": "nature/crystal_spire", "cell": [7, 1] },
+		{ "art": "nature/crystal_spikes", "cell": [6, 3] },
+		{ "art": "nature/crystal_spikes", "cell": [10, 3] },
+		{ "art": "rubble_large", "cell": [3, 7] },
+		{ "art": "rubble_pile", "cell": [13, 7] },
 		{ "art": "brazier", "cell": [6, 6] },
 		{ "art": "brazier", "cell": [10, 6] },
 		{ "art": "camp/embers", "cell": [5, 9] },
