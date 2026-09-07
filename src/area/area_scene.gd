@@ -47,6 +47,10 @@ var _nearby: AreaThing = null
 ## What the mouse is over, and what the leader was told to walk over to.
 var _hovered: AreaThing = null
 var _approach: AreaThing = null
+var _approach_path: Array[Vector2] = []
+var _approach_index: int = 0
+var _auto_exit_path: Array[Vector2] = []
+var _auto_exit_index: int = 0
 var _talking: bool = false
 ## Held while it plays; a director that only exists as a temporary is collected
 ## the moment it finishes and never hands control back.
@@ -347,9 +351,14 @@ func _hover_at(point: Vector2) -> void:
 func _click_target(target: AreaThing) -> void:
 	if _leader.position.distance_to(target.position) <= TALK_RANGE:
 		_approach = null
+		_approach_path.clear()
 		_engage(target)
 		return
 	_approach = target
+	_approach_path = map.find_path(_leader.position, target.position)
+	_approach_index = 0
+	if _approach_path.size() > 1 and _leader.position.distance_to(_approach_path[0]) < 20.0:
+		_approach_index = 1
 
 
 ## Steering for whatever the player clicked on: walk until it is close enough
@@ -357,14 +366,25 @@ func _click_target(target: AreaThing) -> void:
 func _approach_step() -> Vector2:
 	if not is_instance_valid(_approach) or not _approach.can_talk():
 		_approach = null
+		_approach_path.clear()
 		return Vector2.ZERO
 	var apart := _approach.position - _leader.position
-	if apart.length() > APPROACH_RANGE:
-		return apart.normalized()
-	var target := _approach
-	_approach = null
-	_engage(target)
-	return Vector2.ZERO
+	if apart.length() <= APPROACH_RANGE:
+		var target := _approach
+		_approach = null
+		_approach_path.clear()
+		_engage(target)
+		return Vector2.ZERO
+
+	if not _approach_path.is_empty() and _approach_index < _approach_path.size():
+		var waypoint := _approach_path[_approach_index]
+		if _leader.position.distance_to(waypoint) < 16.0:
+			_approach_index += 1
+			if _approach_index < _approach_path.size():
+				waypoint = _approach_path[_approach_index]
+		return (waypoint - _leader.position).normalized()
+
+	return apart.normalized()
 
 
 ## Soak mode: make for the way out, so a run that is playing itself never
@@ -372,11 +392,28 @@ func _approach_step() -> Vector2:
 func _auto_axis() -> Vector2:
 	if map == null or map.exits.is_empty():
 		return Vector2.ZERO
+	if _auto_exit_path.is_empty() or _auto_exit_index >= _auto_exit_path.size():
+		var nearest := map.exits[0]
+		var best_dist := _leader.position.distance_to(map.centre_of(nearest))
+		for exit_cell in map.exits:
+			var d := _leader.position.distance_to(map.centre_of(exit_cell))
+			if d < best_dist:
+				best_dist = d
+				nearest = exit_cell
+		_auto_exit_path = map.find_cell_path(map.cell_at(_leader.position), nearest)
+		_auto_exit_index = 0
+		if _auto_exit_path.size() > 1 and _leader.position.distance_to(_auto_exit_path[0]) < 20.0:
+			_auto_exit_index = 1
+
+	if not _auto_exit_path.is_empty() and _auto_exit_index < _auto_exit_path.size():
+		var waypoint := _auto_exit_path[_auto_exit_index]
+		if _leader.position.distance_to(waypoint) < 16.0:
+			_auto_exit_index += 1
+			if _auto_exit_index < _auto_exit_path.size():
+				waypoint = _auto_exit_path[_auto_exit_index]
+		return (waypoint - _leader.position).normalized()
+
 	var nearest := map.centre_of(map.exits[0])
-	for cell: Vector2i in map.exits:
-		var point := map.centre_of(cell)
-		if _leader.position.distance_to(point) < _leader.position.distance_to(nearest):
-			nearest = point
 	var apart := nearest - _leader.position
 	return apart.normalized() if apart.length() > 4.0 else Vector2.ZERO
 
@@ -506,6 +543,7 @@ func _physics_process(delta: float) -> void:
 	if axis != Vector2.ZERO:
 		# Taking the keys back calls off whatever the player was walking towards.
 		_approach = null
+		_approach_path.clear()
 	elif Pace.auto:
 		axis = _auto_axis()
 	elif _approach != null:
@@ -522,6 +560,7 @@ func _physics_process(delta: float) -> void:
 	if _approach != null and _leader.position.is_equal_approx(before):
 		# Something is in the way; the player can steer around it themselves.
 		_approach = null
+		_approach_path.clear()
 	_drop_crumbs()
 	_camera.focus_on(_leader.position)
 	_walked += before.distance_to(_leader.position)
@@ -571,19 +610,58 @@ func _actor_named(who: String) -> AreaActor:
 	return null
 
 
+const BODY_RADIUS := 14.0
+
+
 ## Walls stop the axis that runs into them, not the whole step, so a shoulder
 ## against a pond still slides along it.
 func _slide(from: Vector2, step: Vector2) -> Vector2:
 	var out := from
 	if _can_stand(Vector2(from.x + step.x, out.y)):
 		out.x += step.x
+	elif absf(step.y) > 0.001 and _can_stand(Vector2(from.x, out.y + step.y)):
+		pass
+	else:
+		# Horizontal blocked; attempt subtle corner nudge up/down to slide smoothly around corners
+		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
+			if _can_stand(Vector2(from.x + step.x, out.y + nudge)):
+				out.y += minf(absf(step.x), nudge)
+				out.x += step.x
+				break
+			elif _can_stand(Vector2(from.x + step.x, out.y - nudge)):
+				out.y -= minf(absf(step.x), nudge)
+				out.x += step.x
+				break
+
 	if _can_stand(Vector2(out.x, from.y + step.y)):
 		out.y += step.y
+	elif absf(step.x) > 0.001 and _can_stand(Vector2(out.x + step.x, from.y)):
+		pass
+	else:
+		# Vertical blocked; attempt subtle corner nudge left/right to slide smoothly around corners
+		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
+			if _can_stand(Vector2(out.x + nudge, from.y + step.y)):
+				out.x += minf(absf(step.y), nudge)
+				out.y += step.y
+				break
+			elif _can_stand(Vector2(out.x - nudge, from.y + step.y)):
+				out.x -= minf(absf(step.y), nudge)
+				out.y += step.y
+				break
+
 	return out
 
 
 func _can_stand(point: Vector2) -> bool:
-	return map.is_walkable(map.cell_at(point))
+	if not map.is_walkable(map.cell_at(point)):
+		return false
+	# Ensure characters cannot penetrate walls or clip through diagonal wall corners
+	for offset in [Vector2(-BODY_RADIUS, 0), Vector2(BODY_RADIUS, 0), Vector2(0, -BODY_RADIUS), Vector2(0, BODY_RADIUS),
+				   Vector2(-BODY_RADIUS * 0.707, -BODY_RADIUS * 0.707), Vector2(BODY_RADIUS * 0.707, -BODY_RADIUS * 0.707),
+				   Vector2(-BODY_RADIUS * 0.707, BODY_RADIUS * 0.707), Vector2(BODY_RADIUS * 0.707, BODY_RADIUS * 0.707)]:
+		if not map.is_walkable(map.cell_at(point + offset)):
+			return false
+	return true
 
 
 ## Walking into a thing in the way is how you find out whether anyone with you
@@ -597,6 +675,7 @@ func _try_the_way(from: Vector2, step: Vector2) -> void:
 		if bool(outcome["opened"]):
 			_note(str(outcome["line"]))
 			_shut_wards.erase(cell)
+			map.update_cell_solid(cell, false)
 			return
 		# The refusal is worth hearing once, not every frame you lean on it.
 		if not _shut_wards.has(cell):

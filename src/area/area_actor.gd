@@ -49,6 +49,9 @@ var _roam_reach: float = 0.0
 var _roam_goal: Vector2 = Vector2.ZERO
 var _roam_wait: float = 0.0
 var _roam_held: bool = false
+var _roam_path: Array[Vector2] = []
+var _roam_path_index: int = 0
+var _find_path: Callable = Callable()
 ## Answers whether a point is ground somebody could be standing on.
 var _can_stand: Callable
 
@@ -102,11 +105,14 @@ func contains_point(point: Vector2) -> bool:
 
 ## Let them walk a few cells around where they live, so a town looks lived in
 ## rather than staffed by statues.
-func roam(reach_cells: float, can_stand: Callable) -> void:
+func roam(reach_cells: float, can_stand: Callable, path_finder: Callable = Callable()) -> void:
 	_roam_home = position
 	_roam_goal = position
 	_roam_reach = reach_cells * AreaMap.CELL
 	_can_stand = can_stand
+	_find_path = path_finder
+	_roam_path.clear()
+	_roam_path_index = 0
 	_roam_wait = randf_range(0.0, ROAM_PAUSE.y)
 	set_physics_process(true)
 
@@ -147,7 +153,34 @@ func _physics_process(delta: float) -> void:
 	if _roam_wait > 0.0:
 		_roam_wait -= delta
 		if _roam_wait <= 0.0:
-			_roam_goal = _somewhere_to_be()
+			_pick_next_roam_path()
+		return
+
+	if not _roam_path.is_empty():
+		if _roam_path_index < _roam_path.size():
+			var waypoint := _roam_path[_roam_path_index]
+			var to_waypoint := waypoint - position
+			var max_dist := ROAM_SPEED * delta
+			if to_waypoint.length() <= max_dist:
+				position = waypoint
+				_roam_path_index += 1
+				if _roam_path_index >= _roam_path.size():
+					_roam_path.clear()
+					_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
+					if not chatter.is_empty() and randf() < CHATTER_ODDS:
+						say(chatter.pick_random())
+			else:
+				var heading := to_waypoint.normalized()
+				var next_pos := position + heading * max_dist
+				if _can_stand.is_valid() and not _can_stand.call(next_pos):
+					_roam_path.clear()
+					_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
+				else:
+					position = next_pos
+					face(heading)
+		else:
+			_roam_path.clear()
+			_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
 		return
 
 	var step := _roam_goal - position
@@ -158,8 +191,33 @@ func _physics_process(delta: float) -> void:
 			say(chatter.pick_random())
 		return
 	var heading := step.normalized()
-	position += heading * ROAM_SPEED * delta
+	var next_pos := position + heading * ROAM_SPEED * delta
+	if _can_stand.is_valid() and not _can_stand.call(next_pos):
+		_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
+		return
+	position = next_pos
 	face(heading)
+
+
+func _pick_next_roam_path() -> void:
+	_roam_path.clear()
+	_roam_path_index = 0
+	for attempt in 8:
+		var reach := randf_range(0.35, 1.0) * _roam_reach
+		var spot := _roam_home + Vector2.from_angle(randf() * TAU) * reach
+		if _can_stand.is_valid() and not _can_stand.call(spot):
+			continue
+		if _find_path.is_valid():
+			var p: Array[Vector2] = _find_path.call(position, spot)
+			if not p.is_empty():
+				_roam_path = p
+				_roam_goal = spot
+				_roam_path_index = 1 if _roam_path.size() > 1 and position.distance_to(_roam_path[0]) < 16.0 else 0
+				return
+		else:
+			_roam_goal = spot
+			return
+	_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
 
 
 ## Somewhere inside their patch they could actually stand, or where they

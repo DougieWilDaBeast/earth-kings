@@ -68,7 +68,20 @@ static func plan(
 			if is_heal:
 				target = _best_heal_target_from(cell, ability, unit, friends)
 				if target != null:
-					score += 1100.0 + float(target.max_hp - target.hp) * 12.0 + float(ability.get("power", 10.0)) * 2.0
+					var missing_hp: float = float(target.max_hp - target.hp)
+					var hp_ratio: float = float(target.hp) / maxf(1.0, float(target.max_hp))
+					# Tactical healing decision:
+					# Do not waste main actions topping off healthy or slightly scraped allies when foes can be struck.
+					# Critical emergencies (<35% HP) demand immediate triage (+1200 score).
+					# Wounded allies (<60% HP) justify healing if significant HP is restored (+950).
+					# Mildly wounded (>60% HP) only justify minor bonus healing or when no good offensive options exist.
+					if hp_ratio <= 0.35:
+						score += 1200.0 + missing_hp * 10.0 + float(ability.get("power", 10.0)) * 2.0
+					elif hp_ratio <= 0.60:
+						score += 950.0 + missing_hp * 6.0 + float(ability.get("power", 10.0))
+					else:
+						# Mild scratch: strong preference to attack enemies instead; healing score is kept low
+						score += 500.0 + missing_hp * 2.0
 				else:
 					score -= float(_distance_to_nearest(cell, foes))
 			else:
@@ -76,9 +89,15 @@ static func plan(
 				if target != null:
 					# Attacking beats repositioning; finish off the weakest reachable foe,
 					# prefer heavier damage moves, reward AOE splash, and break ties towards softer flanks.
-					score += 1000.0 - float(target.hp)
-					score += AbilityResolver.flank_multiplier(cell, target) * 20.0
-					score += float(ability.get("power", 1.0)) * 25.0
+					score += 1050.0 - float(target.hp) * 2.0
+					score += AbilityResolver.flank_multiplier(cell, target) * 25.0
+					score += float(ability.get("power", 1.0)) * 30.0
+					# Big kill bonus: eliminating an enemy removes their future actions and threats permanently
+					var est_raw := float(unit.attack) * float(ability.get("power", 1.0))
+					var est_flank := AbilityResolver.flank_multiplier(cell, target)
+					var est_damage := maxf(1.0, (est_raw * est_flank) - float(target.defense))
+					if est_damage >= float(target.hp):
+						score += 400.0
 					var splash := int(ability.get("splash", 0))
 					if splash > 0:
 						var extra_hits := 0
@@ -103,6 +122,7 @@ static func _best_heal_target_from(
 	cell: Vector2i, ability: Dictionary, unit: Unit, friends: Array
 ) -> Unit:
 	var best: Unit = null
+	var best_urgency: float = -INF
 	for friend: Unit in friends:
 		if not AbilityResolver.is_valid_target(unit, ability, friend):
 			continue
@@ -111,7 +131,15 @@ static func _best_heal_target_from(
 		var target_pos := cell if friend == unit else friend.cell
 		if not AbilityResolver.in_range(ability, cell, target_pos):
 			continue
-		if best == null or (friend.max_hp - friend.hp) > (best.max_hp - best.hp):
+		var missing: float = float(friend.max_hp - friend.hp)
+		# Triage formula: heavily weight danger ratio (low absolute % HP) plus raw missing HP
+		var hp_ratio: float = float(friend.hp) / maxf(1.0, float(friend.max_hp))
+		var urgency: float = (1.0 - hp_ratio) * 100.0 + missing
+		# Protect squishier and key allies slightly more
+		if friend == unit:
+			urgency += 10.0
+		if urgency > best_urgency:
+			best_urgency = urgency
 			best = friend
 	return best
 

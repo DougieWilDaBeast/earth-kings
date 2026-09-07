@@ -520,3 +520,37 @@ leader no longer re-faces when a wall stopped the step dead.
 Additionally, follower placement now samples continuously along the polyline path of breadcrumbs
 (`_point_along_trail`), ensuring followers trace the exact path the leader walked around doorways
 and corners without clipping walls, maintaining stable 24px single-file spacing without crowding.
+
+## W32 — Cutscenes can be skipped
+
+> cutscenes can be skipped.
+
+**Built.**
+
+- [`CutsceneLayer`](../src/ui/cutscene_layer.gd) (`src/ui/cutscene_layer.tscn`) now listens for player skip inputs (**Escape**, **Space**, **Enter**, action accept/cancel, or mouse/touch click) and renders an unobtrusive, styled `Skip [Space / Esc]` button on the top letterbox bar.
+- [`AreaCutscene`](../src/area/area_cutscene.gd) interrupts active beat timers and movement tweens upon skip, fast-forwards all remaining staging beats (snapping characters to their final intended dialogue positions and facings), smoothly closes the letterbox bars, and immediately hands control over to the dialogue window or active gameplay without desync.
+
+## W33 — Thematic enemy abilities and elemental associations
+
+> For enemies make sure their powers and abilities associate with the character, for example the tide lion can only use water powers, fire enemies can only use fire, etc.
+
+**Built.**
+
+- Added comprehensive elemental water powers (`tidal_surge`, `undertow`, `brine_spray`, `crushing_wave`, `soothing_spring`) and ice powers (`frostbite`, `glacial_chill`, `ice_shard`, `blizzard`) into [`data/abilities.json`](../data/abilities.json).
+- Audited and updated all unit templates in [`data/units.json`](../data/units.json) to strictly associate abilities with character identity:
+  - **Tide Lion** (`tide_lion`): now exclusively commands water powers (`crushing_wave`, `tidal_surge`, `undertow`, `brine_spray`), removing mismatched fire and wind abilities.
+  - **Tideborn** (`sea_man`) and **Sea Horse** (`sea_horse`): re-attuned exclusively to water powers (`undertow`, `tidal_surge`, `brine_spray`, `soothing_spring`).
+  - **Fire Foes** (`flame_lion`, `flame_dove`, `fox_knight`, `ember_duelist`, `ember_lizard`): restricted purely to fire powers (`ember`, `scorch`, `pyre`, `firebrand`).
+  - **Frost & Ice Foes** (`frozen_wolfman`, `ice_wolf`, `blue_slime`): granted cold/ice and winter powers (`frostbite`, `ice_shard`, `glacial_chill`, `blizzard`).
+  - **Storm Foes** (`storm_blade`): dedicated exclusively to lightning and storm powers (`spark`, `thunderhead`, `chain_bolt`).
+
+## W34 — Impermeable walls and waypoint navigation
+
+> Make sure that walls arent permeable so characters cant walk through them but have to walk around them.
+
+**Built.**
+
+- **A\* Grid Navigation**: [`AreaMap`](../src/area/area_map.gd) builds an orthogonal `AStarGrid2D` pathfinder (`DIAGONAL_MODE_NEVER`), mapping obstacles, solid props, buildings, wards, and crag/water terrain. It provides `find_path()` and `find_cell_path()` for computing valid navigable routes around scenery.
+- **Townsfolk Obstacle Avoidance**: [`AreaActor.roam()`](../src/area/area_actor.gd) now selects reachable destinations and walks waypoint-by-waypoint along computed paths around buildings and walls, checking collision on each step rather than cutting straight through solid structures.
+- **Body Clearance & Corner Sliding**: [`src/area/area_scene.gd`](../src/area/area_scene.gd) enforces a 14px body collision radius in `_can_stand()`, preventing player and follower sprites from clipping into wall tiles or squeezing across diagonal wall corners, while `_slide()` applies subtle corner-nudge adjustments to cleanly glide through doorways and around wall corners.
+- **Pathfinding Approach & Auto-Walk**: Clicking distant NPCs or objects (`_approach_step()`) and auto-pacing (`_auto_axis()`) navigate around intermediate walls along the path rather than walking directly into obstacles.

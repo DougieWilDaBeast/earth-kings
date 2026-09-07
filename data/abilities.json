@@ -298,5 +298,91 @@
 		"range": 5,
 		"splash": 0,
 		"power": 0.95
+	},
+
+	"tidal_surge": {
+		"display_name": "Tidal Surge",
+		"description": "A heavy rush of water that breaks over the target and whoever is standing next to them.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 1,
+		"power": 1.1
+	},
+	"undertow": {
+		"display_name": "Undertow",
+		"description": "A sweep of cold water dragging at their legs.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 1.2
+	},
+	"brine_spray": {
+		"display_name": "Brine Spray",
+		"description": "Stinging salt water flung quick and close.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 0.55,
+		"bonus": true
+	},
+	"crushing_wave": {
+		"display_name": "Crushing Wave",
+		"description": "A cresting swell brought down with the weight of the sea.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 1,
+		"power": 0.85
+	},
+	"soothing_spring": {
+		"display_name": "Soothing Spring",
+		"description": "Clear fresh water that cools the heat of wounds.",
+		"target": "ally",
+		"min_range": 0,
+		"range": 3,
+		"splash": 0,
+		"heal": true,
+		"power": 18
+	},
+
+	"frostbite": {
+		"display_name": "Frostbite",
+		"description": "A numbing nip of winter that bites deep into flesh.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 2,
+		"splash": 0,
+		"power": 1.15
+	},
+	"glacial_chill": {
+		"display_name": "Glacial Chill",
+		"description": "Rime and frozen breath blown across a distance.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 1,
+		"power": 0.8
+	},
+	"ice_shard": {
+		"display_name": "Ice Shard",
+		"description": "A splinter of sharp black ice loosed in an instant.",
+		"target": "enemy",
+		"min_range": 1,
+		"range": 3,
+		"splash": 0,
+		"power": 0.5,
+		"bonus": true
+	},
+	"blizzard": {
+		"display_name": "Blizzard",
+		"description": "A howling flurry of driven snow and hail.",
+		"target": "enemy",
+		"min_range": 2,
+		"range": 4,
+		"splash": 2,
+		"power": 0.75
 	}
 }

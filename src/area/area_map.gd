@@ -40,6 +40,9 @@ var opening: String = ""
 ## What the bottom of the screen says when nobody is standing near anybody.
 var hint: String = ""
 
+## Navigation grid ensuring characters navigate around walls rather than cutting through them.
+var astar: AStarGrid2D = null
+
 var _terrain: Array[String] = []
 ## Cells a piece of furniture is standing on, which nobody walks through.
 var _blocked: Dictionary = {}
@@ -98,7 +101,61 @@ static func load_area(area_id: String) -> AreaMap:
 	map.tint = data.get("tint", "")
 	map.opening = data.get("opening", "")
 	map.hint = data.get("hint", "")
+	map.setup_astar()
 	return map
+
+
+func setup_astar() -> void:
+	if width == 0 or height == 0:
+		return
+	astar = AStarGrid2D.new()
+	astar.region = Rect2i(0, 0, width, height)
+	astar.cell_size = Vector2(CELL, CELL)
+	astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astar.update()
+	for y in height:
+		for x in width:
+			var cell := Vector2i(x, y)
+			if not is_walkable(cell):
+				astar.set_point_solid(cell, true)
+
+
+func update_cell_solid(cell: Vector2i, is_solid: bool) -> void:
+	if astar != null and in_bounds(cell):
+		astar.set_point_solid(cell, is_solid)
+
+
+func find_path(from_pixel: Vector2, to_pixel: Vector2) -> Array[Vector2]:
+	var from_cell := cell_at(from_pixel)
+	var to_cell := cell_at(to_pixel)
+	return find_cell_path(from_cell, to_cell)
+
+
+func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
+	if astar == null:
+		setup_astar()
+	if not in_bounds(from_cell) or not in_bounds(to_cell):
+		return []
+	if not is_walkable(to_cell):
+		var best_neighbor := Vector2i(-1, -1)
+		var best_dist := INF
+		for offset: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var n: Vector2i = to_cell + offset
+			if is_walkable(n):
+				var d := float(abs(from_cell.x - n.x) + abs(from_cell.y - n.y))
+				if d < best_dist:
+					best_dist = d
+					best_neighbor = n
+		if best_neighbor != Vector2i(-1, -1):
+			to_cell = best_neighbor
+		else:
+			return []
+	var cell_path := astar.get_id_path(from_cell, to_cell)
+	var path: Array[Vector2] = []
+	for cell in cell_path:
+		path.append(centre_of(cell))
+	return path
 
 
 func in_bounds(cell: Vector2i) -> bool:

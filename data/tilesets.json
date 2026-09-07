@@ -32,6 +32,10 @@
 			"display_name": "rock face",
 			"walkable": false
 		},
+		"wall": {
+			"display_name": "wall",
+			"walkable": false
+		},
 		"raised": {
 			"display_name": "higher ground",
 			"walkable": true

@@ -261,9 +261,10 @@
 		"jump": 2,
 		"speed": 12,
 		"abilities": [
-			"cleave",
-			"lunge",
-			"ember"
+			"ember",
+			"firebrand",
+			"scorch",
+			"pyre"
 		],
 		"classes": [
 			"magic_swordsman",
@@ -351,9 +352,9 @@
 		"speed": 13,
 		"abilities": [
 			"ember",
-			"cleave",
-			"lunge",
-			"riposte"
+			"firebrand",
+			"scorch",
+			"pyre"
 		],
 		"classes": [
 			"magic_swordsman",
@@ -375,8 +376,9 @@
 		"speed": 16,
 		"abilities": [
 			"ember",
-			"spark",
-			"pyre"
+			"scorch",
+			"pyre",
+			"firebrand"
 		],
 		"classes": [
 			"wildling"
@@ -417,8 +419,10 @@
 		"jump": 2,
 		"speed": 12,
 		"abilities": [
-			"cleave",
-			"strike"
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"blizzard"
 		],
 		"classes": [
 			"wildling"
@@ -1107,10 +1111,9 @@
 		"jump": 3,
 		"speed": 14,
 		"abilities": [
-			"cleave",
+			"spark",
 			"thunderhead",
-			"chain_bolt",
-			"lunge"
+			"chain_bolt"
 		],
 		"classes": [
 			"magic_swordsman",
@@ -1131,9 +1134,9 @@
 		"jump": 3,
 		"speed": 14,
 		"abilities": [
-			"gust",
-			"chain_bolt",
-			"mend"
+			"brine_spray",
+			"tidal_surge",
+			"soothing_spring"
 		],
 		"classes": [
 			"wildling"
@@ -1152,8 +1155,9 @@
 		"jump": 2,
 		"speed": 12,
 		"abilities": [
-			"strike",
-			"ember"
+			"undertow",
+			"tidal_surge",
+			"brine_spray"
 		],
 		"classes": [
 			"wildling",
@@ -1173,10 +1177,10 @@
 		"jump": 2,
 		"speed": 14,
 		"abilities": [
-			"ember",
-			"cleave",
-			"gust",
-			"whirl"
+			"crushing_wave",
+			"tidal_surge",
+			"undertow",
+			"brine_spray"
 		],
 		"classes": [
 			"wildling",
@@ -1216,7 +1220,8 @@
 		"jump": 1,
 		"speed": 9,
 		"abilities": [
-			"strike"
+			"brine_spray",
+			"undertow"
 		],
 		"classes": [
 			"wildling"
@@ -1321,9 +1326,9 @@
 		"jump": 2,
 		"speed": 14,
 		"abilities": [
-			"strike",
-			"hamstring",
-			"lunge"
+			"frostbite",
+			"ice_shard",
+			"glacial_chill"
 		],
 		"classes": [
 			"wildling"
@@ -1367,7 +1372,8 @@
 		"speed": 12,
 		"abilities": [
 			"ember",
-			"scorch"
+			"scorch",
+			"firebrand"
 		],
 		"classes": [
 			"wildling"
@@ -1429,9 +1435,9 @@
 		"speed": 13,
 		"abilities": [
 			"ember",
-			"cleave",
+			"scorch",
 			"pyre",
-			"whirl"
+			"firebrand"
 		],
 		"classes": [
 			"wildling",
