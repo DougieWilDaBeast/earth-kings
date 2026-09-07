@@ -200,13 +200,13 @@ Issues come from playing the game and saying what broke. Picked back up when it 
 - **Difficulty leaks into assertions.** Anything checking enemy counts or XP has to pin
   `GameState.difficulty = "even"` first, or `gentle` (3× XP, −1 enemy) fails it. Easy to forget.
 
-## Half-finished work
+## Completed integrations
 
-Phase 3 was stopped mid-flight. On disk and **not verified**:
+Both previously flagged systems were integrated and verified:
 
-- **Multi-floor delves (M5)** — `Encounter.for_gate` already took `depth`/`final`; `Site`,
-  `Spoils`, `world_scene` and `world_rules.json` were edited to run a gate as several floors.
-- **Proficiency by use (W17c)** — `src/chronicle/proficiency.gd` is new and untested; hooks
-  reach into `battle.gd`, `ability_resolver.gd` and `character.gd`.
-
-Neither has been run. Treat both as suspect until somebody plays a gate and a long fight.
+- **Multi-floor delves (M5)** — `Encounter.for_gate` runs gates across scaled depth levels, shut
+  only upon conquering the final floor, with intermediate floors awarding charms, doctrine, and
+  branching tree unlocks (rank C+).
+- **Proficiency by use (W17c)** — `src/chronicle/proficiency.gd` tracks practice through
+  `battle.gd`, `ability_resolver.gd`, and `character.gd`, rewarding mastery titles and display on
+  the party screen.

@@ -17,8 +17,8 @@ Built native in **Godot 4 / GDScript**, running entirely on the local machine.
    was taught it. Unused, it fades. The Library is a place you walk to for a reason.
 3. **Powers are discovered, not authored.** Skill trees are generated from a hidden grammar. The
    world's own power system is a thing to be catalogued and eventually understood.
-4. **One-way doors.** Permadeath is real. A cleared gate reopens. There is no going back to a
-   version of the world you liked better.
+4. **One-way doors.** Permadeath is real. A cleared gate never reopens, but neglected ones break.
+   There is no going back to a version of the world you liked better.
 5. **The world runs on steps, not turns.** Walking is what advances it. Gates stir and knowledge
    decays because you moved, not because a clock ticked somewhere off-screen.
 6. **Discoverability.** Abilities, gate ranks and the shape of the grammar are found in play.
@@ -35,13 +35,12 @@ Built native in **Godot 4 / GDScript**, running entirely on the local machine.
 
 These are designed for and have seams left in the code. None are needed to play.
 
-| Feature                                                     | Seam that exists today                                                                             |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| LLM character minds — NPCs who decide their own goals       | `EnemyBrain` already returns a _plan_ the controller executes; intents never mutate state directly |
-| Chronicles — narrative records generated from what happened | `EventBus.battle_log` already emits every meaningful event as a line                               |
-| NPC society — characters living their own lives off-screen  | `Character` is fully separate from the battle `Unit` that represents it                            |
-| Renown, bounties, the Masquerade                            | `Site` and `Character` both carry an open `data` / flags bag                                       |
-| A server as world-authority                                 | The world is one serialisable object (`World.to_dict()`)                                           |
+| Feature                                                    | Seam that exists today                                                                             |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| LLM character minds — NPCs who decide their own goals      | `EnemyBrain` already returns a _plan_ the controller executes; intents never mutate state directly |
+| NPC society — characters living their own lives off-screen | `Character` is fully separate from the battle `Unit` that represents it                            |
+| The Masquerade                                             | `Site` and `Character` both carry an open `data` / flags bag                                       |
+| A server as world-authority                                | The world is one serialisable object (`World.to_dict()`)                                           |
 
 ## Success looks like
 

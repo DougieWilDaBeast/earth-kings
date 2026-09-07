@@ -32,13 +32,16 @@ length of a fight and thrown away afterwards. The save file remembers Characters
 
 - **Levels and XP.** XP comes from defeating things. Cost to next level is `20 + level² × 6`.
 - **Classes.** At **level 2** a character takes a main class from the options their template
-  allows. The class supplies stat growth per level, granted abilities, and the _themes_ their
-  generated powers will be drawn from.
-- **Classes.** At **level 2** a character takes a main class. The **player chooses** theirs and the
-  world waits for the answer; everyone else settles into one on their own ([D12](06-decisions.md)).
-- **Stats** = template base + class growth × (level − 1) + doctrine bonuses.
+  allows. The **player chooses** theirs and the world waits for the answer; everyone else settles
+  into one on their own ([D12](06-decisions.md)). The class supplies stat growth per level, granted
+  abilities, and the _themes_ their generated powers will be drawn from.
+- **Stats** = template base + class growth × (level − 1) + doctrine bonuses + hearth vigour.
 - **The Training Yoke.** An optional stance: −25% attack in exchange for +50% XP. Training
   through self-imposed handicap, as a first-class mechanic.
+- **Backgrounds, Origins & Grudges.** Heroes carry one of five backgrounds (`apprentice_smith`,
+  `wilderness_stray`, `cloistered_scholar`, `exiled_noble`, `outcast_drifter`), an alignment on the
+  3×3 grid, and an ancestral grudge against specific foes (e.g. apprentice smiths against raiders,
+  nobles against imperial usurpers) granting +10% grudge damage in battle.
 
 ## Falling — death and its graces
 
@@ -93,19 +96,26 @@ Written knowledge, and the sharpest expression of pillar 2.
 
 ## The world
 
-A generated **44×44** map. Ground comes from two noise fields (elevation and damp) resolving into
-water, grass, brush, hill, crag and mountain. Then places are scattered on it, never closer than
-5 tiles apart:
+A generated **128×128** continental map bounded by oceans and severed by lakes and bays. Ground
+comes from radial shore falloff and elevation/damp noise fields, resolving into ocean, lake,
+shallows, sand, grass, meadow, brush, forest, marsh, hill, crag, mountain, and snow. Continental
+geography is divided into named provinces (The Frostpeak Waste, The Heartlands, etc.). Then 48
+sites are scattered across the land, never closer than 9 tiles apart:
 
-| Kind    | Count | Role                                                      |
-| ------- | ----- | --------------------------------------------------------- |
-| Tower   | 1     | Claims the far corner; everything else arranges around it |
-| Home    | 1     | Yours; beside the first village, and where you start      |
-| Keep    | 2     | Safe ground                                               |
-| Village | 4     | Safe ground and rest                                      |
-| Library | 3     | Doctrine                                                  |
-| Gate    | 6     | Ranked dungeons                                           |
-| Hut     | 4     | Safe ground on a long road                                |
+| Kind    | Count | Role                                                               |
+| ------- | ----- | ------------------------------------------------------------------ |
+| Tower   | 1     | Claims a far region; ten-floor climb culminating in the Spire Apex |
+| Home    | 1     | Yours; hearth where you start, bed upgrades, safe haven            |
+| Keep    | 5     | Fortified havens, proving arena grounds for live tournaments       |
+| Village | 11    | Safe ground, markets, hirelings, coastal ports                     |
+| Library | 6     | Written doctrine and study                                         |
+| Gate    | 14    | Ranked dungeons (E → S); deep multi-floor delves                   |
+| Hut     | 10    | Waystations, wild sanctuaries on long roads                        |
+
+**Two views: Continental and Planar.** Pressing **Z** switches between the Continental overview
+and top-down Planar view. All 48 sites have hand-built interiors, and wilderness tiles (forest,
+marsh, hill, desert) open into explorable 30×20 planar regions whose open cardinal edges step
+seamlessly across continental borders.
 
 **Home and the bed.** Home is the only site the player owns and the only one with nothing to sell.
 Sleeping there heals the party outright, and the bed installed in it grants every sleeper a
@@ -114,13 +124,20 @@ in `world_rules.home.beds` (straw pallet 0 HP → canopied bed +22 HP) and only 
 bonus is stored per character as `hearth`, so a companion who never came home never gained it, and
 a night in a village never takes it away.
 
-**Gate ranks** run E → D → C → B → A → S. Rank is set by distance from the Tower — the gates near
-it are the bad ones — with a little jitter. Expected delver level is `1 + rank_index × 4`.
+**Gate ranks and breaking.** Gate ranks run E → D → C → B → A → S. Rank is set by distance from the
+Tower — the gates near it are the bad ones — with jitter. Expected delver level is
+`1 + rank_index × 4`. A shut gate **never reopens** ([D15](06-decisions.md)). However, an open
+gate left neglected too long **breaks** — raising local danger by 25pp and enemy level by 3.
+Late-game abyssal rifts (`the_deep_breach`) can awaken new S-rank gates under continental pressure
+([D26](06-decisions.md)).
 
-**The world clock.** Every 30 steps the world takes an upkeep pass: closed gates may open again
-(25% normally, 10% if recently cleared). Nothing stays shut forever.
+**The world clock and seasons.** Every step advances the continental clock. Every 120 steps turns
+the season represented by four clovers: Lesser Green (Spring), Green (Summer), Brown (Autumn), and
+Ice (Winter). Every 30 steps the world takes an upkeep pass (`World.UPKEEP_INTERVAL`): gates check for
+breaking, trade routes pay, threads tick, and prowlers restock. Scaling a Tower floor advances the
+continent by 30 steps ([D27](06-decisions.md)).
 
-**Towns under threat.** The same pass puts the settlement nearest a long-open gate under siege.
+**Towns under threat.** The upkeep pass puts the settlement nearest a long-open gate under siege.
 A siege you answer (`Town.save`) pays gold and buys goodwill; one you ignore for 900 steps takes
 the town, which stops trading for good. Raiding (`Town.raid`) is the other end of the same lever:
 you fight the town's own people, empty its strongbox, and it is ruined either way — the difference
@@ -132,9 +149,12 @@ tile (`renown.steps_per_tile`). `Renown.standing` sums the deeds that have reach
 the same party is renowned in one valley and unknown in the next. Standing sets the greeting a
 place gives you, moves its prices, and feeds the `renown` skill in dialogue checks.
 
-**Loot has no bag.** `Loot.take` hands a piece to the party member it most improves; charms go to
-the player; anything nobody gains from is sold immediately. Nothing accumulates in a screen that
-would never be read.
+**Stores, Gear and Stash.** `Loot.take` hands a find directly to the party member it most improves;
+charms go into the player's pocket; anything nobody currently gains from is packed into the
+marching stores (`GameState.stores`) to be swapped or sold later. Only items worse than anything
+carried by anyone are liquidated on the spot. Camp provides an interactive strongbox stash
+(`GameState.camp_stash`) for long-term reserves. Consumable draughts can be drunk from the packs on
+the party screen or during battle as a bonus action.
 
 ## Battle
 

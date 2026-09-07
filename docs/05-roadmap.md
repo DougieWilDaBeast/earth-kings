@@ -83,12 +83,24 @@ previous milestone demonstrably works.
 - Dual progression pathways: branching generated trees at level 10, campfire strongbox stash, and journal trade ledger ✅
 - ✅ Done when: two people can play a session without hitting a wall
 
+## M9 — Living World & Geographic Breadth — SHIPPED
+
+- 128×128 continental expansion with noise shoreline, lakes, snow, desert, and named regions ✅
+- 33 hand-built top-down explorable areas with A\* pathfinding and obstacle avoidance ✅
+- Planar and Continental view switching (`Z`) with seamless cardinal edge navigation ✅
+- Four seasonal clovers advancing on the 120-step continental calendar (`Season`) ✅
+- Persistent Nemesis system: surviving foes take epithets, remember past clashes, and rally ✅
+- Continental news and tavern tidings (`News`) surveying sieges, broken gates, and trade ✅
+- Coastal ferry network connecting seaside havens across oceans (`Ferry`) ✅
+- Coliseum gladiator bouts, stakes wagering, and 3-way free-for-all cohorts (`Arena`) ✅
+- The Annals: historical chronicle compiled from live telemetry (`Annals`) ✅
+- Tactical ambush mechanics: cover stalks grant opening CT initiative and surprise damage ✅
+
 ## Deferred
 
 Designed for, seams in place, not built. See [Vision](01-vision.md).
 
 - LLM character minds and an NPC society living off-screen
-- Chronicles: narrative records generated from telemetry
-- Renown, bounties, the Masquerade
+- The Masquerade
 - A server as world-authority
 - Generated tile art wired in from `art/map_kit`

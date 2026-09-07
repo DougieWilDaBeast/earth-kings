@@ -85,21 +85,150 @@ are stored inside the save's tree definitions, not in this file.
 - `grace` (optional) — the chance this book alone gives a fallen reader of surviving. Summed
   across everything they know and capped at 30%.
 
-## `equipment.json` — weapons
+## `equipment.json` — weapons, charms, and draughts
 
 ```json
-"bone_sword": { "display_name": "Bone Sword", "attack": 3, "sprite_dir": "res://art/items/bone_sword" }
+"bone_sword": {
+  "display_name": "Bone Sword",
+  "attack": 3,
+  "suits": ["sworn_blade", "magic_swordsman"],
+  "sprite_dir": "res://art/items/bone_sword"
+}
 ```
 
-Charms live here too. A charm has no stats — it has a `grace`, and is **spent** the moment it
-saves someone:
+- `suits` — calling templates best suited to this weapon. Units in "wrong hands" suffer a misfit
+  penalty on the bonus stats.
+- `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
+- `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
+  or in combat for a bonus action (`"heal": 25`).
+
+## `heroes.json` — playable company founders
+
+The 12 founders selectable on the New Game screen:
 
 ```json
-"grave_token": {
-  "display_name": "Grave Token",
-  "charm": true,
-  "grace": 0.5,
-  "text": "Cold to the touch. Spent once, and never twice."
+"bram": {
+  "display_name": "Bram",
+  "job": "Sworn Blade",
+  "rating": "Steady",
+  "difficulty": 1,
+  "background": "apprentice_smith",
+  "alignment": "lawful_good",
+  "origin": "Born in the soot of Oakhaven...",
+  "grudge": { "target": "brigand", "label": "Raiders & Marauders" },
+  "starter_party": ["sera", "toln"],
+  "unit": "bram"
+}
+```
+
+## `threads.json` — story threads (`Skein`)
+
+Long-running narrative arcs evaluated on the step clock and arrivals:
+
+```json
+"the_gatewarden": {
+  "title": "The Gatewarden",
+  "ignite": { "deed": "gate_shut", "count": 2 },
+  "stages": [
+    {
+      "id": "word_gets_around",
+      "when": { "steps_since_stage": 60 },
+      "then": [
+        { "rumour": "somebody has been asking which gates you shut", "at": "last_deed" },
+        { "tag": "watched" }
+      ]
+    },
+    {
+      "id": "the_meeting",
+      "when": { "arrive_kind": "gate" },
+      "deadline": 400,
+      "goto": "he_stopped_waiting",
+      "then": [ { "hint": "Somebody is already standing in the mouth of it." } ],
+      "instead": [ { "hint": "The camp near the gate is cold and empty." } ]
+    }
+  ]
+}
+```
+
+## `areas/*.json` — hand-built top-down areas
+
+Each site interior, village, keep, gate dungeon, and wilderness area:
+
+```json
+{
+  "id": "village_fen",
+  "name": "Fen-on-the-Hill",
+  "tileset": "village",
+  "legend": { ".": "grass", "~": "water", "#": "crag", "=": "dirt" },
+  "tiles": ["#######....######", "##....======...##"],
+  "spawn": [8, 12],
+  "exits": [
+    [8, 14],
+    [8, 0]
+  ],
+  "props": [{ "art": "barrel", "cell": [6, 10] }],
+  "chests": [{ "cell": [12, 4], "gold": 45, "item": "bone_sword" }],
+  "wards": [{ "cell": [10, 8], "ability": "cleave", "key": "iron_key" }],
+  "spots": [{ "cell": [5, 5], "line": "A mossy sundial." }],
+  "people": [
+    {
+      "unit": "villager",
+      "cell": [7, 7],
+      "wander": 3,
+      "chatter": ["Quiet day."]
+    }
+  ]
+}
+```
+
+## `coliseum.json` — arena cards and waves
+
+Gladiator bouts, purse multipliers, and multi-team engagements:
+
+```json
+"the_grand_melee": {
+  "title": "The Grand Melee",
+  "brawl": true,
+  "teams": ["PLAYER", "ENEMY", "ENEMY_B", "ENEMY_C"],
+  "waves": [
+    {
+      "enemies": [
+        { "unit": "sworn_blade", "team": "ENEMY" },
+        { "unit": "fox_knight", "team": "ENEMY_B" },
+        { "unit": "tide_lion", "team": "ENEMY_C" }
+      ],
+      "purse": 150
+    }
+  ]
+}
+```
+
+## `banter.json` — party interactions and reflections
+
+Field talk, campfire chats, and historical reflections:
+
+```json
+{
+  "exchanges": [
+    {
+      "id": "rest_bram_sera_01",
+      "occasion": "rest",
+      "mood": "warm",
+      "who": ["bram", "sera"],
+      "lines": [
+        { "speaker": "bram", "text": "Get some sleep, Sera." },
+        { "speaker": "sera", "text": "Keep the fire up and I might." }
+      ]
+    }
+  ],
+  "reflections": [
+    {
+      "id": "reflect_deeds",
+      "about": "deeds",
+      "at_least": 3,
+      "text": "Three deeds in {place}, and the realm still burns."
+    }
+  ]
 }
 ```
 

@@ -48,11 +48,18 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
   it and travels outward about a tile every fourteen steps. A village on the far side of the map
   has not heard yet; one down the road has heard of nothing else. What they have heard sets what
   they call you, and moves their prices up to 30% either way.
-- **Chests and caches.** Towns you walk around inside have chests worth finding, and open country
-  sometimes has something buried in it. Gold goes in the purse; gear goes to whoever it actually
-  improves, and anything nobody wants is sold on the spot.
-- **The Tower is ten floors**, each paying gold, a book every third and a generated skill tree
-  every fourth.
+- **Chests, packs and stash.** Towns you walk around inside have chests worth finding, and open
+  country sometimes has something buried in it. Gold goes in the purse; gear goes to whoever it
+  actually improves; anything else worth keeping goes into the marching packs (`GameState.stores`),
+  and only true junk is sold on the spot. Camp provides a strongbox stash (`GameState.camp_stash`)
+  for long-term storage.
+- **Two views: Continental and Planar.** `Z` toggles between the full continental map and
+  ground-level planar exploration. Walking off the edges of planar wilderness areas transitions
+  seamlessly to adjacent regions across the continent.
+- **Four seasonal clovers.** Footsteps turn the seasons every 120 steps: Lesser Green (Spring),
+  Green (Summer), Brown (Autumn), and Ice (Winter), reflected in world HUD lore, dialogue, and areas.
+- **The Tower is ten floors**, each paying gold, a book every third, a generated skill tree
+  every fourth, culminating in the Spire Archon climax on Floor 10.
 - **Battle** — on your unit's turn: **Move** (blue tiles), an ability (red tiles), then **Wait**
   to end the turn. `Esc` cancels a selection. Hover any tile to inspect it.
 - **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.2×, back hits
@@ -78,8 +85,15 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 data/                     Game content as plain JSON — edit without opening the editor
   terrain.json            Move cost, height and colour per tile type
   units.json              Unit templates (party + enemies)
-  abilities.json          Range, splash, power, targeting
-  equipment.json          Weapons: stat bonus, art folder, per-facing offsets
+  abilities.json          Range, splash, power, targeting, elements
+  classes.json            Main class growth curves, granted moves, tree themes
+  equipment.json          Weapons, charms, draughts: stats, suits, art offsets
+  heroes.json             The 12 founders: backgrounds, alignments, origins, grudges
+  factions.json           Cohort groupings and faction allegiance
+  threads.json            Skein story thread definitions, stages, and deadlines
+  coliseum.json           Gladiator cards, waves, bouts, wagers, free-for-all cohorts
+  banter.json             Exchanges, occasions, moods, tokens, campfire reflections
+  areas/*.json            Hand-built area maps: legend, rows, spots, people, props, wards
   maps/*.json             Battle maps as ASCII tile rows + spawns
   dialogue/*.json         Conversation scripts
 
@@ -93,12 +107,23 @@ src/
   autoload/
     event_bus.gd          Global signal hub — how systems talk without coupling
     database.gd           Loads and caches everything in data/
-    game_state.gd         Party, party HP, gold, progress flags, save/load
+    game_state.gd         Party, party HP, stores, stash, gold, progress flags, save/load
+    music.gd              Scene-specific music player and bus management
+    sfx.gd                UI and interaction sound effects
+    pace.gd               Game speed and auto-play coordination
   chronicle/              The world model — pure logic, no scene nodes, serialisable
-    character.gd          The persistent person: level, class, doctrine, permadeath
+    character.gd          The persistent person: level, class, doctrine, permadeath, grudge
     progression.gd        XP curve, level-ups, class choice, tree unlocks
     ability_grammar.gd    Hidden grammar that generates skill trees
     doctrine.gd           Read / teach / forget, and what knowledge grants
+    skein.gd              Long-running story threads and deadlines
+    nemesis.gd            Persistent combat survivors who rally and remember
+    annals.gd             Telemetry chronicle of deeds and milestones
+    season.gd             Step-clock seasonal transitions
+    news.gd               Living continental rumor dispatches
+    ferry.gd              Coastal cutter routes between ports
+    ward.gd               Obstacle and gate clearance via keys or abilities
+    loot.gd · gear.gd     Pack management, suit fit, draughts, stores
     site.gd · world.gd · world_gen.gd   Places, the step clock, world generation
   battle/
     battle.tscn/.gd       Phase machine, input routing, turn loop

@@ -38,12 +38,14 @@ him last time" and "she was already dead when they asked" live.
 
 ### The tick
 
-Threads advance in two places, both of which already exist:
+Threads advance in three event contexts:
 
 1. **The upkeep pass** (`World.UPKEEP_INTERVAL`, every 30 steps) — for anything measured in
    distance or elapsed steps. `Skein.on_step` is called from `World._upkeep`.
 2. **Arrival** — `Skein.on_arrive` in `world_scene._step`, for stages that wait on a kind of
-   place. `on_battle` and `on_character_fell` exist and are not hooked up yet.
+   place.
+3. **Battle and Mortality** — `Skein.on_battle` in `world_scene._settle_up` routes encounter
+   outcomes, and `Skein.on_character_fell` in `battle.gd` notifies threads when a companion falls.
 
 `Skein.tick(world, context)` evaluates the current stage's `when` against world state, and if it
 holds, runs `then` and moves the stage on. Threads never poll and never hold references to each
@@ -115,23 +117,15 @@ A stage may also carry `deadline` (in steps) and `goto`: if the `when` has not h
 Every one of these is a call into something that already ships. A thread cannot do anything the
 world could not already do; it only decides when.
 
-## The Nemesis — not built yet
+## The Nemesis — SHIPPED
 
-`chronicle/nemesis.gd` — the single highest-value thread type, and the reason the system is worth
-building at all.
+[`Nemesis`](../src/chronicle/nemesis.gd) (`world.survivors`) implements persistent foes who survived defeat:
 
-A nemesis is a persistent `Character` stored on `World`, not a unit template. They carry:
-
-- **`scars`** — what the last fight cost them. Written on defeat, read on spawn.
-- **`retinue`** — a composition that answers what you did to them. Flanked them to death, and they
-  come back with more speed and a rear guard. Burned them down at range, and they bring shields
-  and cover. This is three or four rules, not an AI.
-- **`grudge`** — climbs each meeting, and sets both their level offset and how far out of their way
-  they will come to find you.
-
-They appear through [`Prowler`](../src/chronicle/prowler.gd), which already watches ground and
-already starts fights. A nemesis is a prowler with a name, a memory, and an interest in you
-specifically.
+- Sentient enemies defeated in combat roll a 20% survival check. Survivors crawl into the brush, take
+  on an epithet, and log their survival to `world.survivors`.
+- Their survival spreads outward through `Renown.record` and enters the `Annals`.
+- Survivors can reappear leading roaming prowler bands. When encountered, they speak tense pre-battle
+  recognition dialogue remembering the place of their previous defeat.
 
 **One-way doors apply.** A nemesis can be killed for good, and a nemesis can kill you for good.
 Nothing about them respawns to keep the story going.
@@ -152,9 +146,10 @@ Each step ends playable, per the working rules.
 1. **Engine, no combat.** ✅ `skein.gd`, `world.threads` with serialisation, the upkeep hook, and
    threads that only write rumour, tags, errands and camps. `tests/skein_smoke_test.tscn` proves
    state survives a save/load round trip before anything depends on it.
-2. **Errand chains.** The `follows` field. Immediate texture, no new system.
-3. **Nemesis.** `nemesis.gd` over `Prowler`, one antagonist in `threads.json`, scars and retinue.
-4. **The dead as a source.** A thread that ignites on `character_dead` and puts somebody at a
+2. **Event hooks.** ✅ Battle results and character deaths wired to `Skein.on_battle` and `Skein.on_character_fell`.
+3. **Nemesis.** ✅ `nemesis.gd` over `Prowler`, survivor epithets, memory, recognition dialogue, and renown spread.
+4. **Errand chains.** The `follows` field. Immediate texture, no new system.
+5. **The dead as a source.** A thread that ignites on `character_dead` and puts somebody at a
    village who wanted them back. `Memorial` already gives it a place to end.
 
 ## What this leaves open

@@ -28,26 +28,41 @@ src/
   autoload/
     event_bus.gd               Global signal hub
     database.gd                data/ loader + runtime registry for generated abilities
-    game_state.gd              The live World and Roster; save/load
+    game_state.gd              The live World, Roster, stores, stash, gold; save/load
+    music.gd                   Scene music tracks and dynamic crossfading
+    sfx.gd                     Sound effects hub and UI button listener
+    pace.gd                    Engine timescale, quiet chatter, auto-play coordination
   chronicle/                   THE WORLD MODEL (no nodes, no scenes)
-    character.gd               Persistent person: level, class, doctrine, permadeath
-    progression.gd             XP curve, level-ups, class choice, tree unlocks
+    character.gd               Persistent person: level, class, doctrine, permadeath, grudges
+    progression.gd             XP curve, level-ups, class choice, branching tree unlocks
     ability_grammar.gd         Hidden grammar; generates skill trees
     doctrine.gd                Read / teach / forget, and the bonuses knowledge grants
+    skein.gd                   Story threads, stage transitions, and deadlines
+    nemesis.gd                 Defeated persistent foes who survive, remember, and return
+    annals.gd                  Narrative milestone chronicle compiled from telemetry
+    season.gd                  Step-clock progression of the four seasonal clovers
+    news.gd                    Living continental rumor dispatches and realm tidings
+    ferry.gd                   Passage by boat between coastal havens across oceans
+    ward.gd                    Obstacle, fallen tree, and sealed gate clearance
+    loot.gd · gear.gd          Pack management (`stores`), draughts, calling suit penalties
+    proficiency.gd             Mastery-by-use tracking across weapons and abilities
     site.gd                    A place on the map (gate, tower, library, village…)
-    world.gd                   Ground, places, the step clock, the tree registry
-    world_gen.gd               Builds a world from a seed
+    world.gd                   Ground, places, the step clock, the tree registry, routes
+    world_gen.gd               Builds a 128x128 continental world from a seed
   battle/                      Tactics core (working)
-    battle.tscn/.gd            Phase machine, input routing, turn loop
+    battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
     grid/                      battle_grid · pathfinder · move_field · grid_overlay
-    units/unit.gd              The battle puppet spawned from a Character
-    abilities/ability_resolver.gd   Targeting rules, facing bonuses, damage maths
-    ai/enemy_brain.gd          Plans a move + attack; returns it for the controller to execute
+    units/unit.gd              The battle puppet spawned from a Character (8-way facing)
+    abilities/ability_resolver.gd   Targeting rules, facing bonuses, damage maths, grudges
+    ai/enemy_brain.gd          Multi-ability evaluation, ally healing, splash AOE scoring
   world/                       Walk mode: the map, the step clock, every site interaction
-  area/                        Places walked around close up — towns, halls, the camp fire
-  dialogue/                    Conversation overlay
-  ui/                          Battle HUD, title screen, party screen, system menu
+  area/                        Places walked around close up — 33 hand-built top-down areas,
+                               orthogonal A* pathfinding, props, chests, cutscenes, camp fire
+  dialogue/                    Conversation overlay, branching script, skill checks, news
+  coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
+  ui/                          Battle HUD, title screen, party screen, system menu, stash,
+                               journal (bestiary, routes, annals), museum (hero dossiers)
 ```
 
 ## Character vs Unit
@@ -86,15 +101,20 @@ variance (damage rolls, CT jitter) uses global randomness and is intentionally n
 
 ## Testing
 
-Three headless scenes, run as scenes rather than with `-s` because `--script` starts before the
+Headless scenes, run as scenes rather than with `-s` because `--script` starts before the
 autoloads exist.
 
-| Test                           | Covers                                                                                                                                                   |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tests/world_smoke_test.tscn`  | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
-| `tests/walk_smoke_test.tscn`   | The real walk scene: walls, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
-| `tests/area_smoke_test.tscn`   | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
-| `tests/battle_smoke_test.tscn` | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
+| Test                             | Covers                                                                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
+| `tests/walk_smoke_test.tscn`     | The real walk scene: walls, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
+| `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
+| `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
+| `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
+| `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
+
+`tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,
+level, site, equipment loadout, or area.
 
 `tools/coverage.tscn` reports static reachability from those tests — which functions a test can
 reach, which only the engine reaches, and which nothing references at all. It resolves scenes a
@@ -107,7 +127,8 @@ godot --headless --path . res://tools/coverage.tscn
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState` → `Music` → `Pace`. Database must be up before anything
-reads content; GameState reads content while restoring a save, and Music reads `data/music.json`.
-`Pace` owns `Engine.time_scale` and whether the game is playing itself, so both survive a scene
-swap — a soak started on the road carries through the fight it walks into.
+`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace`. Database must be up before
+anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
+busses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
+is playing itself, so both survive a scene swap — a soak started on the road carries through the
+fight it walks into.

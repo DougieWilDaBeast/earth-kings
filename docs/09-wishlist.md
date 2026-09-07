@@ -280,14 +280,16 @@ mid-fight and advancing the turn cleanly.
 > another way into the city, or find a key. A few characters could use their abilities to get past
 > obstacles: a mage with blaze burns a tree out of the way, a character with a water ability swims.
 
-**Not built.** Wants obstacles that read as locks and abilities that read as keys, in both world
+**Built.** Obstacles that read as locks and abilities that read as keys operate in both world
 and area mode.
 
 **Built for area mode.** [`Ward`](../src/chronicle/ward.gd) is a cell that is shut until somebody
 with you can shift it. An area file names it under `wards` with an `ability` and/or a `key`;
 walking into it is what tries it, and it opens for anyone in the party who knows that ability or
-for a key in `GameState.keys`. Refused, it says what it would take rather than nothing — a locked
-door you cannot read is just a wall. Once opened it stays opened, on a flag.
+for a key in `GameState.keys`. Fallen trees and briars can be cut down using martial or fire
+abilities (`cleave`, `strike`, `sunder`, `crush`, `scorch`, `ember`, `firebrand`), while locked gates
+answer to heavy impact (`crush`) or iron keys. Refused, it says what it would take rather than
+nothing. Once opened it stays opened, on a flag.
 
 Live example: the gate interior has an iron grate across the arch with a rich chest behind it,
 opened by **Crush** or by the warden's key, which is in a footlocker in a keep. Keys come out of
@@ -406,12 +408,10 @@ and area maps.
 > 2 views. World view (whole map), and planar view — the tile on world view zooms in, explorable
 > area with things to do.
 
-**Half built, and closer than it looks.** Area mode already _is_ the second view, and W13's
-wilderness step-in already opens ordinary ground: forest, brush, marsh and hill tiles now open
-into `wild_grove`/`wild_thicket`/`wild_fen`/`wild_scarp` (see `world_scene.WILD_AREAS`).
-
-**Open:** it is a 6-in-100 chance on a qualifying tile, not "any tile zooms in". Wants the step-in
-to be available on far more ground, and a generated area for tiles nobody hand-built.
+**Built.** Key **Z** (and the HUD View button) switches directly between the continental world map
+and the top-down planar view. In world mode, stepping into sites or wilderness tiles opens their
+local area; in planar mode, walking off cardinal edges transitions smoothly across adjacent
+continental territory, with **Z** returning to the continental view at any time.
 
 ## W23 — More country: forest, desert, and the sea between
 
@@ -431,13 +431,10 @@ to be available on far more ground, and a generated area for tiles nobody hand-b
 > initiate combat. Use range of vision on tilemap to show player where not to step, to stay
 > undetected.
 
-**Half built on the world map, absent everywhere else.** `Prowler.watched()` already paints a
-band's sight radius red, and stepping into it is what starts the fight — the "where not to step"
-idea is live at world scale.
-
-**Open:** there is no reward for avoiding it and no ambush for starting it. Wants an initiative
-advantage when you open the fight, sight cones inside areas and battles, and hideouts you can
-enter unseen.
+**Built.** `Prowler.watched()` paints a band's sight radius red on the continental map, while cover
+terrain (brush, forest, marsh) breaks line of sight. Approaching prowlers unseen or stalking them
+through cover triggers an **Ambush** (`encounter["ambush"] = true`), granting the party first-round
+CT initiative (100 CT vs 0 CT) and +15% surprise damage on opening attacks.
 
 ## W25 — Bigger battles, longer missions
 
