@@ -64,6 +64,8 @@ var _notes: Array[String] = []
 var _visited_spots: Dictionary = {}
 ## cell -> the [AreaProp] drawn for the chest there, so it can be shown opened.
 var _chest_props: Dictionary = {}
+## cell -> the [AreaProp] drawn for the ward obstacle there.
+var _ward_props: Dictionary = {}
 ## Wards already leaned on and refused, so the refusal is said once.
 var _shut_wards: Dictionary = {}
 var _return_scene: String = "world"
@@ -72,11 +74,13 @@ var _idle_hint: String = HINT
 ## What the scene we came from needs to put itself back the way it was.
 var _return_payload: Dictionary = {}
 var _leaving: bool = false
+var _planar_mode: bool = false
 
 
 func _ready() -> void:
 	_return_scene = boot_payload.get("return_scene", "world")
 	_return_payload = boot_payload.get("return_payload", {})
+	_planar_mode = bool(boot_payload.get("planar_mode", false))
 	map = AreaMap.load_area(boot_payload.get("area_id", "village"))
 	if map == null:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
@@ -161,6 +165,20 @@ func _spawn_party() -> void:
 	var start := map.spawn
 	if boot_payload.has("spawn_cell"):
 		start = AreaMap.to_cell(boot_payload["spawn_cell"])
+	if not map.is_walkable(start):
+		for radius in range(1, 6):
+			var found := false
+			for dy in range(-radius, radius + 1):
+				for dx in range(-radius, radius + 1):
+					var cand := start + Vector2i(dx, dy)
+					if map.is_walkable(cand):
+						start = cand
+						found = true
+						break
+				if found:
+					break
+			if found:
+				break
 	var members := GameState.party_characters()
 	for index in members.size():
 		if index > 0 and index <= map.seats.size():
@@ -251,6 +269,32 @@ func _spawn_props() -> void:
 			_things.append(node)
 		_actors.add_child(node)
 		_chest_props[cell] = node
+
+	# Props representing obstacle wards (cuttable trees, locked gates, etc.)
+	for cell: Vector2i in map.wards:
+		var ward: Dictionary = map.wards[cell]
+		var prop_art := str(ward.get("prop", ""))
+		if prop_art == "":
+			if ward.get("kind", "") == "tree" or str(ward.get("name", "")).to_lower().contains("tree"):
+				prop_art = "nature/sycamore_tree"
+			elif ward.get("kind", "") == "gate" or str(ward.get("name", "")).to_lower().contains("gate"):
+				prop_art = "village/log_pile"
+		if prop_art != "" and AreaProp.has_art(prop_art):
+			var opened := Ward.is_open(map.id, cell)
+			var art_to_use := str(ward.get("cleared_art", "")) if opened and ward.has("cleared_art") else prop_art
+			var node := AreaProp.create(art_to_use)
+			node.position = map.centre_of(cell)
+			node.cell = cell
+			node.display_name = str(ward.get("name", "obstacle"))
+			node.solid = not opened
+			if opened and not ward.has("cleared_art"):
+				node.visible = false
+			else:
+				node.line = "examine"
+				node.set_interactive(not opened)
+				_things.append(node)
+			_actors.add_child(node)
+			_ward_props[cell] = node
 
 
 func _spawn_people() -> void:
@@ -432,6 +476,9 @@ func _engage(target: AreaThing) -> void:
 ## into it — which is only ever there the first time.
 func _examine(thing: AreaProp) -> void:
 	_leader.face(thing.position - _leader.position)
+	if map.wards.has(thing.cell):
+		_try_the_ward(thing.cell)
+		return
 	_note(thing.line)
 	if map.chests.has(thing.cell) and bool(map.chests[thing.cell].get("stash", false)):
 		EventBus.stash_requested.emit()
@@ -664,6 +711,35 @@ func _can_stand(point: Vector2) -> bool:
 	return true
 
 
+func _try_the_ward(cell: Vector2i) -> bool:
+	if not map.wards.has(cell):
+		return false
+	if Ward.is_open(map.id, cell):
+		return true
+	var outcome := Ward.force(map.id, map.wards[cell], GameState.party_characters())
+	_note(str(outcome["line"]))
+	if bool(outcome["opened"]):
+		_shut_wards.erase(cell)
+		map.update_cell_solid(cell, false)
+		map._blocked.erase(cell)
+		Sfx.play(Sfx.SELECT)
+		if _ward_props.has(cell):
+			var prop: AreaProp = _ward_props[cell]
+			var ward: Dictionary = map.wards[cell]
+			prop.solid = false
+			prop.set_interactive(false)
+			if _things.has(prop):
+				_things.erase(prop)
+			if ward.has("cleared_art"):
+				prop.set_art(ward["cleared_art"])
+			else:
+				var tw := create_tween()
+				tw.tween_property(prop, "modulate:a", 0.0, 0.35)
+				tw.tween_callback(func() -> void: prop.hide())
+		return true
+	return false
+
+
 ## Walking into a thing in the way is how you find out whether anyone with you
 ## can shift it. Only the party ever tries; the townsfolk walk around (see [Ward]).
 func _try_the_way(from: Vector2, step: Vector2) -> void:
@@ -671,16 +747,9 @@ func _try_the_way(from: Vector2, step: Vector2) -> void:
 		var cell := map.cell_at(point)
 		if not map.wards.has(cell) or Ward.is_open(map.id, cell):
 			continue
-		var outcome := Ward.force(map.id, map.wards[cell], GameState.party_characters())
-		if bool(outcome["opened"]):
-			_note(str(outcome["line"]))
-			_shut_wards.erase(cell)
-			map.update_cell_solid(cell, false)
-			return
-		# The refusal is worth hearing once, not every frame you lean on it.
-		if not _shut_wards.has(cell):
+		var opened := _try_the_ward(cell)
+		if not opened and not _shut_wards.has(cell):
 			_shut_wards[cell] = true
-			_note(str(outcome["line"]))
 
 
 func _point_along_trail(target_dist: float) -> Vector2:
@@ -747,8 +816,8 @@ func _settle_followers(delta: float) -> void:
 
 
 func _arrive_at(cell: Vector2i) -> void:
-	if map.is_exit(cell):
-		_leave()
+	if map.is_exit(cell) or _is_edge_cell(cell):
+		_handle_exit(cell)
 		return
 	var door := map.door_at(cell)
 	if not door.is_empty():
@@ -759,6 +828,127 @@ func _arrive_at(cell: Vector2i) -> void:
 		_note(map.spots[cell])
 	if map.chests.has(cell):
 		_open_chest(cell)
+
+
+func _is_edge_cell(cell: Vector2i) -> bool:
+	if not _planar_mode or _return_scene != "world":
+		return false
+	return cell.x <= 0 or cell.x >= map.width - 1 or cell.y <= 0 or cell.y >= map.height - 1
+
+
+func _cardinal_direction_of(cell: Vector2i) -> Vector2i:
+	if cell.y <= 1:
+		return Vector2i.UP
+	if cell.y >= map.height - 2:
+		return Vector2i.DOWN
+	if cell.x <= 1:
+		return Vector2i.LEFT
+	if cell.x >= map.width - 2:
+		return Vector2i.RIGHT
+	return Vector2i.ZERO
+
+
+func _direction_name(dir: Vector2i) -> String:
+	match dir:
+		Vector2i.UP: return "north"
+		Vector2i.DOWN: return "south"
+		Vector2i.LEFT: return "west"
+		Vector2i.RIGHT: return "east"
+	return "forward"
+
+
+func _pick_planar_area(terrain_id: String, cell: Vector2i) -> String:
+	match terrain_id:
+		"forest":
+			return "wild_grove" if (cell.x + cell.y) % 2 == 0 else "wild_thicket"
+		"brush":
+			return "wild_thicket" if (cell.x + cell.y) % 2 == 0 else "wild_grove"
+		"marsh":
+			return "wild_fen"
+		"hill", "mountain", "crag", "snow":
+			return "wild_scarp"
+		"sand":
+			return "wild_oasis"
+		_:
+			return "wild_grove"
+
+
+func _handle_exit(cell: Vector2i) -> void:
+	if _leaving:
+		return
+	var dir := _cardinal_direction_of(cell)
+	if _planar_mode and GameState.world != null and dir != Vector2i.ZERO:
+		var target_world := GameState.world.player_cell + dir
+		if not GameState.world.in_bounds(target_world):
+			_note("The continent drops away into endless mist. You cannot pass further %s." % _direction_name(dir))
+			return
+		if not GameState.world.is_walkable(target_world):
+			var tid := GameState.world.terrain_id_at(target_world)
+			if tid == "ocean" or tid == "water" or tid == "lake":
+				_note("Deep waters stretch out to the %s. You cannot cross without a ship or ferry." % _direction_name(dir))
+			elif tid == "crag" or tid == "mountain":
+				_note("Steep mountain crags and sheer rock faces rise to the %s. You cannot pass." % _direction_name(dir))
+			else:
+				_note("The terrain to the %s is impassable." % _direction_name(dir))
+			return
+		_step_to_adjacent_planar_area(dir, target_world, cell)
+		return
+
+	_leave()
+
+
+func _step_to_adjacent_planar_area(dir: Vector2i, target_world: Vector2i, from_cell: Vector2i) -> void:
+	_leaving = true
+	var prior_region := GameState.world.region_at(GameState.world.player_cell)
+	GameState.world.player_cell = target_world
+	var new_region := GameState.world.region_at(target_world)
+	if new_region != prior_region:
+		_note("Entering %s." % new_region)
+
+	for notice: String in GameState.world.step():
+		_note(notice)
+
+	var next_area_id := ""
+	var next_title := ""
+	var site := GameState.world.site_at(target_world)
+	if site != null:
+		var site_area := str(site.data.get("area", site.kind))
+		if Database.has_area(site_area):
+			next_area_id = site_area
+			next_title = site.label()
+		elif Database.has_area(site.kind):
+			next_area_id = site.kind
+			next_title = site.label()
+
+	if next_area_id == "":
+		var tid := GameState.world.terrain_id_at(target_world)
+		next_area_id = _pick_planar_area(tid, target_world)
+		next_title = "%s (Planar View)" % new_region
+
+	var target_data := Database.area(next_area_id)
+	var rows: Array = target_data.get("rows", [])
+	var h: int = rows.size()
+	var w: int = 0
+	for r in rows:
+		w = maxi(w, r.length())
+
+	var spawn := Vector2i(w / 2, h / 2)
+	if dir == Vector2i.UP:
+		spawn = Vector2i(clampi(from_cell.x, 2, w - 3), h - 2)
+	elif dir == Vector2i.DOWN:
+		spawn = Vector2i(clampi(from_cell.x, 2, w - 3), 1)
+	elif dir == Vector2i.LEFT:
+		spawn = Vector2i(w - 2, clampi(from_cell.y, 2, h - 3))
+	elif dir == Vector2i.RIGHT:
+		spawn = Vector2i(1, clampi(from_cell.y, 2, h - 3))
+
+	EventBus.request_scene.emit("area", {
+		"area_id": next_area_id,
+		"title": next_title,
+		"return_scene": "world",
+		"planar_mode": true,
+		"spawn_cell": [spawn.x, spawn.y],
+	})
 
 
 ## Whatever is in it is written into the area, so the same chest always holds

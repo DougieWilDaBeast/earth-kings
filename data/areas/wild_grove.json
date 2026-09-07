@@ -1,75 +1,342 @@
 {
-	"display_name": "the ancient grove",
-	"layers": ["dirt", "meadow"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the path out is south",
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"m": "meadow"
-	},
-	"tint": "#7f9e80",
-	"spawn": [7, 10],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 5], "line": "A ring of ancient mossy boulders, resting undisturbed beneath the high boughs." },
-		{ "cell": [3, 4], "line": "Sunlight breaks through the canopy in quiet shafts of amber light." },
-		{ "cell": [11, 4], "line": "A crystal spring bubbling from the limestone rock into a clear pool." }
-	],
-	"chests": [
-		{
-			"cell": [7, 3],
-			"line": "A stone cache nestled among deep roots, sealed against rain.",
-			"art": "chest_crystal",
-			"gold": 120,
-			"item": "black_feather"
-		}
-	],
-	"props": [
-		{ "art": "nature/sycamore_tree", "cell": [1, 2] },
-		{ "art": "nature/apple_tree", "cell": [13, 2] },
-		{ "art": "nature/holly_tree", "cell": [2, 8] },
-		{ "art": "nature/apple_tree_2", "cell": [12, 8] },
-		{ "art": "nature/rose_bush", "cell": [4, 4] },
-		{ "art": "nature/rose_bush_small", "cell": [10, 4] },
-		{ "art": "nature/mushrooms_cluster", "cell": [4, 7] },
-		{ "art": "nature/mushrooms_red", "cell": [10, 7] },
-		{ "art": "nature/clover", "cell": [6, 6] },
-		{ "art": "nature/clover_3", "cell": [8, 6] },
-		{ "art": "nature/wildflowers_blue", "cell": [3, 9] },
-		{ "art": "nature/wildflowers_yellow", "cell": [11, 9] },
-		{ "art": "nature/fern", "cell": [2, 5] },
-		{ "art": "nature/thistle", "cell": [12, 5] },
-		{ "art": "nature/jay_bird", "cell": [5, 2] },
-		{ "art": "nature/irish_bird_3", "cell": [9, 2] },
-		{ "art": "nature/butterfly_blue", "cell": [9, 3] },
-		{ "art": "crystal_ball", "cell": [7, 4] }
-	],
-	"people": [
-		{
-			"name": "Oakwarden Bramble",
-			"unit": "tree_sentinel",
-			"cell": [7, 6],
-			"facing": [0, 1],
-			"wander": 2,
-			"chatter": [
-				"The roots run deeper than the stone castles above.",
-				"Rest your boots here a moment, traveller. The road will wait.",
-				"Birds nested in my branches twice this spring."
-			]
-		}
-	],
-	"rows": [
-		"mmmm.......mmmm",
-		"mmm.........mmm",
-		"mm...,,,,,...mm",
-		"m...,,,,,,,...m",
-		"...,,,,,,,,,...",
-		"...,,,,,,,,,...",
-		"...,,,,,,,,,...",
-		"....,,,,,,,....",
-		"mm...,,,,,...mm",
-		"mmm....,,...mmm",
-		"mmmm...,,..mmmm",
-		"mmmm...,,..mmmm"
-	]
+    "display_name": "the ancient grove",
+    "layers": [
+        "dirt",
+        "meadow"
+    ],
+    "hint": "WASD to walk  \u00b7  E to examine or cut obstacles  \u00b7  exits in all four directions",
+    "legend": {
+        ".": "grass",
+        ",": "dirt",
+        "m": "meadow"
+    },
+    "tint": "#7f9e80",
+    "spawn": [
+        14,
+        10
+    ],
+    "exits": [
+        [
+            14,
+            0
+        ],
+        [
+            15,
+            0
+        ],
+        [
+            14,
+            19
+        ],
+        [
+            15,
+            19
+        ],
+        [
+            0,
+            9
+        ],
+        [
+            0,
+            10
+        ],
+        [
+            29,
+            9
+        ],
+        [
+            29,
+            10
+        ]
+    ],
+    "wards": [
+        {
+            "cell": [
+                8,
+                5
+            ],
+            "name": "fallen ancient oak",
+            "kind": "tree",
+            "prop": "nature/sycamore_tree",
+            "cleared_art": "nature/briar_bush",
+            "abilities": [
+                "cleave",
+                "strike",
+                "sunder",
+                "crush",
+                "scorch",
+                "ember",
+                "firebrand"
+            ],
+            "denied": "A thick fallen oak blocks the path to the western glade. It would take a sharp blade or heavy blow (Cleave, Strike, Sunder, or Ember) to cut through.",
+            "opened": "With a resounding strike, the ancient oak is cleaved apart, clearing the path into the secluded glade!"
+        },
+        {
+            "cell": [
+                20,
+                15
+            ],
+            "name": "the ironwood gate",
+            "kind": "gate",
+            "key": "iron_key",
+            "ability": "crush",
+            "prop": "village/log_pile",
+            "denied": "An iron-bound gate is locked fast across the stone barrow entrance. It requires an Iron Key (or massive force like Crush) to open.",
+            "opened": "The iron key turns in the lock with a sharp click. The gate swings wide!"
+        }
+    ],
+    "spots": [
+        {
+            "cell": [
+                15,
+                11
+            ],
+            "line": "A ring of ancient mossy boulders, resting undisturbed beneath the high boughs."
+        },
+        {
+            "cell": [
+                4,
+                4
+            ],
+            "line": "Sunlight breaks through the canopy in quiet shafts of amber and gold."
+        },
+        {
+            "cell": [
+                25,
+                16
+            ],
+            "line": "Ancient runes are carved into the plinth: 'To those who seek the quiet ways, the earth yields her riches.'"
+        },
+        {
+            "cell": [
+                10,
+                14
+            ],
+            "line": "A crystal spring bubbling from limestone rock into a clear pool."
+        },
+        {
+            "cell": [
+                24,
+                6
+            ],
+            "line": "A woodcutter has carved notches into the sycamore bark, marking a hidden cache."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                25,
+                4
+            ],
+            "line": "A leather-bound strongbox tucked deep in the roots of a hollow sycamore.",
+            "art": "chest_iron",
+            "gold": 95,
+            "key": "iron_key",
+            "item": "whetstone"
+        },
+        {
+            "cell": [
+                5,
+                4
+            ],
+            "line": "A stone cache nestled among deep roots in the secluded glade, sealed against rain.",
+            "art": "chest_crystal",
+            "gold": 190,
+            "item": "black_feather"
+        },
+        {
+            "cell": [
+                25,
+                15
+            ],
+            "line": "A gilded reliquary chest resting on an ancient stone altar inside the barrow.",
+            "art": "chest_gold",
+            "gold": 240,
+            "item": "knotted_cord"
+        }
+    ],
+    "props": [
+        {
+            "art": "nature/sycamore_tree",
+            "cell": [
+                2,
+                2
+            ]
+        },
+        {
+            "art": "nature/apple_tree",
+            "cell": [
+                27,
+                2
+            ]
+        },
+        {
+            "art": "nature/holly_tree",
+            "cell": [
+                2,
+                17
+            ]
+        },
+        {
+            "art": "nature/apple_tree_2",
+            "cell": [
+                27,
+                17
+            ]
+        },
+        {
+            "art": "nature/sycamore_tree_2",
+            "cell": [
+                11,
+                4
+            ]
+        },
+        {
+            "art": "nature/holly_tree_2",
+            "cell": [
+                18,
+                4
+            ]
+        },
+        {
+            "art": "nature/rose_bush",
+            "cell": [
+                12,
+                12
+            ]
+        },
+        {
+            "art": "nature/rose_bush_2",
+            "cell": [
+                17,
+                12
+            ]
+        },
+        {
+            "art": "nature/mushrooms_cluster",
+            "cell": [
+                13,
+                7
+            ]
+        },
+        {
+            "art": "nature/mushrooms_red",
+            "cell": [
+                16,
+                7
+            ]
+        },
+        {
+            "art": "nature/clover",
+            "cell": [
+                12,
+                8
+            ]
+        },
+        {
+            "art": "nature/clover_3",
+            "cell": [
+                17,
+                8
+            ]
+        },
+        {
+            "art": "nature/wildflowers_blue",
+            "cell": [
+                5,
+                13
+            ]
+        },
+        {
+            "art": "nature/wildflowers_yellow",
+            "cell": [
+                23,
+                13
+            ]
+        },
+        {
+            "art": "nature/fern",
+            "cell": [
+                6,
+                16
+            ]
+        },
+        {
+            "art": "nature/thistle",
+            "cell": [
+                24,
+                8
+            ]
+        },
+        {
+            "art": "nature/jay_bird",
+            "cell": [
+                12,
+                5
+            ]
+        },
+        {
+            "art": "nature/irish_bird_3",
+            "cell": [
+                17,
+                5
+            ]
+        },
+        {
+            "art": "nature/butterfly_blue",
+            "cell": [
+                15,
+                8
+            ]
+        },
+        {
+            "art": "crystal_ball",
+            "cell": [
+                15,
+                12
+            ]
+        }
+    ],
+    "people": [
+        {
+            "name": "Oakwarden Bramble",
+            "unit": "tree_sentinel",
+            "cell": [
+                14,
+                11
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "wander": 3,
+            "chatter": [
+                "The roots run deeper than the stone castles above.",
+                "Rest your boots here a moment, traveller. The road will wait.",
+                "Birds nested in my branches twice this spring."
+            ]
+        }
+    ],
+    "rows": [
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm",
+        "m...m......m..,,..m......m...m",
+        "mm......m.....,,......m......m",
+        "m...........m.,,...m.........m",
+        "m.m......m....,,m............m",
+        "m.......,,,,,,,,,,,,,,.......m",
+        "m.........m...,,.m...........m",
+        "m.............,,.....m......mm",
+        "m...m......m..,,..m......m...m",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "m.m......m....,,m......m.....m",
+        "m.....m......m,,....m......m.m",
+        "m..m......m...,,.m...........m",
+        "m.............,,.....m......mm",
+        "m.........,,,,,,,,,,,,.......m",
+        "mm............,,.............m",
+        "m...........m.,,...m.........m",
+        "m.m......m....,,m......m.....m",
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm"
+    ]
 }

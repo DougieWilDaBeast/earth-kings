@@ -1,72 +1,293 @@
 {
-	"display_name": "the thorn thicket",
-	"layers": ["dirt", "meadow"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the path out is south",
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"m": "meadow"
-	},
-	"tint": "#8b9470",
-	"spawn": [7, 10],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 3], "line": "The briar closes over the path behind you at about shoulder height." },
-		{ "cell": [5, 6], "line": "A snare, set well, and old enough that whatever set it is not coming back." },
-		{ "cell": [9, 6], "line": "Fur caught on the thorns in a line, all going the same way." },
-		{ "cell": [7, 8], "line": "It is quieter in here than it should be for this much cover." }
-	],
-	"chests": [
-		{
-			"cell": [7, 4],
-			"line": "A hollow in the briar with a sack in it, and the sack has been mended twice.",
-			"art": "chest_dark",
-			"gold": 110,
-			"item": "salt_pouch"
-		}
-	],
-	"props": [
-		{ "art": "nature/briar_bush", "cell": [4, 4] },
-		{ "art": "nature/briar_bush_2", "cell": [10, 4] },
-		{ "art": "nature/briar_bush", "cell": [3, 7] },
-		{ "art": "nature/briar_bush_2", "cell": [11, 7] },
-		{ "art": "nature/hazel_bush_2", "cell": [2, 5] },
-		{ "art": "nature/hazel_bush", "cell": [12, 5] },
-		{ "art": "nature/rose_bush_2", "cell": [5, 9] },
-		{ "art": "nature/thistle", "cell": [9, 9] },
-		{ "art": "nature/mushrooms", "cell": [6, 7] },
-		{ "art": "nature/mushrooms_tall", "cell": [8, 7] },
-		{ "art": "nature/ants", "cell": [8, 5] },
-		{ "art": "nature/grasshopper", "cell": [6, 5] },
-		{ "art": "nature/jay_bird", "cell": [4, 2] },
-		{ "art": "nature/butterfly", "cell": [10, 2] }
-	],
-	"people": [
-		{
-			"name": "a fox that is not afraid of you",
-			"unit": "hat_fox",
-			"cell": [7, 6],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"It sits in the path and declines to move.",
-				"It has clearly done this before, and clearly won.",
-				"It follows for a while and then does not."
-			]
-		}
-	],
-	"rows": [
-		"mmmmmmmmmmmmmmm",
-		"mmmm.......mmmm",
-		"mmm.........mmm",
-		"mm....,,,....mm",
-		"mm...,,,,,...mm",
-		"m...,,,,,,,...m",
-		"...,,,,,,,,,...",
-		"m...,,,,,,,...m",
-		"mm...,,,,,...mm",
-		"mmm...,,,...mmm",
-		"mmm...,,,...mmm",
-		"mmmm..,,,..mmmm"
-	]
+    "display_name": "the thorn thicket",
+    "layers": [
+        "dirt",
+        "meadow"
+    ],
+    "hint": "WASD to walk  \u00b7  E to examine or cut obstacles  \u00b7  exits in all four directions",
+    "legend": {
+        ".": "grass",
+        ",": "dirt",
+        "m": "meadow"
+    },
+    "tint": "#8b9470",
+    "spawn": [
+        14,
+        10
+    ],
+    "exits": [
+        [
+            14,
+            0
+        ],
+        [
+            15,
+            0
+        ],
+        [
+            14,
+            19
+        ],
+        [
+            15,
+            19
+        ],
+        [
+            0,
+            9
+        ],
+        [
+            0,
+            10
+        ],
+        [
+            29,
+            9
+        ],
+        [
+            29,
+            10
+        ]
+    ],
+    "wards": [
+        {
+            "cell": [
+                9,
+                5
+            ],
+            "name": "gnarled briar tree",
+            "kind": "tree",
+            "prop": "nature/briar_bush_2",
+            "cleared_art": "nature/wildflowers_red",
+            "abilities": [
+                "cleave",
+                "strike",
+                "sunder",
+                "crush",
+                "scorch",
+                "ember",
+                "firebrand"
+            ],
+            "denied": "A thick wall of thorny briars and twisted branches chokes the western hollow. It takes a sharp edge or flame to cut through.",
+            "opened": "The briars are hacked away in a flurry of blows, opening the path into the secluded hollow!"
+        },
+        {
+            "cell": [
+                20,
+                14
+            ],
+            "name": "the trapper iron gate",
+            "kind": "gate",
+            "key": "iron_key",
+            "ability": "crush",
+            "prop": "village/log_pile",
+            "denied": "A heavy iron gate bars the trapper sanctuary. It requires an Iron Key or Crush to force open.",
+            "opened": "The lock gives with a heavy clatter, and the iron gate swings open!"
+        }
+    ],
+    "spots": [
+        {
+            "cell": [
+                14,
+                8
+            ],
+            "line": "The briar closes over the path behind you at about shoulder height."
+        },
+        {
+            "cell": [
+                6,
+                4
+            ],
+            "line": "A snare, set well, and old enough that whatever set it is not coming back."
+        },
+        {
+            "cell": [
+                23,
+                5
+            ],
+            "line": "Fur caught on the thorns in a line, all going the same way toward an old cache."
+        },
+        {
+            "cell": [
+                24,
+                15
+            ],
+            "line": "An abandoned trapper camp, quiet beneath the rustling leaves."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                24,
+                4
+            ],
+            "line": "A trapper cache hidden under tangled ivy, containing gear and an iron key.",
+            "art": "chest_dark",
+            "gold": 110,
+            "key": "iron_key",
+            "item": "salt_pouch"
+        },
+        {
+            "cell": [
+                5,
+                4
+            ],
+            "line": "A hollow in the briar with a sturdy chest mended with leather straps.",
+            "art": "chest_silver",
+            "gold": 185,
+            "item": "grave_token"
+        },
+        {
+            "cell": [
+                24,
+                14
+            ],
+            "line": "An iron chest tucked behind the trapper shed with seasoned supplies.",
+            "art": "chest_iron",
+            "gold": 220,
+            "item": "iron_blade"
+        }
+    ],
+    "props": [
+        {
+            "art": "nature/briar_bush",
+            "cell": [
+                3,
+                3
+            ]
+        },
+        {
+            "art": "nature/briar_bush_2",
+            "cell": [
+                26,
+                3
+            ]
+        },
+        {
+            "art": "nature/briar_bush",
+            "cell": [
+                3,
+                16
+            ]
+        },
+        {
+            "art": "nature/briar_bush_2",
+            "cell": [
+                26,
+                16
+            ]
+        },
+        {
+            "art": "nature/hazel_bush_2",
+            "cell": [
+                11,
+                4
+            ]
+        },
+        {
+            "art": "nature/hazel_bush",
+            "cell": [
+                18,
+                4
+            ]
+        },
+        {
+            "art": "nature/rose_bush_2",
+            "cell": [
+                11,
+                15
+            ]
+        },
+        {
+            "art": "nature/thistle",
+            "cell": [
+                18,
+                15
+            ]
+        },
+        {
+            "art": "nature/mushrooms",
+            "cell": [
+                12,
+                11
+            ]
+        },
+        {
+            "art": "nature/mushrooms_tall",
+            "cell": [
+                17,
+                11
+            ]
+        },
+        {
+            "art": "nature/ants",
+            "cell": [
+                13,
+                8
+            ]
+        },
+        {
+            "art": "nature/grasshopper",
+            "cell": [
+                16,
+                8
+            ]
+        },
+        {
+            "art": "nature/jay_bird",
+            "cell": [
+                7,
+                5
+            ]
+        },
+        {
+            "art": "nature/butterfly",
+            "cell": [
+                22,
+                5
+            ]
+        }
+    ],
+    "people": [
+        {
+            "name": "a fox that is not afraid of you",
+            "unit": "hat_fox",
+            "cell": [
+                15,
+                11
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "wander": 3,
+            "chatter": [
+                "It sits in the path and declines to move.",
+                "It has clearly done this before, and clearly won.",
+                "It follows for a while and then does not."
+            ]
+        }
+    ],
+    "rows": [
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm",
+        "mm....m....m..,,m....m....m..m",
+        "m.m....m....m.,,.m....m....m.m",
+        "m..m.........m,,..m.........mm",
+        "m........m....,,...m.........m",
+        "m........,,,,,,,,,,,,........m",
+        "mm.........m..,,m............m",
+        "m.m.........m.,,.m.........m.m",
+        "m..m....m....m,,..m....m....mm",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "mm....m....m..,,m....m....m..m",
+        "m.m.........m.,,.m.........m.m",
+        "m..m.........m,,..m.........mm",
+        "m.........,,,,,,,,,,,........m",
+        "m.........m...,,....m........m",
+        "mm.........m..,,m............m",
+        "m.m....m....m.,,.m....m....m.m",
+        "m..m....m....m,,..m....m....mm",
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm"
+    ]
 }

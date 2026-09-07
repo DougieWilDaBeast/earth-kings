@@ -41,8 +41,22 @@ static func answer(ward: Dictionary, party: Array) -> Dictionary:
 	var key := str(ward.get("key", ""))
 	if key != "" and GameState.keys.has(key):
 		return { "how": "key", "what": key }
-	var ability_id := str(ward.get("ability", ""))
-	if ability_id != "":
+	var keys: Array = ward.get("keys", [])
+	for k in keys:
+		if GameState.keys.has(str(k)):
+			return { "how": "key", "what": str(k) }
+
+	var abilities_list: Array = []
+	if ward.has("abilities"):
+		abilities_list = ward["abilities"]
+	elif ward.has("ability"):
+		abilities_list = [ward["ability"]]
+	elif ward.get("kind", "") == "tree" or ward.get("tree", false) or str(ward.get("name", "")).to_lower().contains("tree") or str(ward.get("name", "")).to_lower().contains("briar"):
+		abilities_list = ["cleave", "strike", "sunder", "crush", "scorch", "ember", "firebrand", "whirl"]
+	elif ward.get("kind", "") == "gate" or str(ward.get("name", "")).to_lower().contains("gate"):
+		abilities_list = ["crush", "earthshake", "sunder"]
+
+	for ability_id: String in abilities_list:
 		for character: Character in party:
 			if character.abilities().has(ability_id):
 				return { "how": "ability", "who": character, "what": ability_id }
@@ -85,12 +99,28 @@ static func _denied(ward: Dictionary) -> String:
 	if said != "":
 		return said
 	var wants: Array[String] = []
-	var ability_id := str(ward.get("ability", ""))
-	if ability_id != "":
-		wants.append(str(Database.ability(ability_id).get("display_name", ability_id)))
+	var abilities_list: Array = []
+	if ward.has("abilities"):
+		abilities_list = ward["abilities"]
+	elif ward.has("ability"):
+		abilities_list = [ward["ability"]]
+	for ab in abilities_list:
+		var dname: String = str(Database.ability(str(ab)).get("display_name", ab))
+		if dname != "" and dname not in wants:
+			wants.append(dname)
 	if str(ward.get("key", "")) != "":
-		wants.append("a key you have not found")
+		var key_name: String = str(ward.get("key", "")).replace("_", " ")
+		wants.append("the %s" % key_name)
+	for k in ward.get("keys", []):
+		var kn: String = str(k).replace("_", " ")
+		if kn not in wants:
+			wants.append("the %s" % kn)
+
 	if wants.is_empty():
+		if ward.get("kind", "") == "tree" or str(ward.get("name", "")).to_lower().contains("tree"):
+			return "A fallen tree blocks the path. It would take a sharp blade or heavy blow (Cleave, Strike, Sunder, or Ember) to cut through."
+		if ward.get("kind", "") == "gate" or str(ward.get("name", "")).to_lower().contains("gate"):
+			return "The gate is locked fast. It requires an iron key or Crush to force open."
 		return "%s will not move." % str(ward.get("name", "It")).capitalize()
 	return "%s holds. It would take %s." % [
 		str(ward.get("name", "It")).capitalize(), " or ".join(wants)
@@ -102,10 +132,18 @@ static func _opened(ward: Dictionary, found: Dictionary) -> String:
 	if said != "":
 		return said
 	if str(found.get("how", "")) == "key":
-		return "The key turns. %s gives." % str(ward.get("name", "It")).capitalize()
+		var key_name: String = str(found.get("what", "key")).replace("_", " ")
+		return "The %s turns in the lock with a heavy click. %s swings open!" % [
+			key_name, str(ward.get("name", "The gate")).capitalize()
+		]
 	var who: Character = found["who"]
-	return "%s uses %s, and %s gives." % [
+	var ab_name: String = Database.ability(str(found["what"])).get("display_name", str(found["what"]))
+	if ward.get("kind", "") == "tree" or str(ward.get("name", "")).to_lower().contains("tree") or str(ward.get("name", "")).to_lower().contains("briar"):
+		return "%s uses %s to cut down the %s, clearing the path forward!" % [
+			who.display_name, ab_name, str(ward.get("name", "fallen tree"))
+		]
+	return "%s uses %s, and %s gives way!" % [
 		who.display_name,
-		Database.ability(str(found["what"])).get("display_name", found["what"]),
+		ab_name,
 		str(ward.get("name", "it")),
 	]

@@ -1,69 +1,252 @@
 {
-	"display_name": "the wind scarp",
-	"layers": ["raised", "crag", "dirt"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the way down is south",
-	"legend": {
-		",": "dirt",
-		"r": "raised",
-		"A": "crag"
-	},
-	"tint": "#9099a6",
-	"spawn": [7, 10],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 3], "line": "The whole country from here, and none of it looks like it belongs to anyone." },
-		{ "cell": [3, 5], "line": "Wind off the edge, steady enough to lean on." },
-		{ "cell": [11, 5], "line": "A cairn. Somebody counted the stones onto it one at a time." },
-		{ "cell": [7, 8], "line": "Bones of something that fell, picked clean and left tidy." }
-	],
-	"chests": [
-		{
-			"cell": [7, 2],
-			"line": "A cleft in the shelf with a bundle pushed as far back as an arm goes.",
-			"art": "chest_iron",
-			"gold": 175,
-			"item": "whetstone"
-		}
-	],
-	"props": [
-		{ "art": "nature/thistle", "cell": [4, 4] },
-		{ "art": "nature/thistle", "cell": [10, 4] },
-		{ "art": "nature/ivy", "cell": [2, 8] },
-		{ "art": "nature/holly_tree_2", "cell": [12, 8] },
-		{ "art": "nature/wildflowers_yellow", "cell": [5, 6] },
-		{ "art": "nature/wildflowers_red", "cell": [9, 6] },
-		{ "art": "camp/fire_stakes", "cell": [6, 9] },
-		{ "art": "camp/embers", "cell": [8, 9] },
-		{ "art": "chest_broken", "cell": [3, 3] },
-		{ "art": "nature/irish_bird_4", "cell": [11, 3] }
-	],
-	"people": [
-		{
-			"name": "Vell of the High Ground",
-			"unit": "bird_archer",
-			"cell": [7, 6],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"I can see four days of your road from here. None of it is good.",
-				"Sit if you like. Don't stand near the edge in this wind.",
-				"Fire's cold. I don't light it where things can see it.",
-				"Everything that comes up here comes up the way you did."
-			]
-		}
-	],
-	"rows": [
-		"AAAAAAAAAAAAAAA",
-		"AAAArrrrrrrAAAA",
-		"AAArrrrrrrrrAAA",
-		"AArrrrrrrrrrrAA",
-		"A,,rrrrrrrrr,,A",
-		",,,rrrrrrrrr,,,",
-		",,,rrrrrrrrr,,,",
-		"A,,rrrrrrrrr,,A",
-		"AArrrrrrrrrrrAA",
-		"AAArrrrrrrrrAAA",
-		"AAAArrrrrrrAAAA",
-		"AAAAA,,,,,AAAAA"
-	]
+    "display_name": "the wind scarp",
+    "layers": [
+        "raised",
+        "crag",
+        "dirt"
+    ],
+    "hint": "WASD to walk  \u00b7  E to examine or cut obstacles  \u00b7  exits in all four directions",
+    "legend": {
+        ",": "dirt",
+        "r": "raised",
+        "A": "crag"
+    },
+    "tint": "#9099a6",
+    "spawn": [
+        14,
+        10
+    ],
+    "exits": [
+        [
+            14,
+            0
+        ],
+        [
+            15,
+            0
+        ],
+        [
+            14,
+            19
+        ],
+        [
+            15,
+            19
+        ],
+        [
+            0,
+            9
+        ],
+        [
+            0,
+            10
+        ],
+        [
+            29,
+            9
+        ],
+        [
+            29,
+            10
+        ]
+    ],
+    "wards": [
+        {
+            "cell": [
+                8,
+                5
+            ],
+            "name": "fallen mountain pine",
+            "kind": "tree",
+            "prop": "nature/holly_tree",
+            "cleared_art": "nature/thistle",
+            "abilities": [
+                "cleave",
+                "strike",
+                "sunder",
+                "crush",
+                "scorch",
+                "ember"
+            ],
+            "denied": "A weathered mountain pine has collapsed across the ridge path. It takes a keen edge or heavy strike to cut through.",
+            "opened": "With a clean sweep of the blade, the pine trunk is cleaved through, opening the path to the high shelf!"
+        },
+        {
+            "cell": [
+                20,
+                15
+            ],
+            "name": "the stone mine gate",
+            "kind": "gate",
+            "key": "iron_key",
+            "ability": "crush",
+            "prop": "village/log_pile",
+            "denied": "A heavy iron-strapped gate bars the ancient mine opening. It requires an Iron Key or Crush to force open.",
+            "opened": "The lock breaks with a loud echo, and the mine gate swings open!"
+        }
+    ],
+    "spots": [
+        {
+            "cell": [
+                15,
+                11
+            ],
+            "line": "The whole country opens out from here, and none of it looks like it belongs to anyone."
+        },
+        {
+            "cell": [
+                5,
+                4
+            ],
+            "line": "Wind off the high western edge, steady enough to lean on."
+        },
+        {
+            "cell": [
+                24,
+                4
+            ],
+            "line": "A high stone cairn. Somebody counted the stones onto it one at a time."
+        },
+        {
+            "cell": [
+                24,
+                16
+            ],
+            "line": "Old mine rails running into the shadows of the rock face."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                24,
+                5
+            ],
+            "line": "A cleft in the eastern shelf holding an iron key and ancient gold.",
+            "art": "chest_iron",
+            "gold": 130,
+            "key": "iron_key",
+            "item": "whetstone"
+        },
+        {
+            "cell": [
+                5,
+                5
+            ],
+            "line": "A bundle pushed as far back into the stone shelf as an arm can reach.",
+            "art": "chest_silver",
+            "gold": 195,
+            "item": "grave_token"
+        },
+        {
+            "cell": [
+                25,
+                16
+            ],
+            "line": "A miner strongbox tucked in the shadows behind the gate.",
+            "art": "chest_gold",
+            "gold": 260,
+            "item": "iron_blade"
+        }
+    ],
+    "props": [
+        {
+            "art": "nature/thistle",
+            "cell": [
+                6,
+                4
+            ]
+        },
+        {
+            "art": "nature/thistle",
+            "cell": [
+                22,
+                4
+            ]
+        },
+        {
+            "art": "nature/ivy",
+            "cell": [
+                6,
+                16
+            ]
+        },
+        {
+            "art": "nature/holly_tree_2",
+            "cell": [
+                22,
+                16
+            ]
+        },
+        {
+            "art": "nature/wildflowers_yellow",
+            "cell": [
+                11,
+                7
+            ]
+        },
+        {
+            "art": "nature/wildflowers_red",
+            "cell": [
+                18,
+                7
+            ]
+        },
+        {
+            "art": "nature/irish_bird_4",
+            "cell": [
+                13,
+                8
+            ]
+        },
+        {
+            "art": "camp/embers",
+            "cell": [
+                16,
+                8
+            ]
+        }
+    ],
+    "people": [
+        {
+            "name": "Vell of the High Ground",
+            "unit": "bird_archer",
+            "cell": [
+                14,
+                12
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "wander": 3,
+            "chatter": [
+                "I can see four days of your road from here. None of it is good.",
+                "Sit if you like. Don't stand near the edge in this wind.",
+                "Fire's cold. I don't light it where things can see it.",
+                "Everything that comes up here comes up the way you did."
+            ]
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA",
+        "ArrrArrrrrrArr,,rrArrrrrrArrrA",
+        "AArrrrrrArrrrr,,rrrrrrArrrrrrA",
+        "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
+        "ArArrrrrrArrrr,,ArrrrrrrrrrrrA",
+        "Arr,,,,,,,,,,,,,,,,,,,,,,,,ArA",
+        "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
+        "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
+        "ArrrArrrrrrArr,,rrArrrrrrArrrA",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
+        "ArrrrrArrrrrrA,,rrrrArrrrrrArA",
+        "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
+        "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
+        "Arr,,,,,,,,,,,,,,,,,,,,,,,,rrA",
+        "AArrrrrrrrrrrr,,rrrrrrrrrrrrrA",
+        "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
+        "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
+        "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA"
+    ]
 }

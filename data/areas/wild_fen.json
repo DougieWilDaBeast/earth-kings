@@ -1,81 +1,290 @@
 {
-	"display_name": "the drowned fen",
-	"layers": ["water", "dirt", "meadow"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the way out is south",
-	"legend": {
-		"m": "meadow",
-		",": "dirt",
-		"~": "water"
-	},
-	"tint": "#6c7f84",
-	"spawn": [7, 9],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 5], "line": "The water goes down further than a fen has any business going." },
-		{ "cell": [4, 6], "line": "Duckboards, rotted through in the middle. Somebody laid them and somebody stopped mending them." },
-		{ "cell": [10, 6], "line": "A boat, or the idea of one, sunk to its ribs in the mud." },
-		{ "cell": [7, 8], "line": "Frogs stop when you stop. They start again before you do." }
-	],
-	"chests": [
-		{
-			"cell": [7, 2],
-			"line": "A creel wedged under the bank, tarred against the wet and still holding.",
-			"art": "chest_broken",
-			"gold": 135,
-			"item": "herbs"
-		}
-	],
-	"props": [
-		{ "art": "nature/fern_tall", "cell": [3, 4] },
-		{ "art": "nature/fern", "cell": [11, 4] },
-		{ "art": "nature/mushrooms_shelf", "cell": [4, 8] },
-		{ "art": "nature/mushrooms_white", "cell": [10, 8] },
-		{ "art": "nature/thistle", "cell": [5, 3] },
-		{ "art": "nature/ivy", "cell": [9, 3] },
-		{ "art": "nature/wildflowers_white", "cell": [6, 7] },
-		{ "art": "nature/snail", "cell": [8, 7] },
-		{ "art": "nature/spider", "cell": [12, 6] },
-		{ "art": "camp/fire_boat", "cell": [10, 5] },
-		{ "art": "nature/irish_bird_2", "cell": [3, 6] }
-	],
-	"people": [
-		{
-			"name": "a heron that has seen worse",
-			"unit": "bird_archer",
-			"cell": [5, 5],
-			"facing": [1, 0],
-			"wander": 2,
-			"chatter": [
-				"It stands in the shallows and does not concede the ground.",
-				"It has been standing there since before you came over the bank.",
-				"It watches the water, not you. You are not the interesting thing here."
-			]
-		},
-		{
-			"name": "Wick, who is fishing",
-			"unit": "drunk_elf",
-			"cell": [9, 9],
-			"facing": [0, -1],
-			"wander": 1,
-			"chatter": [
-				"Nothing in here worth eating. I come for the quiet.",
-				"Water's risen a foot since spring. Nobody can tell me why.",
-				"Don't drink it. I mean it. Don't."
-			]
-		}
-	],
-	"rows": [
-		"mmmm~~~~~~~mmmm",
-		"mmm~~~~~~~~~mmm",
-		"mm~~,,,,,,,~~mm",
-		"m~~,,,,,,,,,~~m",
-		"m~,,,,,,,,,,,~m",
-		",,,,,,,,,,,,,,,",
-		",,,,,,,,,,,,,,,",
-		"m~,,,,,,,,,,,~m",
-		"m~~,,,,,,,,,~~m",
-		"mm~~,,,,,,,~~mm",
-		"mmm~~,,,,,~~mmm",
-		"mmmm~~,,,~~mmmm"
-	]
+    "display_name": "the drowned fen",
+    "layers": [
+        "water",
+        "dirt",
+        "meadow"
+    ],
+    "hint": "WASD to walk  \u00b7  E to examine or cut obstacles  \u00b7  exits in all four directions",
+    "legend": {
+        "m": "meadow",
+        ",": "dirt",
+        "~": "water"
+    },
+    "tint": "#6c7f84",
+    "spawn": [
+        14,
+        10
+    ],
+    "exits": [
+        [
+            14,
+            0
+        ],
+        [
+            15,
+            0
+        ],
+        [
+            14,
+            19
+        ],
+        [
+            15,
+            19
+        ],
+        [
+            0,
+            9
+        ],
+        [
+            0,
+            10
+        ],
+        [
+            29,
+            9
+        ],
+        [
+            29,
+            10
+        ]
+    ],
+    "wards": [
+        {
+            "cell": [
+                8,
+                4
+            ],
+            "name": "sunken driftwood trunk",
+            "kind": "tree",
+            "prop": "nature/sycamore_tree_2",
+            "cleared_art": "nature/fern",
+            "abilities": [
+                "cleave",
+                "strike",
+                "sunder",
+                "crush",
+                "scorch",
+                "ember"
+            ],
+            "denied": "A heavy waterlogged driftwood trunk blocks the boardwalk to the west island. It takes a sharp blade or heavy blow to cut through.",
+            "opened": "With a splintering crack, the waterlogged trunk is hewn apart, clearing the way to the island!"
+        },
+        {
+            "cell": [
+                20,
+                15
+            ],
+            "name": "sunken sluice gate",
+            "kind": "gate",
+            "key": "gate_key",
+            "ability": "crush",
+            "prop": "village/log_pile",
+            "denied": "A rusted iron sluice gate is padlocked against the weir. It requires the Gate Key (or Crush) to force open.",
+            "opened": "The rusted padlock shatters, and the heavy sluice gate swings open!"
+        }
+    ],
+    "spots": [
+        {
+            "cell": [
+                15,
+                11
+            ],
+            "line": "The dark water goes down further than a fen has any business going."
+        },
+        {
+            "cell": [
+                5,
+                5
+            ],
+            "line": "Duckboards, rotted through in the middle. Somebody laid them and somebody stopped mending them."
+        },
+        {
+            "cell": [
+                24,
+                5
+            ],
+            "line": "A fisherman hollow sheltered beneath weeping willows."
+        },
+        {
+            "cell": [
+                23,
+                16
+            ],
+            "line": "Smuggler marks chiseled into the stone weir."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                24,
+                4
+            ],
+            "line": "A tarred creel wedged in the reeds, holding gold and a heavy gate key.",
+            "art": "chest_broken",
+            "gold": 140,
+            "key": "gate_key",
+            "item": "herbs"
+        },
+        {
+            "cell": [
+                5,
+                4
+            ],
+            "line": "A strongbox lashed to a sunken weir with oiled leather cord.",
+            "art": "chest_iron",
+            "gold": 195,
+            "item": "potion_blue"
+        },
+        {
+            "cell": [
+                24,
+                16
+            ],
+            "line": "A gold-banded smuggler chest hidden behind the rusted sluice.",
+            "art": "chest_gold",
+            "gold": 250,
+            "item": "black_feather"
+        }
+    ],
+    "props": [
+        {
+            "art": "nature/fern_tall",
+            "cell": [
+                6,
+                6
+            ]
+        },
+        {
+            "art": "nature/fern",
+            "cell": [
+                22,
+                6
+            ]
+        },
+        {
+            "art": "nature/mushrooms_shelf",
+            "cell": [
+                6,
+                14
+            ]
+        },
+        {
+            "art": "nature/mushrooms_white",
+            "cell": [
+                22,
+                14
+            ]
+        },
+        {
+            "art": "nature/thistle",
+            "cell": [
+                11,
+                6
+            ]
+        },
+        {
+            "art": "nature/ivy",
+            "cell": [
+                18,
+                6
+            ]
+        },
+        {
+            "art": "nature/wildflowers_white",
+            "cell": [
+                12,
+                12
+            ]
+        },
+        {
+            "art": "nature/snail",
+            "cell": [
+                17,
+                12
+            ]
+        },
+        {
+            "art": "nature/spider",
+            "cell": [
+                13,
+                8
+            ]
+        },
+        {
+            "art": "camp/fire_boat",
+            "cell": [
+                16,
+                8
+            ]
+        },
+        {
+            "art": "nature/irish_bird_2",
+            "cell": [
+                24,
+                8
+            ]
+        }
+    ],
+    "people": [
+        {
+            "name": "a heron that has seen worse",
+            "unit": "bird_archer",
+            "cell": [
+                12,
+                10
+            ],
+            "facing": [
+                1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "It stands in the shallows and does not concede the ground.",
+                "It has been standing there since before you came over the bank.",
+                "It watches the water, not you. You are not the interesting thing here."
+            ]
+        },
+        {
+            "name": "Wick, who is fishing",
+            "unit": "drunk_elf",
+            "cell": [
+                16,
+                11
+            ],
+            "facing": [
+                0,
+                -1
+            ],
+            "wander": 2,
+            "chatter": [
+                "Nothing in here worth eating. I come for the quiet.",
+                "Water's risen a foot since spring. Nobody can tell me why.",
+                "Don't drink it. I mean it. Don't."
+            ]
+        }
+    ],
+    "rows": [
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm",
+        "m~mm~mm~mm~mm~,,~mm~mm~mm~mm~m",
+        "mm~mm~mm~mm~mm,,m~mm~mm~mm~mmm",
+        "mmm~mmmmm~mm~m,,mm~mmmmmmmm~mm",
+        "m~m,,,,,,,,,,,,,,,,,,,,,,,,m~m",
+        "mm~mmmmmmmm~mm,,m~mm~mmmmmmmmm",
+        "mmm~mmmmm~mm~m,,mm~mmmmmmmm~mm",
+        "m~mm~mm~mm~mm~,,~mm~mm~mm~mm~m",
+        "mm~mm~mm~mm~mm,,m~mm~mm~mm~mmm",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "mm~mm~mm~mm~mm,,m~mm~mm~mm~mmm",
+        "mmm~mm~mm~mm~m,,mm~mm~mm~mm~mm",
+        "m~mmmmmmmm~mm~,,~mm~mmmmmmmm~m",
+        "mm~mmmmmmmm~mm,,m~mm~mmmmmmmmm",
+        "mmm,,,,,,,,,,,,,,,,,,,,,,,,~mm",
+        "m~mmmmmmmm~mm~,,~mm~mmmmmmmm~m",
+        "mm~mmmmmmmm~mm,,m~mm~mmmmmmmmm",
+        "mmm~mm~mm~mm~m,,mm~mm~mm~mm~mm",
+        "mmmmmmmmmmmmmm,,mmmmmmmmmmmmmm"
+    ]
 }

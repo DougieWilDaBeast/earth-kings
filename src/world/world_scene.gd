@@ -294,6 +294,7 @@ func _step_into_the_wild() -> void:
 		"area_id": area_id,
 		"title": "The Wilds (%s)" % world.region_at(world.player_cell),
 		"return_scene": "world",
+		"planar_mode": true,
 	})
 
 
@@ -930,7 +931,7 @@ func switch_to_planar_view() -> void:
 
 	var terrain_id := world.terrain_id_at(world.player_cell)
 	var wild_pool: Array = WILD_AREAS.get(terrain_id, [])
-	var chosen_area := "camp"
+	var chosen_area := "wild_grove"
 	if not wild_pool.is_empty():
 		chosen_area = wild_pool[absi(hash(world.player_cell)) % wild_pool.size()]
 	elif terrain_id == "sand":
@@ -941,6 +942,7 @@ func switch_to_planar_view() -> void:
 		"area_id": chosen_area,
 		"title": "%s (Planar View)" % world.region_at(world.player_cell),
 		"return_scene": "world",
+		"planar_mode": true,
 	})
 
 
@@ -972,6 +974,7 @@ func _walk_into_site() -> void:
 		"area_id": area_id,
 		"title": site.label(),
 		"return_scene": "world",
+		"planar_mode": true,
 	})
 
 
