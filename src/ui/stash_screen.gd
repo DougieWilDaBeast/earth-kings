@@ -34,6 +34,7 @@ func open() -> void:
 func close() -> void:
 	_root.hide()
 	closed.emit()
+	EventBus.overlay_closed.emit()
 
 
 func _unhandled_input(event: InputEvent) -> void:

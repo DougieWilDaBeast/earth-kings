@@ -82,6 +82,7 @@ func close() -> void:
 	await say("")
 	await _slide_to(0.0)
 	_open = false
+	EventBus.overlay_closed.emit()
 
 
 ## Put a line of narration up, or clear it with an empty string.

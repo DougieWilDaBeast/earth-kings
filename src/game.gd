@@ -20,7 +20,32 @@ const SCENES := {
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
+	# A phone has one key on it, and Android hands it over as "go back". Left
+	# alone it closes the game from inside any screen, which is no way to shut a
+	# menu, so it is caught here and passed on as the cancel it means.
+	get_tree().set_quit_on_go_back(false)
 	_change_scene("cinematic", {})
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		back_out()
+
+
+## Whatever "back" means where the player is standing: the top overlay closes,
+## and with nothing open the menu comes up. Everything already answers Escape,
+## so back is sent as Escape rather than teaching every screen a second key.
+func back_out() -> void:
+	var press := InputEventAction.new()
+	press.action = "ui_cancel"
+	press.pressed = true
+	press.strength = 1.0
+	Input.parse_input_event(press)
+	await get_tree().process_frame
+	var release := InputEventAction.new()
+	release.action = "ui_cancel"
+	release.pressed = false
+	Input.parse_input_event(release)
 
 
 func _change_scene(scene_key: String, payload: Dictionary) -> void:
@@ -39,3 +64,4 @@ func _swap(scene_key: String, payload: Dictionary) -> void:
 	var scene: Node = load(SCENES[scene_key]).instantiate()
 	scene.set("boot_payload", payload)
 	_container.add_child(scene)
+	EventBus.scene_changed.emit(scene_key)

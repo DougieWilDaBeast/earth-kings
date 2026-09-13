@@ -92,6 +92,7 @@ func open() -> void:
 func close() -> void:
 	_rebind_action = ""
 	_root.hide()
+	EventBus.overlay_closed.emit()
 
 
 func is_open() -> bool:

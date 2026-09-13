@@ -45,6 +45,7 @@ func close() -> void:
 	_backdrop.hide()
 	_notice = ""
 	closed.emit()
+	EventBus.overlay_closed.emit()
 
 
 func _unhandled_input(event: InputEvent) -> void:
