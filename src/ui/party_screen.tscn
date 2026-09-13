@@ -6,42 +6,147 @@
 layer = 8
 script = ExtResource("1_party")
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="Root" type="Control" parent="."]
 unique_name_in_owner = true
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.03, 0.03, 0.05, 0.88)
 
-[node name="Margin" type="MarginContainer" parent="Backdrop"]
+[node name="Backdrop" type="ColorRect" parent="Root"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 28
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 28
+color = Color(0.03, 0.03, 0.05, 0.9)
 
-[node name="Column" type="VBoxContainer" parent="Backdrop/Margin"]
+[node name="Margin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 24
+
+[node name="Column" type="VBoxContainer" parent="Root/Margin"]
+layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="Backdrop/Margin/Column"]
+[node name="Header" type="HBoxContainer" parent="Root/Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Root/Margin/Column/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
 theme_override_font_sizes/font_size = 24
 text = "The Party"
 
-[node name="Scroll" type="ScrollContainer" parent="Backdrop/Margin/Column"]
-size_flags_vertical = 3
-
-[node name="RosterList" type="VBoxContainer" parent="Backdrop/Margin/Column/Scroll"]
+[node name="PurseLabel" type="Label" parent="Root/Margin/Column/Header"]
 unique_name_in_owner = true
-size_flags_horizontal = 3
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.84, 0.79, 0.66, 1)
+text = "0 gold"
+
+[node name="CloseButton" type="Button" parent="Root/Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Close (Esc)"
+
+[node name="Body" type="HBoxContainer" parent="Root/Margin/Column"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 14
 
-[node name="FooterLabel" type="Label" parent="Backdrop/Margin/Column"]
+[node name="RosterPanel" type="PanelContainer" parent="Root/Margin/Column/Body"]
+custom_minimum_size = Vector2(462, 0)
+layout_mode = 2
+theme_type_variation = &"FramedPanel"
+
+[node name="RosterMargin" type="MarginContainer" parent="Root/Margin/Column/Body/RosterPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="RosterColumn" type="VBoxContainer" parent="Root/Margin/Column/Body/RosterPanel/RosterMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="OrderLabel" type="Label" parent="Root/Margin/Column/Body/RosterPanel/RosterMargin/RosterColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.66, 0.74, 1)
+theme_override_font_sizes/font_size = 14
+text = "MARCHING ORDER"
+
+[node name="RosterScroll" type="ScrollContainer" parent="Root/Margin/Column/Body/RosterPanel/RosterMargin/RosterColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="RosterList" type="VBoxContainer" parent="Root/Margin/Column/Body/RosterPanel/RosterMargin/RosterColumn/RosterScroll"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="DetailPanel" type="PanelContainer" parent="Root/Margin/Column/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"FramedPanel"
+
+[node name="DetailMargin" type="MarginContainer" parent="Root/Margin/Column/Body/DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 2
+
+[node name="DetailColumn" type="VBoxContainer" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DetailHeading" type="Label" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin/DetailColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "—"
+
+[node name="DetailSub" type="Label" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin/DetailColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.84, 1)
+text = ""
+
+[node name="TabRow" type="HBoxContainer" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin/DetailColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="DetailScroll" type="ScrollContainer" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin/DetailColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DetailBox" type="VBoxContainer" parent="Root/Margin/Column/Body/DetailPanel/DetailMargin/DetailColumn/DetailScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="FooterLabel" type="Label" parent="Root/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
 text = "P or Esc to close"

@@ -261,14 +261,24 @@ has not chosen a calling yet is judged on the ones they could still take.
 
 The party has stores (`GameState.stores`, saved): a find that improves nobody goes in the packs
 instead of being sold from under you, and swapping never destroys what was being carried. The
-party screen shows what each person carries, what it is worth _to them_, their charms, and the
+party menu shows what each person carries, what it is worth _to them_, their charms, and the
 best few pieces out of the packs with the swing each swap would make — each drawn with its own
 icon out of `art/items/`, so the ~70 imported pieces of art are finally on screen.
 
+**The menu itself was rebuilt around that comparison.** The screen is two panes: the marching
+order on the left, a card a person with portrait, place in the line and a health bar, reorderable
+without dismissing anybody (`Roster.shift`); and on the right whoever is picked out of it, on one
+of three pages — Gear, Powers, Lore. Nothing is equipped blind. Putting the pointer on a piece in
+the packs writes what it would do into the column beside the numbers they have now, green for
+better and red for worse, and those numbers are `Gear.fielded` — the same sum `Unit.from_character`
+makes, so the menu quotes the figures the fight will use rather than the ones on the label.
+**Optimise** (`Gear.best_offer`) is there for anyone who would rather not compare anything.
+
 Consumables are real now: nine `"kind": "draught"` pieces from a loaf up to the amber bottle, which
-are never worn, always go to the packs, and are drunk from the party screen. They are only offered
-to somebody with something to mend, and the button says what it would actually give them rather
-than what the bottle claims, so the good one is not wasted on a scratch.
+are never worn, always go to the packs, and are drunk from the party menu. The button says what it
+would actually give _them_ rather than what the bottle claims, so the good one is not wasted on a
+scratch, and on somebody unhurt it is dead rather than missing — the packs read the same whoever
+is picked.
 
 **In-battle draughts built.** When wounded in combat, player units can spend their bonus action to
 drink an available draught from `GameState.stores` directly from the command menu, restoring health

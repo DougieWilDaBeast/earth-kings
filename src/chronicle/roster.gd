@@ -95,6 +95,21 @@ func enlist(character_id: String) -> bool:
 	return true
 
 
+## Move somebody one place up or down the marching order. The order is the
+## order they are drawn in, deployed in, and spoken to in, so it is worth being
+## able to set it without dismissing anyone.
+func shift(character_id: String, delta: int) -> bool:
+	var at := party.find(character_id)
+	if at < 0 or delta == 0:
+		return false
+	var to := at + delta
+	if to < 0 or to >= party.size():
+		return false
+	party[at] = party[to]
+	party[to] = character_id
+	return true
+
+
 ## Part ways. The player cannot walk out on their own run.
 func dismiss(character_id: String) -> bool:
 	var character := by_id(character_id)

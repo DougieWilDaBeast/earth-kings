@@ -456,6 +456,52 @@ func _check_party_screen(screen: PartyScreen) -> void:
 		attack_before, attack_before - roundi(attack_before * Character.YOKE_ATTACK_PENALTY)
 	])
 
+	_check_party_menu(screen, party)
+
+
+## The menu itself: picking somebody out of the marching order, turning its
+## pages, setting the order, and the numbers the gear page promises.
+func _check_party_menu(screen: PartyScreen, party: Array[Character]) -> void:
+	var lead: Character = party[0]
+	var second: Character = party[1]
+
+	_expect(screen.select(second), "the menu would not open somebody's page")
+	_expect(not screen.select(second), "the menu re-opened a page already open")
+	_expect(screen.show_page(PartyScreen.POWERS_PAGE), "the menu would not turn to the powers page")
+	_expect(not screen.show_page("no_such_page"), "the menu turned to a page that does not exist")
+	_expect(screen.show_page(PartyScreen.GEAR_PAGE), "the menu would not turn back to the gear page")
+
+	# The marching order, moved from the menu rather than by dismissing anyone.
+	var order_before: Array = GameState.roster.party.duplicate()
+	_expect(not screen.shift(lead, -1), "the front of the line moved further forward")
+	_expect(screen.shift(lead, 1), "nobody would move down the line")
+	_expect(GameState.roster.party[0] == second.id, "moving down the line left the order unchanged")
+	_expect(screen.shift(lead, -1), "nobody would move back up the line")
+	_expect(GameState.roster.party == order_before, "the marching order did not come back")
+
+	# What the gear page promises: the numbers a swap would actually produce.
+	GameState.stores.append("steel_blade")
+	var carried := Gear.fielded(lead, lead.equipment)
+	var offered := Gear.fielded(lead, "steel_blade")
+	var swing := Gear.swing("steel_blade", lead)
+	_expect(
+		int(offered["attack"]) - int(carried["attack"])
+			+ int(offered["defense"]) - int(carried["defense"]) == swing,
+		"the previewed numbers disagree with the swing the row advertises"
+	)
+
+	var best := Gear.best_offer(lead)
+	if best == "":
+		_expect(not screen.optimise(lead), "Optimise took up a piece it called no improvement")
+	else:
+		_expect(Gear.swing(best, lead) > 0, "Optimise offered a piece that is not an improvement")
+		_expect(screen.optimise(lead), "Optimise would not take up the best piece in the packs")
+		_expect(lead.equipment == best, "Optimise took up something other than the best piece")
+	_expect(Gear.best_offer(lead) == "", "the packs still hold an improvement after Optimise")
+	print("party menu: pages turned, order kept, %s carries %s" % [
+		lead.display_name, Gear.display_name(lead.equipment) if lead.equipment != "" else "nothing"
+	])
+
 
 func _check_run_ends() -> void:
 	var ended := [false]
