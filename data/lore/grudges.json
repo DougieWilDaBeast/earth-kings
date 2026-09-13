@@ -1,0 +1,67 @@
+{
+	"_doc": "Who a character hates, and what counts as one of them. Worth +10% damage in battle (see AbilityResolver). The match rules here were lifted out of Character.has_grudge_against, which used to carry them hardcoded.",
+	"_schema": {
+		"display_name": "Shown on the reveal and party screens.",
+		"blurb": "One line. What was done, and to whom.",
+		"text": "The authored history, a short paragraph.",
+		"tags": "Shared vocabulary across every pool.",
+		"matches": "Any hit counts: factions[] | kinds[] | templates[] | template_contains[] (substring of the unit template id)."
+	},
+	"raiders": {
+		"display_name": "Raiders & Marauders",
+		"blurb": "They came up the road once and took what could not be carried away again.",
+		"text": "Not an army and not a cause — men with horses and a season to fill. What they leave is not a battlefield, it is a chore somebody else has to do.",
+		"tags": ["loss", "village", "war"],
+		"matches": {
+			"kinds": ["raider"],
+			"template_contains": ["brigand"],
+			"templates": ["cabin_boy", "hat_fox", "pirate_man"]
+		},
+		"provisional": true
+	},
+	"imperial_usurpers": {
+		"display_name": "Imperial Usurpers",
+		"blurb": "Copper stands the gate, white stands beside the throne, and neither ever names a reason.",
+		"text": "They came up the road one spring and did not explain. What they take, they administer, which is somehow worse than burning it.",
+		"tags": ["court", "war", "command"],
+		"matches": {
+			"factions": ["heart_empire"],
+			"template_contains": ["legion"],
+			"templates": ["dirte", "golden_knight"]
+		},
+		"provisional": true
+	},
+	"the_dusk": {
+		"display_name": "The Dusk & Abominations",
+		"blurb": "Things that came through wearing shapes that almost work.",
+		"text": "The Dusk does not raid, it arrives — and afterwards the village is still there and still answers, and something about it is wrong.",
+		"tags": ["gate", "faith", "fear"],
+		"matches": {
+			"factions": ["the_dusk"],
+			"templates": ["wraith", "dusk_shadow", "eye_leprechaun", "eye_slinger", "lizard_wizard", "devil_butler"]
+		},
+		"provisional": true
+	},
+	"prowling_beasts": {
+		"display_name": "Prowling Beasts",
+		"blurb": "The wild does not hate anyone. It is simply hungry and closer than it was.",
+		"text": "Beasts take the old, the slow and the ones who walked out alone, and they have been taking more of them every year since the gates opened.",
+		"tags": ["wild", "loss"],
+		"matches": {
+			"kinds": ["beast"],
+			"templates": ["wolf", "frozen_wolfman", "blood_mosquito", "seed_beast"]
+		},
+		"provisional": true
+	},
+	"goblins_and_vermin": {
+		"display_name": "Goblins & Vermin",
+		"blurb": "Not a threat worth a song. Just the thing that never stops coming back.",
+		"text": "Nobody writes down what goblins take, because it is a hen, a child's shoe, a stored winter. It adds up to the same thing in the end.",
+		"tags": ["gate", "village", "road"],
+		"matches": {
+			"template_contains": ["goblin"],
+			"templates": ["ogre", "troll"]
+		},
+		"provisional": true
+	}
+}

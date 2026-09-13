@@ -1,0 +1,11 @@
+{
+	"_doc": "What a character swore, who they owe, and who owes them — the relationship layer between the sixteen. Nothing here is migrated; this pool is empty on purpose and fills as oaths are authored. An oath may name another character, which is what turns sixteen separate people into a cast.",
+	"_schema": {
+		"display_name": "Shown on the reveal and party screens.",
+		"blurb": "One line. What was sworn, and to whom.",
+		"text": "The authored history, a short paragraph.",
+		"tags": "Shared vocabulary across every pool.",
+		"toward": "Optional hero id this oath is sworn to, owed to, or held against. Casting keeps both ends consistent.",
+		"gift": "Optional, same closed vocabulary as backgrounds: doctrine | item | gold | grudge | hearth | bond | stat."
+	}
+}

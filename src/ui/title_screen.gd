@@ -97,5 +97,5 @@ func _on_continue_pressed() -> void:
 
 
 func _on_new_game_pressed() -> void:
-	EventBus.request_scene.emit("character_select", {})
+	EventBus.request_scene.emit("temper_quiz", {})
 

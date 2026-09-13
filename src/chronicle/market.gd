@@ -82,8 +82,12 @@ static func hire_cost(offer: Dictionary) -> int:
 
 ## What they will take to walk with you, knowing what they know about you.
 static func asking_hire_cost(site: Site, world: World, offer: Dictionary) -> int:
+	# Whoever is leading does the talking, and an outward temper talks a price
+	# down (see `data/tempers.json`).
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var haggle := lead.lean("hire_price", 1.0) if lead != null else 1.0
 	return maxi(1, roundi(
-		hire_cost(offer) * Renown.price_multiplier(world, site.cell) * Difficulty.dial("price")
+		hire_cost(offer) * Renown.price_multiplier(world, site.cell) * Difficulty.dial("price") * haggle
 	))
 
 

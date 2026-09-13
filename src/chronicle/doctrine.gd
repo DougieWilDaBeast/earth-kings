@@ -87,20 +87,28 @@ static func teachable(teacher: Character, student: Character) -> Array:
 	return out
 
 
+## How long this particular character holds a book they are not using. Inward
+## tempers carry what they read further than the rest (see `data/tempers.json`).
+static func fade_after(character: Character) -> int:
+	return roundi(FADE_AFTER_STEPS * character.lean("doctrine_fade", 1.0))
+
+
 static func is_fading_memory(character: Character, doctrine_id: String, step: int) -> bool:
 	if not character.knows(doctrine_id):
 		return false
 	var last_seen := int(character.doctrine_seen.get(doctrine_id, step))
 	var age := step - last_seen
-	return age >= FADE_AFTER_STEPS - FADING_BUFFER_STEPS and age < FADE_AFTER_STEPS
+	var fades_at := fade_after(character)
+	return age >= fades_at - FADING_BUFFER_STEPS and age < fades_at
 
 
 ## Drop anything gone stale. Returns the ids that were lost.
 static func decay(character: Character, step: int) -> Array:
 	var forgotten: Array = []
+	var fades_at := fade_after(character)
 	for doctrine_id: String in character.doctrine.duplicate():
 		var last_seen := int(character.doctrine_seen.get(doctrine_id, step))
-		if step - last_seen >= FADE_AFTER_STEPS:
+		if step - last_seen >= fades_at:
 			character.doctrine.erase(doctrine_id)
 			character.doctrine_seen.erase(doctrine_id)
 			forgotten.append(doctrine_id)

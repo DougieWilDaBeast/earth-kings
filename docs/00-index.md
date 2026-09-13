@@ -16,6 +16,8 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 10  | [Manual tests](10-manual-tests.md)                   | Human verification checklist across all screens and systems     |
 | 11  | [Character Backstories](11-character-backstories.md) | Lineage, ethos, companions, and lore for all 12 playable heroes |
 | 12  | [World Charter Interview](12-world-charter-interview.md) | The 288 questions that decide what the world physically, mentally and culturally _is_ |
+| 13  | [Heroes & Tempers](13-heroes-and-tempers.md)         | The sixteen starting characters and the four questions that pick one |
+| 14  | [Lore Pools & Casting](14-lore-pools.md)             | History authored with no character in mind, and how it gets attached |
 
 ## Deciding the world
 
@@ -27,6 +29,8 @@ alone by two people and then reconciled into canon:
 - [Answer sheet A](worldbuilding/answers-a.md) · [Answer sheet B](worldbuilding/answers-b.md)
 - [Divergence ledger](worldbuilding/divergence-ledger.md) — forks, resolutions, and what the
   losing answers become
+- [Casting ledger](worldbuilding/casting-ledger.md) — which authored history could belong to
+  which of the sixteen, why, and what was decided
 
 ## Forensic Investigation Package
 

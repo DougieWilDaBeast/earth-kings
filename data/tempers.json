@@ -1,0 +1,164 @@
+{
+	"_doc": "Sixteen tempers, one per starting character. The four axes are asked as four questions before a run; the four answers name the character the player wakes up as. See docs/13-heroes-and-tempers.md. Display text is in-world; the four-letter code is a subtitle only.",
+	"axes": {
+		"E": {
+			"display_name": "Outward",
+			"blurb": "Counts on the room. Thinks by saying it out loud, and goes quiet when left alone too long."
+		},
+		"I": {
+			"display_name": "Inward",
+			"blurb": "Counts on themselves. Arrives at the fire with the thinking already done."
+		},
+		"S": {
+			"display_name": "Ground-read",
+			"blurb": "Trusts the track, the weather and the wound. Goes and looks."
+		},
+		"N": {
+			"display_name": "Sky-read",
+			"blurb": "Trusts the shape of the thing. Knows where it is going before it gets there."
+		},
+		"T": {
+			"display_name": "Cold-eyed",
+			"blurb": "Decides by weight. Counts the cost first and the company second."
+		},
+		"F": {
+			"display_name": "Warm-handed",
+			"blurb": "Decides by who it lands on. Counts the company first and the cost after."
+		},
+		"J": {
+			"display_name": "Set",
+			"blurb": "Decides early and holds. Walks in knowing where they sleep."
+		},
+		"P": {
+			"display_name": "Loose",
+			"blurb": "Decides late and keeps moving. Lets the country say what it wants."
+		}
+	},
+	"quiz": [
+		{
+			"axis": "EI",
+			"prompt": "The company makes camp after a bad day on the road. The fire is lit and nobody has said much.",
+			"options": [
+				{ "key": "E", "text": "Start talking. Whatever is wrong only gets worse in the quiet." },
+				{ "key": "I", "text": "Take the first watch. You think better with the fire at your back." }
+			]
+		},
+		{
+			"axis": "SN",
+			"prompt": "A village swears the bridge is out. You can see the river from where you stand, an hour off.",
+			"options": [
+				{ "key": "S", "text": "Walk down and look at the bridge." },
+				{ "key": "N", "text": "Ask who told them, and when. A rumour that old has already changed shape." }
+			]
+		},
+		{
+			"axis": "TF",
+			"prompt": "Someone you hired three weeks ago is slowing the company down, and knows it.",
+			"options": [
+				{ "key": "T", "text": "Pay them out and part at the next town. The road does not care who tried." },
+				{ "key": "F", "text": "Keep them on. They came when it was asked, and that is worth carrying." }
+			]
+		},
+		{
+			"axis": "JP",
+			"prompt": "Dawn, and a gate two days east. You are carrying four days of food.",
+			"options": [
+				{ "key": "J", "text": "Fix the route tonight — where you sleep, and where you turn back." },
+				{ "key": "P", "text": "Start walking. The country will tell you what it wants on the way." }
+			]
+		}
+	],
+	"leans": {
+		"_doc": "One nudge per letter. Every character carries exactly four, one per axis, so nobody is strictly stronger — sixteen mixes of one budget.",
+		"E": { "bond": 1, "hire_price": 0.85 },
+		"I": { "doctrine_fade": 1.25 },
+		"S": { "proficiency_rate": 1.25 },
+		"N": { "codex_rate": 1.25 },
+		"T": { "damage": 1.05 },
+		"F": { "rescue_per_ally": 0.04, "rescue_cap": 0.08 },
+		"J": { "opening_ct": 20 },
+		"P": { "move": 1 }
+	},
+	"types": {
+		"INTJ": {
+			"display_name": "The Long Plan",
+			"blurb": "Has already decided how this ends and is walking the rest of you toward it.",
+			"hero": ""
+		},
+		"INTP": {
+			"display_name": "The Open Question",
+			"blurb": "Would rather understand the gate than close it, and says so at the worst moment.",
+			"hero": ""
+		},
+		"ENTJ": {
+			"display_name": "The Marshal",
+			"blurb": "Takes the road in hand within a day of joining it. Nobody votes.",
+			"hero": ""
+		},
+		"ENTP": {
+			"display_name": "The Contrary",
+			"blurb": "Finds the hole in every plan, including the ones that were working.",
+			"hero": ""
+		},
+		"INFJ": {
+			"display_name": "The Quiet Cause",
+			"blurb": "Carries one conviction a long way without mentioning it until it costs something.",
+			"hero": ""
+		},
+		"INFP": {
+			"display_name": "The Kept Flame",
+			"blurb": "Yields on everything except the one thing, and never on that.",
+			"hero": ""
+		},
+		"ENFJ": {
+			"display_name": "The Gatherer",
+			"blurb": "Arrives alone and leaves with four people who would follow them anywhere.",
+			"hero": ""
+		},
+		"ENFP": {
+			"display_name": "The Spark",
+			"blurb": "Talks a closed town open, then wants to know what is behind the next hill.",
+			"hero": ""
+		},
+		"ISTJ": {
+			"display_name": "The Ledger",
+			"blurb": "Knows what is in the packs, what it cost, and who was owed.",
+			"hero": ""
+		},
+		"ISFJ": {
+			"display_name": "The Keeper",
+			"blurb": "Notices who has not eaten. Remembers the names of the dead longer than anyone.",
+			"hero": ""
+		},
+		"ESTJ": {
+			"display_name": "The Straight Road",
+			"blurb": "Says the hard thing first, in front of everyone, and means it kindly.",
+			"hero": ""
+		},
+		"ESFJ": {
+			"display_name": "The Full Table",
+			"blurb": "Makes a camp into a household by the second night, whether or not it was wanted.",
+			"hero": ""
+		},
+		"ISTP": {
+			"display_name": "The Steady Hand",
+			"blurb": "Says little, fixes what is broken, and is already moving when it goes wrong.",
+			"hero": ""
+		},
+		"ISFP": {
+			"display_name": "The Own Path",
+			"blurb": "Goes where they were going. Will not be argued out of it and will not argue back.",
+			"hero": ""
+		},
+		"ESTP": {
+			"display_name": "The First Move",
+			"blurb": "Is across the room before the rest of you have agreed there is a problem.",
+			"hero": ""
+		},
+		"ESFP": {
+			"display_name": "The Bright Hour",
+			"blurb": "Makes the worst week on the road into something the company tells stories about.",
+			"hero": ""
+		}
+	}
+}

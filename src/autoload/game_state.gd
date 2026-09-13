@@ -2,7 +2,9 @@ extends Node
 ## The live game: the world, everyone in it, and the save file (autoload: `GameState`).
 
 const SAVE_PATH := "user://earth-kings.save.json"
-const SAVE_VERSION := 2
+## 3: alignment retired in favour of creeds, and the four other authored history
+## pools added, so a v2 character carries ids that no longer resolve.
+const SAVE_VERSION := 3
 
 const DEFAULT_GOLD := 250
 
@@ -78,12 +80,14 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	if world_seed == 0:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
+	# The purse is filled before the company is founded, because a background
+	# may hand the lead something to start with (see [Gifts]).
+	gold = DEFAULT_GOLD
 	roster = Roster.found(lead_id)
 	world.player_cell = WorldGen.starting_cell_for_hero(world, lead_id)
 	var lead := roster.player()
 	var lead_name: String = lead.display_name if lead != null else "The founder"
 	Annals.record(world, "%s founded the company and stepped out into %s." % [lead_name, world.region_at(world.player_cell)])
-	gold = DEFAULT_GOLD
 	ledger = Ledger.fresh()
 	cleared_battles = []
 	flags = {}

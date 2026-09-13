@@ -91,14 +91,11 @@ func _show(hero_id: String) -> void:
 	_rating.text = RATINGS[rating]
 
 	_warband.text = "Warband — %s" % _band_text(hero)
-	var bg_key: String = hero.get("background", "apprentice_smith")
-	var bg_name: String = str(Character.BACKGROUNDS.get(bg_key, {}).get("display_name", bg_key.capitalize()))
-	_background.text = "Background — %s" % bg_name
-	var align_key: String = hero.get("alignment", "true_neutral")
-	var align_name: String = str(Character.ALIGNMENTS.get(align_key, "True Neutral"))
-	_alignment.text = "Alignment — %s" % align_name
-	var grudge_name: String = str(Character.BACKGROUNDS.get(bg_key, {}).get("grudge_label", "None"))
-	_grudge.text = "Grudge — %s" % grudge_name
+	# Authored history is cast late, so any of these can legitimately be blank
+	# for a long time. An uncast line says so rather than inventing a default.
+	_background.text = "Background — %s" % _trait_text(hero, "backgrounds", "background")
+	_alignment.text = "Creed — %s" % _trait_text(hero, "creeds", "creed")
+	_grudge.text = "Grudge — %s" % _trait_text(hero, "grudges", "grudge")
 
 	_stats.text = "HP %d    Attack %d    Defence %d    Move %d    Speed %d" % [
 		int(template.get("max_hp", 0)),
@@ -107,6 +104,13 @@ func _show(hero_id: String) -> void:
 		int(template.get("move", 0)),
 		int(template.get("speed", 0)),
 	]
+
+
+## One line of a hero's authored history, or "not yet written" while the pool
+## it comes from is still being filled.
+func _trait_text(hero: Dictionary, pool: String, field: String) -> String:
+	var piece := Database.lore_piece(pool, str(hero.get(field, "")))
+	return str(piece.get("display_name", "not yet written"))
 
 
 func _band_text(hero: Dictionary) -> String:

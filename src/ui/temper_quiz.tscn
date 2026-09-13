@@ -1,0 +1,168 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/ui/temper_quiz.gd" id="1_temper_quiz"]
+[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
+shader = ExtResource("2_backdrop")
+
+[node name="TemperQuiz" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_temper_quiz")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_backdrop")
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.055, 0.075, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 26
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="StepLabel" type="Label" parent="Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "One of four"
+
+[node name="QuestionLabel" type="Label" parent="Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 30
+autowrap_mode = 3
+
+[node name="Options" type="VBoxContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Reveal" type="PanelContainer" parent="Margin/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RevealMargin" type="MarginContainer" parent="Margin/Content/Reveal"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="RevealBody" type="VBoxContainer" parent="Margin/Content/Reveal/RevealMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Head" type="HBoxContainer" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Portrait" type="TextureRect" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Facts" type="VBoxContainer" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
+theme_override_font_sizes/font_size = 28
+
+[node name="TitleLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="TemperLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="WarbandLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HistoryLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="BlurbLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 3
+
+[node name="StatsLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="Footer" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SeedLabel" type="Label" parent="Margin/Content/Footer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
+theme_override_font_sizes/font_size = 15
+text = "Seed"
+
+[node name="SeedField" type="LineEdit" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+placeholder_text = "any world"
+
+[node name="Spacer" type="Control" parent="Margin/Content/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BeginButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "This is you"
+
+[node name="AllButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Show me all sixteen"
+
+[node name="BackButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"

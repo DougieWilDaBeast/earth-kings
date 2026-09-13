@@ -1,0 +1,90 @@
+{
+	"_doc": "What a character was before the road. Authored as a free-standing pool with no character in mind, then cast (see data/casting.json and docs/14-lore-pools.md). Entries marked provisional were migrated out of Character.BACKGROUNDS and exist so the game runs while the real pool is written; replace them, do not extend them.",
+	"_schema": {
+		"display_name": "Short name shown on the reveal screen.",
+		"blurb": "One line. What it makes of a person.",
+		"text": "The authored history, a short paragraph.",
+		"tags": "Shared vocabulary across every pool; drives casting suggestions.",
+		"gift": "One gift, kind out of: doctrine | item | gold | grudge | hearth | bond | stat."
+	},
+	"apprentice_smith": {
+		"display_name": "Apprentice Smith",
+		"blurb": "Raised at the hearth-forge with hammer and anvil. Forged in loss when raiders sacked the town.",
+		"text": "Put to the forge young, kept there by a master who taught by silence and correction. The work was honest and the town was small, and both were gone inside an afternoon.",
+		"tags": [
+			"forge",
+			"craft",
+			"loss",
+			"village"
+		],
+		"gift": {
+			"kind": "item",
+			"value": "iron_blade"
+		},
+		"provisional": true
+	},
+	"exiled_noble": {
+		"display_name": "Exiled Noble",
+		"blurb": "Cast down from halls of ancestral power. Carries heraldic pride, high arms, and an unyielding code.",
+		"text": "Born to a name that opened doors, and kept the name after the doors were shut. Walks like the hall is still standing, because somebody has to.",
+		"tags": [
+			"court",
+			"exile",
+			"command",
+			"blood"
+		],
+		"gift": {
+			"kind": "gold",
+			"value": 120
+		},
+		"provisional": true
+	},
+	"cloistered_scholar": {
+		"display_name": "Cloistered Scholar",
+		"blurb": "Taught in quiet libraries and hillside hermitages. Seeks lost lore, doctrine, and understanding.",
+		"text": "Years of copied pages and cold stone, learning that knowledge fades unless it is used. Left when the war came close enough to hear from the scriptorium.",
+		"tags": [
+			"cloister",
+			"faith",
+			"craft",
+			"solitude"
+		],
+		"gift": {
+			"kind": "stat",
+			"value": {
+				"max_hp": 4
+			}
+		},
+		"provisional": true
+	},
+	"wilderness_stray": {
+		"display_name": "Wilderness Stray",
+		"blurb": "Grew up in wild woods, mountain passes, and hidden rivers. Unbound by town law, attuned to nature.",
+		"text": "No village raised them and no bell marked their days. They learned weather, track and water the way other children learn a trade.",
+		"tags": [
+			"wild",
+			"solitude",
+			"road"
+		],
+		"gift": {
+			"kind": "item",
+			"value": "hunting_bow"
+		},
+		"provisional": true
+	},
+	"outcast_drifter": {
+		"display_name": "Outcast Drifter",
+		"blurb": "No village hearth welcomes them, and no bell rings their arrival. Walks the treacherous fringes.",
+		"text": "Turned out of somewhere for something, and has stopped correcting the story. Sleeps closer to the gates than anyone sensible would.",
+		"tags": [
+			"exile",
+			"road",
+			"loss"
+		],
+		"gift": {
+			"kind": "item",
+			"value": "padded_coat"
+		},
+		"provisional": true
+	}
+}

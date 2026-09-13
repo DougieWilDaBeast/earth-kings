@@ -29,47 +29,40 @@ static func rules() -> Dictionary:
 # --- who gets on with whom ----------------------------------------------------
 
 
-## Initial chemistry between two characters based on their alignments.
-## Morally aligned companions bond naturally; opposed values create friction.
+## Initial chemistry between two characters, read off what their creeds are for
+## and what they cannot abide. Shared values warm a bond; one person holding
+## what the other despises cools it, twice over if it runs both ways.
+##
+## Computed from tags rather than a table, so a creed pool of any size needs no
+## pairwise maintenance — a new creed only has to say what it holds.
 static func initial_bond(a: Character, b: Character) -> int:
 	if a == b:
 		return 0
-	var delta := alignment_divergence(a.alignment, b.alignment)
-	match delta:
-		0:
-			return 2
-		1:
-			return 1
-		2:
-			return 0
-		3:
-			return -1
-		_:
-			return -2
+	var warmth := creed_accord(a.creed, b.creed)
+	# Outward tempers arrive on better terms with everyone.
+	warmth += int(a.lean("bond", 0.0)) + int(b.lean("bond", 0.0))
+	return clampi(warmth, -2, 2)
 
 
-static func alignment_divergence(align_a: String, align_b: String) -> int:
-	var order_a := _order_val(align_a)
-	var order_b := _order_val(align_b)
-	var moral_a := _moral_val(align_a)
-	var moral_b := _moral_val(align_b)
-	return absi(order_a - order_b) + absi(moral_a - moral_b)
+## Shared values minus clashing ones, before any temper is taken into account.
+static func creed_accord(creed_a: String, creed_b: String) -> int:
+	var a := Database.lore_piece("creeds", creed_a)
+	var b := Database.lore_piece("creeds", creed_b)
+	if a.is_empty() or b.is_empty():
+		return 0
+	var a_holds: Array = a.get("holds", [])
+	var b_holds: Array = b.get("holds", [])
+	var shared := _overlap(a_holds, b_holds)
+	var clash := _overlap(a_holds, b.get("despises", [])) + _overlap(b_holds, a.get("despises", []))
+	return clampi(shared - clash, -2, 2)
 
 
-static func _order_val(align: String) -> int:
-	if align.begins_with("lawful"):
-		return 1
-	if align.begins_with("chaotic"):
-		return -1
-	return 0
-
-
-static func _moral_val(align: String) -> int:
-	if align.ends_with("good"):
-		return 1
-	if align.ends_with("evil"):
-		return -1
-	return 0
+static func _overlap(left: Array, right: Array) -> int:
+	var count := 0
+	for value: String in left:
+		if value in right:
+			count += 1
+	return count
 
 
 ## How well two people get on. Symmetric, and kept on both of them.

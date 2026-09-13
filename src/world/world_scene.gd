@@ -483,7 +483,7 @@ func _settle_up(won: bool) -> void:
 				Annals.record(world, "The company stood upon the summit of the Tower, claiming %d gold." % hoard)
 				_note("The clouds part over the continent. You stand atop the conquered Tower! %d gold claimed from the hoard." % hoard)
 				for hero: Character in party:
-					hero.hearth += 8
+					hero.hearth_vigour += 8
 				_celebrate_tower_conquest()
 		"siege":
 			if site == null:

@@ -45,7 +45,9 @@ static func uses(character: Character, ability_id: String) -> int:
 
 
 static func rank(character: Character, ability_id: String) -> int:
-	var count := uses(character, ability_id)
+	# Ground-read tempers learn a weapon by carrying it, and get there sooner
+	# (see `data/tempers.json`).
+	var count := roundi(uses(character, ability_id) * character.lean("proficiency_rate", 1.0))
 	var earned := 0
 	for needed: int in steps():
 		if count < int(needed):

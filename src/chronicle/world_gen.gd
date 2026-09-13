@@ -325,23 +325,27 @@ static func _starting_cell(world: World) -> Vector2i:
 	return home.cell
 
 
-## Heroes with different backgrounds begin in different places across the continent:
-## nobles at keeps, scholars at libraries, strays at hedge huts, outcasts at gates.
+## Where a lead's own run begins, read off their hearth: keeps for those raised
+## in one, libraries for cloistered readers, hedge huts for strays, gate mouths
+## for whoever ended up living within sight of one.
+##
+## Sixteen leads share a handful of site kinds, so the site is picked from the
+## whole list by a hash of the hero id rather than always taking the first —
+## otherwise half the roster wakes up on the same doorstep.
 static func starting_cell_for_hero(world: World, lead_id: String) -> Vector2i:
-	if lead_id == "" or lead_id == "bram":
+	if lead_id == "":
 		return _starting_cell(world)
 	var hero := Database.hero(lead_id)
 	if hero.is_empty():
 		return _starting_cell(world)
-	var bg_key: String = hero.get("background", "")
-	var bg_data: Dictionary = Character.BACKGROUNDS.get(bg_key, {})
-	var start_kind: String = str(bg_data.get("start_kind", ""))
+	var hearth := Database.lore_piece("hearths", str(hero.get("hearth", "")))
+	var start_kind: String = str(hearth.get("site_kind", ""))
 	if start_kind == "" or start_kind == "village":
 		return _starting_cell(world)
 	var candidate_sites := world.sites_of_kind(start_kind)
 	if candidate_sites.is_empty():
 		return _starting_cell(world)
-	var site: Site = candidate_sites[0]
+	var site: Site = candidate_sites[absi(lead_id.hash()) % candidate_sites.size()]
 	for offset: Vector2i in [Vector2i.ZERO, Vector2i.DOWN, Vector2i.RIGHT, Vector2i.UP, Vector2i.LEFT]:
 		var c := site.cell + offset
 		if world.is_walkable(c) and world.terrain_id_at(c) != "water":
