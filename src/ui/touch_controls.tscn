@@ -1,6 +1,30 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/ui/touch_controls.gd" id="1_touch_controls"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stick"]
+bg_color = Color(0.06, 0.06, 0.09, 0.42)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.62, 0.52, 0.34, 0.55)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knob"]
+bg_color = Color(0.72, 0.64, 0.45, 0.72)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.83, 0.44, 0.85)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
 
 [node name="TouchControls" type="CanvasLayer"]
 layer = 5
@@ -32,21 +56,21 @@ grow_vertical = 0
 mouse_filter = 2
 
 [node name="Base" type="Panel" parent="Root/Safe/Steer"]
-modulate = Color(1, 1, 1, 0.34)
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stick")
 
 [node name="Knob" type="Panel" parent="Root/Safe/Steer"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.75)
 offset_left = 66.0
 offset_top = 66.0
 offset_right = 134.0
 offset_bottom = 134.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_knob")
 
 [node name="Cluster" type="Control" parent="Root/Safe"]
 unique_name_in_owner = true

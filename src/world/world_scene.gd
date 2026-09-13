@@ -35,6 +35,10 @@ const MARKER_SCALE := 1.2
 ## Tall enough for a thumb. The action buttons are only built for touch, so
 ## nothing else on the map has to make room for them.
 const ACTION_BUTTON_HEIGHT := 56
+## How far the bottom-left text moves over to clear the touch overlay's stick.
+const STICK_CLEARANCE := 220.0
+## Where the top line has to stop to clear the touch overlay's bar.
+const BAR_CLEARANCE := 750.0
 
 var boot_payload: Dictionary = {}
 
@@ -76,6 +80,14 @@ func _ready() -> void:
 	_warm_art()
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
+	for edge: Signal in [
+		EventBus.system_menu_requested, EventBus.party_screen_requested,
+		EventBus.journal_requested, EventBus.stash_requested, EventBus.overlay_closed,
+	]:
+		edge.connect(_watch_overlays)
+	EventBus.dialogue_requested.connect(func(_id: String) -> void: _watch_overlays())
+	EventBus.dialogue_finished.connect(func(_id: String) -> void: _watch_overlays())
+	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _watch_overlays())
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
 	var view_btn: Button = get_node_or_null("%ViewButton")
@@ -87,6 +99,17 @@ func _ready() -> void:
 		if Pace.is_touch_enabled():
 			view_btn.offset_top += TouchControls.BAR_DROP
 			view_btn.offset_bottom += TouchControls.BAR_DROP
+	if Pace.is_touch_enabled():
+		# The stick sits in the bottom left corner, over the log and the hint
+		# line, so both step out from under it.
+		_log.offset_left += STICK_CLEARANCE
+		_hint.offset_left += STICK_CLEARANCE
+		# And the top line runs far enough right to go under the overlay's bar,
+		# so it is cut where the bar starts rather than drawn beneath it.
+		for line: Label in [_place, _party]:
+			line.offset_right = BAR_CLEARANCE
+			line.clip_text = true
+	_watch_overlays()
 	_refresh()
 
 	if GameState.has_flag("last_victory"):
@@ -859,6 +882,26 @@ func _telling(prompt: String) -> Dictionary:
 	return { "prompt": prompt, "label": "", "call": Callable() }
 
 
+## Anything modal takes the screen, and the action buttons must not be left
+## live underneath it. Deferred, because an overlay is only actually open a
+## frame after it says it wants to be.
+func _watch_overlays() -> void:
+	_settle_actions.call_deferred()
+
+
+func _settle_actions() -> void:
+	if _actions == null or not is_inside_tree():
+		return
+	_actions.visible = Pace.is_touch_enabled() and not _overlay_open()
+
+
+func _overlay_open() -> bool:
+	for overlay in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if overlay.has_method("is_open") and overlay.is_open():
+			return true
+	return false
+
+
 func _open_party() -> void:
 	EventBus.party_screen_requested.emit()
 
@@ -878,7 +921,7 @@ func _lay_out_actions(doable: Array[Dictionary]) -> void:
 	if not Pace.is_touch_enabled():
 		_actions.visible = false
 		return
-	_actions.visible = true
+	_actions.visible = not _overlay_open()
 	for doing: Dictionary in doable:
 		var label := str(doing["label"])
 		var call: Callable = doing["call"]
