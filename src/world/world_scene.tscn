@@ -57,6 +57,22 @@ grow_horizontal = 0
 theme_override_font_sizes/font_size = 12
 text = "Planar View (Z)"
 
+[node name="ActionBar" type="HFlowContainer" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -300.0
+offset_right = 320.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
 [node name="LogLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
 anchor_top = 1.0

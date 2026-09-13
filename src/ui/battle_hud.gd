@@ -14,6 +14,8 @@ signal preview_cleared
 ## The player handed the fight to the AI, or took it back.
 signal auto_toggled(enabled: bool)
 signal speed_cycled
+## Back out of a half-given order without giving it.
+signal cancel_requested
 
 const LOG_LINES := 4
 const PIP_FULL := "◆"
@@ -33,6 +35,7 @@ const CONTROL_HINT := "Hover a command to preview it  ·  pick another to switch
 @onready var _move_button: Button = %MoveButton
 @onready var _flash_button: Button = %FlashStepButton
 @onready var _wait_button: Button = %WaitButton
+@onready var _cancel_button: Button = %CancelButton
 @onready var _auto_button: Button = %AutoButton
 @onready var _speed_button: Button = %SpeedButton
 @onready var _result_label: Label = %ResultLabel
@@ -44,13 +47,26 @@ func _ready() -> void:
 	_move_button.pressed.connect(func() -> void: move_requested.emit())
 	_flash_button.pressed.connect(func() -> void: flash_step_requested.emit())
 	_wait_button.pressed.connect(func() -> void: wait_requested.emit())
+	_cancel_button.pressed.connect(func() -> void: cancel_requested.emit())
+	# Escape and a right-click were the only ways out of a half-given order,
+	# and a touchscreen has neither.
+	_cancel_button.hide()
 	_watch_hover(_move_button, "move", "")
 	_watch_hover(_flash_button, "flash", "")
 	_auto_button.toggled.connect(func(on: bool) -> void: auto_toggled.emit(on))
 	_speed_button.pressed.connect(func() -> void: speed_cycled.emit())
 	# Buttons must never hold focus, or Tab would walk the menu instead of the squad.
-	for button: Button in [_move_button, _flash_button, _wait_button, _auto_button, _speed_button]:
+	for button: Button in [
+		_move_button, _flash_button, _wait_button,
+		_auto_button, _speed_button, _cancel_button,
+	]:
 		button.focus_mode = Control.FOCUS_NONE
+	# The touch overlay keeps a bar of its own along the top right, so the
+	# fight's own tools step down out from under it.
+	if Pace.is_touch_enabled():
+		var tools: Control = _auto_button.get_parent()
+		tools.offset_top += TouchControls.BAR_DROP
+		tools.offset_bottom += TouchControls.BAR_DROP
 	_commands.hide()
 	_squad_bar.text = ""
 	_result_label.hide()
@@ -118,6 +134,12 @@ func set_squad(squad: Array[Unit], selected: Unit) -> void:
 func hide_commands() -> void:
 	_commands.hide()
 	preview_cleared.emit()
+
+
+## Backing out is only offered while there is a half-given order to back out
+## of; on the command menu itself there is nothing to cancel.
+func set_picking(picking: bool) -> void:
+	_cancel_button.visible = picking
 
 
 func set_auto(enabled: bool) -> void:

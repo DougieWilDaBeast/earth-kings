@@ -1,129 +1,167 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/ui/touch_controls.gd" id="1_touch_controls"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stick"]
+bg_color = Color(0.06, 0.06, 0.09, 0.42)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.62, 0.52, 0.34, 0.55)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knob"]
+bg_color = Color(0.72, 0.64, 0.45, 0.72)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.83, 0.44, 0.85)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
 
 [node name="TouchControls" type="CanvasLayer"]
 layer = 5
 script = ExtResource("1_touch_controls")
 
 [node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="DPad" type="Control" parent="Root"]
+[node name="Safe" type="Control" parent="Root"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Steer" type="Control" parent="Root/Safe"]
 unique_name_in_owner = true
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -180.0
-offset_right = 192.0
-offset_bottom = -20.0
+offset_right = 200.0
+offset_top = -200.0
 grow_vertical = 0
-mouse_filter = 0
+mouse_filter = 2
 
-[node name="Base" type="Panel" parent="Root/DPad"]
-modulate = Color(1, 1, 1, 0.45)
+[node name="Base" type="Panel" parent="Root/Safe/Steer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stick")
 
-[node name="Knob" type="Panel" parent="Root/DPad"]
+[node name="Knob" type="Panel" parent="Root/Safe/Steer"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.8)
-offset_left = 56.0
-offset_top = 56.0
-offset_right = 104.0
-offset_bottom = 104.0
+offset_left = 66.0
+offset_top = 66.0
+offset_right = 134.0
+offset_bottom = 134.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_knob")
 
-[node name="ActionCluster" type="Control" parent="Root"]
+[node name="Cluster" type="Control" parent="Root/Safe"]
 unique_name_in_owner = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -200.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_left = -310.0
+offset_top = -212.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 
-[node name="InteractButton" type="Button" parent="Root/ActionCluster"]
+[node name="InteractButton" type="Button" parent="Root/Safe/Cluster"]
 unique_name_in_owner = true
-offset_left = 140.0
-offset_top = 70.0
-offset_right = 230.0
-offset_bottom = 160.0
+offset_left = 150.0
+offset_top = 60.0
+offset_right = 310.0
+offset_bottom = 212.0
 focus_mode = 0
-theme_override_font_sizes/font_size = 20
-text = "Act / E"
+theme_override_font_sizes/font_size = 22
+text = "Act"
 
-[node name="CycleButton" type="Button" parent="Root/ActionCluster"]
+[node name="BackButton" type="Button" parent="Root/Safe/Cluster"]
 unique_name_in_owner = true
-offset_left = 40.0
-offset_top = 100.0
-offset_right = 120.0
-offset_bottom = 160.0
-focus_mode = 0
-theme_override_font_sizes/font_size = 14
-text = "Tab"
-
-[node name="PartyButton" type="Button" parent="Root/ActionCluster"]
-unique_name_in_owner = true
-offset_left = 70.0
-offset_top = 20.0
-offset_right = 140.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 134.0
 offset_bottom = 80.0
 focus_mode = 0
-theme_override_font_sizes/font_size = 14
-text = "Party"
+theme_override_font_sizes/font_size = 16
+text = "Back"
 
-[node name="JournalButton" type="Button" parent="Root/ActionCluster"]
+[node name="CycleButton" type="Button" parent="Root/Safe/Cluster"]
 unique_name_in_owner = true
-offset_left = 155.0
-offset_top = 0.0
-offset_right = 225.0
-offset_bottom = 55.0
+offset_left = 10.0
+offset_top = 94.0
+offset_right = 134.0
+offset_bottom = 166.0
 focus_mode = 0
-theme_override_font_sizes/font_size = 14
-text = "Book"
+theme_override_font_sizes/font_size = 16
+text = "Next"
 
-[node name="TopBar" type="HBoxContainer" parent="Root"]
+[node name="TopBar" type="HBoxContainer" parent="Root/Safe"]
+unique_name_in_owner = true
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -240.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = 56.0
+offset_left = -520.0
+offset_right = 0.0
+offset_bottom = 62.0
 grow_horizontal = 0
 mouse_filter = 2
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="AutoButton" type="Button" parent="Root/TopBar"]
+[node name="PartyButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 62)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
+text = "Party"
+
+[node name="JournalButton" type="Button" parent="Root/Safe/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 62)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 15
+text = "Book"
+
+[node name="AutoButton" type="Button" parent="Root/Safe/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 62)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 15
 text = "Auto"
 
-[node name="SpeedButton" type="Button" parent="Root/TopBar"]
+[node name="SpeedButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 62)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "1x"
 
-[node name="MenuButton" type="Button" parent="Root/TopBar"]
+[node name="MenuButton" type="Button" parent="Root/Safe/TopBar"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 62)
 layout_mode = 2
 focus_mode = 0
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 15
 text = "Menu"

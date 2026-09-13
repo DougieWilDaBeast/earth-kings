@@ -29,7 +29,13 @@ var units: Array[Unit] = []
 var squad: Array[Unit] = []
 ## Whoever the player is commanding right now, or the enemy taking its turn.
 var active_unit: Unit
-var phase: Phase = Phase.SETUP
+## Assigned from a dozen places, so the "back out of this" button is hung off
+## the phase itself rather than remembered at each of them.
+var phase: Phase = Phase.SETUP:
+	set(value):
+		phase = value
+		if hud != null:
+			hud.set_picking(_is_picking())
 
 var _move_field: MoveField
 var _pending_ability: String = ""
@@ -201,6 +207,7 @@ func _connect_hud() -> void:
 	hud.preview_cleared.connect(_on_preview_cleared)
 	hud.auto_toggled.connect(_set_auto)
 	hud.speed_cycled.connect(_cycle_speed)
+	hud.cancel_requested.connect(_cancel_selection)
 	hud.set_auto(Pace.auto)
 	hud.set_speed(Pace.speed())
 

@@ -25,6 +25,7 @@ const FACE_SIZE := Vector2(96, 96)
 @onready var _bestiary_btn: Button = %BestiaryButton
 @onready var _routes_btn: Button = %RoutesButton
 @onready var _annals_btn: Button = %AnnalsButton
+@onready var _close_btn: Button = %CloseButton
 
 var _showing: String = ""
 var _tab: Tab = Tab.BESTIARY
@@ -38,9 +39,12 @@ func _ready() -> void:
 	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
 	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
 	_annals_btn.pressed.connect(func() -> void: _set_tab(Tab.ANNALS))
+	# Escape is the only other way out, and a phone has no Escape.
+	_close_btn.pressed.connect(close)
 	Sfx.attend(_bestiary_btn)
 	Sfx.attend(_routes_btn)
 	Sfx.attend(_annals_btn)
+	Sfx.attend(_close_btn)
 
 
 func _set_tab(tab: Tab) -> void:
@@ -60,6 +64,7 @@ func open() -> void:
 func close() -> void:
 	_backdrop.hide()
 	closed.emit()
+	EventBus.overlay_closed.emit()
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://src/ui/party_screen.gd" id="1_party"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
+bg_color = Color(0.07, 0.07, 0.1, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.44, 0.38, 0.28, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_head"]
+bg_color = Color(0.1, 0.1, 0.14, 0.9)
+border_width_bottom = 1
+border_color = Color(0.44, 0.38, 0.28, 0.5)
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
 
 [node name="PartyScreen" type="CanvasLayer"]
 layer = 8
@@ -13,7 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.03, 0.03, 0.05, 0.88)
+color = Color(0.03, 0.03, 0.05, 0.93)
 
 [node name="Margin" type="MarginContainer" parent="Backdrop"]
 anchors_preset = 15
@@ -21,27 +46,112 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 28
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 28
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 18
 
 [node name="Column" type="VBoxContainer" parent="Backdrop/Margin"]
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="Backdrop/Margin/Column"]
+[node name="Header" type="HBoxContainer" parent="Backdrop/Margin/Column"]
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
+size_flags_vertical = 4
 theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
 text = "The Party"
 
-[node name="Scroll" type="ScrollContainer" parent="Backdrop/Margin/Column"]
-size_flags_vertical = 3
-
-[node name="RosterList" type="VBoxContainer" parent="Backdrop/Margin/Column/Scroll"]
+[node name="PurseLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
 unique_name_in_owner = true
 size_flags_horizontal = 3
-theme_override_constants/separation = 14
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_font_sizes/font_size = 14
+text = "0 gold"
+
+[node name="StashButton" type="Button" parent="Backdrop/Margin/Column/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 54)
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 15
+text = "Strongbox"
+
+[node name="CloseButton" type="Button" parent="Backdrop/Margin/Column/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 54)
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 15
+text = "Close"
+
+[node name="Body" type="HBoxContainer" parent="Backdrop/Margin/Column"]
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="RosterScroll" type="ScrollContainer" parent="Backdrop/Margin/Column/Body"]
+custom_minimum_size = Vector2(330, 0)
+horizontal_scroll_mode = 0
+
+[node name="RosterList" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/RosterScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="DetailPanel" type="PanelContainer" parent="Backdrop/Margin/Column/Body"]
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
+
+[node name="Detail" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/DetailPanel"]
+theme_override_constants/separation = 10
+
+[node name="HeadPanel" type="PanelContainer" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_head")
+
+[node name="Head" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail/HeadPanel"]
+unique_name_in_owner = true
+theme_override_constants/separation = 8
+
+[node name="Tabs" type="HBoxContainer" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail"]
+unique_name_in_owner = true
+theme_override_constants/separation = 8
+
+[node name="GearTab" type="Button" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 52)
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+text = "Gear"
+
+[node name="PowersTab" type="Button" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 52)
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+text = "Powers"
+
+[node name="PracticeTab" type="Button" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 52)
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+text = "Practice"
+
+[node name="PageScroll" type="ScrollContainer" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail"]
+unique_name_in_owner = true
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Page" type="VBoxContainer" parent="Backdrop/Margin/Column/Body/DetailPanel/Detail/PageScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
 [node name="FooterLabel" type="Label" parent="Backdrop/Margin/Column"]
 unique_name_in_owner = true
 theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_font_sizes/font_size = 14
 text = "P or Esc to close"
+autowrap_mode = 3
