@@ -14,6 +14,10 @@ const AUTO_BEAT := 0.5
 ## Replies a conversation on auto may take before it is shown the door. Scripts
 ## are allowed to loop; a soak is not allowed to loop with them.
 const AUTO_REPLY_LIMIT := 12
+## A reply is a tap target on a phone, not a line of text, so the box grows and
+## the replies grow with it.
+const TOUCH_OPTION_FONT := 16
+const TOUCH_OPTION_HEIGHT := 52
 
 @onready var _panel: PanelContainer = %Panel
 @onready var _portrait: TextureRect = %Portrait
@@ -41,9 +45,24 @@ var _auto_replies: int = 0
 func _ready() -> void:
 	_panel.hide()
 	_panel.gui_input.connect(_on_panel_input)
+	if Pace.is_touch_enabled():
+		_fit_for_thumbs()
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.dialogue_requested.connect(play)
 	EventBus.conversation_requested.connect(play_lines)
+
+
+## Four replies at eleven points is a paragraph on a phone. On a touchscreen
+## the box takes the bottom half of the screen so each reply is worth aiming at.
+func _fit_for_thumbs() -> void:
+	_panel.offset_left = -440.0
+	_panel.offset_right = 440.0
+	_panel.offset_top = -320.0
+	_panel.offset_bottom = -20.0
+	_body.add_theme_font_size_override("font_size", 17)
+	_speaker.add_theme_font_size_override("font_size", 18)
+	_hint.add_theme_font_size_override("font_size", 14)
+	_options.add_theme_constant_override("separation", 8)
 
 
 func is_open() -> bool:
@@ -215,7 +234,7 @@ func _show(speaker: String, body: String) -> void:
 	_show_portrait(speaker)
 	_clear_options()
 	if _pending_goto != "" or _reflect_back != "" or _news_back != "":
-		_hint.text = "Click to continue"
+		_hint.text = _go_on_text()
 		return
 
 	_shown_options = DialogueScript.available_options(_node, _current_id)
@@ -226,10 +245,15 @@ func _show(speaker: String, body: String) -> void:
 	for slot in _shown_options.size():
 		_options.add_child(_option_button(slot, _shown_options[slot]))
 	if _shown_options.is_empty():
-		_hint.text = "Click to continue"
+		_hint.text = _go_on_text()
 	else:
-		_hint.text = "Click the reply you want"
+		_hint.text = "Tap the reply you want" if Pace.is_touch_enabled() \
+				else "Click the reply you want"
 		_options.get_child(0).grab_focus()
+
+
+func _go_on_text() -> String:
+	return "Tap to continue" if Pace.is_touch_enabled() else "Click to continue"
 
 
 ## Only once a conversation, and only when the run has given them something to
@@ -266,7 +290,11 @@ func _option_button(slot: int, option: Dictionary) -> Button:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	button.add_theme_font_size_override("font_size", 11)
+	if Pace.is_touch_enabled():
+		button.add_theme_font_size_override("font_size", TOUCH_OPTION_FONT)
+		button.custom_minimum_size = Vector2(0, TOUCH_OPTION_HEIGHT)
+	else:
+		button.add_theme_font_size_override("font_size", 11)
 	button.add_theme_color_override("font_hover_color", OPTION_HOVER)
 	button.add_theme_color_override("font_focus_color", OPTION_HOVER)
 

@@ -265,14 +265,18 @@ party menu shows what each person carries, what it is worth _to them_, their cha
 best few pieces out of the packs with the swing each swap would make — each drawn with its own
 icon out of `art/items/`, so the ~70 imported pieces of art are finally on screen.
 
-**The menu itself was rebuilt around that comparison.** The screen is two panes: the marching
-order on the left, a card a person with portrait, place in the line and a health bar, reorderable
-without dismissing anybody (`Roster.shift`); and on the right whoever is picked out of it, on one
-of three pages — Gear, Powers, Lore. Nothing is equipped blind. Putting the pointer on a piece in
-the packs writes what it would do into the column beside the numbers they have now, green for
-better and red for worse, and those numbers are `Gear.fielded` — the same sum `Unit.from_character`
-makes, so the menu quotes the figures the fight will use rather than the ones on the label.
-**Optimise** (`Gear.best_offer`) is there for anyone who would rather not compare anything.
+**The menu itself was rebuilt around that comparison.** The screen is two panes: the party as a
+column of cards down the left — a face, a name, a health bar and whatever is owed, the whole card
+one press wide because on a phone a word is not a target at all — and one of them at a time opened
+out on the right under Gear, Powers and Practice. The arrows beside each card set the marching
+order without dismissing anybody (`Roster.shift`).
+
+Nothing is equipped blind. Every row in the packs carries both numbers as they stand and as they
+would stand — `Atk 29 → 31`, `Grd 12` — each coloured on its own, because most armour buys guard
+with attack and one colour over the pair says the wrong thing. Those numbers are `Gear.fielded`,
+the same sum `Unit.from_character` makes, so the menu quotes the figures the fight will use rather
+than the ones on the label. **Optimise** (`Gear.best_offer`) is there for anyone who would rather
+not compare anything.
 
 Consumables are real now: nine `"kind": "draught"` pieces from a loaf up to the amber bottle, which
 are never worn, always go to the packs, and are drunk from the party menu. The button says what it

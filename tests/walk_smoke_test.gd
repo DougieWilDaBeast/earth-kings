@@ -459,17 +459,11 @@ func _check_party_screen(screen: PartyScreen) -> void:
 	_check_party_menu(screen, party)
 
 
-## The menu itself: picking somebody out of the marching order, turning its
-## pages, setting the order, and the numbers the gear page promises.
+## The menu itself: setting the marching order, and the numbers the gear page
+## promises against the ones the fight would actually use.
 func _check_party_menu(screen: PartyScreen, party: Array[Character]) -> void:
 	var lead: Character = party[0]
 	var second: Character = party[1]
-
-	_expect(screen.select(second), "the menu would not open somebody's page")
-	_expect(not screen.select(second), "the menu re-opened a page already open")
-	_expect(screen.show_page(PartyScreen.POWERS_PAGE), "the menu would not turn to the powers page")
-	_expect(not screen.show_page("no_such_page"), "the menu turned to a page that does not exist")
-	_expect(screen.show_page(PartyScreen.GEAR_PAGE), "the menu would not turn back to the gear page")
 
 	# The marching order, moved from the menu rather than by dismissing anyone.
 	var order_before: Array = GameState.roster.party.duplicate()
@@ -498,7 +492,7 @@ func _check_party_menu(screen: PartyScreen, party: Array[Character]) -> void:
 		_expect(screen.optimise(lead), "Optimise would not take up the best piece in the packs")
 		_expect(lead.equipment == best, "Optimise took up something other than the best piece")
 	_expect(Gear.best_offer(lead) == "", "the packs still hold an improvement after Optimise")
-	print("party menu: pages turned, order kept, %s carries %s" % [
+	print("party menu: order kept, %s carries %s" % [
 		lead.display_name, Gear.display_name(lead.equipment) if lead.equipment != "" else "nothing"
 	])
 

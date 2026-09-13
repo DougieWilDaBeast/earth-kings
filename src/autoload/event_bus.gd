@@ -6,6 +6,10 @@ extends Node
 
 ## Ask the root [Game] node to swap the active scene ("world" | "area" | "battle").
 signal request_scene(scene_key: String, payload: Dictionary)
+## The scene asked for is now in, and is the one being played. Anything living
+## above the scene — the touch controls, for one — lays itself out from this,
+## because what belongs under a thumb in the world is in the way in a fight.
+signal scene_changed(scene_key: String)
 
 signal battle_started(map_id: String)
 ## result: { "victory": bool, "map_id": String, "turns": int }
@@ -37,6 +41,10 @@ signal party_screen_requested
 signal journal_requested
 ## Ask the camp stash screen to open.
 signal stash_requested
+## One of the always-present overlays has shut itself. The `_requested` signals
+## above are only the opening edge; anything that has to know whether something
+## is in the way needs both.
+signal overlay_closed
 ## The last of the party is gone; the run is over.
 signal run_ended
 

@@ -32,6 +32,13 @@ const DIRECTIONS := {
 const SITE_SCALE := 2.1
 ## Cells tall a person is drawn on the map.
 const MARKER_SCALE := 1.2
+## Tall enough for a thumb. The action buttons are only built for touch, so
+## nothing else on the map has to make room for them.
+const ACTION_BUTTON_HEIGHT := 56
+## How far the bottom-left text moves over to clear the touch overlay's stick.
+const STICK_CLEARANCE := 220.0
+## Where the top line has to stop to clear the touch overlay's bar.
+const BAR_CLEARANCE := 750.0
 
 var boot_payload: Dictionary = {}
 
@@ -42,6 +49,7 @@ var boot_payload: Dictionary = {}
 @onready var _party: Label = %PartyLabel
 @onready var _log: Label = %LogLabel
 @onready var _hint: Label = %HintLabel
+@onready var _actions: HFlowContainer = %ActionBar
 
 var world: World
 var _notices: Array[String] = []
@@ -72,12 +80,36 @@ func _ready() -> void:
 	_warm_art()
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
+	for edge: Signal in [
+		EventBus.system_menu_requested, EventBus.party_screen_requested,
+		EventBus.journal_requested, EventBus.stash_requested, EventBus.overlay_closed,
+	]:
+		edge.connect(_watch_overlays)
+	EventBus.dialogue_requested.connect(func(_id: String) -> void: _watch_overlays())
+	EventBus.dialogue_finished.connect(func(_id: String) -> void: _watch_overlays())
+	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _watch_overlays())
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
 	var view_btn: Button = get_node_or_null("%ViewButton")
 	if view_btn != null:
 		view_btn.pressed.connect(switch_to_planar_view)
 		Sfx.attend(view_btn)
+		# The touch overlay keeps its own bar in the top right, and two things
+		# in one corner means one of them cannot be pressed.
+		if Pace.is_touch_enabled():
+			view_btn.offset_top += TouchControls.BAR_DROP
+			view_btn.offset_bottom += TouchControls.BAR_DROP
+	if Pace.is_touch_enabled():
+		# The stick sits in the bottom left corner, over the log and the hint
+		# line, so both step out from under it.
+		_log.offset_left += STICK_CLEARANCE
+		_hint.offset_left += STICK_CLEARANCE
+		# And the top line runs far enough right to go under the overlay's bar,
+		# so it is cut where the bar starts rather than drawn beneath it.
+		for line: Label in [_place, _party]:
+			line.offset_right = BAR_CLEARANCE
+			line.clip_text = true
+	_watch_overlays()
 	_refresh()
 
 	if GameState.has_flag("last_victory"):
@@ -695,76 +727,214 @@ func _check_party() -> void:
 		_end_run()
 		return
 
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 ## The one line at the bottom telling you what you can do where you stand.
 func _prompt() -> String:
+	var said: Array[String] = []
+	for doing: Dictionary in _actions_here():
+		said.append(str(doing["prompt"]))
+	return "  ·  ".join(said)
+
+
+## The line and the buttons are the same list read twice, so a phone can never
+## be offered less than the keyboard is told about.
+func _say_what_can_be_done() -> void:
+	var doable := _actions_here()
+	var said: Array[String] = []
+	for doing: Dictionary in doable:
+		said.append(str(doing["prompt"]))
+	_hint.text = "  ·  ".join(said)
+	_lay_out_actions(doable)
+
+
+## Everything the party could do from the tile they are standing on: the words
+## for the hint line, a short name for a button, and the thing itself. An entry
+## with no name is something to know rather than something to press.
+func _actions_here() -> Array[Dictionary]:
 	var choosing := GameState.roster.awaiting_class_choice()
 	if choosing != null:
-		return "%s is ready to choose a path — press P." % choosing.display_name
+		return [_doable(
+			"%s is ready to choose a path — press P." % choosing.display_name,
+			"Choose a path", _open_party
+		)]
 
 	var owed := _somebody_owed_a_power()
 	if owed != null:
-		return "%s has %d power to take — press P." % [owed.display_name, owed.rungs]
+		return [_doable(
+			"%s has %d power to take — press P." % [owed.display_name, owed.rungs],
+			"Take the power", _open_party
+		)]
 
 	if _captive_here != null:
-		return "R to ransom %s for %d gold  ·  F to take them back by force." % [
-			_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
+		return [
+			_doable(
+				"R to ransom %s for %d gold" % [
+					_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
+				],
+				"Ransom (%d gold)" % int(_captive_here.captive.get("ransom", 0)), _ransom_here
+			),
+			_doable("F to take them back by force.", "Take by force", _fight_for_captive),
 		]
 
 	if _roadside_here != "":
-		return "E to step in  ·  walk on to leave them to it."
+		return [
+			_doable("E to step in", "Step in", _step_into_the_road),
+			_telling("walk on to leave them to it."),
+		]
 
 	if _wild_here != "":
-		return "E to explore the ancient grove  ·  walk on to leave it behind"
+		return [
+			_doable("E to explore the ancient grove", "Explore the grove", _step_into_the_wild),
+			_telling("walk on to leave it behind"),
+		]
 
 	var site := world.site_at(world.player_cell)
 	if site != null:
 		if site.kind == Site.HOME:
-			return _home_prompt(site)
+			return _home_actions(site)
 		if site.kind == Site.TOWER and world.tower_topped:
-			return "E to ascend the throne of the Tower (Conclude Journey)  ·  walk on to keep exploring"
-		var parts: Array[String] = []
+			return [
+				_doable(
+					"E to ascend the throne of the Tower (Conclude Journey)",
+					"Ascend the throne", _walk_into_site
+				),
+				_telling("walk on to keep exploring"),
+			]
+		var parts: Array[Dictionary] = []
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
-			parts.append("E to challenge %s" % str(ward.get("name", site.display_name)))
+			parts.append(_doable(
+				"E to challenge %s" % str(ward.get("name", site.display_name)),
+				"Challenge %s" % str(ward.get("name", site.display_name)), _walk_into_site
+			))
 		if Town.is_threatened(site):
-			parts.append("V to drive them out of %s" % site.display_name)
+			parts.append(_doable(
+				"V to drive them out of %s" % site.display_name,
+				"Drive them out", _defend_here
+			))
 		elif Town.is_settlement(site) and not Town.is_ruined(site):
-			parts.append("K to raid %s" % site.display_name)
+			parts.append(_doable("K to raid %s" % site.display_name, "Raid", _raid_here))
 		if _area_here() != "":
 			if site.kind == Site.KEEP:
-				parts.append("E to enter %s (Halls & Proving Arena)" % site.display_name)
+				parts.append(_doable(
+					"E to enter %s (Halls & Proving Arena)" % site.display_name,
+					"Enter %s" % site.display_name, _walk_into_site
+				))
 			else:
-				parts.append("E to walk into %s" % site.display_name)
-		var errand_line := _errand_prompt(site)
-		if errand_line != "":
-			parts.append(errand_line)
+				parts.append(_doable(
+					"E to walk into %s" % site.display_name,
+					"Walk into %s" % site.display_name, _walk_into_site
+				))
+		var errand_doing := _errand_action(site)
+		if not errand_doing.is_empty():
+			parts.append(errand_doing)
 		var offer := Market.hire_offer(site)
 		if not offer.is_empty():
-			parts.append("H to hire %s (level %d, %d gold)" % [
-				offer["display_name"], offer["level"], Market.asking_hire_cost(site, world, offer)
-			])
+			parts.append(_doable(
+				"H to hire %s (level %d, %d gold)" % [
+					offer["display_name"], offer["level"], Market.asking_hire_cost(site, world, offer)
+				],
+				"Hire %s (%d gold)" % [
+					offer["display_name"], Market.asking_hire_cost(site, world, offer)
+				], _hire_here
+			))
 		var goods := Market.wares(site)
 		if not goods.is_empty():
-			parts.append("B to buy %s (%d gold)" % [
-				Database.equipment_piece(goods[0]).get("display_name", goods[0]),
-				Market.asking_price(site, world, goods[0]),
-			])
+			var ware_name: String = Database.equipment_piece(goods[0]).get("display_name", goods[0])
+			parts.append(_doable(
+				"B to buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
+				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
+				_buy_here
+			))
 		if not Grimoire.offer(site).is_empty():
-			parts.append("G for the book, unread (%d gold)" % Grimoire.price(site))
+			parts.append(_doable(
+				"G for the book, unread (%d gold)" % Grimoire.price(site),
+				"The book (%d gold)" % Grimoire.price(site), _buy_grimoire_here
+			))
 		if Ferry.is_port(world, site.cell):
 			var dest := Ferry.next_port(world, site.cell)
 			if dest != null:
-				parts.append("O to sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)])
+				parts.append(_doable(
+					"O to sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)],
+					"Sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)],
+					_sail_here
+				))
 		if not parts.is_empty():
-			return "  ·  ".join(parts)
+			return parts
 
 	if Roadside.escorting(world):
-		return Roadside.escort_prompt(world)
+		return [_telling(Roadside.escort_prompt(world))]
 
-	return "P for the party  ·  Esc for the menu"
+	return [
+		_doable("P for the party", "The Party", _open_party),
+		_doable("Esc for the menu", "Menu", _open_menu),
+	]
+
+
+func _doable(prompt: String, label: String, call: Callable) -> Dictionary:
+	return { "prompt": prompt, "label": label, "call": call }
+
+
+## Something worth saying that is not a thing to press.
+func _telling(prompt: String) -> Dictionary:
+	return { "prompt": prompt, "label": "", "call": Callable() }
+
+
+## Anything modal takes the screen, and the action buttons must not be left
+## live underneath it. Deferred, because an overlay is only actually open a
+## frame after it says it wants to be.
+func _watch_overlays() -> void:
+	_settle_actions.call_deferred()
+
+
+func _settle_actions() -> void:
+	if _actions == null or not is_inside_tree():
+		return
+	_actions.visible = Pace.is_touch_enabled() and not _overlay_open()
+
+
+func _overlay_open() -> bool:
+	for overlay in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if overlay.has_method("is_open") and overlay.is_open():
+			return true
+	return false
+
+
+func _open_party() -> void:
+	EventBus.party_screen_requested.emit()
+
+
+func _open_menu() -> void:
+	EventBus.system_menu_requested.emit()
+
+
+## The buttons under the hint line. They are the only way in on a touchscreen,
+## where there is no H to press, so they are built from the same list rather
+## than kept in step by hand.
+func _lay_out_actions(doable: Array[Dictionary]) -> void:
+	if _actions == null:
+		return
+	for child in _actions.get_children():
+		child.queue_free()
+	if not Pace.is_touch_enabled():
+		_actions.visible = false
+		return
+	_actions.visible = not _overlay_open()
+	for doing: Dictionary in doable:
+		var label := str(doing["label"])
+		var call: Callable = doing["call"]
+		if label == "" or not call.is_valid():
+			continue
+		var button := Button.new()
+		button.text = label
+		button.focus_mode = Control.FOCUS_NONE
+		button.custom_minimum_size = Vector2(0, ACTION_BUTTON_HEIGHT)
+		button.add_theme_font_size_override("font_size", 16)
+		button.pressed.connect(call)
+		Sfx.attend(button)
+		_actions.add_child(button)
 
 
 ## A power earned and not placed does nothing at all, so it is worth saying so
@@ -779,24 +949,36 @@ func _somebody_owed_a_power() -> Character:
 
 
 ## What the board where you are standing has to say, if anything.
-func _errand_prompt(site: Site) -> String:
+func _errand_action(site: Site) -> Dictionary:
 	if not Errand.completable_at(GameState.errands, site.cell).is_empty():
-		return "J to settle an errand"
+		return _doable("J to settle an errand", "Settle an errand", _errands_here)
 	if not Errand.board(site).is_empty():
-		return "J to read the board"
-	return ""
+		return _doable("J to read the board", "Read the board", _errands_here)
+	return {}
 
 
 ## Home has no board and no trader — only the bed, and what a better one costs.
-func _home_prompt(site: Site) -> String:
+func _home_actions(site: Site) -> Array[Dictionary]:
 	var better := Home.next_bed(site)
 	if better.is_empty():
-		return "%s  ·  there is nothing better to sleep on  ·  P for the party" % Home.bed_name(site)
-	return "%s  ·  U for %s (%d gold, +%d HP)" % [
-		Home.bed_name(site),
-		better.get("display_name", "a better bed").to_lower(),
-		int(better.get("cost", 0)),
-		int(better.get("vigour", 0)),
+		return [
+			_telling(Home.bed_name(site)),
+			_telling("there is nothing better to sleep on"),
+			_doable("P for the party", "The Party", _open_party),
+		]
+	return [
+		_telling(Home.bed_name(site)),
+		_doable(
+			"U for %s (%d gold, +%d HP)" % [
+				better.get("display_name", "a better bed").to_lower(),
+				int(better.get("cost", 0)),
+				int(better.get("vigour", 0)),
+			],
+			"%s (%d gold)" % [
+				better.get("display_name", "a better bed"), int(better.get("cost", 0))
+			],
+			_upgrade_bed_here
+		),
 	]
 
 
@@ -806,13 +988,14 @@ func _end_run() -> void:
 	_busy = true
 	_note("%s falls, and the story stops here." % GameState.roster.player().display_name)
 	_hint.text = ""
+	_lay_out_actions([])
 	EventBus.run_ended.emit()
 	await get_tree().create_timer(RUN_OVER_DELAY).timeout
 	EventBus.request_scene.emit("summary", {})
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _busy or not event.is_pressed() or event.is_echo() or not event is InputEventKey:
+	if _busy or not event.is_pressed() or event.is_echo():
 		return
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
@@ -843,6 +1026,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		Pace.cycle_speed()
 		_refresh()
+		return
+	if not event is InputEventKey:
 		return
 	match event.keycode:
 		KEY_P:
@@ -995,7 +1180,7 @@ func _hire_here() -> void:
 		return
 	_note("%s falls in with you." % hired.display_name)
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 func _buy_here() -> void:
@@ -1013,7 +1198,7 @@ func _buy_here() -> void:
 		return
 	_note("%s takes up the %s." % [GameState.roster.player().display_name, name])
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 ## Answer the raid on somebody else's town. Winning is the whole reward, and it
@@ -1055,7 +1240,7 @@ func _errands_here() -> void:
 		for line: String in Errand.turn_in(GameState.errands, finished, world):
 			_note(line)
 		_refresh()
-		_hint.text = _prompt()
+		_say_what_can_be_done()
 		return
 
 	var taken := Errand.accept(site, GameState.errands, world)
@@ -1069,7 +1254,7 @@ func _errands_here() -> void:
 		_note(Errand.detail(taken))
 	_map.queue_redraw()
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 ## Buy the book without knowing what it is. That is the whole transaction.
@@ -1080,7 +1265,7 @@ func _buy_grimoire_here() -> void:
 	for line: String in Grimoire.buy_and_read(site, GameState.roster.player(), world):
 		_note(line)
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 ## Buy the next bed up and try it out, since you are already standing in it.
@@ -1094,7 +1279,7 @@ func _upgrade_bed_here() -> void:
 	if not bought.is_empty() and Home.bed(site) == bought:
 		_sleep_at_home(site)
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 func _ransom_here() -> void:
@@ -1107,7 +1292,7 @@ func _ransom_here() -> void:
 	_note("%s is bought back for %d gold." % [_captive_here.display_name, price])
 	_captive_here = null
 	_refresh()
-	_hint.text = _prompt()
+	_say_what_can_be_done()
 
 
 ## The other way to get someone back. Surviving it is the price.
