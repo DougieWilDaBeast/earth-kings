@@ -13,10 +13,11 @@ extends CanvasLayer
 const BAR_DROP := 70.0
 
 ## Scenes that are walked through, and so want the stick and the cluster.
-const WALK_SCENES := ["world", "area", "training", "coliseum"]
+const WALK_SCENES := ["world", "area"]
 ## Scenes that want the bar at all. Everything else — the title, the character
-## picker, the summary — is buttons already, and a stick over them is a trap.
-const PLAY_SCENES := ["world", "area", "training", "coliseum", "battle"]
+## picker, the training yard, the arena, the summary — is buttons already, and
+## a stick laid over them only covers them up.
+const PLAY_SCENES := ["world", "area", "battle"]
 
 ## How far the knob travels from the middle of the stick.
 const STEER_RADIUS := 78.0

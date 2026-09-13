@@ -15,7 +15,13 @@ const SCENES := {
 	"summary": "res://src/ui/run_summary.tscn",
 }
 
+## Where "back" runs out of places to go. Backing out of the title screen is
+## leaving the game, which is what the key is for on a phone.
+const ROOT_SCENES := ["title", "cinematic"]
+
 @onready var _container: Node = $CurrentScene
+
+var _scene_key: String = "cinematic"
 
 
 func _ready() -> void:
@@ -35,7 +41,12 @@ func _notification(what: int) -> void:
 ## Whatever "back" means where the player is standing: the top overlay closes,
 ## and with nothing open the menu comes up. Everything already answers Escape,
 ## so back is sent as Escape rather than teaching every screen a second key.
+## At the title with nothing open there is nowhere further back, and the key
+## does on a phone what it is expected to do.
 func back_out() -> void:
+	if ROOT_SCENES.has(_scene_key) and not _something_is_open():
+		get_tree().quit()
+		return
 	var press := InputEventAction.new()
 	press.action = "ui_cancel"
 	press.pressed = true
@@ -46,6 +57,13 @@ func back_out() -> void:
 	release.action = "ui_cancel"
 	release.pressed = false
 	Input.parse_input_event(release)
+
+
+func _something_is_open() -> bool:
+	for overlay in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if overlay.has_method("is_open") and overlay.is_open():
+			return true
+	return false
 
 
 func _change_scene(scene_key: String, payload: Dictionary) -> void:
@@ -64,4 +82,5 @@ func _swap(scene_key: String, payload: Dictionary) -> void:
 	var scene: Node = load(SCENES[scene_key]).instantiate()
 	scene.set("boot_payload", payload)
 	_container.add_child(scene)
+	_scene_key = scene_key
 	EventBus.scene_changed.emit(scene_key)
