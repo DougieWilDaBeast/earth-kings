@@ -15,6 +15,18 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 09  | [Wishlist](09-wishlist.md)                           | Spoken notes, transcribed, and what was done about each         |
 | 10  | [Manual tests](10-manual-tests.md)                   | Human verification checklist across all screens and systems     |
 | 11  | [Character Backstories](11-character-backstories.md) | Lineage, ethos, companions, and lore for all 12 playable heroes |
+| 12  | [World Charter Interview](12-world-charter-interview.md) | The 288 questions that decide what the world physically, mentally and culturally _is_ |
+
+## Deciding the world
+
+The systems are specified; the world they run on mostly is not. The charter interview is answered
+alone by two people and then reconciled into canon:
+
+- [12 — World Charter Interview](12-world-charter-interview.md) — the questions
+- [Process](worldbuilding/00-process.md) — how the two passes and the merge sessions run
+- [Answer sheet A](worldbuilding/answers-a.md) · [Answer sheet B](worldbuilding/answers-b.md)
+- [Divergence ledger](worldbuilding/divergence-ledger.md) — forks, resolutions, and what the
+  losing answers become
 
 ## Forensic Investigation Package
 
