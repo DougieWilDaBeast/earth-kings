@@ -119,9 +119,58 @@ static func worth(equipment_id: String, character: Character) -> int:
 	return int(gain["attack"]) + int(gain["defense"])
 
 
-## What swapping to this piece would do to somebody already carrying something.
+## What swapping to this piece would do, measured against whatever they are
+## fighting with now rather than against an empty hand.
 static func swing(equipment_id: String, character: Character) -> int:
-	return worth(equipment_id, character) - worth(character.equipment, character)
+	return worth(equipment_id, character) - carried_worth(character)
+
+
+## What [param character] already fights with: the piece handed out, or the one
+## their template came issued with when nothing has been. The lead walks out of
+## the first scene holding a bone sword nobody gave him, and a swap measured
+## against an empty hand reads better than it fights.
+static func carried(character: Character) -> Dictionary:
+	if character.equipment != "":
+		return bonus(character.equipment, character)
+	return _issued(character)
+
+
+## The one number that stands for whatever they are fighting with now.
+static func carried_worth(character: Character) -> int:
+	var gain := carried(character)
+	return int(gain["attack"]) + int(gain["defense"])
+
+
+## The numbers [param character] would actually take onto the field carrying
+## [param equipment_id] — the same sum [method Unit.from_character] makes, so
+## the equip menu shows the figures the fight will use rather than a guess.
+## Pass an empty id to ask what they are worth carrying nothing.
+static func fielded(character: Character, equipment_id: String) -> Dictionary:
+	var gain := bonus(equipment_id, character) if equipment_id != "" else _issued(character)
+	return {
+		"attack": character.attack() + int(gain.get("attack", 0)),
+		"defense": character.defense() + int(gain.get("defense", 0)),
+	}
+
+
+## The best piece in the packs for [param character], or an empty string when
+## nothing in there would be an improvement. One press, one answer — the menu
+## still shows the whole list for anybody who disagrees with it.
+static func best_offer(character: Character) -> String:
+	var ranked := offers(character)
+	if ranked.is_empty():
+		return ""
+	var best: String = ranked[0]
+	return best if swing(best, character) > 0 else ""
+
+
+## Hand somebody the best thing in the packs. False when nothing in there beats
+## what they are already fighting with.
+static func optimise(character: Character) -> bool:
+	var best := best_offer(character)
+	if best == "":
+		return false
+	return equip(character, best)
 
 
 ## A short line for the party screen: what it gives, and whether it fits.
@@ -178,6 +227,25 @@ static func offers(character: Character) -> Array:
 		return swing(a, character) > swing(b, character)
 	)
 	return out
+
+
+## What a template comes issued with — a blade the unit was drawn holding, and
+## fights with until something better is handed out. It is not in the packs and
+## cannot be stowed: it can only be outclassed.
+static func issued_id(character: Character) -> String:
+	return str(Database.unit_template(character.template_id).get("weapon", ""))
+
+
+## The same piece as numbers. The field counts it, so the menu counts it too.
+static func _issued(character: Character) -> Dictionary:
+	var weapon := issued_id(character)
+	if weapon == "":
+		return { "attack": 0, "defense": 0 }
+	var data := piece(weapon)
+	return {
+		"attack": int(data.get("attack", 0)),
+		"defense": int(data.get("defense", 0)),
+	}
 
 
 static func _misfit(value: int) -> int:

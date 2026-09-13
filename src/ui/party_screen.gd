@@ -29,6 +29,8 @@ const FACE_SIZE := Vector2(56, 56)
 ## Tall enough to put a thumb on without hitting the card above.
 const CARD_HEIGHT := 92
 const ROW_BUTTON := Vector2(112, 48)
+## The arrows that set the marching order. Narrow, but still a thumb tall.
+const ORDER_BUTTON := Vector2(44, 42)
 
 const GOLD := Color(0.965, 0.827, 0.443)
 const QUIET := Color(0.62, 0.65, 0.72)
@@ -126,6 +128,32 @@ func toggle_yoke(character: Character) -> void:
 	_rebuild()
 
 
+## Move somebody one place up or down the marching order. The order is the
+## order they are drawn in and deployed in, so it is worth being able to set it
+## here rather than nowhere.
+func shift(character: Character, delta: int) -> bool:
+	if not GameState.roster.shift(character.id, delta):
+		return false
+	_notice = "%s moves %s the line." % [
+		character.display_name, "up" if delta < 0 else "down"
+	]
+	_rebuild()
+	return true
+
+
+## The one-press answer: the best thing in the packs, taken up without being
+## compared to anything. False when the packs hold nothing better.
+func optimise(character: Character) -> bool:
+	var best := Gear.best_offer(character)
+	if best == "" or not Gear.equip(character, best):
+		return false
+	_notice = "%s takes up the %s — the best in the packs." % [
+		character.display_name, Gear.display_name(best)
+	]
+	_rebuild()
+	return true
+
+
 ## Public so the tests can move gear about without the UI.
 func equip(character: Character, equipment_id: String) -> bool:
 	if not Gear.equip(character, equipment_id):
@@ -211,8 +239,8 @@ func _rebuild() -> void:
 
 	var party := GameState.roster.party_members()
 	var shown := _shown(party)
-	for character in party:
-		_roster_list.add_child(_card_for(character, character == shown))
+	for i in party.size():
+		_roster_list.add_child(_card_row(party[i], i, party.size(), shown))
 
 	_gear_tab.disabled = shown == null
 	_powers_tab.disabled = shown == null
@@ -243,6 +271,38 @@ func _mark_tab(tab: Button, current: bool) -> void:
 
 
 # --- the party down the left --------------------------------------------------
+
+
+## A card with the arrows that move it. They sit outside the card rather than
+## on it: the card is one big press already, and a button inside it would be
+## covered by that press.
+func _card_row(character: Character, index: int, count: int, shown: Character) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+
+	var card := _card_for(character, character == shown)
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(card)
+
+	var arrows := VBoxContainer.new()
+	arrows.add_theme_constant_override("separation", 2)
+	arrows.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	arrows.add_child(_order_button(character, -1, index > 0))
+	arrows.add_child(_order_button(character, 1, index < count - 1))
+	row.add_child(arrows)
+	return row
+
+
+func _order_button(character: Character, delta: int, allowed: bool) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = ORDER_BUTTON
+	button.focus_mode = Control.FOCUS_NONE
+	button.disabled = not allowed
+	button.text = "▲" if delta < 0 else "▼"
+	button.tooltip_text = "Further %s the line" % ("up" if delta < 0 else "down")
+	button.pressed.connect(func() -> void: shift(character, delta))
+	Sfx.attend(button)
+	return button
 
 
 ## A card: the face, the name, the health, and whatever is owed. The whole card
@@ -472,8 +532,9 @@ func _build_gear_page(character: Character) -> void:
 
 	var worn := HBoxContainer.new()
 	worn.add_theme_constant_override("separation", 8)
-	if character.equipment != "":
-		worn.add_child(_icon(character.equipment))
+	var in_hand := character.equipment if character.equipment != "" else Gear.issued_id(character)
+	if in_hand != "":
+		worn.add_child(_icon(in_hand))
 	var worn_text := Label.new()
 	worn_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	worn_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -510,7 +571,29 @@ func _build_gear_page(character: Character) -> void:
 		_page_box.add_child(charms)
 
 	var offers := Gear.offers(character)
-	_page_box.add_child(_heading("In the packs"))
+	var packs_head := HBoxContainer.new()
+	packs_head.add_theme_constant_override("separation", 10)
+	var packs_title := _heading("In the packs")
+	packs_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	packs_title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	packs_head.add_child(packs_title)
+
+	# One press for anybody who would rather not read the rows.
+	var best := Gear.best_offer(character)
+	var optimum := Button.new()
+	optimum.custom_minimum_size = ROW_BUTTON
+	optimum.focus_mode = Control.FOCUS_NONE
+	optimum.text = "Optimise"
+	optimum.disabled = best == ""
+	optimum.tooltip_text = (
+		"Nothing in the packs would be an improvement."
+		if best == ""
+		else "Take up the %s" % Gear.display_name(best)
+	)
+	optimum.pressed.connect(func() -> void: optimise(character))
+	Sfx.attend(optimum)
+	packs_head.add_child(optimum)
+	_page_box.add_child(packs_head)
 	if offers.is_empty():
 		_page_box.add_child(_quiet_line("Nothing in the packs they could use."))
 	else:
@@ -620,18 +703,16 @@ func _draught_row(character: Character, equipment_id: String) -> Control:
 	return row
 
 
-## The character's own attack with [param equipment_id] in hand, worked out the
-## same way the fight works it out (see [method Unit.from_character]).
+## The character's attack with [param equipment_id] in hand, worked out the same
+## way the fight works it out (see [method Unit.from_character]). An empty id is
+## not an empty hand: a template can come issued with a weapon, and the fight
+## counts it, so [method Gear.fielded] counts it here too.
 func _attack_with(character: Character, equipment_id: String) -> int:
-	if equipment_id == "":
-		return character.attack()
-	return character.attack() + int(Gear.bonus(equipment_id, character).get("attack", 0))
+	return int(Gear.fielded(character, equipment_id).get("attack", 0))
 
 
 func _guard_with(character: Character, equipment_id: String) -> int:
-	if equipment_id == "":
-		return character.defense()
-	return character.defense() + int(Gear.bonus(equipment_id, character).get("defense", 0))
+	return int(Gear.fielded(character, equipment_id).get("defense", 0))
 
 
 ## One stat as it stands and as it would stand, coloured by which way it goes.
@@ -742,11 +823,19 @@ func _icon(equipment_id: String) -> TextureRect:
 	return art
 
 
+## What they are fighting with, which is not always what was handed to them: a
+## template issued with a blade keeps swinging it until something beats it, and
+## a swap measured against an empty hand would read better than it fights.
 func _gear_summary(character: Character) -> String:
-	if character.equipment == "":
+	if character.equipment != "":
+		return "%s (%s)" % [
+			Gear.display_name(character.equipment), Gear.summary(character.equipment, character)
+		]
+	var issued := Gear.issued_id(character)
+	if issued == "":
 		return "Nothing worth naming."
-	return "%s (%s)" % [
-		Gear.display_name(character.equipment), Gear.summary(character.equipment, character)
+	return "%s (%s)  ·  theirs from the start" % [
+		Gear.display_name(issued), Gear.summary(issued, character)
 	]
 
 

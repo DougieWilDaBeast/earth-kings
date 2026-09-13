@@ -76,19 +76,32 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E6  | Use the same move about twelve times across several fights                                      | "_X_ is practised with _Y_ now." and it starts hitting a little harder    |
 | E7  | Check a healer's Mend after heavy use                                                           | Heals more than it did at the start of the run                            |
 
-## F — Party screen (**P**)
+## F — Party menu (**P**)
 
-| #   | Do this                                             | Expect                                                                                         |
-| --- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| F1  | Open it                                             | Each person shows level, HP, XP, what they have read, and what they are carrying               |
-| F2  | Look at the Carrying line                           | The piece, what it gives _them_, and "wrong hands" if it does not suit them                    |
-| F3  | Pick up gear until the packs have something in them | Buttons offering pieces with a `(+3)` / `(-2)` swing next to each                              |
-| F4  | Equip something                                     | Their line updates, and what they were carrying goes into the packs — **nothing is destroyed** |
-| F5  | Stow a piece                                        | They carry nothing; the piece is in the packs                                                  |
-| F6  | Give a longbow ranger a Sworn Blade piece           | A visibly worse swing than giving it to the swordsman                                          |
-| F7  | Reach level 5                                       | A tree block appears: name, theme, and three rungs marked ■ taken / □ locked                   |
-| F8  | Below level 5                                       | "nothing uncovered yet — the first comes at level 5"                                           |
-| F9  | Save, quit, load                                    | Gear, packs, practice and trees all exactly as they were                                       |
+Two panes: the party as a column of cards down the left, and one of them at a time opened out on
+the right under Gear, Powers and Practice. Every target is sized for a thumb.
+
+| #   | Do this                                                | Expect                                                                                                |
+| --- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| F1  | Open it                                                | A card a person: face, name, level and calling, and a health bar that is green, amber or red          |
+| F2  | Press a card, anywhere on it                           | The right-hand pane opens that person; the card is the only one with a lit edge                       |
+| F3  | Tab through the cards with a keyboard                  | The pane follows the focus — keyboard and thumb point at the same card                                 |
+| F4  | Press ▲ / ▼ beside a card                              | They swap places in the marching order; the arrows are dead at the top and bottom of the line          |
+| F5  | Look at a card for somebody owed a class or a power    | An amber edge and one line saying which                                                                |
+| F6  | Gear page, look at any row in the packs                | `Atk 29 → 31` and `Grd 12`, each coloured on its own — armour that buys guard with attack says both     |
+| F7  | Open the lead's gear page carrying nothing             | Worn names the blade their template came issued with, not "nothing" — and the swaps are measured against it |
+| F8  | Equip that piece                                       | The numbers land where the row said they would, and what they were carrying goes into the packs — **nothing is destroyed** |
+| F9  | Give a longbow ranger a Sworn Blade piece              | "wrong hands" in the summary, and a visibly worse change than giving it to the swordsman               |
+| F10 | Press **Optimise**                                     | The best piece in the packs goes on in one press; the button then greys out                            |
+| F11 | Press **Optimise** with nothing better in the packs    | Already greyed, and says so when held                                                                  |
+| F12 | Stow a piece                                           | They carry nothing; the piece is in the packs                                                          |
+| F13 | Food and physic, on somebody unhurt                    | "Nothing to mend."                                                                                     |
+| F14 | Powers page at level 5                                 | A tree block: name, theme, and three rungs marked ■ taken / □ locked                                    |
+| F15 | Powers page below level 5                              | Told which level the first path arrives at                                                             |
+| F16 | Powers page with a power owed                          | The next rung of every uncovered tree becomes a **Take** button                                         |
+| F17 | Practice page                                          | What they have read, every move with its proficiency, and who they can teach                           |
+| F18 | Level somebody to 2                                    | A path to choose, on the card and at the head of the pane, until it is answered                        |
+| F19 | Save, quit, load                                       | Gear, packs, practice, trees and the marching order all exactly as they were                           |
 
 ## G — Gates and the Tower
 
