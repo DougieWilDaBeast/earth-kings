@@ -103,6 +103,11 @@ func _ready() -> void:
 	if view_btn != null:
 		view_btn.pressed.connect(_leave)
 		Sfx.attend(view_btn)
+		# The touch overlay keeps its own bar in the top right, and two things
+		# in one corner means one of them cannot be pressed.
+		if Pace.is_touch_enabled():
+			view_btn.offset_top += TouchControls.BAR_DROP
+			view_btn.offset_bottom += TouchControls.BAR_DROP
 	_open_on(map.opening)
 
 

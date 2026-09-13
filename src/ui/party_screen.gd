@@ -202,12 +202,12 @@ func _shown(party: Array[Character]) -> Character:
 
 
 func _rebuild() -> void:
-	for child in _roster_list.get_children():
-		child.queue_free()
-	for child in _page_box.get_children():
-		child.queue_free()
-	for child in _head.get_children():
-		child.queue_free()
+	# Taken out of the tree as well as freed: queue_free() only takes effect at
+	# the end of the frame, so picking a card and then a tab in the same breath
+	# used to stack a second set of everything on top of the first.
+	_empty(_roster_list)
+	_empty(_page_box)
+	_empty(_head)
 
 	var party := GameState.roster.party_members()
 	var shown := _shown(party)
@@ -236,6 +236,12 @@ func _rebuild() -> void:
 		GameState.gold, GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps
 	]
 	_footer.text = "P or Esc to close%s" % ("" if _notice == "" else "  ·  " + _notice)
+
+
+func _empty(box: Node) -> void:
+	for child in box.get_children():
+		box.remove_child(child)
+		child.queue_free()
 
 
 func _mark_tab(tab: Button, current: bool) -> void:
