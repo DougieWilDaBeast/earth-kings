@@ -38,5 +38,7 @@ remembered.
 
 ---
 
-_Nothing answered yet. The first voice note goes in
-[`voice-notes/`](voice-notes/) and its answers land here._
+_Nothing answered yet._ Six recordings covering the whole of Part I are waiting in
+[`DROP-ZONE/`](../../DROP-ZONE) — Physical, Land, Climate, Life, Matter and Gates. They need
+transcribing into [`voice-notes/`](voice-notes/) before their answers can land here; run
+`res://tools/question_report.tscn` to see what is still untranscribed.

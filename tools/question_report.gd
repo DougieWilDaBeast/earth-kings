@@ -11,6 +11,9 @@ extends Node
 const BOOK := "res://docs/15-the-question-book.md"
 const LEDGER := "res://docs/worldbuilding/answers.md"
 const NOTES_DIR := "res://docs/worldbuilding/voice-notes"
+## Where recordings land before anyone has written them down (see docs/09).
+const DROP_ZONE := "res://DROP-ZONE"
+const AUDIO := ["m4a", "mp3", "wav", "ogg", "aac"]
 
 ## Status leads the ledger may use, in the order they are reported.
 const STATUSES := [
@@ -208,14 +211,29 @@ func _report_waiting(answers: Dictionary) -> void:
 
 
 func _report_notes() -> void:
-	var dir := DirAccess.open(NOTES_DIR)
-	if dir == null:
-		return
 	var notes := 0
-	for file in dir.get_files():
-		if file.ends_with(".md") and file != "README.md":
-			notes += 1
-	print("  voice notes in      %d" % notes)
+	var dir := DirAccess.open(NOTES_DIR)
+	if dir != null:
+		for file in dir.get_files():
+			if file.ends_with(".md") and file != "README.md":
+				notes += 1
+	print("  transcripts        %d" % notes)
+
+	# A recording nobody has written down yet is invisible work: it holds
+	# answers that cannot reach the ledger. Say how much is waiting.
+	var waiting: Array[String] = []
+	var drop := DirAccess.open(DROP_ZONE)
+	if drop != null:
+		for file in drop.get_files():
+			if file.get_extension().to_lower() in AUDIO:
+				waiting.append(file)
+	if waiting.is_empty():
+		return
+	waiting.sort()
+	print("")
+	print("  %d recording(s) in DROP-ZONE with no transcript yet:" % waiting.size())
+	for file in waiting:
+		print("    %s" % file)
 
 
 # --- drift --------------------------------------------------------------------

@@ -5,10 +5,11 @@ talked at. It absorbs the world charter interview that used to live in `docs/12`
 everything the sixteen tempers, the five lore pools and the casting mechanism opened up.
 
 **Answers arrive as voice notes**, not as filled-in sheets — out of order, in fragments, doubling
-back, sometimes trailing off. That is fine and expected. Drop the transcript in
-[`worldbuilding/voice-notes/`](worldbuilding/voice-notes/), and it gets read against every question
-here: what it settled outright, what it only settled in combination with something said three weeks
-ago, and what it re-opened by accident.
+back, sometimes trailing off. That is fine and expected. Drop the recording in
+[`DROP-ZONE/`](../DROP-ZONE) and its transcript in
+[`worldbuilding/voice-notes/`](worldbuilding/voice-notes/); the transcript gets read against every
+question here — what it settled outright, what it only settled in combination with something said
+three weeks ago, and what it re-opened by accident.
 
 - **What has been answered so far:** [worldbuilding/answers.md](worldbuilding/answers.md)
 - **Who may answer, and with what standing:** [worldbuilding/respondents.md](worldbuilding/respondents.md)

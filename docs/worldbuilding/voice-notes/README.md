@@ -1,8 +1,25 @@
 # Voice notes
 
-Transcribed voice notes, kept exactly as spoken. Drop one in here and it gets read against every
-question in [15 — The Question Book](../../15-the-question-book.md); what it settles lands in
+Transcribed voice notes, kept exactly as spoken. A transcript here gets read against every question
+in [15 — The Question Book](../../15-the-question-book.md); what it settles lands in
 [answers.md](../answers.md).
+
+## The recording goes in DROP-ZONE first
+
+Two places, because they hold two different things — the same flow
+[09 — Wishlist](../../09-wishlist.md) already used for the first batch of memos:
+
+| Where | What | Read by |
+| --- | --- | --- |
+| [`DROP-ZONE/`](../../../DROP-ZONE) | The recording, as recorded | Nobody. Audio cannot be read against questions |
+| here | The transcript of it | The ingest loop |
+
+Record, drop the audio in `DROP-ZONE/`, and transcribe it into a `.md` here. The report
+(`res://tools/question_report.tscn`) lists every recording that has no transcript yet, so a memo
+cannot sit there quietly holding eighty answers nobody has read.
+
+Transcribe however suits — a local `whisper`, phone dictation, or typing it out. What matters is
+that the words are the spoken ones.
 
 ## Naming
 
