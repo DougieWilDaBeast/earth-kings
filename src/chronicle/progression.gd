@@ -133,7 +133,10 @@ static func unlock_tree(character: Character, world: World, theme: String = "") 
 		var unused := themes.filter(func(th: String) -> bool: return th not in existing_themes)
 		var pool := unused if not unused.is_empty() else themes
 		theme = pool[world.rng.randi() % pool.size()]
-	var tree := AbilityGrammar.generate_tree(theme, world.rng, world.codex_understanding())
+	# Sky-read tempers get more out of the same grammar than the world has
+	# collectively worked out (see `data/tempers.json`).
+	var read := clampf(world.codex_understanding() * character.lean("codex_rate", 1.0), 0.0, 1.0)
+	var tree := AbilityGrammar.generate_tree(theme, world.rng, read)
 	world.register_tree(tree)
 	character.trees.append(tree["id"])
 	Annals.record(world, "%s uncovered %s." % [character.display_name, tree["display_name"]])

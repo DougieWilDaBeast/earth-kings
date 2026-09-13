@@ -1,5 +1,9 @@
 # 11 — Hero Backstories & Origins
 
+> **Superseded by [13 — Heroes & Tempers](13-heroes-and-tempers.md).** These twelve stay
+> playable while the sixteen are written, one at a time. Nothing new should be added here.
+
+
 The twelve playable company founders of _Earth Kings_. Each profile details their lineage, the events that set them onto the road, their personality and ethos, their companions, and their distinct mechanical role in the continent.
 
 ---

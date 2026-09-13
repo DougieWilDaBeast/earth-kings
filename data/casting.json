@@ -1,0 +1,12 @@
+{
+	"_doc": "The live many-to-many between the sixteen characters and the five authored pools in data/lore/. Pieces are written with no character in mind; candidates are marked afterwards, with a reason recorded in docs/worldbuilding/casting-ledger.md; cast is written last, in a casting session. Run `--report=casting` to see what is starved, orphaned, contested or forced. Provisional pool entries are scaffolding and are not cast.",
+	"_schema": {
+		"locked": "true once every one of the sixteen carries exactly one piece from this pool. Validation gets strict at that point.",
+		"pieces": "piece id -> { candidates: [hero ids it could fit], cast: hero id or \"\" }"
+	},
+	"backgrounds": { "locked": false, "pieces": {} },
+	"grudges": { "locked": false, "pieces": {} },
+	"hearths": { "locked": false, "pieces": {} },
+	"creeds": { "locked": false, "pieces": {} },
+	"oaths": { "locked": false, "pieces": {} }
+}

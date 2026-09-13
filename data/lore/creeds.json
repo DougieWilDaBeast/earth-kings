@@ -1,0 +1,92 @@
+{
+	"_doc": "What a character believes, and therefore who they can stand to walk beside. Replaces the nine-point lawful/chaotic × good/evil grid. Party chemistry is computed from holds and despises (see Banter.initial_bond), so a creed only needs to say what it is for and what it cannot abide — there is no pairwise table to maintain as the pool grows.",
+	"_schema": {
+		"display_name": "Shown on the reveal and party screens.",
+		"blurb": "One line, in the creed's own voice where possible.",
+		"text": "The authored belief, a short paragraph.",
+		"holds": "Values this creed is for. Shared vocabulary: order | freedom | mercy | ruin | truth | kin | coin | silence.",
+		"despises": "Values it cannot abide. Overlap with another creed's holds is what makes two people grate.",
+		"tags": "Shared vocabulary across every pool."
+	},
+	"the_kept_word": {
+		"display_name": "The Kept Word",
+		"blurb": "What was promised gets done, and the cost is not an argument against it.",
+		"text": "Order first, and mercy inside it. A rule that bends for the deserving was never a rule, and a rule that cannot feed a hungry child was never worth keeping either.",
+		"holds": ["order", "mercy"],
+		"despises": ["freedom", "ruin"],
+		"tags": ["oath", "faith"],
+		"provisional": true
+	},
+	"the_open_hand": {
+		"display_name": "The Open Hand",
+		"blurb": "Help whoever is in front of you. Work out the rest afterwards.",
+		"text": "No law and no banner, only the plain fact that somebody is cold and you are not. The rest is commentary.",
+		"holds": ["mercy"],
+		"despises": ["ruin"],
+		"tags": ["faith", "kin"],
+		"provisional": true
+	},
+	"the_unbroken_horse": {
+		"display_name": "The Unbroken Horse",
+		"blurb": "Nobody's to command, and nobody's to leave in a ditch.",
+		"text": "Freedom is the first good and kindness is the second, and anyone who says the first requires giving up the second is selling something.",
+		"holds": ["freedom", "mercy"],
+		"despises": ["order", "ruin"],
+		"tags": ["road", "wild"],
+		"provisional": true
+	},
+	"the_straight_furrow": {
+		"display_name": "The Straight Furrow",
+		"blurb": "The rule holds or nothing does. Feelings are not a system.",
+		"text": "Order for its own sake, because the alternative has been tried in living memory and the fields are still black.",
+		"holds": ["order"],
+		"despises": ["freedom"],
+		"tags": ["court", "command"],
+		"provisional": true
+	},
+	"the_middle_road": {
+		"display_name": "The Middle Road",
+		"blurb": "Takes no side that has not first taken the trouble to be right.",
+		"text": "Every banner on this continent has been on the wrong end of its own argument. Walk between them and keep walking.",
+		"holds": [],
+		"despises": [],
+		"tags": ["road", "solitude"],
+		"provisional": true
+	},
+	"the_loose_rein": {
+		"display_name": "The Loose Rein",
+		"blurb": "Owes nothing, holds nothing, asks nothing.",
+		"text": "Freedom without a cause attached to it. It is not selfishness exactly; it is a refusal to be held, which looks the same from outside.",
+		"holds": ["freedom"],
+		"despises": ["order"],
+		"tags": ["road", "exile"],
+		"provisional": true
+	},
+	"the_iron_ledger": {
+		"display_name": "The Iron Ledger",
+		"blurb": "Everything is owed to somebody. Collect on time.",
+		"text": "Order as an instrument. Rules are what let a strong hand take a weak one apart slowly, in daylight, with paperwork.",
+		"holds": ["order", "ruin"],
+		"despises": ["freedom", "mercy"],
+		"tags": ["coin", "command"],
+		"provisional": true
+	},
+	"the_short_answer": {
+		"display_name": "The Short Answer",
+		"blurb": "Whatever is in the way stops being in the way.",
+		"text": "No banner and no restraint. Not cruelty for its own sake — simply nothing that has ever been allowed to weigh against getting what is wanted.",
+		"holds": ["ruin"],
+		"despises": ["mercy"],
+		"tags": ["war", "fear"],
+		"provisional": true
+	},
+	"the_burning_field": {
+		"display_name": "The Burning Field",
+		"blurb": "It was all going to come down anyway. Better it comes down in a direction.",
+		"text": "Freedom and ruin together, which is the most dangerous pair on the continent, because it can always explain itself and never stops.",
+		"holds": ["freedom", "ruin"],
+		"despises": ["order", "mercy"],
+		"tags": ["gate", "fear"],
+		"provisional": true
+	}
+}

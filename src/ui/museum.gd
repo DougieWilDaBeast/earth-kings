@@ -128,8 +128,8 @@ func _portrait(person: Dictionary) -> Control:
 
 	if person.has("background"):
 		block.add_child(_line(str(person["background"]), LABEL))
-	if person.has("alignment"):
-		block.add_child(_line(str(person["alignment"]), LABEL))
+	if person.has("creed"):
+		block.add_child(_line(str(person["creed"]), LABEL))
 	if person.has("equipment") and str(person["equipment"]) != "":
 		block.add_child(_line("Gear: %s" % str(person["equipment"]), VALUE))
 	if person.has("attack"):

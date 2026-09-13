@@ -102,24 +102,82 @@ are stored inside the save's tree definitions, not in this file.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
   or in combat for a bonus action (`"heal": 25`).
 
-## `heroes.json` — playable company founders
+## `heroes.json` — the leads a run can be started as
 
-The 12 founders selectable on the New Game screen:
+A side-car on `units.json`: the key **is** the unit template id, and the name and stats come from
+there. This file adds only what a lead needs on top of a unit.
 
 ```json
 "bram": {
-  "display_name": "Bram",
-  "job": "Sworn Blade",
-  "rating": "Steady",
+  "title": "The Sworn Blade",
   "difficulty": 1,
+  "temper": "",
   "background": "apprentice_smith",
-  "alignment": "lawful_good",
-  "origin": "Born in the soot of Oakhaven...",
-  "grudge": { "target": "brigand", "label": "Raiders & Marauders" },
-  "starter_party": ["sera", "toln"],
-  "unit": "bram"
+  "grudge": "raiders",
+  "hearth": "village_hearth",
+  "creed": "the_kept_word",
+  "oath": "",
+  "origin": "Apprenticed to an old forge-master who died when raiders struck...",
+  "blurb": "An oath-sworn swordsman with a scar for every promise he kept...",
+  "companions": ["sera", "toln"]
 }
 ```
+
+- `difficulty` 1–5 — how hard this life is to live, shown as pips.
+- `temper` — four-letter code into `tempers.json`; blank for anyone outside the sixteen.
+- `background` · `grudge` · `hearth` · `creed` · `oath` — ids into the five pools in `data/lore/`.
+  **All five are legitimately blank**; history is cast late (see [14](14-lore-pools.md)).
+- `companions` — unit template ids that ride out with them, 0–2.
+
+## `tempers.json` — the sixteen, and the quiz that picks one
+
+`axes` describes the eight letters, `types` maps each four-letter code to an in-world name and the
+`hero` that answers to it (blank until written), `quiz` holds the four questions asked before a
+run, and `leans` holds what each letter is worth. See [13](13-heroes-and-tempers.md).
+
+```json
+"types": { "INTJ": { "display_name": "The Long Plan", "blurb": "…", "hero": "" } },
+"quiz":  [ { "axis": "EI", "prompt": "…",
+             "options": [ { "key": "E", "text": "…" }, { "key": "I", "text": "…" } ] } ],
+"leans": { "T": { "damage": 1.05 } }
+```
+
+## `lore/*.json` — authored history
+
+Five pools sharing one schema: `backgrounds`, `grudges`, `hearths`, `creeds`, `oaths`. Every entry
+has `display_name`, `blurb`, `text`, `tags`, and may carry one `gift`.
+
+```json
+"apprentice_smith": {
+  "display_name": "Apprentice Smith",
+  "blurb": "Raised at the hearth-forge with hammer and anvil...",
+  "text": "Put to the forge young, kept there by a master who taught by silence...",
+  "tags": ["forge", "craft", "loss", "village"],
+  "gift": { "kind": "item", "value": "iron_blade" }
+}
+```
+
+Per pool: `hearths` add `site_kind` (which generated site a run starts on); `grudges` add `matches`
+(`factions` / `kinds` / `templates` / `template_contains`, any hit counts); `creeds` add `holds`
+and `despises`; `oaths` may add `toward`. `"provisional": true` marks a migrated stand-in.
+
+Gift `kind` is one of `doctrine`, `item`, `gold`, `grudge`, `hearth`, `bond`, `stat` — and **no
+gift may buy survival**: charms are delved for ([D24](06-decisions.md)) and grace-bearing doctrine
+is refused by the validator.
+
+## `casting.json` — which piece belongs to whom
+
+The live many-to-many between the pools and the roster, with the reasoning kept alongside it in
+`docs/worldbuilding/casting-ledger.md`.
+
+```json
+"backgrounds": {
+  "locked": false,
+  "pieces": { "the_forge_that_burned": { "candidates": ["bram"], "cast": "" } }
+}
+```
+
+`locked: true` asserts every one of the sixteen carries a piece from that pool.
 
 ## `threads.json` — story threads (`Skein`)
 

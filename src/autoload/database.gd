@@ -6,6 +6,10 @@ extends Node
 
 const DATA_DIR := "res://data"
 
+## The five authored history pools, loaded from `res://data/lore/<pool>.json`.
+## Every one of them shares a schema, a casting mechanism and one validator.
+const LORE_POOLS := ["backgrounds", "grudges", "hearths", "creeds", "oaths"]
+
 var terrain: Dictionary = {}
 var units: Dictionary = {}
 var abilities: Dictionary = {}
@@ -21,6 +25,14 @@ var memorials: Dictionary = {}
 var world_rules: Dictionary = {}
 ## Leads a run can be started as, in the order they are offered.
 var heroes: Dictionary = {}
+## The sixteen tempers: axes, the quiz asked before a run, and the lean each
+## letter carries (see docs/13-heroes-and-tempers.md).
+var tempers: Dictionary = {}
+## Authored history, cast onto characters late (see docs/14-lore-pools.md).
+## Pool name -> id -> entry. Pools: backgrounds, grudges, hearths, creeds, oaths.
+var lore: Dictionary = {}
+## Which piece of which pool is marked for, and cast on, which character.
+var casting: Dictionary = {}
 ## Terrain names and the tileset sheets that draw them (see [TileForge]).
 var tilesets: Dictionary = {}
 ## Staged beats played before a conversation (see [AreaCutscene]).
@@ -62,6 +74,10 @@ func _ready() -> void:
 	memorials = _load_json("%s/memorials.json" % DATA_DIR)
 	world_rules = _load_json("%s/world_rules.json" % DATA_DIR)
 	heroes = _load_json("%s/heroes.json" % DATA_DIR)
+	tempers = _load_json("%s/tempers.json" % DATA_DIR)
+	casting = _load_json("%s/casting.json" % DATA_DIR)
+	for pool: String in LORE_POOLS:
+		lore[pool] = _load_json("%s/lore/%s.json" % [DATA_DIR, pool])
 	tilesets = _load_json("%s/tilesets.json" % DATA_DIR)
 	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
 	banter = _load_json("%s/banter.json" % DATA_DIR)
@@ -114,6 +130,48 @@ func unit_run(id: String, heading: String) -> Array:
 ## A lead a run can be started as (see `data/heroes.json`).
 func hero(id: String) -> Dictionary:
 	return heroes.get(id, {})
+
+
+## One of the sixteen tempers, by four-letter code.
+func temper(code: String) -> Dictionary:
+	return temper_types().get(code.to_upper(), {})
+
+
+func temper_types() -> Dictionary:
+	return tempers.get("types", {})
+
+
+## The hero a temper resolves to, or "" while that slot is still unwritten.
+func temper_hero(code: String) -> String:
+	return str(temper(code).get("hero", ""))
+
+
+## What one letter of a temper nudges. Codes carry four letters, so a character
+## sums four leans; anything a letter is silent about falls back.
+func temper_lean(code: String, key: String, fallback: float) -> float:
+	var leans: Dictionary = tempers.get("leans", {})
+	for i in mini(code.length(), 4):
+		var letter := code[i].to_upper()
+		var lean: Dictionary = leans.get(letter, {})
+		if lean.has(key):
+			return float(lean[key])
+	return fallback
+
+
+## An authored piece of history: pool is one of [constant LORE_POOLS].
+func lore_piece(pool: String, id: String) -> Dictionary:
+	return lore.get(pool, {}).get(id, {})
+
+
+## Every real entry in a pool, skipping the `_doc`/`_schema` notes the files
+## carry for whoever opens them next.
+func lore_pool(pool: String) -> Dictionary:
+	var out: Dictionary = {}
+	for id: String in lore.get(pool, {}):
+		if id.begins_with("_"):
+			continue
+		out[id] = lore[pool][id]
+	return out
 
 
 func ability(id: String) -> Dictionary:

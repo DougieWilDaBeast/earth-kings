@@ -20,6 +20,7 @@ func _ready() -> void:
 	_check_cinematic()
 	_check_seasons()
 	_check_news()
+	_check_temper_quiz()
 
 	print("")
 	if _failures.is_empty():
@@ -70,15 +71,32 @@ func _check_content() -> void:
 	for hero_id: String in Database.heroes:
 		_expect(Database.units.has(hero_id), "hero '%s' has no unit template" % hero_id)
 		var hero: Dictionary = Database.hero(hero_id)
-		var bg: String = hero.get("background", "")
-		_expect(Character.BACKGROUNDS.has(bg), "hero '%s' has unknown background '%s'" % [hero_id, bg])
-		var align: String = hero.get("alignment", "")
-		_expect(Character.ALIGNMENTS.has(align), "hero '%s' has unknown alignment '%s'" % [hero_id, align])
+		# Authored history is cast late, so blank is legal here — a *wrong* id
+		# is not, and that is the whole job of this check.
+		for field: String in Character.TRAIT_POOLS:
+			var piece_id: String = hero.get(field, "")
+			if piece_id == "":
+				continue
+			_expect(
+				not Database.lore_piece(Character.TRAIT_POOLS[field], piece_id).is_empty(),
+				"hero '%s' carries unknown %s '%s'" % [hero_id, field, piece_id]
+			)
+		var code: String = hero.get("temper", "")
+		if code != "":
+			_expect(Database.temper(code).has("hero"), "hero '%s' has unknown temper '%s'" % [hero_id, code])
+			_expect(
+				Database.temper_hero(code) == hero_id,
+				"hero '%s' claims temper %s, which points at '%s'" % [hero_id, code, Database.temper_hero(code)]
+			)
 		for companion_id: String in hero.get("companions", []):
 			_expect(
 				Database.units.has(companion_id),
 				"hero %s brings missing companion '%s'" % [hero_id, companion_id]
 			)
+
+	_check_tempers()
+	_check_lore_pools()
+	_check_casting()
 
 	for template_id: String in Database.units:
 		for ability_id: String in Database.units[template_id].get("abilities", []):
@@ -298,3 +316,209 @@ func _check_news() -> void:
 	_expect(not dispatches.is_empty(), "news dispatches were empty")
 	var tidings := News.tidings_for_inn(world, "The Host")
 	_expect(tidings.contains("Word travels"), "inn tidings missing lead text")
+
+
+# --- the sixteen, the pools, and the casting between them ---------------------
+
+
+func _check_tempers() -> void:
+	var types := Database.temper_types()
+	_expect(types.size() == 16, "expected 16 tempers, found %d" % types.size())
+	var seen_heroes: Dictionary = {}
+	for code: String in types:
+		_expect(code.length() == 4, "temper '%s' is not a four-letter code" % code)
+		for i in 4:
+			_expect(
+				code[i] in ["EI", "SN", "TF", "JP"][i],
+				"temper '%s' has '%s' where a %s was expected" % [code, code[i], ["EI", "SN", "TF", "JP"][i]]
+			)
+		var hero_id: String = types[code].get("hero", "")
+		if hero_id == "":
+			continue
+		_expect(Database.heroes.has(hero_id), "temper %s points at missing hero '%s'" % [code, hero_id])
+		_expect(not seen_heroes.has(hero_id), "hero '%s' answers to two tempers" % hero_id)
+		seen_heroes[hero_id] = code
+
+	var quiz: Array = Database.tempers.get("quiz", [])
+	_expect(quiz.size() == 4, "the quiz asks %d questions, not 4" % quiz.size())
+	var asked: Array = []
+	for question: Dictionary in quiz:
+		var axis: String = question.get("axis", "")
+		_expect(axis in ["EI", "SN", "TF", "JP"], "quiz asks about unknown axis '%s'" % axis)
+		_expect(axis not in asked, "quiz asks about %s twice" % axis)
+		asked.append(axis)
+		var options: Array = question.get("options", [])
+		_expect(options.size() == 2, "quiz question on %s offers %d answers, not 2" % [axis, options.size()])
+		for option: Dictionary in options:
+			var key: String = option.get("key", "")
+			_expect(key in axis, "quiz answer '%s' does not belong to axis %s" % [key, axis])
+			_expect(str(option.get("text", "")) != "", "quiz answer %s on %s has no text" % [key, axis])
+
+	for letter: String in "EISNTFJP":
+		_expect(
+			Database.tempers.get("axes", {}).has(letter),
+			"temper axis '%s' is undescribed" % letter
+		)
+		_expect(
+			Database.tempers.get("leans", {}).has(letter),
+			"temper letter '%s' nudges nothing" % letter
+		)
+
+
+func _check_lore_pools() -> void:
+	for pool: String in Database.LORE_POOLS:
+		var entries := Database.lore_pool(pool)
+		_expect(not Database.lore.get(pool, {}).is_empty(), "lore pool '%s' did not load" % pool)
+		for piece_id: String in entries:
+			var piece: Dictionary = entries[piece_id]
+			_expect(
+				str(piece.get("display_name", "")) != "",
+				"%s/%s has no display name" % [pool, piece_id]
+			)
+			_expect(str(piece.get("blurb", "")) != "", "%s/%s has no blurb" % [pool, piece_id])
+			_check_gift(pool, piece_id, piece.get("gift", {}))
+			if pool == "hearths":
+				_expect(
+					str(piece.get("site_kind", "")) != "",
+					"hearth '%s' names no site kind to start on" % piece_id
+				)
+			if pool == "grudges":
+				_expect(
+					not piece.get("matches", {}).is_empty(),
+					"grudge '%s' matches nobody, so it is worth no damage" % piece_id
+				)
+			if pool == "oaths" and piece.has("toward"):
+				_expect(
+					Database.heroes.has(str(piece["toward"])),
+					"oath '%s' is sworn toward missing hero '%s'" % [piece_id, piece["toward"]]
+				)
+
+
+func _check_gift(pool: String, piece_id: String, gift: Dictionary) -> void:
+	if gift.is_empty():
+		return
+	var kind: String = gift.get("kind", "")
+	_expect(kind in Gifts.KINDS, "%s/%s gives unknown gift kind '%s'" % [pool, piece_id, kind])
+	var value: Variant = gift.get("value", null)
+	# No gift may buy survival. Charms are earned deep in gates (D24) and a
+	# grace-bearing book handed out at creation would quietly move the death
+	# maths the design is measured against (docs/02-design.md).
+	match kind:
+		"doctrine":
+			_expect(
+				Database.doctrines.has(str(value)),
+				"%s/%s grants missing doctrine '%s'" % [pool, piece_id, value]
+			)
+			_expect(
+				float(Database.doctrines.get(str(value), {}).get("grace", 0.0)) <= 0.0,
+				"%s/%s hands out '%s', which buys a grace nobody earned" % [pool, piece_id, value]
+			)
+		"item":
+			_expect(
+				Database.equipment.has(str(value)),
+				"%s/%s grants missing equipment '%s'" % [pool, piece_id, value]
+			)
+			_expect(
+				not bool(Database.equipment_piece(str(value)).get("charm", false)),
+				"%s/%s hands out the charm '%s'; charms are delved for (D24)" % [pool, piece_id, value]
+			)
+		"grudge":
+			_expect(
+				not Database.lore_piece("grudges", str(value)).is_empty(),
+				"%s/%s grants missing grudge '%s'" % [pool, piece_id, value]
+			)
+		"hearth":
+			_expect(
+				not Database.lore_piece("hearths", str(value)).is_empty(),
+				"%s/%s grants missing hearth '%s'" % [pool, piece_id, value]
+			)
+		"bond":
+			_expect(value is Dictionary, "%s/%s bond gift is not a table" % [pool, piece_id])
+			if value is Dictionary:
+				_expect(
+					Database.heroes.has(str(value.get("toward", ""))),
+					"%s/%s bonds toward missing hero '%s'" % [pool, piece_id, value.get("toward", "")]
+				)
+				_expect(
+					int(value.get("warmth", 0)) != 0,
+					"%s/%s bonds toward somebody by nothing at all" % [pool, piece_id]
+				)
+
+
+func _check_casting() -> void:
+	for field: String in Character.TRAIT_POOLS:
+		var pool: String = Character.TRAIT_POOLS[field]
+		var book: Dictionary = Database.casting.get(pool, {})
+		_expect(not book.is_empty(), "no casting book for pool '%s'" % pool)
+		var pieces: Dictionary = book.get("pieces", {})
+		var cast_on: Dictionary = {}
+		for piece_id: String in pieces:
+			_expect(
+				not Database.lore_piece(pool, piece_id).is_empty(),
+				"casting names missing %s '%s'" % [pool, piece_id]
+			)
+			var entry: Dictionary = pieces[piece_id]
+			for hero_id: String in entry.get("candidates", []):
+				_expect(
+					Database.heroes.has(hero_id),
+					"%s/%s is marked for missing hero '%s'" % [pool, piece_id, hero_id]
+				)
+			var cast: String = entry.get("cast", "")
+			if cast == "":
+				continue
+			_expect(
+				cast in entry.get("candidates", []),
+				"%s/%s is cast on '%s', who was never a candidate" % [pool, piece_id, cast]
+			)
+			_expect(
+				not cast_on.has(cast),
+				"'%s' is cast two %s: %s and %s" % [cast, pool, cast_on.get(cast, ""), piece_id]
+			)
+			cast_on[cast] = piece_id
+		# Once a pool is locked every one of the sixteen must carry a piece.
+		if bool(book.get("locked", false)):
+			for hero_id: String in Database.heroes:
+				_expect(
+					str(Database.hero(hero_id).get(field, "")) != "",
+					"%s is locked but '%s' carries no %s" % [pool, hero_id, field]
+				)
+
+
+func _check_temper_quiz() -> void:
+	var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
+	add_child(quiz)
+
+	# Four questions, two answers each, asked one at a time.
+	var quiz_length: int = quiz.questions().size()
+	for i in quiz_length:
+		var buttons := quiz.get_node("%Options").get_children()
+		_expect(
+			buttons.size() == 2,
+			"question %d of the quiz offered %d answers on screen" % [i + 1, buttons.size()]
+		)
+		if buttons.is_empty():
+			break
+		# Take the first answer every time: E, then S, then T, then J.
+		(buttons[0] as Button).pressed.emit()
+
+	_expect(
+		"".join(quiz._answers) == "ESTJ",
+		"answering first every time gave '%s', not ESTJ" % "".join(quiz._answers)
+	)
+
+	# Until that slot has a character written for it, the screen says so and
+	# sends the player to the full roster rather than starting a broken run.
+	var cast: String = Database.temper_hero("ESTJ")
+	if cast == "":
+		_expect(not quiz.get_node("%BeginButton").visible, "an uncast temper still offered to begin")
+		_expect(
+			quiz.get_node("%QuestionLabel").text.contains("Nobody answers"),
+			"an uncast temper did not say so"
+		)
+	else:
+		_expect(quiz.get_node("%BeginButton").visible, "a cast temper would not begin")
+		_expect(
+			quiz.get_node("%NameLabel").text != "",
+			"the reveal named nobody for ESTJ"
+		)
+	quiz.queue_free()

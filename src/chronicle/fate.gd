@@ -44,11 +44,14 @@ static func graces_for(character: Character, context: Dictionary) -> Array:
 		func(other: Character) -> bool: return other != character and other.is_alive()
 	)
 	if not standing.is_empty():
-		var per_ally := float(rules.get("ally_rescue_per_ally", 0.12))
+		# Warm-handed tempers are pulled out of the dirt more often, because
+		# more people are looking for them (see `data/tempers.json`).
+		var per_ally := float(rules.get("ally_rescue_per_ally", 0.12)) + character.lean("rescue_per_ally", 0.0)
+		var cap := float(rules.get("ally_rescue_cap", 0.36)) + character.lean("rescue_cap", 0.0)
 		var rescuer: Character = standing[0]
 		graces.append({
 			"reason": BY_RESCUE,
-			"chance": minf(per_ally * standing.size(), float(rules.get("ally_rescue_cap", 0.36))),
+			"chance": minf(per_ally * standing.size(), cap),
 			"detail": rescuer.display_name,
 		})
 

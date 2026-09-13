@@ -5,6 +5,7 @@ extends Node
 const SCENES := {
 	"cinematic": "res://src/ui/cinematic.tscn",
 	"title": "res://src/ui/title_screen.tscn",
+	"temper_quiz": "res://src/ui/temper_quiz.tscn",
 	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
 	"area": "res://src/area/area_scene.tscn",

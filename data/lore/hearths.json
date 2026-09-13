@@ -1,0 +1,51 @@
+{
+	"_doc": "Where a character is from — the doorstep a run starts on, and the place they are found standing when somebody else is the lead. site_kind is resolved against the generated world by WorldGen.starting_cell_for_hero.",
+	"_schema": {
+		"display_name": "Shown on the reveal and party screens.",
+		"blurb": "One line. What kind of place it is.",
+		"text": "The authored history, a short paragraph.",
+		"tags": "Shared vocabulary across every pool.",
+		"site_kind": "village | keep | library | hut | gate | tower — which generated site this hearth lands on.",
+		"area": "Optional hand-built area id from data/areas/ where this character stands as an NPC."
+	},
+	"village_hearth": {
+		"display_name": "A Village Hearth",
+		"blurb": "Forty people, one well, and a bell that has rung for worse than this.",
+		"text": "Somewhere with a name nobody outside the valley has heard, where the road widens for two hundred paces and then remembers itself.",
+		"tags": ["village", "forge", "crowd"],
+		"site_kind": "village",
+		"provisional": true
+	},
+	"keep_hearth": {
+		"display_name": "A Keep",
+		"blurb": "Cold stone, a garrison that is mostly household, and a view of the road for a day in each direction.",
+		"text": "Built by somebody who expected trouble from one direction and got it from another. Still standing, which is the only argument it needs.",
+		"tags": ["court", "war", "command"],
+		"site_kind": "keep",
+		"provisional": true
+	},
+	"cloister_hearth": {
+		"display_name": "A Cloister",
+		"blurb": "Copied pages, cold floors, and the only fire that is kept lit all winter.",
+		"text": "A house of readers on a hillside, holding knowledge that fades if nobody uses it, which is most of it, most years.",
+		"tags": ["cloister", "faith", "solitude"],
+		"site_kind": "library",
+		"provisional": true
+	},
+	"wild_hearth": {
+		"display_name": "A Hut in Open Country",
+		"blurb": "One roof, a long way from the next one.",
+		"text": "Out past where the road stops being maintained. Whoever built it wanted to see anyone coming.",
+		"tags": ["wild", "solitude", "road"],
+		"site_kind": "hut",
+		"provisional": true
+	},
+	"gate_mouth": {
+		"display_name": "The Mouth of a Gate",
+		"blurb": "Nobody is from here. Some people end up here anyway.",
+		"text": "The ground goes wrong about a hundred paces out, and the people who sleep within sight of it have their reasons and do not share them.",
+		"tags": ["gate", "exile", "fear"],
+		"site_kind": "gate",
+		"provisional": true
+	}
+}

@@ -66,8 +66,8 @@ static func sleep(site: Site, roster: Roster) -> Array[String]:
 	for character in roster.party_members():
 		if not character.is_alive():
 			continue
-		if character.hearth < vigour:
-			character.hearth = vigour
+		if character.hearth_vigour < vigour:
+			character.hearth_vigour = vigour
 			toughened.append(character.display_name)
 	roster.rest()
 

@@ -20,6 +20,11 @@ func setup(all_units: Array[Unit], ambush: bool = false) -> void:
 				unit.set_meta("ambush_advantage", true)
 			else:
 				unit.ct = 0
+	# Set tempers walk in having already decided what they are doing, and are
+	# moving while everyone else is still reading the room.
+	for unit in units:
+		if unit.character != null:
+			unit.ct += int(unit.character.lean("opening_ct", 0.0))
 
 
 func living_units() -> Array[Unit]:

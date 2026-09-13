@@ -61,6 +61,11 @@ func _ready() -> void:
 		get_tree().quit(0)
 		return
 
+	if _args.has("report"):
+		_report_named(str(_args["report"]))
+		get_tree().quit(0)
+		return
+
 	var key := str(_args.get("scene", ""))
 	if key == "":
 		_report()
@@ -262,8 +267,80 @@ func _list(what: String) -> void:
 				print("%-18s themes %-28s grants %s" % [
 					id, ",".join(job.get("themes", [])), ",".join(job.get("grants", [])),
 				])
+		"tempers":
+			for code: String in Database.temper_types():
+				var kind: Dictionary = Database.temper_types()[code]
+				var who: String = kind.get("hero", "")
+				print("%-6s %-22s %s" % [
+					code, kind.get("display_name", ""),
+					who if who != "" else "— nobody written yet",
+				])
 		_:
-			print("nothing called '%s'. try: sites areas units abilities equipment heroes classes" % what)
+			print("nothing called '%s'. try: sites areas units abilities equipment heroes classes tempers" % what)
+
+
+# --- what to write next -------------------------------------------------------
+
+
+func _report_named(what: String) -> void:
+	match what:
+		"casting":
+			_casting_report()
+		_:
+			print("no report called '%s'. try: casting" % what)
+
+
+## Where each authored pool stands against the roster. Read it before an
+## authoring session: starved says what to write, forced says what to cast
+## without discussion, and contested is the only part worth arguing about.
+func _casting_report() -> void:
+	for field: String in Character.TRAIT_POOLS:
+		var pool: String = Character.TRAIT_POOLS[field]
+		var book: Dictionary = Database.casting.get(pool, {})
+		var pieces: Dictionary = book.get("pieces", {})
+		var written := Database.lore_pool(pool)
+		var authored: Array = []
+		for piece_id: String in written:
+			if not bool(written[piece_id].get("provisional", false)):
+				authored.append(piece_id)
+
+		# hero -> the pieces marked for them; piece -> how many it could fit.
+		var marked: Dictionary = {}
+		var orphans: Array = []
+		var contested: Array = []
+		var cast_count := 0
+		for piece_id: String in pieces:
+			var entry: Dictionary = pieces[piece_id]
+			var candidates: Array = entry.get("candidates", [])
+			if str(entry.get("cast", "")) != "":
+				cast_count += 1
+			if candidates.is_empty():
+				orphans.append(piece_id)
+			elif candidates.size() > 2:
+				contested.append("%s (%d)" % [piece_id, candidates.size()])
+			for hero_id: String in candidates:
+				marked[hero_id] = marked.get(hero_id, 0) + 1
+
+		var starved: Array = []
+		var forced: Array = []
+		for hero_id: String in Database.heroes:
+			if str(Database.hero(hero_id).get(field, "")) != "":
+				continue
+			var count: int = marked.get(hero_id, 0)
+			if count == 0:
+				starved.append(hero_id)
+			elif count == 1:
+				forced.append(hero_id)
+
+		print("")
+		print("%s — %d written (%d provisional), %d in the ledger, %d cast%s" % [
+			pool.to_upper(), written.size(), written.size() - authored.size(),
+			pieces.size(), cast_count, "  [LOCKED]" if bool(book.get("locked", false)) else "",
+		])
+		print("  starved   %s" % (", ".join(starved) if not starved.is_empty() else "none"))
+		print("  forced    %s" % (", ".join(forced) if not forced.is_empty() else "none"))
+		print("  contested %s" % (", ".join(contested) if not contested.is_empty() else "none"))
+		print("  orphans   %s" % (", ".join(orphans) if not orphans.is_empty() else "none"))
 
 
 func _files_in(dir_path: String) -> Array:
@@ -325,7 +402,8 @@ what to do
   --shot[=name]     photograph it into .art_stage (drop the --headless flag)
   --zoom=N          camera zoom; below 1 stands further off
   --frames=N        frames to settle before the shot (default %d)
-  --list=WHAT       sites areas units abilities equipment heroes classes
+  --list=WHAT       sites areas units abilities equipment heroes classes tempers
+  --report=casting  where each authored pool stands against the roster
   (none)            build the state, print what it built, quit
 """ % [
 		" ".join(SCENES.keys()),

@@ -10,64 +10,33 @@ const YOKE_ATTACK_PENALTY := 0.25
 ## Extra XP earned in exchange for that handicap (docs/16).
 const YOKE_XP_BONUS := 0.5
 
-const BACKGROUNDS := {
-	"apprentice_smith": {
-		"display_name": "Apprentice Smith",
-		"blurb": "Raised at the hearth-forge with hammer and anvil. Forged in loss when raiders sacked the town.",
-		"start_kind": "village",
-		"grudge_target": "brigand",
-		"grudge_label": "Raiders & Marauders",
-	},
-	"exiled_noble": {
-		"display_name": "Exiled Noble",
-		"blurb": "Cast down from halls of ancestral power. Carries heraldic pride, high arms, and an unyielding code.",
-		"start_kind": "keep",
-		"grudge_target": "heart_empire",
-		"grudge_label": "Imperial Usurpers",
-	},
-	"cloistered_scholar": {
-		"display_name": "Cloistered Scholar",
-		"blurb": "Taught in quiet libraries and hillside hermitages. Seeks lost lore, doctrine, and understanding.",
-		"start_kind": "library",
-		"grudge_target": "the_dusk",
-		"grudge_label": "The Dusk & Abominations",
-	},
-	"wilderness_stray": {
-		"display_name": "Wilderness Stray",
-		"blurb": "Grew up in wild woods, mountain passes, and hidden rivers. Unbound by town law, attuned to nature.",
-		"start_kind": "hut",
-		"grudge_target": "beast",
-		"grudge_label": "Prowling Beasts",
-	},
-	"outcast_drifter": {
-		"display_name": "Outcast Drifter",
-		"blurb": "No village hearth welcomes them, and no bell rings their arrival. Walks the treacherous fringes.",
-		"start_kind": "gate",
-		"grudge_target": "goblin",
-		"grudge_label": "Goblins & Vermin",
-	},
-}
-
-const ALIGNMENTS := {
-	"lawful_good": "Lawful Good",
-	"neutral_good": "Neutral Good",
-	"chaotic_good": "Chaotic Good",
-	"lawful_neutral": "Lawful Neutral",
-	"true_neutral": "True Neutral",
-	"chaotic_neutral": "Chaotic Neutral",
-	"lawful_evil": "Lawful Evil",
-	"neutral_evil": "Neutral Evil",
-	"chaotic_evil": "Chaotic Evil",
+## The five pools of authored history a character can carry, each an id into
+## `data/lore/<pool>.json`. They are written with no character in mind and cast
+## on late, so every one of them is legitimately empty for a long time.
+const TRAIT_POOLS := {
+	"background": "backgrounds",
+	"grudge": "grudges",
+	"hearth": "hearths",
+	"creed": "creeds",
+	"oath": "oaths",
 }
 
 var id: String = ""
 var display_name: String = ""
 var template_id: String = ""
 var class_id: String = ""
-## Background / origin: apprentice_smith | exiled_noble | cloistered_scholar | wilderness_stray | outcast_drifter
+## Four-letter temper code; "" for anyone who is not one of the sixteen.
+var temper: String = ""
+## What they were before the road (see `data/lore/backgrounds.json`).
 var background: String = ""
-## Alignment on the 3x3 moral/order grid (e.g. lawful_good, chaotic_neutral).
-var alignment: String = "true_neutral"
+## Who they hate, worth +10% damage against them (see `data/lore/grudges.json`).
+var grudge: String = ""
+## Where they are from, and where a run of theirs starts (`data/lore/hearths.json`).
+var hearth: String = ""
+## What they believe, and therefore who they can stand (`data/lore/creeds.json`).
+var creed: String = ""
+## What they swore and to whom (see `data/lore/oaths.json`).
+var oath: String = ""
 var origin_story: String = ""
 ## Set when the character reaches level 2 with a choice still to make.
 var pending_class_choice: bool = false
@@ -104,7 +73,7 @@ var doctrine_seen: Dictionary = {}
 ## Self-imposed handicap traded for faster growth.
 var yoke: bool = false
 ## Extra max HP carried from the bed last slept in at home (see [Home]).
-var hearth: int = 0
+var hearth_vigour: int = 0
 ## Other character id -> how well the two of them get on (see [Banter]).
 var bonds: Dictionary = {}
 
@@ -118,62 +87,88 @@ static func create(template_id_: String, name_override: String = "", player: boo
 	character.is_player = player
 	character.hp = -1
 
+	# Traits come off the hero record where there is one; anyone else carries
+	# whatever their unit template names, which is usually nothing at all.
 	var hero := Database.hero(template_id_)
-	if not hero.is_empty():
-		character.background = str(hero.get("background", "apprentice_smith"))
-		character.alignment = str(hero.get("alignment", "true_neutral"))
-		character.origin_story = str(hero.get("origin", ""))
-	else:
-		character.background = str(data.get("background", "wilderness_stray"))
-		character.alignment = str(data.get("alignment", "true_neutral"))
-		character.origin_story = str(data.get("origin", ""))
+	var source := hero if not hero.is_empty() else data
+	character.temper = str(source.get("temper", ""))
+	for field: String in TRAIT_POOLS:
+		character.set(field, str(source.get(field, "")))
+	character.origin_story = str(source.get("origin", ""))
+	Gifts.endow(character)
 	return character
 
 
+# --- authored history ---------------------------------------------------------
+#
+# Five pools, one mechanism. Each of these reads the piece this character was
+# cast, and every one of them is allowed to come back empty.
+
+
+## The piece this character carries from one pool, e.g. `trait_data("creed")`.
+func trait_data(field: String) -> Dictionary:
+	var pool: String = TRAIT_POOLS.get(field, "")
+	if pool == "":
+		return {}
+	return Database.lore_piece(pool, str(get(field)))
+
+
+func trait_display(field: String, fallback: String = "—") -> String:
+	return str(trait_data(field).get("display_name", fallback))
+
+
 func background_data() -> Dictionary:
-	return BACKGROUNDS.get(background, {})
+	return trait_data("background")
 
 
 func background_display() -> String:
-	return str(background_data().get("display_name", "Wanderer"))
+	return trait_display("background", "Wanderer")
+
+
+func creed_display() -> String:
+	return trait_display("creed", "Unspoken")
+
+
+func hearth_display() -> String:
+	return trait_display("hearth", "Nowhere in particular")
 
 
 func grudge_label() -> String:
-	return str(background_data().get("grudge_label", "None"))
+	return trait_display("grudge", "None")
 
 
-func grudge_target() -> String:
-	return str(background_data().get("grudge_target", ""))
+## Which generated site a run of theirs starts on (see [WorldGen]).
+func hearth_kind() -> String:
+	return str(trait_data("hearth").get("site_kind", ""))
 
 
+## Whether this target is one of the people they came here about. Any of the
+## four match rules on the grudge is enough (see `data/lore/grudges.json`).
 func has_grudge_against(target: Node) -> bool:
-	if target == null:
+	if target == null or grudge == "":
 		return false
-	var g := grudge_target()
-	if g == "":
+	var rules: Dictionary = trait_data("grudge").get("matches", {})
+	if rules.is_empty():
 		return false
 	var tid: String = target.get("template_id") if "template_id" in target else ""
-	if tid == g:
+	if tid in rules.get("templates", []):
 		return true
-	if target.has_method("kind") and target.kind() == g:
+	for fragment: String in rules.get("template_contains", []):
+		if fragment in tid:
+			return true
+	if Faction.of(tid) in rules.get("factions", []):
 		return true
-	if Faction.of(tid) == g:
-		return true
-	if g == "beast" and (tid in ["wolf", "frozen_wolfman", "blood_mosquito", "seed_beast"] or (target.has_method("kind") and target.kind() == "beast")):
-		return true
-	if g == "brigand" and ("brigand" in tid or tid in ["cabin_boy", "hat_fox", "pirate_man"]):
-		return true
-	if g == "goblin" and ("goblin" in tid or tid in ["ogre", "troll"]):
-		return true
-	if g == "the_dusk" and (tid in ["wraith", "dusk_shadow", "eye_leprechaun", "eye_slinger", "lizard_wizard", "devil_butler"]):
-		return true
-	if g == "heart_empire" and ("legion" in tid or tid in ["dirte", "golden_knight"]):
+	if target.has_method("kind") and target.kind() in rules.get("kinds", []):
 		return true
 	return false
 
 
-func alignment_display() -> String:
-	return ALIGNMENTS.get(alignment, "True Neutral")
+## What one letter of their temper nudges, or [param fallback] for anyone
+## without a temper and for letters that stay silent about this key.
+func lean(key: String, fallback: float) -> float:
+	if temper == "":
+		return fallback
+	return Database.temper_lean(temper, key, fallback)
 
 
 func template() -> Dictionary:
@@ -197,13 +192,16 @@ func class_name_text() -> String:
 
 
 func max_hp() -> int:
-	return maxi(1, _stat("max_hp", 20) + hearth)
+	return maxi(1, _stat("max_hp", 20) + hearth_vigour)
 
 
 func attack() -> int:
 	var value := _stat("attack", 5)
 	if yoke:
 		value = roundi(value * (1.0 - YOKE_ATTACK_PENALTY))
+	# Cold-eyed tempers hit fractionally harder; warm-handed ones buy their edge
+	# back when somebody falls (see [Fate]).
+	value = roundi(value * lean("damage", 1.0))
 	return maxi(1, value)
 
 
@@ -216,7 +214,8 @@ func speed() -> int:
 
 
 func move_points() -> int:
-	return maxi(1, int(template().get("move", 3)) + Doctrine.bonus(self, "move"))
+	var base := int(template().get("move", 3)) + Doctrine.bonus(self, "move")
+	return maxi(1, base + int(lean("move", 0.0)))
 
 
 func jump() -> int:
@@ -289,8 +288,12 @@ func to_dict() -> Dictionary:
 		"display_name": display_name,
 		"template_id": template_id,
 		"class_id": class_id,
+		"temper": temper,
 		"background": background,
-		"alignment": alignment,
+		"grudge": grudge,
+		"hearth": hearth,
+		"creed": creed,
+		"oath": oath,
 		"origin_story": origin_story,
 		"pending_class_choice": pending_class_choice,
 		"level": level,
@@ -309,7 +312,7 @@ func to_dict() -> Dictionary:
 		"doctrine": doctrine,
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
-		"hearth": hearth,
+		"hearth_vigour": hearth_vigour,
 		"bonds": bonds,
 	}
 
@@ -320,8 +323,9 @@ static func from_dict(data: Dictionary) -> Character:
 	character.display_name = data.get("display_name", "")
 	character.template_id = data.get("template_id", "")
 	character.class_id = data.get("class_id", "")
-	character.background = data.get("background", "")
-	character.alignment = data.get("alignment", "true_neutral")
+	character.temper = data.get("temper", "")
+	for field: String in TRAIT_POOLS:
+		character.set(field, str(data.get(field, "")))
 	character.origin_story = data.get("origin_story", "")
 	character.pending_class_choice = bool(data.get("pending_class_choice", false))
 	character.level = int(data.get("level", 1))
@@ -341,7 +345,7 @@ static func from_dict(data: Dictionary) -> Character:
 	character.doctrine = data.get("doctrine", [])
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))
-	character.hearth = int(data.get("hearth", 0))
+	character.hearth_vigour = int(data.get("hearth_vigour", 0))
 	for other_id: String in data.get("bonds", {}):
 		character.bonds[other_id] = int(data["bonds"][other_id])
 	return character
