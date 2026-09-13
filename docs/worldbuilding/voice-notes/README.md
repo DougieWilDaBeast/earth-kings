@@ -18,8 +18,20 @@ Record, drop the audio in `DROP-ZONE/`, and transcribe it into a `.md` here. The
 (`res://tools/question_report.tscn`) lists every recording that has no transcript yet, so a memo
 cannot sit there quietly holding eighty answers nobody has read.
 
-Transcribe however suits — a local `whisper`, phone dictation, or typing it out. What matters is
-that the words are the spoken ones.
+Transcribe however suits — phone dictation, typing it out, or the script in this repo:
+
+```
+pip install faster-whisper
+python3 tools/transcribe_voice_notes.py --respondent doug-md --recorded 2026-09-13
+```
+
+It reads everything in `DROP-ZONE/`, writes one transcript per recording straight into this folder
+with the front matter already filled in, seeds the model with the world's own proper nouns so
+"the Codex" does not come back as "the codecs", and marks anything it was unsure of `[unclear]`.
+It needs no ffmpeg, but it does fetch the model from `huggingface.co` on first run, so it has to be
+run somewhere that host is reachable.
+
+What matters either way is that the words are the spoken ones.
 
 ## Naming
 
