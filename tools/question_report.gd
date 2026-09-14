@@ -17,10 +17,17 @@ const AUDIO := ["m4a", "mp3", "wav", "ogg", "aac"]
 
 ## Status leads the ledger may use, in the order they are reported.
 const STATUSES := [
-	"Answered", "Partly answered", "Inferred", "Contested", "Blocked", "Noted",
+	"Answered", "Partly answered", "Inferred", "Contested", "Blocked", "Noted", "Proposed",
 ]
 
+## A source is not a person. It can draft an answer; it cannot settle one.
+const SOURCE_PREFIX := "src-"
+
 var _errors: Array[String] = []
+## Question id -> whether a lineage source spoke to it.
+var _sourced: Dictionary = {}
+## Question id -> how many separate proposals it carries.
+var _proposals: Dictionary = {}
 
 
 func _ready() -> void:
@@ -112,6 +119,9 @@ func _answers_in(text: String) -> Dictionary:
 	# The period may sit inside or outside the bold — both get written by hand.
 	var lead := RegEx.create_from_string("^\\*\\*([A-Za-z ]+?)[.:]?\\*\\*")
 	var current := ""
+	# The heading this line sits under, which — unlike `current` — survives the
+	# status line, so a second proposal in the same entry still has an owner.
+	var entry := ""
 	# The ledger documents its own format in a fenced example. A worked example
 	# is not an answer, so fenced regions are skipped everywhere.
 	var fenced := false
@@ -121,6 +131,8 @@ func _answers_in(text: String) -> Dictionary:
 			continue
 		if fenced:
 			continue
+		if line.begins_with("**Proposed") and entry != "":
+			_proposals[entry] = int(_proposals.get(entry, 0)) + 1
 		var h := heading.search(line)
 		if h != null:
 			# An entry that never declared a status is the dangerous case: an
@@ -129,7 +141,10 @@ func _answers_in(text: String) -> Dictionary:
 			if current != "":
 				_fail("%s has no status line, so it counts as nothing" % current)
 			current = h.get_string(1)
+			entry = current
 			continue
+		if line.contains("`" + SOURCE_PREFIX) and entry != "":
+			_sourced[entry] = true
 		if current == "":
 			continue
 		var l := lead.search(line)
@@ -137,6 +152,10 @@ func _answers_in(text: String) -> Dictionary:
 			var status := l.get_string(1).strip_edges()
 			if status not in STATUSES:
 				_fail("%s carries unknown status '%s'" % [current, status])
+			# The one rule this file exists to protect: a lineage source drafts,
+			# it never decides. Canon has to come from somebody who can be asked.
+			if status == "Answered" and _sourced.get(current, false):
+				_fail("%s is answered by a source; only a founder can settle a question" % current)
 			out[current] = status
 			current = ""
 	if current != "":
@@ -204,6 +223,21 @@ func _report_waiting(answers: Dictionary) -> void:
 	inferred.sort()
 	blocked.sort()
 	contested.sort()
+	print("")
+	var proposed: Array[String] = []
+	var argued: Array[String] = []
+	for id: String in answers:
+		if answers[id] != "Proposed":
+			continue
+		if int(_proposals.get(id, 1)) > 1:
+			argued.append(id)
+		else:
+			proposed.append(id)
+	proposed.sort()
+	argued.sort()
+	print("")
+	print("  proposals to decide on   %d" % proposed.size())
+	print("  proposals that disagree  %s" % (", ".join(argued) if not argued.is_empty() else "none"))
 	print("")
 	print("  waiting on a yes   %s" % (", ".join(inferred) if not inferred.is_empty() else "none"))
 	print("  trailed off        %s" % (", ".join(blocked) if not blocked.is_empty() else "none"))

@@ -26,6 +26,10 @@ three weeks ago, and what it re-opened by accident.
   `[L]` a shrug · `[—]` you decide · `[!]` **veto**, three for the whole book. These can be spoken:
   "and that one I'd walk away over" reads as `[!]`.
 - **"I don't know" is an answer**, and a different one from "that's deliberately open".
+- **Some questions arrive with a proposal already attached.** 73 of them carry a drafted answer from
+  one of the [lineage sources](16-lineage/00-index.md), sitting in
+  [answers.md](worldbuilding/answers.md) as `**Proposed.**`. Adopting one is as real an answer as
+  speaking one — "yes, that one" settles a question. So does "no, and here is why not".
 - Where a question says **(repo:)** the code already implies an answer. Confirming it is a real
   answer. So is overturning it — note that it costs work.
 - Answer what is true in the world, not what is fun for the player. Fun is Part IV's job.

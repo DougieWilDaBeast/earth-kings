@@ -200,6 +200,40 @@ One block per fork. Copy the template. Keep the losing answer — it is raw mate
 - **Downstream:** D-entry for "gates are not authored"; `data/factions.json` blurb for
   `heart_empire`; a doctrine entry in `data/doctrine.json` that teaches the false version.
 
+---
+
+## Forks the lineage sources arrived with
+
+These came in already contested: two sources proposing incompatible answers to the same question.
+Nobody has chosen, and the proposals are in [answers.md](answers.md) under both readings. They are
+listed first because they are the arguments worth having — the rest of the 73 proposals are a
+yes/no pass.
+
+| ID | Option A | Option B |
+| --- | --- | --- |
+| `FR1` | The record is written by the winner, and the record is wrong — `src-fft` | A system worn long enough is mistaken for skin — `src-watf` |
+| `FR10` / `SF3` | One reader, watching from inside — `src-orv` | Nobody. Things get written down and never assembled — `src-dwarf-fortress` |
+| `KN1` | Knowledge that stops being questioned stops being knowledge — `src-watf` | A rule nobody executes stops being a rule — `src-chronicle` |
+| `LF4` | Gate-things are ordinary where they came from — `src-barbarian` | Made by the gate; pairs with `PW3` — the mystical reading |
+| `SM1` | Reloading is a fact about the player, stated plainly — `src-bg3` | Any in-world reading, which `SM5` makes harder |
+| `SM5` / `MX11` | The last run survives as *text*, remembered wrong — `src-orv` | It survives as *behaviour*; nobody remembers, everyone does it — `src-chronicle` |
+| `SM8` | The name surfaces later, somewhere you went for another reason — `src-xcom` | You made their gear — `src-regressor` |
+
+Three notes before anyone picks.
+
+**`SM5`/`MX11` may not be a fork at all.** `16.11` argues the two readings are *compatible and
+better together*: the memory is wrong and the habit is right. Take both and `SM6`'s Museum becomes
+the place where they publicly disagree. That is a third option neither row states, and it is
+probably the best thing in the whole set.
+
+**`FR10`/`SF3` is the real argument.** One reader or no reader decides whether this world has a
+consciousness above it, and almost everything in `NW` and `SF` leans on the answer. `16.8` calls it
+the most interesting disagreement available here, and that looks right.
+
+**`src-chronicle` is not a neutral party.** It is the team's own prior project — the only source
+whose design can be changed to suit the answer. It appears in two of these seven rows. Weigh it
+knowing that.
+
 ## Open questions parked here
 
 | ID | Question | Why it is parked | Revisit at |
