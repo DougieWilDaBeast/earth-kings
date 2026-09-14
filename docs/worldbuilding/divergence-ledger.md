@@ -205,34 +205,49 @@ One block per fork. Copy the template. Keep the losing answer — it is raw mate
 ## Forks the lineage sources arrived with
 
 These came in already contested: two sources proposing incompatible answers to the same question.
-Nobody has chosen, and the proposals are in [answers.md](answers.md) under both readings. They are
-listed first because they are the arguments worth having — the rest of the 73 proposals are a
-yes/no pass.
+Nobody has chosen, and both readings are in [answers.md](answers.md) under one heading.
+
+**★ marks a cross-list fork** — where a source one founder named argues with a source the other
+named. Those are not really source collisions. They are taste collisions wearing a source's
+clothes, and they are the ones worth doing in person.
 
 | ID | Option A | Option B |
 | --- | --- | --- |
-| `FR1` | The record is written by the winner, and the record is wrong — `src-fft` | A system worn long enough is mistaken for skin — `src-watf` |
-| `FR10` / `SF3` | One reader, watching from inside — `src-orv` | Nobody. Things get written down and never assembled — `src-dwarf-fortress` |
+| ★ `SM8` / `MX19` | The world names them afterwards, from what they did — `src-xcom` | You name them in advance, and it permanently costs you — `src-slime` |
+| ★ `GT7` / `GT15` | An ignored gate spills and the map gets worse — `src-solo-leveling` | Gates are a workplace with a price board, no doom clock — `src-barbarian` |
+| ★ `PW2` / `PW4` | The grammar is an impersonal language nobody granted — `src-watf` | Power is permission, granted per floor and revocable — `src-tower-of-god` |
+| ★ `DV1` | A job with a price board and a rank ladder — `src-barbarian` | What is left when the alternatives ran out — `src-barbarian` (co-founder's reading) |
+| ★ `FR7` | The rule clicks; grief arrives late at a memorial — `src-fft` | Nothing happens; the world's indifference is the feeling — `src-barbarian` (co-founder's reading) |
+| `FR10` / `SF3` | One reader, watching from inside — `src-orv` | Nobody; written down and never assembled — `src-dwarf-fortress` |
+| `LF4` / `LF1` | Ordinary where they came from — `src-barbarian` | Incomplete; the named ones stop being monsters — `src-slime` |
+| `SM5` / `MX11` | Survives as *text*, remembered wrong — `src-orv` | Survives as *behaviour*, nobody remembers — `src-chronicle` |
+| `BD2` | Physical; a bond you can feel go — `src-slime` | A story about you that got large enough — `src-orv` |
+| `FR1` | The record is written by the winner and is wrong — `src-fft` | A system worn long enough is mistaken for skin — `src-watf` |
 | `KN1` | Knowledge that stops being questioned stops being knowledge — `src-watf` | A rule nobody executes stops being a rule — `src-chronicle` |
-| `LF4` | Gate-things are ordinary where they came from — `src-barbarian` | Made by the gate; pairs with `PW3` — the mystical reading |
-| `SM1` | Reloading is a fact about the player, stated plainly — `src-bg3` | Any in-world reading, which `SM5` makes harder |
-| `SM5` / `MX11` | The last run survives as *text*, remembered wrong — `src-orv` | It survives as *behaviour*; nobody remembers, everyone does it — `src-chronicle` |
-| `SM8` | The name surfaces later, somewhere you went for another reason — `src-xcom` | You made their gear — `src-regressor` |
+| `AR2` | The map is the frontier; one safe administered city — `src-barbarian` | One settlement warded instead of walled, because of what flies — `src-mushoku` |
+| `HS2`, `LN4`, `NW7`, `OT8`, `SM7` | further pairs — see the entries in [answers.md](answers.md) | |
 
-Three notes before anyone picks.
+### The three to take first
 
-**`SM5`/`MX11` may not be a fork at all.** `16.11` argues the two readings are *compatible and
-better together*: the memory is wrong and the habit is right. Take both and `SM6`'s Museum becomes
-the place where they publicly disagree. That is a third option neither row states, and it is
-probably the best thing in the whole set.
+**`GT7`/`GT15` is the most consequential.** A gate with a doom clock and a gate that is a job
+cannot both be true, and `16.16` says so in its own costs line. It decides whether the map can get
+worse while you are elsewhere, which drags `SM2` and `MX22` — whether the world can become
+unwinnable — along with it.
 
-**`FR10`/`SF3` is the real argument.** One reader or no reader decides whether this world has a
-consciousness above it, and almost everything in `NW` and `SF` leans on the answer. `16.8` calls it
-the most interesting disagreement available here, and that looks right.
+**`DV1` is the most revealing.** Both founders independently named the same book and drew opposite
+conclusions from it: a trade with a price board, or what happens when you have run out of options.
+The source did not change; the reader did. `16.3` itself calls this "small, worth ten minutes",
+which is right about the scope and wrong about the significance.
 
-**`src-chronicle` is not a neutral party.** It is the team's own prior project — the only source
-whose design can be changed to suit the answer. It appears in two of these seven rows. Weigh it
-knowing that.
+**`SM8` now has three proposals** — XCOM's, the Regressor's and Tensura's — on what was already the
+most-answered question in the book. Tensura's is the expensive one: a naming economy, a permanent
+resource spent on people. Read its cost line before falling in love with it.
+
+### Not a fork
+
+**`SM5`/`MX11`** is still listed as a collision, and `16.11` argues it is not one: text and
+behaviour are compatible, the memory being wrong while the habit is right. Taking both makes the
+Museum the place where they publicly disagree. Worth resolving as *both* rather than either.
 
 ## Open questions parked here
 
