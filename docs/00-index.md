@@ -19,7 +19,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 13  | [Heroes & Tempers](13-heroes-and-tempers.md)         | The sixteen starting characters and the four questions that pick one |
 | 14  | [Lore Pools & Casting](14-lore-pools.md)             | History authored with no character in mind, and how it gets attached |
 | 15  | [The Question Book](15-the-question-book.md)         | **Every open question in one place** — 366 of them, answered by voice note |
-| 16  | [Lineage entries](16-lineage/00-index.md)            | One file per source that shaped this, with candidate answers tagged to question ids |
+| 16  | [Lineage entries](16-lineage/00-index.md)            | Sixteen sources that shaped this, with 143 candidate answers tagged to question ids |
 
 ## Deciding the world
 
@@ -30,7 +30,7 @@ book, answered by voice note and reconciled into canon:
 - [Answers](worldbuilding/answers.md) — what has been settled, and by whom
 - [Respondents](worldbuilding/respondents.md) — who may answer, and with what standing
 - [Voice notes](worldbuilding/voice-notes/) — raw transcripts, kept as spoken
-- [Lineage entries](16-lineage/00-index.md) — 73 drafted answers from the works that shaped this
+- [Lineage entries](16-lineage/00-index.md) — 143 drafted answers from the sixteen works that shaped this
 - [Process](worldbuilding/00-process.md) — how the sittings and merge sessions run
 - [Divergence ledger](worldbuilding/divergence-ledger.md) — forks, resolutions, and what the
   losing answers become

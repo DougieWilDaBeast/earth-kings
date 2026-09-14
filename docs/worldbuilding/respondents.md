@@ -19,24 +19,33 @@ as one.
 
 ## The register
 
-| Id | Standing | Git identities | Notes |
-| --- | --- | --- | --- |
-| `dougie` | founder | `DougieWilDaBeast` | |
-| `doug-md` | founder | `DougMD123` | |
-| `src-watf` | source | — | *The World After the Fall* — the `PW` block, `KN1`, `FR8` |
-| `src-orv` | source | — | *Omniscient Reader's Viewpoint* — `SF`, `SM5`, `NW`, `CO1` |
-| `src-barbarian` | source | — | *Surviving the Game as a Barbarian* — `GT`, `LF`, `DV`, `EC3` |
-| `src-fft` | source | — | *Final Fantasy Tactics* — `RU`, `LW`, `FR1`, `FR7`, `HS7` |
-| `src-xcom` | source | — | *XCOM* — `BD2`, `BD8`, `SM6`–`SM8`, `MX12`, `MX19` |
-| `src-bg3` | source | — | *Baldur's Gate 3* — `MX17`, `MX18`, `LP19`, `CH5`, `CH9` |
-| `src-octopath` | source | — | *Octopath Traveler 2* — `SK7`, `SK8`, `DY`, `CH14`, `MX16` |
-| `src-dwarf-fortress` | source | — | *Dwarf Fortress* — `HS`, `NW`, `LW8`, `FR10`, `AR8` |
-| `src-mount-hua` | source | — | *Return of the Mount Hua Sect* — `KN`, `FA8`, `RU6`, `DV7` |
-| `src-regressor` | source | — | *The Regressor Can Make Them All* — `MK`, `EC8`, `LP6`, `OT8` |
-| `src-chronicle` | source | — | **CHRONICLE — internal.** The team's own prior project, and the only source whose design can be changed to suit the answer. Weigh its proposals knowing that |
+| Id | Standing | Nominated by | Git identities | Notes |
+| --- | --- | --- | --- | --- |
+| `dougie` | founder | — | `DougieWilDaBeast` | |
+| `doug-md` | founder | — | `DougMD123` | |
+| `src-watf` | source | `dougie` | — | *The World After the Fall* — the `PW` block, `KN1`, `FR8` |
+| `src-orv` | source | `dougie` | — | *Omniscient Reader's Viewpoint* — `SF`, `SM5`, `NW`, `CO1` |
+| `src-barbarian` | source | **both** | — | *Surviving the Game as a Barbarian* — `GT`, `LF`, `DV`, `EC3` + `AR1`, `LW`, `SM7`, `FR4`. **Named independently by both founders, who read it differently** — the file carries both readings and they disagree on `DV1` and `FR7` |
+| `src-fft` | source | `dougie` | — | *Final Fantasy Tactics* — `RU`, `LW`, `FR1`, `FR7`, `HS7` |
+| `src-xcom` | source | `dougie` | — | *XCOM* — `BD2`, `BD8`, `SM6`–`SM8`, `MX12`, `MX19` |
+| `src-bg3` | source | `dougie` | — | *Baldur's Gate 3* — `MX17`, `MX18`, `LP19`, `CH5`, `CH9` |
+| `src-octopath` | source | `dougie` | — | *Octopath Traveler 2* — `SK7`, `SK8`, `DY`, `CH14`, `MX16` |
+| `src-dwarf-fortress` | source | `dougie` | — | *Dwarf Fortress* — `HS`, `NW`, `LW8`, `FR10`, `AR8` |
+| `src-mount-hua` | source | `dougie` | — | *Return of the Mount Hua Sect* — `KN`, `FA8`, `RU6`, `DV7` |
+| `src-regressor` | source | `dougie` | — | *The Regressor Can Make Them All* — `MK`, `EC8`, `LP6`, `OT8` |
+| `src-chronicle` | source | `dougie` | — | **CHRONICLE — internal.** The team's own prior project, and the only source whose design can be changed to suit the answer. Weigh its proposals knowing that |
+| `src-tower-of-god` | source | `doug-md` | — | *Tower of God* — `GT8`–`GT14`, `PW4`, `PW6`, `RU12`, `AR3` |
+| `src-mushoku` | source | `doug-md` | — | *Mushoku Tensei* — `LN`, `FA`, `TG`, `PW5`, `OT`, `EC5` |
+| `src-slime` | source | `doug-md` | — | *That Time I Got Reincarnated as a Slime* — `LF`, `BD`, `OT`, `RU4`–`RU9`, `LP1`, `SM8` |
+| `src-one-piece` | source | `doug-md` | — | *One Piece* — `LN`, `HS`, `NW`, `FR8`, `MX8` |
+| `src-solo-leveling` | source | `doug-md` | — | *Solo Leveling* — `GT1`–`GT8`, `GT15`, `EC`, `DV5`, `LF2` |
 
 Add a row before that person's first note is ingested. A note from somebody with no row is flagged,
 not guessed at.
+
+**Nominated by** records which founder brought the source in. It is not decoration: where both
+lists name the same work — or the same question — the disagreement is worth more than either
+answer on its own, and `src-barbarian` is the row that proves it.
 
 A `source` row has no git identity on purpose: nobody commits on a book's behalf. A proposal is
 attributed by the entry it came from in [16 — Lineage entries](../16-lineage/00-index.md), and that
