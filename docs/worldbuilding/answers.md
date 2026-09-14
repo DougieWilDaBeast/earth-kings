@@ -7,6 +7,93 @@ Entries are written in the house style of [09 — Wishlist](../09-wishlist.md): 
 a blockquote, then a **bold status**, then what it means. **A quote is never edited.** If what
 somebody said is unclear, the entry says so and asks rather than tidying it into sense.
 
+---
+
+# What is still to decide
+
+The agenda for the next session, in the order it is worth spending time on. Every row points at an
+entry further down this file; nothing here is new information, it is the open work gathered into one
+place so it can be worked through rather than rediscovered.
+
+Run `res://tools/question_report.tscn` for the live count. As of 2026-09-14 it reads **60 of 366
+answered, 191 still open, 143 drafts across 129 questions**.
+
+## 1. Eleven questions that need a straight answer
+
+`doug-md` answered Part I but eleven of them did not land cleanly. Each entry already writes out the
+one follow-up it needs.
+
+| ID     | Status          | The follow-up                                                                            |
+| ------ | --------------- | ---------------------------------------------------------------------------------------- |
+| `SK6`  | Partly answered | **How long is a step?** He made the step the clock — time only moves when the party does — then handed the scale back: "one second… or one minute… entirely up to yourself". Everything in the game is priced in steps, so this one gates the rest. |
+| `LN1`  | Blocked         | **Is the continent a month across, or half a year?** He gave 30 days by carriage and then six months on foot, seconds apart. A carriage is not six times a walker. |
+| `GT12` | Blocked         | **Is the Spire Archon something that was _put_ there, or something that _arrived_?** The only question in Part I he declined — "I am not sure." D25 already ships the fight. |
+| `SK2`  | Partly answered | One sun, then the answer left the sky for gate timers. **Is the sun ordinary, and is anything else up there by day?** |
+| `LN4`  | Partly answered | There is undiscovered ground. **Is there a safe, boring, administered elsewhere that this map is the frontier of?** |
+| `LN6`  | Partly answered | Three landmark _kinds_ landed, no names. **Name them** — placeholders are fine. |
+| `CL4`  | Partly answered | Cadence answered: any year can be the bad one. **What does a bad year actually look like?** |
+| `LF8`  | Partly answered | Diet is opportunistic and hunger reaches cannibalism. **What is the staple crop, and what is the herd?** |
+| `LF9`  | Partly answered | Life gathers at gates and is changed by them. **Does anything exist _only_ there, and what does long exposure do to farmland?** |
+| `MK1`  | Partly answered | No single ceiling; technology is uneven by region. **What is the most advanced thing anyone can build, and who builds it?** |
+| `GT9`  | Partly answered | The Tower neither restrains nor generates gates — "but maybe the tower can help them generate". **Does it influence them at all?** |
+
+## 2. Five contradictions that have to be settled
+
+These are not gaps. They are two statements that cannot both stand.
+
+| Where                 | The collision                                                                                  |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| notes 01–05 vs note 06 | **"Tower" means two things.** He says _tower_ where the book says _gate_ throughout the first five notes, and in `GT5` he catches himself: "a gate looks like a massive tower, or, sorry, a gate looks like a wormhole." Note 06 keeps them apart. The whole of Part I reads differently depending on the answer. |
+| `SK5` + `SK6` vs repo | A 365-day year and the repo's 120 steps per season (480 steps a year) put a step at about a day and a half. He guessed "one second or one minute". Two of the three have to give. |
+| `GT9` vs D08          | He has gate rank rising the **closer** you are to the Tower. D08 has it rising with **distance**. This inverts the map. |
+| `CL2` vs repo         | He describes a season front that **sweeps** south to north over a warm equator. `Season` flips globally at a step count. `WorldGen._latitude` already agrees with him; the season clock does not. |
+| `GT6` vs repo         | A broken gate should **spread its element across the ground and keep spreading**. The repo raises local danger 25pp and changes nothing else. |
+
+## 3. Three slots with no noun in them
+
+Canon says these exist and matter. Nobody has named them.
+
+| ID    | The empty slot                                                                             |
+| ----- | -------------------------------------------------------------------------------------------- |
+| `LN6` | The three landmarks everyone can name — the first gate, the great city, an unsealed broken gate. |
+| `MK8` | The material worth a war: "maybe a stone or a rare element… worth millions and millions and millions." |
+| `MK9` | The "legendary technology man" whose blueprints a gate destroyed. |
+
+## 4. One question nobody has asked
+
+`SK10` has "a higher beam that essentially governs these towers and they do look back". `GT10` has
+the Tower built by something that "is not other people… a different form of existence". `GT12` is the
+Spire Archon, undecided.
+
+**Are these the same thing?** Three answers circling one entity across two notes, and no entry
+connects them. Deciding it would close `GT12`, which is otherwise the only question in Part I with
+nothing in it at all.
+
+## 5. Thirteen questions where the drafts disagree
+
+Two lineage sources argue opposite sides. These need a pick, not an answer — the reasoning and the
+costs are already written up in the [divergence ledger](divergence-ledger.md).
+
+`AR2` · `DV1` · `FR7` · `HS2` · `KN1` · `LN4` · `MX11` · `MX19` · `NW7` · `OT8` · `SM5` · `SM7` · `SM8`
+
+A further **95 questions carry a single draft** waiting on a yes, a no, or a better idea. Those are
+the cheapest progress available: the argument is already made, so each one costs a sentence.
+
+## 6. Six things Part I made canon that the game does not model
+
+Scope calls rather than lore calls. Each one is now true of the world and absent from the build.
+
+| From            | What is now true                                                                            |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| `LN2`, `LN9`    | **Flight.** Blimps are how some people cross a hundred miles, and the map edge is crossed by air, ferry or tunnel. |
+| `SK3`           | **The moon is a place** that can be reached and used, by few. |
+| `LF5`           | **A world-spanning monster-slaving organisation.** With `LF3` (completely alive) and `LF4` (they interbreed with people), this is slavery of people. |
+| `GT13`          | **The Spire is inhabited**, floor by floor, wherever resources allow. The climb currently treats every floor as a battle. |
+| `GT14`          | **The underworld is occupied**, and `LN2`'s tunnels are somebody's roads. |
+| `CL3`, `CL7`    | **Winter kills**, by exposure and by starvation, and the hungry month falls at the Brown-to-Ice turn. Nothing in the game kills anyone for the season. |
+
+---
+
 ## The statuses
 
 | Lead                   | Means                                                                                                                                                                    |
@@ -2097,7 +2184,7 @@ _Costs_ — the haven becomes a place with an identity, which is art and writing
 **Proposed.**
 ↳ Falls out: `NW4` (what does an ordinary person believe about gates) and `DV4` (what four armed strangers look like) both get sharper — they look like liars.
 
-## SF3 — Is anyone watching the player's run from inside the fiction? (The lineage names \_Omniscient R…
+## SF3 — Is anyone watching the player's run from inside the fiction? (The lineage names _Omniscient R…
 
 > yes, and exactly one. Not a god and not an audience — a **reader**, who knows the shape and not the outcome.
 > — `src-orv`, [16.2-omniscient-readers-viewpoint](../16-lineage/16.2-omniscient-readers-viewpoint.md)

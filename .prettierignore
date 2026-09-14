@@ -1,0 +1,5 @@
+# The docs are hand-set prose, and the worldbuilding ledgers are quoted testimony —
+# answers.md's own rule is that a quote is never edited. Prettier rewrites *emphasis*
+# to _emphasis_ and escapes underscores inside headings, which silently alters words
+# somebody said and starts a merge conflict on every branch that touches the same file.
+docs/

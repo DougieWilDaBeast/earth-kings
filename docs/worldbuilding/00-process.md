@@ -1,14 +1,31 @@
 # Running the World Charter Interview
 
-Two people, answering [288 questions](../12-world-charter-interview.md) separately, then
-reconciling. This file is the procedure. It exists because the hard part is not the questions —
-it is what you do with two different sets of answers without one person quietly losing.
+Two people settling [366 questions](../15-the-question-book.md). This file is the procedure. It
+exists because the hard part is not the questions — it is what you do with two different sets of
+answers without one person quietly losing.
 
-## The one rule
+## How this is actually being run
 
-**Answer alone.** No discussion, no "what did you put", no reading ahead in the other sheet. An
-agreement you both arrived at independently is load-bearing world. An agreement produced by one
-person talking first is a preference with a witness.
+The method below was written for two independent sheets. That is not what happened, and the doc
+follows the practice rather than the other way round.
+
+- **Part I is a recorded solo pass.** `doug-md` answered all 71 questions of Part I into six voice
+  notes on 2026-09-14, alone and without reading ahead. Those are in
+  [voice-notes/](voice-notes/) and their answers are canon in [answers.md](answers.md).
+- **Everything after that is a joint session.** `dougie` is not recording a second sheet. The two
+  of them work the remaining open questions together, reacting to what is already on the page —
+  `doug-md`'s Part I answers, the 143 lineage drafts, and the inspiration material behind them.
+- **The agenda is [What is still to decide](answers.md#what-is-still-to-decide)**, which gathers
+  every open item into one ordered list.
+
+**What this costs, stated plainly.** The original rule was *answer alone* — no discussion, no "what
+did you put", no reading ahead in the other sheet — because an agreement two people reach
+independently is load-bearing world, and an agreement produced by one person talking first is a
+preference with a witness. Working jointly gives that up. Expect very few `**Contested.**` entries
+and a thinner [divergence ledger](divergence-ledger.md): with only one sheet there is little to
+diverge *from*, and the forks that do get recorded will mostly be sources arguing with each other
+rather than founders. The care tags below still apply, and they are now the main defence against
+one voice carrying a session.
 
 ## The tags, and why they matter more than the answers
 
@@ -27,25 +44,29 @@ converge in an afternoon if only fifteen of them are `H` against `H`.
 
 ## Schedule
 
-Five sittings, ninety minutes each, no more. Fatigue produces canon nobody believes.
+Ninety-minute sittings, no more. Fatigue produces canon nobody believes.
 
-| # | Solo pass | Then, together |
-| --- | --- | --- |
-| 1 | **Part 0 (Frame) + Part V (Boundaries)** — 18 questions | Merge immediately. If the frames are incompatible, stop. Everything downstream is wasted until they are not |
-| 2 | **Part I — Physical** (~70) | Merge |
-| 3 | **Part II — Mental** (~60) | Merge |
-| 4 | **Part III — Cultural** (~120) | Merge — split over two sittings if needed |
-| 5 | **Part IV — Seams** (12) | Merge, then canonise everything |
+| #   | Covers                                                    | Shape                                                                                                              |
+| --- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| ✓   | **Part I — Physical** (71)                                | Done. Solo pass by `doug-md`, recorded. Eleven follow-ups still open                                                |
+| 1   | **Part 0 (Frame) + Part V (Boundaries)** — 18 questions   | Together. If the frames are incompatible, stop. Everything downstream is wasted until they are not                  |
+| 2   | **The eleven Part I follow-ups + five contradictions**    | Together. Start with `SK6`; the book prices everything in steps and that number is still unset                      |
+| 3   | **Part II — Mental** (60)                                 | Together                                                                                                            |
+| 4   | **Part III — Cultural** (117)                             | Together — split over two sittings                                                                                  |
+| 5   | **Part IV — Seams** (12)                                  | Together, then canonise everything                                                                                  |
 
-Part 0 first is not a formality. FR4 ("what does _Earth Kings_ mean") and BN1 ("what must never be
-true") decide dozens of later answers on their own, and you want them decided before either of you
-has invested a Saturday in a cosmology.
+Part 0 is still first even though Part I is already done. `FR4` ("what does _Earth Kings_ mean")
+and `BN1` ("what must never be true") decide dozens of later answers on their own, and Part I was
+answered without them — so the frame session may re-open some of what is already written down.
+That is the right order to find it out in.
 
 ## The merge session
 
-Go question by question, in ID order. Read both answers aloud before discussing either. Classify:
+Go question by question, in ID order. Where a written answer or a draft already exists, read it
+aloud before either of you says what you think of it — a draft on the page is there to be answered
+against, not to be ratified. Classify:
 
-- **AGREED** — same answer, or trivially the same. Copy it to the world bible. Move on in ten
+- **AGREED** — same answer, or trivially the same. Write it flat into the entry and move on in ten
   seconds. Most of the interview will be this, and that is the interview working.
 - **COMPATIBLE** — different answers that are both true. Two peoples, two regions, two eras, or
   one is a belief and the other a fact. **Try this before every fork.** A world where the coast
@@ -53,6 +74,11 @@ Go question by question, in ID order. Read both answers aloud before discussing 
 - **FORK** — genuinely cannot both be true. Goes in the [ledger](divergence-ledger.md).
 - **OPEN** — both tagged `L` or `—`, or both wrote `?`. **Leave it open.** Do not invent an answer
   to avoid a blank. An unanswered question is a door; a bored answer is a wall.
+
+Working jointly, the failure mode is not deadlock, it is **drift to whoever spoke first**. If one of
+you has already answered a question in a voice note, the other says their answer before the
+recording is played back. Otherwise the session is a review, and a review produces agreement rather
+than world.
 
 ### Resolving a fork
 
@@ -81,13 +107,13 @@ Nothing is canon until it is written outside this folder.
 
 | Kind of answer | Where it goes |
 | --- | --- |
-| A plain fact about the world | `docs/13-world-bible.md`, one line, stated flat |
+| A plain fact about the world | Its entry in [answers.md](answers.md), stated flat. There is no separate world bible yet; when the ledger gets too long to read, that is the signal to start one |
 | Anything that changes a rule or a system | A numbered `D` entry in [06 — Decisions](../06-decisions.md), with the date and the reasoning — that file is append-only and is where this is looked up |
 | Anything that becomes content | A task against `data/` — factions, doctrine, areas, dialogue, memorials. Working rule 1: content lives in `data/`, never in code |
 | A losing fork | Stays in the ledger, flagged as a candidate belief, rumour or false doctrine |
 | Open | Stays in the ledger as open. Revisit at the next milestone, not sooner |
 
-Write the bible in **statements, not options**: "Gates are wounds, not doors; nobody opens them on
+Write canon in **statements, not options**: "Gates are wounds, not doors; nobody opens them on
 purpose" — not "gates are probably wounds". If the sentence needs a hedge, it is not canon yet.
 
 ## What to do when you disagree about disagreeing

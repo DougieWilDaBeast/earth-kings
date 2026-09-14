@@ -28,6 +28,7 @@ book, answered by voice note and reconciled into canon:
 
 - [15 — The Question Book](15-the-question-book.md) — every question, in one file
 - [Answers](worldbuilding/answers.md) — what has been settled, and by whom
+- [**What is still to decide**](worldbuilding/answers.md#what-is-still-to-decide) — the agenda: the open follow-ups, the contradictions, and the drafts waiting on a yes
 - [Respondents](worldbuilding/respondents.md) — who may answer, and with what standing
 - [Voice notes](worldbuilding/voice-notes/) — raw transcripts, kept as spoken
 - [Lineage entries](16-lineage/00-index.md) — 143 drafted answers from the sixteen works that shaped this
