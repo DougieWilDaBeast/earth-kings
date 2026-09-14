@@ -51,6 +51,11 @@ The design DNA predates both projects and shows up independently across years of
 - **One-way doors** — floors that trap everyone inside; brands that lock you out of the city.
 - **Mastery through use** — any character, any weapon, improving by doing.
 
+Each of these now has a full entry in [16 — Lineage entries](16-lineage/00-index.md): what it is,
+the mechanisms worth taking, candidate answers tagged to [Question Book](15-the-question-book.md)
+ids, and — the part that matters most — what **not** to take. The paragraph below is the short
+version; that folder is the long one.
+
 Acknowledged influences: _Solo Leveling_ (gates, dungeons, a summoned army), _Pick Me Up_
 (rolling a character out of nothing), _Surviving the Game as a Barbarian_ (meta-knowledge as the
 sharpest weapon; scarce first-clear XP), _Omniscient Reader's Viewpoint_ (the watching layer),
