@@ -1,13 +1,22 @@
 # Divergence ledger
 
-Where the two sheets disagree, and what was done about it. Filled in during the merge sessions
-described in [00-process.md](00-process.md). Nothing is deleted from this file — a losing answer
-becomes a belief somebody in the world holds, and gets reused.
+Where the answers disagree, and what was done about it. Filled in during the sessions described in
+[00-process.md](00-process.md). Nothing is deleted from this file — a losing answer becomes a belief
+somebody in the world holds, and gets reused.
+
+This file was written expecting two independent sheets. Only one exists: `doug-md` recorded Part I
+alone, and the rest is being worked jointly. Until a second voice disagrees with a first there is
+little here to reconcile, so most of what follows is sources arguing with each other rather than
+founders — see the note in [00-process.md](00-process.md#how-this-is-actually-being-run).
 
 ## Status grid
 
-Mark each ID as you merge it: `A` agreed · `C` compatible (both true) · `F` fork (resolved below)
+Mark each ID as you settle it: `A` agreed · `C` compatible (both true) · `F` fork (resolved below)
 · `O` open (nobody cared, or deliberately deferred).
+
+Part I carries two marks the merge symbols cannot express, because it was answered by one founder
+and has not been reviewed by the other: `1` answered by one founder, awaiting the second · `?`
+answered only in part, and the [entry](answers.md) writes out the follow-up it still needs.
 
 **Part 0 — Frame**
 
@@ -19,37 +28,37 @@ Mark each ID as you merge it: `A` agreed · `C` compatible (both true) · `F` fo
 
 | ID | SK1 | SK2 | SK3 | SK4 | SK5 | SK6 | SK7 | SK8 | SK9 | SK10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status | 1 | ? | 1 | 1 | 1 | ? | 1 | 1 | 1 | 1 |
 
 **I.b Land, scale and edges — `LN`**
 
 | ID | LN1 | LN2 | LN3 | LN4 | LN5 | LN6 | LN7 | LN8 | LN9 | LN10 | LN11 | LN12 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |
+| status | ? | 1 | 1 | ? | 1 | ? | 1 | 1 | 1 | 1 | 1 | 1 |
 
 **I.c Climate and season — `CL`**
 
 | ID | CL1 | CL2 | CL3 | CL4 | CL5 | CL6 | CL7 | CL8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |
+| status | 1 | 1 | 1 | ? | 1 | 1 | 1 | 1 |
 
 **I.d Life, bodies and the monstrous — `LF`**
 
 | ID | LF1 | LF2 | LF3 | LF4 | LF5 | LF6 | LF7 | LF8 | LF9 | LF10 | LF11 | LF12 | LF13 | LF14 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+| status | 1 | 1 | 1 | 1 | 1 | 1 | 1 | ? | ? | 1 | 1 | 1 | 1 | 1 |
 
 **I.e Matter, craft and making — `MK`**
 
 | ID | MK1 | MK2 | MK3 | MK4 | MK5 | MK6 | MK7 | MK8 | MK9 | MK10 | MK11 | MK12 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |
+| status | ? | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 
 **I.f Gates, the Tower and the deep — `GT`**
 
 | ID | GT1 | GT2 | GT3 | GT4 | GT5 | GT6 | GT7 | GT8 | GT9 | GT10 | GT11 | GT12 | GT13 | GT14 | GT15 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+| status | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | ? | 1 | 1 | ? | 1 | 1 | 1 |
 
 **I.g Body, wound and death — `BD`**
 

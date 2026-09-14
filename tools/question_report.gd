@@ -125,6 +125,10 @@ func _answers_in(text: String) -> Dictionary:
 	# The ledger documents its own format in a fenced example. A worked example
 	# is not an answer, so fenced regions are skipped everywhere.
 	var fenced := false
+	# Whether the block being read right now cites a lineage source. Sticky
+	# `_sourced` cannot answer that: an id may carry a founder entry and a source
+	# proposal both, and which one is speaking decides whether it may overwrite.
+	var block_sourced := false
 	for line in text.split("\n"):
 		if line.begins_with("```"):
 			fenced = not fenced
@@ -142,9 +146,11 @@ func _answers_in(text: String) -> Dictionary:
 				_fail("%s has no status line, so it counts as nothing" % current)
 			current = h.get_string(1)
 			entry = current
+			block_sourced = false
 			continue
 		if line.contains("`" + SOURCE_PREFIX) and entry != "":
 			_sourced[entry] = true
+			block_sourced = true
 		if current == "":
 			continue
 		var l := lead.search(line)
@@ -154,9 +160,13 @@ func _answers_in(text: String) -> Dictionary:
 				_fail("%s carries unknown status '%s'" % [current, status])
 			# The one rule this file exists to protect: a lineage source drafts,
 			# it never decides. Canon has to come from somebody who can be asked.
-			if status == "Answered" and _sourced.get(current, false):
+			if status == "Answered" and block_sourced:
 				_fail("%s is answered by a source; only a founder can settle a question" % current)
-			out[current] = status
+			# Proposals are filed below the answers, so a source restating a
+			# question a founder already settled would otherwise win on order
+			# alone and quietly demote canon back to a suggestion.
+			if not (block_sourced and out.has(current)):
+				out[current] = status
 			current = ""
 	if current != "":
 		_fail("%s has no status line, so it counts as nothing" % current)
@@ -226,18 +236,25 @@ func _report_waiting(answers: Dictionary) -> void:
 	print("")
 	var proposed: Array[String] = []
 	var argued: Array[String] = []
-	for id: String in answers:
-		if answers[id] != "Proposed":
-			continue
-		if int(_proposals.get(id, 1)) > 1:
+	var retired: Array[String] = []
+	var drafted := 0
+	for id: String in _proposals:
+		drafted += int(_proposals[id])
+		# A founder's answer retires the drafts under it. Anything short of one
+		# leaves them live, so a half-answered question keeps its options.
+		if answers.get(id, "") == "Answered":
+			retired.append(id)
+		elif int(_proposals.get(id, 1)) > 1:
 			argued.append(id)
 		else:
 			proposed.append(id)
 	proposed.sort()
 	argued.sort()
 	print("")
-	print("  proposals to decide on   %d" % proposed.size())
-	print("  proposals that disagree  %s" % (", ".join(argued) if not argued.is_empty() else "none"))
+	print("  drafts on the table      %d across %d questions" % [drafted, _proposals.size()])
+	print("  still to decide on       %d" % proposed.size())
+	print("  retired by an answer     %d" % retired.size())
+	print("  drafts that disagree     %s" % (", ".join(argued) if not argued.is_empty() else "none"))
 	print("")
 	print("  waiting on a yes   %s" % (", ".join(inferred) if not inferred.is_empty() else "none"))
 	print("  trailed off        %s" % (", ".join(blocked) if not blocked.is_empty() else "none"))
