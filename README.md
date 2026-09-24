@@ -79,6 +79,10 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **The run follows you, not the party.** Companions can all die and the story goes on; when your
   own character falls, it stops. Hire replacements in towns — everyone is looking out for
   themselves, and they all have a price.
+- **Experience comes from the first of each kind.** A kind of enemy teaches whoever kills it
+  first, once; the second teaches nothing but practice. Help with five kills of a kind and you learn
+  from it too, and a boss teaches everyone who was there. So the way to grow is to go and meet
+  something new ([D37](docs/06-decisions.md)).
 - **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `P`.
 - **The party screen** (`P`) is where the run is managed: pick a class, teach a book to someone
   who lacks it, take the **Training Yoke** on or off (−25% attack for +50% XP), and see what each
@@ -186,6 +190,7 @@ to catch runtime breakage without clicking through the game:
 ```powershell
 godot --headless --path . res://tests/battle_smoke_test.tscn
 godot --headless --path . res://tests/skirmish_smoke_test.tscn
+godot --headless --path . res://tests/experience_smoke_test.tscn
 godot --headless --path . res://tests/world_smoke_test.tscn
 godot --headless --path . res://tests/walk_smoke_test.tscn
 godot --headless --path . res://tools/coverage.tscn

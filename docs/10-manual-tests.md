@@ -75,6 +75,10 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E5  | Use a bonus-action move (Riposte, Spark, Shield Bash, Dart, Firebrand, Stand Fast, Second Wind) | It spends the bonus, and the main action is still available               |
 | E6  | Use the same move about twelve times across several fights                                      | "_X_ is practised with _Y_ now." and it starts hitting a little harder    |
 | E7  | Check a healer's Mend after heavy use                                                           | Heals more than it did at the start of the run                            |
+| E8  | Kill a kind of enemy nobody has killed before                                                   | "_X_ learns from the _Y_." and experience; the next one of that kind gives none |
+| E9  | Fight the same kind five times with someone who never lands the blow                            | On the fifth, "_Z_ has helped with enough _Y_ kills to learn from them."  |
+| E10 | Beat a gate's guardian or the Tower's apex fighter                                              | Everyone still standing "learns from" it, not only the killer             |
+| E11 | Open **P** → Practice after a few fights                                                        | An **Arms** line for the weapon in hand, and **Learned from** listing the kinds, with assists part-way |
 
 ## E2 — Real-time skirmish (M11 prototype)
 

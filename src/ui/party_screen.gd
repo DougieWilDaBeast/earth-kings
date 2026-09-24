@@ -767,6 +767,24 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 		]
 		_page_box.add_child(line)
 
+	_page_box.add_child(_heading("Arms"))
+	var in_hand := Proficiency.arms_kind(character)
+	for kind: String in Proficiency.ARMS + [Proficiency.BARE]:
+		if kind != in_hand and Proficiency.arms_uses(character, kind) == 0:
+			continue
+		var held := Label.new()
+		held.add_theme_font_size_override("font_size", 13)
+		held.add_theme_color_override("font_color", Color(0.68, 0.78, 0.72))
+		held.text = "%s%s  —  %s" % [
+			"bare hands" if kind == Proficiency.BARE else kind.capitalize(),
+			"  (in hand)" if kind == in_hand else "",
+			Proficiency.arms_summary(character, kind),
+		]
+		_page_box.add_child(held)
+
+	_page_box.add_child(_heading("Learned from"))
+	_page_box.add_child(_quiet_line(_beaten_summary(character)))
+
 	_page_box.add_child(_heading("Teaching"))
 	var taught := 0
 	for student in party:
@@ -786,6 +804,29 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			break
 	if taught == 0:
 		_page_box.add_child(_quiet_line("Nothing they could pass on to anybody here."))
+
+
+## Every kind of enemy this character has learned from, and the ones they are
+## part-way to learning from by helping. Experience only comes from the first of
+## each kind ([D37]), so this is also the list of what is no longer worth
+## anything to them but practice.
+func _beaten_summary(character: Character) -> String:
+	var names: Array[String] = []
+	for kind: String in character.beaten:
+		names.append(str(Database.unit_template(kind).get("display_name", kind)))
+	names.sort()
+	var text := "Nothing yet. The first of every kind of enemy teaches something; the second teaches only practice." \
+			if names.is_empty() else "%d kinds: %s." % [names.size(), ", ".join(names)]
+	var helping: Array[String] = []
+	for kind: String in character.assists:
+		helping.append("%s %d/%d" % [
+			str(Database.unit_template(kind).get("display_name", kind)),
+			int(character.assists[kind]), Progression.assists_needed(),
+		])
+	helping.sort()
+	if not helping.is_empty():
+		text += "\nHelping with: %s." % ", ".join(helping)
+	return text
 
 
 func _has_something_to_teach(teacher: Character, party: Array[Character]) -> bool:

@@ -92,7 +92,13 @@
 	},
 	"proficiency": {
 		"steps": [12, 40, 100, 220],
-		"per_rank": 0.06
+		"per_rank": 0.06,
+		"arms_steps": [30, 90, 200, 400],
+		"arms_per_rank": 0.04
+	},
+	"experience": {
+		"first_kill_multiplier": 2,
+		"assists_needed": 5
 	},
 	"captive": {
 		"ransom_base": 120,

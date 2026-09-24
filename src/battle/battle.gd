@@ -173,7 +173,9 @@ func _spawn_enemies(enemies: Array) -> void:
 		var level := int(entry.get("level", 0))
 		var unit_team: Unit.Team = entry.get("team", Unit.Team.ENEMY)
 		if level <= 0:
-			_add_unit(entry.get("unit", ""), unit_team, cell)
+			var plain := _add_unit(entry.get("unit", ""), unit_team, cell)
+			if bool(entry.get("boss", false)):
+				plain.set_meta("boss", true)
 			continue
 		# Levelled foes are throwaway Characters so they grow the same way we do.
 		var foe := Character.create(entry.get("unit", ""))
@@ -184,6 +186,8 @@ func _spawn_enemies(enemies: Array) -> void:
 		var unit := Unit.from_character(foe, unit_team, cell)
 		if custom_name != "":
 			unit.display_name = custom_name
+		if bool(entry.get("boss", false)):
+			unit.set_meta("boss", true)
 		unit.snap_to_cell(grid)
 		units_root.add_child(unit)
 		units.append(unit)
@@ -715,17 +719,21 @@ func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
 		Journal.note_felled(world, target.template_id)
 
 
-## XP goes to whoever landed the blow, so who does the work matters.
+## Experience comes from the first of each kind, to whoever landed it; everyone
+## else still standing on that side counts an assist, and a boss teaches them
+## all ([D37], see [method Progression.award_kill]).
 func _award_kill(killer: Unit, victim: Unit) -> void:
 	if killer.character == null or killer.team == victim.team:
 		return
 	var level := victim.character.level if victim.character != null else 1
-	var bounty := Progression.bounty_for(level)
-	var party_units: Array[Unit] = []
+	var involved: Array = []
 	for u in units:
-		if u.is_alive() and u.team == killer.team:
-			party_units.append(u)
-	for line: String in Progression.award_combat_xp(killer.character, party_units, bounty, GameState.world):
+		if u != killer and u.is_alive() and u.team == killer.team and u.character != null:
+			involved.append(u.character)
+	var boss := victim.has_meta("boss") and bool(victim.get_meta("boss"))
+	for line: String in Progression.award_kill(
+		killer.character, victim.template_id, level, involved, boss, GameState.world
+	):
 		EventBus.battle_log.emit(line)
 
 

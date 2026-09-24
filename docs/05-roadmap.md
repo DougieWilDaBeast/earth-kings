@@ -19,7 +19,7 @@ previous milestone demonstrably works.
 - Doctrine bonuses feeding derived stats ✅
 - `Roster` holding the party; battles spawning from Characters and writing results back ✅
 - Permadeath wired through battle resolution via [`Fate`](02-design.md) ✅
-- XP awarded to whoever landed the killing blow ✅
+- XP awarded to whoever landed the killing blow ✅ — superseded by M12: first kill of each kind only
 
 ## M2 — The generated power system — SHIPPED
 
@@ -146,17 +146,28 @@ against it.
 - ✅ Done when: both founders have played the prototype against the current battle and chosen.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))
 
-### M12 — Getting stronger the new way — PLANNED
+### M12 — Getting stronger the new way — SHIPPED
 
-Independent of the fight; can start now.
+Built 2026-09-24, in the turn-based battle. The real-time skirmish is training-only and awards
+nothing yet.
 
-- Experience per character from the **first kill of each kind of enemy**; the last hit takes it
-- Assists counted per kind, and a kind's experience after five (agenda item 8)
-- Bosses give everyone involved their experience
-- Proficiency per weapon type and kind of fighting, rising by use rather than by steps carried
-- The party screen shows which kinds each character has beaten, and their proficiencies
+- Experience per character from the **first kill of each kind of enemy**; the last hit takes it ✅
+  (`Progression.award_kill`)
+- Assists counted per kind, and a kind's experience after five ✅ — one number for now; agenda
+  item 8 asks whether grunts should take ten
+- Bosses give everyone involved their experience ✅ — gate guardians and the Tower's apex fighter
+  are flagged `"boss": true` in `encounter.gd`
+- Proficiency per weapon kind (blade, bow, staff, bare hands) as well as per move, both rising by
+  use and both adding to how hard a move hits ✅ (`Proficiency.arms_rank`)
+- The party screen's Practice page shows weapon skill, the kinds each character has learned from,
+  and the assists they are part-way through ✅
 - ✅ Done when: killing the same enemy twice gives experience once, and a soak run shows levels
-  rising only as the party meets new things ([D37](06-decisions.md))
+  rising only as the party meets new things ([D37](06-decisions.md)) — `tests/experience_smoke_test.tscn`:
+  one goblin takes a fresh character from level 1 to 4 on Gentle, thirty-nine more change nothing,
+  and forty new kinds take them to 17
+- **To tune:** `experience.first_kill_multiplier` (2) and `assists_needed` (5) in
+  `data/world_rules.json`. At 4 the first fight of a run jumped the lead to level 5 on Gentle;
+  at 2 it lands near where the old per-kill rule did
 
 ### M13 — The fall — PLANNED
 
