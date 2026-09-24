@@ -106,18 +106,29 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
-1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.** [19 — Asset list](19-asset-list.md), Tier 0.
-   Nothing else is worth generating until the size is chosen.
-2. **Next founders' session** — answer agenda items 1–4 and 9: the Tower's floor count, steps
-   against Tower chapters, whether a world-ending death can be reloaded, and the sprite size. Each
-   is a sentence, and each unblocks a milestone below.
-3. **The Dungeon Settlers deep dive** (M10). It gates the whole of M11.
-4. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
-   starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
-5. **M12 can start straight away.** First-kill experience and proficiency by use sit in
-   `chronicle/`, not `battle/`, and work under either fight.
+Updated 2026-09-24, after M11's prototype, M12, M16, D35 and D39 were built. **Everything left on
+this list needs one or both founders** — the build has gone as far as it can without an answer.
 
-### M10 — Research and the size test — NEXT
+1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.**
+   [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
+   ([investigation/07](investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)),
+   so 32 against the 64 on disk is the real choice.
+2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
+   Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
+   whether M11 replaces the turn loop ([D36](06-decisions.md)).
+3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
+   [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
+4. **Next founders' session** — the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
+   items 1–2 and 4–12 and 15. Items 1 and 2 (the Tower's floor count, and steps against Tower
+   chapters) unblock M14; items 4 and 5 unblock M15; 6, 7 and 15 unblock M13; 11 unblocks party
+   growth. Item 3 — the research and the prototype — has gone as far as it can without play (steps
+   2 and 3); 13 is built; 14 is deferred to playtest.
+5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
+   starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
+6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
+   `dispatch` odds, and `names.json` are all in `data/` and one number each.
+
+### M10 — Research and the size test — IN PROGRESS
 
 - Deep dive into _Dungeon Settlers_' combat, written up in `docs/investigation/` against the
   questions in [18](18-combat-direction.md#what-the-research-has-to-answer) — **first pass done**:
