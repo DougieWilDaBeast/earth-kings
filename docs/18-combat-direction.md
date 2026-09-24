@@ -54,6 +54,32 @@ the fight is the one thing that has to be right. The current core is sound but s
 grids are where "the same moves every time" lives. Four active abilities force a loadout decision
 before the fight rather than a menu scroll during it.
 
+## What is known before the deep dive
+
+A first look on 2026-09-24, from the store page and the developer's own replies. Enough to aim the
+research, not a substitute for it.
+
+- **It is new.** _Dungeon Settlers_, by CanOpener (co-published by WhisperGames), entered Early Access
+  on **2026-09-04** and expects to stay there about two years. Its combat will keep changing under us.
+- **Real time with pause, no turn or round limits.** Parties of **up to four**. Status effects named
+  on the store page: stun, bleed, burn, provoke, vulnerable, charge attacks, summons.
+- **Skill trees by weapon and school** — sword, mace, bow, fire magic — plus "six major abilities
+  and talents" per member.
+- **Auto-skill use is a per-unit toggle**, added after players asked for it. Auto-cast works down the
+  quick slots in order, using the first skill that is off cooldown. The developer: "Choosing the
+  right moment to use each skill is an important part of the tactical experience we want to
+  deliver", and auto may end up limited to low difficulty.
+- **Permadeath**: "Once dead, there is no coming back."
+- **Tiny sprites, large hand-drawn portraits.** One review names that pairing as why a death lands.
+  It matters for the sprite-size question ([19](19-asset-list.md#tier-0--the-size-test-now-before-2026-09-27)).
+- **Players complain about micromanagement** — pausing constantly for everything. The same risk
+  applies here, and it is the argument for a good auto mode.
+
+Sources: [Steam store page](https://store.steampowered.com/app/2798330/Dungeon_Settlers/) ·
+[Steam discussion on auto-battle, with developer replies](https://steamcommunity.com/app/2798330/discussions/0/688615158420114690/) ·
+[GenerationAmiga preview](https://www.generationamiga.com/2026/05/25/dungeon-settlers-wants-you-to-build-a-home-then-send-everyone-into-hell/) ·
+[fan wiki, unofficial](https://dungeon-settlers.com/skills-and-combat)
+
 ## What the research has to answer
 
 The deep dive is its own piece of work — [roadmap](05-roadmap.md) M10. It should come back as a
