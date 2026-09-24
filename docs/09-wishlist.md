@@ -459,8 +459,13 @@ CT initiative (100 CT vs 0 CT) and +15% surprise damage on opening attacks.
 there is room to flank and to be flanked. Multi-floor gate delves and the Tower already chain
 fights, and the Tower's floor 10 is an Apex fight.
 
-**Open:** no named bosses outside the Tower, no collectibles as a category, and a "mission" is
-still one site.
+**Open:** no collectibles as a category, and a "mission" is still one site (joint session 1 made a
+mission a step in one of the sixteen's own quest lines — `CO5` — which waits on M13).
+
+**Bosses outside the Tower (2026-09-24):** every gate's last floor is held by its faction's
+champion, and since M12 that guardian is flagged a boss — beating one teaches everyone who was
+there ([D37](06-decisions.md)). Joint session 1 confirmed gates hold bosses (`CO4`); whether they
+are people or things is still open.
 
 ## W26 — Enemies who remember you
 
