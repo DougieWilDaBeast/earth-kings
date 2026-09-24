@@ -179,7 +179,8 @@ Waits on the first writing sitting, and on agenda items 6, 7 and 15.
 - The shared mark on every one of the sixteen
 - Random crash sites per world, replacing fixed starting hearths
 - The fifteen living their own lives: moving between places by temper, instead of standing in one area
-- Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md))
+- Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
+  — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other
   fifteen can be met somewhere they walked to
 

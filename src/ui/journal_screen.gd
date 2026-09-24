@@ -8,6 +8,9 @@ extends CanvasLayer
 ##
 ## Read-only. Nothing on this screen can be spent, chosen or missed.
 
+## Loaded by path ([D41]): regional names (see its header).
+const Names := preload("res://src/chronicle/names.gd")
+
 signal closed
 
 enum Tab { BESTIARY, ROUTES, ANNALS }
@@ -296,6 +299,12 @@ func _show_routes_page() -> void:
 
 	standing_grid.add_child(_line("Title on Current Ground", LABEL_COLOUR))
 	standing_grid.add_child(_line(player_title.capitalize(), KNOWN_COLOUR))
+	var earned := Names.earned_title(world)
+	standing_grid.add_child(_line("Known As", LABEL_COLOUR))
+	standing_grid.add_child(_line(
+		Names.known_as(world, GameState.roster.player().display_name) if earned != "" else "Nothing yet",
+		KNOWN_COLOUR
+	))
 	standing_grid.add_child(_line("Local Standing", LABEL_COLOUR))
 	standing_grid.add_child(_line("%+d" % standing_val, KNOWN_COLOUR))
 	standing_grid.add_child(_line("Local Notoriety", LABEL_COLOUR))

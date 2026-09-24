@@ -195,6 +195,7 @@ godot --headless --path . res://tests/battle_smoke_test.tscn
 godot --headless --path . res://tests/skirmish_smoke_test.tscn
 godot --headless --path . res://tests/experience_smoke_test.tscn
 godot --headless --path . res://tests/dispatch_smoke_test.tscn
+godot --headless --path . res://tests/names_smoke_test.tscn
 godot --headless --path . res://tests/world_smoke_test.tscn
 godot --headless --path . res://tests/walk_smoke_test.tscn
 godot --headless --path . res://tools/coverage.tscn

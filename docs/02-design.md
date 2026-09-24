@@ -58,6 +58,19 @@ length of a fight and thrown away afterwards. The save file remembers Characters
   3×3 grid, and an ancestral grudge against specific foes (e.g. apprentice smiths against raiders,
   nobles against imperial usurpers) granting +10% grudge damage in battle.
 
+## Names and titles
+
+People are named by where they live ([D39](06-decisions.md)): a Roman or Greek name in its full,
+strong form beside a keep, where the nobility sit, and more and more often a shortened stem the
+farther out you go — Octavia by the keep, Tavi in the fens — and always *of* the nearest place.
+Hires and the people who post errands are named this way (`data/names.json`).
+
+The lead earns a name too, from what the country is talking about: **Spire-Climber** for topping
+the Tower, **Gate-Shutter** for shutting gates, **Shield of the Villages** or **the Sacker of Towns**
+for what they did to settlements, and **Goblin Hunter** — or whatever they have put down most —
+once it is ten of a kind. A place that has heard of you greets you by it, and the journal shows it
+under Known As.
+
 ## Sending companions away
 
 Any companion — never the lead, and never the last one left beside them — can be handed an errand

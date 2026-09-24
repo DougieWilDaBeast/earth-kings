@@ -23,7 +23,7 @@ $Flags = @(foreach ($a in $args) {
 
 $godot = 'C:\Dev\Godot_v4.7.2-stable_win64_console.exe'
 $project = $PSScriptRoot
-$suites = @('battle', 'skirmish', 'experience', 'dispatch', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls')
+$suites = @('battle', 'skirmish', 'experience', 'dispatch', 'names', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls')
 
 if ($Flags.Count -gt 0 -and $Flags[0] -eq 'test') {
     $wanted = if ($Flags.Count -gt 1) { $Flags[1..($Flags.Count - 1)] } else { $suites }

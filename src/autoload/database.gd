@@ -23,6 +23,8 @@ var trivia: Dictionary = {}
 var grimoires: Dictionary = {}
 var memorials: Dictionary = {}
 var world_rules: Dictionary = {}
+## Regional personal names, strong forms and their stems (D39, see `src/chronicle/names.gd`).
+var names: Dictionary = {}
 ## Leads a run can be started as, in the order they are offered.
 var heroes: Dictionary = {}
 ## The sixteen tempers: axes, the quiz asked before a run, and the lean each
@@ -73,6 +75,7 @@ func _ready() -> void:
 	grimoires = _load_json("%s/grimoires.json" % DATA_DIR)
 	memorials = _load_json("%s/memorials.json" % DATA_DIR)
 	world_rules = _load_json("%s/world_rules.json" % DATA_DIR)
+	names = _load_json("%s/names.json" % DATA_DIR)
 	heroes = _load_json("%s/heroes.json" % DATA_DIR)
 	tempers = _load_json("%s/tempers.json" % DATA_DIR)
 	casting = _load_json("%s/casting.json" % DATA_DIR)
