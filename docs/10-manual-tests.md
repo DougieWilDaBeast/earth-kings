@@ -99,6 +99,8 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT10 | Press **T** during the fight                                | x1 → x2 → x4 → x1, and the fight plays at that pace                                      |
 | RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back at the training ground             |
 | RT12 | Go back to the run afterwards                               | **Your real party is untouched** — nothing from the skirmish is written back             |
+| RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
+| RT14 | Press **Z** twice, turn **A** off on a unit, use its skill  | When the skill comes back the fight pauses: "Paused. _X_'s _Y_ is ready."                |
 
 ## F — Party menu (**P**)
 
