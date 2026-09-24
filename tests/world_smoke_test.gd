@@ -9,28 +9,47 @@ extends Node
 
 const SEED := 20260827
 
+const CheckFilter := preload("res://tests/check_filter.gd")
+## Every check, in the order a full run takes them. `--check=` picks from these.
+const CHECKS := [
+	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "round_trip",
+]
+
 var _failures: Array[String] = []
 
 
 func _ready() -> void:
 	var world := WorldGen.generate(SEED)
 	_report_world(world)
-	_check_world(world)
+	# Grown after the world check, as a full run always has, so the seeded world
+	# that check reads is the one it was written against.
+	var hero: Character = null
 
-	var hero := _grow_a_hero(world)
-	_check_progression(hero, world)
-	_check_doctrine(hero, world)
-	_check_class_choice(world)
-	_check_fate(world)
-	_check_roster(world)
-	_check_encounters(world)
-	_check_errands(world)
-	_check_trivia(world)
-	_check_grimoires(world)
-	_check_memorials(world)
-	_check_dialogue()
-	_check_walking(world)
-	_check_round_trip(world, hero)
+	var unknown: Array = []
+	var chosen := CheckFilter.wanted(CHECKS, unknown)
+	for name: String in unknown:
+		_failures.append("no check called '%s' (there are: %s)" % [name, ", ".join(CHECKS)])
+	if chosen.size() < CHECKS.size():
+		print("running only: %s" % ", ".join(chosen))
+	for name: String in chosen:
+		if name != "world" and hero == null:
+			hero = _grow_a_hero(world)
+		match name:
+			"world": _check_world(world)
+			"progression": _check_progression(hero, world)
+			"doctrine": _check_doctrine(hero, world)
+			"class_choice": _check_class_choice(world)
+			"fate": _check_fate(world)
+			"roster": _check_roster(world)
+			"encounters": _check_encounters(world)
+			"errands": _check_errands(world)
+			"trivia": _check_trivia(world)
+			"grimoires": _check_grimoires(world)
+			"memorials": _check_memorials(world)
+			"dialogue": _check_dialogue()
+			"walking": _check_walking(world)
+			"round_trip": _check_round_trip(world, hero)
 
 	print("")
 	if _failures.is_empty():
