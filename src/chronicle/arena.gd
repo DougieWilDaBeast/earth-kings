@@ -11,6 +11,8 @@ extends RefCounted
 ## Live state hangs off [GameState] rather than a node, because the scene is
 ## destroyed and rebuilt every time a wave starts.
 
+const SaveFile := preload("res://src/chronicle/save_file.gd")
+
 ## Written down between sessions: how far anyone has ever got.
 const PATH := "user://earth-kings.arena.json"
 ## Battle sets this rather than `last_victory`, so a wave never looks like a
@@ -172,7 +174,7 @@ static func retire() -> void:
 static func board() -> Dictionary:
 	if not FileAccess.file_exists(PATH):
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
+	var parsed: Variant = SaveFile.read(PATH)
 	return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
 
 

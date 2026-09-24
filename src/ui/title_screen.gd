@@ -1,6 +1,8 @@
 extends Control
 ## Boot menu: start a fresh run or continue from the save in `user://`.
 
+const SaveFile := preload("res://src/chronicle/save_file.gd")
+
 ## Set by [Game] before the scene enters the tree; unused here.
 var boot_payload: Dictionary = {}
 
@@ -56,7 +58,7 @@ func _wear_your_own_face() -> void:
 func _saved_lead() -> String:
 	if not GameState.has_save():
 		return ""
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(GameState.SAVE_PATH))
+	var parsed: Variant = SaveFile.read(GameState.SAVE_PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return ""
 	for entry: Dictionary in parsed.get("roster", {}).get("characters", []):

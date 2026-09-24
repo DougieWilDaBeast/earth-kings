@@ -330,6 +330,12 @@ static func from_dict(payload: Dictionary) -> World:
 	world.tower_hoard = int(payload.get("tower_hoard", 0))
 	world.tower_topped = bool(payload.get("tower_topped", false))
 	world.trees = payload.get("trees", {})
+	# A power is a multiplier, and one that came out whole was read back an int.
+	for tree_id: String in world.trees:
+		var definitions: Dictionary = world.trees[tree_id].get("definitions", {})
+		for ability_id: String in definitions:
+			if definitions[ability_id].has("power"):
+				definitions[ability_id]["power"] = float(definitions[ability_id]["power"])
 	world.codex = payload.get("codex", {})
 	world.trivia = payload.get("trivia", [])
 	world.deeds = payload.get("deeds", [])

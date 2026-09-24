@@ -128,6 +128,11 @@ this list needs one or both founders** — the build has gone as far as it can w
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
+Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
+([10](10-manual-tests.md#automated-tests)). The seams audit on 2026-09-24 found six bugs no suite
+was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
+[D42](06-decisions.md).
+
 ### M10 — Research and the size test — IN PROGRESS
 
 - Deep dive into _Dungeon Settlers_' combat, written up in `docs/investigation/` against the

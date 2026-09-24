@@ -5,6 +5,7 @@
 	"reward_base": 40,
 	"reward_per_distance": 3,
 	"cull_reward_per_head": 30,
+	"bounty_reward": 130,
 	"doctrine_chance": 0.18,
 	"trades": [
 		"the cooper",

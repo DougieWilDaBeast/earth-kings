@@ -47,11 +47,15 @@ func _on_turn_started(unit: Node) -> void:
 		_battle.hud.wait_requested.emit.call_deferred()
 
 
+## Switched on the way the touch controls do it — straight on [Pace], not
+## through this screen's own button — while the party's phase sits waiting on
+## orders. A fight that only listened to its own button waited for ever.
 func _start_auto() -> void:
 	_battle.hud.speed_cycled.emit()
-	_battle.hud.auto_toggled.emit(true)
-	if not Pace.auto:
-		push_error("Smoke test: auto battle would not switch on")
+	var waiting: bool = _battle._is_choosing()
+	Pace.auto = true
+	if waiting and _battle.phase != _battle.Phase.BUSY:
+		push_error("Smoke test: switching auto on from outside the fight left the party waiting on orders")
 		get_tree().quit(1)
 
 
