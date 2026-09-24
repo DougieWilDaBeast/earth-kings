@@ -1,8 +1,13 @@
-class_name SkirmishMarks
 extends Node2D
 ## What the fight needs drawn on the ground that a [Unit] does not draw itself:
 ## who is selected, where they were sent, what is being wound up, and how long a
 ## downed ally has left.
+
+## Loaded by path, not by `class_name`: a global class name only resolves once the
+## editor has rescanned the project, and a checkout that has not been opened in
+## the editor since this landed would otherwise fail to parse the whole skirmish.
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 const SELECTED := Color(1.0, 0.86, 0.3, 0.95)
 const ORDER_LINE := Color(1.0, 0.95, 0.7, 0.45)
@@ -13,14 +18,15 @@ const CAST_FILL := Color(0.55, 0.75, 1.0)
 const NEAR_DEATH := Color(1.0, 0.3, 0.3, 0.9)
 const AID_FILL := Color(0.45, 1.0, 0.55, 0.9)
 
-var skirmish: Skirmish
+## The skirmish scene. Untyped, because it loads this script itself.
+var skirmish: Node2D
 
 
 func _draw() -> void:
 	if skirmish == null:
 		return
 	var half := BattleGrid.CELL_SIZE * 0.5
-	for f in skirmish.fighters:
+	for f: Fighter in skirmish.fighters:
 		if f.fallen:
 			continue
 		var at := f.unit.position
@@ -39,7 +45,7 @@ func _draw() -> void:
 
 
 func _draw_order(f: Fighter, at: Vector2) -> void:
-	var grid := skirmish.grid
+	var grid: BattleGrid = skirmish.grid
 	match f.order:
 		Fighter.Order.MOVE:
 			var to := grid.cell_to_world(f.order_cell)

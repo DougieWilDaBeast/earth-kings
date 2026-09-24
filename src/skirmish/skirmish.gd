@@ -1,4 +1,3 @@
-class_name Skirmish
 extends Node2D
 ## The real-time fight — the M11 prototype of [D36]
 ## (see `docs/18-combat-direction.md` and
@@ -12,6 +11,15 @@ extends Node2D
 ## A training fight only, for now: nothing is written back onto the world, and
 ## the party walks off healed. It sits beside [Battle] until both have been
 ## played and one of them chosen.
+
+## Loaded by path, not by `class_name`: a global class name only resolves once the
+## editor has rescanned the project, and a checkout that has not been opened in
+## the editor since this landed would otherwise fail to parse the whole skirmish.
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
+const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
+const SkirmishHUD := preload("res://src/skirmish/skirmish_hud.gd")
 
 signal finished(victory: bool)
 

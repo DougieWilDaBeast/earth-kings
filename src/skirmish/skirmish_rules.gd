@@ -1,4 +1,3 @@
-class_name SkirmishRules
 extends RefCounted
 ## The timings of the real-time fight, in one place (see [D36] and
 ## `docs/investigation/07-dungeon-settlers-combat.md`).

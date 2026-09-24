@@ -1,7 +1,12 @@
-class_name SkirmishHUD
 extends CanvasLayer
 ## The skirmish's readouts, built in code: the clock, a card per party member
 ## with their quick slots, the log, and the result.
+
+## Loaded by path, not by `class_name`: a global class name only resolves once the
+## editor has rescanned the project, and a checkout that has not been opened in
+## the editor since this landed would otherwise fail to parse the whole skirmish.
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 signal card_clicked(index: int)
 
@@ -13,7 +18,8 @@ const WAITING := Color(0.62, 0.66, 0.74)
 const PANEL := Color(0.08, 0.09, 0.12, 0.86)
 const PANEL_SELECTED := Color(0.22, 0.19, 0.08, 0.92)
 
-var _skirmish: Skirmish
+## The skirmish scene. Untyped, because it loads this script itself.
+var _skirmish: Node2D
 var _clock: Label
 var _log: Label
 var _result: Label
@@ -24,7 +30,7 @@ var _plain := _panel_style(PANEL)
 var _picked := _panel_style(PANEL_SELECTED)
 
 
-func setup(skirmish: Skirmish) -> void:
+func setup(skirmish: Node2D) -> void:
 	_skirmish = skirmish
 
 	_clock = Label.new()
@@ -62,7 +68,7 @@ func setup(skirmish: Skirmish) -> void:
 	row.offset_bottom = -12
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
-	var party := skirmish.party_fighters()
+	var party: Array[Fighter] = skirmish.party_fighters()
 	for i in party.size():
 		var card := PanelContainer.new()
 		card.custom_minimum_size = Vector2(250, 126)
@@ -105,11 +111,12 @@ func refresh() -> void:
 		state = "Over"
 	var armed := ""
 	if _skirmish.armed_slot >= 0 and not _skirmish.selected.is_empty():
-		var ability := _skirmish.selected[0].slot_ability(_skirmish.armed_slot)
+		var caster: Fighter = _skirmish.selected[0]
+		var ability := caster.slot_ability(_skirmish.armed_slot)
 		armed = "    Aiming %s — left-click a target, right-click to cancel" % ability.get("display_name", "?")
 	_clock.text = "Skirmish (prototype)   %s   %.1fs%s" % [state, _skirmish.sim_time, armed]
 
-	var party := _skirmish.party_fighters()
+	var party: Array[Fighter] = _skirmish.party_fighters()
 	for i in mini(party.size(), _cards.size()):
 		_card_text[i].text = _describe(party[i], i)
 		_cards[i].add_theme_stylebox_override(

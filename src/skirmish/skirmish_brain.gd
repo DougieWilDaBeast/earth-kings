@@ -1,4 +1,3 @@
-class_name SkirmishBrain
 extends RefCounted
 ## Deciding, not doing: who a fighter goes after, and which ready skill it would
 ## use on whom. Returns plans; only [Skirmish] changes the fight (the mind seam,
@@ -7,6 +6,12 @@ extends RefCounted
 ## Enemy targeting is a fixed rule rather than a dice roll — Dungeon Settlers'
 ## players read random aggro as broken — and it never picks on the downed, so a
 ## fallen ally can still be reached in time.
+
+## Loaded by path, not by `class_name`: a global class name only resolves once the
+## editor has rescanned the project, and a checkout that has not been opened in
+## the editor since this landed would otherwise fail to parse the whole skirmish.
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 
 ## The foe [param fighter] should be swinging at. Keeps its current target while
