@@ -17,6 +17,18 @@ follows the practice rather than the other way round.
   `doug-md`'s Part I answers, the 143 lineage drafts, and the inspiration material behind them.
 - **The agenda is [What is still to decide](answers.md#what-is-still-to-decide)**, which gathers
   every open item into one ordered list.
+- **Joint session 1 ran on 2026-09-24** — a 70-minute call, transcribed by Teams and kept as
+  [voice-notes/2026-09-24-joint-session-1.md](voice-notes/2026-09-24-joint-session-1.md). It did
+  not follow the schedule below, and said why at the start: "we don't want to be just world
+  building forever". Part 0 was opened, judged hard going, and skipped in favour of the sixteen.
+  What it covered instead was the shape of the whole game — who the sixteen are, why they fall,
+  what the Tower is for, what happens when the lead dies, and how a fight should feel. Part V was
+  answered on the way through.
+- **The standing instruction from that session** is that a question which does not matter yet can
+  stay open: "other questions, if they're not important for now, we can just leave them … I think
+  it should be clear what we're trying to achieve with this game." That is rule 5 of
+  [resolving a fork](#resolving-a-fork) applied to the whole book, and the agenda now sorts every
+  open question by whether the next milestone needs it.
 
 **What this costs, stated plainly.** The original rule was *answer alone* — no discussion, no "what
 did you put", no reading ahead in the other sheet — because an agreement two people reach
@@ -49,8 +61,9 @@ Ninety-minute sittings, no more. Fatigue produces canon nobody believes.
 | #   | Covers                                                    | Shape                                                                                                              |
 | --- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | ✓   | **Part I — Physical** (71)                                | Done. Solo pass by `doug-md`, recorded. Eleven follow-ups still open                                                |
-| 1   | **Part 0 (Frame) + Part V (Boundaries)** — 18 questions   | Together. If the frames are incompatible, stop. Everything downstream is wasted until they are not                  |
-| 2   | **The eleven Part I follow-ups + five contradictions**    | Together. Start with `SK6`; the book prices everything in steps and that number is still unset                      |
+| ✓   | **Joint session 1** — the sixteen, the fall, the Tower, death, combat | Done 2026-09-24. Settled the frame by building the game's structure rather than by answering Part 0 in order. Most of Part V answered |
+| 1   | **The follow-ups joint session 1 raised** — see [the agenda](answers.md#what-is-still-to-decide) | Together. These block the next milestone: the combat research, the Tower's floor count, the step clock against Tower chapters |
+| 2   | **Part 0 (Frame), what is left of it + the Part I follow-ups** | Together. `FR4` is answered now; `FR1`, `FR3` and `BN1` are still the ones that decide dozens of others. `SK6` still gates every number priced in steps |
 | 3   | **Part II — Mental** (60)                                 | Together                                                                                                            |
 | 4   | **Part III — Cultural** (117)                             | Together — split over two sittings                                                                                  |
 | 5   | **Part IV — Seams** (12)                                  | Together, then canonise everything                                                                                  |
