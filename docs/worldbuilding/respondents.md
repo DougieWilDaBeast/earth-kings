@@ -61,6 +61,17 @@ In this order, first hit wins:
 3. **Nothing** — the note is ingested, every answer in it is held as unattributed, and it is raised
    rather than assigned to somebody.
 
+A note with more than one voice carries a `speakers:` map from each transcriber label to an id, and
+the map decides every line — see [voice notes](voice-notes/README.md#a-note-with-two-voices). Git
+authorship says nothing about a two-voice note, since one person committed both halves of it.
+
+## Speaker labels seen so far
+
+| Label in a transcript | Id | How it was worked out |
+| --- | --- | --- |
+| `Douglas, Will` | `dougie` | Shares the call and the repo in [joint session 1](voice-notes/2026-09-24-joint-session-1.md); the transcript was committed by `DougieWilDaBeast` |
+| `ED` | `doug-md` | Told at [00:01:33] of the same session that he "actually answered a lot of these questions already" — Part I is `doug-md`'s. **Inferred; confirm** |
+
 Front-matter wins over git on purpose. Notes often get committed by whoever is at the keyboard —
 frequently Claude in a coding session — and git authorship would then quietly credit every answer to
 the same person. The line in the file is what the speaker actually claimed.

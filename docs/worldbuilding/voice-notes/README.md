@@ -36,7 +36,8 @@ What matters either way is that the words are the spoken ones.
 ## Naming
 
 `YYYY-MM-DD-<respondent>-<topic>.md` — e.g. `2026-09-14-dougie-gates-and-the-tower.md`. The topic is
-only for finding it again later; a note is never expected to stay on topic.
+only for finding it again later; a note is never expected to stay on topic. A joint session is
+`YYYY-MM-DD-joint-session-<n>.md`.
 
 ## Front matter
 
@@ -54,6 +55,28 @@ start again...
 
 `respondent` must match an id in [respondents.md](../respondents.md). It is what decides whether an
 answer is canon or a note, so it matters more than it looks.
+
+### A note with two voices
+
+A joint session — both founders on one call — is still one note, but every answer in it belongs to
+whoever said it. Name everyone in `respondent`, and map each label the transcriber used to an id:
+
+```
+---
+respondent: dougie, doug-md
+speakers:
+  "Douglas, Will": dougie
+  "ED": doug-md
+recorded: 2026-09-24
+---
+```
+
+Quotes taken from it are attributed line by line, to the speaker, never to the note. Where one
+founder proposes and the other agrees, the entry quotes both — an agreement is only worth recording
+if the reader can see who moved. The first one is
+[2026-09-24-joint-session-1.md](2026-09-24-joint-session-1.md), from a Teams call whose `.vtt`
+transcript was dropped straight into `DROP-ZONE/` — a call transcript needs no transcription
+pass, only the front matter.
 
 ## Leave it messy
 
