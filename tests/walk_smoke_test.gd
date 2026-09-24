@@ -329,7 +329,11 @@ func _check_library() -> void:
 
 
 func _check_gate() -> void:
-	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and s.open)
+	# The deepest one standing open, so walking through it floor by floor is tested.
+	var gate: Site = null
+	for site in GameState.world.sites_of_kind(Site.GATE):
+		if site.open and (gate == null or site.floors() > gate.floors()):
+			gate = site
 	if gate == null:
 		_expect(false, "no gate is open to walk into")
 		return
@@ -362,9 +366,9 @@ func _check_gate() -> void:
 	# A gate is as deep as its rank. Every floor but the last gives ground
 	# rather than shutting it, so a delve is walked through rather than won once.
 	var floors := gate.floors()
+	if not _step_onto(gate.cell):
+		return
 	for floor_number in floors:
-		if not _step_onto(gate.cell):
-			return
 		_scene._settle_up(true)
 		if floor_number >= floors - 1:
 			break
@@ -373,11 +377,19 @@ func _check_gate() -> void:
 			gate.depth() == floor_number + 1,
 			"floor %d left the delve at depth %d" % [floor_number + 1, gate.depth()]
 		)
+		# D35: there is no walking out of a gate. Any step is the next floor.
+		_expect(GameState.delving == [gate.cell.x, gate.cell.y], "won a floor but was not kept inside the gate")
+		var here := GameState.world.player_cell
+		_requests.clear()
+		_scene._step(Vector2i.UP)
+		_expect(GameState.world.player_cell == here, "walked out of a gate between floors")
+		_expect(not _last_battle_request().is_empty(), "a step inside the gate did not start the next floor")
+	_expect(GameState.delving.is_empty(), "still held inside a gate that has been shut")
 
 	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s is %d floors deep, walked out of once, then shut for %d gold" % [
+	print("gate: %s is %d floors deep, walked out of once, then fought through without leaving and shut for %d gold" % [
 		gate.label(), floors, GameState.gold - gold_before
 	])
 

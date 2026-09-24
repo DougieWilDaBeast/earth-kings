@@ -50,7 +50,7 @@ previous milestone demonstrably works.
 - Stepping on an open gate fights its garrison and its guardian ✅
 - Clearing shuts the gate and pays out; the world reopens gates over time ✅
 - Multi-floor delves: a gate's rank sets how many fights deep it goes, retreating keeps the floors
-  you took and losing gives them back ✅
+  you took and losing gives them back ✅ — retreat removed by D35: there is no walking out
 - Floor delve rewards: charm finds, generated skill tree discoveries on deep delves (rank C+), and written doctrine ✅
 
 ## M6 — The Tower — SHIPPED
@@ -192,7 +192,8 @@ Waits on agenda items 1 and 2.
 - A chapter every five floors: the world's story advances, and the next chapter needs a key from
   the world (a gate cleared, an item, a quest)
 - The census every five floors — how many of the sixteen are alive
-- Gates cannot be left until beaten; objectives inside, some timed (agenda item 14)
+- Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
+  floor, and it survives a save); objectives inside, some timed (agenda item 14)
 - The Adventurers Guild in settlements, and S-rank gates that gather armies
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md))

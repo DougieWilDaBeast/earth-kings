@@ -32,6 +32,9 @@ var talks: Dictionary = {}
 var errands: Array = []
 ## Companions sent away on one of those errands (see `src/chronicle/dispatch.gd`).
 var away: Array = []
+## The gate the party is inside, as [x, y], or empty. Once a floor is won there
+## is no walking out until the gate is beaten or the party is ([D35]).
+var delving: Array = []
 ## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
 var stores: Array = []
 ## Surplus equipment and supplies deposited at the campfire strongbox.
@@ -96,6 +99,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	talks = {}
 	errands = []
 	away = []
+	delving = []
 	stores = []
 	camp_stash = []
 	keys = []
@@ -165,6 +169,7 @@ func save() -> void:
 		"talks": talks,
 		"errands": errands,
 		"away": away,
+		"delving": delving,
 		"stores": stores,
 		"camp_stash": camp_stash,
 		"keys": keys,
@@ -202,6 +207,7 @@ func load_save() -> bool:
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
 	away = data.get("away", [])
+	delving = data.get("delving", [])
 	stores = data.get("stores", [])
 	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])

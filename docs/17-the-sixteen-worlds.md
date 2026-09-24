@@ -152,7 +152,7 @@ The fight is the thing that has to be right — see [18 — Combat direction](18
 | Sixteen temper slots, the quiz, the picker | Yes — [13](13-heroes-and-tempers.md). No character of the sixteen is written yet |
 | The run ending when the lead falls | Yes — `D14`. It ends the run, not a world |
 | One Tower, floors, a floor-10 fight | Yes — ten floors, [D16](06-decisions.md), [D25](06-decisions.md). No chapters, keys, census or return-to-world per floor |
-| Gates, ranks E–S, delves | Yes. A party can retreat from a delve today; the new rule says it cannot |
+| Gates, ranks E–S, delves | Yes — and since 2026-09-24 there is no walking out of one mid-delve |
 | The fall, the mark, random crash sites | No |
 | The fifteen living their own lives | No — non-leads stand in fixed places. The "NPC society" seam in [01](01-vision.md) is where it goes |
 | Sibling worlds, the world ending, the next lead | No. `World` serialises and is seeded ([D09](06-decisions.md)), which is the seam for a sibling world |
