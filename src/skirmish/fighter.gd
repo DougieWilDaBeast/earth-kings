@@ -1,4 +1,3 @@
-class_name Fighter
 extends RefCounted
 ## One combatant's real-time state in a [Skirmish]: what it has been told to do,
 ## what it is doing, and what it is waiting on.
@@ -6,6 +5,11 @@ extends RefCounted
 ## The [Unit] is still the puppet that is drawn and hit; this is the part a turn
 ## used to hold. Kept apart so the turn-based battle is untouched while the two
 ## are compared.
+
+## Loaded by path, not by `class_name`: a global class name only resolves once the
+## editor has rescanned the project, and a checkout that has not been opened in
+## the editor since this landed would otherwise fail to parse the whole skirmish.
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 enum Order { NONE, MOVE, ATTACK, CAST, AID }
 

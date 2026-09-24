@@ -11,7 +11,12 @@ extends Node
 ## A fight that has not ended by then is stuck, not slow.
 const SIM_LIMIT := 300.0
 
-var _skirmish: Skirmish
+## By path rather than by class name, as the skirmish itself does, so the test
+## runs on a checkout whose class cache has not been rebuilt by the editor.
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+
+var _skirmish: Node2D
 var _failures: Array[String] = []
 
 
@@ -36,8 +41,8 @@ func _ready() -> void:
 
 
 func _run() -> void:
-	var party := _skirmish.party_fighters()
-	var foes := _skirmish.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	var party: Array[Fighter] = _skirmish.party_fighters()
+	var foes: Array = _skirmish.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
 	_expect(not party.is_empty(), "no party fighters")
 	_expect(not foes.is_empty(), "no enemy fighters")
 	_expect(_skirmish.paused, "the fight should open paused")
@@ -103,7 +108,7 @@ func _run() -> void:
 	_expect(_skirmish.over, "the fight did not end within %.0f seconds" % SIM_LIMIT)
 	var swings := 0
 	var casts := 0
-	for f in _skirmish.fighters:
+	for f: Fighter in _skirmish.fighters:
 		swings += f.swings
 		casts += f.casts
 	print("skirmish over after %.1fs of fight — victory: %s — %d basic attacks, %d skills" % [
@@ -135,7 +140,7 @@ func _first_with_slots(group: Array[Fighter]) -> Fighter:
 
 
 func _free_cell_near(f: Fighter) -> Vector2i:
-	for cell in _skirmish.pathfinder.cells_in_range(f.unit.cell, 1, 2):
+	for cell: Vector2i in _skirmish.pathfinder.cells_in_range(f.unit.cell, 1, 2):
 		if _skirmish.grid.is_walkable(cell) and _skirmish.occupant(cell) == null:
 			return cell
 	return f.unit.cell
