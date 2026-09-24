@@ -79,6 +79,9 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E9  | Fight the same kind five times with someone who never lands the blow                            | On the fifth, "_Z_ has helped with enough _Y_ kills to learn from them."  |
 | E10 | Beat a gate's guardian or the Tower's apex fighter                                              | Everyone still standing "learns from" it, not only the killer             |
 | E11 | Open **P** → Practice after a few fights                                                        | An **Arms** line for the weapon in hand, and **Learned from** listing the kinds, with assists part-way |
+| E12 | Take an errand, then **P** → a companion → Practice → **Send**                                  | They leave the cards; the header says "1 away"; an **Away** line counts the steps                |
+| E13 | Walk until they are due                                                                         | Notices on the map: word from the place, maybe a meeting on the road, then "is back with the company" |
+| E14 | Try to send the lead, or the last companion beside them                                         | No button, and a line saying why                                                                |
 
 ## E2 — Real-time skirmish (M11 prototype)
 

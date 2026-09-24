@@ -14,6 +14,9 @@ extends CanvasLayer
 
 signal closed
 
+## Loaded by path: see its header for why it has no `class_name`.
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
+
 ## Pieces out of the packs offered per person. The page scrolls, so this is
 ## about what is worth reading rather than what fits on one row.
 const GEAR_OFFERS := 8
@@ -116,6 +119,17 @@ func teach(teacher: Character, student: Character, doctrine_id: String) -> bool:
 	_notice = "%s teaches %s to %s." % [
 		teacher.display_name, Doctrine.title(doctrine_id), student.display_name
 	]
+	_rebuild()
+	return true
+
+
+## Hand an accepted errand to [param character] and send them off to do it
+## (see `src/chronicle/dispatch.gd`).
+func send_away(character: Character, errand: Dictionary) -> bool:
+	var line := Dispatch.send(GameState.world, GameState.roster, GameState.away, character, errand)
+	if line == "":
+		return false
+	_notice = line
 	_rebuild()
 	return true
 
@@ -260,8 +274,9 @@ func _rebuild() -> void:
 				_build_practice_page(shown, party)
 
 	var codex := GameState.world.codex_understanding()
-	_purse.text = "%d gold  ·  %d in the packs  ·  Codex %d%%  ·  step %d" % [
-		GameState.gold, GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps
+	_purse.text = "%d gold  ·  %d in the packs  ·  Codex %d%%  ·  step %d%s" % [
+		GameState.gold, GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps,
+		"" if GameState.away.is_empty() else "  ·  %d away" % GameState.away.size(),
 	]
 	_footer.text = "P or Esc to close%s" % ("" if _notice == "" else "  ·  " + _notice)
 
@@ -804,6 +819,32 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			break
 	if taught == 0:
 		_page_box.add_child(_quiet_line("Nothing they could pass on to anybody here."))
+
+	_page_box.add_child(_heading("Send away"))
+	var roster: Roster = GameState.roster
+	var open := Dispatch.open_errands(GameState.errands)
+	if character.is_player:
+		_page_box.add_child(_quiet_line("The lead goes where the company goes."))
+	elif not Dispatch.can_send(character, roster, GameState.away):
+		_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
+	elif open.is_empty():
+		_page_box.add_child(_quiet_line("No errand to give them. Take one from a settlement's board first."))
+	else:
+		for errand: Dictionary in open:
+			var go := Button.new()
+			go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+			go.focus_mode = Control.FOCUS_NONE
+			go.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			go.text = "Send %s: %s" % [character.display_name, Errand.summary(errand)]
+			go.tooltip_text = "They leave the company, walk it while you walk, and come back — if nothing finds them on the road."
+			go.pressed.connect(func() -> void: send_away(character, errand))
+			Sfx.attend(go)
+			_page_box.add_child(go)
+
+	if not GameState.away.is_empty():
+		_page_box.add_child(_heading("Away"))
+		for job: Dictionary in GameState.away:
+			_page_box.add_child(_quiet_line(Dispatch.summary(job, roster, GameState.world)))
 
 
 ## Every kind of enemy this character has learned from, and the ones they are

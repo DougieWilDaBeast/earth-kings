@@ -4,6 +4,9 @@ extends Node2D
 ##
 ## Every step advances the world clock, so travel is never free.
 
+## Loaded by path: see its header for why it has no `class_name`.
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
+
 const CELL := 24
 ## Seconds between steps while a direction is held down.
 const REPEAT_DELAY := 0.11
@@ -714,6 +717,10 @@ func _check_party() -> void:
 	for character in GameState.roster.party_members():
 		for forgotten: String in Doctrine.decay(character, world.steps):
 			_note("%s can no longer recall %s." % [character.display_name, Doctrine.title(forgotten)])
+
+	# Whoever was sent away is on the same clock as everyone else.
+	for line: String in Dispatch.walk(world, GameState.roster, GameState.away, GameState.errands):
+		_note(line)
 
 	# Nobody waits forever for their friends.
 	for character in GameState.roster.characters:

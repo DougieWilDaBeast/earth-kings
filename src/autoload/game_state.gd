@@ -30,6 +30,8 @@ var flags: Dictionary = {}
 var talks: Dictionary = {}
 ## Errands taken and not yet settled (see [Errand]).
 var errands: Array = []
+## Companions sent away on one of those errands (see `src/chronicle/dispatch.gd`).
+var away: Array = []
 ## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
 var stores: Array = []
 ## Surplus equipment and supplies deposited at the campfire strongbox.
@@ -93,6 +95,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	flags = {}
 	talks = {}
 	errands = []
+	away = []
 	stores = []
 	camp_stash = []
 	keys = []
@@ -161,6 +164,7 @@ func save() -> void:
 		"flags": flags,
 		"talks": talks,
 		"errands": errands,
+		"away": away,
 		"stores": stores,
 		"camp_stash": camp_stash,
 		"keys": keys,
@@ -197,6 +201,7 @@ func load_save() -> bool:
 	flags = data.get("flags", {})
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
+	away = data.get("away", [])
 	stores = data.get("stores", [])
 	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])
