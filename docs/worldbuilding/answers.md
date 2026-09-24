@@ -15,13 +15,39 @@ The agenda for the next session, in the order it is worth spending time on. Ever
 entry further down this file; nothing here is new information, it is the open work gathered into one
 place so it can be worked through rather than rediscovered.
 
-Run `res://tools/question_report.tscn` for the live count. As of 2026-09-14 it reads **60 of 366
-answered, 191 still open, 143 drafts across 129 questions**.
+Run `res://tools/question_report.tscn` for the live count. After joint session 1 (2026-09-24) it
+reads **79 of 366 answered, 26 partly answered, 169 still open, 143 drafts across 129 questions**.
 
-## 1. Eleven questions that need a straight answer
+**The standing instruction** from that session: a question that does not matter yet stays open.
+Section 1 is what the next milestone cannot start without. Everything below it is real, but it can
+wait for a session that has nothing more urgent.
+
+## 1. What joint session 1 left open — needed next
+
+Every item here blocks something on the [roadmap](../05-roadmap.md). Most are one sentence each.
+
+| #  | Where | The question |
+| -- | ----- | ------------ |
+| 1  | `GT11`, `D16` | **How many floors has the Tower, and how many make a chapter?** Ten ship. A hundred was floated and then doubted — "maybe 100 floors is too much. Maybe it's not enough". Every rule the session made counts in fives: the world changes every five floors, a key is needed every five, the census shows every five. |
+| 2  | pillar 5, `SK6`, `D27` | **Does the world still run on steps?** "I think that the time the world should only really change after you complete, let's say, five floors of the tower" [00:28:42] sits against _the world runs on steps, not turns_. One reading keeps both: **steps drive the small clocks** (doctrine fading, gates breaking, news, sieges) **and Tower chapters drive the story**. That is an inference. Confirm it or pick one. |
+| 3  | `D36` | **The fight.** The move to a Dungeon Settlers-style real-time-with-pause fight was agreed, and a research deep dive was asked for before anything is built. What it has to answer is in [18 — Combat direction](../18-combat-direction.md#what-the-research-has-to-answer). |
+| 4  | `CO7`, `SM1`, `D21` | **Can a death be reloaded?** Save-scumming is allowed "to be revisited". A lead's death now ends a whole world. If reloading undoes that, the sixteen chances are a menu. This has to be settled before the death of a world is built. |
+| 5  | `MX20` | **In the second world, is there a living copy of the first lead** as well as their ghost and their weapon? |
+| 6  | `CH10`, `SF1` | **What does a lead remember?** "All 16 lose their memories", then "maybe your memories are intact". The reading taken: the fall takes the memory, the mark is recognised anyway. Confirm. |
+| 7  | `D29` | **Is the lead chosen or answered for?** The session says "you choose Cassius"; the build asks four questions and names you. Both can stand — the quiz names you, _Show me all sixteen_ lets you choose — but say which is the front door. |
+| 8  | `D37` | **Assists.** `dougie` summed it up as five assists for a kill's experience and `doug-md` agreed; `doug-md` had also said ten for ordinary grunts and five for a healer's assists. One number, or two? |
+| 9  | `CO2` | **Sprite size — 64, 32 or 16?** "that's still an open for now, but we do need to generate stuff" [01:07:40]. PixelLab credits reset on 2026-09-27 with 15% left; the [asset list](../19-asset-list.md) has to be generated at one size. |
+| 10 | `CH13` | **Sixteen ways to fight, six classes.** The roster needs sixteen distinct fighting styles; `classes.json` has six. More classes, or a class per character, or styles inside classes? |
+| 11 | `D38` | **How does the party grow from four to six?** A level, a rank, a Tower chapter, something bought? |
+| 12 | `MX13` | **Where does a dead lead's weapon land the first time** — somewhere easy to find, or random? |
+| 13 | `GT2`, M5 | **You cannot leave a gate until it is beaten.** The build lets a party retreat and keep the floors taken. The new rule wins unless someone objects — say so if not. |
+| 14 | `GT3` | **Timed events.** `doug-md` asked whether failing to do things in time costs you. `dougie`: "we should try to test what happens when we're playing first". Deferred to playtest, on purpose. |
+
+## 2. Eleven Part I questions that need a straight answer
 
 `doug-md` answered Part I but eleven of them did not land cleanly. Each entry already writes out the
-one follow-up it needs.
+one follow-up it needs. Of these, only `SK6` is needed next (see item 2 above); `LN1` matters as
+soon as the map is resized. The rest can wait.
 
 | ID     | Status          | The follow-up                                                                            |
 | ------ | --------------- | ---------------------------------------------------------------------------------------- |
@@ -37,19 +63,19 @@ one follow-up it needs.
 | `MK1`  | Partly answered | No single ceiling; technology is uneven by region. **What is the most advanced thing anyone can build, and who builds it?** |
 | `GT9`  | Partly answered | The Tower neither restrains nor generates gates — "but maybe the tower can help them generate". **Does it influence them at all?** |
 
-## 2. Five contradictions that have to be settled
+## 3. Five contradictions that have to be settled
 
 These are not gaps. They are two statements that cannot both stand.
 
 | Where                 | The collision                                                                                  |
 | --------------------- | ---------------------------------------------------------------------------------------------- |
-| notes 01–05 vs note 06 | **"Tower" means two things.** He says _tower_ where the book says _gate_ throughout the first five notes, and in `GT5` he catches himself: "a gate looks like a massive tower, or, sorry, a gate looks like a wormhole." Note 06 keeps them apart. The whole of Part I reads differently depending on the answer. |
+| notes 01–05 vs note 06 | **Probably settled — confirm.** In joint session 1 `doug-md` keeps _tower_ and _gate_ apart without a slip, which supports the reading Part I's entries took. **"Tower" means two things.** He says _tower_ where the book says _gate_ throughout the first five notes, and in `GT5` he catches himself: "a gate looks like a massive tower, or, sorry, a gate looks like a wormhole." Note 06 keeps them apart. The whole of Part I reads differently depending on the answer. |
 | `SK5` + `SK6` vs repo | A 365-day year and the repo's 120 steps per season (480 steps a year) put a step at about a day and a half. He guessed "one second or one minute". Two of the three have to give. |
 | `GT9` vs D08          | He has gate rank rising the **closer** you are to the Tower. D08 has it rising with **distance**. This inverts the map. |
 | `CL2` vs repo         | He describes a season front that **sweeps** south to north over a warm equator. `Season` flips globally at a step count. `WorldGen._latitude` already agrees with him; the season clock does not. |
 | `GT6` vs repo         | A broken gate should **spread its element across the ground and keep spreading**. The repo raises local danger 25pp and changes nothing else. |
 
-## 3. Three slots with no noun in them
+## 4. Three slots with no noun in them
 
 Canon says these exist and matter. Nobody has named them.
 
@@ -59,27 +85,34 @@ Canon says these exist and matter. Nobody has named them.
 | `MK8` | The material worth a war: "maybe a stone or a rare element… worth millions and millions and millions." |
 | `MK9` | The "legendary technology man" whose blueprints a gate destroyed. |
 
-## 4. One question nobody has asked
+## 5. One question nobody has asked
 
 `SK10` has "a higher beam that essentially governs these towers and they do look back". `GT10` has
 the Tower built by something that "is not other people… a different form of existence". `GT12` is the
 Spire Archon, undecided.
 
-**Are these the same thing?** Three answers circling one entity across two notes, and no entry
+Joint session 1 added two more: `FA1` has real gods above the sixteen, met only after the Tower, and
+a force that means to leave one world standing; `GT10` has the Tower built as a proving ground by
+whoever is found out at the end.
+
+**Are these the same thing?** Five answers circling one entity across three notes, and no entry
 connects them. Deciding it would close `GT12`, which is otherwise the only question in Part I with
 nothing in it at all.
 
-## 5. Thirteen questions where the drafts disagree
+## 6. Ten questions where the drafts disagree
 
 Two lineage sources argue opposite sides. These need a pick, not an answer — the reasoning and the
 costs are already written up in the [divergence ledger](divergence-ledger.md).
 
-`AR2` · `DV1` · `FR7` · `HS2` · `KN1` · `LN4` · `MX11` · `MX19` · `NW7` · `OT8` · `SM5` · `SM7` · `SM8`
+`AR2` · `DV1` · `FR7` · `HS2` · `KN1` · `LN4` · `MX19` · `NW7` · `SM7` · `SM8`
 
-A further **95 questions carry a single draft** waiting on a yes, a no, or a better idea. Those are
+Joint session 1 retired three — `MX11`, `SM5` and `OT8` — by answering them outright. `FR7` and `SM8`
+were answered in part; their drafts still argue about the half nobody spoke to.
+
+A further **88 questions carry a single draft** waiting on a yes, a no, or a better idea. Those are
 the cheapest progress available: the argument is already made, so each one costs a sentence.
 
-## 6. Six things Part I made canon that the game does not model
+## 7. Six things Part I made canon that the game does not model
 
 Scope calls rather than lore calls. Each one is now true of the world and absent from the build.
 
@@ -1191,6 +1224,772 @@ removes a monster problem and leaves a people problem.
 would not fix the thing anyone actually cares about. That is a coherent and fairly bleak thesis
 about the setting, arrived at across two questions.
 ↳ Falls out for `DV3` and `DV6`, and it gives the Museum's `CONQUERED` ending something to mean.
+
+---
+
+# Joint session 1 — both founders, 2026-09-24
+
+A 70-minute call between `dougie` and `doug-md`, transcribed by Teams and kept whole as
+[joint session 1](voice-notes/2026-09-24-joint-session-1.md). Both are founders, so what either said
+plainly is canon; where one proposed and the other agreed, the entry quotes both.
+
+The session did not work the book in order. It opened Part 0, judged it hard going, and went to the
+sixteen instead — and in describing who they are it answered the frame by building the game's whole
+structure. Read these entries together; most of them are one idea seen from different questions.
+The design that comes out of it is written up flat in
+[17 — The Fall and the Sixteen Worlds](../17-the-sixteen-worlds.md), and the rules it changes are
+[D31–D40](../06-decisions.md).
+
+Three things carry across every entry below.
+
+**The transcript is a call, not a recording of answers.** Nobody says an ID. Every mapping to a
+question is a reading, and where the reading is a stretch the entry says so. A quote runs straight
+through the other founder's crosstalk — a "Mhm" or a "Yeah" dropped into the middle of a sentence
+is left out of it. Nothing else is.
+
+**"Tower" means the Tower here.** Part I used _tower_ for gates in five notes out of six. In this
+session `doug-md` keeps them apart unprompted — "one massive tower in the middle … scattered all
+around the world has like the gates" [00:26:23] — and nobody slips. That is good evidence for the
+reading Part I's entries already took.
+
+**There are sixteen Towers, one per world.** "The character in each of the other 15 towers is a max
+level version of the NPCs" [00:13:20]. Within any one world there is one Tower. `GT11`'s "the
+tower**s**" may have meant exactly this.
+
+---
+
+**Frame — what Earth Kings means.**
+
+## FR4 — What does "Earth Kings" mean? Who is a king, and is the title claimed, inherited, or given?
+
+> "So the 16 characters are all up in this kind of heavenly place or this kind of place where they
+> have like godhood and there'll be some sort of disaster up there and everyone, all 16 of them will
+> be sent down to Earth."
+> — dougie, 2026-09-24, session 1 [00:09:23]
+
+> "So when you go past the top of the tower and you beat it, and you're fighting against the other
+> Earth kings. So it's just basically found out that like, you know, these towers were actually a
+> proving ground for seeing if you could defend Earth from the other multiverse."
+> — dougie, 2026-09-24, session 1 [00:12:55]
+
+> "Everyone knows that one world is going to be left stand at the end."
+> — dougie, 2026-09-24, session 1 [01:03:07]
+
+**Answered.** The Earth Kings are **the sixteen** — demigods thrown out of a heavenly place by a
+disaster, each landing in their own copy of Earth. Each one who tops their world's Tower becomes a
+contender, and the contenders fight until one world is left standing. The title is **won**, at the
+end, against the others. The player is one of the sixteen, and so a would-be Earth King from the
+first minute — without knowing it.
+↳ Settles `RU13` in part: kingship in the world below still exists (royalty is named at [00:23:33]),
+but _Earth King_ is a different and higher title, and it is the thing being competed for.
+↳ Opens the question the session left for later: **who, or what, decides that only one world
+survives?** "There's a force that can actually obviously do that. So you need to figure out how
+you're going to stop that" [01:03:27]. See `FA1`.
+
+## FR5 — Is this our Earth — after something, before something — or a different world entirely?
+
+> "and they crashed down there and they've, because there's some sort of... disaster that happens
+> and basically when they got crashed down to Earth, that's when the actual multiverse was split"
+> — dougie, 2026-09-24, session 1 [00:24:53]
+
+**Partly answered.** The world below is called **Earth**, and it exists as sixteen copies split off
+from one at the moment of the fall. Whether it is _our_ Earth — after something, before something —
+was not said.
+↳ Worth one sentence next session: Part I made the year 365 days and the day 24 hours
+"deliberately ours". That reads differently if this is our planet.
+
+## FR7 — A player just lost a character they cared about. What should they feel in the ten seconds after?
+
+> "If your character dies, I think it would be quite cool to see, like... The world. Just like,
+> almost like a cinematic nearly of the world that you're in, just slowly just get destroyed. You
+> see it like an overtop view."
+>
+> "Uh, because you're supposed to save it if you don't, if you die."
+> — doug-md, 2026-09-24, session 1 [00:29:14]
+
+**Partly answered.** For the **lead**, the ten seconds are a world ending: the camera pulls up and
+watches the whole of it go, because the lead was the one who was meant to save it. The feeling is
+the size of the loss rather than grief for one person.
+↳ Nothing was said about a **companion** dying, which is the more common case and the one the two
+drafts on this question argue about. They stand.
+↳ This is the answer the Barbarian draft on `FR7` was reaching for from the other side — a death
+that matters because of what it takes with it.
+
+## SF1 — Does the player character know they are unusual? Is that a fact about the world or the game?
+
+> "And when they crash on the Earth, they lose their memories. So all 16 lose their memories."
+> — dougie, 2026-09-24, session 1 [00:10:14]
+
+> "And then I guess the main character, which is you, you'll have already played the intro. So
+> you'll have fallen to us."
+> — dougie, 2026-09-24, session 1 [00:15:24]
+
+**Answered.** The lead is unusual as a **fact about the world** — one of sixteen fallen demigods —
+and does not know it. The memory is lost in the fall. The **player** knows, because they watched the
+fall in the intro, and that gap is the game's first piece of dramatic irony.
+↳ `D14` (the run follows the player character) now has a reason inside the fiction: when the lead
+dies, their world ends. See `SM5`.
+↳ How much the lead remembers is not quite settled — see `CH10`.
+
+---
+
+**The sixteen.**
+
+## CH1 — What is their name, and what do people who dislike them call them?
+
+> "Um, I think it would be cool to have like a... Do you know the Roman names? Like, uh, Cassius,
+> um..."
+> — doug-md, 2026-09-24, session 1 [00:05:47]
+
+> "Cassius, Caesar, Bellona, Ares, do you want gods or something like that,"
+> — dougie, 2026-09-24, session 1 [00:06:07]
+
+> "should be maybe set in stone so you don't get it so the characters get the name who they're
+> playing like so and we could get that one to fit maybe the theme of like god-style names."
+> — dougie, 2026-09-24, session 1 [00:10:02]
+
+**Partly answered.** The sixteen carry **fixed, god-style names** in a Roman and Greek register, the
+same every run. Four were spoken as examples — Cassius, Caesar, Bellona (transcribed "Bologna"),
+Ares — and none is assigned to a temper yet. What people who dislike them call them falls under the
+earned-name rule in `KI8`.
+
+## CH8 — What do they look like, in one image that is not a list of features?
+
+> "So from the start, they still look like the, how they did in God form, but they don't really
+> stand out as much. You know, they kind of look like a regular, a regular person on this earth."
+> — dougie, 2026-09-24, session 1 [00:10:26]
+
+> "It could be something, it could be something that like all 16 of the characters have something
+> that all of them have. So maybe like a tattoo or like they have. their eyes might glow or they
+> might have like something that can recognise the other one."
+> — doug-md, 2026-09-24, session 1 [00:14:49]
+
+**Partly answered**, for all sixteen at once. They look **exactly as they did above** and pass for
+ordinary people, except for **one mark all sixteen share**, in the same place on each of them —
+tattoo or glowing eyes, not yet chosen. Each character's own image is still to write.
+
+## CH10 — Who in the other fifteen do they already know, and how?
+
+> "Do you think that the characters will know who they are or will they get a feeling that like, I
+> should know who this person is or"
+> — doug-md, 2026-09-24, session 1 [00:14:23]
+
+> "I see, I think it should be clear to the.. . To the player that, yeah, you would know each
+> other."
+> — dougie, 2026-09-24, session 1 [00:14:39]
+
+> "As you're going, as you're kind of going around, I guess, in a way, maybe your memories are
+> intact. Or at least whatever you've actually seen"
+> — dougie, 2026-09-24, session 1 [00:15:38]
+
+**Partly answered.** All sixteen knew each other above. Below, **the mark is how they recognise
+each other**, and it should be clear to the player who someone is.
+↳ Collides with `SF1`: "all 16 lose their memories", then "maybe your memories are intact". The
+reading that keeps both is that **the fall takes the memory and the mark is recognised anyway** —
+you know _that_ they are one of you, not _who_ they were. That is an inference. **Which is it?**
+
+## CH13 — Which of the six classes suits them, and which would be the interesting wrong choice?
+
+> "they should be as kind of available to get different classes and stuff and we kind of want to set
+> them up so they follow a lot of kind of their personality types plus different types. We want big
+> variety, like you kind of want 16 different characters that have to have 16 different ways of
+> fighting."
+> — dougie, 2026-09-24, session 1 [00:16:13]
+
+**Partly answered**, as a rule for the roster. Every character can take other classes, but **the
+sixteen must fight sixteen different ways**, and the way each fights follows their temper. Six
+classes cannot give sixteen styles; see the follow-up in the agenda.
+
+## CH14 — If they are not the lead this run, where are they standing, and what are they doing there?
+
+> "So we can kind of like randomise like where they'd crash land."
+> — dougie, 2026-09-24, session 1 [00:10:26]
+
+> "I think it'd be good, like they kind of have their own lives and they kind of just do whatever
+> and they land wherever and they end up. doing whatever they want and eventually you might cross
+> paths with them."
+> — doug-md, 2026-09-24, session 1 [00:14:09]
+
+**Answered**, for all sixteen at once. They land **somewhere random** — "some people land in
+castles, some people land out in the forest" [00:10:50] — and from there live **their own lives**,
+driven by their temper. You meet them mid-story, if you meet them at all.
+↳ Adopts the Octopath draft ([16.7](../16-lineage/16.7-octopath-traveler-2.md)) almost word for word,
+and adds the randomised start it did not have.
+
+## MX16 — Where exactly does each of the fifteen stand when they are not the lead — a fixed area, or somewhere that moves?
+
+> "Cassius. that personality type is removed, all his NPC behaviors, and then every other one of the
+> 15 has their same. Behaviors."
+> — dougie, 2026-09-24, session 1 [00:11:35]
+
+**Answered.** Somewhere that moves. Each of the fifteen starts at a **random crash site** and then
+goes where their temper takes them — the same behaviour they would show in anyone's run.
+Choosing a lead switches that one's behaviour off; the other fifteen keep theirs.
+↳ Replaces the current rule, where a non-lead hero stands in a fixed area's `people[]` entry.
+
+## MX17 — How does hiring one of the fifteen work — a price, a favour, a condition, a refusal?
+
+> "I don't know if some people will have parties or some people won't have parties, because, you
+> know, some people will just not maybe not work too good in a party. Some people might. Some people
+> might even team up with original people that came from that heaven."
+>
+> "So like you can find them in world and you can team up with them. Yeah, but you don't have to
+> team up with them."
+> — dougie, 2026-09-24, session 1 [00:13:40]
+
+**Partly answered.** You can find the others and team up with them, and you never have to. Some of
+them do not work well in a party at all, and some will have gathered one of their own. The price —
+gold, favour, condition — was not said.
+
+## MX20 — Can you meet a character whose temper you rolled — is there a version of you walking around?
+
+> "So the 15 guys that you'll see after you choose your character, they're actually just copies of
+> the original."
+>
+> "So you'll actually deal with the original guys in each one of their worlds when you go to
+> eventually have that tournament at the top."
+> — dougie, 2026-09-24, session 1 [00:25:20]
+
+**Blocked.** Yes in the tournament — every one of the sixteen meets the others' originals there. The
+case left open is the **second run**: after the first lead dies you play another of the sixteen in
+their world, and the first lead comes with you as a ghost (`BD7`) and a weapon (`MX13`). **Is there
+also a living copy of the first lead walking around the second world?** One sentence decides it.
+
+---
+
+**Pools and casting.**
+
+## LP1 — How long is a background — a sentence, a paragraph, a page?
+
+> "Um, you might find out more. You'll have, you'll have like a steady one, like a short enough one.
+> And you'll start up more."
+> — doug-md, 2026-09-24, session 1 [00:22:39]
+
+> "yeah, so yeah, you can you can add on, so background can keep growing."
+> — dougie, 2026-09-24, session 1 [00:22:48]
+
+**Answered.** **Short to start, and it grows.** A background opens as a few steady lines and gets
+longer as it is found out.
+↳ Falls out for `LP27`.
+
+## LP4 — Should two characters ever share a background, or is each one used once?
+
+> "And 2 characters can share a similar background because, like, it just depends on if those parts
+> get revealed, like maybe the uniqueness of them can be revealed after, but for the most part, you
+> know, everyone's going to be similar in different ways."
+> — dougie, 2026-09-24, session 1 [00:22:48]
+
+**Answered.** Yes. All sixteen share the biggest background there is — the fall — and two can share
+more than that. What makes each one unique is revealed later, not stated first.
+
+## LP17 — Should a creed be a named movement other people follow, or one person's private conviction?
+
+> "Yeah, so should there be any guilds or creeds or something like that?"
+> — dougie, 2026-09-24, session 1 [00:23:14]
+
+> "Definitely, 100%."
+> — doug-md, 2026-09-24, session 1 [00:23:23]
+
+> "there should be characters that are involved in every aspect, like religion, guilds, you know,
+> royalty, towns, cities, wildlife. you know, adventurers, you know, hunting, like all the different
+> roles of bandits, like there should always be a character somehow involved with that particular
+> group. and then some are just nomads as well."
+> — dougie, 2026-09-24, session 1 [00:23:33]
+
+**Partly answered.** There are **named movements** — guilds, creeds, religions, royal houses,
+adventurers, hunters, bandits — and every one of them has somebody inside it worth meeting. Some
+people belong to nothing. Whether a _character's_ creed is one of those movements or their own
+conviction was not said; both clearly exist.
+
+## LP24 — Do the uncast pieces really become rumours and NPC histories?
+
+> "So do the oncast pieces really become rumors? Yeah, that's, yeah, we can keep those rumours and
+> stuff given for other characters."
+> — dougie, 2026-09-24, session 1 [00:23:55]
+
+**Answered.** Yes. Uncast history goes to rumours and to other characters.
+
+## LP27 — Does the player ever see a character's full history, or only what comes up?
+
+> "Does the player ever see a character's full history? So what would we show? I feel like the more
+> you find out, the more you get to reveal about the character's history."
+> — dougie, 2026-09-24, session 1 [00:23:55]
+
+> "Yeah, and there's different stuff that can be revealed. as you kind of progress and there's
+> certain milestones once you unlock them or once you talk to certain people, it'll feed into your
+> own background that you can read."
+> — dougie, 2026-09-24, session 1 [00:24:28]
+
+**Answered.** Only what comes up — and it accumulates. Milestones and conversations **unlock pieces
+of a history**, and they collect into a background the player can read back.
+↳ This applies to the lead's _own_ history too. The lead has forgotten it (`SF1`), so the readable
+background is the lead finding out who they were.
+
+## LP28 — Do the fifteen you did not become carry their history visibly — does meeting them tell you any of it?
+
+> "since you have all the different personalities for the characters, some characters just will not
+> give you information, some characters might give you all of it, some might withhold information,
+> and you probably might have to like... Gain up like a synergy in a way"
+>
+> "The more you talk to them or the more you kind of help them do quests or like interact with them,
+> the more likely they'll tell you more stuff and share more information."
+> — doug-md, 2026-09-24, session 1 [00:36:57]
+
+**Partly answered.** How much you learn is **the character's choice, by temper**, and it rises with
+rapport — talking, helping, travelling together. Some tell you everything; some never do.
+↳ Said about the **ghosts** of dead leads (`BD7`), and it reads just as well for the living fifteen.
+Taking it for both is an inference.
+
+---
+
+**What happens when the lead dies.**
+
+## SM5 — The run ends when the player character dies but the world is saved. Is the next run the same world later, a different one, or a reset?
+
+> "So how about if your world, so if you die in your world and that world gets destroyed and it
+> plays the animation, should you then have a choice of becoming the character in the 15 remaining
+> ones?"
+> — dougie, 2026-09-24, session 1 [00:29:43]
+
+> "I don't think that when your character dies, you can just keep your progression. I think that's
+> the work that you put in with that character. Or you go into the other world with more knowledge
+> of how to get stronger and you start off at level 1 again."
+> — doug-md, 2026-09-24, session 1 [00:31:44]
+
+> "I completely agree you and I agree as well. Yeah. So that's the idea we're going to go for.
+> We're going to follow your idea."
+>
+> "Like, yes, you start off again, but this time you get to play that character and then the world
+> that was destroyed is destroyed. They can never come back. So you essentially got 16 chances to
+> beat the game"
+> — dougie, 2026-09-24, session 1 [00:32:14] and [00:33:14]
+
+**Answered.** **A different world.** When the lead dies their world is destroyed and never comes
+back. The next run is **one of the surviving fifteen worlds**, played as that world's own one of the
+sixteen, **from level 1**. The player has sixteen lives across the whole game, one per world.
+↳ The one real disagreement of the session, settled inside it: `dougie` proposed keeping the Tower
+progress into the next world; `doug-md` argued against — "This game? Isn't easy" — and `dougie`
+took his side. Logged as a resolved fork in the [divergence ledger](divergence-ledger.md).
+↳ Retires both drafts on this question and on `MX11`. It is not the same world later (the ORV and
+CHRONICLE readings); it is a sibling world that forked at the fall.
+↳ "this world could potentially play out very similar" [00:32:14] — the sibling worlds share their
+starting shape, so where a character crash-landed or where an item lies is knowledge worth
+carrying. How similar is a tuning question.
+↳ The endgame changes with it: "you only fight among who's left" [00:30:18]. See `CO8`.
+
+## MX11 — Is the next run the same world, later?
+
+> "So you essentially got 16 chances to beat the game or beat the original storyline"
+> — dougie, 2026-09-24, session 1 [00:33:14]
+
+**Answered.** No — see `SM5`. The next run is another of the sixteen worlds, the ones still standing.
+
+## MX13 — Does anything at all carry between runs, and if so is that a betrayal of pillar 4?
+
+> "So yeah, and then that's the kind of the idea is, is that right? So once your character died,
+> then you've actually absorbed your knowledge into the new character."
+> — dougie, 2026-09-24, session 1 [00:32:44]
+
+> "what if every character had a weapon that was built just for them and then... That's what you're
+> supposed to like, get from your own world. So before the world gets destroyed, it creates your,
+> the main character becomes a ghost and then his custom weapon actually gets sent over into the next
+> world of crash land somewhere."
+> — dougie, 2026-09-24, session 1 [00:37:32]
+
+> "Yeah, it's a god-tier weapon, but it's not your proficiency, so you can't use it unless maybe you
+> train up or something."
+> — doug-md, 2026-09-24, session 1 [00:39:16]
+
+**Answered.** Three things carry, and **no power** does:
+
+1. **The player's knowledge** of how the worlds tend to go.
+2. **The dead lead, as a ghost** — met at campfires, telling what they learned. See `BD7`.
+3. **The dead lead's signature weapon**, which crash-lands somewhere in the next world. God-tier, but
+   nobody is proficient with it, and anybody may have picked it up first — "I'm actually going to
+   have to get this weapon off them" [00:38:51]. Finding it is what opens the ghost fully.
+
+Levels, gear and Tower floors do not carry.
+↳ Pillar 4 survives intact and gets sharper: a whole world is the one-way door now.
+↳ Timing rule: "there shouldn't be a weapon. In your next character's world, until they've at least
+progressed past the previous world" [00:44:06]. The weapon and the ghost's news arrive only once
+the new lead has got as far as the old one did.
+↳ Where it lands, the first time: "maybe you make it easy to find where the weapon is, or maybe it's
+just random" [00:39:35]. Open.
+
+## BD7 — Do the dead remain as anything — ghosts, revenants, gate-things wearing a face?
+
+> "The only thing I can think on could be almost like a force ghost. Oh like. When let's say you go
+> to a campfire, then you can maybe interact. Through meditation with the previous character."
+>
+> "Kind of like or like all for one or one for all."
+> — doug-md, 2026-09-24, session 1 [00:34:31]
+
+> "you go to a campfire and you meditate and you can see the four scopes of all the other
+> characters, but you can't interact with them until they've died. And when you, when they've died,
+> they make themselves maybe physical in a way, but not, they're still... completely a ghost"
+>
+> "And you can talk to them, interact, ask questions like how did they fail? Maybe like... What they
+> did really good, and maybe some like... We could give you some quests."
+> — doug-md, 2026-09-24, session 1 [00:35:27] and [00:36:00]
+
+> "So it should be the, when you're playing the game, you're generating your quest log and your
+> journal and everything you've done. So that if that character dies, that journal gets saved. And
+> then that can be like some of the bits that he reveals to the next person."
+> — dougie, 2026-09-24, session 1 [00:36:26]
+
+**Partly answered.** For **the sixteen**: yes. A dead lead remains as a **ghost** met by meditating at
+a campfire. They can be asked how they failed and what they did well, and they hand out quests from
+what they found. What they know is **the journal of the run they died in**, and how much of it they
+share depends on their temper and on rapport (`LP28`). The living are visible at the fire too, but
+cannot be spoken to until they die. For ordinary people, nothing was said.
+↳ "four scopes" is almost certainly a mis-hearing — _forms_, or _horoscopes_. Kept as transcribed.
+↳ The question it answers first was `dougie`'s — does the ghost go to one successor, to every other
+world, or "splits off into 15 parts" [00:34:18]? `doug-md` did not know, and the campfire idea
+answered it sideways: every later lead can meet every earlier ghost. That is an inference.
+↳ Bears on `BD6`: a destroyed world "can never come back", but its lead can still talk.
+
+---
+
+**The Tower and the gates.**
+
+## GT1 — What is a gate?
+
+> "and then a gate. can have like a different set of objectives and it's not trying to test the player, it's
+> trying to test the world, if you know what I mean."
+>
+> "Like, it's something that's happening to the world, so you have to think of some way to stop the
+> gates, but then the tower is like an actual, like, like it's an honourable kind of way of
+> climbing"
+> — dougie, 2026-09-24, session 1 [00:53:35] and [00:54:11]
+
+**Answered.** Still a hole to another place (Part I) — and now its purpose, set against the Tower's:
+**the Tower tests the player; a gate tests the world.** A gate is something happening _to_ the world
+that the world has to find a way to stop.
+↳ Sharpens `GT3`: a gate is set against the world as a whole, not against whoever walks in.
+
+## GT2 — What is on the other side?
+
+> "How, when they go into the tower level, it's like... Its size of the map can be any size, but it
+> can be a completely different world, basically, like a like a ice ice biome, and it's all ice
+> elves, and..."
+>
+> "You might go into one and it's like... It's a desert and you have to fight like scorpion monsters
+> and maybe like, gotcha, what's that name? Pick me up, infinite gotcha. Oh, it's like you go into a
+> gate and it's like... pretty much like a period of time and you have to complete an objective."
+> — doug-md, 2026-09-24, session 1 [00:52:21] and [00:52:43]
+
+> "I think if you go into a gate, you can't leave until you beat it."
+> — doug-md, 2026-09-24, session 1 [00:53:11]
+
+**Answered**, and confirmed a second time. A whole world of **any size**, each with its own biome and
+peoples — ice elves in one, scorpion things in a desert in another. Inside, there is **an objective**,
+sometimes against a time limit, and **no way out until it is done**.
+↳ "you can't leave until you beat it" is new, and it overturns shipped behaviour: a delve can
+currently be retreated from and keeps the floors already taken (M5).
+↳ The timed objective comes from _Pick Me Up_, already named in [07 — Lineage](../07-lineage.md).
+
+## GT10 — Who built the Tower? Is it built at all? Is it older than people?
+
+> "And then you'll get to find out who was the, what was the reason that that happened, who created
+> it, and what's the next kind of, what's the stages for deciding who's going to become the Earth
+> King"
+> — dougie, 2026-09-24, session 1 [00:25:36]
+
+**Answered**, as in Part I — built by something that is not people — and now with a purpose: the
+Tower is **a proving ground**, testing whether the one who climbs it could defend Earth against the
+other worlds. Who built it is **found out at the end**, on purpose.
+↳ `FR8` now has a strong candidate for the thing that stays unexplained until very late.
+
+## GT11 — Ten floors. Is it ten from outside too — a building, or does the inside not agree with the outside?
+
+> "I think if you wanted to do like one massive tower in the middle that has, let's say, 100 floors,
+> but then scattered all around the world has like the gates"
+> — doug-md, 2026-09-24, session 1 [00:26:23]
+
+> "So, I guess what I'm afraid the game will turn into is that... Like going up the 100 floors is
+> just not. Fun, like maybe 100 floors is too much. Maybe it's not enough. Maybe, you know, maybe
+> there should be a smaller amount of floors in the tower."
+> — dougie, 2026-09-24, session 1 [00:42:45]
+
+**Answered**, as in Part I: the inside does not agree with the outside. And **one Tower per world,
+in the middle of it**.
+↳ **Re-opened: how many floors.** The build ships ten (`D16`). `doug-md` floated a hundred; `dougie`
+worried a hundred would not be fun and wants "an achievable goal". Every rule the session made
+counts in fives, which rules out ten being the whole climb only if a chapter is five floors. Top of
+the [agenda](#what-is-still-to-decide).
+↳ Sits against `GT13` (people live on the floors) without contradicting it: floors can be inhabited
+and still send the climber back out.
+
+## GT12 — The Spire Archon at the top: ruler, jailer, gardener, machine, or the last thing put there?
+
+> "So when you go past the top of the tower and you beat it, and you're fighting against the other
+> Earth kings."
+> — dougie, 2026-09-24, session 1 [00:12:55]
+
+**Blocked**, still — but the top of the Tower has moved. It is **not the end**: beating the last floor
+pulls the climber into the contest between worlds (`CO8`). The Archon still ships as floor 10's
+fight (`D25`). The follow-up is now: **is the Archon the Tower's last test before the contest — the
+examiner — or is it one of the others waiting at the top?**
+
+## BL8 — What do people think the Tower is? Do they think about it at all, or is it weather?
+
+> "'cause other... NPCs in the game are also trying to climb the tower. And they're doing it their
+> own way"
+>
+> "Gates and stuff and royalty folks on gates, but then strong individuals always want to climb. the
+> tower"
+> — dougie, 2026-09-24, session 1 [00:54:11] and [00:54:42]
+
+**Partly answered.** To the strong it is **an honourable climb** — the thing a strong person proves
+themselves on — and other people are climbing it their own way. What an ordinary villager thinks of
+it was not said.
+
+## FA6 — Are there vows, fasts, pilgrimages? Is the Tower a pilgrimage?
+
+> "but then the tower is like an actual, like, like it's an honourable kind of way of climbing"
+> — dougie, 2026-09-24, session 1 [00:54:11]
+
+**Partly answered.** The Tower is a **climb of honour**, not a religious one — nothing said makes it
+a pilgrimage in the faith sense. Vows and fasts were not discussed.
+
+## DV2 — Is there any organisation of delvers — a guild, a register, a board with prices, or just people who left?
+
+> "I guess it's like Adventurers Guild. They're more focused on, they're more focused on the..."
+> — dougie, 2026-09-24, session 1 [00:54:27]
+
+> "And in that sort of way, and I guess the Adventures Guild as well is trying to help manage that
+> too."
+> — dougie, 2026-09-24, session 1 [00:55:47]
+
+**Answered.** Yes — **the Adventurers Guild**, which is concerned with gates rather than the Tower,
+and helps manage the big ones.
+↳ Overrules the Solo Leveling draft's warning on `GT2` that "Earth Kings has no such institution and
+shouldn't invent one". It has one now.
+
+## OT8 — Do the factions ally against gates, or does the gate crisis fail to unite anyone?
+
+> "but for example, an S-class case, that's like a national level threat. And that means that like,
+> you know, you'd expect that there's a lot of people. Preparing to enter it together."
+>
+> "Maybe a few kingdoms, an army, something like that. All the strongest guys, they wait until they
+> have enough strong guys to get in."
+> — dougie, 2026-09-24, session 1 [00:55:14] and [00:55:41]
+
+**Answered.** For the worst gates, yes. An **S-rank gate is a national threat**, and several
+kingdoms, an army and every strong fighter available gather and wait until there are enough of them
+to go in together. Gates can be entered by any number of people at once; the Tower only by one party
+— "a tower is just restricted to your party" [00:54:58].
+↳ Retires both drafts on this question.
+
+## RU10 — Who protects a village, actually? If a village has forty people and a gate opens nearby, who comes?
+
+> "Gates and stuff and royalty folks on gates"
+> — dougie, 2026-09-24, session 1 [00:54:42]
+
+**Partly answered.** Royalty and the Adventurers Guild are the ones who deal with gates; the big
+ones bring armies. Whether anyone comes for _forty people_ was not said.
+
+## CO8 — The Tower ends in a victory at the Spire Apex. Is that the end of the game, or just of the Tower?
+
+> "So when you go past the top of the tower and you beat it, and you're fighting against the other
+> Earth kings."
+> — dougie, 2026-09-24, session 1 [00:12:55]
+
+> "So, and then it's like time stops until everyone completes the tower. So that's why they all
+> completed technically the same time, so no one's waiting."
+> — dougie, 2026-09-24, session 1 [00:25:56]
+
+> "Yeah, the characters are demigods and actually there is actually gods as well. But that's after
+> you've climbed up the tower and you've gotten to the part where you get pulled into the universe
+> level"
+> — dougie, 2026-09-24, session 1 [01:03:07]
+
+**Answered.** **Just the Tower.** Topping it pulls the lead up to the level of the universes, where
+time has stopped for everyone who finished first. There the lead faces the **other surviving leads,
+each at the most powerful they could have become** — "even if that NPC died in your world" [00:13:20]
+— and past them the gods and the force that means to leave one world standing.
+↳ How the contest is fought — a duel, a bracket, a free-for-all, alliances — is open: "or maybe the
+group up together. They fight a different opponent, who knows" [00:25:36].
+
+---
+
+**Faith.**
+
+## FA1 — Are there gods? Do they act? Does anyone claim to have seen one?
+
+> "So I think that the 16 characters that crashed down to Earth could be considered either gods or
+> demigods."
+> — dougie, 2026-09-24, session 1 [01:02:19]
+
+> "So are the real God or the real like anti-God? Like the super bad guy. I think we should make them
+> maybe demigods as best, do you think?"
+> — dougie, 2026-09-24, session 1 [01:02:46]
+
+> "The. Yeah, demigod sounds good."
+> — doug-md, 2026-09-24, session 1 [01:03:03]
+
+**Answered.** **Yes.** The sixteen are **demigods**. Real gods exist too, above them, and they are met
+only after the Tower. They act: something up there has arranged that one world will be left
+standing, and stopping it is the last thing the game asks.
+↳ "Does anyone claim to have seen one?" was not said. Every person who fell from above has seen them,
+and forgotten.
+↳ Meets `SK10` (a higher being that governs the towers and looks back) and `GT10` (the builder is
+not people). Three answers, one entity or several — still the question nobody has asked.
+
+---
+
+**Names.**
+
+## KI8 — Naming: family names, place names, earned names, titles?
+
+> "Um... And kind of depending on where they're from, they'll kind of have like different names where
+> they come from, if that makes sense."
+> — doug-md, 2026-09-24, session 1 [00:06:29]
+
+> "I feel like it's more nobility, they'll have more eccentric and more... like stronger names and
+> like the average maybe town you might just have like a stem from that. Name from them. So, like, if
+> they're for if they are beside this like Roman Empire as such. And they're far out from that town,
+> from that city. They'll have a stem of them sort of names, but not as strong."
+> — doug-md, 2026-09-24, session 1 [00:06:47]
+
+> "I think you should be able to do both. Like, you have nearly like a nickname. But do you have your
+> real name? when you're introducing yourself. Both."
+>
+> "Like if you're like a party of you hunt goblins, like you might have the title Goblin Hunter
+> Caesar."
+> — doug-md, 2026-09-24, session 1 [00:08:02] and [00:08:27]
+
+**Answered.** Names are **regional**, in Roman and Greek registers. The nobility near an imperial
+centre carry the strong, eccentric forms, and ordinary people farther out carry **shortened stems**
+of them. Everyone has **a real name and an earned one** — a nickname or a title won by what they do,
+like _Goblin Hunter Caesar_ — and fame travels by the earned one.
+↳ `TG6` (place names) is still open, but the same rule reads naturally onto it.
+↳ Falls out for `NW9`.
+
+## NW9 — Is there a word in this world for "famous"? Is fame good?
+
+> "Okay, cool. Oh yeah, and sometimes it might be important their name, but people are like, oh,
+> that's the Golden Killer, that's the Golden Hunter. Yep. So you can get Renown through the name as
+> well."
+> — dougie, 2026-09-24, session 1 [00:08:37]
+
+**Partly answered.** Fame is **a title people call you by**, and renown is carried by the title, not
+the name. Whether fame is good was not said.
+↳ Gives `Renown` a visible output: past some standing, a place calls you by a title it made up.
+
+---
+
+**Boundaries.**
+
+## BN2 — Name one thing you want in it so badly you would trade three other features for it.
+
+> "And I think that the fights is something that we really need to get done right."
+> — dougie, 2026-09-24, session 1 [00:41:58]
+
+**Inferred.** Nobody answered `BN2` as asked. But the one thing both founders spent the most time on,
+and the one thing `dougie` said has to be right, is **the fight**. Confirm, or name something else.
+
+## BN3 — What tone would make you stop working on this — grimdark, cute, ironic, preachy?
+
+> "Um... Like the tone I would give this game is a dark fantasy, if that makes sense."
+> — doug-md, 2026-09-24, session 1 [00:41:27]
+
+> "Yeah, well you don't want it to be in like a *******. *******. boring game either, you know, it's
+> just like, it's all laughs and stuff."
+> — dougie, 2026-09-24, session 1 [00:41:48]
+
+**Answered.** **Dark fantasy**, and "as more time goes on... The issue gets darker in a way" [00:41:15]. What
+would stop them is the opposite: a game that is boring, or all laughs.
+
+## BN6 — What are you afraid this game will turn into?
+
+> "Um... I don't want this game to be repetitive."
+> — doug-md, 2026-09-24, session 1 [00:41:01]
+
+> "You don't want it to be like that the fights just turn into the exact same set of moves every time
+> and that you're just kind of grinding through. So you want a little bit of dialogue, but you don't
+> want to be held up by dialogue either."
+> — dougie, 2026-09-24, session 1 [00:41:58]
+
+**Answered.** **Repetitive.** Fights that are the same moves every time, a grind, a climb of a hundred
+floors that is not fun, and a game held up by dialogue.
+↳ The same fear produced two of the session's decisions: a limited set of active abilities
+(`KN11`, and see [D36](../06-decisions.md)) and the new first-kill experience rule (D37).
+
+---
+
+**Getting stronger.**
+
+## KN11 — Is expertise possible outside doctrine — can someone simply be very good at something, with no book?
+
+> "Pretty much the way that you level up in this game is by repetition. So if you have a level 1
+> character, they'll have level 1 every, look at the Kenti ability tree or level in."
+>
+> "So, that's like a good way of maybe getting better with... A nicer way of getting better with a
+> weapon that you get a proficiency with it in comparison to just having the level 50 Katana and you
+> can just... Use that weapon."
+> — doug-md, 2026-09-24, session 1 [00:48:48] and [00:49:43]
+
+> "Yeah, so professions that you can get through practice, but experience points, it needs to be a
+> unique character."
+> — dougie, 2026-09-24, session 1 [00:51:18]
+
+**Answered.** **Yes — by repetition.** Skill with a weapon or a kind of fighting rises by using it,
+Kenshi-style, and a good weapon in unpractised hands is not a good weapon. Experience is a separate
+thing, earned only from opponents you have not beaten before.
+↳ Confirms and extends the repo: proficiency already rises with steps carrying a weapon. It should
+now rise with _use_. See [D37](../06-decisions.md).
+↳ "professions" is almost certainly _proficiencies_, as heard.
+
+## SM8 — Companions are hired for gold and dismissed at will. How do we make a hire matter?
+
+> "I would like a system in the game where... If you have a party, you could send some of your party
+> members to do things for you, if it's... Collect herbs so that you can make medicine, or if it's
+> meat with a certain individual, or carry out a task, or simply like join a gate raid, but you be
+> off doing your own thing, and then they'll tell you how. went or they got on and they might die as
+> well."
+> — doug-md, 2026-09-24, session 1 [00:56:04]
+
+**Partly answered.** One way, adopted by both: companions can be **sent away on jobs** — gathering,
+meeting someone, a task, a gate raid — travelling the map while you do, reporting back how it went,
+and **sometimes not coming back**. A hire matters because you trusted them with something and were
+not there. The two drafts on this question (naming, and the world naming them after the fact) are
+still open alongside it.
+↳ `dougie`: "they travel across the world in real time, do they?" — `doug-md`: "Yeah, like when
+you're traveling, they're travelling too" [00:57:37].
+↳ Party size: "initially your party is definitely like capped at, let's say, 4 … I think like 6 in
+your parties is like a good number" [00:57:10]. The build caps it at 4 (`D20`).
+
+---
+
+**Carried over.**
+
+## CO4 — No named bosses outside the Tower. Should there be, and are they people or things?
+
+> "Uh, explorable places that you find mobs and defeat bosses, and..."
+> — doug-md, 2026-09-24, session 1 [00:26:43]
+
+**Partly answered.** Yes — gates are explorable places with **bosses** at the end. People or things
+was not said.
+
+## CO5 — What is a "mission" here, as distinct from an errand and a thread?
+
+> "each of the 16 characters should have like a set of quests or missions in the stories that kind
+> of lead them to eventually climb in the tower."
+> — dougie, 2026-09-24, session 1 [00:12:12]
+
+> "So maybe, you know, the way like you're getting objectives that are popping up in the game, like
+> quests and stuff like that there, and you're hearing rumors, like it's all getting out of your like
+> potential quest or job log."
+> — dougie, 2026-09-24, session 1 [00:57:52]
+
+**Partly answered.** A **mission** is part of a character's own line — the chain of quests, one line
+per member of the sixteen, that leads that character to the Tower. Beside it sits a **job log** of
+quests and rumours picked up in play, which is what party members get sent on. Where a thread ends
+and a mission begins is still to draw.
+↳ `doug-md` asked for the goal to be stated: "it might come up like on a little screen and be like,
+climb the tower" [00:12:06]. The answer was a line of quests that arrives at the Tower rather than a
+banner — "But you don't know what you're fighting for" [00:12:45].
 
 ---
 
