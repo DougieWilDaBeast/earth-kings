@@ -18,8 +18,10 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 12  | [World Charter Interview](12-world-charter-interview.md) | Absorbed into 15 — kept as a pointer |
 | 13  | [Heroes & Tempers](13-heroes-and-tempers.md)         | The sixteen starting characters and the four questions that pick one |
 | 14  | [Lore Pools & Casting](14-lore-pools.md)             | History authored with no character in mind, and how it gets attached |
-| 15  | [The Question Book](15-the-question-book.md)         | **Every open question in one place** — 366 of them, answered by voice note |
+| 15  | [The Question Book](15-the-question-book.md)         | **Every open question in one place** — 366 of them, 79 answered so far |
 | 16  | [Lineage entries](16-lineage/00-index.md)            | Sixteen sources that shaped this, with 143 candidate answers tagged to question ids |
+| 17  | [The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md) | **The shape of the whole game** — the fall, the Tower's chapters, a world ending, what carries, the contest past the top. Direction, agreed 2026-09-24 |
+| 18  | [Combat direction](18-combat-direction.md)           | The move to a real-time-with-pause fight, what the research has to answer, and what it costs |
 
 ## Deciding the world
 
@@ -30,7 +32,8 @@ book, answered by voice note and reconciled into canon:
 - [Answers](worldbuilding/answers.md) — what has been settled, and by whom
 - [**What is still to decide**](worldbuilding/answers.md#what-is-still-to-decide) — the agenda: the open follow-ups, the contradictions, and the drafts waiting on a yes
 - [Respondents](worldbuilding/respondents.md) — who may answer, and with what standing
-- [Voice notes](worldbuilding/voice-notes/) — raw transcripts, kept as spoken
+- [Voice notes](worldbuilding/voice-notes/) — raw transcripts, kept as spoken, including
+  [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md) — both founders, 2026-09-24
 - [Lineage entries](16-lineage/00-index.md) — 143 drafted answers from the sixteen works that shaped this
 - [Process](worldbuilding/00-process.md) — how the sittings and merge sessions run
 - [Divergence ledger](worldbuilding/divergence-ledger.md) — forks, resolutions, and what the

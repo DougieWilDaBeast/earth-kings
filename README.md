@@ -5,6 +5,13 @@ generated map tile by tile, fight what finds you on a Final Fantasy Tactics–st
 characters who can die for good. Power is scarce, knowledge is carried rather than inherited, and
 the world advances every step you take.
 
+**Where it is going.** Sixteen demigods fall into sixteen copies of Earth and forget who they were.
+You are one of them, climbing the Tower at the centre of your world towards a contest only one world
+survives. When you die your world ends, and you go on as another of the sixteen, in theirs, from
+level 1. Agreed by both founders on 2026-09-24 and not yet built — see
+[docs/17](docs/17-the-sixteen-worlds.md), and [docs/18](docs/18-combat-direction.md) for the move to
+a real-time-with-pause fight. What follows describes the build as it plays today.
+
 **Start here: [docs/00-index.md](docs/00-index.md)** — vision, design, architecture, data formats,
 roadmap and the decision log.
 

@@ -7,6 +7,40 @@ in the world.
 Supersedes [11 — Hero Backstories](11-character-backstories.md), which describes the twelve heroes
 this replaces. Those twelve are still playable while the sixteen are written.
 
+## Who the sixteen are
+
+Settled in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md) and written up
+in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
+
+- **Fallen demigods** ([D31](06-decisions.md)). All sixteen lived above, at godhood, and fell to
+  Earth in the same disaster. They lost their memories, landed at random, and share **one mark**,
+  in the same place on each of them, by which they recognise one another.
+- **Fixed god-style names**, Roman and Greek, the same every run ([D39](06-decisions.md)). Spoken as
+  examples, not yet assigned: Cassius, Caesar, Bellona, Ares.
+- **Sixteen ways to fight.** "you kind of want 16 different characters that have to have 16
+  different ways of fighting" — each following their temper. Six classes cannot give sixteen
+  styles; [agenda item 10](worldbuilding/answers.md#what-is-still-to-decide).
+- **Their own lives.** When not the lead, each lives by their temper from wherever they landed,
+  with their own line of quests to the Tower.
+- **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
+  crosses to the next world when they die as the lead.
+- **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what
+  their ambitions are. That's part of the game" — `dougie`, [00:20:20]. The pools in
+  [14](14-lore-pools.md) still supply it, late.
+
+### Seeds from the session
+
+Characters the founders reached for while talking. None is assigned to a temper; they are what the
+first writing sitting should start from.
+
+| Seed | Said by | The idea |
+| --- | --- | --- |
+| **The carried mage** | `dougie` [00:04:39] | A mage so small he cannot walk properly and has to be carried. Far stronger than most and held back by it; looked down on, and worth seeing how he deals with people |
+| **Driven by hate** | `doug-md` [00:16:57] | Thorfinn (_Vinland Saga_): dual-wielding, bandit-like, getting stronger only to surpass and kill one person |
+| **Driven to get stronger** | `doug-md` [00:17:29] | Sung Jin-Woo (_Solo Leveling_): stronger in every way, for its own sake |
+| **Driven to be free** | `doug-md` [00:17:49] | Monkey D. Luffy (_One Piece_) |
+| **The powerful one who went wrong** | `dougie` [00:17:59] | Pain (_Naruto_) — cut off mid-thought; the reason was not given |
+
 ## The four questions
 
 One per preference pair, so sixteen answers map exactly onto sixteen characters. The questions

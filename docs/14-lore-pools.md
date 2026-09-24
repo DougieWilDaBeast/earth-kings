@@ -7,6 +7,26 @@ The point of the late join is that a history written for a particular character 
 what was already decided about them. A history written on its own has to be interesting first, and
 then it turns out to fit two or three people, and choosing between them is a real decision.
 
+## What joint session 1 changed
+
+[D31](06-decisions.md): the sixteen are **not from this world**. They fell into it with their
+memories gone, landing at random ([17](17-the-sixteen-worlds.md)). Three pools read differently
+because of it, and nothing is rewritten until the founders say how:
+
+- **Backgrounds** are now **short to start and grow** as they are found out (`LP1`); two characters
+  can share one (`LP4`); and every one of the sixteen already shares the largest background there
+  is, the fall. What a background describes is open — a life above, before the fall, or something
+  in this world that the fall landed them in.
+- **Hearths** answer "where they are from", and the answer for all sixteen is _above_. The pool
+  still drives "which site a run starts on", but D31 randomises where each of them lands. One
+  reading: a hearth becomes the **crash site** — a kind of place, drawn at random per world. That
+  is an inference; it is [agenda item 15](worldbuilding/answers.md#what-is-still-to-decide).
+- **Creeds** have company: the world has named movements — guilds, religions, royal houses, the
+  Adventurers Guild — and somebody worth meeting inside each (`LP17`).
+
+Uncast pieces do become rumours and other people's histories (`LP24`), and the player sees a
+history only as it comes up, collected into a background they can read back (`LP27`).
+
 ## The five pools
 
 | Pool | File | What it answers | What it drives |
