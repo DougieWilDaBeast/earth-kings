@@ -8,7 +8,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 02  | [Design](02-design.md)                               | The loop and every system in it                                 |
 | 03  | [Architecture](03-architecture.md)                   | Where code lives, how it talks, where the seams are             |
 | 04  | [Data formats](04-data-formats.md)                   | Every JSON schema, so content can be added without reading code |
-| 05  | [Roadmap](05-roadmap.md)                             | Milestones and honest status                                    |
+| 05  | [Roadmap](05-roadmap.md)                             | Milestones and honest status — and the next steps, in order     |
 | 06  | [Decisions](06-decisions.md)                         | What was decided, when, and why — append-only                   |
 | 07  | [Lineage](07-lineage.md)                             | Where this came from, so the trail is not lost                  |
 | 08  | [Threads](08-threads.md)                             | Long-running story in a game with no quest log                  |
@@ -22,6 +22,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 16  | [Lineage entries](16-lineage/00-index.md)            | Sixteen sources that shaped this, with 143 candidate answers tagged to question ids |
 | 17  | [The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md) | **The shape of the whole game** — the fall, the Tower's chapters, a world ending, what carries, the contest past the top. Direction, agreed 2026-09-24 |
 | 18  | [Combat direction](18-combat-direction.md)           | The move to a real-time-with-pause fight, what the research has to answer, and what it costs |
+| 19  | [Asset list](19-asset-list.md)                       | Everything to generate in PixelLab, in order — starting with the size test before the credits reset on 2026-09-27 |
 
 ## Deciding the world
 

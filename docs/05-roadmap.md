@@ -96,6 +96,116 @@ previous milestone demonstrably works.
 - The Annals: historical chronicle compiled from live telemetry (`Annals`) ✅
 - Tactical ambush mechanics: cover stalks grant opening CT initiative and surprise damage ✅
 
+## From here — the sixteen worlds
+
+Joint session 1 (2026-09-24) set the direction: [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md),
+[18 — Combat direction](18-combat-direction.md), [D31–D40](06-decisions.md). What follows is
+**planned, not built**. The rule does not change: every milestone ends playable, and nothing starts
+until the one before it demonstrably works. Where a milestone waits on a founder answer, it names
+the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
+
+### Next steps, in order
+
+1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.** [19 — Asset list](19-asset-list.md), Tier 0.
+   Nothing else is worth generating until the size is chosen.
+2. **Next founders' session** — answer agenda items 1–4 and 9: the Tower's floor count, steps
+   against Tower chapters, whether a world-ending death can be reloaded, and the sprite size. Each
+   is a sentence, and each unblocks a milestone below.
+3. **The Dungeon Settlers deep dive** (M10). It gates the whole of M11.
+4. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
+   starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
+5. **M12 can start straight away.** First-kill experience and proficiency by use sit in
+   `chronicle/`, not `battle/`, and work under either fight.
+
+### M10 — Research and the size test — NEXT
+
+- Deep dive into _Dungeon Settlers_' combat, written up in `docs/investigation/` against the
+  questions in [18](18-combat-direction.md#what-the-research-has-to-answer)
+- Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0)
+- The size written into [06 — Decisions](06-decisions.md)
+- ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
+  D-entry says which size
+
+### M11 — The real-time fight, as a prototype — PLANNED
+
+Waits on M10.
+
+- A separate battle scene: real time, pause at any moment, speed up and slow down
+- Point-and-click movement on the existing grid; automatic basic attacks
+- Four active abilities per unit on Q W E R, with cooldowns; passives; a per-unit auto toggle
+- Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1)
+- Facing, graces and generated battlefields carried over from M0/M4
+- A headless smoke test that plays it out
+- ✅ Done when: both founders have played the prototype against the current battle and chosen.
+  Only then does it replace `TurnManager` ([D36](06-decisions.md))
+
+### M12 — Getting stronger the new way — PLANNED
+
+Independent of the fight; can start now.
+
+- Experience per character from the **first kill of each kind of enemy**; the last hit takes it
+- Assists counted per kind, and a kind's experience after five (agenda item 8)
+- Bosses give everyone involved their experience
+- Proficiency per weapon type and kind of fighting, rising by use rather than by steps carried
+- The party screen shows which kinds each character has beaten, and their proficiencies
+- ✅ Done when: killing the same enemy twice gives experience once, and a soak run shows levels
+  rising only as the party meets new things ([D37](06-decisions.md))
+
+### M13 — The fall — PLANNED
+
+Waits on the first writing sitting, and on agenda items 6, 7 and 15.
+
+- An intro that shows the sixteen falling ([19](19-asset-list.md), Tier 4.1)
+- The first four of the sixteen written, with fixed god-style names and signature weapons
+- The shared mark on every one of the sixteen
+- Random crash sites per world, replacing fixed starting hearths
+- The fifteen living their own lives: moving between places by temper, instead of standing in one area
+- Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md))
+- ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other
+  fifteen can be met somewhere they walked to
+
+### M14 — The Tower in chapters, and gates you cannot leave — PLANNED
+
+Waits on agenda items 1 and 2.
+
+- Every Tower floor cleared returns the party to the world
+- A chapter every five floors: the world's story advances, and the next chapter needs a key from
+  the world (a gate cleared, an item, a quest)
+- The census every five floors — how many of the sixteen are alive
+- Gates cannot be left until beaten; objectives inside, some timed (agenda item 14)
+- The Adventurers Guild in settlements, and S-rank gates that gather armies
+- ✅ Done when: a run cannot climb past floor five without having done something in the world, and
+  the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md))
+
+### M15 — Sixteen worlds — PLANNED
+
+Waits on M13, and on agenda items 4, 5 and 12.
+
+- The lead's death ends the world: the overhead shot of it being destroyed, and the world marked
+  gone for good
+- Choosing the next lead from the survivors, in their own sibling world, from level 1
+- Sibling worlds that tend to play out alike — same seed, perturbed
+- The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
+- The signature weapon crash-landing in the next world, and rumours that lead to it
+- Nothing arrives before the new lead has got as far as the old one did
+- A ruling on save/load against a world-ending death ([D21](06-decisions.md), `CO7`)
+- ✅ Done when: a lead can die, the next can start in another world, and the first lead's ghost
+  can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md))
+
+### M16 — Companions on jobs — PLANNED
+
+- A job log, filled from quests and rumours
+- Party members sent on jobs, travelling the map in real time, reporting back, sometimes dying
+- The party cap growing from four to six (agenda item 11)
+- ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come
+  back ([D38](06-decisions.md))
+
+### M17 — Past the top — DESIGN FIRST
+
+- How the contest between the surviving leads is fought
+- Who, or what, decided only one world survives, and how the last fight asks you to stop it
+- ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
+
 ## Deferred
 
 Designed for, seams in place, not built. See [Vision](01-vision.md).
@@ -104,3 +214,4 @@ Designed for, seams in place, not built. See [Vision](01-vision.md).
 - The Masquerade
 - A server as world-authority
 - Generated tile art wired in from `art/map_kit`
+- Lineage entries for the works named in joint session 1 ([16](16-lineage/00-index.md#named-in-joint-session-1--no-entry-yet))
