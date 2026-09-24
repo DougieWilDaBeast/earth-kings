@@ -27,7 +27,7 @@ doctrine spends fading.
 | Where you step             | What happens                                                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Open ground                | A chance of a wild encounter, scaled by how close the nearest open gate is and how far the nearest hearth is |
-| A **gate**                 | Delve it — a run of battles ending in its guardian. _Changing_ ([D35](06-decisions.md)): no leaving until it is beaten |
+| A **gate**                 | Delve it — a run of battles ending in its guardian. Once a floor is won there is no walking out: every step is the next floor, until it is beaten or you are ([D35](06-decisions.md)) |
 | The **Tower**              | Climb — one battle per floor, each harder than the last. _Changing_ ([D34](06-decisions.md)): chapters of five floors, each floor returns you to the world |
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
 | A **village / keep / hut** | Rest and recover; safe ground, encounters go quiet                                                           |

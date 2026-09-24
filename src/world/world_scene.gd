@@ -244,6 +244,9 @@ func _auto_direction(target: Vector2i) -> Vector2i:
 
 
 func _step(direction: Vector2i) -> void:
+	# Inside a gate every way is down ([D35]).
+	if _still_inside_a_gate():
+		return
 	var target := world.player_cell + direction
 	if not world.is_walkable(target):
 		return
@@ -461,7 +464,12 @@ func _settle_up(won: bool) -> void:
 				])
 				for line: String in Spoils.for_gate_floor(world, site, party):
 					_note(line)
+				GameState.delving = [site.cell.x, site.cell.y]
+				_note("There is no way out of %s but through. Take a step when you are ready for floor %d." % [
+					site.display_name, site.depth() + 1
+				])
 			else:
+				GameState.delving = []
 				world.close_gate(site)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
@@ -634,6 +642,24 @@ func _read_at(site: Site) -> void:
 		_note("Everyone here has already read %s." % Doctrine.title(doctrine_id))
 
 
+## Won a floor and still inside: the next step is the next floor, not a tile.
+## True when that is what the step became. A gate that has shut or gone away
+## in the meantime lets the party go.
+func _still_inside_a_gate() -> bool:
+	if GameState.delving.size() < 2:
+		return false
+	var site := world.site_at(Vector2i(int(GameState.delving[0]), int(GameState.delving[1])))
+	if site == null or site.kind != Site.GATE or not site.open or site.cleared:
+		GameState.delving = []
+		return false
+	if GameState.party_characters().is_empty():
+		GameState.delving = []
+		return false
+	_note("Deeper into %s." % site.display_name)
+	_enter_gate(site)
+	return true
+
+
 func _enter_gate(site: Site) -> void:
 	if site.cleared:
 		_note("%s is shut for good." % site.display_name)
@@ -656,6 +682,8 @@ func _enter_gate(site: Site) -> void:
 		_note("%s, floor %d of %d." % [site.label(), depth + 1, site.floors()])
 		if depth > 0:
 			_note("Lose down here and you come out at the mouth of it again.")
+		else:
+			_note("Once you are in, there is no walking out until it is beaten.")
 	else:
 		_note("%s stands open." % site.label())
 
@@ -687,9 +715,10 @@ func _climb(site: Site) -> void:
 	)
 
 
-## A delve you walk out of keeps the floors you took; a delve you lose does not.
-## You are carried back to the mouth of it and it fills in behind you.
+## A delve you lose gives back every floor you took. You are carried back to the
+## mouth of it and it fills in behind you.
 func _lose_the_ground(site: Site) -> void:
+	GameState.delving = []
 	if site == null or site.depth() <= 0:
 		return
 	site.data["depth"] = 0

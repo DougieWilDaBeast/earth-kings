@@ -45,6 +45,8 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
   the Tower to climb the next floor. In a settlement, `H` hires whoever is drinking there and `B`
   buys the gear on the shelf. Where one of your people is being held, `R` ransoms them and `F`
   takes them back by force.
+- **Once inside a gate there is no walking out.** Win a floor and every step is the next one, until
+  the gate is beaten or you are.
 - **Gates never reopen once shut** — but one left standing open too long **breaks**, and what was
   behind it comes out. Danger near a broken gate jumps and its monsters come levelled up.
 - **Towns can be saved or taken.** A gate left open long enough puts the nearest settlement under

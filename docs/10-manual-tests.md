@@ -140,7 +140,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | --- | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
 | G1  | Step onto an open gate                    | A fight, and the log says which floor of how many                                             |
 | G2  | Win the first floor of a multi-floor gate | You are told there is more below, and the gate is **not** shut yet                            |
-| G3  | Walk off the gate mid-delve               | You keep what you found; going back in starts at the top again                                |
+| G3  | Try to walk off the gate mid-delve        | You can't: "There is no way out … but through", and the step starts the next floor instead ([D35](06-decisions.md)) |
 | G4  | Clear the last floor                      | The gate shuts and pays out                                                                   |
 | G5  | Lose a floor                              | You are put out; the gate stays open                                                          |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
