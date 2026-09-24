@@ -201,7 +201,9 @@ godot --headless --path . res://tests/dispatch_smoke_test.tscn
 godot --headless --path . res://tests/names_smoke_test.tscn
 godot --headless --path . res://tests/world_smoke_test.tscn
 godot --headless --path . res://tests/walk_smoke_test.tscn
+godot --headless --path . res://tests/seams_smoke_test.tscn
 godot --headless --path . res://tools/coverage.tscn
+godot --headless --path . res://tools/soak.tscn -- --seconds=300   # the game plays itself; see docs/10
 ```
 
 ## Roadmap

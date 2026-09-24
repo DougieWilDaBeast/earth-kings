@@ -41,6 +41,9 @@ var _move_field: MoveField
 var _pending_ability: String = ""
 ## Everyone who owes CT when this phase ends.
 var _phase_units: Array[Unit] = []
+## The party's phase is being played for them. Only ever once at a time: two
+## loops over the same squad each think the other's moves are theirs.
+var _auto_running: bool = false
 
 
 func _ready() -> void:
@@ -214,6 +217,7 @@ func _connect_hud() -> void:
 	hud.cancel_requested.connect(_cancel_selection)
 	hud.set_auto(Pace.auto)
 	hud.set_speed(Pace.speed())
+	Pace.changed.connect(_on_pace_changed)
 
 
 # --- turn loop ---------------------------------------------------------------
@@ -340,12 +344,18 @@ func _take_ai_turn(unit: Unit) -> void:
 func _set_auto(enabled: bool) -> void:
 	if Pace.auto == enabled:
 		return
-	Pace.auto = enabled
-	hud.set_auto(enabled)
 	EventBus.battle_log.emit(
 		"The party fights on its own." if enabled else "You take the party back."
 	)
-	if enabled and _is_choosing():
+	Pace.auto = enabled
+
+
+## Autoplay is switched from more places than this screen's button — the touch
+## controls, a soak, the walk the fight was started from — so a phase sitting
+## on the party's orders has to notice it being switched on, wherever from.
+func _on_pace_changed() -> void:
+	hud.set_auto(Pace.auto)
+	if Pace.auto and _is_choosing():
 		_run_auto_phase()
 
 
@@ -357,6 +367,14 @@ func _cycle_speed() -> void:
 ## Play the party's phase for them, one member at a time. The loop checks in
 ## between, so switching auto off hands control back after the current move.
 func _run_auto_phase() -> void:
+	if _auto_running:
+		return
+	_auto_running = true
+	await _play_the_phase()
+	_auto_running = false
+
+
+func _play_the_phase() -> void:
 	while Pace.auto and not squad.is_empty() and phase != Phase.FINISHED:
 		var ready := _ready_squad()
 		if ready.is_empty():
@@ -495,7 +513,7 @@ func _on_preview_cleared() -> void:
 
 ## "Wait" gives up what this character has left rather than the whole phase.
 func _on_wait_requested() -> void:
-	if active_unit == null or active_unit.team != Unit.Team.PLAYER:
+	if not _is_choosing() or active_unit == null or active_unit.team != Unit.Team.PLAYER:
 		return
 	active_unit.finish_turn()
 	_advance_selection()

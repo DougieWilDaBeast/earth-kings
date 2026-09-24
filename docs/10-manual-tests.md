@@ -84,6 +84,9 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E14 | Try to send the lead, or the last companion beside them                                         | No button, and a line saying why                                                                |
 | E15 | Look at who is for hire in a village near a keep, then one far from any                          | Mostly full names (Octavia, Cassius) near the keep; mostly short ones (Tavi, Cass) far out; each "of" a real place |
 | E16 | Shut a gate, walk to a village that has heard, then open the journal                             | The greeting calls you "_Name_ the Gate-Shutter"; the journal shows it under **Known As**          |
+| E17 | Fight with Auto off; when the party's turn comes, tap **Auto** on the touch controls              | The party starts fighting at once, not on its next turn (it used to sit waiting for good)       |
+| E18 | Read village boards until one posts a **Bounty**                                                  | "Bounty: _a creature_", a line about where it prowls, and gold — not a blank card               |
+| E19 | Press **Q** on the map somewhere a lake or cliff stands between the party and the nearest gate     | The party walks round it and gets there, rather than pacing in front of it                     |
 
 ## E2 — Real-time skirmish (M11 prototype)
 
@@ -232,7 +235,7 @@ plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 **Back in use from 2026-09-24.** They were parked when they cost more than they caught and had
 started failing on their own stale expectations. Since then every suite has been brought back to
-green and run after every change: eleven suites, around 550 checks (`tools/coverage.tscn` counts
+green and run after every change: twelve suites, around 570 checks (`tools/coverage.tscn` counts
 them per test).
 
 ```powershell
@@ -242,8 +245,27 @@ godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 godot --headless --path . res://tests/world_smoke_test.tscn -- --check=fate
 ```
 
-`--check=` runs only the named checks of the two big suites (`walk`, `world`); a name the suite
-does not have fails and lists the ones it does. Every check in both suites passes run on its own.
+`--check=` runs only the named checks of the three suites that have them (`walk`, `world`,
+`seams`); a name the suite does not have fails and lists the ones it does. Every check in all three
+passes run on its own.
+
+**The soak.** `tools/soak.tscn` lets the whole game play itself on autoplay at ×4 for as long as
+you give it, prints where the run has got to every thirty seconds, and ends by saving, loading and
+saving again. It is not a suite (battle dice are unseeded, so no two soaks match), but it finds what
+no suite is looking for — its first runs found bounty errands that could not be posted, autoplay
+pacing in front of a wall forever, autoplay never climbing past the Tower's first floor, a fight
+that ignored Auto switched on from the touch controls, road chatter crashing when a fight started
+mid-line, and saves that changed every time they were loaded. Run one
+after anything that touches the walk, the save or autoplay:
+
+```powershell
+godot --headless --path . res://tools/soak.tscn -- --seconds=300 --seed=77
+```
+
+Look for `SCRIPT ERROR`, steps that rise with no fights (autoplay has nowhere to go) and
+`the same file: false`. Steps and log lines that stop moving for thirty seconds with autoplay on end
+the soak with `STUCK … in Battle (phase 1)` or similar and exit code 2 — something is waiting on a
+key nobody is pressing. A soak that runs clean ends with exit code 0.
 
 Still open:
 

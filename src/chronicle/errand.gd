@@ -181,7 +181,7 @@ static func _compose(site: Site, world: World) -> Dictionary:
 
 static func _compose_bounty(errand: Dictionary, site: Site, world: World) -> void:
 	var band: Prowler = world.prowlers[world.rng.randi() % world.prowlers.size()]
-	var target: String = band.units[band.units.size() - 1] if not band.units.is_empty() else "brigand"
+	var target: String = band.pack[band.pack.size() - 1] if not band.pack.is_empty() else "brigand"
 	var target_name: String = str(Database.unit_template(target).get("display_name", target))
 	errand["target"] = target
 	errand["target_name"] = target_name

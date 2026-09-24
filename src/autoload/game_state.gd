@@ -1,6 +1,8 @@
 extends Node
 ## The live game: the world, everyone in it, and the save file (autoload: `GameState`).
 
+const SaveFile := preload("res://src/chronicle/save_file.gd")
+
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
 ## pools added, so a v2 character carries ids that no longer resolve.
@@ -179,13 +181,16 @@ func save() -> void:
 	if file == null:
 		push_error("GameState: could not write save to %s" % SAVE_PATH)
 		return
-	file.store_string(JSON.stringify(payload, "\t"))
+	# Whole numbers written as whole numbers, whatever they were carried as (a
+	# number taken straight from the data is a float), so a save loaded and saved
+	# again is the same file.
+	file.store_string(JSON.stringify(SaveFile.whole(payload.duplicate(true)), "\t"))
 
 
 func load_save() -> bool:
 	if not has_save():
 		return false
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
+	var parsed: Variant = SaveFile.read(SAVE_PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("GameState: corrupt save at %s" % SAVE_PATH)
 		return false
@@ -207,8 +212,7 @@ func load_save() -> bool:
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
 	away = data.get("away", [])
-	# JSON hands numbers back as floats; a cell is whole numbers.
-	delving = (data.get("delving", []) as Array).map(func(n: Variant) -> int: return int(n))
+	delving = data.get("delving", [])
 	stores = data.get("stores", [])
 	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])

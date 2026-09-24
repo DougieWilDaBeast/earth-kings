@@ -9,6 +9,8 @@ extends RefCounted
 ## Kept apart from the save on purpose. Deleting a run does not delete the
 ## people who made it, and starting a new one does not overwrite them.
 
+const SaveFile := preload("res://src/chronicle/save_file.gd")
+
 const PATH := "user://earth-kings.museum.json"
 ## Older journeys past this are dropped. The point is a hall, not an archive.
 const KEEP := 40
@@ -22,7 +24,7 @@ const CONQUERED := "conquered the Tower"
 static func journeys() -> Array:
 	if not FileAccess.file_exists(PATH):
 		return []
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
+	var parsed: Variant = SaveFile.read(PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_warning("Museum: unreadable hall at %s" % PATH)
 		return []
@@ -83,7 +85,7 @@ static func compose(world: World, roster: Roster, ledger: Dictionary, ending: St
 static func in_progress() -> Dictionary:
 	if not GameState.has_save():
 		return {}
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(GameState.SAVE_PATH))
+	var parsed: Variant = SaveFile.read(GameState.SAVE_PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	var world := World.from_dict(parsed.get("world", {}))

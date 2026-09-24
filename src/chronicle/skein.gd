@@ -17,6 +17,8 @@ extends RefCounted
 ## Pure logic. No scene nodes, no references to other systems — a thread can only
 ## ask the world things and call the same verbs the world already exposes.
 
+const SaveFile := preload("res://src/chronicle/save_file.gd")
+
 ## Why [method tick] was called. Some conditions only make sense on one of them.
 const STEP := "step"
 const ARRIVE := "arrive"
@@ -291,8 +293,9 @@ static func _apply(world: World, thread_id: String, effects: Array, context: Dic
 				"hint":
 					lines.append(String(effect[key]))
 				"remember":
+					# The data is JSON, so a 1 in it is a float until it is told otherwise.
 					for field: String in effect[key]:
-						state["memory"][field] = effect[key][field]
+						state["memory"][field] = SaveFile.whole(effect[key][field])
 				"tag":
 					if not state["tags"].has(String(effect[key])):
 						state["tags"].append(String(effect[key]))

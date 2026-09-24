@@ -7,6 +7,7 @@ extends Node2D
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Names := preload("res://src/chronicle/names.gd")
+const Route := preload("res://src/world/route.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -70,6 +71,11 @@ var _roadside_here: String = ""
 var _wild_here: String = ""
 ## The way the party was last walking itself, so auto does not pace on the spot.
 var _auto_last: Vector2i = Vector2i.ZERO
+## Where the party is walking itself to, and the cells between here and there.
+## Worked out once per target: stepping greedily at a target gets caught behind
+## the first wall between them and paces there for good.
+var _auto_target: Vector2i = Vector2i(-1, -1)
+var _auto_route: Array[Vector2i] = []
 ## Map art kept between redraws, since the whole map is redrawn every step.
 var _art: Dictionary = {}
 ## Where the camera was last time the ground was laid out (x, y, zoom).
@@ -214,23 +220,28 @@ func _auto_errand() -> Vector2i:
 	return tower.cell
 
 
-## A greedy step towards [param target]: the longer axis first, the other axis
-## when that is walled, and anything at all rather than stand still.
+## The next step along the way to [param target], or, with nowhere to go,
+## anything at all rather than stand still.
 func _auto_direction(target: Vector2i) -> Vector2i:
-	var options: Array[Vector2i] = []
 	if target.x >= 0:
-		var apart := target - world.player_cell
-		var horizontal := Vector2i(signi(apart.x), 0)
-		var vertical := Vector2i(0, signi(apart.y))
-		if absi(apart.x) >= absi(apart.y):
-			options.append_array([horizontal, vertical])
-		else:
-			options.append_array([vertical, horizontal])
-	for option: Vector2i in options:
-		if option != Vector2i.ZERO and world.is_walkable(world.player_cell + option):
-			return option
+		var here := world.player_cell
+		while not _auto_route.is_empty() and _auto_route[0] == here:
+			_auto_route.pop_front()
+		# A new target, or the party was moved off the route (a fight, a ferry,
+		# a floor): work the way out again.
+		if target != _auto_target or _auto_route.is_empty() or Pathfinder.distance(_auto_route[0], here) != 1:
+			_auto_target = target
+			# Something close (a band) is chased only a short way round; somewhere
+			# far (a gate, the Tower) is worth whatever way there is.
+			var close := Pathfinder.distance(here, target) <= AUTO_DETOUR
+			_auto_route = Route.between(world, here, target, AUTO_DETOUR * 3 if close else 0)
+			if _auto_route.is_empty() and here != target:
+				# No way there on foot. Stop choosing it, and choose again next step.
+				Pace.avoided[target] = true
+		if not _auto_route.is_empty():
+			return _auto_route[0] - here
 
-	# Walled in on the way there, so shake loose without doubling straight back.
+	# Nowhere to go, so wander without doubling straight back.
 	var loose: Array[Vector2i] = []
 	for offset: Vector2i in DIRECTIONS.values():
 		if world.is_walkable(world.player_cell + offset) and offset != -_auto_last:
@@ -415,8 +426,6 @@ func _watch_check(cell: Vector2i) -> void:
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	_busy = true
-	if Pace.auto:
-		Pace.avoided[world.player_cell] = true
 	outcome["enemies"] = meeting.get("enemies", [])
 	GameState.pending_outcome = outcome
 	_note(meeting["title"])
@@ -438,6 +447,10 @@ func _settle_up(won: bool) -> void:
 	for notice: String in Skein.on_battle(world, { "victory": won, "kind": str(outcome.get("kind", "")) }):
 		_note(notice)
 	if not won:
+		# A party walking itself would walk straight back into it, for ever.
+		# Only a lost fight: a won Tower floor is the way to the next one.
+		if Pace.auto:
+			Pace.avoided[outcome.get("cell", world.player_cell)] = true
 		_note(str(outcome.get("lost", "You came away with nothing.")))
 		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
 			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
@@ -1385,7 +1398,8 @@ func _speak_bubbles(exchange: Array) -> void:
 	_map.add_child(_bubble)
 	_follow_party()
 	for line: Dictionary in exchange:
-		if not is_instance_valid(_bubble):
+		# A fight can start mid-exchange, and the map is gone before the next line.
+		if not is_instance_valid(_bubble) or not is_inside_tree():
 			return
 		_bubble.say("%s: %s" % [line.get("speaker", ""), line.get("text", "")])
 		await get_tree().create_timer(SpeechBubble.time_for(line.get("text", ""))).timeout

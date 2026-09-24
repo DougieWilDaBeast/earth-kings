@@ -7,11 +7,12 @@ extends Node
 ##   godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 
 const CheckFilter := preload("res://tests/check_filter.gd")
+const Route := preload("res://src/world/route.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
-	"walls", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
+	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
 	"tower_top", "save_round_trip", "run_ends",
 ]
@@ -81,6 +82,65 @@ func _check_walls() -> void:
 	_expect(world.steps == before, "a blocked step still cost time")
 	print("walls hold: stepping into %s from %s went nowhere" % [into_wall, blocked])
 
+
+## A party walking itself goes round a wall rather than pacing in front of it,
+## and gives up on somewhere it cannot walk to at all.
+func _check_autoplay() -> void:
+	var world: World = GameState.world
+	var home := world.player_cell
+	# Giving up on somewhere means wandering, which draws on the world's dice;
+	# put them back so the checks after this see the world they always have.
+	var dice := world.rng.state
+	var start := Vector2i(-1, -1)
+	var goal := Vector2i(-1, -1)
+	var way: Array[Vector2i] = []
+	var tries := 0
+	for y in range(2, world.size.y - 2):
+		for x in range(2, world.size.x - 6):
+			var here := Vector2i(x, y)
+			if not world.is_walkable(here) or world.is_walkable(here + Vector2i.RIGHT):
+				continue
+			for gap in range(2, 5):
+				var there := here + Vector2i(gap, 0)
+				if not world.is_walkable(there):
+					continue
+				tries += 1
+				var found := Route.between(world, here, there)
+				# Straight at it is into the wall; the way there has to go round,
+				# and not so far round that something this close is not worth it.
+				if found.size() > gap + 2 and found.size() <= _scene.AUTO_DETOUR * 3:
+					start = here
+					goal = there
+					way = found
+				break
+			if start.x >= 0 or tries > 40:
+				break
+		if start.x >= 0 or tries > 40:
+			break
+	if start.x < 0:
+		_expect(false, "no wall with a way round it to test walking itself against")
+		return
+
+	for step in way:
+		_expect(world.is_walkable(step), "the way round goes through %s, which cannot be walked" % step)
+	world.player_cell = start
+	for i in way.size():
+		var direction: Vector2i = _scene._auto_direction(goal)
+		_expect(Pathfinder.distance(Vector2i.ZERO, direction) == 1, "walking itself took a step of %s" % direction)
+		world.player_cell += direction
+	_expect(
+		world.player_cell == goal,
+		"walking itself from %s to %s round a wall ended at %s after %d steps" % [start, goal, world.player_cell, way.size()]
+	)
+
+	var sea := _find_cell(func(cell: Vector2i) -> bool: return not world.is_walkable(cell))
+	if sea.x >= 0:
+		world.player_cell = start
+		_scene._auto_direction(sea)
+		_expect(Pace.avoided.has(sea), "walking itself kept aiming for %s, which nobody can stand on" % sea)
+		Pace.avoided.erase(sea)
+	world.player_cell = home
+	world.rng.state = dice
 
 func _check_clock() -> void:
 	var world: World = GameState.world
