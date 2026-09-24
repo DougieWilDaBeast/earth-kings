@@ -82,6 +82,10 @@ Sources: [Steam store page](https://store.steampowered.com/app/2798330/Dungeon_S
 
 ## What the research has to answer
 
+**First pass done 2026-09-24:** [investigation/07](investigation/07-dungeon-settlers-combat.md) answers
+these from everything CanOpener has published, and ends with the ten that need an hour of hands-on
+play.
+
 The deep dive is its own piece of work — [roadmap](05-roadmap.md) M10. It should come back as a
 short written report in `docs/investigation/`, with clips or screenshots, answering:
 

@@ -20,6 +20,11 @@ cleanup in **Aseprite**. Asked for in [joint session 1](worldbuilding/voice-note
 wrong size is thrown away. So the 15% goes on **Tier 0: the size test**. Nothing in Tier 1 or later
 is generated until the size is chosen.
 
+**What the model does.** Measured from its official screenshots, _Dungeon Settlers_' characters are
+about 13 × 22 art pixels — the **32×32 class**, not 16 and not 64
+([investigation/07](investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)).
+So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
+
 ## What exists
 
 | Kind | On disk | State |

@@ -43,7 +43,7 @@ drafts, so there is nothing to adopt — but each is worth an entry if the desig
 
 | Source | Named by | For | Entry |
 | --- | --- | --- | --- |
-| _Dungeon Settlers_ | `doug-md` | The fight: point-and-click, auto-attacks, QWER, pause and speed ([D36](../06-decisions.md)) | **Needed first** — the research deep dive ([18](../18-combat-direction.md)) |
+| _Dungeon Settlers_ | `doug-md` | The fight: point-and-click, auto-attacks, QWER, pause and speed ([D36](../06-decisions.md)) | First pass done — [investigation/07](../investigation/07-dungeon-settlers-combat.md) |
 | _Fire Emblem: Three Houses_ | `doug-md` | Every attack animated | — |
 | _Kenshi_ | `doug-md` | Proficiency by repetition ([D37](../06-decisions.md)) | — |
 | _Dark Souls_ / _Elden Ring_ | `doug-md` | Each level costs more | — |

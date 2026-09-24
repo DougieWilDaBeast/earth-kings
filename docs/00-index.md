@@ -53,6 +53,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 - [04 — Narrative Architecture & The Frieren Layer](investigation/04-narrative-resonance-and-the-frieren-layer.md)
 - [05 — Sensory Presentation & Ergonomics](investigation/05-sensory-presentation-and-ergonomics.md)
 - [06 — Forensic Test Matrix & Benchmarks](investigation/06-forensic-test-matrix-and-benchmarks.md)
+- [07 — Dungeon Settlers: the combat deep dive](investigation/07-dungeon-settlers-combat.md) — the research [D36](06-decisions.md) asked for, first pass 2026-09-24
 
 ## Working rules
 
