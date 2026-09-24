@@ -6,7 +6,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 0,
-		"power": 1.0
+		"power": 1.0,
+		"cooldown": 7,
+		"cast": 0
 	},
 	"cleave": {
 		"display_name": "Cleave",
@@ -15,7 +17,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 1,
-		"power": 0.8
+		"power": 0.8,
+		"cooldown": 8,
+		"cast": 0
 	},
 	"arc_shot": {
 		"display_name": "Arc Shot",
@@ -24,7 +28,9 @@
 		"min_range": 2,
 		"range": 4,
 		"splash": 0,
-		"power": 0.9
+		"power": 0.9,
+		"cooldown": 6.5,
+		"cast": 0.4
 	},
 	"ember": {
 		"display_name": "Ember",
@@ -33,7 +39,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 1,
-		"power": 1.1
+		"power": 1.1,
+		"cooldown": 9.5,
+		"cast": 0.6
 	},
 	"mend": {
 		"display_name": "Mend",
@@ -43,7 +51,9 @@
 		"range": 3,
 		"splash": 0,
 		"heal": true,
-		"power": 16
+		"power": 16,
+		"cooldown": 8,
+		"cast": 0.4
 	},
 
 	"riposte": {
@@ -54,7 +64,9 @@
 		"range": 1,
 		"splash": 0,
 		"power": 0.55,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"sunder": {
 		"display_name": "Sunder",
@@ -63,7 +75,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 0,
-		"power": 1.35
+		"power": 1.35,
+		"cooldown": 8.5,
+		"cast": 0
 	},
 	"whirl": {
 		"display_name": "Whirl",
@@ -72,7 +86,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 1,
-		"power": 0.75
+		"power": 0.75,
+		"cooldown": 8,
+		"cast": 0
 	},
 	"lunge": {
 		"display_name": "Lunge",
@@ -81,7 +97,9 @@
 		"min_range": 2,
 		"range": 2,
 		"splash": 0,
-		"power": 1.15
+		"power": 1.15,
+		"cooldown": 7.5,
+		"cast": 0.4
 	},
 
 	"scorch": {
@@ -91,7 +109,9 @@
 		"min_range": 1,
 		"range": 2,
 		"splash": 0,
-		"power": 1.2
+		"power": 1.2,
+		"cooldown": 8,
+		"cast": 0.4
 	},
 	"pyre": {
 		"display_name": "Pyre",
@@ -100,7 +120,9 @@
 		"min_range": 2,
 		"range": 4,
 		"splash": 2,
-		"power": 0.7
+		"power": 0.7,
+		"cooldown": 10,
+		"cast": 0.8
 	},
 	"firebrand": {
 		"display_name": "Firebrand",
@@ -110,7 +132,9 @@
 		"range": 2,
 		"splash": 0,
 		"power": 0.55,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 
 	"spark": {
@@ -121,7 +145,9 @@
 		"range": 3,
 		"splash": 0,
 		"power": 0.5,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"thunderhead": {
 		"display_name": "Thunderhead",
@@ -130,7 +156,9 @@
 		"min_range": 2,
 		"range": 4,
 		"splash": 1,
-		"power": 0.9
+		"power": 0.9,
+		"cooldown": 8.5,
+		"cast": 0.6
 	},
 	"chain_bolt": {
 		"display_name": "Chain Bolt",
@@ -139,7 +167,9 @@
 		"min_range": 3,
 		"range": 6,
 		"splash": 0,
-		"power": 1.0
+		"power": 1.0,
+		"cooldown": 7,
+		"cast": 0.4
 	},
 
 	"snipe": {
@@ -149,7 +179,9 @@
 		"min_range": 3,
 		"range": 6,
 		"splash": 0,
-		"power": 1.15
+		"power": 1.15,
+		"cooldown": 7.5,
+		"cast": 0.4
 	},
 	"hamstring": {
 		"display_name": "Hamstring",
@@ -158,7 +190,9 @@
 		"min_range": 1,
 		"range": 2,
 		"splash": 0,
-		"power": 0.95
+		"power": 0.95,
+		"cooldown": 7,
+		"cast": 0.4
 	},
 	"volley": {
 		"display_name": "Volley",
@@ -167,7 +201,9 @@
 		"min_range": 2,
 		"range": 5,
 		"splash": 1,
-		"power": 0.7
+		"power": 0.7,
+		"cooldown": 8,
+		"cast": 0.6
 	},
 
 	"crush": {
@@ -177,7 +213,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 0,
-		"power": 1.45
+		"power": 1.45,
+		"cooldown": 9,
+		"cast": 0
 	},
 	"shield_bash": {
 		"display_name": "Shield Bash",
@@ -187,7 +225,9 @@
 		"range": 1,
 		"splash": 0,
 		"power": 0.5,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"earthshake": {
 		"display_name": "Earthshake",
@@ -196,7 +236,9 @@
 		"min_range": 1,
 		"range": 1,
 		"splash": 2,
-		"power": 0.7
+		"power": 0.7,
+		"cooldown": 10,
+		"cast": 0
 	},
 
 	"warding_touch": {
@@ -207,7 +249,9 @@
 		"range": 1,
 		"splash": 0,
 		"heal": true,
-		"power": 26
+		"power": 26,
+		"cooldown": 9.5,
+		"cast": 0
 	},
 	"stand_fast": {
 		"display_name": "Stand Fast",
@@ -218,7 +262,9 @@
 		"splash": 0,
 		"heal": true,
 		"power": 13,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 7.5,
+		"cast": 0
 	},
 
 	"hearthlight": {
@@ -229,7 +275,9 @@
 		"range": 3,
 		"splash": 1,
 		"heal": true,
-		"power": 12
+		"power": 12,
+		"cooldown": 7.5,
+		"cast": 0.6
 	},
 	"second_wind": {
 		"display_name": "Second Wind",
@@ -240,7 +288,9 @@
 		"splash": 0,
 		"heal": true,
 		"power": 20,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 8.5,
+		"cast": 0
 	},
 
 	"grief": {
@@ -250,7 +300,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 0,
-		"power": 1.1
+		"power": 1.1,
+		"cooldown": 7.5,
+		"cast": 0.4
 	},
 	"lament": {
 		"display_name": "Lament",
@@ -259,7 +311,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 1,
-		"power": 0.8
+		"power": 0.8,
+		"cooldown": 8,
+		"cast": 0.6
 	},
 	"keening": {
 		"display_name": "Keening",
@@ -268,7 +322,9 @@
 		"min_range": 2,
 		"range": 5,
 		"splash": 0,
-		"power": 0.95
+		"power": 0.95,
+		"cooldown": 7,
+		"cast": 0.4
 	},
 
 	"gust": {
@@ -278,7 +334,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 1,
-		"power": 0.75
+		"power": 0.75,
+		"cooldown": 8,
+		"cast": 0.6
 	},
 	"dart": {
 		"display_name": "Dart",
@@ -288,7 +346,9 @@
 		"range": 2,
 		"splash": 0,
 		"power": 0.5,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"long_reach": {
 		"display_name": "Long Reach",
@@ -297,7 +357,9 @@
 		"min_range": 2,
 		"range": 5,
 		"splash": 0,
-		"power": 0.95
+		"power": 0.95,
+		"cooldown": 7,
+		"cast": 0.4
 	},
 
 	"tidal_surge": {
@@ -307,7 +369,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 1,
-		"power": 1.1
+		"power": 1.1,
+		"cooldown": 9.5,
+		"cast": 0.6
 	},
 	"undertow": {
 		"display_name": "Undertow",
@@ -316,7 +380,9 @@
 		"min_range": 1,
 		"range": 2,
 		"splash": 0,
-		"power": 1.2
+		"power": 1.2,
+		"cooldown": 8,
+		"cast": 0.4
 	},
 	"brine_spray": {
 		"display_name": "Brine Spray",
@@ -326,7 +392,9 @@
 		"range": 2,
 		"splash": 0,
 		"power": 0.55,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"crushing_wave": {
 		"display_name": "Crushing Wave",
@@ -335,7 +403,9 @@
 		"min_range": 1,
 		"range": 2,
 		"splash": 1,
-		"power": 0.85
+		"power": 0.85,
+		"cooldown": 8.5,
+		"cast": 0.6
 	},
 	"soothing_spring": {
 		"display_name": "Soothing Spring",
@@ -345,7 +415,9 @@
 		"range": 3,
 		"splash": 0,
 		"heal": true,
-		"power": 18
+		"power": 18,
+		"cooldown": 8.5,
+		"cast": 0.4
 	},
 
 	"frostbite": {
@@ -355,7 +427,9 @@
 		"min_range": 1,
 		"range": 2,
 		"splash": 0,
-		"power": 1.15
+		"power": 1.15,
+		"cooldown": 7.5,
+		"cast": 0.4
 	},
 	"glacial_chill": {
 		"display_name": "Glacial Chill",
@@ -364,7 +438,9 @@
 		"min_range": 1,
 		"range": 3,
 		"splash": 1,
-		"power": 0.8
+		"power": 0.8,
+		"cooldown": 8,
+		"cast": 0.6
 	},
 	"ice_shard": {
 		"display_name": "Ice Shard",
@@ -374,7 +450,9 @@
 		"range": 3,
 		"splash": 0,
 		"power": 0.5,
-		"bonus": true
+		"bonus": true,
+		"cooldown": 4,
+		"cast": 0
 	},
 	"blizzard": {
 		"display_name": "Blizzard",
@@ -383,6 +461,8 @@
 		"min_range": 2,
 		"range": 4,
 		"splash": 2,
-		"power": 0.75
+		"power": 0.75,
+		"cooldown": 10,
+		"cast": 0.8
 	}
 }

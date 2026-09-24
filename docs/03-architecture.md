@@ -56,6 +56,12 @@ src/
     units/unit.gd              The battle puppet spawned from a Character (8-way facing)
     abilities/ability_resolver.gd   Targeting rules, facing bonuses, damage maths, grudges
     ai/enemy_brain.gd          Multi-ability evaluation, ally healing, splash AOE scoring
+  skirmish/                    The real-time fight — M11 prototype of D36, beside battle/
+    skirmish.tscn/.gd          Fixed-tick loop, pause, orders, stepping, casting, near death
+    fighter.gd                 One combatant's real-time state: order, cooldowns, cast, step
+    skirmish_brain.gd          Targeting and Auto Skill choices, returned as plans
+    skirmish_rules.gd          Every timing in seconds; defaults for generated abilities
+    skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
   world/                       Walk mode: the map, the step clock, every site interaction
   area/                        Places walked around close up — 33 hand-built top-down areas,
                                orthogonal A* pathfinding, props, chests, cutscenes, camp fire

@@ -58,7 +58,8 @@ The base stat block a `Character` is built from, and what a monster is.
 "arc_shot": {
   "display_name": "Arc Shot",
   "description": "A lobbed arrow that cannot hit adjacent foes.",
-  "target": "enemy", "min_range": 2, "range": 4, "splash": 0, "power": 0.9
+  "target": "enemy", "min_range": 2, "range": 4, "splash": 0, "power": 0.9,
+  "cooldown": 6.5, "cast": 0.4
 }
 ```
 
@@ -66,6 +67,12 @@ The base stat block a `Character` is built from, and what a monster is.
 - `power` — multiplier on attack. With `"heal": true` it is instead flat HP restored.
 - `splash` — Manhattan radius around the target cell. `0` is single-target.
 - `bonus: true` — a minor ability that costs the bonus action instead of the main action.
+- `cooldown` — seconds before it can be used again, in the real-time skirmish (M11 prototype,
+  [D36](06-decisions.md)). Ignored by the turn-based battle.
+- `cast` — seconds of wind-up before it lands, in the skirmish. `0` lands at once.
+
+Both timings are optional. An ability without them — every generated one — gets them from the
+formulas in `src/skirmish/skirmish_rules.gd`, which are also where the authored values came from.
 
 Generated abilities have the same shape and are registered at runtime by `AbilityGrammar`; they
 are stored inside the save's tree definitions, not in this file.

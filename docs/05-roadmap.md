@@ -128,16 +128,21 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
   D-entry says which size
 
-### M11 — The real-time fight, as a prototype — PLANNED
+### M11 — The real-time fight, as a prototype — IN PROGRESS
 
-Waits on M10.
+Started 2026-09-24, on the first pass of M10. A playable prototype exists — see
+[18 — The prototype](18-combat-direction.md#the-prototype) — and the items below are marked
+against it.
 
-- A separate battle scene: real time, pause at any moment, speed up and slow down
-- Point-and-click movement on the existing grid; automatic basic attacks
-- Four active abilities per unit on Q W E R, with cooldowns; passives; a per-unit auto toggle
-- Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1)
-- Facing, graces and generated battlefields carried over from M0/M4
-- A headless smoke test that plays it out
+- A separate battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
+- Point-and-click movement on the existing grid; automatic basic attacks ✅
+- Four active abilities per unit on Q W E R, with cooldowns ✅ and cast times ✅; a per-unit auto
+  toggle ✅ and Wait for Orders ✅. Passives — not yet
+- Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1) — waits on art
+- Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
+  companion can reach ✅ — the graces are not rolled yet
+- A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
+- Reachable from the Training ground and the bench ✅. A training fight only — nothing written back
 - ✅ Done when: both founders have played the prototype against the current battle and chosen.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))
 

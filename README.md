@@ -85,6 +85,11 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
   character has read and what is close to fading. It also shows the **Codex** — how much of the
   world's power grammar has been catalogued.
 - **Losing everyone ends the run** and returns you to the title.
+- **The real-time skirmish (prototype).** Title → Training → **Fight in real time**. The move to
+  real time with pause ([D36](docs/06-decisions.md)) being tried out beside the turn-based fight:
+  right-click to move or attack, `Q W E R` for skills, `Space` to pause and give orders, `T` for
+  speed, `A` for auto skills, `H` to hold. A training fight only — nothing is written back. See
+  [docs/18](docs/18-combat-direction.md#the-prototype).
 
 ## Project layout
 
@@ -180,6 +185,7 @@ to catch runtime breakage without clicking through the game:
 
 ```powershell
 godot --headless --path . res://tests/battle_smoke_test.tscn
+godot --headless --path . res://tests/skirmish_smoke_test.tscn
 godot --headless --path . res://tests/world_smoke_test.tscn
 godot --headless --path . res://tests/walk_smoke_test.tscn
 godot --headless --path . res://tools/coverage.tscn

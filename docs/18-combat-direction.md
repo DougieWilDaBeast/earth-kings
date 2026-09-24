@@ -140,6 +140,66 @@ This is the largest change since the project began. Honestly stated:
 The first step is a **prototype in a separate scene** — one party, one enemy group, real-time with
 pause, four abilities each — played against the current battle before either is retired.
 
+## The prototype
+
+**Built 2026-09-24** — [M11](05-roadmap.md), in `src/skirmish/`, beside the turn-based battle and
+touching none of it. It follows the plan in
+[investigation/07](investigation/07-dungeon-settlers-combat.md#the-smallest-playable-prototype).
+
+**To play it:** Title → **Training** → pick an enemy and a count → **Fight in real time**. Or
+`godot --path . res://tests/bench.tscn -- --scene=skirmish --play` for a wild fight with the
+starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
+
+| Control | Does |
+| --- | --- |
+| Left-click a party member · `1`–`4` · `Tab` | Select one · select by number (Shift adds) · select everyone |
+| Right-click ground | Move there. Several selected spread out around the spot |
+| Right-click an enemy | Go after that one, and only that one |
+| Right-click a downed ally | The nearest selected member goes to help them up |
+| `Q` `W` `E` `R` | Arm a skill; left-click the target (or the ground, for splash); right-click cancels |
+| `A` | Auto Skill on or off for the selected — on by default |
+| `H` | Hold: stay put and only hit what is in reach |
+| `Space` | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
+| `T` | Speed x1 → x2 → x4 |
+
+**What it does**
+
+- **A fixed-tick simulation** (20 ticks a second) so the fight plays the same at any speed and a
+  test can run one in a moment. Movement is drawn smoothly between ticks.
+- **Tile to tile**, one unit per tile, the tile claimed as the step starts. Allies block enemies and
+  enemies block allies. Pace comes from move points; terrain cost still slows you.
+- **Basic attacks on a tempo** from the speed stat: every 1.6 seconds at speed 10.
+- **Quick slots** are the character's abilities after the first damaging one, which is the basic
+  attack. Each has a `cooldown` and a `cast` in `data/abilities.json`; skills with a wind-up show a
+  bar and follow their target, but fizzle if it falls or gets away.
+- **Auto Skill**, left to right, only when a skill is ready and already in reach; heals only on an
+  ally at or under 60%.
+- **Enemies** pick the nearest standing foe and stick with it, use their own skills the same way,
+  and never pick on the downed. A party member not told otherwise fights anything within six tiles,
+  and joins in once any companion is fighting.
+- **Near death**: a party member at zero is down for twelve seconds, and a companion who reaches
+  them and kneels for two gets them up at a quarter of their health. Enemies at zero are gone.
+- **Facing still counts**: units face where they step and what they hit, and side and back hits
+  still deal 1.2× and 1.5× — it is the first thing to judge in play.
+- **The mind seam holds**: `SkirmishBrain` returns choices and only `Skirmish` changes the fight.
+
+**The knobs**, all in `src/skirmish/skirmish_rules.gd`: `HEALTH_SCALE` (everyone fights with 3×
+their health — at 1× fights ended in four to seven seconds, before there was anything to pause
+for), `NEAR_DEATH`, `AID_TIME`, `PARTY_AGGRO_RANGE`, the attack tempo, the step pace, and the
+default cooldown and cast formulas. The smoke test's proving ground — three level-1 characters
+against six level-8 brigands — ends in about 18 seconds, and the party wins.
+
+**What it does not do yet**
+
+- **Animations.** Units slide and turn, as on the turn-based grid; attacks have no wind-up art. It
+  waits on the sprite size and the Tier 1 assets in [19](19-asset-list.md).
+- **Anything outside training.** No experience, proficiency, journal, graces or deaths are written
+  back; the party walks off healed. Wiring it into the world is the step after both founders have
+  played it against the turn-based fight.
+- **Passives, auto-pause, a multi-order queue, touch controls, the J and P leans in real time.**
+- **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
+  that hits for thirty, which the turn-based fight shares.
+
 ## Getting stronger
 
 Settled in the same session, and bound up with the fight ([D37](06-decisions.md)):
