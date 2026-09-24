@@ -207,7 +207,8 @@ func load_save() -> bool:
 	talks = data.get("talks", {})
 	errands = data.get("errands", [])
 	away = data.get("away", [])
-	delving = data.get("delving", [])
+	# JSON hands numbers back as floats; a cell is whole numbers.
+	delving = (data.get("delving", []) as Array).map(func(n: Variant) -> int: return int(n))
 	stores = data.get("stores", [])
 	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])

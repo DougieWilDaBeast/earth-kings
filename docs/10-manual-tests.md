@@ -228,21 +228,33 @@ plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.
 
-## Testing backlog — paused
+## Automated tests
 
-Automated testing is **parked**. It was costing more than it caught on this machine, and the
-suites had started failing on their own stale expectations rather than on real regressions.
-Issues come from playing the game and saying what broke. Picked back up when it is worth it:
+**Back in use from 2026-09-24.** They were parked when they cost more than they caught and had
+started failing on their own stale expectations. Since then every suite has been brought back to
+green and run after every change: eleven suites, around 550 checks (`tools/coverage.tscn` counts
+them per test).
 
-- **Split the monoliths.** `walk_smoke_test.gd` is ~760 lines running ~20 checks off one seeded
-  world; there is no way to run just the one you care about. Wants `--check=name` on the bench.
+```powershell
+.\ek.ps1 test                                   # every suite, one line each
+.\ek.ps1 test walk dispatch                     # only those
+godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
+godot --headless --path . res://tests/world_smoke_test.tscn -- --check=fate
+```
+
+`--check=` runs only the named checks of the two big suites (`walk`, `world`); a name the suite
+does not have fails and lists the ones it does. Every check in both suites passes run on its own.
+
+Still open:
+
 - **Seeded tests pin step counts and cell positions**, so W12's bigger world will invalidate
   `walk`, `world` and `skein` wholesale. Budget the rewrite with that work, not before it.
-- **Nothing covers the screen.** Every visual check in this document is a person's eyes. The
-  bench can photograph any scene now, so image comparison against a stored reference is possible
-  and is not built.
-- **Difficulty leaks into assertions.** Anything checking enemy counts or XP has to pin
-  `GameState.difficulty = "even"` first, or `gentle` (3× XP, −1 enemy) fails it. Easy to forget.
+- **Nothing compares the screen.** The bench photographs any scene (`--shot`), and a real renderer
+  can run headless under Xvfb on Linux, but nothing compares a photograph against a stored
+  reference yet.
+- **Difficulty leaks into assertions.** Anything checking enemy counts or experience has to pin
+  `GameState.difficulty = "even"`, or account for it: Gentle is the default and gives 5×
+  experience and gold, one enemy fewer, weaker foes and no permadeath.
 
 ## Completed integrations
 

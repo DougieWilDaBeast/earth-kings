@@ -4,8 +4,17 @@ extends Node
 ## battle request can be inspected instead of swapping the scene out.
 ##
 ##   godot --headless --path . res://tests/walk_smoke_test.tscn
+##   godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
+
+const CheckFilter := preload("res://tests/check_filter.gd")
 
 const SEED := 20260827
+## Every check, in the order a full run takes them. `--check=` picks from these.
+const CHECKS := [
+	"walls", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
+	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
+	"tower_top", "save_round_trip", "run_ends",
+]
 
 var _scene: Node
 var _requests: Array[Dictionary] = []
@@ -23,24 +32,14 @@ func _ready() -> void:
 	add_child(_scene)
 	await get_tree().process_frame
 
-	_check_walls()
-	_check_clock()
-	_check_watchers()
-	_check_banter()
-	_check_rest()
-	_check_home()
-	_check_library()
-	_check_gate()
-	_check_tower()
-	_check_class_prompt()
-	_check_gate_lifecycle()
-	_check_town_and_captives()
-	_check_loot()
-	_check_renown()
-	_check_raid_and_rescue()
-	_check_tower_top()
-	_check_save_round_trip()
-	_check_run_ends()
+	var unknown: Array = []
+	var chosen := CheckFilter.wanted(CHECKS, unknown)
+	for name: String in unknown:
+		_expect(false, "no check called '%s' (there are: %s)" % [name, ", ".join(CHECKS)])
+	if chosen.size() < CHECKS.size():
+		print("running only: %s" % ", ".join(chosen))
+	for name: String in chosen:
+		call("_check_" + name)
 
 	print("")
 	if _failures.is_empty():
@@ -801,6 +800,16 @@ func _check_tower_top() -> void:
 
 func _check_save_round_trip() -> void:
 	var world: World = GameState.world
+	# Run on its own the clock has not moved, and a new game's clock would look
+	# the same as the saved one. Give it somewhere to have been.
+	if world.steps == 0:
+		world.steps = 37
+	# What today's systems keep: kinds learned from, companions away, and being
+	# held inside a gate. Set here so a run of this check alone has some.
+	var lead_member: Character = GameState.roster.party_members()[0]
+	lead_member.beaten["goblin"] = 3
+	GameState.away.append({"id": "nobody", "to": [1, 1], "out_at": 999999, "back_at": 999999})
+	GameState.delving = [world.player_cell.x, world.player_cell.y]
 	var before := {
 		"steps": world.steps,
 		"cell": world.player_cell,
@@ -811,6 +820,9 @@ func _check_save_round_trip() -> void:
 		"deeds": world.deeds.size(),
 		"ruined": world.sites.filter(func(s: Site) -> bool: return Town.is_ruined(s)).size(),
 		"bond": Banter.bond(GameState.roster.party_members()[0], GameState.roster.party_members()[1]),
+		"beaten": lead_member.beaten.duplicate(),
+		"away": GameState.away.size(),
+		"delving": GameState.delving.duplicate(),
 	}
 
 	GameState.save()
@@ -839,6 +851,12 @@ func _check_save_round_trip() -> void:
 			== before["bond"],
 		"how well the party get on did not survive the save"
 	)
+	_expect(GameState.roster.party_members()[0].beaten == before["beaten"], "kinds learned from did not survive the save")
+	_expect(GameState.away.size() == before["away"], "companions away did not survive the save")
+	_expect(GameState.delving == before["delving"], "being held inside a gate did not survive the save")
+	# Only here to be saved: nobody is really away, and no gate is holding anyone.
+	GameState.away.clear()
+	GameState.delving = []
 	print("save: %d steps, floor %d and %d gold all came back" % [
 		before["steps"], before["floor"], before["gold"]
 	])

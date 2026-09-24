@@ -187,10 +187,11 @@ through `EventBus`** rather than holding references to each other.
   unit template. Units draw the rotation matching their facing; templates without one keep the
   placeholder token.
 
-## Smoke test
+## Smoke tests
 
-Boots a battle headlessly, auto-passes every player turn and lets the AI play it out — a fast way
-to catch runtime breakage without clicking through the game:
+Headless suites that drive the real scenes and systems — a fast way to catch breakage without
+clicking through the game. `.\ek.ps1 test` runs them all, one line each; the two big ones take
+`-- --check=name` to run a single check (see [docs/10](docs/10-manual-tests.md#automated-tests)):
 
 ```powershell
 godot --headless --path . res://tests/battle_smoke_test.tscn

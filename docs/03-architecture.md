@@ -110,7 +110,8 @@ variance (damage rolls, CT jitter) uses global randomness and is intentionally n
 ## Testing
 
 Headless scenes, run as scenes rather than with `-s` because `--script` starts before the
-autoloads exist.
+autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those checks
+(`tests/check_filter.gd`); each check in both passes on its own.
 
 | Test                             | Covers                                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
