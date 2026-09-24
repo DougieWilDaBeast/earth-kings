@@ -62,6 +62,15 @@ sharpest weapon; scarce first-clear XP), _Omniscient Reader's Viewpoint_ (the wa
 _The World After the Fall_ (walk forward, never reset), plus Final Fantasy Tactics for combat
 presentation and Dragon Quest for the walking loop.
 
+Named in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md) (2026-09-24), and
+none of them has a lineage entry yet: _Dungeon Settlers_ (the real-time-with-pause fight — a research
+deep dive is on the roadmap), _Fire Emblem: Three Houses_ (every attack animated), _Kenshi_
+(proficiency by repetition), _Dark Souls_ and _Elden Ring_ (each level costs more), _Pokémon_ (four
+active moves), _My Hero Academia_'s One For All (the dead predecessors met in the mind), _Vinland
+Saga_, _Naruto_ and _One Piece_ as character seeds, and _Tower of God_ again for gates as whole
+worlds. _Surviving the Game as a Barbarian_ came back for first-kill experience — the same "scarce
+first-clear XP" noted above.
+
 ## Reading the original
 
 If you need detail on a deferred feature, the original's docs are the specification:

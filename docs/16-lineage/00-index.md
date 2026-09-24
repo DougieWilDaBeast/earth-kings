@@ -36,6 +36,25 @@ both lists name the same source, or the same ID, the disagreement is worth more 
 | 16.15 | [One Piece](16.15-one-piece.md) | **C** | `LN`, `HS`, `NW`, `FR8`, `MX8` |
 | 16.16 | [Solo Leveling](16.16-solo-leveling.md) | **C** | `GT1`–`GT8`, `GT15`, `EC`, `DV5`, `LF2`, `LF5` |
 
+## Named in joint session 1 — no entry yet
+
+The founders reached for these on the 2026-09-24 call. They arrived as founder answers, not source
+drafts, so there is nothing to adopt — but each is worth an entry if the design leans on it.
+
+| Source | Named by | For | Entry |
+| --- | --- | --- | --- |
+| _Dungeon Settlers_ | `doug-md` | The fight: point-and-click, auto-attacks, QWER, pause and speed ([D36](../06-decisions.md)) | **Needed first** — the research deep dive ([18](../18-combat-direction.md)) |
+| _Fire Emblem: Three Houses_ | `doug-md` | Every attack animated | — |
+| _Kenshi_ | `doug-md` | Proficiency by repetition ([D37](../06-decisions.md)) | — |
+| _Dark Souls_ / _Elden Ring_ | `doug-md` | Each level costs more | — |
+| _Pokémon_ | `dougie` | Four active moves | — |
+| _My Hero Academia_ — One For All | `doug-md` | Ghosts of the dead met at the campfire ([D33](../06-decisions.md)) | — |
+| _Vinland Saga_ | `doug-md` | Thorfinn, driven by hate — a character seed | — |
+| _Naruto_ | `dougie` | Pain — a character seed | — |
+
+Two existing entries were leaned on again: **16.3** _Surviving the Game as a Barbarian_ (experience
+only from the first kill of each kind) and **16.12** _Tower of God_ (a gate as a whole other world).
+
 ## Live collisions
 
 Two entries proposing incompatible answers to the same ID. These are divergence-ledger material,

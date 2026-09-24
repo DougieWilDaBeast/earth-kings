@@ -42,6 +42,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 12 | `MX13` | **Where does a dead lead's weapon land the first time** — somewhere easy to find, or random? |
 | 13 | `GT2`, M5 | **You cannot leave a gate until it is beaten.** The build lets a party retreat and keep the floors taken. The new rule wins unless someone objects — say so if not. |
 | 14 | `GT3` | **Timed events.** `doug-md` asked whether failing to do things in time costs you. `dougie`: "we should try to test what happens when we're playing first". Deferred to playtest, on purpose. |
+| 15 | `LP13`, `LP2` | **What is a hearth, or a background, for someone who fell from the sky?** The sixteen are not from this world, and they land at random. The reading taken in [14](../14-lore-pools.md#what-joint-session-1-changed): a hearth becomes the crash site, and a background is the life above, found out in pieces. Confirm or replace before any pool is written. |
 
 ## 2. Eleven Part I questions that need a straight answer
 

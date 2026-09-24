@@ -1,5 +1,12 @@
 # 02 — Design
 
+> **This describes the build as it runs today.** Joint session 1 (2026-09-24) agreed a direction
+> that changes a good deal of it — the fall and the sixteen worlds, Tower chapters, gates you cannot
+> leave, a real-time fight, first-kill experience, sending companions on jobs. That direction is in
+> [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md) and
+> [18 — Combat direction](18-combat-direction.md), the rules in [D31–D40](06-decisions.md), and the
+> work on the [roadmap](05-roadmap.md). Each section below that is due to change says so.
+
 ## The loop
 
 ```
@@ -20,8 +27,8 @@ doctrine spends fading.
 | Where you step             | What happens                                                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Open ground                | A chance of a wild encounter, scaled by how close the nearest open gate is and how far the nearest hearth is |
-| A **gate**                 | Delve it — a run of battles ending in its guardian                                                           |
-| The **Tower**              | Climb — one battle per floor, each harder than the last                                                      |
+| A **gate**                 | Delve it — a run of battles ending in its guardian. _Changing_ ([D35](06-decisions.md)): no leaving until it is beaten |
+| The **Tower**              | Climb — one battle per floor, each harder than the last. _Changing_ ([D34](06-decisions.md)): chapters of five floors, each floor returns you to the world |
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
 | A **village / keep / hut** | Rest and recover; safe ground, encounters go quiet                                                           |
 
@@ -31,6 +38,8 @@ A `Character` is the persistent person. A battle `Unit` is a puppet spawned from
 length of a fight and thrown away afterwards. The save file remembers Characters.
 
 - **Levels and XP.** XP comes from defeating things. Cost to next level is `20 + level² × 6`.
+  _Changing_ ([D37](06-decisions.md)): experience only from the first kill of each kind of enemy,
+  with assists; proficiency by use.
 - **Classes.** At **level 2** a character takes a main class from the options their template
   allows. The **player chooses** theirs and the world waits for the answer; everyone else settles
   into one on their own ([D12](06-decisions.md)). The class supplies stat growth per level, granted
@@ -158,7 +167,9 @@ the party screen or during battle as a bonus action.
 
 ## Battle
 
-Unchanged from the tactics core and already working:
+_Changing_ ([D36](06-decisions.md), [18](18-combat-direction.md)): real time with pause,
+point-and-click, four active abilities, animated attacks — after a research deep dive and a
+prototype. Until then, unchanged from the tactics core and already working:
 
 - Square grid, per-tile move cost, height and jump.
 - **Charge-time turn order** — each tick every unit gains CT equal to its speed and acts at 100,
