@@ -14,6 +14,10 @@ founders — see the note in [00-process.md](00-process.md#how-this-is-actually-
 Mark each ID as you settle it: `A` agreed · `C` compatible (both true) · `F` fork (resolved below)
 · `O` open (nobody cared, or deliberately deferred).
 
+Joint session 1 marks what it settled `A` — both founders in the room, one saying it and the other
+agreeing or building on it — and what it only half settled `?`. Its one real disagreement is `F`.
+Parts VI to IX have no grid; their state is in [answers.md](answers.md).
+
 Part I carries two marks the merge symbols cannot express, because it was answered by one founder
 and has not been reviewed by the other: `1` answered by one founder, awaiting the second · `?`
 answered only in part, and the [entry](answers.md) writes out the follow-up it still needs.
@@ -22,7 +26,7 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | FR1 | FR2 | FR3 | FR4 | FR5 | FR6 | FR7 | FR8 | FR9 | FR10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    | A | ? |    | ? |    |    |    |
 
 **I.a Sky, time and cosmos — `SK`**
 
@@ -58,13 +62,13 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | GT1 | GT2 | GT3 | GT4 | GT5 | GT6 | GT7 | GT8 | GT9 | GT10 | GT11 | GT12 | GT13 | GT14 | GT15 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | ? | 1 | 1 | ? | 1 | 1 | 1 |
+| status | A | A | 1 | 1 | 1 | 1 | 1 | 1 | ? | A | ? | ? | 1 | 1 | 1 |
 
 **I.g Body, wound and death — `BD`**
 
 | ID | BD1 | BD2 | BD3 | BD4 | BD5 | BD6 | BD7 | BD8 | BD9 | BD10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    | ? |    |    |    |
 
 **II.a Minds — `MN`**
 
@@ -76,7 +80,7 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | KN1 | KN2 | KN3 | KN4 | KN5 | KN6 | KN7 | KN8 | KN9 | KN10 | KN11 | KN12 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    |    |    |    | A |    |
 
 **II.c Power and the grammar — `PW`**
 
@@ -88,25 +92,25 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | NW1 | NW2 | NW3 | NW4 | NW5 | NW6 | NW7 | NW8 | NW9 | NW10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    |    | ? |    |
 
 **II.e Belief, fear and superstition — `BL`**
 
 | ID | BL1 | BL2 | BL3 | BL4 | BL5 | BL6 | BL7 | BL8 | BL9 | BL10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    | ? |    |    |
 
 **II.f Perspective and the watching layer — `SF`**
 
 | ID | SF1 | SF2 | SF3 | SF4 | SF5 | SF6 | SF7 | SF8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |
+| status | A |    |    |    |    |    |    |    |
 
 **III.a Rule, faction and power — `RU`**
 
 | ID | RU1 | RU2 | RU3 | RU4 | RU5 | RU6 | RU7 | RU8 | RU9 | RU10 | RU11 | RU12 | RU13 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    |    |    | ? |    |    |    |
 
 **III.b Law, justice and violence — `LW`**
 
@@ -124,13 +128,13 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | KI1 | KI2 | KI3 | KI4 | KI5 | KI6 | KI7 | KI8 | KI9 | KI10 | KI11 | KI12 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    | A |    |    |    |    |
 
 **III.e Faith and rite — `FA`**
 
 | ID | FA1 | FA2 | FA3 | FA4 | FA5 | FA6 | FA7 | FA8 | FA9 | FA10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status | A |    |    |    |    | ? |    |    |    |    |
 
 **III.f Tongue and record — `TG`**
 
@@ -154,13 +158,13 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | OT1 | OT2 | OT3 | OT4 | OT5 | OT6 | OT7 | OT8 | OT9 | OT10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    |    |    |    | A |    |    |
 
 **III.j The delver as a social class — `DV`**
 
 | ID | DV1 | DV2 | DV3 | DV4 | DV5 | DV6 | DV7 | DV8 | DV9 | DV10 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |
+| status |    | A |    |    |    |    |    |    |    |    |
 
 **III.k History and ruin — `HS`**
 
@@ -172,13 +176,13 @@ answered only in part, and the [entry](answers.md) writes out the follow-up it s
 
 | ID | SM1 | SM2 | SM3 | SM4 | SM5 | SM6 | SM7 | SM8 | SM9 | SM10 | SM11 | SM12 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |    |    |    |    |
+| status |    |    |    |    | F |    |    | ? |    |    |    |    |
 
 **Part V — Boundaries**
 
 | ID | BN1 | BN2 | BN3 | BN4 | BN5 | BN6 | BN7 | BN8 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| status |    |    |    |    |    |    |    |    |
+| status |    | ? | A |    |    | A |    |    |
 ## Forks
 
 One block per fork. Copy the template. Keep the losing answer — it is raw material.
@@ -195,19 +199,36 @@ One block per fork. Copy the template. Keep the losing answer — it is raw mate
 - **Downstream:** decision entry needed? data files touched? docs to update?
 ```
 
-### Example (delete when the first real one lands)
+### SM5 — When the lead dies and the next world begins, does the progress carry?
 
-- **A said:** Gates are wounds in the world; nothing opens them, they happen. `[H]`
-- **B said:** Gates were built, long ago, by people who needed something on the other side. `[M]`
-- **Why it cannot be both:** GT3 sets whether anyone can be blamed for the gates, which decides
-  whether the Heart Empire can be *responsible* for them (RU2) and whether shutting them all is
-  restoration or amputation (GT15).
-- **Rule that resolved it:** care tag — `H` over `M`.
-- **Canon:** A gate is a wound. Nobody opens one; they open where the world is thin.
-- **The losing answer becomes:** the Heart Empire's founding doctrine — that the gates were built
-  and can therefore be commanded. It is wrong, and it is why they came up the road.
-- **Downstream:** D-entry for "gates are not authored"; `data/factions.json` blurb for
-  `heart_empire`; a doctrine entry in `data/doctrine.json` that teaches the false version.
+The first fork between founders, raised and settled inside
+[joint session 1](voice-notes/2026-09-24-joint-session-1.md) [00:29:43]–[00:32:14].
+
+- **`dougie` said:** the next lead should arrive "at the same level of the tower… you should have all
+  the same progression that you had in your world". No tag spoken.
+- **`doug-md` said:** "I don't think that when your character dies, you can just keep your
+  progression. I think that's the work that you put in with that character… you start off at level 1
+  again." No tag spoken, but the reason given was the game's difficulty: "This game? Isn't easy".
+- **Why it cannot be both:** a world that starts where the last one stopped makes the lead's death a
+  change of costume, and the sixteen chances stop being chances.
+- **Rule that resolved it:** neither — `dougie` changed his mind on the spot: "I completely agree
+  you… We're going to follow your idea." Recorded as a fork because a position was given up, and
+  that is what this file is for. By the rules it would have gone the same way on **pillar 4**.
+- **Canon:** the next world starts at level 1. Knowledge carries; progress does not.
+- **The losing answer becomes:** a belief among whoever in the world knows of the sixteen — that
+  the fallen come back stronger each time. They come back knowing more, which is not the same.
+- **Downstream:** [D32](../06-decisions.md), [17 — The Fall and the Sixteen Worlds](../17-the-sixteen-worlds.md).
+
+### Open — the Tower's height
+
+Not a fork yet: nobody took a side.
+
+- **`doug-md` floated:** "one massive tower in the middle that has, let's say, 100 floors" [00:26:23].
+- **`dougie` worried:** "maybe 100 floors is too much. Maybe it's not enough" [00:42:45], and wants
+  it to be "an achievable goal".
+- **The build:** ten (`D16`).
+- **Status:** `O`, but it is the first item on the [agenda](answers.md#what-is-still-to-decide),
+  because every rule from session 1 counts in chapters of five floors.
 
 ---
 
@@ -222,19 +243,19 @@ clothes, and they are the ones worth doing in person.
 
 | ID | Option A | Option B |
 | --- | --- | --- |
-| ★ `SM8` / `MX19` | The world names them afterwards, from what they did — `src-xcom` | You name them in advance, and it permanently costs you — `src-slime` |
+| status | The world names them afterwards, from what they did — `src-xcom` | You name them in advance, and it permanently costs you — `src-slime` |
 | ★ `GT7` / `GT15` | An ignored gate spills and the map gets worse — `src-solo-leveling` | Gates are a workplace with a price board, no doom clock — `src-barbarian` |
 | ★ `PW2` / `PW4` | The grammar is an impersonal language nobody granted — `src-watf` | Power is permission, granted per floor and revocable — `src-tower-of-god` |
 | ★ `DV1` | A job with a price board and a rank ladder — `src-barbarian` | What is left when the alternatives ran out — `src-barbarian` (co-founder's reading) |
 | ★ `FR7` | The rule clicks; grief arrives late at a memorial — `src-fft` | Nothing happens; the world's indifference is the feeling — `src-barbarian` (co-founder's reading) |
 | `FR10` / `SF3` | One reader, watching from inside — `src-orv` | Nobody; written down and never assembled — `src-dwarf-fortress` |
 | `LF4` / `LF1` | Ordinary where they came from — `src-barbarian` | Incomplete; the named ones stop being monsters — `src-slime` |
-| `SM5` / `MX11` | Survives as *text*, remembered wrong — `src-orv` | Survives as *behaviour*, nobody remembers — `src-chronicle` |
+| ~~`SM5` / `MX11`~~ | ~~Survives as *text*, remembered wrong — `src-orv`~~ | ~~Survives as *behaviour*, nobody remembers — `src-chronicle`~~ **Retired 2026-09-24:** the founders chose neither — the next run is a sibling world. See [answers.md](answers.md) |
 | `BD2` | Physical; a bond you can feel go — `src-slime` | A story about you that got large enough — `src-orv` |
 | `FR1` | The record is written by the winner and is wrong — `src-fft` | A system worn long enough is mistaken for skin — `src-watf` |
 | `KN1` | Knowledge that stops being questioned stops being knowledge — `src-watf` | A rule nobody executes stops being a rule — `src-chronicle` |
 | `AR2` | The map is the frontier; one safe administered city — `src-barbarian` | One settlement warded instead of walled, because of what flies — `src-mushoku` |
-| `HS2`, `LN4`, `NW7`, `OT8`, `SM7` | further pairs — see the entries in [answers.md](answers.md) | |
+| `HS2`, `LN4`, `NW7`, `SM7` | further pairs — see the entries in [answers.md](answers.md) | |
 
 ### The three to take first
 
@@ -252,14 +273,16 @@ which is right about the scope and wrong about the significance.
 most-answered question in the book. Tensura's is the expensive one: a naming economy, a permanent
 resource spent on people. Read its cost line before falling in love with it.
 
-### Not a fork
+### Not a fork — and now not a question
 
-**`SM5`/`MX11`** is still listed as a collision, and `16.11` argues it is not one: text and
-behaviour are compatible, the memory being wrong while the habit is right. Taking both makes the
-Museum the place where they publicly disagree. Worth resolving as *both* rather than either.
+**`SM5`/`MX11`** was listed as a collision, and `16.11` argued it was not one. Joint session 1 made
+the argument moot: the next run is neither the same world remembered as text nor the same world
+remembered as habit, but **another of the sixteen worlds**. Both readings survive as raw material —
+the ghost of a dead lead is exactly a memory that may be wrong. `OT8` went the same way: the worst
+gates bring kingdoms together.
 
 ## Open questions parked here
 
 | ID | Question | Why it is parked | Revisit at |
 | --- | --- | --- | --- |
-|  |  |  |  |
+| status |    |    |    |
