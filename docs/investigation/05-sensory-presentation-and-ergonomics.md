@@ -2,7 +2,7 @@
 
 **Focus:** Visual consistency, unit animation completeness, audio staging, camera dynamics, and interface ergonomics.  
 **Primary Source Modules:** `src/ui/camera_rig.gd`, `src/area/tile_forge.gd`, `src/autoload/music.gd`, `src/autoload/sfx.gd`, `src/autoload/database.gd`, `src/ui/touch_controls.gd`, `art/ui/menu_theme.tres`  
-**Reference Docs:** [docs/09-wishlist.md](docs/09-wishlist.md), [docs/10-manual-tests.md](docs/10-manual-tests.md)
+**Reference Docs:** [docs/09-wishlist.md](../09-wishlist.md), [docs/10-manual-tests.md](../10-manual-tests.md)
 
 ---
 
@@ -14,7 +14,7 @@ _Earth Kings_ relies on a distinct retro-tactical aesthetic: high-contrast 16-bi
 
 - **The Ideal Pipeline:** `Database.unit_run` caches multi-frame directional run cycles (`art/units/<id>/run/<heading>/frame_%03d.png`). Units step frames dynamically as they cross grid cells and turn corners.
 - **The Reality:** Of the **69 unit templates** defined in `data/units.json`, exactly **one unit (`sworn_blade`)** possesses a rendered run cycle.
-- **The Fallback:** The remaining 68 units slide across tiles while locked in their static directional standing poses ([Wishlist W11](docs/09-wishlist.md#L162)).
+- **The Fallback:** The remaining 68 units slide across tiles while locked in their static directional standing poses ([Wishlist W11](../09-wishlist.md#w11--import-the-rest-of-the-animations)).
 - **Critic's Assessment:** This creates a jarring aesthetic dichotomy. When Bram moves, the world breathes with mechanical life; when any companion, beast, or enemy commander moves, they levitate across the terrain like cardboard figurines on a tabletop.
 
 ### 1.2 Tile Synthesis & The Wang 24×8 Architecture (`TileForge`)

@@ -2,7 +2,7 @@
 
 **Focus:** Ambient storytelling, campfire melancholy, character bonding, memorial visits, and emergent narrative threads.  
 **Primary Source Modules:** `src/chronicle/banter.gd`, `src/chronicle/recollection.gd`, `src/chronicle/skein.gd`, `src/chronicle/annals.gd`, `src/dialogue/dialogue_script.gd`, `data/banter.json`, `data/threads.json`  
-**Reference Docs:** [docs/01-vision.md](docs/01-vision.md), [docs/08-threads.md](docs/08-threads.md), [docs/09-wishlist.md](docs/09-wishlist.md)
+**Reference Docs:** [docs/01-vision.md](../01-vision.md), [docs/08-threads.md](../08-threads.md), [docs/09-wishlist.md](../09-wishlist.md)
 
 ---
 
@@ -24,9 +24,9 @@ _Earth Kings_ rejects the bombast of the standard fantasy epic. In its place, it
 
 ### 1.2 The Skein: Quests Without Quest Logs (`class_name Skein`)
 
-- **The Philosophy of No Quests:** In adherence to [Vision](docs/01-vision.md) and [Decision Q14](docs/06-decisions.md#L45), the player is never handed a conventional quest log with checklist waypoints.
+- **The Philosophy of No Quests:** In adherence to [Vision](../01-vision.md) and [Decision Q14](../06-decisions.md#answered), the player is never handed a conventional quest log with checklist waypoints.
 - **The Thread Engine:** The world tracks invisible narrative states (`world.threads`) loaded from `data/threads.json`. Threads ignite upon world conditions (e.g., notoriety exceeding threshold, clearing three gates, reaching the Tower).
-- **The Deadline & "Instead" Mechanism ([D23](docs/06-decisions.md#L30)):** A thread never simply vanishes if ignored. Stages carry explicit step deadlines. If the party fails to arrive or intervene before the deadline expires, the thread executes its `instead` block—worsening the situation, destroying a settlement, or unleashing a vengeful hunter.
+- **The Deadline & "Instead" Mechanism ([D23](../06-decisions.md)):** A thread never simply vanishes if ignored. Stages carry explicit step deadlines. If the party fails to arrive or intervene before the deadline expires, the thread executes its `instead` block—worsening the situation, destroying a settlement, or unleashing a vengeful hunter.
 
 ### 1.3 The Living World: Townsfolk & The Annals
 
@@ -41,7 +41,7 @@ _Earth Kings_ rejects the bombast of the standard fantasy epic. In its place, it
 
 - **Risk:** While banter contains 70 authored exchanges and 41 reflections, an extended 30-hour playthrough encompassing thousands of steps across a 128×128 map will inevitably deplete the authored pool. Does the campfire atmosphere collapse into awkward silence or jarring repetition once reflections run dry?
 
-### 2.2 The "Quiet Banter" Delivery Dilemma ([Wishlist W10c](docs/09-wishlist.md#L156))
+### 2.2 The "Quiet Banter" Delivery Dilemma ([Wishlist W10c](../09-wishlist.md#w10--bugs-on-the-world-map))
 
 - **Mechanic:** In response to player feedback that dialogue boxes were "too loud" and obstructed the map, `Pace.quiet_banter` routes banter to speech bubbles and the bottom-corner log.
 - **Critic's Concern:** Does demoting campfire dialogue to ambient bubbles cause players to completely overlook poignant character interactions, degrading the emotional heart of the game into background noise?
@@ -80,18 +80,18 @@ _Earth Kings_ rejects the bombast of the standard fantasy epic. In its place, it
 
 ### The Deliberation
 
-The Critic raises two sharp concerns: first, that the "Quiet Banter" toggle ([Wishlist W10c](docs/09-wishlist.md#L156)) demotes heartfelt character writing into background noise; second, that the total absence of a quest tracker ([Decision Q14](docs/06-decisions.md#L45)) risks turning expiring thread deadlines ([D23](docs/06-decisions.md#L30)) into arbitrary, punitive shocks. The Architecture defends both decisions as essential to preserving immersion and avoiding the "checklistification" of contemporary gaming.
+The Critic raises two sharp concerns: first, that the "Quiet Banter" toggle ([Wishlist W10c](../09-wishlist.md#w10--bugs-on-the-world-map)) demotes heartfelt character writing into background noise; second, that the total absence of a quest tracker ([Decision Q14](../06-decisions.md#answered)) risks turning expiring thread deadlines ([D23](../06-decisions.md)) into arbitrary, punitive shocks. The Architecture defends both decisions as essential to preserving immersion and avoiding the "checklistification" of contemporary gaming.
 
 The Third Judge inspects the balance between diegetic poetry and player awareness:
 
-1. **On the Absence of a Quest Log ([Vision](docs/01-vision.md), [D23](docs/06-decisions.md#L30)):** The court **vigorously upholds** the refusal to implement a glowing yellow compass or a 50-item quest tracker. In _Earth Kings_, events are things that happen in the world, not tasks assigned to an omniscient employee. However, there is a vast difference between an invisible world and a silent world. If a band of raiders has given a 200-step ultimatum to a village, that tension must cast a shadow across the land.
+1. **On the Absence of a Quest Log ([Vision](../01-vision.md), [D23](../06-decisions.md)):** The court **vigorously upholds** the refusal to implement a glowing yellow compass or a 50-item quest tracker. In _Earth Kings_, events are things that happen in the world, not tasks assigned to an omniscient employee. However, there is a vast difference between an invisible world and a silent world. If a band of raiders has given a 200-step ultimatum to a village, that tension must cast a shadow across the land.
 2. **On Banter Delivery & Quiet Banter:** Dialogue boxes that forcibly freeze gameplay every 50 steps during a long march are indeed disruptive. But when a player sits down at a campfire—the designated emotional sanctuary—dialogue is not clutter; it is the entire point of stopping.
 3. **On Token Exhaustion & Longevity:** With 70 exchanges and 41 single-use reflections, a dedicated 40-hour run will inevitably reach the bottom of the authored barrel. Silence is preferable to jarring repetition, but dynamic procedural reflections based on `GameState.ledger` can extend the horizon indefinitely.
 
 ### Judicial Rulings & Remedial Decrees
 
 - **Ruling 4.1 (The Campfire Sanctity Decree):** Regardless of the `Pace.quiet_banter` setting, **campfire rest conversations must always render via the full Dialogue Box** with portraits and music dimming. `Pace.quiet_banter` shall only demote road banter muttered while walking. Camp is sacred; the player chose to stop, and the characters must be given the stage.
-- **Ruling 4.2 (The Environmental Shadow of Threads):** While upholding [Decision Q14](docs/06-decisions.md#L45) (no quest log), mandate that whenever an active thread enters its final 100 steps before a catastrophic `instead` trigger, the world environment must communicate the crisis diegetically:
+- **Ruling 4.2 (The Environmental Shadow of Threads):** While upholding [Decision Q14](../06-decisions.md#answered) (no quest log), mandate that whenever an active thread enters its final 100 steps before a catastrophic `instead` trigger, the world environment must communicate the crisis diegetically:
   - If a village is nearing destruction, smoke columns must rise on the horizon within a 15-tile radius.
   - Passing wandering travelers must mutter rumors in speech bubbles ("They say the iron gates near Thorn Keep are buckling...").
 - **Ruling 4.3 (Ledger-Driven Reflections):** Expand `Recollection` to synthesize procedural reflections from `GameState.ledger` when authored lines are exhausted (e.g., comparing current gold to starting purse, reminiscing about the longest gate delve, or remarking upon the number of miles walked under snow).
