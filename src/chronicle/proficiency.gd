@@ -137,7 +137,7 @@ static func summary(character: Character, ability_id: String) -> String:
 static func arms_summary(character: Character, kind: String) -> String:
 	var count := arms_uses(character, kind)
 	if count == 0:
-		return "never"
+		return "never used"
 	var rung := arms_rank(character, kind)
 	var ladder := arms_steps()
 	if rung >= ladder.size():

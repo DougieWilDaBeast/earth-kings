@@ -58,6 +58,18 @@ length of a fight and thrown away afterwards. The save file remembers Characters
   3×3 grid, and an ancestral grudge against specific foes (e.g. apprentice smiths against raiders,
   nobles against imperial usurpers) granting +10% grudge damage in battle.
 
+## Sending companions away
+
+Any companion — never the lead, and never the last one left beside them — can be handed an errand
+the party has taken and sent off to do it ([D38](06-decisions.md)), from the Practice page of the
+party screen. They leave the marching order and walk it on the same clock as everything else: a
+tile a step, out and back, while the party goes wherever it goes. Somewhere on the road they may
+meet something — the likelier the closer the road runs to an open gate — and a hunt always does. A
+fight nobody else is at is won on level against the ground's danger; lost, it is a fall like any
+other, rolled through the graces with no ally standing to pull them out. Look and deliver errands
+pay when they arrive; fetches and hunts pay when they are home. The numbers are the `dispatch`
+block in `data/world_rules.json`.
+
 ## Falling — death and its graces
 
 **Death is the default.** A character who falls is gone unless something they _brought with them_

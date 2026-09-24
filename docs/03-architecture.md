@@ -49,6 +49,7 @@ src/
     site.gd                    A place on the map (gate, tower, library, village…)
     world.gd                   Ground, places, the step clock, the tree registry, routes
     world_gen.gd               Builds a 128x128 continental world from a seed
+    dispatch.gd                Companions sent away on an errand, on the step clock (M16)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
@@ -118,6 +119,9 @@ autoloads exist.
 | `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
 | `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
+| `tests/skirmish_smoke_test.tscn` | The real-time skirmish: pause, orders while paused, cooldowns, auto-pause, near death and aid, and a whole seeded fight on fixed ticks                  |
+| `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
+| `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, and 400 trips to open gates               |
 
 `tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,
 level, site, equipment loadout, or area.
@@ -130,6 +134,15 @@ measures **reach, not assertion strength**, so it also prints the assertion coun
 ```powershell
 godot --headless --path . res://tools/coverage.tscn
 ```
+
+## New scripts are loaded by path
+
+Scripts added from 2026-09-24 on are pulled in with `preload("res://…")` and do not declare a
+`class_name` ([D41](06-decisions.md)). A global class name resolves only once the editor has
+rescanned the project and written it into `.godot/global_script_class_cache.cfg`, which is not
+tracked, so a checkout that had not been opened in the editor since could not parse the first
+real-time skirmish at all — a blank screen. Older scripts keep their class names; nothing needs
+converting, but nothing new should add to them.
 
 ## Autoload order
 

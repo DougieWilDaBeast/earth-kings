@@ -211,13 +211,26 @@ Waits on M13, and on agenda items 4, 5 and 12.
 - ✅ Done when: a lead can die, the next can start in another world, and the first lead's ghost
   can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md))
 
-### M16 — Companions on jobs — PLANNED
+### M16 — Companions on jobs — MOSTLY SHIPPED
 
-- A job log, filled from quests and rumours
-- Party members sent on jobs, travelling the map in real time, reporting back, sometimes dying
-- The party cap growing from four to six (agenda item 11)
+Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd`).
+
+- A job log, filled from quests and rumours — **the errand list is the job log for now**; rumours
+  do not post jobs yet
+- Party members sent on jobs, travelling the map on the step clock, reporting back, sometimes
+  dying ✅ — from the party screen's Practice page, one button per accepted errand. They leave the
+  marching order, cover a tile a step out and back, may meet something on the road (more likely the
+  closer it runs to an open gate), and a fight lost alone goes to `Fate` with nobody standing to
+  pull them out. Look and deliver errands pay when they get there; fetches and hunts when they are
+  back. A hunt teaches them the kind they hunted, under M12's rules
+- The party cap growing from four to six — waits on agenda item 11
+- Joining a gate raid — waits on M14's gates-with-armies
 - ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come
-  back ([D38](06-decisions.md))
+  back ([D38](06-decisions.md)) — met for errands: `tests/dispatch_smoke_test.tscn`. Two hundred
+  trips to open gates on Even: 179 back, 2 taken, 19 dead. On Gentle, which has no permadeath, all
+  come back
+- **To tune:** the `dispatch` block in `data/world_rules.json` — pace, how far a hunt goes, the
+  trouble odds, and the chance of winning alone
 
 ### M17 — Past the top — DESIGN FIRST
 
