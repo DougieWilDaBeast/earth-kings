@@ -2,7 +2,7 @@
 
 **Focus:** Reproducible test harness commands, empirical telemetry hooks, stress scenarios, and critic evaluation scoring rubric.  
 **Primary Execution Utilities:** `.\ek.ps1`, `tests/bench.tscn`, `src/game.gd`  
-**Reference Docs:** [docs/05-roadmap.md](docs/05-roadmap.md), [docs/10-manual-tests.md](docs/10-manual-tests.md)
+**Reference Docs:** [docs/05-roadmap.md](../05-roadmap.md), [docs/10-manual-tests.md](../10-manual-tests.md)
 
 ---
 
@@ -103,7 +103,7 @@ The Critic has constructed an uncompromising 14-scenario empirical battery (`T01
 
 The Third Judge inspects the enforcement apparatus:
 
-1. **On Paused Smoke Suites ([Repo Memory L219](earth-kings.md#L219)):** The repo memory explicitly records that routine full-suite smoke testing was paused on 2026-09-02 due to stale expectations and compute starvation. The Critic's protocols must respect this reality: benchmarks must be targeted, modular, and boot directly into specific test states via `.\ek.ps1 --at= --level=` rather than grinding through the entire legacy test folder.
+1. **On Paused Smoke Suites (Repo Memory L219):** The repo memory explicitly records that routine full-suite smoke testing was paused on 2026-09-02 due to stale expectations and compute starvation. The Critic's protocols must respect this reality: benchmarks must be targeted, modular, and boot directly into specific test states via `.\ek.ps1 --at= --level=` rather than grinding through the entire legacy test folder.
 2. **On Metric Objectivity:** The scoring rubric is affirmed. Weighting Tactical Rigor (25%), World Chronometry (20%), and Progression/Mortality (20%) accurately reflects the game's core value proposition as an uncompromising tactical survival RPG.
 
 ### Judicial Rulings & Remedial Decrees

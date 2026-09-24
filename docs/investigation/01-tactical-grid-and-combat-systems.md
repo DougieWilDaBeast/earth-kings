@@ -2,7 +2,7 @@
 
 **Focus:** Battlefield simulation, action economy, initiative architecture, AI behavior, and combat resolution.  
 **Primary Source Modules:** `src/battle/battle.gd`, `src/battle/turn_manager.gd`, `src/battle/unit.gd`, `src/battle/abilities/ability_resolver.gd`, `src/battle/ai/enemy_brain.gd`  
-**Reference Docs:** [docs/02-design.md](docs/02-design.md), [docs/06-decisions.md](docs/06-decisions.md)
+**Reference Docs:** [docs/02-design.md](../02-design.md), [docs/06-decisions.md](../06-decisions.md)
 
 ---
 
@@ -98,7 +98,7 @@ The Critic raises valid alarm regarding the "Scout Battery" exploit in `TurnMana
 The Third Judge inspects the tension between tactical discipline and action abuse:
 
 1. **On Group Turns (`TurnManager.advance_group`):** Group activation is not inherently an exploit—it is the engine of tactical choreography. What makes _Earth Kings_ distinct from chess is that a team acts as a cohesive martial squad. However, clamping CT at `0` for all actors when a fast scout breaks 100 CT without taxing the slow actors creates an unearned speed subsidy.
-2. **On In-Combat Draughts:** Drinking from `GameState.stores` without a belt limit violates the core design pillar: _Power is scarce; preparation is what buys lives_ ([01-vision.md](docs/01-vision.md)). A party walking into battle with twenty draughts in their infinite backpack turns mortality into a simple gold calculation.
+2. **On In-Combat Draughts:** Drinking from `GameState.stores` without a belt limit violates the core design pillar: _Power is scarce; preparation is what buys lives_ ([01-vision.md](../01-vision.md)). A party walking into battle with twenty draughts in their infinite backpack turns mortality into a simple gold calculation.
 3. **On AI Positional Naivety:** If the player gains 1.5× back-stab damage while the AI blindly marches forward without turning its back to a wall or ally, the tactical contract is one-sided.
 
 ### Judicial Rulings & Remedial Decrees

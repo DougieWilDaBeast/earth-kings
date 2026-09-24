@@ -2,7 +2,7 @@
 
 **Focus:** Permadeath mechanics, the grace cascade, procedural skill trees, doctrine decay, and equipment fit.  
 **Primary Source Modules:** `src/chronicle/fate.gd`, `src/chronicle/progression.gd`, `src/chronicle/character.gd`, `src/chronicle/gear.gd`, `src/battle/abilities/ability_grammar.gd`  
-**Reference Docs:** [docs/02-design.md](docs/02-design.md), [docs/06-decisions.md](docs/06-decisions.md)
+**Reference Docs:** [docs/02-design.md](../02-design.md), [docs/06-decisions.md](../06-decisions.md)
 
 ---
 
@@ -12,7 +12,7 @@ In _Earth Kings_, progression is not a linear treadmill of stat bloat; it is a p
 
 ### 1.1 The Mortality Engine & The Grace Cascade (`Fate.resolve`)
 
-When a character’s hit points reach zero, death is the default state. Survival cannot be assumed; it must be bought through tangible prior preparation ([D11](docs/06-decisions.md#L18)). Survival is calculated via a strictly prioritized cascade of "Graces," where the first roll to succeed claims the outcome:
+When a character’s hit points reach zero, death is the default state. Survival cannot be assumed; it must be bought through tangible prior preparation ([D11](../06-decisions.md)). Survival is calculated via a strictly prioritized cascade of "Graces," where the first roll to succeed claims the outcome:
 
 ```
 [Character Falls to 0 HP]
@@ -45,16 +45,16 @@ When a character’s hit points reach zero, death is the default state. Survival
 
 - **Procedural Synthesis:** Skill trees are not authored lists; they are synthesized from 9 Themes (Edge, Ember, Storm, Hunt, Iron, Vigil, Hearth, Mourning, Wind) crossed with 7 Effect Archetypes (Blow, Reach, Loose, Burst, Sweep, Mend, Rally) across 3 intensity rungs.
 - **Milestone Unlocks:**
-  - Level 2: Player manually selects Class; companions assign based on template weighting ([D12](docs/06-decisions.md#L19)).
+  - Level 2: Player manually selects Class; companions assign based on template weighting ([D12](../06-decisions.md)).
   - Level 5: First generated skill tree awakens.
   - Level 10: Second skill tree awakens, preferring an unheld thematic branch.
 - **Rung Allocation:** Leveling grants unspent rungs (`Character.rungs`), which the player manually invests into unlocked tree nodes via the Party Screen.
-- **The Codex:** Cataloguing distinct grammar permutations increases continental understanding, granting up to +20% global tree effectiveness and unlocking theme selection at 100% completion ([D17](docs/06-decisions.md#L24)).
+- **The Codex:** Cataloguing distinct grammar permutations increases continental understanding, granting up to +20% global tree effectiveness and unlocking theme selection at 100% completion ([D17](../06-decisions.md)).
 
 ### 1.3 Knowledge Decay & Doctrine Entropy
 
 - **Per-Character Retention:** Reading at a Library instills doctrine directly into a specific character.
-- **The Entropy Clock:** Unused or unpracticed knowledge decays every 900 steps ([D07](docs/06-decisions.md#L14)).
+- **The Entropy Clock:** Unused or unpracticed knowledge decays every 900 steps ([D07](../06-decisions.md)).
 - **Party Pedagogy:** Characters can spend campfire time teaching read doctrine to companions, distributing life-saving lore before it fades.
 
 ### 1.4 Gear Affinity & Misfit Penalties (`Gear.suits`)
@@ -70,7 +70,7 @@ When a character’s hit points reach zero, death is the default state. Survival
 - **Mechanic:** Combat XP (`20 + level² × 6`) is awarded exclusively to the unit delivering the killing blow.
 - **Critic's Concern:** This mechanic risks encouraging anti-tactical behavior: players intentionally withholding optimal attacks from heavy hitters to allow weak or under-leveled support units to scrape the final hit.
 
-### 2.2 The Permadeath / Save-Scumming Paradox ([D21](docs/06-decisions.md#L28))
+### 2.2 The Permadeath / Save-Scumming Paradox ([D21](../06-decisions.md))
 
 - **Mechanic:** Save/load is unrestricted; reloading after a tragic death is left to the player’s conscience.
 - **Critic's Concern:** While pragmatic for avoiding player hostility, does unrestricted reloading completely dismantle the existential dread of the Grace Cascade? If a player can simply reload after failing the grace roll, the tension of the preparation thesis is compromised.
@@ -110,23 +110,23 @@ When a character’s hit points reach zero, death is the default state. Survival
 
 ### The Deliberation
 
-The Critic questions the existential legitimacy of permadeath when save-scumming is unpoliced ([D21](docs/06-decisions.md#L28)), worries that last-hit XP encourages unnatural play, and fears that 900-step doctrine entropy induces logistical fatigue. The Architecture defends [D21](docs/06-decisions.md#L28) as an anti-frustration measure and [D11](docs/06-decisions.md#L18) as the soul of the experience.
+The Critic questions the existential legitimacy of permadeath when save-scumming is unpoliced ([D21](../06-decisions.md)), worries that last-hit XP encourages unnatural play, and fears that 900-step doctrine entropy induces logistical fatigue. The Architecture defends [D21](../06-decisions.md) as an anti-frustration measure and [D11](../06-decisions.md) as the soul of the experience.
 
 The Third Judge inspects the integrity of the mortality contract:
 
-1. **On Save-Scumming vs. Permadeath ([D21](docs/06-decisions.md#L28)):** The court finds no defect in leaving save/load unrestricted. Permadeath in single-player games is an emotional covenant, not a DRM protocol. If a player feels compelled to reload, the failure was theirs; if they accept the grave and walk on, the game achieves transcendence. Policing files in `%APPDATA%` with ironman locks only breeds player resentment when bugs or crashes occur.
+1. **On Save-Scumming vs. Permadeath ([D21](../06-decisions.md)):** The court finds no defect in leaving save/load unrestricted. Permadeath in single-player games is an emotional covenant, not a DRM protocol. If a player feels compelled to reload, the failure was theirs; if they accept the grave and walk on, the game achieves transcendence. Policing files in `%APPDATA%` with ironman locks only breeds player resentment when bugs or crashes occur.
 2. **On the Grace Cascade (`Fate.resolve`):** The hierarchy is mathematically sound. Survival is never owed; it is earned by who you stood beside (Rescue), what you carried (Charm), and what you studied (Lore). The flat 7% Luck grace is a vital psychological valve—it creates legendary campfire memories of the one time an arrow glanced off a coin.
 3. **On "Last-Hit" XP:** The Critic's objection is sustained. Forcing a tactical squad to play "feed the kill to the weakest unit" is an artificial relic of early tabletop design. It directly opposes the squad synergy promoted by the unified player turn phase.
 4. **On Doctrine Decay (900 Steps):** 900 steps is approximately 30 minutes of walking. If unread lore simply vanished into thin air, it would be cruel. But because companion teaching at camp preserves knowledge, doctrine behaves like real oral tradition: it must be spoken to survive.
 
 ### Judicial Rulings & Remedial Decrees
 
-- **Ruling 3.1 (Affirmation of Honor System Permadeath):** Reaffirm [D21](docs/06-decisions.md#L28). No forced ironman locks. The game shall continue to record the burial in the Museum and allow the player's conscience to bear the weight of a reload.
+- **Ruling 3.1 (Affirmation of Honor System Permadeath):** Reaffirm [D21](../06-decisions.md). No forced ironman locks. The game shall continue to record the burial in the Museum and allow the player's conscience to bear the weight of a reload.
 - **Ruling 3.2 (Abolition of Pure Last-Hit XP):** Restructure XP allocation in `Progression.award_combat_xp`:
   - 50% of the defeated enemy's XP bounty is awarded directly to the killer.
   - 50% is distributed evenly among all living party members who participated in the combat phase. This eliminates awkward turns where players pass actions to let a level 1 recruit finish off an ogre.
 - **Ruling 3.3 (Doctrine Memory Buffer):** When a doctrine reaches 0 steps on a character's shelf, grant a "Fading Memory" grace period (150 steps) during which it can still be taught at a campfire for half value before permanent forgetting.
-- **Ruling 3.4 (The Codex Theme Selection Threshold):** In `AbilityGrammar`, retain the 100% Codex understanding requirement for manual theme choice ([D17](docs/06-decisions.md#L24)). Procedural surprise must remain the law of the land until the continent is truly mastered.
+- **Ruling 3.4 (The Codex Theme Selection Threshold):** In `AbilityGrammar`, retain the 100% Codex understanding requirement for manual theme choice ([D17](../06-decisions.md)). Procedural surprise must remain the law of the land until the continent is truly mastered.
 
 > _"If you reload when your ranger falls, you have not cheated the engine; you have only cheated yourself of a tombstone and a story at the fire. Let the save button remain free, but make sure the XP distribution honours the whole warband, not just the hand that struck the final blow."_  
 > — **The Third Judge**

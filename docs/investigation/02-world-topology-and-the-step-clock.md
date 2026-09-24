@@ -2,7 +2,7 @@
 
 **Focus:** Continental geography, step-clock pacing, prowler hunting mechanics, macro-economic trade routes, and regional dynamics.  
 **Primary Source Modules:** `src/world/world_scene.gd`, `src/chronicle/world.gd`, `src/chronicle/world_gen.gd`, `src/chronicle/prowler.gd`, `src/chronicle/roadside.gd`, `src/chronicle/town.gd`  
-**Reference Docs:** [docs/01-vision.md](docs/01-vision.md), [docs/02-design.md](docs/02-design.md), [docs/09-wishlist.md](docs/09-wishlist.md)
+**Reference Docs:** [docs/01-vision.md](../01-vision.md), [docs/02-design.md](../02-design.md), [docs/09-wishlist.md](../09-wishlist.md)
 
 ---
 
@@ -19,7 +19,7 @@ The transition of _Earth Kings_ from an austere 44×44 paddock to a 128×128 noi
   - Doctrine entropy decrements unpracticed lore across character shelves.
   - Open gates tick toward instability (`break_after_steps`).
   - Active story threads (`Skein`) evaluate deadline conditions.
-- **Tower Temporal Dilation:** Scaling a single floor in the Tower advances world time by 30 steps ([D27](docs/06-decisions.md#L278)), ensuring that dungeon crawling does not freeze external continental pressure.
+- **Tower Temporal Dilation:** Scaling a single floor in the Tower advances world time by 30 steps ([D27](../06-decisions.md)), ensuring that dungeon crawling does not freeze external continental pressure.
 
 ### 1.2 Deterministic Continental Topography
 
