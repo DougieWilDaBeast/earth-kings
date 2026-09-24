@@ -66,7 +66,7 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 | --- | --- | --- |
 | **E** | Bonds start a step warmer; hires cost 15% less | `Banter.initial_bond`, `Market.asking_hire_cost` |
 | **I** | Doctrine fades at 1125 steps instead of 900 | `Doctrine.fade_after` |
-| **S** | Weapon proficiency arrives 25% sooner | `Proficiency.rank` |
+| **S** | Proficiency — with a move and with a weapon — arrives 25% sooner | `Proficiency.rank`, `Proficiency.arms_rank` |
 | **N** | Reads generated trees as if the Codex were 25% further along | `Progression` |
 | **T** | +5% damage dealt | `Character.attack` |
 | **F** | Rescue grace +4pp per ally standing, cap +8pp | `Fate.graces_for` |

@@ -96,7 +96,7 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	if final:
 		var guardian := Faction.champion(faction)
 		enemies = _pick(pool, 2, level, rng)
-		enemies.append({ "unit": guardian, "level": level + 2 })
+		enemies.append({ "unit": guardian, "level": level + 2, "boss": true })
 		title = "%s keeps the far side of %s." % [
 			Database.unit_template(guardian).get("display_name", "Something"), site.display_name
 		]
@@ -236,7 +236,7 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	if floor_number >= world.tower_floors():
 		var apex_bosses := ["dirte", "wraith", "element_monk", "emo_swordsman"]
 		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
-		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2) }]
+		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2), "boss": true }]
 		var minions: Array = _pick(pool, 3, level, rng)
 		enemies.append_array(minions)
 		return _build(

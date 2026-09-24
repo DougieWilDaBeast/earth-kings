@@ -40,25 +40,73 @@ static func award(character: Character, amount: int, world: World) -> Array:
 	return lines
 
 
-## Award combat bounty XP: 50% directly to the killer, 50% shared across living party members (Ruling 3.2).
-static func award_combat_xp(killer: Character, all_living_allies: Array, bounty: int, world: World) -> Array:
-	var lines: Array = []
-	if bounty <= 0:
-		return lines
-	var killer_share := roundi(bounty * 0.5)
-	var party_share := bounty - killer_share
-	if killer != null and killer.is_alive():
-		lines.append_array(award(killer, killer_share, world))
+# --- experience from fighting ([D37]) -------------------------------------------
 
-	var active_allies: Array = []
-	for ally in all_living_allies:
-		var c: Character = ally if ally is Character else (ally.get("character") if "character" in ally else null)
-		if c != null and c.is_alive():
-			active_allies.append(c)
-	if not active_allies.is_empty() and party_share > 0:
-		var each_share := maxi(1, party_share / active_allies.size())
-		for ally_char: Character in active_allies:
-			lines.append_array(award(ally_char, each_share, world))
+
+static func _rules() -> Dictionary:
+	return Database.world_rules.get("experience", {})
+
+
+## Assists on one kind of enemy that teach as much as landing the blow once.
+static func assists_needed() -> int:
+	return int(_rules().get("assists_needed", 5))
+
+
+## What the first of a kind is worth, at the level it was when it fell. Paid once
+## per kind per character, so it is worth several of the old per-kill bounties.
+static func first_kill_xp(level: int) -> int:
+	return roundi(float(bounty_for(level)) * float(_rules().get("first_kill_multiplier", 2)))
+
+
+static func has_beaten(character: Character, kind: String) -> bool:
+	return character != null and character.beaten.has(kind)
+
+
+## Somebody on [param killer]'s side just put down a [param kind] of
+## [param level]. Experience comes only from the first of each kind, per
+## character (_Surviving the Game as a Barbarian_, [D37]):
+##
+## - the one who landed it learns from it, if they never have before;
+## - everyone else [param involved] counts an assist, and enough assists on a
+##   kind teach as much as landing one;
+## - a [param boss] teaches everyone involved at once.
+##
+## Killing the same kind again teaches nothing here — only practice, which
+## [Proficiency] counts. Returns lines for the battle log.
+static func award_kill(
+	killer: Character, kind: String, level: int, involved: Array, boss: bool, world: World
+) -> Array:
+	var lines: Array = []
+	if kind == "":
+		return lines
+	var worth := first_kill_xp(level)
+	var name := str(Database.unit_template(kind).get("display_name", kind))
+	var everyone: Array[Character] = []
+	if killer != null:
+		everyone.append(killer)
+	for other in involved:
+		var c: Character = other if other is Character else null
+		if c != null and not everyone.has(c):
+			everyone.append(c)
+
+	for c in everyone:
+		if not c.is_alive() or has_beaten(c, kind):
+			continue
+		if boss or c == killer:
+			c.beaten[kind] = level
+			c.assists.erase(kind)
+			lines.append("%s learns from the %s." % [c.display_name, name] if c == killer \
+					else "%s learns from the %s too." % [c.display_name, name])
+			lines.append_array(award(c, worth, world))
+			continue
+		var helped := int(c.assists.get(kind, 0)) + 1
+		if helped < assists_needed():
+			c.assists[kind] = helped
+			continue
+		c.assists.erase(kind)
+		c.beaten[kind] = level
+		lines.append("%s has helped with enough %s kills to learn from them." % [c.display_name, name])
+		lines.append_array(award(c, worth, world))
 	return lines
 
 

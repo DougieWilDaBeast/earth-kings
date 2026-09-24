@@ -37,9 +37,15 @@ doctrine spends fading.
 A `Character` is the persistent person. A battle `Unit` is a puppet spawned from one for the
 length of a fight and thrown away afterwards. The save file remembers Characters.
 
-- **Levels and XP.** XP comes from defeating things. Cost to next level is `20 + level² × 6`.
-  _Changing_ ([D37](06-decisions.md)): experience only from the first kill of each kind of enemy,
-  with assists; proficiency by use.
+- **Levels and XP.** Experience comes only from the **first kill of each kind of enemy**, per
+  character ([D37](06-decisions.md)). Whoever lands it learns from it; everyone else on that side
+  still standing counts an **assist**, and five assists on a kind teach as much as landing one; a
+  **boss** — a gate's guardian, the Tower's apex fighter — teaches everyone involved at once. A
+  second brigand teaches nothing but practice. A first kill is worth `2 × (9 + level × 7)` before
+  the difficulty's multiplier. Cost to next level is `20 + level² × 6`.
+- **Proficiency.** Landing a move makes that move hit harder (6% a rung), and makes its user better
+  with the kind of weapon in their hand — blade, bow, staff or bare hands (4% a rung, on a longer
+  ladder). Both are per person, counted on the Practice page.
 - **Classes.** At **level 2** a character takes a main class from the options their template
   allows. The **player chooses** theirs and the world waits for the answer; everyone else settles
   into one on their own ([D12](06-decisions.md)). The class supplies stat growth per level, granted

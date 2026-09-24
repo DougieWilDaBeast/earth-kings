@@ -66,6 +66,15 @@ var rungs: int = 0
 var learned: Array = []
 ## Ability id -> times landed, which is how a move gets better (see [Proficiency]).
 var practice: Dictionary = {}
+## Weapon kind ("blade", "bow", "staff", "bare") -> times landed with one in hand.
+## Skill with the weapon, apart from skill with any one move (see [Proficiency]).
+var arms: Dictionary = {}
+## Unit template id -> the level it was when this character first put one down.
+## Experience only comes from the first of each kind ([D37], see [Progression]).
+var beaten: Dictionary = {}
+## Unit template id -> kills of that kind this character helped with but did not
+## land. Enough of them teach as much as landing one (see [Progression]).
+var assists: Dictionary = {}
 ## Doctrine ids this character has read or been taught (never inherited).
 var doctrine: Array = []
 ## Doctrine id -> the world step it was last read, taught or used.
@@ -309,6 +318,9 @@ func to_dict() -> Dictionary:
 		"rungs": rungs,
 		"learned": learned,
 		"practice": practice,
+		"arms": arms,
+		"beaten": beaten,
+		"assists": assists,
 		"doctrine": doctrine,
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
@@ -342,6 +354,14 @@ static func from_dict(data: Dictionary) -> Character:
 	character.learned = data.get("learned", [])
 	for ability_id: String in data.get("practice", {}):
 		character.practice[ability_id] = int(data["practice"][ability_id])
+	# Saves from before D37 have none of these; they start empty, which means
+	# every kind of enemy is still worth something to someone.
+	for kind: String in data.get("arms", {}):
+		character.arms[kind] = int(data["arms"][kind])
+	for kind: String in data.get("beaten", {}):
+		character.beaten[kind] = int(data["beaten"][kind])
+	for kind: String in data.get("assists", {}):
+		character.assists[kind] = int(data["assists"][kind])
 	character.doctrine = data.get("doctrine", [])
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))
