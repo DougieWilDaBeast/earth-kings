@@ -46,7 +46,7 @@ func _expect(condition: bool, message: String) -> void:
 func _check_content() -> void:
 	var known_ability_keys := [
 		"display_name", "description", "target", "min_range", "range", "splash",
-		"power", "heal", "bonus",
+		"power", "heal", "bonus", "cooldown", "cast",
 	]
 	for ability_id: String in Database.abilities:
 		var ability: Dictionary = Database.abilities[ability_id]
@@ -60,6 +60,13 @@ func _check_content() -> void:
 			int(ability.get("min_range", 1)) <= int(ability.get("range", 1)),
 			"ability %s cannot reach its own minimum range" % ability_id
 		)
+		# The real-time skirmish prices every skill in seconds (see SkirmishRules).
+		for timing: String in ["cooldown", "cast"]:
+			if ability.has(timing):
+				_expect(
+					typeof(ability[timing]) in [TYPE_INT, TYPE_FLOAT] and float(ability[timing]) >= 0.0,
+					"ability %s has a %s that is not a number of seconds" % [ability_id, timing]
+				)
 
 	for class_id: String in Database.classes:
 		for ability_id: String in Database.classes[class_id].get("grants", []):

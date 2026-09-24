@@ -148,6 +148,12 @@ func _build_fight_row() -> Control:
 	fight.text = "Fight this"
 	fight.pressed.connect(_start_training_fight)
 	row.add_child(fight)
+
+	var realtime := Button.new()
+	realtime.text = "Fight in real time"
+	realtime.tooltip_text = "The same fight as a real-time skirmish with pause — the M11 prototype."
+	realtime.pressed.connect(_start_training_fight.bind("skirmish"))
+	row.add_child(realtime)
 	return row
 
 
@@ -239,7 +245,7 @@ func _refresh_stats() -> void:
 	_unit_stats.text = "\n".join(lines)
 
 
-func _start_training_fight() -> void:
+func _start_training_fight(scene_key: String = "battle") -> void:
 	var terrain_id: String = _terrain_pick.get_item_metadata(_terrain_pick.selected)
 	var enemies: Array = []
 	for i in int(_count_pick.value):
@@ -247,7 +253,7 @@ func _start_training_fight() -> void:
 	var map := BattleMapGen.generate_on(
 		terrain_id, Database.terrain_type(terrain_id).get("name", terrain_id), enemies, _rng
 	)
-	EventBus.request_scene.emit("battle", {
+	EventBus.request_scene.emit(scene_key, {
 		"encounter": {"map": map, "title": "Training"},
 		"return_scene": "training",
 		"sandbox": true,

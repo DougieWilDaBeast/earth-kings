@@ -316,6 +316,16 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+## Draw the unit mid-stride, for a controller that moves it itself rather than
+## through [method walk_path] — the real-time skirmish steps units tile by tile.
+func set_running(running: bool) -> void:
+	if _running == running:
+		return
+	_running = running
+	set_process(running)
+	queue_redraw()
+
+
 func can_flash_step() -> bool:
 	return flash_step > 0 and can_pay(Cost.BONUS)
 

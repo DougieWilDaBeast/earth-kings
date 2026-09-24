@@ -76,6 +76,26 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E6  | Use the same move about twelve times across several fights                                      | "_X_ is practised with _Y_ now." and it starts hitting a little harder    |
 | E7  | Check a healer's Mend after heavy use                                                           | Heals more than it did at the start of the run                            |
 
+## E2 — Real-time skirmish (M11 prototype)
+
+Title → **Training** → pick an enemy → **Fight in real time**. Or, from the bench:
+`godot --path . res://tests/bench.tscn -- --scene=skirmish --play`.
+
+| #    | Do this                                                     | Expect                                                                                   |
+| ---- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| RT1  | Open the fight                                              | It starts **paused**, the whole field is visible above three party cards                 |
+| RT2  | Right-click the ground with someone selected, still paused  | A line to where they are going; nothing moves until **Space**                            |
+| RT3  | Press **Space**                                             | Everyone moves at once. Melee close in; ranged units keep their distance                 |
+| RT4  | Right-click an enemy                                        | The selected unit goes after that enemy and nobody else                                  |
+| RT5  | Select a unit, press **Q**, left-click an enemy             | A red range shows first; the unit walks into reach, a cast bar fills, the skill lands, and its card counts the cooldown down |
+| RT6  | Press **A** on a unit                                       | "auto" leaves its card, and it stops using skills on its own                             |
+| RT7  | Press **H** on a unit                                       | "hold": it stops walking to fights and only hits what is already in reach              |
+| RT8  | Let a party member drop                                     | "is down — 12 seconds", a red ring counting down under them                              |
+| RT9  | Right-click the downed ally with another selected           | They walk over, kneel, and after two seconds the ally is back up at a quarter of their health |
+| RT10 | Press **T** during the fight                                | x1 → x2 → x4 → x1, and the fight plays at that pace                                      |
+| RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back at the training ground             |
+| RT12 | Go back to the run afterwards                               | **Your real party is untouched** — nothing from the skirmish is written back             |
+
 ## F — Party menu (**P**)
 
 Two panes: the party as a column of cards down the left, and one of them at a time opened out on

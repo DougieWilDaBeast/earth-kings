@@ -66,6 +66,39 @@ func flash_cells(origin: Vector2i, blink_range: int, is_open: Callable) -> Array
 	return out
 
 
+## The cheapest walk from [param start] to the nearest cell [param is_goal]
+## accepts, with no move-point budget. Returns the steps after [param start],
+## or an empty path when [param start] already qualifies or nothing does.
+## [param blocks_movement] works as in [method build_move_field]. Used by the
+## real-time skirmish, where a unit walks until it is in range rather than
+## spending a turn's worth of tiles.
+func path_to_nearest(
+	start: Vector2i, jump: int, blocks_movement: Callable, is_goal: Callable
+) -> Array[Vector2i]:
+	var none: Array[Vector2i] = []
+	if is_goal.call(start):
+		return none
+	var field := MoveField.new(start)
+	var frontier: Array[Vector2i] = [start]
+	while not frontier.is_empty():
+		var current := _pop_cheapest(frontier, field)
+		if current != start and is_goal.call(current):
+			return field.path_to(current)
+		var current_cost := field.cost_to(current)
+		for next in _grid.neighbours(current):
+			if not _grid.is_walkable(next) or blocks_movement.call(next):
+				continue
+			if absi(_grid.height_at(next) - _grid.height_at(current)) > jump:
+				continue
+			var next_cost := current_cost + _grid.move_cost(next)
+			if field.can_reach(next) and field.cost_to(next) <= next_cost:
+				continue
+			field.costs[next] = next_cost
+			field.came_from[next] = current
+			frontier.append(next)
+	return none
+
+
 static func distance(a: Vector2i, b: Vector2i) -> int:
 	return absi(a.x - b.x) + absi(a.y - b.y)
 
