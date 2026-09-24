@@ -12,7 +12,7 @@ signal card_clicked(index: int)
 
 const LOG_LINES := 6
 const HINT := "Right-click: move · attack · help the fallen    Left-click: select    1–4 / Tab: pick    " \
-		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed"
+		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause"
 const READY := Color(0.62, 0.92, 0.62)
 const WAITING := Color(0.62, 0.66, 0.74)
 const PANEL := Color(0.08, 0.09, 0.12, 0.86)

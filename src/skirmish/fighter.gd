@@ -63,9 +63,13 @@ func _init(source: Unit) -> void:
 	slots = SkirmishRules.slots(source)
 	for _i in slots.size():
 		cooldowns.append(0.0)
-	# Nobody opens a fight in the same breath as everyone else.
+	# Nobody opens a fight in the same breath as everyone else — except a Set
+	# temper, whose opening charge time on the grid becomes acting at once here.
 	attack_timer = randf_range(0.2, 0.8)
 	think_timer = randf_range(0.0, SkirmishRules.THINK_INTERVAL)
+	if source.character != null and source.character.lean("opening_ct", 0.0) > 0.0:
+		attack_timer = 0.0
+		think_timer = 0.0
 
 
 func is_party() -> bool:

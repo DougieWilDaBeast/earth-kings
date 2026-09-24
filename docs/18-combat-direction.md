@@ -161,6 +161,7 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 | `H` | Hold: stay put and only hit what is in reach |
 | `Space` | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
 | `T` | Speed x1 → x2 → x4 |
+| `Z` | Auto-pause: off → when someone goes down (the default) → also when a skill comes back for a unit with Auto Skill off. Kept for the session |
 
 **What it does**
 
@@ -182,6 +183,10 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 - **Facing still counts**: units face where they step and what they hit, and side and back hits
   still deal 1.2× and 1.5× — it is the first thing to judge in play.
 - **The mind seam holds**: `SkirmishBrain` returns choices and only `Skirmish` changes the fight.
+- **The temper leans carry over.** T's damage and P's extra move point (as walking pace) were
+  already in the numbers. J's opening charge time becomes acting at once: a Set temper takes its
+  first look and first swing the moment the fight starts, while everyone else waits a beat. F's
+  rescue lean belongs to the graces, which the skirmish does not roll yet.
 
 **The knobs**, all in `src/skirmish/skirmish_rules.gd`: `HEALTH_SCALE` (everyone fights with 3×
 their health — at 1× fights ended in four to seven seconds, before there was anything to pause
@@ -196,7 +201,8 @@ against six level-8 brigands — ends in about 18 seconds, and the party wins.
 - **Anything outside training.** No experience, proficiency, journal, graces or deaths are written
   back; the party walks off healed. Wiring it into the world is the step after both founders have
   played it against the turn-based fight.
-- **Passives, auto-pause, a multi-order queue, touch controls, the J and P leans in real time.**
+- **Passives, a multi-order queue, touch controls, F's rescue lean.** Auto-pause and the J and P
+  leans are in.
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty, which the turn-based fight shares.
 

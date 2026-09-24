@@ -74,6 +74,18 @@ func _run() -> void:
 		for _i in int(ceil(wait / SkirmishRules.TICK)) + 2:
 			_skirmish.tick()
 		_expect(caster.slot_ready(0), "%s never came off cooldown (%.1fs)" % [ability.get("display_name", "?"), wait])
+		# The fullest auto-pause also stops when a hand-played unit's skill comes back.
+		var skirmish_script: Script = _skirmish.get_script()
+		skirmish_script.auto_pause = 2
+		caster.auto_skill = false
+		caster.cooldowns[0] = SkirmishRules.TICK * 0.5
+		_skirmish.manual = false
+		_skirmish.tick()
+		_expect(_skirmish.paused, "auto-pause did not stop for a ready skill")
+		_skirmish.manual = true
+		_skirmish.paused = false
+		caster.auto_skill = true
+		skirmish_script.auto_pause = 1
 	else:
 		print("  (nobody has a quick slot yet — cooldown check skipped)")
 
@@ -89,7 +101,12 @@ func _run() -> void:
 		var patient: Fighter = party[1]
 		var helper: Fighter = party[0]
 		patient.unit.take_damage(patient.unit.hp)
+		# Played by hand, a fall stops the clock (auto-pause's default).
+		_skirmish.manual = false
 		_skirmish._drop(patient)
+		_expect(_skirmish.paused, "auto-pause did not stop the fight when someone went down")
+		_skirmish.manual = true
+		_skirmish.paused = false
 		_expect(patient.is_downed(), "a party member at zero was not downed")
 		_skirmish.order_aid(helper, patient.unit)
 		var ticks := 0

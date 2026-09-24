@@ -27,6 +27,13 @@ const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 2.0
 ## How much of the screen height the party cards take.
 const HUD_SHARE := 0.24
+## When the fight stops itself: never, when a party member goes down, or also
+## when a skill comes back for someone the player is playing by hand.
+enum AutoPause { OFF, ON_FALL, ON_FALL_AND_READY }
+const AUTO_PAUSE_LABELS := ["off", "when someone goes down", "when someone goes down or a manual skill is ready"]
+## Kept for the whole session, so it is set once rather than every fight.
+static var auto_pause: AutoPause = AutoPause.ON_FALL
+
 ## Most fixed ticks a single frame may run, so a hitch cannot snowball.
 const MAX_TICKS_PER_FRAME := 16
 
@@ -145,7 +152,7 @@ func _process(delta: float) -> void:
 		# Engine.time_scale already folds the game speed into delta.
 		_accumulator += delta
 		var ticks := 0
-		while _accumulator >= SkirmishRules.TICK and ticks < MAX_TICKS_PER_FRAME:
+		while _accumulator >= SkirmishRules.TICK and ticks < MAX_TICKS_PER_FRAME and not paused:
 			tick()
 			_accumulator -= SkirmishRules.TICK
 			ticks += 1
@@ -189,7 +196,11 @@ func _tick_fighter(f: Fighter) -> void:
 	if f.fallen:
 		return
 	for i in f.cooldowns.size():
-		f.cooldowns[i] = maxf(0.0, f.cooldowns[i] - SkirmishRules.TICK)
+		var was := f.cooldowns[i]
+		f.cooldowns[i] = maxf(0.0, was - SkirmishRules.TICK)
+		if was > 0.0 and f.cooldowns[i] <= 0.0 and f.is_party() and not f.auto_skill \
+				and f.is_standing() and auto_pause == AutoPause.ON_FALL_AND_READY:
+			_auto_pause("%s's %s is ready." % [f.unit.display_name, f.slot_ability(i).get("display_name", "skill")])
 	if f.is_downed():
 		f.near_death -= SkirmishRules.TICK
 		if f.near_death <= 0.0:
@@ -458,9 +469,21 @@ func _drop(f: Fighter) -> void:
 		f.near_death = SkirmishRules.NEAR_DEATH
 		f.unit.modulate = Color(0.75, 0.55, 0.55, 0.8)
 		_say("%s is down — %d seconds to reach them." % [f.unit.display_name, int(SkirmishRules.NEAR_DEATH)])
+		if auto_pause != AutoPause.OFF:
+			_auto_pause("")
 	else:
 		f.fallen = true
 		f.unit.visible = false
+
+
+## Stop the clock on the player's behalf. Tests drive the fight themselves and
+## are never stopped.
+func _auto_pause(why: String) -> void:
+	if manual or over or paused:
+		return
+	paused = true
+	_accumulator = 0.0
+	_say("Paused. %s" % why if why != "" else "Paused.")
 
 
 func _fall(f: Fighter) -> void:
@@ -571,6 +594,10 @@ func _on_key(event: InputEventKey) -> bool:
 			return true
 		KEY_T:
 			Pace.cycle_speed()
+			return true
+		KEY_Z:
+			auto_pause = ((int(auto_pause) + 1) % AutoPause.size()) as AutoPause
+			_say("Auto-pause: %s." % AUTO_PAUSE_LABELS[auto_pause])
 			return true
 		KEY_TAB:
 			_select(party_fighters().filter(func(f: Fighter) -> bool: return f.is_standing()))
