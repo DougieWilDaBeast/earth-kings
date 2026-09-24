@@ -61,6 +61,7 @@ To conduct this investigation systematically, the inquiry is partitioned into si
 | **04**  | [docs/investigation/04-narrative-resonance-and-the-frieren-layer.md](04-narrative-resonance-and-the-frieren-layer.md)           | **Narrative & The Frieren Layer:** Dynamic campfire banter, memorial visits, town sieges, and emergent story threads (`Skein`).               |
 | **05**  | [docs/investigation/05-sensory-presentation-and-ergonomics.md](05-sensory-presentation-and-ergonomics.md)                       | **Aesthetics & Ergonomics:** The 68-unit animation deficit, Wang tile seams, dual-bus audio staging, camera rig dynamics, and modal friction. |
 | **06**  | [docs/investigation/06-forensic-test-matrix-and-benchmarks.md](06-forensic-test-matrix-and-benchmarks.md)                       | **Empirical Protocols:** Reproducible CLI test invocations, stress harnesses, and telemetry extraction criteria.                              |
+| **07**  | [docs/investigation/07-dungeon-settlers-combat.md](07-dungeon-settlers-combat.md) | **Added 2026-09-24, outside the original six.** The _Dungeon Settlers_ combat research behind [D36](../06-decisions.md): what to take, what not to, and the smallest prototype. |
 
 ---
 

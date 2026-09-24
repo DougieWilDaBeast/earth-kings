@@ -120,7 +120,9 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 ### M10 — Research and the size test — NEXT
 
 - Deep dive into _Dungeon Settlers_' combat, written up in `docs/investigation/` against the
-  questions in [18](18-combat-direction.md#what-the-research-has-to-answer)
+  questions in [18](18-combat-direction.md#what-the-research-has-to-answer) — **first pass done**:
+  [investigation/07](investigation/07-dungeon-settlers-combat.md), from published sources. Still to
+  do: an hour of hands-on play to answer the ten questions it lists at the end
 - Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0)
 - The size written into [06 — Decisions](06-decisions.md)
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
