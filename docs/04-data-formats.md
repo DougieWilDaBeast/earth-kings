@@ -297,6 +297,21 @@ Field talk, campfire chats, and historical reflections:
 }
 ```
 
+## `names.json` — what people are called
+
+```json
+"strong": { "Cassius": ["Cass", "Cassi"], "Octavia": ["Tavi", "Ocka"] },
+"noble_range": 10,
+"noble_share": 0.8,
+"far_share": 0.1
+```
+
+Regional names ([D39](06-decisions.md)), read by `src/chronicle/names.gd`. Every name is written
+in its **strong** form with the **stems** ordinary people carry. Beside a keep a person carries
+the strong form `noble_share` of the time, falling to `far_share` at `noble_range` tiles and
+beyond. Everyone is also *of* the nearest village, keep or hut. The sixteen's own names are not
+here — they are fixed per character.
+
 ## `fate.json` — the price of dying
 
 Every number behind [D11](06-decisions.md), tunable without touching code.

@@ -9,6 +9,9 @@ extends RefCounted
 ##
 ## Errands never expire. The people who post them are used to waiting.
 
+## Loaded by path ([D41]): regional names (see its header).
+const Names := preload("res://src/chronicle/names.gd")
+
 const FETCH := "fetch"
 const DELIVER := "deliver"
 const CULL := "cull"
@@ -152,7 +155,7 @@ static func _compose(site: Site, world: World) -> Dictionary:
 	var errand := {
 		"kind": kind,
 		"giver": "%s %s" % [
-			WorldGen.person_name(world.rng),
+			Names.person(world, site.cell, world.rng),
 			rules().get("trades", ["of the village"])[world.rng.randi() % rules().get("trades", ["x"]).size()],
 		],
 		"from": [site.cell.x, site.cell.y],

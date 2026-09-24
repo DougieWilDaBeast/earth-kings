@@ -5,6 +5,10 @@ extends RefCounted
 ## Parties are temporary. Everyone here is looking out for themselves, and the
 ## price reflects it.
 
+## Loaded by path ([D41]): regional names (see its header).
+const Names := preload("res://src/chronicle/names.gd")
+
+
 static func rules() -> Dictionary:
 	return Database.world_rules.get("recruit", {})
 
@@ -122,6 +126,6 @@ static func _roll_hire(site: Site, world: World) -> Dictionary:
 	var level := maxi(1, GameState.roster.player().level + world.rng.randi_range(-1, 1))
 	return {
 		"template": template,
-		"display_name": WorldGen.person_name(world.rng),
+		"display_name": Names.person(world, site.cell, world.rng),
 		"level": level,
 	}

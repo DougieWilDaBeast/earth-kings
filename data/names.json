@@ -1,0 +1,152 @@
+{
+	"_doc": "Regional naming (D39). Every name is written in its strong form, as the nobility near a keep carry it, with the shortened stems ordinary people farther out carry. The sixteen's own god-style names are not here — they are fixed per character. Edit freely: a name is a key, its stems a list.",
+	"strong": {
+		"Cassius": [
+			"Cass",
+			"Cassi"
+		],
+		"Octavia": [
+			"Tavi",
+			"Ocka"
+		],
+		"Aurelia": [
+			"Rel",
+			"Aura"
+		],
+		"Lucanus": [
+			"Luc",
+			"Lucan"
+		],
+		"Valeria": [
+			"Val",
+			"Vale"
+		],
+		"Severus": [
+			"Sev",
+			"Vero"
+		],
+		"Livia": [
+			"Liv",
+			"Via"
+		],
+		"Hadrianus": [
+			"Hadri",
+			"Dri"
+		],
+		"Cornelia": [
+			"Nell",
+			"Corra"
+		],
+		"Marcellus": [
+			"Marc",
+			"Cello"
+		],
+		"Flavia": [
+			"Flav",
+			"Vi"
+		],
+		"Tiberius": [
+			"Tib",
+			"Berry"
+		],
+		"Iulia": [
+			"Jule",
+			"Ula"
+		],
+		"Quintus": [
+			"Quin",
+			"Tuss"
+		],
+		"Drusilla": [
+			"Dru",
+			"Silla"
+		],
+		"Aemilius": [
+			"Emil",
+			"Milo"
+		],
+		"Claudia": [
+			"Claud",
+			"Dia"
+		],
+		"Decimus": [
+			"Dec",
+			"Deco"
+		],
+		"Theron": [
+			"Thero",
+			"Ron"
+		],
+		"Leander": [
+			"Lee",
+			"Andro"
+		],
+		"Ismene": [
+			"Isse",
+			"Mena"
+		],
+		"Callista": [
+			"Cal",
+			"Lissa"
+		],
+		"Damon": [
+			"Dame",
+			"Mon"
+		],
+		"Phaedra": [
+			"Fae",
+			"Dra"
+		],
+		"Alexios": [
+			"Lex",
+			"Xio"
+		],
+		"Theodora": [
+			"Thea",
+			"Dora"
+		],
+		"Nikandros": [
+			"Nik",
+			"Kandro"
+		],
+		"Eirene": [
+			"Rene",
+			"Ei"
+		],
+		"Lysander": [
+			"Lys",
+			"Sander"
+		],
+		"Andromache": [
+			"Andra",
+			"Mache"
+		],
+		"Kleon": [
+			"Kle",
+			"Leo"
+		],
+		"Xanthe": [
+			"Xan",
+			"Thea"
+		],
+		"Demetrios": [
+			"Deme",
+			"Tris"
+		],
+		"Antigone": [
+			"Tig",
+			"Gone"
+		],
+		"Perikles": [
+			"Perry",
+			"Kles"
+		],
+		"Melitta": [
+			"Mel",
+			"Litta"
+		]
+	},
+	"noble_range": 10,
+	"noble_share": 0.8,
+	"far_share": 0.1
+}

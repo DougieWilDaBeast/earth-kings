@@ -6,6 +6,7 @@ extends Node2D
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Names := preload("res://src/chronicle/names.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -534,7 +535,8 @@ func _celebrate_tower_conquest() -> void:
 
 func _arrive_at(site: Site) -> void:
 	Ledger.record_place(GameState.ledger, site.display_name)
-	_note(Renown.greeting(world, site.cell, GameState.roster.player().display_name))
+	# Word travels by the name people gave you, not the one you gave them.
+	_note(Renown.greeting(world, site.cell, Names.known_as(world, GameState.roster.player().display_name)))
 	match site.kind:
 		Site.HOME:
 			_sleep_at_home(site)

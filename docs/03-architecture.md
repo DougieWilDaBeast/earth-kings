@@ -50,6 +50,7 @@ src/
     world.gd                   Ground, places, the step clock, the tree registry, routes
     world_gen.gd               Builds a 128x128 continental world from a seed
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
+    names.gd                   Regional names and the lead's earned title (D39)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
@@ -121,6 +122,7 @@ autoloads exist.
 | `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
 | `tests/skirmish_smoke_test.tscn` | The real-time skirmish: pause, orders while paused, cooldowns, auto-pause, near death and aid, and a whole seeded fight on fixed ticks                  |
 | `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
+| `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |
 | `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, and 400 trips to open gates               |
 
 `tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,
