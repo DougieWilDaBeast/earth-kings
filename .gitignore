@@ -27,3 +27,6 @@ err.log
 
 # Scratch staging for incoming art drops
 /.art_stage/
+
+# Size test screenshots (tools/size_test.tscn, F12)
+art/size_test/shots/

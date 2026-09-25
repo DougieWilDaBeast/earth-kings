@@ -246,7 +246,7 @@ plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 **Back in use from 2026-09-24.** They were parked when they cost more than they caught and had
 started failing on their own stale expectations. Since then every suite has been brought back to
-green and run after every change: twelve suites, around 570 checks (`tools/coverage.tscn` counts
+green and run after every change: thirteen suites, around 580 checks (`tools/coverage.tscn` counts
 them per test).
 
 ```powershell

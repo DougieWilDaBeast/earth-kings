@@ -58,6 +58,9 @@ with. **Keep writing it.** It is the only record of how to regenerate a characte
 
 ## Tier 0 — the size test (now, before 2026-09-27)
 
+**Instructions for doing it: [20 — The PixelLab size test](20-pixellab-size-test.md).** The viewer
+is `.\ek.ps1 sizetest`.
+
 One question to answer: **64, 32 or 16?** `doug-md` pointed at _Dungeon Settlers_' small sprites
 ("the characters are 16" [01:08:57]). `dougie` is happy with what 64 has produced ("we can continue
 almost sixty-four"). Real time with pause puts more units on screen at once and animates every
