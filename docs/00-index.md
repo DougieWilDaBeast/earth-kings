@@ -23,6 +23,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 17  | [The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md) | **The shape of the whole game** — the fall, the Tower's chapters, a world ending, what carries, the contest past the top. Direction, agreed 2026-09-24 |
 | 18  | [Combat direction](18-combat-direction.md)           | The move to a real-time-with-pause fight, what the research has to answer, and what it costs |
 | 19  | [Asset list](19-asset-list.md)                       | Everything to generate in PixelLab, in order — starting with the size test before the credits reset on 2026-09-27 |
+| 20  | [The PixelLab size test](20-pixellab-size-test.md)   | Step-by-step instructions for the size test: settings, prompts, order, importing, the viewer, and recording the call |
 
 ## Deciding the world
 

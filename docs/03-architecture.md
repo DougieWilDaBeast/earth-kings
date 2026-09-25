@@ -128,6 +128,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
 | `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |
 | `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, 400 trips to open gates, and rumours posting jobs |
+| `tests/art_smoke_test.tscn` | The size-test importer: a PixelLab-shaped export unpacked into place with its prompt kept, and previews never passed off as generated art |
 | `tests/seams_smoke_test.tscn` | Hand-offs: a lived-in run saved, loaded and saved again is the same file with nothing changing type; every rules key the code reads by name exists in the data; every member asked of one of the game's own classes exists on it; every kind of errand is posted whole |
 
 `tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,

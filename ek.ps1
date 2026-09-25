@@ -3,6 +3,9 @@
 #   .\ek.ps1 test                 run every smoke suite, one line each
 #   .\ek.ps1 test walk world      run only those
 #   .\ek.ps1 logs                 the end of the last play's log, and where the logs are
+#   .\ek.ps1 sizetest             the sprite size test: 64, 32 and 16 side by side
+#   .\ek.ps1 sizetest check       what has been made for it, and what is missing
+#   .\ek.ps1 sizetest import <zip> <unit> <size> [state]   unpack a PixelLab export into place
 #   .\ek.ps1 --list=sites         ask the data a question
 #   .\ek.ps1 --scene=party --level=6 --shot
 #   .\ek.ps1 --scene=world --at=gate --level=6 --play
@@ -22,9 +25,21 @@ $Flags = @(foreach ($a in $args) {
         if ($a -is [array]) { $a -join ',' } else { "$a" }
     })
 
-$godot = 'C:\Dev\Godot_v4.7.2-stable_win64_console.exe'
+# Where Godot is: $env:EK_GODOT if set, else the usual place on the first
+# founder's machine, else anything called godot on the PATH.
+$godot = $env:EK_GODOT
+if (-not $godot) { $godot = 'C:\Dev\Godot_v4.7.2-stable_win64_console.exe' }
+if (-not (Test-Path $godot)) {
+    $found = Get-Command 'godot*' -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($found) { $godot = $found.Source }
+    else {
+        'Godot 4.7 was not found. Set it once for this window, then run the command again:'
+        '    $env:EK_GODOT = "C:\path\to\Godot_v4.7.2-stable_win64_console.exe"'
+        exit 1
+    }
+}
 $project = $PSScriptRoot
-$suites = @('battle', 'skirmish', 'experience', 'dispatch', 'names', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls', 'seams')
+$suites = @('battle', 'skirmish', 'experience', 'dispatch', 'names', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls', 'seams', 'art')
 
 if ($Flags.Count -gt 0 -and $Flags[0] -eq 'test') {
     $wanted = if ($Flags.Count -gt 1) { $Flags[1..($Flags.Count - 1)] } else { $suites }
@@ -51,6 +66,30 @@ if ($Flags.Count -gt 0 -and $Flags[0] -eq 'logs') {
     "Older plays: $logs"
     Select-String -Path $latest -Pattern 'SCRIPT ERROR|^ERROR' | Select-Object -First 10 | ForEach-Object { "  ! $($_.Line)" }
     exit 0
+}
+
+# The sprite size test (docs/20). Looking at it needs a window; checking and
+# importing do not.
+if ($Flags.Count -gt 0 -and $Flags[0] -eq 'sizetest') {
+    $scene = 'res://tools/size_test.tscn'
+    if ($Flags.Count -eq 1) { & $godot --path $project $scene; exit $LASTEXITCODE }
+    switch ($Flags[1]) {
+        'check' {
+            # Splatted for the same reason as the bench below: inline, the bare `--` is eaten.
+            $argv = @('--path', $project, '--headless', $scene, '--', '--check')
+            & $godot @argv
+            exit $LASTEXITCODE
+        }
+        'import' {
+            if ($Flags.Count -lt 5) { 'Usage: .\ek.ps1 sizetest import <zip> <unit> <size> [state]'; exit 1 }
+            $zip = (Resolve-Path $Flags[2]).Path -replace '\\', '/'
+            $argv = @('--path', $project, '--headless', $scene, '--', "--import=$zip", "--unit=$($Flags[3])", "--size=$($Flags[4])")
+            if ($Flags.Count -gt 5) { $argv += "--state=$($Flags[5])" }
+            & $godot @argv
+            exit $LASTEXITCODE
+        }
+        default { 'Usage: .\ek.ps1 sizetest [check | import <zip> <unit> <size> [state]]'; exit 1 }
+    }
 }
 
 $visual = $Flags | Where-Object { $_ -like '--play*' -or $_ -like '--shot*' }
