@@ -120,5 +120,23 @@
 		"{place}, and it is still there. Somebody will be glad, and somebody will pretend not to be.",
 		"There is nothing at {place} but the thing you were sent to look at. It was worth the walk.",
 		"You look at {place} for as long as it takes. Then you go on."
-	]
+	],
+	"rumour_reward_multiplier": 1.5,
+	"rumours": {
+		"survivor": {
+			"title": "Wanted: {name}",
+			"text": "They say {name} crawled away from the fight near {place} and is gathering cutthroats. There is a purse for whoever finishes it.",
+			"posted": "And if you want the coin, there is a price on {name}. It is on the board."
+		},
+		"gate": {
+			"title": "What came out of {place}",
+			"text": "The wards on {place} are broken. Somebody should go and look at what is walking out of it, and come back to say.",
+			"posted": "The village has put a purse on somebody going to look at {place}. It is on the board."
+		},
+		"siege": {
+			"title": "Arrows for {place}",
+			"text": "{place} is under siege and running short. Get a bundle of arrows through to them before the palisade goes.",
+			"posted": "They are gathering arrows for {place}, if you are going that way. It is on the board."
+		}
+	}
 }

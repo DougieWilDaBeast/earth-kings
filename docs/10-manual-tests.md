@@ -82,6 +82,7 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E12 | Take an errand, then **P** → a companion → Practice → **Send**                                  | They leave the cards; the header says "1 away"; an **Away** line counts the steps                |
 | E13 | Walk until they are due                                                                         | Notices on the map: word from the place, maybe a meeting on the road, then "is back with the company" |
 | E14 | Try to send the lead, or the last companion beside them                                         | No button, and a line saying why                                                                |
+| E14b | With a gate broken open or a town under siege, ask a village host for news while the board is empty | The news ends "…It is on the board.", and the board has that job; asking again does not post it twice |
 | E15 | Look at who is for hire in a village near a keep, then one far from any                          | Mostly full names (Octavia, Cassius) near the keep; mostly short ones (Tavi, Cass) far out; each "of" a real place |
 | E16 | Shut a gate, walk to a village that has heard, then open the journal                             | The greeting calls you "_Name_ the Gate-Shutter"; the journal shows it under **Known As**          |
 | E17 | Fight with Auto off; when the party's turn comes, tap **Auto** on the touch controls              | The party starts fighting at once, not on its next turn (it used to sit waiting for good)       |
