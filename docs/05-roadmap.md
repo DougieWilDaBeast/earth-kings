@@ -159,6 +159,7 @@ against it.
   companion can reach ✅ — the graces are not rolled yet
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Reachable from the Training ground and the bench ✅. A training fight only — nothing written back
+- Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
 - ✅ Done when: both founders have played the prototype against the current battle and chosen.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))

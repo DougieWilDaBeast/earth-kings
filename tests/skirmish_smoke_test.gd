@@ -132,6 +132,52 @@ func _run() -> void:
 		_skirmish.sim_time, _skirmish.victory, swings, casts,
 	])
 	_expect(swings > 0, "nobody ever swung")
+	await _check_touch()
+
+
+## Under a thumb there is no right button and no keyboard: a tap on anything
+## that is not picking somebody is the order, and the keys are buttons.
+func _check_touch() -> void:
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": true}
+	add_child(fight)
+	await get_tree().process_frame
+	var buttons: Dictionary = fight.hud._buttons
+	_expect(buttons.has("pause") and buttons.has("slot0") and buttons.has("hold"), "touch play built no buttons")
+	if not buttons.has("pause"):
+		fight.queue_free()
+		return
+
+	(buttons["pause"] as Button).pressed.emit()
+	_expect(not fight.paused, "the Pause button did not start the fight")
+	(buttons["pause"] as Button).pressed.emit()
+	_expect(fight.paused, "the Pause button did not stop it again")
+
+	var party: Array[Fighter] = fight.party_fighters()
+	var foe: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())[0]
+	var lead: Fighter = party[0]
+	fight.hud.card_clicked.emit(0)
+	_expect(fight.selected == [lead], "tapping a card did not pick that fighter")
+	fight._on_left_click(foe.unit.cell, false)
+	_expect(lead.order == Fighter.Order.ATTACK and lead.order_target == foe.unit, "tapping an enemy did not send the picked fighter at it")
+	var free := _free_cell_near(lead)
+	fight._on_left_click(free, false)
+	_expect(lead.order == Fighter.Order.MOVE and lead.order_cell == free, "tapping the ground did not send them there")
+	if party.size() > 1:
+		fight._on_left_click(party[1].unit.cell, false)
+		_expect(fight.selected == [party[1]], "tapping a companion gave an order instead of picking them")
+		fight.hud.card_clicked.emit(0)
+
+	(buttons["hold"] as Button).pressed.emit()
+	_expect(lead.hold, "the Hold button did nothing")
+	var caster := _first_with_slots(party)
+	if caster != null and str(caster.slot_ability(0).get("target", "enemy")) != "self":
+		fight._select([caster])
+		(buttons["slot0"] as Button).pressed.emit()
+		_expect(fight.armed_slot == 0, "the first skill button did not ready the skill")
+		(buttons["slot0"] as Button).pressed.emit()
+		_expect(fight.armed_slot == -1, "tapping the skill again did not put it away")
+	fight.queue_free()
 
 
 ## The first authored map, with its brigands levelled up and doubled. Out of the

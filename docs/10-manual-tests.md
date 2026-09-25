@@ -110,6 +110,9 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT12 | Go back to the run afterwards                               | **Your real party is untouched** — nothing from the skirmish is written back             |
 | RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
 | RT14 | Press **Z** twice, turn **A** off on a unit, use its skill  | When the skill comes back the fight pauses: "Paused. _X_'s _Y_ is ready."                |
+| RT15 | On a phone (or touch set to On in the system menu), start a real-time fight | A column of buttons down the right: Pause, Speed, All, the four skills named for the picked fighter, Auto skills, Hold, Auto-pause |
+| RT16 | Tap a fighter, then tap an enemy, then tap empty ground     | Picked; goes after that enemy; walks to the spot. Tapping a companion picks them instead of ordering |
+| RT17 | Tap a skill button, then its target; tap a skill button twice | It is cast at the target; tapped twice, it is put away again                            |
 
 ## F — Party menu (**P**)
 

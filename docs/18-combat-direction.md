@@ -201,8 +201,9 @@ against six level-8 brigands — ends in about 18 seconds, and the party wins.
 - **Anything outside training.** No experience, proficiency, journal, graces or deaths are written
   back; the party walks off healed. Wiring it into the world is the step after both founders have
   played it against the turn-based fight.
-- **Passives, a multi-order queue, touch controls, F's rescue lean.** Auto-pause and the J and P
-  leans are in.
+- **Passives, a multi-order queue, F's rescue lean.** Auto-pause, the J and P leans, and touch
+  controls are in: under touch a tap that is not picking somebody is the order a right-click
+  would give, and the keys are a column of buttons down the right (`Skirmish.act`).
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty, which the turn-based fight shares.
 
