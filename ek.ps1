@@ -2,6 +2,7 @@
 #
 #   .\ek.ps1 test                 run every smoke suite, one line each
 #   .\ek.ps1 test walk world      run only those
+#   .\ek.ps1 logs                 the end of the last play's log, and where the logs are
 #   .\ek.ps1 --list=sites         ask the data a question
 #   .\ek.ps1 --scene=party --level=6 --shot
 #   .\ek.ps1 --scene=world --at=gate --level=6 --play
@@ -35,6 +36,20 @@ if ($Flags.Count -gt 0 -and $Flags[0] -eq 'test') {
         '{0,-9} {1}' -f $name, $verdict
     }
     if ($failed -gt 0) { "`n$failed suite(s) failing"; exit 1 }
+    exit 0
+}
+
+# Godot writes every print, warning and script error of a play to
+# user://logs/godot.log (the last few plays are kept, dated). Send this file
+# along with a bug report.
+if ($Flags.Count -gt 0 -and $Flags[0] -eq 'logs') {
+    $logs = Join-Path $env:APPDATA 'Godot\app_userdata\Earth Kings\logs'
+    $latest = Join-Path $logs 'godot.log'
+    if (-not (Test-Path $latest)) { "No log yet at $latest - play the game once first."; exit 1 }
+    Get-Content $latest -Tail 60
+    "`nFull log: $latest"
+    "Older plays: $logs"
+    Select-String -Path $latest -Pattern 'SCRIPT ERROR|^ERROR' | Select-Object -First 10 | ForEach-Object { "  ! $($_.Line)" }
     exit 0
 }
 

@@ -87,6 +87,8 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	if world_seed == 0:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
+	# Into the log, so a run somebody reports can be walked again from its seed.
+	print("Earth Kings: new run, seed %d, lead '%s', %s" % [world_seed, lead_id, difficulty])
 	# The purse is filled before the company is founded, because a background
 	# may hand the lead something to start with (see [Gifts]).
 	gold = DEFAULT_GOLD

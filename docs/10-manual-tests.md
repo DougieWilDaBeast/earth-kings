@@ -211,6 +211,13 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 The screen, the seed (system menu shows it), what you pressed, and what you expected instead.
 A screenshot of a white square or a broken layout is worth a paragraph of description.
 
+**And the log.** Every play writes one, with every warning and script error in it and the run's
+seed at the top. `.\ek.ps1 logs` prints the end of the last one and says where it is; the file
+itself is `%APPDATA%\Godot\app_userdata\Earth Kings\logs\godot.log`, and the few plays before it
+sit beside it with the date in the name. On Android it is in the app's private storage, readable from a debug build
+with `adb shell run-as <package> cat files/logs/godot.log` (logging is switched on for phones too).
+A tester who is not at your desk can zip that folder and send it.
+
 ---
 
 ## The bench
