@@ -29,6 +29,10 @@ Music="*res://src/autoload/music.gd"
 Sfx="*res://src/autoload/sfx.gd"
 Pace="*res://src/autoload/pace.gd"
 
+[debug]
+
+file_logging/enable_file_logging=true
+
 [display]
 
 window/size/viewport_width=1280
