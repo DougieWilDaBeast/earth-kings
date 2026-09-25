@@ -63,6 +63,11 @@ var manual: bool = false
 
 ## The quick slot waiting for a left-click to say where it goes; -1 when none.
 var armed_slot: int = -1
+## Played with a thumb. There is no right button, so a tap that is not picking
+## somebody gives the order a right-click would, and the keys become buttons
+## down the side of the screen. Follows the touch setting unless the boot
+## payload says otherwise.
+var touch: bool = false
 
 var _accumulator: float = 0.0
 
@@ -73,14 +78,17 @@ func _ready() -> void:
 	# Nothing done in here belongs in the run's ledger.
 	GameState.tallying = false
 	paused = bool(boot_payload.get("paused", true))
+	touch = bool(boot_payload.get("touch", Pace.is_touch_enabled()))
 	_build_battlefield()
 	marks.skirmish = self
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
+	hud.action_pressed.connect(act)
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
-	_say("A real-time skirmish. The fight is paused — Space to begin." if paused \
+	var begin := "tap Pause" if touch else "Space"
+	_say("A real-time skirmish. The fight is paused — %s to begin." % begin if paused \
 			else "A real-time skirmish.")
 	EventBus.battle_started.emit(map_id)
 
@@ -582,42 +590,27 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
+## Keys, said as the actions the touch buttons also send.
+const KEY_ACTIONS := {
+	KEY_SPACE: "pause", KEY_T: "speed", KEY_Z: "auto_pause", KEY_TAB: "all",
+	KEY_A: "auto_skill", KEY_H: "hold",
+}
+
+
 func _on_key(event: InputEventKey) -> bool:
 	var slot := SkirmishRules.SLOT_KEYS.find(event.keycode)
 	if slot >= 0:
-		_arm(slot)
+		act("slot%d" % slot)
 		return true
-	match event.keycode:
-		KEY_SPACE:
-			set_paused(not paused)
-			_say("Paused." if paused else "")
-			return true
-		KEY_T:
-			Pace.cycle_speed()
-			return true
-		KEY_Z:
-			auto_pause = ((int(auto_pause) + 1) % AutoPause.size()) as AutoPause
-			_say("Auto-pause: %s." % AUTO_PAUSE_LABELS[auto_pause])
-			return true
-		KEY_TAB:
-			_select(party_fighters().filter(func(f: Fighter) -> bool: return f.is_standing()))
-			return true
-		KEY_A:
-			for f in selected:
-				f.auto_skill = not f.auto_skill
-			return true
-		KEY_H:
-			for f in selected:
-				f.hold = not f.hold
-				if f.hold and f.order == Fighter.Order.NONE:
-					f.target = null
-			return true
-		KEY_ESCAPE:
-			if armed_slot >= 0:
-				_disarm()
-			else:
-				EventBus.system_menu_requested.emit()
-			return true
+	if KEY_ACTIONS.has(event.keycode):
+		act(KEY_ACTIONS[event.keycode])
+		return true
+	if event.keycode == KEY_ESCAPE:
+		if armed_slot >= 0:
+			_disarm()
+		else:
+			EventBus.system_menu_requested.emit()
+		return true
 	if event.keycode >= KEY_1 and event.keycode <= KEY_9:
 		var party := party_fighters()
 		var index := event.keycode - KEY_1
@@ -628,6 +621,34 @@ func _on_key(event: InputEventKey) -> bool:
 				_select([party[index]])
 		return true
 	return false
+
+
+## One thing the player asked for, by name, from a key or a touch button.
+func act(action: String) -> void:
+	if action.begins_with("slot"):
+		_arm(int(action.trim_prefix("slot")))
+		hud.refresh()
+		return
+	match action:
+		"pause":
+			set_paused(not paused)
+			_say("Paused." if paused else "")
+		"speed":
+			Pace.cycle_speed()
+		"auto_pause":
+			auto_pause = ((int(auto_pause) + 1) % AutoPause.size()) as AutoPause
+			_say("Auto-pause: %s." % AUTO_PAUSE_LABELS[auto_pause])
+		"all":
+			_select(party_fighters().filter(func(f: Fighter) -> bool: return f.is_standing()))
+		"auto_skill":
+			for f in selected:
+				f.auto_skill = not f.auto_skill
+		"hold":
+			for f in selected:
+				f.hold = not f.hold
+				if f.hold and f.order == Fighter.Order.NONE:
+					f.target = null
+	hud.refresh()
 
 
 func _on_left_click(cell: Vector2i, adding: bool) -> void:
@@ -644,6 +665,10 @@ func _on_left_click(cell: Vector2i, adding: bool) -> void:
 	var clicked := fighter_of(who)
 	if clicked != null and clicked.is_party() and clicked.is_standing():
 		_select(selected + [clicked] if adding else [clicked])
+		return
+	# No right button under a thumb: a tap on anything else is the order.
+	if touch:
+		_on_right_click(cell)
 
 
 func _on_right_click(cell: Vector2i) -> void:
@@ -673,6 +698,10 @@ func _on_card_clicked(index: int) -> void:
 
 func _arm(slot: int) -> void:
 	if selected.is_empty():
+		return
+	# The same skill asked for twice is changing your mind.
+	if armed_slot == slot:
+		_disarm()
 		return
 	var caster := selected[0]
 	if slot >= caster.slots.size():
