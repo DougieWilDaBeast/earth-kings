@@ -39,6 +39,7 @@ src/
     doctrine.gd                Read / teach / forget, and the bonuses knowledge grants
     skein.gd                   Story threads, stage transitions, and deadlines
     save_file.gd               Reads JSON back with whole numbers as ints again
+    rumour_jobs.gd             News at the inn that posts work on the board (M16)
     nemesis.gd                 Defeated persistent foes who survive, remember, and return
     annals.gd                  Narrative milestone chronicle compiled from telemetry
     season.gd                  Step-clock progression of the four seasonal clovers
@@ -126,7 +127,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | `tests/skirmish_smoke_test.tscn` | The real-time skirmish: pause, orders while paused, cooldowns, auto-pause, near death and aid, and a whole seeded fight on fixed ticks                  |
 | `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
 | `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |
-| `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, and 400 trips to open gates               |
+| `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, 400 trips to open gates, and rumours posting jobs |
 | `tests/seams_smoke_test.tscn` | Hand-offs: a lived-in run saved, loaded and saved again is the same file with nothing changing type; every rules key the code reads by name exists in the data; every member asked of one of the game's own classes exists on it; every kind of errand is posted whole |
 
 `tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,

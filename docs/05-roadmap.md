@@ -233,8 +233,10 @@ Waits on M13, and on agenda items 4, 5 and 12.
 
 Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd`).
 
-- A job log, filled from quests and rumours — **the errand list is the job log for now**; rumours
-  do not post jobs yet
+- A job log, filled from quests and rumours ✅ — the errand list is the job log. Rumours post jobs
+  since 2026-09-25: when the host passes on the news, one that points at real trouble puts work on
+  the board — a bounty on a survivor who got away, a look at a gate whose wards broke, arrows for a
+  town under siege (`src/chronicle/rumour_jobs.gd`, wording in `data/errands.json` → `rumours`)
 - Party members sent on jobs, travelling the map on the step clock, reporting back, sometimes
   dying ✅ — from the party screen's Practice page, one button per accepted errand. They leave the
   marching order, cover a tile a step out and back, may meet something on the road (more likely the

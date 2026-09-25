@@ -3,6 +3,8 @@ extends CanvasLayer
 ## walks the nodes in `data/dialogue/<id>.json` — letting the player pick replies
 ## and rolling the checks behind them — then reports back.
 
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
 ## The reply that is never written down in a file.
@@ -217,6 +219,10 @@ func _speak_of_the_past() -> void:
 func _hear_the_news() -> void:
 	_news_asked = true
 	var text := News.tidings_for_inn(GameState.world, _node.get("speaker", "The host"))
+	# Some of what is going round comes with work attached (M16).
+	var job := RumourJobs.post(GameState.world)
+	if job != "":
+		text += "\n\n" + job
 	_news_back = _node_id
 	_show(_node.get("speaker", "The host"), text)
 
