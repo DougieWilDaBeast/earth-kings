@@ -40,6 +40,7 @@ src/
     skein.gd                   Story threads, stage transitions, and deadlines
     save_file.gd               Reads JSON back with whole numbers as ints again
     rumour_jobs.gd             News at the inn that posts work on the board (M16)
+    chapters.gd                The Tower in chapters: the world moving on, the census, the seal (M14)
     nemesis.gd                 Defeated persistent foes who survive, remember, and return
     annals.gd                  Narrative milestone chronicle compiled from telemetry
     season.gd                  Step-clock progression of the four seasonal clovers
@@ -119,7 +120,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | Test                             | Covers                                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
-| `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
+| `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
 | `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
 | `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |

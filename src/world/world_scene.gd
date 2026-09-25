@@ -8,6 +8,7 @@ extends Node2D
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
+const Chapters := preload("res://src/chronicle/chapters.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -215,7 +216,7 @@ func _auto_errand() -> Vector2i:
 		return target
 
 	var tower := world.tower()
-	if tower == null or world.tower_is_topped() or Pace.avoided.has(tower.cell):
+	if tower == null or world.tower_is_topped() or Pace.avoided.has(tower.cell) or Chapters.sealed(world):
 		return Vector2i(-1, -1)
 	return tower.cell
 
@@ -495,6 +496,9 @@ func _settle_up(won: bool) -> void:
 			world.steps += World.UPKEEP_INTERVAL
 			for notice: String in world._upkeep():
 				_note(notice)
+			if Chapters.ends_chapter(world, world.tower_floor):
+				for line: String in Chapters.turn(world, world.tower_floor):
+					_note(line)
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
 				var hoard := world.tower_hoard
@@ -715,8 +719,13 @@ func _climb(site: Site) -> void:
 		_note("You have already stood on the last floor.")
 		return
 
+	if Chapters.sealed(world):
+		_note(Chapters.seal_line())
+		return
 	var next_floor := world.tower_floor + 1
-	_note("The Tower opens onto floor %d of %d." % [next_floor, world.tower_floors()])
+	_note("The Tower opens onto floor %d of %d — chapter %d of %d." % [
+		next_floor, world.tower_floors(), Chapters.chapter_of(next_floor), Chapters.chapters(world),
+	])
 	if world.tower_hoard > 0:
 		_note("You are still carrying %d gold. Lose here and it stays here." % world.tower_hoard)
 	_begin_battle(

@@ -205,19 +205,28 @@ Waits on the first writing sitting, and on agenda items 6, 7 and 15.
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other
   fifteen can be met somewhere they walked to
 
-### M14 — The Tower in chapters, and gates you cannot leave — PLANNED
+### M14 — The Tower in chapters, and gates you cannot leave — IN PROGRESS
 
-Waits on agenda items 1 and 2.
+Chapters built 2026-09-25 (`src/chronicle/chapters.gd`) with every number in `data/world_rules.json` →
+`tower`, so agenda item 1 (how many floors, how many to a chapter) changes a number, not the code.
+Agenda item 2 (steps against chapters) is still open: steps drive the small clocks as before, and a
+chapter's close moves them on further.
 
-- Every Tower floor cleared returns the party to the world
-- A chapter every five floors: the world's story advances, and the next chapter needs a key from
-  the world (a gate cleared, an item, a quest)
-- The census every five floors — how many of the sixteen are alive
+- Every Tower floor cleared returns the party to the world ✅ — each floor is one fight, and the party
+  comes back out onto the map at the Tower's foot
+- A chapter every five floors ✅: winning its last floor moves the world on (three upkeeps pass, and
+  the weakest gates that were only brewing open — or a new rift tears if none are left), then the
+  stair above is **sealed** until the company answers the world. **The reading taken:** shutting a
+  gate or saving a town counts (`chapter_keys`). Items and quests as keys wait on the Guild
+- The census at the end of every chapter ✅ — it always reads sixteen until there is more than one
+  world (M15)
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
   floor, and it survives a save); objectives inside, some timed (agenda item 14)
 - The Adventurers Guild in settlements, and S-rank gates that gather armies
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
-  the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md))
+  the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
+  for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal
+  by shutting the gates the chapter woke
 
 ### M15 — Sixteen worlds — PLANNED
 

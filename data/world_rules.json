@@ -78,6 +78,10 @@
 	},
 	"tower": {
 		"floors": 10,
+		"floors_per_chapter": 5,
+		"chapter_keys": ["gate_shut", "town_saved"],
+		"chapter_upkeeps": 3,
+		"gates_woken_per_chapter": 2,
 		"gold_per_floor": 35,
 		"doctrine_every": 3,
 		"tree_every": 4

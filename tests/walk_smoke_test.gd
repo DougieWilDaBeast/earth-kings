@@ -8,13 +8,14 @@ extends Node
 
 const CheckFilter := preload("res://tests/check_filter.gd")
 const Route := preload("res://src/world/route.gd")
+const Chapters := preload("res://src/chronicle/chapters.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "run_ends",
 ]
 
 var _scene: Node
@@ -471,6 +472,70 @@ func _check_tower() -> void:
 	_scene._settle_up(true)
 	_expect(world.tower_floor == 1, "climbing did not advance the floor log")
 	print("tower: floor %d entered" % world.tower_floor)
+
+
+
+## Winning the last floor of a chapter moves the world on, reads the census and
+## seals the stair; the seal holds until the company answers the world, and
+## survives a save ([D34]).
+func _check_chapters() -> void:
+	var world: World = GameState.world
+	# A check before this one may have loaded the save; walk the world it loaded.
+	_scene.world = world
+	var tower := world.tower()
+	var kept_floor := world.tower_floor
+	var kept_topped := world.tower_topped
+	var kept_delving := GameState.delving
+	# Inside a gate every step is the next floor ([D35]); the Tower is outside.
+	GameState.delving = []
+	world.tower_topped = false
+	world.tower_floor = Chapters.per_chapter() - 1
+	world.tower_sealed_at = -1
+	var steps_before := world.steps
+	var annals_before := world.annals.size()
+	var open_before := world.sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.open)
+	_scene._busy = false
+
+	_requests.clear()
+	if not _step_onto(tower.cell):
+		return
+	_expect(not _last_battle_request().is_empty(), "the last floor of a chapter started no fight")
+	_scene._settle_up(true)
+	_scene._busy = false
+	_expect(world.tower_floor == Chapters.per_chapter(), "the chapter's last floor was not logged")
+	_expect(Chapters.sealed(world), "finishing a chapter did not seal the stair")
+	_expect(world.steps >= steps_before + World.UPKEEP_INTERVAL * 3, "the world did not move on while the chapter closed")
+	var woken := world.sites_of_kind(Site.GATE).filter(
+		func(s: Site) -> bool: return s.open and not s.cleared and not open_before.has(s)
+	)
+	_expect(not woken.is_empty(), "no gate opened as the chapter closed, so the seal might never be answered")
+	var told := world.annals.slice(annals_before).map(func(entry: Dictionary) -> String: return str(entry.get("text", "")))
+	_expect(told.any(func(line: String) -> bool: return line.contains("sixteen")), "the census was never read")
+
+	# Sealed: stepping up again is turned away, and it holds across a save.
+	GameState.save()
+	GameState.load_save()
+	world = GameState.world
+	_scene.world = world
+	_expect(Chapters.sealed(world), "the seal did not survive a save")
+	_requests.clear()
+	if _step_onto(tower.cell):
+		_expect(_last_battle_request().is_empty(), "a sealed stair still started a fight")
+
+	# Shutting a gate is answering the world.
+	Renown.record(world, Renown.GATE_SHUT, world.player_cell, 3, "shut a gate")
+	_expect(not Chapters.sealed(world), "shutting a gate did not break the seal")
+	_requests.clear()
+	_scene._busy = false
+	if _step_onto(tower.cell):
+		_expect(not _last_battle_request().is_empty(), "the stair stayed shut after the world was answered")
+	_scene._busy = false
+	print("chapters: floor %d closed chapter %d, %d gate(s) woke, the seal held until a gate was shut" % [
+		Chapters.per_chapter(), Chapters.chapter_of(Chapters.per_chapter()), woken.size(),
+	])
+	world.tower_floor = kept_floor
+	world.tower_topped = kept_topped
+	GameState.delving = kept_delving
 
 
 # --- prompts and persistence --------------------------------------------------
