@@ -154,6 +154,9 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
 | G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |
 | G9  | Lose a floor while holding a hoard        | The hoard is gone                                                                             |
+| G10 | Win floor 5                               | "Chapter 1 of the Tower is behind you", the census ("sixteen still stand"), news of gates opening, and "The stair above is sealed" |
+| G11 | Step onto the Tower again                 | The seal line, and no fight                                                                   |
+| G12 | Shut a gate (or save a town), then come back | "The Tower opens onto floor 6 of 10 — chapter 2 of 2", and the fight starts                 |
 
 ## H — Conversation and the camp
 
