@@ -238,7 +238,9 @@ Waits on M13, and on agenda items 4, 5 and 12.
 
 - The lead's death ends the world: the overhead shot of it being destroyed, and the world marked
   gone for good
-- Choosing the next lead from the survivors, in their own sibling world, from level 1
+- Choosing the next lead from the survivors, in their own sibling world, from level 1 — the quiz
+  asked again with every dead lead's answers removed, and the picker showing only the living
+  ([D43](06-decisions.md))
 - Sibling worlds that tend to play out alike — same seed, perturbed
 - The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
 - The signature weapon crash-landing in the next world, and rumours that lead to it

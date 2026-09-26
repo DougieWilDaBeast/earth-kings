@@ -86,6 +86,12 @@ lead was the one who was supposed to save it. **It never comes back.**
 Then the player **becomes another of the sixteen, in that one's own world**, chosen from whoever is
 still standing.
 
+- **The four questions are asked again, and the dead cannot be answered into** ([D43](06-decisions.md)).
+  An answer is removed once every character it could still lead to has died. If the first lead was
+  INTJ, the second quiz goes Inward, Sky-read, Cold-eyed and then offers only _Loose_. If INTP is dead
+  as well, _Cold-eyed_ is gone one question earlier. The picker offers only the living.
+  **Inferred, for the founders:** a question left with a single answer is not asked; the quiz moves
+  straight past it.
 - **Everything starts again at level 1.** No levels, gear or floors carry. This was argued in the
   session and settled that way — see the [divergence ledger](worldbuilding/divergence-ledger.md).
 - **The worlds are siblings.** They split from one moment, so they tend to play out alike: where
