@@ -38,14 +38,3 @@ And for the worldbuilding ledger (`docs/worldbuilding/`):
 Commits: `feat(M14): …`, `fix: …`, `docs: …`, `tools: …` — the milestone in brackets when there is one.
 Update the docs a change touches in the same commit.
 
-## LLM usage in this repo
-Optional, and only in tooling: **the game itself never calls a model** (D03 defers LLM minds
-behind a seam). Tools that do go through `dougie`'s gateway (`LLM_GATEWAY_URL` +
-`LLM_GATEWAY_KEY`, OpenAI-compatible) by lane name — `cheap`, `code`, `strong`, `private` —
-never a provider or model ID.
-
-- **The founders' words — voice notes, `answers.md`, the question book — go to `private` only.**
-  They are two people's unreleased thinking, and free tiers may train on what they are sent.
-- Code, logs and `data/` JSON may go to any lane.
-- `tools/map_voice_note.py` drafts which questions a voice note speaks to, and rejects any quote
-  that is not word for word in the transcript. Its output is a draft for the ingest, never canon.
