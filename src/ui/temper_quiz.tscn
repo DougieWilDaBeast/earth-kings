@@ -157,8 +157,15 @@ visible = false
 layout_mode = 2
 text = "This is you"
 
+[node name="AgainButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Answer again"
+
 [node name="AllButton" type="Button" parent="Margin/Content/Footer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Show me all sixteen"
 

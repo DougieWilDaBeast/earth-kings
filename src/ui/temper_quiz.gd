@@ -9,8 +9,19 @@ extends Control
 ##
 ## A temper whose character has not been written yet is not a failure state: the
 ## screen says so and offers the full roster instead.
+##
+## The quiz is the front door (D44). The full roster is a side door that only
+## opens once the four questions are answered, next to answering them again.
+##
+## A lead who has died cannot be answered into again (D43). Pass their temper
+## codes as `boot_payload.fallen`: an answer is left out once every temper it
+## could still lead to has fallen. A question left with one answer is still
+## asked, so the player sees that the other one is gone.
 
 var boot_payload: Dictionary = {}
+
+## Temper codes of leads who have died. Their answers are closed.
+var _fallen: PackedStringArray = []
 
 ## One letter per question answered so far, in axis order.
 var _answers: PackedStringArray = []
@@ -31,12 +42,16 @@ var _chosen: String = ""
 @onready var _stats: Label = %StatsLabel
 @onready var _seed_field: LineEdit = %SeedField
 @onready var _begin_button: Button = %BeginButton
+@onready var _again_button: Button = %AgainButton
 @onready var _all_button: Button = %AllButton
 @onready var _back_button: Button = %BackButton
 
 
 func _ready() -> void:
+	for code in boot_payload.get("fallen", []):
+		_fallen.append(str(code))
 	_begin_button.pressed.connect(_begin)
+	_again_button.pressed.connect(_start_over)
 	_all_button.pressed.connect(func() -> void: EventBus.request_scene.emit("character_select", {}))
 	_back_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_ask(0)
@@ -61,12 +76,28 @@ func _ask(index: int) -> void:
 	_clear_options()
 	var first: Button = null
 	for option: Dictionary in question.get("options", []):
+		if not leads_to_the_living("".join(_answers) + str(option.get("key", ""))):
+			continue
 		var button := _answer_button(option)
 		_options.add_child(button)
 		if first == null:
 			first = button
 	if first != null:
 		first.grab_focus()
+	else:
+		# Every answer is closed: all sixteen have fallen.
+		_question.text = "Nobody is left to answer for."
+		_step.text = "All sixteen have fallen."
+		_back_button.grab_focus()
+
+
+## Whether any temper still living begins with these answers. Codes are written
+## in axis order, so the answers so far are a prefix of every code they allow.
+func leads_to_the_living(prefix: String) -> bool:
+	for code: String in Database.tempers.get("types", {}):
+		if code.begins_with(prefix) and not _fallen.has(code):
+			return true
+	return false
 
 
 ## Old answers go out of the tree immediately, not at the end of the frame —
@@ -108,6 +139,9 @@ func _resolve() -> void:
 	_clear_options()
 	_question.text = str(temper.get("display_name", code))
 	_step.text = str(temper.get("blurb", ""))
+	# Only now, with the quiz answered, do the side doors open.
+	_again_button.visible = true
+	_all_button.visible = true
 
 	if _chosen == "":
 		# The grid is written before the roster is, so this is an ordinary
@@ -167,6 +201,17 @@ func _band_text(hero: Dictionary) -> String:
 	if names.is_empty():
 		return "you ride out alone"
 	return "you and " + " and ".join(names)
+
+
+## Back to the first question, to be answered for someone else.
+func _start_over() -> void:
+	_answers.clear()
+	_chosen = ""
+	_reveal.visible = false
+	_begin_button.visible = false
+	_again_button.visible = false
+	_all_button.visible = false
+	_ask(0)
 
 
 # --- and off you go -----------------------------------------------------------

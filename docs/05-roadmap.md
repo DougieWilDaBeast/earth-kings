@@ -128,6 +128,8 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    2 and 3); 13 is built; 14 is deferred to playtest.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
+   **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
+   replace the NT four and they get built.
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
@@ -236,7 +238,10 @@ Waits on M13, and on agenda items 4, 5 and 12.
 
 - The lead's death ends the world: the overhead shot of it being destroyed, and the world marked
   gone for good
-- Choosing the next lead from the survivors, in their own sibling world, from level 1
+- Choosing the next lead from the survivors, in their own sibling world, from level 1 — the quiz
+  asked again with every dead lead's answers removed, and the picker showing only the living
+  ([D43](06-decisions.md)). The quiz half is built (2026-09-26: it takes `fallen` and closes their
+  answers); what is left is passing it the dead, and the picker
 - Sibling worlds that tend to play out alike — same seed, perturbed
 - The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
 - The signature weapon crash-landing in the next world, and rumours that lead to it

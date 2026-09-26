@@ -495,6 +495,10 @@ func _check_temper_quiz() -> void:
 	var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
 	add_child(quiz)
 
+	# The roster is a side door that opens only once the quiz is answered (D44).
+	_expect(not quiz.get_node("%AllButton").visible, "the roster was open before the quiz was answered")
+	_expect(not quiz.get_node("%AgainButton").visible, "answering again was offered before any answer")
+
 	# Four questions, two answers each, asked one at a time.
 	var quiz_length: int = quiz.questions().size()
 	for i in quiz_length:
@@ -528,4 +532,62 @@ func _check_temper_quiz() -> void:
 			quiz.get_node("%NameLabel").text != "",
 			"the reveal named nobody for ESTJ"
 		)
+
+	_expect(quiz.get_node("%AllButton").visible, "the roster stayed shut after the quiz was answered")
+	_expect(quiz.get_node("%AgainButton").visible, "answering again was not offered after the quiz")
+
+	# Answering again starts from the first question, both answers open.
+	(quiz.get_node("%AgainButton") as Button).pressed.emit()
+	_expect(quiz._answers.is_empty(), "answering again kept the old answers")
+	_expect(quiz.get_node("%Options").get_child_count() == 2, "answering again did not ask the first question")
+	_expect(not quiz.get_node("%Reveal").visible, "answering again left the last reveal up")
+	_expect(not quiz.get_node("%AllButton").visible, "answering again left the roster open mid-quiz")
 	quiz.queue_free()
+
+	_check_fallen_quiz()
+
+
+## A dead lead cannot be answered into again (D43): an answer goes once every
+## temper behind it has fallen, and a question left with one is still asked.
+func _check_fallen_quiz() -> void:
+	# Answers by position: E/I, S/N, T/F, J/P, first option first.
+	var one := _quiz_after(["INTJ"], [1, 1, 0])
+	var last := one.get_node("%Options").get_children()
+	_expect(last.size() == 1, "with INTJ fallen, I-N-T offered %d answers, not 1" % last.size())
+	if last.size() == 1:
+		(last[0] as Button).pressed.emit()
+		_expect("".join(one._answers) == "INTP", "the one answer left led to '%s', not INTP" % "".join(one._answers))
+	one.queue_free()
+
+	var two := _quiz_after(["INTJ", "INTP"], [1, 1])
+	var third := two.get_node("%Options").get_children()
+	_expect(third.size() == 1, "with INTJ and INTP fallen, I-N offered %d answers, not 1" % third.size())
+	two.queue_free()
+
+	var untouched := _quiz_after(["INTJ"], [0, 0, 0])
+	_expect(
+		untouched.get_node("%Options").get_child_count() == 2,
+		"INTJ's death closed an answer on the E-S-T path"
+	)
+	untouched.queue_free()
+
+	var everyone := _quiz_after(Database.tempers.get("types", {}).keys(), [])
+	_expect(everyone.get_node("%Options").get_child_count() == 0, "a quiz with all sixteen fallen still offered answers")
+	_expect(
+		everyone.get_node("%QuestionLabel").text.contains("Nobody is left"),
+		"a quiz with all sixteen fallen did not say so"
+	)
+	everyone.queue_free()
+
+
+func _quiz_after(fallen: Array, picks: Array) -> TemperQuiz:
+	var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
+	quiz.boot_payload = {"fallen": fallen}
+	add_child(quiz)
+	for pick: int in picks:
+		var buttons := quiz.get_node("%Options").get_children()
+		if pick >= buttons.size():
+			_expect(false, "quiz with %s fallen had no answer %d to pick" % [str(fallen), pick])
+			break
+		(buttons[pick] as Button).pressed.emit()
+	return quiz

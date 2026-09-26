@@ -32,8 +32,9 @@ Why the disaster happened, and who caused it, is found out at the end.
 The player is one of the sixteen. The intro shows the fall, so **the player knows what the lead has
 forgotten** — the game opens on dramatic irony.
 
-- The lead is picked by the four-question temper quiz, with every one of the sixteen reachable by
-  choosing ([D29](06-decisions.md)). Which of the two is the front door is open — agenda item 7.
+- The lead is picked by the four-question temper quiz. **The quiz is the front door**
+  ([D44](06-decisions.md)): once it is answered the player can answer again, as often as they like,
+  or open the roster of all sixteen and choose.
 - Choosing a lead switches **that** character's own behaviour off. **The other fifteen keep theirs**
   and live their own lives, driven by their temper: they go where they go, join what they join, and
   you meet them mid-story, if you meet them at all.
@@ -86,6 +87,12 @@ lead was the one who was supposed to save it. **It never comes back.**
 Then the player **becomes another of the sixteen, in that one's own world**, chosen from whoever is
 still standing.
 
+- **The four questions are asked again, and the dead cannot be answered into** ([D43](06-decisions.md)).
+  An answer is removed once every character it could still lead to has died. If the first lead was
+  INTJ, the second quiz goes Inward, Sky-read, Cold-eyed and then offers only _Loose_. If INTP is dead
+  as well, _Cold-eyed_ is gone one question earlier. The picker offers only the living.
+- **A question left with one answer is still asked** ([D44](06-decisions.md)). The player has to
+  pick the one answer that is left, so that after every death they see an option has gone.
 - **Everything starts again at level 1.** No levels, gear or floors carry. This was argued in the
   session and settled that way — see the [divergence ledger](worldbuilding/divergence-ledger.md).
 - **The worlds are siblings.** They split from one moment, so they tend to play out alike: where
