@@ -190,7 +190,9 @@ through `EventBus`** rather than holding references to each other.
 ## Smoke tests
 
 Headless suites that drive the real scenes and systems — a fast way to catch breakage without
-clicking through the game. `.\ek.ps1 test` runs them all, one line each; the two big ones take
+clicking through the game. `.\ek.ps1 test` runs them all, one line each (`./ek.sh test` on Linux
+and macOS). **Every pull request runs them in CI**, with a two-minute seeded soak alongside
+(`.github/workflows/smoke.yml`, about three minutes in all). The two big ones take
 `-- --check=name` to run a single check (see [docs/10](docs/10-manual-tests.md#automated-tests)):
 
 ```powershell

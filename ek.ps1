@@ -1,4 +1,4 @@
-# Earth Kings dev launcher.
+# Earth Kings dev launcher. On Linux and macOS, ./ek.sh does the `test` part (and CI uses it).
 #
 #   .\ek.ps1 test                 run every smoke suite, one line each
 #   .\ek.ps1 test walk world      run only those
