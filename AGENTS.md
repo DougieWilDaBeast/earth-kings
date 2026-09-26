@@ -19,7 +19,8 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
 - Test: `.\ek.ps1 test` (Windows) or `./ek.sh test` (Linux/macOS): thirteen headless suites.
   One suite: `./ek.sh test walk`. One check: `godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate`.
 - Soak: `./ek.sh soak 120` — the game plays itself on seed 77, then saves, loads and saves again.
-- CI runs both on every pull request (`.github/workflows/smoke.yml`). Keep it green.
+- Ledger: `./ek.sh ledger` — the Question Book and `answers.md` agree (run after any worldbuilding edit).
+- CI runs all three on every pull request (`.github/workflows/smoke.yml`). Keep it green.
 
 ## Rules
 The working rules in [docs/00-index.md](docs/00-index.md#working-rules) bind every change:

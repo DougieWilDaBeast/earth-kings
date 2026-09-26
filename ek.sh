@@ -4,6 +4,7 @@
 #   ./ek.sh test                 run every smoke suite, one line each
 #   ./ek.sh test walk world      run only those
 #   ./ek.sh soak [seconds]       let the game play itself (default 120 s, seed 77)
+#   ./ek.sh ledger               the Question Book and answers.md agree (tools/question_report)
 #
 # Godot is $EK_GODOT if set, else `godot` on the PATH. CI uses this script
 # (.github/workflows/smoke.yml), so a green run here is a green run there.
@@ -61,8 +62,22 @@ run_soak() {
   return 0
 }
 
+# The Question Book and the answer ledger must agree on which questions exist
+# and what an answer may say (a source never settles one). question_report
+# exits 1 on any drift; this prints only the verdict and the drift lines.
+run_ledger() {
+  local out code
+  ensure_imported
+  out="$("$GODOT" --headless --path . res://tools/question_report.tscn 2>&1)"
+  code=$?
+  grep -E 'DRIFT|problem\(s\)|no drift|SCRIPT ERROR' <<<"$out"
+  if grep -q 'SCRIPT ERROR' <<<"$out"; then return 1; fi
+  return $code
+}
+
 case "${1:-}" in
   test) shift; run_tests "$@" ;;
   soak) shift; run_soak "$@" ;;
-  *) sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+  ledger) run_ledger ;;
+  *) sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
 esac

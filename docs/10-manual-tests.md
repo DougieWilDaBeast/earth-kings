@@ -268,12 +268,15 @@ soak on seed 77, headless on Linux against the official Godot 4.7.2 build
 ./ek.sh test                 # every suite
 ./ek.sh test walk seams      # only those
 ./ek.sh soak 120             # the soak CI runs
+./ek.sh ledger               # the Question Book and answers.md agree
 ```
 
 `ek.sh` is stricter than `ek.ps1` in one way: a suite that prints a `SCRIPT ERROR` fails even when
 it exits 0, because Godot carries on past a script error and the exit code alone misses it. The
 soak fails on a `SCRIPT ERROR`, a non-zero exit (`STUCK` is 2), or a save that does not come back
-the same file.
+the same file. `ledger` runs `tools/question_report.tscn`, which fails on any drift between the
+Question Book and the answer ledger — an answer to a question that does not exist, or a lineage
+source marked as settling one — so a docs-only change to the worldbuilding is checked too.
 
 `--check=` runs only the named checks of the three suites that have them (`walk`, `world`,
 `seams`); a name the suite does not have fails and lists the ones it does. Every check in all three
