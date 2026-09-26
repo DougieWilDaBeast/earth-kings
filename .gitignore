@@ -30,3 +30,8 @@ err.log
 
 # Size test screenshots (tools/size_test.tscn, F12)
 art/size_test/shots/
+
+# LLM gateway: keys and cached replies (see AGENTS.md)
+.env
+.llm_cache/
+__pycache__/
