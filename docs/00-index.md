@@ -63,3 +63,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 3. **Every milestone ends playable.** Nothing starts until the previous thing runs.
 4. **Update `06-decisions.md` when a design question is settled.** Future-you will not remember why.
 5. **Docs describe what exists.** Planned work belongs in the roadmap, marked as planned.
+
+Coding agents get the same rules, and the commands, in [AGENTS.md](../AGENTS.md). CI runs every
+smoke suite, a two-minute soak and the ledger check on each pull request
+([10 — Manual tests](10-manual-tests.md#automated-tests)).

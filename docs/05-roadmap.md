@@ -108,6 +108,8 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 Updated 2026-09-24, after M11's prototype, M12, M16, D35 and D39 were built. **Everything left on
 this list needs one or both founders** — the build has gone as far as it can without an answer.
+Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger), and the
+repo is wired to `dougie`'s LLM gateway for tooling only — see [AGENTS.md](../AGENTS.md).
 
 1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.** Everything is
    ready: step-by-step instructions in [20](20-pixellab-size-test.md), the viewer
@@ -127,7 +129,13 @@ this list needs one or both founders** — the build has gone as far as it can w
    2 and 3); 13 is built; 14 is deferred to playtest.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
-6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
+6. **Optional, `dougie` — try the voice-note mapper on the real gateway.** With the
+   [LLM gateway](https://github.com/DougieWilDaBeast/llm-gateway) up and `LLM_GATEWAY_KEY` set,
+   `python3 tools/map_voice_note.py docs/worldbuilding/voice-notes/2026-09-14-doug-md-part-1-b-land-scale-and-edges.md`
+   and compare its draft against the `LN` entries in [answers.md](worldbuilding/answers.md). If it
+   finds what the hand ingest found, and the verbatim check rejects little, use it as the first
+   pass for the next session's transcript ([voice notes](worldbuilding/voice-notes/README.md#a-first-pass-by-model)).
+7. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
