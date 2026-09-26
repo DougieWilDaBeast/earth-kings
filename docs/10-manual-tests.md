@@ -259,6 +259,22 @@ godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 godot --headless --path . res://tests/world_smoke_test.tscn -- --check=fate
 ```
 
+**In CI.** Every pull request and every push to `main` runs all thirteen suites and a two-minute
+soak on seed 77, headless on Linux against the official Godot 4.7.2 build
+(`.github/workflows/smoke.yml`). Both go through `./ek.sh`, the Linux and macOS twin of
+`.\ek.ps1 test`, so a red check can be reproduced locally with the same command:
+
+```bash
+./ek.sh test                 # every suite
+./ek.sh test walk seams      # only those
+./ek.sh soak 120             # the soak CI runs
+```
+
+`ek.sh` is stricter than `ek.ps1` in one way: a suite that prints a `SCRIPT ERROR` fails even when
+it exits 0, because Godot carries on past a script error and the exit code alone misses it. The
+soak fails on a `SCRIPT ERROR`, a non-zero exit (`STUCK` is 2), or a save that does not come back
+the same file.
+
 `--check=` runs only the named checks of the three suites that have them (`walk`, `world`,
 `seams`); a name the suite does not have fails and lists the ones it does. Every check in all three
 passes run on its own.

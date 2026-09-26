@@ -1,0 +1,36 @@
+name: smoke
+
+# Every smoke suite, headless on Linux, plus a short seeded soak. Same runner
+# the founders can use locally: ./ek.sh test (or .\ek.ps1 test on Windows).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  GODOT_VERSION: 4.7.2-stable
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot
+        uses: ./.github/actions/godot
+        with:
+          version: ${{ env.GODOT_VERSION }}
+      - name: Smoke suites
+        run: ./ek.sh test
+
+  soak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot
+        uses: ./.github/actions/godot
+        with:
+          version: ${{ env.GODOT_VERSION }}
+      - name: Two-minute soak
+        run: ./ek.sh soak 120

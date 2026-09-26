@@ -131,7 +131,8 @@ this list needs one or both founders** — the build has gone as far as it can w
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
-([10](10-manual-tests.md#automated-tests)). The seams audit on 2026-09-24 found six bugs no suite
+([10](10-manual-tests.md#automated-tests)). Since 2026-09-26 CI runs every suite and a two-minute
+soak on each pull request, so the five-minute soak is the only step left to do by hand. The seams audit on 2026-09-24 found six bugs no suite
 was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 [D42](06-decisions.md).
 

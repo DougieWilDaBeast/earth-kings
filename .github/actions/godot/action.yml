@@ -1,0 +1,25 @@
+name: Godot
+description: Download the official Linux build of Godot, cached, and put it on the PATH as `godot`.
+inputs:
+  version:
+    description: Release tag without the leading v, e.g. 4.7.2-stable
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      id: cache
+      with:
+        path: ~/godot
+        key: godot-${{ inputs.version }}-linux
+    - if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        mkdir -p ~/godot && cd ~/godot
+        curl -fsSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${{ inputs.version }}/Godot_v${{ inputs.version }}_linux.x86_64.zip"
+        unzip -q godot.zip && rm godot.zip
+        mv Godot_v*_linux.x86_64 godot && chmod +x godot
+    - shell: bash
+      run: |
+        echo "$HOME/godot" >> "$GITHUB_PATH"
+        "$HOME/godot/godot" --version
