@@ -240,7 +240,8 @@ Waits on M13, and on agenda items 4, 5 and 12.
   gone for good
 - Choosing the next lead from the survivors, in their own sibling world, from level 1 — the quiz
   asked again with every dead lead's answers removed, and the picker showing only the living
-  ([D43](06-decisions.md))
+  ([D43](06-decisions.md)). The quiz half is built (2026-09-26: it takes `fallen` and closes their
+  answers); what is left is passing it the dead, and the picker
 - Sibling worlds that tend to play out alike — same seed, perturbed
 - The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
 - The signature weapon crash-landing in the next world, and rumours that lead to it

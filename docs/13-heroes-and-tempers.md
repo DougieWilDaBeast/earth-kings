@@ -112,8 +112,17 @@ cast on them, and their stats.
 
 **A temper with nobody written for it is an ordinary state, not a bug.** The sixteen slots exist in
 `tempers.json` from the start and fill in one at a time; an unwritten slot says so and offers the
-full roster instead. `Show me all sixteen` reaches the old picker at any point, which is also how
-the whole roster gets tested.
+full roster instead.
+
+**The quiz is the front door** ([D44](06-decisions.md)). Nothing else is offered until the four
+questions are answered. Then the reveal offers two side doors next to _This is you_:
+**Answer again**, which goes back to the first question as often as the player likes, and
+**Show me all sixteen**, the old picker, which is also how the whole roster gets tested.
+
+**The dead cannot be answered into** ([D43](06-decisions.md)). The quiz takes the temper codes of
+fallen leads as `boot_payload.fallen` and leaves out any answer whose every temper has fallen. A
+question left with one answer is still asked, and the player has to pick it: seeing the gap is the
+point. Nothing passes `fallen` yet — that waits for a world to end (M15).
 
 ## The sixteen
 

@@ -34,7 +34,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 4  | `CO7`, `SM1`, `D21` | **Can a death be reloaded?** Save-scumming is allowed "to be revisited". A lead's death now ends a whole world. If reloading undoes that, the sixteen chances are a menu. This has to be settled before the death of a world is built. |
 | 5  | `MX20` | **In the second world, is there a living copy of the first lead** as well as their ghost and their weapon? |
 | 6  | `CH10`, `SF1` | **What does a lead remember?** "All 16 lose their memories", then "maybe your memories are intact". The reading taken: the fall takes the memory, the mark is recognised anyway. Confirm. |
-| 7  | `D29` | **Is the lead chosen or answered for?** The session says "you choose Cassius"; the build asks four questions and names you. Both can stand — the quiz names you, _Show me all sixteen_ lets you choose — but say which is the front door. |
+| 7  | `D29`, `D44` | ~~**Is the lead chosen or answered for?** The session says "you choose Cassius"; the build asks four questions and names you. Both can stand — the quiz names you, _Show me all sixteen_ lets you choose — but say which is the front door.~~ **Settled 2026-09-26 by `dougie`, in writing:** the quiz is the front door, and the roster is a side door that opens only after it, next to answering again. See `MX4`, `MX5`. |
 | 8  | `D37` | **Assists.** `dougie` summed it up as five assists for a kill's experience and `doug-md` agreed; `doug-md` had also said ten for ordinary grunts and five for a healer's assists. One number, or two? |
 | 9  | `CO2` | **Sprite size — 64, 32 or 16?** "that's still an open for now, but we do need to generate stuff" [01:07:40]. PixelLab credits reset on 2026-09-27 with 15% left; the [asset list](../19-asset-list.md) has to be generated at one size. The model game measures in the **32 class** ([investigation/07](../investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)). |
 | 10 | `CH13` | **Sixteen ways to fight, six classes.** The roster needs sixteen distinct fighting styles; `classes.json` has six. More classes, or a class per character, or styles inside classes? |
@@ -1991,6 +1991,47 @@ and a mission begins is still to draw.
 ↳ `doug-md` asked for the goal to be stated: "it might come up like on a little screen and be like,
 climb the tower" [00:12:06]. The answer was a line of quests that arrives at the Tower rather than a
 banner — "But you don't know what you're fighting for" [00:12:45].
+
+---
+
+# In writing — `dougie`, 2026-09-26
+
+Rules `dougie` gave in writing while the sixteen were being drafted, quoted as written. They are a
+founder's words, so they are canon. The rule they add is [D43](../06-decisions.md) and
+[D44](../06-decisions.md); how it works is in [17](../17-the-sixteen-worlds.md#when-the-lead-dies).
+
+## MX4 — Can a player re-roll the quiz, or is the first answer the one they live with?
+
+> "There is the option of re-doing the quiz if you want to change what character you got."
+> — dougie, 2026-09-26, in writing
+
+**Answered.** The quiz can be answered again, as often as the player likes, before the run begins.
+The first answer is not the one they have to live with.
+
+## MX5 — "Show me all sixteen" currently bypasses the quiz entirely. Is that an escape hatch or a dev tool that should not ship?
+
+> "Also we should give the option of opening the roster if the player wants as a side door but not
+> until after they complete the quiz and want to bother redo or open the roster to choose"
+> — dougie, 2026-09-26, in writing
+
+**Answered.** It ships, as a side door. It does not bypass the quiz any more: the roster opens only
+once the four questions are answered, next to answering them again.
+↳ Settles agenda item 7. The quiz is the front door.
+
+## MX11 — Is the next run the same world, later?
+
+> "When a character dies and you need to do a quiz to select the next hero, the options in the quiz
+> that give you that hero no longer exist. That answer is removed from the quiz"
+> — dougie, 2026-09-26, in writing
+
+> "A question with only one answer left should still require confirmation of selection by the user.
+> This is so they can visibly see an option is missing after each death of a player character."
+> — dougie, 2026-09-26, in writing
+
+**Answered**, adding to the joint-session answer above. The next lead is picked by the quiz again,
+and the dead cannot be answered into ([D43](../06-decisions.md)). An answer is removed once every
+character it could still lead to has died. A question left with a single answer is still asked, so
+the player sees what is gone.
 
 ---
 
