@@ -32,8 +32,8 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
 
 Characters the founders reached for while talking. None is assigned to a temper; they are what the
 first writing sitting should start from. [21 — The Sixteen: a first draft](21-the-sixteen-first-draft.md)
-proposes a temper for each, and fifteen more characters around them — a draft for the founders, not
-an assignment.
+proposes a character for each, together with the fifteen seeds [below](#seeds-from-dougies-list). It
+is a draft for the founders, not an assignment.
 
 | Seed | Said by | The idea |
 | --- | --- | --- |
@@ -42,6 +42,35 @@ an assignment.
 | **Driven to get stronger** | `doug-md` [00:17:29] | Sung Jin-Woo (_Solo Leveling_): stronger in every way, for its own sake |
 | **Driven to be free** | `doug-md` [00:17:49] | Monkey D. Luffy (_One Piece_) |
 | **The powerful one who went wrong** | `dougie` [00:17:59] | Pain (_Naruto_) — cut off mid-thought; the reason was not given |
+
+### Seeds from `dougie`'s list
+
+Fifteen more characters `dougie` sent on 2026-09-26, each with a summary of their personality,
+their story and one core trait. The core trait is kept here as the list put it. Like the session's
+seeds, none is assigned; [21](21-the-sixteen-first-draft.md#where-each-character-comes-from)
+proposes where each one goes.
+
+| Seed | From | Core trait |
+| --- | --- | --- |
+| **Yoichi Isagi** | _Blue Lock_ | "I need to understand the game better than everyone else." |
+| **Kim Dokja** | _Omniscient Reader's Viewpoint_ | "If I know the story, I can change the outcome." |
+| **Monkey D. Garp** | _One Piece_ | "I have principles—but family comes first." |
+| **Jaehwan** | _The World After the Fall_ | "Keep moving forward. Never go back." |
+| **Hansu Lee / Bjorn Yandel** | _Surviving the Game as a Barbarian_ | "Don't hope for the best. Prepare for the worst." |
+| **Kang Taeha / Yu Shin-un** | A Murim reincarnation manhwa; the list was unsure which title | "I've already reached the top once. I'll do it again." |
+| **King** | _One-Punch Man_ | "Everyone thinks I'm brave. I wish I actually were." |
+| **Garou** | _One-Punch Man_ | "What if the monster isn't actually the villain?" |
+| **Jin Tae-Kyung** | _Murim Login_ | "I'll keep going even when I'm clearly outmatched." |
+| **Ash** | _I Became the Tyrant of a Defense Game_ | "I know people will die. I'm still going to try to save as many as I can." |
+| **Seishiro Nagi** | _Blue Lock_ | "I don't care about winning—unless winning becomes interesting." |
+| **Ash Ketchum** | _Pokémon_ | "I'll try again." |
+| **Kyojuro Rengoku** | _Demon Slayer_ | "If I have strength, I should use it to protect others." |
+| **Roronoa Zoro** | _One Piece_ | "Give me a goal, and I'll give everything I have to achieve it." |
+| **Vinsmoke Sanji** | _One Piece_ | "I would rather suffer myself than allow someone else to go hungry or suffer." |
+
+Six of these come from four sources already in the [lineage](16-lineage/00-index.md): _The World
+After the Fall_ (16.1), _Omniscient Reader's Viewpoint_ (16.2), _Surviving the Game as a Barbarian_
+(16.3) and _One Piece_ (16.15).
 
 ## The four questions
 
