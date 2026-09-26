@@ -98,3 +98,23 @@ minutes ago, and the last sentence of a ramble is often the real answer to its f
 direct answers are written down as canon; anything inferred or assembled from several passages is
 written as provisional and comes back to you as a short list to confirm; anything that contradicts
 an earlier answer is raised rather than overwritten.
+
+### A first pass by model
+
+Optional, for whoever runs the ingest. With `dougie`'s LLM gateway running:
+
+```
+python3 tools/map_voice_note.py docs/worldbuilding/voice-notes/<note>.md --out draft.md
+```
+
+It sends the transcript and every question id to a model on the gateway's `private` lane
+(zero-retention; nothing the founders say goes to a free tier) and writes a draft: which questions
+each passage seems to speak to, as _direct_, _partial_, _inferred_ or _contradicts_, next to the
+question's current status in [answers.md](../answers.md). Every quote in it has been checked **word
+for word** against the transcript, and the speaker and timestamp are taken from the line it was
+found on, never from the model. A quote the model tidied or invented is listed under _Rejected_
+rather than shown. `--dry-run` shows the size of what would be sent without sending it.
+
+The draft is a pointer, not a reading. It does not replace reading the note whole, it cannot write
+a status, and its _care_ guesses are guesses — a tag only counts when it was said.
+

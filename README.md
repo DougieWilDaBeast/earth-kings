@@ -209,6 +209,17 @@ godot --headless --path . res://tools/coverage.tscn
 godot --headless --path . res://tools/soak.tscn -- --seconds=300   # the game plays itself; see docs/10
 ```
 
+## Coding agents and the LLM gateway
+
+[`AGENTS.md`](AGENTS.md) is the short brief for any coding agent working here (Claude Code reads it
+through `CLAUDE.md`). The repo is also wired to `dougie`'s own
+[LLM gateway](https://github.com/DougieWilDaBeast/llm-gateway), which is **optional and never used
+by the game**: `.mcp.json` gives Claude Code a `delegate` tool for cheap bulk work when
+`LLM_GATEWAY_DIR`, `LLM_GATEWAY_URL` and `LLM_GATEWAY_KEY` are set, and
+`tools/map_voice_note.py` drafts a first pass of which questions a voice note answers
+([voice notes](docs/worldbuilding/voice-notes/README.md#a-first-pass-by-model)). Without the
+gateway, decline the `delegate` server when Claude Code offers it; nothing else changes.
+
 ## Roadmap
 
 Tracked properly in [docs/05-roadmap.md](docs/05-roadmap.md). In short: M0–M9 are shipped — the

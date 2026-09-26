@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "delegate": {
+      "command": "uv",
+      "args": ["run", "--script", "${LLM_GATEWAY_DIR}/mcp/delegate.py"],
+      "env": {
+        "LLM_GATEWAY_URL": "${LLM_GATEWAY_URL:-http://localhost:4000}",
+        "LLM_GATEWAY_KEY": "${LLM_GATEWAY_KEY}"
+      }
+    }
+  }
+}
