@@ -31,7 +31,9 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
 ### Seeds from the session
 
 Characters the founders reached for while talking. None is assigned to a temper; they are what the
-first writing sitting should start from.
+first writing sitting should start from. [21 — The Sixteen: a first draft](21-the-sixteen-first-draft.md)
+proposes a temper for each, and fifteen more characters around them — a draft for the founders, not
+an assignment.
 
 | Seed | Said by | The idea |
 | --- | --- | --- |

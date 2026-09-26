@@ -24,6 +24,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 18  | [Combat direction](18-combat-direction.md)           | The move to a real-time-with-pause fight, what the research has to answer, and what it costs |
 | 19  | [Asset list](19-asset-list.md)                       | Everything to generate in PixelLab, in order — starting with the size test before the credits reset on 2026-09-27 |
 | 20  | [The PixelLab size test](20-pixellab-size-test.md)   | Step-by-step instructions for the size test: settings, prompts, order, importing, the viewer, and recording the call |
+| 21  | [The Sixteen: a first draft](21-the-sixteen-first-draft.md) | **Draft, not settled** — all sixteen proposed from joint session 1: names, seeds, sixteen ways to fight, where each one is. For the founders to keep or replace |
 
 ## Deciding the world
 

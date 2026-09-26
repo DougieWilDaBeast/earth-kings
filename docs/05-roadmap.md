@@ -128,6 +128,8 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    2 and 3); 13 is built; 14 is deferred to playtest.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
+   **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
+   replace the NT four and they get built.
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
