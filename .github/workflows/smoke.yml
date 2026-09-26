@@ -22,6 +22,8 @@ jobs:
           version: ${{ env.GODOT_VERSION }}
       - name: Smoke suites
         run: ./ek.sh test
+      - name: Question Book and answer ledger agree
+        run: ./ek.sh ledger
 
   soak:
     runs-on: ubuntu-latest
