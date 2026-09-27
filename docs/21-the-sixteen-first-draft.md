@@ -5,13 +5,17 @@ keep, change or throw out. Only a founder settles a character. Once a character 
 moves into [13 — Heroes & Tempers](13-heroes-and-tempers.md) and is built as the bundle described
 there. Until then this page is the proposal.
 
-It is written from two sources:
+It is written from three sources:
 
 - **[Joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md)** (2026-09-24): what
   the roster has to do, the four spoken names, and five seeds.
 - **Fifteen more seeds from `dougie`** (2026-09-26): characters from manga, manhwa and anime, each
   sent with a summary of their personality, their story and one core trait. They are listed in
   [13](13-heroes-and-tempers.md#seeds-from-dougies-list).
+- **Seventeen more from `dougie`'s second list** (2026-09-27): fourteen new, plus fuller profiles
+  of three session seeds (Sung Jin-Woo, Luffy and Pain). Listed in
+  [13](13-heroes-and-tempers.md#seeds-from-dougies-second-list). The profiles sharpen Pluto, Liber
+  and Saturn; the new seeds are [candidates](#candidates-from-the-second-list).
 
 It follows the order `dougie` gave in the session: work out who the characters are first, then fit
 each one to a temper.
@@ -50,18 +54,18 @@ Saturn keeps only the one the session gave him.
 | **Janus** | Seishiro Nagi | Enormous talent, no motivation, until something is interesting |
 | **Bellona** | Ash (_I Became the Tyrant of a Defense Game_) | Commands a place everyone knows will fall. Afraid, and it does not show |
 | **Cassius** | Garou | Sides with whoever gets called the monster |
-| **Saturn** | Pain (session) | The powerful one who went wrong |
+| **Saturn** | Pain (session, profile in the second list) | An idealist turned by loss: people will only make peace once they have felt each other's pain |
 | **Vesta** | Jaehwan | Will not go back. Would rather be alone than give in |
 | **Caesar** | Kyojuro Rengoku · Ash Ketchum | Strength is for protecting people · keeps getting back up |
 | **Iris** | Yoichi Isagi | Always sets up someone else, and has to learn to take the shot |
-| **Pluto** | Sung Jin-Woo (session) · Kang Taeha | Starts the weakest and grinds · has been at the top before and means to get back |
+| **Pluto** | Sung Jin-Woo (session, profile in the second list) · Kang Taeha | Starts the weakest and grinds, so nobody he cares about has to suffer · has been at the top before and means to get back |
 | **Ceres** | Jin Tae-Kyung | Bottom rank, keeps going, carries a family |
 | **Cato** | Hansu Lee / Bjorn Yandel | Prepares for the worst; knows the rules, and sees what they cost people |
 | **Juno** | Vinsmoke Sanji | Nobody goes hungry, not even an enemy |
 | **Ultor** | Thorfinn (session) · Roronoa Zoro | Hate aimed at one person · fights alone until he chooses a captain |
 | **Diana** | King | A terrifying reputation that is not hers |
 | **Ares** | Monkey D. Garp | Loud, the strongest of his generation, loyal to an institution, and kin on the other side |
-| **Liber** | Monkey D. Luffy (session) | Freedom is the whole point |
+| **Liber** | Monkey D. Luffy (session, profile in the second list) | Free, and wants his friends free; does not care what anyone was called |
 
 ## The sixteen at a glance
 
@@ -210,9 +214,13 @@ has decided is the villain.
 ### NF
 
 - **Saturn — The Quiet Cause (INFJ), from Pain.** Saturn is the god who was thrown out of heaven,
-  and he is the one of the sixteen who goes wrong. **Inferred reason, for `dougie` to replace:** he
-  thinks the fall was deserved. The world below should hurt until it understands why, and he means
-  to make it. He gathers the desperate into a creed that grows every chapter. _Fight — Gravity:_
+  and he is the one of the sixteen who goes wrong. He does not start wrong. He lands as the kindest
+  of them, and what he wants is peace. Then the world keeps taking people from him: the ones he
+  gathers die in gate after gate. In the end he decides that people will only understand one
+  another once they have felt each other's pain, and that someone has to make them feel it.
+  **Inferred, from Pain's profile in `dougie`'s second list:** that is the reason the session was
+  cut off before giving. He gathers the desperate into a creed that grows every chapter, and every
+  chapter it is harder to say he is wrong. _Fight — Gravity:_
   pushes everything away from him, pulls one thing in, and slows the ground around him. He tells
   you nothing until he trusts you, and then he tells you too much. Body: `golden_knight`.
 - **Vesta — The Kept Flame (INFP), from Jaehwan.** Every one of the sixteen climbs the Tower to get
@@ -245,9 +253,11 @@ has decided is the villain.
   the others, he _feels_ that he was once at the top. He does not remember it; he is simply certain.
   He is proud, cold, and patient: he has done this before, and he will do it again. He grinds one
   enemy kind at a time, which makes him the character built around first-kill experience
-  ([D37](06-decisions.md)). _Fight — Shades:_ raises what he kills to fight for him for the rest of
-  the battle, and gets stronger with each kind he has killed. He does not want a party and does not
-  need one. Body: `dusk_shadow`.
+  ([D37](06-decisions.md)). What he grinds for is not himself. **Inferred:** the people who take him
+  in where he lands become his, and nobody is allowed to hurt them; everything he gains goes to that.
+  _Fight — Shades:_ raises what he kills to fight for him for the rest of the battle, and gets
+  stronger with each kind he has killed. He does not want a party and does not need one. Body:
+  `dusk_shadow`.
 - **Ceres — The Keeper (ISFJ), from Jin Tae-Kyung.** She lands at the bottom: no rank, no name, in a
   village that is not managing. She stays anyway and keeps it fed. The village becomes her family,
   and she keeps going when she is plainly outmatched. She is cheeky, funny, and completely sincere.
@@ -296,7 +306,10 @@ has decided is the villain.
   anyway. _Fight — Opener:_ the heaviest first ten seconds in the game, then he tires. He is the
   easiest of the sixteen to play. Body: `sword_bear`.
 - **Liber — The Bright Hour (ESFP), from Luffy.** Liber is the Roman god of freedom. He never stays
-  in the same place twice, and if there is a sea, he is on it. _Fight — Bare hands:_ unarmed, and
+  in the same place twice, and if there is a sea, he is on it. He does not care what anyone was, or
+  what they are called (the Monster, the Beast, a bandit), only what kind of person they are. That
+  makes him the one of the sixteen most likely to travel with Cassius, Diana or Ultor. He wants to be
+  free, and he wants his friends free too. _Fight — Bare hands:_ unarmed, and
   he cannot be pinned, rooted or disarmed. He gets more reckless as the fight goes on. His
   signature weapon is a pair of cestus, and he would rather not wear them. Body: `cabin_boy`.
 
@@ -345,21 +358,57 @@ The ties between them, all **Inferred** and all one-sided unless marked:
 | Cato | Ultor | Hunts bandits, and Ultor is the best of them |
 | Ares ↔ Liber | — | Kin above. Neither remembers it; Ares lets him go anyway |
 
+## Candidates from the second list
+
+Fourteen new seeds for sixteen characters that already have one or two each. So they are not
+assigned; they are offered. Ten would **strengthen** a character without changing who they are.
+Three are **alternatives** that pull a character a different way, so it is one seed or the other.
+One is not one of the sixteen at all.
+
+| Seed | Fits | What it would add |
+| --- | --- | --- |
+| **Batman** | Strengthens **Vesta** | Brings back the refusal to kill, and adds control and preparation. A loner with a code, which Jaehwan already is |
+| **The Flash** | Strengthens **Iris** | Speed, and "there is always a way forward". The fastest of the sixteen, now an optimist about it |
+| **Spider-Man** | Strengthens **Ceres** | Responsibility for the people she took on, jokes to cover the fear, and wishing she could just have a normal life |
+| **Thor** | Strengthens **Ares** | A proud power who has to learn that strength without wisdom is not enough. That is also what his opener does: it tires |
+| **Loki** | Strengthens **Cassius** | Raised among gods, and turns out to be what they call a monster. If he cannot be loved, he will be impossible to ignore |
+| **David Attenborough** | Strengthens **Diana** | Patience, and understanding the wild before acting on it. The quiet watcher the villages mistake for a beast |
+| **Cristiano Ronaldo** | Strengthens **Pluto** | Relentless refinement, and a hunger for records. The Ledger keeping score, and taking failure hard |
+| **Lionel Messi** | Strengthens **Atlas** | Quiet, underestimated, and lets the work answer rather than saying what he can do |
+| **José Mourinho** | Strengthens **Bellona** | Controls the psychology around the fight, not only the fight. A theatrical front, which suits a commander hiding her fear |
+| **The T-800** | Strengthens **Ultor** | Sent to kill, learns to protect. The end of Ultor's arc could be guarding the woman he came to kill |
+| **Iron Man** | An alternative for **Janus** | Driven where Nagi is idle. **Inferred:** the gates are something Janus built above, and he walks into them because part of him knows the work. Big lore; the founders' call |
+| **Ned Stark** | An alternative for **Cato** | Honour over survival, the opposite of Hansu's pragmatism. A Cato who does what is right even when it gets him killed |
+| **Bam** | An alternative for **Vesta** | Climbs only because someone he loves did, the opposite of Jaehwan's never going back. **Inferred:** he landed in the dark beneath the Tower |
+| **Jonah Lomu** | **Atlas's bearer**, not one of the sixteen | Unstoppable, gentle and humble. One answer to who carries Atlas |
+
+Two pairs would make ties, both **Inferred**:
+
+- **Thor and Loki as Ares and Cassius**, brothers above: the proud one, and the one who never fit.
+  That would replace or sit beside Cassius's grudge against Caesar.
+- **Ronaldo and Messi as Pluto and Atlas**: the one who tells everyone the score, and the one who
+  never says it.
+
+**The five real people lend one public trait each, and nothing else.** No character is named after
+one, looks like one or is presented as one, and no text in the game mentions them.
+
 ## What the founders need to decide
 
 1. **Keep, change or replace each of the sixteen**, starting with the NT four (Atlas, Janus,
    Bellona, Cassius).
 2. **Which seed goes to which character.** The pairings above are a proposal. Any seed can move.
-3. **Pain's reason.** `dougie` was cut off mid-thought [00:17:59]. The draft gives Saturn one; the
-   real one replaces it.
-4. **Who carries Atlas:** someone hired, a friend, one of the other fifteen, or a beast, as in the
-   placeholder art.
+3. **Pain's reason.** `dougie` was cut off mid-thought [00:17:59]. Saturn now takes the reason from
+   Pain's profile in the second list: an idealist turned by loss. Confirm that is what was meant.
+4. **Who carries Atlas:** someone hired, a friend, one of the other fifteen, a beast as in the
+   placeholder art, or the gentle giant the Lomu seed suggests.
 5. **A class of one's own for each** (agenda item 10), or styles inside the six classes.
 6. **The four ties above**: keep them, change them or drop them.
 7. **The Taeha seed's title.** The summary it came with named Kang Taeha, reborn as Yu Shin-un, and
    was itself unsure which series was meant. Pluto takes only the trait, "I've already reached the top
    once. I'll do it again.", so nothing here depends on the title. Worth checking all the same.
-8. **Cassius as a regional name.** `data/names.json` lists _Cassius_ as an ordinary noble name, and
+8. **The second list's candidates:** which of the ten to fold in, and for Janus, Cato and Vesta,
+   which seed wins. Also whether the two pairs become ties.
+9. **Cassius as a regional name.** `data/names.json` lists _Cassius_ as an ordinary noble name, and
    its own notes say the sixteen's names are not in it. If Cassius is one of the sixteen, he comes
    out of that list.
 
