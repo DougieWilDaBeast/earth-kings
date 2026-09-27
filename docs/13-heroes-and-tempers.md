@@ -72,6 +72,39 @@ Six of these come from four sources already in the [lineage](16-lineage/00-index
 After the Fall_ (16.1), _Omniscient Reader's Viewpoint_ (16.2), _Surviving the Game as a Barbarian_
 (16.3) and _One Piece_ (16.15).
 
+### Seeds from `dougie`'s second list
+
+Seventeen more `dougie` sent on 2026-09-27, in the same shape: a summary of each and one core trait,
+kept here as the list put it. Fourteen are new. Three are seeds the session already gave, now with a
+fuller profile. The summaries came from an AI chat, working from mainstream comic portrayals and,
+for real people, their public persona; only the seeds are recorded, not the chat's commentary on
+them. [21](21-the-sixteen-first-draft.md#candidates-from-the-second-list) proposes where each one
+fits.
+
+| Seed | From | Core trait |
+| --- | --- | --- |
+| **Batman** | DC Comics | "I can't undo what happened to me, but I can make sure it doesn't happen to others." |
+| **Barry Allen, the Flash** | DC Comics | "There is always a way forward." |
+| **Peter Parker, Spider-Man** | Marvel Comics | "If I can help someone and choose not to, that's on me." |
+| **Thor** | Marvel Comics | "True strength requires humility." |
+| **Tony Stark, Iron Man** | Marvel Comics | "If I caused the problem, I'll build the solution." |
+| **Loki** | Marvel Comics | "If I can't be loved for who I am, I'll make myself impossible to ignore." |
+| **David Attenborough** | Naturalist and broadcaster — a real person | "Understand the world first; then decide how we should treat it." |
+| **Cristiano Ronaldo** | Football — a real person | "Talent gets you started; relentless work keeps you at the top." |
+| **Lionel Messi** | Football — a real person | "I don't need to tell you what I can do; I'll show you." |
+| **José Mourinho** | Football management — a real person | "Football isn't just played on the pitch; control the psychology around it too." |
+| **Jonah Lomu** | Rugby — a real person | "Be incredibly powerful without needing to be intimidating." |
+| **The T-800** | _The Terminator_ | "My purpose is defined by what I choose to protect." |
+| **Eddard "Ned" Stark** | _A Song of Ice and Fire_ | "Do what is right, even when doing so is dangerous." |
+| **Twenty-Fifth Bam** | _Tower of God_ | "I don't want to lose the people I care about." |
+| **Sung Jin-Woo** — already a seed | _Solo Leveling_ | "I'll become strong enough that nobody I care about has to suffer." |
+| **Monkey D. Luffy** — already a seed | _One Piece_ | "I want to be free, and I want my friends to be free too." |
+| **Pain / Nagato** — already a seed | _Naruto_ | "If people don't understand each other's pain, peace is impossible." |
+
+**Five are real people.** They lend one public trait and nothing else. No character is named after
+one, looks like one or is presented as one, and no text in the game mentions them. _Tower of God_ is
+already in the lineage ([16.12](16-lineage/16.12-tower-of-god.md)).
+
 ## The four questions
 
 One per preference pair, so sixteen answers map exactly onto sixteen characters. The questions
