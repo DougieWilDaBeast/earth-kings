@@ -53,6 +53,7 @@ src/
     world.gd                   Ground, places, the step clock, the tree registry, routes
     world_gen.gd               Builds a 128x128 continental world from a seed
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
+    guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
     names.gd                   Regional names and the lead's earned title (D39)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
@@ -74,7 +75,7 @@ src/
   dialogue/                    Conversation overlay, branching script, skill checks, news
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Battle HUD, title screen, party screen, system menu, stash,
-                               journal (bestiary, routes, annals), museum (hero dossiers)
+                               Guild hall, journal (bestiary, routes, annals), museum (hero dossiers)
 ```
 
 ## Character vs Unit

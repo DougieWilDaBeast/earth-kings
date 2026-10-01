@@ -53,6 +53,14 @@
 	],
 	"people": [
 		{
+			"name": "Sahra the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [13, 7],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["The sand keeps burying the board. The gates it lists do not stay buried."]
+		},
+		{
 			"name": "Nasir the Caravan Master",
 			"unit": "innkeeper",
 			"cell": [11, 7],

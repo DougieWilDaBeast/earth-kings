@@ -83,6 +83,17 @@ other, rolled through the graces with no ally standing to pull them out. Look an
 pay when they arrive; fetches and hunts pay when they are home. The numbers are the `dispatch`
 block in `data/world_rules.json`.
 
+## The Adventurers Guild
+
+The Guild cares about gates, not the Tower ([D35](06-decisions.md), `DV2`). Every keep and village
+that is still standing keeps a hall: press **Y** there on the map, or talk to the Guild clerk
+inside. The hall shows the **register**: every gate not yet shut, worst rank first and nearest first
+within a rank, with its state (open, broken, brewing), floors, objective and bearing. An open gate
+can be taken as a **contract**: a `gate` errand in the job log that pays `gold_base + gold_per_rank ×
+rank` the moment that gate is shut, wherever the hall was. The Guild pays nothing in advance for a
+gate that has not opened. Only the company can work a contract, so a companion cannot be sent on
+one. Terms and words are in `data/guild.json`.
+
 ## Falling — death and its graces
 
 **Death is the default.** A character who falls is gone unless something they _brought with them_

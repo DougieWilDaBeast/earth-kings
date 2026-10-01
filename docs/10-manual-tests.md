@@ -159,6 +159,9 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G12 | Shut a gate (or save a town), then come back | "The Tower opens onto floor 6 of 10 — chapter 2 of 2", and the fight starts                 |
 | G13 | Step onto a gate whose objective is _Reach the heart_ | The log names it; a lilac cell sits behind the enemy line; standing on it wins the floor with enemies still up |
 | G14 | Reach the last floor of a _Slay the keeper_ gate | Felling the guardian ends the fight at once, and the gate shuts                     |
+| G15 | Stand on a village or keep and press **Y** | The Guild hall: every gate not yet shut, worst first, with state, floors, objective and bearing |
+| G16 | Take a contract on an open gate, then shut that gate | The job log shows "shut …"; shutting it pays the contract on top of the gate's own spoils |
+| G17 | Walk into a village or keep and talk to the Guild clerk | The same Guild hall opens; closing it gives control back |
 
 ## H — Conversation and the camp
 

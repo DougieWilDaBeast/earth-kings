@@ -1,0 +1,21 @@
+{
+	"contract": {
+		"gold_base": 60,
+		"gold_per_rank": 90,
+		"giver": "the Adventurers Guild"
+	},
+	"states": {
+		"open": "standing open",
+		"broken": "BROKEN, and pouring",
+		"brewing": "brewing, not yet open"
+	},
+	"lines": {
+		"welcome": "The Guild hall at {hall}. A board of gates, ranked worst first, and a clerk who has seen too many of them.",
+		"empty": "Every gate the Guild knows of is shut. The clerk looks almost disappointed.",
+		"no_hall": "There is no Guild hall here.",
+		"taken": "The clerk writes it down: the company is to shut {gate}. {gold} gold when it is done.",
+		"full": "You have as much work in hand as anyone should. Finish something first.",
+		"already": "That one is already yours.",
+		"not_open": "{gate} is not open yet. The Guild does not pay for gates nobody can walk into."
+	}
+}

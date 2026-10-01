@@ -246,6 +246,23 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 }
 ```
 
+A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
+still keeps one). Every keep and village area has one: a `guild_clerk`.
+
+## `guild.json` — the Adventurers Guild
+
+```json
+{
+  "contract": { "gold_base": 60, "gold_per_rank": 90, "giver": "the Adventurers Guild" },
+  "states": { "open": "standing open", "broken": "BROKEN, and pouring", "brewing": "brewing, not yet open" },
+  "lines": { "welcome": "The Guild hall at {hall}. …", "taken": "… shut {gate}. {gold} gold …" }
+}
+```
+
+- `contract` — what a gate contract pays: `gold_base + gold_per_rank × rank index` (E is 0, S is 5).
+- `states` — how the register names a gate's state.
+- `lines` — what the hall says; `{hall}`, `{gate}` and `{gold}` are filled in.
+
 ## `coliseum.json` — arena cards and waves
 
 Gladiator bouts, purse multipliers, and multi-team engagements:

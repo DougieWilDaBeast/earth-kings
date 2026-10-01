@@ -35,9 +35,12 @@ static func can_send(character: Character, roster: Roster, away: Array) -> bool:
 	return roster.party_members().size() > 1
 
 
-## Accepted errands nobody has been sent on yet.
+## Accepted errands nobody has been sent on yet. Gate contracts are the company's own.
 static func open_errands(accepted: Array) -> Array:
-	return accepted.filter(func(errand: Dictionary) -> bool: return str(errand.get(TAKEN_BY, "")) == "")
+	return accepted.filter(
+		func(errand: Dictionary) -> bool:
+			return str(errand.get(TAKEN_BY, "")) == "" and str(errand.get("kind", "")) != Errand.GATE
+	)
 
 
 ## Send [param character] to do [param errand]. Returns the line to show, or ""

@@ -228,7 +228,9 @@ chapter's close moves them on further.
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
   floor, and it survives a save); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
   reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
-- The Adventurers Guild in settlements, and S-rank gates that gather armies
+- The Adventurers Guild in settlements ✅ (built 2026-10-01: a hall in every standing keep and
+  village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and
+  S-rank gates that gather armies
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal

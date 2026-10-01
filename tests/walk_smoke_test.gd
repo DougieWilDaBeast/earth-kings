@@ -9,13 +9,15 @@ extends Node
 const CheckFilter := preload("res://tests/check_filter.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "run_ends",
 ]
 
 var _scene: Node
@@ -1092,6 +1094,55 @@ func _check_allies() -> void:
 	battle.free()
 	Pace.auto = setting
 	print("allies: %d take the field on the party's side and strike only the enemy" % allies.size())
+
+
+## The Guild keeps a hall in every standing keep and village: a register of the
+## gates, worst first, and contracts that pay when the gate is shut.
+func _check_guild() -> void:
+	var world: World = GameState.world
+	_expect(not Guild.rules().get("contract", {}).is_empty(), "data/guild.json has no contract terms")
+	var hall := _site_where(func(s: Site) -> bool: return Guild.has_hall(s))
+	if hall == null:
+		_expect(false, "no keep or village keeps a Guild hall")
+		return
+	var hut := _site_where(func(s: Site) -> bool: return s.kind == Site.HUT)
+	_expect(hut == null or not Guild.has_hall(hut), "a hut keeps a Guild hall")
+	var kept := hall.data.duplicate(true)
+	hall.data[Town.SACKED] = true
+	_expect(not Guild.has_hall(hall), "a sacked town still keeps a Guild hall")
+	hall.data = kept
+
+	var accepted: Array = []
+	var register := Guild.register(world, hall.cell, accepted)
+	_expect(not register.is_empty() or world.sites_of_kind(Site.GATE).all(func(g: Site) -> bool: return g.cleared),
+		"the register is empty with gates still standing")
+	for i in range(1, register.size()):
+		_expect(
+			Site.rank_index(register[i - 1]["rank"]) >= Site.rank_index(register[i]["rank"]),
+			"the register is not worst first (%s before %s)" % [register[i - 1]["rank"], register[i]["rank"]]
+		)
+
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and s.open and not s.cleared)
+	if gate == null:
+		_expect(false, "no open gate to take a contract on")
+		return
+	Guild.take(world, hall, gate, accepted)
+	_expect(Guild.is_contracted(accepted, gate.cell), "taking a contract did not put it in the job log")
+	_expect(Guild.take(world, hall, gate, accepted) == Guild.line("already"), "the same contract was taken twice")
+	_expect(Dispatch.open_errands(accepted).is_empty(), "a companion could be sent to shut a gate alone")
+	var brewing := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.open and not s.cleared)
+	if brewing != null:
+		Guild.take(world, hall, brewing, accepted)
+		_expect(not Guild.is_contracted(accepted, brewing.cell), "the Guild paid in advance for a gate nobody can walk into")
+
+	var gold := GameState.gold
+	var pay := Guild.pay_for(gate)
+	Errand.on_gate_shut(accepted, gate.cell, world)
+	_expect(GameState.gold == gold + pay, "shutting a contracted gate paid %d, not %d" % [GameState.gold - gold, pay])
+	_expect(not Guild.is_contracted(accepted, gate.cell), "a paid contract stayed in the job log")
+	print("guild: %s keeps a hall; %d gates on the register; a contract on %s paid %d" % [
+		hall.display_name, register.size(), gate.display_name, pay
+	])
 
 
 ## A training battle on [param meeting], built and left at the party's first orders.

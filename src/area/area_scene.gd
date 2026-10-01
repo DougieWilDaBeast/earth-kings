@@ -6,6 +6,8 @@ extends Node2D
 ## leader has already covered. Leaving by the road hands play back to whatever
 ## scene sent us here.
 
+const Guild := preload("res://src/chronicle/guild.gd")
+
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
 const CRUMB_SPACING := 6.0
@@ -318,7 +320,8 @@ func _spawn_people() -> void:
 
 
 func _has_something_to_say(person: Dictionary) -> bool:
-	return person.get("dialogue", "") != "" or person.get("cutscene", "") != ""
+	return person.get("dialogue", "") != "" or person.get("cutscene", "") != "" \
+		or bool(person.get("guild", false))
 
 
 ## The town holds its breath while a conversation or a cutscene is running.
@@ -533,6 +536,11 @@ func _speak_to(index: int) -> void:
 	if dialogue_id != "":
 		EventBus.dialogue_requested.emit(dialogue_id)
 		await EventBus.dialogue_finished
+	elif bool(person.get("guild", false)) and Guild.hall_at(GameState.world, GameState.world.player_cell) != null:
+		if not them.chatter.is_empty():
+			them.say(them.chatter.pick_random())
+		EventBus.guild_requested.emit()
+		await EventBus.overlay_closed
 	elif not them.chatter.is_empty():
 		them.say(them.chatter.pick_random())
 

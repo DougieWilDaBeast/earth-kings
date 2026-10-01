@@ -41,6 +41,8 @@ signal party_screen_requested
 signal journal_requested
 ## Ask the camp stash screen to open.
 signal stash_requested
+## Ask the Adventurers Guild screen to open on the hall the party stands in.
+signal guild_requested
 ## One of the always-present overlays has shut itself. The `_requested` signals
 ## above are only the opening edge; anything that has to know whether something
 ## is in the way needs both.

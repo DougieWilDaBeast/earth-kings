@@ -51,6 +51,8 @@ var coliseum: Dictionary = {}
 var factions: Dictionary = {}
 ## Which scene hears which tracks (see [Music]).
 var music: Dictionary = {}
+## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
+var guild: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -89,6 +91,7 @@ func _ready() -> void:
 	coliseum = _load_json("%s/coliseum.json" % DATA_DIR)
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
+	guild = _load_json("%s/guild.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:

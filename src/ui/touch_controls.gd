@@ -62,7 +62,7 @@ func _ready() -> void:
 	# went away when a screen was asked for and never came back when it shut.
 	for opening: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
-		EventBus.journal_requested, EventBus.stash_requested,
+		EventBus.journal_requested, EventBus.stash_requested, EventBus.guild_requested,
 	]:
 		opening.connect(_restate)
 	EventBus.overlay_closed.connect(_restate)
