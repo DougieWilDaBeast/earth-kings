@@ -22,6 +22,9 @@ reads **79 of 366 answered, 26 partly answered, 169 still open, 143 drafts acros
 Section 1 is what the next milestone cannot start without. Everything below it is real, but it can
 wait for a session that has nothing more urgent.
 
+**For the next session:** [the briefing sheet](session-2-briefing.md) gives every Section 1 item
+its options, what each costs to build, and what happens if nobody answers.
+
 ## 1. What joint session 1 left open — needed next
 
 Every item here blocks something on the [roadmap](../05-roadmap.md). Most are one sentence each.
@@ -43,6 +46,10 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 13 | `GT2`, M5 | **You cannot leave a gate until it is beaten.** ~~The build lets a party retreat and keep the floors taken.~~ **Built 2026-09-24:** once a floor is won, every step is the next floor. Say so if that was not what you meant. |
 | 14 | `GT3` | **Timed events.** `doug-md` asked whether failing to do things in time costs you. `dougie`: "we should try to test what happens when we're playing first". Deferred to playtest, on purpose. |
 | 15 | `LP13`, `LP2` | **What is a hearth, or a background, for someone who fell from the sky?** The sixteen are not from this world, and they land at random. The reading taken in [14](../14-lore-pools.md#what-joint-session-1-changed): a hearth becomes the crash site, and a background is the life above, found out in pieces. Confirm or replace before any pool is written. |
+| 16 | `GT3`, D45 | **Inferred.** Built 2026-10-01: **every gate has an objective** — rout, slay the keeper, or reach the heart — fixed by where it stands, no timers. Are those the right kinds? |
+| 17 | `OT8`, D46 | **Inferred.** Built 2026-10-01: **an S-rank gate raises a Guild muster** that goes in beside the company, and **goes in alone** if nobody from the company stands with it, winning or losing on its strength. Is that what happens if you never come? |
+| 18 | `MX4`, D47 | **Inferred.** Built 2026-10-01: **the fallen are remembered outside the save**, and the record is wiped only once every lead has fallen. When should the slate be wiped? |
+| 19 | `DV2` | **Inferred.** Built 2026-10-01: **the Adventurers Guild keeps a hall in every standing keep and village**, never huts, with a clerk inside. Right places? |
 
 ## 2. Eleven Part I questions that need a straight answer
 

@@ -106,8 +106,9 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
-Updated 2026-09-24, after M11's prototype, M12, M16, D35 and D39 were built. **Everything left on
-this list needs one or both founders** — the build has gone as far as it can without an answer.
+Updated 2026-10-01, after gate objectives, the Adventurers Guild and its musters, and the record of
+the fallen were built (D45–D47). **Everything left on this list needs one or both founders** — the
+build has gone as far as it can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
 1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
@@ -123,7 +124,9 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
 3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
    [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
 4. **Next founders' session** — the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
-   items 1–2 and 4–12 and 15. Items 1 and 2 (the Tower's floor count, and steps against Tower
+   items 1–2, 4–12, 15 and the four the build inferred (16–19). The
+   [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and cost.
+   Items 1 and 2 (the Tower's floor count, and steps against Tower
    chapters) unblock M14; items 4 and 5 unblock M15; 6, 7 and 15 unblock M13; 11 unblocks party
    growth. Item 3 — the research and the prototype — has gone as far as it can without play (steps
    2 and 3); 13 is built; 14 is deferred to playtest.
