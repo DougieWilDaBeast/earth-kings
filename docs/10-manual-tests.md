@@ -37,6 +37,8 @@ you saw, on which screen, and what you had done just before.
 | B4  | Note the world seed in the system menu, start again with that number | The same country, same places, same names                                            |
 | B5  | Leave the Seed field empty and start twice                           | Two different countries                                                              |
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
+| B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
+| B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
 
 ## C — The world map
 

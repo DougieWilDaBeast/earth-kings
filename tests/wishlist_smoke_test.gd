@@ -545,6 +545,60 @@ func _check_temper_quiz() -> void:
 	quiz.queue_free()
 
 	_check_fallen_quiz()
+	_check_the_fallen()
+
+
+## A lead who dies is written down outside the save (D47): their hero leaves the
+## picker, their temper leaves the quiz, and only once nobody is left can the
+## record be wiped.
+func _check_the_fallen() -> void:
+	var Sixteen := preload("res://src/chronicle/sixteen.gd")
+	Sixteen.path = "user://earth-kings.sixteen.test.json"
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+
+	_expect(Sixteen.fallen_heroes().is_empty(), "a fresh record of the fallen was not empty")
+	Sixteen.fall("bram")
+	Sixteen.fall("bram")
+	_expect(Sixteen.fallen_heroes() == ["bram"], "a fallen lead was written down as %s" % str(Sixteen.fallen_heroes()))
+	_expect(Sixteen.anyone_left(), "one death left nobody")
+	_expect(not Sixteen.wipe(), "the fallen were wiped with lives still left")
+
+	var types: Dictionary = Database.tempers["types"]
+	var kept: String = str(types["INTJ"].get("hero", ""))
+	types["INTJ"]["hero"] = "sera"
+	_expect(Database.hero_temper("sera") == "INTJ", "a hero written for INTJ was not found under it")
+	Sixteen.fall("sera")
+	_expect(Sixteen.fallen_tempers().has("INTJ"), "a fallen lead's temper did not leave the quiz")
+	types["INTJ"]["hero"] = kept
+
+	var picker: Control = load("res://src/ui/character_select.tscn").instantiate()
+	picker.boot_payload = {"fallen_heroes": Sixteen.fallen_heroes()}
+	add_child(picker)
+	var lives := picker.get_node("%Lives").get_children()
+	_expect(lives.size() == Database.heroes.size() - 2, "with two fallen the picker offered %d of %d" % [lives.size(), Database.heroes.size()])
+	for life: Button in lives:
+		_expect(not life.text.begins_with(Database.unit_template("bram").get("display_name", "bram")), "a fallen lead was offered again")
+	picker.queue_free()
+
+	for hero_id: String in Database.heroes:
+		Sixteen.fall(hero_id)
+	_expect(not Sixteen.anyone_left(), "with every lead fallen somebody was still left")
+	var empty: Control = load("res://src/ui/character_select.tscn").instantiate()
+	empty.boot_payload = {"fallen_heroes": Sixteen.fallen_heroes()}
+	add_child(empty)
+	var again: Button = empty.get_node_or_null("%Lives/NewSixteenButton")
+	_expect(again != null, "with nobody left the picker did not offer a new sixteen")
+	if again != null:
+		# Called rather than pressed: a pressed button plays a sound still held at exit.
+		empty._begin_again(again)
+		_expect(FileAccess.file_exists(Sixteen.path), "one press wiped the fallen without asking twice")
+		empty._begin_again(again)
+		_expect(not FileAccess.file_exists(Sixteen.path), "a new sixteen kept the old fallen")
+	empty.queue_free()
+
+	Sixteen.path = Sixteen.DEFAULT_PATH
+	print("the fallen: kept outside the save, closed in the picker and the quiz, wiped only when nobody is left")
 
 
 ## A dead lead cannot be answered into again (D43): an answer goes once every

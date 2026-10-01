@@ -152,6 +152,16 @@ func temper_hero(code: String) -> String:
 	return str(temper(code).get("hero", ""))
 
 
+## The temper a hero is written for, or "" if no slot names them yet.
+func hero_temper(hero_id: String) -> String:
+	if hero_id == "":
+		return ""
+	for code: String in temper_types():
+		if str(temper_types()[code].get("hero", "")) == hero_id:
+			return code
+	return ""
+
+
 ## What one letter of a temper nudges. Codes carry four letters, so a character
 ## sums four leans; anything a letter is silent about falls back.
 func temper_lean(code: String, key: String, fallback: float) -> float:

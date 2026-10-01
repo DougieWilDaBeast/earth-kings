@@ -22,6 +22,8 @@ var boot_payload: Dictionary = {}
 
 ## Temper codes of leads who have died. Their answers are closed.
 var _fallen: PackedStringArray = []
+## Heroes who died as leads, handed on to the roster so it offers only the living.
+var _fallen_heroes: Array = []
 
 ## One letter per question answered so far, in axis order.
 var _answers: PackedStringArray = []
@@ -50,9 +52,12 @@ var _chosen: String = ""
 func _ready() -> void:
 	for code in boot_payload.get("fallen", []):
 		_fallen.append(str(code))
+	_fallen_heroes = boot_payload.get("fallen_heroes", [])
 	_begin_button.pressed.connect(_begin)
 	_again_button.pressed.connect(_start_over)
-	_all_button.pressed.connect(func() -> void: EventBus.request_scene.emit("character_select", {}))
+	_all_button.pressed.connect(
+		func() -> void: EventBus.request_scene.emit("character_select", {"fallen_heroes": _fallen_heroes})
+	)
 	_back_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_ask(0)
 
@@ -88,6 +93,7 @@ func _ask(index: int) -> void:
 		# Every answer is closed: all sixteen have fallen.
 		_question.text = "Nobody is left to answer for."
 		_step.text = "All sixteen have fallen."
+		_all_button.visible = true
 		_back_button.grab_focus()
 
 
@@ -135,6 +141,8 @@ func _resolve() -> void:
 	var code := "".join(_answers)
 	var temper := Database.temper(code)
 	_chosen = Database.temper_hero(code)
+	if _fallen_heroes.has(_chosen):
+		_chosen = ""
 
 	_clear_options()
 	_question.text = str(temper.get("display_name", code))

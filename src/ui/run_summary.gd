@@ -4,6 +4,8 @@ extends Control
 ## Nothing is counted here — the numbers are read off [Ledger] and the [World]
 ## that outlived them.
 
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
+
 ## Set by [Game] before the scene enters the tree; unused here.
 var boot_payload: Dictionary = {}
 
@@ -20,6 +22,9 @@ func _ready() -> void:
 	# The save is about to be started over; the hall is where these people keep.
 	var ending: String = str(boot_payload.get("ending", Museum.CONQUERED if (world != null and world.tower_topped) else Museum.FELL))
 	Museum.remember(world, roster, GameState.ledger, ending)
+	var lead: Character = roster.player() if roster != null else null
+	if ending == Museum.FELL and GameState.tallying and lead != null and lead.status == Fate.DEAD:
+		Sixteen.fall(lead.template_id)
 	_epitaph.text = Ledger.epitaph(world, roster, GameState.ledger)
 	for chapter: Dictionary in Ledger.chapters(world, roster, GameState.ledger):
 		_chapters.add_child(_chapter_block(chapter))

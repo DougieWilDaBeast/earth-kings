@@ -155,7 +155,11 @@ questions are answered. Then the reveal offers two side doors next to _This is y
 **The dead cannot be answered into** ([D43](06-decisions.md)). The quiz takes the temper codes of
 fallen leads as `boot_payload.fallen` and leaves out any answer whose every temper has fallen. A
 question left with one answer is still asked, and the player has to pick it: seeing the gap is the
-point. Nothing passes `fallen` yet — that waits for a world to end (M15).
+point. Since 2026-10-01 the dead are passed in ([D47](06-decisions.md)): a lead who dies is
+written to `user://earth-kings.sixteen.json` (`src/chronicle/sixteen.gd`), apart from the save and
+the museum. New Game hands their tempers to the quiz and their heroes on to _Show me all sixteen_,
+which offers only the living. Once nobody is left, the picker offers **Begin a new sixteen**. It asks
+twice, then wipes the record.
 
 ## The sixteen
 

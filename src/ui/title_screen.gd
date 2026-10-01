@@ -2,6 +2,7 @@ extends Control
 ## Boot menu: start a fresh run or continue from the save in `user://`.
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
 
 ## Set by [Game] before the scene enters the tree; unused here.
 var boot_payload: Dictionary = {}
@@ -99,5 +100,7 @@ func _on_continue_pressed() -> void:
 
 
 func _on_new_game_pressed() -> void:
-	EventBus.request_scene.emit("temper_quiz", {})
+	EventBus.request_scene.emit("temper_quiz", {
+		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(),
+	})
 
