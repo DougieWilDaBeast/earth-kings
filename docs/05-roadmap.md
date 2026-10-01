@@ -110,7 +110,8 @@ Updated 2026-09-24, after M11's prototype, M12, M16, D35 and D39 were built. **E
 this list needs one or both founders** — the build has gone as far as it can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.** Everything is
+1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
+   still ungenerated, so this now waits on credits. Everything else is
    ready: step-by-step instructions in [20](20-pixellab-size-test.md), the viewer
    (`.\ek.ps1 sizetest`) and the importer.
    [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
