@@ -8,6 +8,9 @@ extends RefCounted
 
 const SIZE := Vector2i(128, 128)
 
+## Loaded by path ([D41]).
+const Guild := preload("res://src/chronicle/guild.gd")
+
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
 	".": "grass",
@@ -69,6 +72,8 @@ var escort: Dictionary = {}
 var roadside_at: int = -999
 ## Enemies who crawled away alive and wander with a grudge (see [Nemesis]).
 var survivors: Array = []
+## Guild musters gathering for S-rank gates (see `src/chronicle/guild.gd`).
+var musters: Array = []
 
 var rng := RandomNumberGenerator.new()
 
@@ -286,6 +291,7 @@ func _upkeep() -> Array:
 	notices.append_array(Town.upkeep(self))
 	notices.append_array(Skein.on_step(self))
 	notices.append_array(Roadside.upkeep(self))
+	notices.append_array(Guild.upkeep(self, GameState.errands))
 	return notices
 
 
@@ -316,6 +322,7 @@ func to_dict() -> Dictionary:
 		"escort": escort,
 		"roadside_at": roadside_at,
 		"survivors": survivors,
+		"musters": musters,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -351,6 +358,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.escort = payload.get("escort", {})
 	world.roadside_at = int(payload.get("roadside_at", -999))
 	world.survivors = payload.get("survivors", [])
+	world.musters = payload.get("musters", [])
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

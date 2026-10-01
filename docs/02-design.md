@@ -94,6 +94,17 @@ rank` the moment that gate is shut, wherever the hall was. The Guild pays nothin
 gate that has not opened. Only the company can work a contract, so a companion cannot be sent on
 one. Terms and words are in `data/guild.json`.
 
+**Musters.** An S-rank gate is a national threat (`OT8`): when one opens, the Guild raises a
+**muster** at the nearest standing hall, and it gathers strength every upkeep until there are enough
+to go in ([D46](06-decisions.md)). At that hall the company can **stand with them**: a `muster`
+errand. Walked in person, the muster waits for the company and goes into the gate beside it: up to
+four allies on every floor, more the stronger it has grown. Hand the errand to a companion and they
+wait with the muster at the hall instead. A muster that nobody from the company is standing with in
+person goes in alone once it is ready and has waited. It wins or loses on its strength: a win shuts
+the gate (no renown to you, and it does not answer the Tower), a loss breaks it. Whoever was sent
+comes back paid from a win, or rolls for their life from a loss. **Inferred**, and on the agenda.
+If a muster shuts the last open gate while the Tower's stair is sealed, the Tower wakes another.
+
 ## Falling — death and its graces
 
 **Death is the default.** A character who falls is gone unless something they _brought with them_

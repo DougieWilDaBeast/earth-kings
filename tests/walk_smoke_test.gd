@@ -17,7 +17,7 @@ const SEED := 20260827
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "muster", "run_ends",
 ]
 
 var _scene: Node
@@ -1143,6 +1143,67 @@ func _check_guild() -> void:
 	print("guild: %s keeps a hall; %d gates on the register; a contract on %s paid %d" % [
 		hall.display_name, register.size(), gate.display_name, pay
 	])
+
+
+## An S-rank gate raises a muster at the nearest hall. It grows each upkeep,
+## waits for a company that stands with it in person and goes into the gate
+## beside them, survives a save, and nobody standing with it sends it in alone.
+func _check_muster() -> void:
+	var world: World = GameState.world
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
+	if gate == null:
+		_expect(false, "no gate left standing to muster for")
+		return
+	var kept_gate := gate.to_dict()
+	var kept_musters := world.musters.duplicate(true)
+	gate.rank = "S"
+	gate.open = true
+	gate.broken = false
+	world.musters.clear()
+	var accepted: Array = []
+	var terms := Guild.muster_rules()
+
+	Guild.upkeep(world, accepted)
+	var muster := Guild.muster_at(world, gate.cell)
+	_expect(not muster.is_empty(), "an open S-rank gate raised no muster")
+	if muster.is_empty():
+		return
+	var hall := world.site_at(Vector2i(int(muster["hall"][0]), int(muster["hall"][1])))
+	_expect(Guild.has_hall(hall), "the muster gathered somewhere with no Guild hall")
+	var start := int(muster["strength"])
+	Guild.upkeep(world, accepted)
+	_expect(int(muster["strength"]) > start, "the muster did not grow over an upkeep")
+
+	var restored := World.from_dict(JSON.parse_string(JSON.stringify(world.to_dict())))
+	_expect(not Guild.muster_at(restored, gate.cell).is_empty(), "the muster was lost across a save")
+
+	_expect(Guild.allies_for(world, gate, accepted, GameState.party_characters()).is_empty(),
+		"a muster nobody joined went into the gate with the party")
+	Guild.join(world, muster, accepted)
+	_expect(Guild.joined_in_person(accepted, gate.cell), "joining the muster did not put the company with it")
+	var allies := Guild.allies_for(world, gate, accepted, GameState.party_characters())
+	_expect(not allies.is_empty(), "a muster the company stands with sent nobody into the gate")
+
+	muster["strength"] = int(muster["needed"])
+	for i in int(terms.get("wait_upkeeps", 4)) + 1:
+		Guild.upkeep(world, accepted)
+	_expect(not Guild.muster_at(world, gate.cell).is_empty(), "a muster went in alone while the company stood with it")
+
+	accepted.clear()
+	for i in int(terms.get("wait_upkeeps", 4)):
+		Guild.upkeep(world, accepted)
+	_expect(Guild.muster_at(world, gate.cell).is_empty(), "a ready muster nobody stood with never went in")
+	_expect(gate.cleared or gate.broken, "a muster went in and left the gate as it was")
+	print("muster: %s raised one at %s; %d go in beside the company; alone, it %s" % [
+		gate.display_name, hall.display_name, allies.size(), "shut it" if gate.cleared else "broke it"
+	])
+
+	var back := Site.from_dict(kept_gate)
+	gate.rank = back.rank
+	gate.open = back.open
+	gate.broken = back.broken
+	gate.cleared = back.cleared
+	world.musters = kept_musters
 
 
 ## A training battle on [param meeting], built and left at the party's first orders.

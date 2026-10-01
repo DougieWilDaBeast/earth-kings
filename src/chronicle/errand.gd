@@ -19,6 +19,8 @@ const LOOK := "look"
 const BOUNTY := "bounty"
 ## A Guild contract to shut a gate (see `src/chronicle/guild.gd`). Only the company can do it.
 const GATE := "gate"
+## Standing with a Guild muster for an S-rank gate (see `src/chronicle/guild.gd`).
+const MUSTER := "muster"
 
 
 static func rules() -> Dictionary:
@@ -97,6 +99,8 @@ static func is_complete(errand: Dictionary) -> bool:
 			return bool(errand.get("reached", false))
 		CULL, BOUNTY:
 			return int(errand.get("done", 0)) >= int(errand.get("count", 1))
+		MUSTER:
+			return errand.get("outcome", "") == "won"
 	return false
 
 
@@ -116,11 +120,13 @@ static func turn_in(accepted: Array, errand: Dictionary, world: World) -> Array[
 	return lines
 
 
-## Gate contracts pay the moment the gate at [param cell] is shut, wherever the hall was.
+## Gate contracts and musters pay the moment the gate at [param cell] is shut, wherever the hall was.
 static func on_gate_shut(accepted: Array, cell: Vector2i, world: World) -> Array[String]:
 	var lines: Array[String] = []
 	for errand: Dictionary in accepted.duplicate():
-		if errand.get("kind", "") == GATE and _cell_of(errand.get("to", [])) == cell:
+		var kind: String = errand.get("kind", "")
+		if (kind == GATE and _cell_of(errand.get("to", [])) == cell) \
+				or (kind == MUSTER and _cell_of(errand.get("gate", [])) == cell):
 			lines.append_array(_settle(accepted, errand, world))
 	return lines
 
@@ -142,6 +148,10 @@ static func progress(errand: Dictionary) -> String:
 			return "claimed" if is_complete(errand) else "slay %s" % errand.get("target_name", "the fugitive")
 		GATE:
 			return "shut %s" % errand.get("to_name", "the gate")
+		MUSTER:
+			if errand.has("outcome"):
+				return "the muster went in"
+			return "into %s with the muster" % errand.get("gate_name", "the gate")
 		FETCH:
 			if errand.get("reached", false):
 				return "carry it back to %s" % errand.get("from_name", "the village")

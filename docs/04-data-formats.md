@@ -260,6 +260,10 @@ still keeps one). Every keep and village area has one: a `guild_clerk`.
 ```
 
 - `contract` — what a gate contract pays: `gold_base + gold_per_rank × rank index` (E is 0, S is 5).
+- `muster` — which `ranks` raise one; `start`, `per_upkeep` and `needed` strength; `wait_upkeeps`
+  once ready before it goes in alone; its odds alone (`win_base + win_per_strength × strength`);
+  allies beside the company (`1 + strength / ally_every`, up to `max_allies`, drawn from `units`
+  at party level + `ally_level_bonus`); and `gold` for standing with a muster that wins.
 - `states` — how the register names a gate's state.
 - `lines` — what the hall says; `{hall}`, `{gate}` and `{gold}` are filled in.
 

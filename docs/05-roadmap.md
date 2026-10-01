@@ -230,7 +230,8 @@ chapter's close moves them on further.
   reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
 - The Adventurers Guild in settlements ✅ (built 2026-10-01: a hall in every standing keep and
   village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and
-  S-rank gates that gather armies
+  S-rank gates that gather armies ✅ (a Guild muster that goes in beside the company, or alone —
+  [D46](06-decisions.md))
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal
@@ -269,11 +270,13 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   pull them out. Look and deliver errands pay when they get there; fetches and hunts when they are
   back. A hunt teaches them the kind they hunted, under M12's rules
 - The party cap growing from four to six — waits on agenda item 11
-- Joining a gate raid — waits on M14's gates-with-armies
+- Joining a gate raid ✅ (2026-10-01): a companion sent to stand with a Guild muster waits with it
+  and comes back paid, or rolls for their life if it lost
 - ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come
   back ([D38](06-decisions.md)) — met for errands: `tests/dispatch_smoke_test.tscn`. Two hundred
   trips to open gates on Even: 179 back, 2 taken, 19 dead. On Gentle, which has no permadeath, all
-  come back
+  come back. **Met for gate raids** 2026-10-01: the same suite sends a companion to a muster that
+  wins and to one that loses
 - **To tune:** the `dispatch` block in `data/world_rules.json` — pace, how far a hunt goes, the
   trouble odds, and the chance of winning alone
 

@@ -119,3 +119,194 @@ static func take(world: World, hall: Site, gate: Site, accepted: Array) -> Strin
 		"posted_at": world.steps,
 	})
 	return line("taken", {"gate": gate.display_name, "gold": gold})
+
+
+# --- musters ------------------------------------------------------------------
+#
+# An S-rank gate is a national threat (`OT8`): kingdoms, soldiers and every
+# strong fighter gather at the nearest hall and wait until there are enough of
+# them to go in. A muster lives on [code]World.musters[/code] as a plain
+# dictionary. Standing with it is a [code]Errand.MUSTER[/code] errand: walked
+# by the company, the muster goes into the gate beside the party; handed to a
+# companion, they wait with it. **Inferred** (on the agenda): a muster nobody
+# from the company is standing with goes in alone once it is strong enough and
+# has waited, and is won or lost on its strength.
+
+
+static func muster_rules() -> Dictionary:
+	return rules().get("muster", {})
+
+
+static func musters_for(rank: String) -> bool:
+	return muster_rules().get("ranks", ["S"]).has(rank)
+
+
+static func muster_at(world: World, gate_cell: Vector2i) -> Dictionary:
+	for muster: Dictionary in world.musters:
+		if _cell(muster.get("gate", [])) == gate_cell:
+			return muster
+	return {}
+
+
+static func musters_at_hall(world: World, hall_cell: Vector2i) -> Array:
+	return world.musters.filter(func(m: Dictionary) -> bool: return _cell(m.get("hall", [])) == hall_cell)
+
+
+static func is_ready(muster: Dictionary) -> bool:
+	return int(muster.get("strength", 0)) >= int(muster.get("needed", 1))
+
+
+static func describe_muster(muster: Dictionary) -> String:
+	return line("muster_line", {
+		"hall": muster.get("hall_name", "the hall"), "gate": muster.get("gate_name", "the gate"),
+		"strength": int(muster.get("strength", 0)), "needed": int(muster.get("needed", 1)),
+		"state": line("muster_ready") if is_ready(muster) else "",
+	})
+
+
+## The company's own errand to stand with the muster on [param gate_cell], if any.
+static func standing_with(accepted: Array, gate_cell: Vector2i) -> Dictionary:
+	for errand: Dictionary in accepted:
+		if errand.get("kind", "") == Errand.MUSTER and _cell(errand.get("gate", [])) == gate_cell:
+			return errand
+	return {}
+
+
+## The company itself is standing with it, rather than somebody sent.
+static func joined_in_person(accepted: Array, gate_cell: Vector2i) -> bool:
+	var errand := standing_with(accepted, gate_cell)
+	return not errand.is_empty() and str(errand.get("sent", "")) == ""
+
+
+## Put the company's name down with [param muster]. Returns what the clerk says.
+static func join(world: World, muster: Dictionary, accepted: Array) -> String:
+	var gate_cell := _cell(muster.get("gate", []))
+	if not standing_with(accepted, gate_cell).is_empty():
+		return line("already")
+	if accepted.size() >= Errand.max_accepted():
+		return line("full")
+	var hall := _cell(muster.get("hall", []))
+	accepted.append({
+		"kind": Errand.MUSTER,
+		"title": "Stand with the muster at %s" % muster.get("hall_name", "the hall"),
+		"text": "The Guild's muster for %s. Go in with them, or send somebody to wait with them." % muster.get("gate_name", "the gate"),
+		"giver": str(rules().get("contract", {}).get("giver", "the Adventurers Guild")),
+		"from": [hall.x, hall.y],
+		"from_name": muster.get("hall_name", "the hall"),
+		"to": [hall.x, hall.y],
+		"to_name": muster.get("hall_name", "the hall"),
+		"gate": [gate_cell.x, gate_cell.y],
+		"gate_name": muster.get("gate_name", "the gate"),
+		"gold": int(muster_rules().get("gold", 240)),
+		"posted_at": world.steps,
+	})
+	return line("muster_joined", {"hall": muster.get("hall_name", ""), "gate": muster.get("gate_name", "")})
+
+
+## Who goes into [param gate] beside the party: nobody, unless the company is
+## standing with its muster in person. Entries are ready for [code]BattleMapGen.add_allies[/code].
+static func allies_for(world: World, gate: Site, accepted: Array, party: Array) -> Array:
+	var muster := muster_at(world, gate.cell)
+	if muster.is_empty() or not joined_in_person(accepted, gate.cell):
+		return []
+	var terms := muster_rules()
+	var count := clampi(
+		1 + int(muster.get("strength", 0)) / maxi(1, int(terms.get("ally_every", 4))),
+		1, int(terms.get("max_allies", 4))
+	)
+	var units: Array = terms.get("units", ["keep_watchman"])
+	var level := Encounter.party_level(party) + int(terms.get("ally_level_bonus", 1))
+	var out: Array = []
+	for i in count:
+		out.append({"unit": units[i % units.size()], "level": level})
+	return out
+
+
+## Every upkeep: raise musters for gates that warrant one, grow them, and send
+## the ones nobody is waiting on into their gate.
+static func upkeep(world: World, accepted: Array) -> Array[String]:
+	var notices: Array[String] = []
+	var terms := muster_rules()
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		if gate.open and not gate.cleared and musters_for(gate.rank) and muster_at(world, gate.cell).is_empty():
+			var raised := _raise(world, gate)
+			if not raised.is_empty():
+				notices.append(line("muster_raised", {"gate": gate.display_name, "hall": raised["hall_name"]}))
+	for muster: Dictionary in world.musters.duplicate():
+		var gate := world.site_at(_cell(muster.get("gate", [])))
+		if gate == null or gate.cleared:
+			world.musters.erase(muster)
+			continue
+		muster["strength"] = mini(
+			int(muster.get("needed", 1)), int(muster.get("strength", 0)) + int(terms.get("per_upkeep", 1))
+		)
+		if not is_ready(muster) or joined_in_person(accepted, gate.cell):
+			continue
+		muster["waited"] = int(muster.get("waited", 0)) + 1
+		if int(muster["waited"]) >= int(terms.get("wait_upkeeps", 4)):
+			notices.append(_go_in_alone(world, muster, gate, accepted))
+	return notices
+
+
+## The company shut the gate: whatever muster stood for it stands down.
+static func on_gate_shut(world: World, gate: Site) -> Array[String]:
+	var muster := muster_at(world, gate.cell)
+	if muster.is_empty():
+		return []
+	world.musters.erase(muster)
+	var said := line("muster_shut", {"hall": muster.get("hall_name", ""), "gate": gate.display_name})
+	Annals.record(world, said)
+	return [said]
+
+
+static func _raise(world: World, gate: Site) -> Dictionary:
+	var hall: Site = null
+	for site: Site in world.sites:
+		if has_hall(site) and (hall == null or Pathfinder.distance(site.cell, gate.cell) < Pathfinder.distance(hall.cell, gate.cell)):
+			hall = site
+	if hall == null:
+		return {}
+	var muster := {
+		"gate": [gate.cell.x, gate.cell.y],
+		"gate_name": gate.display_name,
+		"hall": [hall.cell.x, hall.cell.y],
+		"hall_name": hall.display_name,
+		"strength": int(muster_rules().get("start", 2)),
+		"needed": int(muster_rules().get("needed", 12)),
+		"raised_at": world.steps,
+		"waited": 0,
+	}
+	world.musters.append(muster)
+	Annals.record(world, "The Guild raised a muster at %s for the S-rank gate %s." % [hall.display_name, gate.display_name])
+	return muster
+
+
+## Settled on the muster's strength and a roll taken from the gate and the
+## clock, never from the world's dice, so a seeded run is not shifted by it.
+static func _go_in_alone(world: World, muster: Dictionary, gate: Site, accepted: Array) -> String:
+	var terms := muster_rules()
+	var odds := float(terms.get("win_base", 0.35)) + float(terms.get("win_per_strength", 0.03)) * float(muster.get("strength", 0))
+	var roll := float(absi(hash([gate.cell, world.steps, world.world_seed])) % 1000) / 1000.0
+	var won := roll < odds
+	world.musters.erase(muster)
+	var tokens := {"hall": muster.get("hall_name", ""), "gate": gate.display_name}
+	var said := line("muster_won" if won else "muster_lost", tokens)
+	if won:
+		world.close_gate(gate)
+		for errand: Dictionary in accepted.duplicate():
+			if errand.get("kind", "") == Errand.GATE and _cell(errand.get("to", [])) == gate.cell:
+				accepted.erase(errand)
+				said += " " + line("contract_void", tokens)
+	else:
+		gate.broken = true
+	for errand: Dictionary in accepted:
+		if errand.get("kind", "") == Errand.MUSTER and _cell(errand.get("gate", [])) == gate.cell:
+			errand["outcome"] = "won" if won else "lost"
+	Annals.record(world, said)
+	return said
+
+
+static func _cell(pair: Variant) -> Vector2i:
+	if not pair is Array or (pair as Array).size() < 2:
+		return Vector2i(-1, -1)
+	return Vector2i(int(pair[0]), int(pair[1]))

@@ -59,12 +59,37 @@ func _rebuild() -> void:
 		return
 	_title.text = Guild.line("welcome", {"hall": hall.display_name})
 
+	for muster: Dictionary in world.musters:
+		_list.add_child(_muster_row(world, hall, muster))
+
 	var register := Guild.register(world, hall.cell, GameState.errands)
 	if register.is_empty():
 		_list.add_child(_label(Guild.line("empty")))
 		return
 	for entry: Dictionary in register:
 		_list.add_child(_row(world, hall, entry))
+
+
+func _muster_row(world: World, hall: Site, muster: Dictionary) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	var text := _label(Guild.describe_muster(muster))
+	text.add_theme_color_override("font_color", Color(0.75, 0.85, 1.0))
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(text)
+	var gate_cell := Vector2i(int(muster["gate"][0]), int(muster["gate"][1]))
+	var here := Vector2i(int(muster["hall"][0]), int(muster["hall"][1])) == hall.cell
+	if here and Guild.standing_with(GameState.errands, gate_cell).is_empty():
+		var join := Button.new()
+		join.text = "Stand with them"
+		join.pressed.connect(
+			func() -> void:
+				_said.text = Guild.join(world, muster, GameState.errands)
+				_rebuild()
+		)
+		Sfx.attend(join)
+		row.add_child(join)
+	return row
 
 
 func _row(world: World, hall: Site, entry: Dictionary) -> Control:

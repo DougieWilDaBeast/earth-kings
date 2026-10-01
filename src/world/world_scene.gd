@@ -492,6 +492,8 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Errand.on_gate_shut(GameState.errands, site.cell, world):
 					_note(line)
+				for line: String in Guild.on_gate_shut(world, site):
+					_note(line)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
@@ -712,8 +714,13 @@ func _enter_gate(site: Site) -> void:
 		_note("%s: %s" % [Site.objective_name(aim), Site.objective_brief(aim)])
 
 	# Shutting a gate is permanent, so it only shuts once the last floor is won.
+	var meeting := Encounter.for_gate(world, site, depth, final, party, world.rng)
+	var allies := Guild.allies_for(world, site, GameState.errands, party)
+	if not allies.is_empty():
+		BattleMapGen.add_allies(meeting["map"], allies)
+		_note(Guild.line("muster_with_you", {"count": allies.size(), "gate": site.display_name}))
 	_begin_battle(
-		Encounter.for_gate(world, site, depth, final, party, world.rng),
+		meeting,
 		{
 			"kind": "gate", "cell": site.cell, "final": final,
 			"lost": "%s is still standing open." % site.display_name,
