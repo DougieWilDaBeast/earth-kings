@@ -13,6 +13,7 @@ var _battle: Node
 var _turns := 0
 var _switching_checked := false
 var _auto_started := false
+var _allied: Node = null
 
 
 func _ready() -> void:
@@ -97,4 +98,28 @@ func _on_battle_finished(result: Dictionary) -> void:
 	print("Battle finished after %d turns - victory: %s (auto: %s)" % [
 		_turns, result["victory"], Pace.auto
 	])
+	if _allied == null:
+		_fight_beside_allies.call_deferred()
+		return
 	get_tree().quit(0)
+
+
+## A second fight, played on auto, with two allies on the party's side: the turn
+## loop has to run them as well and still come to an end.
+func _fight_beside_allies() -> void:
+	_battle.visible = false
+	_turns = 0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	var map := BattleMapGen.generate_on("grass", "Allied field", [
+		{"unit": "goblin", "level": 2}, {"unit": "goblin", "level": 2}, {"unit": "wolf", "level": 2},
+	], rng)
+	BattleMapGen.add_allies(map, [{"unit": "brigand", "level": 2}, {"unit": "brigand_archer", "level": 2}])
+	Pace.auto = true
+	_allied = load("res://src/battle/battle.tscn").instantiate()
+	_allied.boot_payload = {"encounter": {"title": "Allied field", "map": map}}
+	add_child(_allied)
+	var allies: Array = _allied.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.ALLY)
+	if allies.size() != 2:
+		push_error("Smoke test: %d allies took the field, not 2" % allies.size())
+		get_tree().quit(1)

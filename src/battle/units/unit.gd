@@ -5,12 +5,13 @@ extends Node2D
 
 signal died
 
-enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C }
+enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C, ALLY }
 ## What a command costs. EITHER spends the bonus action first, so the main
 ## action stays open for as long as possible.
 enum Cost { ACTION, BONUS, EITHER }
 
 const WALK_TIME_PER_TILE := 0.14
+const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
 ## Half a blink: fade out, reappear, fade back in.
 const FLASH_TIME := 0.11
 ## Frames a second for a unit that has a run cycle to step through.
@@ -139,7 +140,7 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit.max_hp = Difficulty.scaled(unit.max_hp, "enemy_hp")
 		unit.hp = mini(unit.hp, unit.max_hp)
 		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
-	else:
+	elif unit_team != Team.ALLY:
 		var hardier := Difficulty.scaled(unit.max_hp, "party_hp")
 		# Wounds are carried as a fraction, so a tougher party is not healed by it.
 		unit.hp = maxi(1, roundi(float(unit.hp) / float(unit.max_hp) * float(hardier)))
@@ -199,7 +200,14 @@ func _equip(equipment_id: String) -> void:
 
 
 func is_hostile_to(other: Unit) -> bool:
-	return team != other.team
+	return sides_with_party() != other.sides_with_party() or (
+		not sides_with_party() and team != other.team
+	)
+
+
+## The party and anyone fighting beside it (see [enum Team] ALLY).
+func sides_with_party() -> bool:
+	return team == Team.PLAYER or team == Team.ALLY
 
 
 func begin_turn() -> void:
@@ -349,7 +357,7 @@ func flash_to(grid: BattleGrid, target_cell: Vector2i) -> void:
 
 func _draw() -> void:
 	var radius := BattleGrid.CELL_SIZE * 0.34
-	var outline := Color.WHITE if team == Team.PLAYER else Color(0.2, 0.05, 0.05)
+	var outline := Color.WHITE if team == Team.PLAYER else (ALLY_OUTLINE if team == Team.ALLY else Color(0.2, 0.05, 0.05))
 	var sprite := current_sprite()
 	draw_circle(Vector2(2, 3), radius, Color(0, 0, 0, 0.3))
 	if sprite == null:

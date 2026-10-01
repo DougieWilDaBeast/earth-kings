@@ -15,7 +15,7 @@ const SEED := 20260827
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "run_ends",
 ]
 
 var _scene: Node
@@ -1055,6 +1055,43 @@ func _check_objectives() -> void:
 	Pace.auto = setting
 	gate.data = kept
 	print("objectives: %d gates, a heart reached and a keeper felled each win the floor" % gates.size())
+
+
+## Allies stand on the party's side of a fight without being in the party: they
+## act on their own, are struck by the enemy and never by you, and their own
+## death does not end it.
+func _check_allies() -> void:
+	var world: World = GameState.world
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
+	if gate == null:
+		_expect(false, "no gate left standing to raise allies for")
+		return
+	var meeting := Encounter.for_gate(world, gate, 0, false, GameState.party_characters(), RandomNumberGenerator.new())
+	BattleMapGen.add_allies(meeting["map"], [{"unit": "brigand", "level": 3}, {"unit": "brigand_archer", "level": 3}])
+	_expect(meeting["map"].get("allies", []).size() == 2, "two allies asked for, %d placed" % meeting["map"].get("allies", []).size())
+
+	var setting := Pace.auto
+	Pace.auto = false
+	meeting["ambush"] = true
+	var battle := _open_battle(meeting)
+	var allies: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.ALLY)
+	var party: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)
+	var foes: Array = battle.units.filter(func(u: Unit) -> bool: return not u.sides_with_party())
+	_expect(allies.size() == 2, "%d allies took the field" % allies.size())
+	if not allies.is_empty() and not party.is_empty() and not foes.is_empty():
+		var ally: Unit = allies[0]
+		_expect(not ally.is_hostile_to(party[0]) and not party[0].is_hostile_to(ally), "an ally and the party are at each other's throats")
+		_expect(ally.is_hostile_to(foes[0]) and foes[0].is_hostile_to(ally), "an ally and the enemy are at peace")
+		_expect(
+			not AbilityResolver.is_valid_target(party[0], Database.ability("strike"), ally),
+			"the party can strike its own allies"
+		)
+		var plan := EnemyBrain.plan(ally, battle.grid, battle.pathfinder, battle.units)
+		var target: Unit = plan["target"]
+		_expect(target == null or not target.sides_with_party(), "an ally went for someone on its own side")
+	battle.free()
+	Pace.auto = setting
+	print("allies: %d take the field on the party's side and strike only the enemy" % allies.size())
 
 
 ## A training battle on [param meeting], built and left at the party's first orders.

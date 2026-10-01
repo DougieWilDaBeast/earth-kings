@@ -77,12 +77,15 @@ func _build_battlefield() -> void:
 	_spawn_nature_decor(map)
 	_spawn_party(map.get("player_spawns", []))
 	_spawn_enemies(map.get("enemies", []))
+	_spawn_enemies(map.get("allies", []), Unit.Team.ALLY)
 	_orient_starting_facings()
 	_write_them_up(map)
 	var ambush := bool(encounter.get("ambush", false))
 	turns.setup(units, ambush)
 	if ambush:
 		EventBus.battle_log.emit("Ambush! The company strikes with first-round initiative advantage!")
+	if not map.get("allies", []).is_empty():
+		EventBus.battle_log.emit("%d stand with you." % map["allies"].size())
 	var confrontation := str(encounter.get("confrontation", ""))
 	if confrontation != "":
 		EventBus.battle_log.emit(confrontation)
@@ -109,7 +112,7 @@ func _write_them_up(map: Dictionary) -> void:
 		return
 	var place := str(map.get("name", encounter.get("title", "somewhere")))
 	for unit in units:
-		if unit.team == Unit.Team.PLAYER:
+		if unit.sides_with_party():
 			continue
 		if Journal.sighted(GameState.world, unit.template_id, place):
 			EventBus.battle_log.emit("%s is new. The journal opens a page." % unit.display_name)
@@ -134,7 +137,7 @@ func _spawn_nature_decor(map: Dictionary) -> void:
 	var spawn_cells: Array[Vector2i] = []
 	for p in player_spawns:
 		spawn_cells.append(_to_cell(p))
-	for e in map.get("enemies", []):
+	for e in map.get("enemies", []) + map.get("allies", []):
 		spawn_cells.append(_to_cell(e.get("cell", [0, 0])))
 
 	for y in grid.height:
@@ -187,11 +190,11 @@ func _spawn_party(spawns: Array) -> void:
 		units.append(unit)
 
 
-func _spawn_enemies(enemies: Array) -> void:
+func _spawn_enemies(enemies: Array, side: Unit.Team = Unit.Team.ENEMY) -> void:
 	for entry: Dictionary in enemies:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
 		var level := int(entry.get("level", 0))
-		var unit_team: Unit.Team = entry.get("team", Unit.Team.ENEMY)
+		var unit_team: Unit.Team = entry.get("team", side)
 		if level <= 0:
 			var plain := _add_unit(entry.get("unit", ""), unit_team, cell)
 			if bool(entry.get("boss", false)):
@@ -742,7 +745,7 @@ func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
 ## being hit, what it is wearing by hitting it, and how much of it there is by
 ## putting one down.
 func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
-	if sandbox or user.team == target.team:
+	if sandbox or not user.is_hostile_to(target) or user.team == Unit.Team.ALLY:
 		return
 	var world: World = GameState.world
 	if user.team == Unit.Team.ENEMY:
@@ -758,7 +761,7 @@ func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
 ## else still standing on that side counts an assist, and a boss teaches them
 ## all ([D37], see [method Progression.award_kill]).
 func _award_kill(killer: Unit, victim: Unit) -> void:
-	if killer.character == null or killer.team == victim.team:
+	if killer.character == null or not killer.is_hostile_to(victim) or killer.team == Unit.Team.ALLY:
 		return
 	var level := victim.character.level if victim.character != null else 1
 	var involved: Array = []
@@ -777,7 +780,7 @@ func _resolve_outcome() -> bool:
 		func(u: Unit) -> bool: return u.is_alive() and u.team == Unit.Team.PLAYER
 	)
 	var enemies_alive := units.any(
-		func(u: Unit) -> bool: return u.is_alive() and u.team != Unit.Team.PLAYER
+		func(u: Unit) -> bool: return u.is_alive() and not u.sides_with_party()
 	)
 	if players_alive and enemies_alive and not _objective_met():
 		return false
@@ -814,7 +817,7 @@ func _objective_met() -> bool:
 	match objective:
 		Site.OBJECTIVE_GUARDIAN:
 			var keepers := units.filter(
-				func(u: Unit) -> bool: return u.team != Unit.Team.PLAYER and u.has_meta("boss")
+				func(u: Unit) -> bool: return not u.sides_with_party() and u.has_meta("boss")
 			)
 			return not keepers.is_empty() and not keepers.any(func(u: Unit) -> bool: return u.is_alive())
 		Site.OBJECTIVE_HEART:
@@ -887,7 +890,7 @@ func _settle_the_party() -> void:
 ## What kind of thing won the fight, which decides whether prisoners are taken.
 func _killer_kind() -> String:
 	for unit in units:
-		if unit.team != Unit.Team.PLAYER and unit.is_alive():
+		if not unit.sides_with_party() and unit.is_alive():
 			return unit.kind()
 	return "default"
 
@@ -916,7 +919,7 @@ func _mark_active() -> void:
 	if active_unit == null:
 		overlay.clear_active()
 		return
-	overlay.set_active(active_unit.cell, active_unit.team != Unit.Team.PLAYER)
+	overlay.set_active(active_unit.cell, not active_unit.sides_with_party())
 	camera.focus_on(active_unit.position)
 
 

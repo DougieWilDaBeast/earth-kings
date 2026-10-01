@@ -215,6 +215,10 @@ prototype. Until then, unchanged from the tactics core and already working:
 - **Your ready units act as a squad.** Every player unit at 100 CT takes the phase together;
   **Tab** (Shift+Tab to go back) switches between the ones who still have something to spend,
   and clicking one selects it. Enemies still act one at a time.
+- **Allies** can stand with the party (`Unit.Team.ALLY`, a pale blue ring). They form up on the
+  back row, act one at a time under the enemy AI, and are never struck by the party. They earn no
+  experience and no journal pages, and their falling is not the party's: the fight is lost when the
+  party is down, whoever else is standing.
 - **An action and a bonus action each turn.** An ability costs the action; moving costs either
   and spends the bonus first; flash stepping and abilities flagged `"bonus": true` cost the bonus.
   "Wait" gives up what that character has left, not the whole phase.
