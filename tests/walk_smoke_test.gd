@@ -9,13 +9,15 @@ extends Node
 const CheckFilter := preload("res://tests/check_filter.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "muster", "run_ends",
 ]
 
 var _scene: Node
@@ -991,6 +993,227 @@ func _check_save_round_trip() -> void:
 
 
 ## Every generated battlefield has to be one a fight can actually happen on.
+## Gates carry an objective, fixed by where they stand. A heart floor marks a
+## cell the party can stand on; a keeper only waits on the last floor; and the
+## fight itself is won the moment either is done.
+func _check_objectives() -> void:
+	var world: World = GameState.world
+	var gates := world.sites_of_kind(Site.GATE)
+	var kinds := Site.objective_rules()
+	for gate: Site in gates:
+		_expect(kinds.has(gate.objective()), "%s has an unknown objective '%s'" % [gate.label(), gate.objective()])
+		_expect(gate.objective() == gate.objective(), "%s changed its objective between two looks" % gate.label())
+
+	var gate: Site = null
+	for site: Site in gates:
+		if not site.cleared and (gate == null or site.floors() > gate.floors()):
+			gate = site
+	if gate == null:
+		_expect(false, "no gate left standing to set an objective on")
+		return
+	var kept := gate.data.duplicate(true)
+	var party := GameState.party_characters()
+	var rng := RandomNumberGenerator.new()
+
+	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
+	gate.data["depth"] = gate.floors() - 1
+	_expect(gate.floor_objective() == Site.OBJECTIVE_GUARDIAN, "the last floor of a keeper gate is not a keeper fight")
+	if gate.floors() > 1:
+		gate.data["depth"] = 0
+		_expect(gate.floor_objective() == Site.OBJECTIVE_ROUT, "a keeper gate asked for its keeper on floor 1")
+
+	gate.data["objective"] = Site.OBJECTIVE_HEART
+	var heart := Encounter.for_gate(world, gate, gate.depth(), gate.is_final_floor(), party, rng)
+	_expect(heart.get("objective") == Site.OBJECTIVE_HEART, "a heart gate fielded a '%s' fight" % heart.get("objective"))
+	var map: Dictionary = heart.get("map", {})
+	_expect(map.has("heart"), "a heart floor has no heart on it")
+	if map.has("heart"):
+		var at: Array = map["heart"]
+		_expect(str(map["tiles"][int(at[1])])[int(at[0])] == ".", "the heart is on ground nobody can stand on")
+
+	var setting := Pace.auto
+	Pace.auto = false
+	heart["ambush"] = true
+	var battle := _open_battle(heart)
+	_expect(battle.objective == Site.OBJECTIVE_HEART, "the battle forgot it was a heart fight")
+	_expect(not battle._objective_met(), "a heart fight was won before anyone moved")
+	var runner: Unit = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)[0]
+	runner.cell = battle.heart_cell
+	_expect(battle._objective_met(), "standing on the heart did not win the floor")
+	battle.free()
+
+	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
+	gate.data["depth"] = gate.floors() - 1
+	var keeper := Encounter.for_gate(world, gate, gate.depth(), true, party, rng)
+	keeper["ambush"] = true
+	battle = _open_battle(keeper)
+	_expect(not battle._objective_met(), "a keeper fight was won with the keeper standing")
+	for unit: Unit in battle.units:
+		if unit.has_meta("boss"):
+			unit.hp = 0
+	_expect(battle._objective_met(), "felling the keeper did not win the floor")
+	battle.free()
+
+	Pace.auto = setting
+	gate.data = kept
+	print("objectives: %d gates, a heart reached and a keeper felled each win the floor" % gates.size())
+
+
+## Allies stand on the party's side of a fight without being in the party: they
+## act on their own, are struck by the enemy and never by you, and their own
+## death does not end it.
+func _check_allies() -> void:
+	var world: World = GameState.world
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
+	if gate == null:
+		_expect(false, "no gate left standing to raise allies for")
+		return
+	var meeting := Encounter.for_gate(world, gate, 0, false, GameState.party_characters(), RandomNumberGenerator.new())
+	BattleMapGen.add_allies(meeting["map"], [{"unit": "brigand", "level": 3}, {"unit": "brigand_archer", "level": 3}])
+	_expect(meeting["map"].get("allies", []).size() == 2, "two allies asked for, %d placed" % meeting["map"].get("allies", []).size())
+
+	var setting := Pace.auto
+	Pace.auto = false
+	meeting["ambush"] = true
+	var battle := _open_battle(meeting)
+	var allies: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.ALLY)
+	var party: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)
+	var foes: Array = battle.units.filter(func(u: Unit) -> bool: return not u.sides_with_party())
+	_expect(allies.size() == 2, "%d allies took the field" % allies.size())
+	if not allies.is_empty() and not party.is_empty() and not foes.is_empty():
+		var ally: Unit = allies[0]
+		_expect(not ally.is_hostile_to(party[0]) and not party[0].is_hostile_to(ally), "an ally and the party are at each other's throats")
+		_expect(ally.is_hostile_to(foes[0]) and foes[0].is_hostile_to(ally), "an ally and the enemy are at peace")
+		_expect(
+			not AbilityResolver.is_valid_target(party[0], Database.ability("strike"), ally),
+			"the party can strike its own allies"
+		)
+		var plan := EnemyBrain.plan(ally, battle.grid, battle.pathfinder, battle.units)
+		var target: Unit = plan["target"]
+		_expect(target == null or not target.sides_with_party(), "an ally went for someone on its own side")
+	battle.free()
+	Pace.auto = setting
+	print("allies: %d take the field on the party's side and strike only the enemy" % allies.size())
+
+
+## The Guild keeps a hall in every standing keep and village: a register of the
+## gates, worst first, and contracts that pay when the gate is shut.
+func _check_guild() -> void:
+	var world: World = GameState.world
+	_expect(not Guild.rules().get("contract", {}).is_empty(), "data/guild.json has no contract terms")
+	var hall := _site_where(func(s: Site) -> bool: return Guild.has_hall(s))
+	if hall == null:
+		_expect(false, "no keep or village keeps a Guild hall")
+		return
+	var hut := _site_where(func(s: Site) -> bool: return s.kind == Site.HUT)
+	_expect(hut == null or not Guild.has_hall(hut), "a hut keeps a Guild hall")
+	var kept := hall.data.duplicate(true)
+	hall.data[Town.SACKED] = true
+	_expect(not Guild.has_hall(hall), "a sacked town still keeps a Guild hall")
+	hall.data = kept
+
+	var accepted: Array = []
+	var register := Guild.register(world, hall.cell, accepted)
+	_expect(not register.is_empty() or world.sites_of_kind(Site.GATE).all(func(g: Site) -> bool: return g.cleared),
+		"the register is empty with gates still standing")
+	for i in range(1, register.size()):
+		_expect(
+			Site.rank_index(register[i - 1]["rank"]) >= Site.rank_index(register[i]["rank"]),
+			"the register is not worst first (%s before %s)" % [register[i - 1]["rank"], register[i]["rank"]]
+		)
+
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and s.open and not s.cleared)
+	if gate == null:
+		_expect(false, "no open gate to take a contract on")
+		return
+	Guild.take(world, hall, gate, accepted)
+	_expect(Guild.is_contracted(accepted, gate.cell), "taking a contract did not put it in the job log")
+	_expect(Guild.take(world, hall, gate, accepted) == Guild.line("already"), "the same contract was taken twice")
+	_expect(Dispatch.open_errands(accepted).is_empty(), "a companion could be sent to shut a gate alone")
+	var brewing := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.open and not s.cleared)
+	if brewing != null:
+		Guild.take(world, hall, brewing, accepted)
+		_expect(not Guild.is_contracted(accepted, brewing.cell), "the Guild paid in advance for a gate nobody can walk into")
+
+	var gold := GameState.gold
+	var pay := Guild.pay_for(gate)
+	Errand.on_gate_shut(accepted, gate.cell, world)
+	_expect(GameState.gold == gold + pay, "shutting a contracted gate paid %d, not %d" % [GameState.gold - gold, pay])
+	_expect(not Guild.is_contracted(accepted, gate.cell), "a paid contract stayed in the job log")
+	print("guild: %s keeps a hall; %d gates on the register; a contract on %s paid %d" % [
+		hall.display_name, register.size(), gate.display_name, pay
+	])
+
+
+## An S-rank gate raises a muster at the nearest hall. It grows each upkeep,
+## waits for a company that stands with it in person and goes into the gate
+## beside them, survives a save, and nobody standing with it sends it in alone.
+func _check_muster() -> void:
+	var world: World = GameState.world
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
+	if gate == null:
+		_expect(false, "no gate left standing to muster for")
+		return
+	var kept_gate := gate.to_dict()
+	var kept_musters := world.musters.duplicate(true)
+	gate.rank = "S"
+	gate.open = true
+	gate.broken = false
+	world.musters.clear()
+	var accepted: Array = []
+	var terms := Guild.muster_rules()
+
+	Guild.upkeep(world, accepted)
+	var muster := Guild.muster_at(world, gate.cell)
+	_expect(not muster.is_empty(), "an open S-rank gate raised no muster")
+	if muster.is_empty():
+		return
+	var hall := world.site_at(Vector2i(int(muster["hall"][0]), int(muster["hall"][1])))
+	_expect(Guild.has_hall(hall), "the muster gathered somewhere with no Guild hall")
+	var start := int(muster["strength"])
+	Guild.upkeep(world, accepted)
+	_expect(int(muster["strength"]) > start, "the muster did not grow over an upkeep")
+
+	var restored := World.from_dict(JSON.parse_string(JSON.stringify(world.to_dict())))
+	_expect(not Guild.muster_at(restored, gate.cell).is_empty(), "the muster was lost across a save")
+
+	_expect(Guild.allies_for(world, gate, accepted, GameState.party_characters()).is_empty(),
+		"a muster nobody joined went into the gate with the party")
+	Guild.join(world, muster, accepted)
+	_expect(Guild.joined_in_person(accepted, gate.cell), "joining the muster did not put the company with it")
+	var allies := Guild.allies_for(world, gate, accepted, GameState.party_characters())
+	_expect(not allies.is_empty(), "a muster the company stands with sent nobody into the gate")
+
+	muster["strength"] = int(muster["needed"])
+	for i in int(terms.get("wait_upkeeps", 4)) + 1:
+		Guild.upkeep(world, accepted)
+	_expect(not Guild.muster_at(world, gate.cell).is_empty(), "a muster went in alone while the company stood with it")
+
+	accepted.clear()
+	for i in int(terms.get("wait_upkeeps", 4)):
+		Guild.upkeep(world, accepted)
+	_expect(Guild.muster_at(world, gate.cell).is_empty(), "a ready muster nobody stood with never went in")
+	_expect(gate.cleared or gate.broken, "a muster went in and left the gate as it was")
+	print("muster: %s raised one at %s; %d go in beside the company; alone, it %s" % [
+		gate.display_name, hall.display_name, allies.size(), "shut it" if gate.cleared else "broke it"
+	])
+
+	var back := Site.from_dict(kept_gate)
+	gate.rank = back.rank
+	gate.open = back.open
+	gate.broken = back.broken
+	gate.cleared = back.cleared
+	world.musters = kept_musters
+
+
+## A training battle on [param meeting], built and left at the party's first orders.
+func _open_battle(meeting: Dictionary) -> Node:
+	var battle: Node = load("res://src/battle/battle.tscn").instantiate()
+	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world"}
+	add_child(battle)
+	return battle
+
+
 func _check_field(meeting: Dictionary, label: String) -> void:
 	var map: Dictionary = meeting.get("map", {})
 	var rows: Array = map.get("tiles", [])

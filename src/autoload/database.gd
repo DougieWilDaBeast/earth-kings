@@ -51,6 +51,8 @@ var coliseum: Dictionary = {}
 var factions: Dictionary = {}
 ## Which scene hears which tracks (see [Music]).
 var music: Dictionary = {}
+## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
+var guild: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -89,6 +91,7 @@ func _ready() -> void:
 	coliseum = _load_json("%s/coliseum.json" % DATA_DIR)
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
+	guild = _load_json("%s/guild.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
@@ -147,6 +150,16 @@ func temper_types() -> Dictionary:
 ## The hero a temper resolves to, or "" while that slot is still unwritten.
 func temper_hero(code: String) -> String:
 	return str(temper(code).get("hero", ""))
+
+
+## The temper a hero is written for, or "" if no slot names them yet.
+func hero_temper(hero_id: String) -> String:
+	if hero_id == "":
+		return ""
+	for code: String in temper_types():
+		if str(temper_types()[code].get("hero", "")) == hero_id:
+			return code
+	return ""
 
 
 ## What one letter of a temper nudges. Codes carry four letters, so a character

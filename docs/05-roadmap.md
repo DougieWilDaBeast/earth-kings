@@ -106,11 +106,13 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
-Updated 2026-09-24, after M11's prototype, M12, M16, D35 and D39 were built. **Everything left on
-this list needs one or both founders** — the build has gone as far as it can without an answer.
+Updated 2026-10-01, after gate objectives, the Adventurers Guild and its musters, and the record of
+the fallen were built (D45–D47). **Everything left on this list needs one or both founders** — the
+build has gone as far as it can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **By 2026-09-27 — spend the last 15% of PixelLab credits on the size test.** Everything is
+1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
+   still ungenerated, so this now waits on credits. Everything else is
    ready: step-by-step instructions in [20](20-pixellab-size-test.md), the viewer
    (`.\ek.ps1 sizetest`) and the importer.
    [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
@@ -122,7 +124,9 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
 3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
    [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
 4. **Next founders' session** — the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
-   items 1–2 and 4–12 and 15. Items 1 and 2 (the Tower's floor count, and steps against Tower
+   items 1–2, 4–12, 15 and the four the build inferred (16–19). The
+   [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and cost.
+   Items 1 and 2 (the Tower's floor count, and steps against Tower
    chapters) unblock M14; items 4 and 5 unblock M15; 6, 7 and 15 unblock M13; 11 unblocks party
    growth. Item 3 — the research and the prototype — has gone as far as it can without play (steps
    2 and 3); 13 is built; 14 is deferred to playtest.
@@ -225,8 +229,12 @@ chapter's close moves them on further.
 - The census at the end of every chapter ✅ — it always reads sixteen until there is more than one
   world (M15)
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
-  floor, and it survives a save); objectives inside, some timed (agenda item 14)
-- The Adventurers Guild in settlements, and S-rank gates that gather armies
+  floor, and it survives a save); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
+  reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
+- The Adventurers Guild in settlements ✅ (built 2026-10-01: a hall in every standing keep and
+  village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and
+  S-rank gates that gather armies ✅ (a Guild muster that goes in beside the company, or alone —
+  [D46](06-decisions.md))
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal
@@ -240,8 +248,9 @@ Waits on M13, and on agenda items 4, 5 and 12.
   gone for good
 - Choosing the next lead from the survivors, in their own sibling world, from level 1 — the quiz
   asked again with every dead lead's answers removed, and the picker showing only the living
-  ([D43](06-decisions.md)). The quiz half is built (2026-09-26: it takes `fallen` and closes their
-  answers); what is left is passing it the dead, and the picker
+  ([D43](06-decisions.md)). Both halves are built: the quiz closes the dead's answers (2026-09-26),
+  and since 2026-10-01 a lead who dies is recorded outside the save, passed to the quiz, and
+  hidden from the picker ([D47](06-decisions.md)) ✅. Left: the sibling world itself
 - Sibling worlds that tend to play out alike — same seed, perturbed
 - The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
 - The signature weapon crash-landing in the next world, and rumours that lead to it
@@ -265,11 +274,13 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   pull them out. Look and deliver errands pay when they get there; fetches and hunts when they are
   back. A hunt teaches them the kind they hunted, under M12's rules
 - The party cap growing from four to six — waits on agenda item 11
-- Joining a gate raid — waits on M14's gates-with-armies
+- Joining a gate raid ✅ (2026-10-01): a companion sent to stand with a Guild muster waits with it
+  and comes back paid, or rolls for their life if it lost
 - ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come
   back ([D38](06-decisions.md)) — met for errands: `tests/dispatch_smoke_test.tscn`. Two hundred
   trips to open gates on Even: 179 back, 2 taken, 19 dead. On Gentle, which has no permadeath, all
-  come back
+  come back. **Met for gate raids** 2026-10-01: the same suite sends a companion to a muster that
+  wins and to one that loses
 - **To tune:** the `dispatch` block in `data/world_rules.json` — pace, how far a hunt goes, the
   trouble odds, and the chance of winning alone
 

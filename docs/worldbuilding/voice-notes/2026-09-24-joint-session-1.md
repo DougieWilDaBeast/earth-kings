@@ -4,7 +4,7 @@ speakers:
   "Douglas, Will": dougie
   "ED": doug-md
 recorded: 2026-09-24
-source: DROP-ZONE/CLCU Meeting.vtt — the same transcript is in DROP-ZONE/CLCU Meeting.docx
+source: CLCU Meeting.vtt (and the same transcript as CLCU Meeting.docx), archived 2026-10-01 to the gitignored .art_stage/voice-notes-2026-09/
 transcribed: Microsoft Teams live transcription — machine transcription, unverified
 ---
 

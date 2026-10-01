@@ -47,6 +47,11 @@ static func sealed(world: World) -> bool:
 	if answered(world):
 		world.tower_sealed_at = -1
 		return false
+	# Somebody else may have shut the last open gate (a Guild muster); there
+	# must always be something left to answer.
+	var open_gate := world.sites_of_kind(Site.GATE).any(func(s: Site) -> bool: return s.open and not s.cleared)
+	if not open_gate and not world.sites.any(func(s: Site) -> bool: return Town.is_threatened(s)):
+		_wake_gates(world, 1, chapter_of(world.tower_floor))
 	return true
 
 

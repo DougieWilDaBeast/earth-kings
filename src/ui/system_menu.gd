@@ -13,6 +13,7 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "toggle_view", "label": "World / Planar View" },
 	{ "action": "open_party", "label": "Party Screen" },
 	{ "action": "site_errands", "label": "Errands / Job Board" },
+	{ "action": "site_guild", "label": "Adventurers Guild" },
 	{ "action": "site_grimoire", "label": "Grimoire / Spells" },
 	{ "action": "battle_auto", "label": "Auto-Walk / Auto-Play" },
 	{ "action": "battle_speed", "label": "Game Speed" },

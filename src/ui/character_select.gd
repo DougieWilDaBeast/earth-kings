@@ -1,9 +1,17 @@
 extends Control
 ## Who you play as. Every life on this page is a real start: a different lead,
 ## a different band behind them, and a difficulty that follows from both.
+##
+## Only the living are offered (D43): `boot_payload.fallen_heroes` names the
+## leads who died. Once nobody is left, the page offers a new sixteen instead.
 
-## Set by [Game] before the scene enters the tree; unused here.
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
+
+## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
+
+## Asked twice before the record of the fallen is wiped.
+var _wipe_armed := false
 
 ## How the number in `data/heroes.json` reads on screen, hardest last.
 const RATINGS := ["", "Steady", "Wary", "Hard", "Punishing", "Ruinous"]
@@ -35,7 +43,8 @@ func _ready() -> void:
 		pip.custom_minimum_size = PIP_SIZE
 		_pips.add_child(pip)
 
-	var ids: Array = Database.heroes.keys()
+	var fallen: Array = boot_payload.get("fallen_heroes", [])
+	var ids: Array = Database.heroes.keys().filter(func(id: String) -> bool: return not fallen.has(id))
 	# Gentlest first, so the list itself reads as the warning.
 	ids.sort_custom(func(a: String, b: String) -> bool:
 		var left := int(Database.hero(a).get("difficulty", 1))
@@ -53,9 +62,34 @@ func _ready() -> void:
 	_seed.tooltip_text = "Leave it empty for a country nobody has walked yet."
 	_show_difficulty()
 	if ids.is_empty():
+		_nobody_left()
 		return
 	_show(ids[0])
 	_lives.get_child(0).grab_focus()
+
+
+## Every life has been lived and lost. The only way on is a new sixteen.
+func _nobody_left() -> void:
+	_name.text = "All of them have fallen."
+	_title.text = ""
+	_blurb.text = "Every world has ended. Wipe the record of the fallen and the sixteen can be lived again."
+	var again := Button.new()
+	again.name = "NewSixteenButton"
+	again.theme_type_variation = &"GrandButton"
+	again.text = "Begin a new sixteen"
+	again.pressed.connect(_begin_again.bind(again))
+	Sfx.attend(again)
+	_lives.add_child(again)
+	again.grab_focus()
+
+
+func _begin_again(button: Button) -> void:
+	if not _wipe_armed:
+		_wipe_armed = true
+		button.text = "Press again: the fallen are forgotten"
+		return
+	if Sixteen.wipe():
+		EventBus.request_scene.emit("temper_quiz", {})
 
 
 func _life_button(hero_id: String) -> Button:

@@ -9,6 +9,7 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -93,7 +94,8 @@ func _ready() -> void:
 	_map.queue_redraw()
 	for edge: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
-		EventBus.journal_requested, EventBus.stash_requested, EventBus.overlay_closed,
+		EventBus.journal_requested, EventBus.stash_requested, EventBus.guild_requested,
+		EventBus.overlay_closed,
 	]:
 		edge.connect(_watch_overlays)
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _watch_overlays())
@@ -488,6 +490,10 @@ func _settle_up(won: bool) -> void:
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
+				for line: String in Errand.on_gate_shut(GameState.errands, site.cell, world):
+					_note(line)
+				for line: String in Guild.on_gate_shut(world, site):
+					_note(line)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
@@ -703,10 +709,18 @@ func _enter_gate(site: Site) -> void:
 			_note("Once you are in, there is no walking out until it is beaten.")
 	else:
 		_note("%s stands open." % site.label())
+	var aim := site.floor_objective()
+	if aim != Site.OBJECTIVE_ROUT:
+		_note("%s: %s" % [Site.objective_name(aim), Site.objective_brief(aim)])
 
 	# Shutting a gate is permanent, so it only shuts once the last floor is won.
+	var meeting := Encounter.for_gate(world, site, depth, final, party, world.rng)
+	var allies := Guild.allies_for(world, site, GameState.errands, party)
+	if not allies.is_empty():
+		BattleMapGen.add_allies(meeting["map"], allies)
+		_note(Guild.line("muster_with_you", {"count": allies.size(), "gate": site.display_name}))
 	_begin_battle(
-		Encounter.for_gate(world, site, depth, final, party, world.rng),
+		meeting,
 		{
 			"kind": "gate", "cell": site.cell, "final": final,
 			"lost": "%s is still standing open." % site.display_name,
@@ -890,6 +904,8 @@ func _actions_here() -> Array[Dictionary]:
 		var errand_doing := _errand_action(site)
 		if not errand_doing.is_empty():
 			parts.append(errand_doing)
+		if Guild.has_hall(site):
+			parts.append(_doable("Y for the Adventurers Guild", "The Guild", _open_guild))
 		var offer := Market.hire_offer(site)
 		if not offer.is_empty():
 			parts.append(_doable(
@@ -964,6 +980,13 @@ func _overlay_open() -> bool:
 
 func _open_party() -> void:
 	EventBus.party_screen_requested.emit()
+
+
+func _open_guild() -> void:
+	if Guild.hall_at(world, world.player_cell) == null:
+		_note(Guild.line("no_hall"))
+		return
+	EventBus.guild_requested.emit()
 
 
 func _open_menu() -> void:
@@ -1086,6 +1109,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		Pace.cycle_speed()
 		_refresh()
+		return
+	if event.is_action_pressed("site_guild"):
+		get_viewport().set_input_as_handled()
+		_open_guild()
 		return
 	if not event is InputEventKey:
 		return

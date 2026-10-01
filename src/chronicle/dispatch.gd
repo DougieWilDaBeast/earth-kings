@@ -35,9 +35,12 @@ static func can_send(character: Character, roster: Roster, away: Array) -> bool:
 	return roster.party_members().size() > 1
 
 
-## Accepted errands nobody has been sent on yet.
+## Accepted errands nobody has been sent on yet. Gate contracts are the company's own.
 static func open_errands(accepted: Array) -> Array:
-	return accepted.filter(func(errand: Dictionary) -> bool: return str(errand.get(TAKEN_BY, "")) == "")
+	return accepted.filter(
+		func(errand: Dictionary) -> bool:
+			return str(errand.get(TAKEN_BY, "")) == "" and str(errand.get("kind", "")) != Errand.GATE
+	)
 
 
 ## Send [param character] to do [param errand]. Returns the line to show, or ""
@@ -66,6 +69,8 @@ static func send(
 		"out_at": world.steps + out_steps,
 		"back_at": world.steps + out_steps * 2,
 		"arrived": false,
+		# Somebody standing with a muster waits for it to go in (see `guild.gd`).
+		"waits": kind == Errand.MUSTER,
 	})
 	return "%s sets off to see to \"%s\". Back in about %d steps." % [
 		character.display_name, errand.get("title", "the errand"), out_steps * 2,
@@ -90,8 +95,40 @@ static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> 
 			lines.append_array(_arrive(world, roster, away, accepted, job, character, errand))
 			if not away.has(job):
 				continue
-		if bool(job.get("arrived", false)) and world.steps >= int(job.get("back_at", 0)):
+		if bool(job.get("arrived", false)) and world.steps >= int(job.get("back_at", 0)) \
+				and not _still_waiting(job, errand):
+			if str(errand.get("outcome", "")) == "lost":
+				lines.append_array(_fell_with_the_muster(world, away, accepted, job, character, errand))
+				if not away.has(job):
+					continue
 			lines.append_array(_come_back(world, roster, away, accepted, job, character, errand))
+	return lines
+
+
+static func _still_waiting(job: Dictionary, errand: Dictionary) -> bool:
+	return bool(job.get("waits", false)) and not errand.is_empty() and not errand.has("outcome")
+
+
+## The muster they waited with went in and lost. Whoever stood with it rolls
+## for their life like anyone who falls with nobody of their own beside them.
+static func _fell_with_the_muster(
+	world: World, away: Array, accepted: Array,
+	job: Dictionary, character: Character, errand: Dictionary
+) -> Array[String]:
+	var where := _cell(errand.get("gate", job.get("to", [])))
+	var outcome := Fate.resolve(
+		character, {"allies": [], "enemy_kind": "default", "world": world, "cell": where}, world.rng
+	)
+	var lines: Array[String] = [
+		"%s went into %s with the muster." % [character.display_name, errand.get("gate_name", "the gate")],
+		str(outcome["line"]),
+	]
+	accepted.erase(errand)
+	if outcome["outcome"] == Fate.ALIVE:
+		return lines
+	away.erase(job)
+	if outcome["outcome"] == Fate.DEAD:
+		Memorial.raise(world, character, where, "default")
 	return lines
 
 
@@ -118,6 +155,8 @@ static func _arrive(
 		Errand.LOOK, Errand.DELIVER:
 			lines.append("Word comes back from %s: %s saw to it." % [job.get("to_name", "the road"), character.display_name])
 			lines.append_array(Errand._settle(accepted, errand, world))
+		Errand.MUSTER:
+			lines.append("%s reaches %s and waits with the muster." % [character.display_name, job.get("to_name", "the hall")])
 	return lines
 
 
@@ -222,6 +261,8 @@ static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
 	if bool(job.get("arrived", false)):
+		if bool(job.get("waits", false)) and world.steps >= int(job.get("back_at", 0)):
+			return "%s — waiting with the muster at %s" % [who, job.get("to_name", "the hall")]
 		return "%s — on the way back from %s, about %d steps out" % [
 			who, job.get("to_name", "the road"), maxi(0, int(job.get("back_at", 0)) - world.steps),
 		]

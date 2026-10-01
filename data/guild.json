@@ -1,0 +1,44 @@
+{
+	"contract": {
+		"gold_base": 60,
+		"gold_per_rank": 90,
+		"giver": "the Adventurers Guild"
+	},
+	"muster": {
+		"ranks": ["S"],
+		"start": 2,
+		"per_upkeep": 1,
+		"needed": 12,
+		"wait_upkeeps": 4,
+		"win_base": 0.35,
+		"win_per_strength": 0.03,
+		"ally_every": 4,
+		"max_allies": 4,
+		"ally_level_bonus": 1,
+		"units": ["keep_watchman", "legion_copper", "castellan", "brigand_archer"],
+		"gold": 240
+	},
+	"states": {
+		"open": "standing open",
+		"broken": "BROKEN, and pouring",
+		"brewing": "brewing, not yet open"
+	},
+	"lines": {
+		"welcome": "The Guild hall at {hall}. A board of gates, ranked worst first, and a clerk who has seen too many of them.",
+		"empty": "Every gate the Guild knows of is shut. The clerk looks almost disappointed.",
+		"no_hall": "There is no Guild hall here.",
+		"taken": "The clerk writes it down: the company is to shut {gate}. {gold} gold when it is done.",
+		"full": "You have as much work in hand as anyone should. Finish something first.",
+		"already": "That one is already yours.",
+		"not_open": "{gate} is not open yet. The Guild does not pay for gates nobody can walk into.",
+		"muster_raised": "{gate} is an S-rank gate. The Guild is raising a muster at {hall}: kingdoms, soldiers and anyone strong enough, waiting until there are enough of them to go in.",
+		"muster_line": "The muster at {hall} for {gate}: {strength} of {needed} gathered{state}.",
+		"muster_ready": ", ready to go in",
+		"muster_joined": "The company stands with the muster at {hall}. When you go into {gate}, they go in with you.",
+		"muster_with_you": "{count} of the muster go into {gate} beside you.",
+		"muster_won": "The muster at {hall} went into {gate} without you, and shut it.",
+		"muster_lost": "The muster at {hall} went into {gate} without you. Few came out, and the gate broke behind them.",
+		"muster_shut": "The company and the muster at {hall} shut {gate} together.",
+		"contract_void": "Somebody else shut {gate}. The Guild tears up your contract."
+	}
+}

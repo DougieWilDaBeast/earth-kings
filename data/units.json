@@ -583,6 +583,25 @@
 		"color": "#8f8a9c",
 		"sprite_dir": "res://art/units/magic_swordsman/idle"
 	},
+	"guild_clerk": {
+		"display_name": "Guild Clerk",
+		"job": "Hedge Priest",
+		"max_hp": 28,
+		"attack": 7,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"hedge_priest"
+		],
+		"kind": "soldier",
+		"color": "#7d8fa8",
+		"sprite_dir": "res://art/units/legion_magus/idle"
+	},
 	"bird_archer": {
 		"display_name": "Bird Archer",
 		"job": "Longbow",

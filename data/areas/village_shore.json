@@ -39,6 +39,14 @@
 	],
 	"people": [
 		{
+			"name": "Corvin the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [14, 7],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["Gates by sea are worse. Nobody ever believes me until they've been."]
+		},
+		{
 			"name": "Halbrec the Pirate Man",
 			"unit": "pirate_man",
 			"cell": [12, 7],

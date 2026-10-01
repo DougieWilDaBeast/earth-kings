@@ -84,3 +84,32 @@ static func _muster(rows: Array, row: int, count: int) -> Array:
 
 static func _set_symbol(row: String, x: int, symbol: String) -> String:
 	return row.substr(0, x) + symbol + row.substr(x + 1)
+
+
+## Form [param allies] up on the back row, behind the party. Each entry is
+## { "unit": template_id, "level": int }; anyone with no room is left behind.
+static func add_allies(map: Dictionary, allies: Array) -> void:
+	var rows: Array = map.get("tiles", [])
+	if rows.is_empty() or allies.is_empty():
+		return
+	var cells := _muster(rows, rows.size() - 1, allies.size())
+	var placed: Array = []
+	for i in cells.size():
+		var entry: Dictionary = allies[i].duplicate()
+		entry["cell"] = cells[i]
+		placed.append(entry)
+	map["allies"] = placed
+
+
+## Put the gate's heart on the far edge, behind the enemy line, with clear ground
+## round it so it can always be stood on.
+static func mark_heart(map: Dictionary) -> void:
+	var rows: Array = map.get("tiles", [])
+	if rows.size() < 2:
+		return
+	var width := str(rows[0]).length()
+	var x := width / 2
+	for y in 2:
+		for dx in range(-1, 2):
+			rows[y] = _set_symbol(rows[y], clampi(x + dx, 0, width - 1), ".")
+	map["heart"] = [x, 0]

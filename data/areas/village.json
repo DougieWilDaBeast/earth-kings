@@ -53,6 +53,14 @@
 	],
 	"people": [
 		{
+			"name": "Mirel the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [9, 8],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["A ford village with a Guild board. We are moving up in the world.", "Nobody here has shut a gate. Nobody here has had to."]
+		},
+		{
 			"name": "Alder the Steward",
 			"unit": "toln",
 			"cell": [11, 8],

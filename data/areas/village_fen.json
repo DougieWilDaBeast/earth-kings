@@ -45,6 +45,14 @@
 	],
 	"people": [
 		{
+			"name": "Tesk the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [8, 7],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["The board's damp again. The gates on it are still there."]
+		},
+		{
 			"name": "Wick the Duck Wizard",
 			"unit": "duck_wizard",
 			"cell": [10, 7],

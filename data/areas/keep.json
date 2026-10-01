@@ -48,6 +48,14 @@
 	],
 	"people": [
 		{
+			"name": "Odo the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [11, 11],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["The register runs worst first. It always has.", "The Guild does not climb towers. It shuts doors."]
+		},
+		{
 			"name": "Rook the Watchman",
 			"unit": "keep_watchman",
 			"cell": [9, 11],

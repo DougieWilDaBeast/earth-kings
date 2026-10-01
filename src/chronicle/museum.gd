@@ -60,6 +60,8 @@ static func compose(world: World, roster: Roster, ledger: Dictionary, ending: St
 		"ended_at": int(Time.get_unix_time_from_system()),
 		"ending": ending,
 		"lead": lead.display_name if lead != null else "Nobody",
+		"lead_id": lead.template_id if lead != null else "",
+		"lead_temper": Database.hero_temper(lead.template_id) if lead != null else "",
 		"seed": world.world_seed,
 		"company": roster.characters.map(func(c: Character) -> Dictionary: return _portrait(c)),
 		"steps": world.steps,

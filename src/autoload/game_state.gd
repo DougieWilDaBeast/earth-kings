@@ -62,7 +62,7 @@ func _ready() -> void:
 
 
 func _on_unit_damaged(unit: Node, amount: int) -> void:
-	if tallying:
+	if tallying and unit.team != Unit.Team.ALLY:
 		Ledger.add(ledger, "damage_taken" if unit.team == Unit.Team.PLAYER else "damage_dealt", amount)
 
 

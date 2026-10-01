@@ -46,6 +46,14 @@
 	],
 	"people": [
 		{
+			"name": "Brannagh the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [11, 9],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["Every gate on the board has a name, and most of the names are wrong.", "Sign here. Or don't, and walk in anyway."]
+		},
+		{
 			"name": "Ser Valis the Golden Knight",
 			"unit": "golden_knight",
 			"cell": [9, 9],

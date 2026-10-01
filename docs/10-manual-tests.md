@@ -37,6 +37,8 @@ you saw, on which screen, and what you had done just before.
 | B4  | Note the world seed in the system menu, start again with that number | The same country, same places, same names                                            |
 | B5  | Leave the Seed field empty and start twice                           | Two different countries                                                              |
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
+| B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
+| B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
 
 ## C — The world map
 
@@ -157,6 +159,14 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G10 | Win floor 5                               | "Chapter 1 of the Tower is behind you", the census ("sixteen still stand"), news of gates opening, and "The stair above is sealed" |
 | G11 | Step onto the Tower again                 | The seal line, and no fight                                                                   |
 | G12 | Shut a gate (or save a town), then come back | "The Tower opens onto floor 6 of 10 — chapter 2 of 2", and the fight starts                 |
+| G13 | Step onto a gate whose objective is _Reach the heart_ | The log names it; a lilac cell sits behind the enemy line; standing on it wins the floor with enemies still up |
+| G14 | Reach the last floor of a _Slay the keeper_ gate | Felling the guardian ends the fight at once, and the gate shuts                     |
+| G15 | Stand on a village or keep and press **Y** | The Guild hall: every gate not yet shut, worst first, with state, floors, objective and bearing |
+| G16 | Take a contract on an open gate, then shut that gate | The job log shows "shut …"; shutting it pays the contract on top of the gate's own spoils |
+| G17 | Walk into a village or keep and talk to the Guild clerk | The same Guild hall opens; closing it gives control back |
+| G18 | With an S-rank gate open, walk on until an upkeep passes, then open the Guild at the nearest hall | "The Guild is raising a muster…" in the log; the muster's strength at the top of the hall |
+| G19 | **Stand with them**, then walk into that gate | "N of the muster go into … beside you"; blue-ringed allies on the back row fight with you |
+| G20 | Stand with a muster, then send a companion on it from the Practice page | They wait at the hall ("waiting with the muster"); when it goes in they come back paid, or roll for their life |
 
 ## H — Conversation and the camp
 

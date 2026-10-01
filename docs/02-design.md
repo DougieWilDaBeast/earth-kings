@@ -83,6 +83,28 @@ other, rolled through the graces with no ally standing to pull them out. Look an
 pay when they arrive; fetches and hunts pay when they are home. The numbers are the `dispatch`
 block in `data/world_rules.json`.
 
+## The Adventurers Guild
+
+The Guild cares about gates, not the Tower ([D35](06-decisions.md), `DV2`). Every keep and village
+that is still standing keeps a hall: press **Y** there on the map, or talk to the Guild clerk
+inside. The hall shows the **register**: every gate not yet shut, worst rank first and nearest first
+within a rank, with its state (open, broken, brewing), floors, objective and bearing. An open gate
+can be taken as a **contract**: a `gate` errand in the job log that pays `gold_base + gold_per_rank ×
+rank` the moment that gate is shut, wherever the hall was. The Guild pays nothing in advance for a
+gate that has not opened. Only the company can work a contract, so a companion cannot be sent on
+one. Terms and words are in `data/guild.json`.
+
+**Musters.** An S-rank gate is a national threat (`OT8`): when one opens, the Guild raises a
+**muster** at the nearest standing hall, and it gathers strength every upkeep until there are enough
+to go in ([D46](06-decisions.md)). At that hall the company can **stand with them**: a `muster`
+errand. Walked in person, the muster waits for the company and goes into the gate beside it: up to
+four allies on every floor, more the stronger it has grown. Hand the errand to a companion and they
+wait with the muster at the hall instead. A muster that nobody from the company is standing with in
+person goes in alone once it is ready and has waited. It wins or loses on its strength: a win shuts
+the gate (no renown to you, and it does not answer the Tower), a loss breaks it. Whoever was sent
+comes back paid from a win, or rolls for their life from a loss. **Inferred**, and on the agenda.
+If a muster shuts the last open gate while the Tower's stair is sealed, the Tower wakes another.
+
 ## Falling — death and its graces
 
 **Death is the default.** A character who falls is gone unless something they _brought with them_
@@ -171,6 +193,13 @@ gate left neglected too long **breaks** — raising local danger by 25pp and ene
 Late-game abyssal rifts (`the_deep_breach`) can awaken new S-rank gates under continental pressure
 ([D26](06-decisions.md)).
 
+**Gate objectives.** Every gate has one, fixed by the cell it stands on rather than rolled, and named
+as you go in ([D45](06-decisions.md)). **Rout** is any other fight: everything down. **Slay the
+keeper** wins the last floor the moment the guardian falls, whatever is still standing; the floors
+above it are routs. **Reach the heart** marks a cell behind the enemy line on every floor, and the
+floor is won when one of the party stands on it. The names and briefs are in
+`world_rules.gate.objectives`. Nothing is timed yet: that waits on playtest (agenda item 14).
+
 **The world clock and seasons.** Every step advances the continental clock. Every 120 steps turns
 the season represented by four clovers: Lesser Green (Spring), Green (Summer), Brown (Autumn), and
 Ice (Winter). Every 30 steps the world takes an upkeep pass (`World.UPKEEP_INTERVAL`): gates check for
@@ -208,6 +237,10 @@ prototype. Until then, unchanged from the tactics core and already working:
 - **Your ready units act as a squad.** Every player unit at 100 CT takes the phase together;
   **Tab** (Shift+Tab to go back) switches between the ones who still have something to spend,
   and clicking one selects it. Enemies still act one at a time.
+- **Allies** can stand with the party (`Unit.Team.ALLY`, a pale blue ring). They form up on the
+  back row, act one at a time under the enemy AI, and are never struck by the party. They earn no
+  experience and no journal pages, and their falling is not the party's: the fight is lost when the
+  party is down, whoever else is standing.
 - **An action and a bonus action each turn.** An ability costs the action; moving costs either
   and spends the bonus first; flash stepping and abilities flagged `"bonus": true` cost the bonus.
   "Wait" gives up what that character has left, not the whole phase.

@@ -8,6 +8,7 @@ extends Node
 
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
 
 var _failures: Array[String] = []
 
@@ -99,8 +100,72 @@ func _ready() -> void:
 		soaked_dead += int(result["dead"])
 	GameState.difficulty = Difficulty.DEFAULT
 	_expect(soaked_back > soaked_dead, "sending someone away is more likely to kill them than not")
+	_check_muster(world)
 	_check_rumour_jobs(world, roster)
 	_finish()
+
+
+## Somebody sent to stand with a Guild muster waits with it until it goes in,
+## and comes back with what happened — or does not come back (M16, D38).
+func _check_muster(world: World) -> void:
+	var terms: Dictionary = Database.guild["muster"]
+	var kept_terms := terms.duplicate()
+	var quiet: Dictionary = Database.world_rules["dispatch"]
+	var kept_quiet := quiet.duplicate()
+	quiet["trouble_min"] = 0.0
+	quiet["trouble_max"] = 0.0
+	var gate: Site = world.sites_of_kind(Site.GATE)[1]
+	var kept_gate := gate.to_dict()
+	var kept_musters := world.musters.duplicate(true)
+
+	for won: bool in [true, false]:
+		gate.rank = "S"
+		gate.open = true
+		gate.broken = false
+		gate.cleared = false
+		world.musters.clear()
+		terms["win_base"] = 2.0 if won else -2.0
+		var roster := Roster.found()
+		var sent: Character = roster.party_members()[1]
+		var errands: Array = []
+		var away: Array = []
+		Guild.upkeep(world, errands)
+		var muster := Guild.muster_at(world, gate.cell)
+		_expect(not muster.is_empty(), "an open S-rank gate raised no muster")
+		if muster.is_empty():
+			break
+		Guild.join(world, muster, errands)
+		var standing: Dictionary = errands[0]
+		_expect(Dispatch.send(world, roster, away, sent, standing) != "", "nobody could be sent to stand with a muster")
+		var job: Dictionary = away[0]
+		world.steps = int(job["back_at"])
+		Dispatch.walk(world, roster, away, errands)
+		_expect(away.size() == 1, "she came home before the muster went in")
+		muster["strength"] = int(muster["needed"])
+		muster["waited"] = int(terms.get("wait_upkeeps", 4))
+		var said := Guild.upkeep(world, errands)
+		_expect(Guild.muster_at(world, gate.cell).is_empty(), "a ready muster nobody stood with in person never went in")
+		_expect(gate.cleared == won and gate.broken != won, "the muster went in and the gate was left %s" % ("open" if not gate.cleared else "shut"))
+		var gold := GameState.gold
+		var lines := Dispatch.walk(world, roster, away, errands)
+		print("  muster %s: %s / %s" % ["won" if won else "lost", " ".join(said), " / ".join(lines)])
+		_expect(not errands.has(standing), "the muster errand outlived the muster")
+		if won:
+			_expect(away.is_empty() and roster.party.has(sent.id), "she did not come home from a won muster")
+			_expect(GameState.gold > gold, "standing with a won muster paid nothing")
+		else:
+			_expect(away.is_empty(), "the job outlived a lost muster")
+
+	for key: String in kept_terms:
+		terms[key] = kept_terms[key]
+	for key: String in kept_quiet:
+		quiet[key] = kept_quiet[key]
+	var restored := Site.from_dict(kept_gate)
+	gate.rank = restored.rank
+	gate.open = restored.open
+	gate.broken = restored.broken
+	gate.cleared = restored.cleared
+	world.musters = kept_musters
 
 
 ## What the host passes on can post work: one job per rumour, never twice, and

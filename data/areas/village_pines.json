@@ -46,6 +46,14 @@
 	],
 	"people": [
 		{
+			"name": "Orla the Guild Clerk",
+			"unit": "guild_clerk",
+			"cell": [6, 9],
+			"facing": [0, 1],
+			"guild": true,
+			"chatter": ["Woodcutters find gates before anyone. Then they find the Guild."]
+		},
+		{
 			"name": "Bruin the Axe Bear",
 			"unit": "axe_bear",
 			"cell": [8, 9],
