@@ -9,6 +9,8 @@ const WILD := "wild"
 const GATE := "gate"
 const TOWER := "tower"
 
+const Chapters := preload("res://src/chronicle/chapters.gd")
+
 ## No band ever appears within this many tiles of the party. They are found,
 ## not sprung.
 const SPAWN_CLEARANCE := 10
@@ -217,28 +219,24 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.
-## Each tier of floors fields a cohesive faction garrison rather than random mobs.
+## Each stretch of floors fields one faction cohort (`world_rules.tower.cohorts`)
+## rather than random mobs.
 static func for_tower(world: World, site: Site, floor_number: int, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var level := 2 + floor_number * 2
-	var count := clampi(2 + floor_number / 3, 2, 4)
+	var rules: Dictionary = Database.world_rules.get("tower", {})
+	var level := roundi(float(rules.get("level_base", 2)) + float(floor_number) * float(rules.get("levels_per_floor", 0.3)))
+	var foes_min := int(rules.get("foes_min", 2))
+	var count := clampi(
+		foes_min + (Chapters.chapter_of(floor_number) - 1) / maxi(1, int(rules.get("chapters_per_extra_foe", 4))),
+		foes_min, int(rules.get("foes_max", 4))
+	)
 
-	# Faction theme rotates by floor tiers: lower floors Ooze/Wild, mid floors Dusk/Broken Oath/Ember, high floors Bamboo/Heart Empire
-	var faction_tier: String
-	if floor_number <= 3:
-		faction_tier = ["the_ooze", "the_wild"][floor_number % 2]
-	elif floor_number <= 6:
-		faction_tier = ["the_dusk", "broken_oath", "ember_wilds"][(floor_number - 4) % 3]
-	elif floor_number <= 9:
-		faction_tier = ["bamboo_court", "heart_empire", "the_dusk"][(floor_number - 7) % 3]
-	else:
-		faction_tier = "heart_empire"
-
+	var faction_tier := _tower_cohort(rules.get("cohorts", []), floor_number)
 	var pool := Faction.pool(faction_tier, level)
 	if pool.is_empty():
 		pool = Database.encounters.get("tower", ["goblin"])
 
 	if floor_number >= world.tower_floors():
-		var apex_bosses := ["dirte", "wraith", "element_monk", "emo_swordsman"]
+		var apex_bosses: Array = rules.get("apex", ["dirte"])
 		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
 		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2), "boss": true }]
 		var minions: Array = _pick(pool, 3, level, rng)
@@ -254,6 +252,21 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 		world, site.cell, TOWER, enemies, rng,
 		"Floor %d — Cohort of %s." % [floor_number, faction_name]
 	)
+
+
+## The faction holding [param floor_number]: the first cohort whose `to` reaches it,
+## rotating through its factions floor by floor. Past the last, the last holds.
+static func _tower_cohort(cohorts: Array, floor_number: int) -> String:
+	if cohorts.is_empty():
+		return Faction.FALLBACK
+	var start := 1
+	for cohort: Dictionary in cohorts:
+		var factions: Array = cohort.get("factions", [])
+		if floor_number <= int(cohort.get("to", 0)) and not factions.is_empty():
+			return str(factions[(floor_number - start) % factions.size()])
+		start = int(cohort.get("to", 0)) + 1
+	var last: Array = cohorts[-1].get("factions", [Faction.FALLBACK])
+	return str(last[maxi(0, floor_number - start) % last.size()])
 
 
 ## A fight somebody else started, that you have chosen to join (see [Roadside]).

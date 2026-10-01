@@ -20,7 +20,8 @@
 
 Every step you take advances the world clock. Steps are the only thing that moves the world, so
 travel is never free: crossing the map to reach a library is time gates spend opening and
-doctrine spends fading.
+doctrine spends fading. _Decided against_ ([D49](06-decisions.md)): the world is to move on at
+milestones instead, with no time pressure. That is planned (M18), not built.
 
 **What can happen while walking**
 
@@ -28,7 +29,7 @@ doctrine spends fading.
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Open ground                | A chance of a wild encounter, scaled by how close the nearest open gate is and how far the nearest hearth is |
 | A **gate**                 | Delve it — a run of battles ending in its guardian. Once a floor is won there is no walking out: every step is the next floor, until it is beaten or you are ([D35](06-decisions.md)) |
-| The **Tower**              | Climb — one battle per floor, each harder than the last. _Changing_ ([D34](06-decisions.md)): chapters of five floors, each floor returns you to the world |
+| The **Tower**              | Climb — a hundred floors, one battle each, in twenty chapters of five ([D48](06-decisions.md)). Each floor returns you to the world; each chapter moves the world on and seals the stair until you have answered it ([D34](06-decisions.md)) |
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
 | A **village / keep / hut** | Rest and recover; safe ground, encounters go quiet                                                           |
 
@@ -39,8 +40,10 @@ length of a fight and thrown away afterwards. The save file remembers Characters
 
 - **Levels and XP.** Experience comes only from the **first kill of each kind of enemy**, per
   character ([D37](06-decisions.md)). Whoever lands it learns from it; everyone else on that side
-  still standing counts an **assist**, and five assists on a kind teach as much as landing one; a
-  **boss** — a gate's guardian, the Tower's apex fighter — teaches everyone involved at once. A
+  still standing counts an **assist**. Ten assists on a kind teach as much as landing one, or five
+  if they were a healer's, meaning the helper healed whoever landed the blow earlier in the same
+  fight ([D54](06-decisions.md)). A
+  **boss** (a gate's guardian, the Tower's apex fighter) teaches everyone involved at once. A
   second brigand teaches nothing but practice. A first kill is worth `2 × (9 + level × 7)` before
   the difficulty's multiplier. Cost to next level is `20 + level² × 6`.
 - **Proficiency.** Landing a move makes that move hit harder (6% a rung), and makes its user better
@@ -166,7 +169,7 @@ sites are scattered across the land, never closer than 9 tiles apart:
 
 | Kind    | Count | Role                                                               |
 | ------- | ----- | ------------------------------------------------------------------ |
-| Tower   | 1     | Claims a far region; ten-floor climb culminating in the Spire Apex |
+| Tower   | 1     | Claims a far region; hundred-floor climb culminating in the Spire Apex |
 | Home    | 1     | Yours; hearth where you start, bed upgrades, safe haven            |
 | Keep    | 5     | Fortified havens, proving arena grounds for live tournaments       |
 | Village | 11    | Safe ground, markets, hirelings, coastal ports                     |
@@ -177,7 +180,9 @@ sites are scattered across the land, never closer than 9 tiles apart:
 **Two views: Continental and Planar.** Pressing **Z** switches between the Continental overview
 and top-down Planar view. All 48 sites have hand-built interiors, and wilderness tiles (forest,
 marsh, hill, desert) open into explorable 30×20 planar regions whose open cardinal edges step
-seamlessly across continental borders.
+seamlessly across continental borders. _Decided against_ ([D50](06-decisions.md)): the game is to be
+played in the planar view alone, with the continent as a map that fills in where you have been.
+That is planned (M18), not built.
 
 **Home and the bed.** Home is the only site the player owns and the only one with nothing to sell.
 Sleeping there heals the party outright, and the bed installed in it grants every sleeper a

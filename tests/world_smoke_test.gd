@@ -554,6 +554,21 @@ func _check_encounters(world: World) -> void:
 		"the Tower is no harder at floor 6 than at floor 1"
 	)
 	print("tower floor 1 fields level %d, floor 6 fields level %d" % [_top_level(shallow), _top_level(climb)])
+
+	var top := world.tower_floors()
+	var apex := Encounter.for_tower(world, world.tower(), top, party, world.rng)
+	_expect(str(apex.get("title", "")).begins_with("The Spire Apex"), "floor %d is not the apex fight" % top)
+	_expect(_top_level(apex) < 60, "the top of the Tower fields level %d" % _top_level(apex))
+	var cohorts: Array = Database.world_rules.get("tower", {}).get("cohorts", [])
+	if cohorts.size() > 1:
+		var edge := int(cohorts[0]["to"])
+		var below := Encounter.for_tower(world, world.tower(), edge, party, world.rng)
+		var above := Encounter.for_tower(world, world.tower(), edge + 1, party, world.rng)
+		_expect(
+			str(below["title"]).get_slice("Cohort of ", 1) != str(above["title"]).get_slice("Cohort of ", 1),
+			"floors %d and %d field the same cohort" % [edge, edge + 1]
+		)
+	print("tower floor %d fields level %d" % [top, _top_level(apex)])
 	GameState.difficulty = setting
 
 

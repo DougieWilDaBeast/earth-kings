@@ -48,8 +48,11 @@ static func _rules() -> Dictionary:
 
 
 ## Assists on one kind of enemy that teach as much as landing the blow once.
-static func assists_needed() -> int:
-	return int(_rules().get("assists_needed", 5))
+## A [param healer]'s assist (they healed whoever landed it, [D54]) needs fewer.
+static func assists_needed(healer := false) -> int:
+	if healer:
+		return int(_rules().get("healer_assists_needed", 5))
+	return int(_rules().get("assists_needed", 10))
 
 
 ## What the first of a kind is worth, at the level it was when it fell. Paid once
@@ -68,13 +71,15 @@ static func has_beaten(character: Character, kind: String) -> bool:
 ##
 ## - the one who landed it learns from it, if they never have before;
 ## - everyone else [param involved] counts an assist, and enough assists on a
-##   kind teach as much as landing one;
+##   kind teach as much as landing one — fewer for those in [param healers],
+##   who kept the killer standing ([D54]);
 ## - a [param boss] teaches everyone involved at once.
 ##
 ## Killing the same kind again teaches nothing here — only practice, which
 ## [Proficiency] counts. Returns lines for the battle log.
 static func award_kill(
-	killer: Character, kind: String, level: int, involved: Array, boss: bool, world: World
+	killer: Character, kind: String, level: int, involved: Array, boss: bool, world: World,
+	healers: Array = []
 ) -> Array:
 	var lines: Array = []
 	if kind == "":
@@ -100,7 +105,7 @@ static func award_kill(
 			lines.append_array(award(c, worth, world))
 			continue
 		var helped := int(c.assists.get(kind, 0)) + 1
-		if helped < assists_needed():
+		if helped < assists_needed(healers.has(c)):
 			c.assists[kind] = helped
 			continue
 		c.assists.erase(kind)
