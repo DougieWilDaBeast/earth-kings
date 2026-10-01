@@ -16,6 +16,11 @@ const GRAVE := "grave"
 ## Gate difficulty, weakest first. A gate's rank sets its guardian and its reward.
 const RANKS := ["E", "D", "C", "B", "A", "S"]
 
+## Gate objectives (see `world_rules.gate.objectives`). Rout is what every other fight is.
+const OBJECTIVE_ROUT := "rout"
+const OBJECTIVE_GUARDIAN := "guardian"
+const OBJECTIVE_HEART := "heart"
+
 ## How a place is drawn on a map. A faction that holds a gate or a keep
 ## overrides the art (see [Faction]); the colour is the fallback token for a
 ## kind with no art at all.
@@ -90,6 +95,38 @@ func depth() -> int:
 
 func is_final_floor() -> bool:
 	return depth() >= floors() - 1
+
+
+## What winning this gate's floors takes. Fixed by where the gate stands rather
+## than drawn from the world's dice, so it never shifts a seeded run.
+func objective() -> String:
+	if data.has("objective"):
+		return str(data["objective"])
+	var kinds: Array = objective_rules().keys()
+	if kinds.is_empty():
+		return OBJECTIVE_ROUT
+	kinds.sort()
+	return str(kinds[absi(hash(cell)) % kinds.size()])
+
+
+## The objective on the floor about to be fought. A keeper only waits on the last.
+func floor_objective() -> String:
+	var id := objective()
+	if bool(objective_rules().get(id, {}).get("final_only", false)) and not is_final_floor():
+		return OBJECTIVE_ROUT
+	return id
+
+
+static func objective_rules() -> Dictionary:
+	return Database.world_rules.get("gate", {}).get("objectives", {})
+
+
+static func objective_name(id: String) -> String:
+	return str(objective_rules().get(id, {}).get("display_name", id.capitalize()))
+
+
+static func objective_brief(id: String) -> String:
+	return str(objective_rules().get(id, {}).get("brief", ""))
 
 
 func label() -> String:

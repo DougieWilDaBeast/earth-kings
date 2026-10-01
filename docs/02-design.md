@@ -171,6 +171,13 @@ gate left neglected too long **breaks** — raising local danger by 25pp and ene
 Late-game abyssal rifts (`the_deep_breach`) can awaken new S-rank gates under continental pressure
 ([D26](06-decisions.md)).
 
+**Gate objectives.** Every gate has one, fixed by the cell it stands on rather than rolled, and named
+as you go in ([D45](06-decisions.md)). **Rout** is any other fight: everything down. **Slay the
+keeper** wins the last floor the moment the guardian falls, whatever is still standing; the floors
+above it are routs. **Reach the heart** marks a cell behind the enemy line on every floor, and the
+floor is won when one of the party stands on it. The names and briefs are in
+`world_rules.gate.objectives`. Nothing is timed yet: that waits on playtest (agenda item 14).
+
 **The world clock and seasons.** Every step advances the continental clock. Every 120 steps turns
 the season represented by four clovers: Lesser Green (Spring), Green (Summer), Brown (Autumn), and
 Ice (Winter). Every 30 steps the world takes an upkeep pass (`World.UPKEEP_INTERVAL`): gates check for

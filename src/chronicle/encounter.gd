@@ -106,7 +106,11 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 			site.display_name, depth + 1, Faction.display_name(faction)
 		]
 
-	return _build(world, site.cell, GATE, enemies, rng, title)
+	var meeting := _build(world, site.cell, GATE, enemies, rng, title)
+	meeting["objective"] = site.floor_objective()
+	if meeting["objective"] == Site.OBJECTIVE_HEART:
+		BattleMapGen.mark_heart(meeting["map"])
+	return meeting
 
 
 ## The people holding one of yours. They are not a gate garrison, they are a

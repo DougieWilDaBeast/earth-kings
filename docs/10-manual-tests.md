@@ -157,6 +157,8 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G10 | Win floor 5                               | "Chapter 1 of the Tower is behind you", the census ("sixteen still stand"), news of gates opening, and "The stair above is sealed" |
 | G11 | Step onto the Tower again                 | The seal line, and no fight                                                                   |
 | G12 | Shut a gate (or save a town), then come back | "The Tower opens onto floor 6 of 10 — chapter 2 of 2", and the fight starts                 |
+| G13 | Step onto a gate whose objective is _Reach the heart_ | The log names it; a lilac cell sits behind the enemy line; standing on it wins the floor with enemies still up |
+| G14 | Reach the last floor of a _Slay the keeper_ gate | Felling the guardian ends the fight at once, and the gate shuts                     |
 
 ## H — Conversation and the camp
 

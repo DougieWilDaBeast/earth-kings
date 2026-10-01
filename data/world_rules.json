@@ -92,7 +92,22 @@
 		"break_after_steps": 600,
 		"break_chance": 0.75,
 		"break_danger": 0.25,
-		"break_level_bonus": 3
+		"break_level_bonus": 3,
+		"objectives": {
+			"rout": {
+				"display_name": "Rout",
+				"brief": "Put down everything that comes at you."
+			},
+			"guardian": {
+				"display_name": "Slay the keeper",
+				"brief": "The thing keeping the far side has to fall. What follows it scatters when it does.",
+				"final_only": true
+			},
+			"heart": {
+				"display_name": "Reach the heart",
+				"brief": "Get one of yours onto the gate's heart and the floor gives way to the next."
+			}
+		}
 	},
 	"proficiency": {
 		"steps": [12, 40, 100, 220],

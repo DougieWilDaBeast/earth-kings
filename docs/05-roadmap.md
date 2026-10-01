@@ -226,7 +226,8 @@ chapter's close moves them on further.
 - The census at the end of every chapter ✅ — it always reads sixteen until there is more than one
   world (M15)
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
-  floor, and it survives a save); objectives inside, some timed (agenda item 14)
+  floor, and it survives a save); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
+  reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
 - The Adventurers Guild in settlements, and S-rank gates that gather armies
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**

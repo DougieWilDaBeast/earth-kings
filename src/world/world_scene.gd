@@ -703,6 +703,9 @@ func _enter_gate(site: Site) -> void:
 			_note("Once you are in, there is no walking out until it is beaten.")
 	else:
 		_note("%s stands open." % site.label())
+	var aim := site.floor_objective()
+	if aim != Site.OBJECTIVE_ROUT:
+		_note("%s: %s" % [Site.objective_name(aim), Site.objective_brief(aim)])
 
 	# Shutting a gate is permanent, so it only shuts once the last floor is won.
 	_begin_battle(

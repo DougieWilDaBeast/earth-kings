@@ -15,7 +15,7 @@ const SEED := 20260827
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "run_ends",
 ]
 
 var _scene: Node
@@ -991,6 +991,80 @@ func _check_save_round_trip() -> void:
 
 
 ## Every generated battlefield has to be one a fight can actually happen on.
+## Gates carry an objective, fixed by where they stand. A heart floor marks a
+## cell the party can stand on; a keeper only waits on the last floor; and the
+## fight itself is won the moment either is done.
+func _check_objectives() -> void:
+	var world: World = GameState.world
+	var gates := world.sites_of_kind(Site.GATE)
+	var kinds := Site.objective_rules()
+	for gate: Site in gates:
+		_expect(kinds.has(gate.objective()), "%s has an unknown objective '%s'" % [gate.label(), gate.objective()])
+		_expect(gate.objective() == gate.objective(), "%s changed its objective between two looks" % gate.label())
+
+	var gate: Site = null
+	for site: Site in gates:
+		if not site.cleared and (gate == null or site.floors() > gate.floors()):
+			gate = site
+	if gate == null:
+		_expect(false, "no gate left standing to set an objective on")
+		return
+	var kept := gate.data.duplicate(true)
+	var party := GameState.party_characters()
+	var rng := RandomNumberGenerator.new()
+
+	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
+	gate.data["depth"] = gate.floors() - 1
+	_expect(gate.floor_objective() == Site.OBJECTIVE_GUARDIAN, "the last floor of a keeper gate is not a keeper fight")
+	if gate.floors() > 1:
+		gate.data["depth"] = 0
+		_expect(gate.floor_objective() == Site.OBJECTIVE_ROUT, "a keeper gate asked for its keeper on floor 1")
+
+	gate.data["objective"] = Site.OBJECTIVE_HEART
+	var heart := Encounter.for_gate(world, gate, gate.depth(), gate.is_final_floor(), party, rng)
+	_expect(heart.get("objective") == Site.OBJECTIVE_HEART, "a heart gate fielded a '%s' fight" % heart.get("objective"))
+	var map: Dictionary = heart.get("map", {})
+	_expect(map.has("heart"), "a heart floor has no heart on it")
+	if map.has("heart"):
+		var at: Array = map["heart"]
+		_expect(str(map["tiles"][int(at[1])])[int(at[0])] == ".", "the heart is on ground nobody can stand on")
+
+	var setting := Pace.auto
+	Pace.auto = false
+	heart["ambush"] = true
+	var battle := _open_battle(heart)
+	_expect(battle.objective == Site.OBJECTIVE_HEART, "the battle forgot it was a heart fight")
+	_expect(not battle._objective_met(), "a heart fight was won before anyone moved")
+	var runner: Unit = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)[0]
+	runner.cell = battle.heart_cell
+	_expect(battle._objective_met(), "standing on the heart did not win the floor")
+	battle.free()
+
+	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
+	gate.data["depth"] = gate.floors() - 1
+	var keeper := Encounter.for_gate(world, gate, gate.depth(), true, party, rng)
+	keeper["ambush"] = true
+	battle = _open_battle(keeper)
+	_expect(not battle._objective_met(), "a keeper fight was won with the keeper standing")
+	for unit: Unit in battle.units:
+		if unit.has_meta("boss"):
+			unit.hp = 0
+	_expect(battle._objective_met(), "felling the keeper did not win the floor")
+	battle.free()
+
+	Pace.auto = setting
+	gate.data = kept
+	print("objectives: %d gates, a heart reached and a keeper felled each win the floor" % gates.size())
+
+
+## A training battle on [param meeting], built and left at the party's first orders.
+func _open_battle(meeting: Dictionary) -> Node:
+	var battle: Node = load("res://src/battle/battle.tscn").instantiate()
+	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world"}
+	add_child(battle)
+	return battle
+
+
 func _check_field(meeting: Dictionary, label: String) -> void:
 	var map: Dictionary = meeting.get("map", {})
 	var rows: Array = map.get("tiles", [])

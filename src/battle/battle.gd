@@ -23,6 +23,10 @@ var map_id: String = DEFAULT_MAP
 var encounter: Dictionary = {}
 ## A training fight: nobody really dies and the world is not told about it.
 var sandbox: bool = false
+## What winning takes (see [method Site.floor_objective]); rout unless a gate says otherwise.
+var objective: String = Site.OBJECTIVE_ROUT
+## The cell a party member has to reach on a heart floor.
+var heart_cell: Vector2i = Vector2i(-1, -1)
 var pathfinder: Pathfinder
 var units: Array[Unit] = []
 ## The player units taking the current phase together; empty on an enemy phase.
@@ -82,6 +86,19 @@ func _build_battlefield() -> void:
 	var confrontation := str(encounter.get("confrontation", ""))
 	if confrontation != "":
 		EventBus.battle_log.emit(confrontation)
+	_set_objective(map)
+
+
+func _set_objective(map: Dictionary) -> void:
+	objective = str(encounter.get("objective", Site.OBJECTIVE_ROUT))
+	if objective == Site.OBJECTIVE_HEART:
+		if not map.has("heart"):
+			objective = Site.OBJECTIVE_ROUT
+			return
+		heart_cell = _to_cell(map["heart"])
+		overlay.objective_cell = heart_cell
+	if objective != Site.OBJECTIVE_ROUT:
+		EventBus.battle_log.emit("%s — %s" % [Site.objective_name(objective), Site.objective_brief(objective)])
 
 
 ## Open a journal entry for anything the party has not stood across from before.
@@ -762,8 +779,10 @@ func _resolve_outcome() -> bool:
 	var enemies_alive := units.any(
 		func(u: Unit) -> bool: return u.is_alive() and u.team != Unit.Team.PLAYER
 	)
-	if players_alive and enemies_alive:
+	if players_alive and enemies_alive and not _objective_met():
 		return false
+	if players_alive and enemies_alive:
+		EventBus.battle_log.emit(_objective_won_line())
 
 	phase = Phase.FINISHED
 	overlay.clear()
@@ -788,6 +807,26 @@ func _resolve_outcome() -> bool:
 	EventBus.battle_finished.emit({"victory": players_alive, "map_id": map_id})
 	_leave_the_field()
 	return true
+
+
+## Whether the floor is won before the last enemy is down.
+func _objective_met() -> bool:
+	match objective:
+		Site.OBJECTIVE_GUARDIAN:
+			var keepers := units.filter(
+				func(u: Unit) -> bool: return u.team != Unit.Team.PLAYER and u.has_meta("boss")
+			)
+			return not keepers.is_empty() and not keepers.any(func(u: Unit) -> bool: return u.is_alive())
+		Site.OBJECTIVE_HEART:
+			var standing := unit_at(heart_cell)
+			return standing != null and standing.team == Unit.Team.PLAYER
+	return false
+
+
+func _objective_won_line() -> String:
+	if objective == Site.OBJECTIVE_HEART:
+		return "The heart is reached, and the floor gives way beneath the rest of them."
+	return "The keeper is down. What came with it breaks and scatters."
 
 
 ## Wounds only. Used on the sand, where nobody rolls for their life because

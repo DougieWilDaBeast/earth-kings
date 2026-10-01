@@ -13,6 +13,7 @@ const CURSOR_COLOUR := Color(1.0, 0.95, 0.6, 0.9)
 const ACTIVE_ALLY_COLOUR := Color(1.0, 0.86, 0.3, 1.0)
 const ACTIVE_ENEMY_COLOUR := Color(1.0, 0.4, 0.35, 1.0)
 const ACTIVE_PULSE_SPEED := 4.0
+const HEART_COLOUR := Color(0.95, 0.75, 1.0, 1.0)
 
 var grid: BattleGrid
 
@@ -28,6 +29,11 @@ var active_cell: Vector2i = Vector2i(-1, -1)
 var active_is_enemy: bool = false
 ## Squad members who still have something to spend but are not selected.
 var pending_cells: Array[Vector2i] = []
+## A cell the fight is won by reaching (a gate's heart), drawn under everything else.
+var objective_cell: Vector2i = Vector2i(-1, -1):
+	set(value):
+		objective_cell = value
+		queue_redraw()
 
 var _pulse: float = 0.0
 
@@ -99,6 +105,10 @@ func clear_path() -> void:
 func _draw() -> void:
 	if grid == null:
 		return
+	if grid.in_bounds(objective_cell):
+		var heart := _rect_for(objective_cell)
+		draw_rect(heart, Color(HEART_COLOUR, 0.22))
+		draw_rect(heart.grow(-3.0), Color(HEART_COLOUR, 0.85), false, 2.0)
 	_draw_active()
 	_draw_cells(move_cells, MOVE_COLOUR)
 	_draw_cells(flash_cells, FLASH_COLOUR)
