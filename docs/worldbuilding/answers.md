@@ -15,15 +15,17 @@ The agenda for the next session, in the order it is worth spending time on. Ever
 entry further down this file; nothing here is new information, it is the open work gathered into one
 place so it can be worked through rather than rediscovered.
 
-Run `res://tools/question_report.tscn` for the live count. After joint session 1 (2026-09-24) it
-reads **79 of 366 answered, 26 partly answered, 169 still open, 143 drafts across 129 questions**.
+Run `res://tools/question_report.tscn` for the live count. After joint session 2 (2026-10-01) it
+reads **84 of 366 answered, 25 partly answered, 166 still open, 143 drafts across 129 questions**.
 
 **The standing instruction** from that session: a question that does not matter yet stays open.
 Section 1 is what the next milestone cannot start without. Everything below it is real, but it can
 wait for a session that has nothing more urgent.
 
 **For the next session:** [the briefing sheet](session-2-briefing.md) gives every Section 1 item
-its options, what each costs to build, and what happens if nobody answers.
+its options, what each costs to build, and what happens if nobody answers. Joint session 2
+(2026-10-01) worked it as far as item 8 and stopped. Items 9 to 19 and the new rows 20 to 24 are
+what is left.
 
 ## 1. What joint session 1 left open — needed next
 
@@ -31,14 +33,14 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 
 | #  | Where | The question |
 | -- | ----- | ------------ |
-| 1  | `GT11`, `D16` | **How many floors has the Tower, and how many make a chapter?** Ten ship. A hundred was floated and then doubted — "maybe 100 floors is too much. Maybe it's not enough". Every rule the session made counts in fives: the world changes every five floors, a key is needed every five, the census shows every five. |
-| 2  | pillar 5, `SK6`, `D27` | **Does the world still run on steps?** "I think that the time the world should only really change after you complete, let's say, five floors of the tower" [00:28:42] sits against _the world runs on steps, not turns_. One reading keeps both: **steps drive the small clocks** (doctrine fading, gates breaking, news, sieges) **and Tower chapters drive the story**. That is an inference. Confirm it or pick one. |
+| 1  | `GT11`, `D16` | ~~**How many floors has the Tower, and how many make a chapter?**~~ **Settled 2026-10-01 in joint session 2:** a hundred floors, twenty chapters of five. Built. See `GT11`, [D48](../06-decisions.md). |
+| 2  | pillar 5, `SK6`, `D27` | ~~**Does the world still run on steps?**~~ **Settled 2026-10-01 in joint session 2:** no. The world moves on at milestones, with no time pressure. Not built yet. See `SK6`, [D49](../06-decisions.md), and item 20. |
 | 3  | `D36` | **The fight.** The move to a Dungeon Settlers-style real-time-with-pause fight was agreed, and a research deep dive was asked for before anything is built. What it has to answer is in [18 — Combat direction](../18-combat-direction.md#what-the-research-has-to-answer). **First pass done** — [investigation/07](../investigation/07-dungeon-settlers-combat.md) — and **a playable prototype built** (Training → Fight in real time, [18](../18-combat-direction.md#the-prototype)). What is left is playing both. |
-| 4  | `CO7`, `SM1`, `D21` | **Can a death be reloaded?** Save-scumming is allowed "to be revisited". A lead's death now ends a whole world. If reloading undoes that, the sixteen chances are a menu. This has to be settled before the death of a world is built. |
-| 5  | `MX20` | **In the second world, is there a living copy of the first lead** as well as their ghost and their weapon? |
-| 6  | `CH10`, `SF1` | **What does a lead remember?** "All 16 lose their memories", then "maybe your memories are intact". The reading taken: the fall takes the memory, the mark is recognised anyway. Confirm. |
+| 4  | `CO7`, `SM1`, `D21` | ~~**Can a death be reloaded?**~~ **Settled 2026-10-01 in joint session 2:** it depends on the mode. Classic reloads, or ascends to heaven and picks a new character. Iron Man has one life. See `CO7`, [D51](../06-decisions.md). |
+| 5  | `MX20` | ~~**In the second world, is there a living copy of the first lead?**~~ **Settled 2026-10-01 in joint session 2:** yes, as an NPC built from their stats and personality. See `MX20`, [D52](../06-decisions.md). |
+| 6  | `CH10`, `SF1` | ~~**What does a lead remember?**~~ **Settled 2026-10-01 in joint session 2:** the fall takes the memory. It comes back in fragments, one set per Tower chapter, and every lead carries the quest "Ascend to heaven". See `SF1`, [D53](../06-decisions.md). Whether a lead half-knows the others' faces is still open (`CH10`). |
 | 7  | `D29`, `D44` | ~~**Is the lead chosen or answered for?** The session says "you choose Cassius"; the build asks four questions and names you. Both can stand — the quiz names you, _Show me all sixteen_ lets you choose — but say which is the front door.~~ **Settled 2026-09-26 by `dougie`, in writing:** the quiz is the front door, and the roster is a side door that opens only after it, next to answering again. See `MX4`, `MX5`. |
-| 8  | `D37` | **Assists.** `dougie` summed it up as five assists for a kill's experience and `doug-md` agreed; `doug-md` had also said ten for ordinary grunts and five for a healer's assists. One number, or two? |
+| 8  | `D37` | ~~**Assists. One number, or two?**~~ **Settled 2026-10-01 in joint session 2:** two. Ten assists, or five for a healer's. Built. See [D54](../06-decisions.md) and item 23. |
 | 9  | `CO2` | **Sprite size — 64, 32 or 16?** "that's still an open for now, but we do need to generate stuff" [01:07:40]. PixelLab credits reset on 2026-09-27 with 15% left; the [asset list](../19-asset-list.md) has to be generated at one size. The model game measures in the **32 class** ([investigation/07](../investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)). |
 | 10 | `CH13` | **Sixteen ways to fight, six classes.** The roster needs sixteen distinct fighting styles; `classes.json` has six. More classes, or a class per character, or styles inside classes? |
 | 11 | `D38` | **How does the party grow from four to six?** A level, a rank, a Tower chapter, something bought? |
@@ -50,16 +52,21 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 17 | `OT8`, D46 | **Inferred.** Built 2026-10-01: **an S-rank gate raises a Guild muster** that goes in beside the company, and **goes in alone** if nobody from the company stands with it, winning or losing on its strength. Is that what happens if you never come? |
 | 18 | `MX4`, D47 | **Inferred.** Built 2026-10-01: **the fallen are remembered outside the save**, and the record is wiped only once every lead has fallen. When should the slate be wiped? |
 | 19 | `DV2` | **Inferred.** Built 2026-10-01: **the Adventurers Guild keeps a hall in every standing keep and village**, never huts, with a clerk inside. Right places? |
+| 20 | `SK6`, D49 | **What are the milestones?** Joint session 2 retired the step clock: "we're going to set up some other checkpoints as well". Tower chapters are one. Name the others, then say what each step-priced clock becomes: doctrine fading (`KN1`), gates breaking when neglected (`GT6`, D15), captive deadlines (D18), thread deadlines (D23), the seasons (`CL2`), companions' travel on jobs. "No time pressure" sits hardest against D15. |
+| 21 | D50 | **One view: how far is a walk?** The planar view becomes the whole game and the world view becomes a map. Today a planar area is 30 by 20 and the continent is 128 tiles across, each of which opens an area of its own. Is the continent smaller, are areas bigger, or is there a faster way to travel? And does a guild's map show places, or only "the general area"? |
+| 22 | `SF1`, `CO7` | **"Ascend to heaven" names two things.** It is the lead's standing quest, finished only at the end, and it is also what Classic offers when the lead dies. Is dying a way of finishing the quest, a failure of it, or are the two different things that happen to share a name? |
+| 23 | D54 | **Inferred.** Built 2026-10-01: **a healer's assist** is one where the helper healed the one who landed the blow, earlier in the same fight. Five of those, or ten of any other assist, teach a kind. Right reading? |
+| 24 | `GT11`, D48 | **Inferred.** Built 2026-10-01: over a hundred floors, **enemies rise about one level every three floors** (level 2 at the foot, 32 at the top), four faction cohorts hold the floors in turn, gold is paid by the chapter, a book every chapter and a skill tree every two. Right shape? |
 
 ## 2. Eleven Part I questions that need a straight answer
 
 `doug-md` answered Part I but eleven of them did not land cleanly. Each entry already writes out the
-one follow-up it needs. Of these, only `SK6` is needed next (see item 2 above); `LN1` matters as
+one follow-up it needs. `SK6` was settled in joint session 2; `LN1` matters as
 soon as the map is resized. The rest can wait.
 
 | ID     | Status          | The follow-up                                                                            |
 | ------ | --------------- | ---------------------------------------------------------------------------------------- |
-| `SK6`  | Partly answered | **How long is a step?** He made the step the clock — time only moves when the party does — then handed the scale back: "one second… or one minute… entirely up to yourself". Everything in the game is priced in steps, so this one gates the rest. |
+| `SK6`  | Answered        | **Settled 2026-10-01:** there is no step; the world runs on milestones (item 20). Was: **How long is a step?** He made the step the clock — time only moves when the party does — then handed the scale back: "one second… or one minute… entirely up to yourself". Everything in the game is priced in steps, so this one gates the rest. |
 | `LN1`  | Blocked         | **Is the continent a month across, or half a year?** He gave 30 days by carriage and then six months on foot, seconds apart. A carriage is not six times a walker. |
 | `GT12` | Blocked         | **Is the Spire Archon something that was _put_ there, or something that _arrived_?** The only question in Part I he declined — "I am not sure." D25 already ships the fight. |
 | `SK2`  | Partly answered | One sun, then the answer left the sky for gate timers. **Is the sun ordinary, and is anything else up there by day?** |
@@ -78,7 +85,7 @@ These are not gaps. They are two statements that cannot both stand.
 | Where                 | The collision                                                                                  |
 | --------------------- | ---------------------------------------------------------------------------------------------- |
 | notes 01–05 vs note 06 | **Probably settled — confirm.** In joint session 1 `doug-md` keeps _tower_ and _gate_ apart without a slip, which supports the reading Part I's entries took. **"Tower" means two things.** He says _tower_ where the book says _gate_ throughout the first five notes, and in `GT5` he catches himself: "a gate looks like a massive tower, or, sorry, a gate looks like a wormhole." Note 06 keeps them apart. The whole of Part I reads differently depending on the answer. |
-| `SK5` + `SK6` vs repo | A 365-day year and the repo's 120 steps per season (480 steps a year) put a step at about a day and a half. He guessed "one second or one minute". Two of the three have to give. |
+| `SK5` + `SK6` vs repo | **Settled 2026-10-01** by `SK6`: the world does not run on steps, so there is no step to price against a year. A 365-day year and the repo's 120 steps per season (480 steps a year) put a step at about a day and a half. He guessed "one second or one minute". Two of the three have to give. |
 | `GT9` vs D08          | He has gate rank rising the **closer** you are to the Tower. D08 has it rising with **distance**. This inverts the map. |
 | `CL2` vs repo         | He describes a season front that **sweeps** south to north over a warm equator. `Season` flips globally at a step count. `WorldGen._latitude` already agrees with him; the season clock does not. |
 | `GT6` vs repo         | A broken gate should **spread its element across the ground and keep spreading**. The repo raises local danger 25pp and changes nothing else. |
@@ -2039,6 +2046,218 @@ once the four questions are answered, next to answering them again.
 and the dead cannot be answered into ([D43](../06-decisions.md)). An answer is removed once every
 character it could still lead to has died. A question left with a single answer is still asked, so
 the player sees what is gone.
+
+---
+
+# Joint session 2 — both founders, 2026-10-01
+
+A ten-minute call between `dougie` and `doug-md`, transcribed by Teams and kept whole as
+[joint session 2](voice-notes/2026-10-01-joint-session-2.md). It worked the
+[briefing sheet](session-2-briefing.md) from the top and stopped after item 8; items 9 to 19 wait
+for the next call. Both are founders, so what either said plainly is canon; where one proposed and
+the other agreed, the entry quotes both. As in session 1, a quote runs straight through the other
+founder's "Mhm" or "Yeah", and nothing else is left out.
+
+What it changes is in [D48–D54](../06-decisions.md). Only two of those are built: the hundred-floor
+Tower and the two assist numbers. The rest are planned on the [roadmap](../05-roadmap.md).
+
+## GT11 — Ten floors. Is it ten from outside too — a building, or does the inside not agree with the outside?
+
+> "I think the tower should have 100 floors because it's just iconic."
+> — dougie, 2026-10-01, session 2 [00:01:15]
+
+> "Yeah, I agree."
+> — doug-md, 2026-10-01, session 2 [00:01:20]
+
+> "It could be cool, yeah, to have a chapters of five, then that would be 20 chapters altogether."
+> — doug-md, 2026-10-01, session 2 [00:01:29]
+
+> "So, what if we set it to five? For now, and then, as like, as things change going into the
+> future, maybe the chapters get a little bit longer, if you know what I mean, so it could be like
+> 10 floors, but yeah, we stick to five for the whole thing now, and if we have to come back and
+> change it, we'll try to fit the overall story and theme to fit that's yeah, 5."
+> — dougie, 2026-10-01, session 2 [00:01:56]
+
+**Answered.** **A hundred floors, in twenty chapters of five.** `dougie` proposed the hundred and
+`doug-md` the five. If the chapters ever get longer, the story is made to fit the number, not the
+other way round.
+↳ Settles agenda item 1. Replaces D16's ten and fills in the count D34 left open ([D48](../06-decisions.md)).
+↳ Answers `dougie`'s own doubt from session 1, "maybe 100 floors is too much": a hundred, "because
+it's just iconic".
+↳ Built 2026-10-01. How hard each floor is, which factions hold it and how the rewards are spaced over
+a hundred floors are a build choice, **Inferred**. That is agenda item 24.
+
+## SK6 — What is a step?
+
+> "I don't think the world needs to run on steps at all. I think it could be milestones."
+> — dougie, 2026-10-01, session 2 [00:02:36]
+
+> "Yeah, yeah, I definitely agree. I think we've gone past running on steps now."
+> — doug-md, 2026-10-01, session 2 [00:02:43]
+
+> "Because it just doesn't work for what we're trying to build. So yeah, we're going to get
+> completely, the world doesn't run on steps at all. We're going to have different milestones.
+> We're going to have chapters with the tower, and we're going to set up some other checkpoints as
+> well. Like, and there's going to be no time pressure, like you said, for running on steps."
+> — dougie, 2026-10-01, session 2 [00:02:49]
+
+**Answered.** **The world does not run on steps.** It moves on at **milestones**: the chapters of
+the Tower, and other checkpoints not named yet. There is no time pressure.
+↳ Overturns the Part I answer above, where `doug-md` made the step the clock. He agrees to it here.
+↳ Replaces pillar 5 and D01 ([D49](../06-decisions.md)). **Not built**: the step clock still runs
+the game until the roadmap's M18.
+↳ Re-opens everything priced in steps. That covers doctrine fading (`KN1`, D07), gates breaking
+(`GT6`, D15), captive deadlines (D18), thread deadlines (D23), the seasons (`CL2`) and the travel
+of companions sent on jobs. "No time pressure" sits hardest against D15, where neglect is the
+pressure. Agenda item 20.
+↳ Dissolves the `SK5` + `SK6` collision: with no step, there is nothing to price against a 365-day
+year.
+
+**Not in the book — one view, and a map you fill in.**
+
+> "I think that we should no longer have a planar view and a worldview in the game. I think that
+> the worldview should just be what your map is. And then the planar view is what you play the
+> whole game on, basically."
+> — doug-md, 2026-10-01, session 2 [00:03:12]
+
+> "let's say if it's a new location, it'll be kind of black. But the more that you discover, the
+> map will start to discover, start to reveal itself to the player as they go through it. Because
+> you shouldn't know where everything is and you shouldn't be able to see the full map. Or maybe
+> you might find a guild and they might have a map and you'd be able to like, oh, happy out.
+> There's some locations on the map that they've jotted down. You might have the general area, but
+> you won't know where all the different things are."
+> — doug-md, 2026-10-01, session 2 [00:03:39]
+
+> "But yeah, we're going to move that now to like a mini map or more like a map where it's all
+> blacked out until you either travel it yourself or you somehow pick up maps hidden around the
+> world. or other milestones."
+> — dougie, 2026-10-01, session 2 [00:04:24]
+
+No question in the book asks this. `doug-md` raised it unprompted and `dougie` took it up.
+**The game is played in the planar view. The world view stops being a place you walk and becomes
+the map**, which starts black and fills in as the party travels. A guild's map marks some places and
+the general lie of the land, not everything, and other maps are hidden around the world. This is
+[D50](../06-decisions.md). **Not built**: Z still switches views. How a party crosses the whole
+continent on foot in the planar view is agenda item 21.
+
+## CO7 — Save-scumming was allowed "to be revisited" (D21). Revisit it.
+
+> "I think there should be like an Iron Man mode, which is 1 life, once you die, that character is
+> gone, and you can go to the next character as we've discussed, and there can be another mode
+> where it's just... Normal or classic, and it could be reload saves. If you want."
+> — doug-md, 2026-10-01, session 2 [00:05:13]
+
+> "Okay, yeah, yeah, okay, yeah, I actually agree with you because it could be a little sudden
+> after dying. and you can't reload, but then it's still the same idea, like you don't have to
+> reload. And if you don't reload, it'll go to the next character. It'll give you the option, like,
+> do you want to ascend to heaven? It asks you that, would you like to ascend to heaven and select a
+> new character or something like that on the classic, but then in the Iron Man mode. It forces
+> you, says you ascend to heaven and it brings you right back to the login screen to choose
+> character."
+> — dougie, 2026-10-01, session 2 [00:05:37]
+
+**Answered.** **Two modes.** In **Classic**, saves can be reloaded: when the lead dies, the game
+asks whether they ascend to heaven, with a new character chosen, or whether to reload. In
+**Iron Man** there is one life: the lead's death ascends them and goes straight back to choosing a
+character. When the mode is picked was not said.
+↳ Settles agenda item 4. Replaces D21 ([D51](../06-decisions.md)). **Not built**; it belongs to M15.
+↳ Answers `SM1` for both modes: reloading is the player's choice, not a fact about the world.
+↳ D47 already keeps the fallen outside the save. Under Classic a death is final only once the player
+chooses to ascend, so that is when the record should be written. That is a build reading,
+**Inferred**, written into D51.
+↳ `dougie`'s first reading of the question got no answer: can you go on in a dead lead's world
+without moving the story on? Neither mode keeps that world playable.
+↳ "Ascend to heaven" is also the lead's standing quest (`SF1`). Agenda item 22.
+
+## MX20 — Can you meet a character whose temper you rolled — is there a version of you walking around?
+
+> "So, yeah, there can be a copy of, oh, right, yeah, there's a copy of the lead, but the character
+> that you previously chosen is going to just be a generic NPC based off his stats. So, you know,
+> like a normal character, he just appears in the world. He's got his own. He's got the personality
+> that's backed out at the start as well, and you can interact with them as he's kind of defined."
+> — dougie, 2026-10-01, session 2 [00:06:24]
+
+`doug-md` agrees throughout ("Yeah", "Mhm", "Yep").
+
+**Answered.** **Yes.** In the second world, the first lead is alive there as well as being a ghost
+and a weapon. They are an ordinary NPC built from their stats, with the personality they started
+with ("backed out" is as transcribed, probably _baked in_), and they can be talked to like anyone
+else.
+↳ Settles agenda item 5. Adds to D33 ([D52](../06-decisions.md)). **Not built**; it belongs to M15.
+↳ Fits D31: the fifteen in any world are copies, and a dead lead's copy is one of them.
+
+## SF1 — Does the player character know they are unusual? Is that a fact about the world or the game?
+
+> "Initially down from heaven, I think that you should have... Something that can give you, like,
+> you'll get a quest and be like, "Ascend to heaven, " that's like your that's your baseline quest,
+> and you'll always have that until you finally complete that task."
+> — doug-md, 2026-10-01, session 2 [00:07:28]
+
+> "it shouldn't be an immediate thing. Like if you play the whole story with one character, like you
+> should only figure out the story by the end anyway."
+> — dougie, 2026-10-01, session 2 [00:08:09]
+
+> "I feel like all the characters will have some sort of like memory dysplation. Like the further
+> they go on throughout the journey, they'll get more fragments towards what happened at the start."
+> — doug-md, 2026-10-01, session 2 [00:08:23]
+
+> "So every, every, every five floors, every chapter, they get new memories. And the memories that
+> they get will be different for each character. It'll be to do with their character and their role
+> from the backstory of Earth Kings."
+> — dougie, 2026-10-01, session 2 [00:08:36]
+
+> "so there's a game called Until Dawn and it has the totems as a memoir. And it's a great one that
+> when you kind of finish the game and you collect all the totems, you can see the false like
+> cinematic story of what took place from start to finish."
+> — doug-md, 2026-10-01, session 2 [00:08:51]
+
+> "Okay, yeah, so we're going to have something like that built into two for sure."
+> — dougie, 2026-10-01, session 2 [00:09:09]
+
+**Answered**, adding to session 1. **The fall takes the memory, and it comes back in fragments.**
+Every chapter of the Tower (every five floors), the lead gets back memories of their own life and
+their own part in the story of the Earth Kings. Played with one character, the whole story only
+comes together at the end. Collecting every fragment plays the full story as a cinematic, the way
+_Until Dawn_'s totems do. From the moment they land, every lead carries one standing quest,
+**"Ascend to heaven"**, until it is done.
+↳ Settles agenda item 6. The reading taken after session 1 stands, that the fall takes the memory,
+and now it has a schedule ([D53](../06-decisions.md)). **Not built**; it belongs to M13.
+↳ "memory dysplation" and "built into two" are as transcribed.
+↳ Supports agenda item 15's reading, that a background is the life above found out in pieces,
+without settling it.
+↳ Tying memory to chapters means a lead who never climbs remembers nothing. Whether other milestones
+(`SK6`) bring memories back too was not said.
+
+## CH10 — Who in the other fifteen do they already know, and how?
+
+> "Maybe you will... You'll slightly know the faces, or I don't know, it's kind of hard. What do you
+> think?"
+> — doug-md, 2026-10-01, session 2 [00:07:46]
+
+**Partly answered**, as after session 1. `doug-md` offers a half-recognition, "slightly" knowing
+the faces, and doubts it in the same breath. `dougie` answered the memory half (`SF1`), not this.
+**Does a lead half-recognise the other fifteen's faces, on top of the mark?**
+
+**Not in the book — assists, from `D37`.**
+
+> "So assist one number or two. So one or two for grunts, 5 for healers. So this is more of like a
+> game game technique, game max, and I don't think we can talk about assist just yet"
+> — dougie, 2026-10-01, session 2 [00:09:22]
+
+> "So for the assist, yeah, I think what they have there at the minute seems all right. So 5, 2 for
+> 10 for grunts and five for a healer's assists."
+> — dougie, 2026-10-01, session 2 [00:09:49]
+
+> "Yeah."
+> — doug-md, 2026-10-01, session 2 [00:10:01]
+
+**Two numbers.** An ordinary fighter learns a kind of enemy after **ten** assists on it, and a
+healer after **five**. That settles agenda item 8 ([D54](../06-decisions.md)). The number comes
+through garbled ("5, 2 for 10") and `dougie` hedges first, but the sentence lands on the
+two-number option from the briefing sheet. What counts as a healer's assist comes from
+`doug-md` in session 1: "you're healing a character, you're assisting them" [00:59:05]. The build
+reads that as healing the one who lands the blow, in the same fight. Built 2026-10-01, **Inferred**,
+agenda item 23.
 
 ---
 

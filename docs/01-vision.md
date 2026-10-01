@@ -33,11 +33,11 @@ Built native in **Godot 4 / GDScript**, running entirely on the local machine.
 4. **One-way doors.** Permadeath is real. A cleared gate never reopens, but neglected ones break.
    There is no going back to a version of the world you liked better — and when the lead dies,
    the whole world is gone for good ([D32](06-decisions.md)).
-5. **The world runs on steps, not turns.** Walking is what advances it. Gates stir and knowledge
-   decays because you moved, not because a clock ticked somewhere off-screen.
-   _Under review:_ joint session 1 said the world's story should change every five Tower floors.
-   Whether steps keep the small clocks while Tower chapters drive the story is
-   [agenda item 2](worldbuilding/answers.md#what-is-still-to-decide).
+5. **The world runs on milestones, not steps.** It moves on when something is done (a chapter of
+   the Tower climbed, a checkpoint reached), and nothing runs against the clock. Joint session 2
+   settled this ([D49](06-decisions.md)) and replaced "the world runs on steps, not turns". **The
+   build still runs on steps** until M18 replaces them; which checkpoints there are and what each
+   step-priced clock becomes is [agenda item 20](worldbuilding/answers.md#what-is-still-to-decide).
 6. **Discoverability.** Abilities, gate ranks and the shape of the grammar are found in play.
    The game does not open with a manual.
 

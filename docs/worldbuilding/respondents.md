@@ -71,6 +71,8 @@ authorship says nothing about a two-voice note, since one person committed both 
 | --- | --- | --- |
 | `Douglas, Will` | `dougie` | Shares the call and the repo in [joint session 1](voice-notes/2026-09-24-joint-session-1.md); the transcript was committed by `DougieWilDaBeast` |
 | `ED` | `doug-md` | Told at [00:01:33] of the same session that he "actually answered a lot of these questions already" — Part I is `doug-md`'s. **Inferred; confirm** |
+| `Will Douglas` | `dougie` | The same voice as `Douglas, Will`, labelled the other way round in [joint session 2](voice-notes/2026-10-01-joint-session-2.md), where he shares the screen and walks the briefing sheet |
+| `ed` | `doug-md` | The same voice as `ED`, in joint session 2. The recording was saved as `ewan-will-meeting`, which fits session 1's "Ian" being a mis-hearing. **Inferred; confirm** |
 
 Front-matter wins over git on purpose. Notes often get committed by whoever is at the keyboard —
 frequently Claude in a coding session — and git authorship would then quietly credit every answer to
