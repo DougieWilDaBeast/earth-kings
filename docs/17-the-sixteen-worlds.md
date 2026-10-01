@@ -41,8 +41,12 @@ forgotten** — the game opens on dramatic irony.
 - You can team up with any of them. You never have to, and some of them are no good in a party.
 - Each of the sixteen has **their own line of quests**, and every line ends at the Tower. The lead
   climbs without knowing what the climb is for.
-- What the lead was before the fall comes back in pieces — milestones, conversations — and collects
-  into a background the player can read back.
+- What the lead was before the fall comes back in pieces. **Every chapter of the Tower returns
+  memories** of their own life and their part in the story of the Earth Kings, and the whole story
+  comes together only at the end. Collecting every fragment plays it as a cinematic, the way _Until
+  Dawn_'s totems do ([D53](06-decisions.md)).
+- **Every lead carries one standing quest from the moment they land: "Ascend to heaven"**, until it
+  is done.
 
 ## The Tower
 
@@ -60,9 +64,10 @@ There is **one Tower in each world, in the middle of it**. Sixteen worlds, sixte
 - **At the end of every chapter the Tower shows the census**: how many of the sixteen are still
   alive, across all the worlds.
 
-**How many floors** is open: ten ship today, a hundred was floated, and whether a hundred could be
-fun was the session's main worry. Agenda item 1. **Whether anything moves the world between
-chapters** — the step clock that runs today — is agenda item 2.
+**A hundred floors, twenty chapters of five** ([D48](06-decisions.md), settled in joint session 2:
+"because it's just iconic"). Chapters may grow longer later, and if they do the story is made to fit.
+**Nothing runs on steps**: the world moves on at milestones, with the Tower's chapters among them, and
+nothing is against the clock ([D49](06-decisions.md)). The build still runs a step clock until M18.
 
 ## Gates
 
@@ -80,6 +85,11 @@ to stop it.
 - Gates hold **bosses**, and gate rewards are what open the Tower's next chapter.
 
 ## When the lead dies
+
+**There are two ways to play it** ([D51](06-decisions.md)). In **Classic**, saves can be reloaded:
+when the lead dies the game asks whether to reload, or to **ascend to heaven** and choose the next
+character. In **Iron Man** there is one life, and the lead's death ascends them and goes straight
+back to choosing. Either way, once they have ascended:
 
 **Their world ends.** The camera pulls up over the whole of it and watches it be destroyed — the
 lead was the one who was supposed to save it. **It never comes back.**
@@ -119,7 +129,9 @@ far as the old one did. On the first run the census says sixteen alive at every 
 lead died on floor ten, the second lead's census says sixteen at floor five and **fifteen at floor
 ten**.
 
-Whether the first lead is _also_ alive as a copy in the second world is agenda item 5.
+**The first lead is alive in the second world as well** ([D52](06-decisions.md)): an ordinary NPC
+built from their stats, with the personality they started with, who can be met and talked to like
+anyone else. The fifteen in any world are copies, and this is one of them.
 
 ## Past the top
 
@@ -157,12 +169,13 @@ The fight is the thing that has to be right — see [18 — Combat direction](18
 | Piece | In the build |
 | --- | --- |
 | Sixteen temper slots, the quiz, the picker | Yes — [13](13-heroes-and-tempers.md). No character of the sixteen is written yet |
-| The run ending when the lead falls | Yes — `D14`. It ends the run, not a world |
-| One Tower, floors, a floor-10 fight | Yes — ten floors, [D16](06-decisions.md), [D25](06-decisions.md). Chapters of five since 2026-09-25: the world moves on, the census is read (always sixteen until M15), and the stair is sealed until a gate is shut or a town saved. Keys as items or quests, not yet |
+| The run ending when the lead falls | Yes — `D14`. It ends the run, not a world. Save/load is free ([D21](06-decisions.md)); Classic and Iron Man ([D51](06-decisions.md)) are not built |
+| One Tower, floors, an apex fight | Yes — a hundred floors since 2026-10-01 ([D48](06-decisions.md)), the apex on the last ([D25](06-decisions.md)). Chapters of five since 2026-09-25: the world moves on, the census is read (always sixteen until M15), and the stair is sealed until a gate is shut or a town saved. Keys as items or quests, not yet |
 | Gates, ranks E–S, delves | Yes — and since 2026-09-24 there is no walking out of one mid-delve |
 | The fall, the mark, random crash sites | No |
 | The fifteen living their own lives | No — non-leads stand in fixed places. The "NPC society" seam in [01](01-vision.md) is where it goes |
 | Sibling worlds, the world ending, the next lead | No. `World` serialises and is seeded ([D09](06-decisions.md)), which is the seam for a sibling world |
+| Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | No |
 | Ghosts, the journal, signature weapons | No. The journal screen and `Annals` already record what a run did |
 | The contest past the top | No |
 | Regional names and earned titles | No. `Renown` already tracks standing per place, which is where a title would come from |

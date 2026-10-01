@@ -7,6 +7,8 @@ const CHARMS := [
 	"black_feather", "childs_carving", "grave_token"
 ]
 
+const Chapters := preload("res://src/chronicle/chapters.gd")
+
 
 static func tower_rules() -> Dictionary:
 	return Database.world_rules.get("tower", {})
@@ -18,7 +20,8 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 	var rules := tower_rules()
 	var lines: Array = []
 
-	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 35)) * floor_number, "gold")
+	# By the chapter, not the floor: a hundred floors priced by the floor would pay thousands a fight.
+	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 60)) * Chapters.chapter_of(floor_number), "gold")
 	world.tower_hoard += gold
 	lines.append("Floor %d yields %d gold. You are carrying %d out of here, if you get out." % [
 		floor_number, gold, world.tower_hoard

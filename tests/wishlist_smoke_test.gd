@@ -105,6 +105,14 @@ func _check_content() -> void:
 	_check_lore_pools()
 	_check_casting()
 
+	var tower: Dictionary = Database.world_rules.get("tower", {})
+	for cohort: Dictionary in tower.get("cohorts", []):
+		_expect(not cohort.get("factions", []).is_empty(), "a Tower cohort to floor %s holds nobody" % cohort.get("to"))
+		for faction_id: String in cohort.get("factions", []):
+			_expect(Database.factions.has(faction_id), "a Tower cohort names missing faction '%s'" % faction_id)
+	for unit_id: String in tower.get("apex", []):
+		_expect(Database.units.has(unit_id), "the Tower's apex names missing unit '%s'" % unit_id)
+
 	for template_id: String in Database.units:
 		for ability_id: String in Database.units[template_id].get("abilities", []):
 			_expect(

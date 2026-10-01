@@ -48,6 +48,8 @@ var _phase_units: Array[Unit] = []
 ## The party's phase is being played for them. Only ever once at a time: two
 ## loops over the same squad each think the other's moves are theirs.
 var _auto_running: bool = false
+## Unit -> the Characters who healed it this fight, for a healer's assist ([D54]).
+var _healed_by: Dictionary = {}
 
 
 func _ready() -> void:
@@ -729,6 +731,10 @@ func _apply_ability(user: Unit, ability_id: String, centre: Vector2i) -> bool:
 	for target in hits:
 		EventBus.battle_log.emit(AbilityResolver.apply(user, ability, target, ability_id))
 		_note_in_the_journal(user, ability_id, target)
+		if ability.get("heal", false) and target != user and target.team == user.team and user.character != null:
+			var healers: Array = _healed_by.get_or_add(target, [])
+			if not healers.has(user.character):
+				healers.append(user.character)
 		if not target.is_alive():
 			target.visible = false
 			_award_kill(user, target)
@@ -770,7 +776,8 @@ func _award_kill(killer: Unit, victim: Unit) -> void:
 			involved.append(u.character)
 	var boss := victim.has_meta("boss") and bool(victim.get_meta("boss"))
 	for line: String in Progression.award_kill(
-		killer.character, victim.template_id, level, involved, boss, GameState.world
+		killer.character, victim.template_id, level, involved, boss, GameState.world,
+		_healed_by.get(killer, [])
 	):
 		EventBus.battle_log.emit(line)
 

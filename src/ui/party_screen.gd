@@ -866,7 +866,9 @@ func _beaten_summary(character: Character) -> String:
 		])
 	helping.sort()
 	if not helping.is_empty():
-		text += "\nHelping with: %s." % ", ".join(helping)
+		text += "\nHelping with: %s. A healer's assist counts toward %d instead." % [
+			", ".join(helping), Progression.assists_needed(true)
+		]
 	return text
 
 

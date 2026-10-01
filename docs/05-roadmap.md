@@ -106,9 +106,10 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
-Updated 2026-10-01, after gate objectives, the Adventurers Guild and its musters, and the record of
-the fallen were built (D45–D47). **Everything left on this list needs one or both founders** — the
-build has gone as far as it can without an answer.
+Updated 2026-10-01, after joint session 2 settled the Tower's floors, steps, reloading, the living
+copy, memory and assists (D48–D54), and the hundred-floor Tower and the two assist numbers were
+built. **Everything left on this list needs one or both founders**: the build has gone as far as it
+can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
 1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
@@ -123,18 +124,19 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    whether M11 replaces the turn loop ([D36](06-decisions.md)).
 3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
    [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
-4. **Next founders' session** — the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
-   items 1–2, 4–12, 15 and the four the build inferred (16–19). The
-   [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and cost.
-   Items 1 and 2 (the Tower's floor count, and steps against Tower
-   chapters) unblock M14; items 4 and 5 unblock M15; 6, 7 and 15 unblock M13; 11 unblocks party
-   growth. Item 3 — the research and the prototype — has gone as far as it can without play (steps
-   2 and 3); 13 is built; 14 is deferred to playtest.
+4. **The second half of session 2**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
+   items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
+   (20–24). The [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and
+   cost. Items 20 and 21 (the milestones that replace steps, and how far a walk is in one view)
+   unblock M18. Item 12 unblocks the last of M15, item 15 the writing for M13, and item 11 party
+   growth. Item 3 (the research and the prototype) has gone as far as it can without play (steps 2
+   and 3); 13 is built; 14 is deferred to playtest.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
    replace the NT four and they get built.
-6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier` and `assists_needed`, the
+6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
+   `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
@@ -183,8 +185,9 @@ nothing yet.
 
 - Experience per character from the **first kill of each kind of enemy**; the last hit takes it ✅
   (`Progression.award_kill`)
-- Assists counted per kind, and a kind's experience after five ✅ — one number for now; agenda
-  item 8 asks whether grunts should take ten
+- Assists counted per kind, and a kind's experience after ten, or five for a healer's ([D54](06-decisions.md),
+  2026-10-01) ✅: a healer's assist is one where the helper healed the one who landed the blow in
+  the same fight (`Battle._healed_by`), which is agenda item 23
 - Bosses give everyone involved their experience ✅ — gate guardians and the Tower's apex fighter
   are flagged `"boss": true` in `encounter.gd`
 - Proficiency per weapon kind (blade, bow, staff, bare hands) as well as per move, both rising by
@@ -195,17 +198,21 @@ nothing yet.
   rising only as the party meets new things ([D37](06-decisions.md)) — `tests/experience_smoke_test.tscn`:
   one goblin takes a fresh character from level 1 to 4 on Gentle, thirty-nine more change nothing,
   and forty new kinds take them to 17
-- **To tune:** `experience.first_kill_multiplier` (2) and `assists_needed` (5) in
+- **To tune:** `experience.first_kill_multiplier` (2), `assists_needed` (10) and
+  `healer_assists_needed` (5) in
   `data/world_rules.json`. At 4 the first fight of a run jumped the lead to level 5 on Gentle;
   at 2 it lands near where the old per-kill rule did
 
 ### M13 — The fall — PLANNED
 
-Waits on the first writing sitting, and on agenda items 6, 7 and 15.
+Waits on the first writing sitting, and on agenda items 7 and 15.
 
 - An intro that shows the sixteen falling ([19](19-asset-list.md), Tier 4.1)
 - The first four of the sixteen written, with fixed god-style names and signature weapons
 - The shared mark on every one of the sixteen
+- Memories returned by the chapter, written per lead, and the whole story as a cinematic once every
+  fragment is found ([D53](06-decisions.md))
+- The standing quest every lead carries from landing: "Ascend to heaven" ([D53](06-decisions.md))
 - Random crash sites per world, replacing fixed starting hearths
 - The fifteen living their own lives: moving between places by temper, instead of standing in one area
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
@@ -216,9 +223,11 @@ Waits on the first writing sitting, and on agenda items 6, 7 and 15.
 ### M14 — The Tower in chapters, and gates you cannot leave — IN PROGRESS
 
 Chapters built 2026-09-25 (`src/chronicle/chapters.gd`) with every number in `data/world_rules.json` →
-`tower`, so agenda item 1 (how many floors, how many to a chapter) changes a number, not the code.
-Agenda item 2 (steps against chapters) is still open: steps drive the small clocks as before, and a
-chapter's close moves them on further.
+`tower`. Since 2026-10-01 the Tower is **a hundred floors in twenty chapters** ([D48](06-decisions.md)):
+enemies rise about a level every three floors, four faction cohorts (`tower.cohorts`) hold the
+floors in turn, the apex fight is on the hundredth, gold is paid by the chapter, and a book comes
+every chapter and a skill tree every two. That shape is agenda item 24. Steps still drive the small
+clocks, and a chapter's close moves them on further, until M18 replaces them ([D49](06-decisions.md)).
 
 - Every Tower floor cleared returns the party to the world ✅ — each floor is one fight, and the party
   comes back out onto the map at the Tower's foot
@@ -242,7 +251,7 @@ chapter's close moves them on further.
 
 ### M15 — Sixteen worlds — PLANNED
 
-Waits on M13, and on agenda items 4, 5 and 12.
+Waits on M13, and on agenda item 12.
 
 - The lead's death ends the world: the overhead shot of it being destroyed, and the world marked
   gone for good
@@ -255,7 +264,11 @@ Waits on M13, and on agenda items 4, 5 and 12.
 - The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
 - The signature weapon crash-landing in the next world, and rumours that lead to it
 - Nothing arrives before the new lead has got as far as the old one did
-- A ruling on save/load against a world-ending death ([D21](06-decisions.md), `CO7`)
+- The earlier lead alive in the next world as an NPC, from their stats and starting personality
+  ([D52](06-decisions.md))
+- Classic and Iron Man ([D51](06-decisions.md)), replacing free save/load ([D21](06-decisions.md)):
+  Classic offers reload or ascend when the lead dies, and Iron Man ascends straight back to choosing.
+  Under Classic the record of the fallen is written on ascending, not on the fall
 - ✅ Done when: a lead can die, the next can start in another world, and the first lead's ghost
   can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md))
 
@@ -289,6 +302,21 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 - How the contest between the surviving leads is fought
 - Who, or what, decided only one world survives, and how the last fight asks you to stop it
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
+
+### M18 — One view, and no step clock — PLANNED
+
+Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). Waits on agenda items
+20 and 21.
+
+- The game played in the planar view alone; the Z switch and the walkable continental view retired
+- The continent as a map: black until the party has been there, filled in as it travels
+- Guild maps that mark some places and the general lie of the land; other maps hidden in the world
+- The step clock retired. The world moves on at milestones: Tower chapters and the checkpoints item
+  20 names. Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
+  captive and thread deadlines, seasons, companions' travel on jobs
+- ✅ Done when: a run can be played from landing to a Tower chapter without the world view, nothing
+  in the world changes because the party walked, and the map shows only where the party has been or
+  been told of
 
 ## Deferred
 

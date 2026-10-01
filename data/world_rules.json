@@ -77,14 +77,26 @@
 		}
 	},
 	"tower": {
-		"floors": 10,
+		"floors": 100,
 		"floors_per_chapter": 5,
 		"chapter_keys": ["gate_shut", "town_saved"],
 		"chapter_upkeeps": 3,
 		"gates_woken_per_chapter": 2,
-		"gold_per_floor": 35,
-		"doctrine_every": 3,
-		"tree_every": 4
+		"gold_per_floor": 60,
+		"doctrine_every": 5,
+		"tree_every": 10,
+		"level_base": 2,
+		"levels_per_floor": 0.3,
+		"foes_min": 2,
+		"foes_max": 4,
+		"chapters_per_extra_foe": 4,
+		"cohorts": [
+			{ "to": 15, "factions": ["the_ooze", "the_wild"] },
+			{ "to": 40, "factions": ["the_dusk", "broken_oath", "ember_wilds"] },
+			{ "to": 70, "factions": ["bamboo_court", "heart_empire", "the_dusk"] },
+			{ "to": 99, "factions": ["heart_empire"] }
+		],
+		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"]
 	},
 	"gate": {
 		"floors_base": 1,
@@ -127,7 +139,8 @@
 	},
 	"experience": {
 		"first_kill_multiplier": 2,
-		"assists_needed": 5
+		"assists_needed": 10,
+		"healer_assists_needed": 5
 	},
 	"captive": {
 		"ransom_base": 120,

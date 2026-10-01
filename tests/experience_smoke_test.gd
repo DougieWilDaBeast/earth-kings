@@ -46,6 +46,18 @@ func _ready() -> void:
 	_expect(_total_xp(helper) > before, "enough assists never taught anything")
 	_expect(Progression.has_beaten(helper, "wolf") and not helper.assists.has("wolf"), "assists were not settled into a kill")
 
+	# A healer who kept the killer standing learns sooner ([D54]).
+	_expect(
+		Progression.assists_needed(true) < Progression.assists_needed(),
+		"a healer's assist is worth no more than anyone else's"
+	)
+	var mended := _total_xp(healer)
+	for i in Progression.assists_needed(true) - 1:
+		Progression.award_kill(killer, "ice_wolf", 2, [healer], false, world, [healer])
+	_expect(_total_xp(healer) == mended, "a healer's assists paid before there were enough of them")
+	Progression.award_kill(killer, "ice_wolf", 2, [healer], false, world, [healer])
+	_expect(Progression.has_beaten(healer, "ice_wolf"), "enough healer's assists never taught anything")
+
 	# A boss teaches everyone involved, at once.
 	var boss_kind := "dirte"
 	var healer_before := _total_xp(healer)

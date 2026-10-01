@@ -24,7 +24,14 @@ follows the practice rather than the other way round.
   What it covered instead was the shape of the whole game — who the sixteen are, why they fall,
   what the Tower is for, what happens when the lead dies, and how a fight should feel. Part V was
   answered on the way through.
-- **The standing instruction from that session** is that a question which does not matter yet can
+- **Joint session 2 ran on 2026-10-01**, a ten-minute Teams call kept as
+  [voice-notes/2026-10-01-joint-session-2.md](voice-notes/2026-10-01-joint-session-2.md). It worked
+  the [briefing sheet](session-2-briefing.md) from the top, settled items 1, 2, 4, 5, 6 and 8, and
+  stopped there.
+  The rest of the sheet is for a second call. The one thing it added that was not on the sheet was
+  `doug-md`'s: drop the world view, play in the planar view, and make the world a map that fills
+  in as you go.
+- **The standing instruction from session 1** is that a question which does not matter yet can
   stay open: "other questions, if they're not important for now, we can just leave them … I think
   it should be clear what we're trying to achieve with this game." That is rule 5 of
   [resolving a fork](#resolving-a-fork) applied to the whole book, and the agenda now sorts every
@@ -62,6 +69,7 @@ Ninety-minute sittings, no more. Fatigue produces canon nobody believes.
 | --- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | ✓   | **Part I — Physical** (71)                                | Done. Solo pass by `doug-md`, recorded. Eleven follow-ups still open                                                |
 | ✓   | **Joint session 1** — the sixteen, the fall, the Tower, death, combat | Done 2026-09-24. Settled the frame by building the game's structure rather than by answering Part 0 in order. Most of Part V answered |
+| ½   | **Joint session 2** — the briefing sheet | First half done 2026-10-01: the Tower's floors, steps, reloading, the living copy, memory, assists. Items 9–19 and 20–24 still to go |
 | 1   | **The follow-ups joint session 1 raised** — see [the agenda](answers.md#what-is-still-to-decide) | Together. These block the next milestone: the combat research, the Tower's floor count, the step clock against Tower chapters |
 | 2   | **Part 0 (Frame), what is left of it + the Part I follow-ups** | Together. `FR4` is answered now; `FR1`, `FR3` and `BN1` are still the ones that decide dozens of others. `SK6` still gates every number priced in steps |
 | 3   | **Part II — Mental** (60)                                 | Together                                                                                                            |
