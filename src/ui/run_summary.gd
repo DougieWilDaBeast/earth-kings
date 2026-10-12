@@ -55,6 +55,8 @@ func _ready() -> void:
 	_next_button.pressed.connect(_choose_the_next_lead)
 	_title_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
+	# In the browser quitting only freezes the page; the title is the way out.
+	_quit_button.visible = not OS.has_feature("web")
 	for button in [_next_button, _title_button, _quit_button]:
 		button.theme_type_variation = &"GrandButton"
 		Sfx.attend(button)

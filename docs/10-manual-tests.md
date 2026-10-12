@@ -20,7 +20,7 @@ you saw, on which screen, and what you had done just before.
 | --- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | A1  | Launch the game                                                              | A map pass over a country you have never seen, camera drifting between places, a few figures walking the roads |
 | A2  | Wait through the whole cinematic without touching anything                   | The title fades up part-way, then "press anything to go on", then the menu on its own at about twelve seconds  |
-| A3  | Launch again and press a key immediately                                     | Straight to the menu, no wait                                                                                  |
+| A3  | Launch again and press a key or click immediately                            | Straight to the menu, no wait                                                                                  |
 | A4  | Hover each menu entry with the mouse                                         | A soft tick on each one, and the keyboard highlight follows the mouse                                          |
 | A5  | Click an entry                                                               | A firmer click, distinct from the hover                                                                        |
 | A6  | Sit on the title screen                                                      | Quiet music, and your party running across the bottom behind the menu                                          |
@@ -239,6 +239,23 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | K4  | Click a journey                 | Faces, callings, levels, who died, and the run's numbers               |
 | K5  | Start a new run and check again | The old company is **still there** — starting over does not erase them |
 
+## L — The browser build
+
+Export with `godot --headless --path . --export-release Web builds/web/index.html` (or take the
+`web` zip from the `release` workflow), serve the folder (`python3 -m http.server -d builds/web`)
+and open `http://localhost:8000/` in Chrome or Firefox. `tools/web_smoke.py` plays L1–L5 by itself.
+
+| #   | Do this                                                        | Expect                                                                                      |
+| --- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| L1  | Open the page                                                  | The Godot loading bar, then the cinematic within a few seconds; silent until the first input |
+| L2  | Click anywhere on the cinematic                                | Straight to the title, and the title music starts with that click                           |
+| L3  | Look at the title menu                                         | No **Quit** — a page cannot close its own tab, so the browser build leaves it out            |
+| L4  | New Game → a life → walk a few steps → `Esc` → **Save Game**   | "Progress saved."                                                                            |
+| L5  | Reload the page, go on to the title                            | **Continue** is lit and puts you back where you saved (the save lives in the browser's IndexedDB) |
+| L6  | `Esc` → **Fullscreen**, then `Esc` in the browser              | The page goes fullscreen; the browser's own `Esc` brings it back and the button follows       |
+| L7  | Close the tab, open the page again in a private window         | No save — private windows forget IndexedDB, so Continue is greyed out                         |
+| L8  | Training Ground → **Fight this**, read the turn order at the top | Arrows between the names, not empty boxes (fails today: the browser has no fallback font — see the roadmap's Launch readiness) |
+
 ## P — Controller
 
 Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Square, Y Triangle.
@@ -357,6 +374,23 @@ Look for `SCRIPT ERROR`, steps that rise with no fights (autoplay has nowhere to
 `the same file: false`. Steps and log lines that stop moving for thirty seconds with autoplay on end
 the soak with `STUCK … in Battle (phase 1)` or similar and exit code 2 — something is waiting on a
 key nobody is pressing. A soak that runs clean ends with exit code 0.
+
+**The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
+local port and plays it in headless Chromium through `tools/web_smoke.js`: past the cinematic,
+New Game, the quiz, a life, three steps on the map, the system menu's **Save Game**, then a reload
+and **Continue**. It fails on any console error, page error or failed request, a screen that never
+comes, or a save that never reaches IndexedDB, and prints the `.pck` and `.wasm` sizes and the load
+times. Screenshots land in `builds/web_smoke/`. It needs Node with the `playwright` npm package and
+a Chromium it can launch, so it is not in CI; run it before a release tag or after touching
+`export_presets.cfg`:
+
+```bash
+EK_GODOT=~/godot/godot python3 tools/web_smoke.py              # export, then play
+python3 tools/web_smoke.py --no-export                         # play what is in builds/web
+```
+
+The menu click for **Save Game** is the one step that is not a key press (the menu opens with
+nothing focused), so it moves if the system menu's layout does.
 
 Still open:
 

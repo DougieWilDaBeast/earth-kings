@@ -373,6 +373,15 @@ Work that gets the build into players' hands. Almost none of it waits on a found
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- The browser build loads and plays ✅ (2026-10-12): `tools/web_smoke.py` exports it and plays it
+  in headless Chromium — cinematic, New Game, quiz, a life, steps on the map, Save Game, reload,
+  Continue — with no console errors. 56 MB to download (`index.wasm` 39.5 MB, about 10 MB
+  gzipped; `index.pck` 16.7 MB, mostly the music); from a local server the cinematic is up in
+  about 2.5 s and a new world in about 4.5 s. Saves and settings persist through IndexedDB,
+  sound starts on the first click or key, fullscreen works from the menu and `F11`. Quit is left
+  off the title and the run summary in the browser (it only froze the page). The symbols the
+  built-in font lacked are swapped for ones it has, and the character list scrolls at 1280×720.
+  Known issue: the host must serve gzip or the first load is the full 56 MB
 - Credits screen ✅ (2026-10-12): off the title and the system menu, read from `data/credits.json` —
   the founders, Godot's MIT notice word for word, its third-party components, music, sound, art,
   fonts and tools
