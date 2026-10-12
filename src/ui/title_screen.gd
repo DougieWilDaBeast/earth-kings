@@ -27,6 +27,9 @@ func _ready() -> void:
 	_coliseum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", {}))
 	_museum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("museum", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
+	# A page cannot close its own tab: quitting in the browser only freezes the
+	# last frame on screen, so the button is not offered there.
+	_quit_button.visible = not OS.has_feature("web")
 	for button in [
 		_continue_button, _new_game_button, _training_button, _coliseum_button,
 		_museum_button, _quit_button,

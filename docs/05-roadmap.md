@@ -327,6 +327,18 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- The browser build loads and plays ✅ (2026-10-12): `tools/web_smoke.py` exports it and plays it
+  in headless Chromium — cinematic, New Game, quiz, a life, steps on the map, Save Game, reload,
+  Continue — with no console errors. 56 MB to download (`index.wasm` 39.5 MB, about 10 MB
+  gzipped; `index.pck` 16.7 MB, mostly the music); from a local server the cinematic is up in
+  about 2.5 s and a new world in about 4.5 s. Saves and settings persist through IndexedDB,
+  sound starts on the first click or key, fullscreen works from the menu and `F11`. Quit is left
+  off the title and the run summary in the browser (it only froze the page). Known issues: a
+  browser has no system fonts to fall back on, so the symbols the built-in font (Open Sans) lacks
+  draw as empty boxes there — `→ ▲ ▼ ■ □ ◆ ◇ ▸ ▶` in the battle HUD's turn order and pips, the
+  party screen and the skirmish HUD — planned: ship a fallback font or swap them for ones it has
+  (`› « » ◊ · •`); the host must serve gzip or the first load is the full 56 MB; at 1280×720 the
+  character list runs off the bottom of the screen (every platform, not only the web)
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - A store page (itch.io or Steam) — planned; the founders' call
 
