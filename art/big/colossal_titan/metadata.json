@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/colossal_titan_96.zip",
    "generations": 46.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b096b8f-39ef-45f5-8359-ec5d5409b9d9",
+   "name": "skill",
+   "action": "raising both arms as magma bursts from its seams",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/colossal_titan_96.zip",
+   "generations": 9.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -158,6 +171,41 @@
         "Idle/animations/skill/south/frame_006.png",
         "Idle/animations/skill/south/frame_007.png",
         "Idle/animations/skill/south/frame_008.png"
+       ]
+      },
+      "skill-48e47589": {
+       "east": [
+        "Idle/animations/skill-48e47589/east/frame_000.png",
+        "Idle/animations/skill-48e47589/east/frame_001.png",
+        "Idle/animations/skill-48e47589/east/frame_002.png",
+        "Idle/animations/skill-48e47589/east/frame_003.png",
+        "Idle/animations/skill-48e47589/east/frame_004.png",
+        "Idle/animations/skill-48e47589/east/frame_005.png",
+        "Idle/animations/skill-48e47589/east/frame_006.png",
+        "Idle/animations/skill-48e47589/east/frame_007.png",
+        "Idle/animations/skill-48e47589/east/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/skill-48e47589/west/frame_000.png",
+        "Idle/animations/skill-48e47589/west/frame_001.png",
+        "Idle/animations/skill-48e47589/west/frame_002.png",
+        "Idle/animations/skill-48e47589/west/frame_003.png",
+        "Idle/animations/skill-48e47589/west/frame_004.png",
+        "Idle/animations/skill-48e47589/west/frame_005.png",
+        "Idle/animations/skill-48e47589/west/frame_006.png",
+        "Idle/animations/skill-48e47589/west/frame_007.png",
+        "Idle/animations/skill-48e47589/west/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/skill-48e47589/north/frame_000.png",
+        "Idle/animations/skill-48e47589/north/frame_001.png",
+        "Idle/animations/skill-48e47589/north/frame_002.png",
+        "Idle/animations/skill-48e47589/north/frame_003.png",
+        "Idle/animations/skill-48e47589/north/frame_004.png",
+        "Idle/animations/skill-48e47589/north/frame_005.png",
+        "Idle/animations/skill-48e47589/north/frame_006.png",
+        "Idle/animations/skill-48e47589/north/frame_007.png",
+        "Idle/animations/skill-48e47589/north/frame_008.png"
        ]
       },
       "attack": {
@@ -283,6 +331,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T21:45:16.287090"
+  "export_date": "2026-10-12T23:47:07.872140"
  }
 }

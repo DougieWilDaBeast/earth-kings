@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/axe_bear_96.zip",
    "generations": 21.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "e286a602-5bd2-4958-9959-9b384f4c29b9",
+   "name": "skill",
+   "action": "a spinning axe swing all the way around",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/axe_bear_96.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -159,6 +172,19 @@
         "Idle/animations/attack/south/frame_008.png"
        ]
       },
+      "skill": {
+       "west": [
+        "Idle/animations/skill/west/frame_000.png",
+        "Idle/animations/skill/west/frame_001.png",
+        "Idle/animations/skill/west/frame_002.png",
+        "Idle/animations/skill/west/frame_003.png",
+        "Idle/animations/skill/west/frame_004.png",
+        "Idle/animations/skill/west/frame_005.png",
+        "Idle/animations/skill/west/frame_006.png",
+        "Idle/animations/skill/west/frame_007.png",
+        "Idle/animations/skill/west/frame_008.png"
+       ]
+      },
       "falling_backward": {
        "east": [
         "Idle/animations/falling_backward/east/frame_000.png",
@@ -197,39 +223,39 @@
         "Idle/animations/falling_backward/north/frame_006.png"
        ]
       },
-      "skill": {
+      "skill-945d7e91": {
        "north": [
-        "Idle/animations/skill/north/frame_000.png",
-        "Idle/animations/skill/north/frame_001.png",
-        "Idle/animations/skill/north/frame_002.png",
-        "Idle/animations/skill/north/frame_003.png",
-        "Idle/animations/skill/north/frame_004.png",
-        "Idle/animations/skill/north/frame_005.png",
-        "Idle/animations/skill/north/frame_006.png",
-        "Idle/animations/skill/north/frame_007.png",
-        "Idle/animations/skill/north/frame_008.png"
+        "Idle/animations/skill-945d7e91/north/frame_000.png",
+        "Idle/animations/skill-945d7e91/north/frame_001.png",
+        "Idle/animations/skill-945d7e91/north/frame_002.png",
+        "Idle/animations/skill-945d7e91/north/frame_003.png",
+        "Idle/animations/skill-945d7e91/north/frame_004.png",
+        "Idle/animations/skill-945d7e91/north/frame_005.png",
+        "Idle/animations/skill-945d7e91/north/frame_006.png",
+        "Idle/animations/skill-945d7e91/north/frame_007.png",
+        "Idle/animations/skill-945d7e91/north/frame_008.png"
        ],
        "south": [
-        "Idle/animations/skill/south/frame_000.png",
-        "Idle/animations/skill/south/frame_001.png",
-        "Idle/animations/skill/south/frame_002.png",
-        "Idle/animations/skill/south/frame_003.png",
-        "Idle/animations/skill/south/frame_004.png",
-        "Idle/animations/skill/south/frame_005.png",
-        "Idle/animations/skill/south/frame_006.png",
-        "Idle/animations/skill/south/frame_007.png",
-        "Idle/animations/skill/south/frame_008.png"
+        "Idle/animations/skill-945d7e91/south/frame_000.png",
+        "Idle/animations/skill-945d7e91/south/frame_001.png",
+        "Idle/animations/skill-945d7e91/south/frame_002.png",
+        "Idle/animations/skill-945d7e91/south/frame_003.png",
+        "Idle/animations/skill-945d7e91/south/frame_004.png",
+        "Idle/animations/skill-945d7e91/south/frame_005.png",
+        "Idle/animations/skill-945d7e91/south/frame_006.png",
+        "Idle/animations/skill-945d7e91/south/frame_007.png",
+        "Idle/animations/skill-945d7e91/south/frame_008.png"
        ],
        "east": [
-        "Idle/animations/skill/east/frame_000.png",
-        "Idle/animations/skill/east/frame_001.png",
-        "Idle/animations/skill/east/frame_002.png",
-        "Idle/animations/skill/east/frame_003.png",
-        "Idle/animations/skill/east/frame_004.png",
-        "Idle/animations/skill/east/frame_005.png",
-        "Idle/animations/skill/east/frame_006.png",
-        "Idle/animations/skill/east/frame_007.png",
-        "Idle/animations/skill/east/frame_008.png"
+        "Idle/animations/skill-945d7e91/east/frame_000.png",
+        "Idle/animations/skill-945d7e91/east/frame_001.png",
+        "Idle/animations/skill-945d7e91/east/frame_002.png",
+        "Idle/animations/skill-945d7e91/east/frame_003.png",
+        "Idle/animations/skill-945d7e91/east/frame_004.png",
+        "Idle/animations/skill-945d7e91/east/frame_005.png",
+        "Idle/animations/skill-945d7e91/east/frame_006.png",
+        "Idle/animations/skill-945d7e91/east/frame_007.png",
+        "Idle/animations/skill-945d7e91/east/frame_008.png"
        ]
       },
       "walking": {
@@ -305,6 +331,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T22:23:22.831584"
+  "export_date": "2026-10-12T23:47:00.301295"
  }
 }

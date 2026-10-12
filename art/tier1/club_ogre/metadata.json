@@ -81,6 +81,45 @@
    "zip": "downloads/pixellab/club_ogre_96.zip",
    "generations": 71.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b9431038-ee7a-48c3-b497-959aea53b971",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_96.zip",
+   "generations": 27.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b9431038-ee7a-48c3-b497-959aea53b971",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_96.zip",
+   "generations": 18.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b9431038-ee7a-48c3-b497-959aea53b971",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_96.zip",
+   "generations": 12.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -113,6 +152,44 @@
       "south-west": "Idle/rotations/south-west.png"
      },
      "animations": {
+      "falling_backward": {
+       "west": [
+        "Idle/animations/falling_backward/west/frame_000.png",
+        "Idle/animations/falling_backward/west/frame_001.png",
+        "Idle/animations/falling_backward/west/frame_002.png",
+        "Idle/animations/falling_backward/west/frame_003.png",
+        "Idle/animations/falling_backward/west/frame_004.png",
+        "Idle/animations/falling_backward/west/frame_005.png",
+        "Idle/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "Idle/animations/falling_backward/north/frame_000.png",
+        "Idle/animations/falling_backward/north/frame_001.png",
+        "Idle/animations/falling_backward/north/frame_002.png",
+        "Idle/animations/falling_backward/north/frame_003.png",
+        "Idle/animations/falling_backward/north/frame_004.png",
+        "Idle/animations/falling_backward/north/frame_005.png",
+        "Idle/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "Idle/animations/falling_backward/south/frame_000.png",
+        "Idle/animations/falling_backward/south/frame_001.png",
+        "Idle/animations/falling_backward/south/frame_002.png",
+        "Idle/animations/falling_backward/south/frame_003.png",
+        "Idle/animations/falling_backward/south/frame_004.png",
+        "Idle/animations/falling_backward/south/frame_005.png",
+        "Idle/animations/falling_backward/south/frame_006.png"
+       ],
+       "east": [
+        "Idle/animations/falling_backward/east/frame_000.png",
+        "Idle/animations/falling_backward/east/frame_001.png",
+        "Idle/animations/falling_backward/east/frame_002.png",
+        "Idle/animations/falling_backward/east/frame_003.png",
+        "Idle/animations/falling_backward/east/frame_004.png",
+        "Idle/animations/falling_backward/east/frame_005.png",
+        "Idle/animations/falling_backward/east/frame_006.png"
+       ]
+      },
       "skill": {
        "south": [
         "Idle/animations/skill/south/frame_000.png",
@@ -193,6 +270,40 @@
         "Idle/animations/walking/south/frame_005.png"
        ]
       },
+      "taking_a_punch": {
+       "east": [
+        "Idle/animations/taking_a_punch/east/frame_000.png",
+        "Idle/animations/taking_a_punch/east/frame_001.png",
+        "Idle/animations/taking_a_punch/east/frame_002.png",
+        "Idle/animations/taking_a_punch/east/frame_003.png",
+        "Idle/animations/taking_a_punch/east/frame_004.png",
+        "Idle/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "north": [
+        "Idle/animations/taking_a_punch/north/frame_000.png",
+        "Idle/animations/taking_a_punch/north/frame_001.png",
+        "Idle/animations/taking_a_punch/north/frame_002.png",
+        "Idle/animations/taking_a_punch/north/frame_003.png",
+        "Idle/animations/taking_a_punch/north/frame_004.png",
+        "Idle/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "west": [
+        "Idle/animations/taking_a_punch/west/frame_000.png",
+        "Idle/animations/taking_a_punch/west/frame_001.png",
+        "Idle/animations/taking_a_punch/west/frame_002.png",
+        "Idle/animations/taking_a_punch/west/frame_003.png",
+        "Idle/animations/taking_a_punch/west/frame_004.png",
+        "Idle/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "Idle/animations/taking_a_punch/south/frame_000.png",
+        "Idle/animations/taking_a_punch/south/frame_001.png",
+        "Idle/animations/taking_a_punch/south/frame_002.png",
+        "Idle/animations/taking_a_punch/south/frame_003.png",
+        "Idle/animations/taking_a_punch/south/frame_004.png",
+        "Idle/animations/taking_a_punch/south/frame_005.png"
+       ]
+      },
       "attack": {
        "north": [
         "Idle/animations/attack/north/frame_000.png",
@@ -239,76 +350,76 @@
         "Idle/animations/attack/east/frame_008.png"
        ]
       },
-      "taking_a_punch": {
+      "taking_a_punch-f4c8d573": {
        "north": [
-        "Idle/animations/taking_a_punch/north/frame_000.png",
-        "Idle/animations/taking_a_punch/north/frame_001.png",
-        "Idle/animations/taking_a_punch/north/frame_002.png",
-        "Idle/animations/taking_a_punch/north/frame_003.png",
-        "Idle/animations/taking_a_punch/north/frame_004.png",
-        "Idle/animations/taking_a_punch/north/frame_005.png"
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_000.png",
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_001.png",
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_002.png",
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_003.png",
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_004.png",
+        "Idle/animations/taking_a_punch-f4c8d573/north/frame_005.png"
        ],
        "south": [
-        "Idle/animations/taking_a_punch/south/frame_000.png",
-        "Idle/animations/taking_a_punch/south/frame_001.png",
-        "Idle/animations/taking_a_punch/south/frame_002.png",
-        "Idle/animations/taking_a_punch/south/frame_003.png",
-        "Idle/animations/taking_a_punch/south/frame_004.png",
-        "Idle/animations/taking_a_punch/south/frame_005.png"
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_000.png",
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_001.png",
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_002.png",
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_003.png",
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_004.png",
+        "Idle/animations/taking_a_punch-f4c8d573/south/frame_005.png"
        ],
        "east": [
-        "Idle/animations/taking_a_punch/east/frame_000.png",
-        "Idle/animations/taking_a_punch/east/frame_001.png",
-        "Idle/animations/taking_a_punch/east/frame_002.png",
-        "Idle/animations/taking_a_punch/east/frame_003.png",
-        "Idle/animations/taking_a_punch/east/frame_004.png",
-        "Idle/animations/taking_a_punch/east/frame_005.png"
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_000.png",
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_001.png",
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_002.png",
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_003.png",
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_004.png",
+        "Idle/animations/taking_a_punch-f4c8d573/east/frame_005.png"
        ],
        "west": [
-        "Idle/animations/taking_a_punch/west/frame_000.png",
-        "Idle/animations/taking_a_punch/west/frame_001.png",
-        "Idle/animations/taking_a_punch/west/frame_002.png",
-        "Idle/animations/taking_a_punch/west/frame_003.png",
-        "Idle/animations/taking_a_punch/west/frame_004.png",
-        "Idle/animations/taking_a_punch/west/frame_005.png"
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_000.png",
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_001.png",
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_002.png",
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_003.png",
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_004.png",
+        "Idle/animations/taking_a_punch-f4c8d573/west/frame_005.png"
        ]
       },
-      "falling_backward": {
+      "falling_backward-f77e85a8": {
        "north": [
-        "Idle/animations/falling_backward/north/frame_000.png",
-        "Idle/animations/falling_backward/north/frame_001.png",
-        "Idle/animations/falling_backward/north/frame_002.png",
-        "Idle/animations/falling_backward/north/frame_003.png",
-        "Idle/animations/falling_backward/north/frame_004.png",
-        "Idle/animations/falling_backward/north/frame_005.png",
-        "Idle/animations/falling_backward/north/frame_006.png"
+        "Idle/animations/falling_backward-f77e85a8/north/frame_000.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_001.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_002.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_003.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_004.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_005.png",
+        "Idle/animations/falling_backward-f77e85a8/north/frame_006.png"
        ],
        "west": [
-        "Idle/animations/falling_backward/west/frame_000.png",
-        "Idle/animations/falling_backward/west/frame_001.png",
-        "Idle/animations/falling_backward/west/frame_002.png",
-        "Idle/animations/falling_backward/west/frame_003.png",
-        "Idle/animations/falling_backward/west/frame_004.png",
-        "Idle/animations/falling_backward/west/frame_005.png",
-        "Idle/animations/falling_backward/west/frame_006.png"
+        "Idle/animations/falling_backward-f77e85a8/west/frame_000.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_001.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_002.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_003.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_004.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_005.png",
+        "Idle/animations/falling_backward-f77e85a8/west/frame_006.png"
        ],
        "south": [
-        "Idle/animations/falling_backward/south/frame_000.png",
-        "Idle/animations/falling_backward/south/frame_001.png",
-        "Idle/animations/falling_backward/south/frame_002.png",
-        "Idle/animations/falling_backward/south/frame_003.png",
-        "Idle/animations/falling_backward/south/frame_004.png",
-        "Idle/animations/falling_backward/south/frame_005.png",
-        "Idle/animations/falling_backward/south/frame_006.png"
+        "Idle/animations/falling_backward-f77e85a8/south/frame_000.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_001.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_002.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_003.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_004.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_005.png",
+        "Idle/animations/falling_backward-f77e85a8/south/frame_006.png"
        ],
        "east": [
-        "Idle/animations/falling_backward/east/frame_000.png",
-        "Idle/animations/falling_backward/east/frame_001.png",
-        "Idle/animations/falling_backward/east/frame_002.png",
-        "Idle/animations/falling_backward/east/frame_003.png",
-        "Idle/animations/falling_backward/east/frame_004.png",
-        "Idle/animations/falling_backward/east/frame_005.png",
-        "Idle/animations/falling_backward/east/frame_006.png"
+        "Idle/animations/falling_backward-f77e85a8/east/frame_000.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_001.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_002.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_003.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_004.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_005.png",
+        "Idle/animations/falling_backward-f77e85a8/east/frame_006.png"
        ]
       },
       "skill-fad023ec": {
@@ -356,12 +467,46 @@
         "Idle/animations/skill-fad023ec/east/frame_007.png",
         "Idle/animations/skill-fad023ec/east/frame_008.png"
        ]
+      },
+      "walking-fb09b990": {
+       "west": [
+        "Idle/animations/walking-fb09b990/west/frame_000.png",
+        "Idle/animations/walking-fb09b990/west/frame_001.png",
+        "Idle/animations/walking-fb09b990/west/frame_002.png",
+        "Idle/animations/walking-fb09b990/west/frame_003.png",
+        "Idle/animations/walking-fb09b990/west/frame_004.png",
+        "Idle/animations/walking-fb09b990/west/frame_005.png"
+       ],
+       "north": [
+        "Idle/animations/walking-fb09b990/north/frame_000.png",
+        "Idle/animations/walking-fb09b990/north/frame_001.png",
+        "Idle/animations/walking-fb09b990/north/frame_002.png",
+        "Idle/animations/walking-fb09b990/north/frame_003.png",
+        "Idle/animations/walking-fb09b990/north/frame_004.png",
+        "Idle/animations/walking-fb09b990/north/frame_005.png"
+       ],
+       "south": [
+        "Idle/animations/walking-fb09b990/south/frame_000.png",
+        "Idle/animations/walking-fb09b990/south/frame_001.png",
+        "Idle/animations/walking-fb09b990/south/frame_002.png",
+        "Idle/animations/walking-fb09b990/south/frame_003.png",
+        "Idle/animations/walking-fb09b990/south/frame_004.png",
+        "Idle/animations/walking-fb09b990/south/frame_005.png"
+       ],
+       "east": [
+        "Idle/animations/walking-fb09b990/east/frame_000.png",
+        "Idle/animations/walking-fb09b990/east/frame_001.png",
+        "Idle/animations/walking-fb09b990/east/frame_002.png",
+        "Idle/animations/walking-fb09b990/east/frame_003.png",
+        "Idle/animations/walking-fb09b990/east/frame_004.png",
+        "Idle/animations/walking-fb09b990/east/frame_005.png"
+       ]
       }
      }
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T21:06:45.582974"
+  "export_date": "2026-10-12T23:46:49.028298"
  }
 }

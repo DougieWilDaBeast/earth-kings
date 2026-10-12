@@ -81,6 +81,45 @@
    "zip": "downloads/pixellab/king_slime_96.zip",
    "generations": 49.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "name": "attack",
+   "action": "bulging up and slamming its body down",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/king_slime_96.zip",
+   "generations": 9.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "name": "skill",
+   "action": "shuddering as a small ooze buds off its side",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/king_slime_96.zip",
+   "generations": 3.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/king_slime_96.zip",
+   "generations": 9.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -238,16 +277,99 @@
        ]
       },
       "death": {
+       "east": [
+        "Idle/animations/death/east/frame_000.png",
+        "Idle/animations/death/east/frame_001.png",
+        "Idle/animations/death/east/frame_002.png",
+        "Idle/animations/death/east/frame_003.png",
+        "Idle/animations/death/east/frame_004.png",
+        "Idle/animations/death/east/frame_005.png",
+        "Idle/animations/death/east/frame_006.png",
+        "Idle/animations/death/east/frame_007.png",
+        "Idle/animations/death/east/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/death/west/frame_000.png",
+        "Idle/animations/death/west/frame_001.png",
+        "Idle/animations/death/west/frame_002.png",
+        "Idle/animations/death/west/frame_003.png",
+        "Idle/animations/death/west/frame_004.png",
+        "Idle/animations/death/west/frame_005.png",
+        "Idle/animations/death/west/frame_006.png",
+        "Idle/animations/death/west/frame_007.png",
+        "Idle/animations/death/west/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/death/north/frame_000.png",
+        "Idle/animations/death/north/frame_001.png",
+        "Idle/animations/death/north/frame_002.png",
+        "Idle/animations/death/north/frame_003.png",
+        "Idle/animations/death/north/frame_004.png",
+        "Idle/animations/death/north/frame_005.png",
+        "Idle/animations/death/north/frame_006.png",
+        "Idle/animations/death/north/frame_007.png",
+        "Idle/animations/death/north/frame_008.png"
+       ]
+      },
+      "attack-ebaf378e": {
+       "north": [
+        "Idle/animations/attack-ebaf378e/north/frame_000.png",
+        "Idle/animations/attack-ebaf378e/north/frame_001.png",
+        "Idle/animations/attack-ebaf378e/north/frame_002.png",
+        "Idle/animations/attack-ebaf378e/north/frame_003.png",
+        "Idle/animations/attack-ebaf378e/north/frame_004.png",
+        "Idle/animations/attack-ebaf378e/north/frame_005.png",
+        "Idle/animations/attack-ebaf378e/north/frame_006.png",
+        "Idle/animations/attack-ebaf378e/north/frame_007.png",
+        "Idle/animations/attack-ebaf378e/north/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/attack-ebaf378e/west/frame_000.png",
+        "Idle/animations/attack-ebaf378e/west/frame_001.png",
+        "Idle/animations/attack-ebaf378e/west/frame_002.png",
+        "Idle/animations/attack-ebaf378e/west/frame_003.png",
+        "Idle/animations/attack-ebaf378e/west/frame_004.png",
+        "Idle/animations/attack-ebaf378e/west/frame_005.png",
+        "Idle/animations/attack-ebaf378e/west/frame_006.png",
+        "Idle/animations/attack-ebaf378e/west/frame_007.png",
+        "Idle/animations/attack-ebaf378e/west/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/attack-ebaf378e/east/frame_000.png",
+        "Idle/animations/attack-ebaf378e/east/frame_001.png",
+        "Idle/animations/attack-ebaf378e/east/frame_002.png",
+        "Idle/animations/attack-ebaf378e/east/frame_003.png",
+        "Idle/animations/attack-ebaf378e/east/frame_004.png",
+        "Idle/animations/attack-ebaf378e/east/frame_005.png",
+        "Idle/animations/attack-ebaf378e/east/frame_006.png",
+        "Idle/animations/attack-ebaf378e/east/frame_007.png",
+        "Idle/animations/attack-ebaf378e/east/frame_008.png"
+       ]
+      },
+      "skill-ed40a222": {
+       "west": [
+        "Idle/animations/skill-ed40a222/west/frame_000.png",
+        "Idle/animations/skill-ed40a222/west/frame_001.png",
+        "Idle/animations/skill-ed40a222/west/frame_002.png",
+        "Idle/animations/skill-ed40a222/west/frame_003.png",
+        "Idle/animations/skill-ed40a222/west/frame_004.png",
+        "Idle/animations/skill-ed40a222/west/frame_005.png",
+        "Idle/animations/skill-ed40a222/west/frame_006.png",
+        "Idle/animations/skill-ed40a222/west/frame_007.png",
+        "Idle/animations/skill-ed40a222/west/frame_008.png"
+       ]
+      },
+      "death-ed833132": {
        "south": [
-        "Idle/animations/death/south/frame_000.png",
-        "Idle/animations/death/south/frame_001.png",
-        "Idle/animations/death/south/frame_002.png",
-        "Idle/animations/death/south/frame_003.png",
-        "Idle/animations/death/south/frame_004.png",
-        "Idle/animations/death/south/frame_005.png",
-        "Idle/animations/death/south/frame_006.png",
-        "Idle/animations/death/south/frame_007.png",
-        "Idle/animations/death/south/frame_008.png"
+        "Idle/animations/death-ed833132/south/frame_000.png",
+        "Idle/animations/death-ed833132/south/frame_001.png",
+        "Idle/animations/death-ed833132/south/frame_002.png",
+        "Idle/animations/death-ed833132/south/frame_003.png",
+        "Idle/animations/death-ed833132/south/frame_004.png",
+        "Idle/animations/death-ed833132/south/frame_005.png",
+        "Idle/animations/death-ed833132/south/frame_006.png",
+        "Idle/animations/death-ed833132/south/frame_007.png",
+        "Idle/animations/death-ed833132/south/frame_008.png"
        ]
       }
      }
@@ -255,6 +377,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T21:47:27.891333"
+  "export_date": "2026-10-12T23:47:32.061347"
  }
 }

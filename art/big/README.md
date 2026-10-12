@@ -18,7 +18,8 @@ skills are words for everyone.
 
 `beast_titan`, `colossal_titan` and `king_slime` are drawn from the new prompts in
 [23](../../docs/23-originality-pass.md), not their old borrowed looks. `frozen_wolfman`'s prompt was
-rewritten as a frost werewolf with bone claws.
+rewritten as a frost werewolf with bone claws. `king_slime` missed its prompt: PixelLab drew a knight
+of amber ooze, not a mound, so it wants making again before it is used.
 
 **Not used by the game yet**: they go in with the full redo, with [Tier 1](../tier1/README.md).
 Wiring one is a `sprite_dir` change in `data/units.json`.

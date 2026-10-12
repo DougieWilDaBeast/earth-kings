@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/sword_bear_96.zip",
    "generations": 30.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0d80a367-6cef-43e8-bbea-e9be5d6022ac",
+   "name": "attack",
+   "action": "two crossing slashes with both swords",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/sword_bear_96.zip",
+   "generations": 6.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -277,12 +290,47 @@
         "Idle/animations/skill/north/frame_007.png",
         "Idle/animations/skill/north/frame_008.png"
        ]
+      },
+      "attack-cfffa0c6": {
+       "north": [
+        "Idle/animations/attack-cfffa0c6/north/frame_000.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_001.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_002.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_003.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_004.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_005.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_006.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_007.png",
+        "Idle/animations/attack-cfffa0c6/north/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/attack-cfffa0c6/west/frame_000.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_001.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_002.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_003.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_004.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_005.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_006.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_007.png",
+        "Idle/animations/attack-cfffa0c6/west/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/attack-cfffa0c6/east/frame_000.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_001.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_002.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_003.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_004.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_005.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_006.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_007.png",
+        "Idle/animations/attack-cfffa0c6/east/frame_008.png"
+       ]
       }
      }
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T22:18:09.277706"
+  "export_date": "2026-10-12T23:47:03.138864"
  }
 }

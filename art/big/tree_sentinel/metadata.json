@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/tree_sentinel_96.zip",
    "generations": 102.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "de3edd23-9bae-4f07-a0b9-007550f55dad",
+   "name": "skill",
+   "action": "slamming its roots into the ground as the earth shakes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north",
+   "zip": "downloads/pixellab/tree_sentinel_96.zip",
+   "generations": 3.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -113,6 +126,40 @@
       "south-west": "Idle/rotations/south-west.png"
      },
      "animations": {
+      "walking": {
+       "east": [
+        "Idle/animations/walking/east/frame_000.png",
+        "Idle/animations/walking/east/frame_001.png",
+        "Idle/animations/walking/east/frame_002.png",
+        "Idle/animations/walking/east/frame_003.png",
+        "Idle/animations/walking/east/frame_004.png",
+        "Idle/animations/walking/east/frame_005.png"
+       ],
+       "north": [
+        "Idle/animations/walking/north/frame_000.png",
+        "Idle/animations/walking/north/frame_001.png",
+        "Idle/animations/walking/north/frame_002.png",
+        "Idle/animations/walking/north/frame_003.png",
+        "Idle/animations/walking/north/frame_004.png",
+        "Idle/animations/walking/north/frame_005.png"
+       ],
+       "west": [
+        "Idle/animations/walking/west/frame_000.png",
+        "Idle/animations/walking/west/frame_001.png",
+        "Idle/animations/walking/west/frame_002.png",
+        "Idle/animations/walking/west/frame_003.png",
+        "Idle/animations/walking/west/frame_004.png",
+        "Idle/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "Idle/animations/walking/south/frame_000.png",
+        "Idle/animations/walking/south/frame_001.png",
+        "Idle/animations/walking/south/frame_002.png",
+        "Idle/animations/walking/south/frame_003.png",
+        "Idle/animations/walking/south/frame_004.png",
+        "Idle/animations/walking/south/frame_005.png"
+       ]
+      },
       "skill": {
        "east": [
         "Idle/animations/skill/east/frame_000.png",
@@ -182,38 +229,51 @@
         "Idle/animations/taking_a_punch/east/frame_005.png"
        ]
       },
-      "walking": {
+      "skill-7c396c58": {
+       "north": [
+        "Idle/animations/skill-7c396c58/north/frame_000.png",
+        "Idle/animations/skill-7c396c58/north/frame_001.png",
+        "Idle/animations/skill-7c396c58/north/frame_002.png",
+        "Idle/animations/skill-7c396c58/north/frame_003.png",
+        "Idle/animations/skill-7c396c58/north/frame_004.png",
+        "Idle/animations/skill-7c396c58/north/frame_005.png",
+        "Idle/animations/skill-7c396c58/north/frame_006.png",
+        "Idle/animations/skill-7c396c58/north/frame_007.png",
+        "Idle/animations/skill-7c396c58/north/frame_008.png"
+       ]
+      },
+      "walking-a6d6d3a8": {
        "east": [
-        "Idle/animations/walking/east/frame_000.png",
-        "Idle/animations/walking/east/frame_001.png",
-        "Idle/animations/walking/east/frame_002.png",
-        "Idle/animations/walking/east/frame_003.png",
-        "Idle/animations/walking/east/frame_004.png",
-        "Idle/animations/walking/east/frame_005.png"
+        "Idle/animations/walking-a6d6d3a8/east/frame_000.png",
+        "Idle/animations/walking-a6d6d3a8/east/frame_001.png",
+        "Idle/animations/walking-a6d6d3a8/east/frame_002.png",
+        "Idle/animations/walking-a6d6d3a8/east/frame_003.png",
+        "Idle/animations/walking-a6d6d3a8/east/frame_004.png",
+        "Idle/animations/walking-a6d6d3a8/east/frame_005.png"
        ],
        "west": [
-        "Idle/animations/walking/west/frame_000.png",
-        "Idle/animations/walking/west/frame_001.png",
-        "Idle/animations/walking/west/frame_002.png",
-        "Idle/animations/walking/west/frame_003.png",
-        "Idle/animations/walking/west/frame_004.png",
-        "Idle/animations/walking/west/frame_005.png"
+        "Idle/animations/walking-a6d6d3a8/west/frame_000.png",
+        "Idle/animations/walking-a6d6d3a8/west/frame_001.png",
+        "Idle/animations/walking-a6d6d3a8/west/frame_002.png",
+        "Idle/animations/walking-a6d6d3a8/west/frame_003.png",
+        "Idle/animations/walking-a6d6d3a8/west/frame_004.png",
+        "Idle/animations/walking-a6d6d3a8/west/frame_005.png"
        ],
        "south": [
-        "Idle/animations/walking/south/frame_000.png",
-        "Idle/animations/walking/south/frame_001.png",
-        "Idle/animations/walking/south/frame_002.png",
-        "Idle/animations/walking/south/frame_003.png",
-        "Idle/animations/walking/south/frame_004.png",
-        "Idle/animations/walking/south/frame_005.png"
+        "Idle/animations/walking-a6d6d3a8/south/frame_000.png",
+        "Idle/animations/walking-a6d6d3a8/south/frame_001.png",
+        "Idle/animations/walking-a6d6d3a8/south/frame_002.png",
+        "Idle/animations/walking-a6d6d3a8/south/frame_003.png",
+        "Idle/animations/walking-a6d6d3a8/south/frame_004.png",
+        "Idle/animations/walking-a6d6d3a8/south/frame_005.png"
        ],
        "north": [
-        "Idle/animations/walking/north/frame_000.png",
-        "Idle/animations/walking/north/frame_001.png",
-        "Idle/animations/walking/north/frame_002.png",
-        "Idle/animations/walking/north/frame_003.png",
-        "Idle/animations/walking/north/frame_004.png",
-        "Idle/animations/walking/north/frame_005.png"
+        "Idle/animations/walking-a6d6d3a8/north/frame_000.png",
+        "Idle/animations/walking-a6d6d3a8/north/frame_001.png",
+        "Idle/animations/walking-a6d6d3a8/north/frame_002.png",
+        "Idle/animations/walking-a6d6d3a8/north/frame_003.png",
+        "Idle/animations/walking-a6d6d3a8/north/frame_004.png",
+        "Idle/animations/walking-a6d6d3a8/north/frame_005.png"
        ]
       },
       "falling_backward": {
@@ -305,6 +365,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T21:30:21.935230"
+  "export_date": "2026-10-12T23:46:52.378805"
  }
 }

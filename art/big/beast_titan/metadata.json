@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/beast_titan_96.zip",
    "generations": 86.0,
    "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "00066c4c-b741-4715-8768-989bf5ee4fc9",
+   "name": "attack",
+   "action": "a crushing downward slam of both fists",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/beast_titan_96.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
   }
  ],
  "pixellab": {
@@ -193,6 +206,19 @@
         "Idle/animations/taking_a_punch/east/frame_005.png"
        ]
       },
+      "attack": {
+       "west": [
+        "Idle/animations/attack/west/frame_000.png",
+        "Idle/animations/attack/west/frame_001.png",
+        "Idle/animations/attack/west/frame_002.png",
+        "Idle/animations/attack/west/frame_003.png",
+        "Idle/animations/attack/west/frame_004.png",
+        "Idle/animations/attack/west/frame_005.png",
+        "Idle/animations/attack/west/frame_006.png",
+        "Idle/animations/attack/west/frame_007.png",
+        "Idle/animations/attack/west/frame_008.png"
+       ]
+      },
       "falling_backward": {
        "east": [
         "Idle/animations/falling_backward/east/frame_000.png",
@@ -265,39 +291,39 @@
         "Idle/animations/walking/south/frame_005.png"
        ]
       },
-      "attack": {
+      "attack-db3afac1": {
        "south": [
-        "Idle/animations/attack/south/frame_000.png",
-        "Idle/animations/attack/south/frame_001.png",
-        "Idle/animations/attack/south/frame_002.png",
-        "Idle/animations/attack/south/frame_003.png",
-        "Idle/animations/attack/south/frame_004.png",
-        "Idle/animations/attack/south/frame_005.png",
-        "Idle/animations/attack/south/frame_006.png",
-        "Idle/animations/attack/south/frame_007.png",
-        "Idle/animations/attack/south/frame_008.png"
+        "Idle/animations/attack-db3afac1/south/frame_000.png",
+        "Idle/animations/attack-db3afac1/south/frame_001.png",
+        "Idle/animations/attack-db3afac1/south/frame_002.png",
+        "Idle/animations/attack-db3afac1/south/frame_003.png",
+        "Idle/animations/attack-db3afac1/south/frame_004.png",
+        "Idle/animations/attack-db3afac1/south/frame_005.png",
+        "Idle/animations/attack-db3afac1/south/frame_006.png",
+        "Idle/animations/attack-db3afac1/south/frame_007.png",
+        "Idle/animations/attack-db3afac1/south/frame_008.png"
        ],
        "north": [
-        "Idle/animations/attack/north/frame_000.png",
-        "Idle/animations/attack/north/frame_001.png",
-        "Idle/animations/attack/north/frame_002.png",
-        "Idle/animations/attack/north/frame_003.png",
-        "Idle/animations/attack/north/frame_004.png",
-        "Idle/animations/attack/north/frame_005.png",
-        "Idle/animations/attack/north/frame_006.png",
-        "Idle/animations/attack/north/frame_007.png",
-        "Idle/animations/attack/north/frame_008.png"
+        "Idle/animations/attack-db3afac1/north/frame_000.png",
+        "Idle/animations/attack-db3afac1/north/frame_001.png",
+        "Idle/animations/attack-db3afac1/north/frame_002.png",
+        "Idle/animations/attack-db3afac1/north/frame_003.png",
+        "Idle/animations/attack-db3afac1/north/frame_004.png",
+        "Idle/animations/attack-db3afac1/north/frame_005.png",
+        "Idle/animations/attack-db3afac1/north/frame_006.png",
+        "Idle/animations/attack-db3afac1/north/frame_007.png",
+        "Idle/animations/attack-db3afac1/north/frame_008.png"
        ],
        "east": [
-        "Idle/animations/attack/east/frame_000.png",
-        "Idle/animations/attack/east/frame_001.png",
-        "Idle/animations/attack/east/frame_002.png",
-        "Idle/animations/attack/east/frame_003.png",
-        "Idle/animations/attack/east/frame_004.png",
-        "Idle/animations/attack/east/frame_005.png",
-        "Idle/animations/attack/east/frame_006.png",
-        "Idle/animations/attack/east/frame_007.png",
-        "Idle/animations/attack/east/frame_008.png"
+        "Idle/animations/attack-db3afac1/east/frame_000.png",
+        "Idle/animations/attack-db3afac1/east/frame_001.png",
+        "Idle/animations/attack-db3afac1/east/frame_002.png",
+        "Idle/animations/attack-db3afac1/east/frame_003.png",
+        "Idle/animations/attack-db3afac1/east/frame_004.png",
+        "Idle/animations/attack-db3afac1/east/frame_005.png",
+        "Idle/animations/attack-db3afac1/east/frame_006.png",
+        "Idle/animations/attack-db3afac1/east/frame_007.png",
+        "Idle/animations/attack-db3afac1/east/frame_008.png"
        ]
       }
      }
@@ -305,6 +331,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T21:27:11.970619"
+  "export_date": "2026-10-12T23:47:05.962912"
  }
 }
