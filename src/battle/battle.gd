@@ -7,6 +7,10 @@ enum Phase { SETUP, COMMAND, PICK_MOVE, PICK_FLASH, PICK_TARGET, BUSY, FINISHED 
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 1.6
+## A held stick walks the pad's cursor: one tile at once, then a run after this
+## long, one tile every [constant PAD_REPEAT] (real seconds, whatever the speed).
+const PAD_FIRST_REPEAT := 0.3
+const PAD_REPEAT := 0.09
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -50,6 +54,11 @@ var _phase_units: Array[Unit] = []
 var _auto_running: bool = false
 ## Unit -> the Characters who healed it this fight, for a healer's assist ([D54]).
 var _healed_by: Dictionary = {}
+## Where a pad is pointing while a tile is picked. A pad has no mouse to hover
+## with, so this stands in for it.
+var pad_cell: Vector2i = Vector2i(-1, -1)
+var _pad_held: Vector2i = Vector2i.ZERO
+var _pad_repeat: float = 0.0
 
 
 func _ready() -> void:
@@ -448,6 +457,7 @@ func _on_move_requested() -> void:
 	)
 	overlay.queue_redraw()
 	phase = Phase.PICK_MOVE
+	_aim_from_the_start(overlay.move_cells)
 
 
 func _on_flash_step_requested() -> void:
@@ -457,6 +467,7 @@ func _on_flash_step_requested() -> void:
 	overlay.flash_cells = _build_flash_cells(active_unit)
 	overlay.queue_redraw()
 	phase = Phase.PICK_FLASH
+	_aim_from_the_start(overlay.flash_cells)
 
 
 func _on_ability_requested(ability_id: String) -> void:
@@ -472,6 +483,7 @@ func _on_ability_requested(ability_id: String) -> void:
 	)
 	overlay.queue_redraw()
 	phase = Phase.PICK_TARGET
+	_aim_from_the_start(overlay.action_cells, true)
 
 
 func _on_draught_requested(item_id: String) -> void:
@@ -608,9 +620,88 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	# A pad gives the order at its cursor, where a mouse would have clicked.
+	if _is_picking() and _is_pad_confirm(event):
+		get_viewport().set_input_as_handled()
+		_on_cell_clicked(pad_cell)
+		return
+
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_on_cell_clicked(grid.world_to_cell(get_global_mouse_position()))
 		get_viewport().set_input_as_handled()
+
+
+func _is_pad_confirm(event: InputEvent) -> bool:
+	if not (event is InputEventJoypadButton) or not event.is_pressed():
+		return false
+	return event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
+
+
+# --- the pad's cursor --------------------------------------------------------
+
+
+func _process(delta: float) -> void:
+	# Anything over the board (the menu, the journal) has the stick instead.
+	if not Pad.using_pad or not _is_picking() or Pad.focus_root() != null:
+		_pad_held = Vector2i.ZERO
+		return
+	var direction := Vector2i(
+		int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left")),
+		int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+	)
+	if direction == Vector2i.ZERO:
+		_pad_held = Vector2i.ZERO
+		return
+	if direction != _pad_held:
+		_pad_held = direction
+		_pad_repeat = PAD_FIRST_REPEAT
+		_nudge_cursor(direction)
+		return
+	# Real time, so a fight at 4x does not throw the cursor across the board.
+	_pad_repeat -= delta / maxf(Engine.time_scale, 0.01)
+	if _pad_repeat <= 0.0:
+		_pad_repeat = PAD_REPEAT
+		_nudge_cursor(direction)
+
+
+## Put the cursor somewhere worth pressing: on someone to act on if the order
+## is aimed at someone, else on whoever is giving it.
+func _aim_from_the_start(cells: Array, at_someone: bool = false) -> void:
+	if not Pad.using_pad or active_unit == null:
+		return
+	var start := active_unit.cell
+	if at_someone:
+		var best := 1000000
+		for cell: Vector2i in cells:
+			var there := unit_at(cell)
+			if there == null or there == active_unit or not there.is_alive():
+				continue
+			var apart := Pathfinder.distance(active_unit.cell, cell)
+			# Foes before friends: most orders aimed at someone are a blow.
+			if there.sides_with_party() == active_unit.sides_with_party():
+				apart += 1000
+			if apart < best:
+				best = apart
+				start = cell
+	_aim_at(start)
+
+
+func _nudge_cursor(direction: Vector2i) -> void:
+	var from := pad_cell if grid.in_bounds(pad_cell) else (active_unit.cell if active_unit != null else Vector2i.ZERO)
+	var next := from + direction
+	# Against an edge a diagonal still slides along it.
+	if not grid.in_bounds(next):
+		next = from + Vector2i(direction.x, 0)
+	if not grid.in_bounds(next):
+		next = from + Vector2i(0, direction.y)
+	if grid.in_bounds(next):
+		_aim_at(next)
+
+
+func _aim_at(cell: Vector2i) -> void:
+	pad_cell = cell
+	_update_hover(cell)
+	camera.focus_on(grid.cell_to_world(cell))
 
 
 func _is_cancel(event: InputEvent) -> bool:
