@@ -72,11 +72,12 @@ What stands between this audit and a public release, in order of weight.
 
 ## Fonts
 
-The game ships no font files of its own: every label uses Godot's default theme font.
+Every label uses Godot's default theme font, except the start screen's logo and menu, which use Cinzel from `art/ui/fonts/` (its licence, `Cinzel-OFL.txt`, sits beside it).
 
 | Asset | Where it came from | Licence | Status |
 | --- | --- | --- | --- |
 | Open Sans SemiBold (built into Godot 4.7) | Bundled with the engine; © 2020 The Open Sans Project Authors | SIL Open Font License 1.1 | **cleared** — credited on the Credits screen |
+| `art/ui/fonts/Cinzel-Bold.ttf`, `Cinzel-Regular.ttf` | From the official repository, github.com/NDISCOVER/Cinzel, 2026-10-12; © 2020 The Cinzel Project Authors | SIL Open Font License 1.1 | **cleared** — licence shipped beside the files, credited on the Credits screen |
 
 ## Engine
 
