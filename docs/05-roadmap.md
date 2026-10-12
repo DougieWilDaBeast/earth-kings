@@ -366,7 +366,7 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
 
 ## Launch readiness — IN PROGRESS
 
-Work that gets the build into players' hands. None of it waits on a founder answer.
+Work that gets the build into players' hands. Almost none of it waits on a founder answer.
 
 - Playable builds for Windows, Linux, macOS and the browser ✅ (2026-10-12): `export_presets.cfg`
   and the `release` workflow — run by hand for a test build, or tag `v*` for a GitHub pre-release.
@@ -379,12 +379,18 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   gzipped; `index.pck` 16.7 MB, mostly the music); from a local server the cinematic is up in
   about 2.5 s and a new world in about 4.5 s. Saves and settings persist through IndexedDB,
   sound starts on the first click or key, fullscreen works from the menu and `F11`. Quit is left
-  off the title and the run summary in the browser (it only froze the page). Known issues: a
-  browser has no system fonts to fall back on, so the symbols the built-in font (Open Sans) lacks
-  draw as empty boxes there — `→ ▲ ▼ ■ □ ◆ ◇ ▸ ▶` in the battle HUD's turn order and pips, the
-  party screen and the skirmish HUD — planned: ship a fallback font or swap them for ones it has
-  (`› « » ◊ · •`); the host must serve gzip or the first load is the full 56 MB; at 1280×720 the
-  character list runs off the bottom of the screen (every platform, not only the web)
+  off the title and the run summary in the browser (it only froze the page). The symbols the
+  built-in font lacked are swapped for ones it has, and the character list scrolls at 1280×720.
+  Known issue: the host must serve gzip or the first load is the full 56 MB
+- Credits screen ✅ (2026-10-12): off the title and the system menu, read from `data/credits.json` —
+  the founders, Godot's MIT notice word for word, its third-party components, music, sound, art,
+  fonts and tools
+- Asset provenance audit — first pass done 2026-10-12 ([22](22-asset-provenance.md)); open items:
+  **`peace_sign.mp3`, `crossing_field.mp3` and `unravel.mp3` are fan covers of commercial songs,
+  dev only — they must be swapped for original or licensed tracks before any public release**; who
+  made `angelic.wav`, `bday_project.wav` and the two menu sounds; where the items, props, buildings,
+  holds, tilesets and menu frames came from; PixelLab's commercial terms for the plan used. These
+  open items are the one part of this section that waits on the founders
 - Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step
   (`save_migrations.gd`) instead of wiped, a newer one is refused and left alone, and every save is
   written to a temporary file and renamed into place with the last one kept as a backup that a

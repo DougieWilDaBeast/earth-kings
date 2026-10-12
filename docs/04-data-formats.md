@@ -542,6 +542,34 @@ A conversation is either a flat script:
 - An option is hidden unless the party satisfies its `requires` / `requires_not` flags and its
   `requires_gold`.
 
+## `credits.json` — the credits
+
+Read by `src/ui/credits_roll.gd` through `SaveFile.read`, and shown by the credits screen off the
+title and the credits page of the system menu. Sections are shown in order.
+
+```json
+{
+  "title": "Credits",
+  "sections": [
+    {
+      "heading": "Engine",
+      "entries": [
+        { "name": "Godot Engine", "role": "godotengine.org — MIT licence", "note": "This game uses Godot Engine…" }
+      ],
+      "notice": "Copyright (c) 2014-present Godot Engine contributors…",
+      "engine_components": true
+    }
+  ]
+}
+```
+
+- Each entry needs `name`; `role` and `note` are optional lines under it.
+- `notice` is a block of licence text, shown as written. The `Engine` section's notice must be
+  Godot's licence word for word — the controls suite compares it with `Engine.get_license_text()`.
+- `engine_components: true` adds one line per third-party component of the running engine, read
+  from `Engine.get_copyright_info()`.
+- What is credited follows [22 — Asset provenance](22-asset-provenance.md); change both together.
+
 ## Save file — `user://earth-kings.save.json`
 
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player

@@ -13,6 +13,7 @@ var boot_payload: Dictionary = {}
 @onready var _training_button: Button = %TrainingButton
 @onready var _coliseum_button: Button = %ColiseumButton
 @onready var _museum_button: Button = %MuseumButton
+@onready var _credits_button: Button = %CreditsButton
 @onready var _quit_button: Button = %QuitButton
 @onready var _crest: TextureRect = %Crest
 @onready var _version_label: Label = %VersionLabel
@@ -33,13 +34,14 @@ func _ready() -> void:
 	_training_button.pressed.connect(func() -> void: EventBus.request_scene.emit("training", {}))
 	_coliseum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", {}))
 	_museum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("museum", {}))
+	_credits_button.pressed.connect(func() -> void: EventBus.request_scene.emit("credits", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
 	# A page cannot close its own tab: quitting in the browser only freezes the
 	# last frame on screen, so the button is not offered there.
 	_quit_button.visible = not OS.has_feature("web")
 	for button in [
 		_continue_button, _new_game_button, _how_to_play_button, _training_button, _coliseum_button,
-		_museum_button, _quit_button,
+		_museum_button, _credits_button, _quit_button,
 	]:
 		button.theme_type_variation = &"GrandButton"
 		# Keeps the mouse and the keyboard pointing at the same entry.

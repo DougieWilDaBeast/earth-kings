@@ -4,6 +4,7 @@
 		"cinematic": "title",
 		"title": "title",
 		"character_select": "title",
+		"credits": "title",
 		"world": "road",
 		"area": "road",
 		"battle": "battle",

@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	_check_settings_are_kept()
+	await _check_the_credits()
 	await _check_tips_and_how_to_play()
 	await _check_the_pad()
 
@@ -435,6 +436,62 @@ func _action(action_name: String) -> InputEventAction:
 func _settle() -> void:
 	for _i in SETTLE:
 		await get_tree().process_frame
+
+
+# --- the credits ---------------------------------------------------------------
+
+
+## The credits open off the title and off the menu, say something, and Back
+## takes the player out of both. The engine's licence in `data/credits.json`
+## is the one Godot itself carries, word for word, as its licence asks.
+func _check_the_credits() -> void:
+	await _enter("title")
+	var title := _current_scene()
+	var credits_btn: Button = title.find_child("CreditsButton", true, false) if title != null else null
+	_expect(credits_btn != null, "the title screen has no Credits entry")
+	if credits_btn != null:
+		credits_btn.pressed.emit()
+		await _settle()
+		var screen := _current_scene()
+		_expect(
+			screen != null and screen.name == "CreditsScreen",
+			"the Credits entry did not open the credits"
+		)
+		if screen != null and screen.name == "CreditsScreen":
+			var list: VBoxContainer = screen.find_child("CreditsList", true, false)
+			_expect(list != null and list.get_child_count() > 8, "the credits screen is empty")
+			screen._unhandled_input(_action("ui_cancel"))
+			await _settle()
+			var back := _current_scene()
+			_expect(
+				back != null and back.name == "TitleScreen",
+				"Back did not take the credits screen to the title"
+			)
+
+	var credits: Dictionary = load("res://src/ui/credits_roll.gd").read()
+	var notice := ""
+	for section: Dictionary in credits.get("sections", []):
+		if str(section.get("heading", "")) == "Engine":
+			notice = str(section.get("notice", ""))
+	_expect(
+		notice.strip_edges() == Engine.get_license_text().strip_edges(),
+		"the Godot licence in data/credits.json is not the engine's own text"
+	)
+
+	EventBus.system_menu_requested.emit()
+	await _settle()
+	var panel: Control = _menu.find_child("CreditsPanel", true, false)
+	var menu_btn: Button = _menu.find_child("CreditsButton", true, false)
+	_expect(panel != null and menu_btn != null, "the system menu has no credits page")
+	if panel != null and menu_btn != null:
+		menu_btn.pressed.emit()
+		await _settle()
+		_expect(panel.visible, "the menu's Credits button did not show the credits")
+		_menu._unhandled_input(_action("ui_cancel"))
+		await _settle()
+		_expect(not panel.visible and _menu.is_open(), "Back from the menu's credits did not return to the menu")
+	_menu.close()
+	await _settle()
 
 
 # --- settings are kept ---------------------------------------------------------
