@@ -62,6 +62,36 @@ func back_out() -> void:
 	Input.parse_input_event(release)
 
 
+## Scenes where Start brings up the menu. Everywhere else is a menu already.
+const MENU_FROM_SCENES := ["world", "area", "battle", "skirmish", "training", "coliseum"]
+## Scenes where the pad's journal button opens the journal. In a fight the same
+## button is Wait.
+const JOURNAL_FROM_SCENES := ["world", "area"]
+
+
+## The pad's own buttons for things the keyboard reaches some other way: Start
+## is the menu (a keyboard has Escape, which is also Back), the journal (N on a
+## keyboard) and Back on a screen that only had a button for it. Taken here,
+## last, so any scene or overlay that wants the press has had it first.
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_pressed() or event.is_echo():
+		return
+	if event.is_action_pressed("open_menu") and MENU_FROM_SCENES.has(_scene_key) \
+			and not _something_is_open():
+		get_viewport().set_input_as_handled()
+		EventBus.system_menu_requested.emit()
+	elif event.is_action_pressed("open_journal") and JOURNAL_FROM_SCENES.has(_scene_key) \
+			and not _something_is_open():
+		get_viewport().set_input_as_handled()
+		EventBus.journal_requested.emit()
+	elif event.is_action_pressed("ui_cancel") and not _something_is_open():
+		# A menu scene whose only way out was a Back button on the screen.
+		var back := _container.find_child("BackButton", true, false) as BaseButton
+		if back != null and back.is_visible_in_tree() and not back.disabled:
+			get_viewport().set_input_as_handled()
+			back.pressed.emit()
+
+
 func _something_is_open() -> bool:
 	for overlay in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
 		if overlay.has_method("is_open") and overlay.is_open():
@@ -84,6 +114,7 @@ func _swap(scene_key: String, payload: Dictionary) -> void:
 		child.queue_free()
 	var scene: Node = load(SCENES[scene_key]).instantiate()
 	scene.set("boot_payload", payload)
+	scene.add_to_group(EventBus.ACTIVE_SCENE_GROUP)
 	_container.add_child(scene)
 	_scene_key = scene_key
 	EventBus.scene_changed.emit(scene_key)

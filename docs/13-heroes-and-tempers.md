@@ -21,7 +21,10 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
   different ways of fighting" — each following their temper. Six classes cannot give sixteen
   styles; [agenda item 10](worldbuilding/answers.md#what-is-still-to-decide).
 - **Their own lives.** When not the lead, each lives by their temper from wherever they landed,
-  with their own line of quests to the Tower.
+  with their own line of quests to the Tower. **Built 2026-10-12** without the quest lines: they
+  crash-land at seeded sites and walk between kinds of place by temper, and can be met and joined
+  ([17](17-the-sixteen-worlds.md#the-others-as-built)). Until the sixteen are written the twelve
+  existing heroes stand in, with tempers inferred in `data/fall.json` (agenda item 26).
 - **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
   crosses to the next world when they die as the lead.
 - **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what
@@ -191,7 +194,9 @@ ENTP), **NF**, **SJ**, **SP**. Each character ships as one bundle:
 
 - `data/heroes.json` — id, `title`, `temper`, `difficulty`, `origin`, `blurb`, `companions`
 - `data/units.json` — stats, `abilities`, `classes`, `color`, `sprite_dir`
-- `data/areas/<area>.json` — a `people[]` entry where they stand when somebody else is the lead
+- `data/fall.json` → `wanderers` — nothing to add once `types["XXXX"].hero` is set: the temper
+  there decides where they walk when somebody else is the lead, and the lines are their temper
+  group's until they are given their own
 - `data/dialogue/heroes/<id>.json` — what they say, including what it takes to join
 - this document — an entry in the shape `docs/11` uses
 - `data/tempers.json` — `types["XXXX"].hero`

@@ -10,6 +10,9 @@ const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const Fall := preload("res://src/chronicle/fall.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -27,6 +30,12 @@ const AUTO_DELAY := 0.09
 ## How far the party will turn aside for a band while walking itself. The road
 ## to anywhere is thick with them, so chasing every one means never arriving.
 const AUTO_DETOUR := 6
+## Seconds a tile takes to fade in when it comes onto the map.
+const REVEAL_FADE := 0.45
+## How dark ground drawn from somebody else's map is left: the lie of the
+## land, but nothing walking on it.
+const CHARTED_WASH := Color(0.03, 0.03, 0.05, 0.58)
+const UNKNOWN := Color(0.02, 0.02, 0.03)
 
 const DIRECTIONS := {
 	"move_up": Vector2i.UP,
@@ -82,6 +91,12 @@ var _auto_route: Array[Vector2i] = []
 var _art: Dictionary = {}
 ## Where the camera was last time the ground was laid out (x, y, zoom).
 var _last_view: Vector3 = Vector3.INF
+## Tiles fading onto the map, cell -> seconds of fade left.
+var _fading: Dictionary = {}
+## Where the party is walking itself to when it knows of nowhere to go: the
+## nearest ground it has never seen.
+var _explore_to: Vector2i = Vector2i(-1, -1)
+var _explored_checked_at: int = -999
 
 
 func _ready() -> void:
@@ -90,11 +105,15 @@ func _ready() -> void:
 	if world.steps == 0:
 		Encounter.first_blood(world, world.rng)
 	_warm_art()
+	# The ground the party stands on is always on the map ([D50]).
+	Atlas.reveal_around(world, world.player_cell)
+	EventBus.ground_revealed.connect(_on_ground_revealed)
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
 	for edge: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
 		EventBus.journal_requested, EventBus.stash_requested, EventBus.guild_requested,
+		EventBus.how_to_play_requested,
 		EventBus.overlay_closed,
 	]:
 		edge.connect(_watch_overlays)
@@ -103,6 +122,9 @@ func _ready() -> void:
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _watch_overlays())
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
+	# Picking up the pad, or putting it down, changes every key the hint line
+	# names and whether the buttons under it are there at all.
+	Pad.changed.connect(_say_what_can_be_done)
 	var view_btn: Button = get_node_or_null("%ViewButton")
 	if view_btn != null:
 		view_btn.pressed.connect(switch_to_planar_view)
@@ -137,20 +159,31 @@ func _ready() -> void:
 	GameState.set_flag("last_victory", false)
 	_check_party()
 
+	# A new run opens on the fall: where the lead came down, and why they will
+	# be walking towards the Tower (M13).
 	if world.steps == 0 and not GameState.has_flag("seen:prologue"):
 		GameState.set_flag("seen:prologue")
-		EventBus.dialogue_requested.emit("prologue")
+		var lead := GameState.roster.player()
+		Database.register_dialogue("landing", Fall.landing_dialogue(
+			world, lead.display_name if lead != null else "The fallen"
+		))
+		EventBus.dialogue_requested.emit("landing")
 
 
 func _process(delta: float) -> void:
 	_watch_the_view()
+	_fade_in(delta)
 	if _busy:
 		return
 	if Pace.auto:
 		_auto_walk(delta)
 		return
+	if _picking_an_action():
+		_held = Vector2i.ZERO
+		return
 	var direction := _pressed_direction()
-	if direction == Vector2i.ZERO:
+	# A stick held to walk a menu is not walking the party behind it.
+	if direction == Vector2i.ZERO or _overlay_open():
 		_held = Vector2i.ZERO
 		return
 
@@ -206,7 +239,7 @@ func _auto_errand() -> Vector2i:
 	for site in world.sites:
 		if site.kind != Site.GATE or not site.open or site.cleared:
 			continue
-		if Pace.avoided.has(site.cell):
+		if Pace.avoided.has(site.cell) or not Atlas.knows(world, site):
 			continue
 		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
 			continue
@@ -218,9 +251,23 @@ func _auto_errand() -> Vector2i:
 		return target
 
 	var tower := world.tower()
-	if tower == null or world.tower_is_topped() or Pace.avoided.has(tower.cell) or Chapters.sealed(world):
-		return Vector2i(-1, -1)
-	return tower.cell
+	if tower != null and not world.tower_is_topped() and not Pace.avoided.has(tower.cell) \
+			and not Chapters.sealed(world) and Atlas.knows(world, tower):
+		return tower.cell
+	return _explore_target()
+
+
+## Nowhere known to go, so go and see somewhere: the nearest ground the party
+## has never set eyes on. Kept until it is stood on, so the way is worked out
+## once per stretch rather than every step.
+func _explore_target() -> Vector2i:
+	var stale := _explore_to == world.player_cell or Pace.avoided.has(_explore_to)
+	# With everything seen, looking again every step is a whole-map search for nothing.
+	var due := _explore_to.x < 0 and world.steps - _explored_checked_at >= 20
+	if stale or due:
+		_explored_checked_at = world.steps
+		_explore_to = Atlas.frontier(world, world.player_cell)
+	return _explore_to
 
 
 ## The next step along the way to [param target], or, with nowhere to go,
@@ -307,6 +354,10 @@ func _step(direction: Vector2i) -> void:
 	_look_down_the_road(target)
 	_check_party()
 	_refresh()
+	EventBus.tip_moment.emit("step", {
+		"danger": Encounter.chance_at(world, target), "steps": world.steps,
+		"season_turned": Season.just_turned(world.steps),
+	})
 
 
 ## Somebody else's fight, in front of you, that you did not cause and do not
@@ -406,7 +457,9 @@ func _look_for_a_cache(cell: Vector2i) -> void:
 	if _busy or world.rng.randf() >= float(Loot.rules().get("cache_chance", 0.04)):
 		return
 	_note("Something has been left here, and left a long while.")
-	for line: String in Loot.claim(Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0), GameState.roster):
+	var haul := Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0)
+	haul["map"] = bool(haul.get("map", false)) or Atlas.finds_map(world, cell, "cache_map_chance")
+	for line: String in Loot.claim(haul, GameState.roster):
 		_note(line)
 
 
@@ -581,7 +634,21 @@ func _arrive_at(site: Site) -> void:
 			_climb(site)
 		Site.GRAVE:
 			_stand_at_grave(site)
+	for line: String in Wanderers.on_arrive(world, site):
+		_note(line)
 	_check_for_captives(site)
+	_say_what_is_new_here(site)
+
+
+## Places a newcomer may never have stood in before, said out loud for whatever
+## teaches them (the tip card). Nobody here knows whether anyone listens.
+func _say_what_is_new_here(site: Site) -> void:
+	if Town.is_settlement(site) and not Town.is_ruined(site):
+		EventBus.tip_moment.emit("settlement", {})
+	if Guild.has_hall(site):
+		EventBus.tip_moment.emit("guild", {})
+	if site.kind in [Site.GATE, Site.LIBRARY, Site.TOWER, Site.HOME]:
+		EventBus.tip_moment.emit(site.kind, {})
 
 
 func _stand_at_grave(site: Site) -> void:
@@ -623,6 +690,12 @@ func _rest_at(site: Site) -> void:
 		Market.refresh(site, world)
 	Errand.refresh(site, world)
 	Grimoire.stock(site, world)
+	# Settlements talk, and some of what they say is about the others who fell.
+	if site.kind != Site.HUT and randf() < float(Wanderers.pace().get("rumour_at_rest", 0.4)):
+		var word := Wanderers.rumour(world)
+		if word != "":
+			_note(word)
+			_map.queue_redraw()
 	if rested:
 		_make_camp(site)
 
@@ -830,37 +903,37 @@ func _actions_here() -> Array[Dictionary]:
 	var choosing := GameState.roster.awaiting_class_choice()
 	if choosing != null:
 		return [_doable(
-			"%s is ready to choose a path — press P." % choosing.display_name,
+			"%s is ready to choose a path — press %s." % [choosing.display_name, _key("open_party")],
 			"Choose a path", _open_party
 		)]
 
 	var owed := _somebody_owed_a_power()
 	if owed != null:
 		return [_doable(
-			"%s has %d power to take — press P." % [owed.display_name, owed.rungs],
+			"%s has %d power to take — press %s." % [owed.display_name, owed.rungs, _key("open_party")],
 			"Take the power", _open_party
 		)]
 
 	if _captive_here != null:
 		return [
 			_doable(
-				"R to ransom %s for %d gold" % [
-					_captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
+				"%s to ransom %s for %d gold" % [
+					_key("captive_ransom"), _captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
 				],
 				"Ransom (%d gold)" % int(_captive_here.captive.get("ransom", 0)), _ransom_here
 			),
-			_doable("F to take them back by force.", "Take by force", _fight_for_captive),
+			_doable("%s to take them back by force." % _key("captive_rescue"), "Take by force", _fight_for_captive),
 		]
 
 	if _roadside_here != "":
 		return [
-			_doable("E to step in", "Step in", _step_into_the_road),
+			_doable("%s to step in" % _key("interact"), "Step in", _step_into_the_road),
 			_telling("walk on to leave them to it."),
 		]
 
 	if _wild_here != "":
 		return [
-			_doable("E to explore the ancient grove", "Explore the grove", _step_into_the_wild),
+			_doable("%s to explore the ancient grove" % _key("interact"), "Explore the grove", _step_into_the_wild),
 			_telling("walk on to leave it behind"),
 		]
 
@@ -871,7 +944,7 @@ func _actions_here() -> Array[Dictionary]:
 		if site.kind == Site.TOWER and world.tower_topped:
 			return [
 				_doable(
-					"E to ascend the throne of the Tower (Conclude Journey)",
+					"%s to ascend the throne of the Tower (Conclude Journey)" % _key("interact"),
 					"Ascend the throne", _walk_into_site
 				),
 				_telling("walk on to keep exploring"),
@@ -880,37 +953,40 @@ func _actions_here() -> Array[Dictionary]:
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
 			parts.append(_doable(
-				"E to challenge %s" % str(ward.get("name", site.display_name)),
+				"%s to challenge %s" % [_key("interact"), str(ward.get("name", site.display_name))],
 				"Challenge %s" % str(ward.get("name", site.display_name)), _walk_into_site
 			))
 		if Town.is_threatened(site):
 			parts.append(_doable(
-				"V to drive them out of %s" % site.display_name,
+				"%s to drive them out of %s" % [_key("", "V"), site.display_name],
 				"Drive them out", _defend_here
 			))
 		elif Town.is_settlement(site) and not Town.is_ruined(site):
-			parts.append(_doable("K to raid %s" % site.display_name, "Raid", _raid_here))
+			parts.append(_doable("%s to raid %s" % [_key("", "K"), site.display_name], "Raid", _raid_here))
 		if _area_here() != "":
 			if site.kind == Site.KEEP:
 				parts.append(_doable(
-					"E to enter %s (Halls & Proving Arena)" % site.display_name,
+					"%s to enter %s (Halls & Proving Arena)" % [_key("interact"), site.display_name],
 					"Enter %s" % site.display_name, _walk_into_site
 				))
 			else:
 				parts.append(_doable(
-					"E to walk into %s" % site.display_name,
+					"%s to walk into %s" % [_key("interact"), site.display_name],
 					"Walk into %s" % site.display_name, _walk_into_site
 				))
+		for each: Dictionary in Wanderers.here(world, site.cell):
+			var who := Wanderers.name_of(str(each["id"]))
+			parts.append(_doable("X to speak with %s" % who, "Speak with %s" % who, _speak_with_wanderer))
 		var errand_doing := _errand_action(site)
 		if not errand_doing.is_empty():
 			parts.append(errand_doing)
 		if Guild.has_hall(site):
-			parts.append(_doable("Y for the Adventurers Guild", "The Guild", _open_guild))
+			parts.append(_doable("%s for the Adventurers Guild" % _key("site_guild"), "The Guild", _open_guild))
 		var offer := Market.hire_offer(site)
 		if not offer.is_empty():
 			parts.append(_doable(
-				"H to hire %s (level %d, %d gold)" % [
-					offer["display_name"], offer["level"], Market.asking_hire_cost(site, world, offer)
+				"%s to hire %s (level %d, %d gold)" % [
+					_key("site_hire"), offer["display_name"], offer["level"], Market.asking_hire_cost(site, world, offer)
 				],
 				"Hire %s (%d gold)" % [
 					offer["display_name"], Market.asking_hire_cost(site, world, offer)
@@ -920,20 +996,20 @@ func _actions_here() -> Array[Dictionary]:
 		if not goods.is_empty():
 			var ware_name: String = Database.equipment_piece(goods[0]).get("display_name", goods[0])
 			parts.append(_doable(
-				"B to buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
+				"%s to buy %s (%d gold)" % [_key("site_buy"), ware_name, Market.asking_price(site, world, goods[0])],
 				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
 				_buy_here
 			))
 		if not Grimoire.offer(site).is_empty():
 			parts.append(_doable(
-				"G for the book, unread (%d gold)" % Grimoire.price(site),
+				"%s for the book, unread (%d gold)" % [_key("site_grimoire"), Grimoire.price(site)],
 				"The book (%d gold)" % Grimoire.price(site), _buy_grimoire_here
 			))
 		if Ferry.is_port(world, site.cell):
 			var dest := Ferry.next_port(world, site.cell)
 			if dest != null:
 				parts.append(_doable(
-					"O to sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)],
+					"%s to sail to %s (%d gold)" % [_key("", "O"), dest.display_name, Ferry.fare(world, site, dest)],
 					"Sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)],
 					_sail_here
 				))
@@ -944,9 +1020,20 @@ func _actions_here() -> Array[Dictionary]:
 		return [_telling(Roadside.escort_prompt(world))]
 
 	return [
-		_doable("P for the party", "The Party", _open_party),
-		_doable("Esc for the menu", "Menu", _open_menu),
+		_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
+		_doable("%s for the menu" % _key("open_menu", "Esc"), "Menu", _open_menu),
 	]
+
+
+## What to press, said for whatever is in the player's hands. On a pad, a verb
+## with no button of its own is reached through the place's action buttons,
+## which Y puts the focus on; on a keyboard, [param letter] is said for a verb
+## that is a bare letter rather than an action.
+func _key(action: String, letter: String = "") -> String:
+	if Pad.using_pad:
+		return Pad.key(action, "open_actions")
+	var said := Pad.key_text(action) if action != "" else ""
+	return said if said != "" else letter
 
 
 func _doable(prompt: String, label: String, call: Callable) -> Dictionary:
@@ -968,7 +1055,32 @@ func _watch_overlays() -> void:
 func _settle_actions() -> void:
 	if _actions == null or not is_inside_tree():
 		return
-	_actions.visible = Pace.is_touch_enabled() and not _overlay_open()
+	_actions.visible = _shows_actions() and not _overlay_open()
+
+
+## The buttons are a thumb's way in, and a pad's: neither has an H to press.
+func _shows_actions() -> bool:
+	return Pace.is_touch_enabled() or Pad.using_pad
+
+
+## A pad is choosing among the place's buttons rather than walking.
+func _picking_an_action() -> bool:
+	var owner := get_viewport().gui_get_focus_owner()
+	return owner != null and _actions != null and _actions.is_ancestor_of(owner)
+
+
+## Y: put the focus on the place's first button, or take it off again.
+func _toggle_action_focus() -> void:
+	if _picking_an_action():
+		get_viewport().gui_release_focus()
+		return
+	if _actions == null:
+		return
+	for child in _actions.get_children():
+		var button := child as Button
+		if button != null and not button.is_queued_for_deletion() and button.is_visible_in_tree():
+			button.grab_focus()
+			return
 
 
 func _overlay_open() -> bool:
@@ -1001,7 +1113,7 @@ func _lay_out_actions(doable: Array[Dictionary]) -> void:
 		return
 	for child in _actions.get_children():
 		child.queue_free()
-	if not Pace.is_touch_enabled():
+	if not _shows_actions():
 		_actions.visible = false
 		return
 	_actions.visible = not _overlay_open()
@@ -1012,7 +1124,9 @@ func _lay_out_actions(doable: Array[Dictionary]) -> void:
 			continue
 		var button := Button.new()
 		button.text = label
-		button.focus_mode = Control.FOCUS_NONE
+		# Focus is how a pad presses one; anywhere else it would only let the
+		# arrow keys wander off the road and onto a button.
+		button.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
 		button.custom_minimum_size = Vector2(0, ACTION_BUTTON_HEIGHT)
 		button.add_theme_font_size_override("font_size", 16)
 		button.pressed.connect(call)
@@ -1034,9 +1148,9 @@ func _somebody_owed_a_power() -> Character:
 ## What the board where you are standing has to say, if anything.
 func _errand_action(site: Site) -> Dictionary:
 	if not Errand.completable_at(GameState.errands, site.cell).is_empty():
-		return _doable("J to settle an errand", "Settle an errand", _errands_here)
+		return _doable("%s to settle an errand" % _key("site_errands"), "Settle an errand", _errands_here)
 	if not Errand.board(site).is_empty():
-		return _doable("J to read the board", "Read the board", _errands_here)
+		return _doable("%s to read the board" % _key("site_errands"), "Read the board", _errands_here)
 	return {}
 
 
@@ -1047,13 +1161,13 @@ func _home_actions(site: Site) -> Array[Dictionary]:
 		return [
 			_telling(Home.bed_name(site)),
 			_telling("there is nothing better to sleep on"),
-			_doable("P for the party", "The Party", _open_party),
+			_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
 		]
 	return [
 		_telling(Home.bed_name(site)),
 		_doable(
-			"U for %s (%d gold, +%d HP)" % [
-				better.get("display_name", "a better bed").to_lower(),
+			"%s for %s (%d gold, +%d HP)" % [
+				_key("", "U"), better.get("display_name", "a better bed").to_lower(),
 				int(better.get("cost", 0)),
 				int(better.get("vigour", 0)),
 			],
@@ -1080,9 +1194,17 @@ func _end_run() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _busy or not event.is_pressed() or event.is_echo():
 		return
+	if event.is_action_pressed("open_actions"):
+		get_viewport().set_input_as_handled()
+		_toggle_action_focus()
+		return
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		EventBus.system_menu_requested.emit()
+		# Backing out of the place's buttons is back to walking, not the menu.
+		if _picking_an_action():
+			get_viewport().gui_release_focus()
+		else:
+			EventBus.system_menu_requested.emit()
 		return
 	# Before the pace keys: walking into a place is what the player came here to
 	# do, and E was quietly being eaten by the speed cycle.
@@ -1156,6 +1278,32 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_O:
 			get_viewport().set_input_as_handled()
 			_sail_here()
+		KEY_X:
+			get_viewport().set_input_as_handled()
+			_speak_with_wanderer()
+
+
+## One of the sixteen is standing here. Talk, and if they are willing, they
+## walk on with you.
+func _speak_with_wanderer() -> void:
+	var standing := Wanderers.here(world, world.player_cell)
+	if standing.is_empty() or _busy:
+		return
+	var hero_id := str(standing[0]["id"])
+	var dialogue_id := Wanderers.talk(world, GameState.roster, hero_id)
+	if dialogue_id == "":
+		return
+	EventBus.dialogue_requested.emit(dialogue_id)
+	await EventBus.dialogue_finished
+	# GameState settles it the moment the conversation ends; this is in case it
+	# has not, and costs nothing if it has.
+	Wanderers.settle(world, GameState.roster, GameState.flags)
+	if bool(Wanderers.entry(world, hero_id).get("joined", false)):
+		_note(Wanderers.joined_line(world, hero_id))
+		_warm_art()
+	_refresh()
+	_say_what_can_be_done()
+	_map.queue_redraw()
 
 
 ## Passage by sea to another port along the coast.
@@ -1339,6 +1487,7 @@ func _errands_here() -> void:
 	else:
 		_note("%s asks: %s" % [taken["giver"], taken["title"]])
 		_note(Errand.detail(taken))
+		EventBus.tip_moment.emit("errand", {})
 	_map.queue_redraw()
 	_refresh()
 	_say_what_can_be_done()
@@ -1501,10 +1650,13 @@ func _pace_text() -> String:
 ## Runs inside the Map node's draw pass, so its draw_* calls are legal here.
 func _draw_world() -> void:
 	_draw_ground()
+	_draw_fog()
 	_draw_watched_ground()
 	_draw_places()
 	_draw_errand_marks()
 	_draw_quest_markers()
+	_draw_the_climb()
+	_draw_wanderers()
 	_draw_bands()
 	_draw_party()
 
@@ -1558,10 +1710,12 @@ func _draw_ground() -> void:
 	for y in range(seen.position.y, seen.end.y):
 		for x in range(seen.position.x, seen.end.x):
 			var cell := Vector2i(x, y)
+			if not Atlas.is_charted(world, cell):
+				continue
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
 			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
-			if dress_lod:
+			if dress_lod and Atlas.is_explored(world, cell):
 				_dress(cell, world.terrain_id_at(cell))
 
 
@@ -1645,6 +1799,71 @@ func _scatter(seed_value: int, index: int) -> Vector2:
 	return Vector2(0.18 + a * 0.64, 0.18 + b * 0.64) * CELL
 
 
+## The map is black until the party has been there ([D50]). Ground a map has
+## drawn in is shown dim; ground just seen fades in. Unbroken runs of one kind
+## are drawn as one rectangle, so the black of an unwalked continent is cheap.
+func _draw_fog() -> void:
+	var seen := _cells_in_view()
+	for y in range(seen.position.y, seen.end.y):
+		var run_start := seen.position.x
+		var run_kind := -1
+		for x in range(seen.position.x, seen.end.x + 1):
+			var kind := 0
+			if x < seen.end.x:
+				var cell := Vector2i(x, y)
+				if _fading.has(cell):
+					kind = 3
+				elif Atlas.is_explored(world, cell):
+					kind = 0
+				elif Atlas.is_charted(world, cell):
+					kind = 1
+				else:
+					kind = 2
+			else:
+				kind = -2
+			if kind == run_kind:
+				continue
+			if run_kind == 1 or run_kind == 2:
+				_map.draw_rect(
+					Rect2(Vector2(run_start, y) * CELL, Vector2(x - run_start, 1) * CELL),
+					CHARTED_WASH if run_kind == 1 else UNKNOWN
+				)
+			run_start = x
+			run_kind = kind
+	# What is coming into sight: from black (or from the dim of a map) to clear.
+	for cell: Vector2i in _fading:
+		if not seen.has_point(cell):
+			continue
+		if not Atlas.is_explored(world, cell):
+			_map.draw_rect(Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL), CHARTED_WASH)
+		var veil := UNKNOWN
+		veil.a = clampf(float(_fading[cell]) / REVEAL_FADE, 0.0, 1.0)
+		_map.draw_rect(Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL), veil)
+
+
+func _fade_in(delta: float) -> void:
+	if _fading.is_empty():
+		return
+	for cell: Vector2i in _fading.keys():
+		_fading[cell] = float(_fading[cell]) - delta
+		if float(_fading[cell]) <= 0.0:
+			_fading.erase(cell)
+	_map.queue_redraw()
+
+
+## New ground on the map. Ground the party saw for itself fades in; a place
+## that comes into sight for the first time is said out loud.
+func _on_ground_revealed(cells: Array) -> void:
+	for cell: Vector2i in cells:
+		_fading[cell] = REVEAL_FADE
+		var site := world.site_at(cell)
+		if site != null and Atlas.is_explored(world, cell) and not world.marked.has("%d,%d" % [cell.x, cell.y]) \
+				and site.kind != Site.TOWER and site.kind != Site.HOME and site.kind != Site.GRAVE:
+			_note(Atlas.line("seen", {"place": site.display_name}))
+	# The ground has to be laid out again whether or not anything is fading.
+	_map.queue_redraw()
+
+
 ## Ground somebody has eyes on, in the colours of whoever is watching it.
 func _draw_watched_ground() -> void:
 	var seen := _cells_in_view()
@@ -1652,7 +1871,7 @@ func _draw_watched_ground() -> void:
 		var wash := Faction.banner(band.faction)
 		wash.a = 0.26
 		for watched: Vector2i in band.watched(world):
-			if seen.has_point(watched):
+			if seen.has_point(watched) and Atlas.is_explored(world, watched):
 				_map.draw_rect(Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), wash)
 
 
@@ -1664,7 +1883,7 @@ func _draw_places() -> void:
 	var show_names: bool = _camera.zoom.x >= 0.45
 
 	for site in world.sites:
-		if not seen.has_point(site.cell):
+		if not seen.has_point(site.cell) or not Atlas.knows(world, site):
 			continue
 		var art := _site_art(site)
 		var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
@@ -1739,6 +1958,8 @@ func _warm_art() -> void:
 			Database.unit_face(band.pack[0])
 	for character in GameState.roster.characters:
 		Database.unit_face(character.template_id)
+	for each: Dictionary in world.wanderers:
+		Database.unit_face(str(each.get("id", "")))
 
 
 ## Draws a glowing, pulsing destination beacon and an animated directional trail from the party.
@@ -1813,6 +2034,8 @@ func _draw_quest_markers() -> void:
 			_draw_quest_path_and_beacon(party_pos, target_pos, Color(1.0, 0.85, 0.25, 0.95), "ESCORT")
 
 	for site in world.sites:
+		if not Atlas.knows(world, site):
+			continue
 		if Town.is_threatened(site):
 			var target_pos := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_draw_quest_path_and_beacon(party_pos, target_pos, Color(0.95, 0.35, 0.25, 0.95), "DEFEND")
@@ -1831,10 +2054,56 @@ func _draw_quest_markers() -> void:
 			_draw_quest_path_and_beacon(party_pos, centre, Color(0.9, 0.6, 0.3, 0.85), "QUEST")
 
 
+## The standing quest every lead carries ([D53]): the Tower, marked for what it is.
+func _draw_the_climb() -> void:
+	var tower := world.tower()
+	if tower == null or world.tower_topped:
+		return
+	var centre := Vector2(tower.cell) * CELL + Vector2.ONE * CELL * 0.5
+	var pulse := 1.0 + 0.1 * sin(float(Time.get_ticks_msec()) * 0.004)
+	var gold := Color(1.0, 0.86, 0.45, 0.85)
+	_map.draw_arc(centre, CELL * 0.9 * pulse, 0.0, TAU, 28, gold, 2.0, true)
+	if _camera.zoom.x < 0.3:
+		return
+	var font: Font = _hint.get_theme_font("font") if _hint != null else null
+	if font == null:
+		font = ThemeDB.fallback_font
+	var badge := Fall.quest_badge()
+	var size := font.get_string_size(badge, HORIZONTAL_ALIGNMENT_CENTER, -1, 10)
+	var at := centre + Vector2(0, CELL * 1.25)
+	var back := Rect2(at.x - size.x * 0.5 - 4.0, at.y - size.y * 0.8 - 2.0, size.x + 8.0, size.y + 4.0)
+	_map.draw_rect(back, Color(0.1, 0.08, 0.02, 0.85))
+	_map.draw_rect(back, gold, false, 1.0)
+	_map.draw_string(font, Vector2(at.x - size.x * 0.5, at.y), badge, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.95, 0.8))
+
+
+## The others of the sixteen, where the company last saw them or heard of
+## them. A sighting is drawn bright; a rumour, faint.
+func _draw_wanderers() -> void:
+	for each: Dictionary in Wanderers.known(world):
+		if bool(each.get("joined", false)):
+			continue
+		var cell := Wanderers.cell_of(each.get("known", []))
+		if cell.x < 0:
+			continue
+		var centre := Vector2(cell) * CELL + Vector2(CELL * 0.85, CELL * 0.1)
+		var faint := bool(each.get("heard", false))
+		var ring := Color(1.0, 0.84, 0.35, 0.55 if faint else 0.95)
+		_map.draw_circle(centre, CELL * 0.36, Color(0.08, 0.07, 0.1, 0.8))
+		_map.draw_arc(centre, CELL * 0.36, 0.0, TAU, 20, ring, 2.0, true)
+		var face: Texture2D = Database.unit_face(str(each.get("id", "")))
+		if face == null:
+			continue
+		var size := Vector2.ONE * CELL * 0.8
+		_map.draw_texture_rect(face, Rect2(centre - size * 0.5, size), false, Color(1, 1, 1, 0.55 if faint else 1.0))
+
+
 ## Bands are drawn as whoever is leading them, so the country tells you what is
 ## in it before you are close enough to be told the hard way.
 func _draw_bands() -> void:
 	for band: Prowler in world.prowlers:
+		if not Atlas.is_explored(world, band.cell):
+			continue
 		var centre := Vector2(band.cell) * CELL + Vector2.ONE * CELL * 0.5
 		_map.draw_circle(centre, CELL * 0.42, Faction.banner(band.faction))
 		var face: Texture2D = Database.unit_face(band.pack[0]) if not band.pack.is_empty() else null

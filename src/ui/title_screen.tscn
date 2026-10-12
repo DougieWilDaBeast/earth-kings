@@ -83,7 +83,7 @@ offset_right = 340.0
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 34
+theme_override_constants/separation = 24
 
 [node name="Header" type="HBoxContainer" parent="Content"]
 layout_mode = 2
@@ -158,7 +158,7 @@ theme_type_variation = &"FramedPanel"
 
 [node name="Items" type="VBoxContainer" parent="Content/Menu"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="ContinueButton" type="Button" parent="Content/Menu/Items"]
 unique_name_in_owner = true
@@ -169,6 +169,11 @@ text = "Continue"
 unique_name_in_owner = true
 layout_mode = 2
 text = "New Game"
+
+[node name="HowToPlayButton" type="Button" parent="Content/Menu/Items"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "How to Play"
 
 [node name="TrainingButton" type="Button" parent="Content/Menu/Items"]
 unique_name_in_owner = true

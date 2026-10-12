@@ -359,7 +359,8 @@ fork in character development.
 are assigned to all twelve heroes in `data/heroes.json`. Starting locations follow background
 (`WorldGen.starting_cell_for_hero`): nobles at ancestral keeps, scholars at libraries, strays at
 hedge huts, outcasts at gates, smiths at hearth villages. Alignments feed starting party affinity
-and friction through `Banter.initial_bond` and `Roster.found`.
+and friction through `Banter.initial_bond` and `Roster.found`. **Superseded 2026-10-12** by the
+fall (M13): every run now starts at a crash site drawn from the seed ([17](17-the-sixteen-worlds.md#the-others-as-built)).
 
 **Grudges built.** Each background carries a targeted grudge (`Character.grudge_target` and
 `grudge_label`) against ancestral enemies (e.g. apprentice smiths against raiders and marauders,

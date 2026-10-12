@@ -17,10 +17,12 @@ because of it, and nothing is rewritten until the founders say how:
   can share one (`LP4`); and every one of the sixteen already shares the largest background there
   is, the fall. What a background describes is open — a life above, before the fall, or something
   in this world that the fall landed them in.
-- **Hearths** answer "where they are from", and the answer for all sixteen is _above_. The pool
-  still drives "which site a run starts on", but D31 randomises where each of them lands. One
-  reading: a hearth becomes the **crash site** — a kind of place, drawn at random per world. That
-  is an inference; it is [agenda item 15](worldbuilding/answers.md#what-is-still-to-decide).
+- **Hearths** answer "where they are from", and the answer for all sixteen is _above_. D31
+  randomises where each of them lands. The reading taken: a hearth becomes the **crash site**,
+  drawn at random per world. That is an inference; it is
+  [agenda item 15](worldbuilding/answers.md#what-is-still-to-decide). **Built 2026-10-12** (M13):
+  a run starts at a crash site drawn from the world seed, which becomes Home, and the pool no
+  longer picks the start (agenda item 25).
 - **Creeds** have company: the world has named movements — guilds, religions, royal houses, the
   Adventurers Guild — and somebody worth meeting inside each (`LP17`).
 
@@ -33,7 +35,7 @@ history only as it comes up, collected into a background they can read back (`LP
 | --- | --- | --- | --- |
 | **backgrounds** | `data/lore/backgrounds.json` | What they were before the road | A gift |
 | **grudges** | `data/lore/grudges.json` | Who they hate, and what counts as one of them | +10% damage against them |
-| **hearths** | `data/lore/hearths.json` | Where they are from | Which site a run of theirs starts on |
+| **hearths** | `data/lore/hearths.json` | Where they are from | Nothing yet: since M13 a run starts at a crash site |
 | **creeds** | `data/lore/creeds.json` | What they believe | Who they can stand to walk beside |
 | **oaths** | `data/lore/oaths.json` | What they swore, and to whom | The ties between the sixteen |
 
