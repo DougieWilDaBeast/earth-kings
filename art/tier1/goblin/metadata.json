@@ -1,0 +1,391 @@
+{
+ "id": "goblin",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "goblin",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "shrink him into a small hunched green-grey goblin in scavenged sackcloth, oversized pointed ears, sharp teeth, holding a rusted crooked knife",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 22.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 74.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "attack",
+   "action": "a quick stabbing lunge with the rusted crooked knife",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 16.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "skill",
+   "action": "a frenzied flurry of three wild knife slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 19.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 151.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 158.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "attack",
+   "action": "a quick stabbing lunge with the rusted crooked knife",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 37.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "skill",
+   "action": "a frenzied flurry of three wild knife slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 37.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "attack",
+   "action": "a quick stabbing lunge with the rusted crooked knife",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "skill",
+   "action": "a frenzied flurry of three wild knife slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+   "name": "skill",
+   "action": "a frenzied flurry of three wild knife slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/goblin_base.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "cf02e9c5-64fe-4e5b-b341-1cd163c3b5ce",
+     "name": "goblin",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:40:00.111655+00:00"
+    },
+    "folder": "goblin",
+    "frames": {
+     "rotations": {
+      "south": "goblin/rotations/south.png",
+      "south-east": "goblin/rotations/south-east.png",
+      "east": "goblin/rotations/east.png",
+      "north-east": "goblin/rotations/north-east.png",
+      "north": "goblin/rotations/north.png",
+      "north-west": "goblin/rotations/north-west.png",
+      "west": "goblin/rotations/west.png",
+      "south-west": "goblin/rotations/south-west.png"
+     },
+     "animations": {
+      "taking_a_punch": {
+       "west": [
+        "goblin/animations/taking_a_punch/west/frame_000.png",
+        "goblin/animations/taking_a_punch/west/frame_001.png",
+        "goblin/animations/taking_a_punch/west/frame_002.png",
+        "goblin/animations/taking_a_punch/west/frame_003.png",
+        "goblin/animations/taking_a_punch/west/frame_004.png",
+        "goblin/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "goblin/animations/taking_a_punch/south/frame_000.png",
+        "goblin/animations/taking_a_punch/south/frame_001.png",
+        "goblin/animations/taking_a_punch/south/frame_002.png",
+        "goblin/animations/taking_a_punch/south/frame_003.png",
+        "goblin/animations/taking_a_punch/south/frame_004.png",
+        "goblin/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "north": [
+        "goblin/animations/taking_a_punch/north/frame_000.png",
+        "goblin/animations/taking_a_punch/north/frame_001.png",
+        "goblin/animations/taking_a_punch/north/frame_002.png",
+        "goblin/animations/taking_a_punch/north/frame_003.png",
+        "goblin/animations/taking_a_punch/north/frame_004.png",
+        "goblin/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "east": [
+        "goblin/animations/taking_a_punch/east/frame_000.png",
+        "goblin/animations/taking_a_punch/east/frame_001.png",
+        "goblin/animations/taking_a_punch/east/frame_002.png",
+        "goblin/animations/taking_a_punch/east/frame_003.png",
+        "goblin/animations/taking_a_punch/east/frame_004.png",
+        "goblin/animations/taking_a_punch/east/frame_005.png"
+       ]
+      },
+      "attack": {
+       "west": [
+        "goblin/animations/attack/west/frame_000.png",
+        "goblin/animations/attack/west/frame_001.png",
+        "goblin/animations/attack/west/frame_002.png",
+        "goblin/animations/attack/west/frame_003.png",
+        "goblin/animations/attack/west/frame_004.png",
+        "goblin/animations/attack/west/frame_005.png",
+        "goblin/animations/attack/west/frame_006.png",
+        "goblin/animations/attack/west/frame_007.png",
+        "goblin/animations/attack/west/frame_008.png"
+       ]
+      },
+      "attack-71cb2e4a": {
+       "south": [
+        "goblin/animations/attack-71cb2e4a/south/frame_000.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_001.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_002.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_003.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_004.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_005.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_006.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_007.png",
+        "goblin/animations/attack-71cb2e4a/south/frame_008.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "goblin/animations/skill/west/frame_000.png",
+        "goblin/animations/skill/west/frame_001.png",
+        "goblin/animations/skill/west/frame_002.png",
+        "goblin/animations/skill/west/frame_003.png",
+        "goblin/animations/skill/west/frame_004.png",
+        "goblin/animations/skill/west/frame_005.png",
+        "goblin/animations/skill/west/frame_006.png",
+        "goblin/animations/skill/west/frame_007.png",
+        "goblin/animations/skill/west/frame_008.png"
+       ]
+      },
+      "attack-9c934341": {
+       "east": [
+        "goblin/animations/attack-9c934341/east/frame_000.png",
+        "goblin/animations/attack-9c934341/east/frame_001.png",
+        "goblin/animations/attack-9c934341/east/frame_002.png",
+        "goblin/animations/attack-9c934341/east/frame_003.png",
+        "goblin/animations/attack-9c934341/east/frame_004.png",
+        "goblin/animations/attack-9c934341/east/frame_005.png",
+        "goblin/animations/attack-9c934341/east/frame_006.png",
+        "goblin/animations/attack-9c934341/east/frame_007.png",
+        "goblin/animations/attack-9c934341/east/frame_008.png"
+       ],
+       "north": [
+        "goblin/animations/attack-9c934341/north/frame_000.png",
+        "goblin/animations/attack-9c934341/north/frame_001.png",
+        "goblin/animations/attack-9c934341/north/frame_002.png",
+        "goblin/animations/attack-9c934341/north/frame_003.png",
+        "goblin/animations/attack-9c934341/north/frame_004.png",
+        "goblin/animations/attack-9c934341/north/frame_005.png",
+        "goblin/animations/attack-9c934341/north/frame_006.png",
+        "goblin/animations/attack-9c934341/north/frame_007.png",
+        "goblin/animations/attack-9c934341/north/frame_008.png"
+       ]
+      },
+      "falling_backward": {
+       "west": [
+        "goblin/animations/falling_backward/west/frame_000.png",
+        "goblin/animations/falling_backward/west/frame_001.png",
+        "goblin/animations/falling_backward/west/frame_002.png",
+        "goblin/animations/falling_backward/west/frame_003.png",
+        "goblin/animations/falling_backward/west/frame_004.png",
+        "goblin/animations/falling_backward/west/frame_005.png",
+        "goblin/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "goblin/animations/falling_backward/north/frame_000.png",
+        "goblin/animations/falling_backward/north/frame_001.png",
+        "goblin/animations/falling_backward/north/frame_002.png",
+        "goblin/animations/falling_backward/north/frame_003.png",
+        "goblin/animations/falling_backward/north/frame_004.png",
+        "goblin/animations/falling_backward/north/frame_005.png",
+        "goblin/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "goblin/animations/falling_backward/south/frame_000.png",
+        "goblin/animations/falling_backward/south/frame_001.png",
+        "goblin/animations/falling_backward/south/frame_002.png",
+        "goblin/animations/falling_backward/south/frame_003.png",
+        "goblin/animations/falling_backward/south/frame_004.png",
+        "goblin/animations/falling_backward/south/frame_005.png",
+        "goblin/animations/falling_backward/south/frame_006.png"
+       ],
+       "east": [
+        "goblin/animations/falling_backward/east/frame_000.png",
+        "goblin/animations/falling_backward/east/frame_001.png",
+        "goblin/animations/falling_backward/east/frame_002.png",
+        "goblin/animations/falling_backward/east/frame_003.png",
+        "goblin/animations/falling_backward/east/frame_004.png",
+        "goblin/animations/falling_backward/east/frame_005.png",
+        "goblin/animations/falling_backward/east/frame_006.png"
+       ]
+      },
+      "skill-b5721ae5": {
+       "south": [
+        "goblin/animations/skill-b5721ae5/south/frame_000.png",
+        "goblin/animations/skill-b5721ae5/south/frame_001.png",
+        "goblin/animations/skill-b5721ae5/south/frame_002.png",
+        "goblin/animations/skill-b5721ae5/south/frame_003.png",
+        "goblin/animations/skill-b5721ae5/south/frame_004.png",
+        "goblin/animations/skill-b5721ae5/south/frame_005.png",
+        "goblin/animations/skill-b5721ae5/south/frame_006.png",
+        "goblin/animations/skill-b5721ae5/south/frame_007.png",
+        "goblin/animations/skill-b5721ae5/south/frame_008.png"
+       ]
+      },
+      "skill-c266e969": {
+       "east": [
+        "goblin/animations/skill-c266e969/east/frame_000.png",
+        "goblin/animations/skill-c266e969/east/frame_001.png",
+        "goblin/animations/skill-c266e969/east/frame_002.png",
+        "goblin/animations/skill-c266e969/east/frame_003.png",
+        "goblin/animations/skill-c266e969/east/frame_004.png",
+        "goblin/animations/skill-c266e969/east/frame_005.png",
+        "goblin/animations/skill-c266e969/east/frame_006.png",
+        "goblin/animations/skill-c266e969/east/frame_007.png",
+        "goblin/animations/skill-c266e969/east/frame_008.png"
+       ]
+      },
+      "walking": {
+       "north": [
+        "goblin/animations/walking/north/frame_000.png",
+        "goblin/animations/walking/north/frame_001.png",
+        "goblin/animations/walking/north/frame_002.png",
+        "goblin/animations/walking/north/frame_003.png",
+        "goblin/animations/walking/north/frame_004.png",
+        "goblin/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "goblin/animations/walking/east/frame_000.png",
+        "goblin/animations/walking/east/frame_001.png",
+        "goblin/animations/walking/east/frame_002.png",
+        "goblin/animations/walking/east/frame_003.png",
+        "goblin/animations/walking/east/frame_004.png",
+        "goblin/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "goblin/animations/walking/west/frame_000.png",
+        "goblin/animations/walking/west/frame_001.png",
+        "goblin/animations/walking/west/frame_002.png",
+        "goblin/animations/walking/west/frame_003.png",
+        "goblin/animations/walking/west/frame_004.png",
+        "goblin/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "goblin/animations/walking/south/frame_000.png",
+        "goblin/animations/walking/south/frame_001.png",
+        "goblin/animations/walking/south/frame_002.png",
+        "goblin/animations/walking/south/frame_003.png",
+        "goblin/animations/walking/south/frame_004.png",
+        "goblin/animations/walking/south/frame_005.png"
+       ]
+      },
+      "skill-d81c3a49": {
+       "north": [
+        "goblin/animations/skill-d81c3a49/north/frame_000.png",
+        "goblin/animations/skill-d81c3a49/north/frame_001.png",
+        "goblin/animations/skill-d81c3a49/north/frame_002.png",
+        "goblin/animations/skill-d81c3a49/north/frame_003.png",
+        "goblin/animations/skill-d81c3a49/north/frame_004.png",
+        "goblin/animations/skill-d81c3a49/north/frame_005.png",
+        "goblin/animations/skill-d81c3a49/north/frame_006.png",
+        "goblin/animations/skill-d81c3a49/north/frame_007.png",
+        "goblin/animations/skill-d81c3a49/north/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T09:18:31.643488"
+ }
+}

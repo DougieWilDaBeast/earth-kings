@@ -103,6 +103,22 @@ Why each session seed went to each temper:
 it already shows: Nagi's indifference on the Inward, Sky-read and Loose INTP; Sanji's hospitality on
 the Full Table; Hansu's rule-reading on the Straight Road.
 
+## What they could look like
+
+**Draft, 2026-10-12, not settled.** Every one of the sixteen dressed onto the founders' blank base
+body in PixelLab ([D55](06-decisions.md)), from one sentence each written off this page: their
+weapon, their seed and where they are found. Above each is the body this page gives them today.
+
+![the sixteen, today's bodies and the base](images/sixteen/lineup.png)
+
+- **Inferred:** this page gave no body to the NT four. Atlas's is `lizard_wizard` (a tiny blind
+  wizard who rides a lizard: carried, as the session asked), Janus's `emo_swordsman` (the sleepy
+  one), Bellona's `legion_gold`, and Cassius's the rapier cat in `art/source/Sprite-0006.aseprite`.
+- Nobody wears the shared mark yet: tattoo or glowing eyes is still open ([D31](06-decisions.md)).
+  Diana's wolf is `ice_wolf`, as above.
+- The base versions are in `art/sixteen/<name>/idle/`, eight facings each, not yet used by the game.
+  The sentence each was made from is in its `metadata.json`; each cost 10 generations.
+
 ## The NT sitting — the first four to build
 
 This is the first sitting on the [roadmap](05-roadmap.md). These four are drafted in the most detail

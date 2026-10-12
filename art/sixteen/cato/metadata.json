@@ -1,0 +1,52 @@
+{
+ "id": "cato",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_cato",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "a square-jawed veteran with close-cropped hair in plain grey legionary armour, a short sword at the hip and a big rectangular shield",
+   "character_id": "8daee132-d816-4bf3-9a56-abc466913345",
+   "zip": "downloads/pixellab/sixteen_cato_base.zip",
+   "generations": 36.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "8daee132-d816-4bf3-9a56-abc466913345",
+     "name": "sixteen_cato",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 56,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:59:40.446085+00:00"
+    },
+    "folder": "sixteen_cato",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_cato/rotations/south.png",
+      "south-east": "sixteen_cato/rotations/south-east.png",
+      "east": "sixteen_cato/rotations/east.png",
+      "north-east": "sixteen_cato/rotations/north-east.png",
+      "north": "sixteen_cato/rotations/north.png",
+      "north-west": "sixteen_cato/rotations/north-west.png",
+      "west": "sixteen_cato/rotations/west.png",
+      "south-west": "sixteen_cato/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:01:34.621181"
+ }
+}

@@ -1,0 +1,346 @@
+{
+ "id": "longbow",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "longbow",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "turn him into a lean woman with braided hair, in a hooded green-grey cloak and studded leather jerkin, quiver at hip, holding a tall yew longbow low",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 57.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 80.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "attack",
+   "action": "drawing an arrow and loosing it from the longbow, then lowering the bow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 39.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "skill",
+   "action": "kneeling and loosing a volley arrow high into the sky",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 33.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 154.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 86.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "skill",
+   "action": "kneeling and loosing a volley arrow high into the sky",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 27.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+   "name": "skill",
+   "action": "kneeling and loosing a volley arrow high into the sky",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/longbow_base.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "abb778b7-b83d-40b1-a7f4-fee9274ae2d4",
+     "name": "longbow",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:40:00.307502+00:00"
+    },
+    "folder": "longbow",
+    "frames": {
+     "rotations": {
+      "south": "longbow/rotations/south.png",
+      "south-east": "longbow/rotations/south-east.png",
+      "east": "longbow/rotations/east.png",
+      "north-east": "longbow/rotations/north-east.png",
+      "north": "longbow/rotations/north.png",
+      "north-west": "longbow/rotations/north-west.png",
+      "west": "longbow/rotations/west.png",
+      "south-west": "longbow/rotations/south-west.png"
+     },
+     "animations": {
+      "walking": {
+       "south": [
+        "longbow/animations/walking/south/frame_000.png",
+        "longbow/animations/walking/south/frame_001.png",
+        "longbow/animations/walking/south/frame_002.png",
+        "longbow/animations/walking/south/frame_003.png",
+        "longbow/animations/walking/south/frame_004.png",
+        "longbow/animations/walking/south/frame_005.png"
+       ],
+       "east": [
+        "longbow/animations/walking/east/frame_000.png",
+        "longbow/animations/walking/east/frame_001.png",
+        "longbow/animations/walking/east/frame_002.png",
+        "longbow/animations/walking/east/frame_003.png",
+        "longbow/animations/walking/east/frame_004.png",
+        "longbow/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "longbow/animations/walking/west/frame_000.png",
+        "longbow/animations/walking/west/frame_001.png",
+        "longbow/animations/walking/west/frame_002.png",
+        "longbow/animations/walking/west/frame_003.png",
+        "longbow/animations/walking/west/frame_004.png",
+        "longbow/animations/walking/west/frame_005.png"
+       ],
+       "north": [
+        "longbow/animations/walking/north/frame_000.png",
+        "longbow/animations/walking/north/frame_001.png",
+        "longbow/animations/walking/north/frame_002.png",
+        "longbow/animations/walking/north/frame_003.png",
+        "longbow/animations/walking/north/frame_004.png",
+        "longbow/animations/walking/north/frame_005.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "longbow/animations/skill/west/frame_000.png",
+        "longbow/animations/skill/west/frame_001.png",
+        "longbow/animations/skill/west/frame_002.png",
+        "longbow/animations/skill/west/frame_003.png",
+        "longbow/animations/skill/west/frame_004.png",
+        "longbow/animations/skill/west/frame_005.png",
+        "longbow/animations/skill/west/frame_006.png",
+        "longbow/animations/skill/west/frame_007.png",
+        "longbow/animations/skill/west/frame_008.png"
+       ]
+      },
+      "attack": {
+       "south": [
+        "longbow/animations/attack/south/frame_000.png",
+        "longbow/animations/attack/south/frame_001.png",
+        "longbow/animations/attack/south/frame_002.png",
+        "longbow/animations/attack/south/frame_003.png",
+        "longbow/animations/attack/south/frame_004.png",
+        "longbow/animations/attack/south/frame_005.png",
+        "longbow/animations/attack/south/frame_006.png",
+        "longbow/animations/attack/south/frame_007.png",
+        "longbow/animations/attack/south/frame_008.png"
+       ],
+       "east": [
+        "longbow/animations/attack/east/frame_000.png",
+        "longbow/animations/attack/east/frame_001.png",
+        "longbow/animations/attack/east/frame_002.png",
+        "longbow/animations/attack/east/frame_003.png",
+        "longbow/animations/attack/east/frame_004.png",
+        "longbow/animations/attack/east/frame_005.png",
+        "longbow/animations/attack/east/frame_006.png",
+        "longbow/animations/attack/east/frame_007.png",
+        "longbow/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "longbow/animations/attack/west/frame_000.png",
+        "longbow/animations/attack/west/frame_001.png",
+        "longbow/animations/attack/west/frame_002.png",
+        "longbow/animations/attack/west/frame_003.png",
+        "longbow/animations/attack/west/frame_004.png",
+        "longbow/animations/attack/west/frame_005.png",
+        "longbow/animations/attack/west/frame_006.png",
+        "longbow/animations/attack/west/frame_007.png",
+        "longbow/animations/attack/west/frame_008.png"
+       ],
+       "north": [
+        "longbow/animations/attack/north/frame_000.png",
+        "longbow/animations/attack/north/frame_001.png",
+        "longbow/animations/attack/north/frame_002.png",
+        "longbow/animations/attack/north/frame_003.png",
+        "longbow/animations/attack/north/frame_004.png",
+        "longbow/animations/attack/north/frame_005.png",
+        "longbow/animations/attack/north/frame_006.png",
+        "longbow/animations/attack/north/frame_007.png",
+        "longbow/animations/attack/north/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "north": [
+        "longbow/animations/taking_a_punch/north/frame_000.png",
+        "longbow/animations/taking_a_punch/north/frame_001.png",
+        "longbow/animations/taking_a_punch/north/frame_002.png",
+        "longbow/animations/taking_a_punch/north/frame_003.png",
+        "longbow/animations/taking_a_punch/north/frame_004.png",
+        "longbow/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "west": [
+        "longbow/animations/taking_a_punch/west/frame_000.png",
+        "longbow/animations/taking_a_punch/west/frame_001.png",
+        "longbow/animations/taking_a_punch/west/frame_002.png",
+        "longbow/animations/taking_a_punch/west/frame_003.png",
+        "longbow/animations/taking_a_punch/west/frame_004.png",
+        "longbow/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "longbow/animations/taking_a_punch/south/frame_000.png",
+        "longbow/animations/taking_a_punch/south/frame_001.png",
+        "longbow/animations/taking_a_punch/south/frame_002.png",
+        "longbow/animations/taking_a_punch/south/frame_003.png",
+        "longbow/animations/taking_a_punch/south/frame_004.png",
+        "longbow/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "east": [
+        "longbow/animations/taking_a_punch/east/frame_000.png",
+        "longbow/animations/taking_a_punch/east/frame_001.png",
+        "longbow/animations/taking_a_punch/east/frame_002.png",
+        "longbow/animations/taking_a_punch/east/frame_003.png",
+        "longbow/animations/taking_a_punch/east/frame_004.png",
+        "longbow/animations/taking_a_punch/east/frame_005.png"
+       ]
+      },
+      "skill-312ee697": {
+       "east": [
+        "longbow/animations/skill-312ee697/east/frame_000.png",
+        "longbow/animations/skill-312ee697/east/frame_001.png",
+        "longbow/animations/skill-312ee697/east/frame_002.png",
+        "longbow/animations/skill-312ee697/east/frame_003.png",
+        "longbow/animations/skill-312ee697/east/frame_004.png",
+        "longbow/animations/skill-312ee697/east/frame_005.png",
+        "longbow/animations/skill-312ee697/east/frame_006.png",
+        "longbow/animations/skill-312ee697/east/frame_007.png",
+        "longbow/animations/skill-312ee697/east/frame_008.png"
+       ],
+       "south": [
+        "longbow/animations/skill-312ee697/south/frame_000.png",
+        "longbow/animations/skill-312ee697/south/frame_001.png",
+        "longbow/animations/skill-312ee697/south/frame_002.png",
+        "longbow/animations/skill-312ee697/south/frame_003.png",
+        "longbow/animations/skill-312ee697/south/frame_004.png",
+        "longbow/animations/skill-312ee697/south/frame_005.png",
+        "longbow/animations/skill-312ee697/south/frame_006.png",
+        "longbow/animations/skill-312ee697/south/frame_007.png",
+        "longbow/animations/skill-312ee697/south/frame_008.png"
+       ]
+      },
+      "falling_backward": {
+       "east": [
+        "longbow/animations/falling_backward/east/frame_000.png",
+        "longbow/animations/falling_backward/east/frame_001.png",
+        "longbow/animations/falling_backward/east/frame_002.png",
+        "longbow/animations/falling_backward/east/frame_003.png",
+        "longbow/animations/falling_backward/east/frame_004.png",
+        "longbow/animations/falling_backward/east/frame_005.png",
+        "longbow/animations/falling_backward/east/frame_006.png"
+       ],
+       "west": [
+        "longbow/animations/falling_backward/west/frame_000.png",
+        "longbow/animations/falling_backward/west/frame_001.png",
+        "longbow/animations/falling_backward/west/frame_002.png",
+        "longbow/animations/falling_backward/west/frame_003.png",
+        "longbow/animations/falling_backward/west/frame_004.png",
+        "longbow/animations/falling_backward/west/frame_005.png",
+        "longbow/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "longbow/animations/falling_backward/north/frame_000.png",
+        "longbow/animations/falling_backward/north/frame_001.png",
+        "longbow/animations/falling_backward/north/frame_002.png",
+        "longbow/animations/falling_backward/north/frame_003.png",
+        "longbow/animations/falling_backward/north/frame_004.png",
+        "longbow/animations/falling_backward/north/frame_005.png",
+        "longbow/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "longbow/animations/falling_backward/south/frame_000.png",
+        "longbow/animations/falling_backward/south/frame_001.png",
+        "longbow/animations/falling_backward/south/frame_002.png",
+        "longbow/animations/falling_backward/south/frame_003.png",
+        "longbow/animations/falling_backward/south/frame_004.png",
+        "longbow/animations/falling_backward/south/frame_005.png",
+        "longbow/animations/falling_backward/south/frame_006.png"
+       ]
+      },
+      "skill-b703b629": {
+       "north": [
+        "longbow/animations/skill-b703b629/north/frame_000.png",
+        "longbow/animations/skill-b703b629/north/frame_001.png",
+        "longbow/animations/skill-b703b629/north/frame_002.png",
+        "longbow/animations/skill-b703b629/north/frame_003.png",
+        "longbow/animations/skill-b703b629/north/frame_004.png",
+        "longbow/animations/skill-b703b629/north/frame_005.png",
+        "longbow/animations/skill-b703b629/north/frame_006.png",
+        "longbow/animations/skill-b703b629/north/frame_007.png",
+        "longbow/animations/skill-b703b629/north/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T09:20:59.793057"
+ }
+}
