@@ -186,13 +186,57 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 - **The temper leans carry over.** T's damage and P's extra move point (as walking pace) were
   already in the numbers. J's opening charge time becomes acting at once: a Set temper takes its
   first look and first swing the moment the fight starts, while everyone else waits a beat. F's
-  rescue lean belongs to the graces, which the skirmish does not roll yet.
+  rescue lean comes in with the graces, below.
+- **Passives** (2026-10-12), from `data/skirmish.json`: every unit gets up to three, taken in
+  order from its template, its classes and the abilities it knows. **Inferred** — which passive
+  goes with which class is the build's guess, and the founders have not picked any of them:
+
+  | From | Passive | Does |
+  | --- | --- | --- |
+  | Sworn Blade | Shieldwall | Allies within 2 tiles take 15% less damage |
+  | Longbow | Keen Eye | +15% chance of a critical (everyone has 5%; a critical is ×1.6) |
+  | Hedge Priest | Hearthglow | Allies within 2 tiles recover 1% of their health a second |
+  | Magic Swordsman | Echo Blade | A basic attack strikes twice one time in five |
+  | Raider | Bloodthirst | Heals for 20% of the damage dealt |
+  | Wildling | Hunter's Angle | Side and back hits deal 30% more, on top of facing's 1.2× and 1.5× |
+  | knows Second Wind | Catch Breath | Out of the fighting for 4 seconds, 4% of health a second |
+  | knows Riposte | Barbed Guard | A blow from the next tile comes 30% back on the striker |
+  | knows Stand Fast | Last Stand | 35% more damage at or under 35% health |
+  | knows Grief | Mourner's Haste | Every skill comes back when an ally goes down |
+  | Brigand chief | War Cry | Allies within 2 tiles attack 20% faster |
+  | Wolves | Pack Hunter | 15% lifesteal and 15% more from the side or behind |
+
+  Auras of one kind do not stack, and guard is capped at half. The party card shows each unit's
+  passives under its name, with what they do on hover.
+- **Enemy roles** (2026-10-12, **Inferred**), from `roles` in the same file. A **Charger** (the
+  brigand, every beast) sprints at anyone three or more tiles off and its first blow lands 40%
+  harder. A **Skirmisher** (the brigand archer, anything whose basic attack reaches three tiles)
+  backs off when someone closes to within a tile, at most once every three seconds so it can still
+  be pinned. A **Mender** (anything carrying a heal it can throw two tiles) heals its own side
+  under 85% health instead of 60%, and hangs back the same way. Everyone else is a Brawler.
+  Hovering any unit shows its role and passives.
+- **The graces in the near-death window** (2026-10-12, **Inferred**). When the twelve seconds run
+  out with nobody there, the same graces the turn-based fight rolls get their turn — a charm
+  carried, a companion standing, a book read, the ground near a hearth, luck — through
+  `Fate.roll`, the same code [Battle] uses, with the difficulty's grace dial. One that lands
+  stands them back up at a quarter of their health ("Pulled clear!"). Capture is left out, and
+  nothing is written back: a training grace spends no charm. A companion reaching them first is
+  still the sure way; the grace is the last chance, and the downed card shows its odds. Rolled
+  once, when the window closes, rather than at the fall — **Inferred**.
+- **Feel, without art** (2026-10-12). Damage numbers jump off whoever is hit (gold and big for a
+  critical, green for heals, violet for thorns), the struck unit flashes white, the striker
+  lunges a few pixels at its target, a critical or a blow worth a fifth of someone's health
+  freezes the clock for 70 ms, and a death rings out and shakes the camera (harder for one of
+  yours). Skills on the cards are tiles with a cooldown sweep that flash when they come back, and
+  clicking one readies it; the touch skill buttons sweep too. All in `src/skirmish/skirmish_fx.gd`
+  and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`.
 
 **The knobs**, all in `src/skirmish/skirmish_rules.gd`: `HEALTH_SCALE` (everyone fights with 3×
 their health — at 1× fights ended in four to seven seconds, before there was anything to pause
 for), `NEAR_DEATH`, `AID_TIME`, `PARTY_AGGRO_RANGE`, the attack tempo, the step pace, and the
-default cooldown and cast formulas. The smoke test's proving ground — three level-1 characters
-against six level-8 brigands — ends in about 18 seconds, and the party wins.
+default cooldown and cast formulas; and in `data/skirmish.json`, every passive, role and feel
+number. The smoke test's proving ground — three level-1 characters against six level-8 brigands —
+ends in about 20 seconds, and the party wins.
 
 **What it does not do yet**
 
@@ -201,8 +245,8 @@ against six level-8 brigands — ends in about 18 seconds, and the party wins.
 - **Anything outside training.** No experience, proficiency, journal, graces or deaths are written
   back; the party walks off healed. Wiring it into the world is the step after both founders have
   played it against the turn-based fight.
-- **Passives, a multi-order queue, F's rescue lean.** Auto-pause, the J and P leans, and touch
-  controls are in: under touch a tap that is not picking somebody is the order a right-click
+- **A multi-order queue.** Passives, enemy roles, the graces, auto-pause, the J and P leans, and
+  touch controls are in: under touch a tap that is not picking somebody is the order a right-click
   would give, and the keys are a column of buttons down the right (`Skirmish.act`).
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty, which the turn-based fight shares.

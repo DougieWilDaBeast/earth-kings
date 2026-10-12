@@ -115,6 +115,8 @@ func _run() -> void:
 			ticks += 1
 		_expect(patient.is_standing(), "%s was never got back up (%s)" % [patient.unit.display_name, patient.activity()])
 
+	_check_passives_and_graces(party, foes)
+
 	# Then the whole fight, hands off.
 	var ticks := 0
 	while not _skirmish.over and _skirmish.sim_time < SIM_LIMIT:
@@ -133,6 +135,58 @@ func _run() -> void:
 	])
 	_expect(swings > 0, "nobody ever swung")
 	await _check_touch()
+
+
+## Passives come from the data and do something; enemies get their roles; and a
+## grace from [Fate] can stand a downed fighter back up without spending a charm.
+func _check_passives_and_graces(party: Array[Fighter], foes: Array) -> void:
+	for f in party:
+		_expect(not f.passives.is_empty(), "%s has no passives" % f.unit.display_name)
+	print("passives: %s" % ", ".join(party.map(func(f: Fighter) -> String:
+		return "%s [%s]" % [f.unit.display_name, ", ".join(f.passives.map(func(p: Dictionary) -> String: return str(p["id"])))])))
+	var roles: Array = foes.map(func(f: Fighter) -> String: return f.role)
+	_expect(roles.has("charger") and roles.has("kiter"), "brigands and archers should charge and kite, got %s" % [roles])
+
+	# Bloodthirst heals the one who lands the blow.
+	var biter: Fighter = party[0]
+	var foe: Fighter = null
+	for other: Fighter in foes:
+		if other.is_standing():
+			foe = other
+			break
+	if foe != null:
+		var kept := biter.passives
+		biter.passives = [{"id": "test", "effect": "lifesteal", "value": 0.5}]
+		biter.unit.hp = maxi(1, biter.unit.max_hp / 2)
+		var before := biter.unit.hp
+		var saved_hp := foe.unit.hp
+		foe.unit.hp = foe.unit.max_hp * 10
+		_skirmish._strike(biter, foe.unit, Database.ability(biter.basic), biter.basic)
+		_expect(biter.unit.hp > before, "lifesteal healed nobody")
+		foe.unit.hp = saved_hp
+		biter.passives = kept
+
+	# A grace: down someone with a charm on them and let the window run out.
+	if party.size() >= 2:
+		var patient: Fighter = party[1]
+		var charms_before: Array = patient.unit.character.charms.duplicate()
+		patient.unit.character.charms.append("grave_token")
+		var saved := false
+		for _try in 40:
+			patient.unit.take_damage(patient.unit.hp)
+			_skirmish._drop(patient)
+			patient.near_death = SkirmishRules.TICK * 0.5
+			_skirmish.tick()
+			if patient.is_standing():
+				saved = true
+				break
+			# Nobody saved them this time: put them back for another roll.
+			patient.fallen = false
+			patient.near_death = 0.0
+			patient.unit.hp = patient.unit.max_hp
+		_expect(saved and patient.graces > 0, "no grace ever stood a downed fighter back up")
+		_expect(patient.unit.character.charms.has("grave_token"), "a training grace spent a charm")
+		patient.unit.character.charms = charms_before
 
 
 ## Under a thumb there is no right button and no keyboard: a tap on anything

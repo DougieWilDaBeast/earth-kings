@@ -133,6 +133,12 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT15 | On a phone (or touch set to On in the system menu), start a real-time fight | A column of buttons down the right: Pause, Speed, All, the four skills named for the picked fighter, Auto skills, Hold, Auto-pause |
 | RT16 | Tap a fighter, then tap an enemy, then tap empty ground     | Picked; goes after that enemy; walks to the spot. Tapping a companion picks them instead of ordering |
 | RT17 | Tap a skill button, then its target; tap a skill button twice | It is cast at the target; tapped twice, it is put away again                            |
+| RT18 | Look at the party cards; hover one                          | A ✦ line of passives under each name; hovering the card lists what each one does          |
+| RT19 | Hover an enemy                                              | A panel top right: health, its role (Charger, Skirmisher, Mender, Brawler) and its passives |
+| RT20 | Watch a few blows land                                      | Numbers jump off whoever is hit and they flash; a critical is a big gold number, a short freeze and a shake |
+| RT21 | Use a skill and watch its tile on the card                  | A dark wedge winds away clockwise with the seconds on it; the tile flashes when it is back. Clicking a tile picks that fighter and readies the skill |
+| RT22 | Let a party member's near-death run out with nobody helping | Their card shows the chance a grace saves them; sometimes "Pulled clear!" or "The charm holds!" and they are back up at a quarter health, otherwise they fall |
+| RT23 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
 
 ## F — Party menu (**P**)
 

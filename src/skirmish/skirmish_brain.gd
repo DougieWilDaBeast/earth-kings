@@ -58,7 +58,7 @@ static func _skill_target(fighter: Fighter, ability: Dictionary, fighters: Array
 		return me if me.hp < me.max_hp else null
 	if SkirmishRules.is_support(ability):
 		var neediest: Unit = null
-		var lowest := SkirmishRules.AUTO_HEAL_BELOW
+		var lowest := fighter.heal_below
 		for other in fighters:
 			if not other.is_standing() or other.unit.is_hostile_to(me):
 				continue

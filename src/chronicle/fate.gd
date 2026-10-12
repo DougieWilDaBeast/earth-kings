@@ -92,14 +92,8 @@ static func graces_for(character: Character, context: Dictionary) -> Array:
 ## Decide a fallen character's fate and apply it. Returns the outcome plus a
 ## line for the log.
 static func resolve(character: Character, context: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
-	var leniency := Difficulty.dial("grace")
-	for grace: Dictionary in graces_for(character, context):
-		# Capture is a fate, not a reprieve, so leniency does not push people into it.
-		var chance := float(grace["chance"])
-		if grace["reason"] != BY_CAPTURE:
-			chance = minf(chance * leniency, 0.95)
-		if rng.randf() >= chance:
-			continue
+	var grace := roll(character, context, rng)
+	if not grace.is_empty():
 		if grace.has("consumes"):
 			character.charms.erase(grace["consumes"])
 		return _apply(character, grace, context)
@@ -122,6 +116,38 @@ static func resolve(character: Character, context: Dictionary, rng: RandomNumber
 	}
 
 
+## Roll the graces in order and return the first that lands, or an empty
+## dictionary when none does. Changes nothing: [method resolve] applies what it
+## returns, and the real-time skirmish rolls the same graces in its near-death
+## window without writing anything back. [param with_capture] false leaves being
+## taken alive out of it, for a fight with nobody to take prisoners.
+static func roll(character: Character, context: Dictionary, rng: RandomNumberGenerator, with_capture: bool = true) -> Dictionary:
+	var leniency := Difficulty.dial("grace")
+	for grace: Dictionary in graces_for(character, context):
+		# Capture is a fate, not a reprieve, so leniency does not push people into it.
+		var chance := float(grace["chance"])
+		if grace["reason"] == BY_CAPTURE:
+			if not with_capture:
+				continue
+		else:
+			chance = minf(chance * leniency, 0.95)
+		if rng.randf() >= chance:
+			continue
+		return grace
+	return {}
+
+
+## The chance that some grace other than capture lands, all of them taken
+## together, as [method roll] would roll them.
+static func odds(character: Character, context: Dictionary) -> float:
+	var leniency := Difficulty.dial("grace")
+	var none := 1.0
+	for grace: Dictionary in graces_for(character, context):
+		if grace["reason"] != BY_CAPTURE:
+			none *= 1.0 - minf(float(grace["chance"]) * leniency, 0.95)
+	return 1.0 - none
+
+
 static func _apply(character: Character, grace: Dictionary, context: Dictionary) -> Dictionary:
 	var rules := Database.fate
 	var reason: String = grace["reason"]
@@ -142,11 +168,12 @@ static func _apply(character: Character, grace: Dictionary, context: Dictionary)
 	return {
 		"outcome": ALIVE,
 		"reason": reason,
-		"line": _escape_line(character, grace),
+		"line": escape_line(character, grace),
 	}
 
 
-static func _escape_line(character: Character, grace: Dictionary) -> String:
+## The line said when [param grace] saves [param character].
+static func escape_line(character: Character, grace: Dictionary) -> String:
 	var who := character.display_name
 	var detail: String = grace.get("detail", "")
 	match grace["reason"]:
