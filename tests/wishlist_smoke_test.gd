@@ -554,6 +554,7 @@ func _check_temper_quiz() -> void:
 
 	_check_fallen_quiz()
 	_check_the_fallen()
+	_check_the_modes()
 
 
 ## A lead who dies is written down outside the save (D47): their hero leaves the
@@ -607,6 +608,56 @@ func _check_the_fallen() -> void:
 
 	Sixteen.path = Sixteen.DEFAULT_PATH
 	print("the fallen: kept outside the save, closed in the picker and the quiz, wiped only when nobody is left")
+
+
+## Classic and Iron Man (D51). Classic stops on the fall with a reload, and the
+## record is written only on ascending; Iron Man writes it on the fall and lets
+## the save go with the lead.
+func _check_the_modes() -> void:
+	var RunMode := preload("res://src/chronicle/run_mode.gd")
+	var Sixteen := preload("res://src/chronicle/sixteen.gd")
+	Sixteen.path = "user://earth-kings.sixteen.test.json"
+	# The hall is the player's; whatever the check files is taken back out.
+	var hall: Variant = FileAccess.get_file_as_string(Museum.PATH) if FileAccess.file_exists(Museum.PATH) else null
+	var kept_mode := GameState.mode
+
+	_expect(RunMode.valid("") == RunMode.CLASSIC, "a run with no mode was not Classic")
+	_expect(RunMode.saves_by_hand(RunMode.CLASSIC) and RunMode.offers_reload(RunMode.CLASSIC), "Classic lost its saves")
+	_expect(not RunMode.saves_by_hand(RunMode.IRON_MAN) and not RunMode.offers_reload(RunMode.IRON_MAN), "Iron Man could be saved or reloaded")
+
+	for mode: String in [RunMode.CLASSIC, RunMode.IRON_MAN]:
+		if FileAccess.file_exists(Sixteen.path):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+		GameState.mode = mode
+		GameState.new_game(SEED, "bram")
+		_expect(GameState.reached(RunMode.START, "you set out"), "%s did not save on setting out" % mode)
+		_expect(GameState.save_is_this_run(), "%s's first save was not this run" % mode)
+		GameState.roster.player().status = Fate.DEAD
+		_expect(not GameState.reached(RunMode.REST, "after"), "%s saved over a run that had ended" % mode)
+
+		var summary: Control = load("res://src/ui/run_summary.tscn").instantiate()
+		summary.boot_payload = {"ending": Museum.FELL}
+		add_child(summary)
+		var beat := summary.get_node_or_null("TheFall")
+		if mode == RunMode.CLASSIC:
+			_expect(beat != null, "Classic did not stop on the fall")
+			_expect(Sixteen.fallen_heroes().is_empty(), "Classic wrote the fallen down before anyone ascended")
+			_expect(GameState.has_save(), "Classic lost the save before anyone chose")
+			summary._ascend()
+		else:
+			_expect(beat == null, "Iron Man offered a way back")
+		_expect(Sixteen.fallen_heroes() == ["bram"], "%s: the fallen after the fall read %s" % [mode, Sixteen.fallen_heroes()])
+		_expect(not GameState.has_save(), "%s kept a save for a world that ended" % mode)
+		summary.queue_free()
+
+	GameState.mode = kept_mode
+	Sixteen.path = Sixteen.DEFAULT_PATH
+	if hall == null:
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Museum.PATH))
+	else:
+		FileAccess.open(Museum.PATH, FileAccess.WRITE).store_string(hall)
+	GameState.new_game(SEED)
+	print("the modes: Classic stops on the fall and writes it on ascending, Iron Man on the fall")
 
 
 ## A dead lead cannot be answered into again (D43): an answer goes once every

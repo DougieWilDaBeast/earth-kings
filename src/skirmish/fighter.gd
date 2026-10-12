@@ -10,6 +10,7 @@ extends RefCounted
 ## editor has rescanned the project, and a checkout that has not been opened in
 ## the editor since this landed would otherwise fail to parse the whole skirmish.
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 
 enum Order { NONE, MOVE, ATTACK, CAST, AID }
 
@@ -55,6 +56,26 @@ var aiding: float = 0.0
 ## Tallies the smoke test and the end-of-fight line read.
 var swings: int = 0
 var casts: int = 0
+## Times a grace stood this fighter back up in the near-death window.
+var graces: int = 0
+
+## What it does without being asked: entries from `data/skirmish.json` → `passives`.
+var passives: Array = []
+## How an enemy likes to fight: a key of `roles` in `data/skirmish.json`, or "".
+var role: String = ""
+## Heal skills fire on their own for an ally at or below this share of health.
+var heal_below: float = SkirmishRules.AUTO_HEAL_BELOW
+## Seconds since this fighter last dealt or took a blow.
+var since_hit: float = 99.0
+## Health regained in fractions, paid out a point or more at a time.
+var regen_pool: float = 0.0
+## Running in at a charger's sprint; the next blow lands harder.
+var charging: bool = false
+## Seconds until a skirmisher or mender will back off again.
+var retreat_wait: float = 0.0
+## A little lunge towards whoever was just hit, drawn and then forgotten.
+var bump: float = 0.0
+var bump_dir: Vector2 = Vector2.ZERO
 
 
 func _init(source: Unit) -> void:
@@ -65,11 +86,34 @@ func _init(source: Unit) -> void:
 		cooldowns.append(0.0)
 	# Nobody opens a fight in the same breath as everyone else — except a Set
 	# temper, whose opening charge time on the grid becomes acting at once here.
+	passives = SkirmishPassives.for_unit(source)
+	if not is_party():
+		role = SkirmishPassives.role_for(source)
+		heal_below = float(role_data().get("heal_below", heal_below))
 	attack_timer = randf_range(0.2, 0.8)
 	think_timer = randf_range(0.0, SkirmishRules.THINK_INTERVAL)
 	if source.character != null and source.character.lean("opening_ct", 0.0) > 0.0:
 		attack_timer = 0.0
 		think_timer = 0.0
+
+
+## The sum of every passive's [param effect], including any it carries on the side
+## under `also`.
+func effect(name: String) -> float:
+	var total := 0.0
+	for p: Dictionary in passives:
+		if str(p.get("effect", "")) == name:
+			total += float(p.get("value", 0.0))
+		total += float(p.get("also", {}).get(name, 0.0))
+	return total
+
+
+func has_effect(name: String) -> bool:
+	return passives.any(func(p: Dictionary) -> bool: return str(p.get("effect", "")) == name)
+
+
+func role_data() -> Dictionary:
+	return SkirmishPassives.role(role) if role != "" else {}
 
 
 func is_party() -> bool:

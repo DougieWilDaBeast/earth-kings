@@ -39,7 +39,8 @@ src/
     ability_grammar.gd         Hidden grammar; generates skill trees
     doctrine.gd                Read / teach / forget, and the bonuses knowledge grants
     skein.gd                   Story threads, stage transitions, and deadlines
-    save_file.gd               Reads JSON back with whole numbers as ints again
+    save_file.gd               Reads JSON back with whole numbers as ints; writes a save atomically with a backup
+    save_migrations.gd         Upgrades an old save one version at a time (D56)
     rumour_jobs.gd             News at the inn that posts work on the board (M16)
     chapters.gd                The Tower in chapters: the world moving on, the census, the seal (M14)
     nemesis.gd                 Defeated persistent foes who survive, remember, and return
@@ -57,9 +58,11 @@ src/
     guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
     atlas.gd                   The party's map: explored, charted, marked; Guild maps, found maps (M18)
     sixteen.gd                 Who of the sixteen has fallen, kept outside the save (M15, D47)
+    run_mode.gd                Classic or Iron Man: saving by hand, the reload, the save points (M15, D51)
     names.gd                   Regional names and the lead's earned title (D39)
     fall.gd                    Crash sites, the landing beat, "Ascend to heaven" (M13)
     wanderers.gd               The others of the sixteen, walking between places by temper (M13)
+    siblings.gd                Sibling worlds: the earlier lead alive, their weapon, their ghost (M15)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
@@ -75,6 +78,7 @@ src/
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
   world/                       Walk mode: the map, the step clock, every site interaction
     route.gd                   The way across the country on foot, for a party walking itself
+    world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        Places walked around close up — 33 hand-built top-down areas,
                                orthogonal A* pathfinding, props, chests, cutscenes, camp fire
   dialogue/                    Conversation overlay, branching script, skill checks, news
@@ -136,7 +140,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |
 | `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, 400 trips to open gates, and rumours posting jobs |
 | `tests/art_smoke_test.tscn` | The size-test importer: a PixelLab-shaped export unpacked into place with its prompt kept, and previews never passed off as generated art |
-| `tests/seams_smoke_test.tscn` | Hand-offs: a lived-in run saved, loaded and saved again is the same file with nothing changing type; every rules key the code reads by name exists in the data; every member asked of one of the game's own classes exists on it; every kind of errand is posted whole |
+| `tests/seams_smoke_test.tscn` | Hand-offs: a lived-in run saved, loaded and saved again is the same file with nothing changing type; every rules key the code reads by name exists in the data; every member asked of one of the game's own classes exists on it; every kind of errand is posted whole; an old save is upgraded, a newer one refused untouched, and a corrupt one loaded from its backup |
 
 `tests/bench.tscn` (invoked via `.\ek.ps1`) allows developer bootstrapping directly into any scene,
 level, site, equipment loadout, or area.
@@ -169,6 +173,14 @@ board) is read through `src/chronicle/save_file.gd`, which turns whole floats ba
 at the door ([D42](06-decisions.md)). A value that has to stay a float even when whole (a
 generated power) is put back as one where it is loaded. `tests/seams_smoke_test` fails if a save,
 loaded and saved again, writes a different file.
+
+Writing goes through the same file. `SaveFile.write` writes the whole save to a `.tmp` beside it,
+moves the old save to `.bak.json` and renames the new one into place, so a crash leaves a good save
+or a good backup, never half a file. `GameState.load_save` falls back to that backup when the save
+will not parse, upgrades an older save through `save_migrations.gd`, and refuses a newer one without
+touching it; an old or newer save is copied aside as `.v<N>.bak.json` first ([D56](06-decisions.md)).
+What the player should hear about goes out as `EventBus.save_notice` and is shown by a toast on the
+root (`src/ui/save_toast.gd`).
 
 The same suite reads the source for every rules key asked for by name (`rules().get("x", …)`,
 `Database.encounters.get("y", …)`) and fails if the data does not have it. Every such read carries a

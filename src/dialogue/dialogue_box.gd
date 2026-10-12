@@ -5,6 +5,7 @@ extends CanvasLayer
 
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
@@ -107,15 +108,32 @@ func _reset() -> void:
 	_auto_replies = 0
 
 
+## Accept is taken before the GUI sees it: a button left focused behind the box
+## (the walk's view toggle, say) would otherwise swallow Enter, and the line
+## could only be clicked on. Not while an overlay drawn above the box is open.
+func _input(event: InputEvent) -> void:
+	if not _panel.visible or not _shown_options.is_empty() or _covered():
+		return
+	if event.is_action_pressed("ui_accept") and not event.is_echo():
+		get_viewport().set_input_as_handled()
+		_advance()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not _panel.visible or not _shown_options.is_empty():
 		return
-	var advance := event.is_action_pressed("ui_accept")
-	if event is InputEventMouseButton:
-		advance = advance or (event.pressed and event.button_index == MOUSE_BUTTON_LEFT)
-	if advance:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		get_viewport().set_input_as_handled()
 		_advance()
+
+
+## Whether an open overlay sits on a higher layer than the box (the system menu).
+func _covered() -> bool:
+	for overlay in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if overlay != self and overlay is CanvasLayer and overlay.layer > layer \
+				and overlay.has_method("is_open") and overlay.is_open():
+			return true
+	return false
 
 
 ## A click on the box itself never falls through to the scene behind it, so the
@@ -228,6 +246,10 @@ func _hear_the_news() -> void:
 	var sighting := Wanderers.rumour(GameState.world)
 	if sighting != "":
 		text += "\n\n• \"%s\"" % sighting
+	# And of anything that has fallen out of the sky since (M15).
+	var fallen := Siblings.rumour(GameState.world)
+	if fallen != "":
+		text += "\n\n• \"%s\"" % fallen
 	_news_back = _node_id
 	_show(_node.get("speaker", "The host"), text)
 
@@ -268,7 +290,7 @@ func _show(speaker: String, body: String) -> void:
 func _go_on_text() -> String:
 	if Pad.using_pad:
 		return "%s to continue" % Pad.key("ui_accept")
-	return "Tap to continue" if Pace.is_touch_enabled() else "Click to continue"
+	return "Tap to continue" if Pace.is_touch_enabled() else "Click or press Enter to continue"
 
 
 ## Only once a conversation, and only when the run has given them something to

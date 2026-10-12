@@ -64,10 +64,18 @@ static func answered(world: World) -> bool:
 	return false
 
 
-## How many of the sixteen still stand, across every world. Until there is
-## more than one world (M15) that is all of them while the lead lives.
-static func census(_world: World) -> int:
-	return SIXTEEN
+## How many of the sixteen still stand, across every world. A lead who died in
+## an earlier world is counted out once this lead has climbed as high as they
+## did, and not before (M15, [D33]: nothing arrives early). Read straight off
+## [member World.echoes] (see `siblings.gd`).
+static func census(world: World) -> int:
+	var alive := SIXTEEN
+	if world == null:
+		return alive
+	for echo: Dictionary in world.echoes.get("past", []):
+		if world.tower_floor >= int(echo.get("floor", 0)):
+			alive -= 1
+	return maxi(0, alive)
 
 
 ## A chapter won: the world moves on, the census is read, and — unless this

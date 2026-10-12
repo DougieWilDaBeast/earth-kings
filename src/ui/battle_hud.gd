@@ -18,8 +18,8 @@ signal speed_cycled
 signal cancel_requested
 
 const LOG_LINES := 4
-const PIP_FULL := "◆"
-const PIP_SPENT := "◇"
+const PIP_FULL := "•"
+const PIP_SPENT := "◊"
 const SELECTED_COLOUR := "#ffdb57"
 const SPENT_COLOUR := "#7d838f"
 ## Shown along the bottom whenever nothing is being hovered.
@@ -70,6 +70,9 @@ func _ready() -> void:
 		tools.offset_bottom += TouchControls.BAR_DROP
 	_commands.hide()
 	_squad_bar.text = ""
+	# Six in the forecast can outrun the line; cut it rather than run under the tools.
+	_order_label.clip_text = true
+	_order_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_result_label.hide()
 	EventBus.battle_log.connect(_append_log)
 	if Pad.using_pad:
@@ -120,21 +123,23 @@ func set_squad(squad: Array[Unit], selected: Unit) -> void:
 		_squad_bar.text = ""
 		return
 	var parts: Array[String] = []
+	# Five or six full names run past the bar; past four, first names do.
+	var crowded := squad.size() > 4
 	for unit in squad:
 		var pips := "%s%s" % [
 			PIP_FULL if not unit.action_spent else PIP_SPENT,
 			PIP_FULL if not unit.bonus_spent else PIP_SPENT,
 		]
-		var entry := "%s %s" % [unit.display_name, pips]
+		var entry := "%s %s" % [unit.display_name.get_slice(" ", 0) if crowded else unit.display_name, pips]
 		if unit == selected:
-			entry = "[color=%s]▸ %s[/color]" % [SELECTED_COLOUR, entry]
+			entry = "[color=%s]› %s[/color]" % [SELECTED_COLOUR, entry]
 		elif unit.is_done():
 			entry = "[color=%s]%s[/color]" % [SPENT_COLOUR, entry]
 		parts.append(entry)
 	var hint := ""
 	if squad.size() > 1:
 		hint = "   [color=%s][%s] switch[/color]" % [SPENT_COLOUR, Pad.key("cycle_next")]
-	_squad_bar.text = "   ".join(parts) + hint
+	_squad_bar.text = ("  " if crowded else "   ").join(parts) + hint
 
 
 func hide_commands() -> void:
@@ -165,7 +170,7 @@ func set_turn_order(order: Array[Unit]) -> void:
 	var names := order.map(func(u: Unit) -> String:
 		return "Your party" if u.team == Unit.Team.PLAYER else u.display_name
 	)
-	_order_label.text = "Next: " + " → ".join(names)
+	_order_label.text = "Next: " + " › ".join(names)
 
 
 func set_inspected(unit: Unit, terrain: Dictionary) -> void:

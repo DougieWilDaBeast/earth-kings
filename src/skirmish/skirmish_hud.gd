@@ -7,8 +7,11 @@ extends CanvasLayer
 ## the editor since this landed would otherwise fail to parse the whole skirmish.
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const SkirmishSlot := preload("res://src/skirmish/skirmish_slot.gd")
 
 signal card_clicked(index: int)
+## A skill tile on a party card was clicked: pick that fighter, ready that skill.
+signal slot_clicked(index: int, slot: int)
 ## A touch button, named as [method Skirmish.act] takes it: "pause", "slot0"…
 signal action_pressed(action: String)
 
@@ -39,6 +42,14 @@ var _log: Label
 var _result: Label
 var _cards: Array[PanelContainer] = []
 var _card_text: Array[RichTextLabel] = []
+## Per card, its four skill tiles.
+var _card_slots: Array = []
+## The touch skill buttons' cooldown sweeps, by slot.
+var _button_sweeps: Dictionary = {}
+## Whoever the pointer is over: name, health, role and passives.
+var _inspect: PanelContainer
+var _inspect_text: RichTextLabel
+var _inspected: Fighter = null
 var _lines: Array[String] = []
 var _buttons: Dictionary = {}
 var _plain := _panel_style(PANEL)
@@ -66,8 +77,8 @@ func setup(skirmish: Node2D) -> void:
 	_log.anchor_bottom = 1.0
 	_log.offset_left = 16
 	_log.offset_right = 760
-	_log.offset_top = -270
-	_log.offset_bottom = -150
+	_log.offset_top = -282
+	_log.offset_bottom = -158
 	_log.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_log.add_theme_color_override("font_color", Color(0.86, 0.88, 0.92))
@@ -80,19 +91,29 @@ func setup(skirmish: Node2D) -> void:
 	row.anchor_right = 1.0
 	row.offset_left = 16
 	row.offset_right = -16
-	row.offset_top = -142
-	row.offset_bottom = -12
+	row.offset_top = -150
+	row.offset_bottom = -8
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
 	var party: Array[Fighter] = skirmish.party_fighters()
+	# Four cards sit at full width; five or six share the row rather than run
+	# off the right edge of a 1280 screen.
+	var room := get_viewport().get_visible_rect().size.x - 32.0 - 10.0 * maxf(0.0, party.size() - 1)
+	var card_width := minf(250.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(250, 126)
+		card.custom_minimum_size = Vector2(card_width, 136)
+		card.clip_contents = true
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
+		card.tooltip_text = _passive_tooltip(party[i])
 		var index := i
 		card.gui_input.connect(func(event: InputEvent) -> void:
 			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 				card_clicked.emit(index))
+		var column := VBoxContainer.new()
+		column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		column.add_theme_constant_override("separation", 4)
+		card.add_child(column)
 		var text := RichTextLabel.new()
 		text.bbcode_enabled = true
 		text.fit_content = true
@@ -100,10 +121,47 @@ func setup(skirmish: Node2D) -> void:
 		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		text.add_theme_font_size_override("normal_font_size", 13)
 		text.add_theme_font_size_override("bold_font_size", 14)
-		card.add_child(text)
-		row.add_child(card)
+		column.add_child(text)
+		var tiles := HBoxContainer.new()
+		tiles.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tiles.add_theme_constant_override("separation", 4)
+		column.add_child(tiles)
+		var slots: Array = []
+		# The tiles narrow with the card, or four of them would hold it at full width.
+		var tile_count := maxi(1, party[i].slots.size())
+		var tile_width := minf(56.0, floorf((card_width - 16.0 - 4.0 * (tile_count - 1)) / tile_count))
+		for slot in party[i].slots.size():
+			var tile: Control = SkirmishSlot.new()
+			tile.set("width", tile_width)
+			tile.tooltip_text = _ability_tooltip(party[i].slot_ability(slot))
+			var which := slot
+			tile.pressed.connect(func() -> void: slot_clicked.emit(index, which))
+			tiles.add_child(tile)
+			slots.append(tile)
 		_cards.append(card)
 		_card_text.append(text)
+		_card_slots.append(slots)
+		row.add_child(card)
+
+	_inspect = PanelContainer.new()
+	_inspect.anchor_left = 1.0
+	_inspect.anchor_right = 1.0
+	_inspect.offset_left = -330 if not skirmish.touch else -490
+	_inspect.offset_right = -16 if not skirmish.touch else -170
+	_inspect.offset_top = 64
+	_inspect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_inspect.add_theme_stylebox_override("panel", _panel_style(PANEL))
+	_inspect_text = RichTextLabel.new()
+	_inspect_text.bbcode_enabled = true
+	_inspect_text.fit_content = true
+	_inspect_text.scroll_active = false
+	_inspect_text.custom_minimum_size = Vector2(300, 0)
+	_inspect_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_inspect_text.add_theme_font_size_override("normal_font_size", 13)
+	_inspect_text.add_theme_font_size_override("bold_font_size", 15)
+	_inspect.add_child(_inspect_text)
+	_inspect.visible = false
+	add_child(_inspect)
 
 	if skirmish.touch:
 		_add_touch_buttons()
@@ -155,6 +213,12 @@ func _add_touch_buttons() -> void:
 		button.pressed.connect(func() -> void: action_pressed.emit(action))
 		column.add_child(button)
 		_buttons[action] = button
+		if action.begins_with("slot"):
+			var sweep: Control = SkirmishSlot.new()
+			sweep.overlay_only = true
+			sweep.set_anchors_preset(Control.PRESET_FULL_RECT)
+			button.add_child(sweep)
+			_button_sweeps[action] = sweep
 
 
 func refresh() -> void:
@@ -184,6 +248,60 @@ func refresh() -> void:
 		_cards[i].add_theme_stylebox_override(
 			"panel", _picked if _skirmish.selected.has(party[i]) else _plain
 		)
+		var lead_armed: bool = not _skirmish.selected.is_empty() and _skirmish.selected[0] == party[i]
+		var tiles: Array = _card_slots[i]
+		for slot in tiles.size():
+			var ability := party[i].slot_ability(slot)
+			(tiles[slot] as Control).call("show_slot",
+				str(SkirmishRules.SLOT_LABELS[slot]), str(ability.get("display_name", "?")),
+				party[i].cooldowns[slot], SkirmishRules.cooldown(ability),
+				lead_armed and _skirmish.armed_slot == slot)
+	if _inspected != null:
+		_inspect_text.text = _inspection(_inspected)
+
+
+## Show who the pointer is over, or nobody.
+func inspect(f: Fighter) -> void:
+	_inspected = f
+	if _inspect == null:
+		return
+	_inspect.visible = f != null
+	if f != null:
+		_inspect_text.text = _inspection(f)
+
+
+func _inspection(f: Fighter) -> String:
+	var unit := f.unit
+	var lines: Array[String] = []
+	var side := "[color=#8fd18f]yours[/color]" if f.is_party() else "[color=#ff8a7a]enemy[/color]"
+	lines.append("[b]%s[/b]  %s  [color=#9aa3b2]%s[/color]" % [unit.display_name, side, unit.job])
+	lines.append("%d / %d HP   attack %d   defence %d   %s" % [
+		maxi(0, unit.hp), unit.max_hp, unit.attack, unit.defense, f.activity()])
+	var role := f.role_data()
+	if not role.is_empty():
+		lines.append("[color=#ffd27a]%s[/color] — %s" % [role.get("display_name", f.role), role.get("description", "")])
+	if f.passives.is_empty():
+		lines.append("[color=#7d8594]no passives[/color]")
+	for p: Dictionary in f.passives:
+		lines.append("[color=#c8b6ff]✦ %s[/color] — %s" % [p.get("display_name", p.get("id", "?")), p.get("description", "")])
+	return "\n".join(lines)
+
+
+static func _passive_tooltip(f: Fighter) -> String:
+	if f.passives.is_empty():
+		return "No passives."
+	var lines: Array[String] = []
+	for p: Dictionary in f.passives:
+		lines.append("%s — %s" % [p.get("display_name", "?"), p.get("description", "")])
+	return "\n".join(lines)
+
+
+static func _ability_tooltip(ability: Dictionary) -> String:
+	return "%s\n%s\nCooldown %.1fs%s" % [
+		ability.get("display_name", "?"), ability.get("description", ""),
+		SkirmishRules.cooldown(ability),
+		"   wind-up %.1fs" % SkirmishRules.cast_time(ability) if SkirmishRules.cast_time(ability) > 0.0 else "",
+	]
 
 
 func _describe(f: Fighter, index: int) -> String:
@@ -196,16 +314,14 @@ func _describe(f: Fighter, index: int) -> String:
 		flags.append("hold")
 	lines.append("[b]%d  %s[/b]  [color=#9aa3b2]%s[/color]" % [index + 1, unit.display_name, " · ".join(flags)])
 	lines.append("%d / %d HP   [color=#c9d1dd]%s[/color]" % [maxi(0, unit.hp), unit.max_hp, f.activity()])
+	if f.is_downed():
+		# What the graces would make of it if nobody gets there in time.
+		lines.append("[color=#ffe08a]if nobody comes: %d%% a grace saves them[/color]" % roundi(100.0 * _skirmish.grace_odds(f)))
+	elif not f.passives.is_empty():
+		var names: Array = f.passives.map(func(p: Dictionary) -> String: return str(p.get("display_name", "?")))
+		lines.append("[color=#c8b6ff]✦ %s[/color]" % " · ".join(names))
 	if f.slots.is_empty():
 		lines.append("[color=#7d8594]no skills yet — basic attacks only[/color]")
-	for slot in f.slots.size():
-		var ability := f.slot_ability(slot)
-		var ready := f.cooldowns[slot] <= 0.0
-		var colour := READY if ready else WAITING
-		var wait := "ready" if ready else "%.1fs" % f.cooldowns[slot]
-		lines.append("[color=#%s][%s] %s  %s[/color]" % [
-			colour.to_html(false), SkirmishRules.SLOT_LABELS[slot], ability.get("display_name", "?"), wait,
-		])
 	return "\n".join(lines)
 
 
@@ -228,8 +344,13 @@ func _refresh_buttons() -> void:
 			var name := str(caster.slot_ability(slot).get("display_name", "?"))
 			label = "%s %s" % [label, name.left(10)]
 			if _skirmish.armed_slot == slot:
-				label = "▶ " + label
+				label = "» " + label
 		button.text = label
+		var sweep: Control = _button_sweeps.get("slot%d" % slot)
+		if sweep != null:
+			var wait := caster.cooldowns[slot] if has else 0.0
+			var total := SkirmishRules.cooldown(caster.slot_ability(slot)) if has else 1.0
+			sweep.call("show_slot", "", "", wait, total, false)
 
 
 static func _panel_style(colour: Color) -> StyleBoxFlat:

@@ -25,7 +25,7 @@ you saw, on which screen, and what you had done just before.
 | A5  | Click an entry                                                               | A firmer click, distinct from the hover                                                                        |
 | A6  | Sit on the title screen                                                      | Quiet music, and your party running across the bottom behind the menu                                          |
 | A7  | Look at the crest beside the title with a save present                       | It is the face of the character you are actually playing, not always the swordsman                             |
-| A8  | Delete `%APPDATA%\Godot\app_userdata\...\earth-kings.save.json` and relaunch | Continue is greyed out; the founders run along the bottom instead                                              |
+| A8  | Delete `%APPDATA%\Godot\app_userdata\...\earth-kings.save.json` and `earth-kings.save.bak.json` beside it, and relaunch | Continue is greyed out; the founders run along the bottom instead                                              |
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
@@ -34,6 +34,8 @@ you saw, on which screen, and what you had done just before.
 | A14 | Start a run with tips reset (`Esc` → **Reset tips**) and walk a few steps    | A small card under the top bar about walking, then one about the clock; it fades on its own and never stops a key |
 | A15 | Walk into a village, a fight and a gate; press **Got it** and **No more tips** | One card per first meeting, never twice; after **No more tips** none come, and the menu reads "Tips: off"      |
 | A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
+| A17 | Save twice, cut the save file in half in a text editor, relaunch and Continue | The run comes back as of the save before; a line at the top says it was restored from the backup             |
+| A18 | Set `"version"` in the save to `99`, relaunch and Continue                   | Nothing loads; a line at the top says the save is from a newer version; the file is unchanged                  |
 
 ## B — Starting a run
 
@@ -129,6 +131,12 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT15 | On a phone (or touch set to On in the system menu), start a real-time fight | A column of buttons down the right: Pause, Speed, All, the four skills named for the picked fighter, Auto skills, Hold, Auto-pause |
 | RT16 | Tap a fighter, then tap an enemy, then tap empty ground     | Picked; goes after that enemy; walks to the spot. Tapping a companion picks them instead of ordering |
 | RT17 | Tap a skill button, then its target; tap a skill button twice | It is cast at the target; tapped twice, it is put away again                            |
+| RT18 | Look at the party cards; hover one                          | A ✦ line of passives under each name; hovering the card lists what each one does          |
+| RT19 | Hover an enemy                                              | A panel top right: health, its role (Charger, Skirmisher, Mender, Brawler) and its passives |
+| RT20 | Watch a few blows land                                      | Numbers jump off whoever is hit and they flash; a critical is a big gold number, a short freeze and a shake |
+| RT21 | Use a skill and watch its tile on the card                  | A dark wedge winds away clockwise with the seconds on it; the tile flashes when it is back. Clicking a tile picks that fighter and readies the skill |
+| RT22 | Let a party member's near-death run out with nobody helping | Their card shows the chance a grace saves them; sometimes "Pulled clear!" or "The charm holds!" and they are back up at a quarter health, otherwise they fall |
+| RT23 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
 
 ## F — Party menu (**P**)
 
@@ -140,9 +148,9 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | F1  | Open it                                                | A card a person: face, name, level and calling, and a health bar that is green, amber or red          |
 | F2  | Press a card, anywhere on it                           | The right-hand pane opens that person; the card is the only one with a lit edge                       |
 | F3  | Tab through the cards with a keyboard                  | The pane follows the focus — keyboard and thumb point at the same card                                 |
-| F4  | Press ▲ / ▼ beside a card                              | They swap places in the marching order; the arrows are dead at the top and bottom of the line          |
+| F4  | Press ^ / v beside a card                              | They swap places in the marching order; the arrows are dead at the top and bottom of the line          |
 | F5  | Look at a card for somebody owed a class or a power    | An amber edge and one line saying which                                                                |
-| F6  | Gear page, look at any row in the packs                | `Atk 29 → 31` and `Grd 12`, each coloured on its own — armour that buys guard with attack says both     |
+| F6  | Gear page, look at any row in the packs                | `Atk 29 » 31` and `Grd 12`, each coloured on its own — armour that buys guard with attack says both     |
 | F7  | Open the lead's gear page carrying nothing             | Worn names the blade their template came issued with, not "nothing" — and the swaps are measured against it |
 | F8  | Equip that piece                                       | The numbers land where the row said they would, and what they were carrying goes into the packs — **nothing is destroyed** |
 | F9  | Give a longbow ranger a Sworn Blade piece              | "wrong hands" in the summary, and a visibly worse change than giving it to the swordsman               |
@@ -150,7 +158,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | F11 | Press **Optimise** with nothing better in the packs    | Already greyed, and says so when held                                                                  |
 | F12 | Stow a piece                                           | They carry nothing; the piece is in the packs                                                          |
 | F13 | Food and physic, on somebody unhurt                    | "Nothing to mend."                                                                                     |
-| F14 | Powers page at level 5                                 | A tree block: name, theme, and three rungs marked ■ taken / □ locked                                    |
+| F14 | Powers page at level 5                                 | A tree block: name, theme, and three rungs marked • taken / ◊ locked                                    |
 | F15 | Powers page below level 5                              | Told which level the first path arrives at                                                             |
 | F16 | Powers page with a power owed                          | The next rung of every uncovered tree becomes a **Take** button                                         |
 | F17 | Practice page                                          | What they have read, every move with its proficiency, and who they can teach                           |

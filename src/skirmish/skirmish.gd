@@ -20,6 +20,8 @@ const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishHUD := preload("res://src/skirmish/skirmish_hud.gd")
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
+const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 
 signal finished(victory: bool)
 
@@ -33,6 +35,12 @@ enum AutoPause { OFF, ON_FALL, ON_FALL_AND_READY }
 const AUTO_PAUSE_LABELS := ["off", "when someone goes down", "when someone goes down or a manual skill is ready"]
 ## Kept for the whole session, so it is set once rather than every fight.
 static var auto_pause: AutoPause = AutoPause.ON_FALL
+
+## What pops up over someone a grace has just saved, by [Fate] reason.
+const GRACE_WORDS := {
+	"charm": "The charm holds!", "rescue": "Pulled clear!", "lore": "Remembered!",
+	"ground": "Crawls clear!", "luck": "Sheer luck!",
+}
 
 ## Most fixed ticks a single frame may run, so a hitch cannot snowball.
 const MAX_TICKS_PER_FRAME := 16
@@ -79,6 +87,18 @@ var pad_cell: Vector2i = Vector2i(-1, -1)
 var _pad_held: Vector2i = Vector2i.ZERO
 var _pad_repeat: float = 0.0
 
+## Numbers, flashes and rings over the field (see [SkirmishFx]).
+var fx: SkirmishFx
+## Rolls the graces in the near-death window. Seeded from the global seed, so a
+## test that seeds the fight seeds its graces too.
+var grace_rng := RandomNumberGenerator.new()
+## How the next number that pops off a unit should look: "", "crit" or "thorns".
+var _hit_style: String = ""
+## Real seconds the clock stands still after a big hit.
+var _hitstop: float = 0.0
+## How hard the camera is shaking, in pixels; dies away by itself.
+var _shake: float = 0.0
+
 
 func _ready() -> void:
 	map_id = str(boot_payload.get("map_id", DEFAULT_MAP))
@@ -87,11 +107,18 @@ func _ready() -> void:
 	GameState.tallying = false
 	paused = bool(boot_payload.get("paused", true))
 	touch = bool(boot_payload.get("touch", Pace.is_touch_enabled()))
+	grace_rng.seed = randi()
+	fx = SkirmishFx.new()
+	fx.z_index = 20
+	add_child(fx)
 	_build_battlefield()
 	marks.skirmish = self
+	EventBus.unit_damaged.connect(_on_unit_damaged)
+	EventBus.unit_healed.connect(_on_unit_healed)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
 	hud.action_pressed.connect(act)
+	hud.slot_clicked.connect(_on_slot_clicked)
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
@@ -123,8 +150,12 @@ func _build_battlefield() -> void:
 
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
-	for i in mini(members.size(), spawns.size()):
-		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, _to_cell(spawns[i])))
+	var taken: Array[Vector2i] = []
+	for entry: Dictionary in map.get("enemies", []):
+		taken.append(_to_cell(entry.get("cell", [0, 0])))
+	var cells := grid.muster_cells(spawns, members.size(), taken)
+	for i in mini(members.size(), cells.size()):
+		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, cells[i]))
 	for entry: Dictionary in map.get("enemies", []):
 		var cell := _to_cell(entry.get("cell", [0, 0]))
 		var level := int(entry.get("level", 0))
@@ -164,7 +195,8 @@ func _face_the_other_side() -> void:
 
 
 func _process(delta: float) -> void:
-	if not manual and not paused and not over:
+	_feel(delta)
+	if not manual and not paused and not over and _hitstop <= 0.0:
 		# Engine.time_scale already folds the game speed into delta.
 		_accumulator += delta
 		var ticks := 0
@@ -178,6 +210,28 @@ func _process(delta: float) -> void:
 	_steer_pad_cursor(delta)
 	marks.queue_redraw()
 	hud.refresh()
+
+
+## The camera shake, the hit-stop and the lunges, all on real time so a big hit
+## feels the same at any game speed.
+func _feel(delta: float) -> void:
+	var real := delta / maxf(0.01, Engine.time_scale)
+	_hitstop = maxf(0.0, _hitstop - real)
+	if _shake > 0.05:
+		camera.offset = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * _shake
+		_shake = lerpf(_shake, 0.0, minf(1.0, real * 9.0))
+	elif camera.offset != Vector2.ZERO:
+		_shake = 0.0
+		camera.offset = Vector2.ZERO
+	if paused or _hitstop > 0.0:
+		return
+	for f in fighters:
+		if f.bump > 0.0:
+			f.bump = maxf(0.0, f.bump - delta * 7.0)
+
+
+func shake(strength: float) -> void:
+	_shake = maxf(_shake, strength)
 
 
 func set_paused(value: bool) -> void:
@@ -203,6 +257,8 @@ func tick() -> void:
 func _place_steppers() -> void:
 	for f in fighters:
 		if not f.stepping:
+			if f.bump > 0.0 and not f.fallen:
+				f.unit.position = grid.cell_to_world(f.unit.cell) + f.bump_dir * sin(f.bump * PI) * 9.0
 			continue
 		var left := maxf(0.0, f.step_left - _accumulator)
 		var t := 1.0 - left / maxf(0.001, f.step_total)
@@ -220,10 +276,13 @@ func _tick_fighter(f: Fighter) -> void:
 			_auto_pause("%s's %s is ready." % [f.unit.display_name, f.slot_ability(i).get("display_name", "skill")])
 	if f.is_downed():
 		f.near_death -= SkirmishRules.TICK
-		if f.near_death <= 0.0:
+		if f.near_death <= 0.0 and not _grace(f):
 			_fall(f)
 		return
 	f.attack_timer = maxf(0.0, f.attack_timer - SkirmishRules.TICK)
+	f.since_hit += SkirmishRules.TICK
+	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
+	_regenerate(f)
 
 	if f.stepping:
 		f.step_left -= SkirmishRules.TICK
@@ -302,23 +361,163 @@ func _party_engaged() -> bool:
 ## Swing at [param foe] if it is in reach, otherwise walk into reach if allowed.
 func _fight(f: Fighter, foe: Unit, may_walk: bool) -> void:
 	var ability := Database.ability(f.basic)
+	if may_walk and _keep_away(f, ability, foe):
+		return
 	if AbilityResolver.in_range(ability, f.unit.cell, foe.cell):
 		if f.attack_timer <= 0.0:
 			_swing(f, foe, ability)
 		else:
 			f.unit.face_towards(foe.cell)
 	elif may_walk:
+		# A charger sprints at anyone far enough off to build up speed.
+		var role := f.role_data()
+		if role.has("charge_from") and not f.charging \
+				and Pathfinder.distance(f.unit.cell, foe.cell) >= int(role["charge_from"]):
+			f.charging = true
+			fx.popup("Charge!", f.unit.position, SkirmishFx.HURT, 15)
 		_step_towards(f, func(c: Vector2i) -> bool:
 			return AbilityResolver.in_range(ability, c, foe.cell))
 
 
+## A skirmisher or mender with someone too close backs off a tile or two, now
+## and then — not every tick, or nothing could ever pin one down. Returns true
+## when it stepped away instead of fighting.
+func _keep_away(f: Fighter, ability: Dictionary, foe: Unit) -> bool:
+	var role := f.role_data()
+	var gap := int(role.get("keep_away", 0))
+	if gap <= 0 or f.retreat_wait > 0.0 or f.is_party():
+		return false
+	if _nearest_hostile_distance(f, f.unit.cell) >= gap:
+		return false
+	var reach := int(ability.get("range", 1))
+	var safe := func(c: Vector2i) -> bool:
+		return _nearest_hostile_distance(f, c) >= gap \
+				and Pathfinder.distance(c, foe.cell) <= maxi(reach, gap + 1)
+	f.retreat_wait = float(role.get("retreat_every", 3.0))
+	if _step_towards(f, safe):
+		fx.popup("falls back", f.unit.position, SkirmishFx.WORD, 12)
+		return true
+	return false
+
+
+func _nearest_hostile_distance(f: Fighter, cell: Vector2i) -> int:
+	var best := 999
+	for other in fighters:
+		if other.is_standing() and other.unit.is_hostile_to(f.unit):
+			best = mini(best, Pathfinder.distance(cell, other.unit.cell))
+	return best
+
+
 func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 	f.unit.face_towards(foe.cell)
-	_say(AbilityResolver.apply(f.unit, ability, foe, f.basic))
+	_strike(f, foe, ability, f.basic)
 	f.swings += 1
-	f.attack_timer = SkirmishRules.attack_interval(f.unit)
-	if not foe.is_alive():
-		_drop(fighter_of(foe))
+	f.attack_timer = SkirmishRules.attack_interval(f.unit) * (1.0 - minf(0.5, _aura(f, "haste")))
+	# Echo Blade: now and then the same swing comes round again.
+	var echo := f.effect("echo")
+	if echo > 0.0 and f.is_standing() and is_standing(foe) and randf() < echo:
+		fx.popup("Again!", f.unit.position, SkirmishFx.WORD, 13)
+		_strike(f, foe, ability, f.basic)
+
+
+## One blow or one heal from [param f] onto [param target], with everything the
+## passives add around [method AbilityResolver.apply]: criticals, flank and
+## last-stand bonuses, a charge, guard auras, lifesteal and thorns.
+func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> void:
+	if bool(ability.get("heal", false)):
+		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
+		return
+	var victim := fighter_of(target)
+	var multiplier := 1.0
+	var tags: Array[String] = []
+	var crit := randf() < SkirmishPassives.rule("base_crit", 0.05) + f.effect("crit")
+	if crit:
+		multiplier *= SkirmishPassives.rule("crit_multiplier", 1.6)
+		tags.append("critical")
+	var flank_bonus := f.effect("flank_bonus")
+	if flank_bonus > 0.0 and AbilityResolver.flank_of(f.unit.cell, target) != AbilityResolver.Flank.FRONT:
+		multiplier *= 1.0 + flank_bonus
+	for p: Dictionary in f.passives:
+		if str(p.get("effect", "")) == "last_stand" \
+				and float(f.unit.hp) <= float(f.unit.max_hp) * float(p.get("threshold", 0.35)):
+			multiplier *= 1.0 + float(p.get("value", 0.0))
+			tags.append("last stand")
+	if f.charging:
+		f.charging = false
+		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
+		tags.append("charge")
+	if victim != null:
+		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5), _aura(victim, "guard"))
+	# The resolver prices a blow off the attacker's attack, so the passives
+	# lean on that for the one call and put it back.
+	var own_attack := f.unit.attack
+	f.unit.attack = maxi(1, roundi(float(own_attack) * multiplier))
+	var before := target.hp
+	_hit_style = "crit" if crit else ""
+	var line := AbilityResolver.apply(f.unit, ability, target, ability_id)
+	_hit_style = ""
+	f.unit.attack = own_attack
+	var dealt := before - target.hp
+	if not tags.is_empty():
+		line = "%s! %s" % [", ".join(tags).capitalize(), line]
+	_say(line)
+	f.since_hit = 0.0
+	f.bump = 1.0
+	f.bump_dir = (target.position - f.unit.position).normalized()
+	if crit or dealt >= roundi(float(target.max_hp) * SkirmishPassives.rule("big_hit_share", 0.2)):
+		_hitstop = maxf(_hitstop, SkirmishPassives.rule("hit_stop", 0.07))
+		if crit:
+			shake(SkirmishPassives.rule("shake_on_crit", 2.5))
+	var steal := f.effect("lifesteal")
+	if steal > 0.0 and dealt > 0 and f.unit.hp < f.unit.max_hp:
+		f.unit.heal(maxi(1, roundi(float(dealt) * steal)))
+	if not target.is_alive():
+		_drop(victim)
+	# Barbed Guard: a blow from the next tile comes partly back.
+	if victim != null and dealt > 0 and Pathfinder.distance(f.unit.cell, target.cell) <= 1:
+		var thorns := victim.effect("thorns")
+		if thorns > 0.0 and f.unit.is_alive() and not f.is_downed():
+			_hit_style = "thorns"
+			f.unit.take_damage(maxi(1, roundi(float(dealt) * thorns)))
+			_hit_style = ""
+			if not f.unit.is_alive():
+				_say("%s is cut down on %s's guard." % [f.unit.display_name, target.display_name])
+				_drop(f)
+
+
+## The strongest of [param stat] that any aura over [param f] grants. Auras of
+## one kind do not stack, so two shieldwalls are one shieldwall.
+func _aura(f: Fighter, stat: String) -> float:
+	var best := 0.0
+	for other in fighters:
+		if not other.is_standing() or other.unit.is_hostile_to(f.unit):
+			continue
+		for p: Dictionary in other.passives:
+			if str(p.get("effect", "")) != "aura":
+				continue
+			if Pathfinder.distance(other.unit.cell, f.unit.cell) > int(p.get("radius", 2)):
+				continue
+			best = maxf(best, float(p.get("grants", {}).get(stat, 0.0)))
+	return best
+
+
+## Health that comes back on its own: Catch Breath out of the fighting, and a
+## Hearthglow over you at any time. Paid out a few points at a time.
+func _regenerate(f: Fighter) -> void:
+	if f.unit.hp >= f.unit.max_hp:
+		f.regen_pool = 0.0
+		return
+	var rate := _aura(f, "regen")
+	if f.since_hit >= SkirmishPassives.rule("out_of_combat_after", 4.0):
+		rate += f.effect("regen")
+	if rate <= 0.0:
+		return
+	f.regen_pool += rate * float(f.unit.max_hp) * SkirmishRules.TICK
+	var chunk := maxf(1.0, float(f.unit.max_hp) * 0.03)
+	if f.regen_pool >= chunk:
+		var amount := int(f.regen_pool)
+		f.regen_pool -= float(amount)
+		f.unit.heal(amount)
 
 
 func _pursue_move(f: Fighter) -> void:
@@ -385,6 +584,8 @@ func _keep_aiding(f: Fighter) -> void:
 	patient.unit.modulate = Color.WHITE
 	patient.unit.queue_redraw()
 	patient.attack_timer = 1.0
+	fx.ring(patient.unit.position, SkirmishFx.HEAL, 50.0)
+	fx.popup("Back up!", patient.unit.position, SkirmishFx.HEAL, 16, 1.2)
 	_say("%s gets %s back on their feet." % [f.unit.display_name, patient.unit.display_name])
 
 
@@ -410,6 +611,8 @@ func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 	f.step_from = me.position
 	f.step_to = grid.cell_to_world(next)
 	f.step_total = SkirmishRules.step_time(me, grid, next)
+	if f.charging:
+		f.step_total /= float(f.role_data().get("pace", 1.0))
 	f.step_left = f.step_total
 	me.facing = Unit.dominant_direction(next - me.cell)
 	# The tile is claimed as the step begins, so nobody else walks into it.
@@ -463,10 +666,11 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 	if hits.is_empty():
 		_say("%s's %s hits nothing." % [f.unit.display_name, ability.get("display_name", "skill")])
 		return
+	fx.popup(str(ability.get("display_name", "skill")), f.unit.position + Vector2(0, -14), SkirmishFx.WORD, 13)
 	for target in hits:
-		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
-		if not target.is_alive():
-			_drop(fighter_of(target))
+		if not f.is_standing():
+			break
+		_strike(f, target, ability, ability_id)
 
 
 ## Someone just hit zero. The party goes down and can still be reached; the
@@ -482,15 +686,86 @@ func _drop(f: Fighter) -> void:
 	f.unit.set_running(false)
 	f.unit.position = grid.cell_to_world(f.unit.cell)
 	selected.erase(f)
+	f.charging = false
+	f.bump = 0.0
+	fx.ring(f.unit.position, SkirmishFx.HURT if f.is_party() else SkirmishFx.DAMAGE, 46.0)
+	_mourn(f)
 	if f.is_party():
 		f.near_death = SkirmishRules.NEAR_DEATH
 		f.unit.modulate = Color(0.75, 0.55, 0.55, 0.8)
+		shake(SkirmishPassives.rule("shake_on_down", 9.0))
+		fx.popup("DOWN", f.unit.position, SkirmishFx.HURT, 20, 1.4)
 		_say("%s is down — %d seconds to reach them." % [f.unit.display_name, int(SkirmishRules.NEAR_DEATH)])
 		if auto_pause != AutoPause.OFF:
 			_auto_pause("")
 	else:
 		f.fallen = true
-		f.unit.visible = false
+		shake(SkirmishPassives.rule("shake_on_kill", 4.0))
+		# A beat to see them go, then gone.
+		var unit := f.unit
+		var fade := unit.create_tween()
+		fade.tween_property(unit, "modulate:a", 0.0, 0.35)
+		fade.tween_callback(func() -> void: unit.visible = false)
+
+
+## Mourner's Haste: whoever goes down, their friends who carry it get every
+## skill back at once.
+func _mourn(f: Fighter) -> void:
+	for other in fighters:
+		if other == f or not other.is_standing() or other.unit.is_hostile_to(f.unit):
+			continue
+		if not other.has_effect("reset_on_ally_down"):
+			continue
+		for i in other.cooldowns.size():
+			other.cooldowns[i] = 0.0
+		fx.popup("Mourner's Haste", other.unit.position, SkirmishFx.GRACE, 13)
+		_say("%s answers %s's fall: every skill is ready again." % [other.unit.display_name, f.unit.display_name])
+
+
+## The near-death window has run out with nobody there. Before they are gone,
+## the same graces the turn-based [Fate] rolls get their turn — a charm carried,
+## a companion standing, a book read, the ground — through [method Fate.roll],
+## with nothing written back: a training fight spends no charm and takes no
+## prisoners. Returns true if one landed and the fighter is back up.
+func _grace(f: Fighter) -> bool:
+	var who := f.unit.character
+	if who == null:
+		return false
+	var grace := Fate.roll(who, grace_context(f), grace_rng, false)
+	if grace.is_empty():
+		return false
+	f.near_death = 0.0
+	f.graces += 1
+	f.unit.hp = maxi(1, roundi(float(f.unit.max_hp) * float(Database.fate.get("escape_recovery", 0.25))))
+	f.unit.modulate = Color.WHITE
+	f.unit.queue_redraw()
+	f.attack_timer = 1.0
+	f.since_hit = 0.0
+	fx.ring(f.unit.position, SkirmishFx.GRACE, 60.0)
+	fx.popup(GRACE_WORDS.get(grace["reason"], "Grace"), f.unit.position, SkirmishFx.GRACE, 18, 1.8)
+	_say(Fate.escape_line(who, grace))
+	return true
+
+
+## What [Fate] needs to know about a downed fighter: who is still standing with
+## them, and where in the world the fight is.
+func grace_context(f: Fighter) -> Dictionary:
+	var allies: Array = []
+	for other in fighters:
+		if other != f and other.is_party() and other.is_standing() and other.unit.character != null:
+			allies.append(other.unit.character)
+	var context := {"allies": allies}
+	if GameState.world != null:
+		context["world"] = GameState.world
+		context["cell"] = GameState.world.player_cell
+	return context
+
+
+## The chance a grace saves [param f] if nobody reaches them, for the card.
+func grace_odds(f: Fighter) -> float:
+	if f.unit.character == null:
+		return 0.0
+	return Fate.odds(f.unit.character, grace_context(f))
 
 
 ## Stop the clock on the player's behalf. Tests drive the fight themselves and
@@ -591,7 +866,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouseMotion:
-		overlay.set_cursor(grid.world_to_cell(get_global_mouse_position()))
+		var cell := grid.world_to_cell(get_global_mouse_position())
+		overlay.set_cursor(cell)
+		hud.inspect(fighter_of(_unit_at_or_downed(cell)))
 		return
 	if event is InputEventMouseButton and event.pressed:
 		var cell := grid.world_to_cell(get_global_mouse_position())
@@ -834,6 +1111,17 @@ func _on_card_clicked(index: int) -> void:
 		_select([party[index]])
 
 
+## A skill tile on a card: pick whoever it belongs to and ready it.
+func _on_slot_clicked(index: int, slot: int) -> void:
+	var party := party_fighters()
+	if index >= party.size() or not party[index].is_standing():
+		return
+	if selected.is_empty() or selected[0] != party[index]:
+		_select([party[index]])
+	_arm(slot)
+	hud.refresh()
+
+
 func _arm(slot: int) -> void:
 	if selected.is_empty():
 		return
@@ -923,6 +1211,32 @@ func _nearest_of(group: Array[Fighter], cell: Vector2i) -> Fighter:
 		if Pathfinder.distance(f.unit.cell, cell) < Pathfinder.distance(best.unit.cell, cell):
 			best = f
 	return best
+
+
+## Every number that pops off a unit in this fight comes through here, whatever
+## dealt it, so nothing is missed and nothing is counted twice.
+func _on_unit_damaged(unit: Node, amount: int) -> void:
+	var f := fighter_of(unit as Unit)
+	if f == null or amount <= 0:
+		return
+	f.since_hit = 0.0
+	fx.flash(f.unit)
+	var at := f.unit.position
+	match _hit_style:
+		"crit":
+			fx.popup("%d!" % amount, at, SkirmishFx.CRIT, 26, 1.1)
+			fx.popup("CRITICAL", at + Vector2(0, -20), SkirmishFx.CRIT, 13, 1.0)
+		"thorns":
+			fx.popup(str(amount), at, SkirmishFx.THORNS, 16)
+		_:
+			fx.popup(str(amount), at, SkirmishFx.HURT if f.is_party() else SkirmishFx.DAMAGE, 18)
+
+
+func _on_unit_healed(unit: Node, amount: int) -> void:
+	var f := fighter_of(unit as Unit)
+	if f == null or amount <= 0:
+		return
+	fx.popup("+%d" % amount, f.unit.position, SkirmishFx.HEAL, 15)
 
 
 func _say(line: String) -> void:

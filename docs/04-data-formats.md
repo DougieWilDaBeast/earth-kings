@@ -108,6 +108,9 @@ are stored inside the save's tree definitions, not in this file.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
   or in combat for a bonus action (`"heal": 25`).
+- `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
+  suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
+  out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
 
 ## `heroes.json` — the leads a run can be started as
 
@@ -280,7 +283,8 @@ loot, `cache_map_chance` for a cache in the open, `chest_map_chance` for a chest
 
 ## `fall.json` — the fall, the landing, and the others (M13)
 
-Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-the-sixteen-worlds.md).
+Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M15)
+`src/chronicle/siblings.gd`. See [17](17-the-sixteen-worlds.md).
 
 ```json
 {
@@ -295,6 +299,14 @@ Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-th
     "rules": { "stay_min": 60, "stay_max": 180, "steps_per_tile": 2, "rumour_at_rest": 0.4,
                "meetings_to_join": { "E": 1, "I": 2 } },
     "lines": { "first": { "NT": ["…"] }, "again": { "NT": ["…"] }, "heading": { "library": "…" } }
+  },
+  "siblings": {
+    "perturbation": 0.25,
+    "echo": { "stay_steps": 400 },
+    "weapon": { "min_distance": 5, "max_distance": 12, "attempts": 400 },
+    "ghost": { "outward": 3, "inward": 1, "per_visit": 2 },
+    "signatures": { "bram": "oathkeeper" },
+    "lines": { "ending_title": "The world of {name} is ending.", "weapon_lands": "…", "ghost_fall": "…" }
   }
 }
 ```
@@ -316,6 +328,16 @@ Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-th
   how many meetings an Outward (`E`) or Inward (`I`) temper needs before they will join.
 - `wanderers.lines` — what they say. `first`, `again` by temper group; `heading` by kind of place;
   `rumour` and `rumour_road` for the inn; `{name}`, `{title}`, `{place}`, `{lead}` are filled in.
+- `siblings` (M15) — the worlds after the first. Everything in it is **Inferred**, agenda items 50
+  to 56. `perturbation` is the share of a sibling world's gates and library shelves dealt again
+  (0 an identical twin, 1 all of them). `echo.stay_steps` is how long an earlier lead's copy waits
+  at the settlement nearest the new crash site. `weapon` is how near that crash site a dead lead's
+  weapon comes down. `ghost` is how many lines of their journal a ghost shares on the first night
+  (`outward` for an E temper, `inward` for an I) and how many more each night after (`per_visit`).
+  `signatures` names each hero's weapon in `equipment.json`. `lines` is everything said: the end
+  of a world (`ending_*`), the landing, the weapon falling and found, the copy (`echo_*`, by temper
+  group) and the ghost (`ghost_*`). `{name}` is the dead lead, `{lead}` the living one, `{weapon}`,
+  `{way}`, `{place}`, `{level}`, `{floor}` and `{killer}` are filled in.
 
 ## `coliseum.json` — arena cards and waves
 
@@ -409,6 +431,42 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
 - `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
+## `skirmish.json` — passives, enemy roles and feel for the real-time fight
+
+Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#the-prototype)).
+
+```json
+{
+  "rules": { "max_passives": 3, "base_crit": 0.05, "crit_multiplier": 1.6, "guard_cap": 0.5,
+             "out_of_combat_after": 4.0, "big_hit_share": 0.2, "hit_stop": 0.07,
+             "shake_on_down": 9.0, "shake_on_kill": 4.0, "shake_on_crit": 2.5 },
+  "passives": {
+    "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
+                    "radius": 2, "grants": { "guard": 0.15 } }
+  },
+  "by_template": { "brigand_chief": ["war_cry"] },
+  "by_class": { "sworn_blade": ["shieldwall"] },
+  "by_ability": { "riposte": ["barbed_guard"] },
+  "roles": { "charger": { "display_name": "Charger", "description": "…", "charge_from": 3,
+                          "pace": 1.7, "charge_bonus": 0.4 } },
+  "role_by_template": { "brigand_archer": "kiter" },
+  "role_by_kind": { "beast": "charger" },
+  "ranged_role": "kiter",
+  "healer_role": "healer"
+}
+```
+
+- A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
+  each ability it knows in `by_ability`, and capped at `rules.max_passives`.
+- `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the
+  fighting), `last_stand` (with `threshold`), `reset_on_ally_down`, or `aura`, whose `grants` may
+  hold `guard` (less damage taken), `haste` (faster basic attacks) and `regen` (health a second),
+  each a share. `also` adds a second effect to the same passive, e.g. `{ "flank_bonus": 0.15 }`.
+- An enemy's role is `role_by_template`, else `healer_role` if it carries a non-bonus heal for an
+  ally with a reach of two or more, else `ranged_role` if its basic attack reaches three, else
+  `role_by_kind`. Role keys: `charge_from`, `pace`, `charge_bonus` (charger), `keep_away`,
+  `retreat_every` (kiter and healer), `heal_below` (healer). A role with only a name changes nothing.
+
 ## `maps/*.json` — hand-authored battlefields
 
 For set pieces. Wild encounters and delves generate their maps instead.
@@ -487,10 +545,47 @@ A conversation is either a flat script:
 ## Save file — `user://earth-kings.save.json`
 
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player
-cell, generated trees, codex, the others of the sixteen in `wanderers`, and the party's map: `explored` and `charted` as one bit a tile,
+cell, generated trees, codex, the others of the sixteen in `wanderers`, in `echoes` which world of
+the sixteen this is and what has come through from the ones that ended (see
+`src/chronicle/siblings.gd`), and the party's map: `explored` and `charted` as one bit a tile,
 deflated and base64, and `marked` as a sorted list of `"x,y"`) and the `Roster` of Characters. A
 save from before the map had no `explored` and loads with the whole continent seen. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
+It also keeps the run's `mode` (`classic` or `iron_man`; a save without one opens as Classic) and
+`saved_at`, how the save is remembered on the fall screen ("you rested at Oakham").
+
+When it is written is the mode's: `data/world_rules.json` → `modes.settings.<mode>` gives
+`manual_save` (the menu's Save and Load), `reload_on_death` (Classic's fall screen), and
+`autosave`, the points the game saves itself at — `start`, `rest`, `chapter`, `road` (every
+return to the map) and `leave` (the title button, closing the window). See
+`src/chronicle/run_mode.gd`.
+
+## The record of the fallen — `user://earth-kings.sixteen.json`
+
+Kept outside the save ([D47](06-decisions.md)) by `src/chronicle/sixteen.gd`.
+`fallen_heroes` and `fallen_tempers` close the picker and the quiz; `worlds` (M15) is every world
+that ended, oldest first, each marked `gone` and holding what `Siblings.remember` kept: the lead's
+`hero`, `name`, `temper`, `level`, the Tower `floor`, `killer`, the world's `seed` and `base_seed`,
+their `weapon`, what went `well`, the journal `pages`, and `self`, the calling and beliefs they
+started with. A new game with no seed asked for is a sibling of `worlds[0]`. Wiped only with the
+rest of the record, once every lead has fallen.
+
+The file carries a `version` (`GameState.SAVE_VERSION`, now 3). Nothing a player has is lost to
+an update or a crash ([D56](06-decisions.md)):
+
+| File beside it                 | What it is                                                                                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `earth-kings.save.json.tmp`    | A save being written. Renamed over the real one only once it is whole                                                       |
+| `earth-kings.save.bak.json`    | The save before the last one, kept by every write. Loaded instead when the save itself will not parse, or is missing        |
+| `earth-kings.save.v<N>.bak.json` | A version-N save set aside, untouched, before it was upgraded, refused or given up on. Never rotated                     |
+
+On load, a save older than `SAVE_VERSION` is upgraded one version at a time by the steps in
+`src/chronicle/save_migrations.gd`. Version 2 → 3 is a real step (alignment dropped, the old int
+`hearth` renamed `hearth_vigour`, the history fields filled off the hero record). Version 1 predates
+the walked world and has no step: it is set aside and a new run begins, as before. A save from a
+newer version is refused and left exactly as it is. Each of these says so on screen
+(`EventBus.save_notice`). Raising `SAVE_VERSION` means adding the step to it in the same commit;
+`tests/seams_smoke_test --check=old_saves` fails otherwise.
 
 ## Conventions
 
