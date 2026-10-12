@@ -112,10 +112,10 @@ built. **Everything left on this list needs one or both founders**: the build ha
 can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
-   still ungenerated, so this now waits on credits. Everything else is
-   ready: step-by-step instructions in [20](20-pixellab-size-test.md), the viewer
-   (`.\ek.ps1 sizetest`) and the importer.
+1. **Look at the size test and pick a size.** Generated 2026-10-12 through the PixelLab API
+   (`tools/pixellab.py`) for 34 of the month's 5,000 generations: everything in
+   [20](20-pixellab-size-test.md) plus a "pro" mode Bram. Costs, notes and screenshots are in
+   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`.
    [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
    ([investigation/07](investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)),
    so 32 against the 64 on disk is the real choice.
@@ -153,7 +153,8 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
   do: an hour of hands-on play to answer the ten questions it lists at the end
 - Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0).
   **Prepared** 2026-09-25: instructions ([20](20-pixellab-size-test.md)), `tools/size_test.tscn`,
-  the importer, `art/size_test/RESULTS.md` — waiting on the generating
+  the importer, `art/size_test/RESULTS.md`. **Generated** 2026-10-12 through the API
+  (`tools/pixellab.py`), 34 generations — waiting on both founders to look
 - The size written into [06 — Decisions](06-decisions.md)
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
   D-entry says which size

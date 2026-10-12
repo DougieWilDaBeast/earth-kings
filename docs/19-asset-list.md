@@ -38,6 +38,9 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 | UI | Frames, an emblem, season clovers | No ability icons, no status icons |
 | Sources | `art/source/` — `.aseprite` files and references | — |
 
+Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in
+`PIXELLAB_API_KEY` and downloads the same export zip the website gives ([20](20-pixellab-size-test.md#done-through-the-api-2026-10-12)).
+
 Each unit folder has a `metadata.json` with the PixelLab prompt, size, view and template it was made
 with. **Keep writing it.** It is the only record of how to regenerate a character at another size.
 

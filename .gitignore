@@ -30,3 +30,6 @@ err.log
 
 # Size test screenshots (tools/size_test.tscn, F12)
 art/size_test/shots/
+
+# PixelLab exports fetched by tools/pixellab.py, before import
+/downloads/

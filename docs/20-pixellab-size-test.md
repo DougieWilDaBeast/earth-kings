@@ -19,6 +19,24 @@ until this is decided.
 - **Optional:** the repo and Godot 4.7.2, if you want to look at the results yourself. If you don't
   have them, send the downloads to Will and he'll import them (step 4).
 
+## Done through the API, 2026-10-12
+
+Everything below was generated on 2026-10-12 with `tools/pixellab.py`, which calls PixelLab's API
+instead of the website, then imported with step 4. Results: [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md).
+The steps are kept for anyone redoing it by hand. To redo it from the API:
+
+```bash
+export PIXELLAB_API_KEY=...            # never in the repo; on the cloud environment it is set already
+python3 tools/pixellab.py balance
+python3 tools/pixellab.py character sworn_blade 32          # prompt from art/units/sworn_blade/metadata.json
+python3 tools/pixellab.py animate <character_id> "a single overhead sword slash, stepping in, shield held close, then back to guard"
+python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 128
+```
+
+Zips land in `downloads/pixellab/` (not kept in git), with a `log.jsonl` of what each one cost.
+The API draws on a canvas larger than the size asked for (a 32 comes back on 48 × 48), so the
+viewer now measures the body, not the canvas, at battle scale.
+
 ## 1. Settings: keep these the same for everything
 
 The 64s on disk were all made with these settings (each unit's `art/units/<id>/metadata.json` says

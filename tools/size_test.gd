@@ -97,17 +97,22 @@ func sprite(size: int, unit: String, state: String = "idle", face: String = "sou
 	if _cache.has(key):
 		return _cache[key]
 	var found := {}
+	var image: Image = null
+	var preview := false
 	var generated := _image("%s/%d/%s/%s/%s.png" % [ROOT, size, unit, state, face])
 	if generated != null:
-		found = {"texture": ImageTexture.create_from_image(generated), "preview": false}
+		image = generated
 	elif size == 64 and state == "idle":
-		var on_disk := _image("res://art/units/%s/idle/%s.png" % [unit, face])
-		if on_disk != null:
-			found = {"texture": ImageTexture.create_from_image(on_disk), "preview": false}
+		image = _image("res://art/units/%s/idle/%s.png" % [unit, face])
 	elif state == "idle":
 		var big := _image("res://art/units/%s/idle/%s.png" % [unit, face])
 		if big != null:
-			found = {"texture": ImageTexture.create_from_image(_shrunk(big, size)), "preview": true}
+			image = _shrunk(big, size)
+			preview = true
+	if image != null:
+		# PixelLab's API draws on a canvas bigger than the size asked for (a 32 comes
+		# back on 48 × 48), so the body, not the canvas, is what gets measured.
+		found = {"texture": ImageTexture.create_from_image(image), "preview": preview, "body": image.get_used_rect()}
 	_cache[key] = found
 	return found
 
@@ -181,8 +186,10 @@ func _states(size: int, unit: String) -> Array[String]:
 
 
 func _portrait() -> Texture2D:
-	var image := _image("%s/portrait/sworn_blade.png" % ROOT)
-	return ImageTexture.create_from_image(image) if image != null else null
+	if not _cache.has("portrait"):
+		var image := _image("%s/portrait/sworn_blade.png" % ROOT)
+		_cache["portrait"] = ImageTexture.create_from_image(image) if image != null else null
+	return _cache["portrait"]
 
 
 # --- the importer -------------------------------------------------------------
@@ -203,6 +210,14 @@ func import_zip(zip_path: String, unit: String, size: int, state: String = "") -
 	var placed := 0
 	var animation_state := state if state != "" else "attack"
 	var metadata := {}
+	# An animation exported from the API comes with the character's stills too;
+	# those are its idle, not frames of the named state, so they are left alone.
+	var animated := false
+	for entry: String in zip.get_files():
+		var folders := entry.to_lower().split("/", false)
+		folders.resize(maxi(folders.size() - 1, 0))
+		for direction: String in DIRECTIONS:
+			animated = animated or folders.has(direction)
 	for entry: String in zip.get_files():
 		var parts := entry.split("/", false)
 		if parts.is_empty():
@@ -217,6 +232,9 @@ func import_zip(zip_path: String, unit: String, size: int, state: String = "") -
 			continue
 		var stem := file.get_basename().to_lower()
 		var target := ""
+		if DIRECTIONS.has(stem) and state != "" and animated:
+			lines.append("  skipped %s — a still in an animation export" % entry)
+			continue
 		if DIRECTIONS.has(stem):
 			target = "%s/%s/%s.png" % [base, state if state != "" else "idle", stem]
 		else:
@@ -246,6 +264,16 @@ func import_zip(zip_path: String, unit: String, size: int, state: String = "") -
 	return lines
 
 
+## The prompt in a PixelLab export's `metadata.json`: at the top in the website's
+## older exports, inside `states[0].character` in the API's (export version 3.1).
+static func export_prompt(pixellab: Dictionary) -> String:
+	var prompt := str(pixellab.get("prompt", pixellab.get("description", "")))
+	var states: Variant = pixellab.get("states")
+	if prompt == "" and states is Array and not (states as Array).is_empty() and states[0] is Dictionary:
+		prompt = str((states[0] as Dictionary).get("character", {}).get("prompt", ""))
+	return prompt
+
+
 ## The folder's `metadata.json`, as every unit folder keeps one ([19]): the
 ## prompt it was made from, so it can be made again.
 func _record(base: String, unit: String, size: int, source: String, pixellab: Dictionary, state: String) -> void:
@@ -255,12 +283,13 @@ func _record(base: String, unit: String, size: int, source: String, pixellab: Di
 		var old: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
 		if old is Dictionary:
 			record = old
-	var prompt := str(pixellab.get("prompt", pixellab.get("description", "")))
+	var prompt := export_prompt(pixellab)
 	if prompt == "":
 		var original: Variant = JSON.parse_string(FileAccess.get_file_as_string(
 			ProjectSettings.globalize_path("res://art/units/%s/metadata.json" % unit)))
 		if original is Dictionary and not (original["states"] as Array).is_empty():
-			prompt = str(original["states"][0].get("prompt", ""))
+			# Older records keep the whole spreadsheet row, tab-separated; the prompt is its last cell.
+			prompt = str(original["states"][0].get("prompt", "")).split("\t")[-1].strip_edges()
 	(record["states"] as Array).append({
 		"state": state if state != "" else "idle",
 		"prompt": prompt,
@@ -347,9 +376,12 @@ func _draw_patch(size: int, at: Vector2, patch: Vector2) -> void:
 	var colour := Color(0.62, 0.92, 0.62)
 	if size == 64:
 		note = "the art on disk now"
-	if previews > 0:
+	if previews > 0 and previews + missing == _spots(size).size():
 		note = "PREVIEW — shrunk from the 64, not generated"
 		colour = Color(1.0, 0.45, 0.4)
+	elif previews > 0:
+		note += " · %d PREVIEW (red outline)" % previews
+		colour = Color(1.0, 0.75, 0.4)
 	if missing > 0:
 		note += " · %d missing" % missing
 	draw_string(_font, at + Vector2(0, -26), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(0.95, 0.95, 0.95))
@@ -390,15 +422,25 @@ func _draw_unit(size: int, unit: String, centre: Vector2) -> String:
 		draw_string(_font, centre + Vector2(-cell * 0.3, 4), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1, 0.4, 0.4))
 		return "missing"
 	var source := texture.get_size()
+	var region := Rect2(Vector2.ZERO, source)
+	var body: Rect2i = found.get("body", Rect2i())
 	var height := cell * SPRITE_HEIGHT_CELLS
 	if mode == Mode.PIXEL:
 		# The 64 keeps its battle size; everything else keeps the 64's pixel size.
 		height = cell * SPRITE_HEIGHT_CELLS * source.y / 64.0
+	elif body.size.y > 0:
+		# Every body the same height, however much empty canvas it came on. The
+		# idle body's box is used for attack frames too, so a swing isn't rescaled.
+		region = Rect2(Vector2(0, body.position.y), Vector2(source.x, body.size.y))
 	if big_units and unit == "club_ogre":
 		height *= 1.6
-	var drawn := source * (height / source.y)
-	draw_texture_rect(texture, Rect2(centre - Vector2(drawn.x * 0.5, drawn.y * 0.5 + cell * 0.12), drawn), false)
-	return "preview" if found.get("preview", false) else "made"
+	var drawn := region.size * (height / region.size.y)
+	var at := Rect2(centre - Vector2(drawn.x * 0.5, drawn.y * 0.5 + cell * 0.12), drawn)
+	draw_texture_rect_region(texture, at, region)
+	if found.get("preview", false):
+		draw_rect(at, Color(1.0, 0.45, 0.4, 0.8), false, 1.5)
+		return "preview"
+	return "made"
 
 
 func _draw_portrait(view: Vector2) -> void:

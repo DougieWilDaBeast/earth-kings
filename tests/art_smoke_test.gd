@@ -32,6 +32,8 @@ func _ready() -> void:
 	var record: Variant = JSON.parse_string(FileAccess.get_file_as_string(
 		ProjectSettings.globalize_path("%s/16/%s/metadata.json" % [SizeTest.ROOT, DUMMY])))
 	_expect(record is Dictionary and str(record["states"][0]["prompt"]).contains("test dummy"), "the export's prompt was not kept")
+	var api_export := {"export_version": "3.1", "states": [{"character": {"prompt": "a dummy from the API"}}]}
+	_expect(SizeTest.export_prompt(api_export) == "a dummy from the API", "the API export's prompt was not found")
 
 	var preview: Dictionary = viewer.sprite(32, "goblin")
 	_expect(not preview.is_empty(), "no preview could be made for a goblin at 32")
