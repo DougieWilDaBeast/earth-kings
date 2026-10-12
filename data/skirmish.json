@@ -1,0 +1,147 @@
+{
+	"rules": {
+		"max_passives": 3,
+		"base_crit": 0.05,
+		"crit_multiplier": 1.6,
+		"guard_cap": 0.5,
+		"out_of_combat_after": 4.0,
+		"big_hit_share": 0.2,
+		"hit_stop": 0.07,
+		"shake_on_down": 9.0,
+		"shake_on_kill": 4.0,
+		"shake_on_crit": 2.5
+	},
+	"passives": {
+		"shieldwall": {
+			"display_name": "Shieldwall",
+			"description": "Allies within 2 tiles take 15% less damage.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": { "guard": 0.15 }
+		},
+		"keen_eye": {
+			"display_name": "Keen Eye",
+			"description": "+15% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.15
+		},
+		"hearthglow": {
+			"display_name": "Hearthglow",
+			"description": "Allies within 2 tiles recover 1% of their health every second.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": { "regen": 0.01 }
+		},
+		"echo_blade": {
+			"display_name": "Echo Blade",
+			"description": "A basic attack has a 20% chance to strike twice.",
+			"effect": "echo",
+			"value": 0.2
+		},
+		"bloodthirst": {
+			"display_name": "Bloodthirst",
+			"description": "Heals for 20% of the damage dealt.",
+			"effect": "lifesteal",
+			"value": 0.2
+		},
+		"hunters_angle": {
+			"display_name": "Hunter's Angle",
+			"description": "Hits from the side or behind deal 30% more.",
+			"effect": "flank_bonus",
+			"value": 0.3
+		},
+		"second_wind": {
+			"display_name": "Catch Breath",
+			"description": "Out of the fighting for 4 seconds, recovers 4% of health every second.",
+			"effect": "regen",
+			"value": 0.04
+		},
+		"barbed_guard": {
+			"display_name": "Barbed Guard",
+			"description": "Anyone striking from an adjacent tile takes 30% of the blow back.",
+			"effect": "thorns",
+			"value": 0.3
+		},
+		"last_stand": {
+			"display_name": "Last Stand",
+			"description": "At or under 35% health, deals 35% more.",
+			"effect": "last_stand",
+			"value": 0.35,
+			"threshold": 0.35
+		},
+		"mourners_haste": {
+			"display_name": "Mourner's Haste",
+			"description": "When an ally goes down, every skill comes back at once.",
+			"effect": "reset_on_ally_down"
+		},
+		"war_cry": {
+			"display_name": "War Cry",
+			"description": "Allies within 2 tiles attack 20% faster.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": { "haste": 0.2 }
+		},
+		"pack_hunter": {
+			"display_name": "Pack Hunter",
+			"description": "Heals for 15% of the damage dealt; hits from the side or behind deal 15% more.",
+			"effect": "lifesteal",
+			"value": 0.15,
+			"also": { "flank_bonus": 0.15 }
+		}
+	},
+	"by_template": {
+		"brigand_chief": ["war_cry"],
+		"wolf": ["pack_hunter"],
+		"ice_wolf": ["pack_hunter"]
+	},
+	"by_class": {
+		"sworn_blade": ["shieldwall"],
+		"longbow": ["keen_eye"],
+		"hedge_priest": ["hearthglow"],
+		"magic_swordsman": ["echo_blade"],
+		"raider": ["bloodthirst"],
+		"wildling": ["hunters_angle"]
+	},
+	"by_ability": {
+		"second_wind": ["second_wind"],
+		"riposte": ["barbed_guard"],
+		"stand_fast": ["last_stand"],
+		"grief": ["mourners_haste"]
+	},
+	"roles": {
+		"brawler": {
+			"display_name": "Brawler",
+			"description": "Walks up to the nearest foe and swings."
+		},
+		"charger": {
+			"display_name": "Charger",
+			"description": "Rushes in from three or more tiles away at a sprint, and the first blow of a charge lands 40% harder.",
+			"charge_from": 3,
+			"pace": 1.7,
+			"charge_bonus": 0.4
+		},
+		"kiter": {
+			"display_name": "Skirmisher",
+			"description": "Shoots from range and backs off when someone closes in.",
+			"keep_away": 2,
+			"retreat_every": 3.0
+		},
+		"healer": {
+			"display_name": "Mender",
+			"description": "Hangs back and patches up its own side before it is badly hurt.",
+			"keep_away": 2,
+			"retreat_every": 2.5,
+			"heal_below": 0.85
+		}
+	},
+	"role_by_template": {
+		"brigand": "charger",
+		"brigand_archer": "kiter",
+		"brigand_chief": "brawler"
+	},
+	"role_by_kind": {
+		"beast": "charger"
+	},
+	"ranged_role": "kiter",
+	"healer_role": "healer"
+}

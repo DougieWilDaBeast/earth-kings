@@ -53,6 +53,8 @@ var factions: Dictionary = {}
 var music: Dictionary = {}
 ## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
 var guild: Dictionary = {}
+## Passives, enemy roles and feel for the real-time skirmish (see `src/skirmish/`).
+var skirmish: Dictionary = {}
 ## The fall: crash sites, the landing, the standing quest, and the others living
 ## their own lives (see `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`).
 var fall: Dictionary = {}
@@ -95,6 +97,7 @@ func _ready() -> void:
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
 	guild = _load_json("%s/guild.json" % DATA_DIR)
+	skirmish = _load_json("%s/skirmish.json" % DATA_DIR)
 	fall = _load_json("%s/fall.json" % DATA_DIR)
 
 
