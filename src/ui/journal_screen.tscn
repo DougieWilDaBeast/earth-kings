@@ -57,6 +57,10 @@ text = "The Annals"
 unique_name_in_owner = true
 text = "Quests & the Fallen"
 
+[node name="MapButton" type="Button" parent="Backdrop/Margin/Column/Header/Tabs"]
+unique_name_in_owner = true
+text = "The Map (M)"
+
 [node name="FullnessLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
 unique_name_in_owner = true
 size_flags_vertical = 4
@@ -92,4 +96,4 @@ theme_override_constants/separation = 10
 
 [node name="FooterLabel" type="Label" parent="Backdrop/Margin/Column"]
 theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
-text = "N or Esc to close"
+text = "M for the map  ·  N or Esc to close"

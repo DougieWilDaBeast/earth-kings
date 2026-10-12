@@ -76,11 +76,13 @@ src/
     skirmish_brain.gd          Targeting and Auto Skill choices, returned as plans
     skirmish_rules.gd          Every timing in seconds; defaults for generated abilities
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
-  world/                       Walk mode: the map, the step clock, every site interaction
+  world/                       The continent: the step clock and every site interaction, run out
+                               of sight for the ground on each step; the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
-  area/                        Places walked around close up — 33 hand-built top-down areas,
-                               orthogonal A* pathfinding, props, chests, cutscenes, camp fire
+  area/                        The ground, where the game is played (D50, D61) — 33 hand-built
+                               top-down areas, orthogonal A* pathfinding, props, chests,
+                               cutscenes, camp fire; walking off an edge hands the step to world/
   dialogue/                    Conversation overlay, branching script, skill checks, news
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Battle HUD, title screen, party screen, system menu, stash,

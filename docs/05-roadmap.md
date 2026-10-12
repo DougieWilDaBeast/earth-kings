@@ -368,9 +368,11 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). The explored map is
 built; the one view and the end of the step clock wait on agenda items 20 and 21.
 
-- The game played in the planar view alone; the Z switch and the walkable continental view retired.
-  `doug-md` 2026-10-12 ([D60](06-decisions.md)): the world view becomes a map you toggle to see where
-  you are
+- The game played in the planar view alone; the Z switch and the walkable continental view retired
+  ✅ (2026-10-12, [D61](06-decisions.md)): every run and every return lands on the ground; an edge
+  is a step on the continent, done out of sight; a place's doings are offered on the ground; the
+  continent is a look-only map opened from the journal. Only the party walking itself (Q) still
+  walks it
 - Planar areas that differ (agenda item 62, planned): more layouts, exits that follow the land, places
   worth remembering — today every area has the same four exits
 - Carriages (item 60, planned): pay to ride part of the way, with ambushes and other events on the road

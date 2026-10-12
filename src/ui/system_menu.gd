@@ -15,7 +15,6 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "move_left", "label": "Move Left" },
 	{ "action": "move_right", "label": "Move Right" },
 	{ "action": "interact", "label": "Interact / Step In" },
-	{ "action": "toggle_view", "label": "World / Planar View" },
 	{ "action": "open_party", "label": "Party Screen" },
 	{ "action": "site_errands", "label": "Errands / Job Board" },
 	{ "action": "site_guild", "label": "Adventurers Guild" },
