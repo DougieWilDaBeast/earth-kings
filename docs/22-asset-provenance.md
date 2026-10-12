@@ -25,7 +25,7 @@ What stands between this audit and a public release, in order of weight.
 | # | Item | Status | Who |
 | --- | --- | --- | --- |
 | P1 | `audio/music/peace_sign.mp3`, `crossing_field.mp3`, `unravel.mp3` are fan covers of commercial anime songs (see [Audio](#audio)) | **dev only** — replace or license before any public release | founders |
-| P2 | Who made `angelic.wav` and `bday_project.wav`, and on what terms | **Made by Ewan** (`dougie`, 2026-10-12, [D63](06-decisions.md)); Ewan's surname, credit line and OK to ship still to confirm | founders |
+| P2 | Who made `angelic.wav` and `bday_project.wav`, and on what terms | **Made by Ewan** (`dougie`, 2026-10-12, [D63](06-decisions.md)); Ewan is happy for them to ship ([D64](06-decisions.md)); credited as "Ewan" until a full name is given | founders |
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
 | P5 | PixelLab's terms for commercial use of generated art, on the plan the art was made with | **to confirm** | founders |

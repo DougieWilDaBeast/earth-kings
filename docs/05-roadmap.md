@@ -124,7 +124,7 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)).
    `dougie`, 2026-10-12: they go into the game together with the full redo, not eight at a time.
 2. ~~**`dougie` plays the real-time skirmish against the turn-based fight**~~ **Settled 2026-10-12:
-   real time, by both founders ([D63](06-decisions.md)); M11 replaces the turn loop — planned.** (Training → Fight in real
+   real time, by both founders ([D63](06-decisions.md)); `dougie` asked for the turn loop to be retired now ([D64](06-decisions.md)) — in progress.** (Training → Fight in real
    time.) `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
    better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
    found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
@@ -207,8 +207,8 @@ against it.
   **Inferred**): gentler facing, speeds 1×/1.5×/2×, stuns that break casts, charged spells, an
   energy bar, draughts and herbs mid-fight, shields that block
 - Done when: both founders have played the prototype against the current battle and chosen.
-  `doug-md` ✅ chose real time (2026-10-12, D58); `dougie` to come.
-  Only then does it replace `TurnManager` ([D36](06-decisions.md))
+  `doug-md` ✅ chose real time (2026-10-12, D58); `dougie` ✅ too (D63)
+- Replace `TurnManager`: every fight the world starts is the real-time fight ([D36](06-decisions.md), [D64](06-decisions.md)) — in progress
 
 ### M12 — Getting stronger the new way — SHIPPED
 
@@ -422,7 +422,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - Asset provenance audit — first pass done 2026-10-12 ([22](22-asset-provenance.md)); open items:
   **`peace_sign.mp3`, `crossing_field.mp3` and `unravel.mp3` are fan covers of commercial songs,
   dev only — they must be swapped for original or licensed tracks before any public release**; who
-  made the two menu sounds (`angelic.wav` and `bday_project.wav` are Ewan's, [D63](06-decisions.md)); where the items, props, buildings,
+  made the two menu sounds (`angelic.wav` and `bday_project.wav` are Ewan's and cleared to ship, [D63](06-decisions.md), [D64](06-decisions.md); full name to come); where the items, props, buildings,
   holds, tilesets and menu frames came from; PixelLab's commercial terms for the plan used. These
   open items are the one part of this section that waits on the founders
 - Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step
