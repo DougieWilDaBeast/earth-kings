@@ -3,6 +3,7 @@ extends Node
 ## Scene changes go through [EventBus] so no scene needs to know about another.
 
 const SaveToast := preload("res://src/ui/save_toast.gd")
+const LevelUpBanner := preload("res://src/ui/level_up_banner.gd")
 
 const SCENES := {
 	"cinematic": "res://src/ui/cinematic.tscn",
@@ -32,6 +33,7 @@ func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
 	# Says so when a save is upgraded or restored from its backup ([D56]).
 	add_child(SaveToast.new())
+	add_child(LevelUpBanner.new())
 	# A phone has one key on it, and Android hands it over as "go back". Left
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.

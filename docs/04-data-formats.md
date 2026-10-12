@@ -42,6 +42,7 @@ The base stat block a `Character` is built from, and what a monster is.
 ```json
 "sworn_blade": {
   "display_name": "Sworn Blade",
+  "colour": "#c8463c",
   "growth": { "max_hp": 6, "attack": 2.0, "defense": 1.4, "speed": 0.3 },
   "themes": ["edge", "iron", "vigil"],
   "grants": ["cleave"]
@@ -51,6 +52,8 @@ The base stat block a `Character` is built from, and what a monster is.
 - `growth` — added per level above 1, then rounded. Floats are fine.
 - `themes` — which ability-grammar themes this class's generated trees are drawn from.
 - `grants` — abilities the class hands over on the spot.
+- `colour` — the class's own colour (`#rrggbb`): its card when a path is chosen, the trail of its
+  powers, its name on the character sheet and the level-up banner. Optional; parchment if left out.
 - `flash_step` — blink range the class grants; the higher of this and the template's wins.
 - `yoke: true` — flags a class as one that can hold the Training Yoke stance.
 

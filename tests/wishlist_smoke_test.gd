@@ -69,6 +69,9 @@ func _check_content() -> void:
 				)
 
 	for class_id: String in Database.classes:
+		# Every class is drawn in its own colour ([D67]).
+		var colour := str(Database.classes[class_id].get("colour", ""))
+		_expect(Color.html_is_valid(colour), "class %s has no colour, or not one written #rrggbb" % class_id)
 		for ability_id: String in Database.classes[class_id].get("grants", []):
 			_expect(
 				Database.abilities.has(ability_id),

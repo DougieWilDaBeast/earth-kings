@@ -236,6 +236,12 @@ waves do, for the copy of the company on the sand).
   use and both adding to how hard a move hits ✅ (`Proficiency.arms_rank`)
 - The party screen's Practice page shows weapon skill, the kinds each character has learned from,
   and the assists they are part-way through ✅
+- Growth you can see ([D67](06-decisions.md), 2026-10-12) ✅: a banner for each level gained in
+  play, with what went up and a button to a path or power owed; a path chosen from cards in each
+  class's colour; a tree of powers as a trail of stones, one click to take the next. Class colours
+  are **Inferred** (agenda item 64)
+- The journal is a book, found in the furrow at the landing, and its first page is a sheet for
+  each companion: every number, what a level adds, what they carry and can do ✅ ([D67](06-decisions.md))
 - ✅ Done when: killing the same enemy twice gives experience once, and a soak run shows levels
   rising only as the party meets new things ([D37](06-decisions.md)) — `tests/experience_smoke_test.tscn`:
   one goblin takes a fresh character from level 1 to 4 on Gentle, thirty-nine more change nothing,

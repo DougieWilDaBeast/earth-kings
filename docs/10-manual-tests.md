@@ -236,7 +236,7 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 
 | #   | Do this                                                          | Expect                                                             |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| I1  | Open it at the very start of a run                               | Empty, and it says so                                              |
+| I1  | Open it at the very start of a run, then go to **Bestiary**      | It opens at **The Company**; the Bestiary is empty, and says so    |
 | I2  | Fight a goblin, then open it                                     | A goblin page, mostly question marks                               |
 | I3  | Look at Reach / Guard / Constitution before doing anything to it | All `?`                                                            |
 | I4  | Be hit by one                                                    | Reach fills in                                                     |
@@ -244,6 +244,21 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | I6  | Kill one                                                         | Constitution fills in                                              |
 | I7  | Watch one cast something                                         | That ability is named; the rest stay "something you have not seen" |
 | I8  | Fight in the Training Ground, then check                         | **Nothing** was written down                                       |
+| I9  | Start a new game and read the landing                            | A journal comes down in the furrow with the lead, blank but for their name ([D67](06-decisions.md)) |
+| I10 | Open it                                                          | A leather book, two parchment pages, a coloured ribbon per tab; the open ribbon stands taller |
+| I11 | On **The Company**, press each companion on the left page        | Their sheet on the right: face, level and path, health and experience bars, attributes with what a level adds, the path's growth bars, what they carry, their powers, what they have learned from |
+| I12 | Open it with someone owed a path or a power                      | A red box on their sheet says so; **Choose it** shuts the book and opens the party screen at that choice |
+
+## I2 — Growing ([D67](06-decisions.md))
+
+| #   | Do this                                                          | Expect                                                             |
+| --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
+| GR1 | Win the first fight of a run                                     | A banner across the top: the face, "reaches level N", a chip for each number that went up; it goes by itself, and a press puts it away. A chime |
+| GR2 | Reach level 2 with the lead                                      | The banner says **Choose a path**; pressing it opens the party screen at the choice |
+| GR3 | On the party screen, look at the path cards                      | A card per class in its own colour, with growth bars, its powers' themes and what it starts with; the tabs above are greyed |
+| GR4 | Press **Walk this path**                                         | Chosen in one click; a "path is chosen" banner in the class's colour |
+| GR5 | Reach level 5 and open the Powers page                           | The tree as three stones: the first glows gold; pressing it fills it in the class's colour and the next one glows |
+| GR6 | Level up during a real-time fight                                | The banner shows over the fight and the fight runs on underneath it |
 
 ## J — Coliseum
 
@@ -342,7 +357,8 @@ Rather than starting a run and playing to the point of concern, boot straight in
 .\ek.ps1 test                    # every smoke suite, one line each
 ```
 
-State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`.
+State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`,
+`--owed=path|power`, `--levelup`, `--choose=CLASS`, `--take`, and `--tab=NAME` for the journal ([D67](06-decisions.md)).
 Scenes: cinematic title character_select world area skirmish training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 

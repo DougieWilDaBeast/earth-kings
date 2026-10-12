@@ -29,6 +29,10 @@ signal dialogue_finished(dialogue_id: String)
 ## A party member hit level 2 and owes the player a decision.
 signal class_choice_required(character: RefCounted)
 signal class_chosen(character: RefCounted)
+## Somebody gained a level in play (not while the world is being built).
+## [param before] holds the numbers a level changes as they were a moment
+## earlier: `max_hp`, `attack`, `defense`, `speed` ([D66]).
+signal levelled_up(character: RefCounted, before: Dictionary)
 ## A character went down. outcome: { "outcome": "alive"|"captured"|"dead", "reason": String, "line": String }
 signal character_fell(character: RefCounted, outcome: Dictionary)
 
@@ -36,6 +40,9 @@ signal character_fell(character: RefCounted, outcome: Dictionary)
 signal system_menu_requested
 ## Ask the always-present party screen to open.
 signal party_screen_requested
+## Open the party screen on [param character], at whatever they are owed: the
+## path to choose or the powers page (the level-up banner's button, [D66]).
+signal growth_choice_requested(character: RefCounted)
 ## Ask the always-present journal to open.
 signal journal_requested
 ## The journal's Map was pressed: whichever ground the party is on opens the

@@ -16,6 +16,8 @@ signal closed
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+## Class colours, growth bars and the shapes of powers ([D66]).
+const SheetParts := preload("res://src/ui/sheet_parts.gd")
 
 ## Pieces out of the packs offered per person. The page scrolls, so this is
 ## about what is worth reading rather than what fits on one row.
@@ -36,6 +38,13 @@ const COMPACT_CARD_HEIGHT := 80
 const ROW_BUTTON := Vector2(112, 48)
 ## The arrows that set the marching order. Narrow, but still a thumb tall.
 const ORDER_BUTTON := Vector2(44, 42)
+## A class card when a path is chosen: wide enough for its growth bars.
+const CLASS_CARD := Vector2(250, 0)
+## A stone on a power's trail, and the rope between two of them.
+const RUNG_STONE := Vector2(60, 60)
+const RUNG_ROPE := Vector2(48, 6)
+## The width a rung's name may wrap to under its stone.
+const RUNG_NAME_WIDTH := 150
 
 const GOLD := Color(0.965, 0.827, 0.443)
 const QUIET := Color(0.62, 0.65, 0.72)
@@ -70,6 +79,11 @@ func _ready() -> void:
 	_backdrop.hide()
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.party_screen_requested.connect(open)
+	EventBus.growth_choice_requested.connect(func(who: RefCounted) -> void:
+		var character := who as Character
+		if character != null:
+			open_on_growth(character)
+	)
 
 	_close_btn.pressed.connect(close)
 	_stash_btn.pressed.connect(func() -> void: EventBus.stash_requested.emit())
@@ -87,6 +101,16 @@ func is_open() -> bool:
 func open() -> void:
 	_backdrop.show()
 	_rebuild()
+
+
+## Open on [param character] at whatever they are owed: a path (which takes
+## the page by itself) or a power, which lives on the Powers page.
+func open_on_growth(character: Character) -> void:
+	_shown_id = character.id
+	if not character.pending_class_choice:
+		_page = Page.POWERS
+	_page_scroll.scroll_vertical = 0
+	open()
 
 
 func close() -> void:
@@ -262,15 +286,21 @@ func _rebuild() -> void:
 	for i in party.size():
 		_roster_list.add_child(_card_row(party[i], i, party.size(), shown))
 
-	_gear_tab.disabled = shown == null
-	_powers_tab.disabled = shown == null
-	_practice_tab.disabled = shown == null
+	# Until a path is chosen the page is the choice, and the tabs wait.
+	var tabs_wait := shown == null or shown.pending_class_choice
+	_gear_tab.disabled = tabs_wait
+	_powers_tab.disabled = tabs_wait
+	_practice_tab.disabled = tabs_wait
 	_mark_tab(_gear_tab, _page == Page.GEAR)
 	_mark_tab(_powers_tab, _page == Page.POWERS)
 	_mark_tab(_practice_tab, _page == Page.PRACTICE)
 
 	if shown != null:
 		_build_head(shown, party)
+	if shown != null and shown.pending_class_choice:
+		# A path to choose is the one question on the page until it is answered.
+		_build_class_choice_page(shown)
+	elif shown != null:
 		match _page:
 			Page.GEAR:
 				_build_gear_page(shown)
@@ -472,7 +502,7 @@ func _face(character: Character) -> TextureRect:
 func _build_head(character: Character, party: Array[Character]) -> void:
 	var title := Label.new()
 	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", GOLD)
+	title.add_theme_color_override("font_color", GOLD if character.class_id == "" else SheetParts.colour_of(character).lightened(0.25))
 	title.text = "%s  —  level %d %s" % [
 		character.display_name, character.level, character.class_name_text()
 	]
@@ -491,7 +521,12 @@ func _build_head(character: Character, party: Array[Character]) -> void:
 	_head.add_child(numbers)
 
 	if character.pending_class_choice:
-		_head.add_child(_class_choice_row(character))
+		var prompt := Label.new()
+		prompt.add_theme_color_override("font_color", GOLD)
+		prompt.add_theme_font_size_override("font_size", 16)
+		prompt.text = "%s has proved they will survive. Choose a path below: it is theirs for life." % character.display_name
+		prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_head.add_child(prompt)
 		return
 
 	var buttons := HBoxContainer.new()
@@ -529,29 +564,78 @@ func _build_head(character: Character, party: Array[Character]) -> void:
 		buttons.add_child(teaching)
 
 
-func _class_choice_row(character: Character) -> Control:
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 6)
-
-	var prompt := Label.new()
-	prompt.add_theme_color_override("font_color", GOLD)
-	prompt.add_theme_font_size_override("font_size", 16)
-	prompt.text = "Choose a path:"
-	box.add_child(prompt)
-
-	var row := HFlowContainer.new()
-	row.add_theme_constant_override("h_separation", 8)
-	row.add_theme_constant_override("v_separation", 8)
-	box.add_child(row)
+## The paths open to [param character], one card each in the class's own
+## colour: what it grows, where its powers come from, what it hands over on the
+## spot, and one button to walk it ([D66]).
+func _build_class_choice_page(character: Character) -> void:
+	_page_box.add_child(_heading("Choose a path"))
+	var cards := HFlowContainer.new()
+	cards.add_theme_constant_override("h_separation", 12)
+	cards.add_theme_constant_override("v_separation", 12)
 	for class_id: String in Progression.class_options(character):
-		var pick := Button.new()
-		pick.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
-		pick.focus_mode = Control.FOCUS_NONE
-		pick.text = Database.character_class(class_id).get("display_name", class_id)
-		pick.pressed.connect(func() -> void: choose_class(character, class_id))
-		Sfx.attend(pick)
-		row.add_child(pick)
-	return box
+		cards.add_child(_class_card(character, class_id))
+	_page_box.add_child(cards)
+
+
+func _class_card(character: Character, class_id: String) -> Control:
+	var colour := SheetParts.class_colour(class_id)
+	var card := PanelContainer.new()
+	card.custom_minimum_size = CLASS_CARD
+	var face := SheetParts.box(colour.darkened(0.82), colour.darkened(0.15), 2, 10)
+	face.border_width_top = 8
+	face.shadow_color = Color(colour, 0.25)
+	face.shadow_size = 8
+	face.content_margin_left = 14
+	face.content_margin_right = 14
+	face.content_margin_top = 12
+	face.content_margin_bottom = 12
+	card.add_theme_stylebox_override("panel", face)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 8)
+	card.add_child(column)
+
+	var title := Label.new()
+	title.text = SheetParts.class_title(class_id)
+	title.add_theme_font_size_override("font_size", 21)
+	title.add_theme_color_override("font_color", colour.lightened(0.3))
+	column.add_child(title)
+
+	var themes := Label.new()
+	themes.text = "Powers of %s" % "  ·  ".join(SheetParts.theme_names(class_id))
+	themes.add_theme_font_size_override("font_size", 12)
+	themes.add_theme_color_override("font_color", QUIET)
+	themes.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(themes)
+
+	column.add_child(SheetParts.growth_bars(class_id, QUIET, Color(0.04, 0.04, 0.06, 0.9)))
+
+	var grants := SheetParts.grant_names(class_id)
+	if not grants.is_empty():
+		var starts := Label.new()
+		starts.text = "Starts with  %s" % ",  ".join(grants)
+		starts.add_theme_font_size_override("font_size", 12)
+		starts.add_theme_color_override("font_color", Color(0.84, 0.86, 0.9))
+		starts.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		column.add_child(starts)
+
+	var walk := Button.new()
+	walk.text = "Walk this path"
+	walk.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+	walk.focus_mode = Control.FOCUS_ALL
+	walk.add_theme_stylebox_override("normal", SheetParts.box(colour.darkened(0.35), colour, 1, 6))
+	walk.add_theme_stylebox_override("hover", SheetParts.box(colour.darkened(0.1), colour.lightened(0.4), 2, 6))
+	walk.add_theme_stylebox_override("pressed", SheetParts.box(colour.darkened(0.5), colour, 1, 6))
+	walk.add_theme_stylebox_override("focus", SheetParts.box(Color(0, 0, 0, 0), GOLD, 2, 6))
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		walk.add_theme_color_override(state, Color(0.98, 0.96, 0.9))
+	walk.tooltip_text = "%s takes up the way of the %s. A path is for life." % [
+		character.display_name, SheetParts.class_title(class_id)
+	]
+	walk.pressed.connect(func() -> void: choose_class(character, class_id))
+	Sfx.attend(walk)
+	column.add_child(walk)
+	return card
 
 
 # --- gear: what is worn, and what swapping to it would do ---------------------
@@ -767,7 +851,7 @@ func _build_powers_page(character: Character) -> void:
 		var owed := Label.new()
 		owed.add_theme_color_override("font_color", WARNING)
 		owed.add_theme_font_size_override("font_size", 15)
-		owed.text = "%d power to take — pick the next rung of any path." % character.rungs
+		owed.text = "%d power to take — press a glowing stone on any path." % character.rungs
 		_page_box.add_child(owed)
 	for block in _tree_blocks(character):
 		_page_box.add_child(block)
@@ -938,10 +1022,12 @@ func _gear_summary(character: Character) -> String:
 	]
 
 
-## What each uncovered tree holds, and how far up it they have got. A tree is
-## generated for the world rather than looked up in a data file, so this is the
-## only place a player can see what they are actually climbing (see
-## [AbilityGrammar]).
+## What each uncovered tree holds, and how far up it they have got, drawn as
+## a trail of stones ([D66]): filled in the class's colour where a power is
+## known, glowing gold where one can be taken, dark where it is still ahead. A
+## tree is generated for the world rather than looked up in a data file, so
+## this is the only place a player can see what they are actually climbing
+## (see [AbilityGrammar]).
 func _tree_blocks(character: Character) -> Array[Control]:
 	var out: Array[Control] = []
 	if character.trees.is_empty():
@@ -951,52 +1037,31 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			))
 		return out
 
+	var colour := SheetParts.colour_of(character)
+	var offered := Progression.rung_options(character, GameState.world)
 	for tree_id: String in character.trees:
 		var tree := GameState.world.tree(tree_id)
 		if tree.is_empty():
 			continue
 		var block := VBoxContainer.new()
-		block.add_theme_constant_override("separation", 2)
-		block.add_child(_heading("%s  ·  the %s" % [
+		block.add_theme_constant_override("separation", 6)
+		var name_line := _heading("%s  ·  the %s" % [
 			tree.get("display_name", tree_id), tree.get("theme", "")
-		]))
+		])
+		name_line.add_theme_color_override("font_color", colour.lightened(0.25))
+		block.add_child(name_line)
 
+		var trail := HBoxContainer.new()
+		trail.add_theme_constant_override("separation", 0)
 		var abilities: Array = tree.get("abilities", [])
-		var offered := Progression.rung_options(character, GameState.world)
 		for rung in abilities.size():
 			var ability_id: String = abilities[rung]
-			var ability := Database.ability(ability_id)
-			var known := ability_id in character.learned
-			var shape := _ability_shape(ability)
-
-			# A power owed makes the next rung of every tree a choice, so the
-			# path up is picked rather than handed out in order.
-			if not known and character.rungs > 0 and offered.has(ability_id):
-				var take := Button.new()
-				take.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
-				take.focus_mode = Control.FOCUS_NONE
-				take.text = "Take %s  —  %s" % [ability.get("display_name", ability_id), shape]
-				take.alignment = HORIZONTAL_ALIGNMENT_LEFT
-				take.pressed.connect(func() -> void: take_rung(character, ability_id))
-				Sfx.attend(take)
-				block.add_child(take)
-				continue
-
-			var rung_line := Label.new()
-			rung_line.add_theme_font_size_override("font_size", 13)
-			rung_line.add_theme_color_override(
-				"font_color", Color(0.86, 0.88, 0.92) if known else Color(0.46, 0.47, 0.5)
-			)
-			var extra := ""
-			if known and Proficiency.uses(character, ability_id) > 0:
-				extra = "  [%s]" % Proficiency.summary(character, ability_id)
-			rung_line.text = "    %s %s  —  %s%s" % [
-				"•" if known else "◊",
-				ability.get("display_name", ability_id),
-				shape,
-				extra,
-			]
-			block.add_child(rung_line)
+			if rung > 0:
+				var lit := ability_id in character.learned
+				trail.add_child(_rung_rope(colour if lit else Color(0.28, 0.28, 0.33)))
+			trail.add_child(_rung_stop(character, ability_id, rung, colour,
+					character.rungs > 0 and offered.has(ability_id)))
+		block.add_child(trail)
 		out.append(block)
 
 	if character.trees.size() == 1 and character.level < Progression.SECOND_TREE_LEVEL:
@@ -1007,21 +1072,92 @@ func _tree_blocks(character: Character) -> Array[Control]:
 	return out
 
 
-## Range, splash and weight, said the way the command menu would say it.
-func _ability_shape(ability: Dictionary) -> String:
-	var parts: Array[String] = []
-	var low := int(ability.get("min_range", 1))
-	var high := int(ability.get("range", 1))
-	parts.append("reach %d" % high if low == high else "reach %d-%d" % [low, high])
-	if int(ability.get("splash", 0)) > 0:
-		parts.append("catches %d around" % int(ability.get("splash", 0)))
-	if bool(ability.get("heal", false)):
-		parts.append("mends %d" % int(ability.get("power", 0)))
+## One stop on a trail: its stone, and its name and shape under it.
+func _rung_stop(character: Character, ability_id: String, rung: int, colour: Color, takeable: bool) -> Control:
+	var ability := Database.ability(ability_id)
+	var known := ability_id in character.learned
+	var stop := VBoxContainer.new()
+	stop.add_theme_constant_override("separation", 4)
+	stop.custom_minimum_size = Vector2(RUNG_NAME_WIDTH, 0)
+
+	var stone := Button.new()
+	stone.custom_minimum_size = RUNG_STONE
+	stone.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	stone.focus_mode = Control.FOCUS_ALL if takeable else Control.FOCUS_NONE
+	stone.text = SheetParts.NUMERALS[mini(rung, SheetParts.NUMERALS.size() - 1)]
+	stone.add_theme_font_size_override("font_size", 18)
+	var radius := int(RUNG_STONE.x / 2.0)
+	var fill: StyleBoxFlat
+	var ink: Color
+	if known:
+		fill = SheetParts.box(colour, colour.lightened(0.35), 2, radius)
+		ink = colour.darkened(0.75)
+	elif takeable:
+		fill = SheetParts.box(Color(0.22, 0.17, 0.06), GOLD, 3, radius)
+		fill.shadow_color = Color(GOLD, 0.45)
+		fill.shadow_size = 10
+		ink = GOLD
 	else:
-		parts.append("x%s" % String.num(float(ability.get("power", 1.0)), 2))
-	if bool(ability.get("bonus", false)):
-		parts.append("a moment only")
-	return "  ".join(parts)
+		fill = SheetParts.box(Color(0.09, 0.09, 0.12), Color(0.3, 0.3, 0.36), 2, radius)
+		ink = Color(0.42, 0.43, 0.47)
+	for state: String in ["normal", "disabled", "pressed", "focus"]:
+		stone.add_theme_stylebox_override(state, fill)
+	var lifted := fill.duplicate() as StyleBoxFlat
+	if takeable:
+		lifted.bg_color = Color(0.36, 0.28, 0.08)
+		lifted.shadow_size = 16
+	stone.add_theme_stylebox_override("hover", lifted)
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color"]:
+		stone.add_theme_color_override(state, ink)
+	stone.disabled = not takeable
+	stone.tooltip_text = "%s\n%s\n%s" % [
+		ability.get("display_name", ability_id), SheetParts.ability_shape(ability),
+		"Known." if known else ("Press to take it." if takeable else "Further up the path."),
+	]
+	if takeable:
+		stone.pressed.connect(func() -> void: take_rung(character, ability_id))
+		Sfx.attend(stone)
+		# A slow breath, so the stone that can be taken is the one the eye finds.
+		var breath := stone.create_tween().set_loops()
+		breath.tween_property(stone, "modulate", Color(1.25, 1.2, 1.05), 0.8)
+		breath.tween_property(stone, "modulate", Color(1, 1, 1), 0.8)
+	stop.add_child(stone)
+
+	var name_line := Label.new()
+	name_line.text = str(ability.get("display_name", ability_id))
+	name_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_line.add_theme_font_size_override("font_size", 13)
+	name_line.add_theme_color_override("font_color",
+			Color(0.9, 0.9, 0.93) if known else (GOLD if takeable else Color(0.46, 0.47, 0.5)))
+	stop.add_child(name_line)
+
+	var shape := Label.new()
+	var extra := ""
+	if known and Proficiency.uses(character, ability_id) > 0:
+		extra = "\n%s" % Proficiency.summary(character, ability_id)
+	shape.text = SheetParts.ability_shape(ability) + extra
+	shape.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	shape.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	shape.add_theme_font_size_override("font_size", 11)
+	shape.add_theme_color_override("font_color", QUIET if known or takeable else Color(0.36, 0.37, 0.4))
+	stop.add_child(shape)
+	return stop
+
+
+## The rope between two stones, level with their middles.
+func _rung_rope(colour: Color) -> Control:
+	var holder := MarginContainer.new()
+	holder.add_theme_constant_override("margin_top", int((RUNG_STONE.y - RUNG_ROPE.y) / 2.0))
+	holder.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var rope := ColorRect.new()
+	rope.custom_minimum_size = RUNG_ROPE
+	rope.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	rope.color = colour
+	rope.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(rope)
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return holder
 
 
 func _doctrine_summary(character: Character) -> String:
