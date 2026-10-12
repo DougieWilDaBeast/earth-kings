@@ -43,7 +43,7 @@ In short:
 | Party control | Squad phase, Tab between ready units | Select and order; pause to think |
 
 Kept from what exists, unless the research argues otherwise: the square grid with height and move
-cost, facing (side 1.2×, back 1.5×), generated battlefields from world terrain, falling and the
+cost, facing (side 1.1×, back 1.2×, [D59](06-decisions.md)), generated battlefields from world terrain, falling and the
 graces ([D11](06-decisions.md)), and `Q`/`T` autoplay and speed — which is already half of "pause and
 speed up" on the world map.
 
@@ -152,15 +152,16 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 
 | Control | Does |
 | --- | --- |
-| Left-click a party member · `1`–`4` · `Tab` | Select one · select by number (Shift adds) · select everyone |
+| Left-click a party member · drag a box · `1`–`4` · `Tab` | Select one · select everyone the box touches · select by number · select everyone (Shift adds to the click, box or number) |
 | Right-click ground | Move there. Several selected spread out around the spot |
 | Right-click an enemy | Go after that one, and only that one |
 | Right-click a downed ally | The nearest selected member goes to help them up |
 | `Q` `W` `E` `R` | Arm a skill; left-click the target (or the ground, for splash); right-click cancels |
 | `A` | Auto Skill on or off for the selected — on by default |
+| A draught or herb on a party card | That fighter uses it: 1.5 s, open to blows but not to stuns ([D59](06-decisions.md)) |
 | `H` | Hold: stay put and only hit what is in reach |
 | `Space` | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
-| `T` | Speed x1 → x2 → x4 |
+| `T` | Speed x1 → x1.5 → x2 |
 | `Z` | Auto-pause: off → when someone goes down (the default) → also when a skill comes back for a unit with Auto Skill off. Kept for the session |
 
 **What it does**
@@ -181,7 +182,7 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 - **Near death**: a party member at zero is down for twelve seconds, and a companion who reaches
   them and kneels for two gets them up at a quarter of their health. Enemies at zero are gone.
 - **Facing still counts**: units face where they step and what they hit, and side and back hits
-  still deal 1.2× and 1.5× — it is the first thing to judge in play.
+  deal 1.1× and 1.2× ([D59](06-decisions.md)).
 - **The mind seam holds**: `SkirmishBrain` returns choices and only `Skirmish` changes the fight.
 - **The temper leans carry over.** T's damage and P's extra move point (as walking pace) were
   already in the numbers. J's opening charge time becomes acting at once: a Set temper takes its
@@ -198,7 +199,7 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   | Hedge Priest | Hearthglow | Allies within 2 tiles recover 1% of their health a second |
   | Magic Swordsman | Echo Blade | A basic attack strikes twice one time in five |
   | Raider | Bloodthirst | Heals for 20% of the damage dealt |
-  | Wildling | Hunter's Angle | Side and back hits deal 30% more, on top of facing's 1.2× and 1.5× |
+  | Wildling | Hunter's Angle | Side and back hits deal 30% more, on top of facing's 1.1× and 1.2× |
   | knows Second Wind | Catch Breath | Out of the fighting for 4 seconds, 4% of health a second |
   | knows Riposte | Barbed Guard | A blow from the next tile comes 30% back on the striker |
   | knows Stand Fast | Last Stand | 35% more damage at or under 35% health |
@@ -223,6 +224,14 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   nothing is written back: a training grace spends no charm. A companion reaching them first is
   still the sure way; the grace is the last chance, and the downed card shows its odds. Rolled
   once, when the window closes, rather than at the fall — **Inferred**.
+- **Energy, stuns, charged spells, items and shields** (2026-10-12, [D59](06-decisions.md), from
+  `doug-md`'s twenty hours of _Dungeon Settlers_). Each card has an energy bar of ten pips; skills
+  drain it and a fighter who runs dry is **tired**, swinging only, until it is half full again.
+  Shield Bash **stuns** for 1.5 s and breaks off whatever its target was winding up. Ember, Tidal
+  Surge, Thunderhead, Pyre and Blizzard **charge** for 2.5–3 s and land 1.6× harder, so they are
+  worth breaking. Draughts and herbs sit as buttons on each card. A **shield bearer** sometimes
+  blocks a sword swing from the front or side ("Blocked"). The numbers are in `data/skirmish.json`
+  and **Inferred**.
 - **Feel, without art** (2026-10-12). Damage numbers jump off whoever is hit (gold and big for a
   critical, green for heals, violet for thorns), the struck unit flashes white, the striker
   lunges a few pixels at its target, a critical or a blow worth a fifth of someone's health

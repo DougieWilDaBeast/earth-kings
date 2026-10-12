@@ -10,7 +10,8 @@
 		"speed": 10,
 		"abilities": [
 			"strike",
-			"cleave"
+			"cleave",
+			"shield_bash"
 		],
 		"classes": [
 			"sworn_blade",
@@ -164,6 +165,7 @@
 		],
 		"kind": "wild",
 		"color": "#6f9350",
+		"body_scale": 0.85,
 		"sprite_dir": "res://art/units/goblin/idle"
 	},
 	"ogre": {
@@ -186,6 +188,7 @@
 		],
 		"kind": "beast",
 		"color": "#8a6a4a",
+		"body_scale": 1.6,
 		"sprite_dir": "res://art/units/club_ogre/idle"
 	},
 	"wraith": {
@@ -249,6 +252,7 @@
 		],
 		"kind": "wild",
 		"color": "#5fbfa8",
+		"body_scale": 0.75,
 		"sprite_dir": "res://art/units/feather_wisp/idle"
 	},
 	"fox_knight": {
@@ -318,6 +322,7 @@
 		],
 		"kind": "wild",
 		"color": "#6d8f5a",
+		"body_scale": 1.7,
 		"sprite_dir": "res://art/units/tree_sentinel/idle"
 	},
 	"turret_cannon": {
@@ -339,6 +344,7 @@
 		],
 		"kind": "default",
 		"color": "#8fa3b8",
+		"body_scale": 1.25,
 		"sprite_dir": "res://art/units/turret_cannon/idle"
 	},
 	"ember_duelist": {
@@ -385,6 +391,7 @@
 		],
 		"kind": "wild",
 		"color": "#e8a35f",
+		"body_scale": 0.65,
 		"sprite_dir": "res://art/units/flame_dove/idle"
 	},
 	"hat_fox": {
@@ -407,6 +414,7 @@
 		],
 		"kind": "raider",
 		"color": "#e07a3a",
+		"body_scale": 0.8,
 		"sprite_dir": "res://art/units/hat_fox/idle"
 	},
 	"frozen_wolfman": {
@@ -429,6 +437,7 @@
 		],
 		"kind": "beast",
 		"color": "#8fb6cc",
+		"body_scale": 1.35,
 		"sprite_dir": "res://art/units/frozen_wolfman/idle"
 	},
 	"devil_butler": {
@@ -690,6 +699,7 @@
 		],
 		"kind": "beast",
 		"color": "#8a6440",
+		"body_scale": 1.5,
 		"sprite_dir": "res://art/units/axe_bear/idle"
 	},
 	"sword_monkey": {
@@ -712,6 +722,7 @@
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#c08a52",
+		"body_scale": 0.85,
 		"sprite_dir": "res://art/units/sword_monkey/idle"
 	},
 	"golden_knight": {
@@ -756,6 +767,7 @@
 		],
 		"kind": "wild",
 		"color": "#7fa05c",
+		"body_scale": 1.3,
 		"sprite_dir": "res://art/units/caterpillar_warrior/idle"
 	},
 	"timeless_one": {
@@ -799,6 +811,7 @@
 		],
 		"kind": "beast",
 		"color": "#a8465a",
+		"body_scale": 0.6,
 		"sprite_dir": "res://art/units/blood_mosquito/idle"
 	},
 	"legion_copper": {
@@ -981,6 +994,7 @@
 		"kind": "soldier",
 		"flash_step": 4,
 		"color": "#8f2f44",
+		"body_scale": 1.4,
 		"sprite_dir": "res://art/units/dirte/idle"
 	},
 	"red_panda_master": {
@@ -1002,6 +1016,7 @@
 		],
 		"kind": "soldier",
 		"color": "#c86a3a",
+		"body_scale": 0.85,
 		"sprite_dir": "res://art/units/red_panda_master/idle"
 	},
 	"staff_panda": {
@@ -1072,6 +1087,7 @@
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#3a3a44",
+		"body_scale": 1.3,
 		"sprite_dir": "res://art/units/sword_bear/idle"
 	},
 	"cannon_bear": {
@@ -1094,6 +1110,7 @@
 		],
 		"kind": "beast",
 		"color": "#dfe6ec",
+		"body_scale": 1.3,
 		"sprite_dir": "res://art/units/cannon_bear/idle"
 	},
 	"avatar_adept": {
@@ -1162,6 +1179,7 @@
 		],
 		"kind": "wild",
 		"color": "#4fb6e0",
+		"body_scale": 0.8,
 		"sprite_dir": "res://art/units/sea_horse/idle"
 	},
 	"sea_man": {
@@ -1227,6 +1245,7 @@
 		],
 		"kind": "wild",
 		"color": "#c8873f",
+		"body_scale": 0.6,
 		"sprite_dir": "res://art/units/slime/idle"
 	},
 	"blue_slime": {
@@ -1247,6 +1266,7 @@
 		],
 		"kind": "wild",
 		"color": "#3f9fe0",
+		"body_scale": 0.7,
 		"sprite_dir": "res://art/units/blue_slime/idle"
 	},
 	"king_slime": {
@@ -1268,6 +1288,7 @@
 		],
 		"kind": "wild",
 		"color": "#5cc03f",
+		"body_scale": 1.5,
 		"sprite_dir": "res://art/units/king_slime/idle"
 	},
 	"eye_leprechaun": {
@@ -1288,6 +1309,7 @@
 		],
 		"kind": "beast",
 		"color": "#3f9d5a",
+		"body_scale": 0.8,
 		"sprite_dir": "res://art/units/eye_leprechaun/idle"
 	},
 	"lizard_wizard": {
@@ -1399,6 +1421,7 @@
 		],
 		"kind": "beast",
 		"color": "#e8873f",
+		"body_scale": 0.75,
 		"sprite_dir": "res://art/units/ember_lizard/idle"
 	},
 	"seed_beast": {
@@ -1420,6 +1443,7 @@
 		],
 		"kind": "wild",
 		"color": "#7fc06a",
+		"body_scale": 0.75,
 		"sprite_dir": "res://art/units/seed_beast/idle"
 	},
 	"mending_lion": {
@@ -1545,6 +1569,7 @@
 		],
 		"kind": "soldier",
 		"color": "#b58a5a",
+		"body_scale": 0.85,
 		"sprite_dir": "res://art/units/quant_monkey/idle"
 	},
 	"dwarf_smith": {
@@ -1567,6 +1592,7 @@
 		],
 		"kind": "soldier",
 		"color": "#b5563a",
+		"body_scale": 0.85,
 		"sprite_dir": "res://art/units/dwarf_smith/idle"
 	},
 	"beast_titan": {
@@ -1590,6 +1616,7 @@
 		],
 		"kind": "beast",
 		"color": "#8a6440",
+		"body_scale": 2.2,
 		"sprite_dir": "res://art/units/beast_titan/idle"
 	},
 	"colossal_titan": {
@@ -1613,6 +1640,7 @@
 		],
 		"kind": "beast",
 		"color": "#c0503f",
+		"body_scale": 2.6,
 		"sprite_dir": "res://art/units/colossal_titan/idle"
 	}
 }

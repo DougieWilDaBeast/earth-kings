@@ -125,7 +125,7 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT7  | Press **H** on a unit                                       | "hold": it stops walking to fights and only hits what is already in reach              |
 | RT8  | Let a party member drop                                     | "is down — 12 seconds", a red ring counting down under them                              |
 | RT9  | Right-click the downed ally with another selected           | They walk over, kneel, and after two seconds the ally is back up at a quarter of their health |
-| RT10 | Press **T** during the fight                                | x1 → x2 → x4 → x1, and the fight plays at that pace                                      |
+| RT10 | Press **T** during the fight                                | x1 → x1.5 → x2 → x1, and the fight plays at that pace                                  |
 | RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back at the training ground             |
 | RT12 | Go back to the run afterwards                               | **Your real party is untouched** — nothing from the skirmish is written back             |
 | RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
@@ -139,6 +139,11 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT21 | Use a skill and watch its tile on the card                  | A dark wedge winds away clockwise with the seconds on it; the tile flashes when it is back. Clicking a tile picks that fighter and readies the skill |
 | RT22 | Let a party member's near-death run out with nobody helping | Their card shows the chance a grace saves them; sometimes "Pulled clear!" or "The charm holds!" and they are back up at a quarter health, otherwise they fall |
 | RT23 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
+| RT24 | Hold the left button and drag across two or more of the party | A gold box follows the mouse; letting go picks everyone it touched, never an enemy. With **Shift** they are added to who was picked. A box over empty ground changes nothing |
+| RT25 | Leave Auto Skill on and watch a card's energy pips          | They drain as skills go off; at empty the card says "tired", only basic attacks follow, and skills come back once the pips reach half |
+| RT26 | Fight a pig warlock or legion magus; Shield Bash it mid-cast | Its Pyre or Thunderhead winds up for 2.5–3 s; the bash pops "Interrupted!", stars circle its head and the spell never lands |
+| RT27 | Hurt someone, then click Herbs on their card                | A pink bar fills for 1.5 s while they stand still; a stun pops "steady" instead; then they mend and the count drops |
+| RT28 | Let brigands swing at Bram from the front                   | Now and then "Blocked" and no damage; never from behind |
 
 ## F — Party menu (**P**)
 

@@ -8,15 +8,18 @@ extends CanvasLayer
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishSlot := preload("res://src/skirmish/skirmish_slot.gd")
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 
 signal card_clicked(index: int)
 ## A skill tile on a party card was clicked: pick that fighter, ready that skill.
 signal slot_clicked(index: int, slot: int)
 ## A touch button, named as [method Skirmish.act] takes it: "pause", "slot0"…
 signal action_pressed(action: String)
+## A draught or herb on a card: card index and item id (D59).
+signal item_clicked(index: int, item_id: String)
 
 const LOG_LINES := 6
-const HINT := "Right-click: move · attack · help the fallen    Left-click: select    1–4 / Tab: pick    " \
+const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
 		+ "a skill, then its target · tap the skill again to put it away"
@@ -44,6 +47,8 @@ var _cards: Array[PanelContainer] = []
 var _card_text: Array[RichTextLabel] = []
 ## Per card, its four skill tiles.
 var _card_slots: Array = []
+## Per card, item id → its button.
+var _card_items: Array = []
 ## The touch skill buttons' cooldown sweeps, by slot.
 var _button_sweeps: Dictionary = {}
 ## Whoever the pointer is over: name, health, role and passives.
@@ -77,8 +82,8 @@ func setup(skirmish: Node2D) -> void:
 	_log.anchor_bottom = 1.0
 	_log.offset_left = 16
 	_log.offset_right = 760
-	_log.offset_top = -282
-	_log.offset_bottom = -158
+	_log.offset_top = -312
+	_log.offset_bottom = -188
 	_log.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_log.add_theme_color_override("font_color", Color(0.86, 0.88, 0.92))
@@ -91,7 +96,7 @@ func setup(skirmish: Node2D) -> void:
 	row.anchor_right = 1.0
 	row.offset_left = 16
 	row.offset_right = -16
-	row.offset_top = -150
+	row.offset_top = -180
 	row.offset_bottom = -8
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
@@ -102,7 +107,7 @@ func setup(skirmish: Node2D) -> void:
 	var card_width := minf(250.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(card_width, 136)
+		card.custom_minimum_size = Vector2(card_width, 166)
 		card.clip_contents = true
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		card.tooltip_text = _passive_tooltip(party[i])
@@ -138,9 +143,27 @@ func setup(skirmish: Node2D) -> void:
 			tile.pressed.connect(func() -> void: slot_clicked.emit(index, which))
 			tiles.add_child(tile)
 			slots.append(tile)
+		var items := HBoxContainer.new()
+		items.add_theme_constant_override("separation", 3)
+		column.add_child(items)
+		var item_buttons := {}
+		for item_id: String in skirmish.pouch_items():
+			var button := Button.new()
+			button.focus_mode = Control.FOCUS_NONE
+			button.add_theme_font_size_override("font_size", 11)
+			button.custom_minimum_size = Vector2(0, 24 if not skirmish.touch else 34)
+			button.tooltip_text = "%s — mends %d. Takes %.1fs; they can be hit but not stunned." % [
+				Gear.display_name(item_id),
+				roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE),
+				SkirmishPassives.rule("use_item_time", 1.5)]
+			var id := item_id
+			button.pressed.connect(func() -> void: item_clicked.emit(index, id))
+			items.add_child(button)
+			item_buttons[item_id] = button
 		_cards.append(card)
 		_card_text.append(text)
 		_card_slots.append(slots)
+		_card_items.append(item_buttons)
 		row.add_child(card)
 
 	_inspect = PanelContainer.new()
@@ -228,7 +251,7 @@ func refresh() -> void:
 	var resume := "tap Pause" if _skirmish.touch else "Space"
 	if Pad.using_pad and not _skirmish.touch:
 		resume = Pad.key("command_wait")
-	var state := "PAUSED — %s to resume" % resume if _skirmish.paused else "x%s" % str(Pace.speed())
+	var state := "PAUSED — %s to resume" % resume if _skirmish.paused else "x%s" % String.num(Pace.speed(), 1).trim_suffix(".0")
 	if _skirmish.over:
 		state = "Over"
 	var armed := ""
@@ -256,6 +279,12 @@ func refresh() -> void:
 				str(SkirmishRules.SLOT_LABELS[slot]), str(ability.get("display_name", "?")),
 				party[i].cooldowns[slot], SkirmishRules.cooldown(ability),
 				lead_armed and _skirmish.armed_slot == slot)
+		var item_buttons: Dictionary = _card_items[i]
+		for item_id: String in item_buttons:
+			var button: Button = item_buttons[item_id]
+			var left := int(_skirmish.pouch.get(item_id, 0))
+			button.text = "%s ×%d" % [Gear.display_name(item_id).replace("Bitter ", ""), left]
+			button.disabled = _skirmish.item_refusal(party[i], item_id) != ""
 	if _inspected != null:
 		_inspect_text.text = _inspection(_inspected)
 
@@ -277,6 +306,7 @@ func _inspection(f: Fighter) -> String:
 	lines.append("[b]%s[/b]  %s  [color=#9aa3b2]%s[/color]" % [unit.display_name, side, unit.job])
 	lines.append("%d / %d HP   attack %d   defence %d   %s" % [
 		maxi(0, unit.hp), unit.max_hp, unit.attack, unit.defense, f.activity()])
+	lines.append("energy %s%s" % [energy_bar(f), "   [color=#9ad0ff]shield[/color]" if f.shield else ""])
 	var role := f.role_data()
 	if not role.is_empty():
 		lines.append("[color=#ffd27a]%s[/color] — %s" % [role.get("display_name", f.role), role.get("description", "")])
@@ -285,6 +315,14 @@ func _inspection(f: Fighter) -> String:
 	for p: Dictionary in f.passives:
 		lines.append("[color=#c8b6ff]✦ %s[/color] — %s" % [p.get("display_name", p.get("id", "?")), p.get("description", "")])
 	return "\n".join(lines)
+
+
+## Ten pips of energy, gold when it can pay for skills and grey when tired.
+static func energy_bar(f: Fighter) -> String:
+	var share := clampf(f.energy / maxf(1.0, f.energy_max), 0.0, 1.0)
+	var full := roundi(share * 10.0)
+	var colour := "#7d8594" if f.tired else "#ffd27a"
+	return "[color=%s]%s[/color][color=#3a3f4a]%s[/color]" % [colour, "▮".repeat(full), "▮".repeat(10 - full)]
 
 
 static func _passive_tooltip(f: Fighter) -> String:
@@ -297,10 +335,16 @@ static func _passive_tooltip(f: Fighter) -> String:
 
 
 static func _ability_tooltip(ability: Dictionary) -> String:
-	return "%s\n%s\nCooldown %.1fs%s" % [
+	var extras := ""
+	if SkirmishRules.is_charged(ability):
+		extras += "\nCharged: hits harder, but a stun breaks it off"
+	if float(ability.get("stun", 0.0)) > 0.0:
+		extras += "\nStuns for %.1fs and breaks a cast" % float(ability["stun"])
+	return "%s\n%s\nCooldown %.1fs%s   energy %d%s" % [
 		ability.get("display_name", "?"), ability.get("description", ""),
 		SkirmishRules.cooldown(ability),
 		"   wind-up %.1fs" % SkirmishRules.cast_time(ability) if SkirmishRules.cast_time(ability) > 0.0 else "",
+		roundi(SkirmishRules.energy_cost(ability)), extras,
 	]
 
 
@@ -313,7 +357,7 @@ func _describe(f: Fighter, index: int) -> String:
 	if f.hold:
 		flags.append("hold")
 	lines.append("[b]%d  %s[/b]  [color=#9aa3b2]%s[/color]" % [index + 1, unit.display_name, " · ".join(flags)])
-	lines.append("%d / %d HP   [color=#c9d1dd]%s[/color]" % [maxi(0, unit.hp), unit.max_hp, f.activity()])
+	lines.append("%d / %d HP   %s   [color=#c9d1dd]%s[/color]" % [maxi(0, unit.hp), unit.max_hp, energy_bar(f), f.activity()])
 	if f.is_downed():
 		# What the graces would make of it if nobody gets there in time.
 		lines.append("[color=#ffe08a]if nobody comes: %d%% a grace saves them[/color]" % roundi(100.0 * _skirmish.grace_odds(f)))

@@ -11,8 +11,8 @@ enum Flank { FRONT, SIDE, BACK }
 
 const FLANK_MULTIPLIER := {
 	Flank.FRONT: 1.0,
-	Flank.SIDE: 1.2,
-	Flank.BACK: 1.5,
+	Flank.SIDE: 1.1,
+	Flank.BACK: 1.2,
 }
 
 const FLANK_LABEL := {

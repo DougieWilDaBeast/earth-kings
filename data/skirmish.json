@@ -9,7 +9,19 @@
 		"hit_stop": 0.07,
 		"shake_on_down": 9.0,
 		"shake_on_kill": 4.0,
-		"shake_on_crit": 2.5
+		"shake_on_crit": 2.5,
+		"energy_max": 100.0,
+		"energy_regen": 5.0,
+		"energy_cost": 20.0,
+		"charged_energy": 35.0,
+		"energy_recover_at": 0.5,
+		"charged_from": 2.0,
+		"charged_power": 1.6,
+		"use_item_time": 1.5,
+		"items_per_fighter": 2,
+		"block_chance": 0.15,
+		"block_per_defence": 0.01,
+		"block_max": 0.4
 	},
 	"passives": {
 		"shieldwall": {
@@ -143,5 +155,13 @@
 		"beast": "charger"
 	},
 	"ranged_role": "kiter",
-	"healer_role": "healer"
+	"healer_role": "healer",
+	"shield_bearers": {
+		"by_class": ["sworn_blade"],
+		"by_ability": ["shield_bash"]
+	},
+	"training_pouch": {
+		"herbs": 2,
+		"red_draught": 1
+	}
 }

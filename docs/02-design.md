@@ -313,7 +313,7 @@ prototype. Until then, unchanged from the tactics core and already working:
   "Wait" gives up what that character has left, not the whole phase.
 - **Flash step** — a blink to any free tile within range, ignoring move cost, height and anyone
   in the way. Granted by a unit template or a class (`flash_step`).
-- **Facing matters**: side hits deal 1.2×, back hits 1.5×. Units turn as they move.
+- **Facing matters**: side hits deal 1.1×, back hits 1.2× ([D59](06-decisions.md)). Units turn as they move.
 - Damage is `max(1, attack × power − defense)` with ±10% variance.
 
 Battlefields for wild encounters and delves are **generated** from the world terrain you were

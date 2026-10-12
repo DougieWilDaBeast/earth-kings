@@ -1,6 +1,6 @@
 extends Node2D
 ## What the fight needs drawn on the ground that a [Unit] does not draw itself:
-## who is selected, where they were sent, what is being wound up, and how long a
+## who is selected, the box being dragged to pick them, where they were sent, what is being wound up, and how long a
 ## downed ally has left.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
@@ -17,6 +17,9 @@ const CAST_BACK := Color(0, 0, 0, 0.65)
 const CAST_FILL := Color(0.55, 0.75, 1.0)
 const NEAR_DEATH := Color(1.0, 0.3, 0.3, 0.9)
 const AID_FILL := Color(0.45, 1.0, 0.55, 0.9)
+const BOX_FILL := Color(1.0, 0.86, 0.3, 0.12)
+const STUN := Color(1.0, 0.95, 0.45, 0.95)
+const ITEM_FILL := Color(0.9, 0.55, 0.85, 0.9)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var skirmish: Node2D
@@ -42,6 +45,20 @@ func _draw() -> void:
 		if f.aiding > 0.0:
 			var done := 1.0 - f.aiding / SkirmishRules.AID_TIME
 			_draw_bar(at + Vector2(-half * 0.7, half * 0.75), half * 1.4, done, AID_FILL)
+		if f.is_using():
+			var done := 1.0 - float(f.using["left"]) / maxf(0.001, float(f.using["total"]))
+			_draw_bar(at + Vector2(-half * 0.7, half * 0.75), half * 1.4, done, ITEM_FILL)
+		if f.is_stunned():
+			# Three little stars going round above the head.
+			var turn := float(Time.get_ticks_msec()) / 300.0
+			for k in 3:
+				var angle := turn + TAU * k / 3.0
+				draw_circle(at + Vector2(cos(angle) * 9.0, -half * 1.1 + sin(angle) * 3.0), 2.5, STUN)
+	var box: Rect2 = skirmish.drag_box
+	if box.has_area():
+		box.position -= position
+		draw_rect(box, BOX_FILL)
+		draw_rect(box, SELECTED, false, 1.5)
 
 
 func _draw_order(f: Fighter, at: Vector2) -> void:

@@ -71,6 +71,12 @@ static func _skill_target(fighter: Fighter, ability: Dictionary, fighters: Array
 				lowest = share
 				neediest = other.unit
 		return neediest
+	# A stun is kept for somebody winding up a spell, where it breaks the cast (D59).
+	if float(ability.get("stun", 0.0)) > 0.0:
+		for other in fighters:
+			if other.is_casting() and _in_reach(me, ability, other.unit, fighters):
+				return other.unit
+		return null
 	# Offence: the current target if the skill reaches it, else anyone it does.
 	if fighter.target != null and _in_reach(me, ability, fighter.target, fighters):
 		return fighter.target

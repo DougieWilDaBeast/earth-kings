@@ -90,10 +90,14 @@ item cost against the 15% so the next month can be planned.
 
 ## Tier 1 — the combat prototype (after the reset)
 
-**Size settled 2026-10-12 ([D55](06-decisions.md), Inferred):** the 64 class, every humanoid dressed
-onto the founders' blank base body with `python3 tools/pixellab.py dress <unit>`, then animated with
-`animate` (words for attacks, `--template-animation walk --mode skeleton-v3` for stock moves).
-Non-humanoids (wolf, slime) are made with `character` and the matching template.
+**Size settled 2026-10-12 ([D55](06-decisions.md), confirmed by `doug-md` in [D57](06-decisions.md)):**
+the 64 class, every humanoid dressed onto the founders' blank base body with
+`python3 tools/pixellab.py dress <unit>`, which asks for the blended finish (`BLEND_STYLE`) unless
+given `--style ""`; then animated with `animate` (words for attacks,
+`--template-animation walk --mode skeleton-v3` for stock moves). Non-humanoids (wolf, slime) are made
+with `character` and the matching template. Big units (ogre, tree sentinel, the bears, the titans) are
+not dressed: they are made with `character <unit> 96` on their own bulky body, and the fight draws
+them taller by their `body_scale`.
 
 **Generated 2026-10-12:** 1.1–1.3 (`sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`,
 `goblin`, `raider`, `wolf`, `club_ogre`), each with idle in eight facings and walk, attack, skill, hit

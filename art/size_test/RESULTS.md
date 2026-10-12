@@ -63,17 +63,25 @@ Running total for the day: 64 generations of 5,000.
 
 ## What we saw
 
+Filled in on 2026-10-12 by Claude from the viewer's screenshots, at `doug-md`'s request; **Inferred**
+until a founder has looked for themselves. The 64 column is the art on disk, except the attack row,
+which is the dressed base body.
+
 | Question (viewer key) | 64 | 32 | 16 |
 | --- | --- | --- | --- |
-| Reads at battle scale (1) | | | |
-| Crowd still reads (3) | | | |
-| Facing reads (F) | | | |
-| Big units larger? (B) | | | |
-| Attack reads (A) | | | |
+| Reads at battle scale (1) | Yes: kit, faces and weapons all read | Yes, but plainer and thinner | No: the goblin is a man in a green shirt |
+| Crowd still reads (3) | Yes: busy, but every body can be told apart | Yes | No: it turns to brown and grey blocks |
+| Facing reads (F) | Yes: the dressed base is clear in all four | Yes | Barely |
+| Big units larger? (B) | Not as the fight drew them (all 1.15 tiles); yes with B on | Same | Same, and blocky |
+| Attack reads (A) | Yes: 9 frames, Bram stays Bram, the shield comes to the front | Yes, but it drifts: a round red shield appears halfway | Not made |
+
+Big units are fixed in the game, not the art: each unit now has a `body_scale` ([D57](../../docs/06-decisions.md)).
 
 ## The call
 
 - dougie (Will): handed the call to Claude on 2026-10-12, with the blank body as the base.
-- doug-md: \_\_ — because \_\_
+  His own answer: \_\_ — because \_\_
+- doug-md: **confirmed it** on 2026-10-12: the 64 class on the base body, ogres bigger than a
+  normal body, and the base's look blended with the heroic 64s ([D57](../../docs/06-decisions.md)).
 - **Chosen: the 64 class, dressed onto the base body.** Written into docs/06 as D55 on 2026-10-12,
-  **Inferred** until both founders confirm.
+  confirmed by `doug-md` the same day (D57); waits on `dougie`.

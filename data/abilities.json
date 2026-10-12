@@ -41,7 +41,7 @@
 		"splash": 1,
 		"power": 1.1,
 		"cooldown": 9.5,
-		"cast": 0.6
+		"cast": 2.5
 	},
 	"mend": {
 		"display_name": "Mend",
@@ -122,7 +122,7 @@
 		"splash": 2,
 		"power": 0.7,
 		"cooldown": 10,
-		"cast": 0.8
+		"cast": 3.0
 	},
 	"firebrand": {
 		"display_name": "Firebrand",
@@ -158,7 +158,7 @@
 		"splash": 1,
 		"power": 0.9,
 		"cooldown": 8.5,
-		"cast": 0.6
+		"cast": 2.5
 	},
 	"chain_bolt": {
 		"display_name": "Chain Bolt",
@@ -226,8 +226,9 @@
 		"splash": 0,
 		"power": 0.5,
 		"bonus": true,
-		"cooldown": 4,
-		"cast": 0
+		"cooldown": 10,
+		"cast": 0,
+		"stun": 1.5
 	},
 	"earthshake": {
 		"display_name": "Earthshake",
@@ -371,7 +372,7 @@
 		"splash": 1,
 		"power": 1.1,
 		"cooldown": 9.5,
-		"cast": 0.6
+		"cast": 2.5
 	},
 	"undertow": {
 		"display_name": "Undertow",
@@ -463,6 +464,6 @@
 		"splash": 2,
 		"power": 0.75,
 		"cooldown": 10,
-		"cast": 0.8
+		"cast": 3.0
 	}
 }
