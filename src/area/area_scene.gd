@@ -7,6 +7,7 @@ extends Node2D
 ## scene sent us here.
 
 const Guild := preload("res://src/chronicle/guild.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -981,7 +982,9 @@ func _open_chest(cell: Vector2i) -> void:
 	_note(chest.get("line", "A chest, and nobody watching it."))
 	if _chest_props.has(cell):
 		_chest_props[cell].set_art(chest.get("opened_art", "chest_open"))
-	for line: String in Loot.claim(chest, GameState.roster):
+	var haul := chest.duplicate()
+	haul["map"] = Atlas.finds_map(GameState.world, flag, "chest_map_chance")
+	for line: String in Loot.claim(haul, GameState.roster):
 		_note(line)
 
 

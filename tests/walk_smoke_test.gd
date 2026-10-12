@@ -11,13 +11,14 @@ const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "muster", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster", "run_ends",
 ]
 
 var _scene: Node
@@ -1148,6 +1149,42 @@ func _check_guild() -> void:
 ## An S-rank gate raises a muster at the nearest hall. It grows each upkeep,
 ## waits for a company that stands with it in person and goes into the gate
 ## beside them, survives a save, and nobody standing with it sends it in alone.
+## The explored map ([D50]): black until walked, inked in by a Guild map, a
+## found fragment and a rumour, and the same after a save.
+func _check_map() -> void:
+	var world: World = GameState.world
+	_expect(Atlas.is_explored(world, world.player_cell), "the ground the party stands on is not on its map")
+	var far := Vector2i(world.size.x - 1 - world.player_cell.x, world.size.y - 1 - world.player_cell.y)
+	if Pathfinder.distance(far, world.player_cell) > Atlas.sight() * 3:
+		_expect(not Atlas.is_explored(world, far), "ground across the continent is on the map unwalked")
+	var hall := _site_where(func(s: Site) -> bool: return Guild.has_hall(s) and not Atlas.guild_map_bought(s))
+	if hall != null:
+		GameState.gold += 10000
+		var purse := GameState.gold
+		var bought := Atlas.buy_guild_map(world, hall)
+		_expect(bool(bought.get("ok", false)), "the Guild would not sell its map: %s" % bought.get("line", ""))
+		_expect(GameState.gold == purse - Atlas.guild_map_price(), "the Guild map cost the wrong amount")
+		_expect(Atlas.is_charted(world, hall.cell + Vector2i(3, 0)) or not world.in_bounds(hall.cell + Vector2i(3, 0)),
+			"the Guild map did not draw the country round %s" % hall.display_name)
+		_expect(not bool(Atlas.buy_guild_map(world, hall).get("ok", true)), "the same Guild map sold twice")
+	var before := world.marked.size()
+	var said := Atlas.read_fragment(world, "smoke")
+	_expect(not said.is_empty(), "a map fragment said nothing")
+	_expect(world.marked.size() >= before, "a map fragment unmarked something")
+	var unknown := _site_where(func(s: Site) -> bool: return not Atlas.knows(world, s))
+	if unknown != null:
+		Atlas.hear_of(world, "They say %s is worth the walk." % unknown.display_name)
+		_expect(Atlas.knows(world, unknown), "a rumour naming %s did not put it on the map" % unknown.display_name)
+	var target := Atlas.frontier(world, world.player_cell)
+	_expect(target.x < 0 or not Atlas.is_explored(world, target), "the frontier is ground already seen")
+	var back := World.from_dict(JSON.parse_string(JSON.stringify(world.to_dict())))
+	_expect(back.explored == world.explored and back.charted == world.charted and back.marked == world.marked,
+		"the map did not survive a save")
+	var payload := world.to_dict()
+	payload.erase("explored")
+	_expect(Atlas.is_explored(World.from_dict(payload), far), "a save from before the map lost its map")
+
+
 func _check_muster() -> void:
 	var world: World = GameState.world
 	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)

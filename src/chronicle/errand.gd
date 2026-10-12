@@ -11,6 +11,7 @@ extends RefCounted
 
 ## Loaded by path ([D41]): regional names (see its header).
 const Names := preload("res://src/chronicle/names.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const FETCH := "fetch"
 const DELIVER := "deliver"
@@ -56,6 +57,10 @@ static func accept(site: Site, accepted: Array, world: World) -> Dictionary:
 	site.data["errand"] = {}
 	offer["posted_at"] = world.steps
 	accepted.append(offer)
+	# Whoever gave it says where: the place goes on the map ([D50]).
+	var to: Array = offer.get("to", [])
+	if to.size() == 2:
+		Atlas.mark_cell(world, Vector2i(int(to[0]), int(to[1])))
 	return offer
 
 

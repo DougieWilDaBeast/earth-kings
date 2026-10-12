@@ -303,14 +303,19 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 - Who, or what, decided only one world survives, and how the last fight asks you to stop it
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
 
-### M18 — One view, and no step clock — PLANNED
+### M18 — One view, and no step clock — IN PROGRESS
 
-Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). Waits on agenda items
-20 and 21.
+Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). The explored map is
+built; the one view and the end of the step clock wait on agenda items 20 and 21.
 
 - The game played in the planar view alone; the Z switch and the walkable continental view retired
-- The continent as a map: black until the party has been there, filled in as it travels
-- Guild maps that mark some places and the general lie of the land; other maps hidden in the world
+- The continent as a map: black until the party has been there, filled in as it travels ✅
+  (2026-10-12, `src/chronicle/atlas.gd`): four tiles seen round the party at every step,
+  continental or planar, fading in; a place drawn only once known; saved as two bitfields
+- Guild maps that mark some places and the general lie of the land ✅ (2026-10-12): bought once
+  per hall; other maps hidden in the world ✅ — in chests, caches and spoils; and places named by
+  news, contracts and errands marked. The numbers and the reading of item 21's second half are
+  **Inferred** (agenda items 30 to 33)
 - The step clock retired. The world moves on at milestones: Tower chapters and the checkpoints item
   20 names. Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
