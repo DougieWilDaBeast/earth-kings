@@ -63,3 +63,7 @@ const MODAL_OVERLAY_GROUP := "modal_overlay"
 
 ## The always-present letterbox a cutscene plays inside.
 const CUTSCENE_FRAME_GROUP := "cutscene_frame"
+
+## The scene [Game] is showing right now: the title, the walk, a fight. Only
+## ever one node is in it.
+const ACTIVE_SCENE_GROUP := "active_scene"
