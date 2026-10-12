@@ -128,6 +128,11 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   themselves, and they all have a price. In **Classic** the fall stops on a choice: **Reload** the
   last save (it tells you what that goes back to), or **Ascend** and choose the next lead. In
   **Iron Man** the lead ascends at once and the save goes with them.
+- **Four seats, then five, then six.** The company starts four strong. Clearing Tower chapter 1
+  (floor 5) opens a fifth seat and chapter 2 (floor 10) a sixth: a banner, a word at the fire, and
+  anyone who came back from a job to a full company takes it first. Then hire in a village or keep.
+  The party screen's footer shows how many seats are filled and which floor opens the next. The
+  floors are `world_rules.party` (agenda item 35, **Inferred**).
 - **Experience comes from the first of each kind.** A kind of enemy teaches whoever kills it
   first, once; the second teaches nothing but practice. Help with five kills of a kind and you learn
   from it too, and a boss teaches everyone who was there. So the way to grow is to go and meet

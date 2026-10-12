@@ -295,7 +295,7 @@ static func conversation(world: World, roster: Roster, hero_id: String) -> Dicti
 	var greeting: Array = said.get("first" if first else "again", {}).get(group, [])
 
 	var join_to := "join"
-	if roster.party.size() >= Roster.MAX_PARTY:
+	if not roster.has_room():
 		join_to = "full"
 	elif int(each.get("met", 0)) < meetings_to_join(hero_id):
 		join_to = "not_yet"
@@ -382,7 +382,7 @@ static func joined_line(world: World, hero_id: String) -> String:
 ## lead's level. Null when there is no room or nobody by that name out there.
 static func join(world: World, roster: Roster, hero_id: String) -> Character:
 	var each := entry(world, hero_id)
-	if each.is_empty() or bool(each.get("joined", false)) or roster.party.size() >= Roster.MAX_PARTY:
+	if each.is_empty() or bool(each.get("joined", false)) or not roster.has_room():
 		return null
 	var recruit := Character.create(hero_id)
 	var lead := roster.player()
