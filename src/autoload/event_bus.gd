@@ -53,6 +53,13 @@ signal overlay_closed
 signal party_seat_opened(seats: int)
 ## The last of the party is gone; the run is over.
 signal run_ended
+## The run has reached somewhere the game may save itself (see
+## `src/chronicle/run_mode.gd` for the points). [GameState] decides whether the
+## mode saves there; [param note] is how the save will be remembered ("you
+## rested at Oakham").
+signal safe_point_reached(point: String, note: String)
+## The game saved itself at [param point].
+signal game_saved(point: String, note: String)
 ## Something the player should know about the save they just loaded: it was
 ## upgraded, restored from the backup, or left alone because it is newer than
 ## this build ([D56]). Shown as a toast by [Game].

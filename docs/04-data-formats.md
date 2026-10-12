@@ -491,6 +491,14 @@ cell, generated trees, codex, the others of the sixteen in `wanderers`, and the 
 deflated and base64, and `marked` as a sorted list of `"x,y"`) and the `Roster` of Characters. A
 save from before the map had no `explored` and loads with the whole continent seen. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
+It also keeps the run's `mode` (`classic` or `iron_man`; a save without one opens as Classic) and
+`saved_at`, how the save is remembered on the fall screen ("you rested at Oakham").
+
+When it is written is the mode's: `data/world_rules.json` → `modes.settings.<mode>` gives
+`manual_save` (the menu's Save and Load), `reload_on_death` (Classic's fall screen), and
+`autosave`, the points the game saves itself at — `start`, `rest`, `chapter`, `road` (every
+return to the map) and `leave` (the title button, closing the window). See
+`src/chronicle/run_mode.gd`.
 
 The file carries a `version` (`GameState.SAVE_VERSION`, now 3). Nothing a player has is lost to
 an update or a crash ([D56](06-decisions.md)):

@@ -1,4 +1,23 @@
 {
+	"modes": {
+		"setting": "classic",
+		"settings": {
+			"classic": {
+				"display_name": "Classic",
+				"blurb": "Save whenever you like; the game also saves when you set out, when you rest and when a Tower chapter ends. When your lead falls you may reload the last save, or ascend and choose the next lead.",
+				"manual_save": true,
+				"reload_on_death": true,
+				"autosave": ["start", "rest", "chapter"]
+			},
+			"iron_man": {
+				"display_name": "Iron Man",
+				"blurb": "One life. The game saves itself when you set out, when you rest, when a chapter ends, every time you come back to the map, and when you leave. When your lead falls they ascend, and the save goes with them.",
+				"manual_save": false,
+				"reload_on_death": false,
+				"autosave": ["start", "rest", "chapter", "road", "leave"]
+			}
+		}
+	},
 	"difficulty": {
 		"setting": "gentle",
 		"settings": {

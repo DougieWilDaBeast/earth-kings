@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/ui/character_select.gd" id="1_character_select"]
 [ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
 [ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
+[ext_resource type="Script" path="res://src/ui/mode_button.gd" id="4_mode"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = ExtResource("2_backdrop")
@@ -202,6 +203,12 @@ text = "Back"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Difficulty"
+
+[node name="ModeButton" type="Button" parent="Margin/Content/Footer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mode"
+script = ExtResource("4_mode")
 
 [node name="SeedLabel" type="Label" parent="Margin/Content/Footer"]
 layout_mode = 2

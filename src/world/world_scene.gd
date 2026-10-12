@@ -10,6 +10,7 @@ const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 const Seats := preload("res://src/chronicle/seats.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
@@ -125,6 +126,7 @@ func _ready() -> void:
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _watch_overlays())
 	EventBus.dialogue_finished.connect(func(_id: String) -> void: _watch_overlays())
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _watch_overlays())
+	EventBus.game_saved.connect(_on_game_saved)
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
 	# Picking up the pad, or putting it down, changes every key the hint line
@@ -563,6 +565,10 @@ func _settle_up(won: bool) -> void:
 			if Chapters.ends_chapter(world, world.tower_floor):
 				for line: String in Chapters.turn(world, world.tower_floor):
 					_note(line)
+				# Once the whole fight is settled, not halfway through it.
+				EventBus.safe_point_reached.emit.call_deferred(
+					RunMode.CHAPTER, "chapter %d of the Tower closed" % Chapters.chapter_of(world.tower_floor)
+				)
 				_open_seats()
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
@@ -768,6 +774,7 @@ func _rest_at(site: Site) -> void:
 			_note(word)
 			_map.queue_redraw()
 	if rested:
+		EventBus.safe_point_reached.emit(RunMode.REST, "you rested at %s" % site.display_name)
 		_make_camp(site)
 
 
@@ -787,6 +794,7 @@ func _make_camp(site: Site) -> void:
 func _sleep_at_home(site: Site) -> void:
 	for line: String in Home.sleep(site, GameState.roster):
 		_note(line)
+	EventBus.safe_point_reached.emit(RunMode.REST, "you slept at %s" % site.display_name)
 
 
 func _read_at(site: Site) -> void:
@@ -1248,6 +1256,13 @@ func _home_actions(site: Site) -> Array[Dictionary]:
 			_upgrade_bed_here
 		),
 	]
+
+
+## Said when the game saves itself somewhere worth saying it. Coming back to the
+## map is too often to mention.
+func _on_game_saved(point: String, _note_text: String) -> void:
+	if point != RunMode.ROAD and point != RunMode.LEAVE:
+		_note("The game is saved.")
 
 
 ## Permadeath follows the player. Companions come and go, and some of them do

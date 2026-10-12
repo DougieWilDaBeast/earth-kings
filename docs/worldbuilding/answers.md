@@ -67,6 +67,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 32 | D50 | **Inferred.** Built 2026-10-12: **maps hidden in the world** are folded into finds — a chest in an area 25%, a cache in the open 40%, battle spoils and a town's loot 8% — and each draws in seven tiles round one place the party does not know of and marks it. Right odds, and right that a found map points at one place? |
 | 33 | D50 | **Inferred.** Built 2026-10-12: **being told is knowing.** A Guild contract, an errand's destination and any place news at an inn names go on the map; a party walking itself goes after what it knows and, with nothing known, walks to the nearest ground it has not seen. Should being told mark the place exactly, or only roughly? |
 | 35 | `D38`, item 11 | **Inferred.** Built 2026-10-12: **the party grows by Tower chapter.** Four seats to start; clearing chapter 1 (floor 5) opens a fifth, chapter 2 (floor 10) a sixth. A companion back from a job to a full company takes a new seat first. Right trigger, or should it be a level, a Guild rank or bought? |
+| 40 | `CO7`, D51 | **Inferred.** Built 2026-10-12: **Classic and Iron Man.** The mode is picked with the lead (when was not said) and defaults to Classic. Classic saves by hand, and by itself on setting out, resting and closing a Tower chapter; Iron Man never by hand, and also on every return to the map and on leaving. Ascending lets the save go in both modes, since neither keeps that world playable. The modes leave the difficulty alone (Gentle and Breeze have no permadeath, so the lead never dies there). Right save points? |
 
 ## 2. Eleven Part I questions that need a straight answer
 
@@ -2170,7 +2171,8 @@ continent on foot in the planar view is agenda item 21.
 asks whether they ascend to heaven, with a new character chosen, or whether to reload. In
 **Iron Man** there is one life: the lead's death ascends them and goes straight back to choosing a
 character. When the mode is picked was not said.
-↳ Settles agenda item 4. Replaces D21 ([D51](../06-decisions.md)). **Not built**; it belongs to M15.
+↳ Settles agenda item 4. Replaces D21 ([D51](../06-decisions.md)). **Built 2026-10-12** (M15). When
+the game saves itself, and the mode being picked with the lead, are agenda item 40, **Inferred**.
 ↳ Answers `SM1` for both modes: reloading is the player's choice, not a fact about the world.
 ↳ D47 already keeps the fallen outside the save. Under Classic a death is final only once the player
 chooses to ascend, so that is when the record should be written. That is a build reading,

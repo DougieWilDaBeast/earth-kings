@@ -288,6 +288,12 @@ func _check_backup() -> void:
 	DirAccess.remove_absolute(GameState.SAVE_PATH)
 	_expect(GameState.has_save(), "with only a backup there was nothing to continue")
 	_expect(GameState.load_save() and GameState.gold == 111, "a lone backup would not load")
+
+	# Iron Man's save goes with the lead, and its backup with it ([D51]).
+	GameState.save()
+	GameState.save()
+	GameState.forget_save()
+	_expect(not GameState.has_save(), "a forgotten save came back from its backup")
 	_clear_saves()
 
 

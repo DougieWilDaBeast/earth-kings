@@ -281,7 +281,12 @@ Waits on M13, and on agenda item 12.
   ([D52](06-decisions.md))
 - Classic and Iron Man ([D51](06-decisions.md)), replacing free save/load ([D21](06-decisions.md)):
   Classic offers reload or ascend when the lead dies, and Iron Man ascends straight back to choosing.
-  Under Classic the record of the fallen is written on ascending, not on the fall
+  Under Classic the record of the fallen is written on ascending, not on the fall ✅ (built
+  2026-10-12: the mode is picked on the quiz and the picker and kept in the save; Classic saves by
+  hand and on setting out, resting and closing a chapter; Iron Man has no Save or Load and also
+  saves on every return to the map and on leaving; the fall screen in `run_summary` —
+  [02](02-design.md#when-the-lead-falls-classic-and-iron-man)). The save points are **Inferred**,
+  agenda item 40. Left: quitting mid-fight in Iron Man still drops the fight unsettled
 - ✅ Done when: a lead can die, the next can start in another world, and the first lead's ghost
   can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md))
 
