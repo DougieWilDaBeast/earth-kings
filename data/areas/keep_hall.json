@@ -1,64 +1,125 @@
 {
-	"display_name": "the great hall",
-	"layers": ["dirt", "stone"],
-	"legend": {
-		"o": "stone",
-		",": "dirt"
-	},
-	"spawn": [6, 7],
-	"exits": [[6, 8]],
-	"spots": [
-		{ "cell": [6, 5], "line": "A hall built for a hundred, holding eleven." },
-		{ "cell": [10, 3], "line": "Banners of houses that no longer answer when called." }
-	],
-	"chests": [
-		{
-			"cell": [2, 2],
-			"line": "The muster chest, and nobody left to muster.",
-			"gold": 120,
-			"item": "grave_token"
-		}
-	],
-	"people": [
-		{
-			"name": "Castellan Ruve",
-			"unit": "castellan",
-			"cell": [6, 3],
-			"facing": [0, 1],
-			"dialogue": "the_castellan"
-		},
-		{
-			"name": "a watchman warming through",
-			"unit": "keep_watchman",
-			"cell": [3, 5],
-			"facing": [1, 0],
-			"wander": 2,
-			"chatter": [
-				"Off the wall, into the hall, back onto the wall. That is the year.",
-				"The castellan counts nine of us. He counts generously."
-			]
-		},
-		{
-			"name": "Corvel's second",
-			"unit": "devil_butler",
-			"cell": [10, 4],
-			"facing": [-1, 0],
-			"wander": 2,
-			"chatter": [
-				"The long table is laid for forty. It has been for some time.",
-				"Touch nothing on the wall. The names are all we have left up there."
-			]
-		}
-	],
-	"rows": [
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo",
-		"ooooooooooooo"
-	]
+ "display_name": "the great hall",
+ "layers": [
+  "dirt",
+  "stone"
+ ],
+ "legend": {
+  "o": "stone",
+  ",": "dirt"
+ },
+ "spawn": [
+  6,
+  7
+ ],
+ "exits": [
+  [
+   6,
+   8
+  ]
+ ],
+ "spots": [
+  {
+   "cell": [
+    6,
+    5
+   ],
+   "line": "A hall built for a hundred, holding eleven."
+  },
+  {
+   "cell": [
+    10,
+    3
+   ],
+   "line": "Banners of houses that no longer answer when called."
+  }
+ ],
+ "chests": [
+  {
+   "cell": [
+    2,
+    2
+   ],
+   "line": "The muster chest, and nobody left to muster.",
+   "gold": 120,
+   "item": "grave_token"
+  }
+ ],
+ "people": [
+  {
+   "name": "Castellan Ruve",
+   "unit": "castellan",
+   "cell": [
+    6,
+    3
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "dialogue": "the_castellan"
+  },
+  {
+   "name": "a watchman warming through",
+   "unit": "keep_watchman",
+   "cell": [
+    3,
+    5
+   ],
+   "facing": [
+    1,
+    0
+   ],
+   "wander": 2,
+   "chatter": [
+    "Off the wall, into the hall, back onto the wall. That is the year.",
+    "The castellan counts nine of us. He counts generously."
+   ]
+  },
+  {
+   "name": "Corvel's second",
+   "unit": "devil_butler",
+   "cell": [
+    10,
+    4
+   ],
+   "facing": [
+    -1,
+    0
+   ],
+   "wander": 2,
+   "chatter": [
+    "The long table is laid for forty. It has been for some time.",
+    "Touch nothing on the wall. The names are all we have left up there."
+   ]
+  }
+ ],
+ "rows": [
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo",
+  "ooooooooooooo"
+ ],
+ "dressing": [
+  {"art": "brazier", "cell": [0, 0]},
+  {"art": "brazier", "cell": [12, 0]},
+  {"art": "tapestry", "cell": [2, 0]},
+  {"art": "tall_clock", "cell": [4, 0]},
+  {"art": "tapestry", "cell": [6, 0]},
+  {"art": "landmark/sword_storm", "cell": [8, 0]},
+  {"art": "tapestry", "cell": [10, 0]},
+  {"art": "sofa_gold", "cell": [0, 2]},
+  {"art": "scroll_rack", "cell": [12, 2]},
+  {"art": "cabinet", "cell": [0, 4]},
+  {"art": "writing_desk", "cell": [12, 4]},
+  {"art": "drawers_red", "cell": [0, 6]},
+  {"art": "globe", "cell": [12, 6]},
+  {"art": "lamp_post_twin", "cell": [4, 8]},
+  {"art": "lamp_post_twin", "cell": [8, 8]}
+ ]
 }

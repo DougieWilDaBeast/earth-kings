@@ -178,14 +178,14 @@
             ]
         },
         {
-            "art": "nature/wildflowers_yellow",
+            "art": "nature/wildflowers_orange",
             "cell": [
                 11,
                 7
             ]
         },
         {
-            "art": "nature/wildflowers_red",
+            "art": "nature/wildflowers_blue",
             "cell": [
                 18,
                 7
@@ -206,28 +206,28 @@
             ]
         },
         {
-            "art": "nature/pine_tree",
+            "art": "nature/holly_tree",
             "cell": [
                 3,
                 2
             ]
         },
         {
-            "art": "nature/crystal_spire",
+            "art": "nature/rose_stem",
             "cell": [
                 26,
                 3
             ]
         },
         {
-            "art": "rubble_large",
+            "art": "nature/old_apple_tree",
             "cell": [
                 3,
                 13
             ]
         },
         {
-            "art": "nature/pebbles_cluster",
+            "art": "nature/round_tree",
             "cell": [
                 26,
                 14
@@ -276,5 +276,80 @@
         "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
         "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
         "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA"
+    ],
+    "dressing": [
+        {"art": "nature/bare_tree", "cell": [21, 18], "offset": [2, -3]},
+        {"art": "nature/holly_tree", "cell": [10, 1], "offset": [9, -5], "flip": true},
+        {"art": "nature/holly_tree", "cell": [25, 2], "offset": [0, -4], "flip": true},
+        {"art": "nature/dead_tree", "cell": [11, 18], "offset": [7, -5]},
+        {"art": "nature/dead_tree", "cell": [28, 5], "offset": [-9, 3]},
+        {"art": "nature/holly_tree", "cell": [5, 1], "offset": [5, 1], "flip": true},
+        {"art": "nature/bare_tree", "cell": [18, 18], "offset": [9, -2]},
+        {"art": "nature/dead_tree", "cell": [28, 18], "offset": [6, -5], "flip": true},
+        {"art": "nature/bare_tree", "cell": [28, 15], "offset": [9, -4], "flip": true},
+        {"art": "nature/dead_tree", "cell": [7, 18], "offset": [-1, 5]},
+        {"art": "nature/holly_tree", "cell": [3, 12], "offset": [4, 3], "flip": true},
+        {"art": "nature/holly_tree", "cell": [20, 1], "offset": [-4, -4]},
+        {"art": "nature/bare_tree", "cell": [1, 3], "offset": [8, 3], "flip": true},
+        {"art": "nature/bare_tree", "cell": [1, 17], "offset": [-1, 0], "flip": true},
+        {"art": "nature/crystal_spikes", "cell": [23, 7], "offset": [-12, 4]},
+        {"art": "nature/crystal_spikes", "cell": [9, 1], "offset": [0, 2]},
+        {"art": "nature/crystal_spikes", "cell": [10, 18], "offset": [-4, -7]},
+        {"art": "nature/grass_tuft", "cell": [20, 11], "offset": [-1, 6]},
+        {"art": "nature/briar_bush", "cell": [2, 5], "offset": [-10, -4]},
+        {"art": "nature/thistle", "cell": [7, 8], "offset": [-12, 7]},
+        {"art": "nature/grass_tuft", "cell": [5, 10], "offset": [3, -2]},
+        {"art": "nature/thistle", "cell": [17, 14], "offset": [-2, 3], "flip": true},
+        {"art": "nature/pebble", "cell": [26, 18], "offset": [2, 3]},
+        {"art": "nature/grass_tuft", "cell": [22, 17], "offset": [1, 2]},
+        {"art": "nature/grass_tuft", "cell": [8, 17], "offset": [12, 5]},
+        {"art": "nature/pebble", "cell": [3, 4], "offset": [-12, 0], "flip": true},
+        {"art": "nature/thistle", "cell": [26, 9], "offset": [14, 6]},
+        {"art": "nature/pebble", "cell": [21, 12], "offset": [-8, -4]},
+        {"art": "nature/grass_tuft", "cell": [18, 16], "offset": [-11, 0], "flip": true},
+        {"art": "nature/pebble", "cell": [1, 18], "offset": [14, -5], "flip": true},
+        {"art": "nature/bramble_2", "cell": [17, 12], "offset": [0, -4], "flip": true},
+        {"art": "nature/pebble", "cell": [25, 14], "offset": [-9, 0], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [19, 13], "offset": [9, 5], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [10, 5], "offset": [9, -5], "flip": true},
+        {"art": "nature/pebble", "cell": [13, 7], "offset": [-9, -3]},
+        {"art": "nature/thistle", "cell": [1, 6], "offset": [3, -7]},
+        {"art": "nature/pebble", "cell": [10, 8], "offset": [-6, 7]},
+        {"art": "nature/pebble", "cell": [12, 8], "offset": [10, 4], "flip": true},
+        {"art": "nature/pebble", "cell": [8, 6], "offset": [2, -7]},
+        {"art": "nature/thistle", "cell": [5, 17], "offset": [7, 4], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [19, 9], "offset": [-8, 4]},
+        {"art": "nature/pebble", "cell": [18, 10], "offset": [-2, -1], "flip": true},
+        {"art": "nature/thistle", "cell": [21, 6], "offset": [4, -7], "flip": true},
+        {"art": "nature/pebble", "cell": [21, 1], "offset": [-5, -4], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [17, 3], "offset": [-10, 2]},
+        {"art": "nature/grass_tuft", "cell": [12, 4], "offset": [-12, 6], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [2, 15], "offset": [-6, -2]},
+        {"art": "nature/pebble", "cell": [21, 5], "offset": [-3, 6], "flip": true},
+        {"art": "nature/grass_tuft", "cell": [20, 8], "offset": [-13, -2], "flip": true},
+        {"art": "nature/briar_bush", "cell": [21, 14], "offset": [5, 5]},
+        {"art": "nature/thistle", "cell": [12, 18], "offset": [2, 1], "flip": true},
+        {"art": "nature/thistle", "cell": [17, 1], "offset": [-10, 3]},
+        {"art": "nature/pebble", "cell": [18, 17], "offset": [14, 0], "flip": true},
+        {"art": "nature/pebble", "cell": [8, 8], "offset": [5, -7], "flip": true},
+        {"art": "nature/thistle", "cell": [10, 16], "offset": [-10, -2]},
+        {"art": "nature/pebble", "cell": [8, 7], "offset": [-13, -7]},
+        {"art": "nature/thistle", "cell": [13, 4], "offset": [4, 6], "flip": true},
+        {"art": "nature/thistle", "cell": [24, 13], "offset": [10, -1]},
+        {"art": "nature/pebble", "cell": [23, 13], "offset": [-11, -2], "flip": true},
+        {"art": "nature/briar_bush", "cell": [20, 2], "offset": [-14, 2]},
+        {"art": "nature/pebble", "cell": [2, 17], "offset": [-6, -1], "flip": true},
+        {"art": "nature/bramble_2", "cell": [6, 8], "offset": [-14, 3]},
+        {"art": "nature/grass_tuft", "cell": [12, 2], "offset": [-9, 0]},
+        {"art": "nature/pebble", "cell": [17, 17], "offset": [7, 3], "flip": true},
+        {"art": "nature/pebble", "cell": [1, 4], "offset": [11, -4], "flip": true},
+        {"art": "nature/thistle", "cell": [22, 15], "offset": [-10, 7]},
+        {"art": "nature/thistle", "cell": [8, 12], "offset": [-10, 7]},
+        {"art": "nature/grass_tuft", "cell": [20, 7], "offset": [-3, 7], "flip": true},
+        {"art": "nature/thistle", "cell": [12, 13], "offset": [7, 2]},
+        {"art": "nature/spider", "cell": [21, 4], "offset": [13, 5], "flip": true},
+        {"art": "nature/grasshopper", "cell": [3, 14], "offset": [2, -6]},
+        {"art": "nature/sparrow", "cell": [9, 15], "offset": [-2, 2]},
+        {"art": "nature/spider", "cell": [3, 16], "offset": [0, -3]}
     ]
 }

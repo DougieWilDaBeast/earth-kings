@@ -19,6 +19,8 @@ var spawn: Vector2i = Vector2i.ZERO
 var exits: Array[Vector2i] = []
 ## cell -> the line said when the party first stands there.
 var spots: Dictionary = {}
+## cell -> a flag standing there sets: something found for somebody's favour ([Talk]).
+var spot_flags: Dictionary = {}
 ## cell -> what is in the chest sitting on it; opened ones stay opened.
 var chests: Dictionary = {}
 ## Houses standing in the area: solid ground with one door leading inside.
@@ -74,19 +76,33 @@ static func load_area(area_id: String) -> AreaMap:
 		map.exits.append(_to_cell(pair))
 	for spot: Dictionary in data.get("spots", []):
 		map.spots[_to_cell(spot.get("cell", [0, 0]))] = spot.get("line", "")
+		if spot.has("set_flag"):
+			map.spot_flags[_to_cell(spot.get("cell", [0, 0]))] = str(spot["set_flag"])
 	for chest: Dictionary in data.get("chests", []):
 		map.chests[_to_cell(chest.get("cell", [0, 0]))] = chest
-	for prop: Dictionary in data.get("props", []):
+	# `dressing` is scenery written by tools/dress_areas.py, kept apart from the props an area's
+	# author placed so it can be written again without touching theirs.
+	for prop: Dictionary in data.get("props", []) + data.get("dressing", []):
+		if not _flags_allow(prop):
+			continue
 		var placed := prop.duplicate(true)
 		placed["cell"] = _to_cell(prop.get("cell", [0, 0]))
-		if bool(placed.get("solid", false)):
-			map._blocked[placed["cell"]] = true
+		if AreaProp.is_solid(placed):
+			for cell: Vector2i in base_cells(placed):
+				map._blocked[cell] = true
 		map.props.append(placed)
 	for entry: Dictionary in data.get("buildings", []):
 		var building := entry.duplicate(true)
 		building["cell"] = _to_cell(entry.get("cell", [0, 0]))
-		building["size"] = _to_cell(entry.get("size", [3, 3]))
-		building["door"] = _to_cell(entry.get("door", entry.get("cell", [0, 0])))
+		# A building drawn from a picture stands on that picture's footprint unless it says otherwise,
+		# with its door in the middle of the front row ([Database.building_art]).
+		var look := Database.building_art(str(entry.get("art", "")))
+		building["size"] = _to_cell(entry.get("size", look.get("size", [3, 3])))
+		var front_door := [
+			int(building["cell"].x) + int(building["size"].x) / 2,
+			int(building["cell"].y) + int(building["size"].y) - 1,
+		]
+		building["door"] = _to_cell(entry.get("door", front_door if not look.is_empty() else entry.get("cell", [0, 0])))
 		map.buildings.append(building)
 	for person: Dictionary in data.get("people", []):
 		map.people.append(person)
@@ -98,6 +114,19 @@ static func load_area(area_id: String) -> AreaMap:
 		var ward := entry.duplicate(true)
 		ward["cell"] = _to_cell(entry.get("cell", [0, 0]))
 		map.wards[ward["cell"]] = ward
+	# A cell the area's author means somebody to stand on stays open, whatever is drawn there:
+	# the spot by the fountain, a seat at the fire, a chest, where someone waits.
+	var stood_on: Array[Vector2i] = [map.spawn]
+	stood_on.append_array(map.exits)
+	stood_on.append_array(map.seats)
+	for cell: Vector2i in map.spots:
+		stood_on.append(cell)
+	for cell: Vector2i in map.chests:
+		stood_on.append(cell)
+	for person: Dictionary in map.people:
+		stood_on.append(_to_cell(person.get("cell", [0, 0])))
+	for cell in stood_on:
+		map._blocked.erase(cell)
 	map.tint = data.get("tint", "")
 	map.opening = data.get("opening", "")
 	map.hint = data.get("hint", "")
@@ -180,6 +209,39 @@ func is_walkable(cell: Vector2i) -> bool:
 	if not building.is_empty() and building["door"] != cell:
 		return false
 	return bool(Database.area_terrain(terrain_at(cell)).get("walkable", true))
+
+
+## The cells a solid prop stands on: its own, or a `base` [width, depth] centred on it and
+## running back from it (a tower's foot is three cells wide), from the prop or its kind.
+static func base_cells(prop: Dictionary) -> Array[Vector2i]:
+	var cell: Vector2i = prop["cell"]
+	var base: Variant = prop.get("base", Database.prop_size(str(prop.get("art", ""))).get("base", [1, 1]))
+	var size := _to_cell(base) if base is Array else Vector2i.ONE
+	var out: Array[Vector2i] = []
+	for dy in maxi(1, size.y):
+		for dx in maxi(1, size.x):
+			out.append(cell + Vector2i(dx - (size.x - 1) / 2, -dy))
+	return out
+
+
+## Whether a prop is there at all: one with `requires` only turns up once those flags are set
+## (the ring somebody asked you to look for), one with `requires_not` is gone once they are.
+static func _flags_allow(entry: Dictionary) -> bool:
+	if GameState == null:
+		return true
+	for key: String in _flag_list(entry.get("requires", [])):
+		if not GameState.has_flag(key):
+			return false
+	for key: String in _flag_list(entry.get("requires_not", [])):
+		if GameState.has_flag(key):
+			return false
+	return true
+
+
+static func _flag_list(value: Variant) -> Array:
+	if value is Array:
+		return value
+	return [] if str(value) == "" else [str(value)]
 
 
 static func footprint(building: Dictionary) -> Rect2i:

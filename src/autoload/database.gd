@@ -58,6 +58,8 @@ var skirmish: Dictionary = {}
 ## The fall: crash sites, the landing, the standing quest, and the others living
 ## their own lives (see `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`).
 var fall: Dictionary = {}
+## How big each prop picture is drawn and whether it stands in the way (`data/props.json`).
+var props: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -99,6 +101,7 @@ func _ready() -> void:
 	guild = _load_json("%s/guild.json" % DATA_DIR)
 	skirmish = _load_json("%s/skirmish.json" % DATA_DIR)
 	fall = _load_json("%s/fall.json" % DATA_DIR)
+	props = _load_json("%s/props.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
@@ -262,6 +265,30 @@ func tileset_sheet(id: String) -> Dictionary:
 
 func area_terrain(id: String) -> Dictionary:
 	return tilesets.get("terrains", {}).get(id, {})
+
+
+## How a prop picture stands in a place: `scale`, `solid`, `battle_scale` and its `kind`, from
+## `data/props.json` (its kind's numbers, then its own). Unknown art is drawn as it is, and
+## stands in nobody's way.
+func prop_size(art_id: String) -> Dictionary:
+	var out := { "scale": 1.0, "solid": false, "battle_scale": 0.0, "kind": "" }
+	var entry: Variant = props.get("art", {}).get(art_id, {})
+	if entry is String:
+		entry = { "kind": entry }
+	var kind := str((entry as Dictionary).get("kind", ""))
+	out["kind"] = kind
+	out.merge(props.get("kinds", {}).get(kind, {}), true)
+	out.merge(entry as Dictionary, true)
+	if float(out["battle_scale"]) <= 0.0:
+		out["battle_scale"] = out["scale"]
+	return out
+
+
+## How a building picture stands in an area (`data/props.json` → `buildings`), or {} for a
+## building with no picture of its own.
+func building_art(art_id: String) -> Dictionary:
+	var entry: Variant = props.get("buildings", {}).get(art_id, {})
+	return entry if entry is Dictionary else {}
 
 
 func cutscene(id: String) -> Array:

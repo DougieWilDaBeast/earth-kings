@@ -24,16 +24,25 @@ const OBJECTIVE_HEART := "heart"
 ## How a place is drawn on a map. A faction that holds a gate or a keep
 ## overrides the art (see [Faction]); the colour is the fallback token for a
 ## kind with no art at all.
+## How each kind of place is drawn on the map. A gate is a portal, picked by where it stands
+## (GATE_ART); a keep is its holder's castle ([Faction.hold_art]).
 const ART := {
-	TOWER: "res://art/world/hold_spire.png",
+	TOWER: "res://art/props/landmark/tower_runes.png",
 	KEEP: "res://art/world/hold_grey.png",
-	VILLAGE: "res://art/world/hold_pale.png",
+	VILLAGE: "res://art/buildings/village_house/south.png",
 	LIBRARY: "res://art/world/hold_white.png",
-	GATE: "res://art/world/hold_dark.png",
-	HUT: "res://art/world/hold_dun.png",
+	GATE: "res://art/props/landmark/gate_dark.png",
+	HUT: "res://art/buildings/hunting_lodge.png",
 	GRAVE: "res://art/world/tomb.png",
 	HOME: "res://art/world/hold_red.png",
 }
+
+const GATE_ART := [
+	"res://art/props/landmark/gate_dark.png",
+	"res://art/props/landmark/gate_stones.png",
+	"res://art/props/landmark/gate_tree.png",
+	"res://art/props/landmark/gate_gold.png",
+]
 
 const COLOURS := {
 	TOWER: Color(0.92, 0.85, 0.45),

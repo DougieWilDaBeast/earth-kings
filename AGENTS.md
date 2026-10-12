@@ -20,6 +20,8 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
   One suite: `./ek.sh test walk`. One check: `godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate`.
 - Soak: `./ek.sh soak 120` — the game plays itself on seed 77, then saves, loads and saves again.
 - Ledger: `./ek.sh ledger` — the Question Book and `answers.md` agree (run after any worldbuilding edit).
+- Dress: `python3 tools/dress_areas.py [area ...]` — rewrites an area's scenery (`dressing`) after its
+  layout, people or props change; sizes live in `data/props.json`.
 - CI runs all three on every pull request (`.github/workflows/smoke.yml`). Keep it green.
 
 ## Rules

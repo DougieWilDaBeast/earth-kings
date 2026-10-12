@@ -130,18 +130,14 @@ func _write_them_up(map: Dictionary) -> void:
 
 
 func _spawn_nature_decor(map: Dictionary) -> void:
-	var tree_paths := [
-		"res://art/props/nature/sycamore_tree.png",
-		"res://art/props/nature/sycamore_tree_2.png",
-		"res://art/props/nature/apple_tree.png",
-		"res://art/props/nature/apple_tree_2.png",
-		"res://art/props/nature/holly_tree.png",
+	# Real trees, drawn at the size `data/props.json` gives them for a battle.
+	var trees := [
+		"nature/sycamore_tree", "nature/copse", "nature/apple_tree", "nature/birch",
+		"nature/great_oak", "nature/round_tree", "nature/holly_tree", "nature/autumn_tree",
 	]
-	var bush_paths := [
-		"res://art/props/nature/briar_bush.png",
-		"res://art/props/nature/briar_bush_2.png",
-		"res://art/props/nature/hazel_bush.png",
-		"res://art/props/nature/rose_bush.png",
+	var bushes := [
+		"nature/briar_bush", "nature/briar_bush_2", "nature/hazel_bush", "nature/hedge_2",
+		"nature/bramble", "nature/holly_tree_2",
 	]
 
 	var player_spawns: Array = map.get("player_spawns", [])
@@ -158,35 +154,31 @@ func _spawn_nature_decor(map: Dictionary) -> void:
 				continue
 			var terrain_id: String = grid._terrain_ids.get(cell, "grass")
 			var seed_val := absi(hash(cell))
-
-			if terrain_id == "crag" or terrain_id == "wall":
-				var path: String = tree_paths[seed_val % tree_paths.size()]
-				if ResourceLoader.exists(path):
-					var sprite := Sprite2D.new()
-					sprite.texture = load(path)
-					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.15)
-					sprite.offset = Vector2(0, -32)
-					units_root.add_child(sprite)
+			var edge := x == 0 or x == grid.width - 1 or y == 0 or y == grid.height - 1
+			if terrain_id == "crag" or terrain_id == "wall" or (edge and terrain_id != "brush" and seed_val % 3 == 0):
+				_plant(trees[seed_val % trees.size()], cell, 1.0)
 			elif terrain_id == "brush":
-				var path: String = bush_paths[seed_val % bush_paths.size()]
-				if ResourceLoader.exists(path):
-					var sprite := Sprite2D.new()
-					sprite.texture = load(path)
-					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.2)
-					sprite.offset = Vector2(0, -30)
-					sprite.modulate = Color(1.0, 1.0, 1.0, 0.88)
-					units_root.add_child(sprite)
-			elif (x == 0 or x == grid.width - 1 or y == 0 or y == grid.height - 1) and seed_val % 3 == 0:
-				var path: String = tree_paths[seed_val % tree_paths.size()]
-				if ResourceLoader.exists(path):
-					var sprite := Sprite2D.new()
-					sprite.texture = load(path)
-					sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-					sprite.position = grid.cell_to_world(cell) + Vector2(0, BattleGrid.CELL_SIZE * 0.15)
-					sprite.offset = Vector2(0, -32)
-					units_root.add_child(sprite)
+				_plant(bushes[seed_val % bushes.size()], cell, 0.88)
+
+
+## One piece of scenery standing on [param cell]: its roots on the cell's lower edge, at the size
+## the props table gives it for a battle, scaled to a battle cell.
+func _plant(art_id: String, cell: Vector2i, alpha: float) -> void:
+	var path := "res://art/props/%s.png" % art_id
+	if not ResourceLoader.exists(path):
+		return
+	var texture: Texture2D = load(path)
+	var size := float(Database.prop_size(art_id)["battle_scale"]) * BattleGrid.CELL_SIZE / 64.0
+	var painted := AreaProp.painted_rect(art_id, texture)
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.scale = Vector2(size, size)
+	sprite.position = grid.cell_to_world(cell) + Vector2(
+		-painted.get_center().x * size, BattleGrid.CELL_SIZE * 0.4 - painted.end.y * size)
+	sprite.modulate = Color(1.0, 1.0, 1.0, alpha)
+	units_root.add_child(sprite)
 
 
 func _spawn_party(spawns: Array) -> void:

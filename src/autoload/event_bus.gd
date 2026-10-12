@@ -80,6 +80,8 @@ signal ground_revealed(cells: Array)
 
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
+## A line for the bottom of an area's screen: something handed over in a conversation, say.
+signal area_note(line: String)
 
 ## Overlays that swallow the game's input while they are up. Anything in this
 ## group answers `is_open()`.

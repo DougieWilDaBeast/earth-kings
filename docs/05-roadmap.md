@@ -375,6 +375,11 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   walks it
 - Planar areas that differ (agenda item 62, planned): more layouts, exits that follow the land, places
   worth remembering — today every area has the same four exits
+- Places worth walking round ✅ (2026-10-12, [D62](06-decisions.md)): every prop and building at its
+  proper size (`data/props.json`), houses drawn from their art, woods, flowers, birds and bugs laid
+  by `tools/dress_areas.py`, the wilds' ground reshaped into patches and ponds, furnished rooms,
+  portals at the gates and a rune tower at the Tower, and people with questions, shops, favours and
+  moods (`talk`). Sizes, names and the new people's words are **Inferred**
 - Carriages (item 60, planned): pay to ride part of the way, with ambushes and other events on the road
 - The continent as a map: black until the party has been there, filled in as it travels ✅
   (2026-10-12, `src/chronicle/atlas.gd`): four tiles seen round the party at every step,

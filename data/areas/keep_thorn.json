@@ -1,115 +1,351 @@
 {
-	"display_name": "the thorn keep",
-	"layers": ["dirt", "stone", "meadow"],
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"o": "stone",
-		"m": "meadow"
-	},
-	"spawn": [9, 14],
-	"exits": [[9, 15], [10, 15]],
-	"spots": [
-		{ "cell": [8, 6], "line": "The bailey grass is knee high. Nobody has drilled in it for a year." },
-		{ "cell": [9, 11], "line": "The ramp up is cut for horses that this keep no longer has." },
-		{ "cell": [3, 3], "line": "The rampart walk. From up here the thorn scrub runs to the horizon." }
-	],
-	"chests": [
-		{
-			"cell": [5, 8],
-			"line": "A quartermaster's chest, inventoried in a hand that stops mid-line.",
-			"gold": 90,
-			"item": "bone_sword"
-		},
-		{
-			"cell": [12, 5],
-			"line": "A strongbox let into the rampart, and the key long since thrown into the scrub.",
-			"gold": 190,
-			"item": "grave_token"
-		}
-	],
-	"buildings": [
-		{
-			"name": "the muster hall",
-			"cell": [7, 4],
-			"size": [4, 2],
-			"door": [8, 5],
-			"area": "thorn_hall"
-		},
-		{
-			"name": "the proving arena",
-			"cell": [13, 4],
-			"size": [3, 2],
-			"door": [14, 5],
-			"area": "coliseum"
-		}
-	],
-	"people": [
-		{
-			"name": "Brannagh the Guild Clerk",
-			"unit": "guild_clerk",
-			"cell": [11, 9],
-			"facing": [0, 1],
-			"guild": true,
-			"chatter": ["Every gate on the board has a name, and most of the names are wrong.", "Sign here. Or don't, and walk in anyway."]
-		},
-		{
-			"name": "Ser Valis the Golden Knight",
-			"unit": "golden_knight",
-			"cell": [9, 9],
-			"facing": [0, 1],
-			"cutscene": "the_thorn_knight",
-			"dialogue": "thorn_knight"
-		},
-		{
-			"name": "a knight of the muster",
-			"unit": "castellan",
-			"cell": [6, 7],
-			"facing": [1, 0],
-			"wander": 3,
-			"chatter": [
-				"Knee high. It was ankle high when I swore in.",
-				"We drill in the scrub now. It is honest ground, at least."
-			]
-		},
-		{
-			"name": "Ilm the Butler",
-			"unit": "devil_butler",
-			"cell": [12, 6],
-			"facing": [-1, 0],
-			"wander": 2,
-			"chatter": [
-				"Ser Valis takes his supper in the hall. Alone. Every night.",
-				"The thorn comes in under the door. I sweep it back out."
-			]
-		},
-		{
-			"name": "a caterpillar on the rampart",
-			"unit": "caterpillar_warrior",
-			"cell": [5, 3],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"It walks the wall all day. Eight feet make short work of a rampart."
-			]
-		}
-	],
-	"rows": [
-		"..mmmmmmmmmmmmmmmm..",
-		"mmmmmmmmmmmmmmmmmmmm",
-		"mmooooooooooooooommm",
-		"mmooooooooooooooommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmoommmmmmmmmmmoommm",
-		"mmooooooooooooooommm",
-		"mmmmmmmm.,,.mmmmmmmm",
-		"mmmmmmmm.,,.mmmmmmmm",
-		"mmmmmmmm.,,.mmmmmmmm",
-		"mmmmmmmm.,,.mmmmmmmm",
-		"mmmmmmmm.,,.mmmmmmmm"
-	]
+  "display_name": "the thorn keep",
+  "layers": [
+    "dirt",
+    "stone",
+    "meadow"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "o": "stone",
+    "m": "meadow"
+  },
+  "spawn": [
+    9,
+    14
+  ],
+  "exits": [
+    [
+      9,
+      15
+    ],
+    [
+      10,
+      15
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        8,
+        6
+      ],
+      "line": "The bailey grass is knee high. Nobody has drilled in it for a year."
+    },
+    {
+      "cell": [
+        9,
+        11
+      ],
+      "line": "The ramp up is cut for horses that this keep no longer has."
+    },
+    {
+      "cell": [
+        3,
+        3
+      ],
+      "line": "The rampart walk. From up here the thorn scrub runs to the horizon."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        5,
+        8
+      ],
+      "line": "A quartermaster's chest, inventoried in a hand that stops mid-line.",
+      "gold": 90,
+      "item": "bone_sword"
+    },
+    {
+      "cell": [
+        12,
+        5
+      ],
+      "line": "A strongbox let into the rampart, and the key long since thrown into the scrub.",
+      "gold": 190,
+      "item": "grave_token"
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the muster hall",
+      "cell": [
+        6,
+        4
+      ],
+      "size": [
+        5,
+        2
+      ],
+      "door": [
+        8,
+        5
+      ],
+      "area": "thorn_hall",
+      "art": "pale_hall",
+      "scale": 4.0
+    },
+    {
+      "name": "the proving arena",
+      "cell": [
+        13,
+        4
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "door": [
+        14,
+        5
+      ],
+      "area": "coliseum",
+      "art": "gatehouse",
+      "scale": 3.0
+    }
+  ],
+  "people": [
+    {
+      "name": "Brannagh the Guild Clerk",
+      "unit": "guild_clerk",
+      "cell": [
+        11,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "guild": true,
+      "chatter": [
+        "Every gate on the board has a name, and most of the names are wrong.",
+        "Sign here. Or don't, and walk in anyway."
+      ]
+    },
+    {
+      "name": "Ser Valis the Golden Knight",
+      "unit": "golden_knight",
+      "cell": [
+        9,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "cutscene": "the_thorn_knight",
+      "dialogue": "thorn_knight"
+    },
+    {
+      "name": "a knight of the muster",
+      "unit": "castellan",
+      "cell": [
+        6,
+        7
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 3,
+      "chatter": [
+        "Knee high. It was ankle high when I swore in.",
+        "We drill in the scrub now. It is honest ground, at least."
+      ],
+      "talk": {
+        "refuse": {
+          "chance": 0.5,
+          "text": "The knight does not look at you. The knight is drilling, alone, in the long grass.",
+          "check": {
+            "skill": "renown",
+            "dc": 11
+          },
+          "check_q": "Fall in beside him.",
+          "won": "...Not bad. Not good. Not bad. What is it?",
+          "won_flag": "thorn_knight:won",
+          "unless": "thorn_knight:won",
+          "still_no": "Out of step. Go away.",
+          "leave": "Leave him to it."
+        },
+        "hello": "One. Two. One. Two.",
+        "ask": [
+          {
+            "q": "Why drill if nobody's left?",
+            "a": "So that when they come back, someone remembers how."
+          }
+        ],
+        "bye": "One. Two."
+      }
+    },
+    {
+      "name": "Ilm the Butler",
+      "unit": "devil_butler",
+      "cell": [
+        12,
+        6
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 2,
+      "chatter": [
+        "Ser Valis takes his supper in the hall. Alone. Every night.",
+        "The thorn comes in under the door. I sweep it back out."
+      ],
+      "talk": {
+        "hello": "The muster hall is that way. The muster, I regret, is not.",
+        "ask": [
+          {
+            "q": "Where did everyone go?",
+            "a": "To a war, sir or madam. Several wars. None of them came back to tell us which one they won."
+          }
+        ],
+        "sells": [
+          {
+            "item": "red_draught"
+          },
+          {
+            "item": "blue_draught"
+          },
+          {
+            "item": "ale_flask"
+          }
+        ],
+        "shop": "From the keep's stores. Such as they are.",
+        "bye": "Do come again. Someone should."
+      }
+    },
+    {
+      "name": "a caterpillar on the rampart",
+      "unit": "caterpillar_warrior",
+      "cell": [
+        5,
+        3
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "It walks the wall all day. Eight feet make short work of a rampart."
+      ]
+    }
+  ],
+  "rows": [
+    "..mmmmmmmmmmmmmmmm..",
+    "mmmmmmmmmmmmmmmmmmmm",
+    "mmooooooooooooooommm",
+    "mmooooooooooooooommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmoommmmmmmmmmmoommm",
+    "mmooooooooooooooommm",
+    "mmmmmmmm.,,.mmmmmmmm",
+    "mmmmmmmm.,,.mmmmmmmm",
+    "mmmmmmmm.,,.mmmmmmmm",
+    "mmmmmmmm.,,.mmmmmmmm",
+    "mmmmmmmm.,,.mmmmmmmm"
+  ],
+  "props": [
+    {
+      "art": "landmark/watchtower",
+      "cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "art": "landmark/tower_dark_2",
+      "cell": [
+        16,
+        2
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        4,
+        9
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        8,
+        12
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        11,
+        12
+      ]
+    }
+  ],
+  "dressing": [
+    {"art": "nature/dead_tree", "cell": [19, 11], "offset": [-7, -2]},
+    {"art": "nature/great_oak", "cell": [19, 4], "offset": [6, 3], "flip": true},
+    {"art": "nature/bare_tree", "cell": [14, 0], "offset": [-6, -4]},
+    {"art": "nature/round_tree", "cell": [0, 14], "offset": [-2, 2]},
+    {"art": "nature/autumn_tree", "cell": [0, 3], "offset": [-6, 5]},
+    {"art": "nature/round_tree", "cell": [19, 1], "offset": [1, -4]},
+    {"art": "nature/bare_tree", "cell": [19, 14], "offset": [-9, 5]},
+    {"art": "nature/bare_tree", "cell": [17, 14], "offset": [1, -4], "flip": true},
+    {"art": "nature/bare_tree", "cell": [18, 6], "offset": [-1, 1]},
+    {"art": "nature/bare_tree", "cell": [0, 6], "offset": [-8, 1]},
+    {"art": "nature/sycamore_tree", "cell": [17, 0], "offset": [-10, -1], "flip": true},
+    {"art": "nature/copse", "cell": [19, 9], "offset": [2, -4], "flip": true},
+    {"art": "nature/birch", "cell": [5, 14], "offset": [0, -4]},
+    {"art": "nature/autumn_tree", "cell": [7, 0], "offset": [2, -4]},
+    {"art": "nature/round_tree", "cell": [0, 10], "offset": [-4, 2]},
+    {"art": "nature/great_oak", "cell": [10, 0], "offset": [2, -1]},
+    {"art": "nature/sycamore_tree", "cell": [13, 15], "offset": [-8, 2]},
+    {"art": "nature/bare_tree", "cell": [1, 12], "offset": [0, 3]},
+    {"art": "nature/great_oak", "cell": [2, 0], "offset": [5, 5], "flip": true},
+    {"art": "nature/dead_tree", "cell": [0, 8], "offset": [-1, 2]},
+    {"art": "nature/birch", "cell": [15, 15], "offset": [6, -1], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [7, 14], "offset": [7, -4], "flip": true},
+    {"art": "nature/great_oak", "cell": [12, 0], "offset": [-3, -2]},
+    {"art": "nature/great_oak", "cell": [2, 14], "offset": [-1, 1], "flip": true},
+    {"art": "nature/briar_bush", "cell": [6, 13], "offset": [-4, 7]},
+    {"art": "nature/wildflowers_blue", "cell": [16, 13], "offset": [4, 3], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [17, 11], "offset": [-7, -5], "flip": true},
+    {"art": "nature/rose_stem_2", "cell": [6, 14], "offset": [3, -2]},
+    {"art": "nature/wildflowers_blue", "cell": [14, 14], "offset": [11, -5], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [14, 12], "offset": [-1, -1]},
+    {"art": "nature/fern", "cell": [1, 4], "offset": [-2, 3]},
+    {"art": "nature/wildflowers_orange", "cell": [7, 13], "offset": [-14, 6], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [1, 13], "offset": [13, 1]},
+    {"art": "nature/clover", "cell": [2, 13], "offset": [-6, -4]},
+    {"art": "nature/thistle", "cell": [13, 0], "offset": [12, 4], "flip": true},
+    {"art": "nature/clover_3", "cell": [2, 1], "offset": [-12, 4]},
+    {"art": "nature/wildflowers_red", "cell": [0, 11], "offset": [13, -6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [12, 15], "offset": [-4, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [0, 0], "offset": [-9, -6]},
+    {"art": "nature/briar_bush", "cell": [1, 7], "offset": [-12, 5]},
+    {"art": "nature/fern", "cell": [16, 15], "offset": [-14, 2]},
+    {"art": "nature/grass_tuft", "cell": [18, 15], "offset": [-9, 2], "flip": true},
+    {"art": "nature/clover_2", "cell": [5, 0], "offset": [-14, -3]},
+    {"art": "nature/wildflowers_red", "cell": [4, 12], "offset": [11, -7]},
+    {"art": "nature/bramble", "cell": [12, 11], "offset": [-13, -5], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [12, 12], "offset": [2, -3]},
+    {"art": "nature/clover", "cell": [7, 9], "offset": [-11, -2], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [19, 2], "offset": [12, 2], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [16, 14], "offset": [-2, -2], "flip": true},
+    {"art": "nature/rose_stem", "cell": [8, 1], "offset": [-8, -2], "flip": true},
+    {"art": "nature/briar_bush", "cell": [18, 3], "offset": [-10, 4]},
+    {"art": "nature/hazel_bush", "cell": [1, 10], "offset": [3, 5]},
+    {"art": "nature/butterfly", "cell": [17, 10], "offset": [7, -1]},
+    {"art": "nature/butterfly_blue", "cell": [4, 5], "offset": [-5, 2], "flip": true},
+    {"art": "nature/finch", "cell": [7, 1], "offset": [-10, -1], "flip": true},
+    {"art": "nature/butterfly_blue", "cell": [18, 14], "offset": [9, -6], "flip": true}
+  ]
 }

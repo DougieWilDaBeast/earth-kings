@@ -33,6 +33,8 @@ var _wall: Color = Color.WHITE
 var _shade: Color = Color.WHITE
 ## Whether the windows are lit and the chimney is drawing.
 var _lived_in: bool = true
+## The building's own picture, when it has one; otherwise the house is drawn by hand.
+var _picture: Sprite2D = null
 
 
 static func create(building: Dictionary) -> AreaBuilding:
@@ -50,10 +52,34 @@ static func create(building: Dictionary) -> AreaBuilding:
 	node._wall = Color(style["wall"])
 	node._shade = Color(style["shade"])
 	node._lived_in = bool(building.get("lived_in", true))
+	var art_id := str(building.get("art", ""))
+	var look := Database.building_art(art_id)
+	var path := "res://art/buildings/%s.png" % art_id
+	if not look.is_empty() and ResourceLoader.exists(path):
+		node._add_picture(load(path), float(building.get("scale", look.get("scale", 3.0))), bool(building.get("flip", false)))
 	return node
 
 
+## The house as drawn: stood on its footprint's front edge and centred on it. The picture shows
+## the front and the roof, so it rises past the footprint's back row, the way a house would.
+func _add_picture(texture: Texture2D, size: float, flip: bool) -> void:
+	var painted := AreaProp.painted_rect("buildings/" + texture.resource_path, texture)
+	_picture = Sprite2D.new()
+	_picture.texture = texture
+	_picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_picture.centered = false
+	_picture.flip_h = flip
+	_picture.scale = Vector2(size, size)
+	var middle := texture.get_width() - painted.get_center().x if flip else painted.get_center().x
+	_picture.position = Vector2(_body.size.x / 2.0 - middle * size, 6.0 - painted.end.y * size)
+	add_child(_picture)
+
+
 func _draw() -> void:
+	if _picture != null:
+		# Only a soft shadow at its feet; the picture is the house.
+		draw_rect(Rect2(Vector2(_body.position.x + 6.0, -10.0), Vector2(_body.size.x - 4.0, 16.0)), SHADOW)
+		return
 	draw_rect(Rect2(_body.position + Vector2(6, 8), _body.size), SHADOW)
 	draw_rect(_body, _wall)
 	draw_rect(Rect2(_body.position.x, -FRONT_WALL, _body.size.x, FRONT_WALL), _shade)

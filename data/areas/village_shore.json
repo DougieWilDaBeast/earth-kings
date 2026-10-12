@@ -1,110 +1,357 @@
 {
-	"display_name": "the salt hamlet",
-	"layers": ["dirt", "sand", "meadow", "water"],
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"~": "water",
-		"s": "sand",
-		"m": "meadow"
-	},
-	"spawn": [11, 16],
-	"exits": [[11, 17], [12, 17]],
-	"spots": [
-		{ "cell": [12, 5], "line": "Nets on every frame, and every frame turned away from the water." },
-		{ "cell": [4, 8], "line": "A keel laid down years ago. Nobody has added a rib to it since." },
-		{ "cell": [14, 11], "line": "The shingle is scraped smooth where the boats used to be dragged up." }
-	],
-	"chests": [
-		{
-			"cell": [13, 2],
-			"line": "A salt barrel with a false bottom, which is exactly where you looked.",
-			"gold": 80,
-			"item": "grave_token"
-		},
-		{
-			"cell": [15, 14],
-			"line": "A sea chest come in on the tide, still locked, still heavy.",
-			"gold": 165
-		}
-	],
-	"buildings": [
-		{
-			"name": "the Salt and Line",
-			"cell": [3, 2],
-			"size": [5, 4],
-			"door": [5, 5],
-			"area": "shore_taphouse"
-		}
-	],
-	"people": [
-		{
-			"name": "Corvin the Guild Clerk",
-			"unit": "guild_clerk",
-			"cell": [14, 7],
-			"facing": [0, 1],
-			"guild": true,
-			"chatter": ["Gates by sea are worse. Nobody ever believes me until they've been."]
-		},
-		{
-			"name": "Halbrec the Pirate Man",
-			"unit": "pirate_man",
-			"cell": [12, 7],
-			"facing": [-1, 0],
-			"cutscene": "the_shore_pirate",
-			"dialogue": "shore_pirate"
-		},
-		{
-			"name": "Gill the Cabin Hand",
-			"unit": "cabin_boy",
-			"cell": [14, 3],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"Every net on the frames and not one of them wet since spring.",
-				"Halbrec says the tide brings things back. He never says what."
-			]
-		},
-		{
-			"name": "a gull with a temper",
-			"unit": "flame_dove",
-			"cell": [17, 11],
-			"facing": [-1, 0],
-			"wander": 5,
-			"chatter": [
-				"It has taken two hats and a knife off this beach today."
-			]
-		},
-		{
-			"name": "Nettle the Cutpurse",
-			"unit": "hat_fox",
-			"cell": [8, 9],
-			"facing": [1, 0],
-			"wander": 4,
-			"chatter": [
-				"There is no law down here, only tide tables.",
-				"Count your coin before the shingle and after it."
-			]
-		}
-	],
-	"rows": [
-		"mmmm................ss~~",
-		"mmm.......,,,,,,...ss~~~",
-		"mm.......,,,,,,,,.ss~~~~",
-		"m........,,,,,,,,.ss~~~~",
-		".........,,,,,,,,.ss~~~~",
-		".........,,,,,,,,.ss~~~~",
-		".........,,,,,,,,.ss~~~~",
-		"..........,,,,,,,.ss~~~~",
-		"....ss....,,,,,,.sss~~~~",
-		"....ss.....,,...ssss~~~~",
-		"...........,,..ssss~~~~~",
-		"...........,,.sssss~~~~~",
-		"mmmmm......,,.ssss~~~~~~",
-		"mmmmmm.....,,.ssss~~~~~~",
-		"mmmmmm.....,,.ssss~~~~~~",
-		"mmmmmmm....,,..ssss~~~~~",
-		"mmmmmmm....,,...ssss~~~~",
-		"mmmmmm.....,,....ssss~~~"
-	]
+  "display_name": "the salt hamlet",
+  "layers": [
+    "dirt",
+    "sand",
+    "meadow",
+    "water"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "~": "water",
+    "s": "sand",
+    "m": "meadow"
+  },
+  "spawn": [
+    11,
+    16
+  ],
+  "exits": [
+    [
+      11,
+      17
+    ],
+    [
+      12,
+      17
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        12,
+        5
+      ],
+      "line": "Nets on every frame, and every frame turned away from the water."
+    },
+    {
+      "cell": [
+        4,
+        8
+      ],
+      "line": "A keel laid down years ago. Nobody has added a rib to it since."
+    },
+    {
+      "cell": [
+        14,
+        11
+      ],
+      "line": "The shingle is scraped smooth where the boats used to be dragged up."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        13,
+        2
+      ],
+      "line": "A salt barrel with a false bottom, which is exactly where you looked.",
+      "gold": 80,
+      "item": "grave_token"
+    },
+    {
+      "cell": [
+        15,
+        14
+      ],
+      "line": "A sea chest come in on the tide, still locked, still heavy.",
+      "gold": 165
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the Salt and Line",
+      "cell": [
+        3,
+        4
+      ],
+      "size": [
+        5,
+        2
+      ],
+      "door": [
+        5,
+        5
+      ],
+      "area": "shore_taphouse",
+      "art": "plaster_shop",
+      "scale": 4.0
+    },
+    {
+      "name": "a fisher's cottage",
+      "art": "village_house/south",
+      "cell": [
+        1,
+        9
+      ],
+      "door": [
+        2,
+        10
+      ],
+      "shut": "Nets drying on the door. Nobody answers through them."
+    },
+    {
+      "name": "the salt house",
+      "art": "guild_front",
+      "cell": [
+        7,
+        13
+      ],
+      "door": [
+        8,
+        14
+      ],
+      "shut": "Salt to the rafters, and a lock as big as your fist."
+    }
+  ],
+  "people": [
+    {
+      "name": "Corvin the Guild Clerk",
+      "unit": "guild_clerk",
+      "cell": [
+        14,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "guild": true,
+      "chatter": [
+        "Gates by sea are worse. Nobody ever believes me until they've been."
+      ]
+    },
+    {
+      "name": "Halbrec the Pirate Man",
+      "unit": "pirate_man",
+      "cell": [
+        12,
+        7
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "cutscene": "the_shore_pirate",
+      "dialogue": "shore_pirate"
+    },
+    {
+      "name": "Gill the Cabin Hand",
+      "unit": "cabin_boy",
+      "cell": [
+        14,
+        3
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "Every net on the frames and not one of them wet since spring.",
+        "Halbrec says the tide brings things back. He never says what."
+      ],
+      "talk": {
+        "hello": [
+          "Every net on the frames and not one of them wet since spring. What can I get you?",
+          "Ahoy. That's a joke. We say ahoy here as a joke."
+        ],
+        "ask": [
+          {
+            "q": "Who keeps the light?",
+            "a": "Nobody, since the keeper went up one night and didn't come down. It still turns. Don't ask me how. I asked once and didn't sleep for a week."
+          },
+          {
+            "q": "Why don't the boats go out?",
+            "a": "Gates by sea. You can't see them till you're through one."
+          }
+        ],
+        "news": true,
+        "sells": [
+          {
+            "item": "bread"
+          },
+          {
+            "item": "ale_flask"
+          },
+          {
+            "item": "salt_pouch",
+            "price": 55
+          }
+        ],
+        "shop": "Salt, ale, and bread that's only a bit salty.",
+        "bye": "Fair winds. Or any winds. We'd take any winds."
+      }
+    },
+    {
+      "name": "a gull with a temper",
+      "unit": "flame_dove",
+      "cell": [
+        17,
+        11
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 5,
+      "chatter": [
+        "It has taken two hats and a knife off this beach today."
+      ]
+    },
+    {
+      "name": "Nettle the Cutpurse",
+      "unit": "hat_fox",
+      "cell": [
+        8,
+        9
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 4,
+      "chatter": [
+        "There is no law down here, only tide tables.",
+        "Count your coin before the shingle and after it."
+      ],
+      "talk": {
+        "refuse": {
+          "text": "Nettle looks straight through you, at the tide.",
+          "chance": 1.0,
+          "unless": "nettle:won",
+          "check": {
+            "skill": "wits",
+            "dc": 12
+          },
+          "check_q": "Mention the tide tables are wrong.",
+          "won": "...They're not wrong. They're forged. Who told you? Sit down.",
+          "won_flag": "nettle:won",
+          "still_no": "Nettle smiles at the sea. Not at you.",
+          "leave": "Leave her to the tide."
+        },
+        "hello": "There's no law down here, only tide tables. Which you've noticed are wrong.",
+        "ask": [
+          {
+            "q": "Who forged them?",
+            "a": "Somebody who wants the boats in at the wrong hour. Ask the pirate. Ask him while he's sober, if you can find the hour."
+          }
+        ],
+        "bye": "Low tide's at dusk. Really."
+      }
+    }
+  ],
+  "rows": [
+    "mmmm................ss~~",
+    "mmm.......,,,,,,...ss~~~",
+    "mm.......,,,,,,,,.ss~~~~",
+    "m........,,,,,,,,.ss~~~~",
+    ".........,,,,,,,,.ss~~~~",
+    ".........,,,,,,,,.ss~~~~",
+    ".........,,,,,,,,.ss~~~~",
+    "..........,,,,,,,.ss~~~~",
+    "....ss....,,,,,,.sss~~~~",
+    "....ss.....,,...ssss~~~~",
+    "...........,,..ssss~~~~~",
+    "...........,,.sssss~~~~~",
+    "mmmmm......,,.ssss~~~~~~",
+    "mmmmmm.....,,.ssss~~~~~~",
+    "mmmmmm.....,,.ssss~~~~~~",
+    "mmmmmmm....,,..ssss~~~~~",
+    "mmmmmmm....,,...ssss~~~~",
+    "mmmmmm.....,,....ssss~~~"
+  ],
+  "props": [
+    {
+      "art": "landmark/lighthouse",
+      "cell": [
+        19,
+        3
+      ],
+      "name": "the lighthouse",
+      "line": "The light still turns. The keeper went up one night and did not come down, and still it turns."
+    },
+    {
+      "art": "village/hide_rack",
+      "cell": [
+        17,
+        5
+      ],
+      "name": "a net frame",
+      "line": "Nets on the frame, salt-stiff, turned to the wind."
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        10,
+        10
+      ]
+    },
+    {
+      "art": "camp/fire_boat",
+      "cell": [
+        16,
+        13
+      ]
+    },
+    {
+      "art": "village/signpost",
+      "cell": [
+        13,
+        15
+      ]
+    },
+    {
+      "art": "village/lamp",
+      "cell": [
+        10,
+        12
+      ]
+    },
+    {
+      "art": "village/trough",
+      "cell": [
+        8,
+        4
+      ]
+    }
+  ],
+  "dressing": [
+    {"art": "nature/round_tree", "cell": [19, 0], "offset": [-3, 3]},
+    {"art": "nature/birch", "cell": [0, 5], "offset": [-3, -3]},
+    {"art": "nature/sycamore_tree", "cell": [3, 16], "offset": [-6, 2], "flip": true},
+    {"art": "nature/round_tree", "cell": [17, 17], "offset": [-4, 4], "flip": true},
+    {"art": "nature/round_tree", "cell": [0, 0], "offset": [-4, 0], "flip": true},
+    {"art": "nature/birch", "cell": [20, 17], "offset": [-6, -5], "flip": true},
+    {"art": "nature/birch", "cell": [4, 0], "offset": [-6, -1], "flip": true},
+    {"art": "nature/birch", "cell": [0, 13], "offset": [-8, 5], "flip": true},
+    {"art": "nature/fern", "cell": [1, 6], "offset": [10, 3]},
+    {"art": "nature/thistle", "cell": [2, 13], "offset": [-12, 3]},
+    {"art": "nature/pebble", "cell": [5, 16], "offset": [5, -4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [6, 17], "offset": [1, 7], "flip": true},
+    {"art": "nature/thistle", "cell": [2, 14], "offset": [8, -5]},
+    {"art": "nature/fern", "cell": [16, 0], "offset": [-10, 7], "flip": true},
+    {"art": "nature/clover_2", "cell": [14, 16], "offset": [-1, 4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [7, 1], "offset": [-5, 0]},
+    {"art": "nature/pebble", "cell": [2, 17], "offset": [-1, 2], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [7, 11], "offset": [13, 1]},
+    {"art": "nature/thistle", "cell": [3, 13], "offset": [-4, 3], "flip": true},
+    {"art": "nature/pebble", "cell": [0, 6], "offset": [8, 5]},
+    {"art": "nature/irish_bird_3", "cell": [2, 2], "offset": [-3, -3], "flip": true},
+    {"art": "nature/sparrow", "cell": [2, 6], "offset": [1, 2]},
+    {"art": "nature/sparrow", "cell": [7, 7], "offset": [-12, -4]},
+    {"art": "nature/white_dove", "cell": [17, 9], "offset": [-7, -2]},
+    {"art": "nature/snail", "cell": [8, 11], "offset": [3, 2]}
+  ]
 }

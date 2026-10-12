@@ -197,6 +197,23 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G19 | **Stand with them**, then walk into that gate | "N of the muster go into … beside you"; blue-ringed allies on the back row fight with you |
 | G20 | Stand with a muster, then send a companion on it from the Practice page | They wait at the hall ("waiting with the muster"); when it goes in they come back paid, or roll for their life |
 
+## D2 — Towns, wilds and the people in them ([D62](06-decisions.md))
+
+Walk **the ford village** first, then any other village, a wild area and a gate.
+
+| #    | Do this                                                   | Expect                                                                                         |
+| ---- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| D2.1 | Look round                                                | Houses drawn as houses, about three tiles wide; trees about three people tall; birds, mushrooms and bugs small |
+| D2.2 | Walk behind a house and behind a tree                     | You pass behind them, not over them; you cannot walk through a tree trunk, a well or a lamp post |
+| D2.3 | Walk into a house with no inside                          | A line of its own ("Closed. A note on the door…"), not a blank refusal                          |
+| D2.4 | Speak to **Hesk the Stallholder**, ask a question, then buy a loaf | The question is answered; the loaf costs gold and goes in the packs; the loaf is then gone from the list |
+| D2.5 | Speak to **the fox in a stolen hat**                      | It will not talk; toss it a coin and it will, and it stays willing next time                   |
+| D2.6 | Speak to **Dunmore the Smith** a few times                | Sometimes he is too busy; working the bellows (a Might roll) can win him over                   |
+| D2.7 | Take **Wat**'s favour, look at the grey stone by the pond, go back to him | The stone is only there once the favour is taken; he pays 30 gold and a Hearth Coin, once |
+| D2.8 | Look at a gate, the Tower, the salt hamlet's lighthouse   | The portal glows, the Tower's runes pulse, the lighthouse beam sweeps                           |
+| D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
+| D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

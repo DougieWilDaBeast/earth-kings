@@ -22,6 +22,7 @@ const AREAS := [
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
+const Talk := preload("res://src/dialogue/talk.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -42,6 +43,7 @@ func _ready() -> void:
 	for area_id in AREAS:
 		await _check_area(area_id)
 	await _check_camp()
+	_check_trading()
 
 	print("")
 	if _failures.is_empty():
@@ -98,6 +100,33 @@ func _check_area(area_id: String) -> void:
 	await get_tree().process_frame
 
 
+## A `talk` block builds into a conversation whose every reply leads somewhere, refused or not,
+## and sells only things that exist ([Talk]).
+func _check_talk(area_id: String, person: Dictionary) -> void:
+	var who: String = person.get("name", "someone")
+	for roll: float in [0.0, 0.99]:
+		var nodes: Dictionary = Talk.build(who, person["talk"], false, roll, "met:test")
+		if not nodes.has("hello") or not nodes.has("menu"):
+			_fail("%s: %s's talk has no greeting or no menu" % [area_id, who])
+		for node_id: String in nodes:
+			var node: Dictionary = nodes[node_id]
+			var targets: Array = [node.get("next", "end")]
+			for option: Dictionary in node.get("options", []):
+				targets.append(option.get("goto", "end"))
+				if option.has("check"):
+					targets.append(option["check"].get("success", ""))
+					targets.append(option["check"].get("failure", ""))
+			for target: String in targets:
+				if target != "end" and not nodes.has(target):
+					_fail("%s: %s's talk node '%s' leads to '%s', which is not there" % [area_id, who, node_id, target])
+	for ware: Dictionary in person["talk"].get("sells", []):
+		if Database.equipment_piece(str(ware.get("item", ""))).is_empty():
+			_fail("%s: %s sells '%s', which is not in equipment.json" % [area_id, who, ware.get("item", "")])
+	var job: Dictionary = person["talk"].get("job", {})
+	if not job.is_empty() and (str(job.get("flag", "")) == "" or str(job.get("done_flag", "")) == ""):
+		_fail("%s: %s's job has no flag or no done_flag" % [area_id, who])
+
+
 ## A door has to be on the house it belongs to, and lead somewhere real.
 func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> void:
 	var who: String = building.get("name", "a house")
@@ -106,7 +135,9 @@ func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> voi
 		_fail("%s: the door of %s is not on it" % [area_id, who])
 	if not map.is_walkable(door):
 		_fail("%s: the door of %s cannot be reached" % [area_id, who])
-	if not Database.has_area(building.get("area", "")) and building.get("area", "") != "coliseum":
+	# A house nobody can go into says so in its own words (`shut`); any other door leads somewhere.
+	if not Database.has_area(building.get("area", "")) and building.get("area", "") != "coliseum" \
+			and not building.has("shut"):
 		_fail("%s: %s has no inside to walk into" % [area_id, who])
 	if map.step_out_of(building) == door:
 		_fail("%s: coming out of %s puts you back in the doorway" % [area_id, who])
@@ -157,7 +188,9 @@ func _check_person(area_id: String, map: AreaMap, person: Dictionary) -> void:
 		_fail("%s: %s has no unit template to be drawn from" % [area_id, who])
 
 	var dialogue_id: String = person.get("dialogue", "")
-	if dialogue_id == "":
+	if person.has("talk"):
+		_check_talk(area_id, person)
+	elif dialogue_id == "":
 		# Background townsfolk are not mute: they mutter as they go about.
 		if person.get("chatter", []).is_empty():
 			_fail("%s: %s has nothing to say" % [area_id, who])
@@ -229,6 +262,62 @@ func _check_talking(scene: Node, area_id: String) -> void:
 	print("%s: %s staged the meeting, then opened '%s'" % [
 		area_id, person.get("cutscene", ""), _opened[0]
 	])
+
+
+## Buying from a stall, paying a fox to listen, and a favour from asking to being paid, done the
+## way the dialogue box does them: each reply's effects, then the node it leads to.
+func _check_trading() -> void:
+	var map := AreaMap.load_area("village")
+	var hesk := {}
+	var fox := {}
+	var wat := {}
+	for person: Dictionary in map.people:
+		match person.get("name", ""):
+			"Hesk the Stallholder": hesk = person
+			"a fox in a stolen hat": fox = person
+			"Wat the Village Idiot": wat = person
+	if hesk.is_empty() or fox.is_empty() or wat.is_empty():
+		_fail("village: Hesk, the fox or Wat is missing")
+		return
+
+	var nodes: Dictionary = Talk.build("Hesk", hesk["talk"], false, 0.5, "met:test")
+	var loaf: Dictionary = {}
+	for option: Dictionary in nodes["shop"]["options"]:
+		if str(option.get("text", "")).begins_with("Loaf"):
+			loaf = option
+	GameState.gold = 100
+	var stores := GameState.stores.size()
+	DialogueScript.apply_effects(loaf)
+	DialogueScript.apply_effects(nodes[loaf.get("goto", "")])
+	if GameState.gold != 100 - int(loaf.get("requires_gold", 0)) or GameState.gold == 100:
+		_fail("village: buying a loaf did not take the money (%d gold left)" % GameState.gold)
+	if GameState.stores.size() != stores + 1 or GameState.stores[-1] != "bread":
+		_fail("village: the loaf bought never went in the packs")
+
+	nodes = Talk.build("fox", fox["talk"], false, 0.5, "met:test")
+	if not nodes.has("door"):
+		_fail("village: the fox talked without being paid")
+	else:
+		var coin: Dictionary = nodes["door"]["options"][0]
+		DialogueScript.apply_effects(coin)
+		DialogueScript.apply_effects(nodes[coin["goto"]])
+		if not GameState.has_flag("fox:paid") or Talk.build("fox", fox["talk"], false, 0.5, "met:test").has("door"):
+			_fail("village: a paid fox still would not talk")
+
+	var job: Dictionary = wat["talk"]["job"]
+	nodes = Talk.build("Wat", wat["talk"], false, 0.5, "met:test")
+	DialogueScript.apply_effects(nodes["job_offer"]["options"][0])
+	if not GameState.has_flag(job["flag"]):
+		_fail("village: taking Wat's job did not mark it taken")
+	var hand_over: Array = DialogueScript.available_options(nodes["job_check"])
+	if hand_over.any(func(o: Dictionary) -> bool: return o.get("goto", "") == "job_paid"):
+		_fail("village: Wat paid out before the stone was found")
+	GameState.set_flag(job["done_flag"])
+	var before := GameState.gold
+	DialogueScript.apply_effects(nodes["job_paid"])
+	if GameState.gold != before + int(job["gold"]) or not GameState.has_flag(job["flag"] + ":paid"):
+		_fail("village: finishing Wat's job did not pay")
+	print("village: bought a loaf, paid the fox, found Wat's stone")
 
 
 ## The fire seats the party itself: nobody is authored into it, and speaking to

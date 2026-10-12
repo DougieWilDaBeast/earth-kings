@@ -80,10 +80,12 @@ src/
                                of sight for the ground on each step; the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
-  area/                        The ground, where the game is played (D50, D61) — 33 hand-built
-                               top-down areas, orthogonal A* pathfinding, props, chests,
-                               cutscenes, camp fire; walking off an edge hands the step to world/
-  dialogue/                    Conversation overlay, branching script, skill checks, news
+  area/                        The ground, where the game is played (D50, D61) — 34 hand-built
+                               top-down areas, orthogonal A* pathfinding, props sized by
+                               data/props.json (some animated), buildings drawn from their art,
+                               chests, cutscenes, camp fire; walking off an edge hands the step to world/
+  dialogue/                    Conversation overlay, branching script, skill checks, news;
+                               talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Battle HUD, title screen, party screen, system menu, stash,
                                Guild hall, journal (bestiary, routes, annals), museum (hero dossiers),
@@ -134,7 +136,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
 | `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
-| `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
+| `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid |
 | `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
 | `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
