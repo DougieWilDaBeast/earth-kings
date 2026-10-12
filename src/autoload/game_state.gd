@@ -7,7 +7,7 @@ const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
 ## pools added, so a v2 character carries ids that no longer resolve.
-## Raising this needs a step in `src/chronicle/save_migrations.gd` ([D55]).
+## Raising this needs a step in `src/chronicle/save_migrations.gd` ([D56]).
 const SAVE_VERSION := 3
 
 const DEFAULT_GOLD := 250
@@ -191,7 +191,7 @@ func save() -> void:
 ## Puts the saved run back. False if there is none that can be played, in which
 ## case nothing on disk has been lost: a save that is corrupt, too old to carry
 ## forward, or newer than this build is left or set aside, never written over
-## ([D55]). Anything the player should hear about goes out as
+## ([D56]). Anything the player should hear about goes out as
 ## [signal EventBus.save_notice].
 func load_save() -> bool:
 	if not has_save():

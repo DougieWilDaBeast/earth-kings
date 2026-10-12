@@ -22,9 +22,9 @@ extends Node
 ## - **errands**: every kind of errand a board can post is written out whole.
 ## - **old_saves**: a save from an older version is upgraded rather than wiped,
 ##   one too old to carry forward is set aside before a fresh run starts, and one
-##   from a newer version is refused and left exactly as it was ([D55]).
+##   from a newer version is refused and left exactly as it was ([D56]).
 ## - **backup**: a save is written beside the old one and renamed into place, the
-##   old one kept as a backup, and a corrupt save loads from that backup ([D55]).
+##   old one kept as a backup, and a corrupt save loads from that backup ([D56]).
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")

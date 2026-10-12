@@ -1,5 +1,5 @@
 extends RefCounted
-## Bringing an old save up to date, one version at a time ([D55]).
+## Bringing an old save up to date, one version at a time ([D56]).
 ##
 ## Each step takes a save written at version N and returns it as version N + 1
 ## would have written it. [method upgrade] runs them in order until the save is

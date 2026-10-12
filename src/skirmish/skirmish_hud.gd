@@ -17,6 +17,9 @@ const HINT := "Right-click: move · attack · help the fallen    Left-click: sel
 		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
 		+ "a skill, then its target · tap the skill again to put it away"
+## The same, on a pad: the stick walks a cursor and A gives the order there.
+const PAD_HINT := "Stick: cursor    %s: pick · move · attack · help the fallen    %s: next fighter    %s: everyone    " \
+		+ "%s: next skill    %s: pause    %s: speed    %s: put a skill away"
 ## Down the right-hand side under a thumb, top to bottom: the keys, as buttons.
 const TOUCH_BUTTONS := [
 	["pause", "Pause"], ["speed", "Speed"], ["all", "All"],
@@ -31,6 +34,7 @@ const PANEL_SELECTED := Color(0.22, 0.19, 0.08, 0.92)
 ## The skirmish scene. Untyped, because it loads this script itself.
 var _skirmish: Node2D
 var _clock: Label
+var _hint: Label
 var _log: Label
 var _result: Label
 var _cards: Array[PanelContainer] = []
@@ -49,12 +53,13 @@ func setup(skirmish: Node2D) -> void:
 	_clock.add_theme_font_size_override("font_size", 20)
 	add_child(_clock)
 
-	var hint := Label.new()
-	hint.position = Vector2(16, 38)
-	hint.text = TOUCH_HINT if skirmish.touch else HINT
-	hint.add_theme_color_override("font_color", Color(0.72, 0.76, 0.84))
-	hint.add_theme_font_size_override("font_size", 13)
-	add_child(hint)
+	_hint = Label.new()
+	_hint.position = Vector2(16, 38)
+	_hint.add_theme_color_override("font_color", Color(0.72, 0.76, 0.84))
+	_hint.add_theme_font_size_override("font_size", 13)
+	add_child(_hint)
+	_say_hint()
+	Pad.changed.connect(_say_hint)
 
 	_log = Label.new()
 	_log.anchor_top = 1.0
@@ -117,6 +122,19 @@ func setup(skirmish: Node2D) -> void:
 	refresh()
 
 
+func _say_hint() -> void:
+	if _skirmish.touch:
+		_hint.text = TOUCH_HINT
+	elif Pad.using_pad:
+		_hint.text = PAD_HINT % [
+			Pad.key("ui_accept"), Pad.key("cycle_next"), Pad.key("open_party"),
+			Pad.key("open_actions"), Pad.key("command_wait"), Pad.key("battle_speed"),
+			Pad.key("ui_cancel"),
+		]
+	else:
+		_hint.text = HINT
+
+
 ## Big enough for a thumb, down the right edge, clear of the party cards.
 func _add_touch_buttons() -> void:
 	var column := VBoxContainer.new()
@@ -144,6 +162,8 @@ func refresh() -> void:
 		return
 	_refresh_buttons()
 	var resume := "tap Pause" if _skirmish.touch else "Space"
+	if Pad.using_pad and not _skirmish.touch:
+		resume = Pad.key("command_wait")
 	var state := "PAUSED — %s to resume" % resume if _skirmish.paused else "x%s" % str(Pace.speed())
 	if _skirmish.over:
 		state = "Over"
@@ -153,6 +173,8 @@ func refresh() -> void:
 		var ability := caster.slot_ability(_skirmish.armed_slot)
 		var how := "tap a target, or the skill again to cancel" if _skirmish.touch \
 				else "left-click a target, right-click to cancel"
+		if Pad.using_pad and not _skirmish.touch:
+			how = "%s at the target, %s to cancel" % [Pad.key("ui_accept"), Pad.key("ui_cancel")]
 		armed = "    Aiming %s — %s" % [ability.get("display_name", "?"), how]
 	_clock.text = "Skirmish (prototype)   %s   %.1fs%s" % [state, _skirmish.sim_time, armed]
 

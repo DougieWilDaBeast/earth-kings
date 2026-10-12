@@ -52,7 +52,7 @@ static func whole(value: Variant) -> Variant:
 # beside it, the save already there steps aside as the one rolling backup, and
 # the temporary file is renamed into its place. A crash at any point leaves
 # either the old save, or the backup and the new one: never half a file under
-# the real name ([D55]).
+# the real name ([D56]).
 
 
 ## Where the one rolling backup of [param path] is kept:

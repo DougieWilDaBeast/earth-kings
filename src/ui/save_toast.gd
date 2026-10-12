@@ -1,6 +1,6 @@
 extends CanvasLayer
 ## A line along the top of the screen that says something about the save, then
-## fades: upgraded, restored from the backup, or left alone ([D55]). Lives on
+## fades: upgraded, restored from the backup, or left alone ([D56]). Lives on
 ## [Game], above whichever scene is in, so a notice raised while loading from the
 ## title screen is still up when the world comes in.
 ##

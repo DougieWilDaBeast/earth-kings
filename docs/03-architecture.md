@@ -32,6 +32,7 @@ src/
     music.gd                   Scene music tracks and dynamic crossfading
     sfx.gd                     Sound effects hub and UI button listener
     pace.gd                    Engine timescale, quiet chatter, auto-play coordination
+    pad.gd                     Last device used, pad/key names for hint lines, menu focus on a pad
   chronicle/                   THE WORLD MODEL (no nodes, no scenes)
     character.gd               Persistent person: level, class, doctrine, permadeath, grudges
     progression.gd             XP curve, level-ups, class choice, branching tree unlocks
@@ -39,7 +40,7 @@ src/
     doctrine.gd                Read / teach / forget, and the bonuses knowledge grants
     skein.gd                   Story threads, stage transitions, and deadlines
     save_file.gd               Reads JSON back with whole numbers as ints; writes a save atomically with a backup
-    save_migrations.gd         Upgrades an old save one version at a time (D55)
+    save_migrations.gd         Upgrades an old save one version at a time (D56)
     rumour_jobs.gd             News at the inn that posts work on the board (M16)
     chapters.gd                The Tower in chapters: the world moving on, the census, the seal (M14)
     nemesis.gd                 Defeated persistent foes who survive, remember, and return
@@ -55,6 +56,7 @@ src/
     world_gen.gd               Builds a 128x128 continental world from a seed
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
     guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
+    atlas.gd                   The party's map: explored, charted, marked; Guild maps, found maps (M18)
     sixteen.gd                 Who of the sixteen has fallen, kept outside the save (M15, D47)
     names.gd                   Regional names and the lead's earned title (D39)
   battle/                      Tactics core (working)
@@ -171,7 +173,7 @@ Writing goes through the same file. `SaveFile.write` writes the whole save to a 
 moves the old save to `.bak.json` and renames the new one into place, so a crash leaves a good save
 or a good backup, never half a file. `GameState.load_save` falls back to that backup when the save
 will not parse, upgrades an older save through `save_migrations.gd`, and refuses a newer one without
-touching it; an old or newer save is copied aside as `.v<N>.bak.json` first ([D55](06-decisions.md)).
+touching it; an old or newer save is copied aside as `.v<N>.bak.json` first ([D56](06-decisions.md)).
 What the player should hear about goes out as `EventBus.save_notice` and is shown by a toast on the
 root (`src/ui/save_toast.gd`).
 
@@ -187,8 +189,11 @@ and every bounty a board tried to post came out blank.
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace`. Database must be up before
+`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad`. Database must be up before
 anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
 busses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
 is playing itself, so both survive a scene swap — a soak started on the road carries through the
-fight it walks into.
+fight it walks into. `Pad` remembers whether a game pad or a keyboard was touched last, says the
+right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
+whatever modal screen or menu scene is up while a pad is in use; the walk and the fights steer
+themselves (a cursor in the fights).
