@@ -1249,7 +1249,7 @@
 		"sprite_dir": "res://art/units/slime/idle"
 	},
 	"blue_slime": {
-		"display_name": "Blue Slime",
+		"display_name": "Bog Jelly",
 		"job": "Wild",
 		"max_hp": 26,
 		"attack": 10,
@@ -1270,7 +1270,7 @@
 		"sprite_dir": "res://art/units/blue_slime/idle"
 	},
 	"king_slime": {
-		"display_name": "King Slime",
+		"display_name": "The Mother Ooze",
 		"job": "Wild",
 		"max_hp": 72,
 		"attack": 15,
@@ -1403,7 +1403,7 @@
 		"sprite_dir": "res://art/units/dusk_shadow/idle"
 	},
 	"ember_lizard": {
-		"display_name": "Ember Lizard",
+		"display_name": "Cinder Newt",
 		"job": "Wild",
 		"max_hp": 26,
 		"attack": 11,
@@ -1425,7 +1425,7 @@
 		"sprite_dir": "res://art/units/ember_lizard/idle"
 	},
 	"seed_beast": {
-		"display_name": "Seed Beast",
+		"display_name": "Mossback",
 		"job": "Wild",
 		"max_hp": 40,
 		"attack": 12,
@@ -1596,8 +1596,8 @@
 		"sprite_dir": "res://art/units/dwarf_smith/idle"
 	},
 	"beast_titan": {
-		"display_name": "The Beast",
-		"job": "Titan",
+		"display_name": "The Barrow Giant",
+		"job": "Elder Giant",
 		"max_hp": 160,
 		"attack": 26,
 		"defense": 14,
@@ -1620,8 +1620,8 @@
 		"sprite_dir": "res://art/units/beast_titan/idle"
 	},
 	"colossal_titan": {
-		"display_name": "The Colossal",
-		"job": "Titan",
+		"display_name": "The Cinder Colossus",
+		"job": "Elder Giant",
 		"max_hp": 220,
 		"attack": 30,
 		"defense": 18,
