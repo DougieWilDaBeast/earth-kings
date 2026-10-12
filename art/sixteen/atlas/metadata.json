@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_atlas",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make him a tiny frail boy mage, too small to walk properly, in oversized dark blue robes with large round spectacles, clutching a glowing pale orb",
-   "character_id": "bd78672d-aa63-41b1-a7e2-8891b565d081",
+   "outfit": "make him a tiny frail boy mage, too small to walk properly, in oversized dark blue robes with large round spectacles, clutching a glowing pale orb. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "195c5c42-5480-4aa2-b07b-10fcf0018175",
    "zip": "downloads/pixellab/sixteen_atlas_base.zip",
-   "generations": 61.0,
+   "generations": 38.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "bd78672d-aa63-41b1-a7e2-8891b565d081",
+     "id": "195c5c42-5480-4aa2-b07b-10fcf0018175",
      "name": "sixteen_atlas",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:58:02.301172+00:00"
+     "created_at": "2026-10-12T21:15:45.269748+00:00"
     },
-    "folder": "sixteen_atlas",
+    "folder": "sixteen_atlas_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_atlas/rotations/south.png",
-      "south-east": "sixteen_atlas/rotations/south-east.png",
-      "east": "sixteen_atlas/rotations/east.png",
-      "north-east": "sixteen_atlas/rotations/north-east.png",
-      "north": "sixteen_atlas/rotations/north.png",
-      "north-west": "sixteen_atlas/rotations/north-west.png",
-      "west": "sixteen_atlas/rotations/west.png",
-      "south-west": "sixteen_atlas/rotations/south-west.png"
+      "south": "sixteen_atlas_2/rotations/south.png",
+      "south-east": "sixteen_atlas_2/rotations/south-east.png",
+      "east": "sixteen_atlas_2/rotations/east.png",
+      "north-east": "sixteen_atlas_2/rotations/north-east.png",
+      "north": "sixteen_atlas_2/rotations/north.png",
+      "north-west": "sixteen_atlas_2/rotations/north-west.png",
+      "west": "sixteen_atlas_2/rotations/west.png",
+      "south-west": "sixteen_atlas_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:00:23.148041"
+  "export_date": "2026-10-12T21:18:41.273506"
  }
 }

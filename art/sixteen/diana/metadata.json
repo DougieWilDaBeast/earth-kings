@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_diana",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make her a quiet anxious young huntress in a fur-lined green hooded cloak, shoulders hunched, holding a hunting bow",
-   "character_id": "ebafba96-33cc-44ad-8d8a-3dd41fe191ea",
+   "outfit": "make her a quiet anxious young huntress in a fur-lined green hooded cloak, shoulders hunched, holding a hunting bow. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "3fa3513c-ec05-4a07-b337-28c2c79e575b",
    "zip": "downloads/pixellab/sixteen_diana_base.zip",
-   "generations": 61.0,
+   "generations": 24.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "ebafba96-33cc-44ad-8d8a-3dd41fe191ea",
+     "id": "3fa3513c-ec05-4a07-b337-28c2c79e575b",
      "name": "sixteen_diana",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:58:32.946367+00:00"
+     "created_at": "2026-10-12T21:43:16.428640+00:00"
     },
-    "folder": "sixteen_diana",
+    "folder": "sixteen_diana_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_diana/rotations/south.png",
-      "south-east": "sixteen_diana/rotations/south-east.png",
-      "east": "sixteen_diana/rotations/east.png",
-      "north-east": "sixteen_diana/rotations/north-east.png",
-      "north": "sixteen_diana/rotations/north.png",
-      "north-west": "sixteen_diana/rotations/north-west.png",
-      "west": "sixteen_diana/rotations/west.png",
-      "south-west": "sixteen_diana/rotations/south-west.png"
+      "south": "sixteen_diana_2/rotations/south.png",
+      "south-east": "sixteen_diana_2/rotations/south-east.png",
+      "east": "sixteen_diana_2/rotations/east.png",
+      "north-east": "sixteen_diana_2/rotations/north-east.png",
+      "north": "sixteen_diana_2/rotations/north.png",
+      "north-west": "sixteen_diana_2/rotations/north-west.png",
+      "west": "sixteen_diana_2/rotations/west.png",
+      "south-west": "sixteen_diana_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:00:19.132570"
+  "export_date": "2026-10-12T21:45:11.474500"
  }
 }

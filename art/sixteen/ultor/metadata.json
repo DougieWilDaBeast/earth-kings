@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_ultor",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a hard-eyed young man with a scarred face and messy hair tied back, in dark ragged leathers, holding two long daggers reversed",
-   "character_id": "740e4cbf-be1b-42f1-a3aa-e3c50593f10d",
+   "outfit": "a hard-eyed young man with a scarred face and messy hair tied back, in dark ragged leathers, holding two long daggers reversed. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "ee258bd7-07b0-4b07-8160-3c10ecc065c9",
    "zip": "downloads/pixellab/sixteen_ultor_base.zip",
-   "generations": 52.0,
+   "generations": 35.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "740e4cbf-be1b-42f1-a3aa-e3c50593f10d",
+     "id": "ee258bd7-07b0-4b07-8160-3c10ecc065c9",
      "name": "sixteen_ultor",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:03:48.738971+00:00"
+     "created_at": "2026-10-12T21:40:54.411095+00:00"
     },
-    "folder": "sixteen_ultor",
+    "folder": "sixteen_ultor_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_ultor/rotations/south.png",
-      "south-east": "sixteen_ultor/rotations/south-east.png",
-      "east": "sixteen_ultor/rotations/east.png",
-      "north-east": "sixteen_ultor/rotations/north-east.png",
-      "north": "sixteen_ultor/rotations/north.png",
-      "north-west": "sixteen_ultor/rotations/north-west.png",
-      "west": "sixteen_ultor/rotations/west.png",
-      "south-west": "sixteen_ultor/rotations/south-west.png"
+      "south": "sixteen_ultor_2/rotations/south.png",
+      "south-east": "sixteen_ultor_2/rotations/south-east.png",
+      "east": "sixteen_ultor_2/rotations/east.png",
+      "north-east": "sixteen_ultor_2/rotations/north-east.png",
+      "north": "sixteen_ultor_2/rotations/north.png",
+      "north-west": "sixteen_ultor_2/rotations/north-west.png",
+      "west": "sixteen_ultor_2/rotations/west.png",
+      "south-west": "sixteen_ultor_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:05:46.042391"
+  "export_date": "2026-10-12T21:43:13.912523"
  }
 }

@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_iris",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make her a quick wiry young woman with a short ponytail in a light patched leather jerkin, belts of throwing knives across her chest",
-   "character_id": "b9e5e242-dfb8-4e05-991b-87704826b96a",
+   "outfit": "make her a quick wiry young woman with a short ponytail in a light patched leather jerkin, belts of throwing knives across her chest. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "a6a487b5-ee8b-4c65-a7a6-646b7c7c7679",
    "zip": "downloads/pixellab/sixteen_iris_base.zip",
-   "generations": 48.0,
+   "generations": 34.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "b9e5e242-dfb8-4e05-991b-87704826b96a",
+     "id": "a6a487b5-ee8b-4c65-a7a6-646b7c7c7679",
      "name": "sixteen_iris",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:05:14.083814+00:00"
+     "created_at": "2026-10-12T21:30:15.612445+00:00"
     },
-    "folder": "sixteen_iris",
+    "folder": "sixteen_iris_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_iris/rotations/south.png",
-      "south-east": "sixteen_iris/rotations/south-east.png",
-      "east": "sixteen_iris/rotations/east.png",
-      "north-east": "sixteen_iris/rotations/north-east.png",
-      "north": "sixteen_iris/rotations/north.png",
-      "north-west": "sixteen_iris/rotations/north-west.png",
-      "west": "sixteen_iris/rotations/west.png",
-      "south-west": "sixteen_iris/rotations/south-west.png"
+      "south": "sixteen_iris_2/rotations/south.png",
+      "south-east": "sixteen_iris_2/rotations/south-east.png",
+      "east": "sixteen_iris_2/rotations/east.png",
+      "north-east": "sixteen_iris_2/rotations/north-east.png",
+      "north": "sixteen_iris_2/rotations/north.png",
+      "north-west": "sixteen_iris_2/rotations/north-west.png",
+      "west": "sixteen_iris_2/rotations/west.png",
+      "south-west": "sixteen_iris_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:07:00.947845"
+  "export_date": "2026-10-12T21:32:34.235651"
  }
 }

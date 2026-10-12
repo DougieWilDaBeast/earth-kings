@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_ceres",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make her a sturdy farm woman with a long braid, sleeves rolled up, an earth-brown work dress and apron, a wooden threshing flail over her shoulder",
-   "character_id": "5803744a-1e51-485d-8cae-650894b3a591",
+   "outfit": "make her a sturdy farm woman with a long braid, sleeves rolled up, an earth-brown work dress and apron, a wooden threshing flail over her shoulder. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "0788e5ab-e816-4dad-adc9-1887d731ca1b",
    "zip": "downloads/pixellab/sixteen_ceres_base.zip",
-   "generations": 28.0,
+   "generations": 40.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "5803744a-1e51-485d-8cae-650894b3a591",
+     "id": "0788e5ab-e816-4dad-adc9-1887d731ca1b",
      "name": "sixteen_ceres",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:58:02.190502+00:00"
+     "created_at": "2026-10-12T21:34:23.587018+00:00"
     },
-    "folder": "sixteen_ceres",
+    "folder": "sixteen_ceres_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_ceres/rotations/south.png",
-      "south-east": "sixteen_ceres/rotations/south-east.png",
-      "east": "sixteen_ceres/rotations/east.png",
-      "north-east": "sixteen_ceres/rotations/north-east.png",
-      "north": "sixteen_ceres/rotations/north.png",
-      "north-west": "sixteen_ceres/rotations/north-west.png",
-      "west": "sixteen_ceres/rotations/west.png",
-      "south-west": "sixteen_ceres/rotations/south-west.png"
+      "south": "sixteen_ceres_2/rotations/south.png",
+      "south-east": "sixteen_ceres_2/rotations/south-east.png",
+      "east": "sixteen_ceres_2/rotations/east.png",
+      "north-east": "sixteen_ceres_2/rotations/north-east.png",
+      "north": "sixteen_ceres_2/rotations/north.png",
+      "north-west": "sixteen_ceres_2/rotations/north-west.png",
+      "west": "sixteen_ceres_2/rotations/west.png",
+      "south-west": "sixteen_ceres_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T07:59:38.570372"
+  "export_date": "2026-10-12T21:36:30.556365"
  }
 }

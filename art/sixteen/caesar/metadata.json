@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_caesar",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "an eager young man with spiky red-orange hair in simple guild leather armour, carrying a tall tower shield and a short sword",
-   "character_id": "bbc2e3b9-a60d-4921-a3ce-15cf290c6032",
+   "outfit": "an eager young man with spiky red-orange hair in simple guild leather armour, carrying a tall tower shield and a short sword. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "22f0ad8f-e7e7-4ae1-9cdf-ff27e9d22ecb",
    "zip": "downloads/pixellab/sixteen_caesar_base.zip",
-   "generations": 87.0,
+   "generations": 33.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "bbc2e3b9-a60d-4921-a3ce-15cf290c6032",
+     "id": "22f0ad8f-e7e7-4ae1-9cdf-ff27e9d22ecb",
      "name": "sixteen_caesar",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:01:45.542997+00:00"
+     "created_at": "2026-10-12T21:28:28.509882+00:00"
     },
-    "folder": "sixteen_caesar",
+    "folder": "sixteen_caesar_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_caesar/rotations/south.png",
-      "south-east": "sixteen_caesar/rotations/south-east.png",
-      "east": "sixteen_caesar/rotations/east.png",
-      "north-east": "sixteen_caesar/rotations/north-east.png",
-      "north": "sixteen_caesar/rotations/north.png",
-      "north-west": "sixteen_caesar/rotations/north-west.png",
-      "west": "sixteen_caesar/rotations/west.png",
-      "south-west": "sixteen_caesar/rotations/south-west.png"
+      "south": "sixteen_caesar_2/rotations/south.png",
+      "south-east": "sixteen_caesar_2/rotations/south-east.png",
+      "east": "sixteen_caesar_2/rotations/east.png",
+      "north-east": "sixteen_caesar_2/rotations/north-east.png",
+      "north": "sixteen_caesar_2/rotations/north.png",
+      "north-west": "sixteen_caesar_2/rotations/north-west.png",
+      "west": "sixteen_caesar_2/rotations/west.png",
+      "south-west": "sixteen_caesar_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:05:02.356904"
+  "export_date": "2026-10-12T21:30:13.411679"
  }
 }

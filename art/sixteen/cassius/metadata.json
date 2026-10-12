@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_cassius",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a sharp-featured young duelist in a fitted black doublet with a high collar, slicked-back hair, a thin rapier held point-down",
-   "character_id": "ed9e90c3-ffee-4985-beb0-94ecb8f99a2f",
+   "outfit": "a sharp-featured young duelist in a fitted black doublet with a high collar, slicked-back hair, a thin rapier held point-down. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "6134f6b3-9c96-4946-8ac1-6352b8007413",
    "zip": "downloads/pixellab/sixteen_cassius_base.zip",
-   "generations": 48.0,
+   "generations": 30.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "ed9e90c3-ffee-4985-beb0-94ecb8f99a2f",
+     "id": "6134f6b3-9c96-4946-8ac1-6352b8007413",
      "name": "sixteen_cassius",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:05:06.016974+00:00"
+     "created_at": "2026-10-12T21:22:25.872330+00:00"
     },
-    "folder": "sixteen_cassius",
+    "folder": "sixteen_cassius_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_cassius/rotations/south.png",
-      "south-east": "sixteen_cassius/rotations/south-east.png",
-      "east": "sixteen_cassius/rotations/east.png",
-      "north-east": "sixteen_cassius/rotations/north-east.png",
-      "north": "sixteen_cassius/rotations/north.png",
-      "north-west": "sixteen_cassius/rotations/north-west.png",
-      "west": "sixteen_cassius/rotations/west.png",
-      "south-west": "sixteen_cassius/rotations/south-west.png"
+      "south": "sixteen_cassius_2/rotations/south.png",
+      "south-east": "sixteen_cassius_2/rotations/south-east.png",
+      "east": "sixteen_cassius_2/rotations/east.png",
+      "north-east": "sixteen_cassius_2/rotations/north-east.png",
+      "north": "sixteen_cassius_2/rotations/north.png",
+      "north-west": "sixteen_cassius_2/rotations/north-west.png",
+      "west": "sixteen_cassius_2/rotations/west.png",
+      "south-west": "sixteen_cassius_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:06:49.598433"
+  "export_date": "2026-10-12T21:24:07.247349"
  }
 }
