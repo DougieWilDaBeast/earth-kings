@@ -125,8 +125,9 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
    a box to pick fighters, is built. `doug-md`'s turn decides whether M11 replaces the turn loop
    ([D36](06-decisions.md)).
-3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
-   [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
+3. ~~**An hour of _Dungeon Settlers_ itself**~~ Done 2026-10-12: `dougie` has played about twenty
+   hours and answered the ten questions ([investigation/07](investigation/07-dungeon-settlers-combat.md#dougies-answers-2026-10-12)).
+   What they change in our fight is being settled with him.
 4. **The second half of session 2**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
    items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
    (20–24). The [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and
