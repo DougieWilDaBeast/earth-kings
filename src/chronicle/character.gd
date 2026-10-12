@@ -146,7 +146,8 @@ func grudge_label() -> String:
 	return trait_display("grudge", "None")
 
 
-## Which generated site a run of theirs starts on (see [WorldGen]).
+## The kind of place their hearth names. Since the fall (M13) a run starts
+## wherever the lead crash-lands instead (see `src/chronicle/fall.gd`).
 func hearth_kind() -> String:
 	return str(trait_data("hearth").get("site_kind", ""))
 

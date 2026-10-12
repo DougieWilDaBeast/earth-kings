@@ -53,6 +53,10 @@ text = "Routes & Renown"
 unique_name_in_owner = true
 text = "The Annals"
 
+[node name="QuestsButton" type="Button" parent="Backdrop/Margin/Column/Header/Tabs"]
+unique_name_in_owner = true
+text = "Quests & the Fallen"
+
 [node name="FullnessLabel" type="Label" parent="Backdrop/Margin/Column/Header"]
 unique_name_in_owner = true
 size_flags_vertical = 4

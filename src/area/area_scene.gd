@@ -7,6 +7,7 @@ extends Node2D
 ## scene sent us here.
 
 const Guild := preload("res://src/chronicle/guild.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -94,6 +95,7 @@ func _ready() -> void:
 	_spawn_buildings()
 	_spawn_props()
 	_spawn_party()
+	_admit_the_others()
 	_spawn_people()
 	_spawn_fire()
 	_camera.frame(map.rect())
@@ -304,6 +306,41 @@ func _spawn_props() -> void:
 			_ward_props[cell] = node
 
 
+## Any of the sixteen standing at the place on the map this area is the inside
+## of are standing in it too, a little way in from where the party arrives.
+func _admit_the_others() -> void:
+	var world: World = GameState.world
+	if world == null or _return_scene != "world":
+		return
+	var site := world.site_at(world.player_cell)
+	if site == null or str(site.data.get("area", site.kind)) != map.id:
+		return
+	var offsets: Array[Vector2i] = [Vector2i(2, -2), Vector2i(-2, -2), Vector2i(3, 0), Vector2i(-3, 0), Vector2i(0, -3)]
+	var placed := 0
+	for each: Dictionary in Wanderers.here(world, site.cell):
+		var hero_id := str(each["id"])
+		var spot := _free_spot_near(map.spawn + offsets[placed % offsets.size()])
+		placed += 1
+		map.people.append({
+			"name": Wanderers.name_of(hero_id),
+			"unit": hero_id,
+			"cell": [spot.x, spot.y],
+			"facing": [0, 1],
+			"wanderer": hero_id,
+			"wander": 1.5,
+		})
+
+
+func _free_spot_near(cell: Vector2i) -> Vector2i:
+	for radius in range(0, 6):
+		for dy in range(-radius, radius + 1):
+			for dx in range(-radius, radius + 1):
+				var cand := cell + Vector2i(dx, dy)
+				if map.is_walkable(cand):
+					return cand
+	return map.spawn
+
+
 func _spawn_people() -> void:
 	for index in map.people.size():
 		var person: Dictionary = map.people[index]
@@ -321,7 +358,7 @@ func _spawn_people() -> void:
 
 func _has_something_to_say(person: Dictionary) -> bool:
 	return person.get("dialogue", "") != "" or person.get("cutscene", "") != "" \
-		or bool(person.get("guild", false))
+		or bool(person.get("guild", false)) or person.get("wanderer", "") != ""
 
 
 ## The town holds its breath while a conversation or a cutscene is running.
@@ -533,7 +570,10 @@ func _speak_to(index: int) -> void:
 		_cutscene = null
 
 	var dialogue_id: String = person.get("dialogue", "")
-	if dialogue_id != "":
+	var wanderer: String = person.get("wanderer", "")
+	if wanderer != "":
+		await _speak_to_the_fallen(index, wanderer)
+	elif dialogue_id != "":
 		EventBus.dialogue_requested.emit(dialogue_id)
 		await EventBus.dialogue_finished
 	elif bool(person.get("guild", false)) and Guild.hall_at(GameState.world, GameState.world.player_cell) != null:
@@ -548,6 +588,24 @@ func _speak_to(index: int) -> void:
 	_hold_the_town(false)
 	_talking = false
 
+
+
+## One of the sixteen, met inside. If they agree to walk with you they step out
+## of the crowd: the party picks them up on the way back out.
+func _speak_to_the_fallen(index: int, hero_id: String) -> void:
+	var dialogue_id := Wanderers.talk(GameState.world, GameState.roster, hero_id)
+	if dialogue_id == "":
+		return
+	EventBus.dialogue_requested.emit(dialogue_id)
+	await EventBus.dialogue_finished
+	Wanderers.settle(GameState.world, GameState.roster, GameState.flags)
+	if not bool(Wanderers.entry(GameState.world, hero_id).get("joined", false)):
+		return
+	_note(Wanderers.joined_line(GameState.world, hero_id))
+	_people[index].set_interactive(false)
+	_people[index].visible = false
+	_nearby = null
+	_hovered = null
 
 
 ## Two of your own, across the fire. What they find to say depends on what they
