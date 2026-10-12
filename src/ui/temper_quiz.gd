@@ -241,4 +241,6 @@ func _chosen_seed() -> int:
 	var typed := _seed_field.text.strip_edges()
 	if typed.is_valid_int():
 		return int(typed)
-	return randi()
+	# Nothing asked for: the game picks, and after a death that is a sibling
+	# of the world that ended (M15).
+	return 0

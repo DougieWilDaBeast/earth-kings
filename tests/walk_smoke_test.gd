@@ -20,6 +20,7 @@ const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
 	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "muster", "fall", "run_ends",
+	"sixteen",
 ]
 
 var _scene: Node
@@ -45,7 +46,7 @@ func _ready() -> void:
 	if chosen.size() < CHECKS.size():
 		print("running only: %s" % ", ".join(chosen))
 	for name: String in chosen:
-		call("_check_" + name)
+		await call("_check_" + name)
 
 	print("")
 	if _failures.is_empty():
@@ -1153,6 +1154,121 @@ func _check_guild() -> void:
 ## M13: the lead crash-landed somewhere the seed chose and made it home, the
 ## others came down too and walk between places, and one of them can be met,
 ## talked to, joined, and saved.
+## Sixteen worlds (M15): a lead dies and ascends, the world is watched to its
+## end and kept as gone, and the next lead starts at level 1 in a sibling of it
+## with the first lead alive there, their weapon on its way and, once caught up
+## with, down where it can be found and their ghost at the fire.
+func _check_sixteen() -> void:
+	var Sixteen := preload("res://src/chronicle/sixteen.gd")
+	var Siblings := preload("res://src/chronicle/siblings.gd")
+	var RunMode := preload("res://src/chronicle/run_mode.gd")
+	Sixteen.path = "user://earth-kings.sixteen.walk-test.json"
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+	var hall: Variant = FileAccess.get_file_as_string(Museum.PATH) if FileAccess.file_exists(Museum.PATH) else null
+	var kept_mode := GameState.mode
+	GameState.mode = RunMode.IRON_MAN
+
+	# The first world: Bram gets to level 4 and floor 3, and dies.
+	GameState.new_game(SEED, "bram")
+	var first: World = GameState.world
+	var first_tiles: Array = first.tiles.duplicate()
+	var first_lead := GameState.roster.player()
+	first_lead.level = 4
+	first.tower_floor = 3
+	first.steps = 50
+	first_lead.status = Fate.DEAD
+	_requests.clear()
+	var summary: Control = load("res://src/ui/run_summary.tscn").instantiate()
+	summary.boot_payload = { "ending": Museum.FELL }
+	add_child(summary)
+	var ending: Dictionary = _requests.back() if not _requests.is_empty() else {}
+	_expect(ending.get("key", "") == "world" and bool(ending.get("payload", {}).get("world_ends", false)),
+		"an Iron Man lead's death did not go to watch the world end: %s" % str(ending))
+	summary.queue_free()
+	var gone := Sixteen.worlds()
+	_expect(gone.size() == 1 and bool(gone[0].get("gone", false)), "the world that ended was not kept as gone: %s" % str(gone))
+
+	# The end itself: the map, the fire, and back to the summary to tell it.
+	var last_look: Node = load("res://src/world/world_scene.tscn").instantiate()
+	last_look.boot_payload = { "world_ends": true }
+	add_child(last_look)
+	for i in 5:
+		await get_tree().process_frame
+	var burning: Node = last_look.get_node_or_null("WorldEnd")
+	_expect(burning != null, "the world ended without anything to watch")
+	if burning != null:
+		burning.skip()
+		var waited := 0
+		while not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "summary") and waited < 600:
+			await get_tree().process_frame
+			waited += 1
+		var told := _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "summary")
+		_expect(not told.is_empty() and bool(told[0]["payload"].get("settled", false)), "the end of the world never came back to tell the run")
+	last_look.queue_free()
+	await get_tree().process_frame
+
+	# The next lead, in a sibling world.
+	GameState.new_game(0, "fox_knight")
+	var world: World = GameState.world
+	var lead := GameState.roster.player()
+	_expect(world.world_seed == SEED and Siblings.number(world) == 2, "the next world was seed %d, world %d, not a sibling of %d" % [world.world_seed, Siblings.number(world), SEED])
+	_expect(world.tiles == first_tiles, "the sibling world is not the same ground")
+	_expect(lead.template_id == "fox_knight" and lead.level == 1, "the next lead did not start at level 1")
+	_expect(Chapters.census(world) == 16, "the census counted Bram out before the climb got as far as he did")
+
+	# Bram, alive here, somewhere findable, and talking like one of the sixteen.
+	var copy := Wanderers.entry(world, "bram")
+	_expect(bool(copy.get("echo", false)), "Bram is not alive in the next world")
+	var waiting := world.site_at(Wanderers.cell_of(copy.get("at", [])))
+	_expect(waiting != null and not (copy.get("known", []) as Array).is_empty(), "nobody knows where Bram is")
+	var talk_id := Wanderers.talk(world, GameState.roster, "bram")
+	_expect(Database.dialogue(talk_id).get("nodes", {}).has("echo"), "Bram's copy has nothing to say to the one who knew him")
+
+	# His weapon waits until the new lead has got as far as he did.
+	var echo := Siblings.echo_of(world, "bram")
+	var weapon: Dictionary = echo.get("weapon", {})
+	_expect(str(weapon.get("id", "")) == "oathkeeper", "Bram's weapon is '%s'" % weapon.get("id", ""))
+	_expect(Siblings.upkeep(world).is_empty() and not bool(weapon.get("landed", false)), "Bram's weapon came down before anyone got as far as he did")
+	_expect(Siblings.ghosts(world).is_empty(), "Bram's ghost was at the fire before he had anything to tell")
+	lead.level = 4
+	world.tower_floor = 3
+	_expect(not Siblings.upkeep(world).is_empty() and bool(weapon.get("landed", false)), "Bram's weapon never came down")
+	_expect(Chapters.census(world) == 15, "the census still read sixteen at Bram's floor")
+	_expect(not Siblings.rumour(world).is_empty() and Siblings.heard_weapons(world).size() == 1, "no rumour points at Bram's weapon")
+	var cell := Wanderers.cell_of(weapon.get("cell", []))
+	var home := world.home()
+	_expect(Pathfinder.distance(cell, home.cell) <= int(Siblings.rules().get("weapon", {}).get("max_distance", 12)), "Bram's weapon came down far from where the lead fell")
+	_expect(Siblings.ghosts(world) == [0], "Bram's ghost is not at the fire")
+	var camp: Node = load("res://src/area/area_scene.tscn").instantiate()
+	camp.boot_payload = { "area_id": "home", "return_scene": "world" }
+	add_child(camp)
+	await get_tree().process_frame
+	_expect(camp.map.people.any(func(p: Dictionary) -> bool: return p.has("ghost")), "nobody sat at the fire for Bram")
+	camp.queue_free()
+	await get_tree().process_frame
+	var ghost_id := Siblings.ghost_talk(world, 0)
+	_expect(Database.dialogue(ghost_id).get("nodes", {}).has("weapon"), "Bram's ghost cannot say where his weapon went")
+	_expect(not Siblings.on_arrive(world, cell).is_empty() and GameState.stores.has("oathkeeper"), "walking onto the crater did not find Bram's weapon")
+	_expect(Siblings.pages_shared(echo) == (echo.get("pages", []) as Array).size(), "finding the weapon did not open the ghost fully")
+
+	GameState.save()
+	GameState.load_save()
+	_expect(bool(Siblings.echo_of(GameState.world, "bram").get("weapon", {}).get("found", false)), "the save forgot what came through from the world that ended")
+
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+	Sixteen.path = Sixteen.DEFAULT_PATH
+	GameState.mode = kept_mode
+	if hall == null:
+		if FileAccess.file_exists(Museum.PATH):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(Museum.PATH))
+	else:
+		FileAccess.open(Museum.PATH, FileAccess.WRITE).store_string(hall)
+	GameState.new_game(SEED)
+	print("sixteen worlds: Bram fell on floor 3, the world burned, and Fox Fire Knight found Bram alive, then his weapon and his ghost")
+
+
 func _check_fall() -> void:
 	var world: World = GameState.world
 	var house := world.home()

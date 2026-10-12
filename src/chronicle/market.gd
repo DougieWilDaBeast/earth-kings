@@ -68,6 +68,9 @@ static func buy(site: Site, equipment_id: String, buyer: Character, world: World
 static func _roll_wares(world: World) -> Array:
 	var stock: Array = []
 	for equipment_id: String in Database.equipment.keys():
+		# A weapon made for one of the sixteen is never for sale (M15).
+		if Database.equipment[equipment_id].has("signature"):
+			continue
 		if world.rng.randf() < 0.5:
 			stock.append(equipment_id)
 	return stock

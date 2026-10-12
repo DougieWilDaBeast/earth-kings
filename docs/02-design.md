@@ -161,8 +161,11 @@ The mode is picked with the lead, on the quiz or the picker, and kept in the sav
 | The save | Let go on ascending | Let go on the fall |
 
 The fall screen names the lead, what took them, and what a reload goes back to ("when you rested
-at Oakham, 37 steps ago"). After ascending the run is told as before, and the way on is choosing
-the next lead. A lead taken captive ends the run too; Classic offers the reload, and the other
+at Oakham, 37 steps ago"). Once a lead who died has ascended, their world ends on screen (M15,
+[D32](06-decisions.md)): the map one last time, the camera rising over all of it while it burns
+out from the Tower, the lead's name said over it, black. Then the run is told as before, and the
+way on is choosing the next lead, who starts at level 1 in a sibling world — see
+[17](17-the-sixteen-worlds.md#sixteen-worlds-as-built). A lead taken captive ends the run too; Classic offers the reload, and the other
 choice reads _Let it end_. The save points, letting the save go on ascending in Classic, and the
 modes being separate from the difficulty are build choices, **Inferred**, agenda item 40 in
 [answers.md](worldbuilding/answers.md). What ascending means for the lead's standing quest is

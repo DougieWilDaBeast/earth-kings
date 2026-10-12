@@ -9,7 +9,9 @@ extends Control
 ## record is written on the fall and the save goes with the lead.
 ##
 ## Either way the world is over once the lead has gone: the save is let go
-## with them, and the way on is choosing the next lead. Whether the save should
+## with them, the world is kept in the record as gone for good, and the map
+## shows it burning (M15, [D32]) before the run is told here and the way on is
+## choosing the next lead, in a sibling world. Whether the save should
 ## outlive an ascent in Classic is a build choice, **Inferred** (agenda item 40).
 ## "Ascend" is the label the founders used; what ascending means for the lead's
 ## standing quest is agenda item 22, and nothing here answers it.
@@ -19,6 +21,7 @@ extends Control
 
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 const FALL_RED := Color(0.906, 0.447, 0.322)
 const SOFT := Color(0.686, 0.663, 0.616)
@@ -48,7 +51,7 @@ func _ready() -> void:
 	_lead = roster.player() if roster != null else null
 
 	_next_button.visible = _ending == Museum.FELL
-	_next_button.text = "Ascend" if _lead_is_dead() and RunMode.is_iron_man() else "Choose the next lead"
+	_next_button.text = "Choose the next lead"
 	_next_button.pressed.connect(_choose_the_next_lead)
 	_title_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
@@ -56,12 +59,30 @@ func _ready() -> void:
 		button.theme_type_variation = &"GrandButton"
 		Sfx.attend(button)
 
+	# Back from watching the world end: it is all written down already.
+	if bool(boot_payload.get("settled", false)):
+		_reveal()
+		return
 	if can_take_it_back():
 		_content.hide()
 		_hold_the_moment()
 		return
 	_settle()
+	if _world_ends():
+		_watch_it_end()
+		return
 	_reveal()
+
+
+## A lead who died and ascended takes their world with them ([D32]). Not a
+## lead who was taken, and never in training or on the sand.
+func _world_ends() -> bool:
+	return _ending == Museum.FELL and _lead_is_dead() and GameState.tallying
+
+
+## Over to the map for the last look at it; it comes back here to tell the run.
+func _watch_it_end() -> void:
+	EventBus.request_scene.emit("world", { "world_ends": true })
 
 
 ## Classic, a lead who fell, and a save of this run to go back to.
@@ -79,7 +100,7 @@ func _settle() -> void:
 	Museum.remember(world, roster, GameState.ledger, _ending)
 	if _ending == Museum.FELL and GameState.tallying:
 		if _lead_is_dead():
-			Sixteen.fall(_lead.template_id)
+			Sixteen.fall(_lead.template_id, Siblings.remember(world, roster, GameState.ledger))
 		# The world ends with its lead. Nothing is left to continue.
 		GameState.forget_save()
 
@@ -212,7 +233,7 @@ func _ascend() -> void:
 	var tween := create_tween()
 	tween.tween_property(beat, "modulate:a", 0.0, 0.6)
 	tween.tween_callback(beat.queue_free)
-	tween.tween_callback(_reveal)
+	tween.tween_callback(_watch_it_end if _world_ends() else _reveal)
 
 
 # --- the run, told ------------------------------------------------------------

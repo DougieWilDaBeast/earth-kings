@@ -115,5 +115,7 @@ static func _best_taker(equipment_id: String, roster: Roster) -> Character:
 static func _findable() -> Array:
 	var pool: Array = []
 	for equipment_id: String in Database.equipment:
-		pool.append(equipment_id)
+		# A weapon made for one of the sixteen only ever falls from the sky (M15).
+		if not Database.equipment[equipment_id].has("signature"):
+			pool.append(equipment_id)
 	return pool

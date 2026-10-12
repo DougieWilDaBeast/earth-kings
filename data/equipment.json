@@ -344,5 +344,113 @@
 		"mends": 140,
 		"price": 460,
 		"text": "In a bottle worth more than the road you found it on."
+	},
+	"oathkeeper": {
+		"display_name": "Oathkeeper",
+		"icon": "blade/blade_gilt",
+		"kind": "blade",
+		"signature": "bram",
+		"attack": 32,
+		"defense": 4,
+		"text": "Every promise its first owner kept is cut into the flat of it. There is no room left for yours."
+	},
+	"last_light": {
+		"display_name": "Last Light",
+		"icon": "kit/kit_hunter",
+		"kind": "bow",
+		"signature": "sera",
+		"attack": 32,
+		"defense": 4,
+		"text": "Strung with something that is not gut and not wire. It hums at dusk."
+	},
+	"vigil_lamp": {
+		"display_name": "Vigil",
+		"icon": "staff/staff_lantern",
+		"kind": "staff",
+		"signature": "toln",
+		"attack": 32,
+		"defense": 4,
+		"text": "A lamp on a staff that will not go out, though nobody has fed it since another world."
+	},
+	"foxfire": {
+		"display_name": "Foxfire",
+		"icon": "blade/blade_ember",
+		"kind": "blade",
+		"signature": "fox_knight",
+		"attack": 32,
+		"defense": 4,
+		"text": "Warm to hold, and quick, and it laughs at you a little."
+	},
+	"fools_sceptre": {
+		"display_name": "The Fool's Sceptre",
+		"icon": "staff/staff_shell",
+		"kind": "staff",
+		"signature": "village_idiot",
+		"attack": 32,
+		"defense": 4,
+		"text": "A stick with a shell on it. It is also something else."
+	},
+	"crownbreaker": {
+		"display_name": "Crownbreaker",
+		"icon": "blade/blade_storm",
+		"kind": "blade",
+		"signature": "dirte",
+		"attack": 32,
+		"defense": 4,
+		"text": "Made for a king who meant to be the last one."
+	},
+	"ten_thousand_days": {
+		"display_name": "Ten Thousand Days",
+		"icon": "staff/staff_orrery",
+		"kind": "staff",
+		"signature": "staff_panda",
+		"attack": 32,
+		"defense": 4,
+		"text": "Bamboo, worn smooth by a practice nobody has done in this world."
+	},
+	"first_anvil": {
+		"display_name": "First Anvil's Hammer",
+		"icon": "blade/blade_iron",
+		"kind": "blade",
+		"signature": "dwarf_smith",
+		"attack": 32,
+		"defense": 4,
+		"text": "It rings when it strikes, and three eyes' worth of craft went into the ring."
+	},
+	"eightfold_edge": {
+		"display_name": "The Eightfold Edge",
+		"icon": "blade/blade_rune",
+		"kind": "blade",
+		"signature": "element_monk",
+		"attack": 32,
+		"defense": 4,
+		"text": "Each of its eight runes wants a different element. It will not tell you which."
+	},
+	"undertow": {
+		"display_name": "Undertow",
+		"icon": "staff/staff_frost",
+		"kind": "staff",
+		"signature": "sea_man",
+		"attack": 32,
+		"defense": 4,
+		"text": "Always damp. In a still room you can hear the sea in it."
+	},
+	"insomnia": {
+		"display_name": "Insomnia",
+		"icon": "blade/blade_silver",
+		"kind": "blade",
+		"signature": "emo_swordsman",
+		"attack": 32,
+		"defense": 4,
+		"text": "It has never been sheathed. Nobody has ever slept beside it."
+	},
+	"tatter": {
+		"display_name": "Tatter",
+		"icon": "blade/blade_thorn",
+		"kind": "blade",
+		"signature": "wraith",
+		"attack": 32,
+		"defense": 4,
+		"text": "More rag than blade, until it isn't."
 	}
 }

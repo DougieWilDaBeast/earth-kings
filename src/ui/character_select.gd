@@ -181,14 +181,17 @@ func _begin(hero_id: String) -> void:
 
 
 ## A country you can go back to. Anything that is not a number is nothing, and
-## nothing means a fresh one — which is what almost everybody wants.
+## nothing means the game picks — a fresh one, or once a lead has died a
+## sibling of the world that ended — which is what almost everybody wants.
 func _chosen_seed() -> int:
 	var typed := _seed.text.strip_edges()
 	if typed.is_valid_int():
 		# new_game() reads zero as "pick one", so a typed zero has to become
 		# something else rather than silently doing what it was not asked to.
 		return maxi(1, absi(typed.to_int()))
-	return randi()
+	# Nothing asked for: the game picks, and after a death that is a sibling
+	# of the world that ended (M15).
+	return 0
 
 
 func _unhandled_input(event: InputEvent) -> void:

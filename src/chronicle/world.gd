@@ -11,6 +11,7 @@ const SIZE := Vector2i(128, 128)
 ## Loaded by path ([D41]).
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
@@ -77,6 +78,9 @@ var survivors: Array = []
 var musters: Array = []
 ## The others of the sixteen, living their own lives (see `src/chronicle/wanderers.gd`).
 var wanderers: Array = []
+## Which world of the sixteen this is, and what has come through from the ones
+## that ended before it (see `src/chronicle/siblings.gd`): `{ sibling, past }`.
+var echoes: Dictionary = {}
 
 var rng := RandomNumberGenerator.new()
 
@@ -296,6 +300,7 @@ func _upkeep() -> Array:
 	notices.append_array(Roadside.upkeep(self))
 	notices.append_array(Guild.upkeep(self, GameState.errands))
 	notices.append_array(Wanderers.upkeep(self))
+	notices.append_array(Siblings.upkeep(self))
 	return notices
 
 
@@ -328,6 +333,7 @@ func to_dict() -> Dictionary:
 		"survivors": survivors,
 		"musters": musters,
 		"wanderers": wanderers,
+		"echoes": echoes,
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
@@ -365,6 +371,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.survivors = payload.get("survivors", [])
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])
+	world.echoes = payload.get("echoes", {})
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):

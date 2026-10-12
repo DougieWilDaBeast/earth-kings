@@ -8,6 +8,7 @@ extends Node2D
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -96,6 +97,7 @@ func _ready() -> void:
 	_spawn_props()
 	_spawn_party()
 	_admit_the_others()
+	_admit_the_ghosts()
 	_spawn_people()
 	_spawn_fire()
 	_camera.frame(map.rect())
@@ -331,6 +333,30 @@ func _admit_the_others() -> void:
 		})
 
 
+## Leads who died in the worlds before this one sit at any fire the company
+## sits at, once their news has come through (M15, [D33]): in a seat nobody
+## took, or across the fire from the way in.
+func _admit_the_ghosts() -> void:
+	var world: World = GameState.world
+	if world == null or map.fire.x < 0 or _return_scene != "world":
+		return
+	var free_seats: Array[Vector2i] = []
+	var taken := maxi(0, GameState.party_characters().size() - 1)
+	for i in range(taken, map.seats.size()):
+		free_seats.append(map.seats[i])
+	for index: int in Siblings.ghosts(world):
+		var echo: Dictionary = Siblings.past(world)[index]
+		var spot: Vector2i = free_seats.pop_front() if not free_seats.is_empty() \
+			else _free_spot_near(map.fire + Vector2i(0, -2))
+		map.people.append({
+			"name": Siblings.ghost_name(world, index),
+			"unit": str(echo.get("hero", "")),
+			"cell": [spot.x, spot.y],
+			"facing": [map.fire.x - spot.x, map.fire.y - spot.y],
+			"ghost": index,
+		})
+
+
 func _free_spot_near(cell: Vector2i) -> Vector2i:
 	for radius in range(0, 6):
 		for dy in range(-radius, radius + 1):
@@ -349,6 +375,9 @@ func _spawn_people() -> void:
 		actor.face(Vector2(AreaMap.to_cell(person.get("facing", [0, 1]))))
 		actor.set_interactive(_seated.has(index) or _has_something_to_say(person))
 		actor.chatter = person.get("chatter", [])
+		if person.has("ghost"):
+			# The same face as in life, with the fire showing through it.
+			actor.modulate = Color(0.72, 0.86, 1.0, 0.55)
 		_actors.add_child(actor)
 		_people.append(actor)
 		var reach := float(person.get("wander", 0.0))
@@ -358,7 +387,8 @@ func _spawn_people() -> void:
 
 func _has_something_to_say(person: Dictionary) -> bool:
 	return person.get("dialogue", "") != "" or person.get("cutscene", "") != "" \
-		or bool(person.get("guild", false)) or person.get("wanderer", "") != ""
+		or bool(person.get("guild", false)) or person.get("wanderer", "") != "" \
+		or person.has("ghost")
 
 
 ## The town holds its breath while a conversation or a cutscene is running.
@@ -571,7 +601,9 @@ func _speak_to(index: int) -> void:
 
 	var dialogue_id: String = person.get("dialogue", "")
 	var wanderer: String = person.get("wanderer", "")
-	if wanderer != "":
+	if person.has("ghost"):
+		await _sit_with_the_ghost(int(person["ghost"]))
+	elif wanderer != "":
 		await _speak_to_the_fallen(index, wanderer)
 	elif dialogue_id != "":
 		EventBus.dialogue_requested.emit(dialogue_id)
@@ -606,6 +638,16 @@ func _speak_to_the_fallen(index: int, hero_id: String) -> void:
 	_people[index].visible = false
 	_nearby = null
 	_hovered = null
+
+
+## A dead lead's ghost, across the fire: as much of their journal as they will
+## share tonight.
+func _sit_with_the_ghost(index: int) -> void:
+	var dialogue_id := Siblings.ghost_talk(GameState.world, index)
+	if dialogue_id == "":
+		return
+	EventBus.dialogue_requested.emit(dialogue_id)
+	await EventBus.dialogue_finished
 
 
 ## Two of your own, across the fire. What they find to say depends on what they

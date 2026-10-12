@@ -13,6 +13,8 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
+const WorldEnd := preload("res://src/world/world_end.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -89,6 +91,10 @@ var _last_view: Vector3 = Vector3.INF
 
 func _ready() -> void:
 	world = GameState.world
+	# A lead has died and ascended: this is the last look at their world (M15).
+	if bool(boot_payload.get("world_ends", false)):
+		_watch_it_end()
+		return
 	Encounter.restock(world, world.rng)
 	if world.steps == 0:
 		Encounter.first_blood(world, world.rng)
@@ -146,9 +152,10 @@ func _ready() -> void:
 	if world.steps == 0 and not GameState.has_flag("seen:prologue"):
 		GameState.set_flag("seen:prologue")
 		var lead := GameState.roster.player()
-		Database.register_dialogue("landing", Fall.landing_dialogue(
-			world, lead.display_name if lead != null else "The fallen"
-		))
+		var landing := Fall.landing_dialogue(world, lead.display_name if lead != null else "The fallen")
+		# In a world after the first, word of whoever went before (M15).
+		(landing["lines"] as Array).append_array(Siblings.landing_lines(world))
+		Database.register_dialogue("landing", landing)
 		EventBus.dialogue_requested.emit("landing")
 
 
@@ -297,6 +304,8 @@ func _step(direction: Vector2i) -> void:
 	for notice: String in Roadside.on_arrive(world, world.site_at(target), GameState.party_characters()):
 		_note(notice)
 	for notice: String in Skein.on_arrive(world, target, world.site_at(target)):
+		_note(notice)
+	for notice: String in Siblings.on_arrive(world, target):
 		_note(notice)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
@@ -644,6 +653,12 @@ func _rest_at(site: Site) -> void:
 		var word := Wanderers.rumour(world)
 		if word != "":
 			_note(word)
+			_map.queue_redraw()
+	# Something out of the sky is the first thing anybody talks about (M15).
+	if site.kind != Site.HUT and Siblings.heard_weapons(world).is_empty():
+		var fallen := Siblings.rumour(world)
+		if fallen != "":
+			_note(fallen)
 			_map.queue_redraw()
 	if rested:
 		EventBus.safe_point_reached.emit(RunMode.REST, "you rested at %s" % site.display_name)
@@ -1567,6 +1582,7 @@ func _draw_world() -> void:
 	_draw_quest_markers()
 	_draw_the_climb()
 	_draw_wanderers()
+	_draw_fallen_weapons()
 	_draw_bands()
 	_draw_party()
 
@@ -1803,6 +1819,8 @@ func _warm_art() -> void:
 		Database.unit_face(character.template_id)
 	for each: Dictionary in world.wanderers:
 		Database.unit_face(str(each.get("id", "")))
+	for echo: Dictionary in Siblings.past(world):
+		Gear.icon(str(echo.get("weapon", {}).get("id", "")))
 
 
 ## Draws a glowing, pulsing destination beacon and an animated directional trail from the party.
@@ -1937,6 +1955,44 @@ func _draw_wanderers() -> void:
 			continue
 		var size := Vector2.ONE * CELL * 0.8
 		_map.draw_texture_rect(face, Rect2(centre - size * 0.5, size), false, Color(1, 1, 1, 0.55 if faint else 1.0))
+
+
+## A dead lead's weapon, once there is word of where it came down (M15): its
+## own picture in a ring the colour of a fall.
+func _draw_fallen_weapons() -> void:
+	for fallen: Dictionary in Siblings.heard_weapons(world):
+		var cell: Vector2i = fallen["cell"]
+		var centre := Vector2(cell) * CELL + Vector2.ONE * CELL * 0.5
+		var pulse := 0.75 + 0.25 * sin(Time.get_ticks_msec() / 260.0)
+		_map.draw_circle(centre, CELL * 0.5, Color(0.1, 0.05, 0.04, 0.85))
+		_map.draw_arc(centre, CELL * 0.5, 0.0, TAU, 24, Color(0.906, 0.447, 0.322, pulse), 2.5, true)
+		var icon := Gear.icon(str(fallen["id"]))
+		if icon != null:
+			var size := Vector2.ONE * CELL * 0.8
+			_map.draw_texture_rect(icon, Rect2(centre - size * 0.5, size), false)
+
+
+## The last look at a world whose lead has died and ascended ([D32]): the
+## camera rises over the whole of it and watches it go. Nothing here can be
+## walked; when it is over the run is told and the next lead is chosen.
+func _watch_it_end() -> void:
+	_busy = true
+	$UI.hide()
+	_warm_art()
+	_map.draw.connect(_draw_world)
+	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
+	_centre_camera(true)
+	_map.queue_redraw()
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var ending := WorldEnd.new()
+	ending.name = "WorldEnd"
+	add_child(ending)
+	var tower := world.tower()
+	await ending.play(
+		_camera, world, tower.cell if tower != null else world.size / 2, CELL,
+		lead.display_name if lead != null else "the fallen"
+	)
+	EventBus.request_scene.emit("summary", { "ending": Museum.FELL, "settled": true })
 
 
 ## Bands are drawn as whoever is leading them, so the country tells you what is
