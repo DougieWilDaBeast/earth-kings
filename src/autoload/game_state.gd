@@ -6,6 +6,8 @@ const RunMode := preload("res://src/chronicle/run_mode.gd")
 const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
 
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
@@ -148,7 +150,10 @@ func save_is_this_run() -> bool:
 	var parsed: Variant = SaveFile.read(SAVE_PATH)
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return false
-	return int(parsed.get("world", {}).get("world_seed", -1)) == world.world_seed
+	var saved: Dictionary = parsed.get("world", {})
+	# Sibling worlds share a seed (M15); which of the sixteen it is tells them apart.
+	return int(saved.get("world_seed", -1)) == world.world_seed \
+		and int(saved.get("echoes", {}).get("sibling", 0)) == int(world.echoes.get("sibling", 0))
 
 
 ## Somebody of the sixteen agreed, in a conversation, to walk with the company.
@@ -163,11 +168,18 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	# player calls it. File it before it is written on top of (see [Museum]).
 	if world != null and roster != null and world.steps > 0 and tallying:
 		Museum.remember(world, roster, ledger, Museum.WALKED_AWAY)
+	# Every world that has ended before this one (M15). Unless a seed was asked
+	# for, the next is their sibling: built on the first one's seed, a share of
+	# its dice dealt again, and everyone who went before coming through into it.
+	# A seed asked for is a world of its own, and nothing comes through.
+	var past: Array = []
 	if world_seed == 0:
-		world_seed = randi()
+		past = Sixteen.worlds()
+		world_seed = Siblings.base_seed(past) if not past.is_empty() else randi()
 	world = WorldGen.generate(world_seed)
+	Siblings.perturb(world, past.size())
 	# Into the log, so a run somebody reports can be walked again from its seed.
-	print("Earth Kings: new run, seed %d, lead '%s', %s, %s" % [world_seed, lead_id, difficulty, RunMode.valid(mode)])
+	print("Earth Kings: new run, seed %d, world %d of the sixteen, lead '%s', %s, %s" % [world_seed, past.size() + 1, lead_id, difficulty, RunMode.valid(mode)])
 	# The purse is filled before the company is founded, because a background
 	# may hand the lead something to start with (see [Gifts]).
 	gold = DEFAULT_GOLD
@@ -177,6 +189,9 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	var reach := Fall.reachable(world)
 	Fall.land(world, lead_id, reach)
 	Wanderers.land(world, roster, reach)
+	# And whoever led the worlds that ended: alive here, and on their way as a
+	# ghost and a weapon (D33, D52).
+	Siblings.arrive(world, roster, past, reach)
 	var lead := roster.player()
 	var lead_name: String = lead.display_name if lead != null else "The founder"
 	Annals.record(world, Fall.annal(world, lead_name))

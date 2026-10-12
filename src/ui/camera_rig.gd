@@ -65,6 +65,17 @@ func focus_on(point: Vector2, immediate: bool = false) -> void:
 		position = _focus + _pan
 
 
+## Rise until the whole framed area is in view, over [param seconds]: the
+## overhead shot of a world ending (M15).
+func pull_back(seconds: float) -> Tween:
+	_pan = Vector2.ZERO
+	_focus = _bounds.get_center()
+	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_method(_apply_zoom, zoom.x, _zoom_floor(), seconds)
+	tween.tween_property(self, "position", _focus, seconds)
+	return tween
+
+
 ## Throw away the player's panning and go back to what the scene is following.
 func recentre(immediate: bool = false) -> void:
 	_pan = Vector2.ZERO

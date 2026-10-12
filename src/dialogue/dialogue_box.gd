@@ -5,6 +5,7 @@ extends CanvasLayer
 
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
@@ -245,6 +246,10 @@ func _hear_the_news() -> void:
 	var sighting := Wanderers.rumour(GameState.world)
 	if sighting != "":
 		text += "\n\n• \"%s\"" % sighting
+	# And of anything that has fallen out of the sky since (M15).
+	var fallen := Siblings.rumour(GameState.world)
+	if fallen != "":
+		text += "\n\n• \"%s\"" % fallen
 	_news_back = _node_id
 	_show(_node.get("speaker", "The host"), text)
 
