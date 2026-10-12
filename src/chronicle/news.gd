@@ -7,6 +7,9 @@ extends RefCounted
 ## This brings Wishlist W30 ("Living world — news at a hearth, word arriving
 ## from somewhere you have not been") into direct play.
 
+## Loaded by path ([D41]).
+const Atlas := preload("res://src/chronicle/atlas.gd")
+
 
 ## Gathers all currently active news items from the world state.
 static func dispatches(world: World) -> Array[String]:
@@ -85,6 +88,12 @@ static func tidings_for_inn(world: World, speaker_name: String = "") -> String:
 
 	var lead := "Word travels along the post-roads, if you know whose ear to catch:\n\n"
 	var bullets: Array[String] = []
+	var heard: Array[String] = []
 	for item in chosen:
 		bullets.append("• \"%s\"" % item)
-	return lead + "\n\n".join(bullets)
+		# A place somebody names goes on your map ([D50]).
+		heard.append_array(Atlas.hear_of(world, item))
+	var said := lead + "\n\n".join(bullets)
+	if not heard.is_empty():
+		said += "\n\n" + Atlas.line("heard", {"places": ", ".join(heard)})
+	return said

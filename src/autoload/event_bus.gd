@@ -50,6 +50,10 @@ signal overlay_closed
 ## The last of the party is gone; the run is over.
 signal run_ended
 
+## Tiles that have just come onto the party's map (`src/chronicle/atlas.gd`),
+## so the map can fade them in rather than snap.
+signal ground_revealed(cells: Array)
+
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
 
@@ -59,3 +63,7 @@ const MODAL_OVERLAY_GROUP := "modal_overlay"
 
 ## The always-present letterbox a cutscene plays inside.
 const CUTSCENE_FRAME_GROUP := "cutscene_frame"
+
+## The scene [Game] is showing right now: the title, the walk, a fight. Only
+## ever one node is in it.
+const ACTIVE_SCENE_GROUP := "active_scene"

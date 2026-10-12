@@ -18,6 +18,23 @@
 		"units": ["keep_watchman", "legion_copper", "castellan", "brigand_archer"],
 		"gold": 240
 	},
+	"map": {
+		"price": 50,
+		"radius": 18,
+		"max_marks": 5,
+		"marks": ["village", "keep", "library", "hut", "gate"],
+		"lines": {
+			"offer": "A map of the country round {hall}: the lie of the land, and the places the clerk thinks worth knowing.",
+			"owned": "You have copied the map of the country round {hall}.",
+			"button": "Buy the map ({price} gold)",
+			"bought": "The clerk rolls out a map of the country round {hall} and you copy it into yours for {price} gold. {places}",
+			"marked": "Marked on it: {places}.",
+			"nothing_marked": "Nothing on it you did not know of, but the ground is drawn in.",
+			"nothing_new": "The clerk's map of the country round {hall} shows nothing yours does not.",
+			"already": "You have already copied the map at {hall}.",
+			"poor": "The map is {price} gold, and you do not have it."
+		}
+	},
 	"states": {
 		"open": "standing open",
 		"broken": "BROKEN, and pouring",
