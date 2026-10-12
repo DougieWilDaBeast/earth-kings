@@ -27,6 +27,9 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "camera_zoom_out", "label": "Zoom Out" },
 	{ "action": "camera_recentre", "label": "Recentre Camera" },
 	{ "action": "toggle_fullscreen", "label": "Fullscreen" },
+	{ "action": "open_menu", "label": "Menu (pad)" },
+	{ "action": "open_actions", "label": "Place's Actions (pad)" },
+	{ "action": "open_journal", "label": "Journal (pad)" },
 ]
 
 @onready var _root: Control = %Root
@@ -126,20 +129,33 @@ func is_open() -> bool:
 	return _root.visible
 
 
+## A rebind takes the very next press, before a focused button can read it as
+## pressing itself again. A pad button rebinds the pad, a key the keyboard.
+func _input(event: InputEvent) -> void:
+	if not _root.visible or _rebind_action == "":
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		get_viewport().set_input_as_handled()
+		if event.physical_keycode == KEY_ESCAPE or event.keycode == KEY_ESCAPE:
+			_cancel_rebind()
+		else:
+			_apply_rebind(_rebind_action, event)
+	elif event is InputEventJoypadButton and event.pressed:
+		get_viewport().set_input_as_handled()
+		# B backs out on a pad the way Escape does on a keyboard, so it is
+		# never itself bound away.
+		if (event as InputEventJoypadButton).button_index == JOY_BUTTON_B:
+			_cancel_rebind()
+		else:
+			_apply_pad_rebind(_rebind_action, event)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not _root.visible:
 		return
-	if _rebind_action != "":
-		if event is InputEventKey and event.pressed and not event.echo:
-			get_viewport().set_input_as_handled()
-			if event.physical_keycode == KEY_ESCAPE or event.keycode == KEY_ESCAPE:
-				_cancel_rebind()
-			else:
-				_apply_rebind(_rebind_action, event)
-		return
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("open_menu"):
 		get_viewport().set_input_as_handled()
-		if _controls_panel.visible:
+		if _controls_panel.visible and not event.is_action_pressed("open_menu"):
 			_close_controls()
 		else:
 			close()
@@ -157,7 +173,7 @@ func _close_controls() -> void:
 	_main_panel.show()
 
 
-func _rebuild_controls_list() -> void:
+func _rebuild_controls_list(focus_action: String = "") -> void:
 	for child in _bindings_list.get_children():
 		child.queue_free()
 
@@ -175,33 +191,40 @@ func _rebuild_controls_list() -> void:
 		row.add_child(name_lbl)
 
 		var btn := Button.new()
-		btn.custom_minimum_size = Vector2(120, 26)
+		btn.custom_minimum_size = Vector2(150, 26)
 		btn.add_theme_font_size_override("font_size", 12)
 		btn.text = _action_key_text(action)
 		btn.pressed.connect(func() -> void: _start_rebind(action, btn))
 		Sfx.attend(btn)
 		row.add_child(btn)
+		if action == focus_action:
+			btn.grab_focus.call_deferred()
 
 		_bindings_list.add_child(row)
 
 
+## The key and, where there is one, the pad button: "E  ·  A".
 func _action_key_text(action: String) -> String:
 	if not InputMap.has_action(action):
 		return "None"
-	var events := InputMap.action_get_events(action)
-	for ev in events:
+	var said := "None"
+	for ev in InputMap.action_get_events(action):
 		if ev is InputEventKey:
 			var key_ev := ev as InputEventKey
 			var code: Key = key_ev.physical_keycode if key_ev.physical_keycode != KEY_NONE else key_ev.keycode
-			return OS.get_keycode_string(code)
+			said = OS.get_keycode_string(code)
+			break
 		if ev is InputEventMouseButton:
 			var mouse_ev := ev as InputEventMouseButton
 			if mouse_ev.button_index == MOUSE_BUTTON_WHEEL_UP:
-				return "Wheel Up"
-			if mouse_ev.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				return "Wheel Down"
-			return "Mouse %d" % mouse_ev.button_index
-	return "None"
+				said = "Wheel Up"
+			elif mouse_ev.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				said = "Wheel Down"
+			else:
+				said = "Mouse %d" % mouse_ev.button_index
+			break
+	var pad := Pad.pad_glyph(action)
+	return said if pad == "" else "%s  ·  %s" % [said, pad]
 
 
 func _start_rebind(action: String, button: Button) -> void:
@@ -209,7 +232,7 @@ func _start_rebind(action: String, button: Button) -> void:
 		_rebind_button.text = _action_key_text(_rebind_action)
 	_rebind_action = action
 	_rebind_button = button
-	button.text = "[ Press Key... ]"
+	button.text = "[ Press a button... ]" if Pad.using_pad else "[ Press Key... ]"
 
 
 func _cancel_rebind() -> void:
@@ -235,7 +258,27 @@ func _apply_rebind(action: String, event: InputEventKey) -> void:
 
 	_save_custom_binding(action, code)
 	_cancel_rebind()
-	_rebuild_controls_list()
+	_rebuild_controls_list(action)
+
+
+func _apply_pad_rebind(action: String, event: InputEventJoypadButton) -> void:
+	_set_pad_button(action, event.button_index)
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH)
+	cfg.set_value("pad_controls", action, int(event.button_index))
+	cfg.save(SETTINGS_PATH)
+	_cancel_rebind()
+	_rebuild_controls_list(action)
+
+
+## Replaces [param action]'s pad buttons, leaving its stick and trigger alone.
+func _set_pad_button(action: String, button_index: int) -> void:
+	for ev in InputMap.action_get_events(action):
+		if ev is InputEventJoypadButton:
+			InputMap.action_erase_event(action, ev)
+	var new_ev := InputEventJoypadButton.new()
+	new_ev.button_index = button_index as JoyButton
+	InputMap.action_add_event(action, new_ev)
 
 
 func _save_custom_binding(action: String, keycode: int) -> void:
@@ -247,7 +290,13 @@ func _save_custom_binding(action: String, keycode: int) -> void:
 
 func _load_custom_bindings() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(SETTINGS_PATH) != OK or not cfg.has_section("controls"):
+	if cfg.load(SETTINGS_PATH) != OK:
+		return
+	if cfg.has_section("pad_controls"):
+		for action in cfg.get_section_keys("pad_controls"):
+			if InputMap.has_action(action):
+				_set_pad_button(action, int(cfg.get_value("pad_controls", action, 0)))
+	if not cfg.has_section("controls"):
 		return
 	for action in cfg.get_section_keys("controls"):
 		var keycode: int = int(cfg.get_value("controls", action, 0))
@@ -265,8 +314,10 @@ func _load_custom_bindings() -> void:
 
 func _reset_controls_to_defaults() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(SETTINGS_PATH) == OK and cfg.has_section("controls"):
-		cfg.erase_section("controls")
+	if cfg.load(SETTINGS_PATH) == OK:
+		for section in ["controls", "pad_controls"]:
+			if cfg.has_section(section):
+				cfg.erase_section(section)
 		cfg.save(SETTINGS_PATH)
 	InputMap.load_from_project_settings()
 	_cancel_rebind()

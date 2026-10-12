@@ -54,6 +54,23 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   the world clock. The top bar shows where you are and your current **danger %**.
   `Esc` opens the menu (save, load, music and sound volume, fullscreen, return to title).
   `F11` switches fullscreen anywhere.
+- **On a controller** — any Xbox or PlayStation pad (Godot's standard mapping) plays the whole game.
+  Hint lines switch to the pad's buttons as soon as it is touched, and back on a key press.
+
+  | Button                   | On the road / in a town                    | In a fight                         | Real-time skirmish             |
+  | ------------------------ | ------------------------------------------ | ---------------------------------- | ------------------------------ |
+  | Left stick / D-pad       | Walk                                       | Walk the menu; aim the cursor      | Move the cursor                |
+  | A (Cross)                | Interact, step in, confirm                 | Choose a command; confirm the tile | Pick a fighter, give the order |
+  | B (Circle)               | Back / the menu                            | Back out of an order; the menu     | Put a skill away; the menu     |
+  | X (Square)               | Journal                                    | Wait                               | Pause / resume                 |
+  | Y (Triangle)             | Focus the place's buttons (hire, buy, …)   | —                                  | Next skill                     |
+  | Start / Back             | Menu / party                               | Menu / —                           | Menu / select everyone         |
+  | LB / RB                  | Speed / next leader in a town              | Speed / next fighter               | Speed / next fighter           |
+  | LT / RT                  | Zoom out / in                              | Zoom out / in                      | Zoom out / in                  |
+  | Right stick / L3 / R3    | Look around / world–planar view / recentre | Look around / — / recentre         | Look around                    |
+
+  Every menu is walked with the D-pad and pressed with A. The system menu's _Controls_ lists the
+  pad button beside each key, and rebinds a pad button the same way it rebinds a key.
 - **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
   inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.

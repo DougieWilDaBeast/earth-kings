@@ -13,6 +13,7 @@ extends RefCounted
 const OPEN := "open"
 const BROKEN := "broken"
 const BREWING := "brewing"
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 
 static func rules() -> Dictionary:
@@ -118,6 +119,8 @@ static func take(world: World, hall: Site, gate: Site, accepted: Array) -> Strin
 		"gold": gold,
 		"posted_at": world.steps,
 	})
+	# The clerk shows you where it is: it goes on your map ([D50]).
+	Atlas.mark(world, gate)
 	return line("taken", {"gate": gate.display_name, "gold": gold})
 
 
