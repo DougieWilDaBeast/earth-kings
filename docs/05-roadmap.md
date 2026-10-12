@@ -318,6 +318,17 @@ Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). Wai
   in the world changes because the party walked, and the map shows only where the party has been or
   been told of
 
+## Launch readiness — IN PROGRESS
+
+Work that gets the build into players' hands. None of it waits on a founder answer.
+
+- Playable builds for Windows, Linux, macOS and the browser ✅ (2026-10-12): `export_presets.cfg`
+  and the `release` workflow — run by hand for a test build, or tag `v*` for a GitHub pre-release.
+  The version on the title screen is `application/config/version`, set from the tag
+- Fullscreen and a sound-effects volume in the system menu — planned
+- Code signing and notarization for Windows and macOS — planned; needs paid certificates
+- A store page (itch.io or Steam) — planned; the founders' call
+
 ## Deferred
 
 Designed for, seams in place, not built. See [Vision](01-vision.md).

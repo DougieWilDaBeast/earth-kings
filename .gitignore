@@ -2,7 +2,6 @@
 .godot/
 /android/
 /builds/
-export_presets.cfg
 
 # Godot Mono
 .mono/
