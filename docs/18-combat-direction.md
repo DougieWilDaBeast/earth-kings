@@ -3,8 +3,9 @@
 The founders agreed on 2026-09-24 to move the fight away from the turn-based tactics core and toward
 the way **_Dungeon Settlers_** fights, with every attack animated the way **_Fire Emblem: Three
 Houses_** animates it. They also agreed that **nothing gets built until a research deep dive into
-_Dungeon Settlers_' combat is done**. This doc holds the direction, what the research has to answer,
-and what the change costs.
+_Dungeon Settlers_' combat is done**. This doc holds the direction, what the research had to answer,
+what the change cost, and [the fight](#the-fight) as it is built: since 2026-10-12 it is the only
+fight in the game ([D64](06-decisions.md)).
 
 The rule is [D36](06-decisions.md). The conversation is at [00:44:27] of
 [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md).
@@ -33,7 +34,7 @@ The rule is [D36](06-decisions.md). The conversation is at [00:44:27] of
 
 In short:
 
-| | Today (M0) | Direction |
+| | Before (M0–M10) | Direction, built in M11 |
 | --- | --- | --- |
 | Time | Charge-time turns; the world waits for you | **Real time, pausable, speed-adjustable** |
 | Movement | Pick a blue tile, then act | **Point and click** on the tile grid |
@@ -119,36 +120,38 @@ short written report in `docs/investigation/`, with clips or screenshots, answer
 15. What in [02 — Design](02-design.md#battle) survives, what is replaced, and what the smallest
     playable prototype is.
 
-## What it costs
+## What it cost
 
-This is the largest change since the project began. Honestly stated:
+This was the largest change since the project began. What the move took, now that it is made:
 
-- **`src/battle/` is largely rewritten.** `TurnManager` (charge time) goes; `battle.gd`'s phase
-  machine becomes a real-time loop with pause; `EnemyBrain` stops returning one plan per turn and
-  starts choosing continuously. The [mind seam](03-architecture.md) — AI returns plans, only the
-  engine mutates state — still holds and should be kept.
-- **`AbilityResolver`'s maths can mostly stay.** Damage, facing, splash and targeting rules are not
-  turn-specific; timing is.
-- **Every ability needs a cooldown and a cast time**, and every unit a loadout of four.
-- **Leans tied to turns need new values**: J's +20 opening charge time and P's +1 move point
-  (`MX6`, `MX7`).
-- **The smoke tests** (`battle_smoke_test`, `controls_smoke_test`) drive a turn loop and are rewritten
-  with it.
-- **Animation is the real bill.** "Every attack animated" means frames for attack, cast, hit and death
-  for every unit that fights — see [19](19-asset-list.md).
+- **The turn-based battle is gone.** `TurnManager` (charge time), `battle.gd`'s phase machine,
+  its HUD and `EnemyBrain` were deleted on 2026-10-12 when `dougie` asked for the turn-based fight
+  to be retired ([D64](06-decisions.md)). What both fights shared stays in `src/battle/`: the grid,
+  the pathfinder, `Unit` and `AbilityResolver`. The [mind seam](03-architecture.md) — AI returns
+  plans, only the engine mutates state — holds in `SkirmishBrain`.
+- **`AbilityResolver`'s maths stayed.** Damage, facing, splash and targeting rules were not
+  turn-specific; timing was.
+- **Every ability has a cooldown and a cast time**, and every unit up to four quick slots.
+- **Leans tied to turns have new readings**: J's +20 opening charge time is acting at once, P's +1
+  move point is walking pace (`MX6`, `MX7`).
+- **The smoke tests** that drove the turn loop drive the real-time fight; the checks
+  `battle_smoke_test` held that still meant something (allies, auto from outside the fight, a
+  whole fight resolving) moved into `skirmish_smoke_test`.
+- **Animation is the real bill**, still unpaid. "Every attack animated" means frames for attack,
+  cast, hit and death for every unit that fights — see [19](19-asset-list.md).
 
-The first step is a **prototype in a separate scene** — one party, one enemy group, real-time with
-pause, four abilities each — played against the current battle before either is retired.
+## The fight
 
-## The prototype
+**Built 2026-09-24** as a prototype in `src/skirmish/` ([M11](05-roadmap.md)), following the plan
+in [investigation/07](investigation/07-dungeon-settlers-combat.md#the-smallest-playable-prototype).
+Both founders chose it over the turn-based battle ([D58](06-decisions.md), [D63](06-decisions.md)),
+and since 2026-10-12 it is **every fight in the game** ([D64](06-decisions.md), [D65](06-decisions.md)):
+a band on the road, a gate floor and its objective, the Tower, a Guild muster, a fight beside
+allies, the coliseum, and training. The scene key is `skirmish`.
 
-**Built 2026-09-24** — [M11](05-roadmap.md), in `src/skirmish/`, beside the turn-based battle and
-touching none of it. It follows the plan in
-[investigation/07](investigation/07-dungeon-settlers-combat.md#the-smallest-playable-prototype).
-
-**To play it:** Title → **Training** → pick an enemy and a count → **Fight in real time**. Or
-`godot --path . res://tests/bench.tscn -- --scene=skirmish --play` for a wild fight with the
-starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
+**To play it:** walk into anything that fights. Or Title → **Training** → pick an enemy and a
+count → **Fight this**, or `godot --path . res://tests/bench.tscn -- --scene=skirmish --play` for
+a wild fight with the starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 
 | Control | Does |
 | --- | --- |
@@ -160,14 +163,17 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 | `A` | Auto Skill on or off for the selected — on by default |
 | A draught or herb on a party card | That fighter uses it: 1.5 s, open to blows but not to stuns ([D59](06-decisions.md)) |
 | `H` | Hold: stay put and only hit what is in reach |
-| `Space` | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
-| `T` | Speed x1 → x1.5 → x2 |
+| `Space` (`command_wait`) | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
+| `T` (`battle_speed`) | Speed x1 → x1.5 → x2 |
 | `Z` | Auto-pause: off → when someone goes down (the default) → also when a skill comes back for a unit with Auto Skill off. Kept for the session |
+| `N` | The journal |
+| `Esc` (or Back, or a pad's B) | Puts a readied skill away; with none readied, the menu |
 
 **What it does**
 
 - **A fixed-tick simulation** (20 ticks a second) so the fight plays the same at any speed and a
-  test can run one in a moment. Movement is drawn smoothly between ticks.
+  test can run one in a moment. Movement is drawn smoothly between ticks. While the menu, the
+  journal or a conversation is open in front of it, the clock waits (**Inferred**).
 - **Tile to tile**, one unit per tile, the tile claimed as the step starts. Allies block enemies and
   enemies block allies. Pace comes from move points; terrain cost still slows you.
 - **Basic attacks on a tempo** from the speed stat: every 1.6 seconds at speed 10.
@@ -178,7 +184,12 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   ally at or under 60%.
 - **Enemies** pick the nearest standing foe and stick with it, use their own skills the same way,
   and never pick on the downed. A party member not told otherwise fights anything within six tiles,
-  and joins in once any companion is fighting.
+  and joins in once any companion is fighting. **Allies** (a Guild muster, a fight the world puts
+  beside you) are on the party's side, think as enemies do, and cannot be picked or ordered.
+- **A party playing itself** (`Q` on the road, a soak) does not wait: the fight opens running,
+  auto-pause never stops it, a menu does not hold the clock, and the party goes looking for the
+  fight wherever it is rather than within six tiles. Switching autoplay on mid-fight starts a
+  paused clock.
 - **Near death**: a party member at zero is down for twelve seconds, and a companion who reaches
   them and kneels for two gets them up at a quarter of their health. Enemies at zero are gone.
 - **Facing still counts**: units face where they step and what they hit, and side and back hits
@@ -216,14 +227,6 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   be pinned. A **Mender** (anything carrying a heal it can throw two tiles) heals its own side
   under 85% health instead of 60%, and hangs back the same way. Everyone else is a Brawler.
   Hovering any unit shows its role and passives.
-- **The graces in the near-death window** (2026-10-12, **Inferred**). When the twelve seconds run
-  out with nobody there, the same graces the turn-based fight rolls get their turn — a charm
-  carried, a companion standing, a book read, the ground near a hearth, luck — through
-  `Fate.roll`, the same code [Battle] uses, with the difficulty's grace dial. One that lands
-  stands them back up at a quarter of their health ("Pulled clear!"). Capture is left out, and
-  nothing is written back: a training grace spends no charm. A companion reaching them first is
-  still the sure way; the grace is the last chance, and the downed card shows its odds. Rolled
-  once, when the window closes, rather than at the fall — **Inferred**.
 - **Energy, stuns, charged spells, items and shields** (2026-10-12, [D59](06-decisions.md), from
   `doug-md`'s twenty hours of _Dungeon Settlers_). Each card has an energy bar of ten pips; skills
   drain it and a fighter who runs dry is **tired**, swinging only, until it is half full again.
@@ -238,27 +241,78 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   freezes the clock for 70 ms, and a death rings out and shakes the camera (harder for one of
   yours). Skills on the cards are tiles with a cooldown sweep that flash when they come back, and
   clicking one readies it; the touch skill buttons sweep too. All in `src/skirmish/skirmish_fx.gd`
-  and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`.
+  and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`. Trees stand on the crags,
+  walls and some of the edge, and bushes in the brush (`decor` in the same file).
+
+**Coming in** — everything the turn-based battle did on the way into a fight, it does
+([D65](06-decisions.md)):
+
+- the field is the encounter's map (or an authored one), with the party mustered on its spawns,
+  the enemy at their levels (a levelled foe is a throwaway character raised by
+  `Progression.raise_quietly`), any keeper marked, and **allies** on the party's side;
+- an **ambush** gives the party the jump: it acts at once, and the other side's opening is held
+  back `ambush_head_start` seconds (2, **Inferred**) — the real-time form of first-round initiative;
+- a nemesis's **confrontation** line, the number of allies, and the gate's **objective** are said
+  in the log; on a heart floor the heart is marked on the ground;
+- anything the party has not met before opens a page in the **journal** (not in a sandbox);
+- `EventBus.battle_started` is told the map.
+
+**Winning** is routing the other side, unless a gate says otherwise: on a **keeper** floor the
+fight is won the moment every keeper is down, and on a **heart** floor the moment a party member
+stands on the heart ([D45](06-decisions.md)). Losing is every party member down.
+
+**While it runs**, it writes onto the world as the turn-based battle did:
+
+- **Experience** from the first of each kind to whoever landed the blow, an **assist** to everyone
+  else standing on the party's side, half the assists for whoever was **healed** by the killer's
+  healer this fight, and a keeper teaching everyone ([D37](06-decisions.md), [D54](06-decisions.md));
+  a blow turned back by Barbed Guard counts as the guard's kill.
+- **Practice** ([`Proficiency`](../src/chronicle/proficiency.gd)): every skill that lands counts
+  once, however many it caught; basic swings come several times as often as a turn did, so every
+  third one landed counts (`swings_per_practice`, **Inferred**).
+- **The journal**: being hit teaches what a thing does, hitting it what it wears, putting it down
+  how much of it there is.
+- **Draughts and herbs** drunk come out of the stores.
+- **A fall the company cannot reach is settled for real.** When the twelve seconds run out,
+  `Fate.resolve` rolls the graces and applies what lands — a charm is spent, a prisoner taken —
+  and `EventBus.character_fell` is told. Saved by a grace, the fighter is back up in the fight at a
+  quarter of their health; pulled clear (on a difficulty without permadeath), taken or dead, they
+  are out of it, and the dead get a memorial and the threads' notice (`Skein.on_character_fell`).
+
+**On the way out**:
+
+- anyone still standing carries their wounds out as a share of their health (with the
+  difficulty's floor), and has their reading reinforced;
+- anyone still down when the field is **won** is carried off by the rest, at one hit point
+  (**Inferred**); anyone still down when the company is **beaten** has nobody left to reach them,
+  and falls for real as above;
+- the lost leave the marching order, a won map is marked cleared, `last_victory` is set, and
+  `EventBus.battle_finished` is told `{victory, map_id}`;
+- after two seconds the fight hands back to its `return_scene`, with its `return_payload`.
+
+**A sandbox fight** (`sandbox` in the payload: training and the coliseum) writes none of that. The
+run's ledger is switched off for it, nobody's fall is settled (the graces roll through
+`Fate.roll`, capture left out and no charm spent), the stores are only counted (the
+`training_pouch` stands in when they are empty), and at the end the party is healed — or, on the
+sand, carries its wounds into the next round and `arena_victory` is set. Experience and practice
+come only if the payload says `learn`, as the coliseum's waves do for the copy of the company it
+sends out (**Inferred**).
 
 **The knobs**, all in `src/skirmish/skirmish_rules.gd`: `HEALTH_SCALE` (everyone fights with 3×
 their health — at 1× fights ended in four to seven seconds, before there was anything to pause
 for), `NEAR_DEATH`, `AID_TIME`, `PARTY_AGGRO_RANGE`, the attack tempo, the step pace, and the
 default cooldown and cast formulas; and in `data/skirmish.json`, every passive, role and feel
-number. The smoke test's proving ground — three level-1 characters against six level-8 brigands —
-ends in about 20 seconds, and the party wins.
+number, `ambush_head_start` and `swings_per_practice`. The smoke test's proving ground — three
+level-1 characters against six level-8 brigands — ends in about 20 seconds, and the party wins.
 
 **What it does not do yet**
 
-- **Animations.** Units slide and turn, as on the turn-based grid; attacks have no wind-up art. It
-  waits on the sprite size and the Tier 1 assets in [19](19-asset-list.md).
-- **Anything outside training.** No experience, proficiency, journal, graces or deaths are written
-  back; the party walks off healed. Wiring it into the world is the step after both founders have
-  played it against the turn-based fight.
-- **A multi-order queue.** Passives, enemy roles, the graces, auto-pause, the J and P leans, and
-  touch controls are in: under touch a tap that is not picking somebody is the order a right-click
-  would give, and the keys are a column of buttons down the right (`Skirmish.act`).
+- **Animations.** Units slide and turn; attacks have no wind-up art. It waits on the Tier 1 assets
+  in [19](19-asset-list.md).
+- **A multi-order queue.**
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
-  that hits for thirty, which the turn-based fight shares.
+  that hits for thirty. The run's ledger counts damage at fight scale, three times what the
+  turn-based fight counted.
 
 ## Getting stronger
 

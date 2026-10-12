@@ -124,12 +124,14 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)).
    `dougie`, 2026-10-12: they go into the game together with the full redo, not eight at a time.
 2. ~~**`dougie` plays the real-time skirmish against the turn-based fight**~~ **Settled 2026-10-12:
-   real time, by both founders ([D63](06-decisions.md)); `dougie` asked for the turn loop to be retired now ([D64](06-decisions.md)) — in progress.** (Training → Fight in real
-   time.) `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
+   real time, by both founders ([D63](06-decisions.md)); `dougie` asked for the turn loop to be retired now ([D64](06-decisions.md)) — done:
+   every fight is the real-time fight, and the turn-based battle is deleted ([D65](06-decisions.md)).**
+   What the build had to choose on the way (an ambush's head start, a fall at the end of a won
+   fight, practice per swing, draughts from the stores, the clock under a menu, what the sand
+   teaches) is **Inferred** and waits as agenda item 63. `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
    better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
    found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
-   a box to pick fighters, is built. `dougie`'s turn decides whether M11 replaces the turn loop
-   ([D36](06-decisions.md)).
+   a box to pick fighters, is built. `dougie` chose the same ([D63](06-decisions.md)).
 3. ~~**An hour of _Dungeon Settlers_ itself**~~ Done 2026-10-12: `doug-md` has played about twenty
    hours and answered the ten questions ([investigation/07](investigation/07-dungeon-settlers-combat.md#doug-mds-answers-2026-10-12)).
    What they change in our fight is being settled with him.
@@ -179,27 +181,29 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
   D-entry says which size
 
-### M11 — The real-time fight, as a prototype — IN PROGRESS
+### M11 — The real-time fight — IN PROGRESS
 
-Started 2026-09-24, on the first pass of M10. A playable prototype exists — see
-[18 — The prototype](18-combat-direction.md#the-prototype) — and the items below are marked
-against it.
+Started 2026-09-24, on the first pass of M10, as a prototype beside the turn-based battle; since
+2026-10-12 it is the only fight — see [18 — The fight](18-combat-direction.md#the-fight). What
+is left is the animation.
 
-- A separate battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
+- A battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
 - Point-and-click movement on the existing grid; automatic basic attacks ✅
 - Four active abilities per unit on Q W E R, with cooldowns ✅ and cast times ✅; a per-unit auto
   toggle ✅ and Wait for Orders ✅. Passives ✅ (2026-10-12, `data/skirmish.json`, **Inferred**
   per class — agenda item 45), shown on the cards and on hover
 - Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1) — waits on art
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
-  companion can reach ✅; when it runs out the turn-based graces are rolled through `Fate.roll` ✅
-  (2026-10-12, nothing written back, **Inferred** — agenda item 46)
+  companion can reach ✅; when it runs out the fall is settled through `Fate.resolve`, as the
+  turn-based battle settled it ✅ (a sandbox fight only rolls `Fate.roll` and writes nothing back;
+  **Inferred** — agenda items 46 and 63)
 - Enemy kinds that fight differently ✅ (2026-10-12): Charger, Skirmisher, Mender, by data
   (**Inferred**, item 45)
 - Feel without art ✅ (2026-10-12): damage and critical numbers, hit flash, lunge, hit-stop, camera
   shake on deaths, cooldown sweeps on the skill tiles and touch buttons
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
-- Reachable from the Training ground and the bench ✅. A training fight only — nothing written back
+- Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
+  Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
 - Drag a box to pick fighters ✅ (2026-10-12, [D58](06-decisions.md))
@@ -208,18 +212,24 @@ against it.
   energy bar, draughts and herbs mid-fight, shields that block
 - Done when: both founders have played the prototype against the current battle and chosen.
   `doug-md` ✅ chose real time (2026-10-12, D58); `dougie` ✅ too (D63)
-- Replace `TurnManager`: every fight the world starts is the real-time fight ([D36](06-decisions.md), [D64](06-decisions.md)) — in progress
+- Replace `TurnManager` ✅ (2026-10-12, [D64](06-decisions.md), [D65](06-decisions.md)): every
+  fight the world starts is the real-time fight, with what the turn-based battle did on the way in
+  and out carried over — the encounter, allies, ambush, confrontation, objectives, levelled foes,
+  the journal, experience and assists, practice, wounds, the fallen through `Fate.resolve`,
+  `battle_started` / `battle_finished` — and `battle.gd`, `turn_manager.gd`, the battle HUD,
+  `EnemyBrain` and `battle_smoke_test` deleted. Training's choice between the two fights is gone
 
 ### M12 — Getting stronger the new way — SHIPPED
 
-Built 2026-09-24, in the turn-based battle. The real-time skirmish is training-only and awards
-nothing yet.
+Built 2026-09-24, in the turn-based battle; since 2026-10-12 the real-time fight awards all of
+it ([D65](06-decisions.md)). A sandbox fight awards nothing, unless it asks to (the coliseum's
+waves do, for the copy of the company on the sand).
 
 - Experience per character from the **first kill of each kind of enemy**; the last hit takes it ✅
   (`Progression.award_kill`)
 - Assists counted per kind, and a kind's experience after ten, or five for a healer's ([D54](06-decisions.md),
   2026-10-01) ✅: a healer's assist is one where the helper healed the one who landed the blow in
-  the same fight (`Battle._healed_by`), which is agenda item 23
+  the same fight (`Skirmish._healed_by`), which is agenda item 23
 - Bosses give everyone involved their experience ✅ — gate guardians and the Tower's apex fighter
   are flagged `"boss": true` in `encounter.gd`
 - Proficiency per weapon kind (blade, bow, staff, bare hands) as well as per move, both rising by
@@ -346,8 +356,7 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   (floor 10), all in `world_rules.party` (`src/chronicle/seats.gd`, `roster.seats`). A seat opening
   gets a banner, lines at the fire and a hint to hire; a companion back from a job with no room
   takes it first. Generated battlefields muster six, the two set-piece maps have six spawns, and a
-  map short of spawns musters the rest on the nearest open ground (`BattleGrid.muster_cells`), in
-  the turn-based fight and the real-time skirmish alike
+  map short of spawns musters the rest on the nearest open ground (`BattleGrid.muster_cells`)
 - Joining a gate raid ✅ (2026-10-01): a companion sent to stand with a Guild muster waits with it
   and comes back paid, or rolls for their life if it lost
 - ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come

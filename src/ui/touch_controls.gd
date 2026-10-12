@@ -17,7 +17,7 @@ const WALK_SCENES := ["world", "area"]
 ## Scenes that want the bar at all. Everything else — the title, the character
 ## picker, the training yard, the arena, the summary — is buttons already, and
 ## a stick laid over them only covers them up.
-const PLAY_SCENES := ["world", "area", "battle"]
+const PLAY_SCENES := ["world", "area", "skirmish"]
 
 ## How far the knob travels from the middle of the stick.
 const STEER_RADIUS := 78.0

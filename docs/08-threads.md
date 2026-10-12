@@ -45,7 +45,7 @@ Threads advance in three event contexts:
 2. **Arrival** — `Skein.on_arrive` in `world_scene._step`, for stages that wait on a kind of
    place.
 3. **Battle and Mortality** — `Skein.on_battle` in `world_scene._settle_up` routes encounter
-   outcomes, and `Skein.on_character_fell` in `battle.gd` notifies threads when a companion falls.
+   outcomes, and `Skein.on_character_fell` in `skirmish.gd` notifies threads when a companion dies.
 
 `Skein.tick(world, context)` evaluates the current stage's `when` against world state, and if it
 holds, runs `then` and moves the stage on. Threads never poll and never hold references to each

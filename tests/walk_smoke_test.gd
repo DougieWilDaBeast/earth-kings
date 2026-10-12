@@ -14,6 +14,8 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
@@ -1062,11 +1064,15 @@ func _check_objectives() -> void:
 	Pace.auto = false
 	heart["ambush"] = true
 	var battle := _open_battle(heart)
-	_expect(battle.objective == Site.OBJECTIVE_HEART, "the battle forgot it was a heart fight")
+	_expect(battle.objective == Site.OBJECTIVE_HEART, "the fight forgot it was a heart fight")
 	_expect(not battle._objective_met(), "a heart fight was won before anyone moved")
-	var runner: Unit = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)[0]
-	runner.cell = battle.heart_cell
+	var runner: Fighter = battle.party_fighters()[0]
+	runner.unit.cell = battle.heart_cell
+	runner.hold = true
 	_expect(battle._objective_met(), "standing on the heart did not win the floor")
+	battle.manual = true
+	battle.tick()
+	_expect(battle.over and battle.victory, "reaching the heart did not end the fight in the party's favour")
 	battle.free()
 
 	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
@@ -1075,9 +1081,12 @@ func _check_objectives() -> void:
 	keeper["ambush"] = true
 	battle = _open_battle(keeper)
 	_expect(not battle._objective_met(), "a keeper fight was won with the keeper standing")
-	for unit: Unit in battle.units:
-		if unit.has_meta("boss"):
-			unit.hp = 0
+	var keepers := 0
+	for f: Fighter in battle.fighters:
+		if f.unit.has_meta("boss"):
+			keepers += 1
+			f.unit.hp = 0
+	_expect(keepers > 0, "a keeper fight fielded no keeper")
 	_expect(battle._objective_met(), "felling the keeper did not win the floor")
 	battle.free()
 
@@ -1103,9 +1112,12 @@ func _check_allies() -> void:
 	Pace.auto = false
 	meeting["ambush"] = true
 	var battle := _open_battle(meeting)
-	var allies: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.ALLY)
-	var party: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)
-	var foes: Array = battle.units.filter(func(u: Unit) -> bool: return not u.sides_with_party())
+	var allies: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
+	var party: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.PLAYER) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
+	var foes: Array = battle.fighters.filter(func(f: Fighter) -> bool: return not f.unit.sides_with_party()) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
 	_expect(allies.size() == 2, "%d allies took the field" % allies.size())
 	if not allies.is_empty() and not party.is_empty() and not foes.is_empty():
 		var ally: Unit = allies[0]
@@ -1115,8 +1127,7 @@ func _check_allies() -> void:
 			not AbilityResolver.is_valid_target(party[0], Database.ability("strike"), ally),
 			"the party can strike its own allies"
 		)
-		var plan := EnemyBrain.plan(ally, battle.grid, battle.pathfinder, battle.units)
-		var target: Unit = plan["target"]
+		var target: Unit = SkirmishBrain.pick_target(battle.fighter_of(ally), battle.fighters)
 		_expect(target == null or not target.sides_with_party(), "an ally went for someone on its own side")
 	battle.free()
 	Pace.auto = setting
@@ -1459,10 +1470,10 @@ func _check_muster() -> void:
 	world.musters = kept_musters
 
 
-## A training battle on [param meeting], built and left at the party's first orders.
+## A training fight on [param meeting], built and left paused before anyone moves.
 func _open_battle(meeting: Dictionary) -> Node:
-	var battle: Node = load("res://src/battle/battle.tscn").instantiate()
-	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world"}
+	var battle: Node = load("res://src/skirmish/skirmish.tscn").instantiate()
+	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world", "paused": true}
 	add_child(battle)
 	return battle
 
@@ -1534,7 +1545,7 @@ func _wander(count: int) -> int:
 
 func _last_battle_request() -> Dictionary:
 	for i in range(_requests.size() - 1, -1, -1):
-		if _requests[i]["key"] == "battle":
+		if _requests[i]["key"] == "skirmish":
 			return _requests[i]
 	return {}
 

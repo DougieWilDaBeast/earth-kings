@@ -2,8 +2,8 @@ extends CanvasLayer
 ## The first-time tip card. Always present under [Game], like the dialogue box.
 ##
 ## Listens for moments on [EventBus] — [signal EventBus.tip_moment] and a few
-## signals that already say the same thing (a fight starting, a turn coming
-## round, someone falling) — and shows the one tip owed for each, once per
+## signals that already say the same thing (a fight starting, someone
+## falling) — and shows the one tip owed for each, once per
 ## player ([code]src/ui/tips.gd[/code]).
 ##
 ## It never takes the game's input: it is not a modal overlay, its buttons take
@@ -14,7 +14,7 @@ extends CanvasLayer
 const Tips := preload("res://src/ui/tips.gd")
 
 const WIDTH := 460.0
-## Clear of the top bar in the walk scene and the turn order in a fight.
+## Clear of the top bar in the walk scene and the clock and hint in a fight.
 const TOP := 104.0
 ## How long a card stays up once another is waiting behind it.
 const QUEUED_SECONDS := 5.0
@@ -33,8 +33,6 @@ func _ready() -> void:
 	EventBus.tip_moment.connect(_on_moment)
 	EventBus.scene_changed.connect(_on_scene_changed)
 	EventBus.battle_started.connect(func(_map_id: String) -> void: _offer("encounter"))
-	EventBus.turn_started.connect(func(unit: Node) -> void: _on_turn(unit, "battle_turn"))
-	EventBus.turn_ended.connect(func(unit: Node) -> void: _on_turn(unit, "facing"))
 	EventBus.character_fell.connect(
 		func(_character: RefCounted, _outcome: Dictionary) -> void: _offer("downed")
 	)
@@ -91,11 +89,6 @@ func _on_moment(kind: String, context: Dictionary) -> void:
 		_offer("season")
 	if int(context.get("steps", 0)) >= int(Tips.rule("autoplay_after_steps", 30)):
 		_offer("autoplay")
-
-
-func _on_turn(unit: Node, moment: String) -> void:
-	if unit != null and unit.get("team") == Unit.Team.PLAYER:
-		_offer(moment)
 
 
 func _on_pace_changed() -> void:

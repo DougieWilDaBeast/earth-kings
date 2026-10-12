@@ -4,7 +4,7 @@ extends Node
 ## Systems emit and listen here instead of holding references to each other,
 ## so battle / world / UI stay decoupled and independently testable.
 
-## Ask the root [Game] node to swap the active scene ("world" | "area" | "battle").
+## Ask the root [Game] node to swap the active scene ("world" | "area" | "skirmish"…).
 signal request_scene(scene_key: String, payload: Dictionary)
 ## The scene asked for is now in, and is the one being played. Anything living
 ## above the scene — the touch controls, for one — lays itself out from this,
@@ -12,11 +12,10 @@ signal request_scene(scene_key: String, payload: Dictionary)
 signal scene_changed(scene_key: String)
 
 signal battle_started(map_id: String)
-## result: { "victory": bool, "map_id": String, "turns": int }
+## A fight the world started is over (training and the coliseum say nothing).
+## result: { "victory": bool, "map_id": String }
 signal battle_finished(result: Dictionary)
 
-signal turn_started(unit: Node)
-signal turn_ended(unit: Node)
 signal unit_damaged(unit: Node, amount: int)
 signal unit_healed(unit: Node, amount: int)
 signal unit_died(unit: Node)

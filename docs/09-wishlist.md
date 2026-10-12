@@ -486,7 +486,7 @@ are people or things is still open.
 **Built.**
 
 - 52 enemy unit templates in `data/units.json` now carry diverse thematic ability loadouts (archers get snipe/volley/pinning_shot, brutes get crush/earthshake/sunder, rogues get hamstring/lunge/riposte, magi get scorch/pyre/thunderhead/chain_bolt, knights get shield_bash/whirl/stand_fast).
-- [`EnemyBrain`](../src/battle/ai/enemy_brain.gd) now evaluates all abilities on a unit rather than defaulting to `abilities[0]`, selecting optimal moves by range, flanking angles, and tactical damage.
+- `EnemyBrain` (the turn-based fight's, retired by [D65](06-decisions.md)) then evaluates all abilities on a unit rather than defaulting to `abilities[0]`, selecting optimal moves by range, flanking angles, and tactical damage.
 - **Supportive AI**: Opponent units with healing or warding abilities (`mend`, `warding_touch`) actively evaluate damaged allies and cast support spells to rescue wounded comrades.
 - **AOE Splash Assessment**: AI evaluates splash radii, optimizing tactical placement to catch multiple clustered party members.
 - **Closing in by the ground**: with nobody in reach, a unit closes on the nearest foe by walking distance (a flood fill from each foe that respects height and rock), not the straight line, so a wall between two sides no longer stalls a fight for good.

@@ -95,8 +95,8 @@ func _parse(path: String) -> void:
 		_by_name[name].append(key)
 
 
-## Scenes hide the call graph: a test that instantiates battle.tscn never names
-## a single function in battle.gd. Map scenes to their scripts so those count.
+## Scenes hide the call graph: a test that instantiates skirmish.tscn never names
+## a single function in skirmish.gd. Map scenes to their scripts so those count.
 func _index_scenes(root: String) -> void:
 	var pattern := RegEx.new()
 	pattern.compile("path=\"(res://[^\"]+\\.gd)\"")

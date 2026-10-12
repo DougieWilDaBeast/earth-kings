@@ -267,7 +267,7 @@ for [measured]. Pivot-based sprite sorting so overlapping units stay in the righ
 
 ### The smallest playable prototype
 
-**Built 2026-09-24** as `src/skirmish/` — see [18 — The prototype](../18-combat-direction.md#the-prototype)
+**Built 2026-09-24** as `src/skirmish/` — see [18 — The fight](../18-combat-direction.md#the-fight)
 for what exists and what does not. What [M11](../05-roadmap.md) should build, and nothing more:
 
 1. A new scene beside `battle.tscn`, on a generated battlefield, reusing `BattleGrid` and `Pathfinder`.

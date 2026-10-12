@@ -6,7 +6,9 @@ extends Node
 ## Checks that pause really stops the clock, that orders given while paused
 ## wait for it, that skills come back on their cooldowns, that a downed ally can
 ## be got back up, and then lets the whole fight play itself to an end on fixed
-## ticks — no frames to wait on, so a minute of fight takes a moment.
+## ticks — no frames to wait on, so a minute of fight takes a moment. Then the
+## fight the world starts: allies, auto, and everything written back onto the
+## world (what the retired turn-based battle's test guarded, carried over).
 
 ## A fight that has not ended by then is stuck, not slow.
 const SIM_LIMIT := 300.0
@@ -16,6 +18,7 @@ const SIM_LIMIT := 300.0
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 
 var _skirmish: Node2D
 var _failures: Array[String] = []
@@ -27,7 +30,7 @@ func _ready() -> void:
 	# reproducible.
 	seed(7)
 	_skirmish = load("res://src/skirmish/skirmish.tscn").instantiate()
-	_skirmish.boot_payload = {"encounter": {"map": _proving_ground()}}
+	_skirmish.boot_payload = {"encounter": {"map": _proving_ground()}, "sandbox": true}
 	add_child(_skirmish)
 	await get_tree().process_frame
 	await _run()
@@ -63,6 +66,9 @@ func _run() -> void:
 	_expect(lead.unit.cell == start_cell, "a unit moved while paused")
 	_expect(lead.order == Fighter.Order.MOVE, "an order given while paused was lost")
 
+	# The move order is carried out as soon as the clock runs, here or below;
+	# once there the lead may well step off again into the fight.
+	var walked := false
 	# A skill spent is a skill waiting.
 	_skirmish.manual = true
 	_skirmish.paused = false
@@ -70,10 +76,14 @@ func _run() -> void:
 	if caster != null:
 		var ability := caster.slot_ability(0)
 		var wait := SkirmishRules.cooldown(ability)
+		# Played by hand while it waits, so Auto Skill does not spend it again
+		# the moment it is back and hide that it ever came back.
+		caster.auto_skill = false
 		_skirmish._land(caster, 0, caster.unit, caster.unit.cell)
 		_expect(not caster.slot_ready(0), "%s came straight back" % ability.get("display_name", "?"))
 		for _i in int(ceil(wait / SkirmishRules.TICK)) + 2:
 			_skirmish.tick()
+			walked = walked or lead.unit.cell != start_cell
 		_expect(caster.slot_ready(0), "%s never came off cooldown (%.1fs)" % [ability.get("display_name", "?"), wait])
 		# The fullest auto-pause also stops when a hand-played unit's skill comes back.
 		var skirmish_script: Script = _skirmish.get_script()
@@ -95,7 +105,8 @@ func _run() -> void:
 	_skirmish.paused = false
 	for _i in 80:
 		_skirmish.tick()
-	_expect(lead.unit.cell != start_cell, "a move order was never walked")
+		walked = walked or lead.unit.cell != start_cell
+	_expect(walked, "a move order was never walked")
 
 	# Down, and back up again.
 	if party.size() >= 2:
@@ -139,6 +150,8 @@ func _run() -> void:
 	await _check_box_select()
 	await _check_fight_rules()
 	await _check_surround()
+	await _check_allies_and_auto()
+	await _check_the_world_hears()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -197,7 +210,7 @@ func _check_passives_and_graces(party: Array[Fighter], foes: Array) -> void:
 ## that is not picking somebody is the order, and the keys are buttons.
 func _check_touch() -> void:
 	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
-	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": true}
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": true, "sandbox": true}
 	add_child(fight)
 	await get_tree().process_frame
 	var buttons: Dictionary = fight.hud._buttons
@@ -242,7 +255,7 @@ func _check_touch() -> void:
 ## over empty ground keeps the pick; and enemies are never picked.
 func _check_box_select() -> void:
 	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
-	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false}
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false, "sandbox": true}
 	add_child(fight)
 	await get_tree().process_frame
 	var party: Array[Fighter] = fight.party_fighters()
@@ -282,7 +295,7 @@ func _check_box_select() -> void:
 
 func _new_fight() -> Node2D:
 	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
-	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false}
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false, "sandbox": true}
 	add_child(fight)
 	await get_tree().process_frame
 	fight.manual = true
@@ -374,7 +387,9 @@ func _check_fight_rules() -> void:
 	# A shield turns a sword swing from the front, never one from behind.
 	var brute: Fighter = null
 	for f: Fighter in fight.fighters:
-		if not f.is_party() and int(Database.ability(f.basic).get("range", 1)) <= 1:
+		# Standing, and not on Bram's own tile: the fallen can lie anywhere.
+		if not f.is_party() and f.is_standing() and f.unit.cell != bram.unit.cell \
+				and int(Database.ability(f.basic).get("range", 1)) <= 1:
 			brute = f
 	_expect(bram.shield, "Bram does not carry a shield")
 	if brute != null and bram.shield:
@@ -405,6 +420,12 @@ func _check_surround() -> void:
 			f.unit.visible = false
 	bram.unit.max_hp = 999999
 	bram.unit.hp = bram.unit.max_hp
+	# Nobody falls while they gather: what is checked is where they stand, and a
+	# brigand Bram cuts down on his way in cannot stand anywhere.
+	for f: Fighter in fight.fighters:
+		if not f.is_party():
+			f.unit.max_hp = 999999
+			f.unit.hp = f.unit.max_hp
 	bram.hold = true
 	bram.auto_skill = false
 	for _i in int(12.0 / SkirmishRules.TICK):
@@ -420,6 +441,215 @@ func _check_surround() -> void:
 	print("  surround: %d brigands at Bram's side, on %d sides" % [adjacent, sides.size()])
 	_expect(adjacent >= 3 and sides.size() >= 3, "melee foes clumped instead of surrounding (%d on %d sides)" % [adjacent, sides.size()])
 	fight.queue_free()
+
+
+## Ported from the turn-based battle's own test when it was retired: a second
+## fight, with two allies on the party's side, played on auto. The allies take
+## the field, are friends to the party and foes to the enemy, think with the
+## same brain, and the fight still comes to an end. Switching auto on from
+## outside the fight (as the touch bar or a soak does) starts a paused clock.
+func _check_allies_and_auto() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	var map := BattleMapGen.generate_on("grass", "Allied field", [
+		{"unit": "goblin", "level": 2}, {"unit": "goblin", "level": 2}, {"unit": "wolf", "level": 2},
+	], rng)
+	BattleMapGen.add_allies(map, [{"unit": "brigand", "level": 2}, {"unit": "brigand_archer", "level": 2}])
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"title": "Allied field", "map": map}, "sandbox": true, "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	var allies: Array = fight.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY)
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.unit.sides_with_party())
+	_expect(allies.size() == 2, "%d allies took the field, not 2" % allies.size())
+	for ally: Fighter in allies:
+		_expect(not fight.party_fighters().has(ally), "an ally can be picked like the party")
+		var aim := SkirmishBrain.pick_target(ally, fight.fighters)
+		_expect(aim == null or not aim.sides_with_party(), "an ally went for someone on its own side")
+		if not foes.is_empty():
+			_expect(ally.unit.is_hostile_to(foes[0].unit), "an ally and the enemy are at peace")
+	_expect(fight.paused, "a fight played by hand did not open paused")
+	var was := Pace.auto
+	Pace.auto = true
+	_expect(not fight.paused, "switching auto on from outside the fight left the clock stopped")
+	fight.manual = true
+	while not fight.over and fight.sim_time < SIM_LIMIT:
+		fight.tick()
+	_expect(fight.over, "the allied fight on auto did not end within %.0f seconds" % SIM_LIMIT)
+	print("allies: %d fought beside the party on auto; over after %.1fs, victory %s" % [
+		allies.size(), fight.sim_time, fight.victory])
+	Pace.auto = was
+	fight.queue_free()
+	GameState.heal_party()
+
+
+## A fight the world started is written back onto it, as the turn-based battle
+## was: the world is told it began and how it ended, the first of a kind teaches,
+## practice counts, the journal fills, a healer is remembered, draughts are
+## spent from the stores, wounds carry out, an ambush gives the party the jump,
+## and a fall the company cannot reach is settled for real by [Fate].
+func _check_the_world_hears() -> void:
+	var started: Array = []
+	var finished: Array = []
+	var fell: Array = []
+	var on_start := func(map_id: String) -> void: started.append(map_id)
+	var on_finish := func(result: Dictionary) -> void: finished.append(result)
+	var on_fall := func(who: RefCounted, outcome: Dictionary) -> void: fell.append([who, outcome])
+	EventBus.battle_started.connect(on_start)
+	EventBus.battle_finished.connect(on_finish)
+	EventBus.character_fell.connect(on_fall)
+	GameState.heal_party()
+
+	var map := _proving_ground()
+	map["enemies"] = [
+		{"unit": "goblin", "cell": [6, 1], "level": 2},
+		{"unit": "goblin", "cell": [3, 2], "level": 2},
+		{"unit": "brigand", "cell": [8, 1], "level": 3},
+	]
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {
+		"encounter": {"title": "The road", "map": map, "ambush": true},
+		"return_scene": "world", "touch": false,
+	}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = false
+	_expect(started.size() == 1, "a fight the world started did not say so")
+	var party: Array[Fighter] = fight.party_fighters()
+	for f: Fighter in fight.fighters:
+		if not f.unit.sides_with_party():
+			_expect(f.attack_timer >= SkirmishPassives.rule("ambush_head_start", 2.0) - 0.01,
+				"an ambushed %s was not held back" % f.unit.display_name)
+	var bram := _by_template(fight, "bram")
+	var toln := _by_template(fight, "toln")
+
+	# A healer is remembered by whoever they healed.
+	if bram != null and toln != null:
+		bram.unit.hp = maxi(1, bram.unit.max_hp / 2)
+		fight._strike(toln, bram.unit, Database.ability("mend"), "mend")
+		_expect((fight._healed_by.get(bram.unit, []) as Array).has(toln.unit.character),
+			"a heal was not remembered for the healer's assist")
+
+	# What is drunk is gone from the stores.
+	GameState.stores.append("herbs")
+	fight._fill_pouch()
+	var herbs_before := GameState.stores.count("herbs")
+	if bram != null:
+		bram.unit.hp = maxi(1, bram.unit.max_hp / 3)
+		bram.items_used = 0
+		_expect(fight.use_item(bram, "herbs"), "could not use herbs in a fight on the road")
+		var ticks := 0
+		while bram.is_using() and ticks < 100:
+			fight.tick()
+			ticks += 1
+		_expect(GameState.stores.count("herbs") == herbs_before - 1, "herbs used on the road were not taken from the stores")
+
+	# The first goblin down teaches; practice is counted; the journal writes it down.
+	var killer: Fighter = party[0]
+	var practice_before := _practice(party)
+	var goblin: Fighter = null
+	for f: Fighter in fight.fighters:
+		if f.unit.template_id == "goblin" and f.is_standing():
+			goblin = f
+			break
+	var knew := Progression.has_beaten(killer.unit.character, "goblin")
+	if goblin != null:
+		goblin.unit.hp = 1
+		var swung := false
+		for _try in 20:
+			if fight._strike(killer, goblin.unit, Database.ability(killer.basic), killer.basic):
+				swung = true
+				break
+		_expect(swung and not goblin.is_standing(), "a goblin on one hit point stood")
+		_expect(knew or Progression.has_beaten(killer.unit.character, "goblin"),
+			"the first goblin down taught %s nothing" % killer.unit.display_name)
+		_expect(Journal.is_felled(GameState.world, "goblin"), "the journal did not write down a goblin felled")
+	var caster := _first_with_slots(party)
+	if caster != null:
+		caster.cooldowns[0] = 0.0
+		caster.energy = caster.energy_max
+		var target: Unit = caster.unit
+		if not SkirmishRules.is_support(caster.slot_ability(0)):
+			for f: Fighter in fight.fighters:
+				if not f.unit.sides_with_party() and f.is_standing():
+					target = f.unit
+					f.unit.hp = f.unit.max_hp
+					break
+		var ability := caster.slot_ability(0)
+		# Close enough for anything to land: the test is the counting, not the reach.
+		if not AbilityResolver.affected_cells(ability, target.cell).is_empty():
+			fight._land(caster, 0, target, target.cell)
+	_expect(_practice(party) > practice_before, "nothing landed in a fight on the road was counted as practice")
+
+	# Down with nobody coming: when the window runs out, Fate settles it.
+	var patient: Fighter = party[party.size() - 1]
+	var who: Character = patient.unit.character
+	patient.unit.take_damage(patient.unit.hp)
+	fight._drop(patient)
+	_expect(patient.is_downed(), "a party member at zero was not downed on the road")
+	patient.near_death = SkirmishRules.TICK * 0.5
+	fight.tick()
+	_expect(fell.size() == 1 and fell[0][0] == who, "a fall on the road was not settled through Fate")
+	if fell.size() == 1:
+		var outcome: Dictionary = fell[0][1]
+		match str(outcome["outcome"]):
+			Fate.DEAD:
+				_expect(who.status == Fate.DEAD and patient.fallen, "Fate said dead and %s is not" % who.display_name)
+			Fate.CAPTURED:
+				_expect(who.status == Fate.CAPTURED and patient.fallen, "Fate said taken and %s is not" % who.display_name)
+			_:
+				_expect(who.is_alive(), "Fate said alive and %s is not" % who.display_name)
+		print("fate: %s — %s" % [outcome["outcome"], outcome["line"]])
+
+	# The rest of it, hands off; then the world hears how it went.
+	while not fight.over and fight.sim_time < SIM_LIMIT:
+		fight.tick()
+	_expect(fight.over, "the fight on the road did not end within %.0f seconds" % SIM_LIMIT)
+	_expect(finished.size() == 1, "the world was told %d times that the fight ended" % finished.size())
+	if finished.size() == 1:
+		_expect(finished[0].has("victory") and finished[0].has("map_id"),
+			"the result the world reads is missing a key: %s" % [finished[0]])
+		_expect(bool(finished[0]["victory"]) == fight.victory, "the world was told the wrong result")
+		_expect(GameState.has_flag("last_victory") == fight.victory, "last_victory does not say how the fight went")
+	var standing := 0
+	for f: Fighter in party:
+		if not f.is_standing():
+			continue
+		standing += 1
+		var most := f.unit.character.max_hp()
+		var share: float = maxf(fight._share_left(f), Difficulty.post_battle_heal_ratio())
+		var expected := clampi(roundi(share * float(most)), 1, most)
+		_expect(f.unit.character.current_hp() == expected, "%s walked off with %d hp, not the %d the fight left" % [
+			f.unit.display_name, f.unit.character.current_hp(), expected])
+	_expect(not who.is_lost() or not GameState.roster.party_members().has(who),
+		"%s was lost and still marches" % who.display_name)
+	print("road: %s after %.1fs; %d walked off carrying their wounds; %d fell" % [
+		"won" if fight.victory else "lost", fight.sim_time, standing, fell.size()])
+
+	# A sandbox fight says nothing to the world.
+	var sand: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	sand.boot_payload = {"encounter": {"map": _proving_ground()}, "sandbox": true, "touch": false}
+	add_child(sand)
+	await get_tree().process_frame
+	sand.manual = true
+	sand.paused = false
+	while not sand.over and sand.sim_time < SIM_LIMIT:
+		sand.tick()
+	_expect(finished.size() == 1, "a sandbox fight told the world it had ended")
+	EventBus.battle_started.disconnect(on_start)
+	EventBus.battle_finished.disconnect(on_finish)
+	EventBus.character_fell.disconnect(on_fall)
+	fight.queue_free()
+	sand.queue_free()
+
+
+func _practice(group: Array[Fighter]) -> int:
+	var total := 0
+	for f: Fighter in group:
+		for uses: int in f.unit.character.practice.values():
+			total += uses
+	return total
 
 
 ## The first authored map, with its brigands levelled up and doubled. Out of the
