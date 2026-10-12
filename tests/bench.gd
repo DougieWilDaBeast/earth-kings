@@ -34,6 +34,7 @@ const SCENES := {
 	"training": "res://src/training/training_ground.tscn",
 	"coliseum": "res://src/coliseum/coliseum.tscn",
 	"museum": "res://src/ui/museum.tscn",
+	"credits": "res://src/ui/credits_screen.tscn",
 	"summary": "res://src/ui/run_summary.tscn",
 }
 

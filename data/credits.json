@@ -1,0 +1,75 @@
+{
+	"title": "Credits",
+	"subtitle": "who made this, and where everything in it came from",
+	"sections": [
+		{
+			"heading": "Made by",
+			"entries": [
+				{ "name": "dougie", "role": "Founder" },
+				{ "name": "doug-md", "role": "Founder" }
+			]
+		},
+		{
+			"heading": "Engine",
+			"entries": [
+				{ "name": "Godot Engine", "role": "godotengine.org — MIT licence", "note": "This game uses Godot Engine, available under the following licence:" }
+			],
+			"notice": "Copyright (c) 2014-present Godot Engine contributors (see AUTHORS.md).\nCopyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE."
+		},
+		{
+			"heading": "Engine components",
+			"entries": [
+				{ "name": "The FreeType Project", "role": "FreeType License", "note": "Portions of this software are copyright © 1996-2025 The FreeType Project (www.freetype.org). All rights reserved." },
+				{ "name": "ENet", "role": "Expat (MIT) licence", "note": "Copyright (c) 2002-2024 Lee Salzman" },
+				{ "name": "Mbed TLS", "role": "Apache License 2.0", "note": "Copyright The Mbed TLS Contributors" }
+			],
+			"engine_components": true
+		},
+		{
+			"heading": "Music",
+			"entries": [
+				{ "name": "Angelic", "role": "title, hearth and road", "note": "Made in Ableton Live (project kept in audio/source) — author: source to confirm" },
+				{ "name": "Bday Project", "role": "battle", "note": "Made in Ableton Live (project kept in audio/source) — author: source to confirm" }
+			]
+		},
+		{
+			"heading": "Development placeholders",
+			"entries": [
+				{ "name": "Peace Sign (8-bit cover)", "role": "battle", "note": "Fan cover by Soshu (per the file's own tags) of the My Hero Academia opening" },
+				{ "name": "Crossing Field (chiptune)", "role": "battle", "note": "Fan cover by Chunmeista (per the file's own tags) of the Sword Art Online opening by LiSA" },
+				{ "name": "Unravel (8-bit remix)", "role": "game over", "note": "Fan cover by 8bitter studio (per the file's own tags) of the Tokyo Ghoul opening by TK" }
+			],
+			"notice": "Dev only — these three tracks are fan covers of commercial songs, used while the game is in development. They must be replaced or licensed before any public release."
+		},
+		{
+			"heading": "Sound",
+			"entries": [
+				{ "name": "Menu hover and select", "note": "source to confirm" }
+			]
+		},
+		{
+			"heading": "Art",
+			"entries": [
+				{ "name": "Characters and creatures", "role": "generated in PixelLab", "note": "Prompts and settings kept beside every character" },
+				{ "name": "Items, props, buildings, holds, ground tiles, menu frames", "note": "source to confirm" },
+				{ "name": "Game icon", "role": "drawn for the game" }
+			]
+		},
+		{
+			"heading": "Fonts",
+			"entries": [
+				{ "name": "Open Sans SemiBold", "role": "SIL Open Font License 1.1", "note": "Copyright 2020 The Open Sans Project Authors. Ships inside Godot Engine as its default font." }
+			]
+		},
+		{
+			"heading": "Tools",
+			"entries": [
+				{ "name": "Godot Engine", "role": "engine and editor" },
+				{ "name": "PixelLab", "role": "sprite generation" },
+				{ "name": "Aseprite", "role": "sprite cleanup" },
+				{ "name": "Ableton Live", "role": "music" },
+				{ "name": "faster-whisper", "role": "voice-note transcription for the design ledger" }
+			]
+		}
+	]
+}

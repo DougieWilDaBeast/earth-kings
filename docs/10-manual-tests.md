@@ -36,6 +36,8 @@ you saw, on which screen, and what you had done just before.
 | A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
 | A17 | Save twice, cut the save file in half in a text editor, relaunch and Continue | The run comes back as of the save before; a line at the top says it was restored from the backup             |
 | A18 | Set `"version"` in the save to `99`, relaunch and Continue                   | Nothing loads; a line at the top says the save is from a newer version; the file is unchanged                  |
+| A19 | Title → **Credits**; scroll with the wheel and with `W` / `S`, then `Esc`    | The founders, Godot's licence, music, sound, art, fonts and tools; `Esc` (or **Back to Title**) returns to the title |
+| A20 | In game, `Esc` → **Credits**, then `Esc`                                      | The same credits in the menu; `Esc` goes back to the menu, not out of it                                       |
 
 ## B — Starting a run
 
@@ -296,7 +298,7 @@ Rather than starting a run and playing to the point of concern, boot straight in
 ```
 
 State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`.
-Scenes: cinematic title character_select world area battle training coliseum museum summary,
+Scenes: cinematic title character_select world area battle training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.

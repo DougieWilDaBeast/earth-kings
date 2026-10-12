@@ -84,7 +84,8 @@ src/
   dialogue/                    Conversation overlay, branching script, skill checks, news
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Battle HUD, title screen, party screen, system menu, stash,
-                               Guild hall, journal (bestiary, routes, annals), museum (hero dossiers)
+                               Guild hall, journal (bestiary, routes, annals), museum (hero dossiers),
+                               credits (credits_roll.gd lays out data/credits.json for both places)
 ```
 
 ## Character vs Unit

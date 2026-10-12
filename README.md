@@ -217,6 +217,7 @@ src/
   ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
   ui/system_menu.tscn     In-game menu (save / load in Classic only), opened via EventBus
+  ui/credits_screen.tscn  Credits off the title (also a page of the system menu), from data/credits.json
   ui/tip_card.gd          First-time tips, once per player, off EventBus.tip_moment
   ui/how_to_play.gd       The How to Play page, built from data/how_to_play.json
 ```
