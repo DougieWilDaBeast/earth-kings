@@ -99,6 +99,11 @@ with `character` and the matching template. Big units (ogre, tree sentinel, the 
 not dressed: they are made with `character <unit> 96` on their own bulky body, and the fight draws
 them taller by their `body_scale`.
 
+**Generated 2026-10-12:** 1.1–1.3 (`sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`,
+`goblin`, `raider`, `wolf`, `club_ogre`), each with idle in eight facings and walk, attack, skill, hit
+and death in four, staged in [`art/tier1/`](../art/tier1/README.md), not yet used by the game. 1.4
+and 1.5 (effects and UI) are still to make.
+
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
 

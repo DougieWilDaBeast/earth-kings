@@ -1,0 +1,52 @@
+{
+ "id": "vesta",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_vesta",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "make her a pale cold-faced young woman in a long hooded ash-grey cloak, carrying a lit brass oil lamp with a warm flame",
+   "character_id": "cfcbf1b4-85cb-460e-bcda-0dd5d5fe5854",
+   "zip": "downloads/pixellab/sixteen_vesta_base.zip",
+   "generations": 46.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "cfcbf1b4-85cb-460e-bcda-0dd5d5fe5854",
+     "name": "sixteen_vesta",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:59:48.257436+00:00"
+    },
+    "folder": "sixteen_vesta",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_vesta/rotations/south.png",
+      "south-east": "sixteen_vesta/rotations/south-east.png",
+      "east": "sixteen_vesta/rotations/east.png",
+      "north-east": "sixteen_vesta/rotations/north-east.png",
+      "north": "sixteen_vesta/rotations/north.png",
+      "north-west": "sixteen_vesta/rotations/north-west.png",
+      "west": "sixteen_vesta/rotations/west.png",
+      "south-west": "sixteen_vesta/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:01:43.718523"
+ }
+}

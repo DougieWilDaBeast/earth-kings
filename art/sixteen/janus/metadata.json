@@ -1,0 +1,52 @@
+{
+ "id": "janus",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_janus",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "a lanky young man with messy dark hair and sleepy half-closed eyes, a loose grey traveller's coat, an old iron key on a cord at his neck",
+   "character_id": "3247a70b-ff22-4835-ae86-0b3ebff641ab",
+   "zip": "downloads/pixellab/sixteen_janus_base.zip",
+   "generations": 61.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "3247a70b-ff22-4835-ae86-0b3ebff641ab",
+     "name": "sixteen_janus",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T08:01:30.355743+00:00"
+    },
+    "folder": "sixteen_janus",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_janus/rotations/south.png",
+      "south-east": "sixteen_janus/rotations/south-east.png",
+      "east": "sixteen_janus/rotations/east.png",
+      "north-east": "sixteen_janus/rotations/north-east.png",
+      "north": "sixteen_janus/rotations/north.png",
+      "north-west": "sixteen_janus/rotations/north-west.png",
+      "west": "sixteen_janus/rotations/west.png",
+      "south-west": "sixteen_janus/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:03:26.239241"
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "id": "pluto",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_pluto",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "a thin pale young man with messy black hair in a plain dark hooded coat, holding a two-pronged iron bident",
+   "character_id": "4f511e6b-7f45-4ba4-a8df-4e6193a6b822",
+   "zip": "downloads/pixellab/sixteen_pluto_base.zip",
+   "generations": 25.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "4f511e6b-7f45-4ba4-a8df-4e6193a6b822",
+     "name": "sixteen_pluto",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T08:07:02.865686+00:00"
+    },
+    "folder": "sixteen_pluto",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_pluto/rotations/south.png",
+      "south-east": "sixteen_pluto/rotations/south-east.png",
+      "east": "sixteen_pluto/rotations/east.png",
+      "north-east": "sixteen_pluto/rotations/north-east.png",
+      "north": "sixteen_pluto/rotations/north.png",
+      "north-west": "sixteen_pluto/rotations/north-west.png",
+      "west": "sixteen_pluto/rotations/west.png",
+      "south-west": "sixteen_pluto/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:11:08.067760"
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "id": "iris",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_iris",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "make her a quick wiry young woman with a short ponytail in a light patched leather jerkin, belts of throwing knives across her chest",
+   "character_id": "b9e5e242-dfb8-4e05-991b-87704826b96a",
+   "zip": "downloads/pixellab/sixteen_iris_base.zip",
+   "generations": 48.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "b9e5e242-dfb8-4e05-991b-87704826b96a",
+     "name": "sixteen_iris",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T08:05:14.083814+00:00"
+    },
+    "folder": "sixteen_iris",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_iris/rotations/south.png",
+      "south-east": "sixteen_iris/rotations/south-east.png",
+      "east": "sixteen_iris/rotations/east.png",
+      "north-east": "sixteen_iris/rotations/north-east.png",
+      "north": "sixteen_iris/rotations/north.png",
+      "north-west": "sixteen_iris/rotations/north-west.png",
+      "west": "sixteen_iris/rotations/west.png",
+      "south-west": "sixteen_iris/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:07:00.947845"
+ }
+}

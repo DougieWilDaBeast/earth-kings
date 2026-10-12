@@ -1,0 +1,52 @@
+{
+ "id": "ultor",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_ultor",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "a hard-eyed young man with a scarred face and messy hair tied back, in dark ragged leathers, holding two long daggers reversed",
+   "character_id": "740e4cbf-be1b-42f1-a3aa-e3c50593f10d",
+   "zip": "downloads/pixellab/sixteen_ultor_base.zip",
+   "generations": 52.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "740e4cbf-be1b-42f1-a3aa-e3c50593f10d",
+     "name": "sixteen_ultor",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T08:03:48.738971+00:00"
+    },
+    "folder": "sixteen_ultor",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_ultor/rotations/south.png",
+      "south-east": "sixteen_ultor/rotations/south-east.png",
+      "east": "sixteen_ultor/rotations/east.png",
+      "north-east": "sixteen_ultor/rotations/north-east.png",
+      "north": "sixteen_ultor/rotations/north.png",
+      "north-west": "sixteen_ultor/rotations/north-west.png",
+      "west": "sixteen_ultor/rotations/west.png",
+      "south-west": "sixteen_ultor/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:05:46.042391"
+ }
+}

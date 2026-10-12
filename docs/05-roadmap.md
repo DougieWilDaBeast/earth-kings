@@ -117,9 +117,12 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    answer yet. `doug-md` confirmed it on 2026-10-12 ([D57](06-decisions.md)), with big units drawn taller by a
    `body_scale` (built) and the base's look blended with the heroic 64s. Still **Inferred** and
    waiting on both founders' eyes: the `body_scale` numbers, and whether the blend reads (the first
-   dressed unit with `BLEND_STYLE` has not been generated yet). The size test is in
-   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); Tier 1 of [19](19-asset-list.md) can be
-   generated from here.
+   dressed unit with `BLEND_STYLE` has not been generated yet). The size test, the base body dressed
+   as Bram and what each cost are in [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the
+   viewer is `.\ek.ps1 sizetest`. Tier 1's eight units are generated and staged in
+   [`art/tier1/`](../art/tier1/README.md), and the sixteen have a first look on the base
+   ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)).
+   `dougie`, 2026-10-12: they go into the game together with the full redo, not eight at a time.
 2. **`dougie` plays the real-time skirmish against the turn-based fight** (Training → Fight in real
    time). `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
    better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and

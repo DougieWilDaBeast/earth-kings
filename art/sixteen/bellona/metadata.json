@@ -1,0 +1,52 @@
+{
+ "id": "bellona",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_bellona",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "make her a stern woman commander in dented steel half-plate over a crimson tabard, short-cropped hair, holding a spear with a small war banner tied below the blade",
+   "character_id": "81f599bf-5b61-48c6-8b48-66df55980f1e",
+   "zip": "downloads/pixellab/sixteen_bellona_base.zip",
+   "generations": 49.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "81f599bf-5b61-48c6-8b48-66df55980f1e",
+     "name": "sixteen_bellona",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 56,
+      "height": 80
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T08:03:28.365412+00:00"
+    },
+    "folder": "sixteen_bellona",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_bellona/rotations/south.png",
+      "south-east": "sixteen_bellona/rotations/south-east.png",
+      "east": "sixteen_bellona/rotations/east.png",
+      "north-east": "sixteen_bellona/rotations/north-east.png",
+      "north": "sixteen_bellona/rotations/north.png",
+      "north-west": "sixteen_bellona/rotations/north-west.png",
+      "west": "sixteen_bellona/rotations/west.png",
+      "south-west": "sixteen_bellona/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T08:05:03.560770"
+ }
+}

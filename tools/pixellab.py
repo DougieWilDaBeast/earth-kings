@@ -4,6 +4,7 @@
     python3 tools/pixellab.py balance
     python3 tools/pixellab.py dress sworn_blade                   the base body in the unit's outfit ([D55], [D57])
     python3 tools/pixellab.py character ogre 96 --mode pro        a big unit, on its own body ([D57])
+    python3 tools/pixellab.py unpack downloads/pixellab/sworn_blade_base.zip art/tier1/sworn_blade
     python3 tools/pixellab.py character sworn_blade 32            -> downloads/pixellab/sworn_blade_32.zip
     python3 tools/pixellab.py animate <character_id> "a single overhead sword slash" --name attack
     python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 160
@@ -24,10 +25,12 @@ import argparse
 import base64
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
 import urllib.request
+import zipfile
 from pathlib import Path
 
 API = "https://api.pixellab.ai/v2"
@@ -59,7 +62,9 @@ def _call(method: str, path: str, body: dict | None = None, raw: bool = False):
     request.add_header("Authorization", "Bearer " + _key())
     if data is not None:
         request.add_header("Content-Type", "application/json")
-    for attempt in range(4):
+    busy = 0
+    attempt = 0
+    while True:
         try:
             with urllib.request.urlopen(request, timeout=120) as response:
                 payload = response.read()
@@ -67,12 +72,18 @@ def _call(method: str, path: str, body: dict | None = None, raw: bool = False):
         except urllib.error.HTTPError as error:
             if raw and error.code == 423:
                 return 423, b""
+            if error.code == 429 and busy < 120:
+                # Every job slot is taken: wait for one to free up rather than fail.
+                busy += 1
+                time.sleep(30)
+                continue
             sys.exit("PixelLab %s %s: %s %s" % (method, path, error.code, error.read().decode()[:600]))
         except (urllib.error.URLError, ConnectionError, TimeoutError) as error:
             # A dropped connection is retried; a POST only if it never reached PixelLab.
             if attempt == 3 or (method == "POST" and not isinstance(error, urllib.error.URLError)):
                 sys.exit("PixelLab %s %s: %s" % (method, path, error))
-            time.sleep(2 ** (attempt + 1))
+            attempt += 1
+            time.sleep(2 ** attempt)
 
 
 def _wait(job_id: str) -> dict:
@@ -155,7 +166,7 @@ def dress(args) -> None:
         "character_id": args.base,
         "edit_description": outfit,
         "state_name": args.unit,
-        "override_frame_size": DRESS_CANVAS,
+        "override_frame_size": {"width": args.canvas[0], "height": args.canvas[1]},
     })
     _wait(started["background_job_id"])
     character_id = started["character_id"]
@@ -207,6 +218,49 @@ def portrait(args) -> None:
           "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
 
 
+## What PixelLab calls a template animation, as the state the game calls it.
+STATE_NAMES = {"walking": "walk", "taking_a_punch": "hit", "falling_backward": "death", "attack_words": "attack"}
+DIRECTIONS = ("south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west")
+
+
+def unpack(args) -> None:
+    """An export zip into the art layout: <dest>/idle/<facing>.png, <dest>/<state>/<facing>/frame_000.png."""
+    dest = ROOT / args.dest
+    placed = {}
+    with zipfile.ZipFile(ROOT / args.zip) as export:
+        for entry in export.namelist():
+            parts = entry.split("/")
+            if not entry.endswith(".png"):
+                continue
+            if parts[-2] == "rotations" and parts[-1][:-4] in DIRECTIONS:
+                target = dest / "idle" / parts[-1]
+            elif len(parts) >= 4 and parts[-4] == "animations" and parts[-2] in DIRECTIONS:
+                # Facings added later come back in a folder of their own: attack-9c934341.
+                name = re.sub(r"-[0-9a-f]{8}$", "", parts[-3])
+                state = STATE_NAMES.get(name, name)
+                target = dest / state / parts[-2] / parts[-1]
+            else:
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(export.read(entry))
+            state = target.relative_to(dest).parts[0]
+            placed[state] = placed.get(state, 0) + 1
+        manifest = json.loads(export.read("metadata.json")) if "metadata.json" in export.namelist() else {}
+    # Every folder keeps how it was made ([19]): this character's lines from the log, then PixelLab's manifest.
+    ids = {state["character"]["id"] for state in manifest.get("states", [])}
+    log = DOWNLOADS / "log.jsonl"
+    made = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines()] if log.exists() else []
+    record = {
+        "id": dest.name,
+        "view": "low top-down",
+        "generations": [entry for entry in made if entry.get("character_id") in ids],
+        "pixellab": manifest,
+    }
+    (dest / "metadata.json").write_text(json.dumps(record, indent=1, ensure_ascii=False), encoding="utf-8")
+    for state, count in sorted(placed.items()):
+        print("%-8s %d images" % (state, count))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -228,6 +282,8 @@ def main() -> None:
     d.add_argument("--outfit", help='defaults to "dress him as" + the unit\'s prompt')
     d.add_argument("--base", default=BASE_CHARACTER)
     d.add_argument("--style", default=BLEND_STYLE, help='the finish asked for; --style "" for the plain base look')
+    d.add_argument("--canvas", type=int, nargs=2, default=[DRESS_CANVAS["width"], DRESS_CANVAS["height"]],
+                   metavar=("W", "H"), help="bigger for big units; multiples of 4")
 
     a = commands.add_parser("animate", help="an animation on a character made by `character`")
     a.add_argument("character_id")
@@ -238,6 +294,10 @@ def main() -> None:
     a.add_argument("--frames", type=int, default=8)
     a.add_argument("--directions", default="south,east,north,west")
     a.add_argument("--zip", help="zip name")
+
+    u = commands.add_parser("unpack", help="an export zip into art/<...>/<state>/<facing>/")
+    u.add_argument("zip")
+    u.add_argument("dest")
 
     p = commands.add_parser("portrait", help="a bust portrait from a body sprite")
     p.add_argument("image")
@@ -250,6 +310,8 @@ def main() -> None:
         print(json.dumps(_call("GET", "/balance"), indent=1))
     elif args.command == "character":
         character(args)
+    elif args.command == "unpack":
+        unpack(args)
     elif args.command == "dress":
         dress(args)
     elif args.command == "animate":
