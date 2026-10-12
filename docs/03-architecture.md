@@ -11,7 +11,7 @@ src/chronicle/         the world model — pure logic, no nodes, fully serialisa
   ▲
 GameState (autoload)   owns the live World + Roster; save/load
   ▲
-scenes                 world walk / battle / dialogue — presentation and input only
+scenes                 world walk / the fight / dialogue — presentation and input only
   ▲
 EventBus (autoload)    how any of the above talk to each other
 ```
@@ -63,19 +63,20 @@ src/
     fall.gd                    Crash sites, the landing beat, "Ascend to heaven" (M13)
     wanderers.gd               The others of the sixteen, walking between places by temper (M13)
     siblings.gd                Sibling worlds: the earlier lead alive, their weapon, their ghost (M15)
-  battle/                      Tactics core (working)
-    battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
-    turn_manager.gd            Charge-time order + lookahead
+  battle/                      What the fight is built on: the field and the people on it
     grid/                      battle_grid · pathfinder · move_field · grid_overlay
     units/unit.gd              The battle puppet spawned from a Character (8-way facing)
     abilities/ability_resolver.gd   Targeting rules, facing bonuses, damage maths, grudges
-    ai/enemy_brain.gd          Multi-ability evaluation, ally healing, splash AOE scoring
-  skirmish/                    The real-time fight — M11 prototype of D36, beside battle/
-    skirmish.tscn/.gd          Fixed-tick loop, pause, orders, stepping, casting, near death
+  skirmish/                    The fight: real time with pause (M11, D36, D64) — every fight
+                               the world starts, the coliseum and training (scene key `skirmish`)
+    skirmish.tscn/.gd          Fixed-tick loop, pause, orders, stepping, casting, near death;
+                               the encounter in, and experience, wounds and the fallen out (D65)
     fighter.gd                 One combatant's real-time state: order, cooldowns, cast, step
     skirmish_brain.gd          Targeting and Auto Skill choices, returned as plans
     skirmish_rules.gd          Every timing in seconds; defaults for generated abilities
+    skirmish_passives.gd       Passives and enemy roles, read from data/skirmish.json
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
+    skirmish_fx.gd · skirmish_slot.gd     Numbers, flashes and rings; a skill tile's cooldown sweep
   world/                       The continent: the step clock and every site interaction, run out
                                of sight for the ground on each step; the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
@@ -87,7 +88,7 @@ src/
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
-  ui/                          Battle HUD, title screen, party screen, system menu, stash,
+  ui/                          Title screen, party screen, system menu, stash,
                                Guild hall, journal (bestiary, routes, annals), museum (hero dossiers),
                                credits (credits_roll.gd lays out data/credits.json for both places)
 ```
@@ -100,20 +101,21 @@ The single most important split in the codebase.
 | ----------- | ----------------------------------------- | -------------------------- |
 | Lives in    | `src/chronicle/`                          | `src/battle/units/`        |
 | Is a        | `RefCounted` data object                  | `Node2D` that draws itself |
-| Lifetime    | The whole save                            | One battle                 |
-| Knows about | Levels, XP, class, doctrine, death        | HP, cell, facing, CT       |
+| Lifetime    | The whole save                            | One fight                  |
+| Knows about | Levels, XP, class, doctrine, death        | HP, cell, facing           |
 | Stats       | Computed from template + class + doctrine | Copied in at spawn         |
 
-Battles read Characters in and write results back out. Nothing in `src/battle/` may store
+A fight reads Characters in and writes results back out (wounds as a share of health, experience,
+practice, the fallen through `Fate`). Nothing in `src/battle/` or `src/skirmish/` may store
 long-term state.
 
 ## The seams
 
 Places deliberately shaped so deferred features drop in without surgery.
 
-- **The mind seam.** `EnemyBrain.plan()` returns a _plan dictionary_ which the battle controller
-  executes. AI never mutates state. Swapping in an LLM mind means returning the same dictionary
-  from a different source.
+- **The mind seam.** `SkirmishBrain` returns choices — who to go after, which ready skill on whom —
+  and only the fight (`Skirmish`) carries them out. AI never mutates state. Swapping in an LLM mind
+  means returning the same answers from a different source.
 - **The authority seam.** `World` is one object with `to_dict()` / `from_dict()`. If the world
   ever moves to a server, the client keeps the same shape and asks for it over HTTP instead of
   generating it.
@@ -123,8 +125,9 @@ Places deliberately shaped so deferred features drop in without surgery.
 ## Determinism
 
 `World.rng` is a seeded `RandomNumberGenerator` and is the only source of world randomness —
-generation, gate ranks, tree generation, class choice. Same seed, same world. Battle-time
-variance (damage rolls, CT jitter) uses global randomness and is intentionally not reproducible.
+generation, gate ranks, tree generation, class choice. Same seed, same world. Fight-time
+variance (damage rolls, opening tempo, criticals) uses global randomness and is intentionally not
+reproducible; settling a fall uses `World.rng`, as it always has.
 
 ## Testing
 
@@ -137,10 +140,9 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
 | `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
 | `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid |
-| `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
 | `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
-| `tests/skirmish_smoke_test.tscn` | The real-time skirmish: pause, orders while paused, cooldowns, auto-pause, near death and aid, and a whole seeded fight on fixed ticks                  |
+| `tests/skirmish_smoke_test.tscn` | The fight: pause, orders while paused, cooldowns, auto-pause, near death and aid, a whole seeded fight on fixed ticks, D59's rules, allies and auto, and a fight on the road written back onto the world (experience, practice, the journal, a healer, draughts, wounds, a fall settled by Fate, `battle_finished`) |
 | `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
 | `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |
 | `tests/dispatch_smoke_test.tscn` | Companions sent on errands: leaving, the road on the step clock, being paid, coming home, a hunt won and lost, 400 trips to open gates, and rumours posting jobs |

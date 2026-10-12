@@ -26,25 +26,19 @@
 			"id": "encounter",
 			"when": "encounter",
 			"title": "A fight",
-			"text": "Turn order is charge time: every unit fills its bar at its own speed and acts at 100, so fast units act more often, not just sooner."
-		},
-		{
-			"id": "battle_turn",
-			"when": "battle_turn",
-			"title": "Your turn",
-			"text": "Move (blue tiles), then an ability (red tiles), then Wait to end the turn. Esc takes back a half-given order. Hover any tile to inspect it."
+			"text": "Fights run in real time and open paused. Space pauses and unpauses; give orders while paused. Right-click to move or attack, Q W E R for skills, and drag a box to pick several."
 		},
 		{
 			"id": "facing",
 			"when": "facing",
 			"title": "Facing matters",
-			"text": "The wedge on a token shows where it looks. Side hits deal 1.2×, back hits 1.5×. The tile you finish on decides how exposed you are."
+			"text": "The wedge on a token shows where it looks. Side hits deal 1.1×, back hits 1.2×. Send someone round the side of a foe who is busy with somebody else."
 		},
 		{
 			"id": "downed",
 			"when": "downed",
 			"title": "Falling is usually fatal",
-			"text": "A downed character rolls their graces — a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
+			"text": "A downed character has a few seconds for a friend to reach them — right-click them. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
 		},
 		{
 			"id": "settlement",

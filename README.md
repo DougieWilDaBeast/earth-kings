@@ -116,15 +116,19 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   Green (Summer), Brown (Autumn), and Ice (Winter), reflected in world HUD lore, dialogue, and areas.
 - **The Tower is ten floors**, each paying gold, a book every third, a generated skill tree
   every fourth, culminating in the Spire Archon climax on Floor 10.
-- **Battle** — on your unit's turn: **Move** (blue tiles), an ability (red tiles), then **Wait**
-  to end the turn. `Esc` cancels a selection. Hover any tile to inspect it.
-- **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.2×, back hits
-  1.5×. Units turn as they move, so the tile you finish on decides how exposed you are.
-- **Turn order is charge time** — each tick every unit gains CT equal to its speed and acts at 100.
-  Fast units act _more often_, not just sooner.
-- **Falling is usually fatal.** A downed character rolls their graces — a charm carried, an ally
-  still standing, a book they read, the ground they fell on — and dies if none of them land.
-  Raiders may take them alive instead. See [docs/02-design.md](docs/02-design.md).
+- **Fights are real time with pause** ([D36](docs/06-decisions.md), chosen in D58, D63 and D64).
+  Every fight opens paused: `Space` pauses and unpauses, and orders can be given while paused.
+  Left-click picks a fighter (drag a box for several, `Tab` for everyone); right-click moves,
+  attacks, or goes to help a fallen friend; `Q W E R` ready a skill; `A` switches a fighter's
+  skills between automatic and by hand; `H` holds them in place; `T` changes speed; `N` opens the
+  journal. Everyone swings on their own tempo, set by their speed. See
+  [docs/18](docs/18-combat-direction.md).
+- **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.1×, back hits
+  1.2×.
+- **Falling is usually fatal.** A downed character has twelve seconds for a friend to reach them.
+  If nobody does, they roll their graces — a charm carried, an ally still standing, a book they
+  read, the ground they fell on — and die if none of them land. Raiders may take them alive
+  instead. See [docs/02-design.md](docs/02-design.md).
 - **The run follows you, not the party.** Companions can all die and the story goes on; when your
   own character falls, it stops. Hire replacements in towns — everyone is looking out for
   themselves, and they all have a price. In **Classic** the fall stops on a choice: **Reload** the
@@ -148,11 +152,8 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   character has read and what is close to fading. It also shows the **Codex** — how much of the
   world's power grammar has been catalogued.
 - **Losing everyone ends the run** and returns you to the title.
-- **The real-time skirmish (prototype).** Title → Training → **Fight in real time**. The move to
-  real time with pause ([D36](docs/06-decisions.md)) being tried out beside the turn-based fight:
-  right-click to move or attack, `Q W E R` for skills, `Space` to pause and give orders, `T` for
-  speed, `A` for auto skills, `H` to hold. A training fight only — nothing is written back. See
-  [docs/18](docs/18-combat-direction.md#the-prototype).
+- **Training.** Title → Training → **Fight this** throws any unit at the party in a sandbox fight:
+  the party walks off whole and nothing is written back.
 
 ## Project layout
 
@@ -167,6 +168,7 @@ data/                     Game content as plain JSON — edit without opening th
   factions.json           Cohort groupings and faction allegiance
   threads.json            Skein story thread definitions, stages, and deadlines
   coliseum.json           Gladiator cards, waves, bouts, wagers, free-for-all cohorts
+  skirmish.json           The fight's rules, passives, enemy roles, the training pouch, scenery
   banter.json             Exchanges, occasions, moods, tokens, campfire reflections
   tips.json               First-time tips: when each fires and what it says
   how_to_play.json        The How to Play page, section by section
@@ -202,21 +204,24 @@ src/
     ward.gd               Obstacle and gate clearance via keys or abilities
     loot.gd · gear.gd     Pack management, suit fit, draughts, stores
     site.gd · world.gd · world_gen.gd   Places, the step clock, world generation
-  battle/
-    battle.tscn/.gd       Phase machine, input routing, turn loop
-    turn_manager.gd       Charge-time turn order + lookahead
+  skirmish/
+    skirmish.tscn/.gd     The fight: the clock, orders, and writing the fight back onto the world
+    fighter.gd            One combatant's real-time state: orders, cooldowns, energy, near death
+    skirmish_brain.gd     Who to swing at and which ready skill to use; returns a plan
+    skirmish_rules.gd     Every timing in seconds: steps, swings, cooldowns, casts
+    skirmish_passives.gd  Passives and enemy roles, read from data/skirmish.json
+    skirmish_hud.gd       The clock, the party cards, the log, the touch buttons
+  battle/                 What the fight is built on
     grid/
       battle_grid.gd      Terrain, coordinate conversion, tile rendering
       pathfinder.gd       Dijkstra flood-fill honouring move cost + jump
       move_field.gd       Reachable cells and the path back
       grid_overlay.gd     Range / path / cursor highlights
-    units/unit.gd         Combatant stats, facing, damage, walk animation
+    units/unit.gd         Combatant stats, facing, damage, drawing
     abilities/ability_resolver.gd  Targeting rules, flanking, damage maths
-    ai/enemy_brain.gd     Plans a move + attack; returns it for the controller to execute
   world/                  Walk mode: the map, the step clock, every site interaction
   area/                   Places walked around close up — towns, halls, the camp fire
   dialogue/               Conversation overlay
-  ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
   ui/system_menu.tscn     In-game menu (save / load in Classic only), opened via EventBus
   ui/credits_screen.tscn  Credits off the title (also a page of the system menu), from data/credits.json
@@ -255,7 +260,6 @@ and macOS). **Every pull request runs them in CI**, with a two-minute seeded soa
 `-- --check=name` to run a single check (see [docs/10](docs/10-manual-tests.md#automated-tests)):
 
 ```powershell
-godot --headless --path . res://tests/battle_smoke_test.tscn
 godot --headless --path . res://tests/skirmish_smoke_test.tscn
 godot --headless --path . res://tests/experience_smoke_test.tscn
 godot --headless --path . res://tests/dispatch_smoke_test.tscn

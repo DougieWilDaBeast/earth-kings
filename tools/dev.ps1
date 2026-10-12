@@ -9,7 +9,7 @@
 
 $script:Godot = "C:\Dev\Godot_v4.7.2-stable_win64_console.exe"
 $script:Project = "C:\Dev\earth-kings"
-$script:Suites = @("battle", "world", "walk", "area", "skein", "wishlist")
+$script:Suites = @("skirmish", "world", "walk", "area", "skein", "wishlist")
 
 
 function Join-Flags {

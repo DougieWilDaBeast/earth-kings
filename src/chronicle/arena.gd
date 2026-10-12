@@ -4,7 +4,7 @@ extends RefCounted
 ##
 ## The storyline is a country you walk across once. This is the other thing —
 ## you pick somebody, you go out, and you keep going out until you cannot. It
-## borrows [Battle] and nothing else: the roster you take in is built here and
+## borrows the fight and nothing else: the roster you take in is built here and
 ## thrown away here, the real one is stashed while you are on the sand, and
 ## nobody who falls in front of a crowd actually dies.
 ##
@@ -15,7 +15,7 @@ const SaveFile := preload("res://src/chronicle/save_file.gd")
 
 ## Written down between sessions: how far anyone has ever got.
 const PATH := "user://earth-kings.arena.json"
-## Battle sets this rather than `last_victory`, so a wave never looks like a
+## The fight sets this rather than `last_victory`, so a wave never looks like a
 ## fight the world should settle.
 const VICTORY_FLAG := "arena_victory"
 
@@ -138,6 +138,8 @@ static func wave(rng: RandomNumberGenerator, return_payload: Dictionary = {}) ->
 		"return_scene": "coliseum",
 		"return_payload": return_payload,
 		"sandbox": true,
+		# The company on the sand is a copy, so it may grow round by round.
+		"learn": true,
 		# The crowd does not put you back together between rounds.
 		"heal": false,
 	}

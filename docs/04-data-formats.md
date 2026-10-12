@@ -68,15 +68,14 @@ The base stat block a `Character` is built from, and what a monster is.
 - `target` — `enemy` · `ally` · `any` · `self`
 - `power` — multiplier on attack. With `"heal": true` it is instead flat HP restored.
 - `splash` — Manhattan radius around the target cell. `0` is single-target.
-- `bonus: true` — a minor ability that costs the bonus action instead of the main action.
-- `cooldown` — seconds before it can be used again, in the real-time skirmish (M11 prototype,
-  [D36](06-decisions.md)). Ignored by the turn-based battle.
-- `cast` — seconds of wind-up before it lands, in the skirmish. `0` lands at once. A cast of
+- `bonus: true` — a minor ability: its default cooldown is a short 4 s and it lands with no wind-up.
+- `cooldown` — seconds before it can be used again in the fight ([D36](06-decisions.md)).
+- `cast` — seconds of wind-up before it lands. `0` lands at once. A cast of
   `rules.charged_from` (2 s) or more in `skirmish.json` is **charged**: it hits `charged_power` (1.6×)
   harder and costs `charged_energy`, and a stun breaks it off ([D59](06-decisions.md)).
-- `stun` — seconds the target is stunned, in the skirmish: it cannot step, swing or cast, and a
-  cast it was winding up is lost. Ignored by the turn-based battle.
-- `energy` — what the skill costs from the user's energy bar in the skirmish. Optional; otherwise
+- `stun` — seconds the target is stunned: it cannot step, swing or cast, and a cast it was
+  winding up is lost.
+- `energy` — what the skill costs from the user's energy bar. Optional; otherwise
   `rules.energy_cost`, or `charged_energy` for a charged spell.
 
 Both timings are optional. An ability without them — every generated one — gets them from the
@@ -115,7 +114,7 @@ are stored inside the save's tree definitions, not in this file.
   penalty on the bonus stats.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
-  or in combat for a bonus action (`"heal": 25`).
+  or in a fight from the fighter's card, which takes 1.5 s (`"heal": 25`).
 - `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
   suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
   out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
@@ -511,9 +510,9 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
 - `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
-## `skirmish.json` — passives, enemy roles and feel for the real-time fight
+## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
-Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#the-prototype)).
+Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
 
 ```json
 {
@@ -523,7 +522,8 @@ Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#t
              "energy_max": 100.0, "energy_regen": 5.0, "energy_cost": 20.0, "charged_energy": 35.0,
              "energy_recover_at": 0.5, "charged_from": 2.0, "charged_power": 1.6,
              "use_item_time": 1.5, "items_per_fighter": 2,
-             "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4 },
+             "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
+             "ambush_head_start": 2.0, "swings_per_practice": 3 },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -538,17 +538,24 @@ Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#t
   "ranged_role": "kiter",
   "healer_role": "healer",
   "shield_bearers": { "by_class": ["sworn_blade"], "by_ability": ["shield_bash"] },
-  "training_pouch": { "herbs": 2, "red_draught": 1 }
+  "training_pouch": { "herbs": 2, "red_draught": 1 },
+  "decor": { "trees": ["nature/great_oak", "…"], "bushes": ["nature/bramble", "…"] }
 }
 ```
 
 - **Energy** ([D59](06-decisions.md)): every fighter starts with `energy_max`, gets `energy_regen` a
   second back, and pays for each skill. Below `energy_cost` they are **tired** — basic attacks only —
   until the bar is back to `energy_recover_at` of full.
-- **Draughts and herbs**: the pouch is the party's draughts in `GameState.stores`, or
-  `training_pouch` when there are none; nothing used is taken from the stores. A use takes
+- **Draughts and herbs**: the pouch is the party's draughts in `GameState.stores`; in a fight the
+  world started what is used is taken from the stores ([D65](06-decisions.md)). A sandbox fight
+  (training, the coliseum) only counts them, and uses `training_pouch` when there are none. A use takes
   `use_item_time` seconds, mends the item's `mends` × `HEALTH_SCALE`, and a fighter has at most
   `items_per_fighter` a fight.
+- `ambush_head_start` — seconds an ambushed side's opening is held back while the party acts at
+  once. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+  every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
+- `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
+  field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.
 - **Shields**: a unit with a class, ability or template (`by_template`) under `shield_bearers` blocks a
   melee basic attack that does not come from behind, with a chance of `block_chance` +
   `block_per_defence` × its defence, at most `block_max`. Not while casting, using an item or stunned.

@@ -11,7 +11,6 @@ const SCENES := {
 	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
 	"area": "res://src/area/area_scene.tscn",
-	"battle": "res://src/battle/battle.tscn",
 	"skirmish": "res://src/skirmish/skirmish.tscn",
 	"training": "res://src/training/training_ground.tscn",
 	"coliseum": "res://src/coliseum/coliseum.tscn",
@@ -67,7 +66,7 @@ func back_out() -> void:
 
 
 ## Scenes where Start brings up the menu. Everywhere else is a menu already.
-const MENU_FROM_SCENES := ["world", "area", "battle", "skirmish", "training", "coliseum"]
+const MENU_FROM_SCENES := ["world", "area", "skirmish", "training", "coliseum"]
 ## Scenes where the pad's journal button opens the journal. In a fight the same
 ## button is Wait.
 const JOURNAL_FROM_SCENES := ["world", "area"]
