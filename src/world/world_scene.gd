@@ -113,6 +113,7 @@ func _ready() -> void:
 	for edge: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
 		EventBus.journal_requested, EventBus.stash_requested, EventBus.guild_requested,
+		EventBus.how_to_play_requested,
 		EventBus.overlay_closed,
 	]:
 		edge.connect(_watch_overlays)
@@ -353,6 +354,10 @@ func _step(direction: Vector2i) -> void:
 	_look_down_the_road(target)
 	_check_party()
 	_refresh()
+	EventBus.tip_moment.emit("step", {
+		"danger": Encounter.chance_at(world, target), "steps": world.steps,
+		"season_turned": Season.just_turned(world.steps),
+	})
 
 
 ## Somebody else's fight, in front of you, that you did not cause and do not
@@ -632,6 +637,18 @@ func _arrive_at(site: Site) -> void:
 	for line: String in Wanderers.on_arrive(world, site):
 		_note(line)
 	_check_for_captives(site)
+	_say_what_is_new_here(site)
+
+
+## Places a newcomer may never have stood in before, said out loud for whatever
+## teaches them (the tip card). Nobody here knows whether anyone listens.
+func _say_what_is_new_here(site: Site) -> void:
+	if Town.is_settlement(site) and not Town.is_ruined(site):
+		EventBus.tip_moment.emit("settlement", {})
+	if Guild.has_hall(site):
+		EventBus.tip_moment.emit("guild", {})
+	if site.kind in [Site.GATE, Site.LIBRARY, Site.TOWER, Site.HOME]:
+		EventBus.tip_moment.emit(site.kind, {})
 
 
 func _stand_at_grave(site: Site) -> void:
@@ -1470,6 +1487,7 @@ func _errands_here() -> void:
 	else:
 		_note("%s asks: %s" % [taken["giver"], taken["title"]])
 		_note(Errand.detail(taken))
+		EventBus.tip_moment.emit("errand", {})
 	_map.queue_redraw()
 	_refresh()
 	_say_what_can_be_done()

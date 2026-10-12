@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	_check_settings_are_kept()
+	await _check_tips_and_how_to_play()
 	await _check_the_pad()
 
 	if _failures.is_empty():
@@ -471,6 +472,70 @@ func _check_settings_are_kept() -> void:
 		"the fullscreen button does not follow the fullscreen key"
 	)
 	slider.value = sfx_was
+
+
+# --- tips and how to play ------------------------------------------------------
+
+
+## A tip is said once, never while the game plays itself, and not at all with
+## tips off. How to Play opens over the menu and Back shuts the page, not the
+## menu under it. The player's own tip record is put back afterwards.
+func _check_tips_and_how_to_play() -> void:
+	var tips := preload("res://src/ui/tips.gd")
+	var config := ConfigFile.new()
+	config.load(Pace.SETTINGS_PATH)
+	var seen_was: Variant = config.get_value("tips", "seen", PackedStringArray())
+	var enabled_was := tips.enabled()
+	var card: Node = _game.get_node("TipCard")
+
+	var ids := {}
+	for tip: Dictionary in tips.all():
+		var id := str(tip.get("id", ""))
+		_expect(id != "" and not ids.has(id), "tip '%s' has no id or shares one" % id)
+		ids[id] = true
+		for field: String in ["when", "title", "text"]:
+			_expect(str(tip.get(field, "")) != "", "tip '%s' has no %s" % [id, field])
+
+	tips.reset()
+	tips.set_enabled(true)
+	card._queue.clear()
+	card.dismiss()
+	Pace.auto = true
+	EventBus.tip_moment.emit("errand", {})
+	_expect(not card.is_showing(), "a tip was shown while the game was playing itself")
+	_expect(not tips.seen("errand"), "a tip was spent while the game was playing itself")
+	Pace.auto = false
+	EventBus.tip_moment.emit("errand", {})
+	_expect(card.showing_id() == "errand", "the errand tip was not shown the first time")
+	card.dismiss()
+	EventBus.tip_moment.emit("errand", {})
+	_expect(not card.is_showing(), "the errand tip was shown a second time")
+	tips.reset()
+	tips.set_enabled(false)
+	EventBus.tip_moment.emit("errand", {})
+	_expect(not card.is_showing(), "a tip was shown with tips switched off")
+
+	var page: Node = _game.get_node("HowToPlay")
+	EventBus.system_menu_requested.emit()
+	EventBus.how_to_play_requested.emit()
+	await _settle()
+	_expect(page.is_open(), "How to Play did not open from the menu")
+	var said: String = page.get_node("Root").find_child("Body", true, false).get_parsed_text()
+	for section: Dictionary in page.sections():
+		_expect(said.contains(str(section["heading"])), "How to Play is missing %s" % section["heading"])
+	var cancel := _action("ui_cancel")
+	Input.parse_input_event(cancel)
+	await _settle()
+	_expect(not page.is_open(), "Back did not shut How to Play")
+	_expect(_menu.is_open(), "Back shut the menu under How to Play as well")
+	_menu.close()
+	print("tips: %d, how to play: %d sections" % [ids.size(), page.sections().size()])
+
+	tips.set_enabled(enabled_was)
+	config = ConfigFile.new()
+	config.load(Pace.SETTINGS_PATH)
+	config.set_value("tips", "seen", seen_was)
+	config.save(Pace.SETTINGS_PATH)
 
 
 func _expect(condition: bool, failure: String) -> void:
