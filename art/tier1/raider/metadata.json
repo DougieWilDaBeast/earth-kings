@@ -1,0 +1,361 @@
+{
+ "id": "raider",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "raider",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as Raider — a brutish bandit in mismatched scavenged armour over rust-red rags, iron-studded mace, cloth wrapped over the lower face",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 37.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "attack",
+   "action": "an overhead smash with the iron-studded mace",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 49.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "skill",
+   "action": "a heavy spinning swing of the mace all the way around",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 32.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 35.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 39.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 26.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 27.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "attack",
+   "action": "an overhead smash with the iron-studded mace",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 27.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+   "name": "attack",
+   "action": "an overhead smash with the iron-studded mace",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/raider_base.zip",
+   "generations": 2.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "0c0cd469-64b3-4cdf-8db3-fd2cd8cc9a06",
+     "name": "raider",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:40:00.045712+00:00"
+    },
+    "folder": "raider",
+    "frames": {
+     "rotations": {
+      "south": "raider/rotations/south.png",
+      "south-east": "raider/rotations/south-east.png",
+      "east": "raider/rotations/east.png",
+      "north-east": "raider/rotations/north-east.png",
+      "north": "raider/rotations/north.png",
+      "north-west": "raider/rotations/north-west.png",
+      "west": "raider/rotations/west.png",
+      "south-west": "raider/rotations/south-west.png"
+     },
+     "animations": {
+      "attack": {
+       "west": [
+        "raider/animations/attack/west/frame_000.png",
+        "raider/animations/attack/west/frame_001.png",
+        "raider/animations/attack/west/frame_002.png",
+        "raider/animations/attack/west/frame_003.png",
+        "raider/animations/attack/west/frame_004.png",
+        "raider/animations/attack/west/frame_005.png",
+        "raider/animations/attack/west/frame_006.png",
+        "raider/animations/attack/west/frame_007.png",
+        "raider/animations/attack/west/frame_008.png"
+       ]
+      },
+      "attack-1640c9d9": {
+       "south": [
+        "raider/animations/attack-1640c9d9/south/frame_000.png",
+        "raider/animations/attack-1640c9d9/south/frame_001.png",
+        "raider/animations/attack-1640c9d9/south/frame_002.png",
+        "raider/animations/attack-1640c9d9/south/frame_003.png",
+        "raider/animations/attack-1640c9d9/south/frame_004.png",
+        "raider/animations/attack-1640c9d9/south/frame_005.png",
+        "raider/animations/attack-1640c9d9/south/frame_006.png",
+        "raider/animations/attack-1640c9d9/south/frame_007.png",
+        "raider/animations/attack-1640c9d9/south/frame_008.png"
+       ],
+       "east": [
+        "raider/animations/attack-1640c9d9/east/frame_000.png",
+        "raider/animations/attack-1640c9d9/east/frame_001.png",
+        "raider/animations/attack-1640c9d9/east/frame_002.png",
+        "raider/animations/attack-1640c9d9/east/frame_003.png",
+        "raider/animations/attack-1640c9d9/east/frame_004.png",
+        "raider/animations/attack-1640c9d9/east/frame_005.png",
+        "raider/animations/attack-1640c9d9/east/frame_006.png",
+        "raider/animations/attack-1640c9d9/east/frame_007.png",
+        "raider/animations/attack-1640c9d9/east/frame_008.png"
+       ]
+      },
+      "walking": {
+       "north": [
+        "raider/animations/walking/north/frame_000.png",
+        "raider/animations/walking/north/frame_001.png",
+        "raider/animations/walking/north/frame_002.png",
+        "raider/animations/walking/north/frame_003.png",
+        "raider/animations/walking/north/frame_004.png",
+        "raider/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "raider/animations/walking/south/frame_000.png",
+        "raider/animations/walking/south/frame_001.png",
+        "raider/animations/walking/south/frame_002.png",
+        "raider/animations/walking/south/frame_003.png",
+        "raider/animations/walking/south/frame_004.png",
+        "raider/animations/walking/south/frame_005.png"
+       ],
+       "west": [
+        "raider/animations/walking/west/frame_000.png",
+        "raider/animations/walking/west/frame_001.png",
+        "raider/animations/walking/west/frame_002.png",
+        "raider/animations/walking/west/frame_003.png",
+        "raider/animations/walking/west/frame_004.png",
+        "raider/animations/walking/west/frame_005.png"
+       ],
+       "east": [
+        "raider/animations/walking/east/frame_000.png",
+        "raider/animations/walking/east/frame_001.png",
+        "raider/animations/walking/east/frame_002.png",
+        "raider/animations/walking/east/frame_003.png",
+        "raider/animations/walking/east/frame_004.png",
+        "raider/animations/walking/east/frame_005.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "raider/animations/taking_a_punch/west/frame_000.png",
+        "raider/animations/taking_a_punch/west/frame_001.png",
+        "raider/animations/taking_a_punch/west/frame_002.png",
+        "raider/animations/taking_a_punch/west/frame_003.png",
+        "raider/animations/taking_a_punch/west/frame_004.png",
+        "raider/animations/taking_a_punch/west/frame_005.png"
+       ]
+      },
+      "attack-686c4c79": {
+       "north": [
+        "raider/animations/attack-686c4c79/north/frame_000.png",
+        "raider/animations/attack-686c4c79/north/frame_001.png",
+        "raider/animations/attack-686c4c79/north/frame_002.png",
+        "raider/animations/attack-686c4c79/north/frame_003.png",
+        "raider/animations/attack-686c4c79/north/frame_004.png",
+        "raider/animations/attack-686c4c79/north/frame_005.png",
+        "raider/animations/attack-686c4c79/north/frame_006.png",
+        "raider/animations/attack-686c4c79/north/frame_007.png",
+        "raider/animations/attack-686c4c79/north/frame_008.png"
+       ]
+      },
+      "taking_a_punch-75ac86ee": {
+       "east": [
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_000.png",
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_001.png",
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_002.png",
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_003.png",
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_004.png",
+        "raider/animations/taking_a_punch-75ac86ee/east/frame_005.png"
+       ],
+       "south": [
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_000.png",
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_001.png",
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_002.png",
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_003.png",
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_004.png",
+        "raider/animations/taking_a_punch-75ac86ee/south/frame_005.png"
+       ],
+       "north": [
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_000.png",
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_001.png",
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_002.png",
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_003.png",
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_004.png",
+        "raider/animations/taking_a_punch-75ac86ee/north/frame_005.png"
+       ]
+      },
+      "skill": {
+       "south": [
+        "raider/animations/skill/south/frame_000.png",
+        "raider/animations/skill/south/frame_001.png",
+        "raider/animations/skill/south/frame_002.png",
+        "raider/animations/skill/south/frame_003.png",
+        "raider/animations/skill/south/frame_004.png",
+        "raider/animations/skill/south/frame_005.png",
+        "raider/animations/skill/south/frame_006.png",
+        "raider/animations/skill/south/frame_007.png",
+        "raider/animations/skill/south/frame_008.png"
+       ],
+       "east": [
+        "raider/animations/skill/east/frame_000.png",
+        "raider/animations/skill/east/frame_001.png",
+        "raider/animations/skill/east/frame_002.png",
+        "raider/animations/skill/east/frame_003.png",
+        "raider/animations/skill/east/frame_004.png",
+        "raider/animations/skill/east/frame_005.png",
+        "raider/animations/skill/east/frame_006.png",
+        "raider/animations/skill/east/frame_007.png",
+        "raider/animations/skill/east/frame_008.png"
+       ],
+       "west": [
+        "raider/animations/skill/west/frame_000.png",
+        "raider/animations/skill/west/frame_001.png",
+        "raider/animations/skill/west/frame_002.png",
+        "raider/animations/skill/west/frame_003.png",
+        "raider/animations/skill/west/frame_004.png",
+        "raider/animations/skill/west/frame_005.png",
+        "raider/animations/skill/west/frame_006.png",
+        "raider/animations/skill/west/frame_007.png",
+        "raider/animations/skill/west/frame_008.png"
+       ],
+       "north": [
+        "raider/animations/skill/north/frame_000.png",
+        "raider/animations/skill/north/frame_001.png",
+        "raider/animations/skill/north/frame_002.png",
+        "raider/animations/skill/north/frame_003.png",
+        "raider/animations/skill/north/frame_004.png",
+        "raider/animations/skill/north/frame_005.png",
+        "raider/animations/skill/north/frame_006.png",
+        "raider/animations/skill/north/frame_007.png",
+        "raider/animations/skill/north/frame_008.png"
+       ]
+      },
+      "falling_backward": {
+       "north": [
+        "raider/animations/falling_backward/north/frame_000.png",
+        "raider/animations/falling_backward/north/frame_001.png",
+        "raider/animations/falling_backward/north/frame_002.png",
+        "raider/animations/falling_backward/north/frame_003.png",
+        "raider/animations/falling_backward/north/frame_004.png",
+        "raider/animations/falling_backward/north/frame_005.png",
+        "raider/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "raider/animations/falling_backward/south/frame_000.png",
+        "raider/animations/falling_backward/south/frame_001.png",
+        "raider/animations/falling_backward/south/frame_002.png",
+        "raider/animations/falling_backward/south/frame_003.png",
+        "raider/animations/falling_backward/south/frame_004.png",
+        "raider/animations/falling_backward/south/frame_005.png",
+        "raider/animations/falling_backward/south/frame_006.png"
+       ],
+       "east": [
+        "raider/animations/falling_backward/east/frame_000.png",
+        "raider/animations/falling_backward/east/frame_001.png",
+        "raider/animations/falling_backward/east/frame_002.png",
+        "raider/animations/falling_backward/east/frame_003.png",
+        "raider/animations/falling_backward/east/frame_004.png",
+        "raider/animations/falling_backward/east/frame_005.png",
+        "raider/animations/falling_backward/east/frame_006.png"
+       ],
+       "west": [
+        "raider/animations/falling_backward/west/frame_000.png",
+        "raider/animations/falling_backward/west/frame_001.png",
+        "raider/animations/falling_backward/west/frame_002.png",
+        "raider/animations/falling_backward/west/frame_003.png",
+        "raider/animations/falling_backward/west/frame_004.png",
+        "raider/animations/falling_backward/west/frame_005.png",
+        "raider/animations/falling_backward/west/frame_006.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T09:23:36.587995"
+ }
+}

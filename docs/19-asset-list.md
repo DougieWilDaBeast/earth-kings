@@ -95,6 +95,11 @@ onto the founders' blank base body with `python3 tools/pixellab.py dress <unit>`
 `animate` (words for attacks, `--template-animation walk --mode skeleton-v3` for stock moves).
 Non-humanoids (wolf, slime) are made with `character` and the matching template.
 
+**Generated 2026-10-12:** 1.1–1.3 (`sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`,
+`goblin`, `raider`, `wolf`, `club_ogre`), each with idle in eight facings and walk, attack, skill, hit
+and death in four, staged in [`art/tier1/`](../art/tier1/README.md), not yet used by the game. 1.4
+and 1.5 (effects and UI) are still to make.
+
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
 

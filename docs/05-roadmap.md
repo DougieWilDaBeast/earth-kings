@@ -115,8 +115,10 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
 1. **Confirm the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md),
    **Inferred**). `dougie` handed the call over on 2026-10-12; `doug-md` has not seen it. The size
    test, the base body dressed as Bram and what each cost are in
-   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`. Tier 1
-   of [19](19-asset-list.md) can be generated from here (`tools/pixellab.py dress`).
+   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`. Tier 1's
+   eight units are generated and staged in [`art/tier1/`](../art/tier1/README.md), and the sixteen
+   have a first look on the base ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)).
+   Still to say: whether to switch the game to the base look now, eight at a time, or all at once.
 2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
    Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
    whether M11 replaces the turn loop ([D36](06-decisions.md)).

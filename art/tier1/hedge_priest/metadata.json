@@ -1,0 +1,346 @@
+{
+ "id": "hedge_priest",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "hedge_priest",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as Hedge Priest — a stooped village healer in a patched violet-grey robe, satchel of herbs, knotted rope belt, gnarled walking staff, no armour",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 57.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 96.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "attack",
+   "action": "a two-handed swing of the gnarled walking staff",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 23.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "skill",
+   "action": "raising the staff overhead as a soft green healing light gathers around it",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 26.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 34.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 201.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "skill",
+   "action": "raising the staff overhead as a soft green healing light gathers around it",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 19.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/hedge_priest_base.zip",
+   "generations": 40.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "b70acceb-d93f-45eb-ac25-e0b67ec29239",
+     "name": "hedge_priest",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:40:00.090757+00:00"
+    },
+    "folder": "hedge_priest",
+    "frames": {
+     "rotations": {
+      "south": "hedge_priest/rotations/south.png",
+      "south-east": "hedge_priest/rotations/south-east.png",
+      "east": "hedge_priest/rotations/east.png",
+      "north-east": "hedge_priest/rotations/north-east.png",
+      "north": "hedge_priest/rotations/north.png",
+      "north-west": "hedge_priest/rotations/north-west.png",
+      "west": "hedge_priest/rotations/west.png",
+      "south-west": "hedge_priest/rotations/south-west.png"
+     },
+     "animations": {
+      "skill": {
+       "west": [
+        "hedge_priest/animations/skill/west/frame_000.png",
+        "hedge_priest/animations/skill/west/frame_001.png",
+        "hedge_priest/animations/skill/west/frame_002.png",
+        "hedge_priest/animations/skill/west/frame_003.png",
+        "hedge_priest/animations/skill/west/frame_004.png",
+        "hedge_priest/animations/skill/west/frame_005.png",
+        "hedge_priest/animations/skill/west/frame_006.png",
+        "hedge_priest/animations/skill/west/frame_007.png",
+        "hedge_priest/animations/skill/west/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "hedge_priest/animations/taking_a_punch/west/frame_000.png",
+        "hedge_priest/animations/taking_a_punch/west/frame_001.png",
+        "hedge_priest/animations/taking_a_punch/west/frame_002.png",
+        "hedge_priest/animations/taking_a_punch/west/frame_003.png",
+        "hedge_priest/animations/taking_a_punch/west/frame_004.png",
+        "hedge_priest/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "east": [
+        "hedge_priest/animations/taking_a_punch/east/frame_000.png",
+        "hedge_priest/animations/taking_a_punch/east/frame_001.png",
+        "hedge_priest/animations/taking_a_punch/east/frame_002.png",
+        "hedge_priest/animations/taking_a_punch/east/frame_003.png",
+        "hedge_priest/animations/taking_a_punch/east/frame_004.png",
+        "hedge_priest/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "south": [
+        "hedge_priest/animations/taking_a_punch/south/frame_000.png",
+        "hedge_priest/animations/taking_a_punch/south/frame_001.png",
+        "hedge_priest/animations/taking_a_punch/south/frame_002.png",
+        "hedge_priest/animations/taking_a_punch/south/frame_003.png",
+        "hedge_priest/animations/taking_a_punch/south/frame_004.png",
+        "hedge_priest/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "north": [
+        "hedge_priest/animations/taking_a_punch/north/frame_000.png",
+        "hedge_priest/animations/taking_a_punch/north/frame_001.png",
+        "hedge_priest/animations/taking_a_punch/north/frame_002.png",
+        "hedge_priest/animations/taking_a_punch/north/frame_003.png",
+        "hedge_priest/animations/taking_a_punch/north/frame_004.png",
+        "hedge_priest/animations/taking_a_punch/north/frame_005.png"
+       ]
+      },
+      "falling_backward": {
+       "north": [
+        "hedge_priest/animations/falling_backward/north/frame_000.png",
+        "hedge_priest/animations/falling_backward/north/frame_001.png",
+        "hedge_priest/animations/falling_backward/north/frame_002.png",
+        "hedge_priest/animations/falling_backward/north/frame_003.png",
+        "hedge_priest/animations/falling_backward/north/frame_004.png",
+        "hedge_priest/animations/falling_backward/north/frame_005.png",
+        "hedge_priest/animations/falling_backward/north/frame_006.png"
+       ],
+       "west": [
+        "hedge_priest/animations/falling_backward/west/frame_000.png",
+        "hedge_priest/animations/falling_backward/west/frame_001.png",
+        "hedge_priest/animations/falling_backward/west/frame_002.png",
+        "hedge_priest/animations/falling_backward/west/frame_003.png",
+        "hedge_priest/animations/falling_backward/west/frame_004.png",
+        "hedge_priest/animations/falling_backward/west/frame_005.png",
+        "hedge_priest/animations/falling_backward/west/frame_006.png"
+       ],
+       "south": [
+        "hedge_priest/animations/falling_backward/south/frame_000.png",
+        "hedge_priest/animations/falling_backward/south/frame_001.png",
+        "hedge_priest/animations/falling_backward/south/frame_002.png",
+        "hedge_priest/animations/falling_backward/south/frame_003.png",
+        "hedge_priest/animations/falling_backward/south/frame_004.png",
+        "hedge_priest/animations/falling_backward/south/frame_005.png",
+        "hedge_priest/animations/falling_backward/south/frame_006.png"
+       ],
+       "east": [
+        "hedge_priest/animations/falling_backward/east/frame_000.png",
+        "hedge_priest/animations/falling_backward/east/frame_001.png",
+        "hedge_priest/animations/falling_backward/east/frame_002.png",
+        "hedge_priest/animations/falling_backward/east/frame_003.png",
+        "hedge_priest/animations/falling_backward/east/frame_004.png",
+        "hedge_priest/animations/falling_backward/east/frame_005.png",
+        "hedge_priest/animations/falling_backward/east/frame_006.png"
+       ]
+      },
+      "walking": {
+       "west": [
+        "hedge_priest/animations/walking/west/frame_000.png",
+        "hedge_priest/animations/walking/west/frame_001.png",
+        "hedge_priest/animations/walking/west/frame_002.png",
+        "hedge_priest/animations/walking/west/frame_003.png",
+        "hedge_priest/animations/walking/west/frame_004.png",
+        "hedge_priest/animations/walking/west/frame_005.png"
+       ],
+       "north": [
+        "hedge_priest/animations/walking/north/frame_000.png",
+        "hedge_priest/animations/walking/north/frame_001.png",
+        "hedge_priest/animations/walking/north/frame_002.png",
+        "hedge_priest/animations/walking/north/frame_003.png",
+        "hedge_priest/animations/walking/north/frame_004.png",
+        "hedge_priest/animations/walking/north/frame_005.png"
+       ]
+      },
+      "walking-673f75a6": {
+       "south": [
+        "hedge_priest/animations/walking-673f75a6/south/frame_000.png",
+        "hedge_priest/animations/walking-673f75a6/south/frame_001.png",
+        "hedge_priest/animations/walking-673f75a6/south/frame_002.png",
+        "hedge_priest/animations/walking-673f75a6/south/frame_003.png",
+        "hedge_priest/animations/walking-673f75a6/south/frame_004.png",
+        "hedge_priest/animations/walking-673f75a6/south/frame_005.png"
+       ],
+       "east": [
+        "hedge_priest/animations/walking-673f75a6/east/frame_000.png",
+        "hedge_priest/animations/walking-673f75a6/east/frame_001.png",
+        "hedge_priest/animations/walking-673f75a6/east/frame_002.png",
+        "hedge_priest/animations/walking-673f75a6/east/frame_003.png",
+        "hedge_priest/animations/walking-673f75a6/east/frame_004.png",
+        "hedge_priest/animations/walking-673f75a6/east/frame_005.png"
+       ]
+      },
+      "attack": {
+       "east": [
+        "hedge_priest/animations/attack/east/frame_000.png",
+        "hedge_priest/animations/attack/east/frame_001.png",
+        "hedge_priest/animations/attack/east/frame_002.png",
+        "hedge_priest/animations/attack/east/frame_003.png",
+        "hedge_priest/animations/attack/east/frame_004.png",
+        "hedge_priest/animations/attack/east/frame_005.png",
+        "hedge_priest/animations/attack/east/frame_006.png",
+        "hedge_priest/animations/attack/east/frame_007.png",
+        "hedge_priest/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "hedge_priest/animations/attack/west/frame_000.png",
+        "hedge_priest/animations/attack/west/frame_001.png",
+        "hedge_priest/animations/attack/west/frame_002.png",
+        "hedge_priest/animations/attack/west/frame_003.png",
+        "hedge_priest/animations/attack/west/frame_004.png",
+        "hedge_priest/animations/attack/west/frame_005.png",
+        "hedge_priest/animations/attack/west/frame_006.png",
+        "hedge_priest/animations/attack/west/frame_007.png",
+        "hedge_priest/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "hedge_priest/animations/attack/south/frame_000.png",
+        "hedge_priest/animations/attack/south/frame_001.png",
+        "hedge_priest/animations/attack/south/frame_002.png",
+        "hedge_priest/animations/attack/south/frame_003.png",
+        "hedge_priest/animations/attack/south/frame_004.png",
+        "hedge_priest/animations/attack/south/frame_005.png",
+        "hedge_priest/animations/attack/south/frame_006.png",
+        "hedge_priest/animations/attack/south/frame_007.png",
+        "hedge_priest/animations/attack/south/frame_008.png"
+       ],
+       "north": [
+        "hedge_priest/animations/attack/north/frame_000.png",
+        "hedge_priest/animations/attack/north/frame_001.png",
+        "hedge_priest/animations/attack/north/frame_002.png",
+        "hedge_priest/animations/attack/north/frame_003.png",
+        "hedge_priest/animations/attack/north/frame_004.png",
+        "hedge_priest/animations/attack/north/frame_005.png",
+        "hedge_priest/animations/attack/north/frame_006.png",
+        "hedge_priest/animations/attack/north/frame_007.png",
+        "hedge_priest/animations/attack/north/frame_008.png"
+       ]
+      },
+      "skill-fac98b77": {
+       "east": [
+        "hedge_priest/animations/skill-fac98b77/east/frame_000.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_001.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_002.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_003.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_004.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_005.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_006.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_007.png",
+        "hedge_priest/animations/skill-fac98b77/east/frame_008.png"
+       ],
+       "south": [
+        "hedge_priest/animations/skill-fac98b77/south/frame_000.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_001.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_002.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_003.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_004.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_005.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_006.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_007.png",
+        "hedge_priest/animations/skill-fac98b77/south/frame_008.png"
+       ],
+       "north": [
+        "hedge_priest/animations/skill-fac98b77/north/frame_000.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_001.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_002.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_003.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_004.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_005.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_006.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_007.png",
+        "hedge_priest/animations/skill-fac98b77/north/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T09:07:07.457046"
+ }
+}

@@ -1,0 +1,361 @@
+{
+ "id": "club_ogre",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "club_ogre",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "make him a hulking brown-skinned ogre twice as broad, small eyes, heavy sloped shoulders, hide loincloth and rope harness, holding an uprooted tree as a club",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 72.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 68.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "attack",
+   "action": "a huge overhead slam of the tree-trunk club into the ground",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 22.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "skill",
+   "action": "a wide sweeping swing of the club that clears everything in front",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 40.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 77.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 145.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "attack",
+   "action": "a huge overhead slam of the tree-trunk club into the ground",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 6.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "attack",
+   "action": "a huge overhead slam of the tree-trunk club into the ground",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 0.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+   "name": "attack",
+   "action": "a huge overhead slam of the tree-trunk club into the ground",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/club_ogre_base.zip",
+   "generations": 4.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "3de9396d-2d58-4842-91a9-2e3c790542f5",
+     "name": "club_ogre",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 80,
+      "height": 96
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:40:00.295049+00:00"
+    },
+    "folder": "club_ogre",
+    "frames": {
+     "rotations": {
+      "south": "club_ogre/rotations/south.png",
+      "south-east": "club_ogre/rotations/south-east.png",
+      "east": "club_ogre/rotations/east.png",
+      "north-east": "club_ogre/rotations/north-east.png",
+      "north": "club_ogre/rotations/north.png",
+      "north-west": "club_ogre/rotations/north-west.png",
+      "west": "club_ogre/rotations/west.png",
+      "south-west": "club_ogre/rotations/south-west.png"
+     },
+     "animations": {
+      "falling_backward": {
+       "south": [
+        "club_ogre/animations/falling_backward/south/frame_000.png",
+        "club_ogre/animations/falling_backward/south/frame_001.png",
+        "club_ogre/animations/falling_backward/south/frame_002.png",
+        "club_ogre/animations/falling_backward/south/frame_003.png",
+        "club_ogre/animations/falling_backward/south/frame_004.png",
+        "club_ogre/animations/falling_backward/south/frame_005.png",
+        "club_ogre/animations/falling_backward/south/frame_006.png"
+       ],
+       "north": [
+        "club_ogre/animations/falling_backward/north/frame_000.png",
+        "club_ogre/animations/falling_backward/north/frame_001.png",
+        "club_ogre/animations/falling_backward/north/frame_002.png",
+        "club_ogre/animations/falling_backward/north/frame_003.png",
+        "club_ogre/animations/falling_backward/north/frame_004.png",
+        "club_ogre/animations/falling_backward/north/frame_005.png",
+        "club_ogre/animations/falling_backward/north/frame_006.png"
+       ],
+       "west": [
+        "club_ogre/animations/falling_backward/west/frame_000.png",
+        "club_ogre/animations/falling_backward/west/frame_001.png",
+        "club_ogre/animations/falling_backward/west/frame_002.png",
+        "club_ogre/animations/falling_backward/west/frame_003.png",
+        "club_ogre/animations/falling_backward/west/frame_004.png",
+        "club_ogre/animations/falling_backward/west/frame_005.png",
+        "club_ogre/animations/falling_backward/west/frame_006.png"
+       ],
+       "east": [
+        "club_ogre/animations/falling_backward/east/frame_000.png",
+        "club_ogre/animations/falling_backward/east/frame_001.png",
+        "club_ogre/animations/falling_backward/east/frame_002.png",
+        "club_ogre/animations/falling_backward/east/frame_003.png",
+        "club_ogre/animations/falling_backward/east/frame_004.png",
+        "club_ogre/animations/falling_backward/east/frame_005.png",
+        "club_ogre/animations/falling_backward/east/frame_006.png"
+       ]
+      },
+      "skill": {
+       "east": [
+        "club_ogre/animations/skill/east/frame_000.png",
+        "club_ogre/animations/skill/east/frame_001.png",
+        "club_ogre/animations/skill/east/frame_002.png",
+        "club_ogre/animations/skill/east/frame_003.png",
+        "club_ogre/animations/skill/east/frame_004.png",
+        "club_ogre/animations/skill/east/frame_005.png",
+        "club_ogre/animations/skill/east/frame_006.png",
+        "club_ogre/animations/skill/east/frame_007.png",
+        "club_ogre/animations/skill/east/frame_008.png"
+       ],
+       "west": [
+        "club_ogre/animations/skill/west/frame_000.png",
+        "club_ogre/animations/skill/west/frame_001.png",
+        "club_ogre/animations/skill/west/frame_002.png",
+        "club_ogre/animations/skill/west/frame_003.png",
+        "club_ogre/animations/skill/west/frame_004.png",
+        "club_ogre/animations/skill/west/frame_005.png",
+        "club_ogre/animations/skill/west/frame_006.png",
+        "club_ogre/animations/skill/west/frame_007.png",
+        "club_ogre/animations/skill/west/frame_008.png"
+       ],
+       "south": [
+        "club_ogre/animations/skill/south/frame_000.png",
+        "club_ogre/animations/skill/south/frame_001.png",
+        "club_ogre/animations/skill/south/frame_002.png",
+        "club_ogre/animations/skill/south/frame_003.png",
+        "club_ogre/animations/skill/south/frame_004.png",
+        "club_ogre/animations/skill/south/frame_005.png",
+        "club_ogre/animations/skill/south/frame_006.png",
+        "club_ogre/animations/skill/south/frame_007.png",
+        "club_ogre/animations/skill/south/frame_008.png"
+       ],
+       "north": [
+        "club_ogre/animations/skill/north/frame_000.png",
+        "club_ogre/animations/skill/north/frame_001.png",
+        "club_ogre/animations/skill/north/frame_002.png",
+        "club_ogre/animations/skill/north/frame_003.png",
+        "club_ogre/animations/skill/north/frame_004.png",
+        "club_ogre/animations/skill/north/frame_005.png",
+        "club_ogre/animations/skill/north/frame_006.png",
+        "club_ogre/animations/skill/north/frame_007.png",
+        "club_ogre/animations/skill/north/frame_008.png"
+       ]
+      },
+      "attack": {
+       "west": [
+        "club_ogre/animations/attack/west/frame_000.png",
+        "club_ogre/animations/attack/west/frame_001.png",
+        "club_ogre/animations/attack/west/frame_002.png",
+        "club_ogre/animations/attack/west/frame_003.png",
+        "club_ogre/animations/attack/west/frame_004.png",
+        "club_ogre/animations/attack/west/frame_005.png",
+        "club_ogre/animations/attack/west/frame_006.png",
+        "club_ogre/animations/attack/west/frame_007.png",
+        "club_ogre/animations/attack/west/frame_008.png"
+       ]
+      },
+      "attack-a59dea01": {
+       "north": [
+        "club_ogre/animations/attack-a59dea01/north/frame_000.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_001.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_002.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_003.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_004.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_005.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_006.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_007.png",
+        "club_ogre/animations/attack-a59dea01/north/frame_008.png"
+       ]
+      },
+      "attack-bcff0620": {
+       "south": [
+        "club_ogre/animations/attack-bcff0620/south/frame_000.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_001.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_002.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_003.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_004.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_005.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_006.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_007.png",
+        "club_ogre/animations/attack-bcff0620/south/frame_008.png"
+       ]
+      },
+      "walking": {
+       "south": [
+        "club_ogre/animations/walking/south/frame_000.png",
+        "club_ogre/animations/walking/south/frame_001.png",
+        "club_ogre/animations/walking/south/frame_002.png",
+        "club_ogre/animations/walking/south/frame_003.png",
+        "club_ogre/animations/walking/south/frame_004.png",
+        "club_ogre/animations/walking/south/frame_005.png"
+       ],
+       "west": [
+        "club_ogre/animations/walking/west/frame_000.png",
+        "club_ogre/animations/walking/west/frame_001.png",
+        "club_ogre/animations/walking/west/frame_002.png",
+        "club_ogre/animations/walking/west/frame_003.png",
+        "club_ogre/animations/walking/west/frame_004.png",
+        "club_ogre/animations/walking/west/frame_005.png"
+       ],
+       "east": [
+        "club_ogre/animations/walking/east/frame_000.png",
+        "club_ogre/animations/walking/east/frame_001.png",
+        "club_ogre/animations/walking/east/frame_002.png",
+        "club_ogre/animations/walking/east/frame_003.png",
+        "club_ogre/animations/walking/east/frame_004.png",
+        "club_ogre/animations/walking/east/frame_005.png"
+       ],
+       "north": [
+        "club_ogre/animations/walking/north/frame_000.png",
+        "club_ogre/animations/walking/north/frame_001.png",
+        "club_ogre/animations/walking/north/frame_002.png",
+        "club_ogre/animations/walking/north/frame_003.png",
+        "club_ogre/animations/walking/north/frame_004.png",
+        "club_ogre/animations/walking/north/frame_005.png"
+       ]
+      },
+      "taking_a_punch": {
+       "east": [
+        "club_ogre/animations/taking_a_punch/east/frame_000.png",
+        "club_ogre/animations/taking_a_punch/east/frame_001.png",
+        "club_ogre/animations/taking_a_punch/east/frame_002.png",
+        "club_ogre/animations/taking_a_punch/east/frame_003.png",
+        "club_ogre/animations/taking_a_punch/east/frame_004.png",
+        "club_ogre/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "north": [
+        "club_ogre/animations/taking_a_punch/north/frame_000.png",
+        "club_ogre/animations/taking_a_punch/north/frame_001.png",
+        "club_ogre/animations/taking_a_punch/north/frame_002.png",
+        "club_ogre/animations/taking_a_punch/north/frame_003.png",
+        "club_ogre/animations/taking_a_punch/north/frame_004.png",
+        "club_ogre/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "west": [
+        "club_ogre/animations/taking_a_punch/west/frame_000.png",
+        "club_ogre/animations/taking_a_punch/west/frame_001.png",
+        "club_ogre/animations/taking_a_punch/west/frame_002.png",
+        "club_ogre/animations/taking_a_punch/west/frame_003.png",
+        "club_ogre/animations/taking_a_punch/west/frame_004.png",
+        "club_ogre/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "club_ogre/animations/taking_a_punch/south/frame_000.png",
+        "club_ogre/animations/taking_a_punch/south/frame_001.png",
+        "club_ogre/animations/taking_a_punch/south/frame_002.png",
+        "club_ogre/animations/taking_a_punch/south/frame_003.png",
+        "club_ogre/animations/taking_a_punch/south/frame_004.png",
+        "club_ogre/animations/taking_a_punch/south/frame_005.png"
+       ]
+      },
+      "attack-fea86375": {
+       "east": [
+        "club_ogre/animations/attack-fea86375/east/frame_000.png",
+        "club_ogre/animations/attack-fea86375/east/frame_001.png",
+        "club_ogre/animations/attack-fea86375/east/frame_002.png",
+        "club_ogre/animations/attack-fea86375/east/frame_003.png",
+        "club_ogre/animations/attack-fea86375/east/frame_004.png",
+        "club_ogre/animations/attack-fea86375/east/frame_005.png",
+        "club_ogre/animations/attack-fea86375/east/frame_006.png",
+        "club_ogre/animations/attack-fea86375/east/frame_007.png",
+        "club_ogre/animations/attack-fea86375/east/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T09:11:14.187053"
+ }
+}

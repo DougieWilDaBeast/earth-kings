@@ -1,0 +1,52 @@
+{
+ "id": "saturn",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sixteen_saturn",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "a gentle-faced man with long grey hair in a worn black monk's robe, a curved iron sickle at his belt, sad tired eyes",
+   "character_id": "c410912e-2c1d-4c0d-8b26-b592953af142",
+   "zip": "downloads/pixellab/sixteen_saturn_base.zip",
+   "generations": 38.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "c410912e-2c1d-4c0d-8b26-b592953af142",
+     "name": "sixteen_saturn",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T07:58:02.177074+00:00"
+    },
+    "folder": "sixteen_saturn",
+    "frames": {
+     "rotations": {
+      "south": "sixteen_saturn/rotations/south.png",
+      "south-east": "sixteen_saturn/rotations/south-east.png",
+      "east": "sixteen_saturn/rotations/east.png",
+      "north-east": "sixteen_saturn/rotations/north-east.png",
+      "north": "sixteen_saturn/rotations/north.png",
+      "north-west": "sixteen_saturn/rotations/north-west.png",
+      "west": "sixteen_saturn/rotations/west.png",
+      "south-west": "sixteen_saturn/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T07:59:46.325749"
+ }
+}
