@@ -8,6 +8,7 @@ extends Node2D
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -102,7 +103,8 @@ func _ready() -> void:
 	_camera.focus_on(_leader.position, true)
 	_place.text = boot_payload.get("title", map.display_name)
 	_idle_hint = map.hint if map.hint != "" else HINT
-	_hint.text = _idle_hint
+	_hint.text = _prompt_text()
+	Pad.changed.connect(_on_pad_changed)
 	var view_btn: Button = get_node_or_null("%ViewButton")
 	if view_btn != null:
 		view_btn.pressed.connect(_leave)
@@ -404,8 +406,23 @@ func _prompt_text() -> String:
 	if _hovered != null:
 		return "Click to %s" % _hovered.prompt()
 	if _nearby != null:
+		if Pad.using_pad:
+			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
 		return "Click to %s" % _nearby.prompt()
-	return _idle_hint
+	return _pad_hint() if Pad.using_pad else _idle_hint
+
+
+func _on_pad_changed() -> void:
+	_hint.text = _prompt_text()
+
+
+## The idle line, said for a pad. A place's own line is written for the
+## keyboard (it is data), so on a pad the buttons are said here instead.
+func _pad_hint() -> String:
+	return "%s to walk  ·  %s to speak to or look at whoever is marked  ·  %s to take the lead with someone else  ·  %s for the party  ·  %s for the journal  ·  follow the road out to leave" % [
+		Pad.walk_text(), Pad.key("interact"), Pad.key("cycle_next"),
+		Pad.key("open_party"), Pad.key("open_journal"),
+	]
 
 
 ## What is under the mouse worth stopping for, or null. Whatever stands
@@ -1039,7 +1056,9 @@ func _open_chest(cell: Vector2i) -> void:
 	_note(chest.get("line", "A chest, and nobody watching it."))
 	if _chest_props.has(cell):
 		_chest_props[cell].set_art(chest.get("opened_art", "chest_open"))
-	for line: String in Loot.claim(chest, GameState.roster):
+	var haul := chest.duplicate()
+	haul["map"] = Atlas.finds_map(GameState.world, flag, "chest_map_chance")
+	for line: String in Loot.claim(haul, GameState.roster):
 		_note(line)
 
 

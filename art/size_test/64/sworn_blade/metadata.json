@@ -1,0 +1,465 @@
+{
+	"id": "sworn_blade",
+	"size_test": 64.0,
+	"states": [
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T07:12:03.040958",
+				"export_version": "3.1",
+				"group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-09-25T17:47:40.531576+00:00",
+							"directions": 8.0,
+							"id": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+							"name": "Idle",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 32.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					},
+					{
+						"character": {
+							"created_at": "2026-10-12T07:02:25.085347+00:00",
+							"directions": 8.0,
+							"id": "106520a4-d194-45c8-afe7-59e1cabae5a3",
+							"name": "sworn_blade",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 48.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "sworn_blade",
+						"frames": {
+							"animations": {
+								"attack_words": {
+									"east": [
+										"sworn_blade/animations/attack_words/east/frame_000.png",
+										"sworn_blade/animations/attack_words/east/frame_001.png",
+										"sworn_blade/animations/attack_words/east/frame_002.png",
+										"sworn_blade/animations/attack_words/east/frame_003.png",
+										"sworn_blade/animations/attack_words/east/frame_004.png",
+										"sworn_blade/animations/attack_words/east/frame_005.png",
+										"sworn_blade/animations/attack_words/east/frame_006.png",
+										"sworn_blade/animations/attack_words/east/frame_007.png",
+										"sworn_blade/animations/attack_words/east/frame_008.png"
+									],
+									"north": [
+										"sworn_blade/animations/attack_words/north/frame_000.png",
+										"sworn_blade/animations/attack_words/north/frame_001.png",
+										"sworn_blade/animations/attack_words/north/frame_002.png",
+										"sworn_blade/animations/attack_words/north/frame_003.png",
+										"sworn_blade/animations/attack_words/north/frame_004.png",
+										"sworn_blade/animations/attack_words/north/frame_005.png",
+										"sworn_blade/animations/attack_words/north/frame_006.png",
+										"sworn_blade/animations/attack_words/north/frame_007.png",
+										"sworn_blade/animations/attack_words/north/frame_008.png"
+									],
+									"south": [
+										"sworn_blade/animations/attack_words/south/frame_000.png",
+										"sworn_blade/animations/attack_words/south/frame_001.png",
+										"sworn_blade/animations/attack_words/south/frame_002.png",
+										"sworn_blade/animations/attack_words/south/frame_003.png",
+										"sworn_blade/animations/attack_words/south/frame_004.png",
+										"sworn_blade/animations/attack_words/south/frame_005.png",
+										"sworn_blade/animations/attack_words/south/frame_006.png",
+										"sworn_blade/animations/attack_words/south/frame_007.png",
+										"sworn_blade/animations/attack_words/south/frame_008.png"
+									],
+									"west": [
+										"sworn_blade/animations/attack_words/west/frame_000.png",
+										"sworn_blade/animations/attack_words/west/frame_001.png",
+										"sworn_blade/animations/attack_words/west/frame_002.png",
+										"sworn_blade/animations/attack_words/west/frame_003.png",
+										"sworn_blade/animations/attack_words/west/frame_004.png",
+										"sworn_blade/animations/attack_words/west/frame_005.png",
+										"sworn_blade/animations/attack_words/west/frame_006.png",
+										"sworn_blade/animations/attack_words/west/frame_007.png",
+										"sworn_blade/animations/attack_words/west/frame_008.png"
+									]
+								},
+								"walking": {
+									"east": [
+										"sworn_blade/animations/walking/east/frame_000.png",
+										"sworn_blade/animations/walking/east/frame_001.png",
+										"sworn_blade/animations/walking/east/frame_002.png",
+										"sworn_blade/animations/walking/east/frame_003.png",
+										"sworn_blade/animations/walking/east/frame_004.png",
+										"sworn_blade/animations/walking/east/frame_005.png"
+									],
+									"north": [
+										"sworn_blade/animations/walking/north/frame_000.png",
+										"sworn_blade/animations/walking/north/frame_001.png",
+										"sworn_blade/animations/walking/north/frame_002.png",
+										"sworn_blade/animations/walking/north/frame_003.png",
+										"sworn_blade/animations/walking/north/frame_004.png",
+										"sworn_blade/animations/walking/north/frame_005.png"
+									],
+									"south": [
+										"sworn_blade/animations/walking/south/frame_000.png",
+										"sworn_blade/animations/walking/south/frame_001.png",
+										"sworn_blade/animations/walking/south/frame_002.png",
+										"sworn_blade/animations/walking/south/frame_003.png",
+										"sworn_blade/animations/walking/south/frame_004.png",
+										"sworn_blade/animations/walking/south/frame_005.png"
+									],
+									"west": [
+										"sworn_blade/animations/walking/west/frame_000.png",
+										"sworn_blade/animations/walking/west/frame_001.png",
+										"sworn_blade/animations/walking/west/frame_002.png",
+										"sworn_blade/animations/walking/west/frame_003.png",
+										"sworn_blade/animations/walking/west/frame_004.png",
+										"sworn_blade/animations/walking/west/frame_005.png"
+									]
+								}
+							},
+							"rotations": {
+								"east": "sworn_blade/rotations/east.png",
+								"north": "sworn_blade/rotations/north.png",
+								"north-east": "sworn_blade/rotations/north-east.png",
+								"north-west": "sworn_blade/rotations/north-west.png",
+								"south": "sworn_blade/rotations/south.png",
+								"south-east": "sworn_blade/rotations/south-east.png",
+								"south-west": "sworn_blade/rotations/south-west.png",
+								"west": "sworn_blade/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Blank Male character",
+			"size": "64x64",
+			"source": "base_sworn_walk_skeleton.zip",
+			"state": "idle"
+		},
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T07:12:03.040958",
+				"export_version": "3.1",
+				"group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-09-25T17:47:40.531576+00:00",
+							"directions": 8.0,
+							"id": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+							"name": "Idle",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 32.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					},
+					{
+						"character": {
+							"created_at": "2026-10-12T07:02:25.085347+00:00",
+							"directions": 8.0,
+							"id": "106520a4-d194-45c8-afe7-59e1cabae5a3",
+							"name": "sworn_blade",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 48.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "sworn_blade",
+						"frames": {
+							"animations": {
+								"attack_words": {
+									"east": [
+										"sworn_blade/animations/attack_words/east/frame_000.png",
+										"sworn_blade/animations/attack_words/east/frame_001.png",
+										"sworn_blade/animations/attack_words/east/frame_002.png",
+										"sworn_blade/animations/attack_words/east/frame_003.png",
+										"sworn_blade/animations/attack_words/east/frame_004.png",
+										"sworn_blade/animations/attack_words/east/frame_005.png",
+										"sworn_blade/animations/attack_words/east/frame_006.png",
+										"sworn_blade/animations/attack_words/east/frame_007.png",
+										"sworn_blade/animations/attack_words/east/frame_008.png"
+									],
+									"north": [
+										"sworn_blade/animations/attack_words/north/frame_000.png",
+										"sworn_blade/animations/attack_words/north/frame_001.png",
+										"sworn_blade/animations/attack_words/north/frame_002.png",
+										"sworn_blade/animations/attack_words/north/frame_003.png",
+										"sworn_blade/animations/attack_words/north/frame_004.png",
+										"sworn_blade/animations/attack_words/north/frame_005.png",
+										"sworn_blade/animations/attack_words/north/frame_006.png",
+										"sworn_blade/animations/attack_words/north/frame_007.png",
+										"sworn_blade/animations/attack_words/north/frame_008.png"
+									],
+									"south": [
+										"sworn_blade/animations/attack_words/south/frame_000.png",
+										"sworn_blade/animations/attack_words/south/frame_001.png",
+										"sworn_blade/animations/attack_words/south/frame_002.png",
+										"sworn_blade/animations/attack_words/south/frame_003.png",
+										"sworn_blade/animations/attack_words/south/frame_004.png",
+										"sworn_blade/animations/attack_words/south/frame_005.png",
+										"sworn_blade/animations/attack_words/south/frame_006.png",
+										"sworn_blade/animations/attack_words/south/frame_007.png",
+										"sworn_blade/animations/attack_words/south/frame_008.png"
+									],
+									"west": [
+										"sworn_blade/animations/attack_words/west/frame_000.png",
+										"sworn_blade/animations/attack_words/west/frame_001.png",
+										"sworn_blade/animations/attack_words/west/frame_002.png",
+										"sworn_blade/animations/attack_words/west/frame_003.png",
+										"sworn_blade/animations/attack_words/west/frame_004.png",
+										"sworn_blade/animations/attack_words/west/frame_005.png",
+										"sworn_blade/animations/attack_words/west/frame_006.png",
+										"sworn_blade/animations/attack_words/west/frame_007.png",
+										"sworn_blade/animations/attack_words/west/frame_008.png"
+									]
+								},
+								"walking": {
+									"east": [
+										"sworn_blade/animations/walking/east/frame_000.png",
+										"sworn_blade/animations/walking/east/frame_001.png",
+										"sworn_blade/animations/walking/east/frame_002.png",
+										"sworn_blade/animations/walking/east/frame_003.png",
+										"sworn_blade/animations/walking/east/frame_004.png",
+										"sworn_blade/animations/walking/east/frame_005.png"
+									],
+									"north": [
+										"sworn_blade/animations/walking/north/frame_000.png",
+										"sworn_blade/animations/walking/north/frame_001.png",
+										"sworn_blade/animations/walking/north/frame_002.png",
+										"sworn_blade/animations/walking/north/frame_003.png",
+										"sworn_blade/animations/walking/north/frame_004.png",
+										"sworn_blade/animations/walking/north/frame_005.png"
+									],
+									"south": [
+										"sworn_blade/animations/walking/south/frame_000.png",
+										"sworn_blade/animations/walking/south/frame_001.png",
+										"sworn_blade/animations/walking/south/frame_002.png",
+										"sworn_blade/animations/walking/south/frame_003.png",
+										"sworn_blade/animations/walking/south/frame_004.png",
+										"sworn_blade/animations/walking/south/frame_005.png"
+									],
+									"west": [
+										"sworn_blade/animations/walking/west/frame_000.png",
+										"sworn_blade/animations/walking/west/frame_001.png",
+										"sworn_blade/animations/walking/west/frame_002.png",
+										"sworn_blade/animations/walking/west/frame_003.png",
+										"sworn_blade/animations/walking/west/frame_004.png",
+										"sworn_blade/animations/walking/west/frame_005.png"
+									]
+								}
+							},
+							"rotations": {
+								"east": "sworn_blade/rotations/east.png",
+								"north": "sworn_blade/rotations/north.png",
+								"north-east": "sworn_blade/rotations/north-east.png",
+								"north-west": "sworn_blade/rotations/north-west.png",
+								"south": "sworn_blade/rotations/south.png",
+								"south-east": "sworn_blade/rotations/south-east.png",
+								"south-west": "sworn_blade/rotations/south-west.png",
+								"west": "sworn_blade/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Blank Male character",
+			"size": "64x64",
+			"source": "base_sworn_walk_skeleton.zip",
+			"state": "walk"
+		},
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T07:12:03.040958",
+				"export_version": "3.1",
+				"group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-09-25T17:47:40.531576+00:00",
+							"directions": 8.0,
+							"id": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+							"name": "Idle",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 32.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					},
+					{
+						"character": {
+							"created_at": "2026-10-12T07:02:25.085347+00:00",
+							"directions": 8.0,
+							"id": "106520a4-d194-45c8-afe7-59e1cabae5a3",
+							"name": "sworn_blade",
+							"prompt": "Blank Male character",
+							"size": {
+								"height": 72.0,
+								"width": 48.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "sworn_blade",
+						"frames": {
+							"animations": {
+								"attack_words": {
+									"east": [
+										"sworn_blade/animations/attack_words/east/frame_000.png",
+										"sworn_blade/animations/attack_words/east/frame_001.png",
+										"sworn_blade/animations/attack_words/east/frame_002.png",
+										"sworn_blade/animations/attack_words/east/frame_003.png",
+										"sworn_blade/animations/attack_words/east/frame_004.png",
+										"sworn_blade/animations/attack_words/east/frame_005.png",
+										"sworn_blade/animations/attack_words/east/frame_006.png",
+										"sworn_blade/animations/attack_words/east/frame_007.png",
+										"sworn_blade/animations/attack_words/east/frame_008.png"
+									],
+									"north": [
+										"sworn_blade/animations/attack_words/north/frame_000.png",
+										"sworn_blade/animations/attack_words/north/frame_001.png",
+										"sworn_blade/animations/attack_words/north/frame_002.png",
+										"sworn_blade/animations/attack_words/north/frame_003.png",
+										"sworn_blade/animations/attack_words/north/frame_004.png",
+										"sworn_blade/animations/attack_words/north/frame_005.png",
+										"sworn_blade/animations/attack_words/north/frame_006.png",
+										"sworn_blade/animations/attack_words/north/frame_007.png",
+										"sworn_blade/animations/attack_words/north/frame_008.png"
+									],
+									"south": [
+										"sworn_blade/animations/attack_words/south/frame_000.png",
+										"sworn_blade/animations/attack_words/south/frame_001.png",
+										"sworn_blade/animations/attack_words/south/frame_002.png",
+										"sworn_blade/animations/attack_words/south/frame_003.png",
+										"sworn_blade/animations/attack_words/south/frame_004.png",
+										"sworn_blade/animations/attack_words/south/frame_005.png",
+										"sworn_blade/animations/attack_words/south/frame_006.png",
+										"sworn_blade/animations/attack_words/south/frame_007.png",
+										"sworn_blade/animations/attack_words/south/frame_008.png"
+									],
+									"west": [
+										"sworn_blade/animations/attack_words/west/frame_000.png",
+										"sworn_blade/animations/attack_words/west/frame_001.png",
+										"sworn_blade/animations/attack_words/west/frame_002.png",
+										"sworn_blade/animations/attack_words/west/frame_003.png",
+										"sworn_blade/animations/attack_words/west/frame_004.png",
+										"sworn_blade/animations/attack_words/west/frame_005.png",
+										"sworn_blade/animations/attack_words/west/frame_006.png",
+										"sworn_blade/animations/attack_words/west/frame_007.png",
+										"sworn_blade/animations/attack_words/west/frame_008.png"
+									]
+								},
+								"walking": {
+									"east": [
+										"sworn_blade/animations/walking/east/frame_000.png",
+										"sworn_blade/animations/walking/east/frame_001.png",
+										"sworn_blade/animations/walking/east/frame_002.png",
+										"sworn_blade/animations/walking/east/frame_003.png",
+										"sworn_blade/animations/walking/east/frame_004.png",
+										"sworn_blade/animations/walking/east/frame_005.png"
+									],
+									"north": [
+										"sworn_blade/animations/walking/north/frame_000.png",
+										"sworn_blade/animations/walking/north/frame_001.png",
+										"sworn_blade/animations/walking/north/frame_002.png",
+										"sworn_blade/animations/walking/north/frame_003.png",
+										"sworn_blade/animations/walking/north/frame_004.png",
+										"sworn_blade/animations/walking/north/frame_005.png"
+									],
+									"south": [
+										"sworn_blade/animations/walking/south/frame_000.png",
+										"sworn_blade/animations/walking/south/frame_001.png",
+										"sworn_blade/animations/walking/south/frame_002.png",
+										"sworn_blade/animations/walking/south/frame_003.png",
+										"sworn_blade/animations/walking/south/frame_004.png",
+										"sworn_blade/animations/walking/south/frame_005.png"
+									],
+									"west": [
+										"sworn_blade/animations/walking/west/frame_000.png",
+										"sworn_blade/animations/walking/west/frame_001.png",
+										"sworn_blade/animations/walking/west/frame_002.png",
+										"sworn_blade/animations/walking/west/frame_003.png",
+										"sworn_blade/animations/walking/west/frame_004.png",
+										"sworn_blade/animations/walking/west/frame_005.png"
+									]
+								}
+							},
+							"rotations": {
+								"east": "sworn_blade/rotations/east.png",
+								"north": "sworn_blade/rotations/north.png",
+								"north-east": "sworn_blade/rotations/north-east.png",
+								"north-west": "sworn_blade/rotations/north-west.png",
+								"south": "sworn_blade/rotations/south.png",
+								"south-east": "sworn_blade/rotations/south-east.png",
+								"south-west": "sworn_blade/rotations/south-west.png",
+								"west": "sworn_blade/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Blank Male character",
+			"size": "64x64",
+			"source": "base_sworn_walk_skeleton.zip",
+			"state": "attack"
+		}
+	]
+}
