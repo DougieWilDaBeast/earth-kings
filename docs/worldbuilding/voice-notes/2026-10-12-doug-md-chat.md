@@ -1,19 +1,23 @@
 ---
-respondent: dougie
+respondent: doug-md
 speakers:
-  "dougie": dougie
+  "doug-md": doug-md
 recorded: 2026-10-12
 source: typed and dictated answers in a Claude chat session, working the roadmap's next steps one at a time
 transcribed: as typed — dictated passages are the device's own dictation, unverified
 ---
 
-# `dougie`, 2026-10-12 — the next steps, one at a time
+# `doug-md`, 2026-10-12 — the next steps, one at a time
 
-> Not a recording: `dougie`'s answers in a chat session where Claude asked the roadmap's next steps
+> Not a recording: `doug-md`'s answers in a chat session where Claude asked the roadmap's next steps
 > as questions, one step at a time. Kept exactly as sent, typos and dictation slips included —
 > they are the record. Each answer follows the question it answered, in Claude's words, so the
 > answer can be read without the session. What it settled is in [answers.md](../answers.md) and
 > [06 — Decisions](../../06-decisions.md), D57 to D60.
+>
+> Corrected the same day: the session's git name was set to "dougie", so these answers were first
+> credited to `dougie`. They are `doug-md`'s. The questions are left as Claude asked them, so one
+> still offers "a summary for `doug-md`".
 
 ## Step 1 — the size ([D57](../../06-decisions.md))
 
@@ -45,7 +49,7 @@ are big?
 ## Step 3 — _Dungeon Settlers_ ([D59](../../06-decisions.md))
 
 The ten answers are kept in full in
-[investigation/07](../../investigation/07-dungeon-settlers-combat.md#dougies-answers-2026-10-12).
+[investigation/07](../../investigation/07-dungeon-settlers-combat.md#doug-mds-answers-2026-10-12).
 What they changed:
 
 **Asked:** facing; game speeds; stuns and charge-ups; energy for Auto Skill; draughts in the

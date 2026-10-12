@@ -302,15 +302,15 @@ Buy it, play an hour on Normal, and write the answers under this heading:
 9. How long is the Near Death window?
 10. At what point in the first hour did a fight feel like a decision rather than a chore?
 
-### `dougie`'s answers, 2026-10-12
+### `doug-md`'s answers, 2026-10-12
 
 After about twenty hours of play, not one. Given in chat, as dictated; the summary is Claude's,
 the words in the quote are his and are not edited.
 
-| # | What `dougie` found | Earth Kings' real-time fight today |
+| # | What `doug-md` found | Earth Kings' real-time fight today |
 | --- | --- | --- |
 | 1 | An ordinary fight takes 15–30 seconds; a boss 5–10 minutes | The smoke test's training fight lasts about 20 seconds. No boss fight yet |
-| 2 | You pause often, to get healers healing and the hurt onto potions or herbs. Auto Skill drains a character's energy: left on, they tire; off, they only swing their weapon | `dougie` paused once in ours. No potions or herbs in the real-time fight; Auto Skill costs nothing |
+| 2 | You pause often, to get healers healing and the hurt onto potions or herbs. Auto Skill drains a character's energy: left on, they tire; off, they only swing their weapon | `doug-md` paused once in ours. No potions or herbs in the real-time fight; Auto Skill costs nothing |
 | 3 | Attacking from behind does not matter there; he would like it here, at about 1.2× | Already in, shared with the turn-based fight: 1.2× from the side, 1.5× from behind |
 | 4 | A stun interrupts a cast, if it is timed well | Casts exist (0.4–0.8 s); nothing stuns |
 | 5 | Fast is about 1.5×, very fast 2× | 1×, 2×, 4× (`Pace.SPEEDS`, shared with the turn-based fight) |
@@ -322,7 +322,7 @@ the words in the quote are his and are not edited.
 
 > So I played Dungeon Settlers for almost 20 hours. Um, and this is the 10 questions that I will be going through. So question one, how long does an ordinary fight take and a boss fight? So an ordinary fight takes probably around 15 to 30 seconds. And a boss fight can range between five to 15 minutes, five to 10 minutes. Question two. You do pause often um, because characters can be getting dealt a lot of damage. So you must, you know, get the characters that can heal Um, to heal them up or for them to, for the characters that are getting dealt the damage, they will be able to um, use potions or herbs to um, get their health back up. Um, the thing with auto skill on is when you use that, you also drain your energy. So the longer you have it on, the more tired your character gets when they are constantly using their Um, skills but if you have it off they just do basic damage with their sword the shield or whatever weapon that they're using question three attacking from behind in Dungeon Settlers doesn't really matter but I think it would be a good implementation to put it into this game with that maybe like 1.2 times uh, damage um, a stun does interrupt casting a spell, but it has to be timed um, pretty well. Question five. How much faster is fast speed? So fast speed is like, so you have your base speed, you have your fast speed, which would be nearly 1.5 times, and then your really fast speed would be two times. Um, question six. When you tell units to attack, do they spread out or clump together? When you tell units to attack, they do spread out, um, but if it's one character that they're fighting, they might surround him so that he can't get away. Question seven. Do attack animations have a wind-up you can react to? Um, it depends on what is being casted. So if it's just a sword swing, you can't really... Um, You can react to that because your character will have a shield and they'll just parry. They'll keep parrying. Um, you know, they might get a slice in or they might not. It just depends on how good the character is, how much damage they can display. Um, but if it's like a charging up a really strong fire attack, then they might need two or three seconds to charge that up. And if you get in there and stun them, they won't be able to use that attack. Question eight, can you can the party leave the floor mid-fight or only through the portal once it's found? So they could only leave the floor once they got to the portal. So they can either go further into the dungeons or go back home once they've only found the portal. And if they don't find the portal and they die, that's it. Game over for that. Um, for them characters, they can't come back. Question nine, how long is the near-death window before a down unit dies? It depends. It can be very quick or it can be quite slow, but the status effects are quite immediate. Question 10. When in the first hour did a fight feel first feel like a real decision rather than a chore? Um, from the start, um, every fight felt like it was a real decision and it never felt like it was a chore. I have played Dungeon Settlers for a, a long time, for maybe 20 hours.
 >
-> — dougie, 2026-10-12, in chat
+> — doug-md, 2026-10-12, in chat
 
 ---
 

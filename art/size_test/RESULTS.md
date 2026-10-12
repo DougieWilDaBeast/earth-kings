@@ -63,7 +63,7 @@ Running total for the day: 64 generations of 5,000.
 
 ## What we saw
 
-Filled in on 2026-10-12 by Claude from the viewer's screenshots, at `dougie`'s request; **Inferred**
+Filled in on 2026-10-12 by Claude from the viewer's screenshots, at `doug-md`'s request; **Inferred**
 until a founder has looked for themselves. The 64 column is the art on disk, except the attack row,
 which is the dressed base body.
 
@@ -79,9 +79,9 @@ Big units are fixed in the game, not the art: each unit now has a `body_scale` (
 
 ## The call
 
-- dougie (Will): handed the call to Claude on 2026-10-12, with the blank body as the base, then
-  **confirmed it** the same day: the 64 class on the base body, ogres bigger than a normal body, and
-  the base's look blended with the heroic 64s ([D57](../../docs/06-decisions.md)).
-- doug-md: \_\_ — because \_\_
+- dougie (Will): handed the call to Claude on 2026-10-12, with the blank body as the base.
+  His own answer: \_\_ — because \_\_
+- doug-md: **confirmed it** on 2026-10-12: the 64 class on the base body, ogres bigger than a
+  normal body, and the base's look blended with the heroic 64s ([D57](../../docs/06-decisions.md)).
 - **Chosen: the 64 class, dressed onto the base body.** Written into docs/06 as D55 on 2026-10-12,
-  confirmed by `dougie` the same day (D57); waits on `doug-md`.
+  confirmed by `doug-md` the same day (D57); waits on `dougie`.

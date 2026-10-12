@@ -264,7 +264,7 @@ static func _nearest_haven(world: World, from: Vector2i) -> Site:
 	return best
 
 
-## Where the weapon comes down. With `anywhere` (D60, `dougie`'s answer to agenda
+## Where the weapon comes down. With `anywhere` (D60, `doug-md`'s answer to agenda
 ## item 12) it is any open ground the company can walk to, at least `min_distance`
 ## from where the lead fell, and only the rumour says which way; without it, open
 ## ground a short walk off (the earlier "easy to find" reading). The same for the

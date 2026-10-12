@@ -1,12 +1,12 @@
 # 08 — Quests and a living world: what three games do, and what fits ours
 
-Asked for by `dougie` on 2026-10-12, answering agenda item 20 (what replaces the step clock):
+Asked for by `doug-md` on 2026-10-12, answering agenda item 20 (what replaces the step clock):
 "have a look at very prominent games like Baldur's Gate Witcher 3 Skyrim and see how they do their
-quests and align your decision making based on that" ([transcript](../worldbuilding/voice-notes/2026-10-12-dougie-chat.md)).
+quests and align your decision making based on that" ([transcript](../worldbuilding/voice-notes/2026-10-12-doug-md-chat.md)).
 A first pass, from published guides and interviews. Nothing here is an answer: the proposal at
 the end is **Inferred**, for both founders to confirm or replace.
 
-## What `dougie` asked for
+## What `doug-md` asked for
 
 - The world is alive: things happen "whenever they should take place", driven by objectives
   completed, not by a clock you are racing.
@@ -73,7 +73,7 @@ conditions and casts the quest from what the world already has.
 
 1. **A day is the clock, and the player spends days.** A day passes when the company rests (camp,
    inn, home) or travels a leg between places (on foot, or by carriage). Nothing passes while you
-   stand still or fight. This is BG3's long rest, and it is the "seven days travel" `dougie` named.
+   stand still or fight. This is BG3's long rest, and it is the "seven days travel" `doug-md` named.
    Walking around inside one area costs no time.
 2. **Milestones move the world on as well**: a Tower chapter climbed, a thread finished, a gate
    cleared or left. Each is an event the world listens to, as Skyrim's Story Manager does.

@@ -112,21 +112,22 @@ built. **Everything left on this list needs one or both founders**: the build ha
 can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **`doug-md` confirms the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md)).
-   `dougie` confirmed it on 2026-10-12 ([D57](06-decisions.md)), with big units drawn taller by a
+1. **`dougie` confirms the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md)).
+   `dougie` handed the call to Claude on 2026-10-12 ([D55](06-decisions.md)) and has not given his own
+   answer yet. `doug-md` confirmed it on 2026-10-12 ([D57](06-decisions.md)), with big units drawn taller by a
    `body_scale` (built) and the base's look blended with the heroic 64s. Still **Inferred** and
    waiting on both founders' eyes: the `body_scale` numbers, and whether the blend reads (the first
    dressed unit with `BLEND_STYLE` has not been generated yet). The size test is in
    [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); Tier 1 of [19](19-asset-list.md) can be
    generated from here.
-2. **`doug-md` plays the real-time skirmish against the turn-based fight** (Training → Fight in real
-   time). `dougie` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
+2. **`dougie` plays the real-time skirmish against the turn-based fight** (Training → Fight in real
+   time). `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
    better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
    found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
-   a box to pick fighters, is built. `doug-md`'s turn decides whether M11 replaces the turn loop
+   a box to pick fighters, is built. `dougie`'s turn decides whether M11 replaces the turn loop
    ([D36](06-decisions.md)).
-3. ~~**An hour of _Dungeon Settlers_ itself**~~ Done 2026-10-12: `dougie` has played about twenty
-   hours and answered the ten questions ([investigation/07](investigation/07-dungeon-settlers-combat.md#dougies-answers-2026-10-12)).
+3. ~~**An hour of _Dungeon Settlers_ itself**~~ Done 2026-10-12: `doug-md` has played about twenty
+   hours and answered the ten questions ([investigation/07](investigation/07-dungeon-settlers-combat.md#doug-mds-answers-2026-10-12)).
    What they change in our fight is being settled with him.
 4. **The second half of session 2**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
    items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
@@ -141,7 +142,7 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    M15's sixteen worlds inferred the same day: how alike the siblings are, where the earlier lead
    waits, when the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the
    stand-ins' weapons, and how a world's end is shown.
-   **`dougie` answered items 11, 12, 20 and 21 on 2026-10-12** ([D60](06-decisions.md), [transcript](worldbuilding/voice-notes/2026-10-12-dougie-chat.md)):
+   **`doug-md` answered items 11, 12, 20 and 21 on 2026-10-12** ([D60](06-decisions.md), [transcript](worldbuilding/voice-notes/2026-10-12-doug-md-chat.md)):
    six in the party, the weapon lands anywhere (built), a living world whose deadlines can be
    missed, one view with the world as a map, and carriages. They wait on `doug-md`; item 10 is
    still open, and items 57 to 62 are new.
@@ -198,11 +199,11 @@ against it.
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
 - Drag a box to pick fighters ✅ (2026-10-12, [D58](06-decisions.md))
-- From `dougie`'s _Dungeon Settlers_ answers ✅ (2026-10-12, [D59](06-decisions.md), numbers
+- From `doug-md`'s _Dungeon Settlers_ answers ✅ (2026-10-12, [D59](06-decisions.md), numbers
   **Inferred**): gentler facing, speeds 1×/1.5×/2×, stuns that break casts, charged spells, an
   energy bar, draughts and herbs mid-fight, shields that block
 - Done when: both founders have played the prototype against the current battle and chosen.
-  `dougie` ✅ chose real time (2026-10-12, D58); `doug-md` to come.
+  `doug-md` ✅ chose real time (2026-10-12, D58); `dougie` to come.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))
 
 ### M12 — Getting stronger the new way — SHIPPED
@@ -365,7 +366,7 @@ Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). The
 built; the one view and the end of the step clock wait on agenda items 20 and 21.
 
 - The game played in the planar view alone; the Z switch and the walkable continental view retired.
-  `dougie` 2026-10-12 ([D60](06-decisions.md)): the world view becomes a map you toggle to see where
+  `doug-md` 2026-10-12 ([D60](06-decisions.md)): the world view becomes a map you toggle to see where
   you are
 - Planar areas that differ (agenda item 62, planned): more layouts, exits that follow the land, places
   worth remembering — today every area has the same four exits
@@ -378,7 +379,7 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   news, contracts and errands marked. The numbers and the reading of item 21's second half are
   **Inferred** (agenda items 30 to 33)
 - The step clock retired. The world moves on at milestones: Tower chapters and the checkpoints item
-  20 names. `dougie` answered on 2026-10-12; the proposal from it — days spent by resting and
+  20 names. `doug-md` answered on 2026-10-12; the proposal from it — days spent by resting and
   travelling, conditions, deadlines whose misses are stories — is
   [investigation/08](investigation/08-quests-and-a-living-world.md), **Inferred** (item 57). Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
@@ -431,10 +432,10 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 Designed for, seams in place, not built. See [Vision](01-vision.md).
 
 - A guild you command, with its own adventuring party sent out on objectives (agenda item 59,
-  `dougie` 2026-10-12)
-- Foes who survive you remember you, marked or hardened by what you did (item 61, `dougie` 2026-10-12)
+  `doug-md` 2026-10-12)
+- Foes who survive you remember you, marked or hardened by what you did (item 61, `doug-md` 2026-10-12)
 - The fallen weapon shown: a cinematic of its fall, the ground marked by what it is, and a monster
-  that picks it up fighting at 30% of it (item 58, `dougie` 2026-10-12)
+  that picks it up fighting at 30% of it (item 58, `doug-md` 2026-10-12)
 - LLM character minds and an NPC society living off-screen
 - The Masquerade
 - A server as world-authority

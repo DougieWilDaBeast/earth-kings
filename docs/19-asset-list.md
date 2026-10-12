@@ -90,7 +90,7 @@ item cost against the 15% so the next month can be planned.
 
 ## Tier 1 — the combat prototype (after the reset)
 
-**Size settled 2026-10-12 ([D55](06-decisions.md), confirmed by `dougie` in [D57](06-decisions.md)):**
+**Size settled 2026-10-12 ([D55](06-decisions.md), confirmed by `doug-md` in [D57](06-decisions.md)):**
 the 64 class, every humanoid dressed onto the founders' blank base body with
 `python3 tools/pixellab.py dress <unit>`, which asks for the blended finish (`BLEND_STYLE`) unless
 given `--style ""`; then animated with `animate` (words for attacks,

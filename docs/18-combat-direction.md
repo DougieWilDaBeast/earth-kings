@@ -225,7 +225,7 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
   still the sure way; the grace is the last chance, and the downed card shows its odds. Rolled
   once, when the window closes, rather than at the fall — **Inferred**.
 - **Energy, stuns, charged spells, items and shields** (2026-10-12, [D59](06-decisions.md), from
-  `dougie`'s twenty hours of _Dungeon Settlers_). Each card has an energy bar of ten pips; skills
+  `doug-md`'s twenty hours of _Dungeon Settlers_). Each card has an energy bar of ten pips; skills
   drain it and a fighter who runs dry is **tired**, swinging only, until it is half full again.
   Shield Bash **stuns** for 1.5 s and breaks off whatever its target was winding up. Ember, Tidal
   Surge, Thunderhead, Pyre and Blizzard **charge** for 2.5–3 s and land 1.6× harder, so they are
