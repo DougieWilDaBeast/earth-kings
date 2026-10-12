@@ -141,6 +141,10 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    M15's sixteen worlds inferred the same day: how alike the siblings are, where the earlier lead
    waits, when the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the
    stand-ins' weapons, and how a world's end is shown.
+   **`dougie` answered items 11, 12, 20 and 21 on 2026-10-12** ([D60](06-decisions.md), [transcript](worldbuilding/voice-notes/2026-10-12-dougie-chat.md)):
+   six in the party, the weapon lands anywhere (built), a living world whose deadlines can be
+   missed, one view with the world as a map, and carriages. They wait on `doug-md`; item 10 is
+   still open, and items 57 to 62 are new.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
@@ -360,7 +364,12 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). The explored map is
 built; the one view and the end of the step clock wait on agenda items 20 and 21.
 
-- The game played in the planar view alone; the Z switch and the walkable continental view retired
+- The game played in the planar view alone; the Z switch and the walkable continental view retired.
+  `dougie` 2026-10-12 ([D60](06-decisions.md)): the world view becomes a map you toggle to see where
+  you are
+- Planar areas that differ (agenda item 62, planned): more layouts, exits that follow the land, places
+  worth remembering — today every area has the same four exits
+- Carriages (item 60, planned): pay to ride part of the way, with ambushes and other events on the road
 - The continent as a map: black until the party has been there, filled in as it travels ✅
   (2026-10-12, `src/chronicle/atlas.gd`): four tiles seen round the party at every step,
   continental or planar, fading in; a place drawn only once known; saved as two bitfields
@@ -369,7 +378,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   news, contracts and errands marked. The numbers and the reading of item 21's second half are
   **Inferred** (agenda items 30 to 33)
 - The step clock retired. The world moves on at milestones: Tower chapters and the checkpoints item
-  20 names. Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
+  20 names. `dougie` answered on 2026-10-12; the proposal from it — days spent by resting and
+  travelling, conditions, deadlines whose misses are stories — is
+  [investigation/08](investigation/08-quests-and-a-living-world.md), **Inferred** (item 57). Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
 - ✅ Done when: a run can be played from landing to a Tower chapter without the world view, nothing
   in the world changes because the party walked, and the map shows only where the party has been or
@@ -419,6 +430,11 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 
 Designed for, seams in place, not built. See [Vision](01-vision.md).
 
+- A guild you command, with its own adventuring party sent out on objectives (agenda item 59,
+  `dougie` 2026-10-12)
+- Foes who survive you remember you, marked or hardened by what you did (item 61, `dougie` 2026-10-12)
+- The fallen weapon shown: a cinematic of its fall, the ground marked by what it is, and a monster
+  that picks it up fighting at 30% of it (item 58, `dougie` 2026-10-12)
 - LLM character minds and an NPC society living off-screen
 - The Masquerade
 - A server as world-authority

@@ -122,7 +122,8 @@ still standing.
 3. **The dead lead's signature weapon.** Every one of the sixteen has a weapon made for them. When
    they die it **crash-lands somewhere in the next world** — god-tier, but nobody is proficient with
    it, and somebody else may have found it first. Rumours lead to it. **Finding it is what opens the
-   ghost fully.** Where it lands the first time — easy to find, or random — is agenda item 12.
+   ghost fully.** Where it lands the first time: **anywhere the company can walk**, found by rumour (`dougie`,
+   2026-10-12, [D60](06-decisions.md); built; waits on `doug-md`).
 
 **Nothing arrives early.** The ghost's news and the weapon only show up once the new lead has got as
 far as the old one did. On the first run the census says sixteen alive at every chapter. If the first

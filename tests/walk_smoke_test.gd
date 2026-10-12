@@ -1262,7 +1262,9 @@ func _check_sixteen() -> void:
 	_expect(not Siblings.rumour(world).is_empty() and Siblings.heard_weapons(world).size() == 1, "no rumour points at Bram's weapon")
 	var cell := Wanderers.cell_of(weapon.get("cell", []))
 	var home := world.home()
-	_expect(Pathfinder.distance(cell, home.cell) <= int(Siblings.rules().get("weapon", {}).get("max_distance", 12)), "Bram's weapon came down far from where the lead fell")
+	# Anywhere the company can walk (D60), but never on top of where they fell.
+	_expect(Pathfinder.distance(cell, home.cell) >= int(Siblings.rules().get("weapon", {}).get("min_distance", 5)), "Bram's weapon came down on top of where the lead fell")
+	_expect(world.site_at(cell) == null and not Fall.NOT_GROUND.has(world.terrain_id_at(cell)), "Bram's weapon came down somewhere nobody can stand")
 	_expect(Siblings.ghosts(world) == [0], "Bram's ghost is not at the fire")
 	var camp: Node = load("res://src/area/area_scene.tscn").instantiate()
 	camp.boot_payload = { "area_id": "home", "return_scene": "world" }

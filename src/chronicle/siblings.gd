@@ -264,14 +264,26 @@ static func _nearest_haven(world: World, from: Vector2i) -> Site:
 	return best
 
 
-## Open ground a short walk from where the lead fell (agenda item 12 is open;
-## this is the "easy to find" reading, item 53). The same for the same seed.
+## Where the weapon comes down. With `anywhere` (D60, `dougie`'s answer to agenda
+## item 12) it is any open ground the company can walk to, at least `min_distance`
+## from where the lead fell, and only the rumour says which way; without it, open
+## ground a short walk off (the earlier "easy to find" reading). The same for the
+## same seed.
 static func _weapon_cell(world: World, from: Vector2i, hero: String, reach: Dictionary) -> Vector2i:
 	var said: Dictionary = rules().get("weapon", {})
 	var near := int(said.get("min_distance", 5))
 	var far := maxi(near, int(said.get("max_distance", 12)))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash([world.world_seed, int(world.echoes.get("sibling", 0)), "weapon", hero])
+	if bool(said.get("anywhere", false)):
+		var open: Array[Vector2i] = []
+		for cell: Vector2i in reach:
+			if Pathfinder.distance(cell, from) >= near and world.site_at(cell) == null \
+					and not Fall.NOT_GROUND.has(world.terrain_id_at(cell)):
+				open.append(cell)
+		if not open.is_empty():
+			open.sort()
+			return open[rng.randi_range(0, open.size() - 1)]
 	for _i in int(said.get("attempts", 400)):
 		var cell := from + Vector2i(rng.randi_range(-far, far), rng.randi_range(-far, far))
 		var apart := Pathfinder.distance(cell, from)
