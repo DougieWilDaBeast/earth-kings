@@ -29,6 +29,8 @@ you saw, on which screen, and what you had done just before.
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Title → **Credits**; scroll with the wheel and with `W` / `S`, then `Esc`    | The founders, Godot's licence, music, sound, art, fonts and tools; `Esc` (or **Back to Title**) returns to the title |
+| A13 | In game, `Esc` → **Credits**, then `Esc`                                      | The same credits in the menu; `Esc` goes back to the menu, not out of it                                       |
 
 ## B — Starting a run
 
@@ -253,7 +255,7 @@ Rather than starting a run and playing to the point of concern, boot straight in
 ```
 
 State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`.
-Scenes: cinematic title character_select world area battle training coliseum museum summary,
+Scenes: cinematic title character_select world area battle training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.

@@ -181,6 +181,7 @@ src/
   ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
   ui/system_menu.tscn     In-game save / load overlay, opened via EventBus
+  ui/credits_screen.tscn  Credits off the title (also a page of the system menu), from data/credits.json
 ```
 
 Two rules keep it extensible: **content lives in `data/`, never in code**, and **systems talk

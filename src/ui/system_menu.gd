@@ -2,6 +2,8 @@ extends CanvasLayer
 ## Save / load overlay. Always present under [Game], like the dialogue box, and
 ## opened by [signal EventBus.system_menu_requested] so no scene owns it.
 
+const CreditsRoll := preload("res://src/ui/credits_roll.gd")
+
 const SETTINGS_PATH := "user://settings.cfg"
 
 const MAPPABLE_ACTIONS := [
@@ -34,6 +36,10 @@ const MAPPABLE_ACTIONS := [
 @onready var _controls_button: Button = %ControlsButton
 @onready var _reset_bindings_button: Button = %ResetBindingsButton
 @onready var _back_from_controls_button: Button = %BackFromControlsButton
+@onready var _credits_panel: PanelContainer = %CreditsPanel
+@onready var _credits_list: VBoxContainer = %CreditsList
+@onready var _credits_button: Button = %CreditsButton
+@onready var _back_from_credits_button: Button = %BackFromCreditsButton
 @onready var _load_button: Button = %LoadButton
 @onready var _status: Label = %StatusLabel
 @onready var _mute_button: Button = %MuteButton
@@ -86,8 +92,10 @@ func _ready() -> void:
 	_controls_button.pressed.connect(_open_controls)
 	_back_from_controls_button.pressed.connect(_close_controls)
 	_reset_bindings_button.pressed.connect(_reset_controls_to_defaults)
+	_credits_button.pressed.connect(open_credits)
+	_back_from_credits_button.pressed.connect(close_credits)
 
-	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _back_from_controls_button, _reset_bindings_button]:
+	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _back_from_controls_button, _reset_bindings_button, _credits_button, _back_from_credits_button]:
 		Sfx.attend(btn)
 
 	_load_custom_bindings()
@@ -101,6 +109,7 @@ func open() -> void:
 	_update_fullscreen_button()
 	_main_panel.show()
 	_controls_panel.hide()
+	_credits_panel.hide()
 	_rebind_action = ""
 	_root.show()
 
@@ -130,6 +139,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		if _controls_panel.visible:
 			_close_controls()
+		elif _credits_panel.visible:
+			close_credits()
 		else:
 			close()
 
@@ -138,6 +149,21 @@ func _open_controls() -> void:
 	_main_panel.hide()
 	_controls_panel.show()
 	_rebuild_controls_list()
+
+
+## The credits page: the same roll as the title's credits screen.
+func open_credits() -> void:
+	if _credits_list.get_child_count() == 0:
+		CreditsRoll.fill(_credits_list)
+	_main_panel.hide()
+	_credits_panel.show()
+	_back_from_credits_button.grab_focus()
+
+
+func close_credits() -> void:
+	_credits_panel.hide()
+	_main_panel.show()
+	_credits_button.grab_focus()
 
 
 func _close_controls() -> void:
