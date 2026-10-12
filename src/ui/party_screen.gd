@@ -31,6 +31,8 @@ const ICON_SIZE := Vector2(32, 32)
 const FACE_SIZE := Vector2(56, 56)
 ## Tall enough to put a thumb on without hitting the card above.
 const CARD_HEIGHT := 92
+## A card once the company is five or six strong.
+const COMPACT_CARD_HEIGHT := 80
 const ROW_BUTTON := Vector2(112, 48)
 ## The arrows that set the marching order. Narrow, but still a thumb tall.
 const ORDER_BUTTON := Vector2(44, 42)
@@ -61,6 +63,7 @@ var _notice: String = ""
 ## somebody dying while the screen is shut cannot leave it pointing at a ghost.
 var _shown_id: String = ""
 var _page: Page = Page.GEAR
+var _card_height: int = CARD_HEIGHT
 
 
 func _ready() -> void:
@@ -253,6 +256,9 @@ func _rebuild() -> void:
 
 	var party := GameState.roster.party_members()
 	var shown := _shown(party)
+	# Six cards fit the column without scrolling only if
+	# each gives up a little height once the company is past four.
+	_card_height = CARD_HEIGHT if party.size() <= 4 else COMPACT_CARD_HEIGHT
 	for i in party.size():
 		_roster_list.add_child(_card_row(party[i], i, party.size(), shown))
 
@@ -278,7 +284,10 @@ func _rebuild() -> void:
 		GameState.gold, GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps,
 		"" if GameState.away.is_empty() else "  ·  %d away" % GameState.away.size(),
 	]
-	_footer.text = "P or Esc to close%s" % ("" if _notice == "" else "  ·  " + _notice)
+	# How full the company is and how the next seat is earned (agenda item 35).
+	_footer.text = "%s  ·  P or Esc to close%s" % [
+		Roster.Seats.status_line(GameState.roster), "" if _notice == "" else "  ·  " + _notice
+	]
 
 
 func _empty(box: Node) -> void:
@@ -319,7 +328,7 @@ func _order_button(character: Character, delta: int, allowed: bool) -> Button:
 	button.custom_minimum_size = ORDER_BUTTON
 	button.focus_mode = Control.FOCUS_NONE
 	button.disabled = not allowed
-	button.text = "▲" if delta < 0 else "▼"
+	button.text = "^" if delta < 0 else "v"
 	button.tooltip_text = "Further %s the line" % ("up" if delta < 0 else "down")
 	button.pressed.connect(func() -> void: shift(character, delta))
 	Sfx.attend(button)
@@ -331,7 +340,7 @@ func _order_button(character: Character, delta: int, allowed: bool) -> Button:
 ## a target at all.
 func _card_for(character: Character, current: bool) -> Control:
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(0, CARD_HEIGHT)
+	card.custom_minimum_size = Vector2(0, _card_height)
 	card.add_theme_stylebox_override("panel", _card_style(character, current))
 
 	var margin := MarginContainer.new()
@@ -416,9 +425,9 @@ func _card_style(character: Character, current: bool) -> StyleBoxFlat:
 ## What a card has to say in one short line, worst news first.
 func _badge_for(character: Character) -> String:
 	if character.pending_class_choice:
-		return "▲ a path to choose"
+		return "+ a path to choose"
 	if character.rungs > 0 and not character.trees.is_empty():
-		return "▲ %d power to take" % character.rungs
+		return "+ %d power to take" % character.rungs
 	if character.yoke:
 		return "yoked"
 	return ""
@@ -745,7 +754,7 @@ func _change_line(stat: String, from: int, to: int) -> Label:
 		line.text = "%s %d" % [stat, to]
 		line.add_theme_color_override("font_color", QUIET)
 		return line
-	line.text = "%s %d → %d" % [stat, from, to]
+	line.text = "%s %d » %d" % [stat, from, to]
 	line.add_theme_color_override("font_color", GAIN if to > from else LOSS)
 	return line
 
@@ -810,7 +819,7 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			button.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
 			button.focus_mode = Control.FOCUS_NONE
 			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-			button.text = "Teach %s → %s" % [Doctrine.title(doctrine_id), student.display_name]
+			button.text = "Teach %s to %s" % [Doctrine.title(doctrine_id), student.display_name]
 			button.pressed.connect(func() -> void: teach(character, student, doctrine_id))
 			Sfx.attend(button)
 			_page_box.add_child(button)
@@ -982,7 +991,7 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			if known and Proficiency.uses(character, ability_id) > 0:
 				extra = "  [%s]" % Proficiency.summary(character, ability_id)
 			rung_line.text = "    %s %s  —  %s%s" % [
-				"■" if known else "□",
+				"•" if known else "◊",
 				ability.get("display_name", ability_id),
 				shape,
 				extra,

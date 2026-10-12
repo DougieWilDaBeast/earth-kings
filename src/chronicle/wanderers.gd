@@ -16,6 +16,7 @@ extends RefCounted
 ## the step, never from [member World.rng].
 
 const Fall := preload("res://src/chronicle/fall.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 ## The flag a conversation sets when somebody agrees to walk with you; settled
 ## by [method settle] once the conversation is over.
@@ -295,7 +296,7 @@ static func conversation(world: World, roster: Roster, hero_id: String) -> Dicti
 	var greeting: Array = said.get("first" if first else "again", {}).get(group, [])
 
 	var join_to := "join"
-	if roster.party.size() >= Roster.MAX_PARTY:
+	if not roster.has_room():
 		join_to = "full"
 	elif int(each.get("met", 0)) < meetings_to_join(hero_id):
 		join_to = "not_yet"
@@ -325,10 +326,18 @@ static func conversation(world: World, roster: Roster, hero_id: String) -> Dicti
 		"full": { "speaker": who, "text": _say(str(said.get("join_full", "")), hero_id, world, site), "next": "end" },
 	}
 	var start := "greet"
+	# An earlier lead's copy (M15, [D52]): you know them, and they do not know you.
+	var echo := Siblings.echo_lines(world, hero_id, group) if bool(each.get("echo", false)) else {}
+	if not echo.is_empty():
+		(nodes["greet"]["options"] as Array).insert(0, { "text": str(echo["ask"]), "goto": "echo" })
+		nodes["echo"] = { "speaker": who, "text": str(echo["answer"]), "next": "end" }
+		if first:
+			nodes["echo_seen"] = { "speaker": "", "text": str(echo["seen"]), "next": "greet" }
+			start = "echo_seen"
 	if first:
 		var recognised: Array = said.get("recognised", [])
 		if not recognised.is_empty():
-			nodes["mark"] = { "speaker": "", "text": _say(str(recognised[0]), hero_id, world, site), "next": "greet" }
+			nodes["mark"] = { "speaker": "", "text": _say(str(recognised[0]), hero_id, world, site), "next": start }
 			start = "mark"
 	return { "cast": { who: hero_id }, "start": start, "nodes": nodes }
 
@@ -382,11 +391,13 @@ static func joined_line(world: World, hero_id: String) -> String:
 ## lead's level. Null when there is no room or nobody by that name out there.
 static func join(world: World, roster: Roster, hero_id: String) -> Character:
 	var each := entry(world, hero_id)
-	if each.is_empty() or bool(each.get("joined", false)) or roster.party.size() >= Roster.MAX_PARTY:
+	if each.is_empty() or bool(each.get("joined", false)) or not roster.has_room():
 		return null
 	var recruit := Character.create(hero_id)
 	var lead := roster.player()
 	Progression.raise_quietly(recruit, lead.level if lead != null else 1, world)
+	if bool(each.get("echo", false)):
+		Siblings.shape(world, recruit)
 	for member: Character in roster.party_members():
 		var initial := Banter.initial_bond(member, recruit)
 		member.bonds[recruit.id] = initial

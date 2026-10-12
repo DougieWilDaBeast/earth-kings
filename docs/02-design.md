@@ -146,6 +146,31 @@ that from 7% to 31%; one book read lifts it to 17%.
 The design consequence is deliberate — **preparation is what buys lives**. Walking into bad
 country alone, with nothing read and nothing carried, is close to suicide, and it should be.
 
+### When the lead falls: Classic and Iron Man
+
+The mode is picked with the lead, on the quiz or the picker, and kept in the save
+([D51](06-decisions.md), replacing [D21](06-decisions.md)). What each one means is data:
+`data/world_rules.json` → `modes`, read by `src/chronicle/run_mode.gd`.
+
+| | Classic (the default) | Iron Man |
+| --- | --- | --- |
+| Saving by hand | Save and Load in the menu | None |
+| The game saves itself | Setting out, resting (inn, hut, home), a Tower chapter closing | Those, plus every return to the map and leaving the run (the menu's title button, closing the window) |
+| The lead dies | The run stops on the fall: **Reload** the last save, or **Ascend** | The lead ascends |
+| The record of the fallen ([D47](06-decisions.md)) and the hall | Written on ascending; a reload writes nothing | Written on the fall |
+| The save | Let go on ascending | Let go on the fall |
+
+The fall screen names the lead, what took them, and what a reload goes back to ("when you rested
+at Oakham, 37 steps ago"). Once a lead who died has ascended, their world ends on screen (M15,
+[D32](06-decisions.md)): the map one last time, the camera rising over all of it while it burns
+out from the Tower, the lead's name said over it, black. Then the run is told as before, and the
+way on is choosing the next lead, who starts at level 1 in a sibling world — see
+[17](17-the-sixteen-worlds.md#sixteen-worlds-as-built). A lead taken captive ends the run too; Classic offers the reload, and the other
+choice reads _Let it end_. The save points, letting the save go on ascending in Classic, and the
+modes being separate from the difficulty are build choices, **Inferred**, agenda item 40 in
+[answers.md](worldbuilding/answers.md). What ascending means for the lead's standing quest is
+agenda item 22 and is left open: the button only says _Ascend_.
+
 ## The power system
 
 Skill trees are **generated, not authored** — the world has a hidden grammar of themes crossed
@@ -245,7 +270,8 @@ floor is won when one of the party stands on it. The names and briefs are in
 the season represented by four clovers: Lesser Green (Spring), Green (Summer), Brown (Autumn), and
 Ice (Winter). Every 30 steps the world takes an upkeep pass (`World.UPKEEP_INTERVAL`): gates check for
 breaking, trade routes pay, threads tick, and prowlers restock. Scaling a Tower floor advances the
-continent by 30 steps ([D27](06-decisions.md)).
+continent by 30 steps ([D27](06-decisions.md)). Bands are put out only on that clock and once when a
+new world first opens; loading a save or coming back from a fight adds none.
 
 **Towns under threat.** The upkeep pass puts the settlement nearest a long-open gate under siege.
 A siege you answer (`Town.save`) pays gold and buys goodwill; one you ignore for 900 steps takes

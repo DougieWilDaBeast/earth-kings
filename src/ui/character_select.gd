@@ -6,6 +6,7 @@ extends Control
 ## leads who died. Once nobody is left, the page offers a new sixteen instead.
 
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -173,18 +174,24 @@ func _show_difficulty() -> void:
 
 func _begin(hero_id: String) -> void:
 	GameState.new_game(_chosen_seed(), hero_id)
+	# Saved at once, so a Classic lead who falls before the first rest still
+	# has somewhere to go back to.
+	EventBus.safe_point_reached.emit(RunMode.START, "you set out")
 	EventBus.request_scene.emit("world", {})
 
 
 ## A country you can go back to. Anything that is not a number is nothing, and
-## nothing means a fresh one — which is what almost everybody wants.
+## nothing means the game picks — a fresh one, or once a lead has died a
+## sibling of the world that ended — which is what almost everybody wants.
 func _chosen_seed() -> int:
 	var typed := _seed.text.strip_edges()
 	if typed.is_valid_int():
 		# new_game() reads zero as "pick one", so a typed zero has to become
 		# something else rather than silently doing what it was not asked to.
 		return maxi(1, absi(typed.to_int()))
-	return randi()
+	# Nothing asked for: the game picks, and after a death that is a sibling
+	# of the world that ended (M15).
+	return 0
 
 
 func _unhandled_input(event: InputEvent) -> void:

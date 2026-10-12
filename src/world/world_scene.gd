@@ -10,8 +10,12 @@ const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
+const Seats := preload("res://src/chronicle/seats.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
+const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const CELL := 24
@@ -101,8 +105,16 @@ var _explored_checked_at: int = -999
 
 func _ready() -> void:
 	world = GameState.world
-	Encounter.restock(world, world.rng)
-	if world.steps == 0:
+	# A lead has died and ascended: this is the last look at their world (M15).
+	if bool(boot_payload.get("world_ends", false)):
+		_watch_it_end()
+		return
+	# Only a world nobody has stood in yet is stocked here. This scene opens again
+	# on every load and after every fight; topping up then too put a fresh round
+	# of bands out each time (the count jumped on Continue). After the first
+	# stocking, the country refills on the step clock alone (RESTOCK_INTERVAL).
+	if world.steps == 0 and world.prowlers.is_empty():
+		Encounter.restock(world, world.rng)
 		Encounter.first_blood(world, world.rng)
 	_warm_art()
 	# The ground the party stands on is always on the map ([D50]).
@@ -120,6 +132,7 @@ func _ready() -> void:
 	EventBus.dialogue_requested.connect(func(_id: String) -> void: _watch_overlays())
 	EventBus.dialogue_finished.connect(func(_id: String) -> void: _watch_overlays())
 	EventBus.conversation_requested.connect(func(_lines: Array) -> void: _watch_overlays())
+	EventBus.game_saved.connect(_on_game_saved)
 	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
 	_centre_camera(true)
 	# Picking up the pad, or putting it down, changes every key the hint line
@@ -164,9 +177,10 @@ func _ready() -> void:
 	if world.steps == 0 and not GameState.has_flag("seen:prologue"):
 		GameState.set_flag("seen:prologue")
 		var lead := GameState.roster.player()
-		Database.register_dialogue("landing", Fall.landing_dialogue(
-			world, lead.display_name if lead != null else "The fallen"
-		))
+		var landing := Fall.landing_dialogue(world, lead.display_name if lead != null else "The fallen")
+		# In a world after the first, word of whoever went before (M15).
+		(landing["lines"] as Array).append_array(Siblings.landing_lines(world))
+		Database.register_dialogue("landing", landing)
 		EventBus.dialogue_requested.emit("landing")
 
 
@@ -334,6 +348,8 @@ func _step(direction: Vector2i) -> void:
 	for notice: String in Roadside.on_arrive(world, world.site_at(target), GameState.party_characters()):
 		_note(notice)
 	for notice: String in Skein.on_arrive(world, target, world.site_at(target)):
+		_note(notice)
+	for notice: String in Siblings.on_arrive(world, target):
 		_note(notice)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
@@ -558,6 +574,11 @@ func _settle_up(won: bool) -> void:
 			if Chapters.ends_chapter(world, world.tower_floor):
 				for line: String in Chapters.turn(world, world.tower_floor):
 					_note(line)
+				# Once the whole fight is settled, not halfway through it.
+				EventBus.safe_point_reached.emit.call_deferred(
+					RunMode.CHAPTER, "chapter %d of the Tower closed" % Chapters.chapter_of(world.tower_floor)
+				)
+				_open_seats()
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
 				var hoard := world.tower_hoard
@@ -599,6 +620,71 @@ func _settle_up(won: bool) -> void:
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 	_map.queue_redraw()
 	_refresh()
+
+
+## A Tower chapter won may earn the company another seat (agenda item 35).
+## The moment is made something of: a banner, a few lines at the fire, and
+## anyone who came back from a job to a full company falls in first.
+func _open_seats() -> void:
+	var roster := GameState.roster
+	if Seats.sync(world, roster) <= 0:
+		return
+	var lines := Seats.opened_lines(roster, world.tower_floor)
+	for line: String in lines:
+		_note(line)
+	for line: String in _call_back_the_waiting():
+		_note(line)
+	Annals.record(world, "Floor %d of the Tower won the company a seat: %d could march together from then on." % [
+		world.tower_floor, roster.seats
+	])
+	EventBus.party_seat_opened.emit(roster.seats)
+	_show_banner(str(Seats.rules().get("banner", "")).format({ "seats": str(roster.seats) }))
+	Sfx.play(Sfx.SELECT)
+	EventBus.conversation_requested.emit(_as_conversation(lines))
+
+
+## Companions who came back from a job to find no room have been waiting by
+## the fire; a new seat is theirs before it is anyone's for hire.
+func _call_back_the_waiting() -> Array[String]:
+	var lines: Array[String] = []
+	var roster := GameState.roster
+	for character: Character in roster.characters:
+		if not roster.has_room():
+			break
+		if character.id in roster.party or not character.is_available():
+			continue
+		if not Dispatch.job_for(GameState.away, character.id).is_empty():
+			continue
+		if roster.enlist(character.id):
+			lines.append("%s has been waiting by the fire, and takes the seat." % character.display_name)
+	return lines
+
+
+## A line across the top of the screen that holds a beat and goes.
+func _show_banner(text: String) -> void:
+	if text == "":
+		return
+	var banner := Label.new()
+	banner.text = text
+	banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	banner.anchor_left = 0.0
+	banner.anchor_right = 1.0
+	banner.anchor_top = 0.18
+	banner.anchor_bottom = 0.18
+	banner.offset_top = -30
+	banner.offset_bottom = 30
+	banner.add_theme_font_size_override("font_size", 32)
+	banner.add_theme_color_override("font_color", Color(0.965, 0.827, 0.443))
+	banner.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	banner.add_theme_constant_override("outline_size", 8)
+	banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	banner.modulate.a = 0.0
+	_hint.get_parent().add_child(banner)
+	var tween := create_tween()
+	tween.tween_property(banner, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(3.5)
+	tween.tween_property(banner, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(banner.queue_free)
 
 
 func _celebrate_tower_conquest() -> void:
@@ -696,7 +782,14 @@ func _rest_at(site: Site) -> void:
 		if word != "":
 			_note(word)
 			_map.queue_redraw()
+	# Something out of the sky is the first thing anybody talks about (M15).
+	if site.kind != Site.HUT and Siblings.heard_weapons(world).is_empty():
+		var fallen := Siblings.rumour(world)
+		if fallen != "":
+			_note(fallen)
+			_map.queue_redraw()
 	if rested:
+		EventBus.safe_point_reached.emit(RunMode.REST, "you rested at %s" % site.display_name)
 		_make_camp(site)
 
 
@@ -716,6 +809,7 @@ func _make_camp(site: Site) -> void:
 func _sleep_at_home(site: Site) -> void:
 	for line: String in Home.sleep(site, GameState.roster):
 		_note(line)
+	EventBus.safe_point_reached.emit(RunMode.REST, "you slept at %s" % site.display_name)
 
 
 func _read_at(site: Site) -> void:
@@ -1179,6 +1273,13 @@ func _home_actions(site: Site) -> Array[Dictionary]:
 	]
 
 
+## Said when the game saves itself somewhere worth saying it. Coming back to the
+## map is too often to mention.
+func _on_game_saved(point: String, _note_text: String) -> void:
+	if point != RunMode.ROAD and point != RunMode.LEAVE:
+		_note("The game is saved.")
+
+
 ## Permadeath follows the player. Companions come and go, and some of them do
 ## not get to see the end of it.
 func _end_run() -> void:
@@ -1405,8 +1506,8 @@ func _hire_here() -> void:
 	var offer := Market.hire_offer(site)
 	if offer.is_empty():
 		return
-	if GameState.roster.party.size() >= Roster.MAX_PARTY:
-		_note("You have nobody to spare a place for.")
+	if not GameState.roster.has_room():
+		_note(Seats.full_line(GameState.roster))
 		return
 
 	var hired := Market.hire(site, GameState.roster, world)
@@ -1657,6 +1758,7 @@ func _draw_world() -> void:
 	_draw_quest_markers()
 	_draw_the_climb()
 	_draw_wanderers()
+	_draw_fallen_weapons()
 	_draw_bands()
 	_draw_party()
 
@@ -1960,6 +2062,8 @@ func _warm_art() -> void:
 		Database.unit_face(character.template_id)
 	for each: Dictionary in world.wanderers:
 		Database.unit_face(str(each.get("id", "")))
+	for echo: Dictionary in Siblings.past(world):
+		Gear.icon(str(echo.get("weapon", {}).get("id", "")))
 
 
 ## Draws a glowing, pulsing destination beacon and an animated directional trail from the party.
@@ -2096,6 +2200,44 @@ func _draw_wanderers() -> void:
 			continue
 		var size := Vector2.ONE * CELL * 0.8
 		_map.draw_texture_rect(face, Rect2(centre - size * 0.5, size), false, Color(1, 1, 1, 0.55 if faint else 1.0))
+
+
+## A dead lead's weapon, once there is word of where it came down (M15): its
+## own picture in a ring the colour of a fall.
+func _draw_fallen_weapons() -> void:
+	for fallen: Dictionary in Siblings.heard_weapons(world):
+		var cell: Vector2i = fallen["cell"]
+		var centre := Vector2(cell) * CELL + Vector2.ONE * CELL * 0.5
+		var pulse := 0.75 + 0.25 * sin(Time.get_ticks_msec() / 260.0)
+		_map.draw_circle(centre, CELL * 0.5, Color(0.1, 0.05, 0.04, 0.85))
+		_map.draw_arc(centre, CELL * 0.5, 0.0, TAU, 24, Color(0.906, 0.447, 0.322, pulse), 2.5, true)
+		var icon := Gear.icon(str(fallen["id"]))
+		if icon != null:
+			var size := Vector2.ONE * CELL * 0.8
+			_map.draw_texture_rect(icon, Rect2(centre - size * 0.5, size), false)
+
+
+## The last look at a world whose lead has died and ascended ([D32]): the
+## camera rises over the whole of it and watches it go. Nothing here can be
+## walked; when it is over the run is told and the next lead is chosen.
+func _watch_it_end() -> void:
+	_busy = true
+	$UI.hide()
+	_warm_art()
+	_map.draw.connect(_draw_world)
+	_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size) * CELL))
+	_centre_camera(true)
+	_map.queue_redraw()
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var ending := WorldEnd.new()
+	ending.name = "WorldEnd"
+	add_child(ending)
+	var tower := world.tower()
+	await ending.play(
+		_camera, world, tower.cell if tower != null else world.size / 2, CELL,
+		lead.display_name if lead != null else "the fallen"
+	)
+	EventBus.request_scene.emit("summary", { "ending": Museum.FELL, "settled": true })
 
 
 ## Bands are drawn as whoever is leading them, so the country tells you what is

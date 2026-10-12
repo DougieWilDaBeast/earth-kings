@@ -169,14 +169,14 @@ The fight is the thing that has to be right — see [18 — Combat direction](18
 | Piece | In the build |
 | --- | --- |
 | Sixteen temper slots, the quiz, the picker | Yes — [13](13-heroes-and-tempers.md). No character of the sixteen is written yet |
-| The run ending when the lead falls | Yes — `D14`. It ends the run, not a world. Save/load is free ([D21](06-decisions.md)); Classic and Iron Man ([D51](06-decisions.md)) are not built |
-| One Tower, floors, an apex fight | Yes — a hundred floors since 2026-10-01 ([D48](06-decisions.md)), the apex on the last ([D25](06-decisions.md)). Chapters of five since 2026-09-25: the world moves on, the census is read (always sixteen until M15), and the stair is sealed until a gate is shut or a town saved. Keys as items or quests, not yet |
+| The run ending when the lead falls | Yes — `D14`, and Classic and Iron Man ([D51](06-decisions.md)) since 2026-10-12. A lead who dies and ascends ends their world: it is shown burning and kept as gone ([below](#sixteen-worlds-as-built)) |
+| One Tower, floors, an apex fight | Yes — a hundred floors since 2026-10-01 ([D48](06-decisions.md)), the apex on the last ([D25](06-decisions.md)). Chapters of five since 2026-09-25: the world moves on, the census is read (a lead who died in an earlier world is counted out once this lead climbs as high), and the stair is sealed until a gate is shut or a town saved. Keys as items or quests, not yet |
 | Gates, ranks E–S, delves | Yes — and since 2026-09-24 there is no walking out of one mid-delve |
 | The fall, the mark, random crash sites | **Crash sites, yes** (2026-10-12): every run lands the lead somewhere the seed chose, plays a short landing beat, and makes the crater Home. The intro showing the fall waits on art; the mark is spoken of but has no form yet |
 | The fifteen living their own lives | **Yes, with stand-ins** (2026-10-12): the heroes a run did not start with crash-land too and walk between places by temper. See [below](#the-others-as-built) |
-| Sibling worlds, the world ending, the next lead | No. `World` serialises and is seeded ([D09](06-decisions.md)), which is the seam for a sibling world |
-| Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | **"Ascend to heaven", yes** (2026-10-12): carried from landing, shown in the journal and on the Tower; it never completes. Memories and the earlier lead, no |
-| Ghosts, the journal, signature weapons | No. The journal screen and `Annals` already record what a run did |
+| Sibling worlds, the world ending, the next lead | **Yes** (2026-10-12): the end shown on the map, the next lead from level 1 in a sibling world. See [below](#sixteen-worlds-as-built) |
+| Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | **"Ascend to heaven", yes** (2026-10-12): carried from landing, shown in the journal and on the Tower; it never completes. **The earlier lead, yes** (2026-10-12), waiting near where the next lead fell. Memories, no |
+| Ghosts, the journal, signature weapons | **Yes, simply** (2026-10-12): the journal kept at death as a line per thing done, the ghost at the fire sharing it, and a signature weapon for each stand-in that falls near the next crash site. No meditating yet |
 | The contest past the top | No |
 | Regional names and earned titles | No. `Renown` already tracks standing per place, which is where a title would come from |
 
@@ -201,5 +201,39 @@ Everything here is **Inferred** — agenda items 25 to 29 in
   drawn on the map, a rumour faintly.
 - **Meeting them.** **X** on the map, or walking up to them inside the place, starts a short
   conversation in their temper's voice. An Outward temper will join on the first meeting, an Inward
-  one only on the second, at the lead's level and only into a free place in the party of four.
+  one only on the second, at the lead's level and only into a free seat in the party (four to start,
+  up to six as the Tower is climbed).
 
+## Sixteen worlds, as built
+
+Built 2026-10-12 for M15 (`src/chronicle/siblings.gd`, `src/world/world_end.gd`,
+`data/fall.json` → `siblings`). Everything here is **Inferred** — agenda items 50 to 56 in
+[answers.md](worldbuilding/answers.md#what-is-still-to-decide) — and goes back to the founders.
+
+- **The end.** Once a lead who died has ascended (Classic) or straight from the fall (Iron Man),
+  the map is shown one last time: the camera rises over the whole of it while it burns out from
+  the Tower to the sea, and the lead's name is said over it. Any key looks away. The world is kept
+  in the record of the fallen, marked gone, with what the lead was, how far they got, and the
+  journal of the run: a line for every gate shut, person met, place stood in and enemy learned.
+  Then the run is told, and the next lead is chosen from the living.
+- **The sibling.** With no seed typed on the picker, the next run is built on the first world's
+  seed: the same ground, places, names and crash sites. A quarter of the gates' state and the
+  libraries' books are dealt again, and the world's dice start somewhere new. The new lead is
+  level 1 with nothing carried over. A typed seed is a world of its own, and nothing comes through.
+- **The earlier lead, alive.** Their copy waits at the settlement nearest where the new lead fell,
+  and the landing beat says the name is being talked about there. They are met like the others, and
+  answer "Have we met before?" in their temper's voice. If they join, it is at the new lead's level,
+  with the calling and beliefs they started with.
+- **Nothing early.** Once the new lead has the old lead's level and has climbed to their floor,
+  the old lead's weapon falls out of a clear sky (the company sees it, and which way), their ghost
+  comes to the fire, and the census at the end of a chapter counts them out.
+- **The weapon.** Each stand-in has one (`equipment.json`, `signature`): god-tier and suited to
+  nobody. It lands on open ground 5 to 12 tiles from where the new lead fell (agenda item 12's "easy
+  to find", item 53). Inns and rests point at it, which marks it on the map; walking onto the crater
+  takes it.
+- **The ghost.** At any fire the company sits at — the camp after a rest, a hut, home — in a free
+  seat, the fire showing through them. They answer how they fell, what went well, what they found
+  out there and where their weapon is. What they found is the journal, shared a line or three at
+  first by temper, two more every night after, and all of it once their weapon is found.
+- **The journal page** (_Quests & the Fallen_) says which world of the sixteen this is and what has
+  come through from each one that ended.

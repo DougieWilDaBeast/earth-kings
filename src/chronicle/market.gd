@@ -68,6 +68,9 @@ static func buy(site: Site, equipment_id: String, buyer: Character, world: World
 static func _roll_wares(world: World) -> Array:
 	var stock: Array = []
 	for equipment_id: String in Database.equipment.keys():
+		# A weapon made for one of the sixteen is never for sale (M15).
+		if Database.equipment[equipment_id].has("signature"):
+			continue
 		if world.rng.randf() < 0.5:
 			stock.append(equipment_id)
 	return stock
@@ -101,7 +104,7 @@ static func hire(site: Site, roster: Roster, world: World) -> Character:
 	if offer.is_empty():
 		return null
 	var cost := asking_hire_cost(site, world, offer)
-	if GameState.gold < cost or roster.party.size() >= Roster.MAX_PARTY:
+	if GameState.gold < cost or not roster.has_room():
 		return null
 
 	GameState.gold -= cost

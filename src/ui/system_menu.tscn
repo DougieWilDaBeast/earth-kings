@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://src/ui/system_menu.gd" id="1_system_menu"]
 
 [node name="SystemMenu" type="CanvasLayer"]
-layer = 9
+layer = 11
 script = ExtResource("1_system_menu")
 
 [node name="Root" type="Control" parent="."]

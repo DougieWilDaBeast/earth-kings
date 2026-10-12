@@ -1,4 +1,23 @@
 {
+	"modes": {
+		"setting": "classic",
+		"settings": {
+			"classic": {
+				"display_name": "Classic",
+				"blurb": "Save whenever you like; the game also saves when you set out, when you rest and when a Tower chapter ends. When your lead falls you may reload the last save, or ascend and choose the next lead.",
+				"manual_save": true,
+				"reload_on_death": true,
+				"autosave": ["start", "rest", "chapter"]
+			},
+			"iron_man": {
+				"display_name": "Iron Man",
+				"blurb": "One life. The game saves itself when you set out, when you rest, when a chapter ends, every time you come back to the map, and when you leave. When your lead falls they ascend, and the save goes with them.",
+				"manual_save": false,
+				"reload_on_death": false,
+				"autosave": ["start", "rest", "chapter", "road", "leave"]
+			}
+		}
+	},
 	"difficulty": {
 		"setting": "gentle",
 		"settings": {
@@ -97,6 +116,24 @@
 			{ "to": 99, "factions": ["heart_empire"] }
 		],
 		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"]
+	},
+	"party": {
+		"seats_base": 4,
+		"seats_most": 6,
+		"seats_by_tower_floor": [
+			{ "floor": 5, "seats": 5 },
+			{ "floor": 10, "seats": 6 }
+		],
+		"opened": [
+			"A seat opens at the fire.",
+			"Word of floor {floor} has gone down the Tower ahead of you. Sellswords who would not look at a company of four stand you drinks now.",
+			"{lead} can lead {seats_word} into a fight from today."
+		],
+		"next_seat": "Hire someone in a village or keep to fill it. Floor {next_floor} of the Tower opens one more.",
+		"all_seats": "Hire someone in a village or keep to fill it. Six is as many as anyone has ever kept alive in there.",
+		"banner": "A seat opens: {seats} can march",
+		"full": "Every seat is taken ({seats} of {seats}). Clear floor {next_floor} of the Tower and another opens.",
+		"full_at_most": "Every seat is taken ({seats} of {seats})."
 	},
 	"gate": {
 		"floors_base": 1,

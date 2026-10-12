@@ -33,6 +33,73 @@
 		"badge": "ASCEND"
 	},
 
+	"siblings": {
+		"_doc": "M15, sixteen worlds (docs/17, D32, D33, D52). When a lead dies and ascends, their world ends and the next lead starts in a sibling world. Read by src/chronicle/siblings.gd. Everything here is a default the build took, Inferred: agenda items 50 to 55 in docs/worldbuilding/answers.md.",
+		"_doc_perturbation": "A sibling world is built on the first fallen world's seed, so the ground, the places and their names, and where each of the sixteen comes down, are the same. Then this share of what the world's dice dealt is dealt again: which gates are already open, and which books sit on which library's shelves. The world's own dice (bands, the roadside, upkeep) run from a new seed. 0 is an identical twin; 1 redeals every gate and shelf (agenda item 50).",
+		"perturbation": 0.25,
+		"_doc_echo": "D52: an earlier lead is alive in the later world as an ordinary person, the copy of them that never fell, with the personality they started with. They wait at the settlement nearest where the new lead fell for stay_steps before walking on by temper, and word of them is in the company's ears from the landing (agenda item 51).",
+		"echo": { "stay_steps": 400 },
+		"_doc_weapon": "D33: the dead lead's signature weapon crash-lands in the next world, but not before the new lead has got as far as the old one: at least the old lead's level, and at least as high up the Tower (agenda item 52). Where it lands is agenda item 12; until that is answered it comes down on open ground between min_distance and max_distance tiles of where the new lead fell, easy to find (agenda item 53).",
+		"weapon": { "min_distance": 5, "max_distance": 12, "attempts": 400 },
+		"_doc_ghost": "D33: the dead lead's ghost is at the campfire once their news has arrived (the same moment the weapon lands). They share the journal of the run they died in a page at a time: an Outward temper opens with `outward` pages, an Inward one with `inward`, and every night at the fire adds `per_visit`. Finding their weapon opens the rest (agenda item 54).",
+		"ghost": { "outward": 3, "inward": 1, "per_visit": 2 },
+		"_doc_signatures": "Every one of the sixteen has a weapon made for them (equipment.json, `signature`, suited to nobody). Until the sixteen are written the twelve stand-ins carry these (agenda item 55).",
+		"signatures": {
+			"bram": "oathkeeper",
+			"sera": "last_light",
+			"toln": "vigil_lamp",
+			"fox_knight": "foxfire",
+			"village_idiot": "fools_sceptre",
+			"dirte": "crownbreaker",
+			"staff_panda": "ten_thousand_days",
+			"dwarf_smith": "first_anvil",
+			"element_monk": "eightfold_edge",
+			"sea_man": "undertow",
+			"emo_swordsman": "insomnia",
+			"wraith": "tatter"
+		},
+		"lines": {
+			"_doc": "{name} is the dead lead, {lead} the living one, {weapon} the signature weapon, {way} a compass direction, {place} a place, {level} and {floor} how far the dead lead got.",
+			"ending_title": "The world of {name} is ending.",
+			"ending_sub": "They were the one who was supposed to save it. It never comes back.",
+			"ending_skip": "Any key to look away",
+			"landing": "There is talk already, in {place}, of somebody called {name}. You have never met them. The name sits in your chest like a stone.",
+			"weapon_lands": "Something falls out of a clear sky far to the {way}, trailing fire, and the ground shakes. The company stops talking for a while.",
+			"weapon_annal": "{weapon}, made for {name} in another world, fell from the sky.",
+			"weapon_rumour": "A crater opened to the {way} of {place}, they say, near where you yourself came down, with a weapon standing up out of it. Nobody who has tried to swing it could make it behave.",
+			"weapon_found": "In the crater lies {weapon}, made for {name}, who died in another world. It is heavy in your hands in a way that has nothing to do with weight.",
+			"weapon_found_annal": "The company dug {weapon} out of its crater. It was made for {name}.",
+			"echo_seen": "Something about {name} catches in your throat. Somewhere else, they died. Here, they never fell.",
+			"echo_ask": "Have we met before?",
+			"echo_answer": {
+				"NT": "No. I would remember; I remember everything since the crater. You are looking at me as if I owed you something. I do not, yet.",
+				"NF": "I think so. Not here. You look at me the way people look at graves. Whoever you lost, I am sorry.",
+				"SJ": "No, and I would thank you not to stare. If I have done something, tell me plainly.",
+				"SP": "Ha. Everyone says that. I've got one of those faces. Buy me a drink and we can pretend."
+			},
+			"ghost_name": "The ghost of {name}",
+			"ghost_first": "The fire gutters, and {name} is sitting across it, the way they sat in the world that ended. You can see the logs through them.",
+			"ghost_again": "{name} is at the fire again, or never left it.",
+			"ghost_ask_fall": "How did you fall?",
+			"ghost_ask_well": "What did you do well?",
+			"ghost_ask_found": "What did you find out there?",
+			"ghost_ask_weapon": "Where is your weapon?",
+			"ghost_leave": "Rest now.",
+			"ghost_fall": "Level {level}. {floor_text} {killer_text}",
+			"ghost_floor_none": "I never set foot on the Tower's stair.",
+			"ghost_floor": "Floor {floor} of the Tower was as high as I got.",
+			"ghost_killer": "{killer} put me down, and the world went with me.",
+			"ghost_killer_none": "I do not remember the end. Only the sky going out.",
+			"ghost_well_none": "Well? I walked, and then I stopped. Do better.",
+			"ghost_found_none": "Nothing I can give you yet.",
+			"ghost_withheld": "There is more. I do not know you well enough to give it all to you.",
+			"ghost_opened": "You found my weapon. Then you have earned all of it.",
+			"ghost_weapon_landed": "It came down to the {way} of where you fell. Go and get it before somebody else does.",
+			"ghost_weapon_found": "You are carrying it. Nobody will ever hold it right. Hold it anyway.",
+			"ghost_weapon_waiting": "Still falling. It will come down when you have got as far as I did."
+		}
+	},
+
 	"wanderers": {
 		"_doc": "The other leads, living their own lives (docs/17). Who they are is every hero in data/heroes.json that the run did not start with. Their temper is Inferred (heroes.json has none until the sixteen are written). They move between places by temper: `preferences` weights each kind of place by temper group (NT, NF, SJ, SP).",
 		"tempers": {
