@@ -328,7 +328,7 @@ func _order_button(character: Character, delta: int, allowed: bool) -> Button:
 	button.custom_minimum_size = ORDER_BUTTON
 	button.focus_mode = Control.FOCUS_NONE
 	button.disabled = not allowed
-	button.text = "▲" if delta < 0 else "▼"
+	button.text = "^" if delta < 0 else "v"
 	button.tooltip_text = "Further %s the line" % ("up" if delta < 0 else "down")
 	button.pressed.connect(func() -> void: shift(character, delta))
 	Sfx.attend(button)
@@ -425,9 +425,9 @@ func _card_style(character: Character, current: bool) -> StyleBoxFlat:
 ## What a card has to say in one short line, worst news first.
 func _badge_for(character: Character) -> String:
 	if character.pending_class_choice:
-		return "▲ a path to choose"
+		return "+ a path to choose"
 	if character.rungs > 0 and not character.trees.is_empty():
-		return "▲ %d power to take" % character.rungs
+		return "+ %d power to take" % character.rungs
 	if character.yoke:
 		return "yoked"
 	return ""
@@ -754,7 +754,7 @@ func _change_line(stat: String, from: int, to: int) -> Label:
 		line.text = "%s %d" % [stat, to]
 		line.add_theme_color_override("font_color", QUIET)
 		return line
-	line.text = "%s %d → %d" % [stat, from, to]
+	line.text = "%s %d » %d" % [stat, from, to]
 	line.add_theme_color_override("font_color", GAIN if to > from else LOSS)
 	return line
 
@@ -819,7 +819,7 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			button.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
 			button.focus_mode = Control.FOCUS_NONE
 			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-			button.text = "Teach %s → %s" % [Doctrine.title(doctrine_id), student.display_name]
+			button.text = "Teach %s to %s" % [Doctrine.title(doctrine_id), student.display_name]
 			button.pressed.connect(func() -> void: teach(character, student, doctrine_id))
 			Sfx.attend(button)
 			_page_box.add_child(button)
@@ -991,7 +991,7 @@ func _tree_blocks(character: Character) -> Array[Control]:
 			if known and Proficiency.uses(character, ability_id) > 0:
 				extra = "  [%s]" % Proficiency.summary(character, ability_id)
 			rung_line.text = "    %s %s  —  %s%s" % [
-				"■" if known else "□",
+				"•" if known else "◊",
 				ability.get("display_name", ability_id),
 				shape,
 				extra,

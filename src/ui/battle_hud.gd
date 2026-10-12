@@ -18,8 +18,8 @@ signal speed_cycled
 signal cancel_requested
 
 const LOG_LINES := 4
-const PIP_FULL := "◆"
-const PIP_SPENT := "◇"
+const PIP_FULL := "•"
+const PIP_SPENT := "◊"
 const SELECTED_COLOUR := "#ffdb57"
 const SPENT_COLOUR := "#7d838f"
 ## Shown along the bottom whenever nothing is being hovered.
@@ -132,7 +132,7 @@ func set_squad(squad: Array[Unit], selected: Unit) -> void:
 		]
 		var entry := "%s %s" % [unit.display_name.get_slice(" ", 0) if crowded else unit.display_name, pips]
 		if unit == selected:
-			entry = "[color=%s]▸ %s[/color]" % [SELECTED_COLOUR, entry]
+			entry = "[color=%s]› %s[/color]" % [SELECTED_COLOUR, entry]
 		elif unit.is_done():
 			entry = "[color=%s]%s[/color]" % [SPENT_COLOUR, entry]
 		parts.append(entry)
@@ -170,7 +170,7 @@ func set_turn_order(order: Array[Unit]) -> void:
 	var names := order.map(func(u: Unit) -> String:
 		return "Your party" if u.team == Unit.Team.PLAYER else u.display_name
 	)
-	_order_label.text = "Next: " + " → ".join(names)
+	_order_label.text = "Next: " + " › ".join(names)
 
 
 func set_inspected(unit: Unit, terrain: Dictionary) -> void:
