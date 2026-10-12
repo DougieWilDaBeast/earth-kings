@@ -44,3 +44,58 @@ static func whole(value: Variant) -> Variant:
 				list[i] = whole(list[i])
 			return list
 	return value
+
+
+# --- writing ------------------------------------------------------------------
+#
+# A save is never written over in place. It is written whole to a temporary file
+# beside it, the save already there steps aside as the one rolling backup, and
+# the temporary file is renamed into its place. A crash at any point leaves
+# either the old save, or the backup and the new one: never half a file under
+# the real name ([D55]).
+
+
+## Where the one rolling backup of [param path] is kept:
+## `earth-kings.save.json` -> `earth-kings.save.bak.json`.
+static func backup_path(path: String) -> String:
+	return "%s.bak.%s" % [path.get_basename(), path.get_extension()]
+
+
+## Where a save of an older (or newer) [param version] is set aside before
+## anything is done to it: `earth-kings.save.v2.bak.json`. Never rotated.
+static func version_backup_path(path: String, version: int) -> String:
+	return "%s.v%d.bak.%s" % [path.get_basename(), version, path.get_extension()]
+
+
+## [param value] written to [param path] as tab-indented JSON, whole numbers as
+## whole numbers, with the previous file kept at [method backup_path]. False,
+## with the old save untouched, if the new one could not be written.
+static func write(path: String, value: Variant) -> bool:
+	# Whole numbers written as whole numbers, whatever they were carried as (a
+	# number taken straight from the data is a float), so a file loaded and
+	# saved again is the same file.
+	var text := JSON.stringify(whole(value.duplicate(true) if value is Dictionary or value is Array else value), "\t")
+	var temp := path + ".tmp"
+	var file := FileAccess.open(temp, FileAccess.WRITE)
+	if file == null:
+		return false
+	var stored := file.store_string(text)
+	file.flush()
+	var error := file.get_error()
+	file.close()
+	if not stored or error != OK:
+		DirAccess.remove_absolute(temp)
+		return false
+	if FileAccess.file_exists(path):
+		var backup := backup_path(path)
+		if FileAccess.file_exists(backup):
+			DirAccess.remove_absolute(backup)
+		if DirAccess.rename_absolute(path, backup) != OK:
+			DirAccess.remove_absolute(temp)
+			return false
+	return DirAccess.rename_absolute(temp, path) == OK
+
+
+## A byte-for-byte copy of [param from] at [param to]. False if it could not be made.
+static func copy(from: String, to: String) -> bool:
+	return FileAccess.file_exists(from) and DirAccess.copy_absolute(from, to) == OK

@@ -2,6 +2,8 @@ extends Node
 ## Root node: owns the active scene and the always-present dialogue overlay.
 ## Scene changes go through [EventBus] so no scene needs to know about another.
 
+const SaveToast := preload("res://src/ui/save_toast.gd")
+
 const SCENES := {
 	"cinematic": "res://src/ui/cinematic.tscn",
 	"title": "res://src/ui/title_screen.tscn",
@@ -28,6 +30,8 @@ var _scene_key: String = "cinematic"
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
+	# Says so when a save is upgraded or restored from its backup ([D55]).
+	add_child(SaveToast.new())
 	# A phone has one key on it, and Android hands it over as "go back". Left
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.

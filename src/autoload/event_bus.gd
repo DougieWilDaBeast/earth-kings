@@ -49,6 +49,10 @@ signal guild_requested
 signal overlay_closed
 ## The last of the party is gone; the run is over.
 signal run_ended
+## Something the player should know about the save they just loaded: it was
+## upgraded, restored from the backup, or left alone because it is newer than
+## this build ([D55]). Shown as a toast by [Game].
+signal save_notice(text: String)
 
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)

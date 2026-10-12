@@ -2,10 +2,12 @@ extends Node
 ## The live game: the world, everyone in it, and the save file (autoload: `GameState`).
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
+const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
 
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
 ## pools added, so a v2 character carries ids that no longer resolve.
+## Raising this needs a step in `src/chronicle/save_migrations.gd` ([D55]).
 const SAVE_VERSION := 3
 
 const DEFAULT_GOLD := 250
@@ -157,8 +159,10 @@ func remember_talk(dialogue_id: String) -> void:
 # --- persistence --------------------------------------------------------------
 
 
+## Whether there is a run to continue: the save, or failing that its backup (a
+## crash between the two renames in [method SaveFile.write] leaves only that).
 func has_save() -> bool:
-	return FileAccess.file_exists(SAVE_PATH)
+	return FileAccess.file_exists(SAVE_PATH) or FileAccess.file_exists(SaveFile.backup_path(SAVE_PATH))
 
 
 func save() -> void:
@@ -179,29 +183,55 @@ func save() -> void:
 		"keys": keys,
 		"ledger": ledger,
 	}
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file == null:
-		push_error("GameState: could not write save to %s" % SAVE_PATH)
-		return
-	# Whole numbers written as whole numbers, whatever they were carried as (a
-	# number taken straight from the data is a float), so a save loaded and saved
-	# again is the same file.
-	file.store_string(JSON.stringify(SaveFile.whole(payload.duplicate(true)), "\t"))
+	# Never over the top of the last good save: see [method SaveFile.write].
+	if not SaveFile.write(SAVE_PATH, payload):
+		push_error("GameState: could not write save to %s; the previous save is untouched" % SAVE_PATH)
 
 
+## Puts the saved run back. False if there is none that can be played, in which
+## case nothing on disk has been lost: a save that is corrupt, too old to carry
+## forward, or newer than this build is left or set aside, never written over
+## ([D55]). Anything the player should hear about goes out as
+## [signal EventBus.save_notice].
 func load_save() -> bool:
 	if not has_save():
 		return false
-	var parsed: Variant = SaveFile.read(SAVE_PATH)
+	var read_from := SAVE_PATH
+	var parsed: Variant = SaveFile.read(read_from)
+	var restored := false
 	if typeof(parsed) != TYPE_DICTIONARY:
-		push_error("GameState: corrupt save at %s" % SAVE_PATH)
-		return false
+		if FileAccess.file_exists(read_from):
+			push_error("GameState: corrupt save at %s; trying the backup" % read_from)
+		read_from = SaveFile.backup_path(SAVE_PATH)
+		parsed = SaveFile.read(read_from)
+		if typeof(parsed) != TYPE_DICTIONARY:
+			push_error("GameState: no readable save or backup at %s" % SAVE_PATH)
+			EventBus.save_notice.emit("The save could not be read, and neither could its backup.")
+			return false
+		restored = true
 
 	var data: Dictionary = parsed
-	if int(data.get("version", 1)) < SAVE_VERSION:
-		push_warning("GameState: save predates the world; starting fresh")
-		new_game()
+	var version := int(data.get("version", 1))
+	if version > SAVE_VERSION:
+		# Written by a newer build. Loading it would mean reading what we do not
+		# understand and, at the next save, writing over what we did not read.
+		push_warning("GameState: save is version %d, this build reads up to %d; leaving it alone" % [version, SAVE_VERSION])
+		SaveFile.copy(read_from, SaveFile.version_backup_path(SAVE_PATH, version))
+		EventBus.save_notice.emit("This save is from a newer version of Earth Kings. Update the game to continue it; it has been left untouched.")
 		return false
+	if version < SAVE_VERSION:
+		# Set aside before anything is done to it, whether or not it comes through.
+		var aside := SaveFile.version_backup_path(SAVE_PATH, version)
+		SaveFile.copy(read_from, aside)
+		if SaveMigrations.upgrade(data, SAVE_VERSION).is_empty():
+			push_warning("GameState: save version %d cannot be carried forward; kept at %s, starting fresh" % [version, aside])
+			EventBus.save_notice.emit("This save is too old to carry forward. A copy was kept; a new run begins.")
+			new_game()
+			return false
+		print("GameState: save upgraded from version %d to %d; the original is kept at %s" % [version, SAVE_VERSION, aside])
+		EventBus.save_notice.emit("Your save was upgraded from an older version of the game.")
+	if restored:
+		EventBus.save_notice.emit("The save was damaged; restored from the backup.")
 
 	world = World.from_dict(data.get("world", {}))
 	roster = Roster.from_dict(data.get("roster", {}))

@@ -327,6 +327,10 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step
+  (`save_migrations.gd`) instead of wiped, a newer one is refused and left alone, and every save is
+  written to a temporary file and renamed into place with the last one kept as a backup that a
+  corrupt save falls back to (D55)
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - A store page (itch.io or Steam) — planned; the founders' call
 
