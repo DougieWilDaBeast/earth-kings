@@ -1,0 +1,65 @@
+{
+	"_comment": "The How to Play page, opened from the title screen and the system menu. One section per heading; each line is a paragraph. Source text: README, 'Playing the vertical slice'.",
+	"title": "How to Play",
+	"sections": [
+		{
+			"heading": "Walking",
+			"lines": [
+				"WASD or the arrow keys move you one tile at a time; hold to keep going. Every step advances the world clock.",
+				"The top bar shows where you are, the season, your gold and the step. The line at the bottom always says what you can do where you stand.",
+				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere. Z toggles between the continental map and walking the ground up close.",
+				"Q hands the run to the game and T cycles the speed — on the road, inside a town and in a fight alike. Q again takes it back."
+			]
+		},
+		{
+			"heading": "Danger",
+			"lines": [
+				"Danger is a property of place. Near an open gate the wild is thick with what came out of it; near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.",
+				"Gates never reopen once shut — but one left standing open too long breaks, and what was behind it comes out levelled up.",
+				"A gate left open puts the nearest settlement under siege. Walk in while it is happening and V fights the besiegers off. Leave it too long and the town falls."
+			]
+		},
+		{
+			"heading": "Sites",
+			"lines": [
+				"On the map: green dots are villages, grey keeps, blue libraries, tan huts, red gates (a ring means open and spilling), gold is the Tower, and the orange roof is home.",
+				"Step on a village, keep or hut to rest. H hires whoever is drinking there, B buys the gear on the shelf, J reads the job board, Y opens the Adventurers Guild where there is one.",
+				"A library teaches whoever has not read its book. An open gate is a fight — and once inside there is no walking out until it is beaten or you are.",
+				"Home is your own doorstep: nothing camps within sight of it, sleeping there always patches the party up, and U buys a better bed for permanent extra HP.",
+				"Word of what you do travels outward from where you did it, about a tile every fourteen steps, and sets what towns call you and what they charge."
+			]
+		},
+		{
+			"heading": "Battle",
+			"lines": [
+				"On your unit's turn: Move (blue tiles), an ability (red tiles), then Wait to end the turn. Esc cancels a selection. Hover any tile to inspect it.",
+				"Facing matters. The wedge on a token shows where it looks: side hits deal 1.2×, back hits 1.5×. Units turn as they move, so the tile you finish on decides how exposed you are.",
+				"Turn order is charge time. Each tick every unit gains charge equal to its speed and acts at 100 — fast units act more often, not just sooner."
+			]
+		},
+		{
+			"heading": "Characters and death",
+			"lines": [
+				"Falling is usually fatal. A downed character rolls their graces — a charm carried, an ally still standing, a book they read, the ground they fell on — and dies if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
+				"The run follows you, not the party. Companions can all die and the story goes on; when your own character falls, it stops. Hire replacements in towns.",
+				"Experience comes from the first of each kind. A kind of enemy teaches whoever kills it first, once. The way to grow is to go and meet something new.",
+				"Level 2 is a choice. When someone is ready the bottom line says so — press P and pick their class."
+			]
+		},
+		{
+			"heading": "The Tower",
+			"lines": [
+				"The Tower is ten floors, each paying gold, a book every third and a generated skill tree every fourth, up to the Spire Archon on floor 10.",
+				"Gold won on the Tower is a hoard you carry. Walking off its step banks it; losing a floor leaves it behind. Every extra floor is a decision about what you are already holding."
+			]
+		},
+		{
+			"heading": "The party screen",
+			"lines": [
+				"P opens the party screen, where the run is managed: pick a class, teach a book to someone who lacks it, and see what each character has read and what is close to fading.",
+				"The Training Yoke trades 25% of attack for 50% more experience. The Practice page sends a companion off to walk an errand while you walk.",
+				"It also shows the Codex — how much of the world's power grammar has been catalogued. N opens the journal."
+			]
+		}
+	]
+}

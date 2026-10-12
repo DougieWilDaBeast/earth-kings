@@ -1,0 +1,49 @@
+{
+	"id": "sworn_blade",
+	"size_test": 16,
+	"states": [
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T06:37:45.755117",
+				"export_version": "3.1",
+				"group_id": "035f85fc-48c1-4509-8b60-33edf83f33fa",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-10-12T06:37:01.287291+00:00",
+							"directions": 8.0,
+							"id": "5e9f0b44-645f-4a72-b8b5-75324622d2d8",
+							"name": "Idle",
+							"prompt": "Sworn Blade — a scarred oath-sworn swordsman in dark riveted mail over a blue-grey surcoat, cropped beard, plain arming sword and small kite shield, no helmet",
+							"size": {
+								"height": 24.0,
+								"width": 24.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Sworn Blade — a scarred oath-sworn swordsman in dark riveted mail over a blue-grey surcoat, cropped beard, plain arming sword and small kite shield, no helmet",
+			"size": "16x16",
+			"source": "sworn_blade_16.zip",
+			"state": "idle"
+		}
+	]
+}

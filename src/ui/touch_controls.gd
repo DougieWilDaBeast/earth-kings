@@ -63,6 +63,7 @@ func _ready() -> void:
 	for opening: Signal in [
 		EventBus.system_menu_requested, EventBus.party_screen_requested,
 		EventBus.journal_requested, EventBus.stash_requested, EventBus.guild_requested,
+		EventBus.how_to_play_requested,
 	]:
 		opening.connect(_restate)
 	EventBus.overlay_closed.connect(_restate)

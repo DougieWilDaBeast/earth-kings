@@ -188,6 +188,21 @@
 		"resale": 0.5,
 		"cache_chance": 0.04
 	},
+	"atlas": {
+		"sight": 4,
+		"always_known": ["tower", "home"],
+		"spoils_map_chance": 0.08,
+		"cache_map_chance": 0.4,
+		"chest_map_chance": 0.25,
+		"fragment_radius": 7,
+		"fragment_marks": ["gate", "library", "keep", "village"],
+		"lines": {
+			"fragment": "Folded in with it, somebody's map: {place}, out in {region}, {bearing}. It is on yours now.",
+			"fragment_stale": "Folded in with it, an old map. Everything on it you already know.",
+			"heard": "Marked on your map: {places}.",
+			"seen": "{place} comes into sight."
+		}
+	},
 	"town": {
 		"purse_base": 120,
 		"purse_per_rank": 90,

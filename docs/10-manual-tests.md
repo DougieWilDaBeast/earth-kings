@@ -29,6 +29,11 @@ you saw, on which screen, and what you had done just before.
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Title → **How to Play**, scroll, press a section button, then `Esc`          | Seven sections from walking to the party screen; the button jumps there; `Esc` shuts the page and the keyboard is back on the menu |
+| A13 | In game, `Esc` → **How to Play**, then `Esc`                                 | The page opens over the menu; `Esc` shuts the page and leaves the menu open                                    |
+| A14 | Start a run with tips reset (`Esc` → **Reset tips**) and walk a few steps    | A small card under the top bar about walking, then one about the clock; it fades on its own and never stops a key |
+| A15 | Walk into a village, a fight and a gate; press **Got it** and **No more tips** | One card per first meeting, never twice; after **No more tips** none come, and the menu reads "Tips: off"      |
+| A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
 
 ## B — Starting a run
 
@@ -42,6 +47,12 @@ you saw, on which screen, and what you had done just before.
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
 | B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
 | B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
+| B9  | Start a run                                                          | The landing beat plays: a furrow in the ground, no memory, the Tower off to one side, and "A new standing quest: Ascend to heaven" |
+| B10 | Start twice with the same seed and lead, then with another lead      | The same crater both times; another lead lands somewhere else. Either way, the crater is **Where You Fell**, your Home, with the bed to upgrade |
+| B11 | Press **N** → **Quests & the Fallen**                                | "Ascend to heaven" at the top with the Tower's floor; errands below; "N more carry the mark somewhere out there" |
+| B12 | Rest at villages, or ask an innkeeper for news, until one of the others is mentioned | A line naming them and a place; a faint face on the map there, and a line under **The others who fell** |
+| B13 | Walk to where one of them stands                                     | "_Name_, _title_, is here. They carry the mark you share." and **X to speak with** them; inside the place, they stand near the way in |
+| B14 | Speak with them, ask them to walk with you                           | An Outward temper joins the first time (party room permitting); an Inward one says "Not yet" until the second meeting |
 
 ## C — The world map
 
@@ -234,6 +245,30 @@ and open `http://localhost:8000/` in Chrome or Firefox. `tools/web_smoke.py` pla
 | L6  | `Esc` → **Fullscreen**, then `Esc` in the browser              | The page goes fullscreen; the browser's own `Esc` brings it back and the button follows       |
 | L7  | Close the tab, open the page again in a private window         | No save — private windows forget IndexedDB, so Continue is greyed out                         |
 | L8  | Training Ground → **Fight this**, read the turn order at the top | Arrows between the names, not empty boxes (fails today: the browser has no fallback font — see the roadmap's Launch readiness) |
+
+## P — Controller
+
+Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Square, Y Triangle.
+
+| #   | Do this                                                                | Expect                                                                                    |
+| --- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| P1  | Press A on the cinematic, then D-pad and A on the title                | Straight to the menu; the highlight moves with the D-pad and A presses the entry          |
+| P2  | New Game → answer the quiz and pick a hero with the pad only           | Every answer, hero and the Start button reachable; B goes back a screen                   |
+| P3  | On the road, touch the stick, then press a key                         | The hint line says "A to …" after the stick, "E to …" after the key                        |
+| P4  | Walk with the left stick, then the D-pad                               | One tile per press, a run when held                                                       |
+| P5  | Stand in a village, press Y                                            | The place's buttons appear with the first one highlighted; the party does not walk        |
+| P6  | D-pad along them, A on Hire or Buy, then B                             | It hires or buys; B puts the highlight away and the stick walks again                     |
+| P7  | Press Start, then B; press Back, then Back again                       | Menu opens and closes; the party screen opens and closes                                  |
+| P8  | In the party screen, D-pad down the cards and over to the pages        | The page follows the card; every button can be reached and pressed; the page scrolls      |
+| P9  | Press X on the road                                                    | The Journal opens; B shuts it                                                             |
+| P10 | In a fight, on your turn                                               | **Move** is highlighted; the D-pad walks the commands and shows each one's reach          |
+| P11 | A on Move, stick to a tile, A                                          | A cursor starts on the fighter, walks the board, and the move happens where it stands     |
+| P12 | A on an attack                                                         | The cursor starts on the nearest foe in reach; A strikes, B backs out to the commands     |
+| P13 | RB with two fighters up, X, LB                                         | Next fighter; Wait; speed changes                                                         |
+| P14 | Right stick, LT, RT, R3                                                | The view slides, zooms out, zooms in, and comes back                                      |
+| P15 | Training Ground → real-time skirmish, with the pad                     | X starts it; stick moves a cursor; A on ground moves, on a foe attacks; Y readies a skill |
+| P16 | Menu → Controls; A on Interact, then press X on the pad                | The row reads "E  ·  X"; it survives a relaunch; Reset puts back "E  ·  A"                |
+| P17 | Open the menu with Start during a fight, close it                      | The command menu has its highlight back                                                   |
 
 ---
 
