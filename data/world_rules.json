@@ -1,4 +1,20 @@
 {
+	"ground_watch": {
+		"_comment": "Bands met on the ground (D66). A band stands in the area of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its reach (the world's 2 or 3), measured from where it stands; trees, houses and rock faces block the line, water does not, and the ground in cover is never watched. It stands at least keep_away cells further than that from where the party comes in. Walking into a watched cell starts the fight there: after spotted_seconds, on a field cut from the ground round everyone (field_smallest to field_largest cells), the camera pulling back over pull_back_seconds. A band patrols a loop of patrol_points stops within patrol_reach cells of where it stands, a cell every patrol_step_seconds, resting patrol_pause seconds at each; its loop never brings the party's way in into sight, and its red cells move with it.",
+		"sight_base": 2,
+		"sight_per_reach": 1.5,
+		"cover": ["meadow"],
+		"keep_away": 3,
+		"spotted_seconds": 0.7,
+		"field_smallest": [16, 11],
+		"field_largest": [22, 14],
+		"field_margin": 2,
+		"pull_back_seconds": 0.9,
+		"patrol_reach": 3,
+		"patrol_points": 3,
+		"patrol_step_seconds": 0.85,
+		"patrol_pause": [1.5, 3.5]
+	},
 	"modes": {
 		"setting": "classic",
 		"settings": {

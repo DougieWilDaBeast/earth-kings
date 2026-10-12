@@ -65,6 +65,7 @@ func _ready() -> void:
 	await _check_tips_and_how_to_play()
 	await _check_the_pad()
 	await _check_the_ground_is_the_game()
+	await _check_a_band_on_the_ground()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -779,6 +780,98 @@ func _check_the_ground_is_the_game() -> void:
 	_expect(landed != null and (landed.get("map") is AreaMap or _requests.has("skirmish")),
 		"a step off the ground landed on %s, not the next ground" % (landed.name if landed != null else "nothing"))
 	print("ground: the map, a doing and a step all come back to the ground")
+
+
+## A band watching the tile stands on the ground with its watched cells marked, not on top of
+## the party; walking into those cells starts the fight on that same ground, drawn under the
+## field, with the band in it; and the fight hands back to the same ground and spot ([D66]).
+func _check_a_band_on_the_ground() -> void:
+	var world: World = GameState.world
+	var here := Vector2i(-1, -1)
+	var there := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var cell := Vector2i(x, y)
+			if here.x >= 0:
+				break
+			if not world.is_walkable(cell) or world.site_at(cell) != null or world.terrain_id_at(cell) == Prowler.COVER:
+				continue
+			for dir: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+				var next := cell + dir
+				if world.in_bounds(next) and world.is_walkable(next) and world.site_at(next) == null:
+					here = cell
+					there = next
+					break
+	_expect(here.x >= 0, "no open country to meet a band in")
+	if here.x < 0:
+		return
+	world.prowlers.clear()
+	var band := Prowler.create(there, ["goblin", "goblin"])
+	world.prowlers.append(band)
+	_expect(band.sees(world, here), "the test band cannot see the tile next to it")
+	world.player_cell = here
+	EventBus.request_scene.emit("world", {})
+	await _settle()
+	await _clear_dialogue()
+	var ground := _current_scene()
+	_expect(ground != null and ground.get("map") is AreaMap, "coming down by a band did not land on the ground")
+	if ground == null or not ground.get("map") is AreaMap:
+		return
+	var watches: Array = ground.get("_watches")
+	_expect(watches.size() == 1, "the band watching this tile is not standing on the ground (%d bands)" % watches.size())
+	if watches.size() != 1:
+		return
+	var watched: Dictionary = watches[0].watched
+	var stood: AreaMap = ground.map
+	var at: Vector2i = stood.cell_at(ground._leader.position)
+	_expect(not watched.is_empty(), "the band on the ground watches nothing")
+	_expect(not watched.has(at), "the band was put down already looking at the party")
+	_expect((watches[0].figures as Array).size() == 2, "both of the band are not on the ground")
+	# It patrols, and nowhere on its loop can it see where the party came in.
+	var loop: Array = watches[0]._loop
+	_expect(loop.size() >= 2, "the band has no patrol (%d stops)" % loop.size())
+	for stop: Vector2i in loop:
+		_expect(not watches[0].sees_from(stop).has(at), "a stop on the band's patrol, %s, can see where the party came in" % stop)
+	_expect(world.prowlers.has(band), "the band was fought out of sight on the way down")
+	if watched.is_empty():
+		return
+
+	var into: Vector2i = watched.keys()[0]
+	# A step from where the party was put down into a watched cell.
+	ground._check_the_watch(at)
+	ground._leader.position = stood.centre_of(into)
+	ground._check_the_watch(into)
+	# They stand and look for a moment before anyone moves.
+	await get_tree().create_timer(1.4).timeout
+	await _settle()
+	await _settle()
+	var fight := _current_scene()
+	_expect(fight != null and fight.get("grid") is BattleGrid, "walking into the band's sight did not start a fight")
+	if fight == null or not fight.get("grid") is BattleGrid:
+		return
+	_expect(not world.prowlers.has(band), "the band is still on the map after the fight started")
+	var grid: BattleGrid = fight.grid
+	_expect(grid.has_backdrop(), "the fight is not drawn on the ground it was met on")
+	var foes := 0
+	for f: Variant in fight.fighters:
+		if f.unit.team == Unit.Team.ENEMY:
+			foes += 1
+	_expect(foes >= 2, "the band is not in the fight (%d foes)" % foes)
+	var back: Dictionary = fight.boot_payload.get("return_payload", {}).get("back", {})
+	_expect(str(back.get("area_id", "")) == stood.id, "the fight does not know which ground to go back to")
+
+	EventBus.request_scene.emit("world", fight.boot_payload.get("return_payload", {}))
+	await _settle()
+	await _clear_dialogue()
+	await _settle()
+	var after := _current_scene()
+	_expect(after != null and after.get("map") is AreaMap and after.map.id == stood.id,
+		"after the fight the party is not back on the same ground")
+	if after != null and after.get("map") is AreaMap:
+		var landed: Vector2i = after.map.cell_at(after._leader.position)
+		_expect(absi(landed.x - into.x) + absi(landed.y - into.y) <= 2, "after the fight the party is not where it was seen (%s, not %s)" % [landed, into])
+		_expect((after.get("_watches") as Array).is_empty(), "the band that was fought is still standing on the ground")
+	print("ground: a band stood on the ground, was walked into, fought there, and is gone")
 
 
 func _pad_button(button: JoyButton) -> InputEventJoypadButton:

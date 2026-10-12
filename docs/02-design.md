@@ -27,7 +27,7 @@ milestones instead, with no time pressure. That is planned (M18), not built.
 
 | Where you step             | What happens                                                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Open ground                | A chance of a wild encounter, scaled by how close the nearest open gate is and how far the nearest hearth is |
+| Open ground                | A band may be camped there, or watching it from the next tile: it stands on the ground and patrols a small loop, the cells it can see marked in red and moving with it; stepping into them, or it walking into view of you, starts the fight right there ([D66](06-decisions.md), [D68](06-decisions.md)) |
 | A **gate**                 | Delve it — a run of battles ending in its guardian. Once a floor is won there is no walking out: every step is the next floor, until it is beaten or you are ([D35](06-decisions.md)) |
 | The **Tower**              | Climb — a hundred floors, one battle each, in twenty chapters of five ([D48](06-decisions.md)). Each floor returns you to the world; each chapter moves the world on and seals the stair until you have answered it ([D34](06-decisions.md)) |
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
@@ -318,5 +318,10 @@ energy, and what is written back — is in [18 — The fight](18-combat-directio
 - **Flash step** (`flash_step`, from a template or a class) has no real-time form yet: the stat is
   kept, and nothing in the fight uses it.
 
-Battlefields for wild encounters and delves are **generated** from the world terrain you were
-standing on; hand-authored maps in `data/maps/` remain for set pieces.
+**A band met on the ground is fought on that ground** ([D66](06-decisions.md)). The field is cut
+from the cells round where everyone stood, each ground cell becoming the fight terrain it names
+(a path is road, long grass is brush, a tree or a house is a wall), the ground itself drawn under
+the field and dimmed beyond it. Everyone starts where they stood, the camera opens on what was on
+screen, and afterwards the party is back on the same spot. Battlefields for delves, and for a band
+met by a party walking itself on the continent, are **generated** from the world terrain;
+hand-authored maps in `data/maps/` remain for set pieces.

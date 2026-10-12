@@ -334,6 +334,35 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.
 
+## `world_rules.json` → `ground_watch` — bands met on the ground (D66)
+
+```json
+"ground_watch": { "sight_base": 2, "sight_per_reach": 1.5, "cover": ["meadow"], "keep_away": 3,
+                  "spotted_seconds": 0.7, "field_smallest": [16, 11], "field_largest": [22, 14],
+                  "field_margin": 2, "pull_back_seconds": 0.9, "patrol_reach": 3, "patrol_points": 3,
+                  "patrol_step_seconds": 0.85, "patrol_pause": [1.5, 3.5] }
+```
+
+- A band sees `sight_base + sight_per_reach × reach` ground cells (its world `reach`, 2 or 3 on open
+  ground, so 5 or 6.5), round its anchor. Trees, houses and rock faces block the line; water does not.
+  A cell whose ground is in `cover`, or that has a bush the party can walk through, is never seen;
+  where the band's own figures stand always is.
+- It stands at least `keep_away` cells beyond its sight from where the party came in.
+- It patrols ([D68](06-decisions.md)): `patrol_points` stops within `patrol_reach` cells, a cell
+  every `patrol_step_seconds`, resting `patrol_pause` [least, most] seconds at each, on a loop that
+  never brings where the party came in into sight. Walking into view of the party is seeing it.
+- Seen: `spotted_seconds` of everyone looking, then the fight. The field is `field_margin` cells
+  round everyone, `field_smallest` to `field_largest`, and the camera draws back over it in
+  `pull_back_seconds`.
+- Each ground terrain in `tilesets.json` → `terrains` names what it is in a fight (`"battle"`, a
+  `terrain.json` id): `dirt`, `stone` and `flagstone` are road, `meadow` is brush, `raised` is hill,
+  `water` is lake, `crag` and `wall` are wall.
+
+The world puts `bands` in the ground's payload: each `{ cell, pack, faction, banner, label, reach,
+where }`, `where` being `"here"` or the `[dx, dy]` way to the tile it watches from. A battle map cut
+from the ground carries `backdrop` (`area_id`, `origin` cell) and `view` (`centre` in field pixels,
+`zoom`): `BattleGrid` draws the ground under the field and the fight opens on that view.
+
 ## `guild.json` — the Adventurers Guild
 
 ```json

@@ -16,6 +16,7 @@ extends Node2D
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
+const GroundBattlefield := preload("res://src/area/ground_battlefield.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
@@ -420,7 +421,11 @@ func _step(direction: Vector2i) -> void:
 	else:
 		_look_for_a_cache(target)
 		_check_wild_exploration(target)
-	_watch_check(target)
+	# On the ground a band is met standing on the ground, its watched cells shown, and it is
+	# walking into those that starts the fight ([D66]). Only the party walking itself, out on the
+	# continent, is jumped the old way, on stepping onto a watched tile.
+	if _view != View.GROUND or Pace.auto:
+		_watch_check(target)
 	_look_down_the_road(target)
 	_check_party()
 	_refresh()
@@ -550,7 +555,7 @@ func _watch_check(cell: Vector2i) -> void:
 	_begin_battle(meeting)
 
 
-func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
+func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, back: Dictionary = {}) -> void:
 	_busy = true
 	outcome["enemies"] = meeting.get("enemies", [])
 	GameState.pending_outcome = outcome
@@ -559,7 +564,61 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	if confrontation != "":
 		meeting["confrontation"] = confrontation
 		_note(confrontation)
-	EventBus.request_scene.emit("skirmish", {"encounter": meeting, "return_scene": "world"})
+	var asked := {"encounter": meeting, "return_scene": "world"}
+	if not back.is_empty():
+		# Fought on the ground: afterwards, the same ground and the same spot.
+		asked["return_payload"] = {"back": back}
+	EventBus.request_scene.emit("skirmish", asked)
+
+
+## Every band on the ground the party is about to stand on ([D66]): camped on this tile, or on the
+## next with its eyes on this one (`where`, the way to it). Who they are, how far they see and the
+## colour they are painted in. None in a place with an inside: nobody camps in town.
+func _bands_on_the_ground(inside: String) -> Array:
+	var out: Array = []
+	if inside == "site" or Pace.auto:
+		return out
+	var here := world.player_cell
+	for band: Prowler in world.prowlers:
+		if band.pack.is_empty():
+			continue
+		var where: Variant = "here"
+		if band.cell != here:
+			if not band.sees(world, here):
+				continue
+			where = [signi(band.cell.x - here.x), signi(band.cell.y - here.y)]
+		out.append({
+			"cell": [band.cell.x, band.cell.y],
+			"pack": band.pack.duplicate(),
+			"faction": band.faction,
+			"banner": Faction.banner(band.faction).to_html(false),
+			"label": band.label(),
+			"reach": band.reach(world),
+			"where": where,
+		})
+	return out
+
+
+## The ground says a band has seen the party ([D66]): the fight, on the field the ground cut from
+## itself round where everyone stood, and back to that spot after. False if the band has gone.
+func _fight_on_the_ground(seen: Dictionary) -> bool:
+	var at: Array = seen.get("cell", [])
+	var band: Prowler = null
+	for each: Prowler in world.prowlers:
+		if at.size() == 2 and each.cell == Vector2i(int(at[0]), int(at[1])) and each.pack == seen.get("pack", []):
+			band = each
+			break
+	if band == null:
+		return false
+	world.prowlers.erase(band)
+	var meeting := Encounter.for_band(world, band, GameState.party_characters(), world.rng)
+	var field: Dictionary = seen.get("battlefield", {})
+	if not field.is_empty():
+		meeting["map"] = GroundBattlefield.place_enemies(field, meeting.get("enemies", []))
+	if bool(seen.get("ambush", false)):
+		meeting["ambush"] = true
+	_begin_battle(meeting, {}, boot_payload.get("back", {}))
+	return true
 
 
 ## Nothing a fight was worth is handed over until the fight has been won. The
@@ -1551,7 +1610,11 @@ func _held_now() -> Dictionary:
 func _do_what_the_ground_asked() -> void:
 	var step: Array = boot_payload.get("step", [])
 	var act := str(boot_payload.get("act", ""))
-	if step.size() == 2:
+	var seen: Dictionary = boot_payload.get("seen_by", {})
+	if not seen.is_empty():
+		if _fight_on_the_ground(seen):
+			return
+	elif step.size() == 2:
 		_step(Vector2i(int(step[0]), int(step[1])))
 	elif act != "" and GROUND_ACTS.has(act) and has_method(act):
 		# Some wait on a conversation; the ground is handed back once it is over.
@@ -1602,6 +1665,7 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 			payload["spawn_cell"] = [spawn.x, spawn.y]
 	payload["held"] = _held_now()
 	payload["actions"] = _ground_actions(payload)
+	payload["bands"] = _bands_on_the_ground(str(payload.get("inside", "")))
 	var said: Array = []
 	for line: String in _notices:
 		said.append(line)

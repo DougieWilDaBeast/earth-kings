@@ -2,51 +2,63 @@
 	"terrains": {
 		"grass": {
 			"display_name": "grass",
-			"walkable": true
+			"walkable": true,
+			"battle": "grass"
 		},
 		"dirt": {
 			"display_name": "bare earth",
-			"walkable": true
+			"walkable": true,
+			"battle": "road"
 		},
 		"stone": {
 			"display_name": "broken stone",
-			"walkable": true
+			"walkable": true,
+			"battle": "road"
 		},
 		"water": {
 			"display_name": "water",
-			"walkable": false
+			"walkable": false,
+			"battle": "lake"
 		},
 		"sand": {
 			"display_name": "sand",
-			"walkable": true
+			"walkable": true,
+			"battle": "sand"
 		},
 		"meadow": {
 			"display_name": "long grass",
-			"walkable": true
+			"walkable": true,
+			"battle": "brush"
 		},
 		"flagstone": {
 			"display_name": "flagstones",
-			"walkable": true
+			"walkable": true,
+			"battle": "road"
 		},
 		"crag": {
 			"display_name": "rock face",
-			"walkable": false
+			"walkable": false,
+			"battle": "wall"
 		},
 		"wall": {
 			"display_name": "wall",
-			"walkable": false
+			"walkable": false,
+			"battle": "wall"
 		},
 		"raised": {
 			"display_name": "higher ground",
-			"walkable": true
+			"walkable": true,
+			"battle": "hill"
 		},
 		"cinder": {
 			"display_name": "burnt rubble",
-			"walkable": true
+			"walkable": true,
+			"battle": "road"
 		},
 		"thunderstone": {
 			"display_name": "thunderstone",
-			"walkable": true
+			"walkable": true,
+			"battle": "road"
 		}
 	},
 	"sheets": {

@@ -13,6 +13,12 @@ var map_name: String = ""
 
 var _terrain_ids: Dictionary = {}  ## Vector2i -> terrain id String
 var _ground_decor: Dictionary = {}
+## The ground the fight was met on, drawn under the field when the map brings one ([D66]).
+var _backdrop: Node2D = null
+
+const AreaBackdrop := preload("res://src/area/area_backdrop.gd")
+## How much of the ground round a fight met on it is dimmed: still there, not in play.
+const BEYOND_DIM := Color(0, 0, 0, 0.45)
 
 const _NEIGHBOUR_OFFSETS: Array[Vector2i] = [
 	Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)
@@ -50,7 +56,32 @@ func load_map(map: Dictionary) -> void:
 		for x in row.length():
 			var symbol := row[x]
 			_terrain_ids[Vector2i(x, y)] = legend.get(symbol, "grass")
+	_lay_the_backdrop(map.get("backdrop", {}))
 	queue_redraw()
+
+
+## Whether this fight is on ground of its own, and so needs no scattered scenery.
+func has_backdrop() -> bool:
+	return _backdrop != null
+
+
+## The ground the fight was cut from, scaled so one of its cells is one of the field's, put so the
+## field's first cell lands on the cut's `origin`, and drawn behind the field.
+func _lay_the_backdrop(spec: Dictionary) -> void:
+	if _backdrop != null:
+		_backdrop.queue_free()
+		_backdrop = null
+	if spec.is_empty():
+		return
+	_backdrop = AreaBackdrop.of(str(spec.get("area_id", "")))
+	if _backdrop == null:
+		return
+	var origin: Array = spec.get("origin", [0, 0])
+	var zoom := float(CELL_SIZE) / float(AreaMap.CELL)
+	_backdrop.scale = Vector2(zoom, zoom)
+	_backdrop.position = -Vector2(float(origin[0]), float(origin[1])) * CELL_SIZE
+	_backdrop.show_behind_parent = true
+	add_child(_backdrop)
 
 
 func in_bounds(cell: Vector2i) -> bool:
@@ -128,6 +159,9 @@ func centre_world() -> Vector2:
 
 
 func _draw() -> void:
+	if _backdrop != null:
+		_draw_over_the_ground()
+		return
 	for cell: Vector2i in _terrain_ids:
 		var data := terrain_at(cell)
 		var rect := Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE)
@@ -161,3 +195,20 @@ func _draw() -> void:
 				var tex: Texture2D = _ground_decor.get("thistle")
 				if tex != null:
 					draw_texture(tex, rect.position + Vector2(16, 16))
+
+
+## On ground of its own the field is only a grid laid over it, what cannot be walked shaded, and
+## the ground round the field dimmed.
+func _draw_over_the_ground() -> void:
+	var field := Rect2(Vector2.ZERO, Vector2(width, height) * CELL_SIZE)
+	var far := 6000.0
+	draw_rect(Rect2(field.position.x - far, field.position.y - far, field.size.x + far * 2, far), BEYOND_DIM)
+	draw_rect(Rect2(field.position.x - far, field.end.y, field.size.x + far * 2, far), BEYOND_DIM)
+	draw_rect(Rect2(field.position.x - far, field.position.y, far, field.size.y), BEYOND_DIM)
+	draw_rect(Rect2(field.end.x, field.position.y, far, field.size.y), BEYOND_DIM)
+	for cell: Vector2i in _terrain_ids:
+		var rect := Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE)
+		if not is_walkable(cell):
+			draw_rect(rect, Color(0, 0, 0, 0.16))
+		draw_rect(rect, Color(1, 1, 1, 0.09), false, 1.0)
+	draw_rect(field, Color(1, 1, 1, 0.4), false, 2.0)

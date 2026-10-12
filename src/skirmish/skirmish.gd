@@ -199,7 +199,12 @@ func _build_battlefield() -> void:
 	camera.focus_on(framed.get_center(), true)
 	units_root.y_sort_enabled = true
 
-	_spawn_nature_decor(map)
+	# Met on the ground ([D66]): the ground's own trees are already there, and the fight opens on
+	# exactly what was on screen, then draws back to show the whole field.
+	if grid.has_backdrop():
+		_open_where_they_stood(map.get("view", {}), framed)
+	else:
+		_spawn_nature_decor(map)
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
 	var taken: Array[Vector2i] = []
@@ -224,6 +229,24 @@ func _build_battlefield() -> void:
 	if confrontation != "":
 		_opening.append(confrontation)
 	_set_objective(map)
+
+
+## The camera on the ground's own view (`view`: `centre` in field pixels, `zoom`), then, after a
+## breath, drawn back over the whole field.
+func _open_where_they_stood(view: Dictionary, framed: Rect2) -> void:
+	if view.is_empty():
+		return
+	var centre: Array = view.get("centre", [])
+	if centre.size() < 2:
+		return
+	camera.call("_apply_zoom", float(view.get("zoom", camera.zoom.x)))
+	camera.focus_on(Vector2(float(centre[0]), float(centre[1])), true)
+	var seconds := float(Database.world_rules.get("ground_watch", {}).get("pull_back_seconds", 0.9))
+	var settle := func() -> void:
+		await get_tree().create_timer(0.35, true, false, true).timeout
+		if is_inside_tree() and not over:
+			camera.pull_back(seconds)
+	settle.call()
 
 
 ## The enemy (or, with [param side] ALLY, those fighting beside the party) from

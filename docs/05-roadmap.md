@@ -204,6 +204,11 @@ is left is the animation.
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
   Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`
+- Fought where it was met ✅ (2026-10-12, [D66](06-decisions.md)): a band stands on the ground
+  with the cells it can see marked in red; stepping into them starts the fight on that same ground,
+  everyone where they stood, and hands back to the same spot. Bands patrol a small loop, their red
+  cells moving with them ([D68](06-decisions.md)). Where a band stands and the patrol's numbers are
+  **Inferred**
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
 - Drag a box to pick fighters ✅ (2026-10-12, [D58](06-decisions.md))

@@ -220,6 +220,21 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 
+## D3 — A band on the ground ([D66](06-decisions.md))
+
+Start a run and walk until the bottom line says a band has marked the ground it can see.
+
+| #    | Do this                                              | Expect                                                                                  |
+| ---- | ---------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| D3.1 | Look round                                           | The band stands on the ground with its name over it; the cells it can see are a red grid with a rim, and you are not inside it |
+| D3.2 | Walk up close without entering the red               | They turn to watch you when resting; nothing starts                                      |
+| D3.2b | Watch them for ten seconds                          | They walk a small loop and rest at each stop; the red moves with them. If it reaches you, you are seen |
+| D3.3 | Walk through long grass right up to them             | Long grass is never red; you can get close through it                                    |
+| D3.4 | Step onto a red cell                                 | Everyone stops, "There!", then the fight opens on the same ground at the same zoom, everyone where they stood, and the camera draws back over the field |
+| D3.5 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band is gone, from the ground and from the journal's map |
+| D3.6 | Walk off an edge onto a tile a band watches (journal map, red) | No sudden fight: the band stands at that edge of the new ground, watching            |
+| D3.7 | Turn on Auto (Q) and let the party walk itself       | It still fights bands out on the continent, as before                                    |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

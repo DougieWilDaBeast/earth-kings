@@ -15,6 +15,9 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const AreaBackdrop := preload("res://src/area/area_backdrop.gd")
+const AreaWatch := preload("res://src/area/area_watch.gd")
+const GroundBattlefield := preload("res://src/area/ground_battlefield.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 
 const WALK_SPEED := 190.0
@@ -85,6 +88,13 @@ var _idle_hint: String = HINT
 ## What the scene we came from needs to put itself back the way it was.
 var _return_payload: Dictionary = {}
 var _leaving: bool = false
+## Bands standing on this ground, and their watched cells ([AreaWatch], D66).
+var _watches: Array = []
+## The cell the leader last stood on, so a step into a watched cell is a step, not where they
+## were put down; (-99, -99) until they have been anywhere.
+var _last_cell: Vector2i = Vector2i(-99, -99)
+## Seen, and on the way to the fight.
+var _spotted: bool = false
 var _planar_mode: bool = false
 ## What the continent says can be done where the party stands, for the hint
 ## line, the keys and the buttons: `{ prompt, label, act, key }`.
@@ -117,6 +127,7 @@ func _ready() -> void:
 	_admit_the_ghosts()
 	_spawn_people()
 	_spawn_fire()
+	_post_the_watch()
 	_camera.frame(map.rect())
 	_camera.focus_on(_leader.position, true)
 	_place.text = boot_payload.get("title", map.display_name)
@@ -127,6 +138,9 @@ func _ready() -> void:
 	_lay_out_acts()
 	for line: String in boot_payload.get("notes", []):
 		_note(line)
+	if not _watches.is_empty():
+		_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % _watches[0].band.get("label", "A band"))
+		EventBus.tip_moment.emit("ground_watch", {})
 	_open_on(map.opening)
 
 
@@ -151,37 +165,8 @@ func _open_on(cutscene_id: String) -> void:
 ## One [TileMapLayer] per sheet, bottom first. Sheets drawn at a smaller tile
 ## size are scaled up so every layer shares the area's cell size.
 func _paint_layers() -> void:
-	for index in map.layers.size():
-		var sheet := Database.tileset_sheet(map.layers[index])
-		if sheet.is_empty():
-			push_warning("Area: %s has no sheet '%s'" % [map.id, map.layers[index]])
-			continue
-		var tile_set := TileForge.tile_set_for(sheet)
-		if tile_set == null:
-			continue
-
-		var layer := TileMapLayer.new()
-		layer.tile_set = tile_set
-		var zoom := float(AreaMap.CELL) / float(sheet.get("tile_size", AreaMap.CELL))
-		layer.scale = Vector2(zoom, zoom)
-		# Half a cell up and left, so tile corners land on cell centres.
-		layer.position = Vector2.ONE * (-AreaMap.CELL / 2.0)
-		_layers.add_child(layer)
-		_fill_layer(layer, sheet, index > 0)
-
-
-func _fill_layer(layer: TileMapLayer, sheet: Dictionary, is_overlay: bool) -> void:
-	var feature: String = sheet.get("feature", sheet.get("lower", ""))
-	var feature_bit := 1 if feature == sheet.get("upper", "") else 0
-	# The code a tile gets when the sheet's own terrain is nowhere near it.
-	var blank := (1 - feature_bit) * 0b1111
-	for y in range(0, map.height + 1):
-		for x in range(0, map.width + 1):
-			var code := map.corner_code(Vector2i(x, y), feature, feature_bit)
-			# An upper layer with nothing of its own here lets the one below show.
-			if is_overlay and code == blank:
-				continue
-			layer.set_cell(Vector2i(x, y), TileForge.SOURCE_ID, TileForge.atlas_coords(code))
+	# The same painter the fight's copy of this ground uses, so the two can never differ.
+	AreaBackdrop.paint_layers(map, _layers)
 
 
 func _spawn_party() -> void:
@@ -773,7 +758,10 @@ func _physics_process(delta: float) -> void:
 	if _walked >= TALK_STRIDE:
 		_walked = 0.0
 		_road_talk()
-	_arrive_at(map.cell_at(_leader.position))
+	var stood := map.cell_at(_leader.position)
+	if _check_the_watch(stood):
+		return
+	_arrive_at(stood)
 
 
 ## Two of the party say something to each other as they walk. It plays over
@@ -972,6 +960,119 @@ func _settle_followers(delta: float) -> void:
 		if step.length() > far:
 			step = to_target
 		follower.position = _slide(follower.position, step)
+
+
+# --- bands on the ground (D66) --------------------------------------------------
+
+
+## Every band the world says is on this ground, standing where it camps, its watched cells painted.
+func _post_the_watch() -> void:
+	var bands: Array = boot_payload.get("bands", [])
+	if bands.is_empty() or _leader == null:
+		return
+	var arrived := map.cell_at(_leader.position)
+	var taken := _cells_spoken_for(arrived)
+	for band: Dictionary in bands:
+		var watch: Node2D = AreaWatch.place(map, band, arrived, taken)
+		if watch == null:
+			continue
+		_layers.add_child(watch)
+		for figure: Node2D in watch.make_figures(_leader.position):
+			_actors.add_child(figure)
+		watch.can_move = func() -> bool: return not (_talking or _leaving or _spotted or _overlay_open())
+		watch.moved.connect(_on_band_moved.bind(watch))
+		_watches.append(watch)
+
+
+## Where nobody from a band may stand: where the party is, the ways out, doors, chests, spots,
+## seats and everyone who lives here.
+func _cells_spoken_for(arrived: Vector2i) -> Dictionary:
+	var taken := {}
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			taken[arrived + Vector2i(dx, dy)] = true
+	for cell: Vector2i in map.exits:
+		taken[cell] = true
+	for cell: Vector2i in map.spots:
+		taken[cell] = true
+	for cell: Vector2i in map.chests:
+		taken[cell] = true
+	for cell: Vector2i in map.seats:
+		taken[cell] = true
+	for building: Dictionary in map.buildings:
+		taken[building["door"]] = true
+		taken[building["door"] + Vector2i.DOWN] = true
+	for person: Dictionary in map.people:
+		taken[AreaMap.to_cell(person.get("cell", [0, 0]))] = true
+	return taken
+
+
+## The leader's step onto [param cell]: into a watched cell, and the band has seen them. Only a
+## step counts — where the party was put down is not walking into anybody — and never while the
+## party is walking itself (out on the continent, where it is jumped the old way).
+func _check_the_watch(cell: Vector2i) -> bool:
+	if _watches.is_empty():
+		return false
+	for watch: Node2D in _watches:
+		watch.keep_an_eye_on(_leader.position)
+	if cell == _last_cell:
+		return false
+	var came_from := _last_cell
+	_last_cell = cell
+	if came_from == Vector2i(-99, -99) or _spotted or _leaving or _talking or Pace.auto:
+		return false
+	for watch: Node2D in _watches:
+		if watch.watched.has(cell):
+			_seen_by(watch, came_from)
+			return true
+	return false
+
+
+## A patrolling band has walked somewhere it can see the party from: seen, as surely as walking in.
+func _on_band_moved(watch: Node2D) -> void:
+	if _leader == null or _spotted or _leaving or _talking or Pace.auto:
+		return
+	if watch.watched.has(map.cell_at(_leader.position)):
+		_seen_by(watch, Vector2i(-1, -1))
+
+
+## They have seen the party. Everyone stops where they stand, every head turns, and the fight is
+## cut from the ground round them and fought right here: the world sets it up, the field is this
+## ground, and after it the party is back on this spot.
+func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
+	_spotted = true
+	_leaving = true
+	_talking = true
+	_approach = null
+	_approach_path.clear()
+	_hold_the_town(true)
+	watch.raise_the_alarm(_leader.position)
+	_leader.face(watch.figures[0].position - _leader.position if not watch.figures.is_empty() else Vector2.DOWN)
+	_note("%s has seen you!" % watch.band.get("label", "A band"))
+	await get_tree().create_timer(float(AreaWatch.rule("spotted_seconds", 0.7))).timeout
+	if not is_inside_tree():
+		return
+	var party: Array = [map.cell_at(_leader.position)]
+	for follower: AreaActor in _followers:
+		party.append(map.cell_at(follower.position))
+	var view := {
+		"centre": [_camera.get_screen_center_position().x, _camera.get_screen_center_position().y],
+		"zoom": _camera.zoom.x,
+	}
+	var field: Dictionary = GroundBattlefield.build(map, party, watch.members, str(watch.band.get("label", "")), view)
+	# Bursting out of long grass at them is an ambush: the party has the jump.
+	var cover: Array = AreaWatch.rule("cover", ["meadow"])
+	var ambush: bool = map.in_bounds(came_from) and (map.terrain_at(came_from) in cover or watch._bush_on(came_from))
+	EventBus.request_scene.emit("world", {
+		"seen_by": {
+			"cell": watch.band.get("cell", []),
+			"pack": watch.band.get("pack", []),
+			"battlefield": field,
+			"ambush": ambush,
+		},
+		"held": _held,
+		"back": _here_payload(),
+	})
 
 
 func _arrive_at(cell: Vector2i) -> void:
