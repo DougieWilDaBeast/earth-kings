@@ -24,6 +24,23 @@ roadmap and the decision log.
 Nothing to download —terrain, UI and any unit without art render from primitives, so systems can
 be built and tested before the art exists. Units with a `sprite_dir` draw their art instead.
 
+## Builds for players
+
+`export_presets.cfg` holds four presets — **Windows**, **Linux**, **macOS** and **Web** — and the
+`release` workflow (`.github/workflows/release.yml`) exports all four headless on GitHub:
+
+- **A test build:** Actions → _release_ → _Run workflow_. The four zips come back as one artifact
+  on the run.
+- **A release:** push a tag such as `v0.2.0`. The tag becomes the version on the title screen, and
+  the four zips are attached to a GitHub pre-release.
+- **Locally:** install the 4.7.2 export templates (Editor → Manage Export Templates), then
+  `godot --headless --path . --export-release Linux` (the path is in the preset, under the
+  gitignored `builds/`).
+
+The Web build runs without threads, so it plays from any static host (itch.io included) with no
+special headers. The macOS build is ad-hoc signed and not notarized: players right-click → Open the
+first time. Windows builds are unsigned, so SmartScreen will ask once.
+
 ## Playing the vertical slice
 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.

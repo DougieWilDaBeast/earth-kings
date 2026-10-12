@@ -1,0 +1,72 @@
+name: release
+
+# Playable builds for Windows, Linux, macOS and the browser, from export_presets.cfg.
+# Run it by hand (Actions → release → Run workflow) for test builds, or push a tag
+# like v0.2.0 to also publish a GitHub release with the four zips attached.
+# A pull request that touches the export settings builds all four too, so a
+# broken preset is caught before it reaches a tag.
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+  pull_request:
+    paths: [export_presets.cfg, project.godot, .github/workflows/release.yml]
+
+env:
+  GODOT_VERSION: 4.7.2-stable
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Godot
+        uses: ./.github/actions/godot
+        with:
+          version: ${{ env.GODOT_VERSION }}
+      - uses: actions/cache@v6
+        id: templates
+        with:
+          path: ~/.local/share/godot/export_templates
+          key: godot-templates-${{ env.GODOT_VERSION }}-desktop-web
+      - name: Export templates
+        if: steps.templates.outputs.cache-hit != 'true'
+        run: |
+          dir="$HOME/.local/share/godot/export_templates/${GODOT_VERSION/-/.}"
+          mkdir -p "$dir" && cd "$dir"
+          curl -fsSL -o t.tpz "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          unzip -q -j t.tpz 'templates/version.txt' 'templates/linux_*.x86_64' 'templates/windows_*_x86_64*.exe' \
+            'templates/web_nothreads_*.zip' 'templates/macos.zip'
+          rm t.tpz
+      - name: Version from the tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: sed -i "s/^config\/version=.*/config\/version=\"${GITHUB_REF_NAME#v}\"/" project.godot
+      - name: Export
+        run: |
+          version=$(sed -n 's/^config\/version="\(.*\)"/\1/p' project.godot)
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          mkdir -p builds/windows builds/linux builds/macos builds/web dist
+          touch builds/.gdignore
+          godot --headless --path . --import >/dev/null 2>&1 || true
+          for preset in Windows Linux macOS Web; do
+            out=$(godot --headless --path . --export-release "$preset" 2>&1)
+            if grep -q 'ERROR' <<<"$out"; then echo "$out" | grep -A3 ERROR; exit 1; fi
+          done
+          (cd builds/windows && zip -qr "../../dist/EarthKings-$version-windows.zip" .)
+          (cd builds/linux && zip -qr "../../dist/EarthKings-$version-linux.zip" .)
+          cp builds/macos/EarthKings.zip "dist/EarthKings-$version-macos.zip"
+          (cd builds/web && zip -qr "../../dist/EarthKings-$version-web.zip" .)
+          ls -la dist
+      - uses: actions/upload-artifact@v5
+        with:
+          name: EarthKings-${{ env.VERSION }}
+          path: dist/*.zip
+      - name: GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "Earth Kings $VERSION" --generate-notes --prerelease
