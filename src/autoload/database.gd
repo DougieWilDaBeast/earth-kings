@@ -53,6 +53,8 @@ var factions: Dictionary = {}
 var music: Dictionary = {}
 ## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
 var guild: Dictionary = {}
+## Passives, enemy roles and feel for the real-time skirmish (see `src/skirmish/`).
+var skirmish: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -92,6 +94,7 @@ func _ready() -> void:
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
 	guild = _load_json("%s/guild.json" % DATA_DIR)
+	skirmish = _load_json("%s/skirmish.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:

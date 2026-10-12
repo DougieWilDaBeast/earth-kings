@@ -167,10 +167,16 @@ against it.
 - A separate battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
 - Point-and-click movement on the existing grid; automatic basic attacks ✅
 - Four active abilities per unit on Q W E R, with cooldowns ✅ and cast times ✅; a per-unit auto
-  toggle ✅ and Wait for Orders ✅. Passives — not yet
+  toggle ✅ and Wait for Orders ✅. Passives ✅ (2026-10-12, `data/skirmish.json`, **Inferred**
+  per class — agenda item 45), shown on the cards and on hover
 - Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1) — waits on art
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
-  companion can reach ✅ — the graces are not rolled yet
+  companion can reach ✅; when it runs out the turn-based graces are rolled through `Fate.roll` ✅
+  (2026-10-12, nothing written back, **Inferred** — agenda item 46)
+- Enemy kinds that fight differently ✅ (2026-10-12): Charger, Skirmisher, Mender, by data
+  (**Inferred**, item 45)
+- Feel without art ✅ (2026-10-12): damage and critical numbers, hit flash, lunge, hit-stop, camera
+  shake on deaths, cooldown sweeps on the skill tiles and touch buttons
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Reachable from the Training ground and the bench ✅. A training fight only — nothing written back
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right

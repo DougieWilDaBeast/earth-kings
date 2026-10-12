@@ -359,6 +359,42 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
 - `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
+## `skirmish.json` — passives, enemy roles and feel for the real-time fight
+
+Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#the-prototype)).
+
+```json
+{
+  "rules": { "max_passives": 3, "base_crit": 0.05, "crit_multiplier": 1.6, "guard_cap": 0.5,
+             "out_of_combat_after": 4.0, "big_hit_share": 0.2, "hit_stop": 0.07,
+             "shake_on_down": 9.0, "shake_on_kill": 4.0, "shake_on_crit": 2.5 },
+  "passives": {
+    "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
+                    "radius": 2, "grants": { "guard": 0.15 } }
+  },
+  "by_template": { "brigand_chief": ["war_cry"] },
+  "by_class": { "sworn_blade": ["shieldwall"] },
+  "by_ability": { "riposte": ["barbed_guard"] },
+  "roles": { "charger": { "display_name": "Charger", "description": "…", "charge_from": 3,
+                          "pace": 1.7, "charge_bonus": 0.4 } },
+  "role_by_template": { "brigand_archer": "kiter" },
+  "role_by_kind": { "beast": "charger" },
+  "ranged_role": "kiter",
+  "healer_role": "healer"
+}
+```
+
+- A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
+  each ability it knows in `by_ability`, and capped at `rules.max_passives`.
+- `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the
+  fighting), `last_stand` (with `threshold`), `reset_on_ally_down`, or `aura`, whose `grants` may
+  hold `guard` (less damage taken), `haste` (faster basic attacks) and `regen` (health a second),
+  each a share. `also` adds a second effect to the same passive, e.g. `{ "flank_bonus": 0.15 }`.
+- An enemy's role is `role_by_template`, else `healer_role` if it carries a non-bonus heal for an
+  ally with a reach of two or more, else `ranged_role` if its basic attack reaches three, else
+  `role_by_kind`. Role keys: `charge_from`, `pace`, `charge_bonus` (charger), `keep_away`,
+  `retreat_every` (kiter and healer), `heal_below` (healer). A role with only a name changes nothing.
+
 ## `maps/*.json` — hand-authored battlefields
 
 For set pieces. Wild encounters and delves generate their maps instead.
