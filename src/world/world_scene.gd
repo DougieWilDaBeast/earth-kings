@@ -10,6 +10,7 @@ const Names := preload("res://src/chronicle/names.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -27,6 +28,12 @@ const AUTO_DELAY := 0.09
 ## How far the party will turn aside for a band while walking itself. The road
 ## to anywhere is thick with them, so chasing every one means never arriving.
 const AUTO_DETOUR := 6
+## Seconds a tile takes to fade in when it comes onto the map.
+const REVEAL_FADE := 0.45
+## How dark ground drawn from somebody else's map is left: the lie of the
+## land, but nothing walking on it.
+const CHARTED_WASH := Color(0.03, 0.03, 0.05, 0.58)
+const UNKNOWN := Color(0.02, 0.02, 0.03)
 
 const DIRECTIONS := {
 	"move_up": Vector2i.UP,
@@ -82,6 +89,12 @@ var _auto_route: Array[Vector2i] = []
 var _art: Dictionary = {}
 ## Where the camera was last time the ground was laid out (x, y, zoom).
 var _last_view: Vector3 = Vector3.INF
+## Tiles fading onto the map, cell -> seconds of fade left.
+var _fading: Dictionary = {}
+## Where the party is walking itself to when it knows of nowhere to go: the
+## nearest ground it has never seen.
+var _explore_to: Vector2i = Vector2i(-1, -1)
+var _explored_checked_at: int = -999
 
 
 func _ready() -> void:
@@ -90,6 +103,9 @@ func _ready() -> void:
 	if world.steps == 0:
 		Encounter.first_blood(world, world.rng)
 	_warm_art()
+	# The ground the party stands on is always on the map ([D50]).
+	Atlas.reveal_around(world, world.player_cell)
+	EventBus.ground_revealed.connect(_on_ground_revealed)
 	_map.draw.connect(_draw_world)
 	_map.queue_redraw()
 	for edge: Signal in [
@@ -144,6 +160,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_watch_the_view()
+	_fade_in(delta)
 	if _busy:
 		return
 	if Pace.auto:
@@ -206,7 +223,7 @@ func _auto_errand() -> Vector2i:
 	for site in world.sites:
 		if site.kind != Site.GATE or not site.open or site.cleared:
 			continue
-		if Pace.avoided.has(site.cell):
+		if Pace.avoided.has(site.cell) or not Atlas.knows(world, site):
 			continue
 		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
 			continue
@@ -218,9 +235,23 @@ func _auto_errand() -> Vector2i:
 		return target
 
 	var tower := world.tower()
-	if tower == null or world.tower_is_topped() or Pace.avoided.has(tower.cell) or Chapters.sealed(world):
-		return Vector2i(-1, -1)
-	return tower.cell
+	if tower != null and not world.tower_is_topped() and not Pace.avoided.has(tower.cell) \
+			and not Chapters.sealed(world) and Atlas.knows(world, tower):
+		return tower.cell
+	return _explore_target()
+
+
+## Nowhere known to go, so go and see somewhere: the nearest ground the party
+## has never set eyes on. Kept until it is stood on, so the way is worked out
+## once per stretch rather than every step.
+func _explore_target() -> Vector2i:
+	var stale := _explore_to == world.player_cell or Pace.avoided.has(_explore_to)
+	# With everything seen, looking again every step is a whole-map search for nothing.
+	var due := _explore_to.x < 0 and world.steps - _explored_checked_at >= 20
+	if stale or due:
+		_explored_checked_at = world.steps
+		_explore_to = Atlas.frontier(world, world.player_cell)
+	return _explore_to
 
 
 ## The next step along the way to [param target], or, with nowhere to go,
@@ -406,7 +437,9 @@ func _look_for_a_cache(cell: Vector2i) -> void:
 	if _busy or world.rng.randf() >= float(Loot.rules().get("cache_chance", 0.04)):
 		return
 	_note("Something has been left here, and left a long while.")
-	for line: String in Loot.claim(Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0), GameState.roster):
+	var haul := Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0)
+	haul["map"] = bool(haul.get("map", false)) or Atlas.finds_map(world, cell, "cache_map_chance")
+	for line: String in Loot.claim(haul, GameState.roster):
 		_note(line)
 
 
@@ -1501,6 +1534,7 @@ func _pace_text() -> String:
 ## Runs inside the Map node's draw pass, so its draw_* calls are legal here.
 func _draw_world() -> void:
 	_draw_ground()
+	_draw_fog()
 	_draw_watched_ground()
 	_draw_places()
 	_draw_errand_marks()
@@ -1558,10 +1592,12 @@ func _draw_ground() -> void:
 	for y in range(seen.position.y, seen.end.y):
 		for x in range(seen.position.x, seen.end.x):
 			var cell := Vector2i(x, y)
+			if not Atlas.is_charted(world, cell):
+				continue
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
 			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
-			if dress_lod:
+			if dress_lod and Atlas.is_explored(world, cell):
 				_dress(cell, world.terrain_id_at(cell))
 
 
@@ -1645,6 +1681,71 @@ func _scatter(seed_value: int, index: int) -> Vector2:
 	return Vector2(0.18 + a * 0.64, 0.18 + b * 0.64) * CELL
 
 
+## The map is black until the party has been there ([D50]). Ground a map has
+## drawn in is shown dim; ground just seen fades in. Unbroken runs of one kind
+## are drawn as one rectangle, so the black of an unwalked continent is cheap.
+func _draw_fog() -> void:
+	var seen := _cells_in_view()
+	for y in range(seen.position.y, seen.end.y):
+		var run_start := seen.position.x
+		var run_kind := -1
+		for x in range(seen.position.x, seen.end.x + 1):
+			var kind := 0
+			if x < seen.end.x:
+				var cell := Vector2i(x, y)
+				if _fading.has(cell):
+					kind = 3
+				elif Atlas.is_explored(world, cell):
+					kind = 0
+				elif Atlas.is_charted(world, cell):
+					kind = 1
+				else:
+					kind = 2
+			else:
+				kind = -2
+			if kind == run_kind:
+				continue
+			if run_kind == 1 or run_kind == 2:
+				_map.draw_rect(
+					Rect2(Vector2(run_start, y) * CELL, Vector2(x - run_start, 1) * CELL),
+					CHARTED_WASH if run_kind == 1 else UNKNOWN
+				)
+			run_start = x
+			run_kind = kind
+	# What is coming into sight: from black (or from the dim of a map) to clear.
+	for cell: Vector2i in _fading:
+		if not seen.has_point(cell):
+			continue
+		if not Atlas.is_explored(world, cell):
+			_map.draw_rect(Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL), CHARTED_WASH)
+		var veil := UNKNOWN
+		veil.a = clampf(float(_fading[cell]) / REVEAL_FADE, 0.0, 1.0)
+		_map.draw_rect(Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL), veil)
+
+
+func _fade_in(delta: float) -> void:
+	if _fading.is_empty():
+		return
+	for cell: Vector2i in _fading.keys():
+		_fading[cell] = float(_fading[cell]) - delta
+		if float(_fading[cell]) <= 0.0:
+			_fading.erase(cell)
+	_map.queue_redraw()
+
+
+## New ground on the map. Ground the party saw for itself fades in; a place
+## that comes into sight for the first time is said out loud.
+func _on_ground_revealed(cells: Array) -> void:
+	for cell: Vector2i in cells:
+		_fading[cell] = REVEAL_FADE
+		var site := world.site_at(cell)
+		if site != null and Atlas.is_explored(world, cell) and not world.marked.has("%d,%d" % [cell.x, cell.y]) \
+				and site.kind != Site.TOWER and site.kind != Site.HOME and site.kind != Site.GRAVE:
+			_note(Atlas.line("seen", {"place": site.display_name}))
+	# The ground has to be laid out again whether or not anything is fading.
+	_map.queue_redraw()
+
+
 ## Ground somebody has eyes on, in the colours of whoever is watching it.
 func _draw_watched_ground() -> void:
 	var seen := _cells_in_view()
@@ -1652,7 +1753,7 @@ func _draw_watched_ground() -> void:
 		var wash := Faction.banner(band.faction)
 		wash.a = 0.26
 		for watched: Vector2i in band.watched(world):
-			if seen.has_point(watched):
+			if seen.has_point(watched) and Atlas.is_explored(world, watched):
 				_map.draw_rect(Rect2(Vector2(watched) * CELL, Vector2.ONE * CELL), wash)
 
 
@@ -1664,7 +1765,7 @@ func _draw_places() -> void:
 	var show_names: bool = _camera.zoom.x >= 0.45
 
 	for site in world.sites:
-		if not seen.has_point(site.cell):
+		if not seen.has_point(site.cell) or not Atlas.knows(world, site):
 			continue
 		var art := _site_art(site)
 		var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
@@ -1813,6 +1914,8 @@ func _draw_quest_markers() -> void:
 			_draw_quest_path_and_beacon(party_pos, target_pos, Color(1.0, 0.85, 0.25, 0.95), "ESCORT")
 
 	for site in world.sites:
+		if not Atlas.knows(world, site):
+			continue
 		if Town.is_threatened(site):
 			var target_pos := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_draw_quest_path_and_beacon(party_pos, target_pos, Color(0.95, 0.35, 0.25, 0.95), "DEFEND")
@@ -1835,6 +1938,8 @@ func _draw_quest_markers() -> void:
 ## in it before you are close enough to be told the hard way.
 func _draw_bands() -> void:
 	for band: Prowler in world.prowlers:
+		if not Atlas.is_explored(world, band.cell):
+			continue
 		var centre := Vector2(band.cell) * CELL + Vector2.ONE * CELL * 0.5
 		_map.draw_circle(centre, CELL * 0.42, Faction.banner(band.faction))
 		var face: Texture2D = Database.unit_face(band.pack[0]) if not band.pack.is_empty() else null

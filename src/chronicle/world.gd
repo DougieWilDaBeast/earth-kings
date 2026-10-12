@@ -10,6 +10,7 @@ const SIZE := Vector2i(128, 128)
 
 ## Loaded by path ([D41]).
 const Guild := preload("res://src/chronicle/guild.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 ## Symbol -> terrain id from `data/terrain.json`.
 const LEGEND := {
@@ -74,6 +75,12 @@ var roadside_at: int = -999
 var survivors: Array = []
 ## Guild musters gathering for S-rank gates (see `src/chronicle/guild.gd`).
 var musters: Array = []
+## The party's map ([D50], `src/chronicle/atlas.gd`): one bit a tile for ground
+## it has seen, one for ground a map it carries has drawn in, and the places it
+## has been told of, keyed "x,y".
+var explored: PackedByteArray = PackedByteArray()
+var charted: PackedByteArray = PackedByteArray()
+var marked: Dictionary = {}
 
 var rng := RandomNumberGenerator.new()
 
@@ -257,6 +264,7 @@ func restore_abilities() -> void:
 ## Advance the world by one step. Returns notices worth showing the player.
 func step() -> Array:
 	steps += 1
+	Atlas.reveal_around(self, player_cell)
 	for band in prowlers:
 		band.wander(self, rng)
 	if steps % UPKEEP_INTERVAL != 0:
@@ -299,6 +307,8 @@ func _upkeep() -> Array:
 
 
 func to_dict() -> Dictionary:
+	# Both layers are written whole, so a save loads back to the same file.
+	Atlas.ensure(self)
 	return {
 		"world_seed": world_seed,
 		"size": [size.x, size.y],
@@ -323,9 +333,18 @@ func to_dict() -> Dictionary:
 		"roadside_at": roadside_at,
 		"survivors": survivors,
 		"musters": musters,
+		"explored": Atlas.encode(explored),
+		"charted": Atlas.encode(charted),
+		"marked": _sorted_keys(marked),
 		# A 64-bit state would lose precision as a JSON number.
 		"rng_state": str(rng.state),
 	}
+
+
+static func _sorted_keys(table: Dictionary) -> Array:
+	var keys := table.keys()
+	keys.sort()
+	return keys
 
 
 static func from_dict(payload: Dictionary) -> World:
@@ -359,6 +378,14 @@ static func from_dict(payload: Dictionary) -> World:
 	world.roadside_at = int(payload.get("roadside_at", -999))
 	world.survivors = payload.get("survivors", [])
 	world.musters = payload.get("musters", [])
+	world.explored = Atlas.decode(str(payload.get("explored", "")), world)
+	world.charted = Atlas.decode(str(payload.get("charted", "")), world)
+	for key: String in payload.get("marked", []):
+		world.marked[key] = true
+	if not payload.has("explored"):
+		# Saved before there was a map: it keeps the whole map it had.
+		Atlas.explore_everything(world)
+	Atlas.ensure(world)
 	for entry: Dictionary in payload.get("sites", []):
 		world.sites.append(Site.from_dict(entry))
 	for entry: Dictionary in payload.get("prowlers", []):
