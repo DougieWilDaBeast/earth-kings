@@ -3,12 +3,15 @@ extends Control
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+## Where the player's own settings live; the tutorial offer is remembered there.
+const SETTINGS_PATH := "user://settings.cfg"
 
 ## Set by [Game] before the scene enters the tree; unused here.
 var boot_payload: Dictionary = {}
 
 @onready var _continue_button: Button = %ContinueButton
 @onready var _new_game_button: Button = %NewGameButton
+@onready var _tutorial_button: Button = %TutorialButton
 @onready var _how_to_play_button: Button = %HowToPlayButton
 @onready var _training_button: Button = %TrainingButton
 @onready var _coliseum_button: Button = %ColiseumButton
@@ -25,6 +28,7 @@ func _ready() -> void:
 	_continue_button.disabled = not GameState.has_save()
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_new_game_button.pressed.connect(_on_new_game_pressed)
+	_tutorial_button.pressed.connect(func() -> void: EventBus.tutorial_requested.emit())
 	_how_to_play_button.pressed.connect(func() -> void: EventBus.how_to_play_requested.emit())
 	# The page shuts on top of this menu; the keyboard comes back to where it was.
 	EventBus.overlay_closed.connect(func() -> void:
@@ -40,7 +44,7 @@ func _ready() -> void:
 	# last frame on screen, so the button is not offered there.
 	_quit_button.visible = not OS.has_feature("web")
 	for button in [
-		_continue_button, _new_game_button, _how_to_play_button, _training_button, _coliseum_button,
+		_continue_button, _new_game_button, _tutorial_button, _how_to_play_button, _training_button, _coliseum_button,
 		_museum_button, _credits_button, _quit_button,
 	]:
 		button.theme_type_variation = &"GrandButton"
@@ -58,6 +62,73 @@ func _ready() -> void:
 	_wear_your_own_face()
 	_breathe_crest()
 	_fade_in()
+	_offer_the_tour()
+
+
+## The very first time the game is opened, with no run to continue, the tutorial is offered
+## (D63). Asked once per player (`settings.cfg`, section "tutorial"); the button stays either way.
+func _offer_the_tour() -> void:
+	var config := ConfigFile.new()
+	config.load(SETTINGS_PATH)
+	if bool(config.get_value("tutorial", "offered", false)) or GameState.has_save() \
+			or DisplayServer.get_name() == "headless":
+		return
+	config.set_value("tutorial", "offered", true)
+	config.save(SETTINGS_PATH)
+
+	var shade := ColorRect.new()
+	shade.color = Color(0, 0, 0, 0.82)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(shade)
+	var card := PanelContainer.new()
+	var backing := StyleBoxFlat.new()
+	backing.bg_color = Color("#16131c")
+	backing.border_color = Color("#c9a45f")
+	backing.set_border_width_all(2)
+	backing.set_corner_radius_all(6)
+	card.add_theme_stylebox_override("panel", backing)
+	card.set_anchors_preset(Control.PRESET_CENTER)
+	card.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	card.grow_vertical = Control.GROW_DIRECTION_BOTH
+	shade.add_child(card)
+	var margin := MarginContainer.new()
+	for side in ["left", "right", "top", "bottom"]:
+		margin.add_theme_constant_override("margin_" + side, 24)
+	card.add_child(margin)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 14)
+	margin.add_child(box)
+	var heading := Label.new()
+	heading.text = "New to Earth Kings?"
+	heading.add_theme_font_size_override("font_size", 28)
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(heading)
+	var words := Label.new()
+	words.text = "Take the ten-minute tour: walk a village, talk, trade, do a favour and win\na sparring fight. Nothing in it is saved. You can take it again from the menu."
+	words.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(words)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 16)
+	box.add_child(row)
+	var take := Button.new()
+	take.text = "Take the tour"
+	take.theme_type_variation = &"GrandButton"
+	var later := Button.new()
+	later.text = "Not now"
+	for button: Button in [take, later]:
+		row.add_child(button)
+		Sfx.attend(button)
+	take.pressed.connect(func() -> void:
+		shade.queue_free()
+		EventBus.tutorial_requested.emit()
+	)
+	later.pressed.connect(func() -> void:
+		shade.queue_free()
+		_new_game_button.grab_focus()
+	)
+	take.grab_focus()
 
 
 ## The crest is whoever you are playing as, read off the save. With no save it

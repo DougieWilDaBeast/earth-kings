@@ -356,6 +356,9 @@ func _reset_controls_to_defaults() -> void:
 
 
 func _on_save_pressed() -> void:
+	if GameState.rehearsing:
+		_status.text = "Nothing in the tutorial is saved."
+		return
 	GameState.save()
 	_load_button.disabled = not GameState.has_save()
 	_status.text = "Progress saved."

@@ -214,6 +214,20 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 
+## D3 — The tutorial ([D63](06-decisions.md))
+
+Delete `settings.cfg` and the save from the user folder first, to be a new player.
+
+| #    | Do this                                               | Expect                                                                                  |
+| ---- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| D3.1 | Open the game                                         | After the opening, "New to Earth Kings?" over the title; **Take the tour** has focus     |
+| D3.2 | Close and open the game again                         | No offer the second time; **Tutorial** is in the title menu                              |
+| D3.3 | Take the tour and follow every card                   | Each step ticks "done" and the next comes up; the card never sits on the conversation box |
+| D3.4 | Press Esc → Save during the tour                      | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
+| D3.5 | Step through the ring of stones                       | A paused real-time fight with the card on the left, clear of the field; after it, back by the stones |
+| D3.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
+| D3.7 | Finish the tour and press **Start a new run**         | The four questions that pick a hero; the new run saves as normal                         |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

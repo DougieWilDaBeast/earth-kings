@@ -997,7 +997,7 @@ func _killer_kind() -> String:
 
 func _leave_the_field() -> void:
 	await get_tree().create_timer(END_SCREEN_DELAY).timeout
-	EventBus.request_scene.emit(boot_payload.get("return_scene", "world"), {})
+	EventBus.request_scene.emit(boot_payload.get("return_scene", "world"), boot_payload.get("return_payload", {}))
 
 
 # --- queries -----------------------------------------------------------------

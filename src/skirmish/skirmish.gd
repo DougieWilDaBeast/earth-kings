@@ -946,6 +946,7 @@ func _check_end() -> void:
 	_say("The field is yours after %.0f seconds." % sim_time if victory \
 			else "The company is down after %.0f seconds." % sim_time)
 	hud.show_result(victory)
+	EventBus.player_did.emit("fight_won" if victory else "fight_lost")
 	# A training fight: everyone walks off whole, and the world never hears of it.
 	GameState.heal_party()
 	finished.emit(victory)
@@ -955,7 +956,7 @@ func _check_end() -> void:
 
 func _leave_the_field() -> void:
 	await get_tree().create_timer(END_SCREEN_DELAY, true, false, true).timeout
-	EventBus.request_scene.emit(str(boot_payload.get("return_scene", "training")), {})
+	EventBus.request_scene.emit(str(boot_payload.get("return_scene", "training")), boot_payload.get("return_payload", {}))
 
 
 # --- orders ------------------------------------------------------------------

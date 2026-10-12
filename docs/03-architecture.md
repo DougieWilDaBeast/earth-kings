@@ -89,7 +89,8 @@ src/
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Battle HUD, title screen, party screen, system menu, stash,
                                Guild hall, journal (bestiary, routes, annals), museum (hero dossiers),
-                               credits (credits_roll.gd lays out data/credits.json for both places)
+                               credits (credits_roll.gd lays out data/credits.json for both places),
+                               the tutorial's guide card (tutorial_guide.gd, under the game root)
 ```
 
 ## Character vs Unit
@@ -136,7 +137,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
 | `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
-| `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid |
+| `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid; the tutorial's steps, its never saving, and walking it to its fifth step |
 | `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
 | `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
