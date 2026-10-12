@@ -39,6 +39,9 @@ signal system_menu_requested
 signal party_screen_requested
 ## Ask the always-present journal to open.
 signal journal_requested
+## The journal's Map was pressed: whichever ground the party is on opens the
+## continent as a map, and comes back to the same spot when it is put away.
+signal map_requested
 ## Ask the camp stash screen to open.
 signal stash_requested
 ## Ask the Adventurers Guild screen to open on the hall the party stands in.

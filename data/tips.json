@@ -8,7 +8,7 @@
 			"id": "map",
 			"when": "map",
 			"title": "The road",
-			"text": "WASD or the arrow keys walk one tile at a time; hold to keep going. The top bar says where you are. Esc opens the menu — How to Play is in there."
+			"text": "WASD or the arrow keys walk the ground; walk off its edge to travel on. The map is in the journal (N). Esc opens the menu — How to Play is in there."
 		},
 		{
 			"id": "step",

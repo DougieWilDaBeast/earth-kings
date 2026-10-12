@@ -71,14 +71,14 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   | Start / Back             | Menu / party                               | Menu / —                           | Menu / select everyone         |
   | LB / RB                  | Speed / next leader in a town              | Speed / next fighter               | Speed / next fighter           |
   | LT / RT                  | Zoom out / in                              | Zoom out / in                      | Zoom out / in                  |
-  | Right stick / L3 / R3    | Look around / world–planar view / recentre | Look around / — / recentre         | Look around                    |
+  | Right stick / L3 / R3    | Look around / — / recentre                 | Look around / — / recentre         | Look around                    |
 
   Every menu is walked with the D-pad and pressed with A. The system menu's _Controls_ lists the
   pad button beside each key, and rebinds a pad button the same way it rebinds a key.
 - **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
   inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.
-- **The map** — green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
+- **The map** — kept in the journal (`N`, then _The Map_ or `M`); `Esc` puts it away. Green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
   (a ring means it is open and spilling), gold is **the Tower**, and the orange roof is **home**.
 - **Home** — the run starts on your own doorstep. Nothing camps within sight of it and sleeping
   there always patches the party up. `U` buys the next **bed** up, and everyone who sleeps on it
@@ -107,9 +107,11 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   actually improves; anything else worth keeping goes into the marching packs (`GameState.stores`),
   and only true junk is sold on the spot. Camp provides a strongbox stash (`GameState.camp_stash`)
   for long-term storage.
-- **Two views: Continental and Planar.** `Z` toggles between the full continental map and
-  ground-level planar exploration. Walking off the edges of planar wilderness areas transitions
-  seamlessly to adjacent regions across the continent.
+- **The ground is the game.** You play in the planar view, close up. Walk off the edge of the
+  ground and the party steps to the next tile of the continent, with everything a step brings — a
+  band that was watching, a scene on the road, a rest. A place's doings (`H`, `B`, `J`, …) are
+  offered at the bottom of the ground's screen. The continent itself is a map, opened from the
+  journal, black where the company has never been ([D61](docs/06-decisions.md)).
 - **Four seasonal clovers.** Footsteps turn the seasons every 120 steps: Lesser Green (Spring),
   Green (Summer), Brown (Autumn), and Ice (Winter), reflected in world HUD lore, dialogue, and areas.
 - **The Tower is ten floors**, each paying gold, a book every third, a generated skill tree

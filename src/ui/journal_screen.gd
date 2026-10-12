@@ -7,6 +7,9 @@ extends CanvasLayer
 ## fight it, take a blow from it, put one down, and the line fills itself in.
 ##
 ## Read-only. Nothing on this screen can be spent, chosen or missed.
+##
+## The map is kept here ([D61]): the continent, black where the company has
+## never been, opened from the journal and nowhere else.
 
 ## Loaded by path ([D41]): regional names (see its header).
 const Names := preload("res://src/chronicle/names.gd")
@@ -32,6 +35,7 @@ const FACE_SIZE := Vector2(96, 96)
 @onready var _routes_btn: Button = %RoutesButton
 @onready var _annals_btn: Button = %AnnalsButton
 @onready var _quests_btn: Button = %QuestsButton
+@onready var _map_btn: Button = %MapButton
 @onready var _close_btn: Button = %CloseButton
 
 var _showing: String = ""
@@ -47,12 +51,14 @@ func _ready() -> void:
 	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
 	_annals_btn.pressed.connect(func() -> void: _set_tab(Tab.ANNALS))
 	_quests_btn.pressed.connect(func() -> void: _set_tab(Tab.QUESTS))
+	_map_btn.pressed.connect(open_map)
 	# Escape is the only other way out, and a phone has no Escape.
 	_close_btn.pressed.connect(close)
 	Sfx.attend(_bestiary_btn)
 	Sfx.attend(_routes_btn)
 	Sfx.attend(_annals_btn)
 	Sfx.attend(_quests_btn)
+	Sfx.attend(_map_btn)
 	Sfx.attend(_close_btn)
 
 
@@ -76,12 +82,22 @@ func close() -> void:
 	EventBus.overlay_closed.emit()
 
 
+## Shut the book and look at the map. Whichever ground the party is on opens
+## it, so it comes back to the same spot when the map is put away.
+func open_map() -> void:
+	close()
+	EventBus.map_requested.emit()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_open() or not event.is_pressed() or event.is_echo():
 		return
 	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.keycode == KEY_N):
 		get_viewport().set_input_as_handled()
 		close()
+	elif event is InputEventKey and event.keycode == KEY_M:
+		get_viewport().set_input_as_handled()
+		open_map()
 
 
 func _rebuild() -> void:

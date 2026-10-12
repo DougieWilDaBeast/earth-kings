@@ -1,6 +1,17 @@
 extends Node2D
-## Walk mode: the world, a party moving across it one tile at a time, and
-## everything that interrupts them.
+## The continent: the engine every step runs through, and the map of it.
+##
+## The game is played on the ground, in the planar view ([D50], [D61]). This
+## scene opens three ways:
+## - **Ground** (the usual): the ground has handed it a step, a place's action
+##   or a return from a fight. It does what the continent does on that step —
+##   bands, roadside scenes, rests, gates — out of sight, then hands play
+##   straight back to the ground the party now stands on.
+## - **Map** (`"map": true`, from the journal): the explored continent, to look
+##   at and nothing else. Esc goes back to the ground where the party stood.
+## - **Walk**: the old walkable continent, kept for the party walking itself
+##   (Q, and the soak) and for the suites that drive it (`"walk": true`, or a
+##   scene nobody put on screen).
 ##
 ## Every step advances the world clock, so travel is never free.
 
@@ -62,6 +73,27 @@ const BAR_CLEARANCE := 750.0
 
 var boot_payload: Dictionary = {}
 
+enum View { WALK, GROUND, MAP }
+
+## What a step on the ground hands over to be done here, by the method that
+## does it, and what to press for it there: an input action, or a bare key.
+## Anything not listed cannot be asked for from the ground.
+const GROUND_ACTS := {
+	"_step_into_the_road": "interact",
+	"_walk_into_site": "interact",
+	"_ransom_here": "captive_ransom",
+	"_fight_for_captive": "captive_rescue",
+	"_hire_here": "site_hire",
+	"_buy_here": "site_buy",
+	"_errands_here": "site_errands",
+	"_buy_grimoire_here": "site_grimoire",
+	"_open_guild": "site_guild",
+	"_defend_here": KEY_V,
+	"_raid_here": KEY_K,
+	"_sail_here": KEY_O,
+	"_speak_with_wanderer": KEY_X,
+	"_upgrade_bed_here": KEY_U,
+}
 @onready var _map: Node2D = $Map
 @onready var _camera: CameraRig = $Camera2D
 @onready var _season_icon: TextureRect = %SeasonIcon
@@ -101,6 +133,10 @@ var _fading: Dictionary = {}
 ## nearest ground it has never seen.
 var _explore_to: Vector2i = Vector2i(-1, -1)
 var _explored_checked_at: int = -999
+var _view: View = View.WALK
+## Where the party stood when this scene opened, to tell whether anything done
+## here moved them.
+var _entered_at: Vector2i = Vector2i(-1, -1)
 
 
 func _ready() -> void:
@@ -109,6 +145,9 @@ func _ready() -> void:
 	if bool(boot_payload.get("world_ends", false)):
 		_watch_it_end()
 		return
+	_view = _opened_as()
+	_entered_at = world.player_cell
+	_hold_again(boot_payload.get("held", {}))
 	# Only a world nobody has stood in yet is stocked here. This scene opens again
 	# on every load and after every fight; topping up then too put a fresh round
 	# of bands out each time (the count jumped on Continue). After the first
@@ -140,7 +179,11 @@ func _ready() -> void:
 	Pad.changed.connect(_say_what_can_be_done)
 	var view_btn: Button = get_node_or_null("%ViewButton")
 	if view_btn != null:
-		view_btn.pressed.connect(switch_to_planar_view)
+		# The map's only way back for a thumb. Anywhere else there is nothing
+		# to switch to: the ground is the game.
+		view_btn.visible = _view == View.MAP
+		view_btn.text = "Back to the ground (Esc)"
+		view_btn.pressed.connect(_close_map)
 		Sfx.attend(view_btn)
 		# The touch overlay keeps its own bar in the top right, and two things
 		# in one corner means one of them cannot be pressed.
@@ -183,11 +226,20 @@ func _ready() -> void:
 		Database.register_dialogue("landing", landing)
 		EventBus.dialogue_requested.emit("landing")
 
+	match _view:
+		View.MAP:
+			_open_as_map()
+		View.GROUND:
+			_show_the_map(false)
+			_do_what_the_ground_asked()
+
 
 func _process(delta: float) -> void:
 	_watch_the_view()
 	_fade_in(delta)
 	if _busy:
+		return
+	if _view != View.WALK:
 		return
 	if Pace.auto:
 		_auto_walk(delta)
@@ -356,7 +408,9 @@ func _step(direction: Vector2i) -> void:
 		Encounter.restock(world, world.rng)
 		# New bands mean new faces, and a face first loaded mid-draw comes out white.
 		_warm_art()
-	_road_talk()
+	# Out of sight the talk is the ground's to have, over the party's heads.
+	if _view != View.GROUND:
+		_road_talk()
 	_centre_camera()
 	_map.queue_redraw()
 
@@ -744,15 +798,18 @@ func _stand_at_grave(site: Site) -> void:
 
 ## Anyone of yours being held here can be bought back, or taken back.
 func _check_for_captives(site: Site) -> void:
-	for character in GameState.roster.characters:
-		if character.status != Fate.CAPTURED:
-			continue
-		if Captivity.held_at(character) != site.cell:
-			continue
-		_captive_here = character
-		var price := int(character.captive.get("ransom", 0))
-		_note("%s is being held here. They want %d gold." % [character.display_name, price])
+	_captive_here = _captive_at(site)
+	if _captive_here == null:
 		return
+	var price := int(_captive_here.captive.get("ransom", 0))
+	_note("%s is being held here. They want %d gold." % [_captive_here.display_name, price])
+
+
+func _captive_at(site: Site) -> Character:
+	for character in GameState.roster.characters:
+		if character.status == Fate.CAPTURED and Captivity.held_at(character) == site.cell:
+			return character
+	return null
 
 
 func _rest_at(site: Site) -> void:
@@ -982,6 +1039,9 @@ func _prompt() -> String:
 ## The line and the buttons are the same list read twice, so a phone can never
 ## be offered less than the keyboard is told about.
 func _say_what_can_be_done() -> void:
+	if _view == View.MAP:
+		_open_as_map()
+		return
 	var doable := _actions_here()
 	var said: Array[String] = []
 	for doing: Dictionary in doable:
@@ -1154,6 +1214,9 @@ func _settle_actions() -> void:
 
 ## The buttons are a thumb's way in, and a pad's: neither has an H to press.
 func _shows_actions() -> bool:
+	# The map is for looking at; the place's doings are offered on the ground.
+	if _view == View.MAP:
+		return false
 	return Pace.is_touch_enabled() or Pad.using_pad
 
 
@@ -1295,6 +1358,12 @@ func _end_run() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _busy or not event.is_pressed() or event.is_echo():
 		return
+	# Out of sight nothing here is pressed; the boxes answer for themselves.
+	if _view == View.GROUND:
+		return
+	if _view == View.MAP:
+		_map_input(event)
+		return
 	if event.is_action_pressed("open_actions"):
 		get_viewport().set_input_as_handled()
 		_toggle_action_focus()
@@ -1318,15 +1387,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_walk_into_site()
 		return
-	if event.is_action_pressed("toggle_view") or (event is InputEventKey and (event.keycode == KEY_Z or event.physical_keycode == KEY_Z)):
-		get_viewport().set_input_as_handled()
-		switch_to_planar_view()
-		return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto
 		_note("The party walks itself." if Pace.auto else "You take the party back.")
 		_refresh()
+		# Taking the party back is taking it back to the ground.
+		if not Pace.auto and _driven_by_game():
+			_view = View.GROUND
+			_show_the_map(false)
+			_hand_back()
 		return
 	if event.is_action_pressed("battle_speed"):
 		get_viewport().set_input_as_handled()
@@ -1437,34 +1507,226 @@ func _area_here() -> String:
 	return area_id if Database.has_area(area_id) else ""
 
 
-## Switches between Continental World View and Ground Planar View.
-func switch_to_planar_view() -> void:
+# --- the ground ---------------------------------------------------------------
+
+
+## How this scene was asked for. Only the scene the game put on screen hands
+## play to the ground; a suite driving it directly walks it as before.
+func _opened_as() -> View:
+	if bool(boot_payload.get("map", false)):
+		return View.MAP
+	# Asked for by name: the suites that check the walk's own controls.
+	if bool(boot_payload.get("walk", false)):
+		return View.WALK
+	if _driven_by_game() and not Pace.auto:
+		return View.GROUND
+	return View.WALK
+
+
+func _driven_by_game() -> bool:
+	return is_in_group(EventBus.ACTIVE_SCENE_GROUP)
+
+
+## The map and its lines are drawn only when somebody is looking at them.
+func _show_the_map(on: bool) -> void:
+	_map.visible = on
+	$UI.visible = on
+
+
+## Whatever was waiting on the tile when the party went down to the ground,
+## put back: a scene on the road nobody has answered, a way into the wilds.
+func _hold_again(held: Dictionary) -> void:
+	_roadside_here = str(held.get("roadside", ""))
+	_wild_here = str(held.get("wild", ""))
+	var site := world.site_at(world.player_cell)
+	if site != null:
+		_captive_here = _captive_at(site)
+
+
+func _held_now() -> Dictionary:
+	return { "roadside": _roadside_here, "wild": _wild_here }
+
+
+## The step, or the place's action, the ground sent up — then straight back.
+func _do_what_the_ground_asked() -> void:
+	var step: Array = boot_payload.get("step", [])
+	var act := str(boot_payload.get("act", ""))
+	if step.size() == 2:
+		_step(Vector2i(int(step[0]), int(step[1])))
+	elif act != "" and GROUND_ACTS.has(act) and has_method(act):
+		# Some wait on a conversation; the ground is handed back once it is over.
+		await call(act)
+	_hand_back()
+
+
+## Back to the ground, unless something here has taken the screen: a fight, a
+## night at the fire, the end of the run. A box put up here (the landing, a
+## scene on the road, a word after a fight) lives above every scene, so it
+## carries on over the ground.
+func _hand_back() -> void:
+	if _busy or _view != View.GROUND or not is_inside_tree():
+		return
+	if Pace.auto:
+		# The party walking itself walks the continent, where it can be seen.
+		_view = View.WALK
+		_show_the_map(true)
+		_refresh()
+		return
+	_go_to_ground()
+
+
+## [param fresh]: what the ground is has changed (a door opened), so the spot
+## the party was standing on is not where they go back to.
+func _go_to_ground(fresh: bool = false) -> void:
 	if _busy:
 		return
+	_busy = true
+	EventBus.request_scene.emit("area", _ground_payload(fresh))
+
+
+## The ground the party stands on. Back where they were if nothing here moved
+## them; otherwise the place or the country of the tile they are on, come into
+## from the side they walked in by.
+func _ground_payload(fresh: bool = false) -> Dictionary:
+	var back: Dictionary = boot_payload.get("back", {})
+	var payload: Dictionary
+	if not fresh and not back.is_empty() and world.player_cell == _entered_at:
+		payload = back.duplicate(true)
+	else:
+		payload = _fresh_ground()
+		var step: Array = boot_payload.get("step", [])
+		if step.size() == 2:
+			var from: Array = boot_payload.get("from_cell", [])
+			var from_cell := Vector2i(int(from[0]), int(from[1])) if from.size() == 2 else Vector2i(-1, -1)
+			var spawn := _spawn_after_step(Vector2i(int(step[0]), int(step[1])), from_cell, str(payload["area_id"]))
+			payload["spawn_cell"] = [spawn.x, spawn.y]
+	payload["held"] = _held_now()
+	payload["actions"] = _ground_actions(payload)
+	var said: Array = []
+	for line: String in _notices:
+		said.append(line)
+	payload["notes"] = said
+	return payload
+
+
+## A place with an inside and an open door is walked into; anywhere else, the
+## country of the tile ([D50]). A warded place that will not open is stood
+## outside of, with the challenge offered.
+func _fresh_ground() -> Dictionary:
+	var region := world.region_at(world.player_cell)
 	var site := world.site_at(world.player_cell)
 	var area_id := _area_here()
-	if site != null and area_id != "":
-		_walk_into_site()
-		return
-	if _wild_here != "":
-		_step_into_the_wild()
-		return
+	if site != null and area_id != "" and (not site.data.has("ward") or Ward.is_site_open(site)):
+		return {
+			"area_id": area_id, "title": site.label(), "return_scene": "world",
+			"planar_mode": true, "inside": "site",
+		}
+	if _wild_here != "" and Database.has_area(_wild_here):
+		return {
+			"area_id": _wild_here, "title": "The Wilds (%s)" % region, "return_scene": "world",
+			"planar_mode": true, "inside": "wild",
+		}
+	return {
+		"area_id": _ground_area_for(world.player_cell), "title": region,
+		"return_scene": "world", "planar_mode": true,
+	}
 
-	var terrain_id := world.terrain_id_at(world.player_cell)
-	var wild_pool: Array = WILD_AREAS.get(terrain_id, [])
-	var chosen_area := "wild_grove"
-	if not wild_pool.is_empty():
-		chosen_area = wild_pool[absi(hash(world.player_cell)) % wild_pool.size()]
-	elif terrain_id == "sand":
-		chosen_area = "wild_oasis"
 
+## What kind of ground a tile of open country is walked as. The same tile is
+## always the same ground, so a place can be come back to.
+func _ground_area_for(cell: Vector2i) -> String:
+	var terrain_id := world.terrain_id_at(cell)
+	var pool: Array = WILD_AREAS.get(terrain_id, [])
+	if pool.is_empty() and terrain_id in ["mountain", "crag", "snow"]:
+		pool = WILD_AREAS["hill"]
+	if pool.is_empty():
+		pool = WILD_AREAS["forest"]
+	return str(pool[absi(hash(cell)) % pool.size()])
+
+
+## Where the party comes into the next ground: across from the edge they left
+## by, as far along it as they were.
+func _spawn_after_step(dir: Vector2i, from_cell: Vector2i, area_id: String) -> Vector2i:
+	var rows: Array = Database.area(area_id).get("rows", [])
+	var h: int = rows.size()
+	var w: int = 0
+	for r in rows:
+		w = maxi(w, str(r).length())
+	var along_x := clampi(from_cell.x, 2, w - 3) if from_cell.x >= 0 else w / 2
+	var along_y := clampi(from_cell.y, 2, h - 3) if from_cell.y >= 0 else h / 2
+	match dir:
+		Vector2i.UP:
+			return Vector2i(along_x, h - 2)
+		Vector2i.DOWN:
+			return Vector2i(along_x, 1)
+		Vector2i.LEFT:
+			return Vector2i(w - 2, along_y)
+		Vector2i.RIGHT:
+			return Vector2i(1, along_y)
+	return Vector2i(w / 2, h / 2)
+
+
+## The place's doings, said for the ground: what to press, the button's name,
+## and which of [constant GROUND_ACTS] it asks for. Walking into a place you
+## are already standing in, and the party and the menu (the ground has its
+## own), are left off.
+func _ground_actions(payload: Dictionary) -> Array:
+	var inside := str(payload.get("inside", ""))
+	var site := world.site_at(world.player_cell)
+	var out: Array = []
+	for doing: Dictionary in _actions_here():
+		var call: Callable = doing["call"]
+		if not call.is_valid():
+			if inside != "wild":
+				out.append({ "prompt": str(doing["prompt"]), "label": "", "act": "", "key": "" })
+			continue
+		var method := str(call.get_method())
+		if not GROUND_ACTS.has(method):
+			continue
+		if method == "_walk_into_site" and inside == "site" \
+				and not (site != null and site.kind == Site.TOWER and world.tower_topped):
+			continue
+		out.append({
+			"prompt": str(doing["prompt"]), "label": str(doing["label"]),
+			"act": method, "key": GROUND_ACTS[method],
+		})
+	return out
+
+
+# --- the map ------------------------------------------------------------------
+
+
+## Opened from the journal: the continent as far as the company knows it, to
+## look round with the movement keys and the wheel. Nothing on it is walked.
+func _open_as_map() -> void:
+	_camera.keyboard_pan = true
+	_actions.visible = false
+	_hint.text = "The map: black where the company has never been.  ·  %s to look around  ·  %s to go back" % [
+		"the right stick" if Pad.using_pad else "WASD or the arrows",
+		_key("ui_cancel", "Esc"),
+	]
+
+
+func _map_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.keycode == KEY_M):
+		get_viewport().set_input_as_handled()
+		_close_map()
+	elif event is InputEventKey and event.keycode == KEY_N:
+		get_viewport().set_input_as_handled()
+		EventBus.journal_requested.emit()
+
+
+func _close_map() -> void:
+	if _busy or _view != View.MAP:
+		return
 	_busy = true
-	EventBus.request_scene.emit("area", {
-		"area_id": chosen_area,
-		"title": "%s (Planar View)" % world.region_at(world.player_cell),
-		"return_scene": "world",
-		"planar_mode": true,
-	})
+	var back: Dictionary = boot_payload.get("back", {})
+	if back.is_empty():
+		_busy = false
+		_view = View.GROUND
+		_go_to_ground()
+		return
+	EventBus.request_scene.emit("area", back)
 
 
 func _walk_into_site() -> void:
@@ -1489,6 +1751,10 @@ func _walk_into_site() -> void:
 			"There is no way into %s." % site.display_name if site != null
 			else "There is nothing here to walk into."
 		)
+		return
+	if _view == View.GROUND:
+		# The door is open now: the ground is the place's inside, with what it offers.
+		_go_to_ground(true)
 		return
 	_busy = true
 	EventBus.request_scene.emit("area", {

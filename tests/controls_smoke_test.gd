@@ -64,6 +64,7 @@ func _ready() -> void:
 	await _check_the_credits()
 	await _check_tips_and_how_to_play()
 	await _check_the_pad()
+	await _check_the_ground_is_the_game()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -398,7 +399,13 @@ func _check_the_party_screen() -> void:
 
 
 func _enter(scene_key: String) -> void:
-	var payload := {"area_id": "village"} if scene_key == "area" else {}
+	var payload := {}
+	if scene_key == "area":
+		payload = {"area_id": "village"}
+	elif scene_key == "world":
+		# The walk's own controls are what is checked here; left to itself the
+		# continent hands straight on to the ground ([D61]).
+		payload = {"walk": true}
 	EventBus.request_scene.emit(scene_key, payload)
 	await _settle()
 
@@ -611,7 +618,7 @@ func _check_the_pad() -> void:
 	for action: String in [
 		"move_up", "move_down", "move_left", "move_right", "interact", "ui_accept", "ui_cancel",
 		"open_menu", "open_party", "open_actions", "open_journal", "cycle_next", "command_wait",
-		"battle_speed", "camera_zoom_in", "camera_zoom_out", "camera_recentre", "toggle_view",
+		"battle_speed", "camera_zoom_in", "camera_zoom_out", "camera_recentre",
 	]:
 		_expect(Pad.pad_glyph(action) != "", "%s has no button on a pad" % action)
 	for action: String in ["interact", "open_party", "cycle_next", "command_wait", "ui_cancel"]:
@@ -665,6 +672,102 @@ func _check_the_pad() -> void:
 	Pad.set_using_pad(false)
 	await _enter("world")
 	await _clear_dialogue()
+
+
+# --- the ground is the game ----------------------------------------------------
+
+
+## The planar view is where the game is played and the continent is a map kept
+## in the journal ([D61]). Coming back from anywhere lands on the ground; the
+## journal's map comes back to the same ground; a step off the edge moves the
+## party on the continent; a place's doings are offered and done from the ground.
+func _check_the_ground_is_the_game() -> void:
+	var world: World = GameState.world
+	var town: Site = null
+	for site: Site in world.sites:
+		if site.kind != Site.VILLAGE or site.data.has("ward") or Town.is_threatened(site) or Town.is_ruined(site) \
+				or not Database.has_area(str(site.data.get("area", site.kind))):
+			continue
+		# A town stocks its tavern when somebody rests in it.
+		Market.refresh(site, world)
+		if not Market.hire_offer(site).is_empty():
+			town = site
+			break
+	_expect(town != null, "no town with somebody to hire and an inside to walk")
+	if town == null:
+		return
+	world.player_cell = town.cell
+	GameState.gold = 100000
+	EventBus.request_scene.emit("world", {})
+	await _settle()
+	await _clear_dialogue()
+	var ground := _current_scene()
+	_expect(ground != null and ground.get("map") is AreaMap, "coming back to the continent did not land on the ground")
+	if ground == null or not ground.get("map") is AreaMap:
+		return
+	var area_id: String = ground.map.id
+	_expect(area_id == str(town.data.get("area", town.kind)), "the ground at %s is not its inside" % town.display_name)
+	var hire: Dictionary = {}
+	for each: Dictionary in ground._acts:
+		if str(each.get("act", "")) == "_hire_here":
+			hire = each
+	_expect(not hire.is_empty(), "hiring at %s is not offered from the ground" % town.display_name)
+	_expect(ground._prompt_text().contains("to hire"), "the ground's hint does not say there is somebody to hire")
+	_expect(ground._act_bar != null, "a thumb has no buttons for the place's doings on the ground")
+	_check_the_overlay_keeps_off_the_hud("ground")
+
+	# The map is the journal's, and puts the party back where it stood.
+	EventBus.map_requested.emit()
+	await _settle()
+	var shown := _current_scene()
+	_expect(shown != null and shown.get("_view") == shown.View.MAP, "the journal's map did not open the continent as a map")
+	if shown != null and shown.get("_view") == shown.View.MAP:
+		var stood := world.player_cell
+		shown._process(0.1)
+		_expect(world.player_cell == stood, "the map can be walked")
+		shown._unhandled_input(_action("ui_cancel"))
+		await _settle()
+	ground = _current_scene()
+	_expect(ground != null and ground.get("map") is AreaMap and ground.map.id == area_id, "putting the map away did not come back to the same ground")
+	if ground == null or not ground.get("map") is AreaMap:
+		return
+
+	# A doing asked for on the ground is done, and play comes straight back.
+	if not hire.is_empty():
+		var before := GameState.roster.characters.size()
+		ground._do_act(hire)
+		await _settle()
+		await _clear_dialogue()
+		ground = _current_scene()
+		_expect(GameState.roster.characters.size() > before or not GameState.roster.has_room(),
+			"hiring from the ground hired nobody")
+		_expect(ground != null and ground.get("map") is AreaMap, "a doing on the ground did not come back to the ground")
+		if ground == null or not ground.get("map") is AreaMap:
+			return
+
+	# Off the edge: the continent takes the step, and hands back the next ground.
+	var dir := Vector2i.ZERO
+	for each: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+		var next := world.player_cell + each
+		if world.in_bounds(next) and world.is_walkable(next) and world.prowler_watching(next) == null:
+			dir = each
+			break
+	_expect(dir != Vector2i.ZERO, "nowhere safe to step off %s" % town.display_name)
+	if dir == Vector2i.ZERO:
+		return
+	var from := world.player_cell
+	var steps := world.steps
+	var edge := Vector2i(ground.map.width / 2, ground.map.height / 2)
+	ground._step_to_adjacent_planar_area(dir, from + dir, edge)
+	await _settle()
+	await _clear_dialogue()
+	await _settle()
+	_expect(world.player_cell == from + dir, "walking off the ground did not move the party on the continent")
+	_expect(world.steps > steps, "a step on the ground did not move the world clock")
+	var landed := _current_scene()
+	_expect(landed != null and (landed.get("map") is AreaMap or _requests.has("battle")),
+		"a step off the ground landed on %s, not the next ground" % (landed.name if landed != null else "nothing"))
+	print("ground: the map, a doing and a step all come back to the ground")
 
 
 func _pad_button(button: JoyButton) -> InputEventJoypadButton:

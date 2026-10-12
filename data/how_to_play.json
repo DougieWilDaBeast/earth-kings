@@ -5,9 +5,10 @@
 		{
 			"heading": "Walking",
 			"lines": [
-				"WASD or the arrow keys move you one tile at a time; hold to keep going. Every step advances the world clock.",
-				"The top bar shows where you are, the season, your gold and the step. The line at the bottom always says what you can do where you stand.",
-				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere. Z toggles between the continental map and walking the ground up close.",
+				"WASD or the arrow keys walk the ground. Walk off its edge and the party steps on across the continent; every step advances the world clock.",
+				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
+				"N opens the journal, and the map is in it: the continent, black where you have never been. Esc puts the map away.",
+				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
 				"Q hands the run to the game and T cycles the speed — on the road, inside a town and in a fight alike. Q again takes it back."
 			]
 		},
@@ -23,7 +24,7 @@
 			"heading": "Sites",
 			"lines": [
 				"On the map: green dots are villages, grey keeps, blue libraries, tan huts, red gates (a ring means open and spilling), gold is the Tower, and the orange roof is home.",
-				"Step on a village, keep or hut to rest. H hires whoever is drinking there, B buys the gear on the shelf, J reads the job board, Y opens the Adventurers Guild where there is one.",
+				"Walk into a village, keep or hut to rest. H hires whoever is drinking there, B buys the gear on the shelf, J reads the job board, Y opens the Adventurers Guild where there is one.",
 				"A library teaches whoever has not read its book. An open gate is a fight — and once inside there is no walking out until it is beaten or you are.",
 				"Home is your own doorstep: nothing camps within sight of it, sleeping there always patches the party up, and U buys a better bed for permanent extra HP.",
 				"Word of what you do travels outward from where you did it, about a tile every fourteen steps, and sets what towns call you and what they charge."

@@ -5,6 +5,11 @@ extends Node2D
 ## The leader answers the movement keys; everyone else walks the ground the
 ## leader has already covered. Leaving by the road hands play back to whatever
 ## scene sent us here.
+##
+## This is where the game is played ([D50], [D61]). Walking off the edge of the
+## ground hands the step to the continent, which does everything a step does
+## out of sight and hands back the next ground. A place's own doings (hire, buy,
+## the board, a ransom) are sent the same way and come straight back here.
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
@@ -80,12 +85,21 @@ var _idle_hint: String = HINT
 var _return_payload: Dictionary = {}
 var _leaving: bool = false
 var _planar_mode: bool = false
+## What the continent says can be done where the party stands, for the hint
+## line, the keys and the buttons: `{ prompt, label, act, key }`.
+var _acts: Array = []
+## Whatever was waiting on the tile above, carried there and back unchanged.
+var _held: Dictionary = {}
+## The buttons for [member _acts], for a thumb or a pad. Built in code.
+var _act_bar: HFlowContainer = null
 
 
 func _ready() -> void:
 	_return_scene = boot_payload.get("return_scene", "world")
 	_return_payload = boot_payload.get("return_payload", {})
 	_planar_mode = bool(boot_payload.get("planar_mode", false))
+	_acts = boot_payload.get("actions", [])
+	_held = boot_payload.get("held", {})
 	map = AreaMap.load_area(boot_payload.get("area_id", "village"))
 	if map == null:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
@@ -107,15 +121,10 @@ func _ready() -> void:
 	_idle_hint = map.hint if map.hint != "" else HINT
 	_hint.text = _prompt_text()
 	Pad.changed.connect(_on_pad_changed)
-	var view_btn: Button = get_node_or_null("%ViewButton")
-	if view_btn != null:
-		view_btn.pressed.connect(_leave)
-		Sfx.attend(view_btn)
-		# The touch overlay keeps its own bar in the top right, and two things
-		# in one corner means one of them cannot be pressed.
-		if Pace.is_touch_enabled():
-			view_btn.offset_top += TouchControls.BAR_DROP
-			view_btn.offset_bottom += TouchControls.BAR_DROP
+	EventBus.map_requested.connect(_open_the_map)
+	_lay_out_acts()
+	for line: String in boot_payload.get("notes", []):
+		_note(line)
 	_open_on(map.opening)
 
 
@@ -439,6 +448,9 @@ func _prompt_text() -> String:
 		if Pad.using_pad:
 			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
 		return "Click to %s" % _nearby.prompt()
+	var here := _acts_text()
+	if here != "":
+		return here
 	return _pad_hint() if Pad.using_pad else _idle_hint
 
 
@@ -713,6 +725,8 @@ func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	_refresh_prompt()
+	if _picking_an_act():
+		return
 	# Before the early-out below: the party has to keep closing the gap after the
 	# player lets go of the keys, or everyone freezes mid-stride where they stood.
 	_settle_followers(delta)
@@ -978,6 +992,18 @@ func _cardinal_direction_of(cell: Vector2i) -> Vector2i:
 	return Vector2i.ZERO
 
 
+func _nearest_edge(cell: Vector2i) -> Vector2i:
+	var apart := {
+		Vector2i.UP: cell.y, Vector2i.DOWN: map.height - 1 - cell.y,
+		Vector2i.LEFT: cell.x, Vector2i.RIGHT: map.width - 1 - cell.x,
+	}
+	var best := Vector2i.DOWN
+	for dir: Vector2i in apart:
+		if int(apart[dir]) < int(apart[best]):
+			best = dir
+	return best
+
+
 func _direction_name(dir: Vector2i) -> String:
 	match dir:
 		Vector2i.UP: return "north"
@@ -987,26 +1013,14 @@ func _direction_name(dir: Vector2i) -> String:
 	return "forward"
 
 
-func _pick_planar_area(terrain_id: String, cell: Vector2i) -> String:
-	match terrain_id:
-		"forest":
-			return "wild_grove" if (cell.x + cell.y) % 2 == 0 else "wild_thicket"
-		"brush":
-			return "wild_thicket" if (cell.x + cell.y) % 2 == 0 else "wild_grove"
-		"marsh":
-			return "wild_fen"
-		"hill", "mountain", "crag", "snow":
-			return "wild_scarp"
-		"sand":
-			return "wild_oasis"
-		_:
-			return "wild_grove"
-
-
 func _handle_exit(cell: Vector2i) -> void:
 	if _leaving:
 		return
 	var dir := _cardinal_direction_of(cell)
+	# On the ground every road leads somewhere on the continent: out the way it
+	# points, rather than back up to a view nobody plays in.
+	if dir == Vector2i.ZERO and _planar_mode and _return_scene == "world":
+		dir = _nearest_edge(cell)
 	if _planar_mode and GameState.world != null and dir != Vector2i.ZERO:
 		var target_world := GameState.world.player_cell + dir
 		if not GameState.world.in_bounds(target_world):
@@ -1027,58 +1041,119 @@ func _handle_exit(cell: Vector2i) -> void:
 	_leave()
 
 
-func _step_to_adjacent_planar_area(dir: Vector2i, target_world: Vector2i, from_cell: Vector2i) -> void:
+## The step is the continent's to take: bands, scenes on the road, rests and
+## gates all happen there. It hands back the ground the party walks into, or a
+## fight, or the fire.
+func _step_to_adjacent_planar_area(dir: Vector2i, _target_world: Vector2i, from_cell: Vector2i) -> void:
 	_leaving = true
-	var prior_region := GameState.world.region_at(GameState.world.player_cell)
-	GameState.world.player_cell = target_world
-	var new_region := GameState.world.region_at(target_world)
-	if new_region != prior_region:
-		_note("Entering %s." % new_region)
-
-	for notice: String in GameState.world.step():
-		_note(notice)
-
-	var next_area_id := ""
-	var next_title := ""
-	var site := GameState.world.site_at(target_world)
-	if site != null:
-		var site_area := str(site.data.get("area", site.kind))
-		if Database.has_area(site_area):
-			next_area_id = site_area
-			next_title = site.label()
-		elif Database.has_area(site.kind):
-			next_area_id = site.kind
-			next_title = site.label()
-
-	if next_area_id == "":
-		var tid := GameState.world.terrain_id_at(target_world)
-		next_area_id = _pick_planar_area(tid, target_world)
-		next_title = "%s (Planar View)" % new_region
-
-	var target_data := Database.area(next_area_id)
-	var rows: Array = target_data.get("rows", [])
-	var h: int = rows.size()
-	var w: int = 0
-	for r in rows:
-		w = maxi(w, r.length())
-
-	var spawn := Vector2i(w / 2, h / 2)
-	if dir == Vector2i.UP:
-		spawn = Vector2i(clampi(from_cell.x, 2, w - 3), h - 2)
-	elif dir == Vector2i.DOWN:
-		spawn = Vector2i(clampi(from_cell.x, 2, w - 3), 1)
-	elif dir == Vector2i.LEFT:
-		spawn = Vector2i(w - 2, clampi(from_cell.y, 2, h - 3))
-	elif dir == Vector2i.RIGHT:
-		spawn = Vector2i(1, clampi(from_cell.y, 2, h - 3))
-
-	EventBus.request_scene.emit("area", {
-		"area_id": next_area_id,
-		"title": next_title,
-		"return_scene": "world",
-		"planar_mode": true,
-		"spawn_cell": [spawn.x, spawn.y],
+	# If the step comes to nothing, back a little way in from the edge.
+	var back := _here_payload()
+	var inward := map.cell_at(_leader.position) - dir * 2
+	back["spawn_cell"] = [inward.x, inward.y]
+	EventBus.request_scene.emit("world", {
+		"step": [dir.x, dir.y],
+		"from_cell": [from_cell.x, from_cell.y],
+		"held": _held,
+		"back": back,
 	})
+
+
+## This ground as it is, to come back to: the same place, where the leader stands.
+func _here_payload() -> Dictionary:
+	var here := boot_payload.duplicate(true)
+	for key: String in ["notes", "actions", "held"]:
+		here.erase(key)
+	if _leader != null:
+		var cell := map.cell_at(_leader.position)
+		here["spawn_cell"] = [cell.x, cell.y]
+	return here
+
+
+# --- the place's doings, and the map --------------------------------------------
+
+
+## The journal's Map: the continent, and back to this spot after.
+func _open_the_map() -> void:
+	if _leaving or not is_inside_tree():
+		return
+	_leaving = true
+	var back := _here_payload()
+	back["held"] = _held
+	back["actions"] = _acts
+	EventBus.request_scene.emit("world", { "map": true, "back": back })
+
+
+func _acts_text() -> String:
+	var said: Array[String] = []
+	for each: Dictionary in _acts:
+		said.append(str(each.get("prompt", "")))
+	return "  ·  ".join(said)
+
+
+## The doing a key asks for here, or an empty dictionary. Interact is the
+## place's only while there is nobody close enough to speak to.
+func _act_for(event: InputEvent) -> Dictionary:
+	if not event.is_pressed() or event.is_echo():
+		return {}
+	for each: Dictionary in _acts:
+		var key: Variant = each.get("key", "")
+		if str(each.get("act", "")) == "":
+			continue
+		if key is String and str(key) != "":
+			if event.is_action_pressed(str(key)) and not (str(key) == "interact" and _nearby != null):
+				return each
+		elif (key is int or key is float) and event is InputEventKey and event.keycode == int(key):
+			return each
+	return {}
+
+
+func _do_act(each: Dictionary) -> void:
+	if _leaving or _talking:
+		return
+	_leaving = true
+	EventBus.request_scene.emit("world", {
+		"act": str(each.get("act", "")),
+		"held": _held,
+		"back": _here_payload(),
+	})
+
+
+## A thumb or a pad has no H to press, so the place's doings are buttons too,
+## the same list the hint line reads.
+func _lay_out_acts() -> void:
+	if not (Pace.is_touch_enabled() or Pad.using_pad):
+		return
+	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool: return str(each.get("label", "")) != "")
+	if pressable.is_empty():
+		return
+	_act_bar = HFlowContainer.new()
+	_act_bar.anchor_left = 0.5
+	_act_bar.anchor_right = 0.5
+	_act_bar.anchor_top = 1.0
+	_act_bar.anchor_bottom = 1.0
+	_act_bar.offset_left = -320.0
+	_act_bar.offset_right = 320.0
+	_act_bar.offset_top = -300.0
+	_act_bar.offset_bottom = -120.0
+	_act_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_act_bar.alignment = FlowContainer.ALIGNMENT_CENTER
+	_act_bar.add_theme_constant_override("h_separation", 8)
+	_act_bar.add_theme_constant_override("v_separation", 8)
+	_hint.get_parent().add_child(_act_bar)
+	for each: Dictionary in pressable:
+		var button := Button.new()
+		button.text = str(each["label"])
+		button.focus_mode = Control.FOCUS_ALL if Pad.using_pad else Control.FOCUS_NONE
+		button.custom_minimum_size = Vector2(0, 56)
+		button.add_theme_font_size_override("font_size", 16)
+		button.pressed.connect(_do_act.bind(each))
+		Sfx.attend(button)
+		_act_bar.add_child(button)
+
+
+func _picking_an_act() -> bool:
+	var owner := get_viewport().gui_get_focus_owner()
+	return owner != null and _act_bar != null and _act_bar.is_ancestor_of(owner)
 
 
 ## Whatever is in it is written into the area, so the same chest always holds
@@ -1115,16 +1190,13 @@ func _enter(building: Dictionary) -> void:
 	if inside == "coliseum":
 		_leaving = true
 		var doorstep := map.step_out_of(building)
+		var outside := boot_payload.duplicate(true)
+		outside.erase("notes")
+		outside["spawn_cell"] = [doorstep.x, doorstep.y]
 		EventBus.request_scene.emit("coliseum", {
 			"live_run": true,
 			"return_scene": "area",
-			"return_payload": {
-				"area_id": map.id,
-				"title": boot_payload.get("title", map.display_name),
-				"return_scene": _return_scene,
-				"return_payload": _return_payload,
-				"spawn_cell": [doorstep.x, doorstep.y],
-			},
+			"return_payload": outside,
 		})
 		return
 	if not Database.has_area(inside):
@@ -1132,17 +1204,16 @@ func _enter(building: Dictionary) -> void:
 		return
 	_leaving = true
 	var doorstep := map.step_out_of(building)
+	# The way back out is this ground as it was, so the street still knows it
+	# is part of the continent and what the place offers.
+	var outside := boot_payload.duplicate(true)
+	outside.erase("notes")
+	outside["spawn_cell"] = [doorstep.x, doorstep.y]
 	EventBus.request_scene.emit("area", {
 		"area_id": inside,
 		"title": building.get("name", ""),
 		"return_scene": "area",
-		"return_payload": {
-			"area_id": map.id,
-			"title": boot_payload.get("title", map.display_name),
-			"return_scene": _return_scene,
-			"return_payload": _return_payload,
-			"spawn_cell": [doorstep.x, doorstep.y],
-		},
+		"return_payload": outside,
 	})
 
 
@@ -1204,9 +1275,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		_mouse_input(event)
 		return
-	if event.is_action_pressed("toggle_view") or (event is InputEventKey and event.is_pressed() and not event.is_echo() and (event.keycode == KEY_Z or event.physical_keycode == KEY_Z)):
+	var asked := _act_for(event)
+	if not asked.is_empty() and not _leaving and not _talking:
 		get_viewport().set_input_as_handled()
-		_leave()
+		_do_act(asked)
+		return
+	if event.is_action_pressed("open_actions") and _act_bar != null:
+		get_viewport().set_input_as_handled()
+		_toggle_act_focus()
 		return
 	# Ahead of the pace keys, which used to share E with it.
 	if event.is_action_pressed("interact") and _nearby != null and not _talking:
@@ -1252,6 +1328,18 @@ func _mouse_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	_click_target(target)
+
+
+## Y: onto the place's first button, or off again.
+func _toggle_act_focus() -> void:
+	if _picking_an_act():
+		get_viewport().gui_release_focus()
+		return
+	for child in _act_bar.get_children():
+		var button := child as Button
+		if button != null and button.is_visible_in_tree():
+			button.grab_focus()
+			return
 
 
 func _exit_tree() -> void:
