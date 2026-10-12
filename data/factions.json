@@ -141,8 +141,8 @@
 		"hostile": false
 	},
 	"titans": {
-		"display_name": "The Titans",
-		"blurb": "Two of them. Nobody has written down where the second came from, because nobody who saw it arrive was in a state to write.",
+		"display_name": "The Elder Giants",
+		"blurb": "Two of them, older than the roads. One is a hill that got up and walked; the other is still burning from whatever made it. Nobody who saw the second arrive was in a state to write it down.",
 		"banner": "#9a3b3b",
 		"hold": "res://art/world/hold_spire.png",
 		"seat": "tower",

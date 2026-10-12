@@ -26,6 +26,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 20  | [The PixelLab size test](20-pixellab-size-test.md)   | Step-by-step instructions for the size test: settings, prompts, order, importing, the viewer, and recording the call |
 | 21  | [The Sixteen: a first draft](21-the-sixteen-first-draft.md) | **Draft, not settled** — all sixteen proposed from joint session 1: names, seeds, sixteen ways to fight, where each one is. For the founders to keep or replace |
 | 22  | [Asset provenance](22-asset-provenance.md)           | Where every file in `art/` and `audio/` and every font came from, its licence, and what must be cleared before a public release |
+| 23  | [Originality pass](23-originality-pass.md)           | Which characters copied someone else's, what they are called now, and the PixelLab prompts to redraw them |
 
 ## Deciding the world
 
