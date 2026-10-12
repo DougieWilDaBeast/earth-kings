@@ -1,0 +1,1694 @@
+{
+  "objects": [
+    {
+      "id": "e39e55d4-898c-4025-ad70-23e2cef12c86",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr.png"
+      },
+      "animations": {
+        "runes_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/runes_pulsing/unknown/frame_000.png",
+                "animations/runes_pulsing/unknown/frame_001.png",
+                "animations/runes_pulsing/unknown/frame_002.png",
+                "animations/runes_pulsing/unknown/frame_003.png",
+                "animations/runes_pulsing/unknown/frame_004.png",
+                "animations/runes_pulsing/unknown/frame_005.png",
+                "animations/runes_pulsing/unknown/frame_006.png",
+                "animations/runes_pulsing/unknown/frame_007.png",
+                "animations/runes_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cfc976c8-6006-427e-b3da-dd01b558ef70",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/state_1.png"
+      },
+      "animations": {
+        "bones_crumbling_but_holding_tower_shape": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_000.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_001.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_002.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_003.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_004.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_005.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_006.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_007.png",
+                "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "706f8574-8c73-4ac0-9cc3-2903e7860024",
+      "name": "base (copy)",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/base_copy.png"
+      },
+      "animations": {
+        "crystal_in_middle_sparkles": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/crystal_in_middle_sparkles/unknown/frame_000.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_001.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_002.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_003.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_004.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_005.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_006.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_007.png",
+                "animations/crystal_in_middle_sparkles/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a3549346-04d7-4703-958d-c98d0bf363ca",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_3.png"
+      },
+      "animations": {
+        "levitating_tower_blue_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/levitating_tower_blue_pulsing/unknown/frame_000.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_001.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_002.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_003.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_004.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_005.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_006.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_007.png",
+                "animations/levitating_tower_blue_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "9cb02a4a-8007-410f-9017-84bbb02dcf88",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_4.png"
+      },
+      "animations": {
+        "lights_flickering": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/lights_flickering/unknown/frame_000.png",
+                "animations/lights_flickering/unknown/frame_001.png",
+                "animations/lights_flickering/unknown/frame_002.png",
+                "animations/lights_flickering/unknown/frame_003.png",
+                "animations/lights_flickering/unknown/frame_004.png",
+                "animations/lights_flickering/unknown/frame_005.png",
+                "animations/lights_flickering/unknown/frame_006.png",
+                "animations/lights_flickering/unknown/frame_007.png",
+                "animations/lights_flickering/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "9c20db09-bb0e-42fe-bc26-ee0fc1dda6f9",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_5.png"
+      },
+      "animations": {
+        "sparkling_lights_shinning": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/sparkling_lights_shinning/unknown/frame_000.png",
+                "animations/sparkling_lights_shinning/unknown/frame_001.png",
+                "animations/sparkling_lights_shinning/unknown/frame_002.png",
+                "animations/sparkling_lights_shinning/unknown/frame_003.png",
+                "animations/sparkling_lights_shinning/unknown/frame_004.png",
+                "animations/sparkling_lights_shinning/unknown/frame_005.png",
+                "animations/sparkling_lights_shinning/unknown/frame_006.png",
+                "animations/sparkling_lights_shinning/unknown/frame_007.png",
+                "animations/sparkling_lights_shinning/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "8c699ba3-c879-4470-b3a8-ff4837360809",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_6.png"
+      },
+      "animations": {
+        "clock_moving_sparkling_castle": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/clock_moving_sparkling_castle/unknown/frame_000.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_001.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_002.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_003.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_004.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_005.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_006.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_007.png",
+                "animations/clock_moving_sparkling_castle/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "811348de-b10b-4275-b7c4-3d538669c7be",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_7.png"
+      },
+      "animations": {
+        "chimney_puffing_smoke_mechanisms_working_pisons": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_000.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_001.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_002.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_003.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_004.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_005.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_006.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_007.png",
+                "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "641eabe2-aac0-4759-b0a8-fffff1b9f9eb",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_8.png"
+      },
+      "animations": {
+        "sparkling_gold": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/sparkling_gold/unknown/frame_000.png",
+                "animations/sparkling_gold/unknown/frame_001.png",
+                "animations/sparkling_gold/unknown/frame_002.png",
+                "animations/sparkling_gold/unknown/frame_003.png",
+                "animations/sparkling_gold/unknown/frame_004.png",
+                "animations/sparkling_gold/unknown/frame_005.png",
+                "animations/sparkling_gold/unknown/frame_006.png",
+                "animations/sparkling_gold/unknown/frame_007.png",
+                "animations/sparkling_gold/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "504b65c4-63b4-4e8b-8985-3d1928612f28",
+      "name": "base",
+      "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Dungeon_Towers_inspiration_fr_9.png"
+      },
+      "animations": {
+        "ice_shining": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/ice_shining/unknown/frame_000.png",
+                "animations/ice_shining/unknown/frame_001.png",
+                "animations/ice_shining/unknown/frame_002.png",
+                "animations/ice_shining/unknown/frame_003.png",
+                "animations/ice_shining/unknown/frame_004.png",
+                "animations/ice_shining/unknown/frame_005.png",
+                "animations/ice_shining/unknown/frame_006.png",
+                "animations/ice_shining/unknown/frame_007.png",
+                "animations/ice_shining/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a331e7fd-bc9b-41f9-b235-e90e7323b821",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "956cdc92-befd-4623-a3d6-ba8c3f222b26",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_2.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "94b6321d-b79b-4efa-b17e-67916ed30e2b",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_3.png"
+      },
+      "animations": {
+        "crystals_sparkling": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/crystals_sparkling/unknown/frame_000.png",
+                "animations/crystals_sparkling/unknown/frame_001.png",
+                "animations/crystals_sparkling/unknown/frame_002.png",
+                "animations/crystals_sparkling/unknown/frame_003.png",
+                "animations/crystals_sparkling/unknown/frame_004.png",
+                "animations/crystals_sparkling/unknown/frame_005.png",
+                "animations/crystals_sparkling/unknown/frame_006.png",
+                "animations/crystals_sparkling/unknown/frame_007.png",
+                "animations/crystals_sparkling/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "68b80d49-ff3d-42e3-ab6a-ef58aec994b1",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_4.png"
+      },
+      "animations": {
+        "Light_house_scanning_light": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Light_house_scanning_light/unknown/frame_000.png",
+                "animations/Light_house_scanning_light/unknown/frame_001.png",
+                "animations/Light_house_scanning_light/unknown/frame_002.png",
+                "animations/Light_house_scanning_light/unknown/frame_003.png",
+                "animations/Light_house_scanning_light/unknown/frame_004.png",
+                "animations/Light_house_scanning_light/unknown/frame_005.png",
+                "animations/Light_house_scanning_light/unknown/frame_006.png",
+                "animations/Light_house_scanning_light/unknown/frame_007.png",
+                "animations/Light_house_scanning_light/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "3be24f57-615a-4deb-8bac-2a96e9c04f10",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_5.png"
+      },
+      "animations": {
+        "Lights_sparkling_light_flashing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Lights_sparkling_light_flashing/unknown/frame_000.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_001.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_002.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_003.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_004.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_005.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_006.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_007.png",
+                "animations/Lights_sparkling_light_flashing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "36dde8cb-a6ba-403d-89d3-96eaf54e80bb",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_6.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "230bc5a0-4d66-4fd5-82e0-aa8b61d2fb9b",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_7.png"
+      },
+      "animations": {
+        "windows_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/windows_pulsing/unknown/frame_000.png",
+                "animations/windows_pulsing/unknown/frame_001.png",
+                "animations/windows_pulsing/unknown/frame_002.png",
+                "animations/windows_pulsing/unknown/frame_003.png",
+                "animations/windows_pulsing/unknown/frame_004.png",
+                "animations/windows_pulsing/unknown/frame_005.png",
+                "animations/windows_pulsing/unknown/frame_006.png",
+                "animations/windows_pulsing/unknown/frame_007.png",
+                "animations/windows_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "1490df11-bf32-49b2-84a9-7ac8381c1145",
+      "name": "base",
+      "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Tall_dark_fantasy_towers_with_8.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "ef57be69-d038-4e0b-bd06-bfdc4494795a",
+      "name": "base",
+      "prompt": "Fantasy wormwhole gates",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Fantasy_wormwhole_gates.png"
+      },
+      "animations": {
+        "portal_glowing_and_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "d693db11-97e4-43d7-a388-2da0d785f2ca",
+      "name": "base",
+      "prompt": "Fantasy wormwhole gates",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Fantasy_wormwhole_gates_2.png"
+      },
+      "animations": {
+        "portal_glowing_and_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bb1ecf71-a939-4e3b-96ce-b92f21c6a508",
+      "name": "base",
+      "prompt": "Fantasy wormwhole gates",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Fantasy_wormwhole_gates_3.png"
+      },
+      "animations": {
+        "portal_glowing_and_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "aa556efc-cd3b-4c50-959f-5966cea9c9c9",
+      "name": "base",
+      "prompt": "Fantasy wormwhole gates",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Fantasy_wormwhole_gates_4.png"
+      },
+      "animations": {
+        "portal_glowing_and_pulsing": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f8fdbbff-7812-474e-9301-d41c475ac9d5",
+      "name": "base",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/state_1.png"
+      },
+      "animations": {
+        "Lightning_crackling_around_the_blade": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_000.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_001.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_002.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_003.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_004.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_005.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_006.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_007.png",
+                "animations/Lightning_crackling_around_the_blade/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "840ed59c-cab6-41b9-8350-21f4c5cc7a72",
+      "name": "Sword broken, but st",
+      "prompt": "Uncommon loot",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Sword_broken_but_st.png"
+      },
+      "animations": {
+        "Sword_breaks_apart": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Sword_breaks_apart/unknown/frame_000.png",
+                "animations/Sword_breaks_apart/unknown/frame_001.png",
+                "animations/Sword_breaks_apart/unknown/frame_002.png",
+                "animations/Sword_breaks_apart/unknown/frame_003.png",
+                "animations/Sword_breaks_apart/unknown/frame_004.png",
+                "animations/Sword_breaks_apart/unknown/frame_005.png",
+                "animations/Sword_breaks_apart/unknown/frame_006.png",
+                "animations/Sword_breaks_apart/unknown/frame_007.png",
+                "animations/Sword_breaks_apart/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "d9adb7d0-b861-4cc8-a107-3282e324629e",
+      "name": "base",
+      "prompt": "Future technology",
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/Future_technology.png"
+      },
+      "animations": {
+        "Hand_clenches_creasures_swirl_around_water_movin": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_000.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_001.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_002.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_003.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_004.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_005.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_006.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_007.png",
+                "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "22ffa92d-0e06-4568-9930-b48a8e374af5",
+      "folder": "objects/Dungeon_Towers_inspiration_fr",
+      "objects": [
+        {
+          "id": "e39e55d4-898c-4025-ad70-23e2cef12c86",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr.png"
+          },
+          "animations": {
+            "runes_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/runes_pulsing/unknown/frame_000.png",
+                    "animations/runes_pulsing/unknown/frame_001.png",
+                    "animations/runes_pulsing/unknown/frame_002.png",
+                    "animations/runes_pulsing/unknown/frame_003.png",
+                    "animations/runes_pulsing/unknown/frame_004.png",
+                    "animations/runes_pulsing/unknown/frame_005.png",
+                    "animations/runes_pulsing/unknown/frame_006.png",
+                    "animations/runes_pulsing/unknown/frame_007.png",
+                    "animations/runes_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "bccde42e-ce8e-4e57-ae5c-b8dd98b69e02",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_2",
+      "objects": [
+        {
+          "id": "cfc976c8-6006-427e-b3da-dd01b558ef70",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/state_1.png"
+          },
+          "animations": {
+            "bones_crumbling_but_holding_tower_shape": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_000.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_001.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_002.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_003.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_004.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_005.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_006.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_007.png",
+                    "animations/bones_crumbling_but_holding_tower_shape/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "706f8574-8c73-4ac0-9cc3-2903e7860024",
+          "name": "base (copy)",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/base_copy.png"
+          },
+          "animations": {
+            "crystal_in_middle_sparkles": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/crystal_in_middle_sparkles/unknown/frame_000.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_001.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_002.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_003.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_004.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_005.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_006.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_007.png",
+                    "animations/crystal_in_middle_sparkles/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "d2fcc129-0982-46a4-beeb-33d88691d870",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_3",
+      "objects": [
+        {
+          "id": "a3549346-04d7-4703-958d-c98d0bf363ca",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_3.png"
+          },
+          "animations": {
+            "levitating_tower_blue_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_000.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_001.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_002.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_003.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_004.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_005.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_006.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_007.png",
+                    "animations/levitating_tower_blue_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "dd153113-210a-4ab3-bf95-d88a64b55ba1",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_4",
+      "objects": [
+        {
+          "id": "9cb02a4a-8007-410f-9017-84bbb02dcf88",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_4.png"
+          },
+          "animations": {
+            "lights_flickering": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/lights_flickering/unknown/frame_000.png",
+                    "animations/lights_flickering/unknown/frame_001.png",
+                    "animations/lights_flickering/unknown/frame_002.png",
+                    "animations/lights_flickering/unknown/frame_003.png",
+                    "animations/lights_flickering/unknown/frame_004.png",
+                    "animations/lights_flickering/unknown/frame_005.png",
+                    "animations/lights_flickering/unknown/frame_006.png",
+                    "animations/lights_flickering/unknown/frame_007.png",
+                    "animations/lights_flickering/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "5e664123-c43d-4122-884d-deb9789a8de0",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_5",
+      "objects": [
+        {
+          "id": "9c20db09-bb0e-42fe-bc26-ee0fc1dda6f9",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_5.png"
+          },
+          "animations": {
+            "sparkling_lights_shinning": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/sparkling_lights_shinning/unknown/frame_000.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_001.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_002.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_003.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_004.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_005.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_006.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_007.png",
+                    "animations/sparkling_lights_shinning/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "19c687ab-4067-4267-9252-bf22f93e8502",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_6",
+      "objects": [
+        {
+          "id": "8c699ba3-c879-4470-b3a8-ff4837360809",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_6.png"
+          },
+          "animations": {
+            "clock_moving_sparkling_castle": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/clock_moving_sparkling_castle/unknown/frame_000.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_001.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_002.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_003.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_004.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_005.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_006.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_007.png",
+                    "animations/clock_moving_sparkling_castle/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "7ecbda46-913d-4f69-93b3-00f8cae3b1c4",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_7",
+      "objects": [
+        {
+          "id": "811348de-b10b-4275-b7c4-3d538669c7be",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_7.png"
+          },
+          "animations": {
+            "chimney_puffing_smoke_mechanisms_working_pisons": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_000.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_001.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_002.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_003.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_004.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_005.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_006.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_007.png",
+                    "animations/chimney_puffing_smoke_mechanisms_working_pisons/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "fa14dbb9-2c86-4461-98b7-50753e02f2ee",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_8",
+      "objects": [
+        {
+          "id": "641eabe2-aac0-4759-b0a8-fffff1b9f9eb",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_8.png"
+          },
+          "animations": {
+            "sparkling_gold": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/sparkling_gold/unknown/frame_000.png",
+                    "animations/sparkling_gold/unknown/frame_001.png",
+                    "animations/sparkling_gold/unknown/frame_002.png",
+                    "animations/sparkling_gold/unknown/frame_003.png",
+                    "animations/sparkling_gold/unknown/frame_004.png",
+                    "animations/sparkling_gold/unknown/frame_005.png",
+                    "animations/sparkling_gold/unknown/frame_006.png",
+                    "animations/sparkling_gold/unknown/frame_007.png",
+                    "animations/sparkling_gold/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "3758a971-9da5-4765-9dd3-00169373f728",
+      "folder": "objects/Dungeon_Towers_inspiration_fr_9",
+      "objects": [
+        {
+          "id": "504b65c4-63b4-4e8b-8985-3d1928612f28",
+          "name": "base",
+          "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Dungeon_Towers_inspiration_fr_9.png"
+          },
+          "animations": {
+            "ice_shining": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/ice_shining/unknown/frame_000.png",
+                    "animations/ice_shining/unknown/frame_001.png",
+                    "animations/ice_shining/unknown/frame_002.png",
+                    "animations/ice_shining/unknown/frame_003.png",
+                    "animations/ice_shining/unknown/frame_004.png",
+                    "animations/ice_shining/unknown/frame_005.png",
+                    "animations/ice_shining/unknown/frame_006.png",
+                    "animations/ice_shining/unknown/frame_007.png",
+                    "animations/ice_shining/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "6451363b-d135-42f5-bb26-ba77b491e358",
+      "folder": "objects/Tall_dark_fantasy_towers_with",
+      "objects": [
+        {
+          "id": "a331e7fd-bc9b-41f9-b235-e90e7323b821",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "d556848a-20b8-4739-8e57-f375da992195",
+      "folder": "objects/Tall_dark_fantasy_towers_with_2",
+      "objects": [
+        {
+          "id": "956cdc92-befd-4623-a3d6-ba8c3f222b26",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_2.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "2552570b-4ad3-4604-b8e8-7f55079c8fa1",
+      "folder": "objects/Tall_dark_fantasy_towers_with_3",
+      "objects": [
+        {
+          "id": "94b6321d-b79b-4efa-b17e-67916ed30e2b",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_3.png"
+          },
+          "animations": {
+            "crystals_sparkling": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/crystals_sparkling/unknown/frame_000.png",
+                    "animations/crystals_sparkling/unknown/frame_001.png",
+                    "animations/crystals_sparkling/unknown/frame_002.png",
+                    "animations/crystals_sparkling/unknown/frame_003.png",
+                    "animations/crystals_sparkling/unknown/frame_004.png",
+                    "animations/crystals_sparkling/unknown/frame_005.png",
+                    "animations/crystals_sparkling/unknown/frame_006.png",
+                    "animations/crystals_sparkling/unknown/frame_007.png",
+                    "animations/crystals_sparkling/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "2b862fcf-2882-484c-80ab-0fe03b078909",
+      "folder": "objects/Tall_dark_fantasy_towers_with_4",
+      "objects": [
+        {
+          "id": "68b80d49-ff3d-42e3-ab6a-ef58aec994b1",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_4.png"
+          },
+          "animations": {
+            "Light_house_scanning_light": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Light_house_scanning_light/unknown/frame_000.png",
+                    "animations/Light_house_scanning_light/unknown/frame_001.png",
+                    "animations/Light_house_scanning_light/unknown/frame_002.png",
+                    "animations/Light_house_scanning_light/unknown/frame_003.png",
+                    "animations/Light_house_scanning_light/unknown/frame_004.png",
+                    "animations/Light_house_scanning_light/unknown/frame_005.png",
+                    "animations/Light_house_scanning_light/unknown/frame_006.png",
+                    "animations/Light_house_scanning_light/unknown/frame_007.png",
+                    "animations/Light_house_scanning_light/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "5f25612f-d1a0-445b-9db0-87104682fc36",
+      "folder": "objects/Tall_dark_fantasy_towers_with_5",
+      "objects": [
+        {
+          "id": "3be24f57-615a-4deb-8bac-2a96e9c04f10",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_5.png"
+          },
+          "animations": {
+            "Lights_sparkling_light_flashing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_000.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_001.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_002.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_003.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_004.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_005.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_006.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_007.png",
+                    "animations/Lights_sparkling_light_flashing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "a3df1e02-1a26-4776-9512-8233053ca3b6",
+      "folder": "objects/Tall_dark_fantasy_towers_with_6",
+      "objects": [
+        {
+          "id": "36dde8cb-a6ba-403d-89d3-96eaf54e80bb",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_6.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "e5f0215b-5a8a-4a41-ad90-c3dc2aca08d3",
+      "folder": "objects/Tall_dark_fantasy_towers_with_7",
+      "objects": [
+        {
+          "id": "230bc5a0-4d66-4fd5-82e0-aa8b61d2fb9b",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_7.png"
+          },
+          "animations": {
+            "windows_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/windows_pulsing/unknown/frame_000.png",
+                    "animations/windows_pulsing/unknown/frame_001.png",
+                    "animations/windows_pulsing/unknown/frame_002.png",
+                    "animations/windows_pulsing/unknown/frame_003.png",
+                    "animations/windows_pulsing/unknown/frame_004.png",
+                    "animations/windows_pulsing/unknown/frame_005.png",
+                    "animations/windows_pulsing/unknown/frame_006.png",
+                    "animations/windows_pulsing/unknown/frame_007.png",
+                    "animations/windows_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "224181ff-c77f-4eaf-a9a4-20d518a3bea3",
+      "folder": "objects/Tall_dark_fantasy_towers_with_8",
+      "objects": [
+        {
+          "id": "1490df11-bf32-49b2-84a9-7ac8381c1145",
+          "name": "base",
+          "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Tall_dark_fantasy_towers_with_8.png"
+          },
+          "animations": {}
+        }
+      ]
+    },
+    {
+      "group_id": "047e54e7-3791-44e1-96d9-98504d312745",
+      "folder": "objects/Fantasy_wormwhole_gates",
+      "objects": [
+        {
+          "id": "ef57be69-d038-4e0b-bd06-bfdc4494795a",
+          "name": "base",
+          "prompt": "Fantasy wormwhole gates",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Fantasy_wormwhole_gates.png"
+          },
+          "animations": {
+            "portal_glowing_and_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "a313c89f-fda5-4ff7-8188-5cf779a4e874",
+      "folder": "objects/Fantasy_wormwhole_gates_2",
+      "objects": [
+        {
+          "id": "d693db11-97e4-43d7-a388-2da0d785f2ca",
+          "name": "base",
+          "prompt": "Fantasy wormwhole gates",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Fantasy_wormwhole_gates_2.png"
+          },
+          "animations": {
+            "portal_glowing_and_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "2e78cab5-e1e3-4094-9ae0-6ba80f15dca1",
+      "folder": "objects/Fantasy_wormwhole_gates_3",
+      "objects": [
+        {
+          "id": "bb1ecf71-a939-4e3b-96ce-b92f21c6a508",
+          "name": "base",
+          "prompt": "Fantasy wormwhole gates",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Fantasy_wormwhole_gates_3.png"
+          },
+          "animations": {
+            "portal_glowing_and_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "6979a4da-9e67-43d2-8e68-8aad46657810",
+      "folder": "objects/Fantasy_wormwhole_gates_4",
+      "objects": [
+        {
+          "id": "aa556efc-cd3b-4c50-959f-5966cea9c9c9",
+          "name": "base",
+          "prompt": "Fantasy wormwhole gates",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Fantasy_wormwhole_gates_4.png"
+          },
+          "animations": {
+            "portal_glowing_and_pulsing": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/portal_glowing_and_pulsing/unknown/frame_000.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_001.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_002.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_003.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_004.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_005.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_006.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_007.png",
+                    "animations/portal_glowing_and_pulsing/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "28d30b79-b798-4d38-b7da-749b3fc23e77",
+      "folder": "objects/Uncommon_loot",
+      "objects": [
+        {
+          "id": "f8fdbbff-7812-474e-9301-d41c475ac9d5",
+          "name": "base",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/state_1.png"
+          },
+          "animations": {
+            "Lightning_crackling_around_the_blade": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_000.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_001.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_002.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_003.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_004.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_005.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_006.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_007.png",
+                    "animations/Lightning_crackling_around_the_blade/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "840ed59c-cab6-41b9-8350-21f4c5cc7a72",
+          "name": "Sword broken, but st",
+          "prompt": "Uncommon loot",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Sword_broken_but_st.png"
+          },
+          "animations": {
+            "Sword_breaks_apart": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Sword_breaks_apart/unknown/frame_000.png",
+                    "animations/Sword_breaks_apart/unknown/frame_001.png",
+                    "animations/Sword_breaks_apart/unknown/frame_002.png",
+                    "animations/Sword_breaks_apart/unknown/frame_003.png",
+                    "animations/Sword_breaks_apart/unknown/frame_004.png",
+                    "animations/Sword_breaks_apart/unknown/frame_005.png",
+                    "animations/Sword_breaks_apart/unknown/frame_006.png",
+                    "animations/Sword_breaks_apart/unknown/frame_007.png",
+                    "animations/Sword_breaks_apart/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "c9778aa2-f4a8-4d95-a0ca-54504821859f",
+      "folder": "objects/Future_technology",
+      "objects": [
+        {
+          "id": "d9adb7d0-b861-4cc8-a107-3282e324629e",
+          "name": "base",
+          "prompt": "Future technology",
+          "size": {
+            "width": 64,
+            "height": 64
+          },
+          "directions": 1,
+          "view": "low top-down",
+          "rotations": {
+            "unknown": "rotations/Future_technology.png"
+          },
+          "animations": {
+            "Hand_clenches_creasures_swirl_around_water_movin": {
+              "directions": {
+                "unknown": {
+                  "frames": [
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_000.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_001.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_002.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_003.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_004.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_005.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_006.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_007.png",
+                    "animations/Hand_clenches_creasures_swirl_around_water_movin/unknown/frame_008.png"
+                  ],
+                  "frame_count": 9
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "export_version": "1.1",
+  "export_date": "2026-10-12T16:33:45.526457"
+}

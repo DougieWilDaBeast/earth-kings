@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "79f60b79-0ad1-410e-809a-4c396f3e7109",
+        "name": "sixteen_ares",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 64,
+          "height": 80
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:00:52.005941+00:00"
+      },
+      "folder": "sixteen_ares",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_ares/rotations/south.png",
+          "south-east": "sixteen_ares/rotations/south-east.png",
+          "east": "sixteen_ares/rotations/east.png",
+          "north-east": "sixteen_ares/rotations/north-east.png",
+          "north": "sixteen_ares/rotations/north.png",
+          "north-west": "sixteen_ares/rotations/north-west.png",
+          "west": "sixteen_ares/rotations/west.png",
+          "south-west": "sixteen_ares/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:58.360474"
+}

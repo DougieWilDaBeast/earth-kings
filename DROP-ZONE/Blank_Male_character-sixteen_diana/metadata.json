@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "ebafba96-33cc-44ad-8d8a-3dd41fe191ea",
+        "name": "sixteen_diana",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 48,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T07:58:32.946367+00:00"
+      },
+      "folder": "sixteen_diana",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_diana/rotations/south.png",
+          "south-east": "sixteen_diana/rotations/south-east.png",
+          "east": "sixteen_diana/rotations/east.png",
+          "north-east": "sixteen_diana/rotations/north-east.png",
+          "north": "sixteen_diana/rotations/north.png",
+          "north-west": "sixteen_diana/rotations/north-west.png",
+          "west": "sixteen_diana/rotations/west.png",
+          "south-west": "sixteen_diana/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:29:13.492436"
+}

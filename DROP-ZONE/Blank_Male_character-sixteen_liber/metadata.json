@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "6d801ccf-3b79-4a32-8a4e-53aaa1ce201e",
+        "name": "sixteen_liber",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 48,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:02:40.140899+00:00"
+      },
+      "folder": "sixteen_liber",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_liber/rotations/south.png",
+          "south-east": "sixteen_liber/rotations/south-east.png",
+          "east": "sixteen_liber/rotations/east.png",
+          "north-east": "sixteen_liber/rotations/north-east.png",
+          "north": "sixteen_liber/rotations/north.png",
+          "north-west": "sixteen_liber/rotations/north-west.png",
+          "west": "sixteen_liber/rotations/west.png",
+          "south-west": "sixteen_liber/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:28.606048"
+}

@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "bbc2e3b9-a60d-4921-a3ce-15cf290c6032",
+        "name": "sixteen_caesar",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 56,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:01:45.542997+00:00"
+      },
+      "folder": "sixteen_caesar",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_caesar/rotations/south.png",
+          "south-east": "sixteen_caesar/rotations/south-east.png",
+          "east": "sixteen_caesar/rotations/east.png",
+          "north-east": "sixteen_caesar/rotations/north-east.png",
+          "north": "sixteen_caesar/rotations/north.png",
+          "north-west": "sixteen_caesar/rotations/north-west.png",
+          "west": "sixteen_caesar/rotations/west.png",
+          "south-west": "sixteen_caesar/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:42.060348"
+}

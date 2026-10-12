@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "ed9e90c3-ffee-4985-beb0-94ecb8f99a2f",
+        "name": "sixteen_cassius",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 48,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:05:06.016974+00:00"
+      },
+      "folder": "sixteen_cassius",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_cassius/rotations/south.png",
+          "south-east": "sixteen_cassius/rotations/south-east.png",
+          "east": "sixteen_cassius/rotations/east.png",
+          "north-east": "sixteen_cassius/rotations/north-east.png",
+          "north": "sixteen_cassius/rotations/north.png",
+          "north-west": "sixteen_cassius/rotations/north-west.png",
+          "west": "sixteen_cassius/rotations/west.png",
+          "south-west": "sixteen_cassius/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:08.279270"
+}

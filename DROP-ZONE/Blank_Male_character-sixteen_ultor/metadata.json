@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "740e4cbf-be1b-42f1-a3aa-e3c50593f10d",
+        "name": "sixteen_ultor",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 48,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:03:48.738971+00:00"
+      },
+      "folder": "sixteen_ultor",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_ultor/rotations/south.png",
+          "south-east": "sixteen_ultor/rotations/south-east.png",
+          "east": "sixteen_ultor/rotations/east.png",
+          "north-east": "sixteen_ultor/rotations/north-east.png",
+          "north": "sixteen_ultor/rotations/north.png",
+          "north-west": "sixteen_ultor/rotations/north-west.png",
+          "west": "sixteen_ultor/rotations/west.png",
+          "south-west": "sixteen_ultor/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:16.749599"
+}

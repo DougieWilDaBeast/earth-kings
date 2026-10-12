@@ -1,0 +1,36 @@
+{
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+    {
+      "character": {
+        "id": "56825ffd-9bd7-4c5d-a88b-9e56b60b1d95",
+        "name": "sixteen_juno",
+        "prompt": "Blank Male character",
+        "size": {
+          "width": 48,
+          "height": 72
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-10-12T08:02:09.414069+00:00"
+      },
+      "folder": "sixteen_juno",
+      "frames": {
+        "rotations": {
+          "south": "sixteen_juno/rotations/south.png",
+          "south-east": "sixteen_juno/rotations/south-east.png",
+          "east": "sixteen_juno/rotations/east.png",
+          "north-east": "sixteen_juno/rotations/north-east.png",
+          "north": "sixteen_juno/rotations/north.png",
+          "north-west": "sixteen_juno/rotations/north-west.png",
+          "west": "sixteen_juno/rotations/west.png",
+          "south-west": "sixteen_juno/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T16:28:33.187717"
+}
