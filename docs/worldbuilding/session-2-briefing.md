@@ -21,8 +21,8 @@ five new rows the session raised (20 to 24) are for the next call.
 | 5  | ~~In the second world, is there a living copy of the first lead?~~ | **Settled:** yes, an NPC from their stats ([D52](../06-decisions.md)) | Planned in M15 | — |
 | 6  | ~~What does a lead remember?~~ | **Settled:** memories return by chapter; "Ascend to heaven" ([D53](../06-decisions.md)) | Planned in M13 | — |
 | 8  | ~~Assists: one number or two?~~ | **Settled:** two, 10 and 5 for a healer's ([D54](../06-decisions.md)) | Built 2026-10-01; the healer reading is item 23 | — |
-| 9  | Sprite size: 64, 32 or 16? | 64 (on disk) · 32 (the model game's class) · 16 | Art only: the [asset list](../19-asset-list.md) is generated at one size. The size test is ready and waiting on PixelLab credits | 64; the asset list stays ungenerated |
-| 10 | Sixteen ways to fight, six classes? | More classes · a class per character · styles inside classes | Data in `classes.json` plus the ability grammar; large either way | Six classes |
+| 9  | ~~Sprite size: 64, 32 or 16?~~ | **Settled:** 64, by both founders ([D55](../06-decisions.md), [D57](../06-decisions.md), [D63](../06-decisions.md)) | — | — |
+| 10 | ~~Sixteen ways to fight, six classes?~~ | **Settled:** a class per character ([D63](../06-decisions.md)) | Large: sixteen classes in `classes.json` plus the ability grammar. Open: can a lead take another class later ([D12](../06-decisions.md))? | — |
 | 11 | How does the party grow from four to six? | A level · a Guild rank · a Tower chapter · bought | Built 2026-10-12 on an inference, by Tower chapter: item 35. Another trigger is a change to `world_rules.party` and `Seats.sync` | Four, then five at floor 5 and six at floor 10 (**Inferred**, item 35) |
 | 12 | Where does a dead lead's weapon land? | Somewhere easy to find · at random | Small: one rule in `data/fall.json` | Easy to find stands, **Inferred** (item 53) |
 | 15 | What is a hearth, or a background, for someone who fell from the sky? | Confirm: hearth = crash site, background = the life above, found in pieces · or replace | Writing the lore pools | The reading stands as **Inferred** |

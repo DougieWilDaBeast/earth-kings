@@ -123,8 +123,9 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    [`art/tier1/`](../art/tier1/README.md), and the sixteen have a first look on the base
    ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)).
    `dougie`, 2026-10-12: they go into the game together with the full redo, not eight at a time.
-2. **`dougie` plays the real-time skirmish against the turn-based fight** (Training → Fight in real
-   time). `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
+2. ~~**`dougie` plays the real-time skirmish against the turn-based fight**~~ **Settled 2026-10-12:
+   real time, by both founders ([D63](06-decisions.md)); M11 replaces the turn loop — planned.** (Training → Fight in real
+   time.) `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
    better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
    found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
    a box to pick fighters, is built. `dougie`'s turn decides whether M11 replaces the turn loop
@@ -421,7 +422,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - Asset provenance audit — first pass done 2026-10-12 ([22](22-asset-provenance.md)); open items:
   **`peace_sign.mp3`, `crossing_field.mp3` and `unravel.mp3` are fan covers of commercial songs,
   dev only — they must be swapped for original or licensed tracks before any public release**; who
-  made `angelic.wav`, `bday_project.wav` and the two menu sounds; where the items, props, buildings,
+  made the two menu sounds (`angelic.wav` and `bday_project.wav` are Ewan's, [D63](06-decisions.md)); where the items, props, buildings,
   holds, tilesets and menu frames came from; PixelLab's commercial terms for the plan used. These
   open items are the one part of this section that waits on the founders
 - Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step
