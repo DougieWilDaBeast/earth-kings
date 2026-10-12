@@ -1,0 +1,49 @@
+{
+	"id": "goblin",
+	"size_test": 16,
+	"states": [
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T06:38:57.710459",
+				"export_version": "3.1",
+				"group_id": "8698176b-c491-4909-81cc-7bdc6ff6b19d",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-10-12T06:38:12.839929+00:00",
+							"directions": 8.0,
+							"id": "9fa844af-c0d8-4c28-bc0e-8571f2792659",
+							"name": "Idle",
+							"prompt": "Goblin — a small hunched green-grey creature in scavenged sackcloth, oversized ears, rusted crooked knife, sharp teeth",
+							"size": {
+								"height": 24.0,
+								"width": 24.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Goblin — a small hunched green-grey creature in scavenged sackcloth, oversized ears, rusted crooked knife, sharp teeth",
+			"size": "16x16",
+			"source": "goblin_16.zip",
+			"state": "idle"
+		}
+	]
+}

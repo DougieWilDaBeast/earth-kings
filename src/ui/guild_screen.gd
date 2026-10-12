@@ -5,6 +5,7 @@ extends CanvasLayer
 ## standing in, from the world map or from a clerk inside the settlement.
 
 const Guild := preload("res://src/chronicle/guild.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 var _root: Control
 var _title: Label
@@ -58,6 +59,7 @@ func _rebuild() -> void:
 		close()
 		return
 	_title.text = Guild.line("welcome", {"hall": hall.display_name})
+	_list.add_child(_map_row(world, hall))
 
 	for muster: Dictionary in world.musters:
 		_list.add_child(_muster_row(world, hall, muster))
@@ -68,6 +70,31 @@ func _rebuild() -> void:
 		return
 	for entry: Dictionary in register:
 		_list.add_child(_row(world, hall, entry))
+
+
+## The hall's map of its own country ([D50]): bought once, copied into yours.
+func _map_row(world: World, hall: Site) -> Control:
+	var lines: Dictionary = Atlas.guild_terms().get("lines", {})
+	var tokens := {"hall": hall.display_name, "price": Atlas.guild_map_price()}
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	var bought := Atlas.guild_map_bought(hall)
+	var text := _label(str(lines.get("owned" if bought else "offer", "")).format(tokens))
+	text.add_theme_color_override("font_color", Color(0.85, 0.95, 0.75))
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(text)
+	if not bought:
+		var buy := Button.new()
+		buy.text = str(lines.get("button", "Buy the map")).format(tokens)
+		buy.disabled = GameState.gold < Atlas.guild_map_price()
+		buy.pressed.connect(
+			func() -> void:
+				_said.text = str(Atlas.buy_guild_map(world, hall).get("line", ""))
+				_rebuild()
+		)
+		Sfx.attend(buy)
+		row.add_child(buy)
+	return row
 
 
 func _muster_row(world: World, hall: Site, muster: Dictionary) -> Control:

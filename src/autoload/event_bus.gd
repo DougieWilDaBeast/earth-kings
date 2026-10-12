@@ -52,6 +52,10 @@ signal party_seat_opened(seats: int)
 ## The last of the party is gone; the run is over.
 signal run_ended
 
+## Tiles that have just come onto the party's map (`src/chronicle/atlas.gd`),
+## so the map can fade them in rather than snap.
+signal ground_revealed(cells: Array)
+
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
 
