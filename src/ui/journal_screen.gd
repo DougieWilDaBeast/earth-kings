@@ -10,10 +10,12 @@ extends CanvasLayer
 
 ## Loaded by path ([D41]): regional names (see its header).
 const Names := preload("res://src/chronicle/names.gd")
+const Fall := preload("res://src/chronicle/fall.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 
 signal closed
 
-enum Tab { BESTIARY, ROUTES, ANNALS }
+enum Tab { BESTIARY, ROUTES, ANNALS, QUESTS }
 
 const UNKNOWN_COLOUR := Color(0.42, 0.40, 0.38)
 const KNOWN_COLOUR := Color(0.90, 0.87, 0.79)
@@ -28,6 +30,7 @@ const FACE_SIZE := Vector2(96, 96)
 @onready var _bestiary_btn: Button = %BestiaryButton
 @onready var _routes_btn: Button = %RoutesButton
 @onready var _annals_btn: Button = %AnnalsButton
+@onready var _quests_btn: Button = %QuestsButton
 @onready var _close_btn: Button = %CloseButton
 
 var _showing: String = ""
@@ -42,11 +45,13 @@ func _ready() -> void:
 	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
 	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
 	_annals_btn.pressed.connect(func() -> void: _set_tab(Tab.ANNALS))
+	_quests_btn.pressed.connect(func() -> void: _set_tab(Tab.QUESTS))
 	# Escape is the only other way out, and a phone has no Escape.
 	_close_btn.pressed.connect(close)
 	Sfx.attend(_bestiary_btn)
 	Sfx.attend(_routes_btn)
 	Sfx.attend(_annals_btn)
+	Sfx.attend(_quests_btn)
 	Sfx.attend(_close_btn)
 
 
@@ -124,6 +129,19 @@ func _rebuild() -> void:
 				Sfx.attend(button)
 				_list.add_child(button)
 		_show_routes_page()
+	elif _tab == Tab.QUESTS:
+		var others := world.wanderers.size()
+		_fullness.text = "%d of the others known of" % Wanderers.known(world).size() if others > 0 else ""
+		var standing := Button.new()
+		standing.text = Fall.quest_title()
+		standing.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		Sfx.attend(standing)
+		_list.add_child(standing)
+		for errand: Dictionary in GameState.errands:
+			var label := _line(Errand.summary(errand), KNOWN_COLOUR)
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_list.add_child(label)
+		_show_quests_page()
 	else:
 		_fullness.text = "%d chronicle entries" % world.annals.size()
 		var label := Label.new()
@@ -136,6 +154,61 @@ func _rebuild() -> void:
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_list.add_child(sub)
 		_show_annals_page()
+
+
+## The standing quest every lead carries ([D53]), the errands taken, and what
+## is known of the others who fell (M13).
+func _show_quests_page() -> void:
+	for child in _page.get_children():
+		child.queue_free()
+	var world: World = GameState.world
+	if world == null:
+		return
+
+	var title := _line(Fall.quest_title(), HEADING_COLOUR)
+	title.add_theme_font_size_override("font_size", 22)
+	_page.add_child(title)
+	var brief := _line(Fall.quest_brief(), KNOWN_COLOUR)
+	brief.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_page.add_child(brief)
+	var progress := _line(Fall.quest_progress(world), LABEL_COLOUR)
+	progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_page.add_child(progress)
+	_page.add_child(HSeparator.new())
+
+	var errands_title := _line("Errands taken", HEADING_COLOUR)
+	errands_title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(errands_title)
+	if GameState.errands.is_empty():
+		_page.add_child(_line("None. A settlement's board has work, if you want it.", LABEL_COLOUR))
+	for errand: Dictionary in GameState.errands:
+		_page.add_child(_line("  %s" % Errand.summary(errand), KNOWN_COLOUR))
+	_page.add_child(HSeparator.new())
+
+	var others_title := _line("The others who fell", HEADING_COLOUR)
+	others_title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(others_title)
+	var known := Wanderers.known(world)
+	for each: Dictionary in known:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		var face := TextureRect.new()
+		face.custom_minimum_size = Vector2(36, 36)
+		face.texture = Database.unit_face(str(each.get("id", "")))
+		face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(face)
+		var said := _line(Wanderers.whereabouts(world, each), KNOWN_COLOUR)
+		said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		said.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(said)
+		_page.add_child(row)
+	var unknown := world.wanderers.size() - known.size()
+	if unknown > 0:
+		_page.add_child(_line(
+			"%d more carry the mark somewhere out there. Ask at an inn, or rest where people talk." % unknown,
+			LABEL_COLOUR
+		))
 
 
 func _show_annals_page() -> void:
