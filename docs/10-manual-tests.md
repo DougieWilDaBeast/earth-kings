@@ -25,10 +25,12 @@ you saw, on which screen, and what you had done just before.
 | A5  | Click an entry                                                               | A firmer click, distinct from the hover                                                                        |
 | A6  | Sit on the title screen                                                      | Quiet music, and your party running across the bottom behind the menu                                          |
 | A7  | Look at the crest beside the title with a save present                       | It is the face of the character you are actually playing, not always the swordsman                             |
-| A8  | Delete `%APPDATA%\Godot\app_userdata\...\earth-kings.save.json` and relaunch | Continue is greyed out; the founders run along the bottom instead                                              |
+| A8  | Delete `%APPDATA%\Godot\app_userdata\...\earth-kings.save.json` and `earth-kings.save.bak.json` beside it, and relaunch | Continue is greyed out; the founders run along the bottom instead                                              |
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Save twice, cut the save file in half in a text editor, relaunch and Continue | The run comes back as of the save before; a line at the top says it was restored from the backup             |
+| A13 | Set `"version"` in the save to `99`, relaunch and Continue                   | Nothing loads; a line at the top says the save is from a newer version; the file is unchanged                  |
 
 ## B — Starting a run
 

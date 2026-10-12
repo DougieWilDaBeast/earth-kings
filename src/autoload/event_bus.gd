@@ -51,6 +51,10 @@ signal overlay_closed
 signal party_seat_opened(seats: int)
 ## The last of the party is gone; the run is over.
 signal run_ended
+## Something the player should know about the save they just loaded: it was
+## upgraded, restored from the backup, or left alone because it is newer than
+## this build ([D56]). Shown as a toast by [Game].
+signal save_notice(text: String)
 
 ## Tiles that have just come onto the party's map (`src/chronicle/atlas.gd`),
 ## so the map can fade them in rather than snap.
