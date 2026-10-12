@@ -46,7 +46,7 @@ func _expect(condition: bool, message: String) -> void:
 func _check_content() -> void:
 	var known_ability_keys := [
 		"display_name", "description", "target", "min_range", "range", "splash",
-		"power", "heal", "bonus", "cooldown", "cast",
+		"power", "heal", "bonus", "cooldown", "cast", "stun", "energy",
 	]
 	for ability_id: String in Database.abilities:
 		var ability: Dictionary = Database.abilities[ability_id]

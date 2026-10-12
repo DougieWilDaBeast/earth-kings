@@ -64,6 +64,9 @@ var pathfinder: Pathfinder
 var fighters: Array[Fighter] = []
 ## Party fighters taking orders; the first is the one quick-slot keys speak for.
 var selected: Array[Fighter] = []
+## The party's draughts and herbs for this fight, item id → how many (D59). Copied
+## from the stores, or the training pouch when they are empty; never written back.
+var pouch: Dictionary = {}
 ## Where the left button went down, in the field's own space, while it is held.
 var _press_at: Vector2 = Vector2.INF
 ## The box being dragged to pick fighters; empty when there is none ([member SkirmishMarks]).
@@ -116,6 +119,7 @@ func _ready() -> void:
 	fx.z_index = 20
 	add_child(fx)
 	_build_battlefield()
+	_fill_pouch()
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.unit_healed.connect(_on_unit_healed)
@@ -123,6 +127,7 @@ func _ready() -> void:
 	hud.card_clicked.connect(_on_card_clicked)
 	hud.action_pressed.connect(act)
 	hud.slot_clicked.connect(_on_slot_clicked)
+	hud.item_clicked.connect(_on_item_clicked)
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
@@ -180,6 +185,108 @@ func _enlist(unit: Unit) -> void:
 	unit.snap_to_cell(grid)
 	units_root.add_child(unit)
 	fighters.append(Fighter.new(unit))
+
+
+func _fill_pouch() -> void:
+	pouch = {}
+	for item_id in GameState.stores:
+		if Gear.is_draught(str(item_id)):
+			pouch[str(item_id)] = int(pouch.get(str(item_id), 0)) + 1
+	if pouch.is_empty():
+		pouch = (Database.skirmish.get("training_pouch", {}) as Dictionary).duplicate()
+
+
+## What is in the pouch, weakest first, so the small one is spent on a scratch.
+func pouch_items() -> Array:
+	var out: Array = pouch.keys()
+	out.sort_custom(func(a: String, b: String) -> bool: return Gear.mends(a) < Gear.mends(b))
+	return out
+
+
+## Whether [param f] could start on [param item_id] right now, and if not, why.
+func item_refusal(f: Fighter, item_id: String) -> String:
+	if f == null or not f.is_standing():
+		return "not standing"
+	if int(pouch.get(item_id, 0)) <= 0:
+		return "none left"
+	if f.items_used >= int(SkirmishPassives.rule("items_per_fighter", 2)):
+		return "had enough"
+	if f.unit.hp >= f.unit.max_hp:
+		return "unhurt"
+	if f.is_using() or f.is_stunned():
+		return "busy"
+	return ""
+
+
+## Start drinking or chewing [param item_id]. It takes `use_item_time` seconds,
+## in which the fighter stands still and can be hit, but cannot be stunned.
+func use_item(f: Fighter, item_id: String) -> bool:
+	var why := item_refusal(f, item_id)
+	if why != "":
+		_say("%s can't use the %s: %s." % [f.unit.display_name if f != null else "Nobody", Gear.display_name(item_id), why])
+		return false
+	f.give(Fighter.Order.NONE)
+	f.target = null
+	var total := SkirmishPassives.rule("use_item_time", 1.5)
+	f.using = {"item": item_id, "left": total, "total": total}
+	_say("%s reaches for the %s." % [f.unit.display_name, Gear.display_name(item_id)])
+	hud.refresh()
+	return true
+
+
+func _finish_item(f: Fighter) -> void:
+	var item_id := str(f.using["item"])
+	f.using = {}
+	pouch[item_id] = int(pouch.get(item_id, 0)) - 1
+	if int(pouch[item_id]) <= 0:
+		pouch.erase(item_id)
+	f.items_used += 1
+	# Health is scaled up for real time, so what a draught mends is too.
+	var amount := roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE)
+	f.unit.heal(amount)
+	fx.popup(Gear.display_name(item_id), f.unit.position + Vector2(0, -14), SkirmishFx.HEAL, 13)
+	_say("%s takes the %s." % [f.unit.display_name, Gear.display_name(item_id)])
+	hud.refresh()
+
+
+## Knocked senseless for [param seconds]. Whatever was being wound up is lost;
+## somebody drinking a draught keeps their feet.
+func _stun(f: Fighter, by: Fighter, seconds: float) -> void:
+	if f == null or not f.is_standing() or seconds <= 0.0:
+		return
+	if f.is_using():
+		fx.popup("steady", f.unit.position, SkirmishFx.WORD, 12)
+		return
+	if f.is_casting():
+		var slot := int(f.cast["slot"])
+		var ability := f.slot_ability(slot)
+		f.cast = {}
+		f.cooldowns[slot] = SkirmishRules.cooldown(ability) * 0.5
+		if f.order == Fighter.Order.CAST:
+			f.clear_order()
+		if by != null:
+			by.interrupts += 1
+		fx.popup("Interrupted!", f.unit.position + Vector2(0, -16), SkirmishFx.HURT, 15, 1.2)
+		_say("%s's %s is broken off." % [f.unit.display_name, ability.get("display_name", "skill")])
+	f.aiding = 0.0
+	f.stunned = maxf(f.stunned, seconds)
+	fx.popup("Stunned", f.unit.position, SkirmishFx.WORD, 13)
+
+
+## A sword swing at a shield bearer who sees it coming may be turned aside.
+func _blocks(f: Fighter, victim: Fighter, ability_id: String) -> bool:
+	if victim == null or not victim.shield or ability_id != f.basic:
+		return false
+	if int(Database.ability(ability_id).get("range", 1)) > 1:
+		return false
+	if not victim.is_standing() or victim.is_casting() or victim.is_using() or victim.is_stunned():
+		return false
+	if AbilityResolver.flank_of(f.unit.cell, victim.unit) == AbilityResolver.Flank.BACK:
+		return false
+	var chance := minf(SkirmishPassives.rule("block_max", 0.4),
+			SkirmishPassives.rule("block_chance", 0.15)
+			+ SkirmishPassives.rule("block_per_defence", 0.01) * float(victim.unit.defense))
+	return randf() < chance
 
 
 ## Both lines start looking at each other, as in [Battle].
@@ -285,6 +392,7 @@ func _tick_fighter(f: Fighter) -> void:
 		return
 	f.attack_timer = maxf(0.0, f.attack_timer - SkirmishRules.TICK)
 	f.since_hit += SkirmishRules.TICK
+	f.recover_energy(SkirmishRules.TICK)
 	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
 	_regenerate(f)
 
@@ -295,6 +403,16 @@ func _tick_fighter(f: Fighter) -> void:
 		f.stepping = false
 		f.unit.position = f.step_to
 		f.unit.set_running(false)
+
+	if f.is_stunned():
+		f.stunned = maxf(0.0, f.stunned - SkirmishRules.TICK)
+		return
+
+	if f.is_using():
+		f.using["left"] = float(f.using["left"]) - SkirmishRules.TICK
+		if float(f.using["left"]) <= 0.0:
+			_finish_item(f)
+		return
 
 	if f.is_casting():
 		f.cast["left"] = float(f.cast["left"]) - SkirmishRules.TICK
@@ -432,8 +550,19 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
 		return
 	var victim := fighter_of(target)
+	if _blocks(f, victim, ability_id):
+		victim.blocks += 1
+		f.since_hit = 0.0
+		victim.since_hit = 0.0
+		victim.unit.face_towards(f.unit.cell)
+		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
+		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
+		return
 	var multiplier := 1.0
 	var tags: Array[String] = []
+	if ability_id != f.basic and SkirmishRules.is_charged(ability):
+		multiplier *= SkirmishPassives.rule("charged_power", 1.6)
+		tags.append("charged")
 	var crit := randf() < SkirmishPassives.rule("base_crit", 0.05) + f.effect("crit")
 	if crit:
 		multiplier *= SkirmishPassives.rule("crit_multiplier", 1.6)
@@ -472,6 +601,8 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		_hitstop = maxf(_hitstop, SkirmishPassives.rule("hit_stop", 0.07))
 		if crit:
 			shake(SkirmishPassives.rule("shake_on_crit", 2.5))
+	if victim != null and target.is_alive() and float(ability.get("stun", 0.0)) > 0.0:
+		_stun(victim, f, float(ability["stun"]))
 	var steal := f.effect("lifesteal")
 	if steal > 0.0 and dealt > 0 and f.unit.hp < f.unit.max_hp:
 		f.unit.heal(maxi(1, roundi(float(dealt) * steal)))
@@ -542,6 +673,10 @@ func _pursue_cast(f: Fighter) -> void:
 	var ability := f.slot_ability(slot)
 	var who := f.order_target
 	if ability.is_empty() or (who != null and not is_standing(who)):
+		f.clear_order()
+		return
+	if not f.can_afford(slot):
+		_say("%s is too tired for %s." % [f.unit.display_name, ability.get("display_name", "that")])
 		f.clear_order()
 		return
 	var centre := who.cell if who != null else f.order_cell
@@ -627,6 +762,9 @@ func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 
 func _begin_cast(f: Fighter, slot: int, who: Unit, centre: Vector2i) -> void:
 	var ability := f.slot_ability(slot)
+	if not f.can_afford(slot):
+		return
+	f.spend_energy(ability)
 	var wind_up := SkirmishRules.cast_time(ability)
 	f.unit.face_towards(centre)
 	if wind_up <= 0.0:
@@ -685,6 +823,8 @@ func _drop(f: Fighter) -> void:
 	f.stepping = false
 	f.cast = {}
 	f.aiding = 0.0
+	f.using = {}
+	f.stunned = 0.0
 	f.clear_order()
 	f.target = null
 	f.unit.set_running(false)
@@ -1156,6 +1296,13 @@ func _on_card_clicked(index: int) -> void:
 		_select([party[index]])
 
 
+## A draught or herb on a card: whoever the card belongs to uses it.
+func _on_item_clicked(index: int, item_id: String) -> void:
+	var party := party_fighters()
+	if index < party.size():
+		use_item(party[index], item_id)
+
+
 ## A skill tile on a card: pick whoever it belongs to and ready it.
 func _on_slot_clicked(index: int, slot: int) -> void:
 	var party := party_fighters()
@@ -1178,6 +1325,9 @@ func _arm(slot: int) -> void:
 	if slot >= caster.slots.size():
 		return
 	var ability := caster.slot_ability(slot)
+	if not caster.can_afford(slot):
+		_say("%s is too tired for %s." % [caster.unit.display_name, ability.get("display_name", "that")])
+		return
 	if str(ability.get("target", "enemy")) == "self":
 		order_cast(caster, slot, caster.unit, caster.unit.cell)
 		return

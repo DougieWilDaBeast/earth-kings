@@ -73,6 +73,21 @@ var regen_pool: float = 0.0
 var charging: bool = false
 ## Seconds until a skirmisher or mender will back off again.
 var retreat_wait: float = 0.0
+## Spent on skills and won back over time; a tired fighter only swings (D59).
+var energy: float = 100.0
+var energy_max: float = 100.0
+## Ran dry: no skills until energy is back to `energy_recover_at` of the bar.
+var tired: bool = false
+## Seconds left stunned: no stepping, swinging or casting, and any cast is lost.
+var stunned: float = 0.0
+## Drinking or chewing something: {item, left, total}. Can be hit, cannot be stunned.
+var using: Dictionary = {}
+## Draughts and herbs this fighter has had this fight.
+var items_used: int = 0
+## Carries a shield, so a sword swing from the front or side may be blocked.
+var shield: bool = false
+var blocks: int = 0
+var interrupts: int = 0
 ## A little lunge towards whoever was just hit, drawn and then forgotten.
 var bump: float = 0.0
 var bump_dir: Vector2 = Vector2.ZERO
@@ -87,6 +102,9 @@ func _init(source: Unit) -> void:
 	# Nobody opens a fight in the same breath as everyone else — except a Set
 	# temper, whose opening charge time on the grid becomes acting at once here.
 	passives = SkirmishPassives.for_unit(source)
+	shield = SkirmishPassives.bears_shield(source)
+	energy_max = SkirmishPassives.rule("energy_max", 100.0)
+	energy = energy_max
 	if not is_party():
 		role = SkirmishPassives.role_for(source)
 		heal_below = float(role_data().get("heal_below", heal_below))
@@ -133,8 +151,33 @@ func is_casting() -> bool:
 	return not cast.is_empty()
 
 
+func is_stunned() -> bool:
+	return stunned > 0.0
+
+
+func is_using() -> bool:
+	return not using.is_empty()
+
+
+## Off the cooldown and with the energy to pay for it.
 func slot_ready(slot: int) -> bool:
-	return slot >= 0 and slot < slots.size() and cooldowns[slot] <= 0.0
+	return slot >= 0 and slot < slots.size() and cooldowns[slot] <= 0.0 and can_afford(slot)
+
+
+func can_afford(slot: int) -> bool:
+	return not tired and energy >= SkirmishRules.energy_cost(slot_ability(slot))
+
+
+func spend_energy(ability: Dictionary) -> void:
+	energy = maxf(0.0, energy - SkirmishRules.energy_cost(ability))
+	if energy < SkirmishPassives.rule("energy_cost", 20.0):
+		tired = true
+
+
+func recover_energy(seconds: float) -> void:
+	energy = minf(energy_max, energy + SkirmishPassives.rule("energy_regen", 5.0) * seconds)
+	if tired and energy >= energy_max * SkirmishPassives.rule("energy_recover_at", 0.5):
+		tired = false
 
 
 func slot_ability(slot: int) -> Dictionary:
@@ -147,8 +190,10 @@ func give(new_order: Order, cell: Vector2i = Vector2i.ZERO, who: Unit = null, sl
 	order_target = who
 	order_slot = slot
 	aiding = 0.0
-	# A new order is a change of mind: whatever was being wound up is dropped.
+	# A new order is a change of mind: whatever was being wound up is dropped,
+	# and so is a draught half-way to the mouth.
 	cast = {}
+	using = {}
 	if new_order == Order.ATTACK:
 		target = who
 
@@ -165,6 +210,10 @@ func activity() -> String:
 		return "fallen"
 	if is_downed():
 		return "near death %.0fs" % ceilf(near_death)
+	if is_stunned():
+		return "stunned"
+	if is_using():
+		return "using %s" % Gear.display_name(str(using["item"]))
 	if aiding > 0.0:
 		return "aiding"
 	if is_casting():
@@ -179,6 +228,8 @@ func activity() -> String:
 			return "going to help"
 	if hold:
 		return "holding"
+	if tired:
+		return "tired"
 	if target != null and target.is_alive():
 		return "fighting"
 	return "ready"

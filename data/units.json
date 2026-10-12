@@ -10,7 +10,8 @@
 		"speed": 10,
 		"abilities": [
 			"strike",
-			"cleave"
+			"cleave",
+			"shield_bash"
 		],
 		"classes": [
 			"sworn_blade",

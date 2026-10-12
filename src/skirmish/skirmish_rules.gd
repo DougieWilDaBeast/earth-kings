@@ -8,6 +8,9 @@ extends RefCounted
 ## `data/abilities.json`; the formulas below are only for abilities that do not
 ## say — the generated skill trees, which nobody authored.
 
+## Loaded by path, not by `class_name` (see [Skirmish]).
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
+
 ## Simulation step. The fight runs on fixed ticks so it plays out the same at
 ## any game speed, and so a test can drive it without waiting on frames.
 const TICK := 0.05
@@ -79,6 +82,21 @@ static func cast_time(ability: Dictionary) -> float:
 	if int(ability.get("range", 1)) <= 1 or bool(ability.get("bonus", false)):
 		return 0.0
 	return 0.4 + 0.2 * float(ability.get("splash", 0))
+
+
+## Energy a skill takes (D59): its own `energy`, else more for a charged spell.
+static func energy_cost(ability: Dictionary) -> float:
+	if ability.has("energy"):
+		return float(ability["energy"])
+	if is_charged(ability):
+		return SkirmishPassives.rule("charged_energy", 35.0)
+	return SkirmishPassives.rule("energy_cost", 20.0)
+
+
+## A spell wound up for `charged_from` seconds or more: slow, interruptible, and
+## worth the wait (`charged_power`).
+static func is_charged(ability: Dictionary) -> bool:
+	return cast_time(ability) >= SkirmishPassives.rule("charged_from", 2.0)
 
 
 ## The ability a unit swings with when nobody tells it otherwise: its first one

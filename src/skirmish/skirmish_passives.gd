@@ -54,6 +54,23 @@ static func _add(ids: Array[String], more: Array) -> void:
 			ids.append(id)
 
 
+## Carries a shield: a class, or an ability, listed under `shield_bearers` (D59).
+static func bears_shield(unit: Unit) -> bool:
+	var bearers: Dictionary = Database.skirmish.get("shield_bearers", {})
+	if (bearers.get("by_template", []) as Array).has(unit.template_id):
+		return true
+	var classes: Array = Database.unit_template(unit.template_id).get("classes", []).duplicate()
+	if unit.character != null and unit.character.class_id != "":
+		classes.append(unit.character.class_id)
+	for class_id in classes:
+		if (bearers.get("by_class", []) as Array).has(class_id):
+			return true
+	for ability_id in unit.abilities:
+		if (bearers.get("by_ability", []) as Array).has(ability_id):
+			return true
+	return false
+
+
 ## The role an enemy fights in, or "" for one that simply walks up and swings.
 static func role_for(unit: Unit) -> String:
 	var data := Database.skirmish

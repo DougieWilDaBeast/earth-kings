@@ -71,7 +71,13 @@ The base stat block a `Character` is built from, and what a monster is.
 - `bonus: true` — a minor ability that costs the bonus action instead of the main action.
 - `cooldown` — seconds before it can be used again, in the real-time skirmish (M11 prototype,
   [D36](06-decisions.md)). Ignored by the turn-based battle.
-- `cast` — seconds of wind-up before it lands, in the skirmish. `0` lands at once.
+- `cast` — seconds of wind-up before it lands, in the skirmish. `0` lands at once. A cast of
+  `rules.charged_from` (2 s) or more in `skirmish.json` is **charged**: it hits `charged_power` (1.6×)
+  harder and costs `charged_energy`, and a stun breaks it off ([D59](06-decisions.md)).
+- `stun` — seconds the target is stunned, in the skirmish: it cannot step, swing or cast, and a
+  cast it was winding up is lost. Ignored by the turn-based battle.
+- `energy` — what the skill costs from the user's energy bar in the skirmish. Optional; otherwise
+  `rules.energy_cost`, or `charged_energy` for a charged spell.
 
 Both timings are optional. An ability without them — every generated one — gets them from the
 formulas in `src/skirmish/skirmish_rules.gd`, which are also where the authored values came from.
@@ -441,7 +447,11 @@ Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#t
 {
   "rules": { "max_passives": 3, "base_crit": 0.05, "crit_multiplier": 1.6, "guard_cap": 0.5,
              "out_of_combat_after": 4.0, "big_hit_share": 0.2, "hit_stop": 0.07,
-             "shake_on_down": 9.0, "shake_on_kill": 4.0, "shake_on_crit": 2.5 },
+             "shake_on_down": 9.0, "shake_on_kill": 4.0, "shake_on_crit": 2.5,
+             "energy_max": 100.0, "energy_regen": 5.0, "energy_cost": 20.0, "charged_energy": 35.0,
+             "energy_recover_at": 0.5, "charged_from": 2.0, "charged_power": 1.6,
+             "use_item_time": 1.5, "items_per_fighter": 2,
+             "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4 },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -454,9 +464,22 @@ Read only by the M11 prototype in `src/skirmish/` ([18](18-combat-direction.md#t
   "role_by_template": { "brigand_archer": "kiter" },
   "role_by_kind": { "beast": "charger" },
   "ranged_role": "kiter",
-  "healer_role": "healer"
+  "healer_role": "healer",
+  "shield_bearers": { "by_class": ["sworn_blade"], "by_ability": ["shield_bash"] },
+  "training_pouch": { "herbs": 2, "red_draught": 1 }
 }
 ```
+
+- **Energy** ([D59](06-decisions.md)): every fighter starts with `energy_max`, gets `energy_regen` a
+  second back, and pays for each skill. Below `energy_cost` they are **tired** — basic attacks only —
+  until the bar is back to `energy_recover_at` of full.
+- **Draughts and herbs**: the pouch is the party's draughts in `GameState.stores`, or
+  `training_pouch` when there are none; nothing used is taken from the stores. A use takes
+  `use_item_time` seconds, mends the item's `mends` × `HEALTH_SCALE`, and a fighter has at most
+  `items_per_fighter` a fight.
+- **Shields**: a unit with a class, ability or template (`by_template`) under `shield_bearers` blocks a
+  melee basic attack that does not come from behind, with a chance of `block_chance` +
+  `block_per_defence` × its defence, at most `block_max`. Not while casting, using an item or stunned.
 
 - A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
   each ability it knows in `by_ability`, and capped at `rules.max_passives`.

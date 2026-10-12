@@ -6,7 +6,7 @@ previous milestone demonstrably works.
 ## M0 — Tactics core — SHIPPED
 
 - Square grid, Dijkstra movement with per-tile cost and jump, charge-time turn order
-- Abilities with min range, max range, splash, healing; facing bonuses (side 1.2×, back 1.5×)
+- Abilities with min range, max range, splash, healing; facing bonuses (side 1.1×, back 1.2× since [D59](06-decisions.md))
 - Enemy AI that plans a move and a target
 - Directional unit art, equipment with per-facing offsets
 - Wounds persisting between battles; title screen, system menu, save/load
@@ -194,6 +194,9 @@ against it.
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
 - Drag a box to pick fighters ✅ (2026-10-12, [D58](06-decisions.md))
+- From `dougie`'s _Dungeon Settlers_ answers ✅ (2026-10-12, [D59](06-decisions.md), numbers
+  **Inferred**): gentler facing, speeds 1×/1.5×/2×, stuns that break casts, charged spells, an
+  energy bar, draughts and herbs mid-fight, shields that block
 - Done when: both founders have played the prototype against the current battle and chosen.
   `dougie` ✅ chose real time (2026-10-12, D58); `doug-md` to come.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))
