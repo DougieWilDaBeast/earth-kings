@@ -355,6 +355,9 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   (`save_migrations.gd`) instead of wiped, a newer one is refused and left alone, and every save is
   written to a temporary file and renamed into place with the last one kept as a backup that a
   corrupt save falls back to (D56)
+- New-player onboarding ✅ (2026-10-12): first-time tip cards (`data/tips.json`, once per player
+  in `settings.cfg`, never during autoplay; _Tips: on/off_ and _Reset tips_ in the menu) and a
+  _How to Play_ page from the title screen and the menu (`data/how_to_play.json`)
 - Gamepad support ✅ (2026-10-12): Xbox and PlayStation pads play the whole game — menus by focus,
   a cursor for the fights, hint lines that name the pad's buttons, and pad rebinding in the
   system menu. The layout is in the README

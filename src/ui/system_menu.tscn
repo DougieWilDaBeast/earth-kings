@@ -39,7 +39,7 @@ theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 20
 
 [node name="Items" type="VBoxContainer" parent="Root/Panel/Margin"]
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="HeadingLabel" type="Label" parent="Root/Panel/Margin/Items"]
 theme_override_font_sizes/font_size = 22
@@ -115,6 +115,26 @@ text = "Touch Controls: Auto"
 [node name="ControlsButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
 text = "Controls & Key Bindings"
+
+[node name="HowToPlayButton" type="Button" parent="Root/Panel/Margin/Items"]
+unique_name_in_owner = true
+text = "How to Play"
+
+[node name="TipsRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+theme_override_constants/separation = 8
+
+[node name="TipsButton" type="Button" parent="Root/Panel/Margin/Items/TipsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Tips: on"
+
+[node name="ResetTipsButton" type="Button" parent="Root/Panel/Margin/Items/TipsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reset tips"
 
 [node name="CloseButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
