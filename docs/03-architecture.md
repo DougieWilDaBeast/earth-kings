@@ -89,8 +89,10 @@ src/
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Title screen, party screen, system menu, stash,
-                               Guild hall, journal (bestiary, routes, annals), museum (hero dossiers),
-                               credits (credits_roll.gd lays out data/credits.json for both places)
+                               Guild hall, journal (the company's sheets, bestiary, routes, annals,
+                               quests), museum (hero dossiers), the level-up banner,
+                               credits (credits_roll.gd lays out data/credits.json for both places);
+                               sheet_parts.gd draws class colours and growth wherever they show
 ```
 
 ## Character vs Unit

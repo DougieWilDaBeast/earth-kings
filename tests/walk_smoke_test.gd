@@ -553,8 +553,18 @@ func _check_class_prompt() -> void:
 	var member: Character = GameState.roster.party_members()[0]
 	member.class_id = ""
 	member.level = 1
+	member.xp = 0
 	member.pending_class_choice = false
+	# A level earned in play is announced with the numbers it changed ([D67]).
+	var heard: Array = []
+	var listen := func(_who: RefCounted, before: Dictionary) -> void: heard.append(before)
+	EventBus.levelled_up.connect(listen)
 	Progression.award(member, Progression.xp_to_next(1), GameState.world)
+	EventBus.levelled_up.disconnect(listen)
+	# Gentle may hand over more than one level's worth: one banner per level.
+	_expect(heard.size() == member.level - 1, "%d levels gained but %d announced" % [member.level - 1, heard.size()])
+	_expect(not heard.is_empty() and heard[0].has("max_hp") and heard[0].has("attack"),
+			"the level-up did not say what the numbers were before it")
 
 	_expect(member.pending_class_choice, "levelling to 2 did not ask for a class")
 	_expect(GameState.roster.awaiting_class_choice() == member, "the roster is not waiting on anyone")
@@ -565,6 +575,9 @@ func _check_class_prompt() -> void:
 
 	var options := Progression.class_options(member)
 	_expect(options.size() > 0, "a levelling character was offered no classes")
+	screen.open_on_growth(member)
+	var cards := _buttons_reading(screen._page_box, "Walk this path")
+	_expect(cards.size() == options.size(), "%d paths offered but %d cards to choose from" % [options.size(), cards.size()])
 	_expect(not screen.choose_class(member, "no_such_class"), "the picker accepted a made-up class")
 	_expect(screen.choose_class(member, options[0]), "the picker rejected a valid choice")
 	_expect(not member.pending_class_choice, "the prompt did not clear when answered")
@@ -572,9 +585,57 @@ func _check_class_prompt() -> void:
 	print("class prompt: %s offered %s, settled as %s" % [
 		member.display_name, str(options), member.class_name_text()
 	])
+	_check_power_trail(screen, member)
+	_check_company_sheet()
 
 	_check_party_screen(screen)
 	screen.queue_free()
+
+
+## A tree of powers is a trail of stones, and the one that can be taken is one
+## press ([D67]).
+func _check_power_trail(screen: PartyScreen, member: Character) -> void:
+	var kept_rungs := member.rungs
+	var kept_trees := member.trees.duplicate()
+	var kept_learned := member.learned.duplicate()
+	Progression.unlock_tree(member, GameState.world)
+	if member.rungs <= 0:
+		member.rungs = 1
+	screen.open_on_growth(member)
+	var stones := _buttons_reading(screen._page_box, "I").filter(func(b: Button) -> bool: return not b.disabled)
+	_expect(stones.size() >= 1, "no stone on the new tree could be pressed")
+	if not stones.is_empty():
+		var before := member.learned.size()
+		(stones[0] as Button).pressed.emit()
+		_expect(member.learned.size() == before + 1, "pressing the glowing stone took no power")
+	member.rungs = kept_rungs
+	member.trees = kept_trees
+	member.learned = kept_learned
+
+
+## The journal opens at the Company, and every companion has a sheet ([D67]).
+func _check_company_sheet() -> void:
+	var journal: JournalScreen = load("res://src/ui/journal_screen.tscn").instantiate()
+	add_child(journal)
+	journal.open()
+	_expect(journal.open_tab() == "company", "the journal opened at %s, not the Company" % journal.open_tab())
+	var entries := journal._list.get_children()
+	_expect(entries.size() == GameState.roster.party_members().size(), "the Company lists %d of %d" % [
+		entries.size(), GameState.roster.party_members().size()
+	])
+	for entry: Node in entries:
+		(entry as Button).pressed.emit()
+		_expect(journal._page.get_child_count() > 3, "a companion's sheet came out nearly blank")
+	_expect(journal.turn_to("bestiary") and journal.open_tab() == "bestiary", "the Bestiary ribbon does not turn")
+	_expect(not journal.turn_to("no_such_tab"), "the journal turned to a tab it has no ribbon for")
+	journal.close()
+	journal.queue_free()
+
+
+func _buttons_reading(root: Node, text: String) -> Array:
+	return root.find_children("*", "Button", true, false).filter(
+		func(b: Node) -> bool: return (b as Button).text == text
+	)
 
 
 func _check_party_screen(screen: PartyScreen) -> void:

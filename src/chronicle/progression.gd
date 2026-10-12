@@ -36,7 +36,14 @@ static func award(character: Character, amount: int, world: World) -> Array:
 	character.xp += gained
 	while character.xp >= xp_to_next(character.level):
 		character.xp -= xp_to_next(character.level)
+		var before := {
+			"max_hp": character.max_hp(), "attack": character.attack(),
+			"defense": character.defense(), "speed": character.speed(),
+		}
 		lines.append_array(_level_up(character, world))
+		# Here rather than in _level_up, which also raises the world's people
+		# while it is built: only a level earned in play is worth a banner.
+		EventBus.levelled_up.emit(character, before)
 	return lines
 
 
