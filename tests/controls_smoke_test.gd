@@ -88,7 +88,7 @@ func _ready() -> void:
 func _check_nothing_opens_itself() -> void:
 	_expect(not _anything_open(), "something was already open on the first frame")
 
-	for scene_key: String in ["title", "battle", "world", "area"]:
+	for scene_key: String in ["title", "skirmish", "world", "area"]:
 		await _enter(scene_key)
 		_check_only_the_written_word_speaks("entering the %s scene" % scene_key)
 	await _clear_dialogue()
@@ -269,21 +269,30 @@ func _check_everything_closes_without_a_key() -> void:
 	var back: Button = _touch.get_node("Root").find_child("BackButton", true, false)
 	_expect(back != null, "the touch overlay has no Back button")
 
-	# And a half-given battle order can be taken back without a right-click.
-	await _enter("battle")
-	var battle := _current_scene()
-	if battle != null:
-		var cancel: Button = battle.hud.find_child("CancelButton", true, false)
-		_expect(cancel != null, "the fight has no cancel button")
-		if cancel != null:
-			_expect(
-				not cancel.visible,
-				"the fight offers cancel with nothing half-given to cancel"
-			)
-			battle.phase = battle.Phase.PICK_MOVE
-			_expect(cancel.visible, "the fight hid cancel while an order was half given")
-			battle.phase = battle.Phase.COMMAND
-	_check_the_overlay_keeps_off_the_hud("battle")
+	# And a half-given order in a fight can be taken back without a right-click:
+	# the overlay's Back puts a readied skill away, and with nothing readied it
+	# is the menu, as it is everywhere else.
+	await _enter("skirmish")
+	var fight := _current_scene()
+	if fight != null:
+		var caster = null
+		for f in fight.party_fighters():
+			if not f.slots.is_empty() and str(f.slot_ability(0).get("target", "enemy")) != "self":
+				caster = f
+				break
+		if caster != null:
+			fight._select([caster])
+			fight.act("slot0")
+			_expect(fight.armed_slot == 0, "a skill could not be readied in the fight")
+			fight._unhandled_input(_action("ui_cancel"))
+			_expect(fight.armed_slot == -1, "Back did not put a readied skill away")
+			_expect(not _menu.is_open(), "Back opened the menu while it had a skill to put away")
+		fight._unhandled_input(_action("ui_cancel"))
+		await _settle()
+		_expect(_menu.is_open(), "Back with nothing readied did not bring up the menu in a fight")
+		_menu.close()
+		await _settle()
+	_check_the_overlay_keeps_off_the_hud("skirmish")
 	await _enter("world")
 	await _clear_dialogue()
 
@@ -330,7 +339,7 @@ func _check_the_overlay_reads_the_scene() -> void:
 	for expected: Array in [
 		["title", false, false],
 		["cinematic", false, false],
-		["battle", true, false],
+		["skirmish", true, false],
 		["world", true, true],
 		["area", true, true],
 	]:
@@ -648,26 +657,28 @@ func _check_the_pad() -> void:
 	await _settle()
 	_expect(not _menu.is_open(), "B did not close the menu")
 
-	# A fight: the command menu holds the focus, and an order is given at the cursor.
-	await _enter("battle")
-	var battle := _current_scene()
-	if battle != null and battle.phase == battle.Phase.COMMAND and battle.active_unit.can_move():
-		focused = get_viewport().gui_get_focus_owner()
-		_expect(
-			focused != null and battle.hud.is_ancestor_of(focused),
-			"the fight's commands hold no focus under a pad"
-		)
-		battle._on_move_requested()
-		_expect(battle.pad_cell == battle.active_unit.cell, "the pad's cursor did not start on the mover")
+	# A fight: the cursor starts on whoever is picked, and A gives the order there.
+	await _enter("skirmish")
+	var fight := _current_scene()
+	if fight != null and not fight.selected.is_empty():
+		var mover = fight.selected[0]
+		fight._steer_pad_cursor(0.0)
+		_expect(fight.pad_cell == mover.unit.cell, "the pad's cursor did not start on the picked fighter")
 		var goal := Vector2i(-1, -1)
-		for cell: Vector2i in battle.overlay.move_cells:
-			if cell != battle.active_unit.cell:
+		for cell: Vector2i in fight.pathfinder.cells_in_range(mover.unit.cell, 1, 2):
+			if fight.grid.is_walkable(cell) and fight.occupant(cell) == null:
 				goal = cell
 				break
 		if goal != Vector2i(-1, -1):
-			battle._aim_at(goal)
-			battle._unhandled_input(_pad_button(JOY_BUTTON_A))
-			_expect(battle.phase != battle.Phase.PICK_MOVE, "A at the cursor gave no move order")
+			fight._aim_at(goal)
+			fight._unhandled_input(_pad_button(JOY_BUTTON_A))
+			_expect(mover.order_cell == goal and mover.order != 0, "A at the cursor gave no move order")
+		# B with nothing readied is the menu, as Escape is.
+		fight._unhandled_input(_pad_button(JOY_BUTTON_B))
+		await _settle()
+		_expect(_menu.is_open(), "B in a fight did not bring up the menu")
+		_menu.close()
+		await _settle()
 		print("pad: an order given at the cursor")
 	Pad.set_using_pad(false)
 	await _enter("world")
@@ -765,7 +776,7 @@ func _check_the_ground_is_the_game() -> void:
 	_expect(world.player_cell == from + dir, "walking off the ground did not move the party on the continent")
 	_expect(world.steps > steps, "a step on the ground did not move the world clock")
 	var landed := _current_scene()
-	_expect(landed != null and (landed.get("map") is AreaMap or _requests.has("battle")),
+	_expect(landed != null and (landed.get("map") is AreaMap or _requests.has("skirmish")),
 		"a step off the ground landed on %s, not the next ground" % (landed.name if landed != null else "nothing"))
 	print("ground: the map, a doing and a step all come back to the ground")
 

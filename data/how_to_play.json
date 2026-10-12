@@ -7,7 +7,7 @@
 			"lines": [
 				"WASD or the arrow keys walk the ground. Walk off its edge and the party steps on across the continent; every step advances the world clock.",
 				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
-				"N opens the journal, and the map is in it: the continent, black where you have never been. Esc puts the map away.",
+				"N opens the journal, and the map is in it: the continent, black where you have never been. Esc puts the map away. Its first page, The Company, is a sheet for each companion: every number, and what a level adds.",
 				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
 				"Q hands the run to the game and T cycles the speed — on the road, inside a town and in a fight alike. Q again takes it back."
 			]
@@ -33,15 +33,17 @@
 		{
 			"heading": "Battle",
 			"lines": [
-				"On your unit's turn: Move (blue tiles), an ability (red tiles), then Wait to end the turn. Esc cancels a selection. Hover any tile to inspect it.",
-				"Facing matters. The wedge on a token shows where it looks: side hits deal 1.2×, back hits 1.5×. Units turn as they move, so the tile you finish on decides how exposed you are.",
-				"Turn order is charge time. Each tick every unit gains charge equal to its speed and acts at 100 — fast units act more often, not just sooner."
+				"Fights run in real time and open paused. Space pauses and unpauses, and orders can be given while paused. T changes the speed; Z sets when the fight pauses itself.",
+				"Left-click picks a fighter, or drag a box to pick several; 1–6 pick one and Tab picks everyone. Right-click the ground to move, an enemy to attack, a fallen friend to help them up. Q W E R ready a skill, then click its target.",
+				"Everyone swings on their own; A switches a fighter's skills between automatic and by hand, and H holds them where they stand. Skills come back on cooldowns and cost energy; a tired fighter only swings.",
+				"Facing matters. The wedge on a token shows where it looks: side hits deal 1.1×, back hits 1.2×.",
+				"Draughts and herbs are on each fighter's card. One takes a moment to use, and what is used is gone from the stores."
 			]
 		},
 		{
 			"heading": "Characters and death",
 			"lines": [
-				"Falling is usually fatal. A downed character rolls their graces — a charm carried, an ally still standing, a book they read, the ground they fell on — and dies if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
+				"Falling is usually fatal. A downed character can be helped up for a few seconds; after that they roll their graces — a charm carried, an ally still standing, a book they read, the ground they fell on — and dies if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
 				"The run follows you, not the party. Companions can all die and the story goes on; when your own character falls, it stops. Hire replacements in towns.",
 				"Experience comes from the first of each kind. A kind of enemy teaches whoever kills it first, once. The way to grow is to go and meet something new.",
 				"Level 2 is a choice. When someone is ready the bottom line says so — press P and pick their class."
@@ -57,7 +59,7 @@
 		{
 			"heading": "The party screen",
 			"lines": [
-				"P opens the party screen, where the run is managed: pick a class, teach a book to someone who lacks it, and see what each character has read and what is close to fading.",
+				"P opens the party screen, where the run is managed: pick a class from its card, teach a book to someone who lacks it, and see what each character has read and what is close to fading. On the Powers page a glowing stone is a power you can take; press it.",
 				"The Training Yoke trades 25% of attack for 50% more experience. The Practice page sends a companion off to walk an errand while you walk.",
 				"It also shows the Codex — how much of the world's power grammar has been catalogued. N opens the journal."
 			]

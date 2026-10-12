@@ -20,7 +20,7 @@ signal item_clicked(index: int, item_id: String)
 
 const LOG_LINES := 6
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
-		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause"
+		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
 		+ "a skill, then its target · tap the skill again to put it away"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
@@ -216,19 +216,20 @@ func _say_hint() -> void:
 		_hint.text = HINT
 
 
-## Big enough for a thumb, down the right edge, clear of the party cards.
+## Big enough for a thumb, down the right edge, clear of the party cards and
+## of the touch bar's Book and Menu along the top.
 func _add_touch_buttons() -> void:
 	var column := VBoxContainer.new()
 	column.anchor_left = 1.0
 	column.anchor_right = 1.0
 	column.offset_left = -150
 	column.offset_right = -12
-	column.offset_top = 70
+	column.offset_top = 92
 	column.add_theme_constant_override("separation", 4)
 	add_child(column)
 	for entry: Array in TOUCH_BUTTONS:
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(138, 42)
+		button.custom_minimum_size = Vector2(138, 40)
 		button.text = entry[1]
 		button.focus_mode = Control.FOCUS_NONE
 		button.add_theme_font_size_override("font_size", 17)
@@ -263,7 +264,7 @@ func refresh() -> void:
 		if Pad.using_pad and not _skirmish.touch:
 			how = "%s at the target, %s to cancel" % [Pad.key("ui_accept"), Pad.key("ui_cancel")]
 		armed = "    Aiming %s — %s" % [ability.get("display_name", "?"), how]
-	_clock.text = "Skirmish (prototype)   %s   %.1fs%s" % [state, _skirmish.sim_time, armed]
+	_clock.text = "%s   %s   %.1fs%s" % [_skirmish.title, state, _skirmish.sim_time, armed]
 
 	var party: Array[Fighter] = _skirmish.party_fighters()
 	for i in mini(party.size(), _cards.size()):

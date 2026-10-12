@@ -1,7 +1,8 @@
 # 19 — Asset list
 
 Everything the game needs drawn, in the order it should be made, for generation in **PixelLab** and
-cleanup in **Aseprite**. Asked for in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md):
+cleanup in **Aseprite**. What is being asked for right now, one request at a time, is in
+[24 — Art requests](24-art-requests.md). Asked for in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md):
 
 > "we need to have a full list of what potentially needs to be designed to fit the new world and to
 > fit what's designed so far in terms of maps, characters, animations. enemies, abilities, like

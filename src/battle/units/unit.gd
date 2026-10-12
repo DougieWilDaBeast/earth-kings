@@ -6,14 +6,8 @@ extends Node2D
 signal died
 
 enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C, ALLY }
-## What a command costs. EITHER spends the bonus action first, so the main
-## action stays open for as long as possible.
-enum Cost { ACTION, BONUS, EITHER }
 
-const WALK_TIME_PER_TILE := 0.14
 const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
-## Half a blink: fade out, reappear, fade back in.
-const FLASH_TIME := 0.11
 ## Frames a second for a unit that has a run cycle to step through.
 const RUN_FPS := 12.0
 ## Sprite height as a multiple of a tile, for a unit of ordinary size.
@@ -66,16 +60,6 @@ var run_frames: Dictionary = {}
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
 
-## Combat pouch: draughts consumed during this fight (Ruling 1.2: max 2).
-const COMBAT_POUCH_LIMIT := 2
-var draughts_used: int = 0
-
-## Charge time — see [TurnManager]. At 100 the unit acts.
-var ct: int = 0
-
-var action_spent: bool = false
-var bonus_spent: bool = false
-
 ## Set while the unit is crossing the ground, so it is drawn mid-stride.
 var _running: bool = false
 var _run_time: float = 0.0
@@ -102,7 +86,6 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.run_frames = _load_run(template_id_)
 	unit.team = unit_team
 	unit.cell = start_cell
-	unit.ct = randi_range(0, 40)
 	unit._equip(data.get("weapon", ""))
 	if unit_team == Team.ENEMY:
 		unit.max_hp = Difficulty.scaled(unit.max_hp, "enemy_hp")
@@ -217,57 +200,6 @@ func sides_with_party() -> bool:
 	return team == Team.PLAYER or team == Team.ALLY
 
 
-func begin_turn() -> void:
-	action_spent = false
-	bonus_spent = false
-
-
-## Abilities cost the main action unless they are flagged as minor.
-static func ability_cost(ability: Dictionary) -> Cost:
-	return Cost.BONUS if bool(ability.get("bonus", false)) else Cost.ACTION
-
-
-func can_pay(cost: Cost) -> bool:
-	match cost:
-		Cost.ACTION:
-			return not action_spent
-		Cost.BONUS:
-			return not bonus_spent
-		_:
-			return not action_spent or not bonus_spent
-
-
-func pay(cost: Cost) -> void:
-	match cost:
-		Cost.ACTION:
-			action_spent = true
-		Cost.BONUS:
-			bonus_spent = true
-		_:
-			if bonus_spent:
-				action_spent = true
-			else:
-				bonus_spent = true
-
-
-## Give up whatever is left, ending this unit's part of the phase.
-func finish_turn() -> void:
-	action_spent = true
-	bonus_spent = true
-
-
-func is_done() -> bool:
-	return action_spent and bonus_spent
-
-
-func can_move() -> bool:
-	return can_pay(Cost.EITHER)
-
-
-func can_drink_draught() -> bool:
-	return draughts_used < COMBAT_POUCH_LIMIT and can_pay(Cost.BONUS)
-
-
 func take_damage(amount: int) -> void:
 	hp = maxi(0, hp - amount)
 	EventBus.unit_damaged.emit(self, amount)
@@ -295,70 +227,17 @@ func snap_to_cell(grid: BattleGrid) -> void:
 	position = grid.cell_to_world(cell)
 
 
-## Animate along [param path]; awaitable so the controller can sequence turns.
-func walk_path(grid: BattleGrid, path: Array[Vector2i]) -> void:
-	if path.is_empty():
-		return
-	var started_at := cell
-	_running = true
-	set_process(true)
-
-	var tween := create_tween()
-	var previous := cell
-	for step in path:
-		# Turning at each corner rather than at the end, so a unit rounding a
-		# rock is facing where it is going while it does it.
-		var heading := dominant_direction(step - previous)
-		var h := heading
-		tween.tween_callback(func() -> void:
-			facing = h
-			queue_redraw()
-		)
-		tween.tween_property(self, "position", grid.cell_to_world(step), WALK_TIME_PER_TILE)
-		previous = step
-	await tween.finished
-
-	var penultimate: Vector2i = path[-2] if path.size() > 1 else started_at
-	cell = path[-1]
-	facing = dominant_direction(cell - penultimate)
-	_running = false
-	set_process(false)
-	queue_redraw()
-
-
 func _process(delta: float) -> void:
 	_run_time += delta
 	queue_redraw()
 
 
-## Draw the unit mid-stride, for a controller that moves it itself rather than
-## through [method walk_path] — the real-time skirmish steps units tile by tile.
+## Draw the unit mid-stride while the fight steps it from one tile to the next.
 func set_running(running: bool) -> void:
 	if _running == running:
 		return
 	_running = running
 	set_process(running)
-	queue_redraw()
-
-
-func can_flash_step() -> bool:
-	return flash_step > 0 and can_pay(Cost.BONUS)
-
-
-## Blink straight to [param target_cell]; awaitable like [method walk_path].
-func flash_to(grid: BattleGrid, target_cell: Vector2i) -> void:
-	if target_cell == cell:
-		return
-	facing = dominant_direction(target_cell - cell)
-	var tween := create_tween()
-	tween.tween_property(self, "modulate:a", 0.1, FLASH_TIME)
-	tween.tween_callback(
-		func() -> void:
-			cell = target_cell
-			position = grid.cell_to_world(target_cell)
-	)
-	tween.tween_property(self, "modulate:a", 1.0, FLASH_TIME)
-	await tween.finished
 	queue_redraw()
 
 

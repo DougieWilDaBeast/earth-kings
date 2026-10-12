@@ -18,6 +18,8 @@
 			{ "speaker": "", "text": "{name} wakes with no memory of falling, and none of anything before it. Only the name stays, and a weight behind the eyes like a word just out of reach." },
 			{ "speaker": "", "text": "Far off to the {tower_way}, over everything, the Tower stands. Looking at it hurts, and nobody could say why." },
 			{ "speaker": "{name}", "text": "Up. Whatever I was, it was up there. I am going back." },
+			{ "speaker": "", "text": "Something else came down with {name}, thrown clear into the furrow: a journal bound in cracked leather. Its pages are blank but for the first, and on the first, in a hand that might be their own, only the name." },
+			{ "speaker": "{name}", "text": "Then I will write the rest. Who walks with me, what we meet, where we have been." },
 			{ "speaker": "", "text": "The furrow is the nearest thing to a home this world has offered. It will do. A new standing quest: Ascend to heaven." }
 		]
 	},

@@ -57,6 +57,11 @@ func in_bounds(cell: Vector2i) -> bool:
 	return _terrain_ids.has(cell)
 
 
+## The terrain id under [param cell]: "grass", "brush", "crag"…
+func terrain_id_at(cell: Vector2i) -> String:
+	return str(_terrain_ids.get(cell, "grass"))
+
+
 func terrain_at(cell: Vector2i) -> Dictionary:
 	return Database.terrain_type(_terrain_ids.get(cell, "grass"))
 

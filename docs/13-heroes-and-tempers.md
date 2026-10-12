@@ -137,7 +137,7 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 | **N** | Reads generated trees as if the Codex were 25% further along | `Progression` |
 | **T** | +5% damage dealt | `Character.attack` |
 | **F** | Rescue grace +4pp per ally standing, cap +8pp | `Fate.graces_for` |
-| **J** | Opens a battle with +20 charge time | `TurnManager.setup` |
+| **J** | Opens a fight acting at once — its first look and swing come before anyone else's (was +20 charge time in the turn-based fight) | `Fighter._init` (`opening_ct`) |
 | **P** | +1 move point | `Character.move_points` |
 
 ## The screen

@@ -25,7 +25,7 @@ What stands between this audit and a public release, in order of weight.
 | # | Item | Status | Who |
 | --- | --- | --- | --- |
 | P1 | `audio/music/peace_sign.mp3`, `crossing_field.mp3`, `unravel.mp3` are fan covers of commercial anime songs (see [Audio](#audio)) | **dev only** — replace or license before any public release | founders |
-| P2 | Who made `angelic.wav` and `bday_project.wav`, and on what terms | **to confirm** | founders |
+| P2 | Who made `angelic.wav` and `bday_project.wav`, and on what terms | **Made by Ewan** (`dougie`, 2026-10-12, [D63](06-decisions.md)); Ewan is happy for them to ship ([D64](06-decisions.md)); credited as "Ewan" until a full name is given | founders |
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
 | P5 | PixelLab's terms for commercial use of generated art, on the plan the art was made with | **to confirm** | founders |
@@ -63,9 +63,10 @@ What stands between this audit and a public release, in order of weight.
 | `audio/music/peace_sign.mp3` (battle) | The file's own ID3 tags: "Peace Sign [8bit Cover] - My Hero Academia OP 2", artist **Soshu**, a YouTube upload (`te5cf77GvNQ`), re-encoded by ffmpeg. A fan cover of a commercial song | none known — both the cover and the song it covers belong to others | **dev only** (P1) — must be replaced or licensed before any public release |
 | `audio/music/crossing_field.mp3` (battle) | ID3 tags: "Sword Art Online - Crossing Field (Chiptune) TV SIZE", artist **Chunmeista**, YouTube (`eoKU-fIQia8`); the description calls it a fan-made render of the opening by LiSA | none known | **dev only** (P1) — must be replaced or licensed before any public release |
 | `audio/music/unravel.mp3` (game over) | ID3 tags: "Unravel - Tokyo Ghoul (8-Bit Remix Cover Version)", artist **8bitter studio**, YouTube (`J_RLFH7DgsY`); "Original: Unravel" by TK | none known | **dev only** (P1) — must be replaced or licensed before any public release |
-| `audio/music/angelic.wav` (title, hearth, road) | Ableton Live 12 project `audio/source/angelic.als` sits beside it, so it was made, not downloaded — **Inferred**. Built from Ableton Core Library instruments plus one third-party effect-rack preset ("TAPE EFFECTS 1 - JH"). Author not recorded | Ableton Core Library sounds; author's terms to confirm | **to confirm** (P2) |
-| `audio/music/bday_project.wav` (battle) | Ableton Live 12 project `audio/source/bday_project.als`; Core Library drum kits, loops and one-shots. Author not recorded | as above | **to confirm** (P2) |
+| `audio/music/angelic.wav` (title, hearth, road) | Ableton Live 12 project `audio/source/angelic.als` sits beside it, so it was made, not downloaded — **Inferred**. Built from Ableton Core Library instruments plus one third-party effect-rack preset ("TAPE EFFECTS 1 - JH"). Made by Ewan (`dougie`, 2026-10-12) | Ableton Core Library sounds; Ewan's OK to ship to confirm | **author known** (P2) |
+| `audio/music/bday_project.wav` (battle) | Ableton Live 12 project `audio/source/bday_project.als`; Core Library drum kits, loops and one-shots. Made by Ewan (`dougie`, 2026-10-12) | as above | **author known** (P2) |
 | `audio/sfx/hover.wav`, `select.wav` | Not recorded (no tags; mono 16-bit 44.1 kHz) | unknown | **to confirm** (P3) |
+| `audio/sfx/level_up.wav` | Made for the project on 2026-10-12 by Claude in code: four sine bells rising C–E–G–C, nothing sampled ([D67](06-decisions.md)) | the project's own | **cleared** |
 | `audio/source/` — the two `.als` projects and their `.asd` analysis files | Ableton Live working files | — | **not shipped** (`.gdignore`) |
 | `audio/source/memos/Game implementations.docx` / `.pdf` | Design memos, not audio | — | **not shipped** (`.gdignore`) |
 

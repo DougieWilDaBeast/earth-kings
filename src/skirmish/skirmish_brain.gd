@@ -1,7 +1,8 @@
 extends RefCounted
 ## Deciding, not doing: who a fighter goes after, and which ready skill it would
 ## use on whom. Returns plans; only [Skirmish] changes the fight (the mind seam,
-## [D03]), exactly as [EnemyBrain] does for the turn-based battle.
+## [D03]). Every side thinks with it: the enemy, allies fighting beside the
+## party, and the party itself when it is left to fight on its own.
 ##
 ## Enemy targeting is a fixed rule rather than a dice roll — Dungeon Settlers'
 ## players read random aggro as broken — and it never picks on the downed, so a

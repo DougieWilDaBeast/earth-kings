@@ -14,6 +14,8 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
@@ -551,8 +553,18 @@ func _check_class_prompt() -> void:
 	var member: Character = GameState.roster.party_members()[0]
 	member.class_id = ""
 	member.level = 1
+	member.xp = 0
 	member.pending_class_choice = false
+	# A level earned in play is announced with the numbers it changed ([D67]).
+	var heard: Array = []
+	var listen := func(_who: RefCounted, before: Dictionary) -> void: heard.append(before)
+	EventBus.levelled_up.connect(listen)
 	Progression.award(member, Progression.xp_to_next(1), GameState.world)
+	EventBus.levelled_up.disconnect(listen)
+	# Gentle may hand over more than one level's worth: one banner per level.
+	_expect(heard.size() == member.level - 1, "%d levels gained but %d announced" % [member.level - 1, heard.size()])
+	_expect(not heard.is_empty() and heard[0].has("max_hp") and heard[0].has("attack"),
+			"the level-up did not say what the numbers were before it")
 
 	_expect(member.pending_class_choice, "levelling to 2 did not ask for a class")
 	_expect(GameState.roster.awaiting_class_choice() == member, "the roster is not waiting on anyone")
@@ -563,6 +575,9 @@ func _check_class_prompt() -> void:
 
 	var options := Progression.class_options(member)
 	_expect(options.size() > 0, "a levelling character was offered no classes")
+	screen.open_on_growth(member)
+	var cards := _buttons_reading(screen._page_box, "Walk this path")
+	_expect(cards.size() == options.size(), "%d paths offered but %d cards to choose from" % [options.size(), cards.size()])
 	_expect(not screen.choose_class(member, "no_such_class"), "the picker accepted a made-up class")
 	_expect(screen.choose_class(member, options[0]), "the picker rejected a valid choice")
 	_expect(not member.pending_class_choice, "the prompt did not clear when answered")
@@ -570,9 +585,57 @@ func _check_class_prompt() -> void:
 	print("class prompt: %s offered %s, settled as %s" % [
 		member.display_name, str(options), member.class_name_text()
 	])
+	_check_power_trail(screen, member)
+	_check_company_sheet()
 
 	_check_party_screen(screen)
 	screen.queue_free()
+
+
+## A tree of powers is a trail of stones, and the one that can be taken is one
+## press ([D67]).
+func _check_power_trail(screen: PartyScreen, member: Character) -> void:
+	var kept_rungs := member.rungs
+	var kept_trees := member.trees.duplicate()
+	var kept_learned := member.learned.duplicate()
+	Progression.unlock_tree(member, GameState.world)
+	if member.rungs <= 0:
+		member.rungs = 1
+	screen.open_on_growth(member)
+	var stones := _buttons_reading(screen._page_box, "I").filter(func(b: Button) -> bool: return not b.disabled)
+	_expect(stones.size() >= 1, "no stone on the new tree could be pressed")
+	if not stones.is_empty():
+		var before := member.learned.size()
+		(stones[0] as Button).pressed.emit()
+		_expect(member.learned.size() == before + 1, "pressing the glowing stone took no power")
+	member.rungs = kept_rungs
+	member.trees = kept_trees
+	member.learned = kept_learned
+
+
+## The journal opens at the Company, and every companion has a sheet ([D67]).
+func _check_company_sheet() -> void:
+	var journal: JournalScreen = load("res://src/ui/journal_screen.tscn").instantiate()
+	add_child(journal)
+	journal.open()
+	_expect(journal.open_tab() == "company", "the journal opened at %s, not the Company" % journal.open_tab())
+	var entries := journal._list.get_children()
+	_expect(entries.size() == GameState.roster.party_members().size(), "the Company lists %d of %d" % [
+		entries.size(), GameState.roster.party_members().size()
+	])
+	for entry: Node in entries:
+		(entry as Button).pressed.emit()
+		_expect(journal._page.get_child_count() > 3, "a companion's sheet came out nearly blank")
+	_expect(journal.turn_to("bestiary") and journal.open_tab() == "bestiary", "the Bestiary ribbon does not turn")
+	_expect(not journal.turn_to("no_such_tab"), "the journal turned to a tab it has no ribbon for")
+	journal.close()
+	journal.queue_free()
+
+
+func _buttons_reading(root: Node, text: String) -> Array:
+	return root.find_children("*", "Button", true, false).filter(
+		func(b: Node) -> bool: return (b as Button).text == text
+	)
 
 
 func _check_party_screen(screen: PartyScreen) -> void:
@@ -1062,11 +1125,15 @@ func _check_objectives() -> void:
 	Pace.auto = false
 	heart["ambush"] = true
 	var battle := _open_battle(heart)
-	_expect(battle.objective == Site.OBJECTIVE_HEART, "the battle forgot it was a heart fight")
+	_expect(battle.objective == Site.OBJECTIVE_HEART, "the fight forgot it was a heart fight")
 	_expect(not battle._objective_met(), "a heart fight was won before anyone moved")
-	var runner: Unit = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)[0]
-	runner.cell = battle.heart_cell
+	var runner: Fighter = battle.party_fighters()[0]
+	runner.unit.cell = battle.heart_cell
+	runner.hold = true
 	_expect(battle._objective_met(), "standing on the heart did not win the floor")
+	battle.manual = true
+	battle.tick()
+	_expect(battle.over and battle.victory, "reaching the heart did not end the fight in the party's favour")
 	battle.free()
 
 	gate.data["objective"] = Site.OBJECTIVE_GUARDIAN
@@ -1075,9 +1142,12 @@ func _check_objectives() -> void:
 	keeper["ambush"] = true
 	battle = _open_battle(keeper)
 	_expect(not battle._objective_met(), "a keeper fight was won with the keeper standing")
-	for unit: Unit in battle.units:
-		if unit.has_meta("boss"):
-			unit.hp = 0
+	var keepers := 0
+	for f: Fighter in battle.fighters:
+		if f.unit.has_meta("boss"):
+			keepers += 1
+			f.unit.hp = 0
+	_expect(keepers > 0, "a keeper fight fielded no keeper")
 	_expect(battle._objective_met(), "felling the keeper did not win the floor")
 	battle.free()
 
@@ -1103,9 +1173,12 @@ func _check_allies() -> void:
 	Pace.auto = false
 	meeting["ambush"] = true
 	var battle := _open_battle(meeting)
-	var allies: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.ALLY)
-	var party: Array = battle.units.filter(func(u: Unit) -> bool: return u.team == Unit.Team.PLAYER)
-	var foes: Array = battle.units.filter(func(u: Unit) -> bool: return not u.sides_with_party())
+	var allies: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
+	var party: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.PLAYER) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
+	var foes: Array = battle.fighters.filter(func(f: Fighter) -> bool: return not f.unit.sides_with_party()) \
+			.map(func(f: Fighter) -> Unit: return f.unit)
 	_expect(allies.size() == 2, "%d allies took the field" % allies.size())
 	if not allies.is_empty() and not party.is_empty() and not foes.is_empty():
 		var ally: Unit = allies[0]
@@ -1115,8 +1188,7 @@ func _check_allies() -> void:
 			not AbilityResolver.is_valid_target(party[0], Database.ability("strike"), ally),
 			"the party can strike its own allies"
 		)
-		var plan := EnemyBrain.plan(ally, battle.grid, battle.pathfinder, battle.units)
-		var target: Unit = plan["target"]
+		var target: Unit = SkirmishBrain.pick_target(battle.fighter_of(ally), battle.fighters)
 		_expect(target == null or not target.sides_with_party(), "an ally went for someone on its own side")
 	battle.free()
 	Pace.auto = setting
@@ -1459,10 +1531,10 @@ func _check_muster() -> void:
 	world.musters = kept_musters
 
 
-## A training battle on [param meeting], built and left at the party's first orders.
+## A training fight on [param meeting], built and left paused before anyone moves.
 func _open_battle(meeting: Dictionary) -> Node:
-	var battle: Node = load("res://src/battle/battle.tscn").instantiate()
-	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world"}
+	var battle: Node = load("res://src/skirmish/skirmish.tscn").instantiate()
+	battle.boot_payload = {"encounter": meeting, "sandbox": true, "return_scene": "world", "paused": true}
 	add_child(battle)
 	return battle
 
@@ -1534,7 +1606,7 @@ func _wander(count: int) -> int:
 
 func _last_battle_request() -> Dictionary:
 	for i in range(_requests.size() - 1, -1, -1):
-		if _requests[i]["key"] == "battle":
+		if _requests[i]["key"] == "skirmish":
 			return _requests[i]
 	return {}
 

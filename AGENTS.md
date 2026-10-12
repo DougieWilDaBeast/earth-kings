@@ -16,7 +16,7 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
 
 ## Commands
 - Run: open `project.godot` in Godot and press F5.
-- Test: `.\ek.ps1 test` (Windows) or `./ek.sh test` (Linux/macOS): thirteen headless suites.
+- Test: `.\ek.ps1 test` (Windows) or `./ek.sh test` (Linux/macOS): twelve headless suites.
   One suite: `./ek.sh test walk`. One check: `godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate`.
 - Soak: `./ek.sh soak 120` — the game plays itself on seed 77, then saves, loads and saves again.
 - Ledger: `./ek.sh ledger` — the Question Book and `answers.md` agree (run after any worldbuilding edit).
@@ -36,6 +36,12 @@ And for the worldbuilding ledger (`docs/worldbuilding/`):
 - **A quote is never edited.** Voice-note transcripts stay exactly as spoken.
 - Only a founder settles a question. A source, a draft or a model can propose; it cannot answer.
 - Anything inferred is written `**Inferred.**` and goes back to the founders to confirm.
+
+## Art requests
+Only `dougie` generates art (PixelLab). When a change needs art that does not exist yet, add a row to
+**Open** in [docs/24-art-requests.md](docs/24-art-requests.md) in the same change — what it is, size
+and look, and where it goes — and tell `doug-md` there is art for `dougie` to make. Finished art arrives
+in `DROP-ZONE/<request id>/`; moving it into `art/` closes the row.
 
 Commits: `feat(M14): …`, `fix: …`, `docs: …`, `tools: …` — the milestone in brackets when there is one.
 Update the docs a change touches in the same commit.

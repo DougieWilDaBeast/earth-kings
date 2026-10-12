@@ -19,7 +19,7 @@ if ! command -v "$GODOT" >/dev/null 2>&1; then
   echo "Godot 4.7 was not found. Put it on the PATH or set EK_GODOT=/path/to/godot."
   exit 1
 fi
-SUITES=(battle skirmish experience dispatch names world walk area skein wishlist controls seams art)
+SUITES=(skirmish experience dispatch names world walk area skein wishlist controls seams art)
 
 # The first run of a fresh checkout has no .godot/ cache; importing first keeps
 # the import chatter out of the first suite's output.

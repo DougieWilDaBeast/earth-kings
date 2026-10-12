@@ -157,7 +157,7 @@ func _refresh_choosing() -> void:
 func _begin() -> void:
 	var live := bool(boot_payload.get("live_run", false))
 	Arena.open(_hero, _card, _wager_mult, live)
-	EventBus.request_scene.emit("battle", Arena.wave(_rng, boot_payload))
+	EventBus.request_scene.emit("skirmish", Arena.wave(_rng, boot_payload))
 
 
 # --- between rounds -----------------------------------------------------------
@@ -184,7 +184,7 @@ func _settle_the_round() -> void:
 	var again := Button.new()
 	again.theme_type_variation = &"GrandButton"
 	again.text = "Round %d" % Arena.round_number()
-	again.pressed.connect(func() -> void: EventBus.request_scene.emit("battle", Arena.wave(_rng, boot_payload)))
+	again.pressed.connect(func() -> void: EventBus.request_scene.emit("skirmish", Arena.wave(_rng, boot_payload)))
 	Sfx.attend(again)
 	_actions.add_child(again)
 

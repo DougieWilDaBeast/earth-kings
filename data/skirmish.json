@@ -21,7 +21,9 @@
 		"items_per_fighter": 2,
 		"block_chance": 0.15,
 		"block_per_defence": 0.01,
-		"block_max": 0.4
+		"block_max": 0.4,
+		"ambush_head_start": 2.0,
+		"swings_per_practice": 3
 	},
 	"passives": {
 		"shieldwall": {
@@ -163,5 +165,15 @@
 	"training_pouch": {
 		"herbs": 2,
 		"red_draught": 1
+	},
+	"decor": {
+		"trees": [
+			"nature/sycamore_tree", "nature/copse", "nature/apple_tree", "nature/birch",
+			"nature/great_oak", "nature/round_tree", "nature/holly_tree", "nature/autumn_tree"
+		],
+		"bushes": [
+			"nature/briar_bush", "nature/briar_bush_2", "nature/hazel_bush", "nature/hedge_2",
+			"nature/bramble", "nature/holly_tree_2"
+		]
 	}
 }

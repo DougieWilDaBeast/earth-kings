@@ -3,8 +3,7 @@ extends RefCounted
 ## what it is doing, and what it is waiting on.
 ##
 ## The [Unit] is still the puppet that is drawn and hit; this is the part a turn
-## used to hold. Kept apart so the turn-based battle is untouched while the two
-## are compared.
+## used to hold.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
@@ -50,6 +49,9 @@ var step_total: float = 0.0
 var near_death: float = 0.0
 ## Out of the fight for good, one way or the other.
 var fallen: bool = false
+## What [Fate] said when this party member's fall was settled in a fight the
+## world started: {outcome, reason, line}; empty until then.
+var settled: Dictionary = {}
 ## Kneeling beside a downed ally: seconds of aid still to give.
 var aiding: float = 0.0
 
@@ -58,6 +60,8 @@ var swings: int = 0
 var casts: int = 0
 ## Times a grace stood this fighter back up in the near-death window.
 var graces: int = 0
+## Landed basic swings not yet counted as practice (`rules.swings_per_practice`).
+var practice_swings: int = 0
 
 ## What it does without being asked: entries from `data/skirmish.json` → `passives`.
 var passives: Array = []

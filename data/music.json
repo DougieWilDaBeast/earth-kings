@@ -7,7 +7,7 @@
 		"credits": "title",
 		"world": "road",
 		"area": "road",
-		"battle": "battle",
+		"skirmish": "battle",
 		"coliseum": "battle",
 		"summary": "game_over"
 	},

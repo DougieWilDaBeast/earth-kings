@@ -72,7 +72,7 @@ var last_save_steps: int = 0
 var _in_run: bool = false
 
 ## Scenes that are the run itself.
-const RUN_SCENES := ["world", "area", "battle", "skirmish"]
+const RUN_SCENES := ["world", "area", "skirmish"]
 
 
 func _ready() -> void:

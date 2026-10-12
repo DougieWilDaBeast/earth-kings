@@ -335,7 +335,7 @@ has decided is the villain.
 ## Sixteen ways to fight
 
 No two of these styles share a passive. All of them fit the real-time fight
-([18](18-combat-direction.md#the-prototype)): four moves on Q W E R and one passive.
+([18](18-combat-direction.md#the-fight)): four moves on Q W E R and one passive.
 
 | How it wins | Styles |
 | --- | --- |

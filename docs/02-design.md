@@ -139,7 +139,10 @@ character survived is always a specific, tellable thing rather than a shrug.
 | **Capture** | Set by who beat them — raiders 40%, soldiers 30%, beasts 0%  | **Taken alive.** Leaves the party, held at the nearest keep or gate |
 | —           | Nothing landed                                               | **Dead.** Permanently                                               |
 
-Survivors come back at 25% of max HP; captives at 10%. Measured over 200 falls: a lone,
+In a fight the graces are rolled when a downed character's twelve seconds run out with nobody
+there to help them up; saved, they are back on their feet in the fight. Anyone still down when the
+fight is won is carried off alive; anyone still down when it is lost falls then
+([D65](06-decisions.md)). Survivors come back at 25% of max HP; captives at 10%. Measured over 200 falls: a lone,
 unarmed, unread character against a beast dies **186 times out of 200**. Two allies standing lifts
 that from 7% to 31%; one book read lifts it to 17%.
 
@@ -290,31 +293,30 @@ charms go into the player's pocket; anything nobody currently gains from is pack
 marching stores (`GameState.stores`) to be swapped or sold later. Only items worse than anything
 carried by anyone are liquidated on the spot. Camp provides an interactive strongbox stash
 (`GameState.camp_stash`) for long-term reserves. Consumable draughts can be drunk from the packs on
-the party screen or during battle as a bonus action.
+the party screen, or in a fight from the fighter's card, two a fighter a fight ([D59](06-decisions.md)).
 
 ## Battle
 
-_Changing_ ([D36](06-decisions.md), [18](18-combat-direction.md)): real time with pause,
-point-and-click, four active abilities, animated attacks — after a research deep dive and a
-prototype. Until then, unchanged from the tactics core and already working:
+**Real time with pause** ([D36](06-decisions.md), chosen in [D58](06-decisions.md),
+[D63](06-decisions.md) and [D64](06-decisions.md)): every fight in the game, from a band on the
+road to the Tower's apex, the coliseum and training. The whole of it — controls, passives, roles,
+energy, and what is written back — is in [18 — The fight](18-combat-direction.md#the-fight).
 
-- Square grid, per-tile move cost, height and jump.
-- **Charge-time turn order** — each tick every unit gains CT equal to its speed and acts at 100,
-  so fast units act _more often_, not merely sooner.
-- **Your ready units act as a squad.** Every player unit at 100 CT takes the phase together;
-  **Tab** (Shift+Tab to go back) switches between the ones who still have something to spend,
-  and clicking one selects it. Enemies still act one at a time.
+- Square grid, per-tile move cost, height and jump; one unit a tile, stepped tile to tile at a
+  pace set by move points.
+- **Nobody waits for a turn.** Everyone swings on a tempo set by their speed, and skills on `Q W E R`
+  come back on cooldowns and cost energy. The fight opens paused, and orders can be given while
+  paused; Auto Skill hands a fighter's skills to the fight.
 - **Allies** can stand with the party (`Unit.Team.ALLY`, a pale blue ring). They form up on the
-  back row, act one at a time under the enemy AI, and are never struck by the party. They earn no
+  back row, fight on their own as the enemy does, and are never struck by the party. They earn no
   experience and no journal pages, and their falling is not the party's: the fight is lost when the
   party is down, whoever else is standing.
-- **An action and a bonus action each turn.** An ability costs the action; moving costs either
-  and spends the bonus first; flash stepping and abilities flagged `"bonus": true` cost the bonus.
-  "Wait" gives up what that character has left, not the whole phase.
-- **Flash step** — a blink to any free tile within range, ignoring move cost, height and anyone
-  in the way. Granted by a unit template or a class (`flash_step`).
+- **Falling** is a twelve-second window a companion can reach; after it, [Fate](#falling--death-and-its-graces) decides.
 - **Facing matters**: side hits deal 1.1×, back hits 1.2× ([D59](06-decisions.md)). Units turn as they move.
-- Damage is `max(1, attack × power − defense)` with ±10% variance.
+- Damage is `max(1, attack × power − defense)` with ±10% variance; everyone fights with three times
+  their health (`HEALTH_SCALE`), and wounds carry out as a share.
+- **Flash step** (`flash_step`, from a template or a class) has no real-time form yet: the stat is
+  kept, and nothing in the fight uses it.
 
 Battlefields for wild encounters and delves are **generated** from the world terrain you were
 standing on; hand-authored maps in `data/maps/` remain for set pieces.

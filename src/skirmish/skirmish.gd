@@ -1,16 +1,18 @@
 extends Node2D
-## The real-time fight — the M11 prototype of [D36]
-## (see `docs/18-combat-direction.md` and
+## The fight: real time with pause, the M11 build of [D36] that both founders
+## chose ([D58], [D63], [D64]; see `docs/18-combat-direction.md` and
 ## `docs/investigation/07-dungeon-settlers-combat.md`).
 ##
-## Same grid, same units, same damage maths as [Battle]; what changes is time.
-## Nobody waits for a turn: units walk tile to tile at their own pace, swing
-## on their own tempo, and skills come back on cooldowns. The player can pause
-## at any moment and give orders while paused.
+## Every fight the world starts comes here — a band on the road, a gate floor
+## and its objective, the Tower, a guild muster, the coliseum and the training
+## yard. Nobody waits for a turn: units walk tile to tile at their own pace,
+## swing on their own tempo, and skills come back on cooldowns. The player can
+## pause at any moment and give orders while paused.
 ##
-## A training fight only, for now: nothing is written back onto the world, and
-## the party walks off healed. It sits beside [Battle] until both have been
-## played and one of them chosen.
+## A fight the world started is written back onto the world, as the turn-based
+## battle it replaced was ([D65]): experience from first kills and assists,
+## practice, the journal, wounds, and the fallen settled through [Fate]. A
+## `sandbox` fight (training, the coliseum) writes nothing onto the world.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
@@ -59,13 +61,27 @@ var boot_payload: Dictionary = {}
 @onready var hud: SkirmishHUD = $HUD
 
 var map_id: String = DEFAULT_MAP
+## What the fight is called on the clock: the encounter's title, else the map's name.
+var title: String = "A fight"
+## Set when the fight came from the world rather than an authored map.
 var encounter: Dictionary = {}
+## A training or coliseum fight: nobody really dies and the world is not told.
+var sandbox: bool = false
+## Whether the party learns from this fight: experience and practice. Always in
+## a fight the world started; in a sandbox only when the payload asks (`learn`),
+## as the coliseum does for the copy of the company it sends out ([D65]).
+var learning: bool = true
+## What winning takes (see [method Site.floor_objective]); rout unless a gate says otherwise.
+var objective: String = Site.OBJECTIVE_ROUT
+## The cell a party member has to reach on a heart floor.
+var heart_cell: Vector2i = Vector2i(-1, -1)
 var pathfinder: Pathfinder
 var fighters: Array[Fighter] = []
 ## Party fighters taking orders; the first is the one quick-slot keys speak for.
 var selected: Array[Fighter] = []
-## The party's draughts and herbs for this fight, item id → how many (D59). Copied
-## from the stores, or the training pouch when they are empty; never written back.
+## The party's draughts and herbs for this fight, item id → how many (D59). Counted
+## from the stores; what is used comes out of them too, except in a sandbox
+## fight, which draws on the training pouch when the stores are empty ([D65]).
 var pouch: Dictionary = {}
 ## Where the left button went down, in the field's own space, while it is held.
 var _press_at: Vector2 = Vector2.INF
@@ -105,14 +121,27 @@ var _hit_style: String = ""
 var _hitstop: float = 0.0
 ## How hard the camera is shaking, in pixels; dies away by itself.
 var _shake: float = 0.0
+## Unit -> the Characters who healed it this fight, for a healer's assist ([D54]).
+var _healed_by: Dictionary = {}
+## What the ledger was doing before a sandbox fight switched it off.
+var _kept_tallying: bool = true
+## Lines worth saying once the log is up: the ambush, the allies, the objective.
+var _opening: Array[String] = []
+## Whether the clock has been started yet, for the first-time tip on facing.
+var _started: bool = false
 
 
 func _ready() -> void:
 	map_id = str(boot_payload.get("map_id", DEFAULT_MAP))
 	encounter = boot_payload.get("encounter", {})
-	# Nothing done in here belongs in the run's ledger.
-	GameState.tallying = false
-	paused = bool(boot_payload.get("paused", true))
+	sandbox = bool(boot_payload.get("sandbox", false))
+	learning = bool(boot_payload.get("learn", not sandbox))
+	# Nothing done on the training ground or the sand belongs in the run's ledger.
+	_kept_tallying = GameState.tallying
+	if sandbox:
+		GameState.tallying = false
+	# A party playing itself does not wait at the start for a key nobody presses.
+	paused = bool(boot_payload.get("paused", not Pace.auto))
 	touch = bool(boot_payload.get("touch", Pace.is_touch_enabled()))
 	grace_rng.seed = randi()
 	fx = SkirmishFx.new()
@@ -123,6 +152,7 @@ func _ready() -> void:
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.unit_healed.connect(_on_unit_healed)
+	Pace.changed.connect(_on_pace_changed)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
 	hud.action_pressed.connect(act)
@@ -132,13 +162,24 @@ func _ready() -> void:
 	if not party.is_empty():
 		_select([party[0]])
 	var begin := "tap Pause" if touch else (Pad.key("command_wait") if Pad.using_pad else "Space")
-	_say("A real-time skirmish. The fight is paused — %s to begin." % begin if paused \
-			else "A real-time skirmish.")
+	_say("The fight is paused — %s to begin." % begin if paused else "The fight is on.")
+	for line in _opening:
+		_say(line)
 	EventBus.battle_started.emit(map_id)
 
 
 func _exit_tree() -> void:
-	GameState.tallying = true
+	GameState.tallying = _kept_tallying
+	if Pace.changed.is_connected(_on_pace_changed):
+		Pace.changed.disconnect(_on_pace_changed)
+
+
+## Autoplay is switched from more places than this screen — the touch bar, a
+## soak, the walk the fight was started from — so the fight notices it here.
+## A party playing itself is never left standing on a paused clock.
+func _on_pace_changed() -> void:
+	if Pace.auto and paused and not over:
+		set_paused(false)
 
 
 # --- setup -------------------------------------------------------------------
@@ -147,6 +188,7 @@ func _exit_tree() -> void:
 func _build_battlefield() -> void:
 	var map: Dictionary = encounter.get("map", {}) if not encounter.is_empty() else Database.map(map_id)
 	grid.load_map(map)
+	title = str(encounter.get("title", map.get("name", title)))
 	overlay.grid = grid
 	pathfinder = Pathfinder.new(grid)
 	# The party cards cover the bottom of the screen, so the camera frames the
@@ -157,24 +199,143 @@ func _build_battlefield() -> void:
 	camera.focus_on(framed.get_center(), true)
 	units_root.y_sort_enabled = true
 
+	_spawn_nature_decor(map)
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
 	var taken: Array[Vector2i] = []
-	for entry: Dictionary in map.get("enemies", []):
+	for entry: Dictionary in map.get("enemies", []) + map.get("allies", []):
 		taken.append(_to_cell(entry.get("cell", [0, 0])))
 	var cells := grid.muster_cells(spawns, members.size(), taken)
+	if cells.size() < members.size():
+		push_warning("Skirmish: map %s has no room for the whole party" % map_id)
 	for i in mini(members.size(), cells.size()):
 		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, cells[i]))
-	for entry: Dictionary in map.get("enemies", []):
+	_spawn_others(map.get("enemies", []), Unit.Team.ENEMY)
+	_spawn_others(map.get("allies", []), Unit.Team.ALLY)
+	_face_the_other_side()
+	_write_them_up(map)
+
+	if bool(encounter.get("ambush", false)):
+		_give_the_party_the_jump()
+		_opening.append("Ambush! The company is on them before they are ready.")
+	if not map.get("allies", []).is_empty():
+		_opening.append("%d stand with you." % map["allies"].size())
+	var confrontation := str(encounter.get("confrontation", ""))
+	if confrontation != "":
+		_opening.append(confrontation)
+	_set_objective(map)
+
+
+## The enemy (or, with [param side] ALLY, those fighting beside the party) from
+## the map. A levelled entry is a throwaway [Character], so it grows the way the
+## party does; an entry may name itself, mark itself the keeper (`boss`), or
+## pick its own side (`team`, for the coliseum's brawls).
+func _spawn_others(entries: Array, side: Unit.Team) -> void:
+	for entry: Dictionary in entries:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
 		var level := int(entry.get("level", 0))
+		var unit_team: Unit.Team = int(entry.get("team", side)) as Unit.Team
+		var custom_name := str(entry.get("name", ""))
+		var unit: Unit
 		if level <= 0:
-			_enlist(Unit.create(str(entry.get("unit", "")), Unit.Team.ENEMY, cell))
+			unit = Unit.create(str(entry.get("unit", "")), unit_team, cell)
+		else:
+			var foe := Character.create(str(entry.get("unit", "")))
+			if custom_name != "":
+				foe.display_name = custom_name
+			Progression.raise_quietly(foe, level, GameState.world)
+			unit = Unit.from_character(foe, unit_team, cell)
+		if custom_name != "":
+			unit.display_name = custom_name
+		if bool(entry.get("boss", false)):
+			unit.set_meta("boss", true)
+		_enlist(unit)
+
+
+## The real-time form of an ambush's first-round initiative: the party moves
+## at once, and the other side's opening is held back `ambush_head_start` seconds.
+func _give_the_party_the_jump() -> void:
+	var head_start := SkirmishPassives.rule("ambush_head_start", 2.0)
+	for f in fighters:
+		if f.unit.sides_with_party():
+			f.attack_timer = 0.0
+			f.think_timer = 0.0
+		else:
+			f.attack_timer += head_start
+			f.think_timer += head_start
+
+
+func _set_objective(map: Dictionary) -> void:
+	objective = str(encounter.get("objective", Site.OBJECTIVE_ROUT))
+	if objective == Site.OBJECTIVE_HEART:
+		if not map.has("heart"):
+			objective = Site.OBJECTIVE_ROUT
+			return
+		heart_cell = _to_cell(map["heart"])
+		overlay.objective_cell = heart_cell
+	if objective != Site.OBJECTIVE_ROUT:
+		_opening.append("%s — %s" % [Site.objective_name(objective), Site.objective_brief(objective)])
+
+
+## Open a journal entry for anything the party has not stood across from before.
+## Training fights are not written down — knowing a thing from the sandbox
+## would be knowing it for free.
+func _write_them_up(map: Dictionary) -> void:
+	if sandbox:
+		return
+	var place := str(map.get("name", encounter.get("title", "somewhere")))
+	for f in fighters:
+		if f.unit.sides_with_party():
 			continue
-		var foe := Character.create(str(entry.get("unit", "")))
-		Progression.raise_quietly(foe, level, GameState.world)
-		_enlist(Unit.from_character(foe, Unit.Team.ENEMY, cell))
-	_face_the_other_side()
+		if Journal.sighted(GameState.world, f.unit.template_id, place):
+			_opening.append("%s is new. The journal opens a page." % f.unit.display_name)
+
+
+## Trees on the crags, walls and some of the edge, bushes in the brush, drawn
+## at the size `data/props.json` gives them for a fight. Scenery only.
+func _spawn_nature_decor(map: Dictionary) -> void:
+	var trees: Array = Database.skirmish.get("decor", {}).get("trees", [])
+	var bushes: Array = Database.skirmish.get("decor", {}).get("bushes", [])
+	if trees.is_empty() and bushes.is_empty():
+		return
+	var spawn_cells: Array[Vector2i] = []
+	for p in map.get("player_spawns", []):
+		spawn_cells.append(_to_cell(p))
+	for e: Dictionary in map.get("enemies", []) + map.get("allies", []):
+		spawn_cells.append(_to_cell(e.get("cell", [0, 0])))
+	for y in grid.height:
+		for x in grid.width:
+			var cell := Vector2i(x, y)
+			if cell in spawn_cells:
+				continue
+			var terrain_id := grid.terrain_id_at(cell)
+			var seed_val := absi(hash(cell))
+			var edge := x == 0 or x == grid.width - 1 or y == 0 or y == grid.height - 1
+			if not trees.is_empty() and (terrain_id == "crag" or terrain_id == "wall" \
+					or (edge and terrain_id != "brush" and seed_val % 3 == 0)):
+				_plant(str(trees[seed_val % trees.size()]), cell, 1.0)
+			elif not bushes.is_empty() and terrain_id == "brush":
+				_plant(str(bushes[seed_val % bushes.size()]), cell, 0.88)
+
+
+## One piece of scenery standing on [param cell]: its roots on the cell's lower
+## edge, at the size the props table gives it for a fight, scaled to a cell.
+func _plant(art_id: String, cell: Vector2i, alpha: float) -> void:
+	var path := "res://art/props/%s.png" % art_id
+	if not ResourceLoader.exists(path):
+		return
+	var texture: Texture2D = load(path)
+	var size := float(Database.prop_size(art_id)["battle_scale"]) * BattleGrid.CELL_SIZE / 64.0
+	var painted := AreaProp.painted_rect(art_id, texture)
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.scale = Vector2(size, size)
+	sprite.position = grid.cell_to_world(cell) + Vector2(
+		-painted.get_center().x * size, BattleGrid.CELL_SIZE * 0.4 - painted.end.y * size)
+	sprite.modulate = Color(1.0, 1.0, 1.0, alpha)
+	units_root.add_child(sprite)
 
 
 func _enlist(unit: Unit) -> void:
@@ -192,7 +353,8 @@ func _fill_pouch() -> void:
 	for item_id in GameState.stores:
 		if Gear.is_draught(str(item_id)):
 			pouch[str(item_id)] = int(pouch.get(str(item_id), 0)) + 1
-	if pouch.is_empty():
+	# Only training hands out a pouch of its own; on the road it is what you carry.
+	if pouch.is_empty() and sandbox:
 		pouch = (Database.skirmish.get("training_pouch", {}) as Dictionary).duplicate()
 
 
@@ -241,6 +403,9 @@ func _finish_item(f: Fighter) -> void:
 	if int(pouch[item_id]) <= 0:
 		pouch.erase(item_id)
 	f.items_used += 1
+	# In a fight the world started, what is drunk is gone from the stores ([D65]).
+	if not sandbox:
+		GameState.stores.erase(item_id)
 	# Health is scaled up for real time, so what a draught mends is too.
 	var amount := roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE)
 	f.unit.heal(amount)
@@ -289,7 +454,8 @@ func _blocks(f: Fighter, victim: Fighter, ability_id: String) -> bool:
 	return randf() < chance
 
 
-## Both lines start looking at each other, as in [Battle].
+## Both lines start looking at each other, so the opening exchange is not a
+## free blow at the back of whoever happened to face the wrong way.
 func _face_the_other_side() -> void:
 	for f in fighters:
 		var centre := Vector2.ZERO
@@ -307,7 +473,10 @@ func _face_the_other_side() -> void:
 
 func _process(delta: float) -> void:
 	_feel(delta)
-	if not manual and not paused and not over and _hitstop <= 0.0:
+	if not manual and not paused and not over and _hitstop <= 0.0 and not _held_by_a_screen():
+		if not _started:
+			_started = true
+			EventBus.tip_moment.emit("facing", {})
 		# Engine.time_scale already folds the game speed into delta.
 		_accumulator += delta
 		var ticks := 0
@@ -339,6 +508,17 @@ func _feel(delta: float) -> void:
 	for f in fighters:
 		if f.bump > 0.0:
 			f.bump = maxf(0.0, f.bump - delta * 7.0)
+
+
+## The menu, the journal, a conversation: while one is open in front of a fight
+## played by hand, the clock waits for it. A party playing itself plays on.
+func _held_by_a_screen() -> bool:
+	if Pace.auto:
+		return false
+	for node in get_tree().get_nodes_in_group(EventBus.MODAL_OVERLAY_GROUP):
+		if node.has_method("is_open") and node.is_open():
+			return true
+	return false
 
 
 func shake(strength: float) -> void:
@@ -387,8 +567,8 @@ func _tick_fighter(f: Fighter) -> void:
 			_auto_pause("%s's %s is ready." % [f.unit.display_name, f.slot_ability(i).get("display_name", "skill")])
 	if f.is_downed():
 		f.near_death -= SkirmishRules.TICK
-		if f.near_death <= 0.0 and not _grace(f):
-			_fall(f)
+		if f.near_death <= 0.0:
+			_window_ran_out(f)
 		return
 	f.attack_timer = maxf(0.0, f.attack_timer - SkirmishRules.TICK)
 	f.since_hit += SkirmishRules.TICK
@@ -463,6 +643,9 @@ func _think(f: Fighter) -> bool:
 		var reach := -1
 		if f.is_party():
 			reach = _basic_reach(f) if f.hold else SkirmishRules.PARTY_AGGRO_RANGE
+			# A party playing itself goes and finds the fight.
+			if Pace.auto and not f.hold:
+				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
 		# The company fights together: once one of them is in it, the rest
 		# come, unless told to hold.
@@ -532,7 +715,8 @@ func _nearest_hostile_distance(f: Fighter, cell: Vector2i) -> int:
 
 func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 	f.unit.face_towards(foe.cell)
-	_strike(f, foe, ability, f.basic)
+	if _strike(f, foe, ability, f.basic):
+		_practise_swing(f)
 	f.swings += 1
 	f.attack_timer = SkirmishRules.attack_interval(f.unit) * (1.0 - minf(0.5, _aura(f, "haste")))
 	# Echo Blade: now and then the same swing comes round again.
@@ -544,11 +728,17 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 
 ## One blow or one heal from [param f] onto [param target], with everything the
 ## passives add around [method AbilityResolver.apply]: criticals, flank and
-## last-stand bonuses, a charge, guard auras, lifesteal and thorns.
-func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> void:
+## last-stand bonuses, a charge, guard auras, lifesteal and thorns. Returns false
+## when it did not land (a shield took it).
+func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> bool:
 	if bool(ability.get("heal", false)):
 		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
-		return
+		_note_in_the_journal(f.unit, ability_id, target)
+		if target != f.unit and target.team == f.unit.team and f.unit.character != null:
+			var healers: Array = _healed_by.get_or_add(target, [])
+			if not healers.has(f.unit.character):
+				healers.append(f.unit.character)
+		return true
 	var victim := fighter_of(target)
 	if _blocks(f, victim, ability_id):
 		victim.blocks += 1
@@ -557,7 +747,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		victim.unit.face_towards(f.unit.cell)
 		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
 		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
-		return
+		return false
 	var multiplier := 1.0
 	var tags: Array[String] = []
 	if ability_id != f.basic and SkirmishRules.is_charged(ability):
@@ -594,6 +784,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	if not tags.is_empty():
 		line = "%s! %s" % [", ".join(tags).capitalize(), line]
 	_say(line)
+	_note_in_the_journal(f.unit, ability_id, target)
 	f.since_hit = 0.0
 	f.bump = 1.0
 	f.bump_dir = (target.position - f.unit.position).normalized()
@@ -607,6 +798,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	if steal > 0.0 and dealt > 0 and f.unit.hp < f.unit.max_hp:
 		f.unit.heal(maxi(1, roundi(float(dealt) * steal)))
 	if not target.is_alive():
+		_award_kill(f.unit, target)
 		_drop(victim)
 	# Barbed Guard: a blow from the next tile comes partly back.
 	if victim != null and dealt > 0 and Pathfinder.distance(f.unit.cell, target.cell) <= 1:
@@ -617,7 +809,9 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 			_hit_style = ""
 			if not f.unit.is_alive():
 				_say("%s is cut down on %s's guard." % [f.unit.display_name, target.display_name])
+				_award_kill(target, f.unit)
 				_drop(f)
+	return true
 
 
 ## The strongest of [param stat] that any aura over [param f] grants. Auras of
@@ -809,10 +1003,72 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 		_say("%s's %s hits nothing." % [f.unit.display_name, ability.get("display_name", "skill")])
 		return
 	fx.popup(str(ability.get("display_name", "skill")), f.unit.position + Vector2(0, -14), SkirmishFx.WORD, 13)
+	var landed := false
 	for target in hits:
 		if not f.is_standing():
 			break
-		_strike(f, target, ability, ability_id)
+		if _strike(f, target, ability, ability_id):
+			landed = true
+	# Counted once for the skill, not once per body it caught.
+	if landed:
+		_practise(f, ability_id)
+
+
+## A basic swing that landed. Swings come several times as often as a turn did,
+## so every `swings_per_practice` of them count as one use ([D65]).
+func _practise_swing(f: Fighter) -> void:
+	f.practice_swings += 1
+	if f.practice_swings < int(SkirmishPassives.rule("swings_per_practice", 3)):
+		return
+	f.practice_swings = 0
+	_practise(f, f.basic)
+
+
+## Getting better by doing (see [Proficiency]).
+func _practise(f: Fighter, ability_id: String) -> void:
+	if not learning:
+		return
+	var better := Proficiency.record(f.unit.character, ability_id)
+	if better != "":
+		_say(better)
+
+
+## Watching is how the journal fills in. You learn what a thing hits like by
+## being hit, what it is wearing by hitting it, and how much of it there is by
+## putting one down. Nothing is written down from a sandbox fight.
+func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
+	if sandbox or not user.is_hostile_to(target) or user.team == Unit.Team.ALLY:
+		return
+	var world: World = GameState.world
+	if user.team != Unit.Team.PLAYER:
+		Journal.note_ability(world, user.template_id, ability_id)
+		Journal.note_struck(world, user.template_id)
+		return
+	Journal.note_wounded(world, target.template_id)
+	if not target.is_alive():
+		Journal.note_felled(world, target.template_id)
+
+
+## Experience comes from the first of each kind, to whoever landed it; everyone
+## else still standing on the party's side counts an assist, fewer needed for
+## those who healed the killer ([D54]), and a keeper teaches them all ([D37],
+## see [method Progression.award_kill]).
+func _award_kill(killer: Unit, victim: Unit) -> void:
+	if not learning or killer == null or killer.character == null or killer.team != Unit.Team.PLAYER \
+			or not killer.is_hostile_to(victim):
+		return
+	var level := victim.character.level if victim.character != null else 1
+	var involved: Array = []
+	for other in fighters:
+		if other.unit != killer and other.is_standing() and other.unit.team == killer.team \
+				and other.unit.character != null:
+			involved.append(other.unit.character)
+	var boss := victim.has_meta("boss") and bool(victim.get_meta("boss"))
+	for line: String in Progression.award_kill(
+		killer.character, victim.template_id, level, involved, boss, GameState.world,
+		_healed_by.get(killer, [])
+	):
+		_say(line)
 
 
 ## Someone just hit zero. The party goes down and can still be reached; the
@@ -866,11 +1122,22 @@ func _mourn(f: Fighter) -> void:
 		_say("%s answers %s's fall: every skill is ready again." % [other.unit.display_name, f.unit.display_name])
 
 
-## The near-death window has run out with nobody there. Before they are gone,
-## the same graces the turn-based [Fate] rolls get their turn — a charm carried,
-## a companion standing, a book read, the ground — through [method Fate.roll],
-## with nothing written back: a training fight spends no charm and takes no
-## prisoners. Returns true if one landed and the fighter is back up.
+## The near-death window has run out with nobody there. In a fight the world
+## started this is the fall, settled for real ([method _settle_fallen]); in a
+## sandbox fight the graces get a roll with nothing written back, and if none
+## lands the fighter is out of it.
+func _window_ran_out(f: Fighter) -> void:
+	if sandbox or f.unit.character == null:
+		if not _grace(f):
+			_fall(f)
+		return
+	_settle_fallen(f)
+
+
+## A sandbox fall: the same graces [Fate] rolls — a charm carried, a companion
+## standing, a book read, the ground — through [method Fate.roll], with nothing
+## written back: a training fight spends no charm and takes no prisoners.
+## Returns true if one landed and the fighter is back up.
 func _grace(f: Fighter) -> bool:
 	var who := f.unit.character
 	if who == null:
@@ -878,6 +1145,38 @@ func _grace(f: Fighter) -> bool:
 	var grace := Fate.roll(who, grace_context(f), grace_rng, false)
 	if grace.is_empty():
 		return false
+	_stand_back_up(f, str(grace["reason"]))
+	_say(Fate.escape_line(who, grace))
+	return true
+
+
+## A party member's fall in a fight the world started, settled as the turn-based
+## battle settled it: [method Fate.resolve] rolls the graces and applies what
+## lands (a charm is spent, a prisoner taken), [signal EventBus.character_fell]
+## is told, and the dead get a memorial and the threads' notice. Saved by a
+## grace, they are back on their feet in the fight; pulled clear, taken or dead,
+## they are out of it, and what [Fate] wrote stands ([D65]).
+func _settle_fallen(f: Fighter) -> void:
+	var who := f.unit.character
+	var context := grace_context(f)
+	context["enemy_kind"] = _killer_kind()
+	var outcome := Fate.resolve(who, context, GameState.world.rng)
+	_say(str(outcome["line"]))
+	EventBus.character_fell.emit(who, outcome)
+	var reason := str(outcome.get("reason", ""))
+	if outcome["outcome"] == Fate.ALIVE and GRACE_WORDS.has(reason) and not over:
+		_stand_back_up(f, reason)
+		return
+	f.settled = outcome
+	_fall(f, false)
+	if outcome["outcome"] == Fate.DEAD:
+		Memorial.raise(GameState.world, who, GameState.world.player_cell, _killer_kind())
+		for line: String in Skein.on_character_fell(GameState.world, who.template_id):
+			_say(line)
+
+
+## Off the ground with what a grace gives back (`escape_recovery` of their health).
+func _stand_back_up(f: Fighter, reason: String) -> void:
 	f.near_death = 0.0
 	f.graces += 1
 	f.unit.hp = maxi(1, roundi(float(f.unit.max_hp) * float(Database.fate.get("escape_recovery", 0.25))))
@@ -886,9 +1185,7 @@ func _grace(f: Fighter) -> bool:
 	f.attack_timer = 1.0
 	f.since_hit = 0.0
 	fx.ring(f.unit.position, SkirmishFx.GRACE, 60.0)
-	fx.popup(GRACE_WORDS.get(grace["reason"], "Grace"), f.unit.position, SkirmishFx.GRACE, 18, 1.8)
-	_say(Fate.escape_line(who, grace))
-	return true
+	fx.popup(GRACE_WORDS.get(reason, "Grace"), f.unit.position, SkirmishFx.GRACE, 18, 1.8)
 
 
 ## What [Fate] needs to know about a downed fighter: who is still standing with
@@ -912,28 +1209,40 @@ func grace_odds(f: Fighter) -> float:
 	return Fate.odds(f.unit.character, grace_context(f))
 
 
+## What kind of thing is winning the fight, which decides whether prisoners are taken.
+func _killer_kind() -> String:
+	for f in fighters:
+		if not f.unit.sides_with_party() and f.is_standing():
+			return f.unit.kind()
+	return "default"
+
+
 ## Stop the clock on the player's behalf. Tests drive the fight themselves and
-## are never stopped.
+## are never stopped, and nor is a party playing itself.
 func _auto_pause(why: String) -> void:
-	if manual or over or paused:
+	if manual or over or paused or Pace.auto:
 		return
 	paused = true
 	_accumulator = 0.0
 	_say("Paused. %s" % why if why != "" else "Paused.")
 
 
-func _fall(f: Fighter) -> void:
+func _fall(f: Fighter, say_so: bool = true) -> void:
 	f.near_death = 0.0
 	f.fallen = true
 	f.unit.modulate = Color(0.35, 0.35, 0.4, 0.55)
-	_say("Nobody reached %s in time." % f.unit.display_name)
+	if say_so:
+		_say("Nobody reached %s in time." % f.unit.display_name)
 
 
 func _check_end() -> void:
 	var party_up := fighters.any(func(f: Fighter) -> bool: return f.is_party() and f.is_standing())
-	var foes_up := fighters.any(func(f: Fighter) -> bool: return not f.is_party() and f.is_standing())
-	if party_up and foes_up:
+	var foes_up := fighters.any(func(f: Fighter) -> bool:
+		return not f.unit.sides_with_party() and f.is_standing())
+	if party_up and foes_up and not _objective_met():
 		return
+	if party_up and foes_up:
+		_say(_objective_won_line())
 	over = true
 	victory = party_up
 	armed_slot = -1
@@ -941,21 +1250,92 @@ func _check_end() -> void:
 	for f in fighters:
 		f.unit.set_running(false)
 		f.cast = {}
-		if f.is_downed() and victory:
-			_say("%s is carried off the field." % f.unit.display_name)
 	_say("The field is yours after %.0f seconds." % sim_time if victory \
 			else "The company is down after %.0f seconds." % sim_time)
 	hud.show_result(victory)
-	# A training fight: everyone walks off whole, and the world never hears of it.
-	GameState.heal_party()
+	if sandbox:
+		# The coliseum carries its wounds between rounds; the training ground
+		# does not. Either way nothing is written back onto the world.
+		if bool(boot_payload.get("heal", true)):
+			GameState.heal_party()
+		else:
+			_carry_wounds()
+		GameState.set_flag(Arena.VICTORY_FLAG, victory)
+	else:
+		_settle_the_party()
+		if victory:
+			GameState.mark_battle_cleared(map_id)
+		GameState.set_flag("last_victory", victory)
+		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id})
 	finished.emit(victory)
 	if not manual:
 		_leave_the_field()
 
 
+## Whether the floor is won before the last enemy is down.
+func _objective_met() -> bool:
+	match objective:
+		Site.OBJECTIVE_GUARDIAN:
+			var keepers := fighters.filter(func(f: Fighter) -> bool:
+				return not f.unit.sides_with_party() and f.unit.has_meta("boss"))
+			return not keepers.is_empty() and not keepers.any(func(f: Fighter) -> bool: return f.is_standing())
+		Site.OBJECTIVE_HEART:
+			return fighters.any(func(f: Fighter) -> bool:
+				return f.is_party() and f.is_standing() and f.unit.cell == heart_cell)
+	return false
+
+
+func _objective_won_line() -> String:
+	if objective == Site.OBJECTIVE_HEART:
+		return "The heart is reached, and the floor gives way beneath the rest of them."
+	return "The keeper is down. What came with it breaks and scatters."
+
+
+## A party member's health in the fight as a share of the fight's maximum, which
+## is `HEALTH_SCALE` times their own.
+func _share_left(f: Fighter) -> float:
+	return float(maxi(0, f.unit.hp)) / float(maxi(1, f.unit.max_hp))
+
+
+## Wounds only. Used on the sand, where nobody rolls for their life because
+## nobody is really dying.
+func _carry_wounds() -> void:
+	for f in party_fighters():
+		var who := f.unit.character
+		if who == null:
+			continue
+		who.hp = clampi(roundi(_share_left(f) * float(who.max_hp())), 0, who.max_hp())
+
+
+## Write the fight back onto the people who fought it. Those still standing, and
+## any still down when the field was won — carried off by the rest ([D65]) —
+## keep their wounds as a share; anyone the company could not reach once it was
+## beaten falls for real; whoever [Fate] has already settled is left as it said.
+func _settle_the_party() -> void:
+	for f in party_fighters():
+		var who := f.unit.character
+		if who == null or not f.settled.is_empty():
+			continue
+		if f.is_downed() and not victory:
+			_settle_fallen(f)
+			continue
+		if f.is_downed():
+			_say("%s is carried off the field." % f.unit.display_name)
+			f.near_death = 0.0
+		# Wounds carry as a fraction, so a difficulty that made the party
+		# hardier does not write an impossible number back onto them.
+		var carried := _share_left(f)
+		if Difficulty.post_battle_heal_ratio() > 0.0:
+			carried = maxf(carried, Difficulty.post_battle_heal_ratio())
+		who.hp = clampi(roundi(carried * float(who.max_hp())), 1, who.max_hp())
+		Doctrine.reinforce_all(who, GameState.world.steps)
+	GameState.roster.drop_the_lost()
+
+
 func _leave_the_field() -> void:
 	await get_tree().create_timer(END_SCREEN_DELAY, true, false, true).timeout
-	EventBus.request_scene.emit(str(boot_payload.get("return_scene", "training")), {})
+	EventBus.request_scene.emit(str(boot_payload.get("return_scene", "world")),
+			boot_payload.get("return_payload", {}))
 
 
 # --- orders ------------------------------------------------------------------
@@ -1000,6 +1380,15 @@ func _free_cell_near(cell: Vector2i, taken: Array[Vector2i], mover: Fighter) -> 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if over:
+		return
+	# Back, from a key, a pad or the touch bar's button: a readied skill is put
+	# away, and with nothing readied it is the menu.
+	if not (event is InputEventMouse) and event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		if armed_slot >= 0:
+			_disarm()
+		else:
+			EventBus.system_menu_requested.emit()
 		return
 	if event is InputEventJoypadButton and event.pressed:
 		if _on_pad(event):
@@ -1051,9 +1440,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## Keys, said as the actions the touch buttons also send.
+## Pause and speed are the rebindable actions (`command_wait`, `battle_speed`).
 const KEY_ACTIONS := {
-	KEY_SPACE: "pause", KEY_T: "speed", KEY_Z: "auto_pause", KEY_TAB: "all",
-	KEY_A: "auto_skill", KEY_H: "hold",
+	KEY_Z: "auto_pause", KEY_TAB: "all", KEY_A: "auto_skill", KEY_H: "hold",
 }
 
 
@@ -1062,14 +1451,19 @@ func _on_key(event: InputEventKey) -> bool:
 	if slot >= 0:
 		act("slot%d" % slot)
 		return true
+	if event.is_action_pressed("command_wait"):
+		act("pause")
+		return true
+	if event.is_action_pressed("battle_speed"):
+		act("speed")
+		return true
 	if KEY_ACTIONS.has(event.keycode):
 		act(KEY_ACTIONS[event.keycode])
 		return true
-	if event.keycode == KEY_ESCAPE:
-		if armed_slot >= 0:
-			_disarm()
-		else:
-			EventBus.system_menu_requested.emit()
+	# The journal is most wanted while you are stood across from the thing it
+	# is about, so it opens here as well as on the road.
+	if event.keycode == KEY_N:
+		EventBus.journal_requested.emit()
 		return true
 	if event.keycode >= KEY_1 and event.keycode <= KEY_9:
 		var party := party_fighters()
@@ -1086,12 +1480,6 @@ func _on_key(event: InputEventKey) -> bool:
 ## A pad's buttons, said as the same orders the keys and clicks give. The
 ## menu (Start) is the game's own; everything else is here.
 func _on_pad(event: InputEvent) -> bool:
-	if event.is_action_pressed("ui_cancel"):
-		if armed_slot >= 0:
-			_disarm()
-		else:
-			EventBus.system_menu_requested.emit()
-		return true
 	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
 		_pad_confirm()
 		return true

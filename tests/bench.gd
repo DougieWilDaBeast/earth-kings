@@ -29,7 +29,6 @@ const SCENES := {
 	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
 	"area": "res://src/area/area_scene.tscn",
-	"battle": "res://src/battle/battle.tscn",
 	"skirmish": "res://src/skirmish/skirmish.tscn",
 	"training": "res://src/training/training_ground.tscn",
 	"coliseum": "res://src/coliseum/coliseum.tscn",
@@ -80,6 +79,18 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 
+	if _args.has("levelup"):
+		_level_the_lead()
+	if _args.has("choose"):
+		if not _args.has("levelup"):
+			add_child(load("res://src/ui/level_up_banner.gd").new())
+		Progression.settle_class(GameState.roster.player(), str(_args["choose"]))
+	if _args.has("take") and scene.has_method("take_rung"):
+		var lead := GameState.roster.player()
+		var offered := Progression.rung_options(lead, GameState.world)
+		if not offered.is_empty():
+			scene.call("take_rung", lead, offered[0])
+
 	if _args.has("play"):
 		# Left running on purpose: this is the hands-on mode.
 		return
@@ -122,6 +133,30 @@ func _build_state() -> void:
 		_stand_at(str(_args["at"]))
 	if _args.has("steps"):
 		world.steps = int(_args["steps"])
+	if _args.has("owed"):
+		_owe(str(_args["owed"]))
+
+
+## Give the lead exactly enough experience for a level, with the banner up to
+## show it ([D66]).
+func _level_the_lead() -> void:
+	add_child(load("res://src/ui/level_up_banner.gd").new())
+	var lead := GameState.roster.player()
+	if lead != null:
+		Progression.award(lead, Progression.xp_to_next(lead.level) - lead.xp, GameState.world)
+
+
+## Leave the lead with a path to choose, or everyone with a power to take, so
+## the screens that answer them can be looked at ([D66]).
+func _owe(what: String) -> void:
+	var lead := GameState.roster.player()
+	if what == "path" and lead != null:
+		lead.class_id = ""
+		lead.pending_class_choice = true
+	elif what == "power":
+		for member in GameState.roster.party_members():
+			if not member.trees.is_empty():
+				member.rungs += 1
 
 
 ## Put the party on the first site of a kind, so "--at=gate" means what it says.
@@ -143,6 +178,10 @@ func _open(key: String) -> Node:
 		add_child(overlay)
 		if overlay.has_method("open"):
 			overlay.call("open")
+		if key == "journal" and _args.has("tab"):
+			overlay.call("turn_to", str(_args["tab"]))
+		if key == "party" and str(_args.get("owed", "")) == "power":
+			overlay.call("open_on_growth", GameState.roster.player())
 		return overlay
 	if not SCENES.has(key):
 		return null
@@ -166,21 +205,13 @@ func _payload(key: String) -> Dictionary:
 	match key:
 		"area":
 			return { "area_id": str(_args.get("area", "village")), "return_scene": "world" }
-		"battle":
-			var world: World = GameState.world
-			return {
-				"encounter": Encounter.wild(
-					world, world.player_cell, GameState.party_characters(), world.rng
-				),
-				"return_scene": "world",
-			}
 		"skirmish":
 			var world: World = GameState.world
 			return {
 				"encounter": Encounter.wild(
 					world, world.player_cell, GameState.party_characters(), world.rng
 				),
-				"return_scene": "title",
+				"return_scene": "world",
 				# A photograph of a paused fight is a photograph of nothing happening.
 				"paused": not _args.has("shot"),
 			}
@@ -403,6 +434,11 @@ state
   --stores=a,b      equipment ids into the packs
   --equip=id        put a piece on the lead
   --hurt=0.4        drop the party to this share of their health
+  --owed=path|power the lead has a path to choose, or everyone a power to take
+  --levelup         level the lead up, with the banner showing
+  --tab=NAME        the journal's tab: company bestiary routes annals quests
+  --choose=CLASS    settle the lead's path, with the banner showing (with --owed=path)
+  --take            take the lead's next power on the party screen (with --owed=power)
 
 what to open
   --scene=KEY       %s

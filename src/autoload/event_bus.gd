@@ -4,7 +4,7 @@ extends Node
 ## Systems emit and listen here instead of holding references to each other,
 ## so battle / world / UI stay decoupled and independently testable.
 
-## Ask the root [Game] node to swap the active scene ("world" | "area" | "battle").
+## Ask the root [Game] node to swap the active scene ("world" | "area" | "skirmish"…).
 signal request_scene(scene_key: String, payload: Dictionary)
 ## The scene asked for is now in, and is the one being played. Anything living
 ## above the scene — the touch controls, for one — lays itself out from this,
@@ -12,11 +12,10 @@ signal request_scene(scene_key: String, payload: Dictionary)
 signal scene_changed(scene_key: String)
 
 signal battle_started(map_id: String)
-## result: { "victory": bool, "map_id": String, "turns": int }
+## A fight the world started is over (training and the coliseum say nothing).
+## result: { "victory": bool, "map_id": String }
 signal battle_finished(result: Dictionary)
 
-signal turn_started(unit: Node)
-signal turn_ended(unit: Node)
 signal unit_damaged(unit: Node, amount: int)
 signal unit_healed(unit: Node, amount: int)
 signal unit_died(unit: Node)
@@ -30,6 +29,10 @@ signal dialogue_finished(dialogue_id: String)
 ## A party member hit level 2 and owes the player a decision.
 signal class_choice_required(character: RefCounted)
 signal class_chosen(character: RefCounted)
+## Somebody gained a level in play (not while the world is being built).
+## [param before] holds the numbers a level changes as they were a moment
+## earlier: `max_hp`, `attack`, `defense`, `speed` ([D66]).
+signal levelled_up(character: RefCounted, before: Dictionary)
 ## A character went down. outcome: { "outcome": "alive"|"captured"|"dead", "reason": String, "line": String }
 signal character_fell(character: RefCounted, outcome: Dictionary)
 
@@ -37,6 +40,9 @@ signal character_fell(character: RefCounted, outcome: Dictionary)
 signal system_menu_requested
 ## Ask the always-present party screen to open.
 signal party_screen_requested
+## Open the party screen on [param character], at whatever they are owed: the
+## path to choose or the powers page (the level-up banner's button, [D66]).
+signal growth_choice_requested(character: RefCounted)
 ## Ask the always-present journal to open.
 signal journal_requested
 ## The journal's Map was pressed: whichever ground the party is on opens the

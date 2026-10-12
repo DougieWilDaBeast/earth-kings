@@ -15,9 +15,10 @@ weapon. Sixteen worlds, sixteen chances.
 
 **The tone** is dark fantasy, getting darker as it goes ([D40](06-decisions.md)).
 
-**The fight** is moving from turn-based charge time to real time with pause, point-and-click on
-the grid, four active abilities and every attack animated ([D36](06-decisions.md),
-[18](18-combat-direction.md)). The build is still turn-based until a prototype proves the new one.
+**The fight** is real time with pause, point-and-click on the grid, four active abilities, and
+(still to come) every attack animated ([D36](06-decisions.md), [18](18-combat-direction.md)). It
+replaced the turn-based charge-time fight on 2026-10-12, once both founders had played the two
+([D64](06-decisions.md)).
 
 Built native in **Godot 4 / GDScript**, running entirely on the local machine.
 
@@ -54,7 +55,7 @@ These are designed for and have seams left in the code. None are needed to play.
 
 | Feature                                                    | Seam that exists today                                                                             |
 | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| LLM character minds — NPCs who decide their own goals      | `EnemyBrain` already returns a _plan_ the controller executes; intents never mutate state directly |
+| LLM character minds — NPCs who decide their own goals      | `SkirmishBrain` already returns _choices_ the fight carries out; intents never mutate state directly |
 | NPC society — characters living their own lives off-screen. **Now wanted for the fifteen** ([17](17-the-sixteen-worlds.md)) | `Character` is fully separate from the battle `Unit` that represents it                            |
 | The Masquerade                                             | `Site` and `Character` both carry an open `data` / flags bag                                       |
 | A server as world-authority                                | The world is one serialisable object (`World.to_dict()`)                                           |

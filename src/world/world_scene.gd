@@ -559,7 +559,7 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	if confrontation != "":
 		meeting["confrontation"] = confrontation
 		_note(confrontation)
-	EventBus.request_scene.emit("battle", {"encounter": meeting, "return_scene": "world"})
+	EventBus.request_scene.emit("skirmish", {"encounter": meeting, "return_scene": "world"})
 
 
 ## Nothing a fight was worth is handed over until the fight has been won. The

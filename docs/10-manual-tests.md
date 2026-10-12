@@ -91,8 +91,8 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E1  | Move Bram (the Sworn Blade) several tiles                                                       | He **runs** — legs moving — rather than sliding                           |
 | E2  | Move him around a corner                                                                        | He turns to face each leg of the path as he takes it, not only at the end |
 | E3  | Move any other unit                                                                             | They slide as before, standing pose, no flicker or blank sprite           |
-| E4  | Reach level 2 and pick a class                                                                  | Four abilities in the command menu, not one                               |
-| E5  | Use a bonus-action move (Riposte, Spark, Shield Bash, Dart, Firebrand, Stand Fast, Second Wind) | It spends the bonus, and the main action is still available               |
+| E4  | Reach level 2 and pick a class                                                                  | Skills on the fighter's card in the next fight, not one                   |
+| E5  | Walk into a band on the road, then win                                                          | Back on the road; the party carries its wounds (**P**), and anyone met for the first time has a page in the journal |
 | E6  | Use the same move about twelve times across several fights                                      | "_X_ is practised with _Y_ now." and it starts hitting a little harder    |
 | E7  | Check a healer's Mend after heavy use                                                           | Heals more than it did at the start of the run                            |
 | E8  | Kill a kind of enemy nobody has killed before                                                   | "_X_ learns from the _Y_." and experience; the next one of that kind gives none |
@@ -105,14 +105,14 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 | E14b | With a gate broken open or a town under siege, ask a village host for news while the board is empty | The news ends "…It is on the board.", and the board has that job; asking again does not post it twice |
 | E15 | Look at who is for hire in a village near a keep, then one far from any                          | Mostly full names (Octavia, Cassius) near the keep; mostly short ones (Tavi, Cass) far out; each "of" a real place |
 | E16 | Shut a gate, walk to a village that has heard, then open the journal                             | The greeting calls you "_Name_ the Gate-Shutter"; the journal shows it under **Known As**          |
-| E17 | Fight with Auto off; when the party's turn comes, tap **Auto** on the touch controls              | The party starts fighting at once, not on its next turn (it used to sit waiting for good)       |
+| E17 | Press **Q** on the road and let the party walk itself into a fight                                | The fight starts running at once, never pauses itself, ends, and the walk goes on              |
 | E18 | Read village boards until one posts a **Bounty**                                                  | "Bounty: _a creature_", a line about where it prowls, and gold — not a blank card               |
 | E19 | Press **Q** on the map somewhere a lake or cliff stands between the party and the nearest gate     | The party walks round it and gets there, rather than pacing in front of it                     |
 
-## E2 — Real-time skirmish (M11 prototype)
+## E2 — The fight (real time, M11)
 
-Title → **Training** → pick an enemy → **Fight in real time**. Or, from the bench:
-`godot --path . res://tests/bench.tscn -- --scene=skirmish --play`.
+Every fight: walk into a band, a gate or the Tower. Or Title → **Training** → pick an enemy →
+**Fight this**, or from the bench: `godot --path . res://tests/bench.tscn -- --scene=skirmish --play`.
 
 | #    | Do this                                                     | Expect                                                                                   |
 | ---- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -126,8 +126,8 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT8  | Let a party member drop                                     | "is down — 12 seconds", a red ring counting down under them                              |
 | RT9  | Right-click the downed ally with another selected           | They walk over, kneel, and after two seconds the ally is back up at a quarter of their health |
 | RT10 | Press **T** during the fight                                | x1 → x1.5 → x2 → x1, and the fight plays at that pace                                  |
-| RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back at the training ground             |
-| RT12 | Go back to the run afterwards                               | **Your real party is untouched** — nothing from the skirmish is written back             |
+| RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back where the fight started — the road, the training ground, the coliseum |
+| RT12 | Fight in **Training**, then go back to the run              | **Your real party is untouched** — nothing from a training fight is written back         |
 | RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
 | RT14 | Press **Z** twice, turn **A** off on a unit, use its skill  | When the skill comes back the fight pauses: "Paused. _X_'s _Y_ is ready."                |
 | RT15 | On a phone (or touch set to On in the system menu), start a real-time fight | A column of buttons down the right: Pause, Speed, All, the four skills named for the picked fighter, Auto skills, Hold, Auto-pause |
@@ -138,6 +138,12 @@ Title → **Training** → pick an enemy → **Fight in real time**. Or, from th
 | RT20 | Watch a few blows land                                      | Numbers jump off whoever is hit and they flash; a critical is a big gold number, a short freeze and a shake |
 | RT21 | Use a skill and watch its tile on the card                  | A dark wedge winds away clockwise with the seconds on it; the tile flashes when it is back. Clicking a tile picks that fighter and readies the skill |
 | RT22 | Let a party member's near-death run out with nobody helping | Their card shows the chance a grace saves them; sometimes "Pulled clear!" or "The charm holds!" and they are back up at a quarter health, otherwise they fall |
+| RT23 | The same on the road, with a charm on them                  | If the charm saves them it is gone from them afterwards; if nothing does, they are taken or dead for good (or pulled clear on Gentle) and leave the party when the fight ends |
+| RT24 | Win with someone still down in their twelve seconds         | "_X_ is carried off the field."; back on the road they are alive on one hit point          |
+| RT25 | Fight a gate floor whose objective is the keeper or the heart | The objective is said in the log; downing the keeper, or standing a party member on the marked heart, wins at once |
+| RT26 | Get ambushed on the road (brush, forest or marsh)          | "Ambush!" in the log; the party moves before the enemy does                               |
+| RT27 | Press **Esc** mid-fight, wait, close the menu; press **N** | The clock does not run while the menu is open; **N** opens the journal                    |
+| RT28 | Drink a draught on the road, then check the stash          | It is gone from the stores; in training the stores are untouched                           |
 | RT23 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
 | RT24 | Hold the left button and drag across two or more of the party | A gold box follows the mouse; letting go picks everyone it touched, never an enemy. With **Shift** they are added to who was picked. A box over empty ground changes nothing |
 | RT25 | Leave Auto Skill on and watch a card's energy pips          | They drain as skills go off; at empty the card says "tired", only basic attacks follow, and skills come back once the pips reach half |
@@ -230,7 +236,7 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 
 | #   | Do this                                                          | Expect                                                             |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| I1  | Open it at the very start of a run                               | Empty, and it says so                                              |
+| I1  | Open it at the very start of a run, then go to **Bestiary**      | It opens at **The Company**; the Bestiary is empty, and says so    |
 | I2  | Fight a goblin, then open it                                     | A goblin page, mostly question marks                               |
 | I3  | Look at Reach / Guard / Constitution before doing anything to it | All `?`                                                            |
 | I4  | Be hit by one                                                    | Reach fills in                                                     |
@@ -238,6 +244,21 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | I6  | Kill one                                                         | Constitution fills in                                              |
 | I7  | Watch one cast something                                         | That ability is named; the rest stay "something you have not seen" |
 | I8  | Fight in the Training Ground, then check                         | **Nothing** was written down                                       |
+| I9  | Start a new game and read the landing                            | A journal comes down in the furrow with the lead, blank but for their name ([D67](06-decisions.md)) |
+| I10 | Open it                                                          | A leather book, two parchment pages, a coloured ribbon per tab; the open ribbon stands taller |
+| I11 | On **The Company**, press each companion on the left page        | Their sheet on the right: face, level and path, health and experience bars, attributes with what a level adds, the path's growth bars, what they carry, their powers, what they have learned from |
+| I12 | Open it with someone owed a path or a power                      | A red box on their sheet says so; **Choose it** shuts the book and opens the party screen at that choice |
+
+## I2 — Growing ([D67](06-decisions.md))
+
+| #   | Do this                                                          | Expect                                                             |
+| --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
+| GR1 | Win the first fight of a run                                     | A banner across the top: the face, "reaches level N", a chip for each number that went up; it goes by itself, and a press puts it away. A chime |
+| GR2 | Reach level 2 with the lead                                      | The banner says **Choose a path**; pressing it opens the party screen at the choice |
+| GR3 | On the party screen, look at the path cards                      | A card per class in its own colour, with growth bars, its powers' themes and what it starts with; the tabs above are greyed |
+| GR4 | Press **Walk this path**                                         | Chosen in one click; a "path is chosen" banner in the class's colour |
+| GR5 | Reach level 5 and open the Powers page                           | The tree as three stones: the first glows gold; pressing it fills it in the class's colour and the next one glows |
+| GR6 | Level up during a real-time fight                                | The banner shows over the fight and the fight runs on underneath it |
 
 ## J — Coliseum
 
@@ -276,7 +297,7 @@ and open `http://localhost:8000/` in Chrome or Firefox. `tools/web_smoke.py` pla
 | L5  | Reload the page, go on to the title                            | **Continue** is lit and puts you back where you saved (the save lives in the browser's IndexedDB) |
 | L6  | `Esc` → **Fullscreen**, then `Esc` in the browser              | The page goes fullscreen; the browser's own `Esc` brings it back and the button follows       |
 | L7  | Close the tab, open the page again in a private window         | No save — private windows forget IndexedDB, so Continue is greyed out                         |
-| L8  | Training Ground → **Fight this**, read the turn order at the top | Arrows between the names, not empty boxes (fails today: the browser has no fallback font — see the roadmap's Launch readiness) |
+| L8  | Training Ground → **Fight this**, read the clock line and the party cards | No empty boxes where a character should be (the browser has no fallback font — see the roadmap's Launch readiness) |
 
 ## P — Controller
 
@@ -293,10 +314,10 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 | P7  | Press Start, then B; press Back, then Back again                       | Menu opens and closes; the party screen opens and closes                                  |
 | P8  | In the party screen, D-pad down the cards and over to the pages        | The page follows the card; every button can be reached and pressed; the page scrolls      |
 | P9  | Press X on the road                                                    | The Journal opens; B shuts it                                                             |
-| P10 | In a fight, on your turn                                               | **Move** is highlighted; the D-pad walks the commands and shows each one's reach          |
-| P11 | A on Move, stick to a tile, A                                          | A cursor starts on the fighter, walks the board, and the move happens where it stands     |
-| P12 | A on an attack                                                         | The cursor starts on the nearest foe in reach; A strikes, B backs out to the commands     |
-| P13 | RB with two fighters up, X, LB                                         | Next fighter; Wait; speed changes                                                         |
+| P10 | In a fight, touch the stick                                            | A cursor starts on the picked fighter and walks the board                                 |
+| P11 | Stick to an empty tile, A; then to an enemy, A                         | The fighter walks there; then goes after that enemy                                       |
+| P12 | Y, then A on a foe in reach; Y again, then B                           | A skill is readied and cast at the cursor; B puts a readied skill away, and with none, opens the menu |
+| P13 | RB with two fighters up, X, LB                                         | Next fighter; pause; speed changes                                                        |
 | P14 | Right stick, LT, RT, R3                                                | The view slides, zooms out, zooms in, and comes back                                      |
 | P15 | Training Ground → real-time skirmish, with the pad                     | X starts it; stick moves a cursor; A on ground moves, on a foe attacks; Y readies a skill |
 | P16 | Menu → Controls; A on Interact, then press X on the pad                | The row reads "E  ·  X"; it survives a relaunch; Reset puts back "E  ·  A"                |
@@ -336,8 +357,9 @@ Rather than starting a run and playing to the point of concern, boot straight in
 .\ek.ps1 test                    # every smoke suite, one line each
 ```
 
-State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`.
-Scenes: cinematic title character_select world area battle training coliseum museum credits summary,
+State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`,
+`--owed=path|power`, `--levelup`, `--choose=CLASS`, `--take`, and `--tab=NAME` for the journal ([D67](06-decisions.md)).
+Scenes: cinematic title character_select world area skirmish training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.
@@ -346,7 +368,7 @@ plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 **Back in use from 2026-09-24.** They were parked when they cost more than they caught and had
 started failing on their own stale expectations. Since then every suite has been brought back to
-green and run after every change: thirteen suites, around 580 checks (`tools/coverage.tscn` counts
+green and run after every change: twelve suites, around 580 checks (`tools/coverage.tscn` counts
 them per test).
 
 ```powershell
@@ -356,7 +378,7 @@ godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 godot --headless --path . res://tests/world_smoke_test.tscn -- --check=fate
 ```
 
-**In CI.** Every pull request and every push to `main` runs all thirteen suites and a two-minute
+**In CI.** Every pull request and every push to `main` runs all twelve suites and a two-minute
 soak on seed 77, headless on Linux against the official Godot 4.7.2 build
 (`.github/workflows/smoke.yml`). Both go through `./ek.sh`, the Linux and macOS twin of
 `.\ek.ps1 test`, so a red check can be reproduced locally with the same command:
@@ -394,7 +416,7 @@ godot --headless --path . res://tools/soak.tscn -- --seconds=300 --seed=77
 
 Look for `SCRIPT ERROR`, steps that rise with no fights (autoplay has nowhere to go) and
 `the same file: false`. Steps and log lines that stop moving for thirty seconds with autoplay on end
-the soak with `STUCK … in Battle (phase 1)` or similar and exit code 2 — something is waiting on a
+the soak with `STUCK … in Skirmish` or similar and exit code 2 — something is waiting on a
 key nobody is pressing. A soak that runs clean ends with exit code 0.
 
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
@@ -433,5 +455,5 @@ Both previously flagged systems were integrated and verified:
   only upon conquering the final floor, with intermediate floors awarding charms, doctrine, and
   branching tree unlocks (rank C+).
 - **Proficiency by use (W17c)** — `src/chronicle/proficiency.gd` tracks practice through
-  `battle.gd`, `ability_resolver.gd`, and `character.gd`, rewarding mastery titles and display on
+  `skirmish.gd`, `ability_resolver.gd`, and `character.gd`, rewarding mastery titles and display on
   the party screen.
