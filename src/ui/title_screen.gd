@@ -9,6 +9,7 @@ var boot_payload: Dictionary = {}
 
 @onready var _continue_button: Button = %ContinueButton
 @onready var _new_game_button: Button = %NewGameButton
+@onready var _how_to_play_button: Button = %HowToPlayButton
 @onready var _training_button: Button = %TrainingButton
 @onready var _coliseum_button: Button = %ColiseumButton
 @onready var _museum_button: Button = %MuseumButton
@@ -23,12 +24,18 @@ func _ready() -> void:
 	_continue_button.disabled = not GameState.has_save()
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_new_game_button.pressed.connect(_on_new_game_pressed)
+	_how_to_play_button.pressed.connect(func() -> void: EventBus.how_to_play_requested.emit())
+	# The page shuts on top of this menu; the keyboard comes back to where it was.
+	EventBus.overlay_closed.connect(func() -> void:
+		if is_inside_tree() and _how_to_play_button.is_visible_in_tree():
+			_how_to_play_button.grab_focus()
+	)
 	_training_button.pressed.connect(func() -> void: EventBus.request_scene.emit("training", {}))
 	_coliseum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("coliseum", {}))
 	_museum_button.pressed.connect(func() -> void: EventBus.request_scene.emit("museum", {}))
 	_quit_button.pressed.connect(func() -> void: get_tree().quit())
 	for button in [
-		_continue_button, _new_game_button, _training_button, _coliseum_button,
+		_continue_button, _new_game_button, _how_to_play_button, _training_button, _coliseum_button,
 		_museum_button, _quit_button,
 	]:
 		button.theme_type_variation = &"GrandButton"

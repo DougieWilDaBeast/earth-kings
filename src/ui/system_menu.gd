@@ -4,6 +4,7 @@ extends CanvasLayer
 ## opened by [signal EventBus.system_menu_requested] so no scene owns it.
 
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+const Tips := preload("res://src/ui/tips.gd")
 
 const SETTINGS_PATH := "user://settings.cfg"
 
@@ -50,6 +51,9 @@ const MAPPABLE_ACTIONS := [
 @onready var _chatter_button: Button = %ChatterButton
 @onready var _difficulty_button: Button = %DifficultyButton
 @onready var _touch_button: Button = %TouchButton
+@onready var _how_to_play_button: Button = %HowToPlayButton
+@onready var _tips_button: Button = %TipsButton
+@onready var _reset_tips_button: Button = %ResetTipsButton
 
 var _save_button: Button
 var _rebind_action: String = ""
@@ -91,11 +95,16 @@ func _ready() -> void:
 	_touch_button.pressed.connect(_on_touch_pressed)
 	_update_touch_button()
 
+	_how_to_play_button.pressed.connect(func() -> void: EventBus.how_to_play_requested.emit())
+	_tips_button.toggled.connect(_on_tips_toggled)
+	_reset_tips_button.pressed.connect(_on_reset_tips_pressed)
+	_update_tips_button()
+
 	_controls_button.pressed.connect(_open_controls)
 	_back_from_controls_button.pressed.connect(_close_controls)
 	_reset_bindings_button.pressed.connect(_reset_controls_to_defaults)
 
-	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _back_from_controls_button, _reset_bindings_button]:
+	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _how_to_play_button, _tips_button, _reset_tips_button, _back_from_controls_button, _reset_bindings_button]:
 		Sfx.attend(btn)
 
 	_load_custom_bindings()
@@ -110,6 +119,7 @@ func open() -> void:
 	_load_button.disabled = not GameState.has_save()
 	_update_difficulty_button()
 	_update_fullscreen_button()
+	_update_tips_button()
 	_main_panel.show()
 	_controls_panel.hide()
 	_rebind_action = ""
@@ -399,3 +409,22 @@ func _update_touch_button() -> void:
 			_touch_button.text = "Touch Controls: Off"
 		_:
 			_touch_button.text = "Touch Controls: Auto (%s)" % ("On" if Pace.is_touch_enabled() else "Off")
+
+
+func _update_tips_button() -> void:
+	_tips_button.set_pressed_no_signal(Tips.enabled())
+	_tips_button.text = "Tips: on" if Tips.enabled() else "Tips: off"
+
+
+func _on_tips_toggled(on: bool) -> void:
+	Tips.set_enabled(on)
+	_update_tips_button()
+
+
+## Every first-time tip owed again — for a new player on the same machine, or
+## anyone who switched them off too soon. Switches them back on as well.
+func _on_reset_tips_pressed() -> void:
+	Tips.reset()
+	Tips.set_enabled(true)
+	_update_tips_button()
+	_status.text = "Tips will be shown again."

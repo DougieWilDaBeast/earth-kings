@@ -29,6 +29,11 @@ you saw, on which screen, and what you had done just before.
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Title → **How to Play**, scroll, press a section button, then `Esc`          | Seven sections from walking to the party screen; the button jumps there; `Esc` shuts the page and the keyboard is back on the menu |
+| A13 | In game, `Esc` → **How to Play**, then `Esc`                                 | The page opens over the menu; `Esc` shuts the page and leaves the menu open                                    |
+| A14 | Start a run with tips reset (`Esc` → **Reset tips**) and walk a few steps    | A small card under the top bar about walking, then one about the clock; it fades on its own and never stops a key |
+| A15 | Walk into a village, a fight and a gate; press **Got it** and **No more tips** | One card per first meeting, never twice; after **No more tips** none come, and the menu reads "Tips: off"      |
+| A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
 
 ## B — Starting a run
 
