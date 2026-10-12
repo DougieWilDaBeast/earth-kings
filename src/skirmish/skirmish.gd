@@ -36,6 +36,9 @@ static var auto_pause: AutoPause = AutoPause.ON_FALL
 
 ## Most fixed ticks a single frame may run, so a hitch cannot snowball.
 const MAX_TICKS_PER_FRAME := 16
+## A held stick walks the pad's cursor: one tile, then a run (real seconds).
+const PAD_FIRST_REPEAT := 0.3
+const PAD_REPEAT := 0.09
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -70,6 +73,11 @@ var armed_slot: int = -1
 var touch: bool = false
 
 var _accumulator: float = 0.0
+## Where a pad is pointing. There is no mouse on a pad, so orders are given
+## at this tile instead of under a click.
+var pad_cell: Vector2i = Vector2i(-1, -1)
+var _pad_held: Vector2i = Vector2i.ZERO
+var _pad_repeat: float = 0.0
 
 
 func _ready() -> void:
@@ -87,7 +95,7 @@ func _ready() -> void:
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
-	var begin := "tap Pause" if touch else "Space"
+	var begin := "tap Pause" if touch else (Pad.key("command_wait") if Pad.using_pad else "Space")
 	_say("A real-time skirmish. The fight is paused — %s to begin." % begin if paused \
 			else "A real-time skirmish.")
 	EventBus.battle_started.emit(map_id)
@@ -167,6 +175,7 @@ func _process(delta: float) -> void:
 		if ticks == MAX_TICKS_PER_FRAME:
 			_accumulator = 0.0
 	_place_steppers()
+	_steer_pad_cursor(delta)
 	marks.queue_redraw()
 	hud.refresh()
 
@@ -573,6 +582,10 @@ func _free_cell_near(cell: Vector2i, taken: Array[Vector2i], mover: Fighter) -> 
 func _unhandled_input(event: InputEvent) -> void:
 	if over:
 		return
+	if event is InputEventJoypadButton and event.pressed:
+		if _on_pad(event):
+			get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if _on_key(event):
 			get_viewport().set_input_as_handled()
@@ -621,6 +634,131 @@ func _on_key(event: InputEventKey) -> bool:
 				_select([party[index]])
 		return true
 	return false
+
+
+## A pad's buttons, said as the same orders the keys and clicks give. The
+## menu (Start) is the game's own; everything else is here.
+func _on_pad(event: InputEvent) -> bool:
+	if event.is_action_pressed("ui_cancel"):
+		if armed_slot >= 0:
+			_disarm()
+		else:
+			EventBus.system_menu_requested.emit()
+		return true
+	if event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
+		_pad_confirm()
+		return true
+	if event.is_action_pressed("command_wait"):
+		act("pause")
+		return true
+	if event.is_action_pressed("open_actions"):
+		_pad_next_skill()
+		hud.refresh()
+		return true
+	if event.is_action_pressed("cycle_next"):
+		_pad_next_fighter()
+		return true
+	if event.is_action_pressed("battle_speed"):
+		act("speed")
+		return true
+	if event.is_action_pressed("open_party"):
+		act("all")
+		return true
+	return false
+
+
+## A: what a click would have done at the cursor. A skill aimed at its own
+## caster goes off at once; anything else armed is aimed at the cursor; a
+## party member under it is picked; anywhere else is an order.
+func _pad_confirm() -> void:
+	if not grid.in_bounds(pad_cell):
+		return
+	if armed_slot >= 0 and not selected.is_empty():
+		var caster := selected[0]
+		if str(caster.slot_ability(armed_slot).get("target", "enemy")) == "self":
+			order_cast(caster, armed_slot, caster.unit, caster.unit.cell)
+			_disarm()
+		else:
+			_on_left_click(pad_cell, false)
+		return
+	var under := fighter_of(_unit_at(pad_cell))
+	if under != null and under.is_party() and under.is_standing():
+		_select([under])
+		return
+	_on_right_click(pad_cell)
+
+
+## Y: the first picked fighter's next skill, and past the last, none. Unlike
+## the keys, a skill aimed at its own caster is only armed here; A sends it.
+func _pad_next_skill() -> void:
+	if selected.is_empty():
+		return
+	var caster := selected[0]
+	var slot := armed_slot + 1
+	if slot >= caster.slots.size():
+		_disarm()
+		return
+	armed_slot = slot
+	var ability := caster.slot_ability(slot)
+	overlay.clear()
+	overlay.action_cells = pathfinder.cells_in_range(
+		caster.unit.cell, int(ability.get("min_range", 1)), int(ability.get("range", 1))
+	)
+	overlay.queue_redraw()
+	_say("%s readies %s." % [caster.unit.display_name, ability.get("display_name", "?")])
+
+
+## RB: the next standing party member, alone, with the cursor on them.
+func _pad_next_fighter() -> void:
+	var standing := party_fighters().filter(func(f: Fighter) -> bool: return f.is_standing())
+	if standing.is_empty():
+		return
+	var at := standing.find(selected[0]) if not selected.is_empty() else -1
+	var next: Fighter = standing[posmod(at + 1, standing.size())]
+	_select([next])
+	_aim_at(next.unit.cell)
+
+
+func _steer_pad_cursor(delta: float) -> void:
+	if not Pad.using_pad or over or Pad.focus_root() != null:
+		_pad_held = Vector2i.ZERO
+		return
+	if not grid.in_bounds(pad_cell):
+		var party := party_fighters()
+		if not party.is_empty():
+			_aim_at(selected[0].unit.cell if not selected.is_empty() else party[0].unit.cell)
+	var direction := Vector2i(
+		int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left")),
+		int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
+	)
+	if direction == Vector2i.ZERO:
+		_pad_held = Vector2i.ZERO
+		return
+	if direction != _pad_held:
+		_pad_held = direction
+		_pad_repeat = PAD_FIRST_REPEAT
+		_nudge_cursor(direction)
+		return
+	_pad_repeat -= delta / maxf(Engine.time_scale, 0.01)
+	if _pad_repeat <= 0.0:
+		_pad_repeat = PAD_REPEAT
+		_nudge_cursor(direction)
+
+
+func _nudge_cursor(direction: Vector2i) -> void:
+	var next := pad_cell + direction
+	if not grid.in_bounds(next):
+		next = pad_cell + Vector2i(direction.x, 0)
+	if not grid.in_bounds(next):
+		next = pad_cell + Vector2i(0, direction.y)
+	if grid.in_bounds(next):
+		_aim_at(next)
+
+
+func _aim_at(cell: Vector2i) -> void:
+	pad_cell = cell
+	overlay.set_cursor(cell)
+	camera.focus_on(grid.cell_to_world(cell))
 
 
 ## One thing the player asked for, by name, from a key or a touch button.

@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	_check_settings_are_kept()
+	await _check_the_pad()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -475,3 +476,77 @@ func _check_settings_are_kept() -> void:
 func _expect(condition: bool, failure: String) -> void:
 	if not condition:
 		_failures.append(failure)
+
+
+# --- a pad in the hands ---------------------------------------------------------
+
+
+## Every verb a pad needs has a button, the hint lines say the pad's buttons
+## once a pad has been touched, a menu opened under a pad has its focus on a
+## button, B and Start do what Escape does, and a fight can be given an order
+## without a mouse.
+func _check_the_pad() -> void:
+	for action: String in [
+		"move_up", "move_down", "move_left", "move_right", "interact", "ui_accept", "ui_cancel",
+		"open_menu", "open_party", "open_actions", "open_journal", "cycle_next", "command_wait",
+		"battle_speed", "camera_zoom_in", "camera_zoom_out", "camera_recentre", "toggle_view",
+	]:
+		_expect(Pad.pad_glyph(action) != "", "%s has no button on a pad" % action)
+	for action: String in ["interact", "open_party", "cycle_next", "command_wait", "ui_cancel"]:
+		_expect(Pad.key_text(action) != "", "%s lost its key when the pad was added" % action)
+
+	await _enter("world")
+	await _clear_dialogue()
+	var world := _current_scene()
+	Pad.set_using_pad(false)
+	_expect(Pad.key("interact") == "E", "the keyboard hint for interact is not E")
+	Pad.set_using_pad(true)
+	_expect(Pad.key("interact") == "A", "the pad hint for interact is not A")
+	if world != null:
+		_expect(world._key("open_menu", "Esc") == "Start", "the walk does not say Start for the menu on a pad")
+		_expect(world._key("site_hire") == "Y", "a verb with no button does not point a pad at its buttons")
+
+	# Start opens the menu from the walk, focus lands on it, and B shuts it.
+	_game._unhandled_input(_pad_button(JOY_BUTTON_START))
+	await _settle()
+	_expect(_menu.is_open(), "Start did not open the menu from the walk")
+	var focused := get_viewport().gui_get_focus_owner()
+	_expect(
+		focused != null and _menu.is_ancestor_of(focused),
+		"the menu opened under a pad with nothing focused"
+	)
+	_menu._unhandled_input(_pad_button(JOY_BUTTON_B))
+	await _settle()
+	_expect(not _menu.is_open(), "B did not close the menu")
+
+	# A fight: the command menu holds the focus, and an order is given at the cursor.
+	await _enter("battle")
+	var battle := _current_scene()
+	if battle != null and battle.phase == battle.Phase.COMMAND and battle.active_unit.can_move():
+		focused = get_viewport().gui_get_focus_owner()
+		_expect(
+			focused != null and battle.hud.is_ancestor_of(focused),
+			"the fight's commands hold no focus under a pad"
+		)
+		battle._on_move_requested()
+		_expect(battle.pad_cell == battle.active_unit.cell, "the pad's cursor did not start on the mover")
+		var goal := Vector2i(-1, -1)
+		for cell: Vector2i in battle.overlay.move_cells:
+			if cell != battle.active_unit.cell:
+				goal = cell
+				break
+		if goal != Vector2i(-1, -1):
+			battle._aim_at(goal)
+			battle._unhandled_input(_pad_button(JOY_BUTTON_A))
+			_expect(battle.phase != battle.Phase.PICK_MOVE, "A at the cursor gave no move order")
+		print("pad: an order given at the cursor")
+	Pad.set_using_pad(false)
+	await _enter("world")
+	await _clear_dialogue()
+
+
+func _pad_button(button: JoyButton) -> InputEventJoypadButton:
+	var event := InputEventJoypadButton.new()
+	event.button_index = button
+	event.pressed = true
+	return event
