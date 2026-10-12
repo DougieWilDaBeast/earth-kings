@@ -44,9 +44,13 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 ## Playing the vertical slice
 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
+- **Classic or Iron Man** — picked next to the seed when you begin (**Mode**), shown in the menu,
+  kept in the save. **Classic** saves by hand from the menu, and the game also saves when you set
+  out, when you rest and when a Tower chapter ends. **Iron Man** has no Save or Load button: the game
+  saves itself at those points, every time you come back to the map, and when you leave.
 - **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
   the world clock. The top bar shows where you are and your current **danger %**.
-  `Esc` opens the menu (save, load, music and sound volume, fullscreen, return to title).
+  `Esc` opens the menu (save and load in Classic, music and sound volume, fullscreen, return to title).
   `F11` switches fullscreen anywhere.
 - **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
   inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
@@ -98,7 +102,9 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   Raiders may take them alive instead. See [docs/02-design.md](docs/02-design.md).
 - **The run follows you, not the party.** Companions can all die and the story goes on; when your
   own character falls, it stops. Hire replacements in towns — everyone is looking out for
-  themselves, and they all have a price.
+  themselves, and they all have a price. In **Classic** the fall stops on a choice: **Reload** the
+  last save (it tells you what that goes back to), or **Ascend** and choose the next lead. In
+  **Iron Man** the lead ascends at once and the save goes with them.
 - **Experience comes from the first of each kind.** A kind of enemy teaches whoever kills it
   first, once; the second teaches nothing but practice. Help with five kills of a kind and you learn
   from it too, and a boss teaches everyone who was there. So the way to grow is to go and meet
@@ -180,7 +186,7 @@ src/
   dialogue/               Conversation overlay
   ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
-  ui/system_menu.tscn     In-game save / load overlay, opened via EventBus
+  ui/system_menu.tscn     In-game menu (save / load in Classic only), opened via EventBus
 ```
 
 Two rules keep it extensible: **content lives in `data/`, never in code**, and **systems talk

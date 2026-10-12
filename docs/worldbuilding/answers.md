@@ -57,6 +57,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 22 | `SF1`, `CO7` | **"Ascend to heaven" names two things.** It is the lead's standing quest, finished only at the end, and it is also what Classic offers when the lead dies. Is dying a way of finishing the quest, a failure of it, or are the two different things that happen to share a name? |
 | 23 | D54 | **Inferred.** Built 2026-10-01: **a healer's assist** is one where the helper healed the one who landed the blow, earlier in the same fight. Five of those, or ten of any other assist, teach a kind. Right reading? |
 | 24 | `GT11`, D48 | **Inferred.** Built 2026-10-01: over a hundred floors, **enemies rise about one level every three floors** (level 2 at the foot, 32 at the top), four faction cohorts hold the floors in turn, gold is paid by the chapter, a book every chapter and a skill tree every two. Right shape? |
+| 40 | `CO7`, D51 | **Inferred.** Built 2026-10-12: **Classic and Iron Man.** The mode is picked with the lead (when was not said) and defaults to Classic. Classic saves by hand, and by itself on setting out, resting and closing a Tower chapter; Iron Man never by hand, and also on every return to the map and on leaving. Ascending lets the save go in both modes, since neither keeps that world playable. The modes leave the difficulty alone (Gentle and Breeze have no permadeath, so the lead never dies there). Right save points? |
 
 ## 2. Eleven Part I questions that need a straight answer
 
@@ -2160,7 +2161,8 @@ continent on foot in the planar view is agenda item 21.
 asks whether they ascend to heaven, with a new character chosen, or whether to reload. In
 **Iron Man** there is one life: the lead's death ascends them and goes straight back to choosing a
 character. When the mode is picked was not said.
-↳ Settles agenda item 4. Replaces D21 ([D51](../06-decisions.md)). **Not built**; it belongs to M15.
+↳ Settles agenda item 4. Replaces D21 ([D51](../06-decisions.md)). **Built 2026-10-12** (M15). When
+the game saves itself, and the mode being picked with the lead, are agenda item 40, **Inferred**.
 ↳ Answers `SM1` for both modes: reloading is the player's choice, not a fact about the world.
 ↳ D47 already keeps the fallen outside the save. Under Classic a death is final only once the player
 chooses to ascend, so that is when the record should be written. That is a build reading,

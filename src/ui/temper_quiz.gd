@@ -18,6 +18,8 @@ extends Control
 ## could still lead to has fallen. A question left with one answer is still
 ## asked, so the player sees that the other one is gone.
 
+const RunMode := preload("res://src/chronicle/run_mode.gd")
+
 var boot_payload: Dictionary = {}
 
 ## Temper codes of leads who have died. Their answers are closed.
@@ -229,6 +231,9 @@ func _begin() -> void:
 	if _chosen == "":
 		return
 	GameState.new_game(_chosen_seed(), _chosen)
+	# Saved at once, so a Classic lead who falls before the first rest still
+	# has somewhere to go back to.
+	EventBus.safe_point_reached.emit(RunMode.START, "you set out")
 	EventBus.request_scene.emit("world", {})
 
 

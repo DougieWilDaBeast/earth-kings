@@ -1,6 +1,9 @@
 extends CanvasLayer
-## Save / load overlay. Always present under [Game], like the dialogue box, and
+## Save / load overlay. Saving and loading by hand are Classic's; in Iron Man
+## the buttons are gone and the game saves itself ([D51]). Always present under [Game], like the dialogue box, and
 ## opened by [signal EventBus.system_menu_requested] so no scene owns it.
+
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 const SETTINGS_PATH := "user://settings.cfg"
 
@@ -45,6 +48,7 @@ const MAPPABLE_ACTIONS := [
 @onready var _difficulty_button: Button = %DifficultyButton
 @onready var _touch_button: Button = %TouchButton
 
+var _save_button: Button
 var _rebind_action: String = ""
 var _rebind_button: Button = null
 
@@ -54,6 +58,7 @@ func _ready() -> void:
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.system_menu_requested.connect(open)
 	var save_button: Button = %SaveButton
+	_save_button = save_button
 	save_button.pressed.connect(_on_save_pressed)
 	_load_button.pressed.connect(_on_load_pressed)
 	var title_button: Button = %TitleButton
@@ -95,7 +100,10 @@ func _ready() -> void:
 
 func open() -> void:
 	# The seed lives here so a world worth replaying can be written down.
-	_status.text = "World seed %d" % GameState.world.world_seed if GameState.world != null else ""
+	_status.text = _standing()
+	var by_hand := RunMode.saves_by_hand()
+	_save_button.visible = by_hand
+	_load_button.visible = by_hand
 	_load_button.disabled = not GameState.has_save()
 	_update_difficulty_button()
 	_update_fullscreen_button()
@@ -276,7 +284,21 @@ func _on_load_pressed() -> void:
 	EventBus.request_scene.emit("world", {})
 
 
+## The seed, and the mode the run is being played in, which is not changed
+## mid-run.
+func _standing() -> String:
+	if GameState.world == null:
+		return ""
+	var line := "World seed %d  ·  %s" % [GameState.world.world_seed, RunMode.display_name()]
+	if not RunMode.saves_by_hand():
+		line += " — the game saves itself"
+	return line
+
+
 func _on_title_pressed() -> void:
+	# Leaving is a point Iron Man saves at. Only from inside a run: the menu
+	# also opens over the title's own world, which is nobody's.
+	GameState.reached(RunMode.LEAVE, "you stepped away")
 	close()
 	EventBus.request_scene.emit("title", {})
 

@@ -17,7 +17,7 @@ five new rows the session raised (20 to 24) are for the next call.
 | -- | ------------ | ------- | ---------------------- | ----------------- |
 | 1  | ~~How many floors has the Tower, and how many make a chapter?~~ | **Settled:** 100, chapters of 5 ([D48](../06-decisions.md)) | Built 2026-10-01; the curve, cohorts and rewards are item 24 | — |
 | 2  | ~~Does the world still run on steps?~~ | **Settled:** **B**, and further: no steps at all, milestones instead ([D49](../06-decisions.md)) | Large. Planned as M18; see item 20 | — |
-| 4  | ~~Can a death be reloaded?~~ | **Settled:** a Classic mode that reloads and an Iron Man mode that does not ([D51](../06-decisions.md)) | Planned in M15 | — |
+| 4  | ~~Can a death be reloaded?~~ | **Settled:** a Classic mode that reloads and an Iron Man mode that does not ([D51](../06-decisions.md)) | Built 2026-10-12; the save points are item 40 | — |
 | 5  | ~~In the second world, is there a living copy of the first lead?~~ | **Settled:** yes, an NPC from their stats ([D52](../06-decisions.md)) | Planned in M15 | — |
 | 6  | ~~What does a lead remember?~~ | **Settled:** memories return by chapter; "Ascend to heaven" ([D53](../06-decisions.md)) | Planned in M13 | — |
 | 8  | ~~Assists: one number or two?~~ | **Settled:** two, 10 and 5 for a healer's ([D54](../06-decisions.md)) | Built 2026-10-01; the healer reading is item 23 | — |
@@ -40,3 +40,4 @@ five new rows the session raised (20 to 24) are for the next call.
 | 19 | Where the Adventurers Guild keeps a hall | Every keep and village still standing; never huts. **Y** on the map, or the clerk inside | Keeps only · a Guild site of its own on the map | `src/chronicle/guild.gd`, the keep and village areas |
 | 23 | A healer's assist ([D54](../06-decisions.md)) | The helper healed the one who landed the blow, earlier in the same fight | Anyone of a healing class · any heal on anyone in that fight | `Battle._healed_by`, `Progression.award_kill` |
 | 24 | A hundred floors ([D48](../06-decisions.md)) | Enemies about a level every three floors (2 to 32); four faction cohorts; gold by the chapter; a book a chapter, a tree every two | Steeper or flatter; more cohorts; rewards by floor | `world_rules.tower` |
+| 40 | Classic and Iron Man ([D51](../06-decisions.md)) | Picked with the lead, Classic by default. Classic saves by hand and on setting out, resting and a chapter closing; Iron Man only by itself, at those and on every return to the map and on leaving. Ascending lets the save go in both. Separate from the difficulty | Picked on the title screen · Classic keeps the save after ascending · Iron Man forces a harder difficulty · fewer save points | `data/world_rules.json` → `modes`, `src/chronicle/run_mode.gd`, `src/ui/run_summary.gd` |

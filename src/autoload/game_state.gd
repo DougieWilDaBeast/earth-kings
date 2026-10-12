@@ -2,6 +2,7 @@ extends Node
 ## The live game: the world, everyone in it, and the save file (autoload: `GameState`).
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
@@ -51,12 +52,29 @@ var pending_outcome: Dictionary = {}
 var arena: Dictionary = {}
 ## How hard the country is (see [Difficulty]).
 var difficulty: String = Difficulty.DEFAULT
+## Classic or Iron Man ([D51], see `src/chronicle/run_mode.gd`). Picked with the
+## lead and kept in the save; like the difficulty it carries over to the next
+## new game until it is changed.
+var mode: String = RunMode.DEFAULT
+## How the last save is remembered ("you rested at Oakham"), and the step it was
+## made on, so a fallen lead can be told what a reload goes back to.
+var last_save_note: String = ""
+var last_save_steps: int = 0
+## Whether a run is being played right now (the map, a place, a fight), as
+## opposed to the title or a menu with yesterday's world still in memory. Only
+## then is leaving the game a point to save at.
+var _in_run: bool = false
+
+## Scenes that are the run itself.
+const RUN_SCENES := ["world", "area", "battle", "skirmish"]
 
 
 func _ready() -> void:
 	EventBus.unit_died.connect(_on_unit_died)
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.battle_finished.connect(_on_battle_finished)
+	EventBus.safe_point_reached.connect(reached)
+	EventBus.scene_changed.connect(_on_scene_changed)
 	if world == null:
 		new_game()
 
@@ -79,6 +97,53 @@ func _on_battle_finished(result: Dictionary) -> void:
 		Ledger.add(ledger, "battles_won" if result.get("victory", false) else "battles_lost")
 
 
+func _on_scene_changed(scene_key: String) -> void:
+	_in_run = RUN_SCENES.has(scene_key)
+	# Every return to the map is a point Iron Man saves at, so closing the game
+	# never hands back a fight that has been lost.
+	if scene_key == "world":
+		reached(RunMode.ROAD, "you were on the road")
+
+
+## Closing the window is leaving the run, which Iron Man saves at.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		reached(RunMode.LEAVE, "you stepped away")
+
+
+## The run has got somewhere the game may save itself. Whether it does is the
+## mode's to say. Returns whether it saved.
+func reached(point: String, note: String = "") -> bool:
+	if not RunMode.saves_at(point, mode):
+		return false
+	if point == RunMode.LEAVE and not _in_run:
+		return false
+	# Never in the training yard or on the sand, and never over a run that has
+	# already ended: that save is the one a fallen lead is offered back.
+	if not tallying or world == null or roster == null or roster.run_is_over():
+		return false
+	save(note)
+	EventBus.game_saved.emit(point, note)
+	return true
+
+
+## The save goes with the lead who fell, in Iron Man ([D51]).
+func forget_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+	last_save_note = ""
+
+
+## Whether the save on disk is this run, and not one from before it.
+func save_is_this_run() -> bool:
+	if not has_save() or world == null:
+		return false
+	var parsed: Variant = SaveFile.read(SAVE_PATH)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return false
+	return int(parsed.get("world", {}).get("world_seed", -1)) == world.world_seed
+
+
 func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	# A run that is being started over is a run that is finished, whatever the
 	# player calls it. File it before it is written on top of (see [Museum]).
@@ -88,7 +153,7 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 		world_seed = randi()
 	world = WorldGen.generate(world_seed)
 	# Into the log, so a run somebody reports can be walked again from its seed.
-	print("Earth Kings: new run, seed %d, lead '%s', %s" % [world_seed, lead_id, difficulty])
+	print("Earth Kings: new run, seed %d, lead '%s', %s, %s" % [world_seed, lead_id, difficulty, RunMode.valid(mode)])
 	# The purse is filled before the company is founded, because a background
 	# may hand the lead something to start with (see [Gifts]).
 	gold = DEFAULT_GOLD
@@ -107,6 +172,8 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	stores = []
 	camp_stash = []
 	keys = []
+	last_save_note = ""
+	last_save_steps = 0
 
 
 # --- the party ----------------------------------------------------------------
@@ -161,13 +228,20 @@ func has_save() -> bool:
 	return FileAccess.file_exists(SAVE_PATH)
 
 
-func save() -> void:
+## [param note] says how this save will be remembered; without one it keeps the
+## last, so a save loaded and saved again is the same file.
+func save(note: String = "") -> void:
+	if note != "":
+		last_save_note = note
+	last_save_steps = world.steps
 	var payload := {
 		"version": SAVE_VERSION,
 		"world": world.to_dict(),
 		"roster": roster.to_dict(),
 		"gold": gold,
 		"difficulty": difficulty,
+		"mode": RunMode.valid(mode),
+		"saved_at": last_save_note,
 		"cleared_battles": cleared_battles,
 		"flags": flags,
 		"talks": talks,
@@ -209,6 +283,10 @@ func load_save() -> bool:
 	# After the purse, so restoring it does not read as income.
 	ledger = Ledger.restore(data.get("ledger", {}))
 	difficulty = str(data.get("difficulty", Difficulty.DEFAULT))
+	# A save from before the modes is a Classic run: it was saved by hand.
+	mode = RunMode.valid(str(data.get("mode", RunMode.CLASSIC)))
+	last_save_note = str(data.get("saved_at", ""))
+	last_save_steps = world.steps
 	cleared_battles = data.get("cleared_battles", [])
 	flags = data.get("flags", {})
 	talks = data.get("talks", {})

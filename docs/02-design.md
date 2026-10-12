@@ -132,6 +132,28 @@ that from 7% to 31%; one book read lifts it to 17%.
 The design consequence is deliberate — **preparation is what buys lives**. Walking into bad
 country alone, with nothing read and nothing carried, is close to suicide, and it should be.
 
+### When the lead falls: Classic and Iron Man
+
+The mode is picked with the lead, on the quiz or the picker, and kept in the save
+([D51](06-decisions.md), replacing [D21](06-decisions.md)). What each one means is data:
+`data/world_rules.json` → `modes`, read by `src/chronicle/run_mode.gd`.
+
+| | Classic (the default) | Iron Man |
+| --- | --- | --- |
+| Saving by hand | Save and Load in the menu | None |
+| The game saves itself | Setting out, resting (inn, hut, home), a Tower chapter closing | Those, plus every return to the map and leaving the run (the menu's title button, closing the window) |
+| The lead dies | The run stops on the fall: **Reload** the last save, or **Ascend** | The lead ascends |
+| The record of the fallen ([D47](06-decisions.md)) and the hall | Written on ascending; a reload writes nothing | Written on the fall |
+| The save | Let go on ascending | Let go on the fall |
+
+The fall screen names the lead, what took them, and what a reload goes back to ("when you rested
+at Oakham, 37 steps ago"). After ascending the run is told as before, and the way on is choosing
+the next lead. A lead taken captive ends the run too; Classic offers the reload, and the other
+choice reads _Let it end_. The save points, letting the save go on ascending in Classic, and the
+modes being separate from the difficulty are build choices, **Inferred**, agenda item 40 in
+[answers.md](worldbuilding/answers.md). What ascending means for the lead's standing quest is
+agenda item 22 and is left open: the button only says _Ascend_.
+
 ## The power system
 
 Skill trees are **generated, not authored** — the world has a hidden grammar of themes crossed

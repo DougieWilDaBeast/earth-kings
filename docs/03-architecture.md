@@ -55,6 +55,7 @@ src/
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
     guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
     sixteen.gd                 Who of the sixteen has fallen, kept outside the save (M15, D47)
+    run_mode.gd                Classic or Iron Man: saving by hand, the reload, the save points (M15, D51)
     names.gd                   Regional names and the lead's earned title (D39)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage

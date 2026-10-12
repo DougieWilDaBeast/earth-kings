@@ -439,6 +439,14 @@ A conversation is either a flat script:
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player
 cell, generated trees, codex) and the `Roster` of Characters. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
+It also keeps the run's `mode` (`classic` or `iron_man`; a save without one opens as Classic) and
+`saved_at`, how the save is remembered on the fall screen ("you rested at Oakham").
+
+When it is written is the mode's: `data/world_rules.json` → `modes.settings.<mode>` gives
+`manual_save` (the menu's Save and Load), `reload_on_death` (Classic's fall screen), and
+`autosave`, the points the game saves itself at — `start`, `rest`, `chapter`, `road` (every
+return to the map) and `leave` (the title button, closing the window). See
+`src/chronicle/run_mode.gd`.
 
 ## Conventions
 
