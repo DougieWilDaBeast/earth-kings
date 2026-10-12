@@ -46,6 +46,39 @@ var touch_mode: String = "auto":
 		changed.emit()
 
 
+## The window fills the screen. Set from the system menu or the fullscreen key;
+## the browser build only goes fullscreen from a click, so there it is never
+## put back on at boot.
+var fullscreen: bool = false:
+	set(value):
+		fullscreen = value
+		_apply_fullscreen()
+		_save()
+		changed.emit()
+
+
+func toggle_fullscreen() -> void:
+	fullscreen = not _showing_fullscreen()
+
+
+## What the window is really doing: the browser and the OS can take it out of
+## fullscreen behind the game's back.
+func _showing_fullscreen() -> bool:
+	if DisplayServer.get_name() == "headless":
+		return fullscreen
+	return DisplayServer.window_get_mode() in [
+		DisplayServer.WINDOW_MODE_FULLSCREEN, DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	]
+
+
+func _apply_fullscreen() -> void:
+	if DisplayServer.get_name() == "headless" or _showing_fullscreen() == fullscreen:
+		return
+	DisplayServer.window_set_mode(
+		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+	)
+
+
 func is_touch_enabled() -> bool:
 	match touch_mode:
 		"on":
@@ -72,6 +105,14 @@ func _ready() -> void:
 	if config.load(SETTINGS_PATH) == OK:
 		quiet_banter = bool(config.get_value("ui", "quiet_banter", false))
 		touch_mode = str(config.get_value("ui", "touch_mode", "auto"))
+		if not OS.has_feature("web") and bool(config.get_value("display", "fullscreen", false)):
+			fullscreen = true
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_fullscreen"):
+		get_viewport().set_input_as_handled()
+		toggle_fullscreen()
 
 
 func _save() -> void:
@@ -79,6 +120,7 @@ func _save() -> void:
 	config.load(SETTINGS_PATH)
 	config.set_value("ui", "quiet_banter", quiet_banter)
 	config.set_value("ui", "touch_mode", touch_mode)
+	config.set_value("display", "fullscreen", fullscreen)
 	config.save(SETTINGS_PATH)
 
 

@@ -60,6 +60,7 @@ func _ready() -> void:
 	_check_the_overlay_keeps_off_the_hud("world")
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
+	_check_settings_are_kept()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -432,6 +433,43 @@ func _action(action_name: String) -> InputEventAction:
 func _settle() -> void:
 	for _i in SETTLE:
 		await get_tree().process_frame
+
+
+# --- settings are kept ---------------------------------------------------------
+
+
+## The sound and fullscreen controls in the system menu reach the game and are
+## written to settings.cfg, so they hold across a restart. The player's own
+## values are put back afterwards.
+func _check_settings_are_kept() -> void:
+	var sfx_was := Sfx.volume
+	var fullscreen_was := Pace.fullscreen
+	var slider: HSlider = _menu.get_node("%SfxSlider")
+	var fullscreen: Button = _menu.get_node("%FullscreenButton")
+
+	slider.value = 0.25
+	_expect(is_equal_approx(Sfx.volume, 0.25), "the sounds slider does not move the sound volume")
+	fullscreen.button_pressed = not fullscreen_was
+	_expect(Pace.fullscreen != fullscreen_was, "the fullscreen button does not reach the game")
+
+	var config := ConfigFile.new()
+	config.load(Pace.SETTINGS_PATH)
+	_expect(
+		is_equal_approx(float(config.get_value("audio", "sfx_volume", -1.0)), 0.25),
+		"the sound volume is not written to settings.cfg"
+	)
+	_expect(
+		bool(config.get_value("display", "fullscreen", fullscreen_was)) != fullscreen_was,
+		"fullscreen is not written to settings.cfg"
+	)
+
+	Pace.toggle_fullscreen()
+	_expect(Pace.fullscreen == fullscreen_was, "the fullscreen key does not switch it back")
+	_expect(
+		fullscreen.button_pressed == fullscreen_was,
+		"the fullscreen button does not follow the fullscreen key"
+	)
+	slider.value = sfx_was
 
 
 func _expect(condition: bool, failure: String) -> void:
