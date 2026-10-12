@@ -168,6 +168,10 @@ borrowed designs among them (`beast_titan`, `colossal_titan`, `king_slime`) use 
 [`art/townsfolk/`](../art/townsfolk/README.md), for the talking people of [D62](06-decisions.md) who
 wear a borrowed body today.
 
+![the body in the game today, and the new one](images/redo/before-after.png)
+
+![eight townsfolk](images/redo/townsfolk.png)
+
 Log each against the month's credits. At the current count this is the bulk of the art bill, and it
 can be spread over several months without blocking anything but polish.
 
