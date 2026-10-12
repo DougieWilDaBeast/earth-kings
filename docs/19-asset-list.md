@@ -38,6 +38,9 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 | UI | Frames, an emblem, season clovers | No ability icons, no status icons |
 | Sources | `art/source/` — `.aseprite` files and references | — |
 
+Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in
+`PIXELLAB_API_KEY` and downloads the same export zip the website gives ([20](20-pixellab-size-test.md#done-through-the-api-2026-10-12)).
+
 Each unit folder has a `metadata.json` with the PixelLab prompt, size, view and template it was made
 with. **Keep writing it.** It is the only record of how to regenerate a character at another size.
 
@@ -86,6 +89,11 @@ item cost against the 15% so the next month can be planned.
 ---
 
 ## Tier 1 — the combat prototype (after the reset)
+
+**Size settled 2026-10-12 ([D55](06-decisions.md), Inferred):** the 64 class, every humanoid dressed
+onto the founders' blank base body with `python3 tools/pixellab.py dress <unit>`, then animated with
+`animate` (words for attacks, `--template-animation walk --mode skeleton-v3` for stock moves).
+Non-humanoids (wolf, slime) are made with `character` and the matching template.
 
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
