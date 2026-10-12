@@ -327,6 +327,9 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- New-player onboarding ✅ (2026-10-12): first-time tip cards (`data/tips.json`, once per player
+  in `settings.cfg`, never during autoplay; _Tips: on/off_ and _Reset tips_ in the menu) and a
+  _How to Play_ page from the title screen and the menu (`data/how_to_play.json`)
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - A store page (itch.io or Steam) — planned; the founders' call
 
