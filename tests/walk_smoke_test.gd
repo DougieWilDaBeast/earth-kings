@@ -950,6 +950,7 @@ func _check_save_round_trip() -> void:
 		"beaten": lead_member.beaten.duplicate(),
 		"away": GameState.away.size(),
 		"delving": GameState.delving.duplicate(),
+		"bands": world.prowlers.size(),
 	}
 
 	GameState.save()
@@ -981,11 +982,22 @@ func _check_save_round_trip() -> void:
 	_expect(GameState.roster.party_members()[0].beaten == before["beaten"], "kinds learned from did not survive the save")
 	_expect(GameState.away.size() == before["away"], "companions away did not survive the save")
 	_expect(GameState.delving == before["delving"], "being held inside a gate did not survive the save")
+	# Continue opens the walk on the loaded world; that must not put more bands out.
+	var reopened: Node = load("res://src/world/world_scene.tscn").instantiate()
+	add_child(reopened)
+	_expect(
+		GameState.world.prowlers.size() == before["bands"],
+		"opening the walk on a loaded save changed the bands abroad from %d to %d" % [
+			before["bands"], GameState.world.prowlers.size()
+		]
+	)
+	remove_child(reopened)
+	reopened.free()
 	# Only here to be saved: nobody is really away, and no gate is holding anyone.
 	GameState.away.clear()
 	GameState.delving = []
-	print("save: %d steps, floor %d and %d gold all came back" % [
-		before["steps"], before["floor"], before["gold"]
+	print("save: %d steps, floor %d, %d gold and %d bands all came back" % [
+		before["steps"], before["floor"], before["gold"], before["bands"]
 	])
 
 

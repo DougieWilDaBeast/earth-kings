@@ -209,7 +209,8 @@ floor is won when one of the party stands on it. The names and briefs are in
 the season represented by four clovers: Lesser Green (Spring), Green (Summer), Brown (Autumn), and
 Ice (Winter). Every 30 steps the world takes an upkeep pass (`World.UPKEEP_INTERVAL`): gates check for
 breaking, trade routes pay, threads tick, and prowlers restock. Scaling a Tower floor advances the
-continent by 30 steps ([D27](06-decisions.md)).
+continent by 30 steps ([D27](06-decisions.md)). Bands are put out only on that clock and once when a
+new world first opens; loading a save or coming back from a fight adds none.
 
 **Towns under threat.** The upkeep pass puts the settlement nearest a long-open gate under siege.
 A siege you answer (`Town.save`) pays gold and buys goodwill; one you ignore for 900 steps takes

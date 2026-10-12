@@ -86,8 +86,12 @@ var _last_view: Vector3 = Vector3.INF
 
 func _ready() -> void:
 	world = GameState.world
-	Encounter.restock(world, world.rng)
-	if world.steps == 0:
+	# Only a world nobody has stood in yet is stocked here. This scene opens again
+	# on every load and after every fight; topping up then too put a fresh round
+	# of bands out each time (the count jumped on Continue). After the first
+	# stocking, the country refills on the step clock alone (RESTOCK_INTERVAL).
+	if world.steps == 0 and world.prowlers.is_empty():
+		Encounter.restock(world, world.rng)
 		Encounter.first_blood(world, world.rng)
 	_warm_art()
 	_map.draw.connect(_draw_world)
