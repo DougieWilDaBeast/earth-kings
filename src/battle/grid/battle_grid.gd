@@ -11,6 +11,10 @@ var width: int = 0
 var height: int = 0
 var map_name: String = ""
 
+## Off when the fight is laid over real ground ([D66]): only a faint grid is
+## drawn, so the tiles underneath are the battlefield.
+var draw_floor: bool = true
+
 var _terrain_ids: Dictionary = {}  ## Vector2i -> terrain id String
 var _ground_decor: Dictionary = {}
 
@@ -128,6 +132,11 @@ func centre_world() -> Vector2:
 
 
 func _draw() -> void:
+	if not draw_floor:
+		for cell: Vector2i in _terrain_ids:
+			if is_walkable(cell):
+				draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), Color(0, 0, 0, 0.16), false, 1.0)
+		return
 	for cell: Vector2i in _terrain_ids:
 		var data := terrain_at(cell)
 		var rect := Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE)

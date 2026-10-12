@@ -334,6 +334,37 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.
 
+## `biomes.json` — the lands, and how each one's ground is laid out
+
+```json
+{
+  "size": [32, 22],
+  "landmark_chance": 0.22,
+  "biomes": {
+    "swamp": {
+      "name": "swamp", "tint": "#90b8a0", "line": "Warm, wet and loud with things you cannot see.",
+      "ground": { "floor": "swamp_floor", "bare": "swamp_bare", "liquid": "swamp_liquid", "cover": "swamp_cover" },
+      "layers": ["swamp_ground", "swamp_pool", "swamp_cover"],
+      "props": { "trees": ["biome/swamp_willow"], "bushes": ["biome/swamp_reeds"], "rocks": ["biome/glow_caps"], "small": ["biome/swamp_reeds"] },
+      "density": { "trees": 0.06, "bushes": 0.051, "rocks": 0.0064, "small": 0.064 },
+      "features": { "pools": 3.5, "cover": 3, "bare": 1, "outcrops": 0.3 },
+      "sea_shore": true
+    }
+  }
+}
+```
+
+- `size` — cells across and down of every generated ground. `landmark_chance` — the share of
+  grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
+- `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
+  the sheets they are drawn with, bottom first. Cover is walkable and blocks a band's sight.
+- `props` — art for each kind of thing, sized by `props.json`; `density` — how many per cell;
+  `features` — how many of each kind of patch a ground gets, on average.
+- `sea_shore` — whether a ground on the coast gets a shore of the land's own water.
+
+Which land a tile is: `src/chronicle/biome.gd`. Laid out by `src/area/ground_gen.gd` and handed to
+the `Database` as an area (`ground_<x>_<y>_<land>`), so it is walked like any area under `areas/`.
+
 ## `guild.json` — the Adventurers Guild
 
 ```json

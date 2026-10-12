@@ -55,6 +55,8 @@ var music: Dictionary = {}
 var guild: Dictionary = {}
 ## Passives, enemy roles and feel for the real-time skirmish (see `src/skirmish/`).
 var skirmish: Dictionary = {}
+## The lands of the continent and how each one's ground is laid out (`biomes.json`).
+var biomes: Dictionary = {}
 ## The fall: crash sites, the landing, the standing quest, and the others living
 ## their own lives (see `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`).
 var fall: Dictionary = {}
@@ -72,6 +74,7 @@ var _runs: Dictionary = {}
 
 func _ready() -> void:
 	terrain = _load_json("%s/terrain.json" % DATA_DIR)
+	biomes = _load_json("%s/biomes.json" % DATA_DIR)
 	units = _load_json("%s/units.json" % DATA_DIR)
 	abilities = _load_json("%s/abilities.json" % DATA_DIR)
 	equipment = _load_json("%s/equipment.json" % DATA_DIR)
@@ -256,7 +259,18 @@ func area(id: String) -> Dictionary:
 
 
 func has_area(id: String) -> bool:
-	return id != "" and FileAccess.file_exists(_area_path(id))
+	return id != "" and (_areas.has(id) and not _areas[id].is_empty() or FileAccess.file_exists(_area_path(id)))
+
+
+## An area made rather than written: the generated ground of one tile of the
+## continent (see [GroundGen]). Kept for the session; it is made the same way
+## from the same seed, so it never needs saving.
+func register_area(id: String, payload: Dictionary) -> void:
+	_areas[id] = payload
+
+
+func biome(id: String) -> Dictionary:
+	return biomes.get("biomes", {}).get(id, {})
 
 
 func tileset_sheet(id: String) -> Dictionary:

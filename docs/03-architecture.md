@@ -84,7 +84,9 @@ src/
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
                                data/props.json (some animated), buildings drawn from their art,
-                               chests, cutscenes, camp fire; walking off an edge hands the step to world/
+                               chests, cutscenes, camp fire; walking off an edge hands the step to world/.
+                               ground_gen.gd lays out every tile of open country from its land
+                               (chronicle/biome.gd); bands stand guard on it and are fought there (D66)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all

@@ -22,7 +22,8 @@
 		},
 		"meadow": {
 			"display_name": "long grass",
-			"walkable": true
+			"walkable": true,
+			"cover": true
 		},
 		"flagstone": {
 			"display_name": "flagstones",
@@ -47,6 +48,278 @@
 		"thunderstone": {
 			"display_name": "thunderstone",
 			"walkable": true
+		},
+		"snow_floor": {
+			"display_name": "snow",
+			"walkable": true
+		},
+		"snow_bare": {
+			"display_name": "frozen earth",
+			"walkable": true
+		},
+		"snow_liquid": {
+			"display_name": "frozen pond",
+			"walkable": false
+		},
+		"snow_cover": {
+			"display_name": "snowdrift",
+			"walkable": true,
+			"cover": true
+		},
+		"dune_floor": {
+			"display_name": "sand",
+			"walkable": true
+		},
+		"dune_bare": {
+			"display_name": "hardpan",
+			"walkable": true
+		},
+		"dune_liquid": {
+			"display_name": "oasis water",
+			"walkable": false
+		},
+		"dune_cover": {
+			"display_name": "dune grass",
+			"walkable": true,
+			"cover": true
+		},
+		"badlands_floor": {
+			"display_name": "red earth",
+			"walkable": true
+		},
+		"badlands_bare": {
+			"display_name": "cracked clay",
+			"walkable": true
+		},
+		"badlands_liquid": {
+			"display_name": "mud hole",
+			"walkable": false
+		},
+		"badlands_cover": {
+			"display_name": "dry grass",
+			"walkable": true,
+			"cover": true
+		},
+		"savanna_floor": {
+			"display_name": "dry grass",
+			"walkable": true
+		},
+		"savanna_bare": {
+			"display_name": "red earth",
+			"walkable": true
+		},
+		"savanna_liquid": {
+			"display_name": "waterhole",
+			"walkable": false
+		},
+		"savanna_cover": {
+			"display_name": "tall grass",
+			"walkable": true,
+			"cover": true
+		},
+		"ash_floor": {
+			"display_name": "ash",
+			"walkable": true
+		},
+		"ash_bare": {
+			"display_name": "cinder",
+			"walkable": true
+		},
+		"ash_liquid": {
+			"display_name": "lava",
+			"walkable": false
+		},
+		"ash_cover": {
+			"display_name": "ash drift",
+			"walkable": true,
+			"cover": true
+		},
+		"blight_floor": {
+			"display_name": "blighted ground",
+			"walkable": true
+		},
+		"blight_bare": {
+			"display_name": "rotten earth",
+			"walkable": true
+		},
+		"blight_liquid": {
+			"display_name": "blood pool",
+			"walkable": false
+		},
+		"blight_cover": {
+			"display_name": "blight thorns",
+			"walkable": true,
+			"cover": true
+		},
+		"slime_floor": {
+			"display_name": "slick moss",
+			"walkable": true
+		},
+		"slime_bare": {
+			"display_name": "ooze",
+			"walkable": true
+		},
+		"slime_liquid": {
+			"display_name": "slime pool",
+			"walkable": false
+		},
+		"slime_cover": {
+			"display_name": "slime fronds",
+			"walkable": true,
+			"cover": true
+		},
+		"bog_floor": {
+			"display_name": "bog moss",
+			"walkable": true
+		},
+		"bog_bare": {
+			"display_name": "peat",
+			"walkable": true
+		},
+		"bog_liquid": {
+			"display_name": "bog water",
+			"walkable": false
+		},
+		"bog_cover": {
+			"display_name": "rushes",
+			"walkable": true,
+			"cover": true
+		},
+		"swamp_floor": {
+			"display_name": "swamp grass",
+			"walkable": true
+		},
+		"swamp_bare": {
+			"display_name": "mud",
+			"walkable": true
+		},
+		"swamp_liquid": {
+			"display_name": "swamp water",
+			"walkable": false
+		},
+		"swamp_cover": {
+			"display_name": "reeds",
+			"walkable": true,
+			"cover": true
+		},
+		"crystal_floor": {
+			"display_name": "crystal turf",
+			"walkable": true
+		},
+		"crystal_bare": {
+			"display_name": "glass earth",
+			"walkable": true
+		},
+		"crystal_liquid": {
+			"display_name": "light pool",
+			"walkable": false
+		},
+		"crystal_cover": {
+			"display_name": "crystal grass",
+			"walkable": true,
+			"cover": true
+		},
+		"fungal_floor": {
+			"display_name": "mycelium",
+			"walkable": true
+		},
+		"fungal_bare": {
+			"display_name": "spore earth",
+			"walkable": true
+		},
+		"fungal_liquid": {
+			"display_name": "glow pool",
+			"walkable": false
+		},
+		"fungal_cover": {
+			"display_name": "spore grass",
+			"walkable": true,
+			"cover": true
+		},
+		"blossom_floor": {
+			"display_name": "soft grass",
+			"walkable": true
+		},
+		"blossom_bare": {
+			"display_name": "petal path",
+			"walkable": true
+		},
+		"blossom_liquid": {
+			"display_name": "clear pool",
+			"walkable": false
+		},
+		"blossom_cover": {
+			"display_name": "petal drifts",
+			"walkable": true,
+			"cover": true
+		},
+		"barrow_floor": {
+			"display_name": "barrow turf",
+			"walkable": true
+		},
+		"barrow_bare": {
+			"display_name": "chalk",
+			"walkable": true
+		},
+		"barrow_liquid": {
+			"display_name": "still water",
+			"walkable": false
+		},
+		"barrow_cover": {
+			"display_name": "grey grass",
+			"walkable": true,
+			"cover": true
+		},
+		"jungle_floor": {
+			"display_name": "jungle grass",
+			"walkable": true
+		},
+		"jungle_bare": {
+			"display_name": "leaf litter",
+			"walkable": true
+		},
+		"jungle_liquid": {
+			"display_name": "jungle water",
+			"walkable": false
+		},
+		"jungle_cover": {
+			"display_name": "undergrowth",
+			"walkable": true,
+			"cover": true
+		},
+		"taiga_floor": {
+			"display_name": "frosted moss",
+			"walkable": true
+		},
+		"taiga_bare": {
+			"display_name": "frozen earth",
+			"walkable": true
+		},
+		"taiga_liquid": {
+			"display_name": "meltwater",
+			"walkable": false
+		},
+		"taiga_cover": {
+			"display_name": "needle drift",
+			"walkable": true,
+			"cover": true
+		},
+		"mist_floor": {
+			"display_name": "mist moss",
+			"walkable": true
+		},
+		"mist_bare": {
+			"display_name": "wet stone",
+			"walkable": true
+		},
+		"mist_liquid": {
+			"display_name": "still water",
+			"walkable": false
+		},
+		"mist_cover": {
+			"display_name": "mist bracken",
+			"walkable": true,
+			"cover": true
 		}
 	},
 	"sheets": {
@@ -112,6 +385,390 @@
 			"lower": "cinder",
 			"upper": "thunderstone",
 			"feature": "thunderstone"
+		},
+		"snow_ground": {
+			"texture": "res://art/tilesets/biome/snow_ground.png",
+			"tile_size": 64,
+			"lower": "snow_bare",
+			"upper": "snow_floor",
+			"feature": "snow_bare",
+			"stand_in": true
+		},
+		"snow_pool": {
+			"texture": "res://art/tilesets/biome/snow_pool.png",
+			"tile_size": 32,
+			"lower": "snow_liquid",
+			"upper": "snow_floor",
+			"feature": "snow_liquid",
+			"stand_in": true
+		},
+		"snow_cover": {
+			"texture": "res://art/tilesets/biome/snow_cover.png",
+			"tile_size": 64,
+			"lower": "snow_floor",
+			"upper": "snow_cover",
+			"feature": "snow_cover",
+			"stand_in": true
+		},
+		"dune_ground": {
+			"texture": "res://art/tilesets/biome/dune_ground.png",
+			"tile_size": 64,
+			"lower": "dune_bare",
+			"upper": "dune_floor",
+			"feature": "dune_bare",
+			"stand_in": true
+		},
+		"dune_pool": {
+			"texture": "res://art/tilesets/biome/dune_pool.png",
+			"tile_size": 32,
+			"lower": "dune_liquid",
+			"upper": "dune_floor",
+			"feature": "dune_liquid",
+			"stand_in": true
+		},
+		"dune_cover": {
+			"texture": "res://art/tilesets/biome/dune_cover.png",
+			"tile_size": 64,
+			"lower": "dune_floor",
+			"upper": "dune_cover",
+			"feature": "dune_cover",
+			"stand_in": true
+		},
+		"badlands_ground": {
+			"texture": "res://art/tilesets/biome/badlands_ground.png",
+			"tile_size": 64,
+			"lower": "badlands_bare",
+			"upper": "badlands_floor",
+			"feature": "badlands_bare",
+			"stand_in": true
+		},
+		"badlands_pool": {
+			"texture": "res://art/tilesets/biome/badlands_pool.png",
+			"tile_size": 32,
+			"lower": "badlands_liquid",
+			"upper": "badlands_floor",
+			"feature": "badlands_liquid",
+			"stand_in": true
+		},
+		"badlands_cover": {
+			"texture": "res://art/tilesets/biome/badlands_cover.png",
+			"tile_size": 64,
+			"lower": "badlands_floor",
+			"upper": "badlands_cover",
+			"feature": "badlands_cover",
+			"stand_in": true
+		},
+		"savanna_ground": {
+			"texture": "res://art/tilesets/biome/savanna_ground.png",
+			"tile_size": 64,
+			"lower": "savanna_bare",
+			"upper": "savanna_floor",
+			"feature": "savanna_bare",
+			"stand_in": true
+		},
+		"savanna_pool": {
+			"texture": "res://art/tilesets/biome/savanna_pool.png",
+			"tile_size": 32,
+			"lower": "savanna_liquid",
+			"upper": "savanna_floor",
+			"feature": "savanna_liquid",
+			"stand_in": true
+		},
+		"savanna_cover": {
+			"texture": "res://art/tilesets/biome/savanna_cover.png",
+			"tile_size": 64,
+			"lower": "savanna_floor",
+			"upper": "savanna_cover",
+			"feature": "savanna_cover",
+			"stand_in": true
+		},
+		"ash_ground": {
+			"texture": "res://art/tilesets/biome/ash_ground.png",
+			"tile_size": 64,
+			"lower": "ash_bare",
+			"upper": "ash_floor",
+			"feature": "ash_bare",
+			"stand_in": true
+		},
+		"ash_pool": {
+			"texture": "res://art/tilesets/biome/ash_pool.png",
+			"tile_size": 32,
+			"lower": "ash_liquid",
+			"upper": "ash_floor",
+			"feature": "ash_liquid",
+			"stand_in": true
+		},
+		"ash_cover": {
+			"texture": "res://art/tilesets/biome/ash_cover.png",
+			"tile_size": 64,
+			"lower": "ash_floor",
+			"upper": "ash_cover",
+			"feature": "ash_cover",
+			"stand_in": true
+		},
+		"blight_ground": {
+			"texture": "res://art/tilesets/biome/blight_ground.png",
+			"tile_size": 64,
+			"lower": "blight_bare",
+			"upper": "blight_floor",
+			"feature": "blight_bare",
+			"stand_in": true
+		},
+		"blight_pool": {
+			"texture": "res://art/tilesets/biome/blight_pool.png",
+			"tile_size": 32,
+			"lower": "blight_liquid",
+			"upper": "blight_floor",
+			"feature": "blight_liquid",
+			"stand_in": true
+		},
+		"blight_cover": {
+			"texture": "res://art/tilesets/biome/blight_cover.png",
+			"tile_size": 64,
+			"lower": "blight_floor",
+			"upper": "blight_cover",
+			"feature": "blight_cover",
+			"stand_in": true
+		},
+		"slime_ground": {
+			"texture": "res://art/tilesets/biome/slime_ground.png",
+			"tile_size": 64,
+			"lower": "slime_bare",
+			"upper": "slime_floor",
+			"feature": "slime_bare",
+			"stand_in": true
+		},
+		"slime_pool": {
+			"texture": "res://art/tilesets/biome/slime_pool.png",
+			"tile_size": 32,
+			"lower": "slime_liquid",
+			"upper": "slime_floor",
+			"feature": "slime_liquid",
+			"stand_in": true
+		},
+		"slime_cover": {
+			"texture": "res://art/tilesets/biome/slime_cover.png",
+			"tile_size": 64,
+			"lower": "slime_floor",
+			"upper": "slime_cover",
+			"feature": "slime_cover",
+			"stand_in": true
+		},
+		"bog_ground": {
+			"texture": "res://art/tilesets/biome/bog_ground.png",
+			"tile_size": 64,
+			"lower": "bog_bare",
+			"upper": "bog_floor",
+			"feature": "bog_bare",
+			"stand_in": true
+		},
+		"bog_pool": {
+			"texture": "res://art/tilesets/biome/bog_pool.png",
+			"tile_size": 32,
+			"lower": "bog_liquid",
+			"upper": "bog_floor",
+			"feature": "bog_liquid",
+			"stand_in": true
+		},
+		"bog_cover": {
+			"texture": "res://art/tilesets/biome/bog_cover.png",
+			"tile_size": 64,
+			"lower": "bog_floor",
+			"upper": "bog_cover",
+			"feature": "bog_cover",
+			"stand_in": true
+		},
+		"swamp_ground": {
+			"texture": "res://art/tilesets/biome/swamp_ground.png",
+			"tile_size": 64,
+			"lower": "swamp_bare",
+			"upper": "swamp_floor",
+			"feature": "swamp_bare",
+			"stand_in": true
+		},
+		"swamp_pool": {
+			"texture": "res://art/tilesets/biome/swamp_pool.png",
+			"tile_size": 32,
+			"lower": "swamp_liquid",
+			"upper": "swamp_floor",
+			"feature": "swamp_liquid",
+			"stand_in": true
+		},
+		"swamp_cover": {
+			"texture": "res://art/tilesets/biome/swamp_cover.png",
+			"tile_size": 64,
+			"lower": "swamp_floor",
+			"upper": "swamp_cover",
+			"feature": "swamp_cover",
+			"stand_in": true
+		},
+		"crystal_ground": {
+			"texture": "res://art/tilesets/biome/crystal_ground.png",
+			"tile_size": 64,
+			"lower": "crystal_bare",
+			"upper": "crystal_floor",
+			"feature": "crystal_bare",
+			"stand_in": true
+		},
+		"crystal_pool": {
+			"texture": "res://art/tilesets/biome/crystal_pool.png",
+			"tile_size": 32,
+			"lower": "crystal_liquid",
+			"upper": "crystal_floor",
+			"feature": "crystal_liquid",
+			"stand_in": true
+		},
+		"crystal_cover": {
+			"texture": "res://art/tilesets/biome/crystal_cover.png",
+			"tile_size": 64,
+			"lower": "crystal_floor",
+			"upper": "crystal_cover",
+			"feature": "crystal_cover",
+			"stand_in": true
+		},
+		"fungal_ground": {
+			"texture": "res://art/tilesets/biome/fungal_ground.png",
+			"tile_size": 64,
+			"lower": "fungal_bare",
+			"upper": "fungal_floor",
+			"feature": "fungal_bare",
+			"stand_in": true
+		},
+		"fungal_pool": {
+			"texture": "res://art/tilesets/biome/fungal_pool.png",
+			"tile_size": 32,
+			"lower": "fungal_liquid",
+			"upper": "fungal_floor",
+			"feature": "fungal_liquid",
+			"stand_in": true
+		},
+		"fungal_cover": {
+			"texture": "res://art/tilesets/biome/fungal_cover.png",
+			"tile_size": 64,
+			"lower": "fungal_floor",
+			"upper": "fungal_cover",
+			"feature": "fungal_cover",
+			"stand_in": true
+		},
+		"blossom_ground": {
+			"texture": "res://art/tilesets/biome/blossom_ground.png",
+			"tile_size": 64,
+			"lower": "blossom_bare",
+			"upper": "blossom_floor",
+			"feature": "blossom_bare",
+			"stand_in": true
+		},
+		"blossom_pool": {
+			"texture": "res://art/tilesets/biome/blossom_pool.png",
+			"tile_size": 32,
+			"lower": "blossom_liquid",
+			"upper": "blossom_floor",
+			"feature": "blossom_liquid",
+			"stand_in": true
+		},
+		"blossom_cover": {
+			"texture": "res://art/tilesets/biome/blossom_cover.png",
+			"tile_size": 64,
+			"lower": "blossom_floor",
+			"upper": "blossom_cover",
+			"feature": "blossom_cover",
+			"stand_in": true
+		},
+		"barrow_ground": {
+			"texture": "res://art/tilesets/biome/barrow_ground.png",
+			"tile_size": 64,
+			"lower": "barrow_bare",
+			"upper": "barrow_floor",
+			"feature": "barrow_bare",
+			"stand_in": true
+		},
+		"barrow_pool": {
+			"texture": "res://art/tilesets/biome/barrow_pool.png",
+			"tile_size": 32,
+			"lower": "barrow_liquid",
+			"upper": "barrow_floor",
+			"feature": "barrow_liquid",
+			"stand_in": true
+		},
+		"barrow_cover": {
+			"texture": "res://art/tilesets/biome/barrow_cover.png",
+			"tile_size": 64,
+			"lower": "barrow_floor",
+			"upper": "barrow_cover",
+			"feature": "barrow_cover",
+			"stand_in": true
+		},
+		"jungle_ground": {
+			"texture": "res://art/tilesets/biome/jungle_ground.png",
+			"tile_size": 64,
+			"lower": "jungle_bare",
+			"upper": "jungle_floor",
+			"feature": "jungle_bare",
+			"stand_in": true
+		},
+		"jungle_pool": {
+			"texture": "res://art/tilesets/biome/jungle_pool.png",
+			"tile_size": 32,
+			"lower": "jungle_liquid",
+			"upper": "jungle_floor",
+			"feature": "jungle_liquid",
+			"stand_in": true
+		},
+		"jungle_cover": {
+			"texture": "res://art/tilesets/biome/jungle_cover.png",
+			"tile_size": 64,
+			"lower": "jungle_floor",
+			"upper": "jungle_cover",
+			"feature": "jungle_cover",
+			"stand_in": true
+		},
+		"taiga_ground": {
+			"texture": "res://art/tilesets/biome/taiga_ground.png",
+			"tile_size": 64,
+			"lower": "taiga_bare",
+			"upper": "taiga_floor",
+			"feature": "taiga_bare",
+			"stand_in": true
+		},
+		"taiga_pool": {
+			"texture": "res://art/tilesets/biome/taiga_pool.png",
+			"tile_size": 32,
+			"lower": "taiga_liquid",
+			"upper": "taiga_floor",
+			"feature": "taiga_liquid",
+			"stand_in": true
+		},
+		"taiga_cover": {
+			"texture": "res://art/tilesets/biome/taiga_cover.png",
+			"tile_size": 64,
+			"lower": "taiga_floor",
+			"upper": "taiga_cover",
+			"feature": "taiga_cover",
+			"stand_in": true
+		},
+		"mist_ground": {
+			"texture": "res://art/tilesets/biome/mist_ground.png",
+			"tile_size": 64,
+			"lower": "mist_bare",
+			"upper": "mist_floor",
+			"feature": "mist_bare",
+			"stand_in": true
+		},
+		"mist_pool": {
+			"texture": "res://art/tilesets/biome/mist_pool.png",
+			"tile_size": 32,
+			"lower": "mist_liquid",
+			"upper": "mist_floor",
+			"feature": "mist_liquid",
+			"stand_in": true
+		},
+		"mist_cover": {
+			"texture": "res://art/tilesets/biome/mist_cover.png",
+			"tile_size": 64,
+			"lower": "mist_floor",
+			"upper": "mist_cover",
+			"feature": "mist_cover",
+			"stand_in": true
 		}
 	}
 }

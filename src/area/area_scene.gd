@@ -16,6 +16,7 @@ const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
+const GroundPainter := preload("res://src/area/ground_painter.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -93,6 +94,11 @@ var _acts: Array = []
 var _held: Dictionary = {}
 ## The buttons for [member _acts], for a thumb or a pad. Built in code.
 var _act_bar: HFlowContainer = null
+## Bands standing on this ground: `{ data, actors, watch, at }`, where `watch`
+## is every cell the band can see and `at` the cell it last saw them from.
+var _bands: Array = []
+## Draws the watched ground red, under everyone's feet.
+var _sight: Node2D = null
 
 
 func _ready() -> void:
@@ -116,6 +122,7 @@ func _ready() -> void:
 	_admit_the_others()
 	_admit_the_ghosts()
 	_spawn_people()
+	_spawn_bands()
 	_spawn_fire()
 	_camera.frame(map.rect())
 	_camera.focus_on(_leader.position, true)
@@ -148,40 +155,9 @@ func _open_on(cutscene_id: String) -> void:
 # --- building -----------------------------------------------------------------
 
 
-## One [TileMapLayer] per sheet, bottom first. Sheets drawn at a smaller tile
-## size are scaled up so every layer shares the area's cell size.
+## One [TileMapLayer] per sheet, bottom first (see [GroundPainter]).
 func _paint_layers() -> void:
-	for index in map.layers.size():
-		var sheet := Database.tileset_sheet(map.layers[index])
-		if sheet.is_empty():
-			push_warning("Area: %s has no sheet '%s'" % [map.id, map.layers[index]])
-			continue
-		var tile_set := TileForge.tile_set_for(sheet)
-		if tile_set == null:
-			continue
-
-		var layer := TileMapLayer.new()
-		layer.tile_set = tile_set
-		var zoom := float(AreaMap.CELL) / float(sheet.get("tile_size", AreaMap.CELL))
-		layer.scale = Vector2(zoom, zoom)
-		# Half a cell up and left, so tile corners land on cell centres.
-		layer.position = Vector2.ONE * (-AreaMap.CELL / 2.0)
-		_layers.add_child(layer)
-		_fill_layer(layer, sheet, index > 0)
-
-
-func _fill_layer(layer: TileMapLayer, sheet: Dictionary, is_overlay: bool) -> void:
-	var feature: String = sheet.get("feature", sheet.get("lower", ""))
-	var feature_bit := 1 if feature == sheet.get("upper", "") else 0
-	# The code a tile gets when the sheet's own terrain is nowhere near it.
-	var blank := (1 - feature_bit) * 0b1111
-	for y in range(0, map.height + 1):
-		for x in range(0, map.width + 1):
-			var code := map.corner_code(Vector2i(x, y), feature, feature_bit)
-			# An upper layer with nothing of its own here lets the one below show.
-			if is_overlay and code == blank:
-				continue
-			layer.set_cell(Vector2i(x, y), TileForge.SOURCE_ID, TileForge.atlas_coords(code))
+	GroundPainter.paint(map, _layers)
 
 
 func _spawn_party() -> void:
@@ -740,6 +716,8 @@ func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	_refresh_prompt()
+	if _watch_for_bands():
+		return
 	if _picking_an_act():
 		return
 	# Before the early-out below: the party has to keep closing the gap after the
@@ -1084,6 +1062,201 @@ func _here_payload() -> Dictionary:
 		var cell := map.cell_at(_leader.position)
 		here["spawn_cell"] = [cell.x, cell.y]
 	return here
+
+
+# --- bands, and the ground they watch -------------------------------------------
+
+
+## How far a band sees across this ground, before its own sight is added.
+const SIGHT_REACH := 3
+const SIGHT_FILL := Color(0.86, 0.12, 0.10, 0.20)
+const SIGHT_EDGE := Color(1.0, 0.32, 0.26, 0.55)
+## How much room a fight is given round the people in it, and its limits.
+const FIELD_MARGIN := 3
+const FIELD_MIN := Vector2i(16, 11)
+const FIELD_MAX := Vector2i(26, 16)
+## Seconds a band takes to rush at the party once it has seen them, and how
+## much of the way it covers, before the fight opens on the spot.
+const CHARGE_TIME := 0.45
+const CHARGE_SHARE := 0.55
+
+
+## Every band the continent says is here, standing guard on the side of the
+## ground it is on, with what it watches painted red ([D66]). They hold their
+## post (`doug-md`: guard, then chase): walk round the red and they never move.
+func _spawn_bands() -> void:
+	var listed: Array = boot_payload.get("bands", [])
+	if listed.is_empty() or _leader == null:
+		return
+	_sight = Node2D.new()
+	add_child(_sight)
+	move_child(_sight, _actors.get_index())
+	_sight.draw.connect(_draw_sight)
+	var arrived := map.cell_at(_leader.position)
+	var offsets: Array[Vector2i] = [Vector2i.ZERO, Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1)]
+	for index in listed.size():
+		var data: Dictionary = listed[index]
+		var post := _post_for(data, arrived)
+		var band := { "data": data, "actors": [], "watch": {}, "at": Vector2i(-1, -1) }
+		var pack: Array = data.get("pack", [])
+		for i in mini(pack.size(), offsets.size()):
+			var unit := str(pack[i])
+			var actor := AreaActor.for_person({
+				"name": str(Database.unit_template(unit).get("display_name", unit)), "unit": unit,
+			})
+			actor.position = map.centre_of(_free_spot_near(post + offsets[i]))
+			actor.face(Vector2(arrived - post))
+			_actors.add_child(actor)
+			band["actors"].append(actor)
+		_bands.append(band)
+	_refresh_sight()
+
+
+## Where a band stands: towards the side of the continent it is on, or for a
+## band on this very tile, somewhere well away from where the party came in.
+func _post_for(data: Dictionary, arrived: Vector2i) -> Vector2i:
+	var from: Array = data.get("from", [0, 0])
+	var dir := Vector2i(int(from[0]), int(from[1]))
+	var seed_value := absi(hash(str(data.get("key", ""))))
+	if dir != Vector2i.ZERO:
+		var cx := map.width / 2 + dir.x * (map.width / 2 - 4) + (seed_value % 5) - 2
+		var cy := map.height / 2 + dir.y * (map.height / 2 - 4) + (seed_value / 7 % 5) - 2
+		return _free_spot_near(Vector2i(clampi(cx, 2, map.width - 3), clampi(cy, 2, map.height - 3)))
+	for i in 24:
+		var at := Vector2i(3 + (seed_value / (i + 1)) % maxi(1, map.width - 6), 3 + (seed_value / (i + 3)) % maxi(1, map.height - 6))
+		if map.is_walkable(at) and Pathfinder.distance(at, arrived) >= 9:
+			return at
+	return _free_spot_near(Vector2i(map.width - 1 - arrived.x, map.height - 1 - arrived.y))
+
+
+## The cells [param band] can see from where its first member stands: as far
+## as its sight reaches, over nothing solid, and never into cover.
+func _watched_from(band: Dictionary, at: Vector2i) -> Dictionary:
+	var watch := {}
+	var reach := SIGHT_REACH + int(band["data"].get("sight", 2))
+	for dy in range(-reach, reach + 1):
+		for dx in range(-reach, reach + 1):
+			var cell := at + Vector2i(dx, dy)
+			if dx * dx + dy * dy > reach * reach + reach:
+				continue
+			if not map.is_walkable(cell) and cell != at:
+				continue
+			if cell != at and bool(Database.area_terrain(map.terrain_at(cell)).get("cover", false)):
+				continue
+			if _clear_between(at, cell):
+				watch[cell] = true
+	return watch
+
+
+func _clear_between(from: Vector2i, to: Vector2i) -> bool:
+	var span := maxi(absi(to.x - from.x), absi(to.y - from.y))
+	for i in range(1, span):
+		var point := Vector2(from).lerp(Vector2(to), float(i) / float(span)).round()
+		if not map.is_walkable(Vector2i(point)):
+			return false
+	return true
+
+
+## Where the band's first member stands decides what it sees, so this is
+## worked out again whenever one of them has moved.
+func _refresh_sight() -> void:
+	var changed := false
+	for band: Dictionary in _bands:
+		var actors: Array = band["actors"]
+		if actors.is_empty():
+			continue
+		var at := map.cell_at((actors[0] as AreaActor).position)
+		if at == band["at"]:
+			continue
+		band["at"] = at
+		band["watch"] = _watched_from(band, at)
+		changed = true
+	if changed and _sight != null:
+		_sight.queue_redraw()
+
+
+func _draw_sight() -> void:
+	for band: Dictionary in _bands:
+		for cell: Vector2i in band["watch"]:
+			var rect := Rect2(Vector2(cell) * AreaMap.CELL, Vector2.ONE * AreaMap.CELL)
+			_sight.draw_rect(rect, SIGHT_FILL)
+			_sight.draw_rect(rect.grow(-1.0), SIGHT_EDGE, false, 1.0)
+
+
+## Seen: the fight starts where everyone stands. True once it has.
+func _watch_for_bands() -> bool:
+	if _bands.is_empty():
+		return false
+	_refresh_sight()
+	var standing := map.cell_at(_leader.position)
+	for band: Dictionary in _bands:
+		if (band["watch"] as Dictionary).has(standing):
+			_start_fight(band)
+			return true
+	return false
+
+
+func _start_fight(band: Dictionary) -> void:
+	if _leaving:
+		return
+	_leaving = true
+	var many := (band["data"].get("pack", []) as Array).size() > 1
+	_note("%s %s seen you." % [str(band["data"].get("label", "Something")), "have" if many else "has"])
+	# Where everyone stood when they were seen is where the fight is laid out,
+	# so it is taken before the band closes in.
+	var field := _field_for(band)
+	await _charge(band)
+	if not is_inside_tree():
+		return
+	EventBus.request_scene.emit("world", {
+		"fight": str(band["data"].get("key", "")),
+		"field": field,
+		"held": _held,
+		"back": _here_payload(),
+	})
+
+
+## The band rushes the party: part of the way, facing them, so the fight
+## opening is something seen happen rather than a cut.
+func _charge(band: Dictionary) -> void:
+	var actors: Array = band["actors"]
+	if actors.is_empty() or _leader == null:
+		return
+	var rush := create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	for actor: AreaActor in actors:
+		var towards := _leader.position - actor.position
+		actor.face(towards)
+		rush.tween_property(actor, "position", actor.position + towards * CHARGE_SHARE, CHARGE_TIME)
+	_leader.face(-(_leader.position - (actors[0] as AreaActor).position))
+	await rush.finished
+
+
+## The patch of this ground the fight is fought on: everyone in it, with room
+## round them, cut to the ground's edges.
+func _field_for(band: Dictionary) -> Dictionary:
+	var party: Array = []
+	for actor: AreaActor in [_leader] + _followers:
+		var c := map.cell_at(actor.position)
+		party.append([c.x, c.y])
+	var foes: Array = []
+	for actor: AreaActor in band["actors"]:
+		var c := map.cell_at(actor.position)
+		foes.append([c.x, c.y])
+	var lo := Vector2i(1 << 20, 1 << 20)
+	var hi := Vector2i(-1, -1)
+	for pair: Array in party + foes:
+		lo = Vector2i(mini(lo.x, int(pair[0])), mini(lo.y, int(pair[1])))
+		hi = Vector2i(maxi(hi.x, int(pair[0])), maxi(hi.y, int(pair[1])))
+	lo -= Vector2i.ONE * FIELD_MARGIN
+	hi += Vector2i.ONE * FIELD_MARGIN
+	var size := (hi - lo + Vector2i.ONE).clamp(FIELD_MIN, FIELD_MAX)
+	size = Vector2i(mini(size.x, map.width), mini(size.y, map.height))
+	var centre := (lo + hi) / 2
+	var origin := (centre - size / 2).clamp(Vector2i.ZERO, Vector2i(map.width, map.height) - size)
+	return {
+		"area_id": map.id, "origin": [origin.x, origin.y], "size": [size.x, size.y],
+		"party": party, "foes": foes, "title": boot_payload.get("title", map.display_name),
+	}
 
 
 # --- the place's doings, and the map --------------------------------------------

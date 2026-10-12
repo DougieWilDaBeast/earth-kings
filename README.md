@@ -112,6 +112,11 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   band that was watching, a scene on the road, a rest. A place's doings (`H`, `B`, `J`, …) are
   offered at the bottom of the ground's screen. The continent itself is a map, opened from the
   journal, black where the company has never been ([D61](docs/06-decisions.md)).
+- **Eighteen lands.** Snow, taiga, desert, savanna, badlands, jungle, grassland, forest, blossom
+  vales, barrow downs, the mistlands, crystal fields, fungal groves, bog, swamp, slime fens, and
+  ash and blight where the gates have changed the land. Every tile of open country is its own
+  ground. Bands stand guard on it with the ground they see painted red; walk into the red and the
+  fight is fought right there ([D66](docs/06-decisions.md)).
 - **Four seasonal clovers.** Footsteps turn the seasons every 120 steps: Lesser Green (Spring),
   Green (Summer), Brown (Autumn), and Ice (Winter), reflected in world HUD lore, dialogue, and areas.
 - **The Tower is ten floors**, each paying gold, a book every third, a generated skill tree

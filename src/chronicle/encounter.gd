@@ -173,7 +173,7 @@ static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumbe
 	for unit_id: String in band.pack:
 		enemies.append({"unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1))})
 	Nemesis.inject_survivor(world, enemies)
-	return _build(world, band.cell, WILD, enemies, rng, "%s has seen you." % band.label())
+	return _build(world, band.cell, WILD, enemies, rng, "%s %s seen you." % [band.label(), "has" if band.pack.size() <= 1 else "have"])
 
 
 ## A run that opens on an empty country teaches nothing about the country. One

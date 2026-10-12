@@ -59,6 +59,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 - [06 — Forensic Test Matrix & Benchmarks](investigation/06-forensic-test-matrix-and-benchmarks.md)
 - [07 — Dungeon Settlers: the combat deep dive](investigation/07-dungeon-settlers-combat.md) — the research [D36](06-decisions.md) asked for, first pass 2026-09-24
 - [08 — Quests and a living world](investigation/08-quests-and-a-living-world.md) — _Baldur's Gate 3_, _The Witcher 3_ and _Skyrim_, and a proposal for what replaces the step clock (2026-10-12, **Inferred**)
+- [09 — The lands of the continent](investigation/09-lands-of-the-continent.md) — _Necesse_, _Terraria_, _Valheim_ and _Don't Starve_, and the eighteen lands built from them ([D66](06-decisions.md), 2026-10-12)
 
 ## Working rules
 
