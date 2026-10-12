@@ -205,6 +205,8 @@ func load_save() -> bool:
 
 	world = World.from_dict(data.get("world", {}))
 	roster = Roster.from_dict(data.get("roster", {}))
+	# Seats are earned on the Tower; a save from before they were catches up.
+	Roster.Seats.sync(world, roster)
 	gold = int(data.get("gold", DEFAULT_GOLD))
 	# After the purse, so restoring it does not read as income.
 	ledger = Ledger.restore(data.get("ledger", {}))

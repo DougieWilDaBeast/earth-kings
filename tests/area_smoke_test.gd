@@ -237,8 +237,8 @@ func _check_camp() -> void:
 	var map := AreaMap.load_area("camp")
 	if map.is_walkable(map.fire):
 		_fail("camp: the fire can be walked into")
-	if map.seats.size() < Roster.MAX_PARTY - 1:
-		_fail("camp: %d seats for a party of %d" % [map.seats.size(), Roster.MAX_PARTY])
+	if map.seats.size() < Roster.most() - 1:
+		_fail("camp: %d seats for a party of %d" % [map.seats.size(), Roster.most()])
 	for seat in map.seats:
 		if not map.is_walkable(seat):
 			_fail("camp: seat %s is not on ground anybody can sit on" % seat)

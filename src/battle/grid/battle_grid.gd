@@ -82,6 +82,34 @@ func neighbours(cell: Vector2i) -> Array[Vector2i]:
 	return out
 
 
+## Where [param count] of the party start: the map's own spawns first, then the
+## nearest open ground to them, so a map drawn for four still takes six.
+## [param taken] are cells somebody else already stands on.
+func muster_cells(spawns: Array, count: int, taken: Array[Vector2i] = []) -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	for value: Variant in spawns:
+		var pair: Array = value
+		out.append(Vector2i(int(pair[0]), int(pair[1])))
+	if out.size() >= count or out.is_empty():
+		return out.slice(0, count) if out.size() > count else out
+	var seen: Dictionary = {}
+	var frontier: Array[Vector2i] = out.duplicate()
+	for cell in out:
+		seen[cell] = true
+	while out.size() < count and not frontier.is_empty():
+		var cell: Vector2i = frontier.pop_front()
+		for next in neighbours(cell):
+			if seen.has(next):
+				continue
+			seen[next] = true
+			if not is_walkable(next):
+				continue
+			frontier.append(next)
+			if next not in taken and out.size() < count:
+				out.append(next)
+	return out
+
+
 func cell_to_world(cell: Vector2i) -> Vector2:
 	return Vector2(cell.x * CELL_SIZE + CELL_SIZE * 0.5, cell.y * CELL_SIZE + CELL_SIZE * 0.5)
 

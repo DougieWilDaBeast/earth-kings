@@ -115,8 +115,12 @@ func _build_battlefield() -> void:
 
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
-	for i in mini(members.size(), spawns.size()):
-		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, _to_cell(spawns[i])))
+	var taken: Array[Vector2i] = []
+	for entry: Dictionary in map.get("enemies", []):
+		taken.append(_to_cell(entry.get("cell", [0, 0])))
+	var cells := grid.muster_cells(spawns, members.size(), taken)
+	for i in mini(members.size(), cells.size()):
+		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, cells[i]))
 	for entry: Dictionary in map.get("enemies", []):
 		var cell := _to_cell(entry.get("cell", [0, 0]))
 		var level := int(entry.get("level", 0))

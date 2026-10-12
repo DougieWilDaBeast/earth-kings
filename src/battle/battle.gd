@@ -182,14 +182,24 @@ func _spawn_nature_decor(map: Dictionary) -> void:
 
 func _spawn_party(spawns: Array) -> void:
 	var members := GameState.party_characters()
+	var cells := grid.muster_cells(spawns, members.size(), _foe_cells())
 	for i in members.size():
-		if i >= spawns.size():
-			push_warning("Battle: map %s has fewer spawns than party members" % map_id)
+		if i >= cells.size():
+			push_warning("Battle: map %s has no room for the whole party" % map_id)
 			break
-		var unit := Unit.from_character(members[i], Unit.Team.PLAYER, _to_cell(spawns[i]))
+		var unit := Unit.from_character(members[i], Unit.Team.PLAYER, cells[i])
 		unit.snap_to_cell(grid)
 		units_root.add_child(unit)
 		units.append(unit)
+
+
+## Cells the map puts anyone else on, so the party is not mustered on top of them.
+func _foe_cells() -> Array[Vector2i]:
+	var map: Dictionary = encounter.get("map", {}) if not encounter.is_empty() else Database.map(map_id)
+	var out: Array[Vector2i] = []
+	for entry: Dictionary in map.get("enemies", []) + map.get("allies", []):
+		out.append(_to_cell(entry.get("cell", [0, 0])))
+	return out
 
 
 func _spawn_enemies(enemies: Array, side: Unit.Team = Unit.Team.ENEMY) -> void:

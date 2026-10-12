@@ -47,7 +47,7 @@ static func generate_on(terrain_id: String, display_name: String, enemies: Array
 			row += palette[rng.randi() % palette.size()]
 		rows.append(row)
 
-	var player_spawns := _muster(rows, SIZE.y - 1 - MUSTER_ROW, Roster.MAX_PARTY)
+	var player_spawns := _muster(rows, SIZE.y - 1 - MUSTER_ROW, Roster.most())
 	var enemy_cells := _muster(rows, MUSTER_ROW, enemies.size())
 
 	var placed: Array = []

@@ -47,6 +47,8 @@ signal guild_requested
 ## above are only the opening edge; anything that has to know whether something
 ## is in the way needs both.
 signal overlay_closed
+## A Tower chapter earned the company another seat; [param seats] can march now.
+signal party_seat_opened(seats: int)
 ## The last of the party is gone; the run is over.
 signal run_ended
 

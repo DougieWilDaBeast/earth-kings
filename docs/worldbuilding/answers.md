@@ -43,7 +43,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 8  | `D37` | ~~**Assists. One number, or two?**~~ **Settled 2026-10-01 in joint session 2:** two. Ten assists, or five for a healer's. Built. See [D54](../06-decisions.md) and item 23. |
 | 9  | `CO2` | **Sprite size — 64, 32 or 16?** "that's still an open for now, but we do need to generate stuff" [01:07:40]. PixelLab credits reset on 2026-09-27 with 15% left; the [asset list](../19-asset-list.md) has to be generated at one size. The model game measures in the **32 class** ([investigation/07](../investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)). |
 | 10 | `CH13` | **Sixteen ways to fight, six classes.** The roster needs sixteen distinct fighting styles; `classes.json` has six. More classes, or a class per character, or styles inside classes? |
-| 11 | `D38` | **How does the party grow from four to six?** A level, a rank, a Tower chapter, something bought? |
+| 11 | `D38` | **How does the party grow from four to six?** A level, a rank, a Tower chapter, something bought? **Built 2026-10-12 on an inference** — by Tower chapter; see item 35. |
 | 12 | `MX13` | **Where does a dead lead's weapon land the first time** — somewhere easy to find, or random? |
 | 13 | `GT2`, M5 | **You cannot leave a gate until it is beaten.** ~~The build lets a party retreat and keep the floors taken.~~ **Built 2026-09-24:** once a floor is won, every step is the next floor. Say so if that was not what you meant. |
 | 14 | `GT3` | **Timed events.** `doug-md` asked whether failing to do things in time costs you. `dougie`: "we should try to test what happens when we're playing first". Deferred to playtest, on purpose. |
@@ -57,6 +57,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 22 | `SF1`, `CO7` | **"Ascend to heaven" names two things.** It is the lead's standing quest, finished only at the end, and it is also what Classic offers when the lead dies. Is dying a way of finishing the quest, a failure of it, or are the two different things that happen to share a name? |
 | 23 | D54 | **Inferred.** Built 2026-10-01: **a healer's assist** is one where the helper healed the one who landed the blow, earlier in the same fight. Five of those, or ten of any other assist, teach a kind. Right reading? |
 | 24 | `GT11`, D48 | **Inferred.** Built 2026-10-01: over a hundred floors, **enemies rise about one level every three floors** (level 2 at the foot, 32 at the top), four faction cohorts hold the floors in turn, gold is paid by the chapter, a book every chapter and a skill tree every two. Right shape? |
+| 35 | `D38`, item 11 | **Inferred.** Built 2026-10-12: **the party grows by Tower chapter.** Four seats to start; clearing chapter 1 (floor 5) opens a fifth, chapter 2 (floor 10) a sixth. A companion back from a job to a full company takes a new seat first. Right trigger, or should it be a level, a Guild rank or bought? |
 
 ## 2. Eleven Part I questions that need a straight answer
 

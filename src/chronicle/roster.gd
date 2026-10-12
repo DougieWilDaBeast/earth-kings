@@ -5,8 +5,12 @@ extends RefCounted
 
 ## Who the game starts you with; the first is yours.
 const FOUNDING := ["bram", "sera", "toln"]
-## Most that can be taken into a single fight.
-const MAX_PARTY := 4
+## How many can march at once grows as the Tower is climbed (D38, agenda
+## item 35): see `src/chronicle/seats.gd` and `world_rules.party`.
+const Seats := preload("res://src/chronicle/seats.gd")
+
+## Seats the company has earned: the most it can take into a single fight.
+var seats: int = 4
 
 var characters: Array[Character] = []
 ## Character ids currently marching, in order.
@@ -15,6 +19,7 @@ var party: Array = []
 
 static func found(lead_id: String = "") -> Roster:
 	var roster := Roster.new()
+	roster.seats = Seats.base()
 	var band := _band(lead_id)
 	for i in band.size():
 		var character := Character.create(band[i], "", i == 0)
@@ -87,8 +92,17 @@ func drop_the_lost() -> Array[Character]:
 	return lost
 
 
+## The most a company can ever field; battlefields are laid out for this many.
+static func most() -> int:
+	return Seats.most()
+
+
+func has_room() -> bool:
+	return party.size() < seats
+
+
 func enlist(character_id: String) -> bool:
-	if party.size() >= MAX_PARTY or character_id in party:
+	if not has_room() or character_id in party:
 		return false
 	var character := by_id(character_id)
 	if character == null or not character.is_available():
@@ -149,6 +163,7 @@ func to_dict() -> Dictionary:
 	return {
 		"characters": characters.map(func(c: Character) -> Dictionary: return c.to_dict()),
 		"party": party,
+		"seats": seats,
 	}
 
 
@@ -157,4 +172,6 @@ static func from_dict(payload: Dictionary) -> Roster:
 	for entry: Dictionary in payload.get("characters", []):
 		roster.characters.append(Character.from_dict(entry))
 	roster.party = payload.get("party", [])
+	# A save from before seats were earned keeps everyone it marched with.
+	roster.seats = maxi(int(payload.get("seats", Seats.base())), roster.party.size())
 	return roster
