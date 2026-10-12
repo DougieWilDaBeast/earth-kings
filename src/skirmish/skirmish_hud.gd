@@ -206,7 +206,7 @@ func _refresh_buttons() -> void:
 			var name := str(caster.slot_ability(slot).get("display_name", "?"))
 			label = "%s %s" % [label, name.left(10)]
 			if _skirmish.armed_slot == slot:
-				label = "▶ " + label
+				label = "» " + label
 		button.text = label
 
 
