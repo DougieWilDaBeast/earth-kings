@@ -43,12 +43,20 @@ signal journal_requested
 signal stash_requested
 ## Ask the Adventurers Guild screen to open on the hall the party stands in.
 signal guild_requested
+## Ask the always-present How to Play page to open.
+signal how_to_play_requested
 ## One of the always-present overlays has shut itself. The `_requested` signals
 ## above are only the opening edge; anything that has to know whether something
 ## is in the way needs both.
 signal overlay_closed
 ## The last of the party is gone; the run is over.
 signal run_ended
+
+## Something happened that a newcomer may be meeting for the first time: "step",
+## "settlement", "gate", "errand"… The tip card decides whether there is anything
+## to say about it (data/tips.json); nothing is owed a reply. context carries
+## whatever the decision needs, such as { "danger": float, "steps": int } on a step.
+signal tip_moment(kind: String, context: Dictionary)
 
 ## Tiles that have just come onto the party's map (`src/chronicle/atlas.gd`),
 ## so the map can fade them in rather than snap.

@@ -29,6 +29,11 @@ you saw, on which screen, and what you had done just before.
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Title → **How to Play**, scroll, press a section button, then `Esc`          | Seven sections from walking to the party screen; the button jumps there; `Esc` shuts the page and the keyboard is back on the menu |
+| A13 | In game, `Esc` → **How to Play**, then `Esc`                                 | The page opens over the menu; `Esc` shuts the page and leaves the menu open                                    |
+| A14 | Start a run with tips reset (`Esc` → **Reset tips**) and walk a few steps    | A small card under the top bar about walking, then one about the clock; it fades on its own and never stops a key |
+| A15 | Walk into a village, a fight and a gate; press **Got it** and **No more tips** | One card per first meeting, never twice; after **No more tips** none come, and the menu reads "Tips: off"      |
+| A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
 
 ## B — Starting a run
 
@@ -42,6 +47,12 @@ you saw, on which screen, and what you had done just before.
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
 | B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
 | B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
+| B9  | Start a run                                                          | The landing beat plays: a furrow in the ground, no memory, the Tower off to one side, and "A new standing quest: Ascend to heaven" |
+| B10 | Start twice with the same seed and lead, then with another lead      | The same crater both times; another lead lands somewhere else. Either way, the crater is **Where You Fell**, your Home, with the bed to upgrade |
+| B11 | Press **N** → **Quests & the Fallen**                                | "Ascend to heaven" at the top with the Tower's floor; errands below; "N more carry the mark somewhere out there" |
+| B12 | Rest at villages, or ask an innkeeper for news, until one of the others is mentioned | A line naming them and a place; a faint face on the map there, and a line under **The others who fell** |
+| B13 | Walk to where one of them stands                                     | "_Name_, _title_, is here. They carry the mark you share." and **X to speak with** them; inside the place, they stand near the way in |
+| B14 | Speak with them, ask them to walk with you                           | An Outward temper joins the first time (party room permitting); an Inward one says "Not yet" until the second meeting |
 
 ## C — The world map
 
