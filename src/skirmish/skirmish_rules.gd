@@ -16,6 +16,8 @@ const TICK := 0.05
 const SLOT_KEYS := [KEY_Q, KEY_W, KEY_E, KEY_R]
 const SLOT_LABELS := ["Q", "W", "E", "R"]
 const SLOT_COUNT := 4
+## How far, in pixels, the left button must travel before a click becomes a box to pick with.
+const DRAG_SELECT_MIN := 8.0
 
 ## Seconds a fallen party member stays in reach of help before they are gone
 ## from the fight. Enemies do not linger.

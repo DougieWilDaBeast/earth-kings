@@ -135,6 +135,7 @@ func _run() -> void:
 	])
 	_expect(swings > 0, "nobody ever swung")
 	await _check_touch()
+	await _check_box_select()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -231,6 +232,48 @@ func _check_touch() -> void:
 		_expect(fight.armed_slot == 0, "the first skill button did not ready the skill")
 		(buttons["slot0"] as Button).pressed.emit()
 		_expect(fight.armed_slot == -1, "tapping the skill again did not put it away")
+	fight.queue_free()
+
+
+## Click and drag picks every companion the box touches (D58); shift adds; a box
+## over empty ground keeps the pick; and enemies are never picked.
+func _check_box_select() -> void:
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	var party: Array[Fighter] = fight.party_fighters()
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	var all := Rect2(fight.units_root.position + party[0].unit.position, Vector2.ZERO)
+	for f: Fighter in party:
+		all = all.expand(fight.units_root.position + f.unit.position)
+	all = all.grow(2.0)
+	fight._select([party[0]])
+	fight.box_select(all, false)
+	_expect(fight.selected.size() == party.size(), "dragging a box over the party did not pick them all")
+	for foe: Fighter in foes:
+		_expect(not fight.selected.has(foe), "dragging a box picked an enemy")
+	fight.box_select(Rect2(Vector2(-5000, -5000), Vector2(10, 10)), false)
+	_expect(fight.selected.size() == party.size(), "a box over nobody threw the pick away")
+	if party.size() > 1:
+		var one := Rect2(fight.units_root.position + party[1].unit.position - Vector2(4, 4), Vector2(8, 8))
+		fight._select([party[0]])
+		fight.box_select(one, true)
+		_expect(fight.selected.has(party[0]) and fight.selected.has(party[1]), "shift and a box did not add to the pick")
+		fight.box_select(one, false)
+		_expect(fight.selected == [party[1]], "a box without shift did not replace the pick")
+		# The button itself: a release with no box is still a click on what was pressed.
+		var release := InputEventMouseButton.new()
+		release.button_index = MOUSE_BUTTON_LEFT
+		release.pressed = false
+		fight._select([party[1]])
+		fight._press_at = fight.units_root.position + party[0].unit.position
+		fight._unhandled_input(release)
+		_expect(fight.selected == [party[0]], "a click without a drag no longer picked the fighter")
+		fight._press_at = all.position
+		fight.drag_box = all
+		fight._unhandled_input(release)
+		_expect(fight.selected.size() == party.size() and not fight.drag_box.has_area(), "letting go of a dragged box did not pick inside it")
 	fight.queue_free()
 
 

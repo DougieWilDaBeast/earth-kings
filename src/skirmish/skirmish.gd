@@ -64,6 +64,10 @@ var pathfinder: Pathfinder
 var fighters: Array[Fighter] = []
 ## Party fighters taking orders; the first is the one quick-slot keys speak for.
 var selected: Array[Fighter] = []
+## Where the left button went down, in the field's own space, while it is held.
+var _press_at: Vector2 = Vector2.INF
+## The box being dragged to pick fighters; empty when there is none ([member SkirmishMarks]).
+var drag_box: Rect2 = Rect2()
 var paused: bool = true
 var over: bool = false
 var victory: bool = false
@@ -869,13 +873,39 @@ func _unhandled_input(event: InputEvent) -> void:
 		var cell := grid.world_to_cell(get_global_mouse_position())
 		overlay.set_cursor(cell)
 		hud.inspect(fighter_of(_unit_at_or_downed(cell)))
+		if _press_at != Vector2.INF:
+			var here := to_local(get_global_mouse_position())
+			if not drag_box.has_area() and _press_at.distance_to(here) < SkirmishRules.DRAG_SELECT_MIN:
+				return
+			drag_box = Rect2(_press_at, Vector2.ZERO).expand(here)
+			if not drag_box.has_area():
+				drag_box.size = Vector2(1, 1)
+			marks.queue_redraw()
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		get_viewport().set_input_as_handled()
+		# A thumb drags the camera, not a box: on touch a tap is the whole order.
+		if touch:
+			if event.pressed:
+				_on_left_click(grid.world_to_cell(get_global_mouse_position()), event.shift_pressed)
+			return
+		if event.pressed:
+			_press_at = to_local(get_global_mouse_position())
+			return
+		var start := _press_at
+		_press_at = Vector2.INF
+		if start == Vector2.INF:
+			return
+		if drag_box.has_area():
+			box_select(drag_box, event.shift_pressed)
+			drag_box = Rect2()
+			marks.queue_redraw()
+		else:
+			_on_left_click(grid.world_to_cell(to_global(start)), event.shift_pressed)
 		return
 	if event is InputEventMouseButton and event.pressed:
 		var cell := grid.world_to_cell(get_global_mouse_position())
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			_on_left_click(cell, event.shift_pressed)
-			get_viewport().set_input_as_handled()
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			_on_right_click(cell)
 			get_viewport().set_input_as_handled()
 
@@ -1084,6 +1114,21 @@ func _on_left_click(cell: Vector2i, adding: bool) -> void:
 	# No right button under a thumb: a tap on anything else is the order.
 	if touch:
 		_on_right_click(cell)
+
+
+## Pick every standing companion the box touches, as an RTS does. A box that
+## catches nobody leaves the pick as it was, so a slipped click costs nothing.
+## [param box] is in the field's own space; [param adding] keeps who was picked.
+func box_select(box: Rect2, adding: bool) -> void:
+	var half := Vector2.ONE * BattleGrid.CELL_SIZE * 0.5
+	var caught: Array[Fighter] = []
+	for f: Fighter in party_fighters():
+		if f.is_standing() and box.intersects(Rect2(units_root.position + f.unit.position - half, half * 2.0)):
+			caught.append(f)
+	if caught.is_empty():
+		return
+	_select(selected + caught if adding else caught)
+	hud.refresh()
 
 
 func _on_right_click(cell: Vector2i) -> void:

@@ -16,7 +16,7 @@ signal slot_clicked(index: int, slot: int)
 signal action_pressed(action: String)
 
 const LOG_LINES := 6
-const HINT := "Right-click: move · attack · help the fallen    Left-click: select    1–4 / Tab: pick    " \
+const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
 		+ "a skill, then its target · tap the skill again to put it away"

@@ -152,7 +152,7 @@ starting party. The checklist is [10 — Manual tests, E2](10-manual-tests.md).
 
 | Control | Does |
 | --- | --- |
-| Left-click a party member · `1`–`4` · `Tab` | Select one · select by number (Shift adds) · select everyone |
+| Left-click a party member · drag a box · `1`–`4` · `Tab` | Select one · select everyone the box touches · select by number · select everyone (Shift adds to the click, box or number) |
 | Right-click ground | Move there. Several selected spread out around the spot |
 | Right-click an enemy | Go after that one, and only that one |
 | Right-click a downed ally | The nearest selected member goes to help them up |

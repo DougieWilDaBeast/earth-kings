@@ -119,9 +119,12 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    dressed unit with `BLEND_STYLE` has not been generated yet). The size test is in
    [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); Tier 1 of [19](19-asset-list.md) can be
    generated from here.
-2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
-   Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
-   whether M11 replaces the turn loop ([D36](06-decisions.md)).
+2. **`doug-md` plays the real-time skirmish against the turn-based fight** (Training → Fight in real
+   time). `dougie` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
+   better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
+   found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
+   a box to pick fighters, is built. `doug-md`'s turn decides whether M11 replaces the turn loop
+   ([D36](06-decisions.md)).
 3. **An hour of _Dungeon Settlers_ itself** — the ten questions at the end of
    [investigation/07](investigation/07-dungeon-settlers-combat.md#what-only-playing-it-can-answer).
 4. **The second half of session 2**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
@@ -189,7 +192,9 @@ against it.
 - Reachable from the Training ground and the bench ✅. A training fight only — nothing written back
 - Touch controls ✅ (2026-09-25): tap to pick, tap to order, the keys as buttons down the right
 - Auto-pause, off / on a fall / on a fall or a manual skill ready ✅; the J and P leans in real time ✅
-- ✅ Done when: both founders have played the prototype against the current battle and chosen.
+- Drag a box to pick fighters ✅ (2026-10-12, [D58](06-decisions.md))
+- Done when: both founders have played the prototype against the current battle and chosen.
+  `dougie` ✅ chose real time (2026-10-12, D58); `doug-md` to come.
   Only then does it replace `TurnManager` ([D36](06-decisions.md))
 
 ### M12 — Getting stronger the new way — SHIPPED
