@@ -62,6 +62,7 @@ text = "Return to Title"
 theme_override_constants/separation = 8
 
 [node name="MuteButton" type="Button" parent="Root/Panel/Margin/Items/MusicRow"]
+custom_minimum_size = Vector2(76, 0)
 unique_name_in_owner = true
 toggle_mode = true
 text = "Music"
@@ -74,6 +75,29 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.05
 value = 0.8
+
+[node name="SoundRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+theme_override_constants/separation = 8
+
+[node name="SfxMuteButton" type="Button" parent="Root/Panel/Margin/Items/SoundRow"]
+custom_minimum_size = Vector2(76, 0)
+unique_name_in_owner = true
+toggle_mode = true
+text = "Sounds"
+
+[node name="SfxSlider" type="HSlider" parent="Root/Panel/Margin/Items/SoundRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 0.7
+
+[node name="FullscreenButton" type="Button" parent="Root/Panel/Margin/Items"]
+unique_name_in_owner = true
+toggle_mode = true
+text = "Fullscreen: off"
 
 [node name="ChatterButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true

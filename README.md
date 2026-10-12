@@ -29,7 +29,8 @@ be built and tested before the art exists. Units with a `sprite_dir` draw their 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
 - **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
   the world clock. The top bar shows where you are and your current **danger %**.
-  `Esc` opens the menu (save, load, music, return to title).
+  `Esc` opens the menu (save, load, music and sound volume, fullscreen, return to title).
+  `F11` switches fullscreen anywhere.
 - **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
   inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.

@@ -24,6 +24,7 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "camera_zoom_in", "label": "Zoom In" },
 	{ "action": "camera_zoom_out", "label": "Zoom Out" },
 	{ "action": "camera_recentre", "label": "Recentre Camera" },
+	{ "action": "toggle_fullscreen", "label": "Fullscreen" },
 ]
 
 @onready var _root: Control = %Root
@@ -37,6 +38,9 @@ const MAPPABLE_ACTIONS := [
 @onready var _status: Label = %StatusLabel
 @onready var _mute_button: Button = %MuteButton
 @onready var _music_slider: HSlider = %MusicSlider
+@onready var _sfx_mute_button: Button = %SfxMuteButton
+@onready var _sfx_slider: HSlider = %SfxSlider
+@onready var _fullscreen_button: Button = %FullscreenButton
 @onready var _chatter_button: Button = %ChatterButton
 @onready var _difficulty_button: Button = %DifficultyButton
 @onready var _touch_button: Button = %TouchButton
@@ -61,6 +65,16 @@ func _ready() -> void:
 	_mute_button.button_pressed = Music.muted
 	_mute_button.toggled.connect(_on_mute_toggled)
 	_on_mute_toggled(Music.muted)
+	_sfx_slider.value = Sfx.volume
+	_sfx_slider.value_changed.connect(func(level: float) -> void: Sfx.set_volume(level))
+	_sfx_mute_button.button_pressed = Sfx.muted
+	_sfx_mute_button.toggled.connect(_on_sfx_mute_toggled)
+	_on_sfx_mute_toggled(Sfx.muted)
+	# A phone is always fullscreen; there is nothing to switch.
+	_fullscreen_button.visible = not OS.has_feature("mobile")
+	_fullscreen_button.toggled.connect(func(on: bool) -> void: Pace.fullscreen = on)
+	Pace.changed.connect(_update_fullscreen_button)
+	_update_fullscreen_button()
 	_chatter_button.button_pressed = Pace.quiet_banter
 	_chatter_button.toggled.connect(_on_chatter_toggled)
 	_on_chatter_toggled(Pace.quiet_banter)
@@ -73,7 +87,7 @@ func _ready() -> void:
 	_back_from_controls_button.pressed.connect(_close_controls)
 	_reset_bindings_button.pressed.connect(_reset_controls_to_defaults)
 
-	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _back_from_controls_button, _reset_bindings_button]:
+	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _back_from_controls_button, _reset_bindings_button]:
 		Sfx.attend(btn)
 
 	_load_custom_bindings()
@@ -84,6 +98,7 @@ func open() -> void:
 	_status.text = "World seed %d" % GameState.world.world_seed if GameState.world != null else ""
 	_load_button.disabled = not GameState.has_save()
 	_update_difficulty_button()
+	_update_fullscreen_button()
 	_main_panel.show()
 	_controls_panel.hide()
 	_rebind_action = ""
@@ -269,6 +284,16 @@ func _on_title_pressed() -> void:
 func _on_mute_toggled(silent: bool) -> void:
 	_mute_button.text = "Music: off" if silent else "Music"
 	Music.set_muted(silent)
+
+
+func _on_sfx_mute_toggled(silent: bool) -> void:
+	_sfx_mute_button.text = "Sounds: off" if silent else "Sounds"
+	Sfx.set_muted(silent)
+
+
+func _update_fullscreen_button() -> void:
+	_fullscreen_button.set_pressed_no_signal(Pace.fullscreen)
+	_fullscreen_button.text = "Fullscreen: on" if Pace.fullscreen else "Fullscreen: off"
 
 
 ## Off does not mean silent. The party still talk; it just goes to the log and
