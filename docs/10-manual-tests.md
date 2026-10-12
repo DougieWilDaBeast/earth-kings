@@ -29,6 +29,11 @@ you saw, on which screen, and what you had done just before.
 | A9  | In game, `Esc` → drag **Sounds** down, then hover a button                   | The tick is quieter; at the far left it is gone, and the music is unchanged                                    |
 | A10 | Press `F11`, then quit and relaunch                                          | Fullscreen, and still fullscreen after the relaunch; the menu button reads "Fullscreen: on"                    |
 | A11 | Press `F11` again, or click the menu's fullscreen button                     | Back to a window, and the button follows                                                                       |
+| A12 | Title → **How to Play**, scroll, press a section button, then `Esc`          | Seven sections from walking to the party screen; the button jumps there; `Esc` shuts the page and the keyboard is back on the menu |
+| A13 | In game, `Esc` → **How to Play**, then `Esc`                                 | The page opens over the menu; `Esc` shuts the page and leaves the menu open                                    |
+| A14 | Start a run with tips reset (`Esc` → **Reset tips**) and walk a few steps    | A small card under the top bar about walking, then one about the clock; it fades on its own and never stops a key |
+| A15 | Walk into a village, a fight and a gate; press **Got it** and **No more tips** | One card per first meeting, never twice; after **No more tips** none come, and the menu reads "Tips: off"      |
+| A16 | Press `Q` with tips reset                                                    | No card while the game plays itself; the tips are still owed when you take the party back                      |
 
 ## B — Starting a run
 
@@ -223,6 +228,30 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | K3  | Let a run end, then open it     | The finished run is listed with the date and its whole company         |
 | K4  | Click a journey                 | Faces, callings, levels, who died, and the run's numbers               |
 | K5  | Start a new run and check again | The old company is **still there** — starting over does not erase them |
+
+## P — Controller
+
+Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Square, Y Triangle.
+
+| #   | Do this                                                                | Expect                                                                                    |
+| --- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| P1  | Press A on the cinematic, then D-pad and A on the title                | Straight to the menu; the highlight moves with the D-pad and A presses the entry          |
+| P2  | New Game → answer the quiz and pick a hero with the pad only           | Every answer, hero and the Start button reachable; B goes back a screen                   |
+| P3  | On the road, touch the stick, then press a key                         | The hint line says "A to …" after the stick, "E to …" after the key                        |
+| P4  | Walk with the left stick, then the D-pad                               | One tile per press, a run when held                                                       |
+| P5  | Stand in a village, press Y                                            | The place's buttons appear with the first one highlighted; the party does not walk        |
+| P6  | D-pad along them, A on Hire or Buy, then B                             | It hires or buys; B puts the highlight away and the stick walks again                     |
+| P7  | Press Start, then B; press Back, then Back again                       | Menu opens and closes; the party screen opens and closes                                  |
+| P8  | In the party screen, D-pad down the cards and over to the pages        | The page follows the card; every button can be reached and pressed; the page scrolls      |
+| P9  | Press X on the road                                                    | The Journal opens; B shuts it                                                             |
+| P10 | In a fight, on your turn                                               | **Move** is highlighted; the D-pad walks the commands and shows each one's reach          |
+| P11 | A on Move, stick to a tile, A                                          | A cursor starts on the fighter, walks the board, and the move happens where it stands     |
+| P12 | A on an attack                                                         | The cursor starts on the nearest foe in reach; A strikes, B backs out to the commands     |
+| P13 | RB with two fighters up, X, LB                                         | Next fighter; Wait; speed changes                                                         |
+| P14 | Right stick, LT, RT, R3                                                | The view slides, zooms out, zooms in, and comes back                                      |
+| P15 | Training Ground → real-time skirmish, with the pad                     | X starts it; stick moves a cursor; A on ground moves, on a foe attacks; Y readies a skill |
+| P16 | Menu → Controls; A on Interact, then press X on the pad                | The row reads "E  ·  X"; it survives a relaunch; Reset puts back "E  ·  A"                |
+| P17 | Open the menu with Start during a fight, close it                      | The command menu has its highlight back                                                   |
 
 ---
 

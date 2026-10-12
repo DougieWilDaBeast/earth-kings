@@ -6,6 +6,12 @@ extends RefCounted
 ## find is never sitting unread on a screen. Anything nobody is better off in
 ## goes into the party's stores (`GameState.stores`) to be handed out later, and
 ## only a piece worth less than what everyone already carries is sold on.
+##
+## Now and then something is folded in with it: somebody's map, which inks a
+## far place onto the party's own (see `src/chronicle/atlas.gd`).
+
+## Loaded by path ([D41]).
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 
 static func rules() -> Dictionary:
@@ -75,6 +81,8 @@ static func roll(world: World, richness: float) -> Dictionary:
 		var pool := _findable()
 		if not pool.is_empty():
 			haul["item"] = pool[world.rng.randi() % pool.size()]
+	# Rolled from a hash, not the dice, so a seeded run finds what it always did.
+	haul["map"] = Atlas.finds_map(world, [world.player_cell, haul["gold"], richness], "spoils_map_chance")
 	return haul
 
 
@@ -94,6 +102,8 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 		var line := take(item, roster)
 		if line != "":
 			lines.append(line)
+	if bool(haul.get("map", false)) and GameState.world != null:
+		lines.append_array(Atlas.read_fragment(GameState.world, [gold, item]))
 	return lines
 
 

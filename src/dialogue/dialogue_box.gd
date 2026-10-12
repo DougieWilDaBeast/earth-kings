@@ -265,10 +265,14 @@ func _show(speaker: String, body: String) -> void:
 	else:
 		_hint.text = "Tap the reply you want" if Pace.is_touch_enabled() \
 				else "Click the reply you want"
+		if Pad.using_pad:
+			_hint.text = "D-pad to the reply you want, %s to say it" % Pad.key("ui_accept")
 		_options.get_child(0).grab_focus()
 
 
 func _go_on_text() -> String:
+	if Pad.using_pad:
+		return "%s to continue" % Pad.key("ui_accept")
 	return "Tap to continue" if Pace.is_touch_enabled() else "Click to continue"
 
 

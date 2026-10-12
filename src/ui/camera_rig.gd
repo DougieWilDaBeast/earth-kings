@@ -30,6 +30,8 @@ var _focus: Vector2 = Vector2.ZERO
 var _pan: Vector2 = Vector2.ZERO
 var _bounds: Rect2 = Rect2()
 var _dragging: bool = false
+## Which zoom triggers are pulled past their deadzone.
+var _triggers_held: Dictionary = {}
 
 # Touch gesture state for mobile/pinch zoom & touch pan
 var _active_touches: Dictionary = {}
@@ -83,9 +85,12 @@ func recentre(immediate: bool = false) -> void:
 
 
 func _process(delta: float) -> void:
-	if not keyboard_pan:
-		return
-	var axis := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	# The right stick looks around anywhere. The movement keys only do where
+	# nothing else wants them, and never on a pad, whose left stick is driving
+	# a menu or a cursor wherever the keys would have panned.
+	var axis := Input.get_vector("camera_pan_left", "camera_pan_right", "camera_pan_up", "camera_pan_down")
+	if axis == Vector2.ZERO and keyboard_pan and not Pad.using_pad:
+		axis = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if axis == Vector2.ZERO:
 		return
 	_pan += axis * pan_speed * delta / zoom.x
@@ -97,6 +102,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_screen_touch(event)
 	elif event is InputEventScreenDrag:
 		_on_screen_drag(event)
+	elif event is InputEventJoypadMotion:
+		_on_trigger(event as InputEventJoypadMotion)
 	elif event.is_action_pressed("camera_zoom_in", true):
 		_zoom_towards(ZOOM_STEP)
 		get_viewport().set_input_as_handled()
@@ -152,9 +159,25 @@ func _set_dragging(dragging: bool) -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_DRAG if dragging else Input.CURSOR_ARROW)
 
 
-## Zoom about the cursor, so whatever you are pointing at stays under it.
+## A trigger is an axis, and sends a stream of motion the whole way down. One
+## pull is one notch, taken as it crosses the deadzone.
+func _on_trigger(event: InputEventJoypadMotion) -> void:
+	for action: String in ["camera_zoom_in", "camera_zoom_out"]:
+		if not event.is_action(action):
+			continue
+		var held := event.is_action_pressed(action)
+		if held and not _triggers_held.get(action, false):
+			_zoom_towards(ZOOM_STEP if action == "camera_zoom_in" else 1.0 / ZOOM_STEP)
+			get_viewport().set_input_as_handled()
+		_triggers_held[action] = held
+
+
+## Zoom about the cursor, so whatever you are pointing at stays under it. A pad
+## has no cursor, so it zooms about the middle of the screen.
 func _zoom_towards(factor: float) -> void:
 	var cursor := get_viewport().get_mouse_position()
+	if Pad.using_pad:
+		cursor = get_viewport_rect().size * 0.5
 	var before := _world_at(cursor)
 	_apply_zoom(zoom.x * factor)
 	_pan += before - _world_at(cursor)

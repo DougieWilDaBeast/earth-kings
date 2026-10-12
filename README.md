@@ -48,10 +48,33 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   kept in the save. **Classic** saves by hand from the menu, and the game also saves when you set
   out, when you rest and when a Tower chapter ends. **Iron Man** has no Save or Load button: the game
   saves itself at those points, every time you come back to the map, and when you leave.
+- **Learning as you go** — _How to Play_ (on the title screen and in the `Esc` menu) is the short
+  version of this list. In a run, a small card under the top bar explains each thing the first
+  time you meet it — the road, danger, a fight, your first turn, a fall, a town, a gate, the Tower,
+  level 2 — then never again. Cards go away by themselves, never take a key, and stay quiet while
+  the game plays itself. They are remembered per player in `settings.cfg`, not per save; the menu
+  has _Tips: on/off_ and _Reset tips_.
 - **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
   the world clock. The top bar shows where you are and your current **danger %**.
   `Esc` opens the menu (save and load in Classic, music and sound volume, fullscreen, return to title).
   `F11` switches fullscreen anywhere.
+- **On a controller** — any Xbox or PlayStation pad (Godot's standard mapping) plays the whole game.
+  Hint lines switch to the pad's buttons as soon as it is touched, and back on a key press.
+
+  | Button                   | On the road / in a town                    | In a fight                         | Real-time skirmish             |
+  | ------------------------ | ------------------------------------------ | ---------------------------------- | ------------------------------ |
+  | Left stick / D-pad       | Walk                                       | Walk the menu; aim the cursor      | Move the cursor                |
+  | A (Cross)                | Interact, step in, confirm                 | Choose a command; confirm the tile | Pick a fighter, give the order |
+  | B (Circle)               | Back / the menu                            | Back out of an order; the menu     | Put a skill away; the menu     |
+  | X (Square)               | Journal                                    | Wait                               | Pause / resume                 |
+  | Y (Triangle)             | Focus the place's buttons (hire, buy, …)   | —                                  | Next skill                     |
+  | Start / Back             | Menu / party                               | Menu / —                           | Menu / select everyone         |
+  | LB / RB                  | Speed / next leader in a town              | Speed / next fighter               | Speed / next fighter           |
+  | LT / RT                  | Zoom out / in                              | Zoom out / in                      | Zoom out / in                  |
+  | Right stick / L3 / R3    | Look around / world–planar view / recentre | Look around / — / recentre         | Look around                    |
+
+  Every menu is walked with the D-pad and pressed with A. The system menu's _Controls_ lists the
+  pad button beside each key, and rebinds a pad button the same way it rebinds a key.
 - **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
   inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.
@@ -138,6 +161,8 @@ data/                     Game content as plain JSON — edit without opening th
   threads.json            Skein story thread definitions, stages, and deadlines
   coliseum.json           Gladiator cards, waves, bouts, wagers, free-for-all cohorts
   banter.json             Exchanges, occasions, moods, tokens, campfire reflections
+  tips.json               First-time tips: when each fires and what it says
+  how_to_play.json        The How to Play page, section by section
   areas/*.json            Hand-built area maps: legend, rows, spots, people, props, wards
   maps/*.json             Battle maps as ASCII tile rows + spawns
   dialogue/*.json         Conversation scripts
@@ -187,6 +212,8 @@ src/
   ui/battle_hud.gd        Turn order, command menu, inspector, combat log
   ui/title_screen.tscn    Boot menu: continue / new game / quit
   ui/system_menu.tscn     In-game menu (save / load in Classic only), opened via EventBus
+  ui/tip_card.gd          First-time tips, once per player, off EventBus.tip_moment
+  ui/how_to_play.gd       The How to Play page, built from data/how_to_play.json
 ```
 
 Two rules keep it extensible: **content lives in `data/`, never in code**, and **systems talk
