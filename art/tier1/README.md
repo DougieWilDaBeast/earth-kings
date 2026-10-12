@@ -11,8 +11,9 @@ art/tier1/<unit>/metadata.json                      what each piece was made fro
 ```
 
 **Not used by the game yet.** The other 62 bodies in `art/units/` are still the older, more detailed
-64s, so switching only these eight would mix two looks in one fight. Wiring them is a `sprite_dir`
-change per template in `data/units.json` once the founders want the switch.
+64s, so switching only these eight would mix two looks in one fight. `dougie` (2026-10-12): they go in
+with the full redo, all at once. Wiring them then is a `sprite_dir` change per template in
+`data/units.json`.
 
 To make another: `python3 tools/pixellab.py dress <unit>`, then `animate` for each state, then
 `unpack downloads/pixellab/<unit>_base.zip art/tier1/<unit>`.
