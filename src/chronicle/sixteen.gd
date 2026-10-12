@@ -28,8 +28,17 @@ static func fallen_tempers() -> Array:
 	return _read().get("fallen_tempers", [])
 
 
-## Write a dead lead down. Their temper goes too, if they have one.
-static func fall(hero_id: String) -> void:
+## Every world that has ended, oldest first: who led it and how far they got,
+## as `Siblings.remember` wrote it (M15). The worlds after are built from the
+## first one's seed, and every lead here is alive in them, as a ghost at the
+## fire, and as a weapon falling out of the sky.
+static func worlds() -> Array:
+	return _read().get("worlds", [])
+
+
+## Write a dead lead down. Their temper goes too, if they have one, and with
+## [param world] the world that ended with them is kept, marked gone for good.
+static func fall(hero_id: String, world: Dictionary = {}) -> void:
 	if hero_id == "":
 		return
 	var record := _read()
@@ -40,7 +49,12 @@ static func fall(hero_id: String) -> void:
 	var code := Database.hero_temper(hero_id)
 	if code != "" and not tempers.has(code):
 		tempers.append(code)
-	_write({"fallen_heroes": heroes, "fallen_tempers": tempers})
+	var ended: Array = record.get("worlds", [])
+	if not world.is_empty():
+		var gone := world.duplicate(true)
+		gone["gone"] = true
+		ended.append(gone)
+	_write({"fallen_heroes": heroes, "fallen_tempers": tempers, "worlds": ended})
 
 
 ## Whether there is any life left to start: a hero not fallen, or a written

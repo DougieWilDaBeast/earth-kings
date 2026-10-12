@@ -108,6 +108,9 @@ are stored inside the save's tree definitions, not in this file.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
   or in combat for a bonus action (`"heal": 25`).
+- `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
+  suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
+  out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
 
 ## `heroes.json` — the leads a run can be started as
 
@@ -280,7 +283,8 @@ loot, `cache_map_chance` for a cache in the open, `chest_map_chance` for a chest
 
 ## `fall.json` — the fall, the landing, and the others (M13)
 
-Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-the-sixteen-worlds.md).
+Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M15)
+`src/chronicle/siblings.gd`. See [17](17-the-sixteen-worlds.md).
 
 ```json
 {
@@ -295,6 +299,14 @@ Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-th
     "rules": { "stay_min": 60, "stay_max": 180, "steps_per_tile": 2, "rumour_at_rest": 0.4,
                "meetings_to_join": { "E": 1, "I": 2 } },
     "lines": { "first": { "NT": ["…"] }, "again": { "NT": ["…"] }, "heading": { "library": "…" } }
+  },
+  "siblings": {
+    "perturbation": 0.25,
+    "echo": { "stay_steps": 400 },
+    "weapon": { "min_distance": 5, "max_distance": 12, "attempts": 400 },
+    "ghost": { "outward": 3, "inward": 1, "per_visit": 2 },
+    "signatures": { "bram": "oathkeeper" },
+    "lines": { "ending_title": "The world of {name} is ending.", "weapon_lands": "…", "ghost_fall": "…" }
   }
 }
 ```
@@ -316,6 +328,16 @@ Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-th
   how many meetings an Outward (`E`) or Inward (`I`) temper needs before they will join.
 - `wanderers.lines` — what they say. `first`, `again` by temper group; `heading` by kind of place;
   `rumour` and `rumour_road` for the inn; `{name}`, `{title}`, `{place}`, `{lead}` are filled in.
+- `siblings` (M15) — the worlds after the first. Everything in it is **Inferred**, agenda items 50
+  to 56. `perturbation` is the share of a sibling world's gates and library shelves dealt again
+  (0 an identical twin, 1 all of them). `echo.stay_steps` is how long an earlier lead's copy waits
+  at the settlement nearest the new crash site. `weapon` is how near that crash site a dead lead's
+  weapon comes down. `ghost` is how many lines of their journal a ghost shares on the first night
+  (`outward` for an E temper, `inward` for an I) and how many more each night after (`per_visit`).
+  `signatures` names each hero's weapon in `equipment.json`. `lines` is everything said: the end
+  of a world (`ending_*`), the landing, the weapon falling and found, the copy (`echo_*`, by temper
+  group) and the ghost (`ghost_*`). `{name}` is the dead lead, `{lead}` the living one, `{weapon}`,
+  `{way}`, `{place}`, `{level}`, `{floor}` and `{killer}` are filled in.
 
 ## `coliseum.json` — arena cards and waves
 
@@ -523,7 +545,9 @@ A conversation is either a flat script:
 ## Save file — `user://earth-kings.save.json`
 
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player
-cell, generated trees, codex, the others of the sixteen in `wanderers`, and the party's map: `explored` and `charted` as one bit a tile,
+cell, generated trees, codex, the others of the sixteen in `wanderers`, in `echoes` which world of
+the sixteen this is and what has come through from the ones that ended (see
+`src/chronicle/siblings.gd`), and the party's map: `explored` and `charted` as one bit a tile,
 deflated and base64, and `marked` as a sorted list of `"x,y"`) and the `Roster` of Characters. A
 save from before the map had no `explored` and loads with the whole continent seen. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
@@ -535,6 +559,16 @@ When it is written is the mode's: `data/world_rules.json` → `modes.settings.<m
 `autosave`, the points the game saves itself at — `start`, `rest`, `chapter`, `road` (every
 return to the map) and `leave` (the title button, closing the window). See
 `src/chronicle/run_mode.gd`.
+
+## The record of the fallen — `user://earth-kings.sixteen.json`
+
+Kept outside the save ([D47](06-decisions.md)) by `src/chronicle/sixteen.gd`.
+`fallen_heroes` and `fallen_tempers` close the picker and the quiz; `worlds` (M15) is every world
+that ended, oldest first, each marked `gone` and holding what `Siblings.remember` kept: the lead's
+`hero`, `name`, `temper`, `level`, the Tower `floor`, `killer`, the world's `seed` and `base_seed`,
+their `weapon`, what went `well`, the journal `pages`, and `self`, the calling and beliefs they
+started with. A new game with no seed asked for is a sibling of `worlds[0]`. Wiped only with the
+rest of the record, once every lead has fallen.
 
 The file carries a `version` (`GameState.SAVE_VERSION`, now 3). Nothing a player has is lost to
 an update or a crash ([D56](06-decisions.md)):

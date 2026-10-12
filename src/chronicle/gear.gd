@@ -84,7 +84,13 @@ static func icon(equipment_id: String) -> Texture2D:
 ## is plain enough that anybody can use it. Somebody who has not chosen a
 ## calling yet is judged on the ones they could still take, so a level-one
 ## swordsman is not penalised for carrying a sword.
+##
+## A weapon made for one of the sixteen (`signature`) suits nobody, not even
+## the copy of the one it was made for: god-tier, and nobody is proficient with
+## it (M15, [D33]).
 static func suits(equipment_id: String, character: Character) -> bool:
+	if piece(equipment_id).has("signature"):
+		return false
 	var callings: Array = piece(equipment_id).get("suits", [])
 	if callings.is_empty():
 		return true

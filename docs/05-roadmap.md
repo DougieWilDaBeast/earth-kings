@@ -126,12 +126,15 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
    (20–24). The [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and
    cost. Items 20 and 21 (the milestones that replace steps, and how far a walk is in one view)
-   unblock M18. Item 12 unblocks the last of M15, item 15 the writing for M13; item 11 (party
-   growth) was built on an inference on 2026-10-12, by Tower chapter, and waits as item 35. Item 3
-   (the research and the prototype) has gone as far as it can without play (steps 2 and 3); 13 is
-   built; 14 is deferred to playtest. Items 25 to 29 are what M13's fall inferred on 2026-10-12:
-   where the sixteen land, the stand-ins and their tempers, where each temper goes, how one joins,
-   and how "Ascend to heaven" is shown.
+   unblock M18. Item 12 (built meanwhile as "easy to find") settles the last of M15, item 15 the
+   writing for M13; item 11 (party growth) was built on an inference on 2026-10-12, by Tower
+   chapter, and waits as item 35. Item 3 (the research and the prototype) has gone as far as it can
+   without play (steps 2 and 3); 13 is built; 14 is deferred to playtest. Items 25 to 29 are what
+   M13's fall inferred on 2026-10-12: where the sixteen land, the stand-ins and their tempers, where
+   each temper goes, how one joins, and how "Ascend to heaven" is shown. Items 50 to 56 are what
+   M15's sixteen worlds inferred the same day: how alike the siblings are, where the earlier lead
+   waits, when the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the
+   stand-ins' weapons, and how a world's end is shown.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
@@ -254,8 +257,8 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
   the weakest gates that were only brewing open — or a new rift tears if none are left), then the
   stair above is **sealed** until the company answers the world. **The reading taken:** shutting a
   gate or saving a town counts (`chapter_keys`). Items and quests as keys wait on the Guild
-- The census at the end of every chapter ✅ — it always reads sixteen until there is more than one
-  world (M15)
+- The census at the end of every chapter ✅ — since M15 a lead who died in an earlier world is
+  counted out once this lead has climbed as high as they did
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
   floor, and it survives a save); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
   reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
@@ -268,23 +271,29 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal
   by shutting the gates the chapter woke
 
-### M15 — Sixteen worlds — PLANNED
+### M15 — Sixteen worlds — IN PROGRESS
 
-Waits on M13, and on agenda item 12.
+Built 2026-10-12 on M13's fall, with agenda item 12 taken as "easy to find" until it is answered.
+Everything below marked ✅ that day is **Inferred**, agenda items 50 to 56; see
+[17](17-the-sixteen-worlds.md#sixteen-worlds-as-built).
 
 - The lead's death ends the world: the overhead shot of it being destroyed, and the world marked
-  gone for good
+  gone for good ✅ (drawn on the existing map: the camera rises while it burns out from the Tower;
+  `src/world/world_end.gd`). The art for it waits on the intro
 - Choosing the next lead from the survivors, in their own sibling world, from level 1 — the quiz
   asked again with every dead lead's answers removed, and the picker showing only the living
   ([D43](06-decisions.md)). Both halves are built: the quiz closes the dead's answers (2026-09-26),
   and since 2026-10-01 a lead who dies is recorded outside the save, passed to the quiz, and
-  hidden from the picker ([D47](06-decisions.md)) ✅. Left: the sibling world itself
-- Sibling worlds that tend to play out alike — same seed, perturbed
-- The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow
-- The signature weapon crash-landing in the next world, and rumours that lead to it
-- Nothing arrives before the new lead has got as far as the old one did
+  hidden from the picker ([D47](06-decisions.md)) ✅. The sibling world ✅ (2026-10-12)
+- Sibling worlds that tend to play out alike — same seed, perturbed ✅ (`siblings.perturbation`)
+- The journal saved at death; the ghost met at a campfire, sharing it as temper and rapport allow ✅
+  in a simple form: the ghost sits at any fire, rapport is nights at the fire, and finding the
+  weapon opens it fully. Meditating as an action of its own, not yet
+- The signature weapon crash-landing in the next world, and rumours that lead to it ✅
+- Nothing arrives before the new lead has got as far as the old one did ✅ (the old lead's level and
+  Tower floor, both reached; the census counts them out from the same floor)
 - The earlier lead alive in the next world as an NPC, from their stats and starting personality
-  ([D52](06-decisions.md))
+  ([D52](06-decisions.md)) ✅
 - Classic and Iron Man ([D51](06-decisions.md)), replacing free save/load ([D21](06-decisions.md)):
   Classic offers reload or ascend when the lead dies, and Iron Man ascends straight back to choosing.
   Under Classic the record of the fallen is written on ascending, not on the fall ✅ (built
@@ -294,7 +303,9 @@ Waits on M13, and on agenda item 12.
   [02](02-design.md#when-the-lead-falls-classic-and-iron-man)). The save points are **Inferred**,
   agenda item 40. Left: quitting mid-fight in Iron Man still drops the fight unsettled
 - ✅ Done when: a lead can die, the next can start in another world, and the first lead's ghost
-  can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md))
+  can tell the second where their weapon went ([D32](06-decisions.md), [D33](06-decisions.md)) —
+  **met in words** 2026-10-12 (`walk_smoke_test --check=sixteen`); the founders' answers to items 12
+  and 50 to 56 are what is left
 
 ### M16 — Companions on jobs — MOSTLY SHIPPED
 

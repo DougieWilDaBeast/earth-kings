@@ -12,6 +12,7 @@ extends CanvasLayer
 const Names := preload("res://src/chronicle/names.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 signal closed
 
@@ -209,6 +210,32 @@ func _show_quests_page() -> void:
 			"%d more carry the mark somewhere out there. Ask at an inn, or rest where people talk." % unknown,
 			LABEL_COLOUR
 		))
+
+	# The worlds that ended before this one, and what has come through (M15).
+	var gone := Siblings.past(world)
+	if gone.is_empty():
+		return
+	_page.add_child(HSeparator.new())
+	var worlds_title := _line("World %d of the sixteen. The worlds that ended" % Siblings.number(world), HEADING_COLOUR)
+	worlds_title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(worlds_title)
+	for echo: Dictionary in gone:
+		var weapon: Dictionary = echo.get("weapon", {})
+		var where := "Their weapon has not come down yet: it waits until you have got as far as they did."
+		if bool(weapon.get("found", false)):
+			where = "You carry %s." % Gear.display_name(str(weapon.get("id", "")))
+		elif bool(weapon.get("landed", false)):
+			where = "%s has fallen%s. Their ghost sits at the fire." % [
+				Gear.display_name(str(weapon.get("id", ""))),
+				", and you have word of where" if bool(weapon.get("heard", false)) else " somewhere near where you came down",
+			]
+		var said := _line("%s died at level %d, %s. %s" % [
+			str(echo.get("name", "")), int(echo.get("level", 1)),
+			"on floor %d of the Tower" % int(echo.get("floor", 0)) if int(echo.get("floor", 0)) > 0 else "before the Tower",
+			where,
+		], KNOWN_COLOUR)
+		said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_page.add_child(said)
 
 
 func _show_annals_page() -> void:

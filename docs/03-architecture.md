@@ -62,6 +62,7 @@ src/
     names.gd                   Regional names and the lead's earned title (D39)
     fall.gd                    Crash sites, the landing beat, "Ascend to heaven" (M13)
     wanderers.gd               The others of the sixteen, walking between places by temper (M13)
+    siblings.gd                Sibling worlds: the earlier lead alive, their weapon, their ghost (M15)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
@@ -77,6 +78,7 @@ src/
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
   world/                       Walk mode: the map, the step clock, every site interaction
     route.gd                   The way across the country on foot, for a party walking itself
+    world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        Places walked around close up — 33 hand-built top-down areas,
                                orthogonal A* pathfinding, props, chests, cutscenes, camp fire
   dialogue/                    Conversation overlay, branching script, skill checks, news

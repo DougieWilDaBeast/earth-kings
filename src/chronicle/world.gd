@@ -11,6 +11,7 @@ const SIZE := Vector2i(128, 128)
 ## Loaded by path ([D41]).
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 
 ## Symbol -> terrain id from `data/terrain.json`.
@@ -78,6 +79,9 @@ var survivors: Array = []
 var musters: Array = []
 ## The others of the sixteen, living their own lives (see `src/chronicle/wanderers.gd`).
 var wanderers: Array = []
+## Which world of the sixteen this is, and what has come through from the ones
+## that ended before it (see `src/chronicle/siblings.gd`): `{ sibling, past }`.
+var echoes: Dictionary = {}
 ## The party's map ([D50], `src/chronicle/atlas.gd`): one bit a tile for ground
 ## it has seen, one for ground a map it carries has drawn in, and the places it
 ## has been told of, keyed "x,y".
@@ -304,6 +308,7 @@ func _upkeep() -> Array:
 	notices.append_array(Roadside.upkeep(self))
 	notices.append_array(Guild.upkeep(self, GameState.errands))
 	notices.append_array(Wanderers.upkeep(self))
+	notices.append_array(Siblings.upkeep(self))
 	return notices
 
 
@@ -338,6 +343,7 @@ func to_dict() -> Dictionary:
 		"survivors": survivors,
 		"musters": musters,
 		"wanderers": wanderers,
+		"echoes": echoes,
 		"explored": Atlas.encode(explored),
 		"charted": Atlas.encode(charted),
 		"marked": _sorted_keys(marked),
@@ -384,6 +390,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.survivors = payload.get("survivors", [])
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])
+	world.echoes = payload.get("echoes", {})
 	world.explored = Atlas.decode(str(payload.get("explored", "")), world)
 	world.charted = Atlas.decode(str(payload.get("charted", "")), world)
 	for key: String in payload.get("marked", []):
