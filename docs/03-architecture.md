@@ -32,6 +32,7 @@ src/
     music.gd                   Scene music tracks and dynamic crossfading
     sfx.gd                     Sound effects hub and UI button listener
     pace.gd                    Engine timescale, quiet chatter, auto-play coordination
+    pad.gd                     Last device used, pad/key names for hint lines, menu focus on a pad
   chronicle/                   THE WORLD MODEL (no nodes, no scenes)
     character.gd               Persistent person: level, class, doctrine, permadeath, grudges
     progression.gd             XP curve, level-ups, class choice, branching tree unlocks
@@ -54,8 +55,11 @@ src/
     world_gen.gd               Builds a 128x128 continental world from a seed
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
     guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
+    atlas.gd                   The party's map: explored, charted, marked; Guild maps, found maps (M18)
     sixteen.gd                 Who of the sixteen has fallen, kept outside the save (M15, D47)
     names.gd                   Regional names and the lead's earned title (D39)
+    fall.gd                    Crash sites, the landing beat, "Ascend to heaven" (M13)
+    wanderers.gd               The others of the sixteen, walking between places by temper (M13)
   battle/                      Tactics core (working)
     battle.tscn/.gd            Phase machine, input routing, turn loop, draught usage
     turn_manager.gd            Charge-time order + lookahead
@@ -122,7 +126,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | Test                             | Covers                                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk   |
-| `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, and the end of a run |
+| `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
 | `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire                                                    |
 | `tests/battle_smoke_test.tscn`   | A whole battle played out by the AI, with fate resolved on every fallen character                                                                        |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
@@ -178,8 +182,11 @@ and every bounty a board tried to post came out blank.
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace`. Database must be up before
+`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad`. Database must be up before
 anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
 busses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
 is playing itself, so both survive a scene swap — a soak started on the road carries through the
-fight it walks into.
+fight it walks into. `Pad` remembers whether a game pad or a keyboard was touched last, says the
+right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
+whatever modal screen or menu scene is up while a pad is in use; the walk and the fights steer
+themselves (a cursor in the fights).

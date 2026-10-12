@@ -4,6 +4,7 @@ extends CanvasLayer
 ## and rolling the checks behind them — then reports back.
 
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
@@ -240,6 +241,10 @@ func _hear_the_news() -> void:
 	var job := RumourJobs.post(GameState.world)
 	if job != "":
 		text += "\n\n" + job
+	# And word of the others who fell (M13), which leaves them known where it says.
+	var sighting := Wanderers.rumour(GameState.world)
+	if sighting != "":
+		text += "\n\n• \"%s\"" % sighting
 	_news_back = _node_id
 	_show(_node.get("speaker", "The host"), text)
 
@@ -272,10 +277,14 @@ func _show(speaker: String, body: String) -> void:
 	else:
 		_hint.text = "Tap the reply you want" if Pace.is_touch_enabled() \
 				else "Click the reply you want"
+		if Pad.using_pad:
+			_hint.text = "D-pad to the reply you want, %s to say it" % Pad.key("ui_accept")
 		_options.get_child(0).grab_focus()
 
 
 func _go_on_text() -> String:
+	if Pad.using_pad:
+		return "%s to continue" % Pad.key("ui_accept")
 	return "Tap to continue" if Pace.is_touch_enabled() else "Click or press Enter to continue"
 
 

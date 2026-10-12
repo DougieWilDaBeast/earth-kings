@@ -197,8 +197,9 @@ static func _shuffle(items: Array, rng: RandomNumberGenerator) -> void:
 		items[j] = swap
 
 
-## Somewhere of your own, put down within reach of the first village so the run
-## always starts with a roof you can walk back to.
+## Somewhere of your own, put down within reach of the first village. A new run
+## moves it to wherever the lead crash-lands (see `src/chronicle/fall.gd`), so
+## this is only where a world built on its own keeps its roof.
 static func _place_home(world: World) -> void:
 	var villages := world.sites_of_kind(Site.VILLAGE)
 	var anchor: Vector2i = villages[0].cell if not villages.is_empty() else world.size / 2
@@ -323,34 +324,6 @@ static func _starting_cell(world: World) -> Vector2i:
 		if world.is_walkable(home.cell + offset):
 			return home.cell + offset
 	return home.cell
-
-
-## Where a lead's own run begins, read off their hearth: keeps for those raised
-## in one, libraries for cloistered readers, hedge huts for strays, gate mouths
-## for whoever ended up living within sight of one.
-##
-## Sixteen leads share a handful of site kinds, so the site is picked from the
-## whole list by a hash of the hero id rather than always taking the first —
-## otherwise half the roster wakes up on the same doorstep.
-static func starting_cell_for_hero(world: World, lead_id: String) -> Vector2i:
-	if lead_id == "":
-		return _starting_cell(world)
-	var hero := Database.hero(lead_id)
-	if hero.is_empty():
-		return _starting_cell(world)
-	var hearth := Database.lore_piece("hearths", str(hero.get("hearth", "")))
-	var start_kind: String = str(hearth.get("site_kind", ""))
-	if start_kind == "" or start_kind == "village":
-		return _starting_cell(world)
-	var candidate_sites := world.sites_of_kind(start_kind)
-	if candidate_sites.is_empty():
-		return _starting_cell(world)
-	var site: Site = candidate_sites[absi(lead_id.hash()) % candidate_sites.size()]
-	for offset: Vector2i in [Vector2i.ZERO, Vector2i.DOWN, Vector2i.RIGHT, Vector2i.UP, Vector2i.LEFT]:
-		var c := site.cell + offset
-		if world.is_walkable(c) and world.terrain_id_at(c) != "water":
-			return c
-	return site.cell
 
 
 static func _place_name(rng: RandomNumberGenerator, used: Dictionary) -> String:
