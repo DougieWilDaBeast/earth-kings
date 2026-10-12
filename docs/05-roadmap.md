@@ -130,7 +130,9 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    cost. Items 20 and 21 (the milestones that replace steps, and how far a walk is in one view)
    unblock M18. Item 12 unblocks the last of M15, item 15 the writing for M13, and item 11 party
    growth. Item 3 (the research and the prototype) has gone as far as it can without play (steps 2
-   and 3); 13 is built; 14 is deferred to playtest.
+   and 3); 13 is built; 14 is deferred to playtest. Items 25 to 29 are what M13's fall inferred
+   on 2026-10-12: where the sixteen land, the stand-ins and their tempers, where each temper goes,
+   how one joins, and how "Ascend to heaven" is shown.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
@@ -203,22 +205,32 @@ nothing yet.
   `data/world_rules.json`. At 4 the first fight of a run jumped the lead to level 5 on Gentle;
   at 2 it lands near where the old per-kill rule did
 
-### M13 — The fall — PLANNED
+### M13 — The fall — IN PROGRESS
 
-Waits on the first writing sitting, and on agenda items 7 and 15.
+Started 2026-10-12, on the founders' direction to build from the docs and infer where a question is
+open. What was inferred is agenda items 25 to 29. The writing still waits on the first writing
+sitting, and the reading of a hearth on agenda item 15.
 
-- An intro that shows the sixteen falling ([19](19-asset-list.md), Tier 4.1)
+- An intro that shows the sixteen falling ([19](19-asset-list.md), Tier 4.1) — waits on art. A
+  landing beat in words plays on the first frame of every new run ✅ (`data/fall.json` → `landing`)
 - The first four of the sixteen written, with fixed god-style names and signature weapons
-- The shared mark on every one of the sixteen
+- The shared mark on every one of the sixteen — spoken of when two meet; its form is not chosen
 - Memories returned by the chapter, written per lead, and the whole story as a cinematic once every
   fragment is found ([D53](06-decisions.md))
-- The standing quest every lead carries from landing: "Ascend to heaven" ([D53](06-decisions.md))
-- Random crash sites per world, replacing fixed starting hearths
-- The fifteen living their own lives: moving between places by temper, instead of standing in one area
+- The standing quest every lead carries from landing: "Ascend to heaven" ([D53](06-decisions.md)) ✅
+  (2026-10-12): in the journal's _Quests & the Fallen_ page with the Tower's floor and chapter, and
+  ASCEND on the Tower. It never completes; that is item 22 and M17
+- Random crash sites per world, replacing fixed starting hearths ✅ (2026-10-12,
+  `src/chronicle/fall.gd`): drawn from the world seed and the lead, and the crater becomes Home
+- The fifteen living their own lives: moving between places by temper, instead of standing in one
+  area ✅ (2026-10-12, `src/chronicle/wanderers.gd`), with the twelve existing heroes standing in
+  until the sixteen are written. Heard of at inns and on rests, seen where they stand, met with
+  **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
   — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other
-  fifteen can be met somewhere they walked to
+  fifteen can be met somewhere they walked to — **met in words** 2026-10-12
+  (`walk_smoke_test --check=fall`); the falling itself waits on the intro's art
 
 ### M14 — The Tower in chapters, and gates you cannot leave — IN PROGRESS
 

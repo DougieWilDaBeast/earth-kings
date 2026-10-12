@@ -74,6 +74,20 @@ for what they did to settlements, and **Goblin Hunter** — or whatever they hav
 once it is ten of a kind. A place that has heard of you greets you by it, and the journal shows it
 under Known As.
 
+## The fall, and the others
+
+A run opens on the fall ([17](17-the-sixteen-worlds.md), M13). The lead comes down at a crash site
+the world seed picks — never on a place, never at the Tower's foot — and the crater becomes the
+company's Home. A short landing beat says so, and hands them the one quest every lead carries,
+**Ascend to heaven** ([D53](06-decisions.md)), which the journal keeps at the top of _Quests & the
+Fallen_ with the Tower's floor and chapter.
+
+The heroes the run did not start with fell too. Each lands at a seeded site of their own and walks
+from one kind of place to another by temper (`data/fall.json` → `wanderers`). The company hears
+of them at inns and by resting where people talk, and sees them by standing where they stand; both
+are marked on the map. **X** speaks to one. An Outward temper will walk with you the first time, an
+Inward one the second, if the party has room. All of it is **Inferred** (agenda items 25–29).
+
 ## Sending companions away
 
 Any companion — never the lead, and never the last one left beside them — can be handed an errand
@@ -170,7 +184,7 @@ sites are scattered across the land, never closer than 9 tiles apart:
 | Kind    | Count | Role                                                               |
 | ------- | ----- | ------------------------------------------------------------------ |
 | Tower   | 1     | Claims a far region; hundred-floor climb culminating in the Spire Apex |
-| Home    | 1     | Yours; hearth where you start, bed upgrades, safe haven            |
+| Home    | 1     | Yours: the crater the lead fell into (M13), bed upgrades, safe haven |
 | Keep    | 5     | Fortified havens, proving arena grounds for live tournaments       |
 | Village | 11    | Safe ground, markets, hirelings, coastal ports                     |
 | Library | 6     | Written doctrine and study                                         |

@@ -25,7 +25,7 @@ wait for a session that has nothing more urgent.
 **For the next session:** [the briefing sheet](session-2-briefing.md) gives every Section 1 item
 its options, what each costs to build, and what happens if nobody answers. Joint session 2
 (2026-10-01) worked it as far as item 8 and stopped. Items 9 to 19 and the new rows 20 to 24 are
-what is left.
+what is left, with 25 to 29: what the build inferred on 2026-10-12 to get M13's fall running.
 
 ## 1. What joint session 1 left open — needed next
 
@@ -57,6 +57,11 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 22 | `SF1`, `CO7` | **"Ascend to heaven" names two things.** It is the lead's standing quest, finished only at the end, and it is also what Classic offers when the lead dies. Is dying a way of finishing the quest, a failure of it, or are the two different things that happen to share a name? |
 | 23 | D54 | **Inferred.** Built 2026-10-01: **a healer's assist** is one where the helper healed the one who landed the blow, earlier in the same fight. Five of those, or ten of any other assist, teach a kind. Right reading? |
 | 24 | `GT11`, D48 | **Inferred.** Built 2026-10-01: over a hundred floors, **enemies rise about one level every three floors** (level 2 at the foot, 32 at the top), four faction cohorts hold the floors in turn, gold is paid by the chapter, a book every chapter and a skill tree every two. Right shape? |
+| 25 | `LP13`, `MX15`, D31 | **Inferred.** Built 2026-10-12: **where the sixteen land.** Each crash site is drawn from the world seed and the hero, not the world's dice: open ground joined by land to the Tower, at least 24 tiles from it, 3 from any place and 6 from an open gate, and within 26 of a village, keep or hut. The lead's crater becomes the company's Home, called "Where You Fell", and a hearth no longer picks where a run starts (item 15's reading). Right rules? Should it be allowed to land anywhere, a bad part of the country included? |
+| 26 | `MX16`, D31 | **Inferred.** Built 2026-10-12: until the sixteen are written, **the twelve existing heroes stand in for the others**, each with an inferred temper: Bram ISTJ, Sera ISFP, Toln ISFJ, the Fox Fire Knight ESTP, the Village Idiot ESFP, Dirte ENTJ, the Bamboo Master INFJ, the Three-Eyed Smith ISTP, the Eightfold Monk INTP, the Tidewalker INFP, the Sleepless Blade INTJ, the Tattered One ENTP. Whoever a run starts with is not out there. Keep the stand-ins until the sixteen exist? |
+| 27 | `MX16`, `CH14` | **Inferred.** Built 2026-10-12: **the others move by temper.** NT go mostly to libraries and the Tower; NF to libraries, villages and huts, never gates; SJ to keeps and villages; SP to gates and keeps (the arena), never libraries. Nearer places are likelier. Each stays 60 to 180 steps, then walks on at two steps a tile. Right places? |
+| 28 | `MX17`, `MX18`, `LP28` | **Inferred.** Built 2026-10-12: **meeting and joining.** Standing where one of them stands shows them and the mark, and **X** speaks to them. An Outward temper will join on the first meeting, an Inward one on the second, at the lead's level and only into a free place in the party of four. No price and no refusal by creed yet. Word of them comes from asking an inn for news, and sometimes from resting at a settlement. Is that how hiring one of the fifteen works? |
+| 29 | `SF1`, D53 | **Inferred.** Built 2026-10-12: **"Ascend to heaven" as shown.** Every lead carries it from the landing beat, a short scene of narration written by the build. It sits in the journal (Quests & the Fallen) with the Tower's floor and chapter, and the Tower is marked ASCEND on the map. It never completes; what finishes it is item 22 and M17. Right wording, and right place to show it? |
 
 ## 2. Eleven Part I questions that need a straight answer
 

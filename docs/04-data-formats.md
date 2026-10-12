@@ -164,7 +164,7 @@ has `display_name`, `blurb`, `text`, `tags`, and may carry one `gift`.
 }
 ```
 
-Per pool: `hearths` add `site_kind` (which generated site a run starts on); `grudges` add `matches`
+Per pool: `hearths` add `site_kind` (the kind of place it names; since M13 a run starts at a crash site instead); `grudges` add `matches`
 (`factions` / `kinds` / `templates` / `template_contains`, any hit counts); `creeds` add `holds`
 and `despises`; `oaths` may add `toward`. `"provisional": true` marks a migrated stand-in.
 
@@ -266,6 +266,45 @@ still keeps one). Every keep and village area has one: a `guild_clerk`.
   at party level + `ally_level_bonus`); and `gold` for standing with a muster that wins.
 - `states` — how the register names a gate's state.
 - `lines` — what the hall says; `{hall}`, `{gate}` and `{gold}` are filled in.
+
+## `fall.json` — the fall, the landing, and the others (M13)
+
+Read by `src/chronicle/fall.gd` and `src/chronicle/wanderers.gd`. See [17](17-the-sixteen-worlds.md).
+
+```json
+{
+  "crash": { "home_name": "Where You Fell", "min_site_gap": 3, "min_tower_distance": 24,
+             "min_gate_distance": 6, "max_haven_distance": 26, "attempts": 600 },
+  "landing": { "lines": [ { "speaker": "", "text": "… comes down in {region} …" } ] },
+  "standing_quest": { "title": "Ascend to heaven", "brief": "…", "progress": "Floor {floor} of {floors}, …",
+                      "not_started": "…", "sealed": "…", "topped": "…", "badge": "ASCEND" },
+  "wanderers": {
+    "tempers": { "sera": "ISFP" },
+    "preferences": { "NT": { "library": 5, "tower": 4, "keep": 1 } },
+    "rules": { "stay_min": 60, "stay_max": 180, "steps_per_tile": 2, "rumour_at_rest": 0.4,
+               "meetings_to_join": { "E": 1, "I": 2 } },
+    "lines": { "first": { "NT": ["…"] }, "again": { "NT": ["…"] }, "heading": { "library": "…" } }
+  }
+}
+```
+
+- `crash` — where somebody may come down: walkable ground joined by land to the Tower, at least
+  `min_site_gap` from any place, `min_tower_distance` from the Tower and `min_gate_distance` from an
+  open gate, and within `max_haven_distance` of a village, keep or hut. The lead's crash site
+  becomes the Home, renamed `home_name`.
+- `landing` — the lines played when a new run first opens. `{name}`, `{region}`, `{ground}` and
+  `{tower_way}` (a compass word) are filled in.
+- `standing_quest` — "Ascend to heaven" ([D53](06-decisions.md)) as the journal shows it.
+  `{floor}`, `{floors}`, `{chapter}` and `{chapters}` are filled in; `badge` marks the Tower on the map.
+- `wanderers.tempers` — the temper of each hero who is not yet one of the sixteen. A hero with a
+  `tempers.json` slot uses that instead. **Inferred** ([agenda item 26](worldbuilding/answers.md#what-is-still-to-decide)).
+- `wanderers.preferences` — by temper group (NT, NF, SJ, SP), how much each kind of place draws
+  them. A weight of 0 means never. Nearness divides the weight.
+- `wanderers.rules` — how long they stay (`stay_min`..`stay_max` steps), how fast they walk
+  (`steps_per_tile`), the chance a rest at a settlement brings word of one (`rumour_at_rest`), and
+  how many meetings an Outward (`E`) or Inward (`I`) temper needs before they will join.
+- `wanderers.lines` — what they say. `first`, `again` by temper group; `heading` by kind of place;
+  `rumour` and `rumour_road` for the inn; `{name}`, `{title}`, `{place}`, `{lead}` are filled in.
 
 ## `coliseum.json` — arena cards and waves
 
@@ -437,7 +476,8 @@ A conversation is either a flat script:
 ## Save file — `user://earth-kings.save.json`
 
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player
-cell, generated trees, codex) and the `Roster` of Characters. Generated abilities are restored
+cell, generated trees, codex, and the others of the sixteen in `wanderers`) and the `Roster` of
+Characters. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
 
 ## Conventions

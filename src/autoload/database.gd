@@ -53,6 +53,9 @@ var factions: Dictionary = {}
 var music: Dictionary = {}
 ## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
 var guild: Dictionary = {}
+## The fall: crash sites, the landing, the standing quest, and the others living
+## their own lives (see `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`).
+var fall: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -92,6 +95,7 @@ func _ready() -> void:
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
 	guild = _load_json("%s/guild.json" % DATA_DIR)
+	fall = _load_json("%s/fall.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
