@@ -142,7 +142,7 @@ static func best_for(skill: String) -> Character:
 	return best
 
 
-## Flags set or cleared and gold gained or spent by a node or a reply.
+## Flags set or cleared, gold gained or spent, and an `item` handed over by a node or a reply.
 static func apply_effects(source: Dictionary) -> void:
 	for key: String in _as_array(source.get("set_flag", [])):
 		GameState.set_flag(key)
@@ -151,6 +151,10 @@ static func apply_effects(source: Dictionary) -> void:
 	var gold := int(source.get("gold", 0))
 	if gold != 0:
 		GameState.gold = maxi(0, GameState.gold + gold)
+	# Something handed over: bought, earned or given. Whoever can use it takes it.
+	var item := str(source.get("item", ""))
+	if item != "" and GameState.roster != null:
+		EventBus.area_note.emit(Loot.take(item, GameState.roster))
 
 
 static func _skill_value(character: Character, skill: String) -> int:

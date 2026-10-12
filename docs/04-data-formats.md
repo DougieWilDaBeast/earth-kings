@@ -260,6 +260,78 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
 still keeps one). Every keep and village area has one: a `guild_clerk`.
 
+**Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
+in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,
+depth] cells a solid prop blocks, centred on its cell and running back from it), `flip` (mirrored)
+and `offset` ([dx, dy] pixels off the middle of its cell). A prop can be part of a favour: `set_flag`
+is set the first time it is looked at, with `found_line` said then; `requires` / `requires_not`
+(flags) decide whether it is there at all. A cell the author means somebody to stand on (spawn,
+exits, spots, chests, seats, anyone standing there) is never blocked, whatever is drawn on it.
+A spot may carry `set_flag` too.
+
+**`dressing`** is a second list of props written by `tools/dress_areas.py` — trees, bushes, flowers,
+birds and bugs out of doors, furniture in rooms — one piece a line, kept apart from `props` so the
+tool can write it again without touching the author's. It never blocks the way to an exit, door,
+chest, spot or person: every solid piece is tried against a walk from the spawn first. The same
+area always comes out the same.
+
+**Buildings** with an `art` (a key of `props.json` → `buildings`) are drawn from that picture at its
+`scale`, on its footprint `size`, with the door in the middle of the front row unless `door` says
+otherwise; `scale`, `size`, `flip` and `lived_in` may be given. A building with no `area` behind
+its door says its `shut` line (a string or a list) when walked into.
+
+**`talk`** on a person builds a conversation from data instead of a file ([`src/dialogue/talk.gd`](../src/dialogue/talk.gd)):
+
+```json
+"talk": {
+  "hello": ["Fresh this morning! Most of it."], "again": "You came back!",
+  "ask": [{ "q": "What's good today?", "a": "The cheese.", "requires": "flag", "once": true,
+            "reward": 10, "item": "apple", "cost": 5, "check": { "skill": "wits", "dc": 10 }, "no": "Mind your own." }],
+  "sells": [{ "item": "bread" }, { "item": "whetstone", "price": 60, "restock": true }],
+  "job": { "flag": "job:wat_stone", "done_flag": "found:wat_stone", "offer": "...", "done": "...", "gold": 30, "item": "hearth_coin" },
+  "refuse": { "chance": 0.4, "text": "Not now.", "unless": "smith:won", "bribe": 5,
+              "check": { "skill": "might", "dc": 11 }, "won": "Fine.", "won_flag": "smith:won", "still_no": "No." },
+  "news": true, "more": "Anything else?", "leave": "Goodbye.", "bye": "Mind the geese."
+}
+```
+
+- `hello` opens it (`again` from the second time); every text may be a list, one picked each time.
+- `ask` — the questions the party can put. An answer that pays (`reward` gold, an `item`) is said
+  once. `cost` is gold to ask; a `check` rolls for it, and on a miss they say `no`.
+- `sells` — one reply per thing, at the market's price for it (`Market.price_of`, through the
+  difficulty's `price` dial) unless `price` is given. Each sells once unless `restock`.
+- `job` — a favour: asked for, taken on (sets `flag`), and paid (`gold`, `item`) once `done_flag`
+  is set by something found elsewhere — a prop's or a spot's `set_flag`.
+- `refuse` — whether they will talk at all: on their `chance` each time (1.0, every time) until an
+  `unless` flag is set. A `bribe` and a `check` are ways round it; `won_flag` makes it stick.
+- `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
+  mutters as you pass.
+
+## `props.json` — how big every prop and building is drawn
+
+Every picture is a 64-pixel square and a person stands about 60 pixels tall on a 64-pixel cell, so
+sizes are set beside a person: a tree three people tall, a bird the size of a bird.
+
+```json
+{
+  "kinds": { "tree": { "scale": 3.0, "solid": true, "battle_scale": 2.0 }, "great_tower": { "scale": 4.0, "solid": true, "base": [3, 1] } },
+  "art": { "nature/great_oak": "tree", "nature/cactus": { "kind": "flower", "scale": 2.0 } },
+  "buildings": { "tavern": { "scale": 3.0, "size": [3, 2], "look": "a log lodge with antlers on the gable" } }
+}
+```
+
+- `kinds` — `scale`, `solid`, `base` and `battle_scale` (the size in a battle, before it is scaled
+  to a battle's 48-pixel cell; `scale` if absent).
+- `art` — every picture under `art/props/` (path without `.png`), as its kind or as its kind plus
+  overrides. Unknown art is drawn as it is and blocks nothing.
+- A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
+  them over and over: the portals glow, the lighthouse sweeps.
+- `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
+  another, and say so.
+
+Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
+`AreaMap` (what blocks) and the battle's scenery.
+
 ## `guild.json` — the Adventurers Guild
 
 ```json

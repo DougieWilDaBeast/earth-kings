@@ -1,81 +1,260 @@
 {
-	"display_name": "the hedge hut",
-	"layers": ["dirt", "meadow"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"m": "meadow"
-	},
-	"tint": "#9a9a80",
-	"fire": [7, 4],
-	"spawn": [7, 9],
-	"seats": [[5, 4], [9, 4], [7, 2]],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 6], "line": "Bundles of something dried hang low enough to walk into." },
-		{ "cell": [3, 5], "line": "A hedge grown into a wall, and a gap in it that was made on purpose." },
-		{ "cell": [11, 5], "line": "Bones, arranged. Small ones. Whoever did it was not in a hurry." }
-	],
-	"chests": [
-		{
-			"cell": [11, 3],
-			"line": "A jar wedged in the roots, and something rattling in it.",
-			"art": "chest_broken",
-			"gold": 95,
-			"item": "black_feather"
-		}
-	],
-	"props": [
-		{ "art": "brazier", "cell": [5, 6] },
-		{ "art": "brazier", "cell": [9, 6] },
-		{ "art": "crystal_ball", "cell": [7, 7] },
-		{ "art": "camp/fire_logs", "cell": [3, 7] },
-		{ "art": "village/log_pile", "cell": [11, 7] },
-		{ "art": "village/trough", "cell": [3, 3] },
-		{ "art": "nature/mushrooms_shelf", "cell": [12, 4] },
-		{ "art": "nature/mushrooms_tall", "cell": [10, 2] },
-		{ "art": "nature/hazel_bush", "cell": [2, 4] },
-		{ "art": "nature/spider", "cell": [11, 6] },
-		{ "art": "nature/snail", "cell": [4, 8] }
-	],
-	"people": [
-		{
-			"name": "Grelda of the Hedge",
-			"unit": "pig_warlock",
-			"cell": [7, 5],
-			"facing": [0, 1],
-			"wander": 2,
-			"chatter": [
-				"You came the long way. Everyone does. There isn't a short one.",
-				"I don't sell anything. People keep leaving coin anyway.",
-				"Don't touch the small bones. The big ones are fine.",
-				"It'll rain by dark. It always rains by dark out here."
-			]
-		},
-		{
-			"name": "a wolf that will not come closer",
-			"unit": "wolf",
-			"cell": [11, 9],
-			"facing": [-1, 0],
-			"wander": 3,
-			"chatter": [
-				"It watches from the hedge line and does not come any nearer."
-			]
-		}
-	],
-	"rows": [
-		"mmmm.......mmmm",
-		"mmm.........mmm",
-		"mm...,,,,,...mm",
-		"m...,,,,,,,...m",
-		"...,,,,,,,,,...",
-		"..,,,,,,,,,,,..",
-		"...,,,,,,,,,...",
-		"...,,,,,,,,,...",
-		"m...,,,,,,,...m",
-		"mm...,,,,,...mm",
-		"mmm...,,,...mmm",
-		"mmmm...,,..mmmm"
-	]
+ "display_name": "the hedge hut",
+ "layers": [
+  "dirt",
+  "meadow"
+ ],
+ "hint": "WASD to walk  ·  E to look at something  ·  the track out is south",
+ "legend": {
+  ".": "grass",
+  ",": "dirt",
+  "m": "meadow"
+ },
+ "tint": "#9a9a80",
+ "fire": [
+  7,
+  4
+ ],
+ "spawn": [
+  7,
+  9
+ ],
+ "seats": [
+  [
+   5,
+   4
+  ],
+  [
+   9,
+   4
+  ],
+  [
+   7,
+   2
+  ]
+ ],
+ "exits": [
+  [
+   7,
+   11
+  ],
+  [
+   8,
+   11
+  ]
+ ],
+ "spots": [
+  {
+   "cell": [
+    7,
+    6
+   ],
+   "line": "Bundles of something dried hang low enough to walk into."
+  },
+  {
+   "cell": [
+    3,
+    5
+   ],
+   "line": "A hedge grown into a wall, and a gap in it that was made on purpose."
+  },
+  {
+   "cell": [
+    11,
+    5
+   ],
+   "line": "Bones, arranged. Small ones. Whoever did it was not in a hurry."
+  }
+ ],
+ "chests": [
+  {
+   "cell": [
+    11,
+    3
+   ],
+   "line": "A jar wedged in the roots, and something rattling in it.",
+   "art": "chest_broken",
+   "gold": 95,
+   "item": "black_feather"
+  }
+ ],
+ "props": [
+  {
+   "art": "brazier",
+   "cell": [
+    5,
+    6
+   ]
+  },
+  {
+   "art": "brazier",
+   "cell": [
+    9,
+    6
+   ]
+  },
+  {
+   "art": "crystal_ball",
+   "cell": [
+    7,
+    7
+   ]
+  },
+  {
+   "art": "camp/fire_logs",
+   "cell": [
+    3,
+    7
+   ]
+  },
+  {
+   "art": "village/log_pile",
+   "cell": [
+    11,
+    7
+   ]
+  },
+  {
+   "art": "village/trough",
+   "cell": [
+    3,
+    3
+   ]
+  },
+  {
+   "art": "nature/mushrooms_shelf",
+   "cell": [
+    12,
+    4
+   ]
+  },
+  {
+   "art": "nature/mushrooms_tall",
+   "cell": [
+    10,
+    2
+   ]
+  },
+  {
+   "art": "nature/hazel_bush",
+   "cell": [
+    2,
+    4
+   ]
+  },
+  {
+   "art": "nature/spider",
+   "cell": [
+    11,
+    6
+   ]
+  },
+  {
+   "art": "nature/snail",
+   "cell": [
+    4,
+    8
+   ]
+  }
+ ],
+ "people": [
+  {
+   "name": "Grelda of the Hedge",
+   "unit": "pig_warlock",
+   "cell": [
+    7,
+    5
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "wander": 2,
+   "chatter": [
+    "You came the long way. Everyone does. There isn't a short one.",
+    "I don't sell anything. People keep leaving coin anyway.",
+    "Don't touch the small bones. The big ones are fine.",
+    "It'll rain by dark. It always rains by dark out here."
+   ]
+  },
+  {
+   "name": "a wolf that will not come closer",
+   "unit": "wolf",
+   "cell": [
+    11,
+    9
+   ],
+   "facing": [
+    -1,
+    0
+   ],
+   "wander": 3,
+   "chatter": [
+    "It watches from the hedge line and does not come any nearer."
+   ]
+  }
+ ],
+ "rows": [
+  "mmmm.......mmmm",
+  "mmm.........mmm",
+  "mm...,,,,,...mm",
+  "m...,,,,,,,...m",
+  "...,,,,,,,,,...",
+  "..,,,,,,,,,,,..",
+  "...,,,,,,,,,...",
+  "...,,,,,,,,,...",
+  "m...,,,,,,,...m",
+  "mm...,,,,,...mm",
+  "mmm...,,,...mmm",
+  "mmmm...,,..mmmm"
+ ],
+ "dressing": [
+  {"art": "nature/birch", "cell": [1, 2], "offset": [-9, -2], "flip": true},
+  {"art": "nature/great_oak", "cell": [2, 11], "offset": [10, -1]},
+  {"art": "nature/great_oak_2", "cell": [0, 8], "offset": [9, -1]},
+  {"art": "nature/sycamore_tree", "cell": [14, 11], "offset": [9, -2]},
+  {"art": "nature/round_tree", "cell": [11, 0], "offset": [-3, -4], "flip": true},
+  {"art": "nature/great_oak", "cell": [14, 2], "offset": [-3, -5]},
+  {"art": "nature/great_oak_2", "cell": [0, 10], "offset": [1, -1]},
+  {"art": "nature/great_oak_2", "cell": [9, 0], "offset": [3, -5], "flip": true},
+  {"art": "nature/sycamore_tree", "cell": [13, 7], "offset": [2, 3], "flip": true},
+  {"art": "nature/great_oak_2", "cell": [1, 0], "offset": [0, 3]},
+  {"art": "nature/sycamore_tree", "cell": [13, 9], "offset": [10, -4], "flip": true},
+  {"art": "nature/sycamore_tree", "cell": [14, 4], "offset": [6, -2], "flip": true},
+  {"art": "nature/copse", "cell": [11, 11], "offset": [3, -1]},
+  {"art": "nature/birch", "cell": [14, 0], "offset": [-5, -1]},
+  {"art": "nature/autumn_tree", "cell": [6, 0], "offset": [-4, -1], "flip": true},
+  {"art": "nature/clover_2", "cell": [2, 7], "offset": [2, 1]},
+  {"art": "nature/mushrooms_tall", "cell": [14, 9], "offset": [1, 6]},
+  {"art": "nature/clover", "cell": [5, 11], "offset": [-3, 2]},
+  {"art": "nature/mushrooms", "cell": [10, 1], "offset": [-14, -6]},
+  {"art": "nature/clover_2", "cell": [2, 2], "offset": [13, 5], "flip": true},
+  {"art": "nature/clover_2", "cell": [4, 11], "offset": [9, 7], "flip": true},
+  {"art": "nature/mushrooms_cluster", "cell": [1, 8], "offset": [-13, 0], "flip": true},
+  {"art": "nature/clover", "cell": [1, 6], "offset": [0, 6]},
+  {"art": "nature/wildflowers_blue", "cell": [14, 8], "offset": [6, -7], "flip": true},
+  {"art": "nature/wildflowers_orange", "cell": [4, 1], "offset": [-2, 0]},
+  {"art": "nature/mushrooms_shelf", "cell": [12, 0], "offset": [5, -2], "flip": true},
+  {"art": "nature/mushrooms_shelf", "cell": [13, 5], "offset": [13, 5], "flip": true},
+  {"art": "nature/mushrooms_shelf", "cell": [13, 6], "offset": [6, -6]},
+  {"art": "nature/mushrooms", "cell": [13, 2], "offset": [6, -5]},
+  {"art": "nature/wildflowers_blue", "cell": [3, 2], "offset": [12, -2], "flip": true},
+  {"art": "nature/mushrooms", "cell": [5, 0], "offset": [-13, -3], "flip": true},
+  {"art": "nature/mushrooms_cluster", "cell": [1, 1], "offset": [-7, -6], "flip": true},
+  {"art": "nature/thistle", "cell": [3, 8], "offset": [9, 7], "flip": true},
+  {"art": "nature/mushroom_blue", "cell": [13, 3], "offset": [13, 1], "flip": true},
+  {"art": "nature/mushrooms_cluster", "cell": [0, 3], "offset": [13, 2]},
+  {"art": "nature/mushrooms", "cell": [0, 9], "offset": [-10, 4]},
+  {"art": "nature/grass_tuft", "cell": [5, 10], "offset": [-3, -3]},
+  {"art": "nature/mushrooms_tall", "cell": [0, 0], "offset": [12, 2]},
+  {"art": "nature/mushrooms_shelf", "cell": [13, 1], "offset": [-9, 2]},
+  {"art": "nature/mushrooms_shelf", "cell": [2, 1], "offset": [-11, -2]},
+  {"art": "nature/grass_tuft", "cell": [0, 2], "offset": [-11, 1]},
+  {"art": "nature/bramble_2", "cell": [0, 1], "offset": [-3, 3]},
+  {"art": "nature/grass_tuft", "cell": [3, 0], "offset": [-5, -7]},
+  {"art": "nature/snail", "cell": [12, 7], "offset": [14, 0], "flip": true},
+  {"art": "nature/butterfly_blue", "cell": [9, 7], "offset": [-13, 5]},
+  {"art": "nature/butterfly_blue", "cell": [5, 7], "offset": [8, 4]},
+  {"art": "nature/irish_bird", "cell": [5, 1], "offset": [13, 1]}
+ ]
 }

@@ -25,10 +25,10 @@ func _ready() -> void:
 
 func _load_decor() -> void:
 	var paths := {
-		"flowers_yellow": "res://art/props/nature/wildflowers_yellow.png",
+		"flowers_yellow": "res://art/props/nature/wildflowers_orange.png",
 		"flowers_blue": "res://art/props/nature/wildflowers_blue.png",
 		"flowers_red": "res://art/props/nature/wildflowers_red.png",
-		"flowers_white": "res://art/props/nature/wildflowers_white.png",
+		"flowers_white": "res://art/props/nature/grass_tuft.png",
 		"fern": "res://art/props/nature/fern.png",
 		"thistle": "res://art/props/nature/thistle.png",
 	}

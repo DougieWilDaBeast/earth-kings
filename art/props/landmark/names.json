@@ -1,0 +1,174 @@
+{
+  "e39e55d4": {
+    "name": "tower_runes",
+    "look": "a black obelisk tower with pulsing runes",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "e39e55d4-898c-4025-ad70-23e2cef12c86",
+    "animation": "runes_pulsing"
+  },
+  "cfc976c8": {
+    "name": "tower_bones",
+    "look": "a tower of bones, crumbling but holding its shape",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "cfc976c8-6006-427e-b3da-dd01b558ef70",
+    "animation": "bones_crumbling_but_holding_tower_shape"
+  },
+  "706f8574": {
+    "name": "tower_bones_crystal",
+    "look": "the bone tower, a crystal sparkling in its heart",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "706f8574-8c73-4ac0-9cc3-2903e7860024",
+    "animation": "crystal_in_middle_sparkles"
+  },
+  "a3549346": {
+    "name": "tower_floating",
+    "look": "a broken tower floating on blue light",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "a3549346-04d7-4703-958d-c98d0bf363ca",
+    "animation": "levitating_tower_blue_pulsing"
+  },
+  "9cb02a4a": {
+    "name": "tower_lantern",
+    "look": "a rusted iron-and-timber tower with flickering lights",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "9cb02a4a-8007-410f-9017-84bbb02dcf88",
+    "animation": "lights_flickering"
+  },
+  "9c20db09": {
+    "name": "tower_iron",
+    "look": "a grey iron tower with sparkling lights",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "9c20db09-bb0e-42fe-bc26-ee0fc1dda6f9",
+    "animation": "sparkling_lights_shinning"
+  },
+  "8c699ba3": {
+    "name": "tower_clock",
+    "look": "a gothic spire with a working clock",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "8c699ba3-c879-4470-b3a8-ff4837360809",
+    "animation": "clock_moving_sparkling_castle"
+  },
+  "811348de": {
+    "name": "tower_engine",
+    "look": "a round tower of pipes, its chimney puffing",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "811348de-b10b-4275-b7c4-3d538669c7be",
+    "animation": "chimney_puffing_smoke_mechanisms_working_pisons"
+  },
+  "641eabe2": {
+    "name": "tower_gilded",
+    "look": "a gilded spire, sparkling gold",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "641eabe2-aac0-4759-b0a8-fffff1b9f9eb",
+    "animation": "sparkling_gold"
+  },
+  "504b65c4": {
+    "name": "tower_ice",
+    "look": "a tower of ice, shining",
+    "prompt": "Dungeon Towers, inspiration from tower of god, solo leveling, tomb raider king",
+    "pixellab_id": "504b65c4-63b4-4e8b-8985-3d1928612f28",
+    "animation": "ice_shining"
+  },
+  "a331e7fd": {
+    "name": "tower_dark",
+    "look": "a tall dark tower with a small door",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "a331e7fd-bc9b-41f9-b235-e90e7323b821"
+  },
+  "956cdc92": {
+    "name": "tower_dark_2",
+    "look": "a tall dark tower, crenellated",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "956cdc92-befd-4623-a3d6-ba8c3f222b26"
+  },
+  "94b6321d": {
+    "name": "tower_crystal",
+    "look": "a twisted rock tower with sparkling crystals",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "94b6321d-b79b-4efa-b17e-67916ed30e2b",
+    "animation": "crystals_sparkling"
+  },
+  "68b80d49": {
+    "name": "lighthouse",
+    "look": "a lighthouse, its light sweeping round",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "68b80d49-ff3d-42e3-ab6a-ef58aec994b1",
+    "animation": "Light_house_scanning_light"
+  },
+  "3be24f57": {
+    "name": "tower_spiral",
+    "look": "a spiral tower rising out of a mountain, lights flashing",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "3be24f57-615a-4deb-8bac-2a96e9c04f10",
+    "animation": "Lights_sparkling_light_flashing"
+  },
+  "36dde8cb": {
+    "name": "watchtower",
+    "look": "a grey stone watchtower",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "36dde8cb-a6ba-403d-89d3-96eaf54e80bb"
+  },
+  "230bc5a0": {
+    "name": "tower_ember",
+    "look": "a black tower, its windows pulsing with fire",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "230bc5a0-4d66-4fd5-82e0-aa8b61d2fb9b",
+    "animation": "windows_pulsing"
+  },
+  "1490df11": {
+    "name": "tower_gaol",
+    "look": "a black tower with a barred gate",
+    "prompt": "Tall dark fantasy towers, with a small door at the bottom",
+    "pixellab_id": "1490df11-bf32-49b2-84a9-7ac8381c1145"
+  },
+  "ef57be69": {
+    "name": "gate_tree",
+    "look": "a portal held open in the roots of a tree",
+    "prompt": "Fantasy wormwhole gates",
+    "pixellab_id": "ef57be69-d038-4e0b-bd06-bfdc4494795a",
+    "animation": "portal_glowing_and_pulsing"
+  },
+  "d693db11": {
+    "name": "gate_stones",
+    "look": "a ring of rune stones round a swirling portal",
+    "prompt": "Fantasy wormwhole gates",
+    "pixellab_id": "d693db11-97e4-43d7-a388-2da0d785f2ca",
+    "animation": "portal_glowing_and_pulsing"
+  },
+  "bb1ecf71": {
+    "name": "gate_dark",
+    "look": "a black arch round a deep blue portal",
+    "prompt": "Fantasy wormwhole gates",
+    "pixellab_id": "bb1ecf71-a939-4e3b-96ce-b92f21c6a508",
+    "animation": "portal_glowing_and_pulsing"
+  },
+  "aa556efc": {
+    "name": "gate_gold",
+    "look": "a golden doorway full of light",
+    "prompt": "Fantasy wormwhole gates",
+    "pixellab_id": "aa556efc-cd3b-4c50-959f-5966cea9c9c9",
+    "animation": "portal_glowing_and_pulsing"
+  },
+  "f8fdbbff": {
+    "name": "sword_storm",
+    "look": "a sword with lightning crackling round the blade",
+    "prompt": "Uncommon loot",
+    "pixellab_id": "f8fdbbff-7812-474e-9301-d41c475ac9d5",
+    "animation": "Lightning_crackling_around_the_blade"
+  },
+  "840ed59c": {
+    "name": "sword_shattered",
+    "loop": false,
+    "look": "a broken sword still in one piece, just",
+    "prompt": "Uncommon loot",
+    "pixellab_id": "840ed59c-cab6-41b9-8350-21f4c5cc7a72",
+    "animation": "Sword_breaks_apart"
+  },
+  "d9adb7d0": {
+    "name": "hand_jar",
+    "look": "a hand in a specimen jar, clenching, the water swirling",
+    "prompt": "Future technology",
+    "pixellab_id": "d9adb7d0-b861-4cc8-a107-3282e324629e",
+    "animation": "Hand_clenches_creasures_swirl_around_water_movin"
+  }
+}

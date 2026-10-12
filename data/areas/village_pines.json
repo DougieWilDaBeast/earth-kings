@@ -1,117 +1,423 @@
 {
-	"display_name": "the pine camp",
-	"layers": ["dirt", "crag", "meadow"],
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"^": "crag",
-		"m": "meadow"
-	},
-	"spawn": [10, 16],
-	"exits": [[10, 17], [11, 17]],
-	"spots": [
-		{ "cell": [10, 8], "line": "Sawdust to the ankle, and not one log squared off since spring." },
-		{ "cell": [2, 3], "line": "The whetstone outcrop. Every blade in the camp has been dragged across it." },
-		{ "cell": [17, 13], "line": "Somebody has been sleeping in the lee of the rocks, and left in a hurry." }
-	],
-	"chests": [
-		{
-			"cell": [6, 10],
-			"line": "A felling crate: wedges, spare heads, and coin the foreman forgot he hid.",
-			"gold": 95,
-			"item": "bone_sword"
-		},
-		{
-			"cell": [3, 7],
-			"line": "A stump hollowed out and packed with rags, and something heavier under them.",
-			"gold": 130
-		}
-	],
-	"props": [
-		{ "art": "nature/holly_tree", "cell": [1, 0] },
-		{ "art": "nature/holly_tree_2", "cell": [2, 0] },
-		{ "art": "nature/briar_bush_2", "cell": [1, 13] },
-		{ "art": "nature/mushrooms", "cell": [3, 14] },
-		{ "art": "nature/irish_bird", "cell": [10, 5] },
-		{ "art": "village/log_pile", "cell": [7, 8] }
-	],
-	"buildings": [
-		{
-			"name": "the Sawyer's Rest",
-			"cell": [16, 5],
-			"size": [5, 4],
-			"door": [18, 8],
-			"area": "pine_longhouse"
-		}
-	],
-	"people": [
-		{
-			"name": "Orla the Guild Clerk",
-			"unit": "guild_clerk",
-			"cell": [6, 9],
-			"facing": [0, 1],
-			"guild": true,
-			"chatter": ["Woodcutters find gates before anyone. Then they find the Guild."]
-		},
-		{
-			"name": "Bruin the Axe Bear",
-			"unit": "axe_bear",
-			"cell": [8, 9],
-			"facing": [1, 0],
-			"cutscene": "the_pine_woodcutter",
-			"dialogue": "pine_woodcutter"
-		},
-		{
-			"name": "Rush the Caterpillar Warrior",
-			"unit": "caterpillar_warrior",
-			"cell": [12, 7],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"I can carry one end of a log. I am the one end.",
-				"Bruin swings, I steady. It has worked for eleven winters."
-			]
-		},
-		{
-			"name": "Old Stump",
-			"unit": "tree_sentinel",
-			"cell": [5, 10],
-			"facing": [1, 0],
-			"chatter": [
-				"They cut around me. They have always cut around me.",
-				"One side of me bears fruit. Do not eat from the other."
-			]
-		},
-		{
-			"name": "Nix the Cutpurse",
-			"unit": "hat_fox",
-			"cell": [9, 11],
-			"facing": [0, -1],
-			"wander": 4,
-			"chatter": [
-				"Sawdust hides a great many footprints.",
-				"I am only here for the offcuts. Truly."
-			]
-		}
-	],
-	"rows": [
-		"mmmm..................",
-		"mm.^^^^^..............",
-		"mm.^^^^^^.............",
-		"mm.^^^^^^.............",
-		"......................",
-		"........,,,,,,,.,,,,,.",
-		".....,,,,,,,,,,.,,,,,.",
-		"....,,,,,,,,,,,.,,,,,.",
-		"....,,,,,,,,,,,,,,,,,.",
-		".....,,,,,,,,,,.......",
-		"......,,,,,,,,........",
-		".........,,,,.........",
-		"mmmm......,,......^^^^",
-		"mmmmm.....,,......^^^^",
-		"mmmmm.....,,......^^^^",
-		"mmmm......,,.......^^^",
-		"mmmm......,,..........",
-		"mmm.......,,.........."
-	]
+  "display_name": "the pine camp",
+  "layers": [
+    "dirt",
+    "crag",
+    "meadow"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "^": "crag",
+    "m": "meadow"
+  },
+  "spawn": [
+    10,
+    16
+  ],
+  "exits": [
+    [
+      10,
+      17
+    ],
+    [
+      11,
+      17
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        10,
+        8
+      ],
+      "line": "Sawdust to the ankle, and not one log squared off since spring."
+    },
+    {
+      "cell": [
+        2,
+        3
+      ],
+      "line": "The whetstone outcrop. Every blade in the camp has been dragged across it."
+    },
+    {
+      "cell": [
+        17,
+        13
+      ],
+      "line": "Somebody has been sleeping in the lee of the rocks, and left in a hurry."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        6,
+        10
+      ],
+      "line": "A felling crate: wedges, spare heads, and coin the foreman forgot he hid.",
+      "gold": 95,
+      "item": "bone_sword"
+    },
+    {
+      "cell": [
+        3,
+        7
+      ],
+      "line": "A stump hollowed out and packed with rags, and something heavier under them.",
+      "gold": 130
+    }
+  ],
+  "props": [
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        1,
+        0
+      ]
+    },
+    {
+      "art": "nature/holly_tree_2",
+      "cell": [
+        2,
+        0
+      ]
+    },
+    {
+      "art": "nature/briar_bush_2",
+      "cell": [
+        1,
+        13
+      ]
+    },
+    {
+      "art": "nature/mushrooms",
+      "cell": [
+        3,
+        14
+      ]
+    },
+    {
+      "art": "nature/irish_bird",
+      "cell": [
+        10,
+        5
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        7,
+        8
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        13,
+        4
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        15,
+        4
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        19,
+        10
+      ]
+    },
+    {
+      "art": "village/anvil",
+      "cell": [
+        3,
+        4
+      ],
+      "name": "a grindstone",
+      "line": "The stone is worn into a curve by every blade in the camp."
+    },
+    {
+      "art": "village/hide_rack",
+      "cell": [
+        4,
+        12
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        21,
+        8
+      ]
+    },
+    {
+      "art": "landmark/watchtower",
+      "cell": [
+        20,
+        2
+      ],
+      "name": "the fire tower",
+      "line": "A lookout for smoke. From the top you'd see a fire coming two days off."
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the Sawyer's Rest",
+      "cell": [
+        16,
+        7
+      ],
+      "size": [
+        5,
+        2
+      ],
+      "door": [
+        18,
+        8
+      ],
+      "area": "pine_longhouse",
+      "art": "hunting_lodge",
+      "scale": 4.0
+    },
+    {
+      "name": "the foreman's house",
+      "art": "red_roof_house",
+      "cell": [
+        10,
+        1
+      ],
+      "door": [
+        11,
+        2
+      ],
+      "shut": "A sign on the door: OUT CUTTING. And under it: NOT YOU. TREES."
+    },
+    {
+      "name": "a woodcutter's cottage",
+      "art": "village_house/south",
+      "cell": [
+        14,
+        13
+      ],
+      "door": [
+        15,
+        14
+      ],
+      "shut": "Snoring, on the other side of the door. Deep, satisfied snoring."
+    }
+  ],
+  "people": [
+    {
+      "name": "Orla the Guild Clerk",
+      "unit": "guild_clerk",
+      "cell": [
+        6,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "guild": true,
+      "chatter": [
+        "Woodcutters find gates before anyone. Then they find the Guild."
+      ]
+    },
+    {
+      "name": "Bruin the Axe Bear",
+      "unit": "axe_bear",
+      "cell": [
+        8,
+        9
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "cutscene": "the_pine_woodcutter",
+      "dialogue": "pine_woodcutter"
+    },
+    {
+      "name": "Rush the Caterpillar Warrior",
+      "unit": "caterpillar_warrior",
+      "cell": [
+        12,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "I can carry one end of a log. I am the one end.",
+        "Bruin swings, I steady. It has worked for eleven winters."
+      ]
+    },
+    {
+      "name": "Old Stump",
+      "unit": "tree_sentinel",
+      "cell": [
+        5,
+        10
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "chatter": [
+        "They cut around me. They have always cut around me.",
+        "One side of me bears fruit. Do not eat from the other."
+      ],
+      "talk": {
+        "refuse": {
+          "chance": 0.6,
+          "text": "Old Stump does not stir. Sap moves, very slowly, somewhere inside.",
+          "leave": "Let it sleep.",
+          "check": {
+            "skill": "renown",
+            "dc": 10
+          },
+          "check_q": "Tell it who you are.",
+          "won": "One eye opens, like a knot in the bark coming loose. ...I know that name. Speak.",
+          "still_no": "The eye stays shut. Not today, it seems to say. Not this century."
+        },
+        "hello": "Small one. You walk quickly. Everything walks quickly.",
+        "ask": [
+          {
+            "q": "How old are you?",
+            "a": "Old enough to remember when this was all one wood, and the gates were only stories the wood told itself."
+          },
+          {
+            "q": "Why do they cut around you?",
+            "a": "Because the first one who tried to cut me is still under me."
+          },
+          {
+            "q": "What's beyond the ridge?",
+            "a": "More of me. Fewer of you. That is how it should be."
+          }
+        ],
+        "leave": "Leave it in peace.",
+        "bye": "...",
+        "more": "The old wood waits."
+      }
+    },
+    {
+      "name": "Nix the Cutpurse",
+      "unit": "hat_fox",
+      "cell": [
+        9,
+        11
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "wander": 4,
+      "chatter": [
+        "Sawdust hides a great many footprints.",
+        "I am only here for the offcuts. Truly."
+      ],
+      "talk": {
+        "refuse": {
+          "text": "Nobody here by that name. Never heard of him. Lovely fellow, though.",
+          "bribe": 10,
+          "bribe_q": "Ten gold says you've heard of him.",
+          "won": "Funny. It's all come back to me.",
+          "won_flag": "nix:paid",
+          "unless": "nix:paid",
+          "leave": "Walk on."
+        },
+        "hello": "Sawdust hides a great many footprints. What are you after?",
+        "ask": [
+          {
+            "q": "Anything worth stealing round here?",
+            "a": "The foreman's strongbox. Don't. He sleeps on it, and he's a light sleeper with a heavy axe."
+          }
+        ],
+        "sells": [
+          {
+            "item": "black_feather",
+            "price": 90
+          },
+          {
+            "item": "salt_pouch",
+            "price": 70
+          }
+        ],
+        "shop": "Lucky things. Fell off a cart. Several carts.",
+        "sold": "Never saw you.",
+        "bye": "Watch your purse. Someone has to."
+      }
+    }
+  ],
+  "rows": [
+    "mmmm..................",
+    "mm.^^^^^..............",
+    "mm.^^^^^^.............",
+    "mm.^^^^^^.............",
+    "......................",
+    "........,,,,,,,.,,,,,.",
+    ".....,,,,,,,,,,.,,,,,.",
+    "....,,,,,,,,,,,.,,,,,.",
+    "....,,,,,,,,,,,,,,,,,.",
+    ".....,,,,,,,,,,.......",
+    "......,,,,,,,,........",
+    ".........,,,,.........",
+    "mmmm......,,......^^^^",
+    "mmmmm.....,,......^^^^",
+    "mmmmm.....,,......^^^^",
+    "mmmm......,,.......^^^",
+    "mmmm......,,..........",
+    "mmm.......,,.........."
+  ],
+  "dressing": [
+    {"art": "nature/holly_tree", "cell": [2, 11], "offset": [-9, -2], "flip": true},
+    {"art": "nature/holly_tree", "cell": [17, 1], "offset": [6, 4]},
+    {"art": "nature/birch", "cell": [2, 1], "offset": [-6, -4], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [17, 16], "offset": [10, 2], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [20, 1], "offset": [-4, 2]},
+    {"art": "nature/holly_tree", "cell": [0, 14], "offset": [-2, 3]},
+    {"art": "nature/holly_tree", "cell": [1, 9], "offset": [8, 4], "flip": true},
+    {"art": "nature/holly_tree", "cell": [0, 11], "offset": [-5, -2], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [6, 0], "offset": [-2, 2], "flip": true},
+    {"art": "nature/holly_tree", "cell": [0, 2], "offset": [-6, 5], "flip": true},
+    {"art": "nature/holly_tree", "cell": [20, 17], "offset": [-9, 2], "flip": true},
+    {"art": "nature/birch", "cell": [0, 4], "offset": [-3, 5]},
+    {"art": "nature/holly_tree", "cell": [1, 6], "offset": [-8, 1], "flip": true},
+    {"art": "nature/holly_tree", "cell": [3, 17], "offset": [4, 5], "flip": true},
+    {"art": "nature/holly_tree", "cell": [7, 17], "offset": [2, -3], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [0, 0], "offset": [-3, 3]},
+    {"art": "nature/great_oak_2", "cell": [8, 1], "offset": [-5, -3], "flip": true},
+    {"art": "nature/holly_tree", "cell": [15, 1], "offset": [-10, 2], "flip": true},
+    {"art": "nature/clover_3", "cell": [3, 11], "offset": [-2, 5]},
+    {"art": "nature/clover", "cell": [0, 6], "offset": [-1, -1]},
+    {"art": "nature/clover_3", "cell": [6, 12], "offset": [11, 5], "flip": true},
+    {"art": "nature/bramble", "cell": [17, 11], "offset": [-7, -4], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [5, 12], "offset": [-13, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [21, 10], "offset": [13, 2], "flip": true},
+    {"art": "nature/bramble", "cell": [4, 17], "offset": [5, -6]},
+    {"art": "nature/fern", "cell": [8, 16], "offset": [3, -5], "flip": true},
+    {"art": "nature/clover_3", "cell": [4, 15], "offset": [5, 7]},
+    {"art": "nature/clover_3", "cell": [16, 10], "offset": [-11, 7]},
+    {"art": "nature/clover_2", "cell": [20, 11], "offset": [5, 1]},
+    {"art": "nature/wildflowers_blue", "cell": [1, 5], "offset": [-8, -2]},
+    {"art": "nature/grass_tuft", "cell": [19, 4], "offset": [14, -6]},
+    {"art": "nature/clover", "cell": [16, 11], "offset": [6, -6], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [1, 8], "offset": [11, 1], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [5, 4], "offset": [4, -4]},
+    {"art": "nature/clover", "cell": [18, 0], "offset": [-8, -6], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [1, 12], "offset": [-5, -7]},
+    {"art": "nature/wildflowers_orange", "cell": [15, 2], "offset": [1, 2]},
+    {"art": "nature/thistle", "cell": [17, 4], "offset": [12, 6], "flip": true},
+    {"art": "nature/finch", "cell": [7, 5], "offset": [0, 6], "flip": true},
+    {"art": "nature/snail", "cell": [9, 13], "offset": [8, 7], "flip": true},
+    {"art": "nature/butterfly", "cell": [14, 4], "offset": [12, 2]},
+    {"art": "nature/irish_bird", "cell": [14, 2], "offset": [-8, -5]},
+    {"art": "nature/irish_bird_2", "cell": [20, 3], "offset": [10, 4], "flip": true}
+  ]
 }

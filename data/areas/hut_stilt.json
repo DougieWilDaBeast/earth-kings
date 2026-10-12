@@ -1,83 +1,246 @@
 {
-	"display_name": "the stilt hut",
-	"layers": ["water", "dirt", "meadow"],
-	"hint": "WASD to walk  ·  E to look at something  ·  the boardwalk out is south",
-	"legend": {
-		"m": "meadow",
-		",": "dirt",
-		"~": "water"
-	},
-	"tint": "#77836f",
-	"fire": [7, 4],
-	"spawn": [7, 9],
-	"seats": [[5, 4], [9, 4], [7, 2]],
-	"exits": [[7, 11], [8, 11]],
-	"spots": [
-		{ "cell": [7, 6], "line": "The hut stands on legs. The legs stand in water. Nobody looks at the legs." },
-		{ "cell": [4, 5], "line": "Eel traps, a dozen of them, all set and all empty." },
-		{ "cell": [10, 5], "line": "A ledger of tide marks cut into a post, going back further than the post should." },
-		{ "cell": [7, 8], "line": "The boards give under you and settle again. They have been giving for years." }
-	],
-	"chests": [
-		{
-			"cell": [10, 3],
-			"line": "A crock under the boards, roped to a leg so the water cannot take it.",
-			"art": "chest_dark",
-			"gold": 120,
-			"item": "green_draught"
-		}
-	],
-	"props": [
-		{ "art": "camp/fire_thatch", "cell": [3, 6] },
-		{ "art": "camp/fire_boat", "cell": [11, 6] },
-		{ "art": "village/barrels", "cell": [3, 3] },
-		{ "art": "village/trough", "cell": [11, 8] },
-		{ "art": "nature/fern_tall", "cell": [2, 5] },
-		{ "art": "nature/fern", "cell": [12, 5] },
-		{ "art": "nature/mushrooms_shelf", "cell": [4, 8] },
-		{ "art": "nature/mushrooms_white", "cell": [10, 2] },
-		{ "art": "nature/snail", "cell": [5, 7] },
-		{ "art": "nature/spider", "cell": [9, 7] },
-		{ "art": "brazier", "cell": [5, 6] },
-		{ "art": "brazier", "cell": [9, 6] }
-	],
-	"people": [
-		{
-			"name": "Ossa of the Stilts",
-			"unit": "lizard_wizard",
-			"cell": [7, 5],
-			"facing": [0, 1],
-			"wander": 2,
-			"chatter": [
-				"Built it on legs because the water comes up. It comes up further every year.",
-				"I read the traps, not the sky. The traps are honest.",
-				"Sit where I say. Some of these boards are a courtesy, not a floor.",
-				"You want something. Everyone who walks a bog wants something."
-			]
-		},
-		{
-			"name": "a heron on the rail",
-			"unit": "bird_archer",
-			"cell": [11, 9],
-			"facing": [-1, 0],
-			"wander": 2,
-			"chatter": [
-				"It has the rail and it is not sharing the rail."
-			]
-		}
-	],
-	"rows": [
-		"~~~~~mmmmm~~~~~",
-		"~~~mmmmmmmmm~~~",
-		"~~mmm,,,,,mmm~~",
-		"~mmm,,,,,,,mmm~",
-		"~mm,,,,,,,,,mm~",
-		"mmm,,,,,,,,,mmm",
-		"mm,,,,,,,,,,,mm",
-		"~mm,,,,,,,,,mm~",
-		"~mmm,,,,,,,mmm~",
-		"~~mmm,,,,,mmm~~",
-		"~~~mmm,,,mmm~~~",
-		"~~~~mm,,,mm~~~~"
-	]
+ "display_name": "the stilt hut",
+ "layers": [
+  "water",
+  "dirt",
+  "meadow"
+ ],
+ "hint": "WASD to walk  ·  E to look at something  ·  the boardwalk out is south",
+ "legend": {
+  "m": "meadow",
+  ",": "dirt",
+  "~": "water"
+ },
+ "tint": "#77836f",
+ "fire": [
+  7,
+  4
+ ],
+ "spawn": [
+  7,
+  9
+ ],
+ "seats": [
+  [
+   5,
+   4
+  ],
+  [
+   9,
+   4
+  ],
+  [
+   7,
+   2
+  ]
+ ],
+ "exits": [
+  [
+   7,
+   11
+  ],
+  [
+   8,
+   11
+  ]
+ ],
+ "spots": [
+  {
+   "cell": [
+    7,
+    6
+   ],
+   "line": "The hut stands on legs. The legs stand in water. Nobody looks at the legs."
+  },
+  {
+   "cell": [
+    4,
+    5
+   ],
+   "line": "Eel traps, a dozen of them, all set and all empty."
+  },
+  {
+   "cell": [
+    10,
+    5
+   ],
+   "line": "A ledger of tide marks cut into a post, going back further than the post should."
+  },
+  {
+   "cell": [
+    7,
+    8
+   ],
+   "line": "The boards give under you and settle again. They have been giving for years."
+  }
+ ],
+ "chests": [
+  {
+   "cell": [
+    10,
+    3
+   ],
+   "line": "A crock under the boards, roped to a leg so the water cannot take it.",
+   "art": "chest_dark",
+   "gold": 120,
+   "item": "green_draught"
+  }
+ ],
+ "props": [
+  {
+   "art": "camp/fire_thatch",
+   "cell": [
+    3,
+    6
+   ]
+  },
+  {
+   "art": "camp/fire_boat",
+   "cell": [
+    11,
+    6
+   ]
+  },
+  {
+   "art": "village/barrels",
+   "cell": [
+    3,
+    3
+   ]
+  },
+  {
+   "art": "village/trough",
+   "cell": [
+    11,
+    8
+   ]
+  },
+  {
+   "art": "nature/pebble",
+   "cell": [
+    2,
+    5
+   ]
+  },
+  {
+   "art": "nature/fern",
+   "cell": [
+    12,
+    5
+   ]
+  },
+  {
+   "art": "nature/mushrooms_shelf",
+   "cell": [
+    4,
+    8
+   ]
+  },
+  {
+   "art": "nature/grass_tuft",
+   "cell": [
+    10,
+    2
+   ]
+  },
+  {
+   "art": "nature/snail",
+   "cell": [
+    5,
+    7
+   ]
+  },
+  {
+   "art": "nature/spider",
+   "cell": [
+    9,
+    7
+   ]
+  },
+  {
+   "art": "brazier",
+   "cell": [
+    5,
+    6
+   ]
+  },
+  {
+   "art": "brazier",
+   "cell": [
+    9,
+    6
+   ]
+  }
+ ],
+ "people": [
+  {
+   "name": "Ossa of the Stilts",
+   "unit": "lizard_wizard",
+   "cell": [
+    7,
+    5
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "wander": 2,
+   "chatter": [
+    "Built it on legs because the water comes up. It comes up further every year.",
+    "I read the traps, not the sky. The traps are honest.",
+    "Sit where I say. Some of these boards are a courtesy, not a floor.",
+    "You want something. Everyone who walks a bog wants something."
+   ]
+  },
+  {
+   "name": "a heron on the rail",
+   "unit": "bird_archer",
+   "cell": [
+    11,
+    9
+   ],
+   "facing": [
+    -1,
+    0
+   ],
+   "wander": 2,
+   "chatter": [
+    "It has the rail and it is not sharing the rail."
+   ]
+  }
+ ],
+ "rows": [
+  "~~~~~mmmmm~~~~~",
+  "~~~mmmmmmmmm~~~",
+  "~~mmm,,,,,mmm~~",
+  "~mmm,,,,,,,mmm~",
+  "~mm,,,,,,,,,mm~",
+  "mmm,,,,,,,,,mmm",
+  "mm,,,,,,,,,,,mm",
+  "~mm,,,,,,,,,mm~",
+  "~mmm,,,,,,,mmm~",
+  "~~mmm,,,,,mmm~~",
+  "~~~mmm,,,mmm~~~",
+  "~~~~mm,,,mm~~~~"
+ ],
+ "dressing": [
+  {"art": "nature/bare_tree", "cell": [13, 8], "offset": [-10, 2]},
+  {"art": "nature/dead_tree", "cell": [0, 5], "offset": [-1, -2], "flip": true},
+  {"art": "nature/dead_tree", "cell": [3, 10], "offset": [-9, 0]},
+  {"art": "nature/dead_tree", "cell": [1, 3], "offset": [-1, 2]},
+  {"art": "nature/dead_tree", "cell": [5, 0], "offset": [-6, -1], "flip": true},
+  {"art": "nature/round_tree", "cell": [13, 3], "offset": [-1, -5]},
+  {"art": "nature/fern", "cell": [0, 6], "offset": [-14, -6]},
+  {"art": "nature/thistle", "cell": [2, 7], "offset": [11, -7]},
+  {"art": "nature/thistle", "cell": [1, 7], "offset": [9, -6], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [1, 6], "offset": [-13, 0], "flip": true},
+  {"art": "nature/thistle", "cell": [3, 2], "offset": [3, -7], "flip": true},
+  {"art": "nature/mushroom_blue", "cell": [1, 4], "offset": [-12, 0], "flip": true},
+  {"art": "nature/mushrooms", "cell": [3, 9], "offset": [-6, 5], "flip": true},
+  {"art": "nature/mushrooms_tall", "cell": [1, 5], "offset": [1, -1], "flip": true},
+  {"art": "nature/snail", "cell": [9, 9], "offset": [4, 0], "flip": true},
+  {"art": "nature/snail", "cell": [12, 4], "offset": [6, -6]},
+  {"art": "nature/white_dove", "cell": [5, 8], "offset": [-4, -1], "flip": true},
+  {"art": "nature/irish_bird_3", "cell": [2, 6], "offset": [-9, 1]}
+ ]
 }

@@ -1,144 +1,705 @@
 {
-	"display_name": "the ford village",
-	"layers": ["dirt", "sand", "meadow", "water"],
-	"legend": {
-		".": "grass",
-		",": "dirt",
-		"~": "water",
-		"s": "sand",
-		"m": "meadow"
-	},
-	"spawn": [12, 16],
-	"exits": [[12, 17], [13, 17]],
-	"spots": [
-		{ "cell": [12, 7], "line": "The square is worn flat by market days." },
-		{ "cell": [6, 3], "line": "Somebody has stacked firewood against the wall." },
-		{ "cell": [17, 12], "line": "The pond is still, and something moves under it." }
-	],
-	"chests": [
-		{
-			"cell": [4, 4],
-			"line": "A strongbox behind the firewood, and the lock already broken.",
-			"art": "strongbox",
-			"gold": 85,
-			"item": "knotted_cord"
-		},
-		{
-			"cell": [5, 12],
-			"line": "Somebody buried a jar under the fence and did not come back for it.",
-			"gold": 140
-		}
-	],
-	"props": [
-		{ "art": "street_lamp", "cell": [11, 9] },
-		{ "art": "street_lamp", "cell": [13, 9] },
-		{ "art": "stone_bench", "cell": [10, 7] },
-		{ "art": "potted_plant", "cell": [14, 7] },
-		{ "art": "coin_pile", "cell": [6, 4] },
-		{ "art": "nature/rose_bush", "cell": [2, 1] },
-		{ "art": "nature/sycamore_tree", "cell": [1, 1] },
-		{ "art": "nature/clover", "cell": [3, 2] },
-		{ "art": "nature/mushrooms", "cell": [4, 1] },
-		{ "art": "nature/butterfly", "cell": [12, 12] },
-		{ "art": "nature/jay_bird", "cell": [17, 10] }
-	],
-	"buildings": [
-		{
-			"name": "the Ford and Crown",
-			"cell": [18, 3],
-			"size": [5, 4],
-			"door": [20, 6],
-			"area": "village_inn"
-		}
-	],
-	"people": [
-		{
-			"name": "Mirel the Guild Clerk",
-			"unit": "guild_clerk",
-			"cell": [9, 8],
-			"facing": [0, 1],
-			"guild": true,
-			"chatter": ["A ford village with a Guild board. We are moving up in the world.", "Nobody here has shut a gate. Nobody here has had to."]
-		},
-		{
-			"name": "Alder the Steward",
-			"unit": "toln",
-			"cell": [11, 8],
-			"facing": [0, 1],
-			"cutscene": "the_steward",
-			"dialogue": "village_steward"
-		},
-		{
-			"name": "Pell the Cabin Hand",
-			"unit": "cabin_boy",
-			"cell": [15, 11],
-			"facing": [-1, 0],
-			"cutscene": "the_well_child",
-			"dialogue": "well_child"
-		},
-		{
-			"name": "Wat the Village Idiot",
-			"unit": "village_idiot",
-			"cell": [14, 5],
-			"facing": [0, 1],
-			"wander": 3,
-			"chatter": [
-				"I counted the geese twice and got a different answer twice.",
-				"Steward says stand somewhere else. I've stood everywhere else.",
-				"You've got the good boots and all."
-			]
-		},
-		{
-			"name": "a fox in a stolen hat",
-			"unit": "hat_fox",
-			"cell": [10, 10],
-			"facing": [1, 0],
-			"wander": 4,
-			"chatter": [
-				"It looks at your purse the way you look at a river you have to cross.",
-				"Nobody in the village will say whose hat that was."
-			]
-		},
-		{
-			"name": "Grist the Caterpillar",
-			"unit": "caterpillar_warrior",
-			"cell": [5, 5],
-			"facing": [1, 0],
-			"wander": 2,
-			"chatter": [
-				"Eight boots. Eight. You try affording that on a farm wage.",
-				"The firewood stacks itself if you have enough hands, and I do."
-			]
-		},
-		{
-			"name": "a dove that will not settle",
-			"unit": "flame_dove",
-			"cell": [16, 14],
-			"facing": [-1, 0],
-			"wander": 5,
-			"chatter": [
-				"It burns where it lands, and it never lands twice in the same place."
-			]
-		}
-	],
-	"rows": [
-		"mmmmm.....................",
-		"mmmm......................",
-		"mm..,,,,,.................",
-		"...,,,,,,.........,,,,,...",
-		"..,,,,,..,,,,,,,,.,,,,,...",
-		"..,,,,,..,,,,,,,,.,,,,,...",
-		"...,,,...,,,,,,,,.,,,,,...",
-		".........,,,,,,,,.,,,,,...",
-		".........,,,,,,,,.........",
-		".........,,,,,,,,.s~~~~~~.",
-		"..........,,,,,,.ss~~~~~~.",
-		"...........,,,,..ss~~~~~~.",
-		"mmmmmm......,,..sss~~~~~~.",
-		"mmmmmm......,,..sss~~~~~~.",
-		"mmmmmmm.....,,..ssss~~~~~.",
-		"mmmmmmm.....,,............",
-		"mmmmmm......,,............",
-		"mmmmm.......,,............"
-	]
+  "display_name": "the ford village",
+  "layers": [
+    "dirt",
+    "sand",
+    "meadow",
+    "water"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "~": "water",
+    "s": "sand",
+    "m": "meadow"
+  },
+  "spawn": [
+    12,
+    16
+  ],
+  "exits": [
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        12,
+        7
+      ],
+      "line": "The square is worn flat by market days."
+    },
+    {
+      "cell": [
+        6,
+        3
+      ],
+      "line": "Somebody has stacked firewood against the wall."
+    },
+    {
+      "cell": [
+        17,
+        12
+      ],
+      "line": "The pond is still, and something moves under it."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        4,
+        4
+      ],
+      "line": "A strongbox behind the firewood, and the lock already broken.",
+      "art": "strongbox",
+      "gold": 85,
+      "item": "knotted_cord"
+    },
+    {
+      "cell": [
+        5,
+        12
+      ],
+      "line": "Somebody buried a jar under the fence and did not come back for it.",
+      "gold": 140
+    }
+  ],
+  "props": [
+    {
+      "art": "street_lamp",
+      "cell": [
+        11,
+        9
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        13,
+        9
+      ]
+    },
+    {
+      "art": "potted_plant",
+      "cell": [
+        14,
+        7
+      ]
+    },
+    {
+      "art": "coin_pile",
+      "cell": [
+        6,
+        4
+      ]
+    },
+    {
+      "art": "nature/butterfly",
+      "cell": [
+        12,
+        12
+      ]
+    },
+    {
+      "art": "nature/white_dove",
+      "cell": [
+        17,
+        10
+      ]
+    },
+    {
+      "art": "village/well",
+      "cell": [
+        15,
+        7
+      ],
+      "name": "the well",
+      "line": "A good deep well. Somebody has carved a fish on the bucket."
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        10,
+        4
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        10,
+        7
+      ]
+    },
+    {
+      "art": "village/signpost",
+      "cell": [
+        14,
+        15
+      ],
+      "name": "the signpost",
+      "line": "North: the square. South: the ford. Someone has added, underneath: and mind the goose."
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        17,
+        5
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        7,
+        2
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        16,
+        13
+      ]
+    },
+    {
+      "art": "village/trough",
+      "cell": [
+        17,
+        8
+      ]
+    },
+    {
+      "art": "village/planter",
+      "cell": [
+        4,
+        10
+      ]
+    },
+    {
+      "art": "village/loom",
+      "cell": [
+        0,
+        10
+      ]
+    },
+    {
+      "art": "village/bread_oven",
+      "cell": [
+        12,
+        2
+      ],
+      "name": "the bread oven",
+      "line": "Still warm. Somebody baked this morning, and has already sold out."
+    },
+    {
+      "art": "village/bell",
+      "cell": [
+        8,
+        6
+      ]
+    },
+    {
+      "art": "village/anvil",
+      "cell": [
+        16,
+        16
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        6,
+        11
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        17,
+        12
+      ],
+      "name": "a smooth grey stone",
+      "line": "A smooth grey stone, half buried at the water's edge.",
+      "found_line": "That will be Wat's lucky stone.",
+      "set_flag": "found:wat_stone",
+      "requires": "job:wat_stone",
+      "requires_not": "job:wat_stone:paid"
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the Ford and Crown",
+      "cell": [
+        18,
+        5
+      ],
+      "size": [
+        5,
+        2
+      ],
+      "door": [
+        20,
+        6
+      ],
+      "area": "village_inn",
+      "art": "tavern",
+      "scale": 4.0
+    },
+    {
+      "name": "the reeve's house",
+      "art": "red_roof_house",
+      "cell": [
+        2,
+        0
+      ],
+      "door": [
+        3,
+        1
+      ],
+      "shut": [
+        "Somebody inside says they are out.",
+        "The reeve keeps a dog. You hear it think about you."
+      ]
+    },
+    {
+      "name": "Hesk's house",
+      "art": "guild_house",
+      "cell": [
+        9,
+        1
+      ],
+      "door": [
+        10,
+        2
+      ],
+      "shut": "Locked. Hesk is at the stall, and the stall is where Hesk's money is."
+    },
+    {
+      "name": "the chandler's",
+      "art": "plaster_shop",
+      "cell": [
+        13,
+        1
+      ],
+      "door": [
+        14,
+        2
+      ],
+      "shut": [
+        "Closed. A note on the door: BACK WHEN BACK.",
+        "Through the round window: candles, and nobody to sell them."
+      ]
+    },
+    {
+      "name": "the weaver's cottage",
+      "art": "village_house/south",
+      "cell": [
+        1,
+        8
+      ],
+      "door": [
+        2,
+        9
+      ],
+      "shut": "A loom clacks on the other side of the door, and does not stop for you."
+    },
+    {
+      "name": "the old mill house",
+      "art": "pale_hall",
+      "cell": [
+        19,
+        15
+      ],
+      "door": [
+        20,
+        16
+      ],
+      "shut": "Flour on the step, and the door barred from the inside."
+    },
+    {
+      "name": "the burnt house",
+      "art": "white_house",
+      "cell": [
+        7,
+        13
+      ],
+      "door": [
+        8,
+        14
+      ],
+      "lived_in": false,
+      "shut": "The door is warped shut. The smell of the fire never quite left."
+    }
+  ],
+  "people": [
+    {
+      "name": "Mirel the Guild Clerk",
+      "unit": "guild_clerk",
+      "cell": [
+        9,
+        8
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "guild": true,
+      "chatter": [
+        "A ford village with a Guild board. We are moving up in the world.",
+        "Nobody here has shut a gate. Nobody here has had to."
+      ]
+    },
+    {
+      "name": "Alder the Steward",
+      "unit": "toln",
+      "cell": [
+        11,
+        8
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "cutscene": "the_steward",
+      "dialogue": "village_steward"
+    },
+    {
+      "name": "Pell the Cabin Hand",
+      "unit": "cabin_boy",
+      "cell": [
+        15,
+        11
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "cutscene": "the_well_child",
+      "dialogue": "well_child"
+    },
+    {
+      "name": "Wat the Village Idiot",
+      "unit": "village_idiot",
+      "cell": [
+        14,
+        5
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "I counted the geese twice and got a different answer twice.",
+        "Steward says stand somewhere else. I've stood everywhere else.",
+        "You've got the good boots and all."
+      ],
+      "talk": {
+        "hello": [
+          "Oh! A person. I was hoping it'd be a person.",
+          "Hello! I'm Wat. Everybody knows that already, but I like saying it."
+        ],
+        "again": [
+          "You came back! Nobody comes back.",
+          "It's you again. Good. I'd started to worry you were a dream."
+        ],
+        "ask": [
+          {
+            "q": "What's in the pond?",
+            "a": "Eels. And something that eats eels. And something that eats THAT, but I've only heard it."
+          },
+          {
+            "q": "Who runs this place?",
+            "a": "Alder. He's the steward. He says 'Wat, stand somewhere else.' I've stood everywhere else."
+          },
+          {
+            "q": "Seen anything strange lately?",
+            "a": "The fox has a hat now. Before, it didn't. Think about that."
+          }
+        ],
+        "job": {
+          "flag": "job:wat_stone",
+          "done_flag": "found:wat_stone",
+          "ask": "You look like you've lost something.",
+          "offer": "My lucky stone. Smooth, grey, about yay big. I dropped it by the pond, skipping the other stones. Which was a mistake, now I think about it.",
+          "accept": "I'll keep an eye out for it.",
+          "decline": "Can't help, sorry.",
+          "thanks": "You're the best person I've ever met. Today.",
+          "waiting": "Did you find it? Is it still lucky?",
+          "hand_over": "Here's your stone.",
+          "not_yet": "Not yet.",
+          "done": "That's it! That's the one! ...It's warmer than I remember. Here. I found this in a goose. Don't ask which goose.",
+          "gold": 30,
+          "item": "hearth_coin"
+        },
+        "bye": [
+          "Mind the geese.",
+          "Bye! Bye. Bye."
+        ]
+      }
+    },
+    {
+      "name": "a fox in a stolen hat",
+      "unit": "hat_fox",
+      "cell": [
+        10,
+        10
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 4,
+      "chatter": [
+        "It looks at your purse the way you look at a river you have to cross.",
+        "Nobody in the village will say whose hat that was."
+      ],
+      "talk": {
+        "refuse": {
+          "text": [
+            "The fox looks at you, then at your purse, then pointedly away.",
+            "The fox yawns, very wide, so you can see all of its teeth."
+          ],
+          "bribe": 5,
+          "bribe_q": "Toss it a coin.",
+          "won": "The coin vanishes. The fox sits, and waits, and seems to expect a question.",
+          "won_flag": "fox:paid",
+          "leave": "Leave the fox be.",
+          "unless": "fox:paid"
+        },
+        "hello": "The fox tilts the hat at you. It is, somehow, a greeting.",
+        "ask": [
+          {
+            "q": "Whose hat is that?",
+            "a": "The fox adjusts the hat. It is the fox's hat now, the look says, and that is the end of it."
+          },
+          {
+            "q": "Where's the good stuff hidden?",
+            "a": "Its tail flicks towards the woodpile, then towards the fence by the meadow. Then it pretends it did nothing of the kind."
+          }
+        ],
+        "more": "The fox waits.",
+        "leave": "Leave it.",
+        "bye": "The fox is already looking at someone else's purse."
+      }
+    },
+    {
+      "name": "Grist the Caterpillar",
+      "unit": "caterpillar_warrior",
+      "cell": [
+        5,
+        5
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 2,
+      "chatter": [
+        "Eight boots. Eight. You try affording that on a farm wage.",
+        "The firewood stacks itself if you have enough hands, and I do."
+      ]
+    },
+    {
+      "name": "a dove that will not settle",
+      "unit": "flame_dove",
+      "cell": [
+        16,
+        14
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 5,
+      "chatter": [
+        "It burns where it lands, and it never lands twice in the same place."
+      ]
+    },
+    {
+      "name": "Hesk the Stallholder",
+      "unit": "peasant",
+      "cell": [
+        10,
+        5
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "talk": {
+        "hello": [
+          "Fresh this morning! Most of it.",
+          "Buying or browsing? Browsing's free. Buying's better."
+        ],
+        "ask": [
+          {
+            "q": "What's good today?",
+            "a": "The cheese. The cheese is always good. The bread is good on Tuesdays."
+          },
+          {
+            "q": "Is it always this quiet?",
+            "a": "Market day it's elbows and geese. Today it's you."
+          }
+        ],
+        "news": true,
+        "sells": [
+          {
+            "item": "bread"
+          },
+          {
+            "item": "cheese"
+          },
+          {
+            "item": "apple",
+            "restock": true
+          },
+          {
+            "item": "ale_flask"
+          },
+          {
+            "item": "red_draught"
+          }
+        ],
+        "shop": "Bread, cheese, apples. A draught or two for the road. Coin first, mind.",
+        "sold": [
+          "Pleasure.",
+          "Wrap it? No? Suit yourself.",
+          "Good choice."
+        ],
+        "bye": "Come back market day. Bring friends. Bring their money."
+      },
+      "chatter": [
+        "Bread! Cheese! Bread and cheese!",
+        "Fresh this morning. Mostly."
+      ]
+    },
+    {
+      "name": "Dunmore the Smith",
+      "unit": "dwarf_smith",
+      "cell": [
+        17,
+        16
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "talk": {
+        "refuse": {
+          "chance": 0.4,
+          "unless": "smith:won",
+          "text": "Hammer's hot. Come back when it isn't.",
+          "check": {
+            "skill": "might",
+            "dc": 11
+          },
+          "check_q": "Let me work the bellows while we talk.",
+          "won": "...Hm. You've done that before. Fine. What do you need?",
+          "won_flag": "smith:won",
+          "still_no": "You'll have the eyebrows off us both. Later.",
+          "leave": "Later, then."
+        },
+        "hello": [
+          "Mind the sparks.",
+          "If it's iron, I can make it. If it's not, I can make it iron."
+        ],
+        "ask": [
+          {
+            "q": "Can you fix a blade?",
+            "a": "I can fix most things. Blades, hinges, marriages. Not that last one. Not twice."
+          },
+          {
+            "q": "Where does the iron come from?",
+            "a": "Up the pass, past the pine camp. The woodcutters bring it down when the gates let them."
+          }
+        ],
+        "sells": [
+          {
+            "item": "iron_blade"
+          },
+          {
+            "item": "hunting_bow"
+          },
+          {
+            "item": "padded_coat"
+          },
+          {
+            "item": "owl_helm"
+          },
+          {
+            "item": "whetstone",
+            "price": 60
+          }
+        ],
+        "shop": "Good honest iron. None of your shine.",
+        "sold": "It'll outlast you. Try not to prove me wrong.",
+        "bye": "Keep it oiled."
+      },
+      "chatter": [
+        "Tink. Tink. Tink.",
+        "Who left the tongs in the trough?"
+      ]
+    }
+  ],
+  "rows": [
+    "mmmmm.....................",
+    "mmmm......................",
+    "mm..,,,,,.................",
+    "...,,,,,,.........,,,,,...",
+    "..,,,,,..,,,,,,,,.,,,,,...",
+    "..,,,,,..,,,,,,,,.,,,,,...",
+    "...,,,...,,,,,,,,.,,,,,...",
+    ".........,,,,,,,,.,,,,,...",
+    ".........,,,,,,,,.........",
+    ".........,,,,,,,,.s~~~~~~.",
+    "..........,,,,,,.ss~~~~~~.",
+    "...........,,,,..ss~~~~~~.",
+    "mmmmmm......,,..sss~~~~~~.",
+    "mmmmmm......,,..sss~~~~~~.",
+    "mmmmmmm.....,,..ssss~~~~~.",
+    "mmmmmmm.....,,............",
+    "mmmmmm......,,............",
+    "mmmmm.......,,............"
+  ],
+  "dressing": [
+    {"art": "nature/great_oak", "cell": [24, 0], "offset": [8, 2]},
+    {"art": "nature/great_oak", "cell": [3, 16], "offset": [3, -1]},
+    {"art": "nature/apple_tree", "cell": [5, 17], "offset": [1, -3]},
+    {"art": "nature/sycamore_tree", "cell": [22, 17], "offset": [-3, -4], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [25, 13], "offset": [-4, 5], "flip": true},
+    {"art": "nature/apple_tree", "cell": [1, 17], "offset": [4, -3], "flip": true},
+    {"art": "nature/apple_tree", "cell": [1, 14], "offset": [5, -2]},
+    {"art": "nature/apple_tree", "cell": [25, 6], "offset": [-10, -3], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [25, 10], "offset": [2, 4], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [19, 0], "offset": [8, 2]},
+    {"art": "nature/old_apple_tree", "cell": [0, 1], "offset": [5, 2], "flip": true},
+    {"art": "nature/birch", "cell": [17, 0], "offset": [1, -4], "flip": true},
+    {"art": "nature/fern", "cell": [4, 15], "offset": [-14, 6]},
+    {"art": "nature/grass_tuft", "cell": [23, 16], "offset": [-13, -7]},
+    {"art": "nature/hedge", "cell": [0, 17], "offset": [-5, -6], "flip": true},
+    {"art": "nature/hedge", "cell": [0, 2], "offset": [-10, 4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [23, 7], "offset": [12, 4], "flip": true},
+    {"art": "nature/thistle", "cell": [24, 8], "offset": [6, 6], "flip": true},
+    {"art": "nature/fern", "cell": [0, 4], "offset": [-11, 7], "flip": true},
+    {"art": "nature/hedge_2", "cell": [6, 10], "offset": [-13, 3], "flip": true},
+    {"art": "nature/clover_3", "cell": [7, 6], "offset": [-5, 3], "flip": true},
+    {"art": "nature/clover_3", "cell": [6, 8], "offset": [1, 4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [3, 14], "offset": [5, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [23, 2], "offset": [14, 7], "flip": true},
+    {"art": "nature/fern", "cell": [7, 10], "offset": [10, 6], "flip": true},
+    {"art": "nature/fern", "cell": [0, 16], "offset": [-6, 2], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [7, 9], "offset": [7, -3], "flip": true},
+    {"art": "nature/snail", "cell": [6, 17], "offset": [-14, -3], "flip": true},
+    {"art": "nature/sparrow", "cell": [10, 17], "offset": [-3, -3]},
+    {"art": "nature/snail", "cell": [0, 6], "offset": [4, -6]},
+    {"art": "nature/finch", "cell": [12, 14], "offset": [-13, 7], "flip": true},
+    {"art": "nature/ants", "cell": [6, 1], "offset": [12, 3], "flip": true},
+    {"art": "nature/irish_bird", "cell": [0, 14], "offset": [10, -4]}
+  ]
 }

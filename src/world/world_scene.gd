@@ -2304,7 +2304,9 @@ func _site_tint(site: Site) -> Color:
 
 func _site_art(site: Site) -> Texture2D:
 	var path := ""
-	if site.kind == Site.GATE or site.kind == Site.KEEP:
+	if site.kind == Site.GATE:
+		path = Site.GATE_ART[absi(site.cell.x * 31 + site.cell.y * 17) % Site.GATE_ART.size()]
+	elif site.kind == Site.KEEP:
 		path = Faction.hold_art(str(site.data.get("faction", "")))
 	if path == "":
 		path = str(Site.ART.get(site.kind, ""))

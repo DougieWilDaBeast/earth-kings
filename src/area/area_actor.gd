@@ -33,6 +33,9 @@ const CHATTER_ODDS := 0.35
 
 ## Lines they mutter to nobody in particular while they go about their day.
 var chatter: Array = []
+## How tall they stand against an ordinary body (`body_scale` in `data/units.json`): the axe bear
+## towers over the village, the fox does not. The feet stay where anyone else's are.
+var body_scale: float = 1.0
 
 var _sprite: Sprite2D
 var _rotations: Dictionary = {}
@@ -69,6 +72,7 @@ static func _from_template(name: String, template_id: String) -> AreaActor:
 	var actor := AreaActor.new()
 	actor.display_name = name
 	var template := Database.unit_template(template_id)
+	actor.body_scale = clampf(float(template.get("body_scale", 1.0)), 0.5, 3.0)
 	actor._rotations = _load_rotations(template.get("sprite_dir", ""))
 	actor._run = _load_run(template_id)
 	actor._build_sprite(Color(template.get("color", "#cccccc")))
@@ -100,7 +104,17 @@ func face(direction: Vector2) -> void:
 ## The patch of the world the mouse has to be over to have picked them out.
 func contains_point(point: Vector2) -> bool:
 	var local := to_local(point)
-	return Rect2(-SPRITE_SIZE / 2.0, -FOOT_OFFSET, SPRITE_SIZE, SPRITE_SIZE).has_point(local)
+	var size := SPRITE_SIZE * maxf(body_scale, 0.8)
+	return Rect2(-size / 2.0, -_foot(), size, size).has_point(local)
+
+
+## How far above their feet the top of the picture stands, at their size.
+func _foot() -> float:
+	return FOOT_OFFSET * body_scale
+
+
+func _mark_height() -> float:
+	return AreaMark.HEIGHT + FOOT_OFFSET * (body_scale - 1.0)
 
 
 ## Let them walk a few cells around where they live, so a town looks lived in
@@ -137,13 +151,13 @@ func _process(delta: float) -> void:
 			_moving = false
 			_run_time = 0.0
 			if _sprite != null:
-				_sprite.position.y = -FOOT_OFFSET
+				_sprite.position.y = -_foot()
 			_apply_texture()
 		return
 	_moving = true
 	_run_time += delta
 	if _sprite != null and _run.is_empty():
-		_sprite.position.y = -FOOT_OFFSET + sin(_run_time * 14.0) * 2.0
+		_sprite.position.y = -_foot() + sin(_run_time * 14.0) * 2.0
 	_apply_texture()
 
 
@@ -242,7 +256,8 @@ func set_hovered(on: bool) -> void:
 func _build_sprite(fallback: Color) -> void:
 	_sprite = Sprite2D.new()
 	_sprite.centered = false
-	_sprite.position = Vector2(-SPRITE_SIZE / 2.0, -FOOT_OFFSET)
+	_sprite.scale = Vector2(body_scale, body_scale)
+	_sprite.position = Vector2(-SPRITE_SIZE * body_scale / 2.0, -_foot())
 	add_child(_sprite)
 	if _rotations.is_empty():
 		# No art for this template: a plain token still shows where they are.

@@ -15,6 +15,7 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Talk := preload("res://src/dialogue/talk.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -106,6 +107,7 @@ func _ready() -> void:
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
 
+	EventBus.area_note.connect(_note)
 	_paint_layers()
 	_light_the_place()
 	_spawn_buildings()
@@ -268,6 +270,10 @@ func _spawn_props() -> void:
 			continue
 		var node := AreaProp.from_entry(prop)
 		node.position = map.centre_of(prop["cell"])
+		# A nudge off the middle of its cell, so a wood does not stand in rows.
+		var nudge: Array = prop.get("offset", [])
+		if nudge.size() >= 2:
+			node.position += Vector2(float(nudge[0]), float(nudge[1]))
 		if not node.haul.is_empty() and GameState.has_flag(map.prop_flag(node.cell)):
 			node.line = node.spent_line
 			node.haul = {}
@@ -399,6 +405,7 @@ func _spawn_people() -> void:
 func _has_something_to_say(person: Dictionary) -> bool:
 	return person.get("dialogue", "") != "" or person.get("cutscene", "") != "" \
 		or bool(person.get("guild", false)) or person.get("wanderer", "") != "" \
+		or person.has("talk") \
 		or person.has("ghost")
 
 
@@ -584,6 +591,10 @@ func _examine(thing: AreaProp) -> void:
 		_try_the_ward(thing.cell)
 		return
 	_note(thing.line)
+	if thing.find_flag != "" and not GameState.has_flag(thing.find_flag):
+		GameState.set_flag(thing.find_flag)
+		if thing.found_line != "":
+			_note(thing.found_line)
 	if map.chests.has(thing.cell) and bool(map.chests[thing.cell].get("stash", false)):
 		EventBus.stash_requested.emit()
 		return
@@ -642,6 +653,10 @@ func _speak_to(index: int) -> void:
 			them.say(them.chatter.pick_random())
 		EventBus.guild_requested.emit()
 		await EventBus.overlay_closed
+	elif person.has("talk"):
+		var talk_id: String = Talk.open(map.id, person)
+		EventBus.dialogue_requested.emit(talk_id)
+		await EventBus.dialogue_finished
 	elif not them.chatter.is_empty():
 		them.say(them.chatter.pick_random())
 
@@ -970,6 +985,8 @@ func _arrive_at(cell: Vector2i) -> void:
 	if map.spots.has(cell) and not _visited_spots.has(cell):
 		_visited_spots[cell] = true
 		_note(map.spots[cell])
+		if map.spot_flags.has(cell):
+			GameState.set_flag(map.spot_flags[cell])
 	if map.chests.has(cell):
 		_open_chest(cell)
 
@@ -1200,7 +1217,8 @@ func _enter(building: Dictionary) -> void:
 		})
 		return
 	if not Database.has_area(inside):
-		_note("The door is shut, and stays shut.")
+		var shut: Variant = building.get("shut", "The door is shut, and stays shut.")
+		_note(str(shut.pick_random()) if shut is Array and not shut.is_empty() else str(shut))
 		return
 	_leaving = true
 	var doorstep := map.step_out_of(building)
