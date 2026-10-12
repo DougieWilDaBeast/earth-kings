@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_ares",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make him a huge old bald man with a grey beard, broad as a door, in a battered officer's coat over plate armour, a two-handed greataxe resting on his shoulder",
-   "character_id": "79f60b79-0ad1-410e-809a-4c396f3e7109",
+   "outfit": "make him a huge old bald man with a grey beard, broad as a door, in a battered officer's coat over plate armour, a two-handed greataxe resting on his shoulder. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "0f892f5d-6dd6-4aa3-a5e0-22da2b144e00",
    "zip": "downloads/pixellab/sixteen_ares_base.zip",
-   "generations": 48.0,
+   "generations": 27.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "79f60b79-0ad1-410e-809a-4c396f3e7109",
+     "id": "0f892f5d-6dd6-4aa3-a5e0-22da2b144e00",
      "name": "sixteen_ares",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:00:52.005941+00:00"
+     "created_at": "2026-10-12T21:45:22.454061+00:00"
     },
-    "folder": "sixteen_ares",
+    "folder": "sixteen_ares_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_ares/rotations/south.png",
-      "south-east": "sixteen_ares/rotations/south-east.png",
-      "east": "sixteen_ares/rotations/east.png",
-      "north-east": "sixteen_ares/rotations/north-east.png",
-      "north": "sixteen_ares/rotations/north.png",
-      "north-west": "sixteen_ares/rotations/north-west.png",
-      "west": "sixteen_ares/rotations/west.png",
-      "south-west": "sixteen_ares/rotations/south-west.png"
+      "south": "sixteen_ares_2/rotations/south.png",
+      "south-east": "sixteen_ares_2/rotations/south-east.png",
+      "east": "sixteen_ares_2/rotations/east.png",
+      "north-east": "sixteen_ares_2/rotations/north-east.png",
+      "north": "sixteen_ares_2/rotations/north.png",
+      "north-west": "sixteen_ares_2/rotations/north-west.png",
+      "west": "sixteen_ares_2/rotations/west.png",
+      "south-west": "sixteen_ares_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:02:38.026010"
+  "export_date": "2026-10-12T21:47:20.760785"
  }
 }

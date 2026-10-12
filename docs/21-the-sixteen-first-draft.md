@@ -117,7 +117,10 @@ weapon, their seed and where they are found. Above each is the body this page gi
 - Nobody wears the shared mark yet: tattoo or glowing eyes is still open ([D31](06-decisions.md)).
   Diana's wolf is `ice_wolf`, as above.
 - The base versions are in `art/sixteen/<name>/idle/`, eight facings each, not yet used by the game.
-  The sentence each was made from is in its `metadata.json`; each cost 10 generations.
+  The sentence each was made from is in its `metadata.json`; each cost 10 generations. They were
+  dressed again on 2026-10-12 in the blended finish ([D57](06-decisions.md)). Liber's first sentence
+  (straw hat, open red vest, shorts) drew a famous pirate captain, so he was redrawn with a shaved
+  head, a headband and a sailcloth tunic ([23](23-originality-pass.md)).
 
 ## The NT sitting — the first four to build
 

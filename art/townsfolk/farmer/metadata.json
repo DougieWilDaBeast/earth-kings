@@ -1,0 +1,52 @@
+{
+ "id": "farmer",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "town_farmer",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as a farmer in a straw-coloured tunic, braces and muddy boots, a wide-brimmed straw hat, carrying a wooden pitchfork. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "2c9efbfb-f3a8-407b-abf4-29635ddf6142",
+   "zip": "downloads/pixellab/town_farmer_base.zip",
+   "generations": 21.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "2c9efbfb-f3a8-407b-abf4-29635ddf6142",
+     "name": "town_farmer",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T21:11:59.738393+00:00"
+    },
+    "folder": "town_farmer",
+    "frames": {
+     "rotations": {
+      "south": "town_farmer/rotations/south.png",
+      "south-east": "town_farmer/rotations/south-east.png",
+      "east": "town_farmer/rotations/east.png",
+      "north-east": "town_farmer/rotations/north-east.png",
+      "north": "town_farmer/rotations/north.png",
+      "north-west": "town_farmer/rotations/north-west.png",
+      "west": "town_farmer/rotations/west.png",
+      "south-west": "town_farmer/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T21:13:56.112521"
+ }
+}

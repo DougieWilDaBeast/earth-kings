@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_saturn",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a gentle-faced man with long grey hair in a worn black monk's robe, a curved iron sickle at his belt, sad tired eyes",
-   "character_id": "c410912e-2c1d-4c0d-8b26-b592953af142",
+   "outfit": "a gentle-faced man with long grey hair in a worn black monk's robe, a curved iron sickle at his belt, sad tired eyes. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "4e1a1e47-3caf-4b5c-bb5e-876328ab12f1",
    "zip": "downloads/pixellab/sixteen_saturn_base.zip",
-   "generations": 38.0,
+   "generations": 33.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "c410912e-2c1d-4c0d-8b26-b592953af142",
+     "id": "4e1a1e47-3caf-4b5c-bb5e-876328ab12f1",
      "name": "sixteen_saturn",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:58:02.177074+00:00"
+     "created_at": "2026-10-12T21:24:39.856079+00:00"
     },
-    "folder": "sixteen_saturn",
+    "folder": "sixteen_saturn_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_saturn/rotations/south.png",
-      "south-east": "sixteen_saturn/rotations/south-east.png",
-      "east": "sixteen_saturn/rotations/east.png",
-      "north-east": "sixteen_saturn/rotations/north-east.png",
-      "north": "sixteen_saturn/rotations/north.png",
-      "north-west": "sixteen_saturn/rotations/north-west.png",
-      "west": "sixteen_saturn/rotations/west.png",
-      "south-west": "sixteen_saturn/rotations/south-west.png"
+      "south": "sixteen_saturn_2/rotations/south.png",
+      "south-east": "sixteen_saturn_2/rotations/south-east.png",
+      "east": "sixteen_saturn_2/rotations/east.png",
+      "north-east": "sixteen_saturn_2/rotations/north-east.png",
+      "north": "sixteen_saturn_2/rotations/north.png",
+      "north-west": "sixteen_saturn_2/rotations/north-west.png",
+      "west": "sixteen_saturn_2/rotations/west.png",
+      "south-west": "sixteen_saturn_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T07:59:46.325749"
+  "export_date": "2026-10-12T21:26:25.145498"
  }
 }
