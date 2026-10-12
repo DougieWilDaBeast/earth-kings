@@ -2,7 +2,8 @@
 """Generate art through the PixelLab API, so nobody has to click through the website.
 
     python3 tools/pixellab.py balance
-    python3 tools/pixellab.py dress sworn_blade                   the base body in the unit's outfit ([D55])
+    python3 tools/pixellab.py dress sworn_blade                   the base body in the unit's outfit ([D55], [D57])
+    python3 tools/pixellab.py character ogre 96 --mode pro        a big unit, on its own body ([D57])
     python3 tools/pixellab.py character sworn_blade 32            -> downloads/pixellab/sworn_blade_32.zip
     python3 tools/pixellab.py animate <character_id> "a single overhead sword slash" --name attack
     python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 160
@@ -36,6 +37,11 @@ DOWNLOADS = ROOT / "downloads" / "pixellab"
 BASE_CHARACTER = "2f5feedf-71de-424c-905c-e336b6d73fb9"
 ## Room for a sword and shield beside the base's 32 × 72; multiples of 4, no smaller than the base.
 DRESS_CANVAS = {"width": 48, "height": 72}
+## The look every dressed unit asks for ([D57]): the base body's proportions and friendly face,
+## finished like the heroic 64s on disk. One sentence, so every unit is asked the same way.
+BLEND_STYLE = ("Keep his proportions, head size and face exactly. Finish him like detailed heroic "
+               "pixel art: a dark outline, three tones of shading on every surface, worn highlights "
+               "on metal and leather, a muted earthy palette.")
 POLL_SECONDS = 8
 TIMEOUT_SECONDS = 20 * 60
 
@@ -142,6 +148,8 @@ def character(args) -> None:
 def dress(args) -> None:
     """A unit as a state of the base body: same proportions, the unit's outfit."""
     outfit = args.outfit or "dress him as " + _unit_prompt(args.unit)
+    if args.style:
+        outfit += ". " + args.style
     before = _generations()
     started = _call("POST", "/create-character-state", {
         "character_id": args.base,
@@ -219,6 +227,7 @@ def main() -> None:
     d.add_argument("unit")
     d.add_argument("--outfit", help='defaults to "dress him as" + the unit\'s prompt')
     d.add_argument("--base", default=BASE_CHARACTER)
+    d.add_argument("--style", default=BLEND_STYLE, help='the finish asked for; --style "" for the plain base look')
 
     a = commands.add_parser("animate", help="an animation on a character made by `character`")
     a.add_argument("character_id")

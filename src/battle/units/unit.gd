@@ -16,8 +16,11 @@ const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
 const FLASH_TIME := 0.11
 ## Frames a second for a unit that has a run cycle to step through.
 const RUN_FPS := 12.0
-## Sprite height as a multiple of a tile.
+## Sprite height as a multiple of a tile, for a unit of ordinary size.
 const SPRITE_HEIGHT_CELLS := 1.15
+## A unit's `body_scale` is held to this range, so a typo cannot fill the screen.
+const BODY_SCALE_MIN := 0.5
+const BODY_SCALE_MAX := 3.0
 ## Facing -> the rotation file PixelLab exports for it.
 const SPRITE_ROTATIONS := {
 	Vector2i.DOWN: "south",
@@ -52,6 +55,9 @@ var flash_step: int = 0
 var speed: int = 8
 var abilities: Array = []
 var colour: Color = Color.WHITE
+## How tall this body stands against an ordinary one (`body_scale` in `data/units.json`, D56).
+## A big unit still holds one tile; it grows up from its feet.
+var body_scale: float = 1.0
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
 var sprites: Dictionary = {}
 ## Facing -> the run cycle, for the few units that have one (see [Database]).
@@ -91,6 +97,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.speed = int(data.get("speed", 8))
 	unit.abilities = data.get("abilities", ["strike"])
 	unit.colour = Color(data.get("color", "#cccccc"))
+	unit.body_scale = clampf(float(data.get("body_scale", 1.0)), BODY_SCALE_MIN, BODY_SCALE_MAX)
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
 	unit.run_frames = _load_run(template_id_)
 	unit.team = unit_team
@@ -359,7 +366,7 @@ func _draw() -> void:
 	var radius := BattleGrid.CELL_SIZE * 0.34
 	var outline := Color.WHITE if team == Team.PLAYER else (ALLY_OUTLINE if team == Team.ALLY else Color(0.2, 0.05, 0.05))
 	var sprite := current_sprite()
-	draw_circle(Vector2(2, 3), radius, Color(0, 0, 0, 0.3))
+	draw_circle(Vector2(2, 3), radius * clampf(body_scale, 0.7, 1.5), Color(0, 0, 0, 0.3))
 	if sprite == null:
 		draw_circle(Vector2.ZERO, radius, colour)
 	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 24, outline, 2.0, true)
@@ -381,10 +388,11 @@ func _draw_weapon() -> void:
 		texture = weapon_sprites.get(cardinal)
 	if texture == null:
 		return
-	var drawn := texture.get_size() * float(weapon.get("scale", 0.8))
+	var drawn := texture.get_size() * float(weapon.get("scale", 0.8)) * body_scale
 	var offsets: Dictionary = weapon.get("offsets", {})
 	var pair: Array = offsets.get(SPRITE_ROTATIONS.get(facing, "south"), [0, 0])
-	var centre := Vector2(pair[0], pair[1])
+	# Offsets are set for an ordinary body; a bigger one holds it higher and wider.
+	var centre := Vector2(pair[0], pair[1]) * body_scale + Vector2(0, -_body_lift())
 	draw_texture_rect(texture, Rect2(centre - drawn * 0.5, drawn), false)
 
 
@@ -403,13 +411,19 @@ func current_sprite() -> Texture2D:
 
 
 ## Top-down art sits centred on its tile, lifted slightly so the ring reads as ground.
+## The feet stay where an ordinary unit's are; `body_scale` only adds height above them.
 func _sprite_rect(sprite: Texture2D) -> Rect2:
 	var source := sprite.get_size()
-	var drawn := source * (BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS / source.y)
+	var height := BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * body_scale
+	var drawn := source * (height / source.y)
 	var bob := sin(_run_time * 16.0) * 3.0 if _running and run_frames.is_empty() else 0.0
-	return Rect2(
-		Vector2(-drawn.x * 0.5, -drawn.y * 0.5 - BattleGrid.CELL_SIZE * 0.12 + bob), drawn
-	)
+	var feet := BattleGrid.CELL_SIZE * (SPRITE_HEIGHT_CELLS * 0.5 - 0.12)
+	return Rect2(Vector2(-drawn.x * 0.5, feet - drawn.y + bob), drawn)
+
+
+## How far a scaled body's middle sits above an ordinary one's.
+func _body_lift() -> float:
+	return BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * (body_scale - 1.0) * 0.5
 
 
 func _draw_facing(radius: float, outline: Color) -> void:

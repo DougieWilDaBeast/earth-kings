@@ -112,11 +112,13 @@ built. **Everything left on this list needs one or both founders**: the build ha
 can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **Confirm the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md),
-   **Inferred**). `dougie` handed the call over on 2026-10-12; `doug-md` has not seen it. The size
-   test, the base body dressed as Bram and what each cost are in
-   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`. Tier 1
-   of [19](19-asset-list.md) can be generated from here (`tools/pixellab.py dress`).
+1. **`doug-md` confirms the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md)).
+   `dougie` confirmed it on 2026-10-12 ([D57](06-decisions.md)), with big units drawn taller by a
+   `body_scale` (built) and the base's look blended with the heroic 64s. Still **Inferred** and
+   waiting on both founders' eyes: the `body_scale` numbers, and whether the blend reads (the first
+   dressed unit with `BLEND_STYLE` has not been generated yet). The size test is in
+   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); Tier 1 of [19](19-asset-list.md) can be
+   generated from here.
 2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
    Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
    whether M11 replaces the turn loop ([D36](06-decisions.md)).

@@ -32,6 +32,8 @@ The base stat block a `Character` is built from, and what a monster is.
 
 - `classes` — options offered when this character hits level 2. Omit to allow any class.
 - `flash_step` — blink range in tiles. Omit or leave at 0 for units that cannot flash step.
+- `body_scale` — how tall the body stands against an ordinary one, as a multiple (default 1.0,
+  held to 0.5–3.0). A big unit still holds one tile and grows up from its feet ([D57](06-decisions.md)).
 - `sprite_dir` — a folder holding `north.png` / `south.png` / `east.png` / `west.png`. Omit to
   render a coloured token instead.
 
