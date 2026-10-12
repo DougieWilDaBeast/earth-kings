@@ -57,6 +57,10 @@ signal safe_point_reached(point: String, note: String)
 ## The game saved itself at [param point].
 signal game_saved(point: String, note: String)
 
+## Tiles that have just come onto the party's map (`src/chronicle/atlas.gd`),
+## so the map can fade them in rather than snap.
+signal ground_revealed(cells: Array)
+
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
 

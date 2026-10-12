@@ -266,6 +266,17 @@ still keeps one). Every keep and village area has one: a `guild_clerk`.
   at party level + `ally_level_bonus`); and `gold` for standing with a muster that wins.
 - `states` — how the register names a gate's state.
 - `lines` — what the hall says; `{hall}`, `{gate}` and `{gold}` are filled in.
+- `map` — the hall's map of its own country ([D50](06-decisions.md), `src/chronicle/atlas.gd`):
+  `price` (scaled by the difficulty's `price` dial), the `radius` in tiles it draws in dim, and up
+  to `max_marks` places it marks, nearest first among the `marks` kinds in that order of interest.
+  Bought once per hall. `lines` are what the clerk says; `{hall}`, `{price}` and `{places}`.
+
+The rest of the map lives in `world_rules.json` → `atlas`: `sight` (tiles seen round the party at
+every step, continental or planar), `always_known` (kinds on the map from the start — the Tower
+and home), the odds of a map folded into a find (`spoils_map_chance` for battle spoils and town
+loot, `cache_map_chance` for a cache in the open, `chest_map_chance` for a chest in an area), the
+`fragment_radius` a found map draws in and the `fragment_marks` kinds it can point at, and its
+`lines`.
 
 ## `coliseum.json` — arena cards and waves
 
@@ -437,7 +448,9 @@ A conversation is either a flat script:
 ## Save file — `user://earth-kings.save.json`
 
 Written by `GameState`. Contains the serialised `World` (seed, tiles, sites, step count, player
-cell, generated trees, codex) and the `Roster` of Characters. Generated abilities are restored
+cell, generated trees, codex, and the party's map: `explored` and `charted` as one bit a tile,
+deflated and base64, and `marked` as a sorted list of `"x,y"`) and the `Roster` of Characters. A
+save from before the map had no `explored` and loads with the whole continent seen. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
 It also keeps the run's `mode` (`classic` or `iron_man`; a save without one opens as Classic) and
 `saved_at`, how the save is remembered on the fall screen ("you rested at Oakham").

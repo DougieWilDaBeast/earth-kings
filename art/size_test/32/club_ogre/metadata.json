@@ -1,0 +1,49 @@
+{
+	"id": "club_ogre",
+	"size_test": 32,
+	"states": [
+		{
+			"date": "2026-10-12",
+			"pixellab": {
+				"export_date": "2026-10-12T06:36:59.579373",
+				"export_version": "3.1",
+				"group_id": "2ca42b1c-e5ef-4451-873b-b9a2a8b3422e",
+				"states": [
+					{
+						"character": {
+							"created_at": "2026-10-12T06:36:05.926269+00:00",
+							"directions": 8.0,
+							"id": "4213c51e-2080-4961-b736-fc28dc824070",
+							"name": "Idle",
+							"prompt": "Ogre — a hulking brown-skinned brute in a hide loincloth and rope harness, uprooted tree club, small eyes, heavy sloped shoulders",
+							"size": {
+								"height": 48.0,
+								"width": 48.0
+							},
+							"template_id": "mannequin",
+							"view": "low top-down"
+						},
+						"folder": "Idle",
+						"frames": {
+							"animations": {},
+							"rotations": {
+								"east": "Idle/rotations/east.png",
+								"north": "Idle/rotations/north.png",
+								"north-east": "Idle/rotations/north-east.png",
+								"north-west": "Idle/rotations/north-west.png",
+								"south": "Idle/rotations/south.png",
+								"south-east": "Idle/rotations/south-east.png",
+								"south-west": "Idle/rotations/south-west.png",
+								"west": "Idle/rotations/west.png"
+							}
+						}
+					}
+				]
+			},
+			"prompt": "Ogre — a hulking brown-skinned brute in a hide loincloth and rope harness, uprooted tree club, small eyes, heavy sloped shoulders",
+			"size": "32x32",
+			"source": "club_ogre_32.zip",
+			"state": "idle"
+		}
+	]
+}

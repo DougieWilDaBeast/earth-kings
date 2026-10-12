@@ -204,7 +204,29 @@ and top-down Planar view. All 48 sites have hand-built interiors, and wilderness
 marsh, hill, desert) open into explorable 30×20 planar regions whose open cardinal edges step
 seamlessly across continental borders. _Decided against_ ([D50](06-decisions.md)): the game is to be
 played in the planar view alone, with the continent as a map that fills in where you have been.
-That is planned (M18), not built.
+The one view is planned (M18), not built; the map that fills in is built.
+
+**The explored map** ([D50](06-decisions.md), `src/chronicle/atlas.gd`, built 2026-10-12). The
+continent starts black. Every step, continental or planar, puts the ground within
+`world_rules.atlas.sight` (4) tiles of the party on the map, fading in as it comes. A place is drawn
+only once the party knows of it: it has seen its tile, a map or a rumour marked it, or it is the
+Tower (seen from anywhere) or home. Bands and the ground they watch show only on ground the party
+has seen. Knowing of a place is how else it gets on the map:
+
+- **A Guild hall sells its map** of the country round it, once per hall (`guild.json` → `map`,
+  50 gold before the difficulty dial): the lie of the land drawn in dim for 18 tiles round, and the
+  five nearest places worth knowing marked — villages first, then keeps, libraries, huts, gates.
+- **Maps are hidden in the world.** A chest in an area (25%), a cache in the open (40%), and battle
+  spoils or a town's loot (8%) can hold somebody's map: it draws in seven tiles round a place the
+  party does not know of yet — a gate, library, keep or village — and marks it.
+- **Being told marks a place.** A Guild contract, an errand's destination, and every place news at
+  an inn names go on the map, and the inn says so.
+
+A party walking itself goes after the gates it knows of and the Tower, and with nowhere known left
+to go walks to the nearest ground it has never seen. **Inferred** — the sight, the prices, the odds,
+and that a Guild map marks places as well as the lie of the land (agenda items 30 to 33 in
+[answers](worldbuilding/answers.md#what-is-still-to-decide)). A save from before the map loads with
+the whole continent seen.
 
 **Home and the bed.** Home is the only site the player owns and the only one with nothing to sell.
 Sleeping there heals the party outright, and the bed installed in it grants every sleeper a

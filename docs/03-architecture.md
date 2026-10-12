@@ -54,6 +54,7 @@ src/
     world_gen.gd               Builds a 128x128 continental world from a seed
     dispatch.gd                Companions sent away on an errand, on the step clock (M16)
     guild.gd                   The Adventurers Guild: the gate register and contracts (M14)
+    atlas.gd                   The party's map: explored, charted, marked; Guild maps, found maps (M18)
     sixteen.gd                 Who of the sixteen has fallen, kept outside the save (M15, D47)
     run_mode.gd                Classic or Iron Man: saving by hand, the reload, the save points (M15, D51)
     names.gd                   Regional names and the lead's earned title (D39)

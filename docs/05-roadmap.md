@@ -112,13 +112,11 @@ built. **Everything left on this list needs one or both founders**: the build ha
 can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **Generate the size test in PixelLab.** The 2026-09-27 credit reset has passed with the test
-   still ungenerated, so this now waits on credits. Everything else is
-   ready: step-by-step instructions in [20](20-pixellab-size-test.md), the viewer
-   (`.\ek.ps1 sizetest`) and the importer.
-   [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
-   ([investigation/07](investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)),
-   so 32 against the 64 on disk is the real choice.
+1. **Confirm the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md),
+   **Inferred**). `dougie` handed the call over on 2026-10-12; `doug-md` has not seen it. The size
+   test, the base body dressed as Bram and what each cost are in
+   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`. Tier 1
+   of [19](19-asset-list.md) can be generated from here (`tools/pixellab.py dress`).
 2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
    Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
    whether M11 replaces the turn loop ([D36](06-decisions.md)).
@@ -153,8 +151,10 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
   do: an hour of hands-on play to answer the ten questions it lists at the end
 - Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0).
   **Prepared** 2026-09-25: instructions ([20](20-pixellab-size-test.md)), `tools/size_test.tscn`,
-  the importer, `art/size_test/RESULTS.md` — waiting on the generating
-- The size written into [06 — Decisions](06-decisions.md)
+  the importer, `art/size_test/RESULTS.md`. **Generated** 2026-10-12 through the API
+  (`tools/pixellab.py`), 34 generations; the base body dressed and animated for 30 more
+- ~~The size written into [06 — Decisions](06-decisions.md)~~ — [D55](06-decisions.md), 2026-10-12: the 64 class
+  on the base body, **Inferred** until both founders confirm
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
   D-entry says which size
 
@@ -308,14 +308,19 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
 - Who, or what, decided only one world survives, and how the last fight asks you to stop it
 - ✅ Done when: there is a design doc both founders have signed off. Nothing is built before that
 
-### M18 — One view, and no step clock — PLANNED
+### M18 — One view, and no step clock — IN PROGRESS
 
-Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). Waits on agenda items
-20 and 21.
+Settled in joint session 2 ([D49](06-decisions.md), [D50](06-decisions.md)). The explored map is
+built; the one view and the end of the step clock wait on agenda items 20 and 21.
 
 - The game played in the planar view alone; the Z switch and the walkable continental view retired
-- The continent as a map: black until the party has been there, filled in as it travels
-- Guild maps that mark some places and the general lie of the land; other maps hidden in the world
+- The continent as a map: black until the party has been there, filled in as it travels ✅
+  (2026-10-12, `src/chronicle/atlas.gd`): four tiles seen round the party at every step,
+  continental or planar, fading in; a place drawn only once known; saved as two bitfields
+- Guild maps that mark some places and the general lie of the land ✅ (2026-10-12): bought once
+  per hall; other maps hidden in the world ✅ — in chests, caches and spoils; and places named by
+  news, contracts and errands marked. The numbers and the reading of item 21's second half are
+  **Inferred** (agenda items 30 to 33)
 - The step clock retired. The world moves on at milestones: Tower chapters and the checkpoints item
   20 names. Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
