@@ -2,6 +2,7 @@
 """Generate art through the PixelLab API, so nobody has to click through the website.
 
     python3 tools/pixellab.py balance
+    python3 tools/pixellab.py dress sworn_blade                   the base body in the unit's outfit ([D55])
     python3 tools/pixellab.py character sworn_blade 32            -> downloads/pixellab/sworn_blade_32.zip
     python3 tools/pixellab.py animate <character_id> "a single overhead sword slash" --name attack
     python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 160
@@ -31,6 +32,10 @@ from pathlib import Path
 API = "https://api.pixellab.ai/v2"
 ROOT = Path(__file__).resolve().parent.parent
 DOWNLOADS = ROOT / "downloads" / "pixellab"
+## The founders' "Blank Male character" (2026-09-25): every humanoid is dressed onto it ([D55]).
+BASE_CHARACTER = "2f5feedf-71de-424c-905c-e336b6d73fb9"
+## Room for a sword and shield beside the base's 32 × 72; multiples of 4, no smaller than the base.
+DRESS_CANVAS = {"width": 48, "height": 72}
 POLL_SECONDS = 8
 TIMEOUT_SECONDS = 20 * 60
 
@@ -77,11 +82,11 @@ def _wait(job_id: str) -> dict:
     sys.exit("PixelLab job %s still running after %d s" % (job_id, TIMEOUT_SECONDS))
 
 
-def _download_zip(character_id: str, name: str) -> Path:
+def _download_zip(character_id: str, name: str, query: str = "") -> Path:
     """The character's export zip, once every animation on it has finished."""
     started = time.time()
     while time.time() - started < TIMEOUT_SECONDS:
-        status, payload = _call("GET", "/characters/%s/zip" % character_id, raw=True)
+        status, payload = _call("GET", "/characters/%s/zip%s" % (character_id, query), raw=True)
         if status == 200:
             DOWNLOADS.mkdir(parents=True, exist_ok=True)
             path = DOWNLOADS / (name + ".zip")
@@ -134,6 +139,24 @@ def character(args) -> None:
           "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
 
 
+def dress(args) -> None:
+    """A unit as a state of the base body: same proportions, the unit's outfit."""
+    outfit = args.outfit or "dress him as " + _unit_prompt(args.unit)
+    before = _generations()
+    started = _call("POST", "/create-character-state", {
+        "character_id": args.base,
+        "edit_description": outfit,
+        "state_name": args.unit,
+        "override_frame_size": DRESS_CANVAS,
+    })
+    _wait(started["background_job_id"])
+    character_id = started["character_id"]
+    path = _download_zip(character_id, args.unit + "_base", "?states=" + character_id)
+    _log({"kind": "dress", "unit": args.unit, "base": args.base, "outfit": outfit,
+          "character_id": character_id, "zip": str(path.relative_to(ROOT)),
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+
+
 def animate(args) -> None:
     before = _generations()
     body = {"character_id": args.character_id, "animation_name": args.name,
@@ -142,13 +165,16 @@ def animate(args) -> None:
         body["template_animation_id"] = args.template_animation
     else:
         body["action_description"] = args.action
-        body["mode"] = args.mode
         body["frame_count"] = args.frames
+    if args.mode:
+        body["mode"] = args.mode
     started = _call("POST", "/animate-character", body)
     for job_id in started.get("background_job_ids") or [started.get("background_job_id")]:
         if job_id:
             _wait(job_id)
-    path = _download_zip(args.character_id, args.zip or "%s_%s" % (args.character_id[:8], args.name))
+    # Only this state: a dressed unit shares its export with the base and every other outfit.
+    path = _download_zip(args.character_id, args.zip or "%s_%s" % (args.character_id[:8], args.name),
+                         "?states=" + args.character_id)
     _log({"kind": "animation", "character_id": args.character_id, "name": args.name,
           "action": args.action, "template_animation": args.template_animation, "mode": args.mode,
           "frames_asked": args.frames, "directions": args.directions, "zip": str(path.relative_to(ROOT)),
@@ -189,12 +215,17 @@ def main() -> None:
     c.add_argument("--mode", choices=["standard", "pro"], default="standard")
     c.add_argument("--name", help="zip name, defaults to <unit>_<size>")
 
+    d = commands.add_parser("dress", help="a unit dressed onto the base body, every direction")
+    d.add_argument("unit")
+    d.add_argument("--outfit", help='defaults to "dress him as" + the unit\'s prompt')
+    d.add_argument("--base", default=BASE_CHARACTER)
+
     a = commands.add_parser("animate", help="an animation on a character made by `character`")
     a.add_argument("character_id")
     a.add_argument("action", nargs="?", default="", help="what the move is, in words")
     a.add_argument("--name", default="attack", help="the state it becomes: attack, walk, death ...")
     a.add_argument("--template-animation", help="a PixelLab template instead of words (1 generation a direction)")
-    a.add_argument("--mode", default="v3")
+    a.add_argument("--mode", help="v3 for words (the default), skeleton-v3 to pose a template steadily")
     a.add_argument("--frames", type=int, default=8)
     a.add_argument("--directions", default="south,east,north,west")
     a.add_argument("--zip", help="zip name")
@@ -210,6 +241,8 @@ def main() -> None:
         print(json.dumps(_call("GET", "/balance"), indent=1))
     elif args.command == "character":
         character(args)
+    elif args.command == "dress":
+        dress(args)
     elif args.command == "animate":
         if not args.action and not args.template_animation:
             sys.exit("Say what the move is, or give --template-animation")

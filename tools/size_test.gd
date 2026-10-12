@@ -4,6 +4,7 @@ extends Node2D
 ##   godot --path . res://tools/size_test.tscn                          look at it
 ##   godot --headless --path . res://tools/size_test.tscn -- --check    what is there, what is missing
 ##   godot --headless --path . res://tools/size_test.tscn -- --import=C:/Downloads/x.zip --unit=goblin --size=32
+##   ... --import=x.zip --unit=sworn_blade --size=64 --state=walk --from=walking   one animation of several
 ##
 ## Three patches of battle ground side by side, one per size, each with the same
 ## four units on it, drawn the way the battle draws them. Whatever PixelLab has
@@ -59,7 +60,7 @@ func _ready() -> void:
 	_font = ThemeDB.fallback_font
 	var args := _args()
 	if args.has("import"):
-		var lines := import_zip(str(args["import"]), str(args.get("unit", "")), int(args.get("size", 0)), str(args.get("state", "")))
+		var lines := import_zip(str(args["import"]), str(args.get("unit", "")), int(args.get("size", 0)), str(args.get("state", "")), str(args.get("from", "")))
 		for line in lines:
 			print(line)
 		get_tree().quit(0 if not lines.is_empty() and not lines[-1].begins_with("NOT") else 1)
@@ -199,7 +200,8 @@ func _portrait() -> Texture2D:
 ## A still named for a facing (`south.png`) is the state's rotation; numbered
 ## frames under a facing folder are an animation. Returns what it did; the last
 ## line starts "NOT" if nothing could be placed.
-func import_zip(zip_path: String, unit: String, size: int, state: String = "") -> Array[String]:
+## [param from] picks one animation by its folder name when the export holds several.
+func import_zip(zip_path: String, unit: String, size: int, state: String = "", from: String = "") -> Array[String]:
 	var lines: Array[String] = []
 	if unit == "" or not SIZES.has(size):
 		return ["NOT imported: say which unit and size — --unit=goblin --size=32"]
@@ -240,6 +242,8 @@ func import_zip(zip_path: String, unit: String, size: int, state: String = "") -
 		else:
 			for i in range(parts.size() - 2, -1, -1):
 				var folder := parts[i].to_lower()
+				if DIRECTIONS.has(folder) and from != "" and (i == 0 or parts[i - 1] != from):
+					break
 				if DIRECTIONS.has(folder):
 					target = "%s/%s/%s/%s" % [base, animation_state, folder, file]
 					break

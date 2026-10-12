@@ -43,6 +43,24 @@ The 32 attack, facing east, frame by frame:
 
 The ogre at 16 was not generated (docs/20 says not to), so it is still a preview, outlined in red.
 
+## The base body, 2026-10-12
+
+The founders made a blank body in PixelLab on 2026-09-25, "Blank Male character". Dressing it as
+Bram with one sentence (`python3 tools/pixellab.py dress sworn_blade`) kept his mail, surcoat,
+beard, sword and kite shield in every facing, at about 65 pixels tall, for 10 generations. It is
+in the viewer as the 64 Bram. Left to right: the base, dressed Bram in four facings, the 64 on disk.
+
+![base dressed as Bram](../../docs/images/size-test/base-dressed-as-bram.png)
+
+Animated on the base: the overhead slash from words (8 generations, 9 frames, Bram stays Bram;
+the shield swings to the front) and PixelLab's walk template in the steadier skeleton mode
+(12 generations, 6 frames).
+
+![attack on the base](../../docs/images/size-test/base-bram-attack-east.png)
+![walk on the base](../../docs/images/size-test/base-bram-walk-east.png)
+
+Running total for the day: 64 generations of 5,000.
+
 ## What we saw
 
 | Question (viewer key) | 64 | 32 | 16 |
@@ -55,6 +73,7 @@ The ogre at 16 was not generated (docs/20 says not to), so it is still a preview
 
 ## The call
 
-- dougie (Will): \_\_ — because \_\_
+- dougie (Will): handed the call to Claude on 2026-10-12, with the blank body as the base.
 - doug-md: \_\_ — because \_\_
-- **Chosen: \_\_ × \_\_.** Written into docs/06 as D\_\_ on \_\_.
+- **Chosen: the 64 class, dressed onto the base body.** Written into docs/06 as D55 on 2026-10-12,
+  **Inferred** until both founders confirm.

@@ -33,6 +33,9 @@ python3 tools/pixellab.py animate <character_id> "a single overhead sword slash,
 python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 128
 ```
 
+An export holding several animations is imported one at a time with `--from=<its folder name>`, for
+example `--state=walk --from=walking`.
+
 Zips land in `downloads/pixellab/` (not kept in git), with a `log.jsonl` of what each one cost.
 The API draws on a canvas larger than the size asked for (a 32 comes back on 48 × 48), so the
 viewer now measures the body, not the canvas, at battle scale.

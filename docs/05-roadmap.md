@@ -112,13 +112,11 @@ built. **Everything left on this list needs one or both founders**: the build ha
 can without an answer.
 Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **Look at the size test and pick a size.** Generated 2026-10-12 through the PixelLab API
-   (`tools/pixellab.py`) for 34 of the month's 5,000 generations: everything in
-   [20](20-pixellab-size-test.md) plus a "pro" mode Bram. Costs, notes and screenshots are in
-   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`.
-   [19 — Asset list](19-asset-list.md), Tier 0. The model game measures in the 32 class
-   ([investigation/07](investigation/07-dungeon-settlers-combat.md#13-sprite-size-and-frame-counts)),
-   so 32 against the 64 on disk is the real choice.
+1. **Confirm the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md),
+   **Inferred**). `dougie` handed the call over on 2026-10-12; `doug-md` has not seen it. The size
+   test, the base body dressed as Bram and what each cost are in
+   [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the viewer is `.\ek.ps1 sizetest`. Tier 1
+   of [19](19-asset-list.md) can be generated from here (`tools/pixellab.py dress`).
 2. **Play the real-time skirmish against the turn-based fight** (Training → Fight in real time).
    Judge facing, `HEALTH_SCALE`, how often you pause, and whether auto-pause helps. That decides
    whether M11 replaces the turn loop ([D36](06-decisions.md)).
@@ -154,8 +152,9 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 - Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0).
   **Prepared** 2026-09-25: instructions ([20](20-pixellab-size-test.md)), `tools/size_test.tscn`,
   the importer, `art/size_test/RESULTS.md`. **Generated** 2026-10-12 through the API
-  (`tools/pixellab.py`), 34 generations — waiting on both founders to look
-- The size written into [06 — Decisions](06-decisions.md)
+  (`tools/pixellab.py`), 34 generations; the base body dressed and animated for 30 more
+- ~~The size written into [06 — Decisions](06-decisions.md)~~ — [D55](06-decisions.md), 2026-10-12: the 64 class
+  on the base body, **Inferred** until both founders confirm
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
   D-entry says which size
 
