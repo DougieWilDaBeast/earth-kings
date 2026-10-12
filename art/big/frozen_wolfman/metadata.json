@@ -1,0 +1,321 @@
+{
+ "id": "frozen_wolfman",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "character",
+   "unit": "frozen_wolfman",
+   "size": 96,
+   "directions": 8,
+   "view": "low top-down",
+   "template": "mannequin",
+   "mode": "standard",
+   "model": "v3",
+   "prompt": "A hulking frost werewolf, pale blue-white fur crusted with ice, long bone claws on both hands, glowing icy eyes",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 35.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 91.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "name": "attack",
+   "action": "a fast slash with long frost-white bone claws",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 39.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "name": "skill",
+   "action": "breathing a cone of freezing mist",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 26.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 26.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/frozen_wolfman_96.zip",
+   "generations": 82.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "9533bfd1-803e-4bda-8a1d-45a525cc1f60",
+  "states": [
+   {
+    "character": {
+     "id": "003ef9c6-2365-49cd-9acb-43a1ec61bf09",
+     "name": "Idle",
+     "prompt": "A hulking frost werewolf, pale blue-white fur crusted with ice, long bone claws on both hands, glowing icy eyes",
+     "size": {
+      "width": 96,
+      "height": 96
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T22:04:48.216240+00:00"
+    },
+    "folder": "Idle",
+    "frames": {
+     "rotations": {
+      "south": "Idle/rotations/south.png",
+      "south-east": "Idle/rotations/south-east.png",
+      "east": "Idle/rotations/east.png",
+      "north-east": "Idle/rotations/north-east.png",
+      "north": "Idle/rotations/north.png",
+      "north-west": "Idle/rotations/north-west.png",
+      "west": "Idle/rotations/west.png",
+      "south-west": "Idle/rotations/south-west.png"
+     },
+     "animations": {
+      "falling_backward": {
+       "south": [
+        "Idle/animations/falling_backward/south/frame_000.png",
+        "Idle/animations/falling_backward/south/frame_001.png",
+        "Idle/animations/falling_backward/south/frame_002.png",
+        "Idle/animations/falling_backward/south/frame_003.png",
+        "Idle/animations/falling_backward/south/frame_004.png",
+        "Idle/animations/falling_backward/south/frame_005.png",
+        "Idle/animations/falling_backward/south/frame_006.png"
+       ],
+       "north": [
+        "Idle/animations/falling_backward/north/frame_000.png",
+        "Idle/animations/falling_backward/north/frame_001.png",
+        "Idle/animations/falling_backward/north/frame_002.png",
+        "Idle/animations/falling_backward/north/frame_003.png",
+        "Idle/animations/falling_backward/north/frame_004.png",
+        "Idle/animations/falling_backward/north/frame_005.png",
+        "Idle/animations/falling_backward/north/frame_006.png"
+       ],
+       "west": [
+        "Idle/animations/falling_backward/west/frame_000.png",
+        "Idle/animations/falling_backward/west/frame_001.png",
+        "Idle/animations/falling_backward/west/frame_002.png",
+        "Idle/animations/falling_backward/west/frame_003.png",
+        "Idle/animations/falling_backward/west/frame_004.png",
+        "Idle/animations/falling_backward/west/frame_005.png",
+        "Idle/animations/falling_backward/west/frame_006.png"
+       ],
+       "east": [
+        "Idle/animations/falling_backward/east/frame_000.png",
+        "Idle/animations/falling_backward/east/frame_001.png",
+        "Idle/animations/falling_backward/east/frame_002.png",
+        "Idle/animations/falling_backward/east/frame_003.png",
+        "Idle/animations/falling_backward/east/frame_004.png",
+        "Idle/animations/falling_backward/east/frame_005.png",
+        "Idle/animations/falling_backward/east/frame_006.png"
+       ]
+      },
+      "skill": {
+       "east": [
+        "Idle/animations/skill/east/frame_000.png",
+        "Idle/animations/skill/east/frame_001.png",
+        "Idle/animations/skill/east/frame_002.png",
+        "Idle/animations/skill/east/frame_003.png",
+        "Idle/animations/skill/east/frame_004.png",
+        "Idle/animations/skill/east/frame_005.png",
+        "Idle/animations/skill/east/frame_006.png",
+        "Idle/animations/skill/east/frame_007.png",
+        "Idle/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "Idle/animations/skill/south/frame_000.png",
+        "Idle/animations/skill/south/frame_001.png",
+        "Idle/animations/skill/south/frame_002.png",
+        "Idle/animations/skill/south/frame_003.png",
+        "Idle/animations/skill/south/frame_004.png",
+        "Idle/animations/skill/south/frame_005.png",
+        "Idle/animations/skill/south/frame_006.png",
+        "Idle/animations/skill/south/frame_007.png",
+        "Idle/animations/skill/south/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/skill/west/frame_000.png",
+        "Idle/animations/skill/west/frame_001.png",
+        "Idle/animations/skill/west/frame_002.png",
+        "Idle/animations/skill/west/frame_003.png",
+        "Idle/animations/skill/west/frame_004.png",
+        "Idle/animations/skill/west/frame_005.png",
+        "Idle/animations/skill/west/frame_006.png",
+        "Idle/animations/skill/west/frame_007.png",
+        "Idle/animations/skill/west/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/skill/north/frame_000.png",
+        "Idle/animations/skill/north/frame_001.png",
+        "Idle/animations/skill/north/frame_002.png",
+        "Idle/animations/skill/north/frame_003.png",
+        "Idle/animations/skill/north/frame_004.png",
+        "Idle/animations/skill/north/frame_005.png",
+        "Idle/animations/skill/north/frame_006.png",
+        "Idle/animations/skill/north/frame_007.png",
+        "Idle/animations/skill/north/frame_008.png"
+       ]
+      },
+      "attack": {
+       "south": [
+        "Idle/animations/attack/south/frame_000.png",
+        "Idle/animations/attack/south/frame_001.png",
+        "Idle/animations/attack/south/frame_002.png",
+        "Idle/animations/attack/south/frame_003.png",
+        "Idle/animations/attack/south/frame_004.png",
+        "Idle/animations/attack/south/frame_005.png",
+        "Idle/animations/attack/south/frame_006.png",
+        "Idle/animations/attack/south/frame_007.png",
+        "Idle/animations/attack/south/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/attack/north/frame_000.png",
+        "Idle/animations/attack/north/frame_001.png",
+        "Idle/animations/attack/north/frame_002.png",
+        "Idle/animations/attack/north/frame_003.png",
+        "Idle/animations/attack/north/frame_004.png",
+        "Idle/animations/attack/north/frame_005.png",
+        "Idle/animations/attack/north/frame_006.png",
+        "Idle/animations/attack/north/frame_007.png",
+        "Idle/animations/attack/north/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/attack/east/frame_000.png",
+        "Idle/animations/attack/east/frame_001.png",
+        "Idle/animations/attack/east/frame_002.png",
+        "Idle/animations/attack/east/frame_003.png",
+        "Idle/animations/attack/east/frame_004.png",
+        "Idle/animations/attack/east/frame_005.png",
+        "Idle/animations/attack/east/frame_006.png",
+        "Idle/animations/attack/east/frame_007.png",
+        "Idle/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/attack/west/frame_000.png",
+        "Idle/animations/attack/west/frame_001.png",
+        "Idle/animations/attack/west/frame_002.png",
+        "Idle/animations/attack/west/frame_003.png",
+        "Idle/animations/attack/west/frame_004.png",
+        "Idle/animations/attack/west/frame_005.png",
+        "Idle/animations/attack/west/frame_006.png",
+        "Idle/animations/attack/west/frame_007.png",
+        "Idle/animations/attack/west/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "Idle/animations/taking_a_punch/west/frame_000.png",
+        "Idle/animations/taking_a_punch/west/frame_001.png",
+        "Idle/animations/taking_a_punch/west/frame_002.png",
+        "Idle/animations/taking_a_punch/west/frame_003.png",
+        "Idle/animations/taking_a_punch/west/frame_004.png",
+        "Idle/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "north": [
+        "Idle/animations/taking_a_punch/north/frame_000.png",
+        "Idle/animations/taking_a_punch/north/frame_001.png",
+        "Idle/animations/taking_a_punch/north/frame_002.png",
+        "Idle/animations/taking_a_punch/north/frame_003.png",
+        "Idle/animations/taking_a_punch/north/frame_004.png",
+        "Idle/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "east": [
+        "Idle/animations/taking_a_punch/east/frame_000.png",
+        "Idle/animations/taking_a_punch/east/frame_001.png",
+        "Idle/animations/taking_a_punch/east/frame_002.png",
+        "Idle/animations/taking_a_punch/east/frame_003.png",
+        "Idle/animations/taking_a_punch/east/frame_004.png",
+        "Idle/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "south": [
+        "Idle/animations/taking_a_punch/south/frame_000.png",
+        "Idle/animations/taking_a_punch/south/frame_001.png",
+        "Idle/animations/taking_a_punch/south/frame_002.png",
+        "Idle/animations/taking_a_punch/south/frame_003.png",
+        "Idle/animations/taking_a_punch/south/frame_004.png",
+        "Idle/animations/taking_a_punch/south/frame_005.png"
+       ]
+      },
+      "walking": {
+       "west": [
+        "Idle/animations/walking/west/frame_000.png",
+        "Idle/animations/walking/west/frame_001.png",
+        "Idle/animations/walking/west/frame_002.png",
+        "Idle/animations/walking/west/frame_003.png",
+        "Idle/animations/walking/west/frame_004.png",
+        "Idle/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "Idle/animations/walking/south/frame_000.png",
+        "Idle/animations/walking/south/frame_001.png",
+        "Idle/animations/walking/south/frame_002.png",
+        "Idle/animations/walking/south/frame_003.png",
+        "Idle/animations/walking/south/frame_004.png",
+        "Idle/animations/walking/south/frame_005.png"
+       ],
+       "north": [
+        "Idle/animations/walking/north/frame_000.png",
+        "Idle/animations/walking/north/frame_001.png",
+        "Idle/animations/walking/north/frame_002.png",
+        "Idle/animations/walking/north/frame_003.png",
+        "Idle/animations/walking/north/frame_004.png",
+        "Idle/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "Idle/animations/walking/east/frame_000.png",
+        "Idle/animations/walking/east/frame_001.png",
+        "Idle/animations/walking/east/frame_002.png",
+        "Idle/animations/walking/east/frame_003.png",
+        "Idle/animations/walking/east/frame_004.png",
+        "Idle/animations/walking/east/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T22:45:21.402904"
+ }
+}
