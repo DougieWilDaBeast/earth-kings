@@ -327,6 +327,9 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- Gamepad support ✅ (2026-10-12): Xbox and PlayStation pads play the whole game — menus by focus,
+  a cursor for the fights, hint lines that name the pad's buttons, and pad rebinding in the
+  system menu. The layout is in the README
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
 - A store page (itch.io or Steam) — planned; the founders' call
 
