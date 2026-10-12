@@ -44,6 +44,12 @@ you saw, on which screen, and what you had done just before.
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
 | B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
 | B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
+| B9  | Start a run                                                          | The landing beat plays: a furrow in the ground, no memory, the Tower off to one side, and "A new standing quest: Ascend to heaven" |
+| B10 | Start twice with the same seed and lead, then with another lead      | The same crater both times; another lead lands somewhere else. Either way, the crater is **Where You Fell**, your Home, with the bed to upgrade |
+| B11 | Press **N** → **Quests & the Fallen**                                | "Ascend to heaven" at the top with the Tower's floor; errands below; "N more carry the mark somewhere out there" |
+| B12 | Rest at villages, or ask an innkeeper for news, until one of the others is mentioned | A line naming them and a place; a faint face on the map there, and a line under **The others who fell** |
+| B13 | Walk to where one of them stands                                     | "_Name_, _title_, is here. They carry the mark you share." and **X to speak with** them; inside the place, they stand near the way in |
+| B14 | Speak with them, ask them to walk with you                           | An Outward temper joins the first time (party room permitting); an Inward one says "Not yet" until the second meeting |
 
 ## C — The world map
 

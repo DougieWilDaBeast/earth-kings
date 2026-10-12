@@ -3,6 +3,8 @@ extends Node
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
+const Fall := preload("res://src/chronicle/fall.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 
 const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
@@ -59,6 +61,7 @@ func _ready() -> void:
 	EventBus.unit_died.connect(_on_unit_died)
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.battle_finished.connect(_on_battle_finished)
+	EventBus.dialogue_finished.connect(_on_dialogue_finished)
 	if world == null:
 		new_game()
 
@@ -81,6 +84,13 @@ func _on_battle_finished(result: Dictionary) -> void:
 		Ledger.add(ledger, "battles_won" if result.get("victory", false) else "battles_lost")
 
 
+## Somebody of the sixteen agreed, in a conversation, to walk with the company.
+## Settled here whichever scene the conversation was had in.
+func _on_dialogue_finished(dialogue_id: String) -> void:
+	if world != null and roster != null and dialogue_id.begins_with(Wanderers.DIALOGUE_PREFIX):
+		Wanderers.settle(world, roster, flags)
+
+
 func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	# A run that is being started over is a run that is finished, whatever the
 	# player calls it. File it before it is written on top of (see [Museum]).
@@ -95,10 +105,14 @@ func new_game(world_seed: int = 0, lead_id: String = "") -> void:
 	# may hand the lead something to start with (see [Gifts]).
 	gold = DEFAULT_GOLD
 	roster = Roster.found(lead_id)
-	world.player_cell = WorldGen.starting_cell_for_hero(world, lead_id)
+	# The fall (M13): the lead comes down somewhere of the seed's choosing, and
+	# that crater is home. The others come down too, and set off on their own.
+	var reach := Fall.reachable(world)
+	Fall.land(world, lead_id, reach)
+	Wanderers.land(world, roster, reach)
 	var lead := roster.player()
 	var lead_name: String = lead.display_name if lead != null else "The founder"
-	Annals.record(world, "%s founded the company and stepped out into %s." % [lead_name, world.region_at(world.player_cell)])
+	Annals.record(world, Fall.annal(world, lead_name))
 	ledger = Ledger.fresh()
 	cleared_battles = []
 	flags = {}

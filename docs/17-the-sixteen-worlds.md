@@ -172,10 +172,35 @@ The fight is the thing that has to be right — see [18 — Combat direction](18
 | The run ending when the lead falls | Yes — `D14`. It ends the run, not a world. Save/load is free ([D21](06-decisions.md)); Classic and Iron Man ([D51](06-decisions.md)) are not built |
 | One Tower, floors, an apex fight | Yes — a hundred floors since 2026-10-01 ([D48](06-decisions.md)), the apex on the last ([D25](06-decisions.md)). Chapters of five since 2026-09-25: the world moves on, the census is read (always sixteen until M15), and the stair is sealed until a gate is shut or a town saved. Keys as items or quests, not yet |
 | Gates, ranks E–S, delves | Yes — and since 2026-09-24 there is no walking out of one mid-delve |
-| The fall, the mark, random crash sites | No |
-| The fifteen living their own lives | No — non-leads stand in fixed places. The "NPC society" seam in [01](01-vision.md) is where it goes |
+| The fall, the mark, random crash sites | **Crash sites, yes** (2026-10-12): every run lands the lead somewhere the seed chose, plays a short landing beat, and makes the crater Home. The intro showing the fall waits on art; the mark is spoken of but has no form yet |
+| The fifteen living their own lives | **Yes, with stand-ins** (2026-10-12): the heroes a run did not start with crash-land too and walk between places by temper. See [below](#the-others-as-built) |
 | Sibling worlds, the world ending, the next lead | No. `World` serialises and is seeded ([D09](06-decisions.md)), which is the seam for a sibling world |
-| Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | No |
+| Memories by chapter, "Ascend to heaven", the earlier lead as an NPC | **"Ascend to heaven", yes** (2026-10-12): carried from landing, shown in the journal and on the Tower; it never completes. Memories and the earlier lead, no |
 | Ghosts, the journal, signature weapons | No. The journal screen and `Annals` already record what a run did |
 | The contest past the top | No |
 | Regional names and earned titles | No. `Renown` already tracks standing per place, which is where a title would come from |
+
+## The others, as built
+
+Built 2026-10-12 for M13 (`src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`, `data/fall.json`).
+Everything here is **Inferred** — agenda items 25 to 29 in
+[answers.md](worldbuilding/answers.md#what-is-still-to-decide) — and goes back to the founders.
+
+- **Landing.** A new run draws the lead's crash site from the world seed: open ground joined by land
+  to the Tower, well away from it and from open gates, within a day's walk of somewhere with a roof.
+  The crater becomes Home ("Where You Fell"): the bed upgrades, the safety and the rest all work
+  there. The first thing the run shows is a short landing beat, and the lead's standing quest.
+- **Ascend to heaven.** The journal's _Quests & the Fallen_ page carries it at the top, with the
+  Tower's floor and chapter, above the errands taken. The Tower wears an ASCEND mark on the map.
+- **The others.** Until the sixteen are written, the twelve existing heroes stand in. Whoever the
+  run starts with is in the party; the rest crash-land at their own seeded sites and walk off, one
+  place at a time, by temper — NT to libraries and the Tower, NF to libraries, villages and huts,
+  SJ to keeps and villages, SP to gates and keeps. They stay a while, then move on.
+- **Finding them.** Asking an inn for news, or resting at a settlement, can bring word of one, and
+  marks where they were heard of. Standing where one stands shows them, and the mark. Both are
+  drawn on the map, a rumour faintly.
+- **Meeting them.** **X** on the map, or walking up to them inside the place, starts a short
+  conversation in their temper's voice. An Outward temper will join on the first meeting, an Inward
+  one only on the second, at the lead's level and only into a free seat in the party (four to start,
+  up to six as the Tower is climbed).
+

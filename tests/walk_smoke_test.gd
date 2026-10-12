@@ -11,6 +11,8 @@ const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Fall := preload("res://src/chronicle/fall.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 
 const SEED := 20260827
@@ -18,7 +20,8 @@ const SEED := 20260827
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster", "run_ends",
+	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster",
+	"fall", "run_ends",
 ]
 
 var _scene: Node
@@ -1160,6 +1163,79 @@ func _check_guild() -> void:
 ## An S-rank gate raises a muster at the nearest hall. It grows each upkeep,
 ## waits for a company that stands with it in person and goes into the gate
 ## beside them, survives a save, and nobody standing with it sends it in alone.
+## M13: the lead crash-landed somewhere the seed chose and made it home, the
+## others came down too and walk between places, and one of them can be met,
+## talked to, joined, and saved.
+func _check_fall() -> void:
+	var world: World = GameState.world
+	var house := world.home()
+	_expect(house != null and bool(house.data.get("crash", false)), "home is not the crash site")
+	if house == null:
+		return
+	var tower := world.tower()
+	_expect(
+		Pathfinder.distance(house.cell, tower.cell) >= int(Fall.crash_rules().get("min_tower_distance", 24)),
+		"the lead landed on the Tower's doorstep"
+	)
+	var reach := Fall.reachable(world)
+	_expect(reach.has(house.cell), "the crash site cannot walk to the Tower")
+	_expect(
+		Fall.crash_cell(world, "lead:", reach) == Fall.crash_cell(world, "lead:", reach),
+		"the same seed landed the lead in two places"
+	)
+	_expect(not Fall.quest_progress(world).is_empty(), "the standing quest says nothing about the climb")
+	_expect(not Fall.landing_dialogue(world, "Bram").get("lines", []).is_empty(), "the landing has nothing to say")
+
+	_expect(world.wanderers.size() == Database.heroes.size() - 3, "%d others landed, not %d" % [world.wanderers.size(), Database.heroes.size() - 3])
+	# Time passes: everyone gets somewhere, and stays a while.
+	var steps := world.steps
+	for i in 20:
+		world.steps += World.UPKEEP_INTERVAL
+		Wanderers.upkeep(world)
+	var settled: Dictionary = {}
+	for each: Dictionary in world.wanderers:
+		if (each.get("to", []) as Array).is_empty() and not bool(each.get("joined", false)):
+			settled = each
+			break
+	_expect(not settled.is_empty(), "after %d steps nobody of the sixteen had got anywhere" % (world.steps - steps))
+	if settled.is_empty():
+		return
+	var site := world.site_at(Wanderers.cell_of(settled["at"]))
+	_expect(site != null, "%s stopped somewhere that is not a place" % settled["id"])
+	if site == null:
+		return
+
+	var hero_id := str(settled["id"])
+	world.player_cell = site.cell
+	var told := Wanderers.on_arrive(world, site)
+	_expect(not told.is_empty(), "standing beside %s, nobody saw them" % hero_id)
+	_expect(not (settled.get("known", []) as Array).is_empty(), "seeing %s left them unknown" % hero_id)
+	var offered: bool = _scene._actions_here().any(func(doing: Dictionary) -> bool:
+		return str(doing["label"]).begins_with("Speak with")
+	)
+	_expect(offered, "nothing offered to speak with %s" % hero_id)
+
+	while not GameState.roster.has_room():
+		GameState.roster.party.pop_back()
+	var dialogue_id := Wanderers.talk(world, GameState.roster, hero_id)
+	_expect(Database.dialogue(dialogue_id).has("nodes"), "no conversation was written for %s" % hero_id)
+	GameState.set_flag(Wanderers.JOIN_FLAG + hero_id)
+	EventBus.dialogue_finished.emit(dialogue_id)
+	var joined := GameState.roster.characters.any(func(c: Character) -> bool: return c.template_id == hero_id)
+	_expect(joined, "%s agreed to walk with you and did not" % hero_id)
+	_expect(not Wanderers.rumour(world).is_empty(), "the inns have nothing to say about the others")
+
+	GameState.save()
+	GameState.load_save()
+	world = GameState.world
+	_scene.world = world
+	_expect(world.wanderers.size() == Database.heroes.size() - 3, "the others did not survive a save")
+	_expect(bool(Wanderers.entry(world, hero_id).get("joined", false)), "a save forgot %s had joined" % hero_id)
+	print("fall: landed %s from the Tower, %d others walking, met and joined %s" % [
+		Pathfinder.distance(house.cell, tower.cell), world.wanderers.size(), hero_id
+	])
+
+
 ## The explored map ([D50]): black until walked, inked in by a Guild map, a
 ## found fragment and a rumour, and the same after a save.
 func _check_map() -> void:
