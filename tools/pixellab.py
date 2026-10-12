@@ -3,7 +3,9 @@
 
     python3 tools/pixellab.py balance
     python3 tools/pixellab.py dress sworn_blade                   the base body in the unit's outfit ([D55], [D57])
-    python3 tools/pixellab.py character ogre 96 --mode pro        a big unit, on its own body ([D57])
+    python3 tools/pixellab.py character ogre 96 --model v3        a big unit, on its own body ([D57])
+    python3 tools/pixellab.py image art/ui/status/stun.png "three yellow stars circling" --size 32
+    python3 tools/pixellab.py effect art/effects/slash "a white sword slash arc" "the arc sweeps and fades"
     python3 tools/pixellab.py unpack downloads/pixellab/sworn_blade_base.zip art/tier1/sworn_blade
     python3 tools/pixellab.py character sworn_blade 32            -> downloads/pixellab/sworn_blade_32.zip
     python3 tools/pixellab.py animate <character_id> "a single overhead sword slash" --name attack
@@ -122,9 +124,12 @@ def _unit_prompt(unit: str) -> str:
     metadata = ROOT / "art" / "units" / unit / "metadata.json"
     if not metadata.exists():
         sys.exit("No %s: give the description with --prompt" % metadata.relative_to(ROOT))
-    states = json.loads(metadata.read_text(encoding="utf-8"))["states"]
+    record = json.loads(metadata.read_text(encoding="utf-8"))
+    # Imported packs keep the prompt at the top and the states as bare names.
+    first = record["states"][0]
+    prompt = first["prompt"] if isinstance(first, dict) else record["prompt"]
     # Older records keep the whole spreadsheet row, tab-separated; the prompt is its last cell.
-    return states[0]["prompt"].split("\t")[-1].strip()
+    return prompt.split("\t")[-1].strip()
 
 
 def _log(record: dict) -> None:
@@ -146,12 +151,17 @@ def character(args) -> None:
         "mode": args.mode,
     }
     endpoint = "/create-character-with-%d-directions" % args.directions
+    if args.model == "v3":
+        # The newer model: a detailed south view drawn first, then turned. Any size 32-256.
+        body = {"description": prompt, "image_size": {"width": args.size, "height": args.size},
+                "view": args.view, "template_id": args.template, "detail": "highly detailed"}
+        endpoint = "/create-character-v3"
     started = _call("POST", endpoint, body)
     _wait(started["background_job_id"])
     name = args.name or "%s_%d" % (args.unit, args.size)
     path = _download_zip(started["character_id"], name)
     _log({"kind": "character", "unit": args.unit, "size": args.size, "directions": args.directions,
-          "view": args.view, "template": args.template, "mode": args.mode, "prompt": prompt,
+          "view": args.view, "template": args.template, "mode": args.mode, "model": args.model, "prompt": prompt,
           "character_id": started["character_id"], "zip": str(path.relative_to(ROOT)),
           "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
 
@@ -218,6 +228,44 @@ def portrait(args) -> None:
           "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
 
 
+def _pixen(description: str, size: int, view: str | None = None) -> bytes:
+    body = {"description": description, "image_size": {"width": size, "height": size},
+            "no_background": True, "outline": "single color black outline"}
+    if view:
+        body["view"] = view
+    result = _call("POST", "/create-image-pixen", body)
+    return base64.b64decode(result["image"]["base64"].split(",")[-1])
+
+
+def image(args) -> None:
+    """One still with a clear background: an icon, a mark, a frame."""
+    before = _generations()
+    out = ROOT / args.out
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(_pixen(args.description, args.size, args.view))
+    _log({"kind": "image", "out": args.out, "size": args.size, "prompt": args.description,
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+
+
+def effect(args) -> None:
+    """A still drawn from words, then set moving: <dest>/frame_000.png, frame_001.png ..."""
+    before = _generations()
+    # --still starts from a picture already made (a good one picked from several tries).
+    picture = Path(args.still).read_bytes() if args.still else _pixen(args.description, args.size, args.view)
+    still = base64.b64encode(picture).decode()
+    started = _call("POST", "/animate-with-text-v3", {
+        "first_frame": {"type": "base64", "base64": still},
+        "action": args.motion, "frame_count": args.frames, "no_background": True})
+    result = _wait(started["background_job_id"])
+    dest = ROOT / args.dest
+    dest.mkdir(parents=True, exist_ok=True)
+    for index, frame in enumerate(result.get("images") or []):
+        (dest / ("frame_%03d.png" % index)).write_bytes(base64.b64decode(frame["base64"].split(",")[-1]))
+    _log({"kind": "effect", "out": args.dest, "size": args.size, "prompt": args.description,
+          "motion": args.motion, "frames": len(result.get("images") or []),
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+
+
 ## What PixelLab calls a template animation, as the state the game calls it.
 STATE_NAMES = {"walking": "walk", "taking_a_punch": "hit", "falling_backward": "death", "attack_words": "attack"}
 DIRECTIONS = ("south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west")
@@ -276,6 +324,8 @@ def main() -> None:
     c.add_argument("--template", default="mannequin")
     c.add_argument("--mode", choices=["standard", "pro"], default="standard")
     c.add_argument("--name", help="zip name, defaults to <unit>_<size>")
+    c.add_argument("--model", choices=["template", "v3"], default="template",
+                   help="v3 draws a detailed body at any size 32-256 (about 3 generations at 96)")
 
     d = commands.add_parser("dress", help="a unit dressed onto the base body, every direction")
     d.add_argument("unit")
@@ -305,6 +355,21 @@ def main() -> None:
     p.add_argument("--view", default="low top-down")
     p.add_argument("--out", default="art/size_test/portrait/sworn_blade.png")
 
+    i = commands.add_parser("image", help="one still with a clear background, from words")
+    i.add_argument("out")
+    i.add_argument("description")
+    i.add_argument("--size", type=int, default=32, help="16-512, a multiple of 4")
+    i.add_argument("--view", help="side, low top-down or high top-down")
+
+    e = commands.add_parser("effect", help="an animated effect: a still from words, then set moving")
+    e.add_argument("dest")
+    e.add_argument("description", help="the effect's first frame")
+    e.add_argument("motion", help="how it moves")
+    e.add_argument("--size", type=int, default=64)
+    e.add_argument("--frames", type=int, default=8, help="4-16, even")
+    e.add_argument("--view")
+    e.add_argument("--still", help="start from this picture instead of drawing one from the description")
+
     args = parser.parse_args()
     if args.command == "balance":
         print(json.dumps(_call("GET", "/balance"), indent=1))
@@ -318,6 +383,10 @@ def main() -> None:
         if not args.action and not args.template_animation:
             sys.exit("Say what the move is, or give --template-animation")
         animate(args)
+    elif args.command == "image":
+        image(args)
+    elif args.command == "effect":
+        effect(args)
     else:
         portrait(args)
 

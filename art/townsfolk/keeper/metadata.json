@@ -1,0 +1,52 @@
+{
+ "id": "keeper",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "town_keeper",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as an old library keeper in long dusty grey-green robes, small round spectacles, a ring of keys at his belt, holding a lit brass lamp. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "84eab1df-667b-4b8e-8c17-50b3f93d3634",
+   "zip": "downloads/pixellab/town_keeper_base.zip",
+   "generations": 22.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "84eab1df-667b-4b8e-8c17-50b3f93d3634",
+     "name": "town_keeper",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T20:58:05.329100+00:00"
+    },
+    "folder": "town_keeper",
+    "frames": {
+     "rotations": {
+      "south": "town_keeper/rotations/south.png",
+      "south-east": "town_keeper/rotations/south-east.png",
+      "east": "town_keeper/rotations/east.png",
+      "north-east": "town_keeper/rotations/north-east.png",
+      "north": "town_keeper/rotations/north.png",
+      "north-west": "town_keeper/rotations/north-west.png",
+      "west": "town_keeper/rotations/west.png",
+      "south-west": "town_keeper/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T20:59:57.625087"
+ }
+}
