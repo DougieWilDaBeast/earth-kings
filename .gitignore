@@ -33,3 +33,4 @@ art/size_test/shots/
 
 # PixelLab exports fetched by tools/pixellab.py, before import
 /downloads/
+__pycache__/
