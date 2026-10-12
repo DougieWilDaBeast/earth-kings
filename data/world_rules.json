@@ -98,6 +98,24 @@
 		],
 		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"]
 	},
+	"party": {
+		"seats_base": 4,
+		"seats_most": 6,
+		"seats_by_tower_floor": [
+			{ "floor": 5, "seats": 5 },
+			{ "floor": 10, "seats": 6 }
+		],
+		"opened": [
+			"A seat opens at the fire.",
+			"Word of floor {floor} has gone down the Tower ahead of you. Sellswords who would not look at a company of four stand you drinks now.",
+			"{lead} can lead {seats_word} into a fight from today."
+		],
+		"next_seat": "Hire someone in a village or keep to fill it. Floor {next_floor} of the Tower opens one more.",
+		"all_seats": "Hire someone in a village or keep to fill it. Six is as many as anyone has ever kept alive in there.",
+		"banner": "A seat opens: {seats} can march",
+		"full": "Every seat is taken ({seats} of {seats}). Clear floor {next_floor} of the Tower and another opens.",
+		"full_at_most": "Every seat is taken ({seats} of {seats})."
+	},
 	"gate": {
 		"floors_base": 1,
 		"floors_per_rank": 0.6,

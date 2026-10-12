@@ -49,8 +49,14 @@ signal how_to_play_requested
 ## above are only the opening edge; anything that has to know whether something
 ## is in the way needs both.
 signal overlay_closed
+## A Tower chapter earned the company another seat; [param seats] can march now.
+signal party_seat_opened(seats: int)
 ## The last of the party is gone; the run is over.
 signal run_ended
+## Something the player should know about the save they just loaded: it was
+## upgraded, restored from the backup, or left alone because it is newer than
+## this build ([D56]). Shown as a toast by [Game].
+signal save_notice(text: String)
 
 ## Something happened that a newcomer may be meeting for the first time: "step",
 ## "settlement", "gate", "errand"… The tip card decides whether there is anything
