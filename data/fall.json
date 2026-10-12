@@ -1,0 +1,107 @@
+{
+	"_doc": "M13, the fall (docs/17). Where the sixteen land, what the lead is told on landing, the standing quest every lead carries, and how the others live their own lives. Read by src/chronicle/fall.gd and src/chronicle/wanderers.gd. Everything marked Inferred in docs/17 is a default the build took so it could keep moving; it is agenda items 25 to 29 in docs/worldbuilding/answers.md.",
+
+	"crash": {
+		"_doc": "A crash site is any open, walkable ground joined by land to the Tower, never on a place, and drawn from the world seed rather than from the world's dice. The lead's crash site becomes the company's Home (agenda item 15).",
+		"home_name": "Where You Fell",
+		"min_site_gap": 3,
+		"min_tower_distance": 24,
+		"min_gate_distance": 6,
+		"max_haven_distance": 26,
+		"attempts": 600
+	},
+
+	"landing": {
+		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the ground under them, {tower_way} which way the Tower stands from there.",
+		"lines": [
+			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins, there is a furrow ploughed through the {ground}, and somebody lying at the end of it." },
+			{ "speaker": "", "text": "{name} wakes with no memory of falling, and none of anything before it. Only the name stays, and a weight behind the eyes like a word just out of reach." },
+			{ "speaker": "", "text": "Far off to the {tower_way}, over everything, the Tower stands. Looking at it hurts, and nobody could say why." },
+			{ "speaker": "{name}", "text": "Up. Whatever I was, it was up there. I am going back." },
+			{ "speaker": "", "text": "The furrow is the nearest thing to a home this world has offered. It will do. A new standing quest: Ascend to heaven." }
+		]
+	},
+
+	"standing_quest": {
+		"_doc": "D53: every lead carries one standing quest from landing. It never completes until the contest past the top is built (M17).",
+		"title": "Ascend to heaven",
+		"brief": "You fell from somewhere above, and the fall took everything you knew. The Tower is the only road up. Climb it.",
+		"progress": "Floor {floor} of {floors}, chapter {chapter} of {chapters}.",
+		"not_started": "Not a foot on the Tower's stair yet.",
+		"sealed": "The stair is sealed until the world is answered.",
+		"topped": "The top has been reached. What waits past it is not yet known.",
+		"badge": "ASCEND"
+	},
+
+	"wanderers": {
+		"_doc": "The other leads, living their own lives (docs/17). Who they are is every hero in data/heroes.json that the run did not start with. Their temper is Inferred (heroes.json has none until the sixteen are written). They move between places by temper: `preferences` weights each kind of place by temper group (NT, NF, SJ, SP).",
+		"tempers": {
+			"bram": "ISTJ",
+			"sera": "ISFP",
+			"toln": "ISFJ",
+			"fox_knight": "ESTP",
+			"village_idiot": "ESFP",
+			"dirte": "ENTJ",
+			"staff_panda": "INFJ",
+			"dwarf_smith": "ISTP",
+			"element_monk": "INTP",
+			"sea_man": "INFP",
+			"emo_swordsman": "INTJ",
+			"wraith": "ENTP"
+		},
+		"preferences": {
+			"NT": { "library": 5, "tower": 4, "keep": 1, "village": 1, "gate": 1, "hut": 1 },
+			"NF": { "library": 3, "village": 3, "hut": 3, "keep": 1, "tower": 1, "gate": 0 },
+			"SJ": { "keep": 4, "village": 4, "library": 1, "tower": 1, "hut": 1, "gate": 1 },
+			"SP": { "gate": 4, "keep": 3, "hut": 2, "village": 1, "tower": 1, "library": 0 }
+		},
+		"_doc_rules": "Steps are the build's clock until M18. A wanderer stays at a place for stay_min..stay_max steps, then walks to the next at steps_per_tile. Nearer places are favoured by nearness (a place twice as far is half as likely). An Inward temper needs to have been met meetings_to_join times before they will walk with you; an Outward one, fewer.",
+		"rules": {
+			"stay_min": 60,
+			"stay_max": 180,
+			"steps_per_tile": 2,
+			"rumour_at_rest": 0.4,
+			"meetings_to_join": { "E": 1, "I": 2 }
+		},
+		"lines": {
+			"_doc": "What they say when met. {name} is the wanderer, {title} their title, {place} where you are both standing, {next} the kind of place they mean to go next, {lead} the lead's name.",
+			"recognised": [
+				"{name} looks at you a moment too long. Then you see it on them: the mark, the same as the one you carry. Neither of you says anything about it for a while."
+			],
+			"first": {
+				"NT": [ "You have it too. Good. I had begun to think I was the only one who woke up in a crater with a head full of nothing. I am working out what we were. Books first." ],
+				"NF": [ "I knew someone would come. I dreamed of falling, and of other people falling beside me. You were one of them, I think." ],
+				"SJ": [ "You fell too, didn't you? Then we are owed an explanation, and I mean to have it in order: what happened, who did it, and what is to be done about it." ],
+				"SP": [ "Another one off the same cart, then. Don't look so grim. We're alive, the ground's solid, and there's a fight somewhere near here. That's a start." ]
+			},
+			"again": {
+				"NT": [ "{lead}. I have a theory about the Tower now. It is not finished. Neither are we." ],
+				"NF": [ "You came back. Most people don't. Sit a while, if you like." ],
+				"SJ": [ "{lead}. You keep turning up. Either we were meant to, or you are following me." ],
+				"SP": [ "{lead}! Still breathing. Good. I've been somewhere loud since I saw you last." ]
+			},
+			"heading": {
+				"library": "There is a library at the edge of what I know. Something on its shelves has my handwriting in it. I am sure of that, and of nothing else.",
+				"tower": "The Tower. I keep walking towards it without deciding to.",
+				"keep": "A keep. Walls, banners, people who think they are in charge. Somebody there knows something, or will fight me for not knowing.",
+				"village": "A village. People who cook. I would like to remember what it is to be ordinary.",
+				"gate": "A gate has opened. I can feel it from here, like a draught under a door. I'm going in.",
+				"hut": "Somewhere small and out of the way. I think better where nobody is looking at me."
+			},
+			"ask_heading": "Where are you headed?",
+			"ask_join": "Walk with us.",
+			"leave": "Another time.",
+			"join_yes": "Why not? Better a road with company than another crater on my own. Lead on, {lead}.",
+			"join_not_yet": "Not yet. I don't know you, and I don't yet know me. Find me again.",
+			"join_full": "There is no room in that company for one more, and I will not walk at the back of anyone's line.",
+			"joined_note": "{name} falls in with you, carrying the same mark you do.",
+			"seen_note": "{name}, {title}, is here. They carry the mark you share.",
+			"rumour": [
+				"Travellers talk of {name}, {title}, seen lately at {place}. They say there is something odd about the eyes.",
+				"Somebody calling themselves {name} passed through {place}, asking questions nobody could answer.",
+				"Word from {place}: {name}, {title}, turned up there out of nowhere, like they'd fallen from the sky."
+			],
+			"rumour_road": "{name}, {title}, was last seen on the road, heading for {place}."
+		}
+	}
+}
