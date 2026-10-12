@@ -22,7 +22,7 @@
 		"#....==....#",
 		"####.==.####"
 	],
-	"player_spawns": [[5, 8], [6, 8], [4, 8]],
+	"player_spawns": [[5, 8], [6, 8], [4, 8], [7, 8], [5, 9], [6, 9]],
 	"enemies": [
 		{ "unit": "brigand_chief", "cell": [5, 2] },
 		{ "unit": "brigand", "cell": [6, 2] },

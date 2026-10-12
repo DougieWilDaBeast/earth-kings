@@ -11,6 +11,7 @@ const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+const Seats := preload("res://src/chronicle/seats.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
@@ -108,8 +109,12 @@ func _ready() -> void:
 	if bool(boot_payload.get("world_ends", false)):
 		_watch_it_end()
 		return
-	Encounter.restock(world, world.rng)
-	if world.steps == 0:
+	# Only a world nobody has stood in yet is stocked here. This scene opens again
+	# on every load and after every fight; topping up then too put a fresh round
+	# of bands out each time (the count jumped on Continue). After the first
+	# stocking, the country refills on the step clock alone (RESTOCK_INTERVAL).
+	if world.steps == 0 and world.prowlers.is_empty():
+		Encounter.restock(world, world.rng)
 		Encounter.first_blood(world, world.rng)
 	_warm_art()
 	# The ground the party stands on is always on the map ([D50]).
@@ -573,6 +578,7 @@ func _settle_up(won: bool) -> void:
 				EventBus.safe_point_reached.emit.call_deferred(
 					RunMode.CHAPTER, "chapter %d of the Tower closed" % Chapters.chapter_of(world.tower_floor)
 				)
+				_open_seats()
 			if world.tower_is_topped() and not world.tower_topped:
 				world.tower_topped = true
 				var hoard := world.tower_hoard
@@ -614,6 +620,71 @@ func _settle_up(won: bool) -> void:
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 	_map.queue_redraw()
 	_refresh()
+
+
+## A Tower chapter won may earn the company another seat (agenda item 35).
+## The moment is made something of: a banner, a few lines at the fire, and
+## anyone who came back from a job to a full company falls in first.
+func _open_seats() -> void:
+	var roster := GameState.roster
+	if Seats.sync(world, roster) <= 0:
+		return
+	var lines := Seats.opened_lines(roster, world.tower_floor)
+	for line: String in lines:
+		_note(line)
+	for line: String in _call_back_the_waiting():
+		_note(line)
+	Annals.record(world, "Floor %d of the Tower won the company a seat: %d could march together from then on." % [
+		world.tower_floor, roster.seats
+	])
+	EventBus.party_seat_opened.emit(roster.seats)
+	_show_banner(str(Seats.rules().get("banner", "")).format({ "seats": str(roster.seats) }))
+	Sfx.play(Sfx.SELECT)
+	EventBus.conversation_requested.emit(_as_conversation(lines))
+
+
+## Companions who came back from a job to find no room have been waiting by
+## the fire; a new seat is theirs before it is anyone's for hire.
+func _call_back_the_waiting() -> Array[String]:
+	var lines: Array[String] = []
+	var roster := GameState.roster
+	for character: Character in roster.characters:
+		if not roster.has_room():
+			break
+		if character.id in roster.party or not character.is_available():
+			continue
+		if not Dispatch.job_for(GameState.away, character.id).is_empty():
+			continue
+		if roster.enlist(character.id):
+			lines.append("%s has been waiting by the fire, and takes the seat." % character.display_name)
+	return lines
+
+
+## A line across the top of the screen that holds a beat and goes.
+func _show_banner(text: String) -> void:
+	if text == "":
+		return
+	var banner := Label.new()
+	banner.text = text
+	banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	banner.anchor_left = 0.0
+	banner.anchor_right = 1.0
+	banner.anchor_top = 0.18
+	banner.anchor_bottom = 0.18
+	banner.offset_top = -30
+	banner.offset_bottom = 30
+	banner.add_theme_font_size_override("font_size", 32)
+	banner.add_theme_color_override("font_color", Color(0.965, 0.827, 0.443))
+	banner.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.06))
+	banner.add_theme_constant_override("outline_size", 8)
+	banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	banner.modulate.a = 0.0
+	_hint.get_parent().add_child(banner)
+	var tween := create_tween()
+	tween.tween_property(banner, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(3.5)
+	tween.tween_property(banner, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(banner.queue_free)
 
 
 func _celebrate_tower_conquest() -> void:
@@ -1435,8 +1506,8 @@ func _hire_here() -> void:
 	var offer := Market.hire_offer(site)
 	if offer.is_empty():
 		return
-	if GameState.roster.party.size() >= Roster.MAX_PARTY:
-		_note("You have nobody to spare a place for.")
+	if not GameState.roster.has_room():
+		_note(Seats.full_line(GameState.roster))
 		return
 
 	var hired := Market.hire(site, GameState.roster, world)

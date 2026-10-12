@@ -85,9 +85,14 @@ func setup(skirmish: Node2D) -> void:
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
 	var party: Array[Fighter] = skirmish.party_fighters()
+	# Four cards sit at full width; five or six share the row rather than run
+	# off the right edge of a 1280 screen.
+	var room := get_viewport().get_visible_rect().size.x - 32.0 - 10.0 * maxf(0.0, party.size() - 1)
+	var card_width := minf(250.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(250, 126)
+		card.custom_minimum_size = Vector2(card_width, 126)
+		card.clip_contents = true
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		var index := i
 		card.gui_input.connect(func(event: InputEvent) -> void:
@@ -228,7 +233,7 @@ func _refresh_buttons() -> void:
 			var name := str(caster.slot_ability(slot).get("display_name", "?"))
 			label = "%s %s" % [label, name.left(10)]
 			if _skirmish.armed_slot == slot:
-				label = "▶ " + label
+				label = "» " + label
 		button.text = label
 
 

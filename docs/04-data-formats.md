@@ -534,6 +534,23 @@ their `weapon`, what went `well`, the journal `pages`, and `self`, the calling a
 started with. A new game with no seed asked for is a sibling of `worlds[0]`. Wiped only with the
 rest of the record, once every lead has fallen.
 
+The file carries a `version` (`GameState.SAVE_VERSION`, now 3). Nothing a player has is lost to
+an update or a crash ([D56](06-decisions.md)):
+
+| File beside it                 | What it is                                                                                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `earth-kings.save.json.tmp`    | A save being written. Renamed over the real one only once it is whole                                                       |
+| `earth-kings.save.bak.json`    | The save before the last one, kept by every write. Loaded instead when the save itself will not parse, or is missing        |
+| `earth-kings.save.v<N>.bak.json` | A version-N save set aside, untouched, before it was upgraded, refused or given up on. Never rotated                     |
+
+On load, a save older than `SAVE_VERSION` is upgraded one version at a time by the steps in
+`src/chronicle/save_migrations.gd`. Version 2 → 3 is a real step (alignment dropped, the old int
+`hearth` renamed `hearth_vigour`, the history fields filled off the hero record). Version 1 predates
+the walked world and has no step: it is set aside and a new run begins, as before. A save from a
+newer version is refused and left exactly as it is. Each of these says so on screen
+(`EventBus.save_notice`). Raising `SAVE_VERSION` means adding the step to it in the same commit;
+`tests/seams_smoke_test --check=old_saves` fails otherwise.
+
 ## Conventions
 
 - Ids are `snake_case` and are the key, never a field inside the value.

@@ -50,10 +50,16 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Lives" type="VBoxContainer" parent="Margin/Content/Body"]
+[node name="LivesScroll" type="ScrollContainer" parent="Margin/Content/Body"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Lives" type="VBoxContainer" parent="Margin/Content/Body/LivesScroll"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
 [node name="Detail" type="PanelContainer" parent="Margin/Content/Body"]
@@ -169,9 +175,15 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 16
 text = "HP"
 
-[node name="BlurbLabel" type="Label" parent="Margin/Content/Body/Detail/Lines"]
+[node name="BlurbScroll" type="ScrollContainer" parent="Margin/Content/Body/Detail/Lines"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="BlurbLabel" type="Label" parent="Margin/Content/Body/Detail/Lines/BlurbScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 17

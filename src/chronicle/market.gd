@@ -104,7 +104,7 @@ static func hire(site: Site, roster: Roster, world: World) -> Character:
 	if offer.is_empty():
 		return null
 	var cost := asking_hire_cost(site, world, offer)
-	if GameState.gold < cost or roster.party.size() >= Roster.MAX_PARTY:
+	if GameState.gold < cost or not roster.has_room():
 		return null
 
 	GameState.gold -= cost

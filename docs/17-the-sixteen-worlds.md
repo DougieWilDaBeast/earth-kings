@@ -201,7 +201,8 @@ Everything here is **Inferred** — agenda items 25 to 29 in
   drawn on the map, a rumour faintly.
 - **Meeting them.** **X** on the map, or walking up to them inside the place, starts a short
   conversation in their temper's voice. An Outward temper will join on the first meeting, an Inward
-  one only on the second, at the lead's level and only into a free place in the party of four.
+  one only on the second, at the lead's level and only into a free seat in the party (four to start,
+  up to six as the Tower is climbed).
 
 ## Sixteen worlds, as built
 

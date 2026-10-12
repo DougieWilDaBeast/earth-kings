@@ -126,14 +126,15 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
    items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
    (20–24). The [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and
    cost. Items 20 and 21 (the milestones that replace steps, and how far a walk is in one view)
-   unblock M18. Item 12 (built meanwhile as "easy to find") settles the last of M15, item 15 the writing for M13, and item 11 party
-   growth. Item 3 (the research and the prototype) has gone as far as it can without play (steps 2
-   and 3); 13 is built; 14 is deferred to playtest. Items 25 to 29 are what M13's fall inferred
-   on 2026-10-12: where the sixteen land, the stand-ins and their tempers, where each temper goes,
-   how one joins, and how "Ascend to heaven" is shown. Items 50 to 56 are what M15's sixteen
-   worlds inferred the same day: how alike the siblings are, where the earlier lead waits, when
-   the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the stand-ins'
-   weapons, and how a world's end is shown.
+   unblock M18. Item 12 (built meanwhile as "easy to find") settles the last of M15, item 15 the
+   writing for M13; item 11 (party growth) was built on an inference on 2026-10-12, by Tower
+   chapter, and waits as item 35. Item 3 (the research and the prototype) has gone as far as it can
+   without play (steps 2 and 3); 13 is built; 14 is deferred to playtest. Items 25 to 29 are what
+   M13's fall inferred on 2026-10-12: where the sixteen land, the stand-ins and their tempers, where
+   each temper goes, how one joins, and how "Ascend to heaven" is shown. Items 50 to 56 are what
+   M15's sixteen worlds inferred the same day: how alike the siblings are, where the earlier lead
+   waits, when the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the
+   stand-ins' weapons, and how a world's end is shown.
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
@@ -314,7 +315,13 @@ Built 2026-09-24 on the errands the game already had (`src/chronicle/dispatch.gd
   closer it runs to an open gate), and a fight lost alone goes to `Fate` with nobody standing to
   pull them out. Look and deliver errands pay when they get there; fetches and hunts when they are
   back. A hunt teaches them the kind they hunted, under M12's rules
-- The party cap growing from four to six — waits on agenda item 11
+- The party cap growing from four to six ✅ (built 2026-10-12, on an inference — agenda item 35):
+  four seats to start, a fifth when Tower chapter 1 (floor 5) is cleared and a sixth at chapter 2
+  (floor 10), all in `world_rules.party` (`src/chronicle/seats.gd`, `roster.seats`). A seat opening
+  gets a banner, lines at the fire and a hint to hire; a companion back from a job with no room
+  takes it first. Generated battlefields muster six, the two set-piece maps have six spawns, and a
+  map short of spawns musters the rest on the nearest open ground (`BattleGrid.muster_cells`), in
+  the turn-based fight and the real-time skirmish alike
 - Joining a gate raid ✅ (2026-10-01): a companion sent to stand with a Guild muster waits with it
   and comes back paid, or rolls for their life if it lost
 - ✅ Done when: a companion sent to join a gate raid comes back with a story, or does not come
@@ -360,6 +367,10 @@ Work that gets the build into players' hands. None of it waits on a founder answ
   The version on the title screen is `application/config/version`, set from the tag
 - Fullscreen and a sound-effects volume in the system menu ✅ (2026-10-12): both kept in
   `settings.cfg`; `F11` switches fullscreen anywhere
+- Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step
+  (`save_migrations.gd`) instead of wiped, a newer one is refused and left alone, and every save is
+  written to a temporary file and renamed into place with the last one kept as a backup that a
+  corrupt save falls back to (D56)
 - New-player onboarding ✅ (2026-10-12): first-time tip cards (`data/tips.json`, once per player
   in `settings.cfg`, never during autoplay; _Tips: on/off_ and _Reset tips_ in the menu) and a
   _How to Play_ page from the title screen and the menu (`data/how_to_play.json`)
