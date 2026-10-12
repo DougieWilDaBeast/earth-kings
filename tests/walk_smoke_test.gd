@@ -709,7 +709,7 @@ func _check_town_and_captives() -> void:
 	# Forced rather than rolled, so the path is actually exercised every run.
 	town.data["hire"] = { "template": "sera", "display_name": "Kestrel of Greyford", "level": 3 }
 	var before := GameState.roster.party.size()
-	_expect(before < Roster.MAX_PARTY, "the party is already full before hiring")
+	_expect(before < GameState.roster.seats, "the party is already full before hiring")
 
 	var cost := Market.asking_hire_cost(town, world, Market.hire_offer(town))
 	GameState.gold = cost - 1
@@ -729,6 +729,17 @@ func _check_town_and_captives() -> void:
 			not GameState.roster.dismiss(GameState.roster.player().id),
 			"the player could walk out on their own run"
 		)
+
+	# Seats: four to start, a fifth at floor 5, a sixth at floor 10 (agenda item 35).
+	var seats_were := GameState.roster.seats
+	var floor_was := world.tower_floor
+	_expect(Roster.Seats.for_floor(0) == 4 and Roster.Seats.for_floor(5) == 5 and Roster.Seats.for_floor(10) == 6,
+		"the seats by floor are not four, five and six")
+	world.tower_floor = 10
+	_expect(Roster.Seats.sync(world, GameState.roster) == 6 - seats_were, "floor 10 did not open two seats")
+	_expect(GameState.roster.seats == 6, "the company has %d seats at floor 10" % GameState.roster.seats)
+	world.tower_floor = floor_was
+	GameState.roster.seats = seats_were
 
 	# Buying: gold is the standard of trade.
 	var goods := Market.wares(town)
@@ -954,6 +965,7 @@ func _check_save_round_trip() -> void:
 		"beaten": lead_member.beaten.duplicate(),
 		"away": GameState.away.size(),
 		"delving": GameState.delving.duplicate(),
+		"bands": world.prowlers.size(),
 	}
 
 	GameState.save()
@@ -985,11 +997,22 @@ func _check_save_round_trip() -> void:
 	_expect(GameState.roster.party_members()[0].beaten == before["beaten"], "kinds learned from did not survive the save")
 	_expect(GameState.away.size() == before["away"], "companions away did not survive the save")
 	_expect(GameState.delving == before["delving"], "being held inside a gate did not survive the save")
+	# Continue opens the walk on the loaded world; that must not put more bands out.
+	var reopened: Node = load("res://src/world/world_scene.tscn").instantiate()
+	add_child(reopened)
+	_expect(
+		GameState.world.prowlers.size() == before["bands"],
+		"opening the walk on a loaded save changed the bands abroad from %d to %d" % [
+			before["bands"], GameState.world.prowlers.size()
+		]
+	)
+	remove_child(reopened)
+	reopened.free()
 	# Only here to be saved: nobody is really away, and no gate is holding anyone.
 	GameState.away.clear()
 	GameState.delving = []
-	print("save: %d steps, floor %d and %d gold all came back" % [
-		before["steps"], before["floor"], before["gold"]
+	print("save: %d steps, floor %d, %d gold and %d bands all came back" % [
+		before["steps"], before["floor"], before["gold"], before["bands"]
 	])
 
 
@@ -1204,7 +1227,7 @@ func _check_fall() -> void:
 	)
 	_expect(offered, "nothing offered to speak with %s" % hero_id)
 
-	while GameState.roster.party.size() >= Roster.MAX_PARTY:
+	while not GameState.roster.has_room():
 		GameState.roster.party.pop_back()
 	var dialogue_id := Wanderers.talk(world, GameState.roster, hero_id)
 	_expect(Database.dialogue(dialogue_id).has("nodes"), "no conversation was written for %s" % hero_id)

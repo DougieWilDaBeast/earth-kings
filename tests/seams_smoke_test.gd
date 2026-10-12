@@ -20,13 +20,19 @@ extends Node
 ##   line runs, so `band.units` on a band that keeps a `pack` compiled fine and
 ##   took every bounty on the board down with it.
 ## - **errands**: every kind of errand a board can post is written out whole.
+## - **old_saves**: a save from an older version is upgraded rather than wiped,
+##   one too old to carry forward is set aside before a fresh run starts, and one
+##   from a newer version is refused and left exactly as it was ([D56]).
+## - **backup**: a save is written beside the old one and renamed into place, the
+##   old one kept as a backup, and a corrupt save loads from that backup ([D56]).
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const CheckFilter := preload("res://tests/check_filter.gd")
 const Names_ := preload("res://src/chronicle/names.gd")
+const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
 
-const CHECKS := ["whole", "round_trip", "keys", "members", "errands"]
+const CHECKS := ["whole", "round_trip", "keys", "members", "errands", "old_saves", "backup"]
 
 ## Keys the code asks for that are deliberately left to the fallback, and why.
 ## Anything added here needs a reason a designer would accept.
@@ -174,6 +180,121 @@ func _drift(a: Variant, b: Variant, path: String, out: Dictionary) -> void:
 	elif a is Array:
 		for i in mini(a.size(), (b as Array).size()):
 			_drift(a[i], b[i], "%s[%d]" % [path, i], out)
+
+
+# --- old_saves ----------------------------------------------------------------
+
+
+var _notices: Array[String] = []
+
+
+func _hear_notice(text: String) -> void:
+	_notices.append(text)
+
+
+## Every save-side file the game might leave behind, gone, so each check starts
+## from nothing whatever the last run left in `user://`.
+func _clear_saves() -> void:
+	var path: String = GameState.SAVE_PATH
+	var files := [path, path + ".tmp", SaveFile.backup_path(path)]
+	for version in range(1, GameState.SAVE_VERSION + 3):
+		files.append(SaveFile.version_backup_path(path, version))
+	for file: String in files:
+		if FileAccess.file_exists(file):
+			DirAccess.remove_absolute(file)
+	_notices.clear()
+	if not EventBus.save_notice.is_connected(_hear_notice):
+		EventBus.save_notice.connect(_hear_notice)
+
+
+func _write_raw(path: String, text: String) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(text)
+	file.close()
+
+
+func _check_old_saves() -> void:
+	_expect(SaveMigrations.can_upgrade(GameState.SAVE_VERSION - 1, GameState.SAVE_VERSION),
+		"SAVE_VERSION went up with no migration step to it")
+
+	# A v3 run, written back the way 2 wrote it: an alignment, the bed's extra HP
+	# under `hearth`, and none of the four newer history fields.
+	_clear_saves()
+	GameState.new_game(31)
+	var lead := GameState.roster.player()
+	lead.hearth_vigour = 2
+	var lead_id := lead.id
+	var want_creed := lead.creed
+	GameState.gold = 612
+	GameState.save()
+	var v2: Dictionary = SaveFile.read(GameState.SAVE_PATH)
+	v2["version"] = 2
+	for entry: Dictionary in v2["roster"]["characters"]:
+		entry["alignment"] = "lawful_good"
+		entry["hearth"] = int(entry.get("hearth_vigour", 0))
+		for field: String in ["hearth_vigour", "temper", "grudge", "creed", "oath"]:
+			entry.erase(field)
+	_write_raw(GameState.SAVE_PATH, JSON.stringify(v2))
+	GameState.new_game(5)
+	_expect(GameState.load_save(), "a version 2 save would not load")
+	var back := GameState.roster.by_id(lead_id)
+	_expect(GameState.gold == 612, "a version 2 save came back with %d gold, not 612" % GameState.gold)
+	_expect(back != null and back.hearth_vigour == 2, "the bed's extra HP did not survive the step from 2")
+	_expect(want_creed != "" and back != null and back.creed == want_creed,"the lead's creed was not filled in from their hero record")
+	_expect(FileAccess.file_exists(SaveFile.version_backup_path(GameState.SAVE_PATH, 2)), "the version 2 save was not set aside before upgrading")
+	_expect(not _notices.is_empty(), "nobody was told the save was upgraded")
+
+	# Too old to carry forward: set aside, and a fresh run.
+	_clear_saves()
+	_write_raw(GameState.SAVE_PATH, JSON.stringify({"version": 1, "party": []}))
+	_expect(not GameState.load_save(), "a version 1 save claimed to load")
+	_expect(FileAccess.file_exists(SaveFile.version_backup_path(GameState.SAVE_PATH, 1)), "a version 1 save was not kept before starting fresh")
+	_expect(GameState.world != null, "no run to play after a version 1 save was set aside")
+
+	# From the future: refused, and not a byte changed.
+	_clear_saves()
+	var newer := JSON.stringify({"version": GameState.SAVE_VERSION + 1, "gold": 9})
+	_write_raw(GameState.SAVE_PATH, newer)
+	GameState.gold = 40
+	_expect(not GameState.load_save(), "a save from a newer version was loaded")
+	_expect(GameState.gold == 40, "a refused newer save still changed the run")
+	_expect(FileAccess.get_file_as_string(GameState.SAVE_PATH) == newer, "a save from a newer version was changed")
+	_expect(not _notices.is_empty(), "nobody was told a newer save was left alone")
+	_clear_saves()
+
+
+# --- backup -------------------------------------------------------------------
+
+
+func _check_backup() -> void:
+	_clear_saves()
+	var backup := SaveFile.backup_path(GameState.SAVE_PATH)
+	GameState.new_game(31)
+	GameState.gold = 111
+	GameState.save()
+	_expect(not FileAccess.file_exists(backup), "a first save made a backup of nothing")
+	GameState.gold = 222
+	GameState.save()
+	_expect(FileAccess.file_exists(backup), "the previous save was not kept as a backup")
+	_expect(not FileAccess.file_exists(GameState.SAVE_PATH + ".tmp"), "the temporary file was left behind")
+
+	# Half a file under the real name: the backup is what comes back.
+	_write_raw(GameState.SAVE_PATH, "{\"version\": 3, \"world\": {")
+	_expect(GameState.load_save(), "a corrupt save did not fall back to its backup")
+	_expect(GameState.gold == 111, "the backup came back with %d gold, not 111" % GameState.gold)
+	_expect(not _notices.is_empty(), "nobody was told the save came from its backup")
+
+	# A crash between the two renames leaves only the backup.
+	DirAccess.remove_absolute(GameState.SAVE_PATH)
+	_expect(GameState.has_save(), "with only a backup there was nothing to continue")
+	_expect(GameState.load_save() and GameState.gold == 111, "a lone backup would not load")
+
+	# Iron Man's save goes with the lead, and its backup with it ([D51]).
+	GameState.save()
+	GameState.save()
+	GameState.forget_save()
+	_expect(not GameState.has_save(), "a forgotten save came back from its backup")
+	_clear_saves()
 
 
 # --- keys ---------------------------------------------------------------------

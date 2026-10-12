@@ -6,6 +6,7 @@ extends Control
 ## leads who died. Once nobody is left, the page offers a new sixteen instead.
 
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
@@ -173,6 +174,9 @@ func _show_difficulty() -> void:
 
 func _begin(hero_id: String) -> void:
 	GameState.new_game(_chosen_seed(), hero_id)
+	# Saved at once, so a Classic lead who falls before the first rest still
+	# has somewhere to go back to.
+	EventBus.safe_point_reached.emit(RunMode.START, "you set out")
 	EventBus.request_scene.emit("world", {})
 
 

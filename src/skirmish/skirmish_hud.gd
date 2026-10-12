@@ -96,9 +96,14 @@ func setup(skirmish: Node2D) -> void:
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
 	var party: Array[Fighter] = skirmish.party_fighters()
+	# Four cards sit at full width; five or six share the row rather than run
+	# off the right edge of a 1280 screen.
+	var room := get_viewport().get_visible_rect().size.x - 32.0 - 10.0 * maxf(0.0, party.size() - 1)
+	var card_width := minf(250.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(250, 136)
+		card.custom_minimum_size = Vector2(card_width, 136)
+		card.clip_contents = true
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		card.tooltip_text = _passive_tooltip(party[i])
 		var index := i
@@ -122,8 +127,12 @@ func setup(skirmish: Node2D) -> void:
 		tiles.add_theme_constant_override("separation", 4)
 		column.add_child(tiles)
 		var slots: Array = []
+		# The tiles narrow with the card, or four of them would hold it at full width.
+		var tile_count := maxi(1, party[i].slots.size())
+		var tile_width := minf(56.0, floorf((card_width - 16.0 - 4.0 * (tile_count - 1)) / tile_count))
 		for slot in party[i].slots.size():
 			var tile: Control = SkirmishSlot.new()
+			tile.set("width", tile_width)
 			tile.tooltip_text = _ability_tooltip(party[i].slot_ability(slot))
 			var which := slot
 			tile.pressed.connect(func() -> void: slot_clicked.emit(index, which))
@@ -335,7 +344,7 @@ func _refresh_buttons() -> void:
 			var name := str(caster.slot_ability(slot).get("display_name", "?"))
 			label = "%s %s" % [label, name.left(10)]
 			if _skirmish.armed_slot == slot:
-				label = "▶ " + label
+				label = "» " + label
 		button.text = label
 		var sweep: Control = _button_sweeps.get("slot%d" % slot)
 		if sweep != null:

@@ -22,6 +22,8 @@ var total: float = 1.0
 var armed: bool = false
 ## Only the sweep and the seconds: something else draws the rest.
 var overlay_only: bool = false
+## How wide the tile asks to be; a card shared six ways asks for less.
+var width: float = 56.0
 
 var _was_waiting: bool = false
 var _ping: float = 0.0
@@ -33,7 +35,7 @@ func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 	else:
 		mouse_filter = Control.MOUSE_FILTER_STOP
-		custom_minimum_size = Vector2(56, 40)
+		custom_minimum_size = Vector2(width, 40)
 
 
 func show_slot(key: String, ability_name: String, seconds_left: float, cooldown: float, is_armed: bool) -> void:

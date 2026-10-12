@@ -10,6 +10,9 @@ extends RefCounted
 
 ## Blinking is loud, so it only wins when walking cannot match the same tile.
 const FLASH_PENALTY := 5.0
+## Further than any walk across a battlefield: the flood from each foe goes
+## everywhere the ground allows, and anything past it is out of reach.
+const UNREACHABLE := 9999
 
 static func plan(
 	unit: Unit, grid: BattleGrid, pathfinder: Pathfinder, all_units: Array[Unit]
@@ -52,6 +55,12 @@ static func plan(
 		if not field.can_reach(cell):
 			options.append({"cell": cell, "cost": FLASH_PENALTY, "flash": true})
 
+	# How far each cell is from a foe by the ground, not as the crow flies: a
+	# straight-line pull walks a unit up against a wall and leaves it there.
+	var approach: Array[MoveField] = []
+	for foe: Unit in foes:
+		approach.append(pathfinder.build_move_field(foe.cell, UNREACHABLE, unit.jump, func(_c: Vector2i) -> bool: return false))
+
 	var best_score := -INF
 	var friends := all_units.filter(
 		func(u: Unit) -> bool: return u.is_alive() and not u.is_hostile_to(unit)
@@ -83,7 +92,7 @@ static func plan(
 						# Mild scratch: strong preference to attack enemies instead; healing score is kept low
 						score += 500.0 + missing_hp * 2.0
 				else:
-					score -= float(_distance_to_nearest(cell, foes))
+					score -= float(_distance_to_nearest(cell, foes, approach))
 			else:
 				target = _best_target_from(cell, ability, unit, foes)
 				if target != null:
@@ -106,7 +115,7 @@ static func plan(
 								extra_hits += 1
 						score += float(extra_hits) * 35.0
 				else:
-					score -= float(_distance_to_nearest(cell, foes))
+					score -= float(_distance_to_nearest(cell, foes, approach))
 
 			if score > best_score:
 				best_score = score
@@ -158,10 +167,16 @@ static func _best_target_from(
 	return best
 
 
-static func _distance_to_nearest(cell: Vector2i, foes: Array) -> int:
-	var best := 9999
-	for foe: Unit in foes:
-		best = mini(best, Pathfinder.distance(cell, foe.cell))
+## The walk from [param cell] to the nearest foe, read off [param approach]
+## (one field per foe). Ground that reaches nobody falls back to the straight
+## line, behind any cell that does reach someone.
+static func _distance_to_nearest(cell: Vector2i, foes: Array, approach: Array[MoveField]) -> int:
+	var best := UNREACHABLE * 2
+	for i in foes.size():
+		if approach[i].can_reach(cell):
+			best = mini(best, approach[i].cost_to(cell))
+		else:
+			best = mini(best, UNREACHABLE + Pathfinder.distance(cell, foes[i].cell))
 	return best
 
 

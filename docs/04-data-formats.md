@@ -527,6 +527,31 @@ cell, generated trees, codex, the others of the sixteen in `wanderers`, and the 
 deflated and base64, and `marked` as a sorted list of `"x,y"`) and the `Roster` of Characters. A
 save from before the map had no `explored` and loads with the whole continent seen. Generated abilities are restored
 from the saved tree definitions on load, so a save never loses a power it discovered.
+It also keeps the run's `mode` (`classic` or `iron_man`; a save without one opens as Classic) and
+`saved_at`, how the save is remembered on the fall screen ("you rested at Oakham").
+
+When it is written is the mode's: `data/world_rules.json` → `modes.settings.<mode>` gives
+`manual_save` (the menu's Save and Load), `reload_on_death` (Classic's fall screen), and
+`autosave`, the points the game saves itself at — `start`, `rest`, `chapter`, `road` (every
+return to the map) and `leave` (the title button, closing the window). See
+`src/chronicle/run_mode.gd`.
+
+The file carries a `version` (`GameState.SAVE_VERSION`, now 3). Nothing a player has is lost to
+an update or a crash ([D56](06-decisions.md)):
+
+| File beside it                 | What it is                                                                                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `earth-kings.save.json.tmp`    | A save being written. Renamed over the real one only once it is whole                                                       |
+| `earth-kings.save.bak.json`    | The save before the last one, kept by every write. Loaded instead when the save itself will not parse, or is missing        |
+| `earth-kings.save.v<N>.bak.json` | A version-N save set aside, untouched, before it was upgraded, refused or given up on. Never rotated                     |
+
+On load, a save older than `SAVE_VERSION` is upgraded one version at a time by the steps in
+`src/chronicle/save_migrations.gd`. Version 2 → 3 is a real step (alignment dropped, the old int
+`hearth` renamed `hearth_vigour`, the history fields filled off the hero record). Version 1 predates
+the walked world and has no step: it is set aside and a new run begins, as before. A save from a
+newer version is refused and left exactly as it is. Each of these says so on screen
+(`EventBus.save_notice`). Raising `SAVE_VERSION` means adding the step to it in the same commit;
+`tests/seams_smoke_test --check=old_saves` fails otherwise.
 
 ## Conventions
 
