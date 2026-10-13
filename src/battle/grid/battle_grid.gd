@@ -133,9 +133,18 @@ func centre_world() -> Vector2:
 
 func _draw() -> void:
 	if not draw_floor:
+		# The ground beyond the field is still there, dimmed: not in play. The field's edge is drawn.
+		var field := Rect2(Vector2.ZERO, Vector2(width, height) * CELL_SIZE)
+		var far := 6000.0
+		var dim := Color(0, 0, 0, 0.42)
+		draw_rect(Rect2(field.position.x - far, field.position.y - far, field.size.x + far * 2, far), dim)
+		draw_rect(Rect2(field.position.x - far, field.end.y, field.size.x + far * 2, far), dim)
+		draw_rect(Rect2(field.position.x - far, field.position.y, far, field.size.y), dim)
+		draw_rect(Rect2(field.end.x, field.position.y, far, field.size.y), dim)
 		for cell: Vector2i in _terrain_ids:
 			if is_walkable(cell):
 				draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), Color(0, 0, 0, 0.16), false, 1.0)
+		draw_rect(field, Color(1, 1, 1, 0.4), false, 2.0)
 		return
 	for cell: Vector2i in _terrain_ids:
 		var data := terrain_at(cell)

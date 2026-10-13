@@ -5,6 +5,12 @@
 	"autoplay_after_steps": 30,
 	"tips": [
 		{
+			"id": "ground_watch",
+			"when": "ground_watch",
+			"title": "Watched ground",
+			"text": "A band is out on this ground. The red cells are what it can see, and they move as it patrols: step onto one and it fights you right there. Trees and rock block its view, and long grass hides you."
+		},
+		{
 			"id": "map",
 			"when": "map",
 			"title": "The road",
