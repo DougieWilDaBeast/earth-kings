@@ -752,7 +752,7 @@ func _celebrate_tower_conquest() -> void:
 	var who: String = lead.display_name if lead != null else "The company"
 	var lines: Array = [
 		"%s stands upon the highest stone in Earth Kings." % who,
-		"The ten floors of the Spire have fallen. The wind over the sea is clear.",
+		"All %d floors of the Tower have fallen. The wind over the sea is clear." % world.tower_floors(),
 		"Press E on the Tower to conclude this journey in the Museum, or walk on as an ascended champion."
 	]
 	for line: String in lines:
