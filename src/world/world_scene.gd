@@ -1710,7 +1710,7 @@ func _bands_here() -> Array:
 		if band.cell != world.player_cell and not (near and band.sees(world, world.player_cell)):
 			continue
 		out.append({
-			"key": _band_key(band), "pack": band.pack, "sight": band.sight,
+			"key": _band_key(band), "pack": band.pack, "sight": band.sight, "reach": band.reach(world),
 			"faction": band.faction, "label": band.label(),
 			"from": [signi(apart.x), signi(apart.y)],
 		})
@@ -1733,6 +1733,9 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 		return
 	world.prowlers.erase(band)
 	var meeting := Encounter.for_band(world, band, GameState.party_characters(), world.rng)
+	# Out of cover into their sight: the party has the jump (D66).
+	if bool(field.get("ambush", false)):
+		meeting["ambush"] = true
 	_begin_battle(meeting, {}, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},

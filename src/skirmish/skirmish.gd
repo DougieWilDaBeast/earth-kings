@@ -214,6 +214,8 @@ func _build_battlefield() -> void:
 
 	if ground_field.is_empty():
 		_spawn_nature_decor(map)
+	else:
+		_open_where_they_stood(framed)
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
 	var taken: Array[Vector2i] = []
@@ -414,6 +416,26 @@ func _row_blocked(rows: Array, at: Vector2i) -> bool:
 	if at.y < 0 or at.y >= rows.size() or at.x < 0 or at.x >= str(rows[at.y]).length():
 		return true
 	return str(rows[at.y])[at.x] == "#"
+
+
+## The fight opens on exactly what the ground was showing (`view` in the field: the camera's centre
+## in ground pixels, and its zoom), then, after a breath, draws back over the whole field ([D66]).
+func _open_where_they_stood(framed: Rect2) -> void:
+	var view: Dictionary = ground_field.get("view", {})
+	var centre: Array = view.get("centre", [])
+	if centre.size() < 2:
+		return
+	var ratio := float(BattleGrid.CELL_SIZE) / float(AreaMap.CELL)
+	var origin := Vector2(_to_cell(ground_field.get("origin", [0, 0]))) * AreaMap.CELL
+	var at := (Vector2(float(centre[0]), float(centre[1])) - origin) * ratio
+	camera.call("_apply_zoom", float(view.get("zoom", 1.0)) / ratio)
+	camera.focus_on(at, true)
+	var seconds := float(Database.world_rules.get("ground_watch", {}).get("pull_back_seconds", 0.9))
+	var settle := func() -> void:
+		await get_tree().create_timer(0.35, true, false, true).timeout
+		if is_inside_tree() and not over:
+			camera.pull_back(seconds)
+	settle.call()
 
 
 ## The ground's own tiles and what stands on them, scaled to the fight's cells

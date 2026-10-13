@@ -17,6 +17,7 @@ const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const AreaWatch := preload("res://src/area/area_watch.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -95,10 +96,13 @@ var _held: Dictionary = {}
 ## The buttons for [member _acts], for a thumb or a pad. Built in code.
 var _act_bar: HFlowContainer = null
 ## Bands standing on this ground: `{ data, actors, watch, at }`, where `watch`
-## is every cell the band can see and `at` the cell it last saw them from.
-var _bands: Array = []
-## Draws the watched ground red, under everyone's feet.
-var _sight: Node2D = null
+## Bands standing on this ground, and the ground they watch ([AreaWatch], D66, D68).
+var _watches: Array = []
+## The cell the leader last stood on, so a step into a watched cell is a step, not where they
+## were put down; (-99, -99) until they have been anywhere.
+var _last_cell: Vector2i = Vector2i(-99, -99)
+## Seen, and on the way to the fight.
+var _spotted: bool = false
 
 
 func _ready() -> void:
@@ -122,7 +126,7 @@ func _ready() -> void:
 	_admit_the_others()
 	_admit_the_ghosts()
 	_spawn_people()
-	_spawn_bands()
+	_post_the_watch()
 	_spawn_fire()
 	_camera.frame(map.rect())
 	_camera.focus_on(_leader.position, true)
@@ -716,7 +720,7 @@ func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	_refresh_prompt()
-	if _watch_for_bands():
+	if _check_the_watch(map.cell_at(_leader.position)):
 		return
 	if _picking_an_act():
 		return
@@ -1064,199 +1068,169 @@ func _here_payload() -> Dictionary:
 	return here
 
 
-# --- bands, and the ground they watch -------------------------------------------
+# --- bands, and the ground they watch (D66, D68) ---------------------------------
 
 
-## How far a band sees across this ground, before its own sight is added.
-const SIGHT_REACH := 3
-const SIGHT_FILL := Color(0.86, 0.12, 0.10, 0.20)
-const SIGHT_EDGE := Color(1.0, 0.32, 0.26, 0.55)
-## How much room a fight is given round the people in it, and its limits.
-const FIELD_MARGIN := 3
-const FIELD_MIN := Vector2i(16, 11)
-const FIELD_MAX := Vector2i(26, 16)
-## Seconds a band takes to rush at the party once it has seen them, and how
-## much of the way it covers, before the fight opens on the spot.
-const CHARGE_TIME := 0.45
-const CHARGE_SHARE := 0.55
-
-
-## Every band the continent says is here, standing guard on the side of the
-## ground it is on, with what it watches painted red ([D66]). They hold their
-## post (`doug-md`: guard, then chase): walk round the red and they never move.
-func _spawn_bands() -> void:
-	var listed: Array = boot_payload.get("bands", [])
-	if listed.is_empty() or _leader == null:
+## Every band the world says is here, standing where it camps (or at the edge it watches from),
+## patrolling its loop, with what it can see painted red ([AreaWatch]).
+func _post_the_watch() -> void:
+	var bands: Array = boot_payload.get("bands", [])
+	if bands.is_empty() or _leader == null:
 		return
-	_sight = Node2D.new()
-	add_child(_sight)
-	move_child(_sight, _actors.get_index())
-	_sight.draw.connect(_draw_sight)
 	var arrived := map.cell_at(_leader.position)
-	var offsets: Array[Vector2i] = [Vector2i.ZERO, Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1)]
-	for index in listed.size():
-		var data: Dictionary = listed[index]
-		var post := _post_for(data, arrived)
-		var band := { "data": data, "actors": [], "watch": {}, "at": Vector2i(-1, -1) }
-		var pack: Array = data.get("pack", [])
-		for i in mini(pack.size(), offsets.size()):
-			var unit := str(pack[i])
-			var actor := AreaActor.for_person({
-				"name": str(Database.unit_template(unit).get("display_name", unit)), "unit": unit,
-			})
-			actor.position = map.centre_of(_free_spot_near(post + offsets[i]))
-			actor.face(Vector2(arrived - post))
-			_actors.add_child(actor)
-			band["actors"].append(actor)
-		_bands.append(band)
-	_refresh_sight()
-
-
-## Where a band stands: towards the side of the continent it is on, or for a
-## band on this very tile, somewhere well away from where the party came in.
-func _post_for(data: Dictionary, arrived: Vector2i) -> Vector2i:
-	var from: Array = data.get("from", [0, 0])
-	var dir := Vector2i(int(from[0]), int(from[1]))
-	var seed_value := absi(hash(str(data.get("key", ""))))
-	if dir != Vector2i.ZERO:
-		var cx := map.width / 2 + dir.x * (map.width / 2 - 4) + (seed_value % 5) - 2
-		var cy := map.height / 2 + dir.y * (map.height / 2 - 4) + (seed_value / 7 % 5) - 2
-		return _free_spot_near(Vector2i(clampi(cx, 2, map.width - 3), clampi(cy, 2, map.height - 3)))
-	for i in 24:
-		var at := Vector2i(3 + (seed_value / (i + 1)) % maxi(1, map.width - 6), 3 + (seed_value / (i + 3)) % maxi(1, map.height - 6))
-		if map.is_walkable(at) and Pathfinder.distance(at, arrived) >= 9:
-			return at
-	return _free_spot_near(Vector2i(map.width - 1 - arrived.x, map.height - 1 - arrived.y))
-
-
-## The cells [param band] can see from where its first member stands: as far
-## as its sight reaches, over nothing solid, and never into cover.
-func _watched_from(band: Dictionary, at: Vector2i) -> Dictionary:
-	var watch := {}
-	var reach := SIGHT_REACH + int(band["data"].get("sight", 2))
-	for dy in range(-reach, reach + 1):
-		for dx in range(-reach, reach + 1):
-			var cell := at + Vector2i(dx, dy)
-			if dx * dx + dy * dy > reach * reach + reach:
-				continue
-			if not map.is_walkable(cell) and cell != at:
-				continue
-			if cell != at and bool(Database.area_terrain(map.terrain_at(cell)).get("cover", false)):
-				continue
-			if _clear_between(at, cell):
-				watch[cell] = true
-	return watch
-
-
-func _clear_between(from: Vector2i, to: Vector2i) -> bool:
-	var span := maxi(absi(to.x - from.x), absi(to.y - from.y))
-	for i in range(1, span):
-		var point := Vector2(from).lerp(Vector2(to), float(i) / float(span)).round()
-		if not map.is_walkable(Vector2i(point)):
-			return false
-	return true
-
-
-## Where the band's first member stands decides what it sees, so this is
-## worked out again whenever one of them has moved.
-func _refresh_sight() -> void:
-	var changed := false
-	for band: Dictionary in _bands:
-		var actors: Array = band["actors"]
-		if actors.is_empty():
+	var taken := _cells_spoken_for(arrived)
+	for band: Dictionary in bands:
+		var watch: Node2D = AreaWatch.place(map, band, arrived, taken)
+		if watch == null:
 			continue
-		var at := map.cell_at((actors[0] as AreaActor).position)
-		if at == band["at"]:
-			continue
-		band["at"] = at
-		band["watch"] = _watched_from(band, at)
-		changed = true
-	if changed and _sight != null:
-		_sight.queue_redraw()
+		_layers.add_child(watch)
+		for figure: Node2D in watch.make_figures(_leader.position):
+			_actors.add_child(figure)
+		watch.can_move = func() -> bool: return not (_talking or _leaving or _spotted or _overlay_open())
+		watch.moved.connect(_on_band_moved.bind(watch))
+		_watches.append(watch)
+	if not _watches.is_empty():
+		_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % _watches[0].band.get("label", "A band"))
+		EventBus.tip_moment.emit("ground_watch", {})
 
 
-func _draw_sight() -> void:
-	for band: Dictionary in _bands:
-		for cell: Vector2i in band["watch"]:
-			var rect := Rect2(Vector2(cell) * AreaMap.CELL, Vector2.ONE * AreaMap.CELL)
-			_sight.draw_rect(rect, SIGHT_FILL)
-			_sight.draw_rect(rect.grow(-1.0), SIGHT_EDGE, false, 1.0)
+## Where nobody from a band may stand: where the party is, the ways out, doors, chests, spots,
+## seats and everyone who lives here.
+func _cells_spoken_for(arrived: Vector2i) -> Dictionary:
+	var taken := {}
+	for dy in range(-2, 3):
+		for dx in range(-2, 3):
+			taken[arrived + Vector2i(dx, dy)] = true
+	for cell: Vector2i in map.exits:
+		taken[cell] = true
+	for cell: Vector2i in map.spots:
+		taken[cell] = true
+	for cell: Vector2i in map.chests:
+		taken[cell] = true
+	for cell: Vector2i in map.seats:
+		taken[cell] = true
+	for building: Dictionary in map.buildings:
+		taken[building["door"]] = true
+		taken[building["door"] + Vector2i.DOWN] = true
+	for person: Dictionary in map.people:
+		taken[AreaMap.to_cell(person.get("cell", [0, 0]))] = true
+	return taken
 
 
-## Seen: the fight starts where everyone stands. True once it has.
-func _watch_for_bands() -> bool:
-	if _bands.is_empty():
+## The leader's step onto [param cell]: into a watched cell, and the band has seen them. Only a
+## step counts — where the party was put down is not walking into anybody — and never while the
+## party is walking itself (out on the continent, where it is jumped the old way).
+func _check_the_watch(cell: Vector2i) -> bool:
+	if _watches.is_empty():
 		return false
-	_refresh_sight()
-	var standing := map.cell_at(_leader.position)
-	for band: Dictionary in _bands:
-		if (band["watch"] as Dictionary).has(standing):
-			_start_fight(band)
+	for watch: Node2D in _watches:
+		watch.keep_an_eye_on(_leader.position)
+	if cell == _last_cell:
+		return false
+	var came_from := _last_cell
+	_last_cell = cell
+	if came_from == Vector2i(-99, -99) or _spotted or _leaving or _talking or Pace.auto:
+		return false
+	for watch: Node2D in _watches:
+		if watch.watched.has(cell):
+			_seen_by(watch, came_from)
 			return true
 	return false
 
 
-func _start_fight(band: Dictionary) -> void:
-	if _leaving:
+## A patrolling band has walked somewhere it can see the party from: seen, as surely as walking in.
+func _on_band_moved(watch: Node2D) -> void:
+	if _leader == null or _spotted or _leaving or _talking or Pace.auto:
 		return
+	if watch.watched.has(map.cell_at(_leader.position)):
+		_seen_by(watch, Vector2i(-1, -1))
+
+
+## Seen. Every head turns, the one in front shouts, the field is taken from where everyone stands,
+## the band rushes in, and the fight opens on this ground at this view ([D66]). Bursting out of
+## cover at them is an ambush.
+func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
+	_spotted = true
 	_leaving = true
-	var many := (band["data"].get("pack", []) as Array).size() > 1
-	_note("%s %s seen you." % [str(band["data"].get("label", "Something")), "have" if many else "has"])
-	# Where everyone stood when they were seen is where the fight is laid out,
-	# so it is taken before the band closes in.
-	var field := _field_for(band)
-	await _charge(band)
+	_talking = true
+	_approach = null
+	_approach_path.clear()
+	_hold_the_town(true)
+	watch.raise_the_alarm(_leader.position)
+	var many := (watch.band.get("pack", []) as Array).size() > 1
+	_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
+	await get_tree().create_timer(float(AreaWatch.rule("spotted_seconds", 0.7))).timeout
+	if not is_inside_tree():
+		return
+	var ambush: bool = map.in_bounds(came_from) and watch.in_cover(came_from)
+	# Where everyone stood when they were seen is where the fight is laid out, so it is taken
+	# before the band closes in.
+	var field := _field_for(watch, ambush)
+	await _charge(watch)
 	if not is_inside_tree():
 		return
 	EventBus.request_scene.emit("world", {
-		"fight": str(band["data"].get("key", "")),
+		"fight": str(watch.band.get("key", "")),
 		"field": field,
 		"held": _held,
 		"back": _here_payload(),
 	})
 
 
-## The band rushes the party: part of the way, facing them, so the fight
-## opening is something seen happen rather than a cut.
-func _charge(band: Dictionary) -> void:
-	var actors: Array = band["actors"]
-	if actors.is_empty() or _leader == null:
+## The band rushes the party: part of the way, facing them, so the fight opening is something
+## seen happen rather than a cut.
+func _charge(watch: Node2D) -> void:
+	var figures: Array = watch.figures
+	if figures.is_empty() or _leader == null:
 		return
 	var rush := create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	for actor: AreaActor in actors:
-		var towards := _leader.position - actor.position
-		actor.face(towards)
-		rush.tween_property(actor, "position", actor.position + towards * CHARGE_SHARE, CHARGE_TIME)
-	_leader.face(-(_leader.position - (actors[0] as AreaActor).position))
+	var share := float(AreaWatch.rule("charge_share", 0.55))
+	for figure: Node2D in figures:
+		var towards := _leader.position - figure.position
+		figure.face(towards)
+		rush.tween_property(figure, "position", figure.position + towards * share, float(AreaWatch.rule("charge_seconds", 0.45)))
+	_leader.face((figures[0] as Node2D).position - _leader.position)
 	await rush.finished
 
 
-## The patch of this ground the fight is fought on: everyone in it, with room
-## round them, cut to the ground's edges.
-func _field_for(band: Dictionary) -> Dictionary:
+## The patch of this ground the fight is fought on: everyone in it, with room round them, cut to
+## the ground's edges; and the view the ground was seen in, for the fight to open on.
+func _field_for(watch: Node2D, ambush: bool) -> Dictionary:
 	var party: Array = []
 	for actor: AreaActor in [_leader] + _followers:
 		var c := map.cell_at(actor.position)
 		party.append([c.x, c.y])
 	var foes: Array = []
-	for actor: AreaActor in band["actors"]:
-		var c := map.cell_at(actor.position)
+	for figure: Node2D in watch.figures:
+		var c := map.cell_at(figure.position)
 		foes.append([c.x, c.y])
+	var margin := int(AreaWatch.rule("field_margin", 3))
+	var smallest := _pair_rule("field_smallest", Vector2i(16, 11))
+	var largest := _pair_rule("field_largest", Vector2i(26, 16))
 	var lo := Vector2i(1 << 20, 1 << 20)
 	var hi := Vector2i(-1, -1)
 	for pair: Array in party + foes:
 		lo = Vector2i(mini(lo.x, int(pair[0])), mini(lo.y, int(pair[1])))
 		hi = Vector2i(maxi(hi.x, int(pair[0])), maxi(hi.y, int(pair[1])))
-	lo -= Vector2i.ONE * FIELD_MARGIN
-	hi += Vector2i.ONE * FIELD_MARGIN
-	var size := (hi - lo + Vector2i.ONE).clamp(FIELD_MIN, FIELD_MAX)
+	lo -= Vector2i.ONE * margin
+	hi += Vector2i.ONE * margin
+	var size := (hi - lo + Vector2i.ONE).clamp(smallest, largest)
 	size = Vector2i(mini(size.x, map.width), mini(size.y, map.height))
 	var centre := (lo + hi) / 2
 	var origin := (centre - size / 2).clamp(Vector2i.ZERO, Vector2i(map.width, map.height) - size)
+	var seen_at := _camera.get_screen_center_position()
 	return {
 		"area_id": map.id, "origin": [origin.x, origin.y], "size": [size.x, size.y],
 		"party": party, "foes": foes, "title": boot_payload.get("title", map.display_name),
+		"ambush": ambush,
+		# The camera as it was, in ground pixels: the fight opens on exactly this, then draws back.
+		"view": { "centre": [seen_at.x, seen_at.y], "zoom": _camera.zoom.x },
 	}
+
+
+func _pair_rule(key: String, fallback: Vector2i) -> Vector2i:
+	var value: Variant = AreaWatch.rule(key, [])
+	return Vector2i(int(value[0]), int(value[1])) if value is Array and (value as Array).size() >= 2 else fallback
 
 
 # --- the place's doings, and the map --------------------------------------------
