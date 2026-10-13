@@ -93,7 +93,7 @@ src/
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
   ui/                          Title screen, party screen, system menu, stash,
                                Guild hall, journal (the company's sheets, bestiary, routes, annals,
-                               quests), museum (hero dossiers), the level-up banner,
+                               quests), museum (hero dossiers), the level-up line at the top right,
                                credits (credits_roll.gd lays out data/credits.json for both places);
                                sheet_parts.gd draws class colours and growth wherever they show;
                                the tutorial's guide card (tutorial_guide.gd, under the game root)

@@ -287,12 +287,12 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 
 | #   | Do this                                                          | Expect                                                             |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| GR1 | Win the first fight of a run                                     | A banner across the top: the face, "reaches level N", a chip for each number that went up; it goes by itself, and a press puts it away. A chime |
-| GR2 | Reach level 2 with the lead                                      | The banner says **Choose a path**; pressing it opens the party screen at the choice |
+| GR1 | Win the first fight of a run                                     | The one who levelled flickers gold where they stand, with a ring and "Level N" rising off them; a small line at the top right says "Bram reached level N" and fades by itself. Nothing covers the fight ([D77](06-decisions.md)) |
+| GR2 | Reach level 2 with the lead                                      | The line at the top right adds "a path to choose (P)"; P opens the party screen at the choice |
 | GR3 | On the party screen, look at the path cards                      | A card per class in its own colour, with growth bars, its powers' themes and what it starts with; the tabs above are greyed |
-| GR4 | Press **Walk this path**                                         | Chosen in one click; a "path is chosen" banner in the class's colour |
+| GR4 | Press **Walk this path**                                         | Chosen in one click; a line at the top right in the class's colour says whose way it is now |
 | GR5 | Reach level 5 and open the Powers page                           | The tree as three stones: the first glows gold; pressing it fills it in the class's colour and the next one glows |
-| GR6 | Level up during a real-time fight                                | The banner shows over the fight and the fight runs on underneath it |
+| GR6 | Level up during a real-time fight                                | Only the gold flicker and the line at the top right; the fight runs on, and nothing takes a click |
 
 ## J — Coliseum
 
