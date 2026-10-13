@@ -551,48 +551,42 @@
 			"tile_size": 64,
 			"lower": "bog_bare",
 			"upper": "bog_floor",
-			"feature": "bog_bare",
-			"stand_in": true
+			"feature": "bog_bare"
 		},
 		"bog_pool": {
 			"texture": "res://art/tilesets/biome/bog_pool.png",
 			"tile_size": 32,
 			"lower": "bog_liquid",
 			"upper": "bog_floor",
-			"feature": "bog_liquid",
-			"stand_in": true
+			"feature": "bog_liquid"
 		},
 		"bog_cover": {
 			"texture": "res://art/tilesets/biome/bog_cover.png",
 			"tile_size": 64,
 			"lower": "bog_floor",
 			"upper": "bog_cover",
-			"feature": "bog_cover",
-			"stand_in": true
+			"feature": "bog_cover"
 		},
 		"swamp_ground": {
 			"texture": "res://art/tilesets/biome/swamp_ground.png",
 			"tile_size": 64,
 			"lower": "swamp_bare",
 			"upper": "swamp_floor",
-			"feature": "swamp_bare",
-			"stand_in": true
+			"feature": "swamp_bare"
 		},
 		"swamp_pool": {
 			"texture": "res://art/tilesets/biome/swamp_pool.png",
 			"tile_size": 32,
 			"lower": "swamp_liquid",
 			"upper": "swamp_floor",
-			"feature": "swamp_liquid",
-			"stand_in": true
+			"feature": "swamp_liquid"
 		},
 		"swamp_cover": {
 			"texture": "res://art/tilesets/biome/swamp_cover.png",
 			"tile_size": 64,
 			"lower": "swamp_floor",
 			"upper": "swamp_cover",
-			"feature": "swamp_cover",
-			"stand_in": true
+			"feature": "swamp_cover"
 		},
 		"crystal_ground": {
 			"texture": "res://art/tilesets/biome/crystal_ground.png",
