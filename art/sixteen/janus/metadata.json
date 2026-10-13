@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_janus",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a lanky young man with messy dark hair and sleepy half-closed eyes, a loose grey traveller's coat, an old iron key on a cord at his neck",
-   "character_id": "3247a70b-ff22-4835-ae86-0b3ebff641ab",
+   "outfit": "a lanky young man with messy dark hair and sleepy half-closed eyes, a loose grey traveller's coat, an old iron key on a cord at his neck. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "13b9e27f-87c9-49d2-b8dd-388bc85181b6",
    "zip": "downloads/pixellab/sixteen_janus_base.zip",
-   "generations": 61.0,
+   "generations": 31.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "3247a70b-ff22-4835-ae86-0b3ebff641ab",
+     "id": "13b9e27f-87c9-49d2-b8dd-388bc85181b6",
      "name": "sixteen_janus",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:01:30.355743+00:00"
+     "created_at": "2026-10-12T21:18:43.182105+00:00"
     },
-    "folder": "sixteen_janus",
+    "folder": "sixteen_janus_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_janus/rotations/south.png",
-      "south-east": "sixteen_janus/rotations/south-east.png",
-      "east": "sixteen_janus/rotations/east.png",
-      "north-east": "sixteen_janus/rotations/north-east.png",
-      "north": "sixteen_janus/rotations/north.png",
-      "north-west": "sixteen_janus/rotations/north-west.png",
-      "west": "sixteen_janus/rotations/west.png",
-      "south-west": "sixteen_janus/rotations/south-west.png"
+      "south": "sixteen_janus_2/rotations/south.png",
+      "south-east": "sixteen_janus_2/rotations/south-east.png",
+      "east": "sixteen_janus_2/rotations/east.png",
+      "north-east": "sixteen_janus_2/rotations/north-east.png",
+      "north": "sixteen_janus_2/rotations/north.png",
+      "north-west": "sixteen_janus_2/rotations/north-west.png",
+      "west": "sixteen_janus_2/rotations/west.png",
+      "south-west": "sixteen_janus_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:03:26.239241"
+  "export_date": "2026-10-12T21:20:09.865085"
  }
 }

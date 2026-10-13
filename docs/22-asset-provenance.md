@@ -29,7 +29,7 @@ What stands between this audit and a public release, in order of weight.
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
 | P5 | PixelLab's terms for commercial use of generated art, on the plan the art was made with | **to confirm** | founders |
-| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md) | **dev only** — regenerate before any public release | founders |
+| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md). The two giants and `king_slime` are regenerated from those prompts in `art/big/` (2026-10-12), not yet used by the game | **dev only** — regenerate before any public release | founders |
 
 ## Art
 
@@ -72,11 +72,12 @@ What stands between this audit and a public release, in order of weight.
 
 ## Fonts
 
-The game ships no font files of its own: every label uses Godot's default theme font.
+Every label uses Godot's default theme font, except the start screen's logo and menu, which use Cinzel from `art/ui/fonts/` (its licence, `Cinzel-OFL.txt`, sits beside it).
 
 | Asset | Where it came from | Licence | Status |
 | --- | --- | --- | --- |
 | Open Sans SemiBold (built into Godot 4.7) | Bundled with the engine; © 2020 The Open Sans Project Authors | SIL Open Font License 1.1 | **cleared** — credited on the Credits screen |
+| `art/ui/fonts/Cinzel-Bold.ttf`, `Cinzel-Regular.ttf` | From the official repository, github.com/NDISCOVER/Cinzel, 2026-10-12; © 2020 The Cinzel Project Authors | SIL Open Font License 1.1 | **cleared** — licence shipped beside the files, credited on the Credits screen |
 
 ## Engine
 

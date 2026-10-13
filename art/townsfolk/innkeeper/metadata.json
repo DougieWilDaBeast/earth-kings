@@ -1,0 +1,52 @@
+{
+ "id": "innkeeper",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "town_innkeeper",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as a stout bearded innkeeper in a white shirt with rolled sleeves, a stained apron, holding a wooden tankard. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "719a719c-da24-40b7-9a11-cdc2d1b88c3e",
+   "zip": "downloads/pixellab/town_innkeeper_base.zip",
+   "generations": 28.0,
+   "date": "2026-10-12"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "719a719c-da24-40b7-9a11-cdc2d1b88c3e",
+     "name": "town_innkeeper",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-12T21:06:28.416342+00:00"
+    },
+    "folder": "town_innkeeper",
+    "frames": {
+     "rotations": {
+      "south": "town_innkeeper/rotations/south.png",
+      "south-east": "town_innkeeper/rotations/south-east.png",
+      "east": "town_innkeeper/rotations/east.png",
+      "north-east": "town_innkeeper/rotations/north-east.png",
+      "north": "town_innkeeper/rotations/north.png",
+      "north-west": "town_innkeeper/rotations/north-west.png",
+      "west": "town_innkeeper/rotations/west.png",
+      "south-west": "town_innkeeper/rotations/south-west.png"
+     },
+     "animations": {}
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-12T21:09:08.934184"
+ }
+}

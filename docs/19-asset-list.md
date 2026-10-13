@@ -1,7 +1,8 @@
 # 19 — Asset list
 
 Everything the game needs drawn, in the order it should be made, for generation in **PixelLab** and
-cleanup in **Aseprite**. Asked for in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md):
+cleanup in **Aseprite**. What is being asked for right now, one request at a time, is in
+[24 — Art requests](24-art-requests.md). Asked for in [joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md):
 
 > "we need to have a full list of what potentially needs to be designed to fit the new world and to
 > fit what's designed so far in terms of maps, characters, animations. enemies, abilities, like
@@ -35,11 +36,13 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 | Buildings | 31 in `art/buildings/` | Enough for current areas |
 | World | 31 in `art/world/` — 30 holds and a tomb | Map markers |
 | Tilesets | 8 in `art/tilesets/`, plus the unwired `art/map_kit/` | Battle and walk ground |
-| UI | Frames, an emblem, season clovers | No ability icons, no status icons |
+| UI | Frames, an emblem, season clovers; ten status and item icons staged in `art/ui/status/` | No ability icons; the status icons are not wired yet |
 | Sources | `art/source/` — `.aseprite` files and references | — |
 
 Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in
 `PIXELLAB_API_KEY` and downloads the same export zip the website gives ([20](20-pixellab-size-test.md#done-through-the-api-2026-10-12)).
+It also makes a big body on PixelLab's newer model (`character <unit> 96 --model v3`), an icon
+(`image`) and an animated effect (`effect`, a still drawn from words and then set moving).
 
 Each unit folder has a `metadata.json` with the PixelLab prompt, size, view and template it was made
 with. **Keep writing it.** It is the only record of how to regenerate a character at another size.
@@ -101,8 +104,12 @@ them taller by their `body_scale`.
 
 **Generated 2026-10-12:** 1.1–1.3 (`sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`,
 `goblin`, `raider`, `wolf`, `club_ogre`), each with idle in eight facings and walk, attack, skill, hit
-and death in four, staged in [`art/tier1/`](../art/tier1/README.md), not yet used by the game. 1.4
-and 1.5 (effects and UI) are still to make.
+and death in four, staged in [`art/tier1/`](../art/tier1/README.md), not yet used by the game. The
+five humans were dressed again that evening in the blended finish ([D57](06-decisions.md)), and the
+ogre made again at 96 on its own body. 1.4: slash, arrow, heal and burst, plus a charge-up and a
+shield-block spark, in [`art/effects/`](../art/effects/README.md). 1.5: the six status icons plus
+tired, block, draught and herb, in `art/ui/status/`; the slot frames, cooldown sweep, pause banner and
+speed indicator are still to make. None is wired into the game yet.
 
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
@@ -154,6 +161,17 @@ has to animate every attack. Order by how often a unit is fought:
 | 3.1 | Faction ranks and champions (`data/factions.json`) — Heart Empire legions, Bamboo Court, the Tide, the Ooze, the Dusk, Ember Wilds, Broken Oath, the Wild, Freeholds, Titans | 50 bodies |
 | 3.2 | Everyone else who fights — the old twelve heroes' bodies and the independents | the other 20, less townsfolk |
 | 3.3 | Non-combat townsfolk (`peasant`, and whoever else never fights) | idle + walk only |
+
+**Started 2026-10-12.** The other eleven big units ([D57](06-decisions.md)) are made at 96 on their
+own bodies with the full fighting set, staged in [`art/big/`](../art/big/README.md); the three
+borrowed designs among them (`beast_titan`, `colossal_titan`, `king_slime`) use the new prompts in
+[23](23-originality-pass.md). Eight townsfolk are dressed onto the base, idle only, in
+[`art/townsfolk/`](../art/townsfolk/README.md), for the talking people of [D62](06-decisions.md) who
+wear a borrowed body today.
+
+![the body in the game today, and the new one](images/redo/before-after.png)
+
+![eight townsfolk](images/redo/townsfolk.png)
 
 Log each against the month's credits. At the current count this is the bulk of the art bill, and it
 can be spread over several months without blocking anything but polish.

@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_juno",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make her a smart young woman with blonde hair tied back, in a black waistcoat over a white shirt with rolled sleeves and a long apron, a kitchen knife tucked into the apron",
-   "character_id": "56825ffd-9bd7-4c5d-a88b-9e56b60b1d95",
+   "outfit": "make her a smart young woman with blonde hair tied back, in a black waistcoat over a white shirt with rolled sleeves and a long apron, a kitchen knife tucked into the apron. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "8439191c-0a59-4147-b699-0dcbdfa417a6",
    "zip": "downloads/pixellab/sixteen_juno_base.zip",
-   "generations": 58.0,
+   "generations": 28.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "56825ffd-9bd7-4c5d-a88b-9e56b60b1d95",
+     "id": "8439191c-0a59-4147-b699-0dcbdfa417a6",
      "name": "sixteen_juno",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:02:09.414069+00:00"
+     "created_at": "2026-10-12T21:38:22.686538+00:00"
     },
-    "folder": "sixteen_juno",
+    "folder": "sixteen_juno_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_juno/rotations/south.png",
-      "south-east": "sixteen_juno/rotations/south-east.png",
-      "east": "sixteen_juno/rotations/east.png",
-      "north-east": "sixteen_juno/rotations/north-east.png",
-      "north": "sixteen_juno/rotations/north.png",
-      "north-west": "sixteen_juno/rotations/north-west.png",
-      "west": "sixteen_juno/rotations/west.png",
-      "south-west": "sixteen_juno/rotations/south-west.png"
+      "south": "sixteen_juno_2/rotations/south.png",
+      "south-east": "sixteen_juno_2/rotations/south-east.png",
+      "east": "sixteen_juno_2/rotations/east.png",
+      "north-east": "sixteen_juno_2/rotations/north-east.png",
+      "north": "sixteen_juno_2/rotations/north.png",
+      "north-west": "sixteen_juno_2/rotations/north-west.png",
+      "west": "sixteen_juno_2/rotations/west.png",
+      "south-west": "sixteen_juno_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:03:46.826015"
+  "export_date": "2026-10-12T21:40:51.204909"
  }
 }

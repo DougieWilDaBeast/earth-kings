@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_cato",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a square-jawed veteran with close-cropped hair in plain grey legionary armour, a short sword at the hip and a big rectangular shield",
-   "character_id": "8daee132-d816-4bf3-9a56-abc466913345",
+   "outfit": "a square-jawed veteran with close-cropped hair in plain grey legionary armour, a short sword at the hip and a big rectangular shield. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "87e97d3d-4482-4787-a3df-a850d2609710",
    "zip": "downloads/pixellab/sixteen_cato_base.zip",
-   "generations": 36.0,
+   "generations": 31.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "8daee132-d816-4bf3-9a56-abc466913345",
+     "id": "87e97d3d-4482-4787-a3df-a850d2609710",
      "name": "sixteen_cato",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:59:40.446085+00:00"
+     "created_at": "2026-10-12T21:36:33.145664+00:00"
     },
-    "folder": "sixteen_cato",
+    "folder": "sixteen_cato_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_cato/rotations/south.png",
-      "south-east": "sixteen_cato/rotations/south-east.png",
-      "east": "sixteen_cato/rotations/east.png",
-      "north-east": "sixteen_cato/rotations/north-east.png",
-      "north": "sixteen_cato/rotations/north.png",
-      "north-west": "sixteen_cato/rotations/north-west.png",
-      "west": "sixteen_cato/rotations/west.png",
-      "south-west": "sixteen_cato/rotations/south-west.png"
+      "south": "sixteen_cato_2/rotations/south.png",
+      "south-east": "sixteen_cato_2/rotations/south-east.png",
+      "east": "sixteen_cato_2/rotations/east.png",
+      "north-east": "sixteen_cato_2/rotations/north-east.png",
+      "north": "sixteen_cato_2/rotations/north.png",
+      "north-west": "sixteen_cato_2/rotations/north-west.png",
+      "west": "sixteen_cato_2/rotations/west.png",
+      "south-west": "sixteen_cato_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:01:34.621181"
+  "export_date": "2026-10-12T21:38:20.241481"
  }
 }
