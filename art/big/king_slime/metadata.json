@@ -8,18 +8,18 @@
    "size": 96,
    "directions": 8,
    "view": "low top-down",
-   "template": "mannequin",
+   "template": "dog",
    "mode": "standard",
    "model": "v3",
-   "prompt": "Large lumpy mound of amber ooze with small oozes budding off its sides, a rusted knight's helmet and a broken sword sunk inside it, dripping. No crown, no face.",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
-   "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 65.0,
-   "date": "2026-10-12"
+   "prompt": "A large lumpy mound of translucent amber ooze, a wide low blob shaped like a puddle with no legs and no arms, small oozes budding off its sides, dripping; a rusted helmet and a broken sword sunk deep inside the jelly, seen through it. Not a person, no body, no face, no crown.",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
+   "zip": "downloads/pixellab/king_slime_96_mound.zip",
+   "generations": 3.0,
+   "date": "2026-10-13"
   },
   {
    "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
    "name": "walk",
    "action": "moving forward, a slow heavy advance",
    "template_animation": null,
@@ -27,38 +27,38 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 53.0,
-   "date": "2026-10-12"
+   "generations": 8.0,
+   "date": "2026-10-13"
   },
   {
    "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
    "name": "attack",
-   "action": "bulging up and slamming its body down",
+   "action": "bulging up high and slamming its whole body down",
    "template_animation": null,
    "mode": null,
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 33.0,
-   "date": "2026-10-12"
+   "generations": 8.0,
+   "date": "2026-10-13"
   },
   {
    "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
    "name": "skill",
-   "action": "shuddering as a small ooze buds off its side",
+   "action": "shuddering as a small ooze buds off its side and wobbles away",
    "template_animation": null,
    "mode": null,
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 31.0,
-   "date": "2026-10-12"
+   "generations": 8.0,
+   "date": "2026-10-13"
   },
   {
    "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
    "name": "hit",
    "action": "flinching back from a blow",
    "template_animation": null,
@@ -66,12 +66,12 @@
    "frames_asked": 4,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 29.0,
-   "date": "2026-10-12"
+   "generations": 4.0,
+   "date": "2026-10-13"
   },
   {
    "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
+   "character_id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
    "name": "death",
    "action": "collapsing and lying still",
    "template_animation": null,
@@ -79,65 +79,26 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 49.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
-   "name": "attack",
-   "action": "bulging up and slamming its body down",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "east,north,west",
-   "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 9.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
-   "name": "skill",
-   "action": "shuddering as a small ooze buds off its side",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "west",
-   "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 3.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "4f55a673-910b-4181-8788-28127672a451",
-   "name": "death",
-   "action": "collapsing and lying still",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "east,north,west",
-   "zip": "downloads/pixellab/king_slime_96.zip",
-   "generations": 9.0,
-   "date": "2026-10-12"
+   "generations": 8.0,
+   "date": "2026-10-13"
   }
  ],
  "pixellab": {
-  "group_id": "f4367888-cebe-4326-8dd0-5343809ff557",
+  "group_id": "1a1ebadd-8422-47f7-963c-3def436e3115",
   "states": [
    {
     "character": {
-     "id": "4f55a673-910b-4181-8788-28127672a451",
+     "id": "8a2201c7-6c8b-42bc-8d77-c973dba40a72",
      "name": "Idle",
-     "prompt": "Large lumpy mound of amber ooze with small oozes budding off its sides, a rusted knight's helmet and a broken sword sunk inside it, dripping. No crown, no face.",
+     "prompt": "A large lumpy mound of translucent amber ooze, a wide low blob shaped like a puddle with no legs and no arms, small oozes budding off its sides, dripping; a rusted helmet and a broken sword sunk deep inside the jelly, seen through it. Not a person, no body, no face, no crown.",
      "size": {
       "width": 96,
       "height": 96
      },
-     "template_id": "mannequin",
+     "template_id": "dog",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T21:29:59.148080+00:00"
+     "created_at": "2026-10-13T06:20:43.821897+00:00"
     },
     "folder": "Idle",
     "frames": {
@@ -152,30 +113,17 @@
       "south-west": "Idle/rotations/south-west.png"
      },
      "animations": {
-      "attack": {
-       "south": [
-        "Idle/animations/attack/south/frame_000.png",
-        "Idle/animations/attack/south/frame_001.png",
-        "Idle/animations/attack/south/frame_002.png",
-        "Idle/animations/attack/south/frame_003.png",
-        "Idle/animations/attack/south/frame_004.png",
-        "Idle/animations/attack/south/frame_005.png",
-        "Idle/animations/attack/south/frame_006.png",
-        "Idle/animations/attack/south/frame_007.png",
-        "Idle/animations/attack/south/frame_008.png"
-       ]
-      },
       "walk": {
-       "west": [
-        "Idle/animations/walk/west/frame_000.png",
-        "Idle/animations/walk/west/frame_001.png",
-        "Idle/animations/walk/west/frame_002.png",
-        "Idle/animations/walk/west/frame_003.png",
-        "Idle/animations/walk/west/frame_004.png",
-        "Idle/animations/walk/west/frame_005.png",
-        "Idle/animations/walk/west/frame_006.png",
-        "Idle/animations/walk/west/frame_007.png",
-        "Idle/animations/walk/west/frame_008.png"
+       "north": [
+        "Idle/animations/walk/north/frame_000.png",
+        "Idle/animations/walk/north/frame_001.png",
+        "Idle/animations/walk/north/frame_002.png",
+        "Idle/animations/walk/north/frame_003.png",
+        "Idle/animations/walk/north/frame_004.png",
+        "Idle/animations/walk/north/frame_005.png",
+        "Idle/animations/walk/north/frame_006.png",
+        "Idle/animations/walk/north/frame_007.png",
+        "Idle/animations/walk/north/frame_008.png"
        ],
        "east": [
         "Idle/animations/walk/east/frame_000.png",
@@ -188,17 +136,6 @@
         "Idle/animations/walk/east/frame_007.png",
         "Idle/animations/walk/east/frame_008.png"
        ],
-       "north": [
-        "Idle/animations/walk/north/frame_000.png",
-        "Idle/animations/walk/north/frame_001.png",
-        "Idle/animations/walk/north/frame_002.png",
-        "Idle/animations/walk/north/frame_003.png",
-        "Idle/animations/walk/north/frame_004.png",
-        "Idle/animations/walk/north/frame_005.png",
-        "Idle/animations/walk/north/frame_006.png",
-        "Idle/animations/walk/north/frame_007.png",
-        "Idle/animations/walk/north/frame_008.png"
-       ],
        "south": [
         "Idle/animations/walk/south/frame_000.png",
         "Idle/animations/walk/south/frame_001.png",
@@ -209,16 +146,20 @@
         "Idle/animations/walk/south/frame_006.png",
         "Idle/animations/walk/south/frame_007.png",
         "Idle/animations/walk/south/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/walk/west/frame_000.png",
+        "Idle/animations/walk/west/frame_001.png",
+        "Idle/animations/walk/west/frame_002.png",
+        "Idle/animations/walk/west/frame_003.png",
+        "Idle/animations/walk/west/frame_004.png",
+        "Idle/animations/walk/west/frame_005.png",
+        "Idle/animations/walk/west/frame_006.png",
+        "Idle/animations/walk/west/frame_007.png",
+        "Idle/animations/walk/west/frame_008.png"
        ]
       },
       "hit": {
-       "north": [
-        "Idle/animations/hit/north/frame_000.png",
-        "Idle/animations/hit/north/frame_001.png",
-        "Idle/animations/hit/north/frame_002.png",
-        "Idle/animations/hit/north/frame_003.png",
-        "Idle/animations/hit/north/frame_004.png"
-       ],
        "east": [
         "Idle/animations/hit/east/frame_000.png",
         "Idle/animations/hit/east/frame_001.png",
@@ -239,9 +180,84 @@
         "Idle/animations/hit/south/frame_002.png",
         "Idle/animations/hit/south/frame_003.png",
         "Idle/animations/hit/south/frame_004.png"
+       ],
+       "north": [
+        "Idle/animations/hit/north/frame_000.png",
+        "Idle/animations/hit/north/frame_001.png",
+        "Idle/animations/hit/north/frame_002.png",
+        "Idle/animations/hit/north/frame_003.png",
+        "Idle/animations/hit/north/frame_004.png"
+       ]
+      },
+      "death": {
+       "north": [
+        "Idle/animations/death/north/frame_000.png",
+        "Idle/animations/death/north/frame_001.png",
+        "Idle/animations/death/north/frame_002.png",
+        "Idle/animations/death/north/frame_003.png",
+        "Idle/animations/death/north/frame_004.png",
+        "Idle/animations/death/north/frame_005.png",
+        "Idle/animations/death/north/frame_006.png",
+        "Idle/animations/death/north/frame_007.png",
+        "Idle/animations/death/north/frame_008.png"
+       ],
+       "south": [
+        "Idle/animations/death/south/frame_000.png",
+        "Idle/animations/death/south/frame_001.png",
+        "Idle/animations/death/south/frame_002.png",
+        "Idle/animations/death/south/frame_003.png",
+        "Idle/animations/death/south/frame_004.png",
+        "Idle/animations/death/south/frame_005.png",
+        "Idle/animations/death/south/frame_006.png",
+        "Idle/animations/death/south/frame_007.png",
+        "Idle/animations/death/south/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/death/west/frame_000.png",
+        "Idle/animations/death/west/frame_001.png",
+        "Idle/animations/death/west/frame_002.png",
+        "Idle/animations/death/west/frame_003.png",
+        "Idle/animations/death/west/frame_004.png",
+        "Idle/animations/death/west/frame_005.png",
+        "Idle/animations/death/west/frame_006.png",
+        "Idle/animations/death/west/frame_007.png",
+        "Idle/animations/death/west/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/death/east/frame_000.png",
+        "Idle/animations/death/east/frame_001.png",
+        "Idle/animations/death/east/frame_002.png",
+        "Idle/animations/death/east/frame_003.png",
+        "Idle/animations/death/east/frame_004.png",
+        "Idle/animations/death/east/frame_005.png",
+        "Idle/animations/death/east/frame_006.png",
+        "Idle/animations/death/east/frame_007.png",
+        "Idle/animations/death/east/frame_008.png"
        ]
       },
       "skill": {
+       "east": [
+        "Idle/animations/skill/east/frame_000.png",
+        "Idle/animations/skill/east/frame_001.png",
+        "Idle/animations/skill/east/frame_002.png",
+        "Idle/animations/skill/east/frame_003.png",
+        "Idle/animations/skill/east/frame_004.png",
+        "Idle/animations/skill/east/frame_005.png",
+        "Idle/animations/skill/east/frame_006.png",
+        "Idle/animations/skill/east/frame_007.png",
+        "Idle/animations/skill/east/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/skill/west/frame_000.png",
+        "Idle/animations/skill/west/frame_001.png",
+        "Idle/animations/skill/west/frame_002.png",
+        "Idle/animations/skill/west/frame_003.png",
+        "Idle/animations/skill/west/frame_004.png",
+        "Idle/animations/skill/west/frame_005.png",
+        "Idle/animations/skill/west/frame_006.png",
+        "Idle/animations/skill/west/frame_007.png",
+        "Idle/animations/skill/west/frame_008.png"
+       ],
        "north": [
         "Idle/animations/skill/north/frame_000.png",
         "Idle/animations/skill/north/frame_001.png",
@@ -263,113 +279,52 @@
         "Idle/animations/skill/south/frame_006.png",
         "Idle/animations/skill/south/frame_007.png",
         "Idle/animations/skill/south/frame_008.png"
-       ],
-       "east": [
-        "Idle/animations/skill/east/frame_000.png",
-        "Idle/animations/skill/east/frame_001.png",
-        "Idle/animations/skill/east/frame_002.png",
-        "Idle/animations/skill/east/frame_003.png",
-        "Idle/animations/skill/east/frame_004.png",
-        "Idle/animations/skill/east/frame_005.png",
-        "Idle/animations/skill/east/frame_006.png",
-        "Idle/animations/skill/east/frame_007.png",
-        "Idle/animations/skill/east/frame_008.png"
        ]
       },
-      "death": {
+      "attack": {
        "east": [
-        "Idle/animations/death/east/frame_000.png",
-        "Idle/animations/death/east/frame_001.png",
-        "Idle/animations/death/east/frame_002.png",
-        "Idle/animations/death/east/frame_003.png",
-        "Idle/animations/death/east/frame_004.png",
-        "Idle/animations/death/east/frame_005.png",
-        "Idle/animations/death/east/frame_006.png",
-        "Idle/animations/death/east/frame_007.png",
-        "Idle/animations/death/east/frame_008.png"
-       ],
-       "west": [
-        "Idle/animations/death/west/frame_000.png",
-        "Idle/animations/death/west/frame_001.png",
-        "Idle/animations/death/west/frame_002.png",
-        "Idle/animations/death/west/frame_003.png",
-        "Idle/animations/death/west/frame_004.png",
-        "Idle/animations/death/west/frame_005.png",
-        "Idle/animations/death/west/frame_006.png",
-        "Idle/animations/death/west/frame_007.png",
-        "Idle/animations/death/west/frame_008.png"
+        "Idle/animations/attack/east/frame_000.png",
+        "Idle/animations/attack/east/frame_001.png",
+        "Idle/animations/attack/east/frame_002.png",
+        "Idle/animations/attack/east/frame_003.png",
+        "Idle/animations/attack/east/frame_004.png",
+        "Idle/animations/attack/east/frame_005.png",
+        "Idle/animations/attack/east/frame_006.png",
+        "Idle/animations/attack/east/frame_007.png",
+        "Idle/animations/attack/east/frame_008.png"
        ],
        "north": [
-        "Idle/animations/death/north/frame_000.png",
-        "Idle/animations/death/north/frame_001.png",
-        "Idle/animations/death/north/frame_002.png",
-        "Idle/animations/death/north/frame_003.png",
-        "Idle/animations/death/north/frame_004.png",
-        "Idle/animations/death/north/frame_005.png",
-        "Idle/animations/death/north/frame_006.png",
-        "Idle/animations/death/north/frame_007.png",
-        "Idle/animations/death/north/frame_008.png"
-       ]
-      },
-      "attack-ebaf378e": {
-       "north": [
-        "Idle/animations/attack-ebaf378e/north/frame_000.png",
-        "Idle/animations/attack-ebaf378e/north/frame_001.png",
-        "Idle/animations/attack-ebaf378e/north/frame_002.png",
-        "Idle/animations/attack-ebaf378e/north/frame_003.png",
-        "Idle/animations/attack-ebaf378e/north/frame_004.png",
-        "Idle/animations/attack-ebaf378e/north/frame_005.png",
-        "Idle/animations/attack-ebaf378e/north/frame_006.png",
-        "Idle/animations/attack-ebaf378e/north/frame_007.png",
-        "Idle/animations/attack-ebaf378e/north/frame_008.png"
+        "Idle/animations/attack/north/frame_000.png",
+        "Idle/animations/attack/north/frame_001.png",
+        "Idle/animations/attack/north/frame_002.png",
+        "Idle/animations/attack/north/frame_003.png",
+        "Idle/animations/attack/north/frame_004.png",
+        "Idle/animations/attack/north/frame_005.png",
+        "Idle/animations/attack/north/frame_006.png",
+        "Idle/animations/attack/north/frame_007.png",
+        "Idle/animations/attack/north/frame_008.png"
        ],
        "west": [
-        "Idle/animations/attack-ebaf378e/west/frame_000.png",
-        "Idle/animations/attack-ebaf378e/west/frame_001.png",
-        "Idle/animations/attack-ebaf378e/west/frame_002.png",
-        "Idle/animations/attack-ebaf378e/west/frame_003.png",
-        "Idle/animations/attack-ebaf378e/west/frame_004.png",
-        "Idle/animations/attack-ebaf378e/west/frame_005.png",
-        "Idle/animations/attack-ebaf378e/west/frame_006.png",
-        "Idle/animations/attack-ebaf378e/west/frame_007.png",
-        "Idle/animations/attack-ebaf378e/west/frame_008.png"
+        "Idle/animations/attack/west/frame_000.png",
+        "Idle/animations/attack/west/frame_001.png",
+        "Idle/animations/attack/west/frame_002.png",
+        "Idle/animations/attack/west/frame_003.png",
+        "Idle/animations/attack/west/frame_004.png",
+        "Idle/animations/attack/west/frame_005.png",
+        "Idle/animations/attack/west/frame_006.png",
+        "Idle/animations/attack/west/frame_007.png",
+        "Idle/animations/attack/west/frame_008.png"
        ],
-       "east": [
-        "Idle/animations/attack-ebaf378e/east/frame_000.png",
-        "Idle/animations/attack-ebaf378e/east/frame_001.png",
-        "Idle/animations/attack-ebaf378e/east/frame_002.png",
-        "Idle/animations/attack-ebaf378e/east/frame_003.png",
-        "Idle/animations/attack-ebaf378e/east/frame_004.png",
-        "Idle/animations/attack-ebaf378e/east/frame_005.png",
-        "Idle/animations/attack-ebaf378e/east/frame_006.png",
-        "Idle/animations/attack-ebaf378e/east/frame_007.png",
-        "Idle/animations/attack-ebaf378e/east/frame_008.png"
-       ]
-      },
-      "skill-ed40a222": {
-       "west": [
-        "Idle/animations/skill-ed40a222/west/frame_000.png",
-        "Idle/animations/skill-ed40a222/west/frame_001.png",
-        "Idle/animations/skill-ed40a222/west/frame_002.png",
-        "Idle/animations/skill-ed40a222/west/frame_003.png",
-        "Idle/animations/skill-ed40a222/west/frame_004.png",
-        "Idle/animations/skill-ed40a222/west/frame_005.png",
-        "Idle/animations/skill-ed40a222/west/frame_006.png",
-        "Idle/animations/skill-ed40a222/west/frame_007.png",
-        "Idle/animations/skill-ed40a222/west/frame_008.png"
-       ]
-      },
-      "death-ed833132": {
        "south": [
-        "Idle/animations/death-ed833132/south/frame_000.png",
-        "Idle/animations/death-ed833132/south/frame_001.png",
-        "Idle/animations/death-ed833132/south/frame_002.png",
-        "Idle/animations/death-ed833132/south/frame_003.png",
-        "Idle/animations/death-ed833132/south/frame_004.png",
-        "Idle/animations/death-ed833132/south/frame_005.png",
-        "Idle/animations/death-ed833132/south/frame_006.png",
-        "Idle/animations/death-ed833132/south/frame_007.png",
-        "Idle/animations/death-ed833132/south/frame_008.png"
+        "Idle/animations/attack/south/frame_000.png",
+        "Idle/animations/attack/south/frame_001.png",
+        "Idle/animations/attack/south/frame_002.png",
+        "Idle/animations/attack/south/frame_003.png",
+        "Idle/animations/attack/south/frame_004.png",
+        "Idle/animations/attack/south/frame_005.png",
+        "Idle/animations/attack/south/frame_006.png",
+        "Idle/animations/attack/south/frame_007.png",
+        "Idle/animations/attack/south/frame_008.png"
        ]
       }
      }
@@ -377,6 +332,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T23:47:32.061347"
+  "export_date": "2026-10-13T06:40:03.456731"
  }
 }

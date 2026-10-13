@@ -151,13 +151,13 @@ func _process(delta: float) -> void:
 			_moving = false
 			_run_time = 0.0
 			if _sprite != null:
-				_sprite.position.y = -_foot()
+				_sprite.position.y = _middle()
 			_apply_texture()
 		return
 	_moving = true
 	_run_time += delta
 	if _sprite != null and _run.is_empty():
-		_sprite.position.y = -_foot() + sin(_run_time * 14.0) * 2.0
+		_sprite.position.y = _middle() + sin(_run_time * 14.0) * 2.0
 	_apply_texture()
 
 
@@ -255,15 +255,14 @@ func set_hovered(on: bool) -> void:
 
 func _build_sprite(fallback: Color) -> void:
 	_sprite = Sprite2D.new()
-	_sprite.centered = false
-	_sprite.scale = Vector2(body_scale, body_scale)
-	_sprite.position = Vector2(-SPRITE_SIZE * body_scale / 2.0, -_foot())
+	_sprite.position = Vector2(0.0, _middle())
 	add_child(_sprite)
 	if _rotations.is_empty():
 		# No art for this template: a plain token still shows where they are.
 		var token := PlaceholderTexture2D.new()
 		token.size = Vector2(SPRITE_SIZE, SPRITE_SIZE)
 		_sprite.texture = token
+		_sprite.scale = Vector2(body_scale, body_scale)
 		_tint = fallback
 		_sprite.modulate = fallback
 		return
@@ -271,6 +270,7 @@ func _build_sprite(fallback: Color) -> void:
 
 
 func _apply_texture() -> void:
+	_fit()
 	if _moving:
 		var frames: Array = _run.get(_facing, [])
 		if frames.is_empty() and not _run.is_empty():
@@ -284,6 +284,23 @@ func _apply_texture() -> void:
 			return
 	if _rotations.has(_facing):
 		_sprite.texture = _rotations[_facing]
+
+
+## Where the middle of the body's box sits: an ordinary body is SPRITE_SIZE square,
+## its top FOOT_OFFSET above the feet, and `body_scale` grows both.
+func _middle() -> float:
+	return -_foot() + SPRITE_SIZE * body_scale * 0.5
+
+
+## Whatever size of canvas the art came on, the standing pose fills the box, and a
+## walk (drawn by PixelLab on a bigger canvas grown evenly round it) keeps that scale.
+func _fit() -> void:
+	if _sprite == null or _rotations.is_empty():
+		return
+	var standing: Texture2D = _rotations.get(_facing, _rotations.get(Vector2.DOWN, null))
+	var height := standing.get_size().y if standing != null else float(SPRITE_SIZE)
+	var pixel := SPRITE_SIZE * body_scale / maxf(height, 1.0)
+	_sprite.scale = Vector2(pixel, pixel)
 
 
 static func _load_rotations(sprite_dir: String) -> Dictionary:

@@ -163,7 +163,8 @@ cycle from `art/units/<id>/run/<heading>/frame_000.png`. In battle a unit steps 
 while it crosses and turns at each corner rather than at the end; in area mode [`AreaActor`]
 (../src/area/area_actor.gd) does the same, reading movement off its own position so nothing that
 moves an actor had to change. Anyone without a cycle keeps their standing pose, exactly as before.
-**Open:** only `sworn_blade` has one. The other 68 units need PixelLab walk/run/attack exports.
+A unit with a `walk` cycle and no `run` steps its walk instead. **Open:** few units have either
+yet; the rest need PixelLab exports (see [19 — Asset list](19-asset-list.md)).
 
 ## W12 — A much bigger, less square world
 
@@ -491,11 +492,18 @@ are people or things is still open.
 
 > Animations on each character need to be inputted with what is in files.
 
-**Barely built.** `Database.unit_run(id, heading)` loads `art/units/<id>/run/<heading>/frame_*.png`
-and only `sworn_blade` has a run cycle. Every other unit is a single PNG per direction.
+**Built, waiting on art.** [`Database.unit_frames(id, state, heading)`](../src/autoload/database.gd)
+loads `<state>/<heading>/frame_*.png` from beside a unit's `sprite_dir`, for `run`, `walk`,
+`attack`, `skill`, `hit` and `death`. In a fight [`Unit.play`](../src/battle/units/unit.gd) plays a
+basic swing as `attack`, a landed skill as `skill`, a blow taken as `hit` (never cutting a swing
+short) and a fall as `death`, which holds its last frame until the unit is helped up; a foe fades
+only once its fall has played. Diagonals use the nearest of the four facings. A unit without a
+move keeps its standing pose for it, as before. PixelLab draws a move on a bigger canvas than the
+standing pose, grown evenly round it, so the fight and the areas draw every frame at the standing
+pose's scale and centred where it stands; a unit no longer shrinks when it swings or walks.
 
-**Open:** the other ~70 units need their exports wired up, and states beyond `run` (attack, hurt,
-cast) have no loader at all.
+**Open:** only the Amber Knight (`ooze_knight`) is wired with the full set; the other big units in
+[`art/big/`](../art/big/README.md) are staged and need their `sprite_dir` pointed there.
 
 ## W29 — A UI pass
 
