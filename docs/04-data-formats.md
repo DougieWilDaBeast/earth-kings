@@ -56,6 +56,11 @@ The base stat block a `Character` is built from, and what a monster is.
   powers, its name on the character sheet and the level-up banner. Optional; parchment if left out.
 - `flash_step` — blink range the class grants; the higher of this and the template's wins.
 - `yoke: true` — flags a class as one that can hold the Training Yoke stance.
+- `lead` — the one of the sixteen this class belongs to (their hero and unit id). That lead starts
+  in it at level 1, with its `grants` as their four moves on Q W E R, and at level 2 is offered it
+  first with the classes anyone can learn after it ([D64](06-decisions.md)). A class with no `lead`
+  is one anyone can learn: a template with no `classes` is offered only those. The sixteen are
+  listed in [21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built).
 
 ## `abilities.json` — authored abilities
 

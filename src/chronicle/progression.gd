@@ -129,7 +129,12 @@ static func _level_up(character: Character, world: World) -> Array:
 		character.hp = mini(character.hp + LEVEL_UP_HEAL, character.max_hp())
 	lines.append("%s reaches level %d." % [character.display_name, character.level])
 
-	if character.level == CLASS_LEVEL and character.class_id == "":
+	if character.level == CLASS_LEVEL and character.is_player and in_own_class(character):
+		# A lead's own class is the natural fit; the others are an option ([D64]).
+		character.pending_class_choice = true
+		lines.append("%s may keep to the way of the %s, or choose another path." % [character.display_name, character.class_name_text()])
+		EventBus.class_choice_required.emit(character)
+	elif character.level == CLASS_LEVEL and character.class_id == "":
 		if character.is_player:
 			# The player picks; the world waits until they do.
 			character.pending_class_choice = true
@@ -154,10 +159,21 @@ static func _level_up(character: Character, world: World) -> Array:
 	return lines
 
 
-## Classes the character's template allows; empty means the grammar picks.
+## Classes the character's template allows; empty means any class anyone can
+## learn. One of the sixteen is offered their own class first.
 static func class_options(character: Character) -> Array:
 	var options: Array = character.template().get("classes", [])
-	return options if not options.is_empty() else Database.classes.keys()
+	if options.is_empty():
+		options = Database.open_classes()
+	var own := Database.own_class(character.template_id)
+	if own != "" and own not in options:
+		options = [own] + options
+	return options
+
+
+## Whether the character still walks the class that is their own.
+static func in_own_class(character: Character) -> bool:
+	return character.class_id != "" and character.class_id == Database.own_class(character.template_id)
 
 
 static func choose_class(character: Character, rng: RandomNumberGenerator) -> String:

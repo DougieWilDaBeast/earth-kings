@@ -77,6 +77,12 @@ func _check_content() -> void:
 				Database.abilities.has(ability_id),
 				"class %s grants missing ability '%s'" % [class_id, ability_id]
 			)
+		# One of the sixteen's own classes: a kit for Q W E R and a passive.
+		var lead := str(Database.classes[class_id].get("lead", ""))
+		if lead != "":
+			_expect(Database.classes[class_id].get("grants", []).size() == 4, "%s's class %s does not start with four moves" % [lead, class_id])
+			_expect(Database.own_class(lead) == class_id, "%s has more than one class of their own" % lead)
+			_expect(Database.skirmish.get("by_class", {}).has(class_id), "%s's class %s has no passive" % [lead, class_id])
 
 	for hero_id: String in Database.heroes:
 		_expect(Database.units.has(hero_id), "hero '%s' has no unit template" % hero_id)
