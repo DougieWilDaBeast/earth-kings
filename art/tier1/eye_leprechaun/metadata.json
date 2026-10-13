@@ -1,0 +1,316 @@
+{
+ "id": "eye_leprechaun",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "eye_leprechaun",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "turn him into a small wicked leprechaun in green with a tall hat and long nails, carrying a little barrel of eyeballs on his back. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "name": "attack",
+   "action": "a quick vicious clawing grab forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "name": "skill",
+   "action": "hurling an eyeball from his barrel",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/eye_leprechaun_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "5a5b4f4a-e9d5-442c-b264-d05e61b319eb",
+     "name": "eye_leprechaun",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T11:28:18.805981+00:00"
+    },
+    "folder": "eye_leprechaun",
+    "frames": {
+     "rotations": {
+      "south": "eye_leprechaun/rotations/south.png",
+      "south-east": "eye_leprechaun/rotations/south-east.png",
+      "east": "eye_leprechaun/rotations/east.png",
+      "north-east": "eye_leprechaun/rotations/north-east.png",
+      "north": "eye_leprechaun/rotations/north.png",
+      "north-west": "eye_leprechaun/rotations/north-west.png",
+      "west": "eye_leprechaun/rotations/west.png",
+      "south-west": "eye_leprechaun/rotations/south-west.png"
+     },
+     "animations": {
+      "walking": {
+       "north": [
+        "eye_leprechaun/animations/walking/north/frame_000.png",
+        "eye_leprechaun/animations/walking/north/frame_001.png",
+        "eye_leprechaun/animations/walking/north/frame_002.png",
+        "eye_leprechaun/animations/walking/north/frame_003.png",
+        "eye_leprechaun/animations/walking/north/frame_004.png",
+        "eye_leprechaun/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "eye_leprechaun/animations/walking/east/frame_000.png",
+        "eye_leprechaun/animations/walking/east/frame_001.png",
+        "eye_leprechaun/animations/walking/east/frame_002.png",
+        "eye_leprechaun/animations/walking/east/frame_003.png",
+        "eye_leprechaun/animations/walking/east/frame_004.png",
+        "eye_leprechaun/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "eye_leprechaun/animations/walking/west/frame_000.png",
+        "eye_leprechaun/animations/walking/west/frame_001.png",
+        "eye_leprechaun/animations/walking/west/frame_002.png",
+        "eye_leprechaun/animations/walking/west/frame_003.png",
+        "eye_leprechaun/animations/walking/west/frame_004.png",
+        "eye_leprechaun/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "eye_leprechaun/animations/walking/south/frame_000.png",
+        "eye_leprechaun/animations/walking/south/frame_001.png",
+        "eye_leprechaun/animations/walking/south/frame_002.png",
+        "eye_leprechaun/animations/walking/south/frame_003.png",
+        "eye_leprechaun/animations/walking/south/frame_004.png",
+        "eye_leprechaun/animations/walking/south/frame_005.png"
+       ]
+      },
+      "skill": {
+       "east": [
+        "eye_leprechaun/animations/skill/east/frame_000.png",
+        "eye_leprechaun/animations/skill/east/frame_001.png",
+        "eye_leprechaun/animations/skill/east/frame_002.png",
+        "eye_leprechaun/animations/skill/east/frame_003.png",
+        "eye_leprechaun/animations/skill/east/frame_004.png",
+        "eye_leprechaun/animations/skill/east/frame_005.png",
+        "eye_leprechaun/animations/skill/east/frame_006.png",
+        "eye_leprechaun/animations/skill/east/frame_007.png",
+        "eye_leprechaun/animations/skill/east/frame_008.png"
+       ],
+       "west": [
+        "eye_leprechaun/animations/skill/west/frame_000.png",
+        "eye_leprechaun/animations/skill/west/frame_001.png",
+        "eye_leprechaun/animations/skill/west/frame_002.png",
+        "eye_leprechaun/animations/skill/west/frame_003.png",
+        "eye_leprechaun/animations/skill/west/frame_004.png",
+        "eye_leprechaun/animations/skill/west/frame_005.png",
+        "eye_leprechaun/animations/skill/west/frame_006.png",
+        "eye_leprechaun/animations/skill/west/frame_007.png",
+        "eye_leprechaun/animations/skill/west/frame_008.png"
+       ],
+       "south": [
+        "eye_leprechaun/animations/skill/south/frame_000.png",
+        "eye_leprechaun/animations/skill/south/frame_001.png",
+        "eye_leprechaun/animations/skill/south/frame_002.png",
+        "eye_leprechaun/animations/skill/south/frame_003.png",
+        "eye_leprechaun/animations/skill/south/frame_004.png",
+        "eye_leprechaun/animations/skill/south/frame_005.png",
+        "eye_leprechaun/animations/skill/south/frame_006.png",
+        "eye_leprechaun/animations/skill/south/frame_007.png",
+        "eye_leprechaun/animations/skill/south/frame_008.png"
+       ],
+       "north": [
+        "eye_leprechaun/animations/skill/north/frame_000.png",
+        "eye_leprechaun/animations/skill/north/frame_001.png",
+        "eye_leprechaun/animations/skill/north/frame_002.png",
+        "eye_leprechaun/animations/skill/north/frame_003.png",
+        "eye_leprechaun/animations/skill/north/frame_004.png",
+        "eye_leprechaun/animations/skill/north/frame_005.png",
+        "eye_leprechaun/animations/skill/north/frame_006.png",
+        "eye_leprechaun/animations/skill/north/frame_007.png",
+        "eye_leprechaun/animations/skill/north/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "eye_leprechaun/animations/taking_a_punch/west/frame_000.png",
+        "eye_leprechaun/animations/taking_a_punch/west/frame_001.png",
+        "eye_leprechaun/animations/taking_a_punch/west/frame_002.png",
+        "eye_leprechaun/animations/taking_a_punch/west/frame_003.png",
+        "eye_leprechaun/animations/taking_a_punch/west/frame_004.png",
+        "eye_leprechaun/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "east": [
+        "eye_leprechaun/animations/taking_a_punch/east/frame_000.png",
+        "eye_leprechaun/animations/taking_a_punch/east/frame_001.png",
+        "eye_leprechaun/animations/taking_a_punch/east/frame_002.png",
+        "eye_leprechaun/animations/taking_a_punch/east/frame_003.png",
+        "eye_leprechaun/animations/taking_a_punch/east/frame_004.png",
+        "eye_leprechaun/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "north": [
+        "eye_leprechaun/animations/taking_a_punch/north/frame_000.png",
+        "eye_leprechaun/animations/taking_a_punch/north/frame_001.png",
+        "eye_leprechaun/animations/taking_a_punch/north/frame_002.png",
+        "eye_leprechaun/animations/taking_a_punch/north/frame_003.png",
+        "eye_leprechaun/animations/taking_a_punch/north/frame_004.png",
+        "eye_leprechaun/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "south": [
+        "eye_leprechaun/animations/taking_a_punch/south/frame_000.png",
+        "eye_leprechaun/animations/taking_a_punch/south/frame_001.png",
+        "eye_leprechaun/animations/taking_a_punch/south/frame_002.png",
+        "eye_leprechaun/animations/taking_a_punch/south/frame_003.png",
+        "eye_leprechaun/animations/taking_a_punch/south/frame_004.png",
+        "eye_leprechaun/animations/taking_a_punch/south/frame_005.png"
+       ]
+      },
+      "falling_backward": {
+       "west": [
+        "eye_leprechaun/animations/falling_backward/west/frame_000.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_001.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_002.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_003.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_004.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_005.png",
+        "eye_leprechaun/animations/falling_backward/west/frame_006.png"
+       ],
+       "east": [
+        "eye_leprechaun/animations/falling_backward/east/frame_000.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_001.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_002.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_003.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_004.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_005.png",
+        "eye_leprechaun/animations/falling_backward/east/frame_006.png"
+       ],
+       "south": [
+        "eye_leprechaun/animations/falling_backward/south/frame_000.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_001.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_002.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_003.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_004.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_005.png",
+        "eye_leprechaun/animations/falling_backward/south/frame_006.png"
+       ],
+       "north": [
+        "eye_leprechaun/animations/falling_backward/north/frame_000.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_001.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_002.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_003.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_004.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_005.png",
+        "eye_leprechaun/animations/falling_backward/north/frame_006.png"
+       ]
+      },
+      "attack": {
+       "south": [
+        "eye_leprechaun/animations/attack/south/frame_000.png",
+        "eye_leprechaun/animations/attack/south/frame_001.png",
+        "eye_leprechaun/animations/attack/south/frame_002.png",
+        "eye_leprechaun/animations/attack/south/frame_003.png",
+        "eye_leprechaun/animations/attack/south/frame_004.png",
+        "eye_leprechaun/animations/attack/south/frame_005.png",
+        "eye_leprechaun/animations/attack/south/frame_006.png",
+        "eye_leprechaun/animations/attack/south/frame_007.png",
+        "eye_leprechaun/animations/attack/south/frame_008.png"
+       ],
+       "east": [
+        "eye_leprechaun/animations/attack/east/frame_000.png",
+        "eye_leprechaun/animations/attack/east/frame_001.png",
+        "eye_leprechaun/animations/attack/east/frame_002.png",
+        "eye_leprechaun/animations/attack/east/frame_003.png",
+        "eye_leprechaun/animations/attack/east/frame_004.png",
+        "eye_leprechaun/animations/attack/east/frame_005.png",
+        "eye_leprechaun/animations/attack/east/frame_006.png",
+        "eye_leprechaun/animations/attack/east/frame_007.png",
+        "eye_leprechaun/animations/attack/east/frame_008.png"
+       ],
+       "north": [
+        "eye_leprechaun/animations/attack/north/frame_000.png",
+        "eye_leprechaun/animations/attack/north/frame_001.png",
+        "eye_leprechaun/animations/attack/north/frame_002.png",
+        "eye_leprechaun/animations/attack/north/frame_003.png",
+        "eye_leprechaun/animations/attack/north/frame_004.png",
+        "eye_leprechaun/animations/attack/north/frame_005.png",
+        "eye_leprechaun/animations/attack/north/frame_006.png",
+        "eye_leprechaun/animations/attack/north/frame_007.png",
+        "eye_leprechaun/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "eye_leprechaun/animations/attack/west/frame_000.png",
+        "eye_leprechaun/animations/attack/west/frame_001.png",
+        "eye_leprechaun/animations/attack/west/frame_002.png",
+        "eye_leprechaun/animations/attack/west/frame_003.png",
+        "eye_leprechaun/animations/attack/west/frame_004.png",
+        "eye_leprechaun/animations/attack/west/frame_005.png",
+        "eye_leprechaun/animations/attack/west/frame_006.png",
+        "eye_leprechaun/animations/attack/west/frame_007.png",
+        "eye_leprechaun/animations/attack/west/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T11:49:31.079103"
+ }
+}
