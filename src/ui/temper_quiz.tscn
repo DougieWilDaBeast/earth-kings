@@ -1,12 +1,23 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://src/ui/temper_quiz.gd" id="1_temper_quiz"]
-[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Shader" path="res://src/ui/title_fall.gdshader" id="2_backdrop"]
 [ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
 [ext_resource type="Script" path="res://src/ui/mode_button.gd" id="4_mode"]
+[ext_resource type="Script" path="res://src/ui/title_fall.gd" id="5_fall"]
+[ext_resource type="FontFile" path="res://art/ui/fonts/Cinzel-Regular.ttf" id="6_cinzel"]
+[ext_resource type="FontFile" path="res://art/ui/fonts/Cinzel-Bold.ttf" id="7_cinzel_bold"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = ExtResource("2_backdrop")
+
+[sub_resource type="FontVariation" id="FontVariation_carved"]
+base_font = ExtResource("6_cinzel")
+spacing_glyph = 3
+
+[sub_resource type="FontVariation" id="FontVariation_name"]
+base_font = ExtResource("7_cinzel_bold")
+spacing_glyph = 4
 
 [node name="TemperQuiz" type="Control"]
 anchor_right = 1.0
@@ -15,6 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_theme")
 script = ExtResource("1_temper_quiz")
+carved_font = SubResource("FontVariation_carved")
 
 [node name="Backdrop" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_backdrop")
@@ -22,115 +34,185 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.05, 0.055, 0.075, 1)
 
+[node name="Falls" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0.55)
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_fall")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.012, 0.02, 0.45)
+
 [node name="Margin" type="MarginContainer" parent="."]
+unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 30
+theme_override_constants/margin_top = 34
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 26
+theme_override_constants/margin_bottom = 24
 
 [node name="Content" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
+
+[node name="Progress" type="Control" parent="Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="StepLabel" type="Label" parent="Margin/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
-theme_override_font_sizes/font_size = 16
-text = "One of four"
-
-[node name="QuestionLabel" type="Label" parent="Margin/Content"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.72, 0.66, 0.58, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("FontVariation_carved")
+theme_override_font_sizes/font_size = 17
+text = "Question 1"
+horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Options" type="VBoxContainer" parent="Margin/Content"]
+[node name="TopSpace" type="Control" parent="Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+mouse_filter = 2
+
+[node name="Stage" type="VBoxContainer" parent="Margin/Content"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 22
 
-[node name="Reveal" type="PanelContainer" parent="Margin/Content"]
+[node name="QuestionLabel" type="Label" parent="Margin/Content/Stage"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.88, 0.66, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.03, 0.02, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Options" type="VBoxContainer" parent="Margin/Content/Stage"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Reveal" type="PanelContainer" parent="Margin/Content/Stage"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_vertical = 3
+theme_type_variation = &"FramedPanel"
 
-[node name="RevealMargin" type="MarginContainer" parent="Margin/Content/Reveal"]
+[node name="RevealMargin" type="MarginContainer" parent="Margin/Content/Stage/Reveal"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 16
 
-[node name="RevealBody" type="VBoxContainer" parent="Margin/Content/Reveal/RevealMargin"]
+[node name="RevealBody" type="VBoxContainer" parent="Margin/Content/Stage/Reveal/RevealMargin"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Head" type="HBoxContainer" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
+[node name="Head" type="HBoxContainer" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Portrait" type="TextureRect" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head"]
+[node name="Portrait" type="TextureRect" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Facts" type="VBoxContainer" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head"]
+[node name="Facts" type="VBoxContainer" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="NameLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+[node name="NameLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.965, 0.827, 0.443, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.98, 0.84, 0.5, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("FontVariation_name")
+theme_override_font_sizes/font_size = 30
 
-[node name="TitleLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+[node name="TitleLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 
-[node name="TemperLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+[node name="TemperLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
+theme_override_colors/font_color = Color(0.72, 0.66, 0.58, 1)
 theme_override_font_sizes/font_size = 15
 
-[node name="WarbandLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+[node name="WarbandLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HistoryLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody/Head/Facts"]
+[node name="HistoryLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody/Head/Facts"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
+theme_override_colors/font_color = Color(0.72, 0.7, 0.66, 1)
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 3
 
-[node name="BlurbLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
+[node name="BlurbLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody"]
 unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="StatsLabel" type="Label" parent="Margin/Content/Stage/Reveal/RevealMargin/RevealBody"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.7, 0.66, 1)
+theme_override_font_sizes/font_size = 15
+
+[node name="Actions" type="HBoxContainer" parent="Margin/Content/Stage"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BeginButton" type="Button" parent="Margin/Content/Stage/Actions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "This is you"
+
+[node name="AgainButton" type="Button" parent="Margin/Content/Stage/Actions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Answer again"
+
+[node name="AllButton" type="Button" parent="Margin/Content/Stage/Actions"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Show me all sixteen"
+
+[node name="BottomSpace" type="Control" parent="Margin/Content"]
 layout_mode = 2
 size_flags_vertical = 3
-autowrap_mode = 3
-
-[node name="StatsLabel" type="Label" parent="Margin/Content/Reveal/RevealMargin/RevealBody"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.76, 0.84, 1)
-theme_override_font_sizes/font_size = 15
+mouse_filter = 2
 
 [node name="Footer" type="HBoxContainer" parent="Margin/Content"]
 layout_mode = 2
@@ -138,14 +220,15 @@ theme_override_constants/separation = 12
 
 [node name="SeedLabel" type="Label" parent="Margin/Content/Footer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.58, 0.62, 0.7, 1)
-theme_override_font_sizes/font_size = 15
-text = "Seed"
+theme_override_colors/font_color = Color(0.58, 0.55, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "World seed"
 
 [node name="SeedField" type="LineEdit" parent="Margin/Content/Footer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
 placeholder_text = "any world"
 
 [node name="ModeButton" type="Button" parent="Margin/Content/Footer"]
@@ -157,24 +240,7 @@ script = ExtResource("4_mode")
 [node name="Spacer" type="Control" parent="Margin/Content/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="BeginButton" type="Button" parent="Margin/Content/Footer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "This is you"
-
-[node name="AgainButton" type="Button" parent="Margin/Content/Footer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "Answer again"
-
-[node name="AllButton" type="Button" parent="Margin/Content/Footer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-text = "Show me all sixteen"
+mouse_filter = 2
 
 [node name="BackButton" type="Button" parent="Margin/Content/Footer"]
 unique_name_in_owner = true
