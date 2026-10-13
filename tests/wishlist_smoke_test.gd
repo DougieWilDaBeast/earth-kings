@@ -168,12 +168,14 @@ func _check_animation() -> void:
 			not Database.unit_run("bram", heading).is_empty(),
 			"the sworn blade cannot run %s" % heading
 		)
-	_expect(Database.unit_run("goblin", "east").is_empty(), "a goblin grew a run cycle")
+	var plain := _unanimated()
+	_expect(plain != "", "every unit has a run cycle now; this check needs another")
+	_expect(Database.unit_run(plain, "east").is_empty(), "%s grew a run cycle" % plain)
 
 	var runner := Unit.create("bram", Unit.Team.PLAYER, Vector2i.ZERO)
 	_expect(not runner.run_frames.is_empty(), "a unit with art loaded no run cycle")
 	_expect(runner.current_sprite() != null, "a standing unit is drawn as nothing")
-	var still := Unit.create("goblin", Unit.Team.ENEMY, Vector2i.ZERO)
+	var still := Unit.create(plain, Unit.Team.ENEMY, Vector2i.ZERO)
 	_expect(still.run_frames.is_empty(), "a unit with no cycle claims one")
 	_expect(still.current_sprite() != null, "a unit with no cycle lost its standing pose")
 	runner.free()
@@ -716,3 +718,13 @@ func _quiz_after(fallen: Array, picks: Array) -> TemperQuiz:
 			break
 		(buttons[pick] as Button).pressed.emit()
 	return quiz
+
+
+## Some unit that has a standing pose and no moves yet, whichever that is as art lands.
+func _unanimated() -> String:
+	for id: String in Database.units:
+		if str(Database.unit_template(id).get("sprite_dir", "")) != "" \
+				and Database.unit_run(id, "east").is_empty() \
+				and Database.unit_frames(id, "attack", "south").is_empty():
+			return id
+	return ""

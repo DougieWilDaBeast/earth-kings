@@ -22,5 +22,6 @@ rewritten as a frost werewolf with bone claws. `king_slime`'s first try came out
 ooze; `dougie` kept it as a character of its own, the Amber Knight (`ooze_knight`, the only one of
 these the game uses today), and `king_slime` was made again as a mound on 2026-10-13.
 
-**Not used by the game yet**, the Amber Knight aside: they go in with the full redo, with [Tier 1](../tier1/README.md).
-Wiring one is a `sprite_dir` change in `data/units.json`.
+**In the game since 2026-10-13:** the Amber Knight, `king_slime`, `axe_bear`, `tree_sentinel`,
+`caterpillar_warrior` and `dirte`, the ones met early ([Tier 1](../tier1/README.md) says why). The
+rest are staged; wiring one is a `sprite_dir` change in `data/units.json`.
