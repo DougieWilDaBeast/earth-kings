@@ -128,15 +128,24 @@ func unit_face(id: String) -> Texture2D:
 
 ## A unit's run cycle for one heading ("north" | "south" | "east" | "west"), or
 ## an empty array for the many units that only have a standing pose. Frames live
-## at `art/units/<id>/run/<heading>/frame_000.png` and are numbered from zero.
+## at `art/units/<id>/run/<heading>/frame_000.png` and are numbered from zero;
+## a unit with a `walk` cycle but no `run` uses its walk.
 func unit_run(id: String, heading: String) -> Array:
-	var key := "%s/%s" % [id, heading]
+	var frames := unit_frames(id, "run", heading)
+	return frames if not frames.is_empty() else unit_frames(id, "walk", heading)
+
+
+## One of a unit's moves ("run", "walk", "attack", "skill", "hit", "death") for
+## one heading, as numbered frames in a folder beside its `sprite_dir`:
+## `<sprite_dir>/../<state>/<heading>/frame_000.png`. Empty when it has none.
+func unit_frames(id: String, state: String, heading: String) -> Array:
+	var key := "%s/%s/%s" % [id, state, heading]
 	if _runs.has(key):
 		return _runs[key]
 	var frames: Array = []
 	var sprite_dir: String = unit_template(id).get("sprite_dir", "")
 	if sprite_dir != "":
-		var folder := "%s/run/%s" % [sprite_dir.get_base_dir(), heading]
+		var folder := "%s/%s/%s" % [sprite_dir.get_base_dir(), state, heading]
 		while true:
 			var path := "%s/frame_%03d.png" % [folder, frames.size()]
 			if not ResourceLoader.exists(path):

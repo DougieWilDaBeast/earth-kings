@@ -10,6 +10,10 @@ enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C, ALLY }
 const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
 ## Frames a second for a unit that has a run cycle to step through.
 const RUN_FPS := 12.0
+## Frames a second for a swing, a skill, a flinch or a fall.
+const ACTION_FPS := 14.0
+## The moves a fight plays once each, beside the run cycle (see [method play]).
+const ACTIONS: Array[String] = ["attack", "skill", "hit", "death"]
 ## Sprite height as a multiple of a tile, for a unit of ordinary size.
 const SPRITE_HEIGHT_CELLS := 1.15
 ## A unit's `body_scale` is held to this range, so a typo cannot fill the screen.
@@ -56,6 +60,9 @@ var body_scale: float = 1.0
 var sprites: Dictionary = {}
 ## Facing -> the run cycle, for the few units that have one (see [Database]).
 var run_frames: Dictionary = {}
+## Move ("attack" | "skill" | "hit" | "death") -> facing -> frames, for the units
+## that have them. A unit without one keeps its standing pose for it.
+var action_frames: Dictionary = {}
 ## The equipped piece from `data/equipment.json`, plus its rotation art.
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
@@ -63,6 +70,9 @@ var weapon_sprites: Dictionary = {}
 ## Set while the unit is crossing the ground, so it is drawn mid-stride.
 var _running: bool = false
 var _run_time: float = 0.0
+## The move being played and how far into it; "" when none is.
+var _action: String = ""
+var _action_time: float = 0.0
 
 
 static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) -> Unit:
@@ -84,6 +94,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.body_scale = clampf(float(data.get("body_scale", 1.0)), BODY_SCALE_MIN, BODY_SCALE_MAX)
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
 	unit.run_frames = _load_run(template_id_)
+	unit.action_frames = _load_actions(template_id_)
 	unit.team = unit_team
 	unit.cell = start_cell
 	unit._equip(data.get("weapon", ""))
@@ -173,6 +184,19 @@ static func _load_run(template_id_: String) -> Dictionary:
 	return out
 
 
+static func _load_actions(template_id_: String) -> Dictionary:
+	var out := {}
+	for action in ACTIONS:
+		var by_facing := {}
+		for facing_dir: Vector2i in SPRITE_ROTATIONS:
+			var frames := Database.unit_frames(template_id_, action, SPRITE_ROTATIONS[facing_dir])
+			if not frames.is_empty():
+				by_facing[facing_dir] = frames
+		if not by_facing.is_empty():
+			out[action] = by_facing
+	return out
+
+
 func is_alive() -> bool:
 	return hp > 0
 
@@ -229,6 +253,12 @@ func snap_to_cell(grid: BattleGrid) -> void:
 
 func _process(delta: float) -> void:
 	_run_time += delta
+	if _action != "":
+		_action_time += delta
+		# A fall holds its last frame; anything else gives way to the standing pose.
+		if _action != "death" and _action_time >= action_length(_action):
+			_action = ""
+	set_process(_running or (_action != "" and not _action_done()))
 	queue_redraw()
 
 
@@ -237,8 +267,57 @@ func set_running(running: bool) -> void:
 	if _running == running:
 		return
 	_running = running
-	set_process(running)
+	set_process(running or _action != "")
 	queue_redraw()
+
+
+## Play a move once: "attack", "skill", "hit" or "death". A unit without frames
+## for it carries on as it was. A flinch does not cut a swing short, and nothing
+## but [method stand] takes a unit out of its fall.
+func play(action: String) -> void:
+	if _action_facings(action).is_empty() or _action == "death":
+		return
+	if action == "hit" and (_action == "attack" or _action == "skill"):
+		return
+	_action = action
+	_action_time = 0.0
+	set_process(true)
+	queue_redraw()
+
+
+## Back on their feet after a fall: the standing pose again.
+func stand() -> void:
+	_action = ""
+	_action_time = 0.0
+	queue_redraw()
+
+
+## The move being played, or "".
+func playing() -> String:
+	return _action
+
+
+## Seconds [param action] takes to play through, facing as the unit is now; 0
+## when it has no frames for it.
+func action_length(action: String) -> float:
+	return float(_action_frames_now(action).size()) / ACTION_FPS
+
+
+## Only a fall is ever left finished and still showing.
+func _action_done() -> bool:
+	return _action == "death" and _action_time >= action_length("death")
+
+
+func _action_facings(action: String) -> Dictionary:
+	return action_frames.get(action, {})
+
+
+func _action_frames_now(action: String) -> Array:
+	var by_facing := _action_facings(action)
+	if by_facing.has(facing):
+		return by_facing[facing]
+	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+	return by_facing.get(cardinal, by_facing.get(Vector2i.DOWN, []))
 
 
 func _draw() -> void:
@@ -276,6 +355,10 @@ func _draw_weapon() -> void:
 
 
 func current_sprite() -> Texture2D:
+	if _action != "":
+		var played := _action_frames_now(_action)
+		if not played.is_empty():
+			return played[mini(int(_action_time * ACTION_FPS), played.size() - 1)]
 	if _running:
 		var frames: Array = run_frames.get(facing, [])
 		if frames.is_empty():
