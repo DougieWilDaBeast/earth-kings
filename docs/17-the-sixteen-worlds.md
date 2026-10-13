@@ -193,15 +193,20 @@ Everything here is **Inferred** — agenda items 25 to 29 in
   there. The first thing the run shows is a short landing beat, and the lead's standing quest.
 - **Ascend to heaven.** The journal's _Quests & the Fallen_ page carries it at the top, with the
   Tower's floor and chapter, above the errands taken. The Tower wears an ASCEND mark on the map.
-- **The others.** Until the sixteen are written, the twelve existing heroes stand in. Whoever the
-  run starts with is in the party; the rest crash-land at their own seeded sites and walk off, one
-  place at a time, by temper — NT to libraries and the Tower, NF to libraries, villages and huts,
-  SJ to keeps and villages, SP to gates and keeps. They stay a while, then move on.
+- **The others.** The sixteen ([D78](06-decisions.md)): whoever the run starts with is in the party;
+  the other fifteen crash-land at their own seeded sites and walk straight for the nearest place
+  of their own kind, the one [21](21-the-sixteen-first-draft.md#the-sixteen-at-a-glance) gives them
+  "when someone else is the lead": Atlas a library, Janus and Pluto a gate, Bellona, Cato and Ares
+  a keep, Cassius, Saturn, Caesar, Iris, Ceres and Juno a village, Vesta, Ultor, Diana and Liber a
+  hut in open country. They stay there three times as long as anywhere else and go back to it
+  most, and otherwise walk by temper — NT to libraries and the Tower, NF to libraries, villages and
+  huts, SJ to keeps and villages, SP to gates and keeps. Iris and Liber never stay long anywhere.
+  **Inferred**, agenda item 68.
 - **Finding them.** Asking an inn for news, or resting at a settlement, can bring word of one, and
   marks where they were heard of. Standing where one stands shows them, and the mark. Both are
   drawn on the map, a rumour faintly.
 - **Meeting them.** **X** on the map, or walking up to them inside the place, starts a short
-  conversation in their temper's voice. An Outward temper will join on the first meeting, an Inward
+  conversation, opening in their own words the first time and then in their temper's voice. An Outward temper will join on the first meeting, an Inward
   one only on the second, at the lead's level and only into a free seat in the party (four to start,
   up to six as the Tower is climbed).
 
