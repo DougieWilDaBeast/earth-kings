@@ -645,6 +645,47 @@
         "Tink. Tink. Tink.",
         "Who left the tongs in the trough?"
       ]
+    },
+    {
+      "name": "Bram the Sworn Blade",
+      "unit": "bram",
+      "cell": [
+        16,
+        7
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "story_npc": "bram",
+      "talk": {
+        "hello": [
+          "Bram. I keep this road. Nobody asked me to.",
+          "You walk like you've been on the road a while. So have I."
+        ],
+        "again": [
+          "Still here. The road's still here too.",
+          "Any word of riders out of the broken hills?"
+        ],
+        "ask": [
+          {
+            "q": "Whose sword is that?",
+            "a": "Master Kaelen's. He put me in the cellar under the quench tank and went back up. I came out. He didn't."
+          },
+          {
+            "q": "What's the scar on your arm?",
+            "a": "A promise. Cold iron, so it would stay. I find the Iron Hand, every one of them, and I put them in the ground."
+          },
+          {
+            "q": "Do you travel alone?",
+            "a": "An archer and a hedge priest walked with me a while. Sera's in the old grove. Toln's reading in the hall by the hills. We'll be needed together again."
+          }
+        ],
+        "bye": [
+          "Keep your oaths. They're all you get to keep.",
+          "Mind the road."
+        ]
+      }
     }
   ],
   "rows": [
@@ -684,22 +725,28 @@
     {"art": "nature/grass_tuft", "cell": [23, 16], "offset": [-13, -7]},
     {"art": "nature/hedge", "cell": [0, 17], "offset": [-5, -6], "flip": true},
     {"art": "nature/hedge", "cell": [0, 2], "offset": [-10, 4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [23, 7], "offset": [12, 4], "flip": true},
-    {"art": "nature/thistle", "cell": [24, 8], "offset": [6, 6], "flip": true},
-    {"art": "nature/fern", "cell": [0, 4], "offset": [-11, 7], "flip": true},
-    {"art": "nature/hedge_2", "cell": [6, 10], "offset": [-13, 3], "flip": true},
-    {"art": "nature/clover_3", "cell": [7, 6], "offset": [-5, 3], "flip": true},
-    {"art": "nature/clover_3", "cell": [6, 8], "offset": [1, 4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [3, 14], "offset": [5, 7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [23, 2], "offset": [14, 7], "flip": true},
-    {"art": "nature/fern", "cell": [7, 10], "offset": [10, 6], "flip": true},
-    {"art": "nature/fern", "cell": [0, 16], "offset": [-6, 2], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [7, 9], "offset": [7, -3], "flip": true},
-    {"art": "nature/snail", "cell": [6, 17], "offset": [-14, -3], "flip": true},
-    {"art": "nature/sparrow", "cell": [10, 17], "offset": [-3, -3]},
-    {"art": "nature/snail", "cell": [0, 6], "offset": [4, -6]},
-    {"art": "nature/finch", "cell": [12, 14], "offset": [-13, 7], "flip": true},
-    {"art": "nature/ants", "cell": [6, 1], "offset": [12, 3], "flip": true},
-    {"art": "nature/irish_bird", "cell": [0, 14], "offset": [10, -4]}
+    {"art": "nature/thistle", "cell": [22, 0], "offset": [-5, 5], "flip": true},
+    {"art": "nature/hedge_4", "cell": [21, 1], "offset": [12, 4], "flip": true},
+    {"art": "nature/clover", "cell": [0, 4], "offset": [-13, 2], "flip": true},
+    {"art": "nature/hedge_2", "cell": [20, 0], "offset": [3, 2]},
+    {"art": "nature/wildflowers_blue", "cell": [6, 10], "offset": [1, 3], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [1, 16], "offset": [9, 7], "flip": true},
+    {"art": "nature/clover_3", "cell": [15, 16], "offset": [-5, 3], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [5, 7], "offset": [8, -4]},
+    {"art": "nature/clover_2", "cell": [23, 17], "offset": [4, -3], "flip": true},
+    {"art": "nature/thistle", "cell": [6, 9], "offset": [-8, -4]},
+    {"art": "nature/grass_tuft", "cell": [24, 5], "offset": [5, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [2, 13], "offset": [-12, 6], "flip": true},
+    {"art": "nature/rose_stem", "cell": [7, 10], "offset": [11, 3]},
+    {"art": "nature/fern", "cell": [4, 14], "offset": [-6, 2], "flip": true},
+    {"art": "nature/fern", "cell": [24, 7], "offset": [-11, 4]},
+    {"art": "nature/wildflowers_red", "cell": [1, 5], "offset": [13, -7]},
+    {"art": "nature/grass_tuft", "cell": [19, 1], "offset": [3, -2], "flip": true},
+    {"art": "nature/snail", "cell": [6, 17], "offset": [4, 7]},
+    {"art": "nature/irish_bird_2", "cell": [10, 17], "offset": [-10, -4]},
+    {"art": "nature/finch", "cell": [0, 6], "offset": [-2, -6], "flip": true},
+    {"art": "nature/finch", "cell": [12, 14], "offset": [-8, -3], "flip": true},
+    {"art": "nature/irish_bird_3", "cell": [6, 1], "offset": [0, -7]},
+    {"art": "nature/irish_bird_4", "cell": [0, 14], "offset": [13, 5]}
   ]
 }

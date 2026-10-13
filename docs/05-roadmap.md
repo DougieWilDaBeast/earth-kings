@@ -278,6 +278,10 @@ sitting, and the reading of a hearth on agenda item 15.
   area ✅ (2026-10-12, `src/chronicle/wanderers.gd`), with the twelve existing heroes standing in
   until the sixteen are written. Heard of at inns and on rests, seen where they stand, met with
   **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
+- The original twelve as story people, not leads ([D78](06-decisions.md)): each standing in the place
+  their backstory belongs to, with their companions and a conversation ✅ (2026-10-13,
+  `data/story_npcs.json`; where and what is **Inferred**, agenda item 68). Off the pick screen when
+  the sixteen take it. Their parts in the main stories (planned): written with the sixteen's quest lines
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
   — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other

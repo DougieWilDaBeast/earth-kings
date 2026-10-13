@@ -212,6 +212,47 @@
         ],
         "bye": "I'll be here. I'm always here now."
       }
+    },
+    {
+      "name": "Barnaby",
+      "unit": "village_idiot",
+      "cell": [
+        12,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "village_idiot",
+      "talk": {
+        "hello": [
+          "Hello! Is this the way to the fair? Somebody said there was a fair.",
+          "Oh, a new friend! I'm Barnaby. I'm everybody's friend. Mostly."
+        ],
+        "again": [
+          "It's you! I remembered you! I don't usually remember.",
+          "Hello again! I've been here the whole time. I think."
+        ],
+        "ask": [
+          {
+            "q": "Do you know where you are?",
+            "a": "Near a big hole with a door on it. The door hums. I hum back. We're getting on."
+          },
+          {
+            "q": "Aren't you afraid of goblins?",
+            "a": "The little green fellows? They love tag. I've played with them three times. I won every time and they gave me a kettle."
+          },
+          {
+            "q": "Where are you from?",
+            "a": "Highbarrow! No, they threw me out. Fen-on-the-Hill! No, the duck pond. I'm from here now. Here is nice."
+          }
+        ],
+        "bye": [
+          "Bye! If you see a fair, come and get me.",
+          "Bye bye bye."
+        ]
+      }
     }
   ],
   "rows": [

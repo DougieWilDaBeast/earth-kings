@@ -88,6 +88,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 65 | D57 | **Inferred.** Made 2026-10-13: **the Amber Knight** (`ooze_knight`). Asked for the Mother Ooze as a mound, PixelLab drew a knight of amber ooze; `dougie` said to keep it "as its own character" and make the mound too. Its name, its place in the Ooze's ranks between the Bog Jelly and the Mother Ooze, its numbers (46 hp, attack 13, defence 10, strike, cleave and crush), its size (1.3) and that it can bear a grudge (it is not on the non-sentient list) are all Claude's. Keep, or say what to change. |
 | 66 | D76 | **Inferred.** Made 2026-10-13 from `doug-md`'s choice of sound in fights: **what the fight sounds like** — the fourteen sounds (`tools/make_fight_sounds.py`), which moment each one plays at, and how loud each is and how often it may repeat (`data/sfx.json`). Listen in a fight and say what to change: louder, softer, a different sound, or a moment that should have one. |
 | 67 | D77 | **Inferred.** Built 2026-10-13 from `doug-md`'s ask for a quieter level-up: **how a level gained is shown** — three gold pulses, a ring and "Level N" over whoever gained it in a fight, and a line at the top right of the screen for four seconds ("Bram reached level 6 · a power to take (P)"). Keep, or say what to change: which side, how long, how bright. |
+| 68 | `CO9`, D78 | **Inferred.** Placed 2026-10-13 from `dougie`'s answer that the original twelve become story NPCs: **where each one stands and what they say.** Bram keeps the ford village's road, Sera hunts the ancient grove, Toln reads in the reading hall, the Fox Fire Knight watches the thorn keep's muster, Barnaby wanders at the gate's mouth, Dirte keeps court in the great hall with Silver and Copper, Master Bo and Xiao study in the cloister, Buri stands at the foot of the Tower, Oran and the Adept listen on the wind scarp, the Tidewalker and the Tide Lion guard the salt hamlet's nets, Vane and his shadow watch the ash gate, and the Tattered One drifts in the vault beneath the library. Each has a short conversation drawn from [11](../11-character-backstories.md). Still open: which main story each one carries and how; whether the Tidewalker keeps the name Halbrec, which the shore's Pirate Man already uses; whether they still stand in for the others ([17](../17-the-sixteen-worlds.md)) until the sixteen do. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
@@ -1871,6 +1872,16 @@ each at the most powerful they could have become** — "even if that NPC died in
 — and past them the gods and the force that means to leave one world standing.
 ↳ How the contest is fought — a duel, a bracket, a free-for-all, alliances — is open: "or maybe the
 group up together. They fight a different opponent, who knows" [00:25:36].
+
+## CO9 — The twelve original heroes are superseded but still playable. Do they stay as NPCs, get retired, or get rewritten into the sixteen?
+
+> "Remember we are planning for the 16 playable characters lineup to be what we have already said. The other characters were the
+> original but wont be the main characters, we will still use them in the main stories, they will be significant story related NPC's"
+> — dougie, 2026-10-13, in writing ([transcript](voice-notes/2026-10-13-dougie-chat.md))
+
+**Answered.** **They stay, as NPCs.** The sixteen are the playable lineup; the original twelve are no longer
+leads, and become significant people in the main stories. See [D78](../06-decisions.md).
+↳ Where each one stands and what they say was placed by the build and waits as agenda item 68.
 
 ---
 

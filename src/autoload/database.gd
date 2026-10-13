@@ -27,6 +27,8 @@ var world_rules: Dictionary = {}
 var names: Dictionary = {}
 ## Leads a run can be started as, in the order they are offered.
 var heroes: Dictionary = {}
+## The original twelve, met in the world as story people rather than played (D78).
+var story_npcs: Dictionary = {}
 ## The sixteen tempers: axes, the quiz asked before a run, and the lean each
 ## letter carries (see docs/13-heroes-and-tempers.md).
 var tempers: Dictionary = {}
@@ -91,6 +93,8 @@ func _ready() -> void:
 	world_rules = _load_json("%s/world_rules.json" % DATA_DIR)
 	names = _load_json("%s/names.json" % DATA_DIR)
 	heroes = _load_json("%s/heroes.json" % DATA_DIR)
+	story_npcs = _load_json("%s/story_npcs.json" % DATA_DIR)
+	story_npcs.erase("_about")
 	tempers = _load_json("%s/tempers.json" % DATA_DIR)
 	casting = _load_json("%s/casting.json" % DATA_DIR)
 	for pool: String in LORE_POOLS:
@@ -161,6 +165,12 @@ func unit_frames(id: String, state: String, heading: String) -> Array:
 ## A lead a run can be started as (see `data/heroes.json`).
 func hero(id: String) -> Dictionary:
 	return heroes.get(id, {})
+
+
+## One of the original twelve, as a story person: where they stand and the hook their story picks
+## up from (see `data/story_npcs.json`).
+func story_npc(id: String) -> Dictionary:
+	return story_npcs.get(id, {})
 
 
 ## One of the sixteen tempers, by four-letter code.

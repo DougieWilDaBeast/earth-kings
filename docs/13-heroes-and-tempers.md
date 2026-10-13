@@ -24,7 +24,8 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
   with their own line of quests to the Tower. **Built 2026-10-12** without the quest lines: they
   crash-land at seeded sites and walk between kinds of place by temper, and can be met and joined
   ([17](17-the-sixteen-worlds.md#the-others-as-built)). Until the sixteen are written the twelve
-  existing heroes stand in, with tempers inferred in `data/fall.json` (agenda item 26).
+  existing heroes stand in, with tempers inferred in `data/fall.json` (agenda item 26). Those twelve
+  are not leads in the end: they are story people met in the world ([D78](06-decisions.md)).
 - **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
   crosses to the next world when they die as the lead.
 - **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what

@@ -49,6 +49,7 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	_check_story_npcs()
 	await _check_tutorial()
 	await _check_practice_band()
 	await _check_the_land()
@@ -274,6 +275,25 @@ func _check_talking(scene: Node, area_id: String) -> void:
 	print("%s: %s staged the meeting, then opened '%s'" % [
 		area_id, person.get("cutscene", ""), _opened[0]
 	])
+
+
+## The original twelve are people in the world now (D78): each stands in the area
+## `data/story_npcs.json` gives them, drawn from their own body, with something to say.
+func _check_story_npcs() -> void:
+	if Database.story_npcs.size() != 12:
+		_fail("story people: %d of the original twelve in story_npcs.json" % Database.story_npcs.size())
+	for npc_id: String in Database.story_npcs:
+		var npc := Database.story_npc(npc_id)
+		var map := AreaMap.load_area(str(npc.get("area", "")))
+		if map == null:
+			_fail("story people: %s stands in '%s', which is not an area" % [npc_id, npc.get("area", "")])
+			continue
+		var standing: Array = map.people.filter(func(p: Dictionary) -> bool:
+			return p.get("story_npc", "") == npc_id and p.get("unit", "") == npc.get("unit", ""))
+		if standing.is_empty():
+			_fail("story people: %s is not standing in %s" % [npc_id, map.id])
+		elif not standing[0].has("talk"):
+			_fail("story people: %s has nothing to talk about" % npc_id)
 
 
 ## Buying from a stall, paying a fox to listen, and a favour from asking to being paid, done the

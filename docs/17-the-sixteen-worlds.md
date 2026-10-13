@@ -196,7 +196,9 @@ Everything here is **Inferred** — agenda items 25 to 29 in
 - **The others.** Until the sixteen are written, the twelve existing heroes stand in. Whoever the
   run starts with is in the party; the rest crash-land at their own seeded sites and walk off, one
   place at a time, by temper — NT to libraries and the Tower, NF to libraries, villages and huts,
-  SJ to keeps and villages, SP to gates and keeps. They stay a while, then move on.
+  SJ to keeps and villages, SP to gates and keeps. They stay a while, then move on. The twelve
+  themselves are no longer leads ([D78](06-decisions.md)): each also stands, for good, in the place
+  their story belongs to ([02](02-design.md#the-original-twelve-met-in-the-world)).
 - **Finding them.** Asking an inn for news, or resting at a settlement, can bring word of one, and
   marks where they were heard of. Standing where one stands shows them, and the mark. Both are
   drawn on the map, a rumour faintly.
