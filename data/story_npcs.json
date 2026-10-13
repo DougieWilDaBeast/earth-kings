@@ -1,5 +1,5 @@
 {
-	"_about": "The original twelve leads, now story people met in the world (D78). Each stands in `area` as a person whose `story_npc` names this entry; `hook` is the thread their story picks up from, `company` the units standing with them. Not playable: the pick screen offers the sixteen. Backstories in docs/11-character-backstories.md. See docs/04-data-formats.md.",
+	"_about": "The original twelve leads, now story people met in the world (D79). Each stands in `area` as a person whose `story_npc` names this entry; `hook` is the thread their story picks up from, `company` the units standing with them. Not playable: the pick screen offers the sixteen. Backstories in docs/11-character-backstories.md. See docs/04-data-formats.md.",
 	"bram": {
 		"name": "Bram the Sworn Blade",
 		"unit": "bram",

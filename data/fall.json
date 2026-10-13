@@ -58,7 +58,23 @@
 			"element_monk": "eightfold_edge",
 			"sea_man": "undertow",
 			"emo_swordsman": "insomnia",
-			"wraith": "tatter"
+			"wraith": "tatter",
+			"atlas": "pale_orb",
+			"janus": "first_key",
+			"bellona": "last_wall",
+			"cassius": "the_answer",
+			"saturn": "long_harvest",
+			"vesta": "kept_flame",
+			"caesar": "every_morning",
+			"iris": "passing_word",
+			"pluto": "the_tally",
+			"ceres": "threshing_day",
+			"cato": "last_word",
+			"juno": "hosts_knife",
+			"ultor": "grudge_and_reckoning",
+			"diana": "wolfs_tooth",
+			"ares": "first_blow",
+			"liber": "open_hands"
 		},
 		"lines": {
 			"_doc": "{name} is the dead lead, {lead} the living one, {weapon} the signature weapon, {way} a compass direction, {place} a place, {level} and {floor} how far the dead lead got.",
@@ -124,13 +140,16 @@
 			"SJ": { "keep": 4, "village": 4, "library": 1, "tower": 1, "hut": 1, "gate": 1 },
 			"SP": { "gate": 4, "keep": 3, "hut": 2, "village": 1, "tower": 1, "library": 0 }
 		},
-		"_doc_rules": "Steps are the build's clock until M18. A wanderer stays at a place for stay_min..stay_max steps, then walks to the next at steps_per_tile. Nearer places are favoured by nearness (a place twice as far is half as likely). An Inward temper needs to have been met meetings_to_join times before they will walk with you; an Outward one, fewer.",
+		"_doc_rules": "Steps are the build's clock until M18. A wanderer stays at a place for stay_min..stay_max steps, then walks to the next at steps_per_tile. Nearer places are favoured by nearness (a place twice as far is half as likely). An Inward temper needs to have been met meetings_to_join times before they will walk with you; an Outward one, fewer. Each of the sixteen also has a place of their own (heroes.json `found_at`, from docs/21's \"when someone else is the lead\"): they walk there first, like that kind of place home_liking more than their temper does, and stay there home_stay times as long. A `restless` one (Iris, Liber) stays restless_stay as long anywhere. **Inferred** (docs/worldbuilding/answers.md).",
 		"rules": {
 			"stay_min": 60,
 			"stay_max": 180,
 			"steps_per_tile": 2,
 			"rumour_at_rest": 0.4,
-			"meetings_to_join": { "E": 1, "I": 2 }
+			"meetings_to_join": { "E": 1, "I": 2 },
+			"home_liking": 8,
+			"home_stay": 3.0,
+			"restless_stay": 0.35
 		},
 		"lines": {
 			"_doc": "What they say when met. {name} is the wanderer, {title} their title, {place} where you are both standing, {next} the kind of place they mean to go next, {lead} the lead's name.",

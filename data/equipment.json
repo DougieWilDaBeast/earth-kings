@@ -459,5 +459,149 @@
 		"attack": 32,
 		"defense": 4,
 		"text": "More rag than blade, until it isn't."
+	},
+	"pale_orb": {
+		"display_name": "The Pale Orb",
+		"icon": "staff/staff_comet",
+		"kind": "staff",
+		"signature": "atlas",
+		"attack": 32,
+		"defense": 4,
+		"text": "It glows brighter the further ahead its owner was reading. It is never dark."
+	},
+	"first_key": {
+		"display_name": "The First Key",
+		"icon": "staff/staff_orrery",
+		"kind": "staff",
+		"signature": "janus",
+		"attack": 32,
+		"defense": 4,
+		"text": "It fits no lock in this world. Hold it near a gate and the gate notices."
+	},
+	"last_wall": {
+		"display_name": "The Last Wall",
+		"icon": "blade/blade_gilt",
+		"kind": "blade",
+		"signature": "bellona",
+		"attack": 32,
+		"defense": 4,
+		"text": "A standard on a spear. Whoever stands beside it stands a little straighter."
+	},
+	"the_answer": {
+		"display_name": "The Answer",
+		"icon": "blade/blade_silver",
+		"kind": "blade",
+		"signature": "cassius",
+		"attack": 32,
+		"defense": 4,
+		"text": "A rapier that never moves first, and is never late."
+	},
+	"long_harvest": {
+		"display_name": "The Long Harvest",
+		"icon": "blade/blade_bone",
+		"kind": "blade",
+		"signature": "saturn",
+		"attack": 32,
+		"defense": 4,
+		"text": "A sickle heavier than it looks. It pulls at everything nearby, gently, always."
+	},
+	"kept_flame": {
+		"display_name": "The Kept Flame",
+		"icon": "staff/staff_lantern",
+		"kind": "staff",
+		"signature": "vesta",
+		"attack": 32,
+		"defense": 4,
+		"text": "A lamp nobody has filled. It burns only what should already be dead."
+	},
+	"every_morning": {
+		"display_name": "Every Morning",
+		"icon": "kit/kit_knight",
+		"kind": "blade",
+		"signature": "caesar",
+		"attack": 32,
+		"defense": 4,
+		"text": "A tower shield dented from every side. It has never once stayed down."
+	},
+	"passing_word": {
+		"display_name": "Passing Word",
+		"icon": "kit/kit_scout",
+		"kind": "bow",
+		"signature": "iris",
+		"attack": 32,
+		"defense": 4,
+		"text": "A belt of throwing knives. Each one lands where somebody else needed it."
+	},
+	"the_tally": {
+		"display_name": "The Tally",
+		"icon": "staff/staff_skull",
+		"kind": "staff",
+		"signature": "pluto",
+		"attack": 32,
+		"defense": 4,
+		"text": "A bident notched once for every kind of thing it has killed. There is room for more."
+	},
+	"threshing_day": {
+		"display_name": "Threshing Day",
+		"icon": "blade/blade_iron",
+		"kind": "blade",
+		"signature": "ceres",
+		"attack": 32,
+		"defense": 4,
+		"text": "A flail for grain that has learned other work. The ground it strikes grows back thicker."
+	},
+	"last_word": {
+		"display_name": "The Last Word",
+		"icon": "blade/blade_steel",
+		"kind": "blade",
+		"signature": "cato",
+		"attack": 32,
+		"defense": 4,
+		"text": "A short sword and a big shield, both plain, both kept to the letter."
+	},
+	"hosts_knife": {
+		"display_name": "The Host's Knife",
+		"icon": "kit/kit_merchant",
+		"kind": "blade",
+		"signature": "juno",
+		"attack": 32,
+		"defense": 4,
+		"text": "A kitchen knife she will not fight with. It cuts bread for anyone, enemies included."
+	},
+	"grudge_and_reckoning": {
+		"display_name": "Grudge and Reckoning",
+		"icon": "blade/blade_ember",
+		"kind": "blade",
+		"signature": "ultor",
+		"attack": 32,
+		"defense": 4,
+		"text": "Two daggers that pull towards one face. Nobody else's."
+	},
+	"wolfs_tooth": {
+		"display_name": "The Wolf's Tooth",
+		"icon": "kit/kit_hunter",
+		"kind": "bow",
+		"signature": "diana",
+		"attack": 32,
+		"defense": 4,
+		"text": "A hunting bow. The wolf has more kills than it does, and both of them know it."
+	},
+	"first_blow": {
+		"display_name": "The First Blow",
+		"icon": "blade/blade_storm",
+		"kind": "blade",
+		"signature": "ares",
+		"attack": 32,
+		"defense": 4,
+		"text": "A greataxe that lands like a mountain the first time, and only the first time."
+	},
+	"open_hands": {
+		"display_name": "Open Hands",
+		"icon": "kit/kit_traveller",
+		"kind": "blade",
+		"signature": "liber",
+		"attack": 32,
+		"defense": 4,
+		"text": "A pair of cestus, still knotted, never worn. He would rather not."
 	}
 }

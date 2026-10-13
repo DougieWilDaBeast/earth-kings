@@ -277,7 +277,7 @@ func _check_talking(scene: Node, area_id: String) -> void:
 	])
 
 
-## The original twelve are people in the world now (D78): each stands in the area
+## The original twelve are people in the world now (D79): each stands in the area
 ## `data/story_npcs.json` gives them, drawn from their own body, with something to say.
 func _check_story_npcs() -> void:
 	if Database.story_npcs.size() != 12:

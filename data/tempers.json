@@ -83,82 +83,82 @@
 		"INTJ": {
 			"display_name": "The Long Plan",
 			"blurb": "Has already decided how this ends and is walking the rest of you toward it.",
-			"hero": ""
+			"hero": "atlas"
 		},
 		"INTP": {
 			"display_name": "The Open Question",
 			"blurb": "Would rather understand the gate than close it, and says so at the worst moment.",
-			"hero": ""
+			"hero": "janus"
 		},
 		"ENTJ": {
 			"display_name": "The Marshal",
 			"blurb": "Takes the road in hand within a day of joining it. Nobody votes.",
-			"hero": ""
+			"hero": "bellona"
 		},
 		"ENTP": {
 			"display_name": "The Contrary",
 			"blurb": "Finds the hole in every plan, including the ones that were working.",
-			"hero": ""
+			"hero": "cassius"
 		},
 		"INFJ": {
 			"display_name": "The Quiet Cause",
 			"blurb": "Carries one conviction a long way without mentioning it until it costs something.",
-			"hero": ""
+			"hero": "saturn"
 		},
 		"INFP": {
 			"display_name": "The Kept Flame",
 			"blurb": "Yields on everything except the one thing, and never on that.",
-			"hero": ""
+			"hero": "vesta"
 		},
 		"ENFJ": {
 			"display_name": "The Gatherer",
 			"blurb": "Arrives alone and leaves with four people who would follow them anywhere.",
-			"hero": ""
+			"hero": "caesar"
 		},
 		"ENFP": {
 			"display_name": "The Spark",
 			"blurb": "Talks a closed town open, then wants to know what is behind the next hill.",
-			"hero": ""
+			"hero": "iris"
 		},
 		"ISTJ": {
 			"display_name": "The Ledger",
 			"blurb": "Knows what is in the packs, what it cost, and who was owed.",
-			"hero": ""
+			"hero": "pluto"
 		},
 		"ISFJ": {
 			"display_name": "The Keeper",
 			"blurb": "Notices who has not eaten. Remembers the names of the dead longer than anyone.",
-			"hero": ""
+			"hero": "ceres"
 		},
 		"ESTJ": {
 			"display_name": "The Straight Road",
 			"blurb": "Says the hard thing first, in front of everyone, and means it kindly.",
-			"hero": ""
+			"hero": "cato"
 		},
 		"ESFJ": {
 			"display_name": "The Full Table",
 			"blurb": "Makes a camp into a household by the second night, whether or not it was wanted.",
-			"hero": ""
+			"hero": "juno"
 		},
 		"ISTP": {
 			"display_name": "The Steady Hand",
 			"blurb": "Says little, fixes what is broken, and is already moving when it goes wrong.",
-			"hero": ""
+			"hero": "ultor"
 		},
 		"ISFP": {
 			"display_name": "The Own Path",
 			"blurb": "Goes where they were going. Will not be argued out of it and will not argue back.",
-			"hero": ""
+			"hero": "diana"
 		},
 		"ESTP": {
 			"display_name": "The First Move",
 			"blurb": "Is across the room before the rest of you have agreed there is a problem.",
-			"hero": ""
+			"hero": "ares"
 		},
 		"ESFP": {
 			"display_name": "The Bright Hour",
 			"blurb": "Makes the worst week on the road into something the company tells stories about.",
-			"hero": ""
+			"hero": "liber"
 		}
 	}
 }

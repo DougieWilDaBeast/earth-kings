@@ -101,6 +101,109 @@
 			"effect": "lifesteal",
 			"value": 0.15,
 			"also": { "flank_bonus": 0.15 }
+		},
+		"the_long_plan": {
+			"display_name": "The Long Plan",
+			"description": "+20% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.2
+		},
+		"worse_odds": {
+			"display_name": "Worse Odds",
+			"description": "When an ally goes down, every skill comes back at once.",
+			"effect": "reset_on_ally_down"
+		},
+		"command": {
+			"display_name": "Command",
+			"description": "Allies within 2 tiles attack 15% faster and take 5% less damage.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": { "haste": 0.15, "guard": 0.05 }
+		},
+		"the_answer": {
+			"display_name": "The Answer",
+			"description": "At or under half health, deals 30% more.",
+			"effect": "last_stand",
+			"value": 0.3,
+			"threshold": 0.5
+		},
+		"gravity": {
+			"display_name": "Gravity",
+			"description": "Anyone striking from an adjacent tile takes 20% of the blow back.",
+			"effect": "thorns",
+			"value": 0.2
+		},
+		"kept_flame": {
+			"display_name": "Kept Flame",
+			"description": "Allies within 2 tiles take 10% less damage.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": { "guard": 0.1 }
+		},
+		"back_on_his_feet": {
+			"display_name": "Back on His Feet",
+			"description": "Out of the fighting for 4 seconds, recovers 5% of health every second.",
+			"effect": "regen",
+			"value": 0.05
+		},
+		"marked": {
+			"display_name": "Marked",
+			"description": "+10% chance to land a critical hit; hits from the side or behind deal 15% more.",
+			"effect": "crit",
+			"value": 0.1,
+			"also": { "flank_bonus": 0.15 }
+		},
+		"tithe_of_the_dead": {
+			"display_name": "Tithe of the Dead",
+			"description": "Heals for 15% of the damage dealt.",
+			"effect": "lifesteal",
+			"value": 0.15
+		},
+		"deep_roots": {
+			"display_name": "Deep Roots",
+			"description": "Allies within 1 tile recover 1.5% of their health every second.",
+			"effect": "aura",
+			"radius": 1,
+			"grants": { "regen": 0.015 }
+		},
+		"formation": {
+			"display_name": "Formation",
+			"description": "Allies within 1 tile take 12% less damage.",
+			"effect": "aura",
+			"radius": 1,
+			"grants": { "guard": 0.12 }
+		},
+		"full_table": {
+			"display_name": "Full Table",
+			"description": "Allies within 3 tiles recover 1% of their health every second.",
+			"effect": "aura",
+			"radius": 3,
+			"grants": { "regen": 0.01 }
+		},
+		"two_hands": {
+			"display_name": "Two Hands",
+			"description": "A basic attack has a 30% chance to strike twice.",
+			"effect": "echo",
+			"value": 0.3
+		},
+		"with_the_wolf": {
+			"display_name": "With the Wolf",
+			"description": "Hits from the side or behind deal 25% more.",
+			"effect": "flank_bonus",
+			"value": 0.25
+		},
+		"first_blow": {
+			"display_name": "First Blow",
+			"description": "+15% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.15
+		},
+		"reckless": {
+			"display_name": "Reckless",
+			"description": "A basic attack has a 15% chance to strike twice; heals for 10% of the damage dealt.",
+			"effect": "echo",
+			"value": 0.15,
+			"also": { "lifesteal": 0.1 }
 		}
 	},
 	"by_template": {
@@ -114,7 +217,23 @@
 		"hedge_priest": ["hearthglow"],
 		"magic_swordsman": ["echo_blade"],
 		"raider": ["bloodthirst"],
-		"wildling": ["hunters_angle"]
+		"wildling": ["hunters_angle"],
+		"borne_mage": ["the_long_plan"],
+		"gatewalker": ["worse_odds"],
+		"marshal": ["command"],
+		"duellist": ["the_answer"],
+		"reaper": ["gravity"],
+		"lampkeeper": ["kept_flame"],
+		"shield_bearer": ["back_on_his_feet"],
+		"skirmisher": ["marked"],
+		"shade_caller": ["tithe_of_the_dead"],
+		"sower": ["deep_roots"],
+		"phalanx": ["formation"],
+		"provisioner": ["full_table"],
+		"twin_blade": ["two_hands"],
+		"wolf_bound": ["with_the_wolf"],
+		"vanguard": ["first_blow"],
+		"brawler": ["reckless"]
 	},
 	"by_ability": {
 		"second_wind": ["second_wind"],
@@ -159,7 +278,7 @@
 	"ranged_role": "kiter",
 	"healer_role": "healer",
 	"shield_bearers": {
-		"by_class": ["sworn_blade"],
+		"by_class": ["sworn_blade", "shield_bearer", "phalanx"],
 		"by_ability": ["shield_bash"]
 	},
 	"training_pouch": {

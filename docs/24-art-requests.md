@@ -25,6 +25,13 @@ big units drawn bigger.
 | --- | --- | --- | --- | --- |
 | A2 | **Fight screen UI**: four ability-slot frames (Q, W, E, R), a cooldown sweep, a "Paused" banner and a game-speed indicator. The status icons are made (see Done) | Frames to match the existing UI in `art/ui/` | `DROP-ZONE/A2/` | What the player reads during a real-time fight ([19, item 1.5](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset)) |
 | A3 | **Redraw two borrowed characters** so they no longer look like other games' characters: `ember_lizard`, `seed_beast`. The two giants, `king_slime` and `blue_slime` are done (see Done) | The 64 class; use the new prompts in [23](23-originality-pass.md) | `DROP-ZONE/A3/` | They cannot ship looking like the originals ([23](23-originality-pass.md), [22 item P6](22-asset-provenance.md)) |
+| A4 | **Sixteen signature weapon icons**, one per lead: Atlas's orb, Janus's key, Bellona's standard-spear, Cassius's rapier, Saturn's sickle, Vesta's lamp, Caesar's tower shield, Iris's throwing knives, Pluto's bident, Ceres's threshing flail, Cato's short sword and shield, Juno's kitchen knife, Ultor's two daggers, Diana's hunting bow, Ares's greataxe, Liber's cestus. Today each borrows an existing icon | Item icons at the size and finish of `art/items/` | `DROP-ZONE/A4/`, named by the weapon id in `data/equipment.json` (`pale_orb`, `first_key`, `last_wall`, `the_answer`, `long_harvest`, `kept_flame`, `every_morning`, `passing_word`, `the_tally`, `threshing_day`, `last_word`, `hosts_knife`, `grudge_and_reckoning`, `wolfs_tooth`, `first_blow`, `open_hands`) | The weapon a dead lead leaves to the next world ([D33](06-decisions.md), [D78](06-decisions.md)) |
+
+## Deferred
+
+| What | Why it waits |
+| --- | --- |
+| Redraw the manes of `tide_lion` and `flame_lion` so water and fire read at a glance (about 35 generations each) | `dougie`, 2026-10-13: playability first, come back to it later |
 
 ## Done
 

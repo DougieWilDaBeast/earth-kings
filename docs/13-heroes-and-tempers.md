@@ -5,7 +5,8 @@ questions, and the four answers name the life they are about to live. The other 
 in the world.
 
 Supersedes [11 — Hero Backstories](11-character-backstories.md), which describes the twelve heroes
-this replaces. Those twelve are still playable while the sixteen are written.
+this replaces. Since 2026-10-13 the sixteen are the leads ([D78](06-decisions.md)); the twelve are
+story NPCs, no longer offered as a lead.
 
 ## Who the sixteen are
 
@@ -23,9 +24,10 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
 - **Their own lives.** When not the lead, each lives by their temper from wherever they landed,
   with their own line of quests to the Tower. **Built 2026-10-12** without the quest lines: they
   crash-land at seeded sites and walk between kinds of place by temper, and can be met and joined
-  ([17](17-the-sixteen-worlds.md#the-others-as-built)). Until the sixteen are written the twelve
-  existing heroes stand in, with tempers inferred in `data/fall.json` (agenda item 26). Those twelve
-  are not leads in the end: they are story people met in the world ([D78](06-decisions.md)).
+  ([17](17-the-sixteen-worlds.md#the-others-as-built)). Since 2026-10-13 they are the sixteen
+  themselves, each settling first at the kind of place [21](21-the-sixteen-first-draft.md) puts them
+  ([D78](06-decisions.md)). The twelve who stood in before are
+  story people met in the world ([D79](06-decisions.md)).
 - **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
   crosses to the next world when they die as the lead.
 - **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what
@@ -167,37 +169,41 @@ twice, then wipes the record.
 
 ## The sixteen
 
-`hero` is blank until that character is written. Run `--list=tempers` for the live state.
+Since 2026-10-13 every slot names one of the sixteen from the [first draft](21-the-sixteen-first-draft.md) ([D78](06-decisions.md)). Run `--list=tempers` for the live state.
 
 | Code | Temper | Character |
 | --- | --- | --- |
-| INTJ | The Long Plan | — |
-| INTP | The Open Question | — |
-| ENTJ | The Marshal | — |
-| ENTP | The Contrary | — |
-| INFJ | The Quiet Cause | — |
-| INFP | The Kept Flame | — |
-| ENFJ | The Gatherer | — |
-| ENFP | The Spark | — |
-| ISTJ | The Ledger | — |
-| ISFJ | The Keeper | — |
-| ESTJ | The Straight Road | — |
-| ESFJ | The Full Table | — |
-| ISTP | The Steady Hand | — |
-| ISFP | The Own Path | — |
-| ESTP | The First Move | — |
-| ESFP | The Bright Hour | — |
+| INTJ | The Long Plan | **Atlas** (`atlas`) |
+| INTP | The Open Question | **Janus** (`janus`) |
+| ENTJ | The Marshal | **Bellona** (`bellona`) |
+| ENTP | The Contrary | **Cassius** (`cassius`) |
+| INFJ | The Quiet Cause | **Saturn** (`saturn`) |
+| INFP | The Kept Flame | **Vesta** (`vesta`) |
+| ENFJ | The Gatherer | **Caesar** (`caesar`) |
+| ENFP | The Spark | **Iris** (`iris`) |
+| ISTJ | The Ledger | **Pluto** (`pluto`) |
+| ISFJ | The Keeper | **Ceres** (`ceres`) |
+| ESTJ | The Straight Road | **Cato** (`cato`) |
+| ESFJ | The Full Table | **Juno** (`juno`) |
+| ISTP | The Steady Hand | **Ultor** (`ultor`) |
+| ISFP | The Own Path | **Diana** (`diana`) |
+| ESTP | The First Move | **Ares** (`ares`) |
+| ESFP | The Bright Hour | **Liber** (`liber`) |
 
 ## Writing one
 
 Four sittings of four, grouped so each sitting contrasts with itself: **NT** (INTJ, INTP, ENTJ,
 ENTP), **NF**, **SJ**, **SP**. Each character ships as one bundle:
 
-- `data/heroes.json` — id, `title`, `temper`, `difficulty`, `origin`, `blurb`, `companions`
-- `data/units.json` — stats, `abilities`, `classes`, `color`, `sprite_dir`
+- `data/heroes.json` — id, `title`, `temper`, `difficulty`, `origin`, `blurb`, `companions`,
+  and for when somebody else is the lead: `found_at`, `elsewhere`, `first`, `rumour` (see
+  [04](04-data-formats.md#heroesjson--the-leads-a-run-can-be-started-as))
+- `data/units.json` — stats, one basic attack in `abilities`, `color`, `sprite_dir` (`art/sixteen/<id>/idle`);
+  no `classes`, so the level-2 switch offers every class
+- `data/classes.json` — their own class, with `lead` set to their id
 - `data/fall.json` → `wanderers` — nothing to add once `types["XXXX"].hero` is set: the temper
-  there decides where they walk when somebody else is the lead, and the lines are their temper
-  group's until they are given their own
+  there decides where they walk when somebody else is the lead, beside their own `found_at`, and the
+  lines are their temper group's except where `first` and `rumour` give them their own
 - `data/dialogue/heroes/<id>.json` — what they say, including what it takes to join
 - this document — an entry in the shape `docs/11` uses
 - `data/tempers.json` — `types["XXXX"].hero`

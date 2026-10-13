@@ -2,7 +2,7 @@
 
 > **Superseded by [13 — Heroes & Tempers](13-heroes-and-tempers.md).** These twelve are no longer
 > leads: the sixteen are the playable lineup, and the twelve are significant people met in the world
-> and in the main stories ([D78](06-decisions.md), `data/story_npcs.json`). Their backstories below
+> and in the main stories ([D79](06-decisions.md), `data/story_npcs.json`). Their backstories below
 > are what their conversations and story hooks are drawn from.
 
 
