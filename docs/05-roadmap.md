@@ -120,6 +120,8 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    sixteen as the leads, in their own bodies, the other fifteen settling where 21 puts them
    ([D78](06-decisions.md), agenda item 69), and the twelve placed in the world as story people,
    each where their backstory belongs with a conversation ([D79](06-decisions.md), agenda item 70).
+   Each of the sixteen fights in their own way too: Atlas's bearer, Diana's wolf, Pluto's shades
+   and the rest ([21](21-the-sixteen-first-draft.md#the-sixteen-signatures-as-built), agenda item 72).
    Still to write: their parts in the main stories, with the sixteen's quest lines.
 2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
@@ -131,8 +133,8 @@ pull request is checked by CI (the suites, a soak, and the ledger).
 3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
    [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
-   Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68)
-   and the sixteen as leads (69). `doug-md` answered
+   Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68),
+   the sixteen as leads (69) and their signatures (72). `doug-md` answered
    items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
 4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
@@ -198,11 +200,16 @@ is left is art: the moves of the units not yet drawn.
 - A class of their own for each of the sixteen ✅ (2026-10-13, [D63](06-decisions.md)): four moves
   for level 1, a passive and growth each, in `data/classes.json` and `data/skirmish.json`
   ([21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built)); a lead starts in it and may
-  switch at level 2. Every move and number is **Inferred** (agenda item 68). Planned, not built:
-  the signature mechanics no move can do yet — Atlas carried by a bearer, Janus moving people,
-  Bellona's orders, Cassius's taunt, Saturn's push and pull, Vesta's fire against the dead, Caesar
-  getting back up once a fight, Iris's marks, Pluto's shades, Ceres's planted ground, Cato standing
-  still, Juno's doubled items, Ultor's one target, Diana's wolf, Ares tiring, Liber unpinnable
+  switch at level 2. Every move and number is **Inferred** (agenda item 68)
+- A signature each for the sixteen ✅ (2026-10-13, [21](21-the-sixteen-first-draft.md#the-sixteen-signatures-as-built)):
+  Atlas carried by a bearer, Janus faster the worse the odds, Bellona's orders, Cassius learning
+  who hits him, Saturn's heavy ground, Vesta's wards and her fire against the dead, Caesar taking
+  the hit and getting back up once, Iris's marks, Pluto's shades, Ceres's planted ground, Cato set,
+  Juno's doubled and thrown items, Ultor's one target, Diana's wolf, Ares's opener, Liber
+  unstunnable (`signatures` in `data/skirmish.json`, `src/skirmish/skirmish_signatures.gd`), at no
+  new art. Every rule and number is **Inferred** (agenda item 72), and who carries Atlas is still
+  the founders' call. Planned, not built: the parts no fight can do yet — moving people (Janus,
+  Saturn's push and pull), a taunt, Bellona's orders as moves
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
   Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`

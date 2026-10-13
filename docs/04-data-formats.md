@@ -684,6 +684,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
   },
+  "signatures": { "diana": { "style": "beast_bond", "display_name": "Beast-bond",
+                             "description": "…", "beast": "ice_wolf", "without": 0.4 } },
   "by_template": { "brigand_chief": ["war_cry"] },
   "by_class": { "sworn_blade": ["shieldwall"] },
   "by_ability": { "riposte": ["barbed_guard"] },
@@ -716,6 +718,20 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   melee basic attack that does not come from behind, with a chance of `block_chance` +
   `block_per_defence` × its defence, at most `block_max`. Not while casting, using an item or stunned.
 
+- **Signatures** (the sixteen's own ways of fighting, agenda item 72): keyed by template, so a lead
+  carries theirs whatever class they take, and so does one met as a foe. `style` names what the
+  code does; the other keys are its numbers, all shares or seconds. `borne` (`bearer`, `bearer_name`:
+  a companion that keeps beside him; no step without it), `doorways` (`per_foe`, `most`: cooldown
+  speed), `orders` (`every`, `radius`, `lasts`, `advance`, `break_them`, `energy_radius`,
+  `energy`), `learns` and `one_target` (`per_hit`, `most`), `gravity_well` (`radius`, `slow`),
+  `ward` (`every`, `radius`, `below`, `ward`, `dead` templates, `dead_bonus`), `takes_the_hit`
+  (`share`, `rise_after`, `rise_health`), `marks` (`lasts`, `marked_bonus`, `per_finish`, `most`),
+  `shades` (`health`, `at_once`, `per_kind`, `most`), `growth` (`plant_after`, `most`, `radius`,
+  `regen`, `slow`, `rooted_bonus`), `set` (`after`, `guard`, `might`, `beside`), `provision`
+  (`twice`, `every`, `radius`, `below`), `beast_bond` (`beast`, `beast_name`, `without`), `opener`
+  (`lasts`, `might`, `haste`, `tired_might`, `tired_slow`), `bare_hands` (`every`, `per_step`,
+  `most`). A companion (bearer, wolf, a shade) fights beside the party as an ally, at its owner's
+  level, and is gone after the fight.
 - A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
   each ability it knows in `by_ability`, and capped at `rules.max_passives`.
 - `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the

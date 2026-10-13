@@ -170,6 +170,7 @@ func _run() -> void:
 	await _check_surround()
 	await _check_allies_and_auto()
 	await _check_the_world_hears()
+	await _check_signatures()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -672,6 +673,52 @@ func _check_the_world_hears() -> void:
 	EventBus.character_fell.disconnect(on_fall)
 	fight.queue_free()
 	sand.queue_free()
+
+
+## The sixteen's own ways of fighting (agenda item 72): Atlas comes with his
+## bearer and is stuck without him, Diana with her wolf, and what Pluto kills
+## gets up for him.
+func _check_signatures() -> void:
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	var map := _proving_ground()
+	map["allies"] = [
+		{"unit": "atlas", "cell": [3, 8], "level": 3},
+		{"unit": "diana", "cell": [9, 8], "level": 3},
+		{"unit": "pluto", "cell": [6, 7], "level": 3},
+	]
+	fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = false
+	var atlas := _by_template(fight, "atlas")
+	var diana := _by_template(fight, "diana")
+	var pluto := _by_template(fight, "pluto")
+	_expect(atlas != null and diana != null and pluto != null, "the leads did not come into the fight")
+	if atlas == null or diana == null or pluto == null:
+		fight.queue_free()
+		return
+	var bearer: Fighter = atlas.sig.get("bearer")
+	var wolf: Fighter = diana.sig.get("beast")
+	_expect(bearer != null and bearer.bound_to == atlas and bearer.unit.team == atlas.unit.team, "Atlas came without his bearer")
+	_expect(wolf != null and wolf.bound_to == diana and wolf.unit.template_id == "ice_wolf", "Diana came without her wolf")
+	if bearer != null:
+		_expect(fight.signatures.can_step(atlas), "Atlas cannot move with his bearer beside him")
+		bearer.unit.take_damage(bearer.unit.hp)
+		fight._drop(bearer)
+		_expect(not fight.signatures.can_step(atlas), "Atlas moved with his bearer down")
+	var foe: Fighter = null
+	for f: Fighter in fight.fighters:
+		if not f.unit.sides_with_party() and f.is_standing():
+			foe = f
+	if foe != null:
+		foe.unit.hp = 1
+		fight._strike(pluto, foe.unit, Database.ability(pluto.basic), pluto.basic)
+		fight.tick()
+		var shades: Array = fight.fighters.filter(func(f: Fighter) -> bool: return f.bound_to == pluto)
+		_expect(shades.size() == 1 and shades[0].is_standing() and shades[0].unit.team == pluto.unit.team,
+				"what Pluto killed did not rise for him")
+	fight.queue_free()
 
 
 func _practice(group: Array[Fighter]) -> int:
