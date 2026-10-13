@@ -1,8 +1,9 @@
 extends Node2D
-## The fight's feel, drawn with nothing but shapes and text: numbers that jump
-## off whoever was hit, a white flash on the hit, a ring where someone fell, and
-## a word over the head when something special happens (a critical, a grace).
-## Purely for show — nothing here touches the fight.
+## The fight's feel: numbers that jump off whoever was hit, a white flash on the
+## hit, a ring where someone fell, a word over the head when something special
+## happens (a critical, a grace), and the drawn effects in `art/effects` — a slash,
+## an arrow in flight, a burst, a heal, a block. Which effect goes with what is
+## `effects` in `data/skirmish.json`. Purely for show — nothing here touches the fight.
 
 const RISE := 38.0
 const LIFE := 0.9
@@ -28,6 +29,80 @@ var _rings: Array[Dictionary] = []
 var _flashes: Dictionary = {}
 ## Unit -> seconds of gold flicker left.
 var _golds: Dictionary = {}
+## Drawn effects playing: {frames, at, from, age, life}. `from` is where a shot
+## set off from, or `at` itself for one that plays where it lands.
+var _effects: Array[Dictionary] = []
+
+## Effect name -> its frames, and icon name -> its texture, loaded once.
+static var _frames: Dictionary = {}
+static var _icons: Dictionary = {}
+## Effect name -> times played, for the smoke test (as [member Sfx.counts]).
+static var played: Dictionary = {}
+
+## An arrow is drawn pointing down and to the left.
+const ARROW_POINTS := Vector2(-1.0, 1.0)
+## Seconds a shot takes to cross to whoever it hit.
+const SHOT_TIME := 0.22
+
+
+## The effect `data/skirmish.json` names for [param kind] ("swing", "shot",
+## "spell", "heal", "block", "charged"), or the one named for [param ability_id]
+## when it has its own. "" when there is none.
+static func effect_for(kind: String, ability_id: String = "") -> String:
+	var data: Dictionary = Database.skirmish.get("effects", {})
+	var own := str(data.get("by_ability", {}).get(ability_id, ""))
+	return own if own != "" else str(data.get(kind, ""))
+
+
+## An effect's frames, `frame_000.png` onwards; empty when it is not there.
+static func effect_frames(name: String) -> Array:
+	if name == "":
+		return []
+	if _frames.has(name):
+		return _frames[name]
+	var folder := str(Database.skirmish.get("effects", {}).get("folder", "res://art/effects"))
+	var frames: Array = []
+	while true:
+		var path := "%s/%s/frame_%03d.png" % [folder, name, frames.size()]
+		if not ResourceLoader.exists(path):
+			break
+		frames.append(load(path))
+	_frames[name] = frames
+	return frames
+
+
+## A status icon from `art/ui/status`, or null when it is not there.
+static func status_icon(name: String) -> Texture2D:
+	if name == "":
+		return null
+	if _icons.has(name):
+		return _icons[name]
+	var folder := str(Database.skirmish.get("status_icons", {}).get("folder", "res://art/ui/status"))
+	var path := "%s/%s.png" % [folder, name]
+	var icon: Texture2D = load(path) if ResourceLoader.exists(path) else null
+	_icons[name] = icon
+	return icon
+
+
+## Seconds a frame of an effect is shown.
+static func frame_time() -> float:
+	return 1.0 / maxf(1.0, float(Database.skirmish.get("effects", {}).get("fps", 18.0)))
+
+
+## How big an effect is drawn, on the grid: one tile times this.
+static func effect_size() -> float:
+	return BattleGrid.CELL_SIZE * float(Database.skirmish.get("effects", {}).get("size", 1.1))
+
+
+## Play the effect named [param name] once at [param at]. With [param from], it
+## flies from there to [param at] over its frames (an arrow), turned to face the way it goes.
+func effect(name: String, at: Vector2, from: Variant = null) -> void:
+	var frames := effect_frames(name)
+	if frames.is_empty():
+		return
+	played[name] = int(played.get(name, 0)) + 1
+	_effects.append({"frames": frames, "at": at, "from": at if from == null else from,
+			"age": 0.0, "life": frame_time() * frames.size() if from == null else SHOT_TIME})
 
 
 func popup(text: String, at: Vector2, colour: Color, size: int = 18, life: float = LIFE) -> void:
@@ -57,6 +132,9 @@ func _process(delta: float) -> void:
 	for r in _rings:
 		r["age"] = float(r["age"]) + delta
 	_rings = _rings.filter(func(r: Dictionary) -> bool: return float(r["age"]) < RING_TIME)
+	for e in _effects:
+		e["age"] = float(e["age"]) + delta
+	_effects = _effects.filter(func(e: Dictionary) -> bool: return float(e["age"]) < float(e["life"]))
 	for unit: Variant in _flashes.keys():
 		if not is_instance_valid(unit):
 			_flashes.erase(unit)
@@ -92,6 +170,20 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var font := ThemeDB.fallback_font
+	var side := effect_size()
+	for e in _effects:
+		var frames: Array = e["frames"]
+		var t := float(e["age"]) / float(e["life"])
+		var texture: Texture2D = frames[mini(frames.size() - 1, int(t * frames.size()))]
+		var from: Vector2 = e["from"]
+		var to: Vector2 = e["at"]
+		if from == to:
+			draw_texture_rect(texture, Rect2(to - Vector2(side, side) * 0.5, Vector2(side, side)), false)
+			continue
+		# A shot: carried along the line and turned to point the way it flies.
+		draw_set_transform(from.lerp(to, t), (to - from).angle() - ARROW_POINTS.angle())
+		draw_texture_rect(texture, Rect2(-Vector2(side, side) * 0.5, Vector2(side, side)), false)
+		draw_set_transform(Vector2.ZERO)
 	for r in _rings:
 		var t := float(r["age"]) / RING_TIME
 		var colour: Color = r["colour"]

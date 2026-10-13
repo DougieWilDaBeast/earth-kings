@@ -126,7 +126,7 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
    Next: the other level-1 faction foes, the twelve's bodies (now NPCs: idle and walk unless a story
    fight needs more), their companions and the village's walks; then the sixteen's fight sets. The
-   fight effects and status icons are made but not wired yet ([24](24-art-requests.md), A1 and A2).
+   fight effects and status icons are in the fight since 2026-10-13 ([D82](06-decisions.md)).
    Deferred by `dougie` (2026-10-13): redrawing the tide and flame lions' manes.
 3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
@@ -170,7 +170,7 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 
 Started 2026-09-24, on the first pass of M10, as a prototype beside the turn-based battle; since
 2026-10-12 it is the only fight — see [18 — The fight](18-combat-direction.md#the-fight). What
-is left is art: the moves of the units not yet drawn, and the fight effects and status icons wired in.
+is left is art: the moves of the units not yet drawn.
 
 - A battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
 - Point-and-click movement on the existing grid; automatic basic attacks ✅
@@ -179,8 +179,12 @@ is left is art: the moves of the units not yet drawn, and the fight effects and 
   per class — agenda item 45), shown on the cards and on hover
 - Walk, attack, skill, hit and death played in the fight ✅ (2026-10-13, [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)):
   the founders' three bodies, the first foes, the early big units and the rank-E gate bosses, 28
-  units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1). The
-  fight effects and status icons are made and not wired yet; the sixteen fight on their standing pose until their sets are drawn
+  units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1); the
+  sixteen fight on their standing pose until their sets are drawn
+- Fight effects and status icons ✅ (2026-10-13, [D82](06-decisions.md)): a slash, an arrow in
+  flight, a burst, a heal and a shield block where a blow lands, a charge-up round a charged spell,
+  and stun, charging, tired, draught and herb icons over the head (`effects` and `status_icons` in
+  `data/skirmish.json`, **Inferred** — agenda item 71)
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
   companion can reach ✅; when it runs out the fall is settled through `Fate.resolve`, as the
   turn-based battle settled it ✅ (a sandbox fight only rolls `Fate.roll` and writes nothing back;

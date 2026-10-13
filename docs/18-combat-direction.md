@@ -310,8 +310,8 @@ level-1 characters against six level-8 brigands — ends in about 20 seconds, an
 
 - **Animations for everyone.** Since 2026-10-13 a unit with move art walks, swings, casts, flinches
   and falls ([W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)); the early game's units
-  have it. The rest still slide and turn on their standing pose until drawn ([19](19-asset-list.md)),
-  and the fight effects and status icons are not wired.
+  have it. The rest still slide and turn on their standing pose until drawn ([19](19-asset-list.md)).
+  The fight effects and status icons are drawn since 2026-10-13 ([D82](06-decisions.md)).
 - **A multi-order queue.**
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty. The run's ledger counts damage at fight scale, three times what the
