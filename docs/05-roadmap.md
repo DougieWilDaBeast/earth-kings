@@ -188,6 +188,14 @@ is left is art: the moves of the units not yet drawn, and the fight effects and 
   shake on deaths, cooldown sweeps on the skill tiles and touch buttons
 - The fight is heard ✅ (2026-10-13, [D76](06-decisions.md)): fourteen sounds made in code, from the
   swing to the victory call, cued from `data/sfx.json`; how each sounds is **Inferred** (agenda item 66)
+- A class of their own for each of the sixteen ✅ (2026-10-13, [D63](06-decisions.md)): four moves
+  for level 1, a passive and growth each, in `data/classes.json` and `data/skirmish.json`
+  ([21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built)); a lead starts in it and may
+  switch at level 2. Every move and number is **Inferred** (agenda item 68). Planned, not built:
+  the signature mechanics no move can do yet — Atlas carried by a bearer, Janus moving people,
+  Bellona's orders, Cassius's taunt, Saturn's push and pull, Vesta's fire against the dead, Caesar
+  getting back up once a fight, Iris's marks, Pluto's shades, Ceres's planted ground, Cato standing
+  still, Juno's doubled items, Ultor's one target, Diana's wolf, Ares tiring, Liber unpinnable
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
   Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`

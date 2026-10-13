@@ -104,6 +104,8 @@ static func create(template_id_: String, name_override: String = "", player: boo
 	for field: String in TRAIT_POOLS:
 		character.set(field, str(source.get(field, "")))
 	character.origin_story = str(source.get("origin", ""))
+	# One of the sixteen starts in their own class, and may leave it at level 2.
+	character.class_id = Database.own_class(template_id_)
 	Gifts.endow(character)
 	return character
 
