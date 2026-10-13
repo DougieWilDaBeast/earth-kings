@@ -121,7 +121,9 @@ weapon, their seed and where they are found. Above each is the body this page gi
   one), Bellona's `legion_gold`, and Cassius's the rapier cat in `art/source/Sprite-0006.aseprite`.
 - Nobody wears the shared mark yet: tattoo or glowing eyes is still open ([D31](06-decisions.md)).
   Diana's wolf is `ice_wolf`, as above.
-- The base versions are in `art/sixteen/<name>/idle/`, eight facings each, not yet used by the game.
+- The base versions are in `art/sixteen/<name>/idle/`, eight facings each; the game draws the leads
+  from them ([D78](06-decisions.md)). Walk, attack, skill, hit and death, four facings each, are in
+  beside them for Atlas, Janus, Bellona, Cassius, Saturn and Vesta (2026-10-13); the other ten follow.
   The sentence each was made from is in its `metadata.json`; each cost 10 generations. They were
   dressed again on 2026-10-12 in the blended finish ([D57](06-decisions.md)). Liber's first sentence
   (straw hat, open red vest, shorts) drew a famous pirate captain, so he was redrawn with a shaved
