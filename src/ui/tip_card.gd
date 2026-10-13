@@ -101,7 +101,8 @@ func _on_pace_changed() -> void:
 
 
 func _offer(moment: String) -> void:
-	if Pace.auto:
+	# The tutorial teaches the same things itself; a tip spent there would never be seen in a run.
+	if Pace.auto or GameState.rehearsing:
 		return
 	var tip := Tips.due(moment)
 	if tip.is_empty():

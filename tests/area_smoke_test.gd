@@ -18,11 +18,14 @@ const AREAS := [
 	"hut", "hut_stilt", "hut_cairn", "hut_orchard",
 	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis",
 	"tower", "home",
-	"camp",
+	"camp", "tutorial",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
+const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
+const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -44,6 +47,7 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	await _check_tutorial()
 
 	print("")
 	if _failures.is_empty():
@@ -137,8 +141,12 @@ func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> voi
 		_fail("%s: the door of %s cannot be reached" % [area_id, who])
 	# A house nobody can go into says so in its own words (`shut`); any other door leads somewhere.
 	if not Database.has_area(building.get("area", "")) and building.get("area", "") != "coliseum" \
-			and not building.has("shut"):
+			and not building.has("shut") and not building.has("fight"):
 		_fail("%s: %s has no inside to walk into" % [area_id, who])
+	# A door into a sparring fight names opponents who exist.
+	for foe: Dictionary in building.get("fight", {}).get("enemies", []):
+		if Database.unit_template(str(foe.get("unit", ""))).is_empty():
+			_fail("%s: %s sends you to fight '%s', who has no unit template" % [area_id, who, foe.get("unit", "")])
 	if map.step_out_of(building) == door:
 		_fail("%s: coming out of %s puts you back in the doorway" % [area_id, who])
 	for cell: Vector2i in map.spots:
@@ -318,6 +326,66 @@ func _check_trading() -> void:
 	if GameState.gold != before + int(job["gold"]) or not GameState.has_flag(job["flag"] + ":paid"):
 		_fail("village: finishing Wat's job did not pay")
 	print("village: bought a loaf, paid the fox, found Wat's stone")
+
+
+## The tutorial (D71): every step points at something in its village, it never saves, it starts
+## on its first step, and doing what a step asks moves it on.
+func _check_tutorial() -> void:
+	var rules: Variant = SaveFile.read("res://data/tutorial.json")
+	if typeof(rules) != TYPE_DICTIONARY or (rules as Dictionary).get("steps", []).is_empty():
+		_fail("tutorial: data/tutorial.json has no steps")
+		return
+	var village := FileAccess.get_file_as_string("res://data/areas/%s.json" % rules.get("area", ""))
+	var map := AreaMap.load_area(str(rules.get("area", "")))
+	if map == null:
+		_fail("tutorial: its area '%s' does not exist" % rules.get("area", ""))
+		return
+	var names: Array = map.people.map(func(p: Dictionary) -> String: return str(p.get("name", "")))
+	for step: Dictionary in rules["steps"]:
+		var done: Dictionary = step.get("done", {})
+		var did := str(done.get("did", ""))
+		if did.begins_with("talked:") and not names.has(did.trim_prefix("talked:")):
+			_fail("tutorial: step '%s' wants a word with %s, who is not in the village" % [step.get("id", ""), did])
+		var flag := str(done.get("flag", ""))
+		if flag != "" and not village.contains('"%s' % flag.trim_suffix(":paid")):
+			_fail("tutorial: step '%s' waits on flag %s, which nothing in the village sets" % [step.get("id", ""), flag])
+		if done.is_empty():
+			_fail("tutorial: step '%s' can never be done" % step.get("id", ""))
+
+	var had_save := GameState.has_save()
+	var before := FileAccess.get_file_as_string(GameState.SAVE_PATH) if had_save else ""
+	var guide: Node = TutorialGuide.new()
+	add_child(guide)
+	_requests.clear()
+	guide.call("start")
+	if not GameState.rehearsing:
+		_fail("tutorial: the run it started is not marked a rehearsal")
+	if _requests.is_empty() or str(_requests[-1]["payload"].get("area_id", "")) != str(rules["area"]):
+		_fail("tutorial: it did not open its village")
+	GameState.save()
+	GameState.reached(RunMode.REST, "tutorial")
+	if GameState.has_save() != had_save or (had_save and FileAccess.get_file_as_string(GameState.SAVE_PATH) != before):
+		_fail("tutorial: a save was written during the tutorial")
+	if guide.call("step_id") != "welcome":
+		_fail("tutorial: it did not start on its first step (on '%s')" % guide.call("step_id"))
+	guide.call("_on_main_pressed")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	EventBus.player_did.emit("walked")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	EventBus.player_did.emit("talked:Maren the Guide")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	GameState.set_flag("tut:asked")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.4).timeout
+	if guide.call("step_id") != "buy":
+		_fail("tutorial: walking, talking and asking did not bring it to buying (on '%s')" % guide.call("step_id"))
+	EventBus.scene_changed.emit("title")
+	if guide.call("is_running"):
+		_fail("tutorial: it kept running after the title came back")
+	guide.queue_free()
+	GameState.new_game(SEED)
+	if GameState.rehearsing:
+		_fail("tutorial: a new run after it was still a rehearsal")
+	print("tutorial: %d steps, never saved, walked through to '%s'" % [rules["steps"].size(), "buy"])
 
 
 ## The fire seats the party itself: nobody is authored into it, and speaking to

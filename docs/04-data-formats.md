@@ -280,7 +280,9 @@ area always comes out the same.
 **Buildings** with an `art` (a key of `props.json` → `buildings`) are drawn from that picture at its
 `scale`, on its footprint `size`, with the door in the middle of the front row unless `door` says
 otherwise; `scale`, `size`, `flip` and `lived_in` may be given. A building with no `area` behind
-its door says its `shut` line (a string or a list) when walked into.
+its door says its `shut` line (a string or a list) when walked into. A building with a `fight`
+(`terrain`, `title`, `enemies` as `[{ "unit", "level" }]`, and `scene`, `skirmish` by default) is a
+door into a training fight that comes back out of the same door; nothing in it counts.
 
 **`talk`** on a person builds a conversation from data instead of a file ([`src/dialogue/talk.gd`](../src/dialogue/talk.gd)):
 
@@ -329,7 +331,26 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
   them over and over: the portals glow, the lighthouse sweeps.
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
-  another, and say so.
+  another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
+
+## `tutorial.json` — the tutorial (D71)
+
+Read by `src/ui/tutorial_guide.gd`. `area` is the village it runs in, `seed` and `lead` the
+practice run it starts (never saved). Each step has a `title`, `text`, and what makes it `done`:
+
+```json
+{ "id": "talk", "title": "Talking", "text": "Walk up to Maren…", "done": { "did": "talked:Maren the Guide" } }
+```
+
+- `did` — what `EventBus.player_did` says: `walked`, `talked:<name>`, `examined:<name>`, `chest`,
+  `door:<name>`, `fight_won`, `fight_lost`. A value ending in `:` or `_` matches anything after it.
+- `flag` — a flag set in `GameState` (a reply's `set_flag`, a favour's `<flag>:paid`).
+- `opened` — `party` or `journal`, when that screen opens.
+- `button` — a button on the card, with that text. A step with `finish: true` is the last: its
+  button starts a new run, and **Back to the title** sits beside it.
+
+Every step can also be skipped, and the tutorial ended, from the card. The area suite checks each
+step points at someone or something in the village.
 
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.

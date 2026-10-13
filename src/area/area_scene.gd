@@ -70,6 +70,8 @@ var _cutscene: AreaCutscene
 var _crumbs: Array[Vector2] = []
 ## How far the leader has walked since the last time anybody spoke up.
 var _walked: float = 0.0
+## How far the leader has walked since the area opened, until it is far enough to call walking.
+var _strolled: float = 0.0
 ## Held while an exchange is playing over their heads.
 var _chatting: bool = false
 var _notes: Array[String] = []
@@ -563,6 +565,7 @@ func _engage(target: AreaThing) -> void:
 ## into it — which is only ever there the first time.
 func _examine(thing: AreaProp) -> void:
 	_leader.face(thing.position - _leader.position)
+	EventBus.player_did.emit("examined:%s" % thing.display_name)
 	if map.wards.has(thing.cell):
 		_try_the_ward(thing.cell)
 		return
@@ -604,6 +607,7 @@ func _speak_to(index: int) -> void:
 
 	var person: Dictionary = map.people[index]
 	var them := _people[index]
+	EventBus.player_did.emit("talked:%s" % str(person.get("name", "")))
 	_leader.face(them.position - _leader.position)
 	them.face(_leader.position - them.position)
 
@@ -748,6 +752,10 @@ func _physics_process(delta: float) -> void:
 	_drop_crumbs()
 	_camera.focus_on(_leader.position)
 	_walked += before.distance_to(_leader.position)
+	if _strolled < AreaMap.CELL * 3.0:
+		_strolled += before.distance_to(_leader.position)
+		if _strolled >= AreaMap.CELL * 3.0:
+			EventBus.player_did.emit("walked")
 	if _walked >= TALK_STRIDE:
 		_walked = 0.0
 		_road_talk()
@@ -1359,6 +1367,7 @@ func _open_chest(cell: Vector2i) -> void:
 		return
 	GameState.set_flag(flag)
 	Ledger.add(GameState.ledger, "chests_opened")
+	EventBus.player_did.emit("chest")
 
 	_note(chest.get("line", "A chest, and nobody watching it."))
 	if _chest_props.has(cell):
@@ -1377,6 +1386,10 @@ func _leave() -> void:
 ## Inside is another area, and the way back out is this doorstep.
 func _enter(building: Dictionary) -> void:
 	var inside: String = building.get("area", "")
+	EventBus.player_did.emit("door:%s" % str(building.get("name", "")))
+	if building.has("fight"):
+		_spar(building)
+		return
 	if inside == "coliseum":
 		_leaving = true
 		var doorstep := map.step_out_of(building)
@@ -1405,6 +1418,33 @@ func _enter(building: Dictionary) -> void:
 		"title": building.get("name", ""),
 		"return_scene": "area",
 		"return_payload": outside,
+	})
+
+
+## A door that is a fight (`fight` on the building): through it to a real-time skirmish on the
+## ground it names, against whoever it names, and back out of the same door after. Nothing in it
+## counts: a training fight heals everyone at the end.
+func _spar(building: Dictionary) -> void:
+	var fight: Dictionary = building["fight"]
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var terrain_id := str(fight.get("terrain", "grass"))
+	var battlefield := BattleMapGen.generate_on(
+		terrain_id, str(fight.get("title", building.get("name", "a fight"))), fight.get("enemies", []), rng
+	)
+	_leaving = true
+	var doorstep := map.step_out_of(building)
+	EventBus.request_scene.emit(str(fight.get("scene", "skirmish")), {
+		"encounter": { "map": battlefield, "title": str(fight.get("title", "Sparring")) },
+		"sandbox": true,
+		"return_scene": "area",
+		"return_payload": {
+			"area_id": map.id,
+			"title": boot_payload.get("title", map.display_name),
+			"return_scene": _return_scene,
+			"return_payload": _return_payload,
+			"spawn_cell": [doorstep.x, doorstep.y],
+		},
 	})
 
 
