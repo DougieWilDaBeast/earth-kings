@@ -492,7 +492,7 @@ are people or things is still open.
 
 > Animations on each character need to be inputted with what is in files.
 
-**Built, waiting on art.** [`Database.unit_frames(id, state, heading)`](../src/autoload/database.gd)
+**Built.** [`Database.unit_frames(id, state, heading)`](../src/autoload/database.gd)
 loads `<state>/<heading>/frame_*.png` from beside a unit's `sprite_dir`, for `run`, `walk`,
 `attack`, `skill`, `hit` and `death`. In a fight [`Unit.play`](../src/battle/units/unit.gd) plays a
 basic swing as `attack`, a landed skill as `skill`, a blow taken as `hit` (never cutting a swing
@@ -502,8 +502,16 @@ move keeps its standing pose for it, as before. PixelLab draws a move on a bigge
 standing pose, grown evenly round it, so the fight and the areas draw every frame at the standing
 pose's scale and centred where it stands; a unit no longer shrinks when it swings or walks.
 
-**Open:** only the Amber Knight (`ooze_knight`) is wired with the full set; the other big units in
-[`art/big/`](../art/big/README.md) are staged and need their `sprite_dir` pointed there.
+**In the game since 2026-10-13:** 28 units in `data/units.json` play their moves, among them the
+founders' three bodies (and the innkeeper, who shares Toln's), the first foes, the early big
+units, the rank-E gate bosses, the Bog Jelly and the Amber Knight (`ooze_knight`); the lists are in
+[`art/tier1/`](../art/tier1/README.md) and [`art/big/`](../art/big/README.md). The slimes have no
+legs, so each is a still set moving, south only, used for every facing.
+
+**Open:** the units not yet drawn (the other level-1 faction foes, the twelve's bodies, the
+sixteen's fight sets), and staged art not yet pointed at (`magic_swordsman`, the two bears with
+weapons, the frozen wolfman, the two giants). The fight effects and status icons in
+[`art/effects/`](../art/effects/README.md) and `art/ui/status/` are not wired.
 
 ## W29 — A UI pass
 

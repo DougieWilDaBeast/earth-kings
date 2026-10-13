@@ -104,12 +104,13 @@ them taller by their `body_scale`.
 
 **Generated 2026-10-12:** 1.1–1.3 (`sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`,
 `goblin`, `raider`, `wolf`, `club_ogre`), each with idle in eight facings and walk, attack, skill, hit
-and death in four, staged in [`art/tier1/`](../art/tier1/README.md), not yet used by the game. The
+and death in four, staged in [`art/tier1/`](../art/tier1/README.md). The
 five humans were dressed again that evening in the blended finish ([D57](06-decisions.md)), and the
 ogre made again at 96 on its own body. 1.4: slash, arrow, heal and burst, plus a charge-up and a
 shield-block spark, in [`art/effects/`](../art/effects/README.md). 1.5: the six status icons plus
 tired, block, draught and herb, in `art/ui/status/`; the slot frames, cooldown sweep, pause banner and
-speed indicator are still to make. None is wired into the game yet.
+speed indicator are still to make. The units are in the game since 2026-10-13 (below); the effects
+and the status icons are not wired yet.
 
 **The fight plays these moves** (2026-10-13): a unit whose `sprite_dir` sits beside `walk`, `attack`,
 `skill`, `hit` and `death` folders plays them in a fight (see [W28](09-wishlist.md)), so wiring a
@@ -121,7 +122,8 @@ than wait for the full redo. The founders, the first foes and the early big unit
 follow in the order of `/mnt/project-files/pixellab/early-game-art-order.md`: early foes, the rank-E
 gate bosses, the other level-1 faction foes, the other leads and their companions, then the
 village's walks. Legless units (the slimes) are drawn as a still set moving, south only, which the
-fight uses for every facing.
+fight uses for every facing. Deferred by `dougie` on 2026-10-13, playability first: redrawing the
+tide and flame lions' manes so water and fire read at a glance (about 70 generations).
 
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:

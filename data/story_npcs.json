@@ -1,0 +1,98 @@
+{
+	"_about": "The original twelve leads, now story people met in the world (D79). Each stands in `area` as a person whose `story_npc` names this entry; `hook` is the thread their story picks up from, `company` the units standing with them. Not playable: the pick screen offers the sixteen. Backstories in docs/11-character-backstories.md. See docs/04-data-formats.md.",
+	"bram": {
+		"name": "Bram the Sworn Blade",
+		"unit": "bram",
+		"area": "village",
+		"hook": "Kaelen's apprentice from Oakhaven, carrying his dead master's greatsword and an oath against the Iron Hand raiders. He keeps the ford village's road while he waits for word of them.",
+		"company": []
+	},
+	"sera": {
+		"name": "Sera the Longbow",
+		"unit": "sera",
+		"area": "wild_grove",
+		"hook": "A foundling raised by Wildwood trappers. The blight that drove the packs out of the marsh killed her foster family; she hunts what it drove out, from the trees.",
+		"company": []
+	},
+	"toln": {
+		"name": "Toln the Hedge Priest",
+		"unit": "toln",
+		"area": "library",
+		"hook": "The last scribe of Saint Merryn's scriptorium, the only one who saw the incense turn black before a gate opened in the gorge. He reads here for a way to close one.",
+		"company": []
+	},
+	"fox_knight": {
+		"name": "the Fox Fire Knight",
+		"unit": "fox_knight",
+		"area": "keep_thorn",
+		"hook": "Lord Jesse of House Renais, whose brothers were executed under imperial banners while he kept vigil. He watches the thorn keep's muster under a sigil that is not his own.",
+		"company": []
+	},
+	"village_idiot": {
+		"name": "Barnaby",
+		"unit": "village_idiot",
+		"area": "gate",
+		"hook": "No two villages agree where Barnaby came from. Goblins have ambushed him three times; he thought it was tag every time. He has wandered as far as the gate's mouth and seems happy here.",
+		"company": []
+	},
+	"dirte": {
+		"name": "Dirte, the God of Kings",
+		"unit": "dirte",
+		"area": "keep_hall",
+		"hook": "General Titus Dirte, the Heart Empire's living shield, declared a traitor by the council he saved. He walked out of the capital rather than drown it, with two legionnaires who still answer to him, and keeps court in the great hall.",
+		"company": [
+			"legion_silver",
+			"legion_copper"
+		]
+	},
+	"staff_panda": {
+		"name": "Master Bo",
+		"unit": "staff_panda",
+		"area": "library_cloister",
+		"hook": "Sixty years at the Monastery of the Stalk under the Vow of Wood. Bo came down from the crags when the seals under the lower temple began to bleed mist, and studies in the cloister for the reason.",
+		"company": [
+			"red_panda_master"
+		]
+	},
+	"dwarf_smith": {
+		"name": "Buri Deepforge",
+		"unit": "dwarf_smith",
+		"area": "tower",
+		"hook": "Chief metallurgist of the Iron Cairn halls, who brought the mine down on the chasm horrors with seventy miners still getting clear. He saw the third eye's worth of stress in the Tower's stones and stopped at its foot.",
+		"company": []
+	},
+	"element_monk": {
+		"name": "Oran the Eightfold Monk",
+		"unit": "element_monk",
+		"area": "wild_scarp",
+		"hook": "Chosen at seven by the Hermits of the Prism to carry the Eight Currents. He broke his silence when the seasons broke, and listens on the scarp for where the distortion comes from.",
+		"company": [
+			"avatar_adept"
+		]
+	},
+	"sea_man": {
+		"name": "the Tidewalker",
+		"unit": "sea_man",
+		"area": "village_shore",
+		"hook": "Pulled from a wrecked caravel on the western shoals with no memory and a Tide Lion standing over him. He guards the salt hamlet's nets each evening, and the water has started turning black.",
+		"company": [
+			"tide_lion"
+		]
+	},
+	"emo_swordsman": {
+		"name": "Vane the Sleepless",
+		"unit": "emo_swordsman",
+		"area": "gate_ash",
+		"hook": "Night-watch commander at Fort Morwen who closed his eyes for ten minutes while goblin tunnellers took sixty of his garrison. He has not slept since, and stands his watch at the ash gate.",
+		"company": [
+			"dusk_shadow"
+		]
+	},
+	"wraith": {
+		"name": "the Tattered One",
+		"unit": "wraith",
+		"area": "library_vault",
+		"hook": "An inquisitor of the First Age whose name was chiselled off every tombstone, sealed in an iron sarcophagus beneath a gate. It slipped out when the seals cracked, and drifts in the vault among the books that tell its story.",
+		"company": []
+	}
+}

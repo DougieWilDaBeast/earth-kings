@@ -1,11 +1,12 @@
 # 13 — Heroes & Tempers
 
-Sixteen starting characters, one per temper. The player does not browse them: they answer four
-questions, and the four answers name the life they are about to live. The other fifteen are people
+Sixteen starting characters, one per temper. The player does not browse them: they answer the
+questions, and the answers name the life they are about to live. The other fifteen are people
 in the world.
 
 Supersedes [11 — Hero Backstories](11-character-backstories.md), which describes the twelve heroes
-this replaces. Those twelve are still playable while the sixteen are written.
+this replaces. Since 2026-10-13 the sixteen are the leads ([D78](06-decisions.md)); the twelve are
+story NPCs, no longer offered as a lead.
 
 ## Who the sixteen are
 
@@ -23,8 +24,10 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
 - **Their own lives.** When not the lead, each lives by their temper from wherever they landed,
   with their own line of quests to the Tower. **Built 2026-10-12** without the quest lines: they
   crash-land at seeded sites and walk between kinds of place by temper, and can be met and joined
-  ([17](17-the-sixteen-worlds.md#the-others-as-built)). Until the sixteen are written the twelve
-  existing heroes stand in, with tempers inferred in `data/fall.json` (agenda item 26).
+  ([17](17-the-sixteen-worlds.md#the-others-as-built)). Since 2026-10-13 they are the sixteen
+  themselves, each settling first at the kind of place [21](21-the-sixteen-first-draft.md) puts them
+  ([D78](06-decisions.md)). The twelve who stood in before are
+  story people met in the world ([D79](06-decisions.md)).
 - **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
   crosses to the next world when they die as the lead.
 - **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what
@@ -108,10 +111,27 @@ fits.
 one, looks like one or is presented as one, and no text in the game mentions them. _Tower of God_ is
 already in the lineage ([16.12](16-lineage/16.12-tower-of-god.md)).
 
-## The four questions
+## The questions
 
-One per preference pair, so sixteen answers map exactly onto sixteen characters. The questions
-live in `data/tempers.json` under `quiz` and are asked by `src/ui/temper_quiz.gd`.
+Asked one preference pair at a time, and each pair is settled by majority: with three questions to a
+pair, **best of three**, so one odd answer does not decide a whole letter. Once a letter has the
+majority, that pair's last question is skipped, so the quiz runs eight to twelve questions. The
+questions live in `data/tempers.json` under `quiz` and are asked by `src/ui/temper_quiz.gd`
+([D80](06-decisions.md)).
+
+**Wanted from `dougie`: the twelve questions.** `doug-md` asked on 2026-10-13 for the quiz to use the
+questions the founders came up with for choosing a character by personality and choices. They are
+not written down anywhere in the repo yet, so the game still asks the four drafts below, one per
+pair. What is needed, three per pair:
+
+- **E / I** — where the thinking happens: with others, or alone
+- **S / N** — what gets trusted: what is in front of you, or the shape of the thing
+- **T / F** — how it gets decided: by weight, or by who it lands on
+- **J / P** — how the road gets walked: decide early and hold, or decide late and keep moving
+
+Each one a moment in this world with two answers, one for each side, and no right answer. Send them
+in any form; dropping them into `quiz` is a data change and nothing else needs to move. The test the
+letters come from is never named in what the player reads.
 
 | Axis | The question is about | Letters |
 | --- | --- | --- |
@@ -142,7 +162,8 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 
 ## The screen
 
-`New Game` goes to `temper_quiz`, not to the picker. The quiz asks its four questions, then reveals
+`New Game` goes to `temper_quiz`, not to the picker. The quiz asks its questions over the falling sky
+of the start screen, four marks at the top lighting as each pair is settled, then reveals
 the character: portrait, name, title, temper and code, warband, whatever authored history has been
 cast on them, and their stats.
 
@@ -150,15 +171,15 @@ cast on them, and their stats.
 `tempers.json` from the start and fill in one at a time; an unwritten slot says so and offers the
 full roster instead.
 
-**The quiz is the front door** ([D44](06-decisions.md)). Nothing else is offered until the four
+**The quiz is the front door** ([D44](06-decisions.md)). Nothing else is offered until the
 questions are answered. Then the reveal offers two side doors next to _This is you_:
 **Answer again**, which goes back to the first question as often as the player likes, and
 **Show me all sixteen**, the old picker, which is also how the whole roster gets tested.
 
 **The dead cannot be answered into** ([D43](06-decisions.md)). The quiz takes the temper codes of
 fallen leads as `boot_payload.fallen` and leaves out any answer whose every temper has fallen. A
-question left with one answer is still asked, and the player has to pick it: seeing the gap is the
-point. Since 2026-10-01 the dead are passed in ([D47](06-decisions.md)): a lead who dies is
+pair left with one answer is still asked once, and the player has to pick it: seeing the gap is the
+point. The rest of that pair's questions are skipped. Since 2026-10-01 the dead are passed in ([D47](06-decisions.md)): a lead who dies is
 written to `user://earth-kings.sixteen.json` (`src/chronicle/sixteen.gd`), apart from the save and
 the museum. New Game hands their tempers to the quiz and their heroes on to _Show me all sixteen_,
 which offers only the living. Once nobody is left, the picker offers **Begin a new sixteen**. It asks
@@ -166,37 +187,41 @@ twice, then wipes the record.
 
 ## The sixteen
 
-`hero` is blank until that character is written. Run `--list=tempers` for the live state.
+Since 2026-10-13 every slot names one of the sixteen from the [first draft](21-the-sixteen-first-draft.md) ([D78](06-decisions.md)). Run `--list=tempers` for the live state.
 
 | Code | Temper | Character |
 | --- | --- | --- |
-| INTJ | The Long Plan | — |
-| INTP | The Open Question | — |
-| ENTJ | The Marshal | — |
-| ENTP | The Contrary | — |
-| INFJ | The Quiet Cause | — |
-| INFP | The Kept Flame | — |
-| ENFJ | The Gatherer | — |
-| ENFP | The Spark | — |
-| ISTJ | The Ledger | — |
-| ISFJ | The Keeper | — |
-| ESTJ | The Straight Road | — |
-| ESFJ | The Full Table | — |
-| ISTP | The Steady Hand | — |
-| ISFP | The Own Path | — |
-| ESTP | The First Move | — |
-| ESFP | The Bright Hour | — |
+| INTJ | The Long Plan | **Atlas** (`atlas`) |
+| INTP | The Open Question | **Janus** (`janus`) |
+| ENTJ | The Marshal | **Bellona** (`bellona`) |
+| ENTP | The Contrary | **Cassius** (`cassius`) |
+| INFJ | The Quiet Cause | **Saturn** (`saturn`) |
+| INFP | The Kept Flame | **Vesta** (`vesta`) |
+| ENFJ | The Gatherer | **Caesar** (`caesar`) |
+| ENFP | The Spark | **Iris** (`iris`) |
+| ISTJ | The Ledger | **Pluto** (`pluto`) |
+| ISFJ | The Keeper | **Ceres** (`ceres`) |
+| ESTJ | The Straight Road | **Cato** (`cato`) |
+| ESFJ | The Full Table | **Juno** (`juno`) |
+| ISTP | The Steady Hand | **Ultor** (`ultor`) |
+| ISFP | The Own Path | **Diana** (`diana`) |
+| ESTP | The First Move | **Ares** (`ares`) |
+| ESFP | The Bright Hour | **Liber** (`liber`) |
 
 ## Writing one
 
 Four sittings of four, grouped so each sitting contrasts with itself: **NT** (INTJ, INTP, ENTJ,
 ENTP), **NF**, **SJ**, **SP**. Each character ships as one bundle:
 
-- `data/heroes.json` — id, `title`, `temper`, `difficulty`, `origin`, `blurb`, `companions`
-- `data/units.json` — stats, `abilities`, `classes`, `color`, `sprite_dir`
+- `data/heroes.json` — id, `title`, `temper`, `difficulty`, `origin`, `blurb`, `companions`,
+  and for when somebody else is the lead: `found_at`, `elsewhere`, `first`, `rumour` (see
+  [04](04-data-formats.md#heroesjson--the-leads-a-run-can-be-started-as))
+- `data/units.json` — stats, one basic attack in `abilities`, `color`, `sprite_dir` (`art/sixteen/<id>/idle`);
+  no `classes`, so the level-2 switch offers every class
+- `data/classes.json` — their own class, with `lead` set to their id
 - `data/fall.json` → `wanderers` — nothing to add once `types["XXXX"].hero` is set: the temper
-  there decides where they walk when somebody else is the lead, and the lines are their temper
-  group's until they are given their own
+  there decides where they walk when somebody else is the lead, beside their own `found_at`, and the
+  lines are their temper group's except where `first` and `rumour` give them their own
 - `data/dialogue/heroes/<id>.json` — what they say, including what it takes to join
 - this document — an entry in the shape `docs/11` uses
 - `data/tempers.json` — `types["XXXX"].hero`

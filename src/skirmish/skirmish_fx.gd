@@ -8,6 +8,9 @@ const RISE := 38.0
 const LIFE := 0.9
 const FLASH_TIME := 0.12
 const RING_TIME := 0.45
+## A level gained: the body flickers gold this many times over this long ([D77]).
+const GOLD_TIME := 1.1
+const GOLD_PULSES := 3
 
 const DAMAGE := Color(1.0, 0.97, 0.9)
 const HURT := Color(1.0, 0.45, 0.38)
@@ -23,6 +26,8 @@ var _popups: Array[Dictionary] = []
 var _rings: Array[Dictionary] = []
 ## Unit -> seconds of flash left.
 var _flashes: Dictionary = {}
+## Unit -> seconds of gold flicker left.
+var _golds: Dictionary = {}
 
 
 func popup(text: String, at: Vector2, colour: Color, size: int = 18, life: float = LIFE) -> void:
@@ -34,6 +39,11 @@ func popup(text: String, at: Vector2, colour: Color, size: int = 18, life: float
 
 func flash(unit: Node2D) -> void:
 	_flashes[unit] = FLASH_TIME
+
+
+## The body flickers gold a few times: somebody gained a level ([D77]).
+func gold(unit: Node2D) -> void:
+	_golds[unit] = GOLD_TIME
 
 
 func ring(at: Vector2, colour: Color, radius: float = 40.0) -> void:
@@ -60,6 +70,23 @@ func _process(delta: float) -> void:
 			_flashes[unit] = left
 			var glow := 1.0 + 1.6 * (left / FLASH_TIME)
 			node.self_modulate = Color(glow, glow, glow)
+	# After the hit flash, so a level gained mid-blow still shows gold.
+	for unit: Variant in _golds.keys():
+		if not is_instance_valid(unit):
+			_golds.erase(unit)
+			continue
+		var left := float(_golds[unit]) - delta
+		var node := unit as Node2D
+		if left <= 0.0:
+			_golds.erase(unit)
+			if not _flashes.has(unit):
+				node.self_modulate = Color.WHITE
+			continue
+		_golds[unit] = left
+		var t := 1.0 - left / GOLD_TIME
+		# GOLD_PULSES soft pulses, each fainter than the last.
+		var pulse := maxf(0.0, sin(t * PI * float(GOLD_PULSES) * 2.0)) * (1.0 - t * 0.6)
+		node.self_modulate = Color.WHITE.lerp(Color(1.9, 1.55, 0.55), pulse)
 	queue_redraw()
 
 

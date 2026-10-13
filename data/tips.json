@@ -74,7 +74,7 @@
 			"id": "level_two",
 			"when": "level_two",
 			"title": "Level 2 is a choice",
-			"text": "Someone is ready to choose a path. Press the banner's button, or P, and pick their class from its card."
+			"text": "Someone is ready to choose a path. Press P and pick their class from its card."
 		},
 		{
 			"id": "tower",

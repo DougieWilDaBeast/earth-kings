@@ -53,6 +53,7 @@ you saw, on which screen, and what you had done just before.
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
 | B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
 | B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
+| B8a | New Game, then answer the questions                                   | Falling sky behind; four marks at the top light one by one as each pair is settled; answers pick with the mouse, arrows or `1` / `2`; with three questions a pair, answering the same way twice skips the third |
 | B9  | Start a run                                                          | The landing beat plays: a furrow in the ground, no memory, the Tower off to one side, and "A new standing quest: Ascend to heaven" |
 | B10 | Start twice with the same seed and lead, then with another lead      | The same crater both times; another lead lands somewhere else. Either way, the crater is **Where You Fell**, your Home, with the bed to upgrade |
 | B11 | Press **N** → **Quests & the Fallen**                                | "Ascend to heaven" at the top with the Tower's floor; errands below; "N more carry the mark somewhere out there" |
@@ -253,7 +254,7 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 | D4.4 | Press Esc → Save during the tour                      | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
 | D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
 | D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
-| D4.7 | Finish the tour and press **Start a new run**         | The four questions that pick a hero; the new run saves as normal                         |
+| D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |
@@ -287,12 +288,12 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 
 | #   | Do this                                                          | Expect                                                             |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| GR1 | Win the first fight of a run                                     | A banner across the top: the face, "reaches level N", a chip for each number that went up; it goes by itself, and a press puts it away. A chime |
-| GR2 | Reach level 2 with the lead                                      | The banner says **Choose a path**; pressing it opens the party screen at the choice |
+| GR1 | Win the first fight of a run                                     | The one who levelled flickers gold where they stand, with a ring and "Level N" rising off them; a small line at the top right says "Bram reached level N" and fades by itself. Nothing covers the fight ([D77](06-decisions.md)) |
+| GR2 | Reach level 2 with the lead                                      | The line at the top right adds "a path to choose (P)"; P opens the party screen at the choice |
 | GR3 | On the party screen, look at the path cards                      | A card per class in its own colour, with growth bars, its powers' themes and what it starts with; the tabs above are greyed |
-| GR4 | Press **Walk this path**                                         | Chosen in one click; a "path is chosen" banner in the class's colour |
+| GR4 | Press **Walk this path**                                         | Chosen in one click; a line at the top right in the class's colour says whose way it is now |
 | GR5 | Reach level 5 and open the Powers page                           | The tree as three stones: the first glows gold; pressing it fills it in the class's colour and the next one glows |
-| GR6 | Level up during a real-time fight                                | The banner shows over the fight and the fight runs on underneath it |
+| GR6 | Level up during a real-time fight                                | Only the gold flicker and the line at the top right; the fight runs on, and nothing takes a click |
 
 ## J — Coliseum
 

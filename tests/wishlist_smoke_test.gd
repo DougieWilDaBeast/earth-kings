@@ -77,6 +77,12 @@ func _check_content() -> void:
 				Database.abilities.has(ability_id),
 				"class %s grants missing ability '%s'" % [class_id, ability_id]
 			)
+		# One of the sixteen's own classes: a kit for Q W E R and a passive.
+		var lead := str(Database.classes[class_id].get("lead", ""))
+		if lead != "":
+			_expect(Database.classes[class_id].get("grants", []).size() == 4, "%s's class %s does not start with four moves" % [lead, class_id])
+			_expect(Database.own_class(lead) == class_id, "%s has more than one class of their own" % lead)
+			_expect(Database.skirmish.get("by_class", {}).has(class_id), "%s's class %s has no passive" % [lead, class_id])
 
 	for hero_id: String in Database.heroes:
 		_expect(Database.units.has(hero_id), "hero '%s' has no unit template" % hero_id)
@@ -369,19 +375,25 @@ func _check_tempers() -> void:
 		seen_heroes[hero_id] = code
 
 	var quiz: Array = Database.tempers.get("quiz", [])
-	_expect(quiz.size() == 4, "the quiz asks %d questions, not 4" % quiz.size())
-	var asked: Array = []
+	# Every pair is asked the same odd number of times, so best-of never ties.
+	var per_axis := {"EI": 0, "SN": 0, "TF": 0, "JP": 0}
 	for question: Dictionary in quiz:
 		var axis: String = question.get("axis", "")
-		_expect(axis in ["EI", "SN", "TF", "JP"], "quiz asks about unknown axis '%s'" % axis)
-		_expect(axis not in asked, "quiz asks about %s twice" % axis)
-		asked.append(axis)
+		_expect(axis in per_axis, "quiz asks about unknown axis '%s'" % axis)
+		if axis in per_axis:
+			per_axis[axis] = int(per_axis[axis]) + 1
 		var options: Array = question.get("options", [])
 		_expect(options.size() == 2, "quiz question on %s offers %d answers, not 2" % [axis, options.size()])
 		for option: Dictionary in options:
 			var key: String = option.get("key", "")
 			_expect(key in axis, "quiz answer '%s' does not belong to axis %s" % [key, axis])
 			_expect(str(option.get("text", "")) != "", "quiz answer %s on %s has no text" % [key, axis])
+		var keys: Array = options.map(func(o: Dictionary) -> String: return str(o.get("key", "")))
+		_expect(keys.has(axis[0]) and keys.has(axis[1]), "quiz question on %s does not offer both letters" % axis)
+	var counts := per_axis.values()
+	_expect(int(counts[0]) > 0 and counts.all(func(c: int) -> bool: return c == int(counts[0])),
+		"the quiz asks the pairs a different number of times: %s" % str(per_axis))
+	_expect(int(counts[0]) % 2 == 1, "the quiz asks each pair %d times; an odd number cannot tie" % int(counts[0]))
 
 	for letter: String in "EISNTFJP":
 		_expect(
@@ -521,18 +533,26 @@ func _check_temper_quiz() -> void:
 	_expect(not quiz.get_node("%AllButton").visible, "the roster was open before the quiz was answered")
 	_expect(not quiz.get_node("%AgainButton").visible, "answering again was offered before any answer")
 
-	# Four questions, two answers each, asked one at a time.
+	# Two answers each, asked one at a time; a pair is settled by majority, so
+	# answering first every time asks only that majority of each pair.
 	var quiz_length: int = quiz.questions().size()
-	for i in quiz_length:
+	var per_pair: int = quiz.questions_on("EI").size()
+	var pressed := 0
+	while quiz._answers.size() < 4 and pressed < quiz_length:
 		var buttons := quiz.get_node("%Options").get_children()
 		_expect(
 			buttons.size() == 2,
-			"question %d of the quiz offered %d answers on screen" % [i + 1, buttons.size()]
+			"question %d of the quiz offered %d answers on screen" % [pressed + 1, buttons.size()]
 		)
 		if buttons.is_empty():
 			break
 		# Take the first answer every time: E, then S, then T, then J.
 		(buttons[0] as Button).pressed.emit()
+		pressed += 1
+	_expect(
+		pressed == 4 * (per_pair / 2 + 1),
+		"answering first every time took %d questions, not %d" % [pressed, 4 * (per_pair / 2 + 1)]
+	)
 
 	_expect(
 		"".join(quiz._answers) == "ESTJ",
@@ -581,17 +601,17 @@ func _check_the_fallen() -> void:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 
 	_expect(Sixteen.fallen_heroes().is_empty(), "a fresh record of the fallen was not empty")
-	Sixteen.fall("bram")
-	Sixteen.fall("bram")
-	_expect(Sixteen.fallen_heroes() == ["bram"], "a fallen lead was written down as %s" % str(Sixteen.fallen_heroes()))
+	Sixteen.fall("caesar")
+	Sixteen.fall("caesar")
+	_expect(Sixteen.fallen_heroes() == ["caesar"], "a fallen lead was written down as %s" % str(Sixteen.fallen_heroes()))
 	_expect(Sixteen.anyone_left(), "one death left nobody")
 	_expect(not Sixteen.wipe(), "the fallen were wiped with lives still left")
 
 	var types: Dictionary = Database.tempers["types"]
 	var kept: String = str(types["INTJ"].get("hero", ""))
-	types["INTJ"]["hero"] = "sera"
-	_expect(Database.hero_temper("sera") == "INTJ", "a hero written for INTJ was not found under it")
-	Sixteen.fall("sera")
+	types["INTJ"]["hero"] = "ares"
+	_expect(Database.hero_temper("ares") == "INTJ", "a hero written for INTJ was not found under it")
+	Sixteen.fall("ares")
 	_expect(Sixteen.fallen_tempers().has("INTJ"), "a fallen lead's temper did not leave the quiz")
 	types["INTJ"]["hero"] = kept
 
@@ -601,7 +621,7 @@ func _check_the_fallen() -> void:
 	var lives := picker.get_node("%Lives").get_children()
 	_expect(lives.size() == Database.heroes.size() - 2, "with two fallen the picker offered %d of %d" % [lives.size(), Database.heroes.size()])
 	for life: Button in lives:
-		_expect(not life.text.begins_with(Database.unit_template("bram").get("display_name", "bram")), "a fallen lead was offered again")
+		_expect(not life.text.begins_with(Database.unit_template("caesar").get("display_name", "caesar")), "a fallen lead was offered again")
 	picker.queue_free()
 
 	for hero_id: String in Database.heroes:
@@ -677,7 +697,7 @@ func _check_the_modes() -> void:
 ## A dead lead cannot be answered into again (D43): an answer goes once every
 ## temper behind it has fallen, and a question left with one is still asked.
 func _check_fallen_quiz() -> void:
-	# Answers by position: E/I, S/N, T/F, J/P, first option first.
+	# Answers by position, one per pair: E/I, S/N, T/F, J/P, first option first.
 	var one := _quiz_after(["INTJ"], [1, 1, 0])
 	var last := one.get_node("%Options").get_children()
 	_expect(last.size() == 1, "with INTJ fallen, I-N-T offered %d answers, not 1" % last.size())
@@ -711,12 +731,17 @@ func _quiz_after(fallen: Array, picks: Array) -> TemperQuiz:
 	var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
 	quiz.boot_payload = {"fallen": fallen}
 	add_child(quiz)
+	# One pick per preference pair: the same answer until that pair is settled.
 	for pick: int in picks:
-		var buttons := quiz.get_node("%Options").get_children()
-		if pick >= buttons.size():
-			_expect(false, "quiz with %s fallen had no answer %d to pick" % [str(fallen), pick])
-			break
-		(buttons[pick] as Button).pressed.emit()
+		var settled: int = quiz._answers.size() + 1
+		var guard := 0
+		while quiz._answers.size() < settled and guard < 12:
+			guard += 1
+			var buttons := quiz.get_node("%Options").get_children()
+			if pick >= buttons.size():
+				_expect(false, "quiz with %s fallen had no answer %d to pick" % [str(fallen), pick])
+				return quiz
+			(buttons[pick] as Button).pressed.emit()
 	return quiz
 
 

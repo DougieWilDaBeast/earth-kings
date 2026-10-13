@@ -261,6 +261,64 @@
     "He is not fetching ink. He is going the long way about not fetching ink.",
     "He asks if you have been anywhere, and does not wait for the answer."
    ]
+  },
+  {
+   "name": "Master Bo",
+   "unit": "staff_panda",
+   "cell": [
+    12,
+    6
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "story_npc": "staff_panda",
+   "talk": {
+    "hello": [
+     "Bamboo bends. The wall it leans on does not. Good afternoon.",
+     "Sit. Standing is for people who are about to leave."
+    ],
+    "again": [
+     "Ah, you returned. The bamboo does that too.",
+     "Welcome back. Xiao has been complaining. That is how you know nothing is wrong."
+    ],
+    "ask": [
+     {
+      "q": "Why carry a stick?",
+      "a": "I vowed never to draw edged steel against flesh. The vow says nothing about how hard I may swing a stick."
+     },
+     {
+      "q": "Why leave your mountain?",
+      "a": "The temple steps cracked. Underneath, the old seals are leaking. Mist where there should be stone. Someone must find out why."
+     },
+     {
+      "q": "Who is your companion?",
+      "a": "Master Xiao. My disciple, in theory. In practice, he is in charge of dinner and very upset about it."
+     }
+    ],
+    "bye": [
+     "Be the river, not the rock.",
+     "Go. Eat something."
+    ]
+   }
+  },
+  {
+   "name": "Master Xiao",
+   "unit": "red_panda_master",
+   "cell": [
+    13,
+    7
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "story_npc": "staff_panda",
+   "chatter": [
+    "Proverbs. Always proverbs. Never dinner.",
+    "He says patience. I say lunch."
+   ]
   }
  ],
  "rows": [
@@ -279,16 +337,15 @@
   "oooooo,,,,,oooooo"
  ],
  "dressing": [
-  {"art": "nature/wildflowers_orange", "cell": [3, 8], "offset": [-10, -1]},
-  {"art": "nature/clover_2", "cell": [6, 5], "offset": [9, -3], "flip": true},
-  {"art": "nature/fern", "cell": [14, 7], "offset": [10, 7]},
-  {"art": "nature/wildflowers_orange", "cell": [10, 2], "offset": [12, 5], "flip": true},
-  {"art": "nature/clover", "cell": [11, 5], "offset": [-12, -7], "flip": true},
-  {"art": "nature/clover_2", "cell": [6, 3], "offset": [-5, 0], "flip": true},
-  {"art": "nature/clover_3", "cell": [6, 2], "offset": [10, -3], "flip": true},
-  {"art": "nature/irish_bird_4", "cell": [6, 9], "offset": [-3, 2], "flip": true},
-  {"art": "nature/bee", "cell": [1, 6], "offset": [-11, 3]},
-  {"art": "nature/grasshopper", "cell": [2, 2], "offset": [-13, 5]},
-  {"art": "nature/finch", "cell": [4, 7], "offset": [14, -6], "flip": true}
+  {"art": "nature/grass_tuft", "cell": [4, 7], "offset": [-1, 0], "flip": true},
+  {"art": "nature/clover_2", "cell": [11, 2], "offset": [12, -7], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [2, 7], "offset": [-4, 5]},
+  {"art": "nature/wildflowers_red", "cell": [6, 5], "offset": [-8, -5]},
+  {"art": "nature/wildflowers_orange", "cell": [4, 8], "offset": [12, 5], "flip": true},
+  {"art": "nature/clover", "cell": [6, 3], "offset": [-12, -7], "flip": true},
+  {"art": "nature/snail", "cell": [6, 9], "offset": [-11, 2]},
+  {"art": "nature/irish_bird_4", "cell": [1, 6], "offset": [-10, 4]},
+  {"art": "nature/grasshopper", "cell": [2, 2], "offset": [10, 3]},
+  {"art": "nature/snail", "cell": [12, 3], "offset": [7, -3]}
  ]
 }

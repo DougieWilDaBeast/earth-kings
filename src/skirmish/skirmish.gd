@@ -162,6 +162,7 @@ func _ready() -> void:
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.unit_healed.connect(_on_unit_healed)
+	EventBus.levelled_up.connect(_on_levelled_up)
 	Pace.changed.connect(_on_pace_changed)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
@@ -2032,6 +2033,21 @@ func _on_unit_healed(unit: Node, amount: int) -> void:
 	if f == null or amount <= 0:
 		return
 	fx.popup("+%d" % amount, f.unit.position, SkirmishFx.HEAL, 15)
+
+
+## A level gained mid-fight shows on whoever gained it: a gold flicker, a
+## ring, and the level rising off them. The rest is said at the side of the
+## screen, out of the way ([D77]).
+func _on_levelled_up(who: RefCounted, _before: Dictionary) -> void:
+	var character := who as Character
+	if character == null:
+		return
+	for f in fighters:
+		if f.unit.character == character:
+			fx.gold(f.unit)
+			fx.ring(f.unit.position, SkirmishFx.CRIT, 34.0)
+			fx.popup("Level %d" % character.level, f.unit.position + Vector2(0, -10), SkirmishFx.CRIT, 15, 1.4)
+			return
 
 
 func _say(line: String) -> void:

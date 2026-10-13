@@ -1,9 +1,12 @@
 class_name TemperQuiz
 extends Control
-## Four questions, and the four answers name the life you are about to live.
+## The questions, and the answers name the life you are about to live.
 ##
-## One question per preference pair, so the sixteen answers map exactly onto the
-## sixteen tempers in `data/tempers.json`. Nothing here decides anything about
+## Asked one preference pair at a time (E/I, then S/N, T/F, J/P), several
+## questions to a pair, and each pair is decided by majority: with three to a
+## pair, best of three. Once one letter has the majority the pair's last
+## question is skipped. The four letters decided map onto the sixteen tempers
+## in `data/tempers.json`. Nothing here decides anything about
 ## the world — it picks a lead and hands off to [GameState], the same way the
 ## picker at [CharacterSelect] does.
 ##
@@ -11,14 +14,25 @@ extends Control
 ## screen says so and offers the full roster instead.
 ##
 ## The quiz is the front door (D44). The full roster is a side door that only
-## opens once the four questions are answered, next to answering them again.
+## opens once the questions are answered, next to answering them again.
 ##
 ## A lead who has died cannot be answered into again (D43). Pass their temper
 ## codes as `boot_payload.fallen`: an answer is left out once every temper it
-## could still lead to has fallen. A question left with one answer is still
-## asked, so the player sees that the other one is gone.
+## could still lead to has fallen. When a pair has only one letter left, one
+## question is asked with that answer alone, so the player sees the other is
+## gone, and the rest of that pair's questions are skipped.
 
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+
+## The widest the question and its answers get, so a long line stays readable.
+const COLUMN := 900.0
+const COLOR_TEXT := Color(0.86, 0.82, 0.74)
+const COLOR_FOCUS := Color(1.0, 0.88, 0.6)
+const COLOR_MARK := Color(0.95, 0.72, 0.38)
+const COLOR_DIM := Color(0.42, 0.38, 0.34)
+
+## Set from the scene: the carved lettering the start screen uses.
+@export var carved_font: Font
 
 var boot_payload: Dictionary = {}
 
@@ -27,10 +41,20 @@ var _fallen: PackedStringArray = []
 ## Heroes who died as leads, handed on to the roster so it offers only the living.
 var _fallen_heroes: Array = []
 
-## One letter per question answered so far, in axis order.
+const AXES := ["EI", "SN", "TF", "JP"]
+
+## One letter per preference pair decided so far, in axis order.
 var _answers: PackedStringArray = []
-var _asked: int = 0
 var _chosen: String = ""
+## The pair being asked now, how many of its questions have been asked, and
+## the answers given to them so far, letter by letter.
+var _axis_at: int = 0
+var _asked_in_axis: int = 0
+var _votes: Dictionary = {}
+## Letters still open on the pair being asked (after D43 has closed the dead).
+var _open: PackedStringArray = []
+## Questions answered so far, across every pair, for the step line.
+var _answered: int = 0
 
 @onready var _step: Label = %StepLabel
 @onready var _question: Label = %QuestionLabel
@@ -49,6 +73,9 @@ var _chosen: String = ""
 @onready var _again_button: Button = %AgainButton
 @onready var _all_button: Button = %AllButton
 @onready var _back_button: Button = %BackButton
+@onready var _progress: Control = %Progress
+@onready var _stage: Control = %Stage
+@onready var _margin: MarginContainer = %Margin
 
 
 func _ready() -> void:
@@ -61,42 +88,67 @@ func _ready() -> void:
 		func() -> void: EventBus.request_scene.emit("character_select", {"fallen_heroes": _fallen_heroes})
 	)
 	_back_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
-	_ask(0)
+	_dress()
+	resized.connect(_layout)
+	_layout()
+	_ask_next()
 
 
 func questions() -> Array:
 	return Database.tempers.get("quiz", [])
 
 
+## The questions about one preference pair, in the order they are written.
+func questions_on(axis: String) -> Array:
+	var out: Array = []
+	for question: Dictionary in questions():
+		if str(question.get("axis", "")) == axis:
+			out.append(question)
+	return out
+
+
 # --- the asking ---------------------------------------------------------------
 
 
-func _ask(index: int) -> void:
-	var quiz := questions()
-	if index >= quiz.size():
+func _ask_next() -> void:
+	if _axis_at >= AXES.size():
 		_resolve()
 		return
-	_asked = index
-	var question: Dictionary = quiz[index]
-	_step.text = "%s of %s" % [_ordinal(index + 1), _ordinal(quiz.size())]
-	_question.text = str(question.get("prompt", ""))
-	_clear_options()
-	var first: Button = null
-	for option: Dictionary in question.get("options", []):
-		if not leads_to_the_living("".join(_answers) + str(option.get("key", ""))):
-			continue
-		var button := _answer_button(option)
-		_options.add_child(button)
-		if first == null:
-			first = button
-	if first != null:
-		first.grab_focus()
-	else:
+	var axis: String = AXES[_axis_at]
+	var on_axis := questions_on(axis)
+	var prefix := "".join(_answers)
+	_open = PackedStringArray()
+	for letter in axis:
+		if leads_to_the_living(prefix + letter):
+			_open.append(letter)
+	if _open.is_empty() or on_axis.is_empty():
 		# Every answer is closed: all sixteen have fallen.
+		_clear_options()
 		_question.text = "Nobody is left to answer for."
 		_step.text = "All sixteen have fallen."
 		_all_button.visible = true
+		_progress.queue_redraw()
 		_back_button.grab_focus()
+		return
+
+	var question: Dictionary = on_axis[mini(_asked_in_axis, on_axis.size() - 1)]
+	_step.text = "Question %d" % (_answered + 1)
+	_question.text = str(question.get("prompt", ""))
+	_clear_options()
+	var first: Button = null
+	var number := 0
+	for option: Dictionary in question.get("options", []):
+		if not _open.has(str(option.get("key", ""))):
+			continue
+		number += 1
+		var button := _answer_button(option, number)
+		_options.add_child(button)
+		if first == null:
+			first = button
+	_progress.queue_redraw()
+	_fade_up()
+	if first != null:
+		first.grab_focus()
 
 
 ## Whether any temper still living begins with these answers. Codes are written
@@ -116,24 +168,130 @@ func _clear_options() -> void:
 		child.queue_free()
 
 
-func _answer_button(option: Dictionary) -> Button:
+func _answer_button(option: Dictionary, number: int) -> Button:
 	var button := Button.new()
-	button.text = str(option.get("text", ""))
+	button.text = "%d    %s" % [number, str(option.get("text", ""))]
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	button.custom_minimum_size = Vector2(0, 52)
+	button.custom_minimum_size = Vector2(0, 64)
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.add_theme_font_size_override("font_size", 19)
+	button.add_theme_color_override("font_color", COLOR_TEXT)
+	button.add_theme_color_override("font_hover_color", COLOR_FOCUS)
+	button.add_theme_color_override("font_focus_color", COLOR_FOCUS)
+	button.add_theme_color_override("font_pressed_color", COLOR_FOCUS)
+	button.add_theme_color_override("font_hover_pressed_color", COLOR_FOCUS)
+	button.add_theme_constant_override("outline_size", 4)
+	button.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.02))
+	var plain := _card(Color(0.05, 0.045, 0.06, 0.82), Color(0.45, 0.36, 0.24, 0.55), 1)
+	var lit := _card(Color(0.09, 0.075, 0.07, 0.9), COLOR_MARK, 2)
+	button.add_theme_stylebox_override("normal", plain)
+	button.add_theme_stylebox_override("hover", lit)
+	button.add_theme_stylebox_override("pressed", lit)
+	button.add_theme_stylebox_override("hover_pressed", lit)
+	button.add_theme_stylebox_override("focus", _card(Color(0, 0, 0, 0), COLOR_MARK, 2))
+	button.mouse_entered.connect(button.grab_focus)
+	Sfx.attend(button)
 	button.pressed.connect(_answer.bind(str(option.get("key", ""))))
 	return button
 
 
+func _card(fill: Color, edge: Color, width: int) -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = fill
+	box.border_color = edge
+	box.set_border_width_all(width)
+	box.set_corner_radius_all(6)
+	box.content_margin_left = 24.0
+	box.content_margin_right = 24.0
+	box.content_margin_top = 16.0
+	box.content_margin_bottom = 16.0
+	return box
+
+
 func _answer(key: String) -> void:
-	_answers.append(key)
-	_ask(_asked + 1)
+	_answered += 1
+	_asked_in_axis += 1
+	_votes[key] = int(_votes.get(key, 0)) + 1
+	var count := questions_on(AXES[_axis_at]).size()
+	var decided := ""
+	if _open.size() == 1:
+		decided = key
+	elif int(_votes[key]) * 2 > count:
+		decided = key
+	elif _asked_in_axis >= count:
+		# An even count can end level; the last answer breaks the tie.
+		decided = key
+	if decided != "":
+		_answers.append(decided)
+		_axis_at += 1
+		_asked_in_axis = 0
+		_votes.clear()
+	_ask_next()
 
 
-static func _ordinal(n: int) -> String:
-	const WORDS := ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"]
-	return WORDS[n] if n < WORDS.size() else str(n)
+## 1 and 2 pick the answers, for anyone who would rather not aim.
+func _unhandled_input(event: InputEvent) -> void:
+	if not (event is InputEventKey) or not event.pressed or event.echo:
+		return
+	var index := -1
+	match (event as InputEventKey).keycode:
+		KEY_1, KEY_KP_1:
+			index = 0
+		KEY_2, KEY_KP_2:
+			index = 1
+	if index < 0 or index >= _options.get_child_count():
+		return
+	get_viewport().set_input_as_handled()
+	(_options.get_child(index) as Button).pressed.emit()
+
+
+# --- the look ------------------------------------------------------------------
+
+
+func _dress() -> void:
+	_progress.draw.connect(_draw_progress)
+	for button: Button in [_begin_button, _again_button, _all_button]:
+		button.theme_type_variation = &"GrandButton"
+		Sfx.attend(button)
+	Sfx.attend(_back_button)
+	# A setting, not the point of the screen: as quiet as Back.
+	(%ModeButton as Button).theme_type_variation = &""
+
+
+## The column stays centred and no wider than [constant COLUMN], whatever the window.
+func _layout() -> void:
+	var side := maxf(40.0, (size.x - COLUMN) * 0.5)
+	_margin.add_theme_constant_override("margin_left", int(side))
+	_margin.add_theme_constant_override("margin_right", int(side))
+
+
+func _fade_up() -> void:
+	_stage.modulate.a = 0.0
+	create_tween().tween_property(_stage, "modulate:a", 1.0, 0.35)
+
+
+## Four marks, one per preference pair: lit once decided, ringed while asked.
+func _draw_progress() -> void:
+	var gap := 44.0
+	var r := 7.0
+	var mid := _progress.size * 0.5
+	for i in AXES.size():
+		var at := Vector2(mid.x + (float(i) - 1.5) * gap, mid.y)
+		var diamond := PackedVector2Array([
+			at + Vector2(0, -r), at + Vector2(r, 0), at + Vector2(0, r), at + Vector2(-r, 0),
+		])
+		if i < _answers.size():
+			var glow := COLOR_MARK
+			glow.a = 0.2
+			_progress.draw_circle(at, r * 2.2, glow)
+			_progress.draw_colored_polygon(diamond, COLOR_MARK)
+		else:
+			var ring := diamond.duplicate()
+			ring.append(diamond[0])
+			_progress.draw_polyline(ring, COLOR_FOCUS if i == _axis_at else COLOR_DIM, 1.5, true)
+		if i < AXES.size() - 1:
+			_progress.draw_line(at + Vector2(r + 6, 0), at + Vector2(gap - r - 6, 0), COLOR_DIM, 1.0)
 
 
 # --- who that makes you -------------------------------------------------------
@@ -147,6 +305,8 @@ func _resolve() -> void:
 		_chosen = ""
 
 	_clear_options()
+	_progress.queue_redraw()
+	_fade_up()
 	_question.text = str(temper.get("display_name", code))
 	_step.text = str(temper.get("blurb", ""))
 	# Only now, with the quiz answered, do the side doors open.
@@ -217,11 +377,15 @@ func _band_text(hero: Dictionary) -> String:
 func _start_over() -> void:
 	_answers.clear()
 	_chosen = ""
+	_axis_at = 0
+	_asked_in_axis = 0
+	_votes.clear()
+	_answered = 0
 	_reveal.visible = false
 	_begin_button.visible = false
 	_again_button.visible = false
 	_all_button.visible = false
-	_ask(0)
+	_ask_next()
 
 
 # --- and off you go -----------------------------------------------------------

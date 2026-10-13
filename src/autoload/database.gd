@@ -27,6 +27,8 @@ var world_rules: Dictionary = {}
 var names: Dictionary = {}
 ## Leads a run can be started as, in the order they are offered.
 var heroes: Dictionary = {}
+## The original twelve, met in the world as story people rather than played (D79).
+var story_npcs: Dictionary = {}
 ## The sixteen tempers: axes, the quiz asked before a run, and the lean each
 ## letter carries (see docs/13-heroes-and-tempers.md).
 var tempers: Dictionary = {}
@@ -91,6 +93,8 @@ func _ready() -> void:
 	world_rules = _load_json("%s/world_rules.json" % DATA_DIR)
 	names = _load_json("%s/names.json" % DATA_DIR)
 	heroes = _load_json("%s/heroes.json" % DATA_DIR)
+	story_npcs = _load_json("%s/story_npcs.json" % DATA_DIR)
+	story_npcs.erase("_about")
 	tempers = _load_json("%s/tempers.json" % DATA_DIR)
 	casting = _load_json("%s/casting.json" % DATA_DIR)
 	for pool: String in LORE_POOLS:
@@ -163,6 +167,12 @@ func hero(id: String) -> Dictionary:
 	return heroes.get(id, {})
 
 
+## One of the original twelve, as a story person: where they stand and the hook their story picks
+## up from (see `data/story_npcs.json`).
+func story_npc(id: String) -> Dictionary:
+	return story_npcs.get(id, {})
+
+
 ## One of the sixteen tempers, by four-letter code.
 func temper(code: String) -> Dictionary:
 	return temper_types().get(code.to_upper(), {})
@@ -233,6 +243,19 @@ func register_dialogue(id: String, payload: Dictionary) -> void:
 
 func character_class(id: String) -> Dictionary:
 	return classes.get(id, {})
+
+
+## The class that is one lead's own (its `lead`), or "" if they have none.
+func own_class(lead_id: String) -> String:
+	for id: String in classes:
+		if str(classes[id].get("lead", "")) == lead_id:
+			return id
+	return ""
+
+
+## Classes anyone can learn: every class that is not one lead's own.
+func open_classes() -> Array:
+	return classes.keys().filter(func(id: String) -> bool: return str(classes[id].get("lead", "")) == "")
 
 
 func doctrine(id: String) -> Dictionary:

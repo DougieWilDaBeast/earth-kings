@@ -126,7 +126,7 @@
 		"kind": "raider",
 		"flash_step": 3,
 		"color": "#a33b3b",
-		"sprite_dir": "res://art/units/mace_pirate/idle"
+		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
 	"wolf": {
 		"display_name": "Wolf",
@@ -677,7 +677,7 @@
 		],
 		"kind": "raider",
 		"color": "#b0553c",
-		"sprite_dir": "res://art/units/mace_pirate/idle"
+		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
 	"axe_bear": {
 		"display_name": "Axe Bear",
@@ -812,7 +812,7 @@
 		"kind": "beast",
 		"color": "#a8465a",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/units/blood_mosquito/idle"
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle"
 	},
 	"legion_copper": {
 		"display_name": "Copper Legionnaire",
@@ -832,7 +832,7 @@
 		],
 		"kind": "soldier",
 		"color": "#b5713c",
-		"sprite_dir": "res://art/units/legion_copper/idle"
+		"sprite_dir": "res://art/tier1/legion_copper/idle"
 	},
 	"legion_black": {
 		"display_name": "Black Legionnaire",
@@ -854,7 +854,7 @@
 		],
 		"kind": "soldier",
 		"color": "#3b3742",
-		"sprite_dir": "res://art/units/legion_black/idle"
+		"sprite_dir": "res://art/tier1/legion_black/idle"
 	},
 	"legion_silver": {
 		"display_name": "Silver Legionnaire",
@@ -1202,7 +1202,7 @@
 		],
 		"kind": "wild",
 		"color": "#2f7fb5",
-		"sprite_dir": "res://art/units/sea_man/idle"
+		"sprite_dir": "res://art/tier1/sea_man/idle"
 	},
 	"tide_lion": {
 		"display_name": "Tide Lion",
@@ -1226,7 +1226,7 @@
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#3fa6dc",
-		"sprite_dir": "res://art/units/tide_lion/idle"
+		"sprite_dir": "res://art/tier1/tide_lion/idle"
 	},
 	"slime": {
 		"display_name": "Slime",
@@ -1246,7 +1246,7 @@
 		"kind": "wild",
 		"color": "#c8873f",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/units/slime/idle"
+		"sprite_dir": "res://art/tier1/slime/idle"
 	},
 	"blue_slime": {
 		"display_name": "Bog Jelly",
@@ -1267,7 +1267,7 @@
 		"kind": "wild",
 		"color": "#3f9fe0",
 		"body_scale": 0.7,
-		"sprite_dir": "res://art/units/blue_slime/idle"
+		"sprite_dir": "res://art/tier1/blue_slime/idle"
 	},
 	"king_slime": {
 		"display_name": "The Mother Ooze",
@@ -1332,7 +1332,7 @@
 		"kind": "beast",
 		"color": "#3f9d5a",
 		"body_scale": 0.8,
-		"sprite_dir": "res://art/units/eye_leprechaun/idle"
+		"sprite_dir": "res://art/tier1/eye_leprechaun/idle"
 	},
 	"lizard_wizard": {
 		"display_name": "The Blind Rider",
@@ -1422,7 +1422,7 @@
 		"kind": "beast",
 		"flash_step": 4,
 		"color": "#2f2b3a",
-		"sprite_dir": "res://art/units/dusk_shadow/idle"
+		"sprite_dir": "res://art/tier1/dusk_shadow/idle"
 	},
 	"ember_lizard": {
 		"display_name": "Cinder Newt",
@@ -1511,7 +1511,7 @@
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#e0602f",
-		"sprite_dir": "res://art/units/flame_lion/idle"
+		"sprite_dir": "res://art/tier1/flame_lion/idle"
 	},
 	"peasant": {
 		"display_name": "Freeholder",
@@ -1664,5 +1664,245 @@
 		"color": "#c0503f",
 		"body_scale": 2.6,
 		"sprite_dir": "res://art/units/colossal_titan/idle"
+	},
+	"atlas": {
+		"display_name": "Atlas",
+		"job": "The Long Plan",
+		"max_hp": 30,
+		"attack": 20,
+		"defense": 3,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"spark"
+		],
+		"color": "#3b4f8f",
+		"sprite_dir": "res://art/sixteen/atlas/idle"
+	},
+	"janus": {
+		"display_name": "Janus",
+		"job": "The Open Question",
+		"max_hp": 44,
+		"attack": 12,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 11,
+		"abilities": [
+			"strike"
+		],
+		"color": "#6a7f9a",
+		"sprite_dir": "res://art/sixteen/janus/idle"
+	},
+	"bellona": {
+		"display_name": "Bellona",
+		"job": "The Marshal",
+		"max_hp": 56,
+		"attack": 15,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 11,
+		"abilities": [
+			"strike"
+		],
+		"color": "#d4a63c",
+		"sprite_dir": "res://art/sixteen/bellona/idle"
+	},
+	"cassius": {
+		"display_name": "Cassius",
+		"job": "The Contrary",
+		"max_hp": 48,
+		"attack": 14,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#c8463c",
+		"sprite_dir": "res://art/sixteen/cassius/idle"
+	},
+	"saturn": {
+		"display_name": "Saturn",
+		"job": "The Quiet Cause",
+		"max_hp": 52,
+		"attack": 14,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#8a6d2f",
+		"sprite_dir": "res://art/sixteen/saturn/idle"
+	},
+	"vesta": {
+		"display_name": "Vesta",
+		"job": "The Kept Flame",
+		"max_hp": 44,
+		"attack": 9,
+		"defense": 6,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"ember"
+		],
+		"color": "#e6e1d0",
+		"sprite_dir": "res://art/sixteen/vesta/idle"
+	},
+	"caesar": {
+		"display_name": "Caesar",
+		"job": "The Gatherer",
+		"max_hp": 60,
+		"attack": 14,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": [
+			"strike"
+		],
+		"color": "#c9873a",
+		"sprite_dir": "res://art/sixteen/caesar/idle"
+	},
+	"iris": {
+		"display_name": "Iris",
+		"job": "The Spark",
+		"max_hp": 36,
+		"attack": 13,
+		"defense": 4,
+		"move": 5,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"dart"
+		],
+		"color": "#59c3a1",
+		"sprite_dir": "res://art/sixteen/iris/idle"
+	},
+	"pluto": {
+		"display_name": "Pluto",
+		"job": "The Ledger",
+		"max_hp": 30,
+		"attack": 10,
+		"defense": 4,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": [
+			"strike"
+		],
+		"color": "#4a3f6b",
+		"sprite_dir": "res://art/sixteen/pluto/idle"
+	},
+	"ceres": {
+		"display_name": "Ceres",
+		"job": "The Keeper",
+		"max_hp": 50,
+		"attack": 11,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#7f9a3a",
+		"sprite_dir": "res://art/sixteen/ceres/idle"
+	},
+	"cato": {
+		"display_name": "Cato",
+		"job": "The Straight Road",
+		"max_hp": 62,
+		"attack": 13,
+		"defense": 11,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#3a3a44",
+		"sprite_dir": "res://art/sixteen/cato/idle"
+	},
+	"juno": {
+		"display_name": "Juno",
+		"job": "The Full Table",
+		"max_hp": 46,
+		"attack": 12,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#b04a6a",
+		"sprite_dir": "res://art/sixteen/juno/idle"
+	},
+	"ultor": {
+		"display_name": "Ultor",
+		"job": "The Steady Hand",
+		"max_hp": 44,
+		"attack": 17,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"strike"
+		],
+		"color": "#6f7fc0",
+		"sprite_dir": "res://art/sixteen/ultor/idle"
+	},
+	"diana": {
+		"display_name": "Diana",
+		"job": "The Own Path",
+		"max_hp": 40,
+		"attack": 12,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"arc_shot"
+		],
+		"color": "#8fb6c9",
+		"sprite_dir": "res://art/sixteen/diana/idle"
+	},
+	"ares": {
+		"display_name": "Ares",
+		"job": "The First Move",
+		"max_hp": 70,
+		"attack": 20,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#a33a2a",
+		"sprite_dir": "res://art/sixteen/ares/idle"
+	},
+	"liber": {
+		"display_name": "Liber",
+		"job": "The Bright Hour",
+		"max_hp": 48,
+		"attack": 14,
+		"defense": 5,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"strike"
+		],
+		"color": "#e0703a",
+		"sprite_dir": "res://art/sixteen/liber/idle"
 	}
 }

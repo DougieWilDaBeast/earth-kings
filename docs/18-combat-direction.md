@@ -137,8 +137,9 @@ This was the largest change since the project began. What the move took, now tha
 - **The smoke tests** that drove the turn loop drive the real-time fight; the checks
   `battle_smoke_test` held that still meant something (allies, auto from outside the fight, a
   whole fight resolving) moved into `skirmish_smoke_test`.
-- **Animation is the real bill**, still unpaid. "Every attack animated" means frames for attack,
-  cast, hit and death for every unit that fights — see [19](19-asset-list.md).
+- **Animation is the real bill**, being paid unit by unit. "Every attack animated" means frames for
+  attack, cast, hit and death for every unit that fights — see [19](19-asset-list.md). The early
+  game's units have theirs since 2026-10-13.
 
 ## The fight
 
@@ -307,8 +308,10 @@ level-1 characters against six level-8 brigands — ends in about 20 seconds, an
 
 **What it does not do yet**
 
-- **Animations.** Units slide and turn; attacks have no wind-up art. It waits on the Tier 1 assets
-  in [19](19-asset-list.md).
+- **Animations for everyone.** Since 2026-10-13 a unit with move art walks, swings, casts, flinches
+  and falls ([W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)); the early game's units
+  have it. The rest still slide and turn on their standing pose until drawn ([19](19-asset-list.md)),
+  and the fight effects and status icons are not wired.
 - **A multi-order queue.**
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty. The run's ledger counts damage at fight scale, three times what the

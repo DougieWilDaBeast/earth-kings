@@ -263,6 +263,47 @@
       "chatter": [
         "It drifts down two steps, thinks better of it, and goes back up."
       ]
+    },
+    {
+      "name": "Buri Deepforge",
+      "unit": "dwarf_smith",
+      "cell": [
+        12,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "dwarf_smith",
+      "talk": {
+        "hello": [
+          "Hm. Your buckle's cracked. Second hole from the end.",
+          "Mind that stair. Fourth stone's got a fault in it the size of my thumb."
+        ],
+        "again": [
+          "Back. Buckle's still cracked.",
+          "You again. I've been counting the faults in this tower. I've stopped at nine hundred."
+        ],
+        "ask": [
+          {
+            "q": "What's the third eye?",
+            "a": "Opal, grafted by the guild elders. Sees stress in metal, heat in a forge, the lie in a bad weld. Bad at birthdays."
+          },
+          {
+            "q": "What happened at the Iron Cairn?",
+            "a": "Things came up the deep shafts. Seventy got out. Then I put a war sledge through the right pillar and the mountain did the rest."
+          },
+          {
+            "q": "Why the Tower?",
+            "a": "Everything that's wrong underground is wrong up there too. You can see it in the stones. Somebody built this to hold something in."
+          }
+        ],
+        "bye": [
+          "Hit things at the proper angle.",
+          "Get that buckle seen to."
+        ]
+      }
     }
   ],
   "rows": [

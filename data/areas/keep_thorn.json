@@ -233,6 +233,47 @@
       "chatter": [
         "It walks the wall all day. Eight feet make short work of a rampart."
       ]
+    },
+    {
+      "name": "the Fox Fire Knight",
+      "unit": "fox_knight",
+      "cell": [
+        15,
+        10
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "story_npc": "fox_knight",
+      "talk": {
+        "hello": [
+          "You may speak. Briefly.",
+          "I do not take company. You may take a moment."
+        ],
+        "again": [
+          "You again. Say what you came to say.",
+          "Still breathing, I see. Good. Fewer names."
+        ],
+        "ask": [
+          {
+            "q": "Whose sigil is that?",
+            "a": "The Fox Fire. A spirit that lights the brush to lead hunters into the bog. My own banner is ash in a courtyard in the southern marches."
+          },
+          {
+            "q": "Why ride alone?",
+            "a": "Every companion is a name I would have to carry. I am carrying enough."
+          },
+          {
+            "q": "What do you want with this keep?",
+            "a": "Its knights march against the Empire sooner or later. When they do, I will be in front of them."
+          }
+        ],
+        "bye": [
+          "Go.",
+          "May your house outlast mine."
+        ]
+      }
     }
   ],
   "rows": [
@@ -315,37 +356,37 @@
     {"art": "nature/sycamore_tree", "cell": [7, 14], "offset": [7, -4], "flip": true},
     {"art": "nature/great_oak", "cell": [12, 0], "offset": [-3, -2]},
     {"art": "nature/great_oak", "cell": [2, 14], "offset": [-1, 1], "flip": true},
-    {"art": "nature/briar_bush", "cell": [6, 13], "offset": [-4, 7]},
-    {"art": "nature/wildflowers_blue", "cell": [16, 13], "offset": [4, 3], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [17, 11], "offset": [-7, -5], "flip": true},
-    {"art": "nature/rose_stem_2", "cell": [6, 14], "offset": [3, -2]},
-    {"art": "nature/wildflowers_blue", "cell": [14, 14], "offset": [11, -5], "flip": true},
-    {"art": "nature/hazel_bush", "cell": [14, 12], "offset": [-1, -1]},
-    {"art": "nature/fern", "cell": [1, 4], "offset": [-2, 3]},
-    {"art": "nature/wildflowers_orange", "cell": [7, 13], "offset": [-14, 6], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [1, 13], "offset": [13, 1]},
-    {"art": "nature/clover", "cell": [2, 13], "offset": [-6, -4]},
-    {"art": "nature/thistle", "cell": [13, 0], "offset": [12, 4], "flip": true},
-    {"art": "nature/clover_3", "cell": [2, 1], "offset": [-12, 4]},
-    {"art": "nature/wildflowers_red", "cell": [0, 11], "offset": [13, -6], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [12, 15], "offset": [-4, 2], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [0, 0], "offset": [-9, -6]},
-    {"art": "nature/briar_bush", "cell": [1, 7], "offset": [-12, 5]},
-    {"art": "nature/fern", "cell": [16, 15], "offset": [-14, 2]},
-    {"art": "nature/grass_tuft", "cell": [18, 15], "offset": [-9, 2], "flip": true},
-    {"art": "nature/clover_2", "cell": [5, 0], "offset": [-14, -3]},
-    {"art": "nature/wildflowers_red", "cell": [4, 12], "offset": [11, -7]},
-    {"art": "nature/bramble", "cell": [12, 11], "offset": [-13, -5], "flip": true},
-    {"art": "nature/hazel_bush", "cell": [12, 12], "offset": [2, -3]},
-    {"art": "nature/clover", "cell": [7, 9], "offset": [-11, -2], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [19, 2], "offset": [12, 2], "flip": true},
-    {"art": "nature/hazel_bush", "cell": [16, 14], "offset": [-2, -2], "flip": true},
-    {"art": "nature/rose_stem", "cell": [8, 1], "offset": [-8, -2], "flip": true},
-    {"art": "nature/briar_bush", "cell": [18, 3], "offset": [-10, 4]},
-    {"art": "nature/hazel_bush", "cell": [1, 10], "offset": [3, 5]},
-    {"art": "nature/butterfly", "cell": [17, 10], "offset": [7, -1]},
-    {"art": "nature/butterfly_blue", "cell": [4, 5], "offset": [-5, 2], "flip": true},
-    {"art": "nature/finch", "cell": [7, 1], "offset": [-10, -1], "flip": true},
-    {"art": "nature/butterfly_blue", "cell": [18, 14], "offset": [9, -6], "flip": true}
+    {"art": "nature/briar_bush", "cell": [10, 7], "offset": [-4, 7]},
+    {"art": "nature/wildflowers_blue", "cell": [1, 5], "offset": [4, 3], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [18, 2], "offset": [-7, -5], "flip": true},
+    {"art": "nature/rose_stem_2", "cell": [17, 2], "offset": [3, -2]},
+    {"art": "nature/wildflowers_blue", "cell": [14, 12], "offset": [11, -5], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [0, 4], "offset": [-1, -1]},
+    {"art": "nature/fern", "cell": [7, 13], "offset": [-2, 3]},
+    {"art": "nature/wildflowers_orange", "cell": [4, 0], "offset": [-14, 6], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [2, 13], "offset": [13, 1]},
+    {"art": "nature/clover", "cell": [15, 12], "offset": [-6, -4]},
+    {"art": "nature/thistle", "cell": [13, 13], "offset": [12, 4], "flip": true},
+    {"art": "nature/clover_3", "cell": [11, 11], "offset": [-12, 4]},
+    {"art": "nature/wildflowers_red", "cell": [18, 5], "offset": [13, -6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 7], "offset": [-4, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [11, 13], "offset": [-9, -6]},
+    {"art": "nature/briar_bush", "cell": [17, 1], "offset": [-12, 5]},
+    {"art": "nature/fern", "cell": [5, 0], "offset": [-14, 2]},
+    {"art": "nature/grass_tuft", "cell": [4, 12], "offset": [-9, 2], "flip": true},
+    {"art": "nature/clover_2", "cell": [3, 15], "offset": [-14, -3]},
+    {"art": "nature/wildflowers_red", "cell": [12, 11], "offset": [11, -7]},
+    {"art": "nature/bramble", "cell": [11, 1], "offset": [-13, -5], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [1, 15], "offset": [2, -3]},
+    {"art": "nature/clover", "cell": [16, 14], "offset": [-11, -2], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [1, 8], "offset": [12, 2], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [17, 9], "offset": [-2, -2], "flip": true},
+    {"art": "nature/rose_stem", "cell": [12, 1], "offset": [-8, -2], "flip": true},
+    {"art": "nature/briar_bush", "cell": [0, 1], "offset": [-10, 4]},
+    {"art": "nature/hazel_bush", "cell": [5, 12], "offset": [3, 5]},
+    {"art": "nature/irish_bird_2", "cell": [17, 10], "offset": [-9, 5]},
+    {"art": "nature/butterfly_blue", "cell": [4, 5], "offset": [13, 2], "flip": true},
+    {"art": "nature/grasshopper", "cell": [7, 1], "offset": [-4, -2], "flip": true},
+    {"art": "nature/butterfly", "cell": [18, 14], "offset": [7, -1]}
   ]
 }

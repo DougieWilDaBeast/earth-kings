@@ -29,7 +29,7 @@ What stands between this audit and a public release, in order of weight.
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
 | P5 | PixelLab's terms for commercial use of generated art, on the plan the art was made with | **to confirm** | founders |
-| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md). The two giants and `king_slime` are regenerated from those prompts in `art/big/` (2026-10-12, the mound 2026-10-13), not yet used by the game | **dev only** — regenerate before any public release | founders |
+| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md). The two giants and `king_slime` are regenerated from those prompts in `art/big/` (2026-10-12, the mound 2026-10-13); `king_slime` and `blue_slime` (the Bog Jelly, `art/tier1/`) are in the game since 2026-10-13, the giants not yet | **dev only** — regenerate before any public release | founders |
 
 ## Art
 

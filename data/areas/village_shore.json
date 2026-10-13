@@ -250,6 +250,64 @@
         ],
         "bye": "Low tide's at dusk. Really."
       }
+    },
+    {
+      "name": "the Tidewalker",
+      "unit": "sea_man",
+      "cell": [
+        16,
+        9
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "story_npc": "sea_man",
+      "talk": {
+        "hello": [
+          "Tide's turning. You can hear it if you stop talking.",
+          "Mind the nets. They've been kind to me."
+        ],
+        "again": [
+          "You came back on the tide. Most things do.",
+          "The water's darker than when you left."
+        ],
+        "ask": [
+          {
+            "q": "Where are you from?",
+            "a": "Out there. A ship broke on the shoals in the storm that drowned three ports. They tell me I was on it. I remember the cold, and the lion."
+          },
+          {
+            "q": "What's wrong with the water?",
+            "a": "It's turning black at the edges. Something is seeping up from far down. The reef things are coming in angry."
+          },
+          {
+            "q": "Is that lion made of water?",
+            "a": "Mostly. It doesn't explain itself. Neither do I."
+          }
+        ],
+        "bye": [
+          "Fair winds.",
+          "Keep your feet dry while you can."
+        ]
+      }
+    },
+    {
+      "name": "the Tide Lion",
+      "unit": "tide_lion",
+      "cell": [
+        17,
+        10
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "story_npc": "sea_man",
+      "chatter": [
+        "The lion watches the water, then you, then the water.",
+        "Salt spray hangs around it, though there is no wind."
+      ]
     }
   ],
   "rows": [
@@ -336,22 +394,24 @@
     {"art": "nature/birch", "cell": [20, 17], "offset": [-6, -5], "flip": true},
     {"art": "nature/birch", "cell": [4, 0], "offset": [-6, -1], "flip": true},
     {"art": "nature/birch", "cell": [0, 13], "offset": [-8, 5], "flip": true},
+    {"art": "nature/thistle", "cell": [19, 7], "offset": [7, 6], "flip": true},
     {"art": "nature/fern", "cell": [1, 6], "offset": [10, 3]},
     {"art": "nature/thistle", "cell": [2, 13], "offset": [-12, 3]},
-    {"art": "nature/pebble", "cell": [5, 16], "offset": [5, -4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [6, 17], "offset": [1, 7], "flip": true},
-    {"art": "nature/thistle", "cell": [2, 14], "offset": [8, -5]},
-    {"art": "nature/fern", "cell": [16, 0], "offset": [-10, 7], "flip": true},
-    {"art": "nature/clover_2", "cell": [14, 16], "offset": [-1, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [10, 11], "offset": [-9, -4]},
+    {"art": "nature/thistle", "cell": [17, 4], "offset": [-10, -1], "flip": true},
+    {"art": "nature/pebble", "cell": [7, 0], "offset": [7, 3]},
+    {"art": "nature/hedge_2", "cell": [21, 0], "offset": [12, -5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [0, 3], "offset": [12, -3], "flip": true},
+    {"art": "nature/clover_2", "cell": [3, 0], "offset": [-13, 2], "flip": true},
+    {"art": "nature/thistle", "cell": [12, 0], "offset": [11, -6], "flip": true},
     {"art": "nature/grass_tuft", "cell": [7, 1], "offset": [-5, 0]},
     {"art": "nature/pebble", "cell": [2, 17], "offset": [-1, 2], "flip": true},
     {"art": "nature/wildflowers_blue", "cell": [7, 11], "offset": [13, 1]},
     {"art": "nature/thistle", "cell": [3, 13], "offset": [-4, 3], "flip": true},
-    {"art": "nature/pebble", "cell": [0, 6], "offset": [8, 5]},
-    {"art": "nature/irish_bird_3", "cell": [2, 2], "offset": [-3, -3], "flip": true},
-    {"art": "nature/sparrow", "cell": [2, 6], "offset": [1, 2]},
-    {"art": "nature/sparrow", "cell": [7, 7], "offset": [-12, -4]},
-    {"art": "nature/white_dove", "cell": [17, 9], "offset": [-7, -2]},
-    {"art": "nature/snail", "cell": [8, 11], "offset": [3, 2]}
+    {"art": "nature/sparrow", "cell": [2, 2], "offset": [-2, 0]},
+    {"art": "nature/irish_bird_3", "cell": [2, 6], "offset": [-3, -3], "flip": true},
+    {"art": "nature/sparrow", "cell": [7, 7], "offset": [1, 2]},
+    {"art": "nature/sparrow", "cell": [8, 11], "offset": [-12, -4]},
+    {"art": "nature/white_dove", "cell": [10, 2], "offset": [-7, -2]}
   ]
 }

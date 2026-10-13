@@ -56,6 +56,11 @@ The base stat block a `Character` is built from, and what a monster is.
   powers, its name on the character sheet and the level-up banner. Optional; parchment if left out.
 - `flash_step` — blink range the class grants; the higher of this and the template's wins.
 - `yoke: true` — flags a class as one that can hold the Training Yoke stance.
+- `lead` — the one of the sixteen this class belongs to (their hero and unit id). That lead starts
+  in it at level 1, with its `grants` as their four moves on Q W E R, and at level 2 is offered it
+  first with the classes anyone can learn after it ([D64](06-decisions.md)). A class with no `lead`
+  is one anyone can learn: a template with no `classes` is offered only those. The sixteen are
+  listed in [21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built).
 
 ## `abilities.json` — authored abilities
 
@@ -131,18 +136,18 @@ A side-car on `units.json`: the key **is** the unit template id, and the name an
 there. This file adds only what a lead needs on top of a unit.
 
 ```json
-"bram": {
-  "title": "The Sworn Blade",
-  "difficulty": 1,
-  "temper": "",
-  "background": "apprentice_smith",
-  "grudge": "raiders",
-  "hearth": "village_hearth",
-  "creed": "the_kept_word",
-  "oath": "",
-  "origin": "Apprenticed to an old forge-master who died when raiders struck...",
-  "blurb": "An oath-sworn swordsman with a scar for every promise he kept...",
-  "companions": ["sera", "toln"]
+"atlas": {
+  "title": "The Long Plan",
+  "temper": "INTJ",
+  "difficulty": 4,
+  "background": "", "grudge": "", "hearth": "", "creed": "", "oath": "",
+  "origin": "",
+  "blurb": "A boy too small to walk properly, carried in robes too big for him...",
+  "companions": [],
+  "found_at": "library",
+  "elsewhere": "being carried to the oldest library within reach",
+  "first": "You will want to know why I am sitting on a library step...",
+  "rumour": "At {place} there is a boy who cannot walk, reading as if the books owed him something..."
 }
 ```
 
@@ -151,12 +156,41 @@ there. This file adds only what a lead needs on top of a unit.
 - `background` · `grudge` · `hearth` · `creed` · `oath` — ids into the five pools in `data/lore/`.
   **All five are legitimately blank**; history is cast late (see [14](14-lore-pools.md)).
 - `companions` — unit template ids that ride out with them, 0–2.
+- A lead's own class is not named here: the class in `classes.json` whose `lead` is this id is theirs
+  ([D63](06-decisions.md)).
+- `found_at` — the kind of place (`library`, `gate`, `keep`, `village`, `hut`) they make their own
+  when somebody else is the lead: they walk there first and stay there longest
+  (`fall.json` → `wanderers.rules`). `elsewhere` is docs/21's line for it, for people to read.
+- `first` — what they say the first time the company meets them; `rumour` — what an inn says of
+  them while they are at their own kind of place (`{name}`, `{title}`, `{place}`). Both optional; the
+  temper group's lines stand in.
+- `restless` — stays only a short while anywhere (Iris, Liber).
+
+## `story_npcs.json` — the original twelve, met in the world
+
+The twelve heroes the game began with, as story people rather than leads ([D79](06-decisions.md)).
+Keyed by their unit template id. Each one stands in `area` as a person whose `story_npc` is that id
+(see `areas/*.json`), with a `talk` block; their companions stand beside them with the same
+`story_npc` and `chatter`.
+
+```json
+"bram": {
+  "name": "Bram the Sworn Blade",
+  "unit": "bram",
+  "area": "village",
+  "hook": "Kaelen's apprentice from Oakhaven, carrying his dead master's greatsword...",
+  "company": []
+}
+```
+
+- `area` — the area id they stand in. `hook` — where their story picks up, from
+  [11](11-character-backstories.md). `company` — unit ids of the companions standing with them.
 
 ## `tempers.json` — the sixteen, and the quiz that picks one
 
 `axes` describes the eight letters, `types` maps each four-letter code to an in-world name and the
-`hero` that answers to it (blank until written), `quiz` holds the four questions asked before a
-run, and `leans` holds what each letter is worth. See [13](13-heroes-and-tempers.md).
+`hero` that answers to it (blank until written), `quiz` holds the questions asked before a
+run (the same odd number for every `axis`, each pair settled by majority), and `leans` holds what each letter is worth. See [13](13-heroes-and-tempers.md).
 
 ```json
 "types": { "INTJ": { "display_name": "The Long Plan", "blurb": "…", "hero": "" } },
@@ -264,6 +298,8 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 
 A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
 still keeps one). Every keep and village area has one: a `guild_clerk`.
+A person with `story_npc` is one of the original twelve, or a companion standing with them
+(see `story_npcs.json`).
 
 **Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
 in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,

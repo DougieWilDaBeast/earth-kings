@@ -286,8 +286,10 @@ through `CLAUDE.md`).
 
 ## Roadmap
 
-Tracked properly in [docs/05-roadmap.md](docs/05-roadmap.md). In short: M0–M9 are shipped — the
-tactics core, characters, the generated power system, the world and walk mode, gates, the Tower, the
-Library and the living world. Next is **M10**: a research deep dive into _Dungeon Settlers_' combat
-and a sprite-size test, ahead of a real-time-with-pause fight (M11) and the sixteen worlds
-(M13–M15). The assets to generate, in order, are in [docs/19-asset-list.md](docs/19-asset-list.md).
+Tracked properly in [docs/05-roadmap.md](docs/05-roadmap.md). In short: M0–M10 and M12 are
+shipped — the tactics core, characters, the generated power system, the world and walk mode, gates,
+the Tower, the Library, the living world, the size test and the new way of getting stronger. Every
+fight is the real-time fight (M11), and the early game's units play their moves in it. The fall,
+the Tower's chapters, the sixteen worlds and the one view (M13–M15, M18) are built in part. Next,
+since 2026-10-13: the sixteen as the playable leads, each in their own class, with the original
+twelve as story NPCs. The assets to generate, in order, are in [docs/19-asset-list.md](docs/19-asset-list.md).
