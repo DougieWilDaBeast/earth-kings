@@ -396,6 +396,23 @@ step points at someone or something in the village.
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.
 
+## `areas/*.json` → `interior` — a room, not a yard ([D81](06-decisions.md))
+
+```json
+"interior": { "floor": "oak", "wall": "timber",
+  "rugs": [ { "rect": [2, 1, 4, 3], "colour": "#7a2e2a", "trim": "#c9a45f" } ],
+  "glows": [ { "cell": [3.5, 1], "radius": 4.5, "colour": "#ff9a40", "strength": 0.5 } ] }
+```
+
+- An area with this block is drawn by `src/area/interior_painter.gd`, not from tilesets: `floor`
+  names `art/interior/floor_<floor>.png`, tiled over the room; `wall` names the back wall's face
+  (`wall_<wall>.png`, 64 × 112, standing along the top row) and the top of the side and front walls
+  (`cap_<wall>.png`). Cells of `wall` terrain are walls; `floor` terrain is walked on.
+- `rugs` — cell rectangles drawn with a border and a row of lozenges; `glows` — soft light over the
+  room (a fire, candles), `radius` in cells.
+- Laid out by `tools/build_interiors.py`, which keeps the room's people, spots and chests and checks
+  every one can be reached; `tools/dress_areas.py` leaves these rooms alone.
+
 ## `biomes.json` — the lands, and how each one's ground is laid out
 
 ```json

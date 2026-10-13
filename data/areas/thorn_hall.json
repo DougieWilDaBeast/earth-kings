@@ -1,124 +1,363 @@
 {
- "display_name": "the muster hall",
- "layers": [
-  "dirt",
-  "stone"
- ],
- "legend": {
-  "o": "stone",
-  ",": "dirt"
- },
- "spawn": [
-  6,
-  7
- ],
- "exits": [
-  [
-   6,
-   8
-  ]
- ],
- "spots": [
-  {
-   "cell": [
-    6,
-    5
-   ],
-   "line": "A muster board covers the far wall, ruled for four hundred names."
-  },
-  {
-   "cell": [
-    10,
-    3
-   ],
-   "line": "The candles have been lit and relit so long the sconces have grown stalactites."
-  }
- ],
- "chests": [
-  {
-   "cell": [
-    2,
-    2
-   ],
-   "line": "A pay chest, sealed the season the pay stopped coming.",
-   "gold": 145,
-   "item": "grave_token"
-  }
- ],
- "people": [
-  {
-   "name": "the Timeless One",
-   "unit": "timeless_one",
-   "cell": [
-    6,
-    3
-   ],
-   "facing": [
-    0,
-    1
-   ],
-   "dialogue": "thorn_timeless"
-  },
-  {
-   "name": "a knight standing his watch",
-   "unit": "castellan",
-   "cell": [
-    3,
-    5
-   ],
-   "facing": [
-    1,
-    0
-   ],
-   "wander": 2,
-   "chatter": [
-    "Ser Valis will not have the muster rolls moved. So they stay where they are.",
-    "Do not look the old one in the eye for long. It is a courtesy to yourself."
-   ]
-  },
-  {
-   "name": "a wisp that followed you in",
-   "unit": "feather_wisp",
-   "cell": [
-    10,
-    5
-   ],
-   "facing": [
-    -1,
-    0
-   ],
-   "wander": 3,
-   "chatter": [
-    "It has been drifting behind you since the gate and nobody else has remarked on it."
-   ]
-  }
- ],
- "rows": [
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo",
-  "ooooooooooooo"
- ],
- "dressing": [
-  {"art": "brazier", "cell": [0, 0]},
-  {"art": "brazier", "cell": [12, 0]},
-  {"art": "tapestry", "cell": [2, 0]},
-  {"art": "tall_clock", "cell": [4, 0]},
-  {"art": "tapestry", "cell": [6, 0]},
-  {"art": "landmark/sword_storm", "cell": [8, 0]},
-  {"art": "tapestry", "cell": [10, 0]},
-  {"art": "sofa_gold", "cell": [0, 2]},
-  {"art": "scroll_rack", "cell": [12, 2]},
-  {"art": "cabinet", "cell": [0, 4]},
-  {"art": "writing_desk", "cell": [12, 4]},
-  {"art": "drawers_red", "cell": [0, 6]},
-  {"art": "globe", "cell": [12, 6]},
-  {"art": "lamp_post_twin", "cell": [4, 8]},
-  {"art": "lamp_post_twin", "cell": [8, 8]}
- ]
+    "display_name": "the muster hall",
+    "layers": [],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "spawn": [
+        8,
+        9
+    ],
+    "exits": [
+        [
+            8,
+            10
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                8,
+                4
+            ],
+            "line": "A muster board covers the far wall, ruled for four hundred names."
+        },
+        {
+            "cell": [
+                12,
+                3
+            ],
+            "line": "The candles have been lit and relit so long the sconces have grown stalactites."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                2,
+                2
+            ],
+            "line": "A pay chest, sealed the season the pay stopped coming.",
+            "gold": 145,
+            "item": "grave_token"
+        }
+    ],
+    "people": [
+        {
+            "name": "the Timeless One",
+            "unit": "timeless_one",
+            "cell": [
+                8,
+                3
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "dialogue": "thorn_timeless"
+        },
+        {
+            "name": "a knight standing his watch",
+            "unit": "castellan",
+            "cell": [
+                4,
+                3
+            ],
+            "facing": [
+                1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "Ser Valis will not have the muster rolls moved. So they stay where they are.",
+                "Do not look the old one in the eye for long. It is a courtesy to yourself."
+            ]
+        },
+        {
+            "name": "a wisp that followed you in",
+            "unit": "feather_wisp",
+            "cell": [
+                13,
+                6
+            ],
+            "facing": [
+                -1,
+                0
+            ],
+            "wander": 3,
+            "chatter": [
+                "It has been drifting behind you since the gate and nobody else has remarked on it."
+            ]
+        }
+    ],
+    "rows": [
+        "#################",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "########.########"
+    ],
+    "dressing": [],
+    "tint": "#d8d0d8",
+    "interior": {
+        "floor": "flag",
+        "wall": "stone",
+        "rugs": [
+            {
+                "rect": [
+                    6,
+                    3,
+                    5,
+                    3
+                ],
+                "colour": "#2c4a2c",
+                "trim": "#b0a060"
+            },
+            {
+                "rect": [
+                    7,
+                    6,
+                    3,
+                    4
+                ],
+                "colour": "#2c4a2c",
+                "trim": "#b0a060"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    12,
+                    2
+                ],
+                "radius": 3,
+                "colour": "#ffe0a0",
+                "strength": 0.35
+            },
+            {
+                "cell": [
+                    4,
+                    2
+                ],
+                "radius": 3,
+                "colour": "#ffe0a0",
+                "strength": 0.3
+            },
+            {
+                "cell": [
+                    8,
+                    4
+                ],
+                "radius": 3,
+                "colour": "#ffcf80",
+                "strength": 0.15
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "interior/muster_board",
+            "cell": [
+                8,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_green",
+            "cell": [
+                5,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_green",
+            "cell": [
+                11,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/sword_rack",
+            "cell": [
+                13,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/axe_rack",
+            "cell": [
+                3,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                13,
+                2
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                4,
+                1
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                15,
+                1
+            ]
+        },
+        {
+            "art": "writing_desk",
+            "cell": [
+                8,
+                2
+            ]
+        },
+        {
+            "art": "chair",
+            "cell": [
+                8,
+                1
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                3,
+                5
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                3,
+                6
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                12,
+                5
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                12,
+                6
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                3,
+                8
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                12,
+                8
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bookshelf",
+            "cell": [
+                15,
+                4
+            ]
+        },
+        {
+            "art": "cabinet",
+            "cell": [
+                1,
+                4
+            ]
+        },
+        {
+            "art": "drawers_red",
+            "cell": [
+                1,
+                7
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                15,
+                9
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                1,
+                9
+            ]
+        }
+    ]
 }

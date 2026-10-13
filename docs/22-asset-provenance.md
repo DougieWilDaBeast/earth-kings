@@ -87,3 +87,4 @@ Every label uses Godot's default theme font, except the start screen's logo and 
 | --- | --- | --- | --- |
 | Godot Engine 4.7 | godotengine.org | MIT — its notice is on the Credits screen word for word, and the controls suite fails if it drifts from `Engine.get_license_text()` | **cleared** |
 | Godot's third-party components (FreeType, ENet, Mbed TLS, HarfBuzz and the rest) | Built into the engine | Their own (FTL, Expat, Apache-2.0, …) | **cleared** — FreeType, ENet and Mbed TLS are named on the Credits screen, and the full list is read off the running engine (`Engine.get_copyright_info()`) |
+- `art/interior/` and `art/props/interior/` — stand-ins drawn in code by `tools/draw_interiors.py` (2026-10-13, [D81](06-decisions.md)); nothing borrowed. To be replaced by `dougie`'s PixelLab art (art request A5).
