@@ -44,6 +44,13 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 ## Playing the vertical slice
 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
+  The first time the game opens with no run to continue it offers a **tutorial** (afterwards the
+  title's _Tutorial_ button): a guided practice run in the training village of Hearthwick, with a
+  sparring fight met on the village ground, never saved ([D73](docs/06-decisions.md)–[D75](docs/06-decisions.md)).
+- **Who you are** — one of **the sixteen**, Atlas to Liber, one per temper, each in their own body
+  and their own class ([D78](docs/06-decisions.md)). The other fifteen come down too and can be met
+  and recruited. The original twelve (Bram, Sera, Toln and the rest) are story people met in the
+  world, each where their backstory puts them ([D79](docs/06-decisions.md)).
 - **Classic or Iron Man** — picked next to the seed when you begin (**Mode**), shown in the menu,
   kept in the save. **Classic** saves by hand from the menu, and the game also saves when you set
   out, when you rest and when a Tower chapter ends. **Iron Man** has no Save or Load button: the game
@@ -79,6 +86,10 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   cycles the speed everywhere. `Q` again takes it back anywhere, even mid-fight, which then pauses
   for your first order. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.
+- **The journal** (`N`) — a leather book found in the crater at the landing. Its first page,
+  _The Company_, is a sheet for each companion: every number and what a level adds, the class's
+  growth, gear, powers and what they have learned from ([D67](docs/06-decisions.md)). Then the
+  Bestiary, Routes & Renown, the Annals, and Quests & the Fallen.
 - **The map** — kept in the journal (`N`, then _The Map_ or `M`); `Esc` puts it away. Green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
   (a ring means it is open and spilling), gold is **the Tower**, and the orange roof is **home**.
 - **Home** — the run starts on your own doorstep. Nothing camps within sight of it and sleeping
@@ -128,8 +139,9 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   Left-click picks a fighter (drag a box for several, `Tab` for everyone); right-click moves,
   attacks, or goes to help a fallen friend; `Q W E R` ready a skill; `A` switches a fighter's
   skills between automatic and by hand; `H` holds them in place; `T` changes speed; `N` opens the
-  journal. Everyone swings on their own tempo, set by their speed. See
-  [docs/18](docs/18-combat-direction.md).
+  journal. Everyone swings on their own tempo, set by their speed. Swings, hits, blocks, spells,
+  heals and the end of a fight are heard, under the menu's Sounds slider ([D76](docs/06-decisions.md)).
+  See [docs/18](docs/18-combat-direction.md).
 - **Facing matters** — the wedge on a token shows where it looks. Side hits deal 1.1×, back hits
   1.2×.
 - **Falling is usually fatal.** A downed character has twelve seconds for a friend to reach them.
@@ -153,8 +165,12 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 - **Send companions away.** Take an errand, then on the party screen's Practice page send someone
   off to do it. They walk it while you walk, and come back — or meet something on the road alone
   ([D38](docs/06-decisions.md)).
-- **Level 2 is a choice.** When a party member is ready, the hint bar says so; press `P`.
-- **The party screen** (`P`) is where the run is managed: pick a class, teach a book to someone
+- **A level gained** flickers gold on whoever gained it in a fight, and a line at the top right
+  says so and what is now owed ([D77](docs/06-decisions.md)).
+- **Level 2 is a choice.** A lead may keep their own class or take another ([D64](docs/06-decisions.md));
+  a companion with none picks one. The line says so; press `P` and pick from the class cards.
+- **The party screen** (`P`) is where the run is managed: pick a class from its card, take a power
+  by pressing the glowing stone on its trail, teach a book to someone
   who lacks it, take the **Training Yoke** on or off (−25% attack for +50% XP), and see what each
   character has read and what is close to fading. It also shows the **Codex** — how much of the
   world's power grammar has been catalogued.
