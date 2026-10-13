@@ -174,7 +174,7 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = SubResource("FontVariation_carved")
 theme_override_font_sizes/font_size = 19
-text = "A grid tactical RPG of small wars and long roads"
+text = "Sixteen fell. One climbs."
 horizontal_alignment = 1
 
 [node name="Prompt" type="Label" parent="."]
