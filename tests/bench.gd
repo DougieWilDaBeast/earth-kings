@@ -137,8 +137,8 @@ func _build_state() -> void:
 		_owe(str(_args["owed"]))
 
 
-## Give the lead exactly enough experience for a level, with the banner up to
-## show it ([D66]).
+## Give the lead exactly enough experience for a level, with the level-up line
+## up to show it ([D77]).
 func _level_the_lead() -> void:
 	add_child(load("res://src/ui/level_up_banner.gd").new())
 	var lead := GameState.roster.player()
@@ -435,9 +435,9 @@ state
   --equip=id        put a piece on the lead
   --hurt=0.4        drop the party to this share of their health
   --owed=path|power the lead has a path to choose, or everyone a power to take
-  --levelup         level the lead up, with the banner showing
+  --levelup         level the lead up, with the level-up line showing
   --tab=NAME        the journal's tab: company bestiary routes annals quests
-  --choose=CLASS    settle the lead's path, with the banner showing (with --owed=path)
+  --choose=CLASS    settle the lead's path, with the level-up line showing (with --owed=path)
   --take            take the lead's next power on the party screen (with --owed=power)
 
 what to open

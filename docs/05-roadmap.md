@@ -241,8 +241,9 @@ waves do, for the copy of the company on the sand).
   use and both adding to how hard a move hits ✅ (`Proficiency.arms_rank`)
 - The party screen's Practice page shows weapon skill, the kinds each character has learned from,
   and the assists they are part-way through ✅
-- Growth you can see ([D67](06-decisions.md), 2026-10-12) ✅: a banner for each level gained in
-  play, with what went up and a button to a path or power owed; a path chosen from cards in each
+- Growth you can see ([D67](06-decisions.md), 2026-10-12) ✅: a level gained in play is a gold
+  flicker on whoever gained it and a line at the top right that says so and what is owed (the
+  banner it began as was in the way: [D77](06-decisions.md), 2026-10-13); a path chosen from cards in each
   class's colour; a tree of powers as a trail of stones, one click to take the next. Class colours
   are **Inferred** (agenda item 64)
 - The journal is a book, found in the furrow at the landing, and its first page is a sheet for

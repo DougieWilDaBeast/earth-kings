@@ -559,8 +559,23 @@ func _check_class_prompt() -> void:
 	var heard: Array = []
 	var listen := func(_who: RefCounted, before: Dictionary) -> void: heard.append(before)
 	EventBus.levelled_up.connect(listen)
+	# Said in one line at the side of the screen that takes no clicks ([D77]).
+	var notice: CanvasLayer = load("res://src/ui/level_up_banner.gd").new()
+	add_child(notice)
 	Progression.award(member, Progression.xp_to_next(1), GameState.world)
 	EventBus.levelled_up.disconnect(listen)
+	_expect(notice.call("showing") == 1, "levels gained together showed %d lines, not one" % notice.call("showing"))
+	var said: Array = notice.call("lines")
+	_expect(not said.is_empty() and str(said[0]).begins_with(member.display_name) and "level" in str(said[0]),
+			"the level-up line did not say who levelled: %s" % str(said))
+	_expect(not said.is_empty() and "path to choose" in str(said[0]), "the level-up line did not say a path is waiting")
+	for node in notice.find_children("*", "Control", true, false):
+		# A text box keeps a hidden scrollbar of its own; hidden, it takes nothing.
+		if not (node as Control).is_visible_in_tree():
+			continue
+		_expect((node as Control).mouse_filter == Control.MOUSE_FILTER_IGNORE,
+				"the level-up line catches clicks (%s)" % node.name)
+	notice.queue_free()
 	# Gentle may hand over more than one level's worth: one banner per level.
 	_expect(heard.size() == member.level - 1, "%d levels gained but %d announced" % [member.level - 1, heard.size()])
 	_expect(not heard.is_empty() and heard[0].has("max_hp") and heard[0].has("attack"),
