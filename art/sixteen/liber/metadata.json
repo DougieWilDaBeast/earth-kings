@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_liber",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "a grinning skinny young man in an open red vest, rolled-up shorts and sandals, a battered wide-brimmed hat, cloth boxing wraps around his fists",
-   "character_id": "6d801ccf-3b79-4a32-8a4e-53aaa1ce201e",
+   "outfit": "a grinning wiry young man with a shaved head and a sea-blue knotted headband, a sleeveless patched sailcloth tunic, a frayed rope belt, bare feet, cloth boxing wraps around his fists. No hat, no vest. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "099b299c-5bae-4b18-af47-fa4dabe6e730",
    "zip": "downloads/pixellab/sixteen_liber_base.zip",
-   "generations": 39.0,
+   "generations": 22.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "6d801ccf-3b79-4a32-8a4e-53aaa1ce201e",
+     "id": "099b299c-5bae-4b18-af47-fa4dabe6e730",
      "name": "sixteen_liber",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:02:40.140899+00:00"
+     "created_at": "2026-10-12T21:49:57.007852+00:00"
     },
-    "folder": "sixteen_liber",
+    "folder": "sixteen_liber_3",
     "frames": {
      "rotations": {
-      "south": "sixteen_liber/rotations/south.png",
-      "south-east": "sixteen_liber/rotations/south-east.png",
-      "east": "sixteen_liber/rotations/east.png",
-      "north-east": "sixteen_liber/rotations/north-east.png",
-      "north": "sixteen_liber/rotations/north.png",
-      "north-west": "sixteen_liber/rotations/north-west.png",
-      "west": "sixteen_liber/rotations/west.png",
-      "south-west": "sixteen_liber/rotations/south-west.png"
+      "south": "sixteen_liber_3/rotations/south.png",
+      "south-east": "sixteen_liber_3/rotations/south-east.png",
+      "east": "sixteen_liber_3/rotations/east.png",
+      "north-east": "sixteen_liber_3/rotations/north-east.png",
+      "north": "sixteen_liber_3/rotations/north.png",
+      "north-west": "sixteen_liber_3/rotations/north-west.png",
+      "west": "sixteen_liber_3/rotations/west.png",
+      "south-west": "sixteen_liber_3/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:04:47.268048"
+  "export_date": "2026-10-12T21:51:52.676121"
  }
 }

@@ -108,11 +108,7 @@ title track of its own is still wanted.
 > continuous running scene where they are just running, fighting opponents and running again. A
 > nice little addition to break up the bleakness of the title screen.
 
-**Built.** [`TitleParade`](../src/ui/title_parade.gd) runs the saved party across the foot
-of the title screen, behind the menu, and the founders when there is no save. The fighting-and-running-again
-combat loop is fully implemented: opposing monster tokens (`goblin`, `wolf`, `slime`, `brigand`, `ogre`)
-stride westward across the bottom line. When heroes collide with them, a strike flash fires, the monster
-recoils and fades down, and the party continues their unbroken march across the screen.
+**Removed 2026-10-12** ([D69](06-decisions.md)). It ran the saved party across the foot of the title screen, fighting monsters on the way; `doug-md` took it off when the start screen became the fall, as it did not fit the new scene.
 
 ## W9 — A sound when you hover the title options
 

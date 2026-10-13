@@ -6,10 +6,10 @@
    "kind": "dress",
    "unit": "sixteen_bellona",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "make her a stern woman commander in dented steel half-plate over a crimson tabard, short-cropped hair, holding a spear with a small war banner tied below the blade",
-   "character_id": "81f599bf-5b61-48c6-8b48-66df55980f1e",
+   "outfit": "make her a stern woman commander in dented steel half-plate over a crimson tabard, short-cropped hair, holding a spear with a small war banner tied below the blade. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "143c82b9-7590-4cd1-bfd4-d3c4062d6507",
    "zip": "downloads/pixellab/sixteen_bellona_base.zip",
-   "generations": 49.0,
+   "generations": 19.0,
    "date": "2026-10-12"
   }
  ],
@@ -18,7 +18,7 @@
   "states": [
    {
     "character": {
-     "id": "81f599bf-5b61-48c6-8b48-66df55980f1e",
+     "id": "143c82b9-7590-4cd1-bfd4-d3c4062d6507",
      "name": "sixteen_bellona",
      "prompt": "Blank Male character",
      "size": {
@@ -28,25 +28,25 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T08:03:28.365412+00:00"
+     "created_at": "2026-10-12T21:20:12.104766+00:00"
     },
-    "folder": "sixteen_bellona",
+    "folder": "sixteen_bellona_2",
     "frames": {
      "rotations": {
-      "south": "sixteen_bellona/rotations/south.png",
-      "south-east": "sixteen_bellona/rotations/south-east.png",
-      "east": "sixteen_bellona/rotations/east.png",
-      "north-east": "sixteen_bellona/rotations/north-east.png",
-      "north": "sixteen_bellona/rotations/north.png",
-      "north-west": "sixteen_bellona/rotations/north-west.png",
-      "west": "sixteen_bellona/rotations/west.png",
-      "south-west": "sixteen_bellona/rotations/south-west.png"
+      "south": "sixteen_bellona_2/rotations/south.png",
+      "south-east": "sixteen_bellona_2/rotations/south-east.png",
+      "east": "sixteen_bellona_2/rotations/east.png",
+      "north-east": "sixteen_bellona_2/rotations/north-east.png",
+      "north": "sixteen_bellona_2/rotations/north.png",
+      "north-west": "sixteen_bellona_2/rotations/north-west.png",
+      "west": "sixteen_bellona_2/rotations/west.png",
+      "south-west": "sixteen_bellona_2/rotations/south-west.png"
      },
      "animations": {}
     }
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T08:05:03.560770"
+  "export_date": "2026-10-12T21:22:23.960620"
  }
 }

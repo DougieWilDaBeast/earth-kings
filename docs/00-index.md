@@ -27,6 +27,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 21  | [The Sixteen: a first draft](21-the-sixteen-first-draft.md) | **Draft, not settled** — all sixteen proposed from joint session 1: names, seeds, sixteen ways to fight, where each one is. For the founders to keep or replace |
 | 22  | [Asset provenance](22-asset-provenance.md)           | Where every file in `art/` and `audio/` and every font came from, its licence, and what must be cleared before a public release |
 | 23  | [Originality pass](23-originality-pass.md)           | Which characters copied someone else's, what they are called now, and the PixelLab prompts to redraw them |
+| 24  | [Art requests](24-art-requests.md)                   | **The art waiting to be made** — written here, then `dougie` generates it in PixelLab |
 
 ## Deciding the world
 

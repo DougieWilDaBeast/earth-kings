@@ -6,17 +6,43 @@
    "kind": "dress",
    "unit": "magic_swordsman",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
-   "outfit": "dress him as Magic swordsman — a duelist in a slashed dark coat over light mail, one sword wreathed in faint ember light, half-mask, ash-marked hands",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
+   "outfit": "dress him as Magic swordsman — a duelist in a slashed dark coat over light mail, one sword wreathed in faint ember light, half-mask, ash-marked hands. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
    "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 25.0,
+   "generations": 31.0,
    "date": "2026-10-12"
   },
   {
    "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/magic_swordsman_base.zip",
+   "generations": 47.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
    "name": "attack",
    "action": "a fast diagonal sword cut leaving a trail of faint ember light",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/magic_swordsman_base.zip",
+   "generations": 22.0,
+   "date": "2026-10-12"
+  },
+  {
+   "kind": "animation",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
+   "name": "skill",
+   "action": "thrusting the ember-lit sword forward as a burst of fire flares from the blade",
    "template_animation": null,
    "mode": null,
    "frames_asked": 8,
@@ -27,20 +53,7 @@
   },
   {
    "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
-   "name": "walk",
-   "action": "",
-   "template_animation": "walk",
-   "mode": "skeleton-v3",
-   "frames_asked": 8,
-   "directions": "south,east,north,west",
-   "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 32.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
    "name": "hit",
    "action": "",
    "template_animation": "taking-punch",
@@ -48,25 +61,12 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 21.0,
+   "generations": 18.0,
    "date": "2026-10-12"
   },
   {
    "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
-   "name": "skill",
-   "action": "thrusting the ember-lit sword forward as a burst of fire flares from the blade",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "south,east,north,west",
-   "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 24.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
+   "character_id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
    "name": "death",
    "action": "",
    "template_animation": "falling-back-death",
@@ -74,20 +74,7 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 30.0,
-   "date": "2026-10-12"
-  },
-  {
-   "kind": "animation",
-   "character_id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
-   "name": "skill",
-   "action": "thrusting the ember-lit sword forward as a burst of fire flares from the blade",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "west",
-   "zip": "downloads/pixellab/magic_swordsman_base.zip",
-   "generations": 21.0,
+   "generations": 15.0,
    "date": "2026-10-12"
   }
  ],
@@ -96,7 +83,7 @@
   "states": [
    {
     "character": {
-     "id": "f6d4cdca-4b60-46a6-b76b-de1fb0f15e93",
+     "id": "91e3ce47-95d9-4071-878f-f3f271b808a1",
      "name": "magic_swordsman",
      "prompt": "Blank Male character",
      "size": {
@@ -106,219 +93,217 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-12T07:40:00.063906+00:00"
+     "created_at": "2026-10-12T22:15:46.300382+00:00"
     },
-    "folder": "magic_swordsman",
+    "folder": "magic_swordsman_2",
     "frames": {
      "rotations": {
-      "south": "magic_swordsman/rotations/south.png",
-      "south-east": "magic_swordsman/rotations/south-east.png",
-      "east": "magic_swordsman/rotations/east.png",
-      "north-east": "magic_swordsman/rotations/north-east.png",
-      "north": "magic_swordsman/rotations/north.png",
-      "north-west": "magic_swordsman/rotations/north-west.png",
-      "west": "magic_swordsman/rotations/west.png",
-      "south-west": "magic_swordsman/rotations/south-west.png"
+      "south": "magic_swordsman_2/rotations/south.png",
+      "south-east": "magic_swordsman_2/rotations/south-east.png",
+      "east": "magic_swordsman_2/rotations/east.png",
+      "north-east": "magic_swordsman_2/rotations/north-east.png",
+      "north": "magic_swordsman_2/rotations/north.png",
+      "north-west": "magic_swordsman_2/rotations/north-west.png",
+      "west": "magic_swordsman_2/rotations/west.png",
+      "south-west": "magic_swordsman_2/rotations/south-west.png"
      },
      "animations": {
-      "walking": {
-       "east": [
-        "magic_swordsman/animations/walking/east/frame_000.png",
-        "magic_swordsman/animations/walking/east/frame_001.png",
-        "magic_swordsman/animations/walking/east/frame_002.png",
-        "magic_swordsman/animations/walking/east/frame_003.png",
-        "magic_swordsman/animations/walking/east/frame_004.png",
-        "magic_swordsman/animations/walking/east/frame_005.png"
+      "skill": {
+       "north": [
+        "magic_swordsman_2/animations/skill/north/frame_000.png",
+        "magic_swordsman_2/animations/skill/north/frame_001.png",
+        "magic_swordsman_2/animations/skill/north/frame_002.png",
+        "magic_swordsman_2/animations/skill/north/frame_003.png",
+        "magic_swordsman_2/animations/skill/north/frame_004.png",
+        "magic_swordsman_2/animations/skill/north/frame_005.png",
+        "magic_swordsman_2/animations/skill/north/frame_006.png",
+        "magic_swordsman_2/animations/skill/north/frame_007.png",
+        "magic_swordsman_2/animations/skill/north/frame_008.png"
        ],
        "west": [
-        "magic_swordsman/animations/walking/west/frame_000.png",
-        "magic_swordsman/animations/walking/west/frame_001.png",
-        "magic_swordsman/animations/walking/west/frame_002.png",
-        "magic_swordsman/animations/walking/west/frame_003.png",
-        "magic_swordsman/animations/walking/west/frame_004.png",
-        "magic_swordsman/animations/walking/west/frame_005.png"
+        "magic_swordsman_2/animations/skill/west/frame_000.png",
+        "magic_swordsman_2/animations/skill/west/frame_001.png",
+        "magic_swordsman_2/animations/skill/west/frame_002.png",
+        "magic_swordsman_2/animations/skill/west/frame_003.png",
+        "magic_swordsman_2/animations/skill/west/frame_004.png",
+        "magic_swordsman_2/animations/skill/west/frame_005.png",
+        "magic_swordsman_2/animations/skill/west/frame_006.png",
+        "magic_swordsman_2/animations/skill/west/frame_007.png",
+        "magic_swordsman_2/animations/skill/west/frame_008.png"
        ],
        "south": [
-        "magic_swordsman/animations/walking/south/frame_000.png",
-        "magic_swordsman/animations/walking/south/frame_001.png",
-        "magic_swordsman/animations/walking/south/frame_002.png",
-        "magic_swordsman/animations/walking/south/frame_003.png",
-        "magic_swordsman/animations/walking/south/frame_004.png",
-        "magic_swordsman/animations/walking/south/frame_005.png"
+        "magic_swordsman_2/animations/skill/south/frame_000.png",
+        "magic_swordsman_2/animations/skill/south/frame_001.png",
+        "magic_swordsman_2/animations/skill/south/frame_002.png",
+        "magic_swordsman_2/animations/skill/south/frame_003.png",
+        "magic_swordsman_2/animations/skill/south/frame_004.png",
+        "magic_swordsman_2/animations/skill/south/frame_005.png",
+        "magic_swordsman_2/animations/skill/south/frame_006.png",
+        "magic_swordsman_2/animations/skill/south/frame_007.png",
+        "magic_swordsman_2/animations/skill/south/frame_008.png"
+       ],
+       "east": [
+        "magic_swordsman_2/animations/skill/east/frame_000.png",
+        "magic_swordsman_2/animations/skill/east/frame_001.png",
+        "magic_swordsman_2/animations/skill/east/frame_002.png",
+        "magic_swordsman_2/animations/skill/east/frame_003.png",
+        "magic_swordsman_2/animations/skill/east/frame_004.png",
+        "magic_swordsman_2/animations/skill/east/frame_005.png",
+        "magic_swordsman_2/animations/skill/east/frame_006.png",
+        "magic_swordsman_2/animations/skill/east/frame_007.png",
+        "magic_swordsman_2/animations/skill/east/frame_008.png"
+       ]
+      },
+      "walking": {
+       "east": [
+        "magic_swordsman_2/animations/walking/east/frame_000.png",
+        "magic_swordsman_2/animations/walking/east/frame_001.png",
+        "magic_swordsman_2/animations/walking/east/frame_002.png",
+        "magic_swordsman_2/animations/walking/east/frame_003.png",
+        "magic_swordsman_2/animations/walking/east/frame_004.png",
+        "magic_swordsman_2/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "magic_swordsman_2/animations/walking/west/frame_000.png",
+        "magic_swordsman_2/animations/walking/west/frame_001.png",
+        "magic_swordsman_2/animations/walking/west/frame_002.png",
+        "magic_swordsman_2/animations/walking/west/frame_003.png",
+        "magic_swordsman_2/animations/walking/west/frame_004.png",
+        "magic_swordsman_2/animations/walking/west/frame_005.png"
        ],
        "north": [
-        "magic_swordsman/animations/walking/north/frame_000.png",
-        "magic_swordsman/animations/walking/north/frame_001.png",
-        "magic_swordsman/animations/walking/north/frame_002.png",
-        "magic_swordsman/animations/walking/north/frame_003.png",
-        "magic_swordsman/animations/walking/north/frame_004.png",
-        "magic_swordsman/animations/walking/north/frame_005.png"
+        "magic_swordsman_2/animations/walking/north/frame_000.png",
+        "magic_swordsman_2/animations/walking/north/frame_001.png",
+        "magic_swordsman_2/animations/walking/north/frame_002.png",
+        "magic_swordsman_2/animations/walking/north/frame_003.png",
+        "magic_swordsman_2/animations/walking/north/frame_004.png",
+        "magic_swordsman_2/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "magic_swordsman_2/animations/walking/south/frame_000.png",
+        "magic_swordsman_2/animations/walking/south/frame_001.png",
+        "magic_swordsman_2/animations/walking/south/frame_002.png",
+        "magic_swordsman_2/animations/walking/south/frame_003.png",
+        "magic_swordsman_2/animations/walking/south/frame_004.png",
+        "magic_swordsman_2/animations/walking/south/frame_005.png"
        ]
       },
       "taking_a_punch": {
-       "west": [
-        "magic_swordsman/animations/taking_a_punch/west/frame_000.png",
-        "magic_swordsman/animations/taking_a_punch/west/frame_001.png",
-        "magic_swordsman/animations/taking_a_punch/west/frame_002.png",
-        "magic_swordsman/animations/taking_a_punch/west/frame_003.png",
-        "magic_swordsman/animations/taking_a_punch/west/frame_004.png",
-        "magic_swordsman/animations/taking_a_punch/west/frame_005.png"
+       "north": [
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_000.png",
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_001.png",
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_002.png",
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_003.png",
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_004.png",
+        "magic_swordsman_2/animations/taking_a_punch/north/frame_005.png"
        ],
        "south": [
-        "magic_swordsman/animations/taking_a_punch/south/frame_000.png",
-        "magic_swordsman/animations/taking_a_punch/south/frame_001.png",
-        "magic_swordsman/animations/taking_a_punch/south/frame_002.png",
-        "magic_swordsman/animations/taking_a_punch/south/frame_003.png",
-        "magic_swordsman/animations/taking_a_punch/south/frame_004.png",
-        "magic_swordsman/animations/taking_a_punch/south/frame_005.png"
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_000.png",
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_001.png",
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_002.png",
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_003.png",
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_004.png",
+        "magic_swordsman_2/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "west": [
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_000.png",
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_001.png",
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_002.png",
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_003.png",
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_004.png",
+        "magic_swordsman_2/animations/taking_a_punch/west/frame_005.png"
        ],
        "east": [
-        "magic_swordsman/animations/taking_a_punch/east/frame_000.png",
-        "magic_swordsman/animations/taking_a_punch/east/frame_001.png",
-        "magic_swordsman/animations/taking_a_punch/east/frame_002.png",
-        "magic_swordsman/animations/taking_a_punch/east/frame_003.png",
-        "magic_swordsman/animations/taking_a_punch/east/frame_004.png",
-        "magic_swordsman/animations/taking_a_punch/east/frame_005.png"
-       ],
-       "north": [
-        "magic_swordsman/animations/taking_a_punch/north/frame_000.png",
-        "magic_swordsman/animations/taking_a_punch/north/frame_001.png",
-        "magic_swordsman/animations/taking_a_punch/north/frame_002.png",
-        "magic_swordsman/animations/taking_a_punch/north/frame_003.png",
-        "magic_swordsman/animations/taking_a_punch/north/frame_004.png",
-        "magic_swordsman/animations/taking_a_punch/north/frame_005.png"
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_000.png",
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_001.png",
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_002.png",
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_003.png",
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_004.png",
+        "magic_swordsman_2/animations/taking_a_punch/east/frame_005.png"
        ]
       },
       "attack": {
        "east": [
-        "magic_swordsman/animations/attack/east/frame_000.png",
-        "magic_swordsman/animations/attack/east/frame_001.png",
-        "magic_swordsman/animations/attack/east/frame_002.png",
-        "magic_swordsman/animations/attack/east/frame_003.png",
-        "magic_swordsman/animations/attack/east/frame_004.png",
-        "magic_swordsman/animations/attack/east/frame_005.png",
-        "magic_swordsman/animations/attack/east/frame_006.png",
-        "magic_swordsman/animations/attack/east/frame_007.png",
-        "magic_swordsman/animations/attack/east/frame_008.png"
-       ],
-       "south": [
-        "magic_swordsman/animations/attack/south/frame_000.png",
-        "magic_swordsman/animations/attack/south/frame_001.png",
-        "magic_swordsman/animations/attack/south/frame_002.png",
-        "magic_swordsman/animations/attack/south/frame_003.png",
-        "magic_swordsman/animations/attack/south/frame_004.png",
-        "magic_swordsman/animations/attack/south/frame_005.png",
-        "magic_swordsman/animations/attack/south/frame_006.png",
-        "magic_swordsman/animations/attack/south/frame_007.png",
-        "magic_swordsman/animations/attack/south/frame_008.png"
-       ],
-       "west": [
-        "magic_swordsman/animations/attack/west/frame_000.png",
-        "magic_swordsman/animations/attack/west/frame_001.png",
-        "magic_swordsman/animations/attack/west/frame_002.png",
-        "magic_swordsman/animations/attack/west/frame_003.png",
-        "magic_swordsman/animations/attack/west/frame_004.png",
-        "magic_swordsman/animations/attack/west/frame_005.png",
-        "magic_swordsman/animations/attack/west/frame_006.png",
-        "magic_swordsman/animations/attack/west/frame_007.png",
-        "magic_swordsman/animations/attack/west/frame_008.png"
+        "magic_swordsman_2/animations/attack/east/frame_000.png",
+        "magic_swordsman_2/animations/attack/east/frame_001.png",
+        "magic_swordsman_2/animations/attack/east/frame_002.png",
+        "magic_swordsman_2/animations/attack/east/frame_003.png",
+        "magic_swordsman_2/animations/attack/east/frame_004.png",
+        "magic_swordsman_2/animations/attack/east/frame_005.png",
+        "magic_swordsman_2/animations/attack/east/frame_006.png",
+        "magic_swordsman_2/animations/attack/east/frame_007.png",
+        "magic_swordsman_2/animations/attack/east/frame_008.png"
        ],
        "north": [
-        "magic_swordsman/animations/attack/north/frame_000.png",
-        "magic_swordsman/animations/attack/north/frame_001.png",
-        "magic_swordsman/animations/attack/north/frame_002.png",
-        "magic_swordsman/animations/attack/north/frame_003.png",
-        "magic_swordsman/animations/attack/north/frame_004.png",
-        "magic_swordsman/animations/attack/north/frame_005.png",
-        "magic_swordsman/animations/attack/north/frame_006.png",
-        "magic_swordsman/animations/attack/north/frame_007.png",
-        "magic_swordsman/animations/attack/north/frame_008.png"
+        "magic_swordsman_2/animations/attack/north/frame_000.png",
+        "magic_swordsman_2/animations/attack/north/frame_001.png",
+        "magic_swordsman_2/animations/attack/north/frame_002.png",
+        "magic_swordsman_2/animations/attack/north/frame_003.png",
+        "magic_swordsman_2/animations/attack/north/frame_004.png",
+        "magic_swordsman_2/animations/attack/north/frame_005.png",
+        "magic_swordsman_2/animations/attack/north/frame_006.png",
+        "magic_swordsman_2/animations/attack/north/frame_007.png",
+        "magic_swordsman_2/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "magic_swordsman_2/animations/attack/west/frame_000.png",
+        "magic_swordsman_2/animations/attack/west/frame_001.png",
+        "magic_swordsman_2/animations/attack/west/frame_002.png",
+        "magic_swordsman_2/animations/attack/west/frame_003.png",
+        "magic_swordsman_2/animations/attack/west/frame_004.png",
+        "magic_swordsman_2/animations/attack/west/frame_005.png",
+        "magic_swordsman_2/animations/attack/west/frame_006.png",
+        "magic_swordsman_2/animations/attack/west/frame_007.png",
+        "magic_swordsman_2/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "magic_swordsman_2/animations/attack/south/frame_000.png",
+        "magic_swordsman_2/animations/attack/south/frame_001.png",
+        "magic_swordsman_2/animations/attack/south/frame_002.png",
+        "magic_swordsman_2/animations/attack/south/frame_003.png",
+        "magic_swordsman_2/animations/attack/south/frame_004.png",
+        "magic_swordsman_2/animations/attack/south/frame_005.png",
+        "magic_swordsman_2/animations/attack/south/frame_006.png",
+        "magic_swordsman_2/animations/attack/south/frame_007.png",
+        "magic_swordsman_2/animations/attack/south/frame_008.png"
        ]
       },
       "falling_backward": {
-       "east": [
-        "magic_swordsman/animations/falling_backward/east/frame_000.png",
-        "magic_swordsman/animations/falling_backward/east/frame_001.png",
-        "magic_swordsman/animations/falling_backward/east/frame_002.png",
-        "magic_swordsman/animations/falling_backward/east/frame_003.png",
-        "magic_swordsman/animations/falling_backward/east/frame_004.png",
-        "magic_swordsman/animations/falling_backward/east/frame_005.png",
-        "magic_swordsman/animations/falling_backward/east/frame_006.png"
-       ],
-       "north": [
-        "magic_swordsman/animations/falling_backward/north/frame_000.png",
-        "magic_swordsman/animations/falling_backward/north/frame_001.png",
-        "magic_swordsman/animations/falling_backward/north/frame_002.png",
-        "magic_swordsman/animations/falling_backward/north/frame_003.png",
-        "magic_swordsman/animations/falling_backward/north/frame_004.png",
-        "magic_swordsman/animations/falling_backward/north/frame_005.png",
-        "magic_swordsman/animations/falling_backward/north/frame_006.png"
-       ],
-       "south": [
-        "magic_swordsman/animations/falling_backward/south/frame_000.png",
-        "magic_swordsman/animations/falling_backward/south/frame_001.png",
-        "magic_swordsman/animations/falling_backward/south/frame_002.png",
-        "magic_swordsman/animations/falling_backward/south/frame_003.png",
-        "magic_swordsman/animations/falling_backward/south/frame_004.png",
-        "magic_swordsman/animations/falling_backward/south/frame_005.png",
-        "magic_swordsman/animations/falling_backward/south/frame_006.png"
-       ],
        "west": [
-        "magic_swordsman/animations/falling_backward/west/frame_000.png",
-        "magic_swordsman/animations/falling_backward/west/frame_001.png",
-        "magic_swordsman/animations/falling_backward/west/frame_002.png",
-        "magic_swordsman/animations/falling_backward/west/frame_003.png",
-        "magic_swordsman/animations/falling_backward/west/frame_004.png",
-        "magic_swordsman/animations/falling_backward/west/frame_005.png",
-        "magic_swordsman/animations/falling_backward/west/frame_006.png"
-       ]
-      },
-      "skill": {
-       "west": [
-        "magic_swordsman/animations/skill/west/frame_000.png",
-        "magic_swordsman/animations/skill/west/frame_001.png",
-        "magic_swordsman/animations/skill/west/frame_002.png",
-        "magic_swordsman/animations/skill/west/frame_003.png",
-        "magic_swordsman/animations/skill/west/frame_004.png",
-        "magic_swordsman/animations/skill/west/frame_005.png",
-        "magic_swordsman/animations/skill/west/frame_006.png",
-        "magic_swordsman/animations/skill/west/frame_007.png",
-        "magic_swordsman/animations/skill/west/frame_008.png"
-       ]
-      },
-      "skill-f34ff31e": {
-       "north": [
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_000.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_001.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_002.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_003.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_004.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_005.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_006.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_007.png",
-        "magic_swordsman/animations/skill-f34ff31e/north/frame_008.png"
-       ],
-       "south": [
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_000.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_001.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_002.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_003.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_004.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_005.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_006.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_007.png",
-        "magic_swordsman/animations/skill-f34ff31e/south/frame_008.png"
+        "magic_swordsman_2/animations/falling_backward/west/frame_000.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_001.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_002.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_003.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_004.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_005.png",
+        "magic_swordsman_2/animations/falling_backward/west/frame_006.png"
        ],
        "east": [
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_000.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_001.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_002.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_003.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_004.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_005.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_006.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_007.png",
-        "magic_swordsman/animations/skill-f34ff31e/east/frame_008.png"
+        "magic_swordsman_2/animations/falling_backward/east/frame_000.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_001.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_002.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_003.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_004.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_005.png",
+        "magic_swordsman_2/animations/falling_backward/east/frame_006.png"
+       ],
+       "south": [
+        "magic_swordsman_2/animations/falling_backward/south/frame_000.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_001.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_002.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_003.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_004.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_005.png",
+        "magic_swordsman_2/animations/falling_backward/south/frame_006.png"
+       ],
+       "north": [
+        "magic_swordsman_2/animations/falling_backward/north/frame_000.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_001.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_002.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_003.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_004.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_005.png",
+        "magic_swordsman_2/animations/falling_backward/north/frame_006.png"
        ]
       }
      }
@@ -326,6 +311,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-12T09:01:52.917621"
+  "export_date": "2026-10-12T22:35:33.531646"
  }
 }
