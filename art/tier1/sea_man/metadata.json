@@ -1,0 +1,316 @@
+{
+ "id": "sea_man",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "sea_man",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as a sea man with flowing hair made of water, natural skin, simple sea-weathered wraps, holding a coral spear. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "name": "attack",
+   "action": "a sweeping strike with a coral spear",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "name": "skill",
+   "action": "raising both hands as a surge of sea water bursts forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/sea_man_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "1b3d78a7-a6ff-49f7-bcc8-9c71a8077ed5",
+     "name": "sea_man",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T11:07:04.566465+00:00"
+    },
+    "folder": "sea_man",
+    "frames": {
+     "rotations": {
+      "south": "sea_man/rotations/south.png",
+      "south-east": "sea_man/rotations/south-east.png",
+      "east": "sea_man/rotations/east.png",
+      "north-east": "sea_man/rotations/north-east.png",
+      "north": "sea_man/rotations/north.png",
+      "north-west": "sea_man/rotations/north-west.png",
+      "west": "sea_man/rotations/west.png",
+      "south-west": "sea_man/rotations/south-west.png"
+     },
+     "animations": {
+      "falling_backward": {
+       "east": [
+        "sea_man/animations/falling_backward/east/frame_000.png",
+        "sea_man/animations/falling_backward/east/frame_001.png",
+        "sea_man/animations/falling_backward/east/frame_002.png",
+        "sea_man/animations/falling_backward/east/frame_003.png",
+        "sea_man/animations/falling_backward/east/frame_004.png",
+        "sea_man/animations/falling_backward/east/frame_005.png",
+        "sea_man/animations/falling_backward/east/frame_006.png"
+       ],
+       "west": [
+        "sea_man/animations/falling_backward/west/frame_000.png",
+        "sea_man/animations/falling_backward/west/frame_001.png",
+        "sea_man/animations/falling_backward/west/frame_002.png",
+        "sea_man/animations/falling_backward/west/frame_003.png",
+        "sea_man/animations/falling_backward/west/frame_004.png",
+        "sea_man/animations/falling_backward/west/frame_005.png",
+        "sea_man/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "sea_man/animations/falling_backward/north/frame_000.png",
+        "sea_man/animations/falling_backward/north/frame_001.png",
+        "sea_man/animations/falling_backward/north/frame_002.png",
+        "sea_man/animations/falling_backward/north/frame_003.png",
+        "sea_man/animations/falling_backward/north/frame_004.png",
+        "sea_man/animations/falling_backward/north/frame_005.png",
+        "sea_man/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "sea_man/animations/falling_backward/south/frame_000.png",
+        "sea_man/animations/falling_backward/south/frame_001.png",
+        "sea_man/animations/falling_backward/south/frame_002.png",
+        "sea_man/animations/falling_backward/south/frame_003.png",
+        "sea_man/animations/falling_backward/south/frame_004.png",
+        "sea_man/animations/falling_backward/south/frame_005.png",
+        "sea_man/animations/falling_backward/south/frame_006.png"
+       ]
+      },
+      "walking": {
+       "west": [
+        "sea_man/animations/walking/west/frame_000.png",
+        "sea_man/animations/walking/west/frame_001.png",
+        "sea_man/animations/walking/west/frame_002.png",
+        "sea_man/animations/walking/west/frame_003.png",
+        "sea_man/animations/walking/west/frame_004.png",
+        "sea_man/animations/walking/west/frame_005.png"
+       ],
+       "east": [
+        "sea_man/animations/walking/east/frame_000.png",
+        "sea_man/animations/walking/east/frame_001.png",
+        "sea_man/animations/walking/east/frame_002.png",
+        "sea_man/animations/walking/east/frame_003.png",
+        "sea_man/animations/walking/east/frame_004.png",
+        "sea_man/animations/walking/east/frame_005.png"
+       ],
+       "north": [
+        "sea_man/animations/walking/north/frame_000.png",
+        "sea_man/animations/walking/north/frame_001.png",
+        "sea_man/animations/walking/north/frame_002.png",
+        "sea_man/animations/walking/north/frame_003.png",
+        "sea_man/animations/walking/north/frame_004.png",
+        "sea_man/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "sea_man/animations/walking/south/frame_000.png",
+        "sea_man/animations/walking/south/frame_001.png",
+        "sea_man/animations/walking/south/frame_002.png",
+        "sea_man/animations/walking/south/frame_003.png",
+        "sea_man/animations/walking/south/frame_004.png",
+        "sea_man/animations/walking/south/frame_005.png"
+       ]
+      },
+      "skill": {
+       "east": [
+        "sea_man/animations/skill/east/frame_000.png",
+        "sea_man/animations/skill/east/frame_001.png",
+        "sea_man/animations/skill/east/frame_002.png",
+        "sea_man/animations/skill/east/frame_003.png",
+        "sea_man/animations/skill/east/frame_004.png",
+        "sea_man/animations/skill/east/frame_005.png",
+        "sea_man/animations/skill/east/frame_006.png",
+        "sea_man/animations/skill/east/frame_007.png",
+        "sea_man/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "sea_man/animations/skill/south/frame_000.png",
+        "sea_man/animations/skill/south/frame_001.png",
+        "sea_man/animations/skill/south/frame_002.png",
+        "sea_man/animations/skill/south/frame_003.png",
+        "sea_man/animations/skill/south/frame_004.png",
+        "sea_man/animations/skill/south/frame_005.png",
+        "sea_man/animations/skill/south/frame_006.png",
+        "sea_man/animations/skill/south/frame_007.png",
+        "sea_man/animations/skill/south/frame_008.png"
+       ],
+       "north": [
+        "sea_man/animations/skill/north/frame_000.png",
+        "sea_man/animations/skill/north/frame_001.png",
+        "sea_man/animations/skill/north/frame_002.png",
+        "sea_man/animations/skill/north/frame_003.png",
+        "sea_man/animations/skill/north/frame_004.png",
+        "sea_man/animations/skill/north/frame_005.png",
+        "sea_man/animations/skill/north/frame_006.png",
+        "sea_man/animations/skill/north/frame_007.png",
+        "sea_man/animations/skill/north/frame_008.png"
+       ],
+       "west": [
+        "sea_man/animations/skill/west/frame_000.png",
+        "sea_man/animations/skill/west/frame_001.png",
+        "sea_man/animations/skill/west/frame_002.png",
+        "sea_man/animations/skill/west/frame_003.png",
+        "sea_man/animations/skill/west/frame_004.png",
+        "sea_man/animations/skill/west/frame_005.png",
+        "sea_man/animations/skill/west/frame_006.png",
+        "sea_man/animations/skill/west/frame_007.png",
+        "sea_man/animations/skill/west/frame_008.png"
+       ]
+      },
+      "attack": {
+       "north": [
+        "sea_man/animations/attack/north/frame_000.png",
+        "sea_man/animations/attack/north/frame_001.png",
+        "sea_man/animations/attack/north/frame_002.png",
+        "sea_man/animations/attack/north/frame_003.png",
+        "sea_man/animations/attack/north/frame_004.png",
+        "sea_man/animations/attack/north/frame_005.png",
+        "sea_man/animations/attack/north/frame_006.png",
+        "sea_man/animations/attack/north/frame_007.png",
+        "sea_man/animations/attack/north/frame_008.png"
+       ],
+       "south": [
+        "sea_man/animations/attack/south/frame_000.png",
+        "sea_man/animations/attack/south/frame_001.png",
+        "sea_man/animations/attack/south/frame_002.png",
+        "sea_man/animations/attack/south/frame_003.png",
+        "sea_man/animations/attack/south/frame_004.png",
+        "sea_man/animations/attack/south/frame_005.png",
+        "sea_man/animations/attack/south/frame_006.png",
+        "sea_man/animations/attack/south/frame_007.png",
+        "sea_man/animations/attack/south/frame_008.png"
+       ],
+       "east": [
+        "sea_man/animations/attack/east/frame_000.png",
+        "sea_man/animations/attack/east/frame_001.png",
+        "sea_man/animations/attack/east/frame_002.png",
+        "sea_man/animations/attack/east/frame_003.png",
+        "sea_man/animations/attack/east/frame_004.png",
+        "sea_man/animations/attack/east/frame_005.png",
+        "sea_man/animations/attack/east/frame_006.png",
+        "sea_man/animations/attack/east/frame_007.png",
+        "sea_man/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "sea_man/animations/attack/west/frame_000.png",
+        "sea_man/animations/attack/west/frame_001.png",
+        "sea_man/animations/attack/west/frame_002.png",
+        "sea_man/animations/attack/west/frame_003.png",
+        "sea_man/animations/attack/west/frame_004.png",
+        "sea_man/animations/attack/west/frame_005.png",
+        "sea_man/animations/attack/west/frame_006.png",
+        "sea_man/animations/attack/west/frame_007.png",
+        "sea_man/animations/attack/west/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "north": [
+        "sea_man/animations/taking_a_punch/north/frame_000.png",
+        "sea_man/animations/taking_a_punch/north/frame_001.png",
+        "sea_man/animations/taking_a_punch/north/frame_002.png",
+        "sea_man/animations/taking_a_punch/north/frame_003.png",
+        "sea_man/animations/taking_a_punch/north/frame_004.png",
+        "sea_man/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "west": [
+        "sea_man/animations/taking_a_punch/west/frame_000.png",
+        "sea_man/animations/taking_a_punch/west/frame_001.png",
+        "sea_man/animations/taking_a_punch/west/frame_002.png",
+        "sea_man/animations/taking_a_punch/west/frame_003.png",
+        "sea_man/animations/taking_a_punch/west/frame_004.png",
+        "sea_man/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "sea_man/animations/taking_a_punch/south/frame_000.png",
+        "sea_man/animations/taking_a_punch/south/frame_001.png",
+        "sea_man/animations/taking_a_punch/south/frame_002.png",
+        "sea_man/animations/taking_a_punch/south/frame_003.png",
+        "sea_man/animations/taking_a_punch/south/frame_004.png",
+        "sea_man/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "east": [
+        "sea_man/animations/taking_a_punch/east/frame_000.png",
+        "sea_man/animations/taking_a_punch/east/frame_001.png",
+        "sea_man/animations/taking_a_punch/east/frame_002.png",
+        "sea_man/animations/taking_a_punch/east/frame_003.png",
+        "sea_man/animations/taking_a_punch/east/frame_004.png",
+        "sea_man/animations/taking_a_punch/east/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T11:28:16.007266"
+ }
+}

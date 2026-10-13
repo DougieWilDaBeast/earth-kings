@@ -1,0 +1,316 @@
+{
+ "id": "legion_copper",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "legion_copper",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as an empire legionnaire in copper armour with a dark visored helmet, a heart symbol on the chest, a short sword and a round copper shield. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "name": "attack",
+   "action": "a short stab with the gladius from behind the shield",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "name": "skill",
+   "action": "slamming the heart-marked shield forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_copper_base.zip",
+   "generations": 9.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "08c3ccc8-7062-48b0-af14-a7791a547ec3",
+     "name": "legion_copper",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T10:33:31.551096+00:00"
+    },
+    "folder": "legion_copper",
+    "frames": {
+     "rotations": {
+      "south": "legion_copper/rotations/south.png",
+      "south-east": "legion_copper/rotations/south-east.png",
+      "east": "legion_copper/rotations/east.png",
+      "north-east": "legion_copper/rotations/north-east.png",
+      "north": "legion_copper/rotations/north.png",
+      "north-west": "legion_copper/rotations/north-west.png",
+      "west": "legion_copper/rotations/west.png",
+      "south-west": "legion_copper/rotations/south-west.png"
+     },
+     "animations": {
+      "skill": {
+       "north": [
+        "legion_copper/animations/skill/north/frame_000.png",
+        "legion_copper/animations/skill/north/frame_001.png",
+        "legion_copper/animations/skill/north/frame_002.png",
+        "legion_copper/animations/skill/north/frame_003.png",
+        "legion_copper/animations/skill/north/frame_004.png",
+        "legion_copper/animations/skill/north/frame_005.png",
+        "legion_copper/animations/skill/north/frame_006.png",
+        "legion_copper/animations/skill/north/frame_007.png",
+        "legion_copper/animations/skill/north/frame_008.png"
+       ],
+       "west": [
+        "legion_copper/animations/skill/west/frame_000.png",
+        "legion_copper/animations/skill/west/frame_001.png",
+        "legion_copper/animations/skill/west/frame_002.png",
+        "legion_copper/animations/skill/west/frame_003.png",
+        "legion_copper/animations/skill/west/frame_004.png",
+        "legion_copper/animations/skill/west/frame_005.png",
+        "legion_copper/animations/skill/west/frame_006.png",
+        "legion_copper/animations/skill/west/frame_007.png",
+        "legion_copper/animations/skill/west/frame_008.png"
+       ],
+       "south": [
+        "legion_copper/animations/skill/south/frame_000.png",
+        "legion_copper/animations/skill/south/frame_001.png",
+        "legion_copper/animations/skill/south/frame_002.png",
+        "legion_copper/animations/skill/south/frame_003.png",
+        "legion_copper/animations/skill/south/frame_004.png",
+        "legion_copper/animations/skill/south/frame_005.png",
+        "legion_copper/animations/skill/south/frame_006.png",
+        "legion_copper/animations/skill/south/frame_007.png",
+        "legion_copper/animations/skill/south/frame_008.png"
+       ],
+       "east": [
+        "legion_copper/animations/skill/east/frame_000.png",
+        "legion_copper/animations/skill/east/frame_001.png",
+        "legion_copper/animations/skill/east/frame_002.png",
+        "legion_copper/animations/skill/east/frame_003.png",
+        "legion_copper/animations/skill/east/frame_004.png",
+        "legion_copper/animations/skill/east/frame_005.png",
+        "legion_copper/animations/skill/east/frame_006.png",
+        "legion_copper/animations/skill/east/frame_007.png",
+        "legion_copper/animations/skill/east/frame_008.png"
+       ]
+      },
+      "falling_backward": {
+       "east": [
+        "legion_copper/animations/falling_backward/east/frame_000.png",
+        "legion_copper/animations/falling_backward/east/frame_001.png",
+        "legion_copper/animations/falling_backward/east/frame_002.png",
+        "legion_copper/animations/falling_backward/east/frame_003.png",
+        "legion_copper/animations/falling_backward/east/frame_004.png",
+        "legion_copper/animations/falling_backward/east/frame_005.png",
+        "legion_copper/animations/falling_backward/east/frame_006.png"
+       ],
+       "south": [
+        "legion_copper/animations/falling_backward/south/frame_000.png",
+        "legion_copper/animations/falling_backward/south/frame_001.png",
+        "legion_copper/animations/falling_backward/south/frame_002.png",
+        "legion_copper/animations/falling_backward/south/frame_003.png",
+        "legion_copper/animations/falling_backward/south/frame_004.png",
+        "legion_copper/animations/falling_backward/south/frame_005.png",
+        "legion_copper/animations/falling_backward/south/frame_006.png"
+       ],
+       "west": [
+        "legion_copper/animations/falling_backward/west/frame_000.png",
+        "legion_copper/animations/falling_backward/west/frame_001.png",
+        "legion_copper/animations/falling_backward/west/frame_002.png",
+        "legion_copper/animations/falling_backward/west/frame_003.png",
+        "legion_copper/animations/falling_backward/west/frame_004.png",
+        "legion_copper/animations/falling_backward/west/frame_005.png",
+        "legion_copper/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "legion_copper/animations/falling_backward/north/frame_000.png",
+        "legion_copper/animations/falling_backward/north/frame_001.png",
+        "legion_copper/animations/falling_backward/north/frame_002.png",
+        "legion_copper/animations/falling_backward/north/frame_003.png",
+        "legion_copper/animations/falling_backward/north/frame_004.png",
+        "legion_copper/animations/falling_backward/north/frame_005.png",
+        "legion_copper/animations/falling_backward/north/frame_006.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "legion_copper/animations/taking_a_punch/west/frame_000.png",
+        "legion_copper/animations/taking_a_punch/west/frame_001.png",
+        "legion_copper/animations/taking_a_punch/west/frame_002.png",
+        "legion_copper/animations/taking_a_punch/west/frame_003.png",
+        "legion_copper/animations/taking_a_punch/west/frame_004.png",
+        "legion_copper/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "north": [
+        "legion_copper/animations/taking_a_punch/north/frame_000.png",
+        "legion_copper/animations/taking_a_punch/north/frame_001.png",
+        "legion_copper/animations/taking_a_punch/north/frame_002.png",
+        "legion_copper/animations/taking_a_punch/north/frame_003.png",
+        "legion_copper/animations/taking_a_punch/north/frame_004.png",
+        "legion_copper/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "south": [
+        "legion_copper/animations/taking_a_punch/south/frame_000.png",
+        "legion_copper/animations/taking_a_punch/south/frame_001.png",
+        "legion_copper/animations/taking_a_punch/south/frame_002.png",
+        "legion_copper/animations/taking_a_punch/south/frame_003.png",
+        "legion_copper/animations/taking_a_punch/south/frame_004.png",
+        "legion_copper/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "east": [
+        "legion_copper/animations/taking_a_punch/east/frame_000.png",
+        "legion_copper/animations/taking_a_punch/east/frame_001.png",
+        "legion_copper/animations/taking_a_punch/east/frame_002.png",
+        "legion_copper/animations/taking_a_punch/east/frame_003.png",
+        "legion_copper/animations/taking_a_punch/east/frame_004.png",
+        "legion_copper/animations/taking_a_punch/east/frame_005.png"
+       ]
+      },
+      "attack": {
+       "north": [
+        "legion_copper/animations/attack/north/frame_000.png",
+        "legion_copper/animations/attack/north/frame_001.png",
+        "legion_copper/animations/attack/north/frame_002.png",
+        "legion_copper/animations/attack/north/frame_003.png",
+        "legion_copper/animations/attack/north/frame_004.png",
+        "legion_copper/animations/attack/north/frame_005.png",
+        "legion_copper/animations/attack/north/frame_006.png",
+        "legion_copper/animations/attack/north/frame_007.png",
+        "legion_copper/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "legion_copper/animations/attack/west/frame_000.png",
+        "legion_copper/animations/attack/west/frame_001.png",
+        "legion_copper/animations/attack/west/frame_002.png",
+        "legion_copper/animations/attack/west/frame_003.png",
+        "legion_copper/animations/attack/west/frame_004.png",
+        "legion_copper/animations/attack/west/frame_005.png",
+        "legion_copper/animations/attack/west/frame_006.png",
+        "legion_copper/animations/attack/west/frame_007.png",
+        "legion_copper/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "legion_copper/animations/attack/south/frame_000.png",
+        "legion_copper/animations/attack/south/frame_001.png",
+        "legion_copper/animations/attack/south/frame_002.png",
+        "legion_copper/animations/attack/south/frame_003.png",
+        "legion_copper/animations/attack/south/frame_004.png",
+        "legion_copper/animations/attack/south/frame_005.png",
+        "legion_copper/animations/attack/south/frame_006.png",
+        "legion_copper/animations/attack/south/frame_007.png",
+        "legion_copper/animations/attack/south/frame_008.png"
+       ],
+       "east": [
+        "legion_copper/animations/attack/east/frame_000.png",
+        "legion_copper/animations/attack/east/frame_001.png",
+        "legion_copper/animations/attack/east/frame_002.png",
+        "legion_copper/animations/attack/east/frame_003.png",
+        "legion_copper/animations/attack/east/frame_004.png",
+        "legion_copper/animations/attack/east/frame_005.png",
+        "legion_copper/animations/attack/east/frame_006.png",
+        "legion_copper/animations/attack/east/frame_007.png",
+        "legion_copper/animations/attack/east/frame_008.png"
+       ]
+      },
+      "walking": {
+       "east": [
+        "legion_copper/animations/walking/east/frame_000.png",
+        "legion_copper/animations/walking/east/frame_001.png",
+        "legion_copper/animations/walking/east/frame_002.png",
+        "legion_copper/animations/walking/east/frame_003.png",
+        "legion_copper/animations/walking/east/frame_004.png",
+        "legion_copper/animations/walking/east/frame_005.png"
+       ],
+       "south": [
+        "legion_copper/animations/walking/south/frame_000.png",
+        "legion_copper/animations/walking/south/frame_001.png",
+        "legion_copper/animations/walking/south/frame_002.png",
+        "legion_copper/animations/walking/south/frame_003.png",
+        "legion_copper/animations/walking/south/frame_004.png",
+        "legion_copper/animations/walking/south/frame_005.png"
+       ],
+       "west": [
+        "legion_copper/animations/walking/west/frame_000.png",
+        "legion_copper/animations/walking/west/frame_001.png",
+        "legion_copper/animations/walking/west/frame_002.png",
+        "legion_copper/animations/walking/west/frame_003.png",
+        "legion_copper/animations/walking/west/frame_004.png",
+        "legion_copper/animations/walking/west/frame_005.png"
+       ],
+       "north": [
+        "legion_copper/animations/walking/north/frame_000.png",
+        "legion_copper/animations/walking/north/frame_001.png",
+        "legion_copper/animations/walking/north/frame_002.png",
+        "legion_copper/animations/walking/north/frame_003.png",
+        "legion_copper/animations/walking/north/frame_004.png",
+        "legion_copper/animations/walking/north/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T10:51:00.312997"
+ }
+}

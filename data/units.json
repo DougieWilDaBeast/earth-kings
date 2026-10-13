@@ -832,7 +832,7 @@
 		],
 		"kind": "soldier",
 		"color": "#b5713c",
-		"sprite_dir": "res://art/units/legion_copper/idle"
+		"sprite_dir": "res://art/tier1/legion_copper/idle"
 	},
 	"legion_black": {
 		"display_name": "Black Legionnaire",
@@ -854,7 +854,7 @@
 		],
 		"kind": "soldier",
 		"color": "#3b3742",
-		"sprite_dir": "res://art/units/legion_black/idle"
+		"sprite_dir": "res://art/tier1/legion_black/idle"
 	},
 	"legion_silver": {
 		"display_name": "Silver Legionnaire",
@@ -1202,7 +1202,7 @@
 		],
 		"kind": "wild",
 		"color": "#2f7fb5",
-		"sprite_dir": "res://art/units/sea_man/idle"
+		"sprite_dir": "res://art/tier1/sea_man/idle"
 	},
 	"tide_lion": {
 		"display_name": "Tide Lion",
@@ -1332,7 +1332,7 @@
 		"kind": "beast",
 		"color": "#3f9d5a",
 		"body_scale": 0.8,
-		"sprite_dir": "res://art/units/eye_leprechaun/idle"
+		"sprite_dir": "res://art/tier1/eye_leprechaun/idle"
 	},
 	"lizard_wizard": {
 		"display_name": "The Blind Rider",
