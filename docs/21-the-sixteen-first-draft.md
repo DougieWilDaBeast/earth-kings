@@ -350,6 +350,38 @@ sixteen gets a class of their own, carrying their passive and four moves. The si
 stay as the classes anyone can learn. This matches "16 different ways of fighting" and "available to
 get different classes". It means sixteen new classes rather than six, and that is the founders' call.
 
+## The sixteen classes, as built
+
+**Inferred, all of it** (agenda item 68). [D63](06-decisions.md) gives each of the sixteen a class of
+their own; this is that class as built on 2026-10-13, in `data/classes.json` (with `lead`), its
+passive in `data/skirmish.json` and four new moves in `data/abilities.json`. A lead starts in their
+class at level 1, with its four moves on Q W E R and its passive. At level 2 they are offered it
+again, first, with the six classes anyone can learn after it ([D64](06-decisions.md)). Nobody else
+can take one of these classes. A move marked \* is new; the rest already existed. The class's
+themes shape the trees found from level 5, as for the six.
+
+Each class only does what the fight can do today, so most of a style's signature still waits; the
+last column is that part, planned and not built.
+
+| Lead | Class | Level 1: Q W E R | Passive | Growth a level | Not built yet |
+| --- | --- | --- | --- | --- | --- |
+| Atlas | Borne Mage (`borne_mage`) | Chain Bolt, Thunderhead, Pyre, Spark | **The Long Plan.** +20% chance to land a critical hit. | 3 hp · 2.3 atk · 0.5 def · 0.2 spd | Carried by a bearer; stuck if they fall |
+| Janus | Gatewalker (`gatewalker`) | Door Shut\*, Gust, Hamstring, Spark | **Worse Odds.** When an ally goes down, every skill comes back at once. | 4 hp · 1.1 atk · 0.8 def · 0.6 spd | Swap two units, pull an ally out, send a foe into a bad spot; faster the worse the odds |
+| Bellona | Marshal (`marshal`) | Lunge, Hold Fast\*, Stand Fast, Cleave | **Command.** Allies within 2 tiles attack 15% faster and take 5% less damage. | 5 hp · 1.6 atk · 1.2 def · 0.5 spd | Advance and Break Them as orders; allies fill their charge faster |
+| Cassius | Duellist (`duellist`) | Riposte, Lunge, Hamstring, Sunder | **The Answer.** At or under half health, deals 30% more. | 5 hp · 1.8 atk · 0.9 def · 0.6 spd | A taunt; learning each enemy who hits him |
+| Saturn | Reaper (`reaper`) | Cleave, Earthshake, Grief, Lament | **Gravity.** Anyone striking from an adjacent tile takes 20% of the blow back. | 5 hp · 1.6 atk · 1.0 def · 0.4 spd | Push everything away, pull one in, slow the ground |
+| Vesta | Lampkeeper (`lampkeeper`) | Mend, Warding Touch, Hearthlight, Firebrand | **Kept Flame.** Allies within 2 tiles take 10% less damage. | 4 hp · 1.2 atk · 0.9 def · 0.5 spd | Her fire burns only the dead |
+| Caesar | Shield-bearer (`shield_bearer`) | Shield Bash, Cleave, Stand Fast, Warding Touch | **Back on His Feet.** Out of the fighting for 4 seconds, recovers 5% of health every second. | 7 hp · 1.4 atk · 1.6 def · 0.3 spd | Taking hits meant for others; getting back up once a fight |
+| Iris | Skirmisher (`skirmisher`) | Dart, Long Reach, Volley, Hamstring | **Marked.** +10% chance to land a critical hit; hits from the side or behind deal 15% more. | 4 hp · 1.6 atk · 0.6 def · 0.9 spd | Marks for the party; finishing a mark makes her stronger |
+| Pluto | Shade-caller (`shade_caller`) | Lunge, Grief, Keening, Dart | **Tithe of the Dead.** Heals for 15% of the damage dealt. | 5 hp · 1.9 atk · 1.0 def · 0.5 spd | Raising what he kills; stronger per kind killed |
+| Ceres | Sower (`sower`) | Crush, Hamstring, Hearthlight, Second Wind | **Deep Roots.** Allies within 1 tile recover 1.5% of their health every second. | 6 hp · 1.3 atk · 1.1 def · 0.3 spd | Thorns and grain planted on the ground; strong where she has stood |
+| Cato | Phalanx (`phalanx`) | Shield Bash, Sunder, Hamstring, Second Wind | **Formation.** Allies within 1 tile take 12% less damage. | 7 hp · 1.5 atk · 1.8 def · 0.2 spd | Stronger standing still |
+| Juno | Provisioner (`provisioner`) | Kick\*, Whirl, Mend, Stand Fast | **Full Table.** Allies within 3 tiles recover 1% of their health every second. | 5 hp · 1.4 atk · 0.9 def · 0.6 spd | Twice the good from every item; throwing them to an ally |
+| Ultor | Twin Blade (`twin_blade`) | Dart, Hamstring, Sunder, Whirl | **Two Hands.** A basic attack has a 30% chance to strike twice. | 4 hp · 2.0 atk · 0.7 def · 0.9 spd | Everything on one marked target |
+| Diana | Wolf-bound (`wolf_bound`) | Arc Shot, Snipe, Mend, Stand Fast | **With the Wolf.** Hits from the side or behind deal 25% more. | 4 hp · 1.5 atk · 0.7 def · 0.6 spd | The wolf that does the damage |
+| Ares | Vanguard (`vanguard`) | Crush, Cleave, Earthshake, Second Wind | **First Blow.** +15% chance to land a critical hit. | 6 hp · 2.1 atk · 1.1 def · 0.4 spd | The heaviest first ten seconds, then tiring |
+| Liber | Brawler (`brawler`) | Haymaker\*, Dart, Whirl, Second Wind | **Reckless.** A basic attack has a 15% chance to strike twice; heals for 10% of the damage dealt. | 6 hp · 1.7 atk · 1.0 def · 0.7 spd | Cannot be pinned, rooted or disarmed; more reckless as the fight goes on |
+
 ## Who is where
 
 | Group named in the session | Who of the sixteen |

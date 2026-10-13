@@ -235,6 +235,19 @@ func character_class(id: String) -> Dictionary:
 	return classes.get(id, {})
 
 
+## The class that is one lead's own (its `lead`), or "" if they have none.
+func own_class(lead_id: String) -> String:
+	for id: String in classes:
+		if str(classes[id].get("lead", "")) == lead_id:
+			return id
+	return ""
+
+
+## Classes anyone can learn: every class that is not one lead's own.
+func open_classes() -> Array:
+	return classes.keys().filter(func(id: String) -> bool: return str(classes[id].get("lead", "")) == "")
+
+
 func doctrine(id: String) -> Dictionary:
 	return doctrines.get(id, {})
 
