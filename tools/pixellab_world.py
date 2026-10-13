@@ -192,7 +192,10 @@ def rooms(only: list[str]) -> None:
     prompts = json.loads(PROMPTS.read_text(encoding="utf-8"))["rooms"]
     for name, description in prompts.items():
         if not only or name in only:
-            _make(ROOT / "art" / "props" / (name + ".png"), description, "low top-down", "rooms")
+            try:
+                _make(ROOT / "art" / "props" / (name + ".png"), description, "low top-down", "rooms")
+            except (SystemExit, OSError) as error:
+                print("skipped", name, error)
 
 
 def main() -> None:
