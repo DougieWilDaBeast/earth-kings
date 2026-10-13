@@ -231,9 +231,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HintLabel" type="Label" parent="Margin/Content/Footer"]
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
+horizontal_alignment = 2
+autowrap_mode = 3
 theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 14
-text = "W / S to look them over     Enter to take that road"
+text = "W / S to look them over\nEnter to take that road"

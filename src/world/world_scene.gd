@@ -1070,7 +1070,7 @@ func _actions_here() -> Array[Dictionary]:
 	var owed := _somebody_owed_a_power()
 	if owed != null:
 		return [_doable(
-			"%s has %d power to take — press %s." % [owed.display_name, owed.rungs, _key("open_party")],
+			"%s has %d power%s to take — press %s." % [owed.display_name, owed.rungs, "" if owed.rungs == 1 else "s", _key("open_party")],
 			"Take the power", _open_party
 		)]
 
@@ -1275,6 +1275,7 @@ func _lay_out_actions(doable: Array[Dictionary]) -> void:
 	if _actions == null:
 		return
 	for child in _actions.get_children():
+		_actions.remove_child(child)
 		child.queue_free()
 	if not _shows_actions():
 		_actions.visible = false

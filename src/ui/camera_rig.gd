@@ -62,7 +62,7 @@ func focus_on(point: Vector2, immediate: bool = false) -> void:
 	if immediate:
 		recentre(true)
 	else:
-		position = _focus + _pan
+		position = _reachable(_focus + _pan)
 
 
 ## Rise until the whole framed area is in view, over [param seconds]: the
@@ -79,7 +79,7 @@ func pull_back(seconds: float) -> Tween:
 ## Throw away the player's panning and go back to what the scene is following.
 func recentre(immediate: bool = false) -> void:
 	_pan = Vector2.ZERO
-	position = _focus
+	position = _reachable(_focus)
 	if immediate:
 		reset_smoothing()
 
@@ -94,7 +94,7 @@ func _process(delta: float) -> void:
 	if axis == Vector2.ZERO:
 		return
 	_pan += axis * pan_speed * delta / zoom.x
-	position = _focus + _pan
+	_settle_pan()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -117,7 +117,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_dragging(event.pressed)
 	elif event is InputEventMouseMotion and _dragging:
 		_pan -= event.relative / zoom.x
-		position = _focus + _pan
+		_settle_pan()
 		get_viewport().set_input_as_handled()
 
 
@@ -143,12 +143,12 @@ func _on_screen_drag(event: InputEventScreenDrag) -> void:
 		if cur_dist > 5.0 and _initial_pinch_distance > 5.0:
 			var pinch_ratio := cur_dist / _initial_pinch_distance
 			_apply_zoom(_initial_pinch_zoom * pinch_ratio)
-			position = _focus + _pan
+			_settle_pan()
 			get_viewport().set_input_as_handled()
 	elif _active_touches.size() == 1 and not keyboard_pan:
 		# Single finger swipe pans the camera when keyboard panning is not taking directional keys
 		_pan -= event.relative / zoom.x
-		position = _focus + _pan
+		_settle_pan()
 		get_viewport().set_input_as_handled()
 
 
@@ -178,14 +178,53 @@ func _zoom_towards(factor: float) -> void:
 	var cursor := get_viewport().get_mouse_position()
 	if Pad.using_pad:
 		cursor = get_viewport_rect().size * 0.5
-	var before := _world_at(cursor)
+	var from_middle := cursor - get_viewport_rect().size * 0.5
+	# What is under the cursor on screen now, from where the view really is
+	# this frame, which may still be gliding after the party.
+	var before := get_screen_center_position() + from_middle / zoom.x
 	_apply_zoom(zoom.x * factor)
-	_pan += before - _world_at(cursor)
-	position = _focus + _pan
+	_pan = before - from_middle / zoom.x - offset - _focus
+	_settle_pan()
+	# The zoom lands at once, so the move must too. Left to glide, the view
+	# spent a few frames zoomed about the wrong point and then slid back.
+	reset_smoothing()
 
 
+## What is under [param screen_point], measured from where the camera can
+## actually be. Measured from where it was asked to be, a zoom near an edge
+## aimed past the map, and each notch put the view somewhere the limits then
+## pulled it back from: the map swung side to side as it zoomed.
 func _world_at(screen_point: Vector2) -> Vector2:
-	return _focus + _pan + offset + (screen_point - get_viewport_rect().size * 0.5) / zoom.x
+	return _reachable(_focus + _pan) + offset + (screen_point - get_viewport_rect().size * 0.5) / zoom.x
+
+
+## Keep the player's panning to what the view can show, and move there. A pan
+## past the edge would otherwise be remembered, and come back as a lurch the
+## next time the zoom changed which edges hold.
+func _settle_pan() -> void:
+	var target := _reachable(_focus + _pan)
+	_pan = target - _focus
+	position = target
+
+
+## The nearest centre the view can take to [param centre]: inside the framed
+## area by half a screen on each side, or its middle on an axis the whole of
+## it already fits across.
+func _reachable(centre: Vector2) -> Vector2:
+	if _bounds.size.x <= 0.0 or _bounds.size.y <= 0.0:
+		return centre
+	var half := get_viewport_rect().size * 0.5 / zoom.x
+	var middle := _bounds.get_center()
+	var out := centre
+	if _bounds.size.x <= half.x * 2.0:
+		out.x = middle.x
+	else:
+		out.x = clampf(centre.x, _bounds.position.x + half.x, _bounds.end.x - half.x)
+	if _bounds.size.y <= half.y * 2.0:
+		out.y = middle.y
+	else:
+		out.y = clampf(centre.y, _bounds.position.y + half.y, _bounds.end.y - half.y)
+	return out
 
 
 func _on_viewport_resized() -> void:

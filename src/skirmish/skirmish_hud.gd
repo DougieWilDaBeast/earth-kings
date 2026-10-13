@@ -236,6 +236,17 @@ func _add_touch_buttons() -> void:
 		var action: String = entry[0]
 		button.pressed.connect(func() -> void: action_pressed.emit(action))
 		column.add_child(button)
+		# The game's buttons leave forty pixels of frame either side of the
+		# word, which on a column this narrow cut "W Shield Bash" to "W Shield Bas".
+		for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
+			var frame := button.get_theme_stylebox(state)
+			if frame == null:
+				continue
+			frame = frame.duplicate()
+			frame.content_margin_left = 10
+			frame.content_margin_right = 10
+			button.add_theme_stylebox_override(state, frame)
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		_buttons[action] = button
 		if action.begins_with("slot"):
 			var sweep: Control = SkirmishSlot.new()
@@ -387,7 +398,8 @@ func _refresh_buttons() -> void:
 		var label := str(SkirmishRules.SLOT_LABELS[slot])
 		if has:
 			var name := str(caster.slot_ability(slot).get("display_name", "?"))
-			label = "%s %s" % [label, name.left(10)]
+			# Whole: the button trims it with an ellipsis only if it cannot fit.
+			label = "%s %s" % [label, name]
 			if _skirmish.armed_slot == slot:
 				label = "» " + label
 		button.text = label

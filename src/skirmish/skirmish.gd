@@ -1483,6 +1483,18 @@ func _free_cell_near(cell: Vector2i, taken: Array[Vector2i], mover: Fighter) -> 
 func _unhandled_input(event: InputEvent) -> void:
 	if over:
 		return
+	# Handed over, the party is taken back with the same key that handed it
+	# over (Q on a keyboard), here as on the road. That key readies the first
+	# skill otherwise, so a fight met while the game played itself could not
+	# be taken back until it was over.
+	if Pace.auto and not (event is InputEventMouse) and event.is_action_pressed("battle_auto"):
+		get_viewport().set_input_as_handled()
+		Pace.auto = false
+		# Paused, as a fight played by hand opens, so the first order can be
+		# given before anything else happens.
+		set_paused(true)
+		_say("You take the party back.")
+		return
 	# Back, from a key, a pad or the touch bar's button: a readied skill is put
 	# away, and with nothing readied it is the menu.
 	if not (event is InputEventMouse) and event.is_action_pressed("ui_cancel"):

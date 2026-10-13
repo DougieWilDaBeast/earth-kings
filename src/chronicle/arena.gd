@@ -57,14 +57,22 @@ static func wager_multiplier() -> float:
 
 ## Take somebody out onto the sand with an optional wager tier (e.g. 1.0 standard, 1.5 blood wager, 2.0 death match).
 ## The run's own roster is put aside until [method close] — anything that happens here happens to a copy.
-static func open(hero_id: String, card_id: String, wager_mult: float = 1.0, live_run: bool = false) -> void:
+## [param way_back] is where leaving goes, `{ scene, payload }`: kept here as
+## well as in each scene's payload, so a round that comes back without it
+## cannot leave the company stranded on the title screen.
+static func open(hero_id: String, card_id: String, wager_mult: float = 1.0, live_run: bool = false,
+		way_back: Dictionary = {}) -> void:
 	close()
 	var kept_roster := GameState.roster
 	var arena_roster: Roster
 	if hero_id == "party" and kept_roster != null and not kept_roster.party_members().is_empty():
 		arena_roster = Roster.from_dict(kept_roster.to_dict())
 	else:
+		# A lead's background may bring gold ([Gifts]); a lead built only for
+		# the sand brings none of it into the run's purse.
+		var kept_gold := GameState.gold
 		arena_roster = Roster.found(hero_id)
+		GameState.gold = kept_gold
 
 	GameState.arena = {
 		"hero": hero_id,
@@ -75,10 +83,24 @@ static func open(hero_id: String, card_id: String, wager_mult: float = 1.0, live
 		"kept_roster": kept_roster,
 		"kept_tallying": GameState.tallying,
 		"live_run": live_run,
+		"way_back": way_back.duplicate(true),
 	}
 	GameState.roster = arena_roster
 	# Nothing on the sand belongs in the run's ledger.
 	GameState.tallying = false
+
+
+## Where leaving goes: what [method open] was told, or for a night out of a
+## live run with nothing written down, the road; otherwise the title screen.
+static func way_back(payload: Dictionary = {}) -> Dictionary:
+	if payload.has("return_scene"):
+		return { "scene": str(payload["return_scene"]), "payload": payload.get("return_payload", {}) }
+	var kept: Dictionary = state().get("way_back", {})
+	if kept.has("scene"):
+		return kept
+	if bool(payload.get("live_run", state().get("live_run", false))):
+		return { "scene": "world", "payload": {} }
+	return { "scene": "title", "payload": {} }
 
 
 ## Give the run its own people back. Safe to call when nothing is open.
