@@ -354,6 +354,14 @@ func _draw_weapon() -> void:
 	draw_texture_rect(texture, Rect2(centre - drawn * 0.5, drawn), false)
 
 
+## The standing pose for the way the unit faces, whatever it is doing.
+func standing_sprite() -> Texture2D:
+	if sprites.has(facing):
+		return sprites[facing]
+	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+	return sprites.get(cardinal, sprites.get(Vector2i.DOWN, null))
+
+
 func current_sprite() -> Texture2D:
 	if _action != "":
 		var played := _action_frames_now(_action)
@@ -366,21 +374,23 @@ func current_sprite() -> Texture2D:
 			frames = run_frames.get(cardinal, [])
 		if not frames.is_empty():
 			return frames[int(_run_time * RUN_FPS) % frames.size()]
-	if sprites.has(facing):
-		return sprites[facing]
-	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
-	return sprites.get(cardinal, sprites.get(Vector2i.DOWN, null))
+	return standing_sprite()
 
 
 ## Top-down art sits centred on its tile, lifted slightly so the ring reads as ground.
 ## The feet stay where an ordinary unit's are; `body_scale` only adds height above them.
+## PixelLab gives a move a bigger canvas than the standing pose, grown evenly round
+## it, so every frame is drawn at the standing pose's scale and centred where that
+## stands; otherwise a unit would shrink each time it swung.
 func _sprite_rect(sprite: Texture2D) -> Rect2:
-	var source := sprite.get_size()
-	var height := BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * body_scale
-	var drawn := source * (height / source.y)
+	var standing := standing_sprite()
+	var reference := standing.get_size() if standing != null else sprite.get_size()
+	var pixel := BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * body_scale / reference.y
 	var bob := sin(_run_time * 16.0) * 3.0 if _running and run_frames.is_empty() else 0.0
 	var feet := BattleGrid.CELL_SIZE * (SPRITE_HEIGHT_CELLS * 0.5 - 0.12)
-	return Rect2(Vector2(-drawn.x * 0.5, feet - drawn.y + bob), drawn)
+	var centre := Vector2(0.0, feet - reference.y * pixel * 0.5 + bob)
+	var drawn := sprite.get_size() * pixel
+	return Rect2(centre - drawn * 0.5, drawn)
 
 
 ## How far a scaled body's middle sits above an ordinary one's.
@@ -402,7 +412,8 @@ func _draw_hp_bar(sprite: Texture2D) -> void:
 	var width := float(BattleGrid.CELL_SIZE) * 0.7
 	var top := -BattleGrid.CELL_SIZE * 0.45
 	if sprite != null:
-		top = _sprite_rect(sprite).position.y - 8.0
+		var standing := standing_sprite()
+		top = _sprite_rect(standing if standing != null else sprite).position.y - 8.0
 	var origin := Vector2(-width * 0.5, top)
 	var ratio := float(hp) / float(max_hp)
 	draw_rect(Rect2(origin, Vector2(width, 4)), Color(0, 0, 0, 0.6))
