@@ -23,6 +23,8 @@ const AREAS := [
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
 const Talk := preload("res://src/dialogue/talk.gd")
+const GroundGen := preload("res://src/area/ground_gen.gd")
+const Biome := preload("res://src/chronicle/biome.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -44,6 +46,7 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	await _check_the_land()
 
 	print("")
 	if _failures.is_empty():
@@ -385,3 +388,50 @@ func _check_fireside(scene: Node) -> void:
 
 func _fail(message: String) -> void:
 	_failures.append(message)
+
+## Snow drags at the feet and the cold wears at whoever has nothing against it,
+## but never past a quarter of their health, and somebody in a padded coat walks
+## through untouched (`data/biomes.json` → `effects`, `hazards`).
+func _check_the_land() -> void:
+	var world: World = GameState.world
+	var snow := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var cell := Vector2i(x, y)
+			if snow.x < 0 and world.is_walkable(cell) and world.site_at(cell) == null and Biome.at(world, cell) == "snow":
+				snow = cell
+	if snow.x < 0:
+		_fail("no snowfield on the continent to walk")
+		return
+	world.player_cell = snow
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", {
+		"area_id": GroundGen.for_cell(world, snow), "return_scene": "world", "planar_mode": true,
+	})
+	add_child(scene)
+	await get_tree().process_frame
+	if scene._walk_speed() >= scene.WALK_SPEED:
+		_fail("the snow does not slow the party")
+	var party := GameState.party_characters()
+	var coated: Character = party[0]
+	var bare: Character = party[-1] if party.size() > 1 else null
+	coated.charms = []
+	coated.equipment = "padded_coat"
+	if bare != null:
+		bare.equipment = ""
+		bare.charms = []
+		bare.hp = bare.max_hp()
+	coated.hp = coated.max_hp()
+	for i in 200:
+		scene._weather(1000.0)
+	if coated.current_hp() != coated.max_hp():
+		_fail("the cold got through a padded coat")
+	if bare != null and not Biome.spared(bare, "cold"):
+		var low := ceili(float(bare.max_hp()) * float(Database.biomes["hazards"]["floor"]))
+		if bare.current_hp() == bare.max_hp():
+			_fail("the cold did nothing to %s, who has nothing against it" % bare.display_name)
+		if bare.current_hp() < low:
+			_fail("the cold took %s below a quarter of their health" % bare.display_name)
+	GameState.heal_party()
+	scene.queue_free()
+	await get_tree().process_frame
