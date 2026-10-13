@@ -26,6 +26,12 @@ big units drawn bigger.
 | A2 | **Fight screen UI**: four ability-slot frames (Q, W, E, R), a cooldown sweep, a "Paused" banner and a game-speed indicator. The status icons are made (see Done) | Frames to match the existing UI in `art/ui/` | `DROP-ZONE/A2/` | What the player reads during a real-time fight ([19, item 1.5](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset)) |
 | A3 | **Redraw two borrowed characters** so they no longer look like other games' characters: `ember_lizard`, `seed_beast`. The two giants, `king_slime` and `blue_slime` are done (see Done) | The 64 class; use the new prompts in [23](23-originality-pass.md) | `DROP-ZONE/A3/` | They cannot ship looking like the originals ([23](23-originality-pass.md), [22 item P6](22-asset-provenance.md)) |
 
+## Deferred
+
+| What | Why it waits |
+| --- | --- |
+| Redraw the manes of `tide_lion` and `flame_lion` so water and fire read at a glance (about 35 generations each) | `dougie`, 2026-10-13: playability first, come back to it later |
+
 ## Done
 
 | Id | What | Done |

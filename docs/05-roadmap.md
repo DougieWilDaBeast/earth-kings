@@ -106,62 +106,40 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
-Updated 2026-10-01, after joint session 2 settled the Tower's floors, steps, reloading, the living
-copy, memory and assists (D48–D54), and the hundred-floor Tower and the two assist numbers were
-built. **Everything left on this list needs one or both founders**: the build has gone as far as it
-can without an answer.
-Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and the ledger).
+Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
+class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
+([D65](06-decisions.md)), and the early game's units play their moves in a fight. `dougie`'s
+direction on 2026-10-13: get the early game playable before polishing art. Since 2026-09-26 every
+pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **`dougie` confirms the size: the 64 class, every unit dressed onto the base body** ([D55](06-decisions.md)).
-   `dougie` handed the call to Claude on 2026-10-12 ([D55](06-decisions.md)) and has not given his own
-   answer yet. `doug-md` confirmed it on 2026-10-12 ([D57](06-decisions.md)), with big units drawn taller by a
-   `body_scale` (built) and the base's look blended with the heroic 64s. Still **Inferred** and
-   waiting on both founders' eyes: the `body_scale` numbers, and whether the blend reads (Tier 1's
-   humans, the sixteen and eight townsfolk were dressed with `BLEND_STYLE` on 2026-10-12). The size test, the base body dressed
-   as Bram and what each cost are in [`art/size_test/RESULTS.md`](../art/size_test/RESULTS.md); the
-   viewer is `.\ek.ps1 sizetest`. Tier 1's eight units are generated and staged in
-   [`art/tier1/`](../art/tier1/README.md), the other eleven big units in [`art/big/`](../art/big/README.md),
-   eight townsfolk in [`art/townsfolk/`](../art/townsfolk/README.md), and the sixteen have a first look on
-   the base ([21](21-the-sixteen-first-draft.md#what-they-could-look-like)), with fight effects and
-   status icons ([19](19-asset-list.md), 1.4 and 1.5).
-   `dougie`, 2026-10-12: they go into the game together with the full redo, not eight at a time.
-   Still to make for that redo: the other bodies in `art/units/` that are neither big nor in Tier 1.
-2. ~~**`dougie` plays the real-time skirmish against the turn-based fight**~~ **Settled 2026-10-12:
-   real time, by both founders ([D63](06-decisions.md)); `dougie` asked for the turn loop to be retired now ([D64](06-decisions.md)) — done:
-   every fight is the real-time fight, and the turn-based battle is deleted ([D65](06-decisions.md)).**
-   What the build had to choose on the way (an ambush's head start, a fall at the end of a won
-   fight, practice per swing, draughts from the stores, the clock under a menu, what the sand
-   teaches) is **Inferred** and waits as agenda item 63. `doug-md` played both on 2026-10-12 and chose real time ([D58](06-decisions.md)): it flows
-   better and asks for smarter choices; facing reads; he paused once, never needed auto-pause, and
-   found fights a little quick but expects levels and abilities to lengthen them. His one ask, drag
-   a box to pick fighters, is built. `dougie` chose the same ([D63](06-decisions.md)).
-3. ~~**An hour of _Dungeon Settlers_ itself**~~ Done 2026-10-12: `doug-md` has played about twenty
-   hours and answered the ten questions ([investigation/07](investigation/07-dungeon-settlers-combat.md#doug-mds-answers-2026-10-12)).
-   What they change in our fight is being settled with him.
-4. **The second half of session 2**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide),
-   items 9–12 and 15, the four the build inferred before (16–19), and the five session 2 raised
-   (20–24). The [briefing sheet](worldbuilding/session-2-briefing.md) gives each one its options and
-   cost. Items 20 and 21 (the milestones that replace steps, and how far a walk is in one view)
-   unblock M18. Item 12 (built meanwhile as "easy to find") settles the last of M15, item 15 the
-   writing for M13; item 11 (party growth) was built on an inference on 2026-10-12, by Tower
-   chapter, and waits as item 35. Item 3 (the research and the prototype) has gone as far as it can
-   without play (steps 2 and 3); 13 is built; 14 is deferred to playtest. Items 25 to 29 are what
-   M13's fall inferred on 2026-10-12: where the sixteen land, the stand-ins and their tempers, where
-   each temper goes, how one joins, and how "Ascend to heaven" is shown. Items 50 to 56 are what
-   M15's sixteen worlds inferred the same day: how alike the siblings are, where the earlier lead
-   waits, when the ghost and the weapon arrive, where the weapon lands, the ghost at the fire, the
-   stand-ins' weapons, and how a world's end is shown.
-   **`doug-md` answered items 11, 12, 20 and 21 on 2026-10-12** ([D60](06-decisions.md), [transcript](worldbuilding/voice-notes/2026-10-12-doug-md-chat.md)):
-   six in the party, the weapon lands anywhere (built), a living world whose deadlines can be
-   missed, one view with the world as a map, and carriages. They wait on `doug-md`; item 10 is
-   still open, and items 57 to 62 are new.
-5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
-   starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
-   **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
-   replace the NT four and they get built.
-6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
+1. **The sixteen as the playable lineup — in progress.** `dougie`, 2026-10-13: the sixteen of
+   [21](21-the-sixteen-first-draft.md) (Atlas to Liber) are the leads a run starts with, each in
+   their own class ([D63](06-decisions.md)); the original twelve in `data/heroes.json` (Bram, Sera,
+   Toln and the rest) stop being leads and become significant NPCs in the main stories. Three pieces
+   are being built now, none merged yet: the sixteen as leads (pick screen, quiz, wanderers), their
+   sixteen classes and starting moves (`data/classes.json` has six), and the twelve moved into the
+   stories as NPCs. Until they land, the twelve still stand in (agenda item 26).
+2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
+   bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
+   ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
+   Next: the other level-1 faction foes, the twelve's bodies (now NPCs: idle and walk unless a story
+   fight needs more), their companions and the village's walks; then the sixteen's fight sets. The
+   fight effects and status icons are made but not wired yet ([24](24-art-requests.md), A1 and A2).
+   Deferred by `dougie` (2026-10-13): redrawing the tide and flame lions' manes.
+3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
+   what the build inferred while it went ahead, each with a recommended answer, and the
+   [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
+   Amber Knight (65), the fight's sounds (66) and the quieter level-up (67). `doug-md` answered
+   items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
+   someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
+4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
+   [21](21-the-sixteen-first-draft.md); their memories, shared mark and signature weapons
+   ([D39](06-decisions.md), M13) are not written.
+5. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
-   `dispatch` odds, and `names.json` are all in `data/` and one number each.
+   `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
+6. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
+   PixelLab's terms checked ([Launch readiness](#launch-readiness--in-progress)).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
 ([10](10-manual-tests.md#automated-tests)). Since 2026-09-26 CI runs every suite and a two-minute
@@ -169,33 +147,37 @@ soak on each pull request, so the five-minute soak is the only step left to do b
 was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 [D42](06-decisions.md).
 
-### M10 — Research and the size test — IN PROGRESS
+### M10 — Research and the size test — SHIPPED
 
 - Deep dive into _Dungeon Settlers_' combat, written up in `docs/investigation/` against the
-  questions in [18](18-combat-direction.md#what-the-research-has-to-answer) — **first pass done**:
-  [investigation/07](investigation/07-dungeon-settlers-combat.md), from published sources. Still to
-  do: an hour of hands-on play to answer the ten questions it lists at the end
-- Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0).
+  questions in [18](18-combat-direction.md#what-the-research-has-to-answer) ✅:
+  [investigation/07](investigation/07-dungeon-settlers-combat.md), from published sources, and
+  `doug-md`'s answers to its ten questions after about twenty hours of play (2026-10-12)
+- Sprite size test in PixelLab — 64, 32 and 16 side by side, four units on screen ([19](19-asset-list.md), Tier 0) ✅.
   **Prepared** 2026-09-25: instructions ([20](20-pixellab-size-test.md)), `tools/size_test.tscn`,
   the importer, `art/size_test/RESULTS.md`. **Generated** 2026-10-12 through the API
   (`tools/pixellab.py`), 34 generations; the base body dressed and animated for 30 more
-- ~~The size written into [06 — Decisions](06-decisions.md)~~ — [D55](06-decisions.md), 2026-10-12: the 64 class
-  on the base body, **Inferred** until both founders confirm
+- The size written into [06 — Decisions](06-decisions.md) ✅ — [D55](06-decisions.md): the 64 class
+  on the base body, confirmed by `doug-md` ([D57](06-decisions.md)) and `dougie` ([D63](06-decisions.md))
 - ✅ Done when: both founders have read the report, seen the sizes in the battle scene, and a
-  D-entry says which size
+  D-entry says which size — **met** 2026-10-12 ([D63](06-decisions.md)). Still **Inferred**: the
+  `body_scale` numbers for big units ([D57](06-decisions.md))
 
 ### M11 — The real-time fight — IN PROGRESS
 
 Started 2026-09-24, on the first pass of M10, as a prototype beside the turn-based battle; since
 2026-10-12 it is the only fight — see [18 — The fight](18-combat-direction.md#the-fight). What
-is left is the animation.
+is left is art: the moves of the units not yet drawn, and the fight effects and status icons wired in.
 
 - A battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
 - Point-and-click movement on the existing grid; automatic basic attacks ✅
 - Four active abilities per unit on Q W E R, with cooldowns ✅ and cast times ✅; a per-unit auto
   toggle ✅ and Wait for Orders ✅. Passives ✅ (2026-10-12, `data/skirmish.json`, **Inferred**
   per class — agenda item 45), shown on the cards and on hover
-- Attack, hit and death animations for one party of four and three enemy kinds ([19](19-asset-list.md), Tier 1) — waits on art
+- Walk, attack, skill, hit and death played in the fight ✅ (2026-10-13, [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)):
+  the founders' three bodies, the first foes, the early big units and the rank-E gate bosses, 28
+  units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1). The
+  fight effects and status icons are made and not wired yet; the sixteen have no fight sets yet
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
   companion can reach ✅; when it runs out the fall is settled through `Fate.resolve`, as the
   turn-based battle settled it ✅ (a sandbox fight only rolls `Fate.roll` and writes nothing back;
@@ -276,7 +258,8 @@ sitting, and the reading of a hearth on agenda item 15.
   `src/chronicle/fall.gd`): drawn from the world seed and the lead, and the crater becomes Home
 - The fifteen living their own lives: moving between places by temper, instead of standing in one
   area ✅ (2026-10-12, `src/chronicle/wanderers.gd`), with the twelve existing heroes standing in
-  until the sixteen are written. Heard of at inns and on rests, seen where they stand, met with
+  until the sixteen are written. Since 2026-10-13 the sixteen are the playable lineup and the twelve
+  become story NPCs; that change is being built (Next steps, 1). Heard of at inns and on rests, seen where they stand, met with
   **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
   — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
