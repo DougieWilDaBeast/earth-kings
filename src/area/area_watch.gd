@@ -13,6 +13,11 @@ extends Node2D
 ## its watched cells moving with it. The loop never brings where the party came in into sight. When
 ## it moves it says so ([signal moved]), and the area looks to see whether the party is now seen.
 ##
+## On the land ([D84]) a band keeps to the tile it is on (its [member region]): it stands and
+## patrols there, further afield than on a single ground, and when the continent moves it to the
+## next tile it walks there across the land ([method travel]) and takes up a patrol round its new
+## spot.
+##
 ## The watch draws itself under the people (it is a child of the area's ground layers) and makes the
 ## band's figures for the area to stand among everyone else. Loaded by path ([D41]).
 
@@ -47,6 +52,10 @@ var figures: Array = []
 ## Whether the band may walk just now: the area says no while somebody is talking, a menu is open,
 ## or the party is on its way out.
 var can_move: Callable = Callable()
+## The cells the band keeps to: its tile, on the land; all of the ground, anywhere else.
+var region: Rect2i = Rect2i()
+## On its way to another tile, rather than patrolling.
+var travelling: bool = false
 
 var _map: AreaMap
 var _clock: float = 0.0
@@ -71,10 +80,12 @@ static func rule(key: String, fallback: Variant) -> Variant:
 ## The band on this ground, or null when there is nowhere for it to stand. [param arrived] is where
 ## the party came in; [param taken] the cells somebody or something already has, which grows;
 ## [param land_sight] what the land adds to (or takes from) every band's sight.
-static func place(map: AreaMap, band_: Dictionary, arrived: Vector2i, taken: Dictionary, land_sight: float = 0.0) -> Node2D:
+static func place(map: AreaMap, band_: Dictionary, arrived: Vector2i, taken: Dictionary, land_sight: float = 0.0,
+		keep_to: Rect2i = Rect2i()) -> Node2D:
 	var watch: Node2D = (load("res://src/area/area_watch.gd") as GDScript).new()
 	watch.name = "Watch"
 	watch._map = map
+	watch.region = keep_to if keep_to.size != Vector2i.ZERO else map.bounds()
 	watch.band = _as_told(band_)
 	watch.colour = Color(str(watch.band.get("banner", "#c0392b")))
 	# The land has its say too (`sight` in its effects, D71): mist and jungle close a band's eyes in.
@@ -194,7 +205,7 @@ func _process(delta: float) -> void:
 	_clock += delta
 	modulate = modulate.lerp(Color.WHITE, minf(1.0, delta * 2.0))
 	queue_redraw()
-	if _loop.size() >= 2 and not _alert and not figures.is_empty() \
+	if (_loop.size() >= 2 or travelling) and not _alert and not figures.is_empty() \
 			and (not can_move.is_valid() or bool(can_move.call())):
 		_patrol(delta)
 
@@ -204,6 +215,11 @@ func _patrol(delta: float) -> void:
 	if _rest > 0.0:
 		_rest -= delta
 		return
+	if _way.is_empty() and travelling:
+		travelling = false
+		_plan_the_patrol(_map.cell_at(_lead_at) + Vector2i(999, 999))
+		_rest = _pause()
+		return
 	if _way.is_empty():
 		_stop = (_stop + 1) % _loop.size()
 		_way = _map.find_cell_path(anchor, _loop[_stop])
@@ -212,7 +228,7 @@ func _patrol(delta: float) -> void:
 		if _way.is_empty():
 			_rest = _pause()
 			return
-	var speed := float(AreaMap.CELL) / maxf(0.1, float(rule("patrol_step_seconds", 0.85)))
+	var speed := float(AreaMap.CELL) / maxf(0.1, float(rule("travel_step_seconds" if travelling else "patrol_step_seconds", 0.85)))
 	var before := _lead_at
 	_lead_at = _lead_at.move_toward(_way[0], speed * delta)
 	if _trail.is_empty() or _trail[-1].distance_to(_lead_at) >= 6.0:
@@ -229,6 +245,24 @@ func _patrol(delta: float) -> void:
 			moved.emit()
 		if _way.is_empty():
 			_rest = _pause()
+
+
+## The continent has moved the band to another tile ([D84]): it sets off across the land for a spot
+## in [param to] (away from [param party], whom it has not seen), and patrols there once it arrives.
+func travel(to: Rect2i, party: Vector2i) -> void:
+	if _alert or figures.is_empty():
+		return
+	region = to
+	var spot := _where_to_stand(party, {})
+	if spot.x < 0 and spot.y < 0:
+		return
+	var way := _map.find_cell_path(_map.cell_at(_lead_at), spot)
+	if way.is_empty():
+		return
+	way.remove_at(0)
+	_way = way
+	_rest = 0.0
+	travelling = true
 
 
 ## The one in front where the patrol has got to; the others along the ground it walked, a little
@@ -261,9 +295,10 @@ func _pause() -> float:
 ## Taken in order round the band, so it walks a loop. The same ground, the same band, the same loop.
 func _plan_the_patrol(arrived: Vector2i) -> void:
 	_loop = [anchor]
-	_rng.seed = hash(str(band.get("cell", [])) + _map.id + "patrol")
-	var reach := int(rule("patrol_reach", 3))
-	var wanted := int(rule("patrol_points", 3))
+	_rng.seed = hash(str(band.get("cell", [])) + _map.id + str(anchor) + "patrol")
+	var roomy := region != _map.bounds()
+	var reach := int(rule("land_patrol_reach" if roomy else "patrol_reach", 3))
+	var wanted := int(rule("land_patrol_points" if roomy else "patrol_points", 3))
 	var clear := sight + 1.0
 	var side := Vector2i.ZERO
 	var where: Variant = band.get("where", "here")
@@ -275,7 +310,7 @@ func _plan_the_patrol(arrived: Vector2i) -> void:
 			var cell := anchor + Vector2i(dx, dy)
 			if cell == anchor or maxi(absi(dx), absi(dy)) < 2:
 				continue
-			if not _map.in_bounds(cell) or not _map.is_walkable(cell) or _map.is_exit(cell) or _on_the_rim(cell):
+			if not region.has_point(cell) or not _map.is_walkable(cell) or _map.is_exit(cell) or _on_the_rim(cell):
 				continue
 			if not _map.building_at(cell).is_empty():
 				continue
@@ -364,8 +399,8 @@ func _blocks_sight(cell: Vector2i) -> bool:
 
 ## A bush or a hedge the party can walk through: cover.
 func _bush_on(cell: Vector2i) -> bool:
-	for prop: Dictionary in _map.props:
-		if prop["cell"] == cell and str(Database.prop_size(str(prop.get("art", ""))).get("kind", "")) == "bush" \
+	for prop: Dictionary in _map.props_at(cell):
+		if str(Database.prop_size(str(prop.get("art", ""))).get("kind", "")) == "bush" \
 				and not AreaProp.is_solid(prop):
 			return true
 	return false
@@ -380,8 +415,8 @@ func _where_to_stand(arrived: Vector2i, taken: Dictionary) -> Vector2i:
 	var side := Vector2i.ZERO
 	if where is Array and (where as Array).size() >= 2:
 		side = Vector2i(int(where[0]), int(where[1]))
-	var middle := Vector2(_map.width - 1, _map.height - 1) * 0.5
-	var aim := middle + Vector2(side) * (middle - Vector2(2, 2))
+	var middle := Vector2(region.position) + Vector2(region.size - Vector2i.ONE) * 0.5
+	var aim := middle + Vector2(side) * (Vector2(region.size - Vector2i.ONE) * 0.5 - Vector2(2, 2))
 	# A band an area places itself (a practice band) may name the spot it would rather stand on.
 	var wanted: Variant = band.get("at", [])
 	if wanted is Array and (wanted as Array).size() >= 2:
@@ -390,8 +425,8 @@ func _where_to_stand(arrived: Vector2i, taken: Dictionary) -> Vector2i:
 		far = sight + 1.0
 	var key := str(band.get("cell", [])) + _map.id
 	var choices: Array = []
-	for y in _map.height:
-		for x in _map.width:
+	for y in range(region.position.y, region.end.y):
+		for x in range(region.position.x, region.end.x):
 			var cell := Vector2i(x, y)
 			if taken.has(cell) or not _map.is_walkable(cell) or _map.is_exit(cell) or _on_the_rim(cell):
 				continue
@@ -418,21 +453,25 @@ func _where_to_stand(arrived: Vector2i, taken: Dictionary) -> Vector2i:
 	return best
 
 
-## The outermost ring of the ground, where walking on means walking off: nobody camps there.
+## The outermost ring of the ground, where walking on means walking off: nobody camps there. The
+## land has no such ring.
 func _on_the_rim(cell: Vector2i) -> bool:
-	return cell.x <= 0 or cell.y <= 0 or cell.x >= _map.width - 1 or cell.y >= _map.height - 1
+	var whole := _map.bounds()
+	if region != whole:
+		return false
+	return cell.x <= whole.position.x or cell.y <= whole.position.y or cell.x >= whole.end.x - 1 or cell.y >= whole.end.y - 1
 
 
 func _by_the_edge(cell: Vector2i, side: Vector2i) -> bool:
 	var ok := true
 	if side.x < 0:
-		ok = ok and cell.x <= 3
+		ok = ok and cell.x <= region.position.x + 3
 	elif side.x > 0:
-		ok = ok and cell.x >= _map.width - 4
+		ok = ok and cell.x >= region.end.x - 4
 	if side.y < 0:
-		ok = ok and cell.y <= 3
+		ok = ok and cell.y <= region.position.y + 3
 	elif side.y > 0:
-		ok = ok and cell.y >= _map.height - 4
+		ok = ok and cell.y >= region.end.y - 4
 	return ok
 
 

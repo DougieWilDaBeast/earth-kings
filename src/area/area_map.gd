@@ -52,6 +52,8 @@ var astar: AStarGrid2D = null
 var _terrain: Array[String] = []
 ## Cells a piece of furniture is standing on, which nobody walks through.
 var _blocked: Dictionary = {}
+## Cell -> the props standing on it, so asking what is on a cell is not a walk through all of them.
+var _props_at: Dictionary = {}
 
 
 static func load_area(area_id: String) -> AreaMap:
@@ -95,6 +97,7 @@ static func load_area(area_id: String) -> AreaMap:
 			for cell: Vector2i in base_cells(placed):
 				map._blocked[cell] = true
 		map.props.append(placed)
+		map._index_prop(placed)
 	for entry: Dictionary in data.get("buildings", []):
 		var building := entry.duplicate(true)
 		building["cell"] = _to_cell(entry.get("cell", [0, 0]))
@@ -190,6 +193,40 @@ func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
 	for cell in cell_path:
 		path.append(centre_of(cell))
 	return path
+
+
+## The props standing on [param cell].
+func props_at(cell: Vector2i) -> Array:
+	return _props_at.get(cell, [])
+
+
+func _index_prop(prop: Dictionary) -> void:
+	var cell: Vector2i = prop["cell"]
+	if not _props_at.has(cell):
+		_props_at[cell] = []
+	(_props_at[cell] as Array).append(prop)
+
+
+## Every cell of the area, as one rectangle ([Land] answers for what it holds).
+func bounds() -> Rect2i:
+	return Rect2i(0, 0, width, height)
+
+
+## What paints the ground: each part's sheets, bottom first, and the tiles it paints (a tile's
+## corners sit on the middle of four cells; tile (x, y) has cell (x, y) at its bottom right). One
+## part here, one more tile each way so the edge cells are painted all the way out.
+func patches() -> Array:
+	return [{ "layers": layers, "tiles": Rect2i(0, 0, width + 1, height + 1) }]
+
+
+## Whose cell this is, for anything written down about it (a chest opened, a ward forced); an
+## area's cells are its own. [Land] answers with the place or tile the cell belongs to.
+func area_of(_cell: Vector2i) -> String:
+	return id
+
+
+func local_of(cell: Vector2i) -> Vector2i:
+	return cell
 
 
 func in_bounds(cell: Vector2i) -> bool:

@@ -240,7 +240,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.4 | Walk through long grass right up to them             | Long grass is never red; step out of it into the red and the fight opens with "Ambush!"   |
 | D3.5 | Step onto a red cell                                 | Heads turn, they rush you, and the fight opens on the same ground at the same zoom, everyone where they stood; the camera draws back, the ground beyond the field dimmed |
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
-| D3.7 | Walk onto a tile a band on the next tile watches     | No sudden fight: the band stands at that edge of the new ground, watching                |
+| D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 
 ## D4 — The tutorial ([D73](06-decisions.md))
 
@@ -255,6 +255,19 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 | D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
 | D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
 | D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
+## D5 — One land ([D84](06-decisions.md))
+
+Start a run (not the tutorial) and walk.
+
+| #    | Do this                                               | Expect                                                                                   |
+| ---- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| D5.1 | Walk in one direction for a minute                    | The ground runs on with no edge, fade or pause; the place line at the top changes as you cross into new country, and the light turns with the land |
+| D5.2 | Walk towards a village you can see on the map         | You see it from outside, standing in the land; walk straight in, and the bottom line offers hire, buy and the board |
+| D5.3 | Walk to the coast or a mountain                       | Water or rock fills the tile; you cannot walk onto it                                     |
+| D5.4 | Find a band (the bottom line names it) and stand still | It patrols its patch, further than a small loop; take a few steps across a tile edge and sometimes it sets off and walks to the next patch, its red going with it |
+| D5.5 | Go into a house, open the journal's map, and fight    | Each time you come back exactly where you stood on the land                                |
+| D5.6 | Open a chest in a village, leave, come back           | It is still open                                                                          |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

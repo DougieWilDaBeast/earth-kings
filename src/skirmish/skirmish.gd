@@ -31,6 +31,7 @@ const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const Land := preload("res://src/area/land.gd")
 
 signal finished(victory: bool)
 
@@ -366,7 +367,7 @@ func _plant(art_id: String, cell: Vector2i, alpha: float) -> void:
 ## walked there can be fought over, cover is brush, and everybody stands where
 ## they were standing.
 func _ground_field() -> Dictionary:
-	var ground := AreaMap.load_area(str(ground_field.get("area_id", "")))
+	var ground := _the_ground()
 	var origin := _to_cell(ground_field.get("origin", [0, 0]))
 	var size := _to_cell(ground_field.get("size", [16, 11]))
 	var rows: Array = []
@@ -426,6 +427,32 @@ func _row_blocked(rows: Array, at: Vector2i) -> bool:
 	return str(rows[at.y])[at.x] == "#"
 
 
+## The ground the band was met on: the area it names, or, met on the land ([D84]), the tiles the
+## field lies across and those round them. Laid out once and kept.
+func _the_ground() -> AreaMap:
+	if _ground != null:
+		return _ground
+	if bool(ground_field.get("land", false)) and GameState.world != null:
+		var land := Land.new()
+		land.setup(GameState.world)
+		var origin := _to_cell(ground_field.get("origin", [0, 0]))
+		var size := _to_cell(ground_field.get("size", [16, 11]))
+		var lo: Vector2i = land.tile_of(origin) - Vector2i.ONE
+		var hi: Vector2i = land.tile_of(origin + size - Vector2i.ONE) + Vector2i.ONE
+		for ty in range(lo.y, hi.y + 1):
+			for tx in range(lo.x, hi.x + 1):
+				land.hold(Vector2i(tx, ty))
+		var middle: Dictionary = land.chunk_at(origin + size / 2)
+		land.tint = str(middle.get("tint", ""))
+		_ground = land
+	else:
+		_ground = AreaMap.load_area(str(ground_field.get("area_id", "")))
+	return _ground
+
+
+var _ground: AreaMap = null
+
+
 ## The fight opens on exactly what the ground was showing (`view` in the field: the camera's centre
 ## in ground pixels, and its zoom), then, after a breath, draws back over the whole field ([D66]).
 func _open_where_they_stood(framed: Rect2) -> void:
@@ -449,7 +476,7 @@ func _open_where_they_stood(framed: Rect2) -> void:
 ## The ground's own tiles and what stands on them, scaled to the fight's cells
 ## and moved so the patch fought over sits on the grid.
 func _lay_the_ground() -> void:
-	var ground := AreaMap.load_area(str(ground_field.get("area_id", "")))
+	var ground := _the_ground()
 	if ground == null:
 		return
 	var under := Node2D.new()

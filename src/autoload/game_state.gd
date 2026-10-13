@@ -37,6 +37,9 @@ var gold: int = DEFAULT_GOLD:
 		if tallying:
 			Ledger.add(ledger, "gold_earned" if delta > 0 else "gold_spent", absi(delta))
 var cleared_battles: Array = []
+## Where the leader last stood on the land ([D84]), in the land's own cells, so coming back from a
+## fight, a door or the map puts them there. Not saved: a loaded run starts at its tile's way in.
+var land_cell: Variant = null
 var flags: Dictionary = {}
 ## Conversation id -> how many times it has been played, so somebody you have
 ## already met does not greet you as a stranger.
@@ -177,6 +180,7 @@ func new_game(world_seed: int = 0, lead_id: String = "", rehearsal: bool = false
 	# Neither the tutorial nor a run left for it is: the save on disk is not touched.
 	var was_rehearsing := rehearsing
 	rehearsing = rehearsal
+	land_cell = null
 	if world != null and roster != null and world.steps > 0 and tallying and not was_rehearsing and not rehearsal:
 		Museum.remember(world, roster, ledger, Museum.WALKED_AWAY)
 	# Every world that has ended before this one (M15). Unless a seed was asked
@@ -332,6 +336,7 @@ func load_save() -> bool:
 	if not has_save():
 		return false
 	rehearsing = false
+	land_cell = null
 	_drop_arena()
 	var read_from := SAVE_PATH
 	var parsed: Variant = SaveFile.read(read_from)

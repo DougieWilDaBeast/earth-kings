@@ -9,6 +9,9 @@ extends Node2D
 ##   straight back to the ground the party now stands on.
 ## - **Map** (`"map": true`, from the journal): the explored continent, to look
 ##   at and nothing else. Esc goes back to the ground where the party stood.
+## - **Out of sight** (`"embedded": true`, [D84]): run by the game beside the land, which never
+##   leaves the screen. It takes the step or does the place's doing as on the ground, then answers
+##   on [signal EventBus.continent_answered] instead of handing the ground back, and goes.
 ## - **Walk**: the old walkable continent, kept for the party walking itself
 ##   (Q, and the soak) and for the suites that drive it (`"walk": true`, or a
 ##   scene nobody put on screen).
@@ -39,6 +42,8 @@ const FIRST_REPEAT_DELAY := 0.28
 const RUN_OVER_DELAY := 3.0
 ## Steps between the country putting fresh bands out where you cannot see them.
 const RESTOCK_INTERVAL := 12
+## How many tiles away a band can be and still be walking on the land round the party ([D84]).
+const LAND_BANDS_REACH := 2
 ## Lines of world log kept on screen. Everything still happens when it is off;
 ## the log is a record, not the game.
 const LOG_LINES := 3
@@ -95,6 +100,7 @@ const GROUND_ACTS := {
 	"_sail_here": KEY_O,
 	"_speak_with_wanderer": KEY_X,
 	"_upgrade_bed_here": KEY_U,
+	"_step_into_the_wild": "interact",
 }
 @onready var _map: Node2D = $Map
 @onready var _camera: CameraRig = $Camera2D
@@ -139,6 +145,12 @@ var _view: View = View.WALK
 ## Where the party stood when this scene opened, to tell whether anything done
 ## here moved them.
 var _entered_at: Vector2i = Vector2i(-1, -1)
+
+
+func _enter_tree() -> void:
+	if bool(boot_payload.get("embedded", false)):
+		$Camera2D.claims_the_view = false
+		$UI.visible = false
 
 
 func _ready() -> void:
@@ -1522,6 +1534,8 @@ func _area_here() -> String:
 func _opened_as() -> View:
 	if bool(boot_payload.get("map", false)):
 		return View.MAP
+	if _embedded():
+		return View.GROUND
 	# Asked for by name: the suites that check the walk's own controls.
 	if bool(boot_payload.get("walk", false)):
 		return View.WALK
@@ -1531,7 +1545,12 @@ func _opened_as() -> View:
 
 
 func _driven_by_game() -> bool:
-	return is_in_group(EventBus.ACTIVE_SCENE_GROUP)
+	return is_in_group(EventBus.ACTIVE_SCENE_GROUP) or _embedded()
+
+
+## Run beside the land, out of sight ([D84]).
+func _embedded() -> bool:
+	return bool(boot_payload.get("embedded", false))
 
 
 ## The map and its lines are drawn only when somebody is looking at them.
@@ -1575,6 +1594,18 @@ func _do_what_the_ground_asked() -> void:
 func _hand_back() -> void:
 	if _busy or _view != View.GROUND or not is_inside_tree():
 		return
+	if _embedded():
+		_busy = true
+		if Pace.auto:
+			# The party walking itself walks the continent, where it can be seen.
+			EventBus.request_scene.emit("world", {})
+			return
+		# A step is a return to the road, which Iron Man saves at, as it did when every step came
+		# back through the map.
+		GameState.reached(RunMode.ROAD, "you were on the road")
+		EventBus.continent_answered.emit(_ground_payload())
+		queue_free()
+		return
 	if Pace.auto:
 		# The party walking itself walks the continent, where it can be seen.
 		_view = View.WALK
@@ -1605,10 +1636,13 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 		payload = _fresh_ground()
 		var step: Array = boot_payload.get("step", [])
 		if step.size() == 2:
-			var from: Array = boot_payload.get("from_cell", [])
-			var from_cell := Vector2i(int(from[0]), int(from[1])) if from.size() == 2 else Vector2i(-1, -1)
-			var spawn := _spawn_after_step(Vector2i(int(step[0]), int(step[1])), from_cell, str(payload["area_id"]))
-			payload["spawn_cell"] = [spawn.x, spawn.y]
+			# Come into the land from somewhere that is not it (a grove's edge): at the tile's way in
+			# from the side the party came.
+			var slot := GroundGen.slot(world, world.player_cell)
+			var side := GroundGen.side_of(-Vector2i(int(step[0]), int(step[1])))
+			var entries: Dictionary = slot.get("entries", {})
+			if entries.has(side):
+				payload["spawn_cell"] = entries[side]
 	payload["held"] = _held_now()
 	payload["actions"] = _ground_actions(payload)
 	payload["bands"] = _bands_here()
@@ -1619,56 +1653,20 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 	return payload
 
 
-## A place with an inside and an open door is walked into; anywhere else, the
-## country of the tile ([D50]). A warded place that will not open is stood
-## outside of, with the challenge offered.
+## The land round the tile the party is on ([D84]); its title is the place's, if a place with an
+## inside and an open door stands there, or the country's. A warded place that will not open is
+## open country with the challenge offered.
 func _fresh_ground() -> Dictionary:
 	var region := world.region_at(world.player_cell)
 	var site := world.site_at(world.player_cell)
 	var area_id := _area_here()
-	if site != null and area_id != "" and (not site.data.has("ward") or Ward.is_site_open(site)):
-		return {
-			"area_id": area_id, "title": site.label(), "return_scene": "world",
-			"planar_mode": true, "inside": "site",
-		}
-	if _wild_here != "" and Database.has_area(_wild_here):
-		return {
-			"area_id": _wild_here, "title": "The Wilds (%s)" % region, "return_scene": "world",
-			"planar_mode": true, "inside": "wild",
-		}
-	# Open country: ground of its own, laid out from its land and its
-	# neighbours ([D66]). The same tile is always the same ground.
+	# The land ([D84]): one stretch of ground, the place (if there is one) standing in its tile.
+	var inside_a_place := site != null and area_id != "" and (not site.data.has("ward") or Ward.is_site_open(site))
 	return {
-		"area_id": GroundGen.for_cell(world, world.player_cell),
-		"title": "%s  ·  %s" % [region, Biome.display_name(Biome.at(world, world.player_cell))],
-		"return_scene": "world", "planar_mode": true,
+		"land": true,
+		"title": site.label() if inside_a_place else "%s  ·  %s" % [region, Biome.display_name(Biome.at(world, world.player_cell))],
+		"return_scene": "world", "planar_mode": true, "inside": "site" if inside_a_place else "",
 	}
-
-
-## Where the party comes into the next ground: across from the edge they left
-## by, as far along it as they were.
-func _spawn_after_step(dir: Vector2i, from_cell: Vector2i, area_id: String) -> Vector2i:
-	var area := Database.area(area_id)
-	# Generated ground knows where its ways in are.
-	if area.has("entries"):
-		return GroundGen.entry(area, GroundGen.side_of(-dir))
-	var rows: Array = area.get("rows", [])
-	var h: int = rows.size()
-	var w: int = 0
-	for r in rows:
-		w = maxi(w, str(r).length())
-	var along_x := clampi(from_cell.x, 2, w - 3) if from_cell.x >= 0 else w / 2
-	var along_y := clampi(from_cell.y, 2, h - 3) if from_cell.y >= 0 else h / 2
-	match dir:
-		Vector2i.UP:
-			return Vector2i(along_x, h - 2)
-		Vector2i.DOWN:
-			return Vector2i(along_x, 1)
-		Vector2i.LEFT:
-			return Vector2i(w - 2, along_y)
-		Vector2i.RIGHT:
-			return Vector2i(1, along_y)
-	return Vector2i(w / 2, h / 2)
 
 
 ## The place's doings, said for the ground: what to press, the button's name,
@@ -1701,25 +1699,28 @@ func _ground_actions(payload: Dictionary) -> Array:
 # --- bands on the ground -------------------------------------------------------
 
 
-## Bands standing on this tile, or on the next one and watching this one: they
-## are on the ground in front of the party, each placed on the side it is on.
+## Bands near enough to be on the ground in front of the party: on the land ([D84]), every band
+## within [constant LAND_BANDS_REACH] tiles, each with the tile it is on, so it can be seen walking
+## from one to the next.
 func _bands_here() -> Array:
 	var out: Array = []
 	for band: Prowler in world.prowlers:
 		var apart := band.cell - world.player_cell
-		var near := maxi(absi(apart.x), absi(apart.y)) <= 1
-		if band.cell != world.player_cell and not (near and band.sees(world, world.player_cell)):
+		if maxi(absi(apart.x), absi(apart.y)) > LAND_BANDS_REACH:
 			continue
 		out.append({
 			"key": _band_key(band), "pack": band.pack, "sight": band.sight, "reach": band.reach(world),
 			"faction": band.faction, "label": band.label(),
 			"from": [signi(apart.x), signi(apart.y)],
+			"tile": [band.cell.x, band.cell.y],
 		})
 	return out
 
 
+## Which band this is, the same from step to step however far it wanders: where it settled and who
+## is in it.
 func _band_key(band: Prowler) -> String:
-	return "%d,%d|%s" % [band.cell.x, band.cell.y, ",".join(band.pack)]
+	return "%d,%d|%s" % [band.home.x, band.home.y, ",".join(band.pack)]
 
 
 ## The party walked into a band's sight on the ground. The fight is fought
