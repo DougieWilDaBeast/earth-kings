@@ -123,7 +123,8 @@ weapon, their seed and where they are found. Above each is the body this page gi
   Diana's wolf is `ice_wolf`, as above.
 - The base versions are in `art/sixteen/<name>/idle/`, eight facings each; the game draws the leads
   from them ([D78](06-decisions.md)). Walk, attack, skill, hit and death, four facings each, are in
-  beside them for Atlas, Janus, Bellona, Cassius, Saturn and Vesta (2026-10-13); the other ten follow.
+  beside them for Atlas, Janus, Bellona, Cassius, Saturn, Vesta, Caesar, Iris, Pluto, Ceres, Cato,
+  Juno and Ultor (2026-10-13); Diana, Ares and Liber follow.
   The sentence each was made from is in its `metadata.json`; each cost 10 generations. They were
   dressed again on 2026-10-12 in the blended finish ([D57](06-decisions.md)). Liber's first sentence
   (straw hat, open red vest, shorts) drew a famous pirate captain, so he was redrawn with a shaved
