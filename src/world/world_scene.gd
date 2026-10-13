@@ -28,6 +28,8 @@ const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Biome := preload("res://src/chronicle/biome.gd")
+const GroundGen := preload("res://src/area/ground_gen.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -536,7 +538,9 @@ func _look_for_a_cache(cell: Vector2i) -> void:
 ## The only way a fight starts in the open: somebody was watching the tile you
 ## just walked onto. They come off the map, because they are in front of you now.
 func _watch_check(cell: Vector2i) -> void:
-	if _busy:
+	# On the ground the band is standing there in front of you, with the ground
+	# it watches painted red; walking into that is what starts it ([D66]).
+	if _busy or _view == View.GROUND:
 		return
 	var band := world.prowler_watching(cell)
 	if band == null:
@@ -550,7 +554,7 @@ func _watch_check(cell: Vector2i) -> void:
 	_begin_battle(meeting)
 
 
-func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
+func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Dictionary = {}) -> void:
 	_busy = true
 	outcome["enemies"] = meeting.get("enemies", [])
 	GameState.pending_outcome = outcome
@@ -559,7 +563,9 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}) -> void:
 	if confrontation != "":
 		meeting["confrontation"] = confrontation
 		_note(confrontation)
-	EventBus.request_scene.emit("skirmish", {"encounter": meeting, "return_scene": "world"})
+	var payload := {"encounter": meeting, "return_scene": "world"}
+	payload.merge(extra, true)
+	EventBus.request_scene.emit("skirmish", payload)
 
 
 ## Nothing a fight was worth is handed over until the fight has been won. The
@@ -1553,6 +1559,8 @@ func _do_what_the_ground_asked() -> void:
 	var act := str(boot_payload.get("act", ""))
 	if step.size() == 2:
 		_step(Vector2i(int(step[0]), int(step[1])))
+	elif boot_payload.has("fight"):
+		_fight_where_you_stand(str(boot_payload["fight"]), boot_payload.get("field", {}))
 	elif act != "" and GROUND_ACTS.has(act) and has_method(act):
 		# Some wait on a conversation; the ground is handed back once it is over.
 		await call(act)
@@ -1602,6 +1610,7 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 			payload["spawn_cell"] = [spawn.x, spawn.y]
 	payload["held"] = _held_now()
 	payload["actions"] = _ground_actions(payload)
+	payload["bands"] = _bands_here()
 	var said: Array = []
 	for line: String in _notices:
 		said.append(line)
@@ -1626,28 +1635,23 @@ func _fresh_ground() -> Dictionary:
 			"area_id": _wild_here, "title": "The Wilds (%s)" % region, "return_scene": "world",
 			"planar_mode": true, "inside": "wild",
 		}
+	# Open country: ground of its own, laid out from its land and its
+	# neighbours ([D66]). The same tile is always the same ground.
 	return {
-		"area_id": _ground_area_for(world.player_cell), "title": region,
+		"area_id": GroundGen.for_cell(world, world.player_cell),
+		"title": "%s  ·  %s" % [region, Biome.display_name(Biome.at(world, world.player_cell))],
 		"return_scene": "world", "planar_mode": true,
 	}
-
-
-## What kind of ground a tile of open country is walked as. The same tile is
-## always the same ground, so a place can be come back to.
-func _ground_area_for(cell: Vector2i) -> String:
-	var terrain_id := world.terrain_id_at(cell)
-	var pool: Array = WILD_AREAS.get(terrain_id, [])
-	if pool.is_empty() and terrain_id in ["mountain", "crag", "snow"]:
-		pool = WILD_AREAS["hill"]
-	if pool.is_empty():
-		pool = WILD_AREAS["forest"]
-	return str(pool[absi(hash(cell)) % pool.size()])
 
 
 ## Where the party comes into the next ground: across from the edge they left
 ## by, as far along it as they were.
 func _spawn_after_step(dir: Vector2i, from_cell: Vector2i, area_id: String) -> Vector2i:
-	var rows: Array = Database.area(area_id).get("rows", [])
+	var area := Database.area(area_id)
+	# Generated ground knows where its ways in are.
+	if area.has("entries"):
+		return GroundGen.entry(area, GroundGen.side_of(-dir))
+	var rows: Array = area.get("rows", [])
 	var h: int = rows.size()
 	var w: int = 0
 	for r in rows:
@@ -1691,6 +1695,48 @@ func _ground_actions(payload: Dictionary) -> Array:
 			"act": method, "key": GROUND_ACTS[method],
 		})
 	return out
+
+
+# --- bands on the ground -------------------------------------------------------
+
+
+## Bands standing on this tile, or on the next one and watching this one: they
+## are on the ground in front of the party, each placed on the side it is on.
+func _bands_here() -> Array:
+	var out: Array = []
+	for band: Prowler in world.prowlers:
+		var apart := band.cell - world.player_cell
+		var near := maxi(absi(apart.x), absi(apart.y)) <= 1
+		if band.cell != world.player_cell and not (near and band.sees(world, world.player_cell)):
+			continue
+		out.append({
+			"key": _band_key(band), "pack": band.pack, "sight": band.sight,
+			"faction": band.faction, "label": band.label(),
+			"from": [signi(apart.x), signi(apart.y)],
+		})
+	return out
+
+
+func _band_key(band: Prowler) -> String:
+	return "%d,%d|%s" % [band.cell.x, band.cell.y, ",".join(band.pack)]
+
+
+## The party walked into a band's sight on the ground. The fight is fought
+## there, on that ground, in real time ([D66]); when it is over, play comes
+## back to the same spot.
+func _fight_where_you_stand(key: String, field: Dictionary) -> void:
+	var band: Prowler = null
+	for each: Prowler in world.prowlers:
+		if _band_key(each) == key:
+			band = each
+	if band == null or field.is_empty():
+		return
+	world.prowlers.erase(band)
+	var meeting := Encounter.for_band(world, band, GameState.party_characters(), world.rng)
+	_begin_battle(meeting, {}, {
+		"live": true, "field": field,
+		"return_payload": {"back": boot_payload.get("back", {})},
+	})
 
 
 # --- the map ------------------------------------------------------------------
@@ -2082,9 +2128,18 @@ func _draw_ground() -> void:
 				continue
 			var rect := Rect2(Vector2(cell) * CELL, Vector2.ONE * CELL)
 			var terrain := world.terrain_at(cell)
-			_map.draw_rect(rect, Color(terrain.get("color", "#4f7d3f")) * _shade(cell))
+			_map.draw_rect(rect, _land_colour(cell, Color(terrain.get("color", "#4f7d3f"))) * _shade(cell))
 			if dress_lod and Atlas.is_explored(world, cell):
 				_dress(cell, world.terrain_id_at(cell))
+
+
+## The terrain's colour washed with its land's, so the snow, the blight and the
+## crystal read on the map before anybody walks into them.
+func _land_colour(cell: Vector2i, base: Color) -> Color:
+	var land := Biome.at(world, cell)
+	if land == Biome.GRASSLAND or land == Biome.FOREST:
+		return base
+	return base.lerp(Biome.tint(land) * Color(0.8, 0.8, 0.8), 0.55)
 
 
 ## The block of cells the camera has in front of it, clamped to the map and

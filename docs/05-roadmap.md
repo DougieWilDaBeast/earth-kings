@@ -392,8 +392,16 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   is a step on the continent, done out of sight; a place's doings are offered on the ground; the
   continent is a look-only map opened from the journal. Only the party walking itself (Q) still
   walks it
-- Planar areas that differ (agenda item 62, planned): more layouts, exits that follow the land, places
-  worth remembering — today every area has the same four exits
+- Planar areas that differ (agenda item 62) ✅ (2026-10-12, [D66](06-decisions.md)): eighteen lands
+  ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
+  reshaped round gates; every tile of open country its own ground, with ways out only where the land
+  goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
+  `data/biomes.json`). Art for sixteen of the lands is a recoloured stand-in
+- Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md)): standing guard with the ground they
+  watch painted red; step in and the real-time fight opens on that same ground, and play comes back
+  to the same spot
+- Weather and hazards per land, enemies chosen by land, the Tower's element reshaping its country
+  (planned; [investigation/09](investigation/09-lands-of-the-continent.md#not-built))
 - Places worth walking round ✅ (2026-10-12, [D62](06-decisions.md)): every prop and building at its
   proper size (`data/props.json`), houses drawn from their art, woods, flowers, birds and bugs laid
   by `tools/dress_areas.py`, the wilds' ground reshaped into patches and ponds, furnished rooms,

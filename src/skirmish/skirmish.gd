@@ -13,6 +13,11 @@ extends Node2D
 ## battle it replaced was ([D65]): experience from first kills and assists,
 ## practice, the journal, wounds, and the fallen settled through [Fate]. A
 ## `sandbox` fight (training, the coliseum) writes nothing onto the world.
+##
+## A band met on the ground (`"field"` in the payload) is fought on that same
+## ground ([D66]): its own tiles, its trees and rocks in the way, everyone
+## standing where they stood when the band saw them. Afterwards play goes back
+## to the same spot (`return_payload`).
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
@@ -24,6 +29,7 @@ const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishHUD := preload("res://src/skirmish/skirmish_hud.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
+const GroundPainter := preload("res://src/area/ground_painter.gd")
 
 signal finished(victory: bool)
 
@@ -61,6 +67,9 @@ var boot_payload: Dictionary = {}
 @onready var hud: SkirmishHUD = $HUD
 
 var map_id: String = DEFAULT_MAP
+## Where on the ground a band was met: `{ area_id, origin, size, party, foes,
+## title }` in the ground's own cells. Empty for a fight anywhere else.
+var ground_field: Dictionary = {}
 ## What the fight is called on the clock: the encounter's title, else the map's name.
 var title: String = "A fight"
 ## Set when the fight came from the world rather than an authored map.
@@ -187,6 +196,10 @@ func _on_pace_changed() -> void:
 
 func _build_battlefield() -> void:
 	var map: Dictionary = encounter.get("map", {}) if not encounter.is_empty() else Database.map(map_id)
+	ground_field = boot_payload.get("field", {})
+	if not ground_field.is_empty():
+		map = _ground_field()
+		_lay_the_ground()
 	grid.load_map(map)
 	title = str(encounter.get("title", map.get("name", title)))
 	overlay.grid = grid
@@ -199,7 +212,8 @@ func _build_battlefield() -> void:
 	camera.focus_on(framed.get_center(), true)
 	units_root.y_sort_enabled = true
 
-	_spawn_nature_decor(map)
+	if ground_field.is_empty():
+		_spawn_nature_decor(map)
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
 	var taken: Array[Vector2i] = []
@@ -336,6 +350,94 @@ func _plant(art_id: String, cell: Vector2i, alpha: float) -> void:
 		-painted.get_center().x * size, BattleGrid.CELL_SIZE * 0.4 - painted.end.y * size)
 	sprite.modulate = Color(1.0, 1.0, 1.0, alpha)
 	units_root.add_child(sprite)
+
+
+## The patch of ground the band was met on, as a battlefield: what can be
+## walked there can be fought over, cover is brush, and everybody stands where
+## they were standing.
+func _ground_field() -> Dictionary:
+	var ground := AreaMap.load_area(str(ground_field.get("area_id", "")))
+	var origin := _to_cell(ground_field.get("origin", [0, 0]))
+	var size := _to_cell(ground_field.get("size", [16, 11]))
+	var rows: Array = []
+	for y in size.y:
+		var row := ""
+		for x in size.x:
+			var cell := origin + Vector2i(x, y)
+			if ground == null or not ground.is_walkable(cell):
+				row += "#"
+			elif bool(Database.area_terrain(ground.terrain_at(cell)).get("cover", false)):
+				row += ","
+			else:
+				row += "."
+		rows.append(row)
+	var spawns: Array = []
+	for pair: Array in ground_field.get("party", []):
+		var c := _to_cell(pair) - origin
+		spawns.append([c.x, c.y])
+	var foe_cells: Array[Vector2i] = []
+	for pair: Array in ground_field.get("foes", []):
+		foe_cells.append(_to_cell(pair) - origin)
+	var enemies: Array = []
+	var listed: Array = encounter.get("enemies", [])
+	for i in listed.size():
+		var entry: Dictionary = (listed[i] as Dictionary).duplicate()
+		var at: Vector2i = foe_cells[i % foe_cells.size()] if not foe_cells.is_empty() else Vector2i(size.x - 2, 1)
+		entry["cell"] = [at.x, at.y]
+		enemies.append(entry)
+	return {
+		"name": str(ground_field.get("title", "the ground")),
+		"tiles": rows,
+		"legend": { ".": "grass", ",": "brush", "#": "wall" },
+		"player_spawns": spawns,
+		"enemies": _spread_out(enemies, rows),
+	}
+
+
+## Two of them told to stand on one cell: the second takes the nearest free one.
+func _spread_out(enemies: Array, rows: Array) -> Array:
+	var taken: Dictionary = {}
+	for pair: Array in ground_field.get("party", []):
+		taken[_to_cell(pair) - _to_cell(ground_field.get("origin", [0, 0]))] = true
+	for entry: Dictionary in enemies:
+		var at := _to_cell(entry["cell"])
+		var tries := 0
+		while (taken.has(at) or _row_blocked(rows, at)) and tries < 60:
+			tries += 1
+			at = _to_cell(entry["cell"]) + Vector2i(tries % 5 - 2, tries / 5 % 5 - 2)
+		taken[at] = true
+		entry["cell"] = [at.x, at.y]
+	return enemies
+
+
+func _row_blocked(rows: Array, at: Vector2i) -> bool:
+	if at.y < 0 or at.y >= rows.size() or at.x < 0 or at.x >= str(rows[at.y]).length():
+		return true
+	return str(rows[at.y])[at.x] == "#"
+
+
+## The ground's own tiles and what stands on them, scaled to the fight's cells
+## and moved so the patch fought over sits on the grid.
+func _lay_the_ground() -> void:
+	var ground := AreaMap.load_area(str(ground_field.get("area_id", "")))
+	if ground == null:
+		return
+	var under := Node2D.new()
+	under.name = "Ground"
+	under.z_index = -1
+	var zoom := float(BattleGrid.CELL_SIZE) / float(AreaMap.CELL)
+	under.scale = Vector2(zoom, zoom)
+	under.position = -Vector2(_to_cell(ground_field.get("origin", [0, 0]))) * BattleGrid.CELL_SIZE
+	add_child(under)
+	move_child(under, 0)
+	GroundPainter.paint(ground, under)
+	var standing := Node2D.new()
+	standing.y_sort_enabled = true
+	under.add_child(standing)
+	GroundPainter.dress(ground, standing)
+	if ground.tint != "":
+		under.modulate = Color(ground.tint).lerp(Color.WHITE, 0.6)
+	grid.draw_floor = false
 
 
 func _enlist(unit: Unit) -> void:

@@ -1,0 +1,837 @@
+{
+	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average.",
+	"size": [
+		32,
+		22
+	],
+	"landmark_chance": 0.22,
+	"biomes": {
+		"grassland": {
+			"name": "grassland",
+			"ground": {
+				"floor": "grass",
+				"bare": "dirt",
+				"liquid": "water",
+				"cover": "meadow"
+			},
+			"layers": [
+				"dirt",
+				"water",
+				"meadow"
+			],
+			"tint": "",
+			"line": "Open grassland, and wind across it.",
+			"props": {
+				"trees": [
+					"nature/round_tree",
+					"nature/sycamore_tree",
+					"nature/copse"
+				],
+				"bushes": [
+					"nature/briar_bush_2",
+					"nature/bramble_2",
+					"nature/hedge_2"
+				],
+				"rocks": [
+					"biome/boulder",
+					"biome/stones"
+				],
+				"small": [
+					"nature/wildflowers_blue",
+					"nature/wildflowers_red",
+					"nature/wildflowers_orange",
+					"nature/grass_tuft",
+					"nature/clover",
+					"nature/thistle"
+				]
+			},
+			"density": {
+				"trees": 0.018,
+				"bushes": 0.034,
+				"rocks": 0.0128,
+				"small": 0.08
+			},
+			"features": {
+				"pools": 1,
+				"cover": 3,
+				"bare": 2,
+				"outcrops": 1
+			},
+			"sea_shore": true
+		},
+		"forest": {
+			"name": "forest",
+			"ground": {
+				"floor": "grass",
+				"bare": "dirt",
+				"liquid": "water",
+				"cover": "meadow"
+			},
+			"layers": [
+				"dirt",
+				"water",
+				"meadow"
+			],
+			"tint": "#9fb59a",
+			"line": "Old forest, close and quiet under the boughs.",
+			"props": {
+				"trees": [
+					"nature/holly_tree",
+					"nature/holly_tree_2",
+					"nature/round_tree",
+					"nature/copse",
+					"nature/bare_tree"
+				],
+				"bushes": [
+					"nature/briar_bush_2",
+					"nature/bramble",
+					"nature/bramble_2",
+					"nature/hazel_bush"
+				],
+				"rocks": [
+					"biome/boulder",
+					"biome/stones"
+				],
+				"small": [
+					"nature/mushrooms",
+					"nature/mushrooms_shelf",
+					"nature/fern",
+					"nature/grass_tuft",
+					"nature/ivy"
+				]
+			},
+			"density": {
+				"trees": 0.08,
+				"bushes": 0.051,
+				"rocks": 0.0096,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 1,
+				"cover": 2,
+				"bare": 1,
+				"outcrops": 1
+			},
+			"sea_shore": true
+		},
+		"snow": {
+			"name": "snowfield",
+			"ground": {
+				"floor": "snow_floor",
+				"bare": "snow_bare",
+				"liquid": "snow_liquid",
+				"cover": "snow_cover"
+			},
+			"layers": [
+				"snow_ground",
+				"snow_pool",
+				"snow_cover"
+			],
+			"tint": "#d8e4f2",
+			"line": "Snow to the knee, and the cold gets in everywhere.",
+			"props": {
+				"trees": [
+					"biome/snow_fir",
+					"biome/snow_oak"
+				],
+				"bushes": [
+					"biome/frost_twigs",
+					"biome/frost_tuft"
+				],
+				"rocks": [
+					"biome/snow_boulder",
+					"biome/ice_spikes"
+				],
+				"small": [
+					"biome/frost_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.03,
+				"bushes": 0.0255,
+				"rocks": 0.0192,
+				"small": 0.032
+			},
+			"features": {
+				"pools": 2,
+				"cover": 2,
+				"bare": 2,
+				"outcrops": 2
+			},
+			"sea_shore": true
+		},
+		"dune": {
+			"name": "desert",
+			"ground": {
+				"floor": "dune_floor",
+				"bare": "dune_bare",
+				"liquid": "dune_liquid",
+				"cover": "dune_cover"
+			},
+			"layers": [
+				"dune_ground",
+				"dune_pool",
+				"dune_cover"
+			],
+			"tint": "#f3dcb0",
+			"line": "Sand, heat, and nothing to hide behind.",
+			"props": {
+				"trees": [],
+				"bushes": [
+					"biome/thorn_bush",
+					"biome/dry_scrub",
+					"nature/cactus"
+				],
+				"rocks": [
+					"biome/sandstone",
+					"biome/dune_stones"
+				],
+				"small": [
+					"biome/dune_grass",
+					"nature/wildflowers_orange",
+					"nature/cactus"
+				]
+			},
+			"density": {
+				"trees": 0.0,
+				"bushes": 0.0449,
+				"rocks": 0.0192,
+				"small": 0.032
+			},
+			"features": {
+				"pools": 0.4,
+				"cover": 0.5,
+				"bare": 3,
+				"outcrops": 2
+			},
+			"sea_shore": true
+		},
+		"badlands": {
+			"name": "badlands",
+			"ground": {
+				"floor": "badlands_floor",
+				"bare": "badlands_bare",
+				"liquid": "badlands_liquid",
+				"cover": "badlands_cover"
+			},
+			"layers": [
+				"badlands_ground",
+				"badlands_pool",
+				"badlands_cover"
+			],
+			"tint": "#f0b890",
+			"line": "Red rock cut into canyons by water long gone.",
+			"props": {
+				"trees": [],
+				"bushes": [
+					"biome/dead_brush",
+					"nature/cactus"
+				],
+				"rocks": [
+					"biome/mesa_rock",
+					"biome/red_spire",
+					"biome/red_stones"
+				],
+				"small": [
+					"biome/red_stones",
+					"nature/wildflowers_orange"
+				]
+			},
+			"density": {
+				"trees": 0.0,
+				"bushes": 0.017,
+				"rocks": 0.048,
+				"small": 0.024
+			},
+			"features": {
+				"pools": 0.3,
+				"cover": 0.5,
+				"bare": 3,
+				"outcrops": 5
+			},
+			"sea_shore": true
+		},
+		"savanna": {
+			"name": "savanna",
+			"ground": {
+				"floor": "savanna_floor",
+				"bare": "savanna_bare",
+				"liquid": "savanna_liquid",
+				"cover": "savanna_cover"
+			},
+			"layers": [
+				"savanna_ground",
+				"savanna_pool",
+				"savanna_cover"
+			],
+			"tint": "#f2e0a8",
+			"line": "Dry gold grass to the horizon, and a lone tree for shade.",
+			"props": {
+				"trees": [
+					"biome/acacia",
+					"biome/acacia_stand"
+				],
+				"bushes": [
+					"biome/savanna_scrub"
+				],
+				"rocks": [
+					"biome/termite_mound",
+					"biome/stones"
+				],
+				"small": [
+					"biome/dry_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.012,
+				"bushes": 0.0204,
+				"rocks": 0.0096,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 0.6,
+				"cover": 4,
+				"bare": 2,
+				"outcrops": 0.5
+			},
+			"sea_shore": true
+		},
+		"ash": {
+			"name": "ashland",
+			"ground": {
+				"floor": "ash_floor",
+				"bare": "ash_bare",
+				"liquid": "ash_liquid",
+				"cover": "ash_cover"
+			},
+			"layers": [
+				"ash_ground",
+				"ash_pool",
+				"ash_cover"
+			],
+			"tint": "#b8a8a0",
+			"line": "Ash falls like snow, and the ground is warm underfoot.",
+			"props": {
+				"trees": [
+					"biome/charred_tree",
+					"biome/burnt_fir"
+				],
+				"bushes": [
+					"biome/ash_scrub"
+				],
+				"rocks": [
+					"biome/cinder_boulder",
+					"biome/ember_stones"
+				],
+				"small": [
+					"biome/ember_stones"
+				]
+			},
+			"density": {
+				"trees": 0.0225,
+				"bushes": 0.0204,
+				"rocks": 0.032,
+				"small": 0.024
+			},
+			"features": {
+				"pools": 1.5,
+				"cover": 0.5,
+				"bare": 3,
+				"outcrops": 2
+			},
+			"sea_shore": false
+		},
+		"blight": {
+			"name": "the blight",
+			"ground": {
+				"floor": "blight_floor",
+				"bare": "blight_bare",
+				"liquid": "blight_liquid",
+				"cover": "blight_cover"
+			},
+			"layers": [
+				"blight_ground",
+				"blight_pool",
+				"blight_cover"
+			],
+			"tint": "#c890a8",
+			"line": "The land here is sick, and it is spreading from the gate.",
+			"props": {
+				"trees": [
+					"biome/blighted_tree"
+				],
+				"bushes": [
+					"biome/blight_thorns",
+					"biome/flesh_coral"
+				],
+				"rocks": [
+					"biome/blight_rock"
+				],
+				"small": [
+					"biome/blight_stalk"
+				]
+			},
+			"density": {
+				"trees": 0.0225,
+				"bushes": 0.051,
+				"rocks": 0.016,
+				"small": 0.032
+			},
+			"features": {
+				"pools": 1.5,
+				"cover": 2,
+				"bare": 2,
+				"outcrops": 1
+			},
+			"sea_shore": false
+		},
+		"slime": {
+			"name": "slime fen",
+			"ground": {
+				"floor": "slime_floor",
+				"bare": "slime_bare",
+				"liquid": "slime_liquid",
+				"cover": "slime_cover"
+			},
+			"layers": [
+				"slime_ground",
+				"slime_pool",
+				"slime_cover"
+			],
+			"tint": "#b8e0a8",
+			"line": "Everything glistens. Some of it moves.",
+			"props": {
+				"trees": [],
+				"bushes": [
+					"biome/slime_bush",
+					"biome/slime_coral"
+				],
+				"rocks": [
+					"biome/slime_spout"
+				],
+				"small": [
+					"biome/slime_caps",
+					"biome/slime_bloom"
+				]
+			},
+			"density": {
+				"trees": 0.0,
+				"bushes": 0.051,
+				"rocks": 0.0128,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 3,
+				"cover": 2,
+				"bare": 2,
+				"outcrops": 0.5
+			},
+			"sea_shore": false
+		},
+		"bog": {
+			"name": "bog",
+			"ground": {
+				"floor": "bog_floor",
+				"bare": "bog_bare",
+				"liquid": "bog_liquid",
+				"cover": "bog_cover"
+			},
+			"layers": [
+				"bog_ground",
+				"bog_pool",
+				"bog_cover"
+			],
+			"tint": "#b0aa80",
+			"line": "Black water and soft ground that takes a boot and keeps it.",
+			"props": {
+				"trees": [
+					"biome/bog_snag",
+					"biome/bog_birch",
+					"biome/bog_hag"
+				],
+				"bushes": [
+					"biome/bog_scrub",
+					"biome/bog_rushes"
+				],
+				"rocks": [
+					"biome/bog_shelf"
+				],
+				"small": [
+					"biome/bog_rushes"
+				]
+			},
+			"density": {
+				"trees": 0.0225,
+				"bushes": 0.051,
+				"rocks": 0.008,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 4,
+				"cover": 3,
+				"bare": 3,
+				"outcrops": 0.3
+			},
+			"sea_shore": true
+		},
+		"swamp": {
+			"name": "swamp",
+			"ground": {
+				"floor": "swamp_floor",
+				"bare": "swamp_bare",
+				"liquid": "swamp_liquid",
+				"cover": "swamp_cover"
+			},
+			"layers": [
+				"swamp_ground",
+				"swamp_pool",
+				"swamp_cover"
+			],
+			"tint": "#90b8a0",
+			"line": "Warm, wet and loud with things you cannot see.",
+			"props": {
+				"trees": [
+					"biome/swamp_willow",
+					"biome/swamp_grove"
+				],
+				"bushes": [
+					"biome/swamp_bush",
+					"biome/swamp_reeds"
+				],
+				"rocks": [
+					"biome/glow_caps"
+				],
+				"small": [
+					"biome/swamp_reeds",
+					"biome/glow_caps"
+				]
+			},
+			"density": {
+				"trees": 0.06,
+				"bushes": 0.051,
+				"rocks": 0.0064,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 3.5,
+				"cover": 3,
+				"bare": 1,
+				"outcrops": 0.3
+			},
+			"sea_shore": true
+		},
+		"crystal": {
+			"name": "crystal fields",
+			"ground": {
+				"floor": "crystal_floor",
+				"bare": "crystal_bare",
+				"liquid": "crystal_liquid",
+				"cover": "crystal_cover"
+			},
+			"layers": [
+				"crystal_ground",
+				"crystal_pool",
+				"crystal_cover"
+			],
+			"tint": "#c8d0ff",
+			"line": "Crystal grows out of the ground here, humming to itself.",
+			"props": {
+				"trees": [],
+				"bushes": [
+					"biome/crystal_bush"
+				],
+				"rocks": [
+					"biome/crystal_spire",
+					"biome/crystal_rock",
+					"biome/crystal_shards"
+				],
+				"small": [
+					"biome/crystal_shards"
+				]
+			},
+			"density": {
+				"trees": 0.0,
+				"bushes": 0.034,
+				"rocks": 0.048,
+				"small": 0.032
+			},
+			"features": {
+				"pools": 1,
+				"cover": 1.5,
+				"bare": 2,
+				"outcrops": 3
+			},
+			"sea_shore": false
+		},
+		"fungal": {
+			"name": "fungal grove",
+			"ground": {
+				"floor": "fungal_floor",
+				"bare": "fungal_bare",
+				"liquid": "fungal_liquid",
+				"cover": "fungal_cover"
+			},
+			"layers": [
+				"fungal_ground",
+				"fungal_pool",
+				"fungal_cover"
+			],
+			"tint": "#8098c8",
+			"line": "Mushrooms taller than a house, glowing in their own light.",
+			"props": {
+				"trees": [
+					"biome/giant_morel",
+					"biome/great_glowcap"
+				],
+				"bushes": [
+					"biome/fungal_cap",
+					"biome/fungal_shelf"
+				],
+				"rocks": [
+					"biome/stones"
+				],
+				"small": [
+					"biome/spore_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.06,
+				"bushes": 0.051,
+				"rocks": 0.0064,
+				"small": 0.064
+			},
+			"features": {
+				"pools": 1.5,
+				"cover": 2,
+				"bare": 2,
+				"outcrops": 0.5
+			},
+			"sea_shore": false
+		},
+		"blossom": {
+			"name": "blossom vale",
+			"ground": {
+				"floor": "blossom_floor",
+				"bare": "blossom_bare",
+				"liquid": "blossom_liquid",
+				"cover": "blossom_cover"
+			},
+			"layers": [
+				"blossom_ground",
+				"blossom_pool",
+				"blossom_cover"
+			],
+			"tint": "#f8e8f0",
+			"line": "Petals on the wind. Nothing here wants to hurt you, yet.",
+			"props": {
+				"trees": [
+					"biome/blossom_tree",
+					"biome/blossom_grove",
+					"biome/blossom_sapling"
+				],
+				"bushes": [
+					"biome/blossom_bush"
+				],
+				"rocks": [
+					"biome/stones"
+				],
+				"small": [
+					"nature/wildflowers_orange",
+					"nature/wildflowers_red",
+					"nature/wildflowers_blue"
+				]
+			},
+			"density": {
+				"trees": 0.045,
+				"bushes": 0.034,
+				"rocks": 0.0064,
+				"small": 0.08
+			},
+			"features": {
+				"pools": 1.2,
+				"cover": 2.5,
+				"bare": 1.5,
+				"outcrops": 0.3
+			},
+			"sea_shore": true
+		},
+		"barrow": {
+			"name": "barrow downs",
+			"ground": {
+				"floor": "barrow_floor",
+				"bare": "barrow_bare",
+				"liquid": "barrow_liquid",
+				"cover": "barrow_cover"
+			},
+			"layers": [
+				"barrow_ground",
+				"barrow_pool",
+				"barrow_cover"
+			],
+			"tint": "#b0b8b0",
+			"line": "Grey hills over old graves. The stones have names on them.",
+			"props": {
+				"trees": [],
+				"bushes": [
+					"biome/barrow_thorn",
+					"biome/grey_tuft"
+				],
+				"rocks": [
+					"biome/rune_stone",
+					"biome/standing_stone",
+					"biome/cairn"
+				],
+				"small": [
+					"biome/grey_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.0,
+				"bushes": 0.0255,
+				"rocks": 0.032,
+				"small": 0.048
+			},
+			"features": {
+				"pools": 0.5,
+				"cover": 2,
+				"bare": 2,
+				"outcrops": 2
+			},
+			"sea_shore": true
+		},
+		"jungle": {
+			"name": "jungle",
+			"ground": {
+				"floor": "jungle_floor",
+				"bare": "jungle_bare",
+				"liquid": "jungle_liquid",
+				"cover": "jungle_cover"
+			},
+			"layers": [
+				"jungle_ground",
+				"jungle_pool",
+				"jungle_cover"
+			],
+			"tint": "#a8d8a0",
+			"line": "Green on green, vines like ropes, and the air is hot and wet.",
+			"props": {
+				"trees": [
+					"biome/jungle_canopy",
+					"biome/jungle_vines"
+				],
+				"bushes": [
+					"biome/jungle_bush",
+					"biome/jungle_fern"
+				],
+				"rocks": [
+					"biome/mossy_rock"
+				],
+				"small": [
+					"biome/jungle_fern",
+					"biome/jungle_bloom"
+				]
+			},
+			"density": {
+				"trees": 0.075,
+				"bushes": 0.06,
+				"rocks": 0.006,
+				"small": 0.07
+			},
+			"features": {
+				"pools": 1.5,
+				"cover": 5,
+				"bare": 1,
+				"outcrops": 0.3
+			},
+			"sea_shore": true
+		},
+		"taiga": {
+			"name": "taiga",
+			"ground": {
+				"floor": "taiga_floor",
+				"bare": "taiga_bare",
+				"liquid": "taiga_liquid",
+				"cover": "taiga_cover"
+			},
+			"layers": [
+				"taiga_ground",
+				"taiga_pool",
+				"taiga_cover"
+			],
+			"tint": "#d0dce0",
+			"line": "Dark spruce in deep snow. Every sound carries.",
+			"props": {
+				"trees": [
+					"biome/taiga_spruce",
+					"biome/taiga_pine"
+				],
+				"bushes": [
+					"biome/taiga_deadfall"
+				],
+				"rocks": [
+					"biome/frost_boulder"
+				],
+				"small": [
+					"biome/taiga_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.07,
+				"bushes": 0.02,
+				"rocks": 0.01,
+				"small": 0.05
+			},
+			"features": {
+				"pools": 0.6,
+				"cover": 3,
+				"bare": 1.5,
+				"outcrops": 0.6
+			},
+			"sea_shore": true
+		},
+		"mist": {
+			"name": "the mistlands",
+			"ground": {
+				"floor": "mist_floor",
+				"bare": "mist_bare",
+				"liquid": "mist_liquid",
+				"cover": "mist_cover"
+			},
+			"layers": [
+				"mist_ground",
+				"mist_pool",
+				"mist_cover"
+			],
+			"tint": "#b0b4d0",
+			"line": "A fog that never lifts. Shapes move in it, and not all of them are trees.",
+			"props": {
+				"trees": [
+					"biome/mist_tree",
+					"biome/mist_snag"
+				],
+				"bushes": [
+					"biome/mist_coral"
+				],
+				"rocks": [
+					"biome/mist_spire"
+				],
+				"small": [
+					"biome/mist_tuft"
+				]
+			},
+			"density": {
+				"trees": 0.04,
+				"bushes": 0.02,
+				"rocks": 0.016,
+				"small": 0.05
+			},
+			"features": {
+				"pools": 1,
+				"cover": 3,
+				"bare": 2,
+				"outcrops": 1.2
+			},
+			"sea_shore": false
+		}
+	}
+}
