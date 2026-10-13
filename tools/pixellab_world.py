@@ -5,6 +5,7 @@
     python3 tools/pixellab_world.py props snow            every prop of one land
     python3 tools/pixellab_world.py props snow --only snow_fir
     python3 tools/pixellab_world.py all snow dune         ground, then props, land by land
+    python3 tools/pixellab_world.py clear snow            make a land's cover and pool see-through where they are floor
     python3 tools/pixellab_world.py rooms                 the furniture of the insides (art request A5)
 
 What to draw is written in `art/world_prompts.json`: per land, the four grounds (bare, floor, liquid,
@@ -121,6 +122,31 @@ def _write_sheet(sheet_id: str, made: dict, sheets: dict) -> Path:
     return path
 
 
+def _clear_shared(sheet_id: str, sheets: dict) -> None:
+    """Make an overlay sheet's floor see-through, so the ground sheet's own floor shows instead.
+
+    The cover sheet (floor under cover) and the pool sheet (liquid under floor) each come back with
+    their own drawing of the floor, never quite the ground sheet's; laid over it, every edge tile
+    would show a patch of the wrong floor. PixelLab builds each edge tile from its two plain tiles,
+    pixel for pixel, so a pixel that matches the plain floor tile at the same spot is floor: clear it.
+    """
+    sheet = sheets[sheet_id]
+    size = int(sheet["tile_size"])
+    floor_code = 0b0000 if sheet["lower"].endswith("_floor") else 0b1111
+    path = ROOT / sheet["texture"].replace("res://", "")
+    canvas = Image.open(path).convert("RGBA")
+    fx, fy = WANG[floor_code]
+    floor = canvas.crop((fx * size, fy * size, (fx + 1) * size, (fy + 1) * size)).load()
+    pixels = canvas.load()
+    for x, y in WANG.values():
+        for dy in range(size):
+            for dx in range(size):
+                at = (x * size + dx, y * size + dy)
+                if pixels[at][:3] == floor[dx, dy][:3]:
+                    pixels[at] = (0, 0, 0, 0)
+    canvas.save(path)
+
+
 def ground(land: str) -> None:
     prompts = json.loads(PROMPTS.read_text(encoding="utf-8"))["lands"][land]
     data = json.loads(TILESETS.read_text(encoding="utf-8"))
@@ -134,6 +160,8 @@ def ground(land: str) -> None:
     for sheet_id, made in (("%s_ground" % land, base), ("%s_cover" % land, cover), ("%s_pool" % land, pool)):
         print("wrote", _write_sheet(sheet_id, made, sheets).relative_to(ROOT))
         sheets[sheet_id].pop("stand_in", None)
+    _clear_shared("%s_cover" % land, sheets)
+    _clear_shared("%s_pool" % land, sheets)
     TILESETS.write_text(json.dumps(data, indent="\t", ensure_ascii=False) + "\n", encoding="utf-8")
     lab._log({"kind": "ground", "land": land, "tilesets": [base["id"], cover["id"], pool["id"]],
               "generations": before - lab._generations(), "date": time.strftime("%Y-%m-%d")})
@@ -200,7 +228,7 @@ def rooms(only: list[str]) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("what", choices=["ground", "props", "rooms", "all"])
+    parser.add_argument("what", choices=["ground", "props", "rooms", "clear", "all"])
     parser.add_argument("lands", nargs="*")
     parser.add_argument("--mode", choices=["pro", "standard"], default="pro",
                         help="ground: pro draws 64s; standard draws 32s, scaled up, for less")
@@ -212,6 +240,10 @@ def main() -> None:
     for land in args.lands:
         if args.what in ("ground", "all"):
             ground(land)
+        if args.what == "clear":
+            sheets = json.loads(TILESETS.read_text(encoding="utf-8"))["sheets"]
+            _clear_shared("%s_cover" % land, sheets)
+            _clear_shared("%s_pool" % land, sheets)
         if args.what in ("props", "all"):
             props(land, args.only)
 

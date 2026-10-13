@@ -21,6 +21,7 @@ to change. Re-running it overwrites what it wrote and nothing else.
 from __future__ import annotations
 
 import colorsys
+import json
 from pathlib import Path
 
 from PIL import Image
@@ -330,6 +331,12 @@ def recolour(image: Image.Image, mapping: dict[str, Ramp]) -> Image.Image:
 
 
 def main() -> None:
+    # What PixelLab has made since (tools/pixellab_world.py) is never recoloured over: a sheet
+    # still marked `stand_in` in data/tilesets.json, and a prop no prompt names, are the only ones written.
+    sheets = json.loads((ROOT / "data" / "tilesets.json").read_text(encoding="utf-8"))["sheets"]
+    made = set()
+    for land in json.loads((ROOT / "art" / "world_prompts.json").read_text(encoding="utf-8"))["lands"].values():
+        made.update(name.split("/")[-1] for name in land["props"])
     OUT_TILES.mkdir(parents=True, exist_ok=True)
     OUT_PROPS.mkdir(parents=True, exist_ok=True)
     for land, colours in LANDS.items():
@@ -337,6 +344,8 @@ def main() -> None:
             image = Image.open(TILES / f"{source}.png").convert("RGBA")
             mapping = {kind: colours[role] for kind, role in classes.items()}
             target = OUT_TILES / f"{out_name.format(land=land)}.png"
+            if not sheets.get(out_name.format(land=land), {}).get("stand_in", False):
+                continue
             recolour(image, mapping).save(target)
             print("wrote", target.relative_to(ROOT))
         growth = colours.get("growth", colours["floor"])
@@ -349,6 +358,8 @@ def main() -> None:
             elif mode == "glow":
                 mapping.update({"warm": colours["liquid"], "grey": colours["liquid"], "blue": colours["liquid"]})
             target = OUT_PROPS / f"{name}.png"
+            if name in made:
+                continue
             recolour(image, mapping).save(target)
             print("wrote", target.relative_to(ROOT))
     # Plain grey rocks for grassland and forest, which have no rock either.

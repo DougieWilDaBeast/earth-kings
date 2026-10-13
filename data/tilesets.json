@@ -437,24 +437,21 @@
 			"tile_size": 64,
 			"lower": "badlands_bare",
 			"upper": "badlands_floor",
-			"feature": "badlands_bare",
-			"stand_in": true
+			"feature": "badlands_bare"
 		},
 		"badlands_pool": {
 			"texture": "res://art/tilesets/biome/badlands_pool.png",
 			"tile_size": 32,
 			"lower": "badlands_liquid",
 			"upper": "badlands_floor",
-			"feature": "badlands_liquid",
-			"stand_in": true
+			"feature": "badlands_liquid"
 		},
 		"badlands_cover": {
 			"texture": "res://art/tilesets/biome/badlands_cover.png",
 			"tile_size": 64,
 			"lower": "badlands_floor",
 			"upper": "badlands_cover",
-			"feature": "badlands_cover",
-			"stand_in": true
+			"feature": "badlands_cover"
 		},
 		"savanna_ground": {
 			"texture": "res://art/tilesets/biome/savanna_ground.png",
@@ -713,24 +710,21 @@
 			"tile_size": 64,
 			"lower": "taiga_bare",
 			"upper": "taiga_floor",
-			"feature": "taiga_bare",
-			"stand_in": true
+			"feature": "taiga_bare"
 		},
 		"taiga_pool": {
 			"texture": "res://art/tilesets/biome/taiga_pool.png",
 			"tile_size": 32,
 			"lower": "taiga_liquid",
 			"upper": "taiga_floor",
-			"feature": "taiga_liquid",
-			"stand_in": true
+			"feature": "taiga_liquid"
 		},
 		"taiga_cover": {
 			"texture": "res://art/tilesets/biome/taiga_cover.png",
 			"tile_size": 64,
 			"lower": "taiga_floor",
 			"upper": "taiga_cover",
-			"feature": "taiga_cover",
-			"stand_in": true
+			"feature": "taiga_cover"
 		},
 		"mist_ground": {
 			"texture": "res://art/tilesets/biome/mist_ground.png",

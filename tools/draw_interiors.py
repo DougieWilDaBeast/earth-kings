@@ -11,8 +11,8 @@ it"). Rooms want walls, a floor, a bar, tables, a hearth, shelves and kegs, and 
 been drawn. Until `dougie` makes them in PixelLab (docs/24-art-requests.md, request A5), this
 draws plain stand-ins in the same 3/4 view and 64-pixel cell as the rest of the art: a top you
 can see, a front face under it, a dark outline. Replace any file with real art of the same name
-and size and nothing else needs to change. Re-running it overwrites what it wrote and nothing
-else.
+and size and nothing else needs to change. Re-running it overwrites the floors and walls it wrote;
+furniture already on disk is left alone, since that is PixelLab's now.
 
 Writes:
 - art/interior/floor_<style>.png   64 x 64, tiles seamlessly
@@ -604,9 +604,14 @@ def main() -> None:
         "amphorae": amphorae(), "cushions": cushions(), "low_table": low_table(), "candelabra": candelabra(),
         "muster_board": muster_board(), "crates": crates(),
     }
+    drawn = 0
     for name, image in things.items():
+        # The furniture is PixelLab's since 2026-10-13 (tools/pixellab_world.py rooms): never drawn over.
+        if (PROPS / f"{name}.png").exists():
+            continue
         image.save(PROPS / f"{name}.png")
-    print("wrote %d floors, %d walls, %d pieces of furniture" % (len(floors), len(WALL_CAPS), len(things)))
+        drawn += 1
+    print("wrote %d floors, %d walls, %d pieces of furniture" % (len(floors), len(WALL_CAPS), drawn))
 
 
 if __name__ == "__main__":
