@@ -115,10 +115,10 @@ pull request is checked by CI (the suites, a soak, and the ledger).
 1. **The sixteen as the playable lineup — in progress.** `dougie`, 2026-10-13: the sixteen of
    [21](21-the-sixteen-first-draft.md) (Atlas to Liber) are the leads a run starts with, each in
    their own class ([D63](06-decisions.md)); the original twelve in `data/heroes.json` (Bram, Sera,
-   Toln and the rest) stop being leads and become significant NPCs in the main stories. Three pieces
-   are being built now, none merged yet: the sixteen as leads (pick screen, quiz, wanderers), their
-   sixteen classes and starting moves (`data/classes.json` has six), and the twelve moved into the
-   stories as NPCs. Until they land, the twelve still stand in (agenda item 26).
+   Toln and the rest) stop being leads and become significant NPCs in the main stories. Their sixteen
+   classes and starting moves are built ([M11](#m11--the-real-time-fight--in-progress), agenda item
+   68). Still being built: the sixteen as leads (pick screen, quiz, wanderers) and the twelve moved
+   into the stories as NPCs. Until those land, the twelve still stand in (agenda item 26).
 2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
@@ -129,7 +129,7 @@ pull request is checked by CI (the suites, a soak, and the ledger).
 3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
    [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
-   Amber Knight (65), the fight's sounds (66) and the quieter level-up (67). `doug-md` answered
+   Amber Knight (65), the fight's sounds (66), the quieter level-up (67) and the sixteen classes (68). `doug-md` answered
    items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
 4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
