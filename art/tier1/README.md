@@ -20,7 +20,8 @@ founders (`bram`, `sera`, `toln` and the innkeeper, who shares Toln's body), `br
 `cabin_boy`, `hat_fox`, `blood_mosquito`, `slime`, `blue_slime` (redrawn as the Bog Jelly of
 [23](../../docs/23-originality-pass.md)), and the rank-E gate bosses `brigand_chief` (`mace_pirate`),
 `dusk_shadow`, `tide_lion` and `flame_lion`; then the other level-1 faction foes: `legion_copper`,
-`legion_black`, `sea_man` and `eye_leprechaun`. The slimes have no legs to put through PixelLab's moves, so each is
+`legion_black`, `sea_man`, `eye_leprechaun`, `lizard_wizard`, `sea_horse`, and `ember_lizard` and `seed_beast`
+(redrawn as the Cinder Newt and the Mossback of [23](../../docs/23-originality-pass.md)). The slimes and the sea horse have no legs to put through PixelLab's moves, so each is
 a still set moving (`tools/pixellab.py effect --still`), south only, which the fight uses for every
 facing. `magic_swordsman` is not wired yet. Wiring one is a
 `sprite_dir` change in `data/units.json`.
