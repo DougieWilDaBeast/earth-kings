@@ -395,24 +395,21 @@
 			"tile_size": 64,
 			"lower": "snow_bare",
 			"upper": "snow_floor",
-			"feature": "snow_bare",
-			"stand_in": true
+			"feature": "snow_bare"
 		},
 		"snow_pool": {
 			"texture": "res://art/tilesets/biome/snow_pool.png",
 			"tile_size": 32,
 			"lower": "snow_liquid",
 			"upper": "snow_floor",
-			"feature": "snow_liquid",
-			"stand_in": true
+			"feature": "snow_liquid"
 		},
 		"snow_cover": {
 			"texture": "res://art/tilesets/biome/snow_cover.png",
 			"tile_size": 64,
 			"lower": "snow_floor",
 			"upper": "snow_cover",
-			"feature": "snow_cover",
-			"stand_in": true
+			"feature": "snow_cover"
 		},
 		"dune_ground": {
 			"texture": "res://art/tilesets/biome/dune_ground.png",

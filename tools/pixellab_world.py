@@ -141,7 +141,8 @@ def ground(land: str) -> None:
 
 def _object(description: str, width: int, height: int, view: str = "high top-down") -> Image.Image:
     """One prop with a clear background, at [width] x [height]; PixelLab draws no side under 32."""
-    asked = (max(width, 32), max(height, 32))
+    # PixelLab wants even sides, none under 32.
+    asked = (max(width + width % 2, 32), max(height + height % 2, 32))
     body = {"description": description + ", dark fantasy, muted earthy colours",
             "image_size": {"width": asked[0], "height": asked[1]}, "view": view,
             "outline": "single color outline", "shading": "medium shading", "detail": "medium detail"}
