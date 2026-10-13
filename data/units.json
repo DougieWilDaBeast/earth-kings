@@ -1664,5 +1664,245 @@
 		"color": "#c0503f",
 		"body_scale": 2.6,
 		"sprite_dir": "res://art/units/colossal_titan/idle"
+	},
+	"atlas": {
+		"display_name": "Atlas",
+		"job": "The Long Plan",
+		"max_hp": 30,
+		"attack": 20,
+		"defense": 3,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"spark"
+		],
+		"color": "#3b4f8f",
+		"sprite_dir": "res://art/sixteen/atlas/idle"
+	},
+	"janus": {
+		"display_name": "Janus",
+		"job": "The Open Question",
+		"max_hp": 44,
+		"attack": 12,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 11,
+		"abilities": [
+			"strike"
+		],
+		"color": "#6a7f9a",
+		"sprite_dir": "res://art/sixteen/janus/idle"
+	},
+	"bellona": {
+		"display_name": "Bellona",
+		"job": "The Marshal",
+		"max_hp": 56,
+		"attack": 15,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 11,
+		"abilities": [
+			"strike"
+		],
+		"color": "#d4a63c",
+		"sprite_dir": "res://art/sixteen/bellona/idle"
+	},
+	"cassius": {
+		"display_name": "Cassius",
+		"job": "The Contrary",
+		"max_hp": 48,
+		"attack": 14,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#c8463c",
+		"sprite_dir": "res://art/sixteen/cassius/idle"
+	},
+	"saturn": {
+		"display_name": "Saturn",
+		"job": "The Quiet Cause",
+		"max_hp": 52,
+		"attack": 14,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#8a6d2f",
+		"sprite_dir": "res://art/sixteen/saturn/idle"
+	},
+	"vesta": {
+		"display_name": "Vesta",
+		"job": "The Kept Flame",
+		"max_hp": 44,
+		"attack": 9,
+		"defense": 6,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"ember"
+		],
+		"color": "#e6e1d0",
+		"sprite_dir": "res://art/sixteen/vesta/idle"
+	},
+	"caesar": {
+		"display_name": "Caesar",
+		"job": "The Gatherer",
+		"max_hp": 60,
+		"attack": 14,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": [
+			"strike"
+		],
+		"color": "#c9873a",
+		"sprite_dir": "res://art/sixteen/caesar/idle"
+	},
+	"iris": {
+		"display_name": "Iris",
+		"job": "The Spark",
+		"max_hp": 36,
+		"attack": 13,
+		"defense": 4,
+		"move": 5,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"dart"
+		],
+		"color": "#59c3a1",
+		"sprite_dir": "res://art/sixteen/iris/idle"
+	},
+	"pluto": {
+		"display_name": "Pluto",
+		"job": "The Ledger",
+		"max_hp": 30,
+		"attack": 10,
+		"defense": 4,
+		"move": 4,
+		"jump": 2,
+		"speed": 10,
+		"abilities": [
+			"strike"
+		],
+		"color": "#4a3f6b",
+		"sprite_dir": "res://art/sixteen/pluto/idle"
+	},
+	"ceres": {
+		"display_name": "Ceres",
+		"job": "The Keeper",
+		"max_hp": 50,
+		"attack": 11,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#7f9a3a",
+		"sprite_dir": "res://art/sixteen/ceres/idle"
+	},
+	"cato": {
+		"display_name": "Cato",
+		"job": "The Straight Road",
+		"max_hp": 62,
+		"attack": 13,
+		"defense": 11,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"color": "#3a3a44",
+		"sprite_dir": "res://art/sixteen/cato/idle"
+	},
+	"juno": {
+		"display_name": "Juno",
+		"job": "The Full Table",
+		"max_hp": 46,
+		"attack": 12,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#b04a6a",
+		"sprite_dir": "res://art/sixteen/juno/idle"
+	},
+	"ultor": {
+		"display_name": "Ultor",
+		"job": "The Steady Hand",
+		"max_hp": 44,
+		"attack": 17,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"strike"
+		],
+		"color": "#6f7fc0",
+		"sprite_dir": "res://art/sixteen/ultor/idle"
+	},
+	"diana": {
+		"display_name": "Diana",
+		"job": "The Own Path",
+		"max_hp": 40,
+		"attack": 12,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"arc_shot"
+		],
+		"color": "#8fb6c9",
+		"sprite_dir": "res://art/sixteen/diana/idle"
+	},
+	"ares": {
+		"display_name": "Ares",
+		"job": "The First Move",
+		"max_hp": 70,
+		"attack": 20,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"color": "#a33a2a",
+		"sprite_dir": "res://art/sixteen/ares/idle"
+	},
+	"liber": {
+		"display_name": "Liber",
+		"job": "The Bright Hour",
+		"max_hp": 48,
+		"attack": 14,
+		"defense": 5,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"strike"
+		],
+		"color": "#e0703a",
+		"sprite_dir": "res://art/sixteen/liber/idle"
 	}
 }

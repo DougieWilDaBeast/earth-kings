@@ -112,13 +112,13 @@ class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-b
 direction on 2026-10-13: get the early game playable before polishing art. Since 2026-09-26 every
 pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **The sixteen as the playable lineup — in progress.** `dougie`, 2026-10-13: the sixteen of
+1. **The sixteen as the playable lineup — mostly built.** `dougie`, 2026-10-13: the sixteen of
    [21](21-the-sixteen-first-draft.md) (Atlas to Liber) are the leads a run starts with, each in
-   their own class ([D63](06-decisions.md)); the original twelve in `data/heroes.json` (Bram, Sera,
-   Toln and the rest) stop being leads and become significant NPCs in the main stories. Their sixteen
-   classes and starting moves are built ([M11](#m11--the-real-time-fight--in-progress), agenda item
-   68). Still being built: the sixteen as leads (pick screen, quiz, wanderers) and the twelve moved
-   into the stories as NPCs. Until those land, the twelve still stand in (agenda item 26).
+   their own class ([D63](06-decisions.md)), and the original twelve (Bram, Sera, Toln and the rest)
+   stop being leads and become significant NPCs in the main stories. Built 2026-10-13: the sixteen
+   classes and starting moves ([M11](#m11--the-real-time-fight--in-progress), agenda item 68) and the
+   sixteen as the leads, in their own bodies, the other fifteen settling where 21 puts them
+   ([D78](06-decisions.md), agenda item 69). Still being built: the twelve moved into the stories as NPCs.
 2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
@@ -129,12 +129,13 @@ pull request is checked by CI (the suites, a soak, and the ledger).
 3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
    [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
-   Amber Knight (65), the fight's sounds (66), the quieter level-up (67) and the sixteen classes (68). `doug-md` answered
+   Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68)
+   and the sixteen as leads (69). `doug-md` answered
    items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
 4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
-   [21](21-the-sixteen-first-draft.md); their memories, shared mark and signature weapons
-   ([D39](06-decisions.md), M13) are not written.
+   [21](21-the-sixteen-first-draft.md) and built as the leads ([D78](06-decisions.md)); their
+   memories, shared mark and own quest lines (M13) are not written.
 5. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
@@ -177,7 +178,7 @@ is left is art: the moves of the units not yet drawn, and the fight effects and 
 - Walk, attack, skill, hit and death played in the fight ✅ (2026-10-13, [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)):
   the founders' three bodies, the first foes, the early big units and the rank-E gate bosses, 28
   units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1). The
-  fight effects and status icons are made and not wired yet; the sixteen have no fight sets yet
+  fight effects and status icons are made and not wired yet; the sixteen fight on their standing pose until their sets are drawn
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
   companion can reach ✅; when it runs out the fall is settled through `Fate.resolve`, as the
   turn-based battle settled it ✅ (a sandbox fight only rolls `Fate.roll` and writes nothing back;
@@ -265,10 +266,10 @@ sitting, and the reading of a hearth on agenda item 15.
 - Random crash sites per world, replacing fixed starting hearths ✅ (2026-10-12,
   `src/chronicle/fall.gd`): drawn from the world seed and the lead, and the crater becomes Home
 - The fifteen living their own lives: moving between places by temper, instead of standing in one
-  area ✅ (2026-10-12, `src/chronicle/wanderers.gd`), with the twelve existing heroes standing in
-  until the sixteen are written. Since 2026-10-13 the sixteen are the playable lineup and the twelve
-  become story NPCs; that change is being built (Next steps, 1). Heard of at inns and on rests, seen where they stand, met with
-  **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
+  area ✅ (2026-10-12, `src/chronicle/wanderers.gd`). Since 2026-10-13 they are the sixteen
+  themselves, each settling where [21](21-the-sixteen-first-draft.md) puts them ([D78](06-decisions.md));
+  the twelve stand-ins becoming story NPCs is being built (Next steps, 1). Heard of at inns and on
+  rests, seen where they stand, met with **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
   — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other

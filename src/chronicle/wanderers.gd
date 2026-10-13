@@ -59,6 +59,12 @@ static func temper_of(hero_id: String) -> String:
 	return str(rules().get("tempers", {}).get(hero_id, "ISTJ"))
 
 
+## The kind of place this one of the sixteen makes their own when somebody
+## else is the lead (`heroes.json` → `found_at`, from docs/21), or "".
+static func home_kind(hero_id: String) -> String:
+	return str(Database.hero(hero_id).get("found_at", ""))
+
+
 ## NT, NF, SJ or SP: the pair that says most about where somebody goes.
 static func group_of(hero_id: String) -> String:
 	var code := temper_of(hero_id)
@@ -95,7 +101,8 @@ static func land(world: World, roster: Roster, reach: Dictionary = {}) -> void:
 			"heard": false,
 			"joined": false,
 		}
-		_set_off(world, entry)
+		if not _head_home(world, entry, cell):
+			_set_off(world, entry)
 		world.wanderers.append(entry)
 
 
@@ -114,9 +121,8 @@ static func upkeep(world: World) -> Array:
 				entry["at"] = [int(to[0]), int(to[1])]
 				entry["to"] = []
 				var rng := _dice(world, entry)
-				entry["stay_until"] = world.steps + rng.randi_range(
-					int(pace().get("stay_min", 60)), int(pace().get("stay_max", 180))
-				)
+				var stay := rng.randi_range(int(pace().get("stay_min", 60)), int(pace().get("stay_max", 180)))
+				entry["stay_until"] = world.steps + int(stay * _stay_scale(world, entry))
 		elif world.steps >= int(entry.get("stay_until", 0)):
 			_set_off(world, entry)
 	return []
@@ -133,10 +139,44 @@ static func _set_off(world: World, entry: Dictionary) -> void:
 	entry["arrives"] = world.steps + maxi(1, Pathfinder.distance(from, next.cell) * int(pace().get("steps_per_tile", 2)))
 
 
+## Out of the crater, straight for the nearest place of their own kind. False
+## when they have no such kind or the world has none of it.
+static func _head_home(world: World, entry: Dictionary, from: Vector2i) -> bool:
+	var kind := home_kind(str(entry.get("id", "")))
+	if kind == "":
+		return false
+	var best: Site = null
+	for site: Site in world.sites:
+		if site.kind != kind or Town.is_ruined(site) or (site.kind == Site.GATE and site.cleared):
+			continue
+		if best == null or Pathfinder.distance(from, site.cell) < Pathfinder.distance(from, best.cell):
+			best = site
+	if best == null:
+		return false
+	entry["to"] = [best.cell.x, best.cell.y]
+	entry["arrives"] = world.steps + maxi(1, Pathfinder.distance(from, best.cell) * int(pace().get("steps_per_tile", 2)))
+	return true
+
+
+## How much longer than usual they stay where they have stopped: a while at a
+## place of their own kind, hardly at all for the restless.
+static func _stay_scale(world: World, entry: Dictionary) -> float:
+	var hero_id := str(entry.get("id", ""))
+	if bool(Database.hero(hero_id).get("restless", false)):
+		return float(pace().get("restless_stay", 1.0))
+	var site := world.site_at(cell_of(entry.get("at", [])))
+	if site != null and site.kind == home_kind(hero_id):
+		return float(pace().get("home_stay", 1.0))
+	return 1.0
+
+
 ## Somewhere to go next, weighted by how much this temper likes that kind of
 ## place and by how near it is.
 static func _next_place(world: World, hero_id: String, from: Vector2i, rng: RandomNumberGenerator) -> Site:
-	var likes: Dictionary = rules().get("preferences", {}).get(group_of(hero_id), {})
+	var likes: Dictionary = rules().get("preferences", {}).get(group_of(hero_id), {}).duplicate()
+	var own := home_kind(hero_id)
+	if own != "":
+		likes[own] = float(likes.get(own, 0)) + float(pace().get("home_liking", 0))
 	var options: Array[Site] = []
 	var weights: Array[float] = []
 	var total := 0.0
@@ -262,6 +302,9 @@ static func rumour(world: World) -> String:
 	if site == null:
 		return ""
 	_know(world, each, site.cell, true)
+	var own := str(Database.hero(hero_id).get("rumour", ""))
+	if own != "" and site.kind == home_kind(hero_id):
+		return _say(own, hero_id, world, site)
 	var said: Array = lines().get("rumour", [])
 	if said.is_empty():
 		return ""
@@ -294,6 +337,10 @@ static func conversation(world: World, roster: Roster, hero_id: String) -> Dicti
 	var who := name_of(hero_id)
 	var first := int(each.get("met", 1)) <= 1
 	var greeting: Array = said.get("first" if first else "again", {}).get(group, [])
+	# Their own words the first time, where docs/21's draft gives them a voice.
+	var own_first := str(Database.hero(hero_id).get("first", ""))
+	if first and own_first != "":
+		greeting = [own_first]
 
 	var join_to := "join"
 	if not roster.has_room():

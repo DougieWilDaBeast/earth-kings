@@ -220,7 +220,11 @@ func _check_old_saves() -> void:
 	# A v3 run, written back the way 2 wrote it: an alignment, the bed's extra HP
 	# under `hearth`, and none of the four newer history fields.
 	_clear_saves()
-	GameState.new_game(31)
+	# The sixteen's history is cast late (docs/13), so one is lent a creed here
+	# for the step from 2 to have something to fill in.
+	var kept_creed: String = str(Database.hero("caesar").get("creed", ""))
+	Database.heroes["caesar"]["creed"] = "the_open_hand"
+	GameState.new_game(31, "caesar")
 	var lead := GameState.roster.player()
 	lead.hearth_vigour = 2
 	var lead_id := lead.id
@@ -241,6 +245,7 @@ func _check_old_saves() -> void:
 	_expect(GameState.gold == 612, "a version 2 save came back with %d gold, not 612" % GameState.gold)
 	_expect(back != null and back.hearth_vigour == 2, "the bed's extra HP did not survive the step from 2")
 	_expect(want_creed != "" and back != null and back.creed == want_creed,"the lead's creed was not filled in from their hero record")
+	Database.heroes["caesar"]["creed"] = kept_creed
 	_expect(FileAccess.file_exists(SaveFile.version_backup_path(GameState.SAVE_PATH, 2)), "the version 2 save was not set aside before upgrading")
 	_expect(not _notices.is_empty(), "nobody was told the save was upgraded")
 

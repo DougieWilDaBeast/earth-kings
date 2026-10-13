@@ -1290,8 +1290,8 @@ func _check_sixteen() -> void:
 	var kept_mode := GameState.mode
 	GameState.mode = RunMode.IRON_MAN
 
-	# The first world: Bram gets to level 4 and floor 3, and dies.
-	GameState.new_game(SEED, "bram")
+	# The first world: Caesar gets to level 4 and floor 3, and dies.
+	GameState.new_game(SEED, "caesar")
 	var first: World = GameState.world
 	var first_tiles: Array = first.tiles.duplicate()
 	var first_lead := GameState.roster.player()
@@ -1330,54 +1330,54 @@ func _check_sixteen() -> void:
 	await get_tree().process_frame
 
 	# The next lead, in a sibling world.
-	GameState.new_game(0, "fox_knight")
+	GameState.new_game(0, "ares")
 	var world: World = GameState.world
 	var lead := GameState.roster.player()
 	_expect(world.world_seed == SEED and Siblings.number(world) == 2, "the next world was seed %d, world %d, not a sibling of %d" % [world.world_seed, Siblings.number(world), SEED])
 	_expect(world.tiles == first_tiles, "the sibling world is not the same ground")
-	_expect(lead.template_id == "fox_knight" and lead.level == 1, "the next lead did not start at level 1")
-	_expect(Chapters.census(world) == 16, "the census counted Bram out before the climb got as far as he did")
+	_expect(lead.template_id == "ares" and lead.level == 1, "the next lead did not start at level 1")
+	_expect(Chapters.census(world) == 16, "the census counted Caesar out before the climb got as far as he did")
 
-	# Bram, alive here, somewhere findable, and talking like one of the sixteen.
-	var copy := Wanderers.entry(world, "bram")
-	_expect(bool(copy.get("echo", false)), "Bram is not alive in the next world")
+	# Caesar, alive here, somewhere findable, and talking like one of the sixteen.
+	var copy := Wanderers.entry(world, "caesar")
+	_expect(bool(copy.get("echo", false)), "Caesar is not alive in the next world")
 	var waiting := world.site_at(Wanderers.cell_of(copy.get("at", [])))
-	_expect(waiting != null and not (copy.get("known", []) as Array).is_empty(), "nobody knows where Bram is")
-	var talk_id := Wanderers.talk(world, GameState.roster, "bram")
-	_expect(Database.dialogue(talk_id).get("nodes", {}).has("echo"), "Bram's copy has nothing to say to the one who knew him")
+	_expect(waiting != null and not (copy.get("known", []) as Array).is_empty(), "nobody knows where Caesar is")
+	var talk_id := Wanderers.talk(world, GameState.roster, "caesar")
+	_expect(Database.dialogue(talk_id).get("nodes", {}).has("echo"), "Caesar's copy has nothing to say to the one who knew him")
 
 	# His weapon waits until the new lead has got as far as he did.
-	var echo := Siblings.echo_of(world, "bram")
+	var echo := Siblings.echo_of(world, "caesar")
 	var weapon: Dictionary = echo.get("weapon", {})
-	_expect(str(weapon.get("id", "")) == "oathkeeper", "Bram's weapon is '%s'" % weapon.get("id", ""))
-	_expect(Siblings.upkeep(world).is_empty() and not bool(weapon.get("landed", false)), "Bram's weapon came down before anyone got as far as he did")
-	_expect(Siblings.ghosts(world).is_empty(), "Bram's ghost was at the fire before he had anything to tell")
+	_expect(str(weapon.get("id", "")) == "every_morning", "Caesar's weapon is '%s'" % weapon.get("id", ""))
+	_expect(Siblings.upkeep(world).is_empty() and not bool(weapon.get("landed", false)), "Caesar's weapon came down before anyone got as far as he did")
+	_expect(Siblings.ghosts(world).is_empty(), "Caesar's ghost was at the fire before he had anything to tell")
 	lead.level = 4
 	world.tower_floor = 3
-	_expect(not Siblings.upkeep(world).is_empty() and bool(weapon.get("landed", false)), "Bram's weapon never came down")
-	_expect(Chapters.census(world) == 15, "the census still read sixteen at Bram's floor")
-	_expect(not Siblings.rumour(world).is_empty() and Siblings.heard_weapons(world).size() == 1, "no rumour points at Bram's weapon")
+	_expect(not Siblings.upkeep(world).is_empty() and bool(weapon.get("landed", false)), "Caesar's weapon never came down")
+	_expect(Chapters.census(world) == 15, "the census still read sixteen at Caesar's floor")
+	_expect(not Siblings.rumour(world).is_empty() and Siblings.heard_weapons(world).size() == 1, "no rumour points at Caesar's weapon")
 	var cell := Wanderers.cell_of(weapon.get("cell", []))
 	var home := world.home()
 	# Anywhere the company can walk (D60), but never on top of where they fell.
-	_expect(Pathfinder.distance(cell, home.cell) >= int(Siblings.rules().get("weapon", {}).get("min_distance", 5)), "Bram's weapon came down on top of where the lead fell")
-	_expect(world.site_at(cell) == null and not Fall.NOT_GROUND.has(world.terrain_id_at(cell)), "Bram's weapon came down somewhere nobody can stand")
-	_expect(Siblings.ghosts(world) == [0], "Bram's ghost is not at the fire")
+	_expect(Pathfinder.distance(cell, home.cell) >= int(Siblings.rules().get("weapon", {}).get("min_distance", 5)), "Caesar's weapon came down on top of where the lead fell")
+	_expect(world.site_at(cell) == null and not Fall.NOT_GROUND.has(world.terrain_id_at(cell)), "Caesar's weapon came down somewhere nobody can stand")
+	_expect(Siblings.ghosts(world) == [0], "Caesar's ghost is not at the fire")
 	var camp: Node = load("res://src/area/area_scene.tscn").instantiate()
 	camp.boot_payload = { "area_id": "home", "return_scene": "world" }
 	add_child(camp)
 	await get_tree().process_frame
-	_expect(camp.map.people.any(func(p: Dictionary) -> bool: return p.has("ghost")), "nobody sat at the fire for Bram")
+	_expect(camp.map.people.any(func(p: Dictionary) -> bool: return p.has("ghost")), "nobody sat at the fire for Caesar")
 	camp.queue_free()
 	await get_tree().process_frame
 	var ghost_id := Siblings.ghost_talk(world, 0)
-	_expect(Database.dialogue(ghost_id).get("nodes", {}).has("weapon"), "Bram's ghost cannot say where his weapon went")
-	_expect(not Siblings.on_arrive(world, cell).is_empty() and GameState.stores.has("oathkeeper"), "walking onto the crater did not find Bram's weapon")
+	_expect(Database.dialogue(ghost_id).get("nodes", {}).has("weapon"), "Caesar's ghost cannot say where his weapon went")
+	_expect(not Siblings.on_arrive(world, cell).is_empty() and GameState.stores.has("every_morning"), "walking onto the crater did not find Caesar's weapon")
 	_expect(Siblings.pages_shared(echo) == (echo.get("pages", []) as Array).size(), "finding the weapon did not open the ghost fully")
 
 	GameState.save()
 	GameState.load_save()
-	_expect(bool(Siblings.echo_of(GameState.world, "bram").get("weapon", {}).get("found", false)), "the save forgot what came through from the world that ended")
+	_expect(bool(Siblings.echo_of(GameState.world, "caesar").get("weapon", {}).get("found", false)), "the save forgot what came through from the world that ended")
 
 	if FileAccess.file_exists(Sixteen.path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
@@ -1389,7 +1389,7 @@ func _check_sixteen() -> void:
 	else:
 		FileAccess.open(Museum.PATH, FileAccess.WRITE).store_string(hall)
 	GameState.new_game(SEED)
-	print("sixteen worlds: Bram fell on floor 3, the world burned, and Fox Fire Knight found Bram alive, then his weapon and his ghost")
+	print("sixteen worlds: Caesar fell on floor 3, the world burned, and Ares found Caesar alive, then his weapon and his ghost")
 
 
 func _check_fall() -> void:
@@ -1412,7 +1412,18 @@ func _check_fall() -> void:
 	_expect(not Fall.quest_progress(world).is_empty(), "the standing quest says nothing about the climb")
 	_expect(not Fall.landing_dialogue(world, "Bram").get("lines", []).is_empty(), "the landing has nothing to say")
 
-	_expect(world.wanderers.size() == Database.heroes.size() - 3, "%d others landed, not %d" % [world.wanderers.size(), Database.heroes.size() - 3])
+	# Every lead the run did not start with is out there (D78).
+	var others := Database.heroes.keys().filter(func(id: String) -> bool:
+		return not GameState.roster.characters.any(func(c: Character) -> bool: return c.template_id == id)
+	).size()
+	_expect(world.wanderers.size() == others, "%d others landed, not %d" % [world.wanderers.size(), others])
+	# Each walks first for the kind of place that is their own when someone else leads.
+	for each: Dictionary in world.wanderers:
+		var own := Wanderers.home_kind(str(each["id"]))
+		var going := world.site_at(Wanderers.cell_of(each.get("to", [])))
+		# Still on the first leg out of the crater: never stopped anywhere yet.
+		if own != "" and going != null and int(each.get("stay_until", 0)) == 0:
+			_expect(going.kind == own, "%s set off for a %s, not a %s" % [each["id"], going.kind, own])
 	# Time passes: everyone gets somewhere, and stays a while.
 	var steps := world.steps
 	for i in 20:
@@ -1455,7 +1466,7 @@ func _check_fall() -> void:
 	GameState.load_save()
 	world = GameState.world
 	_scene.world = world
-	_expect(world.wanderers.size() == Database.heroes.size() - 3, "the others did not survive a save")
+	_expect(world.wanderers.size() == others, "the others did not survive a save")
 	_expect(bool(Wanderers.entry(world, hero_id).get("joined", false)), "a save forgot %s had joined" % hero_id)
 	print("fall: landed %s from the Tower, %d others walking, met and joined %s" % [
 		Pathfinder.distance(house.cell, tower.cell), world.wanderers.size(), hero_id
