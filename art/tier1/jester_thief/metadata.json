@@ -1,0 +1,316 @@
+{
+ "id": "jester_thief",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "jester_thief",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as A Jester thief, with dark clothes but clown face and jester hat with bells on it. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "name": "attack",
+   "action": "drawing a shortbow and loosing an arrow, then lowering it",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "name": "skill",
+   "action": "leaping back and loosing an arrow high in an arc",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/jester_thief_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "f624aeac-e9c0-4292-ad78-ab85b3b3307d",
+     "name": "jester_thief",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T07:08:29.131665+00:00"
+    },
+    "folder": "jester_thief",
+    "frames": {
+     "rotations": {
+      "south": "jester_thief/rotations/south.png",
+      "south-east": "jester_thief/rotations/south-east.png",
+      "east": "jester_thief/rotations/east.png",
+      "north-east": "jester_thief/rotations/north-east.png",
+      "north": "jester_thief/rotations/north.png",
+      "north-west": "jester_thief/rotations/north-west.png",
+      "west": "jester_thief/rotations/west.png",
+      "south-west": "jester_thief/rotations/south-west.png"
+     },
+     "animations": {
+      "taking_a_punch": {
+       "west": [
+        "jester_thief/animations/taking_a_punch/west/frame_000.png",
+        "jester_thief/animations/taking_a_punch/west/frame_001.png",
+        "jester_thief/animations/taking_a_punch/west/frame_002.png",
+        "jester_thief/animations/taking_a_punch/west/frame_003.png",
+        "jester_thief/animations/taking_a_punch/west/frame_004.png",
+        "jester_thief/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "south": [
+        "jester_thief/animations/taking_a_punch/south/frame_000.png",
+        "jester_thief/animations/taking_a_punch/south/frame_001.png",
+        "jester_thief/animations/taking_a_punch/south/frame_002.png",
+        "jester_thief/animations/taking_a_punch/south/frame_003.png",
+        "jester_thief/animations/taking_a_punch/south/frame_004.png",
+        "jester_thief/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "east": [
+        "jester_thief/animations/taking_a_punch/east/frame_000.png",
+        "jester_thief/animations/taking_a_punch/east/frame_001.png",
+        "jester_thief/animations/taking_a_punch/east/frame_002.png",
+        "jester_thief/animations/taking_a_punch/east/frame_003.png",
+        "jester_thief/animations/taking_a_punch/east/frame_004.png",
+        "jester_thief/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "north": [
+        "jester_thief/animations/taking_a_punch/north/frame_000.png",
+        "jester_thief/animations/taking_a_punch/north/frame_001.png",
+        "jester_thief/animations/taking_a_punch/north/frame_002.png",
+        "jester_thief/animations/taking_a_punch/north/frame_003.png",
+        "jester_thief/animations/taking_a_punch/north/frame_004.png",
+        "jester_thief/animations/taking_a_punch/north/frame_005.png"
+       ]
+      },
+      "attack": {
+       "east": [
+        "jester_thief/animations/attack/east/frame_000.png",
+        "jester_thief/animations/attack/east/frame_001.png",
+        "jester_thief/animations/attack/east/frame_002.png",
+        "jester_thief/animations/attack/east/frame_003.png",
+        "jester_thief/animations/attack/east/frame_004.png",
+        "jester_thief/animations/attack/east/frame_005.png",
+        "jester_thief/animations/attack/east/frame_006.png",
+        "jester_thief/animations/attack/east/frame_007.png",
+        "jester_thief/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "jester_thief/animations/attack/west/frame_000.png",
+        "jester_thief/animations/attack/west/frame_001.png",
+        "jester_thief/animations/attack/west/frame_002.png",
+        "jester_thief/animations/attack/west/frame_003.png",
+        "jester_thief/animations/attack/west/frame_004.png",
+        "jester_thief/animations/attack/west/frame_005.png",
+        "jester_thief/animations/attack/west/frame_006.png",
+        "jester_thief/animations/attack/west/frame_007.png",
+        "jester_thief/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "jester_thief/animations/attack/south/frame_000.png",
+        "jester_thief/animations/attack/south/frame_001.png",
+        "jester_thief/animations/attack/south/frame_002.png",
+        "jester_thief/animations/attack/south/frame_003.png",
+        "jester_thief/animations/attack/south/frame_004.png",
+        "jester_thief/animations/attack/south/frame_005.png",
+        "jester_thief/animations/attack/south/frame_006.png",
+        "jester_thief/animations/attack/south/frame_007.png",
+        "jester_thief/animations/attack/south/frame_008.png"
+       ],
+       "north": [
+        "jester_thief/animations/attack/north/frame_000.png",
+        "jester_thief/animations/attack/north/frame_001.png",
+        "jester_thief/animations/attack/north/frame_002.png",
+        "jester_thief/animations/attack/north/frame_003.png",
+        "jester_thief/animations/attack/north/frame_004.png",
+        "jester_thief/animations/attack/north/frame_005.png",
+        "jester_thief/animations/attack/north/frame_006.png",
+        "jester_thief/animations/attack/north/frame_007.png",
+        "jester_thief/animations/attack/north/frame_008.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "jester_thief/animations/skill/west/frame_000.png",
+        "jester_thief/animations/skill/west/frame_001.png",
+        "jester_thief/animations/skill/west/frame_002.png",
+        "jester_thief/animations/skill/west/frame_003.png",
+        "jester_thief/animations/skill/west/frame_004.png",
+        "jester_thief/animations/skill/west/frame_005.png",
+        "jester_thief/animations/skill/west/frame_006.png",
+        "jester_thief/animations/skill/west/frame_007.png",
+        "jester_thief/animations/skill/west/frame_008.png"
+       ],
+       "east": [
+        "jester_thief/animations/skill/east/frame_000.png",
+        "jester_thief/animations/skill/east/frame_001.png",
+        "jester_thief/animations/skill/east/frame_002.png",
+        "jester_thief/animations/skill/east/frame_003.png",
+        "jester_thief/animations/skill/east/frame_004.png",
+        "jester_thief/animations/skill/east/frame_005.png",
+        "jester_thief/animations/skill/east/frame_006.png",
+        "jester_thief/animations/skill/east/frame_007.png",
+        "jester_thief/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "jester_thief/animations/skill/south/frame_000.png",
+        "jester_thief/animations/skill/south/frame_001.png",
+        "jester_thief/animations/skill/south/frame_002.png",
+        "jester_thief/animations/skill/south/frame_003.png",
+        "jester_thief/animations/skill/south/frame_004.png",
+        "jester_thief/animations/skill/south/frame_005.png",
+        "jester_thief/animations/skill/south/frame_006.png",
+        "jester_thief/animations/skill/south/frame_007.png",
+        "jester_thief/animations/skill/south/frame_008.png"
+       ],
+       "north": [
+        "jester_thief/animations/skill/north/frame_000.png",
+        "jester_thief/animations/skill/north/frame_001.png",
+        "jester_thief/animations/skill/north/frame_002.png",
+        "jester_thief/animations/skill/north/frame_003.png",
+        "jester_thief/animations/skill/north/frame_004.png",
+        "jester_thief/animations/skill/north/frame_005.png",
+        "jester_thief/animations/skill/north/frame_006.png",
+        "jester_thief/animations/skill/north/frame_007.png",
+        "jester_thief/animations/skill/north/frame_008.png"
+       ]
+      },
+      "falling_backward": {
+       "west": [
+        "jester_thief/animations/falling_backward/west/frame_000.png",
+        "jester_thief/animations/falling_backward/west/frame_001.png",
+        "jester_thief/animations/falling_backward/west/frame_002.png",
+        "jester_thief/animations/falling_backward/west/frame_003.png",
+        "jester_thief/animations/falling_backward/west/frame_004.png",
+        "jester_thief/animations/falling_backward/west/frame_005.png",
+        "jester_thief/animations/falling_backward/west/frame_006.png"
+       ],
+       "south": [
+        "jester_thief/animations/falling_backward/south/frame_000.png",
+        "jester_thief/animations/falling_backward/south/frame_001.png",
+        "jester_thief/animations/falling_backward/south/frame_002.png",
+        "jester_thief/animations/falling_backward/south/frame_003.png",
+        "jester_thief/animations/falling_backward/south/frame_004.png",
+        "jester_thief/animations/falling_backward/south/frame_005.png",
+        "jester_thief/animations/falling_backward/south/frame_006.png"
+       ],
+       "east": [
+        "jester_thief/animations/falling_backward/east/frame_000.png",
+        "jester_thief/animations/falling_backward/east/frame_001.png",
+        "jester_thief/animations/falling_backward/east/frame_002.png",
+        "jester_thief/animations/falling_backward/east/frame_003.png",
+        "jester_thief/animations/falling_backward/east/frame_004.png",
+        "jester_thief/animations/falling_backward/east/frame_005.png",
+        "jester_thief/animations/falling_backward/east/frame_006.png"
+       ],
+       "north": [
+        "jester_thief/animations/falling_backward/north/frame_000.png",
+        "jester_thief/animations/falling_backward/north/frame_001.png",
+        "jester_thief/animations/falling_backward/north/frame_002.png",
+        "jester_thief/animations/falling_backward/north/frame_003.png",
+        "jester_thief/animations/falling_backward/north/frame_004.png",
+        "jester_thief/animations/falling_backward/north/frame_005.png",
+        "jester_thief/animations/falling_backward/north/frame_006.png"
+       ]
+      },
+      "walking": {
+       "west": [
+        "jester_thief/animations/walking/west/frame_000.png",
+        "jester_thief/animations/walking/west/frame_001.png",
+        "jester_thief/animations/walking/west/frame_002.png",
+        "jester_thief/animations/walking/west/frame_003.png",
+        "jester_thief/animations/walking/west/frame_004.png",
+        "jester_thief/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "jester_thief/animations/walking/south/frame_000.png",
+        "jester_thief/animations/walking/south/frame_001.png",
+        "jester_thief/animations/walking/south/frame_002.png",
+        "jester_thief/animations/walking/south/frame_003.png",
+        "jester_thief/animations/walking/south/frame_004.png",
+        "jester_thief/animations/walking/south/frame_005.png"
+       ],
+       "north": [
+        "jester_thief/animations/walking/north/frame_000.png",
+        "jester_thief/animations/walking/north/frame_001.png",
+        "jester_thief/animations/walking/north/frame_002.png",
+        "jester_thief/animations/walking/north/frame_003.png",
+        "jester_thief/animations/walking/north/frame_004.png",
+        "jester_thief/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "jester_thief/animations/walking/east/frame_000.png",
+        "jester_thief/animations/walking/east/frame_001.png",
+        "jester_thief/animations/walking/east/frame_002.png",
+        "jester_thief/animations/walking/east/frame_003.png",
+        "jester_thief/animations/walking/east/frame_004.png",
+        "jester_thief/animations/walking/east/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T07:25:37.505812"
+ }
+}

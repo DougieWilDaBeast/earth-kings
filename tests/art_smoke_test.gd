@@ -77,7 +77,7 @@ func _check_moves() -> void:
 	knight.stand()
 	_expect(knight.current_sprite() == standing, "standing up did not bring back the standing pose")
 	knight.free()
-	var plain := Unit.create("goblin", Unit.Team.ENEMY, Vector2i.ZERO)
+	var plain := Unit.create(_unanimated(), Unit.Team.ENEMY, Vector2i.ZERO)
 	plain.play("attack")
 	_expect(plain.playing() == "", "a unit with no swing frames played one")
 	plain.free()
@@ -131,3 +131,13 @@ func _finish() -> void:
 		print("FAIL  %s" % failure)
 	print("art smoke test: FAIL")
 	get_tree().quit(1)
+
+
+## Some unit that has a standing pose and no moves yet, whichever that is as art lands.
+func _unanimated() -> String:
+	for id: String in Database.units:
+		if str(Database.unit_template(id).get("sprite_dir", "")) != "" \
+				and Database.unit_run(id, "east").is_empty() \
+				and Database.unit_frames(id, "attack", "south").is_empty():
+			return id
+	return ""
