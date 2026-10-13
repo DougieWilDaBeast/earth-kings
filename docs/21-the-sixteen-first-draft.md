@@ -5,6 +5,11 @@ keep, change or throw out. Only a founder settles a character. Once a character 
 moves into [13 — Heroes & Tempers](13-heroes-and-tempers.md) and is built as the bundle described
 there. Until then this page is the proposal.
 
+**Built 2026-10-13** ([D78](06-decisions.md)): `dougie` made the sixteen the playable lineup. All
+sixteen are offered as leads in their bodies from `art/sixteen/`, and when not the lead each settles
+where the table below says. The build took this page as it stands; the characters themselves are
+still the founders' to change. What the build added on top is **Inferred**, agenda item 69.
+
 It is written from three sources:
 
 - **[Joint session 1](worldbuilding/voice-notes/2026-09-24-joint-session-1.md)** (2026-09-24): what

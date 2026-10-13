@@ -158,7 +158,10 @@ Since 2026-09-26 every pull request is checked by CI (the suites, a soak, and th
 5. **First writing sitting for the sixteen** — the four NT tempers ([13](13-heroes-and-tempers.md#writing-one)),
    starting from the seeds the session left, with god-style names ([D39](06-decisions.md)).
    **A draft of all sixteen is ready to react to** ([21](21-the-sixteen-first-draft.md)); confirm or
-   replace the NT four and they get built.
+   replace the NT four and they get built. **Built 2026-10-13 as the playable sixteen**
+   ([D78](06-decisions.md)): all sixteen are the leads, in their own bodies from `art/sixteen/`, and
+   the other fifteen settle where 21 puts them. Each fights with their own class
+   ([D63](06-decisions.md)).
 6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, and `names.json` are all in `data/` and one number each.

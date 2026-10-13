@@ -136,18 +136,18 @@ A side-car on `units.json`: the key **is** the unit template id, and the name an
 there. This file adds only what a lead needs on top of a unit.
 
 ```json
-"bram": {
-  "title": "The Sworn Blade",
-  "difficulty": 1,
-  "temper": "",
-  "background": "apprentice_smith",
-  "grudge": "raiders",
-  "hearth": "village_hearth",
-  "creed": "the_kept_word",
-  "oath": "",
-  "origin": "Apprenticed to an old forge-master who died when raiders struck...",
-  "blurb": "An oath-sworn swordsman with a scar for every promise he kept...",
-  "companions": ["sera", "toln"]
+"atlas": {
+  "title": "The Long Plan",
+  "temper": "INTJ",
+  "difficulty": 4,
+  "background": "", "grudge": "", "hearth": "", "creed": "", "oath": "",
+  "origin": "",
+  "blurb": "A boy too small to walk properly, carried in robes too big for him...",
+  "companions": [],
+  "found_at": "library",
+  "elsewhere": "being carried to the oldest library within reach",
+  "first": "You will want to know why I am sitting on a library step...",
+  "rumour": "At {place} there is a boy who cannot walk, reading as if the books owed him something..."
 }
 ```
 
@@ -156,6 +156,15 @@ there. This file adds only what a lead needs on top of a unit.
 - `background` · `grudge` · `hearth` · `creed` · `oath` — ids into the five pools in `data/lore/`.
   **All five are legitimately blank**; history is cast late (see [14](14-lore-pools.md)).
 - `companions` — unit template ids that ride out with them, 0–2.
+- A lead's own class is not named here: the class in `classes.json` whose `lead` is this id is theirs
+  ([D63](06-decisions.md)).
+- `found_at` — the kind of place (`library`, `gate`, `keep`, `village`, `hut`) they make their own
+  when somebody else is the lead: they walk there first and stay there longest
+  (`fall.json` → `wanderers.rules`). `elsewhere` is docs/21's line for it, for people to read.
+- `first` — what they say the first time the company meets them; `rumour` — what an inn says of
+  them while they are at their own kind of place (`{name}`, `{title}`, `{place}`). Both optional; the
+  temper group's lines stand in.
+- `restless` — stays only a short while anywhere (Iris, Liber).
 
 ## `tempers.json` — the sixteen, and the quiz that picks one
 

@@ -587,17 +587,17 @@ func _check_the_fallen() -> void:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 
 	_expect(Sixteen.fallen_heroes().is_empty(), "a fresh record of the fallen was not empty")
-	Sixteen.fall("bram")
-	Sixteen.fall("bram")
-	_expect(Sixteen.fallen_heroes() == ["bram"], "a fallen lead was written down as %s" % str(Sixteen.fallen_heroes()))
+	Sixteen.fall("caesar")
+	Sixteen.fall("caesar")
+	_expect(Sixteen.fallen_heroes() == ["caesar"], "a fallen lead was written down as %s" % str(Sixteen.fallen_heroes()))
 	_expect(Sixteen.anyone_left(), "one death left nobody")
 	_expect(not Sixteen.wipe(), "the fallen were wiped with lives still left")
 
 	var types: Dictionary = Database.tempers["types"]
 	var kept: String = str(types["INTJ"].get("hero", ""))
-	types["INTJ"]["hero"] = "sera"
-	_expect(Database.hero_temper("sera") == "INTJ", "a hero written for INTJ was not found under it")
-	Sixteen.fall("sera")
+	types["INTJ"]["hero"] = "ares"
+	_expect(Database.hero_temper("ares") == "INTJ", "a hero written for INTJ was not found under it")
+	Sixteen.fall("ares")
 	_expect(Sixteen.fallen_tempers().has("INTJ"), "a fallen lead's temper did not leave the quiz")
 	types["INTJ"]["hero"] = kept
 
@@ -607,7 +607,7 @@ func _check_the_fallen() -> void:
 	var lives := picker.get_node("%Lives").get_children()
 	_expect(lives.size() == Database.heroes.size() - 2, "with two fallen the picker offered %d of %d" % [lives.size(), Database.heroes.size()])
 	for life: Button in lives:
-		_expect(not life.text.begins_with(Database.unit_template("bram").get("display_name", "bram")), "a fallen lead was offered again")
+		_expect(not life.text.begins_with(Database.unit_template("caesar").get("display_name", "caesar")), "a fallen lead was offered again")
 	picker.queue_free()
 
 	for hero_id: String in Database.heroes:
