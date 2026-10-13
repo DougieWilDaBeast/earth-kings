@@ -1,124 +1,329 @@
 {
- "display_name": "the Salt and Line",
- "layers": [
-  "dirt",
-  "stone"
- ],
- "legend": {
-  "o": "stone",
-  ",": "dirt"
- },
- "spawn": [
-  5,
-  7
- ],
- "exits": [
-  [
-   5,
-   8
-  ]
- ],
- "spots": [
-  {
-   "cell": [
-    5,
-    5
-   ],
-   "line": "It smells of tar and old fish and nobody apologises for it."
-  },
-  {
-   "cell": [
-    2,
-    2
-   ],
-   "line": "A slate by the door counts debts. Half the names have been scratched out with a knife."
-  }
- ],
- "chests": [
-  {
-   "cell": [
-    9,
-    2
-   ],
-   "line": "A locker behind the barrels, tallied to a name nobody will say aloud.",
-   "gold": 65,
-   "item": "knotted_cord"
-  }
- ],
- "people": [
-  {
-   "name": "Codge the Village Idiot",
-   "unit": "village_idiot",
-   "cell": [
-    5,
-    3
-   ],
-   "facing": [
-    0,
-    1
-   ],
-   "dialogue": "shore_idiot"
-  },
-  {
-   "name": "Rell the Pirate Man",
-   "unit": "pirate_man",
-   "cell": [
-    3,
-    4
-   ],
-   "facing": [
-    1,
-    0
-   ],
-   "wander": 2,
-   "chatter": [
-    "Halbrec keeps the beach. I keep the corner. It works.",
-    "Two maces and nowhere left worth taking with them."
-   ]
-  },
-  {
-   "name": "a gull that got in",
-   "unit": "flame_dove",
-   "cell": [
-    8,
-    5
-   ],
-   "facing": [
-    -1,
-    0
-   ],
-   "wander": 3,
-   "chatter": [
-    "Nobody has been able to get it back out since the spring."
-   ]
-  }
- ],
- "rows": [
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo"
- ],
- "dressing": [
-  {"art": "camp/fire_hearth", "cell": [0, 0]},
-  {"art": "village/log_pile", "cell": [10, 0]},
-  {"art": "village/barrels", "cell": [2, 0]},
-  {"art": "sideboard", "cell": [4, 0]},
-  {"art": "tapestry", "cell": [5, 0]},
-  {"art": "sideboard", "cell": [6, 0]},
-  {"art": "village/barrels", "cell": [8, 0]},
-  {"art": "writing_desk", "cell": [0, 2]},
-  {"art": "chair", "cell": [10, 2]},
-  {"art": "sofa_brown", "cell": [0, 4]},
-  {"art": "chair", "cell": [10, 4]},
-  {"art": "drawers_wood", "cell": [0, 6]},
-  {"art": "potted_plant", "cell": [10, 6]},
-  {"art": "potted_plant", "cell": [3, 8]},
-  {"art": "street_lamp", "cell": [7, 8]}
- ]
+    "display_name": "the Salt and Line",
+    "layers": [],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "spawn": [
+        7,
+        9
+    ],
+    "exits": [
+        [
+            7,
+            10
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                7,
+                5
+            ],
+            "line": "It smells of tar and old fish and nobody apologises for it."
+        },
+        {
+            "cell": [
+                5,
+                8
+            ],
+            "line": "A slate by the door counts debts. Half the names have been scratched out with a knife."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                13,
+                2
+            ],
+            "line": "A locker behind the barrels, tallied to a name nobody will say aloud.",
+            "gold": 65,
+            "item": "knotted_cord"
+        }
+    ],
+    "people": [
+        {
+            "name": "Codge the Village Idiot",
+            "unit": "village_idiot",
+            "cell": [
+                5,
+                2
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "dialogue": "shore_idiot"
+        },
+        {
+            "name": "Rell the Pirate Man",
+            "unit": "pirate_man",
+            "cell": [
+                7,
+                4
+            ],
+            "facing": [
+                1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "Halbrec keeps the beach. I keep the corner. It works.",
+                "Two maces and nowhere left worth taking with them."
+            ]
+        },
+        {
+            "name": "a gull that got in",
+            "unit": "flame_dove",
+            "cell": [
+                9,
+                8
+            ],
+            "facing": [
+                -1,
+                0
+            ],
+            "wander": 3,
+            "chatter": [
+                "Nobody has been able to get it back out since the spring."
+            ]
+        }
+    ],
+    "rows": [
+        "###############",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#######.#######"
+    ],
+    "dressing": [],
+    "tint": "#d4dce0",
+    "interior": {
+        "floor": "drift",
+        "wall": "boards",
+        "rugs": [
+            {
+                "rect": [
+                    3,
+                    5,
+                    9,
+                    3
+                ],
+                "colour": "#2c4a5a",
+                "trim": "#c8b080"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    7,
+                    1
+                ],
+                "radius": 3,
+                "colour": "#ffb060",
+                "strength": 0.3
+            },
+            {
+                "cell": [
+                    4,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.22
+            },
+            {
+                "cell": [
+                    10,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.22
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                3,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                10,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_blue",
+            "cell": [
+                7,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                7,
+                1
+            ]
+        },
+        {
+            "art": "interior/bar_counter",
+            "cell": [
+                3,
+                3
+            ]
+        },
+        {
+            "art": "interior/keg_rack",
+            "cell": [
+                1,
+                1
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                3,
+                1
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                13,
+                3
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                11,
+                1
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                4,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                3,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                5,
+                6
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                10,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                9,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                11,
+                6
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                11,
+                8
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                11,
+                9
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/slate_board",
+            "cell": [
+                5,
+                9
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                1,
+                9
+            ]
+        },
+        {
+            "art": "village/trough",
+            "cell": [
+                1,
+                7
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                9,
+                9
+            ]
+        }
+    ]
 }

@@ -17,6 +17,7 @@ const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 
@@ -176,6 +177,10 @@ func _open_on(cutscene_id: String) -> void:
 
 ## One [TileMapLayer] per sheet, bottom first (see [GroundPainter]).
 func _paint_layers() -> void:
+	# A room is floors and walls, not ground ([D81]).
+	if InteriorPainter.is_interior(map.id):
+		InteriorPainter.paint(map, _layers)
+		return
 	GroundPainter.paint(map, _layers)
 
 

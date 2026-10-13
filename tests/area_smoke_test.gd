@@ -91,7 +91,10 @@ func _check_area(area_id: String) -> void:
 
 	var painted := 0
 	for layer in scene.get_node("Layers").get_children():
-		painted += (layer as TileMapLayer).get_used_cells().size()
+		if layer is TileMapLayer:
+			painted += (layer as TileMapLayer).get_used_cells().size()
+		elif layer is Sprite2D:
+			painted += 1
 	if painted == 0:
 		_fail("%s: nothing was painted" % area_id)
 	# The y-sorted layer holds scenery too, so count only the people in it.

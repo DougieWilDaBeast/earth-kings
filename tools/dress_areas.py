@@ -457,6 +457,10 @@ def dress_room(area: Area, kit: dict, rng: random.Random) -> list:
 
 def run(area_id: str) -> None:
     area = Area(area_id)
+    # A room with an `interior` is laid out by hand in tools/build_interiors.py (D81).
+    if "interior" in area.data:
+        print("%-18s laid out by build_interiors.py, left alone" % area_id)
+        return
     rng = random.Random("earth-kings:" + area_id)
     if area_id in ROOMS:
         dressing = dress_room(area, ROOM_KIT[ROOMS[area_id]], rng)
