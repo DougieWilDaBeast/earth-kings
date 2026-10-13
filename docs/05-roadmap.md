@@ -458,12 +458,12 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - New-player onboarding ✅ (2026-10-12): first-time tip cards (`data/tips.json`, once per player
   in `settings.cfg`, never during autoplay; _Tips: on/off_ and _Reset tips_ in the menu) and a
   _How to Play_ page from the title screen and the menu (`data/how_to_play.json`)
-- A playable tutorial ✅ (2026-10-12, [D71](06-decisions.md)): offered the first time the game is
+- A playable tutorial ✅ (2026-10-12, [D73](06-decisions.md)): offered the first time the game is
   opened and always on the title screen. A tour of Hearthwick, a training village, with a card that
   ticks off fifteen steps — walking, talking, asking, buying, a fox who will not talk, a favour, a
   chest, doors, the party screen, the journal and a real-time sparring fight — then what a run holds
   and **Start a new run**. Nothing in it is ever saved (`GameState.rehearsing`). Offered once, as
-  `doug-md` chose ([D72](06-decisions.md)); its words and order are **Inferred**
+  `doug-md` chose ([D74](06-decisions.md)); its words and order are **Inferred**
 - Gamepad support ✅ (2026-10-12): Xbox and PlayStation pads play the whole game — menus by focus,
   a cursor for the fights, hint lines that name the pad's buttons, and pad rebinding in the
   system menu. The layout is in the README

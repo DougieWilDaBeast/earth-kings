@@ -222,7 +222,7 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 
-## D4 — The tutorial ([D71](06-decisions.md))
+## D4 — The tutorial ([D73](06-decisions.md))
 
 Delete `settings.cfg` and the save from the user folder first, to be a new player.
 

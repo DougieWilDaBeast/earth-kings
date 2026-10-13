@@ -333,7 +333,7 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
-## `tutorial.json` — the tutorial (D71)
+## `tutorial.json` — the tutorial (D73)
 
 Read by `src/ui/tutorial_guide.gd`. `area` is the village it runs in, `seed` and `lead` the
 practice run it starts (never saved). Each step has a `title`, `text`, and what makes it `done`:

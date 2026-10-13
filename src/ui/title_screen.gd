@@ -68,7 +68,7 @@ var _lead_name := ""
 var _hints: Dictionary = {}
 var _marker_tween: Tween
 var _prompt_tween: Tween
-## Whether the tour has been offered on this screen yet (D71).
+## Whether the tour has been offered on this screen yet (D73).
 var _offered := false
 
 
@@ -409,7 +409,7 @@ func _on_new_game_pressed() -> void:
 
 
 ## The very first time the game is opened, with no run to continue, the tutorial is offered
-## (D71). Asked once per player (`settings.cfg`, section "tutorial"); the button stays either way.
+## (D73). Asked once per player (`settings.cfg`, section "tutorial"); the button stays either way.
 func _offer_the_tour() -> void:
 	var config := ConfigFile.new()
 	config.load(SETTINGS_PATH)

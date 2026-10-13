@@ -35,7 +35,7 @@ func _ready() -> void:
 	# Says so when a save is upgraded or restored from its backup ([D56]).
 	add_child(SaveToast.new())
 	add_child(LevelUpBanner.new())
-	# The tutorial's card outlasts the scenes it guides through (D71).
+	# The tutorial's card outlasts the scenes it guides through (D73).
 	var guide := TutorialGuide.new()
 	guide.name = "TutorialGuide"
 	add_child(guide)

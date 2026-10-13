@@ -328,7 +328,7 @@ func _check_trading() -> void:
 	print("village: bought a loaf, paid the fox, found Wat's stone")
 
 
-## The tutorial (D71): every step points at something in its village, it never saves, it starts
+## The tutorial (D73): every step points at something in its village, it never saves, it starts
 ## on its first step, and doing what a step asks moves it on.
 func _check_tutorial() -> void:
 	var rules: Variant = SaveFile.read("res://data/tutorial.json")

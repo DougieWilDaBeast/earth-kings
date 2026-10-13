@@ -25,7 +25,7 @@ var ledger: Dictionary = Ledger.fresh()
 ## Cleared while the training sandbox borrows the purse, so play money never
 ## reaches the ledger.
 var tallying: bool = true
-## The tutorial's run (D71): nothing in it is ever saved, filed in the museum or counted, and it
+## The tutorial's run (D73): nothing in it is ever saved, filed in the museum or counted, and it
 ## never writes over the save on disk. Set by [method new_game] with `rehearsal`, cleared by any
 ## other new game and by loading the save.
 var rehearsing: bool = false

@@ -1,5 +1,5 @@
 extends CanvasLayer
-## The tutorial (D71): a card in the corner that walks a new player through the game in the
+## The tutorial (D73): a card in the corner that walks a new player through the game in the
 ## training village, one step at a time, and ticks each off as they do it.
 ##
 ## Asked for with [signal EventBus.tutorial_requested]. It starts a run that is never saved

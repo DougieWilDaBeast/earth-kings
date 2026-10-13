@@ -88,7 +88,7 @@ signal ground_revealed(cells: Array)
 signal battle_log(line: String)
 ## A line for the bottom of an area's screen: something handed over in a conversation, say.
 signal area_note(line: String)
-## Something the player did, for whatever is watching for it (the tutorial, D71): "walked",
+## Something the player did, for whatever is watching for it (the tutorial, D73): "walked",
 ## "talked:<name>", "examined:<name>", "chest", "door:<name>", "fight_won", "fight_lost".
 signal player_did(what: String)
 ## The title screen asks for the tutorial; the tutorial guide sets it up and runs it.
