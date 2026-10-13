@@ -1422,6 +1422,7 @@ func _check_end() -> void:
 	_say("The field is yours after %.0f seconds." % sim_time if victory \
 			else "The company is down after %.0f seconds." % sim_time)
 	hud.show_result(victory)
+	EventBus.player_did.emit("fight_won" if victory else "fight_lost")
 	Sfx.cue("victory" if victory else "defeat")
 	if sandbox:
 		# The coliseum carries its wounds between rounds; the training ground

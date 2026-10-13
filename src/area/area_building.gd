@@ -54,7 +54,8 @@ static func create(building: Dictionary) -> AreaBuilding:
 	node._lived_in = bool(building.get("lived_in", true))
 	var art_id := str(building.get("art", ""))
 	var look := Database.building_art(art_id)
-	var path := "res://art/buildings/%s.png" % art_id
+	# Most buildings are under art/buildings; one may name another picture (a portal as a door).
+	var path := str(look.get("path", "res://art/buildings/%s.png" % art_id))
 	if not look.is_empty() and ResourceLoader.exists(path):
 		node._add_picture(load(path), float(building.get("scale", look.get("scale", 3.0))), bool(building.get("flip", false)))
 	return node
