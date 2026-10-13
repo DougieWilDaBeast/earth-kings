@@ -89,7 +89,7 @@ def _tileset(lower: str, upper: str, size: int, lower_ref: Image.Image | None = 
     while time.time() - began < lab.TIMEOUT_SECONDS:
         try:
             status, payload = lab._call("GET", "/tilesets/" + tileset_id, raw=True)
-        except SystemExit as error:
+        except (SystemExit, OSError) as error:
             # PixelLab now and then answers a finished tileset with a 500; ask again.
             print(error, "- asking again")
             status = 0
@@ -151,7 +151,7 @@ def _object(description: str, width: int, height: int, view: str = "high top-dow
     while time.time() - began < lab.TIMEOUT_SECONDS:
         try:
             status, payload = lab._call("GET", "/map-objects/" + started["object_id"], raw=True)
-        except SystemExit as error:
+        except (SystemExit, OSError) as error:
             print(error, "- asking again")
             status = 0
         if status == 200:
@@ -180,7 +180,11 @@ def props(land: str, only: list[str]) -> None:
     prompts = json.loads(PROMPTS.read_text(encoding="utf-8"))["lands"][land]
     for name, description in prompts["props"].items():
         if not only or name in only:
-            _make(ROOT / "art" / "props" / (name + ".png"), description, "high top-down", land)
+            try:
+                _make(ROOT / "art" / "props" / (name + ".png"), description, "high top-down", land)
+            except (SystemExit, OSError) as error:
+                # One prop failing leaves its stand-in in place; the rest still get made.
+                print("skipped", name, error)
 
 
 def rooms(only: list[str]) -> None:

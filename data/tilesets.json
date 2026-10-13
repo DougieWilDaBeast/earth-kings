@@ -416,24 +416,21 @@
 			"tile_size": 64,
 			"lower": "dune_bare",
 			"upper": "dune_floor",
-			"feature": "dune_bare",
-			"stand_in": true
+			"feature": "dune_bare"
 		},
 		"dune_pool": {
 			"texture": "res://art/tilesets/biome/dune_pool.png",
 			"tile_size": 32,
 			"lower": "dune_liquid",
 			"upper": "dune_floor",
-			"feature": "dune_liquid",
-			"stand_in": true
+			"feature": "dune_liquid"
 		},
 		"dune_cover": {
 			"texture": "res://art/tilesets/biome/dune_cover.png",
 			"tile_size": 64,
 			"lower": "dune_floor",
 			"upper": "dune_cover",
-			"feature": "dune_cover",
-			"stand_in": true
+			"feature": "dune_cover"
 		},
 		"badlands_ground": {
 			"texture": "res://art/tilesets/biome/badlands_ground.png",
@@ -464,24 +461,21 @@
 			"tile_size": 64,
 			"lower": "savanna_bare",
 			"upper": "savanna_floor",
-			"feature": "savanna_bare",
-			"stand_in": true
+			"feature": "savanna_bare"
 		},
 		"savanna_pool": {
 			"texture": "res://art/tilesets/biome/savanna_pool.png",
 			"tile_size": 32,
 			"lower": "savanna_liquid",
 			"upper": "savanna_floor",
-			"feature": "savanna_liquid",
-			"stand_in": true
+			"feature": "savanna_liquid"
 		},
 		"savanna_cover": {
 			"texture": "res://art/tilesets/biome/savanna_cover.png",
 			"tile_size": 64,
 			"lower": "savanna_floor",
 			"upper": "savanna_cover",
-			"feature": "savanna_cover",
-			"stand_in": true
+			"feature": "savanna_cover"
 		},
 		"ash_ground": {
 			"texture": "res://art/tilesets/biome/ash_ground.png",
