@@ -1710,7 +1710,7 @@ func _bands_here() -> Array:
 		if band.cell != world.player_cell and not (near and band.sees(world, world.player_cell)):
 			continue
 		out.append({
-			"key": _band_key(band), "pack": band.pack, "sight": band.sight,
+			"key": _band_key(band), "pack": band.pack, "sight": band.sight, "reach": band.reach(world),
 			"faction": band.faction, "label": band.label(),
 			"from": [signi(apart.x), signi(apart.y)],
 		})
