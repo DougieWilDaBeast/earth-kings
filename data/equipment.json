@@ -53,6 +53,7 @@
 		"price": 380
 	},
 	"ember_blade": {
+		"proof": ["cold"],
 		"display_name": "Ember Blade",
 		"icon": "blade/blade_ember",
 		"kind": "blade",
@@ -147,6 +148,7 @@
 		"price": 470
 	},
 	"frost_staff": {
+		"proof": ["heat"],
 		"display_name": "Frost Staff",
 		"icon": "staff/staff_frost",
 		"kind": "staff",
@@ -165,6 +167,7 @@
 	},
 
 	"padded_coat": {
+		"proof": ["cold"],
 		"display_name": "Padded Coat",
 		"icon": "armour/armour_amber_coat",
 		"kind": "armour",
@@ -205,6 +208,7 @@
 		"price": 780
 	},
 	"feather_mail": {
+		"proof": ["cold"],
 		"display_name": "Feather Mail",
 		"icon": "armour/armour_feather",
 		"kind": "armour",
@@ -213,6 +217,7 @@
 		"price": 400
 	},
 	"halo_robe": {
+		"proof": ["heat"],
 		"display_name": "Halo Robe",
 		"icon": "armour/armour_halo",
 		"kind": "armour",
@@ -252,6 +257,7 @@
 		"text": "Struck for a town that is not there any more."
 	},
 	"salt_pouch": {
+		"proof": ["ooze"],
 		"display_name": "Salt Pouch",
 		"icon": "kit/kit_fisher",
 		"charm": true,
@@ -373,6 +379,7 @@
 		"text": "A lamp on a staff that will not go out, though nobody has fed it since another world."
 	},
 	"foxfire": {
+		"proof": ["cold"],
 		"display_name": "Foxfire",
 		"icon": "blade/blade_ember",
 		"kind": "blade",

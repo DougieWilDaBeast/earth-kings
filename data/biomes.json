@@ -1,5 +1,5 @@
 {
-	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average.",
+	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average. `foes` are who camps in a land: a band there draws from them `land_foe_share` of the time and from the faction that walks the terrain otherwise (src/chronicle/encounter.gd). `effects` are what the land does to the party (src/chronicle/biome.gd, `Biome.effects`).",
 	"size": [
 		32,
 		22
@@ -57,7 +57,14 @@
 				"bare": 2,
 				"outcrops": 1
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"wolf",
+				"goblin",
+				"brigand",
+				"hat_fox",
+				"axe_bear"
+			]
 		},
 		"forest": {
 			"name": "forest",
@@ -112,7 +119,14 @@
 				"bare": 1,
 				"outcrops": 1
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"wolf",
+				"axe_bear",
+				"tree_sentinel",
+				"goblin",
+				"seed_beast"
+			]
 		},
 		"snow": {
 			"name": "snowfield",
@@ -158,7 +172,17 @@
 				"bare": 2,
 				"outcrops": 2
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"ice_wolf",
+				"ice_wolf",
+				"frozen_wolfman",
+				"wolf"
+			],
+			"effects": {
+				"slow": 0.8,
+				"hazard": "cold"
+			}
 		},
 		"dune": {
 			"name": "desert",
@@ -204,7 +228,16 @@
 				"bare": 3,
 				"outcrops": 2
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"ember_lizard",
+				"brigand",
+				"flame_lion",
+				"eye_slinger"
+			],
+			"effects": {
+				"slow": 0.9
+			}
 		},
 		"badlands": {
 			"name": "badlands",
@@ -249,7 +282,13 @@
 				"bare": 3,
 				"outcrops": 5
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"brigand",
+				"brigand_archer",
+				"ember_lizard",
+				"sword_bear"
+			]
 		},
 		"savanna": {
 			"name": "savanna",
@@ -294,7 +333,13 @@
 				"bare": 2,
 				"outcrops": 0.5
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"flame_lion",
+				"mending_lion",
+				"sword_monkey",
+				"hat_fox"
+			]
 		},
 		"ash": {
 			"name": "ashland",
@@ -339,7 +384,16 @@
 				"bare": 3,
 				"outcrops": 2
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"ember_lizard",
+				"ember_lizard",
+				"flame_dove",
+				"flame_lion"
+			],
+			"effects": {
+				"hazard": "heat"
+			}
 		},
 		"blight": {
 			"name": "the blight",
@@ -383,7 +437,12 @@
 				"bare": 2,
 				"outcrops": 1
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"wraith",
+				"eye_slinger",
+				"blood_mosquito"
+			]
 		},
 		"slime": {
 			"name": "slime fen",
@@ -426,7 +485,16 @@
 				"bare": 2,
 				"outcrops": 0.5
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"slime",
+				"slime",
+				"blue_slime"
+			],
+			"effects": {
+				"slow": 0.8,
+				"hazard": "ooze"
+			}
 		},
 		"bog": {
 			"name": "bog",
@@ -472,7 +540,15 @@
 				"bare": 3,
 				"outcrops": 0.3
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"blue_slime",
+				"blood_mosquito",
+				"wraith"
+			],
+			"effects": {
+				"slow": 0.75
+			}
 		},
 		"swamp": {
 			"name": "swamp",
@@ -518,7 +594,16 @@
 				"bare": 1,
 				"outcrops": 0.3
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"blood_mosquito",
+				"slime",
+				"seed_beast",
+				"caterpillar_warrior"
+			],
+			"effects": {
+				"slow": 0.85
+			}
 		},
 		"crystal": {
 			"name": "crystal fields",
@@ -561,7 +646,12 @@
 				"bare": 2,
 				"outcrops": 3
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"feather_wisp",
+				"eye_slinger",
+				"tree_sentinel"
+			]
 		},
 		"fungal": {
 			"name": "fungal grove",
@@ -606,7 +696,12 @@
 				"bare": 2,
 				"outcrops": 0.5
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"caterpillar_warrior",
+				"seed_beast",
+				"slime"
+			]
 		},
 		"blossom": {
 			"name": "blossom vale",
@@ -653,7 +748,12 @@
 				"bare": 1.5,
 				"outcrops": 0.3
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"feather_wisp",
+				"staff_panda",
+				"hat_fox"
+			]
 		},
 		"barrow": {
 			"name": "barrow downs",
@@ -697,7 +797,12 @@
 				"bare": 2,
 				"outcrops": 2
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"wraith",
+				"wraith",
+				"brigand_archer"
+			]
 		},
 		"jungle": {
 			"name": "jungle",
@@ -743,7 +848,18 @@
 				"bare": 1,
 				"outcrops": 0.3
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"sword_monkey",
+				"blood_mosquito",
+				"seed_beast",
+				"caterpillar_warrior"
+			],
+			"effects": {
+				"slow": 0.9,
+				"sight": -1,
+				"fog": 0.35
+			}
 		},
 		"taiga": {
 			"name": "taiga",
@@ -787,7 +903,16 @@
 				"bare": 1.5,
 				"outcrops": 0.6
 			},
-			"sea_shore": true
+			"sea_shore": true,
+			"foes": [
+				"ice_wolf",
+				"wolf",
+				"axe_bear",
+				"frozen_wolfman"
+			],
+			"effects": {
+				"slow": 0.9
+			}
 		},
 		"mist": {
 			"name": "the mistlands",
@@ -831,7 +956,35 @@
 				"bare": 2,
 				"outcrops": 1.2
 			},
-			"sea_shore": false
+			"sea_shore": false,
+			"foes": [
+				"wraith",
+				"feather_wisp",
+				"eye_slinger"
+			],
+			"effects": {
+				"sight": -2,
+				"fog": 0.6
+			}
+		}
+	},
+	"land_foe_share": 0.7,
+	"hazards": {
+		"_about": "What a land does to whoever walks it unprotected: every `stride` pixels walked on its ground, each party member without a piece of gear or a charm whose `proof` names the hazard loses `share` of their health, never below `floor` of it. Walking cannot kill anyone (**Inferred**).",
+		"stride": 640,
+		"share": 0.04,
+		"floor": 0.25,
+		"cold": {
+			"name": "the cold",
+			"line": "The cold is getting into %s."
+		},
+		"heat": {
+			"name": "the heat",
+			"line": "The heat off the ash is wearing %s down."
+		},
+		"ooze": {
+			"name": "the ooze",
+			"line": "The ooze is eating at %s's boots."
 		}
 	}
 }

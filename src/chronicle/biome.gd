@@ -36,8 +36,12 @@ const JUNGLE := "jungle"
 const TAIGA := "taiga"
 const MIST := "mist"
 
+## How far off the ordinary a patch of country has to be before it turns
+## strange (slime, crystal, fungus, mist): only the far ends of the patchwork
+## noise, so they come in small pockets worth finding (`doug-md`, 2026-10-13).
+const RARE := 0.36
 ## How near an open gate the land goes bad. It recovers when the gate shuts.
-const BLIGHT_REACH := 3
+const BLIGHT_REACH := 2
 ## How near a gate that opened onto fire the ground is ash.
 const ASH_REACH := 6
 ## The gates whose insides are burning, by the area dealt to them.
@@ -87,15 +91,15 @@ static func _work_out(world: World, cell: Vector2i) -> String:
 
 	match terrain:
 		"snow":
-			return CRYSTAL if odd > 0.4 else SNOW
+			return CRYSTAL if odd > RARE else SNOW
 		"sand":
 			return BADLANDS if wide > 0.1 else DESERT
 		"marsh":
-			if odd > 0.25:
+			if odd > RARE:
 				return SLIME
 			return BOG if wide > 0.0 else SWAMP
 		"forest":
-			if odd > 0.15:
+			if odd > RARE:
 				return FUNGAL
 			if _latitude(world, cell, wide) < TAIGA_LATITUDE:
 				return TAIGA
@@ -107,15 +111,15 @@ static func _work_out(world: World, cell: Vector2i) -> String:
 		"crag":
 			if wide < -0.3:
 				return ASH
-			if odd < -0.25:
+			if odd < -RARE:
 				return MIST
-			return CRYSTAL if odd > 0.1 else BARROW
+			return CRYSTAL if odd > RARE else BARROW
 		"hill":
 			if wide < -0.32:
 				return ASH
-			if wide > 0.4:
+			if wide > 0.4 and odd > RARE - 0.15:
 				return CRYSTAL
-			if odd < -0.2:
+			if odd < -RARE:
 				return MIST
 			return BARROW if odd > 0.15 else GRASSLAND
 	# Grass, brush and road: most of the continent, so most of the variety. The
@@ -127,7 +131,7 @@ static func _work_out(world: World, cell: Vector2i) -> String:
 	# Wet low ground first: bog in the cold, swamp in the warm, slime where
 	# something has got into the water.
 	if damp > 0.14:
-		if odd > 0.3:
+		if odd > RARE:
 			return SLIME
 		if latitude < JUNGLE_LATITUDE:
 			return BOG if wide > -0.1 else SWAMP
@@ -137,9 +141,9 @@ static func _work_out(world: World, cell: Vector2i) -> String:
 	if _in_jungle_band(world, cell, wide) and damp > 0.0:
 		return JUNGLE
 	# Damp enough for trees: woods break the open country up.
-	if damp > 0.04:
+	if damp > -0.1:
 		return FOREST
-	if odd > 0.36:
+	if odd > 0.3:
 		return BARROW
 	if odd < -0.36:
 		return BLOSSOM
@@ -176,6 +180,29 @@ static func data(biome_id: String) -> Dictionary:
 
 static func display_name(biome_id: String) -> String:
 	return str(data(biome_id).get("name", biome_id))
+
+
+## What the land does to the party on its ground (`effects` in `data/biomes.json`):
+## `slow` (walking speed, 1 for none), `sight` (cells added to how far a band
+## sees), `fog` (how thick the screen is fogged, 0 to 1), `hazard` (cold, heat,
+## ooze or "" for none). `doug-md` asked for a few simple ones (2026-10-13).
+static func effects(biome_id: String) -> Dictionary:
+	var out := { "slow": 1.0, "sight": 0, "fog": 0.0, "hazard": "" }
+	out.merge(data(biome_id).get("effects", {}), true)
+	return out
+
+
+## Whether [param character] carries something that keeps [param hazard] off
+## (a piece of gear or a charm whose `proof` names it, `data/equipment.json`).
+static func spared(character: Character, hazard: String) -> bool:
+	if hazard == "":
+		return true
+	var carried: Array = character.charms.duplicate()
+	carried.append(character.equipment if character.equipment != "" else Gear.issued_id(character))
+	for piece_id: Variant in carried:
+		if Gear.piece(str(piece_id)).get("proof", []).has(hazard):
+			return true
+	return false
 
 
 ## The colour the map is washed with for this land, or clear for none.
