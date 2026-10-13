@@ -204,6 +204,8 @@ is left is the animation.
   (**Inferred**, item 45)
 - Feel without art ✅ (2026-10-12): damage and critical numbers, hit flash, lunge, hit-stop, camera
   shake on deaths, cooldown sweeps on the skill tiles and touch buttons
+- The fight is heard ✅ (2026-10-13, [D76](06-decisions.md)): fourteen sounds made in code, from the
+  swing to the victory call, cued from `data/sfx.json`; how each sounds is **Inferred** (agenda item 66)
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
   Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`
