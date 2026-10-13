@@ -231,9 +231,8 @@ toggle_fullscreen={
 
 [rendering]
 
-textures/vram_compression/import_etc2_astc=true
-
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.09, 0.09, 0.12, 1)
