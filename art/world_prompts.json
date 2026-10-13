@@ -1,0 +1,237 @@
+{
+	"_comment": "What tools/pixellab_world.py asks PixelLab for, per land: the four grounds and one line per prop (named as in art/props/). Kept so a land can be made again the same way.",
+	"lands": {
+		"snow": {
+			"bare": "trampled grey snow over frozen earth",
+			"floor": "deep clean white snow with soft blue shadows",
+			"liquid": "frozen grey-blue ice pond",
+			"cover": "snow drifts with tufts of dead frosted grass",
+			"props": {
+				"biome/snow_fir": "snow-laden fir tree",
+				"biome/snow_oak": "bare oak tree with snow on branches",
+				"biome/frost_twigs": "frost-covered bare shrub",
+				"biome/frost_tuft": "small frosty grass tuft",
+				"biome/snow_boulder": "boulder capped with snow",
+				"biome/ice_spikes": "jagged ice spikes jutting from the ground"
+			}
+		},
+		"dune": {
+			"bare": "hard-packed cracked sandstone ground",
+			"floor": "rippled pale golden desert sand",
+			"liquid": "murky green oasis water",
+			"cover": "dry yellow dune grass tufts on sand",
+			"props": {
+				"biome/thorn_bush": "dry thorny desert bush",
+				"biome/dry_scrub": "dry desert scrub",
+				"biome/sandstone": "weathered sandstone boulder",
+				"biome/dune_stones": "small sandy pebbles",
+				"biome/dune_grass": "small tuft of dune grass"
+			}
+		},
+		"badlands": {
+			"bare": "cracked red clay hardpan",
+			"floor": "dusty rust-red rocky earth",
+			"liquid": "shallow muddy red water",
+			"cover": "dry orange scrub grass on red earth",
+			"props": {
+				"biome/dead_brush": "dead dry tumbleweed brush",
+				"biome/mesa_rock": "red mesa rock",
+				"biome/red_spire": "tall red rock spire",
+				"biome/red_stones": "small red stones"
+			}
+		},
+		"savanna": {
+			"bare": "bare reddish dirt",
+			"floor": "short dry golden savanna grass",
+			"liquid": "muddy brown watering hole",
+			"cover": "tall dry golden savanna grass",
+			"props": {
+				"biome/acacia": "young flat-topped acacia tree",
+				"biome/acacia_stand": "large flat-topped acacia tree",
+				"biome/savanna_scrub": "dry savanna bush",
+				"biome/termite_mound": "tall clay termite mound",
+				"biome/dry_tuft": "small dry grass tuft"
+			}
+		},
+		"ash": {
+			"bare": "black cinder and charred rock",
+			"floor": "grey ash-covered ground",
+			"liquid": "glowing orange lava with dark crust",
+			"cover": "thick drifts of pale grey ash",
+			"props": {
+				"biome/charred_tree": "charred dead tree",
+				"biome/burnt_fir": "burnt black fir tree",
+				"biome/ash_scrub": "ash-covered dead shrub",
+				"biome/cinder_boulder": "black cinder boulder with glowing cracks",
+				"biome/ember_stones": "small glowing ember stones"
+			}
+		},
+		"blight": {
+			"bare": "dark rotten purple-brown earth",
+			"floor": "sickly dark purple diseased grass",
+			"liquid": "red-black bubbling blood pool",
+			"cover": "twisted purple blighted weeds",
+			"props": {
+				"biome/blighted_tree": "twisted blighted purple tree",
+				"biome/blight_thorns": "diseased purple thorn bush",
+				"biome/flesh_coral": "fleshy red coral-like growth",
+				"biome/blight_rock": "rock covered in purple rot",
+				"biome/blight_stalk": "sickly purple fungal stalk"
+			}
+		},
+		"slime": {
+			"bare": "purple oozing mud",
+			"floor": "dark teal glistening mossy ground",
+			"liquid": "bright green glowing slime pool",
+			"cover": "thick purple slime moss",
+			"props": {
+				"biome/slime_bush": "bush dripping green slime",
+				"biome/slime_coral": "translucent green slime coral",
+				"biome/slime_spout": "bubbling green slime geyser mound",
+				"biome/slime_caps": "small slimy green mushrooms",
+				"biome/slime_bloom": "glowing green slime flower"
+			}
+		},
+		"bog": {
+			"bare": "black peat mud",
+			"floor": "soggy olive-green bog moss",
+			"liquid": "still black bog water",
+			"cover": "brown sedge and bog cotton",
+			"props": {
+				"biome/bog_snag": "dead rotten tree stump in a bog",
+				"biome/bog_birch": "thin pale bog birch tree",
+				"biome/bog_hag": "gnarled mossy bog tree",
+				"biome/bog_scrub": "low bog shrub",
+				"biome/bog_rushes": "small clump of bog rushes",
+				"biome/bog_shelf": "mossy peat bank"
+			}
+		},
+		"swamp": {
+			"bare": "grey-brown swamp mud",
+			"floor": "dark green wet swamp grass",
+			"liquid": "murky green swamp water with algae",
+			"cover": "thick dark green swamp ferns and reeds",
+			"props": {
+				"biome/swamp_willow": "drooping swamp willow tree",
+				"biome/swamp_grove": "cluster of mangrove trees",
+				"biome/swamp_bush": "dense swamp bush",
+				"biome/swamp_reeds": "small clump of swamp reeds",
+				"biome/glow_caps": "cluster of glowing swamp mushrooms"
+			}
+		},
+		"crystal": {
+			"bare": "dark violet rock",
+			"floor": "pale blue crystalline stone ground",
+			"liquid": "glowing cyan crystal water",
+			"cover": "clusters of small lilac crystal shards",
+			"props": {
+				"biome/crystal_bush": "bush of small blue crystals",
+				"biome/crystal_spire": "tall glowing blue crystal spire",
+				"biome/crystal_rock": "rock studded with violet crystals",
+				"biome/crystal_shards": "small scattered crystal shards"
+			}
+		},
+		"fungal": {
+			"bare": "dark purple-grey loam",
+			"floor": "deep blue mossy fungal ground",
+			"liquid": "glowing teal spore pool",
+			"cover": "carpet of small glowing blue mushrooms",
+			"props": {
+				"biome/giant_morel": "giant morel mushroom tree",
+				"biome/great_glowcap": "huge glowing blue mushroom",
+				"biome/fungal_cap": "cluster of large purple mushrooms",
+				"biome/fungal_shelf": "tree stump with shelf fungus",
+				"biome/spore_tuft": "small tuft of glowing spores"
+			}
+		},
+		"blossom": {
+			"bare": "pale pink-brown earth path",
+			"floor": "soft light green grass",
+			"liquid": "clear light blue pond",
+			"cover": "pink cherry blossom petals over grass",
+			"props": {
+				"biome/blossom_tree": "pink cherry blossom tree",
+				"biome/blossom_grove": "cluster of pink blossom trees",
+				"biome/blossom_sapling": "young pink blossom sapling",
+				"biome/blossom_bush": "flowering pink bush"
+			}
+		},
+		"barrow": {
+			"bare": "grey gravel and old stone",
+			"floor": "grey-green faded grass",
+			"liquid": "dark still grave water",
+			"cover": "pale withered grey grass tussocks",
+			"props": {
+				"biome/barrow_thorn": "grey dead thorn bush",
+				"biome/grey_tuft": "small grey grass tuft",
+				"biome/rune_stone": "ancient standing stone carved with runes",
+				"biome/standing_stone": "weathered grey standing stone",
+				"biome/cairn": "small pile of grave stones"
+			}
+		},
+		"jungle": {
+			"bare": "dark wet brown jungle earth",
+			"floor": "lush green jungle floor",
+			"liquid": "green-blue jungle river water",
+			"cover": "dense broad-leaf jungle undergrowth",
+			"props": {
+				"biome/jungle_canopy": "large broad jungle tree",
+				"biome/jungle_vines": "jungle tree hung with vines",
+				"biome/jungle_bush": "broad-leaf jungle bush",
+				"biome/jungle_fern": "small jungle fern",
+				"biome/mossy_rock": "moss-covered rock",
+				"biome/jungle_bloom": "large red jungle flower"
+			}
+		},
+		"taiga": {
+			"bare": "frozen dark earth with pine needles",
+			"floor": "patchy snow over grey moss",
+			"liquid": "dark icy water",
+			"cover": "snow with dark spruce needles and frosted moss",
+			"props": {
+				"biome/taiga_spruce": "dark spruce tree with snow",
+				"biome/taiga_pine": "tall dark pine tree",
+				"biome/taiga_deadfall": "fallen snowy log",
+				"biome/frost_boulder": "frosted grey boulder",
+				"biome/taiga_tuft": "small frosty moss tuft"
+			}
+		},
+		"mist": {
+			"bare": "dark grey damp stone",
+			"floor": "pale grey-green misty grass",
+			"liquid": "grey still water under fog",
+			"cover": "pale fog-wet grey reeds",
+			"props": {
+				"biome/mist_tree": "pale gnarled tree in fog",
+				"biome/mist_snag": "dead grey tree snag",
+				"biome/mist_coral": "pale ghostly coral-like shrub",
+				"biome/mist_spire": "tall grey stone spire in fog",
+				"biome/mist_tuft": "small pale grey grass tuft"
+			}
+		}
+	},
+	"rooms": {
+		"interior/amphorae": "cluster of three clay amphorae jars",
+		"interior/axe_rack": "wooden wall rack holding battle axes",
+		"interior/banner_blue": "hanging blue cloth banner with heraldic crest",
+		"interior/banner_green": "hanging green cloth banner with heraldic crest",
+		"interior/banner_red": "hanging red cloth banner with heraldic crest",
+		"interior/bar_counter": "long wooden tavern bar counter",
+		"interior/bench_low": "low wooden bench",
+		"interior/bookshelf": "tall wooden bookshelf full of old books",
+		"interior/candelabra": "tall iron candelabra with lit candles",
+		"interior/crates": "stack of wooden crates",
+		"interior/cushions": "pile of colourful floor cushions",
+		"interior/fireplace": "stone fireplace with burning fire",
+		"interior/keg_rack": "wooden rack with ale kegs",
+		"interior/low_table": "low brass table",
+		"interior/muster_board": "wooden muster board with pinned notices",
+		"interior/shelf_bottles": "wooden shelf with bottles",
+		"interior/ship_bell": "brass ship's bell on a wooden post",
+		"interior/slate_board": "slate board with chalk tally marks",
+		"interior/stool": "small wooden stool",
+		"interior/sword_rack": "wooden rack holding swords",
+		"interior/table_long": "long wooden feast table",
+		"interior/table_round": "round wooden tavern table"
+	}
+}

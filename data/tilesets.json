@@ -515,24 +515,21 @@
 			"tile_size": 64,
 			"lower": "blight_bare",
 			"upper": "blight_floor",
-			"feature": "blight_bare",
-			"stand_in": true
+			"feature": "blight_bare"
 		},
 		"blight_pool": {
 			"texture": "res://art/tilesets/biome/blight_pool.png",
 			"tile_size": 32,
 			"lower": "blight_liquid",
 			"upper": "blight_floor",
-			"feature": "blight_liquid",
-			"stand_in": true
+			"feature": "blight_liquid"
 		},
 		"blight_cover": {
 			"texture": "res://art/tilesets/biome/blight_cover.png",
 			"tile_size": 64,
 			"lower": "blight_floor",
 			"upper": "blight_cover",
-			"feature": "blight_cover",
-			"stand_in": true
+			"feature": "blight_cover"
 		},
 		"slime_ground": {
 			"texture": "res://art/tilesets/biome/slime_ground.png",
