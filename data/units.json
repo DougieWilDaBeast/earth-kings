@@ -1180,7 +1180,7 @@
 		"kind": "wild",
 		"color": "#4fb6e0",
 		"body_scale": 0.8,
-		"sprite_dir": "res://art/units/sea_horse/idle"
+		"sprite_dir": "res://art/tier1/sea_horse/idle"
 	},
 	"sea_man": {
 		"display_name": "Tideborn",
@@ -1355,7 +1355,7 @@
 		],
 		"kind": "beast",
 		"color": "#8f7fb5",
-		"sprite_dir": "res://art/units/lizard_wizard/idle"
+		"sprite_dir": "res://art/tier1/lizard_wizard/idle"
 	},
 	"eye_slinger": {
 		"display_name": "Eye Slinger",
@@ -1444,7 +1444,7 @@
 		"kind": "beast",
 		"color": "#e8873f",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/units/ember_lizard/idle"
+		"sprite_dir": "res://art/tier1/ember_lizard/idle"
 	},
 	"seed_beast": {
 		"display_name": "Mossback",
@@ -1466,7 +1466,7 @@
 		"kind": "wild",
 		"color": "#7fc06a",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/units/seed_beast/idle"
+		"sprite_dir": "res://art/tier1/seed_beast/idle"
 	},
 	"mending_lion": {
 		"display_name": "Mending Lion",
