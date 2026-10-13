@@ -79,14 +79,14 @@ src/
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
     skirmish_fx.gd · skirmish_slot.gd     Numbers, flashes and rings; a skill tile's cooldown sweep
   world/                       The continent: the step clock and every site interaction, run out
-                               of sight beside the land on each step (D83); the map from the journal (D61)
+                               of sight beside the land on each step (D84); the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
                                data/props.json (some animated), buildings drawn from their art,
                                chests, cutscenes, camp fire. land.gd is the continent as one
-                               stretch of ground (D83): each tile a slot laid out by ground_gen.gd
+                               stretch of ground (D84): each tile a slot laid out by ground_gen.gd
                                from its land (chronicle/biome.gd), a place standing in its own,
                                held round the party and let go behind it; crossing into the next
                                tile asks world/ for the step out of sight (game.gd runs it). Bands

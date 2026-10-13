@@ -37,7 +37,7 @@ var gold: int = DEFAULT_GOLD:
 		if tallying:
 			Ledger.add(ledger, "gold_earned" if delta > 0 else "gold_spent", absi(delta))
 var cleared_battles: Array = []
-## Where the leader last stood on the land ([D83]), in the land's own cells, so coming back from a
+## Where the leader last stood on the land ([D84]), in the land's own cells, so coming back from a
 ## fight, a door or the map puts them there. Not saved: a loaded run starts at its tile's way in.
 var land_cell: Variant = null
 var flags: Dictionary = {}

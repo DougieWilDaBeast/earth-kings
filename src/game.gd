@@ -28,7 +28,7 @@ const ROOT_SCENES := ["title", "cinematic"]
 @onready var _container: Node = $CurrentScene
 
 var _scene_key: String = "cinematic"
-## The continent, run out of sight for the land while it takes a step ([D83]); gone once it
+## The continent, run out of sight for the land while it takes a step ([D84]); gone once it
 ## has answered, or when the screen changes.
 var _continent: Node = null
 

@@ -13,7 +13,7 @@ transcribed: faster-whisper (medium.en), unedited
 > before his session ran out of credits. Kept exactly as the transcription gave them. Nothing in
 > them settles a question in [the Question Book](../../15-the-question-book.md); they are requests.
 > The first is the land walked without edges, which his own session had built
-> ([D83](../../06-decisions.md)); the second asks for PixelLab art for the ground, growth and
+> ([D84](../../06-decisions.md)); the second asks for PixelLab art for the ground, growth and
 > structures of the world.
 
 ## First note (46 s)

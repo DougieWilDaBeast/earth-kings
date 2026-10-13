@@ -240,7 +240,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.4 | Walk through long grass right up to them             | Long grass is never red; step out of it into the red and the fight opens with "Ambush!"   |
 | D3.5 | Step onto a red cell                                 | Heads turn, they rush you, and the fight opens on the same ground at the same zoom, everyone where they stood; the camera draws back, the ground beyond the field dimmed |
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
-| D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D83](06-decisions.md)) |
+| D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 
 ## D4 — The tutorial ([D73](06-decisions.md))
 
@@ -255,7 +255,7 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 | D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
 | D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
 | D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
-## D5 — One land ([D83](06-decisions.md))
+## D5 — One land ([D84](06-decisions.md))
 
 Start a run (not the tutorial) and walk.
 

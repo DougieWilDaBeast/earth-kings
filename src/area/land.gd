@@ -1,6 +1,6 @@
 ## Loaded by path ([D41]): `const Land := preload("res://src/area/land.gd")`.
 extends AreaMap
-## The continent laid out as one stretch of ground ([D83]): every tile its own slot of land
+## The continent laid out as one stretch of ground ([D84]): every tile its own slot of land
 ## ([method GroundGen.slot]), side by side, so walking from one into the next is walking on.
 ##
 ## Cells are the land's own: a tile's slot starts at `tile × slot size`. Only the tiles round the

@@ -691,7 +691,7 @@ func _check_the_pad() -> void:
 
 ## The planar view is where the game is played and the continent is a map kept
 ## in the journal ([D61]). Coming back from anywhere lands on the ground, which is the land
-## ([D83]) with the town standing in its tile; the journal's map comes back to the same ground; a
+## ([D84]) with the town standing in its tile; the journal's map comes back to the same ground; a
 ## place's doings are offered and done from the ground; walking over into the next tile moves the
 ## party on the continent without the ground ever leaving the screen.
 func _check_the_ground_is_the_game() -> void:

@@ -11,7 +11,7 @@ extends Node2D
 ## out of sight and hands back the next ground. A place's own doings (hire, buy,
 ## the board, a ransom) are sent the same way and come straight back here.
 ##
-## On the land (`"land": true`, [D83]) there is no edge to walk off: the tiles round the party are
+## On the land (`"land": true`, [D84]) there is no edge to walk off: the tiles round the party are
 ## laid side by side as one stretch of ground ([Land]), places standing in them. Crossing from one
 ## tile into the next is the step; the continent takes it out of sight
 ## ([signal EventBus.continent_requested]) while the party walks on, the tiles ahead are laid out
@@ -128,7 +128,7 @@ var _spotted: bool = false
 var _posted_practice: Dictionary = {}
 var _practice_clock: float = 0.0
 
-## The land ([D83]): whether this is it, the nodes each held tile put down (tile -> its ground,
+## The land ([D84]): whether this is it, the nodes each held tile put down (tile -> its ground,
 ## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
 ## has been asked to take a step and not answered yet.
 var _land_mode: bool = false
@@ -226,7 +226,7 @@ func _paint_layers() -> void:
 	GroundPainter.paint(map, _layers)
 
 
-# --- the land ([D83]) -----------------------------------------------------------------
+# --- the land ([D84]) -----------------------------------------------------------------
 
 
 ## Where the leader starts on the land: where they stood when the scene was last left, if that is
@@ -1583,7 +1583,7 @@ func _post_band(band: Dictionary) -> Node2D:
 	return watch
 
 
-## The continent's word on the bands about, after a step ([D83]): one that has moved tile walks
+## The continent's word on the bands about, after a step ([D84]): one that has moved tile walks
 ## there across the land; one newly near comes onto it once its tile is held; one gone (fought,
 ## or wandered far) goes.
 func _sync_bands(bands: Array) -> void:

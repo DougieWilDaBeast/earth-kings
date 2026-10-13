@@ -13,7 +13,7 @@ extends Node2D
 ## its watched cells moving with it. The loop never brings where the party came in into sight. When
 ## it moves it says so ([signal moved]), and the area looks to see whether the party is now seen.
 ##
-## On the land ([D83]) a band keeps to the tile it is on (its [member region]): it stands and
+## On the land ([D84]) a band keeps to the tile it is on (its [member region]): it stands and
 ## patrols there, further afield than on a single ground, and when the continent moves it to the
 ## next tile it walks there across the land ([method travel]) and takes up a patrol round its new
 ## spot.
@@ -247,7 +247,7 @@ func _patrol(delta: float) -> void:
 			_rest = _pause()
 
 
-## The continent has moved the band to another tile ([D83]): it sets off across the land for a spot
+## The continent has moved the band to another tile ([D84]): it sets off across the land for a spot
 ## in [param to] (away from [param party], whom it has not seen), and patrols there once it arrives.
 func travel(to: Rect2i, party: Vector2i) -> void:
 	if _alert or figures.is_empty():

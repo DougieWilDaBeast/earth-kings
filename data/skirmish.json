@@ -212,8 +212,8 @@
 			"display_name": "Borne",
 			"description": "Carried by his bearer, who keeps beside him. If the bearer falls, Atlas cannot move for the rest of the fight.",
 			"bearer": "ogre",
-			"bearer_name": "Atlas's Bearer",
-			"bearer_note": "Inferred: a hired bearer, until the founders say who carries Atlas."
+			"bearer_name": "Sky",
+			"bearer_note": "Sky carries Atlas (D83). The club ogre's body is Inferred until Sky has one of their own."
 		},
 		"janus": {
 			"style": "doorways",

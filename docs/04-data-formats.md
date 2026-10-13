@@ -438,7 +438,7 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 ```
 
 - `size` — cells across and down of every generated ground, and of every tile's slot on the land
-  ([D83](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
+  ([D84](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
   middle of its tile's slot with the land's ground round it. `landmark_chance` — the share of
   grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
 - `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
@@ -456,7 +456,7 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
   against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
-Which land a tile is: `src/chronicle/biome.gd`. On the land ([D83](06-decisions.md)) each tile is
+Which land a tile is: `src/chronicle/biome.gd`. On the land ([D84](06-decisions.md)) each tile is
 laid out by `GroundGen.slot` with its sides left open towards walkable country (the paths of two
 tiles meet at the same point on their shared edge) and closed only towards the sea or a mountain;
 a sea or lake tile is all water and a mountain all rock. What is written down about a cell (a chest
@@ -475,7 +475,7 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   and walk-through bushes are never seen; the cells the band's own figures stand on always are.
 - **Where it stands:** on its own tile, in the open at least `keep_away` cells beyond its sight from
   where the party came in; watching from the next tile, just inside that edge. On the land
-  ([D83](06-decisions.md)) every band within two tiles stands in its own tile's slot, and keeps to it.
+  ([D84](06-decisions.md)) every band within two tiles stands in its own tile's slot, and keeps to it.
 - **Patrol:** `patrol_points` stops within `patrol_reach` cells, walked a cell every
   `patrol_step_seconds`, resting `patrol_pause` [min, max] seconds at each; a loop that never brings
   where the party came in into sight. The red moves with it. On the land, `land_patrol_points`

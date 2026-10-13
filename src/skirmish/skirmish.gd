@@ -427,7 +427,7 @@ func _row_blocked(rows: Array, at: Vector2i) -> bool:
 	return str(rows[at.y])[at.x] == "#"
 
 
-## The ground the band was met on: the area it names, or, met on the land ([D83]), the tiles the
+## The ground the band was met on: the area it names, or, met on the land ([D84]), the tiles the
 ## field lies across and those round them. Laid out once and kept.
 func _the_ground() -> AreaMap:
 	if _ground != null:

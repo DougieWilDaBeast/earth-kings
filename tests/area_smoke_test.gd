@@ -585,7 +585,7 @@ func _check_the_land() -> void:
 	await get_tree().process_frame
 
 
-## The land ([D83]): the tiles round the party laid side by side as one stretch of ground. Every
+## The land ([D84]): the tiles round the party laid side by side as one stretch of ground. Every
 ## tile that can be walked can be walked into from the next one; the sea and the mountains cannot
 ## be walked at all; a place stands in its tile and keeps its own cells for what is written down
 ## about it; and walking over into the next tile asks the continent for the step, lays out the
