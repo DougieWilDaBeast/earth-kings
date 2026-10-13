@@ -121,6 +121,9 @@ are stored inside the save's tree definitions, not in this file.
 - `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
   suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
   out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
+- `proof: ["cold"]` — hazards it keeps off its bearer on a land that has one (`biomes.json` →
+  `hazards`): the Padded Coat, Feather Mail, Foxfire and the Ember Blade against the cold, the
+  Frost Staff and the Halo Robe against the heat, the Salt Pouch against ooze (**Inferred**, [D71](06-decisions.md)).
 
 ## `heroes.json` — the leads a run can be started as
 
@@ -369,9 +372,13 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
       "props": { "trees": ["biome/swamp_willow"], "bushes": ["biome/swamp_reeds"], "rocks": ["biome/glow_caps"], "small": ["biome/swamp_reeds"] },
       "density": { "trees": 0.06, "bushes": 0.051, "rocks": 0.0064, "small": 0.064 },
       "features": { "pools": 3.5, "cover": 3, "bare": 1, "outcrops": 0.3 },
-      "sea_shore": true
+      "sea_shore": true,
+      "foes": ["blood_mosquito", "slime", "seed_beast", "caterpillar_warrior"],
+      "effects": { "slow": 0.85 }
     }
-  }
+  },
+  "land_foe_share": 0.7,
+  "hazards": { "stride": 640, "share": 0.04, "floor": 0.25, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
 }
 ```
 
@@ -382,6 +389,15 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 - `props` — art for each kind of thing, sized by `props.json`; `density` — how many per cell;
   `features` — how many of each kind of patch a ground gets, on average.
 - `sea_shore` — whether a ground on the coast gets a shore of the land's own water.
+- `foes` — unit ids (`units.json`) that camp in the land. A band put down there is made of them
+  `land_foe_share` of the time, decided from the cell so the run's dice are not spent; otherwise it
+  is the faction that walks the terrain ([D71](06-decisions.md)).
+- `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
+  `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
+  thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).
+- `hazards` — every `stride` pixels walked on a land with a hazard, each party member with nothing
+  against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
+  Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
 Which land a tile is: `src/chronicle/biome.gd`. Laid out by `src/area/ground_gen.gd` and handed to
 the `Database` as an area (`ground_<x>_<y>_<land>`), so it is walked like any area under `areas/`.

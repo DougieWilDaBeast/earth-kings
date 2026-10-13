@@ -420,6 +420,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   travelling, conditions, deadlines whose misses are stories — is
   [investigation/08](investigation/08-quests-and-a-living-world.md), **Inferred** (item 57). Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
+- The lands do something ✅ (2026-10-13, [D71](06-decisions.md)): their own enemies, slow ground,
+  fog and shorter sight in mist and jungle, cold, heat and ooze worn off by the right gear; the
+  strange lands rare. The numbers are **Inferred**
 - ✅ Done when: a run can be played from landing to a Tower chapter without the world view, nothing
   in the world changes because the party walked, and the map shows only where the party has been or
   been told of

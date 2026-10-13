@@ -17,6 +17,7 @@ const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const Biome := preload("res://src/chronicle/biome.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -96,6 +97,14 @@ var _acts: Array = []
 var _held: Dictionary = {}
 ## The buttons for [member _acts], for a thumb or a pad. Built in code.
 var _act_bar: HFlowContainer = null
+## What the land does to whoever walks this ground (see [method Biome.effects]);
+## the neutral one for a place that is not open country.
+var _land: Dictionary = {}
+## How far the party has walked since the land last had its say.
+var _weathered: float = 0.0
+## Party members the land has already been said to be wearing down, so it is
+## said once a ground.
+var _told_of: Dictionary = {}
 ## Bands standing on this ground: `{ data, actors, watch, at }`, where `watch`
 ## is every cell the band can see and `at` the cell it last saw them from.
 var _bands: Array = []
@@ -115,6 +124,7 @@ func _ready() -> void:
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
 
+	_land = Biome.effects(str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
 	_paint_layers()
 	_light_the_place()
@@ -216,11 +226,51 @@ func _take_a_seat(character: Character, seat: Vector2i) -> void:
 ## Somewhere that is not at noon: the whole canvas is tinted, and only the fire
 ## pushes back against it.
 func _light_the_place() -> void:
+	_fog_the_place()
 	if map.tint == "":
 		return
 	var dusk := CanvasModulate.new()
 	dusk.color = Color(map.tint)
 	add_child(dusk)
+
+
+const FOG_SHADER := """
+shader_type canvas_item;
+uniform float thickness = 0.5;
+uniform vec4 colour : source_color = vec4(0.82, 0.84, 0.9, 1.0);
+void fragment() {
+	vec2 from_middle = (UV - vec2(0.5)) * vec2(1.6, 1.0);
+	float far = smoothstep(0.12, 0.62, length(from_middle));
+	COLOR = vec4(colour.rgb, far * thickness);
+}
+"""
+
+
+## Mist and jungle close in round the party: the screen fogs towards its edges,
+## so what is coming is seen late (`fog` in the land's effects).
+func _fog_the_place() -> void:
+	var thickness := float(_land.get("fog", 0.0))
+	if thickness <= 0.0:
+		return
+	var layer := CanvasLayer.new()
+	layer.name = "Fog"
+	var veil := ColorRect.new()
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var shader := Shader.new()
+	shader.code = FOG_SHADER
+	var paint := ShaderMaterial.new()
+	paint.shader = shader
+	paint.set_shader_parameter("thickness", clampf(thickness, 0.0, 0.9))
+	if map.tint != "":
+		paint.set_shader_parameter("colour", Color(map.tint).lightened(0.3))
+	veil.material = paint
+	layer.add_child(veil)
+	add_child(layer)
+	# Under the hint line and the log, which have to stay readable.
+	var ui := get_node_or_null("UI")
+	if ui != null:
+		move_child(layer, ui.get_index())
 
 
 func _spawn_fire() -> void:
@@ -740,8 +790,9 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var before := _leader.position
-	_try_the_way(before, axis.normalized() * WALK_SPEED * delta)
-	_leader.position = _slide(before, axis.normalized() * WALK_SPEED * delta)
+	var stride := axis.normalized() * _walk_speed() * delta
+	_try_the_way(before, stride)
+	_leader.position = _slide(before, stride)
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
@@ -756,10 +807,43 @@ func _physics_process(delta: float) -> void:
 		_strolled += before.distance_to(_leader.position)
 		if _strolled >= AreaMap.CELL * 3.0:
 			EventBus.player_did.emit("walked")
+	_weather(before.distance_to(_leader.position))
 	if _walked >= TALK_STRIDE:
 		_walked = 0.0
 		_road_talk()
 	_arrive_at(map.cell_at(_leader.position))
+
+
+## Bog and snow drag at the feet; open ground does not.
+func _walk_speed() -> float:
+	return WALK_SPEED * clampf(float(_land.get("slow", 1.0)), 0.3, 1.5)
+
+
+## The cold, the heat or the ooze, wearing at whoever walks this ground without
+## the gear to keep it off. Never down past `floor` of anyone's health: walking
+## wears the party down for the fight, it does not kill (`data/biomes.json` →
+## `hazards`).
+func _weather(walked: float) -> void:
+	var hazard := str(_land.get("hazard", ""))
+	if hazard == "" or walked <= 0.0:
+		return
+	var rules: Dictionary = Database.biomes.get("hazards", {})
+	_weathered += walked
+	if _weathered < float(rules.get("stride", 640)):
+		return
+	_weathered = 0.0
+	var told: Dictionary = rules.get(hazard, {})
+	for member: Character in GameState.party_characters():
+		if Biome.spared(member, hazard):
+			continue
+		var low := ceili(float(member.max_hp()) * float(rules.get("floor", 0.25)))
+		var now := member.current_hp()
+		if now <= low:
+			continue
+		member.hp = maxi(low, now - maxi(1, roundi(float(member.max_hp()) * float(rules.get("share", 0.04)))))
+		if not _told_of.has(member.display_name):
+			_told_of[member.display_name] = true
+			_note(str(told.get("line", "%s is worn down by the land.")) % member.display_name)
 
 
 ## Two of the party say something to each other as they walk. It plays over
@@ -954,7 +1038,7 @@ func _settle_followers(delta: float) -> void:
 			follower.face(to_target)
 
 		var speed_mult := 1.35 if far > FOLLOWER_DISTANCE * 1.5 else (1.15 if far > FOLLOWER_DISTANCE else 1.0)
-		var step := to_target.normalized() * (WALK_SPEED * speed_mult * delta)
+		var step := to_target.normalized() * (_walk_speed() * speed_mult * delta)
 		if step.length() > far:
 			step = to_target
 		follower.position = _slide(follower.position, step)
@@ -1087,6 +1171,13 @@ const FIELD_MAX := Vector2i(26, 16)
 ## much of the way it covers, before the fight opens on the spot.
 const CHARGE_TIME := 0.45
 const CHARGE_SHARE := 0.55
+## How long the leader can have been out of long grass and still count as
+## bursting out of it into a band's sight: an ambush (from #66).
+const COVER_GRACE := 0.6
+## A beat for the shout to be read before they come.
+const SHOUT_BEAT := 0.35
+## Seconds since the leader was last standing in cover.
+var _out_of_cover: float = 999.0
 
 
 ## Every band the continent says is here, standing guard on the side of the
@@ -1141,7 +1232,7 @@ func _post_for(data: Dictionary, arrived: Vector2i) -> Vector2i:
 ## as its sight reaches, over nothing solid, and never into cover.
 func _watched_from(band: Dictionary, at: Vector2i) -> Dictionary:
 	var watch := {}
-	var reach := SIGHT_REACH + int(band["data"].get("sight", 2))
+	var reach := maxi(1, SIGHT_REACH + int(band["data"].get("sight", 2)) + int(_land.get("sight", 0)))
 	for dy in range(-reach, reach + 1):
 		for dx in range(-reach, reach + 1):
 			var cell := at + Vector2i(dx, dy)
@@ -1197,6 +1288,10 @@ func _watch_for_bands() -> bool:
 		return false
 	_refresh_sight()
 	var standing := map.cell_at(_leader.position)
+	if bool(Database.area_terrain(map.terrain_at(standing)).get("cover", false)):
+		_out_of_cover = 0.0
+	else:
+		_out_of_cover += get_physics_process_delta_time()
 	for band: Dictionary in _bands:
 		if (band["watch"] as Dictionary).has(standing):
 			_start_fight(band)
@@ -1209,10 +1304,23 @@ func _start_fight(band: Dictionary) -> void:
 		return
 	_leaving = true
 	var many := (band["data"].get("pack", []) as Array).size() > 1
-	_note("%s %s seen you." % [str(band["data"].get("label", "Something")), "have" if many else "has"])
+	var ambush := _out_of_cover <= COVER_GRACE
+	if ambush:
+		_note("Out of the long grass and on %s before they know it." % str(band["data"].get("label", "them")))
+	else:
+		_note("%s %s seen you." % [str(band["data"].get("label", "Something")), "have" if many else "has"])
+		# One of them sees you first, and says so (from #66).
+		var actors: Array = band["actors"]
+		if not actors.is_empty():
+			(actors[0] as AreaActor).say("There!")
 	# Where everyone stood when they were seen is where the fight is laid out,
 	# so it is taken before the band closes in.
 	var field := _field_for(band)
+	field["ambush"] = ambush
+	if not ambush:
+		await get_tree().create_timer(SHOUT_BEAT).timeout
+		if not is_inside_tree():
+			return
 	await _charge(band)
 	if not is_inside_tree():
 		return
