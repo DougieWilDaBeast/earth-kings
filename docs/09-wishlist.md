@@ -511,7 +511,9 @@ legs, so each is a still set moving, south only, used for every facing.
 **Open:** the units not yet drawn (the other level-1 faction foes, the twelve's bodies, the
 sixteen's fight sets), and staged art not yet pointed at (`magic_swordsman`, the two bears with
 weapons, the frozen wolfman, the two giants). The fight effects and status icons in
-[`art/effects/`](../art/effects/README.md) and `art/ui/status/` are not wired.
+[`art/effects/`](../art/effects/README.md) and `art/ui/status/` are wired since 2026-10-13
+([D82](06-decisions.md)); bleed, burn, provoke, vulnerable and the block icon wait for something in
+the fight to show.
 
 ## W29 — A UI pass
 

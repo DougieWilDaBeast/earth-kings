@@ -19,6 +19,8 @@ const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
+const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
+const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 
 var _skirmish: Node2D
 var _failures: Array[String] = []
@@ -154,6 +156,14 @@ func _run() -> void:
 		int(heard.get("victory", 0)) + int(heard.get("defeat", 0))])
 	_expect(not Sfx.cue("no_such_cue"), "a cue that is not in data/sfx.json made a sound")
 	print("heard: %s" % str(heard))
+	# And seen: the drawn effects and icons are all on disk, and blows show them.
+	for key: String in ["swing", "shot", "spell", "heal", "block", "charged"]:
+		_expect(not SkirmishFx.effect_frames(SkirmishFx.effect_for(key)).is_empty(), "no frames for the %s effect" % key)
+	for key: String in ["stunned", "casting", "tired", "using"]:
+		_expect(SkirmishFx.status_icon(str(Database.skirmish["status_icons"][key])) != null, "no icon for %s" % key)
+	_expect(SkirmishFx.status_icon("herb") != null, "no icon for herbs")
+	_expect(int(SkirmishFx.played.get("slash", 0)) + int(SkirmishFx.played.get("arrow", 0)) > 0, "no blow was seen landing")
+	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
 	await _check_fight_rules()
@@ -340,11 +350,13 @@ func _check_fight_rules() -> void:
 	if ember >= 0:
 		fight._begin_cast(toln, ember, foe.unit, foe.unit.cell)
 		_expect(toln.is_casting() and float(toln.cast["total"]) >= 2.0, "Ember did not wind up for two seconds or more")
+		_expect(SkirmishMarks.status_icons(toln).has("charging"), "a fighter winding up wears no charging icon")
 		# Shield Bash stuns and breaks it off.
 		var bash := Database.ability("shield_bash")
 		fight._strike(bram, toln.unit, bash, "shield_bash")
 		_expect(not toln.is_casting(), "a stun did not break the cast")
 		_expect(toln.is_stunned() and bram.interrupts == 1, "a stun did not stun, or was not counted")
+		_expect(SkirmishMarks.status_icons(toln) == (["stun"] as Array[String]), "a stunned fighter wears %s, not the stun icon" % str(SkirmishMarks.status_icons(toln)))
 		for _i in int(ceil(float(bash["stun"]) / SkirmishRules.TICK)) + 2:
 			fight.tick()
 		_expect(not toln.is_stunned(), "a stun never wore off")

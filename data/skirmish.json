@@ -285,6 +285,34 @@
 		"herbs": 2,
 		"red_draught": 1
 	},
+	"effects": {
+		"folder": "res://art/effects",
+		"fps": 18.0,
+		"size": 1.1,
+		"swing": "slash",
+		"shot": "arrow",
+		"spell": "burst",
+		"heal": "heal",
+		"block": "block",
+		"charged": "charge",
+		"by_ability": {
+			"arc_shot": "arrow",
+			"snipe": "arrow",
+			"volley": "arrow",
+			"long_reach": "arrow"
+		}
+	},
+	"status_icons": {
+		"folder": "res://art/ui/status",
+		"size": 18.0,
+		"stunned": "stun",
+		"casting": "charging",
+		"tired": "tired",
+		"using": "draught",
+		"by_item": {
+			"herbs": "herb"
+		}
+	},
 	"decor": {
 		"trees": [
 			"nature/sycamore_tree", "nature/copse", "nature/apple_tree", "nature/birch",

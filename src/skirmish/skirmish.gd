@@ -889,6 +889,7 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> bool:
 	if bool(ability.get("heal", false)):
 		Sfx.cue("heal")
+		_show_effect(f, target, ability, ability_id)
 		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
 		_note_in_the_journal(f.unit, ability_id, target)
 		if target != f.unit and target.team == f.unit.team and f.unit.character != null:
@@ -903,6 +904,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		victim.since_hit = 0.0
 		victim.unit.face_towards(f.unit.cell)
 		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
+		fx.effect(SkirmishFx.effect_for("block"), target.position)
 		Sfx.cue("block")
 		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
 		return false
@@ -939,6 +941,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	_hit_style = ""
 	f.unit.attack = own_attack
 	var dealt := before - target.hp
+	_show_effect(f, target, ability, ability_id)
 	if dealt > 0:
 		Sfx.cue("crit" if crit else "hit")
 	if not tags.is_empty():
@@ -1112,6 +1115,24 @@ func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 	me.cell = next
 	me.set_running(true)
 	return true
+
+
+## The drawn effect for a blow or a heal from [param f] landing on [param target]:
+## a slash up close, an arrow flown from [param f], a burst for a spell, the heal
+## on whoever is mended ([SkirmishFx.effect_for]).
+func _show_effect(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> void:
+	var kind := "swing"
+	if bool(ability.get("heal", false)):
+		kind = "heal"
+	elif ability_id == f.basic:
+		kind = "shot" if int(ability.get("range", 1)) > 1 else "swing"
+	elif int(ability.get("range", 1)) > 1 or SkirmishRules.cast_time(ability) > 0.0:
+		kind = "spell"
+	var name := SkirmishFx.effect_for(kind, ability_id)
+	if name == SkirmishFx.effect_for("shot") and target != f.unit:
+		fx.effect(name, target.position, f.unit.position)
+	else:
+		fx.effect(name, target.position)
 
 
 func _begin_cast(f: Fighter, slot: int, who: Unit, centre: Vector2i) -> void:

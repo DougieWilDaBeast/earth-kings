@@ -36,7 +36,7 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 | Buildings | 31 in `art/buildings/` | Enough for current areas |
 | World | 31 in `art/world/` — 30 holds and a tomb | Map markers |
 | Tilesets | 8 in `art/tilesets/`, plus the unwired `art/map_kit/` | Battle and walk ground |
-| UI | Frames, an emblem, season clovers; ten status and item icons staged in `art/ui/status/` | No ability icons; the status icons are not wired yet |
+| UI | Frames, an emblem, season clovers; ten status and item icons in `art/ui/status/` | No ability icons; bleed, burn, provoke, vulnerable and block have no status in the fight to show yet |
 | Sources | `art/source/` — `.aseprite` files and references | — |
 
 Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in
@@ -109,8 +109,8 @@ five humans were dressed again that evening in the blended finish ([D57](06-deci
 ogre made again at 96 on its own body. 1.4: slash, arrow, heal and burst, plus a charge-up and a
 shield-block spark, in [`art/effects/`](../art/effects/README.md). 1.5: the six status icons plus
 tired, block, draught and herb, in `art/ui/status/`; the slot frames, cooldown sweep, pause banner and
-speed indicator are still to make. The units are in the game since 2026-10-13 (below); the effects
-and the status icons are not wired yet.
+speed indicator are still to make. The units are in the game since 2026-10-13 (below), and so are
+the six effects and four of the icons (stun, charging, tired, draught and herb; [D82](06-decisions.md)).
 
 **The fight plays these moves** (2026-10-13): a unit whose `sprite_dir` sits beside `walk`, `attack`,
 `skill`, `hit` and `death` folders plays them in a fight (see [W28](09-wishlist.md)), so wiring a
