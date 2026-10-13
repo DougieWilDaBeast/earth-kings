@@ -189,8 +189,8 @@ Keyed by their unit template id. Each one stands in `area` as a person whose `st
 ## `tempers.json` — the sixteen, and the quiz that picks one
 
 `axes` describes the eight letters, `types` maps each four-letter code to an in-world name and the
-`hero` that answers to it (blank until written), `quiz` holds the four questions asked before a
-run, and `leans` holds what each letter is worth. See [13](13-heroes-and-tempers.md).
+`hero` that answers to it (blank until written), `quiz` holds the questions asked before a
+run (the same odd number for every `axis`, each pair settled by majority), and `leans` holds what each letter is worth. See [13](13-heroes-and-tempers.md).
 
 ```json
 "types": { "INTJ": { "display_name": "The Long Plan", "blurb": "…", "hero": "" } },

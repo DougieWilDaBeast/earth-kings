@@ -1,7 +1,7 @@
 # 13 — Heroes & Tempers
 
-Sixteen starting characters, one per temper. The player does not browse them: they answer four
-questions, and the four answers name the life they are about to live. The other fifteen are people
+Sixteen starting characters, one per temper. The player does not browse them: they answer the
+questions, and the answers name the life they are about to live. The other fifteen are people
 in the world.
 
 Supersedes [11 — Hero Backstories](11-character-backstories.md), which describes the twelve heroes
@@ -111,10 +111,27 @@ fits.
 one, looks like one or is presented as one, and no text in the game mentions them. _Tower of God_ is
 already in the lineage ([16.12](16-lineage/16.12-tower-of-god.md)).
 
-## The four questions
+## The questions
 
-One per preference pair, so sixteen answers map exactly onto sixteen characters. The questions
-live in `data/tempers.json` under `quiz` and are asked by `src/ui/temper_quiz.gd`.
+Asked one preference pair at a time, and each pair is settled by majority: with three questions to a
+pair, **best of three**, so one odd answer does not decide a whole letter. Once a letter has the
+majority, that pair's last question is skipped, so the quiz runs eight to twelve questions. The
+questions live in `data/tempers.json` under `quiz` and are asked by `src/ui/temper_quiz.gd`
+([D80](06-decisions.md)).
+
+**Wanted from `dougie`: the twelve questions.** `doug-md` asked on 2026-10-13 for the quiz to use the
+questions the founders came up with for choosing a character by personality and choices. They are
+not written down anywhere in the repo yet, so the game still asks the four drafts below, one per
+pair. What is needed, three per pair:
+
+- **E / I** — where the thinking happens: with others, or alone
+- **S / N** — what gets trusted: what is in front of you, or the shape of the thing
+- **T / F** — how it gets decided: by weight, or by who it lands on
+- **J / P** — how the road gets walked: decide early and hold, or decide late and keep moving
+
+Each one a moment in this world with two answers, one for each side, and no right answer. Send them
+in any form; dropping them into `quiz` is a data change and nothing else needs to move. The test the
+letters come from is never named in what the player reads.
 
 | Axis | The question is about | Letters |
 | --- | --- | --- |
@@ -145,7 +162,8 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 
 ## The screen
 
-`New Game` goes to `temper_quiz`, not to the picker. The quiz asks its four questions, then reveals
+`New Game` goes to `temper_quiz`, not to the picker. The quiz asks its questions over the falling sky
+of the start screen, four marks at the top lighting as each pair is settled, then reveals
 the character: portrait, name, title, temper and code, warband, whatever authored history has been
 cast on them, and their stats.
 
@@ -153,15 +171,15 @@ cast on them, and their stats.
 `tempers.json` from the start and fill in one at a time; an unwritten slot says so and offers the
 full roster instead.
 
-**The quiz is the front door** ([D44](06-decisions.md)). Nothing else is offered until the four
+**The quiz is the front door** ([D44](06-decisions.md)). Nothing else is offered until the
 questions are answered. Then the reveal offers two side doors next to _This is you_:
 **Answer again**, which goes back to the first question as often as the player likes, and
 **Show me all sixteen**, the old picker, which is also how the whole roster gets tested.
 
 **The dead cannot be answered into** ([D43](06-decisions.md)). The quiz takes the temper codes of
 fallen leads as `boot_payload.fallen` and leaves out any answer whose every temper has fallen. A
-question left with one answer is still asked, and the player has to pick it: seeing the gap is the
-point. Since 2026-10-01 the dead are passed in ([D47](06-decisions.md)): a lead who dies is
+pair left with one answer is still asked once, and the player has to pick it: seeing the gap is the
+point. The rest of that pair's questions are skipped. Since 2026-10-01 the dead are passed in ([D47](06-decisions.md)): a lead who dies is
 written to `user://earth-kings.sixteen.json` (`src/chronicle/sixteen.gd`), apart from the save and
 the museum. New Game hands their tempers to the quiz and their heroes on to _Show me all sixteen_,
 which offers only the living. Once nobody is left, the picker offers **Begin a new sixteen**. It asks
