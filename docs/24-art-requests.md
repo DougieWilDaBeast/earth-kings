@@ -33,4 +33,4 @@ big units drawn bigger.
 | — | Tier 1 units on the base body: `sworn_blade`, `longbow`, `hedge_priest`, `magic_swordsman`, `goblin`, `raider`, `wolf`, `club_ogre` ([art/tier1](../art/tier1/README.md)) | 2026-10-12 |
 | A1 | Fight effects: slash, arrow, heal, burst, plus a charge-up and a shield-block spark ([art/effects](../art/effects/README.md)), not yet wired | 2026-10-12 |
 | A2, part | The six status icons, plus tired, block, draught and herb (`art/ui/status/`), not yet wired | 2026-10-12 |
-| A3, part | `beast_titan`, `colossal_titan` and `king_slime` redrawn at 96 ([art/big](../art/big/README.md)), not yet wired; `king_slime` again as a mound on 2026-10-13, its first try kept as the Amber Knight | 2026-10-13 |
+| A3, part | `beast_titan`, `colossal_titan` and `king_slime` redrawn at 96 ([art/big](../art/big/README.md)); `king_slime` wired 2026-10-13, the giants not yet; `king_slime` again as a mound on 2026-10-13, its first try kept as the Amber Knight | 2026-10-13 |

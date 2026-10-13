@@ -1,0 +1,316 @@
+{
+ "id": "cabin_boy",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "cabin_boy",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as A normal cabin boy from a pirate crew, he has cutless and a parrot. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "name": "attack",
+   "action": "a quick slash with the cutlass",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "name": "skill",
+   "action": "lunging forward as the parrot swoops off his shoulder and back",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/cabin_boy_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "4fd15c58-82f5-45cc-891c-403a828eb3a4",
+     "name": "cabin_boy",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T07:25:40.200420+00:00"
+    },
+    "folder": "cabin_boy",
+    "frames": {
+     "rotations": {
+      "south": "cabin_boy/rotations/south.png",
+      "south-east": "cabin_boy/rotations/south-east.png",
+      "east": "cabin_boy/rotations/east.png",
+      "north-east": "cabin_boy/rotations/north-east.png",
+      "north": "cabin_boy/rotations/north.png",
+      "north-west": "cabin_boy/rotations/north-west.png",
+      "west": "cabin_boy/rotations/west.png",
+      "south-west": "cabin_boy/rotations/south-west.png"
+     },
+     "animations": {
+      "walking": {
+       "north": [
+        "cabin_boy/animations/walking/north/frame_000.png",
+        "cabin_boy/animations/walking/north/frame_001.png",
+        "cabin_boy/animations/walking/north/frame_002.png",
+        "cabin_boy/animations/walking/north/frame_003.png",
+        "cabin_boy/animations/walking/north/frame_004.png",
+        "cabin_boy/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "cabin_boy/animations/walking/south/frame_000.png",
+        "cabin_boy/animations/walking/south/frame_001.png",
+        "cabin_boy/animations/walking/south/frame_002.png",
+        "cabin_boy/animations/walking/south/frame_003.png",
+        "cabin_boy/animations/walking/south/frame_004.png",
+        "cabin_boy/animations/walking/south/frame_005.png"
+       ],
+       "west": [
+        "cabin_boy/animations/walking/west/frame_000.png",
+        "cabin_boy/animations/walking/west/frame_001.png",
+        "cabin_boy/animations/walking/west/frame_002.png",
+        "cabin_boy/animations/walking/west/frame_003.png",
+        "cabin_boy/animations/walking/west/frame_004.png",
+        "cabin_boy/animations/walking/west/frame_005.png"
+       ],
+       "east": [
+        "cabin_boy/animations/walking/east/frame_000.png",
+        "cabin_boy/animations/walking/east/frame_001.png",
+        "cabin_boy/animations/walking/east/frame_002.png",
+        "cabin_boy/animations/walking/east/frame_003.png",
+        "cabin_boy/animations/walking/east/frame_004.png",
+        "cabin_boy/animations/walking/east/frame_005.png"
+       ]
+      },
+      "falling_backward": {
+       "south": [
+        "cabin_boy/animations/falling_backward/south/frame_000.png",
+        "cabin_boy/animations/falling_backward/south/frame_001.png",
+        "cabin_boy/animations/falling_backward/south/frame_002.png",
+        "cabin_boy/animations/falling_backward/south/frame_003.png",
+        "cabin_boy/animations/falling_backward/south/frame_004.png",
+        "cabin_boy/animations/falling_backward/south/frame_005.png",
+        "cabin_boy/animations/falling_backward/south/frame_006.png"
+       ],
+       "west": [
+        "cabin_boy/animations/falling_backward/west/frame_000.png",
+        "cabin_boy/animations/falling_backward/west/frame_001.png",
+        "cabin_boy/animations/falling_backward/west/frame_002.png",
+        "cabin_boy/animations/falling_backward/west/frame_003.png",
+        "cabin_boy/animations/falling_backward/west/frame_004.png",
+        "cabin_boy/animations/falling_backward/west/frame_005.png",
+        "cabin_boy/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "cabin_boy/animations/falling_backward/north/frame_000.png",
+        "cabin_boy/animations/falling_backward/north/frame_001.png",
+        "cabin_boy/animations/falling_backward/north/frame_002.png",
+        "cabin_boy/animations/falling_backward/north/frame_003.png",
+        "cabin_boy/animations/falling_backward/north/frame_004.png",
+        "cabin_boy/animations/falling_backward/north/frame_005.png",
+        "cabin_boy/animations/falling_backward/north/frame_006.png"
+       ],
+       "east": [
+        "cabin_boy/animations/falling_backward/east/frame_000.png",
+        "cabin_boy/animations/falling_backward/east/frame_001.png",
+        "cabin_boy/animations/falling_backward/east/frame_002.png",
+        "cabin_boy/animations/falling_backward/east/frame_003.png",
+        "cabin_boy/animations/falling_backward/east/frame_004.png",
+        "cabin_boy/animations/falling_backward/east/frame_005.png",
+        "cabin_boy/animations/falling_backward/east/frame_006.png"
+       ]
+      },
+      "attack": {
+       "east": [
+        "cabin_boy/animations/attack/east/frame_000.png",
+        "cabin_boy/animations/attack/east/frame_001.png",
+        "cabin_boy/animations/attack/east/frame_002.png",
+        "cabin_boy/animations/attack/east/frame_003.png",
+        "cabin_boy/animations/attack/east/frame_004.png",
+        "cabin_boy/animations/attack/east/frame_005.png",
+        "cabin_boy/animations/attack/east/frame_006.png",
+        "cabin_boy/animations/attack/east/frame_007.png",
+        "cabin_boy/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "cabin_boy/animations/attack/west/frame_000.png",
+        "cabin_boy/animations/attack/west/frame_001.png",
+        "cabin_boy/animations/attack/west/frame_002.png",
+        "cabin_boy/animations/attack/west/frame_003.png",
+        "cabin_boy/animations/attack/west/frame_004.png",
+        "cabin_boy/animations/attack/west/frame_005.png",
+        "cabin_boy/animations/attack/west/frame_006.png",
+        "cabin_boy/animations/attack/west/frame_007.png",
+        "cabin_boy/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "cabin_boy/animations/attack/south/frame_000.png",
+        "cabin_boy/animations/attack/south/frame_001.png",
+        "cabin_boy/animations/attack/south/frame_002.png",
+        "cabin_boy/animations/attack/south/frame_003.png",
+        "cabin_boy/animations/attack/south/frame_004.png",
+        "cabin_boy/animations/attack/south/frame_005.png",
+        "cabin_boy/animations/attack/south/frame_006.png",
+        "cabin_boy/animations/attack/south/frame_007.png",
+        "cabin_boy/animations/attack/south/frame_008.png"
+       ],
+       "north": [
+        "cabin_boy/animations/attack/north/frame_000.png",
+        "cabin_boy/animations/attack/north/frame_001.png",
+        "cabin_boy/animations/attack/north/frame_002.png",
+        "cabin_boy/animations/attack/north/frame_003.png",
+        "cabin_boy/animations/attack/north/frame_004.png",
+        "cabin_boy/animations/attack/north/frame_005.png",
+        "cabin_boy/animations/attack/north/frame_006.png",
+        "cabin_boy/animations/attack/north/frame_007.png",
+        "cabin_boy/animations/attack/north/frame_008.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "cabin_boy/animations/skill/west/frame_000.png",
+        "cabin_boy/animations/skill/west/frame_001.png",
+        "cabin_boy/animations/skill/west/frame_002.png",
+        "cabin_boy/animations/skill/west/frame_003.png",
+        "cabin_boy/animations/skill/west/frame_004.png",
+        "cabin_boy/animations/skill/west/frame_005.png",
+        "cabin_boy/animations/skill/west/frame_006.png",
+        "cabin_boy/animations/skill/west/frame_007.png",
+        "cabin_boy/animations/skill/west/frame_008.png"
+       ],
+       "south": [
+        "cabin_boy/animations/skill/south/frame_000.png",
+        "cabin_boy/animations/skill/south/frame_001.png",
+        "cabin_boy/animations/skill/south/frame_002.png",
+        "cabin_boy/animations/skill/south/frame_003.png",
+        "cabin_boy/animations/skill/south/frame_004.png",
+        "cabin_boy/animations/skill/south/frame_005.png",
+        "cabin_boy/animations/skill/south/frame_006.png",
+        "cabin_boy/animations/skill/south/frame_007.png",
+        "cabin_boy/animations/skill/south/frame_008.png"
+       ],
+       "east": [
+        "cabin_boy/animations/skill/east/frame_000.png",
+        "cabin_boy/animations/skill/east/frame_001.png",
+        "cabin_boy/animations/skill/east/frame_002.png",
+        "cabin_boy/animations/skill/east/frame_003.png",
+        "cabin_boy/animations/skill/east/frame_004.png",
+        "cabin_boy/animations/skill/east/frame_005.png",
+        "cabin_boy/animations/skill/east/frame_006.png",
+        "cabin_boy/animations/skill/east/frame_007.png",
+        "cabin_boy/animations/skill/east/frame_008.png"
+       ],
+       "north": [
+        "cabin_boy/animations/skill/north/frame_000.png",
+        "cabin_boy/animations/skill/north/frame_001.png",
+        "cabin_boy/animations/skill/north/frame_002.png",
+        "cabin_boy/animations/skill/north/frame_003.png",
+        "cabin_boy/animations/skill/north/frame_004.png",
+        "cabin_boy/animations/skill/north/frame_005.png",
+        "cabin_boy/animations/skill/north/frame_006.png",
+        "cabin_boy/animations/skill/north/frame_007.png",
+        "cabin_boy/animations/skill/north/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "west": [
+        "cabin_boy/animations/taking_a_punch/west/frame_000.png",
+        "cabin_boy/animations/taking_a_punch/west/frame_001.png",
+        "cabin_boy/animations/taking_a_punch/west/frame_002.png",
+        "cabin_boy/animations/taking_a_punch/west/frame_003.png",
+        "cabin_boy/animations/taking_a_punch/west/frame_004.png",
+        "cabin_boy/animations/taking_a_punch/west/frame_005.png"
+       ],
+       "east": [
+        "cabin_boy/animations/taking_a_punch/east/frame_000.png",
+        "cabin_boy/animations/taking_a_punch/east/frame_001.png",
+        "cabin_boy/animations/taking_a_punch/east/frame_002.png",
+        "cabin_boy/animations/taking_a_punch/east/frame_003.png",
+        "cabin_boy/animations/taking_a_punch/east/frame_004.png",
+        "cabin_boy/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "south": [
+        "cabin_boy/animations/taking_a_punch/south/frame_000.png",
+        "cabin_boy/animations/taking_a_punch/south/frame_001.png",
+        "cabin_boy/animations/taking_a_punch/south/frame_002.png",
+        "cabin_boy/animations/taking_a_punch/south/frame_003.png",
+        "cabin_boy/animations/taking_a_punch/south/frame_004.png",
+        "cabin_boy/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "north": [
+        "cabin_boy/animations/taking_a_punch/north/frame_000.png",
+        "cabin_boy/animations/taking_a_punch/north/frame_001.png",
+        "cabin_boy/animations/taking_a_punch/north/frame_002.png",
+        "cabin_boy/animations/taking_a_punch/north/frame_003.png",
+        "cabin_boy/animations/taking_a_punch/north/frame_004.png",
+        "cabin_boy/animations/taking_a_punch/north/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T07:46:43.071736"
+ }
+}

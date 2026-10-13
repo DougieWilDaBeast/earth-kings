@@ -115,6 +115,14 @@ speed indicator are still to make. None is wired into the game yet.
 `skill`, `hit` and `death` folders plays them in a fight (see [W28](09-wishlist.md)), so wiring a
 staged unit in is a one-line `sprite_dir` change once its art is in its final folder.
 
+**Wired 2026-10-13, early game first:** `dougie` chose to put the early game's units in now rather
+than wait for the full redo. The founders, the first foes and the early big units play their moves
+(the list is in [art/tier1](../art/tier1/README.md) and [art/big](../art/big/README.md)); the rest
+follow in the order of `/mnt/project-files/pixellab/early-game-art-order.md`: early foes, the rank-E
+gate bosses, the other level-1 faction foes, the other leads and their companions, then the
+village's walks. Legless units (the slimes) are drawn as a still set moving, south only, which the
+fight uses for every facing.
+
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
 
