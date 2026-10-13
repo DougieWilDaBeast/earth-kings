@@ -381,6 +381,29 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 Which land a tile is: `src/chronicle/biome.gd`. Laid out by `src/area/ground_gen.gd` and handed to
 the `Database` as an area (`ground_<x>_<y>_<land>`), so it is walked like any area under `areas/`.
 
+## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
+
+Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight hand-off in
+`src/area/area_scene.gd`.
+
+- **Sight:** `sight_base + sight_per_reach × reach` ground cells round the band (its world reach,
+  usually 2, so 5). Trees, houses and rock block the line; `water` and every land's `*_liquid` do
+  not. Ground that is cover (`"cover": true` on its terrain in `tilesets.json`, or named in `cover`)
+  and walk-through bushes are never seen; the cells the band's own figures stand on always are.
+- **Where it stands:** on its own tile, in the open at least `keep_away` cells beyond its sight from
+  where the party came in; watching from the next tile, just inside that edge.
+- **Patrol:** `patrol_points` stops within `patrol_reach` cells, walked a cell every
+  `patrol_step_seconds`, resting `patrol_pause` [min, max] seconds at each; a loop that never brings
+  where the party came in into sight. The red moves with it.
+- **Seen:** a step into the red, or the band walking into view of the party. `spotted_seconds` of
+  heads turning, the band rushing `charge_share` of the way in `charge_seconds`, then the fight on a
+  field `field_margin` cells round everyone, `field_smallest` to `field_largest`. The field carries
+  `view` (the ground camera's `centre` in ground pixels and its `zoom`): the fight opens on it and
+  draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
+
+The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
+from }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one).
+
 ## `guild.json` — the Adventurers Guild
 
 ```json

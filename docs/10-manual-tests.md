@@ -227,6 +227,20 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 
+## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
+
+Start a run and walk until the bottom line says a band has marked the ground it can see.
+
+| #    | Do this                                              | Expect                                                                                  |
+| ---- | ---------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| D3.1 | Look round                                           | The band on the ground with its name over it; the cells it can see a red grid with a rim; you are not inside it |
+| D3.2 | Watch it for ten seconds                             | It walks a small loop, resting at each stop, the red moving with it                      |
+| D3.3 | Walk up close without entering the red               | They turn to watch you; nothing starts                                                   |
+| D3.4 | Walk through long grass right up to them             | Long grass is never red; step out of it into the red and the fight opens with "Ambush!"   |
+| D3.5 | Step onto a red cell                                 | Heads turn, they rush you, and the fight opens on the same ground at the same zoom, everyone where they stood; the camera draws back, the ground beyond the field dimmed |
+| D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
+| D3.7 | Walk onto a tile a band on the next tile watches     | No sudden fight: the band stands at that edge of the new ground, watching                |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

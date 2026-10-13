@@ -399,9 +399,10 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   reshaped round gates; every tile of open country its own ground, with ways out only where the land
   goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
   `data/biomes.json`). Art for sixteen of the lands is a recoloured stand-in
-- Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md)): standing guard with the ground they
-  watch painted red; step in and the real-time fight opens on that same ground, and play comes back
-  to the same spot
+- Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
+  [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
+  into view of) and they charge, the real-time fight opens on that same ground at the view it was
+  seen in, and play comes back to the same spot. Sight and patrol numbers are **Inferred**
 - Weather and hazards per land, enemies chosen by land, the Tower's element reshaping its country
   (planned; [investigation/09](investigation/09-lands-of-the-continent.md#not-built))
 - Places worth walking round ✅ (2026-10-12, [D62](06-decisions.md)): every prop and building at its
