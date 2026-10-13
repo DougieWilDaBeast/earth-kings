@@ -53,6 +53,7 @@ you saw, on which screen, and what you had done just before.
 | B6  | Type letters in the Seed field                                       | Treated as empty; a random country, no error                                         |
 | B7  | Lose a run with the lead **dead** (Even or harder), then New Game → answer → _Show me all sixteen_ | That lead is not on the list any more |
 | B8  | With every lead fallen, open _Show me all sixteen_ | "All of them have fallen." and **Begin a new sixteen**; it asks twice, then the quiz starts with everyone back |
+| B8a | New Game, then answer the questions                                   | Falling sky behind; four marks at the top light one by one as each pair is settled; answers pick with the mouse, arrows or `1` / `2`; with three questions a pair, answering the same way twice skips the third |
 | B9  | Start a run                                                          | The landing beat plays: a furrow in the ground, no memory, the Tower off to one side, and "A new standing quest: Ascend to heaven" |
 | B10 | Start twice with the same seed and lead, then with another lead      | The same crater both times; another lead lands somewhere else. Either way, the crater is **Where You Fell**, your Home, with the bed to upgrade |
 | B11 | Press **N** → **Quests & the Fallen**                                | "Ascend to heaven" at the top with the Tower's floor; errands below; "N more carry the mark somewhere out there" |
@@ -253,7 +254,7 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 | D4.4 | Press Esc → Save during the tour                      | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
 | D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
 | D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
-| D4.7 | Finish the tour and press **Start a new run**         | The four questions that pick a hero; the new run saves as normal                         |
+| D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |
