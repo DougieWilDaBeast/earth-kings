@@ -1,0 +1,316 @@
+{
+ "id": "dusk_shadow",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "dusk_shadow",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "turn him into a shadow figure made of dusk-dark smoke, long tattered dark hood and cloak, faint glowing eyes, no visible face. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "name": "attack",
+   "action": "a sweeping slash of shadowy claws",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "name": "skill",
+   "action": "raising both arms as dark smoke pours out around him",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 8.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "name": "hit",
+   "action": "",
+   "template_animation": "taking-punch",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+   "name": "death",
+   "action": "",
+   "template_animation": "falling-back-death",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/dusk_shadow_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-13"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "7bbf4c90-0e95-4512-afef-6516d4076d9a",
+     "name": "dusk_shadow",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-13T09:09:02.096493+00:00"
+    },
+    "folder": "dusk_shadow",
+    "frames": {
+     "rotations": {
+      "south": "dusk_shadow/rotations/south.png",
+      "south-east": "dusk_shadow/rotations/south-east.png",
+      "east": "dusk_shadow/rotations/east.png",
+      "north-east": "dusk_shadow/rotations/north-east.png",
+      "north": "dusk_shadow/rotations/north.png",
+      "north-west": "dusk_shadow/rotations/north-west.png",
+      "west": "dusk_shadow/rotations/west.png",
+      "south-west": "dusk_shadow/rotations/south-west.png"
+     },
+     "animations": {
+      "skill": {
+       "east": [
+        "dusk_shadow/animations/skill/east/frame_000.png",
+        "dusk_shadow/animations/skill/east/frame_001.png",
+        "dusk_shadow/animations/skill/east/frame_002.png",
+        "dusk_shadow/animations/skill/east/frame_003.png",
+        "dusk_shadow/animations/skill/east/frame_004.png",
+        "dusk_shadow/animations/skill/east/frame_005.png",
+        "dusk_shadow/animations/skill/east/frame_006.png",
+        "dusk_shadow/animations/skill/east/frame_007.png",
+        "dusk_shadow/animations/skill/east/frame_008.png"
+       ],
+       "north": [
+        "dusk_shadow/animations/skill/north/frame_000.png",
+        "dusk_shadow/animations/skill/north/frame_001.png",
+        "dusk_shadow/animations/skill/north/frame_002.png",
+        "dusk_shadow/animations/skill/north/frame_003.png",
+        "dusk_shadow/animations/skill/north/frame_004.png",
+        "dusk_shadow/animations/skill/north/frame_005.png",
+        "dusk_shadow/animations/skill/north/frame_006.png",
+        "dusk_shadow/animations/skill/north/frame_007.png",
+        "dusk_shadow/animations/skill/north/frame_008.png"
+       ],
+       "west": [
+        "dusk_shadow/animations/skill/west/frame_000.png",
+        "dusk_shadow/animations/skill/west/frame_001.png",
+        "dusk_shadow/animations/skill/west/frame_002.png",
+        "dusk_shadow/animations/skill/west/frame_003.png",
+        "dusk_shadow/animations/skill/west/frame_004.png",
+        "dusk_shadow/animations/skill/west/frame_005.png",
+        "dusk_shadow/animations/skill/west/frame_006.png",
+        "dusk_shadow/animations/skill/west/frame_007.png",
+        "dusk_shadow/animations/skill/west/frame_008.png"
+       ],
+       "south": [
+        "dusk_shadow/animations/skill/south/frame_000.png",
+        "dusk_shadow/animations/skill/south/frame_001.png",
+        "dusk_shadow/animations/skill/south/frame_002.png",
+        "dusk_shadow/animations/skill/south/frame_003.png",
+        "dusk_shadow/animations/skill/south/frame_004.png",
+        "dusk_shadow/animations/skill/south/frame_005.png",
+        "dusk_shadow/animations/skill/south/frame_006.png",
+        "dusk_shadow/animations/skill/south/frame_007.png",
+        "dusk_shadow/animations/skill/south/frame_008.png"
+       ]
+      },
+      "walking": {
+       "west": [
+        "dusk_shadow/animations/walking/west/frame_000.png",
+        "dusk_shadow/animations/walking/west/frame_001.png",
+        "dusk_shadow/animations/walking/west/frame_002.png",
+        "dusk_shadow/animations/walking/west/frame_003.png",
+        "dusk_shadow/animations/walking/west/frame_004.png",
+        "dusk_shadow/animations/walking/west/frame_005.png"
+       ],
+       "south": [
+        "dusk_shadow/animations/walking/south/frame_000.png",
+        "dusk_shadow/animations/walking/south/frame_001.png",
+        "dusk_shadow/animations/walking/south/frame_002.png",
+        "dusk_shadow/animations/walking/south/frame_003.png",
+        "dusk_shadow/animations/walking/south/frame_004.png",
+        "dusk_shadow/animations/walking/south/frame_005.png"
+       ],
+       "north": [
+        "dusk_shadow/animations/walking/north/frame_000.png",
+        "dusk_shadow/animations/walking/north/frame_001.png",
+        "dusk_shadow/animations/walking/north/frame_002.png",
+        "dusk_shadow/animations/walking/north/frame_003.png",
+        "dusk_shadow/animations/walking/north/frame_004.png",
+        "dusk_shadow/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "dusk_shadow/animations/walking/east/frame_000.png",
+        "dusk_shadow/animations/walking/east/frame_001.png",
+        "dusk_shadow/animations/walking/east/frame_002.png",
+        "dusk_shadow/animations/walking/east/frame_003.png",
+        "dusk_shadow/animations/walking/east/frame_004.png",
+        "dusk_shadow/animations/walking/east/frame_005.png"
+       ]
+      },
+      "falling_backward": {
+       "east": [
+        "dusk_shadow/animations/falling_backward/east/frame_000.png",
+        "dusk_shadow/animations/falling_backward/east/frame_001.png",
+        "dusk_shadow/animations/falling_backward/east/frame_002.png",
+        "dusk_shadow/animations/falling_backward/east/frame_003.png",
+        "dusk_shadow/animations/falling_backward/east/frame_004.png",
+        "dusk_shadow/animations/falling_backward/east/frame_005.png",
+        "dusk_shadow/animations/falling_backward/east/frame_006.png"
+       ],
+       "west": [
+        "dusk_shadow/animations/falling_backward/west/frame_000.png",
+        "dusk_shadow/animations/falling_backward/west/frame_001.png",
+        "dusk_shadow/animations/falling_backward/west/frame_002.png",
+        "dusk_shadow/animations/falling_backward/west/frame_003.png",
+        "dusk_shadow/animations/falling_backward/west/frame_004.png",
+        "dusk_shadow/animations/falling_backward/west/frame_005.png",
+        "dusk_shadow/animations/falling_backward/west/frame_006.png"
+       ],
+       "north": [
+        "dusk_shadow/animations/falling_backward/north/frame_000.png",
+        "dusk_shadow/animations/falling_backward/north/frame_001.png",
+        "dusk_shadow/animations/falling_backward/north/frame_002.png",
+        "dusk_shadow/animations/falling_backward/north/frame_003.png",
+        "dusk_shadow/animations/falling_backward/north/frame_004.png",
+        "dusk_shadow/animations/falling_backward/north/frame_005.png",
+        "dusk_shadow/animations/falling_backward/north/frame_006.png"
+       ],
+       "south": [
+        "dusk_shadow/animations/falling_backward/south/frame_000.png",
+        "dusk_shadow/animations/falling_backward/south/frame_001.png",
+        "dusk_shadow/animations/falling_backward/south/frame_002.png",
+        "dusk_shadow/animations/falling_backward/south/frame_003.png",
+        "dusk_shadow/animations/falling_backward/south/frame_004.png",
+        "dusk_shadow/animations/falling_backward/south/frame_005.png",
+        "dusk_shadow/animations/falling_backward/south/frame_006.png"
+       ]
+      },
+      "attack": {
+       "east": [
+        "dusk_shadow/animations/attack/east/frame_000.png",
+        "dusk_shadow/animations/attack/east/frame_001.png",
+        "dusk_shadow/animations/attack/east/frame_002.png",
+        "dusk_shadow/animations/attack/east/frame_003.png",
+        "dusk_shadow/animations/attack/east/frame_004.png",
+        "dusk_shadow/animations/attack/east/frame_005.png",
+        "dusk_shadow/animations/attack/east/frame_006.png",
+        "dusk_shadow/animations/attack/east/frame_007.png",
+        "dusk_shadow/animations/attack/east/frame_008.png"
+       ],
+       "north": [
+        "dusk_shadow/animations/attack/north/frame_000.png",
+        "dusk_shadow/animations/attack/north/frame_001.png",
+        "dusk_shadow/animations/attack/north/frame_002.png",
+        "dusk_shadow/animations/attack/north/frame_003.png",
+        "dusk_shadow/animations/attack/north/frame_004.png",
+        "dusk_shadow/animations/attack/north/frame_005.png",
+        "dusk_shadow/animations/attack/north/frame_006.png",
+        "dusk_shadow/animations/attack/north/frame_007.png",
+        "dusk_shadow/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "dusk_shadow/animations/attack/west/frame_000.png",
+        "dusk_shadow/animations/attack/west/frame_001.png",
+        "dusk_shadow/animations/attack/west/frame_002.png",
+        "dusk_shadow/animations/attack/west/frame_003.png",
+        "dusk_shadow/animations/attack/west/frame_004.png",
+        "dusk_shadow/animations/attack/west/frame_005.png",
+        "dusk_shadow/animations/attack/west/frame_006.png",
+        "dusk_shadow/animations/attack/west/frame_007.png",
+        "dusk_shadow/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "dusk_shadow/animations/attack/south/frame_000.png",
+        "dusk_shadow/animations/attack/south/frame_001.png",
+        "dusk_shadow/animations/attack/south/frame_002.png",
+        "dusk_shadow/animations/attack/south/frame_003.png",
+        "dusk_shadow/animations/attack/south/frame_004.png",
+        "dusk_shadow/animations/attack/south/frame_005.png",
+        "dusk_shadow/animations/attack/south/frame_006.png",
+        "dusk_shadow/animations/attack/south/frame_007.png",
+        "dusk_shadow/animations/attack/south/frame_008.png"
+       ]
+      },
+      "taking_a_punch": {
+       "north": [
+        "dusk_shadow/animations/taking_a_punch/north/frame_000.png",
+        "dusk_shadow/animations/taking_a_punch/north/frame_001.png",
+        "dusk_shadow/animations/taking_a_punch/north/frame_002.png",
+        "dusk_shadow/animations/taking_a_punch/north/frame_003.png",
+        "dusk_shadow/animations/taking_a_punch/north/frame_004.png",
+        "dusk_shadow/animations/taking_a_punch/north/frame_005.png"
+       ],
+       "east": [
+        "dusk_shadow/animations/taking_a_punch/east/frame_000.png",
+        "dusk_shadow/animations/taking_a_punch/east/frame_001.png",
+        "dusk_shadow/animations/taking_a_punch/east/frame_002.png",
+        "dusk_shadow/animations/taking_a_punch/east/frame_003.png",
+        "dusk_shadow/animations/taking_a_punch/east/frame_004.png",
+        "dusk_shadow/animations/taking_a_punch/east/frame_005.png"
+       ],
+       "south": [
+        "dusk_shadow/animations/taking_a_punch/south/frame_000.png",
+        "dusk_shadow/animations/taking_a_punch/south/frame_001.png",
+        "dusk_shadow/animations/taking_a_punch/south/frame_002.png",
+        "dusk_shadow/animations/taking_a_punch/south/frame_003.png",
+        "dusk_shadow/animations/taking_a_punch/south/frame_004.png",
+        "dusk_shadow/animations/taking_a_punch/south/frame_005.png"
+       ],
+       "west": [
+        "dusk_shadow/animations/taking_a_punch/west/frame_000.png",
+        "dusk_shadow/animations/taking_a_punch/west/frame_001.png",
+        "dusk_shadow/animations/taking_a_punch/west/frame_002.png",
+        "dusk_shadow/animations/taking_a_punch/west/frame_003.png",
+        "dusk_shadow/animations/taking_a_punch/west/frame_004.png",
+        "dusk_shadow/animations/taking_a_punch/west/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-13T09:24:38.654006"
+ }
+}
