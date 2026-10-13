@@ -1,0 +1,545 @@
+{
+  "display_name": "Hearthwick, the training village",
+  "layers": [
+    "dirt",
+    "meadow"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "m": "meadow"
+  },
+  "hint": "WASD to walk  ·  click anyone marked to talk, anything marked ? to look at it  ·  P party  ·  N journal  ·  Esc menu  ·  the road south ends the tour",
+  "spawn": [
+    12,
+    13
+  ],
+  "exits": [
+    [
+      11,
+      15
+    ],
+    [
+      12,
+      15
+    ]
+  ],
+  "rows": [
+    "mmm...................mm",
+    "mmm...................mm",
+    "......................mm",
+    ".....,,,........,.......",
+    "........,,,,,,,,........",
+    "m......,,,,,,,,,,,,,,...",
+    "m......,,,,,,,,,,.......",
+    "m......,,,,,,,,,,.......",
+    "........,,,,,,,,........",
+    "...........,,...........",
+    "...........,,...........",
+    "...,,,,,,,,,,...........",
+    "...........,,...........",
+    "mmmmm......,,.......mmmm",
+    "mmmmm......,,.......mmmm",
+    "mmmmm......,,.......mmmm"
+  ],
+  "spots": [
+    {
+      "cell": [
+        12,
+        12
+      ],
+      "line": "Hearthwick. A village built so somebody could learn to walk into one."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        18,
+        10
+      ],
+      "line": "A chest left by the cart, and nobody about to argue whose it is.",
+      "gold": 40,
+      "item": "apple"
+    }
+  ],
+  "props": [
+    {
+      "art": "village/signpost",
+      "cell": [
+        13,
+        10
+      ],
+      "name": "the signpost",
+      "line": "North: the square. East: the ring of stones. South: the road out, and the end of the tour."
+    },
+    {
+      "art": "village/well",
+      "cell": [
+        12,
+        6
+      ],
+      "name": "the well",
+      "line": "A well, a bucket, and a rope worn smooth by practice."
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        9,
+        5
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        17,
+        10
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        15,
+        5
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        10,
+        7
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        14,
+        7
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        10,
+        10
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        14,
+        12
+      ]
+    },
+    {
+      "art": "village/planter",
+      "cell": [
+        6,
+        12
+      ]
+    },
+    {
+      "art": "village/bell",
+      "cell": [
+        7,
+        6
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        20,
+        11
+      ],
+      "name": "a log pile",
+      "line": "Logs, stacked by somebody who cared about it.",
+      "found_line": "And underneath, a little carved wooden horse. That will be Wren's.",
+      "set_flag": "found:tut_horse",
+      "requires": "job:tut_horse",
+      "requires_not": "job:tut_horse:paid"
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        20,
+        11
+      ],
+      "requires_not": "job:tut_horse"
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        20,
+        11
+      ],
+      "requires": "job:tut_horse:paid"
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the Lamb and Lantern",
+      "art": "tavern",
+      "cell": [
+        15,
+        1
+      ],
+      "door": [
+        16,
+        2
+      ],
+      "area": "village_inn"
+    },
+    {
+      "name": "the weaver's house",
+      "art": "red_roof_house",
+      "cell": [
+        4,
+        1
+      ],
+      "door": [
+        5,
+        2
+      ],
+      "shut": [
+        "Shut. Somebody inside is weaving, and does not stop for you.",
+        "A note on the door: OUT. Under it, in another hand: NOT OUT, BUSY."
+      ]
+    },
+    {
+      "name": "Wren's cottage",
+      "art": "village_house/south",
+      "cell": [
+        2,
+        9
+      ],
+      "door": [
+        3,
+        10
+      ],
+      "shut": "Wren's mother calls from inside: she'll not have strangers in while the bread's rising."
+    }
+  ],
+  "people": [
+    {
+      "name": "Maren the Guide",
+      "unit": "staff_panda",
+      "cell": [
+        12,
+        10
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Welcome to Hearthwick!",
+        "Come and ask me anything."
+      ],
+      "talk": {
+        "hello": "Welcome to Hearthwick! Everyone here is glad to show a new face how things work. Ask me anything.",
+        "again": [
+          "Back again? Ask away.",
+          "Still here? Good. Ask me something."
+        ],
+        "ask": [
+          {
+            "q": "What are the gates?",
+            "a": "Doors in the world that shouldn't be there. Monsters pour out of the open ones. Go in, fight through every floor, and the gate shuts behind you for good. Leave one too long and it breaks, and what was inside comes out stronger.",
+            "set_flag": "tut:asked"
+          },
+          {
+            "q": "What's the Tower?",
+            "a": "The thing you can see from everywhere. A hundred floors, a new chapter every five. Every floor pays, and every floor is a choice about what you're already carrying.",
+            "set_flag": "tut:asked"
+          },
+          {
+            "q": "What happens if someone falls?",
+            "a": "They may not get up. A charm, a friend still standing, a book they've read: any of those might save them. Companions can be lost and the road goes on. If your own hero falls, that world is over.",
+            "set_flag": "tut:asked"
+          },
+          {
+            "q": "How do I get stronger?",
+            "a": "Meet new things. The first time your company beats a kind of creature, somebody learns from it. Gear helps, from shops and chests. So do books, from the libraries.",
+            "set_flag": "tut:asked"
+          },
+          {
+            "q": "Who else lives here?",
+            "a": "Pim keeps the stall. Smudge the fox won't talk to anyone without a coin. Wren has lost something, I'd bet. And Captain Harrow keeps a sparring pair out in the field south of the square, for anyone who wants to learn how a fight starts.",
+            "set_flag": "tut:asked"
+          }
+        ],
+        "more": [
+          "Anything else?",
+          "What else?"
+        ],
+        "bye": "Good luck out there. Mind the fox."
+      }
+    },
+    {
+      "name": "Pim the Stallholder",
+      "unit": "peasant",
+      "cell": [
+        9,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Bread! Apples! Draughts for the road!",
+        "Coin first, mind."
+      ],
+      "talk": {
+        "hello": [
+          "Buying or browsing? Browsing's free. Buying's better.",
+          "Fresh this morning! Most of it."
+        ],
+        "ask": [
+          {
+            "q": "What are draughts for?",
+            "a": "Drink one in a fight and a wound closes. Red's cheap and does a little. Blue does more. The amber ones I can't afford to stock."
+          }
+        ],
+        "sells": [
+          {
+            "item": "bread",
+            "set_flag": "tut:bought",
+            "restock": true
+          },
+          {
+            "item": "apple",
+            "set_flag": "tut:bought",
+            "restock": true
+          },
+          {
+            "item": "red_draught",
+            "set_flag": "tut:bought"
+          },
+          {
+            "item": "padded_coat",
+            "set_flag": "tut:bought"
+          },
+          {
+            "item": "hunting_bow",
+            "set_flag": "tut:bought"
+          }
+        ],
+        "shop": "Have a look. Food and draughts go in the packs; gear goes to whoever can use it best.",
+        "sold": [
+          "Pleasure doing business.",
+          "Good choice."
+        ],
+        "bye": "Come back when you're hungry."
+      }
+    },
+    {
+      "name": "Smudge the Fox",
+      "unit": "hat_fox",
+      "cell": [
+        15,
+        8
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 1.5,
+      "chatter": [
+        "The fox watches your purse.",
+        "The fox adjusts its hat."
+      ],
+      "talk": {
+        "refuse": {
+          "text": [
+            "The fox looks at you, then at your purse, then pointedly away.",
+            "The fox yawns, very wide, so you can see all of its teeth."
+          ],
+          "bribe": 2,
+          "bribe_q": "Toss it a coin. (2 gold)",
+          "check": {
+            "skill": "wits",
+            "dc": 8
+          },
+          "check_q": "Pretend you haven't noticed it.",
+          "won": "The fox sits. It waits. It seems to expect a question.",
+          "still_no": "The fox has noticed you pretending.",
+          "won_flag": "tut:fox",
+          "unless": "tut:fox",
+          "leave": "Leave the fox be."
+        },
+        "hello": "The fox tilts its hat at you. It is, somehow, a greeting.",
+        "ask": [
+          {
+            "q": "Why won't you talk to anyone?",
+            "a": "Everybody wants something from a fox, the look says. At least you paid."
+          },
+          {
+            "q": "Know any secrets?",
+            "a": "Its tail flicks towards the cart. Then it looks at you as if you should already have known."
+          }
+        ],
+        "more": "The fox waits.",
+        "leave": "Leave it.",
+        "bye": "The fox is already looking at someone else's purse."
+      }
+    },
+    {
+      "name": "Wren",
+      "unit": "cabin_boy",
+      "cell": [
+        6,
+        10
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "chatter": [
+        "Where did it go...",
+        "It was right here."
+      ],
+      "talk": {
+        "hello": "Oh! Hello. Sorry. I'm looking for something.",
+        "again": "Did you see it anywhere?",
+        "job": {
+          "flag": "job:tut_horse",
+          "done_flag": "found:tut_horse",
+          "ask": "Can I help you look?",
+          "offer": "My wooden horse. Da carved it. I was playing by the log pile on the far side of the square, and now it's gone.",
+          "accept": "I'll find it.",
+          "decline": "Not right now.",
+          "thanks": "Thank you! Things worth a look have a ? over them, Da says.",
+          "waiting": "Did you find it?",
+          "hand_over": "Here's your horse.",
+          "not_yet": "Not yet.",
+          "done": "That's him! Thank you! Here, Da gave me these for being good. You've been better.",
+          "gold": 15,
+          "item": "apple"
+        },
+        "bye": "Bye!"
+      }
+    },
+    {
+      "name": "Captain Harrow",
+      "unit": "golden_knight",
+      "cell": [
+        18,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Ready to spar?",
+        "Mind the red ground."
+      ],
+      "talk": {
+        "hello": "You'll want to know how to fight before the world teaches you the hard way.",
+        "ask": [
+          {
+            "q": "How do fights start?",
+            "a": "Out in the country, a band camps where it likes and paints the ground it can see red. Step into that red and you're fighting, right there, on that very ground. Long grass hides you; bursting out of it at them gets you the jump."
+          },
+          {
+            "q": "How do fights work?",
+            "a": "In real time, and they start paused. Space pauses and unpauses. Left-click a fighter, or drag a box round several. Right-click the ground to move, an enemy to attack, a fallen friend to help them up. Q, W, E and R use skills."
+          },
+          {
+            "q": "Where's the sparring pair?",
+            "a": "Out in the field south of the square, once you're ready for them: a goblin and a slime who've agreed to lose to you. Nothing they do in practice can kill you."
+          },
+          {
+            "q": "Any advice?",
+            "a": "Facing matters: hit them from the side or behind. Keep your healer at the back. And pause whenever you need to think. Nobody will laugh."
+          }
+        ],
+        "bye": "Off you go. Mind the red."
+      }
+    }
+  ],
+  "bands": [
+    {
+      "key": "tut_spar",
+      "pack": [
+        "goblin",
+        "slime"
+      ],
+      "label": "Harrow's sparring pair",
+      "faction": "",
+      "at": [
+        16,
+        11
+      ],
+      "reach": 2,
+      "level": 1,
+      "spar": true,
+      "requires": "tut:spar_ready",
+      "requires_not": "tut:sparred",
+      "done_flag": "tut:sparred"
+    }
+  ],
+  "dressing": [
+    {"art": "nature/apple_tree", "cell": [13, 0], "offset": [4, 2], "flip": true},
+    {"art": "nature/birch", "cell": [21, 14], "offset": [10, 3]},
+    {"art": "nature/copse", "cell": [23, 1], "offset": [8, 4], "flip": true},
+    {"art": "nature/great_oak", "cell": [1, 3], "offset": [3, -5], "flip": true},
+    {"art": "nature/apple_tree", "cell": [1, 14], "offset": [-4, -5]},
+    {"art": "nature/autumn_tree", "cell": [21, 0], "offset": [8, 5], "flip": true},
+    {"art": "nature/copse", "cell": [0, 11], "offset": [-3, -1]},
+    {"art": "nature/copse", "cell": [1, 7], "offset": [-4, -1]},
+    {"art": "nature/birch", "cell": [6, 15], "offset": [1, -5], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [23, 11], "offset": [-10, -5]},
+    {"art": "nature/great_oak", "cell": [23, 8], "offset": [8, 3], "flip": true},
+    {"art": "nature/copse", "cell": [8, 15], "offset": [-8, -3], "flip": true},
+    {"art": "nature/apple_tree", "cell": [23, 4], "offset": [4, 5], "flip": true},
+    {"art": "nature/round_tree", "cell": [17, 14], "offset": [7, -3]},
+    {"art": "nature/old_apple_tree", "cell": [19, 14], "offset": [9, 5], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [1, 1], "offset": [3, -4], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [11, 1], "offset": [1, -4], "flip": true},
+    {"art": "nature/round_tree", "cell": [19, 1], "offset": [6, 0]},
+    {"art": "nature/autumn_tree", "cell": [3, 15], "offset": [-6, -1], "flip": true},
+    {"art": "nature/apple_tree", "cell": [23, 13], "offset": [-9, 2]},
+    {"art": "nature/autumn_tree", "cell": [15, 14], "offset": [7, 3], "flip": true},
+    {"art": "nature/round_tree", "cell": [23, 6], "offset": [-7, 1]},
+    {"art": "nature/wildflowers_blue", "cell": [4, 6], "offset": [5, -3], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [5, 12], "offset": [9, 2]},
+    {"art": "nature/clover_3", "cell": [20, 15], "offset": [12, -3]},
+    {"art": "nature/grass_tuft", "cell": [7, 15], "offset": [14, -6]},
+    {"art": "nature/thistle", "cell": [18, 3], "offset": [14, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [17, 8], "offset": [14, -2]},
+    {"art": "nature/clover_2", "cell": [21, 4], "offset": [3, -7]},
+    {"art": "nature/wildflowers_orange", "cell": [0, 10], "offset": [0, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [21, 5], "offset": [2, 3]},
+    {"art": "nature/grass_tuft", "cell": [6, 14], "offset": [-6, -3]},
+    {"art": "nature/clover_3", "cell": [0, 15], "offset": [-2, -7]},
+    {"art": "nature/hazel_bush", "cell": [8, 13], "offset": [10, -6], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [13, 2], "offset": [-13, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 4], "offset": [-8, 2]},
+    {"art": "nature/grass_tuft", "cell": [3, 3], "offset": [9, -4]},
+    {"art": "nature/wildflowers_blue", "cell": [20, 2], "offset": [-12, 1], "flip": true},
+    {"art": "nature/fern", "cell": [21, 13], "offset": [12, -4]},
+    {"art": "nature/hedge_4", "cell": [19, 15], "offset": [-2, 3]},
+    {"art": "nature/clover_3", "cell": [1, 0], "flip": true},
+    {"art": "nature/clover", "cell": [6, 8], "offset": [10, 0], "flip": true},
+    {"art": "nature/fern", "cell": [21, 8], "offset": [-9, -4], "flip": true},
+    {"art": "nature/fern", "cell": [2, 14], "offset": [-2, 4]},
+    {"art": "nature/thistle", "cell": [23, 3], "offset": [0, -2]},
+    {"art": "nature/hazel_bush", "cell": [17, 13], "offset": [3, -2]},
+    {"art": "nature/wildflowers_blue", "cell": [2, 3], "offset": [14, -1]},
+    {"art": "nature/grass_tuft", "cell": [0, 2], "offset": [13, 1], "flip": true},
+    {"art": "nature/clover_3", "cell": [8, 12], "offset": [-10, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [8, 0], "offset": [6, 7], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [9, 14], "offset": [-2, 1], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [11, 2], "offset": [-6, 2]},
+    {"art": "nature/fern", "cell": [18, 14], "offset": [-12, 4]},
+    {"art": "nature/fern", "cell": [23, 7], "offset": [4, -6], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [9, 3], "offset": [13, -6]},
+    {"art": "nature/grasshopper", "cell": [6, 5], "offset": [10, -3], "flip": true},
+    {"art": "nature/irish_bird_2", "cell": [9, 12], "offset": [-6, 4]},
+    {"art": "nature/irish_bird_2", "cell": [0, 5], "offset": [12, 5], "flip": true},
+    {"art": "nature/ants", "cell": [1, 5], "offset": [-11, -6]},
+    {"art": "nature/finch", "cell": [8, 3], "offset": [-5, 3], "flip": true},
+    {"art": "nature/butterfly_blue", "cell": [10, 3], "offset": [-2, 1]}
+  ]
+}

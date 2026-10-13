@@ -18,11 +18,14 @@ const AREAS := [
 	"hut", "hut_stilt", "hut_cairn", "hut_orchard",
 	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis",
 	"tower", "home",
-	"camp",
+	"camp", "tutorial",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
+const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
+const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 
@@ -46,6 +49,8 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	await _check_tutorial()
+	await _check_practice_band()
 	await _check_the_land()
 
 	print("")
@@ -140,8 +145,12 @@ func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> voi
 		_fail("%s: the door of %s cannot be reached" % [area_id, who])
 	# A house nobody can go into says so in its own words (`shut`); any other door leads somewhere.
 	if not Database.has_area(building.get("area", "")) and building.get("area", "") != "coliseum" \
-			and not building.has("shut"):
+			and not building.has("shut") and not building.has("fight"):
 		_fail("%s: %s has no inside to walk into" % [area_id, who])
+	# A door into a sparring fight names opponents who exist.
+	for foe: Dictionary in building.get("fight", {}).get("enemies", []):
+		if Database.unit_template(str(foe.get("unit", ""))).is_empty():
+			_fail("%s: %s sends you to fight '%s', who has no unit template" % [area_id, who, foe.get("unit", "")])
 	if map.step_out_of(building) == door:
 		_fail("%s: coming out of %s puts you back in the doorway" % [area_id, who])
 	for cell: Vector2i in map.spots:
@@ -321,6 +330,120 @@ func _check_trading() -> void:
 	if GameState.gold != before + int(job["gold"]) or not GameState.has_flag(job["flag"] + ":paid"):
 		_fail("village: finishing Wat's job did not pay")
 	print("village: bought a loaf, paid the fox, found Wat's stone")
+
+
+## The tutorial (D73): every step points at something in its village, it never saves, it starts
+## on its first step, and doing what a step asks moves it on.
+func _check_tutorial() -> void:
+	var rules: Variant = SaveFile.read("res://data/tutorial.json")
+	if typeof(rules) != TYPE_DICTIONARY or (rules as Dictionary).get("steps", []).is_empty():
+		_fail("tutorial: data/tutorial.json has no steps")
+		return
+	var village := FileAccess.get_file_as_string("res://data/areas/%s.json" % rules.get("area", ""))
+	var map := AreaMap.load_area(str(rules.get("area", "")))
+	if map == null:
+		_fail("tutorial: its area '%s' does not exist" % rules.get("area", ""))
+		return
+	var names: Array = map.people.map(func(p: Dictionary) -> String: return str(p.get("name", "")))
+	for step: Dictionary in rules["steps"]:
+		var done: Dictionary = step.get("done", {})
+		var did := str(done.get("did", ""))
+		if did.begins_with("talked:") and not names.has(did.trim_prefix("talked:")):
+			_fail("tutorial: step '%s' wants a word with %s, who is not in the village" % [step.get("id", ""), did])
+		var flag := str(done.get("flag", ""))
+		if flag != "" and not village.contains('"%s' % flag.trim_suffix(":paid")):
+			_fail("tutorial: step '%s' waits on flag %s, which nothing in the village sets" % [step.get("id", ""), flag])
+		if done.is_empty():
+			_fail("tutorial: step '%s' can never be done" % step.get("id", ""))
+
+	var had_save := GameState.has_save()
+	var before := FileAccess.get_file_as_string(GameState.SAVE_PATH) if had_save else ""
+	var guide: Node = TutorialGuide.new()
+	add_child(guide)
+	_requests.clear()
+	guide.call("start")
+	if not GameState.rehearsing:
+		_fail("tutorial: the run it started is not marked a rehearsal")
+	if _requests.is_empty() or str(_requests[-1]["payload"].get("area_id", "")) != str(rules["area"]):
+		_fail("tutorial: it did not open its village")
+	GameState.save()
+	GameState.reached(RunMode.REST, "tutorial")
+	if GameState.has_save() != had_save or (had_save and FileAccess.get_file_as_string(GameState.SAVE_PATH) != before):
+		_fail("tutorial: a save was written during the tutorial")
+	if guide.call("step_id") != "welcome":
+		_fail("tutorial: it did not start on its first step (on '%s')" % guide.call("step_id"))
+	guide.call("_on_main_pressed")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	EventBus.player_did.emit("walked")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	EventBus.player_did.emit("talked:Maren the Guide")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	GameState.set_flag("tut:asked")
+	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.4).timeout
+	if guide.call("step_id") != "buy":
+		_fail("tutorial: walking, talking and asking did not bring it to buying (on '%s')" % guide.call("step_id"))
+	EventBus.scene_changed.emit("title")
+	if guide.call("is_running"):
+		_fail("tutorial: it kept running after the title came back")
+	guide.queue_free()
+	GameState.new_game(SEED)
+	if GameState.rehearsing:
+		_fail("tutorial: a new run after it was still a rehearsal")
+	print("tutorial: %d steps, never saved, walked through to '%s'" % [rules["steps"].size(), "buy"])
+
+
+## The tutorial's sparring pair (D75): not in the village until the fight step calls it, then
+## standing there with its red ground, never on top of the party; a step into the red starts a
+## practice fight on that ground (nobody can die, nothing counted) that comes back to the village,
+## and the pair does not stand there again.
+func _check_practice_band() -> void:
+	GameState.new_game(SEED, "bram", true)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "tutorial", "return_scene": "title" })
+	add_child(scene)
+	for i in 10:
+		await get_tree().process_frame
+	var watches: Array = scene.get("_watches")
+	_expect_tut(watches.is_empty(), "the sparring pair was in the village before the fight step called it")
+	GameState.set_flag("tut:spar_ready")
+	scene.call("_post_practice_bands")
+	watches = scene.get("_watches")
+	_expect_tut(watches.size() == 1, "calling the sparring pair out did not put it in the village (%d)" % watches.size())
+	if watches.size() != 1:
+		scene.queue_free()
+		return
+	var watch: Node2D = watches[0]
+	var map: AreaMap = scene.get("map")
+	var at: Vector2i = map.cell_at(scene.get("_leader").position)
+	_expect_tut(not watch.watched.has(at), "the sparring pair was put down already looking at the party")
+	var into: Vector2i = (watch.watched as Dictionary).keys()[0]
+	_requests.clear()
+	scene.call("_check_the_watch", at)
+	scene.get("_leader").position = map.centre_of(into)
+	_expect_tut(scene.call("_check_the_watch", into), "stepping into the sparring pair's red was not seen")
+	var waited := 0.0
+	while waited < 3.0 and not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "skirmish"):
+		await get_tree().create_timer(0.1).timeout
+		waited += 0.1
+	var asked: Array = _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "skirmish")
+	_expect_tut(not asked.is_empty(), "the sparring pair did not start a fight")
+	if not asked.is_empty():
+		var payload: Dictionary = asked[0]["payload"]
+		_expect_tut(bool(payload.get("sandbox", false)), "the sparring fight is not practice: someone could die in it")
+		_expect_tut(not (payload.get("field", {}) as Dictionary).is_empty(), "the sparring fight is not on the village's own ground")
+		_expect_tut(str(payload.get("return_scene", "")) == "area"
+			and str(payload.get("return_payload", {}).get("area_id", "")) == "tutorial",
+			"the sparring fight does not come back to the village")
+		_expect_tut(GameState.has_flag("tut:sparred"), "the sparring pair would stand there again after the fight")
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+	print("tutorial: the sparring pair came out when called, was walked into, and sparred on the village ground")
+
+
+func _expect_tut(ok: bool, message: String) -> void:
+	if not ok:
+		_fail("tutorial: %s" % message)
 
 
 ## The fire seats the party itself: nobody is authored into it, and speaking to

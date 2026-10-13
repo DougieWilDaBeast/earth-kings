@@ -4,6 +4,7 @@ extends Node
 
 const SaveToast := preload("res://src/ui/save_toast.gd")
 const LevelUpBanner := preload("res://src/ui/level_up_banner.gd")
+const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 
 const SCENES := {
 	"cinematic": "res://src/ui/cinematic.tscn",
@@ -34,6 +35,10 @@ func _ready() -> void:
 	# Says so when a save is upgraded or restored from its backup ([D56]).
 	add_child(SaveToast.new())
 	add_child(LevelUpBanner.new())
+	# The tutorial's card outlasts the scenes it guides through (D73).
+	var guide := TutorialGuide.new()
+	guide.name = "TutorialGuide"
+	add_child(guide)
 	# A phone has one key on it, and Android hands it over as "go back". Left
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.

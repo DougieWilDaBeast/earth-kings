@@ -302,6 +302,8 @@
     "pillared_hall": { "scale": 3.0, "size": [3, 2], "look": "a flat-roofed grey shopfront" },
     "shopfront": { "scale": 3.0, "size": [3, 2], "look": "the same grey shopfront as pillared_hall" },
     "shop_counter": { "scale": 3.0, "size": [3, 2], "look": "a grey shopfront with a pillar" },
-    "village_house/south": { "scale": 3.0, "size": [3, 2], "look": "a thatched timber cottage" }
+    "village_house/south": { "scale": 3.0, "size": [3, 2], "look": "a thatched timber cottage" },
+    "portal_stones": { "path": "res://art/props/landmark/gate_stones.png", "scale": 3.0, "size": [3, 1], "look": "the ring of rune stones, standing as a doorway" },
+    "portal_gold": { "path": "res://art/props/landmark/gate_gold.png", "scale": 3.0, "size": [3, 1], "look": "the golden doorway, standing as a door" }
   }
 }

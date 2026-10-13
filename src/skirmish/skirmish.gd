@@ -1408,6 +1408,7 @@ func _check_end() -> void:
 	_say("The field is yours after %.0f seconds." % sim_time if victory \
 			else "The company is down after %.0f seconds." % sim_time)
 	hud.show_result(victory)
+	EventBus.player_did.emit("fight_won" if victory else "fight_lost")
 	if sandbox:
 		# The coliseum carries its wounds between rounds; the training ground
 		# does not. Either way nothing is written back onto the world.

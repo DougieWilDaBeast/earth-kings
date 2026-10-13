@@ -25,6 +25,10 @@ var ledger: Dictionary = Ledger.fresh()
 ## Cleared while the training sandbox borrows the purse, so play money never
 ## reaches the ledger.
 var tallying: bool = true
+## The tutorial's run (D73): nothing in it is ever saved, filed in the museum or counted, and it
+## never writes over the save on disk. Set by [method new_game] with `rehearsal`, cleared by any
+## other new game and by loading the save.
+var rehearsing: bool = false
 
 var gold: int = DEFAULT_GOLD:
 	set(value):
@@ -127,7 +131,7 @@ func reached(point: String, note: String = "") -> bool:
 		return false
 	# Never in the training yard or on the sand, and never over a run that has
 	# already ended: that save is the one a fallen lead is offered back.
-	if not tallying or world == null or roster == null or roster.run_is_over():
+	if not tallying or rehearsing or world == null or roster == null or roster.run_is_over():
 		return false
 	save(note)
 	EventBus.game_saved.emit(point, note)
@@ -163,14 +167,17 @@ func _on_dialogue_finished(dialogue_id: String) -> void:
 		Wanderers.settle(world, roster, flags)
 
 
-func new_game(world_seed: int = 0, lead_id: String = "") -> void:
+func new_game(world_seed: int = 0, lead_id: String = "", rehearsal: bool = false) -> void:
 	# A night on the sand left open (the menu's Return to Title from the arena)
 	# is put back first, or its copy would be filed as this run, and closing it
 	# later would hand the old run's people to the new one.
 	_drop_arena()
 	# A run that is being started over is a run that is finished, whatever the
 	# player calls it. File it before it is written on top of (see [Museum]).
-	if world != null and roster != null and world.steps > 0 and tallying:
+	# Neither the tutorial nor a run left for it is: the save on disk is not touched.
+	var was_rehearsing := rehearsing
+	rehearsing = rehearsal
+	if world != null and roster != null and world.steps > 0 and tallying and not was_rehearsing and not rehearsal:
 		Museum.remember(world, roster, ledger, Museum.WALKED_AWAY)
 	# Every world that has ended before this one (M15). Unless a seed was asked
 	# for, the next is their sibling: built on the first one's seed, a share of
@@ -281,6 +288,9 @@ func _drop_arena() -> void:
 
 
 func save(note: String = "") -> void:
+	if rehearsing:
+		# The tutorial's run is never written, least of all over the real one.
+		return
 	if note != "":
 		last_save_note = note
 	last_save_steps = world.steps
@@ -321,6 +331,7 @@ func save(note: String = "") -> void:
 func load_save() -> bool:
 	if not has_save():
 		return false
+	rehearsing = false
 	_drop_arena()
 	var read_from := SAVE_PATH
 	var parsed: Variant = SaveFile.read(read_from)

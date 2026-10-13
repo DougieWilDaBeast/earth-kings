@@ -382,6 +382,12 @@ func _where_to_stand(arrived: Vector2i, taken: Dictionary) -> Vector2i:
 		side = Vector2i(int(where[0]), int(where[1]))
 	var middle := Vector2(_map.width - 1, _map.height - 1) * 0.5
 	var aim := middle + Vector2(side) * (middle - Vector2(2, 2))
+	# A band an area places itself (a practice band) may name the spot it would rather stand on.
+	var wanted: Variant = band.get("at", [])
+	if wanted is Array and (wanted as Array).size() >= 2:
+		aim = Vector2(float(wanted[0]), float(wanted[1]))
+		# Its own spot matters more than distance: it only has to not be looking at the party already.
+		far = sight + 1.0
 	var key := str(band.get("cell", [])) + _map.id
 	var choices: Array = []
 	for y in _map.height:

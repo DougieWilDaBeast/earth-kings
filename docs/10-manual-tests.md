@@ -240,6 +240,19 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
 | D3.7 | Walk onto a tile a band on the next tile watches     | No sudden fight: the band stands at that edge of the new ground, watching                |
 
+## D4 — The tutorial ([D73](06-decisions.md))
+
+Delete `settings.cfg` and the save from the user folder first, to be a new player.
+
+| #    | Do this                                               | Expect                                                                                  |
+| ---- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| D4.1 | Open the game                                         | After the opening, "New to Earth Kings?" over the title; **Take the tour** has focus     |
+| D4.2 | Close and open the game again                         | No offer the second time; **Tutorial** is in the title menu                              |
+| D4.3 | Take the tour and follow every card                   | Each step ticks "done" and the next comes up; the card never sits on the conversation box |
+| D4.4 | Press Esc → Save during the tour                      | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
+| D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
+| D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
+| D4.7 | Finish the tour and press **Start a new run**         | The four questions that pick a hero; the new run saves as normal                         |
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |

@@ -42,6 +42,10 @@ var opening: String = ""
 ## What the bottom of the screen says when nobody is standing near anybody.
 var hint: String = ""
 
+## Bands the area places itself (a practice band in the tutorial's village, D75): the same shape
+## the world sends, plus `spar` (fought as practice, never through the world), `at` (the spot it
+## would rather stand on), `level`, `requires` / `requires_not` (flags) and `done_flag`.
+var bands: Array = []
 ## Navigation grid ensuring characters navigate around walls rather than cutting through them.
 var astar: AStarGrid2D = null
 
@@ -127,6 +131,7 @@ static func load_area(area_id: String) -> AreaMap:
 		stood_on.append(_to_cell(person.get("cell", [0, 0])))
 	for cell in stood_on:
 		map._blocked.erase(cell)
+	map.bands = data.get("bands", [])
 	map.tint = data.get("tint", "")
 	map.opening = data.get("opening", "")
 	map.hint = data.get("hint", "")

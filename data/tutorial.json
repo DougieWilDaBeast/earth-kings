@@ -1,0 +1,100 @@
+{
+  "_comment": "The tutorial (D73): a tour of the game in the training village (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button` (a button on the card). Nothing in the tutorial is saved. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight step calls out the village's practice band (`bands` in its area, D75).",
+  "area": "tutorial",
+  "seed": 20261012,
+  "lead": "bram",
+  "steps": [
+    {
+      "id": "welcome",
+      "title": "Welcome to Earth Kings",
+      "text": "You lead a small company through a hostile world: walking the land, talking to the people in it, fighting what pours out of the gates, and climbing the Tower. Your people grow stronger, and they can die for good.\n\nThis tour takes about ten minutes. Nothing in it is saved.",
+      "done": { "button": "Show me" }
+    },
+    {
+      "id": "walk",
+      "title": "Walking",
+      "text": "Move with WASD or the arrow keys, or click the ground to walk there. Your company follows the leader.\n\nThe mouse wheel zooms; the line along the bottom always says what you can do where you stand.",
+      "done": { "did": "walked" }
+    },
+    {
+      "id": "talk",
+      "title": "Talking",
+      "text": "Anyone with a ! over them has something to say. Walk up to Maren the Guide, by the signpost, and click her (or stand close and press E).",
+      "done": { "did": "talked:Maren the Guide" }
+    },
+    {
+      "id": "ask",
+      "title": "Asking questions",
+      "text": "Conversations give you replies to pick. Ask Maren something: what the gates are, what the Tower is, what happens when someone falls.",
+      "done": { "flag": "tut:asked" }
+    },
+    {
+      "id": "buy",
+      "title": "Buying",
+      "text": "Pim keeps the stall. Ask what he's selling and buy something: food and draughts heal between fights, and gear makes your people stronger. Your gold is in the party screen.",
+      "done": { "flag": "tut:bought" }
+    },
+    {
+      "id": "refuse",
+      "title": "Not everyone wants to talk",
+      "text": "Smudge, the fox in the hat, won't speak to you. Some people need a coin, a good roll, or a reason. Find a way round it.",
+      "done": { "flag": "tut:fox" }
+    },
+    {
+      "id": "favour",
+      "title": "Doing a favour",
+      "text": "People ask for help. Ask Wren if she needs a hand, find what she lost — things worth a look are marked ? — then go back and tell her.",
+      "done": { "flag": "job:tut_horse:paid" }
+    },
+    {
+      "id": "chest",
+      "title": "Chests",
+      "text": "There's a chest by the cart. Walk onto it to open it. Each one opens once, and what's inside is yours.",
+      "done": { "did": "chest" }
+    },
+    {
+      "id": "doors",
+      "title": "Doors",
+      "text": "Walk into a door. Some houses you can go inside — the inn has people of its own — and some are shut and say why. Come back out the way you went in.",
+      "done": { "did": "door:" }
+    },
+    {
+      "id": "party",
+      "title": "Your company",
+      "text": "Press P for the party screen: everyone's health, gear and abilities, and where you choose a class when someone is ready to grow. Close it with Esc.",
+      "done": { "opened": "party" }
+    },
+    {
+      "id": "journal",
+      "title": "The journal",
+      "text": "Press N for the journal: every creature you've met, the roads you've walked and the story of your run so far.",
+      "done": { "opened": "journal" }
+    },
+    {
+      "id": "fight",
+      "title": "A sparring fight",
+      "text": "Captain Harrow's sparring pair are out in the field south of the square now. The red cells are what they can see, and they move as the pair patrols. Step into the red and the fight starts right there, on this ground. Long grass hides you, and bursting out of it at them is an ambush.\n\nThe fight starts paused: Space pauses and unpauses. Left-click or drag a box to pick fighters; right-click to move or attack. Q W E R use skills. Nobody can die in practice.",
+      "done": { "did": "fight_" },
+      "on_start": { "set_flag": ["tut:spar_ready"] }
+    },
+    {
+      "id": "world",
+      "title": "What's out there",
+      "text": "In a real run the land is a map you walk across, black until you've been there. You'll find villages and keeps to rest and trade in, libraries that teach, huts, the Adventurers Guild with paid contracts, and the gates: portals where monsters pour out. Out in the country, bands patrol with their red ground showing, just like the sparring pair. Shut a gate by fighting through it; leave one open too long and it breaks.\n\nThe Tower rises over everything, a hundred floors of it.",
+      "done": { "button": "Next" }
+    },
+    {
+      "id": "death",
+      "title": "When someone falls",
+      "text": "A fighter who goes down may not get up: a charm, a friend still standing or a book they've read can save them. Companions can die and the story goes on. When your own hero falls, that world ends — and the next of the sixteen heroes picks up in a world of their own.\n\nPress Esc at any time for the menu and How to Play.",
+      "done": { "button": "Next" }
+    },
+    {
+      "id": "finish",
+      "title": "That's the tour",
+      "text": "You've walked, talked, traded, done a favour, opened a chest and won a fight. Everything else you'll find on the road.\n\nReady to begin? A new run starts with four questions that pick your hero.",
+      "done": { "button": "Start a new run" },
+      "finish": true
+    }
+  ]
+}

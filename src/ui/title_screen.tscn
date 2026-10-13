@@ -212,6 +212,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "New Game"
 
+[node name="TutorialButton" type="Button" parent="Menu/MainList"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tutorial"
+
 [node name="HowToPlayButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true
 layout_mode = 2
