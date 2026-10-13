@@ -28,10 +28,14 @@ const ROOT_SCENES := ["title", "cinematic"]
 @onready var _container: Node = $CurrentScene
 
 var _scene_key: String = "cinematic"
+## The continent, run out of sight for the land while it takes a step ([D76]); gone once it
+## has answered, or when the screen changes.
+var _continent: Node = null
 
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
+	EventBus.continent_requested.connect(func(payload: Dictionary) -> void: _run_the_continent.call_deferred(payload))
 	# Says so when a save is upgraded or restored from its backup ([D56]).
 	add_child(SaveToast.new())
 	add_child(LevelUpBanner.new())
@@ -118,7 +122,21 @@ func _change_scene(scene_key: String, payload: Dictionary) -> void:
 	_swap.call_deferred(scene_key, payload)
 
 
+## The continent's scene, with nothing of it on screen, doing what the land asked; it answers on
+## [signal EventBus.continent_answered] and goes, or asks for another scene and is swept away.
+func _run_the_continent(payload: Dictionary) -> void:
+	if is_instance_valid(_continent):
+		_continent.queue_free()
+	var continent: Node = load(SCENES["world"]).instantiate()
+	continent.set("boot_payload", payload)
+	_continent = continent
+	add_child(continent)
+
+
 func _swap(scene_key: String, payload: Dictionary) -> void:
+	if is_instance_valid(_continent):
+		_continent.queue_free()
+		_continent = null
 	for child in _container.get_children():
 		_container.remove_child(child)
 		child.queue_free()

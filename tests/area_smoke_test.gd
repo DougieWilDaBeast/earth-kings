@@ -28,6 +28,7 @@ const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
+const Land := preload("res://src/area/land.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -52,6 +53,7 @@ func _ready() -> void:
 	await _check_tutorial()
 	await _check_practice_band()
 	await _check_the_land()
+	await _check_the_joined_land()
 
 	print("")
 	if _failures.is_empty():
@@ -558,3 +560,98 @@ func _check_the_land() -> void:
 	GameState.heal_party()
 	scene.queue_free()
 	await get_tree().process_frame
+
+
+## The land ([D76]): the tiles round the party laid side by side as one stretch of ground. Every
+## tile that can be walked can be walked into from the next one; the sea and the mountains cannot
+## be walked at all; a place stands in its tile and keeps its own cells for what is written down
+## about it; and walking over into the next tile asks the continent for the step, lays out the
+## tiles ahead and lets go of the ones far behind, without the ground ever leaving the screen.
+func _check_the_joined_land() -> void:
+	var world: World = GameState.world
+	var town: Site = null
+	for site: Site in world.sites:
+		if site.kind == Site.VILLAGE and not site.data.has("ward") and Database.has_area(str(site.data.get("area", site.kind))):
+			town = site
+			break
+	if town == null:
+		_fail("land: no village to stand the land round")
+		return
+	var land = Land.around(world, town.cell, 2)
+	var walked := 0
+	for tile: Vector2i in land.held_tiles():
+		var chunk: Dictionary = land.chunks[tile]
+		var origin: Vector2i = chunk["origin"]
+		var spawn: Vector2i = AreaMap.to_cell(chunk["spawn"]) + origin
+		if not world.in_bounds(tile) or not world.is_walkable(tile):
+			for y in land.slot.y:
+				for x in land.slot.x:
+					if land.is_walkable(origin + Vector2i(x, y)):
+						_fail("land: %s cannot be walked on the continent but its ground can (%s)" % [tile, chunk["kind"]])
+						return
+			continue
+		if not land.is_walkable(spawn):
+			_fail("land: the way into %s (%s) cannot be stood on" % [tile, chunk["kind"]])
+		for dir: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN]:
+			var next: Vector2i = tile + dir
+			if not land.is_held(next) or not world.is_walkable(next):
+				continue
+			var there: Dictionary = land.chunks[next]
+			var to: Vector2i = AreaMap.to_cell(there["spawn"]) + (there["origin"] as Vector2i)
+			if land.find_cell_path(spawn, to).is_empty():
+				_fail("land: no way over from %s into %s" % [tile, next])
+			walked += 1
+	if walked == 0:
+		_fail("land: no two tiles side by side to walk between")
+	var place: Dictionary = land.chunks[town.cell]
+	var area_id := str(town.data.get("area", town.kind))
+	if str(place.get("kind", "")) != "place" or str(place.get("id", "")) != area_id:
+		_fail("land: %s does not stand in its own tile" % town.display_name)
+	else:
+		var alone := AreaMap.load_area(area_id)
+		var rect: Rect2i = place["place_rect"]
+		for cell: Vector2i in alone.chests:
+			if land.chest_flag(cell + rect.position) != alone.chest_flag(cell):
+				_fail("land: a chest in %s is not the same chest on the land" % town.display_name)
+		if land.area_of(rect.position) != area_id or land.local_of(rect.position + Vector2i(2, 3)) != Vector2i(2, 3):
+			_fail("land: the land does not say whose cells %s's are" % town.display_name)
+
+	# Walked: the scene on the land, the leader put over into the next tile, the step asked for.
+	var here := town.cell + Vector2i.LEFT
+	if not world.is_walkable(here):
+		here = town.cell + Vector2i.RIGHT
+	world.player_cell = here
+	GameState.land_cell = null
+	var asked: Array = []
+	var listen := func(payload: Dictionary) -> void: asked.append(payload)
+	EventBus.continent_requested.connect(listen)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	await get_tree().process_frame
+	if scene._tile_ground.size() != 9:
+		_fail("land: %d tiles laid out round the party, not 9" % scene._tile_ground.size())
+	if scene.map.tile_of(scene.map.cell_at(scene._leader.position)) != here:
+		_fail("land: the party did not start on the tile the continent has it on")
+	var dir := town.cell - here
+	var into: Vector2i = scene.map.slot_rect(town.cell).get_center()
+	scene._leader.position = scene.map.centre_of(into)
+	scene._mind_the_border()
+	if asked.size() != 1 or AreaMap.to_cell(asked[0].get("step", [0, 0])) != dir or not bool(asked[0].get("embedded", false)):
+		_fail("land: walking over into the next tile did not ask the continent for that step")
+	# The continent's answer, as it gives it.
+	world.player_cell = town.cell
+	EventBus.continent_answered.emit({ "land": true, "title": town.label(), "actions": [], "bands": [], "notes": ["Walked on."], "held": {} })
+	for i in 12:
+		await get_tree().process_frame
+	var far := here - dir
+	if not scene.map.is_held(town.cell + dir) or not scene.map.is_held(town.cell + dir + Vector2i.UP):
+		_fail("land: the tiles ahead were not laid out after the step")
+	if scene.map.is_held(far - dir):
+		_fail("land: a tile three behind is still held")
+	if not scene.is_inside_tree() or scene._leaving:
+		_fail("land: the ground left the screen for a step")
+	EventBus.continent_requested.disconnect(listen)
+	scene.queue_free()
+	await get_tree().process_frame
+	print("land: tiles walk into each other, %s stands in its tile, and a step keeps to the land" % town.display_name)

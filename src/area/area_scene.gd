@@ -10,6 +10,12 @@ extends Node2D
 ## ground hands the step to the continent, which does everything a step does
 ## out of sight and hands back the next ground. A place's own doings (hire, buy,
 ## the board, a ransom) are sent the same way and come straight back here.
+##
+## On the land (`"land": true`, [D76]) there is no edge to walk off: the tiles round the party are
+## laid side by side as one stretch of ground ([Land]), places standing in them. Crossing from one
+## tile into the next is the step; the continent takes it out of sight
+## ([signal EventBus.continent_requested]) while the party walks on, the tiles ahead are laid out
+## a frame at a time and the ones far behind are let go.
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
@@ -19,6 +25,7 @@ const Talk := preload("res://src/dialogue/talk.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
+const Land := preload("res://src/area/land.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -48,12 +55,14 @@ var boot_payload: Dictionary = {}
 var map: AreaMap
 var _leader: AreaActor
 var _followers: Array[AreaActor] = []
-## One actor per entry in `map.people`, in the same order.
+## Everybody who lives here, in the order they were put down; each knows its entry in
+## `map.people` (meta `person`).
 var _people: Array[AreaActor] = []
 ## Everything standing about that is worth stopping to look at.
 var _things: Array[AreaProp] = []
-## Party member per seated person, by their index in `map.people`.
+## Party member per seated person, by their actor (by index into `map.people` until they are made).
 var _seated: Dictionary = {}
+var _seat_for: Dictionary = {}
 ## Whoever is walking, as the roster knows them.
 var _leader_character: Character
 ## Who or what the leader is standing close enough to deal with, or null.
@@ -118,6 +127,18 @@ var _spotted: bool = false
 var _posted_practice: Dictionary = {}
 var _practice_clock: float = 0.0
 
+## The land ([D76]): whether this is it, the nodes each held tile put down (tile -> its ground,
+## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
+## has been asked to take a step and not answered yet.
+var _land_mode: bool = false
+var _tile_ground: Dictionary = {}
+var _tile_things: Dictionary = {}
+var _to_hold: Array[Vector2i] = []
+var _asking: bool = false
+## The light the land is seen in, which turns as the party walks into other country.
+var _dusk: CanvasModulate = null
+var _dusk_turn: Tween = null
+
 
 func _ready() -> void:
 	_return_scene = boot_payload.get("return_scene", "world")
@@ -125,14 +146,22 @@ func _ready() -> void:
 	_planar_mode = bool(boot_payload.get("planar_mode", false))
 	_acts = boot_payload.get("actions", [])
 	_held = boot_payload.get("held", {})
-	map = AreaMap.load_area(boot_payload.get("area_id", "village"))
+	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
+	if _land_mode:
+		map = Land.around(GameState.world, GameState.world.player_cell)
+		map.spawn = _land_start()
+	else:
+		map = AreaMap.load_area(boot_payload.get("area_id", "village"))
 	if map == null:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
 
-	_land = Biome.effects(str(Database.area(map.id).get("biome", "")))
+	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
+		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
+	if _land_mode:
+		EventBus.continent_answered.connect(_on_continent_answered)
 	_paint_layers()
 	_light_the_place()
 	_spawn_buildings()
@@ -143,17 +172,26 @@ func _ready() -> void:
 	_spawn_people()
 	_post_the_watch()
 	_spawn_fire()
-	_camera.frame(map.rect())
+	if _land_mode:
+		var world: World = GameState.world
+		_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size * (map as Land).slot) * AreaMap.CELL))
+	else:
+		_camera.frame(map.rect())
 	_camera.focus_on(_leader.position, true)
 	_place.text = boot_payload.get("title", map.display_name)
 	_idle_hint = map.hint if map.hint != "" else HINT
+	if _land_mode:
+		_idle_hint = _land_hint()
 	_hint.text = _prompt_text()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
 	_lay_out_acts()
 	for line: String in boot_payload.get("notes", []):
 		_note(line)
-	_open_on(map.opening)
+	if _land_mode:
+		_open_on(str(_here_chunk().get("opening", "")))
+	else:
+		_open_on(map.opening)
 
 
 ## The cutscene a place plays the moment you walk into it, before you are given
@@ -176,7 +214,254 @@ func _open_on(cutscene_id: String) -> void:
 
 ## One [TileMapLayer] per sheet, bottom first (see [GroundPainter]).
 func _paint_layers() -> void:
+	if _land_mode:
+		for tile: Vector2i in (map as Land).held_tiles():
+			_paint_tile(tile)
+		return
 	GroundPainter.paint(map, _layers)
+
+
+# --- the land ([D76]) -----------------------------------------------------------------
+
+
+## Where the leader starts on the land: where they stood when the scene was last left, if that is
+## on the tile the continent has them on; else that tile's own way in.
+func _land_start() -> Vector2i:
+	var land := map as Land
+	var tile: Vector2i = GameState.world.player_cell
+	for wanted: Variant in [boot_payload.get("land_cell", null), GameState.land_cell]:
+		var at: Vector2i
+		if wanted is Array and (wanted as Array).size() >= 2:
+			at = AreaMap.to_cell(wanted)
+		elif wanted is Vector2i:
+			at = wanted
+		else:
+			continue
+		if land.tile_of(at) == tile and land.in_bounds(at):
+			return at
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if boot_payload.has("spawn_cell") and not chunk.is_empty():
+		return AreaMap.to_cell(boot_payload["spawn_cell"]) + (chunk["origin"] as Vector2i)
+	return AreaMap.to_cell(chunk.get("spawn", [0, 0])) + (chunk.get("origin", Vector2i.ZERO) as Vector2i)
+
+
+## The tile the continent has the party on.
+func _here_chunk() -> Dictionary:
+	return (map as Land).chunks.get(GameState.world.player_cell, {}) if _land_mode else {}
+
+
+func _land_hint() -> String:
+	var said := str(_here_chunk().get("hint", ""))
+	return said if said != "" else "WASD to walk  ·  the land runs on  ·  click anyone marked to speak to them  ·  red ground is being watched"
+
+
+## One tile's ground, in a node of its own so it can be let go of with the tile.
+func _paint_tile(tile: Vector2i) -> void:
+	var under := Node2D.new()
+	under.name = "Tile_%d_%d" % [tile.x, tile.y]
+	_layers.add_child(under)
+	# Under the bands' watched ground, which is also drawn in the layers.
+	_layers.move_child(under, _tile_ground.size())
+	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), under)
+	_tile_ground[tile] = under
+
+
+## Everything standing in [param tile]: houses, dressing, chests, things in the way, fires, the
+## people who live there and any of the sixteen stopping there.
+func _fill_tile(tile: Vector2i) -> void:
+	var land := map as Land
+	var area := land.slot_rect(tile)
+	var made: Array = []
+	for building: Dictionary in map.buildings:
+		if building.get("_tile") == tile:
+			made.append(_put_building(building))
+	for prop: Dictionary in map.props:
+		if prop.get("_tile") == tile:
+			var node := _put_prop(prop)
+			if node != null:
+				made.append(node)
+	for cell: Vector2i in map.chests:
+		if area.has_point(cell):
+			made.append(_put_chest(cell))
+	for cell: Vector2i in map.wards:
+		if area.has_point(cell):
+			var node := _put_ward(cell)
+			if node != null:
+				made.append(node)
+	for cell: Vector2i in land.fires:
+		if area.has_point(cell):
+			var fire := AreaFire.new()
+			fire.position = map.centre_of(cell)
+			_actors.add_child(fire)
+			made.append(fire)
+	_admit_the_others_to(tile)
+	for person: Dictionary in map.people:
+		if person.get("_tile") == tile:
+			made.append(_put_person(person))
+	_tile_things[tile] = made
+
+
+## The tiles that should be held round where the party is now: laid out a frame at a time, nearest
+## first, and the ones two tiles behind let go.
+func _plan_the_land() -> void:
+	var land := map as Land
+	var here: Vector2i = GameState.world.player_cell
+	for tile: Vector2i in land.held_tiles():
+		if maxi(absi(tile.x - here.x), absi(tile.y - here.y)) > 2:
+			_let_go(tile)
+	for dy in range(-1, 2):
+		for dx in range(-1, 2):
+			var tile := here + Vector2i(dx, dy)
+			if not land.is_held(tile) and not _to_hold.has(tile):
+				_to_hold.append(tile)
+	_to_hold.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		return (a - here).length_squared() < (b - here).length_squared())
+
+
+func _hold_more() -> void:
+	if _to_hold.is_empty():
+		return
+	var tile: Vector2i = _to_hold.pop_front()
+	var land := map as Land
+	if land.is_held(tile):
+		return
+	land.hold(tile)
+	_paint_tile(tile)
+	_fill_tile(tile)
+	_post_bands_for(tile)
+
+
+func _let_go(tile: Vector2i) -> void:
+	var land := map as Land
+	for node: Variant in _tile_things.get(tile, []):
+		if not is_instance_valid(node):
+			continue
+		if node is AreaActor:
+			_people.erase(node)
+			_seated.erase(node)
+		if node is AreaProp:
+			_things.erase(node)
+		if node == _nearby:
+			_nearby = null
+		if node == _hovered:
+			_hovered = null
+		if node == _approach:
+			_approach = null
+			_approach_path.clear()
+		(node as Node).queue_free()
+	_tile_things.erase(tile)
+	var area := land.slot_rect(tile)
+	for table: Dictionary in [_chest_props, _ward_props]:
+		for cell: Vector2i in table.keys():
+			if area.has_point(cell):
+				table.erase(cell)
+	if _tile_ground.has(tile):
+		(_tile_ground[tile] as Node).queue_free()
+		_tile_ground.erase(tile)
+	for watch: Node2D in _watches.duplicate():
+		if land.tile_of(watch.anchor) == tile and not watch.travelling:
+			_take_off(watch)
+	_to_hold.erase(tile)
+	land.release(tile)
+
+
+## The leader has walked over into another tile: that is a step on the continent, asked for and
+## walked on through while it is taken. Across a corner, the side that can be walked goes first.
+func _mind_the_border() -> void:
+	if _asking or _leaving or _talking:
+		return
+	var world: World = GameState.world
+	var tile := (map as Land).tile_of(map.cell_at(_leader.position))
+	var here: Vector2i = world.player_cell
+	if tile == here:
+		return
+	var apart := tile - here
+	var dir := Vector2i(signi(apart.x), 0) if apart.x != 0 else Vector2i(0, signi(apart.y))
+	if apart.x != 0 and apart.y != 0 and not world.is_walkable(here + dir):
+		dir = Vector2i(0, signi(apart.y))
+	GameState.land_cell = map.cell_at(_leader.position)
+	_ask_the_continent({ "step": [dir.x, dir.y] })
+
+
+## Ask the continent to do something out of sight (a step, a place's doing) and carry on here.
+func _ask_the_continent(asked: Dictionary) -> void:
+	_asking = true
+	var payload := asked.duplicate()
+	payload["embedded"] = true
+	payload["held"] = _held
+	payload["back"] = _here_payload()
+	EventBus.continent_requested.emit(payload)
+
+
+## What the continent made of it: what can be done here now, what was said, who is about, and,
+## after a step, the land round the new tile.
+func _on_continent_answered(answer: Dictionary) -> void:
+	if not is_inside_tree() or _leaving:
+		return
+	_asking = false
+	_camera.make_current()
+	_held = answer.get("held", {})
+	_acts = answer.get("actions", [])
+	_place.text = str(answer.get("title", _place.text))
+	for line: Variant in answer.get("notes", []):
+		_note(str(line))
+	_lay_out_acts()
+	var land := map as Land
+	var world: World = GameState.world
+	if land.tile_of(map.cell_at(_leader.position)) != world.player_cell:
+		# The continent would not have it (the step was refused): back onto the tile it says.
+		_step_back_onto(world.player_cell)
+	_on_new_tile()
+	_sync_bands(answer.get("bands", []))
+	_hint.text = _prompt_text()
+
+
+## The party is on a tile it was not on before: the land's own weather and light, its line, and
+## the tiles round it held.
+func _on_new_tile() -> void:
+	var world: World = GameState.world
+	var chunk := _here_chunk()
+	var land_id := Biome.at(world, world.player_cell)
+	_land = Biome.effects(land_id)
+	_told_of.clear()
+	_idle_hint = _land_hint()
+	_turn_the_light(str(chunk.get("tint", "")))
+	_plan_the_land()
+	var opening := str(chunk.get("opening", ""))
+	if opening != "" and str(chunk.get("kind", "")) == "place":
+		_open_on(opening)
+
+
+## The leader back inside [param tile], at the nearest cell of it that can be stood on.
+func _step_back_onto(tile: Vector2i) -> void:
+	var land := map as Land
+	var area := land.slot_rect(tile)
+	var from := map.cell_at(_leader.position)
+	var best := Vector2i(-1, -1)
+	var best_d := INF
+	for y in range(area.position.y, area.end.y):
+		for x in range(area.position.x, area.end.x):
+			var cell := Vector2i(x, y)
+			var d := Vector2(cell - from).length_squared()
+			if d < best_d and map.is_walkable(cell):
+				best_d = d
+				best = cell
+	if best.x >= 0 or best.y >= 0:
+		_leader.position = map.centre_of(best)
+		_reseed_crumbs()
+
+
+func _turn_the_light(tint: String) -> void:
+	var to := Color(tint) if tint != "" else Color.WHITE
+	if _dusk == null:
+		_dusk = CanvasModulate.new()
+		_dusk.color = to
+		add_child(_dusk)
+		return
+	if _dusk_turn != null and _dusk_turn.is_valid():
+		_dusk_turn.kill()
+	_dusk_turn = create_tween()
+	_dusk_turn.tween_property(_dusk, "color", to, 1.2)
 
 
 func _spawn_party() -> void:
@@ -200,7 +485,7 @@ func _spawn_party() -> void:
 				break
 	var members := GameState.party_characters()
 	for index in members.size():
-		if index > 0 and index <= map.seats.size():
+		if index > 0 and index <= map.seats.size() and not _land_mode:
 			_take_a_seat(members[index], map.seats[index - 1])
 			continue
 		var actor := AreaActor.for_character(members[index])
@@ -221,7 +506,7 @@ func _spawn_party() -> void:
 ## they are worth walking over to.
 func _take_a_seat(character: Character, seat: Vector2i) -> void:
 	var facing := map.fire - seat
-	_seated[map.people.size()] = character
+	_seat_for[map.people.size()] = character
 	map.people.append({
 		"name": character.display_name,
 		"unit": character.template_id,
@@ -234,6 +519,9 @@ func _take_a_seat(character: Character, seat: Vector2i) -> void:
 ## pushes back against it.
 func _light_the_place() -> void:
 	_fog_the_place()
+	if _land_mode:
+		_turn_the_light(str(_here_chunk().get("tint", "")))
+		return
 	if map.tint == "":
 		return
 	var dusk := CanvasModulate.new()
@@ -290,8 +578,18 @@ func _spawn_fire() -> void:
 
 func _spawn_buildings() -> void:
 	_actors.y_sort_enabled = true
+	if _land_mode:
+		for tile: Vector2i in (map as Land).held_tiles():
+			_fill_tile(tile)
+		return
 	for building: Dictionary in map.buildings:
-		_actors.add_child(AreaBuilding.create(building))
+		_put_building(building)
+
+
+func _put_building(building: Dictionary) -> Node:
+	var node := AreaBuilding.create(building)
+	_actors.add_child(node)
+	return node
 
 
 ## Dressing, plus a picture for every chest. Anything with something to say
@@ -299,72 +597,88 @@ func _spawn_buildings() -> void:
 ## already emptied on an earlier visit is standing open when you walk back in.
 func _spawn_props() -> void:
 	_actors.y_sort_enabled = true
+	if _land_mode:
+		return
 	for prop: Dictionary in map.props:
-		var art: String = prop.get("art", "")
-		if not AreaProp.has_art(art):
-			continue
-		var node := AreaProp.from_entry(prop)
-		node.position = map.centre_of(prop["cell"])
-		# A nudge off the middle of its cell, so a wood does not stand in rows.
-		var nudge: Array = prop.get("offset", [])
-		if nudge.size() >= 2:
-			node.position += Vector2(float(nudge[0]), float(nudge[1]))
-		if not node.haul.is_empty() and GameState.has_flag(map.prop_flag(node.cell)):
-			node.line = node.spent_line
-			node.haul = {}
-			node.set_interactive(node.line != "")
-		_actors.add_child(node)
-		if node.can_talk():
-			_things.append(node)
-
+		_put_prop(prop)
 	for cell: Vector2i in map.chests:
-		var chest: Dictionary = map.chests[cell]
-		var shut: String = chest.get("art", "chest")
-		var is_stash := bool(chest.get("stash", false))
-		var opened := not is_stash and GameState.has_flag(map.chest_flag(cell))
-		var node := AreaProp.create(chest.get("opened_art", "chest_open") if opened else shut)
-		node.position = map.centre_of(cell)
-		node.cell = cell
-		node.line = chest.get("line", "")
-		if is_stash:
-			node.display_name = "strongbox"
-			node.set_interactive(true)
-			_things.append(node)
-		_actors.add_child(node)
-		_chest_props[cell] = node
-
+		_put_chest(cell)
 	# Props representing obstacle wards (cuttable trees, locked gates, etc.)
 	for cell: Vector2i in map.wards:
-		var ward: Dictionary = map.wards[cell]
-		var prop_art := str(ward.get("prop", ""))
-		if prop_art == "":
-			if ward.get("kind", "") == "tree" or str(ward.get("name", "")).to_lower().contains("tree"):
-				prop_art = "nature/sycamore_tree"
-			elif ward.get("kind", "") == "gate" or str(ward.get("name", "")).to_lower().contains("gate"):
-				prop_art = "village/log_pile"
-		if prop_art != "" and AreaProp.has_art(prop_art):
-			var opened := Ward.is_open(map.id, cell)
-			var art_to_use := str(ward.get("cleared_art", "")) if opened and ward.has("cleared_art") else prop_art
-			var node := AreaProp.create(art_to_use)
-			node.position = map.centre_of(cell)
-			node.cell = cell
-			node.display_name = str(ward.get("name", "obstacle"))
-			node.solid = not opened
-			if opened and not ward.has("cleared_art"):
-				node.visible = false
-			else:
-				node.line = "examine"
-				node.set_interactive(not opened)
-				_things.append(node)
-			_actors.add_child(node)
-			_ward_props[cell] = node
+		_put_ward(cell)
+
+
+func _put_prop(prop: Dictionary) -> AreaProp:
+	var art: String = prop.get("art", "")
+	if not AreaProp.has_art(art):
+		return null
+	var node := AreaProp.from_entry(prop)
+	node.position = map.centre_of(prop["cell"])
+	# A nudge off the middle of its cell, so a wood does not stand in rows.
+	var nudge: Array = prop.get("offset", [])
+	if nudge.size() >= 2:
+		node.position += Vector2(float(nudge[0]), float(nudge[1]))
+	if not node.haul.is_empty() and GameState.has_flag(map.prop_flag(node.cell)):
+		node.line = node.spent_line
+		node.haul = {}
+		node.set_interactive(node.line != "")
+	_actors.add_child(node)
+	if node.can_talk():
+		_things.append(node)
+	return node
+
+
+func _put_chest(cell: Vector2i) -> AreaProp:
+	var chest: Dictionary = map.chests[cell]
+	var shut: String = chest.get("art", "chest")
+	var is_stash := bool(chest.get("stash", false))
+	var opened := not is_stash and GameState.has_flag(map.chest_flag(cell))
+	var node := AreaProp.create(chest.get("opened_art", "chest_open") if opened else shut)
+	node.position = map.centre_of(cell)
+	node.cell = cell
+	node.line = chest.get("line", "")
+	if is_stash:
+		node.display_name = "strongbox"
+		node.set_interactive(true)
+		_things.append(node)
+	_actors.add_child(node)
+	_chest_props[cell] = node
+	return node
+
+
+func _put_ward(cell: Vector2i) -> AreaProp:
+	var ward: Dictionary = map.wards[cell]
+	var prop_art := str(ward.get("prop", ""))
+	if prop_art == "":
+		if ward.get("kind", "") == "tree" or str(ward.get("name", "")).to_lower().contains("tree"):
+			prop_art = "nature/sycamore_tree"
+		elif ward.get("kind", "") == "gate" or str(ward.get("name", "")).to_lower().contains("gate"):
+			prop_art = "village/log_pile"
+	if prop_art == "" or not AreaProp.has_art(prop_art):
+		return null
+	var opened := Ward.is_open(map.area_of(cell), map.local_of(cell))
+	var art_to_use := str(ward.get("cleared_art", "")) if opened and ward.has("cleared_art") else prop_art
+	var node := AreaProp.create(art_to_use)
+	node.position = map.centre_of(cell)
+	node.cell = cell
+	node.display_name = str(ward.get("name", "obstacle"))
+	node.solid = not opened
+	if opened and not ward.has("cleared_art"):
+		node.visible = false
+	else:
+		node.line = "examine"
+		node.set_interactive(not opened)
+		_things.append(node)
+	_actors.add_child(node)
+	_ward_props[cell] = node
+	return node
 
 
 ## Any of the sixteen standing at the place on the map this area is the inside
 ## of are standing in it too, a little way in from where the party arrives.
 func _admit_the_others() -> void:
 	var world: World = GameState.world
-	if world == null or _return_scene != "world":
+	if world == null or _return_scene != "world" or _land_mode:
 		return
 	var site := world.site_at(world.player_cell)
 	if site == null or str(site.data.get("area", site.kind)) != map.id:
@@ -382,6 +696,26 @@ func _admit_the_others() -> void:
 			"facing": [0, 1],
 			"wanderer": hero_id,
 			"wander": 1.5,
+		})
+
+
+## On the land, the same for the place standing in [param tile]: they wait just outside its way in.
+func _admit_the_others_to(tile: Vector2i) -> void:
+	var world: World = GameState.world
+	var chunk: Dictionary = (map as Land).chunks.get(tile, {})
+	var site := world.site_at(tile)
+	if site == null or str(chunk.get("kind", "")) != "place":
+		return
+	var offsets: Array[Vector2i] = [Vector2i(2, -2), Vector2i(-2, -2), Vector2i(3, 0), Vector2i(-3, 0), Vector2i(0, -3)]
+	var spawn := AreaMap.to_cell(chunk.get("spawn", [0, 0])) + (chunk["origin"] as Vector2i)
+	var placed := 0
+	for each: Dictionary in Wanderers.here(world, site.cell):
+		var hero_id := str(each["id"])
+		var spot := _free_spot_near(spawn + offsets[placed % offsets.size()])
+		placed += 1
+		map.people.append({
+			"name": Wanderers.name_of(hero_id), "unit": hero_id, "cell": [spot.x, spot.y],
+			"facing": [0, 1], "wanderer": hero_id, "wander": 1.5, "_tile": tile,
 		})
 
 
@@ -420,21 +754,31 @@ func _free_spot_near(cell: Vector2i) -> Vector2i:
 
 
 func _spawn_people() -> void:
+	if _land_mode:
+		return
 	for index in map.people.size():
-		var person: Dictionary = map.people[index]
-		var actor := AreaActor.for_person(person)
-		actor.position = map.centre_of(AreaMap.to_cell(person.get("cell", [0, 0])))
-		actor.face(Vector2(AreaMap.to_cell(person.get("facing", [0, 1]))))
-		actor.set_interactive(_seated.has(index) or _has_something_to_say(person))
-		actor.chatter = person.get("chatter", [])
-		if person.has("ghost"):
-			# The same face as in life, with the fire showing through it.
-			actor.modulate = Color(0.72, 0.86, 1.0, 0.55)
-		_actors.add_child(actor)
-		_people.append(actor)
-		var reach := float(person.get("wander", 0.0))
-		if reach > 0.0 and not _seated.has(index):
-			actor.roam(reach, _can_stand)
+		_put_person(map.people[index], _seat_for.get(index, null))
+	_seat_for.clear()
+
+
+func _put_person(person: Dictionary, seated: Variant = null) -> AreaActor:
+	var actor := AreaActor.for_person(person)
+	actor.set_meta("person", person)
+	actor.position = map.centre_of(AreaMap.to_cell(person.get("cell", [0, 0])))
+	actor.face(Vector2(AreaMap.to_cell(person.get("facing", [0, 1]))))
+	if seated != null:
+		_seated[actor] = seated
+	actor.set_interactive(seated != null or _has_something_to_say(person))
+	actor.chatter = person.get("chatter", [])
+	if person.has("ghost"):
+		# The same face as in life, with the fire showing through it.
+		actor.modulate = Color(0.72, 0.86, 1.0, 0.55)
+	_actors.add_child(actor)
+	_people.append(actor)
+	var reach := float(person.get("wander", 0.0))
+	if reach > 0.0 and seated == null:
+		actor.roam(reach, _can_stand)
+	return actor
 
 
 func _has_something_to_say(person: Dictionary) -> bool:
@@ -613,9 +957,8 @@ func _engage(target: AreaThing) -> void:
 	if target is AreaProp:
 		_examine(target as AreaProp)
 		return
-	var index := _people.find(target as AreaActor)
-	if index >= 0:
-		_speak_to(index)
+	if _people.has(target as AreaActor):
+		_speak_with(target as AreaActor)
 
 
 ## Stopping at something: what the party makes of it, and whatever was tucked
@@ -653,17 +996,21 @@ func _examine(thing: AreaProp) -> void:
 ## Walk up to somebody and the camera takes a moment over the meeting before
 ## either of you says a word.
 func _speak_to(index: int) -> void:
+	if index >= 0 and index < _people.size():
+		await _speak_with(_people[index])
+
+
+func _speak_with(them: AreaActor) -> void:
 	_talking = true
 	_hold_the_town(true)
-	if _seated.has(index):
-		await _talk_around_the_fire(index)
+	if _seated.has(them):
+		await _talk_around_the_fire(them)
 		_camera.focus_on(_leader.position)
 		_hold_the_town(false)
 		_talking = false
 		return
 
-	var person: Dictionary = map.people[index]
-	var them := _people[index]
+	var person: Dictionary = them.get_meta("person", {})
 	EventBus.player_did.emit("talked:%s" % str(person.get("name", "")))
 	_leader.face(them.position - _leader.position)
 	them.face(_leader.position - them.position)
@@ -681,7 +1028,7 @@ func _speak_to(index: int) -> void:
 	if person.has("ghost"):
 		await _sit_with_the_ghost(int(person["ghost"]))
 	elif wanderer != "":
-		await _speak_to_the_fallen(index, wanderer)
+		await _speak_to_the_fallen(them, wanderer)
 	elif dialogue_id != "":
 		EventBus.dialogue_requested.emit(dialogue_id)
 		await EventBus.dialogue_finished
@@ -691,7 +1038,7 @@ func _speak_to(index: int) -> void:
 		EventBus.guild_requested.emit()
 		await EventBus.overlay_closed
 	elif person.has("talk"):
-		var talk_id: String = Talk.open(map.id, person)
+		var talk_id: String = Talk.open(str(person.get("_area", map.id)), person)
 		EventBus.dialogue_requested.emit(talk_id)
 		await EventBus.dialogue_finished
 	elif not them.chatter.is_empty():
@@ -705,7 +1052,7 @@ func _speak_to(index: int) -> void:
 
 ## One of the sixteen, met inside. If they agree to walk with you they step out
 ## of the crowd: the party picks them up on the way back out.
-func _speak_to_the_fallen(index: int, hero_id: String) -> void:
+func _speak_to_the_fallen(them: AreaActor, hero_id: String) -> void:
 	var dialogue_id := Wanderers.talk(GameState.world, GameState.roster, hero_id)
 	if dialogue_id == "":
 		return
@@ -715,8 +1062,8 @@ func _speak_to_the_fallen(index: int, hero_id: String) -> void:
 	if not bool(Wanderers.entry(GameState.world, hero_id).get("joined", false)):
 		return
 	_note(Wanderers.joined_line(GameState.world, hero_id))
-	_people[index].set_interactive(false)
-	_people[index].visible = false
+	them.set_interactive(false)
+	them.visible = false
 	_nearby = null
 	_hovered = null
 
@@ -733,10 +1080,10 @@ func _sit_with_the_ghost(index: int) -> void:
 
 ## Two of your own, across the fire. What they find to say depends on what they
 ## have been through together, and saying it moves that on a notch ([Banter]).
-func _talk_around_the_fire(index: int) -> void:
-	var them: Character = _seated[index]
-	_leader.face(_people[index].position - _leader.position)
-	_camera.focus_on(_leader.position.lerp(_people[index].position, 0.5))
+func _talk_around_the_fire(sitter: AreaActor) -> void:
+	var them: Character = _seated[sitter]
+	_leader.face(sitter.position - _leader.position)
+	_camera.focus_on(_leader.position.lerp(sitter.position, 0.5))
 
 	var exchange := Banter.between(
 		GameState.world, _leader_character, them, Banter.REST, GameState.world.rng
@@ -756,16 +1103,16 @@ func _talk_around_the_fire(index: int) -> void:
 		# Said over their heads instead of over the screen.
 		for line: Dictionary in exchange:
 			_note("%s: %s" % [line.get("speaker", ""), line.get("text", "")])
-		_people[index].say(str(exchange[-1].get("text", "")))
+		sitter.say(str(exchange[-1].get("text", "")))
 	else:
 		Database.register_dialogue(id, Banter.as_dialogue(exchange, _leader_character, them))
 		EventBus.dialogue_requested.emit(id)
 		await EventBus.dialogue_finished
 	# One thing each per fire, so the night is not talked in circles.
-	_seated.erase(index)
-	_people[index].set_interactive(false)
-	_people[index].set_mark_ready(false)
-	_people[index].set_hovered(false)
+	_seated.erase(sitter)
+	sitter.set_interactive(false)
+	sitter.set_mark_ready(false)
+	sitter.set_hovered(false)
 	_nearby = null
 	_hovered = null
 
@@ -776,6 +1123,14 @@ func _talk_around_the_fire(index: int) -> void:
 func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
+	if _land_mode:
+		_hold_more()
+		if Pace.auto:
+			# The party walking itself walks the continent, where it can be seen.
+			_leaving = true
+			GameState.land_cell = map.cell_at(_leader.position)
+			EventBus.request_scene.emit("world", {})
+			return
 	_refresh_prompt()
 	if not map.bands.is_empty():
 		_practice_clock += delta
@@ -824,6 +1179,8 @@ func _physics_process(delta: float) -> void:
 		_walked = 0.0
 		_road_talk()
 	_arrive_at(map.cell_at(_leader.position))
+	if _land_mode:
+		_mind_the_border()
 
 
 ## Bog and snow drag at the feet; open ground does not.
@@ -955,9 +1312,11 @@ func _can_stand(point: Vector2) -> bool:
 func _try_the_ward(cell: Vector2i) -> bool:
 	if not map.wards.has(cell):
 		return false
-	if Ward.is_open(map.id, cell):
+	if Ward.is_open(map.area_of(cell), map.local_of(cell)):
 		return true
-	var outcome := Ward.force(map.id, map.wards[cell], GameState.party_characters())
+	var told: Dictionary = (map.wards[cell] as Dictionary).duplicate()
+	told["cell"] = map.local_of(cell)
+	var outcome := Ward.force(map.area_of(cell), told, GameState.party_characters())
 	_note(str(outcome["line"]))
 	if bool(outcome["opened"]):
 		_shut_wards.erase(cell)
@@ -986,7 +1345,7 @@ func _try_the_ward(cell: Vector2i) -> bool:
 func _try_the_way(from: Vector2, step: Vector2) -> void:
 	for point in [Vector2(from.x + step.x, from.y), Vector2(from.x, from.y + step.y)]:
 		var cell := map.cell_at(point)
-		if not map.wards.has(cell) or Ward.is_open(map.id, cell):
+		if not map.wards.has(cell) or Ward.is_open(map.area_of(cell), map.local_of(cell)):
 			continue
 		var opened := _try_the_ward(cell)
 		if not opened and not _shut_wards.has(cell):
@@ -1057,7 +1416,7 @@ func _settle_followers(delta: float) -> void:
 
 
 func _arrive_at(cell: Vector2i) -> void:
-	if map.is_exit(cell) or _is_edge_cell(cell):
+	if not _land_mode and (map.is_exit(cell) or _is_edge_cell(cell)):
 		_handle_exit(cell)
 		return
 	var door := map.door_at(cell)
@@ -1164,7 +1523,12 @@ func _here_payload() -> Dictionary:
 		here.erase(key)
 	if _leader != null:
 		var cell := map.cell_at(_leader.position)
-		here["spawn_cell"] = [cell.x, cell.y]
+		if _land_mode:
+			here.erase("spawn_cell")
+			here["land_cell"] = [cell.x, cell.y]
+			GameState.land_cell = cell
+		else:
+			here["spawn_cell"] = [cell.x, cell.y]
 	return here
 
 
@@ -1176,7 +1540,8 @@ func _here_payload() -> Dictionary:
 func _post_the_watch() -> void:
 	if _leader == null:
 		return
-	for band: Dictionary in boot_payload.get("bands", []):
+	_bands_told = boot_payload.get("bands", [])
+	for band: Dictionary in _bands_told:
 		_post_band(band)
 	_post_practice_bands()
 	if not _watches.is_empty():
@@ -1184,14 +1549,24 @@ func _post_the_watch() -> void:
 		EventBus.tip_moment.emit("ground_watch", {})
 
 
-## One band onto this ground, away from where the leader stands now.
+## One band onto this ground, away from where the leader stands now. On the land, in the tile the
+## continent has it on, once that tile is held.
 func _post_band(band: Dictionary) -> Node2D:
 	var arrived := map.cell_at(_leader.position)
 	var taken := _cells_spoken_for(arrived)
 	for other: Node2D in _watches:
 		for cell: Vector2i in other.members:
 			taken[cell] = true
-	var watch: Node2D = AreaWatch.place(map, band, arrived, taken, float(_land.get("sight", 0)))
+	var keep_to := Rect2i()
+	var told := band
+	if _land_mode:
+		var tile := AreaMap.to_cell(band.get("tile", [0, 0]))
+		if not (map as Land).is_held(tile):
+			return null
+		keep_to = (map as Land).slot_rect(tile)
+		told = band.duplicate()
+		told["where"] = "here"
+	var watch: Node2D = AreaWatch.place(map, told, arrived, taken, float(_land.get("sight", 0)), keep_to)
 	if watch == null:
 		return null
 	_layers.add_child(watch)
@@ -1201,6 +1576,60 @@ func _post_band(band: Dictionary) -> Node2D:
 	watch.moved.connect(_on_band_moved.bind(watch))
 	_watches.append(watch)
 	return watch
+
+
+## The continent's word on the bands about, after a step ([D76]): one that has moved tile walks
+## there across the land; one newly near comes onto it once its tile is held; one gone (fought,
+## or wandered far) goes.
+func _sync_bands(bands: Array) -> void:
+	if not _land_mode:
+		return
+	_bands_told = bands
+	var by_key := {}
+	for band: Dictionary in bands:
+		by_key[str(band.get("key", ""))] = band
+	for watch: Node2D in _watches.duplicate():
+		var key := str(watch.band.get("key", ""))
+		if bool(watch.band.get("spar", false)):
+			continue
+		if not by_key.has(key):
+			_take_off(watch)
+			continue
+		var told: Dictionary = by_key[key]
+		by_key.erase(key)
+		var tile := AreaMap.to_cell(told.get("tile", [0, 0]))
+		if watch.band.get("tile") != told.get("tile"):
+			watch.band["tile"] = told.get("tile")
+			if (map as Land).is_held(tile):
+				watch.travel((map as Land).slot_rect(tile), map.cell_at(_leader.position))
+			else:
+				_take_off(watch)
+	for key: String in by_key:
+		_post_band(by_key[key])
+
+
+## Bands the continent last said were about, for a tile laid out later to put down.
+var _bands_told: Array = []
+
+
+## A band off the land: its watch and its figures.
+func _take_off(watch: Node2D) -> void:
+	_watches.erase(watch)
+	for figure: Node in watch.figures:
+		if is_instance_valid(figure):
+			figure.queue_free()
+	watch.queue_free()
+
+
+## A tile just laid out: any band the continent has on it that is not on the land yet comes onto it.
+func _post_bands_for(tile: Vector2i) -> void:
+	for band: Dictionary in _bands_told:
+		if AreaMap.to_cell(band.get("tile", [0, 0])) != tile:
+			continue
+		var key := str(band.get("key", ""))
+		if _watches.any(func(watch: Node2D) -> bool: return str(watch.band.get("key", "")) == key):
+			continue
+		_post_band(band)
 
 
 ## The area's own bands whose flags now let them be here and that are not here yet: at the start,
@@ -1363,12 +1792,13 @@ func _field_for(watch: Node2D, ambush: bool) -> Dictionary:
 	lo -= Vector2i.ONE * margin
 	hi += Vector2i.ONE * margin
 	var size := (hi - lo + Vector2i.ONE).clamp(smallest, largest)
-	size = Vector2i(mini(size.x, map.width), mini(size.y, map.height))
+	var room := map.bounds()
+	size = Vector2i(mini(size.x, room.size.x), mini(size.y, room.size.y))
 	var centre := (lo + hi) / 2
-	var origin := (centre - size / 2).clamp(Vector2i.ZERO, Vector2i(map.width, map.height) - size)
+	var origin := (centre - size / 2).clamp(room.position, room.end - size)
 	var seen_at := _camera.get_screen_center_position()
 	return {
-		"area_id": map.id, "origin": [origin.x, origin.y], "size": [size.x, size.y],
+		"area_id": map.id, "land": _land_mode, "origin": [origin.x, origin.y], "size": [size.x, size.y],
 		"party": party, "foes": foes, "title": boot_payload.get("title", map.display_name),
 		"ambush": ambush,
 		# The camera as it was, in ground pixels: the fight opens on exactly this, then draws back.
@@ -1422,6 +1852,11 @@ func _act_for(event: InputEvent) -> Dictionary:
 func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
 		return
+	if _land_mode:
+		# Done out of sight, and the party stays where it stands.
+		if not _asking:
+			_ask_the_continent({ "act": str(each.get("act", "")) })
+		return
 	_leaving = true
 	EventBus.request_scene.emit("world", {
 		"act": str(each.get("act", "")),
@@ -1433,6 +1868,9 @@ func _do_act(each: Dictionary) -> void:
 ## A thumb or a pad has no H to press, so the place's doings are buttons too,
 ## the same list the hint line reads.
 func _lay_out_acts() -> void:
+	if _act_bar != null:
+		_act_bar.queue_free()
+		_act_bar = null
 	if not (Pace.is_touch_enabled() or Pad.using_pad):
 		return
 	var pressable: Array = _acts.filter(func(each: Dictionary) -> bool: return str(each.get("label", "")) != "")
@@ -1507,9 +1945,7 @@ func _enter(building: Dictionary) -> void:
 	if inside == "coliseum":
 		_leaving = true
 		var doorstep := map.step_out_of(building)
-		var outside := boot_payload.duplicate(true)
-		outside.erase("notes")
-		outside["spawn_cell"] = [doorstep.x, doorstep.y]
+		var outside := _doorstep_payload(doorstep)
 		EventBus.request_scene.emit("coliseum", {
 			"live_run": true,
 			"return_scene": "area",
@@ -1524,15 +1960,28 @@ func _enter(building: Dictionary) -> void:
 	var doorstep := map.step_out_of(building)
 	# The way back out is this ground as it was, so the street still knows it
 	# is part of the continent and what the place offers.
-	var outside := boot_payload.duplicate(true)
-	outside.erase("notes")
-	outside["spawn_cell"] = [doorstep.x, doorstep.y]
+	var outside := _doorstep_payload(doorstep)
 	EventBus.request_scene.emit("area", {
 		"area_id": inside,
 		"title": building.get("name", ""),
 		"return_scene": "area",
 		"return_payload": outside,
 	})
+
+
+## This ground to come back out to, on [param doorstep]: the land where it stands, or the area.
+func _doorstep_payload(doorstep: Vector2i) -> Dictionary:
+	var outside := boot_payload.duplicate(true)
+	outside.erase("notes")
+	if _land_mode:
+		outside.erase("spawn_cell")
+		outside["land_cell"] = [doorstep.x, doorstep.y]
+		outside["held"] = _held
+		outside["actions"] = _acts
+		GameState.land_cell = doorstep
+	else:
+		outside["spawn_cell"] = [doorstep.x, doorstep.y]
+	return outside
 
 
 ## A door that is a fight (`fight` on the building): through it to a real-time skirmish on the

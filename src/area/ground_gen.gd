@@ -53,6 +53,201 @@ static func for_cell(world: World, cell: Vector2i) -> String:
 	return id
 
 
+## One tile of the land as it is laid out side by side with its neighbours ([D76]): the open
+## country of it, or the place standing in it with its own ground round it, or the sea or a
+## mountain filling it. In the tile's own cells, (0, 0) at its top left; [Land] puts it where it
+## goes. The same world and tile always give the same slot, while what stands there is the same.
+##
+## `{ id, kind, land, size, terrain (one name per cell, row by row), patches ({ layers, rect }:
+## the sheets that paint each part, bottom first), props, chests, spots, buildings, people, wards,
+## fires, spawn, entries, place ({ id, rect } or empty), tint, hint, opening }`.
+static func slot(world: World, tile: Vector2i) -> Dictionary:
+	var place_id := _place_in(world, tile)
+	var land := Biome.at(world, tile) if world.in_bounds(tile) else "grassland"
+	var kind := "ground"
+	if not world.in_bounds(tile) or world.terrain_id_at(tile) in ["ocean", "lake"]:
+		kind = "sea"
+	elif not world.is_walkable(tile):
+		kind = "rock"
+	elif place_id != "":
+		kind = "place"
+	var key := "%d|%d,%d|%s|%s|%s" % [world.world_seed, tile.x, tile.y, land, kind, place_id]
+	if _slots.has(key):
+		return _slots[key]
+	var made: Dictionary
+	match kind:
+		"sea", "rock":
+			made = _barrier(world, tile, kind, land)
+		"place":
+			made = _around_place(world, tile, land, place_id)
+		_:
+			made = _as_slot(_lay_out(world, tile, land, true, Vector2i(-1, -1), Rect2i()))
+			made["id"] = "land_%d_%d_%s" % [tile.x, tile.y, land]
+	made["kind"] = kind
+	made["land"] = land
+	if _slots.size() > 400:
+		_slots.clear()
+	_slots[key] = made
+	return made
+
+
+## Slots already laid out, by world, tile and what stands there.
+static var _slots: Dictionary = {}
+
+
+## The place whose inside stands on [param tile] in the land: one with an area of its own, and not
+## sealed shut ([Ward]). Anything else is the land's own ground.
+static func _place_in(world: World, tile: Vector2i) -> String:
+	if not world.in_bounds(tile):
+		return ""
+	var site := world.site_at(tile)
+	if site == null:
+		return ""
+	var area_id := str(site.data.get("area", site.kind))
+	if not Database.has_area(area_id):
+		return ""
+	if site.data.has("ward") and not Ward.is_site_open(site):
+		return ""
+	return area_id
+
+
+## A laid-out ground (rows and a legend) as a slot: a name per cell, one patch over all of it.
+static func _as_slot(area: Dictionary) -> Dictionary:
+	var rows: Array = area.get("rows", [])
+	var legend: Dictionary = area.get("legend", {})
+	var w := 0
+	for row: String in rows:
+		w = maxi(w, row.length())
+	var terrain := PackedStringArray()
+	for row: String in rows:
+		for x in w:
+			terrain.append(str(legend.get(row.substr(x, 1) if x < row.length() else FLOOR, "grass")))
+	return {
+		"size": [w, rows.size()],
+		"terrain": terrain,
+		"patches": [{ "layers": area.get("layers", ["dirt"]), "rect": [0, 0, w, rows.size()] }],
+		"props": area.get("props", []),
+		"chests": area.get("chests", []),
+		"spots": area.get("spots", []),
+		"buildings": [], "people": [], "wards": [], "fires": [],
+		"spawn": area.get("spawn", [w / 2, rows.size() / 2]),
+		"entries": area.get("entries", {}),
+		"place": {},
+		"tint": str(area.get("tint", "")),
+		"hint": str(area.get("hint", "")),
+		"opening": "",
+	}
+
+
+## The sea, a lake or a mountain, filling the whole tile: nobody walks it, but it is there to see.
+static func _barrier(world: World, tile: Vector2i, kind: String, land: String) -> Dictionary:
+	var size: Array = Database.biomes.get("size", [32, 22])
+	var w := int(size[0])
+	var h := int(size[1])
+	var terrain := PackedStringArray()
+	terrain.resize(w * h)
+	terrain.fill("water" if kind == "sea" else "crag")
+	var props: Array = []
+	if kind == "rock":
+		# A few boulders on the slopes, so a mountain is not a flat grey sheet.
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash([world.world_seed, tile.x, tile.y, "rock"])
+		var rocks: Array = Biome.data(land).get("props", {}).get("rocks", [])
+		if rocks.is_empty():
+			rocks = ["biome/boulder"]
+		for i in rng.randi_range(6, 12):
+			var at := Vector2i(rng.randi_range(0, w - 1), rng.randi_range(0, h - 1))
+			props.append({ "art": str(rocks[rng.randi() % rocks.size()]), "cell": [at.x, at.y], "solid": true })
+	return {
+		"id": "%s_%d_%d" % [kind, tile.x, tile.y],
+		"size": [w, h],
+		"terrain": terrain,
+		"patches": [{ "layers": ["water" if kind == "sea" else "crag"], "rect": [0, 0, w, h] }],
+		"props": props, "chests": [], "spots": [], "buildings": [], "people": [], "wards": [], "fires": [],
+		"spawn": [w / 2, h / 2], "entries": {}, "place": {},
+		"tint": str(Biome.data(land).get("tint", "")), "hint": "", "opening": "",
+	}
+
+
+## A place standing in its tile: its own ground in the middle, the land's round it, the paths of
+## the land meeting at its way in, and nothing growing hard up against its edge. Everything in it
+## keeps its own cells inside the place (moved by where it stands), so a chest opened there is the
+## same chest it always was.
+static func _around_place(world: World, tile: Vector2i, land: String, place_id: String) -> Dictionary:
+	var place := Database.area(place_id)
+	var rows: Array = place.get("rows", [])
+	var legend: Dictionary = place.get("legend", {})
+	var pw := 0
+	for row: String in rows:
+		pw = maxi(pw, row.length())
+	var ph := rows.size()
+	var size: Array = Database.biomes.get("size", [32, 22])
+	var w := int(size[0])
+	var h := int(size[1])
+	if pw > w - 2 or ph > h - 2:
+		push_warning("GroundGen: %s is too big for a tile of the land" % place_id)
+		var plain := _as_slot(_lay_out(world, tile, land, true, Vector2i(-1, -1), Rect2i()))
+		plain["id"] = "land_%d_%d_%s" % [tile.x, tile.y, land]
+		return plain
+	var offset := Vector2i((w - pw) / 2, (h - ph) / 2)
+	var rect := Rect2i(offset, Vector2i(pw, ph))
+	# The paths meet just outside the place's way in.
+	var door := Vector2i(pw / 2, ph - 1)
+	var exits: Array = place.get("exits", [])
+	if not exits.is_empty():
+		door = Vector2i(int(exits[0][0]), int(exits[0][1]))
+	var outward := Vector2i.DOWN
+	if door.y == 0:
+		outward = Vector2i.UP
+	elif door.x == 0:
+		outward = Vector2i.LEFT
+	elif door.x == pw - 1:
+		outward = Vector2i.RIGHT
+	var hub := (offset + door + outward * 2).clamp(Vector2i.ONE, Vector2i(w - 2, h - 2))
+	var made := _as_slot(_lay_out(world, tile, land, true, hub, rect))
+	made["id"] = place_id
+	var terrain: PackedStringArray = made["terrain"]
+	for y in ph:
+		var row: String = rows[y]
+		for x in pw:
+			var symbol := row.substr(x, 1) if x < row.length() else "."
+			terrain[(offset.y + y) * w + offset.x + x] = str(legend.get(symbol, "grass"))
+	made["terrain"] = terrain
+	# The land's growth stays out of the place and the ring round it.
+	var ring := rect.grow(1)
+	made["props"] = (made["props"] as Array).filter(func(prop: Dictionary) -> bool:
+		return not ring.has_point(Vector2i(int(prop["cell"][0]), int(prop["cell"][1]))))
+	made["chests"] = []
+	made["spots"] = []
+	for entry: Dictionary in place.get("props", []) + place.get("dressing", []):
+		(made["props"] as Array).append(_moved(entry, offset))
+	for key: String in ["chests", "spots", "buildings", "people", "wards"]:
+		var moved: Array = made.get(key, [])
+		for entry: Dictionary in place.get(key, []):
+			moved.append(_moved(entry, offset))
+		made[key] = moved
+	if place.has("fire"):
+		made["fires"] = [[int(place["fire"][0]) + offset.x, int(place["fire"][1]) + offset.y]]
+	(made["patches"] as Array).append({ "layers": place.get("layers", ["dirt"]), "rect": [offset.x, offset.y, pw, ph] })
+	var spawn: Array = place.get("spawn", [door.x, door.y])
+	made["spawn"] = [int(spawn[0]) + offset.x, int(spawn[1]) + offset.y]
+	made["place"] = { "id": place_id, "rect": [offset.x, offset.y, pw, ph] }
+	made["tint"] = str(place.get("tint", made.get("tint", "")))
+	made["hint"] = str(place.get("hint", ""))
+	made["opening"] = str(place.get("opening", ""))
+	return made
+
+
+## An entry of a place moved to where the place stands: its cell, and a building's door.
+static func _moved(entry: Dictionary, offset: Vector2i) -> Dictionary:
+	var out := entry.duplicate(true)
+	for key: String in ["cell", "door"]:
+		var at: Variant = entry.get(key, null)
+		if at is Array and (at as Array).size() >= 2:
+			out[key] = [int(at[0]) + offset.x, int(at[1]) + offset.y]
+	return out
+
+
 ## Where the party comes in from [param side] (north, south, east, west): just
 ## inside the way out on that side, or the middle if there is none.
 static func entry(area: Dictionary, side: String) -> Vector2i:
@@ -68,6 +263,16 @@ static func side_of(dir: Vector2i) -> String:
 
 
 static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
+	return _lay_out(world, cell, land, false, Vector2i(-1, -1), Rect2i())
+
+
+## Lay a tile's ground out. [param open_land]: the land runs on into the next tile ([D76]), so a
+## side towards walkable country is left open, with its path running right to the edge at the
+## same point the next tile's path does; only a side towards the sea or a mountain is closed.
+## [param hub_at] is where the paths meet, when it is not for the ground to choose; nothing grows
+## in [param reserved] (where a place will stand) or the ring round it.
+static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool, hub_at: Vector2i,
+		reserved: Rect2i) -> Dictionary:
 	var biome := Biome.data(land)
 	var size: Array = Database.biomes.get("size", [32, 22])
 	var w := int(size[0])
@@ -86,6 +291,13 @@ static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
 	var blocked: Dictionary = {}
 	var props: Array = []
 	var hub := Vector2i(w / 2 + rng.randi_range(-3, 3), h / 2 + rng.randi_range(-2, 2))
+	if hub_at.x >= 0:
+		hub = hub_at
+	if reserved.size != Vector2i.ZERO:
+		var ring := reserved.grow(1)
+		for y in range(ring.position.y, ring.end.y):
+			for x in range(ring.position.x, ring.end.x):
+				kept[Vector2i(x, y)] = true
 
 	# The ways out, and the edges that have none.
 	var exits: Array = []
@@ -95,6 +307,12 @@ static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
 		var next := cell + dir
 		var open := world.in_bounds(next) and world.is_walkable(next)
 		var along := _gap_start(world, cell, next, w if dir.y != 0 else h)
+		if open_land and open:
+			# No edge at all: the path runs out to where the next tile's comes in.
+			var meet := _edge_cell(side, along + GAP / 2, w, h)
+			entries[side] = [(meet - dir * 2).x, (meet - dir * 2).y]
+			_wear_path(grid, kept, meet, hub, rng, w, h, true)
+			continue
 		for i in (w if dir.y != 0 else h):
 			var at := _edge_cell(side, i, w, h)
 			var in_gap := open and i >= along and i < along + GAP
@@ -124,16 +342,18 @@ static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
 	for i in _count(float(features.get("outcrops", 1.0)), rng):
 		_outcrop(grid, kept, blocked, props, pool.get("rocks", []), _anywhere(rng, w, h), rng, w, h)
 
-	# Something somebody left.
+	# Something somebody left (never in the ground round a place: the place is what is there).
 	var spots: Array = []
 	var chests: Array = []
-	if rng.randf() < float(Database.biomes.get("landmark_chance", 0.2)):
+	if reserved.size == Vector2i.ZERO and rng.randf() < float(Database.biomes.get("landmark_chance", 0.2)):
 		_landmark(grid, kept, blocked, props, spots, chests, rng, w, h, cell)
 
-	# What grows and lies about.
+	# What grows and lies about. Open land grows right up to its edges, so a wood carries on
+	# into the next tile rather than stopping in a line.
 	var density: Dictionary = biome.get("density", {})
-	for y in range(BORDER, h - BORDER):
-		for x in range(BORDER, w - BORDER):
+	var inset := 0 if open_land else BORDER
+	for y in range(inset, h - inset):
+		for x in range(inset, w - inset):
 			var at := Vector2i(x, y)
 			if kept.has(at) or blocked.has(at) or grid[y][x] == LIQUID:
 				continue
@@ -160,7 +380,8 @@ static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
 			LIQUID: str(ground.get("liquid", "water")), COVER: str(ground.get("cover", "meadow")),
 		},
 		"tint": str(biome.get("tint", "")),
-		"hint": "WASD to walk  ·  the ways out follow the land  ·  red ground is being watched",
+		"hint": "WASD to walk  ·  the land runs on  ·  red ground is being watched" if open_land \
+			else "WASD to walk  ·  the ways out follow the land  ·  red ground is being watched",
 		"rows": rows,
 		"spawn": [hub.x, hub.y],
 		"entries": entries,
@@ -221,13 +442,13 @@ static func _close_edge(world: World, next: Vector2i, at: Vector2i, dir: Vector2
 
 ## A path worn from a way out to where the paths meet, wandering a little.
 static func _wear_path(grid: Array, kept: Dictionary, from: Vector2i, to: Vector2i,
-		rng: RandomNumberGenerator, w: int, h: int) -> void:
+		rng: RandomNumberGenerator, w: int, h: int, to_the_edge: bool = false) -> void:
 	var at := from
 	var guard := 0
 	while at != to and guard < 200:
 		guard += 1
 		kept[at] = true
-		if at.x >= 1 and at.y >= 1 and at.x < w - 1 and at.y < h - 1:
+		if to_the_edge or (at.x >= 1 and at.y >= 1 and at.x < w - 1 and at.y < h - 1):
 			grid[at.y][at.x] = BARE
 		var step := Vector2i(signi(to.x - at.x), 0) if (rng.randf() < 0.5 and at.x != to.x) or at.y == to.y \
 			else Vector2i(0, signi(to.y - at.y))
