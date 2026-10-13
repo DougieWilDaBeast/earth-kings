@@ -10,6 +10,7 @@ const GATE := "gate"
 const TOWER := "tower"
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Biome := preload("res://src/chronicle/biome.gd")
 
 ## No band ever appears within this many tiles of the party. They are found,
 ## not sprung.
@@ -210,12 +211,29 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 	var terrain := world.terrain_id_at(cell)
 	var faction := Faction.pick_on(terrain, rng)
 	var pool := _pool_on(faction, terrain, _danger_at(world, cell) * 3 + 1)
+	# Most bands are whatever lives in that land: ice wolves on the snow, slimes
+	# in the fen (`doug-md`, 2026-10-13). Decided from the cell, not the dice, so
+	# the run's dice fall the same as before.
+	var locals := _land_foes(world, cell)
+	if not locals.is_empty():
+		pool = locals
 	var pack: Array = []
 	for i in clampi(1 + _danger_at(world, cell), 1, 4):
 		pack.append(pool[rng.randi() % pool.size()])
 	var band := Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
 	band.faction = faction
 	return band
+
+
+## Who camps in the land at [param cell] (`data/biomes.json` → `foes`), or none
+## when this band is one of the faction's own instead.
+static func _land_foes(world: World, cell: Vector2i) -> Array:
+	var foes: Array = Biome.data(Biome.at(world, cell)).get("foes", [])
+	if foes.is_empty():
+		return []
+	var share := float(Database.biomes.get("land_foe_share", 0.7))
+	var roll := float(absi(hash([world.world_seed, cell.x, cell.y, "foes"])) % 1000) / 1000.0
+	return foes if roll < share else []
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you.

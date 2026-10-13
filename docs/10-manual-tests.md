@@ -222,7 +222,7 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 
-## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D70](06-decisions.md))
+## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
 Start a run and walk until the bottom line says a band has marked the ground it can see.
 

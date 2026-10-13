@@ -69,14 +69,16 @@ static func rule(key: String, fallback: Variant) -> Variant:
 
 
 ## The band on this ground, or null when there is nowhere for it to stand. [param arrived] is where
-## the party came in; [param taken] the cells somebody or something already has, which grows.
-static func place(map: AreaMap, band_: Dictionary, arrived: Vector2i, taken: Dictionary) -> Node2D:
+## the party came in; [param taken] the cells somebody or something already has, which grows;
+## [param land_sight] what the land adds to (or takes from) every band's sight.
+static func place(map: AreaMap, band_: Dictionary, arrived: Vector2i, taken: Dictionary, land_sight: float = 0.0) -> Node2D:
 	var watch: Node2D = (load("res://src/area/area_watch.gd") as GDScript).new()
 	watch.name = "Watch"
 	watch._map = map
 	watch.band = _as_told(band_)
 	watch.colour = Color(str(watch.band.get("banner", "#c0392b")))
-	watch.sight = float(rule("sight_base", 2)) + float(rule("sight_per_reach", 1.5)) * float(watch.band.get("reach", 2))
+	# The land has its say too (`sight` in its effects, D71): mist and jungle close a band's eyes in.
+	watch.sight = maxf(1.0, float(rule("sight_base", 2)) + float(rule("sight_per_reach", 1.5)) * float(watch.band.get("reach", 2)) + land_sight)
 	var at: Vector2i = watch._where_to_stand(arrived, taken)
 	if at.x < 0:
 		watch.free()
@@ -157,12 +159,13 @@ func keep_an_eye_on(point: Vector2) -> void:
 
 
 ## They have seen the party: every head turns, and the one in front shouts.
-func raise_the_alarm(point: Vector2) -> void:
+func raise_the_alarm(point: Vector2, ambushed: bool = false) -> void:
 	_alert = true
 	_way.clear()
 	for figure: Node2D in figures:
 		figure.face(point - figure.position)
-	if not figures.is_empty():
+	# Out of cover and on them before they know it: nobody has time to shout.
+	if not figures.is_empty() and not ambushed:
 		figures[0].say("There!")
 	_clock = 0.0
 	modulate = Color(1.4, 1.1, 1.1)

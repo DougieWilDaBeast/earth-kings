@@ -13,8 +13,10 @@ const CheckFilter := preload("res://tests/check_filter.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "round_trip",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "round_trip",
 ]
+
+const Biome := preload("res://src/chronicle/biome.gd")
 
 var _failures: Array[String] = []
 
@@ -49,6 +51,7 @@ func _ready() -> void:
 			"memorials": _check_memorials(world)
 			"dialogue": _check_dialogue()
 			"walking": _check_walking(world)
+			"lands": _check_lands(world)
 			"round_trip": _check_round_trip(world, hero)
 
 	print("")
@@ -685,6 +688,52 @@ func _check_walking(world: World) -> void:
 
 
 # --- persistence --------------------------------------------------------------
+
+## The lands do something (`doug-md`, 2026-10-13): a band camped in a land is
+## mostly made of what lives there, the strange lands are rare, the right gear
+## keeps a hazard off, and every land named in the data is a real one.
+func _check_lands(world: World) -> void:
+	var counts := {}
+	var walkable := 0
+	var local_bands := 0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = SEED
+	for y in world.size.y:
+		for x in world.size.x:
+			var cell := Vector2i(x, y)
+			if not world.is_walkable(cell):
+				continue
+			walkable += 1
+			var land := Biome.at(world, cell)
+			counts[land] = int(counts.get(land, 0)) + 1
+			var locals := Encounter._land_foes(world, cell)
+			if locals.is_empty() or local_bands >= 40:
+				continue
+			local_bands += 1
+			var band := Encounter._band_at(world, cell, rng)
+			for unit_id: String in band.pack:
+				_expect(locals.has(unit_id), "a band in the %s fields %s, who does not live there" % [land, unit_id])
+	_expect(local_bands > 0, "no band anywhere is made of what lives in its land")
+	var strange := 0
+	for land: String in ["slime", "crystal", "fungal", "mist"]:
+		strange += int(counts.get(land, 0))
+	_expect(float(strange) / float(maxi(1, walkable)) < 0.08,
+		"the strange lands cover %d of %d tiles, which is not rare" % [strange, walkable])
+	_expect(counts.size() >= 12, "only %d lands on the whole continent" % counts.size())
+	for land: String in Database.biomes.get("biomes", {}):
+		for unit_id: String in Biome.data(land).get("foes", []):
+			_expect(not Database.unit_template(unit_id).is_empty(), "the %s fields %s, who does not exist" % [land, unit_id])
+	var traveller := Character.create("bram")
+	traveller.equipment = ""
+	traveller.charms = []
+	_expect(not Biome.spared(traveller, "cold") or Gear.piece(Gear.issued_id(traveller)).get("proof", []).has("cold"),
+		"nothing at all keeps the cold off, and still Bram is spared")
+	traveller.charms = ["salt_pouch"]
+	_expect(Biome.spared(traveller, "ooze"), "a salt pouch does not keep the ooze off")
+	_expect(float(Biome.effects("bog")["slow"]) < 1.0, "the bog does not drag at the feet")
+	_expect(int(Biome.effects("mist")["sight"]) < 0, "the mist does not shorten anybody's sight")
+	print("lands: %d on the continent, %d bands checked against what lives there" % [counts.size(), local_bands])
+
 
 func _check_round_trip(world: World, hero: Character) -> void:
 	var payload: Dictionary = JSON.parse_string(JSON.stringify(world.to_dict()))

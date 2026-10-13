@@ -1733,7 +1733,7 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 		return
 	world.prowlers.erase(band)
 	var meeting := Encounter.for_band(world, band, GameState.party_characters(), world.rng)
-	# Out of cover into their sight: the party has the jump (D66).
+	# Out of the long grass and on them before they knew: the party has the jump.
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
 	_begin_battle(meeting, {}, {

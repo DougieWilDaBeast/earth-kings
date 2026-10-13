@@ -240,6 +240,8 @@ func _build_battlefield() -> void:
 	if confrontation != "":
 		_opening.append(confrontation)
 	_set_objective(map)
+	if not ground_field.is_empty():
+		_draw_back()
 
 
 ## The enemy (or, with [param side] ALLY, those fighting beside the party) from
@@ -460,6 +462,31 @@ func _lay_the_ground() -> void:
 	if ground.tint != "":
 		under.modulate = Color(ground.tint).lerp(Color.WHITE, 0.6)
 	grid.draw_floor = false
+
+
+## How much closer the camera starts on a fight met on the ground, and how long
+## it takes to draw back over the whole field: the fight opens as a step back
+## from where the party stood, not a cut to somewhere else (from #66).
+const DRAW_BACK_ZOOM := 1.6
+const DRAW_BACK_TIME := 0.9
+
+
+func _draw_back() -> void:
+	var party := party_fighters()
+	if party.is_empty():
+		return
+	var middle := Vector2.ZERO
+	for f in party:
+		middle += f.unit.position
+	middle /= float(party.size())
+	var to_zoom := camera.zoom
+	var to_position := camera.position
+	camera.zoom = to_zoom * DRAW_BACK_ZOOM
+	camera.position = middle
+	camera.reset_smoothing()
+	var back := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	back.tween_property(camera, "zoom", to_zoom, DRAW_BACK_TIME)
+	back.tween_property(camera, "position", to_position, DRAW_BACK_TIME)
 
 
 func _enlist(unit: Unit) -> void:

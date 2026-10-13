@@ -398,7 +398,7 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
   `data/biomes.json`). Art for sixteen of the lands is a recoloured stand-in
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
-  [D70](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
+  [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was
   seen in, and play comes back to the same spot. Sight and patrol numbers are **Inferred**
 - Weather and hazards per land, enemies chosen by land, the Tower's element reshaping its country
@@ -421,6 +421,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   travelling, conditions, deadlines whose misses are stories — is
   [investigation/08](investigation/08-quests-and-a-living-world.md), **Inferred** (item 57). Every system priced in steps re-priced or dropped: doctrine fading, gates breaking,
   captive and thread deadlines, seasons, companions' travel on jobs
+- The lands do something ✅ (2026-10-13, [D71](06-decisions.md)): their own enemies, slow ground,
+  fog and shorter sight in mist and jungle, cold, heat and ooze worn off by the right gear; the
+  strange lands rare. The numbers are **Inferred**
 - ✅ Done when: a run can be played from landing to a Tower chapter without the world view, nothing
   in the world changes because the party walked, and the map shows only where the party has been or
   been told of
