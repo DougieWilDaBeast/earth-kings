@@ -204,6 +204,7 @@ func _close_controls() -> void:
 
 func _rebuild_controls_list(focus_action: String = "") -> void:
 	for child in _bindings_list.get_children():
+		_bindings_list.remove_child(child)
 		child.queue_free()
 
 	for entry: Dictionary in MAPPABLE_ACTIONS:

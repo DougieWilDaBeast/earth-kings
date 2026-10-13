@@ -29,19 +29,23 @@ stretch_mode = 5
 
 [node name="PlaceLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
+anchor_right = 1.0
 offset_left = 54.0
 offset_top = 8.0
-offset_right = 800.0
+offset_right = -180.0
 offset_bottom = 30.0
+text_overrun_behavior = 3
 theme_override_font_sizes/font_size = 15
 text = "..."
 
 [node name="PartyLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
+anchor_right = 1.0
 offset_left = 54.0
 offset_top = 29.0
-offset_right = 800.0
+offset_right = -180.0
 offset_bottom = 49.0
+text_overrun_behavior = 3
 theme_override_colors/font_color = Color(0.75, 0.79, 0.86, 1)
 theme_override_font_sizes/font_size = 13
 

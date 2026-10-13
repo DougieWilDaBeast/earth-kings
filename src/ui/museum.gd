@@ -58,6 +58,7 @@ func _journey_button(index: int) -> Button:
 
 func _show(index: int) -> void:
 	for child in _plaque.get_children():
+		_plaque.remove_child(child)
 		child.queue_free()
 	var journey: Dictionary = _all[index]
 

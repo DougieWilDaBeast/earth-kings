@@ -24,6 +24,9 @@ var armed: bool = false
 var overlay_only: bool = false
 ## How wide the tile asks to be; a card shared six ways asks for less.
 var width: float = 56.0
+## The name's size along the bottom of the tile, and the smallest it may shrink to.
+const TITLE_SIZE := 10
+const TITLE_SMALLEST := 8
 
 var _was_waiting: bool = false
 var _ping: float = 0.0
@@ -79,13 +82,41 @@ func _draw() -> void:
 	if not overlay_only:
 		draw_string(font, Vector2(4, 13), key_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, KEY)
 		if left <= 0.0:
-			draw_string(font, Vector2(2, size.y - 6), title, HORIZONTAL_ALIGNMENT_CENTER, size.x - 4, 10, NAME)
+			_draw_title(font)
 		var border := ARMED if armed else (BORDER_READY if left <= 0.0 else BORDER_WAIT)
 		draw_rect(rect, border, false, 2.0 if armed or left <= 0.0 else 1.0)
 	if _ping > 0.0:
 		var t := _ping / PING_TIME
 		draw_rect(rect.grow(3.0 * (1.0 - t)), Color(BORDER_READY, t), false, 2.0)
 		draw_rect(rect, Color(1, 1, 1, 0.35 * t))
+
+
+## The skill's name along the bottom, made to fit: a size smaller, then split
+## over two lines at a space. Drawn at one size it was cut off — "Shield Bas",
+## "Earthshak" — on any tile narrower than the name.
+func _draw_title(font: Font) -> void:
+	var room := size.x - 4.0
+	for font_size in range(TITLE_SIZE, TITLE_SMALLEST - 1, -1):
+		if font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x <= room:
+			draw_string(font, Vector2(2, size.y - 6), title, HORIZONTAL_ALIGNMENT_CENTER, room, font_size, NAME)
+			return
+	var words := title.split(" ", false)
+	if words.size() >= 2:
+		# Split where the two halves come out most even.
+		var best := 1
+		var best_gap := INF
+		for cut in range(1, words.size()):
+			var a := " ".join(words.slice(0, cut))
+			var b := " ".join(words.slice(cut))
+			var gap := absf(font.get_string_size(a, HORIZONTAL_ALIGNMENT_LEFT, -1, TITLE_SMALLEST).x \
+					- font.get_string_size(b, HORIZONTAL_ALIGNMENT_LEFT, -1, TITLE_SMALLEST).x)
+			if gap < best_gap:
+				best_gap = gap
+				best = cut
+		draw_string(font, Vector2(2, size.y - 15), " ".join(words.slice(0, best)), HORIZONTAL_ALIGNMENT_CENTER, room, TITLE_SMALLEST, NAME)
+		draw_string(font, Vector2(2, size.y - 5), " ".join(words.slice(best)), HORIZONTAL_ALIGNMENT_CENTER, room, TITLE_SMALLEST, NAME)
+		return
+	draw_string(font, Vector2(2, size.y - 6), title, HORIZONTAL_ALIGNMENT_CENTER, room, TITLE_SMALLEST, NAME)
 
 
 ## The part still cooling down, as a dark wedge that winds away clockwise.

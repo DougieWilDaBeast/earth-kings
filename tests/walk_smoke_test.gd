@@ -1031,11 +1031,21 @@ func _check_save_round_trip() -> void:
 		"bands": world.prowlers.size(),
 	}
 
+	# Saved from the sand, the save holds the run's own people, not the copy
+	# out there; and a night left open does not outlive the run it was part of.
+	var card: String = Arena.cards().keys()[0]
+	var lead_name := GameState.roster.player().display_name
+	Arena.open("dirte", card)
 	GameState.save()
+	Arena.close()
 	_expect(GameState.has_save(), "saving produced no file")
+	Arena.open("dirte", card)
 	GameState.new_game(1)
+	_expect(not Arena.is_open(), "a new game left a night on the sand open")
+	_expect(GameState.tallying, "a new game started with the ledger switched off")
 	_expect(GameState.world.steps != before["steps"], "a new game kept the old clock")
 	_expect(GameState.load_save(), "the save would not load back")
+	_expect(GameState.roster.player().display_name == lead_name, "a save made on the sand kept the copy, not the run's own lead")
 
 	var after: World = GameState.world
 	_expect(after.steps == before["steps"], "the clock did not survive the save")

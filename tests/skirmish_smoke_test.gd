@@ -472,6 +472,16 @@ func _check_allies_and_auto() -> void:
 	var was := Pace.auto
 	Pace.auto = true
 	_expect(not fight.paused, "switching auto on from outside the fight left the clock stopped")
+	# The key that hands the party over takes it back mid-fight too, and stops
+	# the clock for the first order; without it the fight could not be had back.
+	var take_back := InputEventAction.new()
+	take_back.action = "battle_auto"
+	take_back.pressed = true
+	fight._unhandled_input(take_back)
+	_expect(not Pace.auto, "the auto key did not take the party back in the middle of a fight")
+	_expect(fight.paused, "taking the party back mid-fight did not stop the clock for an order")
+	_expect(fight.armed_slot < 0, "taking the party back also readied a skill")
+	Pace.auto = true
 	fight.manual = true
 	while not fight.over and fight.sim_time < SIM_LIMIT:
 		fight.tick()

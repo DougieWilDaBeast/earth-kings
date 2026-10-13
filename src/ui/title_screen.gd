@@ -119,6 +119,11 @@ func _ready() -> void:
 		Sfx.attend(button)
 	_wrap_focus(_main_list)
 	_wrap_focus(_extras_list)
+	# A button's place is only true once its list has laid it out. Placed on
+	# focus alone, the marker opened on the menu beside Continue while New
+	# Game was the one chosen.
+	_main_list.sort_children.connect(_on_list_sorted)
+	_extras_list.sort_children.connect(_on_list_sorted)
 
 	var version := str(ProjectSettings.get_setting("application/config/version", ""))
 	_version_label.text = "Earth Kings — %s" % version if version != "" else "Earth Kings"
@@ -328,6 +333,13 @@ func _on_button_focused(button: Button) -> void:
 	_hint_label.text = String(_hints.get(button, ""))
 	_place_marker(button, _marker.visible)
 	_marker.visible = _revealed
+
+
+func _on_list_sorted() -> void:
+	var focused := get_viewport().gui_get_focus_owner() as Button
+	if focused == null or not _hints.has(focused):
+		return
+	_place_marker(focused, _marker_tween != null and _marker_tween.is_running())
 
 
 func _on_button_unfocused(button: Button) -> void:

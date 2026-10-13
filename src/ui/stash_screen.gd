@@ -47,8 +47,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _rebuild() -> void:
 	for child in _packs_list.get_children():
+		_packs_list.remove_child(child)
 		child.queue_free()
 	for child in _stash_list.get_children():
+		_stash_list.remove_child(child)
 		child.queue_free()
 
 	_packs_count.text = "In Packs: %d" % GameState.stores.size()
