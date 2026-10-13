@@ -6,7 +6,7 @@
 			"heading": "Walking",
 			"lines": [
 				"New here? Tutorial, on the title screen, is a ten-minute tour of a training village. Nothing in it is saved.",
-				"WASD or the arrow keys walk the ground. Walk off its edge and the party steps on across the continent; every step advances the world clock.",
+				"WASD or the arrow keys walk the land. It runs on without a break: villages, keeps and gates stand in it and you walk straight in. Every tile of the map you cross is a step, and every step advances the world clock.",
 				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
 				"N opens the journal, and the map is in it: the continent, black where you have never been. Esc puts the map away. Its first page, The Company, is a sheet for each companion: every number, and what a level adds.",
 				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
@@ -17,7 +17,7 @@
 		{
 			"heading": "Danger",
 			"lines": [
-				"Bands patrol out in the country, and the ground they can see is painted red, moving with them. Trees, rocks and long grass hide you. Step into the red, or let them walk into view of you, and they charge, and the fight is fought right there. Bursting out of long grass at them is an ambush.",
+				"Bands patrol out in the country, and the ground they can see is painted red, moving with them. Trees, rocks and long grass hide you. You can watch them walk the land from one place to the next. Step into the red, or let them walk into view of you, and they charge, and the fight is fought right there. Bursting out of long grass at them is an ambush.",
 				"Danger is a property of place. Near an open gate the country is thick with bands out of what came through it; near a hearth it goes quiet, and nothing camps within sight of home.",
 				"Gates never reopen once shut — but one left standing open too long breaks, and what was behind it comes out levelled up.",
 				"A gate left open puts the nearest settlement under siege. Walk in while it is happening and V fights the besiegers off. Leave it too long and the town falls."

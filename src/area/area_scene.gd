@@ -847,7 +847,7 @@ func _on_pad_changed() -> void:
 ## The idle line, said for a pad. A place's own line is written for the
 ## keyboard (it is data), so on a pad the buttons are said here instead.
 func _pad_hint() -> String:
-	return "%s to walk  ·  %s to speak to or look at whoever is marked  ·  %s to take the lead with someone else  ·  %s for the party  ·  %s for the journal  ·  follow the road out to leave" % [
+	return ("%s to walk  ·  %s to speak to or look at whoever is marked  ·  %s to take the lead with someone else  ·  %s for the party  ·  %s for the journal" + ("" if _land_mode else "  ·  follow the road out to leave")) % [
 		Pad.walk_text(), Pad.key("interact"), Pad.key("cycle_next"),
 		Pad.key("open_party"), Pad.key("open_journal"),
 	]

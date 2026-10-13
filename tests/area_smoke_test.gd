@@ -653,6 +653,22 @@ func _check_the_joined_land() -> void:
 		_fail("land: %d tiles laid out round the party, not 9" % scene._tile_ground.size())
 	if scene.map.tile_of(scene.map.cell_at(scene._leader.position)) != here:
 		_fail("land: the party did not start on the tile the continent has it on")
+	# A band on the next tile stands there; moved a tile by the continent, it walks across; gone
+	# from the continent's word, it goes.
+	var band := { "key": "band", "pack": ["goblin"], "reach": 2, "faction": "", "label": "Goblin", "tile": [here.x, here.y - 1] }
+	scene._sync_bands([band])
+	var watches: Array = scene.get("_watches")
+	if watches.size() != 1 or not scene.map.slot_rect(here + Vector2i.UP).has_point(watches[0].anchor):
+		_fail("land: a band on the next tile is not standing in it")
+	else:
+		var moved := band.duplicate()
+		moved["tile"] = [here.x - 1, here.y - 1]
+		scene._sync_bands([moved])
+		if not watches[0].travelling or watches[0].region != scene.map.slot_rect(here + Vector2i(-1, -1)):
+			_fail("land: a band moved a tile by the continent did not set off across the land")
+		scene._sync_bands([])
+		if not (scene.get("_watches") as Array).is_empty():
+			_fail("land: a band the continent no longer has is still on the land")
 	var dir := town.cell - here
 	var into: Vector2i = scene.map.slot_rect(town.cell).get_center()
 	scene._leader.position = scene.map.centre_of(into)
@@ -674,4 +690,4 @@ func _check_the_joined_land() -> void:
 	EventBus.continent_requested.disconnect(listen)
 	scene.queue_free()
 	await get_tree().process_frame
-	print("land: tiles walk into each other, %s stands in its tile, and a step keeps to the land" % town.display_name)
+	print("land: tiles walk into each other, %s stands in its tile, a band walks across, and a step keeps to the land" % town.display_name)

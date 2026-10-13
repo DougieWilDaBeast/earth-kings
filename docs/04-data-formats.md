@@ -420,7 +420,9 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 }
 ```
 
-- `size` — cells across and down of every generated ground. `landmark_chance` — the share of
+- `size` — cells across and down of every generated ground, and of every tile's slot on the land
+  ([D81](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
+  middle of its tile's slot with the land's ground round it. `landmark_chance` — the share of
   grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
 - `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
   the sheets they are drawn with, bottom first. Cover is walkable and blocks a band's sight.
@@ -437,8 +439,13 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
   against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
-Which land a tile is: `src/chronicle/biome.gd`. Laid out by `src/area/ground_gen.gd` and handed to
-the `Database` as an area (`ground_<x>_<y>_<land>`), so it is walked like any area under `areas/`.
+Which land a tile is: `src/chronicle/biome.gd`. On the land ([D81](06-decisions.md)) each tile is
+laid out by `GroundGen.slot` with its sides left open towards walkable country (the paths of two
+tiles meet at the same point on their shared edge) and closed only towards the sea or a mountain;
+a sea or lake tile is all water and a mountain all rock. What is written down about a cell (a chest
+opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own area and cells for
+anything in a place, so it is the same chest it always was. A single tile's ground on its own is
+still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
@@ -450,10 +457,13 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   not. Ground that is cover (`"cover": true` on its terrain in `tilesets.json`, or named in `cover`)
   and walk-through bushes are never seen; the cells the band's own figures stand on always are.
 - **Where it stands:** on its own tile, in the open at least `keep_away` cells beyond its sight from
-  where the party came in; watching from the next tile, just inside that edge.
+  where the party came in; watching from the next tile, just inside that edge. On the land
+  ([D81](06-decisions.md)) every band within two tiles stands in its own tile's slot, and keeps to it.
 - **Patrol:** `patrol_points` stops within `patrol_reach` cells, walked a cell every
   `patrol_step_seconds`, resting `patrol_pause` [min, max] seconds at each; a loop that never brings
-  where the party came in into sight. The red moves with it.
+  where the party came in into sight. The red moves with it. On the land, `land_patrol_points`
+  stops within `land_patrol_reach` cells; moved to the next tile by the continent, the band walks
+  there across the land a cell every `travel_step_seconds` and patrols round its new spot.
 - **Seen:** a step into the red, or the band walking into view of the party. `spotted_seconds` of
   heads turning, the band rushing `charge_share` of the way in `charge_seconds`, then the fight on a
   field `field_margin` cells round everyone, `field_smallest` to `field_largest`. The field carries
@@ -468,7 +478,8 @@ from the area as a sandbox fight on that ground (nobody can die, nothing counted
 same spot, never through the world. The tutorial's sparring pair is one.
 
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
-from }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one).
+from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`
+that tile. `key` is where the band settled and who is in it, so it stays the same as it wanders.
 
 ## `guild.json` — the Adventurers Guild
 

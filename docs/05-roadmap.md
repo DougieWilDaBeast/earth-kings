@@ -402,6 +402,12 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was
   seen in, and play comes back to the same spot. Sight and patrol numbers are **Inferred**
+- One land ✅ (2026-10-13, [D81](06-decisions.md)): the continent walked as one stretch of ground,
+  each tile's ground laid side by side with its neighbours and no edge or loading between them;
+  villages, keeps, gates and the rest standing in their tiles and walked straight into; every band
+  within two tiles on the land, patrolling its tile and walking across when it moves
+  (`src/area/land.gd`). Where a place sits in its tile, how far bands are shown, how far they
+  patrol and how fast they walk are **Inferred**. A straight line still shows where two lands meet
 - Weather and hazards per land, enemies chosen by land, the Tower's element reshaping its country
   (planned; [investigation/09](investigation/09-lands-of-the-continent.md#not-built))
 - Places worth walking round ✅ (2026-10-12, [D62](06-decisions.md)): every prop and building at its
