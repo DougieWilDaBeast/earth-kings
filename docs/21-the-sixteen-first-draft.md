@@ -397,12 +397,12 @@ Built 2026-10-13: on top of their class's passive, each of the sixteen has a way
 else has, from the _Fight_ line of their entry above. It is theirs, not the class's (`signatures` in
 `data/skirmish.json`, keyed by the lead), so it stays if they take another class at level 2, and a
 lead met as a foe brings it too. It shows on the card's hover and under the pointer with a ★. No new
-art: the bearer is the club ogre, the wolf is the ice wolf, and a shade is the body of what fell,
+art: Sky, the bearer, is drawn as the club ogre, the wolf is the ice wolf, and a shade is the body of what fell,
 tinted. The last column is what is still planned, because no fight can do it yet.
 
 | Lead | Signature | What it does | Still planned |
 | --- | --- | --- | --- |
-| Atlas | **Borne** | Comes into every fight with his bearer, who keeps beside him and fights what is in reach. Atlas moves only while the bearer stands; if the bearer falls, he is stuck where he was dropped | Who the bearer is ([question 4](#what-the-founders-need-to-decide)): a hired one, Atlas's Bearer, for now |
+| Atlas | **Borne** | Comes into every fight with his bearer, **Sky** ([D83](06-decisions.md)), who keeps beside him and fights what is in reach. Atlas moves only while Sky stands; if Sky falls, he is stuck where he was dropped | Sky's own body and story; for now Sky is drawn as the club ogre (**Inferred**) |
 | Janus | **Doorways** | For every foe standing more than his own side, his skills come back 25% faster, up to twice as fast | Swapping two units, pulling an ally out, sending a foe into a bad spot |
 | Bellona | **Orders** | Every 10 s in a fight she calls *Advance* (allies within 3 tiles move 35% faster) while her side is walking in, or *Break them* (they deal 20% more) once it is at grips, for 5 s. Allies within 2 tiles get their energy back half again as fast | The orders as her own moves |
 | Cassius | **Learns Them** | Every hit he takes teaches him whoever dealt it: 6% more to them, up to 30%, for the rest of the fight | The taunt and the feint |
@@ -490,7 +490,7 @@ one, looks like one or is presented as one, and no text in the game mentions the
 2. **Which seed goes to which character.** The pairings above are a proposal. Any seed can move.
 3. **Pain's reason.** `dougie` was cut off mid-thought [00:17:59]. Saturn now takes the reason from
    Pain's profile in the second list: an idealist turned by loss. Confirm that is what was meant.
-4. **Who carries Atlas:** someone hired, a friend, one of the other fifteen, a beast as in the
+4. **Who carries Atlas** — answered: **Sky** (`dougie`, 2026-10-13, [D83](06-decisions.md)). The options were someone hired, a friend, one of the other fifteen, a beast as in the
    placeholder art, or the gentle giant the Lomu seed suggests.
 5. **A class of one's own for each** (agenda item 10), or styles inside the six classes.
 6. **The four ties above**: keep them, change them or drop them.

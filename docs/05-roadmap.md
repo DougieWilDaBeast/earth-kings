@@ -207,8 +207,8 @@ is left is art: the moves of the units not yet drawn.
   the hit and getting back up once, Iris's marks, Pluto's shades, Ceres's planted ground, Cato set,
   Juno's doubled and thrown items, Ultor's one target, Diana's wolf, Ares's opener, Liber
   unstunnable (`signatures` in `data/skirmish.json`, `src/skirmish/skirmish_signatures.gd`), at no
-  new art. Every rule and number is **Inferred** (agenda item 72), and who carries Atlas is still
-  the founders' call. Planned, not built: the parts no fight can do yet — moving people (Janus,
+  new art. Every rule and number is **Inferred** (agenda item 72), and Atlas's bearer is Sky
+  ([D83](06-decisions.md)). Planned, not built: the parts no fight can do yet — moving people (Janus,
   Saturn's push and pull), a taunt, Bellona's orders as moves
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
