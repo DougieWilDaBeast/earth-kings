@@ -53,7 +53,7 @@
 		"hold": "res://art/world/hold_dun.png",
 		"seat": "gate",
 		"ground": ["grass", "brush", "road", "water"],
-		"ranks": ["slime", "blue_slime", "king_slime"],
+		"ranks": ["slime", "blue_slime", "ooze_knight", "king_slime"],
 		"champion": "king_slime",
 		"hostile": true
 	},
