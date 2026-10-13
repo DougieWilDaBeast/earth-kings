@@ -81,7 +81,8 @@ func _hand_over() -> void:
 	if _handed_over:
 		return
 	_handed_over = true
-	EventBus.request_scene.emit("title", {})
+	# The title opens on its card: the opening was the intro, this is "press start".
+	EventBus.request_scene.emit("title", {"from": "cinematic"})
 
 
 # --- what to look at ----------------------------------------------------------

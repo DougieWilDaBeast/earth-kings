@@ -1,14 +1,24 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_title_screen"]
-[ext_resource type="Shader" path="res://src/ui/title_backdrop.gdshader" id="2_backdrop"]
+[ext_resource type="Shader" path="res://src/ui/title_fall.gdshader" id="2_backdrop"]
 [ext_resource type="Theme" path="res://art/ui/menu_theme.tres" id="3_theme"]
 [ext_resource type="Texture2D" uid="uid://jt534gf8wcg3" path="res://art/ui/emblem.png" id="4_emblem"]
 [ext_resource type="Texture2D" uid="uid://b1vmjplvffi2s" path="res://art/units/sworn_blade/idle/south.png" id="5_crest"]
-[ext_resource type="Script" path="res://src/ui/title_parade.gd" id="6_parade"]
+[ext_resource type="Script" path="res://src/ui/title_fall.gd" id="7_fall"]
+[ext_resource type="FontFile" path="res://art/ui/fonts/Cinzel-Bold.ttf" id="8_cinzel_bold"]
+[ext_resource type="FontFile" path="res://art/ui/fonts/Cinzel-Regular.ttf" id="9_cinzel"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_backdrop"]
 shader = ExtResource("2_backdrop")
+
+[sub_resource type="FontVariation" id="FontVariation_logo"]
+base_font = ExtResource("8_cinzel_bold")
+spacing_glyph = 8
+
+[sub_resource type="FontVariation" id="FontVariation_carved"]
+base_font = ExtResource("9_cinzel")
+spacing_glyph = 3
 
 [sub_resource type="Gradient" id="Gradient_ember"]
 offsets = PackedFloat32Array(0, 0.45, 1)
@@ -26,6 +36,15 @@ fill_to = Vector2(1, 0.5)
 offsets = PackedFloat32Array(0, 0.15, 0.7, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0.6, 1, 1, 1, 0)
 
+[sub_resource type="Gradient" id="Gradient_shade"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.02, 0.018, 0.03, 0.88, 0.02, 0.018, 0.03, 0.6, 0.02, 0.018, 0.03, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shade"]
+gradient = SubResource("Gradient_shade")
+width = 64
+height = 4
+
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,6 +52,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_theme")
 script = ExtResource("1_title_screen")
+logo_font = SubResource("FontVariation_logo")
+carved_font = SubResource("FontVariation_carved")
 
 [node name="Backdrop" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_backdrop")
@@ -40,11 +61,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.05, 0.055, 0.075, 1)
 
+[node name="Falls" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_fall")
+
 [node name="Embers" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(640, 748)
-amount = 70
+amount = 50
 lifetime = 11.0
 preprocess = 8.0
 randomness = 0.6
@@ -58,163 +89,211 @@ initial_velocity_min = 10.0
 initial_velocity_max = 34.0
 scale_amount_min = 0.3
 scale_amount_max = 0.95
-color = Color(1, 0.749, 0.435, 0.5)
+color = Color(1, 0.749, 0.435, 0.45)
 color_ramp = SubResource("Gradient_ember_life")
 
-[node name="Parade" type="Control" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
+[node name="Shade" type="TextureRect" parent="."]
+unique_name_in_owner = true
 anchor_bottom = 1.0
-offset_top = -160.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-script = ExtResource("6_parade")
-
-[node name="Content" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -330.0
-offset_right = 340.0
-offset_bottom = 290.0
-grow_horizontal = 2
+offset_right = 640.0
 grow_vertical = 2
-theme_override_constants/separation = 24
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_shade")
+expand_mode = 1
 
-[node name="Header" type="HBoxContainer" parent="Content"]
-layout_mode = 2
-theme_override_constants/separation = 26
+[node name="Logo" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_right = 860.0
+offset_bottom = 300.0
+mouse_filter = 2
+theme_override_constants/separation = 6
 alignment = 1
 
-[node name="EmblemFrame" type="Control" parent="Content/Header"]
-custom_minimum_size = Vector2(171, 171)
+[node name="EmblemFrame" type="Control" parent="Logo"]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
 
-[node name="Emblem" type="TextureRect" parent="Content/Header/EmblemFrame"]
+[node name="Emblem" type="TextureRect" parent="Logo/EmblemFrame"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("4_emblem")
+expand_mode = 1
 stretch_mode = 5
 
-[node name="Crest" type="TextureRect" parent="Content/Header/EmblemFrame"]
+[node name="Crest" type="TextureRect" parent="Logo/EmblemFrame"]
 unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
+offset_left = -56.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(64, 64)
+pivot_offset = Vector2(56, 56)
+mouse_filter = 2
 texture = ExtResource("5_crest")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TitleBlock" type="VBoxContainer" parent="Content/Header"]
+[node name="TitleLabel" type="Label" parent="Logo"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 8
-
-[node name="TitleLabel" type="Label" parent="Content/Header/TitleBlock"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.86, 0.52, 1)
-theme_override_colors/font_outline_color = Color(0.06, 0.04, 0.03, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.75)
-theme_override_constants/outline_size = 14
+theme_override_colors/font_color = Color(0.98, 0.84, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0.07, 0.04, 0.03, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/outline_size = 12
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 6
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = SubResource("FontVariation_logo")
+theme_override_font_sizes/font_size = 84
 text = "EARTH KINGS"
+horizontal_alignment = 1
 
-[node name="Rule" type="ColorRect" parent="Content/Header/TitleBlock"]
-custom_minimum_size = Vector2(0, 3)
+[node name="Rule" type="ColorRect" parent="Logo"]
+custom_minimum_size = Vector2(520, 2)
 layout_mode = 2
-color = Color(0.72, 0.55, 0.28, 0.85)
+size_flags_horizontal = 4
+mouse_filter = 2
+color = Color(0.78, 0.58, 0.3, 0.8)
 
-[node name="SubtitleLabel" type="Label" parent="Content/Header/TitleBlock"]
+[node name="SubtitleLabel" type="Label" parent="Logo"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.78, 0.74, 0.66, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_colors/font_color = Color(0.82, 0.76, 0.66, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 17
+theme_override_fonts/font = SubResource("FontVariation_carved")
+theme_override_font_sizes/font_size = 19
 text = "A grid tactical RPG of small wars and long roads"
+horizontal_alignment = 1
 
-[node name="Menu" type="PanelContainer" parent="Content"]
-custom_minimum_size = Vector2(516, 0)
+[node name="Prompt" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.68, 1)
+theme_override_colors/font_outline_color = Color(0.05, 0.03, 0.02, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("FontVariation_carved")
+theme_override_font_sizes/font_size = 22
+text = "Press any key"
+horizontal_alignment = 1
+
+[node name="Menu" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_right = 460.0
+offset_bottom = 320.0
+theme_override_constants/separation = 2
+
+[node name="MainList" type="VBoxContainer" parent="Menu"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-theme_type_variation = &"FramedPanel"
+theme_override_constants/separation = 2
 
-[node name="Items" type="VBoxContainer" parent="Content/Menu"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="ContinueButton" type="Button" parent="Content/Menu/Items"]
+[node name="ContinueButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Continue"
 
-[node name="NewGameButton" type="Button" parent="Content/Menu/Items"]
+[node name="NewGameButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "New Game"
 
-[node name="HowToPlayButton" type="Button" parent="Content/Menu/Items"]
+[node name="HowToPlayButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "How to Play"
 
-[node name="TrainingButton" type="Button" parent="Content/Menu/Items"]
+[node name="ExtrasButton" type="Button" parent="Menu/MainList"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Extras"
+
+[node name="QuitButton" type="Button" parent="Menu/MainList"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="ExtrasList" type="VBoxContainer" parent="Menu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TrainingButton" type="Button" parent="Menu/ExtrasList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Training Ground"
 
-[node name="ColiseumButton" type="Button" parent="Content/Menu/Items"]
+[node name="ColiseumButton" type="Button" parent="Menu/ExtrasList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Coliseum"
 
-[node name="MuseumButton" type="Button" parent="Content/Menu/Items"]
+[node name="MuseumButton" type="Button" parent="Menu/ExtrasList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Museum"
 
-[node name="CreditsButton" type="Button" parent="Content/Menu/Items"]
+[node name="CreditsButton" type="Button" parent="Menu/ExtrasList"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
-[node name="QuitButton" type="Button" parent="Content/Menu/Items"]
+[node name="ExtrasBackButton" type="Button" parent="Menu/ExtrasList"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Quit"
+text = "Back"
+
+[node name="Gap" type="Control" parent="Menu"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HintLabel" type="Label" parent="Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.66, 0.6, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 3
+
+[node name="Marker" type="Control" parent="."]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="Footer" type="HBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
-offset_top = -46.0
+offset_top = -40.0
 offset_right = -28.0
-offset_bottom = -18.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="VersionLabel" type="Label" parent="Footer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+theme_override_colors/font_color = Color(0.55, 0.52, 0.48, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 14
 text = "Earth Kings"
@@ -222,10 +301,12 @@ text = "Earth Kings"
 [node name="Spacer" type="Control" parent="Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="HintLabel" type="Label" parent="Footer"]
+[node name="KeysLabel" type="Label" parent="Footer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.451, 0.435, 0.408, 1)
+theme_override_colors/font_color = Color(0.55, 0.52, 0.48, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 14
 text = "W / S to choose     Enter to confirm"

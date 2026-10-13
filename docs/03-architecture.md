@@ -205,7 +205,7 @@ and every bounty a board tried to post came out blank.
 
 `EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad`. Database must be up before
 anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
-busses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
+buses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
 is playing itself, so both survive a scene swap — a soak started on the road carries through the
 fight it walks into. `Pad` remembers whether a game pad or a keyboard was touched last, says the
 right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on

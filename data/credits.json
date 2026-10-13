@@ -58,7 +58,8 @@
 		{
 			"heading": "Fonts",
 			"entries": [
-				{ "name": "Open Sans SemiBold", "role": "SIL Open Font License 1.1", "note": "Copyright 2020 The Open Sans Project Authors. Ships inside Godot Engine as its default font." }
+				{ "name": "Open Sans SemiBold", "role": "SIL Open Font License 1.1", "note": "Copyright 2020 The Open Sans Project Authors. Ships inside Godot Engine as its default font." },
+				{ "name": "Cinzel", "role": "SIL Open Font License 1.1", "note": "Copyright 2020 The Cinzel Project Authors (github.com/NDISCOVER/Cinzel). The title and the start menu." }
 			]
 		},
 		{
