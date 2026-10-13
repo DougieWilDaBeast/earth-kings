@@ -190,6 +190,12 @@ Nine themes exist (edge, ember, storm, hunt, iron, vigil, hearth, mourning, wind
 effect archetypes (blow, reach, loose, burst, sweep, mend, rally). Each theme draws from its own
 subset, so a Sworn Blade's trees come out sharp and a Hedge Priest's come out restorative.
 
+There are 22 classes. Six can be learned by anyone (Sworn Blade, Longbow, Hedge Priest, Magic
+Swordsman, Raider, Wildling). The other sixteen each belong to one of the sixteen
+([D63](06-decisions.md)): a lead starts in their own class with its four moves and its passive, and
+at level 2 may keep it or take one of the six ([D64](06-decisions.md)). They are listed in
+[21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built).
+
 ## Doctrine and the Library
 
 Written knowledge, and the sharpest expression of pillar 2.
