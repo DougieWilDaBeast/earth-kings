@@ -134,8 +134,8 @@ static func epitaph(world: World, roster: Roster, ledger: Dictionary) -> String:
 	var lead := roster.player()
 	var who: String = lead.display_name if lead != null else "The company"
 	if world != null and world.tower_topped:
-		return "%s conquered the ten floors of the Tower, taking %d gold and overcoming %d foes." % [
-			who, count(ledger, "gold_earned"), count(ledger, "kills")
+		return "%s conquered all %d floors of the Tower, taking %d gold and overcoming %d foes." % [
+			who, world.tower_floors(), count(ledger, "gold_earned"), count(ledger, "kills")
 		]
 	return "%s walked %d steps, took %d gold, and put down %d of what was waiting." % [
 		who, world.steps, count(ledger, "gold_earned"), count(ledger, "kills")

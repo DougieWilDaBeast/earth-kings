@@ -25,6 +25,11 @@ var _rng := RandomNumberGenerator.new()
 var _hero: String = ""
 var _card: String = ""
 var _wager_mult: float = 1.0
+## Where leaving goes, worked out while the night is still open ([Arena.way_back]).
+var _way_back: Dictionary = {}
+## Whether this is a night out of the run itself, likewise worked out up front:
+## a lost round closes the night before its buttons are made.
+var _live: bool = false
 
 
 func _ready() -> void:
@@ -32,6 +37,10 @@ func _ready() -> void:
 	_back.theme_type_variation = &"GrandButton"
 	_back.pressed.connect(_leave)
 	Sfx.attend(_back)
+	_way_back = Arena.way_back(boot_payload)
+	_live = bool(boot_payload.get("live_run", Arena.state().get("live_run", false)))
+	# Out of a run it goes back to the run, and says so.
+	_back.text = "Back to Title" if str(_way_back.get("scene", "title")) == "title" else "Leave the arena"
 
 	if not Arena.is_open():
 		_show_the_choosing()
@@ -39,18 +48,22 @@ func _ready() -> void:
 	_settle_the_round()
 
 
+## A night out of the run itself, as the payload says or the open night
+## remembers ([Arena.way_back]).
+func _is_live() -> bool:
+	return _live
+
+
 func _leave() -> void:
-	var ret_scene := str(boot_payload.get("return_scene", "title"))
-	var ret_payload: Dictionary = boot_payload.get("return_payload", {})
 	Arena.close()
-	EventBus.request_scene.emit(ret_scene, ret_payload)
+	EventBus.request_scene.emit(str(_way_back.get("scene", "title")), _way_back.get("payload", {}))
 
 
 # --- choosing a night ---------------------------------------------------------
 
 
 func _show_the_choosing() -> void:
-	var is_live := bool(boot_payload.get("live_run", false))
+	var is_live := _is_live()
 	if is_live:
 		_headline.text = "The Tournament Arena"
 		_blurb.text = "Take your company onto the proving sand. Gold won here goes directly into your purse."
@@ -118,6 +131,7 @@ func _show_the_choosing() -> void:
 
 func _refresh_choosing() -> void:
 	for child in _body.get_children():
+		_body.remove_child(child)
 		child.queue_free()
 	var card: Dictionary = Arena.cards().get(_card, {})
 
@@ -155,8 +169,8 @@ func _refresh_choosing() -> void:
 
 
 func _begin() -> void:
-	var live := bool(boot_payload.get("live_run", false))
-	Arena.open(_hero, _card, _wager_mult, live)
+	var live := _is_live()
+	Arena.open(_hero, _card, _wager_mult, live, _way_back)
 	EventBus.request_scene.emit("skirmish", Arena.wave(_rng, boot_payload))
 
 
@@ -190,7 +204,7 @@ func _settle_the_round() -> void:
 
 	var stop := Button.new()
 	stop.theme_type_variation = &"GrandButton"
-	stop.text = "Take the purse and leave" if bool(boot_payload.get("live_run", false)) else "Take the purse and stop"
+	stop.text = "Take the purse and leave" if _is_live() else "Take the purse and stop"
 	stop.pressed.connect(func() -> void:
 		Arena.retire()
 		_leave()
@@ -209,7 +223,7 @@ func _show_the_loss() -> void:
 	_show_the_company()
 	Arena.close()
 
-	if bool(boot_payload.get("live_run", false)):
+	if _is_live():
 		var leave_btn := Button.new()
 		leave_btn.theme_type_variation = &"GrandButton"
 		leave_btn.text = "Leave Arena"

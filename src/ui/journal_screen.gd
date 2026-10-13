@@ -259,8 +259,7 @@ func _rebuild() -> void:
 ## The standing quest every lead carries ([D53]), the errands taken, and what
 ## is known of the others who fell (M13).
 func _show_quests_page() -> void:
-	for child in _page.get_children():
-		child.queue_free()
+	_clear_page()
 	var world: World = GameState.world
 	if world == null:
 		return
@@ -338,8 +337,7 @@ func _show_quests_page() -> void:
 
 
 func _show_annals_page() -> void:
-	for child in _page.get_children():
-		child.queue_free()
+	_clear_page()
 	var world: World = GameState.world
 	if world == null:
 		return
@@ -376,8 +374,7 @@ func _show_annals_page() -> void:
 
 
 func _show_routes_page() -> void:
-	for child in _page.get_children():
-		child.queue_free()
+	_clear_page()
 	var world: World = GameState.world
 	if world == null:
 		return
@@ -520,8 +517,7 @@ func _open_page(template_id: String) -> void:
 
 
 func _show_page() -> void:
-	for child in _page.get_children():
-		child.queue_free()
+	_clear_page()
 	if _showing == "":
 		_page.add_child(_line("Nothing yet. The book fills up by being carried into fights.", LABEL_COLOUR))
 		return

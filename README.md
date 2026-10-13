@@ -50,33 +50,34 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   saves itself at those points, every time you come back to the map, and when you leave.
 - **Learning as you go** — _How to Play_ (on the title screen and in the `Esc` menu) is the short
   version of this list. In a run, a small card under the top bar explains each thing the first
-  time you meet it — the road, danger, a fight, your first turn, a fall, a town, a gate, the Tower,
+  time you meet it — the road, danger, a fight, facing, a fall, a town, a gate, the Tower,
   level 2 — then never again. Cards go away by themselves, never take a key, and stay quiet while
   the game plays itself. They are remembered per player in `settings.cfg`, not per save; the menu
   has _Tips: on/off_ and _Reset tips_.
 - **Walking** — WASD (or the arrow keys) move you one tile at a time; hold to keep going. Every step advances
-  the world clock. The top bar shows where you are and your current **danger %**.
+  the world clock. The top bar shows where you are, the season, your gold and how many bands are abroad.
   `Esc` opens the menu (save and load in Classic, music and sound volume, fullscreen, return to title).
   `F11` switches fullscreen anywhere.
 - **On a controller** — any Xbox or PlayStation pad (Godot's standard mapping) plays the whole game.
   Hint lines switch to the pad's buttons as soon as it is touched, and back on a key press.
 
-  | Button                   | On the road / in a town                    | In a fight                         | Real-time skirmish             |
-  | ------------------------ | ------------------------------------------ | ---------------------------------- | ------------------------------ |
-  | Left stick / D-pad       | Walk                                       | Walk the menu; aim the cursor      | Move the cursor                |
-  | A (Cross)                | Interact, step in, confirm                 | Choose a command; confirm the tile | Pick a fighter, give the order |
-  | B (Circle)               | Back / the menu                            | Back out of an order; the menu     | Put a skill away; the menu     |
-  | X (Square)               | Journal                                    | Wait                               | Pause / resume                 |
-  | Y (Triangle)             | Focus the place's buttons (hire, buy, …)   | —                                  | Next skill                     |
-  | Start / Back             | Menu / party                               | Menu / —                           | Menu / select everyone         |
-  | LB / RB                  | Speed / next leader in a town              | Speed / next fighter               | Speed / next fighter           |
-  | LT / RT                  | Zoom out / in                              | Zoom out / in                      | Zoom out / in                  |
-  | Right stick / L3 / R3    | Look around / — / recentre                 | Look around / — / recentre         | Look around                    |
+  | Button                   | On the road / in a town                    | In a fight                     |
+  | ------------------------ | ------------------------------------------ | ------------------------------ |
+  | Left stick / D-pad       | Walk                                       | Move the cursor                |
+  | A (Cross)                | Interact, step in, confirm                 | Pick a fighter, give the order |
+  | B (Circle)               | Back / the menu                            | Put a skill away; the menu     |
+  | X (Square)               | Journal                                    | Pause / resume                 |
+  | Y (Triangle)             | Focus the place's buttons (hire, buy, …)   | Next skill                     |
+  | Start / Back             | Menu / party                               | Menu / select everyone         |
+  | LB / RB                  | Speed / next leader in a town              | Speed / next fighter           |
+  | LT / RT                  | Zoom out / in                              | Zoom out / in                  |
+  | Right stick / L3 / R3    | Look around / — / recentre                 | Look around                    |
 
   Every menu is walked with the D-pad and pressed with A. The system menu's _Controls_ lists the
   pad button beside each key, and rebinds a pad button the same way it rebinds a key.
-- **Letting it play itself** — `Q` hands the run to the game and `T` cycles the speed, on the road,
-  inside a town and in a fight alike. The party walks to whatever is worth reaching, fights it,
+- **Letting it play itself** — `Q` hands the run to the game on the road or in a town, and `T`
+  cycles the speed everywhere. `Q` again takes it back anywhere, even mid-fight, which then pauses
+  for your first order. The party walks to whatever is worth reaching, fights it,
   and answers its own conversations. Both survive a scene change, so a soak keeps going.
 - **The map** — kept in the journal (`N`, then _The Map_ or `M`); `Esc` puts it away. Green dots are villages, grey keeps, blue libraries, tan huts, **red gates**
   (a ring means it is open and spilling), gold is **the Tower**, and the orange roof is **home**.
@@ -84,8 +85,8 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   there always patches the party up. `U` buys the next **bed** up, and everyone who sleeps on it
   carries that comfort around as permanent extra HP — a straw pallet gives nothing, a canopied bed
   gives +22.
-- **Danger is a property of place.** Near an open gate the wild is thick with what came out of it;
-  near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.
+- **Danger is a property of place.** Near an open gate the country is thick with bands on guard,
+  out of what came through it; near a hearth it goes quiet.
 - **Sites** — step on a village, keep or hut to rest; a library to read; an open gate to fight it;
   the Tower to climb the next floor. In a settlement, `H` hires whoever is drinking there and `B`
   buys the gear on the shelf. Where one of your people is being held, `R` ransoms them and `F`
@@ -119,8 +120,9 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   fight is fought right there ([D66](docs/06-decisions.md)).
 - **Four seasonal clovers.** Footsteps turn the seasons every 120 steps: Lesser Green (Spring),
   Green (Summer), Brown (Autumn), and Ice (Winter), reflected in world HUD lore, dialogue, and areas.
-- **The Tower is ten floors**, each paying gold, a book every third, a generated skill tree
-  every fourth, culminating in the Spire Archon climax on Floor 10.
+- **The Tower is a hundred floors** in chapters of five ([D48](docs/06-decisions.md)): every floor
+  pays gold, every fifth hands over a book and every tenth a generated skill tree. When a chapter
+  ends the stair above is sealed until you shut a gate or save a town.
 - **Fights are real time with pause** ([D36](docs/06-decisions.md), chosen in D58, D63 and D64).
   Every fight opens paused: `Space` pauses and unpauses, and orders can be given while paused.
   Left-click picks a fighter (drag a box for several, `Tab` for everyone); right-click moves,

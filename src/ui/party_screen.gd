@@ -457,7 +457,7 @@ func _badge_for(character: Character) -> String:
 	if character.pending_class_choice:
 		return "+ a path to choose"
 	if character.rungs > 0 and not character.trees.is_empty():
-		return "+ %d power to take" % character.rungs
+		return "+ %d power%s to take" % [character.rungs, "" if character.rungs == 1 else "s"]
 	if character.yoke:
 		return "yoked"
 	return ""
@@ -549,7 +549,7 @@ func _build_head(character: Character, party: Array[Character]) -> void:
 		owed.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
 		owed.focus_mode = Control.FOCUS_NONE
 		owed.add_theme_color_override("font_color", WARNING)
-		owed.text = "%d power to take" % character.rungs
+		owed.text = "%d power%s to take" % [character.rungs, "" if character.rungs == 1 else "s"]
 		owed.pressed.connect(func() -> void: _turn_to(Page.POWERS))
 		Sfx.attend(owed)
 		buttons.add_child(owed)
@@ -851,7 +851,7 @@ func _build_powers_page(character: Character) -> void:
 		var owed := Label.new()
 		owed.add_theme_color_override("font_color", WARNING)
 		owed.add_theme_font_size_override("font_size", 15)
-		owed.text = "%d power to take — press a glowing stone on any path." % character.rungs
+		owed.text = "%d power%s to take — press a glowing stone on any path." % [character.rungs, "" if character.rungs == 1 else "s"]
 		_page_box.add_child(owed)
 	for block in _tree_blocks(character):
 		_page_box.add_child(block)

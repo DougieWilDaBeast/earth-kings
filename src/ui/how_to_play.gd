@@ -61,6 +61,7 @@ func _fill() -> void:
 	_body.clear()
 	_starts.clear()
 	for child in _jumps.get_children():
+		_jumps.remove_child(child)
 		child.queue_free()
 	var paragraph := 0
 	for section: Dictionary in sections():

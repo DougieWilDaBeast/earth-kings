@@ -45,10 +45,13 @@ autowrap_mode = 3
 [node name="HintLabel" type="Label" parent="UI"]
 unique_name_in_owner = true
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = -40.0
-offset_right = 900.0
+offset_right = -16.0
 offset_bottom = -14.0
+grow_horizontal = 2
 grow_vertical = 0
+autowrap_mode = 3
 theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)

@@ -167,6 +167,7 @@ func _character_dir() -> String:
 
 func _refresh_states() -> void:
 	for child in _state_row.get_children():
+		_state_row.remove_child(child)
 		child.queue_free()
 	var dir := _character_dir()
 	if dir == "":
@@ -191,6 +192,7 @@ func _refresh_states() -> void:
 
 func _refresh_rotations() -> void:
 	for child in _rotation_row.get_children():
+		_rotation_row.remove_child(child)
 		child.queue_free()
 	var dir := _character_dir()
 	if dir == "" or _state_dir == "":

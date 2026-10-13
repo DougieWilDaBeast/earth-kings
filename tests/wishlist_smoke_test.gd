@@ -284,6 +284,15 @@ func _check_arena() -> void:
 	_expect(GameState.roster == kept, "the run did not get its own people back")
 	_expect(GameState.tallying, "the ledger was left switched off")
 
+	# Out of a run, leaving goes back to the run even when a round came back to
+	# the sand without saying where from; it never lands on the title screen.
+	Arena.open("", card, 1.0, true, { "scene": "area", "payload": { "area_id": "keep" } })
+	_expect(str(Arena.way_back({}).get("scene")) == "area", "a round that forgot the way back left the arena for the title")
+	Arena.close()
+	_expect(str(Arena.way_back({ "live_run": true }).get("scene")) == "world", "a night out of a run with no way back went to the title")
+	_expect(str(Arena.way_back({}).get("scene")) == "title", "the coliseum off the title screen did not go back to it")
+	_expect(GameState.roster == kept, "the run did not get its own people back the second time")
+
 
 # --- W1 -----------------------------------------------------------------------
 
