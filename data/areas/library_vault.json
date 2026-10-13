@@ -270,6 +270,47 @@
         ],
         "bye": "Don't touch the jars on the way out either."
       }
+    },
+    {
+      "name": "the Tattered One",
+      "unit": "wraith",
+      "cell": [
+        11,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "wraith",
+      "talk": {
+        "hello": [
+          "It does not turn. The shrouds move as if breathing, though nothing breathes.",
+          "The cold arrives before you see it. It has been reading."
+        ],
+        "again": [
+          "It is where it was. The candle nearest it has gone out again.",
+          "It knows you. You can tell because the cold does not get worse."
+        ],
+        "ask": [
+          {
+            "q": "What are you?",
+            "a": "It says nothing. On the page under its hand, a name has been scraped from the vellum with a knife."
+          },
+          {
+            "q": "What do you want?",
+            "a": "It lifts one tattered sleeve toward the ceiling, toward every kingdom above it, and lets it fall."
+          },
+          {
+            "q": "Can you speak?",
+            "a": "No tongue. No breath. The silence gets heavier, which is perhaps an answer."
+          }
+        ],
+        "bye": [
+          "You back away. It does not watch you go. You feel it anyway.",
+          "The cold lets go of your hands slowly."
+        ]
+      }
     }
   ],
   "rows": [

@@ -166,6 +166,26 @@ there. This file adds only what a lead needs on top of a unit.
   temper group's lines stand in.
 - `restless` — stays only a short while anywhere (Iris, Liber).
 
+## `story_npcs.json` — the original twelve, met in the world
+
+The twelve heroes the game began with, as story people rather than leads ([D79](06-decisions.md)).
+Keyed by their unit template id. Each one stands in `area` as a person whose `story_npc` is that id
+(see `areas/*.json`), with a `talk` block; their companions stand beside them with the same
+`story_npc` and `chatter`.
+
+```json
+"bram": {
+  "name": "Bram the Sworn Blade",
+  "unit": "bram",
+  "area": "village",
+  "hook": "Kaelen's apprentice from Oakhaven, carrying his dead master's greatsword...",
+  "company": []
+}
+```
+
+- `area` — the area id they stand in. `hook` — where their story picks up, from
+  [11](11-character-backstories.md). `company` — unit ids of the companions standing with them.
+
 ## `tempers.json` — the sixteen, and the quiz that picks one
 
 `axes` describes the eight letters, `types` maps each four-letter code to an in-world name and the
@@ -278,6 +298,8 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 
 A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
 still keeps one). Every keep and village area has one: a `guild_clerk`.
+A person with `story_npc` is one of the original twelve, or a companion standing with them
+(see `story_npcs.json`).
 
 **Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
 in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,

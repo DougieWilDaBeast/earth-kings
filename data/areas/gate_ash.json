@@ -251,6 +251,64 @@
         "Do not tell me you will be quick. They all say quick.",
         "There is water at the post. Take some. It costs nothing."
       ]
+    },
+    {
+      "name": "Vane the Sleepless",
+      "unit": "emo_swordsman",
+      "cell": [
+        12,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "emo_swordsman",
+      "talk": {
+        "hello": [
+          "Don't. I'm not sleeping, I'm watching.",
+          "You're out late. So am I. Always."
+        ],
+        "again": [
+          "Still awake. Before you ask.",
+          "You again. I counted you leaving. I'll count you back."
+        ],
+        "ask": [
+          {
+            "q": "When did you last sleep?",
+            "a": "Four years ago, for ten minutes. Sixty men went into the pits in those ten minutes. I don't sleep now."
+          },
+          {
+            "q": "What's the shadow behind you?",
+            "a": "Guilt, I think. It follows. It fights. It doesn't talk, which is more than I can say for most company."
+          },
+          {
+            "q": "Why the gate?",
+            "a": "The worst fights come through doors like this one. One of them will finally be the one that lets me rest."
+          }
+        ],
+        "bye": [
+          "Go. I'll be awake.",
+          "Keep your eyes open. Longer than ten minutes."
+        ]
+      }
+    },
+    {
+      "name": "a shadow that keeps close",
+      "unit": "dusk_shadow",
+      "cell": [
+        13,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "emo_swordsman",
+      "chatter": [
+        "It stands where Vane's shadow should be, and Vane's shadow is somewhere else.",
+        "It turns when you look at it. It does not have a face to turn."
+      ]
     }
   ],
   "rows": [
@@ -272,16 +330,17 @@
   ],
   "dressing": [
     {"art": "nature/dead_tree", "cell": [5, 13], "offset": [-3, 0]},
-    {"art": "nature/bare_tree", "cell": [1, 7], "offset": [-6, -3]},
-    {"art": "nature/dead_tree", "cell": [15, 10], "offset": [0, -4], "flip": true},
-    {"art": "nature/pebble", "cell": [12, 11], "offset": [3, -3], "flip": true},
-    {"art": "nature/pebble", "cell": [2, 11], "offset": [-11, -1]},
-    {"art": "nature/pebble", "cell": [1, 9], "offset": [13, 0], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [2, 8], "offset": [-8, -6], "flip": true},
-    {"art": "nature/pebble", "cell": [11, 13], "offset": [-5, -2], "flip": true},
-    {"art": "nature/thistle", "cell": [3, 11], "offset": [-14, 0], "flip": true},
-    {"art": "nature/pebble", "cell": [15, 9], "offset": [10, 7], "flip": true},
-    {"art": "nature/ants", "cell": [12, 13], "offset": [3, -2]},
-    {"art": "nature/ants", "cell": [11, 5], "offset": [9, 6]}
+    {"art": "nature/dead_tree", "cell": [15, 6], "offset": [-10, 2], "flip": true},
+    {"art": "nature/dead_tree", "cell": [0, 8], "offset": [0, -4], "flip": true},
+    {"art": "nature/dead_tree", "cell": [15, 10], "offset": [2, -1], "flip": true},
+    {"art": "nature/pebble", "cell": [12, 13], "offset": [3, -3], "flip": true},
+    {"art": "nature/pebble", "cell": [15, 8], "offset": [-11, -1]},
+    {"art": "nature/pebble", "cell": [11, 12], "offset": [13, 0], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 9], "offset": [-8, -6], "flip": true},
+    {"art": "nature/pebble", "cell": [14, 9], "offset": [-5, -2], "flip": true},
+    {"art": "nature/thistle", "cell": [3, 12], "offset": [-14, 0], "flip": true},
+    {"art": "nature/pebble", "cell": [1, 5], "offset": [10, 7], "flip": true},
+    {"art": "nature/spider", "cell": [6, 5], "offset": [-2, 1], "flip": true},
+    {"art": "nature/ants", "cell": [5, 1], "offset": [9, 6]}
   ]
 }

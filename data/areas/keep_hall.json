@@ -92,6 +92,81 @@
     "The long table is laid for forty. It has been for some time.",
     "Touch nothing on the wall. The names are all we have left up there."
    ]
+  },
+  {
+   "name": "Dirte, the God of Kings",
+   "unit": "dirte",
+   "cell": [
+    9,
+    2
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "story_npc": "dirte",
+   "talk": {
+    "hello": [
+     "Stand where I can see you. Old habit.",
+     "You may approach. Few do."
+    ],
+    "again": [
+     "Back again. You have more nerve than most of this valley.",
+     "Come. Tell me how the roads are."
+    ],
+    "ask": [
+     {
+      "q": "Who are you?",
+      "a": "I was the Heart Empire's general for thirty campaigns. I am now its traitor. The armour did not change, only the ballads."
+     },
+     {
+      "q": "Why did you leave?",
+      "a": "My soldiers would have fought for me. The capital would have burned. I took two who would not stay behind and walked out through the portcullis."
+     },
+     {
+      "q": "Who stands with you?",
+      "a": "Centurion Silver and Decurion Copper. They have never once asked me where we are going."
+     }
+    ],
+    "bye": [
+     "Go with purpose.",
+     "Remember that a crown is only a heavier helmet."
+    ]
+   }
+  },
+  {
+   "name": "Centurion Silver",
+   "unit": "legion_silver",
+   "cell": [
+    8,
+    3
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "story_npc": "dirte",
+   "chatter": [
+    "The general does not need to raise his voice. We do it for him.",
+    "Thirty campaigns. Not one banner lost."
+   ]
+  },
+  {
+   "name": "Decurion Copper",
+   "unit": "legion_copper",
+   "cell": [
+    10,
+    3
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "story_npc": "dirte",
+   "chatter": [
+    "Silver's in charge of shouting. I'm in charge of watching.",
+    "Mind the general's cloak."
+   ]
   }
  ],
  "rows": [

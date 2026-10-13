@@ -201,7 +201,9 @@ Everything here is **Inferred** — agenda items 25 to 29 in
   hut in open country. They stay there three times as long as anywhere else and go back to it
   most, and otherwise walk by temper — NT to libraries and the Tower, NF to libraries, villages and
   huts, SJ to keeps and villages, SP to gates and keeps. Iris and Liber never stay long anywhere.
-  **Inferred**, agenda item 69.
+  **Inferred**, agenda item 69. The twelve who stood in before are no longer leads
+  ([D79](06-decisions.md)): each stands, for good, in the place their story belongs to
+  ([02](02-design.md#the-original-twelve-met-in-the-world)).
 - **Finding them.** Asking an inn for news, or resting at a settlement, can bring word of one, and
   marks where they were heard of. Standing where one stands shows them, and the mark. Both are
   drawn on the map, a rumour faintly.

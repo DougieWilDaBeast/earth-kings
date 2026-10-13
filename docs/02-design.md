@@ -88,6 +88,19 @@ of them at inns and by resting where people talk, and sees them by standing wher
 are marked on the map. **X** speaks to one. An Outward temper will walk with you the first time, an
 Inward one the second, if the party has room. All of it is **Inferred** (agenda items 25–29).
 
+## The original twelve, met in the world
+
+The sixteen are the playable lineup. The twelve heroes the game began with (Bram, Sera, Toln and the
+rest, [11](11-character-backstories.md)) are no longer leads; they are significant people met in the
+world ([D79](06-decisions.md)). Each stands where their backstory puts them, in their own body and
+with their own companions: Bram on the ford village's road, Sera in the ancient grove, Toln in the
+reading hall, the Fox Fire Knight at the thorn keep, Barnaby at the gate's mouth, Dirte in the great
+hall, Master Bo in the cloister, Buri at the foot of the Tower, Oran on the wind scarp, the Tidewalker
+at the salt hamlet, Vane at the ash gate and the Tattered One in the vault beneath the library
+(`data/story_npcs.json`). Each has a short conversation about who they are and what set them on the
+road, and a `hook` their story picks up from. Their parts in the main stories are not written yet.
+Where they stand and what they say is **Inferred** (agenda item 70).
+
 ## Sending companions away
 
 Any companion — never the lead, and never the last one left beside them — can be handed an errand

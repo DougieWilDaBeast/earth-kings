@@ -237,6 +237,47 @@
       "chatter": [
         "It hangs over whichever page is being read, as if it were reading too."
       ]
+    },
+    {
+      "name": "Toln the Hedge Priest",
+      "unit": "toln",
+      "cell": [
+        12,
+        10
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "toln",
+      "talk": {
+        "hello": [
+          "Ah. Forgive me, I was somewhere around the fourth century.",
+          "Sit if you like. The chairs remember better company than me."
+        ],
+        "again": [
+          "Welcome back. I found the page I wanted. It was the wrong page.",
+          "You again. Good. I'm tired of arguing with books."
+        ],
+        "ask": [
+          {
+            "q": "What are you reading?",
+            "a": "Old doctrine on the fading of souls. Saint Merryn's brothers copied it for thirty years and never once believed it would be needed."
+          },
+          {
+            "q": "What happened at Saint Merryn?",
+            "a": "A gate opened in the gorge below us. The incense went black and the chalk spring ran red, and they went on chanting. I was the only one who left the chapel."
+          },
+          {
+            "q": "Who taught you to mend?",
+            "a": "Necessity. A half-dead swordsman fell on the chapel steps and I didn't know how to let him die. Bram still thinks he owes me for it."
+          }
+        ],
+        "bye": [
+          "Go gently.",
+          "Blood washes off steel. Remember that it doesn't wash off the rest."
+        ]
+      }
     }
   ],
   "rows": [
@@ -296,6 +337,6 @@
     {"art": "nature/sparrow", "cell": [6, 3], "offset": [-9, -6]},
     {"art": "nature/bee", "cell": [9, 11], "offset": [10, 1]},
     {"art": "nature/finch", "cell": [6, 8], "offset": [1, -1], "flip": true},
-    {"art": "nature/bee", "cell": [11, 9], "offset": [11, -1], "flip": true}
+    {"art": "nature/bee", "cell": [4, 1], "offset": [11, -1], "flip": true}
   ]
 }

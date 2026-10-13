@@ -26,7 +26,8 @@ in [17 — The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md):
   crash-land at seeded sites and walk between kinds of place by temper, and can be met and joined
   ([17](17-the-sixteen-worlds.md#the-others-as-built)). Since 2026-10-13 they are the sixteen
   themselves, each settling first at the kind of place [21](21-the-sixteen-first-draft.md) puts them
-  ([D78](06-decisions.md)).
+  ([D78](06-decisions.md)). The twelve who stood in before are
+  story people met in the world ([D79](06-decisions.md)).
 - **A signature weapon each**, made for them, god-tier ([D33](06-decisions.md)). It is what
   crosses to the next world when they die as the lead.
 - **Backstory is not the priority.** "I'm not too worried about what someone's backstory is or what

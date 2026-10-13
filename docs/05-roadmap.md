@@ -112,13 +112,15 @@ class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-b
 direction on 2026-10-13: get the early game playable before polishing art. Since 2026-09-26 every
 pull request is checked by CI (the suites, a soak, and the ledger).
 
-1. **The sixteen as the playable lineup — mostly built.** `dougie`, 2026-10-13: the sixteen of
+1. **The sixteen as the playable lineup — built.** `dougie`, 2026-10-13: the sixteen of
    [21](21-the-sixteen-first-draft.md) (Atlas to Liber) are the leads a run starts with, each in
    their own class ([D63](06-decisions.md)), and the original twelve (Bram, Sera, Toln and the rest)
    stop being leads and become significant NPCs in the main stories. Built 2026-10-13: the sixteen
    classes and starting moves ([M11](#m11--the-real-time-fight--in-progress), agenda item 68) and the
    sixteen as the leads, in their own bodies, the other fifteen settling where 21 puts them
-   ([D78](06-decisions.md), agenda item 69). Still being built: the twelve moved into the stories as NPCs.
+   ([D78](06-decisions.md), agenda item 69), and the twelve placed in the world as story people,
+   each where their backstory belongs with a conversation ([D79](06-decisions.md), agenda item 70).
+   Still to write: their parts in the main stories, with the sixteen's quest lines.
 2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
@@ -268,8 +270,12 @@ sitting, and the reading of a hearth on agenda item 15.
 - The fifteen living their own lives: moving between places by temper, instead of standing in one
   area ✅ (2026-10-12, `src/chronicle/wanderers.gd`). Since 2026-10-13 they are the sixteen
   themselves, each settling where [21](21-the-sixteen-first-draft.md) puts them ([D78](06-decisions.md));
-  the twelve stand-ins becoming story NPCs is being built (Next steps, 1). Heard of at inns and on
+  the twelve stand-ins are story NPCs now (below). Heard of at inns and on
   rests, seen where they stand, met with **X** or inside the place, and joined if willing and there is room. Their own quest lines, not yet
+- The original twelve as story people, not leads ([D79](06-decisions.md)): each standing in the place
+  their backstory belongs to, with their companions and a conversation ✅ (2026-10-13,
+  `data/story_npcs.json`; where and what is **Inferred**, agenda item 70). Their parts in the main
+  stories (planned): written with the sixteen's quest lines
 - Regional name generation for everyone else, and earned titles from `Renown` ([D39](06-decisions.md)) ✅
   — built ahead of the rest of M13: `src/chronicle/names.gd`, `data/names.json`, `tests/names_smoke_test.tscn`
 - ✅ Done when: a new game opens on the fall, lands the lead somewhere random, and one of the other
