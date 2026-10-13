@@ -674,6 +674,21 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   `role_by_kind`. Role keys: `charge_from`, `pace`, `charge_bonus` (charger), `keep_away`,
   `retreat_every` (kiter and healer), `heal_below` (healer). A role with only a name changes nothing.
 
+## `sfx.json` — what the fight sounds like ([D76](06-decisions.md))
+
+```json
+"voices": 12,
+"cues": { "hit": { "file": "hit", "volume_db": -8.0, "pitch": [0.85, 1.15], "gap": 0.05 } }
+```
+
+- `voices` — how many sounds may play at once (at least the interface's four).
+- A cue is a moment the fight sounds: `swing`, `shoot`, `hit`, `crit`, `block`, `charge`, `spell`,
+  `heal`, `stun`, `drink`, `fall` (one of the company down), `death` (a foe), `victory`, `defeat`.
+- `file` — the sound in `audio/sfx/` (no extension); `tools/make_fight_sounds.py` makes them.
+- `volume_db` — loudness against the others; `pitch` — the range each play is picked from, so
+  repeats differ; `gap` — the fewest seconds before the same cue sounds again. All under the
+  Sounds slider. A cue not listed is silent.
+
 ## `maps/*.json` — hand-authored battlefields
 
 For set pieces. Wild encounters and delves generate their maps instead.

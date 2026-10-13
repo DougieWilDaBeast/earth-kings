@@ -1,14 +1,16 @@
 extends Node
-## Interface sounds (autoload: `Sfx`).
+## Interface and fight sounds (autoload: `Sfx`).
 ##
 ## One-shot noises the menus make, kept apart from [Music] so a player who wants
-## the score quiet can still hear that a button took the click. Files live in
-## `audio/sfx/`; nothing here loops.
+## the score quiet can still hear that a button took the click; and the fight's
+## swings, hits and spells, played by name as cues from `data/sfx.json`
+## ([method cue], [D76]). Files live in `audio/sfx/`; nothing here loops.
 
 const BUS := "Sfx"
 const SETTINGS_PATH := "user://settings.cfg"
 const DIR := "res://audio/sfx"
-## How many can sound at once before the oldest is cut off.
+## How many can sound at once before the oldest is cut off, unless
+## `data/sfx.json` asks for more (a fight is many sounds at once).
 const VOICES := 4
 
 const HOVER := "hover"
@@ -21,20 +23,26 @@ var muted: bool = false
 var _players: Array[AudioStreamPlayer] = []
 var _next := 0
 var _streams: Dictionary = {}
+## When each cue last sounded, in milliseconds since start.
+var _last_cued: Dictionary = {}
+## How many times each cue has sounded since the game started, so a suite can
+## tell a fight that was heard from one that was silent.
+var counts: Dictionary = {}
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ensure_bus()
 	_load_settings()
-	for _i in VOICES:
+	var voices := maxi(VOICES, int(Database.sfx.get("voices", VOICES)))
+	for _i in voices:
 		var player := AudioStreamPlayer.new()
 		player.bus = BUS
 		add_child(player)
 		_players.append(player)
 
 
-func play(sound: String, volume_db: float = 0.0) -> void:
+func play(sound: String, volume_db: float = 0.0, pitch: float = 1.0) -> void:
 	var stream := _stream(sound)
 	if stream == null:
 		return
@@ -42,7 +50,27 @@ func play(sound: String, volume_db: float = 0.0) -> void:
 	_next = (_next + 1) % _players.size()
 	player.stream = stream
 	player.volume_db = volume_db
+	player.pitch_scale = pitch
 	player.play()
+
+
+## Sound one of the cues in `data/sfx.json` by name: its file at its volume, a
+## pitch picked from its range, and nothing at all if the same cue sounded less
+## than its `gap` ago. Returns whether it sounded. An unknown cue is silent.
+func cue(cue_id: String) -> bool:
+	var spec: Dictionary = Database.sfx.get("cues", {}).get(cue_id, {})
+	if spec.is_empty():
+		return false
+	var now := Time.get_ticks_msec()
+	var gap_ms := roundi(float(spec.get("gap", 0.0)) * 1000.0)
+	if _last_cued.has(cue_id) and now - int(_last_cued[cue_id]) < gap_ms:
+		return false
+	_last_cued[cue_id] = now
+	counts[cue_id] = int(counts.get(cue_id, 0)) + 1
+	var span: Array = spec.get("pitch", [1.0, 1.0])
+	var pitch := randf_range(float(span[0]), float(span[1])) if span.size() >= 2 else 1.0
+	play(str(spec.get("file", cue_id)), float(spec.get("volume_db", 0.0)), pitch)
+	return true
 
 
 ## Wire a button up to both noises it should make. Disabled buttons stay silent.

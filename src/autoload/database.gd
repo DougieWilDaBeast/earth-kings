@@ -51,6 +51,8 @@ var coliseum: Dictionary = {}
 var factions: Dictionary = {}
 ## Which scene hears which tracks (see [Music]).
 var music: Dictionary = {}
+## What each moment in a fight sounds like (`data/sfx.json`, [D76]).
+var sfx: Dictionary = {}
 ## Gate contracts and the hall's words (see `src/chronicle/guild.gd`).
 var guild: Dictionary = {}
 ## Passives, enemy roles and feel for the real-time skirmish (see `src/skirmish/`).
@@ -101,6 +103,7 @@ func _ready() -> void:
 	coliseum = _load_json("%s/coliseum.json" % DATA_DIR)
 	factions = _load_json("%s/factions.json" % DATA_DIR)
 	music = _load_json("%s/music.json" % DATA_DIR)
+	sfx = _load_json("%s/sfx.json" % DATA_DIR)
 	guild = _load_json("%s/guild.json" % DATA_DIR)
 	skirmish = _load_json("%s/skirmish.json" % DATA_DIR)
 	fall = _load_json("%s/fall.json" % DATA_DIR)

@@ -560,6 +560,7 @@ func _finish_item(f: Fighter) -> void:
 	# Health is scaled up for real time, so what a draught mends is too.
 	var amount := roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE)
 	f.unit.heal(amount)
+	Sfx.cue("drink")
 	fx.popup(Gear.display_name(item_id), f.unit.position + Vector2(0, -14), SkirmishFx.HEAL, 13)
 	_say("%s takes the %s." % [f.unit.display_name, Gear.display_name(item_id)])
 	hud.refresh()
@@ -587,6 +588,7 @@ func _stun(f: Fighter, by: Fighter, seconds: float) -> void:
 	f.aiding = 0.0
 	f.stunned = maxf(f.stunned, seconds)
 	fx.popup("Stunned", f.unit.position, SkirmishFx.WORD, 13)
+	Sfx.cue("stun")
 
 
 ## A sword swing at a shield bearer who sees it coming may be turned aside.
@@ -867,6 +869,7 @@ func _nearest_hostile_distance(f: Fighter, cell: Vector2i) -> int:
 func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 	f.unit.face_towards(foe.cell)
 	f.unit.play("attack")
+	Sfx.cue("shoot" if int(ability.get("range", 1)) > 1 else "swing")
 	if _strike(f, foe, ability, f.basic):
 		_practise_swing(f)
 	f.swings += 1
@@ -884,6 +887,7 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 ## when it did not land (a shield took it).
 func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> bool:
 	if bool(ability.get("heal", false)):
+		Sfx.cue("heal")
 		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
 		_note_in_the_journal(f.unit, ability_id, target)
 		if target != f.unit and target.team == f.unit.team and f.unit.character != null:
@@ -898,6 +902,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		victim.since_hit = 0.0
 		victim.unit.face_towards(f.unit.cell)
 		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
+		Sfx.cue("block")
 		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
 		return false
 	var multiplier := 1.0
@@ -933,6 +938,8 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	_hit_style = ""
 	f.unit.attack = own_attack
 	var dealt := before - target.hp
+	if dealt > 0:
+		Sfx.cue("crit" if crit else "hit")
 	if not tags.is_empty():
 		line = "%s! %s" % [", ".join(tags).capitalize(), line]
 	_say(line)
@@ -1116,6 +1123,7 @@ func _begin_cast(f: Fighter, slot: int, who: Unit, centre: Vector2i) -> void:
 	if wind_up <= 0.0:
 		_land(f, slot, who, centre)
 		return
+	Sfx.cue("charge")
 	f.cast = {"slot": slot, "target": who, "cell": centre, "left": wind_up, "total": wind_up}
 
 
@@ -1156,6 +1164,10 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 		_say("%s's %s hits nothing." % [f.unit.display_name, ability.get("display_name", "skill")])
 		return
 	fx.popup(str(ability.get("display_name", "skill")), f.unit.position + Vector2(0, -14), SkirmishFx.WORD, 13)
+	# A skill thrown or cast is heard going off; one swung up close is heard
+	# as the swing, and a heal as its chime on whoever it mends.
+	if not bool(ability.get("heal", false)):
+		Sfx.cue("spell" if int(ability.get("range", 1)) > 1 or SkirmishRules.cast_time(ability) > 0.0 else "swing")
 	var landed := false
 	for target in hits:
 		if not f.is_standing():
@@ -1235,6 +1247,8 @@ func _drop(f: Fighter) -> void:
 	f.using = {}
 	f.stunned = 0.0
 	f.clear_order()
+	# One of the company going down is a different sound from a foe falling.
+	Sfx.cue("fall" if f.is_party() else "death")
 	f.target = null
 	f.unit.set_running(false)
 	f.unit.play("death")
@@ -1409,6 +1423,7 @@ func _check_end() -> void:
 			else "The company is down after %.0f seconds." % sim_time)
 	hud.show_result(victory)
 	EventBus.player_did.emit("fight_won" if victory else "fight_lost")
+	Sfx.cue("victory" if victory else "defeat")
 	if sandbox:
 		# The coliseum carries its wounds between rounds; the training ground
 		# does not. Either way nothing is written back onto the world.

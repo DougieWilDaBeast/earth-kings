@@ -68,6 +68,7 @@ What stands between this audit and a public release, in order of weight.
 | `audio/music/bday_project.wav` (battle) | Ableton Live 12 project `audio/source/bday_project.als`; Core Library drum kits, loops and one-shots. Made by Ewan (`dougie`, 2026-10-12) | as above | **author known** (P2) |
 | `audio/sfx/hover.wav`, `select.wav` | Not recorded (no tags; mono 16-bit 44.1 kHz) | unknown | **to confirm** (P3) |
 | `audio/sfx/level_up.wav` | Made for the project on 2026-10-12 by Claude in code: four sine bells rising C–E–G–C, nothing sampled ([D67](06-decisions.md)) | the project's own | **cleared** |
+| `audio/sfx/` — `swing`, `shoot`, `hit`, `crit`, `block`, `charge`, `spell`, `heal`, `stun`, `drink`, `fall`, `death`, `victory`, `defeat` (.wav) | Made for the project on 2026-10-13 by Claude in code, `tools/make_fight_sounds.py`: sine waves, filtered noise and a plucked string, nothing sampled ([D76](06-decisions.md)) | the project's own | **cleared** |
 | `audio/source/` — the two `.als` projects and their `.asd` analysis files | Ableton Live working files | — | **not shipped** (`.gdignore`) |
 | `audio/source/memos/Game implementations.docx` / `.pdf` | Design memos, not audio | — | **not shipped** (`.gdignore`) |
 

@@ -156,6 +156,7 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT34 | Let brigands swing at Bram from the front                   | Now and then "Blocked" and no damage; never from behind |
 | RT35 | Press **Q** on the road, let it walk into a fight, then press **Q** mid-fight | "You take the party back."; the fight pauses for your first order and Q did not ready a skill |
 | RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
+| RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with Bram, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
 
 ## F — Party menu (**P**)
 

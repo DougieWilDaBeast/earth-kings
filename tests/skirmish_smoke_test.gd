@@ -146,6 +146,14 @@ func _run() -> void:
 		_skirmish.sim_time, _skirmish.victory, swings, casts,
 	])
 	_expect(swings > 0, "nobody ever swung")
+	# The fight is heard ([D76]): swings, blows landing, and how it ended.
+	var heard: Dictionary = Sfx.counts
+	_expect(int(heard.get("swing", 0)) + int(heard.get("shoot", 0)) > 0, "no swing or shot was heard")
+	_expect(int(heard.get("hit", 0)) + int(heard.get("crit", 0)) > 0, "no blow was heard landing")
+	_expect(int(heard.get("victory", 0)) + int(heard.get("defeat", 0)) == 1, "the end of the fight was heard %d times, not once" % [
+		int(heard.get("victory", 0)) + int(heard.get("defeat", 0))])
+	_expect(not Sfx.cue("no_such_cue"), "a cue that is not in data/sfx.json made a sound")
+	print("heard: %s" % str(heard))
 	await _check_touch()
 	await _check_box_select()
 	await _check_fight_rules()
