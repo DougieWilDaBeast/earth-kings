@@ -45,10 +45,28 @@ func _ready() -> void:
 		await _shoot("answer")
 		box[0].call("_finish")
 	await get_tree().create_timer(1.6).timeout
+	# The fight step: the sparring pair comes out into the east field.
+	area = _active()
+	area.set("_talking", false)
+	area.set("_leaving", false)
+	GameState.set_flag("tut:spar_ready")
+	area.call("_post_practice_bands")
+	var watches: Array = area.get("_watches")
+	if watches.is_empty():
+		print("never: no sparring pair")
+		get_tree().quit(1)
+		return
+	var camera = area.get_node("Camera2D")
+	camera.focus_on((watches[0].figures[0] as Node2D).position + Vector2(-160, 40), true)
+	await _frames(40)
+	await _shoot("spar_ground")
 	var map: AreaMap = area.get("map")
-	for building: Dictionary in map.buildings:
-		if building.has("fight"):
-			area.call("_enter", building)
+	var at: Vector2i = map.cell_at(area._leader.position)
+	var cells: Array = watches[0].watched.keys()
+	cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return (a - at).length_squared() < (b - at).length_squared())
+	area.call("_check_the_watch", at)
+	area._leader.position = map.centre_of(cells[0])
+	area.call("_check_the_watch", cells[0])
 	await _wait_for("skirmish", 300)
 	await _frames(90)
 	await _shoot("fight")

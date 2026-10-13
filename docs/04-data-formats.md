@@ -349,7 +349,9 @@ practice run it starts (never saved). Each step has a `title`, `text`, and what 
   `door:<name>`, `fight_won`, `fight_lost`. A value ending in `:` or `_` matches anything after it.
 - `flag` — a flag set in `GameState` (a reply's `set_flag`, a favour's `<flag>:paid`).
 - `opened` — `party` or `journal`, when that screen opens.
-- `button` — a button on the card, with that text. A step with `finish: true` is the last: its
+- `button` — a button on the card, with that text.
+- A step may also carry `on_start` → `set_flag` (a list), set the moment it comes up: the fight
+  step calls the village's sparring pair out ([D75](06-decisions.md)). A step with `finish: true` is the last: its
   button starts a new run, and **Back to the title** sits beside it.
 
 Every step can also be skipped, and the tutorial ended, from the card. The area suite checks each
@@ -421,6 +423,13 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   field `field_margin` cells round everyone, `field_smallest` to `field_largest`. The field carries
   `view` (the ground camera's `centre` in ground pixels and its `zoom`): the fight opens on it and
   draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
+
+An area may hold **bands of its own** (`bands` in its JSON, [D75](06-decisions.md)), in the same shape
+plus `at` (the cell it would rather stand on: it only has to not be looking at the party already),
+`level`, `requires` / `requires_not` (flags: it comes out when they allow, looked at twice a second)
+and `done_flag` (set when it is fought). One with `"spar": true` is practice: it is fought straight
+from the area as a sandbox fight on that ground (nobody can die, nothing counted) and back to the
+same spot, never through the world. The tutorial's sparring pair is one.
 
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one).

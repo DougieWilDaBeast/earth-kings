@@ -114,6 +114,9 @@ var _watches: Array = []
 var _last_cell: Vector2i = Vector2i(-99, -99)
 ## Seen, and on the way to the fight.
 var _spotted: bool = false
+## The area's own bands already standing here, by key, and how long since their flags were looked at.
+var _posted_practice: Dictionary = {}
+var _practice_clock: float = 0.0
 
 
 func _ready() -> void:
@@ -774,6 +777,11 @@ func _physics_process(delta: float) -> void:
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	_refresh_prompt()
+	if not map.bands.is_empty():
+		_practice_clock += delta
+		if _practice_clock >= 0.5:
+			_practice_clock = 0.0
+			_post_practice_bands()
 	if _check_the_watch(map.cell_at(_leader.position)):
 		return
 	if _picking_an_act():
@@ -1166,24 +1174,46 @@ func _here_payload() -> Dictionary:
 ## Every band the world says is here, standing where it camps (or at the edge it watches from),
 ## patrolling its loop, with what it can see painted red ([AreaWatch]).
 func _post_the_watch() -> void:
-	var bands: Array = boot_payload.get("bands", [])
-	if bands.is_empty() or _leader == null:
+	if _leader == null:
 		return
-	var arrived := map.cell_at(_leader.position)
-	var taken := _cells_spoken_for(arrived)
-	for band: Dictionary in bands:
-		var watch: Node2D = AreaWatch.place(map, band, arrived, taken, float(_land.get("sight", 0)))
-		if watch == null:
-			continue
-		_layers.add_child(watch)
-		for figure: Node2D in watch.make_figures(_leader.position):
-			_actors.add_child(figure)
-		watch.can_move = func() -> bool: return not (_talking or _leaving or _spotted or _overlay_open())
-		watch.moved.connect(_on_band_moved.bind(watch))
-		_watches.append(watch)
+	for band: Dictionary in boot_payload.get("bands", []):
+		_post_band(band)
+	_post_practice_bands()
 	if not _watches.is_empty():
 		_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % _watches[0].band.get("label", "A band"))
 		EventBus.tip_moment.emit("ground_watch", {})
+
+
+## One band onto this ground, away from where the leader stands now.
+func _post_band(band: Dictionary) -> Node2D:
+	var arrived := map.cell_at(_leader.position)
+	var taken := _cells_spoken_for(arrived)
+	for other: Node2D in _watches:
+		for cell: Vector2i in other.members:
+			taken[cell] = true
+	var watch: Node2D = AreaWatch.place(map, band, arrived, taken, float(_land.get("sight", 0)))
+	if watch == null:
+		return null
+	_layers.add_child(watch)
+	for figure: Node2D in watch.make_figures(_leader.position):
+		_actors.add_child(figure)
+	watch.can_move = func() -> bool: return not (_talking or _leaving or _spotted or _overlay_open())
+	watch.moved.connect(_on_band_moved.bind(watch))
+	_watches.append(watch)
+	return watch
+
+
+## The area's own bands whose flags now let them be here and that are not here yet: at the start,
+## and again whenever a flag may have changed (the tutorial sets one when its fight step begins).
+func _post_practice_bands() -> void:
+	for band: Dictionary in map.bands:
+		var key := str(band.get("key", ""))
+		if _posted_practice.has(key) or not AreaMap._flags_allow(band):
+			continue
+		_posted_practice[key] = true
+		var watch := _post_band(band)
+		if watch != null and _leader != null and not _talking:
+			_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % band.get("label", "A band"))
 
 
 ## Where nobody from a band may stand: where the party is, the ways out, doors, chests, spots,
@@ -1265,11 +1295,33 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	await _charge(watch)
 	if not is_inside_tree():
 		return
+	if bool(watch.band.get("spar", false)):
+		_spar_with(watch, field, ambush)
+		return
 	EventBus.request_scene.emit("world", {
 		"fight": str(watch.band.get("key", "")),
 		"field": field,
 		"held": _held,
 		"back": _here_payload(),
+	})
+
+
+## A practice band (`spar`): the same fight on the same ground, but as practice — nobody can
+## die, nothing is counted or written to the world, everyone walks off whole — and straight back to
+## this spot. Its `done_flag` is set, so it does not stand here again.
+func _spar_with(watch: Node2D, field: Dictionary, ambush: bool) -> void:
+	var done := str(watch.band.get("done_flag", ""))
+	if done != "":
+		GameState.set_flag(done)
+	var enemies: Array = []
+	for unit_id: Variant in watch.band.get("pack", []):
+		enemies.append({ "unit": str(unit_id), "level": int(watch.band.get("level", 1)) })
+	EventBus.request_scene.emit("skirmish", {
+		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "Sparring")), "ambush": ambush },
+		"field": field,
+		"sandbox": true,
+		"return_scene": "area",
+		"return_payload": _here_payload(),
 	})
 
 

@@ -216,32 +216,6 @@
         10
       ],
       "shut": "Wren's mother calls from inside: she'll not have strangers in while the bread's rising."
-    },
-    {
-      "name": "the ring of stones",
-      "art": "portal_stones",
-      "cell": [
-        19,
-        4
-      ],
-      "door": [
-        20,
-        4
-      ],
-      "fight": {
-        "terrain": "grass",
-        "title": "Sparring",
-        "enemies": [
-          {
-            "unit": "goblin",
-            "level": 1
-          },
-          {
-            "unit": "slime",
-            "level": 1
-          }
-        ]
-      }
     }
   ],
   "people": [
@@ -289,7 +263,7 @@
           },
           {
             "q": "Who else lives here?",
-            "a": "Pim keeps the stall. Smudge the fox won't talk to anyone without a coin. Wren has lost something, I'd bet. And Captain Harrow will spar with you through the ring of stones.",
+            "a": "Pim keeps the stall. Smudge the fox won't talk to anyone without a coin. Wren has lost something, I'd bet. And Captain Harrow keeps a sparring pair out in the field south of the square, for anyone who wants to learn how a fight starts.",
             "set_flag": "tut:asked"
           }
         ],
@@ -458,26 +432,51 @@
       ],
       "chatter": [
         "Ready to spar?",
-        "The ring's open."
+        "Mind the red ground."
       ],
       "talk": {
         "hello": "You'll want to know how to fight before the world teaches you the hard way.",
         "ask": [
           {
+            "q": "How do fights start?",
+            "a": "Out in the country, a band camps where it likes and paints the ground it can see red. Step into that red and you're fighting, right there, on that very ground. Long grass hides you; bursting out of it at them gets you the jump."
+          },
+          {
             "q": "How do fights work?",
             "a": "In real time, and they start paused. Space pauses and unpauses. Left-click a fighter, or drag a box round several. Right-click the ground to move, an enemy to attack, a fallen friend to help them up. Q, W, E and R use skills."
           },
           {
-            "q": "What's the ring of stones?",
-            "a": "A gate we tamed, more or less. Nothing on the other side can hurt you for real. Walk into the middle of it when you're ready."
+            "q": "Where's the sparring pair?",
+            "a": "Out in the field south of the square, once you're ready for them: a goblin and a slime who've agreed to lose to you. Nothing they do in practice can kill you."
           },
           {
             "q": "Any advice?",
             "a": "Facing matters: hit them from the side or behind. Keep your healer at the back. And pause whenever you need to think. Nobody will laugh."
           }
         ],
-        "bye": "Off you go. Into the ring."
+        "bye": "Off you go. Mind the red."
       }
+    }
+  ],
+  "bands": [
+    {
+      "key": "tut_spar",
+      "pack": [
+        "goblin",
+        "slime"
+      ],
+      "label": "Harrow's sparring pair",
+      "faction": "",
+      "at": [
+        16,
+        11
+      ],
+      "reach": 2,
+      "level": 1,
+      "spar": true,
+      "requires": "tut:spar_ready",
+      "requires_not": "tut:sparred",
+      "done_flag": "tut:sparred"
     }
   ],
   "dressing": [
@@ -506,35 +505,41 @@
     {"art": "nature/wildflowers_blue", "cell": [4, 6], "offset": [5, -3], "flip": true},
     {"art": "nature/wildflowers_orange", "cell": [5, 12], "offset": [9, 2]},
     {"art": "nature/clover_3", "cell": [20, 15], "offset": [12, -3]},
-    {"art": "nature/grass_tuft", "cell": [8, 1], "offset": [14, -6]},
-    {"art": "nature/thistle", "cell": [21, 10], "offset": [-3, -7]},
-    {"art": "nature/clover_2", "cell": [0, 10], "offset": [-10, -6], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [12, 2], "offset": [0, 1], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [12, 1], "offset": [-13, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [14, 10], "offset": [-8, 2]},
-    {"art": "nature/fern", "cell": [21, 13], "offset": [-12, -6], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [0, 9], "offset": [5, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [22, 12], "offset": [-7, 3]},
-    {"art": "nature/wildflowers_red", "cell": [19, 15], "offset": [-8, 6], "flip": true},
-    {"art": "nature/clover_2", "cell": [9, 0], "offset": [-11, 1], "flip": true},
-    {"art": "nature/clover_2", "cell": [7, 8], "offset": [3, -7], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [14, 15], "offset": [-8, 5], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [23, 0], "offset": [-10, -5]},
-    {"art": "nature/clover_2", "cell": [1, 12], "offset": [-1, -2]},
-    {"art": "nature/hedge_3", "cell": [20, 0], "offset": [0, -2]},
-    {"art": "nature/clover_3", "cell": [22, 9], "offset": [3, -2]},
-    {"art": "nature/wildflowers_blue", "cell": [4, 14], "offset": [14, -1]},
-    {"art": "nature/clover_3", "cell": [22, 8], "offset": [-10, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [19, 0], "offset": [6, 7], "flip": true},
-    {"art": "nature/thistle", "cell": [8, 2], "offset": [-3, 2], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [22, 7], "offset": [-2, 1], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [22, 14], "offset": [-6, 2]},
-    {"art": "nature/fern", "cell": [23, 7], "offset": [-12, 4]},
-    {"art": "nature/irish_bird_4", "cell": [6, 5], "offset": [-8, -3]},
-    {"art": "nature/irish_bird_4", "cell": [9, 12], "offset": [-8, 7]},
-    {"art": "nature/irish_bird_3", "cell": [0, 5], "offset": [10, -2], "flip": true},
-    {"art": "nature/irish_bird", "cell": [1, 5], "offset": [0, 7]},
-    {"art": "nature/butterfly_blue", "cell": [8, 3], "offset": [5, 3]},
-    {"art": "nature/butterfly", "cell": [10, 3], "offset": [13, -6]}
+    {"art": "nature/grass_tuft", "cell": [7, 15], "offset": [14, -6]},
+    {"art": "nature/thistle", "cell": [18, 3], "offset": [14, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [17, 8], "offset": [14, -2]},
+    {"art": "nature/clover_2", "cell": [21, 4], "offset": [3, -7]},
+    {"art": "nature/wildflowers_orange", "cell": [0, 10], "offset": [0, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [21, 5], "offset": [2, 3]},
+    {"art": "nature/grass_tuft", "cell": [6, 14], "offset": [-6, -3]},
+    {"art": "nature/clover_3", "cell": [0, 15], "offset": [-2, -7]},
+    {"art": "nature/hazel_bush", "cell": [8, 13], "offset": [10, -6], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [13, 2], "offset": [-13, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 4], "offset": [-8, 2]},
+    {"art": "nature/grass_tuft", "cell": [3, 3], "offset": [9, -4]},
+    {"art": "nature/wildflowers_blue", "cell": [20, 2], "offset": [-12, 1], "flip": true},
+    {"art": "nature/fern", "cell": [21, 13], "offset": [12, -4]},
+    {"art": "nature/hedge_4", "cell": [19, 15], "offset": [-2, 3]},
+    {"art": "nature/clover_3", "cell": [1, 0], "flip": true},
+    {"art": "nature/clover", "cell": [6, 8], "offset": [10, 0], "flip": true},
+    {"art": "nature/fern", "cell": [21, 8], "offset": [-9, -4], "flip": true},
+    {"art": "nature/fern", "cell": [2, 14], "offset": [-2, 4]},
+    {"art": "nature/thistle", "cell": [23, 3], "offset": [0, -2]},
+    {"art": "nature/hazel_bush", "cell": [17, 13], "offset": [3, -2]},
+    {"art": "nature/wildflowers_blue", "cell": [2, 3], "offset": [14, -1]},
+    {"art": "nature/grass_tuft", "cell": [0, 2], "offset": [13, 1], "flip": true},
+    {"art": "nature/clover_3", "cell": [8, 12], "offset": [-10, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [8, 0], "offset": [6, 7], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [9, 14], "offset": [-2, 1], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [11, 2], "offset": [-6, 2]},
+    {"art": "nature/fern", "cell": [18, 14], "offset": [-12, 4]},
+    {"art": "nature/fern", "cell": [23, 7], "offset": [4, -6], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [9, 3], "offset": [13, -6]},
+    {"art": "nature/grasshopper", "cell": [6, 5], "offset": [10, -3], "flip": true},
+    {"art": "nature/irish_bird_2", "cell": [9, 12], "offset": [-6, 4]},
+    {"art": "nature/irish_bird_2", "cell": [0, 5], "offset": [12, 5], "flip": true},
+    {"art": "nature/ants", "cell": [1, 5], "offset": [-11, -6]},
+    {"art": "nature/finch", "cell": [8, 3], "offset": [-5, 3], "flip": true},
+    {"art": "nature/butterfly_blue", "cell": [10, 3], "offset": [-2, 1]}
   ]
 }

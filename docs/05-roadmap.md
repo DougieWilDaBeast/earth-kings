@@ -465,7 +465,8 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - A playable tutorial ✅ (2026-10-12, [D73](06-decisions.md)): offered the first time the game is
   opened and always on the title screen. A tour of Hearthwick, a training village, with a card that
   ticks off fifteen steps — walking, talking, asking, buying, a fox who will not talk, a favour, a
-  chest, doors, the party screen, the journal and a real-time sparring fight — then what a run holds
+  chest, doors, the party screen, the journal and a sparring pair met on the village ground and
+  fought there ([D75](06-decisions.md)) — then what a run holds
   and **Start a new run**. Nothing in it is ever saved (`GameState.rehearsing`). Offered once, as
   `doug-md` chose ([D74](06-decisions.md)); its words and order are **Inferred**
 - Gamepad support ✅ (2026-10-12): Xbox and PlayStation pads play the whole game — menus by focus,

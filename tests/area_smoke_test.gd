@@ -50,6 +50,7 @@ func _ready() -> void:
 	await _check_camp()
 	_check_trading()
 	await _check_tutorial()
+	await _check_practice_band()
 	await _check_the_land()
 
 	print("")
@@ -389,6 +390,60 @@ func _check_tutorial() -> void:
 	if GameState.rehearsing:
 		_fail("tutorial: a new run after it was still a rehearsal")
 	print("tutorial: %d steps, never saved, walked through to '%s'" % [rules["steps"].size(), "buy"])
+
+
+## The tutorial's sparring pair (D75): not in the village until the fight step calls it, then
+## standing there with its red ground, never on top of the party; a step into the red starts a
+## practice fight on that ground (nobody can die, nothing counted) that comes back to the village,
+## and the pair does not stand there again.
+func _check_practice_band() -> void:
+	GameState.new_game(SEED, "bram", true)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "tutorial", "return_scene": "title" })
+	add_child(scene)
+	for i in 10:
+		await get_tree().process_frame
+	var watches: Array = scene.get("_watches")
+	_expect_tut(watches.is_empty(), "the sparring pair was in the village before the fight step called it")
+	GameState.set_flag("tut:spar_ready")
+	scene.call("_post_practice_bands")
+	watches = scene.get("_watches")
+	_expect_tut(watches.size() == 1, "calling the sparring pair out did not put it in the village (%d)" % watches.size())
+	if watches.size() != 1:
+		scene.queue_free()
+		return
+	var watch: Node2D = watches[0]
+	var map: AreaMap = scene.get("map")
+	var at: Vector2i = map.cell_at(scene.get("_leader").position)
+	_expect_tut(not watch.watched.has(at), "the sparring pair was put down already looking at the party")
+	var into: Vector2i = (watch.watched as Dictionary).keys()[0]
+	_requests.clear()
+	scene.call("_check_the_watch", at)
+	scene.get("_leader").position = map.centre_of(into)
+	_expect_tut(scene.call("_check_the_watch", into), "stepping into the sparring pair's red was not seen")
+	var waited := 0.0
+	while waited < 3.0 and not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "skirmish"):
+		await get_tree().create_timer(0.1).timeout
+		waited += 0.1
+	var asked: Array = _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "skirmish")
+	_expect_tut(not asked.is_empty(), "the sparring pair did not start a fight")
+	if not asked.is_empty():
+		var payload: Dictionary = asked[0]["payload"]
+		_expect_tut(bool(payload.get("sandbox", false)), "the sparring fight is not practice: someone could die in it")
+		_expect_tut(not (payload.get("field", {}) as Dictionary).is_empty(), "the sparring fight is not on the village's own ground")
+		_expect_tut(str(payload.get("return_scene", "")) == "area"
+			and str(payload.get("return_payload", {}).get("area_id", "")) == "tutorial",
+			"the sparring fight does not come back to the village")
+		_expect_tut(GameState.has_flag("tut:sparred"), "the sparring pair would stand there again after the fight")
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+	print("tutorial: the sparring pair came out when called, was walked into, and sparred on the village ground")
+
+
+func _expect_tut(ok: bool, message: String) -> void:
+	if not ok:
+		_fail("tutorial: %s" % message)
 
 
 ## The fire seats the party itself: nobody is authored into it, and speaking to

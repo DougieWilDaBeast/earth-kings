@@ -158,6 +158,9 @@ func _show(index: int) -> void:
 	_index = index
 	_done = false
 	var step: Dictionary = _steps[index]
+	# What a step sets in motion when it comes up: the practice band coming out for the fight.
+	for key: Variant in step.get("on_start", {}).get("set_flag", []):
+		GameState.set_flag(str(key))
 	_count.text = "TUTORIAL  %d of %d" % [index + 1, _steps.size()]
 	_count.remove_theme_color_override("font_color")
 	_title.text = str(step.get("title", ""))
