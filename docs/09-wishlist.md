@@ -498,7 +498,9 @@ loads `<state>/<heading>/frame_*.png` from beside a unit's `sprite_dir`, for `ru
 basic swing as `attack`, a landed skill as `skill`, a blow taken as `hit` (never cutting a swing
 short) and a fall as `death`, which holds its last frame until the unit is helped up; a foe fades
 only once its fall has played. Diagonals use the nearest of the four facings. A unit without a
-move keeps its standing pose for it, as before.
+move keeps its standing pose for it, as before. PixelLab draws a move on a bigger canvas than the
+standing pose, grown evenly round it, so the fight and the areas draw every frame at the standing
+pose's scale and centred where it stands; a unit no longer shrinks when it swings or walks.
 
 **Open:** only the Amber Knight (`ooze_knight`) is wired with the full set; the other big units in
 [`art/big/`](../art/big/README.md) are staged and need their `sprite_dir` pointed there.
