@@ -13,13 +13,14 @@ art/big/<unit>/metadata.json                      the prompt, the moves asked fo
 
 Bipeds (`tree_sentinel`, `dirte`, `frozen_wolfman`, `axe_bear`, `sword_bear`, `beast_titan`,
 `colossal_titan`) walk, flinch and fall on PixelLab's stock skeleton moves; the rest
-(`cannon_bear`, `caterpillar_warrior`, `turret_cannon`, `king_slime`) move from words. Attacks and
+(`cannon_bear`, `caterpillar_warrior`, `turret_cannon`, `king_slime`, `ooze_knight`) move from words. Attacks and
 skills are words for everyone.
 
 `beast_titan`, `colossal_titan` and `king_slime` are drawn from the new prompts in
 [23](../../docs/23-originality-pass.md), not their old borrowed looks. `frozen_wolfman`'s prompt was
-rewritten as a frost werewolf with bone claws. `king_slime` missed its prompt: PixelLab drew a knight
-of amber ooze, not a mound, so it wants making again before it is used.
+rewritten as a frost werewolf with bone claws. `king_slime`'s first try came out as a knight of amber
+ooze; `dougie` kept it as a character of its own, the Amber Knight (`ooze_knight`, the only one of
+these the game uses today), and `king_slime` was made again as a mound on 2026-10-13.
 
-**Not used by the game yet**: they go in with the full redo, with [Tier 1](../tier1/README.md).
+**Not used by the game yet**, the Amber Knight aside: they go in with the full redo, with [Tier 1](../tier1/README.md).
 Wiring one is a `sprite_dir` change in `data/units.json`.

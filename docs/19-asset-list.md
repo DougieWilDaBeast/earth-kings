@@ -111,6 +111,10 @@ shield-block spark, in [`art/effects/`](../art/effects/README.md). 1.5: the six 
 tired, block, draught and herb, in `art/ui/status/`; the slot frames, cooldown sweep, pause banner and
 speed indicator are still to make. None is wired into the game yet.
 
+**The fight plays these moves** (2026-10-13): a unit whose `sprite_dir` sits beside `walk`, `attack`,
+`skill`, `hit` and `death` folders plays them in a fight (see [W28](09-wishlist.md)), so wiring a
+staged unit in is a one-line `sprite_dir` change once its art is in its final folder.
+
 What [M11](05-roadmap.md) needs to be playable, and no more. Every unit here needs the **fighting
 set**:
 

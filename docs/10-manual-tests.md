@@ -72,6 +72,8 @@ you saw, on which screen, and what you had done just before.
 | C6  | Walk onto a **library, hut, gate, Tower or your Home** and press **E** | You walk inside — all five have interiors now                                                |
 | C7  | Press **E** on open ground                                             | "There is nothing here to walk into", not silence                                            |
 | C8  | Press **N**                                                            | The Journal opens                                                                            |
+| C9  | Open the map from the journal, put the pointer near one side and zoom all the way out with the wheel | The view moves one way only and settles; it never swings back and forth |
+| C10 | Return to the title from a run                                 | The marker sits beside the chosen entry (New Game when there is no save), not beside Continue |
 
 ## D — The five new interiors
 
@@ -146,12 +148,14 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT26 | Get ambushed on the road (brush, forest or marsh)          | "Ambush!" in the log; the party moves before the enemy does                               |
 | RT27 | Press **Esc** mid-fight, wait, close the menu; press **N** | The clock does not run while the menu is open; **N** opens the journal                    |
 | RT28 | Drink a draught on the road, then check the stash          | It is gone from the stores; in training the stores are untouched                           |
-| RT23 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
-| RT24 | Hold the left button and drag across two or more of the party | A gold box follows the mouse; letting go picks everyone it touched, never an enemy. With **Shift** they are added to who was picked. A box over empty ground changes nothing |
-| RT25 | Leave Auto Skill on and watch a card's energy pips          | They drain as skills go off; at empty the card says "tired", only basic attacks follow, and skills come back once the pips reach half |
-| RT26 | Fight a pig warlock or legion magus; Shield Bash it mid-cast | Its Pyre or Thunderhead winds up for 2.5–3 s; the bash pops "Interrupted!", stars circle its head and the spell never lands |
-| RT27 | Hurt someone, then click Herbs on their card                | A pink bar fills for 1.5 s while they stand still; a stun pops "steady" instead; then they mend and the count drops |
-| RT28 | Let brigands swing at Bram from the front                   | Now and then "Blocked" and no damage; never from behind |
+| RT29 | Fight brigands and an archer                                | Brigands sprint in with "Charge!"; the archer "falls back" when someone closes in       |
+| RT30 | Hold the left button and drag across two or more of the party | A gold box follows the mouse; letting go picks everyone it touched, never an enemy. With **Shift** they are added to who was picked. A box over empty ground changes nothing |
+| RT31 | Leave Auto Skill on and watch a card's energy pips          | They drain as skills go off; at empty the card says "tired", only basic attacks follow, and skills come back once the pips reach half |
+| RT32 | Fight a pig warlock or legion magus; Shield Bash it mid-cast | Its Pyre or Thunderhead winds up for 2.5–3 s; the bash pops "Interrupted!", stars circle its head and the spell never lands |
+| RT33 | Hurt someone, then click Herbs on their card                | A pink bar fills for 1.5 s while they stand still; a stun pops "steady" instead; then they mend and the count drops |
+| RT34 | Let brigands swing at Bram from the front                   | Now and then "Blocked" and no damage; never from behind |
+| RT35 | Press **Q** on the road, let it walk into a fight, then press **Q** mid-fight | "You take the party back."; the fight pauses for your first order and Q did not ready a skill |
+| RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
 
 ## F — Party menu (**P**)
 
@@ -287,6 +291,9 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | J5  | Lose a round                                                | "They carry you off", the rounds and purse are recorded, and it is over |
 | J6  | Retire with a purse, then look at the card again            | The best night shows your run                                           |
 | J7  | Go to the Coliseum mid-run, then Back to Title and Continue | **Your real party is untouched** — same people, same HP, same gold      |
+| J8  | Walk into a keep's arena, win a round, press **Take the purse and leave** | Back on the keep's street by its door, the purse added to your gold — never the title screen. The bottom-right button reads **Leave the arena**, not Back to Title |
+| J9  | Send a single hero (not the company) onto the sand from a keep, then leave | Your gold is what it was plus the purse; the hero brings nothing into it |
+| J10 | Save from the menu while on the sand, then load                | Your own party comes back, not the copy that was fighting           |
 
 ## K — Museum
 

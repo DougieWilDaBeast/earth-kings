@@ -164,6 +164,10 @@ func _on_dialogue_finished(dialogue_id: String) -> void:
 
 
 func new_game(world_seed: int = 0, lead_id: String = "") -> void:
+	# A night on the sand left open (the menu's Return to Title from the arena)
+	# is put back first, or its copy would be filed as this run, and closing it
+	# later would hand the old run's people to the new one.
+	_drop_arena()
 	# A run that is being started over is a run that is finished, whatever the
 	# player calls it. File it before it is written on top of (see [Museum]).
 	if world != null and roster != null and world.steps > 0 and tallying:
@@ -265,14 +269,30 @@ func has_save() -> bool:
 
 ## [param note] says how this save will be remembered; without one it keeps the
 ## last, so a save loaded and saved again is the same file.
+## Put back the run's own people from a night on the sand that was never
+## closed, without paying its purse: the run it belonged to is being replaced.
+func _drop_arena() -> void:
+	if arena.is_empty():
+		return
+	if arena.get("kept_roster") != null:
+		roster = arena["kept_roster"]
+	tallying = bool(arena.get("kept_tallying", true))
+	arena = {}
+
+
 func save(note: String = "") -> void:
 	if note != "":
 		last_save_note = note
 	last_save_steps = world.steps
+	# On the sand the roster is a copy ([Arena]); the run's own people are
+	# what get saved, never the copy.
+	var own_roster: Roster = roster
+	if not arena.is_empty() and arena.get("kept_roster") != null:
+		own_roster = arena["kept_roster"]
 	var payload := {
 		"version": SAVE_VERSION,
 		"world": world.to_dict(),
-		"roster": roster.to_dict(),
+		"roster": own_roster.to_dict(),
 		"gold": gold,
 		"difficulty": difficulty,
 		"mode": RunMode.valid(mode),
@@ -301,6 +321,7 @@ func save(note: String = "") -> void:
 func load_save() -> bool:
 	if not has_save():
 		return false
+	_drop_arena()
 	var read_from := SAVE_PATH
 	var parsed: Variant = SaveFile.read(read_from)
 	var restored := false

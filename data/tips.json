@@ -26,7 +26,7 @@
 			"id": "danger",
 			"when": "danger",
 			"title": "The wild is thickening",
-			"text": "Danger belongs to the place. Near an open gate nearly every step can start a fight; near a hearth the country goes quiet."
+			"text": "Danger belongs to the place. Near an open gate bands stand thick on the ground; near a hearth the country goes quiet."
 		},
 		{
 			"id": "encounter",
@@ -74,13 +74,13 @@
 			"id": "level_two",
 			"when": "level_two",
 			"title": "Level 2 is a choice",
-			"text": "Someone is ready to choose a path. Press P to open the party screen and pick their class."
+			"text": "Someone is ready to choose a path. Press the banner's button, or P, and pick their class from its card."
 		},
 		{
 			"id": "tower",
 			"when": "tower",
 			"title": "The Tower",
-			"text": "Ten floors, each paying gold. What you win up here is only yours once you walk off its step — lose a floor and the hoard stays behind."
+			"text": "A hundred floors, in chapters of five, each floor paying gold. What you win up here is only yours once you walk off its step — lose a floor and the hoard stays behind."
 		},
 		{
 			"id": "errand",
@@ -104,7 +104,7 @@
 			"id": "autoplay",
 			"when": "autoplay",
 			"title": "Let it play itself",
-			"text": "Q hands the run to the game — it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back."
+			"text": "Q hands the run to the game — it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back, even mid-fight."
 		}
 	]
 }

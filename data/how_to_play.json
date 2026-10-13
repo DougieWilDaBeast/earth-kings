@@ -9,7 +9,7 @@
 				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
 				"N opens the journal, and the map is in it: the continent, black where you have never been. Esc puts the map away. Its first page, The Company, is a sheet for each companion: every number, and what a level adds.",
 				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
-				"Q hands the run to the game and T cycles the speed — on the road, inside a town and in a fight alike. Q again takes it back.",
+				"Q hands the run to the game on the road or in a town, and it walks, fights and answers for itself. Q again takes it back anywhere, even in the middle of a fight, which then pauses for your first order. T cycles the speed everywhere.",
 				"Every land is its own: bog and snow slow you, mist hides what is coming, and snow, ash and slime wear you down unless someone carries something against the cold, the heat or the ooze. What lives there is what you meet."
 			]
 		},
@@ -17,7 +17,7 @@
 			"heading": "Danger",
 			"lines": [
 				"Bands patrol out in the country, and the ground they can see is painted red, moving with them. Trees, rocks and long grass hide you. Step into the red, or let them walk into view of you, and they charge, and the fight is fought right there. Bursting out of long grass at them is an ambush.",
-				"Danger is a property of place. Near an open gate the wild is thick with what came out of it; near a hearth it goes quiet. Roughly 37% per step in a gate's mouth against 1% at home.",
+				"Danger is a property of place. Near an open gate the country is thick with bands out of what came through it; near a hearth it goes quiet, and nothing camps within sight of home.",
 				"Gates never reopen once shut — but one left standing open too long breaks, and what was behind it comes out levelled up.",
 				"A gate left open puts the nearest settlement under siege. Walk in while it is happening and V fights the besiegers off. Leave it too long and the town falls."
 			]
@@ -48,13 +48,13 @@
 				"Falling is usually fatal. A downed character can be helped up for a few seconds; after that they roll their graces — a charm carried, an ally still standing, a book they read, the ground they fell on — and dies if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
 				"The run follows you, not the party. Companions can all die and the story goes on; when your own character falls, it stops. Hire replacements in towns.",
 				"Experience comes from the first of each kind. A kind of enemy teaches whoever kills it first, once. The way to grow is to go and meet something new.",
-				"Level 2 is a choice. When someone is ready the bottom line says so — press P and pick their class."
+				"Level 2 is a choice. When someone is ready a banner says so — press its button, or P, and pick their class from its card."
 			]
 		},
 		{
 			"heading": "The Tower",
 			"lines": [
-				"The Tower is ten floors, each paying gold, a book every third and a generated skill tree every fourth, up to the Spire Archon on floor 10.",
+				"The Tower is a hundred floors in chapters of five. Every floor pays gold, every fifth hands over a book and every tenth a generated tree of powers. When a chapter ends the stair above is sealed until you answer the world: shut a gate, or save a town.",
 				"Gold won on the Tower is a hoard you carry. Walking off its step banks it; losing a floor leaves it behind. Every extra floor is a decision about what you are already holding."
 			]
 		},

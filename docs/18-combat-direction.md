@@ -189,7 +189,7 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
 - **A party playing itself** (`Q` on the road, a soak) does not wait: the fight opens running,
   auto-pause never stops it, a menu does not hold the clock, and the party goes looking for the
   fight wherever it is rather than within six tiles. Switching autoplay on mid-fight starts a
-  paused clock.
+  paused clock; `Q` mid-fight takes the party back and pauses for the first order.
 - **Near death**: a party member at zero is down for twelve seconds, and a companion who reaches
   them and kneels for two gets them up at a quarter of their health. Enemies at zero are gone.
 - **Facing still counts**: units face where they step and what they hit, and side and back hits
