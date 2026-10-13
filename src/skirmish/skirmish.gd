@@ -844,6 +844,7 @@ func _nearest_hostile_distance(f: Fighter, cell: Vector2i) -> int:
 
 func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 	f.unit.face_towards(foe.cell)
+	f.unit.play("attack")
 	if _strike(f, foe, ability, f.basic):
 		_practise_swing(f)
 	f.swings += 1
@@ -1044,7 +1045,7 @@ func _keep_aiding(f: Fighter) -> void:
 	patient.near_death = 0.0
 	patient.unit.hp = maxi(1, roundi(float(patient.unit.max_hp) * SkirmishRules.AID_HEALTH))
 	patient.unit.modulate = Color.WHITE
-	patient.unit.queue_redraw()
+	patient.unit.stand()
 	patient.attack_timer = 1.0
 	fx.ring(patient.unit.position, SkirmishFx.HEAL, 50.0)
 	fx.popup("Back up!", patient.unit.position, SkirmishFx.HEAL, 16, 1.2)
@@ -1125,6 +1126,7 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 			hits.append(target)
 	f.cooldowns[slot] = SkirmishRules.cooldown(ability)
 	f.casts += 1
+	f.unit.play("skill")
 	f.attack_timer = maxf(f.attack_timer, 0.4)
 	if f.order == Fighter.Order.CAST:
 		f.clear_order()
@@ -1213,6 +1215,7 @@ func _drop(f: Fighter) -> void:
 	f.clear_order()
 	f.target = null
 	f.unit.set_running(false)
+	f.unit.play("death")
 	f.unit.position = grid.cell_to_world(f.unit.cell)
 	selected.erase(f)
 	f.charging = false
@@ -1230,9 +1233,10 @@ func _drop(f: Fighter) -> void:
 	else:
 		f.fallen = true
 		shake(SkirmishPassives.rule("shake_on_kill", 4.0))
-		# A beat to see them go, then gone.
+		# A beat to see them go (the whole fall, when they have one), then gone.
 		var unit := f.unit
 		var fade := unit.create_tween()
+		fade.tween_interval(unit.action_length("death"))
 		fade.tween_property(unit, "modulate:a", 0.0, 0.35)
 		fade.tween_callback(func() -> void: unit.visible = false)
 
@@ -1310,7 +1314,7 @@ func _stand_back_up(f: Fighter, reason: String) -> void:
 	f.graces += 1
 	f.unit.hp = maxi(1, roundi(float(f.unit.max_hp) * float(Database.fate.get("escape_recovery", 0.25))))
 	f.unit.modulate = Color.WHITE
-	f.unit.queue_redraw()
+	f.unit.stand()
 	f.attack_timer = 1.0
 	f.since_hit = 0.0
 	fx.ring(f.unit.position, SkirmishFx.GRACE, 60.0)
@@ -1945,6 +1949,8 @@ func _on_unit_damaged(unit: Node, amount: int) -> void:
 		return
 	f.since_hit = 0.0
 	fx.flash(f.unit)
+	if f.unit.is_alive():
+		f.unit.play("hit")
 	var at := f.unit.position
 	match _hit_style:
 		"crit":

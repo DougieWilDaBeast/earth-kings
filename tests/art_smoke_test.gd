@@ -50,7 +50,37 @@ func _ready() -> void:
 	_remove(ProjectSettings.globalize_path("%s/16/%s" % [SizeTest.ROOT, DUMMY]))
 	DirAccess.remove_absolute(zip_path)
 	viewer.free()
+	_check_moves()
 	_finish()
+
+
+## A unit with a full fight set plays each move once and then stands again; a
+## fall stays down until it is stood up; a unit with none keeps its pose.
+func _check_moves() -> void:
+	var knight := Unit.create("ooze_knight", Unit.Team.ENEMY, Vector2i.ZERO)
+	add_child(knight)
+	var standing := knight.current_sprite()
+	for action in Unit.ACTIONS:
+		_expect(knight.action_length(action) > 0.0, "the Amber Knight has no %s frames" % action)
+	_expect(not knight.run_frames.is_empty(), "the Amber Knight's walk was not taken for its run")
+	knight.play("attack")
+	_expect(knight.playing() == "attack" and knight.current_sprite() != standing, "a swing did not change the picture")
+	knight.play("hit")
+	_expect(knight.playing() == "attack", "a flinch cut a swing short")
+	knight._process(knight.action_length("attack") + 0.01)
+	_expect(knight.playing() == "" and knight.current_sprite() == standing, "the knight did not stand again after a swing")
+	knight.play("death")
+	knight._process(knight.action_length("death") + 1.0)
+	_expect(knight.playing() == "death", "a fall did not stay down")
+	knight.play("attack")
+	_expect(knight.playing() == "death", "a fallen unit swung")
+	knight.stand()
+	_expect(knight.current_sprite() == standing, "standing up did not bring back the standing pose")
+	knight.free()
+	var plain := Unit.create("goblin", Unit.Team.ENEMY, Vector2i.ZERO)
+	plain.play("attack")
+	_expect(plain.playing() == "", "a unit with no swing frames played one")
+	plain.free()
 
 
 ## An export shaped the way PixelLab's are: rotations named for their facing,

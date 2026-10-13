@@ -1291,6 +1291,28 @@
 		"body_scale": 1.5,
 		"sprite_dir": "res://art/units/king_slime/idle"
 	},
+	"ooze_knight": {
+		"display_name": "The Amber Knight",
+		"job": "Wild",
+		"max_hp": 46,
+		"attack": 13,
+		"defense": 10,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike",
+			"cleave",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d08a2a",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/big/ooze_knight/idle"
+	},
 	"eye_leprechaun": {
 		"display_name": "The Collector",
 		"job": "Raider",

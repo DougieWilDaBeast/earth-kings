@@ -10,6 +10,10 @@ enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C, ALLY }
 const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
 ## Frames a second for a unit that has a run cycle to step through.
 const RUN_FPS := 12.0
+## Frames a second for a swing, a skill, a flinch or a fall.
+const ACTION_FPS := 14.0
+## The moves a fight plays once each, beside the run cycle (see [method play]).
+const ACTIONS: Array[String] = ["attack", "skill", "hit", "death"]
 ## Sprite height as a multiple of a tile, for a unit of ordinary size.
 const SPRITE_HEIGHT_CELLS := 1.15
 ## A unit's `body_scale` is held to this range, so a typo cannot fill the screen.
@@ -56,6 +60,9 @@ var body_scale: float = 1.0
 var sprites: Dictionary = {}
 ## Facing -> the run cycle, for the few units that have one (see [Database]).
 var run_frames: Dictionary = {}
+## Move ("attack" | "skill" | "hit" | "death") -> facing -> frames, for the units
+## that have them. A unit without one keeps its standing pose for it.
+var action_frames: Dictionary = {}
 ## The equipped piece from `data/equipment.json`, plus its rotation art.
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
@@ -63,6 +70,9 @@ var weapon_sprites: Dictionary = {}
 ## Set while the unit is crossing the ground, so it is drawn mid-stride.
 var _running: bool = false
 var _run_time: float = 0.0
+## The move being played and how far into it; "" when none is.
+var _action: String = ""
+var _action_time: float = 0.0
 
 
 static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) -> Unit:
@@ -84,6 +94,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.body_scale = clampf(float(data.get("body_scale", 1.0)), BODY_SCALE_MIN, BODY_SCALE_MAX)
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
 	unit.run_frames = _load_run(template_id_)
+	unit.action_frames = _load_actions(template_id_)
 	unit.team = unit_team
 	unit.cell = start_cell
 	unit._equip(data.get("weapon", ""))
@@ -173,6 +184,19 @@ static func _load_run(template_id_: String) -> Dictionary:
 	return out
 
 
+static func _load_actions(template_id_: String) -> Dictionary:
+	var out := {}
+	for action in ACTIONS:
+		var by_facing := {}
+		for facing_dir: Vector2i in SPRITE_ROTATIONS:
+			var frames := Database.unit_frames(template_id_, action, SPRITE_ROTATIONS[facing_dir])
+			if not frames.is_empty():
+				by_facing[facing_dir] = frames
+		if not by_facing.is_empty():
+			out[action] = by_facing
+	return out
+
+
 func is_alive() -> bool:
 	return hp > 0
 
@@ -229,6 +253,12 @@ func snap_to_cell(grid: BattleGrid) -> void:
 
 func _process(delta: float) -> void:
 	_run_time += delta
+	if _action != "":
+		_action_time += delta
+		# A fall holds its last frame; anything else gives way to the standing pose.
+		if _action != "death" and _action_time >= action_length(_action):
+			_action = ""
+	set_process(_running or (_action != "" and not _action_done()))
 	queue_redraw()
 
 
@@ -237,8 +267,57 @@ func set_running(running: bool) -> void:
 	if _running == running:
 		return
 	_running = running
-	set_process(running)
+	set_process(running or _action != "")
 	queue_redraw()
+
+
+## Play a move once: "attack", "skill", "hit" or "death". A unit without frames
+## for it carries on as it was. A flinch does not cut a swing short, and nothing
+## but [method stand] takes a unit out of its fall.
+func play(action: String) -> void:
+	if _action_facings(action).is_empty() or _action == "death":
+		return
+	if action == "hit" and (_action == "attack" or _action == "skill"):
+		return
+	_action = action
+	_action_time = 0.0
+	set_process(true)
+	queue_redraw()
+
+
+## Back on their feet after a fall: the standing pose again.
+func stand() -> void:
+	_action = ""
+	_action_time = 0.0
+	queue_redraw()
+
+
+## The move being played, or "".
+func playing() -> String:
+	return _action
+
+
+## Seconds [param action] takes to play through, facing as the unit is now; 0
+## when it has no frames for it.
+func action_length(action: String) -> float:
+	return float(_action_frames_now(action).size()) / ACTION_FPS
+
+
+## Only a fall is ever left finished and still showing.
+func _action_done() -> bool:
+	return _action == "death" and _action_time >= action_length("death")
+
+
+func _action_facings(action: String) -> Dictionary:
+	return action_frames.get(action, {})
+
+
+func _action_frames_now(action: String) -> Array:
+	var by_facing := _action_facings(action)
+	if by_facing.has(facing):
+		return by_facing[facing]
+	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+	return by_facing.get(cardinal, by_facing.get(Vector2i.DOWN, []))
 
 
 func _draw() -> void:
@@ -275,7 +354,19 @@ func _draw_weapon() -> void:
 	draw_texture_rect(texture, Rect2(centre - drawn * 0.5, drawn), false)
 
 
+## The standing pose for the way the unit faces, whatever it is doing.
+func standing_sprite() -> Texture2D:
+	if sprites.has(facing):
+		return sprites[facing]
+	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
+	return sprites.get(cardinal, sprites.get(Vector2i.DOWN, null))
+
+
 func current_sprite() -> Texture2D:
+	if _action != "":
+		var played := _action_frames_now(_action)
+		if not played.is_empty():
+			return played[mini(int(_action_time * ACTION_FPS), played.size() - 1)]
 	if _running:
 		var frames: Array = run_frames.get(facing, [])
 		if frames.is_empty():
@@ -283,21 +374,23 @@ func current_sprite() -> Texture2D:
 			frames = run_frames.get(cardinal, [])
 		if not frames.is_empty():
 			return frames[int(_run_time * RUN_FPS) % frames.size()]
-	if sprites.has(facing):
-		return sprites[facing]
-	var cardinal := Vector2i(facing.x, 0) if absi(facing.x) >= absi(facing.y) else Vector2i(0, facing.y)
-	return sprites.get(cardinal, sprites.get(Vector2i.DOWN, null))
+	return standing_sprite()
 
 
 ## Top-down art sits centred on its tile, lifted slightly so the ring reads as ground.
 ## The feet stay where an ordinary unit's are; `body_scale` only adds height above them.
+## PixelLab gives a move a bigger canvas than the standing pose, grown evenly round
+## it, so every frame is drawn at the standing pose's scale and centred where that
+## stands; otherwise a unit would shrink each time it swung.
 func _sprite_rect(sprite: Texture2D) -> Rect2:
-	var source := sprite.get_size()
-	var height := BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * body_scale
-	var drawn := source * (height / source.y)
+	var standing := standing_sprite()
+	var reference := standing.get_size() if standing != null else sprite.get_size()
+	var pixel := BattleGrid.CELL_SIZE * SPRITE_HEIGHT_CELLS * body_scale / reference.y
 	var bob := sin(_run_time * 16.0) * 3.0 if _running and run_frames.is_empty() else 0.0
 	var feet := BattleGrid.CELL_SIZE * (SPRITE_HEIGHT_CELLS * 0.5 - 0.12)
-	return Rect2(Vector2(-drawn.x * 0.5, feet - drawn.y + bob), drawn)
+	var centre := Vector2(0.0, feet - reference.y * pixel * 0.5 + bob)
+	var drawn := sprite.get_size() * pixel
+	return Rect2(centre - drawn * 0.5, drawn)
 
 
 ## How far a scaled body's middle sits above an ordinary one's.
@@ -319,7 +412,8 @@ func _draw_hp_bar(sprite: Texture2D) -> void:
 	var width := float(BattleGrid.CELL_SIZE) * 0.7
 	var top := -BattleGrid.CELL_SIZE * 0.45
 	if sprite != null:
-		top = _sprite_rect(sprite).position.y - 8.0
+		var standing := standing_sprite()
+		top = _sprite_rect(standing if standing != null else sprite).position.y - 8.0
 	var origin := Vector2(-width * 0.5, top)
 	var ratio := float(hp) / float(max_hp)
 	draw_rect(Rect2(origin, Vector2(width, 4)), Color(0, 0, 0, 0.6))
