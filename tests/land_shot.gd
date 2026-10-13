@@ -1,6 +1,6 @@
 extends Node
 const GroundGen := preload("res://src/area/ground_gen.gd")
-## Photograph the land ([D76]): several tiles of it laid side by side from high up, the party
+## Photograph the land ([D83]): several tiles of it laid side by side from high up, the party
 ## walking over from one tile into the next with nothing in between, a town standing in its tile,
 ## and a band walking the land. Needs a display (xvfb-run).
 ##

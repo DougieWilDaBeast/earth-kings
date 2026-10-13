@@ -39,7 +39,7 @@ var _initial_pinch_distance: float = 0.0
 var _initial_pinch_zoom: float = 1.0
 
 
-## Off for a scene run out of sight (the continent taking a step for the land, [D76]): its camera
+## Off for a scene run out of sight (the continent taking a step for the land, [D83]): its camera
 ## must not take the screen from the one being looked at.
 var claims_the_view: bool = true
 

@@ -1,13 +1,15 @@
 extends Node2D
 ## What the fight needs drawn on the ground that a [Unit] does not draw itself:
 ## who is selected, the box being dragged to pick them, where they were sent, what is being wound up, and how long a
-## downed ally has left.
+## downed ally has left; and over each head, the icons for what is wrong or going on
+## (stunned, tired, winding up, eating or drinking), from `status_icons` in `data/skirmish.json`.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
 ## the editor since this landed would otherwise fail to parse the whole skirmish.
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 
 const SELECTED := Color(1.0, 0.86, 0.3, 0.95)
 const ORDER_LINE := Color(1.0, 0.95, 0.7, 0.45)
@@ -20,6 +22,10 @@ const AID_FILL := Color(0.45, 1.0, 0.55, 0.9)
 const BOX_FILL := Color(1.0, 0.86, 0.3, 0.12)
 const STUN := Color(1.0, 0.95, 0.45, 0.95)
 const ITEM_FILL := Color(0.9, 0.55, 0.85, 0.9)
+const MARKED := Color(1.0, 0.8, 0.2, 0.9)
+const WARD := Color(1.0, 0.92, 0.55, 0.7)
+const PLANTED := Color(0.45, 0.85, 0.35, 0.22)
+const PLANTED_EDGE := Color(0.55, 0.95, 0.4, 0.55)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var skirmish: Node2D
@@ -29,10 +35,15 @@ func _draw() -> void:
 	if skirmish == null:
 		return
 	var half := BattleGrid.CELL_SIZE * 0.5
+	_draw_plantings(half)
 	for f: Fighter in skirmish.fighters:
 		if f.fallen:
 			continue
 		var at := f.unit.position
+		if f.marked > 0.0 and f.is_standing():
+			_draw_mark(at + Vector2(0, -half * 1.35))
+		if f.ward > 0 and f.is_standing():
+			draw_arc(at, half * 0.75, 0.0, TAU, 28, WARD, 2.0, true)
 		if skirmish.selected.has(f):
 			draw_arc(at + Vector2(0, half * 0.55), half * 0.62, 0.0, TAU, 28, SELECTED, 2.5, true)
 			_draw_order(f, at)
@@ -40,6 +51,7 @@ func _draw() -> void:
 			var share := f.near_death / SkirmishRules.NEAR_DEATH
 			draw_arc(at, half * 0.8, -PI * 0.5, -PI * 0.5 + TAU * share, 32, NEAR_DEATH, 3.0, true)
 		if f.is_casting():
+			_draw_charge(f, at)
 			var done := 1.0 - float(f.cast["left"]) / maxf(0.001, float(f.cast["total"]))
 			_draw_bar(at + Vector2(-half * 0.7, half * 0.75), half * 1.4, done, CAST_FILL)
 		if f.aiding > 0.0:
@@ -48,12 +60,13 @@ func _draw() -> void:
 		if f.is_using():
 			var done := 1.0 - float(f.using["left"]) / maxf(0.001, float(f.using["total"]))
 			_draw_bar(at + Vector2(-half * 0.7, half * 0.75), half * 1.4, done, ITEM_FILL)
-		if f.is_stunned():
-			# Three little stars going round above the head.
+		if f.is_stunned() and status_icons(f).is_empty():
+			# Three little stars going round above the head, when there is no icon.
 			var turn := float(Time.get_ticks_msec()) / 300.0
 			for k in 3:
 				var angle := turn + TAU * k / 3.0
 				draw_circle(at + Vector2(cos(angle) * 9.0, -half * 1.1 + sin(angle) * 3.0), 2.5, STUN)
+		_draw_icons(f, at)
 	var box: Rect2 = skirmish.drag_box
 	if box.has_area():
 		box.position -= position
@@ -84,3 +97,63 @@ func _draw_order(f: Fighter, at: Vector2) -> void:
 func _draw_bar(origin: Vector2, width: float, share: float, colour: Color) -> void:
 	draw_rect(Rect2(origin, Vector2(width, 5)), CAST_BACK)
 	draw_rect(Rect2(origin, Vector2(width * clampf(share, 0.0, 1.0), 5)), colour)
+
+
+## The icons [param f] wears right now, by name, left to right.
+static func status_icons(f: Fighter) -> Array[String]:
+	var data: Dictionary = Database.skirmish.get("status_icons", {})
+	var wanted: Array[String] = []
+	if f.is_stunned():
+		wanted.append(str(data.get("stunned", "")))
+	if f.is_casting():
+		wanted.append(str(data.get("casting", "")))
+	if f.is_using():
+		var item := str(f.using.get("item", ""))
+		wanted.append(str(data.get("by_item", {}).get(item, data.get("using", ""))))
+	if f.tired:
+		wanted.append(str(data.get("tired", "")))
+	var out: Array[String] = []
+	for name in wanted:
+		if SkirmishFx.status_icon(name) != null:
+			out.append(name)
+	return out
+
+
+## The icons in a row just above the health bar.
+func _draw_icons(f: Fighter, at: Vector2) -> void:
+	var names := status_icons(f)
+	if names.is_empty():
+		return
+	var side := float(Database.skirmish.get("status_icons", {}).get("size", 18.0))
+	var cell := float(BattleGrid.CELL_SIZE)
+	var head := cell * (Unit.SPRITE_HEIGHT_CELLS * 0.5 - 0.12) - cell * Unit.SPRITE_HEIGHT_CELLS * f.unit.body_scale
+	var left := at + Vector2(-side * names.size() * 0.5, head - 10.0 - side)
+	for k in names.size():
+		draw_texture_rect(SkirmishFx.status_icon(names[k]), Rect2(left + Vector2(side * k, 0.0), Vector2(side, side)), false)
+
+
+## A charged spell building ([D59]): its effect turning over and over round the caster.
+func _draw_charge(f: Fighter, at: Vector2) -> void:
+	if not SkirmishRules.is_charged(f.slot_ability(int(f.cast["slot"]))):
+		return
+	var frames := SkirmishFx.effect_frames(SkirmishFx.effect_for("charged"))
+	if frames.is_empty():
+		return
+	var shown := int(float(Time.get_ticks_msec()) / 1000.0 / SkirmishFx.frame_time()) % frames.size()
+	var side := SkirmishFx.effect_size()
+	draw_texture_rect(frames[shown], Rect2(at - Vector2(side, side) * 0.5, Vector2(side, side)), false, Color(1, 1, 1, 0.6))
+
+
+## Ceres's plantings ([SkirmishSignatures]): the ground she has grown, tinted green.
+func _draw_plantings(half: float) -> void:
+	var grid: BattleGrid = skirmish.grid
+	for cell: Vector2i in skirmish.signatures.plantings():
+		var rect := Rect2(grid.cell_to_world(cell) - Vector2(half, half), Vector2(half, half) * 2.0)
+		draw_rect(rect, PLANTED)
+		draw_rect(rect.grow(-2.0), PLANTED_EDGE, false, 1.5)
+
+
+## Iris's mark over a foe: a small gold diamond.
+func _draw_mark(at: Vector2) -> void:
+	var points := PackedVector2Array([at + Vector2(0, -5), at + Vector2(5, 0), at + Vector2(0, 5), at + Vector2(-5, 0)])
+	draw_colored_polygon(points, MARKED)

@@ -29,6 +29,7 @@ const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishHUD := preload("res://src/skirmish/skirmish_hud.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
+const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const Land := preload("res://src/area/land.gd")
 
@@ -122,6 +123,8 @@ var _pad_repeat: float = 0.0
 
 ## Numbers, flashes and rings over the field (see [SkirmishFx]).
 var fx: SkirmishFx
+## The sixteen's own ways of fighting (see [SkirmishSignatures]).
+var signatures: SkirmishSignatures
 ## Rolls the graces in the near-death window. Seeded from the global seed, so a
 ## test that seeds the fight seeds its graces too.
 var grace_rng := RandomNumberGenerator.new()
@@ -157,6 +160,7 @@ func _ready() -> void:
 	fx = SkirmishFx.new()
 	fx.z_index = 20
 	add_child(fx)
+	signatures = SkirmishSignatures.new(self)
 	_build_battlefield()
 	_fill_pouch()
 	marks.skirmish = self
@@ -230,6 +234,7 @@ func _build_battlefield() -> void:
 		_enlist(Unit.from_character(members[i], Unit.Team.PLAYER, cells[i]))
 	_spawn_others(map.get("enemies", []), Unit.Team.ENEMY)
 	_spawn_others(map.get("allies", []), Unit.Team.ALLY)
+	signatures.muster()
 	_face_the_other_side()
 	_write_them_up(map)
 
@@ -422,7 +427,7 @@ func _row_blocked(rows: Array, at: Vector2i) -> bool:
 	return str(rows[at.y])[at.x] == "#"
 
 
-## The ground the band was met on: the area it names, or, met on the land ([D76]), the tiles the
+## The ground the band was met on: the area it names, or, met on the land ([D83]), the tiles the
 ## field lies across and those round them. Laid out once and kept.
 func _the_ground() -> AreaMap:
 	if _ground != null:
@@ -517,14 +522,16 @@ func _draw_back() -> void:
 	back.tween_property(camera, "position", to_position, DRAW_BACK_TIME)
 
 
-func _enlist(unit: Unit) -> void:
+func _enlist(unit: Unit) -> Fighter:
 	# Wounds carry in as a share, so a hurt party starts the fight as hurt.
 	var share := float(unit.hp) / float(maxi(1, unit.max_hp))
 	unit.max_hp = roundi(float(unit.max_hp) * SkirmishRules.HEALTH_SCALE)
 	unit.hp = maxi(1, roundi(share * float(unit.max_hp)))
 	unit.snap_to_cell(grid)
 	units_root.add_child(unit)
-	fighters.append(Fighter.new(unit))
+	var f := Fighter.new(unit)
+	fighters.append(f)
+	return f
 
 
 func _fill_pouch() -> void:
@@ -575,7 +582,8 @@ func use_item(f: Fighter, item_id: String) -> bool:
 	return true
 
 
-func _finish_item(f: Fighter) -> void:
+## [param thrower] is whoever threw it, when it was thrown (Juno's Provision).
+func _finish_item(f: Fighter, thrower: Fighter = null) -> void:
 	var item_id := str(f.using["item"])
 	f.using = {}
 	pouch[item_id] = int(pouch.get(item_id, 0)) - 1
@@ -586,7 +594,7 @@ func _finish_item(f: Fighter) -> void:
 	if not sandbox:
 		GameState.stores.erase(item_id)
 	# Health is scaled up for real time, so what a draught mends is too.
-	var amount := roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE)
+	var amount := roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE * signatures.item_scale(f, thrower))
 	f.unit.heal(amount)
 	Sfx.cue("drink")
 	fx.popup(Gear.display_name(item_id), f.unit.position + Vector2(0, -14), SkirmishFx.HEAL, 13)
@@ -599,7 +607,7 @@ func _finish_item(f: Fighter) -> void:
 func _stun(f: Fighter, by: Fighter, seconds: float) -> void:
 	if f == null or not f.is_standing() or seconds <= 0.0:
 		return
-	if f.is_using():
+	if f.is_using() or signatures.stun_proof(f):
 		fx.popup("steady", f.unit.position, SkirmishFx.WORD, 12)
 		return
 	if f.is_casting():
@@ -721,6 +729,7 @@ func tick() -> void:
 	sim_time += SkirmishRules.TICK
 	for f in fighters:
 		_tick_fighter(f)
+	signatures.flush()
 	_check_end()
 
 
@@ -740,22 +749,27 @@ func _place_steppers() -> void:
 func _tick_fighter(f: Fighter) -> void:
 	if f.fallen:
 		return
+	var cooling := SkirmishRules.TICK * signatures.cooldown_rate(f)
 	for i in f.cooldowns.size():
 		var was := f.cooldowns[i]
-		f.cooldowns[i] = maxf(0.0, was - SkirmishRules.TICK)
+		f.cooldowns[i] = maxf(0.0, was - cooling)
 		if was > 0.0 and f.cooldowns[i] <= 0.0 and f.is_party() and not f.auto_skill \
 				and f.is_standing() and auto_pause == AutoPause.ON_FALL_AND_READY:
 			_auto_pause("%s's %s is ready." % [f.unit.display_name, f.slot_ability(i).get("display_name", "skill")])
 	if f.is_downed():
+		if signatures.rises(f):
+			_get_up(f)
+			return
 		f.near_death -= SkirmishRules.TICK
 		if f.near_death <= 0.0:
 			_window_ran_out(f)
 		return
 	f.attack_timer = maxf(0.0, f.attack_timer - SkirmishRules.TICK)
 	f.since_hit += SkirmishRules.TICK
-	f.recover_energy(SkirmishRules.TICK)
+	f.recover_energy(SkirmishRules.TICK * signatures.energy_rate(f))
 	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
 	_regenerate(f)
+	signatures.tick(f)
 
 	if f.stepping:
 		f.step_left -= SkirmishRules.TICK
@@ -783,6 +797,10 @@ func _tick_fighter(f: Fighter) -> void:
 
 	if f.aiding > 0.0:
 		_keep_aiding(f)
+		return
+
+	# A bearer keeps beside the one it carries before it does anything else.
+	if signatures.keep_up(f):
 		return
 
 	f.think_timer -= SkirmishRules.TICK
@@ -901,7 +919,8 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 	if _strike(f, foe, ability, f.basic):
 		_practise_swing(f)
 	f.swings += 1
-	f.attack_timer = SkirmishRules.attack_interval(f.unit) * (1.0 - minf(0.5, _aura(f, "haste")))
+	f.attack_timer = SkirmishRules.attack_interval(f.unit) * (1.0 - minf(0.5, _aura(f, "haste"))) \
+			* signatures.attack_scale(f)
 	# Echo Blade: now and then the same swing comes round again.
 	var echo := f.effect("echo")
 	if echo > 0.0 and f.is_standing() and is_standing(foe) and randf() < echo:
@@ -916,6 +935,7 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> bool:
 	if bool(ability.get("heal", false)):
 		Sfx.cue("heal")
+		_show_effect(f, target, ability, ability_id)
 		_say(AbilityResolver.apply(f.unit, ability, target, ability_id))
 		_note_in_the_journal(f.unit, ability_id, target)
 		if target != f.unit and target.team == f.unit.team and f.unit.character != null:
@@ -930,6 +950,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		victim.since_hit = 0.0
 		victim.unit.face_towards(f.unit.cell)
 		fx.popup("Blocked", target.position, SkirmishFx.WORD, 13)
+		fx.effect(SkirmishFx.effect_for("block"), target.position)
 		Sfx.cue("block")
 		_say("%s takes %s's blow on the shield." % [target.display_name, f.unit.display_name])
 		return false
@@ -954,18 +975,35 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		f.charging = false
 		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
 		tags.append("charge")
+	multiplier *= signatures.might(f, victim)
 	if victim != null:
-		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5), _aura(victim, "guard"))
+		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5),
+				_aura(victim, "guard") + signatures.guard(victim))
+	# Caesar beside them takes part of it on himself.
+	var guardian := signatures.shield_for(victim)
+	if guardian != null:
+		multiplier *= 1.0 - signatures.share_of(guardian)
+	# A ward of Vesta's soaks up what it can before the health does.
+	var warded := victim.ward if victim != null else 0
+	var health_before := target.hp
+	target.hp += warded
 	# The resolver prices a blow off the attacker's attack, so the passives
 	# lean on that for the one call and put it back.
 	var own_attack := f.unit.attack
 	f.unit.attack = maxi(1, roundi(float(own_attack) * multiplier))
-	var before := target.hp
+	var before := health_before
 	_hit_style = "crit" if crit else ""
 	var line := AbilityResolver.apply(f.unit, ability, target, ability_id)
 	_hit_style = ""
 	f.unit.attack = own_attack
+	if warded > 0:
+		var soaked := mini(warded, health_before + warded - target.hp)
+		victim.ward = warded - soaked
+		target.hp = mini(target.hp, health_before)
+		if soaked > 0:
+			fx.popup("Warded", target.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
 	var dealt := before - target.hp
+	_show_effect(f, target, ability, ability_id)
 	if dealt > 0:
 		Sfx.cue("crit" if crit else "hit")
 	if not tags.is_empty():
@@ -984,8 +1022,15 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	var steal := f.effect("lifesteal")
 	if steal > 0.0 and dealt > 0 and f.unit.hp < f.unit.max_hp:
 		f.unit.heal(maxi(1, roundi(float(dealt) * steal)))
+	signatures.landed(f, victim, dealt)
+	if guardian != null and dealt > 0:
+		var share := signatures.share_of(guardian)
+		guardian.unit.take_damage(maxi(1, roundi(float(dealt) * share / maxf(0.1, 1.0 - share))))
+		if not guardian.unit.is_alive():
+			_drop(guardian)
 	if not target.is_alive():
 		_award_kill(f.unit, target)
+		signatures.killed(f, victim)
 		_drop(victim)
 	# Barbed Guard: a blow from the next tile comes partly back.
 	if victim != null and dealt > 0 and Pathfinder.distance(f.unit.cell, target.cell) <= 1:
@@ -1023,7 +1068,7 @@ func _regenerate(f: Fighter) -> void:
 	if f.unit.hp >= f.unit.max_hp:
 		f.regen_pool = 0.0
 		return
-	var rate := _aura(f, "regen")
+	var rate := maxf(_aura(f, "regen"), signatures.regen(f))
 	if f.since_hit >= SkirmishPassives.rule("out_of_combat_after", 4.0):
 		rate += f.effect("regen")
 	if rate <= 0.0:
@@ -1114,6 +1159,8 @@ func _keep_aiding(f: Fighter) -> void:
 ## instant is not a failure — the fighter waits and tries again next tick.
 func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 	var me := f.unit
+	if not signatures.can_step(f):
+		return false
 	var blocked := func(c: Vector2i) -> bool: return occupant(c, f) != null
 	var path := pathfinder.path_to_nearest(me.cell, me.jump, blocked, is_goal)
 	if path.is_empty():
@@ -1133,12 +1180,32 @@ func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 	f.step_total = SkirmishRules.step_time(me, grid, next)
 	if f.charging:
 		f.step_total /= float(f.role_data().get("pace", 1.0))
+	f.step_total *= signatures.step_scale(f, next)
+	signatures.stepped(f)
 	f.step_left = f.step_total
 	me.facing = Unit.dominant_direction(next - me.cell)
 	# The tile is claimed as the step begins, so nobody else walks into it.
 	me.cell = next
 	me.set_running(true)
 	return true
+
+
+## The drawn effect for a blow or a heal from [param f] landing on [param target]:
+## a slash up close, an arrow flown from [param f], a burst for a spell, the heal
+## on whoever is mended ([SkirmishFx.effect_for]).
+func _show_effect(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) -> void:
+	var kind := "swing"
+	if bool(ability.get("heal", false)):
+		kind = "heal"
+	elif ability_id == f.basic:
+		kind = "shot" if int(ability.get("range", 1)) > 1 else "swing"
+	elif int(ability.get("range", 1)) > 1 or SkirmishRules.cast_time(ability) > 0.0:
+		kind = "spell"
+	var name := SkirmishFx.effect_for(kind, ability_id)
+	if name == SkirmishFx.effect_for("shot") and target != f.unit:
+		fx.effect(name, target.position, f.unit.position)
+	else:
+		fx.effect(name, target.position)
 
 
 func _begin_cast(f: Fighter, slot: int, who: Unit, centre: Vector2i) -> void:
@@ -1288,6 +1355,7 @@ func _drop(f: Fighter) -> void:
 	_mourn(f)
 	if f.is_party():
 		f.near_death = SkirmishRules.NEAR_DEATH
+		signatures.downed(f)
 		f.unit.modulate = Color(0.75, 0.55, 0.55, 0.8)
 		shake(SkirmishPassives.rule("shake_on_down", 9.0))
 		fx.popup("DOWN", f.unit.position, SkirmishFx.HURT, 20, 1.4)
@@ -1383,6 +1451,19 @@ func _stand_back_up(f: Fighter, reason: String) -> void:
 	f.since_hit = 0.0
 	fx.ring(f.unit.position, SkirmishFx.GRACE, 60.0)
 	fx.popup(GRACE_WORDS.get(reason, "Grace"), f.unit.position, SkirmishFx.GRACE, 18, 1.8)
+
+
+## Back up on their own, as Caesar does once a fight (his signature).
+func _get_up(f: Fighter) -> void:
+	f.near_death = 0.0
+	f.unit.hp = maxi(1, roundi(float(f.unit.max_hp) * signatures.rise_health(f)))
+	f.unit.modulate = Color.WHITE
+	f.unit.stand()
+	f.attack_timer = 1.0
+	f.since_hit = 0.0
+	fx.ring(f.unit.position, SkirmishFx.GRACE, 60.0)
+	fx.popup("Back on his feet!", f.unit.position, SkirmishFx.GRACE, 16, 1.6)
+	_say("%s gets back up." % f.unit.display_name)
 
 
 ## What [Fate] needs to know about a downed fighter: who is still standing with

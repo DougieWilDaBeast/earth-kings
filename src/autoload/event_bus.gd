@@ -94,7 +94,7 @@ signal player_did(what: String)
 ## The title screen asks for the tutorial; the tutorial guide sets it up and runs it.
 signal tutorial_requested
 ## The land asks the continent to do something out of sight (a step, a place's doing) while the
-## party walks on ([D76]): `step` or `act`, with `held` and `back` as a ground hands them over.
+## party walks on ([D83]): `step` or `act`, with `held` and `back` as a ground hands them over.
 signal continent_requested(payload: Dictionary)
 ## The continent's answer, if nothing took the screen instead: what can be done where the party
 ## now stands, what was said, the bands about, and its title.

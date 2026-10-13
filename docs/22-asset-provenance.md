@@ -29,7 +29,7 @@ What stands between this audit and a public release, in order of weight.
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
 | P5 | PixelLab's terms for commercial use of generated art, on the plan the art was made with | **to confirm** | founders |
-| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md). The two giants and `king_slime` are regenerated from those prompts in `art/big/` (2026-10-12, the mound 2026-10-13); `king_slime` and `blue_slime` (the Bog Jelly, `art/tier1/`) are in the game since 2026-10-13, the giants not yet | **dev only** — regenerate before any public release | founders |
+| P6 | Sprites that copy other people's characters: `beast_titan`, `colossal_titan` (*Attack on Titan*), `ember_lizard`, `seed_beast` (*Pokémon*), `blue_slime`, `king_slime` (*Dragon Quest*), `sword_monkey` (*One Piece* hat and sword style). Names already changed; new prompts in [23](23-originality-pass.md). The two giants and `king_slime` are regenerated from those prompts in `art/big/` (2026-10-12, the mound 2026-10-13); `king_slime`, `blue_slime` (the Bog Jelly), `ember_lizard` (the Cinder Newt) and `seed_beast` (the Mossback) are redrawn and in the game since 2026-10-13 (the last three in `art/tier1/`), the giants not yet | **dev only** — regenerate before any public release | founders |
 
 ## Art
 
@@ -87,3 +87,4 @@ Every label uses Godot's default theme font, except the start screen's logo and 
 | --- | --- | --- | --- |
 | Godot Engine 4.7 | godotengine.org | MIT — its notice is on the Credits screen word for word, and the controls suite fails if it drifts from `Engine.get_license_text()` | **cleared** |
 | Godot's third-party components (FreeType, ENet, Mbed TLS, HarfBuzz and the rest) | Built into the engine | Their own (FTL, Expat, Apache-2.0, …) | **cleared** — FreeType, ENet and Mbed TLS are named on the Credits screen, and the full list is read off the running engine (`Engine.get_copyright_info()`) |
+- `art/interior/` and `art/props/interior/` — stand-ins drawn in code by `tools/draw_interiors.py` (2026-10-13, [D81](06-decisions.md)); nothing borrowed. To be replaced by `dougie`'s PixelLab art (art request A5).

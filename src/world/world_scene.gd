@@ -9,7 +9,7 @@ extends Node2D
 ##   straight back to the ground the party now stands on.
 ## - **Map** (`"map": true`, from the journal): the explored continent, to look
 ##   at and nothing else. Esc goes back to the ground where the party stood.
-## - **Out of sight** (`"embedded": true`, [D76]): run by the game beside the land, which never
+## - **Out of sight** (`"embedded": true`, [D83]): run by the game beside the land, which never
 ##   leaves the screen. It takes the step or does the place's doing as on the ground, then answers
 ##   on [signal EventBus.continent_answered] instead of handing the ground back, and goes.
 ## - **Walk**: the old walkable continent, kept for the party walking itself
@@ -42,7 +42,7 @@ const FIRST_REPEAT_DELAY := 0.28
 const RUN_OVER_DELAY := 3.0
 ## Steps between the country putting fresh bands out where you cannot see them.
 const RESTOCK_INTERVAL := 12
-## How many tiles away a band can be and still be walking on the land round the party ([D76]).
+## How many tiles away a band can be and still be walking on the land round the party ([D83]).
 const LAND_BANDS_REACH := 2
 ## Lines of world log kept on screen. Everything still happens when it is off;
 ## the log is a record, not the game.
@@ -1548,7 +1548,7 @@ func _driven_by_game() -> bool:
 	return is_in_group(EventBus.ACTIVE_SCENE_GROUP) or _embedded()
 
 
-## Run beside the land, out of sight ([D76]).
+## Run beside the land, out of sight ([D83]).
 func _embedded() -> bool:
 	return bool(boot_payload.get("embedded", false))
 
@@ -1653,14 +1653,14 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 	return payload
 
 
-## The land round the tile the party is on ([D76]); its title is the place's, if a place with an
+## The land round the tile the party is on ([D83]); its title is the place's, if a place with an
 ## inside and an open door stands there, or the country's. A warded place that will not open is
 ## open country with the challenge offered.
 func _fresh_ground() -> Dictionary:
 	var region := world.region_at(world.player_cell)
 	var site := world.site_at(world.player_cell)
 	var area_id := _area_here()
-	# The land ([D76]): one stretch of ground, the place (if there is one) standing in its tile.
+	# The land ([D83]): one stretch of ground, the place (if there is one) standing in its tile.
 	var inside_a_place := site != null and area_id != "" and (not site.data.has("ward") or Ward.is_site_open(site))
 	return {
 		"land": true,
@@ -1699,7 +1699,7 @@ func _ground_actions(payload: Dictionary) -> Array:
 # --- bands on the ground -------------------------------------------------------
 
 
-## Bands near enough to be on the ground in front of the party: on the land ([D76]), every band
+## Bands near enough to be on the ground in front of the party: on the land ([D83]), every band
 ## within [constant LAND_BANDS_REACH] tiles, each with the tile it is on, so it can be seen walking
 ## from one to the next.
 func _bands_here() -> Array:

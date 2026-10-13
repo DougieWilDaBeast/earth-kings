@@ -19,6 +19,8 @@ const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
+const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
+const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 
 var _skirmish: Node2D
 var _failures: Array[String] = []
@@ -154,12 +156,21 @@ func _run() -> void:
 		int(heard.get("victory", 0)) + int(heard.get("defeat", 0))])
 	_expect(not Sfx.cue("no_such_cue"), "a cue that is not in data/sfx.json made a sound")
 	print("heard: %s" % str(heard))
+	# And seen: the drawn effects and icons are all on disk, and blows show them.
+	for key: String in ["swing", "shot", "spell", "heal", "block", "charged"]:
+		_expect(not SkirmishFx.effect_frames(SkirmishFx.effect_for(key)).is_empty(), "no frames for the %s effect" % key)
+	for key: String in ["stunned", "casting", "tired", "using"]:
+		_expect(SkirmishFx.status_icon(str(Database.skirmish["status_icons"][key])) != null, "no icon for %s" % key)
+	_expect(SkirmishFx.status_icon("herb") != null, "no icon for herbs")
+	_expect(int(SkirmishFx.played.get("slash", 0)) + int(SkirmishFx.played.get("arrow", 0)) > 0, "no blow was seen landing")
+	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
 	await _check_the_world_hears()
+	await _check_signatures()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -340,11 +351,13 @@ func _check_fight_rules() -> void:
 	if ember >= 0:
 		fight._begin_cast(toln, ember, foe.unit, foe.unit.cell)
 		_expect(toln.is_casting() and float(toln.cast["total"]) >= 2.0, "Ember did not wind up for two seconds or more")
+		_expect(SkirmishMarks.status_icons(toln).has("charging"), "a fighter winding up wears no charging icon")
 		# Shield Bash stuns and breaks it off.
 		var bash := Database.ability("shield_bash")
 		fight._strike(bram, toln.unit, bash, "shield_bash")
 		_expect(not toln.is_casting(), "a stun did not break the cast")
 		_expect(toln.is_stunned() and bram.interrupts == 1, "a stun did not stun, or was not counted")
+		_expect(SkirmishMarks.status_icons(toln) == (["stun"] as Array[String]), "a stunned fighter wears %s, not the stun icon" % str(SkirmishMarks.status_icons(toln)))
 		for _i in int(ceil(float(bash["stun"]) / SkirmishRules.TICK)) + 2:
 			fight.tick()
 		_expect(not toln.is_stunned(), "a stun never wore off")
@@ -660,6 +673,52 @@ func _check_the_world_hears() -> void:
 	EventBus.character_fell.disconnect(on_fall)
 	fight.queue_free()
 	sand.queue_free()
+
+
+## The sixteen's own ways of fighting (agenda item 72): Atlas comes with his
+## bearer and is stuck without him, Diana with her wolf, and what Pluto kills
+## gets up for him.
+func _check_signatures() -> void:
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	var map := _proving_ground()
+	map["allies"] = [
+		{"unit": "atlas", "cell": [3, 8], "level": 3},
+		{"unit": "diana", "cell": [9, 8], "level": 3},
+		{"unit": "pluto", "cell": [6, 7], "level": 3},
+	]
+	fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = false
+	var atlas := _by_template(fight, "atlas")
+	var diana := _by_template(fight, "diana")
+	var pluto := _by_template(fight, "pluto")
+	_expect(atlas != null and diana != null and pluto != null, "the leads did not come into the fight")
+	if atlas == null or diana == null or pluto == null:
+		fight.queue_free()
+		return
+	var bearer: Fighter = atlas.sig.get("bearer")
+	var wolf: Fighter = diana.sig.get("beast")
+	_expect(bearer != null and bearer.bound_to == atlas and bearer.unit.team == atlas.unit.team, "Atlas came without his bearer")
+	_expect(wolf != null and wolf.bound_to == diana and wolf.unit.template_id == "ice_wolf", "Diana came without her wolf")
+	if bearer != null:
+		_expect(fight.signatures.can_step(atlas), "Atlas cannot move with his bearer beside him")
+		bearer.unit.take_damage(bearer.unit.hp)
+		fight._drop(bearer)
+		_expect(not fight.signatures.can_step(atlas), "Atlas moved with his bearer down")
+	var foe: Fighter = null
+	for f: Fighter in fight.fighters:
+		if not f.unit.sides_with_party() and f.is_standing():
+			foe = f
+	if foe != null:
+		foe.unit.hp = 1
+		fight._strike(pluto, foe.unit, Database.ability(pluto.basic), pluto.basic)
+		fight.tick()
+		var shades: Array = fight.fighters.filter(func(f: Fighter) -> bool: return f.bound_to == pluto)
+		_expect(shades.size() == 1 and shades[0].is_standing() and shades[0].unit.team == pluto.unit.team,
+				"what Pluto killed did not rise for him")
+	fight.queue_free()
 
 
 func _practice(group: Array[Fighter]) -> int:

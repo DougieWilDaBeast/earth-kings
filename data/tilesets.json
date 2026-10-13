@@ -37,6 +37,10 @@
 			"display_name": "wall",
 			"walkable": false
 		},
+		"floor": {
+			"display_name": "floor",
+			"walkable": true
+		},
 		"raised": {
 			"display_name": "higher ground",
 			"walkable": true

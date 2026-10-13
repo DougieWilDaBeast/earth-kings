@@ -396,6 +396,23 @@ step points at someone or something in the village.
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.
 
+## `areas/*.json` → `interior` — a room, not a yard ([D81](06-decisions.md))
+
+```json
+"interior": { "floor": "oak", "wall": "timber",
+  "rugs": [ { "rect": [2, 1, 4, 3], "colour": "#7a2e2a", "trim": "#c9a45f" } ],
+  "glows": [ { "cell": [3.5, 1], "radius": 4.5, "colour": "#ff9a40", "strength": 0.5 } ] }
+```
+
+- An area with this block is drawn by `src/area/interior_painter.gd`, not from tilesets: `floor`
+  names `art/interior/floor_<floor>.png`, tiled over the room; `wall` names the back wall's face
+  (`wall_<wall>.png`, 64 × 112, standing along the top row) and the top of the side and front walls
+  (`cap_<wall>.png`). Cells of `wall` terrain are walls; `floor` terrain is walked on.
+- `rugs` — cell rectangles drawn with a border and a row of lozenges; `glows` — soft light over the
+  room (a fire, candles), `radius` in cells.
+- Laid out by `tools/build_interiors.py`, which keeps the room's people, spots and chests and checks
+  every one can be reached; `tools/dress_areas.py` leaves these rooms alone.
+
 ## `biomes.json` — the lands, and how each one's ground is laid out
 
 ```json
@@ -421,7 +438,7 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 ```
 
 - `size` — cells across and down of every generated ground, and of every tile's slot on the land
-  ([D81](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
+  ([D83](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
   middle of its tile's slot with the land's ground round it. `landmark_chance` — the share of
   grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
 - `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
@@ -439,7 +456,7 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
   against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
-Which land a tile is: `src/chronicle/biome.gd`. On the land ([D81](06-decisions.md)) each tile is
+Which land a tile is: `src/chronicle/biome.gd`. On the land ([D83](06-decisions.md)) each tile is
 laid out by `GroundGen.slot` with its sides left open towards walkable country (the paths of two
 tiles meet at the same point on their shared edge) and closed only towards the sea or a mountain;
 a sea or lake tile is all water and a mountain all rock. What is written down about a cell (a chest
@@ -458,7 +475,7 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   and walk-through bushes are never seen; the cells the band's own figures stand on always are.
 - **Where it stands:** on its own tile, in the open at least `keep_away` cells beyond its sight from
   where the party came in; watching from the next tile, just inside that edge. On the land
-  ([D81](06-decisions.md)) every band within two tiles stands in its own tile's slot, and keeps to it.
+  ([D83](06-decisions.md)) every band within two tiles stands in its own tile's slot, and keeps to it.
 - **Patrol:** `patrol_points` stops within `patrol_reach` cells, walked a cell every
   `patrol_step_seconds`, resting `patrol_pause` [min, max] seconds at each; a loop that never brings
   where the party came in into sight. The red moves with it. On the land, `land_patrol_points`
@@ -678,6 +695,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
   },
+  "signatures": { "diana": { "style": "beast_bond", "display_name": "Beast-bond",
+                             "description": "…", "beast": "ice_wolf", "without": 0.4 } },
   "by_template": { "brigand_chief": ["war_cry"] },
   "by_class": { "sworn_blade": ["shieldwall"] },
   "by_ability": { "riposte": ["barbed_guard"] },
@@ -710,6 +729,20 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   melee basic attack that does not come from behind, with a chance of `block_chance` +
   `block_per_defence` × its defence, at most `block_max`. Not while casting, using an item or stunned.
 
+- **Signatures** (the sixteen's own ways of fighting, agenda item 72): keyed by template, so a lead
+  carries theirs whatever class they take, and so does one met as a foe. `style` names what the
+  code does; the other keys are its numbers, all shares or seconds. `borne` (`bearer`, `bearer_name`:
+  a companion that keeps beside him; no step without it), `doorways` (`per_foe`, `most`: cooldown
+  speed), `orders` (`every`, `radius`, `lasts`, `advance`, `break_them`, `energy_radius`,
+  `energy`), `learns` and `one_target` (`per_hit`, `most`), `gravity_well` (`radius`, `slow`),
+  `ward` (`every`, `radius`, `below`, `ward`, `dead` templates, `dead_bonus`), `takes_the_hit`
+  (`share`, `rise_after`, `rise_health`), `marks` (`lasts`, `marked_bonus`, `per_finish`, `most`),
+  `shades` (`health`, `at_once`, `per_kind`, `most`), `growth` (`plant_after`, `most`, `radius`,
+  `regen`, `slow`, `rooted_bonus`), `set` (`after`, `guard`, `might`, `beside`), `provision`
+  (`twice`, `every`, `radius`, `below`), `beast_bond` (`beast`, `beast_name`, `without`), `opener`
+  (`lasts`, `might`, `haste`, `tired_might`, `tired_slow`), `bare_hands` (`every`, `per_step`,
+  `most`). A companion (bearer, wolf, a shade) fights beside the party as an ally, at its owner's
+  level, and is gone after the fight.
 - A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
   each ability it knows in `by_ability`, and capped at `rules.max_passives`.
 - `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the

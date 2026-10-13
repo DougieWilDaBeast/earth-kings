@@ -53,7 +53,7 @@ static func for_cell(world: World, cell: Vector2i) -> String:
 	return id
 
 
-## One tile of the land as it is laid out side by side with its neighbours ([D76]): the open
+## One tile of the land as it is laid out side by side with its neighbours ([D83]): the open
 ## country of it, or the place standing in it with its own ground round it, or the sea or a
 ## mountain filling it. In the tile's own cells, (0, 0) at its top left; [Land] puts it where it
 ## goes. The same world and tile always give the same slot, while what stands there is the same.
@@ -266,7 +266,7 @@ static func build(world: World, cell: Vector2i, land: String) -> Dictionary:
 	return _lay_out(world, cell, land, false, Vector2i(-1, -1), Rect2i())
 
 
-## Lay a tile's ground out. [param open_land]: the land runs on into the next tile ([D76]), so a
+## Lay a tile's ground out. [param open_land]: the land runs on into the next tile ([D83]), so a
 ## side towards walkable country is left open, with its path running right to the edge at the
 ## same point the next tile's path does; only a side towards the sea or a mountain is closed.
 ## [param hub_at] is where the paths meet, when it is not for the ground to choose; nothing grows
