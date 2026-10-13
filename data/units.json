@@ -126,7 +126,7 @@
 		"kind": "raider",
 		"flash_step": 3,
 		"color": "#a33b3b",
-		"sprite_dir": "res://art/units/mace_pirate/idle"
+		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
 	"wolf": {
 		"display_name": "Wolf",
@@ -677,7 +677,7 @@
 		],
 		"kind": "raider",
 		"color": "#b0553c",
-		"sprite_dir": "res://art/units/mace_pirate/idle"
+		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
 	"axe_bear": {
 		"display_name": "Axe Bear",
@@ -812,7 +812,7 @@
 		"kind": "beast",
 		"color": "#a8465a",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/units/blood_mosquito/idle"
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle"
 	},
 	"legion_copper": {
 		"display_name": "Copper Legionnaire",
@@ -1246,7 +1246,7 @@
 		"kind": "wild",
 		"color": "#c8873f",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/units/slime/idle"
+		"sprite_dir": "res://art/tier1/slime/idle"
 	},
 	"blue_slime": {
 		"display_name": "Bog Jelly",
@@ -1422,7 +1422,7 @@
 		"kind": "beast",
 		"flash_step": 4,
 		"color": "#2f2b3a",
-		"sprite_dir": "res://art/units/dusk_shadow/idle"
+		"sprite_dir": "res://art/tier1/dusk_shadow/idle"
 	},
 	"ember_lizard": {
 		"display_name": "Cinder Newt",
