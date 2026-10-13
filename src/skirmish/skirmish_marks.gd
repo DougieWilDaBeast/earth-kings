@@ -22,6 +22,10 @@ const AID_FILL := Color(0.45, 1.0, 0.55, 0.9)
 const BOX_FILL := Color(1.0, 0.86, 0.3, 0.12)
 const STUN := Color(1.0, 0.95, 0.45, 0.95)
 const ITEM_FILL := Color(0.9, 0.55, 0.85, 0.9)
+const MARKED := Color(1.0, 0.8, 0.2, 0.9)
+const WARD := Color(1.0, 0.92, 0.55, 0.7)
+const PLANTED := Color(0.45, 0.85, 0.35, 0.22)
+const PLANTED_EDGE := Color(0.55, 0.95, 0.4, 0.55)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var skirmish: Node2D
@@ -31,10 +35,15 @@ func _draw() -> void:
 	if skirmish == null:
 		return
 	var half := BattleGrid.CELL_SIZE * 0.5
+	_draw_plantings(half)
 	for f: Fighter in skirmish.fighters:
 		if f.fallen:
 			continue
 		var at := f.unit.position
+		if f.marked > 0.0 and f.is_standing():
+			_draw_mark(at + Vector2(0, -half * 1.35))
+		if f.ward > 0 and f.is_standing():
+			draw_arc(at, half * 0.75, 0.0, TAU, 28, WARD, 2.0, true)
 		if skirmish.selected.has(f):
 			draw_arc(at + Vector2(0, half * 0.55), half * 0.62, 0.0, TAU, 28, SELECTED, 2.5, true)
 			_draw_order(f, at)
@@ -133,3 +142,18 @@ func _draw_charge(f: Fighter, at: Vector2) -> void:
 	var shown := int(float(Time.get_ticks_msec()) / 1000.0 / SkirmishFx.frame_time()) % frames.size()
 	var side := SkirmishFx.effect_size()
 	draw_texture_rect(frames[shown], Rect2(at - Vector2(side, side) * 0.5, Vector2(side, side)), false, Color(1, 1, 1, 0.6))
+
+
+## Ceres's plantings ([SkirmishSignatures]): the ground she has grown, tinted green.
+func _draw_plantings(half: float) -> void:
+	var grid: BattleGrid = skirmish.grid
+	for cell: Vector2i in skirmish.signatures.plantings():
+		var rect := Rect2(grid.cell_to_world(cell) - Vector2(half, half), Vector2(half, half) * 2.0)
+		draw_rect(rect, PLANTED)
+		draw_rect(rect.grow(-2.0), PLANTED_EDGE, false, 1.5)
+
+
+## Iris's mark over a foe: a small gold diamond.
+func _draw_mark(at: Vector2) -> void:
+	var points := PackedVector2Array([at + Vector2(0, -5), at + Vector2(5, 0), at + Vector2(0, 5), at + Vector2(-5, 0)])
+	draw_colored_polygon(points, MARKED)

@@ -75,6 +75,7 @@ src/
     skirmish_brain.gd          Targeting and Auto Skill choices, returned as plans
     skirmish_rules.gd          Every timing in seconds; defaults for generated abilities
     skirmish_passives.gd       Passives and enemy roles, read from data/skirmish.json
+    skirmish_signatures.gd     The sixteen's own ways of fighting: bearer, wolf, shades and the rest
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
     skirmish_fx.gd · skirmish_slot.gd     Numbers, flashes and rings; a skill tile's cooldown sweep
   world/                       The continent: the step clock and every site interaction, run out

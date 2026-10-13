@@ -322,10 +322,12 @@ func _inspection(f: Fighter) -> String:
 	var role := f.role_data()
 	if not role.is_empty():
 		lines.append("[color=#ffd27a]%s[/color] — %s" % [role.get("display_name", f.role), role.get("description", "")])
-	if f.passives.is_empty():
+	if f.passives.is_empty() and f.signature.is_empty():
 		lines.append("[color=#7d8594]no passives[/color]")
 	for p: Dictionary in f.passives:
 		lines.append("[color=#c8b6ff]✦ %s[/color] — %s" % [p.get("display_name", p.get("id", "?")), p.get("description", "")])
+	if not f.signature.is_empty():
+		lines.append("[color=#ffd27a]★ %s[/color] — %s" % [f.signature.get("display_name", "?"), f.signature.get("description", "")])
 	return "\n".join(lines)
 
 
@@ -338,11 +340,13 @@ static func energy_bar(f: Fighter) -> String:
 
 
 static func _passive_tooltip(f: Fighter) -> String:
-	if f.passives.is_empty():
+	if f.passives.is_empty() and f.signature.is_empty():
 		return "No passives."
 	var lines: Array[String] = []
 	for p: Dictionary in f.passives:
 		lines.append("%s — %s" % [p.get("display_name", "?"), p.get("description", "")])
+	if not f.signature.is_empty():
+		lines.append("★ %s — %s" % [f.signature.get("display_name", "?"), f.signature.get("description", "")])
 	return "\n".join(lines)
 
 
