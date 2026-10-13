@@ -1226,7 +1226,7 @@
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#3fa6dc",
-		"sprite_dir": "res://art/units/tide_lion/idle"
+		"sprite_dir": "res://art/tier1/tide_lion/idle"
 	},
 	"slime": {
 		"display_name": "Slime",
@@ -1267,7 +1267,7 @@
 		"kind": "wild",
 		"color": "#3f9fe0",
 		"body_scale": 0.7,
-		"sprite_dir": "res://art/units/blue_slime/idle"
+		"sprite_dir": "res://art/tier1/blue_slime/idle"
 	},
 	"king_slime": {
 		"display_name": "The Mother Ooze",
@@ -1511,7 +1511,7 @@
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#e0602f",
-		"sprite_dir": "res://art/units/flame_lion/idle"
+		"sprite_dir": "res://art/tier1/flame_lion/idle"
 	},
 	"peasant": {
 		"display_name": "Freeholder",
