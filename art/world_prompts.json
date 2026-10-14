@@ -210,6 +210,17 @@
 			}
 		}
 	},
+	"walls": {
+		"walls/stone_run": "straight section of a grey stone town wall seen from the front, crenellated battlements along the top, coursed stone blocks, fills the whole width edge to edge",
+		"walls/stone_side": "narrow strip of grey stone town wall walkway seen from above, running vertically, battlements on both edges",
+		"walls/stone_tower": "square grey stone wall tower seen from the front, crenellated top, an arrow slit and a small lit window",
+		"walls/timber_run": "straight section of a wooden palisade town wall seen from the front, upright sharpened logs bound with two rails, fills the whole width edge to edge",
+		"walls/timber_side": "thin vertical strip seen from directly above: the tops of a line of brown wooden palisade logs with sharpened points, light brown wood, single row",
+		"walls/timber_tower": "wooden watch tower of a palisade seen from the front, log walls, small plank roof, lit window",
+		"walls/adobe_run": "plain stretch of tan sandstone mud brick curtain wall, solid wall face of bricks, no door, no gate, no arch, rounded merlons along the top, fills the whole width edge to edge",
+		"walls/adobe_side": "narrow strip of tan mud brick wall walkway seen from above, running vertically, rounded battlements on both edges",
+		"walls/adobe_tower": "tall square tan mud brick desert wall tower seen from the front, much taller than wide, rounded battlements on top, one small lit window"
+	},
 	"rooms": {
 		"interior/amphorae": "cluster of three clay amphorae jars",
 		"interior/axe_rack": "wooden wall rack holding battle axes",

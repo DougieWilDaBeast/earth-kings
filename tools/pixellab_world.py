@@ -7,6 +7,7 @@
     python3 tools/pixellab_world.py all snow dune         ground, then props, land by land
     python3 tools/pixellab_world.py clear snow            make a land's cover and pool see-through where they are floor
     python3 tools/pixellab_world.py rooms                 the furniture of the insides (art request A5)
+    python3 tools/pixellab_world.py walls                 the town walls in three builds (art request A7)
 
 What to draw is written in `art/world_prompts.json`: per land, the four grounds (bare, floor, liquid,
 cover) and one line per prop. A land's three sheets share its floor: the ground sheet is made
@@ -226,9 +227,29 @@ def rooms(only: list[str]) -> None:
                 print("skipped", name, error)
 
 
+def walls(only: list[str]) -> None:
+    """The town walls ([D85], art request A7), seen from the front like the houses. A run or a side is
+    trimmed to what is drawn and stretched to fill its picture, so the pieces meet without a gap."""
+    prompts = json.loads(PROMPTS.read_text(encoding="utf-8"))["walls"]
+    for name, description in prompts.items():
+        if only and name not in only:
+            continue
+        path = ROOT / "art" / "props" / (name + ".png")
+        try:
+            _make(path, description, "low top-down", "walls")
+        except (SystemExit, OSError) as error:
+            print("skipped", name, error)
+            continue
+        if not name.endswith("_tower"):
+            picture = Image.open(path).convert("RGBA")
+            drawn = picture.getbbox()
+            if drawn:
+                picture.crop(drawn).resize(picture.size, Image.NEAREST).save(path)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("what", choices=["ground", "props", "rooms", "clear", "all"])
+    parser.add_argument("what", choices=["ground", "props", "rooms", "walls", "clear", "all"])
     parser.add_argument("lands", nargs="*")
     parser.add_argument("--mode", choices=["pro", "standard"], default="pro",
                         help="ground: pro draws 64s; standard draws 32s, scaled up, for less")
@@ -237,6 +258,8 @@ def main() -> None:
     MODE["mode"] = args.mode
     if args.what == "rooms":
         rooms(args.only)
+    if args.what == "walls":
+        walls(args.only)
     for land in args.lands:
         if args.what in ("ground", "all"):
             ground(land)
