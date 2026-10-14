@@ -12,7 +12,7 @@
 ```
         ┌──────────────────────────────────────────────┐
         │                                              │
-   walk the world  ──▶  something happens  ──▶  grid battle
+   walk the world  ──▶  something happens  ──▶  the fight  
         ▲                                              │
         │                                              ▼
         └────────  grow / bury / carry wounds  ◀────────┘
@@ -27,11 +27,17 @@ milestones instead, with no time pressure. That is planned (M18), not built.
 
 | Where you step             | What happens                                                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Open ground                | A chance of a wild encounter, scaled by how close the nearest open gate is and how far the nearest hearth is |
+| Open ground                | Bands patrol the ground of each tile with the cells they can see painted red; step into the red, or let one walk into view, and the fight opens right there ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md)). How many camp where follows danger: thick near an open gate, quiet near a hearth; who they are follows the land ([D71](06-decisions.md)) |
 | A **gate**                 | Delve it — a run of battles ending in its guardian. Once a floor is won there is no walking out: every step is the next floor, until it is beaten or you are ([D35](06-decisions.md)) |
 | The **Tower**              | Climb — a hundred floors, one battle each, in twenty chapters of five ([D48](06-decisions.md)). Each floor returns you to the world; each chapter moves the world on and seals the stair until you have answered it ([D34](06-decisions.md)) |
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
 | A **village / keep / hut** | Rest and recover; safe ground, encounters go quiet                                                           |
+
+**The tutorial** ([D73](06-decisions.md)–[D75](06-decisions.md)). The first time the game opens with no
+run to continue, the title offers a tour; afterwards its **Tutorial** button. It is a practice run
+in Hearthwick, a training village, guided by a card that moves on as the player does what it asks
+(`data/tutorial.json`), with a sparring pair met on the village ground as its fight. Nothing in it is
+saved, filed or able to die.
 
 ## Characters
 
@@ -49,10 +55,17 @@ length of a fight and thrown away afterwards. The save file remembers Characters
 - **Proficiency.** Landing a move makes that move hit harder (6% a rung), and makes its user better
   with the kind of weapon in their hand — blade, bow, staff or bare hands (4% a rung, on a longer
   ladder). Both are per person, counted on the Practice page.
-- **Classes.** At **level 2** a character takes a main class from the options their template
-  allows. The **player chooses** theirs and the world waits for the answer; everyone else settles
-  into one on their own ([D12](06-decisions.md)). The class supplies stat growth per level, granted
-  abilities, and the _themes_ their generated powers will be drawn from.
+- **Classes.** Twenty-two in `data/classes.json`: each of the sixteen leads starts in a class of
+  their own (`lead`, [D63](06-decisions.md), [D78](06-decisions.md)), and six are open to anyone.
+  At **level 2** a lead may keep their own class or take another ([D64](06-decisions.md)); a companion
+  with none takes one from the options their template allows, the player choosing for the party and
+  the world waiting for the answer; everyone else settles on their own ([D12](06-decisions.md)). The
+  class supplies stat growth per level, granted abilities, the _themes_ their generated powers are
+  drawn from, and a colour (`colour`) the screens draw it in.
+- **Seeing it grow** ([D67](06-decisions.md), [D77](06-decisions.md)). A level gained in a fight
+  flickers gold on whoever gained it, and a line at the top right says so and what is now owed. A
+  path is chosen from class cards, and a power by pressing the glowing stone on its tree's trail, on
+  the party screen. The journal's first page is a sheet for each companion.
 - **Stats** = template base + class growth × (level − 1) + doctrine bonuses + hearth vigour.
 - **The Training Yoke.** An optional stance: −25% attack in exchange for +50% XP. Training
   through self-imposed handicap, as a first-class mechanic.
@@ -226,9 +239,15 @@ Written knowledge, and the sharpest expression of pillar 2.
 
 A generated **128×128** continental map bounded by oceans and severed by lakes and bays. Ground
 comes from radial shore falloff and elevation/damp noise fields, resolving into ocean, lake,
-shallows, sand, grass, meadow, brush, forest, marsh, hill, crag, mountain, and snow. Continental
-geography is divided into named provinces (The Frostpeak Waste, The Heartlands, etc.). Then 48
-sites are scattered across the land, never closer than 9 tiles apart:
+shallows, sand, grass, meadow, brush, forest, marsh, hill, crag, mountain, and snow. Over that the
+continent is in **eighteen lands** ([D66](06-decisions.md), [investigation/09](investigation/09-lands-of-the-continent.md)),
+following its shape (cold north, hot south, a warm wet middle) and what stands near it: a gate
+reshapes the land round it, healing when it is shut. Each land fields its own foes most of the time,
+and a few do something simple — snow, bog and jungle slow the walk, mist and jungle shorten how far
+a band sees, snow, ash and slime wear at the unprepared; the strange lands are rare pockets
+([D71](06-decisions.md), `data/biomes.json`). Continental geography is divided into named provinces
+(The Frostpeak Waste, The Heartlands, etc.). Then 48 sites are scattered across the land, never
+closer than 9 tiles apart:
 
 | Kind    | Count | Role                                                               |
 | ------- | ----- | ------------------------------------------------------------------ |
@@ -240,12 +259,11 @@ sites are scattered across the land, never closer than 9 tiles apart:
 | Gate    | 14    | Ranked dungeons (E → S); deep multi-floor delves                   |
 | Hut     | 10    | Waystations, wild sanctuaries on long roads                        |
 
-**Two views: Continental and Planar.** Pressing **Z** switches between the Continental overview
-and top-down Planar view. All 48 sites have hand-built interiors, and wilderness tiles (forest,
-marsh, hill, desert) open into explorable 30×20 planar regions whose open cardinal edges step
-seamlessly across continental borders. _Decided against_ ([D50](06-decisions.md)): the game is to be
-played in the planar view alone, with the continent as a map that fills in where you have been.
-The one view is planned (M18), not built; the map that fills in is built.
+**One view, and a map** ([D50](06-decisions.md), [D61](06-decisions.md), built 2026-10-12). The game
+is played close up, in the planar view. All 48 sites have hand-built interiors, and every tile of
+open country has a ground of its own, laid out from its land and its neighbours, the same every
+time ([D66](06-decisions.md)); walking off an edge steps to the next tile of the continent. The
+continent itself is a look-only map in the journal (`N`, then `M`), filling in where you have been.
 
 **The explored map** ([D50](06-decisions.md), `src/chronicle/atlas.gd`, built 2026-10-12). The
 continent starts black. Every step, continental or planar, puts the ground within
@@ -338,6 +356,11 @@ energy, and what is written back — is in [18 — The fight](18-combat-directio
   their health (`HEALTH_SCALE`), and wounds carry out as a share.
 - **Flash step** (`flash_step`, from a template or a class) has no real-time form yet: the stat is
   kept, and nothing in the fight uses it.
+- **It is heard** ([D76](06-decisions.md)): swings, shots, hits and criticals, blocks, a spell
+  gathering and going off, heals, stuns, a draught, a fall, and a call for the end, all made in code
+  (`tools/make_fight_sounds.py`) and cued from `data/sfx.json`.
 
-Battlefields for wild encounters and delves are **generated** from the world terrain you were
-standing on; hand-authored maps in `data/maps/` remain for set pieces.
+A band is fought **where it was met**, on that tile's own ground with its trees and water in the
+way and everyone where they stood ([D66](06-decisions.md), [D72](06-decisions.md)). Gates, the Tower
+and other set fights have **generated** battlefields from the terrain; hand-authored maps in
+`data/maps/` remain for set pieces.

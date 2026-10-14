@@ -92,7 +92,7 @@ Walk each one end to end. For **library, hut, gate, tower, home**:
 
 | #   | Do this                                                                                         | Expect                                                                    |
 | --- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| E1  | Move Bram (the Sworn Blade) several tiles                                                       | He **runs** — legs moving — rather than sliding                           |
+| E1  | Move your lead several tiles                                                                    | They **run** — legs moving — rather than sliding                           |
 | E2  | Move him around a corner                                                                        | He turns to face each leg of the path as he takes it, not only at the end |
 | E3  | Move any other unit                                                                             | They slide as before, standing pose, no flicker or blank sprite           |
 | E4  | Reach level 2 and pick a class                                                                  | Skills on the fighter's card in the next fight, not one                   |
@@ -153,10 +153,10 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT31 | Leave Auto Skill on and watch a card's energy pips          | They drain as skills go off; at empty the card says "tired", only basic attacks follow, and skills come back once the pips reach half |
 | RT32 | Fight a pig warlock or legion magus; Shield Bash it mid-cast | Its Pyre or Thunderhead winds up for 2.5–3 s; the bash pops "Interrupted!", stars circle its head and the spell never lands |
 | RT33 | Hurt someone, then click Herbs on their card                | A pink bar fills for 1.5 s while they stand still; a stun pops "steady" instead; then they mend and the count drops |
-| RT34 | Let brigands swing at Bram from the front                   | Now and then "Blocked" and no damage; never from behind |
+| RT34 | Let brigands swing at a shield bearer from the front        | Now and then "Blocked" and no damage; never from behind |
 | RT35 | Press **Q** on the road, let it walk into a fight, then press **Q** mid-fight | "You take the party back."; the fight pauses for your first order and Q did not ready a skill |
 | RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
-| RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with Bram, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
+| RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with a shield bearer, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
 
 ## F — Party menu (**P**)
 
@@ -300,7 +300,7 @@ Start a run (not the tutorial) and walk.
 
 | #   | Do this                                                          | Expect                                                             |
 | --- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| GR1 | Win the first fight of a run                                     | The one who levelled flickers gold where they stand, with a ring and "Level N" rising off them; a small line at the top right says "Bram reached level N" and fades by itself. Nothing covers the fight ([D77](06-decisions.md)) |
+| GR1 | Win the first fight of a run                                     | The one who levelled flickers gold where they stand, with a ring and "Level N" rising off them; a small line at the top right says "<name> reached level N" and fades by itself. Nothing covers the fight ([D77](06-decisions.md)) |
 | GR2 | Reach level 2 with the lead                                      | The line at the top right adds "a path to choose (P)"; P opens the party screen at the choice |
 | GR3 | On the party screen, look at the path cards                      | A card per class in its own colour, with growth bars, its powers' themes and what it starts with; the tabs above are greyed |
 | GR4 | Press **Walk this path**                                         | Chosen in one click; a line at the top right in the class's colour says whose way it is now |
