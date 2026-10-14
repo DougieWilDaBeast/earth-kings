@@ -51,6 +51,9 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
   and their own class ([D78](docs/06-decisions.md)). The other fifteen come down too and can be met
   and recruited. The original twelve (Bram, Sera, Toln and the rest) are story people met in the
   world, each where their backstory puts them ([D79](docs/06-decisions.md)).
+- **The opening** — once you have picked your lead, a new game plays a cinematic of what the game is about: the sixteen, the
+  fall, the Tower, and what happens when you die ([docs/25](docs/25-the-opening.md)). Click or Space
+  moves on a shot, Esc skips it.
 - **Classic or Iron Man** — picked next to the seed when you begin (**Mode**), shown in the menu,
   kept in the save. **Classic** saves by hand from the menu, and the game also saves when you set
   out, when you rest and when a Tower chapter ends. **Iron Man** has no Save or Load button: the game

@@ -1,0 +1,114 @@
+{
+	"_doc": "The opening cinematic, played after New Game once the lead is picked (src/ui/opening.gd, docs/25). Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines. Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
+	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `lead` stands in for the lead who falls when none was picked (the lead picked is the one shown); `party` and `foe` are unit templates in units.json.",
+	"sixteen": ["ares", "atlas", "bellona", "caesar", "cassius", "cato", "ceres", "diana", "iris", "janus", "juno", "liber", "pluto", "saturn", "ultor", "vesta"],
+	"lead": "caesar",
+	"party": ["bram", "sera", "toln", "fox_knight", "dwarf_smith", "element_monk"],
+	"foe": "ogre",
+	"shots": [
+		{
+			"shot": "void",
+			"time": 7.0,
+			"lines": [
+				"Before the worlds, there was a contest.",
+				"Sixteen were chosen for it. Half-gods, each the best there ever was at something."
+			]
+		},
+		{
+			"shot": "sixteen",
+			"time": 7.5,
+			"lines": [
+				"A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.",
+				"Sixteen of them, and each would be given a world."
+			]
+		},
+		{
+			"shot": "worlds",
+			"time": 7.5,
+			"lines": [
+				"Sixteen copies of one Earth were made. In the middle of every one, a Tower.",
+				"Only one of the sixteen worlds will still be there at the end."
+			]
+		},
+		{
+			"shot": "fall",
+			"time": 7.0,
+			"lines": [
+				"Then they were thrown down.",
+				"They fell for a long time, and as they fell, they forgot."
+			]
+		},
+		{
+			"shot": "impact",
+			"time": 7.5,
+			"lines": [
+				"One of them is you.",
+				"You wake at the end of a furrow of burnt ground, with your name and nothing else."
+			]
+		},
+		{
+			"shot": "tower",
+			"time": 7.5,
+			"lines": [
+				"Over everything, the Tower stands. A hundred floors, and something at the top.",
+				"Every chapter you climb gives back a little of who you were."
+			]
+		},
+		{
+			"shot": "living",
+			"time": 8.0,
+			"lines": [
+				"The world will not wait for you.",
+				"Towns trade and quarrel. A gate left alone breaks open. Miss a deadline and someone dies, or someone else is paid."
+			]
+		},
+		{
+			"shot": "road",
+			"time": 7.0,
+			"lines": [
+				"The roads are long. A few silver buys a seat on a carriage, part of the way.",
+				"The road has its own ideas about how far you get."
+			]
+		},
+		{
+			"shot": "company",
+			"time": 7.5,
+			"lines": [
+				"You will not climb it alone. Up to six will walk with you.",
+				"Not all of them will walk back. Here, the dead stay dead."
+			]
+		},
+		{
+			"shot": "fight",
+			"time": 7.0,
+			"lines": [
+				"When it comes to blades, nobody waits their turn.",
+				"Stop the world, look, and choose. Then let it run."
+			]
+		},
+		{
+			"shot": "foe",
+			"time": 6.5,
+			"lines": [
+				"Leave something alive, and it may remember you.",
+				"It may come back wearing the scar you gave it."
+			]
+		},
+		{
+			"shot": "end",
+			"time": 9.0,
+			"lines": [
+				"If you fall, your world ends with you.",
+				"You go on as one of the others, in their world, from the beginning.",
+				"Your weapon falls after you, somewhere. Your ghost waits at the fire."
+			]
+		},
+		{
+			"shot": "title",
+			"time": 6.0,
+			"lines": [
+				"A new standing quest: Ascend to heaven."
+			]
+		}
+	]
+}
