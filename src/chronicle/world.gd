@@ -35,6 +35,10 @@ const LEGEND := {
 const UPKEEP_INTERVAL := 30
 
 var world_seed: int = 0
+## The seed the land itself was shaped from: which land each tile is and how its
+## ground is laid out. The one world (D91) keeps the seed it was frozen from, so
+## its lands are the same every run; 0 means [member world_seed].
+var land_seed: int = 0
 var size: Vector2i = SIZE
 ## One string per row; each character is a [constant LEGEND] symbol.
 var tiles: Array = []
@@ -312,6 +316,11 @@ func _upkeep() -> Array:
 	return notices
 
 
+## The seed the land is drawn from (see [member land_seed]).
+func shape_seed() -> int:
+	return land_seed if land_seed != 0 else world_seed
+
+
 # --- serialisation ------------------------------------------------------------
 
 
@@ -320,6 +329,7 @@ func to_dict() -> Dictionary:
 	Atlas.ensure(self)
 	return {
 		"world_seed": world_seed,
+		"land_seed": land_seed,
 		"size": [size.x, size.y],
 		"tiles": tiles,
 		"sites": sites.map(func(s: Site) -> Dictionary: return s.to_dict()),
@@ -361,6 +371,7 @@ static func _sorted_keys(table: Dictionary) -> Array:
 static func from_dict(payload: Dictionary) -> World:
 	var world := World.new()
 	world.world_seed = int(payload.get("world_seed", 0))
+	world.land_seed = int(payload.get("land_seed", 0))
 	var size_pair: Array = payload.get("size", [SIZE.x, SIZE.y])
 	world.size = Vector2i(int(size_pair[0]), int(size_pair[1]))
 	world.tiles = payload.get("tiles", [])

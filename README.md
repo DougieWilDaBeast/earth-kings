@@ -43,7 +43,7 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 
 ## Playing the vertical slice
 
-- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
+- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ starts a fresh run on the one world, the same map every game ([docs/27](docs/27-the-world.md)).
 - **Classic or Iron Man** — picked next to the seed when you begin (**Mode**), shown in the menu,
   kept in the save. **Classic** saves by hand from the menu, and the game also saves when you set
   out, when you rest and when a Tower chapter ends. **Iron Man** has no Save or Load button: the game

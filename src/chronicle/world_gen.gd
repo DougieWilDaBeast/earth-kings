@@ -1,6 +1,10 @@
 class_name WorldGen
 extends RefCounted
-## Builds a world from a seed: ground first, then the places worth walking to.
+## Builds a world. Every run is played on the one world in `data/world_map.json`
+## (D91, D92): the same land and the same places every game, improved by hand. The
+## seed still deals everything else: where you land, who you meet, what happens.
+## [method generate_random] is the generator that world was first made with, kept
+## for `tools/bake_world.tscn` and for worlds of another size.
 
 const NAME_PREFIX := ["Grey", "Hollow", "Ash", "Wither", "Bright", "Storm", "Cold", "Elder", "Fen", "Mourn"]
 const NAME_SUFFIX := ["water", "ford", "reach", "hold", "march", "gate", "barrow", "vale", "run", "spire"]
@@ -41,6 +45,30 @@ const COUNTS := {
 
 
 static func generate(world_seed: int, custom_size: Vector2i = Vector2i.ZERO) -> World:
+	var authored: Dictionary = Database.world_map
+	if custom_size == Vector2i.ZERO and not (authored.get("tiles", []) as Array).is_empty():
+		return from_map(authored, world_seed)
+	return generate_random(world_seed, custom_size)
+
+
+## The one world, from `data/world_map.json`, dealt for this run's [param world_seed].
+## Every place is copied, so nothing a run does is written back into the map.
+static func from_map(map: Dictionary, world_seed: int) -> World:
+	var world := World.new()
+	world.world_seed = world_seed
+	world.land_seed = int(map.get("from_seed", 0))
+	world.rng.seed = world_seed
+	var pair: Array = map.get("size", [World.SIZE.x, World.SIZE.y])
+	world.size = Vector2i(int(pair[0]), int(pair[1]))
+	world.tiles = (map.get("tiles", []) as Array).duplicate()
+	for entry: Dictionary in map.get("sites", []):
+		world.sites.append(Site.from_dict(entry.duplicate(true)))
+	world.player_cell = _starting_cell(world)
+	return world
+
+
+## A world made from nothing but a seed: the generator the one world came from.
+static func generate_random(world_seed: int, custom_size: Vector2i = Vector2i.ZERO) -> World:
 	var world := World.new()
 	world.world_seed = world_seed
 	world.rng.seed = world_seed

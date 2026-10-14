@@ -423,6 +423,14 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 - Laid out by `tools/build_interiors.py`, which keeps the room's people, spots and chests and checks
   every one can be reached; `tools/dress_areas.py` leaves these rooms alone.
 
+## `world_map.json` — the one world ([D91](06-decisions.md), [D92](06-decisions.md))
+
+Every run is played on this map; a run copies it and never writes back. `size` is `[128, 128]`;
+`tiles` is one string a row, each character a symbol from `World.LEGEND`; `sites` is every place,
+as a save writes a site (`kind`, `cell`, `display_name`, `rank`, `open`, `data`); `from_seed` is
+the seed the lands and the ground inside each tile are drawn from. How to change it, and what the
+run's seed still deals, is [27](27-the-world.md).
+
 ## `biomes.json` — the lands, and how each one's ground is laid out
 
 ```json

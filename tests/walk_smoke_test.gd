@@ -1443,6 +1443,10 @@ func _check_fall() -> void:
 		return
 
 	var hero_id := str(settled["id"])
+	# A power waiting to be taken is asked about first; this check is about who is
+	# standing here, so the walk so far is not allowed to have earned one.
+	for member: Character in GameState.roster.party_members():
+		member.rungs = 0
 	world.player_cell = site.cell
 	var told := Wanderers.on_arrive(world, site)
 	_expect(not told.is_empty(), "standing beside %s, nobody saw them" % hero_id)

@@ -1,0 +1,614 @@
+{
+ "Food and herbs": [
+  {
+   "name": "Apple",
+   "stats": "mends 10",
+   "old": 12,
+   "new": 8,
+   "coins": "8b",
+   "why": "everyday food is pocket change"
+  },
+  {
+   "name": "Loaf",
+   "stats": "mends 14",
+   "old": 20,
+   "new": 20,
+   "coins": "20b",
+   "why": ""
+  },
+  {
+   "name": "Flask of Ale",
+   "stats": "mends 16",
+   "old": 26,
+   "new": 30,
+   "coins": "30b",
+   "why": ""
+  },
+  {
+   "name": "Hard Cheese",
+   "stats": "mends 18",
+   "old": 28,
+   "new": 40,
+   "coins": "40b",
+   "why": "keeps for a month"
+  },
+  {
+   "name": "Bitter Herbs",
+   "stats": "mends 24",
+   "old": 45,
+   "new": 150,
+   "coins": "1s 50b",
+   "why": "the cheapest real medicine"
+  }
+ ],
+ "Draughts": [
+  {
+   "name": "Red Draught",
+   "stats": "mends 40",
+   "old": 95,
+   "new": 2000,
+   "coins": "20s",
+   "why": "the common one: a fight's loot buys about one"
+  },
+  {
+   "name": "Blue Draught",
+   "stats": "mends 65",
+   "old": 170,
+   "new": 4500,
+   "coins": "45s",
+   "why": ""
+  },
+  {
+   "name": "Green Draught",
+   "stats": "mends 90",
+   "old": 280,
+   "new": 8000,
+   "coins": "80s",
+   "why": ""
+  },
+  {
+   "name": "Amber Draught",
+   "stats": "mends 140",
+   "old": 460,
+   "new": 16000,
+   "coins": "1g 60s",
+   "why": "the first thing that costs gold"
+  }
+ ],
+ "Blades": [
+  {
+   "name": "Iron Blade",
+   "stats": "attack 3",
+   "old": 90,
+   "new": 2000,
+   "coins": "20s",
+   "why": ""
+  },
+  {
+   "name": "Steel Blade",
+   "stats": "attack 6",
+   "old": 210,
+   "new": 5500,
+   "coins": "55s",
+   "why": ""
+  },
+  {
+   "name": "Silver Blade",
+   "stats": "attack 8, defence 1",
+   "old": 380,
+   "new": 10000,
+   "coins": "1g",
+   "why": ""
+  },
+  {
+   "name": "Thorn Blade",
+   "stats": "attack 10",
+   "old": 540,
+   "new": 14000,
+   "coins": "1g 40s",
+   "why": ""
+  },
+  {
+   "name": "Ember Blade",
+   "stats": "attack 11",
+   "old": 620,
+   "new": 17000,
+   "coins": "1g 70s",
+   "why": ""
+  },
+  {
+   "name": "Rune Blade",
+   "stats": "attack 9, defence 2",
+   "old": 700,
+   "new": 20000,
+   "coins": "2g",
+   "why": ""
+  },
+  {
+   "name": "Gilt Blade",
+   "stats": "attack 12, defence 1",
+   "old": 820,
+   "new": 25000,
+   "coins": "2g 50s",
+   "why": ""
+  },
+  {
+   "name": "Storm Blade",
+   "stats": "attack 13",
+   "old": 950,
+   "new": 30000,
+   "coins": "3g",
+   "why": "the best blade a shop sells"
+  }
+ ],
+ "Bows": [
+  {
+   "name": "Hunting Bow",
+   "stats": "attack 4",
+   "old": 120,
+   "new": 2800,
+   "coins": "28s",
+   "why": ""
+  },
+  {
+   "name": "Horn Bow",
+   "stats": "attack 7",
+   "old": 300,
+   "new": 7500,
+   "coins": "75s",
+   "why": ""
+  },
+  {
+   "name": "Yew Longbow",
+   "stats": "attack 11",
+   "old": 660,
+   "new": 18000,
+   "coins": "1g 80s",
+   "why": ""
+  }
+ ],
+ "Staffs": [
+  {
+   "name": "Orrery Staff",
+   "stats": "attack 5, defence 1",
+   "old": 180,
+   "new": 4000,
+   "coins": "40s",
+   "why": ""
+  },
+  {
+   "name": "Lantern Staff",
+   "stats": "attack 6, defence 2",
+   "old": 290,
+   "new": 7000,
+   "coins": "70s",
+   "why": ""
+  },
+  {
+   "name": "Skull Staff",
+   "stats": "attack 9",
+   "old": 470,
+   "new": 12000,
+   "coins": "1g 20s",
+   "why": ""
+  },
+  {
+   "name": "Frost Staff",
+   "stats": "attack 10, defence 1",
+   "old": 610,
+   "new": 16000,
+   "coins": "1g 60s",
+   "why": ""
+  },
+  {
+   "name": "Comet Staff",
+   "stats": "attack 13",
+   "old": 880,
+   "new": 28000,
+   "coins": "2g 80s",
+   "why": ""
+  }
+ ],
+ "Armour": [
+  {
+   "name": "Padded Coat",
+   "stats": "defence 3",
+   "old": 80,
+   "new": 1800,
+   "coins": "18s",
+   "why": ""
+  },
+  {
+   "name": "Owl Helm",
+   "stats": "defence 4",
+   "old": 160,
+   "new": 4000,
+   "coins": "40s",
+   "why": ""
+  },
+  {
+   "name": "Bark Harness",
+   "stats": "defence 5",
+   "old": 200,
+   "new": 5000,
+   "coins": "50s",
+   "why": ""
+  },
+  {
+   "name": "Scale Shirt",
+   "stats": "defence 6",
+   "old": 240,
+   "new": 6000,
+   "coins": "60s",
+   "why": ""
+  },
+  {
+   "name": "Feather Mail",
+   "stats": "defence 7",
+   "old": 400,
+   "new": 10000,
+   "coins": "1g",
+   "why": ""
+  },
+  {
+   "name": "Filigree Plate",
+   "stats": "defence 9",
+   "old": 520,
+   "new": 14000,
+   "coins": "1g 40s",
+   "why": ""
+  },
+  {
+   "name": "Halo Robe",
+   "stats": "attack 2, defence 8",
+   "old": 690,
+   "new": 19000,
+   "coins": "1g 90s",
+   "why": ""
+  },
+  {
+   "name": "Gilded Plate",
+   "stats": "attack 1, defence 12",
+   "old": 780,
+   "new": 24000,
+   "coins": "2g 40s",
+   "why": "the best armour a shop sells"
+  }
+ ],
+ "Home": [
+  {
+   "name": "A rope cot",
+   "where": "world_rules.home.beds",
+   "old": 200,
+   "new": 5000,
+   "coins": "50s",
+   "why": ""
+  },
+  {
+   "name": "A feather bed",
+   "where": "world_rules.home.beds",
+   "old": 550,
+   "new": 15000,
+   "coins": "1g 50s",
+   "why": ""
+  },
+  {
+   "name": "An eiderdown bed",
+   "where": "world_rules.home.beds",
+   "old": 1300,
+   "new": 40000,
+   "coins": "4g",
+   "why": ""
+  },
+  {
+   "name": "A canopied bed",
+   "where": "world_rules.home.beds",
+   "old": 2800,
+   "new": 90000,
+   "coins": "9g",
+   "why": "the dearest thing in the game; platinum is left for property later"
+  }
+ ],
+ "Services": [
+  {
+   "name": "Hire a companion",
+   "where": "world_rules.recruit.cost_base",
+   "old": 70,
+   "new": 2000,
+   "coins": "20s",
+   "why": "plus the line below for each level"
+  },
+  {
+   "name": "\u2026 for each level",
+   "where": "world_rules.recruit.cost_per_level",
+   "old": 35,
+   "new": 1000,
+   "coins": "10s",
+   "why": ""
+  },
+  {
+   "name": "Ransom a captive",
+   "where": "world_rules.captive.ransom_base",
+   "old": 120,
+   "new": 3000,
+   "coins": "30s",
+   "why": "plus the line below for each level"
+  },
+  {
+   "name": "\u2026 for each level",
+   "where": "world_rules.captive.ransom_per_level",
+   "old": 25,
+   "new": 600,
+   "coins": "6s",
+   "why": ""
+  },
+  {
+   "name": "A Guild map",
+   "where": "guild.map.price",
+   "old": 50,
+   "new": 1200,
+   "coins": "12s",
+   "why": ""
+  },
+  {
+   "name": "A grimoire",
+   "where": "grimoires.price_base",
+   "old": 90,
+   "new": 2500,
+   "coins": "25s",
+   "why": "plus up to the line below"
+  },
+  {
+   "name": "\u2026 up to",
+   "where": "grimoires.price_spread",
+   "old": 70,
+   "new": 2000,
+   "coins": "20s",
+   "why": ""
+  },
+  {
+   "name": "A round for the room",
+   "where": "dialogue/the_innkeeper",
+   "old": 40,
+   "new": 1000,
+   "coins": "10s",
+   "why": ""
+  },
+  {
+   "name": "A drink at the inn",
+   "where": "dialogue/the_innkeeper",
+   "old": 20,
+   "new": 200,
+   "coins": "2s",
+   "why": "the line already says \"Two silver\""
+  },
+  {
+   "name": "A carriage, one leg",
+   "where": "new (agenda item 60)",
+   "old": null,
+   "new": 600,
+   "coins": "6s",
+   "why": "proposed; nothing to ride yet"
+  }
+ ],
+ "What you earn": [
+  {
+   "name": "Starting purse",
+   "where": "GameState.DEFAULT_GOLD",
+   "old": 250,
+   "new": 6000,
+   "coins": "60s",
+   "why": "three iron blades, or a blade, a coat and some herbs"
+  },
+  {
+   "name": "Loot from a fight",
+   "where": "world_rules.loot.gold_base",
+   "old": 40,
+   "new": 1000,
+   "coins": "10s",
+   "why": "plus up to the line below"
+  },
+  {
+   "name": "\u2026 up to",
+   "where": "world_rules.loot.gold_spread",
+   "old": 60,
+   "new": 1500,
+   "coins": "15s",
+   "why": ""
+  },
+  {
+   "name": "Each Tower floor",
+   "where": "world_rules.tower.gold_per_floor",
+   "old": 60,
+   "new": 1500,
+   "coins": "15s",
+   "why": ""
+  },
+  {
+   "name": "Defending a town",
+   "where": "world_rules.town.defence_reward",
+   "old": 160,
+   "new": 4000,
+   "coins": "40s",
+   "why": ""
+  },
+  {
+   "name": "Guild contract",
+   "where": "guild.contract.gold_base",
+   "old": 60,
+   "new": 1500,
+   "coins": "15s",
+   "why": "plus the line below for each rank"
+  },
+  {
+   "name": "\u2026 for each rank",
+   "where": "guild.contract.gold_per_rank",
+   "old": 90,
+   "new": 2500,
+   "coins": "25s",
+   "why": ""
+  },
+  {
+   "name": "A muster won",
+   "where": "guild.muster.gold",
+   "old": 240,
+   "new": 6000,
+   "coins": "60s",
+   "why": ""
+  },
+  {
+   "name": "An errand",
+   "where": "errands.reward_base",
+   "old": 40,
+   "new": 1000,
+   "coins": "10s",
+   "why": "plus the line below for each tile away"
+  },
+  {
+   "name": "\u2026 for each tile away",
+   "where": "errands.reward_per_distance",
+   "old": 3,
+   "new": 75,
+   "coins": "75b",
+   "why": ""
+  },
+  {
+   "name": "A cull, for each head",
+   "where": "errands.cull_reward_per_head",
+   "old": 30,
+   "new": 800,
+   "coins": "8s",
+   "why": ""
+  },
+  {
+   "name": "A bounty",
+   "where": "errands.bounty_reward",
+   "old": 130,
+   "new": 3500,
+   "coins": "35s",
+   "why": ""
+  },
+  {
+   "name": "A purse found on the road",
+   "where": "roadside.purse_base",
+   "old": 55,
+   "new": 1400,
+   "coins": "14s",
+   "why": "plus the line below for each level"
+  },
+  {
+   "name": "\u2026 for each level",
+   "where": "roadside.purse_per_level",
+   "old": 22,
+   "new": 550,
+   "coins": "5s 50b",
+   "why": ""
+  },
+  {
+   "name": "A delivery",
+   "where": "roadside.delivery_base",
+   "old": 90,
+   "new": 2250,
+   "coins": "22s 50b",
+   "why": "plus the line below for each level"
+  },
+  {
+   "name": "\u2026 for each level",
+   "where": "roadside.delivery_per_level",
+   "old": 30,
+   "new": 750,
+   "coins": "7s 50b",
+   "why": ""
+  },
+  {
+   "name": "A trade route, each rest",
+   "where": "roadside.route_pay",
+   "old": 18,
+   "new": 450,
+   "coins": "4s 50b",
+   "why": ""
+  },
+  {
+   "name": "A debt repaid (thread)",
+   "where": "threads.the_debt",
+   "old": 60,
+   "new": 1500,
+   "coins": "15s",
+   "why": ""
+  },
+  {
+   "name": "Chests",
+   "where": "data/areas/*.json",
+   "old": null,
+   "new": null,
+   "coins": "",
+   "why": "each chest's gold \u00d7 25 bronze, rounded to 5 silver: today 45\u2013460, so 11s\u20131g 15s"
+  }
+ ],
+ "Asked for in conversation": [
+  {
+   "name": "The shore idiot",
+   "where": "dialogue/shore_idiot",
+   "old": 5,
+   "new": 100,
+   "coins": "1s",
+   "why": ""
+  },
+  {
+   "name": "The well child",
+   "where": "dialogue/well_child",
+   "old": 10,
+   "new": 250,
+   "coins": "2s 50b",
+   "why": ""
+  },
+  {
+   "name": "The pine sellsword",
+   "where": "dialogue/pine_sellsword",
+   "old": 15,
+   "new": 400,
+   "coins": "4s",
+   "why": ""
+  },
+  {
+   "name": "The fen fowler",
+   "where": "dialogue/fen_fowler",
+   "old": 20,
+   "new": 500,
+   "coins": "5s",
+   "why": ""
+  },
+  {
+   "name": "The fen wizard",
+   "where": "dialogue/fen_wizard",
+   "old": 25,
+   "new": 600,
+   "coins": "6s",
+   "why": ""
+  },
+  {
+   "name": "The keep watchman",
+   "where": "dialogue/keep_watchman",
+   "old": 30,
+   "new": 800,
+   "coins": "8s",
+   "why": ""
+  },
+  {
+   "name": "The village steward",
+   "where": "dialogue/village_steward",
+   "old": 60,
+   "new": 1500,
+   "coins": "15s",
+   "why": ""
+  },
+  {
+   "name": "The chief",
+   "where": "dialogue/the_chief",
+   "old": 100,
+   "new": 2500,
+   "coins": "25s",
+   "why": ""
+  }
+ ]
+}
