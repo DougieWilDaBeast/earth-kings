@@ -191,6 +191,28 @@
 		"body_scale": 1.6,
 		"sprite_dir": "res://art/tier1/club_ogre/idle"
 	},
+	"sky": {
+		"display_name": "Sky",
+		"job": "Wild",
+		"max_hp": 78,
+		"attack": 16,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"strike",
+			"crush",
+			"earthshake"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7f8f6a",
+		"body_scale": 1.5,
+		"sprite_dir": "res://art/big/sky/idle"
+	},
 	"wraith": {
 		"display_name": "Wraith",
 		"job": "Wild",

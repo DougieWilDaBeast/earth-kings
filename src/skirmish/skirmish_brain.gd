@@ -26,7 +26,7 @@ static func pick_target(fighter: Fighter, fighters: Array[Fighter], reach: int =
 	var best: Unit = null
 	var best_score := INF
 	for other in fighters:
-		if not other.is_standing() or not other.unit.is_hostile_to(fighter.unit):
+		if not other.targetable() or not other.unit.is_hostile_to(fighter.unit):
 			continue
 		var distance := Pathfinder.distance(fighter.unit.cell, other.unit.cell)
 		if reach >= 0 and distance > reach:
@@ -75,14 +75,14 @@ static func _skill_target(fighter: Fighter, ability: Dictionary, fighters: Array
 	# A stun is kept for somebody winding up a spell, where it breaks the cast (D59).
 	if float(ability.get("stun", 0.0)) > 0.0:
 		for other in fighters:
-			if other.is_casting() and _in_reach(me, ability, other.unit, fighters):
+			if other.is_casting() and other.aboard == null and _in_reach(me, ability, other.unit, fighters):
 				return other.unit
 		return null
 	# Offence: the current target if the skill reaches it, else anyone it does.
 	if fighter.target != null and _in_reach(me, ability, fighter.target, fighters):
 		return fighter.target
 	for other in fighters:
-		if other.is_standing() and _in_reach(me, ability, other.unit, fighters):
+		if other.targetable() and _in_reach(me, ability, other.unit, fighters):
 			return other.unit
 	return null
 
@@ -95,5 +95,5 @@ static func _in_reach(me: Unit, ability: Dictionary, who: Unit, fighters: Array[
 static func _standing(who: Unit, fighters: Array[Fighter]) -> bool:
 	for other in fighters:
 		if other.unit == who:
-			return other.is_standing()
+			return other.targetable()
 	return false

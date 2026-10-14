@@ -53,10 +53,42 @@ func muster() -> void:
 					f.sig["bearer"] = bearer
 					# It carries; it does not wander off after a fight of its own.
 					bearer.hold = true
+					_mount(f, bearer)
 			"beast_bond":
 				var beast := _companion(f, str(f.signature.get("beast", "")), str(f.signature.get("beast_name", "")))
 				if beast != null:
 					f.sig["beast"] = beast
+
+
+## Atlas rides on his bearer's back (D88): one body on the field, drawn as the mount
+## with him in the saddle, until the mount falls and throws him.
+func _mount(rider: Fighter, mount: Fighter) -> void:
+	rider.aboard = mount
+	rider.unit.cell = mount.unit.cell
+	rider.unit.position = mount.unit.position
+	rider.unit.visible = false
+
+
+func _dismount(rider: Fighter) -> void:
+	var mount := rider.aboard as Fighter
+	rider.aboard = null
+	var none: Array[Vector2i] = []
+	var cell: Vector2i = fight._free_cell_near(mount.unit.cell, none, rider)
+	rider.unit.cell = cell
+	rider.unit.position = fight.grid.cell_to_world(cell)
+	rider.unit.visible = true
+	fight.fx.popup("Thrown", rider.unit.position, SkirmishFx.HURT, 14, 1.4)
+	fight._say("%s is thrown from %s's back." % [rider.unit.display_name, mount.unit.display_name])
+
+
+## The fighter a click on [param f] means: the rider, when it is a mount with one aboard.
+func rider_of(f: Fighter) -> Fighter:
+	if f == null:
+		return null
+	for other: Fighter in fight.fighters:
+		if other.aboard == f:
+			return other
+	return f
 
 
 ## A companion at [param owner]'s level, on the nearest free tile beside them.
@@ -110,6 +142,13 @@ func flush() -> void:
 ## and whatever the signature does on a clock.
 func tick(f: Fighter) -> void:
 	var t := SkirmishRules.TICK
+	var mount := f.aboard as Fighter
+	if mount != null:
+		if mount.is_standing():
+			f.unit.cell = mount.unit.cell
+			f.unit.facing = mount.unit.facing
+		else:
+			_dismount(f)
 	for key: String in f.boosts.keys():
 		var boost: Array = f.boosts[key]
 		boost[1] = float(boost[1]) - t
@@ -277,18 +316,23 @@ func item_scale(f: Fighter, thrower: Fighter) -> float:
 # --- moving --------------------------------------------------------------------
 
 
-## Atlas has no step of his own: with no bearer standing he stays put.
+## Atlas has no step of his own (D88). On his mount's back he goes where it goes; thrown,
+## he moves only while a friend stands beside him to help him along.
 func can_step(f: Fighter) -> bool:
 	# With no room to bring a bearer in at all, he walks rather than stands all fight.
 	if style(f) != "borne" or not f.sig.has("bearer"):
 		return true
-	var bearer: Fighter = f.sig.get("bearer")
-	if bearer.is_standing():
+	if f.aboard != null:
 		return true
+	for other: Fighter in fight.fighters:
+		if other != f and other.targetable() and not other.unit.is_hostile_to(f.unit) \
+				and Pathfinder.distance(other.unit.cell, f.unit.cell) <= 1:
+			f.sig.erase("stranded")
+			return true
 	if not bool(f.sig.get("stranded", false)):
 		f.sig["stranded"] = true
 		fight.fx.popup("Stranded", f.unit.position, SkirmishFx.HURT, 14, 1.4)
-		fight._say("%s has nobody to carry him." % f.unit.display_name)
+		fight._say("%s has nobody to help him along." % f.unit.display_name)
 	return false
 
 
