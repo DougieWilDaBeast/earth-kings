@@ -305,6 +305,8 @@ func _step(direction: Vector2i) -> void:
 
 	var was_at_the_tower := _standing_at_the_tower()
 	var prior_region := world.region_at(world.player_cell)
+	# Asked before the step: arriving can move the objective on (a town stood in).
+	var goal := AutoRoad.objective(world) if Pace.auto else {}
 	# Leaving the tile you were offered something on is how you turn it down.
 	if _roadside_here != "":
 		for line: String in Roadside.walk_by(world, world.player_cell, _roadside_here):
@@ -347,12 +349,22 @@ func _step(direction: Vector2i) -> void:
 		_check_wild_exploration(target)
 	_watch_check(target)
 	_look_down_the_road(target)
+	_hand_back_at(goal, target)
 	_check_party()
 	_refresh()
 	EventBus.tip_moment.emit("step", {
 		"danger": Encounter.chance_at(world, target), "steps": world.steps,
 		"season_turned": Season.just_turned(world.steps),
 	})
+
+
+## A party walking itself to the objective stops there and hands the player
+## back the reins, where nothing starts by itself (a town; an errand's end).
+func _hand_back_at(goal: Dictionary, cell: Vector2i) -> void:
+	if not Pace.auto or goal.is_empty() or not bool(goal.get("stop", false)) or goal["cell"] != cell:
+		return
+	Pace.auto = false
+	_note("You have reached %s. %s to walk on by yourself." % [goal["label"], _key("battle_auto")])
 
 
 ## Somebody else's fight, in front of you, that you did not cause and do not
@@ -688,6 +700,8 @@ func _celebrate_tower_conquest() -> void:
 
 func _arrive_at(site: Site) -> void:
 	Ledger.record_place(GameState.ledger, site.display_name)
+	if Town.is_settlement(site) and site.kind != Site.HUT and not Town.is_ruined(site):
+		GameState.set_flag(AutoRoad.TOWN_REACHED)
 	# Word travels by the name people gave you, not the one you gave them.
 	_note(Renown.greeting(world, site.cell, Names.known_as(world, GameState.roster.player().display_name)))
 	match site.kind:
@@ -2380,6 +2394,12 @@ func _draw_errand_marks() -> void:
 		var target_cell := Vector2i(int(pair[0]), int(pair[1]))
 		var target_pos := Vector2(target_cell) * CELL + Vector2.ONE * CELL * 0.5
 		_draw_quest_path_and_beacon(party_pos, target_pos, Color(1.0, 0.88, 0.35, 0.9), "ERRAND")
+	# The First Hour's objective (D95), where the compass points, unless an errand above is it.
+	var goal := AutoRoad.objective(world)
+	if not goal.is_empty() and not GameState.errands.any(func(errand: Dictionary) -> bool:
+			return AutoRoad.cell_of(errand.get("to", [])) == goal["cell"]):
+		var goal_pos := Vector2(goal["cell"]) * CELL + Vector2.ONE * CELL * 0.5
+		_draw_quest_path_and_beacon(party_pos, goal_pos, Color(0.95, 0.42, 0.3, 0.9), "OBJECTIVE")
 
 
 ## Active quest markers, escort trails, and landmarks of interest on the continent.

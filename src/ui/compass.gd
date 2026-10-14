@@ -1,0 +1,55 @@
+extends Control
+## The compass on the ground (D95): N, E, S and W round a ring, a needle
+## pointing at the objective, and what the objective is and how many tiles off.
+## It is told where to point (`point`); it works nothing out for itself.
+##
+## Loaded by path, not by `class_name` ([D41]).
+
+const RADIUS := 26.0
+const RING := Color(0.98, 0.86, 0.52, 0.85)
+const FACE := Color(0.06, 0.06, 0.09, 0.72)
+const NEEDLE := Color(0.95, 0.42, 0.3)
+const LETTERS := Color(0.9, 0.9, 0.94)
+
+var _bearing := Vector2.ZERO
+var _label: Label
+
+
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	custom_minimum_size = Vector2(RADIUS * 2.0 + 8.0, RADIUS * 2.0 + 8.0)
+	size = custom_minimum_size
+	_label = Label.new()
+	_label.position = Vector2(RADIUS * 2.0 + 14.0, RADIUS - 11.0)
+	_label.add_theme_font_size_override("font_size", 15)
+	_label.add_theme_color_override("font_color", RING)
+	_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_label.add_theme_constant_override("outline_size", 4)
+	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_label)
+
+
+## Point at [param bearing] (screen-space: x east, y south), naming [param what],
+## [param tiles] away. Zero tiles is standing on it.
+func point(bearing: Vector2, what: String, tiles: int) -> void:
+	_bearing = bearing
+	_label.text = what if tiles <= 0 else "%s  ·  %d %s" % [what, tiles, "tile" if tiles == 1 else "tiles"]
+	queue_redraw()
+
+
+func _draw() -> void:
+	var centre := Vector2(RADIUS + 4.0, RADIUS + 4.0)
+	draw_circle(centre, RADIUS, FACE)
+	draw_arc(centre, RADIUS, 0.0, TAU, 40, RING, 2.0, true)
+	var font := get_theme_default_font()
+	for each: Array in [["N", Vector2.UP], ["E", Vector2.RIGHT], ["S", Vector2.DOWN], ["W", Vector2.LEFT]]:
+		var at: Vector2 = centre + (each[1] as Vector2) * (RADIUS - 8.0)
+		draw_string(font, at + Vector2(-4.0, 5.0), str(each[0]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, LETTERS)
+	if _bearing.length() < 0.01:
+		draw_circle(centre, 4.0, NEEDLE)
+		return
+	var way := _bearing.normalized()
+	var side := Vector2(-way.y, way.x)
+	var tip := centre + way * (RADIUS - 3.0)
+	draw_colored_polygon(PackedVector2Array([tip, centre + side * 5.0, centre - side * 5.0]), NEEDLE)
+	draw_circle(centre, 3.0, RING)
