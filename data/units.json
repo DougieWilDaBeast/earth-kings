@@ -345,7 +345,7 @@
 		"kind": "default",
 		"color": "#8fa3b8",
 		"body_scale": 1.25,
-		"sprite_dir": "res://art/units/turret_cannon/idle"
+		"sprite_dir": "res://art/big/turret_cannon/idle"
 	},
 	"ember_duelist": {
 		"display_name": "Duelist",
@@ -438,7 +438,7 @@
 		"kind": "beast",
 		"color": "#8fb6cc",
 		"body_scale": 1.35,
-		"sprite_dir": "res://art/units/frozen_wolfman/idle"
+		"sprite_dir": "res://art/big/frozen_wolfman/idle"
 	},
 	"devil_butler": {
 		"display_name": "The Butler",
@@ -590,7 +590,7 @@
 		],
 		"kind": "soldier",
 		"color": "#8f8a9c",
-		"sprite_dir": "res://art/units/magic_swordsman/idle"
+		"sprite_dir": "res://art/tier1/magic_swordsman/idle"
 	},
 	"guild_clerk": {
 		"display_name": "Guild Clerk",
@@ -1240,7 +1240,7 @@
 		"flash_step": 2,
 		"color": "#3a3a44",
 		"body_scale": 1.3,
-		"sprite_dir": "res://art/units/sword_bear/idle"
+		"sprite_dir": "res://art/big/sword_bear/idle"
 	},
 	"cannon_bear": {
 		"display_name": "Cannon Bear",
@@ -1263,7 +1263,7 @@
 		"kind": "beast",
 		"color": "#dfe6ec",
 		"body_scale": 1.3,
-		"sprite_dir": "res://art/units/cannon_bear/idle"
+		"sprite_dir": "res://art/big/cannon_bear/idle"
 	},
 	"avatar_adept": {
 		"display_name": "The Adept",
@@ -1791,7 +1791,7 @@
 		"kind": "beast",
 		"color": "#8a6440",
 		"body_scale": 2.2,
-		"sprite_dir": "res://art/units/beast_titan/idle"
+		"sprite_dir": "res://art/big/beast_titan/idle"
 	},
 	"colossal_titan": {
 		"display_name": "The Cinder Colossus",
@@ -1815,7 +1815,7 @@
 		"kind": "beast",
 		"color": "#c0503f",
 		"body_scale": 2.6,
-		"sprite_dir": "res://art/units/colossal_titan/idle"
+		"sprite_dir": "res://art/big/colossal_titan/idle"
 	},
 	"atlas": {
 		"display_name": "Atlas",
