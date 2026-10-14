@@ -33,7 +33,7 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_out_dir))
 	get_window().size = Vector2i(1600, 900)
 	await get_tree().process_frame
-	GameState.new_game(20260829, "bram")
+	GameState.new_game(20260829, "atlas")
 	add_child(load("res://src/ui/cutscene_layer.tscn").instantiate())
 	if _talk != "":
 		add_child(load("res://src/dialogue/dialogue_box.tscn").instantiate())

@@ -106,6 +106,19 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 
 ### Next steps, in order
 
+**The First Hour comes first** ([D95](06-decisions.md), 2026-10-14). Until it plays end to end
+(crater, the Tower's city, the Guild, the first rank-E gate, Tower floors 1 to 5, chapter one's
+memory), nothing new is started, and the list below waits behind it. Order of work, one pull request
+each, each ending playable:
+1. The suites and the soak play one of the sixteen (Atlas) — built.
+2. Quick fixes: one message at a time at the landing, walk hints gone after the tutorial, the
+   crash site's furniture, draw order, rock collision, the Tower's tile, ground shimmer — planned.
+3. M opens the map, a compass points at the objective, Auto walks there — planned.
+4. Fights where they are met, opening running — planned.
+5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
+6. Tower floors 1 to 5, walkable — planned.
+7. Atlas's chapter-one memory — planned.
+
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
 ([D65](06-decisions.md)), and the early game's units play their moves in a fight. `dougie`'s

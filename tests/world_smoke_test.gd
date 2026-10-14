@@ -10,6 +10,7 @@ extends Node
 const SEED := 20260827
 
 const CheckFilter := preload("res://tests/check_filter.gd")
+const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
@@ -140,7 +141,7 @@ func _check_world(world: World) -> void:
 
 
 func _grow_a_hero(world: World) -> Character:
-	var hero := Character.create("bram", "", true)
+	var hero := Character.create("atlas", "", true)
 	Progression.raise_to(hero, 12, world)
 	print("")
 	print("%s — level %d %s, hp %d, atk %d, def %d, spd %d" % [
@@ -164,8 +165,8 @@ func _grow_a_hero(world: World) -> Character:
 ## are told they do: once their paths are walked to the end, another opens.
 func _check_powers_never_run_dry(world: World) -> void:
 	var kept_state := world.rng.state
-	var lead := Character.create("bram", "", true)
-	lead.class_id = Database.own_class("bram") if Database.own_class("bram") != "" else "sworn_blade"
+	var lead := Character.create("atlas", "", true)
+	lead.class_id = Database.own_class("atlas") if Database.own_class("atlas") != "" else "sworn_blade"
 	var taken := 0
 	for level in range(2, 21):
 		Progression._level_up(lead, world)
@@ -203,7 +204,7 @@ func _check_doctrine(hero: Character, world: World) -> void:
 	Doctrine.learn(hero, "keen_edge", world.steps)
 	_expect(hero.attack() > before, "doctrine gave no bonus")
 
-	var student := Character.create("sera")
+	var student := Character.create("juno")
 	_expect(Doctrine.teach(hero, student, "keen_edge", world.steps), "teaching failed")
 	_expect(student.knows("keen_edge"), "student did not retain the doctrine")
 	_expect(not Doctrine.teach(hero, student, "keen_edge", world.steps), "taught the same thing twice")
@@ -221,7 +222,8 @@ func _check_class_choice(world: World) -> void:
 	var setting := GameState.difficulty
 	GameState.difficulty = "even"
 
-	# A party member is asked; the world waits for the answer.
+	# A party member is asked; the world waits for the answer. One of the sixteen
+	# starts in their own class, so the one asked is a hire with none (market.gd).
 	var mine := Character.create("bram", "", true)
 	Progression.award(mine, Progression.xp_to_next(1), world)
 	_expect(mine.level == 2, "one level's worth of XP did not level anyone")
@@ -248,7 +250,7 @@ func _check_fate(world: World) -> void:
 	rng.seed = 4242
 
 	# Alone, unarmed, unread, in the middle of nowhere: death is the default.
-	var doomed := Character.create("sera")
+	var doomed := Character.create("juno")
 	var graces := Fate.graces_for(doomed, {"enemy_kind": "beast"})
 	var bare_odds := 0.0
 	for grace: Dictionary in graces:
@@ -258,18 +260,18 @@ func _check_fate(world: World) -> void:
 
 	var deaths := 0
 	for i in 200:
-		var victim := Character.create("sera")
+		var victim := Character.create("juno")
 		if Fate.resolve(victim, {"enemy_kind": "beast"}, rng)["outcome"] == Fate.DEAD:
 			deaths += 1
 	print("fell alone 200 times, died %d" % deaths)
 	_expect(deaths > 150, "only %d of 200 lone deaths stuck" % deaths)
 
 	# A charm is spent to buy one life, and is gone afterwards.
-	var carried := Character.create("bram")
+	var carried := Character.create("atlas")
 	carried.charms.append("grave_token")
 	var saved_by_charm := 0
 	for i in 200:
-		var victim := Character.create("bram")
+		var victim := Character.create("atlas")
 		victim.charms.append("grave_token")
 		var outcome := Fate.resolve(victim, {"enemy_kind": "beast"}, rng)
 		if outcome["reason"] == Fate.BY_CHARM:
@@ -282,7 +284,7 @@ func _check_fate(world: World) -> void:
 	# Raiders take prisoners; captives leave the party but not the world.
 	var captures := 0
 	for i in 200:
-		var victim := Character.create("toln")
+		var victim := Character.create("cato")
 		var outcome := Fate.resolve(victim, {"enemy_kind": "raider", "world": world, "cell": world.player_cell}, rng)
 		if outcome["outcome"] == Fate.CAPTURED:
 			captures += 1
@@ -292,14 +294,14 @@ func _check_fate(world: World) -> void:
 	_expect(captures > 30, "raiders captured only %d in 200" % captures)
 
 	# Standing allies and read books both buy real odds.
-	var alone := Character.create("bram")
+	var alone := Character.create("atlas")
 	var lone_odds := _total_odds(alone, {"enemy_kind": "beast"})
-	var helped := Character.create("bram")
-	var friends: Array = [Character.create("sera"), Character.create("toln")]
+	var helped := Character.create("atlas")
+	var friends: Array = [Character.create("juno"), Character.create("cato")]
 	var helped_odds := _total_odds(helped, {"enemy_kind": "beast", "allies": friends})
 	_expect(helped_odds > lone_odds, "allies did not improve the odds")
 
-	var read := Character.create("bram")
+	var read := Character.create("atlas")
 	Doctrine.learn(read, "the_vigil", 0)
 	_expect(_total_odds(read, {"enemy_kind": "beast"}) > lone_odds, "doctrine did not improve the odds")
 	print("odds alone %d%%, with two allies %d%%, having read one book %d%%" % [
@@ -457,7 +459,7 @@ func _check_grimoires(world: World) -> void:
 	if villages.is_empty():
 		return
 	var site: Site = villages[0]
-	var reader := Character.create("bram")
+	var reader := Character.create("atlas")
 
 	Grimoire.stock(site, world)
 	_expect(not Grimoire.offer(site).is_empty(), "no grimoire went on the shelf")
@@ -496,7 +498,7 @@ func _grimoire_outcome(lines: Array) -> String:
 
 
 func _check_memorials(world: World) -> void:
-	var fallen := Character.create("sera")
+	var fallen := Character.create("juno")
 	Doctrine.learn(fallen, "the_vigil", world.steps)
 	var sites_before := world.sites.size()
 
@@ -512,7 +514,7 @@ func _check_memorials(world: World) -> void:
 		_expect(crowded.cell != village[0].cell, "a grave was dug on top of a village")
 
 	world.steps += 500
-	var mourner := Character.create("bram")
+	var mourner := Character.create("atlas")
 	var lines := Memorial.visit(grave, world, [mourner])
 	_expect(lines.size() >= 3, "standing at a grave said almost nothing")
 	_expect(str(lines[0]).contains(fallen.display_name), "the epitaph does not name them")
@@ -539,11 +541,15 @@ func _check_memorials(world: World) -> void:
 
 
 func _check_roster(world: World) -> void:
-	var roster := Roster.found()
-	_expect(roster.characters.size() == Roster.FOUNDING.size(), "founding roster is the wrong size")
-	_expect(roster.party.size() == Roster.FOUNDING.size(), "not everyone founding is marching")
+	# A run starts with its lead alone, one of the sixteen.
+	var alone := Roster.found()
+	_expect(alone.characters.size() == 1 and alone.party.size() == 1, "a fresh roster is not the lead alone")
+	_expect(alone.player() != null and alone.player().template_id == Roster.FIRST_LEAD, "a run with no pick is not led by %s" % Roster.FIRST_LEAD)
+	_expect(not Database.hero(alone.player().template_id).is_empty(), "the lead is not one of the sixteen")
+
+	var roster := Company.found()
 	_expect(roster.player() != null and roster.player().is_player, "nobody on the roster is the player")
-	_expect(roster.fit_to_fight().size() == 3, "the founding party cannot fight")
+	_expect(roster.fit_to_fight().size() == 3, "the company of three cannot fight")
 	_expect(not roster.run_is_over(), "a fresh roster has already ended the run")
 
 	# The dead and the taken come off the marching order but stay on the books.
@@ -570,7 +576,7 @@ func _check_roster(world: World) -> void:
 
 func _check_encounters(world: World) -> void:
 	print("")
-	var party := Roster.found().party_members()
+	var party := Company.found().party_members()
 	# Composition is what is under test; the difficulty dials thin every band.
 	var setting := GameState.difficulty
 	GameState.difficulty = "even"
@@ -633,7 +639,7 @@ func _check_field(meeting: Dictionary, label: String) -> void:
 
 	_expect(not meeting["enemies"].is_empty(), "%s encounter has nobody in it" % label)
 	_expect(
-		map["player_spawns"].size() >= Roster.FOUNDING.size(),
+		map["player_spawns"].size() >= Company.JOINED.size() + 1,
 		"%s field has room for only %d of the party" % [label, map["player_spawns"].size()]
 	)
 
@@ -702,7 +708,7 @@ func _check_dialogue() -> void:
 ## Walk a long way and make sure the loop survives it.
 func _check_walking(world: World) -> void:
 	print("")
-	var party := Roster.found().party_members()
+	var party := Company.found().party_members()
 	var walker := world.player_cell
 	var fights := 0
 	var notices := 0
@@ -768,11 +774,11 @@ func _check_lands(world: World) -> void:
 	for land: String in Database.biomes.get("biomes", {}):
 		for unit_id: String in Biome.data(land).get("foes", []):
 			_expect(not Database.unit_template(unit_id).is_empty(), "the %s fields %s, who does not exist" % [land, unit_id])
-	var traveller := Character.create("bram")
+	var traveller := Character.create("atlas")
 	traveller.equipment = ""
 	traveller.charms = []
 	_expect(not Biome.spared(traveller, "cold") or Gear.piece(Gear.issued_id(traveller)).get("proof", []).has("cold"),
-		"nothing at all keeps the cold off, and still Bram is spared")
+		"nothing at all keeps the cold off, and still Atlas is spared")
 	traveller.charms = ["salt_pouch"]
 	_expect(Biome.spared(traveller, "ooze"), "a salt pouch does not keep the ooze off")
 	_expect(float(Biome.effects("bog")["slow"]) < 1.0, "the bog does not drag at the feet")

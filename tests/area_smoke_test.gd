@@ -429,7 +429,7 @@ func _check_tutorial() -> void:
 ## practice fight on that ground (nobody can die, nothing counted) that comes back to the village,
 ## and the pair does not stand there again.
 func _check_practice_band() -> void:
-	GameState.new_game(SEED, "bram", true)
+	GameState.new_game(SEED, "atlas", true)
 	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
 	scene.set("boot_payload", { "area_id": "tutorial", "return_scene": "title" })
 	add_child(scene)

@@ -9,6 +9,7 @@ extends Node
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const Company := preload("res://tests/company.gd")
 
 var _failures: Array[String] = []
 
@@ -16,14 +17,14 @@ var _failures: Array[String] = []
 func _ready() -> void:
 	GameState.new_game(5)
 	var world: World = GameState.world
-	var roster: Roster = GameState.roster
+	var roster: Roster = Company.join(GameState.roster)
 	var rules: Dictionary = Database.world_rules["dispatch"]
 	var kept := rules.duplicate()
 	var lead := roster.player()
-	var sera: Character = roster.party_members()[1]
+	var juno: Character = roster.party_members()[1]
 
 	_expect(not Dispatch.can_send(lead, roster, GameState.away), "the lead could be sent away")
-	_expect(Dispatch.can_send(sera, roster, GameState.away), "a companion on her feet could not be sent")
+	_expect(Dispatch.can_send(juno, roster, GameState.away), "a companion on her feet could not be sent")
 
 	# A quiet road: nothing is met, the errand is done, and she comes home.
 	rules["trouble_min"] = 0.0
@@ -31,11 +32,11 @@ func _ready() -> void:
 	var look := _errand("look", world.player_cell + Vector2i(6, 0))
 	GameState.errands.append(look)
 	var party_before := roster.party.size()
-	var line := Dispatch.send(world, roster, GameState.away, sera, look)
+	var line := Dispatch.send(world, roster, GameState.away, juno, look)
 	print(line)
 	_expect(line != "", "sending her failed")
 	_expect(roster.party.size() == party_before - 1, "she did not leave the marching order")
-	_expect(not Dispatch.can_send(sera, roster, GameState.away), "she could be sent twice")
+	_expect(not Dispatch.can_send(juno, roster, GameState.away), "she could be sent twice")
 	_expect(Dispatch.open_errands(GameState.errands).is_empty(), "the errand was still open after it was taken")
 
 	var job: Dictionary = GameState.away[0]
@@ -49,7 +50,7 @@ func _ready() -> void:
 	world.steps = int(job["back_at"])
 	_walk()
 	_expect(GameState.away.is_empty(), "she never came home")
-	_expect(roster.party.has(sera.id), "she came home but did not rejoin")
+	_expect(roster.party.has(juno.id), "she came home but did not rejoin")
 
 	# A hunt, won: the cull is done and paid when she is back.
 	rules["win_base"] = 1.0
@@ -58,12 +59,12 @@ func _ready() -> void:
 	cull["count"] = 3
 	cull["from"] = [world.player_cell.x, world.player_cell.y]
 	GameState.errands.append(cull)
-	Dispatch.send(world, roster, GameState.away, sera, cull)
+	Dispatch.send(world, roster, GameState.away, juno, cull)
 	job = GameState.away[0]
 	world.steps = int(job["out_at"])
 	_walk()
 	_expect(Errand.is_complete(cull), "a won hunt did not count its kills")
-	_expect(Progression.has_beaten(sera, "wolf") or sera.beaten.has("wolf"), "she learned nothing from the hunt")
+	_expect(Progression.has_beaten(juno, "wolf") or juno.beaten.has("wolf"), "she learned nothing from the hunt")
 	world.steps = int(job["back_at"])
 	gold = GameState.gold
 	_walk()
@@ -77,16 +78,16 @@ func _ready() -> void:
 	second["count"] = 2
 	second["from"] = [world.player_cell.x, world.player_cell.y]
 	GameState.errands.append(second)
-	Dispatch.send(world, roster, GameState.away, sera, second)
+	Dispatch.send(world, roster, GameState.away, juno, second)
 	job = GameState.away[0]
 	world.steps = int(job["out_at"])
 	print("  " + " / ".join(_walk()))
-	if sera.is_alive():
+	if juno.is_alive():
 		_expect(GameState.away.size() == 1, "she survived the fall but lost her job")
 	else:
 		_expect(GameState.away.is_empty(), "the job outlived her")
 		_expect(str(second.get(Dispatch.TAKEN_BY, "")) == "", "the errand still names someone who is gone")
-	print("  lost a fight alone: %s" % sera.status)
+	print("  lost a fight alone: %s" % juno.status)
 
 	# Default odds, many times over, to see what sending people away costs.
 	for key: String in kept:
@@ -125,7 +126,7 @@ func _check_muster(world: World) -> void:
 		gate.cleared = false
 		world.musters.clear()
 		terms["win_base"] = 2.0 if won else -2.0
-		var roster := Roster.found()
+		var roster := Company.found()
 		var sent: Character = roster.party_members()[1]
 		var errands: Array = []
 		var away: Array = []
@@ -218,7 +219,7 @@ func _soak(world: World) -> Dictionary:
 	var outcomes := {"back": 0, "captured": 0, "dead": 0}
 	var gates: Array[Site] = world.sites_of_kind(Site.GATE).filter(func(s: Site) -> bool: return s.open)
 	for i in 200:
-		var roster := Roster.found()
+		var roster := Company.found()
 		var sent: Character = roster.party_members()[1]
 		var errands: Array = []
 		var away: Array = []
