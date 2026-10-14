@@ -7,7 +7,6 @@ const LevelUpBanner := preload("res://src/ui/level_up_banner.gd")
 const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 
 const SCENES := {
-	"cinematic": "res://src/ui/cinematic.tscn",
 	"title": "res://src/ui/title_screen.tscn",
 	"temper_quiz": "res://src/ui/temper_quiz.tscn",
 	"character_select": "res://src/ui/character_select.tscn",
@@ -23,7 +22,7 @@ const SCENES := {
 
 ## Where "back" runs out of places to go. Backing out of the title screen is
 ## leaving the game, which is what the key is for on a phone.
-const ROOT_SCENES := ["title", "cinematic"]
+const ROOT_SCENES := ["title"]
 
 @onready var _container: Node = $CurrentScene
 
@@ -47,8 +46,7 @@ func _ready() -> void:
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.
 	get_tree().set_quit_on_go_back(false)
-	# Straight onto the title card, the fall ([D87]). The old map pass before it
-	# read as a second intro, so it is no longer played.
+	# Straight onto the title card, the fall ([D87]).
 	_change_scene("title", {"from": "boot"})
 
 

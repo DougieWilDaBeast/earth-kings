@@ -31,7 +31,7 @@ const KEYS_MAIN := "W / S to choose     Enter to confirm"
 const KEYS_EXTRAS := "W / S to choose     Enter to confirm     Esc to go back"
 
 ## Set by [Game] before the scene enters the tree. `from: "boot"` (the game
-## opening) or `"cinematic"` opens on the title card; anything else opens on the menu.
+## opening) opens on the title card; anything else opens on the menu.
 var boot_payload: Dictionary = {}
 
 ## Set from the scene: the logo's lettering and the carved lettering of the menu.
@@ -133,7 +133,7 @@ func _ready() -> void:
 	_breathe_crest()
 	resized.connect(_layout)
 
-	if ["boot", "cinematic"].has(str(boot_payload.get("from", ""))):
+	if str(boot_payload.get("from", "")) == "boot":
 		_show_card()
 	else:
 		_show_menu(false)

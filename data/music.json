@@ -1,7 +1,6 @@
 {
 	"fade": 1.4,
 	"scenes": {
-		"cinematic": "title",
 		"title": "title",
 		"character_select": "title",
 		"temper_quiz": "title",

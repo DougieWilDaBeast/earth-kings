@@ -339,7 +339,6 @@ func _check_the_overlay_reads_the_scene() -> void:
 
 	for expected: Array in [
 		["title", false, false],
-		["cinematic", false, false],
 		["skirmish", true, false],
 		["world", true, true],
 		["area", true, true],
