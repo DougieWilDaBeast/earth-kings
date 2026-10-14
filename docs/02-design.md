@@ -196,7 +196,7 @@ with effect archetypes at rising intensity.
   their class's themes.
 - Every other level-up learns the next unlearned rung from a tree they hold.
 - A tree has three rungs. When a player is owed a power and every tree they hold is walked to its
-  end, another tree opens, so a power owed is always one they can take.
+  end, another tree opens, so a power owed is always one they can take ([D86](06-decisions.md)).
 - Trees are named and stored in the world, so a save restores the exact powers that world found.
 - **The Codex** tracks how much of the grammar the world has catalogued. Absurd results are
   permitted output, not a bug.
