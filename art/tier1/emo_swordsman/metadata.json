@@ -7,14 +7,14 @@
    "unit": "emo_swordsman",
    "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
    "outfit": "dress him as a sleepy pale swordsman with long black hair over one eye, a black long coat and a thin straight sword, dark rings under his eyes. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
+   "character_id": "79987299-2782-44d3-bba2-6e876b57bcec",
    "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 23.0,
+   "generations": 10.0,
    "date": "2026-10-14"
   },
   {
    "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
+   "character_id": "79987299-2782-44d3-bba2-6e876b57bcec",
    "name": "walk",
    "action": "",
    "template_animation": "walk",
@@ -22,12 +22,12 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 55.0,
+   "generations": 12.0,
    "date": "2026-10-14"
   },
   {
    "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
+   "character_id": "79987299-2782-44d3-bba2-6e876b57bcec",
    "name": "attack",
    "action": "a quick lazy sword slash",
    "template_animation": null,
@@ -35,59 +35,7 @@
    "frames_asked": 8,
    "directions": "south,east,north,west",
    "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 31.0,
-   "date": "2026-10-14"
-  },
-  {
-   "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
-   "name": "skill",
-   "action": "a sudden lightning-fast lunge with the sword",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "south,east,north,west",
-   "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 26.0,
-   "date": "2026-10-14"
-  },
-  {
-   "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
-   "name": "hit",
-   "action": "flinching back from a blow",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 4,
-   "directions": "south,east,north,west",
-   "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 16.0,
-   "date": "2026-10-14"
-  },
-  {
-   "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
-   "name": "death",
-   "action": "collapsing and lying still",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "south,east,north,west",
-   "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 20.0,
-   "date": "2026-10-14"
-  },
-  {
-   "kind": "animation",
-   "character_id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
-   "name": "skill",
-   "action": "a sudden lightning-fast lunge with the sword",
-   "template_animation": null,
-   "mode": null,
-   "frames_asked": 8,
-   "directions": "north,west",
-   "zip": "downloads/pixellab/emo_swordsman_base.zip",
-   "generations": 28.0,
+   "generations": 8.0,
    "date": "2026-10-14"
   }
  ],
@@ -96,7 +44,7 @@
   "states": [
    {
     "character": {
-     "id": "e414d43b-7e36-456f-a626-17f6cc156e8c",
+     "id": "79987299-2782-44d3-bba2-6e876b57bcec",
      "name": "emo_swordsman",
      "prompt": "Blank Male character",
      "size": {
@@ -106,223 +54,145 @@
      "template_id": "mannequin",
      "directions": 8,
      "view": "low top-down",
-     "created_at": "2026-10-14T12:23:31.227892+00:00"
+     "created_at": "2026-10-14T13:13:51.641548+00:00"
     },
-    "folder": "emo_swordsman",
+    "folder": "emo_swordsman_2",
     "frames": {
      "rotations": {
-      "south": "emo_swordsman/rotations/south.png",
-      "south-east": "emo_swordsman/rotations/south-east.png",
-      "east": "emo_swordsman/rotations/east.png",
-      "north-east": "emo_swordsman/rotations/north-east.png",
-      "north": "emo_swordsman/rotations/north.png",
-      "north-west": "emo_swordsman/rotations/north-west.png",
-      "west": "emo_swordsman/rotations/west.png",
-      "south-west": "emo_swordsman/rotations/south-west.png"
+      "south": "emo_swordsman_2/rotations/south.png",
+      "south-east": "emo_swordsman_2/rotations/south-east.png",
+      "east": "emo_swordsman_2/rotations/east.png",
+      "north-east": "emo_swordsman_2/rotations/north-east.png",
+      "north": "emo_swordsman_2/rotations/north.png",
+      "north-west": "emo_swordsman_2/rotations/north-west.png",
+      "west": "emo_swordsman_2/rotations/west.png",
+      "south-west": "emo_swordsman_2/rotations/south-west.png"
      },
      "animations": {
-      "hit": {
-       "south": [
-        "emo_swordsman/animations/hit/south/frame_000.png",
-        "emo_swordsman/animations/hit/south/frame_001.png",
-        "emo_swordsman/animations/hit/south/frame_002.png",
-        "emo_swordsman/animations/hit/south/frame_003.png",
-        "emo_swordsman/animations/hit/south/frame_004.png"
-       ],
+      "walking": {
        "west": [
-        "emo_swordsman/animations/hit/west/frame_000.png",
-        "emo_swordsman/animations/hit/west/frame_001.png",
-        "emo_swordsman/animations/hit/west/frame_002.png",
-        "emo_swordsman/animations/hit/west/frame_003.png",
-        "emo_swordsman/animations/hit/west/frame_004.png"
-       ],
-       "east": [
-        "emo_swordsman/animations/hit/east/frame_000.png",
-        "emo_swordsman/animations/hit/east/frame_001.png",
-        "emo_swordsman/animations/hit/east/frame_002.png",
-        "emo_swordsman/animations/hit/east/frame_003.png",
-        "emo_swordsman/animations/hit/east/frame_004.png"
+        "emo_swordsman_2/animations/walking/west/frame_000.png",
+        "emo_swordsman_2/animations/walking/west/frame_001.png",
+        "emo_swordsman_2/animations/walking/west/frame_002.png",
+        "emo_swordsman_2/animations/walking/west/frame_003.png",
+        "emo_swordsman_2/animations/walking/west/frame_004.png",
+        "emo_swordsman_2/animations/walking/west/frame_005.png"
        ],
        "north": [
-        "emo_swordsman/animations/hit/north/frame_000.png",
-        "emo_swordsman/animations/hit/north/frame_001.png",
-        "emo_swordsman/animations/hit/north/frame_002.png",
-        "emo_swordsman/animations/hit/north/frame_003.png",
-        "emo_swordsman/animations/hit/north/frame_004.png"
+        "emo_swordsman_2/animations/walking/north/frame_000.png",
+        "emo_swordsman_2/animations/walking/north/frame_001.png",
+        "emo_swordsman_2/animations/walking/north/frame_002.png",
+        "emo_swordsman_2/animations/walking/north/frame_003.png",
+        "emo_swordsman_2/animations/walking/north/frame_004.png",
+        "emo_swordsman_2/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "emo_swordsman_2/animations/walking/east/frame_000.png",
+        "emo_swordsman_2/animations/walking/east/frame_001.png",
+        "emo_swordsman_2/animations/walking/east/frame_002.png",
+        "emo_swordsman_2/animations/walking/east/frame_003.png",
+        "emo_swordsman_2/animations/walking/east/frame_004.png",
+        "emo_swordsman_2/animations/walking/east/frame_005.png"
+       ],
+       "south": [
+        "emo_swordsman_2/animations/walking/south/frame_000.png",
+        "emo_swordsman_2/animations/walking/south/frame_001.png",
+        "emo_swordsman_2/animations/walking/south/frame_002.png",
+        "emo_swordsman_2/animations/walking/south/frame_003.png",
+        "emo_swordsman_2/animations/walking/south/frame_004.png",
+        "emo_swordsman_2/animations/walking/south/frame_005.png"
        ]
       },
-      "death": {
-       "south": [
-        "emo_swordsman/animations/death/south/frame_000.png",
-        "emo_swordsman/animations/death/south/frame_001.png",
-        "emo_swordsman/animations/death/south/frame_002.png",
-        "emo_swordsman/animations/death/south/frame_003.png",
-        "emo_swordsman/animations/death/south/frame_004.png",
-        "emo_swordsman/animations/death/south/frame_005.png",
-        "emo_swordsman/animations/death/south/frame_006.png",
-        "emo_swordsman/animations/death/south/frame_007.png",
-        "emo_swordsman/animations/death/south/frame_008.png"
-       ],
+      "attack": {
        "north": [
-        "emo_swordsman/animations/death/north/frame_000.png",
-        "emo_swordsman/animations/death/north/frame_001.png",
-        "emo_swordsman/animations/death/north/frame_002.png",
-        "emo_swordsman/animations/death/north/frame_003.png",
-        "emo_swordsman/animations/death/north/frame_004.png",
-        "emo_swordsman/animations/death/north/frame_005.png",
-        "emo_swordsman/animations/death/north/frame_006.png",
-        "emo_swordsman/animations/death/north/frame_007.png",
-        "emo_swordsman/animations/death/north/frame_008.png"
-       ],
-       "east": [
-        "emo_swordsman/animations/death/east/frame_000.png",
-        "emo_swordsman/animations/death/east/frame_001.png",
-        "emo_swordsman/animations/death/east/frame_002.png",
-        "emo_swordsman/animations/death/east/frame_003.png",
-        "emo_swordsman/animations/death/east/frame_004.png",
-        "emo_swordsman/animations/death/east/frame_005.png",
-        "emo_swordsman/animations/death/east/frame_006.png",
-        "emo_swordsman/animations/death/east/frame_007.png",
-        "emo_swordsman/animations/death/east/frame_008.png"
+        "emo_swordsman_2/animations/attack/north/frame_000.png",
+        "emo_swordsman_2/animations/attack/north/frame_001.png",
+        "emo_swordsman_2/animations/attack/north/frame_002.png",
+        "emo_swordsman_2/animations/attack/north/frame_003.png",
+        "emo_swordsman_2/animations/attack/north/frame_004.png",
+        "emo_swordsman_2/animations/attack/north/frame_005.png",
+        "emo_swordsman_2/animations/attack/north/frame_006.png",
+        "emo_swordsman_2/animations/attack/north/frame_007.png",
+        "emo_swordsman_2/animations/attack/north/frame_008.png"
        ],
        "west": [
-        "emo_swordsman/animations/death/west/frame_000.png",
-        "emo_swordsman/animations/death/west/frame_001.png",
-        "emo_swordsman/animations/death/west/frame_002.png",
-        "emo_swordsman/animations/death/west/frame_003.png",
-        "emo_swordsman/animations/death/west/frame_004.png",
-        "emo_swordsman/animations/death/west/frame_005.png",
-        "emo_swordsman/animations/death/west/frame_006.png",
-        "emo_swordsman/animations/death/west/frame_007.png",
-        "emo_swordsman/animations/death/west/frame_008.png"
+        "emo_swordsman_2/animations/attack/west/frame_000.png",
+        "emo_swordsman_2/animations/attack/west/frame_001.png",
+        "emo_swordsman_2/animations/attack/west/frame_002.png",
+        "emo_swordsman_2/animations/attack/west/frame_003.png",
+        "emo_swordsman_2/animations/attack/west/frame_004.png",
+        "emo_swordsman_2/animations/attack/west/frame_005.png",
+        "emo_swordsman_2/animations/attack/west/frame_006.png",
+        "emo_swordsman_2/animations/attack/west/frame_007.png",
+        "emo_swordsman_2/animations/attack/west/frame_008.png"
+       ],
+       "east": [
+        "emo_swordsman_2/animations/attack/east/frame_000.png",
+        "emo_swordsman_2/animations/attack/east/frame_001.png",
+        "emo_swordsman_2/animations/attack/east/frame_002.png",
+        "emo_swordsman_2/animations/attack/east/frame_003.png",
+        "emo_swordsman_2/animations/attack/east/frame_004.png",
+        "emo_swordsman_2/animations/attack/east/frame_005.png",
+        "emo_swordsman_2/animations/attack/east/frame_006.png",
+        "emo_swordsman_2/animations/attack/east/frame_007.png",
+        "emo_swordsman_2/animations/attack/east/frame_008.png"
+       ],
+       "south": [
+        "emo_swordsman_2/animations/attack/south/frame_000.png",
+        "emo_swordsman_2/animations/attack/south/frame_001.png",
+        "emo_swordsman_2/animations/attack/south/frame_002.png",
+        "emo_swordsman_2/animations/attack/south/frame_003.png",
+        "emo_swordsman_2/animations/attack/south/frame_004.png",
+        "emo_swordsman_2/animations/attack/south/frame_005.png",
+        "emo_swordsman_2/animations/attack/south/frame_006.png",
+        "emo_swordsman_2/animations/attack/south/frame_007.png",
+        "emo_swordsman_2/animations/attack/south/frame_008.png"
        ]
       },
       "skill": {
        "north": [
-        "emo_swordsman/animations/skill/north/frame_000.png",
-        "emo_swordsman/animations/skill/north/frame_001.png",
-        "emo_swordsman/animations/skill/north/frame_002.png",
-        "emo_swordsman/animations/skill/north/frame_003.png",
-        "emo_swordsman/animations/skill/north/frame_004.png",
-        "emo_swordsman/animations/skill/north/frame_005.png",
-        "emo_swordsman/animations/skill/north/frame_006.png",
-        "emo_swordsman/animations/skill/north/frame_007.png",
-        "emo_swordsman/animations/skill/north/frame_008.png"
+        "emo_swordsman_2/animations/skill/north/frame_000.png",
+        "emo_swordsman_2/animations/skill/north/frame_001.png",
+        "emo_swordsman_2/animations/skill/north/frame_002.png",
+        "emo_swordsman_2/animations/skill/north/frame_003.png",
+        "emo_swordsman_2/animations/skill/north/frame_004.png",
+        "emo_swordsman_2/animations/skill/north/frame_005.png",
+        "emo_swordsman_2/animations/skill/north/frame_006.png",
+        "emo_swordsman_2/animations/skill/north/frame_007.png",
+        "emo_swordsman_2/animations/skill/north/frame_008.png"
        ],
        "west": [
-        "emo_swordsman/animations/skill/west/frame_000.png",
-        "emo_swordsman/animations/skill/west/frame_001.png",
-        "emo_swordsman/animations/skill/west/frame_002.png",
-        "emo_swordsman/animations/skill/west/frame_003.png",
-        "emo_swordsman/animations/skill/west/frame_004.png",
-        "emo_swordsman/animations/skill/west/frame_005.png",
-        "emo_swordsman/animations/skill/west/frame_006.png",
-        "emo_swordsman/animations/skill/west/frame_007.png",
-        "emo_swordsman/animations/skill/west/frame_008.png"
-       ]
-      },
-      "walking": {
-       "south": [
-        "emo_swordsman/animations/walking/south/frame_000.png",
-        "emo_swordsman/animations/walking/south/frame_001.png",
-        "emo_swordsman/animations/walking/south/frame_002.png",
-        "emo_swordsman/animations/walking/south/frame_003.png",
-        "emo_swordsman/animations/walking/south/frame_004.png",
-        "emo_swordsman/animations/walking/south/frame_005.png"
-       ],
-       "east": [
-        "emo_swordsman/animations/walking/east/frame_000.png",
-        "emo_swordsman/animations/walking/east/frame_001.png",
-        "emo_swordsman/animations/walking/east/frame_002.png",
-        "emo_swordsman/animations/walking/east/frame_003.png",
-        "emo_swordsman/animations/walking/east/frame_004.png",
-        "emo_swordsman/animations/walking/east/frame_005.png"
-       ],
-       "north": [
-        "emo_swordsman/animations/walking/north/frame_000.png",
-        "emo_swordsman/animations/walking/north/frame_001.png",
-        "emo_swordsman/animations/walking/north/frame_002.png",
-        "emo_swordsman/animations/walking/north/frame_003.png",
-        "emo_swordsman/animations/walking/north/frame_004.png",
-        "emo_swordsman/animations/walking/north/frame_005.png"
-       ],
-       "west": [
-        "emo_swordsman/animations/walking/west/frame_000.png",
-        "emo_swordsman/animations/walking/west/frame_001.png",
-        "emo_swordsman/animations/walking/west/frame_002.png",
-        "emo_swordsman/animations/walking/west/frame_003.png",
-        "emo_swordsman/animations/walking/west/frame_004.png",
-        "emo_swordsman/animations/walking/west/frame_005.png"
-       ]
-      },
-      "attack": {
-       "east": [
-        "emo_swordsman/animations/attack/east/frame_000.png",
-        "emo_swordsman/animations/attack/east/frame_001.png",
-        "emo_swordsman/animations/attack/east/frame_002.png",
-        "emo_swordsman/animations/attack/east/frame_003.png",
-        "emo_swordsman/animations/attack/east/frame_004.png",
-        "emo_swordsman/animations/attack/east/frame_005.png",
-        "emo_swordsman/animations/attack/east/frame_006.png",
-        "emo_swordsman/animations/attack/east/frame_007.png",
-        "emo_swordsman/animations/attack/east/frame_008.png"
-       ],
-       "west": [
-        "emo_swordsman/animations/attack/west/frame_000.png",
-        "emo_swordsman/animations/attack/west/frame_001.png",
-        "emo_swordsman/animations/attack/west/frame_002.png",
-        "emo_swordsman/animations/attack/west/frame_003.png",
-        "emo_swordsman/animations/attack/west/frame_004.png",
-        "emo_swordsman/animations/attack/west/frame_005.png",
-        "emo_swordsman/animations/attack/west/frame_006.png",
-        "emo_swordsman/animations/attack/west/frame_007.png",
-        "emo_swordsman/animations/attack/west/frame_008.png"
+        "emo_swordsman_2/animations/skill/west/frame_000.png",
+        "emo_swordsman_2/animations/skill/west/frame_001.png",
+        "emo_swordsman_2/animations/skill/west/frame_002.png",
+        "emo_swordsman_2/animations/skill/west/frame_003.png",
+        "emo_swordsman_2/animations/skill/west/frame_004.png",
+        "emo_swordsman_2/animations/skill/west/frame_005.png",
+        "emo_swordsman_2/animations/skill/west/frame_006.png",
+        "emo_swordsman_2/animations/skill/west/frame_007.png",
+        "emo_swordsman_2/animations/skill/west/frame_008.png"
        ],
        "south": [
-        "emo_swordsman/animations/attack/south/frame_000.png",
-        "emo_swordsman/animations/attack/south/frame_001.png",
-        "emo_swordsman/animations/attack/south/frame_002.png",
-        "emo_swordsman/animations/attack/south/frame_003.png",
-        "emo_swordsman/animations/attack/south/frame_004.png",
-        "emo_swordsman/animations/attack/south/frame_005.png",
-        "emo_swordsman/animations/attack/south/frame_006.png",
-        "emo_swordsman/animations/attack/south/frame_007.png",
-        "emo_swordsman/animations/attack/south/frame_008.png"
-       ],
-       "north": [
-        "emo_swordsman/animations/attack/north/frame_000.png",
-        "emo_swordsman/animations/attack/north/frame_001.png",
-        "emo_swordsman/animations/attack/north/frame_002.png",
-        "emo_swordsman/animations/attack/north/frame_003.png",
-        "emo_swordsman/animations/attack/north/frame_004.png",
-        "emo_swordsman/animations/attack/north/frame_005.png",
-        "emo_swordsman/animations/attack/north/frame_006.png",
-        "emo_swordsman/animations/attack/north/frame_007.png",
-        "emo_swordsman/animations/attack/north/frame_008.png"
-       ]
-      },
-      "skill-cc033cac": {
-       "south": [
-        "emo_swordsman/animations/skill-cc033cac/south/frame_000.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_001.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_002.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_003.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_004.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_005.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_006.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_007.png",
-        "emo_swordsman/animations/skill-cc033cac/south/frame_008.png"
+        "emo_swordsman_2/animations/skill/south/frame_000.png",
+        "emo_swordsman_2/animations/skill/south/frame_001.png",
+        "emo_swordsman_2/animations/skill/south/frame_002.png",
+        "emo_swordsman_2/animations/skill/south/frame_003.png",
+        "emo_swordsman_2/animations/skill/south/frame_004.png",
+        "emo_swordsman_2/animations/skill/south/frame_005.png",
+        "emo_swordsman_2/animations/skill/south/frame_006.png",
+        "emo_swordsman_2/animations/skill/south/frame_007.png",
+        "emo_swordsman_2/animations/skill/south/frame_008.png"
        ],
        "east": [
-        "emo_swordsman/animations/skill-cc033cac/east/frame_000.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_001.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_002.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_003.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_004.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_005.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_006.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_007.png",
-        "emo_swordsman/animations/skill-cc033cac/east/frame_008.png"
+        "emo_swordsman_2/animations/skill/east/frame_000.png",
+        "emo_swordsman_2/animations/skill/east/frame_001.png",
+        "emo_swordsman_2/animations/skill/east/frame_002.png",
+        "emo_swordsman_2/animations/skill/east/frame_003.png",
+        "emo_swordsman_2/animations/skill/east/frame_004.png",
+        "emo_swordsman_2/animations/skill/east/frame_005.png",
+        "emo_swordsman_2/animations/skill/east/frame_006.png",
+        "emo_swordsman_2/animations/skill/east/frame_007.png",
+        "emo_swordsman_2/animations/skill/east/frame_008.png"
        ]
       }
      }
@@ -330,6 +200,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-14T12:45:02.853668"
+  "export_date": "2026-10-14T13:44:51.674454"
  }
 }

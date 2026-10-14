@@ -1661,7 +1661,7 @@
 		],
 		"kind": "beast",
 		"color": "#e0c05a",
-		"sprite_dir": "res://art/units/mending_lion/idle"
+		"sprite_dir": "res://art/tier1/mending_lion/idle"
 	},
 	"flame_lion": {
 		"display_name": "Flame Lion",

@@ -32,13 +32,14 @@ big units drawn bigger.
 | What | Why it waits |
 | --- | --- |
 | A6: proper ground for the other eight lands (ash, jungle, barrow, blossom, slime, crystal, fungal, mist), three sheets each, with `tools/pixellab_world.py ground <land>` (about 65 generations a land) | `dougie`, 2026-10-13: eight lands first, the rest next month |
+| Hit and death for the Sleepless Blade (`emo_swordsman`), about 16 generations | The month's generations ran out, 2026-10-14 |
 | Redraw the manes of `tide_lion` and `flame_lion` so water and fire read at a glance (about 35 generations each) | `dougie`, 2026-10-13: playability first, come back to it later |
 
 ## Done
 
 | Id | What | Done |
 | --- | --- | --- |
-| A8 | The month's last generations on the early game (`dougie`, 2026-10-14): fight sets in `art/tier1/` for the Ember Dove, the wisp, the eye slinger, the warlock, the red panda master, the staff panda, the element monk, the wraith, Tem the sword monkey (redrawn without the borrowed hat and patch), the village idiot, the fox knight and the duelist, and a walk for the Sleepless Blade (its other moves came out washed pale and were dropped), and Sky, a great lizard with Atlas in the saddle, in `art/big/sky` ([D93](06-decisions.md)); the seven big sets already made wired in | 2026-10-14 |
+| A8 | The month's last generations on the early game (`dougie`, 2026-10-14): fight sets in `art/tier1/` for the Ember Dove, the wisp, the eye slinger, the warlock, the red panda master, the staff panda, the element monk, the wraith, Tem the sword monkey (redrawn without the borrowed hat and patch), the village idiot, the fox knight, the duelist, the ice wolf, the mending lion, the silver legionnaire and the butler, and a walk, attack and skill for the Sleepless Blade (no flinch or fall; the month ran out), and Sky, a great lizard with Atlas in the saddle, in `art/big/sky` ([D93](06-decisions.md)); the seven big sets already made wired in | 2026-10-14 |
 | A7 | Town walls in three builds (stone, timber palisade, mud brick): a run, a side and a tower each, in `art/props/walls/` (`tools/pixellab_world.py walls`, 14 generations, five of them retries), for the walled villages and the great city ([D85](06-decisions.md)) | 2026-10-14 |
 | A5, part | The room furniture: 22 pieces, from the bar counter to the ship's bell, in `art/props/interior/` (`tools/pixellab_world.py rooms`) | 2026-10-13 |
 | A6, part | Every land's trees, rocks and plants, and the ground of the blight, snow, dune, savanna, swamp, bog, taiga and badlands (`tools/pixellab_world.py`), asked for by `doug-md` ([voice notes](worldbuilding/voice-notes/2026-10-13-doug-md-continuous-world.md)) | 2026-10-13 |
