@@ -81,6 +81,7 @@ src/
   world/                       The continent: the step clock and every site interaction, run out
                                of sight beside the land on each step (D84); the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
+    auto_road.gd               Where a party walking itself steps next, asked by the map and the land (D94)
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by

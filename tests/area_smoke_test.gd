@@ -710,7 +710,24 @@ func _check_the_joined_land() -> void:
 		_fail("land: a tile three behind is still held")
 	if not scene.is_inside_tree() or scene._leaving:
 		_fail("land: the ground left the screen for a step")
+	# Walking itself ([D94]): on over the land into the next tile, and never off to the map.
+	asked.clear()
+	var before := _requests.size()
+	var setting := Pace.auto
+	Pace.auto = true
+	for i in 900:
+		await get_tree().physics_frame
+		if not asked.is_empty():
+			break
+	Pace.auto = setting
+	for request: Dictionary in _requests.slice(before):
+		if str(request["key"]) == "world":
+			_fail("land: a party walking itself was sent off the ground to the map")
+	if asked.is_empty() or AreaMap.to_cell(asked[0].get("step", [0, 0])) == Vector2i.ZERO:
+		_fail("land: a party walking itself never walked over into the next tile")
+	if not scene.is_inside_tree() or scene._leaving:
+		_fail("land: the ground left the screen while the party walked itself")
 	EventBus.continent_requested.disconnect(listen)
 	scene.queue_free()
 	await get_tree().process_frame
-	print("land: tiles walk into each other, %s stands in its tile, a band walks across, and a step keeps to the land" % town.display_name)
+	print("land: tiles walk into each other, %s stands in its tile, a band walks across, a step keeps to the land, and so does walking itself" % town.display_name)

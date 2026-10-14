@@ -409,8 +409,8 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
 - The game played in the planar view alone; the Z switch and the walkable continental view retired
   ✅ (2026-10-12, [D61](06-decisions.md)): every run and every return lands on the ground; an edge
   is a step on the continent, done out of sight; a place's doings are offered on the ground; the
-  continent is a look-only map opened from the journal. Only the party walking itself (Q) still
-  walks it
+  continent is a look-only map opened from the journal. The party walking itself walks the ground
+  too ✅ (2026-10-14, [D94](06-decisions.md))
 - One world, the same every run ✅ (2026-10-14, [D91](06-decisions.md), [D92](06-decisions.md)):
   `doug-md`'s Map F frozen into `data/world_map.json` with the Tower in the middle; its lands and
   ground the same every run too; improved by hand from here ([27](27-the-world.md))

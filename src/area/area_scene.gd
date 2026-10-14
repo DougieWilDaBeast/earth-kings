@@ -27,6 +27,7 @@ const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const AutoRoad := preload("res://src/world/auto_road.gd")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -75,6 +76,9 @@ var _approach_path: Array[Vector2] = []
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
+## On the land: the tile the party is walking itself into, and the tile it set off from ([D94]).
+var _auto_tile: Vector2i = Vector2i(-1, -1)
+var _auto_from: Vector2i = Vector2i(-1, -1)
 var _talking: bool = false
 ## Held while it plays; a director that only exists as a temporary is collected
 ## the moment it finishes and never hands control back.
@@ -416,6 +420,7 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	if land.tile_of(map.cell_at(_leader.position)) != world.player_cell:
 		# The continent would not have it (the step was refused): back onto the tile it says.
 		_step_back_onto(world.player_cell)
+		_auto_tile = Vector2i(-1, -1)
 	_on_new_tile()
 	_sync_bands(answer.get("bands", []))
 	_hint.text = _prompt_text()
@@ -935,6 +940,38 @@ func _approach_step() -> Vector2:
 	return apart.normalized()
 
 
+## A party walking itself on the land walks it, where it can be seen ([D94]): over the border
+## into the tile the continent's own walk would step to next, which is the step taken.
+func _land_auto_axis() -> Vector2:
+	var land := map as Land
+	var world: World = GameState.world
+	var here := map.cell_at(_leader.position)
+	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
+	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
+		if _asking:
+			return Vector2.ZERO
+		_auto_from = world.player_cell
+		_auto_tile = world.player_cell + AutoRoad.next_step(world)
+		_auto_exit_path.clear()
+		if _auto_tile == world.player_cell:
+			_auto_tile = Vector2i(-1, -1)
+			return Vector2.ZERO
+		_auto_exit_path = land.find_cell_path(here, land.slot_rect(_auto_tile).get_center())
+		_auto_exit_index = 0
+		if _auto_exit_path.size() > 1 and _leader.position.distance_to(_auto_exit_path[0]) < 20.0:
+			_auto_exit_index = 1
+	if _auto_exit_index < _auto_exit_path.size():
+		var waypoint := _auto_exit_path[_auto_exit_index]
+		if _leader.position.distance_to(waypoint) < 16.0:
+			_auto_exit_index += 1
+			if _auto_exit_index < _auto_exit_path.size():
+				waypoint = _auto_exit_path[_auto_exit_index]
+		return (waypoint - _leader.position).normalized()
+	# No way worked out across the land: straight at it, and the border does the rest.
+	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
+	return (middle - _leader.position).normalized()
+
+
 ## Soak mode: make for the way out, so a run that is playing itself never
 ## settles down inside a town.
 func _auto_axis() -> Vector2:
@@ -1139,12 +1176,6 @@ func _physics_process(delta: float) -> void:
 		return
 	if _land_mode:
 		_hold_more()
-		if Pace.auto:
-			# The party walking itself walks the continent, where it can be seen.
-			_leaving = true
-			GameState.land_cell = map.cell_at(_leader.position)
-			EventBus.request_scene.emit("world", {})
-			return
 	_refresh_prompt()
 	if not map.bands.is_empty():
 		_practice_clock += delta
@@ -1164,7 +1195,7 @@ func _physics_process(delta: float) -> void:
 		_approach = null
 		_approach_path.clear()
 	elif Pace.auto:
-		axis = _auto_axis()
+		axis = _land_auto_axis() if _land_mode else _auto_axis()
 	elif _approach != null:
 		axis = _approach_step()
 	if axis == Vector2.ZERO:
@@ -1694,7 +1725,7 @@ func _check_the_watch(cell: Vector2i) -> bool:
 		return false
 	var came_from := _last_cell
 	_last_cell = cell
-	if came_from == Vector2i(-99, -99) or _spotted or _leaving or _talking or Pace.auto:
+	if came_from == Vector2i(-99, -99) or _spotted or _leaving or _talking:
 		return false
 	for watch: Node2D in _watches:
 		if watch.watched.has(cell):
@@ -1705,7 +1736,7 @@ func _check_the_watch(cell: Vector2i) -> bool:
 
 ## A patrolling band has walked somewhere it can see the party from: seen, as surely as walking in.
 func _on_band_moved(watch: Node2D) -> void:
-	if _leader == null or _spotted or _leaving or _talking or Pace.auto:
+	if _leader == null or _spotted or _leaving or _talking:
 		return
 	if watch.watched.has(map.cell_at(_leader.position)):
 		_seen_by(watch, Vector2i(-1, -1))
