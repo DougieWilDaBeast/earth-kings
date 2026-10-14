@@ -153,6 +153,7 @@ static func _level_up(character: Character, world: World) -> Array:
 			# The player is owed a power and decides where it goes.
 			character.rungs += 1
 			lines.append("%s has a power to take." % character.display_name)
+			lines.append_array(open_path_if_walked(character, world))
 		else:
 			lines.append_array(learn_next(character, world))
 
@@ -199,6 +200,28 @@ static func settle_class(character: Character, class_id: String) -> bool:
 ## [param theme] may be named once the Codex is complete — the world stops
 ## handing out powers and starts letting you ask for them.
 static func unlock_tree(character: Character, world: World, theme: String = "") -> Array:
+	var lines := _uncover_tree(character, world, theme)
+	if character.is_player:
+		character.rungs += 1
+		lines.append("%s has a power to take." % character.display_name)
+	else:
+		lines.append_array(learn_next(character, world))
+	return lines
+
+
+## A power owed when every uncovered path has been walked to its end could
+## never be taken, so another path opens instead. Without this a player stopped
+## growing once their trees ran out, while the banner kept saying a power was
+## waiting. Run after a power is owed or spent, and on loading a save.
+static func open_path_if_walked(character: Character, world: World) -> Array:
+	if not character.is_player or character.rungs <= 0 or character.trees.is_empty():
+		return []
+	if not rung_options(character, world).is_empty():
+		return []
+	return _uncover_tree(character, world)
+
+
+static func _uncover_tree(character: Character, world: World, theme: String = "") -> Array:
 	var themes := AbilityGrammar.themes_for(character)
 	if theme == "" or not can_craft(world):
 		var existing_themes: Array = []
@@ -216,13 +239,7 @@ static func unlock_tree(character: Character, world: World, theme: String = "") 
 	world.register_tree(tree)
 	character.trees.append(tree["id"])
 	Annals.record(world, "%s uncovered %s." % [character.display_name, tree["display_name"]])
-	var lines: Array = ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
-	if character.is_player:
-		character.rungs += 1
-		lines.append("%s has a power to take." % character.display_name)
-	else:
-		lines.append_array(learn_next(character, world))
-	return lines
+	return ["%s uncovers %s." % [character.display_name, tree["display_name"]]]
 
 
 ## The next unlearned rung of each tree they have uncovered — the choice in
@@ -244,6 +261,7 @@ static func spend_rung(character: Character, ability_id: String, world: World) -
 		return false
 	character.rungs -= 1
 	character.learned.append(ability_id)
+	open_path_if_walked(character, world)
 	return true
 
 
