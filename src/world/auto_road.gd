@@ -10,6 +10,10 @@ extends RefCounted
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
+
+## Set the first time the party stands in a town: the First Hour's first leg is done.
+const TOWN_REACHED := "objective:town"
 
 ## How far the party will turn aside for a band while walking itself. The road
 ## to anywhere is thick with them, so chasing every one means never arriving.
@@ -39,8 +43,74 @@ static func next_step(world: World) -> Vector2i:
 	return step
 
 
+## Where the First Hour sends the party next (D95), for the compass and for
+## Auto: `cell`, `label` (what the compass says), and `stop` (whether a party
+## walking itself hands back control on arriving, where nothing starts by itself).
+## In order: an errand taken (a Guild contract included), the nearest town until
+## one has been stood in, the nearest gate of the lowest rank until a gate has
+## been shut, then the Tower. Empty when there is nowhere left to send them.
+static func objective(world: World) -> Dictionary:
+	var here := world.player_cell
+	var closest := 1 << 30
+	var goal := {}
+	for taken: Dictionary in GameState.errands:
+		if str(taken.get(Dispatch.TAKEN_BY, "")) != "":
+			continue
+		var back := Errand.is_complete(taken)
+		var at := cell_of(taken.get("from" if back else "to", []))
+		if at.x < 0:
+			continue
+		var reach := Pathfinder.distance(here, at)
+		if reach < closest:
+			closest = reach
+			var named := str(taken.get("from_name" if back else "to_name", "the place"))
+			var there := world.site_at(at)
+			goal = {
+				"cell": at, "label": ("Back to %s" if back else "%s") % named,
+				"stop": back or Town.is_settlement(there),
+			}
+	if not goal.is_empty():
+		return goal
+
+	if not GameState.has_flag(TOWN_REACHED):
+		var town: Site = null
+		for site: Site in world.sites:
+			if not Town.is_settlement(site) or site.kind == Site.HUT or Town.is_ruined(site):
+				continue
+			var reach := Pathfinder.distance(here, site.cell)
+			if reach < closest:
+				closest = reach
+				town = site
+		if town != null:
+			return {"cell": town.cell, "label": town.display_name, "stop": true}
+
+	var gates: Array[Site] = world.sites_of_kind(Site.GATE)
+	if not gates.any(func(gate: Site) -> bool: return gate.cleared):
+		var first: Site = null
+		for gate: Site in gates:
+			if not gate.open or gate.cleared or Pace.avoided.has(gate.cell):
+				continue
+			if first == null or Site.rank_index(gate.rank) < Site.rank_index(first.rank) \
+					or (gate.rank == first.rank and Pathfinder.distance(here, gate.cell) < Pathfinder.distance(here, first.cell)):
+				first = gate
+		if first != null:
+			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.rank], "stop": false}
+
+	var tower := world.tower()
+	if tower != null and not world.tower_is_topped():
+		return {"cell": tower.cell, "label": tower.display_name, "stop": false}
+	return {}
+
+
+static func cell_of(at: Variant) -> Vector2i:
+	if at is Array and (at as Array).size() == 2:
+		return Vector2i(int(at[0]), int(at[1]))
+	return Vector2i(-1, -1)
+
+
 ## What the party walks towards when nobody is steering: a fight worth the
-## detour, then the nearest gate still standing, then the Tower.
+## detour, then the objective (D95), then the nearest gate still standing, then
+## the Tower.
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
 	var target := Vector2i(-1, -1)
@@ -52,6 +122,12 @@ static func errand(world: World) -> Vector2i:
 			target = band.cell
 	if target.x >= 0:
 		return target
+
+	var goal := objective(world)
+	if not goal.is_empty():
+		var there: Vector2i = goal["cell"]
+		if there != world.player_cell and not Pace.avoided.has(there):
+			return there
 
 	best = 1 << 30
 	for site in world.sites:

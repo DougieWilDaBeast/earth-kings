@@ -14,7 +14,7 @@
 			"id": "map",
 			"when": "map",
 			"title": "The road",
-			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. The map is in the journal (N). Esc opens the menu — How to Play is in there."
+			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. M opens the map; the compass points where to go. Esc opens the menu — How to Play is in there."
 		},
 		{
 			"id": "step",

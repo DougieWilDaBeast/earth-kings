@@ -17,6 +17,7 @@ const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
+const AutoRoad := preload("res://src/world/auto_road.gd")
 
 const SEED := 20260827
 ## Every check, in the order a full run takes them. `--check=` picks from these.
@@ -24,7 +25,7 @@ const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
 	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster",
-	"fall", "run_ends", "sixteen",
+	"fall", "first_hour", "run_ends", "sixteen",
 ]
 
 var _scene: Node
@@ -1409,6 +1410,56 @@ func _check_sixteen() -> void:
 		FileAccess.open(Museum.PATH, FileAccess.WRITE).store_string(hall)
 	GameState.new_game(SEED)
 	print("sixteen worlds: Caesar fell on floor 3, the world burned, and Ares found Caesar alive, then his weapon and his ghost")
+
+
+## The First Hour's objective (D95): the nearest town until one is stood in,
+## then the lowest gate until one is shut, then the Tower; an errand taken comes
+## first. Auto walks to it and, at a town, hands control back.
+func _check_first_hour() -> void:
+	var world: World = GameState.world
+	var kept_errands := GameState.errands.duplicate(true)
+	var kept_prowlers := world.prowlers.duplicate()
+	var kept_cell := world.player_cell
+	var kept_auto := Pace.auto
+	var kept_floor := world.tower_floor
+	var kept_topped := world.tower_topped
+	# Earlier checks topped the Tower; the climb is ahead in a First Hour.
+	world.tower_floor = 0
+	world.tower_topped = false
+	GameState.errands.clear()
+	world.prowlers.clear()
+	GameState.set_flag(AutoRoad.TOWN_REACHED, false)
+
+	var goal := AutoRoad.objective(world)
+	var town := world.site_at(goal.get("cell", Vector2i(-1, -1)))
+	_expect(town != null and Town.is_settlement(town), "the first objective is not a town")
+	_expect(bool(goal.get("stop", false)), "Auto would walk on past the first town")
+	if town != null:
+		_expect(AutoRoad.errand(world) == town.cell or world.player_cell == town.cell, "Auto is not walking to the objective")
+		# Standing in it moves the objective on, and a party walking itself stops there.
+		Pace.auto = true
+		_scene._hand_back_at(goal, town.cell)
+		_expect(not Pace.auto, "Auto did not hand back control at the town")
+		world.player_cell = town.cell
+		_scene._arrive_at(town)
+		_scene._busy = false
+	_expect(GameState.has_flag(AutoRoad.TOWN_REACHED), "standing in a town did not mark the first leg done")
+	var next := AutoRoad.objective(world)
+	var after := world.site_at(next.get("cell", Vector2i(-1, -1)))
+	_expect(after != null and after.kind in [Site.GATE, Site.TOWER], "after the town the objective is %s, not a gate or the Tower" % next)
+
+	var job := {"kind": Errand.LOOK, "title": "Look", "to": [kept_cell.x, kept_cell.y], "to_name": "the old well"}
+	GameState.errands.append(job)
+	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "an errand taken is not the objective")
+
+	GameState.errands.clear()
+	GameState.errands.append_array(kept_errands)
+	world.prowlers.append_array(kept_prowlers)
+	world.player_cell = kept_cell
+	world.tower_floor = kept_floor
+	world.tower_topped = kept_topped
+	Pace.auto = kept_auto
+	print("first hour: %s, then %s" % [goal.get("label", "?"), next.get("label", "?")])
 
 
 func _check_fall() -> void:

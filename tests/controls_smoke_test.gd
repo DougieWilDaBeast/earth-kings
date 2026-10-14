@@ -729,8 +729,16 @@ func _check_the_ground_is_the_game() -> void:
 	_expect(ground._act_bar != null, "a thumb has no buttons for the place's doings on the ground")
 	_check_the_overlay_keeps_off_the_hud("ground")
 
-	# The map is the journal's, and puts the party back where it stood.
-	EventBus.map_requested.emit()
+	# The compass points at the objective (D95).
+	ground._point_the_compass()
+	_expect(ground._compass != null and ground._compass.has_meta("aimed"), "the ground has no compass pointing anywhere")
+
+	# The map is the journal's, opened with M straight from the ground (D95), and
+	# puts the party back where it stood.
+	var m := InputEventKey.new()
+	m.keycode = KEY_M
+	m.pressed = true
+	ground._unhandled_input(m)
 	await _settle()
 	var shown := _current_scene()
 	_expect(shown != null and shown.get("_view") == shown.View.MAP, "the journal's map did not open the continent as a map")

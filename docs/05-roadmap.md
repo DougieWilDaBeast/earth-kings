@@ -118,7 +118,8 @@ each, each ending playable:
    loose stones are walked over; standing at the Tower's foot offers the climb instead of
    starting it (Auto still climbs); a region on water is not called grassland; the ground reads
    from mipmaps, so it no longer shimmers zoomed out.
-3. M opens the map, a compass points at the objective, Auto walks there — planned.
+3. M opens the map, a compass points at the objective, Auto walks there — built
+   ([D96](06-decisions.md), agenda item 78).
 4. Fights where they are met, opening running — planned.
 5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
 6. Tower floors 1 to 5, walkable — planned.

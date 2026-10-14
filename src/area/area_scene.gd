@@ -27,6 +27,9 @@ const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const Compass := preload("res://src/ui/compass.gd")
+## How often the compass asks where the objective is, in seconds.
+const COMPASS_EVERY := 0.25
 const AutoRoad := preload("res://src/world/auto_road.gd")
 
 const WALK_SPEED := 190.0
@@ -88,6 +91,9 @@ var _crumbs: Array[Vector2] = []
 var _walked: float = 0.0
 ## How far the leader has walked since the area opened, until it is far enough to call walking.
 var _strolled: float = 0.0
+## The needle pointing at the First Hour's objective (D95), top left under the place's name.
+var _compass: Control
+var _compass_clock := COMPASS_EVERY
 ## Notes that came while a box was open, for when it closes.
 var _held_notes: Array[String] = []
 ## Held while an exchange is playing over their heads.
@@ -190,6 +196,10 @@ func _ready() -> void:
 	if _land_mode:
 		_idle_hint = _land_hint()
 	_hint.text = _prompt_text()
+	_compass = Compass.new()
+	_compass.position = Vector2(14.0, 42.0)
+	_place.get_parent().add_child(_compass)
+	_point_the_compass()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
 	_lay_out_acts()
@@ -1180,6 +1190,10 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 func _physics_process(delta: float) -> void:
 	_quiet_while_spoken_to()
+	_compass_clock -= delta
+	if _compass_clock <= 0.0:
+		_compass_clock = COMPASS_EVERY
+		_point_the_compass()
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	if _land_mode:
@@ -2113,6 +2127,9 @@ func _note(line: String) -> void:
 	if _overlay_open():
 		_held_notes.append(line)
 		return
+	# The same line again says nothing new.
+	if not _notes.is_empty() and _notes.back() == line:
+		return
 	_notes.append(line)
 	if _notes.size() > 3:
 		_notes = _notes.slice(_notes.size() - 3)
@@ -2126,6 +2143,8 @@ func _quiet_while_spoken_to() -> void:
 	var quiet := _overlay_open()
 	_log.visible = not quiet
 	_hint.visible = not quiet
+	if _compass != null:
+		_compass.visible = not quiet and _compass.has_meta("aimed")
 	if _act_bar != null:
 		_act_bar.visible = not quiet
 	if not quiet and not _held_notes.is_empty():
@@ -2133,6 +2152,28 @@ func _quiet_while_spoken_to() -> void:
 		_held_notes.clear()
 		for line: String in held:
 			_note(line)
+
+
+## Aim the compass at the objective ([method AutoRoad.objective]). On the land it
+## points from where the leader stands to the middle of the objective's tile;
+## inside a place, from the place's tile.
+func _point_the_compass() -> void:
+	if _compass == null or GameState.world == null:
+		return
+	var world: World = GameState.world
+	var goal := AutoRoad.objective(world) if not GameState.rehearsing else {}
+	if goal.is_empty():
+		_compass.remove_meta("aimed")
+		_compass.hide()
+		return
+	var target: Vector2i = goal["cell"]
+	var bearing := Vector2(target - world.player_cell)
+	if _land_mode and _leader != null:
+		var land := map as Land
+		bearing = Vector2(target * land.slot + land.slot / 2) - Vector2(map.cell_at(_leader.position))
+	_compass.set_meta("aimed", true)
+	_compass.visible = not _overlay_open()
+	_compass.point(bearing, str(goal["label"]), Pathfinder.distance(world.player_cell, target))
 
 
 func _overlay_open() -> bool:
@@ -2178,6 +2219,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			and event.keycode == KEY_N:
 		get_viewport().set_input_as_handled()
 		EventBus.journal_requested.emit()
+	elif event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_M and not _leaving and not _talking:
+		# The map in one key (D95), not through the journal; M or Esc puts it away.
+		get_viewport().set_input_as_handled()
+		EventBus.map_requested.emit()
 	elif event.is_action_pressed("cycle_next") and not _leaving:
 		get_viewport().set_input_as_handled()
 		_cycle_leader()
