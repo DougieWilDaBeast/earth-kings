@@ -18,9 +18,8 @@ you saw, on which screen, and what you had done just before.
 
 | #   | Do this                                                                      | Expect                                                                                                         |
 | --- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| A1  | Launch the game                                                              | A map pass over a country you have never seen, camera drifting between places, a few figures walking the roads |
-| A2  | Wait through the whole cinematic without touching anything                   | The title fades up part-way, then "press anything to go on"; at about twelve seconds the title card: the logo over the sixteen falling, and "Press any key" |
-| A3  | Launch again and press a key or click immediately                            | Straight to the title card; another key slides the logo to the corner and the menu in down the left |
+| A1  | Launch the game                                                              | Straight onto the title card: the logo over the sixteen falling, and "Press any key" ("Tap to begin" on a phone); no map pass or second title before it ([D87](06-decisions.md)) |
+| A2  | Press a key or click on the title card                                       | The logo slides to the corner and the menu in down the left |
 | A4  | Hover each menu entry with the mouse                                         | A soft tick on each one, and the keyboard highlight follows the mouse                                          |
 | A5  | Click an entry                                                               | A firmer click, distinct from the hover                                                                        |
 | A6  | Sit on the title screen                                                      | Quiet music, sixteen streaks falling towards the world, the Tower's light pulsing on the horizon; nothing runs along the bottom |
@@ -341,8 +340,8 @@ and open `http://localhost:8000/` in Chrome or Firefox. `tools/web_smoke.py` pla
 
 | #   | Do this                                                        | Expect                                                                                      |
 | --- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| L1  | Open the page                                                  | The Godot loading bar, then the cinematic within a few seconds; silent until the first input |
-| L2  | Click anywhere on the cinematic                                | Straight to the title, and the title music starts with that click                           |
+| L1  | Open the page                                                  | The Godot loading bar, then the title card within a few seconds; silent until the first input |
+| L2  | Click anywhere on the title card                               | The menu slides in, and the title music starts with that click                              |
 | L3  | Look at the title menu                                         | No **Quit** — a page cannot close its own tab, so the browser build leaves it out            |
 | L4  | New Game → a life → walk a few steps → `Esc` → **Save Game**   | "Progress saved."                                                                            |
 | L5  | Reload the page, go on to the title                            | **Continue** is lit and puts you back where you saved (the save lives in the browser's IndexedDB) |
@@ -356,7 +355,7 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 
 | #   | Do this                                                                | Expect                                                                                    |
 | --- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| P1  | Press A on the cinematic, then D-pad and A on the title                | Straight to the menu; the highlight moves with the D-pad and A presses the entry          |
+| P1  | Press A on the title card, then D-pad and A on the menu                | The menu slides in; the highlight moves with the D-pad and A presses the entry            |
 | P2  | New Game → answer the quiz and pick a hero with the pad only           | Every answer, hero and the Start button reachable; B goes back a screen                   |
 | P3  | On the road, touch the stick, then press a key                         | The hint line says "A to …" after the stick, "E to …" after the key                        |
 | P4  | Walk with the left stick, then the D-pad                               | One tile per press, a run when held                                                       |
@@ -471,7 +470,7 @@ the soak with `STUCK … in Skirmish` or similar and exit code 2 — something i
 key nobody is pressing. A soak that runs clean ends with exit code 0.
 
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
-local port and plays it in headless Chromium through `tools/web_smoke.js`: past the cinematic,
+local port and plays it in headless Chromium through `tools/web_smoke.js`: past the title card,
 New Game, the quiz, a life, three steps on the map, the system menu's **Save Game**, then a reload
 and **Continue**. It fails on any console error, page error or failed request, a screen that never
 comes, or a save that never reaches IndexedDB, and prints the `.pck` and `.wasm` sizes and the load

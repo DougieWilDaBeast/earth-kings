@@ -27,7 +27,7 @@ const ROOT_SCENES := ["title", "cinematic"]
 
 @onready var _container: Node = $CurrentScene
 
-var _scene_key: String = "cinematic"
+var _scene_key: String = "title"
 ## The continent, run out of sight for the land while it takes a step ([D84]); gone once it
 ## has answered, or when the screen changes.
 var _continent: Node = null
@@ -47,7 +47,9 @@ func _ready() -> void:
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.
 	get_tree().set_quit_on_go_back(false)
-	_change_scene("cinematic", {})
+	# Straight onto the title card, the fall ([D87]). The old map pass before it
+	# read as a second intro, so it is no longer played.
+	_change_scene("title", {"from": "boot"})
 
 
 func _notification(what: int) -> void:
