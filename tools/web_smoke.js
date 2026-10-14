@@ -8,7 +8,7 @@
 // PLAYWRIGHT_BROWSERS_PATH. The walk is driven from the keyboard wherever it
 // can be, so a moved button does not break it:
 //   boot -> any key past the title card -> "Not now" to the tour ->
-//   New Game -> four quiz answers -> a life -> Esc past the opening ->
+//   New Game -> four quiz answers -> "This is you" -> Esc past the opening ->
 //   the world -> three steps -> Esc menu -> Save Game -> reload -> Continue.
 // Prints one JSON line of timings and findings; exits 1 on any failure.
 
@@ -88,12 +88,12 @@ const SAVE_FILE = 'earth-kings.save.json';
     for (let i = 0; i < 4; i++) await press('Enter', 1200); // four quiz answers
     await shot('03-quiz-done');
     const picked = Date.now();
-    await press('Enter', 2000); // the life the quiz found, or "Show me all sixteen"
-    await shot('04-character-select');
-    await press('Enter', 500); // the focused life
+    lines.length = 0; // the boot's own placeholder run printed a run line too
+    await press('Enter', 500); // "This is you": the life the quiz found
     const started = await waitFor(/new run, seed \d+, .*lead '[a-z_]+'/, 60000, 'a run to start');
     result.world_s = +(started - (picked - t0) / 1000).toFixed(2);
     await page.waitForTimeout(1500);
+    await shot('04-opening');
     await press('Escape', 3000); // the opening (docs/25): Esc skips to the end
     await shot('05-world');
 
