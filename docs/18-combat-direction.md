@@ -244,6 +244,11 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   clicking one readies it; the touch skill buttons sweep too. All in `src/skirmish/skirmish_fx.gd`
   and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`. Trees stand on the crags,
   walls and some of the edge, and bushes in the brush (`decor` in the same file).
+- **Sound and a level gained** (2026-10-13). Swings, bowshots, hits and criticals, blocks, a spell
+  gathering and going off, heals, stuns, draughts, a fall and the end of the fight are heard
+  ([D76](06-decisions.md), `data/sfx.json`). Whoever gains a level mid-fight flickers gold, with a
+  ring and the new level rising off them, and a line at the top right says so ([D77](06-decisions.md));
+  nothing stops the fight. A skill's name shrinks or wraps to fit its tile.
 
 **Coming in** — everything the turn-based battle did on the way into a fight, it does
 ([D65](06-decisions.md)):

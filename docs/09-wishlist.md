@@ -71,6 +71,10 @@ revealing their true Guard, Reach, Constitution, and catalogued abilities (maski
 with `?`). Knowing an enemy's Guard grants a 5% insight bonus in [`AbilityResolver`](../src/battle/abilities/ability_resolver.gd),
 rewarding exploration and bestiary study with tangible combat advantage.
 
+**Since 2026-10-13** ([D67](06-decisions.md)): the journal is a leather book with parchment pages and
+a ribbon per tab, found in the crater at the landing. Its first page, _The Company_, is a sheet for
+each companion; the Bestiary is the second.
+
 ## W5 — A museum
 
 > A museum you can go through from the title screen, as one of the options. You can access all past
@@ -120,6 +124,9 @@ title track of its own is still wanted.
 **Built.** [`Sfx`](../src/autoload/sfx.gd) autoload on its own audio bus, `audio/sfx/hover.wav`
 and `select.wav`. `Sfx.attend(button)` wires both noises; the title, character select and run
 summary screens all use it.
+
+**Since 2026-10-13** ([D76](06-decisions.md)): the same autoload plays the fight's fourteen sounds,
+cued by name from `data/sfx.json` (`Sfx.cue`), under the same Sounds slider.
 
 ---
 
@@ -427,6 +434,9 @@ and the top-down planar view. In world mode, stepping into sites or wilderness t
 local area; in planar mode, walking off cardinal edges transitions smoothly across adjacent
 continental territory, with **Z** returning to the continental view at any time.
 
+**Since 2026-10-12** ([D61](06-decisions.md)): one view. The game is played close up on the ground,
+`Z` is gone, and the whole continent is a look-only map in the journal (`N`, then `M`).
+
 ## W23 — More country: forest, desert, and the sea between
 
 > Bigger world. Multiple areas. Forest, desert, example. Travel by boat to different areas.
@@ -449,6 +459,12 @@ continental territory, with **Z** returning to the continental view at any time.
 terrain (brush, forest, marsh) breaks line of sight. Approaching prowlers unseen or stalking them
 through cover triggers an **Ambush** (`encounter["ambush"] = true`), granting the party first-round
 CT initiative (100 CT vs 0 CT) and +15% surprise damage on opening attacks.
+
+**Since 2026-10-13** ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md)): bands
+patrol the ground of each tile with their sight painted red on it, trees, rocks and cover blocking
+it. A step into the red, or a band walking into view, starts the fight right there; bursting out of
+long grass at them is an ambush, which in the real-time fight is a head start ([D65](06-decisions.md))
+rather than CT, gone with the turn-based battle.
 
 ## W25 — Bigger battles, longer missions
 
@@ -526,6 +542,12 @@ have grown by accretion: the world hint bar now competes for one line between cl
 unspent powers, escort patience, captives, roadside scenes and site actions, and the party screen
 is a tall stack of rows rather than a screen. Wants a deliberate pass over the world HUD, the
 party screen and the battle HUD.
+
+**Since:** the start screen is the fall ([D69](06-decisions.md)); the journal is a book, and the
+party screen chooses a path from class cards and a power from a trail of stones ([D67](06-decisions.md));
+a level gained is a flicker and a line, not a banner ([D77](06-decisions.md)); cut-off text on the
+road, in towns, in the fight and on character select was fixed (2026-10-13). Still to do: the world
+hint bar, and the battle HUD as a whole.
 
 ## W30 — A living world
 
