@@ -64,7 +64,7 @@ static var _known_for: String = ""
 
 ## The land at [param cell], by id in `data/biomes.json`.
 static func at(world: World, cell: Vector2i) -> String:
-	var stamp := "%d:%d" % [world.world_seed, world.steps]
+	var stamp := "%d:%d:%d" % [world.world_seed, world.shape_seed(), world.steps]
 	if stamp != _known_for:
 		_known.clear()
 		_known_for = stamp
@@ -164,10 +164,10 @@ static func _in_jungle_band(world: World, cell: Vector2i, wide: float) -> bool:
 ## The same damp the world was carved with ([WorldGen]), so wet country here is
 ## wet country there.
 static func _damp(world: World) -> FastNoiseLite:
-	var key := "%d:damp" % world.world_seed
+	var key := "%d:damp" % world.shape_seed()
 	if not _noises.has(key):
 		var noise := FastNoiseLite.new()
-		noise.seed = world.world_seed + 7717
+		noise.seed = world.shape_seed() + 7717
 		noise.frequency = 0.045
 		_noises[key] = noise
 	return _noises[key]
@@ -212,10 +212,10 @@ static func tint(biome_id: String) -> Color:
 
 
 static func _noise(world: World, which: int) -> FastNoiseLite:
-	var key := "%d:%d" % [world.world_seed, which]
+	var key := "%d:%d" % [world.shape_seed(), which]
 	if not _noises.has(key):
 		var noise := FastNoiseLite.new()
-		noise.seed = world.world_seed + 4241 + which * 977
+		noise.seed = world.shape_seed() + 4241 + which * 977
 		noise.frequency = 0.035 if which == 0 else 0.07
 		_noises[key] = noise
 	return _noises[key]

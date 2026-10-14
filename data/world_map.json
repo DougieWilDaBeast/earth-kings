@@ -1,0 +1,951 @@
+{
+	"_doc": "The one world every run is played on (D91, D92, docs/27). Chosen by doug-md on 2026-10-12 and frozen on 2026-10-14 from the generator's seed 31337 (Map F), with the Tower moved to the middle. Improve it by hand: `tiles` are rows of terrain symbols (see `World.LEGEND` in src/chronicle/world.gd), `sites` the places. A run copies it and never writes back. Draw it with `tools/world_maps.tscn -- --fixed`.",
+	"from_seed": 31337,
+	"name": "Earth",
+	"sites": [
+		{
+			"broken": false,
+			"cell": [
+				64,
+				64
+			],
+			"cleared": false,
+			"data": {
+				"area": "tower"
+			},
+			"display_name": "The Tower",
+			"kind": "tower",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				98,
+				75
+			],
+			"cleared": false,
+			"data": {
+				"area": "keep",
+				"faction": "heart_empire"
+			},
+			"display_name": "Hollowhold",
+			"kind": "keep",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				71,
+				81
+			],
+			"cleared": false,
+			"data": {
+				"area": "keep_thorn",
+				"faction": "bamboo_court"
+			},
+			"display_name": "Brighthold",
+			"kind": "keep",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				59,
+				54
+			],
+			"cleared": false,
+			"data": {
+				"area": "keep",
+				"faction": "heart_empire"
+			},
+			"display_name": "Coldrun",
+			"kind": "keep",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				104,
+				79
+			],
+			"cleared": false,
+			"data": {
+				"area": "keep_thorn",
+				"faction": "bamboo_court"
+			},
+			"display_name": "Hollowford",
+			"kind": "keep",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				32,
+				76
+			],
+			"cleared": false,
+			"data": {
+				"area": "keep",
+				"faction": "heart_empire"
+			},
+			"display_name": "Hollowvale",
+			"kind": "keep",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				78,
+				49
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_pines",
+				"faction": "freeholds"
+			},
+			"display_name": "Stormmarch",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				87,
+				68
+			],
+			"cleared": false,
+			"data": {
+				"area": "village",
+				"faction": "freeholds"
+			},
+			"display_name": "Mournwater",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				60,
+				81
+			],
+			"cleared": false,
+			"data": {
+				"area": "city",
+				"city": true,
+				"faction": "freeholds"
+			},
+			"display_name": "Stormreach",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				88,
+				54
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_dune",
+				"faction": "freeholds"
+			},
+			"display_name": "Fenwater",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				90,
+				31
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_shore",
+				"faction": "freeholds"
+			},
+			"display_name": "Witherreach",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				81,
+				88
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_pines",
+				"faction": "freeholds"
+			},
+			"display_name": "Coldford",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				32,
+				105
+			],
+			"cleared": false,
+			"data": {
+				"area": "village",
+				"faction": "freeholds"
+			},
+			"display_name": "Brightgate",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				54,
+				45
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_fen",
+				"faction": "freeholds"
+			},
+			"display_name": "Brightwater",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				59,
+				27
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_dune",
+				"faction": "freeholds"
+			},
+			"display_name": "Ashmarch",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				76,
+				41
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_shore",
+				"faction": "freeholds"
+			},
+			"display_name": "Coldbarrow",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				66,
+				95
+			],
+			"cleared": false,
+			"data": {
+				"area": "village_pines",
+				"faction": "freeholds"
+			},
+			"display_name": "Eldermarch",
+			"kind": "village",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				75,
+				96
+			],
+			"cleared": false,
+			"data": {
+				"area": "library_vault",
+				"doctrine": "the_open_palm"
+			},
+			"display_name": "Mourngate",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				75,
+				70
+			],
+			"cleared": false,
+			"data": {
+				"area": "library",
+				"doctrine": "the_vigil"
+			},
+			"display_name": "Ashbarrow",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				53,
+				96
+			],
+			"cleared": false,
+			"data": {
+				"area": "library_cloister",
+				"doctrine": "swift_water"
+			},
+			"display_name": "Hollowrun",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				47,
+				64
+			],
+			"cleared": false,
+			"data": {
+				"area": "library_vault",
+				"doctrine": "swift_water"
+			},
+			"display_name": "Ashspire",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				100,
+				51
+			],
+			"cleared": false,
+			"data": {
+				"area": "library",
+				"doctrine": "long_stride"
+			},
+			"display_name": "Brightford",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				109,
+				72
+			],
+			"cleared": false,
+			"data": {
+				"area": "library_cloister",
+				"doctrine": "keen_edge"
+			},
+			"display_name": "Mournford",
+			"kind": "library",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				102,
+				70
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_drowned",
+				"faction": "the_dusk"
+			},
+			"display_name": "Ashreach",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "B"
+		},
+		{
+			"broken": false,
+			"cell": [
+				47,
+				42
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_ash",
+				"faction": "the_tide"
+			},
+			"display_name": "Hollowgate",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "A"
+		},
+		{
+			"broken": false,
+			"cell": [
+				24,
+				69
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_barrow",
+				"faction": "the_ooze"
+			},
+			"display_name": "Greyford",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "B"
+		},
+		{
+			"broken": false,
+			"cell": [
+				43,
+				91
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_dune",
+				"faction": "the_wild"
+			},
+			"display_name": "Stormvale",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "C"
+		},
+		{
+			"broken": false,
+			"cell": [
+				45,
+				56
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate",
+				"faction": "ember_wilds"
+			},
+			"display_name": "Hollowwater",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "S"
+		},
+		{
+			"broken": false,
+			"cell": [
+				25,
+				43
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_drowned",
+				"faction": "the_tide"
+			},
+			"display_name": "Mournbarrow",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "C"
+		},
+		{
+			"broken": false,
+			"cell": [
+				67,
+				15
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_ash",
+				"faction": "the_wild",
+				"ward": {
+					"ability": "ember",
+					"denied": "The Dread Arch is bound in ancient frost. It would take Ember or the Warden's Key to open.",
+					"key": "gate_key",
+					"name": "the Dread Arch",
+					"opened": "The ancient frost shatters, clearing the Dread Arch."
+				}
+			},
+			"display_name": "Mournspire",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "C"
+		},
+		{
+			"broken": false,
+			"cell": [
+				54,
+				13
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_barrow",
+				"faction": "ember_wilds"
+			},
+			"display_name": "Greymarch",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "D"
+		},
+		{
+			"broken": false,
+			"cell": [
+				98,
+				94
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_dune",
+				"faction": "ember_wilds"
+			},
+			"display_name": "Mournreach",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "E"
+		},
+		{
+			"broken": false,
+			"cell": [
+				97,
+				59
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate",
+				"faction": "broken_oath"
+			},
+			"display_name": "Fenford",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "A"
+		},
+		{
+			"broken": false,
+			"cell": [
+				81,
+				33
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_drowned",
+				"faction": "broken_oath"
+			},
+			"display_name": "Coldspire",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "B"
+		},
+		{
+			"broken": false,
+			"cell": [
+				34,
+				63
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_ash",
+				"faction": "the_wild"
+			},
+			"display_name": "Fenvale",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "S"
+		},
+		{
+			"broken": false,
+			"cell": [
+				34,
+				32
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_barrow",
+				"faction": "the_dusk"
+			},
+			"display_name": "Eldervale",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "D"
+		},
+		{
+			"broken": false,
+			"cell": [
+				100,
+				31
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate_dune",
+				"faction": "the_ooze"
+			},
+			"display_name": "Stormwater",
+			"kind": "gate",
+			"open": false,
+			"opened_at": 0,
+			"rank": "E"
+		},
+		{
+			"broken": false,
+			"cell": [
+				31,
+				88
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_orchard"
+			},
+			"display_name": "Brightspire",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				34,
+				51
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_cairn"
+			},
+			"display_name": "Fenspire",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				43,
+				24
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_stilt"
+			},
+			"display_name": "Eldergate",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				72,
+				11
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut"
+			},
+			"display_name": "Withermarch",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				19,
+				65
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_orchard"
+			},
+			"display_name": "Greyvale",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				73,
+				59
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_cairn"
+			},
+			"display_name": "Greyrun",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				46,
+				103
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_stilt"
+			},
+			"display_name": "Brightmarch",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				84,
+				106
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut"
+			},
+			"display_name": "Fenreach",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				71,
+				34
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_orchard"
+			},
+			"display_name": "Mournrun",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				20,
+				37
+			],
+			"cleared": false,
+			"data": {
+				"area": "hut_cairn"
+			},
+			"display_name": "Ashrun",
+			"kind": "hut",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				77,
+				48
+			],
+			"cleared": false,
+			"data": {},
+			"display_name": "Home",
+			"kind": "home",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		}
+	],
+	"size": [
+		128,
+		128
+	],
+	"tiles": [
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo~ooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo~~~~~~ooo~oooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooooooooooooooo~~~~~~~~~~~~~~~~~~~~~~~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooo~~~~ww~~~wwwwww~~~~w~ww~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooooooo~~oo~~~~wwwwwwwwwwwwwwwwwwwwww~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooo~~~~~~~~wwwwwwwwwwwwwwwwwwwwwww~~~~~~ooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooooo~~~www~w^wwwwwwwwwwwwwwwwwwwllwww~~~~~ooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooooo~~~wwww^^wwwwwwwwwwwwwwwwwwwwlww~~~~~~ooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooo~~~~wwwww^^wwwwwwwwwwwwwwwwwwwwww~~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooo~~~~wwwww^^^wwwwwwwwwwwwwwwwwwwww~~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooo~~~~wwwwwww^^^^^wwwwwwwwwwwwwwwwwww~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooo~~^wwwwwwww^^^^^^wwwwwwwwwwwwwwwwwwww~~~~~ooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooo~~^^^^wwww^^^AAAA^wwwwwwwwwwwwwwwww.wwww~~~~~~oooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooo~AAAA^^^^^^^^AAAAA^wwwwwwwwwwwwwwww.........~~~oooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooo~~AAAAAAAA^^^AAAAAAA^^wwwwwwwwwwwww...........^^~~ooo~~oooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooo~AAAAAAAAAAAAAAAAAA^^^^wwwwwwwwww.............^^^~~~~~~~~oooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooo~~AAAAAAA##AAAA##AAAA^^^^^wwww..................^^^A##AAA~~~~oooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooo~~AAAAAAAA###AAA#AAAAAA^^^^^.....................^^AA#AAAAA~~~~~~ooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooo~~~~^AAAAAAAAAAAAA#AAAAAAAAA^^.....................^^AAAAAAAAA~~~~~~oooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooo~~~~^^^AAAAAAAAAAAAAAAAAAAAAA^......................^AAAAAAAAA~~~~~~~ooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooo~~~~,^^^AAAAAAAAAAAAAAAAAAAAAA^,,,,...................^^A^A^AAA^^,,~~~~oooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooo~~~,,,^AAAAA^AAAA^^^^^^^AAAAAA^^,,,....................^^^^AAAA^^....~~oooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooo~~~~~~~,,fff^AAAAAAAAA^^^^^^^^AAAA^^^,f,,,...........,.......^^AAAAAA^....~~oo~~o~~~oooooooooooooooooo",
+		"ooooooooooooooooooooooooo~~~~~~~,,,fff^AAAAAAAA^^.^^^^^^^^A^^^^^ff,,,......,,,,,.......^^AAAAA^^.....~~o~~~~~~oooooooooooooooooo",
+		"oooooooooooooooooooooooo~~~~~~~~,,,ff,^AAAAAAA^^^^^^^^^^^^^^^^^^^,,,,,..,,,,,,,,........^^AAA^^,,,,,,~~~~~~~~ooooooooooooooooooo",
+		"oooooooooooooooooooooooo~~~..~~,,.,,,,^AAAAAAA^^^^^^^^^^^^^^^A^^^,,,,,.,bbbbbbb,........^^^A^^^,,fff,.~~~~~~oooooooooooooooooooo",
+		"ooooooooooooooooooooooo~~~~~~~.,,,,ff^^AAAAA^^^^^^^^^^^^^^^^AA^^^^^^...,,bllllb,,.......^^^^^^,fffff,,.~~~~~oooooooooooooooooooo",
+		"ooooooooooooooooo~~~~~~~~~~~...,,,,ff^^^^AAA^^^^^^^^^^^^^^^AAA^^^^^^....,,bbbbb,........^^^^^^ffffffl,,...~~oooooooooooooooooooo",
+		"ooooooooooooooo~~~~~~~~~~~~~.....,,,f,^^^^^A^^^^^^^^^^^^^AAAAA^^^^^^,,...,,bbb,,......,,^^^^^ffffffflb,...~~~ooooooooooooooooooo",
+		"ooooooooooooooo~~~~~~~~~~~~~~.......,,^^^^^^^^^AAA^^^^^^^AAAAAAA^^^^^,....,,,,,,.......,^^^^^ffffffflb,....~~ooooooooooooooooooo",
+		"oooooooooooooooo~~....~~~~~~~.........^^^^^^^^^AAAA^^^^AAAAAAAAA^^^^^,..,,,,,,.........,,^^^^ffffffffb,,...~~ooooooooooooooooooo",
+		"oooooooooooooooo~~....~~~..............,^^^^^^^AAAAA^^^^AAAAAAA^^^^^^^,,,,,,,,.........^^^^^^^ffff,fff,,...~~ooooooooooooooooooo",
+		"ooooooooooooooo~~~......................,.^^^^^^^AAA^^^AAAAA#AA^^^^^^^^,,,,,,........^^^^^^^^fffff,,,,,....~~ooooooooooooooooooo",
+		"ooooooooooooooo~~~..........................^^^^^^^^^^^A###AAA^^^^AA^^^^,,,..........^^AA^AAA^^ff,,,,,,,..~~oooooooooooooooooooo",
+		"oooooooooooooo~~~................................,^^^^^AA#AAAA^^^AAA^^^^....^........^AAAAAAAA^^,,,,,,,,,~~~oooooooooooooooooooo",
+		"oooooooooooooo~~................................,,..^^^A##AAAA^^^AAA^^^^............^^^^^^AAAAA^,,,.....,~~~oooooooooooooooooooo",
+		"oooooooooooooo~~,,,,.........................,.,,.....^AAAAAA^^^^^^^^^^^.............^^^^^AAAAA^^,.....,~~~~oooooooooooooooooooo",
+		"oooooooooooooo~,,,,,,,......................,,,,,.....^^A^^^^^^^^^^^^^^...............^^^^^AAA^^^.....,,,~~~oooooooooooooooooooo",
+		"oooooooooooooo~,,,,bbb,,....................,,,f,,.....^^^^^,,,^^^^^....................^^^AA^^^^^^...,ff~~~oooooooooooooooooooo",
+		"oooooooooooooo~~,~,bbbb,,,,,,...............,,bff,.........,,^,,^ff,...................,^^^^^^^^^^^....,ff~~oooooooooooooooooooo",
+		"oooooooooooooo~~~~~~bbb,,.,,,,,.............,bllff,.........,.,,fff,,.................,,,^^^^^^^^^^..^^^,ff~~ooooooooooooooooooo",
+		"oooooooooooooooo~~~~blb,,..,,,,............,,blllb,,.....,,......ff,,.................,,,^^^^^^^^^^^..^^,,~~~ooooooooooooooooooo",
+		"ooooooooooooooooo~~~bbb,,,,,,,,...........,,bllfff,,.............,,,,...................,^^^.....^^^.....,,~~~oooooooooooooooooo",
+		"ooooooooooooooooo~~~bbb,,,,,,,,............,bbffff,,..............,,,......................................,,~oooooooooooooooooo",
+		"oooooooooooooooo~~~bbbbb,,,,,,............,,,fff,,..........................................................,~~ooooooooooooooooo",
+		"oooooooooooooooo~~,,bbfff,,,,,............,,,,,,,,..........................................................,~~ooooooooooooooooo",
+		"oooooooooooooooo~~.,bbf,,,,,.,,................,,,.................................,.,,.,,..................,~~ooooooooooooooooo",
+		"ooooooooooooooo~~~.,,,,,,,...,,................,,..................................,,,,.,,.............,..,.,~~ooooooooooooooooo",
+		"ooooooooooooooo~~~.,,,,,,......................,...^^..^...........................,,,,,,............,,,,,.,,~~ooooooooooooooooo",
+		"ooooooooooooooo~~~..,,,,.......................,,..^^^^^...........................,ff,,,,,........,,b,,,...~~~ooooooooooooooooo",
+		"oooooooooooooooo~~..,,,.....,,..,,,.^...........^..^^^^............................,,f,,,,,.......,,fbf,....~~~ooooooooooooooooo",
+		"ooooooooooooooooo~~....,.....,,^^^^^^^^^^^^^^^^,,.^^^^^.....^......................,ff,,,,,.,....,bbff,,....~~~ooooooooooooooooo",
+		"oooooooooooooooooo~...,......,,^^^^^^^^^^^^^^^^^,^^^^^^^....^......................,,,,..,,......,,bff,.....~~~ooooooooooooooooo",
+		"oooooooooooooooooo~..........,f,^^^^^^^^^^^^^^,^^^^AA^^^............................,,,..........,,bff,,....~~~ooooooooooooooooo",
+		"oooooooooooooooooo~.........,ff^^^^^^^^^^^^^^^^^^^^^AA^^...................................,,..,,,bffff,...,.~~ooooooooooooooooo",
+		"ooooooooooooooooo~~..........,f,^^^^^^^^^^^^,^^^^AAAA^^^...................................,,.,,,bllfff,,.,..~~~oooooooooooooooo",
+		"ooooooooooooooooo~~......,,,,ff,,^AAAAAA^^^,,,^^AAAAAA^^^..................................,,,..,blfffff,,,,.~~~oooooooooooooooo",
+		"ooooooooooooooooo~~.....,,,,,f,,.^AAAAAA^^^^,,^^AAAAAAA^^^................................,,,,..,,ffffff,,,...~~oooooooooooooooo",
+		"ooooooooooooooooo~~.....,,,,ff,,.^^AAAAAA^^^,,^^A####AAA^^..,,...,,......................,,,....,,fblff,,.....~~~ooooooooooooooo",
+		"ooooooooooooooooo~~~....,,,,f,,...^^AAAAAA^^^^^^A#####AA^^,,,,,.,,,,,,,,,.................,,...,,,bblbff,......~~ooooooooooooooo",
+		"ooooooooooooooooo~~~....,,,,,,.....^^AAA^A^^^^^AA####AAA^,,,f,,,,,,,ffbbb,,,.....,,..........,,,,,,,bf,,,.......~~oooooooooooooo",
+		"ooooooooooooooooo~~~~.....,,,......^^^AA^^^^^^^AA###AAAA^,,,f,,,ff,ffllll,,,.................,,,..,,,ff,,.......~~oooooooooooooo",
+		"oooooooooooooooo~~~~~~...,..........^AA^^^^^^AA#####AAA^^.,,,,,fffffflllb,,,....,,..........,,,,...,,fff,,.......~oooooooooooooo",
+		"oooooooooooooooo~~~~~~~.,...........^^^^^^^^AA#####AAAA^^^...,,ffffffffbbb,,,,..,,..........,,,...,,,fff,,,,....~~~ooooooooooooo",
+		"oooooooooooooooo~~~~~~~,,,,,...........^^^^AAA#####AAAAA^^...,,ffffff,fbb,....................,...,,,ffffff,,..~~~~ooooooooooooo",
+		"oooooooooooooooo~~~~~~~~,,,...,.........^^^AAAA#######AA^^^..,ffffff,,,,,,.......................,,,ffffffff,....,~~~ooooooooooo",
+		"ooooooooooooooooo~~~~~~~,..............^^^^AAAAAA####AAA^^^^.,ffffff,,,,..........................,^^^^f,,f,,...,,b~~ooooooooooo",
+		"ooooooooooooooooo~~~~~~~,,..............^^AAA^AAAA####AAA^^^^,ffff^f,,.......,,.,.................^^^^^^^^,,....,,,,~~oooooooooo",
+		"ooooooooooooooooo~o~~~~~~b,............^^^AA^^^^AA#AAAAAAA^^,,ffff^,,............,,.............^^^^^^^^^^^^......,~~~oooooooooo",
+		"ooooooooooooooooooo~~~~~~b,,...........^^AAA^^^^^AAA#A#AAAA^^fffff^,..........................^^^^AAAA^AAAA^^^^....~~~oooooooooo",
+		"oooooooooooooooooooo~~~~~bb,,.........^^^AAA^^^^^^AA######AA^^^ff^,...........................^^^AAAAAAAAAAAAA^..~~~~ooooooooooo",
+		"oooooooooooooooooooo~~~~bbb,...........^^^^^^^^.^^^AA#####AAA^^fff,,..........................^^AAAAAAAA###AA^^^~~~~~~oooooooooo",
+		"oooooooooooooooooooo~~~~bb,.............^^^^^....^^^AA####AAAA^^fff,,.........................^AAA^^AAAAAAAA~~~~~~~~~~oooooooooo",
+		"oooooooooooooooooooo~~~~,,,.............^^^^^......^AAAAAAAAAA^^fffff,,.....................^^^AAAAAAAAAAAA~~~~~oooooooooooooooo",
+		"oooooooooooooooooooo~~~~b,,..............^^^.......^^AAAAAAA^^^^fffff,,......................^^^AAAAAAAAAAA^~~~ooooooooooooooooo",
+		"oooooooooooooooooooo~~~~,,.........................^^^AAA^^^^^^fffllff,......................^^^^^AAAAAAAA^^~~~~oooooooooooooooo",
+		"oooooooooooooooooooo~~~~,,.................,,,,,....^^^^^^^^^^^ffflllf,.....................^..^^^^^AA^^^^^^~~~~oooooooooooooooo",
+		"ooooooooooooooooooo~~~b,,,.................,,,,,,....^^^^.....,fflllbb,...................^^^^^^^^^^^^^^^^^~~~~~oooooooooooooooo",
+		"oooooooooooooooooo~~bbb,....................,ff,.,....^^.....,,ffllbbb,,.................^^^^^^^^^^^^^,,,,~~~~~ooooooooooooooooo",
+		"oooooooooooooooooo~llb,,....................,ff,,,..........,,fbbbblb,,,,,...............^^^^^^^^^^^.,,,,,~~oooooooooooooooooooo",
+		"ooooooooooooooooo~~lbbb,....................,,f,,,..........,,,bbbllf,,,,,,,............^^^^^^^^^^^^.,,,,~~ooooooooooooooooooooo",
+		"ooooooooooooooooo~~bbb,,......................,,f,,........,,,,,,bbbf,,,,,,,,...........^^AAAA^^^^^^..,,~~oooooooooooooooooooooo",
+		"ooooooooooooooooo~b,,,,,......................,,f,,.......,,,,,.,,,bb,f,,,,,,.........^^^^^^^^^^^^,,..~~~~oooooooooooooooooooooo",
+		"ooooooooooooooooo~,,,,,,......................,,,,,.......,,,,,,,,,,bbbbbfff,,.......^^^^^^^^^.,,,,,,,~~oooooooooooooooooooooooo",
+		"ooooooooooooooooo~,,,,,,.......................,,,,,,,....,,,,,,b,,,bbbbbbf,,,.......^^^^^...,.,,,,f,~~~oooooooooooooooooooooooo",
+		"oooooooooooooooo~~s..,...........................,,,,,,...,,,,,bbb,,,,,bbb,,,,.^^^^^^^^....,,,,,,fff,~~~oooooooooooooooooooooooo",
+		"oooooooooooooooo~~~ss............................,,,,,,....,,,,b,b,,,,,,,,.......^^^^^....,,,,,,,fbb,,~~~ooooooooooooooooooooooo",
+		"ooooooooooooooooo~~~ss..........................,,,,,,,,..,,,,,bb,,,,,,,,.......,,,^^^s...,,,,,,,,bbb,,~~ooooooooooooooooooooooo",
+		"ooooooooooooooooo~~~sss...............................,,,,,,,,bblbb,,.,,........,,sssssss.,,,,,,,,bb,,.~~ooooooooooooooooooooooo",
+		"oooooooooooooooooo~~~ssss..............................,,,b,,,,bbbb,,........s.sssssssssss,,,,,~,,,,,.~~~ooooooooooooooooooooooo",
+		"oooooooooooooooooooo~~sssssss..........................,,bfb,,,,,,,,,..ssssssssssssssssssss.,,~~~~,~~~~oo~oooooooooooooooooooooo",
+		"ooooooooooooooooooooo~~ssssssss.........................,,bb,,,.....sssssssssssssssssssssss...,~~~~~~ooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooo~~ssssssss...................s....,sssss.ss..sssssssssssssssssssssssss...~~~~ooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooo~~ssssssss.........ssssssssssss.sssssssssssssssssssssssssssssssssssssss~~~ooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooo~~sssssssss....ssssssssssssssssssssssssssssssssssssssssssssssssssssss~~~oooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooo~~sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss~~oooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooo~~ssssssssssssssssssssssssssssssssssssss^ssssssssssssssssssssssss~~~oooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooo~sssssssssssssssssss~~ssssssssssssssss^^^ssssssssssssssssssssssss~~oooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooo~~sssssssssssssssss~~~ssssssssssssss^^^^^sssssssssssssssssssssss~s~oooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooo~~~sssssssssssssss~~~~~~~ssssssssss^^^^^^ssssssssssssssssssssss~~~~~ooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooo~~ssssssssssssss~~~~~~~~~~~~sss~ss^^^^^sssssssssssssssssssssss~~~~oooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooo~~~^^^^ssssssss~~~~~~oooo~~~~~~~~~^^^^sssssssssssssslsssssssss~~~~oooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooo~~~~~~~~sssss~~~~~~oooooo~~~~~~~~~~~^ssssssssssssssssss~~~~~~~~~ooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooo~~~oo~~~~~~~~~~ooooooooooooooo~~~~~~ssssssssssssslsls~~~~~~~~~oooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooo~~~~~~ooooooooooooooooooo~~~~~sss^sssssssssss~~~~~~~~~~~oooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooo~o~~oooooooooooooooooooooo~~~~^^^~~~~~~~~~~~oooo~~~~~~oooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo~~~~~~~~~~~~~~~~~ooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo~~~~~~~~~oooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooo~~ooooooooooooooooooooooooooooooo~ooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooo~~~ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"ooooooooooooooooooooooooooooooooooooooooo~~ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooo~ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+		"oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+	]
+}

@@ -71,7 +71,7 @@ static func slot(world: World, tile: Vector2i) -> Dictionary:
 		kind = "rock"
 	elif place_id != "":
 		kind = "place"
-	var key := "%d|%d,%d|%s|%s|%s" % [world.world_seed, tile.x, tile.y, land, kind, place_id]
+	var key := "%d|%d,%d|%s|%s|%s" % [world.shape_seed(), tile.x, tile.y, land, kind, place_id]
 	if _slots.has(key):
 		return _slots[key]
 	var made: Dictionary
@@ -151,7 +151,7 @@ static func _barrier(world: World, tile: Vector2i, kind: String, land: String) -
 	if kind == "rock":
 		# A few boulders on the slopes, so a mountain is not a flat grey sheet.
 		var rng := RandomNumberGenerator.new()
-		rng.seed = hash([world.world_seed, tile.x, tile.y, "rock"])
+		rng.seed = hash([world.shape_seed(), tile.x, tile.y, "rock"])
 		var rocks: Array = Biome.data(land).get("props", {}).get("rocks", [])
 		if rocks.is_empty():
 			rocks = ["biome/boulder"]
@@ -333,7 +333,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	var w := int(size[0])
 	var h := int(size[1])
 	var rng := RandomNumberGenerator.new()
-	rng.seed = hash([world.world_seed, cell.x, cell.y, "ground"])
+	rng.seed = hash([world.shape_seed(), cell.x, cell.y, "ground"])
 
 	var grid: Array[PackedStringArray] = []
 	for y in h:
@@ -454,7 +454,7 @@ static func _gap_start(world: World, a: Vector2i, b: Vector2i, length: int) -> i
 	var lo := a if (a.x < b.x or (a.x == b.x and a.y < b.y)) else b
 	var hi := b if lo == a else a
 	var span := maxi(1, length - GAP - 8)
-	return 4 + absi(hash([world.world_seed, lo.x, lo.y, hi.x, hi.y])) % span
+	return 4 + absi(hash([world.shape_seed(), lo.x, lo.y, hi.x, hi.y])) % span
 
 
 static func _edge_cell(side: String, i: int, w: int, h: int) -> Vector2i:

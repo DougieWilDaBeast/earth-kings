@@ -56,6 +56,8 @@ var _open: PackedStringArray = []
 ## Questions answered so far, across every pair, for the step line.
 var _answered: int = 0
 
+## The land is always the one world (D91); the seed deals the rest.
+const SEED_TIP := "The world is always the same. The seed decides where you land, who you meet and what happens. Leave it empty for a fresh run."
 @onready var _step: Label = %StepLabel
 @onready var _question: Label = %QuestionLabel
 @onready var _options: VBoxContainer = %Options
@@ -79,6 +81,7 @@ var _answered: int = 0
 
 
 func _ready() -> void:
+	_seed_field.tooltip_text = SEED_TIP
 	for code in boot_payload.get("fallen", []):
 		_fallen.append(str(code))
 	_fallen_heroes = boot_payload.get("fallen_heroes", [])
