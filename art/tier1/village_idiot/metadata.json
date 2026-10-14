@@ -1,0 +1,350 @@
+{
+ "id": "village_idiot",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "village_idiot",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "turn him into a dim cheerful village idiot in a torn too-big tunic, mismatched boots and a dented pot on his head, holding a ladle. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 33.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 46.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "attack",
+   "action": "a wild swing of the ladle",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 28.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "skill",
+   "action": "flailing both arms in a clumsy spin",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 28.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 10.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 20.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "attack",
+   "action": "a wild swing of the ladle",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/village_idiot_base.zip",
+   "generations": 7.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "b1492c21-355c-4cc5-9c44-164f0ecaeb1a",
+     "name": "village_idiot",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T12:24:03.058336+00:00"
+    },
+    "folder": "village_idiot",
+    "frames": {
+     "rotations": {
+      "south": "village_idiot/rotations/south.png",
+      "south-east": "village_idiot/rotations/south-east.png",
+      "east": "village_idiot/rotations/east.png",
+      "north-east": "village_idiot/rotations/north-east.png",
+      "north": "village_idiot/rotations/north.png",
+      "north-west": "village_idiot/rotations/north-west.png",
+      "west": "village_idiot/rotations/west.png",
+      "south-west": "village_idiot/rotations/south-west.png"
+     },
+     "animations": {
+      "death": {
+       "north": [
+        "village_idiot/animations/death/north/frame_000.png",
+        "village_idiot/animations/death/north/frame_001.png",
+        "village_idiot/animations/death/north/frame_002.png",
+        "village_idiot/animations/death/north/frame_003.png",
+        "village_idiot/animations/death/north/frame_004.png",
+        "village_idiot/animations/death/north/frame_005.png",
+        "village_idiot/animations/death/north/frame_006.png",
+        "village_idiot/animations/death/north/frame_007.png",
+        "village_idiot/animations/death/north/frame_008.png"
+       ],
+       "west": [
+        "village_idiot/animations/death/west/frame_000.png",
+        "village_idiot/animations/death/west/frame_001.png",
+        "village_idiot/animations/death/west/frame_002.png",
+        "village_idiot/animations/death/west/frame_003.png",
+        "village_idiot/animations/death/west/frame_004.png",
+        "village_idiot/animations/death/west/frame_005.png",
+        "village_idiot/animations/death/west/frame_006.png",
+        "village_idiot/animations/death/west/frame_007.png",
+        "village_idiot/animations/death/west/frame_008.png"
+       ],
+       "south": [
+        "village_idiot/animations/death/south/frame_000.png",
+        "village_idiot/animations/death/south/frame_001.png",
+        "village_idiot/animations/death/south/frame_002.png",
+        "village_idiot/animations/death/south/frame_003.png",
+        "village_idiot/animations/death/south/frame_004.png",
+        "village_idiot/animations/death/south/frame_005.png",
+        "village_idiot/animations/death/south/frame_006.png",
+        "village_idiot/animations/death/south/frame_007.png",
+        "village_idiot/animations/death/south/frame_008.png"
+       ],
+       "east": [
+        "village_idiot/animations/death/east/frame_000.png",
+        "village_idiot/animations/death/east/frame_001.png",
+        "village_idiot/animations/death/east/frame_002.png",
+        "village_idiot/animations/death/east/frame_003.png",
+        "village_idiot/animations/death/east/frame_004.png",
+        "village_idiot/animations/death/east/frame_005.png",
+        "village_idiot/animations/death/east/frame_006.png",
+        "village_idiot/animations/death/east/frame_007.png",
+        "village_idiot/animations/death/east/frame_008.png"
+       ]
+      },
+      "walking": {
+       "south": [
+        "village_idiot/animations/walking/south/frame_000.png",
+        "village_idiot/animations/walking/south/frame_001.png",
+        "village_idiot/animations/walking/south/frame_002.png",
+        "village_idiot/animations/walking/south/frame_003.png",
+        "village_idiot/animations/walking/south/frame_004.png",
+        "village_idiot/animations/walking/south/frame_005.png"
+       ],
+       "north": [
+        "village_idiot/animations/walking/north/frame_000.png",
+        "village_idiot/animations/walking/north/frame_001.png",
+        "village_idiot/animations/walking/north/frame_002.png",
+        "village_idiot/animations/walking/north/frame_003.png",
+        "village_idiot/animations/walking/north/frame_004.png",
+        "village_idiot/animations/walking/north/frame_005.png"
+       ],
+       "east": [
+        "village_idiot/animations/walking/east/frame_000.png",
+        "village_idiot/animations/walking/east/frame_001.png",
+        "village_idiot/animations/walking/east/frame_002.png",
+        "village_idiot/animations/walking/east/frame_003.png",
+        "village_idiot/animations/walking/east/frame_004.png",
+        "village_idiot/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "village_idiot/animations/walking/west/frame_000.png",
+        "village_idiot/animations/walking/west/frame_001.png",
+        "village_idiot/animations/walking/west/frame_002.png",
+        "village_idiot/animations/walking/west/frame_003.png",
+        "village_idiot/animations/walking/west/frame_004.png",
+        "village_idiot/animations/walking/west/frame_005.png"
+       ]
+      },
+      "hit": {
+       "north": [
+        "village_idiot/animations/hit/north/frame_000.png",
+        "village_idiot/animations/hit/north/frame_001.png",
+        "village_idiot/animations/hit/north/frame_002.png",
+        "village_idiot/animations/hit/north/frame_003.png",
+        "village_idiot/animations/hit/north/frame_004.png"
+       ],
+       "west": [
+        "village_idiot/animations/hit/west/frame_000.png",
+        "village_idiot/animations/hit/west/frame_001.png",
+        "village_idiot/animations/hit/west/frame_002.png",
+        "village_idiot/animations/hit/west/frame_003.png",
+        "village_idiot/animations/hit/west/frame_004.png"
+       ]
+      },
+      "hit-c74cb30c": {
+       "east": [
+        "village_idiot/animations/hit-c74cb30c/east/frame_000.png",
+        "village_idiot/animations/hit-c74cb30c/east/frame_001.png",
+        "village_idiot/animations/hit-c74cb30c/east/frame_002.png",
+        "village_idiot/animations/hit-c74cb30c/east/frame_003.png",
+        "village_idiot/animations/hit-c74cb30c/east/frame_004.png"
+       ],
+       "south": [
+        "village_idiot/animations/hit-c74cb30c/south/frame_000.png",
+        "village_idiot/animations/hit-c74cb30c/south/frame_001.png",
+        "village_idiot/animations/hit-c74cb30c/south/frame_002.png",
+        "village_idiot/animations/hit-c74cb30c/south/frame_003.png",
+        "village_idiot/animations/hit-c74cb30c/south/frame_004.png"
+       ]
+      },
+      "attack": {
+       "west": [
+        "village_idiot/animations/attack/west/frame_000.png",
+        "village_idiot/animations/attack/west/frame_001.png",
+        "village_idiot/animations/attack/west/frame_002.png",
+        "village_idiot/animations/attack/west/frame_003.png",
+        "village_idiot/animations/attack/west/frame_004.png",
+        "village_idiot/animations/attack/west/frame_005.png",
+        "village_idiot/animations/attack/west/frame_006.png",
+        "village_idiot/animations/attack/west/frame_007.png",
+        "village_idiot/animations/attack/west/frame_008.png"
+       ]
+      },
+      "skill": {
+       "north": [
+        "village_idiot/animations/skill/north/frame_000.png",
+        "village_idiot/animations/skill/north/frame_001.png",
+        "village_idiot/animations/skill/north/frame_002.png",
+        "village_idiot/animations/skill/north/frame_003.png",
+        "village_idiot/animations/skill/north/frame_004.png",
+        "village_idiot/animations/skill/north/frame_005.png",
+        "village_idiot/animations/skill/north/frame_006.png",
+        "village_idiot/animations/skill/north/frame_007.png",
+        "village_idiot/animations/skill/north/frame_008.png"
+       ],
+       "east": [
+        "village_idiot/animations/skill/east/frame_000.png",
+        "village_idiot/animations/skill/east/frame_001.png",
+        "village_idiot/animations/skill/east/frame_002.png",
+        "village_idiot/animations/skill/east/frame_003.png",
+        "village_idiot/animations/skill/east/frame_004.png",
+        "village_idiot/animations/skill/east/frame_005.png",
+        "village_idiot/animations/skill/east/frame_006.png",
+        "village_idiot/animations/skill/east/frame_007.png",
+        "village_idiot/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "village_idiot/animations/skill/south/frame_000.png",
+        "village_idiot/animations/skill/south/frame_001.png",
+        "village_idiot/animations/skill/south/frame_002.png",
+        "village_idiot/animations/skill/south/frame_003.png",
+        "village_idiot/animations/skill/south/frame_004.png",
+        "village_idiot/animations/skill/south/frame_005.png",
+        "village_idiot/animations/skill/south/frame_006.png",
+        "village_idiot/animations/skill/south/frame_007.png",
+        "village_idiot/animations/skill/south/frame_008.png"
+       ],
+       "west": [
+        "village_idiot/animations/skill/west/frame_000.png",
+        "village_idiot/animations/skill/west/frame_001.png",
+        "village_idiot/animations/skill/west/frame_002.png",
+        "village_idiot/animations/skill/west/frame_003.png",
+        "village_idiot/animations/skill/west/frame_004.png",
+        "village_idiot/animations/skill/west/frame_005.png",
+        "village_idiot/animations/skill/west/frame_006.png",
+        "village_idiot/animations/skill/west/frame_007.png",
+        "village_idiot/animations/skill/west/frame_008.png"
+       ]
+      },
+      "attack-e80a913c": {
+       "east": [
+        "village_idiot/animations/attack-e80a913c/east/frame_000.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_001.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_002.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_003.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_004.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_005.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_006.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_007.png",
+        "village_idiot/animations/attack-e80a913c/east/frame_008.png"
+       ],
+       "north": [
+        "village_idiot/animations/attack-e80a913c/north/frame_000.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_001.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_002.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_003.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_004.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_005.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_006.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_007.png",
+        "village_idiot/animations/attack-e80a913c/north/frame_008.png"
+       ],
+       "south": [
+        "village_idiot/animations/attack-e80a913c/south/frame_000.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_001.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_002.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_003.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_004.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_005.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_006.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_007.png",
+        "village_idiot/animations/attack-e80a913c/south/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T12:44:36.266215"
+ }
+}

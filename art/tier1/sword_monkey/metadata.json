@@ -81,6 +81,19 @@
    "zip": "downloads/pixellab/sword_monkey_64.zip",
    "generations": 12.0,
    "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "c37462c4-e950-4b9e-9eae-891aa1b5d28f",
+   "name": "skill",
+   "action": "a spinning whirl of both swords",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/sword_monkey_64.zip",
+   "generations": 12.0,
+   "date": "2026-10-14"
   }
  ],
  "pixellab": {
@@ -248,6 +261,41 @@
         "Idle/animations/attack/east/frame_008.png"
        ]
       },
+      "skill-83aa54fe": {
+       "east": [
+        "Idle/animations/skill-83aa54fe/east/frame_000.png",
+        "Idle/animations/skill-83aa54fe/east/frame_001.png",
+        "Idle/animations/skill-83aa54fe/east/frame_002.png",
+        "Idle/animations/skill-83aa54fe/east/frame_003.png",
+        "Idle/animations/skill-83aa54fe/east/frame_004.png",
+        "Idle/animations/skill-83aa54fe/east/frame_005.png",
+        "Idle/animations/skill-83aa54fe/east/frame_006.png",
+        "Idle/animations/skill-83aa54fe/east/frame_007.png",
+        "Idle/animations/skill-83aa54fe/east/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/skill-83aa54fe/west/frame_000.png",
+        "Idle/animations/skill-83aa54fe/west/frame_001.png",
+        "Idle/animations/skill-83aa54fe/west/frame_002.png",
+        "Idle/animations/skill-83aa54fe/west/frame_003.png",
+        "Idle/animations/skill-83aa54fe/west/frame_004.png",
+        "Idle/animations/skill-83aa54fe/west/frame_005.png",
+        "Idle/animations/skill-83aa54fe/west/frame_006.png",
+        "Idle/animations/skill-83aa54fe/west/frame_007.png",
+        "Idle/animations/skill-83aa54fe/west/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/skill-83aa54fe/north/frame_000.png",
+        "Idle/animations/skill-83aa54fe/north/frame_001.png",
+        "Idle/animations/skill-83aa54fe/north/frame_002.png",
+        "Idle/animations/skill-83aa54fe/north/frame_003.png",
+        "Idle/animations/skill-83aa54fe/north/frame_004.png",
+        "Idle/animations/skill-83aa54fe/north/frame_005.png",
+        "Idle/animations/skill-83aa54fe/north/frame_006.png",
+        "Idle/animations/skill-83aa54fe/north/frame_007.png",
+        "Idle/animations/skill-83aa54fe/north/frame_008.png"
+       ]
+      },
       "death": {
        "north": [
         "Idle/animations/death/north/frame_000.png",
@@ -299,6 +347,6 @@
    }
   ],
   "export_version": "3.1",
-  "export_date": "2026-10-14T12:20:59.844800"
+  "export_date": "2026-10-14T12:24:00.363185"
  }
 }
