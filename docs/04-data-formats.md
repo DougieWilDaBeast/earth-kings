@@ -489,6 +489,10 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
 `dispatch`, `seasons`. Take a name out to bring its system back.
 
+`guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
+`mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
+`FirstHour.mark_line()`, read by `Chapters.seal_line`).
+
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
 Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight hand-off in
@@ -560,7 +564,8 @@ Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M
 ```json
 {
   "crash": { "home_name": "Where You Fell", "min_site_gap": 3, "min_tower_distance": 24,
-             "min_gate_distance": 6, "max_haven_distance": 26, "attempts": 600 },
+             "min_gate_distance": 6, "max_haven_distance": 26, "attempts": 600,
+             "first_world": { "city_min": 12, "city_max": 16 } },
   "landing": { "lines": [ { "speaker": "", "text": "… comes down in {region} …" } ] },
   "standing_quest": { "title": "Ascend to heaven", "brief": "…", "progress": "Floor {floor} of {floors}, …",
                       "not_started": "…", "sealed": "…", "topped": "…", "badge": "ASCEND" },
@@ -585,9 +590,12 @@ Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M
 - `crash` — where somebody may come down: walkable ground joined by land to the Tower, at least
   `min_site_gap` from any place, `min_tower_distance` from the Tower and `min_gate_distance` from an
   open gate, and within `max_haven_distance` of a village, keep or hut. The lead's crash site
-  becomes the Home, renamed `home_name`.
-- `landing` — the lines played when a new run first opens. `{name}`, `{region}`, `{ground}` and
-  `{tower_way}` (a compass word) are filled in.
+  becomes the Home, renamed `home_name`. In the first world (no world ended before it) the lead
+  comes down between `first_world.city_min` and `city_max` tiles from the great city instead, and
+  the Tower and haven distances do not apply ([D101](06-decisions.md)).
+- `landing` — the lines played when a new run first opens. `{name}`, `{region}`, `{ground}` (the
+  land the ground is drawn as, from `biomes.json`), `{tower_way}` (a compass word), `{city}` and
+  `{city_way}` are filled in. A line with `"lead": "atlas"` is said only when that one leads.
 - `standing_quest` — "Ascend to heaven" ([D53](06-decisions.md)) as the journal shows it.
   `{floor}`, `{floors}`, `{chapter}` and `{chapters}` are filled in; `badge` marks the Tower on the map.
 - `wanderers.tempers` — the temper of each hero who is not yet one of the sixteen. A hero with a

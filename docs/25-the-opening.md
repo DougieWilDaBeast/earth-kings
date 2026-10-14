@@ -8,7 +8,8 @@ begins on the landing in the world (`data/fall.json` → `landing`) as before. T
 death, and the tutorial, do not play it.
 
 - **Words and cast:** `data/opening.json`. Rewrite any line there; no code needed. `time` is how
-  long a shot holds, shared evenly between its lines.
+  long a shot holds, shared evenly between its lines. `ending` names whose world is seen ending in
+  the `ending` shot (`{other}` in a line is their name).
 - **Pictures:** `src/ui/opening.gd`, drawn from the game's own sprites (`art/sixteen/`, the party and
   the ogre from `units.json`, the Tower, a town, a keep, a gate, the campfire) and plain shapes, so it
   needs no art made for it. A new kind of picture needs code.
