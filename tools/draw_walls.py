@@ -10,7 +10,9 @@ Needs Pillow (`pip install pillow`), like tools/draw_interiors.py.
 cell as the rest of the art: a top you can see, a front face under it, a dark outline. They are
 props (data/props.json, kind `wall` and `wall_tower`), stood on the ring of cells round a place
 by src/area/ground_gen.gd. Replace any file with real art of the same name and size and nothing
-else needs to change. Re-running it overwrites what it wrote and nothing else.
+else needs to change. The PixelLab walls replaced every stand-in on 2026-10-14
+(`tools/pixellab_world.py walls`), so this now draws only a picture that is missing; `--force`
+draws them all again over the real art.
 
 Writes, for each build (stone, timber, adobe):
 - art/props/walls/<build>_run.png    64 x 96: a stretch of wall seen from the front
@@ -21,6 +23,7 @@ Writes, for each build (stone, timber, adobe):
 from __future__ import annotations
 
 import random
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw
@@ -183,12 +186,14 @@ def tower(build: str, base: RGB, seed: int) -> Image.Image:
 
 
 def main() -> None:
+    force = "--force" in sys.argv[1:]
     OUT.mkdir(parents=True, exist_ok=True)
     for i, (build, base) in enumerate(BUILDS.items()):
-        run(build, base, 100 + i).save(OUT / f"{build}_run.png")
-        side(build, base, 200 + i).save(OUT / f"{build}_side.png")
-        tower(build, base, 300 + i).save(OUT / f"{build}_tower.png")
-        print(f"walls/{build}: run, side, tower")
+        for piece, draw, seed in (("run", run, 100), ("side", side, 200), ("tower", tower, 300)):
+            path = OUT / f"{build}_{piece}.png"
+            if force or not path.exists():
+                draw(build, base, seed + i).save(path)
+                print(f"walls/{build}_{piece}: drawn")
 
 
 if __name__ == "__main__":
