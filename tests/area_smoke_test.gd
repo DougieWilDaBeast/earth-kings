@@ -31,6 +31,7 @@ const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const Memories := preload("res://src/chronicle/memories.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -549,8 +550,41 @@ func _check_tower_floor() -> void:
 	GameState.set_flag("last_victory", false)
 	again.queue_free()
 	await get_tree().process_frame
+
+	# Atlas's chapter-one memory (D103): the buckle lies on floor 5 for him and nobody else.
+	GameState.new_game(SEED, "atlas")
+	var asked: Array[String] = []
+	var listen := func(id: String) -> void: asked.append(id)
+	EventBus.dialogue_requested.connect(listen)
+	var five: Node = load("res://src/area/area_scene.tscn").instantiate()
+	five.set("boot_payload", { "area_id": "tower_floor_5", "return_scene": "world", "tower_floor": 5 })
+	add_child(five)
+	for i in 10:
+		await get_tree().process_frame
+	var lying: Dictionary = five.get("_memories")
+	_expect(lying.size() == 1, "tower floor: Atlas's buckle is not on floor 5 (%d)" % lying.size())
+	if lying.size() == 1:
+		var cell: Vector2i = lying.keys()[0]
+		_expect((five.get("map") as AreaMap).is_walkable(cell), "tower floor: the buckle lies where nobody can stand")
+		five.call("_arrive_at", cell)
+		_expect(asked.has("memory_atlas_1") and not Database.dialogue("memory_atlas_1").is_empty(),
+				"tower floor: picking up the buckle played no scene")
+		_expect(Memories.found("atlas").size() == 1, "tower floor: the journal does not have the memory")
+		_expect((five.get("_memories") as Dictionary).is_empty(), "tower floor: the buckle can be picked up twice")
+	EventBus.dialogue_requested.disconnect(listen)
+	five.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED, "juno")
+	var not_his: Node = load("res://src/area/area_scene.tscn").instantiate()
+	not_his.set("boot_payload", { "area_id": "tower_floor_5", "return_scene": "world", "tower_floor": 5 })
+	add_child(not_his)
+	for i in 5:
+		await get_tree().process_frame
+	_expect((not_his.get("_memories") as Dictionary).is_empty(), "tower floor: Juno found Atlas's memory")
+	not_his.queue_free()
+	await get_tree().process_frame
 	GameState.new_game(SEED)
-	print("tower floor: a band fought for real on floor 1, and the stair up won the floor")
+	print("tower floor: a band fought for real on floor 1, the stair up won the floor, and Atlas found his buckle on floor 5")
 
 
 func _expect(ok: bool, message: String) -> void:

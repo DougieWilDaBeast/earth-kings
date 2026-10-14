@@ -529,6 +529,13 @@ the line said); `boss` makes its first unit a keeper. The Tower's walked floors 
 that floor. `world_rules.json` → `tower.walked_floors` (5) and `walked_area` (`tower_floor_%d`)
 say which floors are walked.
 
+## `memories.json` — chapter memories (D103)
+
+Keyed by lead (`atlas`), a list of memories in chapter order: `id`, `chapter`, `title`, `object` (what
+it is), `area` and `cell` (where it lies), `art` (the prop drawn there), `scene` (lines, each
+`{ speaker, text }`, played when it is picked up) and `journal` (the line written under _What has
+come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memory:<id>` flags.
+
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`
 that tile. `key` is where the band settled and who is in it, so it stays the same as it wanders.

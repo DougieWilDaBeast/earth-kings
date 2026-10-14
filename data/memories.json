@@ -1,0 +1,56 @@
+{
+	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies, `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft, the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
+	"atlas": [
+		{
+			"id": "atlas_1",
+			"chapter": 1,
+			"title": "Chapter one: The Weight",
+			"object": "a child's saddle buckle",
+			"area": "tower_floor_5",
+			"cell": [
+				17,
+				2
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Half under the dust by the wall: a buckle, small enough for a child's saddle, the leather long gone from it."
+				},
+				{
+					"speaker": "",
+					"text": "Atlas closes his hand on it, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A courtyard of white stone, before the fall. The others are playing a running game. He cannot run. He is sitting where he was put."
+				},
+				{
+					"speaker": "A voice",
+					"text": "They gave you the long road because you're the only one of us who'll see what's at the end of it. Don't let them tell you that's a punishment."
+				},
+				{
+					"speaker": "",
+					"text": "He tries to see whose voice it is. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "Something pushes under his hand: a lizard the size of a dog, too heavy for its own legs, looking up at him as if he were the only thing in the courtyard."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Atlas wakes on the fifth floor with the buckle in his fist and Sky's head under his other hand, and knows one thing he did not know before: Sky was given, not found. Somebody up there meant him to be carried, and meant him to arrive."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Weight."
+				}
+			],
+			"journal": "Floor 5. I remembered a courtyard, and a voice, and that Sky was a gift. I don't remember who gave it."
+		}
+	]
+}

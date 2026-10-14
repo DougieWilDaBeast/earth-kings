@@ -141,7 +141,11 @@ each, each ending playable:
    kept by a keeper (a king slime and two slimes, level 7) who can kill an unready Atlas. Auto stops
    at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
-7. Atlas's chapter-one memory — planned.
+7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
+   floor 5 for Atlas alone; picking it up plays "Chapter one: The Weight" (meeting 2's working draft,
+   **Inferred**) and writes it under _What has come back_ in the journal's Quests page and in the
+   annals. Memories live in `data/memories.json`, one list per lead; the buckle is a stand-in prop
+   until art request A10 is made.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

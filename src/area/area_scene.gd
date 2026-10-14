@@ -28,6 +28,7 @@ const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const Memories := preload("res://src/chronicle/memories.gd")
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
 const AutoRoad := preload("res://src/world/auto_road.gd")
@@ -153,6 +154,8 @@ var _practice_clock: float = 0.0
 var _tower_floor: int = 0
 var _held_fight: String = ""
 var _held_done: String = ""
+## cell -> a memory of the lead's lying there, not yet picked up (D103).
+var _memories: Dictionary = {}
 
 ## The land ([D84]): whether this is it, the nodes each held tile put down (tile -> its ground,
 ## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
@@ -184,6 +187,7 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
+	_lay_out_memories()
 
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
@@ -1527,6 +1531,8 @@ func _settle_followers(delta: float) -> void:
 
 
 func _arrive_at(cell: Vector2i) -> void:
+	if _memories.has(cell):
+		_remember(cell)
 	if _tower_floor > 0 and map.stairs.has(cell):
 		_climb_the_stair()
 		return
@@ -1772,6 +1778,8 @@ func _cells_spoken_for(arrived: Vector2i) -> Dictionary:
 		taken[cell] = true
 	for cell: Vector2i in map.chests:
 		taken[cell] = true
+	for cell: Vector2i in _memories:
+		taken[cell] = true
 	for cell: Vector2i in map.seats:
 		taken[cell] = true
 	for building: Dictionary in map.buildings:
@@ -1909,6 +1917,26 @@ func _after_held_fight() -> void:
 		return
 	_leaving = true
 	EventBus.request_scene.emit(_return_scene, _return_payload)
+
+
+## Whatever the lead left of themselves on this ground (D103), put down where it lies.
+func _lay_out_memories() -> void:
+	if _land_mode or GameState.roster == null or GameState.roster.player() == null:
+		return
+	var area_id := str(boot_payload.get("area_id", ""))
+	for memory: Dictionary in Memories.lying_in(area_id, GameState.roster.player().template_id):
+		var cell := Memories.cell_of(memory)
+		map.place({ "art": str(memory.get("art", "coin_pile")), "cell": cell, "name": str(memory.get("object", "something")) })
+		_memories[cell] = memory
+
+
+## The lead picks it up: a chapter of who they were comes back, and the journal has it.
+func _remember(cell: Vector2i) -> void:
+	var memory: Dictionary = _memories[cell]
+	_memories.erase(cell)
+	var scene_id := "memory_%s" % str(memory.get("id", ""))
+	Database.register_dialogue(scene_id, Memories.find(memory))
+	EventBus.dialogue_requested.emit(scene_id)
 
 
 ## The stair up: the floor is won, and the continent pays it out as it paid a floor fought on the

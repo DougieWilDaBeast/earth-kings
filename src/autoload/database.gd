@@ -29,6 +29,8 @@ var names: Dictionary = {}
 var heroes: Dictionary = {}
 ## The original twelve, met in the world as story people rather than played (D79).
 var story_npcs: Dictionary = {}
+## The chapter memories each of the sixteen finds in the Tower (D103), by lead.
+var memories: Dictionary = {}
 ## The sixteen tempers: axes, the quiz asked before a run, and the lean each
 ## letter carries (see docs/13-heroes-and-tempers.md).
 var tempers: Dictionary = {}
@@ -99,6 +101,8 @@ func _ready() -> void:
 	heroes = _load_json("%s/heroes.json" % DATA_DIR)
 	story_npcs = _load_json("%s/story_npcs.json" % DATA_DIR)
 	story_npcs.erase("_about")
+	memories = _load_json("%s/memories.json" % DATA_DIR)
+	memories.erase("_doc")
 	tempers = _load_json("%s/tempers.json" % DATA_DIR)
 	casting = _load_json("%s/casting.json" % DATA_DIR)
 	for pool: String in LORE_POOLS:
