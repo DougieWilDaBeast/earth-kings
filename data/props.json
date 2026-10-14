@@ -41,7 +41,7 @@
     "nature/round_tree": "tree",
     "nature/sycamore_tree": "young_tree",
     "nature/apple_trellis": "young_tree",
-    "nature/apple_sapling": "furniture",
+    "nature/apple_sapling": "young_tree",
 
     "nature/bramble": "bush",
     "nature/bramble_2": "bush",

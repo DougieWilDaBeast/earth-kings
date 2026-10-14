@@ -26,6 +26,9 @@ static func paint_patches(map: AreaMap, patches: Array, into: Node2D) -> void:
 				continue
 			var layer := TileMapLayer.new()
 			layer.tile_set = tile_set
+			# Zoomed out, a 64-pixel tile is drawn smaller than itself: read from the
+			# mipmap that fits, or the ground shimmers as the camera moves.
+			layer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS
 			var zoom := float(AreaMap.CELL) / float(sheet.get("tile_size", AreaMap.CELL))
 			layer.scale = Vector2(zoom, zoom)
 			# Half a cell up and left, so tile corners land on cell centres.

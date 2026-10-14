@@ -416,8 +416,11 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 				var choices: Array = pool.get(kind, [])
 				if choices.is_empty() or rng.randf() >= float(density.get(kind, 0.0)):
 					continue
-				var solid := kind == "trees" or kind == "rocks"
-				props.append({ "art": str(choices[rng.randi() % choices.size()]), "cell": [x, y], "solid": solid })
+				var art := str(choices[rng.randi() % choices.size()])
+				# A tree always stands in the way; a rock only when props.json says it is
+				# one you cannot step past (loose stones and pebbles are walked over).
+				var solid := kind == "trees" or (kind == "rocks" and AreaProp.is_solid({ "art": art }))
+				props.append({ "art": art, "cell": [x, y], "solid": solid })
 				if solid:
 					blocked[at] = true
 				break
@@ -435,8 +438,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 			LIQUID: str(ground.get("liquid", "water")), COVER: str(ground.get("cover", "meadow")),
 		},
 		"tint": str(biome.get("tint", "")),
-		"hint": "WASD to walk  ·  the land runs on  ·  red ground is being watched" if open_land \
-			else "WASD to walk  ·  the ways out follow the land  ·  red ground is being watched",
+		"hint": "WASD to walk" if open_land else "WASD to walk  ·  the ways out follow the land",
 		"rows": rows,
 		"spawn": [hub.x, hub.y],
 		"entries": entries,

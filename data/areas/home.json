@@ -83,55 +83,6 @@
  ],
  "props": [
   {
-   "art": "bed",
-   "cell": [
-    4,
-    5
-   ]
-  },
-  {
-   "art": "cabinet",
-   "cell": [
-    12,
-    5
-   ]
-  },
-  {
-   "art": "tall_clock",
-   "cell": [
-    12,
-    3
-   ]
-  },
-  {
-   "art": "writing_desk",
-   "cell": [
-    4,
-    9
-   ]
-  },
-  {
-   "art": "chair",
-   "cell": [
-    6,
-    9
-   ]
-  },
-  {
-   "art": "potted_plant",
-   "cell": [
-    12,
-    9
-   ]
-  },
-  {
-   "art": "oil_lamp",
-   "cell": [
-    10,
-    7
-   ]
-  },
-  {
    "art": "nature/apple_sapling",
    "cell": [
     2,
@@ -221,37 +172,41 @@
   {"art": "nature/clover", "cell": [2, 8], "offset": [-5, 2]},
   {"art": "nature/mushrooms_shelf", "cell": [6, 1], "offset": [-7, 3], "flip": true},
   {"art": "nature/hazel_bush", "cell": [14, 8], "offset": [-1, 2], "flip": true},
-  {"art": "nature/mushrooms_tall", "cell": [5, 11], "offset": [-13, 2], "flip": true},
-  {"art": "nature/clover", "cell": [13, 12], "offset": [-13, 4]},
-  {"art": "nature/mushrooms_shelf", "cell": [16, 2], "offset": [10, 6], "flip": true},
-  {"art": "nature/mushrooms_shelf", "cell": [2, 7], "offset": [-8, 5]},
-  {"art": "nature/mushrooms_tall", "cell": [1, 11], "offset": [-7, 2]},
-  {"art": "nature/wildflowers_orange", "cell": [0, 11], "offset": [4, 2]},
-  {"art": "nature/mushrooms_tall", "cell": [15, 0], "offset": [12, 2]},
-  {"art": "nature/mushrooms", "cell": [16, 7], "offset": [-7, 7], "flip": true},
-  {"art": "nature/ivy", "cell": [16, 5], "offset": [14, 3], "flip": true},
-  {"art": "nature/clover", "cell": [6, 10], "offset": [-8, -7]},
-  {"art": "nature/mushrooms", "cell": [2, 0], "offset": [11, 3], "flip": true},
-  {"art": "nature/mushroom_blue", "cell": [12, 0], "offset": [6, 7]},
-  {"art": "nature/wildflowers_red", "cell": [10, 0], "offset": [-1, -1], "flip": true},
-  {"art": "nature/fern", "cell": [0, 4], "offset": [-1, 0]},
-  {"art": "nature/grass_tuft", "cell": [1, 12], "offset": [12, -4], "flip": true},
-  {"art": "nature/mushrooms", "cell": [10, 1], "offset": [-7, -1], "flip": true},
-  {"art": "nature/wildflowers_red", "cell": [1, 9], "offset": [-7, 7], "flip": true},
-  {"art": "nature/thistle", "cell": [12, 2], "offset": [-9, 2], "flip": true},
-  {"art": "nature/mushrooms_cluster", "cell": [15, 5], "offset": [11, 2], "flip": true},
-  {"art": "nature/mushrooms_shelf", "cell": [16, 4], "offset": [1, 2], "flip": true},
-  {"art": "nature/clover", "cell": [11, 11], "offset": [-4, -7]},
-  {"art": "nature/wildflowers_orange", "cell": [15, 6], "offset": [1, 2], "flip": true},
-  {"art": "nature/mushrooms", "cell": [5, 12], "offset": [9, 2]},
-  {"art": "nature/wildflowers_blue", "cell": [12, 1], "offset": [-12, -6]},
-  {"art": "nature/ivy", "cell": [16, 0], "offset": [8, -6], "flip": true},
-  {"art": "nature/mushroom_blue", "cell": [13, 1], "offset": [-13, 7], "flip": true},
-  {"art": "nature/mushrooms", "cell": [7, 1], "offset": [-10, -2]},
-  {"art": "nature/irish_bird_2", "cell": [14, 7], "offset": [-1, 1], "flip": true},
-  {"art": "nature/ants", "cell": [6, 7], "offset": [13, 2]},
-  {"art": "nature/irish_bird", "cell": [3, 12], "offset": [8, 0]},
-  {"art": "nature/ants", "cell": [6, 11], "offset": [-3, 1]},
-  {"art": "nature/irish_bird_3", "cell": [12, 4], "offset": [9, 0], "flip": true}
+  {"art": "nature/mushrooms_cluster", "cell": [5, 11], "offset": [2, 5], "flip": true},
+  {"art": "nature/thistle", "cell": [13, 9], "offset": [-3, 7], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [1, 2], "offset": [-6, -7]},
+  {"art": "nature/mushrooms_tall", "cell": [11, 10], "offset": [-13, 4]},
+  {"art": "nature/mushrooms_shelf", "cell": [1, 1], "offset": [10, 6], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [10, 10], "offset": [-8, 5]},
+  {"art": "nature/mushrooms_tall", "cell": [15, 9], "offset": [-7, 2]},
+  {"art": "nature/mushrooms_cluster", "cell": [15, 12], "offset": [4, 2]},
+  {"art": "nature/mushrooms_tall", "cell": [4, 0], "offset": [12, 2]},
+  {"art": "nature/mushrooms", "cell": [15, 0], "offset": [-7, 7], "flip": true},
+  {"art": "nature/ivy", "cell": [7, 0], "offset": [14, 3], "flip": true},
+  {"art": "nature/mushrooms_tall", "cell": [16, 5], "offset": [-8, -7]},
+  {"art": "nature/wildflowers_blue", "cell": [6, 10], "offset": [11, 3], "flip": true},
+  {"art": "nature/fern", "cell": [5, 10], "offset": [3, 6]},
+  {"art": "nature/mushrooms", "cell": [4, 10], "offset": [-1, -1], "flip": true},
+  {"art": "nature/mushrooms", "cell": [1, 6], "offset": [-10, -4], "flip": true},
+  {"art": "nature/mushrooms_shelf", "cell": [2, 9], "offset": [-6, -7], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [8, 1], "offset": [2, -2]},
+  {"art": "nature/fern", "cell": [10, 1], "offset": [14, -7]},
+  {"art": "nature/grass_tuft", "cell": [16, 10], "offset": [-13, -5], "flip": true},
+  {"art": "nature/bramble_2", "cell": [15, 2], "offset": [14, -2], "flip": true},
+  {"art": "nature/mushrooms_tall", "cell": [15, 8], "offset": [-4, -7]},
+  {"art": "nature/wildflowers_orange", "cell": [6, 12], "offset": [1, 2], "flip": true},
+  {"art": "nature/wildflowers_blue", "cell": [0, 0], "offset": [9, 2]},
+  {"art": "nature/wildflowers_blue", "cell": [15, 6], "offset": [-12, -6]},
+  {"art": "nature/grass_tuft", "cell": [12, 1], "offset": [8, -6], "flip": true},
+  {"art": "nature/mushroom_blue", "cell": [16, 0], "offset": [-13, 7], "flip": true},
+  {"art": "nature/mushrooms", "cell": [1, 5], "offset": [-10, -2]},
+  {"art": "nature/grass_tuft", "cell": [1, 7], "offset": [5, -3]},
+  {"art": "nature/mushrooms_tall", "cell": [7, 1], "offset": [2, -5]},
+  {"art": "nature/ivy", "cell": [0, 3], "offset": [9, 0], "flip": true},
+  {"art": "nature/snail", "cell": [14, 7], "offset": [11, 1], "flip": true},
+  {"art": "nature/irish_bird_2", "cell": [6, 7], "offset": [-6, 3], "flip": true},
+  {"art": "nature/butterfly_blue", "cell": [3, 12], "offset": [10, -2]},
+  {"art": "nature/irish_bird", "cell": [6, 11], "offset": [6, 0]},
+  {"art": "nature/sparrow", "cell": [12, 4], "offset": [10, -1]}
  ]
 }
