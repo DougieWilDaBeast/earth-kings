@@ -1,11 +1,11 @@
 extends Control
-## The opening cinematic: what a new game shows before you choose who you are
+## The opening cinematic: what a new game shows once you have chosen who you are
 ## (docs/25). The words and the cast are `data/opening.json`; each kind of
 ## picture (a `shot`) is drawn here, from the game's own sprites and shapes, so
 ## it plays without any art made for it.
 ##
-## Click, Space or Enter moves on a shot; Esc skips to the end. When it ends it
-## hands its payload on to the temper quiz, exactly as the title used to.
+## Click, Space or Enter moves on a shot; Esc skips to the end. When it ends the
+## run begins in the world, on the landing, as it would have without it.
 
 ## Every kind of picture [method _draw] knows. A shot in the data naming
 ## anything else draws only the night sky.
@@ -22,7 +22,7 @@ const BLOOD := Color(0.86, 0.22, 0.2)
 const GHOST := Color(0.62, 0.78, 1.0)
 const STAR_COUNT := 160
 
-## Set by [Game]: what the temper quiz needs (the fallen of earlier runs).
+## Set by [Game]: `lead`, the hero just picked, who is the one seen falling.
 var boot_payload: Dictionary = {}
 
 var shots: Array = []
@@ -34,6 +34,8 @@ var clock := 0.0
 var finished := false
 
 var _data: Dictionary = {}
+## Who lands: the lead just picked, or `opening.json`'s stand-in when there is none.
+var _lead := ""
 var _stars: Array = []
 var _sprites: Dictionary = {}
 var _caption: Label
@@ -46,6 +48,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_data = Database.opening
+	_lead = str(boot_payload.get("lead", _data.get("lead", "")))
 	shots = _data.get("shots", [])
 	_rng.seed = 1616
 	for _i in STAR_COUNT:
@@ -66,6 +69,8 @@ func _load_cast() -> void:
 	for key: String in ["tower", "town", "keep", "gate"]:
 		var kind: String = {"tower": Site.TOWER, "town": Site.VILLAGE, "keep": Site.KEEP, "gate": Site.GATE}[key]
 		_sprites[key] = _texture(str(Site.ART.get(kind, "")))
+	if not _sprites.has("sixteen:" + _lead):
+		_sprites["sixteen:" + _lead] = _texture("res://art/sixteen/%s/idle/south.png" % _lead)
 	_sprites["fire"] = _texture("res://art/props/camp/campfire.png")
 
 
@@ -178,7 +183,7 @@ func finish() -> void:
 	if finished:
 		return
 	finished = true
-	EventBus.request_scene.emit("temper_quiz", boot_payload)
+	EventBus.request_scene.emit("world", {})
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -361,7 +366,7 @@ func _draw_impact(view: Vector2, p: float) -> void:
 			draw_circle(puff, 14.0 + after * 18.0, Color(0.4, 0.4, 0.45, 0.18 * (1.0 - after)))
 		draw_arc(spot, after * view.x * 0.5, PI, TAU, 48, Color(GOLD, 0.6 * (1.0 - after)), 3.0, true)
 		# Somebody lying at the end of it.
-		var lead := "sixteen:" + str(_data.get("lead", ""))
+		var lead := "sixteen:" + _lead
 		draw_set_transform(spot + shake + Vector2(18, -10), PI * 0.5, Vector2.ONE)
 		_sprite(lead, Vector2(0, 30), view.y * 0.09)
 		draw_set_transform(shake)
@@ -389,7 +394,7 @@ func _draw_tower_shot(view: Vector2, p: float) -> void:
 	_draw_stars(view, 0.4)
 	var ground := _horizon(view, 0.74)
 	_tower(view, Vector2(view.x * 0.62, ground), view.y * 0.68, 1.0, p * 0.5)
-	_sprite("sixteen:" + str(_data.get("lead", "")), Vector2(view.x * 0.24, ground + 4), view.y * 0.12)
+	_sprite("sixteen:" + _lead, Vector2(view.x * 0.24, ground + 4), view.y * 0.12)
 
 
 func _draw_living(view: Vector2, p: float) -> void:
@@ -514,7 +519,7 @@ func _draw_end(view: Vector2, p: float) -> void:
 		var glow := 0.6 + 0.2 * sin(clock * 9.0)
 		_glow(fire + Vector2(0, -14), 40.0, EMBER, glow)
 		_sprite("fire", fire, view.y * 0.08)
-		_sprite("sixteen:" + str(_data.get("lead", "")), fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55))
+		_sprite("sixteen:" + _lead, fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55))
 
 
 func _draw_title(view: Vector2, p: float) -> void:

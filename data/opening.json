@@ -1,6 +1,6 @@
 {
-	"_doc": "The opening cinematic, played after New Game and before you choose who you are (src/ui/opening.gd, docs/25). Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines. Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
-	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `party` and `foe` are unit templates in units.json.",
+	"_doc": "The opening cinematic, played after New Game once the lead is picked (src/ui/opening.gd, docs/25). Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines. Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
+	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `lead` stands in for the lead who falls when none was picked (the lead picked is the one shown); `party` and `foe` are unit templates in units.json.",
 	"sixteen": ["ares", "atlas", "bellona", "caesar", "cassius", "cato", "ceres", "diana", "iris", "janus", "juno", "liber", "pluto", "saturn", "ultor", "vesta"],
 	"lead": "caesar",
 	"party": ["bram", "sera", "toln", "fox_knight", "dwarf_smith", "element_monk"],

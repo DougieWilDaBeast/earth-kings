@@ -318,9 +318,10 @@ func _check_site_art() -> void:
 # --- W20 ----------------------------------------------------------------------
 
 
-## The opening after New Game (docs/25): every shot is one it can draw, everyone in
-## it has a sprite, it plays to the end on its own and hands the quiz its payload,
-## and Esc skips straight there.
+## The opening after the pick (docs/25): every shot is one it can draw, everyone in
+## it has a sprite, the lead it was handed is the one who falls, it plays to the end
+## on its own and starts the run in the world, and Esc skips straight there. The
+## quiz only plays it when New Game sent it there.
 func _check_opening() -> void:
 	var data: Dictionary = Database.opening
 	var shots: Array = data.get("shots", [])
@@ -338,9 +339,11 @@ func _check_opening() -> void:
 	var listen := func(key: String, payload: Dictionary) -> void: asked.append([key, payload])
 	EventBus.request_scene.connect(listen)
 	var opening: Control = load("res://src/ui/opening.tscn").instantiate()
-	opening.boot_payload = {"fallen": ["check"]}
+	opening.boot_payload = {"lead": "cato"}
 	add_child(opening)
 	opening.set_process(false)
+	_expect(opening._lead == "cato" and opening._sprites.get("sixteen:cato") != null,
+			"the opening does not fall with the lead it was handed")
 	var total := 0.0
 	for shot: Dictionary in shots:
 		total += float(shot.get("time", 6.0))
@@ -349,8 +352,8 @@ func _check_opening() -> void:
 		opening.step(0.25)
 		guard += 1
 	_expect(opening.finished, "the opening never ended on its own")
-	_expect(asked.size() == 1 and asked[0][0] == "temper_quiz" and asked[0][1] == {"fallen": ["check"]},
-			"the opening did not hand on to the quiz with its payload: %s" % [asked])
+	_expect(asked.size() == 1 and asked[0][0] == "world" and asked[0][1] == {},
+			"the opening did not start the run in the world: %s" % [asked])
 	opening.queue_free()
 
 	asked.clear()
@@ -363,6 +366,19 @@ func _check_opening() -> void:
 	skipped._unhandled_input(esc)
 	_expect(skipped.finished and asked.size() == 1, "Esc did not skip the opening")
 	skipped.queue_free()
+
+	# The quiz sends a New Game's lead to the opening, and any other run straight out.
+	for from_new_game: bool in [true, false]:
+		asked.clear()
+		var quiz: Control = load("res://src/ui/temper_quiz.tscn").instantiate()
+		quiz.boot_payload = {"opening": true} if from_new_game else {}
+		add_child(quiz)
+		quiz._chosen = "cato"
+		quiz._begin()
+		var want: Array = ["opening", {"lead": "cato"}] if from_new_game else ["world", {}]
+		_expect(asked.size() == 1 and asked[0] == want,
+				"the quiz began the run with %s, not %s" % [asked, want])
+		quiz.queue_free()
 	EventBus.request_scene.disconnect(listen)
 
 

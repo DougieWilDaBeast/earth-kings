@@ -1,19 +1,22 @@
 # 25 — The opening
 
 **Built 2026-10-12** (on `feat/body-scale`, pushed after its pull request had merged, so it reached the game on 2026-10-14, [D88](06-decisions.md)) at `doug-md`'s request: "a cinematic at the start of a new game that
-incorporates everything that we have discussed as how we want the game to be"
-. It plays after **New Game** and before the temper quiz, then hands over
-to it; the landing in the world (`data/fall.json` → `landing`) follows as before.
+incorporates everything that we have discussed as how we want the game to be".
+A **New Game** plays it once the lead is picked (in the temper quiz or from _Show me all
+sixteen_), and the lead picked is the one seen landing and waiting at the fire; then the run
+begins on the landing in the world (`data/fall.json` → `landing`) as before. The next world after a
+death, and the tutorial, do not play it.
 
 - **Words and cast:** `data/opening.json`. Rewrite any line there; no code needed. `time` is how
   long a shot holds, shared evenly between its lines.
 - **Pictures:** `src/ui/opening.gd`, drawn from the game's own sprites (`art/sixteen/`, the party and
   the ogre from `units.json`, the Tower, a town, a keep, a gate, the campfire) and plain shapes, so it
   needs no art made for it. A new kind of picture needs code.
-- **Controls:** click, tap, Space or Enter moves to the next shot; **Esc** skips to the quiz. About
+- **Controls:** click, tap, Space or Enter moves to the next shot; **Esc** (or a phone's back key) skips to the world. About
   a minute and a half if left alone.
 - **Tested** in `tests/wishlist_smoke_test.gd` (`_check_opening`): every shot can be drawn,
-  everyone in it has a sprite, it ends on its own and hands the quiz its payload, and Esc skips.
+  everyone in it has a sprite, the lead it is handed is the one who falls, it ends on its own and starts the run, Esc skips, and
+  the quiz plays it only after a New Game.
 
 ## The shots
 
