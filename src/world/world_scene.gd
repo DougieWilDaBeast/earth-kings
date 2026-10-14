@@ -2368,6 +2368,8 @@ func _site_art(site: Site) -> Texture2D:
 		path = Site.GATE_ART[absi(site.cell.x * 31 + site.cell.y * 17) % Site.GATE_ART.size()]
 	elif site.kind == Site.KEEP:
 		path = Faction.hold_art(str(site.data.get("faction", "")))
+	elif bool(site.data.get("city", false)):
+		path = Site.CITY_ART
 	if path == "":
 		path = str(Site.ART.get(site.kind, ""))
 	if path == "":

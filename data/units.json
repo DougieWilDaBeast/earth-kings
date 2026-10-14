@@ -611,6 +611,158 @@
 		"color": "#7d8fa8",
 		"sprite_dir": "res://art/units/legion_magus/idle"
 	},
+	"town_farmer": {
+		"display_name": "Farmer",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#8a7a4a",
+		"sprite_dir": "res://art/townsfolk/farmer/idle"
+	},
+	"town_fisher": {
+		"display_name": "Fisher",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#5a7a8a",
+		"sprite_dir": "res://art/townsfolk/fisher/idle"
+	},
+	"town_elder": {
+		"display_name": "Elder",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#8a7a8a",
+		"sprite_dir": "res://art/townsfolk/elder/idle"
+	},
+	"town_innkeeper": {
+		"display_name": "Innkeep",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#b09a6a",
+		"sprite_dir": "res://art/townsfolk/innkeeper/idle"
+	},
+	"town_trader": {
+		"display_name": "Trader",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#a88a5a",
+		"sprite_dir": "res://art/townsfolk/trader/idle"
+	},
+	"town_spice_seller": {
+		"display_name": "Spice-seller",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#b0603a",
+		"sprite_dir": "res://art/townsfolk/spice_seller/idle"
+	},
+	"town_keeper": {
+		"display_name": "Keeper",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#7a7a6a",
+		"sprite_dir": "res://art/townsfolk/keeper/idle"
+	},
+	"town_duster": {
+		"display_name": "Servant",
+		"job": "Wildling",
+		"max_hp": 24,
+		"attack": 5,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#8a8a7a",
+		"sprite_dir": "res://art/townsfolk/duster/idle"
+	},
 	"bird_archer": {
 		"display_name": "Bird Archer",
 		"job": "Longbow",

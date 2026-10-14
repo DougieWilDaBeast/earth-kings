@@ -1,5 +1,6 @@
 {
   "display_name": "the salt hamlet",
+  "walls": "stone",
   "layers": [
     "dirt",
     "sand",
@@ -308,6 +309,91 @@
         "The lion watches the water, then you, then the water.",
         "Salt spray hangs around it, though there is no wind."
       ]
+    },
+    {
+      "name": "Brine the Fisher",
+      "unit": "town_fisher",
+      "cell": [
+        17,
+        8
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "The sea gives. The sea takes the net as well, mind."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            17,
+            8
+          ],
+          "line": "Casts a net off the shingle.",
+          "stay": 6
+        },
+        {
+          "cell": [
+            16,
+            6
+          ],
+          "line": "Hangs the catch on the rack."
+        },
+        {
+          "cell": [
+            8,
+            15
+          ],
+          "line": "Carries fish to the salt house."
+        },
+        {
+          "cell": [
+            5,
+            6
+          ],
+          "line": "Sells two herring at the Salt and Line's door."
+        }
+      ]
+    },
+    {
+      "name": "Granny Wrack",
+      "unit": "town_elder",
+      "cell": [
+        9,
+        5
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "My husband went out on a calm day. They all do."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            9,
+            5
+          ],
+          "line": "Waters the goat at the trough."
+        },
+        {
+          "cell": [
+            11,
+            11
+          ],
+          "line": "Sits on a barrel and watches the sea.",
+          "stay": 8
+        },
+        {
+          "cell": [
+            13,
+            14
+          ],
+          "line": "Reads the signpost aloud to nobody."
+        }
+      ]
     }
   ],
   "rows": [
@@ -394,24 +480,22 @@
     {"art": "nature/birch", "cell": [20, 17], "offset": [-6, -5], "flip": true},
     {"art": "nature/birch", "cell": [4, 0], "offset": [-6, -1], "flip": true},
     {"art": "nature/birch", "cell": [0, 13], "offset": [-8, 5], "flip": true},
-    {"art": "nature/thistle", "cell": [19, 7], "offset": [7, 6], "flip": true},
-    {"art": "nature/fern", "cell": [1, 6], "offset": [10, 3]},
-    {"art": "nature/thistle", "cell": [2, 13], "offset": [-12, 3]},
-    {"art": "nature/pebble", "cell": [10, 11], "offset": [-9, -4]},
-    {"art": "nature/thistle", "cell": [17, 4], "offset": [-10, -1], "flip": true},
-    {"art": "nature/pebble", "cell": [7, 0], "offset": [7, 3]},
-    {"art": "nature/hedge_2", "cell": [21, 0], "offset": [12, -5], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [0, 3], "offset": [12, -3], "flip": true},
-    {"art": "nature/clover_2", "cell": [3, 0], "offset": [-13, 2], "flip": true},
-    {"art": "nature/thistle", "cell": [12, 0], "offset": [11, -6], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [7, 1], "offset": [-5, 0]},
-    {"art": "nature/pebble", "cell": [2, 17], "offset": [-1, 2], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [7, 11], "offset": [13, 1]},
-    {"art": "nature/thistle", "cell": [3, 13], "offset": [-4, 3], "flip": true},
-    {"art": "nature/sparrow", "cell": [2, 2], "offset": [-2, 0]},
-    {"art": "nature/irish_bird_3", "cell": [2, 6], "offset": [-3, -3], "flip": true},
-    {"art": "nature/sparrow", "cell": [7, 7], "offset": [1, 2]},
-    {"art": "nature/sparrow", "cell": [8, 11], "offset": [-12, -4]},
-    {"art": "nature/white_dove", "cell": [10, 2], "offset": [-7, -2]}
+    {"art": "nature/thistle", "cell": [8, 2], "offset": [7, 6], "flip": true},
+    {"art": "nature/hedge_2", "cell": [6, 2], "offset": [10, 3]},
+    {"art": "nature/wildflowers_orange", "cell": [17, 4], "offset": [-8, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [14, 0], "offset": [5, -4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [19, 5], "offset": [1, 7], "flip": true},
+    {"art": "nature/thistle", "cell": [0, 12], "offset": [8, -5]},
+    {"art": "nature/fern", "cell": [0, 4], "offset": [-10, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 17], "offset": [10, 0]},
+    {"art": "nature/thistle", "cell": [1, 7], "offset": [-3, -2]},
+    {"art": "nature/grass_tuft", "cell": [1, 16], "offset": [-6, -2]},
+    {"art": "nature/wildflowers_blue", "cell": [3, 13], "offset": [13, 1]},
+    {"art": "nature/hedge_3", "cell": [0, 6], "offset": [-4, 3], "flip": true},
+    {"art": "nature/sparrow", "cell": [2, 2], "offset": [8, 3]},
+    {"art": "nature/white_dove", "cell": [2, 6], "offset": [-1, 4]},
+    {"art": "nature/sparrow", "cell": [7, 7], "offset": [12, -2]},
+    {"art": "nature/irish_bird_3", "cell": [8, 11], "offset": [-6, 5], "flip": true},
+    {"art": "nature/sparrow", "cell": [10, 2], "offset": [-2, 0]}
   ]
 }

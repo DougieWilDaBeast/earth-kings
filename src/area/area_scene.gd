@@ -781,7 +781,16 @@ func _put_person(person: Dictionary, seated: Variant = null) -> AreaActor:
 	_actors.add_child(actor)
 	_people.append(actor)
 	var reach := float(person.get("wander", 0.0))
-	if reach > 0.0 and seated == null:
+	var rounds: Array = person.get("rounds", [])
+	if not rounds.is_empty() and seated == null:
+		var stops: Array[Dictionary] = []
+		for stop: Dictionary in rounds:
+			stops.append({
+				"at": map.centre_of(AreaMap.to_cell(stop.get("cell", [0, 0]))),
+				"stay": float(stop.get("stay", 0.0)), "line": str(stop.get("line", "")),
+			})
+		actor.work_rounds(stops, _can_stand, map.find_path)
+	elif reach > 0.0 and seated == null:
 		actor.roam(reach, _can_stand)
 	return actor
 

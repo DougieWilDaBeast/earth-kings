@@ -123,27 +123,34 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    Each of the sixteen fights in their own way too: Atlas's bearer, Diana's wolf, Pluto's shades
    and the rest ([21](21-the-sixteen-first-draft.md#the-sixteen-signatures-as-built), agenda item 72).
    Still to write: their parts in the main stories, with the sixteen's quest lines.
-2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
+2. **Walled towns and a great city — built** (2026-10-14, [D85](06-decisions.md), agenda item 74).
+   `doug-md` asked for towns with walls, people at their jobs, a city big enough to walk round for a
+   while, small quests and a tavern ([voice note](worldbuilding/voice-notes/2026-10-13-doug-md-cities.md)).
+   Every village is walled on the land, its townsfolk walk rounds of work, and one village a world
+   is a great city with the Gilded Flagon and five small quests. Planned: a second city (agenda 74
+   asks which), and the lead who will not climb the Tower (agenda item 75, open).
+3. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
    Next: the other level-1 faction foes, the twelve's bodies (now NPCs: idle and walk unless a story
    fight needs more), their companions and the village's walks; then the sixteen's fight sets. The
    fight effects and status icons are in the fight since 2026-10-13 ([D82](06-decisions.md)).
    Deferred by `dougie` (2026-10-13): redrawing the tide and flame lions' manes.
-3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
+4. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
    [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
    Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68),
-   the sixteen as leads (69) and their signatures (72). `doug-md` answered
+   the sixteen as leads (69), their signatures (72), the walls and the city (74), and the lead who
+   will not climb (75). `doug-md` answered
    items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
-4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
+5. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
    [21](21-the-sixteen-first-draft.md) and built as the leads ([D78](06-decisions.md)); their
    memories, shared mark and own quest lines (M13) are not written.
-5. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
+6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
-6. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
+7. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
    PixelLab's terms checked ([Launch readiness](#launch-readiness--in-progress)).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run

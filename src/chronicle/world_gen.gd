@@ -26,6 +26,11 @@ const AREA_POOLS := {
 	Site.HOME: ["home"],
 }
 
+## The great cities ([D85]): walled, with a gate ward on the land and the city itself through the
+## great gate. Each is dealt to a village, nearest the middle of the continent first, so the
+## city stands where the roads would meet.
+const CITY_AREAS := ["city"]
+
 const COUNTS := {
 	Site.KEEP: 5,
 	Site.VILLAGE: 11,
@@ -169,6 +174,17 @@ static func _deal_areas(world: World) -> void:
 		var sites := world.sites_of_kind(kind)
 		for i in sites.size():
 			sites[i].data["area"] = pool[i % pool.size()]
+	_raise_cities(world)
+
+
+static func _raise_cities(world: World) -> void:
+	var villages := world.sites_of_kind(Site.VILLAGE)
+	var middle := world.size / 2
+	villages.sort_custom(func(a: Site, b: Site) -> bool:
+		return Pathfinder.distance(a.cell, middle) < Pathfinder.distance(b.cell, middle))
+	for i in mini(CITY_AREAS.size(), villages.size()):
+		villages[i].data["area"] = CITY_AREAS[i]
+		villages[i].data["city"] = true
 
 
 ## High-rank gates and remote fortresses can be warded by ancient seals,

@@ -112,6 +112,9 @@ func hold(tile: Vector2i) -> Dictionary:
 	for person: Dictionary in laid.get("people", []):
 		var placed := person.duplicate(true)
 		placed["cell"] = [int(person.get("cell", [0, 0])[0]) + origin.x, int(person.get("cell", [0, 0])[1]) + origin.y]
+		for stop: Dictionary in placed.get("rounds", []):
+			var at := _cell(stop.get("cell", [0, 0]), origin)
+			stop["cell"] = [at.x, at.y]
 		placed["_tile"] = tile
 		placed["_area"] = str(laid.get("id", ""))
 		people.append(placed)
