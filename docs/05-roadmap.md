@@ -510,9 +510,10 @@ Work that gets the build into players' hands. Almost none of it waits on a found
   the founders, Godot's MIT notice word for word, its third-party components, music, sound, art,
   fonts and tools
 - Asset provenance audit — first pass done 2026-10-12 ([22](22-asset-provenance.md)); open items:
-  **`peace_sign.mp3`, `crossing_field.mp3` and `unravel.mp3` are fan covers of commercial songs,
-  dev only — they must be swapped for original or licensed tracks before any public release**; who
-  made the two menu sounds (`angelic.wav` and `bday_project.wav` are Ewan's and cleared to ship, [D63](06-decisions.md), [D64](06-decisions.md); full name to come); where the items, props, buildings,
+  the three fan covers (`peace_sign.mp3`, `crossing_field.mp3`, `unravel.mp3`) are out of every
+  build since 2026-10-14 ([D100](06-decisions.md)), and `doug-md` makes the First Hour's missing cues;
+  who made the two menu sounds (`angelic.wav` and `bday_project.wav` are by Ewan, who is `doug-md`,
+  and cleared to ship, [D63](06-decisions.md), [D64](06-decisions.md), [D100](06-decisions.md)); where the items, props, buildings,
   holds, tilesets and menu frames came from; PixelLab's commercial terms for the plan used. These
   open items are the one part of this section that waits on the founders
 - Saves survive updates and crashes ✅ (2026-10-12): an older save is upgraded step by step

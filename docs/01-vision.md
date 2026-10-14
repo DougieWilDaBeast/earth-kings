@@ -22,25 +22,46 @@ replaced the turn-based charge-time fight on 2026-10-12, once both founders had 
 
 Built native in **Godot 4 / GDScript**, running entirely on the local machine.
 
+## The pitch
+
+**Sixteen fell. One climbs.** ([D70](06-decisions.md))
+
+A tactics RPG where every life is a whole world. When your lead dies, their world ends, and the next
+of the sixteen begins again in theirs, knowing only what you learned ([D99](06-decisions.md)).
+
+It is for players of tactics and roguelite games who want characters to care about (Darkest Dungeon,
+Wildermyth, Battle Brothers, Hades) first; readers of tower-climb manhwa will find the Tower, gates
+and ranks familiar.
+
 ## Design pillars
 
-1. **Scarce, earned power.** Levels, classes and powers are found, not farmed. A character is
-   the sum of what they personally survived. Experience comes only from the first kill of each kind of
-   enemy; skill with a weapon comes from using it ([D37](06-decisions.md)).
-2. **Knowledge is carried, never inherited.** Doctrine affects only the character who read it or
-   was taught it. Unused, it fades. The Library is a place you walk to for a reason.
-3. **Powers are discovered, not authored.** Skill trees are generated from a hidden grammar. The
-   world's own power system is a thing to be catalogued and eventually understood.
-4. **One-way doors.** Permadeath is real. A cleared gate never reopens, but neglected ones break.
-   There is no going back to a version of the world you liked better — and when the lead dies,
-   the whole world is gone for good ([D32](06-decisions.md)).
-5. **The world runs on milestones, not steps.** It moves on when something is done (a chapter of
-   the Tower climbed, a checkpoint reached), and nothing runs against the clock. Joint session 2
-   settled this ([D49](06-decisions.md)) and replaced "the world runs on steps, not turns". **The
-   build still runs on steps** until M18 replaces them; which checkpoints there are and what each
-   step-priced clock becomes is [agenda item 20](worldbuilding/answers.md#what-is-still-to-decide).
-6. **Discoverability.** Abilities, gate ranks and the shape of the grammar are found in play.
-   The game does not open with a manual.
+Four, settled at the retreat ([D99](06-decisions.md)); they replace the six written before it. Every
+feature serves one of them, or is supporting, hidden or filler.
+
+1. **One life, one world.** Death ends a world. Only knowledge, a ghost and a weapon carry to the
+   next of the sixteen ([D32](06-decisions.md)). Power is scarce and earned: experience comes only
+   from the first kill of each kind of enemy ([D37](06-decisions.md)), doctrine only touches the one
+   who learned it, and a cleared gate never reopens.
+2. **The climb.** The Tower is always in sight, and every system helps you climb or makes the climb
+   mean more.
+3. **The fight is where you stand.** Real time on the ground the band was met on, watch zones you
+   can see, sneak or charge, pause when you choose ([D98](06-decisions.md)).
+4. **Sixteen people, not sixteen skins.** Each lead has their own class, signature and memories, given
+   back every five floors ([D63](06-decisions.md), [D93](06-decisions.md)).
+
+### Working rules
+
+Two of the old pillars are how the game is made rather than what it is:
+
+- **Discoverability.** Abilities, gate ranks and the shape of the grammar are found in play; the game
+  does not open with a manual or a wall of text. The hidden grammar of powers is a supporting feature
+  until it is shown well.
+- **Milestones, not steps.** The world moves on when something is done (a chapter of the Tower
+  climbed, a checkpoint reached), and nothing runs against the clock ([D49](06-decisions.md)). **The
+  build still runs on steps** until M18 replaces them ([agenda item 20](worldbuilding/answers.md#what-is-still-to-decide)).
+
+**Auto** (the party walking itself) is a convenience for empty stretches: the First Hour has to play
+well without it ([D99](06-decisions.md)).
 
 ## What this is deliberately not
 
