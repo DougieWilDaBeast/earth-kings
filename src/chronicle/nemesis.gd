@@ -24,6 +24,9 @@ const EPITHETS := [
 
 
 static func on_battle_won(world: World, enemies: Array, cell: Vector2i) -> String:
+	# Hidden for the First Hour (D97): nobody gets away to remember you.
+	if FirstHour.hides("nemesis"):
+		return ""
 	var candidates: Array = []
 	for entry in enemies:
 		var unit_id: String = entry.get("unit", "") if entry is Dictionary else str(entry)

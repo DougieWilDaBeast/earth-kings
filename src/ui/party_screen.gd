@@ -913,26 +913,28 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 	if taught == 0:
 		_page_box.add_child(_quiet_line("Nothing they could pass on to anybody here."))
 
-	_page_box.add_child(_heading("Send away"))
 	var roster: Roster = GameState.roster
-	var open := Dispatch.open_errands(GameState.errands)
-	if character.is_player:
-		_page_box.add_child(_quiet_line("The lead goes where the company goes."))
-	elif not Dispatch.can_send(character, roster, GameState.away):
-		_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
-	elif open.is_empty():
-		_page_box.add_child(_quiet_line("No errand to give them. Take one from a settlement's board first."))
-	else:
-		for errand: Dictionary in open:
-			var go := Button.new()
-			go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
-			go.focus_mode = Control.FOCUS_NONE
-			go.alignment = HORIZONTAL_ALIGNMENT_LEFT
-			go.text = "Send %s: %s" % [character.display_name, Errand.summary(errand)]
-			go.tooltip_text = "They leave the company, walk it while you walk, and come back — if nothing finds them on the road."
-			go.pressed.connect(func() -> void: send_away(character, errand))
-			Sfx.attend(go)
-			_page_box.add_child(go)
+	# Hidden for the First Hour (D97): nobody is sent off on errands of their own.
+	if not FirstHour.hides("dispatch"):
+		_page_box.add_child(_heading("Send away"))
+		var open := Dispatch.open_errands(GameState.errands)
+		if character.is_player:
+			_page_box.add_child(_quiet_line("The lead goes where the company goes."))
+		elif not Dispatch.can_send(character, roster, GameState.away):
+			_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
+		elif open.is_empty():
+			_page_box.add_child(_quiet_line("No errand to give them. Take one from a settlement's board first."))
+		else:
+			for errand: Dictionary in open:
+				var go := Button.new()
+				go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+				go.focus_mode = Control.FOCUS_NONE
+				go.alignment = HORIZONTAL_ALIGNMENT_LEFT
+				go.text = "Send %s: %s" % [character.display_name, Errand.summary(errand)]
+				go.tooltip_text = "They leave the company, walk it while you walk, and come back — if nothing finds them on the road."
+				go.pressed.connect(func() -> void: send_away(character, errand))
+				Sfx.attend(go)
+				_page_box.add_child(go)
 
 	if not GameState.away.is_empty():
 		_page_box.add_child(_heading("Away"))

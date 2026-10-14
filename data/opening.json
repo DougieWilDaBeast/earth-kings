@@ -1,9 +1,9 @@
 {
 	"_doc": "The opening cinematic, played after New Game once the lead is picked (src/ui/opening.gd, docs/25). Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines. Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
-	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `lead` stands in for the lead who falls when none was picked (the lead picked is the one shown); `party` and `foe` are unit templates in units.json.",
+	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `lead` stands in for the lead who falls when none was picked (Atlas, as in every run with no pick) (the lead picked is the one shown); `party` and `foe` are unit templates in units.json; the party are six of the sixteen, never the old twelve (D79). The road (carriages) and foe (a foe remembers you) shots are cut for the First Hour (D97); their drawings stay in opening.gd for when those systems come back.",
 	"sixteen": ["ares", "atlas", "bellona", "caesar", "cassius", "cato", "ceres", "diana", "iris", "janus", "juno", "liber", "pluto", "saturn", "ultor", "vesta"],
-	"lead": "caesar",
-	"party": ["bram", "sera", "toln", "fox_knight", "dwarf_smith", "element_monk"],
+	"lead": "atlas",
+	"party": ["juno", "cato", "vesta", "iris", "ceres", "diana"],
 	"foe": "ogre",
 	"shots": [
 		{
@@ -63,14 +63,6 @@
 			]
 		},
 		{
-			"shot": "road",
-			"time": 7.0,
-			"lines": [
-				"The roads are long. A few silver buys a seat on a carriage, part of the way.",
-				"The road has its own ideas about how far you get."
-			]
-		},
-		{
 			"shot": "company",
 			"time": 7.5,
 			"lines": [
@@ -84,14 +76,6 @@
 			"lines": [
 				"When it comes to blades, nobody waits their turn.",
 				"Stop the world, look, and choose. Then let it run."
-			]
-		},
-		{
-			"shot": "foe",
-			"time": 6.5,
-			"lines": [
-				"Leave something alive, and it may remember you.",
-				"It may come back wearing the scar you gave it."
 			]
 		},
 		{

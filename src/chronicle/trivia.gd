@@ -63,6 +63,8 @@ static func discover(world: World) -> Dictionary:
 
 ## Roll for one against a chance from `data/trivia.json`, and say so if it lands.
 static func maybe_discover(world: World, chance_key: String) -> Array[String]:
+	if FirstHour.hides("trivia"):
+		return []
 	if world.rng.randf() >= float(rules().get(chance_key, 0.0)):
 		return []
 	var entry := discover(world)

@@ -2014,7 +2014,8 @@ func _enter(building: Dictionary) -> void:
 	if building.has("fight"):
 		_spar(building)
 		return
-	if inside == "coliseum":
+	# Hidden for the First Hour (D97), the coliseum's door is only a shut door.
+	if inside == "coliseum" and not FirstHour.hides("coliseum"):
 		_leaving = true
 		var doorstep := map.step_out_of(building)
 		var outside := _doorstep_payload(doorstep)

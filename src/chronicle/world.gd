@@ -303,7 +303,7 @@ func _upkeep() -> Array:
 		else:
 			# It held this time; the clock starts again.
 			site.opened_at = steps
-	if Season.just_turned(steps):
+	if Season.just_turned(steps) and not FirstHour.hides("seasons"):
 		var s := Season.current(self)
 		notices.append(s.get("arrival", ""))
 		Annals.record(self, "The season turned to %s under the %s." % [s["display_name"], s["clover_name"]])
