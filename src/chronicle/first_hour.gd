@@ -12,3 +12,13 @@ extends RefCounted
 ## trivia, grimoires, ferries, captivity, nemesis, dispatch, seasons.
 static func hides(feature: String) -> bool:
 	return (Database.world_rules.get("first_hour", {}).get("hidden", []) as Array).has(feature)
+
+
+## D101: whether a run starts with the Tower's stair sealed until a gate is shut.
+static func wants_guild_mark() -> bool:
+	return bool(Database.world_rules.get("first_hour", {}).get("guild_mark", false))
+
+
+## What the Tower's doorkeeper says while the stair waits for the Guild's mark.
+static func mark_line() -> String:
+	return str(Database.world_rules.get("first_hour", {}).get("mark_line", ""))

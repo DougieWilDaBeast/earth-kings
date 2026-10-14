@@ -108,7 +108,10 @@ static func turn(world: World, floor: int) -> Array[String]:
 	return lines
 
 
-static func seal_line() -> String:
+## Before the first floor the seal is the Guild's mark (D101), not a chapter's end.
+static func seal_line(world: World = null) -> String:
+	if world != null and world.tower_floor <= 0 and FirstHour.mark_line() != "":
+		return FirstHour.mark_line()
 	return "The stair above is sealed. The Tower wants to see you answer the world first: shut a gate, or save a town."
 
 

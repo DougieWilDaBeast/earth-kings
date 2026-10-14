@@ -5,6 +5,8 @@
 	"lead": "atlas",
 	"party": ["juno", "cato", "vesta", "iris", "ceres", "diana"],
 	"foe": "ogre",
+	"_doc_ending": "`ending` is the one of the sixteen whose world is seen ending in the `ending` shot, so a new player sees the hook before they live it (D99, D101); {other} in a line is their name. When they are the lead, the next of the sixteen stands in.",
+	"ending": "bellona",
 	"shots": [
 		{
 			"shot": "void",
@@ -31,6 +33,14 @@
 			]
 		},
 		{
+			"shot": "ending",
+			"time": 8.0,
+			"lines": [
+				"In one of the other worlds, it is already over.",
+				"{other} fell on the Tower's stair, and that world went dark with them. It never comes back."
+			]
+		},
+		{
 			"shot": "fall",
 			"time": 7.0,
 			"lines": [
@@ -43,7 +53,7 @@
 			"time": 7.5,
 			"lines": [
 				"One of them is you.",
-				"You wake at the end of a furrow of burnt ground, with your name and nothing else."
+				"You wake at the bottom of a crater of burnt ground, with your name and nothing else."
 			]
 		},
 		{

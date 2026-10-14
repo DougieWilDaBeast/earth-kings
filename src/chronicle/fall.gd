@@ -10,6 +10,7 @@ extends RefCounted
 ## shares the landing (docs/17, "the worlds are siblings").
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Biome := preload("res://src/chronicle/biome.gd")
 
 ## What the crash can never land on. Water is walkable shallows, not ground.
 const NOT_GROUND := ["water", "ocean", "lake"]
@@ -38,10 +39,17 @@ static func quest_rules() -> Dictionary:
 ## The crash site becomes the hearth (agenda item 15, **Inferred**): the bed you
 ## can build, the safety of home, and the place rifts are torn away from all
 ## work from there.
-static func land(world: World, lead_id: String, reach: Dictionary = {}) -> Vector2i:
+##
+## In the first world ([param first]) they come down on the road to the great
+## city instead (D101, [method first_crash_cell]).
+static func land(world: World, lead_id: String, reach: Dictionary = {}, first := false) -> Vector2i:
 	if reach.is_empty():
 		reach = reachable(world)
-	var cell := crash_cell(world, "lead:%s" % lead_id, reach)
+	var cell := Vector2i(-1, -1)
+	if first:
+		cell = first_crash_cell(world, "lead:%s" % lead_id, reach)
+	if cell.x < 0:
+		cell = crash_cell(world, "lead:%s" % lead_id, reach)
 	var home := world.home()
 	if home == null:
 		home = Site.create(Site.HOME, cell, "Home")
@@ -76,7 +84,41 @@ static func crash_cell(world: World, salt: String, reach: Dictionary = {}) -> Ve
 	return world.home().cell if world.home() != null else world.player_cell
 
 
-static func is_valid_crash(world: World, cell: Vector2i, reach: Dictionary) -> bool:
+## The great city round the Tower (D101), or null on a map without one.
+static func great_city(world: World) -> Site:
+	for site: Site in world.sites:
+		if bool(site.data.get("city", false)):
+			return site
+	return null
+
+
+## The first world's landing (D101): on the road to the great city, between
+## `first_world.city_min` and `city_max` tiles from it. (-1, -1) when the map
+## has no great city or no ground there will do.
+static func first_crash_cell(world: World, salt: String, reach: Dictionary) -> Vector2i:
+	var city := great_city(world)
+	if city == null:
+		return Vector2i(-1, -1)
+	var band: Dictionary = crash_rules().get("first_world", {})
+	var near := int(band.get("city_min", 12))
+	var far := int(band.get("city_max", 16))
+	var choices: Array[Vector2i] = []
+	for y in range(city.cell.y - far, city.cell.y + far + 1):
+		for x in range(city.cell.x - far, city.cell.x + far + 1):
+			var cell := Vector2i(x, y)
+			var apart := Pathfinder.distance(city.cell, cell)
+			if apart >= near and apart <= far and is_valid_crash(world, cell, reach, true):
+				choices.append(cell)
+	if choices.is_empty():
+		return Vector2i(-1, -1)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, "fall", salt, "first"])
+	return choices[rng.randi() % choices.size()]
+
+
+## [param first]: the first world's landing, which waives the distance from the
+## Tower and from a haven (D101).
+static func is_valid_crash(world: World, cell: Vector2i, reach: Dictionary, first := false) -> bool:
 	if not reach.has(cell) or not world.is_walkable(cell):
 		return false
 	if NOT_GROUND.has(world.terrain_id_at(cell)):
@@ -91,6 +133,8 @@ static func is_valid_crash(world: World, cell: Vector2i, reach: Dictionary) -> b
 			return false
 		if site.kind == Site.GATE and site.open and apart < gate_gap:
 			return false
+	if first:
+		return true
 	var tower := world.tower()
 	if tower != null and Pathfinder.distance(tower.cell, cell) < int(crash_rules().get("min_tower_distance", 24)):
 		return false
@@ -134,22 +178,37 @@ static func way(from: Vector2i, to: Vector2i) -> String:
 
 
 ## The beat played the first time a new run opens: a conversation in the
-## shape [method Database.register_dialogue] takes.
-static func landing_dialogue(world: World, lead_name: String) -> Dictionary:
+## shape [method Database.register_dialogue] takes. A line naming a `lead` is
+## said only when [param lead_id] is that one.
+static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> Dictionary:
 	var tower := world.tower()
+	var city := great_city(world)
 	var fill := {
 		"name": lead_name,
 		"region": world.region_at(world.player_cell),
-		"ground": str(world.terrain_at(world.player_cell).get("name", "open ground")).to_lower(),
+		"ground": ground_word(world, world.player_cell),
 		"tower_way": way(world.player_cell, tower.cell) if tower != null else "north",
+		"city": city.display_name if city != null else "the city",
+		"city_way": way(world.player_cell, city.cell) if city != null else "north",
 	}
 	var lines: Array = []
 	for line: Dictionary in rules().get("landing", {}).get("lines", []):
+		var only := str(line.get("lead", ""))
+		if only != "" and only != lead_id:
+			continue
 		lines.append({
 			"speaker": str(line.get("speaker", "")).format(fill),
 			"text": str(line.get("text", "")).format(fill),
 		})
 	return { "lines": lines }
+
+
+## The land under [param cell] as the narration names it: the land the ground
+## is drawn as (a snowfield, the blight), never the map's plainer terrain, so
+## the words match what the player is standing on.
+static func ground_word(world: World, cell: Vector2i) -> String:
+	var said := Biome.display_name(Biome.at(world, cell)).to_lower()
+	return said.trim_prefix("the ")
 
 
 ## How the annals open on a new run.

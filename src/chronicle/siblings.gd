@@ -181,7 +181,10 @@ static func perturb(world: World, sibling: int) -> void:
 	var share := clampf(float(rules().get("perturbation", 0.25)), 0.0, 1.0)
 	for gate: Site in world.sites_of_kind(Site.GATE):
 		if rng.randf() < share:
-			gate.open = rng.randf() < 0.5
+			# The First Hour's gate stands open in every world (D101). The dice
+			# are still thrown for it, so the rest are dealt as they were.
+			var opens := rng.randf() < 0.5
+			gate.open = opens or bool(gate.data.get("first_gate", false))
 	# The first library always holds the first book (docs/16); the rest trade
 	# shelves.
 	var libraries := world.sites_of_kind(Site.LIBRARY)

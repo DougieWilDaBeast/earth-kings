@@ -24,9 +24,10 @@ static func line(key: String, tokens: Dictionary = {}) -> String:
 	return str(rules().get("lines", {}).get(key, key)).format(tokens)
 
 
-## Keeps and villages keep a hall while they stand. Huts are too small.
+## Keeps and villages keep a hall while they stand. Huts are too small. The
+## Guild also keeps the Tower's door, and takes contracts there (D101).
 static func has_hall(site: Site) -> bool:
-	return site != null and site.kind in [Site.KEEP, Site.VILLAGE] and not Town.is_ruined(site)
+	return site != null and site.kind in [Site.KEEP, Site.VILLAGE, Site.TOWER] and not Town.is_ruined(site)
 
 
 static func hall_at(world: World, cell: Vector2i) -> Site:

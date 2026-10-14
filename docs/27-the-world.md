@@ -10,7 +10,10 @@ his was.
 
 Yellow is the Tower, grey-blue keeps, green villages, blue libraries, red gates, tan huts, orange
 home. 128 by 128 tiles: snow along the north, sand along the south coast, ocean all round. The
-village nearest the middle is the great city ([D85](06-decisions.md)).
+great city, Stormreach, stands at the Tower's foot, on the tile south of it, and the open rank E gate
+Greyhollow 8 tiles south of that, open in every world (`first_gate`): the First Hour's road
+([D85](06-decisions.md), [D101](06-decisions.md)). In the first world the lead comes down 12 to 16
+tiles from Stormreach.
 
 ## What is the same every run, and what is not
 
@@ -34,7 +37,8 @@ The world is `data/world_map.json`. A run copies it and never writes back.
   `f` forest, `b` marsh, `=` road. The list is `World.LEGEND` in `src/chronicle/world.gd`.
 - **`sites`** — every place: `kind`, `cell` ([x, y], from the top-left), `display_name`, and for a
   gate `rank` (E to S) and `open`, plus `data` (`area`: which inside from `data/areas`; `city`;
-  `faction`: who holds it; `ward`; a library's `doctrine`). Places keep at least nine tiles apart.
+  `faction`: who holds it; `ward`; a library's `doctrine`; `first_gate`, a gate kept open in every world). Places keep at least
+  nine tiles apart, except the First Hour's city and gate ([D101](06-decisions.md)).
 - **`from_seed`** — the seed the lands and the ground are drawn from. Changing it changes every
   land on the map.
 - **See it:** `godot --headless --path . res://tools/world_maps.tscn -- --fixed` draws it into

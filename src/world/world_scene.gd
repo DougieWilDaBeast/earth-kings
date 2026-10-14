@@ -220,7 +220,7 @@ func _ready() -> void:
 	if world.steps == 0 and not GameState.has_flag("seen:prologue"):
 		GameState.set_flag("seen:prologue")
 		var lead := GameState.roster.player()
-		var landing := Fall.landing_dialogue(world, lead.display_name if lead != null else "The fallen")
+		var landing := Fall.landing_dialogue(world, lead.display_name if lead != null else "The fallen", lead.template_id if lead != null else "")
 		# In a world after the first, word of whoever went before (M15).
 		(landing["lines"] as Array).append_array(Siblings.landing_lines(world))
 		Database.register_dialogue("landing", landing)
@@ -923,7 +923,7 @@ func _climb(site: Site) -> void:
 		return
 
 	if Chapters.sealed(world):
-		_note(Chapters.seal_line())
+		_note(Chapters.seal_line(world))
 		return
 	var next_floor := world.tower_floor + 1
 	_note("The Tower opens onto floor %d of %d — chapter %d of %d." % [
@@ -1081,6 +1081,8 @@ func _actions_here() -> Array[Dictionary]:
 				"%s to climb floor %d of the Tower" % [_key("interact"), world.tower_floor + 1],
 				"Climb floor %d" % (world.tower_floor + 1), _climb_here
 			))
+		elif site.kind == Site.TOWER and not world.tower_is_topped():
+			parts.append(_telling(Chapters.seal_line(world)))
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
 			parts.append(_doable(

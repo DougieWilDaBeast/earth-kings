@@ -9,7 +9,7 @@ extends Control
 
 ## Every kind of picture [method _draw] knows. A shot in the data naming
 ## anything else draws only the night sky.
-const SHOTS := ["void", "sixteen", "worlds", "fall", "impact", "tower", "living", "road", "company", "fight", "foe", "end", "title"]
+const SHOTS := ["void", "sixteen", "worlds", "ending", "fall", "impact", "tower", "living", "road", "company", "fight", "foe", "end", "title"]
 ## How long a line takes to fade in and out.
 const FADE := 0.45
 const NIGHT := Color(0.035, 0.04, 0.07)
@@ -36,6 +36,9 @@ var finished := false
 var _data: Dictionary = {}
 ## Who lands: the lead just picked, or `opening.json`'s stand-in when there is none.
 var _lead := ""
+## Whose world is seen ending (D99, D101): `opening.json`'s `ending`, or the next
+## of the sixteen when that is the lead.
+var _other := ""
 var _stars: Array = []
 var _sprites: Dictionary = {}
 var _caption: Label
@@ -50,6 +53,7 @@ func _ready() -> void:
 	_data = Database.opening
 	_lead = str(boot_payload.get("lead", _data.get("lead", "")))
 	shots = _data.get("shots", [])
+	_other = _ended(str(_data.get("ending", "")))
 	_rng.seed = 1616
 	for _i in STAR_COUNT:
 		_stars.append([Vector2(_rng.randf(), _rng.randf()), _rng.randf_range(0.6, 2.0), _rng.randf() * TAU])
@@ -69,9 +73,26 @@ func _load_cast() -> void:
 	for key: String in ["tower", "town", "keep", "gate"]:
 		var kind: String = {"tower": Site.TOWER, "town": Site.VILLAGE, "keep": Site.KEEP, "gate": Site.GATE}[key]
 		_sprites[key] = _texture(str(Site.ART.get(kind, "")))
+	if not _sprites.has("sixteen:" + _other):
+		_sprites["sixteen:" + _other] = _texture("res://art/sixteen/%s/idle/south.png" % _other)
 	if not _sprites.has("sixteen:" + _lead):
 		_sprites["sixteen:" + _lead] = _texture("res://art/sixteen/%s/idle/south.png" % _lead)
 	_sprites["fire"] = _texture("res://art/props/camp/campfire.png")
+
+
+func _ended(wanted: String) -> String:
+	var sixteen: Array = _data.get("sixteen", [])
+	if wanted != _lead and sixteen.has(wanted):
+		return wanted
+	for hero: String in sixteen:
+		if hero != _lead:
+			return hero
+	return wanted
+
+
+## The name a line uses for whoever's world is seen ending.
+func other_name() -> String:
+	return str(Database.unit_template(_other).get("display_name", _other.capitalize()))
 
 
 static func _texture(path: String) -> Texture2D:
@@ -157,7 +178,7 @@ func line_now() -> Array:
 		return ["", 0.0]
 	var each := float(current().get("time", 6.0)) / float(lines.size())
 	var at := mini(int(elapsed / each), lines.size() - 1)
-	return [str(lines[at]), clampf((elapsed - each * at) / each, 0.0, 1.0), each]
+	return [str(lines[at]).format({"other": other_name()}), clampf((elapsed - each * at) / each, 0.0, 1.0), each]
 
 
 func _show_line() -> void:
@@ -220,6 +241,7 @@ func _draw() -> void:
 		"void": _draw_void(view, p)
 		"sixteen": _draw_sixteen(view, p)
 		"worlds": _draw_worlds(view, p)
+		"ending": _draw_ending(view, p)
 		"fall": _draw_fall(view, p)
 		"impact": _draw_impact(view, p)
 		"tower": _draw_tower_shot(view, p)
@@ -327,6 +349,26 @@ func _draw_worlds(view: Vector2, p: float) -> void:
 		# Near the end every world but one dims: only one will be left.
 		var fade := 1.0 if i == 0 else clampf(1.0 - (p - 0.62) / 0.3, 0.25, 1.0)
 		_globe(spots[i], minf(view.x, view.y) * 0.04, fade)
+
+
+## One of the other worlds ending (D99): its lead stands on it, and it goes
+## dark under them and does not come back.
+func _draw_ending(view: Vector2, p: float) -> void:
+	_draw_stars(view, 0.5 * (1.0 - p * 0.6))
+	var at := view * Vector2(0.5, 0.46)
+	var radius := minf(view.x, view.y) * 0.17
+	var dark := clampf((p - 0.3) / 0.45, 0.0, 1.0)
+	var gone := clampf((p - 0.8) / 0.2, 0.0, 1.0)
+	_globe(at, radius, 1.0 - gone * 0.85, dark)
+	var feet := at + Vector2(0, -radius * 0.92)
+	_glow(feet + Vector2(0, -20), 30.0, GOLD, 0.4 * (1.0 - dark))
+	_sprite("sixteen:" + _other, feet, view.y * 0.12, Color(1, 1, 1, 1.0 - dark).lerp(Color(GHOST, 0.0), gone))
+	# The light going out of it, a crack at a time.
+	if dark > 0.0:
+		for k in 5:
+			var angle := TAU * float(k) / 5.0 + 0.4
+			var reach := radius * 0.95 * clampf(dark * 1.4 - float(k) * 0.08, 0.0, 1.0)
+			draw_line(at, at + Vector2(cos(angle), sin(angle)) * reach, Color(EMBER, 0.7 * (1.0 - gone)), 2.0, true)
 
 
 func _draw_fall(view: Vector2, p: float) -> void:
