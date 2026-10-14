@@ -275,7 +275,7 @@
 		"kind": "wild",
 		"color": "#5fbfa8",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/units/feather_wisp/idle"
+		"sprite_dir": "res://art/tier1/feather_wisp/idle"
 	},
 	"fox_knight": {
 		"display_name": "Fox Fire Knight",
