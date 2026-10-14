@@ -322,7 +322,7 @@
 		],
 		"kind": "wild",
 		"color": "#d67ab5",
-		"sprite_dir": "res://art/units/pig_warlock/idle"
+		"sprite_dir": "res://art/tier1/pig_warlock/idle"
 	},
 	"tree_sentinel": {
 		"display_name": "Sentinel",
@@ -1191,7 +1191,7 @@
 		"kind": "soldier",
 		"color": "#c86a3a",
 		"body_scale": 0.85,
-		"sprite_dir": "res://art/units/red_panda_master/idle"
+		"sprite_dir": "res://art/tier1/red_panda_master/idle"
 	},
 	"staff_panda": {
 		"display_name": "Staff Panda",
@@ -1551,7 +1551,7 @@
 		],
 		"kind": "beast",
 		"color": "#d2622f",
-		"sprite_dir": "res://art/units/eye_slinger/idle"
+		"sprite_dir": "res://art/tier1/eye_slinger/idle"
 	},
 	"ice_wolf": {
 		"display_name": "Ice Wolf",
