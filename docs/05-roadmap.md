@@ -408,7 +408,10 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
   reshaped round gates; every tile of open country its own ground, with ways out only where the land
   goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
-  `data/biomes.json`). Art for sixteen of the lands is a recoloured stand-in
+  `data/biomes.json`). Art for sixteen of the lands was a recoloured stand-in; since 2026-10-13 every
+  land's trees, rocks and plants and the ground of eight (the blight, snow, dune, savanna, swamp,
+  bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). Planned: the ground of the other
+  eight (ash, jungle, barrow, blossom, slime, crystal, fungal, mist), next month
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was
