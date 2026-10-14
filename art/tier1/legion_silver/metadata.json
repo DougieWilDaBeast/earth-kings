@@ -1,0 +1,307 @@
+{
+ "id": "legion_silver",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "legion_silver",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as an imperial legionnaire in full silver plate armour with a dark closed visor, a red heart stamped on his chest, a short sword and a tall shield. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+   "zip": "downloads/pixellab/legion_silver_base.zip",
+   "generations": 13.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_silver_base.zip",
+   "generations": 21.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+   "name": "attack",
+   "action": "a short sword thrust from behind the shield",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_silver_base.zip",
+   "generations": 34.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_silver_base.zip",
+   "generations": 14.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/legion_silver_base.zip",
+   "generations": 12.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "7d04530d-637f-483a-86a5-f2837fbed3bf",
+     "name": "legion_silver",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T12:45:05.653293+00:00"
+    },
+    "folder": "legion_silver",
+    "frames": {
+     "rotations": {
+      "south": "legion_silver/rotations/south.png",
+      "south-east": "legion_silver/rotations/south-east.png",
+      "east": "legion_silver/rotations/east.png",
+      "north-east": "legion_silver/rotations/north-east.png",
+      "north": "legion_silver/rotations/north.png",
+      "north-west": "legion_silver/rotations/north-west.png",
+      "west": "legion_silver/rotations/west.png",
+      "south-west": "legion_silver/rotations/south-west.png"
+     },
+     "animations": {
+      "walking": {
+       "west": [
+        "legion_silver/animations/walking/west/frame_000.png",
+        "legion_silver/animations/walking/west/frame_001.png",
+        "legion_silver/animations/walking/west/frame_002.png",
+        "legion_silver/animations/walking/west/frame_003.png",
+        "legion_silver/animations/walking/west/frame_004.png",
+        "legion_silver/animations/walking/west/frame_005.png"
+       ],
+       "north": [
+        "legion_silver/animations/walking/north/frame_000.png",
+        "legion_silver/animations/walking/north/frame_001.png",
+        "legion_silver/animations/walking/north/frame_002.png",
+        "legion_silver/animations/walking/north/frame_003.png",
+        "legion_silver/animations/walking/north/frame_004.png",
+        "legion_silver/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "legion_silver/animations/walking/south/frame_000.png",
+        "legion_silver/animations/walking/south/frame_001.png",
+        "legion_silver/animations/walking/south/frame_002.png",
+        "legion_silver/animations/walking/south/frame_003.png",
+        "legion_silver/animations/walking/south/frame_004.png",
+        "legion_silver/animations/walking/south/frame_005.png"
+       ],
+       "east": [
+        "legion_silver/animations/walking/east/frame_000.png",
+        "legion_silver/animations/walking/east/frame_001.png",
+        "legion_silver/animations/walking/east/frame_002.png",
+        "legion_silver/animations/walking/east/frame_003.png",
+        "legion_silver/animations/walking/east/frame_004.png",
+        "legion_silver/animations/walking/east/frame_005.png"
+       ]
+      },
+      "attack": {
+       "west": [
+        "legion_silver/animations/attack/west/frame_000.png",
+        "legion_silver/animations/attack/west/frame_001.png",
+        "legion_silver/animations/attack/west/frame_002.png",
+        "legion_silver/animations/attack/west/frame_003.png",
+        "legion_silver/animations/attack/west/frame_004.png",
+        "legion_silver/animations/attack/west/frame_005.png",
+        "legion_silver/animations/attack/west/frame_006.png",
+        "legion_silver/animations/attack/west/frame_007.png",
+        "legion_silver/animations/attack/west/frame_008.png"
+       ],
+       "north": [
+        "legion_silver/animations/attack/north/frame_000.png",
+        "legion_silver/animations/attack/north/frame_001.png",
+        "legion_silver/animations/attack/north/frame_002.png",
+        "legion_silver/animations/attack/north/frame_003.png",
+        "legion_silver/animations/attack/north/frame_004.png",
+        "legion_silver/animations/attack/north/frame_005.png",
+        "legion_silver/animations/attack/north/frame_006.png",
+        "legion_silver/animations/attack/north/frame_007.png",
+        "legion_silver/animations/attack/north/frame_008.png"
+       ],
+       "east": [
+        "legion_silver/animations/attack/east/frame_000.png",
+        "legion_silver/animations/attack/east/frame_001.png",
+        "legion_silver/animations/attack/east/frame_002.png",
+        "legion_silver/animations/attack/east/frame_003.png",
+        "legion_silver/animations/attack/east/frame_004.png",
+        "legion_silver/animations/attack/east/frame_005.png",
+        "legion_silver/animations/attack/east/frame_006.png",
+        "legion_silver/animations/attack/east/frame_007.png",
+        "legion_silver/animations/attack/east/frame_008.png"
+       ],
+       "south": [
+        "legion_silver/animations/attack/south/frame_000.png",
+        "legion_silver/animations/attack/south/frame_001.png",
+        "legion_silver/animations/attack/south/frame_002.png",
+        "legion_silver/animations/attack/south/frame_003.png",
+        "legion_silver/animations/attack/south/frame_004.png",
+        "legion_silver/animations/attack/south/frame_005.png",
+        "legion_silver/animations/attack/south/frame_006.png",
+        "legion_silver/animations/attack/south/frame_007.png",
+        "legion_silver/animations/attack/south/frame_008.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "legion_silver/animations/skill/west/frame_000.png",
+        "legion_silver/animations/skill/west/frame_001.png",
+        "legion_silver/animations/skill/west/frame_002.png",
+        "legion_silver/animations/skill/west/frame_003.png",
+        "legion_silver/animations/skill/west/frame_004.png",
+        "legion_silver/animations/skill/west/frame_005.png",
+        "legion_silver/animations/skill/west/frame_006.png",
+        "legion_silver/animations/skill/west/frame_007.png",
+        "legion_silver/animations/skill/west/frame_008.png"
+       ],
+       "east": [
+        "legion_silver/animations/skill/east/frame_000.png",
+        "legion_silver/animations/skill/east/frame_001.png",
+        "legion_silver/animations/skill/east/frame_002.png",
+        "legion_silver/animations/skill/east/frame_003.png",
+        "legion_silver/animations/skill/east/frame_004.png",
+        "legion_silver/animations/skill/east/frame_005.png",
+        "legion_silver/animations/skill/east/frame_006.png",
+        "legion_silver/animations/skill/east/frame_007.png",
+        "legion_silver/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "legion_silver/animations/skill/south/frame_000.png",
+        "legion_silver/animations/skill/south/frame_001.png",
+        "legion_silver/animations/skill/south/frame_002.png",
+        "legion_silver/animations/skill/south/frame_003.png",
+        "legion_silver/animations/skill/south/frame_004.png",
+        "legion_silver/animations/skill/south/frame_005.png",
+        "legion_silver/animations/skill/south/frame_006.png",
+        "legion_silver/animations/skill/south/frame_007.png",
+        "legion_silver/animations/skill/south/frame_008.png"
+       ],
+       "north": [
+        "legion_silver/animations/skill/north/frame_000.png",
+        "legion_silver/animations/skill/north/frame_001.png",
+        "legion_silver/animations/skill/north/frame_002.png",
+        "legion_silver/animations/skill/north/frame_003.png",
+        "legion_silver/animations/skill/north/frame_004.png",
+        "legion_silver/animations/skill/north/frame_005.png",
+        "legion_silver/animations/skill/north/frame_006.png",
+        "legion_silver/animations/skill/north/frame_007.png",
+        "legion_silver/animations/skill/north/frame_008.png"
+       ]
+      },
+      "hit": {
+       "west": [
+        "legion_silver/animations/hit/west/frame_000.png",
+        "legion_silver/animations/hit/west/frame_001.png",
+        "legion_silver/animations/hit/west/frame_002.png",
+        "legion_silver/animations/hit/west/frame_003.png",
+        "legion_silver/animations/hit/west/frame_004.png"
+       ],
+       "north": [
+        "legion_silver/animations/hit/north/frame_000.png",
+        "legion_silver/animations/hit/north/frame_001.png",
+        "legion_silver/animations/hit/north/frame_002.png",
+        "legion_silver/animations/hit/north/frame_003.png",
+        "legion_silver/animations/hit/north/frame_004.png"
+       ],
+       "south": [
+        "legion_silver/animations/hit/south/frame_000.png",
+        "legion_silver/animations/hit/south/frame_001.png",
+        "legion_silver/animations/hit/south/frame_002.png",
+        "legion_silver/animations/hit/south/frame_003.png",
+        "legion_silver/animations/hit/south/frame_004.png"
+       ],
+       "east": [
+        "legion_silver/animations/hit/east/frame_000.png",
+        "legion_silver/animations/hit/east/frame_001.png",
+        "legion_silver/animations/hit/east/frame_002.png",
+        "legion_silver/animations/hit/east/frame_003.png",
+        "legion_silver/animations/hit/east/frame_004.png"
+       ]
+      },
+      "death": {
+       "east": [
+        "legion_silver/animations/death/east/frame_000.png",
+        "legion_silver/animations/death/east/frame_001.png",
+        "legion_silver/animations/death/east/frame_002.png",
+        "legion_silver/animations/death/east/frame_003.png",
+        "legion_silver/animations/death/east/frame_004.png",
+        "legion_silver/animations/death/east/frame_005.png",
+        "legion_silver/animations/death/east/frame_006.png",
+        "legion_silver/animations/death/east/frame_007.png",
+        "legion_silver/animations/death/east/frame_008.png"
+       ],
+       "west": [
+        "legion_silver/animations/death/west/frame_000.png",
+        "legion_silver/animations/death/west/frame_001.png",
+        "legion_silver/animations/death/west/frame_002.png",
+        "legion_silver/animations/death/west/frame_003.png",
+        "legion_silver/animations/death/west/frame_004.png",
+        "legion_silver/animations/death/west/frame_005.png",
+        "legion_silver/animations/death/west/frame_006.png",
+        "legion_silver/animations/death/west/frame_007.png",
+        "legion_silver/animations/death/west/frame_008.png"
+       ],
+       "south": [
+        "legion_silver/animations/death/south/frame_000.png",
+        "legion_silver/animations/death/south/frame_001.png",
+        "legion_silver/animations/death/south/frame_002.png",
+        "legion_silver/animations/death/south/frame_003.png",
+        "legion_silver/animations/death/south/frame_004.png",
+        "legion_silver/animations/death/south/frame_005.png",
+        "legion_silver/animations/death/south/frame_006.png",
+        "legion_silver/animations/death/south/frame_007.png",
+        "legion_silver/animations/death/south/frame_008.png"
+       ],
+       "north": [
+        "legion_silver/animations/death/north/frame_000.png",
+        "legion_silver/animations/death/north/frame_001.png",
+        "legion_silver/animations/death/north/frame_002.png",
+        "legion_silver/animations/death/north/frame_003.png",
+        "legion_silver/animations/death/north/frame_004.png",
+        "legion_silver/animations/death/north/frame_005.png",
+        "legion_silver/animations/death/north/frame_006.png",
+        "legion_silver/animations/death/north/frame_007.png",
+        "legion_silver/animations/death/north/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T13:13:13.504846"
+ }
+}

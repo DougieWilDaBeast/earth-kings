@@ -484,7 +484,7 @@
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#8c3b52",
-		"sprite_dir": "res://art/units/devil_butler/idle"
+		"sprite_dir": "res://art/tier1/devil_butler/idle"
 	},
 	"emo_swordsman": {
 		"display_name": "Sleepless Blade",
@@ -1051,7 +1051,7 @@
 		],
 		"kind": "soldier",
 		"color": "#9aa6b5",
-		"sprite_dir": "res://art/units/legion_silver/idle"
+		"sprite_dir": "res://art/tier1/legion_silver/idle"
 	},
 	"legion_emerald": {
 		"display_name": "Emerald Legionnaire",
@@ -1572,7 +1572,7 @@
 		],
 		"kind": "beast",
 		"color": "#cfe6f2",
-		"sprite_dir": "res://art/units/ice_wolf/idle"
+		"sprite_dir": "res://art/tier1/ice_wolf/idle"
 	},
 	"dusk_shadow": {
 		"display_name": "The Shadow",
