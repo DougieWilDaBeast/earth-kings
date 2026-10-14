@@ -13,7 +13,9 @@ Order is the order they were recorded, not priority.
 > the existing map, showing different locations and vibrant buildings and characters running
 > around. The Earth Kings title appears, and you press enter to go into the title screen.
 
-**Built.** [`src/ui/cinematic.gd`](../src/ui/cinematic.gd) is now the boot scene. It generates a
+**Retired from the boot ([D87](06-decisions.md)).** The game now opens on the title card, the fall
+([D69](06-decisions.md)); the pass below played before it and read as a second intro. The scene is
+kept, unused, until `dougie` says whether it goes. As it was built: [`src/ui/cinematic.gd`](../src/ui/cinematic.gd) It generates a
 throwaway world, glides `CameraRig.focus_on` between the four places furthest apart on it, walks a
 few of the founders along the roads between them, fades the title up and hands over to the menu on
 any key — or on its own after twelve seconds.

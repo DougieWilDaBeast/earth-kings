@@ -97,7 +97,7 @@ def main() -> int:
         return 1
     mb = {k: round(v / 1_000_000, 1) for k, v in sizes.items()}
     print(f"web build: pck {mb['index.pck']} MB, wasm {mb['index.wasm']} MB, js {mb['index.js']} MB")
-    print(f"boot {result.get('boot_s')} s to the cinematic, {result.get('world_s')} s from picking a life to the world")
+    print(f"boot {result.get('boot_s')} s to the title card, {result.get('world_s')} s from picking a life to the world")
     print(f"saved to IndexedDB: {result.get('saved')}; screenshots in {SHOTS.relative_to(ROOT)}/")
     for problem in result.get("problems", []):
         print(f"  PROBLEM {problem}")

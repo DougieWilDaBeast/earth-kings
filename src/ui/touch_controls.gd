@@ -50,7 +50,7 @@ const LEAN := 0.38
 var _finger: int = -1
 var _current_dir: Vector2i = Vector2i.ZERO
 var _held_actions: Array[String] = []
-var _scene_key: String = "cinematic"
+var _scene_key: String = "title"
 
 
 func _ready() -> void:

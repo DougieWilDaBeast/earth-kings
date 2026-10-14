@@ -7,7 +7,7 @@
 // NODE_PATH at `npm root -g`) and a Chromium it can find, e.g. through
 // PLAYWRIGHT_BROWSERS_PATH. The walk is driven from the keyboard wherever it
 // can be, so a moved button does not break it:
-//   boot -> any key past the cinematic -> New Game -> four quiz answers ->
+//   boot -> any key past the title card -> New Game -> four quiz answers ->
 //   a life -> the world -> three steps -> Esc menu -> Save Game ->
 //   reload -> Continue.
 // Prints one JSON line of timings and findings; exits 1 on any failure.
@@ -77,7 +77,7 @@ const SAVE_FILE = 'earth-kings.save.json';
     await page.goto(url);
     result.boot_s = await waitFor(/^Earth Kings: new run/, 60000, 'the game to boot');
     await page.waitForTimeout(2500);
-    await shot('01-cinematic');
+    await shot('01-title-card');
 
     await press('Space', 2500);
     await shot('02-title');
