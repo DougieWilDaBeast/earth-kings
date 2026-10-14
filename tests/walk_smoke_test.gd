@@ -470,10 +470,19 @@ func _check_tower() -> void:
 	var world: World = GameState.world
 	var tower := world.tower()
 	_expect(world.tower_floor == 0, "the Tower had already been climbed")
+	# A power waiting to be taken is asked about first, and the climb is asked for
+	# from a standstill; the walk so far may have left either.
+	for member: Character in GameState.roster.party_members():
+		member.rungs = 0
+	_scene._busy = false
 
 	_requests.clear()
 	if not _step_onto(tower.cell):
 		return
+	_expect(_last_battle_request().is_empty(), "standing at the Tower's foot started a fight")
+	_expect(_scene._actions_here().any(func(doing: Dictionary) -> bool: return str(doing["label"]).begins_with("Climb")),
+		"nothing at the Tower's foot offered the climb")
+	_scene._climb_here()
 	_expect(world.tower_floor == 0, "the floor log advanced before the fight was fought")
 
 	var fight := _last_battle_request()
@@ -511,6 +520,7 @@ func _check_chapters() -> void:
 	_requests.clear()
 	if not _step_onto(tower.cell):
 		return
+	_scene._climb_here()
 	_expect(not _last_battle_request().is_empty(), "the last floor of a chapter started no fight")
 	_scene._settle_up(true)
 	_scene._busy = false
@@ -540,6 +550,7 @@ func _check_chapters() -> void:
 	_requests.clear()
 	_scene._busy = false
 	if _step_onto(tower.cell):
+		_scene._climb_here()
 		_expect(not _last_battle_request().is_empty(), "the stair stayed shut after the world was answered")
 	_scene._busy = false
 	print("chapters: floor %d closed chapter %d, %d gate(s) woke, the seal held until a gate was shut" % [

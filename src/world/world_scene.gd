@@ -87,6 +87,7 @@ enum View { WALK, GROUND, MAP }
 const GROUND_ACTS := {
 	"_step_into_the_road": "interact",
 	"_walk_into_site": "interact",
+	"_climb_here": "interact",
 	"_ransom_here": "captive_ransom",
 	"_fight_for_captive": "captive_rescue",
 	"_hire_here": "site_hire",
@@ -211,9 +212,6 @@ func _ready() -> void:
 		Banter.shared(GameState.party_characters(), int(Banter.rules().get("bond_per_battle", 1)))
 		_talk(Banter.AFTER_BATTLE, true)
 	_settle_up(GameState.has_flag("last_victory"))
-	if not GameState.has_flag("seen:watched_ground"):
-		GameState.set_flag("seen:watched_ground")
-		_note("Red ground is being watched. Step onto it and you have been seen.")
 	GameState.set_flag("last_victory", false)
 	_check_party()
 
@@ -702,7 +700,10 @@ func _arrive_at(site: Site) -> void:
 		Site.GATE:
 			_enter_gate(site)
 		Site.TOWER:
-			_climb(site)
+			# Standing at the Tower's foot is not going in (D95): the stair is
+			# climbed when asked for. A party walking itself came here to climb.
+			if Pace.auto or world.tower_is_topped() or Chapters.sealed(world):
+				_climb(site)
 		Site.GRAVE:
 			_stand_at_grave(site)
 	for line: String in Wanderers.on_arrive(world, site):
@@ -906,6 +907,13 @@ func _climb(site: Site) -> void:
 	)
 
 
+## The Tower's next floor, asked for while standing at its foot.
+func _climb_here() -> void:
+	var site := world.site_at(world.player_cell)
+	if site != null and site.kind == Site.TOWER and not _busy:
+		_climb(site)
+
+
 ## A delve you lose gives back every floor you took. You are carried back to the
 ## mouth of it and it fills in behind you.
 func _lose_the_ground(site: Site) -> void:
@@ -1035,6 +1043,11 @@ func _actions_here() -> Array[Dictionary]:
 				_telling("walk on to keep exploring"),
 			]
 		var parts: Array[Dictionary] = []
+		if site.kind == Site.TOWER and not world.tower_is_topped() and not Chapters.sealed(world):
+			parts.append(_doable(
+				"%s to climb floor %d of the Tower" % [_key("interact"), world.tower_floor + 1],
+				"Climb floor %d" % (world.tower_floor + 1), _climb_here
+			))
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
 			parts.append(_doable(
@@ -1557,6 +1570,14 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 	return payload
 
 
+## Where the party stands, with its land beside it. Water has no land to name
+## (Biome.at reads it as grassland), so it is the region alone.
+func _region_title(region: String) -> String:
+	if world.terrain_id_at(world.player_cell) in ["ocean", "lake", "water"]:
+		return region
+	return "%s  ·  %s" % [region, Biome.display_name(Biome.at(world, world.player_cell))]
+
+
 ## The land round the tile the party is on ([D84]); its title is the place's, if a place with an
 ## inside and an open door stands there, or the country's. A warded place that will not open is
 ## open country with the challenge offered.
@@ -1568,7 +1589,7 @@ func _fresh_ground() -> Dictionary:
 	var inside_a_place := site != null and area_id != "" and (not site.data.has("ward") or Ward.is_site_open(site))
 	return {
 		"land": true,
-		"title": site.label() if inside_a_place else "%s  ·  %s" % [region, Biome.display_name(Biome.at(world, world.player_cell))],
+		"title": site.label() if inside_a_place else _region_title(region),
 		"return_scene": "world", "planar_mode": true, "inside": "site" if inside_a_place else "",
 	}
 

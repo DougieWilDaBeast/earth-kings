@@ -57,6 +57,9 @@ func dismiss() -> void:
 
 
 func _process(delta: float) -> void:
+	# One message at a time: a card waits for the box in front of it to close.
+	if not _panel.visible and not _queue.is_empty() and not _something_is_open():
+		_next()
 	if not _panel.visible or _something_is_open():
 		return
 	# Read in the player's seconds, not the game's: at ×4 a card would be gone
@@ -117,7 +120,7 @@ func _offer(moment: String) -> void:
 	# round every step, and a queue of one tip twelve times is no help.
 	Tips.mark_seen(id)
 	_queue.append(tip)
-	if not _panel.visible:
+	if not _panel.visible and not _something_is_open():
 		_next()
 	else:
 		# Something newer is waiting; the card up now gets a few seconds more.

@@ -88,6 +88,8 @@ var _crumbs: Array[Vector2] = []
 var _walked: float = 0.0
 ## How far the leader has walked since the area opened, until it is far enough to call walking.
 var _strolled: float = 0.0
+## Notes that came while a box was open, for when it closes.
+var _held_notes: Array[String] = []
 ## Held while an exchange is playing over their heads.
 var _chatting: bool = false
 var _notes: Array[String] = []
@@ -261,7 +263,7 @@ func _here_chunk() -> Dictionary:
 
 func _land_hint() -> String:
 	var said := str(_here_chunk().get("hint", ""))
-	return said if said != "" else "WASD to walk  ·  the land runs on  ·  click anyone marked to speak to them  ·  red ground is being watched"
+	return said if said != "" else "WASD to walk  ·  click anyone marked to speak to them"
 
 
 ## One tile's ground, in a node of its own so it can be let go of with the tile.
@@ -856,6 +858,11 @@ func _prompt_text() -> String:
 	var here := _acts_text()
 	if here != "":
 		return here
+	# How to walk is said until the player has walked; after that, in a run, the
+	# line stays empty until there is something here to do (D95). The tutorial
+	# keeps it.
+	if GameState.has_flag(WALKED_FLAG) and not GameState.rehearsing:
+		return ""
 	return _pad_hint() if Pad.using_pad else _idle_hint
 
 
@@ -1172,6 +1179,7 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_quiet_while_spoken_to()
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	if _land_mode:
@@ -1219,6 +1227,9 @@ func _physics_process(delta: float) -> void:
 		_strolled += before.distance_to(_leader.position)
 		if _strolled >= AreaMap.CELL * 3.0:
 			EventBus.player_did.emit("walked")
+			if not GameState.rehearsing and not GameState.has_flag(WALKED_FLAG):
+				GameState.set_flag(WALKED_FLAG)
+				_hint.text = _prompt_text()
 	_weather(before.distance_to(_leader.position))
 	if _walked >= TALK_STRIDE:
 		_walked = 0.0
@@ -1301,6 +1312,8 @@ func _actor_named(who: String) -> AreaActor:
 
 
 const BODY_RADIUS := 14.0
+## Set once the player has walked a few cells in a run: the walking hint is done.
+const WALKED_FLAG := "seen:walked"
 
 
 ## Walls stop the axis that runs into them, not the whole step, so a shoulder
@@ -2097,10 +2110,29 @@ func _reseed_crumbs() -> void:
 func _note(line: String) -> void:
 	if line == "":
 		return
+	if _overlay_open():
+		_held_notes.append(line)
+		return
 	_notes.append(line)
 	if _notes.size() > 3:
 		_notes = _notes.slice(_notes.size() - 3)
 	_log.text = "\n".join(_notes)
+
+
+## One message at a time (D95): while a box is open (the landing's words, a
+## screen) the log, the hint line and the act bar keep out of its way, and notes
+## wait for it to close.
+func _quiet_while_spoken_to() -> void:
+	var quiet := _overlay_open()
+	_log.visible = not quiet
+	_hint.visible = not quiet
+	if _act_bar != null:
+		_act_bar.visible = not quiet
+	if not quiet and not _held_notes.is_empty():
+		var held := _held_notes.duplicate()
+		_held_notes.clear()
+		for line: String in held:
+			_note(line)
 
 
 func _overlay_open() -> bool:

@@ -111,8 +111,13 @@ the [agenda item](worldbuilding/answers.md#what-is-still-to-decide).
 memory), nothing new is started, and the list below waits behind it. Order of work, one pull request
 each, each ending playable:
 1. The suites and the soak play one of the sixteen (Atlas) — built.
-2. Quick fixes: one message at a time at the landing, walk hints gone after the tutorial, the
-   crash site's furniture, draw order, rock collision, the Tower's tile, ground shimmer — planned.
+2. Quick fixes — built. While a box is open on the ground (the landing's words, a screen) the
+   log, the hint line and tip cards wait for it to close; the walking hint goes once you have
+   walked (the tutorial keeps it), and "red ground is being watched" is said once, by its tip;
+   the crash site has no furniture; the apple sapling stands in the way like any young tree;
+   loose stones are walked over; standing at the Tower's foot offers the climb instead of
+   starting it (Auto still climbs); a region on water is not called grassland; the ground reads
+   from mipmaps, so it no longer shimmers zoomed out.
 3. M opens the map, a compass points at the objective, Auto walks there — planned.
 4. Fights where they are met, opening running — planned.
 5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
