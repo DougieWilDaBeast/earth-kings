@@ -485,13 +485,28 @@ func _check_tower() -> void:
 	_expect(_scene._actions_here().any(func(doing: Dictionary) -> bool: return str(doing["label"]).begins_with("Climb")),
 		"nothing at the Tower's foot offered the climb")
 	_scene._climb_here()
-	_expect(world.tower_floor == 0, "the floor log advanced before the fight was fought")
+	_expect(world.tower_floor == 0, "the floor log advanced before the floor was climbed")
 
-	var fight := _last_battle_request()
-	_expect(not fight.is_empty(), "the Tower started no fight")
-	if not fight.is_empty():
-		_expect(fight["payload"]["encounter"]["kind"] == Encounter.TOWER, "the Tower fought the wrong thing")
+	# Floor 1 is walked (D102): its own ground, held bands, and the stair up.
+	var climb := _last_climb_request()
+	_expect(not climb.is_empty() and climb["key"] == "area", "the Tower's first floor is not walked")
+	if not climb.is_empty() and climb["key"] == "area":
+		_expect(int(climb["payload"]["tower_floor"]) == 1 and Database.has_area(str(climb["payload"]["area_id"])),
+				"the Tower opened onto the wrong floor: %s" % [climb["payload"]])
+	for n in range(1, 6):
+		var floor_area := Chapters.walked_floor_area(n)
+		_expect(floor_area != "", "floor %d of the Tower is not walked" % n)
+		var data := Database.area(floor_area)
+		_expect(not (data.get("stairs", []) as Array).is_empty(), "floor %d has no stair up" % n)
+		var bands: Array = data.get("bands", [])
+		_expect(not bands.is_empty() and bands.all(func(b: Dictionary) -> bool: return bool(b.get("held", false))),
+				"floor %d has nobody on it to fight for real" % n)
+		if n == 5:
+			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor 5 has no keeper")
+	_expect(Chapters.walked_floor_area(6) == "", "floor 6 is walked, past the First Hour")
 
+	# Standing on the stair is the floor won: the continent pays it out.
+	GameState.pending_outcome = { "kind": "tower", "cell": tower.cell, "floor": 1 }
 	_scene._settle_up(true)
 	_expect(world.tower_floor == 1, "climbing did not advance the floor log")
 	print("tower: floor %d entered" % world.tower_floor)
@@ -523,7 +538,8 @@ func _check_chapters() -> void:
 	if not _step_onto(tower.cell):
 		return
 	_scene._climb_here()
-	_expect(not _last_battle_request().is_empty(), "the last floor of a chapter started no fight")
+	_expect(not _last_climb_request().is_empty(), "the last floor of a chapter started no climb")
+	GameState.pending_outcome = { "kind": "tower", "cell": tower.cell, "floor": Chapters.per_chapter() }
 	_scene._settle_up(true)
 	_scene._busy = false
 	_expect(world.tower_floor == Chapters.per_chapter(), "the chapter's last floor was not logged")
@@ -544,7 +560,7 @@ func _check_chapters() -> void:
 	_expect(Chapters.sealed(world), "the seal did not survive a save")
 	_requests.clear()
 	if _step_onto(tower.cell):
-		_expect(_last_battle_request().is_empty(), "a sealed stair still started a fight")
+		_expect(_last_climb_request().is_empty(), "a sealed stair still started a climb")
 
 	# Shutting a gate is answering the world.
 	Renown.record(world, Renown.GATE_SHUT, world.player_cell, 3, "shut a gate")
@@ -553,7 +569,7 @@ func _check_chapters() -> void:
 	_scene._busy = false
 	if _step_onto(tower.cell):
 		_scene._climb_here()
-		_expect(not _last_battle_request().is_empty(), "the stair stayed shut after the world was answered")
+		_expect(not _last_climb_request().is_empty(), "the stair stayed shut after the world was answered")
 	_scene._busy = false
 	print("chapters: floor %d closed chapter %d, %d gate(s) woke, the seal held until a gate was shut" % [
 		Chapters.per_chapter(), Chapters.chapter_of(Chapters.per_chapter()), woken.size(),
@@ -1767,6 +1783,16 @@ func _wander(count: int) -> int:
 		_scene._step(options[world.rng.randi() % options.size()])
 		taken += 1
 	return taken
+
+
+## The last climb asked for: a floor fought on the fight screen, or one walked on its own
+## ground (D102).
+func _last_climb_request() -> Dictionary:
+	for i in range(_requests.size() - 1, -1, -1):
+		var key: String = _requests[i]["key"]
+		if key == "skirmish" or (key == "area" and int(_requests[i]["payload"].get("tower_floor", 0)) > 0):
+			return _requests[i]
+	return {}
 
 
 func _last_battle_request() -> Dictionary:

@@ -126,6 +126,9 @@
 	"tower": {
 		"floors": 100,
 		"floors_per_chapter": 5,
+		"_comment_walked": "D102: floors 1 to walked_floors are walked, each on its own ground (`walked_area`, with the floor number), with bands watching it and the stair up at the far end; the last is kept by a keeper. Above them a floor is fought as one battle.",
+		"walked_floors": 5,
+		"walked_area": "tower_floor_%d",
 		"chapter_keys": ["gate_shut", "town_saved"],
 		"chapter_upkeeps": 3,
 		"gates_woken_per_chapter": 2,

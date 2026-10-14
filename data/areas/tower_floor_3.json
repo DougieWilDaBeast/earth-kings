@@ -1,0 +1,157 @@
+{
+  "display_name": "floor 3 of the Tower",
+  "layers": [
+    "flagstone",
+    "stone",
+    "crag"
+  ],
+  "legend": {
+    "s": "stone",
+    "f": "flagstone",
+    "A": "crag"
+  },
+  "tint": "#8f8aa8",
+  "hint": "WASD to walk  \u00b7  the stair up is north, the way down south",
+  "spawn": [
+    12,
+    15
+  ],
+  "exits": [
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ]
+  ],
+  "stairs": [
+    [
+      12,
+      0
+    ],
+    [
+      13,
+      0
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        13,
+        14
+      ],
+      "line": "Somebody drew a door here in chalk, very carefully, and then wrote under it: NO."
+    }
+  ],
+  "props": [
+    {
+      "art": "brazier",
+      "cell": [
+        11,
+        2
+      ]
+    },
+    {
+      "art": "brazier",
+      "cell": [
+        14,
+        2
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        2,
+        15
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        23,
+        15
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "tower3_a",
+      "pack": [
+        "ooze_knight"
+      ],
+      "label": "An ooze knight",
+      "faction": "",
+      "at": [
+        12,
+        7
+      ],
+      "reach": 2,
+      "level": 3,
+      "held": true,
+      "requires_not": "done:tower3_a",
+      "done_flag": "done:tower3_a"
+    },
+    {
+      "key": "tower3_b",
+      "pack": [
+        "sword_monkey",
+        "goblin"
+      ],
+      "label": "A sword monkey and a goblin",
+      "faction": "",
+      "at": [
+        20,
+        2
+      ],
+      "reach": 2,
+      "level": 4,
+      "held": true,
+      "requires_not": "done:tower3_b",
+      "done_flag": "done:tower3_b"
+    }
+  ],
+  "rows": [
+    "AAAAAAAAAAAAffAAAAAAAAAAAA",
+    "AsssssssssssffsssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AsssAAssssAAsssAAsssAAsssA",
+    "AsssAAssssAAsssAAsssAAsssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AsssAAssssAAsssAAsssAAsssA",
+    "AsssAAssssAAsssAAsssAAsssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AsssssssssssffsssssssssssA",
+    "AAAAAAAAAAAAffAAAAAAAAAAAA"
+  ],
+  "dressing": [
+    {"art": "nature/pebble", "cell": [18, 11], "offset": [12, 2]},
+    {"art": "nature/grass_tuft", "cell": [2, 14], "offset": [10, 6], "flip": true},
+    {"art": "nature/thistle", "cell": [17, 1], "offset": [-12, 3], "flip": true},
+    {"art": "nature/thistle", "cell": [17, 15], "offset": [14, 6]},
+    {"art": "nature/grass_tuft", "cell": [15, 7], "offset": [4, -6]},
+    {"art": "nature/thistle", "cell": [11, 13], "offset": [10, -3], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [20, 7], "offset": [-10, -5]},
+    {"art": "nature/thistle", "cell": [19, 1], "offset": [-6, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [12, 10], "offset": [-11, -6]},
+    {"art": "nature/pebble", "cell": [3, 1], "offset": [-8, 2], "flip": true},
+    {"art": "nature/pebble", "cell": [24, 10], "offset": [-14, -7]},
+    {"art": "nature/pebble", "cell": [9, 7], "offset": [5, 7]},
+    {"art": "nature/grass_tuft", "cell": [8, 15], "offset": [1, -5]},
+    {"art": "nature/thistle", "cell": [22, 3], "offset": [4, 7]},
+    {"art": "nature/thistle", "cell": [21, 6], "offset": [-13, -3], "flip": true},
+    {"art": "nature/pebble", "cell": [21, 8], "offset": [4, 3], "flip": true},
+    {"art": "nature/thistle", "cell": [15, 12], "offset": [-8, -4], "flip": true},
+    {"art": "nature/thistle", "cell": [24, 11], "offset": [-12, 6]},
+    {"art": "nature/snail", "cell": [18, 9], "offset": [4, 7]},
+    {"art": "nature/spider", "cell": [22, 9], "offset": [8, -7]}
+  ]
+}

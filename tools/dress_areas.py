@@ -140,6 +140,10 @@ OUTDOORS = {
     "library_vault": dict(trees=[], edge=0.0, inner=0.0, gap=3, ground=STONY, cover=0.06,
                           critters=["nature/spider", "nature/snail"], count=2, on=["stone"], keep_clear=1,
                           path=["flagstone"]),
+    # The Tower's walked floors (D102): bare stone, a little rubble, something small living in it.
+    **{"tower_floor_%d" % n: dict(trees=[], edge=0.0, inner=0.0, gap=3, ground=STONY, cover=0.05,
+                                  critters=["nature/spider", "nature/snail"], count=2, on=["stone"], keep_clear=1,
+                                  path=["flagstone"]) for n in range(1, 6)},
 }
 
 ## Rooms: furniture against the walls by what the room is, leaving the middle and the way in.

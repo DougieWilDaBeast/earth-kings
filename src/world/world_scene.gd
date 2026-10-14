@@ -735,7 +735,9 @@ func _arrive_at(site: Site) -> void:
 		Site.TOWER:
 			# Standing at the Tower's foot is not going in (D95): the stair is
 			# climbed when asked for. A party walking itself came here to climb.
-			if Pace.auto or world.tower_is_topped() or Chapters.sealed(world):
+			# A floor that is walked is walked by hand: Auto stops at the door (D102).
+			var walked := Chapters.walked_floor_area(world.tower_floor + 1) != ""
+			if (Pace.auto and not walked) or world.tower_is_topped() or Chapters.sealed(world):
 				_climb(site)
 		Site.GRAVE:
 			_stand_at_grave(site)
@@ -931,6 +933,18 @@ func _climb(site: Site) -> void:
 	])
 	if world.tower_hoard > 0:
 		_note("You are still carrying %d gold. Lose here and it stays here." % world.tower_hoard)
+	# The first floors are walked: their own ground, bands watching it, and the stair up at the
+	# far end, kept on the last of them by a keeper (D102).
+	var walked := Chapters.walked_floor_area(next_floor)
+	if walked != "":
+		_busy = true
+		EventBus.request_scene.emit("area", {
+			"area_id": walked,
+			"title": "The Tower, floor %d" % next_floor,
+			"return_scene": "world",
+			"tower_floor": next_floor,
+		})
+		return
 	_begin_battle(
 		Encounter.for_tower(world, site, next_floor, GameState.party_characters(), world.rng),
 		{

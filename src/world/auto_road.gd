@@ -109,7 +109,9 @@ static func objective(world: World) -> Dictionary:
 
 	var tower := world.tower()
 	if tower != null and not world.tower_is_topped():
-		return {"cell": tower.cell, "label": tower.display_name, "stop": false}
+		# The first floors are walked by hand, so a party walking itself stops at the door (D102).
+		var walked := Chapters.walked_floor_area(world.tower_floor + 1) != ""
+		return {"cell": tower.cell, "label": tower.display_name, "stop": walked}
 	return {}
 
 

@@ -521,7 +521,13 @@ plus `at` (the cell it would rather stand on: it only has to not be looking at t
 `level`, `requires` / `requires_not` (flags: it comes out when they allow, looked at twice a second)
 and `done_flag` (set when it is fought). One with `"spar": true` is practice: it is fought straight
 from the area as a sandbox fight on that ground (nobody can die, nothing counted) and back to the
-same spot, never through the world. The tutorial's sparring pair is one.
+same spot, never through the world. The tutorial's sparring pair is one. One with `"held": true` is
+fought for real on that ground ([D102](06-decisions.md)): the continent settles it like any fight,
+`done_flag` is set only if it is won, and lost or got clear of sends the party back out (`lost` is
+the line said); `boss` makes its first unit a keeper. The Tower's walked floors hold these, and a
+`stairs` list of cells: on an area opened with `tower_floor` in its payload, standing on one wins
+that floor. `world_rules.json` → `tower.walked_floors` (5) and `walked_area` (`tower_floor_%d`)
+say which floors are walked.
 
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`

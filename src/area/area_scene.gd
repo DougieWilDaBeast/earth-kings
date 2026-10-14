@@ -148,6 +148,11 @@ var _settling: bool = false
 ## The area's own bands already standing here, by key, and how long since their flags were looked at.
 var _posted_practice: Dictionary = {}
 var _practice_clock: float = 0.0
+## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
+## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
+var _tower_floor: int = 0
+var _held_fight: String = ""
+var _held_done: String = ""
 
 ## The land ([D84]): whether this is it, the nodes each held tile put down (tile -> its ground,
 ## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
@@ -168,6 +173,7 @@ func _ready() -> void:
 	_planar_mode = bool(boot_payload.get("planar_mode", false))
 	_acts = boot_payload.get("actions", [])
 	_held = boot_payload.get("held", {})
+	_tower_floor = int(boot_payload.get("tower_floor", 0))
 	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
 	if _land_mode:
 		map = Land.around(GameState.world, GameState.world.player_cell)
@@ -444,6 +450,8 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	if not _land_mode:
 		for line: Variant in answer.get("notes", []):
 			_note(str(line))
+		if settled:
+			_after_held_fight()
 		return
 	_camera.make_current()
 	_held = answer.get("held", {})
@@ -1519,6 +1527,9 @@ func _settle_followers(delta: float) -> void:
 
 
 func _arrive_at(cell: Vector2i) -> void:
+	if _tower_floor > 0 and map.stairs.has(cell):
+		_climb_the_stair()
+		return
 	if not _land_mode and (map.is_exit(cell) or _is_edge_cell(cell)):
 		_handle_exit(cell)
 		return
@@ -1831,6 +1842,9 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	if bool(watch.band.get("spar", false)):
 		_spar_with(watch, field, ambush)
 		return
+	if bool(watch.band.get("held", false)):
+		_fight_held(watch, field, ambush)
+		return
 	# The continent deals the band out and answers with the fight, which is put down right here.
 	_awaiting_fight = true
 	_ask_the_continent({ "fight": str(watch.band.get("key", "")), "field": field })
@@ -1851,6 +1865,65 @@ func _spar_with(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"field": field,
 		"sandbox": true,
 	})
+
+
+## A held band ([D102]): fought here for real, with no band on the continent behind it. What it
+## is worth is settled by the continent like any fight (deaths, experience, the run's end); won,
+## its `done_flag` keeps it gone. Lost, or got clear of, and the party is back down the stair.
+func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
+	var enemies: Array = []
+	var level := int(watch.band.get("level", 1))
+	var boss := bool(watch.band.get("boss", false))
+	var first := true
+	for unit_id: Variant in watch.band.get("pack", []):
+		var foe := { "unit": str(unit_id), "level": level }
+		if boss and first:
+			foe["boss"] = true
+		first = false
+		enemies.append(foe)
+	GameState.pending_outcome = {
+		"kind": "tower_band", "enemies": enemies,
+		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
+	}
+	_held_done = str(watch.band.get("done_flag", ""))
+	_fight_here({
+		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush },
+		"field": field,
+	})
+
+
+## A held band's fight, settled: won, it stays gone; anything else, and the party is back at the
+## Tower's foot (unless the run is over, when the continent has the screen).
+func _after_held_fight() -> void:
+	var how := _held_fight
+	_held_fight = ""
+	var done := _held_done
+	_held_done = ""
+	if how == "":
+		return
+	if how == "won":
+		if done != "":
+			GameState.set_flag(done)
+		return
+	if GameState.roster.run_is_over():
+		return
+	_leaving = true
+	EventBus.request_scene.emit(_return_scene, _return_payload)
+
+
+## The stair up: the floor is won, and the continent pays it out as it paid a floor fought on the
+## fight screen ([D102]).
+func _climb_the_stair() -> void:
+	if _leaving:
+		return
+	_leaving = true
+	var world: World = GameState.world
+	var tower := world.tower()
+	GameState.pending_outcome = {
+		"kind": "tower", "cell": tower.cell if tower != null else world.player_cell, "floor": _tower_floor,
+	}
+	GameState.set_flag("last_victory", true)
+	EventBus.request_scene.emit("world", {})
 
 
 ## The band rushes the party: part of the way, facing them, so the fight opening is something
@@ -1923,6 +1996,8 @@ func _after_the_fight() -> void:
 			stood = to_local(_fight.to_global(unit.position))
 			if (f.get("unit").get("character") as Character) == _leader_character:
 				break
+	if not sandbox and _tower_floor > 0:
+		_held_fight = "won" if bool(_fight.get("victory")) else ("fled" if bool(_fight.get("fled_field")) else "lost")
 	_fight.queue_free()
 	_fight = null
 	$UI.visible = true
@@ -2296,6 +2371,12 @@ func _point_the_compass() -> void:
 	if _compass == null or GameState.world == null:
 		return
 	var world: World = GameState.world
+	# On a floor of the Tower the only way on is the stair up (D102).
+	if _tower_floor > 0 and not map.stairs.is_empty() and _leader != null:
+		_compass.set_meta("aimed", true)
+		_compass.visible = not _overlay_open()
+		_compass.point(Vector2(map.stairs[0] - map.cell_at(_leader.position)), "The stair to floor %d" % (_tower_floor + 1), 0)
+		return
 	var goal := AutoRoad.objective(world) if not GameState.rehearsing else {}
 	if goal.is_empty():
 		_compass.remove_meta("aimed")
