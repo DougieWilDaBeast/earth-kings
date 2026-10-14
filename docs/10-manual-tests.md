@@ -409,7 +409,7 @@ Rather than starting a run and playing to the point of concern, boot straight in
 
 State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`,
 `--owed=path|power`, `--levelup`, `--choose=CLASS`, `--take`, and `--tab=NAME` for the journal ([D67](06-decisions.md)).
-Scenes: cinematic title character_select world area skirmish training coliseum museum credits summary,
+Scenes: title character_select world area skirmish training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.

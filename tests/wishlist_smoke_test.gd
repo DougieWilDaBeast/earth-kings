@@ -1,8 +1,8 @@
 extends Node
 ## Headless check on the four things added from the wishlist: the journal
 ## filling in only what was earned, the museum surviving a write and a read,
-## the arena stashing and restoring the run's own roster, and the cinematic
-## finding somewhere to look.
+## the arena stashing and restoring the run's own roster, and every kind of
+## place having its art.
 ##
 ##   godot --headless --path . res://tests/wishlist_smoke_test.tscn
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	_check_journal()
 	_check_museum()
 	_check_arena()
-	_check_cinematic()
+	_check_site_art()
 	_check_seasons()
 	_check_news()
 	_check_temper_quiz()
@@ -302,17 +302,11 @@ func _check_arena() -> void:
 	_expect(GameState.roster == kept, "the run did not get its own people back the second time")
 
 
-# --- W1 -----------------------------------------------------------------------
+# --- places -------------------------------------------------------------------
 
 
-## The cinematic needs somewhere to point the camera on any seed it is given.
-func _check_cinematic() -> void:
-	for offset in 4:
-		var world := WorldGen.generate(SEED + offset)
-		var places := 0
-		for kind: String in [Site.TOWER, Site.KEEP, Site.VILLAGE, Site.GATE, Site.LIBRARY]:
-			places += world.sites_of_kind(kind).size()
-		_expect(places >= 2, "seed %d gave the opening pass nothing to look at" % (SEED + offset))
+## Every kind of place the map draws has its picture.
+func _check_site_art() -> void:
 	for kind: String in Site.ART:
 		_expect(
 			ResourceLoader.exists(str(Site.ART[kind])),
