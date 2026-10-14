@@ -379,62 +379,64 @@ func _show_routes_page() -> void:
 	if world == null:
 		return
 
-	# Seasons of the Land
-	var s_title := _line("Seasons of the Land", HEADING_COLOUR)
-	s_title.add_theme_font_size_override("font_size", 22)
-	_page.add_child(s_title)
+	# Hidden for the First Hour (D97).
+	if not FirstHour.hides("seasons"):
+		# Seasons of the Land
+		var s_title := _line("Seasons of the Land", HEADING_COLOUR)
+		s_title.add_theme_font_size_override("font_size", 22)
+		_page.add_child(s_title)
 
-	var s_box := HBoxContainer.new()
-	s_box.add_theme_constant_override("separation", 16)
+		var s_box := HBoxContainer.new()
+		s_box.add_theme_constant_override("separation", 16)
 
-	var s_icon := TextureRect.new()
-	s_icon.custom_minimum_size = Vector2(48, 48)
-	s_icon.texture = Season.clover_texture(world)
-	s_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	s_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	s_box.add_child(s_icon)
+		var s_icon := TextureRect.new()
+		s_icon.custom_minimum_size = Vector2(48, 48)
+		s_icon.texture = Season.clover_texture(world)
+		s_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		s_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		s_box.add_child(s_icon)
 
-	var s_info := VBoxContainer.new()
-	s_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var s_curr := Season.current(world)
-	var s_head := _line("%s  ·  %s" % [Season.label(world), s_curr["clover_name"]], KNOWN_COLOUR)
-	s_head.add_theme_font_size_override("font_size", 17)
-	s_info.add_child(s_head)
+		var s_info := VBoxContainer.new()
+		s_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var s_curr := Season.current(world)
+		var s_head := _line("%s  ·  %s" % [Season.label(world), s_curr["clover_name"]], KNOWN_COLOUR)
+		s_head.add_theme_font_size_override("font_size", 17)
+		s_info.add_child(s_head)
 
-	var s_sub := _line("Step %d of %d in the season  ·  %d steps until next season" % [
-		Season.step_in_season(world), Season.steps_per_season(), Season.steps_remaining(world)
-	], LABEL_COLOUR)
-	s_sub.add_theme_font_size_override("font_size", 13)
-	s_info.add_child(s_sub)
+		var s_sub := _line("Step %d of %d in the season  ·  %d steps until next season" % [
+			Season.step_in_season(world), Season.steps_per_season(), Season.steps_remaining(world)
+		], LABEL_COLOUR)
+		s_sub.add_theme_font_size_override("font_size", 13)
+		s_info.add_child(s_sub)
 
-	var s_blurb := _line(str(s_curr.get("blurb", "")), KNOWN_COLOUR)
-	s_blurb.add_theme_font_size_override("font_size", 13)
-	s_blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	s_info.add_child(s_blurb)
-	s_box.add_child(s_info)
-	_page.add_child(s_box)
+		var s_blurb := _line(str(s_curr.get("blurb", "")), KNOWN_COLOUR)
+		s_blurb.add_theme_font_size_override("font_size", 13)
+		s_blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		s_info.add_child(s_blurb)
+		s_box.add_child(s_info)
+		_page.add_child(s_box)
 
-	# 4 Clovers Row
-	var clover_row := HBoxContainer.new()
-	clover_row.add_theme_constant_override("separation", 18)
-	for sea: Dictionary in Season.SEASONS:
-		var c_pill := HBoxContainer.new()
-		c_pill.add_theme_constant_override("separation", 6)
-		var c_tex := TextureRect.new()
-		c_tex.custom_minimum_size = Vector2(20, 20)
-		c_tex.texture = Season.texture_by_key(sea["clover"])
-		c_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		c_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		c_pill.add_child(c_tex)
-		var is_active: bool = (sea["index"] == Season.index(world))
-		var col: Color = (sea["colour"] as Color).darkened(0.4) if is_active else UNKNOWN_COLOUR
-		var c_lbl := _line("%s (%s)" % [sea["display_name"], sea["clover_name"]], col)
-		c_lbl.add_theme_font_size_override("font_size", 12)
-		c_pill.add_child(c_lbl)
-		clover_row.add_child(c_pill)
-	_page.add_child(clover_row)
+		# 4 Clovers Row
+		var clover_row := HBoxContainer.new()
+		clover_row.add_theme_constant_override("separation", 18)
+		for sea: Dictionary in Season.SEASONS:
+			var c_pill := HBoxContainer.new()
+			c_pill.add_theme_constant_override("separation", 6)
+			var c_tex := TextureRect.new()
+			c_tex.custom_minimum_size = Vector2(20, 20)
+			c_tex.texture = Season.texture_by_key(sea["clover"])
+			c_tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			c_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			c_pill.add_child(c_tex)
+			var is_active: bool = (sea["index"] == Season.index(world))
+			var col: Color = (sea["colour"] as Color).darkened(0.4) if is_active else UNKNOWN_COLOUR
+			var c_lbl := _line("%s (%s)" % [sea["display_name"], sea["clover_name"]], col)
+			c_lbl.add_theme_font_size_override("font_size", 12)
+			c_pill.add_child(c_lbl)
+			clover_row.add_child(c_pill)
+		_page.add_child(clover_row)
 
-	_page.add_child(HSeparator.new())
+		_page.add_child(HSeparator.new())
 
 	var routes_title := _line("Trade Routes", HEADING_COLOUR)
 	routes_title.add_theme_font_size_override("font_size", 20)

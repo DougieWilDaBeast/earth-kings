@@ -354,7 +354,7 @@ func _step(direction: Vector2i) -> void:
 	_refresh()
 	EventBus.tip_moment.emit("step", {
 		"danger": Encounter.chance_at(world, target), "steps": world.steps,
-		"season_turned": Season.just_turned(world.steps),
+		"season_turned": Season.just_turned(world.steps) and not FirstHour.hides("seasons"),
 	})
 
 
@@ -1112,12 +1112,12 @@ func _actions_here() -> Array[Dictionary]:
 				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
 				_buy_here
 			))
-		if not Grimoire.offer(site).is_empty():
+		if not FirstHour.hides("grimoires") and not Grimoire.offer(site).is_empty():
 			parts.append(_doable(
 				"%s for the book, unread (%d gold)" % [_key("site_grimoire"), Grimoire.price(site)],
 				"The book (%d gold)" % Grimoire.price(site), _buy_grimoire_here
 			))
-		if Ferry.is_port(world, site.cell):
+		if not FirstHour.hides("ferries") and Ferry.is_port(world, site.cell):
 			var dest := Ferry.next_port(world, site.cell)
 			if dest != null:
 				parts.append(_doable(
@@ -1439,7 +1439,7 @@ func _speak_with_wanderer() -> void:
 ## Passage by sea to another port along the coast.
 func _sail_here() -> void:
 	var site := world.site_at(world.player_cell)
-	if site == null or not Ferry.is_port(world, site.cell):
+	if site == null or FirstHour.hides("ferries") or not Ferry.is_port(world, site.cell):
 		return
 	var dest := Ferry.next_port(world, site.cell)
 	if dest == null:
@@ -1853,7 +1853,7 @@ func _errands_here() -> void:
 ## Buy the book without knowing what it is. That is the whole transaction.
 func _buy_grimoire_here() -> void:
 	var site := world.site_at(world.player_cell)
-	if site == null or Grimoire.offer(site).is_empty():
+	if site == null or FirstHour.hides("grimoires") or Grimoire.offer(site).is_empty():
 		return
 	for line: String in Grimoire.buy_and_read(site, GameState.roster.player(), world):
 		_note(line)
@@ -1970,14 +1970,18 @@ func _note(line: String) -> void:
 func _refresh() -> void:
 	_follow_party()
 	var s := Season.current(world)
+	# Seasons are hidden for the First Hour (D97): no clover, no season named.
+	var seasons := not FirstHour.hides("seasons")
 	if _season_icon != null:
+		_season_icon.visible = seasons
 		_season_icon.texture = Season.clover_texture(world)
 		_season_icon.tooltip_text = "%s\n%s" % [Season.full_label(world), s.get("blurb", "")]
 	var site := world.site_at(world.player_cell)
 	var region: String = world.region_at(world.player_cell)
 	var where: String = site.label() if site != null else world.terrain_at(world.player_cell).get("name", "open ground")
-	_place.text = "%s  ·  %s  ·  %s (%s)  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
-		where, region, Season.label(world), s["clover_name"], GameState.gold, world.steps, world.prowlers.size()
+	var when := "  ·  %s (%s)" % [Season.label(world), s["clover_name"]] if seasons else ""
+	_place.text = "%s  ·  %s%s  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
+		where, region, when, GameState.gold, world.steps, world.prowlers.size()
 	]
 
 	var entries: Array[String] = []
@@ -2421,7 +2425,7 @@ func _draw_quest_markers() -> void:
 		elif site.kind == Site.GATE and site.rank == "S" and not site.cleared:
 			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_map.draw_arc(centre, CELL * 0.62, 0.0, TAU, 20, Color(0.85, 0.35, 0.95, 0.8), 2.0, true)
-		elif Ferry.is_port(world, site.cell):
+		elif not FirstHour.hides("ferries") and Ferry.is_port(world, site.cell):
 			var centre := Vector2(site.cell) * CELL + Vector2.ONE * CELL * 0.5
 			_map.draw_arc(centre, CELL * 0.52, 0.0, TAU, 18, Color(0.35, 0.75, 0.95, 0.75), 1.5, true)
 		elif site.kind == Site.GRAVE:

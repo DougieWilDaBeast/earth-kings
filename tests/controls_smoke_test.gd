@@ -181,8 +181,9 @@ func _check_every_verb_has_a_button() -> void:
 		for owed: Array in [
 			[not Market.hire_offer(site).is_empty(), "to hire", "hiring"],
 			[not Market.wares(site).is_empty(), "to buy", "buying"],
-			[not Grimoire.offer(site).is_empty(), "for the book", "the book"],
-			[Ferry.is_port(GameState.world, site.cell) \
+			# Books and boats are hidden for the First Hour (D97), and so offered nowhere.
+			[not FirstHour.hides("grimoires") and not Grimoire.offer(site).is_empty(), "for the book", "the book"],
+			[not FirstHour.hides("ferries") and Ferry.is_port(GameState.world, site.cell) \
 					and Ferry.next_port(GameState.world, site.cell) != null, "to sail", "sailing"],
 		]:
 			if not bool(owed[0]):

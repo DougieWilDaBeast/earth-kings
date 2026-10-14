@@ -1447,6 +1447,15 @@ func _check_first_hour() -> void:
 	var next := AutoRoad.objective(world)
 	var after := world.site_at(next.get("cell", Vector2i(-1, -1)))
 	_expect(after != null and after.kind in [Site.GATE, Site.TOWER], "after the town the objective is %s, not a gate or the Tower" % next)
+	# Never a gate above the lead's rank (D97): with none at it open, the Tower.
+	var lead := GameState.roster.player()
+	if after != null and after.kind == Site.GATE:
+		_expect(after.expected_level() <= lead.level, "the compass sent a level %d lead to a rank %s gate" % [lead.level, after.rank])
+	var kept_level := lead.level
+	lead.level = 0
+	var beneath := world.site_at(AutoRoad.objective(world).get("cell", Vector2i(-1, -1)))
+	_expect(beneath != null and beneath.kind == Site.TOWER, "a lead below every open gate was not sent to the Tower")
+	lead.level = kept_level
 
 	var job := {"kind": Errand.LOOK, "title": "Look", "to": [kept_cell.x, kept_cell.y], "to_name": "the old well"}
 	GameState.errands.append(job)

@@ -48,7 +48,9 @@ static func next_step(world: World) -> Vector2i:
 ## walking itself hands back control on arriving, where nothing starts by itself).
 ## In order: an errand taken (a Guild contract included), the nearest town until
 ## one has been stood in, the nearest gate of the lowest rank until a gate has
-## been shut, then the Tower. Empty when there is nowhere left to send them.
+## been shut, then the Tower. A gate above the lead's rank (one whose expected
+## level is past the lead's) is never chosen: with none at their rank open, the
+## Tower is (D97). Empty when there is nowhere left to send them.
 static func objective(world: World) -> Dictionary:
 	var here := world.player_cell
 	var closest := 1 << 30
@@ -86,9 +88,13 @@ static func objective(world: World) -> Dictionary:
 
 	var gates: Array[Site] = world.sites_of_kind(Site.GATE)
 	if not gates.any(func(gate: Site) -> bool: return gate.cleared):
+		var lead := GameState.roster.player() if GameState.roster != null else null
+		var lead_level := lead.level if lead != null else 1
 		var first: Site = null
 		for gate: Site in gates:
 			if not gate.open or gate.cleared or Pace.avoided.has(gate.cell):
+				continue
+			if gate.expected_level() > lead_level:
 				continue
 			if first == null or Site.rank_index(gate.rank) < Site.rank_index(first.rank) \
 					or (gate.rank == first.rank and Pathfinder.distance(here, gate.cell) < Pathfinder.distance(here, first.cell)):

@@ -44,12 +44,13 @@ static func dispatches(world: World) -> Array[String]:
 			n_name, n_place
 		])
 
-	# 5. Active seasonal state
-	var season_data := Season.current(world)
-	var left := Season.steps_remaining(world)
-	pool.append("The elders mark %s under the %s; %d leagues remain before the weather turns." % [
-		Season.label(world), season_data.get("clover_name", "the clover"), left
-	])
+	# 5. Active seasonal state (hidden for the First Hour, D97)
+	if not FirstHour.hides("seasons"):
+		var season_data := Season.current(world)
+		var left := Season.steps_remaining(world)
+		pool.append("The elders mark %s under the %s; %d leagues remain before the weather turns." % [
+			Season.label(world), season_data.get("clover_name", "the clover"), left
+		])
 
 	# 6. Commercial trade routes
 	if not world.routes.is_empty():

@@ -23,6 +23,9 @@ var _failures: Array[String] = []
 
 
 func _ready() -> void:
+	# This suite checks the continent's systems themselves, the ones hidden for the
+	# First Hour (D97) included, so it sees them all.
+	(Database.world_rules["first_hour"] as Dictionary)["hidden"] = []
 	var world := WorldGen.generate(SEED)
 	_report_world(world)
 	# Grown after the world check, as a full run always has, so the seeded world

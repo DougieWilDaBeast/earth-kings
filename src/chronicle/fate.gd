@@ -83,7 +83,7 @@ static func graces_for(character: Character, context: Dictionary) -> Array:
 	var capture := float(
 		rules.get("capture_by", {}).get(context.get("enemy_kind", "default"), rules.get("capture_by", {}).get("default", 0.15))
 	)
-	if capture > 0.0:
+	if capture > 0.0 and not FirstHour.hides("captivity"):
 		graces.append({ "reason": BY_CAPTURE, "chance": capture, "detail": context.get("enemy_kind", "someone") })
 
 	return graces

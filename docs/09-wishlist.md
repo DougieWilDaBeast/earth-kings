@@ -610,3 +610,19 @@ and corners without clipping walls, maintaining stable 24px single-file spacing 
 - **Townsfolk Obstacle Avoidance**: [`AreaActor.roam()`](../src/area/area_actor.gd) now selects reachable destinations and walks waypoint-by-waypoint along computed paths around buildings and walls, checking collision on each step rather than cutting straight through solid structures.
 - **Body Clearance & Corner Sliding**: [`src/area/area_scene.gd`](../src/area/area_scene.gd) enforces a 14px body collision radius in `_can_stand()`, preventing player and follower sprites from clipping into wall tiles or squeezing across diagonal wall corners, while `_slide()` applies subtle corner-nudge adjustments to cleanly glide through doorways and around wall corners.
 - **Pathfinding Approach & Auto-Walk**: Clicking distant NPCs or objects (`_approach_step()`) and auto-pacing (`_auto_axis()`) navigate around intermediate walls along the path rather than walking directly into obstacles.
+
+---
+
+# After the First Hour
+
+Scope is frozen on the First Hour ([D95](06-decisions.md)). New asks, and everything put aside to
+reach it, wait here until it plays from the crater to floor 5. Nothing below is being built.
+
+- **Hidden, built:** the coliseum (W3), the training ground, the museum (W5), trivia, grimoires,
+  ferries, captivity, nemeses (W26), dispatch and the seasons (W20). They are switched off in
+  `data/world_rules.json` → `first_hour.hidden` ([D97](06-decisions.md)) and come back by taking a
+  name out of that list.
+- **Cut from the opening:** the carriage shot and the foe who remembers you
+  ([25](25-the-opening.md)); they return with their systems.
+- **Other bands joining a fight already started:** the combat designer wants it; the producer put it
+  here (design meeting 2).

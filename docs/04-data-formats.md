@@ -482,6 +482,13 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `first_hour` — the cut list (D97)
+
+`hidden` names the systems that are built but out of reach until the First Hour is done
+([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
+Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
+`dispatch`, `seasons`. Take a name out to bring its system back.
+
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
 Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight hand-off in

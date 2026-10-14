@@ -120,6 +120,10 @@ each, each ending playable:
    from mipmaps, so it no longer shimmers zoomed out.
 3. M opens the map, a compass points at the objective, Auto walks there — built
    ([D96](06-decisions.md), confirmed).
+3b. The cut list hidden in data, the opening's cast, and a compass that keeps to the lead's rank —
+   built ([D97](06-decisions.md), design meeting 2). Coliseum, training ground, museum, trivia,
+   grimoires, ferries, captivity, nemeses, dispatch and seasons are switched off in
+   `data/world_rules.json` → `first_hour.hidden`; the wishlist keeps an "After the First Hour" list.
 4. Fights where they are met, opening running — planned.
 5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
 6. Tower floors 1 to 5, walkable — planned.

@@ -110,6 +110,16 @@ func _ready() -> void:
 		_credits_button: "Who made this, and with what.",
 		_extras_back_button: "Back to the main menu.",
 	}
+	# The First Hour's cut list (D97): what is hidden is not offered here at all.
+	_training_button.visible = not FirstHour.hides("training")
+	_coliseum_button.visible = not FirstHour.hides("coliseum")
+	_museum_button.visible = not FirstHour.hides("museum")
+	var extras: Array[String] = []
+	for entry: Button in [_training_button, _coliseum_button, _museum_button, _credits_button]:
+		if entry.visible:
+			extras.append(entry.text.strip_edges())
+	_hints[_extras_button] = ("%s and %s." % [", ".join(extras.slice(0, -1)), extras[-1]]) if extras.size() > 1 \
+			else "%s." % extras[0]
 	for button: Button in _hints:
 		_dress_entry(button)
 		# Keeps the mouse and the keyboard pointing at the same entry.
@@ -219,7 +229,10 @@ func _show_extras(open: bool) -> void:
 	# The list changed under the marker; it moves once the new entry has a place.
 	await get_tree().process_frame
 	if open:
-		_training_button.grab_focus()
+		for entry in _extras_list.get_children():
+			if entry is Button and entry.visible:
+				entry.grab_focus()
+				break
 	else:
 		_extras_button.grab_focus()
 
