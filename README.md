@@ -43,7 +43,7 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 
 ## Playing the vertical slice
 
-- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ generates a fresh world.
+- **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ starts a fresh run on the one world, the same map every game ([docs/27](docs/27-the-world.md)).
   The first time the game opens with no run to continue it offers a **tutorial** (afterwards the
   title's _Tutorial_ button): a guided practice run in the training village of Hearthwick, with a
   sparring fight met on the village ground, never saved ([D73](docs/06-decisions.md)–[D75](docs/06-decisions.md)).

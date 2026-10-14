@@ -13,7 +13,7 @@ const CheckFilter := preload("res://tests/check_filter.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "round_trip",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -39,6 +39,7 @@ func _ready() -> void:
 			hero = _grow_a_hero(world)
 		match name:
 			"world": _check_world(world)
+			"one_world": _check_one_world()
 			"progression": _check_progression(hero, world)
 			"doctrine": _check_doctrine(hero, world)
 			"class_choice": _check_class_choice(world)
@@ -77,6 +78,28 @@ func _report_world(world: World) -> void:
 	print("terrain %s" % terrain_mix)
 	for site in world.sites:
 		print("  %-8s %-14s %s" % [site.kind, site.label(), site.cell])
+
+
+## D91, D92: every run is played on the one world in data/world_map.json. Two
+## seeds, the same land, the same lands on it and the same places; the Tower in
+## the middle; and a run never writes back into the map.
+func _check_one_world() -> void:
+	var a := WorldGen.generate(SEED)
+	var b := WorldGen.generate(SEED + 4242)
+	_expect(a.tiles == b.tiles, "two seeds gave two different lands")
+	_expect(a.sites.size() == b.sites.size() and a.sites.size() == (Database.world_map.get("sites", []) as Array).size(),
+			"the places are not the map's places")
+	for i in mini(a.sites.size(), b.sites.size()):
+		_expect(a.sites[i].cell == b.sites[i].cell and a.sites[i].display_name == b.sites[i].display_name,
+				"%s is not where the map puts it" % a.sites[i].display_name)
+	for cell: Vector2i in [Vector2i(30, 30), Vector2i(64, 100), Vector2i(90, 50)]:
+		_expect(Biome.at(a, cell) == Biome.at(b, cell), "two seeds put two lands at %s" % cell)
+	var tower := a.tower()
+	_expect(tower != null and Pathfinder.distance(tower.cell, a.size / 2) <= 2, "the Tower is not in the middle of the world")
+	a.sites[0].display_name = "changed by a run"
+	a.tiles[0] = "changed"
+	var c := WorldGen.generate(SEED)
+	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
 
 
 func _check_world(world: World) -> void:

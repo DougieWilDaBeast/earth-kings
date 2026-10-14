@@ -229,7 +229,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-placeholder_text = "any world"
+placeholder_text = "any"
 
 [node name="ModeButton" type="Button" parent="Margin/Content/Footer"]
 unique_name_in_owner = true

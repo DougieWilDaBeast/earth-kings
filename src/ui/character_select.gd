@@ -18,6 +18,8 @@ var _wipe_armed := false
 const RATINGS := ["", "Steady", "Wary", "Hard", "Punishing", "Ruinous"]
 const PIPS := 5
 const PIP_SIZE := Vector2(18, 18)
+## The land is always the one world (D91); the seed deals the rest.
+const SEED_TIP := "The world is always the same. The seed decides where you land, who you meet and what happens. Leave it empty for a fresh run."
 const PIP_LIT := Color(0.95, 0.6, 0.28)
 const PIP_DARK := Color(0.24, 0.22, 0.22)
 
@@ -60,7 +62,7 @@ func _ready() -> void:
 	_difficulty.pressed.connect(_cycle_difficulty)
 	Sfx.attend(_back)
 	Sfx.attend(_difficulty)
-	_seed.tooltip_text = "Leave it empty for a country nobody has walked yet."
+	_seed.tooltip_text = SEED_TIP
 	_show_difficulty()
 	if ids.is_empty():
 		_nobody_left()

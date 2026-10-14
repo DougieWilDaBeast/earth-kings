@@ -39,6 +39,8 @@ var lore: Dictionary = {}
 var casting: Dictionary = {}
 ## Terrain names and the tileset sheets that draw them (see [TileForge]).
 var tilesets: Dictionary = {}
+## The one world every run is played on (D91), made by `tools/bake_world.tscn`.
+var world_map: Dictionary = {}
 ## Staged beats played before a conversation (see [AreaCutscene]).
 var cutscenes: Dictionary = {}
 ## What the party say to each other on the road (see [Banter]).
@@ -102,6 +104,7 @@ func _ready() -> void:
 	for pool: String in LORE_POOLS:
 		lore[pool] = _load_json("%s/lore/%s.json" % [DATA_DIR, pool])
 	tilesets = _load_json("%s/tilesets.json" % DATA_DIR)
+	world_map = _load_json("%s/world_map.json" % DATA_DIR)
 	cutscenes = _load_json("%s/cutscenes.json" % DATA_DIR)
 	banter = _load_json("%s/banter.json" % DATA_DIR)
 	threads = _load_json("%s/threads.json" % DATA_DIR)
