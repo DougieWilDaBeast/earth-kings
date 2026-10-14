@@ -18,6 +18,7 @@ extends CanvasLayer
 ## never been, opened from the journal and nowhere else.
 
 ## Loaded by path ([D41]): regional names (see its header).
+const Memories := preload("res://src/chronicle/memories.gd")
 const Names := preload("res://src/chronicle/names.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
@@ -274,6 +275,20 @@ func _show_quests_page() -> void:
 	progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_page.add_child(progress)
 	_page.add_child(HSeparator.new())
+
+	# What the Tower has given back of who the lead was (D103).
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var remembered: Array = Memories.found(lead.template_id) if lead != null else []
+	if not remembered.is_empty():
+		var memories_title := _line("What has come back", HEADING_COLOUR)
+		memories_title.add_theme_font_size_override("font_size", 18)
+		_page.add_child(memories_title)
+		for memory: Dictionary in remembered:
+			_page.add_child(_line(str(memory.get("title", "")), LABEL_COLOUR))
+			var written := _line("  %s" % str(memory.get("journal", "")), KNOWN_COLOUR)
+			written.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_page.add_child(written)
+		_page.add_child(HSeparator.new())
 
 	var errands_title := _line("Errands taken", HEADING_COLOUR)
 	errands_title.add_theme_font_size_override("font_size", 18)

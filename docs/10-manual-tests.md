@@ -198,6 +198,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G5a | Before any gate is shut, stand at the Tower's door | "Nobody climbs without the Guild's mark", no climb offered; Sennet opens the Guild's board ([D101](06-decisions.md)) |
 | G5b | Climb floor 1 to 5                        | The floor's own ground, not a fight screen: bands with red ground, fought where you meet them; the compass points at the stair; standing on the stair wins the floor ([D102](06-decisions.md)) |
 | G5c | On floor 5, walk at the stair             | The keeper of the fifth floor fights you; losing to it with Atlas alone can end the run        |
+| G5d | As Atlas, step on the glint by the wall on floor 5 | "Chapter one: The Weight" plays; the journal's Quests page shows it under _What has come back_; it is never found again, and another lead never sees it ([D103](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
 | G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |

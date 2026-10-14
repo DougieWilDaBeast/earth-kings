@@ -207,6 +207,16 @@ func props_at(cell: Vector2i) -> Array:
 	return _props_at.get(cell, [])
 
 
+## Something put down in the area after it was loaded (a lead's memory lying on a floor, D103):
+## drawn like any prop, and stood on rather than walked round.
+func place(prop: Dictionary) -> void:
+	var placed := prop.duplicate(true)
+	placed["solid"] = false
+	props.append(placed)
+	_index_prop(placed)
+	_blocked.erase(placed["cell"])
+
+
 func _index_prop(prop: Dictionary) -> void:
 	var cell: Vector2i = prop["cell"]
 	if not _props_at.has(cell):
