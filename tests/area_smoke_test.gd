@@ -454,18 +454,36 @@ func _check_practice_band() -> void:
 	scene.get("_leader").position = map.centre_of(into)
 	_expect_tut(scene.call("_check_the_watch", into), "stepping into the sparring pair's red was not seen")
 	var waited := 0.0
-	while waited < 3.0 and not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "skirmish"):
+	while waited < 3.0 and scene.get("_fight") == null:
 		await get_tree().create_timer(0.1).timeout
 		waited += 0.1
-	var asked: Array = _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "skirmish")
-	_expect_tut(not asked.is_empty(), "the sparring pair did not start a fight")
-	if not asked.is_empty():
-		var payload: Dictionary = asked[0]["payload"]
+	# Fought where it was met (step 4 of the First Hour): put down on the village's own ground, with
+	# no change of scene.
+	var fight: Node2D = scene.get("_fight")
+	_expect_tut(fight != null, "the sparring pair did not start a fight")
+	_expect_tut(not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "skirmish"),
+		"the sparring fight changed the screen instead of being fought on the village ground")
+	if fight != null:
+		var payload: Dictionary = fight.get("boot_payload")
 		_expect_tut(bool(payload.get("sandbox", false)), "the sparring fight is not practice: someone could die in it")
 		_expect_tut(not (payload.get("field", {}) as Dictionary).is_empty(), "the sparring fight is not on the village's own ground")
-		_expect_tut(str(payload.get("return_scene", "")) == "area"
-			and str(payload.get("return_payload", {}).get("area_id", "")) == "tutorial",
-			"the sparring fight does not come back to the village")
+		_expect_tut(bool(fight.get("in_place")) and fight.get_parent() == scene, "the sparring fight is not laid on the village")
+		_expect_tut(not bool(fight.get("paused")), "the sparring fight opened paused")
+		# Sent off the edge of the field, the party gets clear: over, neither won nor lost, and the
+		# fight goes while the party walks on from where it stood.
+		fight.set_process(false)
+		fight.call("_select", fight.call("party_fighters"))
+		fight.call("_make_for_the_edge", Vector2i(-3, 1))
+		for i in 6000:
+			if bool(fight.get("over")):
+				break
+			fight.call("tick")
+		_expect_tut(bool(fight.get("over")) and bool(fight.get("fled_field")), "walking off the field's edge did not get the party clear")
+		waited = 0.0
+		while waited < 3.0 and scene.get("_fight") != null:
+			await get_tree().create_timer(0.1).timeout
+			waited += 0.1
+		_expect_tut(scene.get("_fight") == null and not bool(scene.get("_leaving")), "the village did not carry on after the sparring fight")
 		_expect_tut(GameState.has_flag("tut:sparred"), "the sparring pair would stand there again after the fight")
 	scene.queue_free()
 	await get_tree().process_frame

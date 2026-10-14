@@ -70,6 +70,12 @@ func _ready() -> void:
 	await _shoot("fight_opens")
 	await get_tree().create_timer(2.0).timeout
 	await _shoot("fight")
+	# Fought where it was met (step 4 of the First Hour): the same scene throughout, and the party
+	# back on its feet on that ground once it is over.
+	await get_tree().create_timer(14.0).timeout
+	await _shoot("after")
+	print("after the fight: %s, still the ground: %s" % [_active().name, _active() == ground])
+	print("leader %s visible %s, camera %s" % [ground._leader.position, ground._leader.visible, camera.get_screen_center_position()])
 	get_tree().quit(0)
 
 

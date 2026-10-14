@@ -31,6 +31,8 @@ const Compass := preload("res://src/ui/compass.gd")
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
 const AutoRoad := preload("res://src/world/auto_road.gd")
+## The fight, put down on this ground when a band is met ([method _fight_here]).
+const SKIRMISH := preload("res://src/skirmish/skirmish.tscn")
 
 const WALK_SPEED := 190.0
 ## Breadcrumb trail recording spacing and following parameters.
@@ -136,6 +138,13 @@ var _watches: Array = []
 var _last_cell: Vector2i = Vector2i(-99, -99)
 ## Seen, and on the way to the fight.
 var _spotted: bool = false
+## The fight going on on this ground, if there is one; the band's watch it came from.
+var _fight: Node2D = null
+var _fight_watch: Node2D = null
+## A band's fight has been asked of the continent and not yet put down.
+var _awaiting_fight: bool = false
+## The continent has been asked to settle a fight fought here, not to take a step.
+var _settling: bool = false
 ## The area's own bands already standing here, by key, and how long since their flags were looked at.
 var _posted_practice: Dictionary = {}
 var _practice_clock: float = 0.0
@@ -173,8 +182,8 @@ func _ready() -> void:
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
-	if _land_mode:
-		EventBus.continent_answered.connect(_on_continent_answered)
+	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
+	EventBus.continent_answered.connect(_on_continent_answered)
 	_paint_layers()
 	_light_the_place()
 	_spawn_buildings()
@@ -417,9 +426,25 @@ func _ask_the_continent(asked: Dictionary) -> void:
 ## What the continent made of it: what can be done here now, what was said, who is about, and,
 ## after a step, the land round the new tile.
 func _on_continent_answered(answer: Dictionary) -> void:
-	if not is_inside_tree() or _leaving:
+	if not is_inside_tree():
+		return
+	if answer.has("fight"):
+		_awaiting_fight = false
+		_fight_here(answer["fight"])
+		return
+	if _awaiting_fight:
+		# The continent had no band to fight there after all: carry on walking.
+		_awaiting_fight = false
+		_stand_down()
+	if _leaving:
 		return
 	_asking = false
+	var settled := _settling
+	_settling = false
+	if not _land_mode:
+		for line: Variant in answer.get("notes", []):
+			_note(str(line))
+		return
 	_camera.make_current()
 	_held = answer.get("held", {})
 	_acts = answer.get("actions", [])
@@ -429,11 +454,14 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	_lay_out_acts()
 	var land := map as Land
 	var world: World = GameState.world
-	if land.tile_of(map.cell_at(_leader.position)) != world.player_cell:
+	# After a fight the party may stand over the border; walking on carries them across it.
+	if not settled and land.tile_of(map.cell_at(_leader.position)) != world.player_cell:
 		# The continent would not have it (the step was refused): back onto the tile it says.
 		_step_back_onto(world.player_cell)
 		_auto_tile = Vector2i(-1, -1)
-	_on_new_tile()
+	# A fight settled is no step: the tile, its light and its opening are as they were.
+	if not settled:
+		_on_new_tile()
 	_sync_bands(answer.get("bands", []))
 	_hint.text = _prompt_text()
 
@@ -1189,6 +1217,9 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _fight != null:
+		_watch_the_fight()
+		return
 	_quiet_while_spoken_to()
 	_compass_clock -= delta
 	if _compass_clock <= 0.0:
@@ -1796,15 +1827,13 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	await _charge(watch)
 	if not is_inside_tree():
 		return
+	_fight_watch = watch
 	if bool(watch.band.get("spar", false)):
 		_spar_with(watch, field, ambush)
 		return
-	EventBus.request_scene.emit("world", {
-		"fight": str(watch.band.get("key", "")),
-		"field": field,
-		"held": _held,
-		"back": _here_payload(),
-	})
+	# The continent deals the band out and answers with the fight, which is put down right here.
+	_awaiting_fight = true
+	_ask_the_continent({ "fight": str(watch.band.get("key", "")), "field": field })
 
 
 ## A practice band (`spar`): the same fight on the same ground, but as practice — nobody can
@@ -1817,12 +1846,10 @@ func _spar_with(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 	var enemies: Array = []
 	for unit_id: Variant in watch.band.get("pack", []):
 		enemies.append({ "unit": str(unit_id), "level": int(watch.band.get("level", 1)) })
-	EventBus.request_scene.emit("skirmish", {
+	_fight_here({
 		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "Sparring")), "ambush": ambush },
 		"field": field,
 		"sandbox": true,
-		"return_scene": "area",
-		"return_payload": _here_payload(),
 	})
 
 
@@ -1840,6 +1867,113 @@ func _charge(watch: Node2D) -> void:
 		rush.tween_property(figure, "position", figure.position + towards * share, float(AreaWatch.rule("charge_seconds", 0.45)))
 	_leader.face((figures[0] as Node2D).position - _leader.position)
 	await rush.finished
+
+
+## The fight, put down on this ground (step 4 of the First Hour): moved and scaled so each of its
+## cells is one of the ground's, opening running, with the ground's camera and nothing else changing.
+## The party and the band's figures step aside for the fighters while it lasts.
+func _fight_here(payload: Dictionary) -> void:
+	var asked := payload.duplicate()
+	asked["in_place"] = true
+	asked["paused"] = false
+	asked.erase("return_scene")
+	asked.erase("return_payload")
+	var field: Dictionary = asked.get("field", {})
+	var origin := AreaMap.to_cell(field.get("origin", [0, 0]))
+	_fight = SKIRMISH.instantiate()
+	_fight.set("boot_payload", asked)
+	_fight.position = Vector2(origin) * AreaMap.CELL
+	_fight.scale = Vector2.ONE * (float(AreaMap.CELL) / float(BattleGrid.CELL_SIZE))
+	_fight.z_index = 1
+	if _fight_watch != null and is_instance_valid(_fight_watch):
+		_take_off(_fight_watch)
+	_fight_watch = null
+	for actor: AreaActor in [_leader] + _followers:
+		actor.visible = false
+	$UI.visible = false
+	_spotted = true
+	_leaving = true
+	_talking = true
+	add_child(_fight)
+	_fight.connect("gone", _after_the_fight)
+
+
+## The ground's camera keeps the fight in view: the middle of whoever of the party is still on it.
+func _watch_the_fight() -> void:
+	var middle := Vector2.ZERO
+	var count := 0
+	for f: RefCounted in _fight.call("party_fighters"):
+		if f.call("is_standing"):
+			middle += _fight.to_global((f.get("unit") as Node2D).position)
+			count += 1
+	if count > 0:
+		_camera.focus_on(to_local(middle / float(count)))
+
+
+## Over: the party stands where its fighters stood, the dead are gone from it, and the continent
+## is asked to settle what the fight was worth (it reads what the fight wrote down).
+func _after_the_fight() -> void:
+	if _fight == null:
+		return
+	var sandbox := bool((_fight.get("boot_payload") as Dictionary).get("sandbox", false))
+	var stood := _leader.position
+	for f: RefCounted in _fight.call("party_fighters"):
+		var unit := f.get("unit") as Node2D
+		if f.get("aboard") == null and not bool(f.get("fallen")):
+			stood = to_local(_fight.to_global(unit.position))
+			if (f.get("unit").get("character") as Character) == _leader_character:
+				break
+	_fight.queue_free()
+	_fight = null
+	$UI.visible = true
+	_regather_at(stood)
+	_stand_down()
+	if not sandbox:
+		_settling = true
+		_ask_the_continent({})
+
+
+## The party as it is now (the fallen gone from it), standing round [param point].
+func _regather_at(point: Vector2) -> void:
+	for actor: AreaActor in [_leader] + _followers:
+		if is_instance_valid(actor):
+			actor.queue_free()
+	_leader = null
+	_followers.clear()
+	var at := map.cell_at(point)
+	if not map.is_walkable(at):
+		at = _free_spot_near(at)
+	var members := GameState.party_characters()
+	for index in members.size():
+		var actor := AreaActor.for_character(members[index])
+		actor.position = map.centre_of(at)
+		_actors.add_child(actor)
+		if index == 0:
+			_leader = actor
+			_leader_character = members[index]
+		else:
+			_followers.append(actor)
+	if _leader == null:
+		return
+	_reseed_crumbs()
+	for i in _followers.size():
+		_followers[i].position = _point_along_trail((i + 1) * FOLLOWER_DISTANCE)
+	_camera.focus_on(_leader.position)
+
+
+## Back to walking: nobody is looking, the town moves again, and the cell stood on is not a fresh
+## step into anyone's sight.
+func _stand_down() -> void:
+	_spotted = false
+	_leaving = false
+	_talking = false
+	_hold_the_town(false)
+	if _leader != null:
+		_leader.visible = true
+		for follower in _followers:
+			follower.visible = true
+		_last_cell = map.cell_at(_leader.position)
+	_hint.text = _prompt_text()
 
 
 ## The patch of this ground the fight is fought on: everyone in it, with room round them, cut to
@@ -2185,6 +2319,9 @@ func _overlay_open() -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# The fight on this ground has the keys and the mouse while it lasts.
+	if _fight != null:
+		return
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		_mouse_input(event)
 		return

@@ -14,6 +14,9 @@ var map_name: String = ""
 ## Off when the fight is laid over real ground ([D66]): only a faint grid is
 ## drawn, so the tiles underneath are the battlefield.
 var draw_floor: bool = true
+## A fight fought in place on the ground: not even the faint grid, only the dimmed ground beyond
+## the field and its edge. Cells show under the pointer and under orders ([GridOverlay]).
+var quiet: bool = false
 
 var _terrain_ids: Dictionary = {}  ## Vector2i -> terrain id String
 var _ground_decor: Dictionary = {}
@@ -142,7 +145,7 @@ func _draw() -> void:
 		draw_rect(Rect2(field.position.x - far, field.position.y, far, field.size.y), dim)
 		draw_rect(Rect2(field.end.x, field.position.y, far, field.size.y), dim)
 		for cell: Vector2i in _terrain_ids:
-			if is_walkable(cell):
+			if is_walkable(cell) and not quiet:
 				draw_rect(Rect2(Vector2(cell) * CELL_SIZE, Vector2.ONE * CELL_SIZE), Color(0, 0, 0, 0.16), false, 1.0)
 		draw_rect(field, Color(1, 1, 1, 0.4), false, 2.0)
 		return
