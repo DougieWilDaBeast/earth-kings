@@ -38,7 +38,7 @@ big units drawn bigger.
 
 | Id | What | Done |
 | --- | --- | --- |
-| A8 | The month's last generations on the early game (`dougie`, 2026-10-14): fight sets for the Ember Dove and the wisp in `art/tier1/`, and Sky, a great lizard with Atlas in the saddle, in `art/big/sky` ([D89](06-decisions.md)); the seven big sets already made wired in | 2026-10-14 |
+| A8 | The month's last generations on the early game (`dougie`, 2026-10-14): fight sets for the Ember Dove and the wisp in `art/tier1/`, and Sky, a great lizard with Atlas in the saddle, in `art/big/sky` ([D93](06-decisions.md)); the seven big sets already made wired in | 2026-10-14 |
 | A7 | Town walls in three builds (stone, timber palisade, mud brick): a run, a side and a tower each, in `art/props/walls/` (`tools/pixellab_world.py walls`, 14 generations, five of them retries), for the walled villages and the great city ([D85](06-decisions.md)) | 2026-10-14 |
 | A5, part | The room furniture: 22 pieces, from the bar counter to the ship's bell, in `art/props/interior/` (`tools/pixellab_world.py rooms`) | 2026-10-13 |
 | A6, part | Every land's trees, rocks and plants, and the ground of the blight, snow, dune, savanna, swamp, bog, taiga and badlands (`tools/pixellab_world.py`), asked for by `doug-md` ([voice notes](worldbuilding/voice-notes/2026-10-13-doug-md-continuous-world.md)) | 2026-10-13 |

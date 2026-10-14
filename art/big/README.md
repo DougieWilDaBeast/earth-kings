@@ -27,7 +27,7 @@ these the game uses today), and `king_slime` was made again as a mound on 2026-1
 **Since 2026-10-14:** all the rest, `frozen_wolfman`, `turret_cannon`, `sword_bear`, `cannon_bear`
 and both giants, drawn at their `body_scale`.
 
-`sky` (2026-10-14) is Sky, Atlas's mount ([D89](../../docs/06-decisions.md)): a great lizard with
+`sky` (2026-10-14) is Sky, Atlas's mount ([D93](../../docs/06-decisions.md)): a great lizard with
 Atlas in the saddle, made at 96 on its own body with moves from words. Its costs in `metadata.json`
 read high: it was made while other units were generating, and each line is the balance before and
 after.

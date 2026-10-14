@@ -104,7 +104,7 @@ var sig: Dictionary = {}
 ## Who this fighter came into the fight for: a bearer's rider, a wolf's huntress,
 ## a shade's raiser.
 var bound_to: RefCounted = null
-## The mount this fighter rides (Atlas on Sky, D89): while aboard he shares its tile, is drawn
+## The mount this fighter rides (Atlas on Sky, D93): while aboard he shares its tile, is drawn
 ## on its back, and every blow meant for him lands on the mount instead.
 var aboard: RefCounted = null
 ## Seconds stood on the same tile.

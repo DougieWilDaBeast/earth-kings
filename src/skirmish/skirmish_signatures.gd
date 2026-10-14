@@ -60,7 +60,7 @@ func muster() -> void:
 					f.sig["beast"] = beast
 
 
-## Atlas rides on his bearer's back (D89): one body on the field, drawn as the mount
+## Atlas rides on his bearer's back (D93): one body on the field, drawn as the mount
 ## with him in the saddle, until the mount falls and throws him.
 func _mount(rider: Fighter, mount: Fighter) -> void:
 	rider.aboard = mount
@@ -316,7 +316,7 @@ func item_scale(f: Fighter, thrower: Fighter) -> float:
 # --- moving --------------------------------------------------------------------
 
 
-## Atlas has no step of his own (D89). On his mount's back he goes where it goes; thrown,
+## Atlas has no step of his own (D93). On his mount's back he goes where it goes; thrown,
 ## he moves only while a friend stands beside him to help him along.
 func can_step(f: Fighter) -> bool:
 	# With no room to bring a bearer in at all, he walks rather than stands all fight.
