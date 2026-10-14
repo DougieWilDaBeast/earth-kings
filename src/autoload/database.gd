@@ -64,6 +64,8 @@ var biomes: Dictionary = {}
 ## The fall: crash sites, the landing, the standing quest, and the others living
 ## their own lives (see `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd`).
 var fall: Dictionary = {}
+## The opening cinematic after New Game: its cast and narration (see `src/ui/opening.gd`).
+var opening: Dictionary = {}
 ## How big each prop picture is drawn and whether it stands in the way (`data/props.json`).
 var props: Dictionary = {}
 
@@ -111,6 +113,7 @@ func _ready() -> void:
 	guild = _load_json("%s/guild.json" % DATA_DIR)
 	skirmish = _load_json("%s/skirmish.json" % DATA_DIR)
 	fall = _load_json("%s/fall.json" % DATA_DIR)
+	opening = _load_json("%s/opening.json" % DATA_DIR)
 	props = _load_json("%s/props.json" % DATA_DIR)
 
 

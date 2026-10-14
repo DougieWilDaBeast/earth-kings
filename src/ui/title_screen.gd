@@ -414,9 +414,11 @@ func _on_continue_pressed() -> void:
 		EventBus.request_scene.emit("world", {})
 
 
+## A new game plays the opening (docs/25) once the lead is picked: `opening` rides
+## the quiz and the pick so the lead who falls in it is the one chosen.
 func _on_new_game_pressed() -> void:
 	EventBus.request_scene.emit("temper_quiz", {
-		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(),
+		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(), "opening": true,
 	})
 
 

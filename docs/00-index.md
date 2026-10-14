@@ -18,7 +18,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 12  | [World Charter Interview](12-world-charter-interview.md) | Absorbed into 15 — kept as a pointer |
 | 13  | [Heroes & Tempers](13-heroes-and-tempers.md)         | The sixteen starting characters and the four questions that pick one |
 | 14  | [Lore Pools & Casting](14-lore-pools.md)             | History authored with no character in mind, and how it gets attached |
-| 15  | [The Question Book](15-the-question-book.md)         | **Every open question in one place** — 366 of them, 79 answered so far |
+| 15  | [The Question Book](15-the-question-book.md)         | **Every open question in one place** — 366 of them, 85 answered so far (2026-10-13) |
 | 16  | [Lineage entries](16-lineage/00-index.md)            | Sixteen sources that shaped this, with 143 candidate answers tagged to question ids |
 | 17  | [The Fall and the Sixteen Worlds](17-the-sixteen-worlds.md) | **The shape of the whole game** — the fall, the Tower's chapters, a world ending, what carries, the contest past the top. Direction, agreed 2026-09-24 |
 | 18  | [Combat direction](18-combat-direction.md)           | The move to a real-time-with-pause fight, what the research has to answer, and what it costs |
@@ -28,6 +28,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 22  | [Asset provenance](22-asset-provenance.md)           | Where every file in `art/` and `audio/` and every font came from, its licence, and what must be cleared before a public release |
 | 23  | [Originality pass](23-originality-pass.md)           | Which characters copied someone else's, what they are called now, and the PixelLab prompts to redraw them |
 | 24  | [Art requests](24-art-requests.md)                   | **The art waiting to be made** — written here, then `dougie` generates it in PixelLab |
+| 25  | [The opening](25-the-opening.md)                     | The cinematic after New Game: what each shot shows, where its words live, and how to change it |
 
 ## Deciding the world
 
