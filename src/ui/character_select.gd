@@ -92,7 +92,7 @@ func _begin_again(button: Button) -> void:
 		button.text = "Press again: the fallen are forgotten"
 		return
 	if Sixteen.wipe():
-		EventBus.request_scene.emit("temper_quiz", {})
+		EventBus.request_scene.emit("temper_quiz", {"opening": boot_payload.get("opening", false)})
 
 
 func _life_button(hero_id: String) -> Button:
@@ -179,7 +179,11 @@ func _begin(hero_id: String) -> void:
 	# Saved at once, so a Classic lead who falls before the first rest still
 	# has somewhere to go back to.
 	EventBus.safe_point_reached.emit(RunMode.START, "you set out")
-	EventBus.request_scene.emit("world", {})
+	# From New Game, the opening plays first, with this lead falling in it (docs/25).
+	if bool(boot_payload.get("opening", false)):
+		EventBus.request_scene.emit("opening", {"lead": hero_id})
+	else:
+		EventBus.request_scene.emit("world", {})
 
 
 ## A country you can go back to. Anything that is not a number is nothing, and

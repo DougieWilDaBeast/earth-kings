@@ -88,7 +88,9 @@ func _ready() -> void:
 	_begin_button.pressed.connect(_begin)
 	_again_button.pressed.connect(_start_over)
 	_all_button.pressed.connect(
-		func() -> void: EventBus.request_scene.emit("character_select", {"fallen_heroes": _fallen_heroes})
+		func() -> void: EventBus.request_scene.emit("character_select", {
+			"fallen_heroes": _fallen_heroes, "opening": boot_payload.get("opening", false),
+		})
 	)
 	_back_button.pressed.connect(func() -> void: EventBus.request_scene.emit("title", {}))
 	_dress()
@@ -401,7 +403,11 @@ func _begin() -> void:
 	# Saved at once, so a Classic lead who falls before the first rest still
 	# has somewhere to go back to.
 	EventBus.safe_point_reached.emit(RunMode.START, "you set out")
-	EventBus.request_scene.emit("world", {})
+	# From New Game, the opening plays first, with this lead falling in it (docs/25).
+	if bool(boot_payload.get("opening", false)):
+		EventBus.request_scene.emit("opening", {"lead": _chosen})
+	else:
+		EventBus.request_scene.emit("world", {})
 
 
 func _chosen_seed() -> int:
