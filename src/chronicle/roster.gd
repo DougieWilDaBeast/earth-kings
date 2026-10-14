@@ -3,8 +3,9 @@ extends RefCounted
 ## Everyone the player has. Characters stay on the roster after they die or are
 ## taken — losing someone should leave a gap you can see, not a silent deletion.
 
-## Who the game starts you with; the first is yours.
-const FOUNDING := ["bram", "sera", "toln"]
+## Who leads a run started without a pick (the suites, the soak, the boot's
+## placeholder world): Atlas, whose chapter one is written first (D95).
+const FIRST_LEAD := "atlas"
 ## How many can march at once grows as the Tower is climbed (D38, agenda
 ## item 35): see `src/chronicle/seats.gd` and `world_rules.party`.
 const Seats := preload("res://src/chronicle/seats.gd")
@@ -38,12 +39,13 @@ static func found(lead_id: String = "") -> Roster:
 	return roster
 
 
-## Who rides out on day one: the chosen lead and whoever still follows them, or
-## the founding three when nobody has chosen.
+## Who rides out on day one: the chosen lead and whoever still follows them.
+## Nobody chosen, or someone who is not one of the sixteen, is FIRST_LEAD.
 static func _band(lead_id: String) -> Array:
 	var hero := Database.hero(lead_id)
 	if hero.is_empty():
-		return FOUNDING
+		lead_id = FIRST_LEAD
+		hero = Database.hero(lead_id)
 	var band := [lead_id]
 	band.append_array(hero.get("companions", []))
 	return band

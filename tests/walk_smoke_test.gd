@@ -7,6 +7,7 @@ extends Node
 ##   godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 
 const CheckFilter := preload("res://tests/check_filter.gd")
+const Company := preload("res://tests/company.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
@@ -33,6 +34,9 @@ var _failures: Array[String] = []
 
 func _ready() -> void:
 	GameState.new_game(SEED)
+	# Atlas leads; two more of the sixteen walk with him, so there is someone to
+	# talk to, teach and send away.
+	Company.join(GameState.roster)
 	EventBus.request_scene.connect(
 		func(key: String, payload: Dictionary) -> void:
 			_requests.append({ "key": key, "payload": payload })
@@ -930,12 +934,12 @@ func _check_renown() -> void:
 	Renown.record(world, Renown.GATE_SHUT, here, 4, "a gate was shut")
 	_expect(Renown.standing(world, here) == 4, "the place it happened has not heard about it")
 	_expect(Renown.standing(world, away) == 0, "word crossed twenty tiles instantly")
-	_expect(Renown.greeting(world, away, "Bram") == "", "somewhere that has not heard still greeted us")
+	_expect(Renown.greeting(world, away, "Atlas") == "", "somewhere that has not heard still greeted us")
 
 	world.steps += Renown.steps_per_tile() * 20
 	_expect(Renown.standing(world, away) == 4, "word never travelled at all")
 	_expect(Renown.title(world, away) != "a stranger", "word arrived and nobody drew a conclusion")
-	_expect(Renown.greeting(world, away, "Bram") != "", "a place that knows us said nothing")
+	_expect(Renown.greeting(world, away, "Atlas") != "", "a place that knows us said nothing")
 
 	# Being welcome is worth money; being hated costs it.
 	var welcome := Renown.price_multiplier(world, here)
@@ -1154,6 +1158,9 @@ func _check_objectives() -> void:
 	_expect(not battle._objective_met(), "a heart fight was won before anyone moved")
 	var runner: Fighter = battle.party_fighters()[0]
 	runner.unit.cell = battle.heart_cell
+	# Atlas rides Sky (D93): the two stand on one cell.
+	if runner.aboard != null:
+		(runner.aboard as Fighter).unit.cell = battle.heart_cell
 	runner.hold = true
 	_expect(battle._objective_met(), "standing on the heart did not win the floor")
 	battle.manual = true
@@ -1198,7 +1205,8 @@ func _check_allies() -> void:
 	Pace.auto = false
 	meeting["ambush"] = true
 	var battle := _open_battle(meeting)
-	var allies: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY) \
+	# Not counting a lead's own beast (Atlas's Sky, D93): it is bound to them, not raised.
+	var allies: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY and f.bound_to == null) \
 			.map(func(f: Fighter) -> Unit: return f.unit)
 	var party: Array = battle.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.PLAYER) \
 			.map(func(f: Fighter) -> Unit: return f.unit)
@@ -1410,12 +1418,11 @@ func _check_fall() -> void:
 		"the same seed landed the lead in two places"
 	)
 	_expect(not Fall.quest_progress(world).is_empty(), "the standing quest says nothing about the climb")
-	_expect(not Fall.landing_dialogue(world, "Bram").get("lines", []).is_empty(), "the landing has nothing to say")
+	_expect(not Fall.landing_dialogue(world, "Atlas").get("lines", []).is_empty(), "the landing has nothing to say")
 
 	# Every lead the run did not start with is out there (D78).
-	var others := Database.heroes.keys().filter(func(id: String) -> bool:
-		return not GameState.roster.characters.any(func(c: Character) -> bool: return c.template_id == id)
-	).size()
+	# Everyone but the lead: the two who joined this suite's company joined after the landing.
+	var others := Database.heroes.size() - 1
 	_expect(world.wanderers.size() == others, "%d others landed, not %d" % [world.wanderers.size(), others])
 	# Each walks first for the kind of place that is their own when someone else leads.
 	for each: Dictionary in world.wanderers:
@@ -1431,7 +1438,8 @@ func _check_fall() -> void:
 		Wanderers.upkeep(world)
 	var settled: Dictionary = {}
 	for each: Dictionary in world.wanderers:
-		if (each.get("to", []) as Array).is_empty() and not bool(each.get("joined", false)):
+		if (each.get("to", []) as Array).is_empty() and not bool(each.get("joined", false)) \
+				and not GameState.roster.characters.any(func(c: Character) -> bool: return c.template_id == str(each["id"])):
 			settled = each
 			break
 	_expect(not settled.is_empty(), "after %d steps nobody of the sixteen had got anywhere" % (world.steps - steps))

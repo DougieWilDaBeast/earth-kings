@@ -2,7 +2,7 @@
   "_comment": "The tutorial (D73): a tour of the game in the training village (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button` (a button on the card). Nothing in the tutorial is saved. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight step calls out the village's practice band (`bands` in its area, D75).",
   "area": "tutorial",
   "seed": 20261012,
-  "lead": "bram",
+  "lead": "atlas",
   "steps": [
     {
       "id": "welcome",

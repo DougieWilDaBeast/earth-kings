@@ -9,14 +9,18 @@ extends Node
 ## gives experience once, and a soak shows levels rising only as the party meets
 ## new things.
 
+const Company := preload("res://tests/company.gd")
+
 var _failures: Array[String] = []
 
 
 func _ready() -> void:
 	GameState.new_game(1)
+	# A run starts with its lead alone; two more of the sixteen join to share the kills.
+	Company.join(GameState.roster)
 	var world: World = GameState.world
 	var party := GameState.party_characters()
-	_expect(party.size() >= 3, "the starting party should have three people")
+	_expect(party.size() >= 3, "the company should have three people")
 	if party.size() < 3:
 		_finish()
 		return

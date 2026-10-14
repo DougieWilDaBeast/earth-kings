@@ -136,7 +136,7 @@ func _check_content() -> void:
 			)
 
 	# Gear only reads as a choice if the wrong hands are worse than the right ones.
-	var wearer := Character.create("bram")
+	var wearer := Character.create("atlas")
 	wearer.class_id = "sworn_blade"
 	for equipment_id: String in Database.equipment:
 		var piece: Dictionary = Database.equipment[equipment_id]
@@ -168,18 +168,18 @@ func _check_content() -> void:
 ## A unit with a run cycle has to actually reach for it, and a unit without one
 ## has to keep standing rather than drawing nothing at all.
 func _check_animation() -> void:
-	var frames := Database.unit_run("bram", "east")
+	var frames := Database.unit_run("atlas", "east")
 	_expect(frames.size() > 1, "the sworn blade's run cycle is %d frames" % frames.size())
 	for heading: String in ["north", "south", "east", "west"]:
 		_expect(
-			not Database.unit_run("bram", heading).is_empty(),
+			not Database.unit_run("atlas", heading).is_empty(),
 			"the sworn blade cannot run %s" % heading
 		)
 	var plain := _unanimated()
 	_expect(plain != "", "every unit has a run cycle now; this check needs another")
 	_expect(Database.unit_run(plain, "east").is_empty(), "%s grew a run cycle" % plain)
 
-	var runner := Unit.create("bram", Unit.Team.PLAYER, Vector2i.ZERO)
+	var runner := Unit.create("atlas", Unit.Team.PLAYER, Vector2i.ZERO)
 	_expect(not runner.run_frames.is_empty(), "a unit with art loaded no run cycle")
 	_expect(runner.current_sprite() != null, "a standing unit is drawn as nothing")
 	var still := Unit.create(plain, Unit.Team.ENEMY, Vector2i.ZERO)
@@ -722,7 +722,7 @@ func _check_the_modes() -> void:
 		if FileAccess.file_exists(Sixteen.path):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 		GameState.mode = mode
-		GameState.new_game(SEED, "bram")
+		GameState.new_game(SEED, "atlas")
 		_expect(GameState.reached(RunMode.START, "you set out"), "%s did not save on setting out" % mode)
 		_expect(GameState.save_is_this_run(), "%s's first save was not this run" % mode)
 		GameState.roster.player().status = Fate.DEAD
@@ -739,7 +739,7 @@ func _check_the_modes() -> void:
 			summary._ascend()
 		else:
 			_expect(beat == null, "Iron Man offered a way back")
-		_expect(Sixteen.fallen_heroes() == ["bram"], "%s: the fallen after the fall read %s" % [mode, Sixteen.fallen_heroes()])
+		_expect(Sixteen.fallen_heroes() == ["atlas"], "%s: the fallen after the fall read %s" % [mode, Sixteen.fallen_heroes()])
 		_expect(not GameState.has_save(), "%s kept a save for a world that ended" % mode)
 		summary.queue_free()
 

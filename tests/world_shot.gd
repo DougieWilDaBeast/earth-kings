@@ -3,12 +3,12 @@ extends Node
 
 func _ready() -> void:
 	await get_tree().process_frame
-	GameState.new_game(20260827, "bram")
+	GameState.new_game(20260827, "atlas")
 	var scene: Node = load("res://src/world/world_scene.tscn").instantiate()
 	add_child(scene)
 	for i in 40:
 		await get_tree().process_frame
-	var face := Database.unit_face("bram")
+	var face := Database.unit_face("atlas")
 	print("face=%s size=%s" % [face, face.get_size() if face else "-"])
 	print("bubbles=%d panels=%d" % [
 		get_tree().get_nodes_in_group("speech").size(),

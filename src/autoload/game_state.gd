@@ -187,6 +187,9 @@ func new_game(world_seed: int = 0, lead_id: String = "", rehearsal: bool = false
 	# for, the next is their sibling: built on the first one's seed, a share of
 	# its dice dealt again, and everyone who went before coming through into it.
 	# A seed asked for is a world of its own, and nothing comes through.
+	# A run is always led by one of the sixteen; nobody picked is Atlas (D95).
+	if Database.hero(lead_id).is_empty():
+		lead_id = Roster.FIRST_LEAD
 	var past: Array = []
 	if world_seed == 0:
 		past = Sixteen.worlds()

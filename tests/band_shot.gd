@@ -22,7 +22,7 @@ func _ready() -> void:
 	_game = load("res://src/main.tscn").instantiate()
 	add_child(_game)
 	await _frames(30)
-	GameState.new_game(20260829, "bram")
+	GameState.new_game(20260829, "atlas")
 	GameState.set_flag("seen:prologue")
 	var world: World = GameState.world
 	var here := Vector2i(-1, -1)

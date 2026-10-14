@@ -29,6 +29,7 @@ extends Node
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const CheckFilter := preload("res://tests/check_filter.gd")
+const Company := preload("res://tests/company.gd")
 const Names_ := preload("res://src/chronicle/names.gd")
 const SaveMigrations := preload("res://src/chronicle/save_migrations.gd")
 
@@ -79,6 +80,8 @@ func _check_whole() -> void:
 ## file holds every shape of thing a real run leaves in it.
 func _live_a_little() -> void:
 	GameState.new_game(31)
+	# Two more of the sixteen walk with the lead, so one can be sent away.
+	Company.join(GameState.roster)
 	var world: World = GameState.world
 	var lead := GameState.roster.player()
 

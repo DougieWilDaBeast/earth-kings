@@ -472,7 +472,8 @@ key nobody is pressing. A soak that runs clean ends with exit code 0.
 
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
 local port and plays it in headless Chromium through `tools/web_smoke.js`: past the title card,
-New Game, the quiz, a life, three steps on the map, the system menu's **Save Game**, then a reload
+**Not now** to the tour, New Game, the quiz, a life, Esc past the opening, three steps on the
+ground, the system menu's **Save Game**, then a reload
 and **Continue**. It fails on any console error, page error or failed request, a screen that never
 comes, or a save that never reaches IndexedDB, and prints the `.pck` and `.wasm` sizes and the load
 times. Screenshots land in `builds/web_smoke/`. It needs Node with the `playwright` npm package and

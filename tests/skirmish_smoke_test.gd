@@ -21,6 +21,7 @@ const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
+const Company := preload("res://tests/company.gd")
 
 var _skirmish: Node2D
 var _failures: Array[String] = []
@@ -31,6 +32,9 @@ func _ready() -> void:
 	# Damage rolls and opening tempo are random; a fixed seed keeps a failure
 	# reproducible.
 	seed(7)
+	# Cato leading Vesta and Iris: a shield, a healer and a bow. Not Atlas, whose
+	# bearer would take the field as a fourth body (see _check_signatures).
+	GameState.roster = Company.found("cato", ["vesta", "iris"])
 	_skirmish = load("res://src/skirmish/skirmish.tscn").instantiate()
 	_skirmish.boot_payload = {"encounter": {"map": _proving_ground()}, "sandbox": true}
 	add_child(_skirmish)
@@ -332,57 +336,57 @@ func _by_template(fight: Node2D, template_id: String) -> Fighter:
 ## D59: stuns break casts, charged spells, energy, draughts and herbs, shields.
 func _check_fight_rules() -> void:
 	var fight := await _new_fight()
-	var bram := _by_template(fight, "bram")
-	var toln := _by_template(fight, "toln")
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
 	var foe: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())[0]
-	_expect(bram != null and toln != null, "the training party is not Bram and Toln")
-	if bram == null or toln == null:
+	_expect(cato != null and vesta != null, "the training party is not Cato and Vesta")
+	if cato == null or vesta == null:
 		fight.queue_free()
 		return
 
 	# A charged spell takes its time and hits harder.
 	# Pyre on a slot, as a hedge priest who has learnt it would carry it.
-	toln.slots.append("pyre")
-	toln.cooldowns.append(0.0)
-	var ember := toln.slots.size() - 1
-	_expect(SkirmishRules.is_charged(toln.slot_ability(ember)), "Pyre is not a charged spell")
+	vesta.slots.append("pyre")
+	vesta.cooldowns.append(0.0)
+	var ember := vesta.slots.size() - 1
+	_expect(SkirmishRules.is_charged(vesta.slot_ability(ember)), "Pyre is not a charged spell")
 	_expect(SkirmishRules.is_charged(Database.ability("ember")), "Ember is not a charged spell")
 	_expect(not SkirmishRules.is_charged(Database.ability("strike")), "a plain strike counts as charged")
 	if ember >= 0:
-		fight._begin_cast(toln, ember, foe.unit, foe.unit.cell)
-		_expect(toln.is_casting() and float(toln.cast["total"]) >= 2.0, "Ember did not wind up for two seconds or more")
-		_expect(SkirmishMarks.status_icons(toln).has("charging"), "a fighter winding up wears no charging icon")
+		fight._begin_cast(vesta, ember, foe.unit, foe.unit.cell)
+		_expect(vesta.is_casting() and float(vesta.cast["total"]) >= 2.0, "Ember did not wind up for two seconds or more")
+		_expect(SkirmishMarks.status_icons(vesta).has("charging"), "a fighter winding up wears no charging icon")
 		# Shield Bash stuns and breaks it off.
 		var bash := Database.ability("shield_bash")
-		fight._strike(bram, toln.unit, bash, "shield_bash")
-		_expect(not toln.is_casting(), "a stun did not break the cast")
-		_expect(toln.is_stunned() and bram.interrupts == 1, "a stun did not stun, or was not counted")
-		_expect(SkirmishMarks.status_icons(toln) == (["stun"] as Array[String]), "a stunned fighter wears %s, not the stun icon" % str(SkirmishMarks.status_icons(toln)))
+		fight._strike(cato, vesta.unit, bash, "shield_bash")
+		_expect(not vesta.is_casting(), "a stun did not break the cast")
+		_expect(vesta.is_stunned() and cato.interrupts == 1, "a stun did not stun, or was not counted")
+		_expect(SkirmishMarks.status_icons(vesta) == (["stun"] as Array[String]), "a stunned fighter wears %s, not the stun icon" % str(SkirmishMarks.status_icons(vesta)))
 		for _i in int(ceil(float(bash["stun"]) / SkirmishRules.TICK)) + 2:
 			fight.tick()
-		_expect(not toln.is_stunned(), "a stun never wore off")
-		toln.unit.hp = toln.unit.max_hp
+		_expect(not vesta.is_stunned(), "a stun never wore off")
+		vesta.unit.hp = vesta.unit.max_hp
 
 	# The brain keeps a stun for somebody casting.
-	var bash_slot := bram.slots.find("shield_bash")
-	_expect(bash_slot >= 0, "Bram has no Shield Bash")
+	var bash_slot := cato.slots.find("shield_bash")
+	_expect(bash_slot >= 0, "Cato has no Shield Bash")
 	if bash_slot >= 0:
-		var idle := SkirmishBrain.pick_skill(bram, fight.fighters)
+		var idle := SkirmishBrain.pick_skill(cato, fight.fighters)
 		_expect(idle.is_empty() or int(idle["slot"]) != bash_slot, "a stun was thrown at somebody not casting")
 
 	# Energy: skills drain it, an empty bar means tired, and it comes back.
-	var skill := 0 if not bram.slots.is_empty() else -1
+	var skill := 0 if not cato.slots.is_empty() else -1
 	if skill >= 0:
-		var cost := SkirmishRules.energy_cost(bram.slot_ability(skill))
-		bram.energy = cost
-		bram.spend_energy(bram.slot_ability(skill))
-		_expect(bram.tired and not bram.slot_ready(skill), "an empty bar did not leave Bram tired")
+		var cost := SkirmishRules.energy_cost(cato.slot_ability(skill))
+		cato.energy = cost
+		cato.spend_energy(cato.slot_ability(skill))
+		_expect(cato.tired and not cato.slot_ready(skill), "an empty bar did not leave Cato tired")
 		var ticks := 0
-		while bram.tired and ticks < 800:
+		while cato.tired and ticks < 800:
 			fight.tick()
 			ticks += 1
-		_expect(not bram.tired, "a tired fighter never recovered")
-		_expect(bram.energy >= bram.energy_max * 0.5 - 0.01, "recovered before half the bar was back")
+		_expect(not cato.tired, "a tired fighter never recovered")
+		_expect(cato.energy >= cato.energy_max * 0.5 - 0.01, "recovered before half the bar was back")
 
 	# A draught or herb: it takes a moment, it cannot be stunned, and it mends.
 	var items: Array = fight.pouch_items()
@@ -390,39 +394,39 @@ func _check_fight_rules() -> void:
 	if not items.is_empty():
 		var item_id: String = items[0]
 		var before := int(fight.pouch[item_id])
-		bram.unit.hp = maxi(1, bram.unit.max_hp / 4)
-		var hp_before := bram.unit.hp
-		_expect(fight.use_item(bram, item_id), "could not use the %s" % item_id)
-		_expect(bram.is_using(), "using an item took no time")
-		fight._stun(bram, null, 2.0)
-		_expect(not bram.is_stunned() and bram.is_using(), "somebody drinking was stunned")
+		cato.unit.hp = maxi(1, cato.unit.max_hp / 4)
+		var hp_before := cato.unit.hp
+		_expect(fight.use_item(cato, item_id), "could not use the %s" % item_id)
+		_expect(cato.is_using(), "using an item took no time")
+		fight._stun(cato, null, 2.0)
+		_expect(not cato.is_stunned() and cato.is_using(), "somebody drinking was stunned")
 		var ticks := 0
-		while bram.is_using() and ticks < 100:
+		while cato.is_using() and ticks < 100:
 			fight.tick()
 			ticks += 1
-		_expect(bram.unit.hp > hp_before, "the %s mended nothing" % item_id)
+		_expect(cato.unit.hp > hp_before, "the %s mended nothing" % item_id)
 		_expect(int(fight.pouch.get(item_id, 0)) == before - 1, "the %s was not taken from the pouch" % item_id)
-		bram.items_used = 99
-		_expect(fight.item_refusal(bram, item_id) != "", "a fighter can drink without end")
+		cato.items_used = 99
+		_expect(fight.item_refusal(cato, item_id) != "", "a fighter can drink without end")
 
 	# A shield turns a sword swing from the front, never one from behind.
 	var brute: Fighter = null
 	for f: Fighter in fight.fighters:
-		# Standing, and not on Bram's own tile: the fallen can lie anywhere.
-		if not f.is_party() and f.is_standing() and f.unit.cell != bram.unit.cell \
+		# Standing, and not on Cato's own tile: the fallen can lie anywhere.
+		if not f.is_party() and f.is_standing() and f.unit.cell != cato.unit.cell \
 				and int(Database.ability(f.basic).get("range", 1)) <= 1:
 			brute = f
-	_expect(bram.shield, "Bram does not carry a shield")
-	if brute != null and bram.shield:
+	_expect(cato.shield, "Cato does not carry a shield")
+	if brute != null and cato.shield:
 		var rules: Dictionary = Database.skirmish["rules"]
 		var saved := [rules.get("block_chance"), rules.get("block_max")]
 		rules["block_chance"] = 1.0
 		rules["block_max"] = 1.0
-		bram.unit.face_towards(brute.unit.cell)
-		_expect(fight._blocks(brute, bram, brute.basic), "a shield never blocks a swing from the front")
-		bram.unit.facing = -Unit.dominant_direction(brute.unit.cell - bram.unit.cell)
-		_expect(not fight._blocks(brute, bram, brute.basic), "a shield blocked a swing from behind")
-		_expect(not fight._blocks(brute, toln, brute.basic), "somebody without a shield blocked")
+		cato.unit.face_towards(brute.unit.cell)
+		_expect(fight._blocks(brute, cato, brute.basic), "a shield never blocks a swing from the front")
+		cato.unit.facing = -Unit.dominant_direction(brute.unit.cell - cato.unit.cell)
+		_expect(not fight._blocks(brute, cato, brute.basic), "a shield blocked a swing from behind")
+		_expect(not fight._blocks(brute, vesta, brute.basic), "somebody without a shield blocked")
 		rules["block_chance"] = saved[0]
 		rules["block_max"] = saved[1]
 	fight.queue_free()
@@ -431,24 +435,24 @@ func _check_fight_rules() -> void:
 ## Told at one enemy, a crowd should stand round him, not queue up on one side.
 func _check_surround() -> void:
 	var fight := await _new_fight()
-	var bram := _by_template(fight, "bram")
-	if bram == null:
+	var cato := _by_template(fight, "cato")
+	if cato == null:
 		fight.queue_free()
 		return
 	for f: Fighter in fight.party_fighters():
-		if f != bram:
+		if f != cato:
 			f.fallen = true
 			f.unit.visible = false
-	bram.unit.max_hp = 999999
-	bram.unit.hp = bram.unit.max_hp
+	cato.unit.max_hp = 999999
+	cato.unit.hp = cato.unit.max_hp
 	# Nobody falls while they gather: what is checked is where they stand, and a
-	# brigand Bram cuts down on his way in cannot stand anywhere.
+	# brigand Cato cuts down on his way in cannot stand anywhere.
 	for f: Fighter in fight.fighters:
 		if not f.is_party():
 			f.unit.max_hp = 999999
 			f.unit.hp = f.unit.max_hp
-	bram.hold = true
-	bram.auto_skill = false
+	cato.hold = true
+	cato.auto_skill = false
 	for _i in int(12.0 / SkirmishRules.TICK):
 		fight.tick()
 	var sides := {}
@@ -456,10 +460,10 @@ func _check_surround() -> void:
 	for f: Fighter in fight.fighters:
 		if f.is_party() or not f.is_standing():
 			continue
-		if Pathfinder.distance(f.unit.cell, bram.unit.cell) == 1:
+		if Pathfinder.distance(f.unit.cell, cato.unit.cell) == 1:
 			adjacent += 1
-			sides[f.unit.cell - bram.unit.cell] = true
-	print("  surround: %d brigands at Bram's side, on %d sides" % [adjacent, sides.size()])
+			sides[f.unit.cell - cato.unit.cell] = true
+	print("  surround: %d brigands at Cato's side, on %d sides" % [adjacent, sides.size()])
 	_expect(adjacent >= 3 and sides.size() >= 3, "melee foes clumped instead of surrounding (%d on %d sides)" % [adjacent, sides.size()])
 	fight.queue_free()
 
@@ -552,26 +556,26 @@ func _check_the_world_hears() -> void:
 		if not f.unit.sides_with_party():
 			_expect(f.attack_timer >= SkirmishPassives.rule("ambush_head_start", 2.0) - 0.01,
 				"an ambushed %s was not held back" % f.unit.display_name)
-	var bram := _by_template(fight, "bram")
-	var toln := _by_template(fight, "toln")
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
 
 	# A healer is remembered by whoever they healed.
-	if bram != null and toln != null:
-		bram.unit.hp = maxi(1, bram.unit.max_hp / 2)
-		fight._strike(toln, bram.unit, Database.ability("mend"), "mend")
-		_expect((fight._healed_by.get(bram.unit, []) as Array).has(toln.unit.character),
+	if cato != null and vesta != null:
+		cato.unit.hp = maxi(1, cato.unit.max_hp / 2)
+		fight._strike(vesta, cato.unit, Database.ability("mend"), "mend")
+		_expect((fight._healed_by.get(cato.unit, []) as Array).has(vesta.unit.character),
 			"a heal was not remembered for the healer's assist")
 
 	# What is drunk is gone from the stores.
 	GameState.stores.append("herbs")
 	fight._fill_pouch()
 	var herbs_before := GameState.stores.count("herbs")
-	if bram != null:
-		bram.unit.hp = maxi(1, bram.unit.max_hp / 3)
-		bram.items_used = 0
-		_expect(fight.use_item(bram, "herbs"), "could not use herbs in a fight on the road")
+	if cato != null:
+		cato.unit.hp = maxi(1, cato.unit.max_hp / 3)
+		cato.items_used = 0
+		_expect(fight.use_item(cato, "herbs"), "could not use herbs in a fight on the road")
 		var ticks := 0
-		while bram.is_using() and ticks < 100:
+		while cato.is_using() and ticks < 100:
 			fight.tick()
 			ticks += 1
 		_expect(GameState.stores.count("herbs") == herbs_before - 1, "herbs used on the road were not taken from the stores")

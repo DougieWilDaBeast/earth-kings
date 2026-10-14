@@ -7,9 +7,9 @@
 // NODE_PATH at `npm root -g`) and a Chromium it can find, e.g. through
 // PLAYWRIGHT_BROWSERS_PATH. The walk is driven from the keyboard wherever it
 // can be, so a moved button does not break it:
-//   boot -> any key past the title card -> New Game -> four quiz answers ->
-//   a life -> the world -> three steps -> Esc menu -> Save Game ->
-//   reload -> Continue.
+//   boot -> any key past the title card -> "Not now" to the tour ->
+//   New Game -> four quiz answers -> a life -> Esc past the opening ->
+//   the world -> three steps -> Esc menu -> Save Game -> reload -> Continue.
 // Prints one JSON line of timings and findings; exits 1 on any failure.
 
 const { chromium } = require('playwright');
@@ -80,6 +80,9 @@ const SAVE_FILE = 'earth-kings.save.json';
     await shot('01-title-card');
 
     await press('Space', 2500);
+    // A first visit offers the tour (D73) with "Take the tour" focused.
+    await press('ArrowRight', 400);
+    await press('Enter', 1500); // "Not now"
     await shot('02-title');
     await press('Enter', 2000); // New Game: focused when there is no save
     for (let i = 0; i < 4; i++) await press('Enter', 1200); // four quiz answers
@@ -88,9 +91,10 @@ const SAVE_FILE = 'earth-kings.save.json';
     await press('Enter', 2000); // the life the quiz found, or "Show me all sixteen"
     await shot('04-character-select');
     await press('Enter', 500); // the focused life
-    const started = await waitFor(/new run, seed \d+, lead '[a-z_]+'/, 60000, 'a run to start');
+    const started = await waitFor(/new run, seed \d+, .*lead '[a-z_]+'/, 60000, 'a run to start');
     result.world_s = +(started - (picked - t0) / 1000).toFixed(2);
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(1500);
+    await press('Escape', 3000); // the opening (docs/25): Esc skips to the end
     await shot('05-world');
 
     // The arrival lines: a click on the dialogue box moves them on.
