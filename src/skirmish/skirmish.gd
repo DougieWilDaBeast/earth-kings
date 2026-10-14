@@ -1161,7 +1161,7 @@ func _keep_aiding(f: Fighter) -> void:
 ## Returns false when there is no way there at all. A step that is blocked this
 ## instant is not a failure — the fighter waits and tries again next tick.
 func _step_towards(f: Fighter, is_goal: Callable) -> bool:
-	# A rider goes where his mount takes him (D88).
+	# A rider goes where his mount takes him (D89).
 	var mount := f.aboard as Fighter
 	if mount != null:
 		return true if mount.stepping else _step_towards(mount, is_goal)
