@@ -96,6 +96,23 @@ var interrupts: int = 0
 var bump: float = 0.0
 var bump_dir: Vector2 = Vector2.ZERO
 
+## A lead's own way of fighting: an entry of `signatures` in `data/skirmish.json`,
+## empty for anyone else (see [SkirmishSignatures]).
+var signature: Dictionary = {}
+## What the signature keeps track of this fight: orders given, foes learnt, ground planted.
+var sig: Dictionary = {}
+## Who this fighter came into the fight for: a bearer's rider, a wolf's huntress,
+## a shade's raiser.
+var bound_to: RefCounted = null
+## Seconds stood on the same tile.
+var still: float = 0.0
+## Seconds left on a mark the other side hits harder.
+var marked: float = 0.0
+## Damage a ward will still turn aside.
+var ward: int = 0
+## Short boosts given by someone else, by kind ("pace", "might"): [value, seconds left].
+var boosts: Dictionary = {}
+
 
 func _init(source: Unit) -> void:
 	unit = source
@@ -106,6 +123,7 @@ func _init(source: Unit) -> void:
 	# Nobody opens a fight in the same breath as everyone else — except a Set
 	# temper, whose opening charge time on the grid becomes acting at once here.
 	passives = SkirmishPassives.for_unit(source)
+	signature = Database.skirmish.get("signatures", {}).get(source.template_id, {})
 	shield = SkirmishPassives.bears_shield(source)
 	energy_max = SkirmishPassives.rule("energy_max", 100.0)
 	energy = energy_max

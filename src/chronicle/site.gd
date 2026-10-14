@@ -37,6 +37,9 @@ const ART := {
 	HOME: "res://art/world/hold_red.png",
 }
 
+## A village grown into a great walled city ([D85]) is drawn as one on the map.
+const CITY_ART := "res://art/world/hold_crown.png"
+
 const GATE_ART := [
 	"res://art/props/landmark/gate_dark.png",
 	"res://art/props/landmark/gate_stones.png",

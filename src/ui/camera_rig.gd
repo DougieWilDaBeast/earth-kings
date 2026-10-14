@@ -39,8 +39,14 @@ var _initial_pinch_distance: float = 0.0
 var _initial_pinch_zoom: float = 1.0
 
 
+## Off for a scene run out of sight (the continent taking a step for the land, [D84]): its camera
+## must not take the screen from the one being looked at.
+var claims_the_view: bool = true
+
+
 func _ready() -> void:
-	make_current()
+	if claims_the_view:
+		make_current()
 	ignore_rotation = true
 	position_smoothing_enabled = follow_speed > 0.0
 	position_smoothing_speed = follow_speed

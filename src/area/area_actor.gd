@@ -57,6 +57,10 @@ var _roam_path_index: int = 0
 var _find_path: Callable = Callable()
 ## Answers whether a point is ground somebody could be standing on.
 var _can_stand: Callable
+## The stops somebody works between, in turn ([D85]): `at` (a point), `stay` (seconds, or 0 for
+## an ordinary pause) and `line` (what they say on getting there, or ""). Empty for a stroll.
+var _rounds: Array[Dictionary] = []
+var _round_index: int = -1
 
 
 static func for_character(character: Character) -> AreaActor:
@@ -131,6 +135,14 @@ func roam(reach_cells: float, can_stand: Callable, path_finder: Callable = Calla
 	set_physics_process(true)
 
 
+## Walk between [param stops] in turn and stay a while at each, so a town's people are seen at
+## their work: water drawn at the well, bread carried to the stall, a round of the walls.
+func work_rounds(stops: Array[Dictionary], can_stand: Callable, path_finder: Callable) -> void:
+	_rounds = stops
+	_round_index = -1
+	roam(1.0, can_stand, path_finder)
+
+
 ## Nobody wanders off mid-conversation.
 func hold_still(on: bool) -> void:
 	_roam_held = on
@@ -180,9 +192,7 @@ func _physics_process(delta: float) -> void:
 				_roam_path_index += 1
 				if _roam_path_index >= _roam_path.size():
 					_roam_path.clear()
-					_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
-					if not chatter.is_empty() and randf() < CHATTER_ODDS:
-						say(chatter.pick_random())
+					_arrive()
 			else:
 				var heading := to_waypoint.normalized()
 				var next_pos := position + heading * max_dist
@@ -200,9 +210,7 @@ func _physics_process(delta: float) -> void:
 	var step := _roam_goal - position
 	if step.length() <= ROAM_SPEED * delta:
 		position = _roam_goal
-		_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
-		if not chatter.is_empty() and randf() < CHATTER_ODDS:
-			say(chatter.pick_random())
+		_arrive()
 		return
 	var heading := step.normalized()
 	var next_pos := position + heading * ROAM_SPEED * delta
@@ -213,9 +221,34 @@ func _physics_process(delta: float) -> void:
 	face(heading)
 
 
+## Got where they were going: stand about, and maybe say something. On rounds, the stop says
+## how long and what.
+func _arrive() -> void:
+	_roam_wait = randf_range(ROAM_PAUSE.x, ROAM_PAUSE.y)
+	if not _rounds.is_empty():
+		var stop: Dictionary = _rounds[_round_index]
+		if float(stop.get("stay", 0.0)) > 0.0:
+			_roam_wait = float(stop["stay"]) * randf_range(0.8, 1.2)
+		if str(stop.get("line", "")) != "":
+			say(str(stop["line"]))
+			return
+	if not chatter.is_empty() and randf() < CHATTER_ODDS:
+		say(chatter.pick_random())
+
+
 func _pick_next_roam_path() -> void:
 	_roam_path.clear()
 	_roam_path_index = 0
+	if not _rounds.is_empty():
+		_round_index = (_round_index + 1) % _rounds.size()
+		var spot: Vector2 = _rounds[_round_index]["at"]
+		_roam_goal = spot
+		if _find_path.is_valid():
+			var p: Array[Vector2] = _find_path.call(position, spot)
+			if not p.is_empty():
+				_roam_path = p
+				_roam_path_index = 1 if _roam_path.size() > 1 and position.distance_to(_roam_path[0]) < 16.0 else 0
+		return
 	for attempt in 8:
 		var reach := randf_range(0.35, 1.0) * _roam_reach
 		var spot := _roam_home + Vector2.from_angle(randf() * TAU) * reach

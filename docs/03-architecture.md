@@ -75,19 +75,23 @@ src/
     skirmish_brain.gd          Targeting and Auto Skill choices, returned as plans
     skirmish_rules.gd          Every timing in seconds; defaults for generated abilities
     skirmish_passives.gd       Passives and enemy roles, read from data/skirmish.json
+    skirmish_signatures.gd     The sixteen's own ways of fighting: bearer, wolf, shades and the rest
     skirmish_marks.gd · skirmish_hud.gd   Rings, bars and lines on the field; the party cards
     skirmish_fx.gd · skirmish_slot.gd     Numbers, flashes and rings; a skill tile's cooldown sweep
   world/                       The continent: the step clock and every site interaction, run out
-                               of sight for the ground on each step; the map from the journal (D61)
+                               of sight beside the land on each step (D84); the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
                                data/props.json (some animated), buildings drawn from their art,
-                               chests, cutscenes, camp fire; walking off an edge hands the step to world/.
-                               ground_gen.gd lays out every tile of open country from its land
-                               (chronicle/biome.gd); bands patrol it, watching (area_watch.gd), and
-                               are fought there (D66, D68, D72)
+                               chests, cutscenes, camp fire. land.gd is the continent as one
+                               stretch of ground (D84): each tile a slot laid out by ground_gen.gd
+                               from its land (chronicle/biome.gd), a place standing in its own,
+                               held round the party and let go behind it; crossing into the next
+                               tile asks world/ for the step out of sight (game.gd runs it). Bands
+                               stand on it, patrol and walk tile to tile, watching (area_watch.gd),
+                               and are fought there (D66, D68, D72)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
@@ -147,7 +151,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 | `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
 | `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid; the tutorial's steps, its never saving, and walking it to its fifth step |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |
-| `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, Cinematic boot, ability/hero/unit table integrity                                                       |
+| `tests/wishlist_smoke_test.tscn` | Content cross-checks: Journal, Museum, Coliseum, site art, ability/hero/unit table integrity                                                       |
 | `tests/skirmish_smoke_test.tscn` | The fight: pause, orders while paused, cooldowns, auto-pause, near death and aid, a whole seeded fight on fixed ticks, D59's rules, allies and auto, and a fight on the road written back onto the world (experience, practice, the journal, a healer, draughts, wounds, a fall settled by Fate, `battle_finished`) |
 | `tests/experience_smoke_test.tscn` | First-kill experience, assists, bosses, weapon skill, the save round trip, and a soak of the same kind against new kinds                             |
 | `tests/names_smoke_test.tscn` | Regional names — strong beside a keep, stems far away, of a real place — and earned titles in the right order                                     |

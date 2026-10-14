@@ -15,4 +15,6 @@ Each folder is one effect, `frame_000.png` onwards, 64 × 64.
 The status and item icons that go with them (stun, bleed, burn, provoke, vulnerable, charging,
 tired, block, draught, herb; 32 × 32, made with `image`) are in `art/ui/status/`.
 
-**Not used by the game yet**: the fights draw these as shapes today.
+In the fight since 2026-10-13 ([D82](../../docs/06-decisions.md)): which moment plays which effect,
+and which state wears which icon, is `effects` and `status_icons` in `data/skirmish.json`. Bleed,
+burn, provoke, vulnerable and the block icon are not shown yet: nothing in the fight gives those.

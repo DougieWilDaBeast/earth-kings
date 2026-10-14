@@ -121,7 +121,9 @@ weapon, their seed and where they are found. Above each is the body this page gi
   one), Bellona's `legion_gold`, and Cassius's the rapier cat in `art/source/Sprite-0006.aseprite`.
 - Nobody wears the shared mark yet: tattoo or glowing eyes is still open ([D31](06-decisions.md)).
   Diana's wolf is `ice_wolf`, as above.
-- The base versions are in `art/sixteen/<name>/idle/`, eight facings each, not yet used by the game.
+- The base versions are in `art/sixteen/<name>/idle/`, eight facings each; the game draws the leads
+  from them ([D78](06-decisions.md)). Walk, attack, skill, hit and death, four facings each, are in
+  beside them for all sixteen (2026-10-13).
   The sentence each was made from is in its `metadata.json`; each cost 10 generations. They were
   dressed again on 2026-10-12 in the blended finish ([D57](06-decisions.md)). Liber's first sentence
   (straw hat, open red vest, shorts) drew a famous pirate captain, so he was redrawn with a shaved
@@ -365,10 +367,11 @@ again, first, with the six classes anyone can learn after it ([D64](06-decisions
 can take one of these classes. A move marked \* is new; the rest already existed. The class's
 themes shape the trees found from level 5, as for the six.
 
-Each class only does what the fight can do today, so most of a style's signature still waits; the
-last column is that part, planned and not built.
+Each class only does what the fight can do today. The last column is the style's signature as it
+was planned; most of it is now built, in [the sixteen's signatures](#the-sixteen-signatures-as-built)
+below.
 
-| Lead | Class | Level 1: Q W E R | Passive | Growth a level | Not built yet |
+| Lead | Class | Level 1: Q W E R | Passive | Growth a level | Signature, as planned |
 | --- | --- | --- | --- | --- | --- |
 | Atlas | Borne Mage (`borne_mage`) | Chain Bolt, Thunderhead, Pyre, Gust | **The Long Plan.** +20% chance to land a critical hit. | 3 hp · 2.3 atk · 0.5 def · 0.2 spd | Carried by a bearer; stuck if they fall |
 | Janus | Gatewalker (`gatewalker`) | Door Shut\*, Gust, Hamstring, Spark | **Worse Odds.** When an ally goes down, every skill comes back at once. | 4 hp · 1.1 atk · 0.8 def · 0.6 spd | Swap two units, pull an ally out, send a foe into a bad spot; faster the worse the odds |
@@ -386,6 +389,38 @@ last column is that part, planned and not built.
 | Diana | Wolf-bound (`wolf_bound`) | Snipe, Hamstring, Mend, Stand Fast | **With the Wolf.** Hits from the side or behind deal 25% more. | 4 hp · 1.5 atk · 0.7 def · 0.6 spd | The wolf that does the damage |
 | Ares | Vanguard (`vanguard`) | Crush, Cleave, Earthshake, Second Wind | **First Blow.** +15% chance to land a critical hit. | 6 hp · 2.1 atk · 1.1 def · 0.4 spd | The heaviest first ten seconds, then tiring |
 | Liber | Brawler (`brawler`) | Haymaker\*, Dart, Whirl, Second Wind | **Reckless.** A basic attack has a 15% chance to strike twice; heals for 10% of the damage dealt. | 6 hp · 1.7 atk · 1.0 def · 0.7 spd | Cannot be pinned, rooted or disarmed; more reckless as the fight goes on |
+
+## The sixteen signatures, as built
+
+**Inferred, all of it** ([agenda item 72](worldbuilding/answers.md#what-is-still-to-decide)).
+Built 2026-10-13: on top of their class's passive, each of the sixteen has a way of fighting nobody
+else has, from the _Fight_ line of their entry above. It is theirs, not the class's (`signatures` in
+`data/skirmish.json`, keyed by the lead), so it stays if they take another class at level 2, and a
+lead met as a foe brings it too. It shows on the card's hover and under the pointer with a ★. No new
+art: Sky, the bearer, is drawn as the club ogre, the wolf is the ice wolf, and a shade is the body of what fell,
+tinted. The last column is what is still planned, because no fight can do it yet.
+
+| Lead | Signature | What it does | Still planned |
+| --- | --- | --- | --- |
+| Atlas | **Borne** | Comes into every fight with his bearer, **Sky** ([D83](06-decisions.md)), who keeps beside him and fights what is in reach. Atlas moves only while Sky stands; if Sky falls, he is stuck where he was dropped | Sky's own body and story; for now Sky is drawn as the club ogre (**Inferred**) |
+| Janus | **Doorways** | For every foe standing more than his own side, his skills come back 25% faster, up to twice as fast | Swapping two units, pulling an ally out, sending a foe into a bad spot |
+| Bellona | **Orders** | Every 10 s in a fight she calls *Advance* (allies within 3 tiles move 35% faster) while her side is walking in, or *Break them* (they deal 20% more) once it is at grips, for 5 s. Allies within 2 tiles get their energy back half again as fast | The orders as her own moves |
+| Cassius | **Learns Them** | Every hit he takes teaches him whoever dealt it: 6% more to them, up to 30%, for the rest of the fight | The taunt and the feint |
+| Saturn | **Heavy Ground** | Foes within 1 tile of him move 40% slower | Pushing everything away; pulling one in |
+| Vesta | **Ward** | Every 12 s she wards the worst-hurt ally within 3 tiles (under 85%): the next 15% of their health in damage is turned aside, shown as a gold ring. Her blows deal 50% more to the dead (the wraith, the Shadow, and anyone's shades) | Her fire hurting nothing living |
+| Caesar | **Takes the Hit** | Takes a quarter of every blow meant for an ally beside him. Once a fight, when he goes down, he gets back up 3 s later at 30% health | — |
+| Iris | **Marks** | Her hits mark a foe for 8 s (a gold diamond over it), and her side deals 10% more to it. Finishing a foe she marked makes her deal 10% more for the rest of the fight, up to 30% | — |
+| Pluto | **Shades** | What he kills gets up again on his side at 40% of its health, two standing at a time (not a keeper, not a shade). Each kind he has killed this fight makes him deal 5% more, up to 25% | Shades that stay beyond one fight |
+| Ceres | **Growth** | Standing still for 2.5 s she plants her tile (six at most, drawn green). Allies within 1 tile of a planting recover 1.5% of their health a second; foes stepping there move half as fast. On her own planting she deals 15% more | Thorns that hold a foe fast |
+| Cato | **Set** | After 2 s without moving he is set: he takes 15% less and deals 10% more, and takes another 10% less with an ally beside him | — |
+| Juno | **Provision** | Every draught and herb mends her twice as much. Every 8 s she throws one from the pouch to a companion within 4 tiles under 45% health, and it mends them twice as much too | Food and items beyond the fight's draughts and herbs |
+| Ultor | **One Target** | Each hit on the same foe deals 6% more than the last, up to 30%; turning to another starts again | Choosing his captain |
+| Diana | **Beast-bond** | Her wolf comes into every fight beside her at her level, and fights on its own. While it is down she deals 40% less. Her Mend keeps it up | Moves that send the wolf in |
+| Ares | **Opener** | For the first 10 s of a fight he deals 35% more and swings 25% faster; after that he tires, 10% less and 15% slower | — |
+| Liber | **Bare Hands** | Cannot be stunned. Deals 2% more for every 5 s of the fight, up to 30% | Being rooted and disarmed, when fights can do either |
+
+A companion (the bearer, the wolf, a shade) fights beside the party as an ally: it earns nothing,
+is not in the roster, and is gone when the fight is over.
 
 ## Who is where
 
@@ -455,7 +490,7 @@ one, looks like one or is presented as one, and no text in the game mentions the
 2. **Which seed goes to which character.** The pairings above are a proposal. Any seed can move.
 3. **Pain's reason.** `dougie` was cut off mid-thought [00:17:59]. Saturn now takes the reason from
    Pain's profile in the second list: an idealist turned by loss. Confirm that is what was meant.
-4. **Who carries Atlas:** someone hired, a friend, one of the other fifteen, a beast as in the
+4. **Who carries Atlas** — answered: **Sky** (`dougie`, 2026-10-13, [D83](06-decisions.md)). The options were someone hired, a friend, one of the other fifteen, a beast as in the
    placeholder art, or the gentle giant the Lomu seed suggests.
 5. **A class of one's own for each** (agenda item 10), or styles inside the six classes.
 6. **The four ties above**: keep them, change them or drop them.

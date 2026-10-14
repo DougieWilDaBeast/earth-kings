@@ -137,12 +137,34 @@ func _grow_a_hero(world: World) -> Character:
 	return hero
 
 
+## A player who takes every power as it comes always has one to take when they
+## are told they do: once their paths are walked to the end, another opens.
+func _check_powers_never_run_dry(world: World) -> void:
+	var kept_state := world.rng.state
+	var lead := Character.create("bram", "", true)
+	lead.class_id = Database.own_class("bram") if Database.own_class("bram") != "" else "sworn_blade"
+	var taken := 0
+	for level in range(2, 21):
+		Progression._level_up(lead, world)
+		lead.pending_class_choice = false
+		while lead.rungs > 0:
+			var offered := Progression.rung_options(lead, world)
+			if offered.is_empty():
+				_expect(false, "level %d: %d power(s) owed and none to take" % [lead.level, lead.rungs])
+				break
+			_expect(Progression.spend_rung(lead, offered[0], world), "could not take an offered power")
+			taken += 1
+	_expect(taken >= 14, "took only %d powers from level 2 to 20" % taken)
+	world.rng.state = kept_state
+
+
 func _check_progression(hero: Character, world: World) -> void:
 	_expect(hero.class_id != "", "level 12 character never took a class")
 	_expect(hero.trees.size() == 2, "expected 2 trees by level 12, got %d" % hero.trees.size())
 	_expect(not hero.learned.is_empty() or hero.rungs > 0, "character learned nothing from its trees")
 	for ability_id: String in hero.abilities():
 		_expect(not Database.ability(ability_id).is_empty(), "ability '%s' resolves to nothing" % ability_id)
+	_check_powers_never_run_dry(world)
 
 	# The Yoke trades power for growth.
 	var plain := hero.attack()

@@ -80,6 +80,12 @@ OUTDOORS = {
     "village": dict(trees=ORCHARD + ["nature/sycamore_tree", "nature/great_oak"], edge=0.4, inner=0.0, gap=2,
                     bushes=HEDGES + ["nature/rose_stem", "nature/hazel_bush"], bush=0.025, ground=FLOWERS,
                     cover=0.12, critters=CRITTERS, count=6, on=["grass", "meadow"], keep_clear=2),
+    "city": dict(trees=ORCHARD + ["nature/sycamore_tree"], edge=0.3, inner=0.0, gap=2, bushes=HEDGES, bush=0.02,
+                 ground=FLOWERS, cover=0.1, critters=CRITTERS, count=4, on=["grass", "meadow"], keep_clear=2,
+                 path=["dirt", "flagstone"]),
+    "city_streets": dict(trees=LEAFY + ORCHARD, edge=0.0, inner=0.06, gap=3, bushes=HEDGES + ["nature/rose_stem"],
+                         bush=0.02, ground=FLOWERS, cover=0.08, critters=CRITTERS + ["nature/white_dove"] * 3,
+                         count=12, on=["meadow", "grass"], keep_clear=1, path=["dirt", "flagstone"]),
     "village_fen": dict(trees=DEAD + ["nature/round_tree", "nature/birch"], edge=0.35, inner=0.0, gap=2,
                         bushes=["nature/ivy", "nature/bramble"], bush=0.03, ground=DAMP, cover=0.14,
                         critters=WET_CRITTERS, count=5, on=["grass", "meadow"], keep_clear=2),
@@ -217,6 +223,7 @@ class Area:
         stand += [_cell(s["cell"]) for s in d.get("spots", [])]
         stand += [_cell(c["cell"]) for c in d.get("chests", [])]
         stand += [_cell(p["cell"]) for p in d.get("people", [])]
+        stand += [_cell(s["cell"]) for p in d.get("people", []) for s in p.get("rounds", [])]
         stand += [_cell(s) for s in d.get("seats", [])]
         if "fire" in d:
             self.blocked.add(_cell(d["fire"]))
@@ -457,6 +464,10 @@ def dress_room(area: Area, kit: dict, rng: random.Random) -> list:
 
 def run(area_id: str) -> None:
     area = Area(area_id)
+    # A room with an `interior` is laid out by hand in tools/build_interiors.py (D81).
+    if "interior" in area.data:
+        print("%-18s laid out by build_interiors.py, left alone" % area_id)
+        return
     rng = random.Random("earth-kings:" + area_id)
     if area_id in ROOMS:
         dressing = dress_room(area, ROOM_KIT[ROOMS[area_id]], rng)

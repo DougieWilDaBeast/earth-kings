@@ -16,6 +16,6 @@ in `<id>/idle/`; the sentence each was made from is in its `metadata.json`.
 | `farmer` | a farmer with a pitchfork | the villages |
 | `elder` | an old woman with a walking stick | the villages |
 
-**Inferred**, for `doug-md` to confirm: who each is for. **Not used by the game yet**: giving a
-person one is a `sprite_dir` for them in the area data, which the areas do not take today (they
-name a `unit`).
+**Inferred**, for `doug-md` to confirm: who each is for. Since 2026-10-14 each is a unit of its own
+(`town_<id>` in `data/units.json`) and wears the townsfolk who walk their rounds of work in the
+villages and the great city ([D85](../../docs/06-decisions.md)).

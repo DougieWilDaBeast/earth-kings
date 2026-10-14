@@ -13,13 +13,15 @@ Order is the order they were recorded, not priority.
 > the existing map, showing different locations and vibrant buildings and characters running
 > around. The Earth Kings title appears, and you press enter to go into the title screen.
 
-**Built.** [`src/ui/cinematic.gd`](../src/ui/cinematic.gd) is now the boot scene. It generates a
+**Removed ([D87](06-decisions.md)).** The game now opens on the title card, the fall
+([D69](06-decisions.md)); the pass below played before it and read as a second intro, and `dougie`
+had it deleted (it is in the history before #108). As it was built: `src/ui/cinematic.gd` generated a
 throwaway world, glides `CameraRig.focus_on` between the four places furthest apart on it, walks a
 few of the founders along the roads between them, fades the title up and hands over to the menu on
 any key — or on its own after twelve seconds.
 
-**Atmospheric presentation built.** [`src/ui/cinematic_haze.gdshader`](../src/ui/cinematic_haze.gdshader)
-applies soft drifting atmospheric haze and corner vignette over the country overview, preserving
+**Atmospheric presentation built.** `src/ui/cinematic_haze.gdshader`
+applied soft drifting atmospheric haze and corner vignette over the country overview, preserving
 color and lighting while focusing the eye on the title and moving characters.
 
 ## W2 — A voice at the end of the cinematic
@@ -527,7 +529,9 @@ legs, so each is a still set moving, south only, used for every facing.
 **Open:** the units not yet drawn (the other level-1 faction foes, the twelve's bodies, the
 sixteen's fight sets), and staged art not yet pointed at (`magic_swordsman`, the two bears with
 weapons, the frozen wolfman, the two giants). The fight effects and status icons in
-[`art/effects/`](../art/effects/README.md) and `art/ui/status/` are not wired.
+[`art/effects/`](../art/effects/README.md) and `art/ui/status/` are wired since 2026-10-13
+([D82](06-decisions.md)); bleed, burn, provoke, vulnerable and the block icon wait for something in
+the fight to show.
 
 ## W29 — A UI pass
 

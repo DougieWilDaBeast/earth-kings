@@ -339,7 +339,6 @@ func _check_the_overlay_reads_the_scene() -> void:
 
 	for expected: Array in [
 		["title", false, false],
-		["cinematic", false, false],
 		["skirmish", true, false],
 		["world", true, true],
 		["area", true, true],
@@ -690,9 +689,10 @@ func _check_the_pad() -> void:
 
 
 ## The planar view is where the game is played and the continent is a map kept
-## in the journal ([D61]). Coming back from anywhere lands on the ground; the
-## journal's map comes back to the same ground; a step off the edge moves the
-## party on the continent; a place's doings are offered and done from the ground.
+## in the journal ([D61]). Coming back from anywhere lands on the ground, which is the land
+## ([D84]) with the town standing in its tile; the journal's map comes back to the same ground; a
+## place's doings are offered and done from the ground; walking over into the next tile moves the
+## party on the continent without the ground ever leaving the screen.
 func _check_the_ground_is_the_game() -> void:
 	var world: World = GameState.world
 	var town: Site = null
@@ -718,7 +718,8 @@ func _check_the_ground_is_the_game() -> void:
 	if ground == null or not ground.get("map") is AreaMap:
 		return
 	var area_id: String = ground.map.id
-	_expect(area_id == str(town.data.get("area", town.kind)), "the ground at %s is not its inside" % town.display_name)
+	_expect(area_id == "land" and ground.map.call("area_of", ground.map.cell_at(ground._leader.position)) == str(town.data.get("area", town.kind)),
+		"the land at %s is not the town standing in its tile" % town.display_name)
 	var hire: Dictionary = {}
 	for each: Dictionary in ground._acts:
 		if str(each.get("act", "")) == "_hire_here":
@@ -757,7 +758,7 @@ func _check_the_ground_is_the_game() -> void:
 		if ground == null or not ground.get("map") is AreaMap:
 			return
 
-	# Off the edge: the continent takes the step, and hands back the next ground.
+	# Over into the next tile: the continent takes the step out of sight, and the land stays.
 	var dir := Vector2i.ZERO
 	for each: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
 		var next := world.player_cell + each
@@ -769,17 +770,19 @@ func _check_the_ground_is_the_game() -> void:
 		return
 	var from := world.player_cell
 	var steps := world.steps
-	var edge := Vector2i(ground.map.width / 2, ground.map.height / 2)
-	ground._step_to_adjacent_planar_area(dir, from + dir, edge)
+	var asked := _requests.size()
+	var into: Vector2i = ground.map.call("slot_rect", from + dir).get_center()
+	ground._leader.position = ground.map.centre_of(into)
+	ground._mind_the_border()
 	await _settle()
 	await _clear_dialogue()
 	await _settle()
-	_expect(world.player_cell == from + dir, "walking off the ground did not move the party on the continent")
-	_expect(world.steps > steps, "a step on the ground did not move the world clock")
+	_expect(world.player_cell == from + dir, "walking over into the next tile did not move the party on the continent")
+	_expect(world.steps > steps, "a step on the land did not move the world clock")
 	var landed := _current_scene()
-	_expect(landed != null and (landed.get("map") is AreaMap or _requests.has("skirmish")),
-		"a step off the ground landed on %s, not the next ground" % (landed.name if landed != null else "nothing"))
-	print("ground: the map, a doing and a step all come back to the ground")
+	_expect(landed == ground or _requests.slice(asked).has("skirmish") or _requests.slice(asked).has("area"),
+		"a step on the land took the screen away to %s" % (landed.name if landed != null else "nothing"))
+	print("ground: the map, a doing and a step on the land all keep to the land")
 
 
 ## A band met on the ground ([D66], [D68]): it patrols with the ground it watches painted red,

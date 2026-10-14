@@ -120,28 +120,37 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    sixteen as the leads, in their own bodies, the other fifteen settling where 21 puts them
    ([D78](06-decisions.md), agenda item 69), and the twelve placed in the world as story people,
    each where their backstory belongs with a conversation ([D79](06-decisions.md), agenda item 70).
+   Each of the sixteen fights in their own way too: Atlas's bearer, Diana's wolf, Pluto's shades
+   and the rest ([21](21-the-sixteen-first-draft.md#the-sixteen-signatures-as-built), agenda item 72).
    Still to write: their parts in the main stories, with the sixteen's quest lines.
-2. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
+2. **Walled towns and a great city — built** (2026-10-14, [D85](06-decisions.md), agenda item 74).
+   `doug-md` asked for towns with walls, people at their jobs, a city big enough to walk round for a
+   while, small quests and a tavern ([voice note](worldbuilding/voice-notes/2026-10-13-doug-md-cities.md)).
+   Every village is walled on the land, its townsfolk walk rounds of work, and one village a world
+   is a great city with the Gilded Flagon and five small quests. Planned: a second city (agenda 74
+   asks which), and the lead who will not climb the Tower (agenda item 75, open).
+3. **The early game's art, in the order a new player meets it.** Done (2026-10-13): the founders'
    bodies, the first foes and the rank-E gate bosses play walk, attack, skill, hit and death
    ([19](19-asset-list.md#tier-1--the-combat-prototype-after-the-reset), [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)).
    Next: the other level-1 faction foes, the twelve's bodies (now NPCs: idle and walk unless a story
    fight needs more), their companions and the village's walks; then the sixteen's fight sets. The
-   fight effects and status icons are made but not wired yet ([24](24-art-requests.md), A1 and A2).
+   fight effects and status icons are in the fight since 2026-10-13 ([D82](06-decisions.md)).
    Deferred by `dougie` (2026-10-13): redrawing the tide and flame lions' manes.
-3. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
+4. **The founders' agenda**: the [agenda](worldbuilding/answers.md#what-is-still-to-decide) holds
    what the build inferred while it went ahead, each with a recommended answer, and the
    [briefing sheet](worldbuilding/session-2-briefing.md) gives options and cost. Newest: the
-   Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68)
-   and the sixteen as leads (69). `doug-md` answered
+   Amber Knight (65), the fight's sounds (66), the quieter level-up (67), the sixteen classes (68),
+   the sixteen as leads (69), their signatures (72), the walls and the city (74), and the lead who
+   will not climb (75). `doug-md` answered
    items 11, 12, 20 and 21 on 2026-10-12 ([D60](06-decisions.md)); item 15 (what a hearth is to
    someone who fell) still holds the writing for M13, and items 20 and 57 the end of the step clock (M18).
-4. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
+5. **First writing sitting for the sixteen** — names, seeds and fighting styles are drafted in
    [21](21-the-sixteen-first-draft.md) and built as the leads ([D78](06-decisions.md)); their
    memories, shared mark and own quest lines (M13) are not written.
-5. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
+6. **Tuning, whenever it annoys you:** `experience.first_kill_multiplier`, `assists_needed` and
    `healer_assists_needed`, the Tower's curve and cohorts (`world_rules.tower`), the
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
-6. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
+7. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
    PixelLab's terms checked ([Launch readiness](#launch-readiness--in-progress)).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
@@ -170,7 +179,7 @@ was looking for, all now fixed and covered — see `tests/seams_smoke_test` and
 
 Started 2026-09-24, on the first pass of M10, as a prototype beside the turn-based battle; since
 2026-10-12 it is the only fight — see [18 — The fight](18-combat-direction.md#the-fight). What
-is left is art: the moves of the units not yet drawn, and the fight effects and status icons wired in.
+is left is art: the moves of the units not yet drawn.
 
 - A battle scene: real time, pause at any moment, speed up and slow down ✅ (`src/skirmish/`)
 - Point-and-click movement on the existing grid; automatic basic attacks ✅
@@ -179,8 +188,12 @@ is left is art: the moves of the units not yet drawn, and the fight effects and 
   per class — agenda item 45), shown on the cards and on hover
 - Walk, attack, skill, hit and death played in the fight ✅ (2026-10-13, [W28](09-wishlist.md#w28--animations-wired-to-what-is-on-disk)):
   the founders' three bodies, the first foes, the early big units and the rank-E gate bosses, 28
-  units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1). The
-  fight effects and status icons are made and not wired yet; the sixteen fight on their standing pose until their sets are drawn
+  units in all, the Bog Jelly and the Amber Knight among them ([19](19-asset-list.md), Tier 1); the
+  sixteen fight on their standing pose until their sets are drawn
+- Fight effects and status icons ✅ (2026-10-13, [D82](06-decisions.md)): a slash, an arrow in
+  flight, a burst, a heal and a shield block where a blow lands, a charge-up round a charged spell,
+  and stun, charging, tired, draught and herb icons over the head (`effects` and `status_icons` in
+  `data/skirmish.json`, **Inferred** — agenda item 71)
 - Facing ✅ and generated battlefields ✅ carried over; falling becomes a near-death window a
   companion can reach ✅; when it runs out the fall is settled through `Fate.resolve`, as the
   turn-based battle settled it ✅ (a sandbox fight only rolls `Fate.roll` and writes nothing back;
@@ -194,11 +207,16 @@ is left is art: the moves of the units not yet drawn, and the fight effects and 
 - A class of their own for each of the sixteen ✅ (2026-10-13, [D63](06-decisions.md)): four moves
   for level 1, a passive and growth each, in `data/classes.json` and `data/skirmish.json`
   ([21](21-the-sixteen-first-draft.md#the-sixteen-classes-as-built)); a lead starts in it and may
-  switch at level 2. Every move and number is **Inferred** (agenda item 68). Planned, not built:
-  the signature mechanics no move can do yet — Atlas carried by a bearer, Janus moving people,
-  Bellona's orders, Cassius's taunt, Saturn's push and pull, Vesta's fire against the dead, Caesar
-  getting back up once a fight, Iris's marks, Pluto's shades, Ceres's planted ground, Cato standing
-  still, Juno's doubled items, Ultor's one target, Diana's wolf, Ares tiring, Liber unpinnable
+  switch at level 2. Every move and number is **Inferred** (agenda item 68)
+- A signature each for the sixteen ✅ (2026-10-13, [21](21-the-sixteen-first-draft.md#the-sixteen-signatures-as-built)):
+  Atlas carried by a bearer, Janus faster the worse the odds, Bellona's orders, Cassius learning
+  who hits him, Saturn's heavy ground, Vesta's wards and her fire against the dead, Caesar taking
+  the hit and getting back up once, Iris's marks, Pluto's shades, Ceres's planted ground, Cato set,
+  Juno's doubled and thrown items, Ultor's one target, Diana's wolf, Ares's opener, Liber
+  unstunnable (`signatures` in `data/skirmish.json`, `src/skirmish/skirmish_signatures.gd`), at no
+  new art. Every rule and number is **Inferred** (agenda item 72), and Atlas's bearer is Sky
+  ([D83](06-decisions.md)). Planned, not built: the parts no fight can do yet — moving people (Janus,
+  Saturn's push and pull), a taunt, Bellona's orders as moves
 - A headless smoke test that plays it out ✅ (`tests/skirmish_smoke_test.tscn`)
 - Every fight the world starts ✅ (2026-10-12): bands on the road, gates and their objectives, the
   Tower, Guild musters and allies, the coliseum and training, all on scene key `skirmish`
@@ -397,11 +415,20 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
   reshaped round gates; every tile of open country its own ground, with ways out only where the land
   goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
-  `data/biomes.json`). Art for sixteen of the lands is a recoloured stand-in
+  `data/biomes.json`). Art for sixteen of the lands was a recoloured stand-in; since 2026-10-13 every
+  land's trees, rocks and plants and the ground of eight (the blight, snow, dune, savanna, swamp,
+  bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). Planned: the ground of the other
+  eight (ash, jungle, barrow, blossom, slime, crystal, fungal, mist), next month
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was
   seen in, and play comes back to the same spot. Sight and patrol numbers are **Inferred**
+- One land ✅ (2026-10-13, [D84](06-decisions.md)): the continent walked as one stretch of ground,
+  each tile's ground laid side by side with its neighbours and no edge or loading between them;
+  villages, keeps, gates and the rest standing in their tiles and walked straight into; every band
+  within two tiles on the land, patrolling its tile and walking across when it moves
+  (`src/area/land.gd`). Where a place sits in its tile, how far bands are shown, how far they
+  patrol and how fast they walk are **Inferred**. A straight line still shows where two lands meet
 - Weather and hazards per land, enemies chosen by land, the Tower's element reshaping its country
   (planned; [investigation/09](investigation/09-lands-of-the-continent.md#not-built))
 - Places worth walking round ✅ (2026-10-12, [D62](06-decisions.md)): every prop and building at its

@@ -206,6 +206,148 @@
 			"also": { "lifesteal": 0.1 }
 		}
 	},
+	"signatures": {
+		"atlas": {
+			"style": "borne",
+			"display_name": "Borne",
+			"description": "Carried by his bearer, who keeps beside him. If the bearer falls, Atlas cannot move for the rest of the fight.",
+			"bearer": "ogre",
+			"bearer_name": "Sky",
+			"bearer_note": "Sky carries Atlas (D83). The club ogre's body is Inferred until Sky has one of their own."
+		},
+		"janus": {
+			"style": "doorways",
+			"display_name": "Doorways",
+			"description": "For every foe standing more than his own side, his skills come back 25% faster, up to twice as fast.",
+			"per_foe": 0.25,
+			"most": 2.0
+		},
+		"bellona": {
+			"style": "orders",
+			"display_name": "Orders",
+			"description": "Every 10 seconds in a fight she calls Advance (allies within 3 tiles move 35% faster) or Break Them (they deal 20% more), for 5 seconds. Allies within 2 tiles get their energy back half again as fast.",
+			"every": 10.0,
+			"radius": 3,
+			"lasts": 5.0,
+			"advance": 0.35,
+			"break_them": 0.2,
+			"energy_radius": 2,
+			"energy": 0.5
+		},
+		"cassius": {
+			"style": "learns",
+			"display_name": "Learns Them",
+			"description": "Each hit he takes teaches him the one who dealt it: he deals 6% more to them, up to 30%, for the rest of the fight.",
+			"per_hit": 0.06,
+			"most": 0.3
+		},
+		"saturn": {
+			"style": "gravity_well",
+			"display_name": "Heavy Ground",
+			"description": "Foes within 1 tile of him move 40% slower.",
+			"radius": 1,
+			"slow": 0.4
+		},
+		"vesta": {
+			"style": "ward",
+			"display_name": "Ward",
+			"description": "Every 12 seconds she wards the most hurt ally within 3 tiles: the next 15% of their health in damage is turned aside. Her blows burn the dead for 50% more.",
+			"every": 12.0,
+			"radius": 3,
+			"below": 0.85,
+			"ward": 0.15,
+			"dead": ["wraith", "dusk_shadow"],
+			"dead_bonus": 0.5
+		},
+		"caesar": {
+			"style": "takes_the_hit",
+			"display_name": "Takes the Hit",
+			"description": "Takes a quarter of every blow meant for an ally beside him. Once a fight, when he goes down, he gets back up after 3 seconds.",
+			"share": 0.25,
+			"rise_after": 3.0,
+			"rise_health": 0.3
+		},
+		"iris": {
+			"style": "marks",
+			"display_name": "Marks",
+			"description": "Her hits mark a foe for 8 seconds, and the party deals 10% more to it. Finishing a marked foe herself makes her deal 10% more for the rest of the fight, up to 30%.",
+			"lasts": 8.0,
+			"marked_bonus": 0.1,
+			"per_finish": 0.1,
+			"most": 0.3
+		},
+		"pluto": {
+			"style": "shades",
+			"display_name": "Shades",
+			"description": "What he kills gets up again and fights for him, at 40% of its health, two at a time. Each kind he has killed this fight makes him deal 5% more, up to 25%.",
+			"health": 0.4,
+			"at_once": 2,
+			"per_kind": 0.05,
+			"most": 0.25
+		},
+		"ceres": {
+			"style": "growth",
+			"display_name": "Growth",
+			"description": "Standing still for 2.5 seconds, she plants the ground. Allies within 1 tile of a planting recover 1.5% of their health every second; foes there move half as fast. On her own planting she deals 15% more.",
+			"plant_after": 2.5,
+			"most": 6,
+			"radius": 1,
+			"regen": 0.015,
+			"slow": 0.5,
+			"rooted_bonus": 0.15
+		},
+		"cato": {
+			"style": "set",
+			"display_name": "Set",
+			"description": "After 2 seconds without moving he is set: he takes 15% less and deals 10% more, and takes another 10% less with an ally beside him.",
+			"after": 2.0,
+			"guard": 0.15,
+			"might": 0.1,
+			"beside": 0.1
+		},
+		"juno": {
+			"style": "provision",
+			"display_name": "Provision",
+			"description": "Every draught and herb mends twice as much for her. Every 8 seconds she throws one from the pouch to an ally within 4 tiles under 45% health, and it mends twice as much for them too.",
+			"twice": 2.0,
+			"every": 8.0,
+			"radius": 4,
+			"below": 0.45
+		},
+		"ultor": {
+			"style": "one_target",
+			"display_name": "One Target",
+			"description": "Every hit on the same foe deals 6% more than the last, up to 30%. Turning to another foe starts again.",
+			"per_hit": 0.06,
+			"most": 0.3
+		},
+		"diana": {
+			"style": "beast_bond",
+			"display_name": "Beast-bond",
+			"description": "Her wolf fights beside her at her level. While it is down she deals 40% less.",
+			"beast": "ice_wolf",
+			"beast_name": "Diana's Wolf",
+			"without": 0.4
+		},
+		"ares": {
+			"style": "opener",
+			"display_name": "Opener",
+			"description": "For the first 10 seconds of a fight he deals 35% more and swings 25% faster. After that he tires: 10% less, and 15% slower.",
+			"lasts": 10.0,
+			"might": 0.35,
+			"haste": 0.25,
+			"tired_might": 0.1,
+			"tired_slow": 0.15
+		},
+		"liber": {
+			"style": "bare_hands",
+			"display_name": "Bare Hands",
+			"description": "Cannot be stunned. Deals 2% more for every 5 seconds of the fight, up to 30%.",
+			"every": 5.0,
+			"per_step": 0.02,
+			"most": 0.3
+		}
+	},
 	"by_template": {
 		"brigand_chief": ["war_cry"],
 		"wolf": ["pack_hunter"],
@@ -284,6 +426,34 @@
 	"training_pouch": {
 		"herbs": 2,
 		"red_draught": 1
+	},
+	"effects": {
+		"folder": "res://art/effects",
+		"fps": 18.0,
+		"size": 1.1,
+		"swing": "slash",
+		"shot": "arrow",
+		"spell": "burst",
+		"heal": "heal",
+		"block": "block",
+		"charged": "charge",
+		"by_ability": {
+			"arc_shot": "arrow",
+			"snipe": "arrow",
+			"volley": "arrow",
+			"long_reach": "arrow"
+		}
+	},
+	"status_icons": {
+		"folder": "res://art/ui/status",
+		"size": 18.0,
+		"stunned": "stun",
+		"casting": "charging",
+		"tired": "tired",
+		"using": "draught",
+		"by_item": {
+			"herbs": "herb"
+		}
 	},
 	"decor": {
 		"trees": [

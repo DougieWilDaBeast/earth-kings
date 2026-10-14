@@ -18,9 +18,8 @@ you saw, on which screen, and what you had done just before.
 
 | #   | Do this                                                                      | Expect                                                                                                         |
 | --- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| A1  | Launch the game                                                              | A map pass over a country you have never seen, camera drifting between places, a few figures walking the roads |
-| A2  | Wait through the whole cinematic without touching anything                   | The title fades up part-way, then "press anything to go on"; at about twelve seconds the title card: the logo over the sixteen falling, and "Press any key" |
-| A3  | Launch again and press a key or click immediately                            | Straight to the title card; another key slides the logo to the corner and the menu in down the left |
+| A1  | Launch the game                                                              | Straight onto the title card: the logo over the sixteen falling, and "Press any key" ("Tap to begin" on a phone); no map pass or second title before it ([D87](06-decisions.md)) |
+| A2  | Press a key or click on the title card                                       | The logo slides to the corner and the menu in down the left |
 | A4  | Hover each menu entry with the mouse                                         | A soft tick on each one, and the keyboard highlight follows the mouse                                          |
 | A5  | Click an entry                                                               | A firmer click, distinct from the hover                                                                        |
 | A6  | Sit on the title screen                                                      | Quiet music, sixteen streaks falling towards the world, the Tower's light pulsing on the horizon; nothing runs along the bottom |
@@ -240,7 +239,7 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.4 | Walk through long grass right up to them             | Long grass is never red; step out of it into the red and the fight opens with "Ambush!"   |
 | D3.5 | Step onto a red cell                                 | Heads turn, they rush you, and the fight opens on the same ground at the same zoom, everyone where they stood; the camera draws back, the ground beyond the field dimmed |
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
-| D3.7 | Walk onto a tile a band on the next tile watches     | No sudden fight: the band stands at that edge of the new ground, watching                |
+| D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 
 ## D4 — The tutorial ([D73](06-decisions.md))
 
@@ -255,6 +254,19 @@ Delete `settings.cfg` and the save from the user folder first, to be a new playe
 | D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
 | D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
 | D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
+## D5 — One land ([D84](06-decisions.md))
+
+Start a run (not the tutorial) and walk.
+
+| #    | Do this                                               | Expect                                                                                   |
+| ---- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| D5.1 | Walk in one direction for a minute                    | The ground runs on with no edge, fade or pause; the place line at the top changes as you cross into new country, and the light turns with the land |
+| D5.2 | Walk towards a village you can see on the map         | You see it from outside, standing in the land; walk straight in, and the bottom line offers hire, buy and the board |
+| D5.3 | Walk to the coast or a mountain                       | Water or rock fills the tile; you cannot walk onto it                                     |
+| D5.4 | Find a band (the bottom line names it) and stand still | It patrols its patch, further than a small loop; take a few steps across a tile edge and sometimes it sets off and walks to the next patch, its red going with it |
+| D5.5 | Go into a house, open the journal's map, and fight    | Each time you come back exactly where you stood on the land                                |
+| D5.6 | Open a chest in a village, leave, come back           | It is still open                                                                          |
+
 ## H — Conversation and the camp
 
 | #   | Do this                                                          | Expect                                                                                  |
@@ -328,8 +340,8 @@ and open `http://localhost:8000/` in Chrome or Firefox. `tools/web_smoke.py` pla
 
 | #   | Do this                                                        | Expect                                                                                      |
 | --- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| L1  | Open the page                                                  | The Godot loading bar, then the cinematic within a few seconds; silent until the first input |
-| L2  | Click anywhere on the cinematic                                | Straight to the title, and the title music starts with that click                           |
+| L1  | Open the page                                                  | The Godot loading bar, then the title card within a few seconds; silent until the first input |
+| L2  | Click anywhere on the title card                               | The menu slides in, and the title music starts with that click                              |
 | L3  | Look at the title menu                                         | No **Quit** — a page cannot close its own tab, so the browser build leaves it out            |
 | L4  | New Game → a life → walk a few steps → `Esc` → **Save Game**   | "Progress saved."                                                                            |
 | L5  | Reload the page, go on to the title                            | **Continue** is lit and puts you back where you saved (the save lives in the browser's IndexedDB) |
@@ -343,7 +355,7 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 
 | #   | Do this                                                                | Expect                                                                                    |
 | --- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| P1  | Press A on the cinematic, then D-pad and A on the title                | Straight to the menu; the highlight moves with the D-pad and A presses the entry          |
+| P1  | Press A on the title card, then D-pad and A on the menu                | The menu slides in; the highlight moves with the D-pad and A presses the entry            |
 | P2  | New Game → answer the quiz and pick a hero with the pad only           | Every answer, hero and the Start button reachable; B goes back a screen                   |
 | P3  | On the road, touch the stick, then press a key                         | The hint line says "A to …" after the stick, "E to …" after the key                        |
 | P4  | Walk with the left stick, then the D-pad                               | One tile per press, a run when held                                                       |
@@ -397,7 +409,7 @@ Rather than starting a run and playing to the point of concern, boot straight in
 
 State flags: `--seed --hero --level --gold --at --steps --floor --hoard --stores --equip --hurt`,
 `--owed=path|power`, `--levelup`, `--choose=CLASS`, `--take`, and `--tab=NAME` for the journal ([D67](06-decisions.md)).
-Scenes: cinematic title character_select world area skirmish training coliseum museum credits summary,
+Scenes: title character_select world area skirmish training coliseum museum credits summary,
 plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 `.\ek.ps1 --help` prints the lot.
@@ -458,7 +470,7 @@ the soak with `STUCK … in Skirmish` or similar and exit code 2 — something i
 key nobody is pressing. A soak that runs clean ends with exit code 0.
 
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
-local port and plays it in headless Chromium through `tools/web_smoke.js`: past the cinematic,
+local port and plays it in headless Chromium through `tools/web_smoke.js`: past the title card,
 New Game, the quiz, a life, three steps on the map, the system menu's **Save Game**, then a reload
 and **Continue**. It fails on any console error, page error or failed request, a screen that never
 comes, or a save that never reaches IndexedDB, and prints the `.pck` and `.wasm` sizes and the load

@@ -7,7 +7,6 @@ const LevelUpBanner := preload("res://src/ui/level_up_banner.gd")
 const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 
 const SCENES := {
-	"cinematic": "res://src/ui/cinematic.tscn",
 	"title": "res://src/ui/title_screen.tscn",
 	"temper_quiz": "res://src/ui/temper_quiz.tscn",
 	"character_select": "res://src/ui/character_select.tscn",
@@ -23,15 +22,19 @@ const SCENES := {
 
 ## Where "back" runs out of places to go. Backing out of the title screen is
 ## leaving the game, which is what the key is for on a phone.
-const ROOT_SCENES := ["title", "cinematic"]
+const ROOT_SCENES := ["title"]
 
 @onready var _container: Node = $CurrentScene
 
-var _scene_key: String = "cinematic"
+var _scene_key: String = "title"
+## The continent, run out of sight for the land while it takes a step ([D84]); gone once it
+## has answered, or when the screen changes.
+var _continent: Node = null
 
 
 func _ready() -> void:
 	EventBus.request_scene.connect(_change_scene)
+	EventBus.continent_requested.connect(func(payload: Dictionary) -> void: _run_the_continent.call_deferred(payload))
 	# Says so when a save is upgraded or restored from its backup ([D56]).
 	add_child(SaveToast.new())
 	add_child(LevelUpBanner.new())
@@ -43,7 +46,8 @@ func _ready() -> void:
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.
 	get_tree().set_quit_on_go_back(false)
-	_change_scene("cinematic", {})
+	# Straight onto the title card, the fall ([D87]).
+	_change_scene("title", {"from": "boot"})
 
 
 func _notification(what: int) -> void:
@@ -118,7 +122,21 @@ func _change_scene(scene_key: String, payload: Dictionary) -> void:
 	_swap.call_deferred(scene_key, payload)
 
 
+## The continent's scene, with nothing of it on screen, doing what the land asked; it answers on
+## [signal EventBus.continent_answered] and goes, or asks for another scene and is swept away.
+func _run_the_continent(payload: Dictionary) -> void:
+	if is_instance_valid(_continent):
+		_continent.queue_free()
+	var continent: Node = load(SCENES["world"]).instantiate()
+	continent.set("boot_payload", payload)
+	_continent = continent
+	add_child(continent)
+
+
 func _swap(scene_key: String, payload: Dictionary) -> void:
+	if is_instance_valid(_continent):
+		_continent.queue_free()
+		_continent = null
 	for child in _container.get_children():
 		_container.remove_child(child)
 		child.queue_free()

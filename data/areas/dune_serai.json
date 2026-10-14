@@ -1,173 +1,332 @@
 {
- "display_name": "the Oasis Serai",
- "layers": [
-  "dirt",
-  "stone",
-  "sand"
- ],
- "legend": {
-  "o": "stone",
-  ",": "dirt",
-  "s": "sand"
- },
- "tint": "#b59b76",
- "spawn": [
-  5,
-  7
- ],
- "exits": [
-  [
-   5,
-   8
-  ]
- ],
- "spots": [
-  {
-   "cell": [
-    5,
-    4
-   ],
-   "line": "Heavy carpets over the stone to keep the desert chill out after dusk."
-  },
-  {
-   "cell": [
-    2,
-    2
-   ],
-   "line": "Clay amphoras filled with rosewater and dates."
-  }
- ],
- "chests": [
-  {
-   "cell": [
-    8,
-    2
-   ],
-   "line": "A cedar merchant box under a divan, smelling of clove and resin.",
-   "art": "chest_gold",
-   "gold": 90,
-   "item": "hearth_coin"
-  }
- ],
- "props": [
-  {
-   "art": "oil_lamp",
-   "cell": [
-    4,
-    1
-   ]
-  },
-  {
-   "art": "oil_lamp",
-   "cell": [
-    6,
-    1
-   ]
-  },
-  {
-   "art": "sofa_gold",
-   "cell": [
-    2,
-    4
-   ]
-  },
-  {
-   "art": "sideboard",
-   "cell": [
-    8,
-    3
-   ]
-  },
-  {
-   "art": "tapestry",
-   "cell": [
-    5,
-    1
-   ]
-  },
-  {
-   "art": "village/barrels",
-   "cell": [
-    1,
-    6
-   ]
-  }
- ],
- "people": [
-  {
-   "name": "Zuhayr the Serai Host",
-   "unit": "innkeeper",
-   "cell": [
-    5,
-    3
-   ],
-   "facing": [
-    0,
-    1
-   ],
-   "dialogue": "the_innkeeper"
-  },
-  {
-   "name": "a spice trader from the dunes",
-   "unit": "peasant",
-   "cell": [
-    3,
-    5
-   ],
-   "facing": [
-    1,
-    0
-   ],
-   "wander": 2,
-   "chatter": [
-    "Lost three camels to the sun-scorch. The salt was worth more than the beasts.",
-    "Do not sleep without cloth across your mouth. The sand finds teeth."
-   ]
-  },
-  {
-   "name": "Kamil of the Red Blade",
-   "unit": "ember_duelist",
-   "cell": [
-    8,
-    5
-   ],
-   "facing": [
-    -1,
-    0
-   ],
-   "wander": 2,
-   "chatter": [
-    "Steel cools fast in the night. Keep it sheathed close to your ribs.",
-    "The road across the Great Dune is open only when the south wind dies."
-   ]
-  }
- ],
- "rows": [
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooooooooo",
-  "ooooo,ooooo",
-  "ooooo,ooooo"
- ],
- "dressing": [
-  {"art": "camp/fire_hearth", "cell": [0, 0]},
-  {"art": "village/log_pile", "cell": [10, 0]},
-  {"art": "village/barrels", "cell": [2, 0]},
-  {"art": "sideboard", "cell": [4, 0]},
-  {"art": "tapestry", "cell": [5, 0]},
-  {"art": "sideboard", "cell": [6, 0]},
-  {"art": "village/barrels", "cell": [8, 0]},
-  {"art": "writing_desk", "cell": [0, 2]},
-  {"art": "chair", "cell": [10, 2]},
-  {"art": "sofa_brown", "cell": [0, 4]},
-  {"art": "chair", "cell": [10, 4]},
-  {"art": "drawers_wood", "cell": [0, 6]},
-  {"art": "potted_plant", "cell": [10, 6]},
-  {"art": "potted_plant", "cell": [3, 8]},
-  {"art": "street_lamp", "cell": [7, 8]}
- ]
+    "display_name": "the Oasis Serai",
+    "layers": [],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "tint": "#f0d4a8",
+    "spawn": [
+        7,
+        9
+    ],
+    "exits": [
+        [
+            7,
+            10
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                7,
+                3
+            ],
+            "line": "Heavy carpets over the stone to keep the desert chill out after dusk."
+        },
+        {
+            "cell": [
+                2,
+                2
+            ],
+            "line": "Clay amphoras filled with rosewater and dates."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                12,
+                2
+            ],
+            "line": "A cedar merchant box under a divan, smelling of clove and resin.",
+            "art": "chest_gold",
+            "gold": 90,
+            "item": "hearth_coin"
+        }
+    ],
+    "props": [
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                1,
+                1
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                13,
+                1
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                4,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                10,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "tapestry",
+            "cell": [
+                7,
+                0
+            ],
+            "offset": [
+                0,
+                6
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                6,
+                1
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                8,
+                1
+            ]
+        },
+        {
+            "art": "village/fountain",
+            "cell": [
+                7,
+                5
+            ]
+        },
+        {
+            "art": "sofa_gold",
+            "cell": [
+                2,
+                3
+            ]
+        },
+        {
+            "art": "interior/cushions",
+            "cell": [
+                3,
+                5
+            ]
+        },
+        {
+            "art": "interior/low_table",
+            "cell": [
+                3,
+                4
+            ]
+        },
+        {
+            "art": "sofa_gold",
+            "cell": [
+                12,
+                3
+            ]
+        },
+        {
+            "art": "interior/cushions",
+            "cell": [
+                11,
+                5
+            ]
+        },
+        {
+            "art": "interior/low_table",
+            "cell": [
+                11,
+                4
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                1,
+                8
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                13,
+                8
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                13,
+                9
+            ]
+        },
+        {
+            "art": "interior/cushions",
+            "cell": [
+                2,
+                9
+            ]
+        },
+        {
+            "art": "interior/low_table",
+            "cell": [
+                11,
+                8
+            ]
+        }
+    ],
+    "people": [
+        {
+            "name": "Zuhayr the Serai Host",
+            "unit": "innkeeper",
+            "cell": [
+                7,
+                2
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "dialogue": "the_innkeeper"
+        },
+        {
+            "name": "a spice trader from the dunes",
+            "unit": "peasant",
+            "cell": [
+                4,
+                7
+            ],
+            "facing": [
+                1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "Lost three camels to the sun-scorch. The salt was worth more than the beasts.",
+                "Do not sleep without cloth across your mouth. The sand finds teeth."
+            ]
+        },
+        {
+            "name": "Kamil of the Red Blade",
+            "unit": "ember_duelist",
+            "cell": [
+                10,
+                6
+            ],
+            "facing": [
+                -1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "Steel cools fast in the night. Keep it sheathed close to your ribs.",
+                "The road across the Great Dune is open only when the south wind dies."
+            ]
+        }
+    ],
+    "rows": [
+        "###############",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#######.#######"
+    ],
+    "dressing": [],
+    "interior": {
+        "floor": "tile",
+        "wall": "adobe",
+        "rugs": [
+            {
+                "rect": [
+                    1,
+                    2,
+                    4,
+                    4
+                ],
+                "colour": "#8a2a24",
+                "trim": "#e0b060"
+            },
+            {
+                "rect": [
+                    10,
+                    2,
+                    4,
+                    4
+                ],
+                "colour": "#28406a",
+                "trim": "#e0b060"
+            },
+            {
+                "rect": [
+                    6,
+                    7,
+                    3,
+                    3
+                ],
+                "colour": "#6a3a1a",
+                "trim": "#e0b060"
+            },
+            {
+                "rect": [
+                    5,
+                    1,
+                    5,
+                    2
+                ],
+                "colour": "#7a2a50",
+                "trim": "#e0b060"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    7,
+                    5
+                ],
+                "radius": 3.5,
+                "colour": "#ffe0a0",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    3,
+                    3
+                ],
+                "radius": 2.5,
+                "colour": "#ffb060",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    11,
+                    3
+                ],
+                "radius": 2.5,
+                "colour": "#ffb060",
+                "strength": 0.25
+            }
+        ]
+    }
 }

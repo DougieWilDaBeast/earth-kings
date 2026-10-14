@@ -1,7 +1,7 @@
 extends Control
 ## Boot menu: start a fresh run or continue from the save in `user://`.
 ##
-## Two steps, the way the classics do it. Coming in from the opening, it is a
+## Two steps, the way the classics do it. When the game opens, it is a
 ## title card first: the logo big over the sixteen falling, and "Press any key".
 ## A key slides the logo up into the corner and the menu in down the left, a
 ## slim list of words over the sky. Coming back from anywhere else, it is the
@@ -30,8 +30,8 @@ const COLOR_MARK := Color(0.95, 0.72, 0.38)
 const KEYS_MAIN := "W / S to choose     Enter to confirm"
 const KEYS_EXTRAS := "W / S to choose     Enter to confirm     Esc to go back"
 
-## Set by [Game] before the scene enters the tree. `from: "cinematic"` opens on
-## the title card; anything else opens on the menu.
+## Set by [Game] before the scene enters the tree. `from: "boot"` (the game
+## opening) opens on the title card; anything else opens on the menu.
 var boot_payload: Dictionary = {}
 
 ## Set from the scene: the logo's lettering and the carved lettering of the menu.
@@ -133,7 +133,7 @@ func _ready() -> void:
 	_breathe_crest()
 	resized.connect(_layout)
 
-	if str(boot_payload.get("from", "")) == "cinematic":
+	if str(boot_payload.get("from", "")) == "boot":
 		_show_card()
 	else:
 		_show_menu(false)

@@ -93,6 +93,12 @@ signal area_note(line: String)
 signal player_did(what: String)
 ## The title screen asks for the tutorial; the tutorial guide sets it up and runs it.
 signal tutorial_requested
+## The land asks the continent to do something out of sight (a step, a place's doing) while the
+## party walks on ([D84]): `step` or `act`, with `held` and `back` as a ground hands them over.
+signal continent_requested(payload: Dictionary)
+## The continent's answer, if nothing took the screen instead: what can be done where the party
+## now stands, what was said, the bands about, and its title.
+signal continent_answered(payload: Dictionary)
 
 ## Overlays that swallow the game's input while they are up. Anything in this
 ## group answers `is_open()`.
