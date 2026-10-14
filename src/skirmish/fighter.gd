@@ -49,6 +49,8 @@ var step_total: float = 0.0
 var near_death: float = 0.0
 ## Out of the fight for good, one way or the other.
 var fallen: bool = false
+## Walked off the edge of a fight met on the ground: out of it, alive, and not coming back.
+var fled: bool = false
 ## What [Fate] said when this party member's fall was settled in a fight the
 ## world started: {outcome, reason, line}; empty until then.
 var settled: Dictionary = {}
@@ -165,7 +167,7 @@ func is_party() -> bool:
 
 ## On their feet and in the fight.
 func is_standing() -> bool:
-	return not fallen and near_death <= 0.0 and unit.is_alive()
+	return not fallen and not fled and near_death <= 0.0 and unit.is_alive()
 
 
 ## Standing and there to be aimed at: a rider on a mount's back is not.

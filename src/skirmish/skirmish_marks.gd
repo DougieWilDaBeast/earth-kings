@@ -26,6 +26,7 @@ const MARKED := Color(1.0, 0.8, 0.2, 0.9)
 const WARD := Color(1.0, 0.92, 0.55, 0.7)
 const PLANTED := Color(0.45, 0.85, 0.35, 0.22)
 const PLANTED_EDGE := Color(0.55, 0.95, 0.4, 0.55)
+const COVER := Color(0.45, 0.9, 0.4, 0.85)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var skirmish: Node2D
@@ -37,9 +38,12 @@ func _draw() -> void:
 	var half := BattleGrid.CELL_SIZE * 0.5
 	_draw_plantings(half)
 	for f: Fighter in skirmish.fighters:
-		if f.fallen:
+		if f.fallen or f.fled:
 			continue
 		var at := f.unit.position
+		if skirmish.in_place and f.is_party() and f.is_standing() and f.aboard == null \
+				and skirmish.grid.terrain_id_at(f.unit.cell) == "brush":
+			_draw_cover(at, half)
 		if f.marked > 0.0 and f.is_standing():
 			_draw_mark(at + Vector2(0, -half * 1.35))
 		if f.ward > 0 and f.is_standing():
@@ -154,6 +158,17 @@ func _draw_plantings(half: float) -> void:
 
 
 ## Iris's mark over a foe: a small gold diamond.
+## Standing in cover, on a fight met on the ground: two leaves at the feet, so it is plain who is
+## hidden in the long grass and who is out in the open.
+func _draw_cover(at: Vector2, half: float) -> void:
+	var feet := at + Vector2(0, half * 0.62)
+	for side: float in [-1.0, 1.0]:
+		var tip := feet + Vector2(side * half * 0.55, -half * 0.28)
+		var mid := feet.lerp(tip, 0.5)
+		var bulge := Vector2(0, -half * 0.12)
+		draw_colored_polygon(PackedVector2Array([feet, mid + bulge, tip, mid - bulge * 0.4]), COVER)
+
+
 func _draw_mark(at: Vector2) -> void:
 	var points := PackedVector2Array([at + Vector2(0, -5), at + Vector2(5, 0), at + Vector2(0, 5), at + Vector2(-5, 0)])
 	draw_colored_polygon(points, MARKED)

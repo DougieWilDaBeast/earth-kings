@@ -18,6 +18,12 @@ extends Node2D
 ## ground ([D66]): its own tiles, its trees and rocks in the way, everyone
 ## standing where they stood when the band saw them. Afterwards play goes back
 ## to the same spot (`return_payload`).
+##
+## Fought in place (`"in_place"`, the First Hour's step 4): the ground scene puts this scene down on
+## itself, moved and scaled so each of its cells is one of the ground's. Nothing changes screen: the
+## ground is the field, its camera stays, the grid shows only under orders and the pointer, the HUD is
+## the party's cards and one line, and walking off the field's edge gets that fighter clear. When it is
+## over it says so ([signal gone]) and the ground carries on.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
@@ -37,6 +43,8 @@ signal finished(victory: bool)
 
 const DEFAULT_MAP := "verdant_pass"
 const END_SCREEN_DELAY := 2.0
+## On the ground there is no screen to leave, only the word over the field to read.
+const IN_PLACE_DELAY := 1.0
 ## How much of the screen height the party cards take.
 const HUD_SHARE := 0.24
 ## When the fight stops itself: never, when a party member goes down, or also
@@ -60,6 +68,12 @@ const PAD_REPEAT := 0.09
 
 ## Set by [Game] before the scene enters the tree.
 var boot_payload: Dictionary = {}
+## Laid over the ground it was met on, which carries on round it (see the header).
+var in_place: bool = false
+## Over, and its last words read: the ground takes the scene off ([member in_place] only).
+signal gone
+## Nobody left standing, and some of them got clear: not won, but not lost either.
+var fled_field: bool = false
 
 @onready var grid: BattleGrid = $Grid
 @onready var overlay: GridOverlay = $Overlay
@@ -146,6 +160,7 @@ var _started: bool = false
 
 func _ready() -> void:
 	map_id = str(boot_payload.get("map_id", DEFAULT_MAP))
+	in_place = bool(boot_payload.get("in_place", false))
 	encounter = boot_payload.get("encounter", {})
 	sandbox = bool(boot_payload.get("sandbox", false))
 	learning = bool(boot_payload.get("learn", not sandbox))
@@ -205,7 +220,12 @@ func _build_battlefield() -> void:
 	ground_field = boot_payload.get("field", {})
 	if not ground_field.is_empty():
 		map = _ground_field()
-		_lay_the_ground()
+		if in_place:
+			# The ground is already there, under this scene: only the field's edge is drawn.
+			grid.draw_floor = false
+			grid.quiet = true
+		else:
+			_lay_the_ground()
 	grid.load_map(map)
 	title = str(encounter.get("title", map.get("name", title)))
 	overlay.grid = grid
@@ -214,13 +234,18 @@ func _build_battlefield() -> void:
 	# field with that much empty ground below it and the whole fight sits above.
 	var field := Vector2(grid.width, grid.height) * BattleGrid.CELL_SIZE
 	var framed := Rect2(Vector2.ZERO, Vector2(field.x, field.y / (1.0 - HUD_SHARE)))
-	camera.frame(framed)
-	camera.focus_on(framed.get_center(), true)
 	units_root.y_sort_enabled = true
+	if in_place:
+		# The ground's own camera stays on; this one never comes on, nor takes the wheel from it.
+		camera.enabled = false
+		camera.process_mode = Node.PROCESS_MODE_DISABLED
+	else:
+		camera.frame(framed)
+		camera.focus_on(framed.get_center(), true)
 
 	if ground_field.is_empty():
 		_spawn_nature_decor(map)
-	else:
+	elif not in_place:
 		_open_where_they_stood(framed)
 	var spawns: Array = map.get("player_spawns", [])
 	var members := GameState.party_characters()
@@ -247,7 +272,7 @@ func _build_battlefield() -> void:
 	if confrontation != "":
 		_opening.append(confrontation)
 	_set_objective(map)
-	if not ground_field.is_empty():
+	if not ground_field.is_empty() and not in_place:
 		_draw_back()
 
 
@@ -730,6 +755,8 @@ func tick() -> void:
 	for f in fighters:
 		_tick_fighter(f)
 	signatures.flush()
+	if in_place:
+		_see_who_got_clear()
 	_check_end()
 
 
@@ -750,7 +777,7 @@ func _place_steppers() -> void:
 
 
 func _tick_fighter(f: Fighter) -> void:
-	if f.fallen:
+	if f.fallen or f.fled:
 		return
 	var cooling := SkirmishRules.TICK * signatures.cooldown_rate(f)
 	for i in f.cooldowns.size():
@@ -1530,14 +1557,19 @@ func _check_end() -> void:
 		_say(_objective_won_line())
 	over = true
 	victory = party_up
+	# The last of them walked off the edge: whoever is still lying on the field is left to it.
+	fled_field = not party_up and fighters.any(func(f: Fighter) -> bool: return f.is_party() and f.fled)
 	armed_slot = -1
 	overlay.clear()
 	for f in fighters:
 		f.unit.set_running(false)
 		f.cast = {}
-	_say("The field is yours after %.0f seconds." % sim_time if victory \
-			else "The company is down after %.0f seconds." % sim_time)
-	hud.show_result(victory)
+	if fled_field:
+		_say("The company gets clear after %.0f seconds." % sim_time)
+	else:
+		_say("The field is yours after %.0f seconds." % sim_time if victory \
+				else "The company is down after %.0f seconds." % sim_time)
+	hud.show_result(victory, fled_field)
 	EventBus.player_did.emit("fight_won" if victory else "fight_lost")
 	Sfx.cue("victory" if victory else "defeat")
 	if sandbox:
@@ -1553,6 +1585,7 @@ func _check_end() -> void:
 		if victory:
 			GameState.mark_battle_cleared(map_id)
 		GameState.set_flag("last_victory", victory)
+		GameState.set_flag("last_fled", fled_field)
 		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id})
 	finished.emit(victory)
 	if not manual:
@@ -1620,7 +1653,10 @@ func _settle_the_party() -> void:
 
 
 func _leave_the_field() -> void:
-	await get_tree().create_timer(END_SCREEN_DELAY, true, false, true).timeout
+	await get_tree().create_timer(END_SCREEN_DELAY if not in_place else IN_PLACE_DELAY, true, false, true).timeout
+	if in_place:
+		gone.emit()
+		return
 	EventBus.request_scene.emit(str(boot_payload.get("return_scene", "world")),
 			boot_payload.get("return_payload", {}))
 
@@ -1642,6 +1678,43 @@ func order_cast(f: Fighter, slot: int, who: Unit, cell: Vector2i) -> void:
 
 func order_aid(f: Fighter, patient: Unit) -> void:
 	f.give(Fighter.Order.AID, patient.cell, patient)
+
+
+## Sent off the field (an order beyond its edge): everyone selected makes for the edge nearest
+## [param beyond], and gets clear when they stand on it ([method _see_who_got_clear]).
+func _make_for_the_edge(beyond: Vector2i) -> void:
+	if selected.is_empty():
+		return
+	var edge := beyond.clamp(Vector2i.ZERO, Vector2i(grid.width - 1, grid.height - 1))
+	var taken: Array[Vector2i] = []
+	for f in selected:
+		var spot := _free_cell_near(edge, taken, f)
+		if not _on_the_edge(spot):
+			spot = edge
+		taken.append(spot)
+		f.set_meta("fleeing", true)
+		order_move(f, spot)
+	_say("Making for the edge of the field." if selected.size() > 1 else "%s makes for the edge of the field." % selected[0].unit.display_name)
+
+
+func _on_the_edge(cell: Vector2i) -> bool:
+	return cell.x == 0 or cell.y == 0 or cell.x == grid.width - 1 or cell.y == grid.height - 1
+
+
+## Whoever was sent off the field and has reached its edge is out of the fight, alive, with
+## whatever carries them, rides them or is bound to them (a mount, a wolf, a shade).
+func _see_who_got_clear() -> void:
+	for f in party_fighters():
+		var mount := f.aboard as Fighter
+		var moving := f.stepping or (mount != null and mount.stepping)
+		if not f.has_meta("fleeing") or not f.is_standing() or moving or not _on_the_edge(f.unit.cell):
+			continue
+		for other in fighters:
+			if other == f or other == mount or other.aboard == f or other.bound_to == f:
+				other.fled = true
+				other.unit.visible = false
+				selected.erase(other)
+		_say("%s gets clear." % f.unit.display_name)
 
 
 ## Send everyone selected to [param cell], each to their own tile around it.
@@ -1698,7 +1771,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouseMotion:
-		var cell := grid.world_to_cell(get_global_mouse_position())
+		var cell := _mouse_cell()
 		overlay.set_cursor(cell)
 		hud.inspect(fighter_of(_unit_at_or_downed(cell)))
 		if _press_at != Vector2.INF:
@@ -1715,7 +1788,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		# A thumb drags the camera, not a box: on touch a tap is the whole order.
 		if touch:
 			if event.pressed:
-				_on_left_click(grid.world_to_cell(get_global_mouse_position()), event.shift_pressed)
+				_on_left_click(_mouse_cell(), event.shift_pressed)
 			return
 		if event.pressed:
 			_press_at = to_local(get_global_mouse_position())
@@ -1729,10 +1802,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			drag_box = Rect2()
 			marks.queue_redraw()
 		else:
-			_on_left_click(grid.world_to_cell(to_global(start)), event.shift_pressed)
+			_on_left_click(grid.world_to_cell(start), event.shift_pressed)
 		return
 	if event is InputEventMouseButton and event.pressed:
-		var cell := grid.world_to_cell(get_global_mouse_position())
+		var cell := _mouse_cell()
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			_on_right_click(cell)
 			get_viewport().set_input_as_handled()
@@ -1758,6 +1831,10 @@ func _on_key(event: InputEventKey) -> bool:
 		return true
 	if KEY_ACTIONS.has(event.keycode):
 		act(KEY_ACTIONS[event.keycode])
+		return true
+	# On the ground the fight shows no keys; How to Play has them all.
+	if in_place and event.keycode == KEY_K:
+		EventBus.how_to_play_requested.emit()
 		return true
 	# The journal is most wanted while you are stood across from the thing it
 	# is about, so it opens here as well as on the road.
@@ -1892,7 +1969,13 @@ func _nudge_cursor(direction: Vector2i) -> void:
 func _aim_at(cell: Vector2i) -> void:
 	pad_cell = cell
 	overlay.set_cursor(cell)
-	camera.focus_on(grid.cell_to_world(cell))
+	if not in_place:
+		camera.focus_on(grid.cell_to_world(cell))
+
+
+## The cell under the pointer, wherever on the ground this scene has been put down.
+func _mouse_cell() -> Vector2i:
+	return grid.world_to_cell(to_local(get_global_mouse_position()))
 
 
 ## One thing the player asked for, by name, from a key or a touch button.
@@ -1963,6 +2046,11 @@ func _on_right_click(cell: Vector2i) -> void:
 		_disarm()
 		return
 	if selected.is_empty():
+		return
+	for f in selected:
+		f.remove_meta("fleeing")
+	if in_place and not grid.in_bounds(cell):
+		_make_for_the_edge(cell)
 		return
 	var who := _unit_at_or_downed(cell)
 	var clicked := fighter_of(who)
@@ -2066,7 +2154,7 @@ func is_standing(unit: Unit) -> bool:
 ## the fallen — other than [param besides].
 func occupant(cell: Vector2i, besides: Fighter = null) -> Fighter:
 	for f in fighters:
-		if f != besides and not f.fallen and f.aboard == null and f.unit.cell == cell:
+		if f != besides and not f.fallen and not f.fled and f.aboard == null and f.unit.cell == cell:
 			return f
 	return null
 

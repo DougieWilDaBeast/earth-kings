@@ -124,7 +124,10 @@ each, each ending playable:
    built ([D97](06-decisions.md), design meeting 2). Coliseum, training ground, museum, trivia,
    grimoires, ferries, captivity, nemeses, dispatch and seasons are switched off in
    `data/world_rules.json` → `first_hour.hidden`; the wishlist keeps an "After the First Hour" list.
-4. Fights where they are met, opening running — planned.
+4. Fights where they are met, opening running — built ([D98](06-decisions.md)). A band met on the
+   ground is fought on that ground with no change of screen; walking off the field's edge gets
+   clear. Tuning (first fights of 10 to 20 seconds, about level 5 by floor 5) waits on `doug-md`'s
+   play-test.
 5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
 6. Tower floors 1 to 5, walkable — planned.
 7. Atlas's chapter-one memory — planned.

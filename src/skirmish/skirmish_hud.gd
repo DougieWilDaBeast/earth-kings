@@ -19,6 +19,9 @@ signal action_pressed(action: String)
 signal item_clicked(index: int, item_id: String)
 
 const LOG_LINES := 6
+## A fight on the ground (`in_place`) keeps one line of what is going on, and the keys are a press away.
+const COMPACT_LOG_LINES := 1
+const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
 		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
@@ -76,13 +79,16 @@ func setup(skirmish: Node2D) -> void:
 	add_child(_hint)
 	_say_hint()
 	Pad.changed.connect(_say_hint)
+	# On the ground the screen is the ground's: no wall of keys, and the log is one line.
+	var compact: bool = skirmish.in_place
+	_hint.visible = not compact
 
 	_log = Label.new()
 	_log.anchor_top = 1.0
 	_log.anchor_bottom = 1.0
 	_log.offset_left = 16
 	_log.offset_right = 760
-	_log.offset_top = -312
+	_log.offset_top = -312 if not compact else -210
 	_log.offset_bottom = -188
 	_log.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -275,7 +281,8 @@ func refresh() -> void:
 		if Pad.using_pad and not _skirmish.touch:
 			how = "%s at the target, %s to cancel" % [Pad.key("ui_accept"), Pad.key("ui_cancel")]
 		armed = "    Aiming %s — %s" % [ability.get("display_name", "?"), how]
-	_clock.text = "%s   %s   %.1fs%s" % [_skirmish.title, state, _skirmish.sim_time, armed]
+	var keys := "   %s" % COMPACT_KEYS if _skirmish.in_place and not _skirmish.touch and not Pad.using_pad else ""
+	_clock.text = "%s   %s   %.1fs%s%s" % [_skirmish.title, state, _skirmish.sim_time, armed, keys]
 
 	var party: Array[Fighter] = _skirmish.party_fighters()
 	for i in mini(party.size(), _cards.size()):
@@ -424,14 +431,16 @@ static func _panel_style(colour: Color) -> StyleBoxFlat:
 
 func log_line(line: String) -> void:
 	_lines.append(line)
-	while _lines.size() > LOG_LINES:
+	var most := COMPACT_LOG_LINES if _skirmish != null and _skirmish.in_place else LOG_LINES
+	while _lines.size() > most:
 		_lines.pop_front()
 	if _log != null:
 		_log.text = "\n".join(_lines)
 
 
-func show_result(won: bool) -> void:
-	_result.text = "Victory" if won else "Defeat"
-	_result.add_theme_color_override("font_color", Color(1.0, 0.86, 0.4) if won else Color(1.0, 0.45, 0.4))
+func show_result(won: bool, fled := false) -> void:
+	_result.text = "Victory" if won else ("Clear" if fled else "Defeat")
+	_result.add_theme_color_override("font_color",
+			Color(1.0, 0.86, 0.4) if won else (Color(0.8, 0.85, 0.95) if fled else Color(1.0, 0.45, 0.4)))
 	_result.visible = true
 	refresh()

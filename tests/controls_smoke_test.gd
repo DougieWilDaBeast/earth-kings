@@ -851,31 +851,35 @@ func _check_a_band_on_the_ground() -> void:
 	# The band charges for a moment before the fight opens: wait on the clock,
 	# since frames run far faster than that with no screen.
 	var waited := 0.0
-	while waited < 3.0 and not _requests.slice(asked).has("skirmish"):
+	while waited < 3.0 and ground.get("_fight") == null:
 		await get_tree().create_timer(0.1).timeout
 		waited += 0.1
-	await _settle()
-	_expect(_requests.slice(asked).has("skirmish"), "walking into the red did not start the fight")
-	var fight := _current_scene()
-	if fight == null or fight.get("ground_field") == null:
+	# Fought where it was met (D98): the same ground scene, with the fight put down on it.
+	var fight: Node2D = ground.get("_fight")
+	_expect(fight != null, "walking into the red did not start the fight")
+	_expect(not _requests.slice(asked).has("skirmish") and _current_scene() == ground,
+		"the fight changed the screen instead of being fought on the ground")
+	if fight == null:
 		return
 	_expect(not (fight.get("ground_field") as Dictionary).is_empty(),
 		"the fight was not laid out on the ground it started on")
-	if fight == null or (fight.get("ground_field") as Dictionary).is_empty():
-		return
-	_expect(fight.get_node_or_null("Ground") != null, "the fight does not show the ground's own tiles")
-	_expect(not ((fight.get("ground_field") as Dictionary).get("view", {}) as Dictionary).is_empty(),
-		"the fight was not told the view the ground was seen in")
+	_expect(bool(fight.get("in_place")) and fight.get_node_or_null("Ground") == null,
+		"the fight drew a second copy of the ground instead of standing on it")
+	_expect(not bool(fight.get("paused")), "the fight on the ground opened paused")
+	var origin: Vector2i = AreaMap.to_cell(fight.get("ground_field").get("origin", [0, 0]))
+	var cell_on_ground: Vector2 = fight.to_global(fight.grid.cell_to_world(Vector2i.ZERO))
+	_expect(ground.map.cell_at(ground.to_local(cell_on_ground)) == origin,
+		"the fight's cells are not the ground's cells")
 	_expect(world.prowlers.is_empty(), "the band was still out on the continent once it was fought")
-	# Over: back where the party stood, with nobody left watching.
-	var back: Dictionary = fight.boot_payload.get("return_payload", {})
-	EventBus.request_scene.emit(str(fight.boot_payload.get("return_scene", "world")), back)
+	# Over: the party walks on from the same ground, with nobody left watching.
+	fight.call("emit_signal", "gone")
 	await _settle()
 	await _clear_dialogue()
 	var after := _current_scene()
-	_expect(after != null and after.get("map") is AreaMap and after.map.id == ground_id,
-		"after the fight play did not come back to the same ground")
+	_expect(after == ground and ground.get("_fight") == null and not bool(ground.get("_leaving")),
+		"after the fight play did not carry on on the same ground")
 	if after != null and after.get("map") is AreaMap:
+		_expect(after.map.id == ground_id, "after the fight the ground was not the same")
 		_expect((after.get("_watches") as Array).is_empty(), "the band that was fought is still standing there")
 	print("band: patrolled, saw the party step in, and was fought on the same ground")
 

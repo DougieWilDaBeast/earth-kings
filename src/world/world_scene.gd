@@ -500,6 +500,13 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Diction
 		_note(confrontation)
 	var payload := {"encounter": meeting, "return_scene": "world"}
 	payload.merge(extra, true)
+	if _embedded() and payload.has("field"):
+		# Out of sight beside the ground: the ground fights it where it was met, with no change of
+		# screen, and asks again afterwards to have it settled (step 4 of the First Hour).
+		payload["in_place"] = true
+		EventBus.continent_answered.emit({ "fight": payload })
+		queue_free()
+		return
 	EventBus.request_scene.emit("skirmish", payload)
 
 
@@ -510,6 +517,18 @@ func _settle_up(won: bool) -> void:
 	var outcome := GameState.pending_outcome
 	GameState.pending_outcome = {}
 	if outcome.is_empty():
+		return
+	var fled := GameState.has_flag("last_fled")
+	GameState.set_flag("last_fled", false)
+	if fled:
+		# Walked off the field: nothing won, nothing lost but whoever was left on it, and the band
+		# is still out there.
+		var band: Variant = outcome.get("band", null)
+		if band is Prowler and not world.prowlers.has(band):
+			world.prowlers.append(band)
+		if Pace.auto:
+			Pace.avoided[outcome.get("cell", world.player_cell)] = true
+		_note("You get clear of them. They are still out there.")
 		return
 	for notice: String in Skein.on_battle(world, { "victory": won, "kind": str(outcome.get("kind", "")) }):
 		_note(notice)
@@ -1677,7 +1696,8 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 	# Out of the long grass and on them before they knew: the party has the jump.
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
-	_begin_battle(meeting, {}, {
+	# Kept, so a party that walks off the field leaves the band where it was.
+	_begin_battle(meeting, { "band": band }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
