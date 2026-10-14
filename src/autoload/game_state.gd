@@ -379,6 +379,9 @@ func load_save() -> bool:
 	roster = Roster.from_dict(data.get("roster", {}))
 	# Seats are earned on the Tower; a save from before they were catches up.
 	Roster.Seats.sync(world, roster)
+	# A save from before walked paths opened new ones may owe powers nothing offers.
+	for member: Character in roster.characters:
+		Progression.open_path_if_walked(member, world)
 	gold = int(data.get("gold", DEFAULT_GOLD))
 	# After the purse, so restoring it does not read as income.
 	ledger = Ledger.restore(data.get("ledger", {}))
