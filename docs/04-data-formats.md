@@ -301,6 +301,16 @@ still keeps one). Every keep and village area has one: a `guild_clerk`.
 A person with `story_npc` is one of the original twelve, or a companion standing with them
 (see `story_npcs.json`).
 
+**`rounds`** on a person is their work ([D85](06-decisions.md)): stops they walk between in turn,
+each `{ "cell": [x, y], "line": "Draws a bucket from the well.", "stay": 5 }` — `line` is said on
+getting there and `stay` is how many seconds they stay (an ordinary pause if left out). A person on
+rounds does not `wander`. Every stop has to be walkable from where they stand.
+
+**`walls`** on a place (`"stone"`, `"timber"` or `"adobe"`) stands it behind walls on the land
+([D85](06-decisions.md)): on the ring of cells round it, a tower at each corner and either side of
+each exit, a gap in front of each exit, and a lane kept clear outside. The place needs two cells
+spare each way in its tile. The pictures are `art/props/walls/<build>_run`, `_side` and `_tower`.
+
 **Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
 in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,
 depth] cells a solid prop blocks, centred on its cell and running back from it), `flip` (mirrored)

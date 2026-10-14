@@ -1,0 +1,3180 @@
+{
+  "display_name": "the city",
+  "hint": "WASD to walk  ·  E to talk  ·  the gate south is the way back out",
+  "layers": [
+    "dirt",
+    "flagstone",
+    "meadow",
+    "water"
+  ],
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "o": "flagstone",
+    "m": "meadow",
+    "~": "water"
+  },
+  "spawn": [
+    29,
+    37
+  ],
+  "exits": [
+    [
+      29,
+      39
+    ],
+    [
+      30,
+      39
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        49,
+        12
+      ],
+      "line": "A fat ginger cat asleep in the reeds by the pond, a duck feather stuck to his chin. He lets you carry him, complaining all the way.",
+      "set_flag": "found:city_cat"
+    },
+    {
+      "cell": [
+        37,
+        4
+      ],
+      "line": "The shrine of the unnamed: a cairn of offering-stones and three candle stubs. You light them. One goes out, and then, when you look again, it is burning.",
+      "set_flag": "found:city_candles"
+    },
+    {
+      "cell": [
+        47,
+        23
+      ],
+      "line": "Chalk on the alley wall: a crown with a line struck through it, and under it a date three days off. You copy it down and leave it be.",
+      "set_flag": "found:city_chalk"
+    },
+    {
+      "cell": [
+        30,
+        29
+      ],
+      "line": "The avenue runs straight from the gate to the Cathedral, and the Cathedral looks straight at the Tower. Everyone here walks it twice a day."
+    },
+    {
+      "cell": [
+        14,
+        8
+      ],
+      "line": "The Margrave's banners hang over the lane, a crown on blue. Somebody has climbed up and turned one of them inside out."
+    },
+    {
+      "cell": [
+        55,
+        37
+      ],
+      "line": "Washing strung between two houses, a shirt for every size of person and three for a size nobody is."
+    },
+    {
+      "cell": [
+        5,
+        36
+      ],
+      "line": "Cabbages and beans in rows by the south wall. Every inch inside the walls is worth growing something on."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        57,
+        36
+      ],
+      "line": "A strongbox wedged behind a rain barrel, and the barrel was the only lock.",
+      "gold": 60
+    },
+    {
+      "cell": [
+        2,
+        37
+      ],
+      "line": "A loose cobble by the wall, with somebody's savings under it.",
+      "gold": 35,
+      "item": "salt_pouch"
+    },
+    {
+      "cell": [
+        12,
+        19
+      ],
+      "line": "A sack dropped in the alley. Whoever ran from the Watch dropped it.",
+      "gold": 40,
+      "item": "whetstone"
+    }
+  ],
+  "props": [
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        0,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        0,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        1,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        1,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        2,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        2,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        3,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        3,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        4,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        4,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        5,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        5,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        6,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        6,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        7,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        7,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        8,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        8,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        9,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        9,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        10,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        10,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        11,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        11,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        12,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        12,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        13,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        13,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        14,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        14,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        15,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        15,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        16,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        16,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        17,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        17,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        18,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        18,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        19,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        19,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        20,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        20,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        21,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        21,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        22,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        22,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        23,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        23,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        24,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        24,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        25,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        25,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        26,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        26,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        27,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        27,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        28,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        28,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        29,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        30,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        31,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        31,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        32,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        32,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        33,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        33,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        34,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        34,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        35,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        35,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        36,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        36,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        37,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        37,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        38,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        38,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        39,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        39,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        40,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        40,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        41,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        41,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        42,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        42,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        43,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        43,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        44,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        44,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        45,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        45,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        46,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        46,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        47,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        47,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        48,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        48,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        49,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        49,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        50,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        50,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        51,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        51,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        52,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        52,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        53,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        53,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        54,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        54,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        55,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        55,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        56,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        56,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        57,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        57,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        58,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_run",
+      "cell": [
+        58,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        59,
+        0
+      ]
+    },
+    {
+      "art": "walls/stone_tower",
+      "cell": [
+        59,
+        39
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        1
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        1
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        2
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        2
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        3
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        3
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        4
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        4
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        5
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        5
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        6
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        6
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        7
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        7
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        8
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        8
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        9
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        9
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        10
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        10
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        11
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        11
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        12
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        12
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        13
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        13
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        14
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        14
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        15
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        15
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        16
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        16
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        17
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        17
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        18
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        18
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        19
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        19
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        20
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        20
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        21
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        21
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        22
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        22
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        23
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        23
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        24
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        24
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        25
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        25
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        26
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        26
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        27
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        27
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        28
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        28
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        29
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        29
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        30
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        30
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        31
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        31
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        32
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        32
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        33
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        33
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        34
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        34
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        35
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        35
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        36
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        36
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        37
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        37
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        0,
+        38
+      ]
+    },
+    {
+      "art": "walls/stone_side",
+      "cell": [
+        59,
+        38
+      ]
+    },
+    {
+      "art": "village/fountain",
+      "cell": [
+        34,
+        35
+      ],
+      "line": "A fountain with a stone king in it, holding a stone sword up at the Tower. Pigeons have opinions about him."
+    },
+    {
+      "art": "village/fountain",
+      "cell": [
+        24,
+        10
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        24,
+        33
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        24,
+        36
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        36,
+        32
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        6,
+        29
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        10,
+        29
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        14,
+        29
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        18,
+        29
+      ]
+    },
+    {
+      "art": "village/signpost",
+      "cell": [
+        27,
+        30
+      ],
+      "line": "North: the Cathedral. West: Market Row. East: Tavern Lane and the Gilded Flagon. South: out."
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        27,
+        25
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        32,
+        25
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        27,
+        15
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        32,
+        15
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        21,
+        22
+      ]
+    },
+    {
+      "art": "street_lamp",
+      "cell": [
+        38,
+        22
+      ]
+    },
+    {
+      "art": "lamp_post_twin",
+      "cell": [
+        27,
+        13
+      ]
+    },
+    {
+      "art": "lamp_post_twin",
+      "cell": [
+        32,
+        13
+      ]
+    },
+    {
+      "art": "village/bell",
+      "cell": [
+        36,
+        8
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        33,
+        10
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        44,
+        13
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        53,
+        13
+      ]
+    },
+    {
+      "art": "village/well",
+      "cell": [
+        6,
+        15
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        37,
+        25
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        39,
+        25
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        26,
+        27
+      ]
+    },
+    {
+      "art": "village/trough",
+      "cell": [
+        21,
+        25
+      ]
+    },
+    {
+      "art": "village/anvil",
+      "cell": [
+        18,
+        25
+      ]
+    },
+    {
+      "art": "village/bread_oven",
+      "cell": [
+        2,
+        25
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        2,
+        31
+      ]
+    },
+    {
+      "art": "village/planter",
+      "cell": [
+        22,
+        13
+      ]
+    },
+    {
+      "art": "village/planter",
+      "cell": [
+        37,
+        13
+      ]
+    },
+    {
+      "art": "biome/cairn",
+      "cell": [
+        37,
+        3
+      ]
+    },
+    {
+      "art": "village/hide_rack",
+      "cell": [
+        56,
+        30
+      ]
+    },
+    {
+      "art": "landmark/watchtower",
+      "cell": [
+        43,
+        5
+      ]
+    }
+  ],
+  "buildings": [
+    {
+      "name": "the Gilded Flagon",
+      "art": "tavern",
+      "cell": [
+        40,
+        23
+      ],
+      "door": [
+        41,
+        24
+      ],
+      "area": "city_tavern"
+    },
+    {
+      "name": "the Cathedral of the Ascent",
+      "art": "cathedral",
+      "cell": [
+        27,
+        4
+      ],
+      "door": [
+        29,
+        5
+      ],
+      "shut": [
+        "Shut, but for the dawn rite. Brother Oswin is outside, if it's him you want.",
+        "Through the door you hear the choir practising one note. Then the same note again."
+      ]
+    },
+    {
+      "name": "the Margrave's hall",
+      "art": "banner_manor",
+      "cell": [
+        6,
+        4
+      ],
+      "door": [
+        8,
+        5
+      ],
+      "shut": [
+        "Two of the Watch cross their spears in front of you. Not today. Not you.",
+        "The Margrave is not receiving. The Margrave is never receiving."
+      ]
+    },
+    {
+      "name": "the counting house",
+      "art": "pillared_hall",
+      "cell": [
+        13,
+        4
+      ],
+      "door": [
+        14,
+        5
+      ],
+      "shut": [
+        "Ledgers to the ceiling and a clerk who does not look up."
+      ]
+    },
+    {
+      "name": "the clock hall",
+      "art": "clock_hall",
+      "cell": [
+        16,
+        4
+      ],
+      "door": [
+        17,
+        5
+      ],
+      "shut": [
+        "The clock inside is three minutes slow. It has been three minutes slow for a hundred years, and the city sets itself by it."
+      ]
+    },
+    {
+      "name": "a merchant's house",
+      "art": "plaster_house",
+      "cell": [
+        4,
+        11
+      ],
+      "door": [
+        5,
+        12
+      ],
+      "shut": [
+        "Shutters closed. Somebody inside is counting out loud."
+      ]
+    },
+    {
+      "name": "the dyer's house",
+      "art": "red_roof_house",
+      "cell": [
+        8,
+        11
+      ],
+      "door": [
+        9,
+        12
+      ],
+      "shut": [
+        "The dyer's hands are blue to the elbow. She waves you off with one."
+      ]
+    },
+    {
+      "name": "a lodging house",
+      "art": "lit_house",
+      "cell": [
+        15,
+        11
+      ],
+      "door": [
+        16,
+        12
+      ],
+      "shut": [
+        "No rooms. Try the Flagon."
+      ]
+    },
+    {
+      "name": "the Adventurers' Guild hall",
+      "art": "guild_hall",
+      "cell": [
+        21,
+        15
+      ],
+      "door": [
+        22,
+        16
+      ],
+      "shut": [
+        "The city's Guild hall: a long room of maps and arguments. Wenna at the gate keeps the contracts."
+      ]
+    },
+    {
+      "name": "the scrivener's",
+      "art": "shopfront",
+      "cell": [
+        24,
+        15
+      ],
+      "door": [
+        25,
+        16
+      ],
+      "shut": [
+        "Fennick does his writing out front, where the light is."
+      ]
+    },
+    {
+      "name": "the apothecary",
+      "art": "plaster_shop",
+      "cell": [
+        33,
+        15
+      ],
+      "door": [
+        34,
+        16
+      ],
+      "shut": [
+        "Shut while the apothecary is out picking. A note on the door says: BACK WHEN BACK."
+      ]
+    },
+    {
+      "name": "a tall house",
+      "art": "red_roof_house",
+      "cell": [
+        36,
+        15
+      ],
+      "door": [
+        37,
+        16
+      ],
+      "shut": [
+        "Somebody upstairs is learning the fiddle. Nobody downstairs is enjoying it."
+      ]
+    },
+    {
+      "name": "a carter's cottage",
+      "art": "village_house/south",
+      "cell": [
+        3,
+        17
+      ],
+      "door": [
+        4,
+        18
+      ],
+      "shut": [
+        "Out on the road. Back in a week, or never, the neighbour says."
+      ]
+    },
+    {
+      "name": "the burnt chandlery",
+      "art": "white_house",
+      "cell": [
+        6,
+        17
+      ],
+      "door": [
+        7,
+        18
+      ],
+      "shut": [
+        "Burnt out last winter. Candles, it turns out, burn."
+      ]
+    },
+    {
+      "name": "the cooper's",
+      "art": "guild_house",
+      "cell": [
+        15,
+        17
+      ],
+      "door": [
+        16,
+        18
+      ],
+      "shut": [
+        "Hammering. The cooper doesn't stop to answer."
+      ]
+    },
+    {
+      "name": "the moneylender's",
+      "art": "lit_house",
+      "cell": [
+        40,
+        17
+      ],
+      "door": [
+        41,
+        18
+      ],
+      "shut": [
+        "A grille, a ledger and a smile. You back away."
+      ]
+    },
+    {
+      "name": "a narrow house",
+      "art": "plaster_house",
+      "cell": [
+        49,
+        17
+      ],
+      "door": [
+        50,
+        18
+      ],
+      "shut": [
+        "Nobody in."
+      ]
+    },
+    {
+      "name": "the Watch house",
+      "art": "guild_front",
+      "cell": [
+        53,
+        17
+      ],
+      "door": [
+        54,
+        18
+      ],
+      "shut": [
+        "The Watch house: cells at the back, Captain Edda out front."
+      ]
+    },
+    {
+      "name": "Ada's bakery",
+      "art": "stone_shop",
+      "cell": [
+        3,
+        23
+      ],
+      "door": [
+        4,
+        24
+      ],
+      "shut": [
+        "Warm in there. Ada does her selling outside."
+      ]
+    },
+    {
+      "name": "the butcher's",
+      "art": "shop_counter",
+      "cell": [
+        7,
+        23
+      ],
+      "door": [
+        8,
+        24
+      ],
+      "shut": [
+        "Hooks, cleavers and a dog with ambitions."
+      ]
+    },
+    {
+      "name": "the chandler's",
+      "art": "shopfront",
+      "cell": [
+        11,
+        23
+      ],
+      "door": [
+        12,
+        24
+      ],
+      "shut": [
+        "Candles, rope and lamp-oil, all shut up for the day."
+      ]
+    },
+    {
+      "name": "the smithy",
+      "art": "fort_gate",
+      "cell": [
+        15,
+        23
+      ],
+      "door": [
+        16,
+        24
+      ],
+      "shut": [
+        "The smith is out back at the anvil, and too loud to talk over."
+      ]
+    },
+    {
+      "name": "the stables",
+      "art": "hunting_lodge",
+      "cell": [
+        22,
+        23
+      ],
+      "door": [
+        23,
+        24
+      ],
+      "shut": [
+        "Horses, and the smell of horses."
+      ]
+    },
+    {
+      "name": "Gunnar's brewhouse",
+      "art": "guild_house",
+      "cell": [
+        34,
+        23
+      ],
+      "door": [
+        35,
+        24
+      ],
+      "shut": [
+        "Vats and steam. Gunnar does his talking out front."
+      ]
+    },
+    {
+      "name": "a weaver's house",
+      "art": "red_roof_house",
+      "cell": [
+        43,
+        23
+      ],
+      "door": [
+        44,
+        24
+      ],
+      "shut": [
+        "Looms clacking. Nobody comes to the door."
+      ]
+    },
+    {
+      "name": "the Sign of the Fish",
+      "art": "lit_house",
+      "cell": [
+        49,
+        23
+      ],
+      "door": [
+        50,
+        24
+      ],
+      "shut": [
+        "A lodging house for river folk. It smells of what it's called."
+      ]
+    },
+    {
+      "name": "a quiet house",
+      "art": "plaster_house",
+      "cell": [
+        53,
+        23
+      ],
+      "door": [
+        54,
+        24
+      ],
+      "shut": [
+        "A woman answers, looks at you, and shuts it again."
+      ]
+    },
+    {
+      "name": "a baker's widow's",
+      "art": "village_house/south",
+      "cell": [
+        4,
+        30
+      ],
+      "door": [
+        5,
+        31
+      ],
+      "shut": [
+        "She's at the market. She's always at the market."
+      ]
+    },
+    {
+      "name": "the tailor's",
+      "art": "plaster_house",
+      "cell": [
+        8,
+        30
+      ],
+      "door": [
+        9,
+        31
+      ],
+      "shut": [
+        "Pins in his mouth. He waves."
+      ]
+    },
+    {
+      "name": "a crowded house",
+      "art": "red_roof_house",
+      "cell": [
+        12,
+        30
+      ],
+      "door": [
+        13,
+        31
+      ],
+      "shut": [
+        "Nine children answer the door at once."
+      ]
+    },
+    {
+      "name": "the old shrine",
+      "art": "lit_house",
+      "cell": [
+        16,
+        30
+      ],
+      "door": [
+        17,
+        31
+      ],
+      "shut": [
+        "An old shrine to the fallen, now somebody's store room. The candles still get lit."
+      ]
+    },
+    {
+      "name": "the ruined bathhouse",
+      "art": "white_house",
+      "cell": [
+        41,
+        30
+      ],
+      "door": [
+        42,
+        31
+      ],
+      "shut": [
+        "Ruined. The bath is full of leaves and one very surprised frog."
+      ]
+    },
+    {
+      "name": "a sailmaker's",
+      "art": "plaster_house",
+      "cell": [
+        45,
+        30
+      ],
+      "door": [
+        46,
+        31
+      ],
+      "shut": [
+        "Canvas everywhere, and no sea for forty miles."
+      ]
+    },
+    {
+      "name": "a fence's house",
+      "art": "guild_front",
+      "cell": [
+        49,
+        30
+      ],
+      "door": [
+        50,
+        31
+      ],
+      "shut": [
+        "Whoever answers says nobody lives here, and shuts the door on you."
+      ]
+    },
+    {
+      "name": "a house with blue shutters",
+      "art": "red_roof_house",
+      "cell": [
+        53,
+        30
+      ],
+      "door": [
+        54,
+        31
+      ],
+      "shut": [
+        "The shutters are blue. The door is shut."
+      ]
+    }
+  ],
+  "people": [
+    {
+      "name": "Ada the Baker",
+      "unit": "town_spice_seller",
+      "cell": [
+        4,
+        25
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Hot bread! Hot-ish bread!",
+        "Puddi-ing! Pudding! ...Has anyone seen a cat?"
+      ],
+      "talk": {
+        "hello": [
+          "Bread? Rolls? A cat? I'll pay you for the cat. I don't sell cats. I'm missing one.",
+          "Morning! It's always morning in a bakery. That's the trouble."
+        ],
+        "again": "Back for more? Good. Everybody comes back. It's the yeast.",
+        "ask": [
+          {
+            "q": "How big is this city?",
+            "a": "Walk it end to end and your bread's gone cold. Walk it round the walls and it's gone stale."
+          }
+        ],
+        "sells": [
+          {
+            "item": "bread",
+            "restock": true
+          },
+          {
+            "item": "cheese"
+          },
+          {
+            "item": "apple",
+            "restock": true
+          }
+        ],
+        "shop": "Bread this morning, bread this afternoon. Cheese if you're lucky.",
+        "job": {
+          "flag": "job:city_cat",
+          "done_flag": "found:city_cat",
+          "ask": "You said something about a cat?",
+          "offer": "Pudding. Ginger, fat, answers to nothing. He goes out every night and comes back every morning, and this morning he didn't. He likes water. He likes ducks more.",
+          "accept": "I'll look for him.",
+          "decline": "I'm not much for cats.",
+          "thanks": "Bless you. Try the park. Try anywhere with ducks.",
+          "waiting": "Any sign of him?",
+          "hand_over": "He was asleep in the reeds by the pond. He's home.",
+          "not_yet": "Not yet.",
+          "done": "PUDDING. You great orange idiot. ...Thank you. Here, and take a loaf, and don't argue.",
+          "gold": 25,
+          "item": "bread"
+        },
+        "bye": "Mind the step. Everybody minds the step."
+      }
+    },
+    {
+      "name": "Brother Oswin",
+      "unit": "town_keeper",
+      "cell": [
+        29,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "The Cathedral faces the Tower. Everything in this city faces the Tower, one way or another.",
+        "Dawn rite at dawn. Dusk rite at dusk. We are not imaginative."
+      ],
+      "talk": {
+        "hello": [
+          "Peace on your road. Have you come for the rite? You've missed it. Everyone misses it.",
+          "A traveller. You have the look of somebody walking towards the Tower."
+        ],
+        "ask": [
+          {
+            "q": "Why does the Cathedral face the Tower?",
+            "a": "So we remember. Everyone who climbed it, everyone who didn't come down. The city was built by people who stopped climbing."
+          },
+          {
+            "q": "Does everyone want to climb the Tower?",
+            "a": "No. Most of the people in this city came here instead of climbing. Some of them came here instead of dying. It's not the same thing, but it's close."
+          }
+        ],
+        "job": {
+          "flag": "job:city_candles",
+          "done_flag": "found:city_candles",
+          "ask": "Is there anything I can do?",
+          "offer": "The shrine of the unnamed, in the yard behind the Cathedral. Three candles, one for each who climbed this year and didn't come back. My knees won't take the yard. Would you light them?",
+          "accept": "I'll light them.",
+          "decline": "Not today.",
+          "thanks": "Behind the Cathedral, on the east side. You'll see the stones.",
+          "waiting": "Are they lit?",
+          "hand_over": "All three are lit.",
+          "not_yet": "Not yet.",
+          "done": "Thank you. I'll say their names at dusk. If you'd like a name said, tell me, and I'll say that too.",
+          "gold": 20,
+          "item": "red_draught"
+        },
+        "bye": "Go carefully. The Tower is patient."
+      }
+    },
+    {
+      "name": "Gunnar the Brewer",
+      "unit": "dwarf_smith",
+      "cell": [
+        35,
+        25
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Best ale in the city. Ask anybody. Ask Marta. Don't ask Marta.",
+        "Barley's up. Everything's up."
+      ],
+      "talk": {
+        "hello": "Gunnar. Brewer. Don't touch the vats.",
+        "ask": [
+          {
+            "q": "Marta at the Flagon sent me for her barrel.",
+            "a": "About time she sent someone with arms. There. Roll it, don't carry it, and if it's dented it's yours.",
+            "requires": "job:city_barrel",
+            "set_flag": "found:city_barrel",
+            "once": true
+          },
+          {
+            "q": "Who drinks the most in this city?",
+            "a": "The Watch. Then the priests. Then everybody else, all at once, on market day."
+          }
+        ],
+        "sells": [
+          {
+            "item": "ale_flask",
+            "restock": true
+          }
+        ],
+        "shop": "Ale. That's it. That's the list.",
+        "bye": "Mind the vats."
+      }
+    },
+    {
+      "name": "Captain Edda of the Watch",
+      "unit": "legion_gold",
+      "cell": [
+        54,
+        19
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "The Watch sees everything. The Watch just doesn't always say.",
+        "Keep it moving."
+      ],
+      "talk": {
+        "hello": [
+          "Captain Edda. The Watch. If you've done something, now's the time to say so.",
+          "You again. Stay out of trouble or stay where I can see you."
+        ],
+        "ask": [
+          {
+            "q": "Is the city safe?",
+            "a": "Safer than out there. That's a low wall to step over, mind."
+          },
+          {
+            "q": "What does the Watch do?",
+            "a": "Shuts the gate at dark, opens it at dawn, and in between stops ten thousand people killing each other. Mostly the stopping."
+          }
+        ],
+        "job": {
+          "flag": "job:city_chalk",
+          "done_flag": "found:city_chalk",
+          "ask": "Anything the Watch needs a hand with?",
+          "offer": "Somebody's been chalking marks on walls round Tavern Lane. A crown with a line through it. Could be children. Could be a date. Find me one and copy it down. Don't rub it off.",
+          "accept": "I'll find one.",
+          "decline": "Not my business.",
+          "thanks": "Try the alley off Tavern Lane. They like the alleys.",
+          "waiting": "Well?",
+          "hand_over": "Here: a crown, struck through, and a date three days off.",
+          "not_yet": "Not yet.",
+          "done": "Three days. Right. You've done the city a service, and the city will forget it by morning. I won't.",
+          "gold": 35
+        },
+        "bye": "Move along."
+      }
+    },
+    {
+      "name": "Fennick the Scrivener",
+      "unit": "quant_monkey",
+      "cell": [
+        25,
+        17
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Letters written, read, answered, and lost. Prices on the board.",
+        "My hand cramps in the cold. Write faster, then."
+      ],
+      "talk": {
+        "hello": "Fennick. I write what people can't and read what they won't.",
+        "ask": [
+          {
+            "q": "What do people write here?",
+            "a": "Wills, mostly. Everyone walking towards the Tower wants to leave something behind first. You'd be surprised how many leave it to their dog."
+          }
+        ],
+        "job": {
+          "flag": "job:city_letter",
+          "done_flag": "found:city_letter",
+          "ask": "Need anything carried?",
+          "offer": "A letter for Steward Hobb, at the Margrave's hall. The Watch won't let me near the door since the business with the goat. They'll let you.",
+          "accept": "I'll take it.",
+          "decline": "Carry your own letters.",
+          "thanks": "Into Hobb's hand, not the guard's. The guard eats paper.",
+          "waiting": "Delivered?",
+          "hand_over": "Hobb has it.",
+          "not_yet": "Not yet.",
+          "done": "Good. Then I get paid, and so do you.",
+          "gold": 20
+        },
+        "bye": "Don't sign anything you can't read."
+      }
+    },
+    {
+      "name": "Steward Hobb",
+      "unit": "castellan",
+      "cell": [
+        8,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "The Margrave is not receiving.",
+        "Appointments are made in writing. Writing is made at Fennick's."
+      ],
+      "talk": {
+        "hello": "The Margrave is not receiving. I am the Steward. I am also not receiving.",
+        "ask": [
+          {
+            "q": "A letter for you, from Fennick the scrivener.",
+            "a": "Fennick. Hm. ...It's about the goat. It's always about the goat. Tell him I've read it. Tell him nothing else.",
+            "requires": "job:city_letter",
+            "set_flag": "found:city_letter",
+            "once": true
+          },
+          {
+            "q": "Who is the Margrave?",
+            "a": "The Margrave holds the city for the crown, and the crown has not been seen in forty years. Draw what conclusions you like, quietly."
+          }
+        ],
+        "bye": "Good day."
+      }
+    },
+    {
+      "name": "Sergeant Brask",
+      "unit": "legion_copper",
+      "cell": [
+        29,
+        36
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "chatter": [
+        "Keep left. Keep moving. Keep your hands where I can see them."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            29,
+            36
+          ],
+          "line": "Watches the gate a while.",
+          "stay": 5
+        },
+        {
+          "cell": [
+            30,
+            22
+          ],
+          "line": "Stands in the crossroads, looking important."
+        },
+        {
+          "cell": [
+            30,
+            13
+          ],
+          "line": "Salutes the Cathedral, out of habit."
+        },
+        {
+          "cell": [
+            22,
+            9
+          ],
+          "line": "Moves a beggar off the Cathedral steps."
+        }
+      ]
+    },
+    {
+      "name": "Watchman Pol",
+      "unit": "legion_silver",
+      "cell": [
+        5,
+        21
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "chatter": [
+        "Round and round. The city's a wheel and I'm the spoke that walks."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            4,
+            21
+          ],
+          "line": "Turns at the west wall."
+        },
+        {
+          "cell": [
+            56,
+            21
+          ],
+          "line": "Turns at the east wall."
+        },
+        {
+          "cell": [
+            55,
+            27
+          ],
+          "line": "Looks in at the Tavern Lane end."
+        },
+        {
+          "cell": [
+            40,
+            27
+          ],
+          "line": "Peers through the Flagon's window."
+        }
+      ]
+    },
+    {
+      "name": "Lugg the Porter",
+      "unit": "town_farmer",
+      "cell": [
+        38,
+        26
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Heavy. Everything's heavy. That's the job."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            38,
+            26
+          ],
+          "line": "Shoulders a barrel from the brewhouse."
+        },
+        {
+          "cell": [
+            41,
+            25
+          ],
+          "line": "Heaves it in at the Flagon's door.",
+          "stay": 3
+        },
+        {
+          "cell": [
+            23,
+            26
+          ],
+          "line": "Fetches a sack of oats from the stables."
+        },
+        {
+          "cell": [
+            16,
+            26
+          ],
+          "line": "Drops a load of iron at the smithy."
+        }
+      ]
+    },
+    {
+      "name": "Marigold the Fishwife",
+      "unit": "town_fisher",
+      "cell": [
+        25,
+        34
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Herring! Eels! Something I can't name but it's fresh!"
+      ],
+      "rounds": [
+        {
+          "cell": [
+            25,
+            34
+          ],
+          "line": "Cries the herring.",
+          "stay": 6
+        },
+        {
+          "cell": [
+            10,
+            27
+          ],
+          "line": "Sells eels along Market Row."
+        },
+        {
+          "cell": [
+            36,
+            33
+          ],
+          "line": "Swaps a fish for a cabbage at the stall."
+        }
+      ]
+    },
+    {
+      "name": "Old Tallow the Lamplighter",
+      "unit": "town_keeper",
+      "cell": [
+        28,
+        25
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Every lamp in the city, every night. I've never seen the city dark. I'd like to, once."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            28,
+            25
+          ],
+          "line": "Trims the lamp."
+        },
+        {
+          "cell": [
+            31,
+            15
+          ],
+          "line": "Lights the lamp by the apothecary."
+        },
+        {
+          "cell": [
+            22,
+            22
+          ],
+          "line": "Lights the crossroads lamp."
+        },
+        {
+          "cell": [
+            37,
+            22
+          ],
+          "line": "Lights the lamp on the corner."
+        }
+      ]
+    },
+    {
+      "name": "Nell the Sweeper",
+      "unit": "town_duster",
+      "cell": [
+        30,
+        32
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "The city makes more mess than I can sweep. I sweep anyway."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            30,
+            32
+          ],
+          "line": "Sweeps the gate square."
+        },
+        {
+          "cell": [
+            30,
+            19
+          ],
+          "line": "Sweeps the crossroads.",
+          "stay": 5
+        },
+        {
+          "cell": [
+            20,
+            21
+          ],
+          "line": "Sweeps outside the Guild hall, and is ignored."
+        }
+      ]
+    },
+    {
+      "name": "Bastian the Merchant",
+      "unit": "town_trader",
+      "cell": [
+        10,
+        27
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Everything has a price. Most things have two."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            10,
+            27
+          ],
+          "line": "Haggles at a stall on Market Row."
+        },
+        {
+          "cell": [
+            17,
+            27
+          ],
+          "line": "Buys a bolt of cloth, then sells it back."
+        },
+        {
+          "cell": [
+            35,
+            31
+          ],
+          "line": "Counts his coin by the fountain.",
+          "stay": 5
+        }
+      ]
+    },
+    {
+      "name": "Saffi of the Spices",
+      "unit": "town_spice_seller",
+      "cell": [
+        14,
+        27
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Saffron! Pepper! Something red that makes you cry!"
+      ],
+      "rounds": [
+        {
+          "cell": [
+            14,
+            27
+          ],
+          "line": "Arranges the spice jars.",
+          "stay": 5
+        },
+        {
+          "cell": [
+            6,
+            27
+          ],
+          "line": "Trades a pinch of pepper for a roll."
+        },
+        {
+          "cell": [
+            25,
+            32
+          ],
+          "line": "Sells cinnamon to the fishwife."
+        }
+      ]
+    },
+    {
+      "name": "Widow Amsel",
+      "unit": "town_elder",
+      "cell": [
+        33,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "My husband climbed the Tower. I come and sit where I can see it."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            33,
+            9
+          ],
+          "line": "Sits on the bench, facing the Tower.",
+          "stay": 8
+        },
+        {
+          "cell": [
+            48,
+            13
+          ],
+          "line": "Feeds the ducks in the park."
+        },
+        {
+          "cell": [
+            17,
+            32
+          ],
+          "line": "Lights a candle at the old shrine."
+        }
+      ]
+    },
+    {
+      "name": "Lark the Busker",
+      "unit": "drunk_elf",
+      "cell": [
+        33,
+        34
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "♪ Oh the Tower is tall and the Tower is grey ♪",
+        "♪ ...and nobody came back down that way ♪",
+        "Coin for the song? Coin to stop?"
+      ],
+      "talk": {
+        "hello": "A song? Only a copper. Two to stop.",
+        "ask": [
+          {
+            "q": "Sing something.",
+            "a": "♪ One climbed for gold and one climbed for fame, and one climbed because the others came. And one sat down at the foot of the stair, and said, I'll stay. Somebody should be there. ♪",
+            "cost": 1
+          },
+          {
+            "q": "Who was the one who sat down?",
+            "a": "Nobody knows. That's why it's a good song."
+          }
+        ],
+        "bye": "Mind how you go. Or don't. It's your song."
+      }
+    },
+    {
+      "name": "a boy running errands",
+      "unit": "cabin_boy",
+      "cell": [
+        20,
+        27
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 6,
+      "chatter": [
+        "Can't stop! Message for the Watch!",
+        "Can't stop! Message from the Watch!"
+      ]
+    },
+    {
+      "name": "a reveller who missed his bed",
+      "unit": "village_idiot",
+      "cell": [
+        42,
+        27
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "The Flagon closed? No, I closed. The Flagon's still open.",
+        "Which way's... which way?"
+      ]
+    },
+    {
+      "name": "a sellsword between contracts",
+      "unit": "sword_monkey",
+      "cell": [
+        32,
+        31
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 3,
+      "chatter": [
+        "Guild's got nothing but rats and letters. I didn't learn three swords for rats.",
+        "Heard there's a gate breaking in the east. Heard it twice."
+      ]
+    },
+    {
+      "name": "a cat on the wall",
+      "unit": "hat_fox",
+      "cell": [
+        45,
+        14
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 4,
+      "chatter": [
+        "The fox in the hat regards you. It is not a cat. Nobody here has noticed."
+      ]
+    },
+    {
+      "name": "a gate guard",
+      "unit": "legion_copper",
+      "cell": [
+        27,
+        37
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Gate shuts at dark.",
+        "Move along."
+      ]
+    },
+    {
+      "name": "a gate guard",
+      "unit": "legion_copper",
+      "cell": [
+        32,
+        37
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Nothing gets in after dark. Nothing has tried in a while. That's what worries me."
+      ]
+    }
+  ],
+  "rows": [
+    "............................................................",
+    "............................................................",
+    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
+    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
+    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
+    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
+    "............................oooo.........mmmmmmmmmmmmmmmmm..",
+    "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
+    "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
+    "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
+    "............,,.......oooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
+    "............,,.......oooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
+    "............,,.......oooooooooooooooooo..mmmmmmmmmmmmmmmmm..",
+    "............,,..............oooo.........mmmmmmmmmmmmmmmmm..",
+    "............,,..............oooo.........mmmmmmmmmmmmmmmmm..",
+    "............,,..............oooo.........mmmmmmmmmmmmmmmmm..",
+    "............,,..............oooo.........mmmmmmmmmmmmmmmmm..",
+    "............,,..............oooo............................",
+    "............,,..............oooo............................",
+    "............,,..............oooo............................",
+    "..oooooooooooooooooooooooooooooooooooooooooooooooooooooooo..",
+    "..oooooooooooooooooooooooooooooooooooooooooooooooooooooooo..",
+    "............................oooo..............,,............",
+    "............................oooo..............,,............",
+    "............................oooo..............,,............",
+    "............................oooo..............,,............",
+    "...ooooooooooooooooooo......oooo......ooooooooooooooooooo...",
+    "...ooooooooooooooooooo......oooo......ooooooooooooooooooo...",
+    "...ooooooooooooooooooo......oooo......ooooooooooooooooooo...",
+    "............................oooo............................",
+    "............................oooo............................",
+    "......................oooooooooooooooo......................",
+    "......................oooooooooooooooo......................",
+    "..,,,,,,,,,,,,,,,,,,,.oooooooooooooooo...,,,,,,,,,,,,,,,,,..",
+    "......................oooooooooooooooo......................",
+    ".mmmmmmmmmmmmmmmmmm...oooooooooooooooo...mmmmmmmmmmmmmmmmmm.",
+    ".mmmmmmmmmmmmmmmmmm...oooooooooooooooo...mmmmmmmmmmmmmmmmmm.",
+    ".mmmmmmmmmmmmmmmmmm...oooooooooooooooo...mmmmmmmmmmmmmmmmmm.",
+    ".mmmmmmmmmmmmmmmmmm.........oooo.........mmmmmmmmmmmmmmmmmm.",
+    "............................................................"
+  ],
+  "dressing": [
+    {"art": "nature/round_tree", "cell": [19, 35], "offset": [4, -1]},
+    {"art": "nature/great_oak", "cell": [3, 35], "offset": [9, 5], "flip": true},
+    {"art": "nature/round_tree", "cell": [4, 3], "offset": [8, -2]},
+    {"art": "nature/old_apple_tree", "cell": [26, 26], "offset": [-4, -5]},
+    {"art": "nature/sycamore_tree", "cell": [56, 10], "offset": [-9, 2], "flip": true},
+    {"art": "nature/birch", "cell": [50, 2], "offset": [-10, 1], "flip": true},
+    {"art": "nature/apple_tree", "cell": [35, 28], "offset": [7, -2], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [46, 3], "offset": [-1, -5]},
+    {"art": "nature/apple_tree", "cell": [49, 36], "offset": [-10, 4]},
+    {"art": "nature/apple_tree", "cell": [52, 12], "offset": [-10, -3], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [24, 3], "offset": [-8, 2], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [41, 37], "offset": [-6, 1], "flip": true},
+    {"art": "nature/great_oak", "cell": [40, 5], "offset": [4, -5]},
+    {"art": "nature/autumn_tree", "cell": [44, 9], "offset": [6, -3], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [54, 7], "offset": [10, -3]},
+    {"art": "nature/round_tree", "cell": [27, 2], "offset": [-2, -4], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [40, 9], "offset": [-9, -2], "flip": true},
+    {"art": "nature/apple_tree", "cell": [13, 2], "offset": [-2, 1], "flip": true},
+    {"art": "nature/clover", "cell": [21, 2], "offset": [-11, -6]},
+    {"art": "nature/wildflowers_red", "cell": [37, 19], "offset": [3, -3]},
+    {"art": "nature/grass_tuft", "cell": [57, 23], "offset": [-1, -3]},
+    {"art": "nature/wildflowers_blue", "cell": [1, 16], "offset": [-5, 3], "flip": true},
+    {"art": "nature/clover_3", "cell": [41, 36], "offset": [0, -5], "flip": true},
+    {"art": "nature/hedge_4", "cell": [53, 14], "offset": [-6, 5], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [19, 11], "offset": [-5, -5], "flip": true},
+    {"art": "nature/fern", "cell": [10, 6], "offset": [5, -1], "flip": true},
+    {"art": "nature/clover", "cell": [18, 13], "offset": [11, -2], "flip": true},
+    {"art": "nature/clover", "cell": [40, 10], "offset": [-5, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [12, 34], "offset": [-8, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 6], "offset": [1, -1], "flip": true},
+    {"art": "nature/fern", "cell": [41, 6], "offset": [-11, 5], "flip": true},
+    {"art": "nature/clover_3", "cell": [52, 9], "offset": [12, -6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [58, 4], "offset": [7, -4]},
+    {"art": "nature/hedge", "cell": [40, 36], "offset": [-1, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [58, 25], "offset": [-10, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [35, 1], "offset": [11, 5]},
+    {"art": "nature/clover_3", "cell": [52, 37], "offset": [5, 1]},
+    {"art": "nature/hedge_2", "cell": [2, 10], "offset": [14, 0], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [39, 38], "offset": [-11, 3]},
+    {"art": "nature/grass_tuft", "cell": [1, 17], "offset": [-14, -4]},
+    {"art": "nature/clover_3", "cell": [53, 9], "offset": [2, -7]},
+    {"art": "nature/hedge", "cell": [49, 35], "offset": [1, 5], "flip": true},
+    {"art": "nature/fern", "cell": [40, 32], "offset": [13, 0]},
+    {"art": "nature/clover_3", "cell": [48, 32], "offset": [7, -7]},
+    {"art": "nature/fern", "cell": [19, 37], "offset": [-2, 5], "flip": true},
+    {"art": "nature/hedge_2", "cell": [23, 2], "offset": [-13, -2], "flip": true},
+    {"art": "nature/fern", "cell": [10, 38], "offset": [-8, -1]},
+    {"art": "nature/hedge", "cell": [51, 1], "offset": [-13, -6], "flip": true},
+    {"art": "nature/hedge", "cell": [52, 14], "offset": [14, -1]},
+    {"art": "nature/wildflowers_orange", "cell": [4, 5], "offset": [-6, -3]},
+    {"art": "nature/grass_tuft", "cell": [24, 4], "offset": [-9, 5], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [3, 1], "offset": [10, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 7], "offset": [-12, -7]},
+    {"art": "nature/clover_2", "cell": [9, 37], "offset": [14, 2]},
+    {"art": "nature/grass_tuft", "cell": [39, 6], "offset": [-9, 0]},
+    {"art": "nature/wildflowers_orange", "cell": [25, 30], "offset": [2, -4]},
+    {"art": "nature/clover_2", "cell": [53, 8], "offset": [8, 7], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [21, 5], "offset": [-5, 1], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [17, 35], "offset": [7, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [24, 28], "offset": [-2, -5]},
+    {"art": "nature/grass_tuft", "cell": [45, 16], "offset": [-11, 2]},
+    {"art": "nature/hedge_2", "cell": [42, 5], "offset": [-12, -4]},
+    {"art": "nature/grass_tuft", "cell": [33, 29], "offset": [3, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [52, 32], "offset": [4, 3], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [15, 32], "offset": [8, 6]},
+    {"art": "nature/wildflowers_orange", "cell": [43, 4], "offset": [-4, 1]},
+    {"art": "nature/hedge", "cell": [20, 11], "offset": [-7, 7], "flip": true},
+    {"art": "nature/fern", "cell": [19, 10], "offset": [-14, 2], "flip": true},
+    {"art": "nature/hedge_2", "cell": [56, 19], "offset": [-1, -7], "flip": true},
+    {"art": "nature/clover_2", "cell": [50, 6], "offset": [0, -3], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [8, 1], "offset": [-8, -4]},
+    {"art": "nature/grass_tuft", "cell": [32, 26], "offset": [-11, -1]},
+    {"art": "nature/fern", "cell": [35, 38], "offset": [-13, -2]},
+    {"art": "nature/thistle", "cell": [52, 1], "offset": [-3, -6]},
+    {"art": "nature/fern", "cell": [51, 5], "offset": [11, -1]},
+    {"art": "nature/wildflowers_blue", "cell": [57, 32], "offset": [14, 3]},
+    {"art": "nature/clover_2", "cell": [22, 3], "offset": [-4, 6]},
+    {"art": "nature/wildflowers_blue", "cell": [48, 34], "offset": [-9, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [53, 6], "offset": [11, 5], "flip": true},
+    {"art": "nature/clover", "cell": [56, 11], "offset": [6, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [45, 6], "offset": [-8, -7], "flip": true},
+    {"art": "nature/clover_2", "cell": [32, 2], "offset": [-5, -1], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [26, 6], "offset": [-4, -7]},
+    {"art": "nature/thistle", "cell": [55, 7], "offset": [13, 3], "flip": true},
+    {"art": "nature/clover_2", "cell": [12, 35], "offset": [-6, 7], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [45, 1], "offset": [1, -6], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [57, 24], "offset": [-11, -7]},
+    {"art": "nature/clover", "cell": [43, 38], "offset": [1, -3]},
+    {"art": "nature/wildflowers_red", "cell": [49, 34], "offset": [-3, -4]},
+    {"art": "nature/wildflowers_blue", "cell": [58, 15], "offset": [-14, -6]},
+    {"art": "nature/clover_2", "cell": [21, 30], "offset": [10, -2], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [45, 10], "offset": [-3, 5]},
+    {"art": "nature/hedge_2", "cell": [4, 15], "offset": [14, -7]},
+    {"art": "nature/clover", "cell": [7, 15], "offset": [-5, 1], "flip": true},
+    {"art": "nature/thistle", "cell": [57, 27], "offset": [6, -3]},
+    {"art": "nature/clover_2", "cell": [44, 19], "offset": [-1, 2], "flip": true},
+    {"art": "nature/clover_3", "cell": [52, 36], "offset": [4, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [19, 2], "offset": [-2, -3], "flip": true},
+    {"art": "nature/clover_3", "cell": [1, 24], "offset": [-10, -3]},
+    {"art": "nature/thistle", "cell": [16, 15], "offset": [5, 4], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [19, 16], "offset": [12, -1]},
+    {"art": "nature/irish_bird_3", "cell": [34, 28], "offset": [-4, 2]},
+    {"art": "nature/butterfly_blue", "cell": [5, 38], "offset": [1, 3], "flip": true},
+    {"art": "nature/sparrow", "cell": [55, 1], "offset": [1, -2]},
+    {"art": "nature/finch", "cell": [26, 29], "offset": [-3, -4]},
+    {"art": "nature/sparrow", "cell": [17, 2], "offset": [-2, -2], "flip": true},
+    {"art": "nature/butterfly_blue", "cell": [48, 27], "offset": [-14, 7], "flip": true},
+    {"art": "nature/finch", "cell": [47, 5], "offset": [-1, 4]},
+    {"art": "nature/irish_bird_4", "cell": [36, 35], "offset": [-5, -3]},
+    {"art": "nature/grasshopper", "cell": [32, 20], "offset": [-13, 5]},
+    {"art": "nature/white_dove", "cell": [18, 20], "offset": [-6, 3]},
+    {"art": "nature/butterfly", "cell": [32, 24], "offset": [-6, -6]},
+    {"art": "nature/butterfly_blue", "cell": [1, 19], "offset": [-8, -4]}
+  ]
+}

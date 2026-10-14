@@ -22,7 +22,9 @@
     "great_tower": { "scale": 4.0, "solid": true, "base": [3, 1], "battle_scale": 2.0 },
     "tower": { "scale": 3.0, "solid": true, "base": [2, 1], "battle_scale": 1.75 },
     "portal": { "scale": 3.0, "solid": true, "base": [3, 1], "battle_scale": 1.75 },
-    "relic": { "scale": 1.0, "solid": false }
+    "relic": { "scale": 1.0, "solid": false },
+    "wall": { "scale": 1.0, "solid": true },
+    "wall_tower": { "scale": 1.0, "solid": true }
   },
   "art": {
     "nature/apple_tree": "tree",
@@ -185,6 +187,15 @@
     "landmark/tower_ember": "tower",
     "landmark/tower_gaol": "tower",
     "landmark/watchtower": "tower",
+    "walls/stone_run": "wall",
+    "walls/stone_side": "wall",
+    "walls/stone_tower": "wall_tower",
+    "walls/timber_run": "wall",
+    "walls/timber_side": "wall",
+    "walls/timber_tower": "wall_tower",
+    "walls/adobe_run": "wall",
+    "walls/adobe_side": "wall",
+    "walls/adobe_tower": "wall_tower",
     "landmark/lighthouse": { "kind": "tower", "scale": 4.0 },
     "landmark/gate_tree": "portal",
     "landmark/gate_stones": "portal",

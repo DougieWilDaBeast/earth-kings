@@ -1,5 +1,6 @@
 {
   "display_name": "the fen village",
+  "walls": "timber",
   "layers": [
     "dirt",
     "meadow",
@@ -360,6 +361,84 @@
         "shop": "Strung, oiled, and true. Mostly true.",
         "bye": "Keep your boots dry."
       }
+    },
+    {
+      "name": "Eda the Eel-catcher",
+      "unit": "town_fisher",
+      "cell": [
+        5,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Eels don't drown. That's the trouble with them."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            5,
+            6
+          ],
+          "line": "Hangs eel skins on the rack."
+        },
+        {
+          "cell": [
+            7,
+            11
+          ],
+          "line": "Checks her traps in the black water.",
+          "stay": 6
+        },
+        {
+          "cell": [
+            12,
+            3
+          ],
+          "line": "Hands a basket in at the eel-wife's door."
+        }
+      ]
+    },
+    {
+      "name": "Rushman Pell",
+      "unit": "town_farmer",
+      "cell": [
+        16,
+        10
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Everything here is wet, and the rest is wetter."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            16,
+            10
+          ],
+          "line": "Sets a sack of rushes down by the barrels."
+        },
+        {
+          "cell": [
+            21,
+            6
+          ],
+          "line": "Splits reeds for thatch.",
+          "stay": 5
+        },
+        {
+          "cell": [
+            19,
+            10
+          ],
+          "line": "Knocks at the Drowned Bell for a drink he cannot pay for."
+        }
+      ]
     }
   ],
   "rows": [
@@ -397,32 +476,35 @@
     {"art": "nature/bare_tree", "cell": [8, 17], "offset": [1, -4], "flip": true},
     {"art": "nature/birch", "cell": [15, 16], "offset": [-1, 2]},
     {"art": "nature/birch", "cell": [23, 15], "offset": [-2, 2], "flip": true},
-    {"art": "nature/fern", "cell": [22, 6], "offset": [-6, -1], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [7, 2], "offset": [-13, -4]},
-    {"art": "nature/thistle", "cell": [19, 5], "offset": [7, -2], "flip": true},
-    {"art": "nature/thistle", "cell": [15, 2], "offset": [2, 4], "flip": true},
-    {"art": "nature/bramble", "cell": [7, 16], "offset": [-14, 1], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [7, 1], "offset": [9, 3]},
-    {"art": "nature/grass_tuft", "cell": [2, 17], "offset": [-6, 0], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [7, 12], "offset": [4, 6]},
-    {"art": "nature/mushroom_blue", "cell": [14, 17], "offset": [-11, -4]},
-    {"art": "nature/fern", "cell": [23, 14], "offset": [-8, -7]},
-    {"art": "nature/grass_tuft", "cell": [16, 4], "offset": [-4, -1]},
-    {"art": "nature/bramble", "cell": [18, 4], "offset": [-5, 5], "flip": true},
-    {"art": "nature/mushroom_blue", "cell": [1, 17], "offset": [-6, -4], "flip": true},
-    {"art": "nature/fern", "cell": [17, 4], "offset": [6, 2], "flip": true},
-    {"art": "nature/fern", "cell": [1, 16], "offset": [0, 3]},
-    {"art": "nature/grass_tuft", "cell": [23, 3], "offset": [7, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [1, 4], "offset": [-13, 4], "flip": true},
-    {"art": "nature/bramble", "cell": [18, 16], "offset": [6, -2], "flip": true},
-    {"art": "nature/bramble", "cell": [20, 16], "offset": [-14, 1]},
-    {"art": "nature/grass_tuft", "cell": [19, 15], "offset": [2, 1]},
-    {"art": "nature/thistle", "cell": [0, 4], "offset": [-2, -2]},
-    {"art": "nature/ivy", "cell": [17, 17], "offset": [10, 5]},
-    {"art": "nature/irish_bird_3", "cell": [15, 10], "offset": [-11, 4]},
-    {"art": "nature/irish_bird_3", "cell": [23, 5], "offset": [7, 3]},
-    {"art": "nature/white_dove", "cell": [6, 5], "offset": [11, -6]},
-    {"art": "nature/snail", "cell": [22, 9], "offset": [-1, 3], "flip": true},
-    {"art": "nature/irish_bird_3", "cell": [14, 16], "offset": [-6, -4], "flip": true}
+    {"art": "nature/thistle", "cell": [0, 12], "offset": [-10, 4], "flip": true},
+    {"art": "nature/mushroom_blue", "cell": [7, 2], "offset": [0, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [8, 2], "offset": [2, 3], "flip": true},
+    {"art": "nature/fern", "cell": [16, 3], "offset": [-14, 1], "flip": true},
+    {"art": "nature/mushroom_blue", "cell": [3, 16], "offset": [14, 4]},
+    {"art": "nature/fern", "cell": [2, 5], "offset": [-6, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [6, 3], "offset": [-5, 4], "flip": true},
+    {"art": "nature/bramble", "cell": [1, 15], "offset": [-3, 4]},
+    {"art": "nature/thistle", "cell": [16, 4], "offset": [11, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [6, 9], "offset": [2, -6]},
+    {"art": "nature/fern", "cell": [15, 3], "offset": [5, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [4, 17], "offset": [-4, -1]},
+    {"art": "nature/bramble", "cell": [5, 4], "offset": [-5, 5], "flip": true},
+    {"art": "nature/fern", "cell": [2, 16], "offset": [10, 0], "flip": true},
+    {"art": "nature/ivy", "cell": [0, 14], "offset": [-8, -6]},
+    {"art": "nature/fern", "cell": [5, 8], "offset": [12, 0]},
+    {"art": "nature/fern", "cell": [14, 12], "offset": [-3, -3]},
+    {"art": "nature/mushroom_blue", "cell": [10, 11], "offset": [-10, 7], "flip": true},
+    {"art": "nature/bramble", "cell": [5, 16], "offset": [7, 3]},
+    {"art": "nature/grass_tuft", "cell": [0, 1], "offset": [2, 3], "flip": true},
+    {"art": "nature/ivy", "cell": [18, 3], "offset": [-2, -4], "flip": true},
+    {"art": "nature/bramble", "cell": [0, 0], "offset": [6, -2], "flip": true},
+    {"art": "nature/fern", "cell": [9, 11], "offset": [-14, 1]},
+    {"art": "nature/grass_tuft", "cell": [22, 8], "offset": [2, 1]},
+    {"art": "nature/thistle", "cell": [1, 11], "offset": [-2, -2]},
+    {"art": "nature/spider", "cell": [23, 5], "offset": [-3, 0]},
+    {"art": "nature/white_dove", "cell": [22, 9], "offset": [-11, -3]},
+    {"art": "nature/spider", "cell": [14, 16], "offset": [-14, -1]},
+    {"art": "nature/spider", "cell": [0, 15], "offset": [10, 5]},
+    {"art": "nature/irish_bird_3", "cell": [23, 6], "offset": [-11, 4]}
   ]
 }

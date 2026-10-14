@@ -19,6 +19,7 @@ const AREAS := [
 	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis",
 	"tower", "home",
 	"camp", "tutorial",
+	"city", "city_streets", "city_tavern",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
@@ -204,6 +205,12 @@ func _check_person(area_id: String, map: AreaMap, person: Dictionary) -> void:
 		_fail("%s: %s is standing in a wall" % [area_id, who])
 	if Database.unit_template(person.get("unit", "")).is_empty():
 		_fail("%s: %s has no unit template to be drawn from" % [area_id, who])
+
+	# Somebody at their work ([D85]) walks to every stop of their rounds from where they stand.
+	for stop: Dictionary in person.get("rounds", []):
+		var at := AreaMap.to_cell(stop.get("cell", [0, 0]))
+		if not map.is_walkable(at) or map.find_cell_path(cell, at).is_empty():
+			_fail("%s: %s cannot get to their work at %s" % [area_id, who, at])
 
 	var dialogue_id: String = person.get("dialogue", "")
 	if person.has("talk"):
@@ -638,6 +645,19 @@ func _check_the_joined_land() -> void:
 				_fail("land: a chest in %s is not the same chest on the land" % town.display_name)
 		if land.area_of(rect.position) != area_id or land.local_of(rect.position + Vector2i(2, 3)) != Vector2i(2, 3):
 			_fail("land: the land does not say whose cells %s's are" % town.display_name)
+		# A walled town ([D85]): its corners stand in the way, and the way in is still the way in.
+		if Database.area(area_id).has("walls"):
+			if land.is_walkable(rect.position - Vector2i.ONE):
+				_fail("land: %s has walls in its data but none round it on the land" % town.display_name)
+			var gate: Vector2i = alone.exits[0] if not alone.exits.is_empty() else Vector2i.ZERO
+			var outside := (place["origin"] as Vector2i) + AreaMap.to_cell(place["spawn"])
+			if land.find_cell_path(outside, rect.position + AreaMap.to_cell(Database.area(area_id).get("spawn", [0, 0]))).is_empty():
+				_fail("land: %s's walls leave no way in" % town.display_name)
+			var hub := rect.position + gate + Vector2i.DOWN
+			for corner: Vector2i in [rect.position + Vector2i(-2, -2), rect.end + Vector2i(1, 1)]:
+				if land.slot_rect(town.cell).has_point(corner) and land.is_walkable(corner) \
+						and land.find_cell_path(corner, hub).is_empty():
+					_fail("land: the lane round %s's walls does not reach the gate from %s" % [town.display_name, corner])
 
 	# Walked: the scene on the land, the leader put over into the next tile, the step asked for.
 	var here := town.cell + Vector2i.LEFT

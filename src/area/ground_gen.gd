@@ -196,13 +196,7 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 	var exits: Array = place.get("exits", [])
 	if not exits.is_empty():
 		door = Vector2i(int(exits[0][0]), int(exits[0][1]))
-	var outward := Vector2i.DOWN
-	if door.y == 0:
-		outward = Vector2i.UP
-	elif door.x == 0:
-		outward = Vector2i.LEFT
-	elif door.x == pw - 1:
-		outward = Vector2i.RIGHT
+	var outward := _outward(door, Vector2i(pw, ph))
 	var hub := (offset + door + outward * 2).clamp(Vector2i.ONE, Vector2i(w - 2, h - 2))
 	var made := _as_slot(_lay_out(world, tile, land, true, hub, rect))
 	made["id"] = place_id
@@ -226,6 +220,8 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 		for entry: Dictionary in place.get(key, []):
 			moved.append(_moved(entry, offset))
 		made[key] = moved
+	if place.has("walls"):
+		_raise_walls(made, rect, place, land, w, h)
 	if place.has("fire"):
 		made["fires"] = [[int(place["fire"][0]) + offset.x, int(place["fire"][1]) + offset.y]]
 	(made["patches"] as Array).append({ "layers": place.get("layers", ["dirt"]), "rect": [offset.x, offset.y, pw, ph] })
@@ -238,6 +234,60 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 	return made
 
 
+## A town's walls ([D85]): `walls` on a place names their build (`stone`, `timber`, `adobe`), and
+## they stand on the ring of cells round it, with a tower at each corner and either side of every
+## way in, and a gap in front of each of the place's exits. Round the outside a lane is kept clear
+## of growth and standing water, so a path coming in from any side of the tile can walk round to the gate.
+static func _raise_walls(made: Dictionary, rect: Rect2i, place: Dictionary, land: String, w: int,
+		h: int) -> void:
+	var build := str(place["walls"])
+	var ring := rect.grow(1)
+	var lane := rect.grow(2)
+	if lane.position.x < 0 or lane.position.y < 0 or lane.end.x > w or lane.end.y > h:
+		push_warning("GroundGen: no room for walls round %s" % str(made.get("id", "")))
+		return
+	var gaps: Dictionary = {}
+	for exit: Array in place.get("exits", []):
+		var at := Vector2i(int(exit[0]), int(exit[1]))
+		gaps[rect.position + at + _outward(at, rect.size)] = true
+	var ground: Dictionary = Biome.data(land).get("ground", {})
+	var liquid := str(ground.get("liquid", "water"))
+	var terrain: PackedStringArray = made["terrain"]
+	var on_lane := func(at: Vector2i) -> bool:
+		return lane.has_point(at) and not ring.has_point(at)
+	made["props"] = (made["props"] as Array).filter(func(prop: Dictionary) -> bool:
+		return not on_lane.call(Vector2i(int(prop["cell"][0]), int(prop["cell"][1]))))
+	for y in range(lane.position.y, lane.end.y):
+		for x in range(lane.position.x, lane.end.x):
+			if on_lane.call(Vector2i(x, y)) and terrain[y * w + x] == liquid:
+				terrain[y * w + x] = str(ground.get("floor", "grass"))
+	made["terrain"] = terrain
+	var last := ring.end - Vector2i.ONE
+	for y in range(ring.position.y, ring.end.y):
+		for x in range(ring.position.x, ring.end.x):
+			var at := Vector2i(x, y)
+			if rect.has_point(at) or gaps.has(at):
+				continue
+			var corner := (x == ring.position.x or x == last.x) and (y == ring.position.y or y == last.y)
+			var by_gate := false
+			for dir: Vector2i in SIDES.values():
+				by_gate = by_gate or gaps.has(at + dir)
+			var piece := "tower" if corner or by_gate \
+				else ("run" if y == ring.position.y or y == last.y else "side")
+			(made["props"] as Array).append({ "art": "walls/%s_%s" % [build, piece], "cell": [x, y], "solid": true })
+
+
+## Which way is out of a place from [param at], one of its edge cells: down unless it is on another edge.
+static func _outward(at: Vector2i, size: Vector2i) -> Vector2i:
+	if at.y == 0:
+		return Vector2i.UP
+	if at.x == 0:
+		return Vector2i.LEFT
+	if at.x == size.x - 1:
+		return Vector2i.RIGHT
+	return Vector2i.DOWN
+
+
 ## An entry of a place moved to where the place stands: its cell, and a building's door.
 static func _moved(entry: Dictionary, offset: Vector2i) -> Dictionary:
 	var out := entry.duplicate(true)
@@ -245,6 +295,11 @@ static func _moved(entry: Dictionary, offset: Vector2i) -> Dictionary:
 		var at: Variant = entry.get(key, null)
 		if at is Array and (at as Array).size() >= 2:
 			out[key] = [int(at[0]) + offset.x, int(at[1]) + offset.y]
+	if entry.has("rounds"):
+		var stops: Array = []
+		for stop: Dictionary in entry["rounds"]:
+			stops.append(_moved(stop, offset))
+		out["rounds"] = stops
 	return out
 
 

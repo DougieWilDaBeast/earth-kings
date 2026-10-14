@@ -1,0 +1,544 @@
+{
+    "display_name": "the Gilded Flagon",
+    "layers": [],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "rows": [
+        "#####################",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "#...................#",
+        "##########.##########"
+    ],
+    "spawn": [
+        10,
+        11
+    ],
+    "exits": [
+        [
+            10,
+            12
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                10,
+                6
+            ],
+            "line": "The Flagon is loud the way only a city tavern is: forty conversations and every one of them about the Tower."
+        },
+        {
+            "cell": [
+                4,
+                3
+            ],
+            "line": "Over the fire, a board of names: everyone from the city who climbed past the fifth floor. Some have a second date chalked beside them."
+        }
+    ],
+    "chests": [
+        {
+            "cell": [
+                18,
+                10
+            ],
+            "line": "A dice-cup left on a table with the stake still under it.",
+            "gold": 30
+        }
+    ],
+    "people": [
+        {
+            "name": "Marta the Landlady",
+            "unit": "town_innkeeper",
+            "cell": [
+                15,
+                2
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "talk": {
+                "hello": [
+                    "Welcome to the Flagon. Sit where there's a seat; stand where there isn't.",
+                    "You again! Good. Regulars pay their slate."
+                ],
+                "ask": [
+                    {
+                        "q": "What's the Flagon?",
+                        "a": "The oldest tavern inside the walls. Older than the Cathedral, which the priests don't like to hear."
+                    },
+                    {
+                        "q": "Who's worth talking to in here?",
+                        "a": "Old Corrin by the fire has climbed the Tower and come down again, which is rarer than it sounds. The card table will rob you. The bard won't stop."
+                    }
+                ],
+                "news": true,
+                "sells": [
+                    {
+                        "item": "ale_flask",
+                        "restock": true
+                    },
+                    {
+                        "item": "bread",
+                        "restock": true
+                    },
+                    {
+                        "item": "cheese"
+                    },
+                    {
+                        "item": "red_draught"
+                    }
+                ],
+                "shop": "Ale, bread, cheese, and a red draught for whoever lost the argument.",
+                "job": {
+                    "flag": "job:city_barrel",
+                    "done_flag": "found:city_barrel",
+                    "ask": "Need a hand?",
+                    "offer": "Gunnar's late with my barrel again. His brewhouse is up the lane. Tell him Marta sent you, and tell him I said it like that.",
+                    "accept": "I'll fetch it.",
+                    "decline": "I'm here to drink.",
+                    "thanks": "Up the lane, west side, smells of barley. You can't miss it. People try.",
+                    "waiting": "Barrel?",
+                    "hand_over": "One barrel, barely dented.",
+                    "not_yet": "Not yet.",
+                    "done": "Lovely. That's a round on the house, and coin besides. Don't tell the regulars about the round.",
+                    "gold": 40,
+                    "item": "ale_flask"
+                },
+                "bye": "Mind the step on your way out. Mind it more on your way back in."
+            }
+        },
+        {
+            "name": "Old Corrin",
+            "unit": "keep_watchman",
+            "cell": [
+                6,
+                3
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "chatter": [
+                "Seven floors. I got to seven. Then I sat down and came home."
+            ],
+            "talk": {
+                "hello": "Sit, if you like. I don't bite. I used to. The Tower took that out of me.",
+                "ask": [
+                    {
+                        "q": "You climbed the Tower?",
+                        "a": "Seven floors. Every floor is a world. Then on the seventh I looked up and saw how far it still went, and I came home. Nobody here thinks less of me for it. I think less of me for it."
+                    },
+                    {
+                        "q": "What's the top like?",
+                        "a": "Ask somebody who got there. If you find one, bring them here. I'll buy."
+                    },
+                    {
+                        "q": "Does anyone not want to climb?",
+                        "a": "Half this city. They came to the walls instead. There's a living to be made down here, and the Tower doesn't care who climbs it."
+                    }
+                ],
+                "bye": "Go up if you're going. Come down if you can."
+            }
+        },
+        {
+            "name": "Wren the Bard",
+            "unit": "drunk_elf",
+            "cell": [
+                13,
+                8
+            ],
+            "facing": [
+                0,
+                1
+            ],
+            "chatter": [
+                "♪ Fill the flagon, fill it high ♪",
+                "♪ ...the Tower's tall but so am I ♪",
+                "Requests cost extra. Silence costs double."
+            ]
+        },
+        {
+            "name": "a card sharp",
+            "unit": "quant_monkey",
+            "cell": [
+                4,
+                8
+            ],
+            "facing": [
+                1,
+                0
+            ],
+            "chatter": [
+                "Friendly game? Very friendly. You'll hardly feel it."
+            ],
+            "talk": {
+                "hello": "Cards? Dice? Conversation? Conversation's free. Mostly.",
+                "ask": [
+                    {
+                        "q": "Play a hand.",
+                        "a": "...And that's mine, and that's mine, and that, I'm afraid, is also mine. Again?",
+                        "cost": 5
+                    },
+                    {
+                        "q": "Heard anything?",
+                        "a": "Somebody's chalking crowns on walls. Somebody else is paying for it. I'd like to know who, so I can charge them."
+                    }
+                ],
+                "bye": "Come back richer."
+            }
+        },
+        {
+            "name": "a caravan guard off duty",
+            "unit": "bird_archer",
+            "cell": [
+                17,
+                8
+            ],
+            "facing": [
+                -1,
+                0
+            ],
+            "wander": 2,
+            "chatter": [
+                "Forty days on the road. Forty minutes in here and I've spent it all."
+            ]
+        },
+        {
+            "name": "a sellsword and his drink",
+            "unit": "sword_monkey",
+            "cell": [
+                9,
+                9
+            ],
+            "facing": [
+                0,
+                -1
+            ],
+            "chatter": [
+                "One more and I'll go up the Tower. One more after that and I'll go to bed."
+            ]
+        }
+    ],
+    "props": [
+        {
+            "art": "interior/fireplace",
+            "cell": [
+                4,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "village/log_pile",
+            "cell": [
+                2,
+                1
+            ]
+        },
+        {
+            "art": "interior/slate_board",
+            "cell": [
+                10,
+                0
+            ],
+            "offset": [
+                0,
+                6
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                8,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                12,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                15,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/keg_rack",
+            "cell": [
+                18,
+                1
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                19,
+                3
+            ]
+        },
+        {
+            "art": "interior/bar_counter",
+            "cell": [
+                15,
+                3
+            ]
+        },
+        {
+            "art": "interior/bar_counter",
+            "cell": [
+                17,
+                3
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                14,
+                4
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                16,
+                4
+            ]
+        },
+        {
+            "art": "sofa_brown",
+            "cell": [
+                2,
+                3
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                6,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                5,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                7,
+                6
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                12,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                11,
+                6
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                13,
+                6
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                5,
+                8
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                6,
+                8
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                9,
+                8
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                15,
+                9
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                15,
+                10
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                19,
+                11
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                1,
+                11
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                19,
+                6
+            ]
+        },
+        {
+            "art": "potted_plant",
+            "cell": [
+                1,
+                6
+            ]
+        }
+    ],
+    "dressing": [],
+    "tint": "#f2dcbc",
+    "interior": {
+        "floor": "oak",
+        "wall": "stone",
+        "rugs": [
+            {
+                "rect": [
+                    2,
+                    2,
+                    6,
+                    3
+                ],
+                "colour": "#7a2e2a",
+                "trim": "#c9a45f"
+            },
+            {
+                "rect": [
+                    8,
+                    5,
+                    8,
+                    4
+                ],
+                "colour": "#3b4a6b",
+                "trim": "#b89a5a"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    4.5,
+                    1
+                ],
+                "radius": 5,
+                "colour": "#ff9a40",
+                "strength": 0.5
+            },
+            {
+                "cell": [
+                    6,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    12,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    5,
+                    8
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.22
+            },
+            {
+                "cell": [
+                    16,
+                    3
+                ],
+                "radius": 3,
+                "colour": "#ffcf80",
+                "strength": 0.2
+            },
+            {
+                "cell": [
+                    19,
+                    6
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            }
+        ]
+    }
+}
