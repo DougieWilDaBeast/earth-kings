@@ -210,10 +210,10 @@
 		"atlas": {
 			"style": "borne",
 			"display_name": "Borne",
-			"description": "Carried by his bearer, who keeps beside him. If the bearer falls, Atlas cannot move for the rest of the fight.",
-			"bearer": "ogre",
+			"description": "Rides into the fight on Sky's back, where no blow can reach him. If Sky falls, Atlas is thrown and moves only while a friend stands beside him to help him along.",
+			"bearer": "sky",
 			"bearer_name": "Sky",
-			"bearer_note": "Sky carries Atlas (D83). The club ogre's body is Inferred until Sky has one of their own."
+			"bearer_note": "Sky, a great lizard, carries Atlas in the saddle (D83, D93)."
 		},
 		"janus": {
 			"style": "doorways",

@@ -373,7 +373,7 @@ below.
 
 | Lead | Class | Level 1: Q W E R | Passive | Growth a level | Signature, as planned |
 | --- | --- | --- | --- | --- | --- |
-| Atlas | Borne Mage (`borne_mage`) | Chain Bolt, Thunderhead, Pyre, Gust | **The Long Plan.** +20% chance to land a critical hit. | 3 hp · 2.3 atk · 0.5 def · 0.2 spd | Carried by a bearer; stuck if they fall |
+| Atlas | Borne Mage (`borne_mage`) | Chain Bolt, Thunderhead, Pyre, Gust | **The Long Plan.** +20% chance to land a critical hit. | 3 hp · 2.3 atk · 0.5 def · 0.2 spd | Rides Sky, out of reach; thrown if Sky falls, then moves only with a friend beside him ([D93](06-decisions.md)) |
 | Janus | Gatewalker (`gatewalker`) | Door Shut\*, Gust, Hamstring, Spark | **Worse Odds.** When an ally goes down, every skill comes back at once. | 4 hp · 1.1 atk · 0.8 def · 0.6 spd | Swap two units, pull an ally out, send a foe into a bad spot; faster the worse the odds |
 | Bellona | Marshal (`marshal`) | Lunge, Hold Fast\*, Stand Fast, Cleave | **Command.** Allies within 2 tiles attack 15% faster and take 5% less damage. | 5 hp · 1.6 atk · 1.2 def · 0.5 spd | Advance and Break Them as orders; allies fill their charge faster |
 | Cassius | Duellist (`duellist`) | Riposte, Lunge, Hamstring, Sunder | **The Answer.** At or under half health, deals 30% more. | 5 hp · 1.8 atk · 0.9 def · 0.6 spd | A taunt; learning each enemy who hits him |

@@ -703,10 +703,18 @@ func _check_signatures() -> void:
 	_expect(bearer != null and bearer.bound_to == atlas and bearer.unit.team == atlas.unit.team, "Atlas came without his bearer")
 	_expect(wolf != null and wolf.bound_to == diana and wolf.unit.template_id == "ice_wolf", "Diana came without her wolf")
 	if bearer != null:
-		_expect(fight.signatures.can_step(atlas), "Atlas cannot move with his bearer beside him")
+		_expect(bearer.unit.template_id == "sky" and atlas.aboard == bearer and atlas.unit.cell == bearer.unit.cell,
+				"Atlas is not riding Sky")
+		_expect(not atlas.targetable() and fight.occupant(bearer.unit.cell) == bearer,
+				"Atlas on Sky's back can still be aimed at")
+		_expect(fight.signatures.can_step(atlas), "Atlas cannot move on Sky's back")
 		bearer.unit.take_damage(bearer.unit.hp)
 		fight._drop(bearer)
-		_expect(not fight.signatures.can_step(atlas), "Atlas moved with his bearer down")
+		fight.signatures.tick(atlas)
+		_expect(atlas.aboard == null and atlas.targetable() and atlas.unit.visible, "Atlas was not thrown when Sky fell")
+		_expect(not fight.signatures.can_step(atlas), "Atlas moved alone with Sky down")
+		pluto.unit.cell = atlas.unit.cell + Vector2i(1, 0)
+		_expect(fight.signatures.can_step(atlas), "Atlas could not move with a friend beside him")
 	var foe: Fighter = null
 	for f: Fighter in fight.fighters:
 		if not f.unit.sides_with_party() and f.is_standing():

@@ -104,6 +104,9 @@ var sig: Dictionary = {}
 ## Who this fighter came into the fight for: a bearer's rider, a wolf's huntress,
 ## a shade's raiser.
 var bound_to: RefCounted = null
+## The mount this fighter rides (Atlas on Sky, D93): while aboard he shares its tile, is drawn
+## on its back, and every blow meant for him lands on the mount instead.
+var aboard: RefCounted = null
 ## Seconds stood on the same tile.
 var still: float = 0.0
 ## Seconds left on a mark the other side hits harder.
@@ -163,6 +166,11 @@ func is_party() -> bool:
 ## On their feet and in the fight.
 func is_standing() -> bool:
 	return not fallen and near_death <= 0.0 and unit.is_alive()
+
+
+## Standing and there to be aimed at: a rider on a mount's back is not.
+func targetable() -> bool:
+	return is_standing() and aboard == null
 
 
 func is_downed() -> bool:

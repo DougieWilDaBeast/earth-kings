@@ -23,7 +23,11 @@ founders (`bram`, `sera`, `toln` and the innkeeper, who shares Toln's body), `br
 `legion_black`, `sea_man`, `eye_leprechaun`, `lizard_wizard`, `sea_horse`, and `ember_lizard` and `seed_beast`
 (redrawn as the Cinder Newt and the Mossback of [23](../../docs/23-originality-pass.md)). The slimes and the sea horse have no legs to put through PixelLab's moves, so each is
 a still set moving (`tools/pixellab.py effect --still`), south only, which the fight uses for every
-facing. `magic_swordsman` is not wired yet. Wiring one is a
+facing. `magic_swordsman` is the castellan's body since 2026-10-14. On 2026-10-14 the last month's
+generations went on the rest of the early foes: `flame_dove` (the Ember Dove), and the wisp
+(`feather_wisp`), set moving from its old idle south view as the slimes were, among others listed in
+[24](../../docs/24-art-requests.md#done). Costs logged that day overlap, since several units were
+made at once. Wiring one is a
 `sprite_dir` change in `data/units.json`.
 
 To make another: `python3 tools/pixellab.py dress <unit>`, then `animate` for each state, then

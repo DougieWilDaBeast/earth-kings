@@ -737,6 +737,9 @@ func tick() -> void:
 ## has built up, so movement is smooth at any frame rate.
 func _place_steppers() -> void:
 	for f in fighters:
+		if f.aboard != null:
+			f.unit.position = (f.aboard as Fighter).unit.position
+			continue
 		if not f.stepping:
 			if f.bump > 0.0 and not f.fallen:
 				f.unit.position = grid.cell_to_world(f.unit.cell) + f.bump_dir * sin(f.bump * PI) * 9.0
@@ -1158,6 +1161,10 @@ func _keep_aiding(f: Fighter) -> void:
 ## Returns false when there is no way there at all. A step that is blocked this
 ## instant is not a failure — the fighter waits and tries again next tick.
 func _step_towards(f: Fighter, is_goal: Callable) -> bool:
+	# A rider goes where his mount takes him (D93).
+	var mount := f.aboard as Fighter
+	if mount != null:
+		return true if mount.stepping else _step_towards(mount, is_goal)
 	var me := f.unit
 	if not signatures.can_step(f):
 		return false
@@ -1927,7 +1934,7 @@ func _on_left_click(cell: Vector2i, adding: bool) -> void:
 			order_cast(caster, armed_slot, who if aimed_at_someone else null, cell)
 			_disarm()
 		return
-	var clicked := fighter_of(who)
+	var clicked := signatures.rider_of(fighter_of(who))
 	if clicked != null and clicked.is_party() and clicked.is_standing():
 		_select(selected + [clicked] if adding else [clicked])
 		return
@@ -2059,14 +2066,14 @@ func is_standing(unit: Unit) -> bool:
 ## the fallen — other than [param besides].
 func occupant(cell: Vector2i, besides: Fighter = null) -> Fighter:
 	for f in fighters:
-		if f != besides and not f.fallen and f.unit.cell == cell:
+		if f != besides and not f.fallen and f.aboard == null and f.unit.cell == cell:
 			return f
 	return null
 
 
 func _unit_at(cell: Vector2i) -> Unit:
 	for f in fighters:
-		if f.is_standing() and f.unit.cell == cell:
+		if f.targetable() and f.unit.cell == cell:
 			return f.unit
 	return null
 
