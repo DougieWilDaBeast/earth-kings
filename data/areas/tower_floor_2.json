@@ -1,0 +1,152 @@
+{
+  "display_name": "floor 2 of the Tower",
+  "layers": [
+    "flagstone",
+    "stone",
+    "crag"
+  ],
+  "legend": {
+    "s": "stone",
+    "f": "flagstone",
+    "A": "crag"
+  },
+  "tint": "#8f8aa8",
+  "hint": "WASD to walk  \u00b7  the stair up is north, the way down south",
+  "spawn": [
+    12,
+    15
+  ],
+  "exits": [
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ]
+  ],
+  "stairs": [
+    [
+      12,
+      0
+    ],
+    [
+      13,
+      0
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        13,
+        13
+      ],
+      "line": "A rope tied off at a ring in the wall, cut a hand's width from the knot."
+    }
+  ],
+  "props": [
+    {
+      "art": "brazier",
+      "cell": [
+        11,
+        2
+      ]
+    },
+    {
+      "art": "brazier",
+      "cell": [
+        14,
+        2
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        2,
+        15
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        23,
+        15
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "tower2_a",
+      "pack": [
+        "blue_slime",
+        "slime"
+      ],
+      "label": "A pair of slimes",
+      "faction": "",
+      "at": [
+        5,
+        8
+      ],
+      "reach": 2,
+      "level": 3,
+      "held": true,
+      "requires_not": "done:tower2_a",
+      "done_flag": "done:tower2_a"
+    },
+    {
+      "key": "tower2_b",
+      "pack": [
+        "wolf",
+        "wolf"
+      ],
+      "label": "Two wolves",
+      "faction": "",
+      "at": [
+        18,
+        3
+      ],
+      "reach": 2,
+      "level": 3,
+      "held": true,
+      "requires_not": "done:tower2_b",
+      "done_flag": "done:tower2_b"
+    }
+  ],
+  "rows": [
+    "AAAAAAAAAAAAffAAAAAAAAAAAA",
+    "AsssssssssssffsssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AsssssssssAAAAAAAAAAAAAAAA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AAAAAAAAAAAAAAAAsssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AssssssssssssssssssssssssA",
+    "AsssssssssssffsssssssssssA",
+    "AAAAAAAAAAAAffAAAAAAAAAAAA"
+  ],
+  "dressing": [
+    {"art": "nature/pebble", "cell": [6, 6], "offset": [-4, -5]},
+    {"art": "nature/thistle", "cell": [8, 13], "offset": [10, -6], "flip": true},
+    {"art": "nature/pebble", "cell": [21, 13], "offset": [-7, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [21, 11], "offset": [-3, -6]},
+    {"art": "nature/pebble", "cell": [23, 8], "offset": [12, 5]},
+    {"art": "nature/thistle", "cell": [9, 3], "offset": [9, 6]},
+    {"art": "nature/pebble", "cell": [13, 3], "offset": [6, 5]},
+    {"art": "nature/thistle", "cell": [10, 1], "offset": [0, 1], "flip": true},
+    {"art": "nature/pebble", "cell": [15, 13], "offset": [4, 4], "flip": true},
+    {"art": "nature/thistle", "cell": [16, 11], "offset": [-8, 1]},
+    {"art": "nature/pebble", "cell": [2, 16], "offset": [8, 2]},
+    {"art": "nature/thistle", "cell": [2, 13], "offset": [-4, 2]},
+    {"art": "nature/spider", "cell": [18, 1], "offset": [-11, 2], "flip": true},
+    {"art": "nature/snail", "cell": [18, 15], "offset": [10, 4], "flip": true}
+  ]
+}

@@ -17,6 +17,8 @@ var height: int = 0
 var layers: Array[String] = []
 var spawn: Vector2i = Vector2i.ZERO
 var exits: Array[Vector2i] = []
+## The stair up, on a floor of the Tower that is walked ([D102]): standing on it climbs.
+var stairs: Array[Vector2i] = []
 ## cell -> the line said when the party first stands there.
 var spots: Dictionary = {}
 ## cell -> a flag standing there sets: something found for somebody's favour ([Talk]).
@@ -44,7 +46,9 @@ var hint: String = ""
 
 ## Bands the area places itself (a practice band in the tutorial's village, D75): the same shape
 ## the world sends, plus `spar` (fought as practice, never through the world), `at` (the spot it
-## would rather stand on), `level`, `requires` / `requires_not` (flags) and `done_flag`.
+## would rather stand on), `level`, `requires` / `requires_not` (flags) and `done_flag`. A `held`
+## band is fought for real, with nobody from the world behind it (the Tower's floors, [D102]);
+## `boss` marks a keeper.
 var bands: Array = []
 ## Navigation grid ensuring characters navigate around walls rather than cutting through them.
 var astar: AStarGrid2D = null
@@ -80,6 +84,8 @@ static func load_area(area_id: String) -> AreaMap:
 	map.spawn = _to_cell(data.get("spawn", [0, 0]))
 	for pair: Array in data.get("exits", []):
 		map.exits.append(_to_cell(pair))
+	for pair: Array in data.get("stairs", []):
+		map.stairs.append(_to_cell(pair))
 	for spot: Dictionary in data.get("spots", []):
 		map.spots[_to_cell(spot.get("cell", [0, 0]))] = spot.get("line", "")
 		if spot.has("set_flag"):
@@ -125,6 +131,7 @@ static func load_area(area_id: String) -> AreaMap:
 	# the spot by the fountain, a seat at the fire, a chest, where someone waits.
 	var stood_on: Array[Vector2i] = [map.spawn]
 	stood_on.append_array(map.exits)
+	stood_on.append_array(map.stairs)
 	stood_on.append_array(map.seats)
 	for cell: Vector2i in map.spots:
 		stood_on.append(cell)

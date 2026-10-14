@@ -35,6 +35,15 @@ static func chapters(world: World) -> int:
 	return ceili(float(world.tower_floors()) / float(per_chapter()))
 
 
+## The area [param floor] is walked on, when it is one of the floors that are walked rather than
+## fought as one battle (`walked_floors`, D102), else "".
+static func walked_floor_area(floor: int) -> String:
+	if floor < 1 or floor > int(rules().get("walked_floors", 0)):
+		return ""
+	var area_id := str(rules().get("walked_area", "tower_floor_%d")) % floor
+	return area_id if Database.has_area(area_id) else ""
+
+
 ## True when winning [param floor] ends a chapter (the top counts).
 static func ends_chapter(world: World, floor: int) -> bool:
 	return floor > 0 and (floor % per_chapter() == 0 or floor >= world.tower_floors())

@@ -1,0 +1,155 @@
+{
+  "display_name": "floor 4 of the Tower",
+  "layers": [
+    "flagstone",
+    "stone",
+    "crag"
+  ],
+  "legend": {
+    "s": "stone",
+    "f": "flagstone",
+    "A": "crag"
+  },
+  "tint": "#8f8aa8",
+  "hint": "WASD to walk  \u00b7  the stair up is north, the way down south",
+  "spawn": [
+    12,
+    15
+  ],
+  "exits": [
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ]
+  ],
+  "stairs": [
+    [
+      12,
+      0
+    ],
+    [
+      13,
+      0
+    ]
+  ],
+  "spots": [
+    {
+      "cell": [
+        13,
+        13
+      ],
+      "line": "Bones of something big, picked clean and stacked by size."
+    }
+  ],
+  "props": [
+    {
+      "art": "brazier",
+      "cell": [
+        11,
+        2
+      ]
+    },
+    {
+      "art": "brazier",
+      "cell": [
+        14,
+        2
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        2,
+        15
+      ]
+    },
+    {
+      "art": "lamp_globe",
+      "cell": [
+        23,
+        15
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "tower4_a",
+      "pack": [
+        "frozen_wolfman"
+      ],
+      "label": "A frozen wolfman",
+      "faction": "",
+      "at": [
+        4,
+        4
+      ],
+      "reach": 2,
+      "level": 4,
+      "held": true,
+      "requires_not": "done:tower4_a",
+      "done_flag": "done:tower4_a"
+    },
+    {
+      "key": "tower4_b",
+      "pack": [
+        "ooze_knight",
+        "blue_slime"
+      ],
+      "label": "An ooze knight and a slime",
+      "faction": "",
+      "at": [
+        21,
+        12
+      ],
+      "reach": 2,
+      "level": 4,
+      "held": true,
+      "requires_not": "done:tower4_b",
+      "done_flag": "done:tower4_b"
+    }
+  ],
+  "rows": [
+    "AAAAAAAAAAAAffAAAAAAAAAAAA",
+    "AssssssAAsssffsssssssssssA",
+    "AssssssAAssssssssssssssssA",
+    "AssssssAAssssssssssssssssA",
+    "AssssssAAssssssssssssssssA",
+    "AssssssAAssssssssssssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssAAssssssssAAssssssA",
+    "AssssssssssssssssAAssssssA",
+    "AssssssssssssssssAAssssssA",
+    "AssssssssssssssssAAssssssA",
+    "AssssssssssssssssAAssssssA",
+    "AsssssssssssffsssAAssssssA",
+    "AAAAAAAAAAAAffAAAAAAAAAAAA"
+  ],
+  "dressing": [
+    {"art": "nature/pebble", "cell": [10, 9], "offset": [-6, -3]},
+    {"art": "nature/thistle", "cell": [16, 6], "offset": [-14, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [2, 6], "offset": [-2, 0]},
+    {"art": "nature/grass_tuft", "cell": [6, 4], "offset": [6, 7]},
+    {"art": "nature/grass_tuft", "cell": [20, 7], "offset": [12, 4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [15, 15], "offset": [10, 7], "flip": true},
+    {"art": "nature/pebble", "cell": [1, 4], "offset": [-5, -6], "flip": true},
+    {"art": "nature/thistle", "cell": [22, 14], "offset": [-7, -6]},
+    {"art": "nature/grass_tuft", "cell": [22, 4], "offset": [0, 1]},
+    {"art": "nature/pebble", "cell": [15, 13], "offset": [-13, -2], "flip": true},
+    {"art": "nature/thistle", "cell": [19, 11], "offset": [4, 1]},
+    {"art": "nature/pebble", "cell": [18, 4], "offset": [-5, -5], "flip": true},
+    {"art": "nature/pebble", "cell": [19, 4], "offset": [3, -1], "flip": true},
+    {"art": "nature/pebble", "cell": [4, 2], "offset": [-14, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [24, 15], "offset": [3, -7], "flip": true},
+    {"art": "nature/pebble", "cell": [4, 8], "offset": [9, -6]},
+    {"art": "nature/spider", "cell": [16, 13], "offset": [6, -3]},
+    {"art": "nature/spider", "cell": [20, 1], "offset": [-3, -4], "flip": true}
+  ]
+}

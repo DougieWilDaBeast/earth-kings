@@ -135,7 +135,12 @@ each, each ending playable:
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
    The opening shows another lead's world ending. The Tower is built from rock and flagstone until
    its art is made (A9). Road length waits on `doug-md`'s play-test.
-6. Tower floors 1 to 5, walkable — planned.
+6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
+   (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
+   real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
+   kept by a keeper (a king slime and two slimes, level 7) who can kill an unready Atlas. Auto stops
+   at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
+   Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — planned.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a

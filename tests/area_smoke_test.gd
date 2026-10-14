@@ -18,6 +18,7 @@ const AREAS := [
 	"hut", "hut_stilt", "hut_cairn", "hut_orchard",
 	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis",
 	"tower", "home",
+	"tower_floor_1", "tower_floor_2", "tower_floor_3", "tower_floor_4", "tower_floor_5",
 	"camp", "tutorial",
 	"city", "city_streets", "city_tavern",
 ]
@@ -54,6 +55,7 @@ func _ready() -> void:
 	_check_story_npcs()
 	await _check_tutorial()
 	await _check_practice_band()
+	await _check_tower_floor()
 	await _check_the_land()
 	await _check_the_joined_land()
 
@@ -105,6 +107,9 @@ func _check_area(area_id: String) -> void:
 		func(node: Node) -> bool: return node is AreaActor
 	).size()
 	var expected := GameState.party_characters().size() + map.people.size()
+	# A band the area stands up itself (a floor of the Tower's, D102) is people too.
+	for watch: Node2D in scene.get("_watches"):
+		expected += (watch.get("figures") as Array).size()
 	if arrived != expected:
 		_fail("%s: %d actors turned up, expected %d" % [area_id, arrived, expected])
 
@@ -489,6 +494,68 @@ func _check_practice_band() -> void:
 	await get_tree().process_frame
 	GameState.new_game(SEED)
 	print("tutorial: the sparring pair came out when called, was walked into, and sparred on the village ground")
+
+
+## A floor of the Tower is walked (D102): its band is fought for real on its own ground, and
+## standing on the stair up wins the floor, paid out by the continent as a won Tower fight.
+func _check_tower_floor() -> void:
+	GameState.new_game(SEED)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "tower_floor_1", "return_scene": "world", "tower_floor": 1 })
+	add_child(scene)
+	for i in 10:
+		await get_tree().process_frame
+	var watches: Array = scene.get("_watches")
+	_expect(not watches.is_empty(), "tower floor: nobody stands on floor 1")
+	if watches.is_empty():
+		scene.queue_free()
+		return
+	var watch: Node2D = watches[0]
+	var map: AreaMap = scene.get("map")
+	var at: Vector2i = map.cell_at(scene.get("_leader").position)
+	var into: Vector2i = (watch.watched as Dictionary).keys()[0]
+	scene.call("_check_the_watch", at)
+	scene.get("_leader").position = map.centre_of(into)
+	_expect(scene.call("_check_the_watch", into), "tower floor: stepping into a band's red was not seen")
+	var waited := 0.0
+	while waited < 3.0 and scene.get("_fight") == null:
+		await get_tree().create_timer(0.1).timeout
+		waited += 0.1
+	var fight: Node2D = scene.get("_fight")
+	_expect(fight != null, "tower floor: the band did not fight")
+	if fight != null:
+		_expect(not bool((fight.get("boot_payload") as Dictionary).get("sandbox", false)), "tower floor: the fight is practice")
+		_expect(str(GameState.pending_outcome.get("kind", "")) == "tower_band", "tower floor: the fight is not settled as the Tower's")
+		fight.set_process(false)
+	scene.queue_free()
+	await get_tree().process_frame
+
+	# The stair up.
+	GameState.pending_outcome = {}
+	_requests.clear()
+	var again: Node = load("res://src/area/area_scene.tscn").instantiate()
+	again.set("boot_payload", { "area_id": "tower_floor_1", "return_scene": "world", "tower_floor": 1 })
+	add_child(again)
+	for i in 10:
+		await get_tree().process_frame
+	var up: AreaMap = again.get("map")
+	_expect(not up.stairs.is_empty(), "tower floor: no stair up")
+	if not up.stairs.is_empty():
+		again.call("_arrive_at", up.stairs[0])
+		_expect(_requests.any(func(r: Dictionary) -> bool: return r["key"] == "world"), "tower floor: the stair up went nowhere")
+		_expect(str(GameState.pending_outcome.get("kind", "")) == "tower" and int(GameState.pending_outcome.get("floor", 0)) == 1
+				and GameState.has_flag("last_victory"), "tower floor: the stair up did not win the floor")
+	GameState.pending_outcome = {}
+	GameState.set_flag("last_victory", false)
+	again.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+	print("tower floor: a band fought for real on floor 1, and the stair up won the floor")
+
+
+func _expect(ok: bool, message: String) -> void:
+	if not ok:
+		_fail(message)
 
 
 func _expect_tut(ok: bool, message: String) -> void:
