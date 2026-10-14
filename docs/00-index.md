@@ -28,6 +28,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 22  | [Asset provenance](22-asset-provenance.md)           | Where every file in `art/` and `audio/` and every font came from, its licence, and what must be cleared before a public release |
 | 23  | [Originality pass](23-originality-pass.md)           | Which characters copied someone else's, what they are called now, and the PixelLab prompts to redraw them |
 | 24  | [Art requests](24-art-requests.md)                   | **The art waiting to be made** — written here, then `dougie` generates it in PixelLab |
+| 25  | [The opening](25-the-opening.md)                     | The cinematic after New Game: what each shot shows, where its words live, and how to change it |
 
 ## Deciding the world
 

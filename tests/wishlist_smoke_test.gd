@@ -18,6 +18,7 @@ func _ready() -> void:
 	_check_museum()
 	_check_arena()
 	_check_site_art()
+	_check_opening()
 	_check_seasons()
 	_check_news()
 	_check_temper_quiz()
@@ -315,6 +316,54 @@ func _check_site_art() -> void:
 
 
 # --- W20 ----------------------------------------------------------------------
+
+
+## The opening after New Game (docs/25): every shot is one it can draw, everyone in
+## it has a sprite, it plays to the end on its own and hands the quiz its payload,
+## and Esc skips straight there.
+func _check_opening() -> void:
+	var data: Dictionary = Database.opening
+	var shots: Array = data.get("shots", [])
+	_expect(not shots.is_empty(), "the opening has no shots")
+	var known: Array = load("res://src/ui/opening.gd").SHOTS
+	for shot: Dictionary in shots:
+		_expect(known.has(str(shot.get("shot", ""))), "the opening has a shot it cannot draw: '%s'" % shot.get("shot", ""))
+		_expect(not (shot.get("lines", []) as Array).is_empty(), "the opening's '%s' shot says nothing" % shot.get("shot", ""))
+	for hero: String in data.get("sixteen", []):
+		_expect(ResourceLoader.exists("res://art/sixteen/%s/idle/south.png" % hero), "%s has no sprite for the opening" % hero)
+	for template: String in (data.get("party", []) as Array) + [str(data.get("foe", ""))]:
+		_expect(not Database.unit_template(template).is_empty(), "the opening casts '%s', which is not a unit" % template)
+
+	var asked: Array = []
+	var listen := func(key: String, payload: Dictionary) -> void: asked.append([key, payload])
+	EventBus.request_scene.connect(listen)
+	var opening: Control = load("res://src/ui/opening.tscn").instantiate()
+	opening.boot_payload = {"fallen": ["check"]}
+	add_child(opening)
+	opening.set_process(false)
+	var total := 0.0
+	for shot: Dictionary in shots:
+		total += float(shot.get("time", 6.0))
+	var guard := 0
+	while not opening.finished and guard < int(total / 0.25) + 40:
+		opening.step(0.25)
+		guard += 1
+	_expect(opening.finished, "the opening never ended on its own")
+	_expect(asked.size() == 1 and asked[0][0] == "temper_quiz" and asked[0][1] == {"fallen": ["check"]},
+			"the opening did not hand on to the quiz with its payload: %s" % [asked])
+	opening.queue_free()
+
+	asked.clear()
+	var skipped: Control = load("res://src/ui/opening.tscn").instantiate()
+	add_child(skipped)
+	skipped.set_process(false)
+	var esc := InputEventKey.new()
+	esc.keycode = KEY_ESCAPE
+	esc.pressed = true
+	skipped._unhandled_input(esc)
+	_expect(skipped.finished and asked.size() == 1, "Esc did not skip the opening")
+	skipped.queue_free()
+	EventBus.request_scene.disconnect(listen)
 
 
 func _check_seasons() -> void:

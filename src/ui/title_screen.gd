@@ -414,8 +414,9 @@ func _on_continue_pressed() -> void:
 		EventBus.request_scene.emit("world", {})
 
 
+## A new game opens on the cinematic (docs/25), which hands this on to the quiz.
 func _on_new_game_pressed() -> void:
-	EventBus.request_scene.emit("temper_quiz", {
+	EventBus.request_scene.emit("opening", {
 		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(),
 	})
 

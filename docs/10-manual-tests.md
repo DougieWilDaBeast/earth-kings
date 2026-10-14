@@ -44,6 +44,7 @@ you saw, on which screen, and what you had done just before.
 
 | #   | Do this                                                              | Expect                                                                               |
 | --- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| B0  | New Game                                                             | The opening plays ([25](25-the-opening.md)): thirteen shots with narration; click or Space moves on a shot, Esc skips to the questions |
 | B1  | New Game                                                             | Twelve heroes, gentlest first, each with its rating on the button (Steady → Ruinous) |
 | B2  | Arrow through them                                                   | Portrait, warband, stats and blurb all change to match                               |
 | B3  | Type `12345` in the Seed field and start                             | A run begins                                                                         |

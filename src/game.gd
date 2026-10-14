@@ -8,6 +8,7 @@ const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 
 const SCENES := {
 	"title": "res://src/ui/title_screen.tscn",
+	"opening": "res://src/ui/opening.tscn",
 	"temper_quiz": "res://src/ui/temper_quiz.tscn",
 	"character_select": "res://src/ui/character_select.tscn",
 	"world": "res://src/world/world_scene.tscn",
