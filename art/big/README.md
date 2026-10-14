@@ -23,5 +23,11 @@ ooze; `dougie` kept it as a character of its own, the Amber Knight (`ooze_knight
 these the game uses today), and `king_slime` was made again as a mound on 2026-10-13.
 
 **In the game since 2026-10-13:** the Amber Knight, `king_slime`, `axe_bear`, `tree_sentinel`,
-`caterpillar_warrior` and `dirte`, the ones met early ([Tier 1](../tier1/README.md) says why). The
-rest are staged; wiring one is a `sprite_dir` change in `data/units.json`.
+`caterpillar_warrior` and `dirte`, the ones met early ([Tier 1](../tier1/README.md) says why).
+**Since 2026-10-14:** all the rest, `frozen_wolfman`, `turret_cannon`, `sword_bear`, `cannon_bear`
+and both giants, drawn at their `body_scale`.
+
+`sky` (2026-10-14) is Sky, Atlas's mount ([D88](../../docs/06-decisions.md)): a great lizard with
+Atlas in the saddle, made at 96 on its own body with moves from words. Its costs in `metadata.json`
+read high: it was made while other units were generating, and each line is the balance before and
+after.
