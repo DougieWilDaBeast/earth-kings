@@ -1,0 +1,335 @@
+{
+ "id": "devil_butler",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "devil_butler",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as a devil butler: a neat black tailcoat and white gloves, red skin, two small curved horns, a silver serving tray held like a weapon. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 23.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 32.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "attack",
+   "action": "a sharp swing of the serving tray",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 18.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "skill",
+   "action": "a bow, then a burst of hellfire from his gloved hand",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 17.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 9.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 15.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+   "name": "attack",
+   "action": "a sharp swing of the serving tray",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/devil_butler_base.zip",
+   "generations": 4.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "46169b8e-e956-4f69-b230-2ca8f31af14e",
+     "name": "devil_butler",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T12:47:42.880254+00:00"
+    },
+    "folder": "devil_butler",
+    "frames": {
+     "rotations": {
+      "south": "devil_butler/rotations/south.png",
+      "south-east": "devil_butler/rotations/south-east.png",
+      "east": "devil_butler/rotations/east.png",
+      "north-east": "devil_butler/rotations/north-east.png",
+      "north": "devil_butler/rotations/north.png",
+      "north-west": "devil_butler/rotations/north-west.png",
+      "west": "devil_butler/rotations/west.png",
+      "south-west": "devil_butler/rotations/south-west.png"
+     },
+     "animations": {
+      "attack": {
+       "south": [
+        "devil_butler/animations/attack/south/frame_000.png",
+        "devil_butler/animations/attack/south/frame_001.png",
+        "devil_butler/animations/attack/south/frame_002.png",
+        "devil_butler/animations/attack/south/frame_003.png",
+        "devil_butler/animations/attack/south/frame_004.png",
+        "devil_butler/animations/attack/south/frame_005.png",
+        "devil_butler/animations/attack/south/frame_006.png",
+        "devil_butler/animations/attack/south/frame_007.png",
+        "devil_butler/animations/attack/south/frame_008.png"
+       ],
+       "north": [
+        "devil_butler/animations/attack/north/frame_000.png",
+        "devil_butler/animations/attack/north/frame_001.png",
+        "devil_butler/animations/attack/north/frame_002.png",
+        "devil_butler/animations/attack/north/frame_003.png",
+        "devil_butler/animations/attack/north/frame_004.png",
+        "devil_butler/animations/attack/north/frame_005.png",
+        "devil_butler/animations/attack/north/frame_006.png",
+        "devil_butler/animations/attack/north/frame_007.png",
+        "devil_butler/animations/attack/north/frame_008.png"
+       ],
+       "east": [
+        "devil_butler/animations/attack/east/frame_000.png",
+        "devil_butler/animations/attack/east/frame_001.png",
+        "devil_butler/animations/attack/east/frame_002.png",
+        "devil_butler/animations/attack/east/frame_003.png",
+        "devil_butler/animations/attack/east/frame_004.png",
+        "devil_butler/animations/attack/east/frame_005.png",
+        "devil_butler/animations/attack/east/frame_006.png",
+        "devil_butler/animations/attack/east/frame_007.png",
+        "devil_butler/animations/attack/east/frame_008.png"
+       ]
+      },
+      "skill": {
+       "west": [
+        "devil_butler/animations/skill/west/frame_000.png",
+        "devil_butler/animations/skill/west/frame_001.png",
+        "devil_butler/animations/skill/west/frame_002.png",
+        "devil_butler/animations/skill/west/frame_003.png",
+        "devil_butler/animations/skill/west/frame_004.png",
+        "devil_butler/animations/skill/west/frame_005.png",
+        "devil_butler/animations/skill/west/frame_006.png",
+        "devil_butler/animations/skill/west/frame_007.png",
+        "devil_butler/animations/skill/west/frame_008.png"
+       ],
+       "north": [
+        "devil_butler/animations/skill/north/frame_000.png",
+        "devil_butler/animations/skill/north/frame_001.png",
+        "devil_butler/animations/skill/north/frame_002.png",
+        "devil_butler/animations/skill/north/frame_003.png",
+        "devil_butler/animations/skill/north/frame_004.png",
+        "devil_butler/animations/skill/north/frame_005.png",
+        "devil_butler/animations/skill/north/frame_006.png",
+        "devil_butler/animations/skill/north/frame_007.png",
+        "devil_butler/animations/skill/north/frame_008.png"
+       ],
+       "east": [
+        "devil_butler/animations/skill/east/frame_000.png",
+        "devil_butler/animations/skill/east/frame_001.png",
+        "devil_butler/animations/skill/east/frame_002.png",
+        "devil_butler/animations/skill/east/frame_003.png",
+        "devil_butler/animations/skill/east/frame_004.png",
+        "devil_butler/animations/skill/east/frame_005.png",
+        "devil_butler/animations/skill/east/frame_006.png",
+        "devil_butler/animations/skill/east/frame_007.png",
+        "devil_butler/animations/skill/east/frame_008.png"
+       ],
+       "south": [
+        "devil_butler/animations/skill/south/frame_000.png",
+        "devil_butler/animations/skill/south/frame_001.png",
+        "devil_butler/animations/skill/south/frame_002.png",
+        "devil_butler/animations/skill/south/frame_003.png",
+        "devil_butler/animations/skill/south/frame_004.png",
+        "devil_butler/animations/skill/south/frame_005.png",
+        "devil_butler/animations/skill/south/frame_006.png",
+        "devil_butler/animations/skill/south/frame_007.png",
+        "devil_butler/animations/skill/south/frame_008.png"
+       ]
+      },
+      "attack-7187af2d": {
+       "west": [
+        "devil_butler/animations/attack-7187af2d/west/frame_000.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_001.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_002.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_003.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_004.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_005.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_006.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_007.png",
+        "devil_butler/animations/attack-7187af2d/west/frame_008.png"
+       ]
+      },
+      "death": {
+       "west": [
+        "devil_butler/animations/death/west/frame_000.png",
+        "devil_butler/animations/death/west/frame_001.png",
+        "devil_butler/animations/death/west/frame_002.png",
+        "devil_butler/animations/death/west/frame_003.png",
+        "devil_butler/animations/death/west/frame_004.png",
+        "devil_butler/animations/death/west/frame_005.png",
+        "devil_butler/animations/death/west/frame_006.png",
+        "devil_butler/animations/death/west/frame_007.png",
+        "devil_butler/animations/death/west/frame_008.png"
+       ],
+       "north": [
+        "devil_butler/animations/death/north/frame_000.png",
+        "devil_butler/animations/death/north/frame_001.png",
+        "devil_butler/animations/death/north/frame_002.png",
+        "devil_butler/animations/death/north/frame_003.png",
+        "devil_butler/animations/death/north/frame_004.png",
+        "devil_butler/animations/death/north/frame_005.png",
+        "devil_butler/animations/death/north/frame_006.png",
+        "devil_butler/animations/death/north/frame_007.png",
+        "devil_butler/animations/death/north/frame_008.png"
+       ],
+       "east": [
+        "devil_butler/animations/death/east/frame_000.png",
+        "devil_butler/animations/death/east/frame_001.png",
+        "devil_butler/animations/death/east/frame_002.png",
+        "devil_butler/animations/death/east/frame_003.png",
+        "devil_butler/animations/death/east/frame_004.png",
+        "devil_butler/animations/death/east/frame_005.png",
+        "devil_butler/animations/death/east/frame_006.png",
+        "devil_butler/animations/death/east/frame_007.png",
+        "devil_butler/animations/death/east/frame_008.png"
+       ],
+       "south": [
+        "devil_butler/animations/death/south/frame_000.png",
+        "devil_butler/animations/death/south/frame_001.png",
+        "devil_butler/animations/death/south/frame_002.png",
+        "devil_butler/animations/death/south/frame_003.png",
+        "devil_butler/animations/death/south/frame_004.png",
+        "devil_butler/animations/death/south/frame_005.png",
+        "devil_butler/animations/death/south/frame_006.png",
+        "devil_butler/animations/death/south/frame_007.png",
+        "devil_butler/animations/death/south/frame_008.png"
+       ]
+      },
+      "hit": {
+       "west": [
+        "devil_butler/animations/hit/west/frame_000.png",
+        "devil_butler/animations/hit/west/frame_001.png",
+        "devil_butler/animations/hit/west/frame_002.png",
+        "devil_butler/animations/hit/west/frame_003.png",
+        "devil_butler/animations/hit/west/frame_004.png"
+       ],
+       "north": [
+        "devil_butler/animations/hit/north/frame_000.png",
+        "devil_butler/animations/hit/north/frame_001.png",
+        "devil_butler/animations/hit/north/frame_002.png",
+        "devil_butler/animations/hit/north/frame_003.png",
+        "devil_butler/animations/hit/north/frame_004.png"
+       ],
+       "south": [
+        "devil_butler/animations/hit/south/frame_000.png",
+        "devil_butler/animations/hit/south/frame_001.png",
+        "devil_butler/animations/hit/south/frame_002.png",
+        "devil_butler/animations/hit/south/frame_003.png",
+        "devil_butler/animations/hit/south/frame_004.png"
+       ],
+       "east": [
+        "devil_butler/animations/hit/east/frame_000.png",
+        "devil_butler/animations/hit/east/frame_001.png",
+        "devil_butler/animations/hit/east/frame_002.png",
+        "devil_butler/animations/hit/east/frame_003.png",
+        "devil_butler/animations/hit/east/frame_004.png"
+       ]
+      },
+      "walking": {
+       "south": [
+        "devil_butler/animations/walking/south/frame_000.png",
+        "devil_butler/animations/walking/south/frame_001.png",
+        "devil_butler/animations/walking/south/frame_002.png",
+        "devil_butler/animations/walking/south/frame_003.png",
+        "devil_butler/animations/walking/south/frame_004.png",
+        "devil_butler/animations/walking/south/frame_005.png"
+       ],
+       "north": [
+        "devil_butler/animations/walking/north/frame_000.png",
+        "devil_butler/animations/walking/north/frame_001.png",
+        "devil_butler/animations/walking/north/frame_002.png",
+        "devil_butler/animations/walking/north/frame_003.png",
+        "devil_butler/animations/walking/north/frame_004.png",
+        "devil_butler/animations/walking/north/frame_005.png"
+       ],
+       "west": [
+        "devil_butler/animations/walking/west/frame_000.png",
+        "devil_butler/animations/walking/west/frame_001.png",
+        "devil_butler/animations/walking/west/frame_002.png",
+        "devil_butler/animations/walking/west/frame_003.png",
+        "devil_butler/animations/walking/west/frame_004.png",
+        "devil_butler/animations/walking/west/frame_005.png"
+       ],
+       "east": [
+        "devil_butler/animations/walking/east/frame_000.png",
+        "devil_butler/animations/walking/east/frame_001.png",
+        "devil_butler/animations/walking/east/frame_002.png",
+        "devil_butler/animations/walking/east/frame_003.png",
+        "devil_butler/animations/walking/east/frame_004.png",
+        "devil_butler/animations/walking/east/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T13:07:06.411705"
+ }
+}

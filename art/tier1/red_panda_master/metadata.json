@@ -1,0 +1,397 @@
+{
+ "id": "red_panda_master",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "character",
+   "unit": "red_panda_master",
+   "size": 64,
+   "directions": 8,
+   "view": "low top-down",
+   "template": "bear",
+   "mode": "standard",
+   "model": "v3",
+   "prompt": "a small red panda martial artist standing on two legs, short brown training wrap, bare paws, calm stern face",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 19.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "walk",
+   "action": "walking forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 14.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "attack",
+   "action": "a quick palm strike",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 15.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "skill",
+   "action": "a spinning flying kick",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 16.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 11.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 15.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "attack",
+   "action": "a quick palm strike",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 13.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "skill",
+   "action": "a spinning flying kick",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 13.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "north,west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 14.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/red_panda_master_64.zip",
+   "generations": 11.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "b2fd7d16-e54c-4d4f-8671-8a077f118289",
+  "states": [
+   {
+    "character": {
+     "id": "f5824291-cd70-4d01-8542-ad1975a5d878",
+     "name": "Idle",
+     "prompt": "a small red panda martial artist standing on two legs, short brown training wrap, bare paws, calm stern face",
+     "size": {
+      "width": 64,
+      "height": 64
+     },
+     "template_id": "bear",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T11:42:15.190284+00:00"
+    },
+    "folder": "Idle",
+    "frames": {
+     "rotations": {
+      "south": "Idle/rotations/south.png",
+      "south-east": "Idle/rotations/south-east.png",
+      "east": "Idle/rotations/east.png",
+      "north-east": "Idle/rotations/north-east.png",
+      "north": "Idle/rotations/north.png",
+      "north-west": "Idle/rotations/north-west.png",
+      "west": "Idle/rotations/west.png",
+      "south-west": "Idle/rotations/south-west.png"
+     },
+     "animations": {
+      "hit": {
+       "west": [
+        "Idle/animations/hit/west/frame_000.png",
+        "Idle/animations/hit/west/frame_001.png",
+        "Idle/animations/hit/west/frame_002.png",
+        "Idle/animations/hit/west/frame_003.png",
+        "Idle/animations/hit/west/frame_004.png"
+       ],
+       "north": [
+        "Idle/animations/hit/north/frame_000.png",
+        "Idle/animations/hit/north/frame_001.png",
+        "Idle/animations/hit/north/frame_002.png",
+        "Idle/animations/hit/north/frame_003.png",
+        "Idle/animations/hit/north/frame_004.png"
+       ]
+      },
+      "skill": {
+       "south": [
+        "Idle/animations/skill/south/frame_000.png",
+        "Idle/animations/skill/south/frame_001.png",
+        "Idle/animations/skill/south/frame_002.png",
+        "Idle/animations/skill/south/frame_003.png",
+        "Idle/animations/skill/south/frame_004.png",
+        "Idle/animations/skill/south/frame_005.png",
+        "Idle/animations/skill/south/frame_006.png",
+        "Idle/animations/skill/south/frame_007.png",
+        "Idle/animations/skill/south/frame_008.png"
+       ]
+      },
+      "attack": {
+       "north": [
+        "Idle/animations/attack/north/frame_000.png",
+        "Idle/animations/attack/north/frame_001.png",
+        "Idle/animations/attack/north/frame_002.png",
+        "Idle/animations/attack/north/frame_003.png",
+        "Idle/animations/attack/north/frame_004.png",
+        "Idle/animations/attack/north/frame_005.png",
+        "Idle/animations/attack/north/frame_006.png",
+        "Idle/animations/attack/north/frame_007.png",
+        "Idle/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/attack/west/frame_000.png",
+        "Idle/animations/attack/west/frame_001.png",
+        "Idle/animations/attack/west/frame_002.png",
+        "Idle/animations/attack/west/frame_003.png",
+        "Idle/animations/attack/west/frame_004.png",
+        "Idle/animations/attack/west/frame_005.png",
+        "Idle/animations/attack/west/frame_006.png",
+        "Idle/animations/attack/west/frame_007.png",
+        "Idle/animations/attack/west/frame_008.png"
+       ]
+      },
+      "death": {
+       "south": [
+        "Idle/animations/death/south/frame_000.png",
+        "Idle/animations/death/south/frame_001.png",
+        "Idle/animations/death/south/frame_002.png",
+        "Idle/animations/death/south/frame_003.png",
+        "Idle/animations/death/south/frame_004.png",
+        "Idle/animations/death/south/frame_005.png",
+        "Idle/animations/death/south/frame_006.png",
+        "Idle/animations/death/south/frame_007.png",
+        "Idle/animations/death/south/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/death/east/frame_000.png",
+        "Idle/animations/death/east/frame_001.png",
+        "Idle/animations/death/east/frame_002.png",
+        "Idle/animations/death/east/frame_003.png",
+        "Idle/animations/death/east/frame_004.png",
+        "Idle/animations/death/east/frame_005.png",
+        "Idle/animations/death/east/frame_006.png",
+        "Idle/animations/death/east/frame_007.png",
+        "Idle/animations/death/east/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/death/north/frame_000.png",
+        "Idle/animations/death/north/frame_001.png",
+        "Idle/animations/death/north/frame_002.png",
+        "Idle/animations/death/north/frame_003.png",
+        "Idle/animations/death/north/frame_004.png",
+        "Idle/animations/death/north/frame_005.png",
+        "Idle/animations/death/north/frame_006.png",
+        "Idle/animations/death/north/frame_007.png",
+        "Idle/animations/death/north/frame_008.png"
+       ]
+      },
+      "attack-4b7c7ca3": {
+       "south": [
+        "Idle/animations/attack-4b7c7ca3/south/frame_000.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_001.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_002.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_003.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_004.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_005.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_006.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_007.png",
+        "Idle/animations/attack-4b7c7ca3/south/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/attack-4b7c7ca3/east/frame_000.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_001.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_002.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_003.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_004.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_005.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_006.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_007.png",
+        "Idle/animations/attack-4b7c7ca3/east/frame_008.png"
+       ]
+      },
+      "walk": {
+       "west": [
+        "Idle/animations/walk/west/frame_000.png",
+        "Idle/animations/walk/west/frame_001.png",
+        "Idle/animations/walk/west/frame_002.png",
+        "Idle/animations/walk/west/frame_003.png",
+        "Idle/animations/walk/west/frame_004.png",
+        "Idle/animations/walk/west/frame_005.png",
+        "Idle/animations/walk/west/frame_006.png",
+        "Idle/animations/walk/west/frame_007.png",
+        "Idle/animations/walk/west/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/walk/east/frame_000.png",
+        "Idle/animations/walk/east/frame_001.png",
+        "Idle/animations/walk/east/frame_002.png",
+        "Idle/animations/walk/east/frame_003.png",
+        "Idle/animations/walk/east/frame_004.png",
+        "Idle/animations/walk/east/frame_005.png",
+        "Idle/animations/walk/east/frame_006.png",
+        "Idle/animations/walk/east/frame_007.png",
+        "Idle/animations/walk/east/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/walk/north/frame_000.png",
+        "Idle/animations/walk/north/frame_001.png",
+        "Idle/animations/walk/north/frame_002.png",
+        "Idle/animations/walk/north/frame_003.png",
+        "Idle/animations/walk/north/frame_004.png",
+        "Idle/animations/walk/north/frame_005.png",
+        "Idle/animations/walk/north/frame_006.png",
+        "Idle/animations/walk/north/frame_007.png",
+        "Idle/animations/walk/north/frame_008.png"
+       ],
+       "south": [
+        "Idle/animations/walk/south/frame_000.png",
+        "Idle/animations/walk/south/frame_001.png",
+        "Idle/animations/walk/south/frame_002.png",
+        "Idle/animations/walk/south/frame_003.png",
+        "Idle/animations/walk/south/frame_004.png",
+        "Idle/animations/walk/south/frame_005.png",
+        "Idle/animations/walk/south/frame_006.png",
+        "Idle/animations/walk/south/frame_007.png",
+        "Idle/animations/walk/south/frame_008.png"
+       ]
+      },
+      "hit-64e59e1e": {
+       "south": [
+        "Idle/animations/hit-64e59e1e/south/frame_000.png",
+        "Idle/animations/hit-64e59e1e/south/frame_001.png",
+        "Idle/animations/hit-64e59e1e/south/frame_002.png",
+        "Idle/animations/hit-64e59e1e/south/frame_003.png",
+        "Idle/animations/hit-64e59e1e/south/frame_004.png"
+       ],
+       "east": [
+        "Idle/animations/hit-64e59e1e/east/frame_000.png",
+        "Idle/animations/hit-64e59e1e/east/frame_001.png",
+        "Idle/animations/hit-64e59e1e/east/frame_002.png",
+        "Idle/animations/hit-64e59e1e/east/frame_003.png",
+        "Idle/animations/hit-64e59e1e/east/frame_004.png"
+       ]
+      },
+      "death-77aaf0a1": {
+       "west": [
+        "Idle/animations/death-77aaf0a1/west/frame_000.png",
+        "Idle/animations/death-77aaf0a1/west/frame_001.png",
+        "Idle/animations/death-77aaf0a1/west/frame_002.png",
+        "Idle/animations/death-77aaf0a1/west/frame_003.png",
+        "Idle/animations/death-77aaf0a1/west/frame_004.png",
+        "Idle/animations/death-77aaf0a1/west/frame_005.png",
+        "Idle/animations/death-77aaf0a1/west/frame_006.png",
+        "Idle/animations/death-77aaf0a1/west/frame_007.png",
+        "Idle/animations/death-77aaf0a1/west/frame_008.png"
+       ]
+      },
+      "skill-da3ab76d": {
+       "west": [
+        "Idle/animations/skill-da3ab76d/west/frame_000.png",
+        "Idle/animations/skill-da3ab76d/west/frame_001.png",
+        "Idle/animations/skill-da3ab76d/west/frame_002.png",
+        "Idle/animations/skill-da3ab76d/west/frame_003.png",
+        "Idle/animations/skill-da3ab76d/west/frame_004.png",
+        "Idle/animations/skill-da3ab76d/west/frame_005.png",
+        "Idle/animations/skill-da3ab76d/west/frame_006.png",
+        "Idle/animations/skill-da3ab76d/west/frame_007.png",
+        "Idle/animations/skill-da3ab76d/west/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/skill-da3ab76d/east/frame_000.png",
+        "Idle/animations/skill-da3ab76d/east/frame_001.png",
+        "Idle/animations/skill-da3ab76d/east/frame_002.png",
+        "Idle/animations/skill-da3ab76d/east/frame_003.png",
+        "Idle/animations/skill-da3ab76d/east/frame_004.png",
+        "Idle/animations/skill-da3ab76d/east/frame_005.png",
+        "Idle/animations/skill-da3ab76d/east/frame_006.png",
+        "Idle/animations/skill-da3ab76d/east/frame_007.png",
+        "Idle/animations/skill-da3ab76d/east/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/skill-da3ab76d/north/frame_000.png",
+        "Idle/animations/skill-da3ab76d/north/frame_001.png",
+        "Idle/animations/skill-da3ab76d/north/frame_002.png",
+        "Idle/animations/skill-da3ab76d/north/frame_003.png",
+        "Idle/animations/skill-da3ab76d/north/frame_004.png",
+        "Idle/animations/skill-da3ab76d/north/frame_005.png",
+        "Idle/animations/skill-da3ab76d/north/frame_006.png",
+        "Idle/animations/skill-da3ab76d/north/frame_007.png",
+        "Idle/animations/skill-da3ab76d/north/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T12:05:32.929594"
+ }
+}

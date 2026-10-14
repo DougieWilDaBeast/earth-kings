@@ -233,7 +233,7 @@
 		],
 		"kind": "beast",
 		"color": "#5a4a7d",
-		"sprite_dir": "res://art/units/wraith/idle"
+		"sprite_dir": "res://art/tier1/wraith/idle"
 	},
 	"cabin_boy": {
 		"display_name": "Cabin Hand",
@@ -299,7 +299,7 @@
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#e0603a",
-		"sprite_dir": "res://art/units/fox_knight/idle"
+		"sprite_dir": "res://art/tier1/fox_knight/idle"
 	},
 	"pig_warlock": {
 		"display_name": "Warlock",
@@ -322,7 +322,7 @@
 		],
 		"kind": "wild",
 		"color": "#d67ab5",
-		"sprite_dir": "res://art/units/pig_warlock/idle"
+		"sprite_dir": "res://art/tier1/pig_warlock/idle"
 	},
 	"tree_sentinel": {
 		"display_name": "Sentinel",
@@ -391,7 +391,7 @@
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#b8632f",
-		"sprite_dir": "res://art/units/ember_duelist/idle"
+		"sprite_dir": "res://art/tier1/ember_duelist/idle"
 	},
 	"flame_dove": {
 		"display_name": "Ember Dove",
@@ -508,7 +508,7 @@
 		"kind": "soldier",
 		"flash_step": 2,
 		"color": "#5b5670",
-		"sprite_dir": "res://art/units/emo_swordsman/idle"
+		"sprite_dir": "res://art/tier1/emo_swordsman/idle"
 	},
 	"village_idiot": {
 		"display_name": "Village Idiot",
@@ -528,7 +528,7 @@
 		],
 		"kind": "soldier",
 		"color": "#a89070",
-		"sprite_dir": "res://art/units/village_idiot/idle"
+		"sprite_dir": "res://art/tier1/village_idiot/idle"
 	},
 	"neuron_chief": {
 		"display_name": "The Chief",
@@ -570,7 +570,7 @@
 		],
 		"kind": "soldier",
 		"color": "#6b7a8f",
-		"sprite_dir": "res://art/units/emo_swordsman/idle"
+		"sprite_dir": "res://art/tier1/emo_swordsman/idle"
 	},
 	"innkeeper": {
 		"display_name": "Innkeep",
@@ -897,7 +897,7 @@
 		"flash_step": 3,
 		"color": "#c08a52",
 		"body_scale": 0.85,
-		"sprite_dir": "res://art/units/sword_monkey/idle"
+		"sprite_dir": "res://art/tier1/sword_monkey/idle"
 	},
 	"golden_knight": {
 		"display_name": "Golden Knight",
@@ -1191,7 +1191,7 @@
 		"kind": "soldier",
 		"color": "#c86a3a",
 		"body_scale": 0.85,
-		"sprite_dir": "res://art/units/red_panda_master/idle"
+		"sprite_dir": "res://art/tier1/red_panda_master/idle"
 	},
 	"staff_panda": {
 		"display_name": "Staff Panda",
@@ -1214,7 +1214,7 @@
 		],
 		"kind": "soldier",
 		"color": "#e8e6e0",
-		"sprite_dir": "res://art/units/staff_panda/idle"
+		"sprite_dir": "res://art/tier1/staff_panda/idle"
 	},
 	"element_monk": {
 		"display_name": "Element Monk",
@@ -1238,7 +1238,7 @@
 		"kind": "soldier",
 		"flash_step": 3,
 		"color": "#7a5ac0",
-		"sprite_dir": "res://art/units/element_monk/idle"
+		"sprite_dir": "res://art/tier1/element_monk/idle"
 	},
 	"sword_bear": {
 		"display_name": "Sword Bear",
@@ -1551,7 +1551,7 @@
 		],
 		"kind": "beast",
 		"color": "#d2622f",
-		"sprite_dir": "res://art/units/eye_slinger/idle"
+		"sprite_dir": "res://art/tier1/eye_slinger/idle"
 	},
 	"ice_wolf": {
 		"display_name": "Ice Wolf",

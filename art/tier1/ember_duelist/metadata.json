@@ -1,0 +1,335 @@
+{
+ "id": "ember_duelist",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "dress",
+   "unit": "ember_duelist",
+   "base": "2f5feedf-71de-424c-905c-e336b6d73fb9",
+   "outfit": "dress him as a duelist in a slashed dark coat over light mail, one sword wreathed in faint ember light, a half-mask, ash-marked hands. Keep his proportions, head size and face exactly. Finish him like detailed heroic pixel art: a dark outline, three tones of shading on every surface, worn highlights on metal and leather, a muted earthy palette.",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 18.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "walk",
+   "action": "",
+   "template_animation": "walk",
+   "mode": "skeleton-v3",
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 36.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "attack",
+   "action": "a fast fencing lunge with the ember sword",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 20.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "skill",
+   "action": "a flurry of three burning slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 16.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 16.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 16.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "54b9f190-1e89-4269-952e-d55329a55980",
+   "name": "skill",
+   "action": "a flurry of three burning slashes",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "east,north,west",
+   "zip": "downloads/pixellab/ember_duelist_base.zip",
+   "generations": 22.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "84c5765f-0b75-4b0d-9122-045d18310831",
+  "states": [
+   {
+    "character": {
+     "id": "54b9f190-1e89-4269-952e-d55329a55980",
+     "name": "ember_duelist",
+     "prompt": "Blank Male character",
+     "size": {
+      "width": 48,
+      "height": 72
+     },
+     "template_id": "mannequin",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T12:29:57.704863+00:00"
+    },
+    "folder": "ember_duelist",
+    "frames": {
+     "rotations": {
+      "south": "ember_duelist/rotations/south.png",
+      "south-east": "ember_duelist/rotations/south-east.png",
+      "east": "ember_duelist/rotations/east.png",
+      "north-east": "ember_duelist/rotations/north-east.png",
+      "north": "ember_duelist/rotations/north.png",
+      "north-west": "ember_duelist/rotations/north-west.png",
+      "west": "ember_duelist/rotations/west.png",
+      "south-west": "ember_duelist/rotations/south-west.png"
+     },
+     "animations": {
+      "attack": {
+       "south": [
+        "ember_duelist/animations/attack/south/frame_000.png",
+        "ember_duelist/animations/attack/south/frame_001.png",
+        "ember_duelist/animations/attack/south/frame_002.png",
+        "ember_duelist/animations/attack/south/frame_003.png",
+        "ember_duelist/animations/attack/south/frame_004.png",
+        "ember_duelist/animations/attack/south/frame_005.png",
+        "ember_duelist/animations/attack/south/frame_006.png",
+        "ember_duelist/animations/attack/south/frame_007.png",
+        "ember_duelist/animations/attack/south/frame_008.png"
+       ],
+       "east": [
+        "ember_duelist/animations/attack/east/frame_000.png",
+        "ember_duelist/animations/attack/east/frame_001.png",
+        "ember_duelist/animations/attack/east/frame_002.png",
+        "ember_duelist/animations/attack/east/frame_003.png",
+        "ember_duelist/animations/attack/east/frame_004.png",
+        "ember_duelist/animations/attack/east/frame_005.png",
+        "ember_duelist/animations/attack/east/frame_006.png",
+        "ember_duelist/animations/attack/east/frame_007.png",
+        "ember_duelist/animations/attack/east/frame_008.png"
+       ],
+       "west": [
+        "ember_duelist/animations/attack/west/frame_000.png",
+        "ember_duelist/animations/attack/west/frame_001.png",
+        "ember_duelist/animations/attack/west/frame_002.png",
+        "ember_duelist/animations/attack/west/frame_003.png",
+        "ember_duelist/animations/attack/west/frame_004.png",
+        "ember_duelist/animations/attack/west/frame_005.png",
+        "ember_duelist/animations/attack/west/frame_006.png",
+        "ember_duelist/animations/attack/west/frame_007.png",
+        "ember_duelist/animations/attack/west/frame_008.png"
+       ],
+       "north": [
+        "ember_duelist/animations/attack/north/frame_000.png",
+        "ember_duelist/animations/attack/north/frame_001.png",
+        "ember_duelist/animations/attack/north/frame_002.png",
+        "ember_duelist/animations/attack/north/frame_003.png",
+        "ember_duelist/animations/attack/north/frame_004.png",
+        "ember_duelist/animations/attack/north/frame_005.png",
+        "ember_duelist/animations/attack/north/frame_006.png",
+        "ember_duelist/animations/attack/north/frame_007.png",
+        "ember_duelist/animations/attack/north/frame_008.png"
+       ]
+      },
+      "skill": {
+       "north": [
+        "ember_duelist/animations/skill/north/frame_000.png",
+        "ember_duelist/animations/skill/north/frame_001.png",
+        "ember_duelist/animations/skill/north/frame_002.png",
+        "ember_duelist/animations/skill/north/frame_003.png",
+        "ember_duelist/animations/skill/north/frame_004.png",
+        "ember_duelist/animations/skill/north/frame_005.png",
+        "ember_duelist/animations/skill/north/frame_006.png",
+        "ember_duelist/animations/skill/north/frame_007.png",
+        "ember_duelist/animations/skill/north/frame_008.png"
+       ],
+       "west": [
+        "ember_duelist/animations/skill/west/frame_000.png",
+        "ember_duelist/animations/skill/west/frame_001.png",
+        "ember_duelist/animations/skill/west/frame_002.png",
+        "ember_duelist/animations/skill/west/frame_003.png",
+        "ember_duelist/animations/skill/west/frame_004.png",
+        "ember_duelist/animations/skill/west/frame_005.png",
+        "ember_duelist/animations/skill/west/frame_006.png",
+        "ember_duelist/animations/skill/west/frame_007.png",
+        "ember_duelist/animations/skill/west/frame_008.png"
+       ],
+       "east": [
+        "ember_duelist/animations/skill/east/frame_000.png",
+        "ember_duelist/animations/skill/east/frame_001.png",
+        "ember_duelist/animations/skill/east/frame_002.png",
+        "ember_duelist/animations/skill/east/frame_003.png",
+        "ember_duelist/animations/skill/east/frame_004.png",
+        "ember_duelist/animations/skill/east/frame_005.png",
+        "ember_duelist/animations/skill/east/frame_006.png",
+        "ember_duelist/animations/skill/east/frame_007.png",
+        "ember_duelist/animations/skill/east/frame_008.png"
+       ]
+      },
+      "skill-6ca79921": {
+       "south": [
+        "ember_duelist/animations/skill-6ca79921/south/frame_000.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_001.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_002.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_003.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_004.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_005.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_006.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_007.png",
+        "ember_duelist/animations/skill-6ca79921/south/frame_008.png"
+       ]
+      },
+      "death": {
+       "west": [
+        "ember_duelist/animations/death/west/frame_000.png",
+        "ember_duelist/animations/death/west/frame_001.png",
+        "ember_duelist/animations/death/west/frame_002.png",
+        "ember_duelist/animations/death/west/frame_003.png",
+        "ember_duelist/animations/death/west/frame_004.png",
+        "ember_duelist/animations/death/west/frame_005.png",
+        "ember_duelist/animations/death/west/frame_006.png",
+        "ember_duelist/animations/death/west/frame_007.png",
+        "ember_duelist/animations/death/west/frame_008.png"
+       ],
+       "north": [
+        "ember_duelist/animations/death/north/frame_000.png",
+        "ember_duelist/animations/death/north/frame_001.png",
+        "ember_duelist/animations/death/north/frame_002.png",
+        "ember_duelist/animations/death/north/frame_003.png",
+        "ember_duelist/animations/death/north/frame_004.png",
+        "ember_duelist/animations/death/north/frame_005.png",
+        "ember_duelist/animations/death/north/frame_006.png",
+        "ember_duelist/animations/death/north/frame_007.png",
+        "ember_duelist/animations/death/north/frame_008.png"
+       ],
+       "south": [
+        "ember_duelist/animations/death/south/frame_000.png",
+        "ember_duelist/animations/death/south/frame_001.png",
+        "ember_duelist/animations/death/south/frame_002.png",
+        "ember_duelist/animations/death/south/frame_003.png",
+        "ember_duelist/animations/death/south/frame_004.png",
+        "ember_duelist/animations/death/south/frame_005.png",
+        "ember_duelist/animations/death/south/frame_006.png",
+        "ember_duelist/animations/death/south/frame_007.png",
+        "ember_duelist/animations/death/south/frame_008.png"
+       ],
+       "east": [
+        "ember_duelist/animations/death/east/frame_000.png",
+        "ember_duelist/animations/death/east/frame_001.png",
+        "ember_duelist/animations/death/east/frame_002.png",
+        "ember_duelist/animations/death/east/frame_003.png",
+        "ember_duelist/animations/death/east/frame_004.png",
+        "ember_duelist/animations/death/east/frame_005.png",
+        "ember_duelist/animations/death/east/frame_006.png",
+        "ember_duelist/animations/death/east/frame_007.png",
+        "ember_duelist/animations/death/east/frame_008.png"
+       ]
+      },
+      "hit": {
+       "west": [
+        "ember_duelist/animations/hit/west/frame_000.png",
+        "ember_duelist/animations/hit/west/frame_001.png",
+        "ember_duelist/animations/hit/west/frame_002.png",
+        "ember_duelist/animations/hit/west/frame_003.png",
+        "ember_duelist/animations/hit/west/frame_004.png"
+       ],
+       "south": [
+        "ember_duelist/animations/hit/south/frame_000.png",
+        "ember_duelist/animations/hit/south/frame_001.png",
+        "ember_duelist/animations/hit/south/frame_002.png",
+        "ember_duelist/animations/hit/south/frame_003.png",
+        "ember_duelist/animations/hit/south/frame_004.png"
+       ],
+       "east": [
+        "ember_duelist/animations/hit/east/frame_000.png",
+        "ember_duelist/animations/hit/east/frame_001.png",
+        "ember_duelist/animations/hit/east/frame_002.png",
+        "ember_duelist/animations/hit/east/frame_003.png",
+        "ember_duelist/animations/hit/east/frame_004.png"
+       ],
+       "north": [
+        "ember_duelist/animations/hit/north/frame_000.png",
+        "ember_duelist/animations/hit/north/frame_001.png",
+        "ember_duelist/animations/hit/north/frame_002.png",
+        "ember_duelist/animations/hit/north/frame_003.png",
+        "ember_duelist/animations/hit/north/frame_004.png"
+       ]
+      },
+      "walking": {
+       "east": [
+        "ember_duelist/animations/walking/east/frame_000.png",
+        "ember_duelist/animations/walking/east/frame_001.png",
+        "ember_duelist/animations/walking/east/frame_002.png",
+        "ember_duelist/animations/walking/east/frame_003.png",
+        "ember_duelist/animations/walking/east/frame_004.png",
+        "ember_duelist/animations/walking/east/frame_005.png"
+       ],
+       "west": [
+        "ember_duelist/animations/walking/west/frame_000.png",
+        "ember_duelist/animations/walking/west/frame_001.png",
+        "ember_duelist/animations/walking/west/frame_002.png",
+        "ember_duelist/animations/walking/west/frame_003.png",
+        "ember_duelist/animations/walking/west/frame_004.png",
+        "ember_duelist/animations/walking/west/frame_005.png"
+       ],
+       "north": [
+        "ember_duelist/animations/walking/north/frame_000.png",
+        "ember_duelist/animations/walking/north/frame_001.png",
+        "ember_duelist/animations/walking/north/frame_002.png",
+        "ember_duelist/animations/walking/north/frame_003.png",
+        "ember_duelist/animations/walking/north/frame_004.png",
+        "ember_duelist/animations/walking/north/frame_005.png"
+       ],
+       "south": [
+        "ember_duelist/animations/walking/south/frame_000.png",
+        "ember_duelist/animations/walking/south/frame_001.png",
+        "ember_duelist/animations/walking/south/frame_002.png",
+        "ember_duelist/animations/walking/south/frame_003.png",
+        "ember_duelist/animations/walking/south/frame_004.png",
+        "ember_duelist/animations/walking/south/frame_005.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T12:47:40.278263"
+ }
+}

@@ -1,0 +1,352 @@
+{
+ "id": "ice_wolf",
+ "view": "low top-down",
+ "generations": [
+  {
+   "kind": "character",
+   "unit": "ice_wolf",
+   "size": 64,
+   "directions": 8,
+   "view": "low top-down",
+   "template": "dog",
+   "mode": "standard",
+   "model": "v3",
+   "prompt": "a lean grey-white wolf with frost crystals along its back and pale blue eyes, cold breath",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 33.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "walk",
+   "action": "trotting forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 29.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "attack",
+   "action": "a lunging bite",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 23.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "skill",
+   "action": "howling as a blast of frost breath bursts out",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 21.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "hit",
+   "action": "flinching back from a blow",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 4,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 10.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "death",
+   "action": "collapsing and lying still",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "south,east,north,west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 29.0,
+   "date": "2026-10-14"
+  },
+  {
+   "kind": "animation",
+   "character_id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+   "name": "walk",
+   "action": "trotting forward",
+   "template_animation": null,
+   "mode": null,
+   "frames_asked": 8,
+   "directions": "west",
+   "zip": "downloads/pixellab/ice_wolf_64.zip",
+   "generations": 4.0,
+   "date": "2026-10-14"
+  }
+ ],
+ "pixellab": {
+  "group_id": "f7642e77-797b-4239-860d-9aa4b7a6c949",
+  "states": [
+   {
+    "character": {
+     "id": "33e80dfb-ba07-4190-b991-deae137ae4f0",
+     "name": "Idle",
+     "prompt": "a lean grey-white wolf with frost crystals along its back and pale blue eyes, cold breath",
+     "size": {
+      "width": 64,
+      "height": 64
+     },
+     "template_id": "dog",
+     "directions": 8,
+     "view": "low top-down",
+     "created_at": "2026-10-14T12:44:41.270054+00:00"
+    },
+    "folder": "Idle",
+    "frames": {
+     "rotations": {
+      "south": "Idle/rotations/south.png",
+      "south-east": "Idle/rotations/south-east.png",
+      "east": "Idle/rotations/east.png",
+      "north-east": "Idle/rotations/north-east.png",
+      "north": "Idle/rotations/north.png",
+      "north-west": "Idle/rotations/north-west.png",
+      "west": "Idle/rotations/west.png",
+      "south-west": "Idle/rotations/south-west.png"
+     },
+     "animations": {
+      "walk": {
+       "south": [
+        "Idle/animations/walk/south/frame_000.png",
+        "Idle/animations/walk/south/frame_001.png",
+        "Idle/animations/walk/south/frame_002.png",
+        "Idle/animations/walk/south/frame_003.png",
+        "Idle/animations/walk/south/frame_004.png",
+        "Idle/animations/walk/south/frame_005.png",
+        "Idle/animations/walk/south/frame_006.png",
+        "Idle/animations/walk/south/frame_007.png",
+        "Idle/animations/walk/south/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/walk/east/frame_000.png",
+        "Idle/animations/walk/east/frame_001.png",
+        "Idle/animations/walk/east/frame_002.png",
+        "Idle/animations/walk/east/frame_003.png",
+        "Idle/animations/walk/east/frame_004.png",
+        "Idle/animations/walk/east/frame_005.png",
+        "Idle/animations/walk/east/frame_006.png",
+        "Idle/animations/walk/east/frame_007.png",
+        "Idle/animations/walk/east/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/walk/north/frame_000.png",
+        "Idle/animations/walk/north/frame_001.png",
+        "Idle/animations/walk/north/frame_002.png",
+        "Idle/animations/walk/north/frame_003.png",
+        "Idle/animations/walk/north/frame_004.png",
+        "Idle/animations/walk/north/frame_005.png",
+        "Idle/animations/walk/north/frame_006.png",
+        "Idle/animations/walk/north/frame_007.png",
+        "Idle/animations/walk/north/frame_008.png"
+       ]
+      },
+      "hit": {
+       "east": [
+        "Idle/animations/hit/east/frame_000.png",
+        "Idle/animations/hit/east/frame_001.png",
+        "Idle/animations/hit/east/frame_002.png",
+        "Idle/animations/hit/east/frame_003.png",
+        "Idle/animations/hit/east/frame_004.png"
+       ],
+       "north": [
+        "Idle/animations/hit/north/frame_000.png",
+        "Idle/animations/hit/north/frame_001.png",
+        "Idle/animations/hit/north/frame_002.png",
+        "Idle/animations/hit/north/frame_003.png",
+        "Idle/animations/hit/north/frame_004.png"
+       ],
+       "west": [
+        "Idle/animations/hit/west/frame_000.png",
+        "Idle/animations/hit/west/frame_001.png",
+        "Idle/animations/hit/west/frame_002.png",
+        "Idle/animations/hit/west/frame_003.png",
+        "Idle/animations/hit/west/frame_004.png"
+       ],
+       "south": [
+        "Idle/animations/hit/south/frame_000.png",
+        "Idle/animations/hit/south/frame_001.png",
+        "Idle/animations/hit/south/frame_002.png",
+        "Idle/animations/hit/south/frame_003.png",
+        "Idle/animations/hit/south/frame_004.png"
+       ]
+      },
+      "walk-1401dfd1": {
+       "west": [
+        "Idle/animations/walk-1401dfd1/west/frame_000.png",
+        "Idle/animations/walk-1401dfd1/west/frame_001.png",
+        "Idle/animations/walk-1401dfd1/west/frame_002.png",
+        "Idle/animations/walk-1401dfd1/west/frame_003.png",
+        "Idle/animations/walk-1401dfd1/west/frame_004.png",
+        "Idle/animations/walk-1401dfd1/west/frame_005.png",
+        "Idle/animations/walk-1401dfd1/west/frame_006.png",
+        "Idle/animations/walk-1401dfd1/west/frame_007.png",
+        "Idle/animations/walk-1401dfd1/west/frame_008.png"
+       ]
+      },
+      "skill": {
+       "south": [
+        "Idle/animations/skill/south/frame_000.png",
+        "Idle/animations/skill/south/frame_001.png",
+        "Idle/animations/skill/south/frame_002.png",
+        "Idle/animations/skill/south/frame_003.png",
+        "Idle/animations/skill/south/frame_004.png",
+        "Idle/animations/skill/south/frame_005.png",
+        "Idle/animations/skill/south/frame_006.png",
+        "Idle/animations/skill/south/frame_007.png",
+        "Idle/animations/skill/south/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/skill/west/frame_000.png",
+        "Idle/animations/skill/west/frame_001.png",
+        "Idle/animations/skill/west/frame_002.png",
+        "Idle/animations/skill/west/frame_003.png",
+        "Idle/animations/skill/west/frame_004.png",
+        "Idle/animations/skill/west/frame_005.png",
+        "Idle/animations/skill/west/frame_006.png",
+        "Idle/animations/skill/west/frame_007.png",
+        "Idle/animations/skill/west/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/skill/north/frame_000.png",
+        "Idle/animations/skill/north/frame_001.png",
+        "Idle/animations/skill/north/frame_002.png",
+        "Idle/animations/skill/north/frame_003.png",
+        "Idle/animations/skill/north/frame_004.png",
+        "Idle/animations/skill/north/frame_005.png",
+        "Idle/animations/skill/north/frame_006.png",
+        "Idle/animations/skill/north/frame_007.png",
+        "Idle/animations/skill/north/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/skill/east/frame_000.png",
+        "Idle/animations/skill/east/frame_001.png",
+        "Idle/animations/skill/east/frame_002.png",
+        "Idle/animations/skill/east/frame_003.png",
+        "Idle/animations/skill/east/frame_004.png",
+        "Idle/animations/skill/east/frame_005.png",
+        "Idle/animations/skill/east/frame_006.png",
+        "Idle/animations/skill/east/frame_007.png",
+        "Idle/animations/skill/east/frame_008.png"
+       ]
+      },
+      "death": {
+       "north": [
+        "Idle/animations/death/north/frame_000.png",
+        "Idle/animations/death/north/frame_001.png",
+        "Idle/animations/death/north/frame_002.png",
+        "Idle/animations/death/north/frame_003.png",
+        "Idle/animations/death/north/frame_004.png",
+        "Idle/animations/death/north/frame_005.png",
+        "Idle/animations/death/north/frame_006.png",
+        "Idle/animations/death/north/frame_007.png",
+        "Idle/animations/death/north/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/death/west/frame_000.png",
+        "Idle/animations/death/west/frame_001.png",
+        "Idle/animations/death/west/frame_002.png",
+        "Idle/animations/death/west/frame_003.png",
+        "Idle/animations/death/west/frame_004.png",
+        "Idle/animations/death/west/frame_005.png",
+        "Idle/animations/death/west/frame_006.png",
+        "Idle/animations/death/west/frame_007.png",
+        "Idle/animations/death/west/frame_008.png"
+       ],
+       "south": [
+        "Idle/animations/death/south/frame_000.png",
+        "Idle/animations/death/south/frame_001.png",
+        "Idle/animations/death/south/frame_002.png",
+        "Idle/animations/death/south/frame_003.png",
+        "Idle/animations/death/south/frame_004.png",
+        "Idle/animations/death/south/frame_005.png",
+        "Idle/animations/death/south/frame_006.png",
+        "Idle/animations/death/south/frame_007.png",
+        "Idle/animations/death/south/frame_008.png"
+       ],
+       "east": [
+        "Idle/animations/death/east/frame_000.png",
+        "Idle/animations/death/east/frame_001.png",
+        "Idle/animations/death/east/frame_002.png",
+        "Idle/animations/death/east/frame_003.png",
+        "Idle/animations/death/east/frame_004.png",
+        "Idle/animations/death/east/frame_005.png",
+        "Idle/animations/death/east/frame_006.png",
+        "Idle/animations/death/east/frame_007.png",
+        "Idle/animations/death/east/frame_008.png"
+       ]
+      },
+      "attack": {
+       "east": [
+        "Idle/animations/attack/east/frame_000.png",
+        "Idle/animations/attack/east/frame_001.png",
+        "Idle/animations/attack/east/frame_002.png",
+        "Idle/animations/attack/east/frame_003.png",
+        "Idle/animations/attack/east/frame_004.png",
+        "Idle/animations/attack/east/frame_005.png",
+        "Idle/animations/attack/east/frame_006.png",
+        "Idle/animations/attack/east/frame_007.png",
+        "Idle/animations/attack/east/frame_008.png"
+       ],
+       "north": [
+        "Idle/animations/attack/north/frame_000.png",
+        "Idle/animations/attack/north/frame_001.png",
+        "Idle/animations/attack/north/frame_002.png",
+        "Idle/animations/attack/north/frame_003.png",
+        "Idle/animations/attack/north/frame_004.png",
+        "Idle/animations/attack/north/frame_005.png",
+        "Idle/animations/attack/north/frame_006.png",
+        "Idle/animations/attack/north/frame_007.png",
+        "Idle/animations/attack/north/frame_008.png"
+       ],
+       "west": [
+        "Idle/animations/attack/west/frame_000.png",
+        "Idle/animations/attack/west/frame_001.png",
+        "Idle/animations/attack/west/frame_002.png",
+        "Idle/animations/attack/west/frame_003.png",
+        "Idle/animations/attack/west/frame_004.png",
+        "Idle/animations/attack/west/frame_005.png",
+        "Idle/animations/attack/west/frame_006.png",
+        "Idle/animations/attack/west/frame_007.png",
+        "Idle/animations/attack/west/frame_008.png"
+       ],
+       "south": [
+        "Idle/animations/attack/south/frame_000.png",
+        "Idle/animations/attack/south/frame_001.png",
+        "Idle/animations/attack/south/frame_002.png",
+        "Idle/animations/attack/south/frame_003.png",
+        "Idle/animations/attack/south/frame_004.png",
+        "Idle/animations/attack/south/frame_005.png",
+        "Idle/animations/attack/south/frame_006.png",
+        "Idle/animations/attack/south/frame_007.png",
+        "Idle/animations/attack/south/frame_008.png"
+       ]
+      }
+     }
+    }
+   }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-14T13:06:59.584756"
+ }
+}
