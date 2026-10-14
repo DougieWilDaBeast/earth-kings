@@ -46,8 +46,8 @@ static func next_step(world: World) -> Vector2i:
 ## Where the First Hour sends the party next (D95), for the compass and for
 ## Auto: `cell`, `label` (what the compass says), and `stop` (whether a party
 ## walking itself hands back control on arriving, where nothing starts by itself).
-## In order: an errand taken (a Guild contract included), the nearest town until
-## one has been stood in, the nearest gate of the lowest rank until a gate has
+## In order: an errand taken (a Guild contract included), the great city (or,
+## with none, the nearest town) until a town has been stood in, the nearest gate of the lowest rank until a gate has
 ## been shut, then the Tower. A gate above the lead's rank (one whose expected
 ## level is past the lead's) is never chosen: with none at their rank open, the
 ## Tower is (D97). Empty when there is nowhere left to send them.
@@ -75,11 +75,16 @@ static func objective(world: World) -> Dictionary:
 		return goal
 
 	if not GameState.has_flag(TOWN_REACHED):
+		# The great city round the Tower when there is one standing (D101),
+		# else the nearest town.
 		var town: Site = null
 		for site: Site in world.sites:
 			if not Town.is_settlement(site) or site.kind == Site.HUT or Town.is_ruined(site):
 				continue
 			var reach := Pathfinder.distance(here, site.cell)
+			if bool(site.data.get("city", false)):
+				town = site
+				break
 			if reach < closest:
 				closest = reach
 				town = site

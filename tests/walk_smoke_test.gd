@@ -14,6 +14,7 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
@@ -1301,7 +1302,6 @@ func _check_guild() -> void:
 ## with, down where it can be found and their ghost at the fire.
 func _check_sixteen() -> void:
 	var Sixteen := preload("res://src/chronicle/sixteen.gd")
-	var Siblings := preload("res://src/chronicle/siblings.gd")
 	var RunMode := preload("res://src/chronicle/run_mode.gd")
 	Sixteen.path = "user://earth-kings.sixteen.walk-test.json"
 	if FileAccess.file_exists(Sixteen.path):
@@ -1478,18 +1478,64 @@ func _check_fall() -> void:
 	if house == null:
 		return
 	var tower := world.tower()
-	_expect(
-		Pathfinder.distance(house.cell, tower.cell) >= int(Fall.crash_rules().get("min_tower_distance", 24)),
-		"the lead landed on the Tower's doorstep"
-	)
 	var reach := Fall.reachable(world)
-	_expect(reach.has(house.cell), "the crash site cannot walk to the Tower")
+	# The first world's lead comes down on the road to the great city (D101);
+	# a later world's keeps the far rule.
+	var city := Fall.great_city(world)
+	var band: Dictionary = Fall.crash_rules().get("first_world", {})
+	_expect(city != null and Pathfinder.distance(city.cell, tower.cell) <= 2, "the great city does not stand at the Tower's foot")
+	if city != null:
+		var apart := Pathfinder.distance(house.cell, city.cell)
+		_expect(apart >= int(band.get("city_min", 12)) and apart <= int(band.get("city_max", 16)),
+				"the first world's lead landed %d tiles from the great city" % apart)
+	var far := Fall.crash_cell(world, "lead:", reach)
 	_expect(
-		Fall.crash_cell(world, "lead:", reach) == Fall.crash_cell(world, "lead:", reach),
-		"the same seed landed the lead in two places"
+		Pathfinder.distance(far, tower.cell) >= int(Fall.crash_rules().get("min_tower_distance", 24)),
+		"a later world's lead lands on the Tower's doorstep"
 	)
+	_expect(reach.has(house.cell), "the crash site cannot walk to the Tower")
+	_expect(far == Fall.crash_cell(world, "lead:", reach), "the same seed landed the lead in two places")
+	_expect(Fall.first_crash_cell(world, "lead:atlas", reach) == Fall.first_crash_cell(world, "lead:atlas", reach),
+			"the same seed landed the first lead in two places")
 	_expect(not Fall.quest_progress(world).is_empty(), "the standing quest says nothing about the climb")
-	_expect(not Fall.landing_dialogue(world, "Atlas").get("lines", []).is_empty(), "the landing has nothing to say")
+	var landing_said: Array = Fall.landing_dialogue(world, "Atlas", "atlas").get("lines", [])
+	_expect(not landing_said.is_empty(), "the landing has nothing to say")
+	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["speaker"]) == "Bram"), "nobody pulls the lead out of the crater")
+	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["text"]).contains("Sky")), "Sky is not in Atlas's crater")
+	var juno: Array = Fall.landing_dialogue(world, "Juno", "juno").get("lines", [])
+	_expect(juno.size() == landing_said.size() - 1, "Sky came down with somebody who is not Atlas")
+	_expect(str(landing_said[0]["text"]).contains(Fall.ground_word(world, world.player_cell)),
+			"the landing names ground that is not the ground under the lead")
+
+	# The First Hour's gate: open, rank E, near the city, and open in every world (D101).
+	var first_gate: Site = null
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		if bool(gate.data.get("first_gate", false)):
+			first_gate = gate
+	_expect(first_gate != null and first_gate.open and first_gate.rank == "E", "there is no open rank E gate for the First Hour")
+	if first_gate != null and city != null:
+		_expect(Pathfinder.distance(first_gate.cell, city.cell) <= 10, "the First Hour's gate is far from the great city")
+		var twin := WorldGen.generate(world.world_seed)
+		for sibling in range(1, 6):
+			Siblings.perturb(twin, sibling)
+			_expect(twin.site_at(first_gate.cell).open, "the First Hour's gate shut in sibling world %d" % sibling)
+
+	# Nobody climbs without the Guild's mark (D101): the Tower's door keeps a hall.
+	_expect(Guild.has_hall(tower), "the Guild keeps no desk at the Tower's door")
+	if FirstHour.wants_guild_mark():
+		var kept_sealed := world.tower_sealed_at
+		var kept_deeds := world.deeds.duplicate()
+		var kept_floor := world.tower_floor
+		world.tower_floor = 0
+		world.deeds = []
+		world.tower_sealed_at = 0
+		_expect(Chapters.sealed(world), "the stair is open before the Guild's mark")
+		_expect(Chapters.seal_line(world) == FirstHour.mark_line(), "the doorkeeper does not ask for the Guild's mark")
+		world.deeds.append({"kind": Renown.GATE_SHUT, "step": world.steps})
+		_expect(not Chapters.sealed(world), "shutting a gate did not earn the Guild's mark")
+		world.tower_sealed_at = kept_sealed
+		world.deeds = kept_deeds
+		world.tower_floor = kept_floor
 
 	# Every lead the run did not start with is out there (D78).
 	# Everyone but the lead: the two who joined this suite's company joined after the landing.

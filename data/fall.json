@@ -8,19 +8,26 @@
 		"min_tower_distance": 24,
 		"min_gate_distance": 6,
 		"max_haven_distance": 26,
-		"attempts": 600
+		"attempts": 600,
+		"_doc_first_world": "D101: in the first world (no world has ended before it) the lead comes down on the road to the great city, between city_min and city_max tiles from it, so the First Hour reaches the Tower's city in minutes. min_tower_distance and max_haven_distance do not apply there; the rest do. Later worlds keep the far rule. The road's length is **Inferred** (12 to 14 against 18 to 20, open since meeting 2) and is settled after doug-md plays it.",
+		"first_world": { "city_min": 12, "city_max": 16 }
 	},
 
 	"landing": {
-		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the ground under them, {tower_way} which way the Tower stands from there.",
+		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the land under them (data/biomes.json), {tower_way} which way the Tower stands from there, {city} the great city and {city_way} which way it lies. A line with `lead` is said only when that one of the sixteen is the lead. D101: Sky comes down in the crater with Atlas, and Bram pulls the lead out; the flash of the sixteen's ring is the meeting 2 beat.",
 		"lines": [
-			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins, there is a furrow ploughed through the {ground}, and somebody lying at the end of it." },
+			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins, there is a crater ploughed into the {ground}, and somebody lying at the bottom of it." },
+			{ "speaker": "", "lead": "atlas", "text": "Something else came down with {name}: a great lizard, too heavy for its own legs, already pushing its head under {name}'s hand. Its name comes back before anything else does. Sky." },
 			{ "speaker": "", "text": "{name} wakes with no memory of falling, and none of anything before it. Only the name stays, and a weight behind the eyes like a word just out of reach." },
-			{ "speaker": "", "text": "Far off to the {tower_way}, over everything, the Tower stands. Looking at it hurts, and nobody could say why." },
+			{ "speaker": "", "text": "For a heartbeat there is a ring of sixteen lights behind the eyes, sixteen faces turned to one another. Then it is gone." },
+			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. I saw you come down, and I didn't think there'd be anybody left to pull out." },
+			{ "speaker": "", "text": "A broad man in a road-stained coat, a greatsword across his back, hauls {name} up over the rim. He gives his name as Bram, and does not ask for {name}'s." },
+			{ "speaker": "", "text": "From the rim, far off to the {tower_way}, the Tower stands over everything. Looking at it hurts, and nobody could say why." },
+			{ "speaker": "Bram", "text": "That's {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
 			{ "speaker": "{name}", "text": "Up. Whatever I was, it was up there. I am going back." },
-			{ "speaker": "", "text": "Something else came down with {name}, thrown clear into the furrow: a journal bound in cracked leather. Its pages are blank but for the first, and on the first, in a hand that might be their own, only the name." },
+			{ "speaker": "", "text": "Something else came down with {name}, thrown clear into the crater: a journal bound in cracked leather. Its pages are blank but for the first, and on the first, in a hand that might be their own, only the name." },
 			{ "speaker": "{name}", "text": "Then I will write the rest. Who walks with me, what we meet, where we have been." },
-			{ "speaker": "", "text": "The furrow is the nearest thing to a home this world has offered. It will do. A new standing quest: Ascend to heaven." }
+			{ "speaker": "", "text": "The crater is the nearest thing to a home this world has offered. It will do. A new standing quest: Ascend to heaven." }
 		]
 	},
 

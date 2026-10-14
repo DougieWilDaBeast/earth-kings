@@ -128,7 +128,13 @@ each, each ending playable:
    ground is fought on that ground with no change of screen; walking off the field's edge gets
    clear. Tuning (first fights of 10 to 20 seconds, about level 5 by floor 5) waits on `doug-md`'s
    play-test.
-5. The crater opening, the Tower's city and the Guild, to the first gate — planned.
+5. The crater opening, the Tower's city and the Guild, to the first gate — built
+   ([D101](06-decisions.md), design meeting 2's calls A to E). The first world's lead comes down 12
+   to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
+   Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
+   until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
+   The opening shows another lead's world ending. The Tower is built from rock and flagstone until
+   its art is made (A9). Road length waits on `doug-md`'s play-test.
 6. Tower floors 1 to 5, walkable — planned.
 7. Atlas's chapter-one memory — planned.
 

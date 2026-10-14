@@ -64,7 +64,15 @@ var _round_index: int = -1
 
 
 static func for_character(character: Character) -> AreaActor:
-	return _from_template(character.display_name, character.template_id)
+	return _from_template(character.display_name, ridden_template(character.template_id))
+
+
+## Whose body walks the ground for [param template_id]: one carried by a bearer
+## is drawn as the bearer with them in the saddle (Atlas on Sky, D93, D101).
+static func ridden_template(template_id: String) -> String:
+	var signature: Dictionary = Database.skirmish.get("signatures", {}).get(template_id, {})
+	var bearer := str(signature.get("bearer", ""))
+	return bearer if bearer != "" and not Database.unit_template(bearer).is_empty() else template_id
 
 
 ## Somebody who lives here rather than travels with you.

@@ -2,62 +2,72 @@
   "display_name": "the foot of the Tower",
   "layers": [
     "flagstone",
-    "stone"
+    "stone",
+    "crag"
   ],
-  "hint": "WASD to walk  ·  E to look at something  ·  the steps down are south",
+  "hint": "WASD to walk  \u00b7  E to look at something  \u00b7  the city is south",
   "legend": {
     ".": "grass",
     "s": "stone",
-    "f": "flagstone"
+    "f": "flagstone",
+    "A": "crag"
   },
   "tint": "#9a96b4",
   "spawn": [
-    9,
-    13
+    15,
+    17
   ],
   "exits": [
     [
-      9,
-      14
+      13,
+      19
     ],
     [
-      10,
-      14
+      14,
+      19
+    ],
+    [
+      15,
+      19
+    ],
+    [
+      16,
+      19
     ]
   ],
   "spots": [
     {
       "cell": [
-        9,
-        3
+        15,
+        7
       ],
       "line": "The stair. It goes up further than the building appears to."
     },
     {
       "cell": [
-        5,
-        5
+        11,
+        8
       ],
       "line": "Names cut into the wall, in columns. The columns are long."
     },
     {
       "cell": [
-        13,
-        5
+        19,
+        8
       ],
       "line": "A tally scratched beside the door. Two marks, then a gap, then one."
     },
     {
       "cell": [
-        9,
-        8
+        14,
+        12
       ],
       "line": "Whatever was on the floor here has been scrubbed at and not removed."
     },
     {
       "cell": [
-        3,
-        11
+        4,
+        14
       ],
       "line": "Packs laid in a row, tied shut, labelled. Nobody is coming for these."
     }
@@ -65,8 +75,8 @@
   "chests": [
     {
       "cell": [
-        3,
-        4
+        4,
+        9
       ],
       "line": "A footlocker at the wall, and the name on it worn to nothing.",
       "art": "chest_silver",
@@ -75,8 +85,8 @@
     },
     {
       "cell": [
-        15,
-        4
+        25,
+        9
       ],
       "line": "Somebody's whole purse, left where the stair begins.",
       "art": "chest_gold",
@@ -87,87 +97,80 @@
     {
       "art": "brazier",
       "cell": [
-        7,
-        3
+        12,
+        8
       ]
     },
     {
       "art": "brazier",
       "cell": [
-        11,
-        3
-      ]
-    },
-    {
-      "art": "lamp_globe",
-      "cell": [
-        5,
+        17,
         8
       ]
     },
     {
       "art": "lamp_globe",
       "cell": [
-        13,
-        8
+        6,
+        11
       ]
     },
     {
-      "art": "stone_bench",
+      "art": "lamp_globe",
       "cell": [
-        5,
+        23,
         11
       ]
     },
     {
       "art": "stone_bench",
       "cell": [
-        13,
-        11
+        7,
+        14
       ]
     },
     {
-      "art": "tapestry",
+      "art": "stone_bench",
       "cell": [
-        4,
-        2
+        22,
+        14
       ]
     },
     {
       "art": "scroll_rack",
       "cell": [
-        15,
-        8
+        24,
+        9
       ]
     },
     {
       "art": "nature/finch",
       "cell": [
-        3,
-        9
+        5,
+        16
       ]
     },
     {
       "art": "nature/dead_tree",
       "cell": [
-        14,
-        9
+        25,
+        15
       ]
     },
     {
       "art": "landmark/tower_runes",
       "cell": [
-        9,
-        1
+        14,
+        6
       ],
       "name": "the Tower",
-      "line": "Up close it does not end. The runes on it pulse, slowly, like something breathing."
+      "line": "It does not end. The rock it stands on is the Tower's own foot, wider than the city, and the door in it is the only door. The runes pulse, slowly, like something breathing."
     },
     {
       "art": "landmark/hand_jar",
       "cell": [
-        15,
-        6
+        24,
+        12
       ],
       "name": "a hand in a jar",
       "line": "It clenches as you lean in. The water swirls. Somebody has labelled the jar: DO NOT."
@@ -175,8 +178,8 @@
     {
       "art": "landmark/sword_storm",
       "cell": [
-        3,
-        6
+        5,
+        12
       ],
       "name": "a sword in the floor",
       "line": "Lightning walks up and down the blade. Nobody has managed to pull it out, or wanted to twice."
@@ -184,30 +187,31 @@
   ],
   "people": [
     {
-      "name": "Sennet the Doorkeeper",
+      "name": "Sennet, the Guild's Doorkeeper",
       "unit": "timeless_one",
       "cell": [
-        9,
-        6
+        16,
+        9
       ],
       "facing": [
         0,
         1
       ],
-      "wander": 2,
+      "wander": 1,
       "chatter": [
-        "You may go up. Nobody has ever needed permission.",
-        "I write the names down. It is not much, but it is what I can do.",
+        "Nobody climbs without the Guild's mark. Shut a gate, and come back to me.",
+        "I write the names down, going up. It is not much, but it is what I can do.",
         "Each floor is older than the one under it. Do not ask me how.",
         "Some come down. I have stopped guessing which."
-      ]
+      ],
+      "guild": true
     },
     {
       "name": "Bell the Cabin Hand",
       "unit": "cabin_boy",
       "cell": [
-        5,
-        10
+        8,
+        13
       ],
       "facing": [
         1,
@@ -252,8 +256,8 @@
       "name": "a wisp at the stairhead",
       "unit": "feather_wisp",
       "cell": [
-        11,
-        5
+        16,
+        7
       ],
       "facing": [
         -1,
@@ -268,8 +272,8 @@
       "name": "Buri Deepforge",
       "unit": "dwarf_smith",
       "cell": [
-        12,
-        9
+        21,
+        12
       ],
       "facing": [
         0,
@@ -307,45 +311,74 @@
     }
   ],
   "rows": [
-    "..sssssssssssss..",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".sfffffffffffffs.",
-    ".ssfffffffffffss.",
-    "...ssssfffsssss..",
-    "........fff......"
+    ".....AAAAAAAAAAAAAAAAAAAA.....",
+    "....AAAAAAAAAAAAAAAAAAAAAA....",
+    "...AAAAAAAAAAAAAAAAAAAAAAAA...",
+    "...AAAAAAAAAAAAAAAAAAAAAAAA...",
+    "..AAAAAAAAAAAAAAAAAAAAAAAAAA..",
+    "..AAAAAAAAAAAAAAAAAAAAAAAAAA..",
+    "..AAAAAAAAAAAffffAAAAAAAAAAA..",
+    "..ssAAAAAAAAAffffAAAAAAAAAss..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sffffffffffffffffffffffffs..",
+    "..sssssssssssffffsssssssssss..",
+    ".............ffff.............",
+    ".............ffff............."
   ],
   "dressing": [
-    {"art": "nature/sycamore_tree", "cell": [13, 14], "offset": [-10, -2]},
-    {"art": "nature/round_tree", "cell": [16, 0], "offset": [3, -1]},
-    {"art": "nature/round_tree", "cell": [0, 1], "offset": [8, -3], "flip": true},
-    {"art": "nature/copse", "cell": [4, 14], "offset": [3, -4], "flip": true},
-    {"art": "nature/copse", "cell": [16, 8], "offset": [6, 5]},
-    {"art": "nature/round_tree", "cell": [0, 10], "offset": [4, -2]},
-    {"art": "nature/great_oak", "cell": [16, 10], "offset": [-10, 0], "flip": true},
-    {"art": "nature/copse", "cell": [0, 6], "offset": [-8, 5]},
-    {"art": "nature/bare_tree", "cell": [16, 6], "offset": [4, 2]},
-    {"art": "nature/bare_tree", "cell": [0, 12], "offset": [6, 0], "flip": true},
-    {"art": "nature/bare_tree", "cell": [1, 14], "offset": [-1, -3], "flip": true},
-    {"art": "nature/great_oak", "cell": [0, 8], "offset": [4, 1]},
-    {"art": "nature/great_oak", "cell": [6, 14], "offset": [1, -1], "flip": true},
-    {"art": "nature/bare_tree", "cell": [16, 2], "offset": [-7, -3], "flip": true},
-    {"art": "nature/round_tree", "cell": [0, 4], "offset": [10, -5], "flip": true},
-    {"art": "nature/dead_tree", "cell": [15, 14], "offset": [9, -3], "flip": true},
-    {"art": "nature/thistle", "cell": [16, 14], "offset": [9, -2]},
-    {"art": "nature/fern", "cell": [0, 13], "offset": [12, -3]},
-    {"art": "nature/fern", "cell": [12, 14], "offset": [12, 3], "flip": true},
-    {"art": "nature/briar_bush", "cell": [3, 14], "offset": [11, -5], "flip": true},
-    {"art": "nature/butterfly_blue", "cell": [13, 3], "offset": [11, -5]},
-    {"art": "nature/irish_bird", "cell": [3, 0], "offset": [3, 2]},
-    {"art": "nature/irish_bird_4", "cell": [15, 1], "offset": [-8, -7]}
+    {"art": "nature/great_oak", "cell": [1, 16], "offset": [10, -3]},
+    {"art": "nature/dead_tree", "cell": [27, 0], "offset": [5, -5]},
+    {"art": "nature/sycamore_tree", "cell": [10, 18], "offset": [-1, 3]},
+    {"art": "nature/great_oak_2", "cell": [4, 19], "offset": [9, 0], "flip": true},
+    {"art": "nature/birch", "cell": [25, 0], "offset": [-6, 5]},
+    {"art": "nature/bare_tree", "cell": [28, 10], "offset": [-4, 3], "flip": true},
+    {"art": "nature/bare_tree", "cell": [8, 18], "offset": [1, 0]},
+    {"art": "nature/autumn_tree", "cell": [28, 19], "offset": [10, 3]},
+    {"art": "nature/sycamore_tree", "cell": [1, 18], "offset": [10, 4]},
+    {"art": "nature/great_oak", "cell": [28, 2], "offset": [-3, -1], "flip": true},
+    {"art": "nature/birch", "cell": [1, 10], "offset": [-2, -4], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [2, 0], "offset": [7, 4], "flip": true},
+    {"art": "nature/great_oak", "cell": [0, 12], "offset": [-4, -2], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [22, 19], "offset": [-6, -1]},
+    {"art": "nature/bare_tree", "cell": [6, 18], "offset": [-5, -2]},
+    {"art": "nature/bare_tree", "cell": [1, 8], "offset": [4, -1]},
+    {"art": "nature/great_oak_2", "cell": [28, 16], "offset": [-9, -2]},
+    {"art": "nature/dead_tree", "cell": [1, 3], "offset": [0, 4], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [29, 0], "offset": [4, 0], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [25, 18], "offset": [-6, -1]},
+    {"art": "nature/birch", "cell": [29, 13], "offset": [0, 3], "flip": true},
+    {"art": "nature/great_oak_2", "cell": [20, 18], "offset": [1, -2], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [28, 6], "offset": [9, 5]},
+    {"art": "nature/sycamore_tree", "cell": [18, 18], "offset": [8, 5], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [0, 1], "offset": [-6, 3], "flip": true},
+    {"art": "nature/round_tree", "cell": [4, 0], "offset": [6, -1], "flip": true},
+    {"art": "nature/great_oak", "cell": [1, 5], "offset": [4, 1]},
+    {"art": "nature/round_tree", "cell": [0, 14], "offset": [0, -5]},
+    {"art": "nature/briar_bush", "cell": [19, 18], "offset": [12, 0], "flip": true},
+    {"art": "nature/thistle", "cell": [29, 14], "offset": [-1, -5], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [1, 6], "offset": [-6, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [2, 18], "offset": [3, -1], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [1, 0], "offset": [-10, -5], "flip": true},
+    {"art": "nature/rose_stem_2", "cell": [1, 4], "offset": [-2, 1]},
+    {"art": "nature/ivy", "cell": [1, 7], "offset": [-5, 2], "flip": true},
+    {"art": "nature/thistle", "cell": [3, 18], "offset": [-4, 1], "flip": true},
+    {"art": "nature/ivy", "cell": [1, 14], "offset": [-12, 2]},
+    {"art": "nature/grass_tuft", "cell": [0, 9], "offset": [-2, 3]},
+    {"art": "nature/fern", "cell": [29, 9], "offset": [12, 0], "flip": true},
+    {"art": "nature/rose_stem", "cell": [0, 7], "offset": [2, -3], "flip": true},
+    {"art": "nature/hazel_bush", "cell": [29, 6], "offset": [12, 5], "flip": true},
+    {"art": "nature/rose_stem_2", "cell": [0, 11], "offset": [-1, -7]},
+    {"art": "nature/wildflowers_blue", "cell": [27, 19], "offset": [-12, 6]},
+    {"art": "nature/clover", "cell": [1, 2], "offset": [-11, -2], "flip": true},
+    {"art": "nature/irish_bird_3", "cell": [5, 17], "offset": [-12, -6], "flip": true},
+    {"art": "nature/irish_bird", "cell": [2, 15], "offset": [11, -5], "flip": true},
+    {"art": "nature/irish_bird_2", "cell": [2, 14], "offset": [9, 2], "flip": true}
   ]
 }
