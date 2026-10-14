@@ -281,8 +281,9 @@ has seen. Knowing of a place is how else it gets on the map:
 - **Being told marks a place.** A Guild contract, an errand's destination, and every place news at
   an inn names go on the map, and the inn says so.
 
-A party walking itself goes after the gates it knows of and the Tower, and with nowhere known left
-to go walks to the nearest ground it has never seen. **Inferred** — the sight, the prices, the odds,
+A party walking itself (Auto) walks the ground in sight, never the map ([D94](06-decisions.md)),
+and goes after the gates it knows of and the Tower, and with nowhere known left to go walks to the
+nearest ground it has never seen. **Inferred** — the sight, the prices, the odds,
 and that a Guild map marks places as well as the lie of the land (agenda items 30 to 33 in
 [answers](worldbuilding/answers.md#what-is-still-to-decide)). A save from before the map loads with
 the whole continent seen.

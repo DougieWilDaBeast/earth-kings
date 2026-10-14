@@ -1,0 +1,131 @@
+extends RefCounted
+## Where a party walking itself goes next on the continent, one tile at a time.
+##
+## Asked by the continent's own walk (Q on the map, the suites) and by the ground, which walks the
+## party over the border into the tile named here ([D94]). The way is kept between askings, and
+## between scenes, so it is worked out once per target rather than once per step.
+##
+## Loaded by path, not by `class_name` ([D41]).
+
+const Route := preload("res://src/world/route.gd")
+const Chapters := preload("res://src/chronicle/chapters.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
+
+## How far the party will turn aside for a band while walking itself. The road
+## to anywhere is thick with them, so chasing every one means never arriving.
+const DETOUR := 6
+const STEPS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+
+## The world the way below was worked out in; a new run starts it again.
+static var _world: World = null
+## The way the party was last walking itself, so auto does not pace on the spot.
+static var _last: Vector2i = Vector2i.ZERO
+## Where the party is walking itself to, and the cells between here and there.
+## Worked out once per target: stepping greedily at a target gets caught behind
+## the first wall between them and paces there for good.
+static var _target: Vector2i = Vector2i(-1, -1)
+static var _route: Array[Vector2i] = []
+## Where the party is walking itself to when it knows of nowhere to go: the
+## nearest ground it has never seen.
+static var _explore_to: Vector2i = Vector2i(-1, -1)
+static var _explored_checked_at: int = -999
+
+
+## The next step for a party walking itself, or nothing at all.
+static func next_step(world: World) -> Vector2i:
+	var step := direction(world, errand(world))
+	if step != Vector2i.ZERO:
+		_last = step
+	return step
+
+
+## What the party walks towards when nobody is steering: a fight worth the
+## detour, then the nearest gate still standing, then the Tower.
+static func errand(world: World) -> Vector2i:
+	_keep_to(world)
+	var target := Vector2i(-1, -1)
+	var best := DETOUR + 1
+	for band: Prowler in world.prowlers:
+		var reach := Pathfinder.distance(band.cell, world.player_cell)
+		if reach < best:
+			best = reach
+			target = band.cell
+	if target.x >= 0:
+		return target
+
+	best = 1 << 30
+	for site in world.sites:
+		if site.kind != Site.GATE or not site.open or site.cleared:
+			continue
+		if Pace.avoided.has(site.cell) or not Atlas.knows(world, site):
+			continue
+		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
+			continue
+		var reach := Pathfinder.distance(site.cell, world.player_cell)
+		if reach < best:
+			best = reach
+			target = site.cell
+	if target.x >= 0:
+		return target
+
+	var tower := world.tower()
+	if tower != null and not world.tower_is_topped() and not Pace.avoided.has(tower.cell) \
+			and not Chapters.sealed(world) and Atlas.knows(world, tower):
+		return tower.cell
+	return _explore_target(world)
+
+
+## Nowhere known to go, so go and see somewhere: the nearest ground the party
+## has never set eyes on. Kept until it is stood on, so the way is worked out
+## once per stretch rather than every step.
+static func _explore_target(world: World) -> Vector2i:
+	var stale := _explore_to == world.player_cell or Pace.avoided.has(_explore_to)
+	# With everything seen, looking again every step is a whole-map search for nothing.
+	var due := _explore_to.x < 0 and world.steps - _explored_checked_at >= 20
+	if stale or due:
+		_explored_checked_at = world.steps
+		_explore_to = Atlas.frontier(world, world.player_cell)
+	return _explore_to
+
+
+## The next step along the way to [param target], or, with nowhere to go,
+## anything at all rather than stand still.
+static func direction(world: World, target: Vector2i) -> Vector2i:
+	_keep_to(world)
+	if target.x >= 0:
+		var here := world.player_cell
+		while not _route.is_empty() and _route[0] == here:
+			_route.pop_front()
+		# A new target, or the party was moved off the route (a fight, a ferry,
+		# a floor): work the way out again.
+		if target != _target or _route.is_empty() or Pathfinder.distance(_route[0], here) != 1:
+			_target = target
+			# Something close (a band) is chased only a short way round; somewhere
+			# far (a gate, the Tower) is worth whatever way there is.
+			var close := Pathfinder.distance(here, target) <= DETOUR
+			_route = Route.between(world, here, target, DETOUR * 3 if close else 0)
+			if _route.is_empty() and here != target:
+				# No way there on foot. Stop choosing it, and choose again next step.
+				Pace.avoided[target] = true
+		if not _route.is_empty():
+			return _route[0] - here
+	# Nowhere to go, so wander without doubling straight back.
+	var loose: Array[Vector2i] = []
+	for offset: Vector2i in STEPS:
+		if world.is_walkable(world.player_cell + offset) and offset != -_last:
+			loose.append(offset)
+	if loose.is_empty():
+		return -_last if world.is_walkable(world.player_cell - _last) else Vector2i.ZERO
+	return loose[world.rng.randi() % loose.size()]
+
+
+## A way worked out in another world is no way in this one.
+static func _keep_to(world: World) -> void:
+	if world == _world:
+		return
+	_world = world
+	_last = Vector2i.ZERO
+	_target = Vector2i(-1, -1)
+	_route.clear()
+	_explore_to = Vector2i(-1, -1)
+	_explored_checked_at = -999

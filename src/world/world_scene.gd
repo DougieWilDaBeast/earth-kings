@@ -12,16 +12,16 @@ extends Node2D
 ## - **Out of sight** (`"embedded": true`, [D84]): run by the game beside the land, which never
 ##   leaves the screen. It takes the step or does the place's doing as on the ground, then answers
 ##   on [signal EventBus.continent_answered] instead of handing the ground back, and goes.
-## - **Walk**: the old walkable continent, kept for the party walking itself
-##   (Q, and the soak) and for the suites that drive it (`"walk": true`, or a
-##   scene nobody put on screen).
+## - **Walk**: the old walkable continent, kept for the suites that drive it
+##   (`"walk": true`, or a scene nobody put on screen). A party walking itself
+##   walks the ground like anyone else ([D94]).
 ##
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Names := preload("res://src/chronicle/names.gd")
-const Route := preload("res://src/world/route.gd")
+const AutoRoad := preload("res://src/world/auto_road.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
@@ -49,9 +49,8 @@ const LAND_BANDS_REACH := 2
 const LOG_LINES := 3
 ## Seconds between steps while the party is walking itself.
 const AUTO_DELAY := 0.09
-## How far the party will turn aside for a band while walking itself. The road
-## to anywhere is thick with them, so chasing every one means never arriving.
-const AUTO_DETOUR := 6
+## How far the party will turn aside for a band while walking itself.
+const AUTO_DETOUR := AutoRoad.DETOUR
 ## Seconds a tile takes to fade in when it comes onto the map.
 const REVEAL_FADE := 0.45
 ## How dark ground drawn from somebody else's map is left: the lie of the
@@ -124,23 +123,12 @@ var _captive_here: Character = null
 var _roadside_here: String = ""
 ## A secluded wilderness clearing discovered on open ground.
 var _wild_here: String = ""
-## The way the party was last walking itself, so auto does not pace on the spot.
-var _auto_last: Vector2i = Vector2i.ZERO
-## Where the party is walking itself to, and the cells between here and there.
-## Worked out once per target: stepping greedily at a target gets caught behind
-## the first wall between them and paces there for good.
-var _auto_target: Vector2i = Vector2i(-1, -1)
-var _auto_route: Array[Vector2i] = []
 ## Map art kept between redraws, since the whole map is redrawn every step.
 var _art: Dictionary = {}
 ## Where the camera was last time the ground was laid out (x, y, zoom).
 var _last_view: Vector3 = Vector3.INF
 ## Tiles fading onto the map, cell -> seconds of fade left.
 var _fading: Dictionary = {}
-## Where the party is walking itself to when it knows of nowhere to go: the
-## nearest ground it has never seen.
-var _explore_to: Vector2i = Vector2i(-1, -1)
-var _explored_checked_at: int = -999
 var _view: View = View.WALK
 ## Where the party stood when this scene opened, to tell whether anything done
 ## here moved them.
@@ -295,90 +283,15 @@ func _auto_walk(delta: float) -> void:
 	if _repeat_timer > 0.0:
 		return
 	_repeat_timer = AUTO_DELAY
-	var direction := _auto_direction(_auto_errand())
+	var direction := AutoRoad.next_step(world)
 	if direction == Vector2i.ZERO:
 		return
-	_auto_last = direction
 	_step(direction)
 
 
-## What the party walks towards when nobody is steering: a fight worth the
-## detour, then the nearest gate still standing, then the Tower.
-func _auto_errand() -> Vector2i:
-	var target := Vector2i(-1, -1)
-	var best := AUTO_DETOUR + 1
-	for band: Prowler in world.prowlers:
-		var reach := Pathfinder.distance(band.cell, world.player_cell)
-		if reach < best:
-			best = reach
-			target = band.cell
-	if target.x >= 0:
-		return target
-
-	best = 1 << 30
-	for site in world.sites:
-		if site.kind != Site.GATE or not site.open or site.cleared:
-			continue
-		if Pace.avoided.has(site.cell) or not Atlas.knows(world, site):
-			continue
-		if site.data.has("ward") and not Ward.is_site_open(site) and Ward.answer(site.data["ward"], GameState.party_characters()).is_empty():
-			continue
-		var reach := Pathfinder.distance(site.cell, world.player_cell)
-		if reach < best:
-			best = reach
-			target = site.cell
-	if target.x >= 0:
-		return target
-
-	var tower := world.tower()
-	if tower != null and not world.tower_is_topped() and not Pace.avoided.has(tower.cell) \
-			and not Chapters.sealed(world) and Atlas.knows(world, tower):
-		return tower.cell
-	return _explore_target()
-
-
-## Nowhere known to go, so go and see somewhere: the nearest ground the party
-## has never set eyes on. Kept until it is stood on, so the way is worked out
-## once per stretch rather than every step.
-func _explore_target() -> Vector2i:
-	var stale := _explore_to == world.player_cell or Pace.avoided.has(_explore_to)
-	# With everything seen, looking again every step is a whole-map search for nothing.
-	var due := _explore_to.x < 0 and world.steps - _explored_checked_at >= 20
-	if stale or due:
-		_explored_checked_at = world.steps
-		_explore_to = Atlas.frontier(world, world.player_cell)
-	return _explore_to
-
-
-## The next step along the way to [param target], or, with nowhere to go,
-## anything at all rather than stand still.
+## The next step along the way to [param target] (see [code]auto_road.gd[/code]).
 func _auto_direction(target: Vector2i) -> Vector2i:
-	if target.x >= 0:
-		var here := world.player_cell
-		while not _auto_route.is_empty() and _auto_route[0] == here:
-			_auto_route.pop_front()
-		# A new target, or the party was moved off the route (a fight, a ferry,
-		# a floor): work the way out again.
-		if target != _auto_target or _auto_route.is_empty() or Pathfinder.distance(_auto_route[0], here) != 1:
-			_auto_target = target
-			# Something close (a band) is chased only a short way round; somewhere
-			# far (a gate, the Tower) is worth whatever way there is.
-			var close := Pathfinder.distance(here, target) <= AUTO_DETOUR
-			_auto_route = Route.between(world, here, target, AUTO_DETOUR * 3 if close else 0)
-			if _auto_route.is_empty() and here != target:
-				# No way there on foot. Stop choosing it, and choose again next step.
-				Pace.avoided[target] = true
-		if not _auto_route.is_empty():
-			return _auto_route[0] - here
-
-	# Nowhere to go, so wander without doubling straight back.
-	var loose: Array[Vector2i] = []
-	for offset: Vector2i in DIRECTIONS.values():
-		if world.is_walkable(world.player_cell + offset) and offset != -_auto_last:
-			loose.append(offset)
-	if loose.is_empty():
-		return -_auto_last if world.is_walkable(world.player_cell - _auto_last) else Vector2i.ZERO
-	return loose[world.rng.randi() % loose.size()]
+	return AutoRoad.direction(world, target)
 
 
 # --- walking ------------------------------------------------------------------
@@ -1539,7 +1452,7 @@ func _opened_as() -> View:
 	# Asked for by name: the suites that check the walk's own controls.
 	if bool(boot_payload.get("walk", false)):
 		return View.WALK
-	if _driven_by_game() and not Pace.auto:
+	if _driven_by_game():
 		return View.GROUND
 	return View.WALK
 
@@ -1596,22 +1509,13 @@ func _hand_back() -> void:
 		return
 	if _embedded():
 		_busy = true
-		if Pace.auto:
-			# The party walking itself walks the continent, where it can be seen.
-			EventBus.request_scene.emit("world", {})
-			return
 		# A step is a return to the road, which Iron Man saves at, as it did when every step came
 		# back through the map.
 		GameState.reached(RunMode.ROAD, "you were on the road")
 		EventBus.continent_answered.emit(_ground_payload())
 		queue_free()
 		return
-	if Pace.auto:
-		# The party walking itself walks the continent, where it can be seen.
-		_view = View.WALK
-		_show_the_map(true)
-		_refresh()
-		return
+	# A party walking itself walks the ground too, where it can be seen ([D94]).
 	_go_to_ground()
 
 
