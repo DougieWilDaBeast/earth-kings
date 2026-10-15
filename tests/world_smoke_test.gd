@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "edges", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "edges", "scenery", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -62,6 +62,7 @@ func _ready() -> void:
 			"lands": _check_lands(world)
 			"road": _check_road(world)
 			"edges": _check_edges(world)
+			"scenery": _check_scenery(world)
 			"round_trip": _check_round_trip(world, hero)
 
 	print("")
@@ -850,6 +851,40 @@ func _check_edges(world: World) -> void:
 				"the tile at %s has %s in it with no sheet to draw it" % [tile, theirs])
 	_expect(seams > 0, "no two lands meet anywhere on the continent")
 	print("edges: %d seams between lands checked" % seams)
+
+
+## D130: trees stand in groves and never beside the road.
+func _check_scenery(world: World) -> void:
+	var trees := 0
+	var with_company := 0
+	var by_road := 0
+	for tile: Vector2i in Route.between(world, FirstRoad.stops(world)[0], FirstRoad.stops(world)[1]) if FirstRoad.stops(world).size() >= 2 else []:
+		var slot := GroundGen.slot(world, tile)
+		if str(slot.get("kind", "")) != "ground":
+			continue
+		var w := int(slot["size"][0])
+		var h := int(slot["size"][1])
+		var terrain: PackedStringArray = slot["terrain"]
+		var pool: Array = Biome.data(str(slot["land"])).get("props", {}).get("trees", [])
+		var cells: Array[Vector2i] = []
+		for prop: Dictionary in slot["props"]:
+			if pool.has(str(prop.get("art", ""))):
+				cells.append(Vector2i(int(prop["cell"][0]), int(prop["cell"][1])))
+		for c: Vector2i in cells:
+			trees += 1
+			for other: Vector2i in cells:
+				if other != c and absi(other.x - c.x) <= 3 and absi(other.y - c.y) <= 3:
+					with_company += 1
+					break
+			for dy in range(-1, 2):
+				for dx in range(-1, 2):
+					var n := c + Vector2i(dx, dy)
+					if n.x >= 0 and n.y >= 0 and n.x < w and n.y < h and terrain[n.y * w + n.x] == "road":
+						by_road += 1
+	_expect(trees > 0, "no trees at all along the road to the city")
+	_expect(by_road == 0, "%d trees stand hard beside the road" % by_road)
+	_expect(float(with_company) >= float(trees) * 0.6, "trees stand alone, not in groves (%d of %d have another near)" % [with_company, trees])
+	print("scenery: %d trees along the road, %d in company, %d beside it" % [trees, with_company, by_road])
 
 
 func _check_round_trip(world: World, hero: Character) -> void:

@@ -457,18 +457,26 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	if reserved.size == Vector2i.ZERO and rng.randf() < float(Database.biomes.get("landmark_chance", 0.2)):
 		_landmark(grid, kept, blocked, props, spots, chests, rng, w, h, cell)
 
-	# What grows and lies about. Open land grows right up to its edges, so a wood carries on
-	# into the next tile rather than stopping in a line.
+	# What grows and lies about, placed by rule rather than evenly at random (D130): trees stand in
+	# groves that carry on across tiles, never hard beside a path; bushes line the paths; flowers
+	# and grass gather on the meadow and at the water; stones lie on the bare ground. Each land's
+	# density stays its average. Open land grows right up to its edges, so a wood carries on into
+	# the next tile rather than stopping in a line.
 	var density: Dictionary = biome.get("density", {})
+	var rules: Dictionary = Database.biomes.get("scenery", {})
+	var origin := cell * Vector2i(w, h)
 	var inset := 0 if open_land else BORDER
 	for y in range(inset, h - inset):
 		for x in range(inset, w - inset):
 			var at := Vector2i(x, y)
 			if kept.has(at) or blocked.has(at) or grid[y][x] == LIQUID:
 				continue
+			var by_path := _beside_path(grid, kept, at, w, h)
 			for kind: String in ["trees", "rocks", "bushes", "small"]:
 				var choices: Array = pool.get(kind, [])
-				if choices.is_empty() or rng.randf() >= float(density.get(kind, 0.0)):
+				var chance := float(density.get(kind, 0.0)) * _scenery_weight(kind, rules, grid, at, by_path,
+					_grove(world, origin + at, float(rules.get("grove_size", 6.0))), w, h)
+				if choices.is_empty() or rng.randf() >= chance:
 					continue
 				var art := str(choices[rng.randi() % choices.size()])
 				# A tree always stands in the way; a rock only when props.json says it is
@@ -642,6 +650,69 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 			"gold": 20 + absi(hash([cell.x, cell.y])) % 60,
 			"line": "Under the roots: a box gone soft with damp, and coin inside it.",
 		})
+
+
+## How much likelier than the land's average [param kind] is at [param at] (D130): `data/biomes.json`
+## `scenery` holds the numbers.
+static func _scenery_weight(kind: String, rules: Dictionary, grid: Array, at: Vector2i, by_path: bool,
+		grove: float, w: int, h: int) -> float:
+	var on: String = grid[at.y][at.x]
+	match kind:
+		"trees":
+			if by_path:
+				return 0.0
+			# Smoothstep of the grove field, scaled so the land's average holds.
+			var t := clampf((grove - 0.35) / 0.4, 0.0, 1.0)
+			return t * t * (3.0 - 2.0 * t) * float(rules.get("grove_weight", 2.8))
+		"bushes":
+			return float(rules.get("path_bushes", 2.5)) if by_path else float(rules.get("bushes_elsewhere", 0.7))
+		"small":
+			if on == COVER or _touches(grid, at, LIQUID, w, h):
+				return float(rules.get("small_on_cover", 2.5))
+			return float(rules.get("small_elsewhere", 0.6))
+		"rocks":
+			return float(rules.get("rocks_on_bare", 2.5)) if on == BARE else float(rules.get("rocks_elsewhere", 0.6))
+	return 1.0
+
+
+## Whether [param at] is next to a worn path or the road.
+static func _beside_path(grid: Array, kept: Dictionary, at: Vector2i, w: int, h: int) -> bool:
+	for dy in range(-1, 2):
+		for dx in range(-1, 2):
+			var c := at + Vector2i(dx, dy)
+			if c.x < 0 or c.y < 0 or c.x >= w or c.y >= h or not kept.has(c):
+				continue
+			if grid[c.y][c.x] == BARE or grid[c.y][c.x] == ROAD:
+				return true
+	return false
+
+
+static func _touches(grid: Array, at: Vector2i, symbol: String, w: int, h: int) -> bool:
+	for side: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+		var c := at + side
+		if c.x >= 0 and c.y >= 0 and c.x < w and c.y < h and grid[c.y][c.x] == symbol:
+			return true
+	return false
+
+
+## A smooth 0-to-1 field over the whole continent's ground, [param size] cells to a bump, so groves
+## run on from one tile into the next.
+static func _grove(world: World, at: Vector2i, size: float) -> float:
+	var fx := float(at.x) / size
+	var fy := float(at.y) / size
+	var x0 := floori(fx)
+	var y0 := floori(fy)
+	var tx := fx - x0
+	var ty := fy - y0
+	tx = tx * tx * (3.0 - 2.0 * tx)
+	ty = ty * ty * (3.0 - 2.0 * ty)
+	var a := lerpf(_lattice(world, x0, y0), _lattice(world, x0 + 1, y0), tx)
+	var b := lerpf(_lattice(world, x0, y0 + 1), _lattice(world, x0 + 1, y0 + 1), tx)
+	return lerpf(a, b, ty)
+
+
+static func _lattice(world: World, x: int, y: int) -> float:
+	return float(absi(hash([world.shape_seed(), x, y, "grove"])) % 10000) / 10000.0
 
 
 static func _anywhere(rng: RandomNumberGenerator, w: int, h: int) -> Vector2i:
