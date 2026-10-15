@@ -138,6 +138,7 @@ there. This file adds only what a lead needs on top of a unit.
 ```json
 "atlas": {
   "title": "The Long Plan",
+  "pronoun": "he",
   "temper": "INTJ",
   "difficulty": 4,
   "background": "", "grudge": "", "hearth": "", "creed": "", "oath": "",
@@ -152,6 +153,8 @@ there. This file adds only what a lead needs on top of a unit.
 ```
 
 - `difficulty` 1–5 — how hard this life is to live, shown as pips.
+- `pronoun` — `he` or `she`, from the blurb; the replayed opening says it of a lead who has died
+  ([D153](06-decisions.md)). Missing means "they".
 - `temper` — four-letter code into `tempers.json`; blank for anyone outside the sixteen.
 - `background` · `grudge` · `hearth` · `creed` · `oath` — ids into the five pools in `data/lore/`.
   **All five are legitimately blank**; history is cast late (see [14](14-lore-pools.md)).
