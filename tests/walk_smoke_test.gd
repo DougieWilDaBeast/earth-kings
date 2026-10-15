@@ -865,10 +865,26 @@ func _check_town_and_captives() -> void:
 	world.tower_floor = floor_was
 	GameState.roster.seats = seats_were
 
-	# Buying: gold is the standard of trade.
+	# Buying: gold is the standard of trade. D146: up to three wares are laid out, Z turns to the
+	# next, and B buys the one in hand.
+	town.data["wares"] = Market.wares(town).duplicate()
+	for id: String in Database.equipment:
+		if Market.wares(town).size() >= 4:
+			break
+		if not Database.equipment[id].has("signature") and id not in Market.wares(town):
+			(town.data["wares"] as Array).append(id)
+	_expect(Market.on_show(town).size() == 3, "the market laid out %d wares, not 3" % Market.on_show(town).size())
+	var first_in_hand := Market.in_hand(town)
+	Market.next_ware(town)
+	_expect(Market.in_hand(town) != first_in_hand and Market.on_show(town).has(Market.in_hand(town)),
+		"turning to the next ware kept the same one in hand")
+	for i in 2:
+		Market.next_ware(town)
+	_expect(Market.in_hand(town) == first_in_hand, "three turns did not come back round to the first ware")
+	Market.next_ware(town)
 	var goods := Market.wares(town)
 	if not goods.is_empty():
-		var equipment_id: String = goods[0]
+		var equipment_id: String = Market.in_hand(town)
 		var purse := GameState.gold
 		_expect(Market.buy(town, equipment_id, GameState.roster.player(), world), "could not buy with 5000 gold")
 		_expect(GameState.gold < purse, "buying cost nothing")

@@ -197,7 +197,8 @@ each, each ending playable:
    [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
    four-letter temper codes on screen, Barnaby off the road's bands. Life two — built
    ([D145](06-decisions.md)): the quiz deals only leads with a chapter one while seven wait, and a
-   suite walks every way through it after Atlas's fall. **Planned**, in order: three wares at a market; a store-page draft and a devlog with each itch push;
+   suite walks every way through it after Atlas's fall. Three wares at a market — built
+   ([D146](06-decisions.md)). **Planned**, in order: a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
 

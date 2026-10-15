@@ -30,6 +30,24 @@ static func wares(site: Site) -> Array:
 	return site.data.get("wares", [])
 
 
+## D146: the wares laid out at once, up to `wares_on_show`, so buying is a choice among them.
+static func on_show(site: Site) -> Array:
+	return wares(site).slice(0, maxi(1, int(rules().get("wares_on_show", 1))))
+
+
+## The ware in hand among those laid out, or "" when there is nothing to sell.
+static func in_hand(site: Site) -> String:
+	var shown := on_show(site)
+	if shown.is_empty():
+		return ""
+	return str(shown[int(site.data.get("ware_at", 0)) % shown.size()])
+
+
+## Turn to the next ware laid out.
+static func next_ware(site: Site) -> void:
+	site.data["ware_at"] = (int(site.data.get("ware_at", 0)) + 1) % maxi(1, on_show(site).size())
+
+
 static func price_of(equipment_id: String) -> int:
 	var piece := Database.equipment_piece(equipment_id)
 	if piece.has("price"):
