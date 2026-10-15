@@ -80,9 +80,12 @@ var _dialogues: Dictionary = {}
 var _areas: Dictionary = {}
 var _faces: Dictionary = {}
 var _runs: Dictionary = {}
+## Frame folders still to load ahead of need, one a frame (D122): `[id, state, heading]`.
+var _to_warm: Array = []
 
 
 func _ready() -> void:
+	set_process(false)
 	terrain = _load_json("%s/terrain.json" % DATA_DIR)
 	biomes = _load_json("%s/biomes.json" % DATA_DIR)
 	units = _load_json("%s/units.json" % DATA_DIR)
@@ -170,6 +173,24 @@ func unit_frames(id: String, state: String, heading: String) -> Array:
 			frames.append(load(path))
 	_runs[key] = frames
 	return frames
+
+
+## Loads a unit's moves ahead of its first fight, one heading a frame, so the fight starts
+## without a pause (D122: the first fight beside Atlas spent about 0.15 s loading Sky).
+func warm_unit(id: String) -> void:
+	for state: String in ["walk", "run", "attack", "skill", "hit", "death"]:
+		for heading: String in ["south", "north", "east", "west", "south-east", "south-west", "north-east", "north-west"]:
+			if not _runs.has("%s/%s/%s" % [id, state, heading]):
+				_to_warm.append([id, state, heading])
+	set_process(not _to_warm.is_empty())
+
+
+func _process(_delta: float) -> void:
+	if _to_warm.is_empty():
+		set_process(false)
+		return
+	var next: Array = _to_warm.pop_front()
+	unit_frames(next[0], next[1], next[2])
 
 
 ## A lead a run can be started as (see `data/heroes.json`).

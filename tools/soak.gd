@@ -18,6 +18,11 @@ extends Node
 ## changed every time they were loaded.
 ##
 ## It overwrites the save in `user://`, as the suites do.
+##
+## Lag (D122): every frame is timed, and the five longest are printed at the end with what was
+## happening (a step on the land, a fight starting, a scene changing), so the worst hitch has a
+## name. Headless frames carry no drawing, so read them as where the work is, not as what a
+## browser feels.
 
 ## Frames autoplay may sit switched off before the soak switches it back on.
 const PATIENCE := 180
@@ -32,6 +37,9 @@ var _off := 0
 var _walked_on := 0
 var _last_moved := ""
 var _last_moved_at := 0
+## The longest frames: `{ ms, what }`, longest first.
+var _hitches: Array[Dictionary] = []
+var _fights := 0
 
 
 func _ready() -> void:
@@ -47,6 +55,7 @@ func _ready() -> void:
 	add_child(_root)
 	EventBus.scene_changed.connect(func(key: String) -> void: _scenes[key] = int(_scenes.get(key, 0)) + 1)
 	EventBus.battle_log.connect(func(_line: String) -> void: _lines += 1)
+	EventBus.battle_started.connect(func(_id: String) -> void: _fights += 1)
 	await get_tree().process_frame
 	GameState.new_game(world_seed)
 	EventBus.request_scene.emit("world", {})
@@ -57,8 +66,15 @@ func _ready() -> void:
 
 	var start := Time.get_ticks_msec()
 	var last_report := start
+	var tick := Time.get_ticks_usec()
+	var before := _moment()
 	while (Time.get_ticks_msec() - start) / 1000.0 < seconds:
 		await get_tree().process_frame
+		var now := Time.get_ticks_usec()
+		var after := _moment()
+		_time_frame((now - tick) / 1000.0, before, after)
+		tick = now
+		before = after
 		if Pace.auto:
 			_off = 0
 		else:
@@ -74,6 +90,10 @@ func _ready() -> void:
 			last_report = Time.get_ticks_msec()
 			_report(start)
 	_report(start)
+	var said: Array[String] = []
+	for hitch: Dictionary in _hitches:
+		said.append("%d ms %s" % [int(hitch["ms"]), hitch["what"]])
+	print("longest frames: %s" % ", ".join(said))
 
 	GameState.save()
 	var first := FileAccess.get_file_as_string(GameState.SAVE_PATH)
@@ -90,6 +110,33 @@ func _ready() -> void:
 				print("  - %s\n  + %s" % [a[i].strip_edges(), b[i].strip_edges()])
 				shown += 1
 	get_tree().quit(0 if first == second else 1)
+
+
+## What the game is doing, to tell one frame's work from the next.
+func _moment() -> Dictionary:
+	var scene: Node = _root.get_node("CurrentScene").get_child(0) if _root.get_node("CurrentScene").get_child_count() > 0 else null
+	return {
+		"scene": str(scene.name) if scene != null else "-", "steps": GameState.world.steps if GameState.world else 0,
+		"fights": _fights, "id": scene.get_instance_id() if scene != null else 0,
+	}
+
+
+func _time_frame(ms: float, before: Dictionary, after: Dictionary) -> void:
+	if _hitches.size() >= 5 and ms <= float(_hitches[-1]["ms"]):
+		return
+	var what := "walking"
+	if int(after["fights"]) != int(before["fights"]):
+		what = "a fight starting"
+	elif int(after["id"]) != int(before["id"]):
+		what = "%s -> %s" % [before["scene"], after["scene"]]
+	elif int(after["steps"]) != int(before["steps"]):
+		what = "a step on the land (step %d)" % int(after["steps"])
+	elif str(after["scene"]) != "Area":
+		what = "in %s" % after["scene"]
+	_hitches.append({ "ms": ms, "what": what })
+	_hitches.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["ms"]) > float(b["ms"]))
+	if _hitches.size() > 5:
+		_hitches.resize(5)
 
 
 func _report(start: int) -> void:

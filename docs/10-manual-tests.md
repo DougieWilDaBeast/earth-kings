@@ -465,7 +465,8 @@ passes run on its own.
 
 **The soak.** `tools/soak.tscn` lets the whole game play itself on autoplay at ×4 for as long as
 you give it, prints where the run has got to every thirty seconds, and ends by saving, loading and
-saving again. It is not a suite (battle dice are unseeded, so no two soaks match), but it finds what
+saving again. It also prints its five longest frames with what was happening (a step on the land,
+a fight starting, a scene changing), so lag has a name (D122). It is not a suite (battle dice are unseeded, so no two soaks match), but it finds what
 no suite is looking for — its first runs found bounty errands that could not be posted, autoplay
 pacing in front of a wall forever, autoplay never climbing past the Tower's first floor, a fight
 that ignored Auto switched on from the touch controls, road chatter crashing when a fight started

@@ -360,7 +360,7 @@ static func conversation(world: World, roster: Roster, hero_id: String) -> Dicti
 		},
 		"heading": {
 			"speaker": who,
-			"text": _say(str(said.get("heading", {}).get(_heading_kind(world, each), "")), hero_id, world, site),
+			"text": _say(_heading_line(said, _heading_kind(world, each), group), hero_id, world, site),
 			"next": "end",
 		},
 		"join": {
@@ -395,6 +395,16 @@ static func meetings_to_join(hero_id: String) -> int:
 	var need: Dictionary = pace().get("meetings_to_join", {})
 	var letter := temper_of(hero_id).substr(0, 1)
 	return int(need.get(letter, 1))
+
+
+## Where they say they are going, in their temper's own words where those are written: one line for
+## everyone had Bellona and Iris say the same thing about the same library (Ewan's play-test 2).
+static func _heading_line(said: Dictionary, kind: String, group: String) -> String:
+	var line: Variant = said.get("heading", {}).get(kind, "")
+	if line is Dictionary:
+		var own: Variant = (line as Dictionary).get(group, "")
+		return str(own) if str(own) != "" else str((line as Dictionary).values()[0])
+	return str(line)
 
 
 ## The kind of place they will go to next: where they are walking, or the kind

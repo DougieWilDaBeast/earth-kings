@@ -162,8 +162,12 @@ each, each ending playable:
    floors walks out of it. `tests/climb_smoke_test` plays Atlas from the yard door up the floors,
    out to a gate and back, and through two packs fought one after the other. Batch 2 — built
    ([D116](06-decisions.md), [D121](06-decisions.md)): a gate is gone into with E beside it, never by
-   walking onto it, and the cart, burnt wagon and toll rope are hidden in the First Hour. Planned: batch 3, the play-test's small
-   fixes, at most five boxes in the crater, and lag (D122); then Ewan plays to chapter one.
+   walking onto it, and the cart, burnt wagon and toll rope are hidden in the First Hour. Batch 3 — built ([D122](06-decisions.md)): five boxes in the crater, a
+   broken chest stays broken, a cache found on the land is a coin pile you walk to, companions are
+   drawn following from the moment they join, Bellona and Iris head the library apart, a siege says
+   where it is, the camp scene only at a hut, Sennet says what the register is and a shut gate says it
+   counted, the far Tower sits on the horizon, and the soak names its longest frames. Next: Ewan plays
+   to chapter one on batch 3's build.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

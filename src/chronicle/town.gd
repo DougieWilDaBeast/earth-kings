@@ -7,6 +7,7 @@ extends RefCounted
 ## long enough and the town falls on its own and stops being a town. Either way
 ## the country talks about it afterwards (see [Renown]).
 
+const Fall := preload("res://src/chronicle/fall.gd")
 const THREATENED := "threatened"
 const SAVED := "saved"
 const SACKED := "sacked"
@@ -58,7 +59,12 @@ static func upkeep(world: World) -> Array:
 		var line := "Distant bells toll: %s is under assault by whatever came out of %s." % [
 			victim.display_name, gate.display_name
 		]
-		notices.append(line)
+		# Said with where it is, so a town nobody can see is a place to go, not a name on the screen
+		# (Ewan's play-test 2: "Hollowvale has come inside, but I don't see Hollowvale").
+		var apart := absi(victim.cell.x - world.player_cell.x) + absi(victim.cell.y - world.player_cell.y)
+		notices.append("Distant bells toll from %s, %d tiles to the %s: whatever came out of %s is at its walls." % [
+			victim.display_name, apart, Fall.way(world.player_cell, victim.cell), gate.display_name
+		])
 		Annals.record(world, line)
 
 	var doom := int(rules().get("falls_after_steps", 900))
