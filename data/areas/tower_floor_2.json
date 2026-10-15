@@ -157,10 +157,10 @@
     {
       "key": "tower2_a",
       "pack": [
-        "blue_slime",
+        "brigand_archer",
         "slime"
       ],
-      "label": "A pair of slimes",
+      "label": "A poacher and a slime",
       "faction": "",
       "at": [
         5,

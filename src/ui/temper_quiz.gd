@@ -340,7 +340,7 @@ func _show(hero_id: String, code: String) -> void:
 	_portrait.texture = Database.unit_face(hero_id)
 	_name.text = str(template.get("display_name", hero_id))
 	_title.text = str(hero.get("title", template.get("job", "")))
-	_temper.text = "%s · %s" % [str(Database.temper(code).get("display_name", code)), code]
+	_temper.text = str(Database.temper(code).get("display_name", code))
 	_warband.text = "Warband — %s" % _band_text(hero)
 	_history.text = _history_text(hero)
 

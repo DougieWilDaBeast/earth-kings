@@ -137,7 +137,7 @@ each, each ending playable:
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
-   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D143](06-decisions.md)) who can kill an unready Atlas. Auto stops
+   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D145](06-decisions.md)) who can kill an unready Atlas. Auto stops
    at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
@@ -192,6 +192,13 @@ each, each ending playable:
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
    the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
    [28](28-the-first-hour.md).
+12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
+   recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
+   [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
+   four-letter temper codes on screen, Barnaby off the road's bands. **Planned**, in order: a suite
+   that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
+   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   pausing for gates, the keeper and stronger bands.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
