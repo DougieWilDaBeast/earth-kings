@@ -3,14 +3,14 @@
   "hint": "WASD to walk  ·  E to talk  ·  the gate south is the way back out",
   "layers": [
     "dirt",
-    "flagstone",
+    "street_paving",
     "meadow",
     "water"
   ],
   "legend": {
     ".": "grass",
     ",": "dirt",
-    "o": "flagstone",
+    "o": "street_paving",
     "m": "meadow",
     "~": "water"
   },

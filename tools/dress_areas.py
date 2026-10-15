@@ -82,10 +82,10 @@ OUTDOORS = {
                     cover=0.12, critters=CRITTERS, count=6, on=["grass", "meadow"], keep_clear=2),
     "city": dict(trees=ORCHARD + ["nature/sycamore_tree"], edge=0.3, inner=0.0, gap=2, bushes=HEDGES, bush=0.02,
                  ground=FLOWERS, cover=0.1, critters=CRITTERS, count=4, on=["grass", "meadow"], keep_clear=2,
-                 path=["dirt", "flagstone"]),
+                 path=["dirt", "street_paving"]),
     "city_streets": dict(trees=LEAFY + ORCHARD, edge=0.0, inner=0.06, gap=3, bushes=HEDGES + ["nature/rose_stem"],
                          bush=0.02, ground=FLOWERS, cover=0.08, critters=CRITTERS + ["nature/white_dove"] * 3,
-                         count=12, on=["meadow", "grass"], keep_clear=1, path=["dirt", "flagstone"]),
+                         count=12, on=["meadow", "grass"], keep_clear=1, path=["dirt", "street_paving"]),
     "village_fen": dict(trees=DEAD + ["nature/round_tree", "nature/birch"], edge=0.35, inner=0.0, gap=2,
                         bushes=["nature/ivy", "nature/bramble"], bush=0.03, ground=DAMP, cover=0.14,
                         critters=WET_CRITTERS, count=5, on=["grass", "meadow"], keep_clear=2),
@@ -125,12 +125,12 @@ OUTDOORS = {
                              bush=0.03, ground=FLOWERS, cover=0.18, critters=CRITTERS, count=4,
                              on=["grass", "meadow"], keep_clear=1, path=["flagstone", "dirt"]),
     "tower": dict(trees=DEAD + LEAFY, edge=0.6, inner=0.0, gap=2, bushes=BUSHES, bush=0.05, ground=FLOWERS,
-                  cover=0.12, critters=CRITTERS, count=3, on=["grass"], keep_clear=0, path=["flagstone", "stone"]),
+                  cover=0.12, critters=CRITTERS, count=3, on=["yard_lawn"], keep_clear=0, path=["yard_paving", "yard_kerb"]),
     "gate": dict(trees=DEAD, edge=0.25, inner=0.0, gap=3, bushes=["nature/briar_bush"], bush=0.03, ground=STONY,
                  cover=0.12, critters=DRY_CRITTERS, count=3, on=["grass"], keep_clear=1, path=["stone"]),
     "gate_barrow": dict(trees=DEAD + ["nature/holly_tree"], edge=0.3, inner=0.0, gap=3, bushes=BUSHES, bush=0.03,
                         ground=STONY + FLOWERS, cover=0.14, mushrooms=MUSHROOMS, shroom=0.15, critters=DRY_CRITTERS,
-                        count=3, on=["grass", "meadow"], keep_clear=1, path=["stone", "dirt"]),
+                        count=3, on=["grass", "meadow"], keep_clear=1, path=["street_paving", "dirt"]),
     "gate_drowned": dict(trees=DEAD, edge=0.2, inner=0.0, gap=3, bushes=["nature/ivy"], bush=0.03, ground=DAMP,
                          cover=0.14, critters=WET_CRITTERS, count=3, on=["grass", "sand"], keep_clear=1, path=["stone"]),
     "gate_ash": dict(trees=DEAD, edge=0.3, inner=0.0, gap=3, ground=STONY, cover=0.12, critters=["nature/spider", "nature/ants"],
@@ -169,7 +169,7 @@ ROOM_KIT = {
                  door=["lamp_post_twin", "lamp_post_twin"]),
 }
 
-PATHS = ["dirt", "stone", "flagstone"]
+PATHS = ["dirt", "stone", "flagstone", "street_paving", "yard_paving"]
 
 
 def _size(art: str) -> dict:
