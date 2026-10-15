@@ -1,5 +1,5 @@
 extends RefCounted
-## Gates as crossings between the sixteen worlds (D145).
+## Gates as crossings between the sixteen worlds (D151).
 ##
 ## A gate is a seam between the worlds. As one shuts, its light can thin to a
 ## doorway onto the same gate in another of the sixteen's worlds: if that

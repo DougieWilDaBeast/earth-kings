@@ -1799,7 +1799,7 @@ func _walk_onto(kind: String) -> bool:
 	return _step_onto(site.cell)
 
 
-## D145: a gate is a seam between the sixteen worlds. The first gate of the first
+## D151: a gate is a seam between the sixteen worlds. The first gate of the first
 ## life always opens onto another lead as it shuts, alive in their own world; a
 ## lead whose world has ended is seen as a burning world with nobody in it; the
 ## company never crosses; and the same gate in the same world always shows the

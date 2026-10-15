@@ -199,7 +199,7 @@ each, each ending playable:
    that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
-13. Gates as crossings between the worlds — built ([D145](06-decisions.md), `dougie`'s idea): as a gate
+13. Gates as crossings between the worlds — built ([D151](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or
    their world burning if it has ended; the first gate of the first life always does. **Planned**
    after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead

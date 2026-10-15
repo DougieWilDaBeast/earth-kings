@@ -30,7 +30,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
-   side: one line from them, and the light closes ([D145](06-decisions.md), [below](#the-crossing)).
+   side: one line from them, and the light closes ([D151](06-decisions.md), [below](#the-crossing)).
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
    stand-in shaft over it until art A9 ([D108](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
@@ -79,7 +79,7 @@ name added to the shared last line's `unless`), and an art request.
 
 ## The crossing
 
-A gate is a seam between the sixteen worlds ([D145](06-decisions.md), `dougie`, 2026-10-15). As any
+A gate is a seam between the sixteen worlds ([D151](06-decisions.md), `dougie`, 2026-10-15). As any
 gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the gate:
 
 - **Who.** One of the sixteen who is not the lead and not walking with them, Janus and Pluto (who go

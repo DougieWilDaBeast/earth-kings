@@ -553,7 +553,7 @@ it is), `area` and `cell` (where it lies), `art` (the prop drawn there), `scene`
 `{ speaker, text }`, played when it is picked up) and `journal` (the line written under _What has
 come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memory:<id>` flags.
 
-## `crossings.json` — gates as crossings between the worlds (D145)
+## `crossings.json` — gates as crossings between the worlds (D151)
 
 `chance` by gate rank (`E` to `S`) that a gate opens onto another lead's world as it shuts;
 `first_certain` makes the first gate of the player's first life always open; `weight` by a lead's
