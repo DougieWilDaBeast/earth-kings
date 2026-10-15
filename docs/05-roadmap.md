@@ -126,15 +126,14 @@ each, each ending playable:
    `data/world_rules.json` → `first_hour.hidden`; the wishlist keeps an "After the First Hour" list.
 4. Fights where they are met, opening running — built ([D98](06-decisions.md)). A band met on the
    ground is fought on that ground with no change of screen; walking off the field's edge gets
-   clear. Tuning (first fights of 10 to 20 seconds, about level 5 by floor 5) waits on `doug-md`'s
-   play-test.
+   clear. Tuned since by [D113](06-decisions.md): about a level a fight.
 5. The crater opening, the Tower's city and the Guild, to the first gate — built
    ([D101](06-decisions.md), design meeting 2's calls A to E). The first world's lead comes down 12
    to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
    Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
    The opening shows another lead's world ending. The Tower is built from rock and flagstone until
-   its art is made (A9). Road length waits on `doug-md`'s play-test.
+   its art is made (A9). Ewan walked the road by hand in about seven minutes (play-test 2).
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
@@ -158,7 +157,7 @@ each, each ending playable:
    Guild's register opens there by itself; the Tower's door says how to climb; on a floor the compass
    points at a memory before the stair, and the buckle lies on the way to it. The Tower stands tall
    on its tile in wall stone, and is seen on the edge of the screen from the crater on, until art
-   A9. Next: `doug-md`'s play-test of the whole hour, then design meeting 3.
+   A9. Meeting 3 and Ewan's play-test 2 followed ([28](28-the-first-hour.md#how-it-was-tested)).
 9. Meeting 4's fix batches ([D119](06-decisions.md), [D120](06-decisions.md)), one pull request
    each. Batch 1, the climb — built ([D115](06-decisions.md)): a floor's stair goes straight on to
    the next and only floor 5 sends the party out; a path to choose or a power to take no longer
@@ -185,6 +184,11 @@ each, each ending playable:
    built ([D133](06-decisions.md)): plain sandstone paving and a kerb, the Tower on its own masonry. The crater — built
    ([D134](06-decisions.md)): a scorched floor in a ring of thrown-up earth, shards glinting in it. The city and
    the first gate — built ([D136](06-decisions.md)): paved in the yard's sandstone, the first gate's right up to its ring of stones ([D137](06-decisions.md)).
+11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
+   itch since 2026-10-15 20:25 (tag `playtest-ewan-3-2026-10-15`); his play log and notes are written up,
+   then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
+   the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
+   [28](28-the-first-hour.md).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -591,7 +595,10 @@ Work that gets the build into players' hands. Almost none of it waits on a found
   a cursor for the fights, hint lines that name the pad's buttons, and pad rebinding in the
   system menu. The layout is in the README
 - Code signing and notarization for Windows and macOS — planned; needs paid certificates
-- A store page (itch.io or Steam) — planned; the founders' call
+- An itch.io page for the browser build ✅ (2026-10-13, `dougie`'s, still a draft): pushed only on
+  `dougie`'s word; every push and play-test build is listed in [28](28-the-first-hour.md#builds-on-itch-io)
+- A Steam page with the First Hour as a free demo — planned, once the hour plays and the music is
+  clean ([D100](06-decisions.md))
 
 ## Deferred
 

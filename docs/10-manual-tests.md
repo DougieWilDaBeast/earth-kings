@@ -190,15 +190,16 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 
 | #   | Do this                                   | Expect                                                                                        |
 | --- | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
-| G1  | Step onto an open gate                    | A fight, and the log says which floor of how many                                             |
+| G1  | Stand beside an open gate and press **E** | The hint said "E to enter Greyhollow (rank E)"; a fight, and the log says which floor of how many. Walking onto the gate's tile starts nothing ([D116](06-decisions.md)) |
 | G2  | Win the first floor of a multi-floor gate | You are told there is more below, and the gate is **not** shut yet                            |
-| G3  | Try to walk off the gate mid-delve        | You can't: "There is no way out … but through", and the step starts the next floor instead ([D35](06-decisions.md)) |
+| G3  | Step away from the gate between its floors | You walk out; the floors won are kept, and E at the gate again goes on with the next ([D115](06-decisions.md)) |
 | G4  | Clear the last floor                      | The gate shuts and pays out                                                                   |
 | G5  | Lose a floor                              | You are put out; the gate stays open                                                          |
 | G5a | Before any gate is shut, stand at the Tower's door | "Nobody climbs without the Guild's mark", no climb offered; Sennet opens the Guild's board ([D101](06-decisions.md)) |
-| G5b | Climb floor 1 to 5                        | The floor's own ground, not a fight screen: bands with red ground, fought where you meet them; the compass points at the stair; standing on the stair wins the floor ([D102](06-decisions.md)) |
+| G5b | Climb floor 1 to 5                        | The floor's own ground, not a fight screen: bands with red ground, fought where you meet them; the compass points at the stair; on or beside the stair the prompt says "E to climb to floor N", and E goes straight to the next floor, not out to the yard ([D102](06-decisions.md), [D114](06-decisions.md), [D115](06-decisions.md)) |
 | G5c | On floor 5, walk at the stair             | The keeper of the fifth floor fights you; losing to it with Atlas alone can end the run        |
-| G5d | As Atlas, step on the glint by the wall on floor 5 | "Chapter one: The Weight" plays; the journal's Quests page shows it under _What has come back_; it is never found again, and another lead never sees it ([D103](06-decisions.md)) |
+| G5d | As Atlas, step on the glint by the wall on floor 5 | "Chapter one: The Weight" plays; the journal's Quests page shows it under _What has come back_; it is never found again, and another lead never sees it ([D103](06-decisions.md)). The same as Cato, Janus, Bellona, Cassius, Saturn, Pluto, Ultor or Liber finds their own keepsake and chapter one there ([D135](06-decisions.md), [D138](06-decisions.md), [28](28-the-first-hour.md#the-chapter-ones)) |
+| G5e | Beat the floor 5 keeper                   | Chapter one closes and the party is back in the Tower's yard in Stormreach; the door climbs on from the highest floor reached ([D115](06-decisions.md)) |
 | G6  | New Game on a fresh install                        | No quiz: Atlas lands, after the opening, on the First Hour setting; after his world ends the quiz picks the next lead ([D104](06-decisions.md), [D106](06-decisions.md)) |
 | G6a | Lose a fight with the lead                         | The death screen has **Ascend** selected; Reload is one step to the right ([D105](06-decisions.md)) |
 | G6b | Auto from the city                                 | Auto stops at the Tower's door and the Guild's register opens; close it and the compass names Greyhollow ([D107](06-decisions.md)) |

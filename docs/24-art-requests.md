@@ -15,6 +15,11 @@
 4. **Closing.** Whoever wires the art into the game moves it from `DROP-ZONE/` into `art/`, keeps
    its `metadata.json`, and moves the row to **Done** with the date.
 
+**While PixelLab has no credits** ([D111](06-decisions.md), 2026-10-15), the art the First Hour needs is
+drawn in house by the `tools/draw_*.py` scripts at the art's own size, and listed in
+[22](22-asset-provenance.md). A request stays open here until PixelLab art of the same name replaces
+the in-house stand-in; the keepsakes A10 to A18 are the coin pile until then.
+
 Every request follows the [conventions in 19](19-asset-list.md#conventions): dark fantasy, muted
 colours ([D40](06-decisions.md)), the 64 class on the founders' base body ([D55](06-decisions.md)),
 big units drawn bigger.
