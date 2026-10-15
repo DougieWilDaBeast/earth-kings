@@ -9,7 +9,7 @@ The First Hour ended on a slime: the fifth floor was kept by `king_slime` and tw
 docs/22 flags as dev-only (P6, Dragon Quest lineage), so no public build can end on them. Will's AK
 (2026-10-15, "All recommended") makes the keeper the game's own figure now, drawn in house, and the
 creatives' meeting gave it its nature: a person who keeps the floor and would let the lead stay at
-the top of it, if they stopped climbing. D151 draws it: the Warden of the Fifth, armoured in the
+the top of it, if they stopped climbing. D156 draws it: the Warden of the Fifth, armoured in the
 Tower's own grey stone with its runes lit down the breastplate, a heavy slate cloak, a tall helm
 with a dark red crest and a cold T of light for a face, and a long glaive. Its big move shows before it lands: the skill is a
 long wind-up, the glaive raised and its blade filling with the runes' light, then the slam.

@@ -137,7 +137,7 @@ each, each ending playable:
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
-   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D151](06-decisions.md)) who can kill an unready Atlas. Auto stops
+   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D156](06-decisions.md)) who can kill an unready Atlas. Auto stops
    at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
@@ -147,8 +147,11 @@ each, each ending playable:
    until art request A10 is made. Cato, the quiz's most common second lead, has his own chapter one
    in the same alcove ([D135](06-decisions.md)): a bronze stylus, "Chapter one: The Last Line",
    **Inferred**, stand-in prop until art request A11. So do Janus, Bellona, Cassius, Saturn, Pluto,
-   Ultor and Liber ([D138](06-decisions.md)), the leads with enough of the founders' material; the
-   other seven wait for more of `dougie`'s material (**planned**).
+   Ultor and Liber ([D138](06-decisions.md)), the leads with enough of the founders' material, and
+   Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D151](06-decisions.md)), drafted from Will's
+   inspiration volumes and rewritten by the creatives' meeting, so all sixteen have one. Next
+   (**planned**, creatives' meeting C8): the opening's replay says what the fallen lead had just
+   remembered (C5), and the Guild master, Buri, Bram and Barnaby get their lines (C4).
 8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
    to Q). A new player is Atlas (the quiz, four questions with sixteen ways through and one lead
    for each, waits for the next life) on the new **First Hour** setting,
@@ -196,7 +199,8 @@ each, each ending playable:
    recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
    [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
    four-letter temper codes on screen, Barnaby off the road's bands. Life two — built
-   ([D145](06-decisions.md)): the quiz deals only leads with a chapter one while seven wait, and a
+   ([D145](06-decisions.md)): the quiz deals only leads with a chapter one (since [D151](06-decisions.md) all sixteen have one,
+   so it deals every lead), and a
    suite walks every way through it after Atlas's fall. **Planned**, in order: three wares at a market; a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
