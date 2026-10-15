@@ -33,3 +33,23 @@ static func first_life() -> String:
 	if lead == "" or not Sixteen.worlds().is_empty() or Sixteen.fallen_heroes().has(lead):
 		return ""
 	return lead
+
+
+## AQ: while some of the sixteen have no chapter one yet, the quiz deals only those who do, so a
+## second life does not climb to an empty alcove on floor 5. The tempers to hold back, on top of the
+## [param fallen]; none once every living lead has a chapter one, or when holding them back would
+## leave nobody to deal. Switched by `first_hour.deal_only_written` in `data/world_rules.json`.
+static func unwritten_tempers(fallen: PackedStringArray) -> PackedStringArray:
+	var out := PackedStringArray()
+	if not bool(Database.world_rules.get("first_hour", {}).get("deal_only_written", false)):
+		return out
+	var written := 0
+	for code: String in Database.temper_types():
+		if fallen.has(code):
+			continue
+		var hero := Database.temper_hero(code)
+		if hero != "" and not (Database.memories.get(hero, []) as Array).is_empty():
+			written += 1
+		else:
+			out.append(code)
+	return out if written > 0 else PackedStringArray()
