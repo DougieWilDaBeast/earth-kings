@@ -56,6 +56,8 @@ const MAPPABLE_ACTIONS := [
 @onready var _how_to_play_button: Button = %HowToPlayButton
 @onready var _tips_button: Button = %TipsButton
 @onready var _reset_tips_button: Button = %ResetTipsButton
+@onready var _copy_log_button: Button = %CopyLogButton
+@onready var _save_log_button: Button = %SaveLogButton
 
 var _save_button: Button
 var _rebind_action: String = ""
@@ -101,6 +103,8 @@ func _ready() -> void:
 	_tips_button.toggled.connect(_on_tips_toggled)
 	_reset_tips_button.pressed.connect(_on_reset_tips_pressed)
 	_update_tips_button()
+	_copy_log_button.pressed.connect(_on_copy_log_pressed)
+	_save_log_button.pressed.connect(_on_save_log_pressed)
 
 	_controls_button.pressed.connect(_open_controls)
 	_back_from_controls_button.pressed.connect(_close_controls)
@@ -108,7 +112,7 @@ func _ready() -> void:
 	_credits_button.pressed.connect(open_credits)
 	_back_from_credits_button.pressed.connect(close_credits)
 
-	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _how_to_play_button, _tips_button, _reset_tips_button, _back_from_controls_button, _reset_bindings_button, _credits_button, _back_from_credits_button]:
+	for btn in [save_button, _load_button, title_button, close_button, _mute_button, _sfx_mute_button, _fullscreen_button, _chatter_button, _difficulty_button, _touch_button, _controls_button, _how_to_play_button, _tips_button, _reset_tips_button, _copy_log_button, _save_log_button, _back_from_controls_button, _reset_bindings_button, _credits_button, _back_from_credits_button]:
 		Sfx.attend(btn)
 
 	_load_custom_bindings()
@@ -454,3 +458,14 @@ func _on_reset_tips_pressed() -> void:
 	Tips.set_enabled(true)
 	_update_tips_button()
 	_status.text = "Tips will be shown again."
+
+
+## A play-tester's way to hand over what they did ([D125]).
+func _on_copy_log_pressed() -> void:
+	PlayLog.copy_to_clipboard()
+	_status.text = "Play log copied. Paste it into a message."
+
+
+func _on_save_log_pressed() -> void:
+	var where := PlayLog.save_file()
+	_status.text = "Play log saved as %s." % where if OS.has_feature("web") else "Play log is at %s" % where

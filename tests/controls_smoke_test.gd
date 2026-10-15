@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	_check_settings_are_kept()
+	await _check_the_play_log()
 	await _check_the_credits()
 	await _check_tips_and_how_to_play()
 	await _check_the_pad()
@@ -546,6 +547,36 @@ func _check_settings_are_kept() -> void:
 		"the fullscreen button does not follow the fullscreen key"
 	)
 	slider.value = sfx_was
+
+
+# --- the play log ---------------------------------------------------------------
+
+
+## What a play-tester did is written down as they do it, steps counted not
+## listed, the engine's complaints included, and the menu hands it over (D125).
+func _check_the_play_log() -> void:
+	_expect(PlayLog.text().contains("=== game opened"), "the play log does not mark the game opening")
+	for i in 3:
+		EventBus.player_did.emit("walked")
+	PlayLog.call("_on_battle_started", "test_map")
+	PlayLog.call("_on_battle_finished", { "victory": true, "map_id": "test_map" })
+	push_warning("the play log hears this")
+	await _settle()
+	var said := PlayLog.text()
+	_expect(said.contains("walked 3 steps"), "the play log does not count steps: %s" % said.right(300))
+	_expect(said.contains("FIGHT test_map") and said.contains("WON"), "the play log misses a fight and its end")
+	_expect(said.contains("the play log hears this"), "the play log misses the engine's warnings")
+	_expect(said.split("\n").size() <= PlayLog.MAX_LINES + 2, "the play log outgrows its cap")
+	_menu.open()
+	(_menu.get_node("%SaveLogButton") as Button).pressed.emit()
+	_expect(FileAccess.file_exists(PlayLog.PATH), "Save play log does not leave the log in user://")
+	_expect(
+		FileAccess.get_file_as_string(PlayLog.PATH).contains("FIGHT test_map"),
+		"the play log file is not the log"
+	)
+	(_menu.get_node("%CopyLogButton") as Button).pressed.emit()
+	_expect((_menu.get_node("%StatusLabel") as Label).text.contains("copied"), "Copy play log says nothing")
+	_menu.close()
 
 
 # --- tips and how to play ------------------------------------------------------

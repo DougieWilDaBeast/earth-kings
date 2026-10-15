@@ -136,6 +136,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Reset tips"
 
+[node name="PlayLogRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+theme_override_constants/separation = 8
+
+[node name="CopyLogButton" type="Button" parent="Root/Panel/Margin/Items/PlayLogRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Puts the play log on the clipboard, to paste into a message."
+text = "Copy play log"
+
+[node name="SaveLogButton" type="Button" parent="Root/Panel/Margin/Items/PlayLogRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Downloads the play log as a text file."
+text = "Save play log"
+
 [node name="CreditsButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
 layout_mode = 2

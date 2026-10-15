@@ -30,6 +30,7 @@ Music="*res://src/autoload/music.gd"
 Sfx="*res://src/autoload/sfx.gd"
 Pace="*res://src/autoload/pace.gd"
 Pad="*res://src/autoload/pad.gd"
+PlayLog="*res://src/autoload/play_log.gd"
 
 [debug]
 
