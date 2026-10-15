@@ -606,6 +606,10 @@ func _check_tower_floor() -> void:
 		leader.position = door.position + Vector2(0.0, AreaMap.CELL * 2.0)
 		foot.call("_refresh_prompt")
 		_expect(foot.get("_nearby") == door, "tower: two cells from the door, E is not the door's")
+		# And the yard can be walked from where you come in to the door's steps (meeting 3).
+		var yard: AreaMap = foot.get("map")
+		var to_door: Array = yard.astar.get_id_path(yard.spawn, door.cell + Vector2i(0, 1))
+		_expect(not to_door.is_empty(), "tower: the door's steps cannot be walked to from the yard's way in")
 		foot.set("_acts", [{ "prompt": "E to climb floor 1 of the Tower", "act": "_climb_here", "key": "interact" }])
 		foot.set("_nearby", door)
 		_expect(str(foot.call("_prompt_text")) == "E to climb floor 1 of the Tower", "tower: standing at the door does not say how to climb")
