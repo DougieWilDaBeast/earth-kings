@@ -171,6 +171,9 @@ var _land_mode: bool = false
 var _tile_ground: Dictionary = {}
 var _tile_things: Dictionary = {}
 var _to_hold: Array[Vector2i] = []
+## Tiles whose ground is down and whose things are still to stand on it, a frame later: one tile's
+## work split over two frames, so a step's new ground is no hitch (D122, lag).
+var _to_fill: Array[Vector2i] = []
 var _asking: bool = false
 ## The light the land is seen in, which turns as the party walks into other country.
 var _dusk: CanvasModulate = null
@@ -233,12 +236,25 @@ func _ready() -> void:
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
 	_lay_out_acts()
+	_warm_the_party()
 	for line: String in boot_payload.get("notes", []):
 		_note(line)
 	if _land_mode:
 		_open_on(str(_here_chunk().get("opening", "")))
 	else:
 		_open_on(map.opening)
+
+
+## The party's moves (and a bearer's, like Sky) load a frame at a time while the place is walked,
+## so a fight met here starts without a pause (D122).
+func _warm_the_party() -> void:
+	var signatures: Dictionary = Database.skirmish.get("signatures", {})
+	for member: Character in GameState.party_characters():
+		Database.warm_unit(member.template_id)
+		var signature: Dictionary = signatures.get(member.template_id, {})
+		for key: String in ["bearer", "beast"]:
+			if str(signature.get(key, "")) != "":
+				Database.warm_unit(str(signature[key]))
 
 
 ## The cutscene a place plays the moment you walk into it, before you are given
@@ -373,6 +389,12 @@ func _plan_the_land() -> void:
 
 
 func _hold_more() -> void:
+	if not _to_fill.is_empty():
+		var filling: Vector2i = _to_fill.pop_front()
+		if (map as Land).is_held(filling):
+			_fill_tile(filling)
+			_post_bands_for(filling)
+		return
 	if _to_hold.is_empty():
 		return
 	var tile: Vector2i = _to_hold.pop_front()
@@ -381,8 +403,7 @@ func _hold_more() -> void:
 		return
 	land.hold(tile)
 	_paint_tile(tile)
-	_fill_tile(tile)
-	_post_bands_for(tile)
+	_to_fill.append(tile)
 
 
 func _let_go(tile: Vector2i) -> void:
@@ -416,6 +437,7 @@ func _let_go(tile: Vector2i) -> void:
 		if land.tile_of(watch.anchor) == tile and not watch.travelling:
 			_take_off(watch)
 	_to_hold.erase(tile)
+	_to_fill.erase(tile)
 	land.release(tile)
 
 
@@ -478,6 +500,9 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	for line: Variant in answer.get("notes", []):
 		_note(str(line))
 	_lay_out_acts()
+	if answer.has("cache"):
+		_put_cache(answer["cache"])
+	_fall_in()
 	var land := map as Land
 	var world: World = GameState.world
 	# After a fight the party may stand over the border; walking on carries them across it.
@@ -715,12 +740,30 @@ func _put_spire(prop: Dictionary) -> Node2D:
 	return node
 
 
+## Something the continent found left on this step, put down a little ahead of the party where it
+## can be seen, and picked up with E like anything else worth stopping for.
+func _put_cache(haul: Dictionary) -> AreaProp:
+	if _leader == null or haul.is_empty():
+		return null
+	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
+	var at := _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
+	var node := AreaProp.from_entry({
+		"art": "coin_pile", "cell": at, "name": "something left here",
+		"line": "Something left here a long while ago, and nobody came back for it.",
+	})
+	node.haul = haul.duplicate()
+	node.position = map.centre_of(at)
+	_actors.add_child(node)
+	_things.append(node)
+	return node
+
+
 func _put_chest(cell: Vector2i) -> AreaProp:
 	var chest: Dictionary = map.chests[cell]
 	var shut: String = chest.get("art", "chest")
 	var is_stash := bool(chest.get("stash", false))
 	var opened := not is_stash and GameState.has_flag(map.chest_flag(cell))
-	var node := AreaProp.create(chest.get("opened_art", "chest_open") if opened else shut)
+	var node := AreaProp.create(_opened_art(chest) if opened else shut)
 	node.position = map.centre_of(cell)
 	node.cell = cell
 	node.line = chest.get("line", "")
@@ -1247,6 +1290,8 @@ func _speak_to_the_fallen(them: AreaActor, hero_id: String) -> void:
 	them.visible = false
 	_nearby = null
 	_hovered = null
+	# They fall in behind the party now, where they can be seen following (Ewan's play-test 2).
+	_fall_in()
 
 
 ## A dead lead's ghost, across the fire: as much of their journal as they will
@@ -2110,6 +2155,16 @@ func _after_the_fight() -> void:
 		_ask_the_continent({})
 
 
+## Whoever has joined since the party was put down (one of the sixteen agreeing to walk with you)
+## falls in behind it, so a companion is seen following from the moment they join.
+func _fall_in() -> void:
+	if _leader == null or _fight != null:
+		return
+	if GameState.party_characters().size() == _followers.size() + 1:
+		return
+	_regather_at(_leader.position)
+
+
 ## The party as it is now (the fallen gone from it), standing round [param point].
 func _regather_at(point: Vector2) -> void:
 	for actor: AreaActor in [_leader] + _followers:
@@ -2284,6 +2339,16 @@ func _lay_out_acts() -> void:
 		_act_bar.add_child(button)
 
 
+## How a chest looks once opened: its own `opened_art`, else its art's open drawing if one is
+## drawn (`chest` -> `chest_open`), else as it was. A broken or iron chest no longer turns into a
+## plain wooden one when it is opened (Ewan's play-test 2).
+func _opened_art(chest: Dictionary) -> String:
+	if chest.has("opened_art"):
+		return str(chest["opened_art"])
+	var shut := str(chest.get("art", "chest"))
+	return "%s_open" % shut if AreaProp.has_art("%s_open" % shut) else shut
+
+
 func _picking_an_act() -> bool:
 	var owner := get_viewport().gui_get_focus_owner()
 	return owner != null and _act_bar != null and _act_bar.is_ancestor_of(owner)
@@ -2306,7 +2371,7 @@ func _open_chest(cell: Vector2i) -> void:
 
 	_note(chest.get("line", "A chest, and nobody watching it."))
 	if _chest_props.has(cell):
-		_chest_props[cell].set_art(chest.get("opened_art", "chest_open"))
+		_chest_props[cell].set_art(_opened_art(chest))
 	var haul := chest.duplicate()
 	haul["map"] = Atlas.finds_map(GameState.world, flag, "chest_map_chance")
 	for line: String in Loot.claim(haul, GameState.roster):

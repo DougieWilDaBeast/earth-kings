@@ -4,7 +4,7 @@
 		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "roadside"],
 		"_comment_guild_mark": "D101: nobody climbs without the Guild's mark. With `guild_mark` on, every run starts with the Tower's stair sealed, the way a chapter's end seals it (src/chronicle/chapters.gd), and the first gate the company shuts opens it. `mark_line` is what the Tower's doorkeeper says while it is shut. **Inferred**: the mark is earned by shutting any gate, with or without the Guild's contract on it.",
 		"guild_mark": true,
-		"mark_line": "Nobody climbs without the Guild's mark. Take a contract from the Guild and shut a gate, and the door is yours.",
+		"mark_line": "Nobody climbs without the Guild's mark. Sennet keeps the Guild's register: shut a gate and he marks you for the Tower.",
 		"_comment_first_life": "D106: the first life is always this lead. New Game with no world yet ended starts here, skipping the quiz; the quiz picks the next lead after a death.",
 		"first_life": "atlas"
 	},

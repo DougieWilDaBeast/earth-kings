@@ -14,21 +14,15 @@
 	},
 
 	"landing": {
-		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the land under them (data/biomes.json), {tower_way} which way the Tower stands from there, {city} the great city and {city_way} which way it lies. A line with `lead` is said only when that one of the sixteen is the lead. D101: Sky comes down in the crater with Atlas, and Bram pulls the lead out; the flash of the sixteen's ring is the meeting 2 beat.",
+		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the land under them (data/biomes.json), {tower_way} which way the Tower stands from there, {city} the great city and {city_way} which way it lies. A line with `lead` is said only when that one of the sixteen is the lead. D101: Sky comes down in the crater with Atlas, and Bram pulls the lead out; the flash of the sixteen's ring is the meeting 2 beat. D122 (meeting 4): at most five boxes before the first step, so five lines for Atlas and four for anyone else; the journal and the standing quest go to the log (`note`).",
 		"lines": [
-			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins, there is a crater ploughed into the {ground}, and somebody lying at the bottom of it." },
+			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins there is a crater ploughed into the {ground}, and {name} wakes at the bottom of it with no memory of falling. For a heartbeat there is a ring of sixteen lights behind the eyes. Then it is gone." },
 			{ "speaker": "", "lead": "atlas", "text": "Something else came down with {name}: a great lizard, too heavy for its own legs, already pushing its head under {name}'s hand. Its name comes back before anything else does. Sky." },
-			{ "speaker": "", "text": "{name} wakes with no memory of falling, and none of anything before it. Only the name stays, and a weight behind the eyes like a word just out of reach." },
-			{ "speaker": "", "text": "For a heartbeat there is a ring of sixteen lights behind the eyes, sixteen faces turned to one another. Then it is gone." },
 			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. I saw you come down, and I didn't think there'd be anybody left to pull out." },
-			{ "speaker": "", "text": "A broad man in a road-stained coat, a greatsword across his back, hauls {name} up over the rim. He gives his name as Bram, and does not ask for {name}'s." },
-			{ "speaker": "", "text": "From the rim, far off to the {tower_way}, the Tower stands over everything. Looking at it hurts, and nobody could say why." },
-			{ "speaker": "Bram", "text": "That's {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
-			{ "speaker": "{name}", "text": "Up. Whatever I was, it was up there. I am going back." },
-			{ "speaker": "", "text": "Something else came down with {name}, thrown clear into the crater: a journal bound in cracked leather. Its pages are blank but for the first, and on the first, in a hand that might be their own, only the name." },
-			{ "speaker": "{name}", "text": "Then I will write the rest. Who walks with me, what we meet, where we have been." },
-			{ "speaker": "", "text": "The crater is the nearest thing to a home this world has offered. It will do. A new standing quest: Ascend to heaven." }
-		]
+			{ "speaker": "Bram", "text": "That's the Tower, off to the {tower_way}, and {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
+			{ "speaker": "{name}", "text": "Up. Whatever I was, it was up there. I am going back." }
+		],
+		"note": "A journal came down too, blank but for the name on its first page. A new standing quest: Ascend to heaven."
 	},
 
 	"standing_quest": {
@@ -176,7 +170,12 @@
 				"SP": [ "{lead}! Still breathing. Good. I've been somewhere loud since I saw you last." ]
 			},
 			"heading": {
-				"library": "There is a library at the edge of what I know. Something on its shelves has my handwriting in it. I am sure of that, and of nothing else.",
+				"library": {
+					"NT": "There is a library at the edge of what I know. Something on its shelves has my handwriting in it. I am sure of that, and of nothing else.",
+					"NF": "A library. I keep dreaming of a page I wrote and cannot read. If it is anywhere, it is there.",
+					"SJ": "The library. If anybody wrote down what happened to us, it is on a shelf there, filed and waiting.",
+					"SP": "A library, if you can believe it. Me. Somebody there owes me answers, and I'll take them in any order."
+				},
 				"tower": "The Tower. I keep walking towards it without deciding to.",
 				"keep": "A keep. Walls, banners, people who think they are in charge. Somebody there knows something, or will fight me for not knowing.",
 				"village": "A village. People who cook. I would like to remember what it is to be ordinary.",

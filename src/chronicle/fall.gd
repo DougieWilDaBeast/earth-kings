@@ -203,6 +203,12 @@ static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> 
 	return { "lines": lines }
 
 
+## Said in the log once the landing's boxes are read: the journal and the standing quest (D122 keeps
+## the boxes before the first step to five).
+static func landing_note() -> String:
+	return str(rules().get("landing", {}).get("note", ""))
+
+
 ## The land under [param cell] as the narration names it: the land the ground
 ## is drawn as (a snowfield, the blight), never the map's plainer terrain, so
 ## the words match what the player is standing on.

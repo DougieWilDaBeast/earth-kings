@@ -125,6 +125,9 @@ var _captive_here: Character = null
 var _roadside_here: String = ""
 ## A secluded wilderness clearing discovered on open ground.
 var _wild_here: String = ""
+## A cache found on this step, for the ground to put down where it can be seen and picked up
+## (Ewan's play-test 2: gold arrived with nothing on screen).
+var _cache_found: Dictionary = {}
 ## Map art kept between redraws, since the whole map is redrawn every step.
 var _art: Dictionary = {}
 ## Where the camera was last time the ground was laid out (x, y, zoom).
@@ -226,6 +229,8 @@ func _ready() -> void:
 		(landing["lines"] as Array).append_array(Siblings.landing_lines(world))
 		Database.register_dialogue("landing", landing)
 		EventBus.dialogue_requested.emit("landing")
+		if Fall.landing_note() != "":
+			_note(Fall.landing_note())
 
 	match _view:
 		View.MAP:
@@ -465,9 +470,14 @@ func _as_conversation(lines: Array) -> Array:
 func _look_for_a_cache(cell: Vector2i) -> void:
 	if _busy or world.rng.randf() >= float(Loot.rules().get("cache_chance", 0.04)):
 		return
-	_note("Something has been left here, and left a long while.")
 	var haul := Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0)
 	haul["map"] = bool(haul.get("map", false)) or Atlas.finds_map(world, cell, "cache_map_chance")
+	if _view == View.GROUND:
+		# On the ground it lies there to be seen and picked up, not paid in out of sight.
+		_cache_found = haul
+		_note("Something has been left here, and left a long while. It lies on the ground close by.")
+		return
+	_note("Something has been left here, and left a long while.")
 	for line: String in Loot.claim(haul, GameState.roster):
 		_note(line)
 
@@ -571,6 +581,7 @@ func _settle_up(won: bool) -> void:
 				])
 			else:
 				GameState.delving = []
+				var was_sealed := world.tower_sealed_at >= 0
 				world.close_gate(site)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
@@ -579,6 +590,10 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Guild.on_gate_shut(world, site):
 					_note(line)
+				# A shut gate says it counted (meeting 4): the Guild's mark, or a chapter's seal broken.
+				if was_sealed and not Chapters.sealed(world):
+					_note("Sennet will have your name in the Guild's register: the Tower's door is open to you." \
+						if world.tower_floor <= 0 else "The Tower counts it: the stair above is open again.")
 				EventBus.safe_point_reached.emit.call_deferred(RunMode.GATE, "you shut %s" % site.display_name)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
@@ -823,7 +838,12 @@ func _rest_at(site: Site) -> void:
 			_map.queue_redraw()
 	if rested:
 		EventBus.safe_point_reached.emit(RunMode.REST, "you rested at %s" % site.display_name)
-		_make_camp(site)
+		# A town's night is spent in the town you walked into, not at a fire somewhere else (Ewan's
+		# play-test 2: arriving at Stormreach put him at a campfire that felt like another world).
+		if site.kind == Site.HUT:
+			_make_camp(site)
+		else:
+			_talk(Banter.REST, true)
 
 
 ## A rest that was needed is a night, and a night is spent at the fire, where
@@ -1650,6 +1670,8 @@ func _ground_payload(fresh: bool = false) -> Dictionary:
 			if entries.has(side):
 				payload["spawn_cell"] = entries[side]
 	payload["held"] = _held_now()
+	if not _cache_found.is_empty():
+		payload["cache"] = _cache_found
 	payload["actions"] = _ground_actions(payload)
 	payload["bands"] = _bands_here()
 	var said: Array = []

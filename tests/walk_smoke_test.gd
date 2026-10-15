@@ -1550,6 +1550,9 @@ func _check_fall() -> void:
 	_expect(not Fall.quest_progress(world).is_empty(), "the standing quest says nothing about the climb")
 	var landing_said: Array = Fall.landing_dialogue(world, "Atlas", "atlas").get("lines", [])
 	_expect(not landing_said.is_empty(), "the landing has nothing to say")
+	# D122: at most five boxes before the first step, asked for three times (meeting 4).
+	var before_first_step := landing_said.size() + Siblings.landing_lines(world).size()
+	_expect(before_first_step <= 5, "the crater puts up %d boxes before the first step, not five or fewer (D122)" % before_first_step)
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["speaker"]) == "Bram"), "nobody pulls the lead out of the crater")
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["text"]).contains("Sky")), "Sky is not in Atlas's crater")
 	var juno: Array = Fall.landing_dialogue(world, "Juno", "juno").get("lines", [])
