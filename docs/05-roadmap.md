@@ -132,8 +132,8 @@ each, each ending playable:
    to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
    Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
-   The opening shows another lead's world ending. The Tower is built from rock and flagstone until
-   its art is made (A9). Ewan walked the road by hand in about seven minutes (play-test 2).
+   The opening shows another lead's world ending. The Tower's foot is rock and flagstone and its shaft
+   is drawn in house ([D158](06-decisions.md)) until its art is made (A9). Ewan walked the road by hand in about seven minutes (play-test 2).
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
