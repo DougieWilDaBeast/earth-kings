@@ -15,11 +15,14 @@ extends RefCounted
 ## [AreaScene] cannot tell the difference.
 
 const Biome := preload("res://src/chronicle/biome.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
 
 const FLOOR := "."
 const BARE := ","
 const LIQUID := "~"
 const COVER := "\""
+## The First Hour's laid road ([D126]).
+const ROAD := "="
 
 const SIDES := {
 	"north": Vector2i.UP, "south": Vector2i.DOWN, "west": Vector2i.LEFT, "east": Vector2i.RIGHT,
@@ -357,6 +360,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	# The ways out, and the edges that have none.
 	var exits: Array = []
 	var entries := {}
+	var road: Array = FirstRoad.sides(world, cell) if open_land else []
 	for side: String in SIDES:
 		var dir: Vector2i = SIDES[side]
 		var next := cell + dir
@@ -366,7 +370,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 			# No edge at all: the path runs out to where the next tile's comes in.
 			var meet := _edge_cell(side, along + GAP / 2, w, h)
 			entries[side] = [(meet - dir * 2).x, (meet - dir * 2).y]
-			_wear_path(grid, kept, meet, hub, rng, w, h, true)
+			_wear_path(grid, kept, meet, hub, rng, w, h, true, ROAD if road.has(side) else BARE)
 			continue
 		for i in (w if dir.y != 0 else h):
 			var at := _edge_cell(side, i, w, h)
@@ -429,13 +433,17 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	for row in grid:
 		rows.append("".join(row))
 	var ground: Dictionary = biome.get("ground", {})
+	var layers: Array = (biome.get("layers", ["dirt"]) as Array).duplicate()
+	if not road.is_empty():
+		layers.append("road")
 	return {
 		"display_name": str(biome.get("name", land)),
 		"biome": land,
-		"layers": biome.get("layers", ["dirt"]),
+		"layers": layers,
 		"legend": {
 			FLOOR: str(ground.get("floor", "grass")), BARE: str(ground.get("bare", "dirt")),
 			LIQUID: str(ground.get("liquid", "water")), COVER: str(ground.get("cover", "meadow")),
+			ROAD: "road",
 		},
 		"tint": str(biome.get("tint", "")),
 		"hint": "WASD to walk" if open_land else "WASD to walk  ·  the ways out follow the land",
@@ -497,16 +505,24 @@ static func _close_edge(world: World, next: Vector2i, at: Vector2i, dir: Vector2
 	blocked[at] = true
 
 
-## A path worn from a way out to where the paths meet, wandering a little.
+## A path worn from a way out to where the paths meet, wandering a little. The road
+## ([param symbol] [constant ROAD]) is laid two cells wide and is not worn over by a path.
 static func _wear_path(grid: Array, kept: Dictionary, from: Vector2i, to: Vector2i,
-		rng: RandomNumberGenerator, w: int, h: int, to_the_edge: bool = false) -> void:
+		rng: RandomNumberGenerator, w: int, h: int, to_the_edge: bool = false, symbol: String = BARE) -> void:
 	var at := from
 	var guard := 0
 	while at != to and guard < 200:
 		guard += 1
 		kept[at] = true
 		if to_the_edge or (at.x >= 1 and at.y >= 1 and at.x < w - 1 and at.y < h - 1):
-			grid[at.y][at.x] = BARE
+			if symbol == ROAD:
+				for wide: Vector2i in [Vector2i.ZERO, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.ONE]:
+					var c := at + wide
+					if c.x < w and c.y < h:
+						grid[c.y][c.x] = ROAD
+						kept[c] = true
+			elif grid[at.y][at.x] != ROAD:
+				grid[at.y][at.x] = symbol
 		var step := Vector2i(signi(to.x - at.x), 0) if (rng.randf() < 0.5 and at.x != to.x) or at.y == to.y \
 			else Vector2i(0, signi(to.y - at.y))
 		at += step
@@ -528,7 +544,7 @@ static func _blob(grid: Array, kept: Dictionary, symbol: String, centre: Vector2
 			# Water never cuts a path, and nothing is grown over the ways out.
 			if kept.has(at) and (keep_clear or symbol == COVER):
 				continue
-			if kept.has(at) and grid[y][x] == BARE:
+			if kept.has(at) and (grid[y][x] == BARE or grid[y][x] == ROAD):
 				continue
 			grid[y][x] = symbol
 
