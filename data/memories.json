@@ -1,5 +1,5 @@
 {
-	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft, the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
+	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft; Cato's (the quiz's most common second lead) is the 2026-10-15 draft Will kept, in the same alcove, which only he finds, the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
 	"atlas": [
 		{
 			"id": "atlas_1",
@@ -51,6 +51,63 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a courtyard, and a voice, and that Sky was a gift. I don't remember who gave it."
+		}
+	],
+	"cato": [
+		{
+			"id": "cato_1",
+			"chapter": 1,
+			"title": "Chapter one: The Last Line",
+			"object": "a bronze stylus",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Wedged in a crack at the foot of the alcove wall: a bronze stylus, the kind for writing on wax, its point worn flat with use."
+				},
+				{
+					"speaker": "",
+					"text": "Cato turns it over once, the way he checks a blade for a nick, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A long table of white stone, before the fall, and a lamp burnt low. He is writing on a wax tablet and has been for hours. At the top, in his own hand: IF IT GOES WRONG."
+				},
+				{
+					"speaker": "",
+					"text": "One. Find the others. Two. Trust nobody who cannot tell you the rules. He has filled the tablet to its last line."
+				},
+				{
+					"speaker": "A voice",
+					"text": "You've written down every way this ends badly. Where's the line for what we do if it works?"
+				},
+				{
+					"speaker": "Cato",
+					"text": "If it works, nobody needs a list."
+				},
+				{
+					"speaker": "",
+					"text": "The voice laughs, and a thumb smooths the wax over his last line before he can read it back. He tries to see whose hand it is. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Cato wakes on the fifth floor with the stylus in his fist and knows one thing he did not know before: the fall did not take him by surprise. He saw it coming and wrote the rules for it, and somebody he trusted rubbed one out."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Last Line."
+				}
+			],
+			"journal": "Floor 5. I remembered a list I wrote for if it went wrong. The first rule was find the others. Somebody wiped the last one before I could read it."
 		}
 	]
 }

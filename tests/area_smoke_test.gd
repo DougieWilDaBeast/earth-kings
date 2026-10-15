@@ -592,6 +592,21 @@ func _check_tower_floor() -> void:
 	_expect((not_his.get("_memories") as Dictionary).is_empty(), "tower floor: Juno found Atlas's memory")
 	not_his.queue_free()
 	await get_tree().process_frame
+	# Cato, the quiz's most common second lead, finds his own chapter one in the same alcove.
+	GameState.new_game(SEED, "cato")
+	var catos: Node = load("res://src/area/area_scene.tscn").instantiate()
+	catos.set("boot_payload", { "area_id": "tower_floor_5", "return_scene": "world", "tower_floor": 5 })
+	add_child(catos)
+	for i in 5:
+		await get_tree().process_frame
+	var his: Dictionary = catos.get("_memories")
+	_expect(his.size() == 1, "tower floor: Cato's stylus is not on floor 5 (%d)" % his.size())
+	if his.size() == 1:
+		catos.call("_arrive_at", his.keys()[0])
+		_expect(Memories.found("cato").size() == 1 and Memories.found("atlas").is_empty(),
+				"tower floor: Cato did not find his own memory, or found Atlas's")
+	catos.queue_free()
+	await get_tree().process_frame
 	# The Tower's door is the way up (D107): standing at it says how to climb, and the shaft stands over it (D108).
 	var foot: Node = load("res://src/area/area_scene.tscn").instantiate()
 	foot.set("boot_payload", { "area_id": "tower", "return_scene": "world" })

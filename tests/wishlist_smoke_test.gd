@@ -339,7 +339,7 @@ func _check_opening() -> void:
 	var listen := func(key: String, payload: Dictionary) -> void: asked.append([key, payload])
 	EventBus.request_scene.connect(listen)
 	var opening: Control = load("res://src/ui/opening.tscn").instantiate()
-	opening.boot_payload = {"lead": "cato"}
+	opening.boot_payload = {"lead": "cato", "fallen_heroes": []}
 	add_child(opening)
 	opening.set_process(false)
 	_expect(opening._lead == "cato" and opening._sprites.get("sixteen:cato") != null,
@@ -358,6 +358,7 @@ func _check_opening() -> void:
 
 	asked.clear()
 	var skipped: Control = load("res://src/ui/opening.tscn").instantiate()
+	skipped.boot_payload = {"fallen_heroes": []}
 	add_child(skipped)
 	skipped.set_process(false)
 	var esc := InputEventKey.new()
@@ -366,6 +367,8 @@ func _check_opening() -> void:
 	skipped._unhandled_input(esc)
 	_expect(skipped.finished and asked.size() == 1, "Esc did not skip the opening")
 	skipped.queue_free()
+
+	_check_opening_again(data, asked)
 
 	# The quiz sends a New Game's lead to the opening, and any other run straight out.
 	for from_new_game: bool in [true, false]:
@@ -380,6 +383,64 @@ func _check_opening() -> void:
 				"the quiz began the run with %s, not %s" % [asked, want])
 		quiz.queue_free()
 	EventBus.request_scene.disconnect(listen)
+
+
+## Every life after the first plays the opening again (Will, 2026-10-15): only the
+## story shots (call AC), with the fallen gone from it and the lines for who is left.
+func _check_opening_again(data: Dictionary, asked: Array) -> void:
+	var sixteen: Array = data.get("sixteen", [])
+	var second := _opening_for("cato", ["atlas"], {"hero": "atlas", "name": "Atlas", "floor": 3, "killer": "slime"})
+	var ids: Array = second.shots.map(func(shot: Dictionary) -> String: return str(shot.get("shot", "")))
+	_expect(ids == data.get("replay", []), "the second life's opening plays %s, not the replay's shots" % [ids])
+	_expect(second.stage() == "many" and second.left() == 15, "the second life is not fifteen left (%s, %d)" % [second.stage(), second.left()])
+	_expect(second._other == "atlas", "the second life's opening does not show Atlas's world ending (%s)" % second._other)
+	var said := _opening_lines(second)
+	_expect(said.has("Sixteen of them, each given a world. Fifteen are still standing."), "the ring does not count fifteen left")
+	_expect(said.has("Atlas fell on floor 3 of the Tower, and that world went dark with them. It never comes back."),
+			"the ending shot does not say how Atlas fell: %s" % [said])
+	_expect(said.has("One of the fourteen after you goes on, from the beginning."), "the end shot does not count who is after")
+	asked.clear()
+	var guard := 0
+	while not second.finished and guard < 600:
+		second.step(0.25)
+		guard += 1
+	_expect(second.finished and asked.size() == 1 and asked[0][0] == "world", "the second life's opening did not start the run")
+	second.queue_free()
+
+	var on_road := _opening_for("juno", ["atlas", "cato"], {"hero": "cato", "name": "Cato", "floor": 0, "killer": "Ogre"})
+	_expect(_opening_lines(on_road).has("Cato fell on the road, to an ogre, and that world went dark with them. It never comes back."),
+			"a lead killed on the road is not said to fall there: %s" % [_opening_lines(on_road)])
+	on_road.queue_free()
+
+	var others := sixteen.filter(func(hero) -> bool: return hero != "diana")
+	var pair := _opening_for("diana", others.slice(0, 14), {"hero": others[13]})
+	_expect(pair.stage() == "two" and _opening_lines(pair).has("Of the two left, one is you."), "two left is not told so")
+	pair.queue_free()
+	var last := _opening_for("diana", others, {"hero": "juno", "name": "Juno", "floor": 0, "killer": ""})
+	var last_said := _opening_lines(last)
+	_expect(last.stage() == "last" and last.left() == 1, "the sixteenth life is not the last (%s)" % last.stage())
+	_expect(last_said.has("There is nobody after you.") and last_said.has("The last standing quest: Ascend to heaven."),
+			"the last life does not hear that nobody is after them: %s" % [last_said])
+	_expect(last_said.has("Juno fell before they ever reached the Tower, and that world went dark with them. It never comes back."),
+			"the last life's ending shot is not Juno's")
+	last.queue_free()
+
+
+func _opening_for(lead: String, fallen: Array, world: Dictionary) -> Control:
+	var opening: Control = load("res://src/ui/opening.tscn").instantiate()
+	opening.boot_payload = {"lead": lead, "fallen_heroes": fallen, "last_world": world}
+	add_child(opening)
+	opening.set_process(false)
+	return opening
+
+
+## Every line the opening will say, filled in.
+func _opening_lines(opening: Control) -> Array:
+	var out: Array = []
+	for shot: Dictionary in opening.shots:
+		for line in shot.get("lines", []):
+			out.append(str(line).format(opening.fill()))
+	return out
 
 
 func _check_seasons() -> void:

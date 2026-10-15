@@ -204,6 +204,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G6b | Auto from the city                                 | Auto stops at the Tower's door and the Guild's register opens; close it and the compass names Greyhollow ([D107](06-decisions.md)) |
 | G6c | Stand at the runes under the Tower                 | The hint says how to climb (or why the stair is shut); the Tower rises tall over the door; from the crater a tall shape stands on the screen's edge towards it ([D108](06-decisions.md)) |
 | G6d | On floor 5 as Atlas, before the buckle             | The compass says "Something glints" and points at it; once picked up it points at the stair ([D107](06-decisions.md)) |
+| G6e | Die as Atlas, Ascend, answer the quiz              | The opening plays again, shorter: Atlas grey in the ring, his world going dark, "Fifteen are still standing", then the new lead lands ([D135](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
 | G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |

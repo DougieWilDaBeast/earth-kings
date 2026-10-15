@@ -179,7 +179,8 @@ static func way(from: Vector2i, to: Vector2i) -> String:
 
 ## The beat played the first time a new run opens: a conversation in the
 ## shape [method Database.register_dialogue] takes. A line naming a `lead` is
-## said only when [param lead_id] is that one.
+## said only when [param lead_id] is that one; a line with `unless` is said for
+## everyone but the leads it names.
 static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> Dictionary:
 	var tower := world.tower()
 	var city := great_city(world)
@@ -195,6 +196,8 @@ static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> 
 	for line: Dictionary in rules().get("landing", {}).get("lines", []):
 		var only := str(line.get("lead", ""))
 		if only != "" and only != lead_id:
+			continue
+		if (line.get("unless", []) as Array).has(lead_id):
 			continue
 		lines.append({
 			"speaker": str(line.get("speaker", "")).format(fill),
