@@ -148,7 +148,7 @@ each, each ending playable:
    in the same alcove ([D135](06-decisions.md)): a bronze stylus, "Chapter one: The Last Line",
    **Inferred**, stand-in prop until art request A11. So do Janus, Bellona, Cassius, Saturn, Pluto,
    Ultor and Liber ([D138](06-decisions.md)), the leads with enough of the founders' material, and
-   Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D143](06-decisions.md)), drafted from Will's
+   Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D145](06-decisions.md)), drafted from Will's
    inspiration volumes and rewritten by the creatives' meeting, so all sixteen have one. Next
    (**planned**, creatives' meeting C8): the opening's replay says what the fallen lead had just
    remembered (C5), and the Guild master, Buri, Bram and Barnaby get their lines (C4).
@@ -195,6 +195,13 @@ each, each ending playable:
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
    the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
    [28](28-the-first-hour.md).
+12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
+   recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
+   [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
+   four-letter temper codes on screen, Barnaby off the road's bands. **Planned**, in order: a suite
+   that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
+   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   pausing for gates, the keeper and stronger bands.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

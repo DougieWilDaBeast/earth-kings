@@ -2,7 +2,7 @@
 	"wild": {
 		"grass": ["wolf", "goblin", "feather_wisp", "flame_dove"],
 		"brush": ["wolf", "wolf", "goblin", "tree_sentinel"],
-		"road": ["brigand", "brigand_archer", "cabin_boy", "hat_fox", "village_idiot"],
+		"road": ["brigand", "brigand_archer", "cabin_boy", "hat_fox"],
 		"hill": ["goblin", "brigand", "pig_warlock", "frozen_wolfman"],
 		"crag": ["goblin", "brigand_archer", "turret_cannon", "frozen_wolfman"],
 		"water": ["wolf", "feather_wisp", "flame_dove"],

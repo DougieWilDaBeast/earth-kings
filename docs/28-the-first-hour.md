@@ -16,7 +16,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 3. **The road.** A cobble road runs from the crater to the great city, on to the first gate and back
    to the Tower ([D126](06-decisions.md)). The compass and Auto point the way: town, then the Guild at
    the Tower's door, then the first gate, then the Tower ([D96](06-decisions.md), [D107](06-decisions.md)).
-   Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md)).
+   Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md));
+   on the road itself they are brigands, poachers, cabin hands and cutpurses ([D144](06-decisions.md)).
    Lands blend where they meet ([D128](06-decisions.md)); the jungle and the barrow downs on the way
    have their own ground, drawn in house ([D140](06-decisions.md)); scenery stands by rule
    ([D130](06-decisions.md)), and the roadside scenes stand on the road ([D131](06-decisions.md)).
@@ -34,14 +35,15 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([D133](06-decisions.md)). "E to climb" at the door.
 7. **Floors 1 to 5**, each walked ([D102](06-decisions.md)) and each its own shape: a pillared hall,
    a ring round a core, a split floor, zigzag terraces, the keeper's room ([D114](06-decisions.md)),
-   dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)).
+   dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)). Each floor brings a kind of foe not met on the one before, and floors 1 to 4 carry none of the
+   sprites docs/22 marks dev only ([D143](06-decisions.md)).
    E at the stair goes straight to the next floor; only floor 5, its keeper beaten, brings the party
    back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
 9. **A death.** The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
-   quiz picks the next of the sixteen ([D110](06-decisions.md)), and the opening plays again for who is
+   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)), and the opening plays again for who is
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even: foes two levels down, half healed
@@ -54,7 +56,7 @@ Copy or Save play log in the system menu hands a tester's run over ([D125](06-de
 
 All sixteen lie at [2, 11] on `tower_floor_5` (`data/memories.json`); only the lead finds their own.
 Each answers Bram in the crater in their own words (`unless` in `data/fall.json`). Every word is
-**Inferred**, a working draft for the founders (agenda item 82, [D143](06-decisions.md)). The keepsakes are drawn as the coin
+**Inferred**, a working draft for the founders (agenda item 82, [D145](06-decisions.md)). The keepsakes are drawn as the coin
 pile until their art requests are made ([24](24-art-requests.md)).
 
 | Lead | Chapter one | Keepsake | Art | Decision |
@@ -68,17 +70,17 @@ pile until their art requests are made ([24](24-art-requests.md)).
 | Pluto | The Tally | a notched tally stick | A16 | [D138](06-decisions.md) |
 | Ultor | The Wrong Side | a knife hilt with no blade | A17 | [D138](06-decisions.md) |
 | Liber | The Cut Rope | a cut length of rope | A18 | [D138](06-decisions.md) |
-| Ares | The One He Let Go | a child's wooden sword | A19 | [D143](06-decisions.md) |
-| Caesar | The Hero's Part | a child's tin crown | A20 | [D143](06-decisions.md) |
-| Vesta | The One Who Stayed | a small clay lamp | A21 | [D143](06-decisions.md) |
-| Iris | The Pass | a stitched leather ball | A22 | [D143](06-decisions.md) |
-| Ceres | The Last Sheaf | a corn dolly | A23 | [D143](06-decisions.md) |
-| Juno | The Last Plate | a burnt wooden spoon | A24 | [D143](06-decisions.md) |
-| Diana | The Collar | a wolf's leather collar | A25 | [D143](06-decisions.md) |
+| Ares | The One He Let Go | a child's wooden sword | A19 | [D145](06-decisions.md) |
+| Caesar | The Hero's Part | a child's tin crown | A20 | [D145](06-decisions.md) |
+| Vesta | The One Who Stayed | a small clay lamp | A21 | [D145](06-decisions.md) |
+| Iris | The Pass | a stitched leather ball | A22 | [D145](06-decisions.md) |
+| Ceres | The Last Sheaf | a corn dolly | A23 | [D145](06-decisions.md) |
+| Juno | The Last Plate | a burnt wooden spoon | A24 | [D145](06-decisions.md) |
+| Diana | The Collar | a wolf's leather collar | A25 | [D145](06-decisions.md) |
 
 ### How a chapter one is written
 
-The rule the creatives' meeting set (C1, [D143](06-decisions.md)), for any rewrite or chapter two:
+The rule the creatives' meeting set (C1, [D145](06-decisions.md)), for any rewrite or chapter two:
 
 - Ten boxes including the journal page (Atlas keeps nine): the keepsake found, the floor going out
   from under the world, a scene before the fall, a voice, "White.", and one thing the lead did not
