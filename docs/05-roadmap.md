@@ -145,7 +145,9 @@ each, each ending playable:
    floor 5 for Atlas alone; picking it up plays "Chapter one: The Weight" (meeting 2's working draft,
    **Inferred**) and writes it under _What has come back_ in the journal's Quests page and in the
    annals. Memories live in `data/memories.json`, one list per lead; the buckle is a stand-in prop
-   until art request A10 is made.
+   until art request A10 is made. Cato, the quiz's most common second lead, has his own chapter one
+   in the same alcove ([D135](06-decisions.md)): a bronze stylus, "Chapter one: The Last Line",
+   **Inferred**, stand-in prop until art request A11.
 8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
    to Q). A new player is Atlas (the quiz, four questions with sixteen ways through and one lead
    for each, waits for the next life) on the new **First Hour** setting,

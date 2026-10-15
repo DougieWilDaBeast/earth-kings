@@ -125,9 +125,11 @@ func _lead_is_dead() -> bool:
 	return _lead != null and _lead.status == Fate.DEAD
 
 
+## The next lead is answered for, then the opening plays again for who is left
+## (Will, 2026-10-15) before they land.
 func _choose_the_next_lead() -> void:
 	EventBus.request_scene.emit("temper_quiz", {
-		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(),
+		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(), "opening": true,
 	})
 
 
