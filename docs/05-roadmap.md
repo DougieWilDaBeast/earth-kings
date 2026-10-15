@@ -185,7 +185,7 @@ each, each ending playable:
    ([D134](06-decisions.md)): a scorched floor in a ring of thrown-up earth, shards glinting in it. The city and
    the first gate — built ([D136](06-decisions.md)): paved in the yard's sandstone, the first gate's right up to its ring of stones ([D137](06-decisions.md)).
 11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
-   itch since 2026-10-15 20:25 (tag `playtest-ewan-3-2026-10-15`); his play log and notes are written up,
+   itch since 2026-10-15 20:25; his play log and notes are written up,
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
    the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
    [28](28-the-first-hour.md).

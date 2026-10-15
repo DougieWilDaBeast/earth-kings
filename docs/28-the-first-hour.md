@@ -81,15 +81,16 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-14 | Design meetings 1 and 2, the retreat | main | The First Hour as the only milestone ([D95](06-decisions.md)), its route ([D101](06-decisions.md)), the pillars ([D99](06-decisions.md)) |
 | 2026-10-15 morning | The gamers' conference | main | The First Hour setting, Ascend first, Atlas first ([D104](06-decisions.md) to [D110](06-decisions.md)) |
 | 2026-10-15 | Meeting 3 (a first-time player's timed run) | `10e7163` | Nobody got into the Tower; nobody died. Door, saves, harder hour, floor shapes ([D111](06-decisions.md) to [D114](06-decisions.md)) |
-| 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` (tag `playtest-ewan-2-2026-10-15`) | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
+| 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
-| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128` (tag `playtest-ewan-3-2026-10-15`), or `9f1b267` if he began before 20:25 UTC (tag `playtest-ewan-3-early-2026-10-15`) | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)) |
+| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128`, or `9f1b267` if he began before 20:25 UTC | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)) |
 
 ## Builds on itch.io
 
 The browser build goes to `dougie`'s itch.io page (both the `html5` and `web` channels) only on
-`dougie`'s word. The commit is the version; a play-test's build is tagged so it can be checked out.
+`dougie`'s word. The commit is the version, and this table is the marker for which build a play-test
+played: `git checkout <commit>` gives it back.
 
 | Pushed (UTC) | Commit | What it carried |
 | --- | --- | --- |
