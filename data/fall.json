@@ -20,7 +20,7 @@
 			{ "speaker": "", "lead": "atlas", "text": "Something else came down with {name}: a great lizard, too heavy for its own legs, already pushing its head under {name}'s hand. Its name comes back before anything else does. Sky." },
 			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. I saw you come down, and I didn't think there'd be anybody left to pull out." },
 			{ "speaker": "Bram", "text": "That's the Tower, off to the {tower_way}, and {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
-			{ "speaker": "{name}", "unless": ["cato", "janus", "bellona", "cassius", "saturn", "pluto", "ultor", "liber"], "text": "Up. Whatever I was, it was up there. I am going back." },
+			{ "speaker": "{name}", "unless": ["cato", "janus", "bellona", "cassius", "saturn", "pluto", "ultor", "liber", "ares", "caesar", "vesta", "iris", "ceres", "juno", "diana"], "text": "Up. Whatever I was, it was up there. I am going back." },
 			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody up there kept rules. I'll learn theirs." },
 			{ "speaker": "{name}", "lead": "janus", "text": "A tower nobody is allowed to climb. Mm. That is the first interesting thing anyone has said to me." },
 			{ "speaker": "{name}", "lead": "bellona", "text": "Then the Guild is the chain of command here. Good. I'll know where I stand by nightfall." },
@@ -28,7 +28,14 @@
 			{ "speaker": "{name}", "lead": "saturn", "text": "Then I will ask the Guild kindly. And if they say no, I will ask them why." },
 			{ "speaker": "{name}", "lead": "pluto", "text": "The Guild's mark. Fine. I've started at the bottom before." },
 			{ "speaker": "{name}", "lead": "ultor", "text": "I don't need anybody's say-so. I'm looking for someone. If they went up it, so will I." },
-			{ "speaker": "{name}", "lead": "liber", "text": "Say-so? Ha! I'll climb it, and they can tell me off at the top." }
+			{ "speaker": "{name}", "lead": "liber", "text": "Say-so? Ha! I'll climb it, and they can tell me off at the top." },
+			{ "speaker": "{name}", "lead": "ares", "text": "HA! Then I'll go and get their say-so, and then I'll go up it." },
+			{ "speaker": "{name}", "lead": "caesar", "text": "Then I'll get their say-so! Where do I sign? You'll hear them cheer for me yet." },
+			{ "speaker": "{name}", "lead": "vesta", "text": "Everyone always wants up. I'll climb it. I'm not promising to stay up there." },
+			{ "speaker": "{name}", "lead": "iris", "text": "The Guild! Then everyone who's anyone goes through there. Perfect. Who else did you pull out?" },
+			{ "speaker": "{name}", "lead": "ceres", "text": "Say-so can wait. Has anybody here eaten today? You look like you haven't." },
+			{ "speaker": "{name}", "lead": "juno", "text": "Then the Guild had better have a kitchen. Come on, I'll cook while you tell me who else came down." },
+			{ "speaker": "{name}", "lead": "diana", "text": "Can I go round it? The city, I mean. There are a lot of people." }
 		],
 		"note": "A journal came down too, blank but for the name on its first page. A new standing quest: Ascend to heaven."
 	},
