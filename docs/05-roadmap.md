@@ -187,16 +187,23 @@ each, each ending playable:
    the barrow downs — built ([D140](06-decisions.md)): their own flat ground, pools and cover, drawn in house. The barrow gate — built
    ([D141](06-decisions.md)): a standing doorway of rune stones with the gate's light turning in it. The far Tower keeps out of
    the middle of the screen, where the way ahead is ([D142](06-decisions.md)).
-11. Gates as crossings between the worlds — built ([D143](06-decisions.md), `dougie`'s idea): as a gate
-   shuts its light can open onto the same gate in another lead's world, with that lead in it, or
-   their world burning if it has ended; the first gate of the first life always does. **Planned**
-   after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
-   met again in the contest past the top).
-12. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
+11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
    itch since 2026-10-15 20:25; his play log and notes are written up,
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
    the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
    [28](28-the-first-hour.md).
+12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
+   recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
+   [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
+   four-letter temper codes on screen, Barnaby off the road's bands. **Planned**, in order: a suite
+   that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
+   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   pausing for gates, the keeper and stronger bands.
+13. Gates as crossings between the worlds — built ([D145](06-decisions.md), `dougie`'s idea): as a gate
+   shuts its light can open onto the same gate in another lead's world, with that lead in it, or
+   their world burning if it has ended; the first gate of the first life always does. **Planned**
+   after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
+   met again in the contest past the top).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

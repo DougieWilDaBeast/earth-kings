@@ -16,7 +16,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 3. **The road.** A cobble road runs from the crater to the great city, on to the first gate and back
    to the Tower ([D126](06-decisions.md)). The compass and Auto point the way: town, then the Guild at
    the Tower's door, then the first gate, then the Tower ([D96](06-decisions.md), [D107](06-decisions.md)).
-   Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md)).
+   Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md));
+   on the road itself they are brigands, poachers, cabin hands and cutpurses ([D144](06-decisions.md)).
    Lands blend where they meet ([D128](06-decisions.md)); the jungle and the barrow downs on the way
    have their own ground, drawn in house ([D140](06-decisions.md)); scenery stands by rule
    ([D130](06-decisions.md)), and the roadside scenes stand on the road ([D131](06-decisions.md)).
@@ -29,21 +30,22 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
-   side: one line from them, and the light closes ([D143](06-decisions.md), [below](#the-crossing)).
+   side: one line from them, and the light closes ([D145](06-decisions.md), [below](#the-crossing)).
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
    stand-in shaft over it until art A9 ([D108](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
    ([D133](06-decisions.md)). "E to climb" at the door.
 7. **Floors 1 to 5**, each walked ([D102](06-decisions.md)) and each its own shape: a pillared hall,
    a ring round a core, a split floor, zigzag terraces, the keeper's room ([D114](06-decisions.md)),
-   dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)).
+   dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)). Each floor brings a kind of foe not met on the one before, and floors 1 to 4 carry none of the
+   sprites docs/22 marks dev only ([D143](06-decisions.md)).
    E at the stair goes straight to the next floor; only floor 5, its keeper beaten, brings the party
    back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
 9. **A death.** The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
-   quiz picks the next of the sixteen ([D110](06-decisions.md)), and the opening plays again for who is
+   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)), and the opening plays again for who is
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even: foes two levels down, half healed
@@ -77,7 +79,7 @@ name added to the shared last line's `unless`), and an art request.
 
 ## The crossing
 
-A gate is a seam between the sixteen worlds ([D143](06-decisions.md), `dougie`, 2026-10-15). As any
+A gate is a seam between the sixteen worlds ([D145](06-decisions.md), `dougie`, 2026-10-15). As any
 gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the gate:
 
 - **Who.** One of the sixteen who is not the lead and not walking with them, Janus and Pluto (who go

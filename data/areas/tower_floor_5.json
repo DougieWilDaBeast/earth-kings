@@ -157,11 +157,11 @@
     {
       "key": "tower5_a",
       "pack": [
-        "blue_slime",
-        "slime",
+        "brigand_archer",
+        "hat_fox",
         "slime"
       ],
-      "label": "Three slimes",
+      "label": "A poacher, a cutpurse and a slime",
       "faction": "",
       "at": [
         6,
