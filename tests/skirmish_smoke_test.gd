@@ -385,8 +385,9 @@ func _check_fight_rules() -> void:
 		cato.spend_energy(cato.slot_ability(skill))
 		_expect(cato.tired and not cato.slot_ready(skill), "an empty bar did not leave Cato tired")
 		var ticks := 0
+		# Only the bar's own recovery: a full fight tick lets the brain spend the energy straight back.
 		while cato.tired and ticks < 800:
-			fight.tick()
+			cato.recover_energy(SkirmishRules.TICK)
 			ticks += 1
 		_expect(not cato.tired, "a tired fighter never recovered")
 		_expect(cato.energy >= cato.energy_max * 0.5 - 0.01, "recovered before half the bar was back")
