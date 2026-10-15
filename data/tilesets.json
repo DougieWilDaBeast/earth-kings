@@ -761,6 +761,142 @@
 			"upper": "mist_cover",
 			"feature": "mist_cover",
 			"stand_in": true
+		},
+		"edge_grass": {
+			"_comment": "D128: grass where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_grass.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "grass",
+			"feature": "grass"
+		},
+		"edge_snow_floor": {
+			"_comment": "D128: snow_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_snow_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "snow_floor",
+			"feature": "snow_floor"
+		},
+		"edge_dune_floor": {
+			"_comment": "D128: dune_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_dune_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "dune_floor",
+			"feature": "dune_floor"
+		},
+		"edge_badlands_floor": {
+			"_comment": "D128: badlands_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_badlands_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "badlands_floor",
+			"feature": "badlands_floor"
+		},
+		"edge_savanna_floor": {
+			"_comment": "D128: savanna_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_savanna_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "savanna_floor",
+			"feature": "savanna_floor"
+		},
+		"edge_ash_floor": {
+			"_comment": "D128: ash_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_ash_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "ash_floor",
+			"feature": "ash_floor"
+		},
+		"edge_blight_floor": {
+			"_comment": "D128: blight_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_blight_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "blight_floor",
+			"feature": "blight_floor"
+		},
+		"edge_slime_floor": {
+			"_comment": "D128: slime_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_slime_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "slime_floor",
+			"feature": "slime_floor"
+		},
+		"edge_bog_floor": {
+			"_comment": "D128: bog_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_bog_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "bog_floor",
+			"feature": "bog_floor"
+		},
+		"edge_swamp_floor": {
+			"_comment": "D128: swamp_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_swamp_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "swamp_floor",
+			"feature": "swamp_floor"
+		},
+		"edge_crystal_floor": {
+			"_comment": "D128: crystal_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_crystal_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "crystal_floor",
+			"feature": "crystal_floor"
+		},
+		"edge_fungal_floor": {
+			"_comment": "D128: fungal_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_fungal_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "fungal_floor",
+			"feature": "fungal_floor"
+		},
+		"edge_blossom_floor": {
+			"_comment": "D128: blossom_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_blossom_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "blossom_floor",
+			"feature": "blossom_floor"
+		},
+		"edge_barrow_floor": {
+			"_comment": "D128: barrow_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_barrow_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "barrow_floor",
+			"feature": "barrow_floor"
+		},
+		"edge_jungle_floor": {
+			"_comment": "D128: jungle_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_jungle_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "jungle_floor",
+			"feature": "jungle_floor"
+		},
+		"edge_taiga_floor": {
+			"_comment": "D128: taiga_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_taiga_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "taiga_floor",
+			"feature": "taiga_floor"
+		},
+		"edge_mist_floor": {
+			"_comment": "D128: mist_floor where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
+			"texture": "res://art/tilesets/edges/edge_mist_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "mist_floor",
+			"feature": "mist_floor"
 		}
 	}
 }

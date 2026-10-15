@@ -95,7 +95,8 @@ src/
                                stand on it, patrol and walk tile to tile, watching (area_watch.gd),
                                and are fought there (D66, D68, D72). first_road.gd lays the
                                First Hour's road from the crater through the city and the first
-                               gate to the Tower (D126)
+                               gate to the Tower (D126); where two lands meet, ground_gen.gd runs the next land's
+                               floor a few cells in (D128)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
@@ -151,7 +152,7 @@ autoloads exist. `walk` and `world` take `-- --check=a,b` to run only those chec
 
 | Test                             | Covers                                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk, the First Hour's road |
+| `tests/world_smoke_test.tscn`    | World generation, progression, the ability grammar, doctrine, fate odds over 200 falls, the roster, encounters, battlefield validity, an 800-step walk, the First Hour's road, the seams between lands |
 | `tests/walk_smoke_test.tscn`     | The real walk scene: walls, walking itself round them, the Tower's chapters and seal, the clock, resting, reading, gates, the Tower, the class picker, teaching, the Yoke, a save round trip, the fall (crash site, the others walking, meeting and joining one), and the end of a run |
 | `tests/area_smoke_test.tscn`     | Every hand-built area: the party following, townsfolk, cutscenes, chests and props, and the camp fire; every `talk` block leads somewhere and sells real things; buying, a bribe and a favour paid; the tutorial's steps, its never saving, and walking it to its fifth step |
 | `tests/skein_smoke_test.tscn`    | Story threads: ignite rules, stage transitions, deadlines, branch choices, memory persistence                                                            |

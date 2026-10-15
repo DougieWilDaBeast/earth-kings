@@ -86,12 +86,62 @@ static func slot(world: World, tile: Vector2i) -> Dictionary:
 		_:
 			made = _as_slot(_lay_out(world, tile, land, true, Vector2i(-1, -1), Rect2i()))
 			made["id"] = "land_%d_%d_%s" % [tile.x, tile.y, land]
+			_blend_edges(world, tile, land, made)
 	made["kind"] = kind
 	made["land"] = land
 	if _slots.size() > 400:
 		_slots.clear()
 	_slots[key] = made
 	return made
+
+
+## Where the land next door is another land, its floor runs a few cells into this one, thinning
+## as it comes, so the two meet in a ragged band and not on the tile's ruler-straight edge (D128;
+## Ewan's "biomes in squares"). The next tile does the same the other way, so the band spans the
+## seam. Only open floor and cover give way: paths, water and the road stay as they were.
+static func _blend_edges(world: World, tile: Vector2i, land: String, made: Dictionary) -> void:
+	var size: Array = made.get("size", [0, 0])
+	var w := int(size[0])
+	var h := int(size[1])
+	var terrain: PackedStringArray = made.get("terrain", PackedStringArray())
+	var own: Dictionary = Biome.data(land).get("ground", {})
+	var gives_way := [str(own.get("floor", "")), str(own.get("cover", ""))]
+	var band := int(Database.biomes.get("edge_band", 3))
+	var added: Array = []
+	for side: String in SIDES:
+		var dir: Vector2i = SIDES[side]
+		var next := tile + dir
+		if not world.in_bounds(next) or not world.is_walkable(next):
+			continue
+		var theirs := str(Biome.data(Biome.at(world, next)).get("ground", {}).get("floor", ""))
+		if theirs == "" or gives_way.has(theirs) or Database.tileset_sheet("edge_" + theirs).is_empty():
+			continue
+		for depth in band:
+			# Three in four cells at the seam, one in four at the band's inner edge.
+			var share := float(band - depth) / float(band + 1)
+			for along in (w if dir.y != 0 else h):
+				var at := _edge_cell(side, along, w, h) - dir * depth
+				var i := at.y * w + at.x
+				if i < 0 or i >= terrain.size() or not gives_way.has(terrain[i]):
+					continue
+				if absf(float(hash([world.shape_seed(), tile.x, tile.y, at.x, at.y]) % 1000)) / 1000.0 < share:
+					terrain[i] = theirs
+		if not added.has("edge_" + theirs):
+			added.append("edge_" + theirs)
+	if added.is_empty():
+		return
+	made["terrain"] = terrain
+	# Under the road, so a worn edge never laps over the cobbles.
+	var patch: Dictionary = (made["patches"] as Array)[0]
+	var layers: Array = (patch.get("layers", []) as Array).duplicate()
+	var at_road := layers.find("road")
+	for sheet: String in added:
+		if at_road >= 0:
+			layers.insert(at_road, sheet)
+			at_road += 1
+		else:
+			layers.append(sheet)
+	patch["layers"] = layers
 
 
 ## Slots already laid out, by world, tile and what stands there.

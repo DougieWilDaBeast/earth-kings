@@ -1,10 +1,11 @@
 {
-	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average. `foes` are who camps in a land: a band there draws from them `land_foe_share` of the time and from the faction that walks the terrain otherwise (src/chronicle/encounter.gd). `effects` are what the land does to the party (src/chronicle/biome.gd, `Biome.effects`).",
+	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average. `foes` are who camps in a land: a band there draws from them `land_foe_share` of the time and from the faction that walks the terrain otherwise (src/chronicle/encounter.gd). `effects` are what the land does to the party (src/chronicle/biome.gd, `Biome.effects`). `edge_band` is how many cells of the next land's floor run into a tile where two lands meet (D128, the edge sheets from tools/draw_edges.py).",
 	"size": [
 		32,
 		22
 	],
 	"landmark_chance": 0.22,
+	"edge_band": 3,
 	"biomes": {
 		"grassland": {
 			"name": "grassland",
