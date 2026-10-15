@@ -16,7 +16,7 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
 
 ## Commands
 - Run: open `project.godot` in Godot and press F5.
-- Test: `.\ek.ps1 test` (Windows) or `./ek.sh test` (Linux/macOS): twelve headless suites.
+- Test: `.\ek.ps1 test` (Windows) or `./ek.sh test` (Linux/macOS): thirteen headless suites.
   One suite: `./ek.sh test walk`. One check: `godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate`.
 - Soak: `./ek.sh soak 120` — the game plays itself on seed 77, then saves, loads and saves again.
 - Ledger: `./ek.sh ledger` — the Question Book and `answers.md` agree (run after any worldbuilding edit).
