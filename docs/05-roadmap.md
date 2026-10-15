@@ -195,8 +195,9 @@ each, each ending playable:
 12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
    recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
    [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
-   four-letter temper codes on screen, Barnaby off the road's bands. **Planned**, in order: a suite
-   that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
+   four-letter temper codes on screen, Barnaby off the road's bands. Life two — built
+   ([D145](06-decisions.md)): the quiz deals only leads with a chapter one while seven wait, and a
+   suite walks every way through it after Atlas's fall. **Planned**, in order: three wares at a market; a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
 

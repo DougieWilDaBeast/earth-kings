@@ -45,7 +45,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
 9. **A death.** The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
-   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)), and the opening plays again for who is
+   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)); while some leads have no
+   chapter one yet, it deals only those who do ([D145](06-decisions.md)), and the opening plays again for who is
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even: foes two levels down, half healed
@@ -74,7 +75,7 @@ pile until their art requests are made ([24](24-art-requests.md)).
 | Liber | The Cut Rope | a cut length of rope | A18 | [D138](06-decisions.md) |
 
 **Planned:** Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana wait for more of the founders' material
-(`dougie`, 2026-10-15). A new chapter one is a `memories.json` entry, a line in `fall.json` (and its
+(`dougie`, 2026-10-15); until they have one, the quiz does not deal them ([D145](06-decisions.md)). A new chapter one is a `memories.json` entry, a line in `fall.json` (and its
 name added to the shared last line's `unless`), and an art request.
 
 ## How it was tested
