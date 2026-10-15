@@ -646,6 +646,10 @@ func _check_casting() -> void:
 
 
 func _check_temper_quiz() -> void:
+	# The quiz's own rules, with every living temper dealt; AQ's hold-back is checked on its own.
+	var rules: Dictionary = Database.world_rules.get("first_hour", {})
+	var dealing := bool(rules.get("deal_only_written", false))
+	rules["deal_only_written"] = false
 	var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
 	add_child(quiz)
 
@@ -725,6 +729,9 @@ func _check_temper_quiz() -> void:
 		"the sixteen answers reach %d of the sixteen leads" % reached.size())
 
 	_check_fallen_quiz()
+	rules["deal_only_written"] = true
+	_check_life_two()
+	rules["deal_only_written"] = dealing
 	_check_the_fallen()
 	_check_the_modes()
 
@@ -863,6 +870,39 @@ func _check_fallen_quiz() -> void:
 		"a quiz with all sixteen fallen did not say so"
 	)
 	everyone.queue_free()
+
+
+## AQ (D145): Atlas falls, and every way through the quiz deals a lead whose chapter one lies on
+## floor 5, so the second life never climbs to an empty alcove. Once every lead has a chapter one
+## nobody is held back and every temper still living can be dealt.
+func _check_life_two() -> void:
+	var fallen := ["INTJ"]
+	var dealt := {}
+	for path in 16:
+		var quiz: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
+		quiz.boot_payload = {"fallen": fallen}
+		add_child(quiz)
+		var guard := 0
+		while quiz._answers.size() < 4 and guard < 24:
+			guard += 1
+			var buttons := quiz.get_node("%Options").get_children()
+			if buttons.is_empty():
+				break
+			var pick: int = (path >> quiz._answers.size()) & 1
+			(buttons[mini(pick, buttons.size() - 1)] as Button).pressed.emit()
+		var code := "".join(quiz._answers)
+		var hero := Database.temper_hero(code)
+		_expect(code.length() == 4 and hero != "", "life two: the quiz after Atlas's fall dealt nobody ('%s')" % code)
+		_expect(not (Database.memories.get(hero, []) as Array).is_empty(),
+				"life two: the quiz dealt %s, who has no chapter one on floor 5" % hero)
+		dealt[hero] = true
+		quiz.queue_free()
+	var written := 0
+	for code: String in Database.temper_types():
+		var hero := Database.temper_hero(code)
+		if not fallen.has(code) and not (Database.memories.get(hero, []) as Array).is_empty():
+			written += 1
+	_expect(dealt.size() >= mini(written, 2), "life two: the quiz only ever dealt %s" % str(dealt.keys()))
 
 
 func _quiz_after(fallen: Array, picks: Array) -> TemperQuiz:
