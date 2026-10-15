@@ -149,6 +149,9 @@
     "village/log_pile": { "kind": "big_furniture", "scale": 1.0 },
     "village/trough": { "kind": "big_furniture", "scale": 1.0 },
     "village/cart": { "kind": "big_furniture", "scale": 1.5 },
+    "roadside/cart_stopped": { "kind": "big_furniture", "scale": 1.5, "solid": false, "base": [2, 1] },
+    "roadside/wagon_burnt": { "kind": "big_furniture", "scale": 1.5, "solid": false },
+    "roadside/toll_rope": { "kind": "fixture", "scale": 1.5, "solid": false, "base": [2, 1] },
     "village/bench": "furniture",
     "village/planter": "furniture",
 

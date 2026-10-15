@@ -27,6 +27,8 @@ func _ready() -> void:
 	await _climb_to_the_top()
 	_new_run()
 	await _auto_climbs()
+	_new_run()
+	await _roadside_stands()
 
 	print("")
 	if _failures.is_empty():
@@ -116,6 +118,23 @@ func _auto_climbs() -> void:
 	Pace.auto = false
 	if up == null or _floor_of(up) != 2:
 		_fail("climb: Auto on floor 1 did not climb to floor 2 (on %s)" % _describe(_current()))
+
+
+## D131: a roadside scene come upon on the land stands there to be seen (the cart, the driver, the
+## four round him), and goes when a fight starts.
+func _roadside_stands() -> void:
+	var world: World = GameState.world
+	world.player_cell = world.home().cell
+	EventBus.request_scene.emit("world", {})
+	var land := await _scene_where(func(s: Node) -> bool: return _is_land(s))
+	if land == null:
+		_fail("roadside: the land never came up")
+		return
+	land.call("_stage_roadside", "trader_ambush")
+	var staged: Array = land.get("_roadside_nodes")
+	_expect(staged.size() == 6, "roadside: the stopped cart stood %d things on the ground, not the cart, the driver and four" % staged.size())
+	land.call("_stage_roadside", "")
+	_expect((land.get("_roadside_nodes") as Array).is_empty(), "roadside: walking off left the scene standing")
 
 
 ## Standing at [param floor]'s stair and climbing it.

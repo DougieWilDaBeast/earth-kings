@@ -1,6 +1,6 @@
 {
 	"rules": {
-		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd.",
+		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd. An event's `stage` is what stands a few cells ahead on the ground when it is come upon (D131): its props (art, offset from the scene's middle), and who is being set on (`victim`, a unit); its `pack` stand round them.",
 		"chance": 0.05,
 		"rest_steps": 40,
 		"clear_of_sites": 3,
@@ -38,7 +38,8 @@
 				"\"But there's better than coin, if you've the patience. Get me and this cart as far as %s and I'll see you right, and keep seeing you right after.\""
 			],
 			"pack": ["brigand", "brigand", "brigand_archer", "brigand_chief"],
-			"escort": true
+			"escort": true,
+			"stage": { "props": [{ "art": "roadside/cart_stopped", "name": "the cart", "offset": [0, 0] }], "victim": "town_trader", "victim_name": "the driver" }
 		},
 
 		"burnt_wagon": {
@@ -59,7 +60,8 @@
 				"\"There's a cousin in %s who owes me a start. Walk me there and you'll have a share of whatever I make after.\""
 			],
 			"pack": ["brigand", "brigand_archer", "brigand_archer"],
-			"escort": true
+			"escort": true,
+			"stage": { "props": [{ "art": "roadside/wagon_burnt", "name": "the wagon", "offset": [0, 0] }], "victim": "town_farmer", "victim_name": "the driver" }
 		},
 
 		"toll_post": {
@@ -77,7 +79,8 @@
 			],
 			"asks": [],
 			"pack": ["brigand_chief", "brigand", "brigand"],
-			"escort": false
+			"escort": false,
+			"stage": { "props": [{ "art": "roadside/toll_rope", "name": "the rope", "offset": [0, 0] }, { "art": "camp/embers", "name": "their fire", "offset": [3, -2] }] }
 		}
 	}
 }

@@ -159,6 +159,9 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
+## The roadside scene stood on the ground ahead (D131), and what was put there for it.
+var _roadside_staged := ""
+var _roadside_nodes: Array[Node2D] = []
 var _held_fight: String = ""
 var _held_done: String = ""
 ## cell -> a memory of the lead's lying there, not yet picked up (D103).
@@ -502,6 +505,7 @@ func _on_continent_answered(answer: Dictionary) -> void:
 	_lay_out_acts()
 	if answer.has("cache"):
 		_put_cache(answer["cache"])
+	_stage_roadside(str(_held.get("roadside", "")))
 	_fall_in()
 	var land := map as Land
 	var world: World = GameState.world
@@ -756,6 +760,60 @@ func _put_cache(haul: Dictionary) -> AreaProp:
 	_actors.add_child(node)
 	_things.append(node)
 	return node
+
+
+## A roadside scene (D131): the cart, and the people round it, stood a few cells ahead before anyone
+## speaks, so what the box says is there to see. It goes when the party walks off or steps in.
+func _stage_roadside(event_id: String) -> void:
+	if event_id == _roadside_staged:
+		return
+	_clear_roadside()
+	if event_id == "" or _leader == null:
+		return
+	var event: Dictionary = Database.roadside.get("events", {}).get(event_id, {})
+	var stage: Dictionary = event.get("stage", {})
+	if stage.is_empty():
+		return
+	_roadside_staged = event_id
+	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
+	if ahead == Vector2i.ZERO:
+		ahead = Vector2i.DOWN
+	var middle := _free_spot_near(map.cell_at(_leader.position) + ahead * 4)
+	for entry: Dictionary in stage.get("props", []):
+		var offset: Array = entry.get("offset", [0, 0])
+		var at := _free_spot_near(middle + Vector2i(int(offset[0]), int(offset[1])))
+		var prop := AreaProp.from_entry({ "art": str(entry.get("art", "")), "cell": at, "solid": false,
+			"name": str(entry.get("name", "it")) })
+		prop.position = map.centre_of(at)
+		_actors.add_child(prop)
+		_roadside_nodes.append(prop)
+	var victim := str(stage.get("victim", ""))
+	var look_at := map.centre_of(middle)
+	if victim != "":
+		var driver := AreaActor.for_person({ "name": str(stage.get("victim_name", "someone")), "unit": victim })
+		driver.position = map.centre_of(_free_spot_near(middle + Vector2i(1, 1)))
+		driver.face(map.centre_of(map.cell_at(_leader.position)) - driver.position)
+		driver.set_interactive(false)
+		_actors.add_child(driver)
+		_roadside_nodes.append(driver)
+		look_at = driver.position
+	var round_them := [Vector2i(-2, 0), Vector2i(2, -1), Vector2i(0, -2), Vector2i(-1, 2), Vector2i(3, 1)]
+	var pack: Array = event.get("pack", [])
+	for i in mini(pack.size(), round_them.size()):
+		var figure := AreaActor.for_person({ "name": "a brigand", "unit": str(pack[i]) })
+		figure.position = map.centre_of(_free_spot_near(middle + round_them[i]))
+		figure.face(look_at - figure.position)
+		figure.set_interactive(false)
+		_actors.add_child(figure)
+		_roadside_nodes.append(figure)
+
+
+func _clear_roadside() -> void:
+	for node: Node2D in _roadside_nodes:
+		if is_instance_valid(node):
+			node.queue_free()
+	_roadside_nodes.clear()
+	_roadside_staged = ""
 
 
 func _put_chest(cell: Vector2i) -> AreaProp:
@@ -2099,6 +2157,7 @@ func _charge(watch: Node2D) -> void:
 ## cells is one of the ground's, opening running, with the ground's camera and nothing else changing.
 ## The party and the band's figures step aside for the fighters while it lasts.
 func _fight_here(payload: Dictionary) -> void:
+	_clear_roadside()
 	var asked := payload.duplicate()
 	asked["in_place"] = true
 	asked["paused"] = false
