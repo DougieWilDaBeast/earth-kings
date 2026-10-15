@@ -12,7 +12,8 @@ Yellow is the Tower, grey-blue keeps, green villages, blue libraries, red gates,
 home. 128 by 128 tiles: snow along the north, sand along the south coast, ocean all round. The
 great city, Stormreach, stands at the Tower's foot, on the tile south of it, and the open rank E gate
 Greyhollow 8 tiles south of that, open in every world (`first_gate`): the First Hour's road
-([D85](06-decisions.md), [D101](06-decisions.md)). In the first world the lead comes down 12 to 16
+([D85](06-decisions.md), [D101](06-decisions.md)). A second open rank E gate, Elderford, stands 9 tiles
+north of the city (`second_gate`), so the Guild offers two ([D147](06-decisions.md)). In the first world the lead comes down 12 to 16
 tiles from Stormreach.
 
 ## What is the same every run, and what is not

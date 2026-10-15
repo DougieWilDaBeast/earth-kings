@@ -1,5 +1,5 @@
 {
-	"_doc": "The one world every run is played on (D91, D92, docs/27). Chosen by doug-md on 2026-10-12 and frozen on 2026-10-14 from the generator's seed 31337 (Map F), with the Tower moved to the middle. On 2026-10-14 the great city Stormreach moved to stand at the Tower's foot and the open rank E gate Greyhollow was added near it, for the First Hour (D101). Improve it by hand: `tiles` are rows of terrain symbols (see `World.LEGEND` in src/chronicle/world.gd), `sites` the places. A run copies it and never writes back. Draw it with `tools/world_maps.tscn -- --fixed`.",
+	"_doc": "The one world every run is played on (D91, D92, docs/27). Chosen by doug-md on 2026-10-12 and frozen on 2026-10-14 from the generator's seed 31337 (Map F), with the Tower moved to the middle. On 2026-10-14 the great city Stormreach moved to stand at the Tower's foot and the open rank E gate Greyhollow was added near it, for the First Hour (D101). On 2026-10-15 a second open rank E gate, Elderford, was added north of the Tower, so the Guild offers a choice of two (D147). Improve it by hand: `tiles` are rows of terrain symbols (see `World.LEGEND` in src/chronicle/world.gd), `sites` the places. A run copies it and never writes back. Draw it with `tools/world_maps.tscn -- --fixed`.",
 	"from_seed": 31337,
 	"name": "Earth",
 	"sites": [
@@ -458,6 +458,24 @@
 				"first_gate": true
 			},
 			"display_name": "Greyhollow",
+			"kind": "gate",
+			"open": true,
+			"opened_at": 0,
+			"rank": "E"
+		},
+		{
+			"broken": false,
+			"cell": [
+				66,
+				56
+			],
+			"cleared": false,
+			"data": {
+				"area": "gate",
+				"faction": "the_wild",
+				"second_gate": true
+			},
+			"display_name": "Elderford",
 			"kind": "gate",
 			"open": true,
 			"opened_at": 0,

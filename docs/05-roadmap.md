@@ -202,8 +202,8 @@ each, each ending playable:
    ([D145](06-decisions.md)): the quiz deals only leads with a chapter one (since [D151](06-decisions.md) all sixteen have one,
    so it deals every lead), and a
    suite walks every way through it after Atlas's fall. Three wares at a market — built
-   ([D146](06-decisions.md)). **Planned**, in order: a store-page draft and a devlog with each itch push;
-   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   ([D146](06-decisions.md)). Two gates at the Guild — built ([D147](06-decisions.md)). **Planned**, in
+   order: a store-page draft and a devlog with each itch push; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a

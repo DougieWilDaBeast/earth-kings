@@ -11,6 +11,7 @@ extends RefCounted
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
 
 ## What the crash can never land on. Water is walkable shallows, not ground.
 const NOT_GROUND := ["water", "ocean", "lake"]
@@ -180,7 +181,8 @@ static func way(from: Vector2i, to: Vector2i) -> String:
 ## The beat played the first time a new run opens: a conversation in the
 ## shape [method Database.register_dialogue] takes. A line naming a `lead` is
 ## said only when [param lead_id] is that one; a line with `unless` is said for
-## everyone but the leads it names.
+## everyone but the leads it names. A line with `heard_gate` is said only when the last world's
+## lead shut one of the First Hour's gates ({last_gate}, D147).
 static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> Dictionary:
 	var tower := world.tower()
 	var city := great_city(world)
@@ -191,6 +193,7 @@ static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> 
 		"tower_way": way(world.player_cell, tower.cell) if tower != null else "north",
 		"city": city.display_name if city != null else "the city",
 		"city_way": way(world.player_cell, city.cell) if city != null else "north",
+		"last_gate": last_gate_shut(),
 	}
 	var lines: Array = []
 	for line: Dictionary in rules().get("landing", {}).get("lines", []):
@@ -199,11 +202,20 @@ static func landing_dialogue(world: World, lead_name: String, lead_id := "") -> 
 			continue
 		if (line.get("unless", []) as Array).has(lead_id):
 			continue
+		if bool(line.get("heard_gate", false)) and str(fill["last_gate"]) == "":
+			continue
 		lines.append({
 			"speaker": str(line.get("speaker", "")).format(fill),
 			"text": str(line.get("text", "")).format(fill),
 		})
 	return { "lines": lines }
+
+
+## D147: the First Hour gate the last world's lead shut, or "" when no world has ended or they
+## shut neither.
+static func last_gate_shut() -> String:
+	var ended := Sixteen.worlds()
+	return "" if ended.is_empty() else str((ended.back() as Dictionary).get("shut_gate", ""))
 
 
 ## Said in the log once the landing's boxes are read: the journal and the standing quest (D122 keeps

@@ -78,6 +78,8 @@ static func remember(world: World, roster: Roster, ledger: Dictionary) -> Dictio
 		"base_seed": int(world.echoes.get("base_seed", world.world_seed)),
 		"sibling": int(world.echoes.get("sibling", 0)),
 		"killer": killer,
+		# Which of the Guild's two first gates they shut (D147), for the next life to hear of.
+		"shut_gate": _first_gate_shut(world),
 		"weapon": signature_of(lead.template_id),
 		"well": _what_went_well(world, ledger),
 		"pages": journal_pages(world, ledger),
@@ -92,6 +94,19 @@ static func remember(world: World, roster: Roster, ledger: Dictionary) -> Dictio
 			"temper": _temper_of(lead),
 		},
 	}
+
+
+## Whether [param gate] is one of the First Hour's two open rank E gates (D101, D147).
+static func is_first_hour_gate(gate: Site) -> bool:
+	return bool(gate.data.get("first_gate", false)) or bool(gate.data.get("second_gate", false))
+
+
+## The name of the First Hour gate this world's lead shut, or "" if they shut neither.
+static func _first_gate_shut(world: World) -> String:
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		if gate.cleared and is_first_hour_gate(gate):
+			return gate.display_name
+	return ""
 
 
 static func _temper_of(character: Character) -> String:
@@ -181,10 +196,10 @@ static func perturb(world: World, sibling: int) -> void:
 	var share := clampf(float(rules().get("perturbation", 0.25)), 0.0, 1.0)
 	for gate: Site in world.sites_of_kind(Site.GATE):
 		if rng.randf() < share:
-			# The First Hour's gate stands open in every world (D101). The dice
-			# are still thrown for it, so the rest are dealt as they were.
+			# The First Hour's two gates stand open in every world (D101, D147). The
+			# dice are still thrown for them, so the rest are dealt as they were.
 			var opens := rng.randf() < 0.5
-			gate.open = opens or bool(gate.data.get("first_gate", false))
+			gate.open = opens or is_first_hour_gate(gate)
 	# The first library always holds the first book (docs/16); the rest trade
 	# shelves.
 	var libraries := world.sites_of_kind(Site.LIBRARY)
