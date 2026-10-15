@@ -1325,6 +1325,8 @@ func _check_sixteen() -> void:
 	var hall: Variant = FileAccess.get_file_as_string(Museum.PATH) if FileAccess.file_exists(Museum.PATH) else null
 	var kept_mode := GameState.mode
 	GameState.mode = RunMode.IRON_MAN
+	# D106: with no world ended yet, New Game starts as the First Hour's lead, not the quiz.
+	_expect(FirstHour.first_life() == "atlas", "a new player is not Atlas (%s)" % FirstHour.first_life())
 
 	# The first world: Caesar gets to level 4 and floor 3, and dies.
 	GameState.new_game(SEED, "caesar")
@@ -1415,6 +1417,8 @@ func _check_sixteen() -> void:
 	GameState.load_save()
 	_expect(bool(Siblings.echo_of(GameState.world, "caesar").get("weapon", {}).get("found", false)), "the save forgot what came through from the world that ended")
 
+	_expect(FirstHour.first_life() == "", "after a world ended, New Game did not go to the quiz")
+
 	if FileAccess.file_exists(Sixteen.path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 	Sixteen.path = Sixteen.DEFAULT_PATH
@@ -1445,6 +1449,15 @@ func _check_first_hour() -> void:
 	GameState.errands.clear()
 	world.prowlers.clear()
 	GameState.set_flag(AutoRoad.TOWN_REACHED, false)
+	GameState.set_flag(Guild.VISITED, false)
+	var kept_cleared: Array[Site] = []
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		if gate.cleared:
+			kept_cleared.append(gate)
+			gate.cleared = false
+	# A new player plays the First Hour setting, where a fall is for good (D104).
+	_expect(Difficulty.DEFAULT == "first_hour" and float(Difficulty.settings()["first_hour"].get("permadeath", 0.0)) > 0.0,
+		"the First Hour setting is not the default, or a fall there is not for good")
 
 	var goal := AutoRoad.objective(world)
 	var town := world.site_at(goal.get("cell", Vector2i(-1, -1)))
@@ -1460,6 +1473,12 @@ func _check_first_hour() -> void:
 		_scene._arrive_at(town)
 		_scene._busy = false
 	_expect(GameState.has_flag(AutoRoad.TOWN_REACHED), "standing in a town did not mark the first leg done")
+	# Then the Guild at the Tower's door (D107), where Auto stops, until its register is opened.
+	var guild := AutoRoad.objective(world)
+	var tower := world.tower()
+	_expect(guild.get("cell", Vector2i(-1, -1)) == tower.cell and bool(guild.get("stop", false)),
+		"after the town Auto does not stop at the Guild: %s" % guild)
+	GameState.set_flag(Guild.VISITED)
 	var next := AutoRoad.objective(world)
 	var after := world.site_at(next.get("cell", Vector2i(-1, -1)))
 	_expect(after != null and after.kind in [Site.GATE, Site.TOWER], "after the town the objective is %s, not a gate or the Tower" % next)
@@ -1483,8 +1502,10 @@ func _check_first_hour() -> void:
 	world.player_cell = kept_cell
 	world.tower_floor = kept_floor
 	world.tower_topped = kept_topped
+	for gate: Site in kept_cleared:
+		gate.cleared = true
 	Pace.auto = kept_auto
-	print("first hour: %s, then %s" % [goal.get("label", "?"), next.get("label", "?")])
+	print("first hour: %s, then %s, then %s" % [goal.get("label", "?"), guild.get("label", "?"), next.get("label", "?")])
 
 
 func _check_fall() -> void:

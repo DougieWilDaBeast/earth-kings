@@ -31,6 +31,7 @@ func open() -> void:
 	if world == null or Guild.hall_at(world, world.player_cell) == null:
 		return
 	_said.text = ""
+	GameState.set_flag(Guild.VISITED)
 	_root.show()
 	_rebuild()
 	_close_button.grab_focus()

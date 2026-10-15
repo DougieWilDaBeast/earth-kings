@@ -318,7 +318,12 @@ and `offset` ([dx, dy] pixels off the middle of its cell). A prop can be part of
 is set the first time it is looked at, with `found_line` said then; `requires` / `requires_not`
 (flags) decide whether it is there at all. A cell the author means somebody to stand on (spawn,
 exits, spots, chests, seats, anyone standing there) is never blocked, whatever is drawn on it.
-A spot may carry `set_flag` too.
+A spot may carry `set_flag` too. A prop with `act` (a doing of the place's, such as `_climb_here`
+on the Tower's runes) is the way into it: standing at it the hint says that doing's prompt, and
+looking at it does it; while the place does not offer it, the line is said with the reason
+([D107](06-decisions.md)). A prop with `spire` (`width`, `storeys`, `step`, `build`) is the Tower's
+stand-in, drawn tall in that wall build's stone from the top of its cell (`src/area/area_spire.gd`,
+[D108](06-decisions.md)).
 
 **`dressing`** is a second list of props written by `tools/dress_areas.py` — trees, bushes, flowers,
 birds and bugs out of doors, furniture in rooms — one piece a line, kept apart from `props` so the
@@ -492,6 +497,18 @@ Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `capt
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
 `FirstHour.mark_line()`, read by `Chapters.seal_line`).
+
+`first_life` (`atlas`) is the lead New Game starts as while no world has ended; after a death the
+quiz picks the next lead ([D106](06-decisions.md), `FirstHour.first_life()`).
+
+## `world_rules.json` → `difficulty` — settings (D104)
+
+`setting` is the one a new player gets, `first_hour`; `settings` holds each by key with its
+`display_name`, `blurb` and dials (`enemy_level`, `enemy_count`, `enemy_attack`, `enemy_hp`,
+`party_hp`, `party_attack`, `move_bonus`, `encounter_chance`, `grace`, `permadeath`,
+`post_battle_heal`, `xp`, `gold`, `price`), read by `src/chronicle/difficulty.gd`. In order of
+mercy: `gentle` (shown as Story, no permadeath), `first_hour`, `even` (the game as written),
+`hard` (Unkind); `breeze` is for testing. The difficulty button cycles them in that order.
 
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 

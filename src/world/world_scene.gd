@@ -733,6 +733,9 @@ func _arrive_at(site: Site) -> void:
 		Site.GATE:
 			_enter_gate(site)
 		Site.TOWER:
+			# The first time through, the Guild's doorkeeper opens the register (D107).
+			if FirstHour.wants_guild_mark() and Guild.has_hall(site) and not GameState.has_flag(Guild.VISITED):
+				EventBus.guild_requested.emit.call_deferred()
 			# Standing at the Tower's foot is not going in (D95): the stair is
 			# climbed when asked for. A party walking itself came here to climb.
 			# A floor that is walked is walked by hand: Auto stops at the door (D102).

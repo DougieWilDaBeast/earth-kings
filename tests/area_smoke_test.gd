@@ -566,6 +566,10 @@ func _check_tower_floor() -> void:
 	if lying.size() == 1:
 		var cell: Vector2i = lying.keys()[0]
 		_expect((five.get("map") as AreaMap).is_walkable(cell), "tower floor: the buckle lies where nobody can stand")
+		# The compass points at it before the stair, so nobody walks past it (D107).
+		five.call("_point_the_compass")
+		var said := (((five.get("_compass") as Control).get("_label")) as Label).text
+		_expect(said == "Something glints", "tower floor: the compass does not point at the buckle first (%s)" % said)
 		five.call("_arrive_at", cell)
 		_expect(asked.has("memory_atlas_1") and not Database.dialogue("memory_atlas_1").is_empty(),
 				"tower floor: picking up the buckle played no scene")
@@ -583,8 +587,28 @@ func _check_tower_floor() -> void:
 	_expect((not_his.get("_memories") as Dictionary).is_empty(), "tower floor: Juno found Atlas's memory")
 	not_his.queue_free()
 	await get_tree().process_frame
+	# The Tower's door is the way up (D107): standing at it says how to climb, and the shaft stands over it (D108).
+	var foot: Node = load("res://src/area/area_scene.tscn").instantiate()
+	foot.set("boot_payload", { "area_id": "tower", "return_scene": "world" })
+	add_child(foot)
+	for i in 5:
+		await get_tree().process_frame
+	var door: AreaProp = null
+	for thing: AreaProp in foot.get("_things"):
+		if thing.act == "_climb_here":
+			door = thing
+	_expect(door != null, "tower: the Tower's door is not a way up")
+	var spires := (foot.get("_actors") as Node).get_children().filter(func(n: Node) -> bool: return n.get_script() == preload("res://src/area/area_spire.gd"))
+	_expect(spires.size() == 1, "tower: the stand-in Tower is not standing (%d)" % spires.size())
+	if door != null:
+		foot.set("_acts", [{ "prompt": "E to climb floor 1 of the Tower", "act": "_climb_here", "key": "interact" }])
+		foot.set("_nearby", door)
+		_expect(str(foot.call("_prompt_text")) == "E to climb floor 1 of the Tower", "tower: standing at the door does not say how to climb")
+		foot.set("_nearby", null)
+	foot.queue_free()
+	await get_tree().process_frame
 	GameState.new_game(SEED)
-	print("tower floor: a band fought for real on floor 1, the stair up won the floor, and Atlas found his buckle on floor 5")
+	print("tower floor: a band fought for real on floor 1, the stair up won the floor, Atlas found his buckle on floor 5, and the Tower's door says how to climb")
 
 
 func _expect(ok: bool, message: String) -> void:
