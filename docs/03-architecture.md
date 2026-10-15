@@ -33,6 +33,7 @@ src/
     sfx.gd                     Sound effects hub and UI button listener
     pace.gd                    Engine timescale, quiet chatter, auto-play coordination
     pad.gd                     Last device used, pad/key names for hint lines, menu focus on a pad
+    play_log.gd                The play log a tester hands over: what they did, timed (D125)
   chronicle/                   THE WORLD MODEL (no nodes, no scenes)
     character.gd               Persistent person: level, class, doctrine, permadeath, grudges
     progression.gd             XP curve, level-ups, class choice, branching tree unlocks
@@ -212,11 +213,13 @@ and every bounty a board tried to post came out blank.
 
 ## Autoload order
 
-`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad`. Database must be up before
+`EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad` → `PlayLog`. Database must be up before
 anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
 buses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
 is playing itself, so both survive a scene swap — a soak started on the road carries through the
 fight it walks into. `Pad` remembers whether a game pad or a keyboard was touched last, says the
 right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
 whatever modal screen or menu scene is up while a pad is in use; the walk and the fights steer
-themselves (a cursor in the fights).
+themselves (a cursor in the fights). `PlayLog` only listens: it writes a timed line for each place
+walked into, fight and result, level, save, fall and engine error to `user://earth-kings.playlog.txt`
+(the last 400 lines), and the system menu's **Copy play log** / **Save play log** hand it over (D125).

@@ -394,6 +394,8 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 ## What a fail should include
 
 The screen, the seed (system menu shows it), what you pressed, and what you expected instead.
+The system menu's **Copy play log** (or **Save play log**, which downloads it) hands over a timed
+account of the session: every place, fight, level, save and fall, and any error the game hit.
 A screenshot of a white square or a broken layout is worth a paragraph of description.
 
 **And the log.** Every play writes one, with every warning and script error in it and the run's
