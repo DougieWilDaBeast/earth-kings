@@ -1,5 +1,5 @@
 {
-	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft; Cato's (the quiz's most common second lead) is the 2026-10-15 draft Will kept, in the same alcove, which only he finds, the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
+	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft; Cato's (the quiz's most common second lead) is the 2026-10-15 draft Will kept, in the same alcove, which only he finds; Janus, Bellona, Cassius, Saturn, Pluto, Ultor and Liber, the leads with enough founder material (Will, 2026-10-15), lie there too (D136), the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
 	"atlas": [
 		{
 			"id": "atlas_1",
@@ -108,6 +108,405 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a list I wrote for if it went wrong. The first rule was find the others. Somebody wiped the last one before I could read it."
+		}
+	],
+	"janus": [
+		{
+			"id": "janus_1",
+			"chapter": 1,
+			"title": "Chapter one: The Shut Door",
+			"object": "an iron hinge pin",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Lying across the alcove's threshold as if it fell out of a door that is no longer there: an iron hinge pin, as long as a finger, rust on its head."
+				},
+				{
+					"speaker": "",
+					"text": "Janus picks it up only because it is in his way, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A hall of white stone, before the fall, and at the end of it a door that will not open. Everyone has tried it. Janus is asleep against it, his back to the wood."
+				},
+				{
+					"speaker": "A voice",
+					"text": "You could open it. Everyone here knows you could. You just don't want to."
+				},
+				{
+					"speaker": "Janus",
+					"text": "If I open it, it stops being interesting."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Then promise me one thing. When a door opens that nobody can explain, you get up. Whatever it costs. You get up and you go through."
+				},
+				{
+					"speaker": "",
+					"text": "He says yes, mostly so the voice will let him sleep. He tries to see whose face it is. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Janus wakes on the fifth floor with the pin in his fist, and knows one thing he did not know before: the gates were never what got him up. A promise did. He made it to somebody, and he meant it more than he let them see."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Shut Door."
+				}
+			],
+			"journal": "Floor 5. I remembered a door I slept against, and a promise to get up for the hard ones. I don't remember who I promised."
+		}
+	],
+	"bellona": [
+		{
+			"id": "bellona_1",
+			"chapter": 1,
+			"title": "Chapter one: The Order",
+			"object": "a dented bronze whistle",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Caught on a nail at the back of the alcove, swinging a little though there is no wind: a bronze signal whistle on a cut cord, dented flat on one side."
+				},
+				{
+					"speaker": "",
+					"text": "Bellona takes it down the way she would take a report, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A gate in a wall of white stone, before the fall, and night outside it. Something is coming up the road, fast and too many. She is on the wall, and the whistle is in her teeth."
+				},
+				{
+					"speaker": "",
+					"text": "There are still people on the road. Not many. Running."
+				},
+				{
+					"speaker": "A voice",
+					"text": "They'll make it. Give them to the count of twenty."
+				},
+				{
+					"speaker": "Bellona",
+					"text": "We don't have twenty. Shut it."
+				},
+				{
+					"speaker": "",
+					"text": "She blows the whistle, and the gate comes down, and she does not look over the wall. She tries to see whose voice asked for twenty. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Bellona wakes on the fifth floor with the whistle in her fist and knows one thing she did not know before: she has given that order already, once, above. The fear was never of giving it. It was of being the one who can."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Order."
+				}
+			],
+			"journal": "Floor 5. I remembered a gate, and people still on the road, and that I shut it. I would do it again. I don't remember who was outside."
+		}
+	],
+	"cassius": [
+		{
+			"id": "cassius_1",
+			"chapter": 1,
+			"title": "Chapter one: The Mask",
+			"object": "a cracked festival mask",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Face-down in the dust of the alcove: a child's festival mask, a monster's face in painted clay, cracked from brow to chin."
+				},
+				{
+					"speaker": "",
+					"text": "Cassius turns it over, and the face grins up at him as if it knows him, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A festival in a square of white stone, before the fall. The children are playing heroes and monsters. There is one monster's mask, and nobody will wear it, so they are making the smallest one."
+				},
+				{
+					"speaker": "",
+					"text": "He takes the mask out of the small one's hands and puts it on himself."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Why would you want to be the monster?"
+				},
+				{
+					"speaker": "Cassius",
+					"text": "Somebody has to be. Better someone who can argue back."
+				},
+				{
+					"speaker": "",
+					"text": "The voice laughs, not unkindly. They'll remember you in it, it says. He tries to see whose face it is, past the eyeholes. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Cassius wakes on the fifth floor with the mask in his fist and knows one thing he did not know before: nobody ever made him the monster. He asked for it, to spare somebody smaller, and he would ask again."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Mask."
+				}
+			],
+			"journal": "Floor 5. I remembered a festival, and a mask nobody wanted, and that I took it. Nobody made me the monster. I asked."
+		}
+	],
+	"saturn": [
+		{
+			"id": "saturn_1",
+			"chapter": 1,
+			"title": "Chapter one: The Mended Bowl",
+			"object": "a mended clay bowl",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Set upright in the middle of the alcove, as if someone had put it down for a guest: a small clay bowl, cracked in three and mended with black pitch."
+				},
+				{
+					"speaker": "",
+					"text": "Saturn lifts it in both hands, the way you take something offered, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A long table of white stone, before the fall, laid for a meal. He laid it. He has set a place for everyone, and he is waiting, and one place stays empty."
+				},
+				{
+					"speaker": "",
+					"text": "The bowl at that place is this one, before it was broken."
+				},
+				{
+					"speaker": "A voice",
+					"text": "They're not coming. You know they're not. You can't keep a place for everyone."
+				},
+				{
+					"speaker": "Saturn",
+					"text": "Then I'll keep it for the ones nobody else will."
+				},
+				{
+					"speaker": "",
+					"text": "He fills the empty bowl anyway, and it cracks in his hands. He tries to see whose face is across the table. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Saturn wakes on the fifth floor with the bowl in his hands and knows one thing he did not know before: the loss did not start here. He brought it down with him. Somebody did not come back above, and he has been setting their place ever since."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Mended Bowl."
+				}
+			],
+			"journal": "Floor 5. I remembered a table I laid for everyone, and one place that stayed empty. I don't remember whose it was. I still set it."
+		}
+	],
+	"pluto": [
+		{
+			"id": "pluto_1",
+			"chapter": 1,
+			"title": "Chapter one: The Tally",
+			"object": "a notched tally stick",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Leaning in the corner of the alcove: a tally stick of black wood, notched along both edges and down one face, no room left for another mark."
+				},
+				{
+					"speaker": "",
+					"text": "Pluto runs his thumb down the notches, counting without meaning to, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "The top of a stair of white stone, before the fall, and nothing above it but sky. He is standing there. He got there first. He is alone."
+				},
+				{
+					"speaker": "",
+					"text": "He is counting the ones who started the climb with him. Every notch is one of them. None of them is on the stair."
+				},
+				{
+					"speaker": "A voice",
+					"text": "You did it. You're at the top. Was it worth what it cost them?"
+				},
+				{
+					"speaker": "Pluto",
+					"text": "Next time, nobody pays it but me."
+				},
+				{
+					"speaker": "",
+					"text": "He means it the way he means a ledger. He tries to see whose face is asking. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Pluto wakes on the fifth floor with the stick in his fist and knows one thing he did not know before: he has been at the top, and the certainty was right. He got there alone, over everyone who climbed with him, and it was not worth it."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Tally."
+				}
+			],
+			"journal": "Floor 5. I remembered standing at the top of a stair, alone, counting the ones who climbed with me. None of them made it. This time nobody pays but me."
+		}
+	],
+	"ultor": [
+		{
+			"id": "ultor_1",
+			"chapter": 1,
+			"title": "Chapter one: The Wrong Side",
+			"object": "a knife hilt with no blade",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Driven into the floor of the alcove up to the guard, as if somebody meant it to stay: the hilt of a knife, its blade snapped off a thumb's width from the guard."
+				},
+				{
+					"speaker": "",
+					"text": "Ultor works it loose, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A road at night, before the fall, running up to a gate in a wall of white stone. Something is behind them, fast and too many. He is running, and somebody's hand is on his collar, dragging him, because he is small and slow."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Twenty more strides. They'll hold it for us. Run."
+				},
+				{
+					"speaker": "",
+					"text": "A whistle on the wall. The gate comes down."
+				},
+				{
+					"speaker": "",
+					"text": "The hand lets go of his collar and shoves him into the gap under the closing gate, and the one it belongs to stays on the road. He tries to see their face. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "He only hears the whistle, again and again, all the way down."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Ultor wakes on the fifth floor with the hilt in his fist and knows one thing he did not know before: he does not hate a face. He hates whoever blew that whistle. And the one he would have followed anywhere died on the wrong side of it."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Wrong Side."
+				}
+			],
+			"journal": "Floor 5. I remembered a road, a gate, and a whistle. Someone threw me under it and stayed outside. I don't remember their face. I'll know the whistle."
+		}
+	],
+	"liber": [
+		{
+			"id": "liber_1",
+			"chapter": 1,
+			"title": "Chapter one: The Cut Rope",
+			"object": "a cut length of rope",
+			"area": "tower_floor_5",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Knotted round a ring in the alcove wall, the rest of it lying on the floor: a length of rope, cut clean through, its knot still tied."
+				},
+				{
+					"speaker": "",
+					"text": "Liber laughs at it, because a rope that has already been cut is the best kind, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "A yard of white stone at night, before the fall. He is small, and the yard gate is tied shut, and on the other side of it is everything."
+				},
+				{
+					"speaker": "",
+					"text": "He saws at the rope with a stone until his hands bleed. It parts. The gate opens a crack."
+				},
+				{
+					"speaker": "",
+					"text": "Someone big is standing in the yard behind him. The one who teaches him to fight, and lets him win. He has seen everything."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Go on, then. Go. I'll say I left it open."
+				},
+				{
+					"speaker": "",
+					"text": "Liber goes, and does not look back, and is happy the whole way down the road. He tries to remember the big one's face. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Liber wakes on the fifth floor with the rope in his fist and knows one thing he did not know before: somebody set him free once, and paid for it, and never told him. He would like very much to say thank you."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter one, The Cut Rope."
+				}
+			],
+			"journal": "Floor 5. I remembered cutting a rope on a gate and running. Someone let me go and took the blame. I want to find them and say thank you."
 		}
 	]
 }
