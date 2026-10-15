@@ -32,6 +32,9 @@ func _ready() -> void:
 	# Damage rolls and opening tempo are random; a fixed seed keeps a failure
 	# reproducible.
 	seed(7)
+	# The fight's rules are under test, not the difficulty: the checks below were set against
+	# Story (once the default, before the First Hour setting, D104).
+	GameState.difficulty = "gentle"
 	# Cato leading Vesta and Iris: a shield, a healer and a bow. Not Atlas, whose
 	# bearer would take the field as a fourth body (see _check_signatures).
 	GameState.roster = Company.found("cato", ["vesta", "iris"])

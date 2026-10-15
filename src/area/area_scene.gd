@@ -28,6 +28,8 @@ const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const AreaSpire := preload("res://src/area/area_spire.gd")
+const FarTower := preload("res://src/ui/far_tower.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
@@ -96,6 +98,8 @@ var _walked: float = 0.0
 var _strolled: float = 0.0
 ## The needle pointing at the First Hour's objective (D95), top left under the place's name.
 var _compass: Control
+## The Tower on the edge of the screen while it is far off (D108), on the land only.
+var _far_tower: Control
 var _compass_clock := COMPASS_EVERY
 ## Notes that came while a box was open, for when it closes.
 var _held_notes: Array[String] = []
@@ -215,6 +219,10 @@ func _ready() -> void:
 	if _land_mode:
 		_idle_hint = _land_hint()
 	_hint.text = _prompt_text()
+	if _land_mode:
+		_far_tower = FarTower.new()
+		_place.get_parent().add_child(_far_tower)
+		_place.get_parent().move_child(_far_tower, 0)
 	_compass = Compass.new()
 	_compass.position = Vector2(14.0, 42.0)
 	_place.get_parent().add_child(_compass)
@@ -317,6 +325,9 @@ func _fill_tile(tile: Vector2i) -> void:
 			made.append(_put_building(building))
 	for prop: Dictionary in map.props:
 		if prop.get("_tile") == tile:
+			if prop.has("spire"):
+				made.append(_put_spire(prop))
+				continue
 			var node := _put_prop(prop)
 			if node != null:
 				made.append(node)
@@ -671,6 +682,9 @@ func _spawn_props() -> void:
 
 
 func _put_prop(prop: Dictionary) -> AreaProp:
+	if prop.has("spire"):
+		_put_spire(prop)
+		return null
 	var art: String = prop.get("art", "")
 	if not AreaProp.has_art(art):
 		return null
@@ -687,6 +701,14 @@ func _put_prop(prop: Dictionary) -> AreaProp:
 	_actors.add_child(node)
 	if node.can_talk():
 		_things.append(node)
+	return node
+
+
+## The Tower drawn tall from wall stone until its art lands (D108).
+func _put_spire(prop: Dictionary) -> Node2D:
+	var node := AreaSpire.from_entry(prop)
+	node.position = map.centre_of(prop["cell"])
+	_actors.add_child(node)
 	return node
 
 
@@ -902,6 +924,9 @@ func _prompt_text() -> String:
 	if _hovered != null:
 		return "Click to %s" % _hovered.prompt()
 	if _nearby != null:
+		var doing := _act_of(_nearby)
+		if not doing.is_empty():
+			return str(doing.get("prompt", ""))
 		if Pad.using_pad:
 			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
 		return "Click to %s" % _nearby.prompt()
@@ -1069,6 +1094,17 @@ func _engage(target: AreaThing) -> void:
 		_speak_with(target as AreaActor)
 
 
+## The place's doing [param thing] is the way into, while the place offers it (the Tower's door
+## climbs, D107), or an empty dictionary.
+func _act_of(thing: AreaThing) -> Dictionary:
+	if not thing is AreaProp or (thing as AreaProp).act == "":
+		return {}
+	for each: Dictionary in _acts:
+		if str(each.get("act", "")) == (thing as AreaProp).act:
+			return each
+	return {}
+
+
 ## Stopping at something: what the party makes of it, and whatever was tucked
 ## into it — which is only ever there the first time.
 func _examine(thing: AreaProp) -> void:
@@ -1077,7 +1113,16 @@ func _examine(thing: AreaProp) -> void:
 	if map.wards.has(thing.cell):
 		_try_the_ward(thing.cell)
 		return
+	var doing := _act_of(thing)
+	if not doing.is_empty():
+		_do_act(doing)
+		return
 	_note(thing.line)
+	# A way in that is shut says why (the Tower's stair, sealed until the Guild's mark).
+	if thing.act != "":
+		for each: Dictionary in _acts:
+			if str(each.get("act", "")) == "" and str(each.get("prompt", "")) != "":
+				_note(str(each["prompt"]))
 	if thing.find_flag != "" and not GameState.has_flag(thing.find_flag):
 		GameState.set_flag(thing.find_flag)
 		if thing.found_line != "":
@@ -2399,12 +2444,25 @@ func _point_the_compass() -> void:
 	if _compass == null or GameState.world == null:
 		return
 	var world: World = GameState.world
-	# On a floor of the Tower the only way on is the stair up (D102).
+	# On a floor of the Tower the only way on is the stair up (D102), and a memory lying there is
+	# pointed at first, so nobody walks past it (D107).
 	if _tower_floor > 0 and not map.stairs.is_empty() and _leader != null:
 		_compass.set_meta("aimed", true)
 		_compass.visible = not _overlay_open()
-		_compass.point(Vector2(map.stairs[0] - map.cell_at(_leader.position)), "The stair to floor %d" % (_tower_floor + 1), 0)
+		var here := map.cell_at(_leader.position)
+		if not _memories.is_empty():
+			var glint: Vector2i = _memories.keys()[0]
+			_compass.point(Vector2(glint - here), "Something glints", 0)
+			return
+		_compass.point(Vector2(map.stairs[0] - here), "The stair to floor %d" % (_tower_floor + 1), 0)
 		return
+	var tower := world.tower()
+	if _far_tower != null and _leader != null and tower != null:
+		var land_of := map as Land
+		_far_tower.look_towards(
+			Vector2(tower.cell * land_of.slot + land_of.slot / 2) - Vector2(map.cell_at(_leader.position)),
+			Pathfinder.distance(world.player_cell, tower.cell)
+		)
 	var goal := AutoRoad.objective(world) if not GameState.rehearsing else {}
 	if goal.is_empty():
 		_compass.remove_meta("aimed")

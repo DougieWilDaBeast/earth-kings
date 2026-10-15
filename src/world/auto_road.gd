@@ -11,6 +11,7 @@ const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
 
 ## Set the first time the party stands in a town: the First Hour's first leg is done.
 const TOWN_REACHED := "objective:town"
@@ -47,7 +48,8 @@ static func next_step(world: World) -> Vector2i:
 ## Auto: `cell`, `label` (what the compass says), and `stop` (whether a party
 ## walking itself hands back control on arriving, where nothing starts by itself).
 ## In order: an errand taken (a Guild contract included), the great city (or,
-## with none, the nearest town) until a town has been stood in, the nearest gate of the lowest rank until a gate has
+## with none, the nearest town) until a town has been stood in, the Guild at the Tower's door until its
+## register has been opened (D107), the nearest gate of the lowest rank until a gate has
 ## been shut, then the Tower. A gate above the lead's rank (one whose expected
 ## level is past the lead's) is never chosen: with none at their rank open, the
 ## Tower is (D97). Empty when there is nowhere left to send them.
@@ -92,7 +94,14 @@ static func objective(world: World) -> Dictionary:
 			return {"cell": town.cell, "label": town.display_name, "stop": true}
 
 	var gates: Array[Site] = world.sites_of_kind(Site.GATE)
-	if not gates.any(func(gate: Site) -> bool: return gate.cleared):
+	var tower := world.tower()
+	var shut_one := gates.any(func(gate: Site) -> bool: return gate.cleared)
+	# The Guild at the Tower's door, before the first gate (D107): its mark is what opens the stair.
+	if FirstHour.wants_guild_mark() and not shut_one and not GameState.has_flag(Guild.VISITED) \
+			and Guild.has_hall(tower):
+		return {"cell": tower.cell, "label": "The Guild, at the Tower's door", "stop": true}
+
+	if not shut_one:
 		var lead := GameState.roster.player() if GameState.roster != null else null
 		var lead_level := lead.level if lead != null else 1
 		var first: Site = null
@@ -107,7 +116,6 @@ static func objective(world: World) -> Dictionary:
 		if first != null:
 			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.rank], "stop": false}
 
-	var tower := world.tower()
 	if tower != null and not world.tower_is_topped():
 		# The first floors are walked by hand, so a party walking itself stops at the door (D102).
 		var walked := Chapters.walked_floor_area(world.tower_floor + 1) != ""

@@ -645,6 +645,24 @@ func _check_temper_quiz() -> void:
 	_expect(not quiz.get_node("%AllButton").visible, "answering again left the roster open mid-quiz")
 	quiz.queue_free()
 
+	# D110: four questions, two answers each, sixteen ways through, and each way is a different
+	# one of the sixteen.
+	_expect(quiz_length == 4, "the quiz asks %d questions, not 4 (one per pair)" % quiz_length)
+	var reached: Dictionary = {}
+	for way in 16:
+		var asked: TemperQuiz = load("res://src/ui/temper_quiz.tscn").instantiate()
+		add_child(asked)
+		for i in 4:
+			var choices := asked.get_node("%Options").get_children()
+			if choices.size() == 2:
+				(choices[(way >> (3 - i)) & 1] as Button).pressed.emit()
+		var who := str(asked.get("_chosen"))
+		_expect(who != "" and not reached.has(who), "answers %d led to %s, already reached or nobody" % [way, who])
+		reached[who] = true
+		asked.queue_free()
+	_expect(reached.size() == 16 and Database.heroes.keys().all(func(id: String) -> bool: return reached.has(id)),
+		"the sixteen answers reach %d of the sixteen leads" % reached.size())
+
 	_check_fallen_quiz()
 	_check_the_fallen()
 	_check_the_modes()

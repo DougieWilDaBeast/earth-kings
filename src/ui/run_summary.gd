@@ -3,9 +3,9 @@ extends Control
 ## moment before it, when the fall can still be taken back ([D51]).
 ##
 ## Classic stops on the fall first: the lead's name, what took them, and two
-## choices. **Reload** goes back to the last save and writes nothing down.
-## **Ascend** accepts it, and only then is the run filed in the hall and the
-## lead in the record of the fallen ([D47]). Iron Man has no such moment: the
+## choices. **Ascend**, the one with the focus ([D105]), accepts it, and only then is the run filed in the hall and the
+## lead in the record of the fallen ([D47]). **Reload**, one step along, goes
+## back to the last save and writes nothing down. Iron Man has no such moment: the
 ## record is written on the fall and the save goes with the lead.
 ##
 ## Either way the world is over once the lead has gone: the save is let go
@@ -163,11 +163,12 @@ func _hold_the_moment() -> void:
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	buttons.add_theme_constant_override("separation", 24)
 	box.add_child(buttons)
-	var reload := _choice("ReloadButton", "Reload", _reload)
+	# Ascend is the answer the game expects; Reload is there, one step away (D105).
 	var ascend := _choice("AscendButton", "Ascend" if _lead_is_dead() else "Let it end", _ascend)
-	buttons.add_child(reload)
+	var reload := _choice("ReloadButton", "Reload", _reload)
 	buttons.add_child(ascend)
-	reload.grab_focus()
+	buttons.add_child(reload)
+	ascend.grab_focus()
 
 	# A breath of black before the name, so the fall is felt before it is read.
 	_beat.modulate = Color(1.0, 1.0, 1.0, 0.0)

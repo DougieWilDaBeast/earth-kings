@@ -4,7 +4,9 @@
 		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons"],
 		"_comment_guild_mark": "D101: nobody climbs without the Guild's mark. With `guild_mark` on, every run starts with the Tower's stair sealed, the way a chapter's end seals it (src/chronicle/chapters.gd), and the first gate the company shuts opens it. `mark_line` is what the Tower's doorkeeper says while it is shut. **Inferred**: the mark is earned by shutting any gate, with or without the Guild's contract on it.",
 		"guild_mark": true,
-		"mark_line": "Nobody climbs without the Guild's mark. Take a contract from the Guild and shut a gate, and the door is yours."
+		"mark_line": "Nobody climbs without the Guild's mark. Take a contract from the Guild and shut a gate, and the door is yours.",
+		"_comment_first_life": "D106: the first life is always this lead. New Game with no world yet ended starts here, skipping the quiz; the quiz picks the next lead after a death.",
+		"first_life": "atlas"
 	},
 	"ground_watch": {
 		"_comment": "Bands met on the ground (D66, D68). A band stands in the ground of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its sight (the world's 2), from where it stands; trees, houses and rock block the line, water and every land's liquid do not, and ground that is cover (cover on its terrain in tilesets.json, or named in cover) is never watched. It stands at least keep_away cells further than that from where the party comes in, and patrols a loop of patrol_points stops within patrol_reach cells, a cell every patrol_step_seconds, resting patrol_pause seconds at each, never bringing where the party came in into sight; its red cells move with it. Walking into a watched cell (or being walked into view of) starts the fight there: spotted_seconds of everyone looking, the band rushing charge_share of the way in charge_seconds, then the fight on a field field_margin cells round everyone, field_smallest to field_largest, opening on the ground's own view and drawing back over pull_back_seconds. On the land (D76) a band keeps to its own tile and patrols land_patrol_points stops within land_patrol_reach cells; when the continent moves it to the next tile it walks there across the land, a cell every travel_step_seconds.",
@@ -47,11 +49,11 @@
 		}
 	},
 	"difficulty": {
-		"setting": "gentle",
+		"setting": "first_hour",
 		"settings": {
 			"gentle": {
-				"display_name": "Gentle",
-				"blurb": "Forgiving exploration and testing. Weakened foes, generous spoils, full post-battle recovery, and permadeath disabled.",
+				"display_name": "Story",
+				"blurb": "For the story and for testing. Weakened foes, generous spoils, full recovery after each fight, and nobody dies for good.",
 				"enemy_level": -4,
 				"enemy_count": -1,
 				"enemy_attack": 0.35,
@@ -67,23 +69,23 @@
 				"gold": 5.0,
 				"price": 0.25
 			},
-			"breeze": {
-				"display_name": "Breeze (Testing)",
-				"blurb": "Friction-free testing mode. Party sweeps through battles with high mobility, 10x XP/gold, and zero permadeath.",
-				"enemy_level": -6,
+			"first_hour": {
+				"display_name": "First Hour",
+				"blurb": "Where a new life starts. Foes a little softer and the road a little kinder than Even, but a fall is still the end of that world.",
+				"enemy_level": -3,
 				"enemy_count": -1,
-				"enemy_attack": 0.2,
-				"enemy_hp": 0.25,
-				"party_hp": 3.0,
-				"party_attack": 3.0,
-				"move_bonus": 2,
-				"encounter_chance": 0.15,
-				"grace": 20.0,
-				"permadeath": 0.0,
+				"enemy_attack": 0.55,
+				"enemy_hp": 0.65,
+				"party_hp": 2.0,
+				"party_attack": 1.7,
+				"move_bonus": 0,
+				"encounter_chance": 0.4,
+				"grace": 5.0,
+				"permadeath": 1.0,
 				"post_battle_heal": 1.0,
-				"xp": 10.0,
-				"gold": 10.0,
-				"price": 0.1
+				"xp": 3.0,
+				"gold": 3.0,
+				"price": 0.5
 			},
 			"even": {
 				"display_name": "Even",
@@ -120,6 +122,24 @@
 				"xp": 0.85,
 				"gold": 0.8,
 				"price": 1.15
+			},
+			"breeze": {
+				"display_name": "Breeze (Testing)",
+				"blurb": "Friction-free testing mode. Party sweeps through battles with high mobility, 10x XP/gold, and zero permadeath.",
+				"enemy_level": -6,
+				"enemy_count": -1,
+				"enemy_attack": 0.2,
+				"enemy_hp": 0.25,
+				"party_hp": 3.0,
+				"party_attack": 3.0,
+				"move_bonus": 2,
+				"encounter_chance": 0.15,
+				"grace": 20.0,
+				"permadeath": 0.0,
+				"post_battle_heal": 1.0,
+				"xp": 10.0,
+				"gold": 10.0,
+				"price": 0.1
 			}
 		}
 	},

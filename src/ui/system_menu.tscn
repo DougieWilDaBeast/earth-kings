@@ -106,7 +106,7 @@ text = "Chatter"
 
 [node name="DifficultyButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true
-text = "Difficulty: Gentle"
+text = "Difficulty: First Hour"
 
 [node name="TouchButton" type="Button" parent="Root/Panel/Margin/Items"]
 unique_name_in_owner = true

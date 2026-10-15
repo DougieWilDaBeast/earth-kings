@@ -30,6 +30,8 @@ var cell: Vector2i = Vector2i.ZERO
 ## A flag looking at it sets, and what is said when it does: the thing somebody asked you to find.
 var find_flag: String = ""
 var found_line: String = ""
+## A doing of the place's that this thing is the way into (the Tower's door climbs, D107), or "".
+var act: String = ""
 ## A size set by the area for this one prop, or 0 for its kind's ([Database.prop_size]).
 var scale_override: float = 0.0
 
@@ -74,6 +76,7 @@ static func from_entry(entry: Dictionary) -> AreaProp:
 	node.solid = AreaProp.is_solid(entry)
 	node.find_flag = str(entry.get("set_flag", ""))
 	node.found_line = str(entry.get("found_line", ""))
+	node.act = str(entry.get("act", ""))
 	if entry.has("gold") or entry.has("item"):
 		node.haul = { "gold": int(entry.get("gold", 0)), "item": entry.get("item", "") }
 	node.set_interactive(node.line != "")

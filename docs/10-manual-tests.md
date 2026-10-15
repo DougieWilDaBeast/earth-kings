@@ -199,6 +199,11 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G5b | Climb floor 1 to 5                        | The floor's own ground, not a fight screen: bands with red ground, fought where you meet them; the compass points at the stair; standing on the stair wins the floor ([D102](06-decisions.md)) |
 | G5c | On floor 5, walk at the stair             | The keeper of the fifth floor fights you; losing to it with Atlas alone can end the run        |
 | G5d | As Atlas, step on the glint by the wall on floor 5 | "Chapter one: The Weight" plays; the journal's Quests page shows it under _What has come back_; it is never found again, and another lead never sees it ([D103](06-decisions.md)) |
+| G6  | New Game on a fresh install                        | No quiz: Atlas lands, after the opening, on the First Hour setting; after his world ends the quiz picks the next lead ([D104](06-decisions.md), [D106](06-decisions.md)) |
+| G6a | Lose a fight with the lead                         | The death screen has **Ascend** selected; Reload is one step to the right ([D105](06-decisions.md)) |
+| G6b | Auto from the city                                 | Auto stops at the Tower's door and the Guild's register opens; close it and the compass names Greyhollow ([D107](06-decisions.md)) |
+| G6c | Stand at the runes under the Tower                 | The hint says how to climb (or why the stair is shut); the Tower rises tall over the door; from the crater a tall shape stands on the screen's edge towards it ([D108](06-decisions.md)) |
+| G6d | On floor 5 as Atlas, before the buckle             | The compass says "Something glints" and points at it; once picked up it points at the stair ([D107](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
 | G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |
@@ -500,8 +505,9 @@ Still open:
   can run headless under Xvfb on Linux, but nothing compares a photograph against a stored
   reference yet.
 - **Difficulty leaks into assertions.** Anything checking enemy counts or experience has to pin
-  `GameState.difficulty = "even"`, or account for it: Gentle is the default and gives 5×
-  experience and gold, one enemy fewer, weaker foes and no permadeath.
+  `GameState.difficulty = "even"`, or account for it: First Hour is the default ([D104](06-decisions.md))
+  and gives 3× experience and gold, foes three levels down, one fewer and softer, and permadeath. The fight suite
+  pins Story (`gentle`), the setting it was written against.
 
 ## Completed integrations
 
