@@ -2,14 +2,14 @@
   "display_name": "the barrow gate",
   "layers": [
     "dirt",
-    "stone",
+    "street_paving",
     "meadow"
   ],
   "hint": "WASD to walk  ·  E to look at something  ·  the way back is south",
   "legend": {
     ".": "grass",
     ",": "dirt",
-    "s": "stone",
+    "s": "street_paving",
     "m": "meadow",
     "A": "crag"
   },
@@ -222,7 +222,7 @@
   ],
   "rows": [
     "mmmmmmAAAAAmmmmmm",
-    "mmmmmA.....Ammmmm",
+    "mmmmmA.sss.Ammmmm",
     "mmmmA..sss..Ammmm",
     "mmmA..sssss..Ammm",
     "mmA..sssssss..Amm",

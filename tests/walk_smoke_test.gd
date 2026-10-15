@@ -1555,7 +1555,7 @@ func _check_fall() -> void:
 	_expect(before_first_step <= 5, "the crater puts up %d boxes before the first step, not five or fewer (D122)" % before_first_step)
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["speaker"]) == "Bram"), "nobody pulls the lead out of the crater")
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["text"]).contains("Sky")), "Sky is not in Atlas's crater")
-	# A lead with a chapter one answers Bram in their own words, one line, and the crater stays at five (D136).
+	# A lead with a chapter one answers Bram in their own words, one line, and the crater stays at five (D138).
 	for lead: String in Database.memories:
 		if lead.begins_with("_"):
 			continue

@@ -592,7 +592,7 @@ func _check_tower_floor() -> void:
 	_expect((not_his.get("_memories") as Dictionary).is_empty(), "tower floor: Juno found Atlas's memory")
 	not_his.queue_free()
 	await get_tree().process_frame
-	# Every other lead with a chapter one (D135, D136) finds their own in the same alcove, and nobody else's.
+	# Every other lead with a chapter one (D135, D138) finds their own in the same alcove, and nobody else's.
 	for lead: String in Database.memories:
 		if lead == "atlas" or lead.begins_with("_"):
 			continue

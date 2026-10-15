@@ -4,14 +4,14 @@
   "hint": "WASD to walk  ·  the great gate is the way into the city  ·  E to talk",
   "layers": [
     "dirt",
-    "flagstone",
+    "street_paving",
     "meadow",
     "water"
   ],
   "legend": {
     ".": "grass",
     ",": "dirt",
-    "o": "flagstone",
+    "o": "street_paving",
     "m": "meadow",
     "~": "water"
   },
