@@ -527,24 +527,21 @@
 			"tile_size": 64,
 			"lower": "ash_bare",
 			"upper": "ash_floor",
-			"feature": "ash_bare",
-			"stand_in": true
+			"feature": "ash_bare"
 		},
 		"ash_pool": {
 			"texture": "res://art/tilesets/biome/ash_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "ash_liquid",
 			"upper": "ash_floor",
-			"feature": "ash_liquid",
-			"stand_in": true
+			"feature": "ash_liquid"
 		},
 		"ash_cover": {
 			"texture": "res://art/tilesets/biome/ash_cover.png",
 			"tile_size": 64,
 			"lower": "ash_floor",
 			"upper": "ash_cover",
-			"feature": "ash_cover",
-			"stand_in": true
+			"feature": "ash_cover"
 		},
 		"blight_ground": {
 			"texture": "res://art/tilesets/biome/blight_ground.png",
@@ -572,24 +569,21 @@
 			"tile_size": 64,
 			"lower": "slime_bare",
 			"upper": "slime_floor",
-			"feature": "slime_bare",
-			"stand_in": true
+			"feature": "slime_bare"
 		},
 		"slime_pool": {
 			"texture": "res://art/tilesets/biome/slime_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "slime_liquid",
 			"upper": "slime_floor",
-			"feature": "slime_liquid",
-			"stand_in": true
+			"feature": "slime_liquid"
 		},
 		"slime_cover": {
 			"texture": "res://art/tilesets/biome/slime_cover.png",
 			"tile_size": 64,
 			"lower": "slime_floor",
 			"upper": "slime_cover",
-			"feature": "slime_cover",
-			"stand_in": true
+			"feature": "slime_cover"
 		},
 		"bog_ground": {
 			"texture": "res://art/tilesets/biome/bog_ground.png",
@@ -638,72 +632,63 @@
 			"tile_size": 64,
 			"lower": "crystal_bare",
 			"upper": "crystal_floor",
-			"feature": "crystal_bare",
-			"stand_in": true
+			"feature": "crystal_bare"
 		},
 		"crystal_pool": {
 			"texture": "res://art/tilesets/biome/crystal_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "crystal_liquid",
 			"upper": "crystal_floor",
-			"feature": "crystal_liquid",
-			"stand_in": true
+			"feature": "crystal_liquid"
 		},
 		"crystal_cover": {
 			"texture": "res://art/tilesets/biome/crystal_cover.png",
 			"tile_size": 64,
 			"lower": "crystal_floor",
 			"upper": "crystal_cover",
-			"feature": "crystal_cover",
-			"stand_in": true
+			"feature": "crystal_cover"
 		},
 		"fungal_ground": {
 			"texture": "res://art/tilesets/biome/fungal_ground.png",
 			"tile_size": 64,
 			"lower": "fungal_bare",
 			"upper": "fungal_floor",
-			"feature": "fungal_bare",
-			"stand_in": true
+			"feature": "fungal_bare"
 		},
 		"fungal_pool": {
 			"texture": "res://art/tilesets/biome/fungal_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "fungal_liquid",
 			"upper": "fungal_floor",
-			"feature": "fungal_liquid",
-			"stand_in": true
+			"feature": "fungal_liquid"
 		},
 		"fungal_cover": {
 			"texture": "res://art/tilesets/biome/fungal_cover.png",
 			"tile_size": 64,
 			"lower": "fungal_floor",
 			"upper": "fungal_cover",
-			"feature": "fungal_cover",
-			"stand_in": true
+			"feature": "fungal_cover"
 		},
 		"blossom_ground": {
 			"texture": "res://art/tilesets/biome/blossom_ground.png",
 			"tile_size": 64,
 			"lower": "blossom_bare",
 			"upper": "blossom_floor",
-			"feature": "blossom_bare",
-			"stand_in": true
+			"feature": "blossom_bare"
 		},
 		"blossom_pool": {
 			"texture": "res://art/tilesets/biome/blossom_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "blossom_liquid",
 			"upper": "blossom_floor",
-			"feature": "blossom_liquid",
-			"stand_in": true
+			"feature": "blossom_liquid"
 		},
 		"blossom_cover": {
 			"texture": "res://art/tilesets/biome/blossom_cover.png",
 			"tile_size": 64,
 			"lower": "blossom_floor",
 			"upper": "blossom_cover",
-			"feature": "blossom_cover",
-			"stand_in": true
+			"feature": "blossom_cover"
 		},
 		"barrow_ground": {
 			"texture": "res://art/tilesets/biome/barrow_ground.png",
@@ -773,24 +758,21 @@
 			"tile_size": 64,
 			"lower": "mist_bare",
 			"upper": "mist_floor",
-			"feature": "mist_bare",
-			"stand_in": true
+			"feature": "mist_bare"
 		},
 		"mist_pool": {
 			"texture": "res://art/tilesets/biome/mist_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "mist_liquid",
 			"upper": "mist_floor",
-			"feature": "mist_liquid",
-			"stand_in": true
+			"feature": "mist_liquid"
 		},
 		"mist_cover": {
 			"texture": "res://art/tilesets/biome/mist_cover.png",
 			"tile_size": 64,
 			"lower": "mist_floor",
 			"upper": "mist_cover",
-			"feature": "mist_cover",
-			"stand_in": true
+			"feature": "mist_cover"
 		},
 		"edge_grass": {
 			"_comment": "D128: grass where one land runs into the next, drawn in house (tools/draw_edges.py); see-through off it.",
