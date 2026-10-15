@@ -148,7 +148,7 @@ each, each ending playable:
    in the same alcove ([D135](06-decisions.md)): a bronze stylus, "Chapter one: The Last Line",
    **Inferred**, stand-in prop until art request A11. So do Janus, Bellona, Cassius, Saturn, Pluto,
    Ultor and Liber ([D138](06-decisions.md)), the leads with enough of the founders' material, and
-   Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D145](06-decisions.md)), drafted from Will's
+   Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D151](06-decisions.md)), drafted from Will's
    inspiration volumes and rewritten by the creatives' meeting, so all sixteen have one. Next
    (**planned**, creatives' meeting C8): the opening's replay says what the fallen lead had just
    remembered (C5), and the Guild master, Buri, Bram and Barnaby get their lines (C4).

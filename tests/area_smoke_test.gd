@@ -589,12 +589,12 @@ func _check_tower_floor() -> void:
 	add_child(not_his)
 	for i in 5:
 		await get_tree().process_frame
-	# All sixteen have a chapter one now (D145), so Juno sees one keepsake: hers, never Atlas's.
+	# All sixteen have a chapter one now (D151), so Juno sees one keepsake: hers, never Atlas's.
 	var hers: Array = (not_his.get("_memories") as Dictionary).values().map(func(m: Dictionary) -> String: return str(m.get("id", "")))
 	_expect(hers == ["juno_1"], "tower floor: Juno found Atlas's memory, or not her own (%s)" % [hers])
 	not_his.queue_free()
 	await get_tree().process_frame
-	# Every other lead with a chapter one (D135, D138, D145) finds their own in the same alcove, and nobody else's.
+	# Every other lead with a chapter one (D135, D138, D151) finds their own in the same alcove, and nobody else's.
 	for lead: String in Database.memories:
 		if lead == "atlas" or lead.begins_with("_"):
 			continue

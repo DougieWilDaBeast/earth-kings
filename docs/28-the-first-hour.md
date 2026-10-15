@@ -56,7 +56,7 @@ Copy or Save play log in the system menu hands a tester's run over ([D125](06-de
 
 All sixteen lie at [2, 11] on `tower_floor_5` (`data/memories.json`); only the lead finds their own.
 Each answers Bram in the crater in their own words (`unless` in `data/fall.json`). Every word is
-**Inferred**, a working draft for the founders (agenda item 82, [D145](06-decisions.md)). The keepsakes are drawn as the coin
+**Inferred**, a working draft for the founders (agenda item 82, [D151](06-decisions.md)). The keepsakes are drawn as the coin
 pile until their art requests are made ([24](24-art-requests.md)).
 
 | Lead | Chapter one | Keepsake | Art | Decision |
@@ -70,17 +70,17 @@ pile until their art requests are made ([24](24-art-requests.md)).
 | Pluto | The Tally | a notched tally stick | A16 | [D138](06-decisions.md) |
 | Ultor | The Wrong Side | a knife hilt with no blade | A17 | [D138](06-decisions.md) |
 | Liber | The Cut Rope | a cut length of rope | A18 | [D138](06-decisions.md) |
-| Ares | The One He Let Go | a child's wooden sword | A19 | [D145](06-decisions.md) |
-| Caesar | The Hero's Part | a child's tin crown | A20 | [D145](06-decisions.md) |
-| Vesta | The One Who Stayed | a small clay lamp | A21 | [D145](06-decisions.md) |
-| Iris | The Pass | a stitched leather ball | A22 | [D145](06-decisions.md) |
-| Ceres | The Last Sheaf | a corn dolly | A23 | [D145](06-decisions.md) |
-| Juno | The Last Plate | a burnt wooden spoon | A24 | [D145](06-decisions.md) |
-| Diana | The Collar | a wolf's leather collar | A25 | [D145](06-decisions.md) |
+| Ares | The One He Let Go | a child's wooden sword | A19 | [D151](06-decisions.md) |
+| Caesar | The Hero's Part | a child's tin crown | A20 | [D151](06-decisions.md) |
+| Vesta | The One Who Stayed | a small clay lamp | A21 | [D151](06-decisions.md) |
+| Iris | The Pass | a stitched leather ball | A22 | [D151](06-decisions.md) |
+| Ceres | The Last Sheaf | a corn dolly | A23 | [D151](06-decisions.md) |
+| Juno | The Last Plate | a burnt wooden spoon | A24 | [D151](06-decisions.md) |
+| Diana | The Collar | a wolf's leather collar | A25 | [D151](06-decisions.md) |
 
 ### How a chapter one is written
 
-The rule the creatives' meeting set (C1, [D145](06-decisions.md)), for any rewrite or chapter two:
+The rule the creatives' meeting set (C1, [D151](06-decisions.md)), for any rewrite or chapter two:
 
 - Ten boxes including the journal page (Atlas keeps nine): the keepsake found, the floor going out
   from under the world, a scene before the fall, a voice, "White.", and one thing the lead did not
