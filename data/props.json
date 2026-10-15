@@ -154,6 +154,7 @@
     "roadside/toll_rope": { "kind": "fixture", "scale": 1.5, "solid": false, "base": [2, 1] },
     "crater/shard": { "kind": "fixture", "scale": 1.5, "solid": false },
     "tower_inside/stair_up": { "kind": "fixture", "scale": 1.0, "solid": false },
+    "landmark/gate_barrow": { "kind": "portal", "scale": 1.0, "solid": true, "base": [3, 1], "battle_scale": 0.6 },
     "tower_inside/rune_a": { "kind": "fixture", "scale": 1.5, "solid": false },
     "tower_inside/rune_b": { "kind": "fixture", "scale": 1.5, "solid": false },
     "tower_inside/rune_c": { "kind": "fixture", "scale": 1.5, "solid": false },
