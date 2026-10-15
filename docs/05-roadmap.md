@@ -177,7 +177,8 @@ each, each ending playable:
    ([D130](06-decisions.md)): trees in groves off the paths, bushes along them, flowers on the
    meadow. The wagon — built ([D131](06-decisions.md)): the roadside scenes are drawn and stand on
    the ground ahead when come upon, and are back in the First Hour. The Tower's stair and lit runes — built
-   ([D132](06-decisions.md)): a flight of steps at the end of each floor and glowing glyphs on its walls.
+   ([D132](06-decisions.md)): a flight of steps at the end of each floor and glowing glyphs on its walls. The Tower's yard —
+   built ([D133](06-decisions.md)): plain sandstone paving and a kerb, the Tower on its own masonry.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

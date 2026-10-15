@@ -1,16 +1,16 @@
 {
   "display_name": "the foot of the Tower",
   "layers": [
-    "flagstone",
-    "stone",
-    "crag"
+    "yard_paving",
+    "yard_kerb",
+    "tower_wall"
   ],
   "hint": "WASD to walk  \u00b7  E to look at something  \u00b7  the city is south",
   "legend": {
-    ".": "grass",
-    "s": "stone",
-    "f": "flagstone",
-    "A": "crag"
+    ".": "yard_lawn",
+    "s": "yard_kerb",
+    "f": "yard_paving",
+    "A": "tower_wall"
   },
   "tint": "#9a96b4",
   "spawn": [
