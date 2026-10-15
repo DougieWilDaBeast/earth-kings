@@ -12,6 +12,10 @@ level 1. Agreed by both founders on 2026-09-24 and not yet built — see
 [docs/17](docs/17-the-sixteen-worlds.md), and [docs/18](docs/18-combat-direction.md) for the move to
 a real-time-with-pause fight. What follows describes the build as it plays today.
 
+**What plays today is the First Hour**: Atlas falls into a crater, walks to the Tower's city,
+shuts the first gate and climbs the Tower's first five floors to his chapter one. See
+[docs/28](docs/28-the-first-hour.md) for the route, the play-tests and every build on itch.
+
 **Start here: [docs/00-index.md](docs/00-index.md)** — vision, design, architecture, data formats,
 roadmap and the decision log.
 

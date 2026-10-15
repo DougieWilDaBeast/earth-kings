@@ -46,3 +46,9 @@ in `DROP-ZONE/<request id>/`; moving it into `art/` closes the row.
 Commits: `feat(M14): …`, `fix: …`, `docs: …`, `tools: …` — the milestone in brackets when there is one.
 Update the docs a change touches in the same commit.
 
+Every PR keeps the docs current in the same PR, not a later one:
+- **`docs/06-decisions.md`** ([D139](docs/06-decisions.md)): a numbered entry for anything it settles (next free D number from main).
+- **The agenda** (`docs/worldbuilding/answers.md#what-is-still-to-decide`): a row for anything `**Inferred.**`.
+- **The numbered doc it touches**, and the roadmap's **Next steps**; for First Hour work,
+  [docs/28](docs/28-the-first-hour.md), including any build pushed to itch (commit, time, what it carried).
+
