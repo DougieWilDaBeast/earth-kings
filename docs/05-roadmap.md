@@ -192,6 +192,13 @@ each, each ending playable:
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
    the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
    [28](28-the-first-hour.md).
+12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
+   recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
+   [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no
+   four-letter temper codes on screen, Barnaby off the road's bands. **Planned**, in order: a suite
+   that plays life two; three wares at a market; a store-page draft and a devlog with each itch push;
+   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   pausing for gates, the keeper and stronger bands.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
