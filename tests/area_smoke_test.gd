@@ -601,6 +601,11 @@ func _check_tower_floor() -> void:
 	var spires := (foot.get("_actors") as Node).get_children().filter(func(n: Node) -> bool: return n.get_script() == preload("res://src/area/area_spire.gd"))
 	_expect(spires.size() == 1, "tower: the stand-in Tower is not standing (%d)" % spires.size())
 	if door != null:
+		# Two cells short of it, with the doorkeeper close by, E is still the door's (meeting 3).
+		var leader: Node2D = foot.get("_leader")
+		leader.position = door.position + Vector2(0.0, AreaMap.CELL * 2.0)
+		foot.call("_refresh_prompt")
+		_expect(foot.get("_nearby") == door, "tower: two cells from the door, E is not the door's")
 		foot.set("_acts", [{ "prompt": "E to climb floor 1 of the Tower", "act": "_climb_here", "key": "interact" }])
 		foot.set("_nearby", door)
 		_expect(str(foot.call("_prompt_text")) == "E to climb floor 1 of the Tower", "tower: standing at the door does not say how to climb")

@@ -46,6 +46,9 @@ const FOLLOWER_DISTANCE := 24.0
 const FOLLOW_DEADZONE := 2.0
 ## How close the leader has to stand before somebody is worth speaking to.
 const TALK_RANGE := 110.0
+## How near a way in (the Tower's door, D107) has to be for it to win the prompt over anybody
+## standing about: two cells, so "E to climb" is up before you reach the steps (meeting 3).
+const DOOR_RANGE := 160.0
 ## How close the leader walks before starting on somebody they were clicked at.
 const APPROACH_RANGE := 88.0
 ## How far the party walks between chances of somebody saying something.
@@ -911,6 +914,10 @@ func _refresh_prompt() -> void:
 		if apart <= best:
 			best = apart
 			closest = target
+	# A way in near enough beats a person in the way: nobody wanders the doorway into the prompt.
+	var door := _door()
+	if door != null and _leader.position.distance_to(door.position) <= DOOR_RANGE:
+		closest = door
 	if closest != _nearby:
 		if is_instance_valid(_nearby):
 			_nearby.set_mark_ready(false)
@@ -918,6 +925,14 @@ func _refresh_prompt() -> void:
 		if _nearby != null:
 			_nearby.set_mark_ready(true)
 	_hint.text = _prompt_text()
+
+
+## The thing here that is a way into one of the place's doings (the Tower's door), or null.
+func _door() -> AreaProp:
+	for thing in _things:
+		if is_instance_valid(thing) and thing is AreaProp and (thing as AreaProp).act != "":
+			return thing as AreaProp
+	return null
 
 
 func _prompt_text() -> String:
@@ -2469,6 +2484,16 @@ func _point_the_compass() -> void:
 		_compass.hide()
 		return
 	var target: Vector2i = goal["cell"]
+	# Standing in the objective's own tile with its door in sight, the needle goes to the door,
+	# not the middle of the tile (meeting 3: in the Tower's yard it went dead).
+	var door := _door()
+	var tower_site := world.tower()
+	if target == world.player_cell and door != null and _leader != null \
+			and tower_site != null and str(goal["label"]) == tower_site.display_name:
+		_compass.set_meta("aimed", true)
+		_compass.visible = not _overlay_open()
+		_compass.point(door.position - _leader.position, _door_label(door), 0)
+		return
 	var bearing := Vector2(target - world.player_cell)
 	if _land_mode and _leader != null:
 		var land := map as Land
@@ -2476,6 +2501,11 @@ func _point_the_compass() -> void:
 	_compass.set_meta("aimed", true)
 	_compass.visible = not _overlay_open()
 	_compass.point(bearing, str(goal["label"]), Pathfinder.distance(world.player_cell, target))
+
+
+func _door_label(door: AreaProp) -> String:
+	var name := door.display_name
+	return name.substr(0, 1).to_upper() + name.substr(1)
 
 
 func _overlay_open() -> bool:

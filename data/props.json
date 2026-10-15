@@ -171,6 +171,8 @@
     "camp/fire_thatch": "campsite",
 
     "landmark/tower_runes": "great_tower",
+    "landmark/tower_door": { "kind": "landmark", "scale": 1.0, "solid": true, "base": [5, 1] },
+    "landmark/rune_stone": "ground",
     "landmark/tower_bones": "great_tower",
     "landmark/tower_bones_crystal": "great_tower",
     "landmark/tower_floating": "great_tower",
