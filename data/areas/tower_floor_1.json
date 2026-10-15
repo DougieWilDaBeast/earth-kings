@@ -164,10 +164,10 @@
     {
       "key": "tower1_a",
       "pack": [
-        "slime",
+        "goblin",
         "slime"
       ],
-      "label": "Two slimes",
+      "label": "A goblin and a slime",
       "faction": "",
       "at": [
         8,
