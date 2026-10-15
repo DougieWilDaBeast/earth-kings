@@ -1,0 +1,39 @@
+{
+	"_doc": "D143: a gate is a seam between the sixteen worlds (dougie, 2026-10-15: \"a path that other worlds can use to interact with each other ... a chance you meet the actual otherworld protagonist there\"). As a gate shuts, its light can thin to a doorway onto the same gate in another of the sixteen's worlds. If that world's lead is alive, they are standing in it, the original and not the copy who walks your world (docs/17), shutting their side; if their world has ended, it is burning and nobody stands in it. `chance` is the chance by gate rank; `first_certain` makes the first gate shut in the player's first life always open onto someone, so every new player sees it once. `weight` makes the leads who go to gates by temper (`found_at` in heroes.json) likelier to be at one. The lead's own copies walking with the party never cross. `living` and `ended` are the scenes; `says` is what each lead calls through the light. Read by src/chronicle/crossing.gd. Every word and number is **Inferred** (agenda item 87) and the founders' to rewrite.",
+	"chance": { "E": 0.25, "D": 0.3, "C": 0.35, "B": 0.4, "A": 0.5, "S": 0.6 },
+	"first_certain": true,
+	"weight": { "gate": 3.0 },
+	"living": [
+		{ "speaker": "", "text": "{gate} does not go out at once. Its light thins to a doorway, and through it is {gate} again: the same stones, under another sky." },
+		{ "speaker": "", "text": "Someone is standing in it, shutting it from the far side. {name}, with the mark, in the same place {lead} carries it." },
+		{ "speaker": "{name}", "text": "{says}" },
+		{ "speaker": "", "text": "The light closes like a door between them. {lead} has never seen that face before, and will know it again." }
+	],
+	"ended": [
+		{ "speaker": "", "text": "{gate} does not go out at once. Its light thins to a doorway, and through it is {gate} again, burning, under a sky that is coming down." },
+		{ "speaker": "", "text": "Nobody is standing in it. That world was {name}'s, and it ended with {name}." },
+		{ "speaker": "", "text": "The light closes. {lead} does not know whose world it was. You do." }
+	],
+	"journal": {
+		"living": "At {gate}, as it shut, the light opened onto another world, and {name} was in it, with the mark.",
+		"ended": "At {gate}, as it shut, I saw another world burning. Nobody was in it."
+	},
+	"says": {
+		"atlas": "You shut yours as well. Then it was not chance that the two doors faced each other. Look at me properly; there will not be time twice.",
+		"janus": "Oh. Oh, that is interesting. The other side is the same gate. Stay there, I want to see what happens when it—",
+		"bellona": "You. Hold your side. Whatever comes through here does not reach your world while I stand. Do the same for mine.",
+		"cassius": "Another one with the mark, in another world. So which of us is the copy? Don't answer. You would only say me.",
+		"saturn": "You look tired too. I am glad someone is holding the other side. Go carefully. Mine keeps taking people.",
+		"vesta": "Don't step through. Whatever you are looking for, it is not on this side. Keep your own fire.",
+		"caesar": "Hey! HEY! You've got the mark! I'm Caesar! Who are y— no, wait, it's closing, don't—",
+		"iris": "You! I've heard about you. No I haven't, I've heard about someone like you, somewhere like here. Tell everyone I said hello!",
+		"pluto": "The same gate. The same stones, the same count of floors. So there is more than one of everything. Noted.",
+		"ceres": "Are you eating? You don't look like you're eating. There's no time. Just eat something, on your side.",
+		"cato": "Name, world, business. No? Then I will write down that you exist. Somebody should.",
+		"juno": "There you are. I keep a place set for everyone with the mark, and I never know which world to set it in. Eat when you can.",
+		"ultor": "You're not the one either.",
+		"diana": "Please don't come through. He doesn't like doors. I'm sorry. I'm glad you're there.",
+		"ares": "HA! Another world, and still someone with the mark at the door! Next time come through and have a go!",
+		"liber": "There's another world through there? Of course there is. Hold it, I'm coming— no? The next one, then."
+	}
+}
