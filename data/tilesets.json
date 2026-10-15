@@ -340,6 +340,18 @@
 		"tower_wall": {
 			"display_name": "the Tower's wall",
 			"walkable": false
+		},
+		"yard_paving": {
+			"display_name": "the yard's paving",
+			"walkable": true
+		},
+		"yard_kerb": {
+			"display_name": "the yard's kerb",
+			"walkable": true
+		},
+		"yard_lawn": {
+			"display_name": "lawn",
+			"walkable": true
 		}
 	},
 	"sheets": {
@@ -933,6 +945,22 @@
 			"lower": "none",
 			"upper": "tower_wall",
 			"feature": "tower_wall"
+		},
+		"yard_paving": {
+			"_comment": "D133: the Tower's yard, drawn in house (tools/draw_yard.py). Paving everywhere but the lawn, so it lies under the kerb and the Tower.",
+			"texture": "res://art/tilesets/yard/yard_paving.png",
+			"tile_size": 64,
+			"lower": "yard_lawn",
+			"upper": "yard_paving",
+			"feature": "yard_lawn"
+		},
+		"yard_kerb": {
+			"_comment": "D133: the Tower's yard, drawn in house (tools/draw_yard.py). See-through off the kerb but for its shadow.",
+			"texture": "res://art/tilesets/yard/yard_kerb.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "yard_kerb",
+			"feature": "yard_kerb"
 		}
 	}
 }
