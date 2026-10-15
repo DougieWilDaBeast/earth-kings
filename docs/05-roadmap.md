@@ -183,7 +183,8 @@ each, each ending playable:
    ([D132](06-decisions.md)): a flight of steps at the end of each floor and glowing glyphs on its walls. The Tower's yard —
    built ([D133](06-decisions.md)): plain sandstone paving and a kerb, the Tower on its own masonry. The crater — built
    ([D134](06-decisions.md)): a scorched floor in a ring of thrown-up earth, shards glinting in it. The city and
-   the first gate — built ([D136](06-decisions.md)): paved in the yard's sandstone, the first gate's right up to its ring of stones ([D137](06-decisions.md)).
+   the first gate — built ([D136](06-decisions.md)): paved in the yard's sandstone, the first gate's right up to its ring of stones ([D137](06-decisions.md)). The jungle and
+   the barrow downs — built ([D140](06-decisions.md)): their own flat ground, pools and cover, drawn in house.
 11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
    itch since 2026-10-15 20:25; his play log and notes are written up,
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
@@ -510,8 +511,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   goes and landmarks now and then (`src/chronicle/biome.gd`, `src/area/ground_gen.gd`,
   `data/biomes.json`). Art for sixteen of the lands was a recoloured stand-in; since 2026-10-13 every
   land's trees, rocks and plants and the ground of eight (the blight, snow, dune, savanna, swamp,
-  bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). Planned: the ground of the other
-  eight (ash, jungle, barrow, blossom, slime, crystal, fungal, mist), next month
+  bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). The jungle's and the barrow downs'
+  ground is drawn in house since 2026-10-15 ([D140](06-decisions.md)). Planned: the ground of the other
+  six (ash, blossom, slime, crystal, fungal, mist), next month
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was

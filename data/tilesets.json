@@ -710,48 +710,42 @@
 			"tile_size": 64,
 			"lower": "barrow_bare",
 			"upper": "barrow_floor",
-			"feature": "barrow_bare",
-			"stand_in": true
+			"feature": "barrow_bare"
 		},
 		"barrow_pool": {
 			"texture": "res://art/tilesets/biome/barrow_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "barrow_liquid",
 			"upper": "barrow_floor",
-			"feature": "barrow_liquid",
-			"stand_in": true
+			"feature": "barrow_liquid"
 		},
 		"barrow_cover": {
 			"texture": "res://art/tilesets/biome/barrow_cover.png",
 			"tile_size": 64,
 			"lower": "barrow_floor",
 			"upper": "barrow_cover",
-			"feature": "barrow_cover",
-			"stand_in": true
+			"feature": "barrow_cover"
 		},
 		"jungle_ground": {
 			"texture": "res://art/tilesets/biome/jungle_ground.png",
 			"tile_size": 64,
 			"lower": "jungle_bare",
 			"upper": "jungle_floor",
-			"feature": "jungle_bare",
-			"stand_in": true
+			"feature": "jungle_bare"
 		},
 		"jungle_pool": {
 			"texture": "res://art/tilesets/biome/jungle_pool.png",
-			"tile_size": 32,
+			"tile_size": 64,
 			"lower": "jungle_liquid",
 			"upper": "jungle_floor",
-			"feature": "jungle_liquid",
-			"stand_in": true
+			"feature": "jungle_liquid"
 		},
 		"jungle_cover": {
 			"texture": "res://art/tilesets/biome/jungle_cover.png",
 			"tile_size": 64,
 			"lower": "jungle_floor",
 			"upper": "jungle_cover",
-			"feature": "jungle_cover",
-			"stand_in": true
+			"feature": "jungle_cover"
 		},
 		"taiga_ground": {
 			"texture": "res://art/tilesets/biome/taiga_ground.png",
