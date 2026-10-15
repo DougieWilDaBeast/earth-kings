@@ -40,7 +40,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    E at the stair goes straight to the next floor; only floor 5, its keeper beaten, brings the party
    back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)). Floor 5
    is kept by the Warden of the Fifth, an armoured figure with a glaive whose big swing shows before
-   it lands, drawn in house ([D145](06-decisions.md)).
+   it lands, drawn in house ([D151](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
