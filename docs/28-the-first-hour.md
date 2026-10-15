@@ -24,7 +24,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 4. **Stormreach and the Guild.** The great city stands at the Tower's foot, paved in sandstone
    ([D136](06-decisions.md)). The first time the party stands at the Tower's door the Guild's register
    opens by itself; Sennet keeps it ([D107](06-decisions.md), [D112](06-decisions.md)). Nobody climbs
-   until a gate is shut ([D101](06-decisions.md)).
+   until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
+   B buys the one in hand ([D146](06-decisions.md)).
 5. **The first gate.** Greyhollow, rank E, eight tiles from the city and open in every world. E beside
    it goes in; walking onto it does not ([D116](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
@@ -40,7 +41,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)). Each floor brings a kind of foe not met on the one before, and floors 1 to 4 carry none of the
    sprites docs/22 marks dev only ([D143](06-decisions.md)).
    E at the stair goes straight to the next floor; only floor 5, its keeper beaten, brings the party
-   back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)).
+   back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)). Floor 5
+   is kept by the Warden of the Fifth, an armoured figure with a glaive whose big swing shows before
+   it lands, drawn in house ([D156](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
@@ -115,7 +118,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
 Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
-item 87).
+item 88).
 
 ## How it was tested
 
