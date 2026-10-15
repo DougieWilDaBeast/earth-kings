@@ -296,12 +296,13 @@ func _auto_direction(target: Vector2i) -> Vector2i:
 
 
 func _step(direction: Vector2i) -> void:
-	# Inside a gate every way is down ([D35]).
-	if _still_inside_a_gate():
-		return
 	var target := world.player_cell + direction
 	if not world.is_walkable(target):
 		return
+	# Between a gate's floors a step away is walking out of it, with the floors won kept; walking
+	# back in goes on with the next (D115; [D35] made every step the next floor, which dropped
+	# Ewan into Fenport's second floor as he tried to leave, meeting 4).
+	_walk_out_of_the_gate()
 
 	var was_at_the_tower := _standing_at_the_tower()
 	var prior_region := world.region_at(world.player_cell)
@@ -564,8 +565,8 @@ func _settle_up(won: bool) -> void:
 				for line: String in Spoils.for_gate_floor(world, site, party):
 					_note(line)
 				GameState.delving = [site.cell.x, site.cell.y]
-				_note("There is no way out of %s but through. Take a step when you are ready for floor %d." % [
-					site.display_name, site.depth() + 1
+				_note("Floor %d of %s waits below: walk off it and back on to go down, or come back later." % [
+					site.depth() + 1, site.display_name
 				])
 			else:
 				GameState.delving = []
@@ -860,22 +861,17 @@ func _read_at(site: Site) -> void:
 		_note("Everyone here has already read %s." % Doctrine.title(doctrine_id))
 
 
-## Won a floor and still inside: the next step is the next floor, not a tile.
-## True when that is what the step became. A gate that has shut or gone away
-## in the meantime lets the party go.
-func _still_inside_a_gate() -> bool:
+## Won a floor and stepping away: out of the gate, the floors won kept, and said so.
+func _walk_out_of_the_gate() -> void:
 	if GameState.delving.size() < 2:
-		return false
+		return
 	var site := world.site_at(Vector2i(int(GameState.delving[0]), int(GameState.delving[1])))
+	GameState.delving = []
 	if site == null or site.kind != Site.GATE or not site.open or site.cleared:
-		GameState.delving = []
-		return false
-	if GameState.party_characters().is_empty():
-		GameState.delving = []
-		return false
-	_note("Deeper into %s." % site.display_name)
-	_enter_gate(site)
-	return true
+		return
+	_note("You come back out of %s with %d of %d floors behind you. Walk back in for floor %d." % [
+		site.display_name, site.depth(), site.floors(), site.depth() + 1,
+	])
 
 
 func _enter_gate(site: Site) -> void:
@@ -901,7 +897,7 @@ func _enter_gate(site: Site) -> void:
 		if depth > 0:
 			_note("Lose down here and you come out at the mouth of it again.")
 		else:
-			_note("Once you are in, there is no walking out until it is beaten.")
+			_note("Between its floors you can walk out, and the floors you won stay won.")
 	else:
 		_note("%s stands open." % site.label())
 	var aim := site.floor_objective()
@@ -947,6 +943,8 @@ func _climb(site: Site) -> void:
 			"title": "The Tower, floor %d" % next_floor,
 			"return_scene": "world",
 			"tower_floor": next_floor,
+			# What the floor below paid, and the floor's own line, said on the way up.
+			"notes": _notices.duplicate(),
 		})
 		return
 	_begin_battle(
@@ -956,6 +954,18 @@ func _climb(site: Site) -> void:
 			"lost": "You come back down to the floor you started on.",
 		}
 	)
+
+
+## The stair of a walked floor, climbed: straight on to the next floor while there is one walked
+## above it and the stair is open (D115). Off the top of the walked floors, or with the chapter
+## sealed (floor 5's keeper beaten), the party comes back out to the Tower's yard.
+func _climb_on() -> void:
+	var site := world.tower()
+	if site == null or world.tower_is_topped() or Chapters.sealed(world):
+		return
+	if Chapters.walked_floor_area(world.tower_floor + 1) == "":
+		return
+	_climb(site)
 
 
 ## The Tower's next floor, asked for while standing at its foot.
@@ -1044,20 +1054,28 @@ func _say_what_can_be_done() -> void:
 ## for the hint line, a short name for a button, and the thing itself. An entry
 ## with no name is something to know rather than something to press.
 func _actions_here() -> Array[Dictionary]:
+	# A path to choose or a power to take is said first, beside what the place offers, never
+	# instead of it: in its place it hid the Tower's door from a lead who levelled on floor 2 and
+	# had not opened the party screen (B1, meeting 4).
+	var out: Array[Dictionary] = []
 	var choosing := GameState.roster.awaiting_class_choice()
+	var owed := _somebody_owed_a_power() if choosing == null else null
 	if choosing != null:
-		return [_doable(
+		out.append(_doable(
 			"%s is ready to choose a path — press %s." % [choosing.display_name, _key("open_party")],
 			"Choose a path", _open_party
-		)]
-
-	var owed := _somebody_owed_a_power()
-	if owed != null:
-		return [_doable(
+		))
+	elif owed != null:
+		out.append(_doable(
 			"%s has %d power%s to take — press %s." % [owed.display_name, owed.rungs, "" if owed.rungs == 1 else "s", _key("open_party")],
 			"Take the power", _open_party
-		)]
+		))
+	out.append_array(_doings_here())
+	return out
 
+
+## What the place, or the road, offers where the party stands.
+func _doings_here() -> Array[Dictionary]:
 	if _captive_here != null:
 		return [
 			_doable(
@@ -1560,6 +1578,8 @@ func _do_what_the_ground_asked() -> void:
 		_step(Vector2i(int(step[0]), int(step[1])))
 	elif boot_payload.has("fight"):
 		_fight_where_you_stand(str(boot_payload["fight"]), boot_payload.get("field", {}))
+	elif bool(boot_payload.get("climb_on", false)):
+		_climb_on()
 	elif act != "" and GROUND_ACTS.has(act) and has_method(act):
 		# Some wait on a conversation; the ground is handed back once it is over.
 		await call(act)
@@ -1663,6 +1683,9 @@ func _ground_actions(payload: Dictionary) -> Array:
 			continue
 		var method := str(call.get_method())
 		if not GROUND_ACTS.has(method):
+			# The ground has its own key for it (the party screen): said, not pressed here.
+			if method == "_open_party" and str(doing["label"]) in ["Choose a path", "Take the power"]:
+				out.append({ "prompt": str(doing["prompt"]), "label": "", "act": "", "key": "" })
 			continue
 		if method == "_walk_into_site" and inside == "site" \
 				and not (site != null and site.kind == Site.TOWER and world.tower_topped):

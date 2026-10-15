@@ -39,7 +39,7 @@ if (-not (Test-Path $godot)) {
     }
 }
 $project = $PSScriptRoot
-$suites = @('skirmish', 'experience', 'dispatch', 'names', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls', 'seams', 'art')
+$suites = @('skirmish', 'experience', 'dispatch', 'names', 'world', 'walk', 'area', 'skein', 'wishlist', 'controls', 'seams', 'art', 'climb')
 
 if ($Flags.Count -gt 0 -and $Flags[0] -eq 'test') {
     $wanted = if ($Flags.Count -gt 1) { $Flags[1..($Flags.Count - 1)] } else { $suites }

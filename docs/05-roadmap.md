@@ -155,6 +155,14 @@ each, each ending playable:
    points at a memory before the stair, and the buckle lies on the way to it. The Tower stands tall
    on its tile in wall stone, and is seen on the edge of the screen from the crater on, until art
    A9. Next: `doug-md`'s play-test of the whole hour, then design meeting 3.
+9. Meeting 4's fix batches ([D119](06-decisions.md), [D120](06-decisions.md)), one pull request
+   each. Batch 1, the climb — built ([D115](06-decisions.md)): a floor's stair goes straight on to
+   the next and only floor 5 sends the party out; a path to choose or a power to take no longer
+   hides the Tower's door (Ewan's lock-out after floor 2); walking away from a gate between its
+   floors walks out of it. `tests/climb_smoke_test` plays Atlas from the yard door up the floors,
+   out to a gate and back, and through two packs fought one after the other. Planned: batch 2,
+   gates opened with E and the wagon and toll hidden (D116, D121); batch 3, the play-test's small
+   fixes, at most five boxes in the crater, and lag (D122); then Ewan plays to chapter one.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -360,7 +368,8 @@ every chapter and a skill tree every two. That shape is agenda item 24. Steps st
 clocks, and a chapter's close moves them on further, until M18 replaces them ([D49](06-decisions.md)).
 
 - Every Tower floor cleared returns the party to the world ✅ — each floor is one fight, and the party
-  comes back out onto the map at the Tower's foot
+  comes back out onto the map at the Tower's foot. The walked floors 1 to 5 go straight on from one
+  stair to the next floor, and only floor 5 sends the party out ([D115](06-decisions.md))
 - A chapter every five floors ✅: winning its last floor moves the world on (three upkeeps pass, and
   the weakest gates that were only brewing open — or a new rift tears if none are left), then the
   stair above is **sealed** until the company answers the world. **The reading taken:** shutting a
@@ -368,7 +377,8 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
 - The census at the end of every chapter ✅ — since M15 a lead who died in an earlier world is
   counted out once this lead has climbed as high as they did
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
-  floor, and it survives a save); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
+  floor, and it survives a save). Since [D115](06-decisions.md) a step away between floors walks
+  out, the floors won kept, and walking back in goes on with the next; objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
   reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
 - The Adventurers Guild in settlements ✅ (built 2026-10-01: a hall in every standing keep and
   village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and

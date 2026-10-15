@@ -451,19 +451,19 @@ func _check_gate() -> void:
 			gate.depth() == floor_number + 1,
 			"floor %d left the delve at depth %d" % [floor_number + 1, gate.depth()]
 		)
-		# D35: there is no walking out of a gate. Any step is the next floor.
-		_expect(GameState.delving == [gate.cell.x, gate.cell.y], "won a floor but was not kept inside the gate")
-		var here := GameState.world.player_cell
+		# D115: between floors a step away walks out, the floors won kept; walking back in is the next floor.
+		_expect(GameState.delving == [gate.cell.x, gate.cell.y], "won a floor but was not counted inside the gate")
 		_requests.clear()
-		_scene._step(Vector2i.UP)
-		_expect(GameState.world.player_cell == here, "walked out of a gate between floors")
-		_expect(not _last_battle_request().is_empty(), "a step inside the gate did not start the next floor")
+		_expect(_step_onto(gate.cell), "could not walk out of the gate and back in")
+		_expect(GameState.world.player_cell == gate.cell, "walking back into the gate left the party outside it")
+		_expect(gate.depth() == floor_number + 1, "walking out of the gate lost the floors won")
+		_expect(not _last_battle_request().is_empty(), "walking back into the gate did not start the next floor")
 	_expect(GameState.delving.is_empty(), "still held inside a gate that has been shut")
 
 	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s is %d floors deep, walked out of once, then fought through without leaving and shut for %d gold" % [
+	print("gate: %s is %d floors deep, walked out of once, then walked out of and back into between floors and shut for %d gold" % [
 		gate.label(), floors, GameState.gold - gold_before
 	])
 

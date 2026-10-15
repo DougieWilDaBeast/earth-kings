@@ -428,7 +428,7 @@ plus the overlays party journal menu. `--scene=area` takes `--area=id`.
 
 **Back in use from 2026-09-24.** They were parked when they cost more than they caught and had
 started failing on their own stale expectations. Since then every suite has been brought back to
-green and run after every change: twelve suites, around 580 checks (`tools/coverage.tscn` counts
+green and run after every change: thirteen suites, around 580 checks (`tools/coverage.tscn` counts
 them per test).
 
 ```powershell
@@ -438,7 +438,7 @@ godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 godot --headless --path . res://tests/world_smoke_test.tscn -- --check=fate
 ```
 
-**In CI.** Every pull request and every push to `main` runs all twelve suites and a two-minute
+**In CI.** Every pull request and every push to `main` runs all thirteen suites and a two-minute
 soak on seed 77, headless on Linux against the official Godot 4.7.2 build
 (`.github/workflows/smoke.yml`). Both go through `./ek.sh`, the Linux and macOS twin of
 `.\ek.ps1 test`, so a red check can be reproduced locally with the same command:

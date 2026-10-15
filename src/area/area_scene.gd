@@ -2014,7 +2014,7 @@ func _remember(cell: Vector2i) -> void:
 
 
 ## The stair up: the floor is won, and the continent pays it out as it paid a floor fought on the
-## fight screen ([D102]).
+## fight screen ([D102]), then opens the next floor straight away (D115).
 func _climb_the_stair() -> void:
 	if _leaving:
 		return
@@ -2025,7 +2025,7 @@ func _climb_the_stair() -> void:
 		"kind": "tower", "cell": tower.cell if tower != null else world.player_cell, "floor": _tower_floor,
 	}
 	GameState.set_flag("last_victory", true)
-	EventBus.request_scene.emit("world", {})
+	EventBus.request_scene.emit("world", { "climb_on": true })
 
 
 ## The band rushes the party: part of the way, facing them, so the fight opening is something
