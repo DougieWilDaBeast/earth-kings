@@ -352,6 +352,14 @@
 		"yard_lawn": {
 			"display_name": "lawn",
 			"walkable": true
+		},
+		"crater_floor": {
+			"display_name": "scorched earth",
+			"walkable": true
+		},
+		"crater_rim": {
+			"display_name": "thrown-up earth",
+			"walkable": true
 		}
 	},
 	"sheets": {
@@ -961,6 +969,22 @@
 			"lower": "none",
 			"upper": "yard_kerb",
 			"feature": "yard_kerb"
+		},
+		"crater_floor": {
+			"_comment": "D134: the crater, drawn in house (tools/draw_crater.py). Scorched, glassy, cracks still glowing; see-through off it.",
+			"texture": "res://art/tilesets/crater/crater_floor.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "crater_floor",
+			"feature": "crater_floor"
+		},
+		"crater_rim": {
+			"_comment": "D134: the crater, drawn in house (tools/draw_crater.py). Earth thrown up round the crater; see-through off it.",
+			"texture": "res://art/tilesets/crater/crater_rim.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "crater_rim",
+			"feature": "crater_rim"
 		}
 	}
 }

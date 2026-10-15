@@ -2,12 +2,16 @@
   "display_name": "the crater",
   "layers": [
     "dirt",
-    "meadow"
+    "meadow",
+    "crater_floor",
+    "crater_rim"
   ],
   "hint": "WASD to walk  \u00b7  E to look at something  \u00b7  the way out is south",
   "legend": {
     ".": "grass",
-    ",": "dirt",
+    ",": "crater_floor",
+    "r": "crater_rim",
+    "d": "dirt",
     "m": "meadow"
   },
   "tint": "#8a7c66",
@@ -83,6 +87,27 @@
   ],
   "props": [
     {
+      "art": "crater/shard",
+      "cell": [
+        6,
+        6
+      ]
+    },
+    {
+      "art": "crater/shard",
+      "cell": [
+        11,
+        6
+      ]
+    },
+    {
+      "art": "crater/shard",
+      "cell": [
+        9,
+        8
+      ]
+    },
+    {
       "art": "nature/apple_sapling",
       "cell": [
         2,
@@ -135,17 +160,17 @@
   "rows": [
     "mmmm.........mmmm",
     "mmm...........mmm",
-    "mm.....,,,.....mm",
-    "m....,,,,,,,....m",
-    "....,,,,,,,,,....",
-    "...,,,,,,,,,,,...",
-    "...,,,,,,,,,,,...",
-    "...,,,,,,,,,,,...",
-    "....,,,,,,,,,....",
-    "m....,,,,,,,....m",
-    "mm.....,,,.....mm",
-    "mmm....,,,....mmm",
-    "mmmm...,,,...mmmm"
+    "mm.....rrr.....mm",
+    "m....rr,,,rr....m",
+    "....r,,,,,,,r....",
+    "...r,,,,,,,,,r...",
+    "...r,,,,,,,,,r...",
+    "...r,,,,,,,,,r...",
+    "....r,,,,,,,r....",
+    "m....rr,,,rr....m",
+    "mm.....ddd.....mm",
+    "mmm....ddd....mmm",
+    "mmmm...ddd...mmmm"
   ],
   "dressing": [
     {"art": "nature/autumn_tree", "cell": [15, 10], "offset": [9, 2]},
