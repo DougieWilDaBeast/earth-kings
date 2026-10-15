@@ -591,7 +591,7 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Guild.on_gate_shut(world, site):
 					_note(line)
-				# A gate is a seam between the sixteen worlds (D151): as it shuts, someone may be on the far side.
+				# A gate is a seam between the sixteen worlds (D152): as it shuts, someone may be on the far side.
 				var crossing := Crossing.on_gate_shut(world, site)
 				if crossing != "":
 					EventBus.dialogue_requested.emit(crossing)

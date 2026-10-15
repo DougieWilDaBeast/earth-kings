@@ -30,7 +30,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
-   side: one line from them, and the light closes ([D151](06-decisions.md), [below](#the-crossing)).
+   side: one line from them, and the light closes ([D152](06-decisions.md), [below](#the-crossing)).
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
    stand-in shaft over it until art A9 ([D108](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
@@ -57,9 +57,9 @@ Copy or Save play log in the system menu hands a tester's run over ([D125](06-de
 
 ## The chapter ones
 
-All nine lie at [2, 11] on `tower_floor_5` (`data/memories.json`); only the lead finds their own.
+All sixteen lie at [2, 11] on `tower_floor_5` (`data/memories.json`); only the lead finds their own.
 Each answers Bram in the crater in their own words (`unless` in `data/fall.json`). Every word is
-**Inferred**, a working draft for the founders (agenda item 82). The keepsakes are drawn as the coin
+**Inferred**, a working draft for the founders (agenda item 82, [D151](06-decisions.md)). The keepsakes are drawn as the coin
 pile until their art requests are made ([24](24-art-requests.md)).
 
 | Lead | Chapter one | Keepsake | Art | Decision |
@@ -73,14 +73,36 @@ pile until their art requests are made ([24](24-art-requests.md)).
 | Pluto | The Tally | a notched tally stick | A16 | [D138](06-decisions.md) |
 | Ultor | The Wrong Side | a knife hilt with no blade | A17 | [D138](06-decisions.md) |
 | Liber | The Cut Rope | a cut length of rope | A18 | [D138](06-decisions.md) |
+| Ares | The One He Let Go | a child's wooden sword | A19 | [D151](06-decisions.md) |
+| Caesar | The Hero's Part | a child's tin crown | A20 | [D151](06-decisions.md) |
+| Vesta | The One Who Stayed | a small clay lamp | A21 | [D151](06-decisions.md) |
+| Iris | The Pass | a stitched leather ball | A22 | [D151](06-decisions.md) |
+| Ceres | The Last Sheaf | a corn dolly | A23 | [D151](06-decisions.md) |
+| Juno | The Last Plate | a burnt wooden spoon | A24 | [D151](06-decisions.md) |
+| Diana | The Collar | a wolf's leather collar | A25 | [D151](06-decisions.md) |
 
-**Planned:** Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana wait for more of the founders' material
-(`dougie`, 2026-10-15); until they have one, the quiz does not deal them ([D145](06-decisions.md)). A new chapter one is a `memories.json` entry, a line in `fall.json` (and its
-name added to the shared last line's `unless`), and an art request.
+### How a chapter one is written
+
+The rule the creatives' meeting set (C1, [D151](06-decisions.md)), for any rewrite or chapter two:
+
+- Ten boxes including the journal page (Atlas keeps nine): the keepsake found, the floor going out
+  from under the world, a scene before the fall, a voice, "White.", and one thing the lead did not
+  know before.
+- Exactly three shared lines: box 2 ends "and the floor goes out from under the world"; one box ends
+  "The face will not come"; "White." stands alone on its own box. Everything else is the lead's own.
+- No two chapters share box 3's first words, and at most eight of the sixteen turn on a door or gate.
+- Ties between leads are never named in chapter one. Each pair shares one thing a player who lived both
+  lives will catch: the whistle (Bellona, Ultor), the cracked mask (Cassius, Caesar), the cut rope and
+  the wooden sword (Ares, Liber). Chapter two names them (**planned**).
+- Each voice behind a blank face is that lead's own person, not one hidden hand (call AI).
+
+A new chapter one is a `memories.json` entry, a line in `fall.json` (and its name added to the shared
+last line's `unless`), and an art request. The quiz deals only leads who have a chapter one ([D145](06-decisions.md)); with all
+sixteen written, it deals every lead again.
 
 ## The crossing
 
-A gate is a seam between the sixteen worlds ([D151](06-decisions.md), `dougie`, 2026-10-15). As any
+A gate is a seam between the sixteen worlds ([D152](06-decisions.md), `dougie`, 2026-10-15). As any
 gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the gate:
 
 - **Who.** One of the sixteen who is not the lead and not walking with them, Janus and Pluto (who go
