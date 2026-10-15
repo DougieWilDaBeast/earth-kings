@@ -8,6 +8,10 @@
 			"display_name": "bare earth",
 			"walkable": true
 		},
+		"road": {
+			"display_name": "the road",
+			"walkable": true
+		},
 		"stone": {
 			"display_name": "broken stone",
 			"walkable": true
@@ -333,6 +337,14 @@
 			"lower": "dirt",
 			"upper": "grass",
 			"feature": "dirt"
+		},
+		"road": {
+			"_comment": "D126: the First Hour's laid road, drawn in house (tools/draw_road.py). Its lower terrain is nothing: the sheet is see-through off the road, so it lies over any land's ground.",
+			"texture": "res://art/tilesets/road.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "road",
+			"feature": "road"
 		},
 		"stone": {
 			"texture": "res://art/tilesets/grass_stone.png",

@@ -14,10 +14,13 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
+const Route := preload("res://src/world/route.gd")
+const GroundGen := preload("res://src/area/ground_gen.gd")
 
 var _failures: Array[String] = []
 
@@ -57,6 +60,7 @@ func _ready() -> void:
 			"dialogue": _check_dialogue()
 			"walking": _check_walking(world)
 			"lands": _check_lands(world)
+			"road": _check_road(world)
 			"round_trip": _check_round_trip(world, hero)
 
 	print("")
@@ -787,6 +791,26 @@ func _check_lands(world: World) -> void:
 	_expect(float(Biome.effects("bog")["slow"]) < 1.0, "the bog does not drag at the feet")
 	_expect(int(Biome.effects("mist")["sight"]) < 0, "the mist does not shorten anybody's sight")
 	print("lands: %d on the continent, %d bands checked against what lives there" % [counts.size(), local_bands])
+
+
+## D126: a laid road runs from the crater through each stop, and a tile it crosses is drawn with it.
+func _check_road(world: World) -> void:
+	var stops := FirstRoad.stops(world)
+	if stops.size() < 2:
+		print("road: this world has %d stops, nothing to lay" % stops.size())
+		return
+	for stop: Vector2i in stops:
+		_expect(not FirstRoad.sides(world, stop).is_empty(), "the road does not reach the stop at %s" % stop)
+	var crossed := 0
+	var between := Route.between(world, stops[0], stops[1])
+	for tile: Vector2i in between.slice(1, between.size() - 1):
+		var slot := GroundGen.slot(world, tile)
+		if str(slot.get("kind", "")) != "ground":
+			continue
+		if (slot.get("terrain", []) as Array).has("road"):
+			crossed += 1
+	_expect(crossed > 0, "no open ground between the crater and the city shows the road")
+	print("road: %d stops, %d tiles on the way to the city show it underfoot" % [stops.size(), crossed])
 
 
 func _check_round_trip(world: World, hero: Character) -> void:

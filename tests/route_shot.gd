@@ -35,6 +35,16 @@ func _ready() -> void:
 	EventBus.request_scene.emit("world", {})
 	await _frames(150)
 	await _shoot("road")
+	# Halfway along the laid road from the crater to the city (D126).
+	var stops: Array = preload("res://src/area/first_road.gd").stops(world)
+	if stops.size() >= 2:
+		var way: Array = preload("res://src/world/route.gd").between(world, stops[0], stops[1])
+		if way.size() > 2:
+			world.player_cell = way[way.size() / 2]
+			GameState.land_cell = null
+			EventBus.request_scene.emit("world", {})
+			await _frames(150)
+			await _shoot("laid_road")
 	# In the yard the Tower itself is the objective: the city reached, the Guild seen, a gate shut.
 	GameState.set_flag("objective:town")
 	GameState.set_flag("objective:guild")
