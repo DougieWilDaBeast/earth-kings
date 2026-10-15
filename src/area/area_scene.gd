@@ -1128,12 +1128,18 @@ func _land_auto_axis() -> Vector2:
 ## Soak mode: make for the way out, so a run that is playing itself never
 ## settles down inside a town.
 func _auto_axis() -> Vector2:
-	if map == null or map.exits.is_empty():
+	# On a floor of the Tower, Auto makes for the stair and climbs it (D115), never the way out.
+	var climbing := _tower_floor > 0 and not map.stairs.is_empty()
+	if climbing and _at_the_stair():
+		if not _talking and not _leaving:
+			_climb_the_stair()
+		return Vector2.ZERO
+	if map == null or (map.exits.is_empty() and not climbing):
 		return Vector2.ZERO
 	if _auto_exit_path.is_empty() or _auto_exit_index >= _auto_exit_path.size():
-		var nearest := map.exits[0]
+		var nearest: Vector2i = map.stairs[0] if climbing else map.exits[0]
 		var best_dist := _leader.position.distance_to(map.centre_of(nearest))
-		for exit_cell in map.exits:
+		for exit_cell in ([] if climbing else map.exits):
 			var d := _leader.position.distance_to(map.centre_of(exit_cell))
 			if d < best_dist:
 				best_dist = d
@@ -1151,7 +1157,7 @@ func _auto_axis() -> Vector2:
 				waypoint = _auto_exit_path[_auto_exit_index]
 		return (waypoint - _leader.position).normalized()
 
-	var nearest := map.centre_of(map.exits[0])
+	var nearest := map.centre_of(map.stairs[0] if climbing else map.exits[0])
 	var apart := nearest - _leader.position
 	return apart.normalized() if apart.length() > 4.0 else Vector2.ZERO
 
