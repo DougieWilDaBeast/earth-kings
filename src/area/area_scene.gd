@@ -2494,6 +2494,14 @@ func _point_the_compass() -> void:
 		_compass.visible = not _overlay_open()
 		_compass.point(door.position - _leader.position, _door_label(door), 0)
 		return
+	# The Guild's stop, likewise: the needle goes to whoever keeps the register, who opens it
+	# when spoken to (meeting 3: it no longer opens by itself on the Tower's tile).
+	var keeper := _register_keeper()
+	if target == world.player_cell and keeper != null and _leader != null and str(goal["label"]).begins_with("The Guild"):
+		_compass.set_meta("aimed", true)
+		_compass.visible = not _overlay_open()
+		_compass.point(keeper.position - _leader.position, str((keeper.get_meta("person", {}) as Dictionary).get("name", "The Guild")), 0)
+		return
 	var bearing := Vector2(target - world.player_cell)
 	if _land_mode and _leader != null:
 		var land := map as Land
@@ -2501,6 +2509,14 @@ func _point_the_compass() -> void:
 	_compass.set_meta("aimed", true)
 	_compass.visible = not _overlay_open()
 	_compass.point(bearing, str(goal["label"]), Pathfinder.distance(world.player_cell, target))
+
+
+## Whoever here keeps the Guild's register (a person with `guild`), or null.
+func _register_keeper() -> AreaActor:
+	for actor: AreaActor in _people:
+		if is_instance_valid(actor) and bool((actor.get_meta("person", {}) as Dictionary).get("guild", false)):
+			return actor
+	return null
 
 
 func _door_label(door: AreaProp) -> String:
