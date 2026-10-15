@@ -542,7 +542,12 @@ func _check_tower_floor() -> void:
 	var up: AreaMap = again.get("map")
 	_expect(not up.stairs.is_empty(), "tower floor: no stair up")
 	if not up.stairs.is_empty():
+		# Stepping onto it asks rather than climbs (meeting 3); E climbs.
 		again.call("_arrive_at", up.stairs[0])
+		_expect(not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "world"), "tower floor: stepping on the stair climbed without asking")
+		(again.get("_leader") as Node2D).position = up.centre_of(up.stairs[0] + Vector2i(0, 1))
+		_expect(str(again.call("_prompt_text")).ends_with("to climb to floor 2"), "tower floor: at the stair nothing says how to climb (%s)" % again.call("_prompt_text"))
+		again.call("_climb_the_stair")
 		_expect(_requests.any(func(r: Dictionary) -> bool: return r["key"] == "world"), "tower floor: the stair up went nowhere")
 		_expect(str(GameState.pending_outcome.get("kind", "")) == "tower" and int(GameState.pending_outcome.get("floor", 0)) == 1
 				and GameState.has_flag("last_victory"), "tower floor: the stair up did not win the floor")

@@ -935,9 +935,22 @@ func _door() -> AreaProp:
 	return null
 
 
+## Whether the leader stands on the stair up, or a step from it, on a floor of the Tower.
+func _at_the_stair() -> bool:
+	if _tower_floor <= 0 or map.stairs.is_empty() or _leader == null:
+		return false
+	var here := map.cell_at(_leader.position)
+	for stair: Vector2i in map.stairs:
+		if absi(stair.x - here.x) <= 1 and absi(stair.y - here.y) <= 1:
+			return true
+	return false
+
+
 func _prompt_text() -> String:
 	if _hovered != null:
 		return "Click to %s" % _hovered.prompt()
+	if _at_the_stair():
+		return "%s to climb to floor %d" % [Pad.key("interact") if Pad.using_pad else "E", _tower_floor + 1]
 	if _nearby != null:
 		var doing := _act_of(_nearby)
 		if not doing.is_empty():
@@ -1593,8 +1606,9 @@ func _settle_followers(delta: float) -> void:
 func _arrive_at(cell: Vector2i) -> void:
 	if _memories.has(cell):
 		_remember(cell)
+	# The stair asks before it climbs (meeting 3: walking onto it ended the floor, a step past
+	# whatever lay beside it): standing at it says "E to climb", and E climbs.
 	if _tower_floor > 0 and map.stairs.has(cell):
-		_climb_the_stair()
 		return
 	if not _land_mode and (map.is_exit(cell) or _is_edge_cell(cell)):
 		_handle_exit(cell)
@@ -2548,6 +2562,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_toggle_act_focus()
 		return
 	# Ahead of the pace keys, which used to share E with it.
+	if event.is_action_pressed("interact") and _at_the_stair() and not _talking and not _leaving:
+		get_viewport().set_input_as_handled()
+		_climb_the_stair()
+		return
 	if event.is_action_pressed("interact") and _nearby != null and not _talking:
 		get_viewport().set_input_as_handled()
 		_engage(_nearby)

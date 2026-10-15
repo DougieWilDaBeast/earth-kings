@@ -8,8 +8,8 @@
 			"object": "a child's saddle buckle",
 			"area": "tower_floor_5",
 			"cell": [
-				13,
-				1
+				2,
+				11
 			],
 			"art": "coin_pile",
 			"scene": [
