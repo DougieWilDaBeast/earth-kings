@@ -1465,6 +1465,28 @@
 		"body_scale": 1.5,
 		"sprite_dir": "res://art/big/king_slime/idle"
 	},
+	"tower_warden": {
+		"display_name": "The Warden of the Fifth",
+		"job": "Keeper",
+		"max_hp": 72,
+		"attack": 15,
+		"defense": 9,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"cleave",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fd8f0",
+		"body_scale": 1.5,
+		"sprite_dir": "res://art/big/tower_warden/idle"
+	},
 	"ooze_knight": {
 		"display_name": "The Amber Knight",
 		"job": "Wild",

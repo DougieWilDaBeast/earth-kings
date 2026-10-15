@@ -137,7 +137,7 @@ each, each ending playable:
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
-   kept by a keeper (a king slime and two slimes, level 7) who can kill an unready Atlas. Auto stops
+   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D156](06-decisions.md)) who can kill an unready Atlas. Auto stops
    at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
@@ -202,7 +202,8 @@ each, each ending playable:
    four-letter temper codes on screen, Barnaby off the road's bands. Life two — built
    ([D145](06-decisions.md)): the quiz deals only leads with a chapter one (since [D151](06-decisions.md) all sixteen have one,
    so it deals every lead), and a
-   suite walks every way through it after Atlas's fall. **Planned**, in order: three wares at a market; a store-page draft and a devlog with each itch push;
+   suite walks every way through it after Atlas's fall. Three wares at a market — built
+   ([D146](06-decisions.md)). **Planned**, in order: a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
 

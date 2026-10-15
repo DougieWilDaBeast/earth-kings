@@ -274,6 +274,7 @@ Start a run (not the tutorial) and walk.
 | ---- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | D5.1 | Walk in one direction for a minute                    | The ground runs on with no edge, fade or pause; the place line at the top changes as you cross into new country, and the light turns with the land |
 | D5.2 | Walk towards a village you can see on the map         | You see it from outside, standing in the land; walk straight in, and the bottom line offers hire, buy and the board |
+| D5.2a | Stand in a market town with gold, press **Z** twice, then **B** | The bottom line names a different ware each time, "Z for the next of 3 wares"; B buys the one named ([D146](06-decisions.md)) |
 | D5.3 | Walk to the coast or a mountain                       | Water or rock fills the tile; you cannot walk onto it                                     |
 | D5.4 | Find a band (the bottom line names it) and stand still | It patrols its patch, further than a small loop; take a few steps across a tile edge and sometimes it sets off and walks to the next patch, its red going with it |
 | D5.5 | Go into a house, open the journal's map, and fight    | Each time you come back exactly where you stood on the land                                |
