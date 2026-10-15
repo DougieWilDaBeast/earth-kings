@@ -1555,6 +1555,15 @@ func _check_fall() -> void:
 	_expect(before_first_step <= 5, "the crater puts up %d boxes before the first step, not five or fewer (D122)" % before_first_step)
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["speaker"]) == "Bram"), "nobody pulls the lead out of the crater")
 	_expect(landing_said.any(func(l: Dictionary) -> bool: return str(l["text"]).contains("Sky")), "Sky is not in Atlas's crater")
+	# A lead with a chapter one answers Bram in their own words, one line, and the crater stays at five (D138).
+	for lead: String in Database.memories:
+		if lead.begins_with("_"):
+			continue
+		var named := str(Database.unit_template(lead).get("display_name", lead))
+		var theirs: Array = Fall.landing_dialogue(world, named, lead).get("lines", [])
+		var own := theirs.filter(func(l: Dictionary) -> bool: return str(l["speaker"]) == named)
+		_expect(own.size() == 1, "%s says %d lines in the crater, not one" % [lead, own.size()])
+		_expect(theirs.size() + Siblings.landing_lines(world).size() <= 5, "%s's crater puts up more than five boxes (D122)" % lead)
 	var juno: Array = Fall.landing_dialogue(world, "Juno", "juno").get("lines", [])
 	_expect(juno.size() == landing_said.size() - 1, "Sky came down with somebody who is not Atlas")
 	_expect(str(landing_said[0]["text"]).contains(Fall.ground_word(world, world.player_cell)),

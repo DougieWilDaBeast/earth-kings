@@ -14,14 +14,21 @@
 	},
 
 	"landing": {
-		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the land under them (data/biomes.json), {tower_way} which way the Tower stands from there, {city} the great city and {city_way} which way it lies. A line with `lead` is said only when that one of the sixteen is the lead. D101: Sky comes down in the crater with Atlas, and Bram pulls the lead out; the flash of the sixteen's ring is the meeting 2 beat. A line with `unless` is not said for the leads it names: Cato answers Bram in his own words in place of the shared last line (his chapter one, 2026-10-15), so his crater stays at five boxes with the sibling world's line. D122 (meeting 4): at most five boxes before the first step, so five lines for Atlas and four for anyone else; the journal and the standing quest go to the log (`note`).",
+		"_doc": "The beat played the first time the world opens on a new run. {name} is the lead, {region} where they landed, {ground} the land under them (data/biomes.json), {tower_way} which way the Tower stands from there, {city} the great city and {city_way} which way it lies. A line with `lead` is said only when that one of the sixteen is the lead. D101: Sky comes down in the crater with Atlas, and Bram pulls the lead out; the flash of the sixteen's ring is the meeting 2 beat. A line with `unless` is not said for the leads it names: Cato and the leads with a chapter one (D135, D138) answer Bram in their own words in place of the shared last line, so his crater stays at five boxes with the sibling world's line. D122 (meeting 4): at most five boxes before the first step, so five lines for Atlas and four for anyone else; the journal and the standing quest go to the log (`note`).",
 		"lines": [
 			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins there is a crater ploughed into the {ground}, and {name} wakes at the bottom of it with no memory of falling. For a heartbeat there is a ring of sixteen lights behind the eyes. Then it is gone." },
 			{ "speaker": "", "lead": "atlas", "text": "Something else came down with {name}: a great lizard, too heavy for its own legs, already pushing its head under {name}'s hand. Its name comes back before anything else does. Sky." },
 			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. I saw you come down, and I didn't think there'd be anybody left to pull out." },
 			{ "speaker": "Bram", "text": "That's the Tower, off to the {tower_way}, and {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
-			{ "speaker": "{name}", "unless": ["cato"], "text": "Up. Whatever I was, it was up there. I am going back." },
-			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody up there kept rules. I'll learn theirs." }
+			{ "speaker": "{name}", "unless": ["cato", "janus", "bellona", "cassius", "saturn", "pluto", "ultor", "liber"], "text": "Up. Whatever I was, it was up there. I am going back." },
+			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody up there kept rules. I'll learn theirs." },
+			{ "speaker": "{name}", "lead": "janus", "text": "A tower nobody is allowed to climb. Mm. That is the first interesting thing anyone has said to me." },
+			{ "speaker": "{name}", "lead": "bellona", "text": "Then the Guild is the chain of command here. Good. I'll know where I stand by nightfall." },
+			{ "speaker": "{name}", "lead": "cassius", "text": "And who decided the Guild gets the say-so? I'll ask them. Then I'll climb it anyway." },
+			{ "speaker": "{name}", "lead": "saturn", "text": "Then I will ask the Guild kindly. And if they say no, I will ask them why." },
+			{ "speaker": "{name}", "lead": "pluto", "text": "The Guild's mark. Fine. I've started at the bottom before." },
+			{ "speaker": "{name}", "lead": "ultor", "text": "I don't need anybody's say-so. I'm looking for someone. If they went up it, so will I." },
+			{ "speaker": "{name}", "lead": "liber", "text": "Say-so? Ha! I'll climb it, and they can tell me off at the top." }
 		],
 		"note": "A journal came down too, blank but for the name on its first page. A new standing quest: Ascend to heaven."
 	},
