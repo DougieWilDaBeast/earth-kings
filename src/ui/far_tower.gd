@@ -10,7 +10,8 @@ extends Control
 const PICTURE := preload("res://art/ui/far_tower.png")
 ## How tall it stands at the far edge of the world and when it is nearly here, in pixels: half the
 ## picture's size, then the picture's own, so its pixels stay whole. Small, on the horizon, and never
-## in front of the ground being walked (meeting 4: at Greyhollow it covered the view).
+## in front of the ground being walked (meeting 4: at Greyhollow it covered the view), and never in
+## the middle third of the screen, where the way ahead is (D142: it stood over Greyhollow's door).
 const LOW := 160.0
 const HIGH := 320.0
 ## Where the horizon it stands on runs, as a share of the screen's height from the top.
@@ -50,6 +51,12 @@ func _draw() -> void:
 	var left := minf(CORNER, size.x * 0.3) + wide / 2.0
 	var right := size.x - wide / 2.0 - MARGIN * 0.5
 	var x := lerpf(left, right, (way.x + 1.0) / 2.0)
+	# The middle third of the screen is the way the party is walking and what it is walking to (a
+	# gate's door, a stair): the Tower stands just to the side of it, the side it leans to (D142).
+	var middle_left := size.x / 3.0
+	var middle_right := size.x * 2.0 / 3.0
+	if x + wide / 2.0 > middle_left and x - wide / 2.0 < middle_right:
+		x = minf(right, middle_right + wide / 2.0 + MARGIN * 0.5) if way.x >= 0.0 else maxf(left, middle_left - wide / 2.0 - MARGIN * 0.5)
 	var foot := Vector2(x, size.y * HORIZON)
 	var shade := Color(1, 1, 1, 0.6 if way.y > 0.7 else 0.9)
 	draw_texture_rect(PICTURE, Rect2(Vector2(foot.x - wide / 2.0, foot.y - tall), Vector2(wide, tall)), false, shade)

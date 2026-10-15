@@ -185,7 +185,8 @@ each, each ending playable:
    ([D134](06-decisions.md)): a scorched floor in a ring of thrown-up earth, shards glinting in it. The city and
    the first gate — built ([D136](06-decisions.md)): paved in the yard's sandstone, the first gate's right up to its ring of stones ([D137](06-decisions.md)). The jungle and
    the barrow downs — built ([D140](06-decisions.md)): their own flat ground, pools and cover, drawn in house. The barrow gate — built
-   ([D141](06-decisions.md)): a standing doorway of rune stones with the gate's light turning in it.
+   ([D141](06-decisions.md)): a standing doorway of rune stones with the gate's light turning in it. The far Tower keeps out of
+   the middle of the screen, where the way ahead is ([D142](06-decisions.md)).
 11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
    itch since 2026-10-15 20:25; his play log and notes are written up,
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
