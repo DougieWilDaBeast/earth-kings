@@ -243,6 +243,8 @@
 		"cost_per_level": 35,
 		"pool_size": 2,
 		"refresh_steps": 400,
+		"_comment_wares_on_show": "D146 (the designers' fortnight, F4): how many of a place's wares are laid out at once; Z turns to the next and B buys the one in hand.",
+		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
 	"codex": {

@@ -24,7 +24,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 4. **Stormreach and the Guild.** The great city stands at the Tower's foot, paved in sandstone
    ([D136](06-decisions.md)). The first time the party stands at the Tower's door the Guild's register
    opens by itself; Sennet keeps it ([D107](06-decisions.md), [D112](06-decisions.md)). Nobody climbs
-   until a gate is shut ([D101](06-decisions.md)).
+   until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
+   B buys the one in hand ([D146](06-decisions.md)).
 5. **The first gate.** Greyhollow, rank E, eight tiles from the city and open in every world. E beside
    it goes in; walking onto it does not ([D116](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
