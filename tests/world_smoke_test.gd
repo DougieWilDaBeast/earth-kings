@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "edges", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -61,6 +61,7 @@ func _ready() -> void:
 			"walking": _check_walking(world)
 			"lands": _check_lands(world)
 			"road": _check_road(world)
+			"edges": _check_edges(world)
 			"round_trip": _check_round_trip(world, hero)
 
 	print("")
@@ -811,6 +812,44 @@ func _check_road(world: World) -> void:
 			crossed += 1
 	_expect(crossed > 0, "no open ground between the crater and the city shows the road")
 	print("road: %d stops, %d tiles on the way to the city show it underfoot" % [stops.size(), crossed])
+
+
+## D128: where one land meets another, the next land's floor runs a few cells in, and no deeper.
+func _check_edges(world: World) -> void:
+	var band := int(Database.biomes.get("edge_band", 3))
+	var seams := 0
+	for y in world.size.y:
+		for x in world.size.x - 1:
+			var tile := Vector2i(x, y)
+			var next := tile + Vector2i.RIGHT
+			if seams >= 6 or not world.is_walkable(tile) or not world.is_walkable(next):
+				continue
+			var theirs := str(Biome.data(Biome.at(world, next)).get("ground", {}).get("floor", ""))
+			var slot := GroundGen.slot(world, tile)
+			var own := str(Biome.data(str(slot.get("land", ""))).get("ground", {}).get("floor", ""))
+			if str(slot.get("kind", "")) != "ground" or theirs == own:
+				continue
+			seams += 1
+			var w := int(slot["size"][0])
+			var h := int(slot["size"][1])
+			var terrain: PackedStringArray = slot["terrain"]
+			var near := 0
+			var deep := 0
+			for i in terrain.size():
+				if terrain[i] != theirs:
+					continue
+				var cx := i % w
+				var cy := i / w
+				if cx >= w - band:
+					near += 1
+				elif cx >= band and cx < w - band and cy >= band and cy < h - band:
+					deep += 1
+			_expect(near > 0, "the %s does not run into the tile at %s from the east" % [theirs, tile])
+			_expect(deep == 0, "the %s runs deeper than the band at %s" % [theirs, tile])
+			_expect(((slot["patches"] as Array)[0]["layers"] as Array).has("edge_" + theirs),
+				"the tile at %s has %s in it with no sheet to draw it" % [tile, theirs])
+	_expect(seams > 0, "no two lands meet anywhere on the continent")
+	print("edges: %d seams between lands checked" % seams)
 
 
 func _check_round_trip(world: World, hero: Character) -> void:
