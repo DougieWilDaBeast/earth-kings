@@ -328,6 +328,18 @@
 			"display_name": "mist bracken",
 			"walkable": true,
 			"cover": true
+		},
+		"tower_slab": {
+			"display_name": "dressed slabs",
+			"walkable": true
+		},
+		"tower_runner": {
+			"display_name": "the runner",
+			"walkable": true
+		},
+		"tower_wall": {
+			"display_name": "the Tower's wall",
+			"walkable": false
 		}
 	},
 	"sheets": {
@@ -897,6 +909,30 @@
 			"lower": "none",
 			"upper": "mist_floor",
 			"feature": "mist_floor"
+		},
+		"tower_slab": {
+			"_comment": "D129: the Tower's floors, drawn in house (tools/draw_tower_floors.py). The same slabs on every tile, so it lies under the rest.",
+			"texture": "res://art/tilesets/tower/tower_slab.png",
+			"tile_size": 64,
+			"lower": "tower_wall",
+			"upper": "tower_slab",
+			"feature": "tower_slab"
+		},
+		"tower_runner": {
+			"_comment": "D129: the Tower's floors, drawn in house (tools/draw_tower_floors.py). See-through off the runner.",
+			"texture": "res://art/tilesets/tower/tower_runner.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "tower_runner",
+			"feature": "tower_runner"
+		},
+		"tower_wall": {
+			"_comment": "D129: the Tower's floors, drawn in house (tools/draw_tower_floors.py). See-through off the wall but for its shadow.",
+			"texture": "res://art/tilesets/tower/tower_wall.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "tower_wall",
+			"feature": "tower_wall"
 		}
 	}
 }

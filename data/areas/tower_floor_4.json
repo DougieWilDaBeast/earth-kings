@@ -1,14 +1,14 @@
 {
   "display_name": "floor 4 of the Tower",
   "layers": [
-    "flagstone",
-    "stone",
-    "crag"
+    "tower_slab",
+    "tower_runner",
+    "tower_wall"
   ],
   "legend": {
-    "s": "stone",
-    "f": "flagstone",
-    "A": "crag"
+    "s": "tower_slab",
+    "f": "tower_runner",
+    "A": "tower_wall"
   },
   "tint": "#8f8aa8",
   "hint": "WASD to walk  \u00b7  the stair up is north, terrace by terrace",
@@ -134,21 +134,16 @@
   ],
   "dressing": [
     {"art": "nature/pebble", "cell": [19, 13], "offset": [-6, -3]},
-    {"art": "nature/thistle", "cell": [24, 9], "offset": [-14, 4], "flip": true},
-    {"art": "nature/pebble", "cell": [14, 7], "offset": [-2, 0]},
-    {"art": "nature/grass_tuft", "cell": [15, 15], "offset": [6, 7]},
-    {"art": "nature/grass_tuft", "cell": [8, 3], "offset": [12, 4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [9, 16], "offset": [10, 7], "flip": true},
-    {"art": "nature/pebble", "cell": [1, 7], "offset": [-5, -6], "flip": true},
-    {"art": "nature/thistle", "cell": [7, 16], "offset": [-7, -6]},
-    {"art": "nature/grass_tuft", "cell": [5, 14], "offset": [0, 1]},
-    {"art": "nature/pebble", "cell": [5, 3], "offset": [-13, -2], "flip": true},
-    {"art": "nature/thistle", "cell": [15, 9], "offset": [4, 1]},
-    {"art": "nature/pebble", "cell": [14, 3], "offset": [-5, -5], "flip": true},
-    {"art": "nature/pebble", "cell": [2, 11], "offset": [3, -1], "flip": true},
-    {"art": "nature/pebble", "cell": [7, 3], "offset": [-14, 4], "flip": true},
-    {"art": "nature/pebble", "cell": [24, 16], "offset": [3, -7], "flip": true},
-    {"art": "nature/spider", "cell": [16, 13], "offset": [10, -6], "flip": true},
-    {"art": "nature/snail", "cell": [20, 1], "offset": [11, -7]}
+    {"art": "nature/pebble", "cell": [24, 9], "offset": [-14, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [10, 2], "offset": [12, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [17, 15], "offset": [10, 7], "flip": true},
+    {"art": "nature/pebble", "cell": [3, 2], "offset": [0, 1]},
+    {"art": "nature/pebble", "cell": [23, 3], "offset": [-13, -2], "flip": true},
+    {"art": "nature/pebble", "cell": [21, 7], "offset": [4, 1]},
+    {"art": "nature/pebble", "cell": [9, 14], "offset": [-5, -5], "flip": true},
+    {"art": "nature/pebble", "cell": [7, 3], "offset": [3, -1], "flip": true},
+    {"art": "nature/pebble", "cell": [18, 2], "offset": [-14, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [8, 5], "offset": [3, -7], "flip": true},
+    {"art": "nature/spider", "cell": [16, 13], "offset": [10, -7], "flip": true}
   ]
 }
