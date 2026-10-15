@@ -21,8 +21,15 @@ const EMBER := Color(1.0, 0.5, 0.2)
 const BLOOD := Color(0.86, 0.22, 0.2)
 const GHOST := Color(0.62, 0.78, 1.0)
 const STAR_COUNT := 160
+## How many, in words, as the narration writes them.
+const WORDS := ["none", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+		"eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen"]
+
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
 
 ## Set by [Game]: `lead`, the hero just picked, who is the one seen falling.
+## A test may also hand it `fallen_heroes` and `last_world`, which otherwise come
+## from the record of the sixteen.
 var boot_payload: Dictionary = {}
 
 var shots: Array = []
@@ -39,6 +46,12 @@ var _lead := ""
 ## Whose world is seen ending (D99, D101): `opening.json`'s `ending`, or the next
 ## of the sixteen when that is the lead.
 var _other := ""
+## Those of the sixteen who have fallen, oldest first. Empty on the first life,
+## which plays the whole opening as written; any later life plays it again with
+## them gone (`opening.json` → `replay`, `by_left`).
+var _fallen: Array = []
+## The world that ended last, as [method Sixteen.worlds] keeps it.
+var _dead_world: Dictionary = {}
 var _stars: Array = []
 var _sprites: Dictionary = {}
 var _caption: Label
@@ -54,6 +67,7 @@ func _ready() -> void:
 	_lead = str(boot_payload.get("lead", _data.get("lead", "")))
 	shots = _data.get("shots", [])
 	_other = _ended(str(_data.get("ending", "")))
+	_remember_the_fallen()
 	_rng.seed = 1616
 	for _i in STAR_COUNT:
 		_stars.append([Vector2(_rng.randf(), _rng.randf()), _rng.randf_range(0.6, 2.0), _rng.randf() * TAU])
@@ -80,6 +94,77 @@ func _load_cast() -> void:
 	_sprites["fire"] = _texture("res://art/props/camp/campfire.png")
 
 
+## On a life after the first, the opening is played again for who is left: only the
+## `replay` shots, their lines swapped for the stage the sixteen are at, and the
+## world seen ending is the one that has just ended.
+func _remember_the_fallen() -> void:
+	var sixteen: Array = _data.get("sixteen", [])
+	var fallen: Array = boot_payload.get("fallen_heroes", Sixteen.fallen_heroes())
+	_fallen = fallen.filter(func(hero) -> bool: return sixteen.has(str(hero)) and str(hero) != _lead)
+	if _fallen.is_empty():
+		return
+	var worlds: Array = Sixteen.worlds()
+	_dead_world = boot_payload.get("last_world", worlds.back() if not worlds.is_empty() else {})
+	var dead := str(_dead_world.get("hero", ""))
+	_other = dead if _fallen.has(dead) else str(_fallen.back())
+	var replay: Array = _data.get("replay", [])
+	var swaps: Dictionary = _data.get("by_left", {}).get(stage(), {})
+	var kept: Array = []
+	for shot: Dictionary in shots:
+		var id := str(shot.get("shot", ""))
+		if not replay.is_empty() and not replay.has(id):
+			continue
+		var again := shot.duplicate(true)
+		if swaps.has(id):
+			again["lines"] = (swaps[id] as Array).duplicate()
+		kept.append(again)
+	shots = kept
+
+
+## How many of the sixteen are still alive, the new lead among them.
+func left() -> int:
+	return maxi(1, (_data.get("sixteen", []) as Array).size() - _fallen.size())
+
+
+## Where the sixteen are: `first` (nobody has fallen), `many`, `two` or `last`.
+func stage() -> String:
+	if _fallen.is_empty():
+		return "first"
+	match left():
+		1: return "last"
+		2: return "two"
+	return "many"
+
+
+## How the lead who just died fell, from their world's record.
+func how_they_fell() -> String:
+	var how: Dictionary = _data.get("how", {})
+	var floor_reached := int(_dead_world.get("floor", 0))
+	var killer := str(_dead_world.get("killer", "")).strip_edges().to_lower()
+	if floor_reached > 0:
+		return str(how.get("floor", "on floor {floor} of the Tower")).format({"floor": floor_reached})
+	if killer != "":
+		var a_killer := ("an " if killer.left(1) in ["a", "e", "i", "o", "u"] else "a ") + killer
+		return str(how.get("killer", "on the road, to {a_killer}")).format({"a_killer": a_killer, "killer": killer})
+	return str(how.get("none", "before they ever reached the Tower"))
+
+
+## Everything a line can name.
+func fill() -> Dictionary:
+	var count := left()
+	var gone := _fallen.size()
+	return {
+		"other": other_name(), "dead": other_name(), "how": how_they_fell(),
+		"left": _word(count), "Left": _word(count).capitalize(),
+		"fallen": _word(gone), "Fallen": _word(gone).capitalize(),
+		"left_after": _word(count - 1),
+	}
+
+
+static func _word(count: int) -> String:
+	return WORDS[count] if count >= 0 and count < WORDS.size() else str(count)
+
+
 func _ended(wanted: String) -> String:
 	var sixteen: Array = _data.get("sixteen", [])
 	if wanted != _lead and sixteen.has(wanted):
@@ -92,7 +177,8 @@ func _ended(wanted: String) -> String:
 
 ## The name a line uses for whoever's world is seen ending.
 func other_name() -> String:
-	return str(Database.unit_template(_other).get("display_name", _other.capitalize()))
+	var named := str(_dead_world.get("name", "")) if str(_dead_world.get("hero", "")) == _other else ""
+	return named if named != "" else str(Database.unit_template(_other).get("display_name", _other.capitalize()))
 
 
 static func _texture(path: String) -> Texture2D:
@@ -178,7 +264,7 @@ func line_now() -> Array:
 		return ["", 0.0]
 	var each := float(current().get("time", 6.0)) / float(lines.size())
 	var at := mini(int(elapsed / each), lines.size() - 1)
-	return [str(lines[at]).format({"other": other_name()}), clampf((elapsed - each * at) / each, 0.0, 1.0), each]
+	return [str(lines[at]).format(fill()), clampf((elapsed - each * at) / each, 0.0, 1.0), each]
 
 
 func _show_line() -> void:
@@ -322,6 +408,10 @@ func _draw_sixteen(view: Vector2, p: float) -> void:
 	var spots := _ring(view, heroes.size())
 	var lit := int(p * float(heroes.size()) * 1.25)
 	for i in heroes.size():
+		# The fallen stand where they stood, grey, and never light.
+		if _fallen.has(str(heroes[i])):
+			_sprite("sixteen:" + str(heroes[i]), spots[i] + Vector2(0, 26), view.y * 0.11, Color(GHOST, 0.3))
+			continue
 		var on := i < lit
 		var strength := 1.0 if on else 0.18
 		_glow(spots[i] + Vector2(0, -6), 26.0, GOLD, 0.35 * strength)
@@ -348,7 +438,9 @@ func _draw_worlds(view: Vector2, p: float) -> void:
 			continue
 		# Near the end every world but one dims: only one will be left.
 		var fade := 1.0 if i == 0 else clampf(1.0 - (p - 0.62) / 0.3, 0.25, 1.0)
-		_globe(spots[i], minf(view.x, view.y) * 0.04, fade)
+		# The fallen's worlds are dark from the start; the first is always the one still lit.
+		var dark := 1.0 if i > 0 and i <= _fallen.size() else 0.0
+		_globe(spots[i], minf(view.x, view.y) * 0.04, fade, dark)
 
 
 ## One of the other worlds ending (D99): its lead stands on it, and it goes
@@ -357,6 +449,10 @@ func _draw_ending(view: Vector2, p: float) -> void:
 	_draw_stars(view, 0.5 * (1.0 - p * 0.6))
 	var at := view * Vector2(0.5, 0.46)
 	var radius := minf(view.x, view.y) * 0.17
+	# Behind it, the worlds that went before, already dark.
+	for k in maxi(0, _fallen.size() - 1):
+		var angle := TAU * float(k) / 15.0 - PI * 0.5
+		_globe(at + Vector2(cos(angle) * radius * 2.6, sin(angle) * radius * 1.7), radius * 0.22, 0.7, 1.0)
 	var dark := clampf((p - 0.3) / 0.45, 0.0, 1.0)
 	var gone := clampf((p - 0.8) / 0.2, 0.0, 1.0)
 	_globe(at, radius, 1.0 - gone * 0.85, dark)
@@ -547,6 +643,9 @@ func _draw_foe(view: Vector2, p: float) -> void:
 
 func _draw_end(view: Vector2, p: float) -> void:
 	_draw_stars(view, 0.6)
+	if stage() == "last":
+		_draw_last_fire(view, p)
+		return
 	var mine := view * Vector2(0.3, 0.42)
 	var theirs := view * Vector2(0.74, 0.42)
 	var radius := minf(view.x, view.y) * 0.12
@@ -561,7 +660,23 @@ func _draw_end(view: Vector2, p: float) -> void:
 		var glow := 0.6 + 0.2 * sin(clock * 9.0)
 		_glow(fire + Vector2(0, -14), 40.0, EMBER, glow)
 		_sprite("fire", fire, view.y * 0.08)
-		_sprite("sixteen:" + _lead, fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55))
+		# On the first life it is you who would wait there; after, the one who just fell does.
+		var ghost := _lead if _fallen.is_empty() else _other
+		_sprite("sixteen:" + ghost, fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55))
+
+
+## The last of the sixteen: no world after this one, and every one of the
+## fallen at the fire.
+func _draw_last_fire(view: Vector2, p: float) -> void:
+	var fire := Vector2(view.x * 0.5, view.y * 0.66)
+	_glow(fire + Vector2(0, -14), 60.0, EMBER, 0.6 + 0.2 * sin(clock * 9.0))
+	_sprite("fire", fire, view.y * 0.1)
+	var shown := clampf(p * 1.6, 0.0, 1.0)
+	for k in _fallen.size():
+		var angle := PI + PI * float(k) / maxf(1.0, float(_fallen.size() - 1))
+		var at := fire + Vector2(cos(angle) * view.x * 0.3, sin(angle) * view.y * 0.22 + 10.0)
+		var alpha := 0.55 * clampf(shown * float(_fallen.size()) - float(k), 0.0, 1.0)
+		_sprite("sixteen:" + str(_fallen[k]), at, view.y * 0.1, Color(GHOST, alpha))
 
 
 func _draw_title(view: Vector2, p: float) -> void:

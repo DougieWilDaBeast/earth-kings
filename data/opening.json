@@ -7,6 +7,36 @@
 	"foe": "ogre",
 	"_doc_ending": "`ending` is the one of the sixteen whose world is seen ending in the `ending` shot, so a new player sees the hook before they live it (D99, D101); {other} in a line is their name. When they are the lead, the next of the sixteen stands in.",
 	"ending": "bellona",
+	"_doc_replay": "Every life after the first plays the opening again, after the quiz and before the landing (Will, 2026-10-15), with a slight change for who is left, until only one is. It plays only the `replay` shots: the story, not the how-to-play shots the player has already seen (call AC, about 55 s). The fallen stand grey in the ring and their worlds are dark; the `ending` shot shows the lead who has just died, not `ending`. `by_left` swaps whole shots' lines by how many of the sixteen are still alive: `many` (three or more), `two` and `last`. In those lines {Left} and {left} are how many are alive (in words, capital or not), {Fallen} how many have fallen, {left_after} how many would be left after the new lead, {dead} the lead who just died and {how} how they fell (`how`). Inferred: the words.",
+	"replay": ["void", "sixteen", "worlds", "ending", "fall", "impact", "end", "title"],
+	"how": {
+		"floor": "on floor {floor} of the Tower",
+		"killer": "on the road, to {a_killer}",
+		"none": "before they ever reached the Tower"
+	},
+	"by_left": {
+		"many": {
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. {Left} are still standing."],
+			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "{Fallen} of the worlds have already gone dark."],
+			"ending": ["In another world, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"end": ["If you fall, your world ends with you.", "One of the {left_after} after you goes on, from the beginning.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
+		},
+		"two": {
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. Two are still standing."],
+			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fourteen worlds are dark. Two are left, and only one will be there at the end."],
+			"ending": ["In another world, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"impact": ["Of the two left, one is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
+			"end": ["If you fall, your world ends with you.", "The last of you goes on alone.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
+		},
+		"last": {
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. One is still standing."],
+			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fifteen worlds are dark. This is the last."],
+			"ending": ["In the last world but this one, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"impact": ["The last of them is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
+			"end": ["There is nobody after you.", "If you fall, the sixteen are finished.", "Every one of the fallen is waiting at the fire."],
+			"title": ["The last standing quest: Ascend to heaven."]
+		}
+	},
 	"shots": [
 		{
 			"shot": "void",

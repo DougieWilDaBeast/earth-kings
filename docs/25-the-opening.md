@@ -4,8 +4,20 @@
 incorporates everything that we have discussed as how we want the game to be".
 A **New Game** plays it once the lead is known (Atlas, the first life, [D106](06-decisions.md); later
 in the temper quiz or from _Show me all sixteen_), and the lead is the one seen landing and waiting at the fire; then the run
-begins on the landing in the world (`data/fall.json` → `landing`) as before. The next world after a
-death, and the tutorial, do not play it.
+begins on the landing in the world (`data/fall.json` → `landing`) as before. The tutorial does not
+play it.
+
+**Every life after the first plays it again** ([D135](06-decisions.md)): after a death the quiz
+picks the next lead, and the opening plays before they land, a little changed for who is left, until
+only one of the sixteen is. It plays only the story shots (`replay` in `opening.json`: void,
+sixteen, worlds, ending, fall, impact, end and title, about 55 s); the how-to-play shots were seen
+on the first life. The fallen stand grey in the ring and never light; their worlds are dark in the
+worlds shot; the ending shot shows the lead who has just died, with the worlds before theirs dark
+behind it, and says how they fell (on which floor, or to what on the road), from the record of the
+sixteen (`src/chronicle/sixteen.gd`). `by_left` swaps whole shots' lines for three stages: many left
+("Fifteen are still standing"), two left ("Of the two left, one is you") and the last ("There is
+nobody after you", every fallen lead at the fire, "The last standing quest"). The words are
+**Inferred**.
 
 - **Words and cast:** `data/opening.json`. Rewrite any line there; no code needed. `time` is how
   long a shot holds, shared evenly between its lines. `ending` names whose world is seen ending in
@@ -17,7 +29,8 @@ death, and the tutorial, do not play it.
   ninety seconds if left alone.
 - **Tested** in `tests/wishlist_smoke_test.gd` (`_check_opening`): every shot can be drawn,
   everyone in it has a sprite, the lead it is handed is the one who falls, it ends on its own and starts the run, Esc skips, and
-  the quiz plays it only after a New Game.
+  the quiz plays it only after a New Game; a second, a two-left and a last life play the replay
+  shots with the right count, the right dead lead and how they fell (`_check_opening_again`).
 
 ## The shots
 

@@ -7,7 +7,7 @@ Needs Pillow (`pip install pillow`), like tools/draw_road.py.
 
 Stormreach's gate ward (data/areas/city.json) and its streets (city_streets.json) were paved in the
 battle ground's ornate cream, gold and blue flags, the floor D133 took out of the Tower's yard: loud
-enough that the stalls, the people and the way on were hard to pick out. D135 draws the city's
+enough that the stalls, the people and the way on were hard to pick out. D136 draws the city's
 paving in house from the yard's own flags (tools/draw_yard.py), as a sheet in the 24 x 8 layout
 every PixelLab "godot" sheet shares (src/area/tile_forge.gd):
 
@@ -64,6 +64,8 @@ def lay_gate(path: Path) -> None:
     text = path.read_text()
     text = text.replace('    "stone",\n', '    "street_paving",\n', 1)
     text = text.replace('"s": "stone"', '"s": "street_paving"', 1)
+    # The paving runs on up to the ring of stones, so the way in is the way the stone goes (D137).
+    text = text.replace('"mmmmmA.....Ammmmm"', '"mmmmmA.sss.Ammmmm"', 1)
     path.write_text(text)
 
 
