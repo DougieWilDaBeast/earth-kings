@@ -160,8 +160,9 @@ each, each ending playable:
    the next and only floor 5 sends the party out; a path to choose or a power to take no longer
    hides the Tower's door (Ewan's lock-out after floor 2); walking away from a gate between its
    floors walks out of it. `tests/climb_smoke_test` plays Atlas from the yard door up the floors,
-   out to a gate and back, and through two packs fought one after the other. Planned: batch 2,
-   gates opened with E and the wagon and toll hidden (D116, D121); batch 3, the play-test's small
+   out to a gate and back, and through two packs fought one after the other. Batch 2 — built
+   ([D116](06-decisions.md), [D121](06-decisions.md)): a gate is gone into with E beside it, never by
+   walking onto it, and the cart, burnt wagon and toll rope are hidden in the First Hour. Planned: batch 3, the play-test's small
    fixes, at most five boxes in the crater, and lag (D122); then Ewan plays to chapter one.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
@@ -378,7 +379,8 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
   counted out once this lead has climbed as high as they did
 - Gates cannot be left until beaten ✅ (built 2026-09-24: once a floor is won, any step is the next
   floor, and it survives a save). Since [D115](06-decisions.md) a step away between floors walks
-  out, the floors won kept, and walking back in goes on with the next; objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
+  out, the floors won kept, and E at it goes on with the next ([D116](06-decisions.md): a gate is
+  entered with E, not by walking onto it); objectives inside ✅ (built 2026-10-01: rout, slay the keeper,
   reach the heart — [D45](06-decisions.md)); timed ones wait on playtest (agenda item 14)
 - The Adventurers Guild in settlements ✅ (built 2026-10-01: a hall in every standing keep and
   village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and

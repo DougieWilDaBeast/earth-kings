@@ -420,9 +420,17 @@ func _check_gate() -> void:
 	if not _step_onto(gate.cell):
 		GameState.difficulty = setting
 		return
+	# D116: walking onto the gate is not going in; E beside it is.
+	_expect(_last_battle_request().is_empty(), "walking onto an open gate started its fight without being asked")
+	var asked: Array = _scene._actions_here().filter(func(a: Dictionary) -> bool:
+		return (a["call"] as Callable).is_valid() and (a["call"] as Callable).get_method() == "_enter_gate_here")
+	_expect(asked.size() == 1 and str(asked[0]["prompt"]).contains("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
+		"standing at an open gate does not offer to enter it")
+	_scene._busy = false
+	_scene._enter_gate_here()
 
 	var fight := _last_battle_request()
-	_expect(not fight.is_empty(), "walking into an open gate started no fight")
+	_expect(not fight.is_empty(), "E at an open gate started no fight")
 	if not fight.is_empty():
 		var meeting: Dictionary = fight["payload"]["encounter"]
 		_expect(meeting["kind"] == Encounter.GATE, "the gate started a %s fight" % meeting["kind"])
@@ -442,6 +450,8 @@ func _check_gate() -> void:
 	var floors := gate.floors()
 	if not _step_onto(gate.cell):
 		return
+	_scene._busy = false
+	_scene._enter_gate_here()
 	for floor_number in floors:
 		_scene._settle_up(true)
 		if floor_number >= floors - 1:
@@ -457,13 +467,16 @@ func _check_gate() -> void:
 		_expect(_step_onto(gate.cell), "could not walk out of the gate and back in")
 		_expect(GameState.world.player_cell == gate.cell, "walking back into the gate left the party outside it")
 		_expect(gate.depth() == floor_number + 1, "walking out of the gate lost the floors won")
-		_expect(not _last_battle_request().is_empty(), "walking back into the gate did not start the next floor")
+		_expect(_last_battle_request().is_empty(), "walking back onto the gate forced its next floor")
+		_scene._busy = false
+		_scene._enter_gate_here()
+		_expect(not _last_battle_request().is_empty(), "E at the gate did not start the next floor")
 	_expect(GameState.delving.is_empty(), "still held inside a gate that has been shut")
 
 	_expect(not gate.open, "the gate is still open after being cleared")
 	_expect(gate.cleared, "the gate was not marked cleared")
 	_expect(GameState.gold > gold_before, "clearing a %s-rank gate paid nothing" % gate.rank)
-	print("gate: %s is %d floors deep, walked out of once, then walked out of and back into between floors and shut for %d gold" % [
+	print("gate: %s is %d floors deep, walked out of once, then walked out of and back into between floors, entered each time with E and shut for %d gold" % [
 		gate.label(), floors, GameState.gold - gold_before
 	])
 
