@@ -47,6 +47,84 @@
   ],
   "props": [
     {
+      "art": "tower_inside/stair_up",
+      "cell": [
+        12,
+        1
+      ]
+    },
+    {
+      "art": "tower_inside/stair_up",
+      "cell": [
+        13,
+        1
+      ],
+      "flip": true
+    },
+    {
+      "art": "tower_inside/rune_a",
+      "cell": [
+        11,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_b",
+      "cell": [
+        14,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_c",
+      "cell": [
+        1,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_a",
+      "cell": [
+        6,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_b",
+      "cell": [
+        19,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_c",
+      "cell": [
+        24,
+        0
+      ]
+    },
+    {
+      "art": "tower_inside/rune_a",
+      "cell": [
+        3,
+        6
+      ]
+    },
+    {
+      "art": "tower_inside/rune_b",
+      "cell": [
+        21,
+        6
+      ]
+    },
+    {
+      "art": "tower_inside/rune_c",
+      "cell": [
+        8,
+        10
+      ]
+    },
+    {
       "art": "brazier",
       "cell": [
         11,

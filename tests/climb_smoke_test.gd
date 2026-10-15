@@ -143,8 +143,24 @@ func _up_the_stair(floor: int) -> bool:
 	if on == null:
 		_fail("climb: floor %d never came up; the stair below did not go on to it (on %s)" % [floor, _describe(_current())])
 		return false
+	_floor_is_dressed(on, floor)
 	on.call("_climb_the_stair")
 	return true
+
+
+## A floor shows its stair up and lit runes on its walls (D132).
+func _floor_is_dressed(on: Node, floor: int) -> void:
+	var stair := 0
+	var runes := 0
+	for node in on.find_children("*", "", true, false):
+		if node is AreaProp:
+			var art := str((node as AreaProp).art)
+			if art == "tower_inside/stair_up":
+				stair += 1
+			elif art.begins_with("tower_inside/rune_"):
+				runes += 1
+	_expect(stair == 2, "floor %d: %d halves of the stair up stand on it, not 2" % [floor, stair])
+	_expect(runes >= 4, "floor %d: only %d lit runes on its walls" % [floor, runes])
 
 
 ## The nearest open gate deeper than one floor: walked onto, its first floor won, walked away from.

@@ -152,6 +152,10 @@
     "roadside/cart_stopped": { "kind": "big_furniture", "scale": 1.5, "solid": false, "base": [2, 1] },
     "roadside/wagon_burnt": { "kind": "big_furniture", "scale": 1.5, "solid": false },
     "roadside/toll_rope": { "kind": "fixture", "scale": 1.5, "solid": false, "base": [2, 1] },
+    "tower_inside/stair_up": { "kind": "fixture", "scale": 1.0, "solid": false },
+    "tower_inside/rune_a": { "kind": "fixture", "scale": 1.5, "solid": false },
+    "tower_inside/rune_b": { "kind": "fixture", "scale": 1.5, "solid": false },
+    "tower_inside/rune_c": { "kind": "fixture", "scale": 1.5, "solid": false },
     "village/bench": "furniture",
     "village/planter": "furniture",
 
