@@ -6,6 +6,17 @@
 	],
 	"landmark_chance": 0.22,
 	"edge_band": 3,
+	"scenery": {
+		"_comment": "D130: where things grow, as multiples of each land's density. Trees stand in groves (a smooth field grove_size cells to a bump, scaled by grove_weight) and never beside a path; bushes line the paths; small things gather on cover and at water; rocks on bare ground.",
+		"grove_size": 6.0,
+		"grove_weight": 2.8,
+		"path_bushes": 2.5,
+		"bushes_elsewhere": 0.7,
+		"small_on_cover": 2.5,
+		"small_elsewhere": 0.6,
+		"rocks_on_bare": 2.5,
+		"rocks_elsewhere": 0.6
+	},
 	"biomes": {
 		"grassland": {
 			"name": "grassland",
