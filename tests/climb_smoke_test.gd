@@ -25,6 +25,8 @@ func _ready() -> void:
 	await _two_packs_at_once()
 	_new_run()
 	await _climb_to_the_top()
+	_new_run()
+	await _auto_climbs()
 
 	print("")
 	if _failures.is_empty():
@@ -102,6 +104,18 @@ func _in_by_the_door(when: String) -> bool:
 		_fail("climb: the door did not open onto floor %d %s (on %s)" % [next, when, _describe(_current())])
 		return false
 	return true
+
+
+## Auto, switched on inside floor 1, walks to the stair (fighting what it meets) and climbs it, not
+## back out the way in.
+func _auto_climbs() -> void:
+	if not await _in_by_the_door("for Auto"):
+		return
+	Pace.auto = true
+	var up := await _scene_where(func(s: Node) -> bool: return _floor_of(s) == 2 or _is_land(s), PATIENCE * 30)
+	Pace.auto = false
+	if up == null or _floor_of(up) != 2:
+		_fail("climb: Auto on floor 1 did not climb to floor 2 (on %s)" % _describe(_current()))
 
 
 ## Standing at [param floor]'s stair and climbing it.
@@ -262,8 +276,8 @@ func _describe(scene: Node) -> String:
 
 
 ## The scene on screen once [param wanted] says it is the one, or null after [constant PATIENCE].
-func _scene_where(wanted: Callable) -> Node:
-	for i in PATIENCE:
+func _scene_where(wanted: Callable, patience: int = PATIENCE) -> Node:
+	for i in patience:
 		await get_tree().process_frame
 		var scene := _current()
 		if scene != null and scene.is_node_ready() and wanted.call(scene):
