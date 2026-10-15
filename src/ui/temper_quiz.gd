@@ -38,6 +38,8 @@ var boot_payload: Dictionary = {}
 
 ## Temper codes of leads who have died. Their answers are closed.
 var _fallen: PackedStringArray = []
+## Living tempers the quiz does not deal yet: their lead has no chapter one (AQ).
+var _withheld: PackedStringArray = []
 ## Heroes who died as leads, handed on to the roster so it offers only the living.
 var _fallen_heroes: Array = []
 
@@ -84,6 +86,7 @@ func _ready() -> void:
 	_seed_field.tooltip_text = SEED_TIP
 	for code in boot_payload.get("fallen", []):
 		_fallen.append(str(code))
+	_withheld = FirstHour.unwritten_tempers(_fallen)
 	_fallen_heroes = boot_payload.get("fallen_heroes", [])
 	_begin_button.pressed.connect(_begin)
 	_again_button.pressed.connect(_start_over)
@@ -160,7 +163,7 @@ func _ask_next() -> void:
 ## in axis order, so the answers so far are a prefix of every code they allow.
 func leads_to_the_living(prefix: String) -> bool:
 	for code: String in Database.tempers.get("types", {}):
-		if code.begins_with(prefix) and not _fallen.has(code):
+		if code.begins_with(prefix) and not _fallen.has(code) and not _withheld.has(code):
 			return true
 	return false
 

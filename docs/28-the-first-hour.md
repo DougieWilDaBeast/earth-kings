@@ -43,7 +43,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
 9. **A death.** The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
-   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)), and the opening plays again for who is
+   quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)); while some leads have no
+   chapter one yet, it deals only those who do ([D145](06-decisions.md)), and the opening plays again for who is
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even: foes two levels down, half healed
@@ -94,7 +95,8 @@ The rule the creatives' meeting set (C1, [D151](06-decisions.md)), for any rewri
 - Each voice behind a blank face is that lead's own person, not one hidden hand (call AI).
 
 A new chapter one is a `memories.json` entry, a line in `fall.json` (and its name added to the shared
-last line's `unless`), and an art request.
+last line's `unless`), and an art request. The quiz deals only leads who have a chapter one ([D145](06-decisions.md)); with all
+sixteen written, it deals every lead again.
 
 ## How it was tested
 
