@@ -93,6 +93,7 @@ const GROUND_ACTS := {
 	"_fight_for_captive": "captive_rescue",
 	"_hire_here": "site_hire",
 	"_buy_here": "site_buy",
+	"_next_ware": KEY_Z,
 	"_errands_here": "site_errands",
 	"_buy_grimoire_here": "site_grimoire",
 	"_open_guild": "site_guild",
@@ -1197,14 +1198,19 @@ func _doings_here() -> Array[Dictionary]:
 					offer["display_name"], Market.asking_hire_cost(site, world, offer)
 				], _hire_here
 			))
-		var goods := Market.wares(site)
-		if not goods.is_empty():
-			var ware_name: String = Database.equipment_piece(goods[0]).get("display_name", goods[0])
+		var ware := Market.in_hand(site)
+		if ware != "":
+			var ware_name: String = Database.equipment_piece(ware).get("display_name", ware)
 			parts.append(_doable(
-				"%s to buy %s (%d gold)" % [_key("site_buy"), ware_name, Market.asking_price(site, world, goods[0])],
-				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, goods[0])],
+				"%s to buy %s (%d gold)" % [_key("site_buy"), ware_name, Market.asking_price(site, world, ware)],
+				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, ware)],
 				_buy_here
 			))
+			var shown := Market.on_show(site).size()
+			if shown > 1:
+				parts.append(_doable(
+					"%s for the next of %d wares" % [_key("", "Z"), shown], "Next ware", _next_ware
+				))
 		if not FirstHour.hides("grimoires") and not Grimoire.offer(site).is_empty():
 			parts.append(_doable(
 				"%s for the book, unread (%d gold)" % [_key("site_grimoire"), Grimoire.price(site)],
@@ -1477,6 +1483,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_B:
 			get_viewport().set_input_as_handled()
 			_buy_here()
+		KEY_Z:
+			get_viewport().set_input_as_handled()
+			_next_ware()
 		KEY_J:
 			get_viewport().set_input_as_handled()
 			_errands_here()
@@ -1880,17 +1889,24 @@ func _buy_here() -> void:
 	var site := world.site_at(world.player_cell)
 	if site == null:
 		return
-	var goods := Market.wares(site)
-	if goods.is_empty():
+	var equipment_id := Market.in_hand(site)
+	if equipment_id == "":
 		return
-
-	var equipment_id: String = goods[0]
 	var name: String = Database.equipment_piece(equipment_id).get("display_name", equipment_id)
 	if not Market.buy(site, equipment_id, GameState.roster.player(), world):
 		_note("You cannot afford the %s." % name)
 		return
 	_note("%s takes up the %s." % [GameState.roster.player().display_name, name])
 	_refresh()
+	_say_what_can_be_done()
+
+
+## D146: turn to the next of the wares laid out here.
+func _next_ware() -> void:
+	var site := world.site_at(world.player_cell)
+	if site == null or Market.on_show(site).size() < 2:
+		return
+	Market.next_ware(site)
 	_say_what_can_be_done()
 
 
