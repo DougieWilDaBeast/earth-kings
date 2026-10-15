@@ -56,7 +56,7 @@
 			"id": "gate",
 			"when": "gate",
 			"title": "Inside a gate",
-			"text": "Once you are in there is no walking out. Win a floor and every step is the next one, until the gate is beaten or you are. A gate left open too long breaks."
+			"text": "E beside a gate takes you in. Win a floor and you can walk away with it won, or press E again for the next, until the gate is shut. A gate left open too long breaks."
 		},
 		{
 			"id": "library",

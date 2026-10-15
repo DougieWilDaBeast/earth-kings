@@ -28,7 +28,7 @@
 			"lines": [
 				"On the map: green dots are villages, grey keeps, blue libraries, tan huts, red gates (a ring means open and spilling), gold is the Tower, and the orange roof is home.",
 				"Walk into a village, keep or hut to rest. H hires whoever is drinking there, B buys the gear on the shelf, J reads the job board, Y opens the Adventurers Guild where there is one.",
-				"A library teaches whoever has not read its book. An open gate is a fight — and once inside there is no walking out until it is beaten or you are.",
+				"A library teaches whoever has not read its book. An open gate is a fight you choose: E beside it goes in, and between its floors you can walk away with the floors you won.",
 				"Home is your own doorstep: nothing camps within sight of it, sleeping there always patches the party up, and U buys a better bed for permanent extra HP.",
 				"Word of what you do travels outward from where you did it, about a tile every fourteen steps, and sets what towns call you and what they charge."
 			]

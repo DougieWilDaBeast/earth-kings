@@ -144,9 +144,20 @@ func _out_to_a_gate_and_back() -> void:
 		return
 	var into := gate.cell - beside
 	land.call("_ask_the_continent", { "step": [into.x, into.y] })
+	# Walking onto the gate is not going in (D116): the land stays, and E beside it is offered.
+	await _frames(30)
+	_expect(_is_land(_current()), "gate: walking onto %s started its fight without being asked (on %s)" % [gate.display_name, _describe(_current())])
+	land = _current()
+	var enter := ""
+	for each: Dictionary in land.get("_acts"):
+		if str(each.get("act", "")) == "_enter_gate_here":
+			enter = str(each.get("prompt", ""))
+	_expect(enter.ends_with("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
+		"gate: standing at %s does not offer to enter it (offers %s)" % [gate.display_name, land.get("_acts")])
+	land.call("_ask_the_continent", { "act": "_enter_gate_here" })
 	var fight := await _scene_where(func(s: Node) -> bool: return s.get_script() == preload("res://src/skirmish/skirmish.gd"))
 	if fight == null:
-		_fail("gate: walking onto %s started no fight (on %s)" % [gate.display_name, _describe(_current())])
+		_fail("gate: E at %s started no fight (on %s)" % [gate.display_name, _describe(_current())])
 		return
 	# Won, as the fight screen settles it.
 	GameState.set_flag("last_victory", true)

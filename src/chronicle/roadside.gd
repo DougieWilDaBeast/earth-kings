@@ -39,6 +39,10 @@ static func event(event_id: String) -> Dictionary:
 ## town is the town's business, and one on top of the last is not a road, it is
 ## a corridor. Returns the event id, or an empty string.
 static func look(world: World, cell: Vector2i) -> String:
+	# Hidden in the First Hour until its people and cart are drawn (D121): a box that stops you with
+	# nothing on screen, said the same way each time.
+	if FirstHour.hides("roadside"):
+		return ""
 	if escorting(world):
 		return ""
 	if world.steps - world.roadside_at < int(rules().get("rest_steps", 40)):

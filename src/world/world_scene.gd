@@ -88,6 +88,7 @@ const GROUND_ACTS := {
 	"_step_into_the_road": "interact",
 	"_walk_into_site": "interact",
 	"_climb_here": "interact",
+	"_enter_gate_here": "interact",
 	"_ransom_here": "captive_ransom",
 	"_fight_for_captive": "captive_rescue",
 	"_hire_here": "site_hire",
@@ -565,7 +566,7 @@ func _settle_up(won: bool) -> void:
 				for line: String in Spoils.for_gate_floor(world, site, party):
 					_note(line)
 				GameState.delving = [site.cell.x, site.cell.y]
-				_note("Floor %d of %s waits below: walk off it and back on to go down, or come back later." % [
+				_note("Floor %d of %s waits below: E to go down, or walk away and come back later." % [
 					site.depth() + 1, site.display_name
 				])
 			else:
@@ -734,7 +735,10 @@ func _arrive_at(site: Site) -> void:
 		Site.LIBRARY:
 			_read_at(site)
 		Site.GATE:
-			_enter_gate(site)
+			# The gate is gone into when asked for, with E beside it (D116): walking onto its tile, or
+			# back onto it, never starts the fight. A party walking itself came here to go in.
+			if Pace.auto:
+				_enter_gate(site)
 		Site.TOWER:
 			# The Guild's doorkeeper opens the register when spoken to, and the compass points at
 			# him until then (D107; meeting 3: it no longer opens by itself outside the wall).
@@ -869,7 +873,7 @@ func _walk_out_of_the_gate() -> void:
 	GameState.delving = []
 	if site == null or site.kind != Site.GATE or not site.open or site.cleared:
 		return
-	_note("You come back out of %s with %d of %d floors behind you. Walk back in for floor %d." % [
+	_note("You come back out of %s with %d of %d floors behind you. E at it goes on with floor %d." % [
 		site.display_name, site.depth(), site.floors(), site.depth() + 1,
 	])
 
@@ -966,6 +970,13 @@ func _climb_on() -> void:
 	if Chapters.walked_floor_area(world.tower_floor + 1) == "":
 		return
 	_climb(site)
+
+
+## The gate the party stands at, gone into when asked for (D116).
+func _enter_gate_here() -> void:
+	var site := world.site_at(world.player_cell)
+	if site != null and site.kind == Site.GATE and not _busy:
+		_enter_gate(site)
 
 
 ## The Tower's next floor, asked for while standing at its foot.
@@ -1119,6 +1130,11 @@ func _doings_here() -> Array[Dictionary]:
 			))
 		elif site.kind == Site.TOWER and not world.tower_is_topped():
 			parts.append(_telling(Chapters.seal_line(world)))
+		if site.kind == Site.GATE and site.open and not site.cleared:
+			parts.append(_doable(
+				"%s to enter %s (rank %s)" % [_key("interact"), site.display_name, site.rank],
+				"Enter %s" % site.display_name, _enter_gate_here
+			))
 		if site.data.has("ward") and not Ward.is_site_open(site):
 			var ward: Dictionary = site.data.get("ward", {})
 			parts.append(_doable(
