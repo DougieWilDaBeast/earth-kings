@@ -26,6 +26,13 @@ const START := "start"
 const REST := "rest"
 ## A Tower chapter has turned.
 const CHAPTER := "chapter"
+## The First Hour's way-stations, which the gamers asked to be saved at (meeting 3, step 2):
+## walking into a town or the great city,
+const TOWN := "town"
+## opening the Guild's register,
+const GUILD := "guild"
+## and a gate shut.
+const GATE := "gate"
 ## Back on the map from anywhere: a fight, a place, the fire.
 const ROAD := "road"
 ## The player is leaving the run: to the title, or closing the game.

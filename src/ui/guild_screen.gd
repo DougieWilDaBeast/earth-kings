@@ -6,6 +6,7 @@ extends CanvasLayer
 
 const Guild := preload("res://src/chronicle/guild.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 var _root: Control
 var _title: Label
@@ -31,6 +32,8 @@ func open() -> void:
 	if world == null or Guild.hall_at(world, world.player_cell) == null:
 		return
 	_said.text = ""
+	GameState.set_flag(Guild.VISITED)
+	EventBus.safe_point_reached.emit(RunMode.GUILD, "you signed the Guild's register")
 	_root.show()
 	_rebuild()
 	_close_button.grab_focus()

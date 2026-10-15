@@ -12,6 +12,7 @@ extends Control
 const SETTINGS_PATH := "user://settings.cfg"
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 
 ## Left edge of the menu column, and the gap above the logo once it is up.
 const MARGIN_X := 72.0
@@ -429,7 +430,14 @@ func _on_continue_pressed() -> void:
 
 ## A new game plays the opening (docs/25) once the lead is picked: `opening` rides
 ## the quiz and the pick so the lead who falls in it is the one chosen.
+## The first life is always the First Hour's lead (D106): the quiz waits for the next one.
 func _on_new_game_pressed() -> void:
+	var first := FirstHour.first_life()
+	if first != "":
+		GameState.new_game(0, first)
+		EventBus.safe_point_reached.emit(RunMode.START, "you set out")
+		EventBus.request_scene.emit("opening", {"lead": first})
+		return
 	EventBus.request_scene.emit("temper_quiz", {
 		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(), "opening": true,
 	})

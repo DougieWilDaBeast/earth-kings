@@ -10,6 +10,8 @@ extends RefCounted
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
+## Set the first time the Guild's register is opened: the First Hour's Guild leg is done (D107).
+const VISITED := "objective:guild"
 const OPEN := "open"
 const BROKEN := "broken"
 const BREWING := "brewing"

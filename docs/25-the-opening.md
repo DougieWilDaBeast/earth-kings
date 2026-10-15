@@ -2,8 +2,8 @@
 
 **Built 2026-10-12** (on `feat/body-scale`, pushed after its pull request had merged, so it reached the game on 2026-10-14, [D88](06-decisions.md)) at `doug-md`'s request: "a cinematic at the start of a new game that
 incorporates everything that we have discussed as how we want the game to be".
-A **New Game** plays it once the lead is picked (in the temper quiz or from _Show me all
-sixteen_), and the lead picked is the one seen landing and waiting at the fire; then the run
+A **New Game** plays it once the lead is known (Atlas, the first life, [D106](06-decisions.md); later
+in the temper quiz or from _Show me all sixteen_), and the lead is the one seen landing and waiting at the fire; then the run
 begins on the landing in the world (`data/fall.json` → `landing`) as before. The next world after a
 death, and the tutorial, do not play it.
 

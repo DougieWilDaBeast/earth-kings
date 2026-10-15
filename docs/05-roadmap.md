@@ -146,6 +146,15 @@ each, each ending playable:
    **Inferred**) and writes it under _What has come back_ in the journal's Quests page and in the
    annals. Memories live in `data/memories.json`, one list per lead; the buckle is a stand-in prop
    until art request A10 is made.
+8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
+   to Q). A new player is Atlas (the quiz, four questions with sixteen ways through and one lead
+   for each, waits for the next life) on the new **First Hour** setting,
+   where a fall is for good; Gentle is now called Story. The death screen has Ascend selected and
+   Reload one step along. Auto stops at the Guild at the Tower's door before the first gate, and the
+   Guild's register opens there by itself; the Tower's door says how to climb; on a floor the compass
+   points at a memory before the stair, and the buckle lies on the way to it. The Tower stands tall
+   on its tile in wall stone, and is seen on the edge of the screen from the crater on, until art
+   A9. Next: `doug-md`'s play-test of the whole hour, then design meeting 3.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

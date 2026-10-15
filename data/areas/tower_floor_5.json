@@ -11,7 +11,7 @@
     "A": "crag"
   },
   "tint": "#9a86a0",
-  "hint": "WASD to walk  \u00b7  the stair up is north, the way down south  \u00b7  the keeper waits by the stair",
+  "hint": "WASD to walk  \u00b7  the stair up is north, past the keeper  \u00b7  something glints to the west",
   "spawn": [
     12,
     15
@@ -63,14 +63,14 @@
     {
       "art": "lamp_globe",
       "cell": [
-        2,
+        10,
         15
       ]
     },
     {
       "art": "lamp_globe",
       "cell": [
-        23,
+        16,
         15
       ]
     }
@@ -86,8 +86,8 @@
       "label": "Three slimes",
       "faction": "",
       "at": [
-        7,
-        11
+        6,
+        3
       ],
       "reach": 2,
       "level": 4,
@@ -109,7 +109,7 @@
         4
       ],
       "reach": 2,
-      "level": 7,
+      "level": 9,
       "held": true,
       "boss": true,
       "lost": "The keeper lets you crawl back down the stair. It does not follow. It does not need to.",
@@ -123,39 +123,32 @@
     "AssssssssssssssssssssssssA",
     "AssssssssssssssssssssssssA",
     "AssssssssssssssssssssssssA",
-    "AssAAssssssssssssssssAAssA",
-    "AssssssssssssssssssssssssA",
-    "AssssssssssssssssssssssssA",
     "AssssssssssssssssssssssssA",
     "AssAAssssssssssssssssAAssA",
     "AssssssssssssssssssssssssA",
-    "AssssssssssssssssssssssssA",
-    "AssssssssssssssssssssssssA",
-    "AssAAssssssssssssssssAAssA",
-    "AssssssssssssssssssssssssA",
-    "AssssssssssssssssssssssssA",
-    "AsssssssssssffsssssssssssA",
+    "AAAAAAAAAAsssssssAAAAAAAAA",
+    "AAAAAAAAAAsssssssAAAAAAAAA",
+    "AssssAAAAAsssssssAAAAAAAAA",
+    "AssssssssssssssssAAAAAAAAA",
+    "AssssssssssssssssAAAAAAAAA",
+    "AssssAAAAAsssssssAAAAAAAAA",
+    "AAAAAAAAAAsssssssAAAAAAAAA",
+    "AAAAAAAAAAsssssssAAAAAAAAA",
+    "AAAAAAAAAAssffsssAAAAAAAAA",
     "AAAAAAAAAAAAffAAAAAAAAAAAA"
   ],
   "dressing": [
-    {"art": "nature/pebble", "cell": [1, 9], "offset": [-7, -7]},
-    {"art": "nature/thistle", "cell": [20, 13], "offset": [11, 2]},
-    {"art": "nature/grass_tuft", "cell": [9, 9], "offset": [0, 4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [12, 2], "offset": [11, 1], "flip": true},
-    {"art": "nature/pebble", "cell": [22, 16], "offset": [4, 6], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [5, 14], "offset": [3, 7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [13, 2], "offset": [4, 5]},
-    {"art": "nature/grass_tuft", "cell": [17, 13], "offset": [9, -6]},
-    {"art": "nature/thistle", "cell": [14, 6], "offset": [-12, 0], "flip": true},
-    {"art": "nature/thistle", "cell": [6, 12], "offset": [14, -2]},
-    {"art": "nature/thistle", "cell": [18, 6], "offset": [-8, -5], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [15, 2], "offset": [-2, -5], "flip": true},
-    {"art": "nature/pebble", "cell": [16, 12], "offset": [-14, 6]},
-    {"art": "nature/grass_tuft", "cell": [5, 12], "offset": [-2, -5]},
-    {"art": "nature/pebble", "cell": [19, 1], "offset": [-11, 5]},
-    {"art": "nature/grass_tuft", "cell": [22, 8], "offset": [11, 7]},
-    {"art": "nature/thistle", "cell": [11, 7], "offset": [-11, -5]},
-    {"art": "nature/snail", "cell": [16, 16], "offset": [5, -2], "flip": true},
-    {"art": "nature/snail", "cell": [9, 13], "offset": [-7, 3], "flip": true}
+    {"art": "nature/pebble", "cell": [15, 8], "offset": [-7, -7]},
+    {"art": "nature/thistle", "cell": [2, 3], "offset": [11, 2]},
+    {"art": "nature/grass_tuft", "cell": [13, 2], "offset": [0, 4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [2, 4], "offset": [11, 1], "flip": true},
+    {"art": "nature/pebble", "cell": [12, 6], "offset": [4, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [16, 7], "offset": [3, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [3, 1], "offset": [4, 5]},
+    {"art": "nature/grass_tuft", "cell": [7, 1], "offset": [9, -6]},
+    {"art": "nature/thistle", "cell": [13, 10], "offset": [-12, 0], "flip": true},
+    {"art": "nature/thistle", "cell": [3, 13], "offset": [14, -2]},
+    {"art": "nature/snail", "cell": [16, 16], "offset": [4, 7]},
+    {"art": "nature/snail", "cell": [10, 9], "offset": [-4, 5]}
   ]
 }

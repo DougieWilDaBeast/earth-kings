@@ -577,6 +577,7 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Guild.on_gate_shut(world, site):
 					_note(line)
+				EventBus.safe_point_reached.emit.call_deferred(RunMode.GATE, "you shut %s" % site.display_name)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
@@ -721,6 +722,7 @@ func _arrive_at(site: Site) -> void:
 	Ledger.record_place(GameState.ledger, site.display_name)
 	if Town.is_settlement(site) and site.kind != Site.HUT and not Town.is_ruined(site):
 		GameState.set_flag(AutoRoad.TOWN_REACHED)
+		EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)
 	# Word travels by the name people gave you, not the one you gave them.
 	_note(Renown.greeting(world, site.cell, Names.known_as(world, GameState.roster.player().display_name)))
 	match site.kind:
@@ -733,6 +735,8 @@ func _arrive_at(site: Site) -> void:
 		Site.GATE:
 			_enter_gate(site)
 		Site.TOWER:
+			# The Guild's doorkeeper opens the register when spoken to, and the compass points at
+			# him until then (D107; meeting 3: it no longer opens by itself outside the wall).
 			# Standing at the Tower's foot is not going in (D95): the stair is
 			# climbed when asked for. A party walking itself came here to climb.
 			# A floor that is walked is walked by hand: Auto stops at the door (D102).

@@ -6,7 +6,7 @@ extends RefCounted
 ## a setting can be changed mid-run and nothing has to be rebuilt. The setting
 ## itself lives on [GameState] so it travels with the save.
 
-const DEFAULT := "gentle"
+const DEFAULT := "first_hour"
 
 ## Dials, and what they mean when nothing is set.
 const NEUTRAL := {

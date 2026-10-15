@@ -38,13 +38,6 @@
   "spots": [
     {
       "cell": [
-        15,
-        7
-      ],
-      "line": "The stair. It goes up further than the building appears to."
-    },
-    {
-      "cell": [
         11,
         8
       ],
@@ -94,6 +87,12 @@
     }
   ],
   "props": [
+    {
+      "art": "walls/stone_tower",
+      "cell": [14, 5],
+      "solid": false,
+      "spire": { "width": 10, "storeys": 22, "step": 5, "build": "stone" }
+    },
     {
       "art": "brazier",
       "cell": [
@@ -158,14 +157,20 @@
       ]
     },
     {
-      "art": "landmark/tower_runes",
+      "art": "landmark/tower_door",
+      "act": "_climb_here",
       "cell": [
         14,
         6
       ],
-      "name": "the Tower",
+      "name": "the Tower's door",
       "line": "It does not end. The rock it stands on is the Tower's own foot, wider than the city, and the door in it is the only door. The runes pulse, slowly, like something breathing."
     },
+    {"art": "landmark/rune_stone", "cell": [14, 9]},
+    {"art": "landmark/rune_stone", "cell": [14, 11]},
+    {"art": "landmark/rune_stone", "cell": [14, 13]},
+    {"art": "landmark/rune_stone", "cell": [14, 15]},
+    {"art": "landmark/rune_stone", "cell": [14, 17]},
     {
       "art": "landmark/hand_jar",
       "cell": [
@@ -256,14 +261,14 @@
       "name": "a wisp at the stairhead",
       "unit": "feather_wisp",
       "cell": [
-        16,
-        7
+        9,
+        9
       ],
       "facing": [
-        -1,
+        1,
         0
       ],
-      "wander": 3,
+      "wander": 1,
       "chatter": [
         "It drifts down two steps, thinks better of it, and goes back up."
       ]
@@ -317,8 +322,8 @@
     "...AAAAAAAAAAAAAAAAAAAAAAAA...",
     "..AAAAAAAAAAAAAAAAAAAAAAAAAA..",
     "..AAAAAAAAAAAAAAAAAAAAAAAAAA..",
-    "..AAAAAAAAAAAffffAAAAAAAAAAA..",
-    "..ssAAAAAAAAAffffAAAAAAAAAss..",
+    "..AAAAAAAAAAfffffAAAAAAAAAAA..",
+    "..ssAAAAAAAAfffffAAAAAAAAAss..",
     "..sffffffffffffffffffffffffs..",
     "..sffffffffffffffffffffffffs..",
     "..sffffffffffffffffffffffffs..",

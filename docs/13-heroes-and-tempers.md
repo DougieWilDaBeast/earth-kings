@@ -113,16 +113,15 @@ already in the lineage ([16.12](16-lineage/16.12-tower-of-god.md)).
 
 ## The questions
 
-Asked one preference pair at a time, and each pair is settled by majority: with three questions to a
-pair, **best of three**, so one odd answer does not decide a whole letter. Once a letter has the
-majority, that pair's last question is skipped, so the quiz runs eight to twelve questions. The
-questions live in `data/tempers.json` under `quiz` and are asked by `src/ui/temper_quiz.gd`
-([D80](06-decisions.md)).
+Four questions, one per preference pair, two answers each: sixteen combinations of answers, and
+each names a different lead ([D110](06-decisions.md)). The questions live in `data/tempers.json`
+under `quiz` and are asked by `src/ui/temper_quiz.gd` ([D80](06-decisions.md)). The code can still
+settle a pair by majority if more than one question is written for it, but D110 keeps it to one.
 
-**Wanted from `dougie`: the twelve questions.** `doug-md` asked on 2026-10-13 for the quiz to use the
-questions the founders came up with for choosing a character by personality and choices. They are
-not written down anywhere in the repo yet, so the game still asks the four drafts below, one per
-pair. What is needed, three per pair:
+**Wanted from `dougie`: the founders' four questions.** `doug-md` asked on 2026-10-13 for the quiz to
+use the questions the founders came up with for choosing a character by personality and choices.
+They are not written down anywhere in the repo yet, so the game still asks the four drafts below,
+one per pair. What is needed, one per pair:
 
 - **E / I** — where the thinking happens: with others, or alone
 - **S / N** — what gets trusted: what is in front of you, or the shape of the thing
@@ -162,7 +161,9 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 
 ## The screen
 
-`New Game` goes to `temper_quiz`, not to the picker. The quiz asks its questions over the falling sky
+`New Game` starts as Atlas while no world has ended yet ([D106](06-decisions.md),
+`data/world_rules.json` → `first_hour.first_life`); after that it goes to `temper_quiz`, not to the picker. The quiz is four questions, one per pair, two answers each: sixteen ways
+through, each naming a different lead ([D110](06-decisions.md)). The quiz asks its questions over the falling sky
 of the start screen, four marks at the top lighting as each pair is settled, then reveals
 the character: portrait, name, title, temper and code, warband, whatever authored history has been
 cast on them, and their stats.
