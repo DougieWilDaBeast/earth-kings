@@ -172,8 +172,9 @@ each, each ending playable:
 10. The in-house art studio ([D123](06-decisions.md)), one pull request each. The road — built
    ([D126](06-decisions.md)): a cobble road on the land from the crater through the great city and
    the first gate to the Tower. Biome edges — built ([D128](06-decisions.md)): two lands meet in a
-   ragged band, not on the tile's straight edge. Planned: floors that read as a Tower, scenery placed
-   by rule, the wagon.
+   ragged band, not on the tile's straight edge. Tower floors — built ([D129](06-decisions.md)):
+   flagstones, masonry walls and a runner instead of rock and grass. Planned: scenery placed by
+   rule, the wagon.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

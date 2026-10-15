@@ -1,14 +1,14 @@
 {
   "display_name": "floor 1 of the Tower",
   "layers": [
-    "flagstone",
-    "stone",
-    "crag"
+    "tower_slab",
+    "tower_runner",
+    "tower_wall"
   ],
   "legend": {
-    "s": "stone",
-    "f": "flagstone",
-    "A": "crag"
+    "s": "tower_slab",
+    "f": "tower_runner",
+    "A": "tower_wall"
   },
   "tint": "#8f8aa8",
   "hint": "WASD to walk  \u00b7  the stair up is north, at the end of the hall",
@@ -134,26 +134,18 @@
     "AAAAAAAAAAAAffAAAAAAAAAAAA"
   ],
   "dressing": [
-    {"art": "nature/pebble", "cell": [12, 4], "offset": [8, 2], "flip": true},
-    {"art": "nature/thistle", "cell": [5, 15], "offset": [7, -1], "flip": true},
-    {"art": "nature/pebble", "cell": [19, 16], "offset": [2, -2]},
-    {"art": "nature/pebble", "cell": [9, 2], "offset": [-3, -3]},
-    {"art": "nature/pebble", "cell": [22, 14], "offset": [-13, -2], "flip": true},
-    {"art": "nature/pebble", "cell": [5, 7], "offset": [4, -4], "flip": true},
-    {"art": "nature/pebble", "cell": [3, 12], "offset": [-11, -4], "flip": true},
-    {"art": "nature/pebble", "cell": [18, 15], "offset": [-11, -1]},
-    {"art": "nature/thistle", "cell": [4, 4], "offset": [-2, -4], "flip": true},
-    {"art": "nature/pebble", "cell": [18, 16], "offset": [-1, -4], "flip": true},
-    {"art": "nature/pebble", "cell": [17, 13], "offset": [-7, 0], "flip": true},
-    {"art": "nature/thistle", "cell": [4, 15], "offset": [-1, 2]},
-    {"art": "nature/grass_tuft", "cell": [12, 6], "offset": [4, -1], "flip": true},
-    {"art": "nature/pebble", "cell": [21, 9], "offset": [8, -4]},
-    {"art": "nature/grass_tuft", "cell": [2, 6], "offset": [-14, 0], "flip": true},
-    {"art": "nature/thistle", "cell": [15, 10], "offset": [-1, 4]},
-    {"art": "nature/pebble", "cell": [2, 2], "offset": [-7, 4], "flip": true},
-    {"art": "nature/thistle", "cell": [5, 14], "offset": [0, 5]},
-    {"art": "nature/pebble", "cell": [16, 2], "offset": [8, -4]},
-    {"art": "nature/spider", "cell": [20, 6], "offset": [7, 5]},
-    {"art": "nature/spider", "cell": [22, 5], "offset": [-9, 1], "flip": true}
+    {"art": "nature/pebble", "cell": [20, 10], "offset": [7, -1]},
+    {"art": "nature/pebble", "cell": [3, 2], "offset": [0, 5]},
+    {"art": "nature/pebble", "cell": [22, 10], "offset": [-3, -3]},
+    {"art": "nature/pebble", "cell": [1, 7], "offset": [-11, -4], "flip": true},
+    {"art": "nature/pebble", "cell": [3, 1], "offset": [-11, 3], "flip": true},
+    {"art": "nature/pebble", "cell": [16, 7], "offset": [-7, 0], "flip": true},
+    {"art": "nature/pebble", "cell": [6, 10], "offset": [-3, 3]},
+    {"art": "nature/pebble", "cell": [15, 1], "offset": [-8, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [1, 5], "offset": [-4, -7], "flip": true},
+    {"art": "nature/pebble", "cell": [20, 7], "offset": [-7, 4], "flip": true},
+    {"art": "nature/pebble", "cell": [21, 3], "offset": [0, 5]},
+    {"art": "nature/pebble", "cell": [22, 2], "offset": [8, -4]},
+    {"art": "nature/spider", "cell": [20, 6], "offset": [-10, -7]}
   ]
 }

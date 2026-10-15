@@ -1,14 +1,14 @@
 {
   "display_name": "floor 2 of the Tower",
   "layers": [
-    "flagstone",
-    "stone",
-    "crag"
+    "tower_slab",
+    "tower_runner",
+    "tower_wall"
   ],
   "legend": {
-    "s": "stone",
-    "f": "flagstone",
-    "A": "crag"
+    "s": "tower_slab",
+    "f": "tower_runner",
+    "A": "tower_wall"
   },
   "tint": "#8f8aa8",
   "hint": "WASD to walk  \u00b7  the stair up is north, round the far side",
@@ -135,17 +135,10 @@
   ],
   "dressing": [
     {"art": "nature/pebble", "cell": [3, 11], "offset": [-4, -5]},
-    {"art": "nature/thistle", "cell": [21, 13], "offset": [10, -6], "flip": true},
-    {"art": "nature/pebble", "cell": [5, 2], "offset": [-7, 1], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [4, 5], "offset": [-3, -6]},
-    {"art": "nature/pebble", "cell": [3, 6], "offset": [12, 5]},
-    {"art": "nature/thistle", "cell": [2, 14], "offset": [9, 6]},
-    {"art": "nature/pebble", "cell": [24, 5], "offset": [6, 5]},
-    {"art": "nature/thistle", "cell": [1, 5], "offset": [0, 1], "flip": true},
-    {"art": "nature/pebble", "cell": [10, 16], "offset": [4, 4], "flip": true},
-    {"art": "nature/thistle", "cell": [24, 9], "offset": [-8, 1]},
-    {"art": "nature/pebble", "cell": [7, 2], "offset": [8, 2]},
-    {"art": "nature/spider", "cell": [18, 1], "offset": [-12, -6]},
-    {"art": "nature/snail", "cell": [18, 15], "offset": [-14, -4]}
+    {"art": "nature/pebble", "cell": [21, 13], "offset": [10, -6], "flip": true},
+    {"art": "nature/pebble", "cell": [10, 1], "offset": [7, -5]},
+    {"art": "nature/pebble", "cell": [22, 4], "offset": [-6, -2]},
+    {"art": "nature/pebble", "cell": [21, 12], "offset": [-1, 5], "flip": true},
+    {"art": "nature/spider", "cell": [18, 1], "offset": [8, 2]}
   ]
 }
