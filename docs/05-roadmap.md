@@ -198,11 +198,13 @@ each, each ending playable:
    ([D162](06-decisions.md), five strangers' finding 7); only floors 6 up of the Tower and roadside
    fights still open the fight screen. A phone held upright is laid out tall, the ground
    filling it and text about 12 points ([D163](06-decisions.md), finding 6).
-11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
-   itch since 2026-10-15 20:25; his play log and notes are written up,
-   then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for
-   the founders' material (**planned**). The First Hour as it plays, its play-tests and its builds:
-   [28](28-the-first-hour.md).
+11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one (play-test 3, on
+   `4196128` or the build on itch since 2026-10-16 09:11, `9c64cb3`); five real players, named by the
+   founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
+   Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
+   founders can answer meanwhile, from when the hour is done to the music and Steam, is in
+   [30](30-questions-for-the-founders.md) ([D164](06-decisions.md)). The First Hour as it plays, its
+   play-tests and its builds: [28](28-the-first-hour.md).
 12. The designers' fortnight's changes, one pull request each (`dougie`, 2026-10-15 23:04: "All
    recommended"). The Tower's bestiary and the names pass — built ([D143](06-decisions.md),
    [D144](06-decisions.md)): no copied slimes on floors 1 to 4, one new kind of foe a floor, no

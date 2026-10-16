@@ -145,7 +145,27 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
-| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128`, or `9f1b267` if he began before 20:25 UTC | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)) |
+| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128`, or `9f1b267` if he began before 20:25 UTC | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)). Asked again in [30](30-questions-for-the-founders.md), question 1 |
+| 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
+| 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
+| 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
+| 2026-10-15 23:50 | Five strangers: bot personas, two on PC, three on phones | `4196128` | After the city nobody found the first gate; phone held upright unplayable; a gate's fight opened the old screen; no deaths in 95 minutes ([D161](06-decisions.md), [D162](06-decisions.md), [D163](06-decisions.md)) |
+| planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
+
+## Music the hour still needs
+
+The fan covers are out of every build ([D100](06-decisions.md)), so the hour plays on Ewan's two
+Ableton tracks. The creatives' meeting (C7, 2026-10-15) asked him for these, in this order; each is
+wired with a `data/music.json` set and a scene key when it arrives. **Planned**, Ewan's to make
+([30](30-questions-for-the-founders.md), question 13).
+1. **The memory theme**: 40 to 60 seconds, one instrument, a short phrase that stops dead on
+   "White.", then a held note. All sixteen chapter ones use it; three or four notes of it for the
+   other cues to borrow.
+2. **The world ending** (the death screen, Ascend): the memory phrase, broken off early.
+3. **The Tower floors**: a slow loop, lower than the road; a layer added a floor if that is easy.
+4. **Stormreach**: busy, the Tower's motif under it.
+5. **The crater**: near silence, wind and fire, the memory phrase once, far off, when Bram speaks.
+6. **The opening's replay**: the film's music thinner as fewer are left (many left, two, the last).
 
 ## Builds on itch.io
 
