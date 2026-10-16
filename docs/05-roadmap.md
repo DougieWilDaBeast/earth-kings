@@ -209,7 +209,8 @@ each, each ending playable:
    ([D146](06-decisions.md)). Two gates at the Guild — built ([D147](06-decisions.md)). A store-page draft and a
    devlog with each itch push — written ([D148](06-decisions.md), [29](29-the-store-page.md)). One of the other
    sixteen's lights going out at the hour's end — built ([D149](06-decisions.md)). Auto pausing for gates,
-   the keeper and stronger bands, and picking up the keepsake before the stair — built ([D150](06-decisions.md)).
+   the keeper and stronger bands, and picking up the keepsake before the stair — built ([D150](06-decisions.md)). After the city the compass points
+   at Greyhollow, with Sennet's line — built ([D161](06-decisions.md), the five strangers' AU).
 13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or
    their world burning if it has ended; the first gate of the first life always does. **Planned**

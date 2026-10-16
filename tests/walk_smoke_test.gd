@@ -1516,11 +1516,21 @@ func _check_first_hour() -> void:
 		_scene._arrive_at(town)
 		_scene._busy = false
 	_expect(GameState.has_flag(AutoRoad.TOWN_REACHED), "standing in a town did not mark the first leg done")
-	# Then the Guild at the Tower's door (D107), where Auto stops, until its register is opened.
-	var guild := AutoRoad.objective(world)
 	var tower := world.tower()
+	# AU (D161, the five strangers): after the town the compass goes straight on to the first gate,
+	# and Sennet said why as the party walked in; the Guild at the door does not hold it up.
+	var to_gate := world.site_at(AutoRoad.objective(world).get("cell", Vector2i(-1, -1)))
+	_expect(to_gate != null and to_gate.kind == Site.GATE, "after the town the compass does not point at a gate: %s" % AutoRoad.objective(world))
+	if to_gate != null:
+		_expect(FirstHour.gate_line(to_gate.display_name).contains(to_gate.display_name), "Sennet's line does not name %s" % to_gate.display_name)
+	# With the rule off, the Guild at the Tower's door (D107), where Auto stops, until its register is opened.
+	var first_hour: Dictionary = Database.world_rules["first_hour"]
+	first_hour["gate_after_city"] = false
+	var guild := AutoRoad.objective(world)
 	_expect(guild.get("cell", Vector2i(-1, -1)) == tower.cell and bool(guild.get("stop", false)),
 		"after the town Auto does not stop at the Guild: %s" % guild)
+	_expect(FirstHour.gate_line("Greyhollow") == "", "Sennet sends the party to a gate with the rule off")
+	first_hour["gate_after_city"] = true
 	GameState.set_flag(Guild.VISITED)
 	var next := AutoRoad.objective(world)
 	var after := world.site_at(next.get("cell", Vector2i(-1, -1)))

@@ -749,7 +749,16 @@ func _celebrate_tower_conquest() -> void:
 func _arrive_at(site: Site) -> void:
 	Ledger.record_place(GameState.ledger, site.display_name)
 	if Town.is_settlement(site) and site.kind != Site.HUT and not Town.is_ruined(site):
+		var first_town := not GameState.has_flag(AutoRoad.TOWN_REACHED)
 		GameState.set_flag(AutoRoad.TOWN_REACHED)
+		# AU (D161): the first time in, Sennet says where the Guild's mark is earned.
+		var next := AutoRoad.objective(world)
+		var gate := world.site_at(next.get("cell", Vector2i(-1, -1))) if first_town else null
+		if gate != null and gate.kind == Site.GATE:
+			var line := FirstHour.gate_line(gate.display_name)
+			if line != "":
+				_note("Sennet: " + line)
+				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line }])
 		EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)
 	# Word travels by the name people gave you, not the one you gave them.
 	_note(Renown.greeting(world, site.cell, Names.known_as(world, GameState.roster.player().display_name)))
