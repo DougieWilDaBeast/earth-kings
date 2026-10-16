@@ -28,6 +28,7 @@ const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const AreaCritter := preload("res://src/area/area_critter.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
@@ -395,10 +396,107 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 		if area.has_point(cell):
 			jobs.append(_put_fire.bind(cell))
 	_admit_the_others_to(tile)
+	_admit_the_road_watch(tile)
 	for person: Dictionary in map.people:
 		if person.get("_tile") == tile:
 			jobs.append(_put_person.bind(person))
+	for each: Dictionary in _life_for(tile):
+		jobs.append(_put_critter.bind(each["art"], each["cell"], int(each["seed"])))
 	return jobs
+
+
+## The birds, butterflies, bees and creeping things of [param tile] ([D168], play-test 3: "Surely
+## it would be some animals, butterflies, bees, bugs"): a few of each, as many as its land carries,
+## half in a place; the same tile always gets the same ones.
+func _life_for(tile: Vector2i) -> Array[Dictionary]:
+	var land := map as Land
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	var out: Array[Dictionary] = []
+	if chunk.is_empty() or str(chunk.get("kind", "")) in ["sea", "rock"]:
+		return out
+	var rules: Dictionary = Database.world_rules.get("life", {})
+	var share := float(Biome.data(str(chunk.get("land", ""))).get("life", 1.0))
+	if str(chunk.get("kind", "")) == "place":
+		share *= 0.5
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
+	var area := land.slot_rect(tile)
+	var per_tile: Dictionary = rules.get("per_tile", {})
+	for kind: String in ["bird", "flutter", "hop", "crawl"]:
+		var arts: Array = rules.get("art", {}).get(kind, [])
+		if arts.is_empty():
+			continue
+		var mean := float(per_tile.get(kind, 0.0)) * share
+		var count := int(floor(mean)) + (1 if rng.randf() < mean - floor(mean) else 0)
+		for i in count:
+			for _try in 12:
+				var cell := area.position + Vector2i(rng.randi_range(1, area.size.x - 2), rng.randi_range(1, area.size.y - 2))
+				if not land.is_walkable(cell) or land.terrain_at(cell) == "road":
+					continue
+				out.append({ "art": str(arts[rng.randi() % arts.size()]), "cell": cell, "seed": rng.randi() })
+				break
+	return out
+
+
+func _put_critter(art: String, cell: Vector2i, seed_: int) -> Node2D:
+	var jitter := Vector2(float(absi(seed_) % 21) - 10.0, float((absi(seed_) / 21) % 17) - 8.0)
+	var critter: Node2D = AreaCritter.make(art, map.centre_of(cell) + jitter, seed_)
+	critter.watching = func() -> Vector2: return _leader.position if is_instance_valid(_leader) else Vector2.INF
+	critter.can_land = _can_stand
+	_actors.add_child(critter)
+	return critter
+
+
+## The city's Watch walking the First Hour's road ([D168], play-test 3: "these roads should be
+## patrolled by guards"): on some of the road's tiles, a pair of them walk the length of it there and
+## back, saying a word at each end, and will talk.
+func _admit_the_road_watch(tile: Vector2i) -> void:
+	var land := map as Land
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if chunk.is_empty() or str(chunk.get("kind", "")) != "ground":
+		return
+	var watch: Dictionary = Database.world_rules.get("life", {}).get("road_watch", {})
+	var units: Array = watch.get("units", [])
+	if units.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "watch"])
+	if rng.randf() >= float(watch.get("chance", 0.5)):
+		return
+	var road: Array[Vector2i] = []
+	var area := land.slot_rect(tile)
+	for y in range(area.position.y, area.end.y):
+		for x in range(area.position.x, area.end.x):
+			var cell := Vector2i(x, y)
+			if land.terrain_at(cell) == "road" and land.is_walkable(cell):
+				road.append(cell)
+	if road.size() < 8:
+		return
+	# The two ends of the road on this tile: the cells furthest apart.
+	var a: Vector2i = road[0]
+	var b: Vector2i = road[-1]
+	for cell: Vector2i in road:
+		if (cell - road[0]).length_squared() > (b - road[0]).length_squared():
+			b = cell
+	for cell: Vector2i in road:
+		if (cell - b).length_squared() > (a - b).length_squared():
+			a = cell
+	var lines: Array = watch.get("lines", [])
+	var stay: Array = watch.get("stay", [2.0, 4.0])
+	for i in 2:
+		var from := a if i == 0 else b
+		var to := b if i == 0 else a
+		map.people.append({
+			"name": str(watch.get("name", "a watchman")), "unit": str(units[i % units.size()]),
+			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "road_watch",
+			"talk": watch.get("talk", {}),
+			"rounds": [
+				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
+				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
+			],
+		})
 
 
 func _put_fire(cell: Vector2i) -> Node:
@@ -828,13 +926,17 @@ func _spawn_props() -> void:
 		_put_ward(cell)
 
 
-func _put_prop(prop: Dictionary) -> AreaProp:
+func _put_prop(prop: Dictionary) -> Node2D:
 	if prop.has("spire"):
 		_put_spire(prop)
 		return null
 	var art: String = prop.get("art", "")
 	if not AreaProp.has_art(art):
 		return null
+	# A bird or a bug laid down as scenery is alive ([D168]), unless it is something to look at.
+	if AreaCritter.life_of(art) != "" and str(prop.get("line", "")) == "" and not prop.has("gold") and not prop.has("item"):
+		var cell: Vector2i = prop["cell"]
+		return _put_critter(art, cell, hash([map.id, cell.x, cell.y, art]))
 	var node := AreaProp.from_entry(prop)
 	node.position = map.centre_of(prop["cell"])
 	# A nudge off the middle of its cell, so a wood does not stand in rows.

@@ -284,6 +284,8 @@ Start a run (not the tutorial) and walk.
 | D5.6 | Open a chest in a village, leave, come back           | It is still open                                                                          |
 | D5.7 | Click open ground a little way off, then click behind a house | The party walks there, round the house; pressing a key takes over at once ([D167](06-decisions.md)) |
 | D5.8 | Walk across several tiles of the land | No stutter as you cross from one tile into the next |
+| D5.9 | Look round any tile of open country, then walk up to a bird | Birds, butterflies and bugs about; the bird takes off as you come close, its shadow under it, and comes down a few cells away ([D168](06-decisions.md)) |
+| D5.10 | Walk the road from the crater towards the city | Now and then two of the Watch walk it, saying a word at each end; click one to talk |
 
 ## H — Conversation and the camp
 

@@ -28,6 +28,37 @@
 			"line": "Auto stops here: this fight is yours."
 		}
 	},
+	"life": {
+		"_comment": "Life on the land (D168): birds, butterflies, bees, grasshoppers and snails, laid down a few to a tile and moving about; which picture does what is its `life` in props.json. per_tile: how many of each a tile of open country gets on average (a land's `life` in biomes.json scales it; a place gets half). art: the pictures each is drawn from. shy_cells: how close the party comes before a bird takes off; flee_cells [min, max]: how far it flies; flight_seconds and flight_height: the flight; away_seconds: how long one with nowhere to land stays gone. road_watch: on the First Hour's road a pair of the city's Watch walks a tile of it in chance of the tiles, with these units, name, lines said at each end and talk.",
+		"per_tile": { "bird": 3, "flutter": 3, "hop": 1.5, "crawl": 1 },
+		"art": {
+			"bird": ["nature/finch", "nature/sparrow", "nature/irish_bird", "nature/irish_bird_2", "nature/white_dove"],
+			"flutter": ["nature/butterfly", "nature/butterfly_blue", "nature/bee"],
+			"hop": ["nature/grasshopper"],
+			"crawl": ["nature/snail", "nature/spider"]
+		},
+		"shy_cells": 2.4,
+		"flee_cells": [5.0, 9.0],
+		"flight_seconds": 1.4,
+		"flight_height": 70.0,
+		"away_seconds": 12.0,
+		"road_watch": {
+			"chance": 0.5,
+			"units": ["legion_copper", "legion_silver"],
+			"name": "a watchman of Stormreach",
+			"stay": [2.0, 4.0],
+			"lines": ["Road's clear this far.", "Keep to the cobbles after dark.", "Nothing moving out there. Good.", "Turn about. Back the way we came.", "Mind the ditch. It bites."],
+			"talk": {
+				"hello": ["The Watch keeps this road, from the crater to the Tower. Keep to it and you'll keep your purse.", "Walk with us a stretch if you like. We don't go past the road's end."],
+				"ask": [
+					{ "q": "Is the road safe?", "a": "Safer than the grass either side of it. Bands come up off the open country; they don't like the cobbles, and they don't like us." },
+					{ "q": "Where does it go?", "a": "From where the fallen come down, through Stormreach, out to the first gate and back to the Tower. The Guild had it laid. Every new climber walks it." }
+				],
+				"news": true,
+				"bye": "On you go."
+			}
+		}
+	},
 	"ground_watch": {
 		"_comment": "Bands met on the ground (D66, D68). A band stands in the ground of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its sight (the world's 2), from where it stands; trees, houses and rock block the line, water and every land's liquid do not, and ground that is cover (cover on its terrain in tilesets.json, or named in cover) is never watched. It stands at least keep_away cells further than that from where the party comes in, and patrols a loop of patrol_points stops within patrol_reach cells, a cell every patrol_step_seconds, resting patrol_pause seconds at each, never bringing where the party came in into sight; its red cells move with it. Walking into a watched cell (or being walked into view of) starts the fight there: spotted_seconds of everyone looking, the band rushing charge_share of the way in charge_seconds, then the fight on a field field_margin cells round everyone, field_smallest to field_largest, opening on the ground's own view and drawing back over pull_back_seconds. On the land (D76) a band keeps to its own tile and patrols land_patrol_points stops within land_patrol_reach cells; when the continent moves it to the next tile it walks there across the land, a cell every travel_step_seconds.",
 		"sight_base": 2,
