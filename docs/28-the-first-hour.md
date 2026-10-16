@@ -33,7 +33,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark.
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
-   stand-in shaft over it until art A9 ([D108](06-decisions.md)), seen from far off beside the way ahead
+   the huge Tower's round, rune-banded shaft over it, drawn in house
+   until art A9 ([D158](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
    ([D133](06-decisions.md)). "E to climb" at the door.
 7. **Floors 1 to 5**, each walked ([D102](06-decisions.md)) and each its own shape: a pillared hall,

@@ -113,6 +113,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 86 | D122 | **Inferred.** Set 2026-10-15 from Ewan's play-test 2: **the lag target** is no frame over half a second on PC; the soak names the five longest. Recommended: keep, and measure on a phone after Ewan's play-test 3. |
 | 87 | D156 | **Inferred.** Drawn 2026-10-15 for Will's AK: **the floor 5 keeper as a person**, named the Warden of the Fifth, in the Tower's grey stone armour with lit runes, a dark red crest, a T of light for a face and a glaive ([22](../22-asset-provenance.md)). It does not speak yet; the creatives' offer (stay at the top of floor 5 and stop climbing) waits for its lines. Recommended: keep the look; the founders name it. |
 | 88 | D157 | **Inferred.** Drawn 2026-10-15 for Will's AJ: **the ground of ash, blossom vale, slime, crystal fields, the fungal grove and the mistlands**, in house in the stand-ins' own colours ([22](../22-asset-provenance.md)). Recommended: keep; PixelLab's ground (A6) only if wanted when credits come back. |
+| 89 | D158 | **Inferred.** Drawn 2026-10-15 for Will's AN: **the huge Tower's shaft**, round, in the door's stone, ribbed, a band of lit runes every three storeys, stepping in every six, lost in the sky under cloud ([22](../22-asset-provenance.md)). Recommended: keep until PixelLab's A9, then compare. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
