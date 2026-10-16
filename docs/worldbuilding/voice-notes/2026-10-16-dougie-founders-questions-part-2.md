@@ -8,8 +8,8 @@ transcribed: faster-whisper small.en — machine transcription, unverified
 # `dougie`, 2026-10-16 — the founders' questions, part 2
 
 > Will reading [30 — Questions for the founders](../../30-questions-for-the-founders.md) aloud and answering
-> questions 8 (its end) to 24. What it settled is in [06 — Decisions](../../06-decisions.md), D165 to D172, and on the
-> agenda ([answers.md](../answers.md), rows 22, 75, 77, 79 to 100). Heard as words the model often gets
+> questions 8 (its end) to 24. What it settled is in [06 — Decisions](../../06-decisions.md), D168 to D175, and on the
+> agenda ([answers.md](../answers.md), rows 22, 75, 77, 79 to 98, 101 and 102). Heard as words the model often gets
 > wrong: "you and" / "Eun" is Ewan, "a send" is Ascend, "floor on you" is floor 100.
 
 > Machine transcription of a 10:42 recording, kept as spoken. Passages the model was

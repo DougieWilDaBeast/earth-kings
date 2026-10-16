@@ -2,7 +2,7 @@
 
 **What a new player plays today, start to finish, and how it got that way.** The First Hour was the
 only milestone until it was done ([D95](06-decisions.md)); `dougie` called it done on 2026-10-16
-([D165](06-decisions.md)). What else is built stays hidden behind `data/world_rules.json` →
+([D168](06-decisions.md)). What else is built stays hidden behind `data/world_rules.json` →
 `first_hour.hidden` ([D97](06-decisions.md)) until each system fits back into the world and the story. The order of work and what
 is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describes what exists.
 
