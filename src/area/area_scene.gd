@@ -157,6 +157,8 @@ var _awaiting_fight: bool = false
 const FIGHT_ACTS := ["_enter_gate_here"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
+## Where the log's right edge stands on a screen wide enough for it.
+const LOG_WIDTH := 900.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
 var _settling: bool = false
 ## The area's own bands already standing here, by key, and how long since their flags were looked at.
@@ -196,6 +198,8 @@ func _ready() -> void:
 	_acts = boot_payload.get("actions", [])
 	_held = boot_payload.get("held", {})
 	_tower_floor = int(boot_payload.get("tower_floor", 0))
+	get_viewport().size_changed.connect(_fit_the_log)
+	_fit_the_log.call_deferred()
 	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
 	if _land_mode:
 		map = Land.around(GameState.world, GameState.world.player_cell)
@@ -2648,6 +2652,14 @@ func _note(line: String) -> void:
 	if _notes.size() > 3:
 		_notes = _notes.slice(_notes.size() - 3)
 	_log.text = "\n".join(_notes)
+
+
+## The log is laid out 900 wide; on a screen narrower than that (a phone held upright, D163) it
+## wraps inside the screen instead of running off its edge.
+func _fit_the_log() -> void:
+	if not is_inside_tree():
+		return
+	_log.offset_right = minf(LOG_WIDTH, get_viewport().get_visible_rect().size.x - 16.0)
 
 
 ## One message at a time (D95): while a box is open (the landing's words, a

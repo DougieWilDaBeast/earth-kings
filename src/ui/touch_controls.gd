@@ -8,6 +8,12 @@ extends CanvasLayer
 ## commands down the side. While anything modal is open the whole thing steps
 ## aside, so it can never sit on top of a screen the player has to answer.
 
+## Held upright (D163) the bar runs the whole width, so it is dropped below the scene's own top
+## lines (where you are, and the compass), and the stick and the buttons are lifted clear of its
+## bottom lines (what is happening, and what to press). Lying down there is room beside them.
+const UPRIGHT_DROP := 74.0
+const UPRIGHT_LIFT := 112.0
+
 ## How far the touch overlay pushes a scene's top-right corner down, so its own
 ## bar and the scene's own buttons are not fighting over the same strip.
 const BAR_DROP := 70.0
@@ -162,6 +168,11 @@ func _fit_safe_area() -> void:
 			top += maxf(0.0, float(safe.position.y)) * scale.y
 			right += maxf(0.0, window.x - float(safe.end.x)) * scale.x
 			bottom += maxf(0.0, window.y - float(safe.end.y)) * scale.y
+
+	var view_now := get_viewport().get_visible_rect().size
+	if view_now.y > view_now.x:
+		top += UPRIGHT_DROP
+		bottom += UPRIGHT_LIFT
 
 	_safe.offset_left = left
 	_safe.offset_top = top

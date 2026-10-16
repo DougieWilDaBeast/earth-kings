@@ -231,6 +231,10 @@ func _add_touch_buttons() -> void:
 	column.offset_left = -150
 	column.offset_right = -12
 	column.offset_top = 92
+	# Held upright the touch bar sits lower, under the scene's top lines (D163).
+	var view := get_viewport().get_visible_rect().size
+	if view.y > view.x:
+		column.offset_top += TouchControls.UPRIGHT_DROP
 	column.add_theme_constant_override("separation", 4)
 	add_child(column)
 	for entry: Array in TOUCH_BUTTONS:

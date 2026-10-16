@@ -42,6 +42,9 @@ var _initial_pinch_zoom: float = 1.0
 ## Off for a scene run out of sight (the continent taking a step for the land, [D84]): its camera
 ## must not take the screen from the one being looked at.
 var claims_the_view: bool = true
+## Drawing back over the whole framed area (the world ending): the view may hold all of it, with
+## nothing round it, even on a screen held upright.
+var _whole: bool = false
 
 
 func _ready() -> void:
@@ -76,6 +79,7 @@ func focus_on(point: Vector2, immediate: bool = false) -> void:
 func pull_back(seconds: float) -> Tween:
 	_pan = Vector2.ZERO
 	_focus = _bounds.get_center()
+	_whole = true
 	var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_method(_apply_zoom, zoom.x, _zoom_floor(), seconds)
 	tween.tween_property(self, "position", _focus, seconds)
@@ -245,12 +249,18 @@ func _apply_zoom(level: float) -> void:
 
 
 ## The furthest out the player may go: far enough that the whole map fits, but
-## never so far that it is swimming in nothing.
+## never so far that it is swimming in nothing. On a screen held upright the map fills it
+## top to bottom instead and the view scrolls across it (D163): fitted, a ground as wide as it
+## is tall sat in a band across the middle of a phone with black above and below.
 func _zoom_floor() -> float:
 	if _bounds.size.x <= 0.0 or _bounds.size.y <= 0.0:
 		return min_zoom
 	var view := get_viewport_rect().size
-	return maxf(min_zoom, minf(view.x / _bounds.size.x, view.y / _bounds.size.y))
+	var across := view.x / _bounds.size.x
+	var down := view.y / _bounds.size.y
+	if view.y > view.x and not _whole:
+		return maxf(min_zoom, maxf(across, down))
+	return maxf(min_zoom, minf(across, down))
 
 
 ## Limits are per-axis: where the map is narrower than the view there is
