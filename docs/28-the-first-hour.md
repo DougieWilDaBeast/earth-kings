@@ -129,10 +129,20 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
 - **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
   for Atlas; `dougie` confirmed it, [D165](06-decisions.md)); after that a rank E gate about one time in four, more for higher ranks.
 - **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
-  Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
+- **A word carries** ([D183](06-decisions.md), from [D172](06-decisions.md)). Every gate a lead shuts,
+  they say one line into it (`carried.left`, one for each of the sixteen), written down beside the
+  fallen, outside the save (`user://earth-kings.sixteen.json`, [D47](06-decisions.md)). A later life,
+  in a world of the same sixteen, that shuts the same gate hears the latest word another lead left
+  there: "Through the last of the light, faint, comes a voice from another world: Atlas's." and then
+  the line itself, in their voice. Failing that, the first gate a life shuts carries the lead who fell
+  last: their last word, or, if they never shut a gate, word of them (a name, the mark, and a world
+  that has ended). It plays after the crossing if there is one, with a line in the journal and the
+  annals. No answer, no meeting; nothing else passes through. A world built from a seed asked for
+  hears nothing. The crossing's odds and the first gate rule do not change.
 
-Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
-item 92).
+Four boxes for a meeting, three for a burning world, three for a word carried and two for word of a
+lead. Every word and number of the crossing is **Inferred** (agenda item 92); the word carried's
+wording and which gate it is heard at are **Inferred** (agenda items 106 and 107).
 
 ## How it was tested
 

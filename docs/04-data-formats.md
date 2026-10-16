@@ -586,6 +586,15 @@ with `{gate}`, `{name}`, `{lead}` and `{says}` filled in), `journal` the line wr
 `says` each lead's line through the gate. Read by `src/chronicle/crossing.gd`; who was met is the
 run's `crossed:<lead>` flag (`crossed:any` once any).
 
+`carried` is a word carried between lives (D183): `left` is each lead's line said into a gate as it
+shuts; `voice` the lines played when a later lead hears a word (`{gate}`, `{name}`, `{lead}` and
+`{word}` filled in), `word_of` those for a fallen lead who left no word, and `journal` the line for
+each (`voice`, `word_of`). What was said is kept in the record of the sixteen
+(`user://earth-kings.sixteen.json`, beside `fallen_heroes`, `fallen_tempers` and `worlds`) as
+`words`, oldest first, each `{ hero, gate, cell: [x, y], seed, word }`, `seed` the first world's seed
+of the sixteen it was said in; one per lead per gate. The run's `carried:shut` flag marks that a life
+has shut its first gate.
+
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`
 that tile. `key` is where the band settled and who is in it, so it stays the same as it wanders.

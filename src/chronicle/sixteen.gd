@@ -54,7 +54,41 @@ static func fall(hero_id: String, world: Dictionary = {}) -> void:
 		var gone := world.duplicate(true)
 		gone["gone"] = true
 		ended.append(gone)
-	_write({"fallen_heroes": heroes, "fallen_tempers": tempers, "worlds": ended})
+	record["fallen_heroes"] = heroes
+	record["fallen_tempers"] = tempers
+	record["worlds"] = ended
+	_write(record)
+
+
+## What the leads said at the gates they shut, oldest first (D183): each
+## `{ hero, gate, cell: [x, y], seed, word }`, `seed` the first world's seed
+## of the sixteen it was said in. Kept here, beside the fallen, so it outlives
+## the save and is heard in the lives after.
+static func words() -> Array:
+	return _read().get("words", [])
+
+
+## Write down what a lead said at a gate as it shut. One word per lead per
+## gate: saying it again (a reload, the same gate shut twice) changes nothing.
+static func leave_word(entry: Dictionary) -> void:
+	if str(entry.get("hero", "")) == "" or str(entry.get("word", "")) == "":
+		return
+	var record := _read()
+	var said: Array = record.get("words", [])
+	for old: Dictionary in said:
+		if str(old.get("hero", "")) == str(entry["hero"]) and int(old.get("seed", 0)) == int(entry.get("seed", 0)) \
+				and same_cell(old.get("cell", []), entry.get("cell", [])):
+			return
+	said.append(entry.duplicate(true))
+	record["words"] = said
+	_write(record)
+
+
+## Whether two `[x, y]` cells are the same, read back from JSON or not.
+static func same_cell(a: Variant, b: Variant) -> bool:
+	if typeof(a) != TYPE_ARRAY or typeof(b) != TYPE_ARRAY or (a as Array).size() < 2 or (b as Array).size() < 2:
+		return false
+	return int(a[0]) == int(b[0]) and int(a[1]) == int(b[1])
 
 
 ## Whether there is any life left to start: a hero not fallen, or a written

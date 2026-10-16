@@ -35,5 +35,39 @@
 		"diana": "Please don't come through. He doesn't like doors. I'm sorry. I'm glad you're there.",
 		"ares": "HA! Another world, and still someone with the mark at the door! Next time come through and have a go!",
 		"liber": "There's another world through there? Of course there is. Hold it, I'm coming— no? The next one, then."
+	},
+	"carried": {
+		"_doc": "D183, from D172 (dougie, 2026-10-16: \"if you enter a gate with your character, let's say Pluto, then now any other additional world after that that enters the gate should hear what Pluto said ... if you end up dying with Pluto, you get to hear Pluto talking or get word that he's there\"). A word carries between lives. As a lead shuts a gate, their `left` line is written beside the fallen, outside the save (user://earth-kings.sixteen.json, D47). A later lead in a world of the same sixteen who shuts the same gate hears the latest word another lead left there: `voice`. Failing that, at the first gate a life shuts, the lead who fell last is heard: their last word as `voice`, or `word_of` them if they never shut a gate. One line, no answer; it plays after the crossing if there is one, and `journal` writes it down. Read by src/chronicle/crossing.gd. Every word, and which gate it is heard at, is **Inferred** (agenda item 106).",
+		"voice": [
+			{ "speaker": "", "text": "{gate} goes dark slowly. Through the last of the light, faint, comes a voice from another world: {name}'s." },
+			{ "speaker": "{name}", "text": "{word}" },
+			{ "speaker": "", "text": "{lead} calls back. The light is already gone, and nothing else came through." }
+		],
+		"word_of": [
+			{ "speaker": "", "text": "{gate} goes dark slowly. Nobody speaks through the last of the light, but something carries: a name, {name}, and the mark, and a world that has ended." },
+			{ "speaker": "", "text": "{lead} has never heard the name before, and will not forget it." }
+		],
+		"journal": {
+			"voice": "At {gate}, as it shut, I heard a voice through the light, faint: {name}'s. \"{word}\"",
+			"word_of": "At {gate}, as it shut, word came through the light of someone called {name}, with the mark, whose world has ended."
+		},
+		"left": {
+			"atlas": "If anyone is on the other side of this: it is shut. Shut yours.",
+			"janus": "Hello? If there is a far side, tell me what it looks like. No? I will find out.",
+			"bellona": "This one is shut. Whoever holds the next, hold it.",
+			"cassius": "If you can hear this, you are the copy. Shut your gate anyway.",
+			"saturn": "That is another one shut. Whoever is next, go carefully. Sleep when you can.",
+			"vesta": "Keep your fire lit, whoever you are. This one is out.",
+			"caesar": "I'M CAESAR! I shut this one! If you can hear me, I shut it FIRST!",
+			"iris": "Hello, whoever's next! This one's done. Tell everyone I said hello!",
+			"pluto": "Shut. Floors counted, stones counted. If you are counting too, the number is the same.",
+			"ceres": "Shut. Now whoever you are, sit down and eat something.",
+			"cato": "Gate shut. Written down. If you hear this, you exist too. Write that down.",
+			"juno": "There is a place set for you, whoever comes after. This one is shut. Come home.",
+			"ultor": "Not here either.",
+			"diana": "If you can hear me, I'm sorry. Don't follow. Shut it and go.",
+			"ares": "Shut! And it barely fought! Whoever's next, find a better one!",
+			"liber": "Is somebody there? I'll leave it open next time. Probably."
+		}
 	}
 }
