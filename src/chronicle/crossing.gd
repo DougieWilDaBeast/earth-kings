@@ -11,7 +11,7 @@ extends RefCounted
 ## The roll is fixed by the world's seed and the gate's cell, so a reload never
 ## turns up someone different. Who was met is kept in the run's flags
 ## (`crossed:<hero>`). Everything lives in `data/crossings.json`; every word and
-## number is **Inferred** (agenda item 88). Loaded by path ([D41]). Pure logic.
+## number is **Inferred** (agenda item 89). Loaded by path ([D41]). Pure logic.
 
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 
