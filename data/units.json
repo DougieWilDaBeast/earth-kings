@@ -709,6 +709,46 @@
 		"color": "#b09a6a",
 		"sprite_dir": "res://art/townsfolk/innkeeper/idle"
 	},
+	"muck_muck": {
+		"display_name": "Muck Muck",
+		"job": "Builder",
+		"max_hp": 34,
+		"attack": 7,
+		"defense": 5,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "soldier",
+		"color": "#7a5a3a",
+		"look": "A builder in his late fifties: tall and stocky, brown hair, blue eyes. Drawn as the innkeep until art request A26 is made.",
+		"sprite_dir": "res://art/townsfolk/innkeeper/idle"
+	},
+	"sinner": {
+		"display_name": "Sinner",
+		"job": "Cleric",
+		"max_hp": 26,
+		"attack": 5,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"mend"
+		],
+		"classes": [
+			"hedge_priest"
+		],
+		"kind": "soldier",
+		"color": "#c8693a",
+		"look": "A cleric and healer: a woman with ginger hair and green eyes. Drawn as the hedge priest until art request A27 is made.",
+		"sprite_dir": "res://art/tier1/hedge_priest/idle"
+	},
 	"town_trader": {
 		"display_name": "Trader",
 		"job": "Wildling",

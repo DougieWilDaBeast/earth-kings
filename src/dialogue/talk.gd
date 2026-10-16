@@ -1,8 +1,8 @@
 extends RefCounted
 ## A conversation with somebody standing in an area, built from the `talk` block on their entry
 ## in `data/areas/*.json` instead of a file of its own: what they say when you walk up, the
-## questions you can ask, what they will sell you, a favour they want done, and whether they
-## want to talk to you at all.
+## questions you can ask, what they will sell you, mending the company for a price, a favour they
+## want done, and whether they want to talk to you at all.
 ##
 ## The result is an ordinary branching dialogue ([DialogueScript]), registered under an id of
 ## its own, so the box, the portraits, the checks and the `once` replies all work the same way.
@@ -79,6 +79,10 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 		menu.append({ "text": str(talk.get("shop_q", "What are you selling?")), "goto": "shop" })
 		_add_shop(nodes, name_, talk, sells)
 
+	var heal: Dictionary = talk.get("heal", {})
+	if not heal.is_empty():
+		_add_healing(nodes, menu, name_, heal)
+
 	if bool(talk.get("news", false)):
 		menu.append({ "text": str(talk.get("news_q", "Heard any news?")), "news": true })
 
@@ -152,6 +156,22 @@ static func _add_shop(nodes: Dictionary, name_: String, talk: Dictionary, sells:
 	nodes["shop"] = {
 		"speaker": name_, "text": talk.get("shop", "Have a look. Coin first, mind."), "options": options,
 	}
+
+
+## Mending the whole company for a price ([D176]): offered while anyone in it is hurt and the purse
+## can pay; with nobody hurt, a look-over that costs nothing.
+static func _add_healing(nodes: Dictionary, menu: Array, name_: String, heal: Dictionary) -> void:
+	var price := maxi(1, roundi(float(heal.get("price", 40)) * Difficulty.dial("price")))
+	menu.append({
+		"text": "%s — %d gold" % [str(heal.get("q", "Patch up my companions.")), price],
+		"requires_wounded": true, "requires_gold": price, "gold": -price, "heal": true, "goto": "healed",
+	})
+	menu.append({
+		"text": str(heal.get("whole_q", "Can you look us over?")),
+		"requires_wounded": false, "goto": "whole",
+	})
+	nodes["healed"] = { "speaker": name_, "text": heal.get("done", "There. Whole again."), "next": "menu" }
+	nodes["whole"] = { "speaker": name_, "text": heal.get("whole", "Nobody here needs me."), "next": "menu" }
 
 
 static func price_of(ware: Dictionary) -> int:
