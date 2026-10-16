@@ -514,6 +514,10 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Diction
 		_note(confrontation)
 	var payload := {"encounter": meeting, "return_scene": "world"}
 	payload.merge(extra, true)
+	if _embedded() and not payload.has("field") and boot_payload.has("field"):
+		# A gate gone into from the ground (D162): fought there, at its doorway, by whoever the
+		# Guild sent along too.
+		payload["field"] = _field_for_meeting(meeting, boot_payload["field"])
 	if _embedded() and payload.has("field"):
 		# Out of sight beside the ground: the ground fights it where it was met, with no change of
 		# screen, and asks again afterwards to have it settled (step 4 of the First Hour).
@@ -522,6 +526,23 @@ func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Diction
 		queue_free()
 		return
 	EventBus.request_scene.emit("skirmish", payload)
+
+
+## The patch of ground the ground laid out, with what this meeting brings to it beyond the band:
+## the Guild's people (D147) and, on a heart floor, the heart at the doorway.
+func _field_for_meeting(meeting: Dictionary, field: Dictionary) -> Dictionary:
+	var out := field.duplicate(true)
+	var laid: Dictionary = meeting.get("map", {})
+	var allies: Array = []
+	for each: Dictionary in laid.get("allies", []):
+		var ally := each.duplicate()
+		ally.erase("cell")
+		allies.append(ally)
+	if not allies.is_empty():
+		out["allies"] = allies
+	if str(meeting.get("objective", "")) != Site.OBJECTIVE_HEART:
+		out.erase("heart")
+	return out
 
 
 ## Nothing a fight was worth is handed over until the fight has been won. The
@@ -771,8 +792,9 @@ func _arrive_at(site: Site) -> void:
 			_read_at(site)
 		Site.GATE:
 			# The gate is gone into when asked for, with E beside it (D116): walking onto its tile, or
-			# back onto it, never starts the fight. A party walking itself came here to go in.
-			if Pace.auto:
+			# back onto it, never starts the fight. A party walking itself came here to go in: on the
+			# ground it goes in from there, so the fight is fought where it stands (D162).
+			if Pace.auto and not _embedded():
 				_enter_gate(site)
 		Site.TOWER:
 			# The Guild's doorkeeper opens the register when spoken to, and the compass points at

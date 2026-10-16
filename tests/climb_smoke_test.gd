@@ -237,24 +237,39 @@ func _out_to_a_gate_and_back() -> void:
 	await _frames(30)
 	_expect(_is_land(_current()), "gate: walking onto %s started its fight without being asked (on %s)" % [gate.display_name, _describe(_current())])
 	land = _current()
-	var enter := ""
+	var enter: Dictionary = {}
 	for each: Dictionary in land.get("_acts"):
 		if str(each.get("act", "")) == "_enter_gate_here":
-			enter = str(each.get("prompt", ""))
-	_expect(enter.ends_with("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
+			enter = each
+	_expect(str(enter.get("prompt", "")).ends_with("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
 		"gate: standing at %s does not offer to enter it (offers %s)" % [gate.display_name, land.get("_acts")])
-	land.call("_ask_the_continent", { "act": "_enter_gate_here" })
-	var fight := await _scene_where(func(s: Node) -> bool: return s.get_script() == preload("res://src/skirmish/skirmish.gd"))
+	land.call("_do_act", enter)
+	# Fought where the party stands, on the land, never on a fight screen of its own (D162).
+	var fight: Node = null
+	for i in PATIENCE:
+		await get_tree().process_frame
+		if _current() != land:
+			break
+		fight = land.get("_fight")
+		if fight != null:
+			break
 	if fight == null:
-		_fail("gate: E at %s started no fight (on %s)" % [gate.display_name, _describe(_current())])
+		_fail("gate: E at %s started no fight on the land (on %s)" % [gate.display_name, _describe(_current())])
 		return
-	# Won, as the fight screen settles it.
+	_expect(bool(fight.get("in_place")) and fight.get_parent() == land,
+		"gate: %s's fight is not laid on the land it was gone into from" % gate.display_name)
+	_expect(not (fight.get("encounter") as Dictionary).get("enemies", []).is_empty(),
+		"gate: %s's fight on the land has nobody keeping the gate" % gate.display_name)
+	# Won, as the fight settles it.
+	fight.set("victory", true)
 	GameState.set_flag("last_victory", true)
-	EventBus.request_scene.emit("world", {})
-	land = await _scene_where(func(s: Node) -> bool: return _is_land(s))
-	if land == null:
-		_fail("gate: winning %s's first floor did not come back to the land" % gate.display_name)
-		return
+	fight.emit_signal("gone")
+	for i in PATIENCE:
+		await get_tree().process_frame
+		if land.get("_fight") == null and not bool(land.get("_asking")) and not bool(land.get("_talking")):
+			break
+	_expect(_is_land(_current()) and _current() == land,
+		"gate: winning %s's first floor did not stay on the land (on %s)" % [gate.display_name, _describe(_current())])
 	_expect(gate.depth() == 1, "gate: %s's first floor won but its depth is %d" % [gate.display_name, gate.depth()])
 	land.call("_ask_the_continent", { "step": [-into.x, -into.y] })
 	await _frames(30)

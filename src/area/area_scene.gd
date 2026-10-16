@@ -153,6 +153,10 @@ var _fight: Node2D = null
 var _fight_watch: Node2D = null
 ## A band's fight has been asked of the continent and not yet put down.
 var _awaiting_fight: bool = false
+## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
+const FIGHT_ACTS := ["_enter_gate_here"]
+## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
+const GATE_REACH := 12.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
 var _settling: bool = false
 ## The area's own bands already standing here, by key, and how long since their flags were looked at.
@@ -1159,6 +1163,13 @@ func _land_auto_axis() -> Vector2:
 	var land := map as Land
 	var world: World = GameState.world
 	var here := map.cell_at(_leader.position)
+	# A party walking itself came to a gate to go in (D116), and goes in on this ground (D162),
+	# unless it has already lost here.
+	if not _asking and not Pace.avoided.has(world.player_cell):
+		for each: Dictionary in _acts:
+			if FIGHT_ACTS.has(str(each.get("act", ""))):
+				_do_act(each)
+				return Vector2.ZERO
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -2295,14 +2306,48 @@ func _stand_down() -> void:
 ## The patch of this ground the fight is fought on: everyone in it, with room round them, cut to
 ## the ground's edges; and the view the ground was seen in, for the fight to open on.
 func _field_for(watch: Node2D, ambush: bool) -> Dictionary:
-	var party: Array = []
-	for actor: AreaActor in [_leader] + _followers:
-		var c := map.cell_at(actor.position)
-		party.append([c.x, c.y])
 	var foes: Array = []
 	for figure: Node2D in watch.figures:
 		var c := map.cell_at(figure.position)
 		foes.append([c.x, c.y])
+	return _field_round(foes, ambush)
+
+
+## The patch of ground a gate's fight is fought on (D162): the party where it stands, and whatever
+## keeps the gate come out of its doorway (the gate's standing stones, its landmark) towards them.
+## With no doorway in reach they stand a few strides ahead. The doorway's front is the floor's heart.
+func _gate_field() -> Dictionary:
+	var here := map.cell_at(_leader.position)
+	var door := Vector2i(-1, -1)
+	var best := GATE_REACH + 1.0
+	for prop: Dictionary in map.props:
+		if not str(prop.get("art", "")).contains("gate"):
+			continue
+		var at: Vector2i = prop["cell"]
+		var apart := Vector2(at - here).length()
+		if apart < best:
+			best = apart
+			door = at
+	if door.x < 0:
+		door = here + Vector2i(0, -5)
+	var towards := Vector2i(signi(here.x - door.x), signi(here.y - door.y))
+	if towards == Vector2i.ZERO:
+		towards = Vector2i.DOWN
+	var front := door + towards * 2
+	var foes: Array = []
+	for side: Vector2i in [Vector2i.ZERO, Vector2i(-1, 0), Vector2i(1, 0), towards]:
+		var c := front + side
+		foes.append([c.x, c.y])
+	var field := _field_round(foes, false)
+	field["heart"] = [door.x + towards.x, door.y + towards.y]
+	return field
+
+
+func _field_round(foes: Array, ambush: bool) -> Dictionary:
+	var party: Array = []
+	for actor: AreaActor in [_leader] + _followers:
+		var c := map.cell_at(actor.position)
+		party.append([c.x, c.y])
 	var margin := int(AreaWatch.rule("field_margin", 3))
 	var smallest := _pair_rule("field_smallest", Vector2i(16, 11))
 	var largest := _pair_rule("field_largest", Vector2i(26, 16))
@@ -2373,6 +2418,14 @@ func _act_for(event: InputEvent) -> Dictionary:
 
 func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
+		return
+	if FIGHT_ACTS.has(str(each.get("act", ""))):
+		# Gone into here, not on a fight screen (D162): the continent deals the fight and it is
+		# put down on this ground, at the gate, the way a band met on it is.
+		if not _asking:
+			_awaiting_fight = true
+			_talking = true
+			_ask_the_continent({ "act": str(each.get("act", "")), "field": _gate_field() })
 		return
 	if _land_mode:
 		# Done out of sight, and the party stays where it stands.
