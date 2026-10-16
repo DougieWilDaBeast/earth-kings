@@ -1,8 +1,9 @@
 # 28 — The First Hour
 
-**What a new player plays today, start to finish, and how it got that way.** The First Hour is the
-only milestone until it is done ([D95](06-decisions.md)); everything else built is hidden behind
-`data/world_rules.json` → `first_hour.hidden` ([D97](06-decisions.md)). The order of work and what
+**What a new player plays today, start to finish, and how it got that way.** The First Hour was the
+only milestone until it was done ([D95](06-decisions.md)); `dougie` called it done on 2026-10-16
+([D168](06-decisions.md)). What else is built stays hidden behind `data/world_rules.json` →
+`first_hour.hidden` ([D97](06-decisions.md)) until each system fits back into the world and the story. The order of work and what
 is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describes what exists.
 
 ## The route
@@ -28,7 +29,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    opens by itself; Sennet keeps it ([D107](06-decisions.md), [D112](06-decisions.md)), and Old Halloran,
    the Guild's master, stands beside him and can mark a lead too ([D154](06-decisions.md)). Nobody climbs
    until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
-   B buys the one in hand ([D146](06-decisions.md)).
+   B buys the one in hand ([D146](06-decisions.md)). In the streets, Muck Muck the builder stands by
+   the ruined bathhouse, and Sinner, a cleric, mends the whole company for 40 gold at the old shrine
+   ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
    beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
@@ -124,7 +127,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   copy who walks this one, and say one line in their own voice. If their world has ended, the gate
   shows it burning with nobody in it.
 - **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
-  for Atlas); after that a rank E gate about one time in four, more for higher ranks.
+  for Atlas; `dougie` confirmed it, [D165](06-decisions.md)); after that a rank E gate about one time in four, more for higher ranks.
 - **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
