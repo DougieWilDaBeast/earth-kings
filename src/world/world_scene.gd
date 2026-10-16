@@ -610,6 +610,11 @@ func _settle_up(won: bool) -> void:
 			for notice: String in world._upkeep():
 				_note(notice)
 			if Chapters.ends_chapter(world, world.tower_floor):
+				var company: Array = []
+				for hero: Character in GameState.roster.characters:
+					company.append(hero.template_id)
+				for line: String in FirstHour.put_out_a_light(world, world.tower_floor, company):
+					_note(line)
 				for line: String in Chapters.turn(world, world.tower_floor):
 					_note(line)
 				# Once the whole fight is settled, not halfway through it.

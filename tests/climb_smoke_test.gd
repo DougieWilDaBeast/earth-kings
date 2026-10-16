@@ -82,6 +82,16 @@ func _climb_to_the_top() -> void:
 	var out := await _scene_where(func(s: Node) -> bool: return _is_land(s))
 	_expect(out != null, "climb: the keeper's floor did not bring the party back out (on %s)" % _describe(_current()))
 	_expect(GameState.world.tower_floor == 5, "climb: five floors climbed but the Tower counts %d" % GameState.world.tower_floor)
+	# AK (D149): one of the other sixteen's lights went out as floor 5 was won, never the lead or
+	# anyone in the company, and the census counts them out.
+	var went: Dictionary = GameState.world.echoes.get("light_out", {})
+	_expect(not went.is_empty(), "climb: floor 5 won and no light went out")
+	var company: Array = []
+	for hero: Character in GameState.roster.characters:
+		company.append(hero.template_id)
+	_expect(not company.has(str(went.get("hero", ""))), "climb: the light that went out was %s, who is in the company" % went.get("hero", ""))
+	_expect(Chapters.census(GameState.world) == 15, "climb: the census after the hour's end is %d, not 15" % Chapters.census(GameState.world))
+	_expect(FirstHour.put_out_a_light(GameState.world, 5, company).is_empty(), "climb: a second light went out on floor 5")
 
 
 ## The yard, from the Tower's tile, and E at the door: true once the next floor is up.

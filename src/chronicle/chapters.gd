@@ -84,6 +84,9 @@ static func census(world: World) -> int:
 	for echo: Dictionary in world.echoes.get("past", []):
 		if world.tower_floor >= int(echo.get("floor", 0)):
 			alive -= 1
+	# The one whose light went out at the hour's end (D149).
+	if world.echoes.has("light_out"):
+		alive -= 1
 	return maxi(0, alive)
 
 

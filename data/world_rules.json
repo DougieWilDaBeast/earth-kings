@@ -8,7 +8,15 @@
 		"_comment_first_life": "D106: the first life is always this lead. New Game with no world yet ended starts here, skipping the quiz; the quiz picks the next lead after a death.",
 		"first_life": "atlas",
 		"_comment_deal_only_written": "AQ (D145): while some of the sixteen have no chapter one in data/memories.json, the quiz deals only those who do, so a second life never climbs to an empty alcove. Read by FirstHour.unwritten_tempers. Once every lead has a chapter one it holds nobody back; take it out then.",
-		"deal_only_written": true
+		"deal_only_written": true,
+		"_comment_light_out": "AK (D149): the hour's end costs somebody. The first time the lead wins floor `floor`, one of the other sixteen falls in a world of their own (never the lead, the company, a lead already fallen, or one met at a crossing), picked by the world's seed; the census counts them out from then on. `lines` are what the Tower shows, {name} the one who fell. Read by FirstHour.put_out_a_light.",
+		"light_out": {
+			"floor": 5,
+			"lines": [
+				"High in the Tower's glass, sixteen small lights burn. As you stand there, one of them gutters, and goes out.",
+				"{name}. Somewhere, in a world of their own, {name} fell while you climbed."
+			]
+		}
 	},
 	"ground_watch": {
 		"_comment": "Bands met on the ground (D66, D68). A band stands in the ground of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its sight (the world's 2), from where it stands; trees, houses and rock block the line, water and every land's liquid do not, and ground that is cover (cover on its terrain in tilesets.json, or named in cover) is never watched. It stands at least keep_away cells further than that from where the party comes in, and patrols a loop of patrol_points stops within patrol_reach cells, a cell every patrol_step_seconds, resting patrol_pause seconds at each, never bringing where the party came in into sight; its red cells move with it. Walking into a watched cell (or being walked into view of) starts the fight there: spotted_seconds of everyone looking, the band rushing charge_share of the way in charge_seconds, then the fight on a field field_margin cells round everyone, field_smallest to field_largest, opening on the ground's own view and drawing back over pull_back_seconds. On the land (D76) a band keeps to its own tile and patrols land_patrol_points stops within land_patrol_reach cells; when the continent moves it to the next tile it walks there across the land, a cell every travel_step_seconds.",

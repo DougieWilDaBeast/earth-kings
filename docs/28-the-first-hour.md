@@ -50,7 +50,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    it lands, drawn in house ([D156](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
-   ([D103](06-decisions.md)).
+   ([D103](06-decisions.md)). Beating the keeper costs somebody: one of the other sixteen's lights in
+   the Tower goes out, by name, and the census reads fifteen ([D149](06-decisions.md)).
 9. **A death.** The world remembers which gate its lead shut, and in the next crater Bram has
    dreamt of them ([D147](06-decisions.md)). The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
    quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)); while some leads have no
