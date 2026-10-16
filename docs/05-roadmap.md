@@ -137,8 +137,8 @@ each, each ending playable:
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
-   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D156](06-decisions.md)) who can kill an unready Atlas. Auto stops
-   at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
+   kept by a keeper (the Warden of the Fifth and two slimes, level 9, [D156](06-decisions.md), [D150](06-decisions.md)) who can kill an unready Atlas. Auto
+   climbs them too ([D127](06-decisions.md), [D150](06-decisions.md)). Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
    floor 5 for Atlas alone; picking it up plays "Chapter one: The Weight" (meeting 2's working draft,
@@ -208,8 +208,8 @@ each, each ending playable:
    suite walks every way through it after Atlas's fall. Three wares at a market — built
    ([D146](06-decisions.md)). Two gates at the Guild — built ([D147](06-decisions.md)). A store-page draft and a
    devlog with each itch push — written ([D148](06-decisions.md), [29](29-the-store-page.md)). One of the other
-   sixteen's lights going out at the hour's end — built ([D149](06-decisions.md)). **Planned**: Auto
-   pausing for gates, the keeper and stronger bands.
+   sixteen's lights going out at the hour's end — built ([D149](06-decisions.md)). Auto pausing for gates,
+   the keeper and stronger bands, and picking up the keepsake before the stair — built ([D150](06-decisions.md)).
 13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or
    their world burning if it has ended; the first gate of the first life always does. **Planned**

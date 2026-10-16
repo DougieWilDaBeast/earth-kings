@@ -192,6 +192,8 @@ func _ready() -> void:
 	if not party.is_empty():
 		_select([party[0]])
 	var begin := "tap Pause" if touch else (Pad.key("command_wait") if Pad.using_pad else "Space")
+	if str(boot_payload.get("auto_stopped", "")) != "":
+		_say(str(boot_payload["auto_stopped"]))
 	_say("The fight is paused — %s to begin." % begin if paused else "The fight is on.")
 	for line in _opening:
 		_say(line)
