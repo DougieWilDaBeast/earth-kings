@@ -88,8 +88,8 @@ func setup(skirmish: Node2D) -> void:
 	_log.anchor_bottom = 1.0
 	_log.offset_left = 16
 	_log.offset_right = 760
-	_log.offset_top = -312 if not compact else -210
-	_log.offset_bottom = -188
+	_log.offset_top = -262 if not compact else -160
+	_log.offset_bottom = -138
 	_log.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_log.add_theme_color_override("font_color", Color(0.86, 0.88, 0.92))
@@ -102,18 +102,19 @@ func setup(skirmish: Node2D) -> void:
 	row.anchor_right = 1.0
 	row.offset_left = 16
 	row.offset_right = -16
-	row.offset_top = -180
+	row.offset_top = -130
 	row.offset_bottom = -8
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
 	var party: Array[Fighter] = skirmish.party_fighters()
 	# Four cards sit at full width; five or six share the row rather than run
-	# off the right edge of a 1280 screen.
+	# off the right edge of a 1280 screen. Kept small, so the fight is the field and not the
+	# cards ([D167], `doug-md`: "far too big… a lot smaller, a lot more slicker").
 	var room := get_viewport().get_visible_rect().size.x - 32.0 - 10.0 * maxf(0.0, party.size() - 1)
-	var card_width := minf(250.0, floorf(room / maxf(1.0, party.size())))
+	var card_width := minf(200.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():
 		var card := PanelContainer.new()
-		card.custom_minimum_size = Vector2(card_width, 166)
+		card.custom_minimum_size = Vector2(card_width, 118)
 		card.clip_contents = true
 		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		card.tooltip_text = _passive_tooltip(party[i])
@@ -130,8 +131,8 @@ func setup(skirmish: Node2D) -> void:
 		text.fit_content = true
 		text.scroll_active = false
 		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		text.add_theme_font_size_override("normal_font_size", 13)
-		text.add_theme_font_size_override("bold_font_size", 14)
+		text.add_theme_font_size_override("normal_font_size", 12)
+		text.add_theme_font_size_override("bold_font_size", 13)
 		column.add_child(text)
 		var tiles := HBoxContainer.new()
 		tiles.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -140,7 +141,7 @@ func setup(skirmish: Node2D) -> void:
 		var slots: Array = []
 		# The tiles narrow with the card, or four of them would hold it at full width.
 		var tile_count := maxi(1, party[i].slots.size())
-		var tile_width := minf(56.0, floorf((card_width - 16.0 - 4.0 * (tile_count - 1)) / tile_count))
+		var tile_width := minf(44.0, floorf((card_width - 16.0 - 4.0 * (tile_count - 1)) / tile_count))
 		for slot in party[i].slots.size():
 			var tile: Control = SkirmishSlot.new()
 			tile.set("width", tile_width)

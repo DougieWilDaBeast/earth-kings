@@ -355,6 +355,15 @@ func _check_home() -> void:
 
 	var better := Home.next_bed(house)
 	_expect(not better.is_empty(), "there is no bed to upgrade to")
+	# In the First Hour the crater offers no bed (D167); the beds are kept for after it.
+	var hidden: Array = Database.world_rules["first_hour"]["hidden"]
+	if hidden.has("beds"):
+		GameState.gold = 100000
+		_scene._upgrade_bed_here()
+		_expect(Home.tier(house) == 0, "a bed was sold in the crater in the First Hour")
+		_expect(not _scene._actions_here().any(func(doing: Dictionary) -> bool: return doing["call"] == _scene._upgrade_bed_here),
+			"the crater still offers a better bed in the First Hour")
+		hidden.erase("beds")
 	GameState.gold = 0
 	_scene._upgrade_bed_here()
 	_expect(Home.tier(house) == 0, "bought a bed with no money")
@@ -372,6 +381,8 @@ func _check_home() -> void:
 	if not _walk_onto(Site.VILLAGE):
 		return
 	_expect(sleeper.max_hp() == plain_hp + int(better.get("vigour", 0)), "a night away undid the bed")
+	if not hidden.has("beds"):
+		hidden.append("beds")
 	print("home: %s at %s, %s took %s from %d to %d HP" % [
 		Home.bed_name(house), house.cell, sleeper.display_name,
 		better.get("display_name", "a bed"), plain_hp, sleeper.max_hp()

@@ -1412,6 +1412,9 @@ func _errand_action(site: Site) -> Dictionary:
 
 ## Home has no board and no trader — only the bed, and what a better one costs.
 func _home_actions(site: Site) -> Array[Dictionary]:
+	# In the First Hour the crater is where you fell, not a bedroom to furnish ([D167]).
+	if FirstHour.hides("beds"):
+		return [_doable("%s for the party" % _key("open_party"), "The Party", _open_party)]
 	var better := Home.next_bed(site)
 	if better.is_empty():
 		return [
@@ -2022,7 +2025,7 @@ func _buy_grimoire_here() -> void:
 ## Buy the next bed up and try it out, since you are already standing in it.
 func _upgrade_bed_here() -> void:
 	var site := world.site_at(world.player_cell)
-	if site == null or site.kind != Site.HOME:
+	if site == null or site.kind != Site.HOME or FirstHour.hides("beds"):
 		return
 	var bought := Home.next_bed(site)
 	for line: String in Home.upgrade(site):

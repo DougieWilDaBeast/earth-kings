@@ -198,8 +198,10 @@ each, each ending playable:
    ([D162](06-decisions.md), five strangers' finding 7); only floors 6 up of the Tower and roadside
    fights still open the fight screen. A phone held upright is laid out tall, the ground
    filling it and text about 12 points ([D163](06-decisions.md), finding 6).
-11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one (play-test 3, on
-   `4196128` or the build on itch since 2026-10-16 09:11, `9c64cb3`); five real players, named by the
+11. **Next** ([D124](06-decisions.md)): Ewan played the hour (play-test 3, 2026-10-15,
+   [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D167](06-decisions.md))
+   and his bigger asks are listed, **planned**, waiting on his order
+   ([28](28-the-first-hour.md#play-test-3s-asks)). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in

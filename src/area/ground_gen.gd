@@ -466,22 +466,57 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	var rules: Dictionary = Database.biomes.get("scenery", {})
 	var origin := cell * Vector2i(w, h)
 	var inset := 0 if open_land else BORDER
+	var grove_size := float(rules.get("grove_size", 6.0))
+	# The grove field's corners, worked out once a tile rather than four times a cell (D167, lag).
+	var lattice := {}
+	var shape := world.shape_seed()
+	# Everything the rules say about each kind, read once a tile, in the order kinds are tried.
+	var kinds: Array[String] = ["trees", "rocks", "bushes", "small"]
+	var kind_choices: Array = []
+	var kind_density: Array[float] = []
+	for kind: String in kinds:
+		kind_choices.append(pool.get(kind, []))
+		kind_density.append(float(density.get(kind, 0.0)))
+	var grove_weight := float(rules.get("grove_weight", 2.8))
+	var path_bushes := float(rules.get("path_bushes", 2.5))
+	var bushes_elsewhere := float(rules.get("bushes_elsewhere", 0.7))
+	var small_on_cover := float(rules.get("small_on_cover", 2.5))
+	var small_elsewhere := float(rules.get("small_elsewhere", 0.6))
+	var rocks_on_bare := float(rules.get("rocks_on_bare", 2.5))
+	var rocks_elsewhere := float(rules.get("rocks_elsewhere", 0.6))
 	for y in range(inset, h - inset):
+		var line: PackedStringArray = grid[y]
 		for x in range(inset, w - inset):
 			var at := Vector2i(x, y)
-			if kept.has(at) or blocked.has(at) or grid[y][x] == LIQUID:
+			var on: String = line[x]
+			if on == LIQUID or kept.has(at) or blocked.has(at):
 				continue
 			var by_path := _beside_path(grid, kept, at, w, h)
-			for kind: String in ["trees", "rocks", "bushes", "small"]:
-				var choices: Array = pool.get(kind, [])
-				var chance := float(density.get(kind, 0.0)) * _scenery_weight(kind, rules, grid, at, by_path,
-					_grove(world, origin + at, float(rules.get("grove_size", 6.0))), w, h)
-				if choices.is_empty() or rng.randf() >= chance:
+			for k in 4:
+				var choices: Array = kind_choices[k]
+				if choices.is_empty():
+					continue
+				var weight := 1.0
+				match k:
+					0:
+						if by_path:
+							weight = 0.0
+						else:
+							# Smoothstep of the grove field, scaled so the land's average holds.
+							var t := clampf((_grove_at(shape, origin + at, grove_size, lattice) - 0.35) / 0.4, 0.0, 1.0)
+							weight = t * t * (3.0 - 2.0 * t) * grove_weight
+					1:
+						weight = rocks_on_bare if on == BARE else rocks_elsewhere
+					2:
+						weight = path_bushes if by_path else bushes_elsewhere
+					3:
+						weight = small_on_cover if on == COVER or _touches(grid, at, LIQUID, w, h) else small_elsewhere
+				if rng.randf() >= kind_density[k] * weight:
 					continue
 				var art := str(choices[rng.randi() % choices.size()])
 				# A tree always stands in the way; a rock only when props.json says it is
 				# one you cannot step past (loose stones and pebbles are walked over).
-				var solid := kind == "trees" or (kind == "rocks" and AreaProp.is_solid({ "art": art }))
+				var solid := k == 0 or (k == 1 and AreaProp.is_solid({ "art": art }))
 				props.append({ "art": art, "cell": [x, y], "solid": solid })
 				if solid:
 					blocked[at] = true
@@ -652,29 +687,6 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 		})
 
 
-## How much likelier than the land's average [param kind] is at [param at] (D130): `data/biomes.json`
-## `scenery` holds the numbers.
-static func _scenery_weight(kind: String, rules: Dictionary, grid: Array, at: Vector2i, by_path: bool,
-		grove: float, w: int, h: int) -> float:
-	var on: String = grid[at.y][at.x]
-	match kind:
-		"trees":
-			if by_path:
-				return 0.0
-			# Smoothstep of the grove field, scaled so the land's average holds.
-			var t := clampf((grove - 0.35) / 0.4, 0.0, 1.0)
-			return t * t * (3.0 - 2.0 * t) * float(rules.get("grove_weight", 2.8))
-		"bushes":
-			return float(rules.get("path_bushes", 2.5)) if by_path else float(rules.get("bushes_elsewhere", 0.7))
-		"small":
-			if on == COVER or _touches(grid, at, LIQUID, w, h):
-				return float(rules.get("small_on_cover", 2.5))
-			return float(rules.get("small_elsewhere", 0.6))
-		"rocks":
-			return float(rules.get("rocks_on_bare", 2.5)) if on == BARE else float(rules.get("rocks_elsewhere", 0.6))
-	return 1.0
-
-
 ## Whether [param at] is next to a worn path or the road.
 static func _beside_path(grid: Array, kept: Dictionary, at: Vector2i, w: int, h: int) -> bool:
 	for dy in range(-1, 2):
@@ -695,9 +707,14 @@ static func _touches(grid: Array, at: Vector2i, symbol: String, w: int, h: int) 
 	return false
 
 
+## One corner of the grove field.
+static func _lattice_of(shape: int, x: int, y: int) -> float:
+	return float(absi(hash([shape, x, y, "grove"])) % 10000) / 10000.0
+
+
 ## A smooth 0-to-1 field over the whole continent's ground, [param size] cells to a bump, so groves
-## run on from one tile into the next.
-static func _grove(world: World, at: Vector2i, size: float) -> float:
+## run on from one tile into the next. [param known] keeps the field's corners, a tile at a time.
+static func _grove_at(shape: int, at: Vector2i, size: float, known: Dictionary) -> float:
 	var fx := float(at.x) / size
 	var fy := float(at.y) / size
 	var x0 := floori(fx)
@@ -706,13 +723,12 @@ static func _grove(world: World, at: Vector2i, size: float) -> float:
 	var ty := fy - y0
 	tx = tx * tx * (3.0 - 2.0 * tx)
 	ty = ty * ty * (3.0 - 2.0 * ty)
-	var a := lerpf(_lattice(world, x0, y0), _lattice(world, x0 + 1, y0), tx)
-	var b := lerpf(_lattice(world, x0, y0 + 1), _lattice(world, x0 + 1, y0 + 1), tx)
-	return lerpf(a, b, ty)
-
-
-static func _lattice(world: World, x: int, y: int) -> float:
-	return float(absi(hash([world.shape_seed(), x, y, "grove"])) % 10000) / 10000.0
+	var corners: Array[float] = []
+	for corner: Vector2i in [Vector2i(x0, y0), Vector2i(x0 + 1, y0), Vector2i(x0, y0 + 1), Vector2i(x0 + 1, y0 + 1)]:
+		if not known.has(corner):
+			known[corner] = _lattice_of(shape, corner.x, corner.y)
+		corners.append(known[corner])
+	return lerpf(lerpf(corners[0], corners[1], tx), lerpf(corners[2], corners[3], tx), ty)
 
 
 static func _anywhere(rng: RandomNumberGenerator, w: int, h: int) -> Vector2i:

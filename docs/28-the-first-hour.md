@@ -145,12 +145,46 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
-| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128`, or `9f1b267` if he began before 20:25 UTC | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)). Asked again in [30](30-questions-for-the-founders.md), question 1 |
+| 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D167](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
 | 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
 | 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
 | 2026-10-15 23:50 | Five strangers: bot personas, two on PC, three on phones | `4196128` | After the city nobody found the first gate; phone held upright unplayable; a gate's fight opened the old screen; no deaths in 95 minutes ([D161](06-decisions.md), [D162](06-decisions.md), [D163](06-decisions.md)) |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
+
+### Play-test 3's asks
+
+What `doug-md` asked for in play-test 3 that needs more than a fix, **planned**, in no order until he
+gives one. Already done: the first fixes ([D167](06-decisions.md)); a gate is gone into with E beside
+it and fought on its plaza ([D116](06-decisions.md), [D162](06-decisions.md), built after his build);
+picking fighters by clicking, dragging a box or Tab, and right-click to move, were there (the fight's
+tip now says so).
+1. **The opening as a small film**: the fall, the crater forming, Bram walking over; Bram carries the
+   lead to a hut near the crater, they wake there, and he hands over the journal ("you came down with
+   this too"). The crater is no safe place.
+2. **A small square map** in the corner with north, east, south and west on its sides, instead of the
+   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it.
+3. **The far Tower** at the screen's edge is too big and distracting: a better way to show where it
+   is; and the Tower should rise, not look flat.
+4. **Life on the land**: animals, birds that move and fly off as you come near, bees and butterflies;
+   guards patrolling the roads; people doing things.
+5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
+   archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
+6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
+   door that opens onto a city.
+7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
+   town; more named places.
+8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
+9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
+   stairs that look like they go up and cannot be walked through; perhaps "Are you sure?" before
+   leaving floor 5.
+10. **The chapter-one memory shown** as a little film, not only told.
+11. **Height**: levels reached by stairs, as in Pokémon; trees and bushes that cannot be walked through.
+12. **Looks**: patches that overlap where they should blend; town walls and towers that line up;
+   trees not through walls; shadows from a sun; walks that face the way they go and livelier idles;
+   Twin Blade's picture; portraits whose hair fits the frame; Sky's tail (A28); something inside
+   houses; a bench and a chest that look placed; a lighthouse that suits the scene.
+13. **Coldrun "comes into sight"** before it can be seen.
 
 ## Music the hour still needs
 

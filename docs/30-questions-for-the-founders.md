@@ -21,12 +21,16 @@ questions, are at the end.
 
 ## 1. The hour as it plays
 
-**1. Ewan: how did play-test 3 go?** (Ewan)
+~~**1. Ewan: how did play-test 3 go?** (Ewan)
 You were to play the hour to chapter one on `4196128` ([D124](06-decisions.md)). Did you get there,
 where did you stop or get stuck, did you die, and what would you fix first? If you have not played
 yet, play `9c64cb3` (on itch now) instead and send the play log with the note.
 _Why:_ meeting 5 and the next fix batch wait on it ([28](28-the-first-hour.md#how-it-was-tested)).
-_Default:_ meeting 5 waits.
+_Default:_ meeting 5 waits.~~
+**Answered 2026-10-16** with a 45-minute recording, thinking aloud
+([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)): through Greyhollow, the
+Tower to floor 10 and Coldrun, no death. First fixes [D167](06-decisions.md); his bigger asks, to be
+put in order, in [28](28-the-first-hour.md#play-test-3s-asks).
 
 **2. Is dying in the First Hour a real enough risk?** (Both)
 The retreat said death in the hour should be a real risk ([D99](06-decisions.md)). Eight bot runs had

@@ -207,7 +207,7 @@
     "walls/adobe_run": "wall",
     "walls/adobe_side": "wall",
     "walls/adobe_tower": "wall_tower",
-    "landmark/lighthouse": { "kind": "tower", "scale": 4.0 },
+    "landmark/lighthouse": { "kind": "tower", "scale": 4.0, "frame_seconds": 0.45 },
     "landmark/gate_tree": "portal",
     "landmark/gate_stones": "portal",
     "landmark/gate_dark": "portal",

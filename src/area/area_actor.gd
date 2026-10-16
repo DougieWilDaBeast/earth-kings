@@ -75,9 +75,10 @@ static func ridden_template(template_id: String) -> String:
 	return bearer if bearer != "" and not Database.unit_template(bearer).is_empty() else template_id
 
 
-## Somebody who lives here rather than travels with you.
+## Somebody who lives here rather than travels with you. One of the sixteen carried by a bearer
+## is drawn in the saddle here too, so Atlas met in a town is the Atlas who joins ([D167]).
 static func for_person(person: Dictionary) -> AreaActor:
-	return _from_template(person.get("name", "Someone"), person.get("unit", ""))
+	return _from_template(person.get("name", "Someone"), ridden_template(str(person.get("unit", ""))))
 
 
 static func _from_template(name: String, template_id: String) -> AreaActor:
