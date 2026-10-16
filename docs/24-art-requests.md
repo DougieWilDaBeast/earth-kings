@@ -53,7 +53,7 @@ big units drawn bigger.
 
 | What | Why it waits |
 | --- | --- |
-| A6: proper ground for the other six lands (ash, blossom, slime, crystal, fungal, mist; jungle and barrow are drawn in house, [D140](06-decisions.md)), three sheets each, with `tools/pixellab_world.py ground <land>` (about 65 generations a land) | `dougie`, 2026-10-13: eight lands first, the rest next month |
+| A6: PixelLab ground for the eight lands drawn in house (jungle and barrow, [D140](06-decisions.md); ash, blossom, slime, crystal, fungal, mist, [D157](06-decisions.md)), if it is wanted over the in-house sheets, three sheets each, with `tools/pixellab_world.py ground <land>` (about 65 generations a land) | `dougie`, 2026-10-13: eight lands first, the rest next month |
 | Hit and death for the Sleepless Blade (`emo_swordsman`), about 16 generations | The month's generations ran out, 2026-10-14 |
 | Redraw the manes of `tide_lion` and `flame_lion` so water and fire read at a glance (about 35 generations each) | `dougie`, 2026-10-13: playability first, come back to it later |
 

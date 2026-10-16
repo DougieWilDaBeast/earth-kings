@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draw the jungle's and the barrow downs' ground, pools and cover in house.
+"""Draw the lands' ground, pools and cover in house.
 
     python3 tools/draw_lands.py [land ...]
 
@@ -10,7 +10,7 @@ stand-ins: the grassland's sheets recoloured (tools/recolour_biomes.py). The gra
 raised turf with cliff faces down to the earth, so recoloured it put grey slabs and ledges all over
 the downs; and the three sheets of each land were recoloured apart, so the floor in the pool sheet
 and the cover sheet was a different green from the floor in the ground sheet, and the land showed
-in squares. D138 draws all three for both lands from one set of pixels each, flat and soft-edged,
+in squares. D140 draws all three for both lands from one set of pixels each, flat and soft-edged,
 in the 24 x 8 layout every PixelLab "godot" sheet shares (src/area/tile_forge.gd):
 
 - art/tilesets/biome/<land>_ground.png: the land's floor where a corner is floor, its bare earth
@@ -20,6 +20,12 @@ in the 24 x 8 layout every PixelLab "godot" sheet shares (src/area/tile_forge.gd
 
 The floor is the same pixels in all three, so they meet without a seam. Pools are drawn at 64
 pixels, like the rest, rather than the 32 the stand-ins were (data/tilesets.json `tile_size`).
+D157 draws the six lands that were still stand-ins the same way: ash (grey ash over black cinder,
+lava for water), blossom (soft green under pink bloom), slime (green moss over purple, ooze for
+water), crystal (pale blue-violet over deep violet, crystal light for water), fungal (blue-black
+loam, glowing pools, blue caps) and mist (grey-blue moor, violet scrub). Their colours are the
+stand-ins' own (tools/recolour_biomes.py), so a land looks the land it was.
+
 Re-run tools/draw_edges.py afterwards: the blend sheets between lands take each land's floor tile.
 """
 
@@ -69,6 +75,78 @@ LANDS = {
         "cover_lit": (178, 168, 120),
         "edge": (64, 72, 52),
         "bank": (70, 64, 52),
+    },
+    "ash": {
+        "floor": [(118, 114, 114), (108, 104, 106), (126, 122, 120), (100, 96, 98)],
+        "floor_fleck": [(168, 162, 156), (60, 54, 54)],
+        "bare": [(48, 42, 42), (42, 36, 38), (56, 48, 46)],
+        "bare_fleck": [(26, 22, 24), (150, 70, 30)],
+        "liquid": [(196, 72, 18), (176, 58, 14), (214, 92, 24)],
+        "liquid_glint": (255, 206, 96),
+        "cover": [(78, 74, 78), (70, 66, 70), (86, 82, 84)],
+        "cover_lit": (140, 134, 134),
+        "edge": (58, 54, 56),
+        "bank": (34, 28, 28),
+    },
+    "blossom": {
+        "floor": [(140, 188, 124), (130, 178, 116), (150, 196, 132), (122, 170, 110)],
+        "floor_fleck": [(240, 196, 216), (250, 244, 220)],
+        "bare": [(180, 148, 128), (170, 138, 120), (190, 158, 138)],
+        "bare_fleck": [(140, 112, 96), (220, 192, 172)],
+        "liquid": [(130, 186, 224), (120, 176, 216), (140, 194, 230)],
+        "liquid_glint": (226, 244, 255),
+        "cover": [(224, 150, 186), (212, 136, 174), (236, 166, 198)],
+        "cover_lit": (255, 220, 234),
+        "edge": (96, 136, 90),
+        "bank": (122, 102, 92),
+    },
+    "slime": {
+        "floor": [(62, 110, 80), (56, 100, 74), (70, 118, 86), (50, 92, 68)],
+        "floor_fleck": [(130, 210, 90), (40, 66, 52)],
+        "bare": [(100, 56, 126), (92, 50, 118), (110, 64, 136)],
+        "bare_fleck": [(66, 34, 86), (160, 110, 182)],
+        "liquid": [(96, 210, 62), (84, 192, 54), (110, 226, 74)],
+        "liquid_glint": (216, 255, 160),
+        "cover": [(140, 76, 160), (128, 66, 148), (152, 88, 170)],
+        "cover_lit": (206, 150, 220),
+        "edge": (36, 64, 50),
+        "bank": (58, 32, 74),
+    },
+    "crystal": {
+        "floor": [(140, 150, 204), (130, 140, 196), (150, 160, 212), (122, 132, 186)],
+        "floor_fleck": [(220, 232, 255), (90, 92, 146)],
+        "bare": [(60, 50, 106), (54, 46, 98), (68, 58, 116)],
+        "bare_fleck": [(36, 30, 70), (120, 180, 230)],
+        "liquid": [(76, 204, 230), (66, 186, 216), (92, 220, 240)],
+        "liquid_glint": (226, 255, 255),
+        "cover": [(166, 130, 222), (152, 118, 210), (178, 144, 232)],
+        "cover_lit": (234, 214, 255),
+        "edge": (82, 84, 138),
+        "bank": (40, 34, 80),
+    },
+    "fungal": {
+        "floor": [(42, 72, 102), (38, 66, 94), (48, 80, 110), (34, 60, 86)],
+        "floor_fleck": [(90, 200, 210), (24, 36, 54)],
+        "bare": [(54, 44, 60), (48, 38, 54), (62, 50, 68)],
+        "bare_fleck": [(30, 24, 36), (98, 82, 104)],
+        "liquid": [(50, 180, 196), (42, 162, 180), (62, 198, 210)],
+        "liquid_glint": (190, 255, 250),
+        "cover": [(70, 100, 160), (62, 90, 148), (80, 112, 172)],
+        "cover_lit": (140, 200, 232),
+        "edge": (24, 40, 60),
+        "bank": (30, 24, 36),
+    },
+    "mist": {
+        "floor": [(116, 124, 142), (108, 116, 134), (124, 132, 150), (100, 108, 126)],
+        "floor_fleck": [(176, 182, 200), (72, 76, 92)],
+        "bare": [(70, 70, 86), (64, 64, 80), (78, 78, 94)],
+        "bare_fleck": [(44, 44, 56), (112, 112, 130)],
+        "liquid": [(104, 114, 164), (96, 106, 154), (112, 122, 172)],
+        "liquid_glint": (198, 206, 238),
+        "cover": [(118, 106, 150), (108, 98, 140), (128, 116, 160)],
+        "cover_lit": (184, 174, 214),
+        "edge": (78, 84, 100),
+        "bank": (48, 48, 62),
     },
 }
 
