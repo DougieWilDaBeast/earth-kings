@@ -124,7 +124,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   copy who walks this one, and say one line in their own voice. If their world has ended, the gate
   shows it burning with nobody in it.
 - **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
-  for Atlas); after that a rank E gate about one time in four, more for higher ranks.
+  for Atlas; `dougie` confirmed it, [D165](06-decisions.md)); after that a rank E gate about one time in four, more for higher ranks.
 - **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
