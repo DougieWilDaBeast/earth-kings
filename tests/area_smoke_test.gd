@@ -625,6 +625,10 @@ func _check_tower_floor() -> void:
 		if thing.act == "_climb_here":
 			door = thing
 	_expect(door != null, "tower: the Tower's door is not a way up")
+	# The Guild's master stands beside Sennet and can mark a lead himself (D154).
+	var masters := (Database.area("tower").get("people", []) as Array).filter(func(p: Dictionary) -> bool:
+		return str(p.get("name", "")).begins_with("Old Halloran") and bool(p.get("guild", false)))
+	_expect(masters.size() == 1, "tower: the Guild's master is not in the Guild")
 	var spires := (foot.get("_actors") as Node).get_children().filter(func(n: Node) -> bool: return n.get_script() == preload("res://src/area/area_spire.gd"))
 	_expect(spires.size() == 1, "tower: the stand-in Tower is not standing (%d)" % spires.size())
 	if door != null:
