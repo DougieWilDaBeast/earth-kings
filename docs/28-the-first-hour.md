@@ -120,7 +120,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
 Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
-item 90).
+item 91).
 
 ## How it was tested
 

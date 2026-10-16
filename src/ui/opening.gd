@@ -117,8 +117,18 @@ func _remember_the_fallen() -> void:
 		var again := shot.duplicate(true)
 		if swaps.has(id):
 			again["lines"] = (swaps[id] as Array).duplicate()
+		if id == "impact" and pair_line() != "":
+			again["lines"] = (again.get("lines", []) as Array) + [pair_line()]
 		kept.append(again)
 	shots = kept
+
+
+## The impact shot's extra line when the new lead is the other half of a tie with
+## the one who just died (D153, `opening.json` → `pairs`); empty otherwise.
+func pair_line() -> String:
+	if _fallen.is_empty():
+		return ""
+	return str((_data.get("pairs", {}) as Dictionary).get("%s>%s" % [_other, _lead], ""))
 
 
 ## How many of the sixteen are still alive, the new lead among them.
@@ -153,12 +163,21 @@ func how_they_fell() -> String:
 func fill() -> Dictionary:
 	var count := left()
 	var gone := _fallen.size()
-	return {
+	var they := str(Database.hero(_other).get("pronoun", "they"))
+	var said := {
 		"other": other_name(), "dead": other_name(), "how": how_they_fell(),
 		"left": _word(count), "Left": _word(count).capitalize(),
 		"fallen": _word(gone), "Fallen": _word(gone).capitalize(),
 		"left_after": _word(count - 1),
+		"they": they, "They": they.capitalize(),
+		"remembered": str((_data.get("remembered", {}) as Dictionary).get(_other, "")),
 	}
+	# D153: what the lead who just died had remembered, or that they never found out.
+	var fell: Dictionary = _data.get("fell", {})
+	var found := str(_dead_world.get("hero", "")) == _other and bool(_dead_world.get("remembered", false)) \
+			and str(said["remembered"]) != ""
+	said["fell"] = str(fell.get("found" if found else "not_found", "{dead} fell {how}.")).format(said)
+	return said
 
 
 static func _word(count: int) -> String:

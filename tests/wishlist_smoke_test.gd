@@ -389,15 +389,15 @@ func _check_opening() -> void:
 ## story shots (call AC), with the fallen gone from it and the lines for who is left.
 func _check_opening_again(data: Dictionary, asked: Array) -> void:
 	var sixteen: Array = data.get("sixteen", [])
-	var second := _opening_for("cato", ["atlas"], {"hero": "atlas", "name": "Atlas", "floor": 3, "killer": "slime"})
+	var second := _opening_for("cato", ["atlas"], {"hero": "atlas", "name": "Atlas", "floor": 3, "killer": "slime", "remembered": true})
 	var ids: Array = second.shots.map(func(shot: Dictionary) -> String: return str(shot.get("shot", "")))
 	_expect(ids == data.get("replay", []), "the second life's opening plays %s, not the replay's shots" % [ids])
 	_expect(second.stage() == "many" and second.left() == 15, "the second life is not fifteen left (%s, %d)" % [second.stage(), second.left()])
 	_expect(second._other == "atlas", "the second life's opening does not show Atlas's world ending (%s)" % second._other)
 	var said := _opening_lines(second)
 	_expect(said.has("Sixteen of them, each given a world. Fifteen are still standing."), "the ring does not count fifteen left")
-	_expect(said.has("Atlas fell on floor 3 of the Tower, and that world went dark with them. It never comes back."),
-			"the ending shot does not say how Atlas fell: %s" % [said])
+	_expect(said.has("Atlas fell on floor 3 of the Tower. He had just remembered a courtyard, and a gift."),
+			"the ending shot does not say how Atlas fell and what he remembered (D153): %s" % [said])
 	_expect(said.has("One of the fourteen after you goes on, from the beginning."), "the end shot does not count who is after")
 	asked.clear()
 	var guard := 0
@@ -408,9 +408,18 @@ func _check_opening_again(data: Dictionary, asked: Array) -> void:
 	second.queue_free()
 
 	var on_road := _opening_for("juno", ["atlas", "cato"], {"hero": "cato", "name": "Cato", "floor": 0, "killer": "Ogre"})
-	_expect(_opening_lines(on_road).has("Cato fell on the road, to an ogre, and that world went dark with them. It never comes back."),
+	_expect(_opening_lines(on_road).has("Cato fell on the road, to an ogre, and never learned what he carried down."),
 			"a lead killed on the road is not said to fall there: %s" % [_opening_lines(on_road)])
 	on_road.queue_free()
+	# D153: the other half of a tie hears it once, on the impact shot, and nobody else does.
+	var tie := _opening_for("ultor", ["bellona"], {"hero": "bellona", "name": "Bellona", "floor": 2, "killer": "", "remembered": false})
+	var tie_said := _opening_lines(tie)
+	_expect(tie_said.has("Somewhere a whistle stops blowing.") and tie_said.has("Bellona fell on floor 2 of the Tower, and never learned what she carried down."),
+			"Ultor after Bellona does not hear the whistle stop: %s" % [tie_said])
+	tie.queue_free()
+	var no_tie := _opening_for("janus", ["bellona"], {"hero": "bellona", "name": "Bellona", "floor": 2})
+	_expect(not _opening_lines(no_tie).has("Somewhere a whistle stops blowing."), "a lead with no tie to Bellona hears the whistle")
+	no_tie.queue_free()
 
 	var others := sixteen.filter(func(hero) -> bool: return hero != "diana")
 	var pair := _opening_for("diana", others.slice(0, 14), {"hero": others[13]})
@@ -421,7 +430,7 @@ func _check_opening_again(data: Dictionary, asked: Array) -> void:
 	_expect(last.stage() == "last" and last.left() == 1, "the sixteenth life is not the last (%s)" % last.stage())
 	_expect(last_said.has("There is nobody after you.") and last_said.has("The last standing quest: Ascend to heaven."),
 			"the last life does not hear that nobody is after them: %s" % [last_said])
-	_expect(last_said.has("Juno fell before they ever reached the Tower, and that world went dark with them. It never comes back."),
+	_expect(last_said.has("Juno fell before they ever reached the Tower, and never learned what she carried down."),
 			"the last life's ending shot is not Juno's")
 	last.queue_free()
 
