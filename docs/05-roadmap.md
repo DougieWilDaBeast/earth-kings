@@ -547,9 +547,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
 - One world, the same every run ✅ (2026-10-14, [D91](06-decisions.md), [D92](06-decisions.md)):
   `doug-md`'s Map F frozen into `data/world_map.json` with the Tower in the middle; its lands and
   ground the same every run too; improved by hand from here ([27](27-the-world.md))
-- Coins and prices (agenda item 60, planned): four coins, bronze to platinum, and every price set
-  again, proposed in [26](26-coins-and-prices.md) for `doug-md` to check ([D89](06-decisions.md),
-  [D90](06-decisions.md))
+- Coins and prices (agenda item 60, planned): four coins, copper to platinum ([D177](06-decisions.md)),
+  and every price set again, proposed in [26](26-coins-and-prices.md) for `doug-md` to check
+  ([D89](06-decisions.md), [D90](06-decisions.md))
 - Planar areas that differ (agenda item 62) ✅ (2026-10-12, [D66](06-decisions.md)): eighteen lands
   ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
   reshaped round gates; every tile of open country its own ground, with ways out only where the land
