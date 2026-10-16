@@ -232,14 +232,16 @@ each, each ending playable:
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
    founders' questions ([30](30-questions-for-the-founders.md), D168 to D175). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
-   ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); the Warden of the Fifth speaking and counting the challengers
-   ([D174](06-decisions.md)); the hour's music worked out with `doug-md`'s cues and the creatives'
+   ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); the hour's music worked out with `doug-md`'s cues and the creatives'
    brief ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
    asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
    open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
    the word carried between the leads is built ([D183](06-decisions.md), item 13); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
    store page and a native Android build wait ([D169](06-decisions.md)); call AV's five real players
-   and meeting 5 wait for players.
+   and meeting 5 wait for players. The Warden of the Fifth's voice — built ([D184](06-decisions.md),
+   [D174](06-decisions.md)): as its fight begins it names the lead and counts which of the sixteen
+   challengers they are, first to sixteenth and final (lines **Inferred**, agenda item 108). Its fight
+   is left as it is until the Tower's bestiary rework ([D156](06-decisions.md)).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

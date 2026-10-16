@@ -525,6 +525,13 @@ bring its system back.
 `first_life` (`atlas`) is the lead New Game starts as while no world has ended; after a death the
 quiz picks the next lead ([D106](06-decisions.md), `FirstHour.first_life()`).
 
+`warden` is what the floor 5 keeper says as its fight begins ([D184](06-decisions.md)): `band` (the
+keeper's band key, `tower5_keeper`), `speaker` (the name in the box), `ordinals` (the words for first
+to sixteenth), `first_line` (the first life's), `line` (every later life's) and `last_line` (the
+sixteenth's); `{ordinal}` is the word and `{name}` the lead. Which challenger a lead is comes from the
+leads already fallen (`Sixteen.fallen_heroes`, kept outside the save, [D47](06-decisions.md)); read by
+`FirstHour.warden_line`, shown by `area_scene._fight_held`.
+
 ## `world_rules.json` → `difficulty` — settings (D104)
 
 `setting` is the one a new player gets, `first_hour`; `settings` holds each by key with its
