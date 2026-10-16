@@ -137,7 +137,7 @@ each, each ending playable:
 6. Tower floors 1 to 5, walkable — built ([D102](06-decisions.md)). Each is its own ground
    (`data/areas/tower_floor_1` to `_5`) with bands watching it, fought where they are met and for
    real, and the stair up at the far end; standing on the stair wins the floor. Floor 5's stair is
-   kept by a keeper (a king slime and two slimes, level 7) who can kill an unready Atlas. Auto stops
+   kept by a keeper (the Warden of the Fifth and two slimes, level 7, [D156](06-decisions.md)) who can kill an unready Atlas. Auto stops
    at the Tower's door; the floors are walked by hand. Floors 6 up are still fought as one battle.
    Layouts and foes are **Inferred**, for `doug-md`'s play-test after this step.
 7. Atlas's chapter-one memory — built ([D103](06-decisions.md)). A child's saddle buckle lies on
@@ -527,8 +527,8 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   `data/biomes.json`). Art for sixteen of the lands was a recoloured stand-in; since 2026-10-13 every
   land's trees, rocks and plants and the ground of eight (the blight, snow, dune, savanna, swamp,
   bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). The jungle's and the barrow downs'
-  ground is drawn in house since 2026-10-15 ([D140](06-decisions.md)). Planned: the ground of the other
-  six (ash, blossom, slime, crystal, fungal, mist), next month
+  ground is drawn in house since 2026-10-15 ([D140](06-decisions.md)), and so is the ground of the other
+  six (ash, blossom, slime, crystal, fungal, mist; [D157](06-decisions.md)): no land is a stand-in now
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was
