@@ -88,3 +88,27 @@ static func put_out_a_light(world: World, floor: int, company: Array) -> Array[S
 		lines.append(str(line).format({"name": name}))
 	Annals.record(world, "As the company won floor %d, %s fell in a world of their own." % [floor, name])
 	return lines
+
+
+## AM (D150): whether a party walking itself stops for this fight and hands it to the player: a
+## gate's fight, a keeper, or a foe more than `above_level` over [param lead_level]. Auto fights
+## only what is below that. [param kind] is the pending outcome's kind ("gate", "tower", ...).
+static func auto_stops_for(enemies: Array, kind: String, lead_level: int) -> bool:
+	var rules: Dictionary = Database.world_rules.get("first_hour", {}).get("auto_stops", {})
+	if rules.is_empty():
+		return false
+	if bool(rules.get("gates", false)) and kind == "gate":
+		return true
+	for foe: Variant in enemies:
+		if not foe is Dictionary:
+			continue
+		if bool(rules.get("keepers", false)) and bool((foe as Dictionary).get("boss", false)):
+			return true
+		if int((foe as Dictionary).get("level", 0)) > lead_level + int(rules.get("above_level", 0)):
+			return true
+	return false
+
+
+## What a fight says when Auto has stopped for it (D150).
+static func auto_stop_line() -> String:
+	return str(Database.world_rules.get("first_hour", {}).get("auto_stops", {}).get("line", ""))

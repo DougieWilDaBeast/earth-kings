@@ -45,7 +45,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)). Each floor brings a kind of foe not met on the one before, and floors 1 to 4 carry none of the
    sprites docs/22 marks dev only ([D143](06-decisions.md)).
    E at the stair goes straight to the next floor; only floor 5, its keeper beaten, brings the party
-   back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)). Floor 5
+   back out to the yard ([D115](06-decisions.md)). Auto climbs too ([D127](06-decisions.md)), picking up the
+   lead's keepsake before the stair, and hands over paused any fight that matters: a gate's, the
+   keeper's, or a band more than a level over the lead ([D150](06-decisions.md)). Floor 5
    is kept by the Warden of the Fifth, an armoured figure with a glaive whose big swing shows before
    it lands, drawn in house ([D156](06-decisions.md)).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
@@ -59,8 +61,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even: foes two levels down, half healed
-after a fight, about a level a fight, the floor 5 keeper at level 7 ([D113](06-decisions.md), kept
-by [D117](06-decisions.md)). **Saves**: on walking into a town or the city, opening the register,
+after a fight, about a level a fight, the bands on the Tower's floors at the level written for them (the setting's
+two levels off is not applied there), so the floor 5 keeper stands at level 9 ([D113](06-decisions.md), kept
+by [D117](06-decisions.md), corrected by [D150](06-decisions.md)). **Saves**: on walking into a town or the city, opening the register,
 shutting a gate, as well as setting out and resting ([D112](06-decisions.md)). **The play log**:
 Copy or Save play log in the system menu hands a tester's run over ([D125](06-decisions.md)).
 

@@ -128,6 +128,36 @@ func _auto_climbs() -> void:
 	Pace.auto = false
 	if up == null or _floor_of(up) != 2:
 		_fail("climb: Auto on floor 1 did not climb to floor 2 (on %s)" % _describe(_current()))
+	# AM (D150): Auto fights only trash. It stops for a gate's fight, a keeper, and a foe more than
+	# a level over the lead, and hands that fight over paused.
+	_expect(not FirstHour.auto_stops_for([{"unit": "slime", "level": 2}], "tower", 1), "climb: Auto stops for a floor 1 slime")
+	_expect(FirstHour.auto_stops_for([{"unit": "king_slime", "level": 9, "boss": true}], "tower", 9), "climb: Auto fights the keeper itself")
+	_expect(FirstHour.auto_stops_for([{"unit": "goblin", "level": 1}], "gate", 5), "climb: Auto fights a gate's fight itself")
+	_expect(FirstHour.auto_stops_for([{"unit": "wolf", "level": 6}], "", 4), "climb: Auto fights a band two levels over the lead")
+	var floor_now := _current()
+	if _floor_of(floor_now) > 0:
+		Pace.auto = true
+		floor_now.call("_fight_here", {"encounter": {"enemies": [{"unit": "slime", "level": 30, "boss": true}], "title": "A test"}, "field": {}})
+		var fight: Node = floor_now.get("_fight")
+		_expect(fight != null and bool(fight.get("paused")) and not Pace.auto, "climb: Auto did not stop and hand over a keeper's fight")
+		if fight != null:
+			(fight.get("boot_payload") as Dictionary)["sandbox"] = true
+			floor_now.call("_after_the_fight")
+		_expect(not bool(floor_now.get("_auto_after_fight")), "climb: a lost stopped fight left Auto waiting to walk on")
+		Pace.auto = false
+		# AM (D150, the five strangers): a memory of the lead's lying on the floor is where Auto
+		# heads before the stair, so Auto never climbs past chapter one.
+		var floor_map: Variant = floor_now.get("map")
+		if not floor_map.exits.is_empty():
+			var glint: Vector2i = floor_map.exits[0]
+			floor_now.set("_memories", {glint: {"id": "test"}})
+			(floor_now.get("_auto_exit_path") as Array).clear()
+			floor_now.call("_auto_axis")
+			var path: Array = floor_now.get("_auto_exit_path")
+			_expect(not path.is_empty() and floor_map.cell_at(path.back()) == glint,
+				"climb: Auto on a floor with a memory lying there did not head for it before the stair")
+			floor_now.set("_memories", {})
+			(floor_now.get("_auto_exit_path") as Array).clear()
 
 
 ## D131: a roadside scene come upon on the land stands there to be seen (the cart, the driver, the
@@ -253,7 +283,10 @@ func _two_packs_at_once() -> void:
 		return
 	await _frames(10)
 	_expect((land.get("_watches") as Array).size() == 2, "two packs: %d bands on the ground, not 2" % (land.get("_watches") as Array).size())
-	# Fights play themselves while the suite watches (Auto, D94).
+	# Fights play themselves while the suite watches (Auto, D94); these wolves are over the lead, so
+	# Auto's stop for stronger bands (D150) is lifted here.
+	var stops: Variant = Database.world_rules["first_hour"].get("auto_stops")
+	Database.world_rules["first_hour"].erase("auto_stops")
 	Pace.auto = true
 	for pack in 2:
 		var watches: Array = land.get("_watches")
@@ -286,6 +319,8 @@ func _two_packs_at_once() -> void:
 			_fail("two packs: the party fell to pack %d, so the second fight goes unchecked" % (pack + 1))
 			break
 	Pace.auto = false
+	if stops != null:
+		Database.world_rules["first_hour"]["auto_stops"] = stops
 
 
 func _apart(a: Vector2i, b: Vector2i) -> int:

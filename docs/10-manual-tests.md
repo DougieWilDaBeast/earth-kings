@@ -207,6 +207,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G6d | On floor 5 as Atlas, before the buckle             | The compass says "Something glints" and points at it; once picked up it points at the stair ([D107](06-decisions.md)) |
 | G6e | Die as Atlas, Ascend, answer the quiz              | The opening plays again, shorter: Atlas grey in the ring, his world going dark, "Fifteen are still standing", then the new lead lands ([D135](06-decisions.md)) |
 | G6f | Shut Elderford (north of the city), then die and Ascend | The register listed Greyhollow and Elderford; in the next crater Bram dreams of somebody who shut Elderford and went up ([D147](06-decisions.md)) |
+| G6g | Auto on floor 5 as Atlas | Auto walks to the buckle before the stair; at the keeper the fight opens paused, "Auto stops here: this fight is yours."; win it and Auto walks on ([D150](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
 | G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |
