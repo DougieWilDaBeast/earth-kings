@@ -1,5 +1,5 @@
 extends Node2D
-## Something small and alive on the ground ([D168]): a bird pecking about that takes off as the party
+## Something small and alive on the ground ([D179]): a bird pecking about that takes off as the party
 ## comes near and lands again further off, a butterfly or a bee fluttering round where it lives, a
 ## grasshopper that hops, a snail or a spider that creeps. It stands in the way of nothing and says
 ## nothing; it is there so the land is not empty (`doug-md`, play-test 3).

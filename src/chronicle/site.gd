@@ -34,7 +34,7 @@ const ART := {
 	GATE: "res://art/props/landmark/gate_dark.png",
 	HUT: "res://art/buildings/hunting_lodge.png",
 	GRAVE: "res://art/world/tomb.png",
-	# Where the lead fell: a crater, not a castle ([D167]).
+	# Where the lead fell: a crater, not a castle ([D178]).
 	HOME: "res://art/world/crater.png",
 }
 

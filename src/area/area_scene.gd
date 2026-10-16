@@ -41,7 +41,7 @@ const SKIRMISH := preload("res://src/skirmish/skirmish.tscn")
 
 const WALK_SPEED := 190.0
 ## How long laying out the land ahead may take in one frame, in milliseconds, and how near a tile's
-## edge the party walks before the tiles beyond the next are worked out ([D167]).
+## edge the party walks before the tiles beyond the next are worked out ([D178]).
 const LAND_BUDGET_MS := 5.0
 const LAND_WARM_CELLS := 12
 ## Breadcrumb trail recording spacing and following parameters.
@@ -405,7 +405,7 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 	return jobs
 
 
-## The birds, butterflies, bees and creeping things of [param tile] ([D168], play-test 3: "Surely
+## The birds, butterflies, bees and creeping things of [param tile] ([D179], play-test 3: "Surely
 ## it would be some animals, butterflies, bees, bugs"): a few of each, as many as its land carries,
 ## half in a place; the same tile always gets the same ones.
 func _life_for(tile: Vector2i) -> Array[Dictionary]:
@@ -447,7 +447,7 @@ func _put_critter(art: String, cell: Vector2i, seed_: int) -> Node2D:
 	return critter
 
 
-## The city's Watch walking the First Hour's road ([D168], play-test 3: "these roads should be
+## The city's Watch walking the First Hour's road ([D179], play-test 3: "these roads should be
 ## patrolled by guards"): on some of the road's tiles, a pair of them walk the length of it there and
 ## back, saying a word at each end, and will talk.
 func _admit_the_road_watch(tile: Vector2i) -> void:
@@ -530,7 +530,7 @@ func _plan_the_land() -> void:
 
 func _hold_more() -> void:
 	# A little of the land ahead each frame, never more than the budget, so walking on stays smooth
-	# ([D167], play-test 3: "major frame rate issues when jumping across tiles").
+	# ([D178], play-test 3: "major frame rate issues when jumping across tiles").
 	var start := Time.get_ticks_usec()
 	var budget := LAND_BUDGET_MS * 1000.0
 	var first := true
@@ -933,7 +933,7 @@ func _put_prop(prop: Dictionary) -> Node2D:
 	var art: String = prop.get("art", "")
 	if not AreaProp.has_art(art):
 		return null
-	# A bird or a bug laid down as scenery is alive ([D168]), unless it is something to look at.
+	# A bird or a bug laid down as scenery is alive ([D179]), unless it is something to look at.
 	if AreaCritter.life_of(art) != "" and str(prop.get("line", "")) == "" and not prop.has("gold") and not prop.has("item"):
 		var cell: Vector2i = prop["cell"]
 		return _put_critter(art, cell, hash([map.id, cell.x, cell.y, art]))
@@ -1344,7 +1344,7 @@ func _click_target(target: AreaThing) -> void:
 
 ## Steering for whatever the player clicked on: walk until it is close enough
 ## to deal with, then deal with it.
-## Clicked on open ground: the way there, a cell at a time ([D167], `doug-md`'s play-test 3: "an
+## Clicked on open ground: the way there, a cell at a time ([D178], `doug-md`'s play-test 3: "an
 ## option to use either WASD to move around or point and click").
 func _click_step() -> Vector2:
 	while not _click_path.is_empty() and _leader.position.distance_to(_click_path[0]) < 12.0:
@@ -1428,7 +1428,7 @@ func _land_auto_axis() -> Vector2:
 				waypoint = _auto_exit_path[_auto_exit_index]
 		return (waypoint - _leader.position).normalized()
 	# The tile it makes for was not laid out yet when the way was worked out (the land ahead is laid
-	# out a little a frame, D167): worked out again once it is, rather than walking at it blind.
+	# out a little a frame, D178): worked out again once it is, rather than walking at it blind.
 	if _auto_exit_path.is_empty() and land.is_held(_auto_tile):
 		_auto_exit_path = land.find_cell_path(here, land.slot_rect(_auto_tile).get_center())
 		_auto_exit_index = 1 if _auto_exit_path.size() > 1 else 0

@@ -1412,7 +1412,7 @@ func _errand_action(site: Site) -> Dictionary:
 
 ## Home has no board and no trader — only the bed, and what a better one costs.
 func _home_actions(site: Site) -> Array[Dictionary]:
-	# In the First Hour the crater is where you fell, not a bedroom to furnish ([D167]).
+	# In the First Hour the crater is where you fell, not a bedroom to furnish ([D178]).
 	if FirstHour.hides("beds"):
 		return [_doable("%s for the party" % _key("open_party"), "The Party", _open_party)]
 	var better := Home.next_bed(site)

@@ -14,7 +14,7 @@ transcribed: Teams' automatic transcription, unedited (it mishears names: "Bram"
 > mishearings included — the record. The video he sent with it stops after about eleven minutes
 > (the file is cut short), so only the crater, the walk north and the mistlands can be seen; the
 > words cover the whole run. What came of it: [28](../../28-the-first-hour.md#how-it-was-tested),
-> [D167](../../06-decisions.md), and the asks still to be ordered on the roadmap's next steps.
+> [D178](../../06-decisions.md), and the asks still to be ordered on the roadmap's next steps.
 
 > Ewan Douglas - STUDENT 0:15
 > Right, so this is...
