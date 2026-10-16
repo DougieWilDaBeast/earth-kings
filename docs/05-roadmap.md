@@ -206,8 +206,8 @@ each, each ending playable:
    ([D145](06-decisions.md)): the quiz deals only leads with a chapter one (since [D151](06-decisions.md) all sixteen have one,
    so it deals every lead), and a
    suite walks every way through it after Atlas's fall. Three wares at a market — built
-   ([D146](06-decisions.md)). **Planned**, in order: a store-page draft and a devlog with each itch push;
-   two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
+   ([D146](06-decisions.md)). Two gates at the Guild — built ([D147](06-decisions.md)). **Planned**, in
+   order: a store-page draft and a devlog with each itch push; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
 13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or

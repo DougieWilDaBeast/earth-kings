@@ -28,8 +28,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    the Guild's master, stands beside him and can mark a lead too ([D154](06-decisions.md)). Nobody climbs
    until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
    B buys the one in hand ([D146](06-decisions.md)).
-5. **The first gate.** Greyhollow, rank E, eight tiles from the city and open in every world. E beside
-   it goes in; walking onto it does not ([D116](06-decisions.md)). Its plaza runs up to its gate, a
+5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
+   south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
+   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
@@ -50,7 +51,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)).
-9. **A death.** The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
+9. **A death.** The world remembers which gate its lead shut, and in the next crater Bram has
+   dreamt of them ([D147](06-decisions.md)). The death screen has Ascend selected ([D105](06-decisions.md)); the world ends, the
    quiz picks the next of the sixteen ([D110](06-decisions.md), naming tempers, not their letters, [D144](06-decisions.md)); while some leads have no
    chapter one yet, it deals only those who do ([D145](06-decisions.md)), and the opening plays again for who is
    left, story shots only ([D135](06-decisions.md)).

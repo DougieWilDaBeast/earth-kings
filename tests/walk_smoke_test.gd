@@ -1365,6 +1365,13 @@ func _check_sixteen() -> void:
 	first_lead.level = 4
 	first.tower_floor = 3
 	first.steps = 50
+	# D147: two open rank E gates near the Tower for the Guild to offer; Caesar shut Elderford.
+	var choice := first.sites_of_kind(Site.GATE).filter(func(g: Site) -> bool: return Siblings.is_first_hour_gate(g))
+	_expect(choice.size() == 2 and choice.all(func(g: Site) -> bool: return g.open and g.rank == "E"),
+		"the First Hour does not offer two open rank E gates (%d)" % choice.size())
+	for gate: Site in choice:
+		if gate.display_name == "Elderford":
+			gate.cleared = true
 	first_lead.status = Fate.DEAD
 	_requests.clear()
 	var summary: Control = load("res://src/ui/run_summary.tscn").instantiate()
@@ -1403,6 +1410,13 @@ func _check_sixteen() -> void:
 	_expect(world.world_seed == SEED and Siblings.number(world) == 2, "the next world was seed %d, world %d, not a sibling of %d" % [world.world_seed, Siblings.number(world), SEED])
 	_expect(world.tiles == first_tiles, "the sibling world is not the same ground")
 	_expect(lead.template_id == "ares" and lead.level == 1, "the next lead did not start at level 1")
+	_expect(gone.back().get("shut_gate", "") == "Elderford", "the world that ended forgot which gate was shut: %s" % gone.back().get("shut_gate", ""))
+	var heard: Array = Fall.landing_dialogue(world, "Ares", "ares").get("lines", [])
+	_expect(heard.any(func(l: Dictionary) -> bool: return str(l["text"]).contains("Elderford")),
+		"the next life never heard which gate the last one shut")
+	_expect(heard.size() <= 5, "the next life's crater has %d boxes, more than five (D122)" % heard.size())
+	_expect(world.sites_of_kind(Site.GATE).filter(func(g: Site) -> bool: return Siblings.is_first_hour_gate(g) and g.open).size() == 2,
+		"the sibling world shut one of the First Hour's gates")
 	_expect(Chapters.census(world) == 16, "the census counted Caesar out before the climb got as far as he did")
 
 	# Caesar, alive here, somewhere findable, and talking like one of the sixteen.
