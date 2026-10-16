@@ -34,7 +34,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
    side: one line from them, and the light closes ([D152](06-decisions.md), [below](#the-crossing)).
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
-   stand-in shaft over it until art A9 ([D108](06-decisions.md)), seen from far off beside the way ahead
+   the huge Tower's round, rune-banded shaft over it, drawn in house
+   until art A9 ([D158](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
    ([D133](06-decisions.md)). "E to climb" at the door.
 7. **Floors 1 to 5**, each walked ([D102](06-decisions.md)) and each its own shape: a pillared hall,
@@ -119,7 +120,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
 Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
-item 89).
+item 90).
 
 ## How it was tested
 
