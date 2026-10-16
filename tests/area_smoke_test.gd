@@ -53,6 +53,7 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	_check_the_builder_and_the_healer()
 	_check_story_npcs()
 	await _check_tutorial()
 	await _check_practice_band()
@@ -316,6 +317,51 @@ func _check_story_npcs() -> void:
 
 ## Buying from a stall, paying a fox to listen, and a favour from asking to being paid, done the
 ## way the dialogue box does them: each reply's effects, then the node it leads to.
+## Stormreach's builder and its healer ([D176]): Muck Muck stands by the ruined bathhouse and talks
+## about building; Sinner mends the whole company for gold while anyone is hurt, takes the money
+## once, and with nobody hurt only looks them over, for nothing.
+func _check_the_builder_and_the_healer() -> void:
+	var map := AreaMap.load_area("city_streets")
+	var muck := {}
+	var sinner := {}
+	for person: Dictionary in map.people:
+		match person.get("name", ""):
+			"Muck Muck": muck = person
+			"Sinner": sinner = person
+	if muck.is_empty() or sinner.is_empty():
+		_fail("city: Muck Muck or Sinner is missing from the streets")
+		return
+	if (Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")["menu"]["options"] as Array).size() < 3:
+		_fail("city: Muck Muck has nothing to be asked")
+	var nodes: Dictionary = Talk.build("Sinner", sinner["talk"], false, 0.5, "met:test")
+	var hurt: Character = GameState.party_characters()[0]
+	hurt.hp = maxi(1, hurt.max_hp() / 3)
+	GameState.gold = 1000
+	var mend: Dictionary = {}
+	for option: Dictionary in DialogueScript.available_options(nodes["menu"]):
+		if bool(option.get("heal", false)):
+			mend = option
+	if mend.is_empty():
+		_fail("city: Sinner offers no healing to a hurt company")
+		return
+	DialogueScript.apply_effects(mend)
+	if GameState.party_is_wounded():
+		_fail("city: Sinner took the money and nobody was mended")
+	if GameState.gold != 1000 - int(mend.get("requires_gold", 0)) or GameState.gold == 1000:
+		_fail("city: Sinner's mending cost nothing (%d gold left)" % GameState.gold)
+	var whole := DialogueScript.available_options(nodes["menu"])
+	if whole.any(func(o: Dictionary) -> bool: return bool(o.get("heal", false))):
+		_fail("city: Sinner still asks money to mend a company with nobody hurt")
+	if not whole.any(func(o: Dictionary) -> bool: return o.get("goto", "") == "whole"):
+		_fail("city: Sinner has nothing to say to a company that is whole")
+	hurt.hp = maxi(1, hurt.max_hp() / 3)
+	GameState.gold = 0
+	if DialogueScript.available_options(nodes["menu"]).any(func(o: Dictionary) -> bool: return bool(o.get("heal", false))):
+		_fail("city: Sinner mends a company that cannot pay")
+	GameState.heal_party()
+	GameState.gold = GameState.DEFAULT_GOLD
+
+
 func _check_trading() -> void:
 	var map := AreaMap.load_area("village")
 	var hesk := {}
