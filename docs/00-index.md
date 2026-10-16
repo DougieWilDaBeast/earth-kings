@@ -34,6 +34,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 28  | [The First Hour](28-the-first-hour.md)               | **What a new player plays today**: the route from the crater to chapter one, the sixteen chapter ones, the play-tests and every build on itch |
 | 29  | [The store page](29-the-store-page.md)               | **A draft, not published**: the name, five lines and five shots for the Steam page, each promising only what the First Hour shows |
 | 30  | [Questions for the founders](30-questions-for-the-founders.md) | **What only Will and Ewan can answer**, read aloud and answered by voice note: who, why it matters, and the default |
+| 31  | [What needs music](31-music.md)                  | **Planned**: which scenes need music and in what order, the memory theme first, for when the music is made |
 
 ## Deciding the world
 

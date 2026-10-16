@@ -16,6 +16,11 @@ raises it.
 
 **Who.** **Will**, **Ewan**, or **Both** (talk it through together, or each give your view).
 
+**Where it stands (2026-10-16):** all twenty-four are answered: Will's in [D168](06-decisions.md) to
+[D175](06-decisions.md), Ewan's in [D176](06-decisions.md). Ewan sent his to Will to decide what to
+do with. Where they differ: **how hard the hour is** (question 2: Ewan would raise it a little, Will
+keeps it) and **the falling weapon** (agenda 101, still Ewan's to answer).
+
 Twenty-four questions: nine for Will, six for Ewan, nine for both.
 
 **Will answered on 2026-10-16** in two voice notes ([part 1](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-1.md), [part 2](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-2.md)), recorded as [D168](06-decisions.md) to [D175](06-decisions.md). Nine are struck through as answered. The rest wait on Ewan, in full (1, 12, 21) or for his half. Will's GitHub to-dos, which are not
@@ -23,23 +28,23 @@ questions, are at the end.
 
 ## 1. The hour as it plays
 
-**1. Ewan: how did play-test 3 go?** (Ewan)
+~~**1. Ewan: how did play-test 3 go?**~~ (Ewan)
 You were to play the hour to chapter one on `4196128` ([D124](06-decisions.md)). Did you get there,
 where did you stop or get stuck, did you die, and what would you fix first? If you have not played
 yet, play `9c64cb3` (on itch now) instead and send the play log with the note.
 _Why:_ meeting 5 and the next fix batch wait on it ([28](28-the-first-hour.md#how-it-was-tested)).
 _Default:_ meeting 5 waits.
 
-_Answered 2026-10-16:_ Waiting on Ewan.
+_Answered 2026-10-16:_ **Ewan:** reached floor 10 and ended the game there; did not die; stuck in only a few places. What to fix is in his play-test 3 voice note, written up in #175 and in [28](28-the-first-hour.md) ([D176](06-decisions.md)).
 
-**2. Is dying in the First Hour a real enough risk?** (Both)
+~~**2. Is dying in the First Hour a real enough risk?**~~ (Both)
 The retreat said death in the hour should be a real risk ([D99](06-decisions.md)). Eight bot runs had
 no fall before floor 5, against a target of one to three; Ewan called it "fair, a bit of cruelty"
 after dying on purpose. Harder, the same, or easier?
 _Why:_ the hook ("Sixteen fell. One climbs.") only shows when a lead dies (agenda 81).
 _Default:_ the same, until a real newcomer's run says otherwise.
 
-_Answered 2026-10-16:_ **Will's half:** a death before floor 5 is unlikely, and that is fine; past the top, the leads who made it face each other ([D171](06-decisions.md)). Ewan's to add.
+_Answered 2026-10-16:_ **Will's half:** a death before floor 5 is unlikely, and that is fine; past the top, the leads who made it face each other ([D171](06-decisions.md)). **Ewan's half:** challenging, but a well set-up party makes it a lot easier; the difficulty could go up a slight bit ([D176](06-decisions.md)). **The two halves differ** (Will: unchanged); Will to decide.
 
 ~~**3. What counts as "the First Hour is done"?**~~ (Will)
 Meeting 4 set "passable": the climb suite passes and a person reaches floor 5 unaided
@@ -51,34 +56,34 @@ _Default:_ done when meeting 5 finds no blocker and the hour has its own music.
 
 _Answered 2026-10-16:_ **Will:** done now ([D168](06-decisions.md)). The freeze lifts; the hour still needs its music.
 
-**4. Who are the five real players, and when?** (Both)
+~~**4. Who are the five real players, and when?**~~ (Both)
 You chose five real people playing build `e3ed512` or later with the play log on, before meeting 5
 (call AV, 2026-10-16). Who are they (Ewan's friends?), PC or phone, and by when? Should they be
 watched (a call, a screen recording) or left alone with the log?
 _Why:_ every play-test so far has been a founder or a bot persona.
 _Default:_ nothing happens until you name them; meeting 5 runs on Ewan's notes alone.
 
-_Answered 2026-10-16:_ **Will's half:** no players yet, maybe one soon; AV and meeting 5 wait ([D168](06-decisions.md)). Ewan's to add.
+_Answered 2026-10-16:_ **Will's half:** no players yet, maybe one soon; AV and meeting 5 wait ([D168](06-decisions.md)). **Ewan's half:** default; nobody named yet ([D176](06-decisions.md)).
 
 ## 2. Story and the sixteen
 
-**5. Which of the sixteen will not climb the Tower?** (Both, Ewan's idea)
+~~**5. Which of the sixteen will not climb the Tower?**~~ (Both, Ewan's idea)
 Ewan, 2026-10-13: "one of the characters doesn't want to climb the tower" (agenda 75). Ceres, who
 makes a village wherever she lands, or Liber, who will not climb because the Tower is one more thing
 telling people what to do, or someone else? And what does their run end with instead?
 _Why:_ it changes what a run is for one lead; nothing is built yet.
 _Default:_ open, nothing built, until after the First Hour.
 
-_Answered 2026-10-16:_ **Will's half:** not climbing is fine; such a lead lies open to invaders once another world falls ([D172](06-decisions.md)); Liber was his example. Which lead is Ewan's to say.
+_Answered 2026-10-16:_ **Will's half:** not climbing is fine; such a lead lies open to invaders once another world falls ([D172](06-decisions.md)); Liber was his example. Which lead is Ewan's to say. **Ewan's half:** left open, default ([D176](06-decisions.md)).
 
-**6. Is "Ascend" on the death screen the same thing as the quest "Ascend to heaven"?** (Both)
+~~**6. Is "Ascend" on the death screen the same thing as the quest "Ascend to heaven"?**~~ (Both)
 Every lead's lifelong quest is "Ascend to heaven"; the death screen also offers Ascend, now selected
 first ([D105](06-decisions.md)). Is dying a way of finishing the quest, a failure of it, or two things
 that share a name (agenda 22)?
 _Why:_ every new player who dies reads that word.
 _Default:_ two different things; the word on the death screen stays until you say otherwise.
 
-_Answered 2026-10-16:_ **Will's half:** the same word on purpose; Ascend at death is a false ascension, floor 100 the true one ([D170](06-decisions.md)). Ewan's to add.
+_Answered 2026-10-16:_ **Will's half:** the same word on purpose; Ascend at death is a false ascension, floor 100 the true one ([D170](06-decisions.md)). **Ewan's half:** two different things, the default ([D176](06-decisions.md)); this fits Will's false ascension, which never finishes the quest.
 
 ~~**7. Whose words are the sixteen chapter ones?**~~ (Will)
 All sixteen are in the game ([D151](06-decisions.md)), written by the build from your volumes and
@@ -115,27 +120,27 @@ _Default:_ a word carried, the cheapest to build; after the hour.
 
 _Answered 2026-10-16:_ **Will:** a word carried, and the worlds stay sealed until their lead dies ([D172](06-decisions.md)).
 
-**11. Styles inside the sixteen classes?** (Both)
+~~**11. Styles inside the sixteen classes?**~~ (Both)
 Ewan asked for styles inside each class, picked at level 2; Will then gave every lead their own class
 (agenda 77). Do styles still sit inside the sixteen classes, or do the leads' signature ways of
 fighting do that job?
 _Why:_ it sets how deep the level-2 choice goes.
 _Default:_ no styles; the signatures do that job.
 
-_Answered 2026-10-16:_ **Will's half:** the signatures do that job (agenda 77). Ewan's to confirm.
+_Answered 2026-10-16:_ **Will's half:** the signatures do that job (agenda 77). **Ewan:** no styles ([D176](06-decisions.md)). Both agree: the signatures do the job.
 
-**12. One map every run: confirm what stays the same.** (Ewan, your choice)
+~~**12. One map every run: confirm what stays the same.**~~ (Ewan, your choice)
 Every run is played on the same map (Map F) with the Tower in the middle. The land and every place
 stay the same; where the leads land, monsters, roadside scenes and names are dealt by the seed
 (agenda 76, [27](27-the-world.md)). Is that the split you meant?
 _Why:_ it decides how different a second life feels.
 _Default:_ keep.
 
-_Answered 2026-10-16:_ **Will's view:** the same world, and a fallen lead's weapon and part of their power come down when you reach their floor (agenda 101). Ewan's to answer.
+_Answered 2026-10-16:_ **Will's view:** the same world, and a fallen lead's weapon and part of their power come down when you reach their floor (agenda 101). **Ewan:** keep, the default ([D176](06-decisions.md)). Will's falling-weapon idea (agenda 101) is still open.
 
 ## 3. Music and sound
 
-**13. The hour's own music: which cues, in what order, and when?** (Ewan)
+~~**13. The hour's own music: which cues, in what order, and when?**~~ (Ewan)
 The fan covers are out of every build ([D100](06-decisions.md)), so the hour has only your two
 Ableton tracks. The creatives' brief, in their order: the memory theme (40 to 60 s, one instrument,
 stopping dead on "White."), the world ending, the Tower floors, Stormreach, the crater, the opening's
@@ -145,23 +150,23 @@ _Why:_ the Steam page waits on clean music ([D100](06-decisions.md)), and the de
 one track for the whole hour.
 _Default:_ the memory theme first; the hour plays on the two tracks until then.
 
-_Answered 2026-10-16:_ **Will:** left to the team to work out where music plays and to try themes ([D175](06-decisions.md)); Ewan's cues still welcome.
+_Answered 2026-10-16:_ **Will:** left to the team to work out where music plays and to try themes ([D175](06-decisions.md)); **Ewan:** music comes later; for now the memory theme first, the default. He asked for a plan of what needs music and in what order: [31](31-music.md) ([D176](06-decisions.md)).
 
-**14. The fight sounds.** (Ewan)
+~~**14. The fight sounds.**~~ (Ewan)
 The fourteen fight sounds are made in code (agenda 66). Play a fight: which grate, which are missing?
 Would you rather make them yourself?
 _Why:_ they play every few seconds in every fight.
 _Default:_ keep them.
 
-_Answered 2026-10-16:_ **Will:** keep them, try more and measure them ([D175](06-decisions.md)). Ewan's to add.
+_Answered 2026-10-16:_ **Will:** keep them, try more and measure them ([D175](06-decisions.md)). **Ewan:** he likes them; they may want turning up over time, but he is happy for now ([D176](06-decisions.md)).
 
-**15. Your name in the credits.** (Ewan)
+~~**15. Your name in the credits.**~~ (Ewan)
 You are credited as "Ewan" ([22](22-asset-provenance.md), P2). Full name, a handle, or a band or studio
 name?
 _Why:_ the store page and the credits screen need it.
 _Default:_ "Ewan".
 
-_Answered 2026-10-16:_ **Will:** "Ewan" until Ewan gives his full name ([D175](06-decisions.md)).
+_Answered 2026-10-16:_ **Will:** "Ewan" until Ewan gives his full name ([D175](06-decisions.md)). **Ewan:** "Ewan", the default ([D176](06-decisions.md)).
 
 ## 4. Going public
 
@@ -174,13 +179,13 @@ _Default:_ nothing starts until the hour is done (question 3).
 
 _Answered 2026-10-16:_ **Will:** come back to it later ([D169](06-decisions.md)).
 
-**17. The store page's words.** (Both)
+~~**17. The store page's words.**~~ (Both)
 [29](29-the-store-page.md) is a draft: the pitch, five lines, five shots (agenda 93). Rewrite it
 yourselves, or keep it and change what is wrong?
 _Why:_ it is the first thing a stranger reads.
 _Default:_ the draft stands until the Steam page is made.
 
-_Answered 2026-10-16:_ **Will's half:** come back to it later; the draft stands ([D169](06-decisions.md)).
+_Answered 2026-10-16:_ **Will's half:** come back to it later; the draft stands ([D169](06-decisions.md)). **Ewan's half:** the draft stands, the default ([D176](06-decisions.md)).
 
 ~~**18. PixelLab: can its art be sold, and when do credits come back?**~~ (Will)
 Its terms for commercial use are unchecked ([22](22-asset-provenance.md), P5); art is being drawn in
@@ -208,7 +213,7 @@ _Answered 2026-10-16:_ **Will:** browser only for now ([D169](06-decisions.md)).
 
 ## 5. After the First Hour
 
-**21. Ewan's asks: in what order?** (Ewan)
+~~**21. Ewan's asks: in what order?**~~ (Ewan)
 Meeting 4 parked them for after the hour, quest list first ([D118](06-decisions.md)): the quest list,
 coins in four metals ([26](26-coins-and-prices.md)), enterable buildings, the city on open ground, a
 companion's death shown, news at the speed of people, Atlas holding Sky's reins, a fight you can walk
@@ -216,29 +221,29 @@ out of. Is that your order?
 _Why:_ it is the next milestone's list.
 _Default:_ quest list first, then the order above.
 
-_Answered 2026-10-16:_ **Will:** Ewan's to answer.
+_Answered 2026-10-16:_ **Ewan:** that order: the quest list first ([D176](06-decisions.md)).
 
-**22. What comes back from the cut list first?** (Both)
+~~**22. What comes back from the cut list first?**~~ (Both)
 The coliseum, training ground, museum, trivia, grimoires, ferries, captivity, nemeses, dispatch and
 seasons are built but switched off for the hour ([D97](06-decisions.md)). Which come back first, and
 does any stay out for good?
 _Why:_ each is a switch in `data/world_rules.json`, but each brings its bugs back with it.
 _Default:_ none come back until the hour is done; then Ewan's list (question 21) first.
 
-_Answered 2026-10-16:_ **Will's half:** bring them back bit by bit, where they fit the world and the story ([D168](06-decisions.md)).
+_Answered 2026-10-16:_ **Will's half:** bring them back bit by bit, where they fit the world and the story ([D168](06-decisions.md)). **Ewan's half:** the default, nothing back until the hour is done ([D176](06-decisions.md)). Will has called the hour done ([D168](06-decisions.md)), so the two halves meet: back bit by bit from now, on Will's call.
 
-**23. A run's whole shape: how many chapters before a demo becomes a game?** (Both)
+~~**23. A run's whole shape: how many chapters before a demo becomes a game?**~~ (Both)
 The Tower has a hundred floors in twenty chapters of five ([D48](06-decisions.md)). The First Hour is
 chapter one. What is the first paid release: chapter one for every lead, chapters one to four, or
 something else?
 _Why:_ it sets the size of the next month's work after the demo.
 _Default:_ open; asked again at meeting 5.
 
-_Answered 2026-10-16:_ **Will's half:** not planned yet; keep going ([D168](06-decisions.md)).
+_Answered 2026-10-16:_ **Will's half:** not planned yet; keep going ([D168](06-decisions.md)). **Ewan's half:** no release date yet; leave it open ([D176](06-decisions.md)).
 
 ## 6. What the build guessed
 
-**24. Will you keep the hour's guesses you have played past without a complaint?** (Both)
+~~**24. Will you keep the hour's guesses you have played past without a complaint?**~~ (Both)
 Agenda rows 79 to 98 are things the build decided to get the hour playing (the compass keeping to
 the lead's rank, the register opening by itself, the way down, Sennet's words, Auto stopping for
 gates and the keeper, the sixteen lights, gate fights at the gate, sizes on a phone, the in-house
@@ -247,7 +252,7 @@ _Why:_ only a founder settles a question; twenty rows waiting on a yes is noise 
 meeting.
 _Default:_ they stay **Inferred** as working drafts.
 
-_Answered 2026-10-16:_ **Will's half:** keep them and keep going unless told otherwise ([D168](06-decisions.md)); Ewan has his own ideas to add.
+_Answered 2026-10-16:_ **Will's half:** keep them and keep going unless told otherwise ([D168](06-decisions.md)); Ewan has his own ideas to add. **Ewan's half:** the default, they stay working drafts ([D176](06-decisions.md)).
 
 ## Will's to-dos (not questions)
 

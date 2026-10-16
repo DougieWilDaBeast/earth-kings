@@ -168,6 +168,9 @@ wired with a `data/music.json` set and a scene key when it arrives. **Planned**,
 5. **The crater**: near silence, wind and fire, the memory phrase once, far off, when Bram speaks.
 6. **The opening's replay**: the film's music thinner as fewer are left (many left, two, the last).
 
+The whole game's list, these six placed by how long a player hears each, is [31](31-music.md)
+([D176](06-decisions.md)).
+
 ## Builds on itch.io
 
 The browser build goes to `dougie`'s itch.io page (both the `html5` and `web` channels) only on
