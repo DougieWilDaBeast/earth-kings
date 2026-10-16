@@ -18,7 +18,7 @@
 		"lines": [
 			{ "speaker": "", "text": "Something tears across the sky and comes down in {region}. When the smoke thins there is a crater ploughed into the {ground}, and {name} wakes at the bottom of it with no memory of falling. For a heartbeat there is a ring of sixteen lights behind the eyes. Then it is gone." },
 			{ "speaker": "", "lead": "atlas", "text": "Something else came down with {name}: a great lizard, too heavy for its own legs, already pushing its head under {name}'s hand. Its name comes back before anything else does. Sky." },
-			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. I saw you come down, and I didn't think there'd be anybody left to pull out." },
+			{ "speaker": "Bram", "text": "Easy. Easy, now. Give me your hand. My master always said the sky owes nobody a soft landing. I didn't think there'd be anybody left to pull out." },
 			{ "speaker": "Bram", "text": "That's the Tower, off to the {tower_way}, and {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
 			{ "speaker": "{name}", "unless": ["cato", "janus", "bellona", "cassius", "saturn", "pluto", "ultor", "liber", "ares", "caesar", "vesta", "iris", "ceres", "juno", "diana"], "text": "Up. Whatever I was, it was up there. I am going back." },
 			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody up there kept rules. I'll learn theirs." },

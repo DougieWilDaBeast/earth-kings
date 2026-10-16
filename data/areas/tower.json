@@ -89,9 +89,18 @@
   "props": [
     {
       "art": "walls/stone_tower",
-      "cell": [14, 5],
+      "cell": [
+        14,
+        5
+      ],
       "solid": false,
-      "spire": { "width": 10, "storeys": 22, "step": 5, "build": "stone", "art": "landmark/tower_shaft" }
+      "spire": {
+        "width": 10,
+        "storeys": 22,
+        "step": 5,
+        "build": "stone",
+        "art": "landmark/tower_shaft"
+      }
     },
     {
       "art": "brazier",
@@ -166,11 +175,41 @@
       "name": "the Tower's door",
       "line": "It does not end. The rock it stands on is the Tower's own foot, wider than the city, and the door in it is the only door. The runes pulse, slowly, like something breathing."
     },
-    {"art": "landmark/rune_stone", "cell": [14, 9]},
-    {"art": "landmark/rune_stone", "cell": [14, 11]},
-    {"art": "landmark/rune_stone", "cell": [14, 13]},
-    {"art": "landmark/rune_stone", "cell": [14, 15]},
-    {"art": "landmark/rune_stone", "cell": [14, 17]},
+    {
+      "art": "landmark/rune_stone",
+      "cell": [
+        14,
+        9
+      ]
+    },
+    {
+      "art": "landmark/rune_stone",
+      "cell": [
+        14,
+        11
+      ]
+    },
+    {
+      "art": "landmark/rune_stone",
+      "cell": [
+        14,
+        13
+      ]
+    },
+    {
+      "art": "landmark/rune_stone",
+      "cell": [
+        14,
+        15
+      ]
+    },
+    {
+      "art": "landmark/rune_stone",
+      "cell": [
+        14,
+        17
+      ]
+    },
     {
       "art": "landmark/hand_jar",
       "cell": [
@@ -208,6 +247,28 @@
         "I write the names down, going up. It is not much, but it is what I can do.",
         "Each floor is older than the one under it. Do not ask me how.",
         "Some come down. I have stopped guessing which."
+      ],
+      "guild": true
+    },
+    {
+      "name": "Old Halloran, the Guild's Master",
+      "unit": "town_elder",
+      "cell": [
+        18,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 1,
+      "chatter": [
+        "Halloran. I run the Guild, when Sennet lets me.",
+        "Strongest man in the city, they say. They say it because I tell them to.",
+        "Another one out of the sky! Sit, sit. No, not there, that chair bites.",
+        "You've got the look of somebody who fell a long way. Good. The short falls never amount to much.",
+        "Shut a gate and I'll mark you for the Tower myself. Floor one is the easy one, so naturally it kills the most people.",
+        "Come back down and tell me about it. Nobody ever does. I'm starting to take it personally."
       ],
       "guild": true
     },
@@ -288,7 +349,8 @@
       "talk": {
         "hello": [
           "Hm. Your buckle's cracked. Second hole from the end.",
-          "Mind that stair. Fourth stone's got a fault in it the size of my thumb."
+          "Mind that stair. Fourth stone's got a fault in it the size of my thumb.",
+          "Third blade this month to come down out of a clear sky. Bring me one and I'll tell you whose it was."
         ],
         "again": [
           "Back. Buckle's still cracked.",
