@@ -26,7 +26,7 @@ const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
 	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster",
-	"fall", "first_hour", "run_ends", "sixteen",
+	"fall", "first_hour", "run_ends", "sixteen", "crossing",
 ]
 
 var _scene: Node
@@ -1827,6 +1827,70 @@ func _walk_onto(kind: String) -> bool:
 		_expect(false, "the world has no %s" % kind)
 		return false
 	return _step_onto(site.cell)
+
+
+## D152: a gate is a seam between the sixteen worlds. The first gate of the first
+## life always opens onto another lead as it shuts, alive in their own world; a
+## lead whose world has ended is seen as a burning world with nobody in it; the
+## company never crosses; and the same gate in the same world always shows the
+## same one, so a reload never turns up someone else.
+func _check_crossing() -> void:
+	var Crossing := preload("res://src/chronicle/crossing.gd")
+	var world: World = GameState.world
+	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE)
+	if gate == null:
+		_expect(false, "no gate to cross at")
+		return
+	var rules := Crossing.rules()
+	for hero_id: String in Database.heroes:
+		if not hero_id.begins_with("_"):
+			_expect((rules.get("says", {}) as Dictionary).has(hero_id), "%s has nothing to say through a gate" % hero_id)
+
+	var met := Crossing.roll(world, gate, "atlas", [], [], true)
+	_expect(not met.is_empty(), "the first gate of the first life opened onto nobody")
+	_expect(str(met.get("hero", "atlas")) != "atlas" and not bool(met.get("ended", true)),
+		"the first crossing was not another lead, alive: %s" % str(met))
+	_expect(Crossing.roll(world, gate, "atlas", [], [], true) == met, "the same gate rolled twice met someone else")
+	var lines: Array = Crossing.scene(met, gate, "Atlas").get("lines", [])
+	_expect(lines.size() == (rules.get("living", []) as Array).size(), "the crossing scene lost lines")
+	_expect(lines.any(func(line: Dictionary) -> bool: return str(line["speaker"]) == str(met["name"])),
+		"%s never speaks through the gate" % str(met.get("name", "")))
+	_expect(lines.all(func(line: Dictionary) -> bool: return not str(line["text"]).contains("{")),
+		"a crossing line kept a blank: %s" % str(lines))
+
+	# Rolled across many worlds: about the rank's chance, never the company, and the dead as ended.
+	var kept_seed := world.world_seed
+	var company := ["janus", "pluto"]
+	var opened := 0
+	var ended := 0
+	var tries := 400
+	for i in tries:
+		world.world_seed = 1000 + i
+		var roll := Crossing.roll(world, gate, "atlas", company, ["caesar"], false)
+		if roll.is_empty():
+			continue
+		opened += 1
+		_expect(not company.has(roll["hero"]), "%s crossed while walking with the lead" % roll["hero"])
+		_expect(bool(roll["ended"]) == (roll["hero"] == "caesar"), "%s crossed from the wrong kind of world" % roll["hero"])
+		if bool(roll["ended"]):
+			ended += 1
+			var ash: Array = Crossing.scene(roll, gate, "Atlas").get("lines", [])
+			_expect(ash.all(func(line: Dictionary) -> bool: return str(line["speaker"]) == ""), "someone spoke from an ended world")
+	world.world_seed = kept_seed
+	var chance := float((rules.get("chance", {}) as Dictionary).get(gate.rank, 0.0))
+	_expect(absf(float(opened) / tries - chance) < 0.1, "a %s gate opened %d times in %d, not about %d%%" % [
+		gate.rank, opened, tries, roundi(chance * 100.0)])
+	_expect(ended > 0, "a world that ended was never seen through a gate")
+
+	# Shut in a run: written down, and a scene to play.
+	var kept_chance: Dictionary = (rules["chance"] as Dictionary).duplicate()
+	(rules["chance"] as Dictionary)[gate.rank] = 1.0
+	var dialogue_id := Crossing.on_gate_shut(world, gate)
+	rules["chance"] = kept_chance
+	_expect(dialogue_id != "" and not Database.dialogue(dialogue_id).is_empty(), "a crossing in a run had no scene to play")
+	_expect(GameState.has_flag(Crossing.ANY), "a crossing in a run was not kept")
+	print("crossing: first gate met %s; %d of %d %s gates opened, %d onto an ended world" % [
+		met.get("name", ""), opened, tries, gate.rank, ended])
 
 
 func _site_where(predicate: Callable) -> Site:

@@ -29,6 +29,7 @@ const Seats := preload("res://src/chronicle/seats.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Crossing := preload("res://src/chronicle/crossing.gd")
 const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -591,6 +592,10 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Guild.on_gate_shut(world, site):
 					_note(line)
+				# A gate is a seam between the sixteen worlds (D152): as it shuts, someone may be on the far side.
+				var crossing := Crossing.on_gate_shut(world, site)
+				if crossing != "":
+					EventBus.dialogue_requested.emit(crossing)
 				# A shut gate says it counted (meeting 4): the Guild's mark, or a chapter's seal broken.
 				if was_sealed and not Chapters.sealed(world):
 					_note("Sennet will have your name in the Guild's register: the Tower's door is open to you." \

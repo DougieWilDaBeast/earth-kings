@@ -32,7 +32,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
    beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
-   [D141](06-decisions.md)). Shutting it gives the Guild's mark.
+   [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
+   same gate in another lead's world, and that lead, the original, is standing in it shutting their
+   side: one line from them, and the light closes ([D152](06-decisions.md), [below](#the-crossing)).
 6. **The Tower.** A door drawn in house with lit rune stones up the yard ([D111](06-decisions.md)), a
    the huge Tower's round, rune-banded shaft over it, drawn in house
    until art A9 ([D158](06-decisions.md)), seen from far off beside the way ahead
@@ -105,6 +107,23 @@ The rule the creatives' meeting set (C1, [D151](06-decisions.md)), for any rewri
 A new chapter one is a `memories.json` entry, a line in `fall.json` (and its name added to the shared
 last line's `unless`), and an art request. The quiz deals only leads who have a chapter one ([D145](06-decisions.md)); with all
 sixteen written, it deals every lead again.
+
+## The crossing
+
+A gate is a seam between the sixteen worlds ([D152](06-decisions.md), `dougie`, 2026-10-15). As any
+gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the gate:
+
+- **Who.** One of the sixteen who is not the lead and not walking with them, Janus and Pluto (who go
+  to gates by temper) three times as likely. Alive, they are the original in their own world, not the
+  copy who walks this one, and say one line in their own voice. If their world has ended, the gate
+  shows it burning with nobody in it.
+- **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
+  for Atlas); after that a rank E gate about one time in four, more for higher ranks.
+- **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
+  Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
+
+Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
+item 92).
 
 ## How it was tested
 
