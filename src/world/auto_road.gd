@@ -97,8 +97,10 @@ static func objective(world: World) -> Dictionary:
 	var tower := world.tower()
 	var shut_one := gates.any(func(gate: Site) -> bool: return gate.cleared)
 	# The Guild at the Tower's door, before the first gate (D107): its mark is what opens the stair.
-	if FirstHour.wants_guild_mark() and not shut_one and not GameState.has_flag(Guild.VISITED) \
-			and Guild.has_hall(tower):
+	# AU (D161, the five strangers): with `gate_after_city` on, the compass goes straight on to the
+	# gate, because the door could only say "shut a gate" and nobody found one from there.
+	if FirstHour.wants_guild_mark() and not FirstHour.gate_after_city() and not shut_one \
+			and not GameState.has_flag(Guild.VISITED) and Guild.has_hall(tower):
 		return {"cell": tower.cell, "label": "The Guild, at the Tower's door", "stop": true}
 
 	if not shut_one:

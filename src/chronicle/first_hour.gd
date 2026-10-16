@@ -28,6 +28,19 @@ static func mark_line() -> String:
 
 ## D106: the lead every new player starts as, while no world has ended yet; after
 ## a death the quiz picks the next lead. Empty when the quiz should ask now.
+## AU (D161): after the city the compass points at the first gate, not the Guild at the door.
+static func gate_after_city() -> bool:
+	return wants_guild_mark() and bool(Database.world_rules.get("first_hour", {}).get("gate_after_city", false))
+
+
+## What Sennet says the first time the party walks into a town while no gate is shut (AU, D161),
+## [param gate] the one the compass now points at; "" when the rule is off.
+static func gate_line(gate: String) -> String:
+	if not gate_after_city() or gate == "":
+		return ""
+	return str(Database.world_rules.get("first_hour", {}).get("gate_line", "")).format({"gate": gate})
+
+
 static func first_life() -> String:
 	var lead := str(Database.world_rules.get("first_hour", {}).get("first_life", ""))
 	if lead == "" or not Sixteen.worlds().is_empty() or Sixteen.fallen_heroes().has(lead):

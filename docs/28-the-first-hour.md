@@ -14,8 +14,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    tiles from Stormreach ([D101](06-decisions.md)). Bram pulls him out. Five boxes, then he walks
    ([D122](06-decisions.md)).
 3. **The road.** A cobble road runs from the crater to the great city, on to the first gate and back
-   to the Tower ([D126](06-decisions.md)). The compass and Auto point the way: town, then the Guild at
-   the Tower's door, then the first gate, then the Tower ([D96](06-decisions.md), [D107](06-decisions.md)).
+   to the Tower ([D126](06-decisions.md)). The compass and Auto point the way: town, then the first gate,
+   then the Tower ([D96](06-decisions.md), [D161](06-decisions.md)); walking into the city, Sennet says the
+   Guild's mark is earned at a gate and names it.
    Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md));
    on the road itself they are brigands, poachers, cabin hands and cutpurses ([D144](06-decisions.md)).
    Lands blend where they meet ([D128](06-decisions.md)); the jungle and the barrow downs on the way

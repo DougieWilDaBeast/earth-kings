@@ -120,6 +120,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 93 | D148 | **Inferred.** Drafted 2026-10-15 from the designers' fortnight (F5): **every word of the store page** in [29](../29-the-store-page.md), the five lines and the choice of five shots. Recommended: keep as the working draft; the founders rewrite it before the Steam page is made. |
 | 94 | D149 | **Inferred.** Built 2026-10-16 from the designers' week (AK): **the Tower's sixteen lights**, one going out by name when the lead wins floor 5 ("High in the Tower's glass, sixteen small lights burn…", `first_hour.light_out.lines`), and that the one who falls is chosen by the world's seed from those not in the company. Recommended: keep. |
 | 95 | D150 | **Inferred.** Set 2026-10-16 from the designers' week (AM): **when Auto hands a fight over**: every gate's fight, the keeper, and any foe more than one level over the lead (`first_hour.auto_stops.above_level`). Recommended: keep, and check it on Ewan's next run with Auto. |
+| 96 | D161 | **Inferred.** Set 2026-10-16 from the five strangers' run (AU, Will: "Accept all recommended too"): **Sennet's words as the party walks into the city** ("New down, are you? Nobody climbs the Tower without the Guild's mark, and the mark is earned at a gate…", `first_hour.gate_line`). Recommended: keep. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
