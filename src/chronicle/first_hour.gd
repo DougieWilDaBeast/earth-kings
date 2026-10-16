@@ -53,3 +53,38 @@ static func unwritten_tempers(fallen: PackedStringArray) -> PackedStringArray:
 		else:
 			out.append(code)
 	return out if written > 0 else PackedStringArray()
+
+
+## AK (D149): the hour's end costs somebody. The first time a lead wins the floor `light_out.floor`,
+## one of the other sixteen, somewhere in a world of their own, falls while this one climbed: never
+## the lead, anyone in the company, a lead already fallen, or one met at a crossing. Picked by the
+## world's own seed, so a world always loses the same one. Kept in [member World.echoes], counted
+## out of the census from then on (`Chapters.census`). Returns what the Tower shows, or [] when
+## nothing goes out.
+static func put_out_a_light(world: World, floor: int, company: Array) -> Array[String]:
+	var lines: Array[String] = []
+	var rules: Dictionary = Database.world_rules.get("first_hour", {}).get("light_out", {})
+	if rules.is_empty() or world == null or floor != int(rules.get("floor", 5)) or world.echoes.has("light_out"):
+		return lines
+	var spared: Array = company.duplicate()
+	spared.append_array(Sixteen.fallen_heroes())
+	for echo: Dictionary in world.echoes.get("past", []):
+		spared.append(str(echo.get("hero", "")))
+	var codes: Array = Database.temper_types().keys()
+	codes.sort()
+	var left: Array[String] = []
+	for code: String in codes:
+		var hero := Database.temper_hero(code)
+		if hero != "" and not spared.has(hero) and not GameState.has_flag("crossed:%s" % hero):
+			left.append(hero)
+	if left.is_empty():
+		return lines
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, int(world.echoes.get("sibling", 0)), "light_out"])
+	var hero: String = left[rng.randi_range(0, left.size() - 1)]
+	var name := str(Database.unit_template(hero).get("display_name", hero))
+	world.echoes["light_out"] = {"hero": hero, "name": name, "floor": floor}
+	for line: Variant in rules.get("lines", []):
+		lines.append(str(line).format({"name": name}))
+	Annals.record(world, "As the company won floor %d, %s fell in a world of their own." % [floor, name])
+	return lines
