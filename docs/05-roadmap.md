@@ -149,9 +149,13 @@ each, each ending playable:
    **Inferred**, stand-in prop until art request A11. So do Janus, Bellona, Cassius, Saturn, Pluto,
    Ultor and Liber ([D138](06-decisions.md)), the leads with enough of the founders' material, and
    Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana ([D151](06-decisions.md)), drafted from Will's
-   inspiration volumes and rewritten by the creatives' meeting, so all sixteen have one. Next
-   (**planned**, creatives' meeting C8): the opening's replay says what the fallen lead had just
-   remembered (C5), and the Guild master, Buri, Bram and Barnaby get their lines (C4).
+   inspiration volumes and rewritten by the creatives' meeting, so all sixteen have one. The opening's replay says what the fallen lead had just remembered, or
+   that they never found out, and the other half of a tie hears one line for it
+   ([D153](06-decisions.md)). The people on the route have their lines
+   ([D154](06-decisions.md)): Old Halloran, the Guild's master, beside Sennet; Buri on blades falling
+   from a clear sky; Bram's dead master in the crater; Barnaby at the gate's mouth. **Planned**, after
+   the First Hour (creatives' meeting C4): the training hall in Stormreach, Ultor's bandit company,
+   the trap inn, Vane on the wall, and floor keepers given a why.
 8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
    to Q). A new player is Atlas (the quiz, four questions with sixteen ways through and one lead
    for each, waits for the next life) on the new **First Hour** setting,

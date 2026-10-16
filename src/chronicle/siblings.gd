@@ -30,6 +30,7 @@ extends RefCounted
 ## Loaded by path ([D41]). Pure logic: no nodes.
 
 const Fall := preload("res://src/chronicle/fall.gd")
+const Memories := preload("res://src/chronicle/memories.gd")
 
 ## A ghost is spoken to under this, plus their place in the past.
 const GHOST_PREFIX := "ghost:"
@@ -80,6 +81,8 @@ static func remember(world: World, roster: Roster, ledger: Dictionary) -> Dictio
 		"killer": killer,
 		# Which of the Guild's two first gates they shut (D147), for the next life to hear of.
 		"shut_gate": _first_gate_shut(world),
+		# Whether they found their chapter one before they fell (D153): the replayed opening says so.
+		"remembered": not Memories.found(lead.template_id).is_empty(),
 		"weapon": signature_of(lead.template_id),
 		"well": _what_went_well(world, ledger),
 		"pages": journal_pages(world, ledger),

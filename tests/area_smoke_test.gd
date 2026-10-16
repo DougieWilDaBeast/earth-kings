@@ -579,6 +579,8 @@ func _check_tower_floor() -> void:
 		_expect(asked.has("memory_atlas_1") and not Database.dialogue("memory_atlas_1").is_empty(),
 				"tower floor: picking up the buckle played no scene")
 		_expect(Memories.found("atlas").size() == 1, "tower floor: the journal does not have the memory")
+		_expect(bool(preload("res://src/chronicle/siblings.gd").remember(GameState.world, GameState.roster, GameState.ledger).get("remembered", false)),
+				"tower floor: a world whose lead found their chapter one does not say so when it ends (D153)")
 		_expect((five.get("_memories") as Dictionary).is_empty(), "tower floor: the buckle can be picked up twice")
 	EventBus.dialogue_requested.disconnect(listen)
 	five.queue_free()
@@ -623,6 +625,10 @@ func _check_tower_floor() -> void:
 		if thing.act == "_climb_here":
 			door = thing
 	_expect(door != null, "tower: the Tower's door is not a way up")
+	# The Guild's master stands beside Sennet and can mark a lead himself (D154).
+	var masters := (Database.area("tower").get("people", []) as Array).filter(func(p: Dictionary) -> bool:
+		return str(p.get("name", "")).begins_with("Old Halloran") and bool(p.get("guild", false)))
+	_expect(masters.size() == 1, "tower: the Guild's master is not in the Guild")
 	var spires := (foot.get("_actors") as Node).get_children().filter(func(n: Node) -> bool: return n.get_script() == preload("res://src/area/area_spire.gd"))
 	_expect(spires.size() == 1, "tower: the stand-in Tower is not standing (%d)" % spires.size())
 	if door != null:
