@@ -241,6 +241,8 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.8 | Look at a gate, the Tower, the salt hamlet's lighthouse   | The portal glows, the Tower's runes pulse, the lighthouse beam sweeps                           |
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
+| D2.11 | In Stormreach's streets, find **Muck Muck** by the ruined bathhouse and ask why everyone asks him | He is the builder they come to whenever something needs building ([D165](06-decisions.md)) |
+| D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 40 gold is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
 
 ## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
