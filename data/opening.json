@@ -14,24 +14,55 @@
 		"killer": "on the road, to {a_killer}",
 		"none": "before they ever reached the Tower"
 	},
+	"_doc_fell": "D153 (the creatives' meeting, C5): the replayed `ending` shot says what the lead who just died had remembered, or that they never found out. {fell} is `fell.found` when their chapter one was found before they fell (the world record's `remembered`), else `fell.not_found`; {remembered} is theirs in `remembered`, {They} and {they} come from `pronoun` in heroes.json. `pairs` adds one line to the `impact` shot when the new lead (after the >) is the other half of a tie with the one who just died (before it); the ties are never named (C3, Will's AH). **Inferred**: every phrase and line.",
+	"fell": {
+		"found": "{dead} fell {how}. {They} had just remembered {remembered}.",
+		"not_found": "{dead} fell {how}, and never learned what {they} carried down."
+	},
+	"remembered": {
+		"atlas": "a courtyard, and a gift",
+		"cato": "a list, and the rule somebody rubbed out",
+		"janus": "a shut door, and a promise",
+		"bellona": "a gate, and a whistle",
+		"cassius": "a festival, and a monster's mask",
+		"saturn": "a table, and one empty place",
+		"pluto": "the top of a stair, and what it cost",
+		"ultor": "a road at night, and a hand letting go",
+		"liber": "a cut rope, and the one who let him go",
+		"ares": "a yard gate, and a lie he was glad to tell",
+		"caesar": "a festival, and a tin crown",
+		"vesta": "the last fire in an emptying house",
+		"iris": "a game, and the shot she gave away",
+		"ceres": "a granary full of children",
+		"juno": "a cold room, and the last plate",
+		"diana": "a hill, and a wolf"
+	},
+	"pairs": {
+		"bellona>ultor": "Somewhere a whistle stops blowing.",
+		"ultor>bellona": "Somewhere, on the road below a gate, someone stops running.",
+		"cassius>caesar": "Somewhere a monster's mask lies in the dust, and nobody is cheering.",
+		"caesar>cassius": "Somewhere a tin crown lies in the dust, and the square has gone quiet.",
+		"ares>liber": "Somewhere a wooden sword is put down for the last time.",
+		"liber>ares": "Somewhere a cut rope goes slack."
+	},
 	"by_left": {
 		"many": {
 			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. {Left} are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "{Fallen} of the worlds have already gone dark."],
-			"ending": ["In another world, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"ending": ["In another world, it has just ended.", "{fell}"],
 			"end": ["If you fall, your world ends with you.", "One of the {left_after} after you goes on, from the beginning.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
 		},
 		"two": {
 			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. Two are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fourteen worlds are dark. Two are left, and only one will be there at the end."],
-			"ending": ["In another world, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"ending": ["In another world, it has just ended.", "{fell}"],
 			"impact": ["Of the two left, one is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
 			"end": ["If you fall, your world ends with you.", "The last of you goes on alone.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
 		},
 		"last": {
 			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. One is still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fifteen worlds are dark. This is the last."],
-			"ending": ["In the last world but this one, it has just ended.", "{dead} fell {how}, and that world went dark with them. It never comes back."],
+			"ending": ["In the last world but this one, it has just ended.", "{fell}"],
 			"impact": ["The last of them is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
 			"end": ["There is nobody after you.", "If you fall, the sixteen are finished.", "Every one of the fallen is waiting at the fire."],
 			"title": ["The last standing quest: Ascend to heaven."]

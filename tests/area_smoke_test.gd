@@ -579,6 +579,8 @@ func _check_tower_floor() -> void:
 		_expect(asked.has("memory_atlas_1") and not Database.dialogue("memory_atlas_1").is_empty(),
 				"tower floor: picking up the buckle played no scene")
 		_expect(Memories.found("atlas").size() == 1, "tower floor: the journal does not have the memory")
+		_expect(bool(preload("res://src/chronicle/siblings.gd").remember(GameState.world, GameState.roster, GameState.ledger).get("remembered", false)),
+				"tower floor: a world whose lead found their chapter one does not say so when it ends (D153)")
 		_expect((five.get("_memories") as Dictionary).is_empty(), "tower floor: the buckle can be picked up twice")
 	EventBus.dialogue_requested.disconnect(listen)
 	five.queue_free()

@@ -19,6 +19,16 @@ sixteen (`src/chronicle/sixteen.gd`). `by_left` swaps whole shots' lines for thr
 nobody after you", every fallen lead at the fire, "The last standing quest"). The words are
 **Inferred**.
 
+**The ending shot says what the death cost** ([D153](06-decisions.md), the creatives' meeting's C5).
+If the lead who just died had found their chapter one, it says what they had just remembered
+("Atlas fell on floor 3 of the Tower. He had just remembered a courtyard, and a gift."); if not,
+that they never found out ("Cato fell on the road, to an ogre, and never learned what he carried
+down."). The phrases are `remembered` in `opening.json`, the two lines are `fell`, and the world
+record keeps `remembered` (`src/chronicle/siblings.gd`). When the new lead is the other half of a
+tie with the one who just died, the impact shot gains one line for the pair (`pairs`): Ultor after
+Bellona hears "Somewhere a whistle stops blowing." Six lines, one each way for Bellona and Ultor,
+Cassius and Caesar, Ares and Liber; none names the tie (Will, call AH).
+
 - **Words and cast:** `data/opening.json`. Rewrite any line there; no code needed. `time` is how
   long a shot holds, shared evenly between its lines. `ending` names whose world is seen ending in
   the `ending` shot (`{other}` in a line is their name).
@@ -30,7 +40,8 @@ nobody after you", every fallen lead at the fire, "The last standing quest"). Th
 - **Tested** in `tests/wishlist_smoke_test.gd` (`_check_opening`): every shot can be drawn,
   everyone in it has a sprite, the lead it is handed is the one who falls, it ends on its own and starts the run, Esc skips, and
   the quiz plays it only after a New Game; a second, a two-left and a last life play the replay
-  shots with the right count, the right dead lead and how they fell (`_check_opening_again`).
+  shots with the right count, the right dead lead, how they fell and what they remembered, and Ultor
+  after Bellona hears the whistle stop (`_check_opening_again`).
 
 ## The shots
 
