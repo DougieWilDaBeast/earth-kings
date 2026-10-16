@@ -152,6 +152,7 @@ func _ready() -> void:
 	world = GameState.world
 	# A lead has died and ascended: this is the last look at their world (M15).
 	if bool(boot_payload.get("world_ends", false)):
+		EventBus.place_entered.emit("world_ends")
 		_watch_it_end()
 		return
 	_view = _opened_as()

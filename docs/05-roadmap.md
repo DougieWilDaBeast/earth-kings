@@ -232,8 +232,8 @@ each, each ending playable:
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
    founders' questions ([30](30-questions-for-the-founders.md), D168 to D175). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
-   ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); the hour's music worked out with `doug-md`'s cues and the creatives'
-   brief ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
+   ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
+   ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
    asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
    open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
    the word carried between the leads is built ([D183](06-decisions.md), item 13); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
@@ -242,6 +242,12 @@ each, each ending playable:
    [D174](06-decisions.md)): as its fight begins it names the lead and counts which of the sixteen
    challengers they are, first to sixteenth and final (lines **Inferred**, agenda item 108). Its fight
    is left as it is until the Tower's bestiary rework ([D156](06-decisions.md)).
+   The hour's music in the meantime — built ([D185](06-decisions.md)): five in-house themes made in
+   code (`tools/make_music.py`) from the creatives' brief, played by place: the Tower floors, Stormreach,
+   the crater, a chapter one's memory and the world's end; the road keeps Angelic and the fights Bday
+   Project. Two more fight sounds (a fight opening, a ward) and the weak low ones given a mid-range
+   knock, measured by `tools/audio_levels.py`. **Planned**: a layer added a floor up the Tower, and the
+   opening's replay thinning as fewer are left (brief items 3 and 6).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

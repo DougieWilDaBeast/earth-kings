@@ -231,6 +231,7 @@ func _ready() -> void:
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
+	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
 	_paint_layers()
@@ -339,6 +340,12 @@ func _land_start() -> Vector2i:
 	if boot_payload.has("spawn_cell") and not chunk.is_empty():
 		return AreaMap.to_cell(boot_payload["spawn_cell"]) + (chunk["origin"] as Vector2i)
 	return AreaMap.to_cell(chunk.get("spawn", [0, 0])) + (chunk.get("origin", Vector2i.ZERO) as Vector2i)
+
+
+## Where the party stands, for whatever plays to the place (the music, D185): this area, or on
+## the land the place on the tile they are on ("home" for the crater, "city"), else that tile.
+func _tell_where_we_are() -> void:
+	EventBus.place_entered.emit(str(_here_chunk().get("id", "")) if _land_mode else map.id)
 
 
 ## The tile the continent has the party on.
@@ -745,6 +752,7 @@ func _on_new_tile() -> void:
 	_idle_hint = _land_hint()
 	_turn_the_light(str(chunk.get("tint", "")))
 	_plan_the_land()
+	_tell_where_we_are()
 	var opening := str(chunk.get("opening", ""))
 	if opening != "" and str(chunk.get("kind", "")) == "place":
 		_open_on(opening)

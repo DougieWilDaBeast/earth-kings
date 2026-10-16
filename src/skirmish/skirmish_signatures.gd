@@ -237,6 +237,7 @@ func _ward_someone(f: Fighter) -> void:
 	neediest.ward = maxi(1, roundi(float(neediest.unit.max_hp) * _num(f, "ward", 0.15)))
 	fight.fx.ring(neediest.unit.position, SkirmishFx.GRACE, 36.0)
 	fight.fx.popup("Warded", neediest.unit.position, SkirmishFx.GRACE, 13)
+	Sfx.cue("ward")
 	fight._say("%s wards %s." % [f.unit.display_name, neediest.unit.display_name])
 
 

@@ -24,7 +24,7 @@ What stands between this audit and a public release, in order of weight.
 
 | # | Item | Status | Who |
 | --- | --- | --- | --- |
-| P1 | `audio/music/peace_sign.mp3`, `crossing_field.mp3`, `unravel.mp3` are fan covers of commercial anime songs (see [Audio](#audio)) | **out of every build** ([D100](06-decisions.md)): no longer in `data/music.json`, and every export preset leaves `audio/music/*.mp3` out. The files stay in the repository for now; `doug-md` makes the First Hour's missing cues (city, crater and road, death), and until then the death screen plays `angelic.wav` quietly | founders |
+| P1 | `audio/music/peace_sign.mp3`, `crossing_field.mp3`, `unravel.mp3` are fan covers of commercial anime songs (see [Audio](#audio)) | **out of every build** ([D100](06-decisions.md)): no longer in `data/music.json`, and every export preset leaves `audio/music/*.mp3` out. The files stay in the repository for now; `doug-md` makes the First Hour's missing cues, and until then in-house stand-ins made in code play the Tower floors, the city, the crater, the chapter ones and the death screen ([D185](06-decisions.md)) | founders |
 | P2 | Who made `angelic.wav` and `bday_project.wav`, and on what terms | **Made by Ewan, who is `doug-md`** (`dougie`, 2026-10-12 and 2026-10-14, [D63](06-decisions.md), [D100](06-decisions.md)); cleared to ship ([D64](06-decisions.md)); credited as "Ewan (doug-md)" | founders |
 | P3 | Where `audio/sfx/hover.wav` and `select.wav` came from | **to confirm** | founders |
 | P4 | Where the items, props, buildings, holds, tilesets and menu frames came from — none has a record | **to confirm** | founders |
@@ -72,6 +72,8 @@ What stands between this audit and a public release, in order of weight.
 | `audio/sfx/hover.wav`, `select.wav` | Not recorded (no tags; mono 16-bit 44.1 kHz) | unknown | **to confirm** (P3) |
 | `audio/sfx/level_up.wav` | Made for the project on 2026-10-12 by Claude in code: four sine bells rising C–E–G–C, nothing sampled ([D67](06-decisions.md)) | the project's own | **cleared** |
 | `audio/sfx/` — `swing`, `shoot`, `hit`, `crit`, `block`, `charge`, `spell`, `heal`, `stun`, `drink`, `fall`, `death`, `victory`, `defeat` (.wav) | Made for the project on 2026-10-13 by Claude in code, `tools/make_fight_sounds.py`: sine waves, filtered noise and a plucked string, nothing sampled ([D76](06-decisions.md)) | the project's own | **cleared** |
+| `audio/music/` — `memory_theme`, `world_ending`, `tower_floors`, `stormreach`, `crater` (.wav; mono 16-bit, 22.05 kHz, the world ending and the crater 16 kHz; 5.9 MB in all) | Made for the project on 2026-10-16 by Claude in code, `tools/make_music.py`: additive tones, a plucked string, filtered noise and a small reverb, nothing sampled; stand-ins until Ewan's cues ([D185](06-decisions.md)) | the project's own (in-house) | **cleared** |
+| `audio/sfx/engage.wav`, `ward.wav`; `hit`, `crit` and `death` remade | Made for the project on 2026-10-16 by Claude in code, `tools/make_fight_sounds.py`, as the fourteen ([D185](06-decisions.md)) | the project's own (in-house) | **cleared** |
 | `audio/source/` — the two `.als` projects and their `.asd` analysis files | Ableton Live working files | — | **not shipped** (`.gdignore`) |
 | `audio/source/memos/Game implementations.docx` / `.pdf` | Design memos, not audio | — | **not shipped** (`.gdignore`) |
 

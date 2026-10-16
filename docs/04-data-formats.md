@@ -875,11 +875,33 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
 
 - `voices` — how many sounds may play at once (at least the interface's four).
 - A cue is a moment the fight sounds: `swing`, `shoot`, `hit`, `crit`, `block`, `charge`, `spell`,
-  `heal`, `stun`, `drink`, `fall` (one of the company down), `death` (a foe), `victory`, `defeat`.
+  `heal`, `stun`, `drink`, `fall` (one of the company down), `death` (a foe), `victory`, `defeat`,
+  `engage` (a fight opening) and `ward` (a ward taken up, or soaking a blow; [D185](06-decisions.md)).
 - `file` — the sound in `audio/sfx/` (no extension); `tools/make_fight_sounds.py` makes them.
 - `volume_db` — loudness against the others; `pitch` — the range each play is picked from, so
   repeats differ; `gap` — the fewest seconds before the same cue sounds again. All under the
   Sounds slider. A cue not listed is silent.
+
+## `music.json` — what plays where ([D100](06-decisions.md), [D185](06-decisions.md))
+
+```json
+"fade": 1.4,
+"scenes": { "area": "road", "skirmish": "battle", "summary": "world_ending" },
+"places": { "tower_floor_1": "tower", "city": "city", "home": "crater", "world_ends": "world_ending" },
+"dialogues": { "memory_": "memory" },
+"sets": { "tower": [{ "path": "res://audio/music/tower_floors.wav", "volume_db": -14.0 }] }
+```
+
+- `fade` — seconds one track takes to cross into the next.
+- `scenes` — a scene key (as [Game] knows it) to the set it hears; a key not listed is silence.
+- `places` — an area's id, or the id of the place on the land tile walked onto (`home` is the
+  crater), or a moment's key (`world_ends`, the world's last look), to the set heard there in place
+  of the scene's. The area scene says where the party is on `EventBus.place_entered`, on coming in
+  and on each new tile of the land; a place not listed hears the scene's set.
+- `dialogues` — the start of a dialogue's id to the set heard while it is open (a chapter one is
+  `memory_<id>`); when it closes, the place's or the scene's set comes back.
+- `sets` — a set's tracks, each a `path` and its `volume_db`; with several, one is picked at random,
+  never the one it played last. Every track loops. The fan covers are never named (D100).
 
 ## `maps/*.json` — hand-authored battlefields
 
