@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	_check_settings_are_kept()
+	await _check_the_music()
 	await _check_the_play_log()
 	await _check_the_credits()
 	await _check_tips_and_how_to_play()
@@ -547,6 +548,41 @@ func _check_settings_are_kept() -> void:
 		"the fullscreen button does not follow the fullscreen key"
 	)
 	slider.value = sfx_was
+
+
+# --- the music ------------------------------------------------------------------
+
+
+## Every set `data/music.json` names is there and every track in it is on disk; none
+## of the fan covers is ever one of them (D100). A place's set wins over the scene's,
+## a chapter one's memory over the place's while it is open, and anywhere the file
+## does not list hears the scene's own (D185).
+func _check_the_music() -> void:
+	var music: Dictionary = Database.music
+	var sets: Dictionary = music.get("sets", {})
+	for table: String in ["scenes", "places", "dialogues"]:
+		var named: Dictionary = music.get(table, {})
+		for key: String in named:
+			_expect(sets.has(str(named[key])), "music.json %s.%s names no set" % [table, key])
+	for set_id: String in sets:
+		for track: Dictionary in sets[set_id]:
+			var path := str(track.get("path", ""))
+			_expect(ResourceLoader.exists(path), "the %s music's %s is not on disk" % [set_id, path])
+			_expect(not path.ends_with(".mp3"), "the %s music plays a fan cover: %s" % [set_id, path])
+	Music.for_scene("area")
+	EventBus.place_entered.emit("tower_floor_3")
+	await _settle()
+	_expect(Music.playing_set() == "tower", "a Tower floor did not hear the Tower's music (%s)" % Music.playing_set())
+	Music._on_dialogue_requested("memory_atlas")
+	_expect(Music.playing_set() == "memory", "a chapter one did not hear the memory theme")
+	Music._on_dialogue_finished("memory_atlas")
+	_expect(Music.playing_set() == "tower", "the memory theme did not give way to the floor's music again")
+	EventBus.place_entered.emit("land_0_0_grassland")
+	_expect(Music.playing_set() == "road", "open country did not hear the road's music (%s)" % Music.playing_set())
+	EventBus.place_entered.emit("home")
+	_expect(Music.playing_set() == "crater", "the crater did not hear its own music")
+	Music.for_scene(_game.get("_scene_key"))
+	await _settle()
 
 
 # --- the play log ---------------------------------------------------------------

@@ -1,4 +1,5 @@
 {
+	"_doc": "What plays where (D100, D185). `scenes`: a scene key -> the set it hears. `places`: an area's id, or the place on the land tile walked onto, or a moment's key -> the set heard there instead of the scene's (EventBus.place_entered). `dialogues`: the start of a dialogue's id -> the set heard while it is open. `sets`: tracks by name, one picked at random when a set has several, each at `volume_db`. The fan covers (crossing_field, peace_sign, unravel) are never named here (D100). angelic and bday_project are Ewan's; memory_theme, world_ending, tower_floors, stormreach and crater are in-house stand-ins made by tools/make_music.py until his cues arrive (docs/28). Where each plays and how loud is Inferred (agenda items 107, 108).",
 	"fade": 1.4,
 	"scenes": {
 		"title": "title",
@@ -12,7 +13,22 @@
 		"area": "road",
 		"skirmish": "battle",
 		"coliseum": "battle",
-		"summary": "game_over"
+		"summary": "world_ending"
+	},
+	"places": {
+		"home": "crater",
+		"city": "city",
+		"city_streets": "city",
+		"city_tavern": "city",
+		"tower_floor_1": "tower",
+		"tower_floor_2": "tower",
+		"tower_floor_3": "tower",
+		"tower_floor_4": "tower",
+		"tower_floor_5": "tower",
+		"world_ends": "world_ending"
+	},
+	"dialogues": {
+		"memory_": "memory"
 	},
 	"sets": {
 		"title": [
@@ -29,6 +45,21 @@
 		],
 		"game_over": [
 			{ "path": "res://audio/music/angelic.wav", "volume_db": -18.0 }
+		],
+		"tower": [
+			{ "path": "res://audio/music/tower_floors.wav", "volume_db": -14.0 }
+		],
+		"city": [
+			{ "path": "res://audio/music/stormreach.wav", "volume_db": -15.0 }
+		],
+		"crater": [
+			{ "path": "res://audio/music/crater.wav", "volume_db": -8.0 }
+		],
+		"memory": [
+			{ "path": "res://audio/music/memory_theme.wav", "volume_db": -14.0 }
+		],
+		"world_ending": [
+			{ "path": "res://audio/music/world_ending.wav", "volume_db": -13.0 }
 		]
 	}
 }

@@ -110,3 +110,8 @@ const CUTSCENE_FRAME_GROUP := "cutscene_frame"
 ## The scene [Game] is showing right now: the title, the walk, a fight. Only
 ## ever one node is in it.
 const ACTIVE_SCENE_GROUP := "active_scene"
+## The party now stands in [param place_id]: an area's id, or the id of the place on the land tile
+## they have walked onto ("home" for the crater, "city"), or a moment's own key ("world_ends").
+## [Music] plays that place's set from `data/music.json` → `places` (D185); a place it does not
+## list hears the scene's own set.
+signal place_entered(place_id: String)

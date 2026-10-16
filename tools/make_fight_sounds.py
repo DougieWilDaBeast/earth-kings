@@ -9,6 +9,9 @@ a plucked string (Karplus-Strong), shaped by an envelope. The dice are seeded,
 so running it again gives the same files. What each sound is cued by, and how
 loud, lives in data/sfx.json; this only makes the noises.
 
+Each file written prints its length, peak and RMS level and brightness
+(tools/audio_levels.py, which also measures any sound already made).
+
 Standard library only. Mono, 16-bit, 44.1 kHz WAV.
 """
 
@@ -18,6 +21,9 @@ import struct
 import sys
 import wave
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from audio_levels import line  # noqa: E402
 
 RATE = 44100
 OUT = Path(__file__).resolve().parent.parent / "audio" / "sfx"
@@ -120,7 +126,7 @@ def write(name, track, peak=0.85, fade=0.03):
         f.setsampwidth(2)
         f.setframerate(RATE)
         f.writeframes(data)
-    print("wrote %s (%.2f s)" % (path.relative_to(OUT.parent.parent), len(track) / RATE))
+    print("wrote " + line(path))
 
 
 # --- the sounds -------------------------------------------------------------------
@@ -132,17 +138,22 @@ def swing(rng):
 
 
 def hit(rng):
-    # A blow landing: a low thump that drops in pitch, and a short slap on top.
-    body = tone(0.16, 120, 48, attack=0.002, decay=22.0, harmonics=((1, 1.0), (2, 0.3)))
-    slap = scale(noise(0.05, rng, decay=70.0, bright_from=0.6, bright_to=0.3), 0.6)
-    return mix(body, slap)
+    # A blow landing: a low thump that drops in pitch, a knock in the middle of
+    # it that a phone's speaker can carry (the thump alone is under 120 Hz, lost
+    # on one), and a short slap on top.
+    body = tone(0.18, 120, 48, attack=0.002, decay=22.0, harmonics=((1, 1.0), (2, 0.3)))
+    knock = scale(tone(0.12, 440, 250, attack=0.001, decay=32.0, harmonics=((1, 1.0), (1.6, 0.5))), 1.0)
+    slap = scale(noise(0.06, rng, decay=60.0, bright_from=0.6, bright_to=0.3), 0.7)
+    return mix(body, knock, slap)
 
 
 def crit(rng):
-    # A blow that tells: the thump, heavier, with a bright crack over it.
+    # A blow that tells: the thump, heavier, the hit's knock louder and longer,
+    # and a bright crack over it.
     body = tone(0.26, 140, 40, attack=0.001, decay=14.0, harmonics=((1, 1.0), (2, 0.4), (3, 0.15)))
+    knock = scale(tone(0.16, 520, 230, attack=0.001, decay=24.0, harmonics=((1, 1.0), (1.6, 0.5), (2.3, 0.2))), 0.9)
     crack = scale(noise(0.08, rng, decay=45.0, bright_from=0.95, bright_to=0.7), 0.9)
-    return mix(body, crack)
+    return mix(body, knock, crack)
 
 
 def block(rng):
@@ -211,10 +222,39 @@ def fall(rng):
 
 
 def death(rng):
-    # A foe falls: a heavy thump and the dust after it.
-    thud = tone(0.3, 90, 38, attack=0.002, decay=12.0, harmonics=((1, 1.0), (2, 0.2)))
-    dust = scale(noise(0.35, rng, attack=0.01, decay=10.0, bright_from=0.25, bright_to=0.1), 0.6)
-    return mix(thud, dust)
+    # A foe falls: gear clattering as they go, a heavy thump, and the dust after.
+    # The clatter is what a small speaker hears; the thump is what a large one does.
+    clatter = silence(0.0)
+    for at in (0.0, 0.05, 0.09):
+        f = rng.uniform(700, 1100)
+        clatter = mix(clatter, delay(scale(tone(0.12, f, f * 0.97, attack=0.001, decay=40.0,
+                                                harmonics=((1, 1.0), (2.4, 0.4))), 0.8), at))
+    thud = delay(tone(0.3, 110, 40, attack=0.002, decay=12.0, harmonics=((1, 1.0), (2, 0.35), (3, 0.15))), 0.08)
+    dust = scale(delay(noise(0.4, rng, attack=0.01, decay=9.0, bright_from=0.35, bright_to=0.1), 0.08), 0.6)
+    return mix(clatter, thud, dust)
+
+
+def engage(rng):
+    # The fight is on: one big drum struck twice, the skin's boom under a crack
+    # of the stick, and a low horn note swelling over it.
+    out = silence(1.1)
+    for at, gain in ((0.0, 0.7), (0.24, 1.0)):
+        boom = tone(0.5, 150, 55, attack=0.002, decay=8.0, harmonics=((1, 1.0), (2, 0.4), (3, 0.15)))
+        stick = scale(noise(0.05, rng, decay=60.0, bright_from=0.8, bright_to=0.4), 0.5)
+        out = mix(out, delay(scale(mix(boom, stick), gain), at))
+    horn = tone(0.75, 146.83, 146.83, attack=0.18, decay=3.0,
+                harmonics=((1, 1.0), (2, 0.6), (3, 0.45), (4, 0.25), (5, 0.12)), vibrato=0.004)
+    return mix(out, delay(scale(horn, 0.45), 0.24))
+
+
+def ward(rng):
+    # A ward taken up, or a blow it soaks: a glassy shimmer, two tones a beat
+    # apart, struck and humming briefly, with a soft breath through it.
+    a = tone(0.55, 1318.5, attack=0.004, decay=7.0, harmonics=((1, 1.0), (2.01, 0.25)))
+    b = tone(0.55, 1325.0, attack=0.004, decay=7.0, harmonics=((1, 1.0), (3.0, 0.1)))
+    low = scale(tone(0.4, 659.25, attack=0.01, decay=9.0), 0.4)
+    air = scale(noise(0.3, rng, attack=0.02, decay=12.0, bright_from=0.7, bright_to=0.4), 0.15)
+    return mix(scale(a, 0.5), scale(b, 0.5), low, air)
 
 
 def victory(rng):
@@ -240,6 +280,7 @@ SOUNDS = {
     "swing": swing, "hit": hit, "crit": crit, "block": block, "shoot": shoot,
     "charge": charge, "spell": spell, "heal": heal, "stun": stun, "drink": drink,
     "fall": fall, "death": death, "victory": victory, "defeat": defeat,
+    "engage": engage, "ward": ward,
 }
 
 

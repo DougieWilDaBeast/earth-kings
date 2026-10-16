@@ -206,10 +206,27 @@ tip now says so).
 
 ## Music the hour still needs
 
-The fan covers are out of every build ([D100](06-decisions.md)), so the hour plays on Ewan's two
-Ableton tracks. The creatives' meeting (C7, 2026-10-15) asked him for these, in this order; each is
-wired with a `data/music.json` set and a scene key when it arrives. **Planned**, Ewan's to make
-([30](30-questions-for-the-founders.md), question 13).
+The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
+Ableton tracks and, until his cues arrive, five stand-ins made in code by `tools/make_music.py`
+([D185](06-decisions.md)), all in D minor and sharing the memory theme's first notes, A D C A. What
+plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both):
+
+| Where | Plays | Whose |
+| --- | --- | --- |
+| Title, the opening and its replay, the credits | Angelic, quiet | Ewan's |
+| The road and the land | Angelic | Ewan's |
+| The crater (the lead's landing tile) | `crater`: wind, a fire ticking, the memory phrase once, far off (30 s loop) | in-house |
+| Stormreach, its streets and tavern | `stormreach`: lute, hand drum, a reed tune, the motif in the bass (32 s) | in-house |
+| Tower floors 1 to 5 | `tower_floors`: an organ chord, a footfall, the motif on a bell, slow and low (32 s) | in-house |
+| A chapter one, while it is open | `memory_theme`: one piano, a phrase stopped dead, then a held D (30 s) | in-house |
+| Every fight | Bday Project | Ewan's |
+| The death screen and the world's last look | `world_ending`: the memory phrase broken off (24 s) | in-house |
+
+How each sounds and where it plays is **Inferred** (agenda items 113 and 114). The creatives' meeting
+(C7, 2026-10-15) asked Ewan for these, in this order; each of his replaces a stand-in by its path in
+the set, or comes in with a set and a place or scene key. Still **planned**: a layer added a floor up
+the Tower (3) and the replay thinning as fewer are left (6); the opening's replay keeps the title's
+Angelic. Ewan's to make ([30](30-questions-for-the-founders.md), question 13).
 1. **The memory theme**: 40 to 60 seconds, one instrument, a short phrase that stops dead on
    "White.", then a held note. All sixteen chapter ones use it; three or four notes of it for the
    other cues to borrow.

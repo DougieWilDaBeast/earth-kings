@@ -29,7 +29,8 @@
 			"heading": "Music",
 			"entries": [
 				{ "name": "Angelic", "role": "title, hearth and road", "note": "By Ewan (doug-md), made in Ableton Live" },
-				{ "name": "Bday Project", "role": "battle", "note": "By Ewan (doug-md), made in Ableton Live" }
+				{ "name": "Bday Project", "role": "battle", "note": "By Ewan (doug-md), made in Ableton Live" },
+				{ "name": "The memory theme, the world ending, the Tower floors, Stormreach, the crater", "role": "stand-ins until Ewan's cues", "note": "Made in code for the game (tools/make_music.py)" }
 			]
 		},
 		{
@@ -44,7 +45,8 @@
 		{
 			"heading": "Sound",
 			"entries": [
-				{ "name": "Menu hover and select", "note": "source to confirm" }
+				{ "name": "Menu hover and select", "note": "source to confirm" },
+				{ "name": "The fight's sounds", "note": "Made in code for the game (tools/make_fight_sounds.py)" }
 			]
 		},
 		{

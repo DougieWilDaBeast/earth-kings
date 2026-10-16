@@ -1,5 +1,5 @@
 {
-	"_doc": "What the fight sounds like (D76). Each cue is a moment in a fight: `file` is a sound in audio/sfx/ (made by tools/make_fight_sounds.py), `volume_db` how loud against the others, `pitch` a range each play is picked from so a hundred swings never sound like one sound repeated, and `gap` the fewest seconds between two plays of the same cue, so a crowd swinging at once is a clatter rather than a roar. Read by Sfx.cue. The levels are Inferred (agenda item 66).",
+	"_doc": "What the fight sounds like (D76). Each cue is a moment in a fight: `file` is a sound in audio/sfx/ (made by tools/make_fight_sounds.py), `volume_db` how loud against the others, `pitch` a range each play is picked from so a hundred swings never sound like one sound repeated, and `gap` the fewest seconds between two plays of the same cue, so a crowd swinging at once is a clatter rather than a roar. Read by Sfx.cue. The levels are Inferred (agenda item 66). `engage` (the fight opening) and `ward` (a ward taken up or soaking a blow) came with D185; tools/audio_levels.py prints each file's length, peak, RMS and share over 200 Hz.",
 	"voices": 12,
 	"cues": {
 		"swing": { "file": "swing", "volume_db": -14.0, "pitch": [0.85, 1.2], "gap": 0.07 },
@@ -15,6 +15,8 @@
 		"fall": { "file": "fall", "volume_db": -5.0, "pitch": [1.0, 1.0], "gap": 0.4 },
 		"death": { "file": "death", "volume_db": -7.0, "pitch": [0.85, 1.1], "gap": 0.12 },
 		"victory": { "file": "victory", "volume_db": -6.0, "pitch": [1.0, 1.0], "gap": 1.0 },
-		"defeat": { "file": "defeat", "volume_db": -6.0, "pitch": [1.0, 1.0], "gap": 1.0 }
+		"defeat": { "file": "defeat", "volume_db": -6.0, "pitch": [1.0, 1.0], "gap": 1.0 },
+		"engage": { "file": "engage", "volume_db": -8.0, "pitch": [0.97, 1.03], "gap": 2.0 },
+		"ward": { "file": "ward", "volume_db": -12.0, "pitch": [0.95, 1.05], "gap": 0.3 }
 	}
 }
