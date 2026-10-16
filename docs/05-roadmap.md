@@ -527,8 +527,8 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
   `data/biomes.json`). Art for sixteen of the lands was a recoloured stand-in; since 2026-10-13 every
   land's trees, rocks and plants and the ground of eight (the blight, snow, dune, savanna, swamp,
   bog, taiga, badlands) are PixelLab's (`tools/pixellab_world.py`). The jungle's and the barrow downs'
-  ground is drawn in house since 2026-10-15 ([D140](06-decisions.md)). Planned: the ground of the other
-  six (ash, blossom, slime, crystal, fungal, mist), next month
+  ground is drawn in house since 2026-10-15 ([D140](06-decisions.md)), and so is the ground of the other
+  six (ash, blossom, slime, crystal, fungal, mist; [D157](06-decisions.md)): no land is a stand-in now
 - Bands met on the ground ✅ (2026-10-12, [D66](06-decisions.md), [D68](06-decisions.md),
   [D72](06-decisions.md)): patrolling with the ground they watch painted red; step in (or be walked
   into view of) and they charge, the real-time fight opens on that same ground at the view it was

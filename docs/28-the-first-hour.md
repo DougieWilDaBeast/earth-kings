@@ -19,7 +19,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    Bands met on the land are fought on that ground with no change of screen ([D98](06-decisions.md));
    on the road itself they are brigands, poachers, cabin hands and cutpurses ([D144](06-decisions.md)).
    Lands blend where they meet ([D128](06-decisions.md)); the jungle and the barrow downs on the way
-   have their own ground, drawn in house ([D140](06-decisions.md)); scenery stands by rule
+   have their own ground, drawn in house ([D140](06-decisions.md)), as do the six other lands
+   ([D157](06-decisions.md)); scenery stands by rule
    ([D130](06-decisions.md)), and the roadside scenes stand on the road ([D131](06-decisions.md)).
 4. **Stormreach and the Guild.** The great city stands at the Tower's foot, paved in sandstone
    ([D136](06-decisions.md)). The first time the party stands at the Tower's door the Guild's register
