@@ -423,20 +423,36 @@ func _ground_field() -> Dictionary:
 		var at: Vector2i = foe_cells[i % foe_cells.size()] if not foe_cells.is_empty() else Vector2i(size.x - 2, 1)
 		entry["cell"] = [at.x, at.y]
 		enemies.append(entry)
-	return {
+	var laid := {
 		"name": str(ground_field.get("title", "the ground")),
 		"tiles": rows,
 		"legend": { ".": "grass", ",": "brush", "#": "wall" },
 		"player_spawns": spawns,
 		"enemies": _spread_out(enemies, rows),
 	}
+	# A gate's fight on the ground (D162): the Guild's people fall in beside the party, and a heart
+	# floor's heart is the gate's doorway.
+	var allies: Array = []
+	for each: Variant in ground_field.get("allies", []):
+		var ally: Dictionary = (each as Dictionary).duplicate()
+		var beside: Array = spawns[allies.size() % spawns.size()] if not spawns.is_empty() else [1, size.y - 2]
+		ally["cell"] = [int(beside[0]), int(beside[1]) + 1]
+		allies.append(ally)
+	if not allies.is_empty():
+		laid["allies"] = _spread_out(allies, rows, laid["enemies"])
+	if ground_field.has("heart"):
+		var at := _to_cell(ground_field["heart"]) - origin
+		laid["heart"] = _spread_out([{ "cell": [at.x, at.y] }], rows)[0]["cell"]
+	return laid
 
 
 ## Two of them told to stand on one cell: the second takes the nearest free one.
-func _spread_out(enemies: Array, rows: Array) -> Array:
+func _spread_out(enemies: Array, rows: Array, standing: Array = []) -> Array:
 	var taken: Dictionary = {}
 	for pair: Array in ground_field.get("party", []):
 		taken[_to_cell(pair) - _to_cell(ground_field.get("origin", [0, 0]))] = true
+	for entry: Dictionary in standing:
+		taken[_to_cell(entry["cell"])] = true
 	for entry: Dictionary in enemies:
 		var at := _to_cell(entry["cell"])
 		var tries := 0

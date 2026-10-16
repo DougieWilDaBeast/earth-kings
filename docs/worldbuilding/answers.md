@@ -121,6 +121,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 94 | D149 | **Inferred.** Built 2026-10-16 from the designers' week (AK): **the Tower's sixteen lights**, one going out by name when the lead wins floor 5 ("High in the Tower's glass, sixteen small lights burn…", `first_hour.light_out.lines`), and that the one who falls is chosen by the world's seed from those not in the company. Recommended: keep. |
 | 95 | D150 | **Inferred.** Set 2026-10-16 from the designers' week (AM): **when Auto hands a fight over**: every gate's fight, the keeper, and any foe more than one level over the lead (`first_hour.auto_stops.above_level`). Recommended: keep, and check it on Ewan's next run with Auto. |
 | 96 | D161 | **Inferred.** Set 2026-10-16 from the five strangers' run (AU, Will: "Accept all recommended too"): **Sennet's words as the party walks into the city** ("New down, are you? Nobody climbs the Tower without the Guild's mark, and the mark is earned at a gate…", `first_hour.gate_line`). Recommended: keep. |
+| 97 | D162 | **Inferred.** Set 2026-10-16 from the five strangers' run (finding 7): **where a gate's fight stands on the ground**: its keepers come out of the gate's doorway towards the party, the Guild's people stand beside the party, and a heart floor's heart is the doorway's front. Recommended: keep, and watch it on the next play-test at Greyhollow. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
