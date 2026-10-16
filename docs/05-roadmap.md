@@ -196,7 +196,8 @@ each, each ending playable:
    the middle of the screen, where the way ahead is ([D142](06-decisions.md)).
    A gate's fight is fought where the party stands, at the gate, like a band's
    ([D162](06-decisions.md), five strangers' finding 7); only floors 6 up of the Tower and roadside
-   fights still open the fight screen.
+   fights still open the fight screen. A phone held upright is laid out tall, the ground
+   filling it and text about 12 points ([D163](06-decisions.md), finding 6).
 11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one on `4196128`, the build on
    itch since 2026-10-15 20:25; his play log and notes are written up,
    then design meeting 5 with the newcomer's timed run. The seven leads without a chapter one wait for

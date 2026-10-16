@@ -47,6 +47,8 @@ func _ready() -> void:
 	# alone it closes the game from inside any screen, which is no way to shut a
 	# menu, so it is caught here and passed on as the cancel it means.
 	get_tree().set_quit_on_go_back(false)
+	get_tree().root.size_changed.connect(_fit_to_screen)
+	_fit_to_screen()
 	# Straight onto the title card, the fall ([D87]).
 	_change_scene("title", {"from": "boot"})
 
@@ -75,6 +77,35 @@ func back_out() -> void:
 	release.action = "ui_cancel"
 	release.pressed = false
 	Input.parse_input_event(release)
+
+
+## The screen the game is laid out for, on its short side: a laptop's window is 720 tall. A phone
+## is far smaller than that, so on one the game is laid out for [constant SMALLEST_SHORT_SIDE]
+## instead, which keeps a line of text big enough to read on it (D162).
+const LAID_OUT_SHORT_SIDE := 720
+const SMALLEST_SHORT_SIDE := 540
+## How many of the game's pixels one of the screen's own points (CSS pixels on a browser) may
+## carry before the text on it is too small to read.
+const MOST_PER_POINT := 1.32
+
+
+## Laid out for the screen as it is held, turned either way. Upright, the game is laid out tall
+## rather than wide: before this a phone held upright showed a laptop's wide screen shrunk to its
+## width, the ground in a band across the middle and the text at five points (five strangers,
+## finding 6). Each way round, the short side is the same number of the game's pixels.
+func _fit_to_screen() -> void:
+	var window := get_tree().root
+	var size := Vector2(window.size)
+	if size.x <= 0.0 or size.y <= 0.0:
+		return
+	# A phone's screen packs two or three of its pixels into each point; what can be read is
+	# measured in points.
+	var points := minf(size.x, size.y) / maxf(1.0, DisplayServer.screen_get_scale())
+	var short := clampi(roundi(points * MOST_PER_POINT), SMALLEST_SHORT_SIDE, LAID_OUT_SHORT_SIDE)
+	var long := roundi(short * 16.0 / 9.0)
+	var wanted := Vector2i(short, long) if size.y > size.x else Vector2i(long, short)
+	if window.content_scale_size != wanted:
+		window.content_scale_size = wanted
 
 
 ## Scenes where Start brings up the menu. Everywhere else is a menu already.

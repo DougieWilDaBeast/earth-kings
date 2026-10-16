@@ -136,6 +136,7 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
 | RT14 | Press **Z** twice, turn **A** off on a unit, use its skill  | When the skill comes back the fight pauses: "Paused. _X_'s _Y_ is ready."                |
 | RT15 | On a phone (or touch set to On in the system menu), start a real-time fight | A column of buttons down the right: Pause, Speed, All, the four skills named for the picked fighter, Auto skills, Hold, Auto-pause |
+| RT15b | On a phone held upright, walk a Tower floor, then start a fight | The ground fills the screen top to bottom; the bar sits under the place name and compass, the stick and buttons above the log, the log wraps inside the screen, and the fight's button column is under the bar ([D163](06-decisions.md)) |
 | RT16 | Tap a fighter, then tap an enemy, then tap empty ground     | Picked; goes after that enemy; walks to the spot. Tapping a companion picks them instead of ordering |
 | RT17 | Tap a skill button, then its target; tap a skill button twice | It is cast at the target; tapped twice, it is put away again                            |
 | RT18 | Look at the party cards; hover one                          | A ✦ line of passives under each name; hovering the card lists what each one does          |
