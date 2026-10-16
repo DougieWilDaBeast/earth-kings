@@ -32,6 +32,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 26  | [Coins and prices](26-coins-and-prices.md)           | **Proposed, not built** — every price and earning in bronze, silver, gold and platinum, for `doug-md` to check |
 | 27  | [The world](27-the-world.md)                         | The one world every run is played on: the map, what stays the same and what the seed deals, and how to change it |
 | 28  | [The First Hour](28-the-first-hour.md)               | **What a new player plays today**: the route from the crater to chapter one, the nine chapter ones, the play-tests and every build on itch |
+| 29  | [The store page](29-the-store-page.md)               | **A draft, not published**: the name, five lines and five shots for the Steam page, each promising only what the First Hour shows |
 
 ## Deciding the world
 

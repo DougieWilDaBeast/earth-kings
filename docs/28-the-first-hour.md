@@ -147,6 +147,10 @@ The browser build goes to `dougie`'s itch.io page (both the `html5` and `web` ch
 `dougie`'s word. The commit is the version, and this table is the marker for which build a play-test
 played: `git checkout <commit>` gives it back.
 
+**A devlog with each push** ([D148](06-decisions.md)). Every push carries a short devlog post on the
+itch page: what changed since the last build, a line or two per change, in a player's words, not the
+decision numbers. Whoever pushes drafts it with the build; it goes up with the build, on `dougie`'s word.
+
 | Pushed (UTC) | Commit | What it carried |
 | --- | --- | --- |
 | 2026-10-13 | main | The first browser build on the page |
