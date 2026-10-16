@@ -284,6 +284,8 @@ Start a run (not the tutorial) and walk.
 | D5.4 | Find a band (the bottom line names it) and stand still | It patrols its patch, further than a small loop; take a few steps across a tile edge and sometimes it sets off and walks to the next patch, its red going with it |
 | D5.5 | Go into a house, open the journal's map, and fight    | Each time you come back exactly where you stood on the land                                |
 | D5.6 | Open a chest in a village, leave, come back           | It is still open                                                                          |
+| D5.7 | Click open ground a little way off, then click behind a house | The party walks there, round the house; pressing a key takes over at once ([D178](06-decisions.md)) |
+| D5.8 | Walk across several tiles of the land | No stutter as you cross from one tile into the next |
 
 ## H — Conversation and the camp
 

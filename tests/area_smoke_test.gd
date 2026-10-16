@@ -60,6 +60,7 @@ func _ready() -> void:
 	await _check_tower_floor()
 	await _check_the_land()
 	await _check_the_joined_land()
+	await _check_play_test_three()
 
 	print("")
 	if _failures.is_empty():
@@ -960,3 +961,40 @@ func _check_the_joined_land() -> void:
 	scene.queue_free()
 	await get_tree().process_frame
 	print("land: tiles walk into each other, %s stands in its tile, a band walks across, a step keeps to the land, and so does walking itself" % town.display_name)
+
+
+## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met
+## standing somewhere is drawn as the Atlas who joins (in Sky's saddle); the lighthouse's beam turns
+## at its own slower pace.
+func _check_play_test_three() -> void:
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "village", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var from: Vector2i = map.cell_at(scene._leader.position)
+	var goal := Vector2i(-1, -1)
+	for radius in range(4, 9):
+		for cell: Vector2i in [from + Vector2i(radius, 0), from + Vector2i(-radius, 0), from + Vector2i(0, -radius)]:
+			if goal.x < 0 and map.is_walkable(cell) and map.find_cell_path(from, cell).size() > 2:
+				goal = cell
+	if goal.x < 0:
+		_fail("play-test 3: nowhere open near the village's way in to click on")
+	else:
+		scene._walk_to(map.centre_of(goal))
+		for i in 240:
+			scene._physics_process(1.0 / 60.0)
+			if map.cell_at(scene._leader.position) == goal:
+				break
+		if map.cell_at(scene._leader.position) != goal:
+			_fail("play-test 3: a click on open ground did not walk the party there (at %s, wanted %s)" % [map.cell_at(scene._leader.position), goal])
+	scene.queue_free()
+	await get_tree().process_frame
+	var standing := AreaActor.for_person({ "name": "Atlas", "unit": "atlas" })
+	var joined := AreaActor.for_character(Character.create("atlas"))
+	if standing.body_scale != joined.body_scale or standing._rotations.get("south") != joined._rotations.get("south"):
+		_fail("play-test 3: Atlas standing in a town is not drawn as the Atlas who joins")
+	standing.free()
+	joined.free()
+	if float(Database.prop_size("landmark/lighthouse").get("frame_seconds", 0.13)) <= 0.13:
+		_fail("play-test 3: the lighthouse still blinks at the quick pace")
