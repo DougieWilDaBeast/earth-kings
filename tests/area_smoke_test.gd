@@ -31,6 +31,8 @@ const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const AreaCritter := preload("res://src/area/area_critter.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 
 var _requests: Array[Dictionary] = []
@@ -61,6 +63,7 @@ func _ready() -> void:
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
+	await _check_life_on_the_land()
 
 	print("")
 	if _failures.is_empty():
@@ -998,3 +1001,56 @@ func _check_play_test_three() -> void:
 	joined.free()
 	if float(Database.prop_size("landmark/lighthouse").get("frame_seconds", 0.13)) <= 0.13:
 		_fail("play-test 3: the lighthouse still blinks at the quick pace")
+
+
+## Life on the land ([D179]): the tiles round the party have birds, butterflies and the like on
+## them; a bird takes off when the leader walks up to it and comes down further off; and on the
+## First Hour's road the city's Watch walks its rounds.
+func _check_life_on_the_land() -> void:
+	var world: World = GameState.world
+	var road_tile := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var tile := Vector2i(x, y)
+			if road_tile.x < 0 and not FirstRoad.sides(world, tile).is_empty() and world.site_at(tile) == null:
+				var rng := RandomNumberGenerator.new()
+				rng.seed = hash([world.shape_seed(), tile.x, tile.y, "watch"])
+				if rng.randf() < float(Database.world_rules["life"]["road_watch"]["chance"]):
+					road_tile = tile
+	if road_tile.x < 0:
+		_fail("life: no tile of the road with the Watch on it")
+		return
+	world.player_cell = road_tile
+	GameState.land_cell = null
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	await get_tree().process_frame
+	var critters: Array = scene.get_node("Actors").get_children().filter(
+		func(n: Node) -> bool: return n.get_script() == AreaCritter)
+	var lives := {}
+	for c: Node2D in critters:
+		lives[c.life] = true
+	if critters.size() < 9 or not lives.has("bird") or not lives.has("flutter"):
+		_fail("life: the land round the party is empty (%d creatures, %s)" % [critters.size(), lives.keys()])
+	var watch: Array = scene._people.filter(func(a: AreaActor) -> bool:
+		return str((a.get_meta("person", {}) as Dictionary).get("_area", "")) == "road_watch")
+	if watch.size() < 2 or watch.size() % 2 != 0:
+		_fail("life: the Watch is not walking the road at %s in pairs (%d of them)" % [road_tile, watch.size()])
+	elif not watch[0].can_talk():
+		_fail("life: the Watch on the road will not talk")
+	var bird: Node2D = null
+	for c: Node2D in critters:
+		if c.life == "bird" and c.visible:
+			bird = c
+			break
+	if bird != null:
+		var was := bird.position
+		scene._leader.position = bird.position + Vector2(40, 0)
+		for i in 120:
+			bird._process(1.0 / 60.0)
+		if bird.position.distance_to(was) < AreaMap.CELL * 2.0:
+			_fail("life: a bird stayed put with the leader standing over it")
+	scene.queue_free()
+	await get_tree().process_frame
+	print("life: %d creatures round the party (%s), a bird took off, and the Watch walks the road" % [critters.size(), ", ".join(lives.keys())])

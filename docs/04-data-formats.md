@@ -392,6 +392,10 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
   them over and over: the portals glow, the lighthouse sweeps. `frame_seconds` on its `art` entry is
   how long each frame shows (0.13 if absent; the lighthouse's is 0.45, [D178](06-decisions.md)).
+- `life` on a kind or an `art` entry makes the picture alive wherever it is laid down
+  ([D179](06-decisions.md), `src/area/area_critter.gd`): `bird` (pecks, hops, takes off when the
+  party comes near), `flutter` (a butterfly or a bee round where it lives), `hop` (a grasshopper),
+  `crawl` (a snail, a spider). A living picture with a `line` or a haul stays still, to be looked at.
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
@@ -494,6 +498,17 @@ a sea or lake tile is all water and a mountain all rock. What is written down ab
 opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own area and cells for
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
+
+## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
+
+`per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
+average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
+pictures each is drawn from. A bird takes off when the party comes within `shy_cells`, flies
+`flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
+to land is gone `away_seconds`. `road_watch`: on that `chance` of the First Hour's road tiles, two of
+the city's Watch (`units`, called `name`) walk the road there end to end and back, staying `stay`
+[min, max] seconds and saying one of `lines` at each end; `talk` is their conversation (a `talk`
+block, above). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 

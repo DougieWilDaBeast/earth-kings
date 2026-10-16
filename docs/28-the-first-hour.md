@@ -170,7 +170,8 @@ tip now says so).
 3. **The far Tower** at the screen's edge is too big and distracting: a better way to show where it
    is; and the Tower should rise, not look flat.
 4. **Life on the land**: animals, birds that move and fly off as you come near, bees and butterflies;
-   guards patrolling the roads; people doing things.
+   guards patrolling the roads; people doing things. Built ([D179](06-decisions.md)): the birds and
+   bugs, and the Watch on the road; animals that walk wait on their art (A29).
 5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
    archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
 6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
