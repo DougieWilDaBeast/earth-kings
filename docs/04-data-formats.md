@@ -368,7 +368,7 @@ door into a training fight that comes back out of the same door; nothing in it c
   `unless` flag is set. A `bribe` and a `check` are ways round it; `won_flag` makes it stick.
 - `heal` — they mend the whole company for `price` gold (through the difficulty's `price` dial), as a
   rest does: `q` is offered while anyone is hurt and the purse can pay, and they say `done`; with
-  nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D165](06-decisions.md)).
+  nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D176](06-decisions.md)).
 - `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
   mutters as you pass.
 

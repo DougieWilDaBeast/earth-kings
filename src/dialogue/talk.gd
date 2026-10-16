@@ -158,7 +158,7 @@ static func _add_shop(nodes: Dictionary, name_: String, talk: Dictionary, sells:
 	}
 
 
-## Mending the whole company for a price ([D165]): offered while anyone in it is hurt and the purse
+## Mending the whole company for a price ([D176]): offered while anyone in it is hurt and the purse
 ## can pay; with nobody hurt, a look-over that costs nothing.
 static func _add_healing(nodes: Dictionary, menu: Array, name_: String, heal: Dictionary) -> void:
 	var price := maxi(1, roundi(float(heal.get("price", 40)) * Difficulty.dial("price")))

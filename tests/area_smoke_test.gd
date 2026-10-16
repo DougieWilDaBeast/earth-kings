@@ -317,7 +317,7 @@ func _check_story_npcs() -> void:
 
 ## Buying from a stall, paying a fox to listen, and a favour from asking to being paid, done the
 ## way the dialogue box does them: each reply's effects, then the node it leads to.
-## Stormreach's builder and its healer ([D165]): Muck Muck stands by the ruined bathhouse and talks
+## Stormreach's builder and its healer ([D176]): Muck Muck stands by the ruined bathhouse and talks
 ## about building; Sinner mends the whole company for gold while anyone is hurt, takes the money
 ## once, and with nobody hurt only looks them over, for nothing.
 func _check_the_builder_and_the_healer() -> void:

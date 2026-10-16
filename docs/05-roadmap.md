@@ -155,7 +155,7 @@ each, each ending playable:
    ([D154](06-decisions.md)): Old Halloran, the Guild's master, beside Sennet; Buri on blades falling
    from a clear sky; Bram's dead master in the crater; Barnaby at the gate's mouth. In Stormreach's
    streets Muck Muck, the builder everyone asks, and Sinner, a cleric who mends the company for gold
-   ([D165](06-decisions.md), `doug-md`; their art is requests A26 and A27). **Planned**, after
+   ([D176](06-decisions.md), `doug-md`; their art is requests A26 and A27). **Planned**, after
    the First Hour (creatives' meeting C4): the training hall in Stormreach, Ultor's bandit company,
    the trap inn, Vane on the wall, and floor keepers given a why.
 8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
