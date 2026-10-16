@@ -222,6 +222,17 @@ each, each ending playable:
    their world burning if it has ended; the first gate of the first life always does. **Planned**
    after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
    met again in the contest past the top).
+14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175). The freeze lifts. Next,
+   all **planned**: chapter twos and later arcs drafted from the material there is
+   ([D173](06-decisions.md)); the Warden of the Fifth speaking and counting the challengers
+   ([D174](06-decisions.md)); the hour's music worked out with `doug-md`'s cues and the creatives'
+   brief ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
+   asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
+   open to invasion, the company entering other worlds from floor 30, and a word carried between the
+   leads ([D172](06-decisions.md)); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
+   store page and a native Android build wait ([D169](06-decisions.md)); call AV's five real players
+   and meeting 5 wait for players.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -632,7 +643,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - An itch.io page for the browser build ✅ (2026-10-13, `dougie`'s, still a draft): pushed only on
   `dougie`'s word; every push and play-test build is listed in [28](28-the-first-hour.md#builds-on-itch-io)
 - A Steam page with the First Hour as a free demo — planned, once the hour plays and the music is
-  clean ([D100](06-decisions.md))
+  clean ([D100](06-decisions.md)); the founders come back to it later ([D169](06-decisions.md))
 
 ## Deferred
 
