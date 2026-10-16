@@ -352,6 +352,7 @@ door into a training fight that comes back out of the same door; nothing in it c
   "job": { "flag": "job:wat_stone", "done_flag": "found:wat_stone", "offer": "...", "done": "...", "gold": 30, "item": "hearth_coin" },
   "refuse": { "chance": 0.4, "text": "Not now.", "unless": "smith:won", "bribe": 5,
               "check": { "skill": "might", "dc": 11 }, "won": "Fine.", "won_flag": "smith:won", "still_no": "No." },
+  "heal": { "price": 40, "q": "Patch up my companions.", "done": "There.", "whole_q": "Can you look us over?", "whole": "Nobody here needs me." },
   "news": true, "more": "Anything else?", "leave": "Goodbye.", "bye": "Mind the geese."
 }
 ```
@@ -365,6 +366,9 @@ door into a training fight that comes back out of the same door; nothing in it c
   is set by something found elsewhere — a prop's or a spot's `set_flag`.
 - `refuse` — whether they will talk at all: on their `chance` each time (1.0, every time) until an
   `unless` flag is set. A `bribe` and a `check` are ways round it; `won_flag` makes it stick.
+- `heal` — they mend the whole company for `price` gold (through the difficulty's `price` dial), as a
+  rest does: `q` is offered while anyone is hurt and the purse can pay, and they say `done`; with
+  nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D176](06-decisions.md)).
 - `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
   mutters as you pass.
 
@@ -387,7 +391,7 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
   overrides. Unknown art is drawn as it is and blocks nothing.
 - A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
   them over and over: the portals glow, the lighthouse sweeps. `frame_seconds` on its `art` entry is
-  how long each frame shows (0.13 if absent; the lighthouse's is 0.45, [D167](06-decisions.md)).
+  how long each frame shows (0.13 if absent; the lighthouse's is 0.45, [D178](06-decisions.md)).
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
@@ -496,7 +500,7 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 `hidden` names the systems that are built but out of reach until the First Hour is done
 ([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
 Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
-`dispatch`, `seasons`, `beds` (no bed to buy in the crater, [D167](06-decisions.md)). Take a name out to
+`dispatch`, `seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
 bring its system back.
 
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
@@ -917,9 +921,11 @@ A conversation is either a flat script:
   `d20 + skill / 2` against `dc`; a natural 20 always lands and a natural 1 never does. The
   check may carry `success_effects` / `failure_effects`.
 - Nodes and options share the same effect keys: `set_flag`, `clear_flag` (a string or a list of
-  them) and `gold` (a signed amount).
-- An option is hidden unless the party satisfies its `requires` / `requires_not` flags and its
-  `requires_gold`.
+  them), `gold` (a signed amount), `item` (handed over) and `heal` (`true`: the company mended, as a
+  rest does).
+- An option is hidden unless the party satisfies its `requires` / `requires_not` flags, its
+  `requires_gold`, and its `requires_wounded` (`true`: only while someone in the company is hurt;
+  `false`: only while nobody is).
 
 ## `credits.json` — the credits
 

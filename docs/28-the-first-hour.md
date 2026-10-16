@@ -1,8 +1,9 @@
 # 28 — The First Hour
 
-**What a new player plays today, start to finish, and how it got that way.** The First Hour is the
-only milestone until it is done ([D95](06-decisions.md)); everything else built is hidden behind
-`data/world_rules.json` → `first_hour.hidden` ([D97](06-decisions.md)). The order of work and what
+**What a new player plays today, start to finish, and how it got that way.** The First Hour was the
+only milestone until it was done ([D95](06-decisions.md)); `dougie` called it done on 2026-10-16
+([D168](06-decisions.md)). What else is built stays hidden behind `data/world_rules.json` →
+`first_hour.hidden` ([D97](06-decisions.md)) until each system fits back into the world and the story. The order of work and what
 is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describes what exists.
 
 ## The route
@@ -28,7 +29,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    opens by itself; Sennet keeps it ([D107](06-decisions.md), [D112](06-decisions.md)), and Old Halloran,
    the Guild's master, stands beside him and can mark a lead too ([D154](06-decisions.md)). Nobody climbs
    until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
-   B buys the one in hand ([D146](06-decisions.md)).
+   B buys the one in hand ([D146](06-decisions.md)). In the streets, Muck Muck the builder stands by
+   the ruined bathhouse, and Sinner, a cleric, mends the whole company for 40 gold at the old shrine
+   ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
    beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
@@ -124,7 +127,7 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
   copy who walks this one, and say one line in their own voice. If their world has ended, the gate
   shows it burning with nobody in it.
 - **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
-  for Atlas); after that a rank E gate about one time in four, more for higher ranks.
+  for Atlas; `dougie` confirmed it, [D165](06-decisions.md)); after that a rank E gate about one time in four, more for higher ranks.
 - **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
   Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
 
@@ -145,7 +148,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
-| 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D167](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
+| 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D178](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
 | 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
 | 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
@@ -155,7 +158,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 ### Play-test 3's asks
 
 What `doug-md` asked for in play-test 3 that needs more than a fix, **planned**, in no order until he
-gives one. Already done: the first fixes ([D167](06-decisions.md)); a gate is gone into with E beside
+gives one. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
 it and fought on its plaza ([D116](06-decisions.md), [D162](06-decisions.md), built after his build);
 picking fighters by clicking, dragging a box or Tab, and right-click to move, were there (the fight's
 tip now says so).

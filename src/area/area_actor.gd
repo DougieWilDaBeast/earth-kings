@@ -76,7 +76,7 @@ static func ridden_template(template_id: String) -> String:
 
 
 ## Somebody who lives here rather than travels with you. One of the sixteen carried by a bearer
-## is drawn in the saddle here too, so Atlas met in a town is the Atlas who joins ([D167]).
+## is drawn in the saddle here too, so Atlas met in a town is the Atlas who joins ([D178]).
 static func for_person(person: Dictionary) -> AreaActor:
 	return _from_template(person.get("name", "Someone"), ridden_template(str(person.get("unit", ""))))
 

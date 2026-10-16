@@ -355,7 +355,7 @@ func _check_home() -> void:
 
 	var better := Home.next_bed(house)
 	_expect(not better.is_empty(), "there is no bed to upgrade to")
-	# In the First Hour the crater offers no bed (D167); the beds are kept for after it.
+	# In the First Hour the crater offers no bed (D178); the beds are kept for after it.
 	var hidden: Array = Database.world_rules["first_hour"]["hidden"]
 	if hidden.has("beds"):
 		GameState.gold = 100000

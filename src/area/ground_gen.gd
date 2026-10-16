@@ -467,7 +467,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	var origin := cell * Vector2i(w, h)
 	var inset := 0 if open_land else BORDER
 	var grove_size := float(rules.get("grove_size", 6.0))
-	# The grove field's corners, worked out once a tile rather than four times a cell (D167, lag).
+	# The grove field's corners, worked out once a tile rather than four times a cell (D178, lag).
 	var lattice := {}
 	var shape := world.shape_seed()
 	# Everything the rules say about each kind, read once a tile, in the order kinds are tried.

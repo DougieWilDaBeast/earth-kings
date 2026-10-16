@@ -15,7 +15,7 @@ ground so they lie over the land's grass and dirt:
 - art/props/crater/shard.png (+ shard/frame_000..005.png): a shard of something bright half sunk in
   the floor, catching the light now and then (AreaProp plays the frames);
 - art/world/crater.png: the crater as the map draws it, where the lead fell, in place of the red
-  castle the map showed there before (D167, `doug-md`'s play-test 3: "There's no castle there").
+  castle the map showed there before (D178, `doug-md`'s play-test 3: "There's no castle there").
   `python3 tools/draw_crater.py --icon` draws only this.
 
 and lays the crater in them: the floor's outer ring of cells becomes the rim (`r`), the rest the

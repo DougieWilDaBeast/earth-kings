@@ -109,7 +109,7 @@ func setup(skirmish: Node2D) -> void:
 	var party: Array[Fighter] = skirmish.party_fighters()
 	# Four cards sit at full width; five or six share the row rather than run
 	# off the right edge of a 1280 screen. Kept small, so the fight is the field and not the
-	# cards ([D167], `doug-md`: "far too big… a lot smaller, a lot more slicker").
+	# cards ([D178], `doug-md`: "far too big… a lot smaller, a lot more slicker").
 	var room := get_viewport().get_visible_rect().size.x - 32.0 - 10.0 * maxf(0.0, party.size() - 1)
 	var card_width := minf(200.0, floorf(room / maxf(1.0, party.size())))
 	for i in party.size():

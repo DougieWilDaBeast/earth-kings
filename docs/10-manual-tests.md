@@ -241,6 +241,8 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.8 | Look at a gate, the Tower, the salt hamlet's lighthouse   | The portal glows, the Tower's runes pulse, the lighthouse beam sweeps                           |
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
+| D2.11 | In Stormreach's streets, find **Muck Muck** by the ruined bathhouse and ask why everyone asks him | He is the builder they come to whenever something needs building ([D176](06-decisions.md)) |
+| D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 40 gold is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
 
 ## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
@@ -282,7 +284,7 @@ Start a run (not the tutorial) and walk.
 | D5.4 | Find a band (the bottom line names it) and stand still | It patrols its patch, further than a small loop; take a few steps across a tile edge and sometimes it sets off and walks to the next patch, its red going with it |
 | D5.5 | Go into a house, open the journal's map, and fight    | Each time you come back exactly where you stood on the land                                |
 | D5.6 | Open a chest in a village, leave, come back           | It is still open                                                                          |
-| D5.7 | Click open ground a little way off, then click behind a house | The party walks there, round the house; pressing a key takes over at once ([D167](06-decisions.md)) |
+| D5.7 | Click open ground a little way off, then click behind a house | The party walks there, round the house; pressing a key takes over at once ([D178](06-decisions.md)) |
 | D5.8 | Walk across several tiles of the land | No stutter as you cross from one tile into the next |
 
 ## H — Conversation and the camp
