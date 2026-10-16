@@ -125,3 +125,32 @@ static func auto_stops_for(enemies: Array, kind: String, lead_level: int) -> boo
 ## What a fight says when Auto has stopped for it (D150).
 static func auto_stop_line() -> String:
 	return str(Database.world_rules.get("first_hour", {}).get("auto_stops", {}).get("line", ""))
+
+
+## D184 (D174): which of the sixteen [param lead_id] is in this run of worlds, counting from 1: one
+## more than the leads already fallen ([method Sixteen.fallen_heroes], kept outside the save, D47).
+## Climbers who are not leads are never counted; at most the number of `warden.ordinals`.
+static func challenger(lead_id: String) -> int:
+	var ordinals: Array = Database.world_rules.get("first_hour", {}).get("warden", {}).get("ordinals", [])
+	var before := Sixteen.fallen_heroes().filter(func(hero) -> bool: return str(hero) != lead_id).size()
+	return clampi(before + 1, 1, maxi(ordinals.size(), 1))
+
+
+## What the floor 5 keeper says as the fight with band [param band_key] begins (D184): the
+## challenger it counts [param lead_id] as, by [param lead_name]. {} for any other band, or with no
+## `first_hour.warden` in the rules; otherwise `{speaker, text}`, a line for the conversation box.
+static func warden_line(band_key: String, lead_id: String, lead_name: String) -> Dictionary:
+	var rules: Dictionary = Database.world_rules.get("first_hour", {}).get("warden", {})
+	if rules.is_empty() or band_key == "" or band_key != str(rules.get("band", "")):
+		return {}
+	var ordinals: Array = rules.get("ordinals", [])
+	var count := challenger(lead_id)
+	var said := str(rules.get("line", ""))
+	if count == 1 and rules.has("first_line"):
+		said = str(rules["first_line"])
+	elif count >= ordinals.size() and rules.has("last_line"):
+		said = str(rules["last_line"])
+	if said == "":
+		return {}
+	var ordinal := str(ordinals[count - 1]) if count <= ordinals.size() else str(count)
+	return {"speaker": str(rules.get("speaker", "")), "text": said.format({"ordinal": ordinal, "name": lead_name})}

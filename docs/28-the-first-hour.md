@@ -54,7 +54,11 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    lead's keepsake before the stair, and hands over paused any fight that matters: a gate's, the
    keeper's, or a band more than a level over the lead ([D150](06-decisions.md)). Floor 5
    is kept by the Warden of the Fifth, an armoured figure with a glaive whose big swing shows before
-   it lands, drawn in house ([D156](06-decisions.md)).
+   it lands, drawn in house ([D156](06-decisions.md)). As its fight begins it speaks once, in the
+   conversation box, naming the lead and counting the challengers across the run of worlds: the
+   first life hears "The first challenger arrives", the next after a death "The second challenger
+   approaches", up to "the sixteenth and final challenger" ([D184](06-decisions.md), lines in
+   `first_hour.warden`, **Inferred**, agenda 108).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)). Beating the keeper costs somebody: one of the other sixteen's lights in

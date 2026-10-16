@@ -2339,10 +2339,19 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
 	_held_done = str(watch.band.get("done_flag", ""))
+	# D184 (D174): the floor 5 keeper speaks as its fight begins, and knows which of the sixteen
+	# this lead is. Shown the way Sennet's word is (D161); a fight played by hand waits for the box.
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var said := FirstHour.warden_line(str(watch.band.get("key", "")),
+			lead.template_id if lead != null else "", lead.display_name if lead != null else "")
+	if not said.is_empty():
+		_note("%s: %s" % [said["speaker"], said["text"]])
 	_fight_here({
 		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush },
 		"field": field,
 	})
+	if not said.is_empty():
+		EventBus.conversation_requested.emit([said])
 
 
 ## A held band's fight, settled: won, it stays gone; anything else, and the party is back at the

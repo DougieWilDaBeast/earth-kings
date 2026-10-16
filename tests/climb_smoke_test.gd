@@ -29,6 +29,7 @@ func _ready() -> void:
 	await _auto_climbs()
 	_new_run()
 	await _roadside_stands()
+	await _the_warden_counts()
 
 	print("")
 	if _failures.is_empty():
@@ -92,6 +93,79 @@ func _climb_to_the_top() -> void:
 	_expect(not company.has(str(went.get("hero", ""))), "climb: the light that went out was %s, who is in the company" % went.get("hero", ""))
 	_expect(Chapters.census(GameState.world) == 15, "climb: the census after the hour's end is %d, not 15" % Chapters.census(GameState.world))
 	_expect(FirstHour.put_out_a_light(GameState.world, 5, company).is_empty(), "climb: a second light went out on floor 5")
+
+
+## D184 (D174): the floor 5 keeper speaks as its fight begins and counts the challengers. Atlas,
+## the first life, hears that the first challenger arrives, by name; once Atlas has fallen, the next
+## lead hears that the second approaches; the sixteenth hears that they are the last. The fallen are
+## kept in a file of the suite's own, so a real record is never touched.
+func _the_warden_counts() -> void:
+	var Sixteen := preload("res://src/chronicle/sixteen.gd")
+	Sixteen.path = "user://earth-kings.sixteen.climb-test.json"
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+	var heard := await _the_warden_says("atlas")
+	_expect(heard.contains("first challenger arrives"), "climb: Atlas, the first life, heard \"%s\" from the Warden" % heard)
+	_expect(heard.contains(GameState.roster.player().display_name), "climb: the Warden did not name Atlas (\"%s\")" % heard)
+	Sixteen.fall("atlas")
+	var next := ""
+	for hero_id: String in Database.heroes:
+		if hero_id != "atlas":
+			next = hero_id
+			break
+	heard = await _the_warden_says(next)
+	_expect(heard.contains("second challenger approaches"), "climb: the second life, %s, heard \"%s\" from the Warden" % [next, heard])
+	var many := 0
+	for hero_id: String in Database.heroes:
+		if hero_id != next and many < 15:
+			Sixteen.fall(hero_id)
+			many += 1
+	if many == 15:
+		var last := str(FirstHour.warden_line("tower5_keeper", next, "Them").get("text", ""))
+		_expect(last.contains("sixteenth and final challenger"), "climb: the sixteenth life heard \"%s\"" % last)
+	_expect(FirstHour.warden_line("tower5_a", next, "Them").is_empty(), "climb: a band that is not the keeper spoke the Warden's line")
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+	Sixteen.path = Sixteen.DEFAULT_PATH
+
+
+## [param lead] at the Tower's door, floor 5 opened, and the keeper's fight begun where it stands:
+## what the conversation box was asked to show as it began.
+func _the_warden_says(lead: String) -> String:
+	GameState.new_game(SEED, lead)
+	GameState.set_flag("seen:prologue")
+	var world: World = GameState.world
+	world.tower_sealed_at = -1
+	world.tower_floor = 4
+	Pace.auto = false
+	if not await _in_by_the_door("for the Warden (%s)" % lead):
+		return ""
+	var five := _current()
+	var keeper: Node2D = null
+	for watch: Node2D in five.get("_watches"):
+		if str(watch.band.get("key", "")) == "tower5_keeper":
+			keeper = watch
+	if keeper == null:
+		_fail("climb: floor 5 has no keeper standing for %s" % lead)
+		return ""
+	var heard: Array = []
+	var listen := func(lines: Array) -> void: heard.append_array(lines)
+	EventBus.conversation_requested.connect(listen)
+	five.call("_fight_held", keeper, {}, false)
+	EventBus.conversation_requested.disconnect(listen)
+	var fight: Node = five.get("_fight")
+	if fight != null:
+		(fight.get("boot_payload") as Dictionary)["sandbox"] = true
+		five.call("_after_the_fight")
+	await _frames(2)
+	var box := _game.get_node_or_null("DialogueBox")
+	for i in 4:
+		if box != null and box.has_method("is_open") and box.is_open():
+			box.call("_advance")
+	for line: Variant in heard:
+		if line is Dictionary and str((line as Dictionary).get("speaker", "")) == "The Warden of the Fifth":
+			return str((line as Dictionary).get("text", ""))
+	return ""
 
 
 ## The yard, from the Tower's tile, and E at the door: true once the next floor is up.

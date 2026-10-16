@@ -20,6 +20,15 @@
 				"{name}. Somewhere, in a world of their own, {name} fell while you climbed."
 			]
 		},
+		"_comment_warden": "D184 (D174): the floor 5 keeper speaks once as its fight begins, and counts the challengers: which of the sixteen leads this is in the run of worlds, the first life the `first`, after that lead has died the next the second, up to the sixteenth (`last_line`). Leads fallen in earlier worlds are counted (Sixteen.fallen_heroes, kept outside the save, D47); climbers who are not leads never are. `band` is the keeper's band key, `speaker` who the box names, `ordinals` the words for first to sixteenth; `first_line` is the first life's, `line` every other's, {ordinal} the word and {name} the lead. Read by FirstHour.warden_line and area_scene._fight_held. The wording is **Inferred** (agenda 108).",
+		"warden": {
+			"band": "tower5_keeper",
+			"speaker": "The Warden of the Fifth",
+			"ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth"],
+			"first_line": "The first challenger arrives. {name}. I know your face, and the world you fell into.",
+			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
+			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
+		},
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,
