@@ -178,6 +178,7 @@ func _run() -> void:
 	await _check_allies_and_auto()
 	await _check_the_world_hears()
 	await _check_signatures()
+	_check_bout()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -777,3 +778,22 @@ func _free_cell_near(f: Fighter) -> Vector2i:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+## Who wins? ([D180]): two of the sixteen fought hands off end with one of them
+## standing, a lead's wolf does not keep its side in the fight, and the same seed
+## gives the same answer.
+func _check_bout() -> void:
+	const WhoWins := preload("res://src/who_wins/who_wins.gd")
+	var kept_roster := GameState.roster
+	var first: Dictionary = WhoWins.run_bout(self, "cato", "saturn", 5, 7)
+	var again: Dictionary = WhoWins.run_bout(self, "cato", "saturn", 5, 7)
+	print(WhoWins.verdict_line(first))
+	_expect(str(first["winner"]) in ["cato", "saturn"], "a bout ended with nobody winning: %s" % str(first))
+	_expect(first["winner"] == again["winner"] and is_equal_approx(first["seconds"], again["seconds"]),
+			"the same seed fought two different bouts: %s, then %s" % [str(first), str(again)])
+	var wolf: Dictionary = WhoWins.run_bout(self, "ares", "diana", 5, 3)
+	print(WhoWins.verdict_line(wolf))
+	if wolf["winner"] == "ares":
+		_expect(int(wolf["right_hp"]) <= 0, "Diana lost while still standing: %s" % str(wolf))
+	GameState.roster = kept_roster

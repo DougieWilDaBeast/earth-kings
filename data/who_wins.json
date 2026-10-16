@@ -1,0 +1,31 @@
+{
+  "_comment": "Who wins? Two of the sixteen fight it out for the show (D180, docs/18). Every timing is in seconds of the clip and Inferred; the words are what the show says. {name}, {left} and {right} are filled in.",
+  "level": 5,
+  "health_scale": 2.0,
+  "terrain": "grass",
+  "title_seconds": 2.6,
+  "fight_word_seconds": 0.9,
+  "end_seconds": 5.0,
+  "ko_slow_seconds": 1.2,
+  "ko_slow_scale": 0.3,
+  "low_health": 0.25,
+  "badge_seconds": 1.6,
+  "camera_margin": 150.0,
+  "camera_zoom_most": 2.4,
+  "words": {
+    "tag": "WHO WINS?",
+    "level": "Level {level}",
+    "fight": "FIGHT!",
+    "ko": "K.O.!",
+    "falls": "{name} FALLS!",
+    "wins": "{name} WINS!",
+    "next": "WHO SHOULD FIGHT NEXT?",
+    "comment": "COMMENT BELOW",
+    "draw": "NOBODY WINS"
+  },
+  "sides": {
+    "left": "#d64a3a",
+    "right": "#e2b13c"
+  },
+  "time_limit": 90.0
+}
