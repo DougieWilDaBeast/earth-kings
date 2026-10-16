@@ -224,9 +224,11 @@ each, each ending playable:
    at Greyhollow, with Sennet's line — built ([D161](06-decisions.md), the five strangers' AU).
 13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or
-   their world burning if it has ended; the first gate of the first life always does. **Planned**
-   after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
-   met again in the contest past the top).
+   their world burning if it has ended; the first gate of the first life always does. A word carried
+   — built ([D183](06-decisions.md), from [D172](06-decisions.md)): what a lead says at a gate is heard
+   by a later lead who shuts the same gate, and the first gate of a life carries the lead who fell
+   last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
+   the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
    founders' questions ([30](30-questions-for-the-founders.md), D168 to D175). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
@@ -234,8 +236,8 @@ each, each ending playable:
    ([D174](06-decisions.md)); the hour's music worked out with `doug-md`'s cues and the creatives'
    brief ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
    asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
-   open to invasion, the company entering other worlds from floor 30, and a word carried between the
-   leads ([D172](06-decisions.md)); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
+   open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
+   the word carried between the leads is built ([D183](06-decisions.md), item 13); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
    store page and a native Android build wait ([D169](06-decisions.md)); call AV's five real players
    and meeting 5 wait for players.
 
