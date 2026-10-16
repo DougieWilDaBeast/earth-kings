@@ -230,7 +230,7 @@ each, each ending playable:
    last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
    the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
-   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175). The freeze lifts. Next,
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
@@ -248,6 +248,9 @@ each, each ending playable:
    Project. Two more fight sounds (a fight opening, a ward) and the weak low ones given a mid-range
    knock, measured by `tools/audio_levels.py`. **Planned**: a layer added a floor up the Tower, and the
    opening's replay thinning as fewer are left (brief items 3 and 6).
+   `doug-md` answered his half on 2026-10-16 ([D186](06-decisions.md)): the music order is in
+   [31](31-music.md) (**planned**). Still open: whether the hour gets a little harder (Ewan would, `dougie`
+   keeps it; `dougie`'s call), the falling weapon (agenda 101) and which lead will not climb (agenda 75).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
