@@ -203,7 +203,8 @@ each, each ending playable:
 11. **Next** ([D124](06-decisions.md)): Ewan played the hour (play-test 3, 2026-10-15,
    [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
    and his bigger asks are listed, **planned**, waiting on his order
-   ([28](28-the-first-hour.md#play-test-3s-asks)). Five real players, named by the
+   ([28](28-the-first-hour.md#play-test-3s-asks)); the first he chose, life on the land, is built
+   ([D179](06-decisions.md)). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in
