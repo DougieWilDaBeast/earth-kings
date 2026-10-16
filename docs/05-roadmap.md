@@ -209,6 +209,11 @@ each, each ending playable:
    ([D146](06-decisions.md)). **Planned**, in order: a store-page draft and a devlog with each itch push;
    two contracts at the Guild; one of the other fifteen lights going out at the hour's end; Auto
    pausing for gates, the keeper and stronger bands.
+13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
+   shuts its light can open onto the same gate in another lead's world, with that lead in it, or
+   their world burning if it has ended; the first gate of the first life always does. **Planned**
+   after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
+   met again in the contest past the top).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

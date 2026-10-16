@@ -556,6 +556,15 @@ it is), `area` and `cell` (where it lies), `art` (the prop drawn there), `scene`
 `{ speaker, text }`, played when it is picked up) and `journal` (the line written under _What has
 come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memory:<id>` flags.
 
+## `crossings.json` — gates as crossings between the worlds (D152)
+
+`chance` by gate rank (`E` to `S`) that a gate opens onto another lead's world as it shuts;
+`first_certain` makes the first gate of the player's first life always open; `weight` by a lead's
+`found_at` in `heroes.json` (`gate`: 3). `living` and `ended` are the scenes (lines `{ speaker, text }`
+with `{gate}`, `{name}`, `{lead}` and `{says}` filled in), `journal` the line written for each, and
+`says` each lead's line through the gate. Read by `src/chronicle/crossing.gd`; who was met is the
+run's `crossed:<lead>` flag (`crossed:any` once any).
+
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`
 that tile. `key` is where the band settled and who is in it, so it stays the same as it wanders.
