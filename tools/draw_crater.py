@@ -13,7 +13,10 @@ ground so they lie over the land's grass and dirt:
 - art/tilesets/crater/crater_floor.png: scorched earth, dark and mottled, a rare ember still lit;
 - art/tilesets/crater/crater_rim.png: earth thrown up in a ring of clods and stones, lit on top;
 - art/props/crater/shard.png (+ shard/frame_000..005.png): a shard of something bright half sunk in
-  the floor, catching the light now and then (AreaProp plays the frames).
+  the floor, catching the light now and then (AreaProp plays the frames);
+- art/world/crater.png: the crater as the map draws it, where the lead fell, in place of the red
+  castle the map showed there before (D178, `doug-md`'s play-test 3: "There's no castle there").
+  `python3 tools/draw_crater.py --icon` draws only this.
 
 and lays the crater in them: the floor's outer ring of cells becomes the rim (`r`), the rest the
 floor, the trail out below it stays dirt (`d`), and shards are set where the spots and the fire leave room.
@@ -24,6 +27,7 @@ from __future__ import annotations
 import json
 import math
 import random
+import sys
 from pathlib import Path
 
 from PIL import Image
@@ -162,6 +166,42 @@ def shard(glint: float) -> Image.Image:
     return im
 
 
+def map_icon() -> Image.Image:
+    """The crater from above for the map, 64 x 64: a scorched bowl in a ring of thrown-up earth, a
+    shard catching the light in the middle, and the furrow it ploughed coming in from the top left."""
+    im = Image.new("RGBA", (T, T), (0, 0, 0, 0))
+    px = im.load()
+    noise = grain(31)
+    cx, cy, rx, ry = 33.0, 36.0, 25.0, 19.0
+    for y in range(T):
+        for x in range(T):
+            d = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2
+            n = noise[y][x]
+            if d <= 0.62:
+                base = SCORCH[int(n * len(SCORCH)) % len(SCORCH)]
+                # Darker towards the middle, where it came down hardest.
+                px[x, y] = shade(base, -18 * (1.0 - d)) + (255,)
+            elif d <= 1.0:
+                top = y < cy and d < 0.85
+                base = CLOD_TOP if top else CLOD[int(n * len(CLOD)) % len(CLOD)]
+                px[x, y] = shade(base, 10 * (n - 0.5)) + (255,)
+            elif d <= 1.12:
+                px[x, y] = CLOD_DARK + (255,)
+    # The furrow ploughed on the way in.
+    for i in range(20):
+        fx, fy = 2 + i, 4 + int(i * 0.8)
+        for w in range(-2, 3):
+            if 0 <= fy + w < T and px[fx, fy + w][3] == 0:
+                px[fx, fy + w] = (CLOD_DARK if abs(w) < 2 else CLOD[i % len(CLOD)]) + (255,)
+    # Embers in the cracks, and the shard.
+    for x, y in [(26, 38), (40, 33), (30, 44), (37, 41)]:
+        px[x, y] = CRACK + (255,)
+        px[x + 1, y] = CRACK_DIM + (255,)
+    glint = shard(0.4).resize((20, 20), Image.NEAREST)
+    im.alpha_composite(glint, (23, 21))
+    return im
+
+
 def lay_the_crater() -> None:
     """The crater's floor cells beside grass become rim; the legend and layers gain the new ground."""
     text = AREA.read_text()
@@ -206,6 +246,11 @@ def place_shards() -> None:
 
 
 def main() -> None:
+    (ROOT / "art" / "world").mkdir(parents=True, exist_ok=True)
+    map_icon().save(ROOT / "art" / "world" / "crater.png")
+    if "--icon" in sys.argv:
+        print("wrote art/world/crater.png")
+        return
     TILES.mkdir(parents=True, exist_ok=True)
     PROPS.mkdir(parents=True, exist_ok=True)
     patches = smooth_noise(21, 8)

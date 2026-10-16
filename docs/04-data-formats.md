@@ -390,7 +390,8 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - `art` — every picture under `art/props/` (path without `.png`), as its kind or as its kind plus
   overrides. Unknown art is drawn as it is and blocks nothing.
 - A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
-  them over and over: the portals glow, the lighthouse sweeps.
+  them over and over: the portals glow, the lighthouse sweeps. `frame_seconds` on its `art` entry is
+  how long each frame shows (0.13 if absent; the lighthouse's is 0.45, [D178](06-decisions.md)).
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
@@ -499,7 +500,8 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 `hidden` names the systems that are built but out of reach until the First Hour is done
 ([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
 Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
-`dispatch`, `seasons`. Take a name out to bring its system back.
+`dispatch`, `seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
+bring its system back.
 
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,

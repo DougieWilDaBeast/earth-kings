@@ -32,7 +32,7 @@
 			"id": "encounter",
 			"when": "encounter",
 			"title": "A fight",
-			"text": "Fights run in real time and open paused. Space pauses and unpauses; give orders while paused. Right-click to move or attack, Q W E R for skills, and drag a box to pick several."
+			"text": "Fights run in real time and open paused. Space pauses and unpauses; give orders while paused. Left-click a fighter, drag a box round several, or press Tab for everyone (1 to 6 for one each); right-click to move them there or attack. Q W E R for skills."
 		},
 		{
 			"id": "facing",

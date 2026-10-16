@@ -23,7 +23,7 @@ var armed: bool = false
 ## Only the sweep and the seconds: something else draws the rest.
 var overlay_only: bool = false
 ## How wide the tile asks to be; a card shared six ways asks for less.
-var width: float = 56.0
+var width: float = 44.0
 ## The name's size along the bottom of the tile, and the smallest it may shrink to.
 const TITLE_SIZE := 10
 const TITLE_SMALLEST := 8
@@ -38,7 +38,7 @@ func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 	else:
 		mouse_filter = Control.MOUSE_FILTER_STOP
-		custom_minimum_size = Vector2(width, 40)
+		custom_minimum_size = Vector2(width, 34)
 
 
 func show_slot(key: String, ability_name: String, seconds_left: float, cooldown: float, is_armed: bool) -> void:
