@@ -327,18 +327,21 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	if pool.is_empty():
 		pool = Database.encounters.get("tower", ["goblin"])
 
+	var bite := upper_bite(floor_number)
 	if floor_number >= world.tower_floors():
 		var apex_bosses: Array = rules.get("apex", ["dirte"])
 		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
 		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2), "boss": true }]
 		var minions: Array = _pick(pool, 3, level, rng)
 		enemies.append_array(minions)
+		_bite(enemies, bite)
 		return _build(
 			world, site.cell, TOWER, enemies, rng,
 			"The Spire Apex — Floor %d (Final Battle)" % floor_number
 		)
 
 	var enemies := _pick(pool, count, level, rng)
+	_bite(enemies, bite)
 	var faction_name := Faction.display_name(faction_tier)
 	return _build(
 		world, site.cell, TOWER, enemies, rng,
@@ -402,6 +405,26 @@ static func _pick(pool: Array, count: int, level: int, rng: RandomNumberGenerato
 			"level": Difficulty.levelled(level + rng.randi_range(-1, 1)),
 		})
 	return out
+
+
+## How much harder than their level the foes of [param floor_number] hit (D222, `doug-md` on his
+## play log of 2026-10-17: the upper floors were long enough but nobody came out of them hurt).
+## 1.0 on the walked floors; from `world_rules.tower.upper_bite.from_floor` it starts at `base` and
+## climbs `per_floor`, to `most` at most.
+static func upper_bite(floor_number: int) -> float:
+	var rules: Dictionary = Database.world_rules.get("tower", {}).get("upper_bite", {})
+	var from := int(rules.get("from_floor", 0))
+	if rules.is_empty() or from <= 0 or floor_number < from:
+		return 1.0
+	var bite := float(rules.get("base", 1.0)) + float(rules.get("per_floor", 0.0)) * float(floor_number - from)
+	return minf(bite, float(rules.get("most", bite)))
+
+
+static func _bite(enemies: Array, bite: float) -> void:
+	if is_equal_approx(bite, 1.0):
+		return
+	for entry: Dictionary in enemies:
+		entry["bite"] = bite
 
 
 static func party_level(party: Array) -> int:
