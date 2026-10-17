@@ -1,5 +1,5 @@
 extends Node
-## Photograph the land's footpaths, dirt tracks and a signpost ([D212]), from high up and close in.
+## Photograph the land's footpaths, dirt tracks and a signpost ([D221]), from high up and close in.
 ## Needs a display (xvfb-run).
 ##
 ##   xvfb-run -a godot --path . --rendering-driver opengl3 res://tests/tracks_shot.tscn -- --out=DIR

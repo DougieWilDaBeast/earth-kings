@@ -1161,7 +1161,7 @@ func _check_play_test_four() -> void:
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
 
 
-## Footpaths, dirt tracks and signposts ([D212]): tracks join the places people live, a tile on
+## Footpaths, dirt tracks and signposts ([D221]): tracks join the places people live, a tile on
 ## one has the track's ground and sheet, every tile's worn paths are footpaths, and where three ways
 ## meet a signpost stands and names somewhere each way.
 func _check_tracks() -> void:

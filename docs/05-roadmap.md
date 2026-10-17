@@ -209,7 +209,7 @@ each, each ending playable:
    ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
    baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
    ([28](28-the-first-hour.md#play-test-4s-asks)); of the roads and ways he picked footpaths and dirt
-   tracks, built with signposts where three ways meet ([D212](06-decisions.md), art A32). Five real players, named by the
+   tracks, built with signposts where three ways meet ([D221](06-decisions.md), art A32). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in

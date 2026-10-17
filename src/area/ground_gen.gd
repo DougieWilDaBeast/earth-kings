@@ -25,12 +25,12 @@ const COVER := "\""
 ## The First Hour's laid road ([D126]).
 const ROAD := "="
 ## A dirt track between two places, two cells wide, and a footpath, one: every way worn across a
-## tile is one or the other ([D212]).
+## tile is one or the other ([D221]).
 const TRACK := ":"
 const FOOT := "_"
 ## What a path may not be worn over, and what nothing grows on.
 const WAYS := [ROAD, TRACK, FOOT]
-## What stands where the ways meet (D212).
+## What stands where the ways meet (D221).
 const SIGNPOST := "village/signpost"
 
 const SIDES := {
@@ -536,7 +536,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 					blocked[at] = true
 				break
 
-	# Where three or more ways leave open ground, a signpost by where they meet (D212).
+	# Where three or more ways leave open ground, a signpost by where they meet (D221).
 	if open_land and reserved.size == Vector2i.ZERO:
 		var says := Tracks.signpost(world, cell)
 		if says != "":

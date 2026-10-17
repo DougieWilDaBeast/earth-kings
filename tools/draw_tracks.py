@@ -6,7 +6,7 @@
 Needs Pillow (`pip install pillow`), like tools/draw_road.py.
 
 `doug-md`, play-test 4 (2026-10-17): "Set up a lot more... dirt [roads], paths. Make an art request
-for... just roads and... types of walkways. Footpaths." He picked footpaths and dirt tracks (D212).
+for... just roads and... types of walkways. Footpaths." He picked footpaths and dirt tracks (D221).
 Every tile's worn paths become footpaths, and dirt tracks run between the places people live
 (src/area/tracks.gd). These two sheets are drawn in house as stand-ins until `dougie` makes them
 in PixelLab (A32 in docs/24).

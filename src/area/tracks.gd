@@ -1,5 +1,5 @@
 extends RefCounted
-## Dirt tracks between the places people live, and signposts where the ways meet ([D212]).
+## Dirt tracks between the places people live, and signposts where the ways meet ([D221]).
 ##
 ## `doug-md`, play-test 4: "Loving the designs of the open plains... Just needs a lot more...
 ## Maybe set up some signposting and... a lot more... dirt [roads], paths"; of the kinds of way he

@@ -236,7 +236,7 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
    there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
    and build them. He picked **footpaths and dirt tracks** (2026-10-17): built, with signposts
-   where three ways meet ([D212](06-decisions.md)), the art asked for (A32).
+   where three ways meet ([D221](06-decisions.md)), the art asked for (A32).
 4. **People on the land** (next after item 1, all three parts together): more encounters, people to fight ("I still haven't encountered a single
    person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
    near them, a fight you can join and be thanked for (play-test 3, item 4).
