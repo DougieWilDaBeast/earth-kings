@@ -721,6 +721,10 @@ func _show_sheet() -> void:
 		grid.add_child(value)
 		var per := float(growth.get(str(row[2]), 0.0))
 		grid.add_child(_line("+%s a level" % String.num(per, 1) if per > 0.0 else "", ink_colour))
+	if character.scars > 0:
+		grid.add_child(_line("Scars", LABEL_COLOUR))
+		grid.add_child(_line(str(character.scars), KNOWN_COLOUR))
+		grid.add_child(_line("+%d health" % character.scar_health(), ink_colour))
 	if character.flash_step() > 0:
 		grid.add_child(_line("Flash step", LABEL_COLOUR))
 		grid.add_child(_line("%d tiles" % character.flash_step(), KNOWN_COLOUR))
