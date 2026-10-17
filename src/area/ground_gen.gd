@@ -16,6 +16,7 @@ extends RefCounted
 
 const Biome := preload("res://src/chronicle/biome.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
+const Tracks := preload("res://src/area/tracks.gd")
 
 const FLOOR := "."
 const BARE := ","
@@ -23,6 +24,14 @@ const LIQUID := "~"
 const COVER := "\""
 ## The First Hour's laid road ([D126]).
 const ROAD := "="
+## A dirt track between two places, two cells wide, and a footpath, one: every way worn across a
+## tile is one or the other ([D206]).
+const TRACK := ":"
+const FOOT := "_"
+## What a path may not be worn over, and what nothing grows on.
+const WAYS := [ROAD, TRACK, FOOT]
+## What stands where the ways meet (D206).
+const SIGNPOST := "village/signpost"
 
 const SIDES := {
 	"north": Vector2i.UP, "south": Vector2i.DOWN, "west": Vector2i.LEFT, "east": Vector2i.RIGHT,
@@ -131,10 +140,13 @@ static func _blend_edges(world: World, tile: Vector2i, land: String, made: Dicti
 	if added.is_empty():
 		return
 	made["terrain"] = terrain
-	# Under the road, so a worn edge never laps over the cobbles.
+	# Under the ways, so a worn edge never laps over a path or the cobbles.
 	var patch: Dictionary = (made["patches"] as Array)[0]
 	var layers: Array = (patch.get("layers", []) as Array).duplicate()
-	var at_road := layers.find("road")
+	var at_road := -1
+	for way: String in ["footpath", "track", "road"]:
+		if at_road < 0:
+			at_road = layers.find(way)
 	for sheet: String in added:
 		if at_road >= 0:
 			layers.insert(at_road, sheet)
@@ -411,6 +423,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	var exits: Array = []
 	var entries := {}
 	var road: Array = FirstRoad.sides(world, cell) if open_land else []
+	var tracks: Array = Tracks.sides(world, cell) if open_land else []
 	for side: String in SIDES:
 		var dir: Vector2i = SIDES[side]
 		var next := cell + dir
@@ -420,7 +433,8 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 			# No edge at all: the path runs out to where the next tile's comes in.
 			var meet := _edge_cell(side, along + GAP / 2, w, h)
 			entries[side] = [(meet - dir * 2).x, (meet - dir * 2).y]
-			_wear_path(grid, kept, meet, hub, rng, w, h, true, ROAD if road.has(side) else BARE)
+			_wear_path(grid, kept, meet, hub, rng, w, h, true,
+				ROAD if road.has(side) else (TRACK if tracks.has(side) else FOOT))
 			continue
 		for i in (w if dir.y != 0 else h):
 			var at := _edge_cell(side, i, w, h)
@@ -522,11 +536,39 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 					blocked[at] = true
 				break
 
+	# Where three or more ways leave open ground, a signpost by where they meet (D206).
+	if open_land and reserved.size == Vector2i.ZERO:
+		var says := Tracks.signpost(world, cell)
+		if says != "":
+			# The nearest open cell just clear of the meeting of the paths, beside a way.
+			var near: Array[Vector2i] = []
+			for dy in range(-HUB_CLEAR - 3, HUB_CLEAR + 4):
+				for dx in range(-HUB_CLEAR - 3, HUB_CLEAR + 4):
+					if maxi(absi(dx), absi(dy)) > HUB_CLEAR:
+						near.append(Vector2i(dx, dy))
+			near.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+				return a.length_squared() < b.length_squared() or (a.length_squared() == b.length_squared() and a.y < b.y))
+			for offset: Vector2i in near:
+				var post := hub + offset
+				if post.x < 2 or post.y < 2 or post.x >= w - 2 or post.y >= h - 2:
+					continue
+				if blocked.has(post) or WAYS.has(grid[post.y][post.x]) or grid[post.y][post.x] == LIQUID:
+					continue
+				props = props.filter(func(prop: Dictionary) -> bool:
+					return Vector2i(int(prop["cell"][0]), int(prop["cell"][1])) != post)
+				props.append({ "art": SIGNPOST, "cell": [post.x, post.y], "solid": true, "line": says })
+				blocked[post] = true
+				break
+
 	var rows: Array = []
 	for row in grid:
 		rows.append("".join(row))
 	var ground: Dictionary = biome.get("ground", {})
 	var layers: Array = (biome.get("layers", ["dirt"]) as Array).duplicate()
+	# The ways over the land's own ground: footpaths under tracks under the road.
+	layers.append("footpath")
+	if not tracks.is_empty():
+		layers.append("track")
 	if not road.is_empty():
 		layers.append("road")
 	return {
@@ -536,7 +578,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 		"legend": {
 			FLOOR: str(ground.get("floor", "grass")), BARE: str(ground.get("bare", "dirt")),
 			LIQUID: str(ground.get("liquid", "water")), COVER: str(ground.get("cover", "meadow")),
-			ROAD: "road",
+			ROAD: "road", TRACK: "track", FOOT: "footpath",
 		},
 		"tint": str(biome.get("tint", "")),
 		"hint": "WASD to walk" if open_land else "WASD to walk  ·  the ways out follow the land",
@@ -598,23 +640,25 @@ static func _close_edge(world: World, next: Vector2i, at: Vector2i, dir: Vector2
 	blocked[at] = true
 
 
-## A path worn from a way out to where the paths meet, wandering a little. The road
-## ([param symbol] [constant ROAD]) is laid two cells wide and is not worn over by a path.
+## A path worn from a way out to where the paths meet, wandering a little: a footpath, one cell
+## wide. The road ([constant ROAD]) and a track ([constant TRACK]) are laid two cells wide, the road
+## over a track, and neither is worn over by a footpath.
 static func _wear_path(grid: Array, kept: Dictionary, from: Vector2i, to: Vector2i,
-		rng: RandomNumberGenerator, w: int, h: int, to_the_edge: bool = false, symbol: String = BARE) -> void:
+		rng: RandomNumberGenerator, w: int, h: int, to_the_edge: bool = false, symbol: String = FOOT) -> void:
 	var at := from
 	var guard := 0
 	while at != to and guard < 200:
 		guard += 1
 		kept[at] = true
 		if to_the_edge or (at.x >= 1 and at.y >= 1 and at.x < w - 1 and at.y < h - 1):
-			if symbol == ROAD:
+			if symbol == ROAD or symbol == TRACK:
 				for wide: Vector2i in [Vector2i.ZERO, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.ONE]:
 					var c := at + wide
-					if c.x < w and c.y < h:
-						grid[c.y][c.x] = ROAD
+					# The road is laid over a track, never the other way.
+					if c.x < w and c.y < h and (symbol == ROAD or grid[c.y][c.x] != ROAD):
+						grid[c.y][c.x] = symbol
 						kept[c] = true
-			elif grid[at.y][at.x] != ROAD:
+			elif not WAYS.has(grid[at.y][at.x]) or grid[at.y][at.x] == FOOT:
 				grid[at.y][at.x] = symbol
 		var step := Vector2i(signi(to.x - at.x), 0) if (rng.randf() < 0.5 and at.x != to.x) or at.y == to.y \
 			else Vector2i(0, signi(to.y - at.y))
@@ -637,7 +681,7 @@ static func _blob(grid: Array, kept: Dictionary, symbol: String, centre: Vector2
 			# Water never cuts a path, and nothing is grown over the ways out.
 			if kept.has(at) and (keep_clear or symbol == COVER):
 				continue
-			if kept.has(at) and (grid[y][x] == BARE or grid[y][x] == ROAD):
+			if kept.has(at) and (grid[y][x] == BARE or WAYS.has(grid[y][x])):
 				continue
 			grid[y][x] = symbol
 
@@ -694,7 +738,7 @@ static func _beside_path(grid: Array, kept: Dictionary, at: Vector2i, w: int, h:
 			var c := at + Vector2i(dx, dy)
 			if c.x < 0 or c.y < 0 or c.x >= w or c.y >= h or not kept.has(c):
 				continue
-			if grid[c.y][c.x] == BARE or grid[c.y][c.x] == ROAD:
+			if grid[c.y][c.x] == BARE or WAYS.has(grid[c.y][c.x]):
 				return true
 	return false
 

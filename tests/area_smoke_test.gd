@@ -68,6 +68,7 @@ func _ready() -> void:
 	await _check_play_test_three()
 	await _check_life_on_the_land()
 	await _check_play_test_four()
+	_check_tracks()
 
 	print("")
 	if _failures.is_empty():
@@ -1127,6 +1128,47 @@ func _check_play_test_four() -> void:
 	if Pace.SPEEDS != [1.0, 2.0, 3.0, 5.0]:
 		_fail("play-test 4: the speeds are %s, not 1x, 2x, 3x and 5x" % [Pace.SPEEDS])
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
+
+
+## Footpaths, dirt tracks and signposts ([D206]): tracks join the places people live, a tile on
+## one has the track's ground and sheet, every tile's worn paths are footpaths, and where three ways
+## meet a signpost stands and names somewhere each way.
+func _check_tracks() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	var Tracks := preload("res://src/area/tracks.gd")
+	var joined := 0
+	for site: Site in Tracks.places(world):
+		if not Tracks.sides(world, site.cell).is_empty():
+			joined += 1
+	if joined * 2 < Tracks.places(world).size():
+		_fail("tracks: only %d of %d places have a track to them" % [joined, Tracks.places(world).size()])
+	var on_track := Vector2i(-1, -1)
+	var post := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var tile := Vector2i(x, y)
+			if on_track.x < 0 and world.site_at(tile) == null and not Tracks.sides(world, tile).is_empty() \
+					and Tracks.ways(world, tile).size() == Tracks.sides(world, tile).size():
+				on_track = tile
+			if post.x < 0 and Tracks.signpost(world, tile) != "":
+				post = tile
+	if on_track.x < 0 or post.x < 0:
+		_fail("tracks: no open tile on a track (%s) or no signpost anywhere (%s)" % [on_track, post])
+		return
+	var slot := GroundGen.slot(world, on_track)
+	var ground: PackedStringArray = slot.get("terrain", PackedStringArray())
+	if not ground.has("track"):
+		_fail("tracks: a tile on a track has no track on its ground")
+	var layers: Array = (slot.get("patches", [{}]) as Array)[0].get("layers", [])
+	if not layers.has("track") or not layers.has("footpath"):
+		_fail("tracks: a tile on a track does not draw the track and footpath sheets (%s)" % [layers])
+	var says := Tracks.signpost(world, post)
+	var standing := (GroundGen.slot(world, post).get("props", []) as Array).filter(
+		func(prop: Dictionary) -> bool: return str(prop.get("line", "")) == says)
+	if standing.size() != 1 or not says.begins_with("A signpost.") or says.contains("Where You Fell"):
+		_fail("tracks: the signpost at %s stands %d times and says %s" % [post, standing.size(), says])
+	print("tracks: %d of %d places joined, a track laid on its tiles, a signpost: %s" % [joined, Tracks.places(world).size(), says])
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met

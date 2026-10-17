@@ -12,6 +12,14 @@
 			"display_name": "the road",
 			"walkable": true
 		},
+		"track": {
+			"display_name": "a dirt track",
+			"walkable": true
+		},
+		"footpath": {
+			"display_name": "a footpath",
+			"walkable": true
+		},
 		"stone": {
 			"display_name": "broken stone",
 			"walkable": true
@@ -373,6 +381,22 @@
 			"lower": "dirt",
 			"upper": "grass",
 			"feature": "dirt"
+		},
+		"footpath": {
+			"_comment": "D206: every tile's worn paths, drawn in house (tools/draw_tracks.py) until A32. See-through off the path, so it lies over any land's ground.",
+			"texture": "res://art/tilesets/footpath.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "footpath",
+			"feature": "footpath"
+		},
+		"track": {
+			"_comment": "D206: the dirt tracks between the places people live, drawn in house (tools/draw_tracks.py) until A32.",
+			"texture": "res://art/tilesets/track.png",
+			"tile_size": 64,
+			"lower": "none",
+			"upper": "track",
+			"feature": "track"
 		},
 		"road": {
 			"_comment": "D126: the First Hour's laid road, drawn in house (tools/draw_road.py). Its lower terrain is nothing: the sheet is see-through off the road, so it lies over any land's ground.",
