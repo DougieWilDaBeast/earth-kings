@@ -9,6 +9,7 @@
 				"WASD or the arrow keys walk the land, or click the ground to walk there. It runs on without a break: villages, keeps and gates stand in it and you walk straight in. Every tile of the map you cross is a step, and every step advances the world clock.",
 				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
 				"N opens the journal. M opens the map: the continent, black where you have never been, with your objective marked; M or Esc puts it away. The compass under the place's name points at the objective, and Auto (Q) walks there. Its first page, The Company, is a sheet for each companion: every number, and what a level adds.",
+				"The compass follows one thing you are working towards: the road to the Tower, an errand, a friend held for ransom. Press L, or click the compass, to follow the next; the journal's Quests page lists them all, with Follow beside each.",
 				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
 				"Q hands the run to the game on the road or in a town, and it walks, fights and answers for itself. Q again takes it back anywhere, even in the middle of a fight, which then pauses for your first order. T cycles the speed everywhere.",
 				"Every land is its own: bog and snow slow you, mist hides what is coming, and snow, ash and slime wear you down unless someone carries something against the cold, the heat or the ooze. What lives there is what you meet."

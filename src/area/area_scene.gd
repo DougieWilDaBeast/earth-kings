@@ -270,6 +270,7 @@ func _ready() -> void:
 	_compass = Compass.new()
 	_compass.position = Vector2(14.0, 42.0)
 	_place.get_parent().add_child(_compass)
+	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
@@ -3015,6 +3016,26 @@ func _point_the_compass() -> void:
 	_compass.set_meta("aimed", true)
 	_compass.visible = not _overlay_open()
 	_compass.point(bearing, str(goal["label"]), Pathfinder.distance(world.player_cell, target))
+	_compass.set_count(AutoRoad.quests(world).size(), Pad.key("cycle_quest") if not Pad.using_pad else "")
+
+
+## L, or a click on the compass: follow the next thing in the quest list ([D190]), and say which.
+## On a floor of the Tower the compass keeps to the stair, so the choice waits for the land.
+func _next_quest() -> void:
+	var world: World = GameState.world
+	if world == null or GameState.rehearsing:
+		return
+	var entries := AutoRoad.quests(world)
+	if entries.is_empty():
+		_note("Nothing to follow yet. A settlement's board has work, if you want it.")
+		return
+	var now := AutoRoad.next_quest(world)
+	if now.is_empty():
+		return
+	var index := entries.map(func(e: Dictionary) -> String: return str(e["id"])).find(str(now["id"]))
+	_note("Following: %s (%d of %d)." % [str(now["label"]), index + 1, entries.size()])
+	Sfx.play(Sfx.SELECT)
+	_point_the_compass()
 
 
 ## Whoever here keeps the Guild's register (a person with `guild`), or null.
@@ -3088,6 +3109,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("cycle_next") and not _leaving:
 		get_viewport().set_input_as_handled()
 		_cycle_leader()
+	elif event.is_action_pressed("cycle_quest") and not _leaving and not _talking:
+		get_viewport().set_input_as_handled()
+		_next_quest()
 
 
 ## Picking something out of the square and dealing with it is done with the

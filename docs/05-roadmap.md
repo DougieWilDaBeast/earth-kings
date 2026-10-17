@@ -237,7 +237,9 @@ each, each ending playable:
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
-   asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
+   asks in his order ([D118](06-decisions.md)): first, the quest list — built ([D190](06-decisions.md)):
+   the road, errands, captives and word of a weapon, L or a click on the compass to follow the next,
+   Follow in the journal; next, coins in four metals. Further off: worlds sealed until their lead dies, then
    open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
    the word carried between the leads is built ([D183](06-decisions.md), item 13); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
    store page and a native Android build wait ([D169](06-decisions.md)); call AV's five real players
