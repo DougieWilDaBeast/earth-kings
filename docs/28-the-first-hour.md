@@ -214,17 +214,20 @@ tip now says so).
 
 ### Play-test 4's asks
 
-What `doug-md` asked for in play-test 4 that needs more than a fix, **planned**, waiting on his order.
-Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted).
+What `doug-md` asked for in play-test 4 that needs more than a fix, **planned** unless marked.
+Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted). His order
+(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list.
 1. **Every fight in real time where it happens**, no pause and no separate box: Tower floors 6 up on
-   the Tower's own floor, not a field of grass (play-test 3, item 5).
+   the Tower's own floor, not a field of grass (play-test 3, item 5). Part one built
+   ([D204](06-decisions.md)): no stop before a fight on the ground and no box round it. Part two,
+   **planned**: no separate fight screens (Tower floors 6 up, gate floors, roadside fights).
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
    waypoints, clicked to go (play-test 3, item 2).
 3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
    there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
    and build them.
-4. **People on the land**: more encounters, people to fight ("I still haven't encountered a single
+4. **People on the land** (next after item 1, all three parts together): more encounters, people to fight ("I still haven't encountered a single
    person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
    near them, a fight you can join and be thanked for (play-test 3, item 4).
 5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for

@@ -576,8 +576,11 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   stops within `land_patrol_reach` cells; moved to the next tile by the continent, the band walks
   there across the land a cell every `travel_step_seconds` and patrols round its new spot.
 - **Seen:** a step into the red, or the band walking into view of the party. `spotted_seconds` of
-  heads turning, the band rushing `charge_share` of the way in `charge_seconds`, then the fight on a
-  field `field_margin` cells round everyone, `field_smallest` to `field_largest`. The field carries
+  heads turning, the band rushing `charge_share` of the way in `charge_seconds` (both 0 since
+  [D204](06-decisions.md): the fight is on as they shout, and they close in fighting), then the fight
+  on a field `field_margin` cells round everyone, `field_smallest` to `field_largest`. Fought on the
+  ground, the field has no edge drawn and nothing round it dimmed; its edge shows faintly only while
+  the pointer is out past it, where a right-click sends whoever is picked to get clear. The field carries
   `view` (the ground camera's `centre` in ground pixels and its `zoom`): the fight opens on it and
   draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
 
