@@ -1,0 +1,20 @@
+name: old-branches
+
+# Run by hand: deletes the branches no longer needed, named in
+# .github/old-branches.txt (merged or replaced). Safe to run again; gone ones are skipped.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Delete the branches named in the list
+        run: python3 tools/plan.py delete-branches .github/old-branches.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

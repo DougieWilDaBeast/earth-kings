@@ -14,9 +14,13 @@ var map_name: String = ""
 ## Off when the fight is laid over real ground ([D66]): only a faint grid is
 ## drawn, so the tiles underneath are the battlefield.
 var draw_floor: bool = true
-## A fight fought in place on the ground: not even the faint grid, only the dimmed ground beyond
-## the field and its edge. Cells show under the pointer and under orders ([GridOverlay]).
+## A fight fought in place on the ground: no grid, nothing dimmed and no edge drawn ([D204]); the
+## fight is on the open ground. The edge shows, faintly, only while the pointer is beyond it, where a
+## right-click sends whoever is picked to get clear. Cells show under the pointer and under orders
+## ([GridOverlay]).
 var quiet: bool = false
+## Whether the pointer was beyond the field's edge at the last look ([member quiet] only).
+var _pointer_out: bool = false
 
 var _terrain_ids: Dictionary = {}  ## Vector2i -> terrain id String
 var _ground_decor: Dictionary = {}
@@ -134,7 +138,22 @@ func centre_world() -> Vector2:
 	return Vector2(width, height) * CELL_SIZE * 0.5
 
 
+func _process(_delta: float) -> void:
+	if not quiet:
+		return
+	var out := not Rect2(Vector2.ZERO, Vector2(width, height) * CELL_SIZE).grow(-CELL_SIZE * 0.5).has_point(get_local_mouse_position())
+	if out != _pointer_out:
+		_pointer_out = out
+		queue_redraw()
+
+
 func _draw() -> void:
+	if quiet:
+		# Fought on the open ground (D204): nothing drawn but, while the pointer is out past it, the
+		# edge where the company gets clear.
+		if _pointer_out:
+			draw_rect(Rect2(Vector2.ZERO, Vector2(width, height) * CELL_SIZE), Color(1, 1, 1, 0.22), false, 2.0)
+		return
 	if not draw_floor:
 		# The ground beyond the field is still there, dimmed: not in play. The field's edge is drawn.
 		var field := Rect2(Vector2.ZERO, Vector2(width, height) * CELL_SIZE)

@@ -245,7 +245,13 @@ func _on_class_chosen(who: RefCounted) -> void:
 
 func _on_character_fell(who: RefCounted, outcome: Dictionary) -> void:
 	var who_name := (who as Character).display_name if who is Character else "?"
-	note("FELL %s: %s (%s)" % [who_name, outcome.get("outcome", "?"), outcome.get("reason", "")])
+	# What saved them (or nothing) and who did it ([D197]: `dead ()` said nobody).
+	var why: Array[String] = []
+	if str(outcome.get("reason", "")) != "":
+		why.append(str(outcome["reason"]))
+	if str(outcome.get("killer", "")) != "":
+		why.append("by " + str(outcome["killer"]))
+	note("FELL %s: %s (%s)" % [who_name, outcome.get("outcome", "?"), ", ".join(why) if not why.is_empty() else "nobody named"])
 
 
 func _on_player_did(what: String) -> void:

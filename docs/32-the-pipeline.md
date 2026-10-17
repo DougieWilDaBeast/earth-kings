@@ -5,7 +5,7 @@ start to fill out and collect and create and finish milestones as we move this g
 against three guides to the stages of making a game ([D202](06-decisions.md)). This doc has three
 parts: where Earth Kings stands in those stages, what still gets expensive to change, and the loop
 every piece of work goes round. The loop is how the project already works, written down in one
-place, with four additions marked **Planned** until the founders say yes. The write-up with the
+place, with additions marked **Planned** until the founders say yes; the inbox is built ([D205](06-decisions.md)). The write-up with the
 research behind it is the project's
 [stages and pipeline page](https://claude.ai/artifact/PJaxFbEwGwJiGxrHYGv8Vp).
 
@@ -54,7 +54,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 
 | Step | What happens | Where it is written | Who |
 | --- | --- | --- | --- |
-| 1. Capture | Anything that might become work is written down in one line: what, who asked, where it came from (voice note, play-test, meeting, play log, CI, a founder's PR) | **Planned:** the inbox ([below](#the-inbox)); today the project chat, [09](09-wishlist.md) and the play-test asks in [28](28-the-first-hour.md) | Whoever finds it |
+| 1. Capture | Anything that might become work is written down in one line: what, who asked, where it came from (voice note, play-test, meeting, play log, CI, a founder's PR) | A GitHub issue ([the inbox](#the-inbox)) | Whoever finds it |
 | 2. Sort | Given a kind (bug, feature, content, art, music, words, business, question), a tier, a milestone, and for a bug a severity | The inbox; questions only a founder can answer go to [30](30-questions-for-the-founders.md) | Claude, at each meeting or batch |
 | 3. Shape | A short brief: what "done" looks like, how it is tested, what is **Inferred** | The PR description; a design meeting for anything with more than one honest answer | Claude, a meeting |
 | 4. Queue | Takes its place in the milestone's order; anything not on the current milestone waits | The roadmap's **Next steps** ([05](05-roadmap.md)) | The order set by the last meeting (today [D194](06-decisions.md)) |
@@ -75,7 +75,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 
 ### Bugs: four severities
 
-**Planned** until the founders adopt the inbox. Severity is set when a bug is sorted (step 2).
+Built as labels ([D205](06-decisions.md)). Severity is set when a bug is sorted (step 2).
 
 | Severity | Meaning | Rule |
 | --- | --- | --- |
@@ -112,11 +112,11 @@ are **Planned**, proposed here so the stages the game has not reached have a pla
 | 6 | Played by a person | Testing | Reached | |
 | 7 | The gamer week for real | Testing | Not run | Five strangers, named by the founders, play with the play log on |
 | 8 | Demo-clean | Pre-launch | Half | Ewan's cues or the stand-ins kept by a founder who heard them; [22](22-asset-provenance.md) P3, P4, P6 cleared; every AI-made asset that ships listed for the store's disclosure (below) |
-| 9 | Steam page and demo | Pre-launch | Waits ([D169](06-decisions.md)) | A page up, the First Hour as the free demo |
+| 9 | Steam page and demo | Pre-launch | Waits for 11 and A9 ([D208](06-decisions.md), call BI) | A page up, the First Hour as the free demo, a few months before a Steam Next Fest |
 | 10 | Native Android | Launch | Waits ([D169](06-decisions.md)) | |
 | 11 | The Second Hour | Production | **Building** ([D194](06-decisions.md), [D196](06-decisions.md)) | A person climbs to floor 10 and plays a chapter two; how long it took to build is written down, to size the hours after it |
-| 12 | The game at release, on one page | Pre-production | **Planned** | Which chapters, how many memories a lead, which cut systems return, the art bible; agreed by both founders |
-| 13 | The business basics | Planning | **Planned** | Five answers in [30](30-questions-for-the-founders.md), questions 28 to 32: who owns the game and how its money is split, the budget a month, the price model, a release window, Early Access or not |
+| 12 | The game at release, on one page | Pre-production | **Planned**, drafted once 11 is timed ([D208](06-decisions.md), call BK) | Which chapters, how many memories a lead, which cut systems return, the art bible; agreed by both founders |
+| 13 | The business basics | Planning | **Planned**, answered by voice note before 9 ([D208](06-decisions.md), call BJ) | Five answers in [30](30-questions-for-the-founders.md), questions 28 to 32: who owns the game and how its money is split, the budget a month, the price model, a release window, Early Access or not |
 | 14 | Alpha of the first release | Production | **Planned** | Every system the first release needs is in and played |
 | 15 | Beta of the first release | Production, testing | **Planned** | Every floor, memory and track the first release needs is in; only S3 and S4 bugs left |
 | 16 | Launch | Launch | **Planned** | Price, date, signed builds, age rating, the launch checklist |
@@ -149,24 +149,46 @@ or a reason for one of its **Planned** parts.
 
 ## The inbox
 
-**Planned**, waiting on `dougie`'s word on how work is tracked (the write-up's "How to track it", call
-BH, reopened by his question of 2026-10-17 09:40). Until then the loop's first step keeps today's places.
-The recommendation is **GitHub, made strict**, with no new app:
-1. Labels and milestones set up by a script: kind, tier 1 to 4, severity S1 to S4, "waits on Will",
-   "waits on Ewan", and one GitHub milestone per row of the milestones table.
-2. One issue per piece of work, opened by whichever Claude hears of it; short issue forms for a founder
-   filing one by hand.
-3. A CI check in the style of the ledger: a PR closes an issue or says it is docs-only, a new D number is
-   the next free one, every question in [30](30-questions-for-the-founders.md) has a default; a daily job
-   labels any issue with no kind or milestone "needs sort".
-4. One GitHub Projects board, created once by `dougie` (the connector cannot), whose built-in workflows
-   add every issue and move it to Done when its PR merges.
-5. A status page Claude refreshes after each merge: what is in flight per milestone, and what waits on
-   each founder.
-The docs, the decisions log, the agenda and the founders' questions stay as files in the repo, because
-the code and the tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
-Weighed against it: Linear (free up to 250 issues, then paid, a second place to look), Notion (a second
-copy of the docs that drifts), and repo files only (strict, but no inbox or board).
+**GitHub, made strict** (`dougie`, 2026-10-17, call BH, [D205](06-decisions.md)). Work that does not exist
+yet is a GitHub issue; what exists and what was decided stays in these docs, because the code and the
+tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
+
+| Piece | Where | What it does |
+| --- | --- | --- |
+| Labels and milestones | [`.github/plan.json`](../.github/plan.json), `tools/plan.py sync`, workflow `plan-sync` | Kind, tier 1 to 4, severity S1 to S4, "waits on Will", "waits on Ewan", "needs sort", and one GitHub milestone per row of the milestones table. Edit the file, never GitHub by hand: a merge to `main` makes GitHub match it |
+| Issue forms | `.github/ISSUE_TEMPLATE/` | "Something is broken" (with its severity) and "Something to make or change", for a founder filing one by hand |
+| The PR check | `tools/plan.py check-pr`, workflow `plan` | Fails a PR whose description has no "Closes #n" (or fixes, resolves, refs), "docs-only" or "No issue: why"; fails one that puts a D number in the log twice |
+| The daily sort | `tools/plan.py sort`, workflow `plan-daily` | Every day and on every merge: an open issue with no kind or no milestone gets "needs sort"; sorted, it loses it |
+| The status issue | `tools/plan.py status`, workflow `plan-daily` | One issue labelled `status`, rewritten on every merge and daily: what waits on Will, on Ewan, any S1, each open milestone's count, what needs sorting |
+| The board | GitHub Projects ("Earth Kings"), made by `dougie` on 2026-10-17 | Adds every new issue and PR by itself; moves an item to Done when it closes or merges |
+| `main` protected | Ruleset "Protect main", made by `dougie` on 2026-10-17 | Changes reach `main` only by a PR whose `suites` and `soak` pass; no approval needed; no force push. Auto-merge is on and a merged branch is deleted |
+
+**Who opens issues.** Whichever Claude hears of a piece of work (a voice note, a play-test, a meeting, a
+soak) opens the issue with its kind, tier, milestone and, for a bug, severity; a question only a founder
+can answer is also written into [30](30-questions-for-the-founders.md). A PR names its issue with
+"Closes #n"; a PR with only docs says "docs-only".
+
+**What only `dougie` can click** (rulesets, the board, repository settings) is his
+[GitHub setup checklist](https://claude.ai/artifact/8Zxg4C3Jtr4Qr88kHAKehU), done on 2026-10-17. Branches
+no longer needed are deleted by the workflow `old-branches` (`.github/old-branches.txt`, one name a line);
+since auto-delete is on, only a branch whose PR was closed unmerged is left behind.
+
+### Where each kind of thing lives
+
+Since 2026-10-17 ([D208](06-decisions.md)) every open piece of work is an issue on the board, and the
+docs keep the record. One home each, so nothing is kept in two places:
+
+| Kind of thing | Lives in | Mirrored |
+| --- | --- | --- |
+| Work not built yet: a feature, a fix, a play-test ask, an art row, a meeting's order of work | An issue, with its kind, tier, milestone and severity | The roadmap's Next steps names the issues of the item being built |
+| A question only a founder can answer | [30](30-questions-for-the-founders.md), numbered | An issue labelled "waits on Will" or "waits on Ewan" (questions 25 to 32: #215 to #217, #210 to #214) |
+| A guess the build made to keep going | The agenda, a row marked **Inferred** ([answers.md](worldbuilding/answers.md#what-is-still-to-decide)) | One standing issue points at it (#227); a row only becomes an issue when a founder asks for a change |
+| A settled decision | [06](06-decisions.md), a numbered D | Nothing; an issue it closes links to it |
+| What exists and how it works | The numbered doc it touches, changed in the PR that changes the game | Nothing |
+| Something only a founder can click or give | His or Ewan's checklist (a Claude Doc), and an issue when it is work with an end | |
+| What is in flight, at a glance | The status issue (#202) and the board | Rewritten by `plan-daily` |
+
+A play-test's asks are still written up in [28](28-the-first-hour.md), with the issue that carries each.
 
 ## The rhythm
 

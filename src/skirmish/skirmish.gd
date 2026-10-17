@@ -1104,6 +1104,8 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 			fx.popup("Warded", target.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
 			Sfx.cue("ward")
 	var dealt := before - target.hp
+	if victim != null and dealt > 0:
+		victim.struck_by = f.unit
 	_show_effect(f, target, ability, ability_id)
 	if dealt > 0:
 		Sfx.cue("crit" if crit else "hit")
@@ -1131,6 +1133,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 	if guardian != null and dealt > 0:
 		fx.popup(SkirmishConditions.word("covers", "Covers"), guardian.unit.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
 		var share := signatures.share_of(guardian)
+		guardian.struck_by = f.unit
 		guardian.unit.take_damage(maxi(1, roundi(float(dealt) * share / maxf(0.1, 1.0 - share))))
 		if not guardian.unit.is_alive():
 			_drop(guardian)
@@ -1542,8 +1545,11 @@ func _grace(f: Fighter) -> bool:
 func _settle_fallen(f: Fighter) -> void:
 	var who := f.unit.character
 	var context := grace_context(f)
-	context["enemy_kind"] = _killer_kind()
+	var killer := _killer_of(f)
+	context["enemy_kind"] = killer.kind() if killer != null else _killer_kind()
 	var outcome := Fate.resolve(who, context, GameState.world.rng)
+	# Named, for the play log and the death screen ([D197]: `FELL Atlas: dead ()` named nobody).
+	outcome["killer"] = killer.display_name if killer != null else ""
 	_say(str(outcome["line"]))
 	EventBus.character_fell.emit(who, outcome)
 	var reason := str(outcome.get("reason", ""))
@@ -1553,7 +1559,7 @@ func _settle_fallen(f: Fighter) -> void:
 	f.settled = outcome
 	_fall(f, false)
 	if outcome["outcome"] == Fate.DEAD:
-		Memorial.raise(GameState.world, who, GameState.world.player_cell, _killer_kind())
+		Memorial.raise(GameState.world, who, GameState.world.player_cell, str(context["enemy_kind"]), str(outcome["killer"]))
 		for line: String in Skein.on_character_fell(GameState.world, who.template_id):
 			_say(line)
 
@@ -1606,6 +1612,17 @@ func grace_odds(f: Fighter) -> float:
 
 
 ## What kind of thing is winning the fight, which decides whether prisoners are taken.
+## Whoever last hurt [param f] and is on the other side, or, with nobody (a fall from a burn
+## whose giver is gone), the first foe still standing; null in a field with no foe left.
+func _killer_of(f: Fighter) -> Unit:
+	if is_instance_valid(f.struck_by) and f.struck_by.is_hostile_to(f.unit):
+		return f.struck_by
+	for other in fighters:
+		if not other.unit.sides_with_party() and other.is_standing():
+			return other.unit
+	return null
+
+
 func _killer_kind() -> String:
 	for f in fighters:
 		if not f.unit.sides_with_party() and f.is_standing():

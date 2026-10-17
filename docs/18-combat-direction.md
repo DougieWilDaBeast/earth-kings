@@ -242,7 +242,7 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   lunges a few pixels at its target, a critical or a blow worth a fifth of someone's health
   freezes the clock for 70 ms, and a death rings out and shakes the camera (harder for one of
   yours). Skills on the cards are tiles with a cooldown sweep that flash when they come back, and
-  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D203](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
+  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D209](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
   and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`. Trees stand on the crags,
   walls and some of the edge, and bushes in the brush (`decor` in the same file).
 - **Sound and a level gained** (2026-10-13). Swings, bowshots, hits and criticals, blocks, a spell
@@ -280,7 +280,14 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   `conditions` in `data/skirmish.json`. Before and after shots: `tests/fight_effects_shot.tscn`.
 
 **Coming in** — everything the turn-based battle did on the way into a fight, it does
-([D65](06-decisions.md)):
+([D65](06-decisions.md)). A band met on the ground is fought on that ground ([D98](06-decisions.md)),
+and since [D204](06-decisions.md) with no stop before it and no box round it: the fight is on as the
+band shouts (about a tenth of a second, was over a second of heads turning and a rush), the band
+closes in fighting from where it stood, and the field (24×16 to 36×24 cells, six round everyone) has
+no edge drawn and nothing dimmed; the edge shows faintly only while the pointer is out past it. Since
+[D207](06-decisions.md) no fight in a run has a screen of its own: Tower floors 6 up are walked, a
+roadside fight is fought where its scene stands, and a town's or a captive's fight just ahead of the
+party; only the hidden training ground and coliseum keep the fight screen.
 
 - the field is the encounter's map (or an authored one), with the party mustered on its spawns,
   the enemy at their levels (a levelled foe is a throwaway character raised by

@@ -254,9 +254,11 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.2 | Watch it for ten seconds                             | It walks a small loop, resting at each stop, the red moving with it                      |
 | D3.3 | Walk up close without entering the red               | They turn to watch you; nothing starts                                                   |
 | D3.4 | Walk through long grass right up to them             | Long grass is never red; step out of it into the red and the fight opens with "Ambush!"   |
-| D3.5 | Step onto a red cell                                 | Heads turn, they rush you, and the fight opens on the same ground at the same zoom, everyone where they stood; the camera draws back, the ground beyond the field dimmed |
+| D3.5 | Step onto a red cell                                 | "… have seen you!" and the fight is on at once ([D204](06-decisions.md)), on the same ground at the same zoom, everyone where they stood, the band closing in fighting; no box and nothing dimmed. Move the pointer well away from the fight: a faint edge shows where the company can get clear |
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
 | D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
+| D3.8 | Meet a scene on the road ("A cart has been stopped…") and step in | The fight is on the road where the scene stands, the attackers where they were; no fight screen ([D207](06-decisions.md)) |
+| D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 
@@ -294,7 +296,7 @@ Start a run (not the tutorial) and walk.
 | D5.11 | Click the ground a few cells off, then click somewhere else before arriving | A gold pin where you clicked and a dotted line marching to it along the way; it moves to the new click, and is gone when you get there ([D189](06-decisions.md)) |
 | D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
 | D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
-| D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Five or six foes at about your level; the fight takes a while and hurts ([D189](06-decisions.md)) |
+| D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Each band is five or six foes at about your level; the fights take a while and hurt ([D189](06-decisions.md), walked since [D207](06-decisions.md)) |
 
 ## H — Conversation and the camp
 
