@@ -37,7 +37,7 @@ const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
-## The corner map's side and the size of a cell on it, in pixels ([D220]): fifteen cells across.
+## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
 ## How often the compass asks where the objective is, in seconds.
@@ -129,7 +129,7 @@ var _strolled: float = 0.0
 ## The needle pointing at the First Hour's objective (D95), top left under the place's name.
 var _compass: Control
 ## The map in the top right corner while walking the land, and the large one over the ground
-## (M or the journal), which the party walks on under ([D220]).
+## (M or the journal), which the party walks on under ([D232]).
 var _corner_map: Control
 var _map_screen: CanvasLayer
 ## The Tower on the edge of the screen while it is far off (D108), on the land only.
@@ -1791,7 +1791,7 @@ func _physics_process(delta: float) -> void:
 	# player lets go of the keys, or everyone freezes mid-stride where they stood.
 	_settle_followers(delta)
 	var axis := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	# With the large map open the keys look about the map; the party walks on as it was (D220).
+	# With the large map open the keys look about the map; the party walks on as it was (D232).
 	if _map_open():
 		axis = Vector2.ZERO
 	if axis != Vector2.ZERO:
@@ -2796,7 +2796,7 @@ func _pair_rule(key: String, fallback: Vector2i) -> Vector2i:
 func _open_the_map() -> void:
 	if _leaving or not is_inside_tree():
 		return
-	# On the land the map opens over the ground and the party walks on under it (D220); inside a
+	# On the land the map opens over the ground and the party walks on under it (D232); inside a
 	# place, or on a floor of the Tower, the continent opens as it always has.
 	if _map_screen != null:
 		_map_screen.toggle()
@@ -3098,7 +3098,7 @@ func _quiet_while_spoken_to() -> void:
 			_note(line)
 
 
-## The corner map and the large one ([D220]): the corner map in the top right, under the touch
+## The corner map and the large one ([D232]): the corner map in the top right, under the touch
 ## bar when there is one; a click on it opens the large map, which opens over the ground.
 func _put_up_the_maps() -> void:
 	_corner_map = LandMap.new()

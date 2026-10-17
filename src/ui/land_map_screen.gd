@@ -1,5 +1,5 @@
 extends CanvasLayer
-## The large map, opened over the ground with M or from the journal ([D220]). The ground goes on
+## The large map, opened over the ground with M or from the journal ([D232]). The ground goes on
 ## under it: a party walking itself, or walking to a click, keeps walking while it is open
 ## (`doug-md`, play-test 4). WASD or the arrows move the map rather than the party; M or Esc puts it
 ## away. Right-click a place for "Go here" or "Place a marker".

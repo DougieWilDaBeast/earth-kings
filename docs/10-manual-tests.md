@@ -297,10 +297,10 @@ Start a run (not the tutorial) and walk.
 | D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
 | D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
 | D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Each band is five or six foes at about your level; the fights take a while and hurt ([D189](06-decisions.md), walked since [D207](06-decisions.md)) |
-| D5.15 | Walk the land and look at the top right | A small square map with N, E, S and W on its sides, you in the middle, and an arrow at its edge (or a ring) for what the compass follows ([D220](06-decisions.md)) |
-| D5.16 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
-| D5.17 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
-| D5.18 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
+| D5.17 | Walk the land and look at the top right | A small square map with N, E, S and W on its sides, you in the middle, and an arrow at its edge (or a ring) for what the compass follows ([D232](06-decisions.md)) |
+| D5.18 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
+| D5.19 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
+| D5.20 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
 
 ## H — Conversation and the camp
 

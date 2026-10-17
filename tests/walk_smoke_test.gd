@@ -1799,7 +1799,7 @@ func _check_map() -> void:
 	_expect(Atlas.is_explored(World.from_dict(payload), far), "a save from before the map lost its map")
 
 
-## The map's markers ([D220]): one placed is a quest in the list; a place picked to go to is
+## The map's markers ([D232]): one placed is a quest in the list; a place picked to go to is
 ## followed and walked to by Auto, straight, past a band on the way; standing on it lets it go and
 ## hands the party back; a save keeps the markers; taking one off stops following it.
 func _check_markers() -> void:

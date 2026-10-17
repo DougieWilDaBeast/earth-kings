@@ -81,7 +81,7 @@ static func all(world: World, road: Dictionary) -> Array[Dictionary]:
 			"stop": true,
 			"detail": "Word is a fallen lead's weapon came down out of the sky here.",
 		})
-	# The player's own marks on the map, and the place picked to go to ([D220]).
+	# The player's own marks on the map, and the place picked to go to ([D232]).
 	out.append_array(Markers.entries(world))
 	return out
 
