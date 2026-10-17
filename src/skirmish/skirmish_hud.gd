@@ -38,6 +38,9 @@ const TOUCH_BUTTONS := [
 	["slot0", "Q"], ["slot1", "W"], ["slot2", "E"], ["slot3", "R"],
 	["auto_skill", "Auto skills"], ["hold", "Hold"], ["auto_pause", "Auto-pause"],
 ]
+## One of those buttons, and the gap between two.
+const TOUCH_BUTTON := Vector2(138, 40)
+const TOUCH_GAP := 4.0
 const READY := Color(0.62, 0.92, 0.62)
 const WAITING := Color(0.62, 0.66, 0.74)
 const PANEL := Color(0.08, 0.09, 0.12, 0.86)
@@ -69,6 +72,8 @@ var _inspect_text: RichTextLabel
 var _inspected: Fighter = null
 var _lines: Array[String] = []
 var _buttons: Dictionary = {}
+## The touch buttons' grid down the right edge ([method _fit_touch_buttons]).
+var _column: GridContainer = null
 var _plain := _panel_style(PANEL)
 var _picked := _panel_style(PANEL_SELECTED)
 var _tight := StyleBoxEmpty.new()
@@ -276,21 +281,19 @@ func _say_hint() -> void:
 ## Big enough for a thumb, down the right edge, clear of the party cards and
 ## of the touch bar's Book and Menu along the top.
 func _add_touch_buttons() -> void:
-	var column := VBoxContainer.new()
+	var column := GridContainer.new()
 	column.anchor_left = 1.0
 	column.anchor_right = 1.0
-	column.offset_left = -150
 	column.offset_right = -12
-	column.offset_top = 92
-	# Held upright the touch bar sits lower, under the scene's top lines (D163).
-	var view := get_viewport().get_visible_rect().size
-	if view.y > view.x:
-		column.offset_top += TouchControls.UPRIGHT_DROP
-	column.add_theme_constant_override("separation", 4)
+	column.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	column.add_theme_constant_override("h_separation", 4)
+	column.add_theme_constant_override("v_separation", 4)
 	add_child(column)
+	_column = column
+	get_viewport().size_changed.connect(_fit_touch_buttons)
 	for entry: Array in TOUCH_BUTTONS:
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(138, 40)
+		button.custom_minimum_size = TOUCH_BUTTON
 		button.text = entry[1]
 		button.focus_mode = Control.FOCUS_NONE
 		button.add_theme_font_size_override("font_size", 17)
@@ -315,6 +318,33 @@ func _add_touch_buttons() -> void:
 			sweep.set_anchors_preset(Control.PRESET_FULL_RECT)
 			button.add_child(sweep)
 			_button_sweeps[action] = sweep
+	_fit_touch_buttons()
+
+
+## The buttons go down the right edge, and into a second or third column when the screen is too
+## short for one. A phone on its side is 540 tall, and itch.io's full-screen button turns it so:
+## one column ran down under the stick's Act, Back and Next, and Hold and Auto-pause were lost
+## (D240). Laid out again whenever the screen changes shape, since turning the phone mid-fight
+## turns the screen too.
+func _fit_touch_buttons() -> void:
+	if _column == null:
+		return
+	var view := get_viewport().get_visible_rect().size
+	var top := 92.0
+	var bottom := TouchControls.EDGE_PAD
+	# Held upright the touch bar sits lower, under the scene's top lines (D163).
+	if view.y > view.x:
+		top += TouchControls.UPRIGHT_DROP
+	# Fought on the ground, the walking pad's Act, Back and Next stay up in the bottom corner.
+	if _skirmish.in_place:
+		bottom += TouchControls.CLUSTER_HEIGHT + TouchControls.EDGE_PAD
+		if view.y > view.x:
+			bottom += TouchControls.UPRIGHT_LIFT
+	var rows := maxi(1, floori((view.y - top - bottom + TOUCH_GAP) / (TOUCH_BUTTON.y + TOUCH_GAP)))
+	var columns := ceili(float(TOUCH_BUTTONS.size()) / rows)
+	_column.columns = columns
+	_column.offset_top = top
+	_column.offset_left = -12 - columns * TOUCH_BUTTON.x - (columns - 1) * TOUCH_GAP
 
 
 func refresh() -> void:

@@ -26,9 +26,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -225.0
+offset_top = -120.0
 offset_right = 150.0
-offset_bottom = 225.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -38,36 +38,48 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 20
 
-[node name="Items" type="VBoxContainer" parent="Root/Panel/Margin"]
+[node name="Box" type="VBoxContainer" parent="Root/Panel/Margin"]
 theme_override_constants/separation = 10
 
-[node name="HeadingLabel" type="Label" parent="Root/Panel/Margin/Items"]
+[node name="HeadingLabel" type="Label" parent="Root/Panel/Margin/Box"]
 theme_override_font_sizes/font_size = 22
 text = "Menu"
 horizontal_alignment = 1
 
-[node name="SaveButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="Scroll" type="ScrollContainer" parent="Root/Panel/Margin/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Items" type="VBoxContainer" parent="Root/Panel/Margin/Box/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="SaveButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Save Game"
 
-[node name="LoadButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="LoadButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Load Game"
 
-[node name="TitleButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="TitleButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Return to Title"
 
-[node name="MusicRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+[node name="MusicRow" type="HBoxContainer" parent="Root/Panel/Margin/Box/Scroll/Items"]
 theme_override_constants/separation = 8
 
-[node name="MuteButton" type="Button" parent="Root/Panel/Margin/Items/MusicRow"]
+[node name="MuteButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/MusicRow"]
 custom_minimum_size = Vector2(76, 0)
 unique_name_in_owner = true
 toggle_mode = true
 text = "Music"
 
-[node name="MusicSlider" type="HSlider" parent="Root/Panel/Margin/Items/MusicRow"]
+[node name="MusicSlider" type="HSlider" parent="Root/Panel/Margin/Box/Scroll/Items/MusicRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -76,16 +88,16 @@ max_value = 1.0
 step = 0.05
 value = 0.8
 
-[node name="SoundRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+[node name="SoundRow" type="HBoxContainer" parent="Root/Panel/Margin/Box/Scroll/Items"]
 theme_override_constants/separation = 8
 
-[node name="SfxMuteButton" type="Button" parent="Root/Panel/Margin/Items/SoundRow"]
+[node name="SfxMuteButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/SoundRow"]
 custom_minimum_size = Vector2(76, 0)
 unique_name_in_owner = true
 toggle_mode = true
 text = "Sounds"
 
-[node name="SfxSlider" type="HSlider" parent="Root/Panel/Margin/Items/SoundRow"]
+[node name="SfxSlider" type="HSlider" parent="Root/Panel/Margin/Box/Scroll/Items/SoundRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -94,75 +106,75 @@ max_value = 1.0
 step = 0.05
 value = 0.7
 
-[node name="FullscreenButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="FullscreenButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 toggle_mode = true
 text = "Fullscreen: off"
 
-[node name="ChatterButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="ChatterButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 toggle_mode = true
 text = "Chatter"
 
-[node name="DifficultyButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="DifficultyButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Difficulty: First Hour"
 
-[node name="TouchButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="TouchButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Touch Controls: Auto"
 
-[node name="ControlsButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="ControlsButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "Controls & Key Bindings"
 
-[node name="HowToPlayButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="HowToPlayButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 text = "How to Play"
 
-[node name="TipsRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+[node name="TipsRow" type="HBoxContainer" parent="Root/Panel/Margin/Box/Scroll/Items"]
 theme_override_constants/separation = 8
 
-[node name="TipsButton" type="Button" parent="Root/Panel/Margin/Items/TipsRow"]
+[node name="TipsButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/TipsRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
 text = "Tips: on"
 
-[node name="ResetTipsButton" type="Button" parent="Root/Panel/Margin/Items/TipsRow"]
+[node name="ResetTipsButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/TipsRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Reset tips"
 
-[node name="PlayLogRow" type="HBoxContainer" parent="Root/Panel/Margin/Items"]
+[node name="PlayLogRow" type="HBoxContainer" parent="Root/Panel/Margin/Box/Scroll/Items"]
 theme_override_constants/separation = 8
 
-[node name="CopyLogButton" type="Button" parent="Root/Panel/Margin/Items/PlayLogRow"]
+[node name="CopyLogButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/PlayLogRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Puts the play log on the clipboard, to paste into a message."
 text = "Copy play log"
 
-[node name="SaveLogButton" type="Button" parent="Root/Panel/Margin/Items/PlayLogRow"]
+[node name="SaveLogButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items/PlayLogRow"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Downloads the play log as a text file."
 text = "Save play log"
 
-[node name="CreditsButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="CreditsButton" type="Button" parent="Root/Panel/Margin/Box/Scroll/Items"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Credits"
 
-[node name="CloseButton" type="Button" parent="Root/Panel/Margin/Items"]
+[node name="CloseButton" type="Button" parent="Root/Panel/Margin/Box"]
 unique_name_in_owner = true
 text = "Close"
 
-[node name="StatusLabel" type="Label" parent="Root/Panel/Margin/Items"]
+[node name="StatusLabel" type="Label" parent="Root/Panel/Margin/Box"]
 unique_name_in_owner = true
 theme_override_font_sizes/font_size = 13
 theme_override_colors/font_color = Color(0.72, 0.86, 0.75, 1)
