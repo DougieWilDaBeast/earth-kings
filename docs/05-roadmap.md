@@ -293,6 +293,9 @@ each, each ending playable:
    calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
    business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
+   `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
+   all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
+   back 27 October. The rest of 28 is question 33 (#276).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
@@ -311,11 +314,20 @@ each, each ending playable:
 21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
    party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
    early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
-22. **What other games do well** (`doug-md`, 2026-10-17, [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)):
-   twelve ideas from six games kept, eleven cut, five questions waiting on Will. The quick wins first,
-   one pull request each: **scars** — built ([D218](06-decisions.md), #272): going down in a won fight
-   and living leaves +3 health for good. **Planned**: bosses with a sure drop (#273), treasure maps from
-   foes (#274), leading trouble to the Watch (#275, after people on the land).
+22. **The road is fair to a lead walking alone** — built ([D211](06-decisions.md), call BM, 2026-10-17).
+   Road bands stand two levels down and one smaller on the First Hour, the land's great beasts wait for
+   level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
+   and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
+   fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
+23. **Ewan's "what other games do well"** ([D223](06-decisions.md) to [D227](06-decisions.md), 2026-10-17,
+   issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
+   the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
+   in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
+   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
+   faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
+   [D218](06-decisions.md); sure drops and treasure maps being built), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

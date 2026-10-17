@@ -28,6 +28,8 @@ for Ewan, one for Ewan with Will's half already given. Each has the room's recom
 32, on the business half of planning: who owns the game and how its money is split, the budget, how it
 earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-17, call BJ,
 [D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
+Will answered 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)); what 28 left
+open is question 33, with Ewan's word on the split.
 
 **On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
 "waits on Will" or "waits on Ewan", closed when its answer is written up here.
@@ -304,17 +306,21 @@ Added 2026-10-17 with [32](32-the-pipeline.md) ([D202](06-decisions.md)): planni
 which none of the earlier questions reached. They are milestone 13; the pipeline recommends answering
 them before the Steam page goes up, starting with 28. None changes anything built.
 
-**28. Who owns Earth Kings, and how is its money split?** (Both) [#210](https://github.com/DougieWilDaBeast/earth-kings/issues/210)
+~~**28. Who owns Earth Kings, and how is its money split?**~~ (Both) [#210](https://github.com/DougieWilDaBeast/earth-kings/issues/210)
 Who owns the code, the art, the music and the name; who decides when you disagree; how money is
 divided and on what (after the store's cut? after costs?); and what happens if one of you stops.
 _Why:_ every guide for co-founders says to write this down before there is money; between brothers an
 unwritten deal is the easiest to fall out over. General advice, not legal advice.
 _Default:_ nothing changes until you both write it down; asked again before the Steam page.
 
-**29. What does the game cost a month, and who pays?** (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
+_Answered 2026-10-17 (Will's half):_ **Will:** "Me and Ewan are 50/50 split all profits. Brother we trust each other" ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-business.md), [D212](06-decisions.md)). **Ewan:** not yet given; the split stands as Will's word until Ewan agrees. The rest of the question is asked again, narrower, as 33.
+
+~~**29. What does the game cost a month, and who pays?**~~ (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
 PixelLab, the AI subscriptions, and later the $100 Steam fee (returned after $1,000 of sales).
 _Why:_ a budget says how long the project can run as it does now.
 _Default:_ as now; the build does not spend money.
+
+_Answered 2026-10-17:_ **Will:** PixelLab.ai at 22 euro a month, which he pays; its credits come back on 27 October 2026 ("October 27th pixellab.ai 22 euro cost.", [transcript](worldbuilding/voice-notes/2026-10-17-dougie-business.md), [D213](06-decisions.md)). The AI subscriptions and the Steam fee were not named.
 
 **30. How does it earn?** (Both) [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212)
 A one-off price with the First Hour as a free demo (the retreat's lean, how-and-where call G), or
@@ -332,6 +338,51 @@ Early Access is the roguelite norm (Slay the Spire went in with two of its four 
 and Dead Cells too); a finished release means more is built before anyone pays.
 _Why:_ it decides what "the first release" in milestone 12 has to hold.
 _Default:_ Early Access, decided after the Second Hour.
+
+**33. The rest of the founders' agreement.** (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
+Added 2026-10-17 from Will's half of 28 ([D212](06-decisions.md)): all profits split 50/50. **Ewan:** do you
+agree? **Both:** is that after the store's cut and the running costs (agenda 136 guesses yes)? Who owns the
+code, the art, the music and the name? Who decides when you disagree? What happens if one of you stops?
+_Why:_ the split is the start of a founders' agreement, not all of it; the rest is what brothers fall out over
+when it was never said. General advice, not legal advice.
+_Default:_ the 50/50 split stands as Will's word; nothing else changes until you both say it.
+
+## 9. Asked by Ewan's "what other games do well"
+
+Added 2026-10-17 from `doug-md`'s write-up of six games (Necesse, Kenshi, Dungeon Settlers, Terraria,
+Skyrim, Baldur's Gate 3), issue [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270): twelve
+ideas kept, eleven cut, and five questions for both founders. Ewan's list stands as he wrote it
+(question 38). Its ideas are on the board: the quick wins #272 to #275, the rest #258 and #283 to #289.
+**Will answered all five on 2026-10-17** ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-other-games.md), [D223](06-decisions.md) to [D227](06-decisions.md)).
+
+~~**34. Romance between the sixteen: yes, no, or later?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+Ewan cut it for now: a big writing job and a change of tone.
+_Answered 2026-10-17:_ **Will:** no romance played out in the game. The sixteen already had
+relationships before they came down (good, bad, at odds), and those stay in the backstory; a lead finds
+out what they were as the game goes on, all of them only if all sixteen survive, and can grieve one who
+didn't ("it should be whatever is already set up in the backstory", [D223](06-decisions.md)).
+
+~~**35. Your own town: at the crater where you landed, or a place you choose on the map?**~~ (Both) [#258](https://github.com/DougieWilDaBeast/earth-kings/issues/258)
+_Answered 2026-10-17:_ **Will:** **the crater**, built up by Muck Muck, because the landing already
+cleared the ground ("that could be a good spot for Muk to start building", [D224](06-decisions.md)).
+
+~~**36. The harder second half: what sets it off?**~~ (Both) [#287](https://github.com/DougieWilDaBeast/earth-kings/issues/287)
+Ewan offered a Tower chapter, a number of gates shut, or a story moment.
+_Answered 2026-10-17:_ **Will:** none of them on its own: it gets harder step by step as more of the
+Tower is climbed, and a party that leaves side quests undone and gates open finds more opening at
+every stage, with disasters on top ("if you only focus on climbing up the tower and you don't focus on
+keeping your world in order", [D225](06-decisions.md)).
+
+~~**37. Land journal trinkets: can one change how you move, or only how you fight?**~~ (Both) [#284](https://github.com/DougieWilDaBeast/earth-kings/issues/284)
+Finishing a land's journal (its shrine, its strongest band, its hermit, a view) pays one rare trinket.
+_Answered 2026-10-17_ (asked again in plain words after he did not follow it): **Will:** **both**. A
+trinket can do anything that fits: cross water, walk faster, boots, more abilities, as well as fight;
+ideas from the team and from Ewan alike ("any ideas you can come up with, go for it", [D227](06-decisions.md)).
+
+~~**38. Where to start: the quick wins, or one of the big pieces first?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+_Answered 2026-10-17:_ **Will:** Ewan's list as it is, nothing moved between keep and cut. The big
+pieces first, one always being built, with the smaller ones done alongside in other threads ("you do
+progressing through the big ones always, and then at the same time ... the smaller ones", [D226](06-decisions.md)).
 
 ## Will's to-dos (not questions)
 
