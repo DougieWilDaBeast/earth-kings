@@ -301,6 +301,12 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
 7. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
    PixelLab's terms checked ([Launch readiness](#launch-readiness--in-progress)).
+8. **"Who wins?" clips — built** (2026-10-16, [D180](06-decisions.md), call AY). Two of the sixteen
+   fight it out hands off, dressed as a show, and `tools/who_wins.py` records it wide and tall
+   ([18](18-combat-direction.md#who-wins), [investigation 10](investigation/10-who-wins-shows.md)).
+   Planned: the aim line and ground ring before a big move, words when a signature goes off, a cut to
+   speed lines on the last blow, music under the clip once the in-house themes land, and a look at the
+   leads who lose most one against one (Iris, Janus, Pluto; agenda item 112).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
 ([10](10-manual-tests.md#automated-tests)). Since 2026-09-26 CI runs every suite and a two-minute

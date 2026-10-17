@@ -74,6 +74,8 @@ var fall: Dictionary = {}
 var opening: Dictionary = {}
 ## How big each prop picture is drawn and whether it stands in the way (`data/props.json`).
 var props: Dictionary = {}
+## The "Who wins?" show: its timings and words (`data/who_wins.json`, [D180]).
+var who_wins: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -128,6 +130,7 @@ func _ready() -> void:
 	fall = _load_json("%s/fall.json" % DATA_DIR)
 	opening = _load_json("%s/opening.json" % DATA_DIR)
 	props = _load_json("%s/props.json" % DATA_DIR)
+	who_wins = _load_json("%s/who_wins.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:
