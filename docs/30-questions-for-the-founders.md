@@ -356,6 +356,43 @@ _Default:_ the 50/50 split stands as Will's word; nothing else changes until you
 
 _Answered 2026-10-17 (Will's word):_ **Will:** 50/50 is after Steam's cut and the costs; everything 50/50 for now, and the rest of the small print (who owns what, who decides) the two of you work out when you get close to being paid; if one of you stops it does not matter, the game runs in the background or on the side ([D230](06-decisions.md)). Asked again before the first sale. **Ewan:** his nod on the split still to come.
 
+## 9. Asked by Ewan's "what other games do well"
+
+Added 2026-10-17 from `doug-md`'s write-up of six games (Necesse, Kenshi, Dungeon Settlers, Terraria,
+Skyrim, Baldur's Gate 3), issue [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270): twelve
+ideas kept, eleven cut, and five questions for both founders. Ewan's list stands as he wrote it
+(question 38). Its ideas are on the board: the quick wins #272 to #275, the rest #258 and #283 to #289.
+**Will answered all five on 2026-10-17** ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-other-games.md), [D223](06-decisions.md) to [D227](06-decisions.md)).
+
+~~**34. Romance between the sixteen: yes, no, or later?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+Ewan cut it for now: a big writing job and a change of tone.
+_Answered 2026-10-17:_ **Will:** no romance played out in the game. The sixteen already had
+relationships before they came down (good, bad, at odds), and those stay in the backstory; a lead finds
+out what they were as the game goes on, all of them only if all sixteen survive, and can grieve one who
+didn't ("it should be whatever is already set up in the backstory", [D223](06-decisions.md)).
+
+~~**35. Your own town: at the crater where you landed, or a place you choose on the map?**~~ (Both) [#258](https://github.com/DougieWilDaBeast/earth-kings/issues/258)
+_Answered 2026-10-17:_ **Will:** **the crater**, built up by Muck Muck, because the landing already
+cleared the ground ("that could be a good spot for Muk to start building", [D224](06-decisions.md)).
+
+~~**36. The harder second half: what sets it off?**~~ (Both) [#287](https://github.com/DougieWilDaBeast/earth-kings/issues/287)
+Ewan offered a Tower chapter, a number of gates shut, or a story moment.
+_Answered 2026-10-17:_ **Will:** none of them on its own: it gets harder step by step as more of the
+Tower is climbed, and a party that leaves side quests undone and gates open finds more opening at
+every stage, with disasters on top ("if you only focus on climbing up the tower and you don't focus on
+keeping your world in order", [D225](06-decisions.md)).
+
+~~**37. Land journal trinkets: can one change how you move, or only how you fight?**~~ (Both) [#284](https://github.com/DougieWilDaBeast/earth-kings/issues/284)
+Finishing a land's journal (its shrine, its strongest band, its hermit, a view) pays one rare trinket.
+_Answered 2026-10-17_ (asked again in plain words after he did not follow it): **Will:** **both**. A
+trinket can do anything that fits: cross water, walk faster, boots, more abilities, as well as fight;
+ideas from the team and from Ewan alike ("any ideas you can come up with, go for it", [D227](06-decisions.md)).
+
+~~**38. Where to start: the quick wins, or one of the big pieces first?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+_Answered 2026-10-17:_ **Will:** Ewan's list as it is, nothing moved between keep and cut. The big
+pieces first, one always being built, with the smaller ones done alongside in other threads ("you do
+progressing through the big ones always, and then at the same time ... the smaller ones", [D226](06-decisions.md)).
+
 ## Will's to-dos (not questions)
 
 These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).

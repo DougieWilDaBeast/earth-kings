@@ -347,6 +347,12 @@
 		"resale": 0.5,
 		"cache_chance": 0.04
 	},
+	"scars": {
+		"_comment": "D218 (from Kenshi's toughness, picked by doug-md 2026-10-17): a fighter who goes down in a fight the company wins, and lives, gains max_hp health for good, up to most scars. line is said at the fight's end ({name}, {hp}, {scars}).",
+		"max_hp": 3,
+		"most": 5,
+		"line": "{name} will carry a scar from that, and be harder to put down: +{hp} health for good."
+	},
 	"atlas": {
 		"sight": 4,
 		"always_known": ["tower", "home"],
