@@ -48,6 +48,9 @@ in `DROP-ZONE/<request id>/`; moving it into `art/` closes the row.
 Commits: `feat(M14): …`, `fix: …`, `docs: …`, `tools: …` — the milestone in brackets when there is one.
 Update the docs a change touches in the same commit.
 
+Work is tracked as GitHub issues ([docs/32](docs/32-the-pipeline.md#the-inbox)): open one for any new piece of work,
+and say "Closes #n" in the PR (or "docs-only", or "No issue: why"); the `plan` check fails a PR without it.
+
 Every PR keeps the docs current in the same PR, not a later one:
 - **`docs/06-decisions.md`** ([D139](docs/06-decisions.md)): a numbered entry for anything it settles (next free D number from main).
 - **The agenda** (`docs/worldbuilding/answers.md#what-is-still-to-decide`): a row for anything `**Inferred.**`.

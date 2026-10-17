@@ -286,7 +286,9 @@ each, each ending playable:
    against this one, the loop every piece of work goes round, cost tiers, bug severities and the states
    of a milestone, in [32](32-the-pipeline.md). Milestones 12 to 17 are **planned**: the game at release on
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
-   launch and after launch. Where the inbox lives and when the Steam page goes up wait on `dougie`.
+   launch and after launch. The inbox is built ([D203](06-decisions.md), call BH): GitHub issues, labels and
+   milestones from `.github/plan.json`, a `plan` check on every PR, a daily sort and a status issue; `dougie`
+   makes the board and protects `main` from his checklist. When the Steam page goes up waits on `dougie`.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

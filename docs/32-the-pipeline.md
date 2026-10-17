@@ -5,7 +5,7 @@ start to fill out and collect and create and finish milestones as we move this g
 against three guides to the stages of making a game ([D202](06-decisions.md)). This doc has three
 parts: where Earth Kings stands in those stages, what still gets expensive to change, and the loop
 every piece of work goes round. The loop is how the project already works, written down in one
-place, with four additions marked **Planned** until the founders say yes. The write-up with the
+place, with additions marked **Planned** until the founders say yes; the inbox is built ([D203](06-decisions.md)). The write-up with the
 research behind it is the project's
 [stages and pipeline page](https://claude.ai/artifact/PJaxFbEwGwJiGxrHYGv8Vp).
 
@@ -54,7 +54,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 
 | Step | What happens | Where it is written | Who |
 | --- | --- | --- | --- |
-| 1. Capture | Anything that might become work is written down in one line: what, who asked, where it came from (voice note, play-test, meeting, play log, CI, a founder's PR) | **Planned:** the inbox ([below](#the-inbox)); today the project chat, [09](09-wishlist.md) and the play-test asks in [28](28-the-first-hour.md) | Whoever finds it |
+| 1. Capture | Anything that might become work is written down in one line: what, who asked, where it came from (voice note, play-test, meeting, play log, CI, a founder's PR) | A GitHub issue ([the inbox](#the-inbox)) | Whoever finds it |
 | 2. Sort | Given a kind (bug, feature, content, art, music, words, business, question), a tier, a milestone, and for a bug a severity | The inbox; questions only a founder can answer go to [30](30-questions-for-the-founders.md) | Claude, at each meeting or batch |
 | 3. Shape | A short brief: what "done" looks like, how it is tested, what is **Inferred** | The PR description; a design meeting for anything with more than one honest answer | Claude, a meeting |
 | 4. Queue | Takes its place in the milestone's order; anything not on the current milestone waits | The roadmap's **Next steps** ([05](05-roadmap.md)) | The order set by the last meeting (today [D194](06-decisions.md)) |
@@ -75,7 +75,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 
 ### Bugs: four severities
 
-**Planned** until the founders adopt the inbox. Severity is set when a bug is sorted (step 2).
+Built as labels ([D203](06-decisions.md)). Severity is set when a bug is sorted (step 2).
 
 | Severity | Meaning | Rule |
 | --- | --- | --- |
@@ -149,24 +149,27 @@ or a reason for one of its **Planned** parts.
 
 ## The inbox
 
-**Planned**, waiting on `dougie`'s word on how work is tracked (the write-up's "How to track it", call
-BH, reopened by his question of 2026-10-17 09:40). Until then the loop's first step keeps today's places.
-The recommendation is **GitHub, made strict**, with no new app:
-1. Labels and milestones set up by a script: kind, tier 1 to 4, severity S1 to S4, "waits on Will",
-   "waits on Ewan", and one GitHub milestone per row of the milestones table.
-2. One issue per piece of work, opened by whichever Claude hears of it; short issue forms for a founder
-   filing one by hand.
-3. A CI check in the style of the ledger: a PR closes an issue or says it is docs-only, a new D number is
-   the next free one, every question in [30](30-questions-for-the-founders.md) has a default; a daily job
-   labels any issue with no kind or milestone "needs sort".
-4. One GitHub Projects board, created once by `dougie` (the connector cannot), whose built-in workflows
-   add every issue and move it to Done when its PR merges.
-5. A status page Claude refreshes after each merge: what is in flight per milestone, and what waits on
-   each founder.
-The docs, the decisions log, the agenda and the founders' questions stay as files in the repo, because
-the code and the tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
-Weighed against it: Linear (free up to 250 issues, then paid, a second place to look), Notion (a second
-copy of the docs that drifts), and repo files only (strict, but no inbox or board).
+**GitHub, made strict** (`dougie`, 2026-10-17, call BH, [D203](06-decisions.md)). Work that does not exist
+yet is a GitHub issue; what exists and what was decided stays in these docs, because the code and the
+tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
+
+| Piece | Where | What it does |
+| --- | --- | --- |
+| Labels and milestones | [`.github/plan.json`](../.github/plan.json), `tools/plan.py sync`, workflow `plan-sync` | Kind, tier 1 to 4, severity S1 to S4, "waits on Will", "waits on Ewan", "needs sort", and one GitHub milestone per row of the milestones table. Edit the file, never GitHub by hand: a merge to `main` makes GitHub match it |
+| Issue forms | `.github/ISSUE_TEMPLATE/` | "Something is broken" (with its severity) and "Something to make or change", for a founder filing one by hand |
+| The PR check | `tools/plan.py check-pr`, workflow `plan` | Fails a PR whose description has no "Closes #n" (or fixes, resolves, refs), "docs-only" or "No issue: why"; fails one that repeats a D number or takes one at or below `main`'s highest |
+| The daily sort | `tools/plan.py sort`, workflow `plan-daily` | Every day and on every merge: an open issue with no kind or no milestone gets "needs sort"; sorted, it loses it |
+| The status issue | `tools/plan.py status`, workflow `plan-daily` | One issue labelled `status`, rewritten on every merge and daily: what waits on Will, on Ewan, any S1, each open milestone's count, what needs sorting |
+| The board | GitHub Projects, made once by `dougie` | Adds every issue and PR; moves an item to Done when it closes or merges |
+
+**Who opens issues.** Whichever Claude hears of a piece of work (a voice note, a play-test, a meeting, a
+soak) opens the issue with its kind, tier, milestone and, for a bug, severity; a question only a founder
+can answer is also written into [30](30-questions-for-the-founders.md). A PR names its issue with
+"Closes #n"; a PR with only docs says "docs-only".
+
+**What only `dougie` can click** (rulesets, the board, repository settings) is his
+[GitHub setup checklist](https://claude.ai/artifact/8Zxg4C3Jtr4Qr88kHAKehU). The 53 old branches he
+approved on 2026-10-14 are deleted by the one-off workflow `old-branches` (`.github/old-branches.txt`).
 
 ## The rhythm
 
