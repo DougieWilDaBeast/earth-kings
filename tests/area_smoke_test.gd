@@ -71,6 +71,7 @@ func _ready() -> void:
 	await _check_play_test_three()
 	await _check_life_on_the_land()
 	await _check_play_test_four()
+	await _check_inn_rooms()
 	await _check_followers_face()
 	_check_tracks()
 
@@ -1344,6 +1345,71 @@ func _check_tracks() -> void:
 	if standing.size() != 1 or not says.begins_with("A signpost.") or says.contains("Where You Fell"):
 		_fail("tracks: the signpost at %s stands %d times and says %s" % [post, standing.size(), says])
 	print("tracks: %d of %d places joined, a track laid on its tiles, a signpost: %s" % [joined, Tracks.places(world).size(), says])
+
+
+## An inn's rooms ([D242], play-test 4): behind the taproom a kitchen and bedrooms, each bed
+## reached through its door; a night paid for at the innkeep becomes this inn's room, pinned with a
+## line and pointed at by the compass; another bed says it is somebody's; sleeping in yours patches
+## everyone up, leaves them the better for it, saves, and the room is let go.
+func _check_inn_rooms() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno"])
+	for area_id: String in ["village_inn", "dune_serai", "city_tavern"]:
+		var inn: Dictionary = Database.area(area_id).get("inn", {})
+		var rooms: Array = inn.get("bedrooms", [])
+		if rooms.size() < 2 or not (inn.get("kitchen", []) as Array).size() == 4:
+			_fail("inn rooms: %s has %d bedrooms and kitchen %s" % [area_id, rooms.size(), inn.get("kitchen")])
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "village_inn", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var from: Vector2i = map.cell_at(scene._leader.position)
+	for room: Dictionary in Database.area("village_inn")["inn"]["bedrooms"]:
+		var bed := AreaMap.to_cell(room["bed"])
+		if map.find_cell_path(from, bed + Vector2i.DOWN).is_empty():
+			_fail("inn rooms: nobody can walk from the door to %s's bed" % room["name"])
+	var said: Array[String] = []
+	var hear := func(line: String) -> void: said.append(line)
+	EventBus.battle_log.connect(hear)
+	if scene._your_bed().x >= 0:
+		_fail("inn rooms: a room is pinned before anyone paid for it")
+	GameState.set_flag("inn_room_paid")
+	scene._settle_the_room()
+	var bed: Vector2i = scene._your_bed()
+	if bed.x < 0 or scene._room_mark == null:
+		_fail("inn rooms: paying for a night pinned no room")
+	else:
+		scene._draw_the_way_to_bed()
+		if (scene._room_mark._way as Array).is_empty():
+			_fail("inn rooms: no line drawn to the room's bed")
+		scene._point_the_compass()
+		var needle := (((scene.get("_compass") as Control).get("_label")) as Label).text
+		if needle != "Your room":
+			_fail("inn rooms: the compass says %s, not Your room" % needle)
+		var others: Array = (Database.area("village_inn")["inn"]["bedrooms"] as Array).map(
+			func(r: Dictionary) -> Vector2i: return AreaMap.to_cell(r["bed"])).filter(func(c: Vector2i) -> bool: return c != bed)
+		var saves := [0]
+		var count := func(_kind: String, _why: String) -> void: saves[0] += 1
+		EventBus.safe_point_reached.connect(count)
+		var hurt: Character = GameState.party_characters()[0]
+		hurt.hp = 1
+		scene._try_the_bed(others[0])
+		if hurt.current_hp() != 1 or not GameState.has_flag("inn_room_paid"):
+			_fail("inn rooms: somebody else's bed was slept in")
+		scene._try_the_bed(bed)
+		EventBus.safe_point_reached.disconnect(count)
+		if hurt.current_hp() != hurt.max_hp() or hurt.hearth_vigour < int(Database.area("village_inn")["inn"]["vigour"]):
+			_fail("inn rooms: a night in the room did not patch %s up and leave them the better for it" % hurt.display_name)
+		if saves[0] != 1:
+			_fail("inn rooms: sleeping saved %d times, not once" % saves[0])
+		if GameState.has_flag("inn_room_paid") or scene._your_bed().x >= 0 or scene._room_mark != null:
+			_fail("inn rooms: the room is still held after it was slept in")
+	EventBus.battle_log.disconnect(hear)
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+	print("inn rooms: a kitchen and bedrooms behind three taprooms; a night paid, pinned, slept in, saved, let go")
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met

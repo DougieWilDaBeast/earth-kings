@@ -7,6 +7,14 @@
     },
     "rows": [
         "#####################",
+        "#.....#....#....#...#",
+        "#.....#....#....#...#",
+        "#.....#....#....#...#",
+        "#.....#....#....#...#",
+        "###.#####.####.###.##",
+        "#...................#",
+        "#...................#",
+        "###################.#",
         "#...................#",
         "#...................#",
         "#...................#",
@@ -22,26 +30,26 @@
     ],
     "spawn": [
         10,
-        11
+        19
     ],
     "exits": [
         [
             10,
-            12
+            20
         ]
     ],
     "spots": [
         {
             "cell": [
                 10,
-                6
+                14
             ],
             "line": "The Flagon is loud the way only a city tavern is: forty conversations and every one of them about the Tower."
         },
         {
             "cell": [
                 4,
-                3
+                11
             ],
             "line": "Over the fire, a board of names: everyone from the city who climbed past the fifth floor. Some have a second date chalked beside them."
         }
@@ -50,7 +58,7 @@
         {
             "cell": [
                 18,
-                10
+                18
             ],
             "line": "A dice-cup left on a table with the stake still under it.",
             "gold": 30
@@ -62,7 +70,7 @@
             "unit": "town_innkeeper",
             "cell": [
                 15,
-                2
+                10
             ],
             "facing": [
                 0,
@@ -81,6 +89,15 @@
                     {
                         "q": "Who's worth talking to in here?",
                         "a": "Old Corrin by the fire has climbed the Tower and come down again, which is rarer than it sounds. The card table will rob you. The bard won't stop."
+                    },
+                    {
+                        "q": "A room for the night. Forty?",
+                        "cost": 40,
+                        "requires_not": [
+                            "inn_room_paid"
+                        ],
+                        "set_flag": "inn_room_paid",
+                        "a": "Forty, and it's yours till you've slept in it. Room two, along the passage at the back. The blue rug, not the red: the red's the card sharp's, and he bites."
                     }
                 ],
                 "news": true,
@@ -124,7 +141,7 @@
             "unit": "keep_watchman",
             "cell": [
                 6,
-                3
+                11
             ],
             "facing": [
                 0,
@@ -157,7 +174,7 @@
             "unit": "drunk_elf",
             "cell": [
                 13,
-                8
+                16
             ],
             "facing": [
                 0,
@@ -174,7 +191,7 @@
             "unit": "quant_monkey",
             "cell": [
                 4,
-                8
+                16
             ],
             "facing": [
                 1,
@@ -204,7 +221,7 @@
             "unit": "bird_archer",
             "cell": [
                 17,
-                8
+                16
             ],
             "facing": [
                 -1,
@@ -220,7 +237,7 @@
             "unit": "sword_monkey",
             "cell": [
                 9,
-                9
+                17
             ],
             "facing": [
                 0,
@@ -233,10 +250,124 @@
     ],
     "props": [
         {
+            "art": "village/bread_oven",
+            "cell": [
+                1,
+                1
+            ],
+            "name": "the kitchen's oven",
+            "line": "The oven's still warm. Something with onions in it went out of here not long ago."
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                2,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                1,
+                3
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                5,
+                1
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                5,
+                4
+            ]
+        },
+        {
+            "art": "bed",
+            "cell": [
+                7,
+                1
+            ],
+            "name": "a bed",
+            "line": "A bed made up for the night."
+        },
+        {
+            "art": "drawers_red",
+            "cell": [
+                10,
+                1
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                10,
+                4
+            ]
+        },
+        {
+            "art": "bed",
+            "cell": [
+                12,
+                1
+            ],
+            "name": "a bed",
+            "line": "A bed made up for the night."
+        },
+        {
+            "art": "drawers_wood",
+            "cell": [
+                15,
+                1
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                15,
+                4
+            ]
+        },
+        {
+            "art": "bed",
+            "cell": [
+                17,
+                1
+            ],
+            "name": "a bed",
+            "line": "A bed made up for the night."
+        },
+        {
+            "art": "drawers_red",
+            "cell": [
+                19,
+                1
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                19,
+                4
+            ]
+        },
+        {
             "art": "interior/fireplace",
             "cell": [
                 4,
-                0
+                8
             ],
             "offset": [
                 32,
@@ -247,14 +378,14 @@
             "art": "village/log_pile",
             "cell": [
                 2,
-                1
+                9
             ]
         },
         {
             "art": "interior/slate_board",
             "cell": [
                 10,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -265,7 +396,7 @@
             "art": "interior/banner_red",
             "cell": [
                 8,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -276,7 +407,7 @@
             "art": "interior/banner_red",
             "cell": [
                 12,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -287,7 +418,7 @@
             "art": "interior/shelf_bottles",
             "cell": [
                 15,
-                0
+                8
             ],
             "offset": [
                 32,
@@ -298,119 +429,119 @@
             "art": "interior/keg_rack",
             "cell": [
                 18,
-                1
+                9
             ]
         },
         {
             "art": "village/barrels",
             "cell": [
                 19,
-                3
+                11
             ]
         },
         {
             "art": "interior/bar_counter",
             "cell": [
                 15,
-                3
+                11
             ]
         },
         {
             "art": "interior/bar_counter",
             "cell": [
                 17,
-                3
+                11
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 14,
-                4
+                12
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 16,
-                4
+                12
             ]
         },
         {
             "art": "sofa_brown",
             "cell": [
                 2,
-                3
+                11
             ]
         },
         {
             "art": "interior/table_round",
             "cell": [
                 6,
-                6
+                14
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 5,
-                6
+                14
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 7,
-                6
+                14
             ]
         },
         {
             "art": "interior/table_round",
             "cell": [
                 12,
-                6
+                14
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 11,
-                6
+                14
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 13,
-                6
+                14
             ]
         },
         {
             "art": "interior/table_round",
             "cell": [
                 5,
-                8
+                16
             ]
         },
         {
             "art": "interior/stool",
             "cell": [
                 6,
-                8
+                16
             ]
         },
         {
             "art": "interior/table_round",
             "cell": [
                 9,
-                8
+                16
             ]
         },
         {
             "art": "interior/table_long",
             "cell": [
                 15,
-                9
+                17
             ],
             "offset": [
                 32,
@@ -421,7 +552,7 @@
             "art": "interior/bench_low",
             "cell": [
                 15,
-                10
+                18
             ],
             "offset": [
                 32,
@@ -432,28 +563,28 @@
             "art": "interior/crates",
             "cell": [
                 19,
-                11
+                19
             ]
         },
         {
             "art": "interior/amphorae",
             "cell": [
                 1,
-                11
+                19
             ]
         },
         {
             "art": "interior/candelabra",
             "cell": [
                 19,
-                6
+                14
             ]
         },
         {
             "art": "potted_plant",
             "cell": [
                 1,
-                6
+                14
             ]
         }
     ],
@@ -466,7 +597,7 @@
             {
                 "rect": [
                     2,
-                    2,
+                    10,
                     6,
                     3
                 ],
@@ -476,11 +607,41 @@
             {
                 "rect": [
                     8,
-                    5,
+                    13,
                     8,
                     4
                 ],
                 "colour": "#3b4a6b",
+                "trim": "#b89a5a"
+            },
+            {
+                "rect": [
+                    7,
+                    2,
+                    4,
+                    2
+                ],
+                "colour": "#2e3e5a",
+                "trim": "#b89a5a"
+            },
+            {
+                "rect": [
+                    12,
+                    2,
+                    4,
+                    2
+                ],
+                "colour": "#5a2e2a",
+                "trim": "#b89a5a"
+            },
+            {
+                "rect": [
+                    17,
+                    2,
+                    3,
+                    2
+                ],
+                "colour": "#2e3e5a",
                 "trim": "#b89a5a"
             }
         ],
@@ -488,7 +649,7 @@
             {
                 "cell": [
                     4.5,
-                    1
+                    9
                 ],
                 "radius": 5,
                 "colour": "#ff9a40",
@@ -497,7 +658,7 @@
             {
                 "cell": [
                     6,
-                    6
+                    14
                 ],
                 "radius": 2,
                 "colour": "#ffcf80",
@@ -506,7 +667,7 @@
             {
                 "cell": [
                     12,
-                    6
+                    14
                 ],
                 "radius": 2,
                 "colour": "#ffcf80",
@@ -515,7 +676,7 @@
             {
                 "cell": [
                     5,
-                    8
+                    16
                 ],
                 "radius": 2,
                 "colour": "#ffcf80",
@@ -524,7 +685,7 @@
             {
                 "cell": [
                     16,
-                    3
+                    11
                 ],
                 "radius": 3,
                 "colour": "#ffcf80",
@@ -533,11 +694,137 @@
             {
                 "cell": [
                     19,
-                    6
+                    14
                 ],
                 "radius": 2,
                 "colour": "#ffcf80",
                 "strength": 0.25
+            },
+            {
+                "cell": [
+                    1.5,
+                    1.5
+                ],
+                "radius": 2.5,
+                "colour": "#ff9a40",
+                "strength": 0.35
+            },
+            {
+                "cell": [
+                    10,
+                    3.5
+                ],
+                "radius": 1.8,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    15,
+                    3.5
+                ],
+                "radius": 1.8,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    19,
+                    3.5
+                ],
+                "radius": 1.8,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            }
+        ],
+        "floors": [
+            {
+                "rect": [
+                    1,
+                    1,
+                    5,
+                    4
+                ],
+                "floor": "flag"
+            },
+            {
+                "rect": [
+                    7,
+                    1,
+                    4,
+                    4
+                ],
+                "floor": "oak"
+            },
+            {
+                "rect": [
+                    12,
+                    1,
+                    4,
+                    4
+                ],
+                "floor": "oak"
+            },
+            {
+                "rect": [
+                    17,
+                    1,
+                    3,
+                    4
+                ],
+                "floor": "oak"
+            }
+        ]
+    },
+    "inn": {
+        "price": 40,
+        "vigour": 4,
+        "yours": 1,
+        "kitchen": [
+            1,
+            1,
+            5,
+            4
+        ],
+        "bedrooms": [
+            {
+                "name": "Room one",
+                "rect": [
+                    7,
+                    1,
+                    4,
+                    4
+                ],
+                "bed": [
+                    7,
+                    1
+                ]
+            },
+            {
+                "name": "Room two",
+                "rect": [
+                    12,
+                    1,
+                    4,
+                    4
+                ],
+                "bed": [
+                    12,
+                    1
+                ]
+            },
+            {
+                "name": "Room three",
+                "rect": [
+                    17,
+                    1,
+                    3,
+                    4
+                ],
+                "bed": [
+                    17,
+                    1
+                ]
             }
         ]
     }

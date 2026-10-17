@@ -451,8 +451,23 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
   (`cap_<wall>.png`). Cells of `wall` terrain are walls; `floor` terrain is walked on.
 - `rugs` — cell rectangles drawn with a border and a row of lozenges; `glows` — soft light over the
   room (a fire, candles), `radius` in cells.
+- `floors` — `{ rect, floor }`: a room's own floor over the main one (an inn's kitchen flags,
+  [D242](06-decisions.md)). A wall with floor in front of it stands up like the back wall.
 - Laid out by `tools/build_interiors.py`, which keeps the room's people, spots and chests and checks
   every one can be reached; `tools/dress_areas.py` leaves these rooms alone.
+
+## `areas/*.json` → `inn` — rooms to let ([D242](06-decisions.md))
+
+```json
+"inn": { "price": 40, "vigour": 4, "yours": 1, "kitchen": [1, 1, 4, 4],
+  "bedrooms": [ { "name": "Room one", "rect": [6, 1, 4, 4], "bed": [6, 1] }, { "name": "Room two", ... } ] }
+```
+
+- Written by `tools/build_interiors.py` for a room with `inn`: a kitchen and bedrooms behind the
+  taproom. The innkeep's night (`inn_room_paid`, set by the conversation: the shared
+  `the_innkeeper`, or a `talk` ask with `cost` and `set_flag`) becomes room `yours` of the inn it was
+  bought in (`inn_room_at`). Its bed is pinned with a line to it and the compass points there; E by
+  it sleeps: everyone patched up, each at least `vigour` extra health as a bed at home gives, a save.
 
 ## `world_map.json` — the one world ([D91](06-decisions.md), [D92](06-decisions.md))
 

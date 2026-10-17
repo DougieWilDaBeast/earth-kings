@@ -249,7 +249,8 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    roads round a town, the Watch beset by brigands or wolves, joined or walked past; companies of
    climbers walking the road, and resting by the stair on Tower floors 2 up, who talk.
 5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for
-   a bed and a marker shows which room is yours.
+   a bed and a marker shows which room is yours. Built for the three inns with an innkeep
+   ([D242](06-decisions.md)): the Ford and Crown, the Oasis Serai, the Gilded Flagon.
 6. **Help on the paths**: a question mark at the right of a choice's banner that says what each
    path is in more words, on hover. Built ([D237](06-decisions.md)): on each path card at level 2,
    hover or press the **?**.

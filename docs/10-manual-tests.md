@@ -318,6 +318,9 @@ Start a run (not the tutorial) and walk.
 | D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
 | D5.24 | On the road from the crater, walk off it into a band's red with two of the Watch close by | "The Watch see it start, and come running": two of the Watch fight beside you; won, they thank you and pay a bounty in gold ([D236](06-decisions.md)) |
 | D5.26 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D238](06-decisions.md)) |
+| D5.27 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
+| D5.28 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
+| D5.29 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
 
 ## H — Conversation and the camp
 
