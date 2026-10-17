@@ -2250,7 +2250,8 @@ func _expect(condition: bool, failure: String) -> void:
 ## tiles off is drawn on the map but said only once the party is within a tile of it; on the map,
 ## at once.
 func _check_sighting() -> void:
-	var world: World = GameState.world
+	# The scene's own world: a check before this one may have begun another run.
+	var world: World = _scene.world
 	var town: Site = null
 	for site: Site in world.sites:
 		if site.kind == Site.VILLAGE and not world.marked.has("%d,%d" % [site.cell.x, site.cell.y]):
@@ -2269,6 +2270,8 @@ func _check_sighting() -> void:
 	world.player_cell = town.cell + Vector2i(4, 0)
 	(preload("res://src/chronicle/atlas.gd")).reveal_around(world, town.cell, 0)
 	_scene._sightings.clear()
+	# The log keeps only its last few lines; start it empty so a line said is a line counted.
+	(_scene._notices as Array).clear()
 	var before: int = said.call()
 	_scene._on_ground_revealed([town.cell])
 	_expect(said.call() == before, "sighting: %s came into sight four tiles off, walking the ground" % town.display_name)
