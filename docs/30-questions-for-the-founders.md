@@ -29,7 +29,8 @@ for Ewan, one for Ewan with Will's half already given. Each has the room's recom
 earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-17, call BJ,
 [D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
 Will answered 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)); what 28 left
-open is question 33, with Ewan's word on the split.
+open is question 33, with Ewan's word on the split. Will answered 31 to 33 and gave his lean on 30 later the same day
+([D228](06-decisions.md) to [D230](06-decisions.md)); 30's price and platforms go back to him as one call from the team. Ewan's halves are still to come.
 
 **On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
 "waits on Will" or "waits on Ewan", closed when its answer is written up here.
@@ -328,24 +329,32 @@ something else; free on itch forever or not.
 _Why:_ the store page, the demo and the size of the first release all follow from it.
 _Default:_ a one-off price with a free demo; no price set until milestone 12 is agreed.
 
-**31. When, roughly, should it come out?** (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
+_Partly answered 2026-10-17 (Will's half):_ **Will:** maybe a one-off price with the First Hour as a free demo, or donations; not figured out yet. He does not know what a game of this depth would earn or should cost on phones or desktop, and would not keep it to Steam alone if it goes on phones ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-business-2.md), [D228](06-decisions.md)). The price and the platform order are the team's to research and put to him as one call; this question stays open until he takes it. **Ewan:** not yet given.
+
+~~**31. When, roughly, should it come out?**~~ (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
 Not a date: a season or a year, so the milestones have something to aim at.
 _Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
 _Default:_ open; asked again once the Second Hour is played and timed.
 
-**32. Early Access, or a finished release?** (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
+_Answered 2026-10-17 (Will's half):_ **Will:** January or February (2027, agenda 145), nearly finished or in a great state to have people on ([D229](06-decisions.md)). **Ewan:** not yet given.
+
+~~**32. Early Access, or a finished release?**~~ (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
 Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
 and Dead Cells too); a finished release means more is built before anyone pays.
 _Why:_ it decides what "the first release" in milestone 12 has to hold.
 _Default:_ Early Access, decided after the Second Hour.
 
-**33. The rest of the founders' agreement.** (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
+_Answered 2026-10-17 (Will's half):_ **Will:** Early Access, "that's grand" ([D229](06-decisions.md)). **Ewan:** not yet given.
+
+~~**33. The rest of the founders' agreement.**~~ (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
 Added 2026-10-17 from Will's half of 28 ([D212](06-decisions.md)): all profits split 50/50. **Ewan:** do you
 agree? **Both:** is that after the store's cut and the running costs (agenda 136 guesses yes)? Who owns the
 code, the art, the music and the name? Who decides when you disagree? What happens if one of you stops?
 _Why:_ the split is the start of a founders' agreement, not all of it; the rest is what brothers fall out over
 when it was never said. General advice, not legal advice.
 _Default:_ the 50/50 split stands as Will's word; nothing else changes until you both say it.
+
+_Answered 2026-10-17 (Will's word):_ **Will:** 50/50 is after Steam's cut and the costs; everything 50/50 for now, and the rest of the small print (who owns what, who decides) the two of you work out when you get close to being paid; if one of you stops it does not matter, the game runs in the background or on the side ([D230](06-decisions.md)). Asked again before the first sale. **Ewan:** his nod on the split still to come.
 
 ## Will's to-dos (not questions)
 
