@@ -1909,7 +1909,7 @@ func _check_town_saves() -> void:
 	GameState.flags = flags_were
 
 
-## D209 (call BL): a party walking itself at under half its health makes for the nearest place
+## D210 (call BL): a party walking itself at under half its health makes for the nearest place
 ## it rests, before a band or the objective; at full health it does not.
 func _check_auto_rests() -> void:
 	var world: World = GameState.world

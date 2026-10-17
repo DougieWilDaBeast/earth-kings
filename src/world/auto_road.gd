@@ -214,7 +214,7 @@ static func errand(world: World) -> Vector2i:
 
 ## Where a badly hurt party walking itself goes first: the nearest place that patches it up on
 ## arriving (a village, a keep, a hut; not the crater, whose sleep heals nobody in the First Hour, so
-## Auto walked back to it for good), before any band or the objective ([D209], call BL:
+## Auto walked back to it for good), before any band or the objective ([D210], call BL:
 ## after a lost fight Auto walked into the next one at a quarter of its health, and dealt leads fell
 ## on the road in 6 of 8 self-played runs). Hurt is the party's health under
 ## `first_hour.auto_rest_below` of its whole; (-1, -1) when it is not, or there is nowhere known.
