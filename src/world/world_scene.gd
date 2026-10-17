@@ -29,6 +29,7 @@ const Seats := preload("res://src/chronicle/seats.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Treasure := preload("res://src/chronicle/treasure.gd")
 const Crossing := preload("res://src/chronicle/crossing.gd")
 const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
@@ -363,8 +364,10 @@ func _step(direction: Vector2i) -> void:
 	var site := world.site_at(target)
 	if site != null:
 		_arrive_at(site)
-	else:
+	elif not _dig_for_treasure(target):
 		_look_for_a_cache(target)
+		_check_wild_exploration(target)
+	else:
 		_check_wild_exploration(target)
 	_watch_check(target)
 	_look_down_the_road(target)
@@ -479,6 +482,23 @@ func _as_conversation(lines: Array) -> Array:
 	return out
 
 
+## Standing on the X the map pieces made ([D220]): the find, laid on the ground to be picked up when
+## walking it, or paid in when not. True when there was one here.
+func _dig_for_treasure(cell: Vector2i) -> bool:
+	var haul := Treasure.dig(world, cell)
+	if haul.is_empty():
+		return false
+	var said := str(haul.get("line", ""))
+	if _view == View.GROUND:
+		_cache_found = haul
+		_note(said)
+		return true
+	_note(said)
+	for line: String in Loot.claim(haul, GameState.roster):
+		_note(line)
+	return true
+
+
 ## Country nobody is watching still has things left lying about in it. The
 ## worse the ground, the better what was left behind — and the likelier its
 ## owner did not walk away.
@@ -513,7 +533,7 @@ func _watch_check(cell: Vector2i) -> void:
 	var terrain := world.terrain_id_at(cell)
 	if terrain in ["brush", "forest", "marsh"] or band.cell == cell:
 		meeting["ambush"] = true
-	_begin_battle(meeting)
+	_begin_battle(meeting, { "kind": "band", "cell": cell })
 
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Dictionary = {}) -> void:
@@ -695,6 +715,10 @@ func _settle_up(won: bool) -> void:
 			for line: String in lines:
 				_note(line)
 			EventBus.conversation_requested.emit(_as_conversation(lines))
+		"band":
+			# A torn piece of somebody's treasure map, now and then ([D220]).
+			for line: String in Treasure.on_band_beaten(world, cell):
+				_note(line)
 	_map.queue_redraw()
 	_refresh()
 
@@ -1846,7 +1870,7 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
-	_begin_battle(meeting, { "band": band }, {
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
@@ -2195,6 +2219,7 @@ func _draw_world() -> void:
 	_draw_the_climb()
 	_draw_wanderers()
 	_draw_fallen_weapons()
+	_draw_the_x()
 	_draw_bands()
 	_draw_party()
 
@@ -2655,6 +2680,19 @@ func _draw_wanderers() -> void:
 			continue
 		var size := Vector2.ONE * CELL * 0.8
 		_map.draw_texture_rect(face, Rect2(centre - size * 0.5, size), false, Color(1, 1, 1, 0.55 if faint else 1.0))
+
+
+## Where the map pieces lead ([D220]): a red X, drawn as on any treasure map.
+func _draw_the_x() -> void:
+	var cell := Treasure.at(world)
+	if cell.x < 0:
+		return
+	var centre := Vector2(cell) * CELL + Vector2.ONE * CELL * 0.5
+	var reach := CELL * 0.34
+	var ink := Color(0.78, 0.12, 0.1, 0.75 + 0.25 * sin(Time.get_ticks_msec() / 300.0))
+	for sign_: float in [1.0, -1.0]:
+		_map.draw_line(centre + Vector2(-reach, -reach * sign_), centre + Vector2(reach, reach * sign_), Color(0.08, 0.05, 0.04, 0.8), 6.0, true)
+		_map.draw_line(centre + Vector2(-reach, -reach * sign_), centre + Vector2(reach, reach * sign_), ink, 3.5, true)
 
 
 ## A dead lead's weapon, once there is word of where it came down (M15): its

@@ -315,8 +315,9 @@ each, each ending playable:
    twelve ideas from six games kept, eleven cut, five questions waiting on Will. The quick wins first,
    one pull request each: **scars** — built ([D218](06-decisions.md), #272): going down in a won fight
    and living leaves +3 health for good. **A gate keeper's prize** — built ([D219](06-decisions.md), #273):
-   each faction's keeper carries one piece of gear, certain by its third keeper. **Planned**: treasure maps
-   from foes (#274), leading trouble to the Watch (#275, after people on the land).
+   each faction's keeper carries one piece of gear, certain by its third keeper. **Treasure maps** —
+   built ([D220](06-decisions.md), #274): scraps from beaten bands, three make an X the quest list follows,
+   dug up for a rich find. **Planned**: leading trouble to the Watch (#275, after people on the land).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

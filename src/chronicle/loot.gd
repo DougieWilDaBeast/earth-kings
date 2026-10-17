@@ -122,6 +122,11 @@ static func _best_taker(equipment_id: String, roster: Roster) -> Character:
 	return best
 
 
+## Every piece that can turn up in a find (never a weapon made for one of the sixteen).
+static func findable() -> Array:
+	return _findable()
+
+
 static func _findable() -> Array:
 	var pool: Array = []
 	for equipment_id: String in Database.equipment:
