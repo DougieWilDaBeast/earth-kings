@@ -522,6 +522,13 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 what is said at the fight's end (`{name}`, `{hp}`, `{scars}`). A fighter earns one by going down in a
 fight the company wins and living. A character's `scars` is kept in the save.
 
+## `world_rules.json` → `keepers` — a gate keeper's prize (D219)
+
+`prizes` maps a faction id to the equipment id its gate keeper carries. On shutting a gate the prize
+comes on `chance[n]`, n being how many of that faction's keepers have fallen since its last prize
+(the last entry holds after that; 1.0 makes it certain). `lines.prize` and `lines.missed` are said
+with `{keeper}` and `{prize}`. The counts are kept in the save as the world's `keepers`.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
