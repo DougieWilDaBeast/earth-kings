@@ -278,7 +278,9 @@ each, each ending playable:
    self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
    5 comes after (1) and (2), with a word on each in-house theme ([D198](06-decisions.md)); art on the
    credits' return in [D199](06-decisions.md)'s order; three new founders' questions in
-   [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)).
+   [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)). `dougie` took all four of the
+   meeting's calls as recommended ([D201](06-decisions.md)): the itch push after (1) and (2), his
+   play-tests standing in for the five players until the Second Hour, and he listens to the themes himself.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

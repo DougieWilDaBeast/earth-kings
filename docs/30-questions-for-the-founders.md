@@ -292,7 +292,7 @@ waits for the sixteen begun again.
 
 ## Will's to-dos (not questions)
 
-These need Will's own GitHub account; nothing waits on them except tidiness.
+These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).
 - Delete the old branches (the list is in the project's `notes/branches-to-delete.md`).
 - In the repository's settings: turn on auto-merge, auto-delete of head branches, and branch
   protection on `main`.
