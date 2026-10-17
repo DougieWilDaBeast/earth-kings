@@ -482,7 +482,8 @@ run's seed still deals, is [27](27-the-world.md).
     }
   },
   "land_foe_share": 0.7,
-  "hazards": { "stride": 640, "share": 0.04, "floor": 0.25, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
+  "foe_levels": { "axe_bear": 3, "flame_lion": 3 },
+  "hazards": { "stride": 640, "share": 0.04, "floor": 0.5, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
 }
 ```
 
@@ -497,12 +498,14 @@ run's seed still deals, is [27](27-the-world.md).
 - `sea_shore` — whether a ground on the coast gets a shore of the land's own water.
 - `foes` — unit ids (`units.json`) that camp in the land. A band put down there is made of them
   `land_foe_share` of the time, decided from the cell so the run's dice are not spent; otherwise it
-  is the faction that walks the terrain ([D71](06-decisions.md)).
+  is the faction that walks the terrain ([D71](06-decisions.md)). `foe_levels` keeps a land's great
+  beasts out of the bands it deals until the party's level reaches the number given
+  ([D211](06-decisions.md)); a land with nothing else left fields its faction instead.
 - `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
   `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
   thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).
 - `hazards` — every `stride` pixels walked on a land with a hazard, each party member with nothing
-  against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
+  against it loses `share` of their health, never below `floor` of it (half, [D211](06-decisions.md)); `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
 Which land a tile is: `src/chronicle/biome.gd`. On the land ([D84](06-decisions.md)) each tile is

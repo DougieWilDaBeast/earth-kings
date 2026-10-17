@@ -97,9 +97,14 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	var enemies: Array
 	var title: String
 	if final:
+		# A lesser gate is kept by the strongest its floor fields, not the faction's champion ([D211]).
 		var guardian := Faction.champion(faction)
+		if Site.rank_index(site.rank) < Site.rank_index(str(Database.encounters.get("champion_from", "E"))):
+			guardian = str(pool[-1])
 		enemies = _pick(pool, 2, level, rng)
-		enemies.append({ "unit": guardian, "level": level + 2, "boss": true })
+		# The keeper takes the setting's level dial like its floor ([D211]): on the First Hour a lone
+		# lead at level 2 met the wild's Ogre at 4 at the first gate.
+		enemies.append({ "unit": guardian, "level": Difficulty.levelled(level + 2), "boss": true })
 		title = "%s keeps the far side of %s." % [
 			Database.unit_template(guardian).get("display_name", "Something"), site.display_name
 		]
@@ -167,12 +172,14 @@ static func restock(world: World, rng: RandomNumberGenerator) -> void:
 		world.prowlers.append(_band_at(world, cell, rng))
 
 
-## The fight that starts when a band finally sees you.
+## The fight that starts when a band finally sees you, all of it, as it was seen. Every road fight
+## is a band, so the setting's level dial applies here as it does in [method _pick] ([D211]):
+## before, a fresh lead met bands at their full level on the First Hour.
 static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var level := _party_level(party) + _danger_at(world, band.cell)
 	var enemies: Array = []
 	for unit_id: String in band.pack:
-		enemies.append({"unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1))})
+		enemies.append({"unit": unit_id, "level": Difficulty.levelled(level + rng.randi_range(-1, 1))})
 	Nemesis.inject_survivor(world, enemies)
 	return _build(world, band.cell, WILD, enemies, rng, "%s %s seen you." % [band.label(), "has" if band.pack.size() <= 1 else "have"])
 
@@ -218,7 +225,8 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 	if not locals.is_empty():
 		pool = locals
 	var pack: Array = []
-	for i in clampi(1 + _danger_at(world, cell), 1, 4):
+	# The setting's count dial is taken when the band is made, so it fights as many as are seen ([D211]).
+	for i in clampi(Difficulty.counted(1 + _danger_at(world, cell)), 1, 4):
 		pack.append(pool[rng.randi() % pool.size()])
 	var band := Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
 	band.faction = faction
@@ -233,7 +241,13 @@ static func _land_foes(world: World, cell: Vector2i) -> Array:
 		return []
 	var share := float(Database.biomes.get("land_foe_share", 0.7))
 	var roll := float(absi(hash([world.world_seed, cell.x, cell.y, "foes"])) % 1000) / 1000.0
-	return foes if roll < share else []
+	if roll >= share:
+		return []
+	# The great beasts wait for the party to grow (`foe_levels`, [D211]).
+	var level := party_level(GameState.party_characters()) if GameState.roster != null else 1
+	var gates: Dictionary = Database.biomes.get("foe_levels", {})
+	var ready := foes.filter(func(id: String) -> bool: return int(gates.get(id, 0)) <= level)
+	return ready
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you; they do scale up
