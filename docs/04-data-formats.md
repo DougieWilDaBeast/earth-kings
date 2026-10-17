@@ -654,6 +654,12 @@ whatever lives there. `roadside.json`: a scene with `near_town` is offered only 
 said (`%d` the gold). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
 with no box and without stopping a party walking itself ([D216](06-decisions.md)).
 
+**A band led to the Watch** ([D236](06-decisions.md)). `world_rules.json` → `life.road_watch`: a band
+that sets on the party within `join_cells` of the Watch walking the road brings them into the fight
+on the party's side, at the company's level, with `joined_line` in the log; won, `thanks` are said and
+`purse_base` + `purse_per_level` × the company's level gold paid (`purse_line`, `%d` the gold), and
+`renown` written where it happened.
+
 **`world_rules.json` → `auto_styles`** ([D216](06-decisions.md)): `names` and `blurbs` of the three
 ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, kept in
 `settings.cfg` → `ui` → `auto_style`), shown in the menu and on the top bar's Auto button.

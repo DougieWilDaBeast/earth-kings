@@ -1419,6 +1419,26 @@ func _check_life_on_the_land() -> void:
 		_fail("life: the Watch is not walking the road at %s in pairs (%d of them)" % [road_tile, watch.size()])
 	elif not watch[0].can_talk():
 		_fail("life: the Watch on the road will not talk")
+	else:
+		# Trouble led to the Watch (D236): a band setting on the party beside them brings them into
+		# the fight, out of their walk, and a win pays their bounty.
+		var leader_was: Vector2 = scene._leader.position
+		scene._leader.position = (watch[0] as AreaActor).position + Vector2(AreaMap.CELL, 0)
+		var field := {}
+		scene._call_the_watch(field)
+		var came: Array = field.get("allies", [])
+		if came.is_empty() or int(field.get("watch", 0)) != came.size() or (watch[0] as AreaActor).visible:
+			_fail("watch: a band set on the party beside the Watch, and they did not come (%s)" % field)
+		elif str((came[0] as Dictionary).get("unit", "")) == "" or int((came[0] as Dictionary).get("level", 0)) < 1:
+			_fail("watch: the Watch came without a unit or level (%s)" % came[0])
+		var gold_was := GameState.gold
+		var thanks := Roadside.watch_thanks(world, road_tile, GameState.party_characters())
+		if GameState.gold <= gold_was or thanks.is_empty():
+			_fail("watch: beating a band with the Watch paid no bounty")
+		scene._leader.position = leader_was
+		for actor: AreaActor in scene._watch_fighting:
+			actor.visible = true
+		scene._watch_fighting.clear()
 	var bird: Node2D = null
 	for c: Node2D in critters:
 		if c.life == "bird" and c.visible:
@@ -1433,4 +1453,4 @@ func _check_life_on_the_land() -> void:
 			_fail("life: a bird stayed put with the leader standing over it")
 	scene.queue_free()
 	await get_tree().process_frame
-	print("life: %d creatures round the party (%s), a bird took off, and the Watch walks the road" % [critters.size(), ", ".join(lives.keys())])
+	print("life: %d creatures round the party (%s), a bird took off, and the Watch walks the road and comes to a fight" % [critters.size(), ", ".join(lives.keys())])
