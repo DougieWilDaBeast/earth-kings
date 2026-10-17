@@ -308,6 +308,9 @@ each, each ending playable:
    chapter makes for the next gate; a town is saved once an arrival; a fall names its killer; the soak
    plays the lead the quiz deals from the seed. Found on the way: as a dealt lead, self-played runs fell
    before the Tower in 6 of 8, Atlas in none.
+21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
+   party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
+   early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
