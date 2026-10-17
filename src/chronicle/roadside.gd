@@ -126,6 +126,18 @@ static func walk_by(world: World, cell: Vector2i, event_id: String) -> Array:
 # --- after the fight ----------------------------------------------------------
 
 
+## A band led to the Watch on the road and beaten with them ([D236]): the Watch's bounty, counted
+## off the company's level, and the country hears of it. `life.road_watch` in `world_rules.json`.
+static func watch_thanks(world: World, cell: Vector2i, party: Array) -> Array:
+	var watch: Dictionary = Database.world_rules.get("life", {}).get("road_watch", {})
+	var lines: Array = watch.get("thanks", []).duplicate()
+	var purse := int(watch.get("purse_base", 25)) + int(watch.get("purse_per_level", 10)) * Encounter.party_level(party)
+	GameState.gold += purse
+	lines.append(str(watch.get("purse_line", "%d gold: the Watch's bounty.")) % purse)
+	Renown.record(world, "thread", cell, int(watch.get("renown", 2)), "fought a band off the road beside the Watch")
+	return lines
+
+
 ## They are alive because you stopped. Pays the purse, sets the reputation, and
 ## hands back whether there is an escort on offer.
 static func saved(world: World, cell: Vector2i, event_id: String, party: Array) -> Array:

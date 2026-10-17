@@ -729,6 +729,10 @@ func _settle_up(won: bool) -> void:
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
+			# Led to the Watch, and fought with them (D236): their bounty, and their thanks.
+			if int(outcome.get("watch", 0)) > 0:
+				for line: String in Roadside.watch_thanks(world, cell, party):
+					_note(line)
 	_map.queue_redraw()
 	_refresh()
 
@@ -1880,7 +1884,8 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
-	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell }, {
+	# The Watch who came running to it (D236) are thanked for after a win.
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)) }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
