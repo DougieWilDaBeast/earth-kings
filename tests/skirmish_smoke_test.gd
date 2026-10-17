@@ -179,6 +179,7 @@ func _run() -> void:
 	await _check_touch()
 	await _check_box_select()
 	await _check_lineup()
+	await _check_upper_bite()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
@@ -188,6 +189,7 @@ func _run() -> void:
 	_check_bout()
 	await _check_tactics()
 	await _check_stances()
+	await _check_scars()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -344,6 +346,33 @@ func _check_lineup() -> void:
 			_expect(not said[0].contains(f.unit.display_name), "the line-up names %s of the party: %s" % [f.unit.display_name, said[0]])
 	fight.queue_free()
 	await get_tree().process_frame
+## The Tower's upper floors bite harder (D222): the walked floors not at all, floor 6 at `base`,
+## higher a floor after, never past `most`; a foe given `bite` hits that much harder in the fight.
+func _check_upper_bite() -> void:
+	var rules: Dictionary = Database.world_rules["tower"]["upper_bite"]
+	var from := int(rules["from_floor"])
+	_expect(is_equal_approx(Encounter.upper_bite(from - 1), 1.0), "a walked floor's foes bite harder")
+	_expect(is_equal_approx(Encounter.upper_bite(from), float(rules["base"])), "floor %d does not bite at base" % from)
+	_expect(Encounter.upper_bite(20) > Encounter.upper_bite(from), "floor 20 bites no harder than floor %d" % from)
+	_expect(Encounter.upper_bite(100) <= float(rules["most"]) + 0.001, "a high floor bites past the most")
+	var met := Encounter.for_tower(GameState.world, GameState.world.tower(), 12, GameState.party_characters(), RandomNumberGenerator.new())
+	for entry: Dictionary in met["map"]["enemies"]:
+		_expect(is_equal_approx(float(entry.get("bite", 1.0)), Encounter.upper_bite(12)), "a floor 12 foe does not bite as floor 12 says")
+	var attack := {}
+	for bite: float in [1.0, 2.0]:
+		var map := _proving_ground()
+		map["enemies"] = [{"unit": "brigand", "cell": [6, 1], "level": 8, "bite": bite}]
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+		add_child(fight)
+		await get_tree().process_frame
+		for f: Fighter in fight.fighters:
+			if not f.unit.sides_with_party():
+				attack[bite] = f.unit.attack
+		fight.queue_free()
+		await get_tree().process_frame
+	_expect(attack.size() == 2 and int(attack[2.0]) >= int(attack[1.0]) * 2 - 1,
+		"a foe with bite 2 does not hit twice as hard: %s" % [attack])
 
 
 func _new_fight() -> Node2D:
@@ -554,6 +583,42 @@ func _check_allies_and_auto() -> void:
 ## practice counts, the journal fills, a healer is remembered, draughts are
 ## spent from the stores, wounds carry out, an ambush gives the party the jump,
 ## and a fall the company cannot reach is settled for real by [Fate].
+## Scars ([D218], from Kenshi): whoever went down in a fight the company won, and lives, comes out
+## with a little more health for good; up to `scars.most`; kept in the save.
+func _check_scars() -> void:
+	GameState.heal_party()
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"title": "The road", "map": _proving_ground()}, "return_scene": "world", "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	var party: Array[Fighter] = fight.party_fighters()
+	if party.size() < 2:
+		_expect(false, "scars: no party to scar")
+		fight.queue_free()
+		return
+	var hurt: Character = party[1].unit.character
+	var spared: Character = party[0].unit.character
+	var before := hurt.max_hp()
+	var spared_before := spared.scars
+	party[1].went_down = true
+	fight.victory = true
+	fight._settle_the_party()
+	var per := int(Database.world_rules.get("scars", {}).get("max_hp", 3))
+	_expect(hurt.scars == 1, "scars: %s went down and got up, and has %d scars" % [hurt.display_name, hurt.scars])
+	_expect(hurt.max_hp() == before + per, "scars: a scar gave %d health, not %d" % [hurt.max_hp() - before, per])
+	_expect(spared.scars == spared_before, "scars: %s never went down and was scarred" % spared.display_name)
+	_expect(Character.from_dict(hurt.to_dict()).scars == 1, "scars: a scar was lost in the save")
+	var most := int(Database.world_rules.get("scars", {}).get("most", 5))
+	for i in most + 3:
+		hurt.scar()
+	_expect(hurt.scars == most, "scars: %d scars, past the most (%d)" % [hurt.scars, most])
+	hurt.scars = 0
+	fight.queue_free()
+	await get_tree().process_frame
+	print("scars: down and back up in a won fight leaves +%d health for good, up to %d" % [per, most])
+
+
 func _check_the_world_hears() -> void:
 	var started: Array = []
 	var finished: Array = []

@@ -83,6 +83,8 @@ src/
                                of sight beside the land on each step (D84); the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     auto_road.gd               Where a party walking itself steps next, asked by the map and the land (D94)
+    quests.gd · markers.gd     The quest list the compass follows (D190); the player's markers and
+                               the place picked on the map to go to (D232)
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
@@ -97,7 +99,8 @@ src/
                                First Hour's road from the crater through the city and the first
                                gate to the Tower (D126); where two lands meet, ground_gen.gd runs the next land's
                                floor a few cells in (D128), and places its scenery by rule (D130).
-                               area_critter.gd: the birds and bugs about every tile (D179)
+                               area_critter.gd: the birds and bugs about every tile (D179); tracks.gd
+                               the dirt tracks between villages and the signposts where ways meet (D233)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
@@ -106,7 +109,9 @@ src/
                                quests), museum (hero dossiers), the level-up line at the top right,
                                credits (credits_roll.gd lays out data/credits.json for both places);
                                sheet_parts.gd draws class colours and growth wherever they show;
-                               the tutorial's guide card (tutorial_guide.gd, under the game root)
+                               the tutorial's guide card (tutorial_guide.gd, under the game root);
+                               the map over the ground, in the corner and large (land_map.gd,
+                               land_map_screen.gd, D232)
 ```
 
 ## Character vs Unit

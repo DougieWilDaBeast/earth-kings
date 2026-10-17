@@ -18,7 +18,7 @@ Read from `main` at `42fa58c` (#196, D201).
 
 | Stage | Where it stands | What is missing | Closed when |
 | --- | --- | --- | --- |
-| 1. Planning | **Half.** Genre, look (64 px, [D63](06-decisions.md)), engine, the hook, four pillars ([D99](06-decisions.md)), platforms ([D100](06-decisions.md)) | The business half: cost, who owns what and how money is split, a release window, the price model, the size of the first paid release (question 23 was left open, [D168](06-decisions.md), [D186](06-decisions.md)) | The founders answer milestone 13's five questions below |
+| 1. Planning | **Half.** Genre, look (64 px, [D63](06-decisions.md)), engine, the hook, four pillars ([D99](06-decisions.md)), platforms ([D100](06-decisions.md)) | The business half: cost, who owns what and how money is split, a release window, the price model, the size of the first paid release (question 23 was left open, [D168](06-decisions.md), [D186](06-decisions.md)) | The founders answer milestone 13's five questions below (Will's halves of 28, 29 and 31 to 33 answered 2026-10-17, [D212](06-decisions.md), [D213](06-decisions.md), [D228](06-decisions.md) to [D230](06-decisions.md); 30's price and platforms still a call) |
 | 2. Pre-production | **Done for the First Hour, not for the game.** Docs 01 to 31, M0 to M18's prototypes, the route's art, the browser build | The whole game's shape: of the Tower's hundred floors ([D48](06-decisions.md)), which make the first release; a one-page art bible joining PixelLab and code-drawn art | Milestone 12 below |
 | 3. Production | **Vertical slice reached** (the First Hour, [D168](06-decisions.md)); the Second Hour next ([D196](06-decisions.md)) | A finish line: without milestone 12 there is no alpha or beta to call; all open work in one list | Alpha and beta of the first release (milestones 14 and 15) |
 | 4. Testing | **Machines strong, people thin.** 13 suites, the soak, the play log, CI on every PR; Ewan's play-tests 2 to 4 ([28](28-the-first-hour.md#how-it-was-tested)) | Strangers (call AV is unrun), a bug list with severities, the music heard by anyone | Five strangers play each milestone's build (milestone 7, then every milestone) |
@@ -145,7 +145,8 @@ or a reason for one of its **Planned** parts.
 - **Tests define done for AI-written code.** Our suites, soak and CI already do; a model drifting into
   Godot 3 habits is caught there, not by reading.
 - **Write the founders' agreement before there is money** (ownership, split, who decides, what happens
-  if one leaves). Question 28.
+  if one leaves). Question 28. Will's half on 2026-10-17: all profits 50/50 after the store's cut and costs ([D212](06-decisions.md),
+  [D230](06-decisions.md)), awaiting Ewan's word; the rest of the small print when they get close to being paid.
 
 ## The inbox
 
@@ -181,7 +182,7 @@ docs keep the record. One home each, so nothing is kept in two places:
 | Kind of thing | Lives in | Mirrored |
 | --- | --- | --- |
 | Work not built yet: a feature, a fix, a play-test ask, an art row, a meeting's order of work | An issue, with its kind, tier, milestone and severity | The roadmap's Next steps names the issues of the item being built |
-| A question only a founder can answer | [30](30-questions-for-the-founders.md), numbered | An issue labelled "waits on Will" or "waits on Ewan" (questions 25 to 32: #215 to #217, #210 to #214) |
+| A question only a founder can answer | [30](30-questions-for-the-founders.md), numbered | An issue labelled "waits on Will" or "waits on Ewan" (questions 25 to 33: #215 to #217, #210 to #214, #276) |
 | A guess the build made to keep going | The agenda, a row marked **Inferred** ([answers.md](worldbuilding/answers.md#what-is-still-to-decide)) | One standing issue points at it (#227); a row only becomes an issue when a founder asks for a change |
 | A settled decision | [06](06-decisions.md), a numbered D | Nothing; an issue it closes links to it |
 | What exists and how it works | The numbered doc it touches, changed in the PR that changes the game | Nothing |

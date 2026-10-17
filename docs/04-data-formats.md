@@ -482,7 +482,8 @@ run's seed still deals, is [27](27-the-world.md).
     }
   },
   "land_foe_share": 0.7,
-  "hazards": { "stride": 640, "share": 0.04, "floor": 0.25, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
+  "foe_levels": { "axe_bear": 3, "flame_lion": 3 },
+  "hazards": { "stride": 640, "share": 0.04, "floor": 0.5, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
 }
 ```
 
@@ -497,12 +498,14 @@ run's seed still deals, is [27](27-the-world.md).
 - `sea_shore` — whether a ground on the coast gets a shore of the land's own water.
 - `foes` — unit ids (`units.json`) that camp in the land. A band put down there is made of them
   `land_foe_share` of the time, decided from the cell so the run's dice are not spent; otherwise it
-  is the faction that walks the terrain ([D71](06-decisions.md)).
+  is the faction that walks the terrain ([D71](06-decisions.md)). `foe_levels` keeps a land's great
+  beasts out of the bands it deals until the party's level reaches the number given
+  ([D211](06-decisions.md)); a land with nothing else left fields its faction instead.
 - `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
   `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
   thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).
 - `hazards` — every `stride` pixels walked on a land with a hazard, each party member with nothing
-  against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
+  against it loses `share` of their health, never below `floor` of it (half, [D211](06-decisions.md)); `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
 Which land a tile is: `src/chronicle/biome.gd`. On the land ([D84](06-decisions.md)) each tile is
@@ -512,6 +515,27 @@ a sea or lake tile is all water and a mountain all rock. What is written down ab
 opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own area and cells for
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
+
+## `world_rules.json` → `scars` — what going down leaves behind (D218)
+
+`max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
+what is said at the fight's end (`{name}`, `{hp}`, `{scars}`). A fighter earns one by going down in a
+fight the company wins and living. A character's `scars` is kept in the save.
+
+## `world_rules.json` → `keepers` — a gate keeper's prize (D219)
+
+`prizes` maps a faction id to the equipment id its gate keeper carries. On shutting a gate the prize
+comes on `chance[n]`, n being how many of that faction's keepers have fallen since its last prize
+(the last entry holds after that; 1.0 makes it certain). `lines.prize` and `lines.missed` are said
+with `{keeper}` and `{prize}`. The counts are kept in the save as the world's `keepers`.
+
+## `world_rules.json` → `treasure` — torn treasure maps (D220)
+
+A band beaten on the land carries a scrap on `piece_chance`; `pieces` of them make an X between
+`near` and `far` steps of walking off, with `chart_radius` of ground round it drawn in. Standing on
+it digs up a find of `richness` (see `loot`) that always holds something to carry. `lines`: `piece`
+(`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
+and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
 
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
@@ -524,7 +548,11 @@ to land is gone `away_seconds`. A bird that has stood a while goes up on a loop 
 ([D189](06-decisions.md)). `road_watch`: on that `chance` of the First Hour's road tiles, two of
 the city's Watch (`units`, called `name`) walk the road there end to end and back, staying `stay`
 [min, max] seconds and saying one of `lines` at each end; `talk` is their conversation (a `talk`
-block, above). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+block, above). `climbers` ([D215](06-decisions.md)): on `road_chance` of the road's tiles the Watch
+is not walking, a company of `size` [min, max] (bodies from `units`, named one of `companies`)
+walks the road there and back, the first of them saying one of `lines` at each end, and talks
+(`talk`); `on_the_floors`, from floor `from` at `chance`, a company rests by a Tower floor's stair
+and talks (`talk`). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 
@@ -611,8 +639,24 @@ them, one more every `chapters_per_extra_foe` chapters, and one more for every m
 
 An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
 `GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway ([D162](06-decisions.md)), a roadside
-fight with its attackers where the scene stages them (`stage` in `roadside.json`), and a town
+fight with its attackers where the scene stages them (`stage` in `roadside.json`; a stage's
+`allies`, such as the Watch beset by a town, [D215](06-decisions.md), stand in the middle of it and
+fight beside the party), and a town
 defended or raided or a captive taken back by force with the other side a few strides ahead.
+
+**Bands by the road and the Watch beset** ([D215](06-decisions.md)). `encounters.json` →
+`near_the_road`: `bands` more always camp `from` to `to` tiles off the First Hour's road, never on it
+and at least `clear_of_places` tiles from any place, topped up with the rest of the land's bands
+(`bands`, by the danger rating); `people_share` of them are two or three of `people`, the rest
+whatever lives there. `roadside.json`: a scene with `near_town` is offered only within the rules'
+`town_reach` tiles of a standing town, at `near_town_chance` a step, the rest only in open country at
+`chance`; no scene is ever within `clear_of_sites` of a place. `purse_line` is how a scene's purse is
+said (`%d` the gold). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
+with no box and without stopping a party walking itself ([D216](06-decisions.md)).
+
+**`world_rules.json` → `auto_styles`** ([D216](06-decisions.md)): `names` and `blurbs` of the three
+ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, kept in
+`settings.cfg` → `ui` → `auto_style`), shown in the menu and on the top bar's Auto button.
 
 ## `memories.json` — chapter memories (D103)
 

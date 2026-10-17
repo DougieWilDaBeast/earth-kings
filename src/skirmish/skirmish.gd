@@ -312,7 +312,8 @@ func _build_battlefield() -> void:
 ## The enemy (or, with [param side] ALLY, those fighting beside the party) from
 ## the map. A levelled entry is a throwaway [Character], so it grows the way the
 ## party does; an entry may name itself, mark itself the keeper (`boss`), or
-## pick its own side (`team`, for the coliseum's brawls).
+## pick its own side (`team`, for the coliseum's brawls), or hit harder than its level (`bite`, a
+## multiplier on its attack).
 func _spawn_others(entries: Array, side: Unit.Team) -> void:
 	for entry: Dictionary in entries:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
@@ -332,6 +333,9 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 			unit.display_name = custom_name
 		if bool(entry.get("boss", false)):
 			unit.set_meta("boss", true)
+		# A foe can hit harder than its level says: the Tower's upper floors (D222).
+		if entry.has("bite") and float(entry["bite"]) > 0.0:
+			unit.attack = maxi(1, roundi(float(unit.attack) * float(entry["bite"])))
 		_enlist(unit)
 
 
@@ -1496,6 +1500,7 @@ func _drop(f: Fighter) -> void:
 	_mourn(f)
 	if f.is_party():
 		f.near_death = SkirmishRules.NEAR_DEATH
+		f.went_down = true
 		signatures.downed(f)
 		f.unit.modulate = Color(0.75, 0.55, 0.55, 0.8)
 		shake(SkirmishPassives.rule("shake_on_down", 9.0))
@@ -1764,6 +1769,9 @@ func _settle_the_party() -> void:
 		if f.is_downed():
 			_say("%s is carried off the field." % f.unit.display_name)
 			f.near_death = 0.0
+		# Down and back up, or carried off a field the company won: it leaves a mark ([D218]).
+		if f.went_down and victory:
+			_say(who.scar())
 		# Wounds carry as a fraction, so a difficulty that made the party
 		# hardier does not write an impossible number back onto them.
 		var carried := _share_left(f)

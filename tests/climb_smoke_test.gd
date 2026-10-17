@@ -251,6 +251,12 @@ func _auto_walks_to_the_door() -> void:
 		gate.cleared = true
 		break
 	world.prowlers.clear()
+	# A world nobody has stepped in yet is stocked with bands as it opens (and since D215 some camp by
+	# the road): this walk is about the door, not the bands, so it is one already walked.
+	world.steps = maxi(world.steps, 1)
+	# No band restocks on the way, or Auto goes after it first, as it should.
+	var bands: Variant = Database.encounters.get("bands", 0)
+	Database.encounters["bands"] = 0
 	var start := Vector2i(-1, -1)
 	for side: Vector2i in [Vector2i(0, 2), Vector2i(0, -2), Vector2i(2, 0), Vector2i(-2, 0)]:
 		var cell := tower.cell + side
@@ -259,12 +265,14 @@ func _auto_walks_to_the_door() -> void:
 			break
 	if start.x < 0:
 		_fail("auto to the door: no open ground two tiles from the Tower")
+		Database.encounters["bands"] = bands
 		return
 	world.player_cell = start
 	EventBus.request_scene.emit("world", {})
 	var land := await _scene_where(func(s: Node) -> bool: return _is_land(s))
 	if land == null:
 		_fail("auto to the door: the land never came up")
+		Database.encounters["bands"] = bands
 		return
 	_expect(bool(AutoRoad.objective(world).get("door", false)), "auto to the door: the Tower is not where Auto is headed (%s)" % AutoRoad.objective(world))
 	Pace.auto = true
@@ -272,12 +280,14 @@ func _auto_walks_to_the_door() -> void:
 	if at_door == null:
 		_fail("auto to the door: Auto never stood at the Tower's door (at %s, auto %s, on %s)" % [world.player_cell, Pace.auto, _describe(_current())])
 		Pace.auto = false
+		Database.encounters["bands"] = bands
 		return
 	_expect(not Pace.auto, "auto to the door: Auto walked on past the Tower's door without handing back")
 	_expect(world.player_cell == tower.cell, "auto to the door: stopped at %s, not on the Tower's tile" % world.player_cell)
 	Pace.auto = true
 	var inside := await _scene_where(func(s: Node) -> bool: return _floor_of(s) == 1, PATIENCE * 4)
 	Pace.auto = false
+	Database.encounters["bands"] = bands
 	_expect(inside != null, "auto to the door: switched on again at the door, Auto did not go in (on %s)" % _describe(_current()))
 
 
