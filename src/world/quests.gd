@@ -17,12 +17,13 @@ extends RefCounted
 
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Markers := preload("res://src/world/markers.gd")
 
 ## The flag holding the id of the entry being followed, or nothing.
 const FOLLOWED := "quest:followed"
 
 
-## Every entry, in order: the road first, then errands, captives and word of a weapon. Each is
+## Every entry, in order: the road first, then errands, captives, word of a weapon and the map's markers. Each is
 ## `{ id, label, cell, stop, kind, detail }`; `label` is what the compass says.
 static func all(world: World, road: Dictionary) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
@@ -80,6 +81,8 @@ static func all(world: World, road: Dictionary) -> Array[Dictionary]:
 			"stop": true,
 			"detail": "Word is a fallen lead's weapon came down out of the sky here.",
 		})
+	# The player's own marks on the map, and the place picked to go to ([D205]).
+	out.append_array(Markers.entries(world))
 	return out
 
 
