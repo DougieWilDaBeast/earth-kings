@@ -12,6 +12,7 @@ const Chapters := preload("res://src/chronicle/chapters.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
+const Quests := preload("res://src/world/quests.gd")
 
 ## Set the first time the party stands in a town: the First Hour's first leg is done.
 const TOWN_REACHED := "objective:town"
@@ -44,16 +45,43 @@ static func next_step(world: World) -> Vector2i:
 	return step
 
 
-## Where the First Hour sends the party next (D95), for the compass and for
-## Auto: `cell`, `label` (what the compass says), and `stop` (whether a party
-## walking itself hands back control on arriving, where nothing starts by itself).
+## Where the party is headed, for the compass and for Auto: `cell`, `label` (what the compass
+## says), and `stop` (whether a party walking itself hands back control on arriving, where nothing
+## starts by itself). The quest the player chose to follow from the quest list (L on the ground, or
+## Follow in the journal, [D188]) when there is one; otherwise [method default_objective].
+static func objective(world: World) -> Dictionary:
+	var chosen := Quests.followed(world, quests(world))
+	if not chosen.is_empty():
+		return chosen
+	return default_objective(world)
+
+
+## Everything the party is working towards, in the quest list's order ([D188]).
+static func quests(world: World) -> Array[Dictionary]:
+	return Quests.all(world, road_objective(world))
+
+
+## Follow the next quest in the list (or the one before, with [param step] -1), and say which.
+static func next_quest(world: World, step: int = 1) -> Dictionary:
+	return Quests.cycle(world, quests(world), default_objective(world), step)
+
+
+## Where the First Hour sends the party when nothing has been chosen (D95).
 ## In order: an errand taken (a Guild contract included), the great city (or,
 ## with none, the nearest town) until a town has been stood in, the Guild at the Tower's door until its
 ## register has been opened (D107), the nearest gate of the lowest rank until a gate has
 ## been shut, then the Tower. A gate above the lead's rank (one whose expected
 ## level is past the lead's) is never chosen: with none at their rank open, the
 ## Tower is (D97). Empty when there is nowhere left to send them.
-static func objective(world: World) -> Dictionary:
+static func default_objective(world: World) -> Dictionary:
+	var goal := _nearest_errand(world)
+	if not goal.is_empty():
+		return goal
+	return road_objective(world)
+
+
+## The nearest errand taken and not sent off with a companion, or nothing.
+static func _nearest_errand(world: World) -> Dictionary:
 	var here := world.player_cell
 	var closest := 1 << 30
 	var goal := {}
@@ -73,9 +101,13 @@ static func objective(world: World) -> Dictionary:
 				"cell": at, "label": ("Back to %s" if back else "%s") % named,
 				"stop": back or Town.is_settlement(there),
 			}
-	if not goal.is_empty():
-		return goal
+	return goal
 
+
+## The road the First Hour lays out, errands aside: the town, the Guild, the first gate, the Tower.
+static func road_objective(world: World) -> Dictionary:
+	var here := world.player_cell
+	var closest := 1 << 30
 	if not GameState.has_flag(TOWN_REACHED):
 		# The great city round the Tower when there is one standing (D101),
 		# else the nearest town.
