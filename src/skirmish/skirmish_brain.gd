@@ -84,6 +84,23 @@ static func doctrine(fighter: Fighter, tactics: Dictionary) -> Dictionary:
 	return doctrines.get(name, doctrines.get("brute", {}))
 
 
+## The moves [param fighter] tries, in order: its doctrine's, with the stance the player
+## gave it ([D195]) putting its `first` moves ahead and leaving out its `drop` ones. A
+## stance only reorders the doctrine and adds the move it names; no number changes.
+static func moves(fighter: Fighter, tactics: Dictionary) -> Array:
+	var own: Array = doctrine(fighter, tactics).get("moves", [])
+	var stance := Fighter.stance_data(fighter.playing_stance())
+	var first: Array = stance.get("first", [])
+	if first.is_empty() and not stance.has("drop"):
+		return own
+	var drop: Array = stance.get("drop", [])
+	var out: Array = first.duplicate()
+	for move: String in own:
+		if not out.has(move) and not drop.has(move):
+			out.append(move)
+	return out
+
+
 ## A move worth making instead of standing and swinging at [param foe]:
 ## `{"why", "goal", "wait", "target", "ally"}`, where goal is a test on a cell the
 ## fighter should be on (none for "hold", which means stay put), or empty. The
@@ -101,6 +118,8 @@ static func doctrine(fighter: Fighter, tactics: Dictionary) -> Dictionary:
 ##   walk in to swing;
 ## - **break off**: under 30% health, with a friend still fighting, gets clear for a
 ##   few seconds (Catch Breath and its like mend out of the fighting).
+## - **escort** (the Guard stance's): more than two tiles from the party's leader, it
+##   makes its way back beside them.
 static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, tactics: Dictionary) -> Dictionary:
 	if not bool(tactics.get("on", true)) or fighter.aboard != null or foe == null:
 		return {}
@@ -109,7 +128,7 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 	var away := foe.cell
 	var friends := fighters.filter(func(o: Fighter) -> bool:
 		return o != fighter and o.is_standing() and not o.unit.is_hostile_to(me))
-	for move: String in doctrine(fighter, tactics).get("moves", []):
+	for move: String in moves(fighter, tactics):
 		var plan := {}
 		match move:
 			"dodge":
@@ -139,6 +158,9 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 							return _nearest_hostile(me, c, fighters) >= gap and _free(c, fighter, fighters)}
 					elif not AbilityResolver.in_range(Database.ability(fighter.basic), me.cell, away):
 						plan = {"why": "hold"}
+			"escort":
+				if fighter.tactic_wait <= 0.0:
+					plan = _escort(fighter, fighters, friends, tactics)
 			"break":
 				var share := float(me.hp) / float(maxi(1, me.max_hp))
 				if fighter.tactic_wait <= 0.0 and share < float(tactics.get("break_below", 0.3)) \
@@ -203,6 +225,26 @@ static func _guard(fighter: Fighter, fighters: Array[Fighter], friends: Array, t
 				"ally": worst.unit.display_name, "goal": func(c: Vector2i) -> bool:
 					return Pathfinder.distance(c, attacker) == 1 and Pathfinder.distance(c, ward) <= 2 \
 							and _free(c, fighter, fighters)}
+	return {}
+
+
+## Back beside the party's leader, when this fighter is not the leader and has drifted
+## more than `escort_reach` tiles from them.
+static func _escort(fighter: Fighter, fighters: Array[Fighter], friends: Array, tactics: Dictionary) -> Dictionary:
+	var me := fighter.unit
+	if me.character != null and me.character.is_player:
+		return {}
+	var reach := int(tactics.get("escort_reach", 2))
+	for friend: Fighter in friends:
+		var ward := friend.unit
+		if ward.character == null or not ward.character.is_player:
+			continue
+		if Pathfinder.distance(me.cell, ward.cell) <= reach:
+			return {}
+		var at := ward.cell
+		return {"why": "escort", "wait": float(tactics.get("escort_every", 2.0)), "ally": ward.display_name,
+			"goal": func(c: Vector2i) -> bool:
+				return Pathfinder.distance(c, at) <= reach and _free(c, fighter, fighters)}
 	return {}
 
 

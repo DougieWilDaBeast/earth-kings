@@ -29,6 +29,8 @@
 			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
 			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
 		},
+		"_comment_auto_rest": "D210 (call BL): a party walking itself whose health is under this share of its whole goes to the nearest place that heals it on arriving (a village, keep or hut; not the crater) before any band or the objective. Read by AutoRoad.rest_stop. **Inferred**: the share.",
+		"auto_rest_below": 0.5,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,

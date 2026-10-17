@@ -85,6 +85,9 @@ var yoke: bool = false
 var hearth_vigour: int = 0
 ## Other character id -> how well the two of them get on (see [Banter]).
 var bonds: Dictionary = {}
+## How they fight when the player is playing ([D195]): a key of `tactics.stances` in
+## `data/skirmish.json`. Kept between fights; "own" is the fighter's own doctrine.
+var stance: String = "own"
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -329,6 +332,7 @@ func to_dict() -> Dictionary:
 		"yoke": yoke,
 		"hearth_vigour": hearth_vigour,
 		"bonds": bonds,
+		"stance": stance,
 	}
 
 
@@ -371,4 +375,5 @@ static func from_dict(data: Dictionary) -> Character:
 	character.hearth_vigour = int(data.get("hearth_vigour", 0))
 	for other_id: String in data.get("bonds", {}):
 		character.bonds[other_id] = int(data["bonds"][other_id])
+	character.stance = str(data.get("stance", "own"))
 	return character
