@@ -40,6 +40,8 @@ const MAPPABLE_ACTIONS := [
 
 @onready var _root: Control = %Root
 @onready var _main_panel: PanelContainer = $Root/Panel
+@onready var _scroll: ScrollContainer = %Scroll
+@onready var _items: VBoxContainer = %Items
 @onready var _controls_panel: PanelContainer = %ControlsPanel
 @onready var _bindings_list: VBoxContainer = %BindingsList
 @onready var _controls_button: Button = %ControlsButton
@@ -133,6 +135,23 @@ func _ready() -> void:
 		Sfx.attend(btn)
 
 	_load_custom_bindings()
+	get_viewport().size_changed.connect(_fit_to_screen)
+
+
+## Room left above and below the menu, in the game's pixels.
+const SCREEN_EDGE := 12.0
+
+
+## The menu is as tall as its rows, or as tall as the screen and scrolled. A phone turned on its
+## side is laid out 540 tall, and itch.io's full-screen button turns it so: the rows ran off both
+## ends and Close with them (D240). Close and the seed stay below the scroll, always in reach.
+func _fit_to_screen() -> void:
+	if not is_node_ready():
+		return
+	_scroll.custom_minimum_size.y = 0.0
+	var around := _main_panel.get_combined_minimum_size().y
+	var room := get_viewport().get_visible_rect().size.y - SCREEN_EDGE * 2.0 - around
+	_scroll.custom_minimum_size.y = clampf(_items.get_combined_minimum_size().y, 0.0, maxf(room, 120.0))
 
 
 func open() -> void:
@@ -150,6 +169,8 @@ func open() -> void:
 	_credits_panel.hide()
 	_rebind_action = ""
 	_root.show()
+	_fit_to_screen()
+	_scroll.scroll_vertical = 0
 
 
 func close() -> void:
