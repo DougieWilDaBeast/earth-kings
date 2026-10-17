@@ -60,6 +60,8 @@ var aiding: float = 0.0
 ## Tallies the smoke test and the end-of-fight line read.
 var swings: int = 0
 var casts: int = 0
+## The skill this fighter last let go, by name (the show's corner badge, [D180]).
+var last_move: String = ""
 ## Times a grace stood this fighter back up in the near-death window.
 var graces: int = 0
 ## Landed basic swings not yet counted as practice (`rules.swings_per_practice`).

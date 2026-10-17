@@ -22,6 +22,8 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
 - Ledger: `./ek.sh ledger` — the Question Book and `answers.md` agree (run after any worldbuilding edit).
 - Dress: `python3 tools/dress_areas.py [area ...]` — rewrites an area's scenery (`dressing`) after its
   layout, people or props change; sizes live in `data/props.json`.
+- Clips: `python3 tools/who_wins.py ares cassius` — two of the sixteen fight it out as a "who wins?" show,
+  recorded wide and tall into `clips/` (needs ffmpeg; docs/18, "Who wins?").
 - CI runs all three on every pull request (`.github/workflows/smoke.yml`). Keep it green.
 
 ## Rules

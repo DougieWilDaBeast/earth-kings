@@ -322,6 +322,52 @@ level-1 characters against six level-8 brigands — ends in about 20 seconds, an
   that hits for thirty. The run's ledger counts damage at fight scale, three times what the
   turn-based fight counted.
 
+## Who wins?
+
+**Built 2026-10-16** ([D180](06-decisions.md), call AY), after `dougie` pointed at a channel of
+simulated "who wins?" fights ([investigation 10](investigation/10-who-wins-shows.md)). Two of the
+sixteen fight it out with nobody's hand on either, dressed as a show, and the game records it as a
+clip for YouTube (wide) and shorts (tall).
+
+**The fight is the real one.** `src/who_wins/who_wins.gd` stages the skirmish in `bout` mode: the
+left lead is a party of one (the company that follows them stays home), the right stands across the
+field at the same level, both raised the same way, on a grass field drawn from the seed. Both are
+played by the brain the enemies use. A bout is a sandbox, so nothing is written onto any run. What
+`bout` changes in the skirmish: each side loses when its lead falls, whatever bearer, wolf or shade
+still stands; there is no HUD (the show draws its own); and the fight stays on the field when it is
+over. Every body on the field gets `health_scale` (2) times its health, because one against one at a
+company's health is over in four to six seconds (**Inferred**, agenda item 110).
+
+**The show** (`src/who_wins/who_wins_show.gd`, timings and words in `data/who_wins.json`, all
+**Inferred**, agenda item 111): a VS card with the two faces on their colours, FIGHT!, then along the
+top each lead's face, name, class and health with the clock between; the move each last let go in a
+pill under their bar; a red edge on a side whose lead is under a quarter of their health; a burst of
+lines round anyone hit for a fifth of their health or more; a camera that keeps both in view and
+closes in; the last blow in slow motion under K.O.!; then the winner's banner and "WHO SHOULD FIGHT
+NEXT? COMMENT BELOW". A bout nobody wins in 90 seconds ends on NOBODY WINS. Held upright the card
+stacks the two faces. Nothing is drawn from the channel: the sixteen in their own art, the words and
+shapes in code.
+
+| To | Run |
+| --- | --- |
+| Record a bout, wide and tall, as `.mp4` in `clips/` | `python3 tools/who_wins.py ares cassius` (`--seed`, `--level`, `--wide`, `--tall`, `--random 3`) |
+| Watch one in a window | `godot --path . res://src/who_wins/who_wins.tscn -- --left=cato --right=saturn --seed=7` |
+| Just the answer | the same with `--headless` and `--verdict` |
+| Every lead against every other, both ways round | the same with `--headless` and `--table --seeds=2` |
+
+The recorder checks each pairing headless first and skips one nobody wins. It uses Godot's movie
+maker, so a clip plays the same however slow the machine, and sets the clip's shape for the run in
+`override.cfg` (taken away after). It needs ffmpeg for the `.mp4`; on a machine with no screen it
+runs under `xvfb-run`. A recorded bout and its headless verdict are fought separately and can end
+differently.
+
+**What the table says** (level 5, two seeds, 480 bouts, 2026-10-16): a bout runs 5 to 90 seconds,
+25 in the middle, and 47 of the 480 (one in ten) are still going at 90. One against one, Diana
+(62%), Ultor, Ares and Cassius (60%) win most; Iris (13%), Janus (20%), Pluto (23%) and Vesta (27%)
+least. Those four are built to fight beside others, so this is not a balance verdict on the game,
+but it is a list of who needs a look before a lead-against-lead knockout ([D171](06-decisions.md))
+is built (agenda item 112).
+
 ## Getting stronger
 
 Settled in the same session, and bound up with the fight ([D37](06-decisions.md)):
