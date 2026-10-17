@@ -537,6 +537,21 @@ it digs up a find of `richness` (see `loot`) that always holds something to carr
 (`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
 and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
 
+## `land_journals.json` — a journal for each land (D236)
+
+`entries` is what a land's page can ask, in order: `{ kind, count, text }`, `kind` one of `walk`
+(stretches of the land walked, never more than it has), `landmark` (things somebody left stood at on
+its open ground), `bands` (bands beaten on its ground), `place` (its places stood in, only on a land
+with one that is not a gate) and `gate` (its gates shut, only on a land with an open one); `text` takes
+`{count}` and `{land}`. `trinkets` maps each land id of `biomes.json` to `{ name, text, effects }`;
+`effects` may hold `stride` (a share added to walking speed on the land), `wade` (true: shallow pools of
+open country can be walked through), `hush` (cells off a band's sight on the land), `attack`, `defense`
+(added to every fighter of the party), `health` (a share added to their health in a fight) and `proof`
+(hazard ids of `biomes.json` kept off the whole company). Effects of every trinket carried add up, within
+`stride_most` and `hush_most`. `lines`: `opened` (`{land}`), `ticked` (`{land}`, `{entry}`, `{done}`,
+`{of}`), `finished` (`{land}`, `{trinket}`, `{what}`) and `annal`. The world keeps `lands`: land id ->
+`{ needs, got, walked, stood, done }`.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on

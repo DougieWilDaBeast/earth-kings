@@ -333,7 +333,9 @@ each, each ending playable:
    issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
    the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
    in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
-   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   **built**, [D236](06-decisions.md): a page for each land set foot in, up to five things to do there, and
+   one of eighteen trinkets for finishing it, which walk faster, wade the shallows, slip past bands, keep
+   a hazard off or fight harder), the world remembering (#286, next), companions whose arcs react
    (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,

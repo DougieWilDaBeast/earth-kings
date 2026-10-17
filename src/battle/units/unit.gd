@@ -7,6 +7,9 @@ signal died
 
 enum Team { PLAYER, ENEMY, ENEMY_B, ENEMY_C, ALLY }
 
+## Loaded by path ([D41]).
+const LandJournals := preload("res://src/chronicle/land_journals.gd")
+
 const ALLY_OUTLINE := Color(0.55, 0.85, 1.0)
 ## Frames a second for a unit that has a run cycle to step through.
 const RUN_FPS := 12.0
@@ -144,7 +147,11 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit.hp = mini(unit.hp, unit.max_hp)
 		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
 	elif unit_team != Team.ALLY:
-		var hardier := Difficulty.scaled(unit.max_hp, "party_hp")
+		# What the land journals' trinkets give every fighter of the company ([D236]).
+		var world: World = GameState.world
+		unit.attack += roundi(LandJournals.effect(world, "attack"))
+		unit.defense += roundi(LandJournals.effect(world, "defense"))
+		var hardier := roundi(Difficulty.scaled(unit.max_hp, "party_hp") * (1.0 + LandJournals.effect(world, "health")))
 		# Wounds are carried as a fraction, so a tougher party is not healed by it.
 		unit.hp = maxi(1, roundi(float(unit.hp) / float(unit.max_hp) * float(hardier)))
 		unit.max_hp = hardier

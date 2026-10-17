@@ -36,6 +36,7 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Markers := preload("res://src/world/markers.gd")
+const LandJournals := preload("res://src/chronicle/land_journals.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -353,6 +354,9 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	# A place picked on the map to go to is let go of once it is stood on ([D232]).
 	Markers.on_arrive(target)
+	# A page for each land, and a line crossed off for a stretch walked or a place stood in ([D236]).
+	var trinkets_before := LandJournals.carried(world).size()
+	_land_journal(LandJournals.on_arrive(world, target), trinkets_before)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)
@@ -644,7 +648,11 @@ func _settle_up(won: bool) -> void:
 			else:
 				GameState.delving = []
 				var was_sealed := world.tower_sealed_at >= 0
+				# Asked before it shuts: a shut gate can heal the land round it into another ([D236]).
+				var trinkets_before := LandJournals.carried(world).size()
+				var journal_lines := LandJournals.on_gate_shut(world, site)
 				world.close_gate(site)
+				_land_journal(journal_lines, trinkets_before)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
@@ -725,8 +733,20 @@ func _settle_up(won: bool) -> void:
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
+			var trinkets_before := LandJournals.carried(world).size()
+			_land_journal(LandJournals.on_band_beaten(world, cell), trinkets_before)
 	_map.queue_redraw()
 	_refresh()
+
+
+## Lines from the land journals ([D236]). When they turned up a trinket (the company carried
+## [param carried] before) its line is said in a box too, so it is not lost in the log.
+func _land_journal(lines: Array[String], carried: int) -> void:
+	for line: String in lines:
+		_note(line)
+	if LandJournals.carried(world).size() > carried and not lines.is_empty():
+		Sfx.play(Sfx.SELECT)
+		EventBus.conversation_requested.emit(_as_conversation([lines.back()]))
 
 
 ## A Tower chapter won may earn the company another seat (agenda item 35).

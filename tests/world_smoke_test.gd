@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "road", "edges", "scenery", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "road", "edges", "scenery", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -60,6 +60,7 @@ func _ready() -> void:
 			"dialogue": _check_dialogue()
 			"walking": _check_walking(world)
 			"lands": _check_lands(world)
+			"land_journals": _check_land_journals(world)
 			"road": _check_road(world)
 			"edges": _check_edges(world)
 			"scenery": _check_scenery(world)
@@ -1009,6 +1010,103 @@ func _check_round_trip(world: World, hero: Character) -> void:
 			not Database.ability(ability_id).is_empty(),
 			"generated ability '%s' did not survive the round trip" % ability_id
 		)
+
+
+## A journal for each land (D236): a page opens on first setting foot in a land, its lines cross off
+## as they are done, the last turns up the land's trinket, and the trinket does what it says, kept
+## in the save.
+func _check_land_journals(world: World) -> void:
+	var LandJournals := preload("res://src/chronicle/land_journals.gd")
+	var trinkets: Dictionary = Database.land_journals.get("trinkets", {})
+	for land: String in Database.biomes.get("biomes", {}):
+		_expect(trinkets.has(land), "land journals: %s has no trinket" % land)
+	for land: String in trinkets:
+		_expect(LandJournals.describe(trinkets[land]) != "", "land journals: the %s trinket does nothing" % land)
+	var saved_lands := world.lands.duplicate(true)
+	world.lands = {}
+	# Every walkable tile of one land, and that land.
+	var land := ""
+	var cells: Array[Vector2i] = []
+	for y in world.size.y:
+		for x in world.size.x:
+			var cell := Vector2i(x, y)
+			var here := LandJournals.land_at(world, cell)
+			if here == "" or not world.is_walkable(cell) or world.site_at(cell) != null:
+				continue
+			if land == "":
+				land = here
+			if here == land:
+				cells.append(cell)
+	_expect(land != "" and cells.size() >= 5, "land journals: no land to walk")
+	var said := LandJournals.on_arrive(world, cells[0])
+	_expect(not said.is_empty() and str(said[0]).contains(LandJournals.heading(land)), "land journals: no page opened (%s)" % [said])
+	_expect(LandJournals.on_arrive(world, cells[0]).is_empty(), "land journals: the same page opened twice")
+	var needs: Dictionary = LandJournals.page(world, land).get("needs", {})
+	_expect(needs.has("walk") and needs.has("landmark") and needs.has("bands"), "land journals: %s's page asks only %s" % [land, needs])
+	_expect(LandJournals.carried(world).is_empty(), "land journals: a trinket before anything was done")
+	for cell in cells.slice(1, int(needs.get("walk", 1))):
+		LandJournals.on_arrive(world, cell)
+	for i in int(needs.get("bands", 0)):
+		LandJournals.on_band_beaten(world, cells[0])
+	if needs.has("place"):
+		for site: Site in world.sites:
+			if site.kind != Site.GATE and LandJournals.land_at(world, site.cell) == land:
+				LandJournals.on_arrive(world, site.cell)
+				break
+	if needs.has("gate"):
+		for site: Site in world.sites:
+			if site.kind == Site.GATE and LandJournals.land_at(world, site.cell) == land:
+				LandJournals.on_gate_shut(world, site)
+				break
+	_expect(LandJournals.carried(world).is_empty(), "land journals: the trinket came before the last line")
+	var last := LandJournals.on_landmark(world, cells[0])
+	_expect(LandJournals.carried(world).size() == 1 and LandJournals.carried(world)[0] == land, "land journals: finishing %s's page gave no trinket (%s)" % [land, LandJournals.page(world, land)])
+	var trinket: Dictionary = trinkets.get(land, {})
+	_expect(not last.is_empty() and str(last.back()).contains(str(trinket.get("name", "?"))), "land journals: the trinket was not named (%s)" % [last])
+	_expect(LandJournals.on_landmark(world, cells[0]).is_empty(), "land journals: a finished page said more")
+	_expect(World.from_dict(world.to_dict()).to_dict()["lands"] == world.to_dict()["lands"], "land journals: the pages were lost in the save")
+	# What every kind of trinket does, carried at once.
+	for each: String in trinkets:
+		world.lands[each] = { "needs": {}, "got": {}, "walked": [], "stood": [], "done": true }
+	_expect(LandJournals.wades(world) and LandJournals.spares(world, "cold") and LandJournals.spares(world, "ooze"),
+		"land journals: no wading or hazard proofs carried")
+	_expect(LandJournals.effect(world, "stride") <= float(Database.land_journals.get("stride_most", 1.0)) + 0.001,
+		"land journals: walking speed past its most")
+	var held_world: World = GameState.world
+	GameState.world = world
+	var hero := Character.create("atlas")
+	var carrying := Unit.from_character(hero, Unit.Team.PLAYER, Vector2i.ZERO)
+	var all_lands := world.lands
+	world.lands = {}
+	var bare := Unit.from_character(hero, Unit.Team.PLAYER, Vector2i.ZERO)
+	world.lands = all_lands
+	_expect(carrying.attack > bare.attack and carrying.defense > bare.defense and carrying.max_hp > bare.max_hp,
+		"land journals: the trinkets did nothing in a fight (attack %d/%d, guard %d/%d, health %d/%d)" % [
+			carrying.attack, bare.attack, carrying.defense, bare.defense, carrying.max_hp, bare.max_hp])
+	carrying.free()
+	bare.free()
+	# A pool on the ground of one of the land's tiles: walked round without the stilts, through with them.
+	var waded := false
+	for cell in cells.slice(0, 40):
+		var land_map = (preload("res://src/area/land.gd")).around(world, cell, 0)
+		var rect: Rect2i = land_map.slot_rect(cell)
+		var pool := Vector2i(-1, -1)
+		for y in range(rect.position.y, rect.end.y):
+			for x in range(rect.position.x, rect.end.x):
+				var t: String = land_map.terrain_at(Vector2i(x, y))
+				if pool.x < 0 and (t == "water" or t.ends_with("_liquid")) and land_map.building_at(Vector2i(x, y)).is_empty():
+					pool = Vector2i(x, y)
+		if pool.x < 0:
+			continue
+		_expect(not land_map.is_walkable(pool), "land journals: a pool walked without the stilts")
+		land_map.wading = true
+		_expect(land_map.is_walkable(pool), "land journals: the stilts did not wade the pool at %s" % pool)
+		waded = true
+		break
+	_expect(waded, "land journals: no pool found to wade")
+	GameState.world = held_world
+	world.lands = saved_lands
+	print("land journals: %s's page (%s) gave the %s" % [land, needs, trinket.get("name", "")])
 
 
 func _expect(condition: bool, failure: String) -> void:

@@ -1,0 +1,110 @@
+{
+	"_comment": "D236 (from Ewan's 'what other games do well', #270 keep 2, Necesse; #284). Each land of the eighteen (data/biomes.json) gets a page in the journal the first time the party sets foot in it: a few things to do there, and one rare trinket for doing them all. A page is written once and kept (the world's `lands`), so what it asks never changes under the player. `entries` in order; `count` is how many; a `place` entry is only on a land with a place in it that is not a gate, a `gate` entry only on a land with a gate in it; `walk` asks for no more stretches than the land has. `trinkets`: one a land, carried by the company (not by one fighter), never sold, dropped or lost while the world lasts. Effects stack across trinkets: `stride` (a share added to walking speed on the land), `wade` (shallow pools on the land can be walked through), `hush` (cells taken off how far a band on the land sees), `attack` and `defense` (added to every fighter of the party), `health` (a share added to every fighter's health in a fight), `proof` (the land's hazards it keeps off everyone: cold, heat, ooze). lines: opened ({land}), ticked ({entry}, {land}, {done}, {of}), finished ({land}, {trinket}, {what}), annal ({land}, {trinket}).",
+	"entries": [
+		{ "kind": "walk", "count": 5, "text": "Walk {count} stretches of {land}" },
+		{ "kind": "landmark", "count": 1, "text": "Find something somebody left out in {land}" },
+		{ "kind": "bands", "count": 2, "text": "Beat {count} bands on its ground" },
+		{ "kind": "place", "count": 1, "text": "Stand in one of its places" },
+		{ "kind": "gate", "count": 1, "text": "Shut one of its gates" }
+	],
+	"stride_most": 0.35,
+	"hush_most": 3,
+	"lines": {
+		"opened": "A new page in the journal: {land}. There are things here worth doing.",
+		"ticked": "{land}: {entry}. {done} of {of} on its page.",
+		"finished": "Every line on the {land} page is crossed off. Something has turned up for it: the {trinket}. {what}",
+		"annal": "The company finished its page of {land}, and came away with the {trinket}."
+	},
+	"trinkets": {
+		"grassland": {
+			"name": "Wayfarer's Boots",
+			"text": "Soft leather, worn to the shape of somebody who walked a very long way.",
+			"effects": { "stride": 0.15 }
+		},
+		"forest": {
+			"name": "Moss Cloak",
+			"text": "Green on green. Bands look straight past it.",
+			"effects": { "hush": 1 }
+		},
+		"snow": {
+			"name": "Bearfur Mittens",
+			"text": "Too big for anyone's hands, and warm as a hearth.",
+			"effects": { "proof": ["cold"], "defense": 1 }
+		},
+		"dune": {
+			"name": "Sandstrider Sandals",
+			"text": "Wide soles of woven grass that skim the sand.",
+			"effects": { "stride": 0.1, "proof": ["heat"] }
+		},
+		"badlands": {
+			"name": "Rattlesnake Fang",
+			"text": "Hung on a thong. Whoever wears it strikes first and asks after.",
+			"effects": { "attack": 3 }
+		},
+		"savanna": {
+			"name": "Lion's Mane Torc",
+			"text": "A ring of beaten gold, still smelling faintly of the plains.",
+			"effects": { "attack": 2, "health": 0.05 }
+		},
+		"ash": {
+			"name": "Cinderglass Charm",
+			"text": "Black glass from a burnt gate, cool however hot the ground.",
+			"effects": { "proof": ["heat"], "attack": 2 }
+		},
+		"blight": {
+			"name": "Rowan Ward",
+			"text": "Red berries strung on rowan twigs. The blight will not touch it.",
+			"effects": { "defense": 1, "health": 0.05 }
+		},
+		"slime": {
+			"name": "Saltglass Boots",
+			"text": "Glazed with salt to the knee. The ooze slides off.",
+			"effects": { "proof": ["ooze"], "wade": true }
+		},
+		"bog": {
+			"name": "Heron Stilts",
+			"text": "Long legs of ash wood. The shallows are only ground with water on.",
+			"effects": { "wade": true, "stride": 0.05 }
+		},
+		"swamp": {
+			"name": "Leech-Bone Needle",
+			"text": "Stitches a wound shut before it knows it was made.",
+			"effects": { "health": 0.1 }
+		},
+		"crystal": {
+			"name": "Prism Shard",
+			"text": "Light bends round it, and so do blows.",
+			"effects": { "defense": 2 }
+		},
+		"fungal": {
+			"name": "Glowcap Lantern",
+			"text": "A soft light that nothing else seems able to see.",
+			"effects": { "hush": 1 }
+		},
+		"blossom": {
+			"name": "Petal Locket",
+			"text": "Pressed petals that never brown. It is hard to give up with it on.",
+			"effects": { "health": 0.1 }
+		},
+		"barrow": {
+			"name": "Barrow King's Ring",
+			"text": "Old gold from a howe. Its first owner fought well, and still wants to.",
+			"effects": { "attack": 1, "defense": 1 }
+		},
+		"jungle": {
+			"name": "Jaguar Tooth",
+			"text": "Yellowed and sharp. It wants to be used.",
+			"effects": { "attack": 3 }
+		},
+		"taiga": {
+			"name": "Wolfskin Wrap",
+			"text": "The whole pelt, head and all, and the cold cannot get past it.",
+			"effects": { "proof": ["cold"], "stride": 0.05 }
+		},
+		"mist": {
+			"name": "Mist Lantern",
+			"text": "It gives no light at all, and in the mist that is the point.",
+			"effects": { "hush": 2 }
+		}
+	}
+}

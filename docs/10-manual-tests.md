@@ -313,6 +313,8 @@ Start a run (not the tutorial) and walk.
 | D5.21 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
 | D5.22 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D233](06-decisions.md)) |
 | D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
+| D5.24 | Walk into a land you have not been in, then open the journal (J), Quests | "A new page in the journal: ..."; under _The lands_ its page, up to five lines with boxes; walk five tiles of it, stand at a ring of stones or a cairn there, beat two bands on it (and a place or gate if it lists one): each line says so as it is crossed off, and the last turns up its trinket in a box, carried on the page ([D236](06-decisions.md)) |
+| D5.25 | Finish the bog's page (Heron Stilts), then walk at a pool on the bog's ground | The party walks through the pool instead of round it ([D236](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

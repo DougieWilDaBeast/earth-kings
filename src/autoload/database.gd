@@ -76,6 +76,8 @@ var opening: Dictionary = {}
 var props: Dictionary = {}
 ## The "Who wins?" show: its timings and words (`data/who_wins.json`, [D180]).
 var who_wins: Dictionary = {}
+## A page in the journal for each land, and the trinket each one pays (`data/land_journals.json`, [D236]).
+var land_journals: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -131,6 +133,7 @@ func _ready() -> void:
 	opening = _load_json("%s/opening.json" % DATA_DIR)
 	props = _load_json("%s/props.json" % DATA_DIR)
 	who_wins = _load_json("%s/who_wins.json" % DATA_DIR)
+	land_journals = _load_json("%s/land_journals.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:

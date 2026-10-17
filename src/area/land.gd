@@ -25,6 +25,9 @@ var slot := Vector2i(32, 22)
 var chunks: Dictionary = {}
 ## Campfires standing on the land, by cell.
 var fires: Dictionary = {}
+## The shallows are walked through, not round, while the company carries a land journal's stilts or
+## boots ([D236]). Whoever is on the land with them, a band or a fight, finds the same ground.
+var wading: bool = false
 
 ## Cell -> the building standing on it.
 var _building_cells: Dictionary = {}
@@ -214,7 +217,11 @@ func is_walkable(cell: Vector2i) -> bool:
 	var building: Variant = _building_cells.get(cell, null)
 	if building != null and (building as Dictionary)["door"] != cell:
 		return false
-	return bool(Database.area_terrain(terrain_at(cell)).get("walkable", true))
+	var terrain := terrain_at(cell)
+	# Pools in open country only: the sea round a tile of it stays the sea.
+	if wading and str(chunk.get("kind", "")) == "ground" and (terrain == "water" or terrain.ends_with("_liquid")):
+		return true
+	return bool(Database.area_terrain(terrain).get("walkable", true))
 
 
 func building_at(cell: Vector2i) -> Dictionary:
