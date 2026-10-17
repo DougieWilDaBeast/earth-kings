@@ -161,7 +161,11 @@ func _run() -> void:
 	_expect(int(heard.get("hit", 0)) + int(heard.get("crit", 0)) > 0, "no blow was heard landing")
 	_expect(int(heard.get("victory", 0)) + int(heard.get("defeat", 0)) == 1, "the end of the fight was heard %d times, not once" % [
 		int(heard.get("victory", 0)) + int(heard.get("defeat", 0))])
+	_expect(int(heard.get("engage", 0)) >= 1, "the fight opened without a sound (D185)")
 	_expect(not Sfx.cue("no_such_cue"), "a cue that is not in data/sfx.json made a sound")
+	for cue_id: String in Database.sfx.get("cues", {}):
+		var file := str(Database.sfx["cues"][cue_id].get("file", cue_id))
+		_expect(ResourceLoader.exists("%s/%s.wav" % [Sfx.DIR, file]), "the %s cue's sound is not on disk" % cue_id)
 	print("heard: %s" % str(heard))
 	# And seen: the drawn effects and icons are all on disk, and blows show them.
 	for key: String in ["swing", "shot", "spell", "heal", "block", "charged"]:

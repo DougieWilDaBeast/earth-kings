@@ -13,7 +13,8 @@ const ART_ROOT := "res://art/props"
 const GROUND := 12.0
 ## How much it lights up under the mouse.
 const HOVER_LIFT := 0.35
-## How long each frame of a prop's own animation shows: a portal's glow, a lighthouse's beam.
+## How long each frame of a prop's own animation shows: a portal's glow, a lighthouse's beam. A
+## picture may set its own (`frame_seconds` in `data/props.json`).
 const FRAME_SECONDS := 0.13
 
 var art: String = ""
@@ -45,6 +46,7 @@ static var _painted: Dictionary = {}
 var _frames: Array[Texture2D] = []
 var _frame: int = 0
 var _frame_left: float = 0.0
+var _frame_seconds: float = FRAME_SECONDS
 
 
 static func create(art_id: String) -> AreaProp:
@@ -111,7 +113,8 @@ func set_art(art_id: String) -> void:
 	_frames = frames_of(resolved_id)
 	# Each starts somewhere of its own, so two portals in one place do not pulse in step.
 	_frame = randi() % maxi(1, _frames.size())
-	_frame_left = FRAME_SECONDS
+	_frame_seconds = float(Database.prop_size(art_id).get("frame_seconds", FRAME_SECONDS))
+	_frame_left = _frame_seconds
 	set_process(not _frames.is_empty())
 	var size := scale_override if scale_override > 0.0 else float(Database.prop_size(art_id)["scale"])
 	var painted := painted_rect(resolved_id, texture)
@@ -148,7 +151,7 @@ func _process(delta: float) -> void:
 	_frame_left -= delta
 	if _frame_left > 0.0:
 		return
-	_frame_left += FRAME_SECONDS
+	_frame_left += _frame_seconds
 	_frame = (_frame + 1) % _frames.size()
 	_sprite.texture = _frames[_frame]
 

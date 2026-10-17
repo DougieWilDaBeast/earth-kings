@@ -153,7 +153,9 @@ each, each ending playable:
    that they never found out, and the other half of a tie hears one line for it
    ([D153](06-decisions.md)). The people on the route have their lines
    ([D154](06-decisions.md)): Old Halloran, the Guild's master, beside Sennet; Buri on blades falling
-   from a clear sky; Bram's dead master in the crater; Barnaby at the gate's mouth. **Planned**, after
+   from a clear sky; Bram's dead master in the crater; Barnaby at the gate's mouth. In Stormreach's
+   streets Muck Muck, the builder everyone asks, and Sinner, a cleric who mends the company for gold
+   ([D176](06-decisions.md), `doug-md`; their art is requests A26 and A27). **Planned**, after
    the First Hour (creatives' meeting C4): the training hall in Stormreach, Ultor's bandit company,
    the trap inn, Vane on the wall, and floor keepers given a why.
 8. The gamers' week fixes — built ([D104](06-decisions.md) to [D110](06-decisions.md), Will's calls L
@@ -198,8 +200,11 @@ each, each ending playable:
    ([D162](06-decisions.md), five strangers' finding 7); only floors 6 up of the Tower and roadside
    fights still open the fight screen. A phone held upright is laid out tall, the ground
    filling it and text about 12 points ([D163](06-decisions.md), finding 6).
-11. **Next** ([D124](06-decisions.md)): Ewan plays the hour to chapter one (play-test 3, on
-   `4196128` or the build on itch since 2026-10-16 09:11, `9c64cb3`); five real players, named by the
+11. **Next** ([D124](06-decisions.md)): Ewan played the hour (play-test 3, 2026-10-15,
+   [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
+   and his bigger asks are listed, **planned**, waiting on his order
+   ([28](28-the-first-hour.md#play-test-3s-asks)); the first he chose, life on the land, is built
+   ([D179](06-decisions.md)). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in
@@ -219,9 +224,33 @@ each, each ending playable:
    at Greyhollow, with Sennet's line — built ([D161](06-decisions.md), the five strangers' AU).
 13. Gates as crossings between the worlds — built ([D152](06-decisions.md), `dougie`'s idea): as a gate
    shuts its light can open onto the same gate in another lead's world, with that lead in it, or
-   their world burning if it has ended; the first gate of the first life always does. **Planned**
-   after the First Hour: something passes through (a word carried, a hand in a gate fight, a lead
-   met again in the contest past the top).
+   their world burning if it has ended; the first gate of the first life always does. A word carried
+   — built ([D183](06-decisions.md), from [D172](06-decisions.md)): what a lead says at a gate is heard
+   by a later lead who shuts the same gate, and the first gate of a life carries the lead who fell
+   last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
+   the top.
+14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186). The freeze lifts. Next,
+   all **planned**: chapter twos and later arcs drafted from the material there is
+   ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
+   ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
+   asks in his order ([D118](06-decisions.md)). Further off: worlds sealed until their lead dies, then
+   open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
+   the word carried between the leads is built ([D183](06-decisions.md), item 13); the contest past floor 100 ([D171](06-decisions.md)). Steam, the
+   store page and a native Android build wait ([D169](06-decisions.md)); call AV's five real players
+   and meeting 5 wait for players. The Warden of the Fifth's voice — built ([D184](06-decisions.md),
+   [D174](06-decisions.md)): as its fight begins it names the lead and counts which of the sixteen
+   challengers they are, first to sixteenth and final (lines **Inferred**, agenda item 108). Its fight
+   is left as it is until the Tower's bestiary rework ([D156](06-decisions.md)).
+   The hour's music in the meantime — built ([D185](06-decisions.md)): five in-house themes made in
+   code (`tools/make_music.py`) from the creatives' brief, played by place: the Tower floors, Stormreach,
+   the crater, a chapter one's memory and the world's end; the road keeps Angelic and the fights Bday
+   Project. Two more fight sounds (a fight opening, a ward) and the weak low ones given a mid-range
+   knock, measured by `tools/audio_levels.py`. **Planned**: a layer added a floor up the Tower, and the
+   opening's replay thinning as fewer are left (brief items 3 and 6).
+   `doug-md` answered his half on 2026-10-16 ([D186](06-decisions.md)): the music order is in
+   [31](31-music.md) (**planned**). Still open: whether the hour gets a little harder (Ewan would, `dougie`
+   keeps it; `dougie`'s call), the falling weapon (agenda 101) and which lead will not climb (agenda 75).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -540,9 +569,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
 - One world, the same every run ✅ (2026-10-14, [D91](06-decisions.md), [D92](06-decisions.md)):
   `doug-md`'s Map F frozen into `data/world_map.json` with the Tower in the middle; its lands and
   ground the same every run too; improved by hand from here ([27](27-the-world.md))
-- Coins and prices (agenda item 60, planned): four coins, bronze to platinum, and every price set
-  again, proposed in [26](26-coins-and-prices.md) for `doug-md` to check ([D89](06-decisions.md),
-  [D90](06-decisions.md))
+- Coins and prices (agenda item 60, planned): four coins, copper to platinum ([D177](06-decisions.md)),
+  and every price set again, proposed in [26](26-coins-and-prices.md) for `doug-md` to check
+  ([D89](06-decisions.md), [D90](06-decisions.md))
 - Planar areas that differ (agenda item 62) ✅ (2026-10-12, [D66](06-decisions.md)): eighteen lands
   ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
   reshaped round gates; every tile of open country its own ground, with ways out only where the land
@@ -638,7 +667,7 @@ Work that gets the build into players' hands. Almost none of it waits on a found
 - An itch.io page for the browser build ✅ (2026-10-13, `dougie`'s, still a draft): pushed only on
   `dougie`'s word; every push and play-test build is listed in [28](28-the-first-hour.md#builds-on-itch-io)
 - A Steam page with the First Hour as a free demo — planned, once the hour plays and the music is
-  clean ([D100](06-decisions.md))
+  clean ([D100](06-decisions.md)); the founders come back to it later ([D169](06-decisions.md))
 
 ## Deferred
 

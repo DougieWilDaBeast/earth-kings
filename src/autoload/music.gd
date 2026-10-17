@@ -3,7 +3,11 @@ extends Node
 ##
 ## Which scene hears which set of tracks lives in `data/music.json`; [Game]
 ## hands every scene change here and nothing else in the game touches a player.
-## Two players are kept so one track can fade up while the last fades out.
+## Within a scene the place can ask for its own set (`places`, heard on
+## [signal EventBus.place_entered]: a Tower floor, the city, the crater), and a
+## dialogue can for as long as it is open (`dialogues`, by the start of its id:
+## a chapter one's memory), D185. Two players are kept so one track can fade up
+## while the last fades out.
 
 const SILENT_DB := -80.0
 const DEFAULT_FADE := 1.4
@@ -25,6 +29,13 @@ var _path := ""
 var _last_of: Dictionary = {}
 var _rng := RandomNumberGenerator.new()
 var _tween: Tween
+## What the scene, the place and an open dialogue each ask for; the most
+## particular one sounds.
+var _scene_set := ""
+var _place_set := ""
+var _moment_set := ""
+## A scene has changed and its place has a frame to say where it is.
+var _settling := false
 
 
 func _ready() -> void:
@@ -39,6 +50,9 @@ func _ready() -> void:
 		player.volume_db = SILENT_DB
 		add_child(player)
 		_players.append(player)
+	EventBus.place_entered.connect(_on_place_entered)
+	EventBus.dialogue_requested.connect(_on_dialogue_requested)
+	EventBus.dialogue_finished.connect(_on_dialogue_finished)
 
 
 func set_volume(level: float) -> void:
@@ -87,9 +101,58 @@ func _save_settings() -> void:
 
 
 ## Play whatever `data/music.json` gives this scene key (silence if nothing).
+## It starts a frame later: the scene comes in on the next idle and an area says
+## where it is as it does, so the music changes once, to the place's own set,
+## and not to the scene's and then straight on to the place's.
 func for_scene(scene_key: String) -> void:
 	var scenes: Dictionary = Database.music.get("scenes", {})
-	play_set(str(scenes.get(scene_key, "")))
+	_scene_set = str(scenes.get(scene_key, ""))
+	_place_set = ""
+	_moment_set = ""
+	if _settling:
+		return
+	_settling = true
+	await get_tree().process_frame
+	_settling = false
+	play_set(wanted_set())
+
+
+## The set that should be sounding: an open dialogue's, else the place's, else
+## the scene's.
+func wanted_set() -> String:
+	for set_id: String in [_moment_set, _place_set]:
+		if set_id != "":
+			return set_id
+	return _scene_set
+
+
+## The set sounding now ("" for silence).
+func playing_set() -> String:
+	return _set_id
+
+
+func _on_place_entered(place_id: String) -> void:
+	_place_set = str(Database.music.get("places", {}).get(place_id, ""))
+	if not _settling:
+		play_set(wanted_set())
+
+
+func _on_dialogue_requested(dialogue_id: String) -> void:
+	var dialogues: Dictionary = Database.music.get("dialogues", {})
+	for start: String in dialogues:
+		if dialogue_id.begins_with(start):
+			_moment_set = str(dialogues[start])
+			if not _settling:
+				play_set(wanted_set())
+			return
+
+
+func _on_dialogue_finished(_dialogue_id: String) -> void:
+	if _moment_set == "":
+		return
+	_moment_set = ""
+	if not _settling:
+		play_set(wanted_set())
 
 
 ## Start a named set from `sets`; a set with several tracks picks one at random,

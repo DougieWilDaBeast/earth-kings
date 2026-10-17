@@ -15,12 +15,16 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
 
 const SEED := 20260827
+## Every gate this suite shuts leaves a word in the record of the sixteen (D183):
+## kept here, so the real record is never touched.
+const SIXTEEN_PATH := "user://earth-kings.sixteen.walk-suite.json"
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
@@ -35,6 +39,8 @@ var _failures: Array[String] = []
 
 
 func _ready() -> void:
+	Sixteen.path = SIXTEEN_PATH
+	_forget_sixteen()
 	GameState.new_game(SEED)
 	# Atlas leads; two more of the sixteen walk with him, so there is someone to
 	# talk to, teach and send away.
@@ -57,6 +63,8 @@ func _ready() -> void:
 	for name: String in chosen:
 		await call("_check_" + name)
 
+	_forget_sixteen()
+	Sixteen.path = Sixteen.DEFAULT_PATH
 	print("")
 	if _failures.is_empty():
 		print("walk smoke test: PASS")
@@ -355,6 +363,15 @@ func _check_home() -> void:
 
 	var better := Home.next_bed(house)
 	_expect(not better.is_empty(), "there is no bed to upgrade to")
+	# In the First Hour the crater offers no bed (D178); the beds are kept for after it.
+	var hidden: Array = Database.world_rules["first_hour"]["hidden"]
+	if hidden.has("beds"):
+		GameState.gold = 100000
+		_scene._upgrade_bed_here()
+		_expect(Home.tier(house) == 0, "a bed was sold in the crater in the First Hour")
+		_expect(not _scene._actions_here().any(func(doing: Dictionary) -> bool: return doing["call"] == _scene._upgrade_bed_here),
+			"the crater still offers a better bed in the First Hour")
+		hidden.erase("beds")
 	GameState.gold = 0
 	_scene._upgrade_bed_here()
 	_expect(Home.tier(house) == 0, "bought a bed with no money")
@@ -372,6 +389,8 @@ func _check_home() -> void:
 	if not _walk_onto(Site.VILLAGE):
 		return
 	_expect(sleeper.max_hp() == plain_hp + int(better.get("vigour", 0)), "a night away undid the bed")
+	if not hidden.has("beds"):
+		hidden.append("beds")
 	print("home: %s at %s, %s took %s from %d to %d HP" % [
 		Home.bed_name(house), house.cell, sleeper.display_name,
 		better.get("display_name", "a bed"), plain_hp, sleeper.max_hp()
@@ -1346,7 +1365,6 @@ func _check_guild() -> void:
 ## with the first lead alive there, their weapon on its way and, once caught up
 ## with, down where it can be found and their ghost at the fire.
 func _check_sixteen() -> void:
-	var Sixteen := preload("res://src/chronicle/sixteen.gd")
 	var RunMode := preload("res://src/chronicle/run_mode.gd")
 	Sixteen.path = "user://earth-kings.sixteen.walk-test.json"
 	if FileAccess.file_exists(Sixteen.path):
@@ -1464,7 +1482,7 @@ func _check_sixteen() -> void:
 
 	if FileAccess.file_exists(Sixteen.path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
-	Sixteen.path = Sixteen.DEFAULT_PATH
+	Sixteen.path = SIXTEEN_PATH
 	GameState.mode = kept_mode
 	if hall == null:
 		if FileAccess.file_exists(Museum.PATH):
@@ -1901,6 +1919,96 @@ func _check_crossing() -> void:
 	_expect(GameState.has_flag(Crossing.ANY), "a crossing in a run was not kept")
 	print("crossing: first gate met %s; %d of %d %s gates opened, %d onto an ended world" % [
 		met.get("name", ""), opened, tries, gate.rank, ended])
+	_check_word_carried(gate)
+
+
+## D183: a word carries. The lead who shuts a gate leaves a word there, kept
+## beside the fallen outside the save; the next life, shutting the same gate in
+## a sibling of the same world, hears it through the light. At the first gate
+## of a life the lead who fell last is heard, or word of them; a world of its
+## own hears nothing.
+func _check_word_carried(gate: Site) -> void:
+	var Crossing := preload("res://src/chronicle/crossing.gd")
+	var world: World = GameState.world
+	var rules := Crossing.rules()
+	var carried: Dictionary = rules.get("carried", {})
+	var left: Dictionary = carried.get("left", {})
+	for hero_id: String in Database.heroes:
+		if not hero_id.begins_with("_"):
+			_expect(left.has(hero_id), "%s leaves no word at a gate" % hero_id)
+	var lead := GameState.roster.player()
+	var first_id := lead.template_id
+	var first_name := lead.display_name
+	var record := "user://earth-kings.sixteen.crossing-test.json"
+	Sixteen.path = record
+	_forget_sixteen()
+	var kept_flags := GameState.flags.duplicate(true)
+	var kept_echoes := world.echoes.duplicate(true)
+	var kept_chance: Dictionary = (rules["chance"] as Dictionary).duplicate()
+	(rules["chance"] as Dictionary)[gate.rank] = 0.0
+
+	# The first life shuts the gate: the word is written down, once.
+	Crossing.on_gate_shut(world, gate)
+	Crossing.on_gate_shut(world, gate)
+	var words := Sixteen.words()
+	_expect(words.size() == 1 and str(words[0].get("hero", "")) == first_id
+		and Sixteen.same_cell(words[0].get("cell", []), [gate.cell.x, gate.cell.y])
+		and str(words[0].get("word", "")) == str(left.get(first_id, "")),
+		"%s's word at %s was not kept once: %s" % [first_name, gate.display_name, str(words)])
+
+	# The first life ends, and the next lead shuts the same gate in its sibling.
+	Sixteen.fall(first_id, { "hero": first_id, "name": first_name })
+	_expect(Sixteen.words().size() == 1, "a lead falling lost the words carried")
+	var next_id := "pluto" if first_id != "pluto" else "cato"
+	lead.template_id = next_id
+	lead.display_name = Crossing.name_of(next_id)
+	GameState.flags = {}
+	world.echoes["sibling"] = 1
+	var heard_id := Crossing.on_gate_shut(world, gate)
+	var heard: Array = Database.dialogue(heard_id).get("lines", [])
+	_expect(heard_id == "carried_%s" % first_id, "the next life heard nothing at %s (%s)" % [gate.display_name, heard_id])
+	_expect(heard.any(func(line: Dictionary) -> bool:
+		return str(line["speaker"]) == first_name and str(line["text"]) == str(left.get(first_id, ""))),
+		"%s's word did not carry: %s" % [first_name, str(heard)])
+	_expect(heard.size() == (carried.get("voice", []) as Array).size(), "the carried word lost lines")
+	_expect(heard.all(func(line: Dictionary) -> bool: return not str(line["text"]).contains("{")),
+		"a carried line kept a blank: %s" % str(heard))
+	_expect(str((world.annals.back() as Dictionary).get("text", "")).contains(str(left.get(first_id, "_"))),
+		"the journal did not write down the word carried")
+	_expect(Sixteen.words().size() == 2, "the next lead left no word of their own")
+
+	# Elsewhere: the first gate of a life hears the lead who fell last; later gates nothing.
+	var other := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and s.cell != gate.cell)
+	if other != null:
+		var fallen := Sixteen.fallen_heroes()
+		var at_first := Crossing.carried(world, other, next_id, Sixteen.words(), fallen, true)
+		_expect(str(at_first.get("hero", "")) == first_id and str(at_first.get("word", "")) == str(left.get(first_id, "")),
+			"the first gate of the next life did not carry the fallen: %s" % str(at_first))
+		_expect(Crossing.carried(world, other, next_id, Sixteen.words(), fallen, false).is_empty(),
+			"a later gate carried a word nobody left there")
+		var silent := Crossing.carried(world, other, next_id, [], ["caesar"], true)
+		_expect(str(silent.get("word", "_")) == "" and str(silent.get("hero", "")) == "caesar",
+			"a fallen lead with no word was not heard of: %s" % str(silent))
+		var word_of: Array = Crossing.carried_scene(silent, other, lead.display_name).get("lines", [])
+		_expect(not word_of.is_empty() and word_of.all(func(line: Dictionary) -> bool: return str(line["speaker"]) == ""),
+			"word of a fallen lead had someone speaking: %s" % str(word_of))
+	world.echoes["sibling"] = 0
+	_expect(Crossing.carried(world, gate, next_id, Sixteen.words(), Sixteen.fallen_heroes(), true).is_empty(),
+		"a world of its own heard a word from another")
+
+	rules["chance"] = kept_chance
+	world.echoes = kept_echoes
+	GameState.flags = kept_flags
+	lead.template_id = first_id
+	lead.display_name = first_name
+	_forget_sixteen()
+	Sixteen.path = SIXTEEN_PATH
+	print("word carried: the next life heard %s at %s: \"%s\"" % [first_name, gate.display_name, str(left.get(first_id, ""))])
+
+
+func _forget_sixteen() -> void:
+	if FileAccess.file_exists(Sixteen.path):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 
 
 func _site_where(predicate: Callable) -> Site:

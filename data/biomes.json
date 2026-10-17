@@ -1,5 +1,5 @@
 {
-	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average. `foes` are who camps in a land: a band there draws from them `land_foe_share` of the time and from the faction that walks the terrain otherwise (src/chronicle/encounter.gd). `effects` are what the land does to the party (src/chronicle/biome.gd, `Biome.effects`). `edge_band` is how many cells of the next land's floor run into a tile where two lands meet (D128, the edge sheets from tools/draw_edges.py).",
+	"_comment": "The lands of the continent, and how the ground of each is generated (src/chronicle/biome.gd picks one per tile; src/area/ground_gen.gd lays it out). Art for every land but grassland and forest is a recoloured stand-in from tools/recolour_biomes.py (docs/22-asset-provenance.md). Densities are props per cell; features are how many of each kind of patch a ground gets on average. `foes` are who camps in a land: a band there draws from them `land_foe_share` of the time and from the faction that walks the terrain otherwise (src/chronicle/encounter.gd). `effects` are what the land does to the party (src/chronicle/biome.gd, `Biome.effects`). `edge_band` is how many cells of the next land's floor run into a tile where two lands meet (D128, the edge sheets from tools/draw_edges.py). `life` scales how many birds, butterflies, bees and other small things a land's tiles get (world_rules.json → life, D179; 1 when absent).",
 	"size": [
 		32,
 		22
@@ -32,6 +32,7 @@
 				"meadow"
 			],
 			"tint": "",
+			"life": 1.2,
 			"line": "Open grassland, and wind across it.",
 			"props": {
 				"trees": [
@@ -92,6 +93,7 @@
 				"meadow"
 			],
 			"tint": "#9fb59a",
+			"life": 1.0,
 			"line": "Old forest, close and quiet under the boughs.",
 			"props": {
 				"trees": [
@@ -154,6 +156,7 @@
 				"snow_cover"
 			],
 			"tint": "#d8e4f2",
+			"life": 0.3,
 			"line": "Snow to the knee, and the cold gets in everywhere.",
 			"props": {
 				"trees": [
@@ -210,6 +213,7 @@
 				"dune_cover"
 			],
 			"tint": "#f3dcb0",
+			"life": 0.4,
 			"line": "Sand, heat, and nothing to hide behind.",
 			"props": {
 				"trees": [],
@@ -265,6 +269,7 @@
 				"badlands_cover"
 			],
 			"tint": "#f0b890",
+			"life": 0.4,
 			"line": "Red rock cut into canyons by water long gone.",
 			"props": {
 				"trees": [],
@@ -316,6 +321,7 @@
 				"savanna_cover"
 			],
 			"tint": "#f2e0a8",
+			"life": 1.0,
 			"line": "Dry gold grass to the horizon, and a lone tree for shade.",
 			"props": {
 				"trees": [
@@ -367,6 +373,7 @@
 				"ash_cover"
 			],
 			"tint": "#b8a8a0",
+			"life": 0.1,
 			"line": "Ash falls like snow, and the ground is warm underfoot.",
 			"props": {
 				"trees": [
@@ -421,6 +428,7 @@
 				"blight_cover"
 			],
 			"tint": "#c890a8",
+			"life": 0.1,
 			"line": "The land here is sick, and it is spreading from the gate.",
 			"props": {
 				"trees": [
@@ -470,6 +478,7 @@
 				"slime_cover"
 			],
 			"tint": "#b8e0a8",
+			"life": 0.5,
 			"line": "Everything glistens. Some of it moves.",
 			"props": {
 				"trees": [],
@@ -522,6 +531,7 @@
 				"bog_cover"
 			],
 			"tint": "#b0aa80",
+			"life": 0.8,
 			"line": "Black water and soft ground that takes a boot and keeps it.",
 			"props": {
 				"trees": [
@@ -576,6 +586,7 @@
 				"swamp_cover"
 			],
 			"tint": "#90b8a0",
+			"life": 1.0,
 			"line": "Warm, wet and loud with things you cannot see.",
 			"props": {
 				"trees": [
@@ -631,6 +642,7 @@
 				"crystal_cover"
 			],
 			"tint": "#c8d0ff",
+			"life": 0.4,
 			"line": "Crystal grows out of the ground here, humming to itself.",
 			"props": {
 				"trees": [],
@@ -679,6 +691,7 @@
 				"fungal_cover"
 			],
 			"tint": "#8098c8",
+			"life": 0.6,
 			"line": "Mushrooms taller than a house, glowing in their own light.",
 			"props": {
 				"trees": [
@@ -729,6 +742,7 @@
 				"blossom_cover"
 			],
 			"tint": "#f8e8f0",
+			"life": 1.5,
 			"line": "Petals on the wind. Nothing here wants to hurt you, yet.",
 			"props": {
 				"trees": [
@@ -781,6 +795,7 @@
 				"barrow_cover"
 			],
 			"tint": "#b0b8b0",
+			"life": 0.5,
 			"line": "Grey hills over old graves. The stones have names on them.",
 			"props": {
 				"trees": [],
@@ -830,6 +845,7 @@
 				"jungle_cover"
 			],
 			"tint": "#a8d8a0",
+			"life": 1.4,
 			"line": "Green on green, vines like ropes, and the air is hot and wet.",
 			"props": {
 				"trees": [
@@ -887,6 +903,7 @@
 				"taiga_cover"
 			],
 			"tint": "#d0dce0",
+			"life": 0.6,
 			"line": "Dark spruce in deep snow. Every sound carries.",
 			"props": {
 				"trees": [
@@ -940,6 +957,7 @@
 				"mist_cover"
 			],
 			"tint": "#b0b4d0",
+			"life": 0.5,
 			"line": "A fog that never lifts. Shapes move in it, and not all of them are trees.",
 			"props": {
 				"trees": [

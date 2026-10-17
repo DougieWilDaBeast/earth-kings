@@ -31,6 +31,8 @@ const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const AreaCritter := preload("res://src/area/area_critter.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 
 var _requests: Array[Dictionary] = []
@@ -53,12 +55,15 @@ func _ready() -> void:
 		await _check_area(area_id)
 	await _check_camp()
 	_check_trading()
+	_check_the_builder_and_the_healer()
 	_check_story_npcs()
 	await _check_tutorial()
 	await _check_practice_band()
 	await _check_tower_floor()
 	await _check_the_land()
 	await _check_the_joined_land()
+	await _check_play_test_three()
+	await _check_life_on_the_land()
 
 	print("")
 	if _failures.is_empty():
@@ -316,6 +321,51 @@ func _check_story_npcs() -> void:
 
 ## Buying from a stall, paying a fox to listen, and a favour from asking to being paid, done the
 ## way the dialogue box does them: each reply's effects, then the node it leads to.
+## Stormreach's builder and its healer ([D176]): Muck Muck stands by the ruined bathhouse and talks
+## about building; Sinner mends the whole company for gold while anyone is hurt, takes the money
+## once, and with nobody hurt only looks them over, for nothing.
+func _check_the_builder_and_the_healer() -> void:
+	var map := AreaMap.load_area("city_streets")
+	var muck := {}
+	var sinner := {}
+	for person: Dictionary in map.people:
+		match person.get("name", ""):
+			"Muck Muck": muck = person
+			"Sinner": sinner = person
+	if muck.is_empty() or sinner.is_empty():
+		_fail("city: Muck Muck or Sinner is missing from the streets")
+		return
+	if (Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")["menu"]["options"] as Array).size() < 3:
+		_fail("city: Muck Muck has nothing to be asked")
+	var nodes: Dictionary = Talk.build("Sinner", sinner["talk"], false, 0.5, "met:test")
+	var hurt: Character = GameState.party_characters()[0]
+	hurt.hp = maxi(1, hurt.max_hp() / 3)
+	GameState.gold = 1000
+	var mend: Dictionary = {}
+	for option: Dictionary in DialogueScript.available_options(nodes["menu"]):
+		if bool(option.get("heal", false)):
+			mend = option
+	if mend.is_empty():
+		_fail("city: Sinner offers no healing to a hurt company")
+		return
+	DialogueScript.apply_effects(mend)
+	if GameState.party_is_wounded():
+		_fail("city: Sinner took the money and nobody was mended")
+	if GameState.gold != 1000 - int(mend.get("requires_gold", 0)) or GameState.gold == 1000:
+		_fail("city: Sinner's mending cost nothing (%d gold left)" % GameState.gold)
+	var whole := DialogueScript.available_options(nodes["menu"])
+	if whole.any(func(o: Dictionary) -> bool: return bool(o.get("heal", false))):
+		_fail("city: Sinner still asks money to mend a company with nobody hurt")
+	if not whole.any(func(o: Dictionary) -> bool: return o.get("goto", "") == "whole"):
+		_fail("city: Sinner has nothing to say to a company that is whole")
+	hurt.hp = maxi(1, hurt.max_hp() / 3)
+	GameState.gold = 0
+	if DialogueScript.available_options(nodes["menu"]).any(func(o: Dictionary) -> bool: return bool(o.get("heal", false))):
+		_fail("city: Sinner mends a company that cannot pay")
+	GameState.heal_party()
+	GameState.gold = GameState.DEFAULT_GOLD
+
+
 func _check_trading() -> void:
 	var map := AreaMap.load_area("village")
 	var hesk := {}
@@ -914,3 +964,93 @@ func _check_the_joined_land() -> void:
 	scene.queue_free()
 	await get_tree().process_frame
 	print("land: tiles walk into each other, %s stands in its tile, a band walks across, a step keeps to the land, and so does walking itself" % town.display_name)
+
+
+## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met
+## standing somewhere is drawn as the Atlas who joins (in Sky's saddle); the lighthouse's beam turns
+## at its own slower pace.
+func _check_play_test_three() -> void:
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "village", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var from: Vector2i = map.cell_at(scene._leader.position)
+	var goal := Vector2i(-1, -1)
+	for radius in range(4, 9):
+		for cell: Vector2i in [from + Vector2i(radius, 0), from + Vector2i(-radius, 0), from + Vector2i(0, -radius)]:
+			if goal.x < 0 and map.is_walkable(cell) and map.find_cell_path(from, cell).size() > 2:
+				goal = cell
+	if goal.x < 0:
+		_fail("play-test 3: nowhere open near the village's way in to click on")
+	else:
+		scene._walk_to(map.centre_of(goal))
+		for i in 240:
+			scene._physics_process(1.0 / 60.0)
+			if map.cell_at(scene._leader.position) == goal:
+				break
+		if map.cell_at(scene._leader.position) != goal:
+			_fail("play-test 3: a click on open ground did not walk the party there (at %s, wanted %s)" % [map.cell_at(scene._leader.position), goal])
+	scene.queue_free()
+	await get_tree().process_frame
+	var standing := AreaActor.for_person({ "name": "Atlas", "unit": "atlas" })
+	var joined := AreaActor.for_character(Character.create("atlas"))
+	if standing.body_scale != joined.body_scale or standing._rotations.get("south") != joined._rotations.get("south"):
+		_fail("play-test 3: Atlas standing in a town is not drawn as the Atlas who joins")
+	standing.free()
+	joined.free()
+	if float(Database.prop_size("landmark/lighthouse").get("frame_seconds", 0.13)) <= 0.13:
+		_fail("play-test 3: the lighthouse still blinks at the quick pace")
+
+
+## Life on the land ([D179]): the tiles round the party have birds, butterflies and the like on
+## them; a bird takes off when the leader walks up to it and comes down further off; and on the
+## First Hour's road the city's Watch walks its rounds.
+func _check_life_on_the_land() -> void:
+	var world: World = GameState.world
+	var road_tile := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var tile := Vector2i(x, y)
+			if road_tile.x < 0 and not FirstRoad.sides(world, tile).is_empty() and world.site_at(tile) == null:
+				var rng := RandomNumberGenerator.new()
+				rng.seed = hash([world.shape_seed(), tile.x, tile.y, "watch"])
+				if rng.randf() < float(Database.world_rules["life"]["road_watch"]["chance"]):
+					road_tile = tile
+	if road_tile.x < 0:
+		_fail("life: no tile of the road with the Watch on it")
+		return
+	world.player_cell = road_tile
+	GameState.land_cell = null
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "land": true, "return_scene": "world", "planar_mode": true })
+	add_child(scene)
+	await get_tree().process_frame
+	var critters: Array = scene.get_node("Actors").get_children().filter(
+		func(n: Node) -> bool: return n.get_script() == AreaCritter)
+	var lives := {}
+	for c: Node2D in critters:
+		lives[c.life] = true
+	if critters.size() < 9 or not lives.has("bird") or not lives.has("flutter"):
+		_fail("life: the land round the party is empty (%d creatures, %s)" % [critters.size(), lives.keys()])
+	var watch: Array = scene._people.filter(func(a: AreaActor) -> bool:
+		return str((a.get_meta("person", {}) as Dictionary).get("_area", "")) == "road_watch")
+	if watch.size() < 2 or watch.size() % 2 != 0:
+		_fail("life: the Watch is not walking the road at %s in pairs (%d of them)" % [road_tile, watch.size()])
+	elif not watch[0].can_talk():
+		_fail("life: the Watch on the road will not talk")
+	var bird: Node2D = null
+	for c: Node2D in critters:
+		if c.life == "bird" and c.visible:
+			bird = c
+			break
+	if bird != null:
+		var was := bird.position
+		scene._leader.position = bird.position + Vector2(40, 0)
+		for i in 120:
+			bird._process(1.0 / 60.0)
+		if bird.position.distance_to(was) < AreaMap.CELL * 2.0:
+			_fail("life: a bird stayed put with the leader standing over it")
+	scene.queue_free()
+	await get_tree().process_frame
+	print("life: %d creatures round the party (%s), a bird took off, and the Watch walks the road" % [critters.size(), ", ".join(lives.keys())])

@@ -352,6 +352,7 @@ door into a training fight that comes back out of the same door; nothing in it c
   "job": { "flag": "job:wat_stone", "done_flag": "found:wat_stone", "offer": "...", "done": "...", "gold": 30, "item": "hearth_coin" },
   "refuse": { "chance": 0.4, "text": "Not now.", "unless": "smith:won", "bribe": 5,
               "check": { "skill": "might", "dc": 11 }, "won": "Fine.", "won_flag": "smith:won", "still_no": "No." },
+  "heal": { "price": 40, "q": "Patch up my companions.", "done": "There.", "whole_q": "Can you look us over?", "whole": "Nobody here needs me." },
   "news": true, "more": "Anything else?", "leave": "Goodbye.", "bye": "Mind the geese."
 }
 ```
@@ -365,6 +366,9 @@ door into a training fight that comes back out of the same door; nothing in it c
   is set by something found elsewhere — a prop's or a spot's `set_flag`.
 - `refuse` — whether they will talk at all: on their `chance` each time (1.0, every time) until an
   `unless` flag is set. A `bribe` and a `check` are ways round it; `won_flag` makes it stick.
+- `heal` — they mend the whole company for `price` gold (through the difficulty's `price` dial), as a
+  rest does: `q` is offered while anyone is hurt and the purse can pay, and they say `done`; with
+  nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D176](06-decisions.md)).
 - `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
   mutters as you pass.
 
@@ -386,7 +390,12 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - `art` — every picture under `art/props/` (path without `.png`), as its kind or as its kind plus
   overrides. Unknown art is drawn as it is and blocks nothing.
 - A prop whose art has a folder of frames beside it (`landmark/lighthouse/frame_000.png` …) plays
-  them over and over: the portals glow, the lighthouse sweeps.
+  them over and over: the portals glow, the lighthouse sweeps. `frame_seconds` on its `art` entry is
+  how long each frame shows (0.13 if absent; the lighthouse's is 0.45, [D178](06-decisions.md)).
+- `life` on a kind or an `art` entry makes the picture alive wherever it is laid down
+  ([D179](06-decisions.md), `src/area/area_critter.gd`): `bird` (pecks, hops, takes off when the
+  party comes near), `flutter` (a butterfly or a bee round where it lives), `hop` (a grasshopper),
+  `crawl` (a snail, a spider). A living picture with a `line` or a haul stays still, to be looked at.
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
@@ -490,12 +499,24 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
+
+`per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
+average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
+pictures each is drawn from. A bird takes off when the party comes within `shy_cells`, flies
+`flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
+to land is gone `away_seconds`. `road_watch`: on that `chance` of the First Hour's road tiles, two of
+the city's Watch (`units`, called `name`) walk the road there end to end and back, staying `stay`
+[min, max] seconds and saying one of `lines` at each end; `talk` is their conversation (a `talk`
+block, above). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 
 `hidden` names the systems that are built but out of reach until the First Hour is done
 ([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
 Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
-`dispatch`, `seasons`. Take a name out to bring its system back.
+`dispatch`, `seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
+bring its system back.
 
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
@@ -503,6 +524,13 @@ Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `capt
 
 `first_life` (`atlas`) is the lead New Game starts as while no world has ended; after a death the
 quiz picks the next lead ([D106](06-decisions.md), `FirstHour.first_life()`).
+
+`warden` is what the floor 5 keeper says as its fight begins ([D184](06-decisions.md)): `band` (the
+keeper's band key, `tower5_keeper`), `speaker` (the name in the box), `ordinals` (the words for first
+to sixteenth), `first_line` (the first life's), `line` (every later life's) and `last_line` (the
+sixteenth's); `{ordinal}` is the word and `{name}` the lead. Which challenger a lead is comes from the
+leads already fallen (`Sixteen.fallen_heroes`, kept outside the save, [D47](06-decisions.md)); read by
+`FirstHour.warden_line`, shown by `area_scene._fight_held`.
 
 ## `world_rules.json` → `difficulty` — settings (D104)
 
@@ -564,6 +592,15 @@ come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memo
 with `{gate}`, `{name}`, `{lead}` and `{says}` filled in), `journal` the line written for each, and
 `says` each lead's line through the gate. Read by `src/chronicle/crossing.gd`; who was met is the
 run's `crossed:<lead>` flag (`crossed:any` once any).
+
+`carried` is a word carried between lives (D183): `left` is each lead's line said into a gate as it
+shuts; `voice` the lines played when a later lead hears a word (`{gate}`, `{name}`, `{lead}` and
+`{word}` filled in), `word_of` those for a fallen lead who left no word, and `journal` the line for
+each (`voice`, `word_of`). What was said is kept in the record of the sixteen
+(`user://earth-kings.sixteen.json`, beside `fallen_heroes`, `fallen_tempers` and `worlds`) as
+`words`, oldest first, each `{ hero, gate, cell: [x, y], seed, word }`, `seed` the first world's seed
+of the sixteen it was said in; one per lead per gate. The run's `carried:shut` flag marks that a life
+has shut its first gate.
 
 The world's `bands` in the ground's payload: each `{ key, pack, sight, reach, faction, label,
 from, tile }`, `from` the `[dx, dy]` way to the tile it stands on (`[0, 0]` for this one) and `tile`
@@ -838,11 +875,33 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
 
 - `voices` — how many sounds may play at once (at least the interface's four).
 - A cue is a moment the fight sounds: `swing`, `shoot`, `hit`, `crit`, `block`, `charge`, `spell`,
-  `heal`, `stun`, `drink`, `fall` (one of the company down), `death` (a foe), `victory`, `defeat`.
+  `heal`, `stun`, `drink`, `fall` (one of the company down), `death` (a foe), `victory`, `defeat`,
+  `engage` (a fight opening) and `ward` (a ward taken up, or soaking a blow; [D185](06-decisions.md)).
 - `file` — the sound in `audio/sfx/` (no extension); `tools/make_fight_sounds.py` makes them.
 - `volume_db` — loudness against the others; `pitch` — the range each play is picked from, so
   repeats differ; `gap` — the fewest seconds before the same cue sounds again. All under the
   Sounds slider. A cue not listed is silent.
+
+## `music.json` — what plays where ([D100](06-decisions.md), [D185](06-decisions.md))
+
+```json
+"fade": 1.4,
+"scenes": { "area": "road", "skirmish": "battle", "summary": "world_ending" },
+"places": { "tower_floor_1": "tower", "city": "city", "home": "crater", "world_ends": "world_ending" },
+"dialogues": { "memory_": "memory" },
+"sets": { "tower": [{ "path": "res://audio/music/tower_floors.wav", "volume_db": -14.0 }] }
+```
+
+- `fade` — seconds one track takes to cross into the next.
+- `scenes` — a scene key (as [Game] knows it) to the set it hears; a key not listed is silence.
+- `places` — an area's id, or the id of the place on the land tile walked onto (`home` is the
+  crater), or a moment's key (`world_ends`, the world's last look), to the set heard there in place
+  of the scene's. The area scene says where the party is on `EventBus.place_entered`, on coming in
+  and on each new tile of the land; a place not listed hears the scene's set.
+- `dialogues` — the start of a dialogue's id to the set heard while it is open (a chapter one is
+  `memory_<id>`); when it closes, the place's or the scene's set comes back.
+- `sets` — a set's tracks, each a `path` and its `volume_db`; with several, one is picked at random,
+  never the one it played last. Every track loops. The fan covers are never named (D100).
 
 ## `maps/*.json` — hand-authored battlefields
 
@@ -915,9 +974,11 @@ A conversation is either a flat script:
   `d20 + skill / 2` against `dc`; a natural 20 always lands and a natural 1 never does. The
   check may carry `success_effects` / `failure_effects`.
 - Nodes and options share the same effect keys: `set_flag`, `clear_flag` (a string or a list of
-  them) and `gold` (a signed amount).
-- An option is hidden unless the party satisfies its `requires` / `requires_not` flags and its
-  `requires_gold`.
+  them), `gold` (a signed amount), `item` (handed over) and `heal` (`true`: the company mended, as a
+  rest does).
+- An option is hidden unless the party satisfies its `requires` / `requires_not` flags, its
+  `requires_gold`, and its `requires_wounded` (`true`: only while someone in the company is hurt;
+  `false`: only while nobody is).
 
 ## `credits.json` — the credits
 

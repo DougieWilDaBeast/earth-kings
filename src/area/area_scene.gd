@@ -27,6 +27,8 @@ const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
+const GroundGen := preload("res://src/area/ground_gen.gd")
+const AreaCritter := preload("res://src/area/area_critter.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
@@ -38,6 +40,10 @@ const AutoRoad := preload("res://src/world/auto_road.gd")
 const SKIRMISH := preload("res://src/skirmish/skirmish.tscn")
 
 const WALK_SPEED := 190.0
+## How long laying out the land ahead may take in one frame, in milliseconds, and how near a tile's
+## edge the party walks before the tiles beyond the next are worked out ([D178]).
+const LAND_BUDGET_MS := 5.0
+const LAND_WARM_CELLS := 12
 ## Breadcrumb trail recording spacing and following parameters.
 const CRUMB_SPACING := 6.0
 const FOLLOWER_DISTANCE := 24.0
@@ -86,6 +92,8 @@ var _nearby: AreaThing = null
 var _hovered: AreaThing = null
 var _approach: AreaThing = null
 var _approach_path: Array[Vector2] = []
+## Where the leader is walking to after a click on open ground, the next point first.
+var _click_path: Array[Vector2] = []
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -185,6 +193,14 @@ var _to_hold: Array[Vector2i] = []
 ## Tiles whose ground is down and whose things are still to stand on it, a frame later: one tile's
 ## work split over two frames, so a step's new ground is no hitch (D122, lag).
 var _to_fill: Array[Vector2i] = []
+## The tile being painted a part at a time (`tile`, `under`, `patches`, `next`), and the one whose
+## things are being put down a few at a time (`tile`, `jobs`, `next`).
+var _painting: Dictionary = {}
+var _filling: Dictionary = {}
+## Tiles one beyond the next whose layout has been worked out ahead of the party, and tiles far
+## enough behind to be let go of, one a frame.
+var _warmed: Dictionary = {}
+var _to_let_go: Array[Vector2i] = []
 var _asking: bool = false
 ## The light the land is seen in, which turns as the party walks into other country.
 var _dusk: CanvasModulate = null
@@ -215,6 +231,7 @@ func _ready() -> void:
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
+	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
 	_paint_layers()
@@ -325,6 +342,12 @@ func _land_start() -> Vector2i:
 	return AreaMap.to_cell(chunk.get("spawn", [0, 0])) + (chunk.get("origin", Vector2i.ZERO) as Vector2i)
 
 
+## Where the party stands, for whatever plays to the place (the music, D185): this area, or on
+## the land the place on the tile they are on ("home" for the crater, "city"), else that tile.
+func _tell_where_we_are() -> void:
+	EventBus.place_entered.emit(str(_here_chunk().get("id", "")) if _land_mode else map.id)
+
+
 ## The tile the continent has the party on.
 func _here_chunk() -> Dictionary:
 	return (map as Land).chunks.get(GameState.world.player_cell, {}) if _land_mode else {}
@@ -337,51 +360,162 @@ func _land_hint() -> String:
 
 ## One tile's ground, in a node of its own so it can be let go of with the tile.
 func _paint_tile(tile: Vector2i) -> void:
+	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), _ground_node(tile))
+
+
+## The node [param tile]'s ground is painted into, under the bands' watched ground.
+func _ground_node(tile: Vector2i) -> Node2D:
 	var under := Node2D.new()
 	under.name = "Tile_%d_%d" % [tile.x, tile.y]
 	_layers.add_child(under)
-	# Under the bands' watched ground, which is also drawn in the layers.
 	_layers.move_child(under, _tile_ground.size())
-	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), under)
 	_tile_ground[tile] = under
+	return under
 
 
 ## Everything standing in [param tile]: houses, dressing, chests, things in the way, fires, the
 ## people who live there and any of the sixteen stopping there.
 func _fill_tile(tile: Vector2i) -> void:
+	_tile_things[tile] = []
+	for job: Callable in _fill_jobs(tile):
+		_keep_made(tile, job.call())
+
+
+## Each thing that stands in [param tile], as a job that puts it down and returns its node (or
+## null): done all at once when the scene opens, a few a frame as the party walks on.
+func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 	var land := map as Land
 	var area := land.slot_rect(tile)
-	var made: Array = []
+	var jobs: Array[Callable] = []
 	for building: Dictionary in map.buildings:
 		if building.get("_tile") == tile:
-			made.append(_put_building(building))
+			jobs.append(_put_building.bind(building))
 	for prop: Dictionary in map.props:
 		if prop.get("_tile") == tile:
-			if prop.has("spire"):
-				made.append(_put_spire(prop))
-				continue
-			var node := _put_prop(prop)
-			if node != null:
-				made.append(node)
+			jobs.append(_put_spire.bind(prop) if prop.has("spire") else _put_prop.bind(prop))
 	for cell: Vector2i in map.chests:
 		if area.has_point(cell):
-			made.append(_put_chest(cell))
+			jobs.append(_put_chest.bind(cell))
 	for cell: Vector2i in map.wards:
 		if area.has_point(cell):
-			var node := _put_ward(cell)
-			if node != null:
-				made.append(node)
+			jobs.append(_put_ward.bind(cell))
 	for cell: Vector2i in land.fires:
 		if area.has_point(cell):
-			var fire := AreaFire.new()
-			fire.position = map.centre_of(cell)
-			_actors.add_child(fire)
-			made.append(fire)
+			jobs.append(_put_fire.bind(cell))
 	_admit_the_others_to(tile)
+	_admit_the_road_watch(tile)
 	for person: Dictionary in map.people:
 		if person.get("_tile") == tile:
-			made.append(_put_person(person))
-	_tile_things[tile] = made
+			jobs.append(_put_person.bind(person))
+	for each: Dictionary in _life_for(tile):
+		jobs.append(_put_critter.bind(each["art"], each["cell"], int(each["seed"])))
+	return jobs
+
+
+## The birds, butterflies, bees and creeping things of [param tile] ([D179], play-test 3: "Surely
+## it would be some animals, butterflies, bees, bugs"): a few of each, as many as its land carries,
+## half in a place; the same tile always gets the same ones.
+func _life_for(tile: Vector2i) -> Array[Dictionary]:
+	var land := map as Land
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	var out: Array[Dictionary] = []
+	if chunk.is_empty() or str(chunk.get("kind", "")) in ["sea", "rock"]:
+		return out
+	var rules: Dictionary = Database.world_rules.get("life", {})
+	var share := float(Biome.data(str(chunk.get("land", ""))).get("life", 1.0))
+	if str(chunk.get("kind", "")) == "place":
+		share *= 0.5
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
+	var area := land.slot_rect(tile)
+	var per_tile: Dictionary = rules.get("per_tile", {})
+	for kind: String in ["bird", "flutter", "hop", "crawl"]:
+		var arts: Array = rules.get("art", {}).get(kind, [])
+		if arts.is_empty():
+			continue
+		var mean := float(per_tile.get(kind, 0.0)) * share
+		var count := int(floor(mean)) + (1 if rng.randf() < mean - floor(mean) else 0)
+		for i in count:
+			for _try in 12:
+				var cell := area.position + Vector2i(rng.randi_range(1, area.size.x - 2), rng.randi_range(1, area.size.y - 2))
+				if not land.is_walkable(cell) or land.terrain_at(cell) == "road":
+					continue
+				out.append({ "art": str(arts[rng.randi() % arts.size()]), "cell": cell, "seed": rng.randi() })
+				break
+	return out
+
+
+func _put_critter(art: String, cell: Vector2i, seed_: int) -> Node2D:
+	var jitter := Vector2(float(absi(seed_) % 21) - 10.0, float((absi(seed_) / 21) % 17) - 8.0)
+	var critter: Node2D = AreaCritter.make(art, map.centre_of(cell) + jitter, seed_)
+	critter.watching = func() -> Vector2: return _leader.position if is_instance_valid(_leader) else Vector2.INF
+	critter.can_land = _can_stand
+	_actors.add_child(critter)
+	return critter
+
+
+## The city's Watch walking the First Hour's road ([D179], play-test 3: "these roads should be
+## patrolled by guards"): on some of the road's tiles, a pair of them walk the length of it there and
+## back, saying a word at each end, and will talk.
+func _admit_the_road_watch(tile: Vector2i) -> void:
+	var land := map as Land
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if chunk.is_empty() or str(chunk.get("kind", "")) != "ground":
+		return
+	var watch: Dictionary = Database.world_rules.get("life", {}).get("road_watch", {})
+	var units: Array = watch.get("units", [])
+	if units.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "watch"])
+	if rng.randf() >= float(watch.get("chance", 0.5)):
+		return
+	var road: Array[Vector2i] = []
+	var area := land.slot_rect(tile)
+	for y in range(area.position.y, area.end.y):
+		for x in range(area.position.x, area.end.x):
+			var cell := Vector2i(x, y)
+			if land.terrain_at(cell) == "road" and land.is_walkable(cell):
+				road.append(cell)
+	if road.size() < 8:
+		return
+	# The two ends of the road on this tile: the cells furthest apart.
+	var a: Vector2i = road[0]
+	var b: Vector2i = road[-1]
+	for cell: Vector2i in road:
+		if (cell - road[0]).length_squared() > (b - road[0]).length_squared():
+			b = cell
+	for cell: Vector2i in road:
+		if (cell - b).length_squared() > (a - b).length_squared():
+			a = cell
+	var lines: Array = watch.get("lines", [])
+	var stay: Array = watch.get("stay", [2.0, 4.0])
+	for i in 2:
+		var from := a if i == 0 else b
+		var to := b if i == 0 else a
+		map.people.append({
+			"name": str(watch.get("name", "a watchman")), "unit": str(units[i % units.size()]),
+			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "road_watch",
+			"talk": watch.get("talk", {}),
+			"rounds": [
+				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
+				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
+			],
+		})
+
+
+func _put_fire(cell: Vector2i) -> Node:
+	var fire := AreaFire.new()
+	fire.position = map.centre_of(cell)
+	_actors.add_child(fire)
+	return fire
+
+
+func _keep_made(tile: Vector2i, node: Variant) -> void:
+	if node != null:
+		(_tile_things[tile] as Array).append(node)
 
 
 ## The tiles that should be held round where the party is now: laid out a frame at a time, nearest
@@ -390,8 +524,8 @@ func _plan_the_land() -> void:
 	var land := map as Land
 	var here: Vector2i = GameState.world.player_cell
 	for tile: Vector2i in land.held_tiles():
-		if maxi(absi(tile.x - here.x), absi(tile.y - here.y)) > 2:
-			_let_go(tile)
+		if maxi(absi(tile.x - here.x), absi(tile.y - here.y)) > 2 and not _to_let_go.has(tile):
+			_to_let_go.append(tile)
 	for dy in range(-1, 2):
 		for dx in range(-1, 2):
 			var tile := here + Vector2i(dx, dy)
@@ -402,21 +536,92 @@ func _plan_the_land() -> void:
 
 
 func _hold_more() -> void:
+	# A little of the land ahead each frame, never more than the budget, so walking on stays smooth
+	# ([D178], play-test 3: "major frame rate issues when jumping across tiles").
+	var start := Time.get_ticks_usec()
+	var budget := LAND_BUDGET_MS * 1000.0
+	var first := true
+	while _lay_a_little(first):
+		first = false
+		if Time.get_ticks_usec() - start >= budget:
+			break
+
+
+## One small piece of laying out the land: a thing put down, a part of a tile painted, a tile held,
+## or (with nothing else to do, first in a frame) a tile ahead worked out. False when there was
+## nothing to do.
+func _lay_a_little(first: bool) -> bool:
+	if not _to_let_go.is_empty():
+		var going: Vector2i = _to_let_go.pop_front()
+		var here: Vector2i = GameState.world.player_cell
+		# Walked back towards it in the meantime: kept.
+		if maxi(absi(going.x - here.x), absi(going.y - here.y)) > 2:
+			_let_go(going)
+		return true
+	if not _filling.is_empty():
+		var tile: Vector2i = _filling["tile"]
+		var jobs: Array = _filling["jobs"]
+		var next := int(_filling["next"])
+		if next < jobs.size():
+			_keep_made(tile, (jobs[next] as Callable).call())
+			_filling["next"] = next + 1
+			return true
+		_filling = {}
+		_post_bands_for(tile)
+		return true
+	if not _painting.is_empty():
+		var patches: Array = _painting["patches"]
+		var next := int(_painting["next"])
+		if next < patches.size():
+			GroundPainter.paint_patches(map, [patches[next]], _painting["under"])
+			_painting["next"] = next + 1
+			return true
+		var painted: Vector2i = _painting["tile"]
+		_painting = {}
+		_to_fill.append(painted)
+		return true
 	if not _to_fill.is_empty():
 		var filling: Vector2i = _to_fill.pop_front()
 		if (map as Land).is_held(filling):
-			_fill_tile(filling)
-			_post_bands_for(filling)
-		return
-	if _to_hold.is_empty():
-		return
-	var tile: Vector2i = _to_hold.pop_front()
+			_tile_things[filling] = []
+			_filling = { "tile": filling, "jobs": _fill_jobs(filling), "next": 0 }
+		return true
+	if not _to_hold.is_empty():
+		var tile: Vector2i = _to_hold.pop_front()
+		var land := map as Land
+		if land.is_held(tile):
+			return true
+		land.hold(tile)
+		_painting = { "tile": tile, "under": _ground_node(tile), "patches": land.patches_of(tile), "next": 0 }
+		return true
+	return first and _warm_ahead()
+
+
+## Near a tile's edge, the tiles beyond the next one are worked out before they are wanted, one a
+## frame, so crossing over only has to put them down.
+func _warm_ahead() -> bool:
 	var land := map as Land
-	if land.is_held(tile):
-		return
-	land.hold(tile)
-	_paint_tile(tile)
-	_to_fill.append(tile)
+	var here: Vector2i = GameState.world.player_cell
+	var local := map.cell_at(_leader.position) - land.slot_rect(here).position
+	var near := int(LAND_WARM_CELLS)
+	var dirs: Array[Vector2i] = []
+	if local.x >= land.slot.x - near:
+		dirs.append(Vector2i.RIGHT)
+	if local.x < near:
+		dirs.append(Vector2i.LEFT)
+	if local.y >= land.slot.y - near:
+		dirs.append(Vector2i.DOWN)
+	if local.y < near:
+		dirs.append(Vector2i.UP)
+	for dir: Vector2i in dirs:
+		for side in range(-2, 3):
+			var ahead := here + dir * 2 + Vector2i(dir.y, dir.x) * side
+			if _warmed.has(ahead) or land.is_held(ahead):
+				continue
+			_warmed[ahead] = true
+			GroundGen.slot(GameState.world, ahead)
+			return true
+	return false
 
 
 func _let_go(tile: Vector2i) -> void:
@@ -451,6 +656,11 @@ func _let_go(tile: Vector2i) -> void:
 			_take_off(watch)
 	_to_hold.erase(tile)
 	_to_fill.erase(tile)
+	if _painting.get("tile") == tile:
+		_painting = {}
+	if _filling.get("tile") == tile:
+		_filling = {}
+	_warmed.erase(tile)
 	land.release(tile)
 
 
@@ -542,6 +752,7 @@ func _on_new_tile() -> void:
 	_idle_hint = _land_hint()
 	_turn_the_light(str(chunk.get("tint", "")))
 	_plan_the_land()
+	_tell_where_we_are()
 	var opening := str(chunk.get("opening", ""))
 	if opening != "" and str(chunk.get("kind", "")) == "place":
 		_open_on(opening)
@@ -723,13 +934,17 @@ func _spawn_props() -> void:
 		_put_ward(cell)
 
 
-func _put_prop(prop: Dictionary) -> AreaProp:
+func _put_prop(prop: Dictionary) -> Node2D:
 	if prop.has("spire"):
 		_put_spire(prop)
 		return null
 	var art: String = prop.get("art", "")
 	if not AreaProp.has_art(art):
 		return null
+	# A bird or a bug laid down as scenery is alive ([D179]), unless it is something to look at.
+	if AreaCritter.life_of(art) != "" and str(prop.get("line", "")) == "" and not prop.has("gold") and not prop.has("item"):
+		var cell: Vector2i = prop["cell"]
+		return _put_critter(art, cell, hash([map.id, cell.x, cell.y, art]))
 	var node := AreaProp.from_entry(prop)
 	node.position = map.centre_of(prop["cell"])
 	# A nudge off the middle of its cell, so a wood does not stand in rows.
@@ -1137,6 +1352,31 @@ func _click_target(target: AreaThing) -> void:
 
 ## Steering for whatever the player clicked on: walk until it is close enough
 ## to deal with, then deal with it.
+## Clicked on open ground: the way there, a cell at a time ([D178], `doug-md`'s play-test 3: "an
+## option to use either WASD to move around or point and click").
+func _click_step() -> Vector2:
+	while not _click_path.is_empty() and _leader.position.distance_to(_click_path[0]) < 12.0:
+		_click_path.remove_at(0)
+	if _click_path.is_empty():
+		return Vector2.ZERO
+	return (_click_path[0] - _leader.position).normalized()
+
+
+## Walk to [param point] on the ground, by the way round anything in the way. Nothing happens for a
+## point nobody could stand on or reach.
+func _walk_to(point: Vector2) -> void:
+	var way := map.find_path(_leader.position, point)
+	if way.size() < 2:
+		return
+	way.remove_at(0)
+	# The last step is to where the click was, not the middle of its cell.
+	if map.is_walkable(map.cell_at(point)):
+		way[-1] = point
+	_approach = null
+	_approach_path.clear()
+	_click_path = way
+
+
 func _approach_step() -> Vector2:
 	if not is_instance_valid(_approach) or not _approach.can_talk():
 		_approach = null
@@ -1195,6 +1435,13 @@ func _land_auto_axis() -> Vector2:
 			if _auto_exit_index < _auto_exit_path.size():
 				waypoint = _auto_exit_path[_auto_exit_index]
 		return (waypoint - _leader.position).normalized()
+	# The tile it makes for was not laid out yet when the way was worked out (the land ahead is laid
+	# out a little a frame, D178): worked out again once it is, rather than walking at it blind.
+	if _auto_exit_path.is_empty() and land.is_held(_auto_tile):
+		_auto_exit_path = land.find_cell_path(here, land.slot_rect(_auto_tile).get_center())
+		_auto_exit_index = 1 if _auto_exit_path.size() > 1 else 0
+		if not _auto_exit_path.is_empty():
+			return (_auto_exit_path[_auto_exit_index] - _leader.position).normalized()
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
@@ -1460,10 +1707,13 @@ func _physics_process(delta: float) -> void:
 		# Taking the keys back calls off whatever the player was walking towards.
 		_approach = null
 		_approach_path.clear()
+		_click_path.clear()
 	elif Pace.auto:
 		axis = _land_auto_axis() if _land_mode else _auto_axis()
 	elif _approach != null:
 		axis = _approach_step()
+	elif not _click_path.is_empty():
+		axis = _click_step()
 	if axis == Vector2.ZERO:
 		return
 
@@ -1474,10 +1724,11 @@ func _physics_process(delta: float) -> void:
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
-	if _approach != null and _leader.position.is_equal_approx(before):
+	if (_approach != null or not _click_path.is_empty()) and _leader.position.is_equal_approx(before):
 		# Something is in the way; the player can steer around it themselves.
 		_approach = null
 		_approach_path.clear()
+		_click_path.clear()
 	_drop_crumbs()
 	_camera.focus_on(_leader.position)
 	_walked += before.distance_to(_leader.position)
@@ -2096,10 +2347,19 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
 	_held_done = str(watch.band.get("done_flag", ""))
+	# D184 (D174): the floor 5 keeper speaks as its fight begins, and knows which of the sixteen
+	# this lead is. Shown the way Sennet's word is (D161); a fight played by hand waits for the box.
+	var lead := GameState.roster.player() if GameState.roster != null else null
+	var said := FirstHour.warden_line(str(watch.band.get("key", "")),
+			lead.template_id if lead != null else "", lead.display_name if lead != null else "")
+	if not said.is_empty():
+		_note("%s: %s" % [said["speaker"], said["text"]])
 	_fight_here({
 		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush },
 		"field": field,
 	})
+	if not said.is_empty():
+		EventBus.conversation_requested.emit([said])
 
 
 ## A held band's fight, settled: won, it stays gone; anything else, and the party is back at the
@@ -2824,9 +3084,11 @@ func _mouse_input(event: InputEvent) -> void:
 	if click == null or not click.pressed or click.button_index != MOUSE_BUTTON_LEFT:
 		return
 	var target := _target_at(get_global_mouse_position())
-	if target == null:
-		return
 	get_viewport().set_input_as_handled()
+	if target == null:
+		_walk_to(get_global_mouse_position())
+		return
+	_click_path.clear()
 	_click_target(target)
 
 

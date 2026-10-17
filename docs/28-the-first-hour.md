@@ -1,8 +1,9 @@
 # 28 — The First Hour
 
-**What a new player plays today, start to finish, and how it got that way.** The First Hour is the
-only milestone until it is done ([D95](06-decisions.md)); everything else built is hidden behind
-`data/world_rules.json` → `first_hour.hidden` ([D97](06-decisions.md)). The order of work and what
+**What a new player plays today, start to finish, and how it got that way.** The First Hour was the
+only milestone until it was done ([D95](06-decisions.md)); `dougie` called it done on 2026-10-16
+([D168](06-decisions.md)). What else is built stays hidden behind `data/world_rules.json` →
+`first_hour.hidden` ([D97](06-decisions.md)) until each system fits back into the world and the story. The order of work and what
 is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describes what exists.
 
 ## The route
@@ -28,7 +29,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    opens by itself; Sennet keeps it ([D107](06-decisions.md), [D112](06-decisions.md)), and Old Halloran,
    the Guild's master, stands beside him and can mark a lead too ([D154](06-decisions.md)). Nobody climbs
    until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
-   B buys the one in hand ([D146](06-decisions.md)).
+   B buys the one in hand ([D146](06-decisions.md)). In the streets, Muck Muck the builder stands by
+   the ruined bathhouse, and Sinner, a cleric, mends the whole company for 40 gold at the old shrine
+   ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
    beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
@@ -51,7 +54,11 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    lead's keepsake before the stair, and hands over paused any fight that matters: a gate's, the
    keeper's, or a band more than a level over the lead ([D150](06-decisions.md)). Floor 5
    is kept by the Warden of the Fifth, an armoured figure with a glaive whose big swing shows before
-   it lands, drawn in house ([D156](06-decisions.md)).
+   it lands, drawn in house ([D156](06-decisions.md)). As its fight begins it speaks once, in the
+   conversation box, naming the lead and counting the challengers across the run of worlds: the
+   first life hears "The first challenger arrives", the next after a death "The second challenger
+   approaches", up to "the sixteenth and final challenger" ([D184](06-decisions.md), lines in
+   `first_hour.warden`, **Inferred**, agenda 108).
 8. **Chapter one.** In floor 5's west alcove, before the keeper, lies the lead's own keepsake
    ([below](#the-chapter-ones)). Picking it up plays their chapter one and writes it in the journal
    ([D103](06-decisions.md)). Beating the keeper costs somebody: one of the other sixteen's lights in
@@ -126,10 +133,20 @@ gate shuts, `data/crossings.json` rolls once, fixed by the world's seed and the 
 - **How often.** The first gate of the player's first life always opens (in the First Hour, Greyhollow
   for Atlas; `dougie` confirmed it, [D165](06-decisions.md)); after that a rank E gate about one time in four, more for higher ranks.
 - **What it leaves.** A line in the journal and the annals, and `crossed:<lead>` in the run's flags.
-  Nothing passes through yet (**planned**, [roadmap](05-roadmap.md#next-steps-in-order)).
+- **A word carries** ([D183](06-decisions.md), from [D172](06-decisions.md)). Every gate a lead shuts,
+  they say one line into it (`carried.left`, one for each of the sixteen), written down beside the
+  fallen, outside the save (`user://earth-kings.sixteen.json`, [D47](06-decisions.md)). A later life,
+  in a world of the same sixteen, that shuts the same gate hears the latest word another lead left
+  there: "Through the last of the light, faint, comes a voice from another world: Atlas's." and then
+  the line itself, in their voice. Failing that, the first gate a life shuts carries the lead who fell
+  last: their last word, or, if they never shut a gate, word of them (a name, the mark, and a world
+  that has ended). It plays after the crossing if there is one, with a line in the journal and the
+  annals. No answer, no meeting; nothing else passes through. A world built from a seed asked for
+  hears nothing. The crossing's odds and the first gate rule do not change.
 
-Four boxes for a meeting, three for a burning world. Every word and number is **Inferred** (agenda
-item 92).
+Four boxes for a meeting, three for a burning world, three for a word carried and two for word of a
+lead. Every word and number of the crossing is **Inferred** (agenda item 92); the word carried's
+wording and which gate it is heard at are **Inferred** (agenda items 106 and 107).
 
 ## How it was tested
 
@@ -145,19 +162,71 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 11:20 | Ewan's (`doug-md`) play-test 2, PC browser | `bdfdfc6` | Found the door, cleared floors 1 and 2, then the Tower locked him out; difficulty "fair". Meeting 4's fix batches ([D115](06-decisions.md) to [D124](06-decisions.md)) |
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
-| 2026-10-15 evening | Ewan's play-test 3, PC and phone | `4196128`, or `9f1b267` if he began before 20:25 UTC | Waiting for his play log and notes; then meeting 5 ([D124](06-decisions.md)). Asked again in [30](30-questions-for-the-founders.md), question 1 |
+| 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D178](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
 | 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
 | 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
 | 2026-10-15 23:50 | Five strangers: bot personas, two on PC, three on phones | `4196128` | After the city nobody found the first gate; phone held upright unplayable; a gate's fight opened the old screen; no deaths in 95 minutes ([D161](06-decisions.md), [D162](06-decisions.md), [D163](06-decisions.md)) |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
 
+### Play-test 3's asks
+
+What `doug-md` asked for in play-test 3 that needs more than a fix, **planned**, in no order until he
+gives one. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
+it and fought on its plaza ([D116](06-decisions.md), [D162](06-decisions.md), built after his build);
+picking fighters by clicking, dragging a box or Tab, and right-click to move, were there (the fight's
+tip now says so).
+1. **The opening as a small film**: the fall, the crater forming, Bram walking over; Bram carries the
+   lead to a hut near the crater, they wake there, and he hands over the journal ("you came down with
+   this too"). The crater is no safe place.
+2. **A small square map** in the corner with north, east, south and west on its sides, instead of the
+   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it.
+3. **The far Tower** at the screen's edge is too big and distracting: a better way to show where it
+   is; and the Tower should rise, not look flat.
+4. **Life on the land**: animals, birds that move and fly off as you come near, bees and butterflies;
+   guards patrolling the roads; people doing things. Built ([D179](06-decisions.md)): the birds and
+   bugs, and the Watch on the road; animals that walk wait on their art (A29).
+5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
+   archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
+6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
+   door that opens onto a city.
+7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
+   town; more named places.
+8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
+9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
+   stairs that look like they go up and cannot be walked through; perhaps "Are you sure?" before
+   leaving floor 5.
+10. **The chapter-one memory shown** as a little film, not only told.
+11. **Height**: levels reached by stairs, as in Pokémon; trees and bushes that cannot be walked through.
+12. **Looks**: patches that overlap where they should blend; town walls and towers that line up;
+   trees not through walls; shadows from a sun; walks that face the way they go and livelier idles;
+   Twin Blade's picture; portraits whose hair fits the frame; Sky's tail (A28); something inside
+   houses; a bench and a chest that look placed; a lighthouse that suits the scene.
+13. **Coldrun "comes into sight"** before it can be seen.
+
 ## Music the hour still needs
 
-The fan covers are out of every build ([D100](06-decisions.md)), so the hour plays on Ewan's two
-Ableton tracks. The creatives' meeting (C7, 2026-10-15) asked him for these, in this order; each is
-wired with a `data/music.json` set and a scene key when it arrives. **Planned**, Ewan's to make
-([30](30-questions-for-the-founders.md), question 13).
+The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
+Ableton tracks and, until his cues arrive, five stand-ins made in code by `tools/make_music.py`
+([D185](06-decisions.md)), all in D minor and sharing the memory theme's first notes, A D C A. What
+plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both):
+
+| Where | Plays | Whose |
+| --- | --- | --- |
+| Title, the opening and its replay, the credits | Angelic, quiet | Ewan's |
+| The road and the land | Angelic | Ewan's |
+| The crater (the lead's landing tile) | `crater`: wind, a fire ticking, the memory phrase once, far off (30 s loop) | in-house |
+| Stormreach, its streets and tavern | `stormreach`: lute, hand drum, a reed tune, the motif in the bass (32 s) | in-house |
+| Tower floors 1 to 5 | `tower_floors`: an organ chord, a footfall, the motif on a bell, slow and low (32 s) | in-house |
+| A chapter one, while it is open | `memory_theme`: one piano, a phrase stopped dead, then a held D (30 s) | in-house |
+| Every fight | Bday Project | Ewan's |
+| The death screen and the world's last look | `world_ending`: the memory phrase broken off (24 s) | in-house |
+
+How each sounds and where it plays is **Inferred** (agenda items 113 and 114). The creatives' meeting
+(C7, 2026-10-15) asked Ewan for these, in this order; each of his replaces a stand-in by its path in
+the set, or comes in with a set and a place or scene key. Still **planned**: a layer added a floor up
+the Tower (3) and the replay thinning as fewer are left (6); the opening's replay keeps the title's
+Angelic. Ewan's to make ([30](30-questions-for-the-founders.md), question 13).
 1. **The memory theme**: 40 to 60 seconds, one instrument, a short phrase that stops dead on
    "White.", then a held note. All sixteen chapter ones use it; three or four notes of it for the
    other cues to borrow.
@@ -166,6 +235,9 @@ wired with a `data/music.json` set and a scene key when it arrives. **Planned**,
 4. **Stormreach**: busy, the Tower's motif under it.
 5. **The crater**: near silence, wind and fire, the memory phrase once, far off, when Bram speaks.
 6. **The opening's replay**: the film's music thinner as fewer are left (many left, two, the last).
+
+The whole game's list, these six placed by how long a player hears each, is [31](31-music.md)
+([D186](06-decisions.md)).
 
 ## Builds on itch.io
 

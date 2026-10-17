@@ -142,7 +142,8 @@ static func best_for(skill: String) -> Character:
 	return best
 
 
-## Flags set or cleared, gold gained or spent, and an `item` handed over by a node or a reply.
+## Flags set or cleared, gold gained or spent, an `item` handed over, and `heal` (the company
+## mended, as a rest does) by a node or a reply.
 static func apply_effects(source: Dictionary) -> void:
 	for key: String in _as_array(source.get("set_flag", [])):
 		GameState.set_flag(key)
@@ -155,6 +156,9 @@ static func apply_effects(source: Dictionary) -> void:
 	var item := str(source.get("item", ""))
 	if item != "" and GameState.roster != null:
 		EventBus.area_note.emit(Loot.take(item, GameState.roster))
+	if bool(source.get("heal", false)) and GameState.roster != null:
+		GameState.heal_party()
+		EventBus.area_note.emit("Everyone is patched up.")
 
 
 static func _skill_value(character: Character, skill: String) -> int:
@@ -176,6 +180,10 @@ static func _requirements_met(option: Dictionary) -> bool:
 	for key: String in _as_array(option.get("requires_not", [])):
 		if GameState.has_flag(key):
 			return false
+	# Only while somebody in the company is hurt (true), or only while nobody is (false).
+	if option.has("requires_wounded") and GameState.roster != null \
+			and bool(option["requires_wounded"]) != GameState.party_is_wounded():
+		return false
 	return GameState.gold >= int(option.get("requires_gold", 0))
 
 

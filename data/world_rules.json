@@ -1,7 +1,7 @@
 {
 	"first_hour": {
-		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
-		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons"],
+		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
+		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "beds"],
 		"_comment_guild_mark": "D101: nobody climbs without the Guild's mark. With `guild_mark` on, every run starts with the Tower's stair sealed, the way a chapter's end seals it (src/chronicle/chapters.gd), and the first gate the company shuts opens it. `mark_line` is what the Tower's doorkeeper says while it is shut. **Inferred**: the mark is earned by shutting any gate, with or without the Guild's contract on it.",
 		"guild_mark": true,
 		"mark_line": "Nobody climbs without the Guild's mark. Sennet keeps the Guild's register: shut a gate and he marks you for the Tower.",
@@ -20,12 +20,52 @@
 				"{name}. Somewhere, in a world of their own, {name} fell while you climbed."
 			]
 		},
+		"_comment_warden": "D184 (D174): the floor 5 keeper speaks once as its fight begins, and counts the challengers: which of the sixteen leads this is in the run of worlds, the first life the `first`, after that lead has died the next the second, up to the sixteenth (`last_line`). Leads fallen in earlier worlds are counted (Sixteen.fallen_heroes, kept outside the save, D47); climbers who are not leads never are. `band` is the keeper's band key, `speaker` who the box names, `ordinals` the words for first to sixteenth; `first_line` is the first life's, `line` every other's, {ordinal} the word and {name} the lead. Read by FirstHour.warden_line and area_scene._fight_held. The wording is **Inferred** (agenda 108).",
+		"warden": {
+			"band": "tower5_keeper",
+			"speaker": "The Warden of the Fifth",
+			"ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth"],
+			"first_line": "The first challenger arrives. {name}. I know your face, and the world you fell into.",
+			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
+			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
+		},
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,
 			"keepers": true,
 			"above_level": 1,
 			"line": "Auto stops here: this fight is yours."
+		}
+	},
+	"life": {
+		"_comment": "Life on the land (D179): birds, butterflies, bees, grasshoppers and snails, laid down a few to a tile and moving about; which picture does what is its `life` in props.json. per_tile: how many of each a tile of open country gets on average (a land's `life` in biomes.json scales it; a place gets half). art: the pictures each is drawn from. shy_cells: how close the party comes before a bird takes off; flee_cells [min, max]: how far it flies; flight_seconds and flight_height: the flight; away_seconds: how long one with nowhere to land stays gone. road_watch: on the First Hour's road a pair of the city's Watch walks a tile of it in chance of the tiles, with these units, name, lines said at each end and talk.",
+		"per_tile": { "bird": 3, "flutter": 3, "hop": 1.5, "crawl": 1 },
+		"art": {
+			"bird": ["nature/finch", "nature/sparrow", "nature/irish_bird", "nature/irish_bird_2", "nature/white_dove"],
+			"flutter": ["nature/butterfly", "nature/butterfly_blue", "nature/bee"],
+			"hop": ["nature/grasshopper"],
+			"crawl": ["nature/snail", "nature/spider"]
+		},
+		"shy_cells": 2.4,
+		"flee_cells": [5.0, 9.0],
+		"flight_seconds": 1.4,
+		"flight_height": 70.0,
+		"away_seconds": 12.0,
+		"road_watch": {
+			"chance": 0.5,
+			"units": ["legion_copper", "legion_silver"],
+			"name": "a watchman of Stormreach",
+			"stay": [2.0, 4.0],
+			"lines": ["Road's clear this far.", "Keep to the cobbles after dark.", "Nothing moving out there. Good.", "Turn about. Back the way we came.", "Mind the ditch. It bites."],
+			"talk": {
+				"hello": ["The Watch keeps this road, from the crater to the Tower. Keep to it and you'll keep your purse.", "Walk with us a stretch if you like. We don't go past the road's end."],
+				"ask": [
+					{ "q": "Is the road safe?", "a": "Safer than the grass either side of it. Bands come up off the open country; they don't like the cobbles, and they don't like us." },
+					{ "q": "Where does it go?", "a": "From where the fallen come down, through Stormreach, out to the first gate and back to the Tower. The Guild had it laid. Every new climber walks it." }
+				],
+				"news": true,
+				"bye": "On you go."
+			}
 		}
 	},
 	"ground_watch": {

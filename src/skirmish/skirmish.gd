@@ -203,6 +203,7 @@ func _ready() -> void:
 	_say("The fight is paused — %s to begin." % begin if paused else "The fight is on.")
 	for line in _opening:
 		_say(line)
+	Sfx.cue("engage")
 	EventBus.battle_started.emit(map_id)
 
 
@@ -1056,6 +1057,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		target.hp = mini(target.hp, health_before)
 		if soaked > 0:
 			fx.popup("Warded", target.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
+			Sfx.cue("ward")
 	var dealt := before - target.hp
 	_show_effect(f, target, ability, ability_id)
 	if dealt > 0:
