@@ -215,7 +215,8 @@ tip now says so).
    trees not through walls; shadows from a sun; walks that face the way they go and livelier idles;
    Twin Blade's picture; portraits whose hair fits the frame; Sky's tail (A28); something inside
    houses; a bench and a chest that look placed; a lighthouse that suits the scene.
-13. **Coldrun "comes into sight"** before it can be seen.
+13. **Coldrun "comes into sight"** before it can be seen. Fixed ([D236](06-decisions.md)): walking the
+    ground, the line waits until the place is within a tile, about what the screen shows.
 
 ### Play-test 4's asks
 

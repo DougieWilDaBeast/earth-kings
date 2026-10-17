@@ -516,6 +516,11 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `atlas` → `said_within` (D236)
+
+Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
+once the party is within this many tiles of it; on the map view it is said at once.
+
 ## `world_rules.json` → `scars` — what going down leaves behind (D218)
 
 `max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`

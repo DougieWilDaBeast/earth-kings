@@ -31,7 +31,7 @@ const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
 	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "auto_rests", "allies", "guild", "map", "muster",
-	"fall", "first_hour", "run_ends", "sixteen", "crossing",
+	"fall", "first_hour", "run_ends", "sixteen", "crossing", "sighting",
 ]
 
 var _scene: Node
@@ -2177,3 +2177,43 @@ func _last_battle_request() -> Dictionary:
 func _expect(condition: bool, failure: String) -> void:
 	if not condition:
 		_failures.append(failure)
+
+
+## A place comes into sight when it can be seen (D236, play-test 3): walking the ground, a town four
+## tiles off is drawn on the map but said only once the party is within a tile of it; on the map,
+## at once.
+func _check_sighting() -> void:
+	var world: World = GameState.world
+	var town: Site = null
+	for site: Site in world.sites:
+		if site.kind == Site.VILLAGE and not world.marked.has("%d,%d" % [site.cell.x, site.cell.y]):
+			town = site
+			break
+	if town == null:
+		_expect(false, "sighting: no village to come into sight")
+		return
+	var said := func() -> int:
+		return (_scene._notices as Array).filter(func(line: String) -> bool:
+			return line.contains(town.display_name) and line.contains("sight")).size()
+	var view_was: int = _scene._view
+	var cell_was := world.player_cell
+	_scene._sightings.clear()
+	_scene._view = _scene.View.GROUND
+	world.player_cell = town.cell + Vector2i(4, 0)
+	(preload("res://src/chronicle/atlas.gd")).reveal_around(world, town.cell, 0)
+	_scene._sightings.clear()
+	var before: int = said.call()
+	_scene._on_ground_revealed([town.cell])
+	_expect(said.call() == before, "sighting: %s came into sight four tiles off, walking the ground" % town.display_name)
+	world.player_cell = town.cell + Vector2i(1, 0)
+	_scene._say_sightings()
+	_expect(said.call() == before + 1, "sighting: %s never came into sight a tile off" % town.display_name)
+	_scene._view = _scene.View.WALK
+	world.player_cell = town.cell + Vector2i(4, 0)
+	_scene._on_ground_revealed([town.cell])
+	_expect(said.call() == before + 2, "sighting: on the map %s was not said at once" % town.display_name)
+	_scene._view = view_was
+	world.player_cell = cell_was
+	_scene._sightings.clear()
+	print("sighting: %s waits to come into sight until the party is a tile off" % town.display_name)
+

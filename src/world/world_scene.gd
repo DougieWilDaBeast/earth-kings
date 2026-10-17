@@ -143,6 +143,9 @@ var _art: Dictionary = {}
 var _last_view: Vector3 = Vector3.INF
 ## Tiles fading onto the map, cell -> seconds of fade left.
 var _fading: Dictionary = {}
+## Places seen on the map but not yet on the screen, walking the ground ([D236]): cell -> name,
+## said when the party is near enough to see them for itself.
+var _sightings: Dictionary = {}
 var _view: View = View.WALK
 ## Where the party stood when this scene opened, to tell whether anything done
 ## here moved them.
@@ -361,6 +364,7 @@ func _step(direction: Vector2i) -> void:
 	_centre_camera()
 	_map.queue_redraw()
 
+	_say_sightings()
 	var site := world.site_at(target)
 	if site != null:
 		_arrive_at(site)
@@ -2431,9 +2435,26 @@ func _on_ground_revealed(cells: Array) -> void:
 		var site := world.site_at(cell)
 		if site != null and Atlas.is_explored(world, cell) and not world.marked.has("%d,%d" % [cell.x, cell.y]) \
 				and site.kind != Site.TOWER and site.kind != Site.HOME and site.kind != Site.GRAVE:
-			_note(Atlas.line("seen", {"place": site.display_name}))
+			_sightings[cell] = site.display_name
+	_say_sightings()
 	# The ground has to be laid out again whether or not anything is fading.
 	_map.queue_redraw()
+
+
+## A place comes into sight once it can be seen ([D236], play-test 3: "Coldrun comes into sight"
+## before it was on the screen). On the map that is as soon as it is drawn in; walking the ground,
+## only within `world_rules.atlas.said_within` tiles of the party, which is about what the screen
+## shows; until then it waits.
+func _say_sightings() -> void:
+	if _sightings.is_empty():
+		return
+	var within := int(Atlas.rules().get("said_within", 1))
+	for cell: Vector2i in _sightings.keys():
+		var apart := (cell - world.player_cell).abs()
+		if _view == View.GROUND and maxi(apart.x, apart.y) > within:
+			continue
+		_note(Atlas.line("seen", {"place": str(_sightings[cell])}))
+		_sightings.erase(cell)
 
 
 ## Ground somebody has eyes on, in the colours of whoever is watching it.

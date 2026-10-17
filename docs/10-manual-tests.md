@@ -301,6 +301,7 @@ Start a run (not the tutorial) and walk.
 | D5.15 | In a fight you can win, let one of the party go down, get them back up, and win | At the end: "… will carry a scar from that … +3 health for good"; their journal page shows Scars 1, +3 health ([D218](06-decisions.md)) |
 | D5.16 | Shut three gates of the same faction (the same keeper at the far side) | By the third at the latest, "{keeper} falls, and what it guarded falls with it: …" and the prize is worn or packed; a miss before says what it carries ([D219](06-decisions.md)) |
 | D5.17 | Beat bands on the land until "a scrap of map … 1 of 3", then two more | "The 3 scraps fit. An X, … leagues …": a red X on the map (M), "The X on your map" in the quest list (L); walk there and a find is dug up, gear in it ([D220](06-decisions.md)) |
+| D5.24 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D236](06-decisions.md)) |
 
 ## H — Conversation and the camp
 
