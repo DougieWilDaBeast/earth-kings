@@ -178,6 +178,7 @@ func _run() -> void:
 	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
+	await _check_upper_bite()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
@@ -326,6 +327,35 @@ func _check_box_select() -> void:
 		fight._unhandled_input(release)
 		_expect(fight.selected.size() == party.size() and not fight.drag_box.has_area(), "letting go of a dragged box did not pick inside it")
 	fight.queue_free()
+
+
+## The Tower's upper floors bite harder (D222): the walked floors not at all, floor 6 at `base`,
+## higher a floor after, never past `most`; a foe given `bite` hits that much harder in the fight.
+func _check_upper_bite() -> void:
+	var rules: Dictionary = Database.world_rules["tower"]["upper_bite"]
+	var from := int(rules["from_floor"])
+	_expect(is_equal_approx(Encounter.upper_bite(from - 1), 1.0), "a walked floor's foes bite harder")
+	_expect(is_equal_approx(Encounter.upper_bite(from), float(rules["base"])), "floor %d does not bite at base" % from)
+	_expect(Encounter.upper_bite(20) > Encounter.upper_bite(from), "floor 20 bites no harder than floor %d" % from)
+	_expect(Encounter.upper_bite(100) <= float(rules["most"]) + 0.001, "a high floor bites past the most")
+	var met := Encounter.for_tower(GameState.world, GameState.world.tower(), 12, GameState.party_characters(), RandomNumberGenerator.new())
+	for entry: Dictionary in met["map"]["enemies"]:
+		_expect(is_equal_approx(float(entry.get("bite", 1.0)), Encounter.upper_bite(12)), "a floor 12 foe does not bite as floor 12 says")
+	var attack := {}
+	for bite: float in [1.0, 2.0]:
+		var map := _proving_ground()
+		map["enemies"] = [{"unit": "brigand", "cell": [6, 1], "level": 8, "bite": bite}]
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+		add_child(fight)
+		await get_tree().process_frame
+		for f: Fighter in fight.fighters:
+			if not f.unit.sides_with_party():
+				attack[bite] = f.unit.attack
+		fight.queue_free()
+		await get_tree().process_frame
+	_expect(attack.size() == 2 and int(attack[2.0]) >= int(attack[1.0]) * 2 - 1,
+		"a foe with bite 2 does not hit twice as hard: %s" % [attack])
 
 
 func _new_fight() -> Node2D:

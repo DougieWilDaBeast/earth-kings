@@ -293,7 +293,8 @@ func _build_battlefield() -> void:
 ## The enemy (or, with [param side] ALLY, those fighting beside the party) from
 ## the map. A levelled entry is a throwaway [Character], so it grows the way the
 ## party does; an entry may name itself, mark itself the keeper (`boss`), or
-## pick its own side (`team`, for the coliseum's brawls).
+## pick its own side (`team`, for the coliseum's brawls), or hit harder than its level (`bite`, a
+## multiplier on its attack).
 func _spawn_others(entries: Array, side: Unit.Team) -> void:
 	for entry: Dictionary in entries:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
@@ -313,6 +314,9 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 			unit.display_name = custom_name
 		if bool(entry.get("boss", false)):
 			unit.set_meta("boss", true)
+		# A foe can hit harder than its level says: the Tower's upper floors (D222).
+		if entry.has("bite") and float(entry["bite"]) > 0.0:
+			unit.attack = maxi(1, roundi(float(unit.attack) * float(entry["bite"])))
 		_enlist(unit)
 
 
