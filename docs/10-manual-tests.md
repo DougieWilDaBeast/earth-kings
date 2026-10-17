@@ -314,6 +314,8 @@ Start a run (not the tutorial) and walk.
 | D5.21 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
 | D5.22 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D233](06-decisions.md)) |
 | D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
+| D5.24 | On the road from the crater, walk off it into a band's red with two of the Watch close by | "The Watch see it start, and come running": two of the Watch fight beside you; won, they thank you and pay a bounty in gold ([D236](06-decisions.md)) |
+| D5.26 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D238](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

@@ -144,6 +144,9 @@ var _art: Dictionary = {}
 var _last_view: Vector3 = Vector3.INF
 ## Tiles fading onto the map, cell -> seconds of fade left.
 var _fading: Dictionary = {}
+## Places seen on the map but not yet on the screen, walking the ground ([D238]): cell -> name,
+## said when the party is near enough to see them for itself.
+var _sightings: Dictionary = {}
 var _view: View = View.WALK
 ## Where the party stood when this scene opened, to tell whether anything done
 ## here moved them.
@@ -364,6 +367,7 @@ func _step(direction: Vector2i) -> void:
 	_centre_camera()
 	_map.queue_redraw()
 
+	_say_sightings()
 	var site := world.site_at(target)
 	if site != null:
 		_arrive_at(site)
@@ -725,6 +729,10 @@ func _settle_up(won: bool) -> void:
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
+			# Led to the Watch, and fought with them (D236): their bounty, and their thanks.
+			if int(outcome.get("watch", 0)) > 0:
+				for line: String in Roadside.watch_thanks(world, cell, party):
+					_note(line)
 	_map.queue_redraw()
 	_refresh()
 
@@ -1876,7 +1884,8 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
-	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell }, {
+	# The Watch who came running to it (D236) are thanked for after a win.
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)) }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
@@ -2437,9 +2446,26 @@ func _on_ground_revealed(cells: Array) -> void:
 		var site := world.site_at(cell)
 		if site != null and Atlas.is_explored(world, cell) and not world.marked.has("%d,%d" % [cell.x, cell.y]) \
 				and site.kind != Site.TOWER and site.kind != Site.HOME and site.kind != Site.GRAVE:
-			_note(Atlas.line("seen", {"place": site.display_name}))
+			_sightings[cell] = site.display_name
+	_say_sightings()
 	# The ground has to be laid out again whether or not anything is fading.
 	_map.queue_redraw()
+
+
+## A place comes into sight once it can be seen ([D238], play-test 3: "Coldrun comes into sight"
+## before it was on the screen). On the map that is as soon as it is drawn in; walking the ground,
+## only within `world_rules.atlas.said_within` tiles of the party, which is about what the screen
+## shows; until then it waits.
+func _say_sightings() -> void:
+	if _sightings.is_empty():
+		return
+	var within := int(Atlas.rules().get("said_within", 1))
+	for cell: Vector2i in _sightings.keys():
+		var apart := (cell - world.player_cell).abs()
+		if _view == View.GROUND and maxi(apart.x, apart.y) > within:
+			continue
+		_note(Atlas.line("seen", {"place": str(_sightings[cell])}))
+		_sightings.erase(cell)
 
 
 ## Ground somebody has eyes on, in the colours of whoever is watching it.
