@@ -21,6 +21,7 @@ const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
+const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const Company := preload("res://tests/company.gd")
 
 var _skirmish: Node2D
@@ -182,6 +183,7 @@ func _run() -> void:
 	await _check_allies_and_auto()
 	await _check_the_world_hears()
 	await _check_signatures()
+	await _check_conditions()
 	_check_bout()
 	await _check_tactics()
 
@@ -834,3 +836,162 @@ func _check_tactics() -> void:
 				"circling should end at Iris's side or back, not where she is looking")
 	fight.queue_free()
 	GameState.roster = kept_roster
+
+
+## What a move does shows on whoever it lands on ([D192]): a knockback moves them a tile or more
+## (fewer on a big body, none on a keeper or into a wall, and the word says so), slows, burns,
+## bleeds, knockdowns and sunders stay on them with an icon and wear off, a resisted one says so,
+## and a skill that comes down where a dodger stood says "Dodged!".
+func _check_conditions() -> void:
+	var fight := await _new_fight()
+	fight.paused = true
+	var cato := _by_template(fight, "cato")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	var foe: Fighter = foes[0]
+	var other: Fighter = foes[1]
+	var line := _open_line(fight, 5, [cato, foe, other])
+	_expect(not line.is_empty(), "the proving ground has no straight run of five open tiles")
+	if line.is_empty() or cato == null:
+		fight.queue_free()
+		return
+	var way: Vector2i = line[1] - line[0]
+	var place := func(f: Fighter, cell: Vector2i) -> void:
+		f.stepping = false
+		f.unit.cell = cell
+		f.unit.position = fight.grid.cell_to_world(cell)
+	var tough := func(f: Fighter) -> void:
+		f.unit.max_hp = 99999
+		f.unit.hp = 99999
+		f.conditions.clear()
+		f.stunned = 0.0
+	place.call(other, line[0] - way * 3)
+	tough.call(foe)
+
+	# A haymaker knocks two tiles straight back; a kick one.
+	place.call(cato, line[0])
+	place.call(foe, line[1])
+	fight._strike(cato, foe.unit, Database.ability("haymaker"), "haymaker")
+	_expect(foe.unit.cell == line[3], "a haymaker did not knock the foe two tiles back: %s, not %s" % [foe.unit.cell, line[3]])
+	_expect(foe.stepping, "a knockback did not slide the foe there")
+	_expect(_popped(fight, "Knocked back"), "a knockback was not said over the foe")
+	place.call(foe, line[1])
+	fight._strike(cato, foe.unit, Database.ability("kick"), "kick")
+	_expect(foe.unit.cell == line[2], "a kick did not knock the foe back a tile")
+
+	# Somebody behind them: pinned, and it shows.
+	place.call(foe, line[1])
+	place.call(other, line[2])
+	fight._strike(cato, foe.unit, Database.ability("kick"), "kick")
+	_expect(foe.unit.cell == line[1], "a foe was knocked back through somebody standing behind him")
+	_expect(_popped(fight, "Pinned"), "a knockback into somebody did not say Pinned")
+	place.call(other, line[0] - way * 3)
+
+	# A big body is shoved a tile less; a keeper not at all.
+	foe.unit.body_scale = 1.6
+	fight._strike(cato, foe.unit, Database.ability("kick"), "kick")
+	_expect(foe.unit.cell == line[1] and _popped(fight, "Unmoved"), "a kick moved a body as big as an ogre's, or said nothing")
+	fight._strike(cato, foe.unit, Database.ability("haymaker"), "haymaker")
+	_expect(foe.unit.cell == line[2], "a haymaker did not move a big body one tile")
+	foe.unit.body_scale = 1.0
+	place.call(foe, line[1])
+	foe.unit.set_meta("boss", true)
+	fight._strike(cato, foe.unit, Database.ability("haymaker"), "haymaker")
+	_expect(foe.unit.cell == line[1], "a keeper was knocked back")
+	foe.unit.remove_meta("boss")
+
+	# Undertow drags them in, and slows them.
+	place.call(foe, line[2])
+	fight._strike(cato, foe.unit, Database.ability("undertow"), "undertow")
+	_expect(foe.unit.cell == line[1], "an undertow did not drag the foe in beside the caster")
+	_expect(foe.conditions.has("slow"), "an undertow did not slow")
+
+	# Slowed: steps and swings take longer, it has an icon and frost, and it wears off.
+	tough.call(foe)
+	fight._strike(cato, foe.unit, Database.ability("hamstring"), "hamstring")
+	_expect(fight.conditions.step_scale(foe) > 1.0 and fight.conditions.swing_scale(foe) > 1.0, "a slow did not slow")
+	_expect(SkirmishMarks.status_icons(foe).has("slow"), "a slowed foe wears no slow icon")
+	for _i in int(ceil(float(Database.ability("hamstring")["slow"]) / SkirmishRules.TICK)) + 2:
+		fight.conditions.tick(foe)
+	_expect(not foe.conditions.has("slow"), "a slow never wore off")
+
+	# Burning and bleeding bite every second, with their own numbers.
+	tough.call(foe)
+	fight._strike(cato, foe.unit, Database.ability("ember"), "ember")
+	_expect(foe.conditions.has("burn") and SkirmishMarks.status_icons(foe).has("burn"), "an ember left no burn, or no burn icon")
+	var before := foe.unit.hp
+	for _i in int(ceil(1.0 / SkirmishRules.TICK)) + 1:
+		fight.conditions.tick(foe)
+	_expect(foe.unit.hp < before, "a burn did not bite")
+	fight._strike(cato, foe.unit, Database.ability("dart"), "dart")
+	_expect(foe.conditions.has("bleed") and SkirmishMarks.status_icons(foe).has("bleed"), "a dart left no bleed")
+
+	# Sundered: takes more, with the cracked-guard icon.
+	tough.call(foe)
+	fight._strike(cato, foe.unit, Database.ability("sunder"), "sunder")
+	_expect(fight.conditions.taken_scale(foe) > 1.0 and SkirmishMarks.status_icons(foe).has("vulnerable"), "a sunder left nothing")
+
+	# Knocked down: stunned, laid flat, and back up after.
+	tough.call(foe)
+	fight._strike(cato, foe.unit, Database.ability("earthshake"), "earthshake")
+	_expect(foe.is_stunned() and foe.conditions.has("knockdown"), "an earthshake did not knock the foe down")
+	_expect(SkirmishMarks.status_icons(foe) == (["down"] as Array[String]), "a knocked-down foe wears %s" % str(SkirmishMarks.status_icons(foe)))
+	for _i in 6:
+		fight._tick_fighter(foe)
+	_expect(is_equal_approx(foe.unit.lying, 1.0), "a knocked-down foe is not drawn lying flat")
+	for _i in int(ceil(float(Database.ability("earthshake")["knockdown"]) / SkirmishRules.TICK)) + 8:
+		fight._tick_fighter(foe)
+	_expect(not foe.conditions.has("knockdown") and foe.unit.lying == 0.0, "a knocked-down foe never got up")
+
+	# Shrugged off: Liber's bare hands keep their feet, a fire creature will not burn.
+	tough.call(foe)
+	foe.signature = {"style": "bare_hands"}
+	fight._strike(cato, foe.unit, Database.ability("earthshake"), "earthshake")
+	_expect(not foe.is_stunned() and _popped(fight, "Keeps footing"), "bare hands were knocked down, or said nothing")
+	foe.signature = {}
+	foe.unit.template_id = "flame_lion"
+	fight._strike(cato, foe.unit, Database.ability("ember"), "ember")
+	_expect(not foe.conditions.has("burn") and _popped(fight, "Fireproof"), "a flame lion burned, or said nothing")
+	foe.unit.template_id = "brigand"
+
+	# A plain swing never carries the move's condition, even when it is the same move.
+	tough.call(foe)
+	var kept_basic := cato.basic
+	cato.basic = "hamstring"
+	fight._strike(cato, foe.unit, Database.ability("hamstring"), "hamstring")
+	_expect(not foe.conditions.has("slow"), "a plain swing carried a slow")
+	cato.basic = kept_basic
+
+	# Stepping out of a wind-up shows, and so does a skill on empty ground.
+	fight.conditions.dodging(foe, cato)
+	var hits: Array[Unit] = []
+	fight.conditions.came_down(cato, hits)
+	_expect(_popped(fight, "Dodged!") and foe.dodging.is_empty(), "a dodged skill did not say Dodged!")
+	fight.conditions.show_miss(line[4])
+	_expect(_popped(fight, "Missed"), "a skill on empty ground did not say Missed")
+
+	# The tooltip says it, and every new icon is on disk.
+	_expect(not SkirmishConditions.tips(Database.ability("haymaker")).is_empty(), "Haymaker's tooltip does not say it knocks back")
+	for key: String in ["down", "slowed", "burning", "bleeding", "exposed"]:
+		_expect(SkirmishFx.status_icon(str(Database.skirmish["status_icons"][key])) != null, "no icon for %s" % key)
+	fight.queue_free()
+
+
+## [param length] open tiles in a straight line, nobody on them but [param besides].
+func _open_line(fight: Node2D, length: int, besides: Array) -> Array:
+	for cell: Vector2i in fight.grid._terrain_ids.keys():
+		for way: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]:
+			var out: Array = []
+			for k in length:
+				var c: Vector2i = cell + way * k
+				var who: Fighter = fight.occupant(c)
+				if not fight.grid.is_walkable(c) or (who != null and not besides.has(who)) \
+						or (k > 0 and absi(fight.grid.height_at(c) - fight.grid.height_at(c - way)) > 0):
+					break
+				out.append(c)
+			if out.size() == length:
+				return out
+	return []
+
+
+func _popped(fight: Node2D, text: String) -> bool:
+	return fight.fx._popups.any(func(p: Dictionary) -> bool: return str(p["text"]) == text)

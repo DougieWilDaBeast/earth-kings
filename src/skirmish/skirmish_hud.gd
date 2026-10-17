@@ -9,6 +9,7 @@ const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishSlot := preload("res://src/skirmish/skirmish_slot.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
+const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 
 signal card_clicked(index: int)
 ## A skill tile on a party card was clicked: pick that fighter, ready that skill.
@@ -368,6 +369,8 @@ static func _ability_tooltip(ability: Dictionary) -> String:
 		extras += "\nCharged: hits harder, but a stun breaks it off"
 	if float(ability.get("stun", 0.0)) > 0.0:
 		extras += "\nStuns for %.1fs and breaks a cast" % float(ability["stun"])
+	for tip: String in SkirmishConditions.tips(ability):
+		extras += "\n" + tip
 	return "%s\n%s\nCooldown %.1fs%s   energy %d%s" % [
 		ability.get("display_name", "?"), ability.get("description", ""),
 		SkirmishRules.cooldown(ability),

@@ -48,6 +48,8 @@ func _check_content() -> void:
 	var known_ability_keys := [
 		"display_name", "description", "target", "min_range", "range", "splash",
 		"power", "heal", "bonus", "cooldown", "cast", "stun", "energy",
+		# What a skill leaves on whoever it lands on (D192).
+		"knockback", "pull", "slow", "burn", "bleed", "knockdown", "expose",
 	]
 	for ability_id: String in Database.abilities:
 		var ability: Dictionary = Database.abilities[ability_id]

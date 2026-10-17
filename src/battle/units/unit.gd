@@ -56,6 +56,8 @@ var colour: Color = Color.WHITE
 ## How tall this body stands against an ordinary one (`body_scale` in `data/units.json`, D56).
 ## A big unit still holds one tile; it grows up from its feet.
 var body_scale: float = 1.0
+## Laid flat by a knockdown: 0 standing, 1 on the ground ([D192]). Drawn tipped onto its side.
+var lying: float = 0.0
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
 var sprites: Dictionary = {}
 ## Facing -> the run cycle, for the few units that have one (see [Database]).
@@ -329,6 +331,10 @@ func _draw() -> void:
 		draw_circle(Vector2.ZERO, radius, colour)
 	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 24, outline, 2.0, true)
 	_draw_facing(radius, outline)
+	if lying > 0.0 and sprite != null:
+		_draw_lying(sprite)
+		_draw_hp_bar(sprite)
+		return
 	# Held behind the body only when the unit has its back to us.
 	if facing == Vector2i.UP:
 		_draw_weapon()
@@ -337,6 +343,17 @@ func _draw() -> void:
 	if facing != Vector2i.UP:
 		_draw_weapon()
 	_draw_hp_bar(sprite)
+
+
+## Knocked flat: the body tipped over at the feet, away from the way it looks.
+func _draw_lying(sprite: Texture2D) -> void:
+	var feet := Vector2(0.0, BattleGrid.CELL_SIZE * (SPRITE_HEIGHT_CELLS * 0.5 - 0.12))
+	var side := -1.0 if facing.x > 0 else 1.0
+	draw_set_transform(feet, side * lying * PI * 0.5)
+	var rect := _sprite_rect(sprite)
+	rect.position -= feet
+	draw_texture_rect(sprite, rect, false)
+	draw_set_transform(Vector2.ZERO)
 
 
 func _draw_weapon() -> void:

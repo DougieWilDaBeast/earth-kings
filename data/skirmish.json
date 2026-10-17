@@ -290,13 +290,14 @@
 		"vesta": {
 			"style": "ward",
 			"display_name": "Ward",
-			"description": "Every 12 seconds she wards the most hurt ally within 3 tiles: the next 15% of their health in damage is turned aside. Her blows burn the dead for 50% more.",
+			"description": "Every 12 seconds she wards the most hurt ally within 3 tiles: the next 15% of their health in damage is turned aside. Her blows burn the dead for 50% more, and only the dead are left burning.",
 			"every": 12.0,
 			"radius": 3,
 			"below": 0.85,
 			"ward": 0.15,
 			"dead": ["wraith", "dusk_shadow"],
-			"dead_bonus": 0.5
+			"dead_bonus": 0.5,
+			"burns_only_dead": true
 		},
 		"caesar": {
 			"style": "takes_the_hit",
@@ -483,6 +484,34 @@
 			"long_reach": "arrow"
 		}
 	},
+	"conditions": {
+		"_comment": "What a move leaves on whoever it lands on, and how it shows (D192). An ability names a condition and its size: knockback and pull in tiles, the rest in seconds (stun stays the ability's own key). Every one is seen on the body it lands on: a slide, a frost, flames, drips of blood, a body laid flat, a cracked guard, a word over the head. resists says who shrugs one off; that shows too, as its resist word in silver. All of it Inferred (agenda row 123).",
+		"knockback": { "word": "Knocked back", "slide": 0.09, "pinned": "Pinned", "resisted": "Unmoved", "tip": "Knocks the target back %d tile(s)" },
+		"pull": { "word": "Dragged in", "slide": 0.11, "pinned": "Holds", "resisted": "Unmoved", "tip": "Drags the target %d tile(s) closer" },
+		"slow": { "word": "Slowed", "steps": 0.45, "swings": 0.2, "icon": "slow", "resisted": "Shrugs off", "tip": "Slows steps and swings for %.1fs" },
+		"burn": { "word": "Burning", "per_second": 0.12, "icon": "burn", "resisted": "Fireproof", "tip": "Sets the target burning for %.1fs" },
+		"bleed": { "word": "Bleeding", "per_second": 0.1, "icon": "bleed", "resisted": "No blood", "tip": "Leaves the target bleeding for %.1fs" },
+		"knockdown": { "word": "Knocked down", "icon": "down", "resisted": "Keeps footing", "tip": "Knocks the target flat for %.1fs; breaks a cast" },
+		"expose": { "word": "Sundered", "more": 0.15, "icon": "vulnerable", "resisted": "Holds together", "tip": "The target takes 15%% more for %.1fs" },
+		"stun": { "resisted": "Steady" },
+		"dodged": "Dodged!",
+		"missed": "Missed",
+		"covers": "Covers",
+		"set": "Set",
+		"resists": {
+			"_comment": "boss: a keeper or chief is never moved or laid flat. heavy: a body this big or bigger is shoved one tile less (so a one-tile shove reads Unmoved). by_style: a lead's signature. by_template: what a creature is made of.",
+			"boss": ["knockback", "pull", "knockdown"],
+			"heavy": { "from_body_scale": 1.5, "less": 1 },
+			"by_style": { "bare_hands": ["stun", "knockdown"] },
+			"by_template": {
+				"ember_duelist": ["burn"], "flame_dove": ["burn"], "ember_lizard": ["burn"], "flame_lion": ["burn"], "fox_knight": ["burn"],
+				"frozen_wolfman": ["slow"], "ice_wolf": ["slow"],
+				"slime": ["bleed"], "king_slime": ["bleed"], "blue_slime": ["bleed"], "ooze_knight": ["bleed"],
+				"wraith": ["bleed", "knockdown"], "dusk_shadow": ["bleed", "knockdown"],
+				"tree_sentinel": ["bleed"]
+			}
+		}
+	},
 	"status_icons": {
 		"folder": "res://art/ui/status",
 		"size": 18.0,
@@ -490,6 +519,11 @@
 		"casting": "charging",
 		"tired": "tired",
 		"using": "draught",
+		"down": "down",
+		"slowed": "slow",
+		"burning": "burn",
+		"bleeding": "bleed",
+		"exposed": "vulnerable",
 		"by_item": {
 			"herbs": "herb"
 		}

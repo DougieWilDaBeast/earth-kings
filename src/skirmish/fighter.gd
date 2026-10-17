@@ -125,6 +125,12 @@ var marked: float = 0.0
 var ward: int = 0
 ## Short boosts given by someone else, by kind ("pace", "might"): [value, seconds left].
 var boosts: Dictionary = {}
+## What moves have left on this fighter, by kind ("slow", "burn", "bleed", "knockdown",
+## "expose"): {left, total, by, and for a burn or bleed its damage a second} ([SkirmishConditions]).
+var conditions: Dictionary = {}
+## Stepping out of a wind-up: [the caster, the fight's clock when it stops counting], so the
+## miss can show as "Dodged!" when the blow lands where they were ([D192]).
+var dodging: Array = []
 
 
 func _init(source: Unit) -> void:

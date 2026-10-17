@@ -262,6 +262,11 @@ each, each ending playable:
    the player's own, and the opening plays whole with his world going dark. The first life is no
    longer Atlas ([D106](06-decisions.md) changed); the words, the band and the skip for someone who
    has played it before are **Inferred** (agenda 122), back to both founders.
+16. **A move's effect is seen on whoever it lands on** — built ([D192](06-decisions.md), `dougie`,
+   2026-10-17). Knockbacks slide the body back a tile or two, Undertow drags it in, slows frost the
+   feet, burns and bleeds tick numbers, a knockdown lays the body flat, Sunder cracks the guard;
+   a move shrugged off says so in silver (Pinned, Unmoved, Fireproof…), and a wind-up stepped out
+   of says Dodged!. Which move carries what and every size are **Inferred** (agenda 123).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
