@@ -149,11 +149,24 @@ or a reason for one of its **Planned** parts.
 
 ## The inbox
 
-**Planned**, waiting on `dougie`'s word on where it lives (the write-up's call 1). Until then the
-loop's first step keeps today's places. The recommendation is GitHub Issues on this repository: one
-issue per piece of work, a label per kind, tier and severity, and a GitHub milestone per row above,
-so a PR that says "closes #n" ticks it off and both founders, through their own Claude accounts,
-read the same list. The docs stay the record of what exists; the inbox holds what does not exist yet.
+**Planned**, waiting on `dougie`'s word on how work is tracked (the write-up's "How to track it", call
+BH, reopened by his question of 2026-10-17 09:40). Until then the loop's first step keeps today's places.
+The recommendation is **GitHub, made strict**, with no new app:
+1. Labels and milestones set up by a script: kind, tier 1 to 4, severity S1 to S4, "waits on Will",
+   "waits on Ewan", and one GitHub milestone per row of the milestones table.
+2. One issue per piece of work, opened by whichever Claude hears of it; short issue forms for a founder
+   filing one by hand.
+3. A CI check in the style of the ledger: a PR closes an issue or says it is docs-only, a new D number is
+   the next free one, every question in [30](30-questions-for-the-founders.md) has a default; a daily job
+   labels any issue with no kind or milestone "needs sort".
+4. One GitHub Projects board, created once by `dougie` (the connector cannot), whose built-in workflows
+   add every issue and move it to Done when its PR merges.
+5. A status page Claude refreshes after each merge: what is in flight per milestone, and what waits on
+   each founder.
+The docs, the decisions log, the agenda and the founders' questions stay as files in the repo, because
+the code and the tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
+Weighed against it: Linear (free up to 250 issues, then paid, a second place to look), Notion (a second
+copy of the docs that drifts), and repo files only (strict, but no inbox or board).
 
 ## The rhythm
 
