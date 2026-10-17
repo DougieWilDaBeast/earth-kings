@@ -194,6 +194,7 @@ func _ready() -> void:
 	Pace.changed.connect(_on_pace_changed)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
+	hud.stance_clicked.connect(_on_stance_clicked)
 	hud.action_pressed.connect(act)
 	hud.slot_clicked.connect(_on_slot_clicked)
 	hud.item_clicked.connect(_on_item_clicked)
@@ -891,7 +892,7 @@ func _tick_fighter(f: Fighter) -> void:
 			_pursue_aid(f)
 		_:
 			if f.target != null and is_standing(f.target):
-				_fight(f, f.target, not f.hold)
+				_fight(f, f.target, not f.holding())
 
 
 ## Reconsider: use a ready skill if Auto Skill is on, and pick who to swing at.
@@ -907,14 +908,14 @@ func _think(f: Fighter) -> bool:
 	if f.order == Fighter.Order.NONE:
 		var reach := -1
 		if f.is_party():
-			reach = _basic_reach(f) if f.hold else SkirmishRules.PARTY_AGGRO_RANGE
-			# A party playing itself goes and finds the fight.
-			if Pace.auto and not f.hold:
+			reach = _basic_reach(f) if f.holding() else SkirmishRules.PARTY_AGGRO_RANGE
+			# A party playing itself goes and finds the fight, and so does one told to close in ([D195]).
+			if (Pace.auto or f.stance_says("seek")) and not f.holding():
 				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
 		# The company fights together: once one of them is in it, the rest
 		# come, unless told to hold.
-		if f.target == null and f.is_party() and not f.hold and _party_engaged():
+		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
 			f.target = SkirmishBrain.pick_target(f, fighters)
 	return false
 
@@ -1916,7 +1917,7 @@ func _unhandled_input(event: InputEvent) -> void:
 ## Keys, said as the actions the touch buttons also send.
 ## Pause and speed are the rebindable actions (`command_wait`, `battle_speed`).
 const KEY_ACTIONS := {
-	KEY_Z: "auto_pause", KEY_TAB: "all", KEY_A: "auto_skill", KEY_H: "hold",
+	KEY_Z: "auto_pause", KEY_TAB: "all", KEY_A: "auto_skill",
 }
 
 
@@ -1931,6 +1932,12 @@ func _on_key(event: InputEventKey) -> bool:
 	if event.is_action_pressed("battle_speed"):
 		act("speed")
 		return true
+	# A key each for the stances ([D195]), rebindable; Hold's is H, as it always was.
+	for stance: String in Fighter.stances():
+		var action := str(Fighter.stance_data(stance).get("action", ""))
+		if action != "" and InputMap.has_action(action) and event.is_action_pressed(action):
+			act("hold" if stance == "hold" else "stance_" + stance)
+			return true
 	if KEY_ACTIONS.has(event.keycode):
 		act(KEY_ACTIONS[event.keycode])
 		return true
@@ -2101,10 +2108,37 @@ func act(action: String) -> void:
 			for f in selected:
 				f.auto_skill = not f.auto_skill
 		"hold":
+			# Hold again lets them go their own way.
+			var all_held := not selected.is_empty() and selected.all(func(f: Fighter) -> bool: return f.stance == "hold")
 			for f in selected:
-				f.hold = not f.hold
-				if f.hold and f.order == Fighter.Order.NONE:
-					f.target = null
+				set_stance(f, "own" if all_held else "hold")
+		_ when action.begins_with("stance_"):
+			for f in selected:
+				set_stance(f, action.trim_prefix("stance_"))
+	hud.refresh()
+
+
+## [param f] takes up [param stance] ([D195]), says so over their head, and keeps it
+## for the next fight.
+func set_stance(f: Fighter, stance: String) -> void:
+	if f == null or not f.is_party():
+		return
+	f.set_stance(stance)
+	if f.hold and f.order == Fighter.Order.NONE:
+		f.target = null
+	f.tactic_left = 0.0
+	var word := str(Fighter.stance_data(f.stance).get("word", f.stance))
+	fx.popup(word, f.unit.position, SkirmishFx.WORD, 12)
+	_say("%s: %s." % [f.unit.display_name, word])
+
+
+## A click on the stance on a card: that fighter takes up the next one.
+func _on_stance_clicked(index: int) -> void:
+	var party := party_fighters()
+	if index >= party.size() or not party[index].is_standing():
+		return
+	var all := Fighter.stances()
+	set_stance(party[index], all[(all.find(party[index].stance) + 1) % all.size()])
 	hud.refresh()
 
 
