@@ -297,8 +297,8 @@ Start a run (not the tutorial) and walk.
 | D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
 | D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
 | D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Each band is five or six foes at about your level; the fights take a while and hurt ([D189](06-decisions.md), walked since [D207](06-decisions.md)) |
-| D5.19 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D221](06-decisions.md)) |
-| D5.20 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
+| D5.22 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D233](06-decisions.md)) |
+| D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
 
 ## H — Conversation and the camp
 

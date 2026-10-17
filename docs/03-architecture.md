@@ -98,7 +98,7 @@ src/
                                gate to the Tower (D126); where two lands meet, ground_gen.gd runs the next land's
                                floor a few cells in (D128), and places its scenery by rule (D130).
                                area_critter.gd: the birds and bugs about every tile (D179); tracks.gd
-                               the dirt tracks between villages and the signposts where ways meet (D221)
+                               the dirt tracks between villages and the signposts where ways meet (D233)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
