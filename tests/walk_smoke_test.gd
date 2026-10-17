@@ -32,7 +32,7 @@ const SIXTEEN_PATH := "user://earth-kings.sixteen.walk-suite.json"
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "allies", "guild", "map", "markers", "muster",
+	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "auto_rests", "allies", "guild", "map", "markers", "muster",
 	"fall", "first_hour", "run_ends", "sixteen", "crossing",
 ]
 
@@ -1970,6 +1970,35 @@ func _check_town_saves() -> void:
 	Pace.auto = was_auto
 	world.player_cell = was_at
 	GameState.flags = flags_were
+
+
+## D210 (call BL): a party walking itself at under half its health makes for the nearest place
+## it rests, before a band or the objective; at full health it does not.
+func _check_auto_rests() -> void:
+	var world: World = GameState.world
+	var kept := {}
+	for member: Character in GameState.party_characters():
+		kept[member] = member.hp
+		member.hp = -1
+	_expect(AutoRoad.rest_stop(world).x < 0, "auto rests: a party at full health was sent to rest")
+	for member: Character in kept:
+		member.hp = maxi(1, member.max_hp() / 10)
+	var stop := AutoRoad.rest_stop(world)
+	var there := world.site_at(stop)
+	_expect(there != null and there.kind in [Site.VILLAGE, Site.KEEP, Site.HUT],
+		"auto rests: a party at a tenth of its health was not sent somewhere to rest (%s)" % stop)
+	_expect(stop.x < 0 or AutoRoad.errand(world) == stop, "auto rests: hurt, Auto still made for something else first")
+	# D211: Auto goes into a gate it crosses only when it is making for it, and never hurt.
+	var gates := world.sites_of_kind(Site.GATE)
+	for gate: Site in gates:
+		_expect(not AutoRoad.goes_into(world, gate.cell), "auto rests: hurt, Auto would go into %s" % gate.display_name)
+	for member: Character in kept:
+		member.hp = kept[member]
+	var goal := AutoRoad.objective(world)
+	for gate: Site in gates:
+		if not goal.is_empty() and goal["cell"] != gate.cell:
+			_expect(not AutoRoad.goes_into(world, gate.cell),
+				"auto gates: Auto would go into %s on its way to %s" % [gate.display_name, goal.get("label", goal["cell"])])
 
 
 ## A step taken more than six tiles from [param town], which is being away from it.

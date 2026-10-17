@@ -159,6 +159,7 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT35 | Press **Q** on the road, let it walk into a fight, then press **Q** mid-fight | "You take the party back."; the fight pauses for your first order and Q did not ready a skill |
 | RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
 | RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with a shield bearer, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
+| RT38 | In a fight, click the gold word beside a fighter's name; then pick someone and press **O F B G H** in turn | The word steps Own way, Close in, Keep away, Guard, Hold and round; each key sets its stance, said over their head and in the log; Close in walks off after foes, Keep away steps back, Guard walks back to the leader, Hold stands; the next fight opens with the same words; press **Q** and the words grey out ([D209](06-decisions.md)) |
 
 ## F — Party menu (**P**)
 
@@ -297,10 +298,13 @@ Start a run (not the tutorial) and walk.
 | D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
 | D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
 | D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Each band is five or six foes at about your level; the fights take a while and hurt ([D189](06-decisions.md), walked since [D207](06-decisions.md)) |
-| D5.17 | Walk the land and look at the top right | A small square map with N, E, S and W on its sides, you in the middle, and an arrow at its edge (or a ring) for what the compass follows ([D232](06-decisions.md)) |
-| D5.18 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
-| D5.19 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
-| D5.20 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
+| D5.15 | In a fight you can win, let one of the party go down, get them back up, and win | At the end: "… will carry a scar from that … +3 health for good"; their journal page shows Scars 1, +3 health ([D218](06-decisions.md)) |
+| D5.16 | Shut three gates of the same faction (the same keeper at the far side) | By the third at the latest, "{keeper} falls, and what it guarded falls with it: …" and the prize is worn or packed; a miss before says what it carries ([D219](06-decisions.md)) |
+| D5.17 | Beat bands on the land until "a scrap of map … 1 of 3", then two more | "The 3 scraps fit. An X, … leagues …": a red X on the map (M), "The X on your map" in the quest list (L); walk there and a find is dug up, gear in it ([D220](06-decisions.md)) |
+| D5.18 | Walk the land and look at the top right | A small square map with N, E, S and W on its sides, you in the middle, and an arrow at its edge (or a ring) for what the compass follows ([D232](06-decisions.md)) |
+| D5.19 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
+| D5.20 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
+| D5.21 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
 
 ## H — Conversation and the camp
 

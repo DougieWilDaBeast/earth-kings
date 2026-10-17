@@ -171,6 +171,9 @@ static func cell_of(at: Variant) -> Vector2i:
 ## the Tower.
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
+	var rest := rest_stop(world)
+	if rest.x >= 0:
+		return rest
 	# A place picked on the map, or a marker followed, is walked to straight: no turning aside for
 	# a band on the way, which walked the party off the other way from where it was sent ([D232]).
 	var chosen := Quests.followed(world, quests(world))
@@ -214,6 +217,49 @@ static func errand(world: World) -> Vector2i:
 			and not Chapters.sealed(world) and Atlas.knows(world, tower):
 		return tower.cell
 	return _explore_target(world)
+
+
+## Whether a party walking itself means to go into the gate at [param cell] ([D211]): the road
+## leads there, or nothing else is asked of it, and nobody needs patching up first. Before, Auto
+## went into any gate it crossed, and a fresh lead met a gate's keeper alone at level 1.
+static func goes_into(world: World, cell: Vector2i) -> bool:
+	if rest_stop(world).x >= 0:
+		return false
+	var goal := objective(world)
+	return goal.is_empty() or goal.get("cell", Vector2i(-1, -1)) == cell
+
+
+## Where a badly hurt party walking itself goes first: the nearest place that patches it up on
+## arriving (a village, a keep, a hut; not the crater, whose sleep heals nobody in the First Hour, so
+## Auto walked back to it for good), before any band or the objective ([D210], call BL:
+## after a lost fight Auto walked into the next one at a quarter of its health, and dealt leads fell
+## on the road in 6 of 8 self-played runs). Hurt is the party's health under
+## `first_hour.auto_rest_below` of its whole; (-1, -1) when it is not, or there is nowhere known.
+static func rest_stop(world: World) -> Vector2i:
+	if GameState.roster == null:
+		return Vector2i(-1, -1)
+	var below := float(Database.world_rules.get("first_hour", {}).get("auto_rest_below", 0.0))
+	var health := 0
+	var whole := 0
+	for member: Character in GameState.party_characters():
+		health += member.current_hp()
+		whole += member.max_hp()
+	if whole <= 0 or float(health) >= float(whole) * below:
+		return Vector2i(-1, -1)
+	var best := 1 << 30
+	var stop := Vector2i(-1, -1)
+	for site: Site in world.sites:
+		if not site.kind in [Site.VILLAGE, Site.KEEP, Site.HUT]:
+			continue
+		if Town.is_ruined(site) or Town.is_threatened(site) or Pace.avoided.has(site.cell):
+			continue
+		if not Atlas.knows(world, site):
+			continue
+		var reach := Pathfinder.distance(world.player_cell, site.cell)
+		if reach > 0 and reach < best:
+			best = reach
+			stop = site.cell
+	return stop
 
 
 ## Nowhere known to go, so go and see somewhere: the nearest ground the party

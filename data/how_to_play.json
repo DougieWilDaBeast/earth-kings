@@ -41,6 +41,7 @@
 				"The field is the lit patch round you; the ground beyond its edge is dimmed. Right-click beyond the edge and whoever is picked makes for it, and gets clear once they reach it. If everyone still standing gets clear, the fight is over and the band is still out there; anyone left lying on the field is left to their fate. Two leaves at a fighter's feet mean they are standing in cover.",
 				"Left-click picks a fighter, or drag a box to pick several; 1–6 pick one and Tab picks everyone. Right-click the ground to move, an enemy to attack, a fallen friend to help them up. Q W E R ready a skill, then click its target.",
 				"Everyone swings on their own; A switches a fighter's skills between automatic and by hand, and H holds them where they stand. Skills come back on cooldowns and cost energy; a tired fighter only swings.",
+				"Each card says how that fighter fights, its stance; click the word for the next one, or pick fighters and press O Own way (how they always fight), F Close in (go in after the foe, no falling back), B Keep away (keep a gap while friends fight), G Guard (step in for the hurt and keep by the leader) or H Hold (keep this ground). A stance is kept between fights; Auto always fights each their own way. The keys can be changed in Controls.",
 				"Facing matters. The wedge on a token shows where it looks: side hits deal 1.1×, back hits 1.2×.",
 				"Draughts and herbs are on each fighter's card. One takes a moment to use, and what is used is gone from the stores."
 			]

@@ -1448,8 +1448,9 @@ func _land_auto_axis() -> Vector2:
 	var world: World = GameState.world
 	var here := map.cell_at(_leader.position)
 	# A party walking itself came to a gate to go in (D116), and goes in on this ground (D162),
-	# unless it has already lost here.
-	if not _asking and not Pace.avoided.has(world.player_cell):
+	# unless it has already lost here or the gate is not where it is going ([D211]).
+	if not _asking and not Pace.avoided.has(world.player_cell) \
+			and AutoRoad.goes_into(world, world.player_cell):
 		for each: Dictionary in _acts:
 			if FIGHT_ACTS.has(str(each.get("act", ""))):
 				_do_act(each)
@@ -2071,13 +2072,16 @@ func _settle_followers(delta: float) -> void:
 				follower.face(trail_dir)
 			continue
 
-		if far > FOLLOW_DEADZONE + 2.0:
-			follower.face(to_target)
-
 		var speed_mult := 1.35 if far > FOLLOWER_DISTANCE * 1.5 else (1.15 if far > FOLLOWER_DISTANCE else 1.0)
 		var step := to_target.normalized() * (_walk_speed() * speed_mult * delta)
 		if step.length() > far:
 			step = to_target
+		# Facing the way they step. It used to wait until they were four pixels behind their
+		# place, but a follower keeping pace is about three behind it at walking speed, so once
+		# in step they never turned again: walking up and then down, the party walked down looking
+		# up (play-test 4: "my characters that are followed behind me are facing the wrong way").
+		if step.length() > 0.5:
+			follower.face(step)
 		follower.position = _slide(follower.position, step)
 
 
