@@ -17,6 +17,7 @@ extends RefCounted
 
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Treasure := preload("res://src/chronicle/treasure.gd")
 
 ## The flag holding the id of the entry being followed, or nothing.
 const FOLLOWED := "quest:followed"
@@ -67,6 +68,9 @@ static func all(world: World, road: Dictionary) -> Array[Dictionary]:
 					int(character.captive.get("ransom", 0)),
 				],
 			})
+	var x_marks := Treasure.quest(world)
+	if not x_marks.is_empty():
+		out.append(x_marks)
 	for heard: Dictionary in Siblings.heard_weapons(world):
 		var at: Vector2i = heard.get("cell", Vector2i(-1, -1))
 		if at.x < 0:
