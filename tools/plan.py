@@ -93,7 +93,8 @@ def decision_numbers(text):
 
 
 def check_decisions(base):
-    """New D rows are unique and above the base's highest (the D165 clash of 2026-10-16)."""
+    """No D number is used twice (the D165 clash of 2026-10-16). One below main's highest
+    is allowed, since an open PR may have held it while a later one merged first."""
     old = subprocess.run(["git", "show", f"{base}:{DECISIONS}"], cwd=ROOT,
                          capture_output=True, text=True, check=True).stdout
     before = decision_numbers(old)
@@ -105,11 +106,11 @@ def check_decisions(base):
     top = max(before, default=0)
     for n in added:
         if n <= top:
-            problems.append(f"D{n} is new but main already reaches D{top}: take D{top + 1} or later")
+            print(f"note: D{n} is below main's highest, D{top}; fine if it was held by this PR")
     for line in problems:
         print("PROBLEM:", line)
     if not problems:
-        print(f"decisions: {len(added)} new, all above D{top}" if added else "decisions: none new")
+        print(f"decisions: {len(added)} new, none used twice" if added else "decisions: none new")
     return problems
 
 

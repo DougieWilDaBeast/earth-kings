@@ -157,7 +157,7 @@ tests read them and they change in the same PR as the code ([D139](06-decisions.
 | --- | --- | --- |
 | Labels and milestones | [`.github/plan.json`](../.github/plan.json), `tools/plan.py sync`, workflow `plan-sync` | Kind, tier 1 to 4, severity S1 to S4, "waits on Will", "waits on Ewan", "needs sort", and one GitHub milestone per row of the milestones table. Edit the file, never GitHub by hand: a merge to `main` makes GitHub match it |
 | Issue forms | `.github/ISSUE_TEMPLATE/` | "Something is broken" (with its severity) and "Something to make or change", for a founder filing one by hand |
-| The PR check | `tools/plan.py check-pr`, workflow `plan` | Fails a PR whose description has no "Closes #n" (or fixes, resolves, refs), "docs-only" or "No issue: why"; fails one that repeats a D number or takes one at or below `main`'s highest |
+| The PR check | `tools/plan.py check-pr`, workflow `plan` | Fails a PR whose description has no "Closes #n" (or fixes, resolves, refs), "docs-only" or "No issue: why"; fails one that puts a D number in the log twice |
 | The daily sort | `tools/plan.py sort`, workflow `plan-daily` | Every day and on every merge: an open issue with no kind or no milestone gets "needs sort"; sorted, it loses it |
 | The status issue | `tools/plan.py status`, workflow `plan-daily` | One issue labelled `status`, rewritten on every merge and daily: what waits on Will, on Ewan, any S1, each open milestone's count, what needs sorting |
 | The board | GitHub Projects, made once by `dougie` | Adds every issue and PR; moves an item to Done when it closes or merges |
