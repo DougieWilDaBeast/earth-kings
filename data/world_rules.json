@@ -436,6 +436,42 @@
 		"most": 5,
 		"line": "{name} will carry a scar from that, and be harder to put down: +{hp} health for good."
 	},
+	"keepers": {
+		"_comment": "D219 (from Necesse's bosses, picked by doug-md 2026-10-17): every faction's gate keeper carries a prize (an equipment id). The chance it gives it up rises with each keeper of that faction felled since the last prize: chance[0] the first, chance[1] the second, then certain; after a prize it starts again. lines: prize (it drops), missed (it had lost it), with {keeper} and {prize}.",
+		"chance": [0.34, 0.5, 1.0],
+		"prizes": {
+			"the_ooze": "scale_shirt",
+			"the_wild": "bark_harness",
+			"broken_oath": "thorn_blade",
+			"the_dusk": "skull_staff",
+			"ember_wilds": "ember_blade",
+			"the_tide": "frost_staff",
+			"bamboo_court": "storm_blade",
+			"freeholds": "rune_blade",
+			"titans": "filigree_plate",
+			"heart_empire": "gilded_plate"
+		},
+		"lines": {
+			"prize": "{keeper} falls, and what it guarded falls with it: {prize}.",
+			"missed": "Every {keeper} carries {prize}. This one had lost it somewhere. The next will not have."
+		}
+	},
+	"treasure": {
+		"_comment": "D220 (from Necesse's map fragments, picked by doug-md 2026-10-17): a band beaten on the land carries a torn treasure-map piece on piece_chance; pieces of them make an X on the map, between near and far steps of walking off (a little of the ground round it charted, chart_radius). Standing on it digs up a find of richness (a cache is about 0.5 to 1.5) that always holds something to carry. One X at a time. lines: piece ({held}, {need}), whole ({need}, {bearing}, {region}), dug, and the quest list's label and detail ({region}).",
+		"piece_chance": 0.25,
+		"pieces": 3,
+		"near": 6,
+		"far": 14,
+		"chart_radius": 2,
+		"richness": 2.5,
+		"lines": {
+			"piece": "One of them was carrying a scrap of map, torn from something bigger: {held} of {need}.",
+			"whole": "The {need} scraps fit. An X, {bearing}, out in {region}. Somebody buried something and never came back for it.",
+			"dug": "This is where the X was. The ground has been turned before, a long time ago. Something is still down there.",
+			"label": "The X on your map",
+			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
+		}
+	},
 	"atlas": {
 		"sight": 4,
 		"always_known": ["tower", "home"],
