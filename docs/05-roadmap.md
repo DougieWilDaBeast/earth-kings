@@ -289,7 +289,10 @@ each, each ending playable:
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
    launch and after launch. The inbox is built ([D205](06-decisions.md), call BH): GitHub issues, labels and
    milestones from `.github/plan.json`, a `plan` check on every PR, a daily sort and a status issue; `dougie`
-   makes the board and protects `main` from his checklist. When the Steam page goes up waits on `dougie`.
+   made the board and protected `main` from his checklist (2026-10-17). `dougie` then took the pipeline's three
+   calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
+   business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
+   open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
