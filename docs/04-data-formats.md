@@ -83,6 +83,12 @@ The base stat block a `Character` is built from, and what a monster is.
   harder and costs `charged_energy`, and a stun breaks it off ([D59](06-decisions.md)).
 - `stun` — seconds the target is stunned: it cannot step, swing or cast, and a cast it was
   winding up is lost.
+- What a skill leaves on whoever it lands on ([D192](06-decisions.md)), each optional:
+  `knockback` and `pull` (tiles: straight away from the user, or towards them, stopping at a wall,
+  a ledge, the field's edge or a body), `slow`, `burn`, `bleed`, `knockdown` (stunned and laid
+  flat) and `expose` (takes more), all in seconds. Only when the move is let go as a skill: the same
+  move swung as a fighter's plain attack carries none of them. How each works is `conditions` in
+  `skirmish.json`.
 - `energy` — what the skill costs from the user's energy bar. Optional; otherwise
   `rules.energy_cost`, or `charged_energy` for a charged spell.
 
@@ -854,6 +860,16 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.
+- `conditions` ([D192](06-decisions.md)) — what each of an ability's conditions does and says.
+  Each has its `word` (said over the body it lands on), `resisted` (said in silver when it is
+  shrugged off) and `tip` (the line on the skill's tooltip); `knockback`/`pull` their `slide`
+  (seconds a tile) and `pinned` word (nowhere to go); `slow` its `steps` and `swings` shares;
+  `burn`/`bleed` their `per_second` share of the blow that lit them; `expose` its `more`; `stun`
+  only its `resisted` word. `dodged`, `missed`, `covers` and `set` are words: a skill come down
+  where a fighter stepped out of it, on empty ground, Caesar taking part of a blow, Cato dug in.
+  `resists`: `boss` (a keeper's list), `heavy` (`from_body_scale`, `less`: tiles a shove loses on
+  a big body), `by_style` (a lead's signature) and `by_template`. `status_icons` gains `down`,
+  `slowed`, `burning`, `bleeding` and `exposed`.
 - **Shields**: a unit with a class, ability or template (`by_template`) under `shield_bearers` blocks a
   melee basic attack that does not come from behind, with a chance of `block_chance` +
   `block_per_defence` × its defence, at most `block_max`. Not while casting, using an item or stunned.
@@ -864,7 +880,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   a companion that keeps beside him; no step without it), `doorways` (`per_foe`, `most`: cooldown
   speed), `orders` (`every`, `radius`, `lasts`, `advance`, `break_them`, `energy_radius`,
   `energy`), `learns` and `one_target` (`per_hit`, `most`), `gravity_well` (`radius`, `slow`),
-  `ward` (`every`, `radius`, `below`, `ward`, `dead` templates, `dead_bonus`), `takes_the_hit`
+  `ward` (`every`, `radius`, `below`, `ward`, `dead` templates, `dead_bonus`, `burns_only_dead`:
+  her fire leaves a burn only on the dead), `takes_the_hit`
   (`share`, `rise_after`, `rise_health`), `marks` (`lasts`, `marked_bonus`, `per_finish`, `most`),
   `shades` (`health`, `at_once`, `per_kind`, `most`), `growth` (`plant_after`, `most`, `radius`,
   `regen`, `slow`, `rooted_bonus`), `set` (`after`, `guard`, `might`, `beside`), `provision`

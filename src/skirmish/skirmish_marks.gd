@@ -2,7 +2,9 @@ extends Node2D
 ## What the fight needs drawn on the ground that a [Unit] does not draw itself:
 ## who is selected, the box being dragged to pick them, where they were sent, what is being wound up, and how long a
 ## downed ally has left; and over each head, the icons for what is wrong or going on
-## (stunned, tired, winding up, eating or drinking), from `status_icons` in `data/skirmish.json`.
+## (stunned, knocked down, slowed, burning, bleeding, sundered, tired, winding up, eating or
+## drinking), from `status_icons` in `data/skirmish.json`; and on the body itself what a move
+## left there ([D192]): frost at the feet, flames, drops of blood, a cracked guard.
 
 ## Loaded by path, not by `class_name`: a global class name only resolves once the
 ## editor has rescanned the project, and a checkout that has not been opened in
@@ -27,6 +29,11 @@ const WARD := Color(1.0, 0.92, 0.55, 0.7)
 const PLANTED := Color(0.45, 0.85, 0.35, 0.22)
 const PLANTED_EDGE := Color(0.55, 0.95, 0.4, 0.55)
 const COVER := Color(0.45, 0.9, 0.4, 0.85)
+const FROST := Color(0.6, 0.85, 1.0, 0.75)
+const FLAME := Color(1.0, 0.55, 0.15, 0.9)
+const FLAME_CORE := Color(1.0, 0.9, 0.4, 0.95)
+const BLOOD := Color(0.8, 0.08, 0.1, 0.9)
+const CRACK := Color(1.0, 0.35, 0.3, 0.85)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var skirmish: Node2D
@@ -48,6 +55,8 @@ func _draw() -> void:
 			_draw_mark(at + Vector2(0, -half * 1.35))
 		if f.ward > 0 and f.is_standing():
 			draw_arc(at, half * 0.75, 0.0, TAU, 28, WARD, 2.0, true)
+		if f.is_standing():
+			_draw_conditions(f, at, half)
 		if skirmish.selected.has(f):
 			draw_arc(at + Vector2(0, half * 0.55), half * 0.62, 0.0, TAU, 28, SELECTED, 2.5, true)
 			_draw_order(f, at)
@@ -64,7 +73,7 @@ func _draw() -> void:
 		if f.is_using():
 			var done := 1.0 - float(f.using["left"]) / maxf(0.001, float(f.using["total"]))
 			_draw_bar(at + Vector2(-half * 0.7, half * 0.75), half * 1.4, done, ITEM_FILL)
-		if f.is_stunned() and status_icons(f).is_empty():
+		if f.is_stunned() and status_icons(f, skirmish.conditions.is_slowed(f)).is_empty():
 			# Three little stars going round above the head, when there is no icon.
 			var turn := float(Time.get_ticks_msec()) / 300.0
 			for k in 3:
@@ -103,12 +112,23 @@ func _draw_bar(origin: Vector2, width: float, share: float, colour: Color) -> vo
 	draw_rect(Rect2(origin, Vector2(width * clampf(share, 0.0, 1.0), 5)), colour)
 
 
-## The icons [param f] wears right now, by name, left to right.
-static func status_icons(f: Fighter) -> Array[String]:
+## The icons [param f] wears right now, by name, left to right. [param dragged]: the ground
+## is slowing them (Saturn's well, Ceres's thorns), which only the fight knows.
+static func status_icons(f: Fighter, dragged: bool = false) -> Array[String]:
 	var data: Dictionary = Database.skirmish.get("status_icons", {})
 	var wanted: Array[String] = []
-	if f.is_stunned():
+	if f.conditions.has("knockdown"):
+		wanted.append(str(data.get("down", "")))
+	elif f.is_stunned():
 		wanted.append(str(data.get("stunned", "")))
+	if f.conditions.has("slow") or dragged:
+		wanted.append(str(data.get("slowed", "")))
+	if f.conditions.has("burn"):
+		wanted.append(str(data.get("burning", "")))
+	if f.conditions.has("bleed"):
+		wanted.append(str(data.get("bleeding", "")))
+	if f.conditions.has("expose"):
+		wanted.append(str(data.get("exposed", "")))
 	if f.is_casting():
 		wanted.append(str(data.get("casting", "")))
 	if f.is_using():
@@ -125,7 +145,7 @@ static func status_icons(f: Fighter) -> Array[String]:
 
 ## The icons in a row just above the health bar.
 func _draw_icons(f: Fighter, at: Vector2) -> void:
-	var names := status_icons(f)
+	var names := status_icons(f, skirmish.conditions.is_slowed(f))
 	if names.is_empty():
 		return
 	var side := float(Database.skirmish.get("status_icons", {}).get("size", 18.0))
@@ -146,6 +166,35 @@ func _draw_charge(f: Fighter, at: Vector2) -> void:
 	var shown := int(float(Time.get_ticks_msec()) / 1000.0 / SkirmishFx.frame_time()) % frames.size()
 	var side := SkirmishFx.effect_size()
 	draw_texture_rect(frames[shown], Rect2(at - Vector2(side, side) * 0.5, Vector2(side, side)), false, Color(1, 1, 1, 0.6))
+
+
+## What a move left on [param f], drawn on the body: frost round the feet while slowed,
+## flames licking up while burning, drops falling while bleeding, a red crack while sundered.
+func _draw_conditions(f: Fighter, at: Vector2, half: float) -> void:
+	var now := float(Time.get_ticks_msec()) / 1000.0
+	var feet := at + Vector2(0, half * 0.55)
+	if f.conditions.has("slow") or skirmish.conditions.is_slowed(f):
+		draw_arc(feet, half * 0.62, 0.0, TAU, 28, FROST, 2.5, true)
+		for k in 6:
+			var angle := TAU * k / 6.0 + now * 0.6
+			var tip := feet + Vector2(cos(angle), sin(angle) * 0.5) * half * 0.62
+			draw_line(tip, tip + Vector2(0, -6), FROST, 2.0, true)
+	if f.conditions.has("burn"):
+		for k in 3:
+			var x := (float(k) - 1.0) * half * 0.4
+			var flick := 0.6 + 0.4 * sin(now * 14.0 + k * 2.1)
+			var base := at + Vector2(x, half * 0.2)
+			var tip := base + Vector2(sin(now * 9.0 + k) * 2.0, -half * 0.7 * flick)
+			draw_colored_polygon(PackedVector2Array([base + Vector2(-5, 0), tip, base + Vector2(5, 0)]), FLAME)
+			draw_colored_polygon(PackedVector2Array([base + Vector2(-2.5, 0), base.lerp(tip, 0.6), base + Vector2(2.5, 0)]), FLAME_CORE)
+	if f.conditions.has("bleed"):
+		for k in 2:
+			var fall := fmod(now * 1.4 + k * 0.5, 1.0)
+			var drop := at + Vector2((float(k) - 0.5) * half * 0.5, -half * 0.2 + fall * half * 0.8)
+			draw_circle(drop, 2.5, Color(BLOOD, 1.0 - fall * 0.6))
+	if f.conditions.has("expose"):
+		var chest := at + Vector2(0, -half * 0.35)
+		draw_polyline(PackedVector2Array([chest + Vector2(-6, -8), chest + Vector2(-1, -2), chest + Vector2(-4, 2), chest + Vector2(3, 9)]), CRACK, 2.0, true)
 
 
 ## Ceres's plantings ([SkirmishSignatures]): the ground she has grown, tinted green.

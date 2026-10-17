@@ -530,8 +530,8 @@ legs, so each is a still set moving, south only, used for every facing.
 sixteen's fight sets), and staged art not yet pointed at (`magic_swordsman`, the two bears with
 weapons, the frozen wolfman, the two giants). The fight effects and status icons in
 [`art/effects/`](../art/effects/README.md) and `art/ui/status/` are wired since 2026-10-13
-([D82](06-decisions.md)); bleed, burn, provoke, vulnerable and the block icon wait for something in
-the fight to show.
+([D82](06-decisions.md)); bleed, burn and vulnerable show since [D192](06-decisions.md); provoke and
+the block icon wait for something in the fight to show.
 
 ## W29 — A UI pass
 

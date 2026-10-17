@@ -36,6 +36,7 @@ const SkirmishHUD := preload("res://src/skirmish/skirmish_hud.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
+const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const Land := preload("res://src/area/land.gd")
 
@@ -143,6 +144,8 @@ var _pad_repeat: float = 0.0
 var fx: SkirmishFx
 ## The sixteen's own ways of fighting (see [SkirmishSignatures]).
 var signatures: SkirmishSignatures
+## What moves leave on whoever they land on ([D192]).
+var conditions: SkirmishConditions
 ## Rolls the graces in the near-death window. Seeded from the global seed, so a
 ## test that seeds the fight seeds its graces too.
 var grace_rng := RandomNumberGenerator.new()
@@ -181,6 +184,7 @@ func _ready() -> void:
 	fx.z_index = 20
 	add_child(fx)
 	signatures = SkirmishSignatures.new(self)
+	conditions = SkirmishConditions.new(self)
 	_build_battlefield()
 	_fill_pouch()
 	marks.skirmish = self
@@ -652,14 +656,15 @@ func _finish_item(f: Fighter, thrower: Fighter = null) -> void:
 	hud.refresh()
 
 
-## Knocked senseless for [param seconds]. Whatever was being wound up is lost;
-## somebody drinking a draught keeps their feet.
-func _stun(f: Fighter, by: Fighter, seconds: float) -> void:
+## Knocked senseless for [param seconds], said over them as [param word] (a knockdown
+## says so instead). Whatever was being wound up is lost; somebody drinking a draught
+## keeps their feet, and that shows. Returns whether it took.
+func _stun(f: Fighter, by: Fighter, seconds: float, word: String = "Stunned") -> bool:
 	if f == null or not f.is_standing() or seconds <= 0.0:
-		return
-	if f.is_using() or signatures.stun_proof(f):
-		fx.popup("steady", f.unit.position, SkirmishFx.WORD, 12)
-		return
+		return false
+	if f.is_using() or signatures.stun_proof(f) or SkirmishConditions.resists(f, "stun"):
+		conditions.shrug(f, "stun")
+		return false
 	if f.is_casting():
 		var slot := int(f.cast["slot"])
 		var ability := f.slot_ability(slot)
@@ -673,8 +678,9 @@ func _stun(f: Fighter, by: Fighter, seconds: float) -> void:
 		_say("%s's %s is broken off." % [f.unit.display_name, ability.get("display_name", "skill")])
 	f.aiding = 0.0
 	f.stunned = maxf(f.stunned, seconds)
-	fx.popup("Stunned", f.unit.position, SkirmishFx.WORD, 13)
+	fx.popup(word, f.unit.position, SkirmishFx.WORD, 13)
 	Sfx.cue("stun")
+	return true
 
 
 ## A sword swing at a shield bearer who sees it coming may be turned aside.
@@ -827,6 +833,9 @@ func _tick_fighter(f: Fighter) -> void:
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
+	conditions.tick(f)
+	if not f.is_standing():
+		return
 
 	if f.stepping:
 		f.step_left -= SkirmishRules.TICK
@@ -961,6 +970,8 @@ func _move_first(f: Fighter, foe: Unit) -> bool:
 		f.target = tactic["target"]
 	if not _step_towards(f, tactic["goal"]):
 		return false
+	if tactic.has("from"):
+		conditions.dodging(f, tactic["from"])
 	f.tactic_goal = tactic["goal"]
 	f.tactic_left = float(tactics.get("give_up", 1.5)) * (2.0 if tactic["why"] == "break" else 1.0)
 	f.tactic_wait = float(tactic["wait"])
@@ -1009,7 +1020,7 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 		_practise_swing(f)
 	f.swings += 1
 	f.attack_timer = SkirmishRules.attack_interval(f.unit) * (1.0 - minf(0.5, _aura(f, "haste"))) \
-			* signatures.attack_scale(f)
+			* signatures.attack_scale(f) * conditions.swing_scale(f)
 	# Echo Blade: now and then the same swing comes round again.
 	var echo := f.effect("echo")
 	if echo > 0.0 and f.is_standing() and is_standing(foe) and randf() < echo:
@@ -1064,7 +1075,7 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		f.charging = false
 		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
 		tags.append("charge")
-	multiplier *= signatures.might(f, victim)
+	multiplier *= signatures.might(f, victim) * conditions.taken_scale(victim)
 	if victim != null:
 		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5),
 				_aura(victim, "guard") + signatures.guard(victim))
@@ -1109,11 +1120,16 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 			shake(SkirmishPassives.rule("shake_on_crit", 2.5))
 	if victim != null and target.is_alive() and float(ability.get("stun", 0.0)) > 0.0:
 		_stun(victim, f, float(ability["stun"]))
+	# What a skill leaves behind: a knockback, a burn ([D192]). Not on a plain swing,
+	# even where the swing is the same move, or every swing would carry it.
+	if victim != null and target.is_alive() and ability_id != f.basic:
+		conditions.landed(f, victim, ability, dealt)
 	var steal := f.effect("lifesteal")
 	if steal > 0.0 and dealt > 0 and f.unit.hp < f.unit.max_hp:
 		f.unit.heal(maxi(1, roundi(float(dealt) * steal)))
 	signatures.landed(f, victim, dealt)
 	if guardian != null and dealt > 0:
+		fx.popup(SkirmishConditions.word("covers", "Covers"), guardian.unit.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
 		var share := signatures.share_of(guardian)
 		guardian.unit.take_damage(maxi(1, roundi(float(dealt) * share / maxf(0.1, 1.0 - share))))
 		if not guardian.unit.is_alive():
@@ -1274,7 +1290,7 @@ func _step_towards(f: Fighter, is_goal: Callable) -> bool:
 	f.step_total = SkirmishRules.step_time(me, grid, next)
 	if f.charging:
 		f.step_total /= float(f.role_data().get("pace", 1.0))
-	f.step_total *= signatures.step_scale(f, next)
+	f.step_total *= signatures.step_scale(f, next) * conditions.step_scale(f)
 	signatures.stepped(f)
 	f.step_left = f.step_total
 	me.facing = Unit.dominant_direction(next - me.cell)
@@ -1328,6 +1344,9 @@ func _release(f: Fighter) -> void:
 		if not is_standing(who) or Pathfinder.distance(f.unit.cell, who.cell) > int(ability.get("range", 1)) + 1:
 			f.cooldowns[slot] = SkirmishRules.cooldown(ability) * 0.5
 			_say("%s's %s finds nobody there." % [f.unit.display_name, ability.get("display_name", "skill")])
+			if is_standing(who):
+				conditions.show_dodge(fighter_of(who))
+			conditions.came_down(f, [])
 			if f.order == Fighter.Order.CAST:
 				f.clear_order()
 			return
@@ -1350,8 +1369,11 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 	f.attack_timer = maxf(f.attack_timer, 0.4)
 	if f.order == Fighter.Order.CAST:
 		f.clear_order()
+	if not bool(ability.get("heal", false)) and str(ability.get("target", "enemy")) == "enemy":
+		conditions.came_down(f, hits)
 	if hits.is_empty():
 		_say("%s's %s hits nothing." % [f.unit.display_name, ability.get("display_name", "skill")])
+		conditions.show_miss(centre)
 		return
 	fx.popup(str(ability.get("display_name", "skill")), f.unit.position + Vector2(0, -14), SkirmishFx.WORD, 13)
 	# A skill thrown or cast is heard going off; one swung up close is heard
@@ -1436,6 +1458,7 @@ func _drop(f: Fighter) -> void:
 	f.aiding = 0.0
 	f.using = {}
 	f.stunned = 0.0
+	conditions.clear(f)
 	f.clear_order()
 	# One of the company going down is a different sound from a foe falling.
 	Sfx.cue("fall" if f.is_party() else "death")
@@ -2262,6 +2285,10 @@ func _on_unit_damaged(unit: Node, amount: int) -> void:
 			fx.popup("CRITICAL", at + Vector2(0, -20), SkirmishFx.CRIT, 13, 1.0)
 		"thorns":
 			fx.popup(str(amount), at, SkirmishFx.THORNS, 16)
+		"burn":
+			fx.popup(str(amount), at, SkirmishConditions.BURN, 14)
+		"bleed":
+			fx.popup(str(amount), at, SkirmishConditions.BLEED, 14)
 		_:
 			fx.popup(str(amount), at, SkirmishFx.HURT if f.is_party() else SkirmishFx.DAMAGE, 18)
 

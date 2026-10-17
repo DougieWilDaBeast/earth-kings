@@ -250,6 +250,34 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   ([D76](06-decisions.md), `data/sfx.json`). Whoever gains a level mid-fight flickers gold, with a
   ring and the new level rising off them, and a line at the top right says so ([D77](06-decisions.md));
   nothing stops the fight. A skill's name shrinks or wraps to fit its tile.
+- **What a move does is seen on whoever it lands on** (2026-10-17, [D192](06-decisions.md), `dougie`:
+  "when we Knockback a character i want to see them get knockbacked at least a tile"). Until then
+  only a stun and a heal did anything; now a skill's effect shows on the body, and so does a
+  move shrugged off or stepped out of. All **Inferred** (agenda 123):
+
+  | Move | What it does, and how it shows |
+  |---|---|
+  | Haymaker | Knocks back 2 tiles: the body slides, "Knocked back", dust where it stood |
+  | Kick, Shield Bash, Gust, Tidal Surge | Knock back 1 tile (Shield Bash still stuns) |
+  | Undertow | Drags them in a tile ("Dragged in") and slows them 2 s |
+  | Hamstring, Frostbite, Glacial Chill, Blizzard, Ice Shard | Slow (steps 45% slower, swings 20%): frost round the feet, a snowflake icon, "Slowed" |
+  | Ember, Scorch, Pyre, Firebrand | Burn 2 to 3 s, 12% of the blow a second: flames on the body, orange numbers, "Burning" (Vesta's fire burns only the dead) |
+  | Dart | Bleeds 4 s, 10% of the blow a second: falling drops, red numbers, "Bleeding" |
+  | Sunder | Takes 15% more for 6 s: a red crack across the chest, the cracked-shield icon, "Sundered" |
+  | Earthshake, Crushing Wave | Knocked down 1 s and 0.8 s: the body tips over flat, breaks a cast, gets up after |
+  | Shield Bash, Door Shut | Stun, as before |
+
+  Shrugged off, in silver over the head: a knockback into a wall or a body says **Pinned** and
+  jolts them; a keeper or chief is **Unmoved** (never shoved or laid flat); a body as big as an
+  ogre's is shoved a tile less, so a kick says **Unmoved** and a haymaker moves it one; Liber
+  **Keeps footing** and stays **Steady** against stuns; the fire creatures are **Fireproof**, the
+  frost wolves **Shrug off** a slow, slimes, wraiths and the tree sentinel have **No blood**. A
+  fighter who steps out of a wind-up sees "Dodged!" when it comes down; a skill on empty ground
+  says "Missed". Caesar taking part of a blow says "Covers"; Cato digging in says "Set"; Saturn's
+  and Ceres's ground puts the same frost and icon on whoever it slows. A fighter's plain swing
+  never carries these, even where it is the same move (the fire mages' ember, the frost wolves'
+  frostbite), or every swing would. `src/skirmish/skirmish_conditions.gd`;
+  `conditions` in `data/skirmish.json`. Before and after shots: `tests/fight_effects_shot.tscn`.
 
 **Coming in** — everything the turn-based battle did on the way into a fight, it does
 ([D65](06-decisions.md)):

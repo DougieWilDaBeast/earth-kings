@@ -36,7 +36,7 @@ So the real choice is 32 against the 64 already on disk, and 16 is the outlier.
 | Buildings | 31 in `art/buildings/` | Enough for current areas |
 | World | 31 in `art/world/` — 30 holds and a tomb | Map markers |
 | Tilesets | 8 in `art/tilesets/`, plus the unwired `art/map_kit/` | Battle and walk ground |
-| UI | Frames, an emblem, season clovers; ten status and item icons in `art/ui/status/` | No ability icons; bleed, burn, provoke, vulnerable and block have no status in the fight to show yet |
+| UI | Frames, an emblem, season clovers; twelve status and item icons in `art/ui/status/` (`slow` and `down` drawn in code, [D192](06-decisions.md)) | No ability icons; provoke and block have no status in the fight to show yet |
 | Sources | `art/source/` — `.aseprite` files and references | — |
 
 Generation can run from the command line: `tools/pixellab.py` calls PixelLab's API with the key in

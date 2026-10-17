@@ -168,10 +168,10 @@ static func _dodge(fighter: Fighter, fighters: Array[Fighter], tactics: Dictiona
 		var caster := other.unit.cell
 		var reach := int(ability.get("range", 1))
 		if who == me and reach + 2 - Pathfinder.distance(me.cell, caster) <= 2:
-			return {"why": "dodge", "wait": 0.0, "goal": func(c: Vector2i) -> bool:
+			return {"why": "dodge", "wait": 0.0, "from": other, "goal": func(c: Vector2i) -> bool:
 				return Pathfinder.distance(c, caster) > reach + 1 and _free(c, fighter, fighters)}
 		if who != me:
-			return {"why": "dodge", "wait": 0.0, "goal": func(c: Vector2i) -> bool:
+			return {"why": "dodge", "wait": 0.0, "from": other, "goal": func(c: Vector2i) -> bool:
 				return not area.has(c) and _free(c, fighter, fighters)}
 	return {}
 

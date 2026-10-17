@@ -156,7 +156,11 @@ func tick(f: Fighter) -> void:
 			f.boosts.erase(key)
 	f.marked = maxf(0.0, f.marked - t)
 	if not f.stepping:
+		var was_set := is_set(f)
 		f.still += t
+		# Cato digging in shows, once each time he does ([D192]).
+		if not was_set and is_set(f):
+			fight.fx.popup(str(Database.skirmish.get("conditions", {}).get("set", "Set")), f.unit.position + Vector2(0, -12), SkirmishFx.GRACE, 12)
 	match style(f):
 		"orders":
 			_orders(f)
@@ -352,6 +356,17 @@ func keep_up(f: Fighter) -> bool:
 ## How much longer a step takes: slowed by Saturn's ground and Ceres's thorns,
 ## hurried by Bellona's Advance.
 func step_scale(f: Fighter, cell: Vector2i) -> float:
+	var scale := ground_drag(f, cell)
+	if f.boosts.has("pace"):
+		scale /= 1.0 + float(f.boosts["pace"][0])
+	return scale
+
+
+## How much longer a step onto [param cell] takes for ground that drags at [param f]:
+## Saturn's well round him, Ceres's thorns. 1 when nothing does. Defaults to where they stand.
+func ground_drag(f: Fighter, cell: Vector2i = Vector2i(-9999, -9999)) -> float:
+	if cell == Vector2i(-9999, -9999):
+		cell = f.unit.cell
 	var scale := 1.0
 	for other: Fighter in fight.fighters:
 		if style(other) != "gravity_well" or not other.is_standing() or not other.unit.is_hostile_to(f.unit):
@@ -363,8 +378,6 @@ func step_scale(f: Fighter, cell: Vector2i) -> float:
 		var planter: Fighter = fields[planted]
 		if planter.unit.is_hostile_to(f.unit) and Pathfinder.distance(planted, cell) <= int(_num(planter, "radius", 1)):
 			scale = maxf(scale, 1.0 / maxf(0.1, 1.0 - _num(planter, "slow", 0.5)))
-	if f.boosts.has("pace"):
-		scale /= 1.0 + float(f.boosts["pace"][0])
 	return scale
 
 
