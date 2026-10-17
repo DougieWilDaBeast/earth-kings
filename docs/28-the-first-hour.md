@@ -177,6 +177,8 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 23:50 | Five strangers: bot personas, two on PC, three on phones | `4196128` | After the city nobody found the first gate; phone held upright unplayable; a gate's fight opened the old screen; no deaths in 95 minutes ([D161](06-decisions.md), [D162](06-decisions.md), [D163](06-decisions.md)) |
 | 2026-10-17 08:29 | Design meeting 5, chaired by the intern, voted without the founders on `dougie`'s word, with three self-played runs on main (`4852d22`, seeds 77, 1, 2, 15 minutes at 2×) | `4852d22` | City in 3 to 4 minutes and a gate shut in every run; none reached the Tower (Auto stops after the gate); one fall, on the road at 11:53. The milestones redrawn, the order of work, stances, the Second Hour, play-test 5's brief ([D193](06-decisions.md) to [D200](06-decisions.md)) |
 | 2026-10-17 | D197's fixes, reproduced and shown with self-played runs ([D206](06-decisions.md)) | this PR, after `afb8008` | Before (`4852d22`, Atlas): no run stood at the Tower's door in 15 minutes. After, as Atlas: seeds 77, 1, 2 at the door at 5:10, 3:08, 6:30, every chapter one closed, no fall before floor 5; a killer named on every fall. As dealt leads (Bellona, Iris, Pluto, Vesta, Diana): 6 of 8 fell on the road or at the first gate, at levels 1 to 4 |
+| 2026-10-17 | Auto rests when hurt, nine self-played runs as dealt leads ([D210](06-decisions.md)) | after #259 | After a lost fight Auto now rests in town (Iris back to 40 of 40). All eight runs still fell, nearly all at full health to their first road fights at levels 1 and 2 (Axe Bear, Flame Lion, Sword Monkey, Cutpurse): the stakes work, issue #230 |
+| 2026-10-17 | The First Hour's road for a lead walking alone, seven self-played runs as dealt leads and one as Atlas ([D211](06-decisions.md)) | after #262 | Before (main, seeds 1, 2, 3): every one fell, at levels 1 to 3, two in their first fight (a Flame Lion, a Sword Monkey met at a quarter health after the cold). After (seeds 1 to 6): no fall in a first fight; falls after five minutes at levels 3 to 7; Liber to floor 4, Iris to floor 3, Pluto shut a gate. Diana (77) at the door at 3:39 (7:35 before), Atlas at 4:55. Stances (#261) merged after these runs |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
 
 ### Play-test 3's asks
@@ -249,8 +251,9 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
 9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
    the screen and wants resizing and moving. **To ask him which.**
-10. **Followers facing the way they walk** when walking down. Not reproduced: a suite walking a party
-    of three down, up and down again finds them facing the leader's way. **To ask him where it was.**
+10. **Followers facing the way they walk** when walking down, out on the open land (his answer,
+    2026-10-17): once in step they never turned, so after walking up they walked down looking up.
+    Fixed ([D214](06-decisions.md)).
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
     city or a stronghold.
 

@@ -482,7 +482,8 @@ run's seed still deals, is [27](27-the-world.md).
     }
   },
   "land_foe_share": 0.7,
-  "hazards": { "stride": 640, "share": 0.04, "floor": 0.25, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
+  "foe_levels": { "axe_bear": 3, "flame_lion": 3 },
+  "hazards": { "stride": 640, "share": 0.04, "floor": 0.5, "cold": { "name": "the cold", "line": "The cold is getting into %s." } }
 }
 ```
 
@@ -497,12 +498,14 @@ run's seed still deals, is [27](27-the-world.md).
 - `sea_shore` — whether a ground on the coast gets a shore of the land's own water.
 - `foes` — unit ids (`units.json`) that camp in the land. A band put down there is made of them
   `land_foe_share` of the time, decided from the cell so the run's dice are not spent; otherwise it
-  is the faction that walks the terrain ([D71](06-decisions.md)).
+  is the faction that walks the terrain ([D71](06-decisions.md)). `foe_levels` keeps a land's great
+  beasts out of the bands it deals until the party's level reaches the number given
+  ([D211](06-decisions.md)); a land with nothing else left fields its faction instead.
 - `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
   `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
   thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).
 - `hazards` — every `stride` pixels walked on a land with a hazard, each party member with nothing
-  against it loses `share` of their health, never below `floor` of it; `line` is said once a ground.
+  against it loses `share` of their health, never below `floor` of it (half, [D211](06-decisions.md)); `line` is said once a ground.
   Gear or a charm keeps a hazard off when its `proof` names it (`equipment.json`, below).
 
 Which land a tile is: `src/chronicle/biome.gd`. On the land ([D84](06-decisions.md)) each tile is
@@ -512,6 +515,27 @@ a sea or lake tile is all water and a mountain all rock. What is written down ab
 opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own area and cells for
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
+
+## `world_rules.json` → `scars` — what going down leaves behind (D218)
+
+`max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
+what is said at the fight's end (`{name}`, `{hp}`, `{scars}`). A fighter earns one by going down in a
+fight the company wins and living. A character's `scars` is kept in the save.
+
+## `world_rules.json` → `keepers` — a gate keeper's prize (D219)
+
+`prizes` maps a faction id to the equipment id its gate keeper carries. On shutting a gate the prize
+comes on `chance[n]`, n being how many of that faction's keepers have fallen since its last prize
+(the last entry holds after that; 1.0 makes it certain). `lines.prize` and `lines.missed` are said
+with `{keeper}` and `{prize}`. The counts are kept in the save as the world's `keepers`.
+
+## `world_rules.json` → `treasure` — torn treasure maps (D220)
+
+A band beaten on the land carries a scrap on `piece_chance`; `pieces` of them make an X between
+`near` and `far` steps of walking off, with `chart_radius` of ground round it drawn in. Standing on
+it digs up a find of `richness` (see `loot`) that always holds something to carry. `lines`: `piece`
+(`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
+and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
 
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
