@@ -3,7 +3,7 @@ extends Node
 ##
 ##   godot --headless --path . res://tools/soak.tscn -- --seconds=300 --seed=77
 ##
-## Boots the whole game, starts a run and turns on autoplay at ×4. Every thirty
+## Boots the whole game, starts a run and turns on autoplay at ×2. Every thirty
 ## seconds it prints where the run has got to. A pause autoplay makes on purpose
 ## (somebody else's fight on the road) is waited out for three seconds and then
 ## walked away from, so one wagon does not end the soak. At the end it saves,
@@ -61,7 +61,7 @@ func _ready() -> void:
 	EventBus.request_scene.emit("world", {})
 	await get_tree().create_timer(1.0, true, false, true).timeout
 	Pace.auto = true
-	Pace.cycle_speed()
+	# 2×, as it has always soaked (the steps are 1×, 2×, 3×, 5× since D189).
 	Pace.cycle_speed()
 
 	var start := Time.get_ticks_msec()

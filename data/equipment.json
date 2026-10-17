@@ -287,6 +287,22 @@
 		"price": 20,
 		"text": "Yesterday's, and still better than nothing."
 	},
+	"meat_pie": {
+		"display_name": "Meat Pie",
+		"icon": "bread",
+		"kind": "draught",
+		"mends": 20,
+		"price": 30,
+		"text": "Ada will not say what meat. Ada will say it is hot."
+	},
+	"honey_cake": {
+		"display_name": "Honey Cake",
+		"icon": "bread",
+		"kind": "draught",
+		"mends": 12,
+		"price": 16,
+		"text": "Sticky, sweet, and gone before you have decided to save it."
+	},
 	"cheese": {
 		"display_name": "Hard Cheese",
 		"icon": "cheese",

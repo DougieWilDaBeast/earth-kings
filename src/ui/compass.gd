@@ -5,7 +5,7 @@ extends Control
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
-## A click on the ring: follow the next thing in the quest list ([D188]).
+## A click on the ring: follow the next thing in the quest list ([D190]).
 signal pressed
 
 const RADIUS := 26.0

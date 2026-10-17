@@ -204,7 +204,10 @@ each, each ending playable:
    [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
    and his bigger asks are listed, **planned**, waiting on his order
    ([28](28-the-first-hour.md#play-test-3s-asks)); the first he chose, life on the land, is built
-   ([D179](06-decisions.md)). Five real players, named by the
+   ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
+   ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
+   baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
+   ([28](28-the-first-hour.md#play-test-4s-asks)); roads and ways wait on his answers. Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in
@@ -234,7 +237,7 @@ each, each ending playable:
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
-   asks in his order ([D118](06-decisions.md)): first, the quest list — built ([D188](06-decisions.md)):
+   asks in his order ([D118](06-decisions.md)): first, the quest list — built ([D190](06-decisions.md)):
    the road, errands, captives and word of a weapon, L or a click on the compass to follow the next,
    Follow in the journal; next, coins in four metals. Further off: worlds sealed until their lead dies, then
    open to invasion, and the company entering other worlds from floor 30 ([D172](06-decisions.md));
@@ -251,8 +254,8 @@ each, each ending playable:
    knock, measured by `tools/audio_levels.py`. **Planned**: a layer added a floor up the Tower, and the
    opening's replay thinning as fewer are left (brief items 3 and 6).
    `doug-md` answered his half on 2026-10-16 ([D186](06-decisions.md)): the music order is in
-   [31](31-music.md) (**planned**). Still open: whether the hour gets a little harder (Ewan would, `dougie`
-   keeps it; `dougie`'s call), the falling weapon (agenda 101) and which lead will not climb (agenda 75).
+   [31](31-music.md) (**planned**). The hour is a little harder on Ewan's word, `dougie`'s call AZ
+   ([D188](06-decisions.md)). Still open: the falling weapon (agenda 101) and which lead will not climb (agenda 75).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -300,6 +303,12 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    `dispatch` odds, `data/sfx.json`, and `names.json` are all in `data/` and one number each.
 7. **Before a public build**: the three fan-cover tracks swapped, the borrowed sprites redrawn, and
    PixelLab's terms checked ([Launch readiness](#launch-readiness--in-progress)).
+8. **"Who wins?" clips — built** (2026-10-16, [D180](06-decisions.md), call AY). Two of the sixteen
+   fight it out hands off, dressed as a show, and `tools/who_wins.py` records it wide and tall
+   ([18](18-combat-direction.md#who-wins), [investigation 10](investigation/10-who-wins-shows.md)).
+   Planned: the aim line and ground ring before a big move, words when a signature goes off, a cut to
+   speed lines on the last blow, music under the clip once the in-house themes land, and a look at the
+   leads who lose most one against one (Iris, Janus, Pluto; agenda item 112).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
 ([10](10-manual-tests.md#automated-tests)). Since 2026-09-26 CI runs every suite and a two-minute

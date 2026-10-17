@@ -48,7 +48,7 @@ static func next_step(world: World) -> Vector2i:
 ## Where the party is headed, for the compass and for Auto: `cell`, `label` (what the compass
 ## says), and `stop` (whether a party walking itself hands back control on arriving, where nothing
 ## starts by itself). The quest the player chose to follow from the quest list (L on the ground, or
-## Follow in the journal, [D188]) when there is one; otherwise [method default_objective].
+## Follow in the journal, [D190]) when there is one; otherwise [method default_objective].
 static func objective(world: World) -> Dictionary:
 	var chosen := Quests.followed(world, quests(world))
 	if not chosen.is_empty():
@@ -56,7 +56,7 @@ static func objective(world: World) -> Dictionary:
 	return default_objective(world)
 
 
-## Everything the party is working towards, in the quest list's order ([D188]).
+## Everything the party is working towards, in the quest list's order ([D190]).
 static func quests(world: World) -> Array[Dictionary]:
 	return Quests.all(world, road_objective(world))
 

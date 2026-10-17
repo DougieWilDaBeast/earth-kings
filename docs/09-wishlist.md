@@ -627,7 +627,7 @@ reach it, wait here until it plays from the crater to floor 5. Nothing below is 
 - **Other bands joining a fight already started:** the combat designer wants it; the producer put it
   here (design meeting 2).
 - **Ewan's play-test 2 asks** ([D118](06-decisions.md), meeting 4), planned, in this order: a quest
-  list you can cycle that points the compass (built, [D188](06-decisions.md)); coins in four metals at 100 to 1, with prices to
+  list you can cycle that points the compass (built, [D190](06-decisions.md)); coins in four metals at 100 to 1, with prices to
   match; buildings you can walk into; the city on open ground; a companion's death shown with a
   small burial; news that travels at the speed of people; Atlas holding Sky's reins; an open fight
   you can walk out of in any direction.

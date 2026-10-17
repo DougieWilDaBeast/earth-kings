@@ -74,6 +74,10 @@ var in_place: bool = false
 signal gone
 ## Nobody left standing, and some of them got clear: not won, but not lost either.
 var fled_field: bool = false
+## Two of the sixteen fighting it out for the show ([D180], `src/who_wins/`): each side
+## loses when its lead falls, whatever bearer, wolf or shade still stands, there is no HUD
+## (the show draws its own), and the fight stays on the field when it is over.
+var bout: bool = false
 
 @onready var grid: BattleGrid = $Grid
 @onready var overlay: GridOverlay = $Overlay
@@ -164,6 +168,7 @@ func _ready() -> void:
 	encounter = boot_payload.get("encounter", {})
 	sandbox = bool(boot_payload.get("sandbox", false))
 	learning = bool(boot_payload.get("learn", not sandbox))
+	bout = bool(boot_payload.get("bout", false))
 	# Nothing done on the training ground or the sand belongs in the run's ledger.
 	_kept_tallying = GameState.tallying
 	if sandbox:
@@ -188,6 +193,7 @@ func _ready() -> void:
 	hud.action_pressed.connect(act)
 	hud.slot_clicked.connect(_on_slot_clicked)
 	hud.item_clicked.connect(_on_item_clicked)
+	hud.visible = not bout
 	var party := party_fighters()
 	if not party.is_empty():
 		_select([party[0]])
@@ -1305,6 +1311,7 @@ func _land(f: Fighter, slot: int, _who: Unit, centre: Vector2i) -> void:
 			hits.append(target)
 	f.cooldowns[slot] = SkirmishRules.cooldown(ability)
 	f.casts += 1
+	f.last_move = str(ability.get("display_name", ability_id))
 	f.unit.play("skill")
 	f.attack_timer = maxf(f.attack_timer, 0.4)
 	if f.order == Fighter.Order.CAST:
@@ -1568,9 +1575,10 @@ func _fall(f: Fighter, say_so: bool = true) -> void:
 
 
 func _check_end() -> void:
-	var party_up := fighters.any(func(f: Fighter) -> bool: return f.is_party() and f.is_standing())
+	var party_up := fighters.any(func(f: Fighter) -> bool:
+		return f.is_party() and f.is_standing() and (not bout or f.bound_to == null))
 	var foes_up := fighters.any(func(f: Fighter) -> bool:
-		return not f.unit.sides_with_party() and f.is_standing())
+		return not f.unit.sides_with_party() and f.is_standing() and (not bout or f.bound_to == null))
 	if party_up and foes_up and not _objective_met():
 		return
 	if party_up and foes_up:
@@ -1608,7 +1616,7 @@ func _check_end() -> void:
 		GameState.set_flag("last_fled", fled_field)
 		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id})
 	finished.emit(victory)
-	if not manual:
+	if not manual and not bout:
 		_leave_the_field()
 
 

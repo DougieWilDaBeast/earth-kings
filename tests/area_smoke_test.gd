@@ -64,6 +64,7 @@ func _ready() -> void:
 	await _check_the_joined_land()
 	await _check_play_test_three()
 	await _check_life_on_the_land()
+	await _check_play_test_four()
 
 	print("")
 	if _failures.is_empty():
@@ -964,6 +965,66 @@ func _check_the_joined_land() -> void:
 	scene.queue_free()
 	await get_tree().process_frame
 	print("land: tiles walk into each other, %s stands in its tile, a band walks across, a step keeps to the land, and so does walking itself" % town.display_name)
+
+
+## Play-test 4's small fixes ([D189]): a click on the ground puts a pin there with a line to it,
+## gone on arrival; a shut door is tried once per arrival, not every frame; the baker sells only
+## what she bakes; the speeds are 1×, 2×, 3× and 5×.
+func _check_play_test_four() -> void:
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "city_streets", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var from: Vector2i = map.cell_at(scene._leader.position)
+	var goal := Vector2i(-1, -1)
+	for radius in range(3, 9):
+		for cell: Vector2i in [from + Vector2i(radius, 0), from + Vector2i(-radius, 0), from + Vector2i(0, -radius), from + Vector2i(0, radius)]:
+			if goal.x < 0 and map.is_walkable(cell) and map.door_at(cell).is_empty() and map.find_cell_path(from, cell).size() > 2:
+				goal = cell
+	if goal.x < 0:
+		_fail("play-test 4: nowhere open in the streets to click on")
+	else:
+		scene._walk_to(map.centre_of(goal))
+		scene._physics_process(1.0 / 60.0)
+		if scene._waymark._way.is_empty():
+			_fail("play-test 4: a click on the ground put no pin where it was")
+		for i in 300:
+			scene._physics_process(1.0 / 60.0)
+			if scene._click_path.is_empty():
+				break
+		scene._physics_process(1.0 / 60.0)
+		if not scene._waymark._way.is_empty():
+			_fail("play-test 4: the pin stayed after the party got there")
+	# Leaning on a shut door: it says so once, not every frame.
+	var doors := [0]
+	var count := func(what: String) -> void:
+		if what.begins_with("door:"):
+			doors[0] += 1
+	EventBus.player_did.connect(count)
+	var shut := Vector2i(-1, -1)
+	for building: Dictionary in map.buildings:
+		if shut.x < 0 and not Database.has_area(str(building.get("area", ""))) and not building.has("fight"):
+			shut = building["door"]
+	if shut.x < 0:
+		_fail("play-test 4: the streets have no shut door to lean on")
+	else:
+		scene._on_doorstep = Vector2i(-1, -1)
+		for i in 30:
+			scene._arrive_at(shut)
+		if doors[0] != 1:
+			_fail("play-test 4: a shut door was tried %d times in 30 frames, not once" % doors[0])
+	EventBus.player_did.disconnect(count)
+	scene.queue_free()
+	await get_tree().process_frame
+	for person: Dictionary in Database.area("city_streets").get("people", []):
+		if str(person.get("name", "")) == "Ada the Baker":
+			for ware: Dictionary in person.get("talk", {}).get("sells", []):
+				if not ["bread", "meat_pie", "honey_cake"].has(str(ware.get("item", ""))):
+					_fail("play-test 4: Ada the Baker sells %s, which she did not bake" % ware.get("item", ""))
+	if Pace.SPEEDS != [1.0, 2.0, 3.0, 5.0]:
+		_fail("play-test 4: the speeds are %s, not 1x, 2x, 3x and 5x" % [Pace.SPEEDS])
+	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met

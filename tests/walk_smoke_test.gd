@@ -1567,7 +1567,7 @@ func _check_first_hour() -> void:
 	GameState.errands.append(job)
 	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "an errand taken is not the objective")
 
-	# The quest list (D188): the road and the errand are both in it; nothing is followed until
+	# The quest list (D190): the road and the errand are both in it; nothing is followed until
 	# chosen; L steps on from what the compass shows; a finished errand lets the compass go back.
 	var Quests := load("res://src/world/quests.gd")
 	Quests.follow("")

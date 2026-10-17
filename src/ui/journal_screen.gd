@@ -1003,7 +1003,7 @@ func _mark_ribbons() -> void:
 		_ribbon_dress(buttons[tab], RIBBONS[tab], tab == _tab)
 
 
-## Where you are headed ([D188]): every quest the compass can follow, how far off, and a Follow
+## Where you are headed ([D190]): every quest the compass can follow, how far off, and a Follow
 ## button. The one being followed is marked; with none chosen the compass keeps the First Hour's
 ## order, and that one is marked instead.
 func _show_headed(world: World) -> void:

@@ -1,5 +1,5 @@
 extends RefCounted
-## The quest list ([D188]): everything the party is working towards, and which of them the compass
+## The quest list ([D190]): everything the party is working towards, and which of them the compass
 ## and Auto follow.
 ##
 ## `doug-md` asked for it in play-test 2 ("a quest list you can cycle that points the compass",
