@@ -666,6 +666,16 @@ func _check_encounters(world: World) -> void:
 	var keeper_level := Difficulty.levelled(maxi(Encounter.party_level(party), gate.expected_level()) + 2)
 	_expect(int(keeper["level"]) == keeper_level,
 		"a First Hour gate's keeper stands at level %d, not %d" % [int(keeper["level"]), keeper_level])
+	# A lesser gate is kept by the strongest of its floor, not the faction's champion.
+	for lesser: Site in world.sites_of_kind(Site.GATE):
+		if Site.rank_index(lesser.rank) >= Site.rank_index(str(Database.encounters.get("champion_from", "E"))):
+			continue
+		var met := Encounter.for_gate(world, lesser, 0, true, party, kind_dice)
+		var held: Dictionary = met["enemies"].filter(func(e: Dictionary) -> bool: return e.get("boss", false))[0]
+		_expect(str(held["unit"]) != Faction.champion(str(lesser.data.get("faction", Faction.FALLBACK))) \
+				or Faction.pool(str(lesser.data.get("faction", Faction.FALLBACK)), 1).has(held["unit"]),
+			"%s (rank %s) is kept by its faction's champion, %s" % [lesser.display_name, lesser.rank, held["unit"]])
+		break
 	GameState.difficulty = setting
 
 

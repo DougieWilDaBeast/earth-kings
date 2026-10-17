@@ -97,7 +97,10 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	var enemies: Array
 	var title: String
 	if final:
+		# A lesser gate is kept by the strongest its floor fields, not the faction's champion ([D211]).
 		var guardian := Faction.champion(faction)
+		if Site.rank_index(site.rank) < Site.rank_index(str(Database.encounters.get("champion_from", "E"))):
+			guardian = str(pool[-1])
 		enemies = _pick(pool, 2, level, rng)
 		# The keeper takes the setting's level dial like its floor ([D211]): on the First Hour a lone
 		# lead at level 2 met the wild's Ogre at 4 at the first gate.
@@ -222,7 +225,8 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 	if not locals.is_empty():
 		pool = locals
 	var pack: Array = []
-	for i in clampi(1 + _danger_at(world, cell), 1, 4):
+	# The setting's count dial is taken when the band is made, so it fights as many as are seen ([D211]).
+	for i in clampi(Difficulty.counted(1 + _danger_at(world, cell)), 1, 4):
 		pack.append(pool[rng.randi() % pool.size()])
 	var band := Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
 	band.faction = faction
