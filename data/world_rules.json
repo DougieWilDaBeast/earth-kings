@@ -496,6 +496,8 @@
 		"cache_map_chance": 0.4,
 		"chest_map_chance": 0.25,
 		"fragment_radius": 7,
+		"_comment_said_within": "D238: walking the ground, a place seen is said to come into sight only once the party is within this many tiles of it, about what the screen shows (play-test 3: Coldrun came into sight before it was on screen); on the map, at once.",
+		"said_within": 1,
 		"fragment_marks": ["gate", "library", "keep", "village"],
 		"lines": {
 			"fragment": "Folded in with it, somebody's map: {place}, out in {region}, {bearing}. It is on yours now.",
