@@ -182,7 +182,8 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 ### Play-test 3's asks
 
 What `doug-md` asked for in play-test 3 that needs more than a fix, **planned**, in no order until he
-gives one. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
+gives one. Each open one is an issue on the board ([D208](06-decisions.md)): 1 #245, 3 #247, 6 #238, 7 #248,
+8 #249, 9 #250, 10 #246, 11 #251, 12 #252, 13 #253. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
 it and fought on its plaza ([D116](06-decisions.md), [D162](06-decisions.md), built after his build);
 picking fighters by clicking, dragging a box or Tab, and right-click to move, were there (the fight's
 tip now says so).
@@ -218,11 +219,17 @@ tip now says so).
 
 What `doug-md` asked for in play-test 4 that needs more than a fix, **planned** unless marked.
 Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted). His order
-(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list.
+(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list. On the board
+([D208](06-decisions.md)): 1 #205 (done), 2 #209, 3 #244, 4 #206, 5 #239, 6 #254, 7 #255, 8 #256, 9 #257, 11 #258.
 1. **Every fight in real time where it happens**, no pause and no separate box: Tower floors 6 up on
    the Tower's own floor, not a field of grass (play-test 3, item 5). Part one built
-   ([D204](06-decisions.md)): no stop before a fight on the ground and no box round it. Part two,
-   **planned**: no separate fight screens (Tower floors 6 up, gate floors, roadside fights).
+   ([D204](06-decisions.md)): no stop before a fight on the ground and no box round it. Part two built
+   ([D207](06-decisions.md)): no separate fight screens. Tower floors 6 up are walked on a borrowed plan
+   of floors 1 to 4, with their own foes and at least as many as the plan's bands (floor 6: two bands
+   of two), the top floor's keeper before the stair; gate floors already were ([D162](06-decisions.md));
+   a roadside fight is fought where its scene stands, a town defended or raided and a captive taken
+   back just ahead of the party. The Second Hour ([D196](06-decisions.md)) still gives 6 to 10 rooms
+   of their own.
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
    waypoints, clicked to go (play-test 3, item 2).

@@ -597,11 +597,22 @@ fought for real on that ground ([D102](06-decisions.md)): the continent settles 
 the line said); `boss` makes its first unit a keeper. The Tower's walked floors hold these, and a
 `stairs` list of cells: on an area opened with `tower_floor` in its payload, standing on one wins
 that floor. `world_rules.json` → `tower.walked_floors` (5) and `walked_area` (`tower_floor_%d`)
-say which floors are walked. A floor above them is fought as one battle: its foes' level is
+say which floors have ground of their own. Every floor above is walked too ([D207](06-decisions.md)), on
+one of their plans in turn (`borrowed_plans`, [1, 2, 3, 4]: floor 5's is left out for its Warden),
+its bands restocked by `src/chronicle/tower_floors.gd` with keys and flags of their own
+(`tower<floor>_a`, `done:tower<floor>_a`) and never fewer foes than the plan's band had; no
+keepsake lies on a borrowed floor, and on the top floor the plan's first band is the Spire Apex's
+keeper, standing four cells before the stair, and the rest stand down. Each band is the floor's foes
+as a fought floor would have them: their level is
 `level_base` + `levels_per_floor` × the floor (4 + 0.4 ×, so floor 6 is level 6 and floor 20 level 12),
 never below the party's average level when `meet_the_party` is true, and there are `foes_min` of
 them, one more every `chapters_per_extra_foe` chapters, and one more for every member past
 `foes_per_member_past` (2), at most `foes_max` (6) ([D189](06-decisions.md)).
+
+An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
+`GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway ([D162](06-decisions.md)), a roadside
+fight with its attackers where the scene stages them (`stage` in `roadside.json`), and a town
+defended or raided or a captive taken back by force with the other side a few strides ahead.
 
 ## `memories.json` — chapter memories (D103)
 

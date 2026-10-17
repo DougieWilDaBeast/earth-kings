@@ -197,8 +197,9 @@ each, each ending playable:
    ([D141](06-decisions.md)): a standing doorway of rune stones with the gate's light turning in it. The far Tower keeps out of
    the middle of the screen, where the way ahead is ([D142](06-decisions.md)).
    A gate's fight is fought where the party stands, at the gate, like a band's
-   ([D162](06-decisions.md), five strangers' finding 7); only floors 6 up of the Tower and roadside
-   fights still open the fight screen. A phone held upright is laid out tall, the ground
+   ([D162](06-decisions.md), five strangers' finding 7); since [D207](06-decisions.md) so is every
+   fight in a run (Tower floors 6 up, roadside fights, towns defended or raided, captives taken back);
+   only the training ground and the coliseum, both hidden, keep a screen of their own. A phone held upright is laid out tall, the ground
    filling it and text about 12 points ([D163](06-decisions.md), finding 6).
 11. **Next** ([D124](06-decisions.md)): Ewan played the hour (play-test 3, 2026-10-15,
    [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
@@ -288,12 +289,17 @@ each, each ending playable:
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
    launch and after launch. The inbox is built ([D205](06-decisions.md), call BH): GitHub issues, labels and
    milestones from `.github/plan.json`, a `plan` check on every PR, a daily sort and a status issue; `dougie`
-   makes the board and protects `main` from his checklist. When the Steam page goes up waits on `dougie`.
+   made the board and protected `main` from his checklist (2026-10-17). `dougie` then took the pipeline's three
+   calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
+   business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
+   open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
-   and no box round it; part two **planned**, no separate fight screens (Tower floors 6 up, gate
-   floors, roadside fights). (b) **People on the land**, **planned**, all three together: the Watch
+   and no box round it; part two built ([D207](06-decisions.md), issue #205), no separate fight
+   screens: Tower floors 6 up walked on a borrowed plan of floors 1 to 4 with their own foes (until
+   the Second Hour's rooms), roadside fights where their scene stands, towns and captives just ahead.
+   (b) **People on the land**, **planned** (issue #206), all three together: the Watch
    fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
    walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
    Item 17's list follows.

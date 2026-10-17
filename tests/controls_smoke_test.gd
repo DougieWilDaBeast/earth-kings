@@ -68,6 +68,7 @@ func _ready() -> void:
 	await _check_the_pad()
 	await _check_the_ground_is_the_game()
 	await _check_a_band_on_the_ground()
+	await _check_a_roadside_fight_on_the_ground()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -953,6 +954,59 @@ func _check_a_band_on_the_ground() -> void:
 		_expect(after.map.id == ground_id, "after the fight the ground was not the same")
 		_expect((after.get("_watches") as Array).is_empty(), "the band that was fought is still standing there")
 	print("band: patrolled, saw the party step in, and was fought on the same ground")
+
+
+## Somebody else's fight on the road, stepped into (D207): fought on that ground where its scene is
+## staged, the attackers where they stood, with no fight screen; the same for a town defended.
+func _check_a_roadside_fight_on_the_ground() -> void:
+	var world: World = GameState.world
+	world.prowlers.clear()
+	var here := Vector2i(-1, -1)
+	for y in range(4, world.size.y - 4):
+		for x in range(4, world.size.x - 4):
+			var c := Vector2i(x, y)
+			if world.is_walkable(c) and world.site_at(c) == null and world.distance_to_haven(c) > 3:
+				here = c
+				break
+		if here.x >= 0:
+			break
+	if here.x < 0:
+		_expect(false, "no open country for a roadside fight")
+		return
+	world.player_cell = here
+	EventBus.request_scene.emit("world", {})
+	await _settle()
+	await _clear_dialogue()
+	var ground := _current_scene()
+	if ground == null or not ground.get("map") is AreaMap:
+		_expect(false, "the roadside tile did not open on the ground")
+		return
+	var event := "trader_ambush"
+	(ground.get("_held") as Dictionary)["roadside"] = event
+	ground.call("_stage_roadside", event)
+	var staged: Array = ground.get("_roadside_foes")
+	_expect(not staged.is_empty(), "the roadside scene stood nobody on the ground to fight")
+	# Counted now: the fight clears the scene away, and with it this list.
+	var staged_count := staged.size()
+	var asked := _requests.size()
+	ground.call("_do_act", { "act": "_step_into_the_road" })
+	var waited := 0.0
+	while waited < 3.0 and ground.get("_fight") == null:
+		await get_tree().create_timer(0.05).timeout
+		waited += 0.05
+	var fight: Node2D = ground.get("_fight")
+	_expect(fight != null and bool(fight.get("in_place")), "stepping into the roadside fight did not fight it on the ground")
+	_expect(not _requests.slice(asked).has("skirmish") and _current_scene() == ground,
+		"the roadside fight changed the screen")
+	if fight == null:
+		return
+	var foes := (fight.get("ground_field") as Dictionary).get("foes", []) as Array
+	_expect(foes.size() == staged_count, "the roadside fight did not put the attackers where they stood")
+	fight.call("emit_signal", "gone")
+	await _settle()
+	await _clear_dialogue()
+	_expect(_current_scene() == ground and ground.get("_fight") == null, "after the roadside fight play did not carry on on the ground")
+	print("roadside: stepped in and fought on the ground where it was staged")
 
 
 func _pad_button(button: JoyButton) -> InputEventJoypadButton:
