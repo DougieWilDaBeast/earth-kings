@@ -1,7 +1,7 @@
 name: old-branches
 
-# One-off, run by hand: deletes the branches dougie approved for deletion on
-# 2026-10-14 (.github/old-branches.txt). Safe to run again; gone ones are skipped.
+# Run by hand: deletes the branches no longer needed, named in
+# .github/old-branches.txt (merged or replaced). Safe to run again; gone ones are skipped.
 on:
   workflow_dispatch:
 
@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
-      - name: Delete the approved old branches
+      - name: Delete the branches named in the list
         run: python3 tools/plan.py delete-branches .github/old-branches.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

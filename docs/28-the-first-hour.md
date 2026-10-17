@@ -182,7 +182,8 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 ### Play-test 3's asks
 
 What `doug-md` asked for in play-test 3 that needs more than a fix, **planned**, in no order until he
-gives one. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
+gives one. Each open one is an issue on the board ([D208](06-decisions.md)): 1 #245, 3 #247, 6 #238, 7 #248,
+8 #249, 9 #250, 10 #246, 11 #251, 12 #252, 13 #253. Already done: the first fixes ([D178](06-decisions.md)); a gate is gone into with E beside
 it and fought on its plaza ([D116](06-decisions.md), [D162](06-decisions.md), built after his build);
 picking fighters by clicking, dragging a box or Tab, and right-click to move, were there (the fight's
 tip now says so).
@@ -218,7 +219,8 @@ tip now says so).
 
 What `doug-md` asked for in play-test 4 that needs more than a fix, **planned** unless marked.
 Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted). His order
-(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list.
+(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list. On the board
+([D208](06-decisions.md)): 1 #205 (done), 2 #209, 3 #244, 4 #206, 5 #239, 6 #254, 7 #255, 8 #256, 9 #257, 11 #258.
 1. **Every fight in real time where it happens**, no pause and no separate box: Tower floors 6 up on
    the Tower's own floor, not a field of grass (play-test 3, item 5). Part one built
    ([D204](06-decisions.md)): no stop before a fight on the ground and no box round it. Part two built

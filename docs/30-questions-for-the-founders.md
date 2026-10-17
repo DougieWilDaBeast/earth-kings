@@ -26,7 +26,11 @@ for Ewan, one for Ewan with Will's half already given. Each has the room's recom
 
 **Added 2026-10-17 by the pipeline** ([32](32-the-pipeline.md), [D202](06-decisions.md)): five more, 28 to
 32, on the business half of planning: who owns the game and how its money is split, the budget, how it
-earns, when it comes out, and Early Access or not.
+earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-17, call BJ,
+[D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
+
+**On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
+"waits on Will" or "waits on Ewan", closed when its answer is written up here.
 
 Twenty-four questions: nine for Will, six for Ewan, nine for both.
 
@@ -269,14 +273,14 @@ _Answered 2026-10-16:_ **Will's half:** keep them and keep going unless told oth
 
 ## 7. Asked by meeting five
 
-**25. Which lead will not climb the Tower?** (Ewan; Will's half given)
+**25. Which lead will not climb the Tower?** (Ewan; Will's half given) [#215](https://github.com/DougieWilDaBeast/earth-kings/issues/215)
 Ewan said one of the sixteen might not want to climb (agenda 75). Will said that is fine, that such a
 lead lies open to invaders once another world falls ([D172](06-decisions.md)), and named Liber as his
 example; Ewan left it open ([D186](06-decisions.md)). Liber's chapter two already asks it.
 _Why:_ a lead who will not climb needs another way for their run to go, and that is a lot of building.
 _Default:_ **Liber** (the room's recommendation); nothing is built until Ewan agrees.
 
-**26. The falling weapon.** (Ewan)
+**26. The falling weapon.** (Ewan) [#216](https://github.com/DougieWilDaBeast/earth-kings/issues/216)
 Will (question 12, 2026-10-16): when a new lead reaches the floor a fallen lead reached, that lead's
 weapon is shot down from heaven where it fits them; picking it up gives part of their power for this
 run, and it stacks, one per fallen lead (agenda 101). What is built is [D33](06-decisions.md) (never
@@ -285,7 +289,7 @@ power) and your [D60](06-decisions.md) (a random landing and a rumour). The ques
 _Why:_ the two versions cannot both be built.
 _Default:_ **Will's version** (the room's recommendation), with your rumour as how word of it reaches the lead.
 
-**27. Atlas's memories, now that he only plays the last stand.** (Ewan)
+**27. Atlas's memories, now that he only plays the last stand.** (Ewan) [#217](https://github.com/DougieWilDaBeast/earth-kings/issues/217)
 Since [D191](06-decisions.md) Atlas falls in the tutorial and is never dealt again until the sixteen
 begin again, so his chapter one (the buckle, "The Weight") and his chapter two ("The Last Page") can
 no longer be reached in a first playthrough.
@@ -300,30 +304,30 @@ Added 2026-10-17 with [32](32-the-pipeline.md) ([D202](06-decisions.md)): planni
 which none of the earlier questions reached. They are milestone 13; the pipeline recommends answering
 them before the Steam page goes up, starting with 28. None changes anything built.
 
-**28. Who owns Earth Kings, and how is its money split?** (Both)
+**28. Who owns Earth Kings, and how is its money split?** (Both) [#210](https://github.com/DougieWilDaBeast/earth-kings/issues/210)
 Who owns the code, the art, the music and the name; who decides when you disagree; how money is
 divided and on what (after the store's cut? after costs?); and what happens if one of you stops.
 _Why:_ every guide for co-founders says to write this down before there is money; between brothers an
 unwritten deal is the easiest to fall out over. General advice, not legal advice.
 _Default:_ nothing changes until you both write it down; asked again before the Steam page.
 
-**29. What does the game cost a month, and who pays?** (Will)
+**29. What does the game cost a month, and who pays?** (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
 PixelLab, the AI subscriptions, and later the $100 Steam fee (returned after $1,000 of sales).
 _Why:_ a budget says how long the project can run as it does now.
 _Default:_ as now; the build does not spend money.
 
-**30. How does it earn?** (Both)
+**30. How does it earn?** (Both) [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212)
 A one-off price with the First Hour as a free demo (the retreat's lean, how-and-where call G), or
 something else; free on itch forever or not.
 _Why:_ the store page, the demo and the size of the first release all follow from it.
 _Default:_ a one-off price with a free demo; no price set until milestone 12 is agreed.
 
-**31. When, roughly, should it come out?** (Both)
+**31. When, roughly, should it come out?** (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
 Not a date: a season or a year, so the milestones have something to aim at.
 _Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
 _Default:_ open; asked again once the Second Hour is played and timed.
 
-**32. Early Access, or a finished release?** (Both)
+**32. Early Access, or a finished release?** (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
 Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
 and Dead Cells too); a finished release means more is built before anyone pays.
 _Why:_ it decides what "the first release" in milestone 12 has to hold.
@@ -333,6 +337,6 @@ _Default:_ Early Access, decided after the Second Hour.
 
 These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).
 - ~~Delete the old branches~~: done for him by the one-off `old-branches` workflow ([D205](06-decisions.md)).
-- In the repository's settings: turn on auto-merge, auto-delete of head branches, and branch
-  protection on `main`; make the board. Step by step in his
+- ~~In the repository's settings: turn on auto-merge, auto-delete of head branches, and branch
+  protection on `main`; make the board~~: done 2026-10-17. Step by step in his
   [GitHub setup checklist](https://claude.ai/artifact/8Zxg4C3Jtr4Qr88kHAKehU) ([D205](06-decisions.md)).
