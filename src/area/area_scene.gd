@@ -1594,8 +1594,9 @@ func _land_auto_axis() -> Vector2:
 	var world: World = GameState.world
 	var here := map.cell_at(_leader.position)
 	# A party walking itself came to a gate to go in (D116), and goes in on this ground (D162),
-	# unless it has already lost here.
-	if not _asking and not Pace.avoided.has(world.player_cell):
+	# unless it has already lost here or the gate is not where it is going ([D211]).
+	if not _asking and not Pace.avoided.has(world.player_cell) \
+			and AutoRoad.goes_into(world, world.player_cell):
 		for each: Dictionary in _acts:
 			if FIGHT_ACTS.has(str(each.get("act", ""))):
 				_do_act(each)

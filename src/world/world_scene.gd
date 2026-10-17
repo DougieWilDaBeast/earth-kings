@@ -812,7 +812,7 @@ func _arrive_at(site: Site) -> void:
 			# The gate is gone into when asked for, with E beside it (D116): walking onto its tile, or
 			# back onto it, never starts the fight. A party walking itself came here to go in: on the
 			# ground it goes in from there, so the fight is fought where it stands (D162).
-			if Pace.auto and not _embedded():
+			if Pace.auto and not _embedded() and AutoRoad.goes_into(world, site.cell):
 				_enter_gate(site)
 		Site.TOWER:
 			# The Guild's doorkeeper opens the register when spoken to, and the compass points at

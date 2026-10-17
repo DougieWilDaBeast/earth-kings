@@ -36,6 +36,8 @@
 	"min_chance": 0.01,
 	"max_chance": 0.45,
 	"bands": 46,
+	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
+	"champion_from": "C",
 	"sight": 2,
 	"_comment_near_the_road": "D215 (play-test 4: \"I still haven't encountered a single person I can fight\"): the danger rating leaves the First Hour's road empty, so `bands` more always camp `from` to `to` tiles off it (never on it) and at least `clear_of_places` tiles from any place (a town's gate and the Tower's foot stay walkable), topped up with the rest; `people_share` of them are two or three of `people`, the rest whatever lives there. Read by Encounter._restock_the_road.",
 	"near_the_road": {
