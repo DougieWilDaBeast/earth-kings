@@ -23,8 +23,10 @@ little harder ([D188](06-decisions.md)). The falling weapon is settled since, as
 
 **Where it stands (2026-10-17, evening):** Ewan answered 25 to 27, his half of 28, 30, 31 and 32, and
 who the five real players are ([D217](06-decisions.md)), and sent them to Will to look over. Settled:
-25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). **Waiting on Will:** his half of
-30, 31 and 32 (he answered 28, the same 50/50, and 29 the same day, [D212](06-decisions.md), [D213](06-decisions.md)). Question 31 is asked again on 2026-10-31.
+25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). Will answered his halves the same day
+([D212](06-decisions.md), [D213](06-decisions.md), [D228](06-decisions.md) to [D230](06-decisions.md)): both say 50/50 (28)
+and Early Access (32); on 30 both lean to a one-off price with a free demo, still open until Will takes the
+team's research; on 31 Will says January or February and Ewan has no plans yet, so it is asked again on 2026-10-31.
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
@@ -34,7 +36,8 @@ for Ewan, one for Ewan with Will's half already given. Each has the room's recom
 earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-17, call BJ,
 [D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
 Will answered 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)); what 28 left
-open is question 33, with Ewan's word on the split.
+open is question 33, with Ewan's word on the split. Will answered 31 to 33 and gave his lean on 30 later the same day
+([D228](06-decisions.md) to [D230](06-decisions.md)); 30's price and platforms go back to him as one call from the team. Ewan's halves are still to come.
 
 **On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
 "waits on Will" or "waits on Ewan", closed when its answer is written up here.
@@ -340,24 +343,24 @@ something else; free on itch forever or not.
 _Why:_ the store page, the demo and the size of the first release all follow from it.
 _Default:_ a one-off price with a free demo; no price set until milestone 12 is agreed.
 
-_Answered 2026-10-17:_ **Ewan's half:** "A one-off price with a free demo" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
+_Partly answered 2026-10-17 (Will's half):_ **Will:** maybe a one-off price with the First Hour as a free demo, or donations; not figured out yet. He does not know what a game of this depth would earn or should cost on phones or desktop, and would not keep it to Steam alone if it goes on phones ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-business-2.md), [D228](06-decisions.md)). The price and the platform order are the team's to research and put to him as one call; this question stays open until he takes it. **Ewan:** "A one-off price with a free demo" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)).
 
-**31. When, roughly, should it come out?** (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
+~~**31. When, roughly, should it come out?**~~ (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
 Not a date: a season or a year, so the milestones have something to aim at.
 _Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
 _Default:_ open; asked again once the Second Hour is played and timed.
 
-_Answered 2026-10-17:_ **Ewan's half:** no plans yet; "I think we will know in by the end of this month", so **asked again on 2026-10-31** ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
+_Answered 2026-10-17 (Will's half):_ **Will:** January or February (2027, agenda 145), nearly finished or in a great state to have people on ([D229](06-decisions.md)). **Ewan:** no plans yet; "I think we will know in by the end of this month", so asked again on 2026-10-31 ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)).
 
-**32. Early Access, or a finished release?** (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
+~~**32. Early Access, or a finished release?**~~ (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
 Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
 and Dead Cells too); a finished release means more is built before anyone pays.
 _Why:_ it decides what "the first release" in milestone 12 has to hold.
 _Default:_ Early Access, decided after the Second Hour.
 
-_Answered 2026-10-17:_ **Ewan's half:** Early Access, to "gather information off people who play the game", decided for certain later ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
+_Answered 2026-10-17 (Will's half):_ **Will:** Early Access, "that's grand" ([D229](06-decisions.md)). **Ewan:** Early Access, to "gather information off people who play the game", decided for certain later ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). Agreed by both: Early Access.
 
-**33. The rest of the founders' agreement.** (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
+~~**33. The rest of the founders' agreement.**~~ (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
 Added 2026-10-17 from Will's half of 28 ([D212](06-decisions.md)): all profits split 50/50. **Ewan:** do you
 agree? **Both:** is that after the store's cut and the running costs (agenda 136 guesses yes)? Who owns the
 code, the art, the music and the name? Who decides when you disagree? What happens if one of you stops?
@@ -365,6 +368,45 @@ _Why:_ the split is the start of a founders' agreement, not all of it; the rest 
 when it was never said. General advice, not legal advice.
 _Default:_ the 50/50 split stands as Will's word; nothing else changes until you both say it.
 _Answered in part 2026-10-17:_ **Ewan:** "It is split 50-50" (his answer to 28, [D217](06-decisions.md)), so the split itself is agreed by both. The rest of 33 is still open.
+
+_Answered 2026-10-17 (Will's word):_ **Will:** 50/50 is after Steam's cut and the costs; everything 50/50 for now, and the rest of the small print (who owns what, who decides) the two of you work out when you get close to being paid; if one of you stops it does not matter, the game runs in the background or on the side ([D230](06-decisions.md)). Asked again before the first sale. **Ewan:** his nod on the split still to come.
+
+## 9. Asked by Ewan's "what other games do well"
+
+Added 2026-10-17 from `doug-md`'s write-up of six games (Necesse, Kenshi, Dungeon Settlers, Terraria,
+Skyrim, Baldur's Gate 3), issue [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270): twelve
+ideas kept, eleven cut, and five questions for both founders. Ewan's list stands as he wrote it
+(question 38). Its ideas are on the board: the quick wins #272 to #275, the rest #258 and #283 to #289.
+**Will answered all five on 2026-10-17** ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-other-games.md), [D223](06-decisions.md) to [D227](06-decisions.md)).
+
+~~**34. Romance between the sixteen: yes, no, or later?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+Ewan cut it for now: a big writing job and a change of tone.
+_Answered 2026-10-17:_ **Will:** no romance played out in the game. The sixteen already had
+relationships before they came down (good, bad, at odds), and those stay in the backstory; a lead finds
+out what they were as the game goes on, all of them only if all sixteen survive, and can grieve one who
+didn't ("it should be whatever is already set up in the backstory", [D223](06-decisions.md)).
+
+~~**35. Your own town: at the crater where you landed, or a place you choose on the map?**~~ (Both) [#258](https://github.com/DougieWilDaBeast/earth-kings/issues/258)
+_Answered 2026-10-17:_ **Will:** **the crater**, built up by Muck Muck, because the landing already
+cleared the ground ("that could be a good spot for Muk to start building", [D224](06-decisions.md)).
+
+~~**36. The harder second half: what sets it off?**~~ (Both) [#287](https://github.com/DougieWilDaBeast/earth-kings/issues/287)
+Ewan offered a Tower chapter, a number of gates shut, or a story moment.
+_Answered 2026-10-17:_ **Will:** none of them on its own: it gets harder step by step as more of the
+Tower is climbed, and a party that leaves side quests undone and gates open finds more opening at
+every stage, with disasters on top ("if you only focus on climbing up the tower and you don't focus on
+keeping your world in order", [D225](06-decisions.md)).
+
+~~**37. Land journal trinkets: can one change how you move, or only how you fight?**~~ (Both) [#284](https://github.com/DougieWilDaBeast/earth-kings/issues/284)
+Finishing a land's journal (its shrine, its strongest band, its hermit, a view) pays one rare trinket.
+_Answered 2026-10-17_ (asked again in plain words after he did not follow it): **Will:** **both**. A
+trinket can do anything that fits: cross water, walk faster, boots, more abilities, as well as fight;
+ideas from the team and from Ewan alike ("any ideas you can come up with, go for it", [D227](06-decisions.md)).
+
+~~**38. Where to start: the quick wins, or one of the big pieces first?**~~ (Both) [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)
+_Answered 2026-10-17:_ **Will:** Ewan's list as it is, nothing moved between keep and cut. The big
+pieces first, one always being built, with the smaller ones done alongside in other threads ("you do
+progressing through the big ones always, and then at the same time ... the smaller ones", [D226](06-decisions.md)).
 
 ## Will's to-dos (not questions)
 

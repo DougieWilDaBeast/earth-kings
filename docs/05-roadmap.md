@@ -234,7 +234,7 @@ each, each ending playable:
    last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
    the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
-   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, 28 agreed 50/50 by both, waiting on Will's half of 30 to 32, and 31 asked again on 2026-10-31). The freeze lifts. Next,
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, Will's halves D212, D213, D228 to D230: 28 (50/50) and 32 (Early Access) agreed by both, 30 open until the team's price research, 31 asked again on 2026-10-31). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
@@ -295,7 +295,9 @@ each, each ending playable:
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
    `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
    all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
-   back 27 October. The rest of 28 is question 33 (#276).
+   back 27 October. Later that day ([D228](06-decisions.md) to [D230](06-decisions.md)): Early Access, aimed at
+   January or February 2027; the split after Steam's cut and costs, the rest of the small print near payday;
+   a one-off price with a free First Hour leaned to but not settled, the price and platforms a call for him (#212).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
@@ -319,6 +321,15 @@ each, each ending playable:
    level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
    and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
    fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
+23. **Ewan's "what other games do well"** ([D223](06-decisions.md) to [D227](06-decisions.md), 2026-10-17,
+   issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
+   the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
+   in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
+   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
+   faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
+   [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps built, [D220](06-decisions.md)), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

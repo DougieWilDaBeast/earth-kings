@@ -516,6 +516,27 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `scars` — what going down leaves behind (D218)
+
+`max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
+what is said at the fight's end (`{name}`, `{hp}`, `{scars}`). A fighter earns one by going down in a
+fight the company wins and living. A character's `scars` is kept in the save.
+
+## `world_rules.json` → `keepers` — a gate keeper's prize (D219)
+
+`prizes` maps a faction id to the equipment id its gate keeper carries. On shutting a gate the prize
+comes on `chance[n]`, n being how many of that faction's keepers have fallen since its last prize
+(the last entry holds after that; 1.0 makes it certain). `lines.prize` and `lines.missed` are said
+with `{keeper}` and `{prize}`. The counts are kept in the save as the world's `keepers`.
+
+## `world_rules.json` → `treasure` — torn treasure maps (D220)
+
+A band beaten on the land carries a scrap on `piece_chance`; `pieces` of them make an X between
+`near` and `far` steps of walking off, with `chart_radius` of ground round it drawn in. Standing on
+it digs up a find of `richness` (see `loot`) that always holds something to carry. `lines`: `piece`
+(`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
+and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
