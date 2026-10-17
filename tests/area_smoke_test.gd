@@ -1162,7 +1162,7 @@ func _check_play_test_four() -> void:
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
 
 
-## Followers face the way they walk ([D210], play-test 4: walking down, "my characters that are
+## Followers face the way they walk ([D214], play-test 4: walking down, "my characters that are
 ## followed behind me are facing the wrong way"). A party of four walks up a clear stretch and then
 ## back down it at walking pace, a frame at a time; once the turn is behind them (forty frames),
 ## nobody following faces back the way the leader came. Before the fix a follower keeping pace was
