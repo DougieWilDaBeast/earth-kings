@@ -311,6 +311,11 @@ each, each ending playable:
 21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
    party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
    early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
+22. **The road is fair to a lead walking alone** — built ([D211](06-decisions.md), call BM, 2026-10-17).
+   Road bands stand two levels down and one smaller on the First Hour, the land's great beasts wait for
+   level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
+   and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
+   fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

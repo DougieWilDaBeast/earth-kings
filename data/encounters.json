@@ -36,5 +36,7 @@
 	"min_chance": 0.01,
 	"max_chance": 0.45,
 	"bands": 46,
+	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
+	"champion_from": "C",
 	"sight": 2
 }
