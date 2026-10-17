@@ -106,7 +106,7 @@ func setup(skirmish: Node2D) -> void:
 	row.offset_right = -16
 	# Sized by the cards and grown up from the bottom edge, so a card taller than it was
 	# planned for (a pouch, a second line of passives) pushes the row up instead of running
-	# off the bottom of the screen ([D219], play-test 4: "not fitting in screen").
+	# off the bottom of the screen ([D231], play-test 4: "not fitting in screen").
 	row.offset_top = -8
 	row.offset_bottom = -8
 	row.grow_vertical = Control.GROW_DIRECTION_BEGIN

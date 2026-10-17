@@ -242,7 +242,7 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   lunges a few pixels at its target, a critical or a blow worth a fifth of someone's health
   freezes the clock for 70 ms, and a death rings out and shakes the camera (harder for one of
   yours). Skills on the cards are tiles with a cooldown sweep that flash when they come back, and
-  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D219](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
+  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D231](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
   and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`. Trees stand on the crags,
   walls and some of the edge, and bushes in the brush (`decor` in the same file).
 - **Sound and a level gained** (2026-10-13). Swings, bowshots, hits and criticals, blocks, a spell
