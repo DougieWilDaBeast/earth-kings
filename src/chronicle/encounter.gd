@@ -167,13 +167,13 @@ static func restock(world: World, rng: RandomNumberGenerator) -> void:
 		world.prowlers.append(_band_at(world, cell, rng))
 
 
-## The fight that starts when a band finally sees you. Every road fight is a band,
-## so the setting's level and count dials apply here as they do in [method _pick]
-## ([D211]): before, a fresh lead met bands at full strength on the First Hour.
+## The fight that starts when a band finally sees you, all of it, as it was seen. Every road fight
+## is a band, so the setting's level dial applies here as it does in [method _pick] ([D211]):
+## before, a fresh lead met bands at their full level on the First Hour.
 static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var level := _party_level(party) + _danger_at(world, band.cell)
 	var enemies: Array = []
-	for unit_id: String in band.pack.slice(0, Difficulty.counted(band.pack.size())):
+	for unit_id: String in band.pack:
 		enemies.append({"unit": unit_id, "level": Difficulty.levelled(level + rng.randi_range(-1, 1))})
 	Nemesis.inject_survivor(world, enemies)
 	return _build(world, band.cell, WILD, enemies, rng, "%s %s seen you." % [band.label(), "has" if band.pack.size() <= 1 else "have"])

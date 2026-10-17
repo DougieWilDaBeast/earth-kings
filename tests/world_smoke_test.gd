@@ -647,8 +647,8 @@ func _check_encounters(world: World) -> void:
 		)
 	print("tower floor %d fields level %d" % [top, _top_level(apex)])
 
-	# D211: a band on the road is dealt by the setting's level and count dials like any fight;
-	# the First Hour once met them at full strength, so fresh leads fell in their first fights.
+	# D211: a band on the road is dealt by the setting's level dial like any fight, all of it;
+	# the First Hour once met them at their full level, so fresh leads fell in their first fights.
 	var band := Prowler.create(world.player_cell, ["wolf", "wolf", "wolf"])
 	var even_dice := RandomNumberGenerator.new()
 	even_dice.seed = 211
@@ -657,8 +657,7 @@ func _check_encounters(world: World) -> void:
 	var kind_dice := RandomNumberGenerator.new()
 	kind_dice.seed = 211
 	var at_first := Encounter.for_band(world, band, party, kind_dice)
-	_expect(at_first["enemies"].size() == Difficulty.counted(3),
-		"a band of three fields %d on the First Hour" % at_first["enemies"].size())
+	_expect(at_first["enemies"].size() == 3, "a band of three fields %d on the First Hour" % at_first["enemies"].size())
 	_expect(_top_level(at_first) <= maxi(1, _top_level(at_even) + roundi(Difficulty.dial("enemy_level"))),
 		"a First Hour band stands at level %d against %d on Even" % [_top_level(at_first), _top_level(at_even)])
 	GameState.difficulty = setting

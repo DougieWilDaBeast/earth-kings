@@ -1925,8 +1925,17 @@ func _check_auto_rests() -> void:
 	_expect(there != null and there.kind in [Site.VILLAGE, Site.KEEP, Site.HUT],
 		"auto rests: a party at a tenth of its health was not sent somewhere to rest (%s)" % stop)
 	_expect(stop.x < 0 or AutoRoad.errand(world) == stop, "auto rests: hurt, Auto still made for something else first")
+	# D211: Auto goes into a gate it crosses only when it is making for it, and never hurt.
+	var gates := world.sites_of_kind(Site.GATE)
+	for gate: Site in gates:
+		_expect(not AutoRoad.goes_into(world, gate.cell), "auto rests: hurt, Auto would go into %s" % gate.display_name)
 	for member: Character in kept:
 		member.hp = kept[member]
+	var goal := AutoRoad.objective(world)
+	for gate: Site in gates:
+		if not goal.is_empty() and goal["cell"] != gate.cell:
+			_expect(not AutoRoad.goes_into(world, gate.cell),
+				"auto gates: Auto would go into %s on its way to %s" % [gate.display_name, goal.get("label", goal["cell"])])
 
 
 ## A step taken more than six tiles from [param town], which is being away from it.
