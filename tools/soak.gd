@@ -6,8 +6,11 @@ extends Node
 ## Boots the whole game, starts a run and turns on autoplay at ×2. Every thirty
 ## seconds it prints where the run has got to. A pause autoplay makes on purpose
 ## (somebody else's fight on the road) is waited out for three seconds and then
-## walked away from, so one wagon does not end the soak. At the end it saves,
-## loads and saves again and says whether the two files match.
+## walked away from, so one wagon does not end the soak. If the lead dies the run
+## is over and the game waits on the player at the run summary: the soak says
+## `RUN OVER at step N` and stops there, since a death is the game working, not
+## stuck. At the end it saves, loads and saves again and says whether the two
+## files match.
 ##
 ## What to look for: `SCRIPT ERROR` anywhere in the output, steps that stop
 ## rising (something is waiting on a key nobody is pressing), steps that rise
@@ -83,6 +86,8 @@ func _ready() -> void:
 				_off = 0
 				_walked_on += 1
 				Pace.auto = true
+		if _run_over():
+			break
 		if _stuck():
 			get_tree().quit(2)
 			return
@@ -151,6 +156,18 @@ func _report(start: int) -> void:
 		GameState.roster.party.size(), GameState.away.size(), open_gates, world.tower_floor, _walked_on,
 		"  RUN OVER" if GameState.roster.run_is_over() else "",
 	])
+
+
+## True, having said so, once the lead has died and the run summary is up: the
+## game is waiting on the player to choose the next lead, as it should.
+func _run_over() -> bool:
+	if not GameState.roster.run_is_over():
+		return false
+	var holder := _root.get_node("CurrentScene")
+	if holder.get_child_count() == 0 or str(holder.get_child(0).name) != "RunSummary":
+		return false
+	print("RUN OVER at step %d: the lead fell, and the soak stops at the run summary" % GameState.world.steps)
+	return true
 
 
 ## True, having said where, once autoplay has gone [constant STUCK_AFTER]
