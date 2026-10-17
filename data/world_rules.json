@@ -144,6 +144,15 @@
 			}
 		}
 	},
+	"auto_styles": {
+		"_comment": "D211 (doug-md, 2026-10-17: \"three differnt auto runs, 1st one is aggressive, two is passive (avoids combat), 3 is mixed (will fight if provoked)\"): how a party walking itself meets bands, picked in the menu and kept in settings.cfg (Pace.auto_style). Aggressive turns aside for any band in sight and walks into its red, and steps into a roadside scene; mixed keeps to its way and fights only what sees it; passive walks round red ground where it can. Inferred: the names and blurbs.",
+		"names": {"aggressive": "Aggressive", "mixed": "Mixed", "passive": "Passive"},
+		"blurbs": {
+			"aggressive": "Walking itself, the company goes looking for a fight: any band in sight, and any trouble on the road.",
+			"mixed": "Walking itself, the company keeps to its way and fights only what comes for it.",
+			"passive": "Walking itself, the company goes round whatever is watching the ground, and leaves trouble on the road to others."
+		}
+	},
 	"ground_watch": {
 		"_comment": "Bands met on the ground (D66, D68). A band stands in the ground of the tile it camps on, and at the edge of any tile its eyes reach. It watches the cells within sight_base + sight_per_reach x its sight (the world's 2), from where it stands; trees, houses and rock block the line, water and every land's liquid do not, and ground that is cover (cover on its terrain in tilesets.json, or named in cover) is never watched. It stands at least keep_away cells further than that from where the party comes in, and patrols a loop of patrol_points stops within patrol_reach cells, a cell every patrol_step_seconds, resting patrol_pause seconds at each, never bringing where the party came in into sight; its red cells move with it. Walking into a watched cell (or being walked into view of) starts the fight there: spotted_seconds of everyone looking, the band rushing charge_share of the way in charge_seconds (both 0 since D204: the fight is on the moment they see you, and they close in fighting), then the fight on a field field_margin cells round everyone, field_smallest to field_largest (no edge drawn and nothing dimmed on the ground, D204), opening on the ground's own view and drawing back over pull_back_seconds. On the land (D76) a band keeps to its own tile and patrols land_patrol_points stops within land_patrol_reach cells; when the continent moves it to the next tile it walks there across the land, a cell every travel_step_seconds.",
 		"sight_base": 2,

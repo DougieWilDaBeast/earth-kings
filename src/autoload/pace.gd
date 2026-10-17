@@ -22,6 +22,35 @@ var auto: bool = false:
 
 var _step: int = 0
 
+## How a party walking itself meets bands ([D211], `doug-md`): "aggressive" turns aside for any band
+## near and walks into its red; "mixed" keeps to its way and fights what sees it; "passive" walks
+## round red ground where it can. Names and blurbs are `auto_styles` in `data/world_rules.json`.
+const AUTO_STYLES := ["aggressive", "mixed", "passive"]
+var auto_style: String = "mixed":
+	set(value):
+		if not AUTO_STYLES.has(value) or auto_style == value:
+			return
+		auto_style = value
+		_save()
+		changed.emit()
+
+
+## The next of the three ways a party walking itself meets bands.
+func cycle_auto_style() -> void:
+	auto_style = AUTO_STYLES[(AUTO_STYLES.find(auto_style) + 1) % AUTO_STYLES.size()]
+
+
+## What the style is called ("Aggressive"), from the data.
+func auto_style_name(style: String = "") -> String:
+	var key := style if style != "" else auto_style
+	return str(Database.world_rules.get("auto_styles", {}).get("names", {}).get(key, key.capitalize()))
+
+
+## A line on what the style does, from the data.
+func auto_style_blurb(style: String = "") -> String:
+	var key := style if style != "" else auto_style
+	return str(Database.world_rules.get("auto_styles", {}).get("blurbs", {}).get(key, ""))
+
 ## Keep unwritten talk — banter, road chatter, what your own say at the fire —
 ## out of the dialogue box. It still happens and is still logged and bubbled;
 ## it just stops taking the screen. Authored conversations are never affected.
@@ -106,6 +135,7 @@ func _ready() -> void:
 	if config.load(SETTINGS_PATH) == OK:
 		quiet_banter = bool(config.get_value("ui", "quiet_banter", false))
 		touch_mode = str(config.get_value("ui", "touch_mode", "auto"))
+		auto_style = str(config.get_value("ui", "auto_style", "mixed"))
 		if not OS.has_feature("web") and bool(config.get_value("display", "fullscreen", false)):
 			fullscreen = true
 
@@ -121,6 +151,7 @@ func _save() -> void:
 	config.load(SETTINGS_PATH)
 	config.set_value("ui", "quiet_banter", quiet_banter)
 	config.set_value("ui", "touch_mode", touch_mode)
+	config.set_value("ui", "auto_style", auto_style)
 	config.set_value("display", "fullscreen", fullscreen)
 	config.save(SETTINGS_PATH)
 
