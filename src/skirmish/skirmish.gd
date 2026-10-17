@@ -209,7 +209,26 @@ func _ready() -> void:
 	for line in _opening:
 		_say(line)
 	Sfx.cue("engage")
+	EventBus.battle_lineup.emit(_lineup())
 	EventBus.battle_started.emit(map_id)
+
+
+## The foes as the play log says them: each kind once, with its level and how many.
+func _lineup() -> String:
+	var counts: Dictionary = {}
+	var order: Array[String] = []
+	for f: Fighter in fighters:
+		if f.unit == null or f.unit.sides_with_party():
+			continue
+		var level := f.unit.character.level if f.unit.character != null else 0
+		var said := "%s L%d" % [f.unit.display_name, level] if level > 0 else f.unit.display_name
+		if not counts.has(said):
+			order.append(said)
+		counts[said] = int(counts.get(said, 0)) + 1
+	var out: Array[String] = []
+	for said: String in order:
+		out.append(said if int(counts[said]) == 1 else "%s x%d" % [said, counts[said]])
+	return ", ".join(out)
 
 
 func _exit_tree() -> void:
@@ -293,7 +312,8 @@ func _build_battlefield() -> void:
 ## The enemy (or, with [param side] ALLY, those fighting beside the party) from
 ## the map. A levelled entry is a throwaway [Character], so it grows the way the
 ## party does; an entry may name itself, mark itself the keeper (`boss`), or
-## pick its own side (`team`, for the coliseum's brawls).
+## pick its own side (`team`, for the coliseum's brawls), or hit harder than its level (`bite`, a
+## multiplier on its attack).
 func _spawn_others(entries: Array, side: Unit.Team) -> void:
 	for entry: Dictionary in entries:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
@@ -313,6 +333,9 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 			unit.display_name = custom_name
 		if bool(entry.get("boss", false)):
 			unit.set_meta("boss", true)
+		# A foe can hit harder than its level says: the Tower's upper floors (D222).
+		if entry.has("bite") and float(entry["bite"]) > 0.0:
+			unit.attack = maxi(1, roundi(float(unit.attack) * float(entry["bite"])))
 		_enlist(unit)
 
 
@@ -1690,7 +1713,7 @@ func _check_end() -> void:
 			GameState.mark_battle_cleared(map_id)
 		GameState.set_flag("last_victory", victory)
 		GameState.set_flag("last_fled", fled_field)
-		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id})
+		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id, "fight_seconds": sim_time})
 	finished.emit(victory)
 	if not manual and not bout:
 		_leave_the_field()

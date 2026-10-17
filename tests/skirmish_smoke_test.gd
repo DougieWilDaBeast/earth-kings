@@ -178,6 +178,9 @@ func _run() -> void:
 	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
+	await _check_cards_fit()
+	await _check_lineup()
+	await _check_upper_bite()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
@@ -327,6 +330,75 @@ func _check_box_select() -> void:
 		fight._unhandled_input(release)
 		_expect(fight.selected.size() == party.size() and not fight.drag_box.has_area(), "letting go of a dragged box did not pick inside it")
 	fight.queue_free()
+
+
+## Six on the field with a pouch of draughts: every party card sits inside the screen, and the
+## fight's log above them, not under them ([D231], play-test 4: the cards ran off the bottom).
+func _check_cards_fit() -> void:
+	var before := GameState.roster
+	GameState.roster = Company.found("atlas", ["vesta", "iris", "juno", "cato", "ares"])
+	for touch: bool in [false, true]:
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": touch, "sandbox": true}
+		add_child(fight)
+		for i in 3:
+			await get_tree().process_frame
+		var view := get_viewport().get_visible_rect()
+		var cards: Array = fight.hud.get("_cards")
+		_expect(cards.size() == 6, "six in the party but %d cards" % cards.size())
+		var top := view.end.y
+		for card: Control in cards:
+			_expect(view.encloses(card.get_global_rect()),
+				"a party card runs off the screen (touch %s): %s in %s" % [touch, card.get_global_rect(), view])
+			top = minf(top, card.get_global_rect().position.y)
+		var log_label: Control = fight.hud.get("_log")
+		_expect(log_label.get_global_rect().end.y <= top + 0.5,
+			"the fight's log sits under the party cards (touch %s)" % touch)
+		fight.queue_free()
+		await get_tree().process_frame
+	GameState.roster = before
+## As a fight starts it says who stands against the party, for the play log (Ewan's log said only
+## "verdant_pass" for every fight): the foes with their levels, nobody of the party's side.
+func _check_lineup() -> void:
+	var said: Array[String] = []
+	var hear := func(line: String) -> void: said.append(line)
+	EventBus.battle_lineup.connect(hear)
+	var fight := await _new_fight()
+	EventBus.battle_lineup.disconnect(hear)
+	_expect(said.size() == 1, "a fight said who it was against %d times" % said.size())
+	if said.size() == 1:
+		_expect(said[0].contains(" L"), "the fight's line-up gives no levels: %s" % said[0])
+		for f: Fighter in fight.party_fighters():
+			_expect(not said[0].contains(f.unit.display_name), "the line-up names %s of the party: %s" % [f.unit.display_name, said[0]])
+	fight.queue_free()
+	await get_tree().process_frame
+## The Tower's upper floors bite harder (D222): the walked floors not at all, floor 6 at `base`,
+## higher a floor after, never past `most`; a foe given `bite` hits that much harder in the fight.
+func _check_upper_bite() -> void:
+	var rules: Dictionary = Database.world_rules["tower"]["upper_bite"]
+	var from := int(rules["from_floor"])
+	_expect(is_equal_approx(Encounter.upper_bite(from - 1), 1.0), "a walked floor's foes bite harder")
+	_expect(is_equal_approx(Encounter.upper_bite(from), float(rules["base"])), "floor %d does not bite at base" % from)
+	_expect(Encounter.upper_bite(20) > Encounter.upper_bite(from), "floor 20 bites no harder than floor %d" % from)
+	_expect(Encounter.upper_bite(100) <= float(rules["most"]) + 0.001, "a high floor bites past the most")
+	var met := Encounter.for_tower(GameState.world, GameState.world.tower(), 12, GameState.party_characters(), RandomNumberGenerator.new())
+	for entry: Dictionary in met["map"]["enemies"]:
+		_expect(is_equal_approx(float(entry.get("bite", 1.0)), Encounter.upper_bite(12)), "a floor 12 foe does not bite as floor 12 says")
+	var attack := {}
+	for bite: float in [1.0, 2.0]:
+		var map := _proving_ground()
+		map["enemies"] = [{"unit": "brigand", "cell": [6, 1], "level": 8, "bite": bite}]
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+		add_child(fight)
+		await get_tree().process_frame
+		for f: Fighter in fight.fighters:
+			if not f.unit.sides_with_party():
+				attack[bite] = f.unit.attack
+		fight.queue_free()
+		await get_tree().process_frame
+	_expect(attack.size() == 2 and int(attack[2.0]) >= int(attack[1.0]) * 2 - 1,
+		"a foe with bite 2 does not hit twice as hard: %s" % [attack])
 
 
 func _new_fight() -> Node2D:

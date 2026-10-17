@@ -11,6 +11,7 @@ const TOWER := "tower"
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
 
 ## No band ever appears within this many tiles of the party. They are found,
 ## not sprung.
@@ -170,6 +171,60 @@ static func restock(world: World, rng: RandomNumberGenerator) -> void:
 		if rng.randf() > chance_at(world, cell) / float(Database.encounters.get("max_chance", 0.45)):
 			continue
 		world.prowlers.append(_band_at(world, cell, rng))
+	_restock_the_road(world, rng)
+
+
+## The First Hour's road is walked by every new climber, and the danger rating leaves it empty: it
+## runs past the city and the havens, and quiet country refuses bands. So a few always camp near it
+## ([D215], play-test 4: "I still haven't encountered a single person I can fight"): `near_the_road`
+## in `encounters.json`, `bands` of them `from` to `to` tiles off the road (never on it: the Watch
+## keeps the cobbles) and at least `clear_of_places` tiles from any place, some of them people
+## (`people_share` of `people`) rather than what lives there.
+static func _restock_the_road(world: World, rng: RandomNumberGenerator) -> void:
+	var rules: Dictionary = Database.encounters.get("near_the_road", {})
+	var wanted := int(rules.get("bands", 0))
+	if wanted <= 0:
+		return
+	var road := FirstRoad.tiles(world)
+	if road.is_empty():
+		return
+	var near := int(rules.get("from", 2))
+	var far := maxi(near, int(rules.get("to", 4)))
+	var off_road := func(cell: Vector2i) -> int:
+		var best := 1 << 20
+		for tile: Vector2i in road:
+			best = mini(best, Pathfinder.distance(cell, tile))
+		return best
+	var there := 0
+	for band: Prowler in world.prowlers:
+		var apart: int = off_road.call(band.cell)
+		if apart >= near and apart <= far:
+			there += 1
+	var people: Array = rules.get("people", [])
+	var clear := int(rules.get("clear_of_places", 4))
+	var tries := 0
+	while there < wanted and tries < SPAWN_ATTEMPTS:
+		tries += 1
+		var on: Vector2i = road[rng.randi() % road.size()]
+		var cell := on + Vector2i(rng.randi_range(-far, far), rng.randi_range(-far, far))
+		if not world.in_bounds(cell) or not _can_camp_at(world, cell) \
+				or world.prowlers.any(func(b: Prowler) -> bool: return b.cell == cell):
+			continue
+		var apart: int = off_road.call(cell)
+		if apart < near or apart > far:
+			continue
+		# On the open stretches between places, not at a town's gate or the Tower's foot, where the
+		# way in has to stay walkable (Auto keeps out of the red).
+		if world.sites.any(func(site: Site) -> bool: return Pathfinder.distance(cell, site.cell) < clear):
+			continue
+		if not people.is_empty() and rng.randf() < float(rules.get("people_share", 0.5)):
+			var pack: Array = []
+			for i in rng.randi_range(2, 3):
+				pack.append(str(people[rng.randi() % people.size()]))
+			world.prowlers.append(Prowler.create(cell, pack))
+		else:
+			world.prowlers.append(_band_at(world, cell, rng))
+		there += 1
 
 
 ## The fight that starts when a band finally sees you, all of it, as it was seen. Every road fight
@@ -272,18 +327,21 @@ static func for_tower(world: World, site: Site, floor_number: int, party: Array,
 	if pool.is_empty():
 		pool = Database.encounters.get("tower", ["goblin"])
 
+	var bite := upper_bite(floor_number)
 	if floor_number >= world.tower_floors():
 		var apex_bosses: Array = rules.get("apex", ["dirte"])
 		var boss_id: String = apex_bosses[rng.randi() % apex_bosses.size()]
 		var enemies: Array = [{ "unit": boss_id, "level": Difficulty.levelled(level + 2), "boss": true }]
 		var minions: Array = _pick(pool, 3, level, rng)
 		enemies.append_array(minions)
+		_bite(enemies, bite)
 		return _build(
 			world, site.cell, TOWER, enemies, rng,
 			"The Spire Apex — Floor %d (Final Battle)" % floor_number
 		)
 
 	var enemies := _pick(pool, count, level, rng)
+	_bite(enemies, bite)
 	var faction_name := Faction.display_name(faction_tier)
 	return _build(
 		world, site.cell, TOWER, enemies, rng,
@@ -347,6 +405,26 @@ static func _pick(pool: Array, count: int, level: int, rng: RandomNumberGenerato
 			"level": Difficulty.levelled(level + rng.randi_range(-1, 1)),
 		})
 	return out
+
+
+## How much harder than their level the foes of [param floor_number] hit (D222, `doug-md` on his
+## play log of 2026-10-17: the upper floors were long enough but nobody came out of them hurt).
+## 1.0 on the walked floors; from `world_rules.tower.upper_bite.from_floor` it starts at `base` and
+## climbs `per_floor`, to `most` at most.
+static func upper_bite(floor_number: int) -> float:
+	var rules: Dictionary = Database.world_rules.get("tower", {}).get("upper_bite", {})
+	var from := int(rules.get("from_floor", 0))
+	if rules.is_empty() or from <= 0 or floor_number < from:
+		return 1.0
+	var bite := float(rules.get("base", 1.0)) + float(rules.get("per_floor", 0.0)) * float(floor_number - from)
+	return minf(bite, float(rules.get("most", bite)))
+
+
+static func _bite(enemies: Array, bite: float) -> void:
+	if is_equal_approx(bite, 1.0):
+		return
+	for entry: Dictionary in enemies:
+		entry["bite"] = bite
 
 
 static func party_level(party: Array) -> int:

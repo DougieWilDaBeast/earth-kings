@@ -12,8 +12,12 @@ signal request_scene(scene_key: String, payload: Dictionary)
 signal scene_changed(scene_key: String)
 
 signal battle_started(map_id: String)
+## Who stands against the party as a fight starts, said once for the play log: "Goblin L9 x2, Bog
+## Jelly L8". Emitted just before [signal battle_started].
+signal battle_lineup(line: String)
 ## A fight the world started is over (training and the coliseum say nothing).
-## result: { "victory": bool, "map_id": String }
+## result: { "victory": bool, "map_id": String, "fight_seconds": float } (the fight's own clock:
+## game seconds, whatever the speed, pauses left out)
 signal battle_finished(result: Dictionary)
 
 signal unit_damaged(unit: Node, amount: int)
