@@ -25,6 +25,45 @@
 		"ambush_head_start": 2.0,
 		"swings_per_practice": 3
 	},
+	"tactics": {
+		"_comment": "How every fighter moves and picks its foe besides walking up and swinging (D187, all Inferred). Every side thinks with these: enemies, allies, the party fighting on its own, Auto, and both leads in a who-wins bout. A fighter's doctrine comes from its lead (leads), else its enemy role (roles), else brute. moves are tried in order each think; focus says whom it would rather hit: hurt (a foe low on health), marked (a foe Iris has marked) and soft (a foe that heals or shoots), each worth that many tiles of walking.",
+		"on": true,
+		"dodge_window": 1.6,
+		"dodge_from": 1.0,
+		"kite_from_reach": 2,
+		"kite_every": 2.5,
+		"flank_every": 2.5,
+		"flank_every_keen": 1.5,
+		"guard_below": 0.5,
+		"guard_reach": 4,
+		"guard_every": 3.0,
+		"hang_back": 3,
+		"break_below": 0.3,
+		"break_every": 8.0,
+		"break_to": 4,
+		"switch_margin": 1.5,
+		"give_up": 1.5,
+		"doctrines": {
+			"brute": { "moves": ["dodge", "flank"], "focus": {} },
+			"striker": { "moves": ["dodge", "flank", "break"], "focus": { "hurt": 1.5, "marked": 1.0, "soft": 1.5 } },
+			"ranged": { "moves": ["dodge", "kite", "break"], "focus": { "hurt": 1.5, "marked": 1.0 } },
+			"guardian": { "moves": ["dodge", "guard", "flank"], "focus": { "hurt": 0.5 } },
+			"anchor": { "moves": ["dodge", "guard"], "focus": { "hurt": 0.5 } },
+			"rooted": { "moves": ["dodge"], "focus": { "hurt": 0.5 } },
+			"keeper": { "moves": ["dodge", "hang_back", "kite", "break"], "focus": { "hurt": 1.0, "marked": 1.0 } },
+			"leader": { "moves": ["dodge", "guard", "flank", "break"], "focus": { "hurt": 1.0, "marked": 1.0, "soft": 0.5 } }
+		},
+		"leads": {
+			"atlas": "ranged", "iris": "ranged", "diana": "ranged",
+			"ultor": "striker", "ares": "striker", "liber": "striker", "cassius": "striker", "pluto": "striker", "saturn": "striker", "janus": "striker",
+			"caesar": "guardian", "cato": "anchor", "ceres": "rooted",
+			"vesta": "keeper", "juno": "keeper",
+			"bellona": "leader"
+		},
+		"roles": { "charger": "striker", "skirmisher": "ranged", "mender": "keeper" },
+		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off" }
+	},
+
 	"passives": {
 		"shieldwall": {
 			"display_name": "Shieldwall",
