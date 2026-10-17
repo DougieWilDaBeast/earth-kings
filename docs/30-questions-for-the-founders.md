@@ -28,6 +28,14 @@ who the five real players are ([D217](06-decisions.md)), and sent them to Will t
 and Early Access (32); on 30 both lean to a one-off price with a free demo, still open until Will takes the
 team's research; on 31 Will says January or February and Ewan has no plans yet, so it is asked again on 2026-10-31.
 
+**Still open (2026-10-17, 18:00).** Everything else here is answered and struck through.
+
+| Question | Whose | What is left | Issue |
+| --- | --- | --- | --- |
+| 30. How does it earn? | Will | The price and the platform order, put to him as one call (BN): Steam first at $15 to $20 with the First Hour free, phones after 1.0, recommended (the team's research is `business/pricing-2026-10-17.md` in the project's shared files) | [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212) |
+| 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; the year is **Inferred** (agenda 145) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
+| 33. The rest of the agreement | Ewan, then both | Ewan's nod on 50/50 after the store's cut and costs; before the first sale, who owns the code, the art, the music and the name, and who decides when you disagree | [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276) |
+
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
 
@@ -362,7 +370,7 @@ _Answered 2026-10-17 (Will's half):_ **Will:** Early Access, "that's grand" ([D2
 
 ~~**33. The rest of the founders' agreement.**~~ (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
 Added 2026-10-17 from Will's half of 28 ([D212](06-decisions.md)): all profits split 50/50. **Ewan:** do you
-agree? **Both:** is that after the store's cut and the running costs (agenda 136 guesses yes)? Who owns the
+agree? **Both:** is that after the store's cut and the running costs (agenda 136 guessed yes; Will said yes, [D230](06-decisions.md))? Who owns the
 code, the art, the music and the name? Who decides when you disagree? What happens if one of you stops?
 _Why:_ the split is the start of a founders' agreement, not all of it; the rest is what brothers fall out over
 when it was never said. General advice, not legal advice.

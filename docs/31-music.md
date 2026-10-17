@@ -6,7 +6,9 @@ Ableton tracks play on the road (`angelic.wav`) and in every fight (`bday_projec
 have in-house stand-ins the team made in code until Ewan's own arrive ([D185](06-decisions.md),
 `tools/make_music.py`): the memory theme (row 1), Stormreach (4), the Tower floors (5), the crater (8)
 and the world ending (9); "Plays today" says which. The fan covers are out of every build
-([D100](06-decisions.md)).
+([D100](06-decisions.md)). Every itch build before `1daa322` (2026-10-17) was silent in the browser
+([D234](06-decisions.md)), so the stand-ins are first heard there: `dougie` keeps or drops each (#218), and
+`doug-md` gives a word on each in play-test 5 (#219).
 
 **How the order was set.** Ewan's word first: the memory theme leads ([30](30-questions-for-the-founders.md),
 question 13). After it, `dougie`'s rule ([D175](06-decisions.md)): the stretches a player runs through

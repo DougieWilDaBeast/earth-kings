@@ -46,7 +46,8 @@ touches, and the tier decides who must say yes.
 
 The opposite risk is changing too much because change is cheap (the intern's reflection: "the
 sixteenth thing built before the first one worked"). So the loop limits how much is started, not how
-fast it is built: one game pull request at a time ([D194](06-decisions.md)).
+fast it is built: one game pull request at a time ([D194](06-decisions.md)), loosened on 2026-10-17 to one big
+piece of Ewan's list always being built with the small ones alongside in other threads ([D226](06-decisions.md)).
 
 ## The loop
 
@@ -57,7 +58,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 | 1. Capture | Anything that might become work is written down in one line: what, who asked, where it came from (voice note, play-test, meeting, play log, CI, a founder's PR) | A GitHub issue ([the inbox](#the-inbox)) | Whoever finds it |
 | 2. Sort | Given a kind (bug, feature, content, art, music, words, business, question), a tier, a milestone, and for a bug a severity | The inbox; questions only a founder can answer go to [30](30-questions-for-the-founders.md) | Claude, at each meeting or batch |
 | 3. Shape | A short brief: what "done" looks like, how it is tested, what is **Inferred** | The PR description; a design meeting for anything with more than one honest answer | Claude, a meeting |
-| 4. Queue | Takes its place in the milestone's order; anything not on the current milestone waits | The roadmap's **Next steps** ([05](05-roadmap.md)) | The order set by the last meeting (today [D194](06-decisions.md)) |
+| 4. Queue | Takes its place in the milestone's order; anything not on the current milestone waits | The roadmap's **Next steps** ([05](05-roadmap.md)) | The order set by the last meeting (today [D194](06-decisions.md), loosened by [D226](06-decisions.md)) |
 | 5. Build | One game PR at a time; docs, decisions, agenda and the doc it touches in the same PR ([D139](06-decisions.md)) | The PR | Claude; Ewan in his own PRs |
 | 6. Prove | Suites, soak and ledger green in CI; then a person plays it: nothing is called reached on a bot's word alone | [28](28-the-first-hour.md#how-it-was-tested)'s play-test table | CI, then Ewan or a stranger |
 | 7. Ship | An itch push with a devlog in players' words ([D148](06-decisions.md)), on `dougie`'s word | [28](28-the-first-hour.md#builds-on-itchio)'s build table | `dougie` says; Claude pushes |
@@ -114,10 +115,10 @@ are **Planned**, proposed here so the stages the game has not reached have a pla
 | 8 | Demo-clean | Pre-launch | Half | Ewan's cues or the stand-ins kept by a founder who heard them; [22](22-asset-provenance.md) P3, P4, P6 cleared; every AI-made asset that ships listed for the store's disclosure (below) |
 | 9 | Steam page and demo | Pre-launch | Waits for 11 and A9 ([D208](06-decisions.md), call BI) | A page up, the First Hour as the free demo, a few months before a Steam Next Fest |
 | 10 | Native Android | Launch | Waits ([D169](06-decisions.md)) | |
-| 11 | The Second Hour | Production | **Building** ([D194](06-decisions.md), [D196](06-decisions.md)) | A person climbs to floor 10 and plays a chapter two; how long it took to build is written down, to size the hours after it |
+| 11 | The Second Hour | Production | **Next**, after Ewan's big pieces ([D196](06-decisions.md), [D226](06-decisions.md)); stories inside gates and ground that changes the fight (#288, #289) join it | A person climbs to floor 10 and plays a chapter two; how long it took to build is written down, to size the hours after it |
 | 12 | The game at release, on one page | Pre-production | **Planned**, drafted once 11 is timed ([D208](06-decisions.md), call BK) | Which chapters, how many memories a lead, which cut systems return, the art bible; agreed by both founders |
-| 13 | The business basics | Planning | **Planned**, answered by voice note before 9 ([D208](06-decisions.md), call BJ) | Five answers in [30](30-questions-for-the-founders.md), questions 28 to 32: who owns the game and how its money is split, the budget a month, the price model, a release window, Early Access or not |
-| 14 | Alpha of the first release | Production | **Planned** | Every system the first release needs is in and played |
+| 13 | The business basics | Planning | **Mostly answered**: 28, 29, 31 and 32 settled ([D212](06-decisions.md), [D213](06-decisions.md), [D217](06-decisions.md), [D228](06-decisions.md) to [D230](06-decisions.md)); 30's price and platforms (call BN, #212) and the rest of 33 (#276) open | Five answers in [30](30-questions-for-the-founders.md), questions 28 to 32: who owns the game and how its money is split, the budget a month, the price model, a release window, Early Access or not |
+| 14 | Alpha of the first release | Production | **Building** in part: Ewan's list, one big piece at a time ([D226](06-decisions.md), #283 to #287) | Every system the first release needs is in and played |
 | 15 | Beta of the first release | Production, testing | **Planned** | Every floor, memory and track the first release needs is in; only S3 and S4 bugs left |
 | 16 | Launch | Launch | **Planned** | Price, date, signed builds, age rating, the launch checklist |
 | 17 | After launch | Post-launch | **Planned** | Players can report a bug; a patch and its changelog within a week |
@@ -182,7 +183,7 @@ docs keep the record. One home each, so nothing is kept in two places:
 | Kind of thing | Lives in | Mirrored |
 | --- | --- | --- |
 | Work not built yet: a feature, a fix, a play-test ask, an art row, a meeting's order of work | An issue, with its kind, tier, milestone and severity | The roadmap's Next steps names the issues of the item being built |
-| A question only a founder can answer | [30](30-questions-for-the-founders.md), numbered | An issue labelled "waits on Will" or "waits on Ewan" (questions 25 to 33: #215 to #217, #210 to #214, #276) |
+| A question only a founder can answer | [30](30-questions-for-the-founders.md), numbered | An issue labelled "waits on Will" or "waits on Ewan" (questions 25 to 33: #215 to #217, #210 to #214, #276; 34 to 38: #270, #258, #287, #284) |
 | A guess the build made to keep going | The agenda, a row marked **Inferred** ([answers.md](worldbuilding/answers.md#what-is-still-to-decide)) | One standing issue points at it (#227); a row only becomes an issue when a founder asks for a change |
 | A settled decision | [06](06-decisions.md), a numbered D | Nothing; an issue it closes links to it |
 | What exists and how it works | The numbered doc it touches, changed in the PR that changes the game | Nothing |
