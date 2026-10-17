@@ -36,6 +36,7 @@ const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Company := preload("res://tests/company.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -68,6 +69,7 @@ func _ready() -> void:
 	await _check_play_test_three()
 	await _check_life_on_the_land()
 	await _check_play_test_four()
+	await _check_followers_face()
 
 	print("")
 	if _failures.is_empty():
@@ -1127,6 +1129,66 @@ func _check_play_test_four() -> void:
 	if Pace.SPEEDS != [1.0, 2.0, 3.0, 5.0]:
 		_fail("play-test 4: the speeds are %s, not 1x, 2x, 3x and 5x" % [Pace.SPEEDS])
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
+
+
+## Followers face the way they walk ([D204], play-test 4: walking down, "my characters that are
+## followed behind me are facing the wrong way"). A party of four walks up a clear stretch and then
+## back down it at walking pace, a frame at a time; once the turn is behind them (forty frames),
+## nobody following faces back the way the leader came. Before the fix a follower keeping pace was
+## never turned again, so the second leg was walked looking up.
+func _check_followers_face() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno", "cato", "vesta"])
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "city_streets", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var followers: Array = scene._followers
+	# A column of open ground fourteen cells long to walk up and down.
+	var top := Vector2i(-1, -1)
+	for y in range(1, map.height - 15):
+		for x in range(1, map.width - 1):
+			if top.x >= 0:
+				break
+			var clear := true
+			for dy in 15:
+				for dx in [-1, 0, 1]:
+					if not map.is_walkable(Vector2i(x + dx, y + dy)):
+						clear = false
+			if clear:
+				top = Vector2i(x, y)
+	if followers.size() != 3 or top.x < 0:
+		_fail("followers: %d followers, and open ground at %s" % [followers.size(), top])
+		scene.queue_free()
+		await get_tree().process_frame
+		return
+	var bottom := map.centre_of(top + Vector2i(0, 14))
+	scene._leader.position = bottom
+	for f: Node2D in followers:
+		f.position = bottom
+	scene._reseed_crumbs()
+	var wrong: Array[String] = []
+	var delta := 1.0 / 60.0
+	for leg: Vector2 in [Vector2.UP, Vector2.DOWN]:
+		for frame in 110:
+			scene._leader.position += leg * scene._walk_speed() * delta
+			scene._leader.face(leg)
+			scene._drop_crumbs()
+			scene._settle_followers(delta)
+			if frame < 40:
+				continue
+			for i in followers.size():
+				var facing: Vector2 = followers[i].get("_facing")
+				if facing.dot(leg) < -0.1:
+					wrong.append("walking %s, follower %d faces %s at frame %d" % [leg, i, facing, frame])
+	if not wrong.is_empty():
+		_fail("followers face the wrong way: %s (and %d more)" % [wrong[0], wrong.size() - 1])
+	else:
+		print("followers: walking up and then down, everyone following faces the way they walk")
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met
