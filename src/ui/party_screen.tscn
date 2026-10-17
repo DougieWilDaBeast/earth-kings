@@ -87,7 +87,7 @@ focus_mode = 0
 theme_override_font_sizes/font_size = 15
 text = "Close"
 
-[node name="Body" type="HBoxContainer" parent="Backdrop/Margin/Column"]
+[node name="Body" type="BoxContainer" parent="Backdrop/Margin/Column"]
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 

@@ -41,6 +41,11 @@ func _ready() -> void:
 		(screen[1] as Signal).emit()
 		await _frames(30)
 		await _look(screen[0])
+		if screen[0] == "party":
+			for tab: String in ["PowersTab", "PracticeTab"]:
+				(get_tree().root.find_child(tab, true, false) as Button).pressed.emit()
+				await _frames(10)
+				await _look("party_" + tab.trim_suffix("Tab").to_lower())
 		_close_overlays()
 		await _frames(10)
 

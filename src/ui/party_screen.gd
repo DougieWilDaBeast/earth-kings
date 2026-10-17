@@ -46,6 +46,9 @@ const RUNG_ROPE := Vector2(48, 6)
 ## The width a rung's name may wrap to under its stone.
 const RUNG_NAME_WIDTH := 150
 
+## How tall the roster stands over the open character on an upright phone: two cards, then it scrolls.
+const ROSTER_UPRIGHT_HEIGHT := 190.0
+
 const GOLD := Color(0.965, 0.827, 0.443)
 const QUIET := Color(0.62, 0.65, 0.72)
 const GAIN := Color(0.55, 0.86, 0.55)
@@ -66,6 +69,10 @@ enum Page { GEAR, POWERS, PRACTICE }
 @onready var _gear_tab: Button = %GearTab
 @onready var _powers_tab: Button = %PowersTab
 @onready var _practice_tab: Button = %PracticeTab
+@onready var _column: VBoxContainer = $Backdrop/Margin/Column
+@onready var _header: HBoxContainer = $Backdrop/Margin/Column/Header
+@onready var _body: BoxContainer = $Backdrop/Margin/Column/Body
+@onready var _roster_scroll: ScrollContainer = $Backdrop/Margin/Column/Body/RosterScroll
 
 var _notice: String = ""
 ## Whoever is opened out on the right. Held by id rather than by reference, so
@@ -92,6 +99,25 @@ func _ready() -> void:
 	_practice_tab.pressed.connect(func() -> void: _turn_to(Page.PRACTICE))
 	for button: Button in [_close_btn, _stash_btn, _gear_tab, _powers_tab, _practice_tab]:
 		Sfx.attend(button)
+	get_viewport().size_changed.connect(_fit_to_screen)
+	_fit_to_screen()
+
+
+## The roster beside the open character on a wide screen; above them on a phone held upright, which
+## is 540 of the game's pixels across, too narrow for both side by side (D241). The purse drops
+## under the title there too, so Strongbox and Close stay on the screen.
+func _fit_to_screen() -> void:
+	var view := get_viewport().get_visible_rect().size
+	var narrow := view.x < view.y
+	_body.vertical = narrow
+	($Backdrop/Margin/Column/Body/DetailPanel as Control).size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_roster_scroll.custom_minimum_size = Vector2(0, ROSTER_UPRIGHT_HEIGHT) if narrow else Vector2(330, 0)
+	var purse_home: Node = _column if narrow else _header
+	if _purse.get_parent() != purse_home:
+		_purse.get_parent().remove_child(_purse)
+		purse_home.add_child(_purse)
+		purse_home.move_child(_purse, 1)
+	_purse.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if narrow else TextServer.AUTOWRAP_OFF
 
 
 func is_open() -> bool:

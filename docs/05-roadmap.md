@@ -351,8 +351,9 @@ each, each ending playable:
 26. **Full screen on a phone** — built ([D240](06-decisions.md), #301, 2026-10-17, `dougie`'s report):
    itch's full-screen button turns a phone on its side, where the menu ran off both ends and a fight's
    buttons lay under the walking pad. The menu scrolls with Close always showing, and a fight's buttons
-   take as many columns as fit above the pad. Reaches the phone with the next itch push. Still to do: the
-   party screen and the journal held upright (#302).
+   take as many columns as fit above the pad. Reaches the phone with the next itch push. Held upright, the
+   party screen and the journal now fit too: roster and list above, ribbons wrapping
+   ([D241](06-decisions.md), #302).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
