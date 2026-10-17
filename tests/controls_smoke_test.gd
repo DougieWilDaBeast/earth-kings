@@ -571,6 +571,13 @@ func _check_the_music() -> void:
 			var path := str(track.get("path", ""))
 			_expect(ResourceLoader.exists(path), "the %s music's %s is not on disk" % [set_id, path])
 			_expect(not path.ends_with(".mp3"), "the %s music plays a fan cover: %s" % [set_id, path])
+	# A bus made at runtime is silent in the browser build (D234): both come from the layout.
+	var layout: AudioBusLayout = load("res://default_bus_layout.tres")
+	for bus: String in [Music.BUS, Sfx.BUS]:
+		var named_in_layout := false
+		for i in range(1, 8):
+			named_in_layout = named_in_layout or str(layout.get("bus/%d/name" % i)) == bus
+		_expect(named_in_layout, "the %s bus is not in default_bus_layout.tres" % bus)
 	Music.for_scene("area")
 	EventBus.place_entered.emit("tower_floor_3")
 	await _settle()

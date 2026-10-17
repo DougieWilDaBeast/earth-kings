@@ -270,7 +270,9 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
 Ableton tracks and, until his cues arrive, five stand-ins made in code by `tools/make_music.py`
 ([D185](06-decisions.md)), all in D minor and sharing the memory theme's first notes, A D C A. What
-plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both):
+plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both).
+Every itch build up to `3fe49a5` was silent in the browser, phone and desktop alike: the buses were made at
+runtime, which the browser build never sounds ([D234](06-decisions.md)). The next push carries the fix.
 
 | Where | Plays | Whose |
 | --- | --- | --- |
