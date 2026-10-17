@@ -48,9 +48,11 @@ first time. Windows builds are unsigned, so SmartScreen will ask once.
 ## Playing the vertical slice
 
 - **Title** — _Continue_ loads `user://earth-kings.save.json`, _New Game_ starts a fresh run on the one world, the same map every game ([docs/27](docs/27-the-world.md)).
-  The first time the game opens with no run to continue it offers a **tutorial** (afterwards the
-  title's _Tutorial_ button): a guided practice run in the training village of Hearthwick, with a
-  sparring fight met on the village ground, never saved ([D73](docs/06-decisions.md)–[D75](docs/06-decisions.md)).
+  A new player's first New Game is **Atlas's Last Stand** ([D191](docs/06-decisions.md)): the last day of
+  Atlas's world, in the training village of Hearthwick, where a card teaches walking, talking, trading
+  and fighting (a sparring fight met on the village ground, [D75](docs/06-decisions.md)), and then a band
+  out of a broken gate that he cannot beat. He falls for good, the quiz picks who comes next, and the
+  opening shows his world going dark. The title's _Atlas's Last Stand_ plays it again, writing nothing.
 - **Who you are** — one of **the sixteen**, Atlas to Liber, one per temper, each in their own body
   and their own class ([D78](docs/06-decisions.md)). The other fifteen come down too and can be met
   and recruited. The original twelve (Bram, Sera, Toln and the rest) are story people met in the

@@ -161,8 +161,9 @@ anybody else — the sixteen are sixteen mixes of one budget. Values live in `te
 
 ## The screen
 
-`New Game` starts as Atlas while no world has ended yet ([D106](06-decisions.md),
-`data/world_rules.json` → `first_hour.first_life`); after that it goes to `temper_quiz`, not to the picker. The quiz is four questions, one per pair, two answers each: sixteen ways
+`New Game` with nobody fallen is Atlas's last stand ([D191](06-decisions.md), replacing
+[D106](06-decisions.md)'s first life as Atlas): he falls in Hearthwick, and the way on from his fall,
+like every New Game after it, goes to `temper_quiz`, not to the picker. The quiz is four questions, one per pair, two answers each: sixteen ways
 through, each naming a different lead ([D110](06-decisions.md)). The quiz asks its questions over the falling sky
 of the start screen, four marks at the top lighting as each pair is settled, then reveals
 the character: portrait, name, title, temper and code, warband, whatever authored history has been

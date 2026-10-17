@@ -539,6 +539,10 @@ func _check_last_stand() -> void:
 		_fail("last stand: the quiz could still pick Atlas")
 	if FirstHour.first_life() != "":
 		_fail("last stand: after it, New Game would still be Atlas (%s)" % FirstHour.first_life())
+	if not Sixteen.first_life():
+		_fail("last stand: the run after it is not the player's first life (where they land, the first gate)")
+	if FirstHour.challenger("janus") != 1:
+		_fail("last stand: the floor 5 keeper would count the next lead as challenger %d, not the first" % FirstHour.challenger("janus"))
 	guide.queue_free()
 
 	# The next world is built from his, with his echo in it.

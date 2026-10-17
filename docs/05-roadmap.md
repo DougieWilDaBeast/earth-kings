@@ -256,6 +256,12 @@ each, each ending playable:
    `doug-md` answered his half on 2026-10-16 ([D186](06-decisions.md)): the music order is in
    [31](31-music.md) (**planned**). The hour is a little harder on Ewan's word, `dougie`'s call AZ
    ([D188](06-decisions.md)). Still open: the falling weapon (agenda 101) and which lead will not climb (agenda 75).
+15. **Atlas's last stand** — built ([D191](06-decisions.md), `doug-md`, 2026-10-17). A new player's
+   first New Game is the tutorial, as Atlas, on the last day of his world: Hearthwick's lessons, then
+   a band out of a broken gate he cannot beat. He falls for good, the quiz picks the first life of
+   the player's own, and the opening plays whole with his world going dark. The first life is no
+   longer Atlas ([D106](06-decisions.md) changed); the words, the band and the skip for someone who
+   has played it before are **Inferred** (agenda 122), back to both founders.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -664,7 +670,9 @@ Work that gets the build into players' hands. Almost none of it waits on a found
   chest, doors, the party screen, the journal and a sparring pair met on the village ground and
   fought there ([D75](06-decisions.md)) — then what a run holds
   and **Start a new run**. Nothing in it is ever saved (`GameState.rehearsing`). Offered once, as
-  `doug-md` chose ([D74](06-decisions.md)); its words and order are **Inferred**
+  `doug-md` chose ([D74](06-decisions.md)); its words and order are **Inferred**. Since 2026-10-17 it
+  is **Atlas's last stand** ([D191](06-decisions.md)): a new player's first New Game, ending in a
+  fight Atlas cannot win and his fall, then the quiz and the opening
 - Gamepad support ✅ (2026-10-12): Xbox and PlayStation pads play the whole game — menus by focus,
   a cursor for the fights, hint lines that name the pad's buttons, and pad rebinding in the
   system menu. The layout is in the README

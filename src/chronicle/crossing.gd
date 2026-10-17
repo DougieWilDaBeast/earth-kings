@@ -99,7 +99,7 @@ static func on_gate_shut(world: World, site: Site) -> String:
 	for character: Character in GameState.party_characters():
 		company.append(character.template_id)
 	var fallen := Sixteen.fallen_heroes()
-	var first := Sixteen.worlds().is_empty() and not GameState.has_flag(ANY)
+	var first := Sixteen.first_life() and not GameState.has_flag(ANY)
 	var meeting := roll(world, site, lead.template_id, company, fallen, first)
 	# A word carries (D183): what comes through is heard before this lead's own is left.
 	var heard := carried(world, site, lead.template_id, Sixteen.words(), fallen, not GameState.has_flag(SHUT))

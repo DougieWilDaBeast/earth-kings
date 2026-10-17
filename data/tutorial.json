@@ -73,7 +73,7 @@
     {
       "id": "fight",
       "title": "A sparring fight",
-      "text": "Captain Harrow's sparring pair are out in the field south of the square now. The red cells are what they can see, and they move as the pair patrols. Step into the red and the fight starts right there, on this ground. Long grass hides you, and bursting out of it at them is an ambush.\n\nThe fight starts paused: Space pauses and unpauses. Left-click or drag a box to pick fighters; right-click to move or attack. Q W E R use skills. Nobody can die in practice.",
+      "text": "Captain Harrow's sparring pair are out in the field south of the square now. The red cells are what they can see, and they move as the pair patrols. Step into the red and the fight starts right there, on this ground. Long grass hides you, and bursting out of it at them is an ambush.\n\nSpace pauses and unpauses it. Left-click or drag a box to pick fighters; right-click to move or attack. Q W E R use skills. Nobody can die in practice.",
       "done": { "did": "fight_" },
       "on_start": { "set_flag": ["tut:spar_ready"] }
     },

@@ -8,11 +8,15 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 
 ## The route
 
-1. **New Game.** No quiz on the first life: the lead is Atlas (`first_hour.first_life`), on the
-   **First Hour** setting, where a fall is for good ([D104](06-decisions.md), [D106](06-decisions.md)).
-   The opening plays ([25](25-the-opening.md)).
-2. **The crater.** Atlas comes down with Sky in a scorched crater ([D134](06-decisions.md)) 12 to 16
-   tiles from Stormreach ([D101](06-decisions.md)). Bram pulls him out. Five boxes, then he walks
+1. **New Game.** A new player plays **Atlas's last stand** ([D191](06-decisions.md)): the last day of
+   Atlas's world in Hearthwick, the game's ways taught on a card, then a band out of a broken gate he
+   cannot beat. He falls for good, and the quiz picks the first life of the player's own, on the
+   **First Hour** setting, where a fall is for good ([D104](06-decisions.md)). The opening plays whole,
+   with Atlas's world the one seen ending ([25](25-the-opening.md)). (Until D191 the first life was
+   Atlas himself, with no quiz, [D106](06-decisions.md); `first_hour.first_life` still names him.)
+   The last stand is not a life of the player's own: the lead after it lands as a first life, below.
+2. **The crater.** The lead comes down with their companions (Atlas with Sky, before D191) in a scorched crater ([D134](06-decisions.md)) 12 to 16
+   tiles from Stormreach ([D101](06-decisions.md)). Bram pulls them out. Five boxes, then they walk
    ([D122](06-decisions.md)).
 3. **The road.** A cobble road runs from the crater to the great city, on to the first gate and back
    to the Tower ([D126](06-decisions.md)). The compass and Auto point the way: town, then the first gate,

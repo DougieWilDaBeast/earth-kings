@@ -205,7 +205,8 @@ func new_game(world_seed: int = 0, lead_id: String = "", rehearsal: bool = false
 	# The fall (M13): the lead comes down somewhere of the seed's choosing, and
 	# that crater is home. The others come down too, and set off on their own.
 	var reach := Fall.reachable(world)
-	Fall.land(world, lead_id, reach, past.is_empty())
+	# Atlas's last stand (D191) is not a life of the player's own: the first after it lands as a first.
+	Fall.land(world, lead_id, reach, Sixteen.lives_in(past).is_empty())
 	# Nobody climbs without the Guild's mark (D101): the stair starts sealed,
 	# and the first gate shut opens it.
 	if FirstHour.wants_guild_mark():
