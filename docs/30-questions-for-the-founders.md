@@ -21,6 +21,9 @@ raises it.
 do with. Where they differed, **how hard the hour is** (question 2), Will took Ewan's way on 2026-10-17: a
 little harder ([D188](06-decisions.md)). Still open: **the falling weapon** (agenda 101, Ewan's to answer).
 
+**Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
+for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
+
 Twenty-four questions: nine for Will, six for Ewan, nine for both.
 
 **Will answered on 2026-10-16** in two voice notes ([part 1](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-1.md), [part 2](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-2.md)), recorded as [D168](06-decisions.md) to [D175](06-decisions.md). **Ewan answered on 2026-10-16** in the chat ([transcript](worldbuilding/voice-notes/2026-10-16-doug-md-founders-questions.md)), recorded as [D186](06-decisions.md). Will's GitHub to-dos, which are not
@@ -260,9 +263,36 @@ _Default:_ they stay **Inferred** as working drafts.
 
 _Answered 2026-10-16:_ **Will's half:** keep them and keep going unless told otherwise ([D168](06-decisions.md)); Ewan has his own ideas to add. **Ewan's half:** the default, they stay working drafts ([D186](06-decisions.md)).
 
+## 7. Asked by meeting five
+
+**25. Which lead will not climb the Tower?** (Ewan; Will's half given)
+Ewan said one of the sixteen might not want to climb (agenda 75). Will said that is fine, that such a
+lead lies open to invaders once another world falls ([D172](06-decisions.md)), and named Liber as his
+example; Ewan left it open ([D186](06-decisions.md)). Liber's chapter two already asks it.
+_Why:_ a lead who will not climb needs another way for their run to go, and that is a lot of building.
+_Default:_ **Liber** (the room's recommendation); nothing is built until Ewan agrees.
+
+**26. The falling weapon.** (Ewan)
+Will (question 12, 2026-10-16): when a new lead reaches the floor a fallen lead reached, that lead's
+weapon is shot down from heaven where it fits them; picking it up gives part of their power for this
+run, and it stacks, one per fallen lead (agenda 101). What is built is [D33](06-decisions.md) (never
+power) and your [D60](06-decisions.md) (a random landing and a rumour). The quest list already follows
+"word of a weapon" ([D190](06-decisions.md)).
+_Why:_ the two versions cannot both be built.
+_Default:_ **Will's version** (the room's recommendation), with your rumour as how word of it reaches the lead.
+
+**27. Atlas's memories, now that he only plays the last stand.** (Ewan)
+Since [D191](06-decisions.md) Atlas falls in the tutorial and is never dealt again until the sixteen
+begin again, so his chapter one (the buckle, "The Weight") and his chapter two ("The Last Page") can
+no longer be reached in a first playthrough.
+_Why:_ the buckle was the hour's first memory; every other chapter one was written after it.
+_Default:_ **the last stand ends on his chapter one** (the room's recommendation): the buckle lies in
+Hearthwick, and the memory plays as he falls, so a new player's first memory is his. His chapter two
+waits for the sixteen begun again.
+
 ## Will's to-dos (not questions)
 
-These need Will's own GitHub account; nothing waits on them except tidiness.
+These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).
 - Delete the old branches (the list is in the project's `notes/branches-to-delete.md`).
 - In the repository's settings: turn on auto-merge, auto-delete of head branches, and branch
   protection on `main`.

@@ -267,6 +267,20 @@ each, each ending playable:
    feet, burns and bleeds tick numbers, a knockdown lays the body flat, Sunder cracks the guard;
    a move shrugged off says so in silver (Pinned, Unmoved, Fireproof…), and a wind-up stepped out
    of says Dodged!. Which move carries what and every size are **Inferred** (agenda 123).
+17. **Design meeting 5's order of work** ([D193](06-decisions.md) to [D200](06-decisions.md), 2026-10-17,
+   chaired by the intern): the milestone picture redrawn (3 and 6 reached, 11 next); one game pull request
+   at a time, in this order, all **planned**: (1) Auto walks on from the first gate to the Tower's yard
+   door, one save per arrival at the city, a fall names its killer, and the soak plays a lead the quiz
+   deals ([D197](06-decisions.md)); (2) stances on the fighter cards, Own way, Close in, Keep away, Guard,
+   Hold ([D195](06-decisions.md), call BC); (3) coins in four metals, `doug-md`'s next; (4) **the Second
+   Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
+   chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md)), then sixteen
+   self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
+   5 comes after (1) and (2), with a word on each in-house theme ([D198](06-decisions.md)); art on the
+   credits' return in [D199](06-decisions.md)'s order; three new founders' questions in
+   [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)). `dougie` took all four of the
+   meeting's calls as recommended ([D201](06-decisions.md)): the itch push after (1) and (2), his
+   play-tests standing in for the five players until the Second Hour, and he listens to the themes himself.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
