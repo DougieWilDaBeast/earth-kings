@@ -1,4 +1,11 @@
 {
+	"tracks": {
+		"_comment": "D233: dirt tracks between the places people live (src/area/tracks.gd). Each place is joined to its nearest `links` others no further than `reach` tiles; a signpost stands where `signpost_ways` or more ways leave open ground.",
+		"kinds": ["village", "keep", "hut", "library"],
+		"links": 2,
+		"reach": 22,
+		"signpost_ways": 3
+	},
 	"first_hour": {
 		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
 		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "beds"],
@@ -55,6 +62,80 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). Inferred: every number, name and line.",
+		"climbers": {
+			"road_chance": 0.3,
+			"size": [
+				2,
+				3
+			],
+			"stay": [
+				3.0,
+				6.0
+			],
+			"units": [
+				"fox_knight",
+				"bird_archer",
+				"caterpillar_warrior"
+			],
+			"companies": [
+				"the Copper Hands",
+				"the Lantern Company",
+				"the Ninth Stair",
+				"Hob's Lot",
+				"the Grey Oath",
+				"the Saltmen",
+				"the Late Risers"
+			],
+			"lines": [
+				"Tower by nightfall, if your legs hold.",
+				"Don't stop. Stop and you think about it.",
+				"Floor three's where the last lot turned back.",
+				"Keep up. The Guild doesn't wait for anyone."
+			],
+			"talk": {
+				"hello": [
+					"Another one for the Tower? Good. The more of us go up, the fewer of them come down.",
+					"Walking the same way, are you? Everyone is, on this road."
+				],
+				"ask": [
+					{
+						"q": "Who are you?",
+						"a": "A company. Nobody you've heard of. Yet. We've the Guild's mark and the better part of a map."
+					},
+					{
+						"q": "Have you been up the Tower?",
+						"a": "Twice to floor two. Once to three. We came down quicker than we went up, but we came down."
+					},
+					{
+						"q": "Any advice?",
+						"a": "Take the stair slow, eat when you can, and when something on a floor is bigger than the doorway it came through, leave it be."
+					}
+				],
+				"bye": "See you on the stair."
+			},
+			"on_the_floors": {
+				"from": 2,
+				"chance": 0.4,
+				"talk": {
+					"hello": [
+						"Easy. We're not what lives up here. Just resting our feet before the stair.",
+						"You made it this far, then. So did we, just."
+					],
+					"ask": [
+						{
+							"q": "What's on the floor above?",
+							"a": "Couldn't tell you. Nobody who's been comes back down to say."
+						},
+						{
+							"q": "Going on?",
+							"a": "When the shaking stops. Go first if you're in a hurry. We won't mind the company on the way down."
+						}
+					],
+					"bye": "Mind the stair. It's steeper than it looks."
+				}
+			}
+		},
 		"road_watch": {
 			"chance": 0.5,
 			"units": ["legion_copper", "legion_silver"],
@@ -70,6 +151,15 @@
 				"news": true,
 				"bye": "On you go."
 			}
+		}
+	},
+	"auto_styles": {
+		"_comment": "D216 (doug-md, 2026-10-17: \"three differnt auto runs, 1st one is aggressive, two is passive (avoids combat), 3 is mixed (will fight if provoked)\"): how a party walking itself meets bands, picked in the menu and kept in settings.cfg (Pace.auto_style). Aggressive turns aside for any band in sight and walks into its red, and steps into a roadside scene; mixed keeps to its way and fights only what sees it; passive walks round red ground where it can. Inferred: the names and blurbs.",
+		"names": {"aggressive": "Aggressive", "mixed": "Mixed", "passive": "Passive"},
+		"blurbs": {
+			"aggressive": "Walking itself, the company goes looking for a fight: any band in sight, and any trouble on the road.",
+			"mixed": "Walking itself, the company keeps to its way and fights only what comes for it.",
+			"passive": "Walking itself, the company goes round whatever is watching the ground, and leaves trouble on the road to others."
 		}
 	},
 	"ground_watch": {
@@ -229,6 +319,8 @@
 		"foes_min": 2,
 		"foes_max": 6,
 		"chapters_per_extra_foe": 4,
+		"_comment_upper_bite": "D222 (doug-md's play log, 2026-10-17: floors 6 to 20 won with nobody below a quarter of their health): from `from_floor` up, every foe's attack is multiplied by `base`, climbing `per_floor` a floor, to `most` at most. Read by Encounter.upper_bite; the fight applies it as `bite` on the foe.",
+		"upper_bite": { "from_floor": 6, "base": 1.2, "per_floor": 0.025, "most": 2.0 },
 		"cohorts": [
 			{ "to": 15, "factions": ["the_ooze", "the_wild"] },
 			{ "to": 40, "factions": ["the_dusk", "broken_oath", "ember_wilds"] },

@@ -83,6 +83,8 @@ src/
                                of sight beside the land on each step (D84); the map from the journal (D61)
     route.gd                   The way across the country on foot, for a party walking itself
     auto_road.gd               Where a party walking itself steps next, asked by the map and the land (D94)
+    quests.gd · markers.gd     The quest list the compass follows (D190); the player's markers and
+                               the place picked on the map to go to (D232)
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
@@ -97,7 +99,8 @@ src/
                                First Hour's road from the crater through the city and the first
                                gate to the Tower (D126); where two lands meet, ground_gen.gd runs the next land's
                                floor a few cells in (D128), and places its scenery by rule (D130).
-                               area_critter.gd: the birds and bugs about every tile (D179)
+                               area_critter.gd: the birds and bugs about every tile (D179); tracks.gd
+                               the dirt tracks between villages and the signposts where ways meet (D233)
   dialogue/                    Conversation overlay, branching script, skill checks, news;
                                talk.gd builds a person's conversation from their `talk` block
   coliseum/                    Gladiator arena, wave survival, stakes/wagers, free-for-all
@@ -106,7 +109,9 @@ src/
                                quests), museum (hero dossiers), the level-up line at the top right,
                                credits (credits_roll.gd lays out data/credits.json for both places);
                                sheet_parts.gd draws class colours and growth wherever they show;
-                               the tutorial's guide card (tutorial_guide.gd, under the game root)
+                               the tutorial's guide card (tutorial_guide.gd, under the game root);
+                               the map over the ground, in the corner and large (land_map.gd,
+                               land_map_screen.gd, D232)
 ```
 
 ## Character vs Unit
@@ -225,5 +230,7 @@ fight it walks into. `Pad` remembers whether a game pad or a keyboard was touche
 right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
 whatever modal screen or menu scene is up while a pad is in use; the walk and the fights steer
 themselves (a cursor in the fights). `PlayLog` only listens: it writes a timed line for each place
-walked into, fight and result, level, save, fall and engine error to `user://earth-kings.playlog.txt`
+walked into, fight (where, the game speed, and the foes with their levels: `FIGHT TOWER FLOOR 7 at 5x vs
+Goblin L9 x2`) and result (`WON in 5s (5x, fight clock 24s)`: the fight's own clock is its length at
+1x), each change of speed, level, save, fall and engine error to `user://earth-kings.playlog.txt`
 (the last 400 lines), and the system menu's **Copy play log** / **Save play log** hand it over (D125).

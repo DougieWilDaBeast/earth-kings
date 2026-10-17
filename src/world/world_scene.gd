@@ -35,6 +35,7 @@ const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Markers := preload("res://src/world/markers.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -353,6 +354,8 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	for notice: String in Siblings.on_arrive(world, target):
 		_note(notice)
+	# A place picked on the map to go to is let go of once it is stood on ([D232]).
+	Markers.on_arrive(target)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)
@@ -405,10 +408,13 @@ func _look_down_the_road(cell: Vector2i) -> void:
 	if found == "":
 		return
 	_roadside_here = found
-	# A party walking itself would pace straight past somebody dying.
-	Pace.auto = false
+	# Seen from down the road, not put in front of the party with a box ([D216], `doug-md`: "I also
+	# dont want the random broken down carrigae and toll to stop the auto walk"): the ground stands
+	# it further on and says what it is as the party comes near. A party walking itself walks on,
+	# or, walking aggressively, goes to it and steps in.
 	_note(Roadside.title(found))
-	EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
+	if _view != View.GROUND:
+		EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
 
 
 ## Step in. The purse and everything after it waits on winning.

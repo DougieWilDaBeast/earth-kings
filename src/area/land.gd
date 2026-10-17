@@ -268,7 +268,9 @@ func patches_of(tile: Vector2i) -> Array:
 
 ## A way from [param from_cell] to [param to_cell] over the held land, worked out over the ground
 ## between them rather than all of it (the land is far too big for one grid).
-func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
+## With [param avoid] (cells as keys), a way that keeps off them, or none ([D216]: a party walking
+## itself passively goes round a band's red).
+func find_cell_path(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
 	if not in_bounds(from_cell) or not in_bounds(to_cell):
 		return []
 	if not is_walkable(to_cell):
@@ -285,13 +287,13 @@ func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
 			return []
 		to_cell = best
 	for margin: int in [PATH_MARGIN, PATH_MARGIN_WIDE]:
-		var path := _path_within(from_cell, to_cell, margin)
+		var path := _path_within(from_cell, to_cell, margin, avoid)
 		if not path.is_empty():
 			return path
 	return []
 
 
-func _path_within(from_cell: Vector2i, to_cell: Vector2i, margin: int) -> Array[Vector2]:
+func _path_within(from_cell: Vector2i, to_cell: Vector2i, margin: int, avoid: Dictionary = {}) -> Array[Vector2]:
 	var lo := Vector2i(mini(from_cell.x, to_cell.x), mini(from_cell.y, to_cell.y)) - Vector2i.ONE * margin
 	var hi := Vector2i(maxi(from_cell.x, to_cell.x), maxi(from_cell.y, to_cell.y)) + Vector2i.ONE * margin
 	var region := Rect2i(lo, hi - lo + Vector2i.ONE).intersection(bounds())
@@ -304,7 +306,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, margin: int) -> Array[
 	for y in range(region.position.y, region.end.y):
 		for x in range(region.position.x, region.end.x):
 			var cell := Vector2i(x, y)
-			if not is_walkable(cell):
+			if not is_walkable(cell) or avoid.has(cell):
 				grid.set_point_solid(cell, true)
 	if grid.is_point_solid(from_cell):
 		grid.set_point_solid(from_cell, false)

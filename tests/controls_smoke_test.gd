@@ -18,6 +18,7 @@ const SEED := 20260827
 const WINDOW := Vector2i(1280, 720)
 ## Frames to let a deferred layout or a scene swap land.
 const SETTLE := 6
+const AutoRoad := preload("res://src/world/auto_road.gd")
 
 var _failures: Array[String] = []
 var _game: Node
@@ -802,20 +803,45 @@ func _check_the_ground_is_the_game() -> void:
 	ground._point_the_compass()
 	_expect(ground._compass != null and ground._compass.has_meta("aimed"), "the ground has no compass pointing anywhere")
 
-	# The map is the journal's, opened with M straight from the ground (D95), and
-	# puts the party back where it stood.
+	# The map is the journal's, opened with M straight from the ground (D95). On the land it opens
+	# over the ground, which goes on under it (D232): the same ground, the keys looking about the
+	# map rather than walking, and M or Esc putting it away.
 	var m := InputEventKey.new()
 	m.keycode = KEY_M
 	m.pressed = true
+	var was_ground := ground
 	ground._unhandled_input(m)
 	await _settle()
-	var shown := _current_scene()
-	_expect(shown != null and shown.get("_view") == shown.View.MAP, "the journal's map did not open the continent as a map")
-	if shown != null and shown.get("_view") == shown.View.MAP:
-		var stood := world.player_cell
-		shown._process(0.1)
-		_expect(world.player_cell == stood, "the map can be walked")
-		shown._unhandled_input(_action("ui_cancel"))
+	var screen: CanvasLayer = ground.get("_map_screen")
+	_expect(_current_scene() == was_ground, "M on the land left the ground for a map screen")
+	_expect(screen != null and screen.is_open(), "M on the land did not open the map over the ground")
+	_expect(ground.get("_corner_map") != null, "the land has no map in its corner")
+	if screen != null and screen.is_open():
+		_expect(not (ground.get("_corner_map") as Control).visible, "the corner map stays up under the large one")
+		var stood: Vector2 = ground._leader.position
+		Input.action_press("move_right")
+		for i in 10:
+			ground._physics_process(1.0 / 60.0)
+		Input.action_release("move_right")
+		_expect(ground._leader.position == stood, "with the map open the keys walked the party instead of moving the map")
+		screen._input(_action("ui_cancel"))
+		await _settle()
+		_expect(not screen.is_open(), "Esc did not put the map away")
+		# A click on the corner map opens the large one; a right-click on a place offers Go here
+		# and Place a marker, and a marker placed can be taken off again (D232).
+		var corner: Control = ground.get("_corner_map")
+		corner._click(Vector2(4.0, 4.0))
+		_expect(screen.is_open(), "a click on the corner map did not open the large map")
+		var big: Control = screen.get("map")
+		var spot := world.player_cell + Vector2i(2, 0)
+		var offered: Array[int] = big.menu_for(spot)
+		_expect(offered == [big.MENU_GO, big.MENU_MARK], "a right-click on the map offers %s, not Go here and Place a marker" % [offered])
+		big.choose(spot, big.MENU_MARK)
+		_expect(not preload("res://src/world/markers.gd").at(spot).is_empty(), "Place a marker put no marker down")
+		_expect(big.menu_for(spot).has(big.MENU_UNMARK), "a marker on the map cannot be taken off")
+		big.choose(spot, big.MENU_UNMARK)
+		_expect(preload("res://src/world/markers.gd").all().is_empty(), "Take the marker off left it")
+		screen.close()
 		await _settle()
 	ground = _current_scene()
 	_expect(ground != null and ground.get("map") is AreaMap and ground.map.id == area_id, "putting the map away did not come back to the same ground")
@@ -910,6 +936,29 @@ func _check_a_band_on_the_ground() -> void:
 		patrolled += 0.1
 	_expect((on_ground.figures[0] as Node2D).position != post, "the band stood still instead of patrolling")
 	_expect(not ground._spotted, "the band's patrol walked it into sight of where the party came in")
+	# The three ways of walking itself (D216): only an aggressive party turns aside for the band; a
+	# passive one works its way round the band's red.
+	var kept_style := Pace.auto_style
+	Pace.auto_style = "aggressive"
+	var aggressive_goes := AutoRoad.errand(world)
+	Pace.auto_style = "mixed"
+	var mixed_goes := AutoRoad.errand(world)
+	_expect(Pace.AUTO_STYLES.size() == 3 and mixed_goes != band.cell, "walking itself mixed, the party still turned aside for a band")
+	_expect(aggressive_goes == band.cell or Pathfinder.distance(band.cell, world.player_cell) == 0 or Pathfinder.distance(band.cell, world.player_cell) > AutoRoad.DETOUR,
+			"walking itself aggressively, the party did not turn aside for the band (went for %s, band at %s)" % [aggressive_goes, band.cell])
+	var red_cells: Array = (on_ground.watched as Dictionary).keys()
+	var beyond: Vector2i = red_cells[0]
+	for cell: Vector2i in red_cells:
+		if (cell - arrived).length_squared() > (beyond - arrived).length_squared():
+			beyond = cell
+	beyond += Vector2i(signi(beyond.x - arrived.x), signi(beyond.y - arrived.y)) * 2
+	Pace.auto_style = "passive"
+	var round: Array = ground.call("_auto_way", ground.map, arrived, beyond)
+	var through_red := round.any(func(p: Vector2) -> bool: return on_ground.watched.has(ground.map.cell_at(p)) and ground.map.cell_at(p) != beyond)
+	var straight: Array = ground.map.find_cell_path(arrived, beyond)
+	if not straight.is_empty() and not round.is_empty() and round != straight:
+		_expect(not through_red, "walking itself passively, the party's way still crosses the band's red")
+	Pace.auto_style = kept_style
 	# A step into the red.
 	var into: Vector2i = (on_ground.watched as Dictionary).keys()[0]
 	var asked := _requests.size()
@@ -986,6 +1035,9 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	ground.call("_stage_roadside", event)
 	var staged: Array = ground.get("_roadside_foes")
 	_expect(not staged.is_empty(), "the roadside scene stood nobody on the ground to fight")
+	# Seen coming (D216): stood well down the road, not in front of the party.
+	var apart: Vector2i = (ground.get("_roadside_middle") as Vector2i) - (ground.map as AreaMap).cell_at(ground._leader.position)
+	_expect(apart.length() >= 5.0, "the roadside scene was stood %.1f cells off, right in front of the party" % apart.length())
 	# Counted now: the fight clears the scene away, and with it this list.
 	var staged_count := staged.size()
 	var asked := _requests.size()

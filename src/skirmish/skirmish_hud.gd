@@ -100,6 +100,7 @@ func setup(skirmish: Node2D) -> void:
 	_log.offset_right = 760
 	_log.offset_top = -262 if not compact else -160
 	_log.offset_bottom = -138
+	_log.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_log.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_log.add_theme_color_override("font_color", Color(0.86, 0.88, 0.92))
@@ -112,10 +113,19 @@ func setup(skirmish: Node2D) -> void:
 	row.anchor_right = 1.0
 	row.offset_left = 16
 	row.offset_right = -16
-	row.offset_top = -130
+	# Sized by the cards and grown up from the bottom edge, so a card taller than it was
+	# planned for (a pouch, a second line of passives) pushes the row up instead of running
+	# off the bottom of the screen ([D231], play-test 4: "not fitting in screen").
+	row.offset_top = -8
 	row.offset_bottom = -8
+	row.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
+	# The log keeps its place just above the cards, however tall they come out.
+	var log_height := _log.offset_bottom - _log.offset_top
+	row.resized.connect(func() -> void:
+		_log.offset_bottom = -(row.size.y + 16.0)
+		_log.offset_top = _log.offset_bottom - log_height)
 	var party: Array[Fighter] = skirmish.party_fighters()
 	# Four cards sit at full width; five or six share the row rather than run
 	# off the right edge of a 1280 screen. Kept small, so the fight is the field and not the
@@ -184,6 +194,21 @@ func setup(skirmish: Node2D) -> void:
 			button.focus_mode = Control.FOCUS_NONE
 			button.add_theme_font_size_override("font_size", 11)
 			button.custom_minimum_size = Vector2(0, 24 if not skirmish.touch else 34)
+			# Shares the card's width with the others rather than holding it wider than the
+			# card: the game's frame is forty pixels either side of the word.
+			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			button.clip_text = true
+			button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
+				var frame := button.get_theme_stylebox(state)
+				if frame == null:
+					continue
+				frame = frame.duplicate()
+				frame.content_margin_left = 4
+				frame.content_margin_right = 4
+				frame.content_margin_top = 2
+				frame.content_margin_bottom = 2
+				button.add_theme_stylebox_override(state, frame)
 			button.tooltip_text = "%s — mends %d. Takes %.1fs; they can be hit but not stunned." % [
 				Gear.display_name(item_id),
 				roundi(float(Gear.mends(item_id)) * SkirmishRules.HEALTH_SCALE),

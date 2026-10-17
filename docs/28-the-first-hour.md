@@ -171,6 +171,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
 | 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D178](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
 | 2026-10-17 00:48 | Ewan's (`doug-md`) play-test 4, about 35 minutes, a new game as Janus, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-play-test-4.md)), with the play log on | main of 2026-10-16 night (after #177), not all of it picked up by his Godot (his word, 2026-10-17: the Warden's pictures and the memory theme failed to load) | Saw the land's birds and bugs; liked click-to-walk, the Watch's different lines, the open plains, Muck Muck and Sinner. His log: the Tower from floor 3 to 20 with Janus, Atlas and Kandro, then five with Luc and Caesar, every fight above floor 5 won in 2 to 18 seconds, no deaths. Floors 6 up easier than 1 to 5, still no person met on the land to fight. First fixes [D189](06-decisions.md); his bigger asks [below](#play-test-4s-asks) |
+| 2026-10-17 14:43 | Ewan's (`doug-md`) play log, about 45 minutes, no transcript: Iris leading Atlas, Saturn and Ocka, then Demetrios | his Godot, about the main of 2026-10-17 afternoon | The Tower from floor 1 to 20 in half an hour, chapters 1 to 4 closed, three gates shut and a B-rank gate; 68 fights, none lost, nobody below a quarter of their health. Most fights played at 5x (his word): on the log's clock floors 1 to 5 took a median of 3 seconds a fight (the keeper 24), floors 6 to 20 a median of 5 (longest 25), the land and gates a median of 1, 18 of 31 a second or less, so at 1x about 15 s, 25 s (the longest two minutes) and 5 s; the party went from about level 5 to 13. The fights on the Tower's upper floors are long enough; those on the land are over at once, and none of them hurt. One engine error ten times (a list scrolled to a button already gone), fixed; the log now names each fight's place and foes, since every fight read `verdant_pass`; floors 6 up hit harder since ([D222](06-decisions.md)) |
 | 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
 | 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
@@ -193,7 +194,7 @@ tip now says so).
    lead to a hut near the crater, they wake there, and he hands over the journal ("you came down with
    this too"). The crater is no safe place.
 2. **A small square map** in the corner with north, east, south and west on its sides, instead of the
-   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it.
+   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it. Built ([D232](06-decisions.md)).
 3. **The far Tower** at the screen's edge is too big and distracting: a better way to show where it
    is; and the Tower should rise, not look flat.
 4. **Life on the land**: animals, birds that move and fly off as you come near, bees and butterflies;
@@ -235,13 +236,18 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    of their own.
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
-   waypoints, clicked to go (play-test 3, item 2).
+   waypoints, clicked to go (play-test 3, item 2). Built ([D232](06-decisions.md)), his first pick.
 3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
    there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
-   and build them.
+   and build them. He picked **footpaths and dirt tracks** (2026-10-17): built, with signposts
+   where three ways meet ([D233](06-decisions.md)), the art asked for (A32).
 4. **People on the land** (next after item 1, all three parts together): more encounters, people to fight ("I still haven't encountered a single
    person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
-   near them, a fight you can join and be thanked for (play-test 3, item 4).
+   near them, a fight you can join and be thanked for (play-test 3, item 4). Built
+   ([D215](06-decisions.md), issue #206): six bands always camp near the road, 2 to 4 tiles off it
+   and clear of places, half of them brigands (there were none or one within 4 tiles of it); on the
+   roads round a town, the Watch beset by brigands or wolves, joined or walked past; companies of
+   climbers walking the road, and resting by the stair on Tower floors 2 up, who talk.
 5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for
    a bed and a marker shows which room is yours.
 6. **Help on the paths**: a question mark at the right of a choice's banner that says what each
@@ -250,7 +256,9 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    somewhere else and put back.
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
 9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
-   the screen and wants resizing and moving. **To ask him which.**
+   the screen and wants resizing and moving. **He said which** (2026-10-17, [his answers](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md)): the fight's party
+   cards, with each one's name, skills and the draughts and food to drink or eat. Only one to three
+   of a party of five or six showed, so the rest could not use a skill or a draught (#257). Fixed ([D231](06-decisions.md)).
 10. **Followers facing the way they walk** when walking down, out on the open land (his answer,
     2026-10-17): once in step they never turned, so after walking up they walked down looking up.
     Fixed ([D214](06-decisions.md)).
