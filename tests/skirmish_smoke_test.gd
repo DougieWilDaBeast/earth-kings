@@ -178,6 +178,7 @@ func _run() -> void:
 	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
+	await _check_cards_fit()
 	await _check_lineup()
 	await _check_upper_bite()
 	await _check_fight_rules()
@@ -331,6 +332,31 @@ func _check_box_select() -> void:
 	fight.queue_free()
 
 
+## Six on the field with a pouch of draughts: every party card sits inside the screen, and the
+## fight's log above them, not under them ([D231], play-test 4: the cards ran off the bottom).
+func _check_cards_fit() -> void:
+	var before := GameState.roster
+	GameState.roster = Company.found("atlas", ["vesta", "iris", "juno", "cato", "ares"])
+	for touch: bool in [false, true]:
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": _proving_ground()}, "touch": touch, "sandbox": true}
+		add_child(fight)
+		for i in 3:
+			await get_tree().process_frame
+		var view := get_viewport().get_visible_rect()
+		var cards: Array = fight.hud.get("_cards")
+		_expect(cards.size() == 6, "six in the party but %d cards" % cards.size())
+		var top := view.end.y
+		for card: Control in cards:
+			_expect(view.encloses(card.get_global_rect()),
+				"a party card runs off the screen (touch %s): %s in %s" % [touch, card.get_global_rect(), view])
+			top = minf(top, card.get_global_rect().position.y)
+		var log_label: Control = fight.hud.get("_log")
+		_expect(log_label.get_global_rect().end.y <= top + 0.5,
+			"the fight's log sits under the party cards (touch %s)" % touch)
+		fight.queue_free()
+		await get_tree().process_frame
+	GameState.roster = before
 ## As a fight starts it says who stands against the party, for the play log (Ewan's log said only
 ## "verdant_pass" for every fight): the foes with their levels, nobody of the party's side.
 func _check_lineup() -> void:
