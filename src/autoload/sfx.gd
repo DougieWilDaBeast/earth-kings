@@ -28,6 +28,9 @@ var _last_cued: Dictionary = {}
 ## How many times each cue has sounded since the game started, so a suite can
 ## tell a fight that was heard from one that was silent.
 var counts: Dictionary = {}
+## Its own dice for pitch, so a cue (whose `gap` is wall-clock time) never draws
+## from the global ones a seeded fight rolls with (D180's same seed, same bout).
+var _pitch_dice := RandomNumberGenerator.new()
 
 
 func _ready() -> void:
@@ -68,7 +71,7 @@ func cue(cue_id: String) -> bool:
 	_last_cued[cue_id] = now
 	counts[cue_id] = int(counts.get(cue_id, 0)) + 1
 	var span: Array = spec.get("pitch", [1.0, 1.0])
-	var pitch := randf_range(float(span[0]), float(span[1])) if span.size() >= 2 else 1.0
+	var pitch := _pitch_dice.randf_range(float(span[0]), float(span[1])) if span.size() >= 2 else 1.0
 	play(str(spec.get("file", cue_id)), float(spec.get("volume_db", 0.0)), pitch)
 	return true
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/who_wins/who_wins.gd" id="1_who_wins"]
+
+[node name="WhoWins" type="Node"]
+script = ExtResource("1_who_wins")

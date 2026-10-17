@@ -24,6 +24,8 @@ const Fall := preload("res://src/chronicle/fall.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
+const AutoRoad := preload("res://src/world/auto_road.gd")
+const Quests := preload("res://src/world/quests.gd")
 
 signal closed
 
@@ -275,6 +277,8 @@ func _show_quests_page() -> void:
 	progress.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_page.add_child(progress)
 	_page.add_child(HSeparator.new())
+
+	_show_headed(world)
 
 	# What the Tower has given back of who the lead was (D103).
 	var lead := GameState.roster.player() if GameState.roster != null else null
@@ -997,6 +1001,51 @@ func _mark_ribbons() -> void:
 	}
 	for tab: Tab in buttons:
 		_ribbon_dress(buttons[tab], RIBBONS[tab], tab == _tab)
+
+
+## Where you are headed ([D190]): every quest the compass can follow, how far off, and a Follow
+## button. The one being followed is marked; with none chosen the compass keeps the First Hour's
+## order, and that one is marked instead.
+func _show_headed(world: World) -> void:
+	var entries := AutoRoad.quests(world)
+	var heading := _line("Where you are headed", HEADING_COLOUR)
+	heading.add_theme_font_size_override("font_size", 18)
+	_page.add_child(heading)
+	if entries.is_empty():
+		_page.add_child(_line("Nowhere yet. A settlement's board has work, if you want it.", LABEL_COLOUR))
+		_page.add_child(HSeparator.new())
+		return
+	var aimed := AutoRoad.objective(world)
+	var key := Pad.key("cycle_quest")
+	var how := _line("The compass follows one. Follow another here, or press %s on the road." % key \
+			if key != "" else "The compass follows one. Follow another here.", LABEL_COLOUR)
+	how.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_page.add_child(how)
+	for entry: Dictionary in entries:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		var following: bool = str(entry["id"]) == str(aimed.get("id", "")) \
+				or (Quests.followed_id() == "" and entry.get("cell") == aimed.get("cell") and str(entry["label"]) == str(aimed.get("label", "")))
+		var said := _line("%s%s  ·  %s" % ["▶ " if following else "", str(entry["label"]), Quests.distance_text(world, entry)],
+				HEADING_COLOUR if following else KNOWN_COLOUR)
+		said.tooltip_text = str(entry.get("detail", ""))
+		said.mouse_filter = Control.MOUSE_FILTER_PASS
+		said.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		row.add_child(said)
+		var go := Button.new()
+		go.text = "Following" if following else "Follow"
+		go.disabled = following
+		go.pressed.connect(func() -> void:
+			Quests.follow(str(entry["id"]))
+			_show_quests_page())
+		Sfx.attend(go)
+		row.add_child(go)
+		_page.add_child(row)
+		var detail := _line("    %s" % str(entry.get("detail", "")), LABEL_COLOUR)
+		detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_page.add_child(detail)
+	_page.add_child(HSeparator.new())
 
 
 func _line(text: String, colour: Color) -> Label:
