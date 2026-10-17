@@ -208,7 +208,11 @@ each, each ending playable:
    ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
    ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
    baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
-   ([28](28-the-first-hour.md#play-test-4s-asks)); roads and ways wait on his answers. Five real players, named by the
+   ([28](28-the-first-hour.md#play-test-4s-asks)); the first he picked, the map over the ground, is
+   built ([D232](06-decisions.md): a corner map, right-click Go here or Place a marker, the party
+   walking on under it), and the party cards and the followers' facing are fixed ([D231](06-decisions.md),
+   [D214](06-decisions.md)); of the roads and ways he picked footpaths and dirt
+   tracks, built with signposts where three ways meet ([D233](06-decisions.md), art A32). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in
@@ -234,7 +238,7 @@ each, each ending playable:
    last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
    the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
-   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186). The freeze lifts. Next,
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, Will's halves D212, D213, D228 to D230: 28 (50/50) and 32 (Early Access) agreed by both, 30 open until the team's price research, 31 asked again on 2026-10-31). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
@@ -293,15 +297,24 @@ each, each ending playable:
    calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
    business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
+   `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
+   all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
+   back 27 October. Later that day ([D228](06-decisions.md) to [D230](06-decisions.md)): Early Access, aimed at
+   January or February 2027; the split after Steam's cut and costs, the rest of the small print near payday;
+   a one-off price with a free First Hour leaned to but not settled, the price and platforms a call for him (#212).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
    and no box round it; part two built ([D207](06-decisions.md), issue #205), no separate fight
    screens: Tower floors 6 up walked on a borrowed plan of floors 1 to 4 with their own foes (until
    the Second Hour's rooms), roadside fights where their scene stands, towns and captives just ahead.
-   (b) **People on the land**, **planned** (issue #206), all three together: the Watch
-   fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
-   walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (b) **People on the land** — built ([D215](06-decisions.md), issue #206), all three together: the
+   Watch beset on the roads round a town (join in and they fight beside you, then pay the Watch's
+   bounty), six bands always camping near the First Hour's road (half of them brigands), and companies
+   of climbers walking the road and resting on Tower floors ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (c) **Three ways for Auto to walk** — built ([D216](06-decisions.md)): Aggressive, Mixed (the default)
+   and Passive, picked in the menu; roadside scenes stand down the road, are told in the log and no
+   longer stop Auto or open a box.
    Item 17's list follows.
 20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
    from the first gate to the Tower's door and stops there, goes in when switched on again, and after a
@@ -311,6 +324,20 @@ each, each ending playable:
 21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
    party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
    early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
+22. **The road is fair to a lead walking alone** — built ([D211](06-decisions.md), call BM, 2026-10-17).
+   Road bands stand two levels down and one smaller on the First Hour, the land's great beasts wait for
+   level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
+   and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
+   fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
+23. **Ewan's "what other games do well"** ([D223](06-decisions.md) to [D227](06-decisions.md), 2026-10-17,
+   issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
+   the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
+   in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
+   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
+   faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
+   [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps built, [D220](06-decisions.md)), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

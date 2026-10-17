@@ -21,6 +21,8 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
+const Markers := preload("res://src/world/markers.gd")
+const Quests := preload("res://src/world/quests.gd")
 
 const SEED := 20260827
 ## Every gate this suite shuts leaves a word in the record of the sixteen (D183):
@@ -30,7 +32,7 @@ const SIXTEEN_PATH := "user://earth-kings.sixteen.walk-suite.json"
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "auto_rests", "allies", "guild", "map", "muster",
+	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "auto_rests", "allies", "guild", "map", "markers", "muster",
 	"fall", "first_hour", "run_ends", "sixteen", "crossing",
 ]
 
@@ -1600,7 +1602,11 @@ func _check_first_hour() -> void:
 	_expect(str(stepped.get("label", "")) != "the old well", "L did not move the compass off the errand it showed")
 	_expect(AutoRoad.objective(world).get("label", "") == str(stepped.get("label", "?")), "the compass does not follow the quest chosen")
 	_expect(Quests.followed_id() != "", "the quest followed is not kept in the run's flags")
-	AutoRoad.next_quest(world)
+	# Round the list (it may hold more than the road and the errand: a captive taken on the way).
+	for i in listed.size():
+		if AutoRoad.objective(world).get("label", "") == "the old well":
+			break
+		AutoRoad.next_quest(world)
 	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "stepping on again did not come back round to the errand")
 	GameState.errands.erase(job)
 	_expect(AutoRoad.objective(world).get("label", "") != "the old well", "a finished errand is still followed")
@@ -1797,6 +1803,67 @@ func _check_map() -> void:
 	_expect(Atlas.is_explored(World.from_dict(payload), far), "a save from before the map lost its map")
 
 
+## The map's markers ([D232]): one placed is a quest in the list; a place picked to go to is
+## followed and walked to by Auto, straight, past a band on the way; standing on it lets it go and
+## hands the party back; a save keeps the markers; taking one off stops following it.
+func _check_markers() -> void:
+	var world: World = GameState.world
+	var kept_flags := GameState.flags.duplicate(true)
+	var kept_auto := Pace.auto
+	var kept_cell := world.player_cell
+	var kept_bands := world.prowlers.duplicate()
+	# Two walkable cells off to one side: one to mark, one to go to.
+	var start := _find_cell(func(cell: Vector2i) -> bool:
+		return world.site_at(cell) == null and world.is_walkable(cell) and world.is_walkable(cell + Vector2i(1, 0)) \
+			and world.is_walkable(cell + Vector2i(2, 0)) and world.is_walkable(cell + Vector2i(3, 0)) \
+			and world.site_at(cell + Vector2i(3, 0)) == null and world.is_walkable(cell + Vector2i(0, 2)))
+	if start.x < 0:
+		_expect(false, "markers: no open ground to mark")
+		return
+	world.player_cell = start
+	world.prowlers.clear()
+	var marked := start + Vector2i(0, 2)
+	var going := start + Vector2i(3, 0)
+	GameState.flags.erase(Markers.FLAG)
+	GameState.flags.erase(Quests.FOLLOWED)
+	Pace.auto = false
+	_expect(Markers.place(world, marked).begins_with("Marker 1"), "markers: placing one did not say Marker 1")
+	var ids := AutoRoad.quests(world).map(func(e: Dictionary) -> String: return str(e["id"]))
+	_expect(ids.has(Markers.id_of(marked)), "markers: a marker placed is not in the quest list")
+	_expect(not Markers.go_to(world, going).is_empty() and Pace.auto, "markers: Go here did not set the party walking")
+	_expect(Quests.followed_id() == Markers.id_of(going), "markers: Go here is not what the compass follows")
+	_expect(AutoRoad.objective(world).get("cell") == going, "markers: the objective is not the place picked")
+	# A band beside the way does not turn the party aside from where it was sent.
+	world.prowlers.append(Prowler.create(start + Vector2i(0, -1), ["goblin"]))
+	_expect(AutoRoad.errand(world) == going, "markers: Auto turned aside for a band instead of walking to the place picked")
+	world.prowlers.clear()
+	# Picking another place to go to replaces it; the marker placed stays.
+	Markers.go_to(world, going + Vector2i(-1, 0))
+	_expect(Markers.at(going).is_empty() and not Markers.at(going + Vector2i(-1, 0)).is_empty(), "markers: a second Go here kept the first")
+	Markers.go_to(world, going)
+	_expect(not Markers.at(marked).is_empty(), "markers: Go here took the marker placed off the map")
+	# Walk there: standing on it lets it go, and the party is handed back.
+	for i in 3:
+		_scene._step(Vector2i(1, 0))
+	_expect(world.player_cell == going, "markers: the walk did not reach the place picked (%s)" % world.player_cell)
+	_expect(Markers.at(going).is_empty(), "markers: the place picked stayed on the map once stood on")
+	_expect(not Pace.auto, "markers: arriving did not hand the party back")
+	_expect(Quests.followed_id() == "", "markers: the compass still follows a place already reached")
+	# A save keeps the marker placed.
+	var back: Dictionary = JSON.parse_string(JSON.stringify(GameState.flags))
+	GameState.flags = back
+	_expect(not Markers.at(marked).is_empty() and Markers.all().size() == 1, "markers: a save lost the marker (%s)" % [Markers.all()])
+	Quests.follow(Markers.id_of(marked))
+	Markers.remove(marked)
+	_expect(Markers.all().is_empty() and Quests.followed_id() == "", "markers: taking a marker off left it, or left it followed")
+	_expect(Markers.go_to(world, world.player_cell) == "You are standing there.", "markers: Go here on the spot stood on set off anyway")
+	GameState.flags = kept_flags
+	Pace.auto = kept_auto
+	world.player_cell = kept_cell
+	world.prowlers.assign(kept_bands)
+	print("markers: placed, followed, walked to straight, let go on arrival, kept by a save")
+
+
 func _check_muster() -> void:
 	var world: World = GameState.world
 	var gate := _site_where(func(s: Site) -> bool: return s.kind == Site.GATE and not s.cleared)
@@ -1925,8 +1992,17 @@ func _check_auto_rests() -> void:
 	_expect(there != null and there.kind in [Site.VILLAGE, Site.KEEP, Site.HUT],
 		"auto rests: a party at a tenth of its health was not sent somewhere to rest (%s)" % stop)
 	_expect(stop.x < 0 or AutoRoad.errand(world) == stop, "auto rests: hurt, Auto still made for something else first")
+	# D211: Auto goes into a gate it crosses only when it is making for it, and never hurt.
+	var gates := world.sites_of_kind(Site.GATE)
+	for gate: Site in gates:
+		_expect(not AutoRoad.goes_into(world, gate.cell), "auto rests: hurt, Auto would go into %s" % gate.display_name)
 	for member: Character in kept:
 		member.hp = kept[member]
+	var goal := AutoRoad.objective(world)
+	for gate: Site in gates:
+		if not goal.is_empty() and goal["cell"] != gate.cell:
+			_expect(not AutoRoad.goes_into(world, gate.cell),
+				"auto gates: Auto would go into %s on its way to %s" % [gate.display_name, goal.get("label", goal["cell"])])
 
 
 ## A step taken more than six tiles from [param town], which is being away from it.

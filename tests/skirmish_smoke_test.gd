@@ -188,6 +188,7 @@ func _run() -> void:
 	_check_bout()
 	await _check_tactics()
 	await _check_stances()
+	await _check_scars()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -566,6 +567,42 @@ func _check_allies_and_auto() -> void:
 ## practice counts, the journal fills, a healer is remembered, draughts are
 ## spent from the stores, wounds carry out, an ambush gives the party the jump,
 ## and a fall the company cannot reach is settled for real by [Fate].
+## Scars ([D218], from Kenshi): whoever went down in a fight the company won, and lives, comes out
+## with a little more health for good; up to `scars.most`; kept in the save.
+func _check_scars() -> void:
+	GameState.heal_party()
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"title": "The road", "map": _proving_ground()}, "return_scene": "world", "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	var party: Array[Fighter] = fight.party_fighters()
+	if party.size() < 2:
+		_expect(false, "scars: no party to scar")
+		fight.queue_free()
+		return
+	var hurt: Character = party[1].unit.character
+	var spared: Character = party[0].unit.character
+	var before := hurt.max_hp()
+	var spared_before := spared.scars
+	party[1].went_down = true
+	fight.victory = true
+	fight._settle_the_party()
+	var per := int(Database.world_rules.get("scars", {}).get("max_hp", 3))
+	_expect(hurt.scars == 1, "scars: %s went down and got up, and has %d scars" % [hurt.display_name, hurt.scars])
+	_expect(hurt.max_hp() == before + per, "scars: a scar gave %d health, not %d" % [hurt.max_hp() - before, per])
+	_expect(spared.scars == spared_before, "scars: %s never went down and was scarred" % spared.display_name)
+	_expect(Character.from_dict(hurt.to_dict()).scars == 1, "scars: a scar was lost in the save")
+	var most := int(Database.world_rules.get("scars", {}).get("most", 5))
+	for i in most + 3:
+		hurt.scar()
+	_expect(hurt.scars == most, "scars: %d scars, past the most (%d)" % [hurt.scars, most])
+	hurt.scars = 0
+	fight.queue_free()
+	await get_tree().process_frame
+	print("scars: down and back up in a won fight leaves +%d health for good, up to %d" % [per, most])
+
+
 func _check_the_world_hears() -> void:
 	var started: Array = []
 	var finished: Array = []

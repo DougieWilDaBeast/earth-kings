@@ -1481,6 +1481,7 @@ func _drop(f: Fighter) -> void:
 	_mourn(f)
 	if f.is_party():
 		f.near_death = SkirmishRules.NEAR_DEATH
+		f.went_down = true
 		signatures.downed(f)
 		f.unit.modulate = Color(0.75, 0.55, 0.55, 0.8)
 		shake(SkirmishPassives.rule("shake_on_down", 9.0))
@@ -1749,6 +1750,9 @@ func _settle_the_party() -> void:
 		if f.is_downed():
 			_say("%s is carried off the field." % f.unit.display_name)
 			f.near_death = 0.0
+		# Down and back up, or carried off a field the company won: it leaves a mark ([D218]).
+		if f.went_down and victory:
+			_say(who.scar())
 		# Wounds carry as a fraction, so a difficulty that made the party
 		# hardier does not write an impossible number back onto them.
 		var carried := _share_left(f)
