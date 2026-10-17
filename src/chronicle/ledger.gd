@@ -151,6 +151,7 @@ static func the_fallen(world: World, roster: Roster) -> Array:
 			"level": int(site.data.get("level", 1)),
 			"job": site.data.get("job", ""),
 			"killer": site.data.get("killer", ""),
+			"killed_by": site.data.get("killed_by", ""),
 			"step": int(site.data.get("fell_at", 0)),
 		})
 	# Anyone lost without a marker still belongs on the list.

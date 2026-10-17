@@ -19,7 +19,8 @@ static func is_grave(site: Site) -> bool:
 
 ## Put a marker where [param character] went down. Graves never overwrite a
 ## place that was already there — the dead give way to the living.
-static func raise(world: World, character: Character, cell: Vector2i, killer: String = "") -> Site:
+## [param killer] is the kind that did it ("raider"), [param killed_by] its name ("Ganel", [D197]).
+static func raise(world: World, character: Character, cell: Vector2i, killer: String = "", killed_by: String = "") -> Site:
 	var where := _free_cell_near(world, cell)
 	var site := Site.create(Site.GRAVE, where, "The grave of %s" % character.display_name)
 	site.data = {
@@ -28,6 +29,7 @@ static func raise(world: World, character: Character, cell: Vector2i, killer: St
 		"level": character.level,
 		"job": character.class_name_text(),
 		"killer": killer,
+		"killed_by": killed_by,
 		"fell_at": world.steps,
 		"doctrine": character.doctrine.duplicate(),
 		"visited": false,

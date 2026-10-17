@@ -125,6 +125,12 @@ var _bubble: SpeechBubble = null
 var _captive_here: Character = null
 ## A scene happening in front of the party that they have not answered yet.
 var _roadside_here: String = ""
+## The town the party was last saved in for arriving, `{ world, cell }`, so walking in and out over
+## a city's edge is one save, not one a crossing ([D197]: eleven in four minutes at Stormreach).
+## Forgotten once the party is more than [constant AWAY_FROM_TOWN] tiles off, so the next coming in
+## is an arrival again. Kept between scenes, since the ground asks for a fresh continent each step.
+static var _saved_in_town: Dictionary = {}
+const AWAY_FROM_TOWN := 3
 ## A secluded wilderness clearing discovered on open ground.
 var _wild_here: String = ""
 ## A cache found on this step, for the ground to put down where it can be seen and picked up
@@ -324,6 +330,9 @@ func _step(direction: Vector2i) -> void:
 		_roadside_here = ""
 	_wild_here = ""
 	world.player_cell = target
+	if not _saved_in_town.is_empty() and (int(_saved_in_town["world"]) != world.get_instance_id() \
+			or Pathfinder.distance(target, _saved_in_town["cell"]) > AWAY_FROM_TOWN):
+		_saved_in_town = {}
 	var current_region := world.region_at(target)
 	if current_region != prior_region:
 		_note("Entering %s." % current_region)
@@ -372,6 +381,9 @@ func _step(direction: Vector2i) -> void:
 ## back the reins, where nothing starts by itself (a town; an errand's end).
 func _hand_back_at(goal: Dictionary, cell: Vector2i) -> void:
 	if not Pace.auto or goal.is_empty() or not bool(goal.get("stop", false)) or goal["cell"] != cell:
+		return
+	# On the ground the party walks on across the tile to the Tower's door and stops there ([D197]).
+	if bool(goal.get("door", false)) and _embedded():
 		return
 	Pace.auto = false
 	_note("You have reached %s. %s to walk on by yourself." % [goal["label"], _key("battle_auto")])
@@ -781,7 +793,9 @@ func _arrive_at(site: Site) -> void:
 			if line != "":
 				_note("Sennet: " + line)
 				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line }])
-		EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)
+		if _saved_in_town.get("cell", Vector2i(-1, -1)) != site.cell or int(_saved_in_town.get("world", 0)) != world.get_instance_id():
+			_saved_in_town = { "world": world.get_instance_id(), "cell": site.cell }
+			EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)
 	# Word travels by the name people gave you, not the one you gave them.
 	_note(Renown.greeting(world, site.cell, Names.known_as(world, GameState.roster.player().display_name)))
 	match site.kind:

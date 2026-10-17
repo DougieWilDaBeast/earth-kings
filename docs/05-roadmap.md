@@ -297,6 +297,11 @@ each, each ending playable:
    fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
    walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
    Item 17's list follows.
+20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
+   from the first gate to the Tower's door and stops there, goes in when switched on again, and after a
+   chapter makes for the next gate; a town is saved once an arrival; a fall names its killer; the soak
+   plays the lead the quiz deals from the seed. Found on the way: as a dealt lead, self-played runs fell
+   before the Tower in 6 of 8, Atlas in none.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

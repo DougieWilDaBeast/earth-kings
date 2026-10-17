@@ -54,6 +54,8 @@ var fled: bool = false
 ## What [Fate] said when this party member's fall was settled in a fight the
 ## world started: {outcome, reason, line}; empty until then.
 var settled: Dictionary = {}
+## Whoever last hurt this fighter, so a fall can name its killer ([D197]); null until struck.
+var struck_by: Unit = null
 ## Kneeling beside a downed ally: seconds of aid still to give.
 var aiding: float = 0.0
 
