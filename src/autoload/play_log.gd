@@ -28,6 +28,9 @@ var _last_place: String = ""
 ## against ([signal EventBus.battle_lineup]).
 var _ground_place: String = ""
 var _lineup: String = ""
+## The game speeds a fight was played at, from its start to its end (D59, D189: 1x, 2x, 3x, 5x).
+var _fight_speeds: Array[float] = []
+var _last_speed: float = 1.0
 var _fight_began: int = -1
 var _dirty: bool = false
 var _since_flush: float = 0.0
@@ -72,6 +75,10 @@ func _ready() -> void:
 	EventBus.scene_changed.connect(_on_scene_changed)
 	EventBus.battle_started.connect(_on_battle_started)
 	EventBus.battle_lineup.connect(func(line: String) -> void: _lineup = line)
+	# Every change of speed is a line, and a fight keeps each speed it was played at, so a fight
+	# over in a second at 5x reads as the five-second fight it was (Ewan, 2026-10-17: "majority
+	# of those fights, I was in five times speed").
+	Pace.changed.connect(_on_pace_changed)
 	EventBus.battle_finished.connect(_on_battle_finished)
 	EventBus.levelled_up.connect(_on_levelled_up)
 	EventBus.class_chosen.connect(_on_class_chosen)
@@ -231,7 +238,8 @@ func _on_battle_started(map_id: String) -> void:
 	var where := map_id
 	if map_id == "verdant_pass" and _ground_place != "":
 		where = _ground_place
-	note("FIGHT %s%s · party %s" % [where, " vs %s" % _lineup if _lineup != "" else "", _party()])
+	_fight_speeds = [Pace.speed()]
+	note("FIGHT %s at %s%s · party %s" % [where, _speed_text(Pace.speed()), " vs %s" % _lineup if _lineup != "" else "", _party()])
 	_lineup = ""
 
 
@@ -240,7 +248,27 @@ func _on_battle_finished(result: Dictionary) -> void:
 	if _fight_began >= 0:
 		took = " in %ds" % ((Time.get_ticks_msec() - _fight_began) / 1000)
 		_fight_began = -1
+	# The fight's own clock is game time: what the fight took at 1x, whatever speed it was watched at.
+	var speeds: Array[String] = []
+	for each: float in _fight_speeds:
+		speeds.append(_speed_text(each))
+	if result.has("fight_seconds"):
+		took += " (%s, fight clock %ds)" % ["/".join(speeds) if not speeds.is_empty() else _speed_text(Pace.speed()), roundi(float(result["fight_seconds"]))]
+	_fight_speeds.clear()
 	note("  %s%s · party %s" % ["WON" if result.get("victory", false) else "LOST", took, _party()])
+
+
+func _on_pace_changed() -> void:
+	var now := Pace.speed()
+	if _fight_began >= 0 and not _fight_speeds.has(now):
+		_fight_speeds.append(now)
+	if now != _last_speed:
+		_last_speed = now
+		note("  speed %s" % _speed_text(now))
+
+
+static func _speed_text(speed: float) -> String:
+	return ("%dx" % int(speed)) if is_equal_approx(speed, roundf(speed)) else ("%.1fx" % speed)
 
 
 func _on_levelled_up(who: RefCounted, _before: Dictionary) -> void:

@@ -1708,7 +1708,7 @@ func _check_end() -> void:
 			GameState.mark_battle_cleared(map_id)
 		GameState.set_flag("last_victory", victory)
 		GameState.set_flag("last_fled", fled_field)
-		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id})
+		EventBus.battle_finished.emit({"victory": victory, "map_id": map_id, "fight_seconds": sim_time})
 	finished.emit(victory)
 	if not manual and not bout:
 		_leave_the_field()
