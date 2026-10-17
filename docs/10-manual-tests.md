@@ -496,7 +496,10 @@ godot --headless --path . res://tools/soak.tscn -- --seconds=300 --seed=77
 Look for `SCRIPT ERROR`, steps that rise with no fights (autoplay has nowhere to go) and
 `the same file: false`. Steps and log lines that stop moving for thirty seconds with autoplay on end
 the soak with `STUCK … in Skirmish` or similar and exit code 2 — something is waiting on a
-key nobody is pressing. A soak that runs clean ends with exit code 0.
+key nobody is pressing. A lead who dies is not stuck: the game waits on the run summary for the
+next lead to be chosen, so the soak prints `RUN OVER at step N`, stops walking there and goes on to
+the save check. Since the First Hour was made harder ([D187](06-decisions.md)) a lone Atlas can fall
+in an early fight on seed 77 now and then. A soak that runs clean ends with exit code 0.
 
 **The browser build.** `tools/web_smoke.py` exports the Web preset, serves `builds/web` on a
 local port and plays it in headless Chromium through `tools/web_smoke.js`: past the title card,
