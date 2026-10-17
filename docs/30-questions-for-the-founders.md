@@ -24,6 +24,10 @@ little harder ([D188](06-decisions.md)). Still open: **the falling weapon** (age
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
 
+**Added 2026-10-17 by the pipeline** ([32](32-the-pipeline.md), [D202](06-decisions.md)): five more, 28 to
+32, on the business half of planning: who owns the game and how its money is split, the budget, how it
+earns, when it comes out, and Early Access or not.
+
 Twenty-four questions: nine for Will, six for Ewan, nine for both.
 
 **Will answered on 2026-10-16** in two voice notes ([part 1](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-1.md), [part 2](worldbuilding/voice-notes/2026-10-16-dougie-founders-questions-part-2.md)), recorded as [D168](06-decisions.md) to [D175](06-decisions.md). **Ewan answered on 2026-10-16** in the chat ([transcript](worldbuilding/voice-notes/2026-10-16-doug-md-founders-questions.md)), recorded as [D186](06-decisions.md). Will's GitHub to-dos, which are not
@@ -289,6 +293,41 @@ _Why:_ the buckle was the hour's first memory; every other chapter one was writt
 _Default:_ **the last stand ends on his chapter one** (the room's recommendation): the buckle lies in
 Hearthwick, and the memory plays as he falls, so a new player's first memory is his. His chapter two
 waits for the sixteen begun again.
+
+## 8. Asked by the pipeline
+
+Added 2026-10-17 with [32](32-the-pipeline.md) ([D202](06-decisions.md)): planning's business half,
+which none of the earlier questions reached. They are milestone 13; the pipeline recommends answering
+them before the Steam page goes up, starting with 28. None changes anything built.
+
+**28. Who owns Earth Kings, and how is its money split?** (Both)
+Who owns the code, the art, the music and the name; who decides when you disagree; how money is
+divided and on what (after the store's cut? after costs?); and what happens if one of you stops.
+_Why:_ every guide for co-founders says to write this down before there is money; between brothers an
+unwritten deal is the easiest to fall out over. General advice, not legal advice.
+_Default:_ nothing changes until you both write it down; asked again before the Steam page.
+
+**29. What does the game cost a month, and who pays?** (Will)
+PixelLab, the AI subscriptions, and later the $100 Steam fee (returned after $1,000 of sales).
+_Why:_ a budget says how long the project can run as it does now.
+_Default:_ as now; the build does not spend money.
+
+**30. How does it earn?** (Both)
+A one-off price with the First Hour as a free demo (the retreat's lean, how-and-where call G), or
+something else; free on itch forever or not.
+_Why:_ the store page, the demo and the size of the first release all follow from it.
+_Default:_ a one-off price with a free demo; no price set until milestone 12 is agreed.
+
+**31. When, roughly, should it come out?** (Both)
+Not a date: a season or a year, so the milestones have something to aim at.
+_Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
+_Default:_ open; asked again once the Second Hour is played and timed.
+
+**32. Early Access, or a finished release?** (Both)
+Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
+and Dead Cells too); a finished release means more is built before anyone pays.
+_Why:_ it decides what "the first release" in milestone 12 has to hold.
+_Default:_ Early Access, decided after the Second Hour.
 
 ## Will's to-dos (not questions)
 
