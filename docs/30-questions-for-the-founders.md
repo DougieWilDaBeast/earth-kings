@@ -18,8 +18,8 @@ raises it.
 
 **Where it stands (2026-10-16):** all twenty-four are answered: Will's in [D168](06-decisions.md) to
 [D175](06-decisions.md), Ewan's in [D186](06-decisions.md). Ewan sent his to Will to decide what to
-do with. Where they differ: **how hard the hour is** (question 2: Ewan would raise it a little, Will
-keeps it) and **the falling weapon** (agenda 101, still Ewan's to answer).
+do with. Where they differed, **how hard the hour is** (question 2), Will took Ewan's way on 2026-10-17: a
+little harder ([D187](06-decisions.md)). Still open: **the falling weapon** (agenda 101, Ewan's to answer).
 
 Twenty-four questions: nine for Will, six for Ewan, nine for both.
 
@@ -49,6 +49,8 @@ _Why:_ the hook ("Sixteen fell. One climbs.") only shows when a lead dies (agend
 _Default:_ the same, until a real newcomer's run says otherwise.
 
 _Answered 2026-10-16:_ **Will's half:** a death before floor 5 is unlikely, and that is fine; past the top, the leads who made it face each other ([D171](06-decisions.md)). **Ewan's half:** challenging, but a well set-up party makes it a lot easier; the difficulty could go up a slight bit ([D186](06-decisions.md)). **The two halves differ** (Will: unchanged); Will to decide.
+
+_Decided 2026-10-17:_ Will took Ewan's way (call AZ): a little harder ([D187](06-decisions.md)).
 
 ~~**3. What counts as "the First Hour is done"?**~~ (Will)
 Meeting 4 set "passable": the climb suite passes and a person reaches floor 5 unaided
