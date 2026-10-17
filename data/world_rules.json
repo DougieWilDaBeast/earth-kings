@@ -481,6 +481,25 @@
 			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
 		}
 	},
+	"path_help": {
+		"_comment": "D237 (doug-md, play-test 4: a question mark on each path's banner that says what it is in more words): the words for SheetParts.class_help. roles: each fits a path whose growth per level is at_least / at_most these, and (has) whose starting moves include a heal or a shot from range; the first most_roles that fit are said. lines: grows ({max_hp}, {attack}, {defense}, {speed}), starts, move ({name}, {text}), themes ({themes}).",
+		"most_roles": 3,
+		"roles": [
+			{ "at_least": { "max_hp": 6, "defense": 1.3 }, "say": "Built to stand at the front and take the blows." },
+			{ "at_least": { "attack": 2.0 }, "at_most": { "max_hp": 4 }, "say": "Hits very hard, but cannot take much in return." },
+			{ "at_least": { "attack": 2.0, "max_hp": 5 }, "say": "Hits hard." },
+			{ "has": "heal", "say": "Keeps the others on their feet." },
+			{ "has": "range", "say": "Fights from a distance." },
+			{ "at_least": { "speed": 0.8 }, "say": "Quick on their feet." },
+			{ "at_most": { "speed": 0.3 }, "say": "Slow to get anywhere." }
+		],
+		"lines": {
+			"grows": "Each level: +{max_hp} health, +{attack} attack, +{defense} guard, +{speed} speed.",
+			"starts": "Starts with:",
+			"move": "• {name}: {text}",
+			"themes": "Later powers come from {themes}, uncovered as they grow."
+		}
+	},
 	"atlas": {
 		"sight": 4,
 		"always_known": ["tower", "home"],

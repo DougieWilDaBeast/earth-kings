@@ -7,6 +7,7 @@ extends Node
 ##   godot --headless --path . res://tests/walk_smoke_test.tscn -- --check=gate,tower
 
 const CheckFilter := preload("res://tests/check_filter.gd")
+const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const Company := preload("res://tests/company.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
@@ -682,6 +683,21 @@ func _check_class_prompt() -> void:
 	screen.open_on_growth(member)
 	var cards := _buttons_reading(screen._page_box, "Walk this path")
 	_expect(cards.size() == options.size(), "%d paths offered but %d cards to choose from" % [options.size(), cards.size()])
+	# Each path's banner has a question mark that says what the path is in more words (D237).
+	var asks := _buttons_reading(screen._page_box, "?")
+	_expect(asks.size() == options.size(), "%d paths but %d question marks" % [options.size(), asks.size()])
+	for class_id: String in options:
+		var help := SheetParts.class_help(class_id)
+		for move: String in SheetParts.grant_names(class_id):
+			_expect(help.contains(move), "the help on %s does not say what %s does" % [class_id, move])
+		_expect(help.contains("Each level"), "the help on %s does not say what it grows" % class_id)
+	if not asks.is_empty():
+		var ask: Button = asks[0]
+		_expect(ask.tooltip_text != "", "hovering a path's question mark says nothing")
+		var more: Label = ask.get_parent().get_parent().get_child(ask.get_parent().get_index() + 1)
+		ask.pressed.emit()
+		_expect(more.visible and more.text == ask.tooltip_text, "pressing a path's question mark did not open its words on the card")
+	print("path help, %s: %s" % [options[0], SheetParts.class_help(options[0]).replace("\n", " / ")])
 	_expect(not screen.choose_class(member, "no_such_class"), "the picker accepted a made-up class")
 	_expect(screen.choose_class(member, options[0]), "the picker rejected a valid choice")
 	_expect(not member.pending_class_choice, "the prompt did not clear when answered")
