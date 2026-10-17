@@ -18,7 +18,8 @@
 **While PixelLab has no credits** ([D111](06-decisions.md), 2026-10-15), the art the First Hour needs is
 drawn in house by the `tools/draw_*.py` scripts at the art's own size, and listed in
 [22](22-asset-provenance.md). A request stays open here until PixelLab art of the same name replaces
-the in-house stand-in; the keepsakes A10 to A25 are the coin pile until then.
+the in-house stand-in; the keepsakes A10 to A25 are the coin pile until then. PixelLab's credits come back on
+**27 October 2026** (22 euro a month, paid by `dougie`, [D213](06-decisions.md)); the order then is [D199](06-decisions.md)'s, A9 first.
 
 Every request follows the [conventions in 19](19-asset-list.md#conventions): dark fantasy, muted
 colours ([D40](06-decisions.md)), the 64 class on the founders' base body ([D55](06-decisions.md)),
