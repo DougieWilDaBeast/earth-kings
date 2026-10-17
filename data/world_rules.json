@@ -150,7 +150,15 @@
 				],
 				"news": true,
 				"bye": "On you go."
-			}
+			},
+			"_join_comment": "D236 (doug-md, #270 keep 7, play-test 4: \"The watchmen of anywhere. They will attack mobs\"): lead a band to the Watch. When a band sets on the party within join_cells of a pair walking the road, they come running and fight beside it, at the company's level; won, they pay the Watch's bounty (purse_base + purse_per_level x the company's level) and the country hears of it (renown). Inferred: every number and line.",
+			"join_cells": 10,
+			"joined_line": "The Watch see it start, and come running.",
+			"thanks": ["\"That's one band fewer on our road,\" says the older of them, getting his breath back.", "\"Bring us the next lot too. We'd sooner fight them here than find what they left.\""],
+			"purse_base": 25,
+			"purse_per_level": 10,
+			"purse_line": "He counts %d gold into your hand: the Watch's bounty on their heads.",
+			"renown": 2
 		}
 	},
 	"auto_styles": {
