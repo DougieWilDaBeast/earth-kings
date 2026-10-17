@@ -234,7 +234,7 @@ each, each ending playable:
    last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
    the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
-   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, waiting on Will's half of 28 and 30 to 32, and 31 asked again on 2026-10-31). The freeze lifts. Next,
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, 28 agreed 50/50 by both, waiting on Will's half of 30 to 32, and 31 asked again on 2026-10-31). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s
@@ -293,6 +293,9 @@ each, each ending playable:
    calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
    business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
+   `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
+   all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
+   back 27 October. The rest of 28 is question 33 (#276).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
@@ -311,6 +314,11 @@ each, each ending playable:
 21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
    party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
    early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
+22. **The road is fair to a lead walking alone** — built ([D211](06-decisions.md), call BM, 2026-10-17).
+   Road bands stand two levels down and one smaller on the First Hour, the land's great beasts wait for
+   level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
+   and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
+   fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

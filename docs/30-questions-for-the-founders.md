@@ -23,8 +23,8 @@ little harder ([D188](06-decisions.md)). The falling weapon is settled since, as
 
 **Where it stands (2026-10-17, evening):** Ewan answered 25 to 27, his half of 28, 30, 31 and 32, and
 who the five real players are ([D217](06-decisions.md)), and sent them to Will to look over. Settled:
-25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). **Waiting on Will:** his half of 28,
-30, 31 and 32, and 29. Question 31 is asked again on 2026-10-31.
+25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). **Waiting on Will:** his half of
+30, 31 and 32 (he answered 28, the same 50/50, and 29 the same day, [D212](06-decisions.md), [D213](06-decisions.md)). Question 31 is asked again on 2026-10-31.
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
@@ -33,6 +33,8 @@ for Ewan, one for Ewan with Will's half already given. Each has the room's recom
 32, on the business half of planning: who owns the game and how its money is split, the budget, how it
 earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-17, call BJ,
 [D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
+Will answered 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)); what 28 left
+open is question 33, with Ewan's word on the split.
 
 **On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
 "waits on Will" or "waits on Ewan", closed when its answer is written up here.
@@ -316,19 +318,21 @@ Added 2026-10-17 with [32](32-the-pipeline.md) ([D202](06-decisions.md)): planni
 which none of the earlier questions reached. They are milestone 13; the pipeline recommends answering
 them before the Steam page goes up, starting with 28. None changes anything built.
 
-**28. Who owns Earth Kings, and how is its money split?** (Both) [#210](https://github.com/DougieWilDaBeast/earth-kings/issues/210)
+~~**28. Who owns Earth Kings, and how is its money split?**~~ (Both) [#210](https://github.com/DougieWilDaBeast/earth-kings/issues/210)
 Who owns the code, the art, the music and the name; who decides when you disagree; how money is
 divided and on what (after the store's cut? after costs?); and what happens if one of you stops.
 _Why:_ every guide for co-founders says to write this down before there is money; between brothers an
 unwritten deal is the easiest to fall out over. General advice, not legal advice.
 _Default:_ nothing changes until you both write it down; asked again before the Steam page.
 
-_Answered 2026-10-17:_ **Ewan's half:** "It is split 50-50" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come. The rest (who owns what, who decides, if one stops) is still to write down together.
+_Answered 2026-10-17:_ **Will:** "Me and Ewan are 50/50 split all profits. Brother we trust each other" ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-business.md), [D212](06-decisions.md)). **Ewan:** "It is split 50-50" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). Settled by both: all profits split 50/50. The rest of the question (after the store's cut and costs, who owns what, who decides, if one stops) is asked again, narrower, as 33.
 
-**29. What does the game cost a month, and who pays?** (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
+~~**29. What does the game cost a month, and who pays?**~~ (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
 PixelLab, the AI subscriptions, and later the $100 Steam fee (returned after $1,000 of sales).
 _Why:_ a budget says how long the project can run as it does now.
 _Default:_ as now; the build does not spend money.
+
+_Answered 2026-10-17:_ **Will:** PixelLab.ai at 22 euro a month, which he pays; its credits come back on 27 October 2026 ("October 27th pixellab.ai 22 euro cost.", [transcript](worldbuilding/voice-notes/2026-10-17-dougie-business.md), [D213](06-decisions.md)). The AI subscriptions and the Steam fee were not named.
 
 **30. How does it earn?** (Both) [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212)
 A one-off price with the First Hour as a free demo (the retreat's lean, how-and-where call G), or
@@ -352,6 +356,15 @@ _Why:_ it decides what "the first release" in milestone 12 has to hold.
 _Default:_ Early Access, decided after the Second Hour.
 
 _Answered 2026-10-17:_ **Ewan's half:** Early Access, to "gather information off people who play the game", decided for certain later ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
+
+**33. The rest of the founders' agreement.** (Both; Ewan first) [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276)
+Added 2026-10-17 from Will's half of 28 ([D212](06-decisions.md)): all profits split 50/50. **Ewan:** do you
+agree? **Both:** is that after the store's cut and the running costs (agenda 136 guesses yes)? Who owns the
+code, the art, the music and the name? Who decides when you disagree? What happens if one of you stops?
+_Why:_ the split is the start of a founders' agreement, not all of it; the rest is what brothers fall out over
+when it was never said. General advice, not legal advice.
+_Default:_ the 50/50 split stands as Will's word; nothing else changes until you both say it.
+_Answered in part 2026-10-17:_ **Ewan:** "It is split 50-50" (his answer to 28, [D217](06-decisions.md)), so the split itself is agreed by both. The rest of 33 is still open.
 
 ## Will's to-dos (not questions)
 
