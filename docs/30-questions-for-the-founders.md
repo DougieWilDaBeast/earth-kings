@@ -19,7 +19,12 @@ raises it.
 **Where it stands (2026-10-16):** all twenty-four are answered: Will's in [D168](06-decisions.md) to
 [D175](06-decisions.md), Ewan's in [D186](06-decisions.md). Ewan sent his to Will to decide what to
 do with. Where they differed, **how hard the hour is** (question 2), Will took Ewan's way on 2026-10-17: a
-little harder ([D188](06-decisions.md)). Still open: **the falling weapon** (agenda 101, Ewan's to answer).
+little harder ([D188](06-decisions.md)). The falling weapon is settled since, as question 26.
+
+**Where it stands (2026-10-17, evening):** Ewan answered 25 to 27, his half of 28, 30, 31 and 32, and
+who the five real players are ([D217](06-decisions.md)), and sent them to Will to look over. Settled:
+25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). **Waiting on Will:** his half of 28,
+30, 31 and 32, and 29. Question 31 is asked again on 2026-10-31.
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
@@ -81,6 +86,7 @@ _Why:_ every play-test so far has been a founder or a bot persona.
 _Default:_ nothing happens until you name them; meeting 5 runs on Ewan's notes alone.
 
 _Answered 2026-10-16:_ **Will's half:** no players yet, maybe one soon; AV and meeting 5 wait ([D168](06-decisions.md)). **Ewan's half:** default; nobody named yet ([D186](06-decisions.md)).
+_Added 2026-10-17:_ **Ewan:** "It'll be friends, family, or anyone who would like to play the game" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)); nobody named yet ([#222](https://github.com/DougieWilDaBeast/earth-kings/issues/222)).
 
 ## 2. Story and the sixteen
 
@@ -273,14 +279,16 @@ _Answered 2026-10-16:_ **Will's half:** keep them and keep going unless told oth
 
 ## 7. Asked by meeting five
 
-**25. Which lead will not climb the Tower?** (Ewan; Will's half given) [#215](https://github.com/DougieWilDaBeast/earth-kings/issues/215)
+~~**25. Which lead will not climb the Tower?**~~ (Ewan; Will's half given) [#215](https://github.com/DougieWilDaBeast/earth-kings/issues/215)
 Ewan said one of the sixteen might not want to climb (agenda 75). Will said that is fine, that such a
 lead lies open to invaders once another world falls ([D172](06-decisions.md)), and named Liber as his
 example; Ewan left it open ([D186](06-decisions.md)). Liber's chapter two already asks it.
 _Why:_ a lead who will not climb needs another way for their run to go, and that is a lot of building.
 _Default:_ **Liber** (the room's recommendation); nothing is built until Ewan agrees.
 
-**26. The falling weapon.** (Ewan) [#216](https://github.com/DougieWilDaBeast/earth-kings/issues/216)
+_Answered 2026-10-17:_ **Ewan:** "Default, Liber" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). Settled: Liber is the lead who will not climb. Nothing is built yet.
+
+~~**26. The falling weapon.**~~ (Ewan) [#216](https://github.com/DougieWilDaBeast/earth-kings/issues/216)
 Will (question 12, 2026-10-16): when a new lead reaches the floor a fallen lead reached, that lead's
 weapon is shot down from heaven where it fits them; picking it up gives part of their power for this
 run, and it stacks, one per fallen lead (agenda 101). What is built is [D33](06-decisions.md) (never
@@ -289,7 +297,9 @@ power) and your [D60](06-decisions.md) (a random landing and a rumour). The ques
 _Why:_ the two versions cannot both be built.
 _Default:_ **Will's version** (the room's recommendation), with your rumour as how word of it reaches the lead.
 
-**27. Atlas's memories, now that he only plays the last stand.** (Ewan) [#217](https://github.com/DougieWilDaBeast/earth-kings/issues/217)
+_Answered 2026-10-17:_ **Ewan:** the default, "Will's version with my rumor as how you hear about it" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). Settled: Will's falling weapon, heard of by rumour. Not built yet.
+
+~~**27. Atlas's memories, now that he only plays the last stand.**~~ (Ewan) [#217](https://github.com/DougieWilDaBeast/earth-kings/issues/217)
 Since [D191](06-decisions.md) Atlas falls in the tutorial and is never dealt again until the sixteen
 begin again, so his chapter one (the buckle, "The Weight") and his chapter two ("The Last Page") can
 no longer be reached in a first playthrough.
@@ -297,6 +307,8 @@ _Why:_ the buckle was the hour's first memory; every other chapter one was writt
 _Default:_ **the last stand ends on his chapter one** (the room's recommendation): the buckle lies in
 Hearthwick, and the memory plays as he falls, so a new player's first memory is his. His chapter two
 waits for the sixteen begun again.
+
+_Answered 2026-10-17:_ **Ewan:** "Default. The last stand ends on his chapter's one memory. The buckle." ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). Settled. Not built yet.
 
 ## 8. Asked by the pipeline
 
@@ -311,6 +323,8 @@ _Why:_ every guide for co-founders says to write this down before there is money
 unwritten deal is the easiest to fall out over. General advice, not legal advice.
 _Default:_ nothing changes until you both write it down; asked again before the Steam page.
 
+_Answered 2026-10-17:_ **Ewan's half:** "It is split 50-50" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come. The rest (who owns what, who decides, if one stops) is still to write down together.
+
 **29. What does the game cost a month, and who pays?** (Will) [#211](https://github.com/DougieWilDaBeast/earth-kings/issues/211)
 PixelLab, the AI subscriptions, and later the $100 Steam fee (returned after $1,000 of sales).
 _Why:_ a budget says how long the project can run as it does now.
@@ -322,16 +336,22 @@ something else; free on itch forever or not.
 _Why:_ the store page, the demo and the size of the first release all follow from it.
 _Default:_ a one-off price with a free demo; no price set until milestone 12 is agreed.
 
+_Answered 2026-10-17:_ **Ewan's half:** "A one-off price with a free demo" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
+
 **31. When, roughly, should it come out?** (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
 Not a date: a season or a year, so the milestones have something to aim at.
 _Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
 _Default:_ open; asked again once the Second Hour is played and timed.
+
+_Answered 2026-10-17:_ **Ewan's half:** no plans yet; "I think we will know in by the end of this month", so **asked again on 2026-10-31** ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
 
 **32. Early Access, or a finished release?** (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
 Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
 and Dead Cells too); a finished release means more is built before anyone pays.
 _Why:_ it decides what "the first release" in milestone 12 has to hold.
 _Default:_ Early Access, decided after the Second Hour.
+
+_Answered 2026-10-17:_ **Ewan's half:** Early Access, to "gather information off people who play the game", decided for certain later ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)). **Will's half:** to come.
 
 ## Will's to-dos (not questions)
 

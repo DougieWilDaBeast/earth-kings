@@ -234,7 +234,7 @@ each, each ending playable:
    last, or word of them. **Planned**: a hand in a gate fight, a lead met again in the contest past
    the top.
 14. **The First Hour is done** (`dougie`, 2026-10-16, [D168](06-decisions.md)), answering the
-   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186). The freeze lifts. Next,
+   founders' questions ([30](30-questions-for-the-founders.md), D168 to D175, Ewan's D186; 25 to 32 Ewan's D217, waiting on Will's half of 28 and 30 to 32, and 31 asked again on 2026-10-31). The freeze lifts. Next,
    all **planned**: chapter twos and later arcs drafted from the material there is
    ([D173](06-decisions.md); all sixteen drafted, not in the game, [D182](06-decisions.md)); `doug-md`'s cues for the hour's music in place of the stand-ins
    ([D175](06-decisions.md)); the cut list back bit by bit where it fits the story; `doug-md`'s

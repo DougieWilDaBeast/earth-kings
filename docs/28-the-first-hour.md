@@ -248,9 +248,12 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    somewhere else and put back.
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
 9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
-   the screen and wants resizing and moving. **To ask him which.**
+   the screen and wants resizing and moving. **He said which** (2026-10-17, [his answers](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md)): the fight's party
+   cards, with each one's name, skills and the draughts and food to drink or eat. Only one to three
+   of a party of five or six showed, so the rest could not use a skill or a draught (#257).
 10. **Followers facing the way they walk** when walking down. Not reproduced: a suite walking a party
-    of three down, up and down again finds them facing the leader's way. **To ask him where it was.**
+    of three down, up and down again finds them facing the leader's way. **He said where** (2026-10-17,
+    [his answers](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md)): on the land, sometimes, walking down; in a town and on a Tower floor it works.
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
     city or a stronghold.
 
