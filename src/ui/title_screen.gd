@@ -428,10 +428,12 @@ func _on_continue_pressed() -> void:
 ## the quiz and the pick so the lead who falls in it is the one chosen.
 ## Before anyone has fallen, a new game is Atlas's last stand ([D191]): a new player plays it
 ## through, and someone who has once is asked whether to play it again or skip it. Either way
-## Atlas falls first, and the quiz picks who comes after him.
+## Atlas falls first, and the quiz picks who comes after him. A player with a run already saved
+## (one begun before the last stand existed, still as Atlas) has played before, and is asked too,
+## or New Game only ever led back into the last stand ([D235]).
 func _on_new_game_pressed() -> void:
 	if Sixteen.worlds().is_empty() and not Sixteen.fallen_heroes().has(TutorialGuide.lead_id()):
-		if not TutorialGuide.finished_once():
+		if not TutorialGuide.finished_once() and not GameState.has_save():
 			EventBus.tutorial_requested.emit()
 		else:
 			_offer_the_skip()
@@ -447,7 +449,7 @@ func _on_new_game_pressed() -> void:
 	})
 
 
-## Someone who has played Atlas's last stand through is asked, on a new game before anyone has
+## Someone who has played Atlas's last stand through, or has a run saved, is asked, on a new game before anyone has
 ## fallen, whether to play it again or skip it ([D191]). Skipped, Atlas falls off screen and the
 ## quiz picks who comes next.
 func _offer_the_skip() -> void:
