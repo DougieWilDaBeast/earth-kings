@@ -84,7 +84,7 @@ src/
     route.gd                   The way across the country on foot, for a party walking itself
     auto_road.gd               Where a party walking itself steps next, asked by the map and the land (D94)
     quests.gd · markers.gd     The quest list the compass follows (D190); the player's markers and
-                               the place picked on the map to go to (D211)
+                               the place picked on the map to go to (D220)
     world_end.gd               The last look at a world whose lead died and ascended (M15, D32)
   area/                        The ground, where the game is played (D50, D61) — 34 hand-built
                                top-down areas, orthogonal A* pathfinding, props sized by
@@ -110,7 +110,7 @@ src/
                                sheet_parts.gd draws class colours and growth wherever they show;
                                the tutorial's guide card (tutorial_guide.gd, under the game root);
                                the map over the ground, in the corner and large (land_map.gd,
-                               land_map_screen.gd, D211)
+                               land_map_screen.gd, D220)
 ```
 
 ## Character vs Unit

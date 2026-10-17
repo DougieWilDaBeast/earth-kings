@@ -803,7 +803,7 @@ func _check_the_ground_is_the_game() -> void:
 	_expect(ground._compass != null and ground._compass.has_meta("aimed"), "the ground has no compass pointing anywhere")
 
 	# The map is the journal's, opened with M straight from the ground (D95). On the land it opens
-	# over the ground, which goes on under it (D211): the same ground, the keys looking about the
+	# over the ground, which goes on under it (D220): the same ground, the keys looking about the
 	# map rather than walking, and M or Esc putting it away.
 	var m := InputEventKey.new()
 	m.keycode = KEY_M
@@ -827,7 +827,7 @@ func _check_the_ground_is_the_game() -> void:
 		await _settle()
 		_expect(not screen.is_open(), "Esc did not put the map away")
 		# A click on the corner map opens the large one; a right-click on a place offers Go here
-		# and Place a marker, and a marker placed can be taken off again (D211).
+		# and Place a marker, and a marker placed can be taken off again (D220).
 		var corner: Control = ground.get("_corner_map")
 		corner._click(Vector2(4.0, 4.0))
 		_expect(screen.is_open(), "a click on the corner map did not open the large map")

@@ -172,7 +172,7 @@ static func cell_of(at: Variant) -> Vector2i:
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
 	# A place picked on the map, or a marker followed, is walked to straight: no turning aside for
-	# a band on the way, which walked the party off the other way from where it was sent ([D211]).
+	# a band on the way, which walked the party off the other way from where it was sent ([D220]).
 	var chosen := Quests.followed(world, quests(world))
 	if str(chosen.get("kind", "")) == "marker":
 		var marked: Vector2i = chosen["cell"]

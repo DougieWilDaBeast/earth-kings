@@ -350,7 +350,7 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	for notice: String in Siblings.on_arrive(world, target):
 		_note(notice)
-	# A place picked on the map to go to is let go of once it is stood on ([D211]).
+	# A place picked on the map to go to is let go of once it is stood on ([D220]).
 	Markers.on_arrive(target)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
