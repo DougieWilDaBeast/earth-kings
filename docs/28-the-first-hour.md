@@ -48,7 +48,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    the huge Tower's round, rune-banded shaft over it, drawn in house
    until art A9 ([D158](06-decisions.md)), seen from far off beside the way ahead
    rather than over it ([D142](06-decisions.md)), the yard paved plainly
-   ([D133](06-decisions.md)). "E to climb" at the door.
+   ([D133](06-decisions.md)). "E to climb" at the door. Auto walks across the Tower's tile to the
+   door and stops there; switched on again, it goes in ([D206](06-decisions.md)).
 7. **Floors 1 to 5**, each walked ([D102](06-decisions.md)) and each its own shape: a pillared hall,
    a ring round a core, a split floor, zigzag terraces, the keeper's room ([D114](06-decisions.md)),
    dressed as a tower with a stair and lit runes ([D129](06-decisions.md), [D132](06-decisions.md)). Each floor brings a kind of foe not met on the one before, and floors 1 to 4 carry none of the
@@ -78,7 +79,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 attack): foes two levels down, half healed
 after a fight, about a level a fight, the bands on the Tower's floors at the level written for them (the setting's
 two levels off is not applied there), so the floor 5 keeper stands at level 9 ([D113](06-decisions.md), kept
-by [D117](06-decisions.md), corrected by [D150](06-decisions.md)). **Saves**: on walking into a town or the city, opening the register,
+by [D117](06-decisions.md), corrected by [D150](06-decisions.md)). **Saves**: on walking into a town or the city (once an arrival: in and out over its edge is not saved again until the party has been three tiles off, [D206](06-decisions.md)), opening the register,
 shutting a gate, as well as setting out and resting ([D112](06-decisions.md)). **The play log**:
 Copy or Save play log in the system menu hands a tester's run over ([D125](06-decisions.md)).
 
@@ -175,6 +176,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
 | 2026-10-15 23:50 | Five strangers: bot personas, two on PC, three on phones | `4196128` | After the city nobody found the first gate; phone held upright unplayable; a gate's fight opened the old screen; no deaths in 95 minutes ([D161](06-decisions.md), [D162](06-decisions.md), [D163](06-decisions.md)) |
 | 2026-10-17 08:29 | Design meeting 5, chaired by the intern, voted without the founders on `dougie`'s word, with three self-played runs on main (`4852d22`, seeds 77, 1, 2, 15 minutes at 2×) | `4852d22` | City in 3 to 4 minutes and a gate shut in every run; none reached the Tower (Auto stops after the gate); one fall, on the road at 11:53. The milestones redrawn, the order of work, stances, the Second Hour, play-test 5's brief ([D193](06-decisions.md) to [D200](06-decisions.md)) |
+| 2026-10-17 | D197's fixes, reproduced and shown with self-played runs ([D206](06-decisions.md)) | this PR, after `afb8008` | Before (`4852d22`, Atlas): no run stood at the Tower's door in 15 minutes. After, as Atlas: seeds 77, 1, 2 at the door at 5:10, 3:08, 6:30, every chapter one closed, no fall before floor 5; a killer named on every fall. As dealt leads (Bellona, Iris, Pluto, Vesta, Diana): 6 of 8 fell on the road or at the first gate, at levels 1 to 4 |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
 
 ### Play-test 3's asks
@@ -214,17 +216,20 @@ tip now says so).
 
 ### Play-test 4's asks
 
-What `doug-md` asked for in play-test 4 that needs more than a fix, **planned**, waiting on his order.
-Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted).
+What `doug-md` asked for in play-test 4 that needs more than a fix, **planned** unless marked.
+Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted). His order
+(2026-10-17, [D204](06-decisions.md)): item 1 first, then item 4, ahead of meeting five's list.
 1. **Every fight in real time where it happens**, no pause and no separate box: Tower floors 6 up on
-   the Tower's own floor, not a field of grass (play-test 3, item 5).
+   the Tower's own floor, not a field of grass (play-test 3, item 5). Part one built
+   ([D204](06-decisions.md)): no stop before a fight on the ground and no box round it. Part two,
+   **planned**: no separate fight screens (Tower floors 6 up, gate floors, roadside fights).
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
    waypoints, clicked to go (play-test 3, item 2).
 3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
    there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
    and build them.
-4. **People on the land**: more encounters, people to fight ("I still haven't encountered a single
+4. **People on the land** (next after item 1, all three parts together): more encounters, people to fight ("I still haven't encountered a single
    person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
    near them, a fight you can join and be thanked for (play-test 3, item 4).
 5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for

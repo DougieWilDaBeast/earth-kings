@@ -104,6 +104,14 @@ var _auto_exit_index: int = 0
 ## On the land: the tile the party is walking itself into, and the tile it set off from ([D94]).
 var _auto_tile: Vector2i = Vector2i(-1, -1)
 var _auto_from: Vector2i = Vector2i(-1, -1)
+## The way across the Tower's tile to its door, for a party walking itself there ([D197]), and
+## whether it has already stopped at the door once: asked on again from there, it goes in.
+var _auto_door_path: Array[Vector2] = []
+var _auto_door_index: int = 0
+var _auto_at_door := false
+## Frames Auto has walked without moving; at [constant AUTO_BLOCKED_FRAMES] its way is worked out again.
+var _auto_blocked: int = 0
+const AUTO_BLOCKED_FRAMES := 45
 var _talking: bool = false
 ## Held while it plays; a director that only exists as a temporary is collected
 ## the moment it finishes and never hands control back.
@@ -1435,6 +1443,9 @@ func _land_auto_axis() -> Vector2:
 			if FIGHT_ACTS.has(str(each.get("act", ""))):
 				_do_act(each)
 				return Vector2.ZERO
+	var to_door := _auto_door_axis(world)
+	if to_door != Vector2.INF:
+		return to_door
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1466,6 +1477,48 @@ func _land_auto_axis() -> Vector2:
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## A party walking itself to the Tower does not stop where it crosses onto the Tower's tile, out
+## in the streets: it walks on to the door, stops there with "E to climb" up, and hands back
+## ([D197]; before it, Auto stopped at the tile's edge and, asked on, walked off to wander). Asked on
+## again from the door, it goes in, and climbs as Auto does on the floors (D115). [constant
+## Vector2.INF] when the Tower is not where the party is headed, or there is no door here to go to.
+func _auto_door_axis(world: World) -> Vector2:
+	var goal := AutoRoad.objective(world)
+	var door := _door()
+	if not bool(goal.get("door", false)) or goal.get("cell") != world.player_cell or door == null:
+		_auto_at_door = false
+		_auto_door_path.clear()
+		return Vector2.INF
+	if _leader.position.distance_to(door.position) <= DOOR_RANGE * 0.75:
+		var doing := _act_of(door)
+		if not _auto_at_door:
+			_auto_at_door = true
+			_auto_door_path.clear()
+			Pace.auto = false
+			var prompt := str(doing.get("prompt", ""))
+			_note("You have reached %s.%s" % [goal.get("label", "the Tower"), " " + prompt if prompt != "" else ""])
+			return Vector2.ZERO
+		if doing.is_empty():
+			# The stair is shut (no Guild mark yet): the party goes about its errands instead.
+			return Vector2.INF
+		if not _asking and not _leaving and not _talking:
+			_auto_at_door = false
+			_do_act(doing)
+		return Vector2.ZERO
+	if _auto_door_path.is_empty() or _auto_door_index >= _auto_door_path.size():
+		_auto_door_path = map.find_path(_leader.position, door.position)
+		_auto_door_index = 1 if _auto_door_path.size() > 1 else 0
+		if _auto_door_path.is_empty():
+			return (door.position - _leader.position).normalized()
+	var waypoint := _auto_door_path[_auto_door_index]
+	if _leader.position.distance_to(waypoint) < 16.0:
+		_auto_door_index += 1
+		if _auto_door_index >= _auto_door_path.size():
+			return (door.position - _leader.position).normalized()
+		waypoint = _auto_door_path[_auto_door_index]
+	return (waypoint - _leader.position).normalized()
 
 
 ## Soak mode: make for the way out, so a run that is playing itself never
@@ -1748,6 +1801,14 @@ func _physics_process(delta: float) -> void:
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
+	# Auto walking into something and not moving works its way out again, rather than pressing on
+	# at a waypoint it cannot reach ([D197]).
+	_auto_blocked = _auto_blocked + 1 if Pace.auto and moved.length_squared() <= 0.01 else 0
+	if _auto_blocked >= AUTO_BLOCKED_FRAMES:
+		_auto_blocked = 0
+		_auto_exit_path.clear()
+		_auto_door_path.clear()
+		_auto_tile = Vector2i(-1, -1)
 	if (_approach != null or not _click_path.is_empty()) and _leader.position.is_equal_approx(before):
 		# Something is in the way; the player can steer around it themselves.
 		_approach = null
@@ -2304,8 +2365,8 @@ func _on_band_moved(watch: Node2D) -> void:
 
 
 ## Seen. Every head turns, the one in front shouts, the field is taken from where everyone stands,
-## the band rushes in, and the fight opens on this ground at this view ([D66]). Bursting out of
-## cover at them is an ambush.
+## and the fight is on, on this ground at this view ([D66]); since [D204] nobody waits for the shout
+## or a rush first: the band closes in fighting. Bursting out of cover at them is an ambush.
 func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	_spotted = true
 	_leaving = true
@@ -2320,8 +2381,11 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 		_note("Out of the long grass and on %s before they know it." % str(watch.band.get("label", "them")))
 	else:
 		_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
-		# A beat for the shout to be read before they come; an ambush gives them none.
-		await get_tree().create_timer(float(AreaWatch.rule("spotted_seconds", 0.5))).timeout
+		# A beat for the shout to be read before they come, if the rules give one (none since D204:
+		# the fight is on as they shout); an ambush never gives them one.
+		var beat := float(AreaWatch.rule("spotted_seconds", 0.0))
+		if beat > 0.0:
+			await get_tree().create_timer(beat).timeout
 	if not is_inside_tree():
 		return
 	# Where everyone stood when they were seen is where the fight is laid out, so it is taken
@@ -2457,6 +2521,10 @@ func _charge(watch: Node2D) -> void:
 	var figures: Array = watch.figures
 	if figures.is_empty() or _leader == null:
 		return
+	# No rush before the fight (D204): they close in fighting, from where they stood.
+	if float(AreaWatch.rule("charge_seconds", 0.0)) <= 0.0:
+		_leader.face((figures[0] as Node2D).position - _leader.position)
+		return
 	var rush := create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	var share := float(AreaWatch.rule("charge_share", 0.55))
 	for figure: Node2D in figures:
@@ -2565,6 +2633,11 @@ func _regather_at(point: Vector2) -> void:
 			actor.queue_free()
 	_leader = null
 	_followers.clear()
+	# Put back somewhere else, the way Auto was walking is no way from here ([D197]: on floor 4 it
+	# kept making for a waypoint behind a wall after a fight and stood there for good).
+	_auto_exit_path.clear()
+	_auto_exit_index = 0
+	_auto_door_path.clear()
 	var at := map.cell_at(point)
 	if not map.is_walkable(at):
 		at = _free_spot_near(at)

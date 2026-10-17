@@ -332,6 +332,7 @@ _Default:_ Early Access, decided after the Second Hour.
 ## Will's to-dos (not questions)
 
 These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).
-- Delete the old branches (the list is in the project's `notes/branches-to-delete.md`).
+- ~~Delete the old branches~~: done for him by the one-off `old-branches` workflow ([D205](06-decisions.md)).
 - In the repository's settings: turn on auto-merge, auto-delete of head branches, and branch
-  protection on `main`.
+  protection on `main`; make the board. Step by step in his
+  [GitHub setup checklist](https://claude.ai/artifact/8Zxg4C3Jtr4Qr88kHAKehU) ([D205](06-decisions.md)).

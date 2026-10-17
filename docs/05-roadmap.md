@@ -286,7 +286,22 @@ each, each ending playable:
    against this one, the loop every piece of work goes round, cost tiers, bug severities and the states
    of a milestone, in [32](32-the-pipeline.md). Milestones 12 to 17 are **planned**: the game at release on
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
-   launch and after launch. Where the inbox lives and when the Steam page goes up wait on `dougie`.
+   launch and after launch. The inbox is built ([D205](06-decisions.md), call BH): GitHub issues, labels and
+   milestones from `.github/plan.json`, a `plan` check on every PR, a daily sort and a status issue; `dougie`
+   makes the board and protects `main` from his checklist. When the Steam page goes up waits on `dougie`.
+19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
+   list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
+   stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
+   and no box round it; part two **planned**, no separate fight screens (Tower floors 6 up, gate
+   floors, roadside fights). (b) **People on the land**, **planned**, all three together: the Watch
+   fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
+   walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   Item 17's list follows.
+20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
+   from the first gate to the Tower's door and stops there, goes in when switched on again, and after a
+   chapter makes for the next gate; a town is saved once an arrival; a fall names its killer; the soak
+   plays the lead the quiz deals from the seed. Found on the way: as a dealt lead, self-played runs fell
+   before the Tower in 6 of 8, Atlas in none.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

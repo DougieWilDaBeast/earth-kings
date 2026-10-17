@@ -916,12 +916,13 @@ func _check_a_band_on_the_ground() -> void:
 	ground._check_the_watch(arrived)
 	ground._leader.position = ground.map.centre_of(into)
 	_expect(ground._check_the_watch(into), "stepping into the red was not seen")
-	# The band charges for a moment before the fight opens: wait on the clock,
-	# since frames run far faster than that with no screen.
+	# No stop before the fight (D204): it is on almost at once, with no shout to wait out and no
+	# rush first. Waited on the clock, since frames run far faster than that with no screen.
 	var waited := 0.0
 	while waited < 3.0 and ground.get("_fight") == null:
-		await get_tree().create_timer(0.1).timeout
-		waited += 0.1
+		await get_tree().create_timer(0.05).timeout
+		waited += 0.05
+	_expect(waited <= 0.4, "the fight took %.2f s to start after the band saw the party (D204: no stop)" % waited)
 	# Fought where it was met (D98): the same ground scene, with the fight put down on it.
 	var fight: Node2D = ground.get("_fight")
 	_expect(fight != null, "walking into the red did not start the fight")
@@ -934,6 +935,9 @@ func _check_a_band_on_the_ground() -> void:
 	_expect(bool(fight.get("in_place")) and fight.get_node_or_null("Ground") == null,
 		"the fight drew a second copy of the ground instead of standing on it")
 	_expect(not bool(fight.get("paused")), "the fight on the ground opened paused")
+	# On the open ground (D204): no box, nothing dimmed round it.
+	_expect(bool(fight.grid.quiet) and not bool(fight.grid.get("_pointer_out")),
+		"the fight on the ground is drawn in a box")
 	var origin: Vector2i = AreaMap.to_cell(fight.get("ground_field").get("origin", [0, 0]))
 	var cell_on_ground: Vector2 = fight.to_global(fight.grid.cell_to_world(Vector2i.ZERO))
 	_expect(ground.map.cell_at(ground.to_local(cell_on_ground)) == origin,

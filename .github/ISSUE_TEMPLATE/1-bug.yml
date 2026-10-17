@@ -1,0 +1,27 @@
+name: Something is broken
+description: A crash, a stuck run, or something that works wrong
+labels: ["kind: bug", "tier 1: cheap"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, and what went wrong. A screenshot or the play log helps.
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How bad
+      options:
+        - S1 crash, lost save, or stuck with no way on
+        - S2 a milestone's done-when fails
+        - S3 wrong but playable
+        - S4 cosmetic
+    validations:
+      required: true
+  - type: input
+    id: build
+    attributes:
+      label: Which build
+      description: The itch build, or "main" if you played from the editor
