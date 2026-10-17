@@ -251,7 +251,7 @@ func _auto_walks_to_the_door() -> void:
 		gate.cleared = true
 		break
 	world.prowlers.clear()
-	# A world nobody has stepped in yet is stocked with bands as it opens (and since D210 some camp by
+	# A world nobody has stepped in yet is stocked with bands as it opens (and since D215 some camp by
 	# the road): this walk is about the door, not the bands, so it is one already walked.
 	world.steps = maxi(world.steps, 1)
 	var start := Vector2i(-1, -1)

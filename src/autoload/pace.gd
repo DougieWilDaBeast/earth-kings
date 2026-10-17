@@ -22,7 +22,7 @@ var auto: bool = false:
 
 var _step: int = 0
 
-## How a party walking itself meets bands ([D211], `doug-md`): "aggressive" turns aside for any band
+## How a party walking itself meets bands ([D216], `doug-md`): "aggressive" turns aside for any band
 ## near and walks into its red; "mixed" keeps to its way and fights what sees it; "passive" walks
 ## round red ground where it can. Names and blurbs are `auto_styles` in `data/world_rules.json`.
 const AUTO_STYLES := ["aggressive", "mixed", "passive"]

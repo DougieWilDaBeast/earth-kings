@@ -171,7 +171,7 @@ static func restock(world: World, rng: RandomNumberGenerator) -> void:
 
 ## The First Hour's road is walked by every new climber, and the danger rating leaves it empty: it
 ## runs past the city and the havens, and quiet country refuses bands. So a few always camp near it
-## ([D210], play-test 4: "I still haven't encountered a single person I can fight"): `near_the_road`
+## ([D215], play-test 4: "I still haven't encountered a single person I can fight"): `near_the_road`
 ## in `encounters.json`, `bands` of them `from` to `to` tiles off the road (never on it: the Watch
 ## keeps the cobbles) and at least `clear_of_places` tiles from any place, some of them people
 ## (`people_share` of `people`) rather than what lives there.

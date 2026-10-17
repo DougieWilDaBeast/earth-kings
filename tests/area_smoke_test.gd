@@ -836,7 +836,7 @@ func _check_tower_floor() -> void:
 	print("tower floor: a band fought for real on floor 1, the stair up won the floor, Atlas found his buckle on floor 5, and the Tower's door says how to climb")
 
 
-## People on the land (D210): bands always by the First Hour's road, the Watch beset on the roads
+## People on the land (D215): bands always by the First Hour's road, the Watch beset on the roads
 ## round a town (and only there) fighting beside the party, and climbers resting on a Tower floor.
 func _check_people_on_the_land() -> void:
 	GameState.new_game(SEED, "janus")

@@ -273,7 +273,7 @@ each, each ending playable:
    at a time, in this order, all **planned**: (1) Auto walks on from the first gate to the Tower's yard
    door, one save per arrival at the city, a fall names its killer, and the soak plays a lead the quiz
    deals ([D197](06-decisions.md)); (2) stances on the fighter cards, Own way, Close in, Keep away, Guard,
-   Hold ([D195](06-decisions.md), call BC); (3) coins in four metals, `doug-md`'s next; (4) **the Second
+   Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next; (4) **the Second
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md)), then sixteen
    self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
@@ -299,16 +299,22 @@ each, each ending playable:
    and no box round it; part two built ([D207](06-decisions.md), issue #205), no separate fight
    screens: Tower floors 6 up walked on a borrowed plan of floors 1 to 4 with their own foes (until
    the Second Hour's rooms), roadside fights where their scene stands, towns and captives just ahead.
-   (b) **People on the land** — built ([D210](06-decisions.md), issue #206), all three together: the
+   (b) **People on the land** — built ([D215](06-decisions.md), issue #206), all three together: the
    Watch beset on the roads round a town (join in and they fight beside you, then pay the Watch's
    bounty), six bands always camping near the First Hour's road (half of them brigands), and companies
    of climbers walking the road and resting on Tower floors ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (c) **Three ways for Auto to walk** — built ([D216](06-decisions.md)): Aggressive, Mixed (the default)
+   and Passive, picked in the menu; roadside scenes stand down the road, are told in the log and no
+   longer stop Auto or open a box.
    Item 17's list follows.
 20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
    from the first gate to the Tower's door and stops there, goes in when switched on again, and after a
    chapter makes for the next gate; a town is saved once an arrival; a fall names its killer; the soak
    plays the lead the quiz deals from the seed. Found on the way: as a dealt lead, self-played runs fell
    before the Tower in 6 of 8, Atlas in none.
+21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
+   party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
+   early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -366,8 +372,9 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    side fights to a doctrine: dodging wind-ups, keeping distance, flanking, guarding the hurt,
    hanging back to heal, breaking off when low, and choosing whom to hit
    ([18](18-combat-direction.md#tactics), [21](21-the-sixteen-first-draft.md#how-the-sixteen-fight-tactically)).
-   Planned next: telling your own fighters how to fight (a stance on each card: close in, keep
-   away, guard, hold), the signatures' own moves (Janus swapping two units, Saturn pulling one in),
+   Stances built 2026-10-17 ([D209](06-decisions.md)): each party card says how that fighter
+   fights, Own way, Close in, Keep away, Guard or Hold, set by a click on the word or a key
+   ([18](18-combat-direction.md#stances)). Planned next: the signatures' own moves (Janus swapping two units, Saturn pulling one in),
    and a look at Janus and Pluto, who still lose most one against one (agenda item 118).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run

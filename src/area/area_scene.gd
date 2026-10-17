@@ -101,7 +101,7 @@ var _waymark: Node2D
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
-## The way to a band's red that a party walking itself is making for, and where along it ([D210]).
+## The way to a band's red that a party walking itself is making for, and where along it ([D215]).
 var _auto_band_path: Array = []
 var _auto_band_index: int = 0
 var _auto_band_target := Vector2i(-1, -1)
@@ -187,7 +187,7 @@ const FIGHT_ACTS := ["_enter_gate_here"]
 const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
-## How near, in cells, a band's red must be for a party walking itself to make for it ([D210]).
+## How near, in cells, a band's red must be for a party walking itself to make for it ([D215]).
 const AUTO_BAND_SIGHT := 18
 ## Where the log's right edge stands on a screen wide enough for it.
 const LOG_WIDTH := 900.0
@@ -207,7 +207,7 @@ var _roadside_nodes: Array[Node2D] = []
 ## The attackers of the roadside scene staged here, where its fight puts them (D207).
 var _roadside_foes: Array[Node2D] = []
 ## The middle of the roadside scene staged here, and whether what is going on there has been said
-## yet: it is said in the log as the party comes near (D211), not in a box when it is come upon.
+## yet: it is said in the log as the party comes near (D216), not in a box when it is come upon.
 var _roadside_middle := Vector2i(-1, -1)
 var _roadside_told := false
 var _held_fight: String = ""
@@ -547,7 +547,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 		})
 
 
-## Other companies on their way to the Tower ([D210], play-test 4: "other people trying to climb
+## Other companies on their way to the Tower ([D215], play-test 4: "other people trying to climb
 ## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
 ## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
 func _admit_the_climbers(tile: Vector2i) -> void:
@@ -604,7 +604,7 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
-## Another company resting on a Tower floor, by the stair up ([D210]): they got here first, and will
+## Another company resting on a Tower floor, by the stair up ([D215]): they got here first, and will
 ## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
 func _admit_climbers_to_the_floor() -> void:
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
@@ -1142,7 +1142,7 @@ func _stage_roadside(event_id: String) -> void:
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	if ahead == Vector2i.ZERO:
 		ahead = Vector2i.DOWN
-	# Stood well down the road (D211: seen coming, not put in front of the party).
+	# Stood well down the road (D216: seen coming, not put in front of the party).
 	var off := int(Database.roadside.get("rules", {}).get("stage_cells", 4))
 	var middle := _free_spot_near(map.cell_at(_leader.position) + ahead * off)
 	_roadside_middle = middle
@@ -1165,7 +1165,7 @@ func _stage_roadside(event_id: String) -> void:
 		_actors.add_child(driver)
 		_roadside_nodes.append(driver)
 		look_at = driver.position
-	# Whoever stands with the scene and will fight beside the party: the Watch beset (D210), back to
+	# Whoever stands with the scene and will fight beside the party: the Watch beset (D215), back to
 	# back in the middle of it, facing out at the ones round them.
 	var standing := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1)]
 	var allies: Array = stage.get("allies", [])
@@ -1190,7 +1190,7 @@ func _stage_roadside(event_id: String) -> void:
 
 
 ## What is going on at the roadside scene, said in the log once the party is near enough to see
-## (`tell_cells`, D211), with how to step in.
+## (`tell_cells`, D216), with how to step in.
 func _tell_the_roadside() -> void:
 	if _roadside_staged == "" or _roadside_told or _leader == null:
 		return
@@ -1203,7 +1203,7 @@ func _tell_the_roadside() -> void:
 	_note("%s to step in, or walk on by." % (Pad.key("interact") if Pad.using_pad else "E"))
 
 
-## Walking itself aggressively (D211), the company goes to a roadside scene and steps in; walking any
+## Walking itself aggressively (D216), the company goes to a roadside scene and steps in; walking any
 ## other way it walks on by. [constant Vector2.INF] when there is nothing to go to.
 func _auto_roadside_axis() -> Vector2:
 	if Pace.auto_style != "aggressive" or _roadside_staged == "" or _asking or _leader == null:
@@ -1654,7 +1654,7 @@ func _red_at(cell: Vector2i) -> bool:
 	return _watches.any(func(watch: Node2D) -> bool: return watch.watched.has(cell))
 
 
-## The way a party walking itself takes across the land to [param to]: walking passively ([D211]),
+## The way a party walking itself takes across the land to [param to]: walking passively ([D216]),
 ## round every band's red when there is a way round, straight through it only when there is not.
 func _auto_way(land: Land, here: Vector2i, to: Vector2i) -> Array[Vector2]:
 	if Pace.auto_style == "passive" and not _watches.is_empty():
@@ -1669,10 +1669,10 @@ func _auto_way(land: Land, here: Vector2i, to: Vector2i) -> Array[Vector2]:
 	return land.find_cell_path(here, to)
 
 
-## Walking itself aggressively ([D211]), a band standing in sight on this ground is the fight worth
+## Walking itself aggressively ([D216]), a band standing in sight on this ground is the fight worth
 ## the detour Auto turned aside for
 ## ([method AutoRoad.errand]): it walks into the band's nearest red cell, rather than standing on the
-## band's tile waiting for it to look, or stepping off and back on for ever ([D210]: with bands by the
+## band's tile waiting for it to look, or stepping off and back on for ever ([D215]: with bands by the
 ## road, Auto did both for minutes). [constant Vector2.INF] when there is none in sight.
 func _auto_band_axis() -> Vector2:
 	if Pace.auto_style != "aggressive" or _watches.is_empty() or _spotted or _leader == null:

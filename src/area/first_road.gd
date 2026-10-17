@@ -26,7 +26,7 @@ static func sides(world: World, tile: Vector2i) -> Array:
 	return (_laid[key] as Dictionary).get(tile, [])
 
 
-## Every tile the road passes through ([D210]: the bands that camp near it are counted from these).
+## Every tile the road passes through ([D215]: the bands that camp near it are counted from these).
 static func tiles(world: World) -> Array:
 	sides(world, Vector2i.ZERO)
 	var home := world.home()

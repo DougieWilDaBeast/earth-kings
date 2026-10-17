@@ -29,6 +29,8 @@
 			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
 			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
 		},
+		"_comment_auto_rest": "D210 (call BL): a party walking itself whose health is under this share of its whole goes to the nearest place that heals it on arriving (a village, keep or hut; not the crater) before any band or the objective. Read by AutoRoad.rest_stop. **Inferred**: the share.",
+		"auto_rest_below": 0.5,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,
@@ -53,7 +55,7 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
-		"_comment_climbers": "D210 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). Inferred: every number, name and line.",
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). Inferred: every number, name and line.",
 		"climbers": {
 			"road_chance": 0.3,
 			"size": [
@@ -145,7 +147,7 @@
 		}
 	},
 	"auto_styles": {
-		"_comment": "D211 (doug-md, 2026-10-17: \"three differnt auto runs, 1st one is aggressive, two is passive (avoids combat), 3 is mixed (will fight if provoked)\"): how a party walking itself meets bands, picked in the menu and kept in settings.cfg (Pace.auto_style). Aggressive turns aside for any band in sight and walks into its red, and steps into a roadside scene; mixed keeps to its way and fights only what sees it; passive walks round red ground where it can. Inferred: the names and blurbs.",
+		"_comment": "D216 (doug-md, 2026-10-17: \"three differnt auto runs, 1st one is aggressive, two is passive (avoids combat), 3 is mixed (will fight if provoked)\"): how a party walking itself meets bands, picked in the menu and kept in settings.cfg (Pace.auto_style). Aggressive turns aside for any band in sight and walks into its red, and steps into a roadside scene; mixed keeps to its way and fights only what sees it; passive walks round red ground where it can. Inferred: the names and blurbs.",
 		"names": {"aggressive": "Aggressive", "mixed": "Mixed", "passive": "Passive"},
 		"blurbs": {
 			"aggressive": "Walking itself, the company goes looking for a fight: any band in sight, and any trouble on the road.",

@@ -268,7 +268,7 @@ func patches_of(tile: Vector2i) -> Array:
 
 ## A way from [param from_cell] to [param to_cell] over the held land, worked out over the ground
 ## between them rather than all of it (the land is far too big for one grid).
-## With [param avoid] (cells as keys), a way that keeps off them, or none ([D211]: a party walking
+## With [param avoid] (cells as keys), a way that keeps off them, or none ([D216]: a party walking
 ## itself passively goes round a band's red).
 func find_cell_path(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
 	if not in_bounds(from_cell) or not in_bounds(to_cell):

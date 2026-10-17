@@ -911,7 +911,7 @@ func _check_a_band_on_the_ground() -> void:
 		patrolled += 0.1
 	_expect((on_ground.figures[0] as Node2D).position != post, "the band stood still instead of patrolling")
 	_expect(not ground._spotted, "the band's patrol walked it into sight of where the party came in")
-	# The three ways of walking itself (D211): only an aggressive party turns aside for the band; a
+	# The three ways of walking itself (D216): only an aggressive party turns aside for the band; a
 	# passive one works its way round the band's red.
 	var kept_style := Pace.auto_style
 	Pace.auto_style = "aggressive"
@@ -1010,7 +1010,7 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	ground.call("_stage_roadside", event)
 	var staged: Array = ground.get("_roadside_foes")
 	_expect(not staged.is_empty(), "the roadside scene stood nobody on the ground to fight")
-	# Seen coming (D211): stood well down the road, not in front of the party.
+	# Seen coming (D216): stood well down the road, not in front of the party.
 	var apart: Vector2i = (ground.get("_roadside_middle") as Vector2i) - (ground.map as AreaMap).cell_at(ground._leader.position)
 	_expect(apart.length() >= 5.0, "the roadside scene was stood %.1f cells off, right in front of the party" % apart.length())
 	# Counted now: the fight clears the scene away, and with it this list.

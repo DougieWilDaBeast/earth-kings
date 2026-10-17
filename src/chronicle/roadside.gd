@@ -47,7 +47,7 @@ static func look(world: World, cell: Vector2i) -> String:
 		return ""
 	if world.steps - world.roadside_at < int(rules().get("rest_steps", 40)):
 		return ""
-	# Near a town it is the town's Watch beset ([D210], `near_town` scenes); out in the open
+	# Near a town it is the town's Watch beset ([D215], `near_town` scenes); out in the open
 	# country, everyone else's.
 	# Never at a place's own door (it is the place's business), near a town or not.
 	if _near_a_site(world, cell):
@@ -64,7 +64,7 @@ static func look(world: World, cell: Vector2i) -> String:
 	return str(ids[world.rng.randi() % ids.size()])
 
 
-## Whether [param cell] is within `town_reach` of a town that is standing ([D210]): where its Watch
+## Whether [param cell] is within `town_reach` of a town that is standing ([D215]): where its Watch
 ## goes out after whatever comes up off the open country. (Within `clear_of_sites` of any place there
 ## is no scene at all: a ring of road round each town, out past its gate.)
 static func near_town(world: World, cell: Vector2i) -> bool:
@@ -96,7 +96,7 @@ static func title(event_id: String) -> String:
 
 
 ## The fight, if you take it. Levelled off the party, so a scene found late is
-## still worth stopping for. Whoever the scene's `allies` are (the Watch beset, [D210]) fight beside
+## still worth stopping for. Whoever the scene's `allies` are (the Watch beset, [D215]) fight beside
 ## the party, at its level.
 static func meeting(world: World, cell: Vector2i, event_id: String, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var enemies: Array = []
