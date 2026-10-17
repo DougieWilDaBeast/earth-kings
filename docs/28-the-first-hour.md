@@ -248,18 +248,11 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 7. **A siege seen**: when Stormreach is attacked and defended, see the fight there, not be taken
    somewhere else and put back.
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
-<<<<<<< HEAD
 9. **The bottom of the screen**: the fight's party cards ran off the bottom with a party of six
    (his answer, 2026-10-17). Fixed ([D231](06-decisions.md)).
-10. **Followers facing the way they walk** when walking down. Not reproduced: a suite walking a party
-    of three down, up and down again finds them facing the leader's way. **To ask him where it was.**
-=======
-9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
-   the screen and wants resizing and moving. **To ask him which.**
 10. **Followers facing the way they walk** when walking down, out on the open land (his answer,
     2026-10-17): once in step they never turned, so after walking up they walked down looking up.
     Fixed ([D214](06-decisions.md)).
->>>>>>> origin/main
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
     city or a stronghold.
 
