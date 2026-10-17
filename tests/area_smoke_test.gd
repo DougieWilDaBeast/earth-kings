@@ -65,6 +65,7 @@ func _ready() -> void:
 	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
+	await _check_people_on_the_land()
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
@@ -836,6 +837,87 @@ func _check_tower_floor() -> void:
 	await get_tree().process_frame
 	GameState.new_game(SEED)
 	print("tower floor: a band fought for real on floor 1, the stair up won the floor, Atlas found his buckle on floor 5, and the Tower's door says how to climb")
+
+
+## People on the land (D215): bands always by the First Hour's road, the Watch beset on the roads
+## round a town (and only there) fighting beside the party, and climbers resting on a Tower floor.
+func _check_people_on_the_land() -> void:
+	GameState.new_game(SEED, "janus")
+	var world: World = GameState.world
+	world.prowlers.clear()
+	Encounter.restock(world, world.rng)
+	var rules: Dictionary = Database.encounters.get("near_the_road", {})
+	var road: Array = FirstRoad.tiles(world)
+	var by_road := 0
+	for band: Prowler in world.prowlers:
+		var apart := 1 << 20
+		for tile: Vector2i in road:
+			apart = mini(apart, Pathfinder.distance(band.cell, tile))
+		if apart >= int(rules.get("from", 2)) and apart <= int(rules.get("to", 4)):
+			by_road += 1
+	_expect(by_road >= int(rules.get("bands", 1)), "people: only %d bands by the road (wanted %d)" % [by_road, int(rules.get("bands", 1))])
+
+	# The Watch beset: by a town's roads only, and fighting beside the party.
+	var town: Site = null
+	for site: Site in world.sites:
+		if Town.is_settlement(site) and not Town.is_ruined(site):
+			town = site
+			break
+	var ring := Vector2i(-1, -1)
+	var open := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var c := Vector2i(x, y)
+			if not world.is_walkable(c) or Roadside._near_a_site(world, c):
+				continue
+			if ring.x < 0 and Roadside.near_town(world, c):
+				ring = c
+			if open.x < 0 and not Roadside.near_town(world, c):
+				open = c
+	_expect(town != null and ring.x >= 0 and open.x >= 0, "people: no road round a town, or no open country, to look on")
+	var watch_ids := Roadside.events().keys().filter(func(id) -> bool: return bool(Roadside.event(str(id)).get("near_town", false)))
+	_expect(not watch_ids.is_empty(), "people: there is no Watch beset among the roadside scenes")
+	var seen_by_town: Array = []
+	var seen_in_open: Array = []
+	for i in 400:
+		world.roadside_at = -999
+		var here := Roadside.look(world, ring)
+		if here != "":
+			seen_by_town.append(here)
+		world.roadside_at = -999
+		var there := Roadside.look(world, open)
+		if there != "":
+			seen_in_open.append(there)
+	_expect(not seen_by_town.is_empty() and seen_by_town.all(func(id) -> bool: return watch_ids.has(id)),
+			"people: by a town's road the scenes were %s, not the Watch beset" % [seen_by_town.slice(0, 5)])
+	_expect(seen_in_open.all(func(id) -> bool: return not watch_ids.has(id)), "people: the Watch was beset out in the open country")
+	var met := Roadside.meeting(world, ring, str(watch_ids[0]), GameState.party_characters(), world.rng)
+	var allies: Array = met.get("map", {}).get("allies", [])
+	_expect(allies.size() == 2 and allies.all(func(a: Dictionary) -> bool: return str(a.get("name", "")) == "a watchman"),
+			"people: the Watch beset does not fight beside the party (%s)" % [allies])
+
+	# Climbers resting by a floor's stair, who talk.
+	var climbers: Dictionary = Database.world_rules.get("life", {}).get("climbers", {}).get("on_the_floors", {})
+	var floor := -1
+	for f in range(int(climbers.get("from", 2)), 60):
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash([world.world_seed, f, "climbers"])
+		if rng.randf() < float(climbers.get("chance", 0.4)):
+			floor = f
+			break
+	_expect(floor > 0, "people: no Tower floor has climbers resting on it")
+	if floor > 0:
+		var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+		scene.set("boot_payload", { "area_id": Chapters.walked_floor_area(floor), "return_scene": "world", "tower_floor": floor })
+		add_child(scene)
+		for i in 5:
+			await get_tree().process_frame
+		var resting: Array = (scene.get("map") as AreaMap).people.filter(func(p: Dictionary) -> bool: return str(p.get("_area", "")) == "climbers_floor")
+		_expect(resting.size() >= 2 and not (resting[0].get("talk", {}) as Dictionary).get("hello", []).is_empty(),
+				"people: floor %d has no company resting by its stair to talk to (%d)" % [floor, resting.size()])
+		scene.queue_free()
+		await get_tree().process_frame
+	print("people: %d bands by the road, the Watch beset by a town's road, climbers on floor %d" % [by_road, floor])
 
 
 func _expect(ok: bool, message: String) -> void:

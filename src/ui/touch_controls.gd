@@ -138,7 +138,8 @@ func _lay_out() -> void:
 
 	if not walking:
 		_release_steering()
-	_auto_btn.text = "Auto: On" if Pace.auto else "Auto"
+	# On, it says which way it walks (D216); the menu picks the way.
+	_auto_btn.text = "Auto: %s" % Pace.auto_style_name() if Pace.auto else "Auto"
 	_speed_btn.text = "%dx" % int(Pace.speed())
 
 

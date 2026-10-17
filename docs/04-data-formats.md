@@ -548,7 +548,11 @@ to land is gone `away_seconds`. A bird that has stood a while goes up on a loop 
 ([D189](06-decisions.md)). `road_watch`: on that `chance` of the First Hour's road tiles, two of
 the city's Watch (`units`, called `name`) walk the road there end to end and back, staying `stay`
 [min, max] seconds and saying one of `lines` at each end; `talk` is their conversation (a `talk`
-block, above). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+block, above). `climbers` ([D215](06-decisions.md)): on `road_chance` of the road's tiles the Watch
+is not walking, a company of `size` [min, max] (bodies from `units`, named one of `companies`)
+walks the road there and back, the first of them saying one of `lines` at each end, and talks
+(`talk`); `on_the_floors`, from floor `from` at `chance`, a company rests by a Tower floor's stair
+and talks (`talk`). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 
@@ -635,8 +639,24 @@ them, one more every `chapters_per_extra_foe` chapters, and one more for every m
 
 An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
 `GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway ([D162](06-decisions.md)), a roadside
-fight with its attackers where the scene stages them (`stage` in `roadside.json`), and a town
+fight with its attackers where the scene stages them (`stage` in `roadside.json`; a stage's
+`allies`, such as the Watch beset by a town, [D215](06-decisions.md), stand in the middle of it and
+fight beside the party), and a town
 defended or raided or a captive taken back by force with the other side a few strides ahead.
+
+**Bands by the road and the Watch beset** ([D215](06-decisions.md)). `encounters.json` →
+`near_the_road`: `bands` more always camp `from` to `to` tiles off the First Hour's road, never on it
+and at least `clear_of_places` tiles from any place, topped up with the rest of the land's bands
+(`bands`, by the danger rating); `people_share` of them are two or three of `people`, the rest
+whatever lives there. `roadside.json`: a scene with `near_town` is offered only within the rules'
+`town_reach` tiles of a standing town, at `near_town_chance` a step, the rest only in open country at
+`chance`; no scene is ever within `clear_of_sites` of a place. `purse_line` is how a scene's purse is
+said (`%d` the gold). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
+with no box and without stopping a party walking itself ([D216](06-decisions.md)).
+
+**`world_rules.json` → `auto_styles`** ([D216](06-decisions.md)): `names` and `blurbs` of the three
+ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, kept in
+`settings.cfg` → `ui` → `auto_style`), shown in the menu and on the top bar's Auto button.
 
 ## `memories.json` — chapter memories (D103)
 

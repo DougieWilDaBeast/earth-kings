@@ -401,10 +401,13 @@ func _look_down_the_road(cell: Vector2i) -> void:
 	if found == "":
 		return
 	_roadside_here = found
-	# A party walking itself would pace straight past somebody dying.
-	Pace.auto = false
+	# Seen from down the road, not put in front of the party with a box ([D216], `doug-md`: "I also
+	# dont want the random broken down carrigae and toll to stop the auto walk"): the ground stands
+	# it further on and says what it is as the party comes near. A party walking itself walks on,
+	# or, walking aggressively, goes to it and steps in.
 	_note(Roadside.title(found))
-	EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
+	if _view != View.GROUND:
+		EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
 
 
 ## Step in. The purse and everything after it waits on winning.
