@@ -45,6 +45,8 @@ var claims_the_view: bool = true
 ## Drawing back over the whole framed area (the world ending): the view may hold all of it, with
 ## nothing round it, even on a screen held upright.
 var _whole: bool = false
+## Further than any ground the game lays out, in pixels: a view out here has been flung off.
+const LOST := 10000000.0
 
 
 func _ready() -> void:
@@ -95,6 +97,17 @@ func recentre(immediate: bool = false) -> void:
 
 
 func _process(delta: float) -> void:
+	# The follow is smoothed in the player's seconds, not the game's ([D245], play-test 6): the
+	# camera's own smoothing steps by the game's delta, and at 5x a step overshot, swung back
+	# further each frame ("jumping the screen left and right, up and down") and at last flew off
+	# for good, leaving the screen black. The speed is divided by the game's pace to cancel it.
+	if follow_speed > 0.0:
+		position_smoothing_speed = follow_speed / maxf(Engine.time_scale, 0.01)
+	# A view that has gone somewhere no number can follow is brought straight back to its focus.
+	if not position.is_finite() or not get_screen_center_position().is_finite() \
+			or absf(get_screen_center_position().x) > LOST or absf(get_screen_center_position().y) > LOST:
+		position = _reachable(_focus) if _focus.is_finite() else Vector2.ZERO
+		reset_smoothing()
 	# The right stick looks around anywhere. The movement keys only do where
 	# nothing else wants them, and never on a pad, whose left stick is driving
 	# a menu or a cursor wherever the keys would have panned.

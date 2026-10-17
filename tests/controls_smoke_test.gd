@@ -70,6 +70,7 @@ func _ready() -> void:
 	await _check_the_ground_is_the_game()
 	await _check_a_band_on_the_ground()
 	await _check_a_roadside_fight_on_the_ground()
+	await _check_the_camera_at_speed()
 
 	if _failures.is_empty():
 		print("controls smoke test: PASS")
@@ -1066,6 +1067,34 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	await _clear_dialogue()
 	_expect(_current_scene() == ground and ground.get("_fight") == null, "after the roadside fight play did not carry on on the ground")
 	print("roadside: stepped in and fought on the ground where it was staged")
+
+
+## D245 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
+## ("jumping the screen left and right") and flew off for good (a black screen). Followed back and
+## forth at 5x, it stays on what it follows.
+func _check_the_camera_at_speed() -> void:
+	var rig: Camera2D = load("res://src/ui/camera_rig.gd").new()
+	rig.set("claims_the_view", false)
+	add_child(rig)
+	var kept := Engine.time_scale
+	Engine.time_scale = 5.0
+	var worst := 0.0
+	for i in 240:
+		var spot := Vector2(400.0 * (1 if (i / 20) % 2 == 0 else -1), 0.0)
+		rig.call("focus_on", spot)
+		await get_tree().process_frame
+		var at := rig.get_screen_center_position()
+		worst = maxf(worst, at.length() if at.is_finite() else INF)
+	# Its smoothing runs at the 1x rate whatever the pace (frames here come too fast for the overshoot
+	# itself to show; the virtual-screen run in D245 is where it flew off before the fix).
+	var follow := float(rig.get("follow_speed"))
+	var at_pace := rig.position_smoothing_speed * Engine.time_scale
+	Engine.time_scale = kept
+	rig.queue_free()
+	_expect(follow <= 0.0 or absf(at_pace - follow) < 0.01,
+			"at 5x the camera smooths at %.1f a second, not its own %.1f: it overshoots and flies off" % [at_pace, follow])
+	_expect(worst < 5000.0, "at 5x the camera swung %.0f pixels off what it follows" % worst)
+	print("camera: at 5x it smooths at its own pace and kept within %.0f pixels" % worst)
 
 
 func _pad_button(button: JoyButton) -> InputEventJoypadButton:

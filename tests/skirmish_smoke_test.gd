@@ -546,9 +546,11 @@ func _check_surround() -> void:
 	for f: Fighter in fight.fighters:
 		if f.is_party() or not f.is_standing():
 			continue
-		if Pathfinder.distance(f.unit.cell, cato.unit.cell) == 1:
+		# At arm's length, the diagonals too: a blow reaches them since D245.
+		var off := f.unit.cell - cato.unit.cell
+		if maxi(absi(off.x), absi(off.y)) == 1:
 			adjacent += 1
-			sides[f.unit.cell - cato.unit.cell] = true
+			sides[off] = true
 	print("  surround: %d brigands at Cato's side, on %d sides" % [adjacent, sides.size()])
 	_expect(adjacent >= 3 and sides.size() >= 3, "melee foes clumped instead of surrounding (%d on %d sides)" % [adjacent, sides.size()])
 	fight.queue_free()
