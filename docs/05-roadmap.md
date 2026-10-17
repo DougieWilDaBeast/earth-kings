@@ -287,6 +287,14 @@ each, each ending playable:
    of a milestone, in [32](32-the-pipeline.md). Milestones 12 to 17 are **planned**: the game at release on
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
    launch and after launch. Where the inbox lives and when the Steam page goes up wait on `dougie`.
+19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
+   list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
+   stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
+   and no box round it; part two **planned**, no separate fight screens (Tower floors 6 up, gate
+   floors, roadside fights). (b) **People on the land**, **planned**, all three together: the Watch
+   fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
+   walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   Item 17's list follows.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

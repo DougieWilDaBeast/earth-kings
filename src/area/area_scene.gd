@@ -2292,8 +2292,8 @@ func _on_band_moved(watch: Node2D) -> void:
 
 
 ## Seen. Every head turns, the one in front shouts, the field is taken from where everyone stands,
-## the band rushes in, and the fight opens on this ground at this view ([D66]). Bursting out of
-## cover at them is an ambush.
+## and the fight is on, on this ground at this view ([D66]); since [D204] nobody waits for the shout
+## or a rush first: the band closes in fighting. Bursting out of cover at them is an ambush.
 func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	_spotted = true
 	_leaving = true
@@ -2308,8 +2308,11 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 		_note("Out of the long grass and on %s before they know it." % str(watch.band.get("label", "them")))
 	else:
 		_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
-		# A beat for the shout to be read before they come; an ambush gives them none.
-		await get_tree().create_timer(float(AreaWatch.rule("spotted_seconds", 0.5))).timeout
+		# A beat for the shout to be read before they come, if the rules give one (none since D204:
+		# the fight is on as they shout); an ambush never gives them one.
+		var beat := float(AreaWatch.rule("spotted_seconds", 0.0))
+		if beat > 0.0:
+			await get_tree().create_timer(beat).timeout
 	if not is_inside_tree():
 		return
 	# Where everyone stood when they were seen is where the fight is laid out, so it is taken
@@ -2441,6 +2444,10 @@ func _climb_the_stair() -> void:
 func _charge(watch: Node2D) -> void:
 	var figures: Array = watch.figures
 	if figures.is_empty() or _leader == null:
+		return
+	# No rush before the fight (D204): they close in fighting, from where they stood.
+	if float(AreaWatch.rule("charge_seconds", 0.0)) <= 0.0:
+		_leader.face((figures[0] as Node2D).position - _leader.position)
 		return
 	var rush := create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	var share := float(AreaWatch.rule("charge_share", 0.55))
