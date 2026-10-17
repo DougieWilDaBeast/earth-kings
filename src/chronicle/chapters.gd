@@ -35,13 +35,26 @@ static func chapters(world: World) -> int:
 	return ceili(float(world.tower_floors()) / float(per_chapter()))
 
 
-## The area [param floor] is walked on, when it is one of the floors that are walked rather than
-## fought as one battle (`walked_floors`, D102), else "".
+## The area [param floor] is walked on (D102), else "". The first `walked_floors` have their own;
+## every floor above borrows one of their plans (`borrowed_plans`, [D205]), so no floor is fought
+## as a battle on a screen of its own: see [method borrows_a_plan] and `tower_floors.gd`.
 static func walked_floor_area(floor: int) -> String:
-	if floor < 1 or floor > int(rules().get("walked_floors", 0)):
+	if floor < 1:
 		return ""
-	var area_id := str(rules().get("walked_area", "tower_floor_%d")) % floor
+	var plan := floor
+	if floor > int(rules().get("walked_floors", 0)):
+		var borrowed: Array = rules().get("borrowed_plans", [])
+		if borrowed.is_empty() or floor > int(rules().get("floors", 100)):
+			return ""
+		plan = int(borrowed[(floor - 1) % borrowed.size()])
+	var area_id := str(rules().get("walked_area", "tower_floor_%d")) % plan
 	return area_id if Database.has_area(area_id) else ""
+
+
+## Whether [param floor] is walked on another floor's plan ([D205]): its bands are then the floor's
+## own foes, not the plan's.
+static func borrows_a_plan(floor: int) -> bool:
+	return floor > int(rules().get("walked_floors", 0)) and walked_floor_area(floor) != ""
 
 
 ## True when winning [param floor] ends a chapter (the top counts).

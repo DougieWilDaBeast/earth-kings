@@ -33,6 +33,7 @@ const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
@@ -166,6 +167,10 @@ var _fight_watch: Node2D = null
 var _awaiting_fight: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
+## Doings that start a fight, fought here on this ground with no screen of its own ([D205]): the
+## gate's at its doorway (D162), a roadside fight where its scene is staged, and the rest just ahead
+## of the party. Only a gate is gone into by a party walking itself ([const FIGHT_ACTS]).
+const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
 ## Where the log's right edge stands on a screen wide enough for it.
@@ -183,6 +188,8 @@ var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
 var _roadside_staged := ""
 var _roadside_nodes: Array[Node2D] = []
+## The attackers of the roadside scene staged here, where its fight puts them (D205).
+var _roadside_foes: Array[Node2D] = []
 var _held_fight: String = ""
 var _held_done: String = ""
 ## cell -> a memory of the lead's lying there, not yet picked up (D103).
@@ -231,6 +238,9 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
+	# A floor above the walked ones, walked on one of their plans (D205): its bands are its own foes.
+	if _tower_floor > 0:
+		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
@@ -1035,6 +1045,7 @@ func _stage_roadside(event_id: String) -> void:
 	var pack: Array = event.get("pack", [])
 	for i in mini(pack.size(), round_them.size()):
 		var figure := AreaActor.for_person({ "name": "a brigand", "unit": str(pack[i]) })
+		_roadside_foes.append(figure)
 		figure.position = map.centre_of(_free_spot_near(middle + round_them[i]))
 		figure.face(look_at - figure.position)
 		figure.set_interactive(false)
@@ -1047,6 +1058,7 @@ func _clear_roadside() -> void:
 		if is_instance_valid(node):
 			node.queue_free()
 	_roadside_nodes.clear()
+	_roadside_foes.clear()
 	_roadside_staged = ""
 
 
@@ -2405,6 +2417,9 @@ func _lay_out_memories() -> void:
 	if _land_mode or GameState.roster == null or GameState.roster.player() == null:
 		return
 	var area_id := str(boot_payload.get("area_id", ""))
+	# A floor walked on another's plan (D205) is not where that floor's keepsakes lie.
+	if _tower_floor > 0 and TowerFloors.Chapters.borrows_a_plan(_tower_floor):
+		return
 	for memory: Dictionary in Memories.lying_in(area_id, GameState.roster.player().template_id):
 		var cell := Memories.cell_of(memory)
 		map.place({ "art": str(memory.get("art", "coin_pile")), "cell": cell, "name": str(memory.get("object", "something")) })
@@ -2626,6 +2641,32 @@ func _gate_field() -> Dictionary:
 	return field
 
 
+## The patch of ground a roadside fight is fought on ([D205]): the party where it stands and the
+## attackers where the scene stages them; with nothing staged, just ahead of the party.
+func _roadside_field() -> Dictionary:
+	var foes: Array = []
+	for node: Node2D in _roadside_foes:
+		if is_instance_valid(node):
+			var c := map.cell_at(node.position)
+			foes.append([c.x, c.y])
+	return _field_round(foes, false) if not foes.is_empty() else _field_ahead()
+
+
+## The patch of ground a fight with nobody yet standing on it is fought on ([D205]): a town's raiders,
+## its guards, a captive's keepers. The party where it stands, and them a few strides ahead of it.
+func _field_ahead() -> Dictionary:
+	var here := map.cell_at(_leader.position)
+	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
+	if ahead == Vector2i.ZERO:
+		ahead = Vector2i.DOWN
+	var front := here + ahead * 5
+	var foes: Array = []
+	for side: Vector2i in [Vector2i.ZERO, Vector2i(ahead.y, ahead.x), Vector2i(-ahead.y, -ahead.x), ahead]:
+		var c := _free_spot_near(front + side)
+		foes.append([c.x, c.y])
+	return _field_round(foes, false)
+
+
 func _field_round(foes: Array, ambush: bool) -> Dictionary:
 	var party: Array = []
 	for actor: AreaActor in [_leader] + _followers:
@@ -2702,13 +2743,16 @@ func _act_for(event: InputEvent) -> Dictionary:
 func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
 		return
-	if FIGHT_ACTS.has(str(each.get("act", ""))):
-		# Gone into here, not on a fight screen (D162): the continent deals the fight and it is
-		# put down on this ground, at the gate, the way a band met on it is.
+	var act := str(each.get("act", ""))
+	if GROUND_FIGHT_ACTS.has(act):
+		# Gone into here, not on a fight screen (D162, D205): the continent deals the fight and it is
+		# put down on this ground, the way a band met on it is.
 		if not _asking:
 			_awaiting_fight = true
 			_talking = true
-			_ask_the_continent({ "act": str(each.get("act", "")), "field": _gate_field() })
+			var field := _gate_field() if act == "_enter_gate_here" \
+				else (_roadside_field() if act == "_step_into_the_road" else _field_ahead())
+			_ask_the_continent({ "act": act, "field": field })
 		return
 	if _land_mode:
 		# Done out of sight, and the party stays where it stands.
