@@ -80,10 +80,40 @@ static func for_gate(world: World, site: Site, party: Array) -> Array:
 		"the %s-rank gate at %s was shut" % [site.rank, site.display_name]
 	)
 
+	lines.append_array(keeper_prize(world, site))
+
 	# The harder the gate, the likelier something written was behind it.
 	var chance := 0.2 + 0.12 * float(Site.rank_index(site.rank))
 	if not party.is_empty() and world.rng.randf() < chance:
 		lines.append_array(_grant_doctrine(world, party))
+	return lines
+
+
+## The gate's keeper and its prize ([D219], from Necesse's bosses): every faction's keeper carries
+## one (`world_rules.keepers.prizes`), and the chance of it rises each keeper of that faction
+## felled (`chance`, by try) until it is certain, then starts again. Rolled from a hash, not the
+## dice, so a seeded run finds what it always did.
+static func keeper_prize(world: World, site: Site) -> Array:
+	var rules: Dictionary = Database.world_rules.get("keepers", {})
+	var faction := str(site.data.get("faction", Faction.FALLBACK))
+	var prize := str(rules.get("prizes", {}).get(faction, ""))
+	if prize == "" or Database.equipment_piece(prize).is_empty():
+		return []
+	var tries := int(world.keepers.get(faction, 0)) + 1
+	var odds: Array = rules.get("chance", [1.0])
+	var chance := float(odds[mini(tries, odds.size()) - 1]) if not odds.is_empty() else 1.0
+	var roll := float(absi(hash([world.world_seed, site.cell.x, site.cell.y, "keeper"])) % 1000) / 1000.0
+	var tokens := {
+		"keeper": str(Database.unit_template(Faction.champion(faction)).get("display_name", "The keeper")),
+		"prize": Gear.display_name(prize),
+	}
+	var said: Dictionary = rules.get("lines", {})
+	if roll >= chance:
+		world.keepers[faction] = tries
+		return [str(said.get("missed", "")).format(tokens)] if str(said.get("missed", "")) != "" else []
+	world.keepers[faction] = 0
+	var lines: Array = [str(said.get("prize", "{keeper} drops {prize}.")).format(tokens)]
+	lines.append_array(Loot.claim({ "item": prize }, GameState.roster))
 	return lines
 
 

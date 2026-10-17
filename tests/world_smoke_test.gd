@@ -605,6 +605,24 @@ func _check_encounters(world: World) -> void:
 	_check_field(Encounter.wild(world, world.player_cell, party, world.rng), "wild")
 
 	var gate: Site = world.sites_of_kind(Site.GATE)[0]
+	# A keeper's prize (D219): certain by the third keeper of a faction, and the count starts again.
+	var faction := str(gate.data.get("faction", Faction.FALLBACK))
+	var prize := str(Database.world_rules.get("keepers", {}).get("prizes", {}).get(faction, ""))
+	_expect(prize != "", "the %s keeper carries no prize" % faction)
+	world.keepers.erase(faction)
+	var tries := 0
+	var won := false
+	while not won and tries < 5:
+		tries += 1
+		var said := Spoils.keeper_prize(world, gate)
+		won = int(world.keepers.get(faction, 0)) == 0
+		_expect(not said.is_empty() and str(said[0]).contains(Gear.display_name(prize)),
+			"the keeper's line does not name its prize (%s)" % [said])
+	_expect(won and tries <= 3, "the %s keeper's prize took %d keepers, not three at most" % [faction, tries])
+	world.keepers[faction] = 2
+	_expect(int(World.from_dict(world.to_dict()).keepers.get(faction, -1)) == 2, "the keepers' count was lost in the save")
+	world.keepers.erase(faction)
+	print("keepers: the %s keeper's %s came on keeper %d" % [faction, prize, tries])
 	var delve := Encounter.for_gate(world, gate, 0, true, party, world.rng)
 	_check_field(delve, "gate")
 	_expect(delve["enemies"].size() >= 3, "a guarded gate fielded only %d" % delve["enemies"].size())
