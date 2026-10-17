@@ -823,6 +823,8 @@ func _tick_fighter(f: Fighter) -> void:
 	f.since_hit += SkirmishRules.TICK
 	f.recover_energy(SkirmishRules.TICK * signatures.energy_rate(f))
 	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
+	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
+	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 
@@ -922,6 +924,8 @@ func _fight(f: Fighter, foe: Unit, may_walk: bool) -> void:
 	var ability := Database.ability(f.basic)
 	if may_walk and _keep_away(f, ability, foe):
 		return
+	if may_walk and _move_first(f, foe):
+		return
 	if AbilityResolver.in_range(ability, f.unit.cell, foe.cell):
 		if f.attack_timer <= 0.0:
 			_swing(f, foe, ability)
@@ -936,6 +940,36 @@ func _fight(f: Fighter, foe: Unit, may_walk: bool) -> void:
 			fx.popup("Charge!", f.unit.position, SkirmishFx.HURT, 15)
 		_step_towards(f, func(c: Vector2i) -> bool:
 			return AbilityResolver.in_range(ability, c, foe.cell))
+
+
+## A move worth making before the next swing: carry on with one under way, or
+## take up a new one the brain picks (dodge, kite, flank; [D187]). Returns true
+## when the fighter stepped instead of fighting.
+func _move_first(f: Fighter, foe: Unit) -> bool:
+	if f.tactic_left > 0.0 and f.tactic_goal.is_valid() and not f.tactic_goal.call(f.unit.cell):
+		if _step_towards(f, f.tactic_goal):
+			return true
+	f.tactic_left = 0.0
+	var tactics: Dictionary = Database.skirmish.get("tactics", {})
+	var tactic := SkirmishBrain.pick_tactic(f, fighters, foe, tactics)
+	if tactic.is_empty():
+		return false
+	if tactic["why"] == "hold":
+		f.unit.face_towards(foe.cell)
+		return true
+	if tactic.has("target"):
+		f.target = tactic["target"]
+	if not _step_towards(f, tactic["goal"]):
+		return false
+	f.tactic_goal = tactic["goal"]
+	f.tactic_left = float(tactics.get("give_up", 1.5)) * (2.0 if tactic["why"] == "break" else 1.0)
+	f.tactic_wait = float(tactic["wait"])
+	if tactic["why"] == "kite":
+		f.retreat_wait = f.tactic_wait
+	var word := str(tactics.get("words", {}).get(tactic["why"], "")).format({"name": tactic.get("ally", "")})
+	if word != "":
+		fx.popup(word, f.unit.position, SkirmishFx.WORD, 12)
+	return true
 
 
 ## A skirmisher or mender with someone too close backs off a tile or two, now

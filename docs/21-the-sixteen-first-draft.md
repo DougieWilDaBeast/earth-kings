@@ -422,6 +422,32 @@ tinted. The last column is what is still planned, because no fight can do it yet
 A companion (the bearer, the wolf, a shade) fights beside the party as an ally: it earns nothing,
 is not in the roster, and is gone when the fight is over.
 
+## How the sixteen fight, tactically
+
+**Inferred, all of it** (agenda item 117). Built 2026-10-17 ([D187](06-decisions.md)): on top of
+class, passive and signature, each of the sixteen has a **doctrine**, the moves they make and the foe
+they would rather hit when nobody is giving them orders (Auto, a fight left to them, a who-wins
+bout, and the same lead met as a foe). The moves are in [18](18-combat-direction.md#tactics).
+
+| Lead | Doctrine | How they fight |
+| --- | --- | --- |
+| Atlas | Ranged | Shoots from Sky's back; Sky closes, Atlas does not step down to brawl |
+| Iris | Ranged | Steps back from anyone at her elbow and keeps shooting; goes for the hurt and the marked |
+| Diana | Ranged | Shoots from behind her wolf and backs off from whatever gets past it |
+| Ultor | Striker | Circles to the flank of the one in front of him, and picks off the hurt |
+| Ares | Striker | Goes for healers and shooters first, then circles |
+| Liber | Striker | Circles, and breaks off to get his breath when low |
+| Cassius | Striker | Circles the one who keeps hitting him |
+| Pluto | Striker | Goes for the hurt, so his shades rise sooner |
+| Saturn | Striker | Circles, keeping foes inside his Heavy Ground |
+| Janus | Striker | Circles; the worse the odds, the faster his skills come back |
+| Caesar | Guardian | Steps in front of a friend under half health and takes their attacker |
+| Cato | Anchor | Guards a hurt friend, then stands still to Set |
+| Ceres | Rooted | Stands her ground on her own plantings |
+| Vesta | Keeper | Hangs back behind her friends and wards them; walks in only when they are down |
+| Juno | Keeper | Hangs back, throwing draughts, out of reach |
+| Bellona | Leader | Guards the hurt, circles, and keeps her orders' reach on her friends |
+
 ## Who is where
 
 | Group named in the session | Who of the sixteen |

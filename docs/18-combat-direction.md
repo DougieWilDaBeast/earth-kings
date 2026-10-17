@@ -183,8 +183,9 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   bar and follow their target, but fizzle if it falls or gets away.
 - **Auto Skill**, left to right, only when a skill is ready and already in reach; heals only on an
   ally at or under 60%.
-- **Enemies** pick the nearest standing foe and stick with it, use their own skills the same way,
-  and never pick on the downed. A party member not told otherwise fights anything within six tiles,
+- **Enemies** pick the nearest standing foe and stick with it (unless their doctrine's focus,
+  below, makes another worth the walk), use their own skills the same way, and never pick on the
+  downed. A party member not told otherwise fights anything within six tiles,
   and joins in once any companion is fighting. **Allies** (a Guild muster, a fight the world puts
   beside you) are on the party's side, think as enemies do, and cannot be picked or ordered.
 - **A party playing itself** (`Q` on the road, a soak) does not wait: the fight opens running,
@@ -321,6 +322,50 @@ level-1 characters against six level-8 brigands — ends in about 20 seconds, an
 - **Balance.** Every number is a first guess. Enemies still hit for single digits against a party
   that hits for thirty. The run's ledger counts damage at fight scale, three times what the
   turn-based fight counted.
+
+## Tactics
+
+**Built 2026-10-17** ([D187](06-decisions.md), call BB). Until then every fighter, on every side,
+walked to the nearest foe and stood swinging on a timer: `dougie` saw it in the who-wins clips
+("they just stand and bang") and in the game. One brain thinks for everyone (enemies, allies, the
+party fighting on its own, Auto, both leads in a bout), so the tactics are in the brain
+(`SkirmishBrain.pick_tactic`, `doctrine`, and the focus in `pick_target`) and change every fight in
+the game. They are hand-written rules, not a learned model: they run at once in the browser and on
+phones, a seed still gives the same fight, and every move can be read and tuned in
+`data/skirmish.json` → `tactics`.
+
+Each fighter has a **doctrine**: the lead's own (`leads`), else its enemy role's (`roles`), else a
+brute's. A doctrine is the moves it tries, in order, and its **focus**: whom it would walk further for.
+
+| Move | What the fighter does | Word over its head |
+| --- | --- | --- |
+| Dodge | In the last 1.6 s of a wind-up of a second or more that would land on it, steps out of the blast; aimed at it from close by, steps out of the caster's reach, so the skill fizzles | dodges |
+| Kite | Its swing reaches two tiles or more and a foe is at its elbow: steps back, keeping that foe in reach (every 2.5 s) | falls back |
+| Flank | It swings up close and the foe is facing it: circles to the side or back, where every blow lands harder (every 2.5 s, 1.5 s with a passive for it) | circles |
+| Guard | A friend within 4 tiles is under half health with a foe on them: steps in beside them and takes that foe on (every 3 s) | guards Vesta |
+| Hang back | A healer with friends fighting in front: keeps 3 tiles from every foe, and does not walk in to swing | hangs back |
+| Break off | Under 30% health with a friend still fighting: gets 4 tiles clear for a while (every 8 s), where Catch Breath and its like mend | breaks off |
+
+| Doctrine | Moves | Focus (tiles of walking a foe is worth) | Who |
+| --- | --- | --- | --- |
+| Brute | dodge, flank | none: nearest | enemies without a role, beasts' companions |
+| Striker | dodge, flank, break off | hurt 1.5, marked 1, healers and shooters 1.5 | Ultor, Ares, Liber, Cassius, Pluto, Saturn, Janus; chargers |
+| Ranged | dodge, kite, break off | hurt 1.5, marked 1 | Atlas, Iris, Diana; skirmishers |
+| Guardian | dodge, guard, flank | hurt 0.5 | Caesar |
+| Anchor | dodge, guard | hurt 0.5 | Cato (standing still is his Set) |
+| Rooted | dodge | hurt 0.5 | Ceres (standing still plants her tile) |
+| Keeper | dodge, hang back, kite, break off | hurt 1, marked 1 | Vesta, Juno; menders |
+| Leader | dodge, guard, flank, break off | hurt 1, marked 1, healers and shooters 0.5 | Bellona |
+
+A fighter keeps its foe unless another is worth 1.5 tiles more (`switch_margin`), so nobody
+flickers between two. Everything here is **Inferred** (agenda items 116 to 118), from the founders'
+call to make fighting tactics "a much larger portion of the game".
+
+**What it did** (who-wins table, level 5, two seeds, 480 bouts, before and after): bouts run longer
+(25 s in the middle before, 32 after) and more reach 90 s (47 before, 74 after), because the ranged
+now keep away. Iris went from 13% to 37%, Diana from 62% to 73% (she shoots from behind her wolf),
+Atlas from 55% to 57%; the close fighters lost a little (Ares 60% to 52%, Cassius 60% to 53%).
+Janus (20% to 13%) and Pluto (23% to 20%) still lose most one against one.
 
 ## Who wins?
 

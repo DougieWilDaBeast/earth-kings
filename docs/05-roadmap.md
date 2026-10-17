@@ -309,6 +309,13 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    Planned: the aim line and ground ring before a big move, words when a signature goes off, a cut to
    speed lines on the last blow, music under the clip once the in-house themes land, and a look at the
    leads who lose most one against one (Iris, Janus, Pluto; agenda item 112).
+9. **Fight tactics — built** (2026-10-17, [D187](06-decisions.md), call BB). Every fighter on every
+   side fights to a doctrine: dodging wind-ups, keeping distance, flanking, guarding the hurt,
+   hanging back to heal, breaking off when low, and choosing whom to hit
+   ([18](18-combat-direction.md#tactics), [21](21-the-sixteen-first-draft.md#how-the-sixteen-fight-tactically)).
+   Planned next: telling your own fighters how to fight (a stance on each card: close in, keep
+   away, guard, hold), the signatures' own moves (Janus swapping two units, Saturn pulling one in),
+   and a look at Janus and Pluto, who still lose most one against one (agenda item 118).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
 ([10](10-manual-tests.md#automated-tests)). Since 2026-09-26 CI runs every suite and a two-minute

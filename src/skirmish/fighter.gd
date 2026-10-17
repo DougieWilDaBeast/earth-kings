@@ -60,6 +60,12 @@ var aiding: float = 0.0
 ## Tallies the smoke test and the end-of-fight line read.
 var swings: int = 0
 var casts: int = 0
+## A move under way besides swinging (dodge, kite, flank; [SkirmishBrain.pick_tactic]):
+## where it is going, as a test on a cell, and seconds before it is given up.
+var tactic_goal: Callable = Callable()
+var tactic_left: float = 0.0
+## Seconds before this fighter will think of another such move.
+var tactic_wait: float = 0.0
 ## The skill this fighter last let go, by name (the show's corner badge, [D180]).
 var last_move: String = ""
 ## Times a grace stood this fighter back up in the near-death window.

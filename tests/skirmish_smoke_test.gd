@@ -183,6 +183,7 @@ func _run() -> void:
 	await _check_the_world_hears()
 	await _check_signatures()
 	_check_bout()
+	await _check_tactics()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -800,4 +801,36 @@ func _check_bout() -> void:
 	print(WhoWins.verdict_line(wolf))
 	if wolf["winner"] == "ares":
 		_expect(int(wolf["right_hp"]) <= 0, "Diana lost while still standing: %s" % str(wolf))
+	GameState.roster = kept_roster
+
+
+## Tactics ([D187]): a lead fights to their doctrine. Iris steps back from Ares at
+## her elbow; Ares, face to face with Iris, circles to her side; a ranged lead
+## would walk further for a hurt foe than for a fresh one beside it.
+func _check_tactics() -> void:
+	const WhoWins := preload("res://src/who_wins/who_wins.gd")
+	var kept_roster := GameState.roster
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = WhoWins.stage("iris", "ares", 5, 11)
+	fight.manual = true
+	add_child(fight)
+	await get_tree().process_frame
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var iris: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return f.unit.template_id == "iris")[0]
+	var ares: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return f.unit.template_id == "ares")[0]
+	_expect(SkirmishBrain.doctrine(iris, tactics) == tactics["doctrines"]["ranged"], "Iris does not fight as the ranged do")
+	_expect(SkirmishBrain.doctrine(ares, tactics) == tactics["doctrines"]["striker"], "Ares does not fight as a striker")
+	iris.unit.cell = Vector2i(8, 7)
+	ares.unit.cell = Vector2i(8, 6)
+	iris.unit.facing = Vector2i.UP
+	ares.unit.facing = Vector2i.DOWN
+	var kite := SkirmishBrain.pick_tactic(iris, fight.fighters, ares.unit, tactics)
+	_expect(str(kite.get("why", "")) == "kite", "Iris with Ares at her elbow did not step back: %s" % str(kite))
+	var flank := SkirmishBrain.pick_tactic(ares, fight.fighters, iris.unit, tactics)
+	_expect(str(flank.get("why", "")) == "flank", "Ares face to face with Iris did not circle: %s" % str(flank))
+	if str(flank.get("why", "")) == "flank":
+		_expect(flank["goal"].call(Vector2i(9, 7)) and flank["goal"].call(Vector2i(8, 8)) \
+				and not flank["goal"].call(Vector2i(8, 6)),
+				"circling should end at Iris's side or back, not where she is looking")
+	fight.queue_free()
 	GameState.roster = kept_roster
