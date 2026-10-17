@@ -29,6 +29,7 @@ const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
+const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
@@ -94,6 +95,8 @@ var _approach: AreaThing = null
 var _approach_path: Array[Vector2] = []
 ## Where the leader is walking to after a click on open ground, the next point first.
 var _click_path: Array[Vector2] = []
+## The pin where a click sent the party, and the line to it ([D189]).
+var _waymark: Node2D
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -175,6 +178,8 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
+## The door the party is standing in, so a shut one is tried once per arrival, not every frame.
+var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
 var _roadside_staged := ""
 var _roadside_nodes: Array[Node2D] = []
@@ -227,6 +232,9 @@ func _ready() -> void:
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
 	_lay_out_memories()
+	_waymark = AreaWaymark.new()
+	add_child(_waymark)
+	move_child(_waymark, _actors.get_index())
 
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
@@ -262,6 +270,7 @@ func _ready() -> void:
 	_compass = Compass.new()
 	_compass.position = Vector2(14.0, 42.0)
 	_place.get_parent().add_child(_compass)
+	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
@@ -1677,6 +1686,9 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _waymark != null:
+		_waymark.show_way(_leader.position if _leader != null else Vector2.ZERO,
+			_click_path if _leader != null and _fight == null else ([] as Array[Vector2]))
 	if _fight != null:
 		_watch_the_fight()
 		return
@@ -1993,8 +2005,15 @@ func _arrive_at(cell: Vector2i) -> void:
 		_handle_exit(cell)
 		return
 	var door := map.door_at(cell)
-	if not door.is_empty():
+	if door.is_empty():
+		_on_doorstep = Vector2i(-1, -1)
+	elif cell != _on_doorstep:
+		# Once per arrival: a shut door said its line every frame the party leaned on it, and
+		# the play log filled with the same door forty times a second (play-test 4).
+		_on_doorstep = cell
 		_enter(door)
+		return
+	else:
 		return
 	if map.spots.has(cell) and not _visited_spots.has(cell):
 		_visited_spots[cell] = true
@@ -2997,6 +3016,26 @@ func _point_the_compass() -> void:
 	_compass.set_meta("aimed", true)
 	_compass.visible = not _overlay_open()
 	_compass.point(bearing, str(goal["label"]), Pathfinder.distance(world.player_cell, target))
+	_compass.set_count(AutoRoad.quests(world).size(), Pad.key("cycle_quest") if not Pad.using_pad else "")
+
+
+## L, or a click on the compass: follow the next thing in the quest list ([D190]), and say which.
+## On a floor of the Tower the compass keeps to the stair, so the choice waits for the land.
+func _next_quest() -> void:
+	var world: World = GameState.world
+	if world == null or GameState.rehearsing:
+		return
+	var entries := AutoRoad.quests(world)
+	if entries.is_empty():
+		_note("Nothing to follow yet. A settlement's board has work, if you want it.")
+		return
+	var now := AutoRoad.next_quest(world)
+	if now.is_empty():
+		return
+	var index := entries.map(func(e: Dictionary) -> String: return str(e["id"])).find(str(now["id"]))
+	_note("Following: %s (%d of %d)." % [str(now["label"]), index + 1, entries.size()])
+	Sfx.play(Sfx.SELECT)
+	_point_the_compass()
 
 
 ## Whoever here keeps the Guild's register (a person with `guild`), or null.
@@ -3070,6 +3109,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("cycle_next") and not _leaving:
 		get_viewport().set_input_as_handled()
 		_cycle_leader()
+	elif event.is_action_pressed("cycle_quest") and not _leaving and not _talking:
+		get_viewport().set_input_as_handled()
+		_next_quest()
 
 
 ## Picking something out of the square and dealing with it is done with the

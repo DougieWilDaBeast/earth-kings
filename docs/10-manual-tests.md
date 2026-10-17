@@ -130,7 +130,7 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT7  | Press **H** on a unit                                       | "hold": it stops walking to fights and only hits what is already in reach              |
 | RT8  | Let a party member drop                                     | "is down — 12 seconds", a red ring counting down under them                              |
 | RT9  | Right-click the downed ally with another selected           | They walk over, kneel, and after two seconds the ally is back up at a quarter of their health |
-| RT10 | Press **T** during the fight                                | x1 → x1.5 → x2 → x1, and the fight plays at that pace                                  |
+| RT10 | Press **T** during the fight                                | x1 → x2 → x3 → x5 → x1, and the fight plays at that pace ([D189](06-decisions.md))      |
 | RT11 | Win or lose                                                 | Victory or Defeat, and after two seconds you are back where the fight started — the road, the training ground, the coliseum |
 | RT12 | Fight in **Training**, then go back to the run              | **Your real party is untouched** — nothing from a training fight is written back         |
 | RT13 | Let someone go down with auto-pause at its default          | The fight pauses itself: "Paused." after "_X_ is down"                                    |
@@ -288,6 +288,10 @@ Start a run (not the tutorial) and walk.
 | D5.8 | Walk across several tiles of the land | No stutter as you cross from one tile into the next |
 | D5.9 | Look round any tile of open country, then walk up to a bird | Birds, butterflies and bugs about; the bird takes off as you come close, its shadow under it, and comes down a few cells away ([D179](06-decisions.md)) |
 | D5.10 | Walk the road from the crater towards the city | Now and then two of the Watch walk it, saying a word at each end; click one to talk |
+| D5.11 | Click the ground a few cells off, then click somewhere else before arriving | A gold pin where you clicked and a dotted line marching to it along the way; it moves to the new click, and is gone when you get there ([D189](06-decisions.md)) |
+| D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
+| D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
+| D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Five or six foes at about your level; the fight takes a while and hurts ([D189](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

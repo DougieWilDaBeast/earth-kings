@@ -7,7 +7,8 @@ extends Node
 
 signal changed
 
-const SPEEDS := [1.0, 1.5, 2.0]
+## 1×, 2×, 3× and 5× ([D189], `doug-md`, play-test 4; was 1×, 1.5×, 2×, D59).
+const SPEEDS := [1.0, 2.0, 3.0, 5.0]
 const SETTINGS_PATH := "user://settings.cfg"
 
 ## The game is playing itself: the AI takes the party's turns, the party walks

@@ -5,6 +5,9 @@ extends Control
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
+## A click on the ring: follow the next thing in the quest list ([D190]).
+signal pressed
+
 const RADIUS := 26.0
 const RING := Color(0.98, 0.86, 0.52, 0.85)
 const FACE := Color(0.06, 0.06, 0.09, 0.72)
@@ -13,10 +16,16 @@ const LETTERS := Color(0.9, 0.9, 0.94)
 
 var _bearing := Vector2.ZERO
 var _label: Label
+## What the compass is pointing at, and how many things there are to follow.
+var _what := ""
+var _count := 0
+var _key := ""
 
 
 func _ready() -> void:
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# The ring takes a click (the next quest); the words beside it do not.
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	custom_minimum_size = Vector2(RADIUS * 2.0 + 8.0, RADIUS * 2.0 + 8.0)
 	size = custom_minimum_size
 	_label = Label.new()
@@ -33,8 +42,31 @@ func _ready() -> void:
 ## [param tiles] away. Zero tiles is standing on it.
 func point(bearing: Vector2, what: String, tiles: int) -> void:
 	_bearing = bearing
-	_label.text = what if tiles <= 0 else "%s  ·  %d %s" % [what, tiles, "tile" if tiles == 1 else "tiles"]
+	_what = what if tiles <= 0 else "%s  ·  %d %s" % [what, tiles, "tile" if tiles == 1 else "tiles"]
+	_count = 0
+	_say()
 	queue_redraw()
+
+
+## How many things the quest list holds, and the key that steps through them: with more than one,
+## the words beside the ring say so ("1 of 3 · L").
+func set_count(count: int, key: String) -> void:
+	_count = count
+	_key = key
+	_say()
+
+
+func _say() -> void:
+	_label.text = _what
+	if _count > 1:
+		_label.text += "   (%d to follow%s)" % [_count, "  ·  %s for the next" % _key if _key != "" else ""]
+
+
+func _gui_input(event: InputEvent) -> void:
+	var click := event as InputEventMouseButton
+	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+		accept_event()
+		pressed.emit()
 
 
 func _draw() -> void:

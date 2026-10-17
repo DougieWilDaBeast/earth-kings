@@ -236,15 +236,20 @@ static func _land_foes(world: World, cell: Vector2i) -> Array:
 	return foes if roll < share else []
 
 
-## One floor of the Tower. Floors are 1-based and never scale down to meet you.
+## One floor of the Tower. Floors are 1-based and never scale down to meet you; they do scale up
+## ([D189]): never below the party's own level, and more of them for a bigger party, so a company
+## of five that has outgrown the floor's number still has a fight on its hands (play-test 4).
 ## Each stretch of floors fields one faction cohort (`world_rules.tower.cohorts`)
 ## rather than random mobs.
 static func for_tower(world: World, site: Site, floor_number: int, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var rules: Dictionary = Database.world_rules.get("tower", {})
 	var level := roundi(float(rules.get("level_base", 2)) + float(floor_number) * float(rules.get("levels_per_floor", 0.3)))
+	if bool(rules.get("meet_the_party", false)) and not party.is_empty():
+		level = maxi(level, party_level(party))
 	var foes_min := int(rules.get("foes_min", 2))
+	var crowd := maxi(0, party.size() - int(rules.get("foes_per_member_past", party.size())))
 	var count := clampi(
-		foes_min + (Chapters.chapter_of(floor_number) - 1) / maxi(1, int(rules.get("chapters_per_extra_foe", 4))),
+		foes_min + (Chapters.chapter_of(floor_number) - 1) / maxi(1, int(rules.get("chapters_per_extra_foe", 4))) + crowd,
 		foes_min, int(rules.get("foes_max", 4))
 	)
 

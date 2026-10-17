@@ -505,7 +505,9 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
 pictures each is drawn from. A bird takes off when the party comes within `shy_cells`, flies
 `flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
-to land is gone `away_seconds`. `road_watch`: on that `chance` of the First Hour's road tiles, two of
+to land is gone `away_seconds`. A bird that has stood a while goes up on a loop of its own on
+`wander_flight` of its rests, `wander_cells` [min, max] cells, and comes down where it can stand
+([D189](06-decisions.md)). `road_watch`: on that `chance` of the First Hour's road tiles, two of
 the city's Watch (`units`, called `name`) walk the road there end to end and back, staying `stay`
 [min, max] seconds and saying one of `lines` at each end; `talk` is their conversation (a `talk`
 block, above). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
@@ -575,7 +577,11 @@ fought for real on that ground ([D102](06-decisions.md)): the continent settles 
 the line said); `boss` makes its first unit a keeper. The Tower's walked floors hold these, and a
 `stairs` list of cells: on an area opened with `tower_floor` in its payload, standing on one wins
 that floor. `world_rules.json` → `tower.walked_floors` (5) and `walked_area` (`tower_floor_%d`)
-say which floors are walked.
+say which floors are walked. A floor above them is fought as one battle: its foes' level is
+`level_base` + `levels_per_floor` × the floor (4 + 0.4 ×, so floor 6 is level 6 and floor 20 level 12),
+never below the party's average level when `meet_the_party` is true, and there are `foes_min` of
+them, one more every `chapters_per_extra_foe` chapters, and one more for every member past
+`foes_per_member_past` (2), at most `foes_max` (6) ([D189](06-decisions.md)).
 
 ## `memories.json` — chapter memories (D103)
 

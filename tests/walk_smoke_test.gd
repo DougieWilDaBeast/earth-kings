@@ -1567,6 +1567,23 @@ func _check_first_hour() -> void:
 	GameState.errands.append(job)
 	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "an errand taken is not the objective")
 
+	# The quest list (D190): the road and the errand are both in it; nothing is followed until
+	# chosen; L steps on from what the compass shows; a finished errand lets the compass go back.
+	var Quests := load("res://src/world/quests.gd")
+	Quests.follow("")
+	var listed: Array = AutoRoad.quests(world)
+	_expect(listed.size() >= 2, "the quest list holds %d, not the road and the errand" % listed.size())
+	_expect(not listed.is_empty() and str(listed[0]["id"]) == "road", "the road is not first in the quest list")
+	var stepped: Dictionary = AutoRoad.next_quest(world)
+	_expect(str(stepped.get("label", "")) != "the old well", "L did not move the compass off the errand it showed")
+	_expect(AutoRoad.objective(world).get("label", "") == str(stepped.get("label", "?")), "the compass does not follow the quest chosen")
+	_expect(Quests.followed_id() != "", "the quest followed is not kept in the run's flags")
+	AutoRoad.next_quest(world)
+	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "stepping on again did not come back round to the errand")
+	GameState.errands.erase(job)
+	_expect(AutoRoad.objective(world).get("label", "") != "the old well", "a finished errand is still followed")
+	_expect(Quests.followed_id() == "", "a quest that is gone is still followed")
+
 	GameState.errands.clear()
 	GameState.errands.append_array(kept_errands)
 	world.prowlers.append_array(kept_prowlers)

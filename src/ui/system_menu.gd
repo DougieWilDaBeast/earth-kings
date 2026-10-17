@@ -23,6 +23,7 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "battle_speed", "label": "Game Speed" },
 	{ "action": "command_wait", "label": "Pause a Fight" },
 	{ "action": "cycle_next", "label": "Cycle Unit" },
+	{ "action": "cycle_quest", "label": "Next Quest (compass)" },
 	{ "action": "camera_zoom_in", "label": "Zoom In" },
 	{ "action": "camera_zoom_out", "label": "Zoom Out" },
 	{ "action": "camera_recentre", "label": "Recentre Camera" },
