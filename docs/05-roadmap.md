@@ -273,7 +273,7 @@ each, each ending playable:
    at a time, in this order, all **planned**: (1) Auto walks on from the first gate to the Tower's yard
    door, one save per arrival at the city, a fall names its killer, and the soak plays a lead the quiz
    deals ([D197](06-decisions.md)); (2) stances on the fighter cards, Own way, Close in, Keep away, Guard,
-   Hold ([D195](06-decisions.md), call BC); (3) coins in four metals, `doug-md`'s next; (4) **the Second
+   Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next; (4) **the Second
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md)), then sixteen
    self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
@@ -365,8 +365,9 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    side fights to a doctrine: dodging wind-ups, keeping distance, flanking, guarding the hurt,
    hanging back to heal, breaking off when low, and choosing whom to hit
    ([18](18-combat-direction.md#tactics), [21](21-the-sixteen-first-draft.md#how-the-sixteen-fight-tactically)).
-   Planned next: telling your own fighters how to fight (a stance on each card: close in, keep
-   away, guard, hold), the signatures' own moves (Janus swapping two units, Saturn pulling one in),
+   Stances built 2026-10-17 ([D209](06-decisions.md)): each party card says how that fighter
+   fights, Own way, Close in, Keep away, Guard or Hold, set by a click on the word or a key
+   ([18](18-combat-direction.md#stances)). Planned next: the signatures' own moves (Janus swapping two units, Saturn pulling one in),
    and a look at Janus and Pluto, who still lose most one against one (agenda item 118).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run
