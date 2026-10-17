@@ -311,6 +311,11 @@ each, each ending playable:
 21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
    party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
    early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
+22. **What other games do well** (`doug-md`, 2026-10-17, [#270](https://github.com/DougieWilDaBeast/earth-kings/issues/270)):
+   twelve ideas from six games kept, eleven cut, five questions waiting on Will. The quick wins first,
+   one pull request each: **scars** — built ([D218](06-decisions.md), #272): going down in a won fight
+   and living leaves +3 health for good. **Planned**: bosses with a sure drop (#273), treasure maps from
+   foes (#274), leading trouble to the Watch (#275, after people on the land).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

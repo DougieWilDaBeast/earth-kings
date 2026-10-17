@@ -513,6 +513,12 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `scars` — what going down leaves behind (D218)
+
+`max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
+what is said at the fight's end (`{name}`, `{hp}`, `{scars}`). A fighter earns one by going down in a
+fight the company wins and living. A character's `scars` is kept in the save.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on

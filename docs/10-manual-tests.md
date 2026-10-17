@@ -298,6 +298,7 @@ Start a run (not the tutorial) and walk.
 | D5.12 | Stand still near a bird for half a minute | Now and then it goes up on its own, flies a loop and lands somewhere else, without you coming near |
 | D5.13 | Walk into Ada's bakery door (shut) and keep pushing | The shut door says its line once; the play log has the door once, not forty times |
 | D5.14 | With a party of four or five above level 6, climb a Tower floor past 5 | Each band is five or six foes at about your level; the fights take a while and hurt ([D189](06-decisions.md), walked since [D207](06-decisions.md)) |
+| D5.15 | In a fight you can win, let one of the party go down, get them back up, and win | At the end: "… will carry a scar from that … +3 health for good"; their journal page shows Scars 1, +3 health ([D218](06-decisions.md)) |
 
 ## H — Conversation and the camp
 
