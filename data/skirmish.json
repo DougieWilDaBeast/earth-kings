@@ -61,7 +61,17 @@
 			"bellona": "leader"
 		},
 		"roles": { "charger": "striker", "skirmisher": "ranged", "mender": "keeper" },
-		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off" }
+		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off", "escort": "keeps by {name}" },
+		"escort_reach": 2,
+		"escort_every": 2.0,
+		"stances": {
+			"_comment": "The player's half of the tactics (D195, Inferred): a stance on each party card says which of a fighter's doctrine moves it tries first (first) and which it leaves alone (drop); the rest of its doctrine follows in its own order. No number changes. seek: goes and finds the fight, as Auto does, rather than waiting for foes within the party's reach. hold: keeps this ground and fights only what comes into reach. Enemies, Auto and the who-wins bouts always fight their own way. In the order a click on the card steps through them.",
+			"own": { "word": "Own way", "action": "stance_own", "tip": "Fights as they always do." },
+			"close": { "word": "Close in", "action": "stance_close", "first": ["dodge", "flank"], "drop": ["kite", "hang_back", "break"], "seek": true, "tip": "Goes in after the foe and stays on them; no falling back." },
+			"away": { "word": "Keep away", "action": "stance_away", "first": ["dodge", "kite", "break", "hang_back"], "drop": ["flank", "guard"], "tip": "Keeps a gap while friends are fighting; a bow or a spell keeps shooting." },
+			"guard": { "word": "Guard", "action": "stance_guard", "first": ["dodge", "guard", "escort"], "drop": ["break", "hang_back"], "tip": "Steps in for a hurt friend and keeps by the leader." },
+			"hold": { "word": "Hold", "action": "stance_hold", "hold": true, "tip": "Keeps this ground and fights what comes into reach." }
+		}
 	},
 
 	"passives": {

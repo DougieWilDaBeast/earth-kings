@@ -29,6 +29,8 @@
 			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
 			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
 		},
+		"_comment_auto_rest": "D210 (call BL): a party walking itself whose health is under this share of its whole goes to the nearest place that heals it on arriving (a village, keep or hut; not the crater) before any band or the objective. Read by AutoRoad.rest_stop. **Inferred**: the share.",
+		"auto_rest_below": 0.5,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,
@@ -344,6 +346,32 @@
 		"item_chance": 0.35,
 		"resale": 0.5,
 		"cache_chance": 0.04
+	},
+	"scars": {
+		"_comment": "D218 (from Kenshi's toughness, picked by doug-md 2026-10-17): a fighter who goes down in a fight the company wins, and lives, gains max_hp health for good, up to most scars. line is said at the fight's end ({name}, {hp}, {scars}).",
+		"max_hp": 3,
+		"most": 5,
+		"line": "{name} will carry a scar from that, and be harder to put down: +{hp} health for good."
+	},
+	"keepers": {
+		"_comment": "D219 (from Necesse's bosses, picked by doug-md 2026-10-17): every faction's gate keeper carries a prize (an equipment id). The chance it gives it up rises with each keeper of that faction felled since the last prize: chance[0] the first, chance[1] the second, then certain; after a prize it starts again. lines: prize (it drops), missed (it had lost it), with {keeper} and {prize}.",
+		"chance": [0.34, 0.5, 1.0],
+		"prizes": {
+			"the_ooze": "scale_shirt",
+			"the_wild": "bark_harness",
+			"broken_oath": "thorn_blade",
+			"the_dusk": "skull_staff",
+			"ember_wilds": "ember_blade",
+			"the_tide": "frost_staff",
+			"bamboo_court": "storm_blade",
+			"freeholds": "rune_blade",
+			"titans": "filigree_plate",
+			"heart_empire": "gilded_plate"
+		},
+		"lines": {
+			"prize": "{keeper} falls, and what it guarded falls with it: {prize}.",
+			"missed": "Every {keeper} carries {prize}. This one had lost it somewhere. The next will not have."
+		}
 	},
 	"atlas": {
 		"sight": 4,

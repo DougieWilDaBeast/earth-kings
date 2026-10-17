@@ -605,6 +605,24 @@ func _check_encounters(world: World) -> void:
 	_check_field(Encounter.wild(world, world.player_cell, party, world.rng), "wild")
 
 	var gate: Site = world.sites_of_kind(Site.GATE)[0]
+	# A keeper's prize (D219): certain by the third keeper of a faction, and the count starts again.
+	var faction := str(gate.data.get("faction", Faction.FALLBACK))
+	var prize := str(Database.world_rules.get("keepers", {}).get("prizes", {}).get(faction, ""))
+	_expect(prize != "", "the %s keeper carries no prize" % faction)
+	world.keepers.erase(faction)
+	var tries := 0
+	var won := false
+	while not won and tries < 5:
+		tries += 1
+		var said := Spoils.keeper_prize(world, gate)
+		won = int(world.keepers.get(faction, 0)) == 0
+		_expect(not said.is_empty() and str(said[0]).contains(Gear.display_name(prize)),
+			"the keeper's line does not name its prize (%s)" % [said])
+	_expect(won and tries <= 3, "the %s keeper's prize took %d keepers, not three at most" % [faction, tries])
+	world.keepers[faction] = 2
+	_expect(int(World.from_dict(world.to_dict()).keepers.get(faction, -1)) == 2, "the keepers' count was lost in the save")
+	world.keepers.erase(faction)
+	print("keepers: the %s keeper's %s came on keeper %d" % [faction, prize, tries])
 	var delve := Encounter.for_gate(world, gate, 0, true, party, world.rng)
 	_check_field(delve, "gate")
 	_expect(delve["enemies"].size() >= 3, "a guarded gate fielded only %d" % delve["enemies"].size())
@@ -646,6 +664,36 @@ func _check_encounters(world: World) -> void:
 			"floors %d and %d field the same cohort" % [edge, edge + 1]
 		)
 	print("tower floor %d fields level %d" % [top, _top_level(apex)])
+
+	# D211: a band on the road is dealt by the setting's level dial like any fight, all of it;
+	# the First Hour once met them at their full level, so fresh leads fell in their first fights.
+	var band := Prowler.create(world.player_cell, ["wolf", "wolf", "wolf"])
+	var even_dice := RandomNumberGenerator.new()
+	even_dice.seed = 211
+	var at_even := Encounter.for_band(world, band, party, even_dice)
+	GameState.difficulty = "first_hour"
+	var kind_dice := RandomNumberGenerator.new()
+	kind_dice.seed = 211
+	var at_first := Encounter.for_band(world, band, party, kind_dice)
+	_expect(at_first["enemies"].size() == 3, "a band of three fields %d on the First Hour" % at_first["enemies"].size())
+	_expect(_top_level(at_first) <= maxi(1, _top_level(at_even) + roundi(Difficulty.dial("enemy_level"))),
+		"a First Hour band stands at level %d against %d on Even" % [_top_level(at_first), _top_level(at_even)])
+	# And a gate's keeper, which met a lone fresh lead two levels over its floor.
+	var kept := Encounter.for_gate(world, gate, 0, true, party, kind_dice)
+	var keeper: Dictionary = kept["enemies"].filter(func(e: Dictionary) -> bool: return e.get("boss", false))[0]
+	var keeper_level := Difficulty.levelled(maxi(Encounter.party_level(party), gate.expected_level()) + 2)
+	_expect(int(keeper["level"]) == keeper_level,
+		"a First Hour gate's keeper stands at level %d, not %d" % [int(keeper["level"]), keeper_level])
+	# A lesser gate is kept by the strongest of its floor, not the faction's champion.
+	for lesser: Site in world.sites_of_kind(Site.GATE):
+		if Site.rank_index(lesser.rank) >= Site.rank_index(str(Database.encounters.get("champion_from", "E"))):
+			continue
+		var met := Encounter.for_gate(world, lesser, 0, true, party, kind_dice)
+		var held: Dictionary = met["enemies"].filter(func(e: Dictionary) -> bool: return e.get("boss", false))[0]
+		_expect(str(held["unit"]) != Faction.champion(str(lesser.data.get("faction", Faction.FALLBACK))) \
+				or Faction.pool(str(lesser.data.get("faction", Faction.FALLBACK)), 1).has(held["unit"]),
+			"%s (rank %s) is kept by its faction's champion, %s" % [lesser.display_name, lesser.rank, held["unit"]])
+		break
 	GameState.difficulty = setting
 
 
@@ -787,6 +835,10 @@ func _check_lands(world: World) -> void:
 			var band := Encounter._band_at(world, cell, rng)
 			for unit_id: String in band.pack:
 				_expect(locals.has(unit_id), "a band in the %s fields %s, who does not live there" % [land, unit_id])
+				# D211: the great beasts wait for the party to grow.
+				var grown := Encounter.party_level(GameState.party_characters())
+				_expect(int(Database.biomes.get("foe_levels", {}).get(unit_id, 0)) <= grown,
+					"a band in the %s fields %s against a party at level %d" % [land, unit_id, grown])
 	_expect(local_bands > 0, "no band anywhere is made of what lives in its land")
 	var strange := 0
 	for land: String in ["slime", "crystal", "fungal", "mist"]:

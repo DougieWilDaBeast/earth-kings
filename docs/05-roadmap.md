@@ -273,7 +273,7 @@ each, each ending playable:
    at a time, in this order, all **planned**: (1) Auto walks on from the first gate to the Tower's yard
    door, one save per arrival at the city, a fall names its killer, and the soak plays a lead the quiz
    deals ([D197](06-decisions.md)); (2) stances on the fighter cards, Own way, Close in, Keep away, Guard,
-   Hold ([D195](06-decisions.md), call BC); (3) coins in four metals, `doug-md`'s next; (4) **the Second
+   Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next; (4) **the Second
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md)), then sixteen
    self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
@@ -293,6 +293,9 @@ each, each ending playable:
    calls as recommended ([D208](06-decisions.md)): the Steam page after the Second Hour and A9 (BI), the
    business questions by voice note before it (BJ), the one-pager once the Second Hour is timed (BK). Every
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
+   `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
+   all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
+   back 27 October. The rest of 28 is question 33 (#276).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
@@ -308,6 +311,23 @@ each, each ending playable:
    chapter makes for the next gate; a town is saved once an arrival; a fall names its killer; the soak
    plays the lead the quiz deals from the seed. Found on the way: as a dealt lead, self-played runs fell
    before the Tower in 6 of 8, Atlas in none.
+21. **Auto rests when hurt** — built ([D210](06-decisions.md), call BL, 2026-10-17). Under half its health a
+   party walking itself goes to the nearest village, keep or hut to be patched up before fighting on. The
+   early falls as dealt leads still happen, mostly at full health in the first road fights: issue #230.
+22. **The road is fair to a lead walking alone** — built ([D211](06-decisions.md), call BM, 2026-10-17).
+   Road bands stand two levels down and one smaller on the First Hour, the land's great beasts wait for
+   level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
+   and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
+   fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
+23. **Ewan's "what other games do well"** ([D223](06-decisions.md) to [D227](06-decisions.md), 2026-10-17,
+   issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
+   the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
+   in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
+   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
+   faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
+   [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps being built), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -365,8 +385,9 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    side fights to a doctrine: dodging wind-ups, keeping distance, flanking, guarding the hurt,
    hanging back to heal, breaking off when low, and choosing whom to hit
    ([18](18-combat-direction.md#tactics), [21](21-the-sixteen-first-draft.md#how-the-sixteen-fight-tactically)).
-   Planned next: telling your own fighters how to fight (a stance on each card: close in, keep
-   away, guard, hold), the signatures' own moves (Janus swapping two units, Saturn pulling one in),
+   Stances built 2026-10-17 ([D209](06-decisions.md)): each party card says how that fighter
+   fights, Own way, Close in, Keep away, Guard or Hold, set by a click on the word or a key
+   ([18](18-combat-direction.md#stances)). Planned next: the signatures' own moves (Janus swapping two units, Saturn pulling one in),
    and a look at Janus and Pluto, who still lose most one against one (agenda item 118).
 
 Before any build goes to a playtest: `.\ek.ps1 test`, then one five-minute `tools/soak.tscn` run

@@ -12,6 +12,8 @@ const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 
 signal card_clicked(index: int)
+## The stance on a party card was clicked: that fighter takes up the next ([D195]).
+signal stance_clicked(index: int)
 ## A skill tile on a party card was clicked: pick that fighter, ready that skill.
 signal slot_clicked(index: int, slot: int)
 ## A touch button, named as [method Skirmish.act] takes it: "pause", "slot0"…
@@ -24,7 +26,7 @@ const LOG_LINES := 6
 const COMPACT_LOG_LINES := 1
 const COMPACT_KEYS := "K: keys"
 const HINT := "Right-click: move · attack · help the fallen    Left-click / drag: select    1–4 / Tab: pick    " \
-		+ "Q W E R: skills    A: auto skills    H: hold    Space: pause    T: speed    Z: auto-pause    N: journal"
+		+ "Q W E R: skills    A: auto skills    O F B G H: own way · close in · keep away · guard · hold    Space: pause    T: speed    Z: auto-pause    N: journal"
 const TOUCH_HINT := "Tap a fighter to pick them · tap ground, an enemy or a fallen friend to send them · " \
 		+ "a skill, then its target · tap the skill again to put it away"
 ## The same, on a pad: the stick walks a cursor and A gives the order there.
@@ -40,6 +42,8 @@ const READY := Color(0.62, 0.92, 0.62)
 const WAITING := Color(0.62, 0.66, 0.74)
 const PANEL := Color(0.08, 0.09, 0.12, 0.86)
 const PANEL_SELECTED := Color(0.22, 0.19, 0.08, 0.92)
+## The stance's word on a card.
+const STANCE := Color(1.0, 0.86, 0.55)
 
 ## The skirmish scene. Untyped, because it loads this script itself.
 var _skirmish: Node2D
@@ -53,6 +57,10 @@ var _card_text: Array[RichTextLabel] = []
 var _card_slots: Array = []
 ## Per card, item id → its button.
 var _card_items: Array = []
+## Per card, the button that says its stance and steps to the next.
+var _card_stances: Array[Button] = []
+## Per card, the name line beside the stance.
+var _card_names: Array[RichTextLabel] = []
 ## The touch skill buttons' cooldown sweeps, by slot.
 var _button_sweeps: Dictionary = {}
 ## Whoever the pointer is over: name, health, role and passives.
@@ -63,6 +71,7 @@ var _lines: Array[String] = []
 var _buttons: Dictionary = {}
 var _plain := _panel_style(PANEL)
 var _picked := _panel_style(PANEL_SELECTED)
+var _tight := StyleBoxEmpty.new()
 
 
 func setup(skirmish: Node2D) -> void:
@@ -137,13 +146,28 @@ func setup(skirmish: Node2D) -> void:
 		column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		column.add_theme_constant_override("separation", 4)
 		card.add_child(column)
-		var text := RichTextLabel.new()
-		text.bbcode_enabled = true
-		text.fit_content = true
-		text.scroll_active = false
-		text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		text.add_theme_font_size_override("normal_font_size", 12)
-		text.add_theme_font_size_override("bold_font_size", 13)
+		# The name, and beside it the stance as a word ([D195]): a click (a tap) steps
+		# to the next one. Up there it costs the card no height and is never clipped.
+		var head := HBoxContainer.new()
+		head.add_theme_constant_override("separation", 4)
+		column.add_child(head)
+		var name_text := _card_label()
+		name_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		head.add_child(name_text)
+		var stance := Button.new()
+		stance.focus_mode = Control.FOCUS_NONE
+		stance.flat = true
+		stance.add_theme_font_size_override("font_size", 12 if not skirmish.touch else 13)
+		# No taller than the name, so the card keeps its height and its draughts stay in view.
+		for look: String in ["normal", "hover", "pressed", "disabled", "focus"]:
+			stance.add_theme_stylebox_override(look, _tight)
+		stance.add_theme_color_override("font_color", STANCE)
+		stance.add_theme_color_override("font_hover_color", STANCE.lightened(0.3))
+		stance.pressed.connect(func() -> void: stance_clicked.emit(index))
+		head.add_child(stance)
+		_card_stances.append(stance)
+		_card_names.append(name_text)
+		var text := _card_label()
 		column.add_child(text)
 		var tiles := HBoxContainer.new()
 		tiles.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -317,7 +341,9 @@ func refresh() -> void:
 
 	var party: Array[Fighter] = _skirmish.party_fighters()
 	for i in mini(party.size(), _cards.size()):
-		_card_text[i].text = _describe(party[i], i)
+		var lines := _describe(party[i], i).split("\n")
+		_card_names[i].text = lines[0]
+		_card_text[i].text = "\n".join(lines.slice(1))
 		_cards[i].add_theme_stylebox_override(
 			"panel", _picked if _skirmish.selected.has(party[i]) else _plain
 		)
@@ -329,6 +355,7 @@ func refresh() -> void:
 				str(SkirmishRules.SLOT_LABELS[slot]), str(ability.get("display_name", "?")),
 				party[i].cooldowns[slot], SkirmishRules.cooldown(ability),
 				lead_armed and _skirmish.armed_slot == slot)
+		_show_stance(_card_stances[i], party[i])
 		var item_buttons: Dictionary = _card_items[i]
 		for item_id: String in item_buttons:
 			var button: Button = item_buttons[item_id]
@@ -410,8 +437,6 @@ func _describe(f: Fighter, index: int) -> String:
 	var flags: Array[String] = []
 	if f.auto_skill:
 		flags.append("auto")
-	if f.hold:
-		flags.append("hold")
 	lines.append("[b]%d  %s[/b]  [color=#9aa3b2]%s[/color]" % [index + 1, unit.display_name, " · ".join(flags)])
 	lines.append("%d / %d HP   %s   [color=#c9d1dd]%s[/color]" % [maxi(0, unit.hp), unit.max_hp, energy_bar(f), f.activity()])
 	if f.is_downed():
@@ -423,6 +448,35 @@ func _describe(f: Fighter, index: int) -> String:
 	if f.slots.is_empty():
 		lines.append("[color=#7d8594]no skills yet — basic attacks only[/color]")
 	return "\n".join(lines)
+
+
+static func _card_label() -> RichTextLabel:
+	var text := RichTextLabel.new()
+	text.bbcode_enabled = true
+	text.fit_content = true
+	text.scroll_active = false
+	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	text.add_theme_font_size_override("normal_font_size", 12)
+	text.add_theme_font_size_override("bold_font_size", 13)
+	return text
+
+
+## The stance a fighter fights in, as its word; while the game plays itself every
+## fighter goes its own way, and the button waits until the player has them back.
+static func _show_stance(button: Button, f: Fighter) -> void:
+	var word := str(Fighter.stance_data(f.playing_stance()).get("word", "Own way"))
+	button.text = word
+	button.disabled = Pace.auto
+	var keys := ""
+	var action := str(Fighter.stance_data(f.stance).get("action", ""))
+	if InputMap.has_action(action):
+		for ev in InputMap.action_get_events(action):
+			if ev is InputEventKey:
+				var code: Key = ev.physical_keycode if ev.physical_keycode != KEY_NONE else ev.keycode
+				keys = " (%s)" % OS.get_keycode_string(code)
+				break
+	button.tooltip_text = "Stance: %s%s. %s\nClick for the next stance." % [
+		word, keys, Fighter.stance_data(f.playing_stance()).get("tip", "")]
 
 
 ## The skill buttons say what the first picked fighter would use, and are

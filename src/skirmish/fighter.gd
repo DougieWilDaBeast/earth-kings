@@ -22,8 +22,12 @@ var cooldowns: Array[float] = []
 
 ## Use ready skills without being told (Dungeon Settlers' "Auto Skill").
 var auto_skill: bool = true
-## Stand still and only fight what comes into reach ("Wait for Orders").
+## Stand still and only fight what comes into reach ("Wait for Orders"): the Hold
+## stance, or a bearer that carries rather than wanders.
 var hold: bool = false
+## The stance the player gave this fighter ([D195]): a key of `tactics.stances` in
+## `data/skirmish.json`, kept on the [Character] between fights. See [method playing_stance].
+var stance: String = "own"
 
 var order: Order = Order.NONE
 var order_cell: Vector2i = Vector2i.ZERO
@@ -49,6 +53,8 @@ var step_total: float = 0.0
 var near_death: float = 0.0
 ## Out of the fight for good, one way or the other.
 var fallen: bool = false
+## Went down in this fight at least once, whether or not they got up ([D218]).
+var went_down: bool = false
 ## Walked off the edge of a fight met on the ground: out of it, alive, and not coming back.
 var fled: bool = false
 ## What [Fate] said when this party member's fall was settled in a fight the
@@ -156,6 +162,49 @@ func _init(source: Unit) -> void:
 	if source.character != null and source.character.lean("opening_ct", 0.0) > 0.0:
 		attack_timer = 0.0
 		think_timer = 0.0
+	if is_party() and source.character != null:
+		set_stance(source.character.stance)
+
+
+## Every stance there is, in the order a click on the card steps through them.
+static func stances() -> Array[String]:
+	var out: Array[String] = []
+	for key: String in Database.skirmish.get("tactics", {}).get("stances", {}):
+		if not key.begins_with("_"):
+			out.append(key)
+	return out
+
+
+## A stance's entry in the data: {word, action, first, drop, seek, hold, tip}.
+static func stance_data(name: String) -> Dictionary:
+	return Database.skirmish.get("tactics", {}).get("stances", {}).get(name, {})
+
+
+## Take up [param name]: Hold keeps this ground; the rest walk as their stance says.
+## Written back to the [Character], so the next fight opens in it too.
+func set_stance(name: String) -> void:
+	if not stances().has(name):
+		name = "own"
+	stance = name
+	hold = bool(stance_data(name).get("hold", false))
+	if unit.character != null:
+		unit.character.stance = name
+
+
+## The stance this fighter fights in right now: the player's, or "own" for enemies,
+## allies, and anyone while the game plays itself (Auto and the who-wins bouts).
+func playing_stance() -> String:
+	return stance if is_party() and not Pace.auto else "own"
+
+
+## Whether the stance it fights in now says [param key] (`seek`, `hold`).
+func stance_says(key: String) -> bool:
+	return bool(stance_data(playing_stance()).get(key, false))
+
+
+## Standing its ground: told to hold (not counting a Hold stance while Auto plays).
+func holding() -> bool:
+	return hold and not (stance == "hold" and playing_stance() != "hold")
 
 
 ## The sum of every passive's [param effect], including any it carries on the side
@@ -274,7 +323,7 @@ func activity() -> String:
 			return "engaging"
 		Order.AID:
 			return "going to help"
-	if hold:
+	if holding():
 		return "holding"
 	if tired:
 		return "tired"
