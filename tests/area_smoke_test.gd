@@ -1208,6 +1208,25 @@ func _check_play_hud() -> void:
 		hud.refresh()
 		var bar: ColorRect = hud._rows.get_child(0).get_child(1).get_child(1).get_child(0)
 		_expect_tut(bar.color.r > bar.color.g, "play hud: a lead at a fifth of their health shows a bar that is not red")
+		# What wants attention (D245): someone badly hurt and a path owed show as alerts, and pressing
+		# the path's opens the party screen.
+		var Alerts := preload("res://src/ui/alerts.gd")
+		var wanted := Alerts.gather()
+		_expect_tut(wanted.any(func(a: Dictionary) -> bool: return str(a["id"]) == "hurt:" + hurt.id),
+			"play hud: %s at a fifth of their health raises no alert" % hurt.display_name)
+		hurt.pending_class_choice = true
+		hud.refresh()
+		var owed := Alerts.gather().filter(func(a: Dictionary) -> bool: return str(a["id"]) == "path:" + hurt.id)
+		_expect_tut(owed.size() == 1, "play hud: a path owed raises no alert")
+		_expect_tut(hud._alerts.get_child_count() >= 2, "play hud: %d alerts shown, not 2" % hud._alerts.get_child_count())
+		var opened := [0]
+		var on_open := func() -> void: opened[0] += 1
+		EventBus.party_screen_requested.connect(on_open)
+		if not owed.is_empty():
+			hud.act_on(owed[0])
+		EventBus.party_screen_requested.disconnect(on_open)
+		_expect_tut(opened[0] == 1, "play hud: pressing the path's alert did not open the party screen")
+		hurt.pending_class_choice = false
 		hurt.hp = was
 		scene._physics_process(1.0 / 60.0)
 		print("play hud: %d rows and %s" % [hud._rows.get_child_count(), hud._purse.text])

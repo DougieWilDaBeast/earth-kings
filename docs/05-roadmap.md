@@ -354,6 +354,14 @@ each, each ending playable:
    take as many columns as fit above the pad. Reaches the phone with the next itch push. Held upright, the
    party screen and the journal now fit too: roster and list above, ribbons wrapping
    ([D241](06-decisions.md), #302).
+27. **The play screen** (`doug-md`, 2026-10-17 and 2026-10-18): a small panel under the compass on the
+   ground with the company's faces, levels and health bars and the purse — built ([D244](06-decisions.md));
+   after RimWorld's play screen ([investigation/11](investigation/11-rimworld-play-screen.md)), what wants
+   attention listed under it (someone badly hurt, nothing to mend with, one held, a town attacked, a path
+   or power owed, an X on the map), each pressed to act on, and a mark on anyone owed a path or power —
+   built ([D245](06-decisions.md)). **Planned** from the same look: letters for the world's big moments,
+   an inspect card for anyone clicked on the ground, sums on hover for every number, speed keys on the
+   ground.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

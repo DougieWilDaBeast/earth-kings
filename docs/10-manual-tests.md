@@ -319,6 +319,7 @@ Start a run (not the tutorial) and walk.
 | D5.24 | On the road from the crater, walk off it into a band's red with two of the Watch close by | "The Watch see it start, and come running": two of the Watch fight beside you; won, they thank you and pay a bounty in gold ([D236](06-decisions.md)) |
 | D5.26 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D238](06-decisions.md)) |
 | D5.30 | Walk the ground with two or three in the company, one of them hurt | Under the compass, top left: a row each (face, name, level, health bar: green, amber under 60%, red under 30%) and the gold; press it and the party screen opens; it hides while talking and in a fight ([D244](06-decisions.md)) |
+| D5.31 | Let one of the company drop under half health with nothing in the packs, and level someone to 2 | Under the company: "! … is badly hurt" in red, "! Nothing in the packs to mend with", "! … has a path to choose" in gold, and a ! beside their name; hover one for more; press the path's and the party screen opens ([D245](06-decisions.md)) |
 
 ## H — Conversation and the camp
 
