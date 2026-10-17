@@ -323,6 +323,15 @@ each, each ending playable:
    level 3, Auto goes into a gate only when making for it, a lesser gate is kept by its floor's strongest,
    and walking wears a party down to half. Dealt leads no longer fall in their first fights; they still
    fall later, at levels 3 to 7, mostly fighting on at about half health: the rest of issue #230.
+23. **Ewan's "what other games do well"** ([D223](06-decisions.md) to [D227](06-decisions.md), 2026-10-17,
+   issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
+   the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
+   in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
+   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
+   faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
+   [D218](06-decisions.md); sure drops and treasure maps being built), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
