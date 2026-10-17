@@ -617,6 +617,20 @@ func _check_encounters(world: World) -> void:
 		"the Tower is no harder at floor 6 than at floor 1"
 	)
 	print("tower floor 1 fields level %d, floor 6 fields level %d" % [_top_level(shallow), _top_level(climb)])
+	# Play-test 4 (D189): a company of five at level 8 walked through floors 6 to 20 in three-second
+	# fights. A fought floor meets the party's level and brings more foes for more members.
+	var company: Array = []
+	for id: String in ["janus", "atlas", "caesar", "ultor", "vesta"]:
+		var member := Character.create(id)
+		member.level = 8
+		company.append(member)
+	var eleventh := Encounter.for_tower(world, world.tower(), 11, company, world.rng)
+	var lowest := 999
+	for foe: Dictionary in eleventh["enemies"]:
+		lowest = mini(lowest, int(foe["level"]))
+	_expect(eleventh["enemies"].size() >= 5, "floor 11 fielded only %d against a company of five" % eleventh["enemies"].size())
+	_expect(lowest >= 7, "floor 11 fielded a level %d foe against a company at level 8" % lowest)
+	_expect(_top_level(climb) >= 5, "floor 6 fields level %d, below the walked floors' bands" % _top_level(climb))
 
 	var top := world.tower_floors()
 	var apex := Encounter.for_tower(world, world.tower(), top, party, world.rng)

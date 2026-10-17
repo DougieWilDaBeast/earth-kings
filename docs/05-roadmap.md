@@ -204,7 +204,10 @@ each, each ending playable:
    [28](28-the-first-hour.md#how-it-was-tested)); its first fixes are built ([D178](06-decisions.md))
    and his bigger asks are listed, **planned**, waiting on his order
    ([28](28-the-first-hour.md#play-test-3s-asks)); the first he chose, life on the land, is built
-   ([D179](06-decisions.md)). Five real players, named by the
+   ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
+   ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
+   baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
+   ([28](28-the-first-hour.md#play-test-4s-asks)); roads and ways wait on his answers. Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in

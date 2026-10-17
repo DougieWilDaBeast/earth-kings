@@ -2278,14 +2278,15 @@
             "restock": true
           },
           {
-            "item": "cheese"
+            "item": "meat_pie",
+            "restock": true
           },
           {
-            "item": "apple",
+            "item": "honey_cake",
             "restock": true
           }
         ],
-        "shop": "Bread this morning, bread this afternoon. Cheese if you're lucky.",
+        "shop": "Bread this morning, bread this afternoon. Pies at noon, if the oven's in a mood.",
         "job": {
           "flag": "job:city_cat",
           "done_flag": "found:city_cat",

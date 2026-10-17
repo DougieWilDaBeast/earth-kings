@@ -163,6 +163,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-15 13:02 | Meeting 4, voted without the founders on `dougie`'s word | — | [D115](06-decisions.md) to [D124](06-decisions.md) |
 | 2026-10-15 | Eight bot runs to floor 5 ([D117](06-decisions.md)) | `156f986` | No falls before floor 5 in 8 runs, every chapter one closed in about 2.5 minutes: easy side of the 1 to 3 target. Numbers kept for Ewan's next run (`dougie`, 18:02) |
 | 2026-10-15 22:54 | Ewan's (`doug-md`) play-test 3, about 45 minutes as Ultor, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-15-doug-md-play-test-3.md)) | the evening's main, about `4196128` | Got through Greyhollow, the Tower to floor 10 and Coldrun. Liked the floors' design, the city's layout, different news from different people and the chapter one. Stutters crossing tiles; the land empty of life; fights taken off to an arena. First fixes [D178](06-decisions.md); his bigger asks [below](#play-test-3s-asks), waiting on his order |
+| 2026-10-17 00:48 | Ewan's (`doug-md`) play-test 4, about 35 minutes, a new game as Janus, in the Godot editor on his PC, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-play-test-4.md)), with the play log on | main of 2026-10-16 night (after #177) | Saw the land's birds and bugs; liked click-to-walk, the Watch's different lines, the open plains, Muck Muck and Sinner. His log: the Tower from floor 3 to 20 with Janus, Atlas and Kandro, then five with Luc and Caesar, every fight above floor 5 won in 2 to 18 seconds, no deaths. Floors 6 up easier than 1 to 5, still no person met on the land to fight. First fixes [D189](06-decisions.md); his bigger asks [below](#play-test-4s-asks) |
 | 2026-10-15 21:12 | The creatives' meeting (writers, art, music, world) | — | The chapter ones' rules and rewrites, the route's people, the replay's lines ([D151](06-decisions.md), [D153](06-decisions.md), [D154](06-decisions.md)); the music brief below |
 | 2026-10-15 21:20 | The designers' week, with bot runs on PC and phone | `39b7728` | Ten findings: the hook only seen on a loss, the keeper as a figure, Auto parked at the door, a save every step at the door. The lights going out, Auto's stops, the Warden ([D149](06-decisions.md), [D150](06-decisions.md), [D156](06-decisions.md)) |
 | 2026-10-15 22:04 | The designers' fortnight (Will's list of sixty-one, simulated) | — | The bestiary, names, wares, a second gate, the store page ([D143](06-decisions.md) to [D148](06-decisions.md)) |
@@ -203,6 +204,35 @@ tip now says so).
    Twin Blade's picture; portraits whose hair fits the frame; Sky's tail (A28); something inside
    houses; a bench and a chest that look placed; a lighthouse that suits the scene.
 13. **Coldrun "comes into sight"** before it can be seen.
+
+### Play-test 4's asks
+
+What `doug-md` asked for in play-test 4 that needs more than a fix, **planned**, waiting on his order.
+Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3's (noted).
+1. **Every fight in real time where it happens**, no pause and no separate box: Tower floors 6 up on
+   the Tower's own floor, not a field of grass (play-test 3, item 5).
+2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
+   party keeps walking while it is open; a small map in a top corner with the compass on it and the
+   waypoints, clicked to go (play-test 3, item 2).
+3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
+   there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
+   and build them.
+4. **People on the land**: more encounters, people to fight ("I still haven't encountered a single
+   person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
+   near them, a fight you can join and be thanked for (play-test 3, item 4).
+5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for
+   a bed and a marker shows which room is yours.
+6. **Help on the paths**: a question mark at the right of a choice's banner that says what each
+   path is in more words, on hover.
+7. **A siege seen**: when Stormreach is attacked and defended, see the fight there, not be taken
+   somewhere else and put back.
+8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
+9. **The bottom of the screen**: something there (the party's pictures or a building) does not fit
+   the screen and wants resizing and moving. **To ask him which.**
+10. **Followers facing the way they walk** when walking down. Not reproduced: a suite walking a party
+    of three down, up and down again finds them facing the leader's way. **To ask him where it was.**
+11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
+    city or a stronghold.
 
 ## Music the hour still needs
 
