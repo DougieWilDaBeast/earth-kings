@@ -529,6 +529,14 @@ comes on `chance[n]`, n being how many of that faction's keepers have fallen sin
 (the last entry holds after that; 1.0 makes it certain). `lines.prize` and `lines.missed` are said
 with `{keeper}` and `{prize}`. The counts are kept in the save as the world's `keepers`.
 
+## `world_rules.json` → `treasure` — torn treasure maps (D220)
+
+A band beaten on the land carries a scrap on `piece_chance`; `pieces` of them make an X between
+`near` and `far` steps of walking off, with `chart_radius` of ground round it drawn in. Standing on
+it digs up a find of `richness` (see `loot`) that always holds something to carry. `lines`: `piece`
+(`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
+and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
