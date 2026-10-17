@@ -208,7 +208,8 @@ each, each ending playable:
    ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
    ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
    baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
-   ([28](28-the-first-hour.md#play-test-4s-asks)); roads and ways wait on his answers. Five real players, named by the
+   ([28](28-the-first-hour.md#play-test-4s-asks)); of the roads and ways he picked footpaths and dirt
+   tracks, built with signposts where three ways meet ([D233](06-decisions.md), art A32). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the
    founders can answer meanwhile, from when the hour is done to the music and Steam, is in
@@ -304,9 +305,13 @@ each, each ending playable:
    and no box round it; part two built ([D207](06-decisions.md), issue #205), no separate fight
    screens: Tower floors 6 up walked on a borrowed plan of floors 1 to 4 with their own foes (until
    the Second Hour's rooms), roadside fights where their scene stands, towns and captives just ahead.
-   (b) **People on the land**, **planned** (issue #206), all three together: the Watch
-   fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
-   walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (b) **People on the land** — built ([D215](06-decisions.md), issue #206), all three together: the
+   Watch beset on the roads round a town (join in and they fight beside you, then pay the Watch's
+   bounty), six bands always camping near the First Hour's road (half of them brigands), and companies
+   of climbers walking the road and resting on Tower floors ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (c) **Three ways for Auto to walk** — built ([D216](06-decisions.md)): Aggressive, Mixed (the default)
+   and Passive, picked in the menu; roadside scenes stand down the road, are told in the log and no
+   longer stop Auto or open a box.
    Item 17's list follows.
 20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
    from the first gate to the Tower's door and stops there, goes in when switched on again, and after a
