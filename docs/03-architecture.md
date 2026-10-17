@@ -225,5 +225,6 @@ fight it walks into. `Pad` remembers whether a game pad or a keyboard was touche
 right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
 whatever modal screen or menu scene is up while a pad is in use; the walk and the fights steer
 themselves (a cursor in the fights). `PlayLog` only listens: it writes a timed line for each place
-walked into, fight and result, level, save, fall and engine error to `user://earth-kings.playlog.txt`
+walked into, fight (where, and the foes with their levels: `FIGHT TOWER FLOOR 7 vs Goblin L9 x2`) and
+result, level, save, fall and engine error to `user://earth-kings.playlog.txt`
 (the last 400 lines), and the system menu's **Copy play log** / **Save play log** hand it over (D125).

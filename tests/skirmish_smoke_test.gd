@@ -178,6 +178,7 @@ func _run() -> void:
 	print("seen: %s" % str(SkirmishFx.played))
 	await _check_touch()
 	await _check_box_select()
+	await _check_lineup()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
@@ -326,6 +327,23 @@ func _check_box_select() -> void:
 		fight._unhandled_input(release)
 		_expect(fight.selected.size() == party.size() and not fight.drag_box.has_area(), "letting go of a dragged box did not pick inside it")
 	fight.queue_free()
+
+
+## As a fight starts it says who stands against the party, for the play log (Ewan's log said only
+## "verdant_pass" for every fight): the foes with their levels, nobody of the party's side.
+func _check_lineup() -> void:
+	var said: Array[String] = []
+	var hear := func(line: String) -> void: said.append(line)
+	EventBus.battle_lineup.connect(hear)
+	var fight := await _new_fight()
+	EventBus.battle_lineup.disconnect(hear)
+	_expect(said.size() == 1, "a fight said who it was against %d times" % said.size())
+	if said.size() == 1:
+		_expect(said[0].contains(" L"), "the fight's line-up gives no levels: %s" % said[0])
+		for f: Fighter in fight.party_fighters():
+			_expect(not said[0].contains(f.unit.display_name), "the line-up names %s of the party: %s" % [f.unit.display_name, said[0]])
+	fight.queue_free()
+	await get_tree().process_frame
 
 
 func _new_fight() -> Node2D:

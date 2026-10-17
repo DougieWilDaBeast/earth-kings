@@ -228,5 +228,11 @@ func _on_focus_changed(control: Control) -> void:
 	var parent := control.get_parent()
 	while parent != null:
 		if parent is ScrollContainer:
-			(parent as ScrollContainer).ensure_control_visible.call_deferred(control)
+			# Deferred, and asked again then: a screen that rebuilds its list on focus (the
+			# journal, a level's choice) has freed or moved the button by the time it runs, and
+			# Godot says "Must be an ancestor of the control" (Ewan's play log, 2026-10-17, x10).
+			var scroll := parent as ScrollContainer
+			(func() -> void:
+				if is_instance_valid(scroll) and is_instance_valid(control) and scroll.is_ancestor_of(control):
+					scroll.ensure_control_visible(control)).call_deferred()
 		parent = parent.get_parent()

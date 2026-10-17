@@ -209,7 +209,26 @@ func _ready() -> void:
 	for line in _opening:
 		_say(line)
 	Sfx.cue("engage")
+	EventBus.battle_lineup.emit(_lineup())
 	EventBus.battle_started.emit(map_id)
+
+
+## The foes as the play log says them: each kind once, with its level and how many.
+func _lineup() -> String:
+	var counts: Dictionary = {}
+	var order: Array[String] = []
+	for f: Fighter in fighters:
+		if f.unit == null or f.unit.sides_with_party():
+			continue
+		var level := f.unit.character.level if f.unit.character != null else 0
+		var said := "%s L%d" % [f.unit.display_name, level] if level > 0 else f.unit.display_name
+		if not counts.has(said):
+			order.append(said)
+		counts[said] = int(counts.get(said, 0)) + 1
+	var out: Array[String] = []
+	for said: String in order:
+		out.append(said if int(counts[said]) == 1 else "%s x%d" % [said, counts[said]])
+	return ", ".join(out)
 
 
 func _exit_tree() -> void:

@@ -24,6 +24,10 @@ const MAX_ERRORS := 40
 var _lines: PackedStringArray = []
 var _steps: int = 0
 var _last_place: String = ""
+## The last place walked into by name (a town, a Tower floor), and who the fight about to start is
+## against ([signal EventBus.battle_lineup]).
+var _ground_place: String = ""
+var _lineup: String = ""
 var _fight_began: int = -1
 var _dirty: bool = false
 var _since_flush: float = 0.0
@@ -67,6 +71,7 @@ func _ready() -> void:
 	EventBus.request_scene.connect(_on_request_scene)
 	EventBus.scene_changed.connect(_on_scene_changed)
 	EventBus.battle_started.connect(_on_battle_started)
+	EventBus.battle_lineup.connect(func(line: String) -> void: _lineup = line)
 	EventBus.battle_finished.connect(_on_battle_finished)
 	EventBus.levelled_up.connect(_on_levelled_up)
 	EventBus.class_chosen.connect(_on_class_chosen)
@@ -207,6 +212,7 @@ func _on_request_scene(key: String, payload: Dictionary) -> void:
 		place = "TOWER FLOOR %d" % int(payload["tower_floor"])
 	if key != "area" or place == "":
 		return
+	_ground_place = place
 	if place != _last_place:
 		_last_place = place
 		note("> %s" % place)
@@ -220,7 +226,13 @@ func _on_scene_changed(key: String) -> void:
 
 func _on_battle_started(map_id: String) -> void:
 	_fight_began = Time.get_ticks_msec()
-	note("FIGHT %s · party %s" % [map_id, _party()])
+	# A fight met on the ground is fought on it, not on a map of its own: say where it was (the
+	# last place noted) rather than the stand-in map's name, which every fight in Ewan's log had.
+	var where := map_id
+	if map_id == "verdant_pass" and _ground_place != "":
+		where = _ground_place
+	note("FIGHT %s%s · party %s" % [where, " vs %s" % _lineup if _lineup != "" else "", _party()])
+	_lineup = ""
 
 
 func _on_battle_finished(result: Dictionary) -> void:
