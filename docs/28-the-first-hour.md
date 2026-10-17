@@ -236,7 +236,11 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    and build them.
 4. **People on the land** (next after item 1, all three parts together): more encounters, people to fight ("I still haven't encountered a single
    person I can fight"); other adventurers about and climbing the Tower; the Watch fighting bands
-   near them, a fight you can join and be thanked for (play-test 3, item 4).
+   near them, a fight you can join and be thanked for (play-test 3, item 4). Built
+   ([D210](06-decisions.md), issue #206): six bands always camp near the road, 2 to 4 tiles off it
+   and clear of places, half of them brigands (there were none or one within 4 tiles of it); on the
+   roads round a town, the Watch beset by brigands or wolves, joined or walked past; companies of
+   climbers walking the road, and resting by the stair on Tower floors 2 up, who talk.
 5. **Inns with rooms**: a kitchen, a dining room and bedrooms, more than one small square; pay for
    a bed and a marker shows which room is yours.
 6. **Help on the paths**: a question mark at the right of a choice's banner that says what each

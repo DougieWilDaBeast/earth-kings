@@ -53,6 +53,80 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
+		"_comment_climbers": "D208 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A32 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). Inferred: every number, name and line.",
+		"climbers": {
+			"road_chance": 0.3,
+			"size": [
+				2,
+				3
+			],
+			"stay": [
+				3.0,
+				6.0
+			],
+			"units": [
+				"fox_knight",
+				"bird_archer",
+				"caterpillar_warrior"
+			],
+			"companies": [
+				"the Copper Hands",
+				"the Lantern Company",
+				"the Ninth Stair",
+				"Hob's Lot",
+				"the Grey Oath",
+				"the Saltmen",
+				"the Late Risers"
+			],
+			"lines": [
+				"Tower by nightfall, if your legs hold.",
+				"Don't stop. Stop and you think about it.",
+				"Floor three's where the last lot turned back.",
+				"Keep up. The Guild doesn't wait for anyone."
+			],
+			"talk": {
+				"hello": [
+					"Another one for the Tower? Good. The more of us go up, the fewer of them come down.",
+					"Walking the same way, are you? Everyone is, on this road."
+				],
+				"ask": [
+					{
+						"q": "Who are you?",
+						"a": "A company. Nobody you've heard of. Yet. We've the Guild's mark and the better part of a map."
+					},
+					{
+						"q": "Have you been up the Tower?",
+						"a": "Twice to floor two. Once to three. We came down quicker than we went up, but we came down."
+					},
+					{
+						"q": "Any advice?",
+						"a": "Take the stair slow, eat when you can, and when something on a floor is bigger than the doorway it came through, leave it be."
+					}
+				],
+				"bye": "See you on the stair."
+			},
+			"on_the_floors": {
+				"from": 2,
+				"chance": 0.4,
+				"talk": {
+					"hello": [
+						"Easy. We're not what lives up here. Just resting our feet before the stair.",
+						"You made it this far, then. So did we, just."
+					],
+					"ask": [
+						{
+							"q": "What's on the floor above?",
+							"a": "Couldn't tell you. Nobody who's been comes back down to say."
+						},
+						{
+							"q": "Going on?",
+							"a": "When the shaking stops. Go first if you're in a hurry. We won't mind the company on the way down."
+						}
+					],
+					"bye": "Mind the stair. It's steeper than it looks."
+				}
+			}
+		},
 		"road_watch": {
 			"chance": 0.5,
 			"units": ["legion_copper", "legion_silver"],

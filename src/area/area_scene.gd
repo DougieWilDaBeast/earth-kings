@@ -249,6 +249,7 @@ func _ready() -> void:
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
+		_admit_climbers_to_the_floor()
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
@@ -431,6 +432,7 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 			jobs.append(_put_fire.bind(cell))
 	_admit_the_others_to(tile)
 	_admit_the_road_watch(tile)
+	_admit_the_climbers(tile)
 	for person: Dictionary in map.people:
 		if person.get("_tile") == tile:
 			jobs.append(_put_person.bind(person))
@@ -530,6 +532,93 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
 				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
 			],
+		})
+
+
+## Other companies on their way to the Tower ([D208], play-test 4: "other people trying to climb
+## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
+## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
+func _admit_the_climbers(tile: Vector2i) -> void:
+	var land := map as Land
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var units: Array = rules.get("units", [])
+	var companies: Array = rules.get("companies", [])
+	if units.is_empty() or companies.is_empty():
+		return
+	if map.people.any(func(p: Dictionary) -> bool: return p.get("_tile") == tile and str(p.get("_area", "")) == "road_watch"):
+		return
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if chunk.is_empty() or str(chunk.get("kind", "")) != "ground":
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "climbers"])
+	if rng.randf() >= float(rules.get("road_chance", 0.3)):
+		return
+	var road: Array[Vector2i] = []
+	var area := land.slot_rect(tile)
+	for y in range(area.position.y, area.end.y):
+		for x in range(area.position.x, area.end.x):
+			var cell := Vector2i(x, y)
+			if land.terrain_at(cell) == "road" and land.is_walkable(cell):
+				road.append(cell)
+	if road.size() < 8:
+		return
+	var a: Vector2i = road[0]
+	var b: Vector2i = road[-1]
+	for cell: Vector2i in road:
+		if (cell - road[0]).length_squared() > (b - road[0]).length_squared():
+			b = cell
+	for cell: Vector2i in road:
+		if (cell - b).length_squared() > (a - b).length_squared():
+			a = cell
+	var company := str(companies[rng.randi() % companies.size()])
+	var size: Array = rules.get("size", [2, 3])
+	var lines: Array = rules.get("lines", [])
+	var stay: Array = rules.get("stay", [3.0, 6.0])
+	var behind := [Vector2i.ZERO, Vector2i(1, 0), Vector2i(0, 1)]
+	for i in rng.randi_range(int(size[0]), int(size[1])):
+		var from := _free_spot_near(a + behind[i % behind.size()])
+		var to := _free_spot_near(b + behind[i % behind.size()])
+		map.people.append({
+			"name": company, "unit": str(units[rng.randi() % units.size()]),
+			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "climbers",
+			"talk": rules.get("talk", {}),
+			"rounds": [
+				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
+				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
+			],
+		})
+
+
+## Another company resting on a Tower floor, by the stair up ([D208]): they got here first, and will
+## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
+func _admit_climbers_to_the_floor() -> void:
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var floors: Dictionary = rules.get("on_the_floors", {})
+	var units: Array = rules.get("units", [])
+	var companies: Array = rules.get("companies", [])
+	if floors.is_empty() or units.is_empty() or companies.is_empty() or map.stairs.is_empty():
+		return
+	if _tower_floor < int(floors.get("from", 2)) or GameState.world == null:
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.world_seed, _tower_floor, "climbers"])
+	if rng.randf() >= float(floors.get("chance", 0.4)):
+		return
+	var company := str(companies[rng.randi() % companies.size()])
+	var stair: Vector2i = map.stairs[0]
+	var resting := [Vector2i(-3, 3), Vector2i(-2, 4), Vector2i(-4, 4)]
+	var size: Array = rules.get("size", [2, 3])
+	for i in rng.randi_range(int(size[0]), int(size[1])):
+		var at: Vector2i = stair + (resting[i % resting.size()] as Vector2i)
+		if not map.is_walkable(at):
+			continue
+		map.people.append({
+			"name": company, "unit": str(units[rng.randi() % units.size()]),
+			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
+			"talk": floors.get("talk", {}),
 		})
 
 
@@ -1049,6 +1138,18 @@ func _stage_roadside(event_id: String) -> void:
 		_actors.add_child(driver)
 		_roadside_nodes.append(driver)
 		look_at = driver.position
+	# Whoever stands with the scene and will fight beside the party: the Watch beset (D208), back to
+	# back in the middle of it, facing out at the ones round them.
+	var standing := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1)]
+	var allies: Array = stage.get("allies", [])
+	for i in mini(allies.size(), standing.size()):
+		var ally: Dictionary = allies[i]
+		var guard := AreaActor.for_person({ "name": str(ally.get("name", "someone")), "unit": str(ally.get("unit", "")) })
+		guard.position = map.centre_of(_free_spot_near(middle + standing[i]))
+		guard.face(guard.position - look_at if i > 0 else Vector2(0, -1))
+		guard.set_interactive(false)
+		_actors.add_child(guard)
+		_roadside_nodes.append(guard)
 	var round_them := [Vector2i(-2, 0), Vector2i(2, -1), Vector2i(0, -2), Vector2i(-1, 2), Vector2i(3, 1)]
 	var pack: Array = event.get("pack", [])
 	for i in mini(pack.size(), round_them.size()):

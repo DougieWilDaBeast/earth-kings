@@ -26,6 +26,14 @@ static func sides(world: World, tile: Vector2i) -> Array:
 	return (_laid[key] as Dictionary).get(tile, [])
 
 
+## Every tile the road passes through ([D208]: the bands that camp near it are counted from these).
+static func tiles(world: World) -> Array:
+	sides(world, Vector2i.ZERO)
+	var home := world.home()
+	var key := "%d|%s" % [world.shape_seed(), home.cell if home != null else Vector2i(-1, -1)]
+	return (_laid.get(key, {}) as Dictionary).keys()
+
+
 ## The road's stops, in order: the crater, the great city, the first gate, the Tower.
 static func stops(world: World) -> Array[Vector2i]:
 	var out: Array[Vector2i] = []

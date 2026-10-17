@@ -296,9 +296,10 @@ each, each ending playable:
    and no box round it; part two built ([D207](06-decisions.md), issue #205), no separate fight
    screens: Tower floors 6 up walked on a borrowed plan of floors 1 to 4 with their own foes (until
    the Second Hour's rooms), roadside fights where their scene stands, towns and captives just ahead.
-   (b) **People on the land**, **planned** (issue #206), all three together: the Watch
-   fighting bands near towns (join in and be thanked), more to fight on the roads, other adventurers
-   walking the land and climbing the Tower ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
+   (b) **People on the land** — built ([D210](06-decisions.md), issue #206), all three together: the
+   Watch beset on the roads round a town (join in and they fight beside you, then pay the Watch's
+   bounty), six bands always camping near the First Hour's road (half of them brigands), and companies
+   of climbers walking the road and resting on Tower floors ([28](28-the-first-hour.md#play-test-4s-asks), items 1 and 4).
    Item 17's list follows.
 20. **Auto reaches the Tower** — built ([D206](06-decisions.md), item 17's first, 2026-10-17). Auto walks on
    from the first gate to the Tower's door and stops there, goes in when switched on again, and after a

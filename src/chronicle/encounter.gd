@@ -11,6 +11,7 @@ const TOWER := "tower"
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
+const FirstRoad := preload("res://src/area/first_road.gd")
 
 ## No band ever appears within this many tiles of the party. They are found,
 ## not sprung.
@@ -165,6 +166,60 @@ static func restock(world: World, rng: RandomNumberGenerator) -> void:
 		if rng.randf() > chance_at(world, cell) / float(Database.encounters.get("max_chance", 0.45)):
 			continue
 		world.prowlers.append(_band_at(world, cell, rng))
+	_restock_the_road(world, rng)
+
+
+## The First Hour's road is walked by every new climber, and the danger rating leaves it empty: it
+## runs past the city and the havens, and quiet country refuses bands. So a few always camp near it
+## ([D208], play-test 4: "I still haven't encountered a single person I can fight"): `near_the_road`
+## in `encounters.json`, `bands` of them `from` to `to` tiles off the road (never on it: the Watch
+## keeps the cobbles) and at least `clear_of_places` tiles from any place, some of them people
+## (`people_share` of `people`) rather than what lives there.
+static func _restock_the_road(world: World, rng: RandomNumberGenerator) -> void:
+	var rules: Dictionary = Database.encounters.get("near_the_road", {})
+	var wanted := int(rules.get("bands", 0))
+	if wanted <= 0:
+		return
+	var road := FirstRoad.tiles(world)
+	if road.is_empty():
+		return
+	var near := int(rules.get("from", 2))
+	var far := maxi(near, int(rules.get("to", 4)))
+	var off_road := func(cell: Vector2i) -> int:
+		var best := 1 << 20
+		for tile: Vector2i in road:
+			best = mini(best, Pathfinder.distance(cell, tile))
+		return best
+	var there := 0
+	for band: Prowler in world.prowlers:
+		var apart: int = off_road.call(band.cell)
+		if apart >= near and apart <= far:
+			there += 1
+	var people: Array = rules.get("people", [])
+	var clear := int(rules.get("clear_of_places", 4))
+	var tries := 0
+	while there < wanted and tries < SPAWN_ATTEMPTS:
+		tries += 1
+		var on: Vector2i = road[rng.randi() % road.size()]
+		var cell := on + Vector2i(rng.randi_range(-far, far), rng.randi_range(-far, far))
+		if not world.in_bounds(cell) or not _can_camp_at(world, cell) \
+				or world.prowlers.any(func(b: Prowler) -> bool: return b.cell == cell):
+			continue
+		var apart: int = off_road.call(cell)
+		if apart < near or apart > far:
+			continue
+		# On the open stretches between places, not at a town's gate or the Tower's foot, where the
+		# way in has to stay walkable (Auto keeps out of the red).
+		if world.sites.any(func(site: Site) -> bool: return Pathfinder.distance(cell, site.cell) < clear):
+			continue
+		if not people.is_empty() and rng.randf() < float(rules.get("people_share", 0.5)):
+			var pack: Array = []
+			for i in rng.randi_range(2, 3):
+				pack.append(str(people[rng.randi() % people.size()]))
+			world.prowlers.append(Prowler.create(cell, pack))
+		else:
+			world.prowlers.append(_band_at(world, cell, rng))
+		there += 1
 
 
 ## The fight that starts when a band finally sees you.

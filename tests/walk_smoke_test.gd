@@ -1600,7 +1600,11 @@ func _check_first_hour() -> void:
 	_expect(str(stepped.get("label", "")) != "the old well", "L did not move the compass off the errand it showed")
 	_expect(AutoRoad.objective(world).get("label", "") == str(stepped.get("label", "?")), "the compass does not follow the quest chosen")
 	_expect(Quests.followed_id() != "", "the quest followed is not kept in the run's flags")
-	AutoRoad.next_quest(world)
+	# Round the list (it may hold more than the road and the errand: a captive taken on the way).
+	for i in listed.size():
+		if AutoRoad.objective(world).get("label", "") == "the old well":
+			break
+		AutoRoad.next_quest(world)
 	_expect(AutoRoad.objective(world).get("label", "") == "the old well", "stepping on again did not come back round to the errand")
 	GameState.errands.erase(job)
 	_expect(AutoRoad.objective(world).get("label", "") != "the old well", "a finished errand is still followed")

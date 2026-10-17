@@ -47,15 +47,35 @@ static func look(world: World, cell: Vector2i) -> String:
 		return ""
 	if world.steps - world.roadside_at < int(rules().get("rest_steps", 40)):
 		return ""
+	# Near a town it is the town's Watch beset ([D208], `near_town` scenes); out in the open
+	# country, everyone else's.
+	# Never at a place's own door (it is the place's business), near a town or not.
 	if _near_a_site(world, cell):
 		return ""
-	if world.rng.randf() >= float(rules().get("chance", 0.05)):
+	var by_town := near_town(world, cell)
+	var chance := float(rules().get("near_town_chance", 0.0)) if by_town else float(rules().get("chance", 0.05))
+	if world.rng.randf() >= chance:
 		return ""
-	var ids: Array = events().keys()
+	var ids: Array = events().keys().filter(func(id) -> bool:
+		return bool(event(str(id)).get("near_town", false)) == by_town)
 	if ids.is_empty():
 		return ""
 	world.roadside_at = world.steps
 	return str(ids[world.rng.randi() % ids.size()])
+
+
+## Whether [param cell] is within `town_reach` of a town that is standing ([D208]): where its Watch
+## goes out after whatever comes up off the open country. (Within `clear_of_sites` of any place there
+## is no scene at all: a ring of road round each town, out past its gate.)
+static func near_town(world: World, cell: Vector2i) -> bool:
+	var reach := int(rules().get("town_reach", 0))
+	if reach <= 0:
+		return false
+	for site: Site in world.sites:
+		if Town.is_settlement(site) and not Town.is_ruined(site) \
+				and absi(site.cell.x - cell.x) <= reach and absi(site.cell.y - cell.y) <= reach:
+			return true
+	return false
 
 
 static func _near_a_site(world: World, cell: Vector2i) -> bool:
@@ -76,13 +96,20 @@ static func title(event_id: String) -> String:
 
 
 ## The fight, if you take it. Levelled off the party, so a scene found late is
-## still worth stopping for.
+## still worth stopping for. Whoever the scene's `allies` are (the Watch beset, [D208]) fight beside
+## the party, at its level.
 static func meeting(world: World, cell: Vector2i, event_id: String, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var enemies: Array = []
 	var level := Encounter.party_level(party)
 	for unit_id: String in event(event_id).get("pack", []):
 		enemies.append({ "unit": unit_id, "level": maxi(1, level + rng.randi_range(-1, 1)) })
-	return Encounter.for_roadside(world, cell, enemies, rng, title(event_id))
+	var met := Encounter.for_roadside(world, cell, enemies, rng, title(event_id))
+	var allies: Array = []
+	for each: Dictionary in event(event_id).get("stage", {}).get("allies", []):
+		allies.append({ "unit": str(each.get("unit", "")), "level": maxi(1, level), "name": str(each.get("name", "")) })
+	if not allies.is_empty() and met.has("map"):
+		BattleMapGen.add_allies(met["map"], allies)
+	return met
 
 
 ## What it costs to keep walking. Nobody sees you do it, but you know, and the
@@ -108,7 +135,7 @@ static func saved(world: World, cell: Vector2i, event_id: String, party: Array) 
 	var purse := int(rules().get("purse_base", 55)) \
 		+ int(rules().get("purse_per_level", 22)) * Encounter.party_level(party)
 	GameState.gold += purse
-	lines.append("There is %d gold in it, counted out on the boards." % purse)
+	lines.append(str(data.get("purse_line", "There is %d gold in it, counted out on the boards.")) % purse)
 
 	Renown.record(
 		world, "thread", cell, int(rules().get("renown_saved", 3)),
