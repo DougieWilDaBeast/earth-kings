@@ -2246,7 +2246,7 @@ func _expect(condition: bool, failure: String) -> void:
 		_failures.append(failure)
 
 
-## A place comes into sight when it can be seen (D236, play-test 3): walking the ground, a town four
+## A place comes into sight when it can be seen (D238, play-test 3): walking the ground, a town four
 ## tiles off is drawn on the map but said only once the party is within a tile of it; on the map,
 ## at once.
 func _check_sighting() -> void:

@@ -144,7 +144,7 @@ var _art: Dictionary = {}
 var _last_view: Vector3 = Vector3.INF
 ## Tiles fading onto the map, cell -> seconds of fade left.
 var _fading: Dictionary = {}
-## Places seen on the map but not yet on the screen, walking the ground ([D236]): cell -> name,
+## Places seen on the map but not yet on the screen, walking the ground ([D238]): cell -> name,
 ## said when the party is near enough to see them for itself.
 var _sightings: Dictionary = {}
 var _view: View = View.WALK
@@ -2447,7 +2447,7 @@ func _on_ground_revealed(cells: Array) -> void:
 	_map.queue_redraw()
 
 
-## A place comes into sight once it can be seen ([D236], play-test 3: "Coldrun comes into sight"
+## A place comes into sight once it can be seen ([D238], play-test 3: "Coldrun comes into sight"
 ## before it was on the screen). On the map that is as soon as it is drawn in; walking the ground,
 ## only within `world_rules.atlas.said_within` tiles of the party, which is about what the screen
 ## shows; until then it waits.
