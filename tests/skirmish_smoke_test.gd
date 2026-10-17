@@ -381,6 +381,10 @@ func _check_upper_bite() -> void:
 	_expect(is_equal_approx(Encounter.upper_bite(from), float(rules["base"])), "floor %d does not bite at base" % from)
 	_expect(Encounter.upper_bite(20) > Encounter.upper_bite(from), "floor 20 bites no harder than floor %d" % from)
 	_expect(Encounter.upper_bite(100) <= float(rules["most"]) + 0.001, "a high floor bites past the most")
+	# No fought floor fields the Ooze, the beginners' slimes (D243).
+	var cohorts: Array = Database.world_rules["tower"]["cohorts"]
+	for floor_n in range(from, 41):
+		_expect(Encounter._tower_cohort(cohorts, floor_n) != "the_ooze", "Tower floor %d fields the beginners' slimes" % floor_n)
 	var met := Encounter.for_tower(GameState.world, GameState.world.tower(), 12, GameState.party_characters(), RandomNumberGenerator.new())
 	for entry: Dictionary in met["map"]["enemies"]:
 		_expect(is_equal_approx(float(entry.get("bite", 1.0)), Encounter.upper_bite(12)), "a floor 12 foe does not bite as floor 12 says")
