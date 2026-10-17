@@ -53,6 +53,8 @@ var step_total: float = 0.0
 var near_death: float = 0.0
 ## Out of the fight for good, one way or the other.
 var fallen: bool = false
+## Went down in this fight at least once, whether or not they got up ([D218]).
+var went_down: bool = false
 ## Walked off the edge of a fight met on the ground: out of it, alive, and not coming back.
 var fled: bool = false
 ## What [Fate] said when this party member's fall was settled in a fight the
