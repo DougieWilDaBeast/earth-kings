@@ -10,6 +10,7 @@ const CheckFilter := preload("res://tests/check_filter.gd")
 const Company := preload("res://tests/company.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
@@ -29,7 +30,7 @@ const SIXTEEN_PATH := "user://earth-kings.sixteen.walk-suite.json"
 const CHECKS := [
 	"walls", "autoplay", "clock", "watchers", "banter", "rest", "home", "library", "gate", "tower",
 	"class_prompt", "gate_lifecycle", "town_and_captives", "loot", "renown", "raid_and_rescue",
-	"tower_top", "save_round_trip", "chapters", "objectives", "allies", "guild", "map", "muster",
+	"tower_top", "save_round_trip", "chapters", "objectives", "town_saves", "allies", "guild", "map", "muster",
 	"fall", "first_hour", "run_ends", "sixteen", "crossing",
 ]
 
@@ -535,7 +536,28 @@ func _check_tower() -> void:
 				"floor %d has nobody on it to fight for real" % n)
 		if n == 5:
 			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor 5 has no keeper")
-	_expect(Chapters.walked_floor_area(6) == "", "floor 6 is walked, past the First Hour")
+	# Every floor above is walked too, on a borrowed plan (D207), with bands of its own.
+	for n: int in [6, 9, 10, 37, world.tower_floors()]:
+		var plan := Chapters.walked_floor_area(n)
+		_expect(plan != "" and plan != Chapters.walked_floor_area(5) and Chapters.borrows_a_plan(n),
+				"floor %d is not walked on a borrowed plan (%s)" % [n, plan])
+		if plan == "":
+			continue
+		var stocked: Array = TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)])
+		var own := not stocked.is_empty()
+		for b: Dictionary in stocked:
+			own = own and bool(b.get("held", false)) and str(b.get("key", "")).begins_with("tower%d_" % n) \
+					and str(b.get("done_flag", "")) == "done:%s" % b.get("key", "")
+		_expect(own, "floor %d's bands are not its own: %s" % [n, stocked])
+		_expect(stocked == TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)]),
+				"floor %d is stocked differently each time it is walked" % n)
+		if n == world.tower_floors():
+			_expect(stocked.size() == 1 and bool(stocked[0].get("boss", false)) and stocked[0]["at"] == [12, 4],
+					"the top floor's keeper does not stand before the stair: %s" % [stocked])
+		else:
+			_expect(stocked.all(func(b: Dictionary) -> bool: return not bool(b.get("boss", false))),
+					"floor %d has a keeper it should not" % n)
+	_expect(Chapters.walked_floor_area(world.tower_floors() + 1) == "", "a floor past the top is walked")
 
 	# Standing on the stair is the floor won: the continent pays it out.
 	GameState.pending_outcome = { "kind": "tower", "cell": tower.cell, "floor": 1 }
@@ -1851,6 +1873,52 @@ func _check_field(meeting: Dictionary, label: String) -> void:
 
 
 ## Put the player beside [param cell], then step onto it for real.
+## D197: walking in and out over a town's edge is one save for arriving, not one a crossing (eleven
+## in four minutes at Stormreach); coming back from further off is an arrival again.
+func _check_town_saves() -> void:
+	var world: World = GameState.world
+	var town := _site_where(func(s: Site) -> bool:
+		return Town.is_settlement(s) and s.kind != Site.HUT and not Town.is_ruined(s))
+	if town == null:
+		_expect(false, "town saves: no town to walk into")
+		return
+	var RunMode := preload("res://src/chronicle/run_mode.gd")
+	var saves: Array[String] = []
+	# By name: a save left waiting from an earlier town (they are sent a frame late) is not this one.
+	var count := func(point: String, note: String) -> void:
+		if point == RunMode.TOWN and note.ends_with(town.display_name):
+			saves.append(point)
+	EventBus.safe_point_reached.connect(count)
+	var was_auto := Pace.auto
+	var was_at := world.player_cell
+	var flags_were: Dictionary = GameState.flags.duplicate(true)
+	Pace.auto = false
+	await get_tree().process_frame
+	_from_far_off(town)
+	for i in 3:
+		_step_onto(town.cell)
+		await get_tree().process_frame
+	_expect(saves.size() == 1, "town saves: in and out of %s three times saved %d times, not once" % [town.display_name, saves.size()])
+	_from_far_off(town)
+	_step_onto(town.cell)
+	await get_tree().process_frame
+	_expect(saves.size() == 2, "town saves: back in %s from far off was not saved as an arrival (%d saves)" % [town.display_name, saves.size()])
+	EventBus.safe_point_reached.disconnect(count)
+	Pace.auto = was_auto
+	world.player_cell = was_at
+	GameState.flags = flags_were
+
+
+## A step taken more than six tiles from [param town], which is being away from it.
+func _from_far_off(town: Site) -> void:
+	var world: World = GameState.world
+	var far := _find_cell(func(c: Vector2i) -> bool:
+		return world.is_walkable(c) and Pathfinder.distance(c, town.cell) > 6 and world.site_at(c) == null \
+			and world.is_walkable(c + Vector2i.RIGHT) and world.site_at(c + Vector2i.RIGHT) == null)
+	world.player_cell = far + Vector2i.RIGHT
+	_scene._step(Vector2i.LEFT)
+
+
 func _step_onto(cell: Vector2i) -> bool:
 	var world: World = GameState.world
 	for offset: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:

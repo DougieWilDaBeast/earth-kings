@@ -33,6 +33,7 @@ const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
@@ -103,6 +104,14 @@ var _auto_exit_index: int = 0
 ## On the land: the tile the party is walking itself into, and the tile it set off from ([D94]).
 var _auto_tile: Vector2i = Vector2i(-1, -1)
 var _auto_from: Vector2i = Vector2i(-1, -1)
+## The way across the Tower's tile to its door, for a party walking itself there ([D197]), and
+## whether it has already stopped at the door once: asked on again from there, it goes in.
+var _auto_door_path: Array[Vector2] = []
+var _auto_door_index: int = 0
+var _auto_at_door := false
+## Frames Auto has walked without moving; at [constant AUTO_BLOCKED_FRAMES] its way is worked out again.
+var _auto_blocked: int = 0
+const AUTO_BLOCKED_FRAMES := 45
 var _talking: bool = false
 ## Held while it plays; a director that only exists as a temporary is collected
 ## the moment it finishes and never hands control back.
@@ -166,6 +175,10 @@ var _fight_watch: Node2D = null
 var _awaiting_fight: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
+## Doings that start a fight, fought here on this ground with no screen of its own ([D207]): the
+## gate's at its doorway (D162), a roadside fight where its scene is staged, and the rest just ahead
+## of the party. Only a gate is gone into by a party walking itself ([const FIGHT_ACTS]).
+const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
 ## Where the log's right edge stands on a screen wide enough for it.
@@ -183,6 +196,8 @@ var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
 var _roadside_staged := ""
 var _roadside_nodes: Array[Node2D] = []
+## The attackers of the roadside scene staged here, where its fight puts them (D207).
+var _roadside_foes: Array[Node2D] = []
 var _held_fight: String = ""
 var _held_done: String = ""
 ## cell -> a memory of the lead's lying there, not yet picked up (D103).
@@ -231,6 +246,9 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
+	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
+	if _tower_floor > 0:
+		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
@@ -1035,6 +1053,7 @@ func _stage_roadside(event_id: String) -> void:
 	var pack: Array = event.get("pack", [])
 	for i in mini(pack.size(), round_them.size()):
 		var figure := AreaActor.for_person({ "name": "a brigand", "unit": str(pack[i]) })
+		_roadside_foes.append(figure)
 		figure.position = map.centre_of(_free_spot_near(middle + round_them[i]))
 		figure.face(look_at - figure.position)
 		figure.set_interactive(false)
@@ -1047,6 +1066,7 @@ func _clear_roadside() -> void:
 		if is_instance_valid(node):
 			node.queue_free()
 	_roadside_nodes.clear()
+	_roadside_foes.clear()
 	_roadside_staged = ""
 
 
@@ -1423,6 +1443,9 @@ func _land_auto_axis() -> Vector2:
 			if FIGHT_ACTS.has(str(each.get("act", ""))):
 				_do_act(each)
 				return Vector2.ZERO
+	var to_door := _auto_door_axis(world)
+	if to_door != Vector2.INF:
+		return to_door
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1454,6 +1477,48 @@ func _land_auto_axis() -> Vector2:
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## A party walking itself to the Tower does not stop where it crosses onto the Tower's tile, out
+## in the streets: it walks on to the door, stops there with "E to climb" up, and hands back
+## ([D197]; before it, Auto stopped at the tile's edge and, asked on, walked off to wander). Asked on
+## again from the door, it goes in, and climbs as Auto does on the floors (D115). [constant
+## Vector2.INF] when the Tower is not where the party is headed, or there is no door here to go to.
+func _auto_door_axis(world: World) -> Vector2:
+	var goal := AutoRoad.objective(world)
+	var door := _door()
+	if not bool(goal.get("door", false)) or goal.get("cell") != world.player_cell or door == null:
+		_auto_at_door = false
+		_auto_door_path.clear()
+		return Vector2.INF
+	if _leader.position.distance_to(door.position) <= DOOR_RANGE * 0.75:
+		var doing := _act_of(door)
+		if not _auto_at_door:
+			_auto_at_door = true
+			_auto_door_path.clear()
+			Pace.auto = false
+			var prompt := str(doing.get("prompt", ""))
+			_note("You have reached %s.%s" % [goal.get("label", "the Tower"), " " + prompt if prompt != "" else ""])
+			return Vector2.ZERO
+		if doing.is_empty():
+			# The stair is shut (no Guild mark yet): the party goes about its errands instead.
+			return Vector2.INF
+		if not _asking and not _leaving and not _talking:
+			_auto_at_door = false
+			_do_act(doing)
+		return Vector2.ZERO
+	if _auto_door_path.is_empty() or _auto_door_index >= _auto_door_path.size():
+		_auto_door_path = map.find_path(_leader.position, door.position)
+		_auto_door_index = 1 if _auto_door_path.size() > 1 else 0
+		if _auto_door_path.is_empty():
+			return (door.position - _leader.position).normalized()
+	var waypoint := _auto_door_path[_auto_door_index]
+	if _leader.position.distance_to(waypoint) < 16.0:
+		_auto_door_index += 1
+		if _auto_door_index >= _auto_door_path.size():
+			return (door.position - _leader.position).normalized()
+		waypoint = _auto_door_path[_auto_door_index]
+	return (waypoint - _leader.position).normalized()
 
 
 ## Soak mode: make for the way out, so a run that is playing itself never
@@ -1736,6 +1801,14 @@ func _physics_process(delta: float) -> void:
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
+	# Auto walking into something and not moving works its way out again, rather than pressing on
+	# at a waypoint it cannot reach ([D197]).
+	_auto_blocked = _auto_blocked + 1 if Pace.auto and moved.length_squared() <= 0.01 else 0
+	if _auto_blocked >= AUTO_BLOCKED_FRAMES:
+		_auto_blocked = 0
+		_auto_exit_path.clear()
+		_auto_door_path.clear()
+		_auto_tile = Vector2i(-1, -1)
 	if (_approach != null or not _click_path.is_empty()) and _leader.position.is_equal_approx(before):
 		# Something is in the way; the player can steer around it themselves.
 		_approach = null
@@ -2295,8 +2368,8 @@ func _on_band_moved(watch: Node2D) -> void:
 
 
 ## Seen. Every head turns, the one in front shouts, the field is taken from where everyone stands,
-## the band rushes in, and the fight opens on this ground at this view ([D66]). Bursting out of
-## cover at them is an ambush.
+## and the fight is on, on this ground at this view ([D66]); since [D204] nobody waits for the shout
+## or a rush first: the band closes in fighting. Bursting out of cover at them is an ambush.
 func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	_spotted = true
 	_leaving = true
@@ -2311,8 +2384,11 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 		_note("Out of the long grass and on %s before they know it." % str(watch.band.get("label", "them")))
 	else:
 		_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
-		# A beat for the shout to be read before they come; an ambush gives them none.
-		await get_tree().create_timer(float(AreaWatch.rule("spotted_seconds", 0.5))).timeout
+		# A beat for the shout to be read before they come, if the rules give one (none since D204:
+		# the fight is on as they shout); an ambush never gives them one.
+		var beat := float(AreaWatch.rule("spotted_seconds", 0.0))
+		if beat > 0.0:
+			await get_tree().create_timer(beat).timeout
 	if not is_inside_tree():
 		return
 	# Where everyone stood when they were seen is where the fight is laid out, so it is taken
@@ -2408,6 +2484,9 @@ func _lay_out_memories() -> void:
 	if _land_mode or GameState.roster == null or GameState.roster.player() == null:
 		return
 	var area_id := str(boot_payload.get("area_id", ""))
+	# A floor walked on another's plan (D207) is not where that floor's keepsakes lie.
+	if _tower_floor > 0 and TowerFloors.Chapters.borrows_a_plan(_tower_floor):
+		return
 	for memory: Dictionary in Memories.lying_in(area_id, GameState.roster.player().template_id):
 		var cell := Memories.cell_of(memory)
 		map.place({ "art": str(memory.get("art", "coin_pile")), "cell": cell, "name": str(memory.get("object", "something")) })
@@ -2444,6 +2523,10 @@ func _climb_the_stair() -> void:
 func _charge(watch: Node2D) -> void:
 	var figures: Array = watch.figures
 	if figures.is_empty() or _leader == null:
+		return
+	# No rush before the fight (D204): they close in fighting, from where they stood.
+	if float(AreaWatch.rule("charge_seconds", 0.0)) <= 0.0:
+		_leader.face((figures[0] as Node2D).position - _leader.position)
 		return
 	var rush := create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	var share := float(AreaWatch.rule("charge_share", 0.55))
@@ -2553,6 +2636,11 @@ func _regather_at(point: Vector2) -> void:
 			actor.queue_free()
 	_leader = null
 	_followers.clear()
+	# Put back somewhere else, the way Auto was walking is no way from here ([D197]: on floor 4 it
+	# kept making for a waypoint behind a wall after a fight and stood there for good).
+	_auto_exit_path.clear()
+	_auto_exit_index = 0
+	_auto_door_path.clear()
 	var at := map.cell_at(point)
 	if not map.is_walkable(at):
 		at = _free_spot_near(at)
@@ -2627,6 +2715,32 @@ func _gate_field() -> Dictionary:
 	var field := _field_round(foes, false)
 	field["heart"] = [door.x + towards.x, door.y + towards.y]
 	return field
+
+
+## The patch of ground a roadside fight is fought on ([D207]): the party where it stands and the
+## attackers where the scene stages them; with nothing staged, just ahead of the party.
+func _roadside_field() -> Dictionary:
+	var foes: Array = []
+	for node: Node2D in _roadside_foes:
+		if is_instance_valid(node):
+			var c := map.cell_at(node.position)
+			foes.append([c.x, c.y])
+	return _field_round(foes, false) if not foes.is_empty() else _field_ahead()
+
+
+## The patch of ground a fight with nobody yet standing on it is fought on ([D207]): a town's raiders,
+## its guards, a captive's keepers. The party where it stands, and them a few strides ahead of it.
+func _field_ahead() -> Dictionary:
+	var here := map.cell_at(_leader.position)
+	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
+	if ahead == Vector2i.ZERO:
+		ahead = Vector2i.DOWN
+	var front := here + ahead * 5
+	var foes: Array = []
+	for side: Vector2i in [Vector2i.ZERO, Vector2i(ahead.y, ahead.x), Vector2i(-ahead.y, -ahead.x), ahead]:
+		var c := _free_spot_near(front + side)
+		foes.append([c.x, c.y])
+	return _field_round(foes, false)
 
 
 func _field_round(foes: Array, ambush: bool) -> Dictionary:
@@ -2705,13 +2819,16 @@ func _act_for(event: InputEvent) -> Dictionary:
 func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
 		return
-	if FIGHT_ACTS.has(str(each.get("act", ""))):
-		# Gone into here, not on a fight screen (D162): the continent deals the fight and it is
-		# put down on this ground, at the gate, the way a band met on it is.
+	var act := str(each.get("act", ""))
+	if GROUND_FIGHT_ACTS.has(act):
+		# Gone into here, not on a fight screen (D162, D207): the continent deals the fight and it is
+		# put down on this ground, the way a band met on it is.
 		if not _asking:
 			_awaiting_fight = true
 			_talking = true
-			_ask_the_continent({ "act": str(each.get("act", "")), "field": _gate_field() })
+			var field := _gate_field() if act == "_enter_gate_here" \
+				else (_roadside_field() if act == "_step_into_the_road" else _field_ahead())
+			_ask_the_continent({ "act": act, "field": field })
 		return
 	if _land_mode:
 		# Done out of sight, and the party stays where it stands.
