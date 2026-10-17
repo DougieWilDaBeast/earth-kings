@@ -86,6 +86,10 @@ var wanderers: Array = []
 ## Which world of the sixteen this is, and what has come through from the ones
 ## that ended before it (see `src/chronicle/siblings.gd`): `{ sibling, past }`.
 var echoes: Dictionary = {}
+## Torn treasure-map pieces held, and where their X is ([D220], `src/chronicle/treasure.gd`).
+var treasure: Dictionary = {}
+## Faction id -> how many of its gate keepers have fallen since one last gave up its prize ([D219]).
+var keepers: Dictionary = {}
 ## The party's map ([D50], `src/chronicle/atlas.gd`): one bit a tile for ground
 ## it has seen, one for ground a map it carries has drawn in, and the places it
 ## has been told of, keyed "x,y".
@@ -354,6 +358,8 @@ func to_dict() -> Dictionary:
 		"musters": musters,
 		"wanderers": wanderers,
 		"echoes": echoes,
+		"keepers": keepers,
+		"treasure": treasure,
 		"explored": Atlas.encode(explored),
 		"charted": Atlas.encode(charted),
 		"marked": _sorted_keys(marked),
@@ -402,6 +408,16 @@ static func from_dict(payload: Dictionary) -> World:
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])
 	world.echoes = payload.get("echoes", {})
+	# Counts, read back as whole numbers so a save loads to the same file.
+	var keepers_: Dictionary = payload.get("keepers", {})
+	for faction_id: String in keepers_:
+		world.keepers[faction_id] = int(keepers_[faction_id])
+	var treasure_: Dictionary = payload.get("treasure", {})
+	if treasure_.has("pieces"):
+		world.treasure["pieces"] = int(treasure_["pieces"])
+	var x_at: Array = treasure_.get("at", [])
+	if x_at.size() >= 2:
+		world.treasure["at"] = [int(x_at[0]), int(x_at[1])]
 	world.explored = Atlas.decode(str(payload.get("explored", "")), world)
 	world.charted = Atlas.decode(str(payload.get("charted", "")), world)
 	for key: String in payload.get("marked", []):

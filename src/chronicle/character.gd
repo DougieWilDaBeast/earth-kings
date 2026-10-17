@@ -83,8 +83,14 @@ var doctrine_seen: Dictionary = {}
 var yoke: bool = false
 ## Extra max HP carried from the bed last slept in at home (see [Home]).
 var hearth_vigour: int = 0
+## Fights they went down in and got up from ([D218]): each leaves a little more health, for good
+## (`data/world_rules.json` → `scars`).
+var scars: int = 0
 ## Other character id -> how well the two of them get on (see [Banter]).
 var bonds: Dictionary = {}
+## How they fight when the player is playing ([D195]): a key of `tactics.stances` in
+## `data/skirmish.json`. Kept between fights; "own" is the fighter's own doctrine.
+var stance: String = "own"
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -204,7 +210,24 @@ func class_name_text() -> String:
 
 
 func max_hp() -> int:
-	return maxi(1, _stat("max_hp", 20) + hearth_vigour)
+	return maxi(1, _stat("max_hp", 20) + hearth_vigour + scar_health())
+
+
+## What their scars have added to their health ([D218]).
+func scar_health() -> int:
+	var rules: Dictionary = Database.world_rules.get("scars", {})
+	return mini(scars, int(rules.get("most", 5))) * int(rules.get("max_hp", 3))
+
+
+## One more scar, kept only while there is room for it. Returns the line to say, or "".
+func scar() -> String:
+	var rules: Dictionary = Database.world_rules.get("scars", {})
+	if scars >= int(rules.get("most", 5)):
+		return ""
+	scars += 1
+	return str(rules.get("line", "{name} will carry a scar from that.")).format({
+		"name": display_name, "hp": int(rules.get("max_hp", 3)), "scars": scars,
+	})
 
 
 func attack() -> int:
@@ -328,7 +351,9 @@ func to_dict() -> Dictionary:
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
 		"hearth_vigour": hearth_vigour,
+		"scars": scars,
 		"bonds": bonds,
+		"stance": stance,
 	}
 
 
@@ -369,6 +394,8 @@ static func from_dict(data: Dictionary) -> Character:
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))
 	character.hearth_vigour = int(data.get("hearth_vigour", 0))
+	character.scars = int(data.get("scars", 0))
 	for other_id: String in data.get("bonds", {}):
 		character.bonds[other_id] = int(data["bonds"][other_id])
+	character.stance = str(data.get("stance", "own"))
 	return character

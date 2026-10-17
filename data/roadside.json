@@ -1,6 +1,6 @@
 {
 	"rules": {
-		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd. An event's `stage` is what stands a few cells ahead on the ground when it is come upon (D131): its props (art, offset from the scene's middle), and who is being set on (`victim`, a unit); its `pack` stand round them.",
+		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd. An event's `stage` is what stands a few cells ahead on the ground when it is come upon (D131): its props (art, offset from the scene's middle), and who is being set on (`victim`, a unit); its `pack` stand round them. A scene with `near_town` (D215) is the town's Watch beset: offered only within `town_reach` tiles of a standing town but, like every scene, never within `clear_of_sites` of a place (a ring of road out past its gate), at `near_town_chance` a step, the others only in open country at `chance`. Its stage's `allies` stand with it and fight beside the party; `purse_line` is how its purse is said. Since D216 a scene is stood `stage_cells` ahead, seen coming: its title goes in the log, what is going on there (`seen`) as the party comes within `tell_cells`, with no box, and a party walking itself is not stopped (walking aggressively it goes and steps in).",
 		"chance": 0.05,
 		"rest_steps": 40,
 		"clear_of_sites": 3,
@@ -14,7 +14,11 @@
 		"route_cap": 5,
 		"renown_saved": 3,
 		"renown_walked_by": -2,
-		"renown_delivered": 2
+		"renown_delivered": 2,
+		"near_town_chance": 0.12,
+		"stage_cells": 10,
+		"tell_cells": 5,
+		"town_reach": 6
 	},
 
 	"events": {
@@ -81,6 +85,80 @@
 			"pack": ["brigand_chief", "brigand", "brigand"],
 			"escort": false,
 			"stage": { "props": [{ "art": "roadside/toll_rope", "name": "the rope", "offset": [0, 0] }, { "art": "camp/embers", "name": "their fire", "offset": [3, -2] }] }
+		},
+
+		"watch_beset": {
+			"title": "The Watch is fighting on the road ahead.",
+			"seen": [
+				"Steel on steel, and somebody shouting for help that is not coming.",
+				"Two of the Watch stand back to back in the road, and brigands are working round them on both sides.",
+				"They have not seen you yet. Neither have the Watch."
+			],
+			"walked_by": [
+				"You leave the road and keep low.",
+				"Somebody will ask the Watch, later, who walked past."
+			],
+			"saved": [
+				"The last of them runs for the grass.",
+				"The older of the two lowers his spear and looks you over. \"We'll remember that,\" he says. \"The Watch remembers.\""
+			],
+			"purse_line": "He presses %d gold on you: the Watch's bounty on their heads.",
+			"pack": [
+				"brigand",
+				"brigand",
+				"brigand_archer"
+			],
+			"near_town": true,
+			"stage": {
+				"props": [],
+				"allies": [
+					{
+						"unit": "legion_copper",
+						"name": "a watchman"
+					},
+					{
+						"unit": "legion_silver",
+						"name": "a watchman"
+					}
+				]
+			}
+		},
+
+		"watch_wolves": {
+			"title": "The Watch has wolves on it, off the road.",
+			"seen": [
+				"A horn, blown short and badly.",
+				"Two of the Watch have their backs to a wall by the road, and the wolves have learned to wait.",
+				"The wolves have not looked round yet."
+			],
+			"walked_by": [
+				"You go the long way round, upwind.",
+				"The horn sounds once more, then not again."
+			],
+			"saved": [
+				"The wolves break and go back to the open country.",
+				"\"Thought that was us,\" says one of them, and laughs too long. \"Thank you. Truly.\""
+			],
+			"purse_line": "They empty a pouch into your hand: %d gold, all they have on them.",
+			"pack": [
+				"wolf",
+				"wolf",
+				"wolf"
+			],
+			"near_town": true,
+			"stage": {
+				"props": [],
+				"allies": [
+					{
+						"unit": "legion_silver",
+						"name": "a watchman"
+					},
+					{
+						"unit": "legion_copper",
+						"name": "a watchman"
+					}
+				]
+			}
 		}
-	}
+}
 }

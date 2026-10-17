@@ -22,6 +22,11 @@ const MAPPABLE_ACTIONS := [
 	{ "action": "battle_auto", "label": "Auto-Walk / Auto-Play" },
 	{ "action": "battle_speed", "label": "Game Speed" },
 	{ "action": "command_wait", "label": "Pause a Fight" },
+	{ "action": "stance_own", "label": "Stance: Own Way" },
+	{ "action": "stance_close", "label": "Stance: Close In" },
+	{ "action": "stance_away", "label": "Stance: Keep Away" },
+	{ "action": "stance_guard", "label": "Stance: Guard" },
+	{ "action": "stance_hold", "label": "Stance: Hold" },
 	{ "action": "cycle_next", "label": "Cycle Unit" },
 	{ "action": "cycle_quest", "label": "Next Quest (compass)" },
 	{ "action": "camera_zoom_in", "label": "Zoom In" },
@@ -54,6 +59,7 @@ const MAPPABLE_ACTIONS := [
 @onready var _chatter_button: Button = %ChatterButton
 @onready var _difficulty_button: Button = %DifficultyButton
 @onready var _touch_button: Button = %TouchButton
+var _auto_style_button: Button
 @onready var _how_to_play_button: Button = %HowToPlayButton
 @onready var _tips_button: Button = %TipsButton
 @onready var _reset_tips_button: Button = %ResetTipsButton
@@ -99,6 +105,16 @@ func _ready() -> void:
 	_update_difficulty_button()
 	_touch_button.pressed.connect(_on_touch_pressed)
 	_update_touch_button()
+	# How a party walking itself meets bands (D216), beside the other ways the game is played.
+	_auto_style_button = Button.new()
+	_auto_style_button.name = "AutoStyleButton"
+	_auto_style_button.size_flags_horizontal = _touch_button.size_flags_horizontal
+	_auto_style_button.custom_minimum_size = _touch_button.custom_minimum_size
+	_touch_button.add_sibling(_auto_style_button)
+	_auto_style_button.pressed.connect(func() -> void: Pace.cycle_auto_style())
+	Pace.changed.connect(_update_auto_style_button)
+	_update_auto_style_button()
+	Sfx.attend(_auto_style_button)
 
 	_how_to_play_button.pressed.connect(func() -> void: EventBus.how_to_play_requested.emit())
 	_tips_button.toggled.connect(_on_tips_toggled)
@@ -425,6 +441,13 @@ func _on_difficulty_pressed() -> void:
 func _update_difficulty_button() -> void:
 	_difficulty_button.text = "Difficulty: %s" % Difficulty.display_name(GameState.difficulty)
 	_difficulty_button.tooltip_text = Difficulty.blurb(GameState.difficulty)
+
+
+func _update_auto_style_button() -> void:
+	if _auto_style_button == null:
+		return
+	_auto_style_button.text = "Auto: %s" % Pace.auto_style_name()
+	_auto_style_button.tooltip_text = Pace.auto_style_blurb()
 
 
 func _on_touch_pressed() -> void:

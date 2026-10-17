@@ -37,6 +37,7 @@ const Memories := preload("res://src/chronicle/memories.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const Company := preload("res://tests/company.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -64,11 +65,14 @@ func _ready() -> void:
 	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
+	await _check_people_on_the_land()
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
 	await _check_life_on_the_land()
 	await _check_play_test_four()
+	await _check_followers_face()
+	_check_tracks()
 
 	print("")
 	if _failures.is_empty():
@@ -835,6 +839,87 @@ func _check_tower_floor() -> void:
 	print("tower floor: a band fought for real on floor 1, the stair up won the floor, Atlas found his buckle on floor 5, and the Tower's door says how to climb")
 
 
+## People on the land (D215): bands always by the First Hour's road, the Watch beset on the roads
+## round a town (and only there) fighting beside the party, and climbers resting on a Tower floor.
+func _check_people_on_the_land() -> void:
+	GameState.new_game(SEED, "janus")
+	var world: World = GameState.world
+	world.prowlers.clear()
+	Encounter.restock(world, world.rng)
+	var rules: Dictionary = Database.encounters.get("near_the_road", {})
+	var road: Array = FirstRoad.tiles(world)
+	var by_road := 0
+	for band: Prowler in world.prowlers:
+		var apart := 1 << 20
+		for tile: Vector2i in road:
+			apart = mini(apart, Pathfinder.distance(band.cell, tile))
+		if apart >= int(rules.get("from", 2)) and apart <= int(rules.get("to", 4)):
+			by_road += 1
+	_expect(by_road >= int(rules.get("bands", 1)), "people: only %d bands by the road (wanted %d)" % [by_road, int(rules.get("bands", 1))])
+
+	# The Watch beset: by a town's roads only, and fighting beside the party.
+	var town: Site = null
+	for site: Site in world.sites:
+		if Town.is_settlement(site) and not Town.is_ruined(site):
+			town = site
+			break
+	var ring := Vector2i(-1, -1)
+	var open := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var c := Vector2i(x, y)
+			if not world.is_walkable(c) or Roadside._near_a_site(world, c):
+				continue
+			if ring.x < 0 and Roadside.near_town(world, c):
+				ring = c
+			if open.x < 0 and not Roadside.near_town(world, c):
+				open = c
+	_expect(town != null and ring.x >= 0 and open.x >= 0, "people: no road round a town, or no open country, to look on")
+	var watch_ids := Roadside.events().keys().filter(func(id) -> bool: return bool(Roadside.event(str(id)).get("near_town", false)))
+	_expect(not watch_ids.is_empty(), "people: there is no Watch beset among the roadside scenes")
+	var seen_by_town: Array = []
+	var seen_in_open: Array = []
+	for i in 400:
+		world.roadside_at = -999
+		var here := Roadside.look(world, ring)
+		if here != "":
+			seen_by_town.append(here)
+		world.roadside_at = -999
+		var there := Roadside.look(world, open)
+		if there != "":
+			seen_in_open.append(there)
+	_expect(not seen_by_town.is_empty() and seen_by_town.all(func(id) -> bool: return watch_ids.has(id)),
+			"people: by a town's road the scenes were %s, not the Watch beset" % [seen_by_town.slice(0, 5)])
+	_expect(seen_in_open.all(func(id) -> bool: return not watch_ids.has(id)), "people: the Watch was beset out in the open country")
+	var met := Roadside.meeting(world, ring, str(watch_ids[0]), GameState.party_characters(), world.rng)
+	var allies: Array = met.get("map", {}).get("allies", [])
+	_expect(allies.size() == 2 and allies.all(func(a: Dictionary) -> bool: return str(a.get("name", "")) == "a watchman"),
+			"people: the Watch beset does not fight beside the party (%s)" % [allies])
+
+	# Climbers resting by a floor's stair, who talk.
+	var climbers: Dictionary = Database.world_rules.get("life", {}).get("climbers", {}).get("on_the_floors", {})
+	var floor := -1
+	for f in range(int(climbers.get("from", 2)), 60):
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash([world.world_seed, f, "climbers"])
+		if rng.randf() < float(climbers.get("chance", 0.4)):
+			floor = f
+			break
+	_expect(floor > 0, "people: no Tower floor has climbers resting on it")
+	if floor > 0:
+		var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+		scene.set("boot_payload", { "area_id": Chapters.walked_floor_area(floor), "return_scene": "world", "tower_floor": floor })
+		add_child(scene)
+		for i in 5:
+			await get_tree().process_frame
+		var resting: Array = (scene.get("map") as AreaMap).people.filter(func(p: Dictionary) -> bool: return str(p.get("_area", "")) == "climbers_floor")
+		_expect(resting.size() >= 2 and not (resting[0].get("talk", {}) as Dictionary).get("hello", []).is_empty(),
+				"people: floor %d has no company resting by its stair to talk to (%d)" % [floor, resting.size()])
+		scene.queue_free()
+		await get_tree().process_frame
+	print("people: %d bands by the road, the Watch beset by a town's road, climbers on floor %d" % [by_road, floor])
+
+
 func _expect(ok: bool, message: String) -> void:
 	if not ok:
 		_fail(message)
@@ -1158,6 +1243,107 @@ func _check_play_test_four() -> void:
 	if Pace.SPEEDS != [1.0, 2.0, 3.0, 5.0]:
 		_fail("play-test 4: the speeds are %s, not 1x, 2x, 3x and 5x" % [Pace.SPEEDS])
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
+
+
+## Followers face the way they walk ([D214], play-test 4: walking down, "my characters that are
+## followed behind me are facing the wrong way"). A party of four walks up a clear stretch and then
+## back down it at walking pace, a frame at a time; once the turn is behind them (forty frames),
+## nobody following faces back the way the leader came. Before the fix a follower keeping pace was
+## never turned again, so the second leg was walked looking up.
+func _check_followers_face() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno", "cato", "vesta"])
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "city_streets", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var followers: Array = scene._followers
+	# A column of open ground fourteen cells long to walk up and down.
+	var top := Vector2i(-1, -1)
+	for y in range(1, map.height - 15):
+		for x in range(1, map.width - 1):
+			if top.x >= 0:
+				break
+			var clear := true
+			for dy in 15:
+				for dx in [-1, 0, 1]:
+					if not map.is_walkable(Vector2i(x + dx, y + dy)):
+						clear = false
+			if clear:
+				top = Vector2i(x, y)
+	if followers.size() != 3 or top.x < 0:
+		_fail("followers: %d followers, and open ground at %s" % [followers.size(), top])
+		scene.queue_free()
+		await get_tree().process_frame
+		return
+	var bottom := map.centre_of(top + Vector2i(0, 14))
+	scene._leader.position = bottom
+	for f: Node2D in followers:
+		f.position = bottom
+	scene._reseed_crumbs()
+	var wrong: Array[String] = []
+	var delta := 1.0 / 60.0
+	for leg: Vector2 in [Vector2.UP, Vector2.DOWN]:
+		for frame in 110:
+			scene._leader.position += leg * scene._walk_speed() * delta
+			scene._leader.face(leg)
+			scene._drop_crumbs()
+			scene._settle_followers(delta)
+			if frame < 40:
+				continue
+			for i in followers.size():
+				var facing: Vector2 = followers[i].get("_facing")
+				if facing.dot(leg) < -0.1:
+					wrong.append("walking %s, follower %d faces %s at frame %d" % [leg, i, facing, frame])
+	if not wrong.is_empty():
+		_fail("followers face the wrong way: %s (and %d more)" % [wrong[0], wrong.size() - 1])
+	else:
+		print("followers: walking up and then down, everyone following faces the way they walk")
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## Footpaths, dirt tracks and signposts ([D233]): tracks join the places people live, a tile on
+## one has the track's ground and sheet, every tile's worn paths are footpaths, and where three ways
+## meet a signpost stands and names somewhere each way.
+func _check_tracks() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	var Tracks := preload("res://src/area/tracks.gd")
+	var joined := 0
+	for site: Site in Tracks.places(world):
+		if not Tracks.sides(world, site.cell).is_empty():
+			joined += 1
+	if joined * 2 < Tracks.places(world).size():
+		_fail("tracks: only %d of %d places have a track to them" % [joined, Tracks.places(world).size()])
+	var on_track := Vector2i(-1, -1)
+	var post := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var tile := Vector2i(x, y)
+			if on_track.x < 0 and world.site_at(tile) == null and not Tracks.sides(world, tile).is_empty() \
+					and Tracks.ways(world, tile).size() == Tracks.sides(world, tile).size():
+				on_track = tile
+			if post.x < 0 and Tracks.signpost(world, tile) != "":
+				post = tile
+	if on_track.x < 0 or post.x < 0:
+		_fail("tracks: no open tile on a track (%s) or no signpost anywhere (%s)" % [on_track, post])
+		return
+	var slot := GroundGen.slot(world, on_track)
+	var ground: PackedStringArray = slot.get("terrain", PackedStringArray())
+	if not ground.has("track"):
+		_fail("tracks: a tile on a track has no track on its ground")
+	var layers: Array = (slot.get("patches", [{}]) as Array)[0].get("layers", [])
+	if not layers.has("track") or not layers.has("footpath"):
+		_fail("tracks: a tile on a track does not draw the track and footpath sheets (%s)" % [layers])
+	var says := Tracks.signpost(world, post)
+	var standing := (GroundGen.slot(world, post).get("props", []) as Array).filter(
+		func(prop: Dictionary) -> bool: return str(prop.get("line", "")) == says)
+	if standing.size() != 1 or not says.begins_with("A signpost.") or says.contains("Where You Fell"):
+		_fail("tracks: the signpost at %s stands %d times and says %s" % [post, standing.size(), says])
+	print("tracks: %d of %d places joined, a track laid on its tiles, a signpost: %s" % [joined, Tracks.places(world).size(), says])
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met

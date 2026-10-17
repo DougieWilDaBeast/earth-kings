@@ -242,7 +242,7 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   lunges a few pixels at its target, a critical or a blow worth a fifth of someone's health
   freezes the clock for 70 ms, and a death rings out and shakes the camera (harder for one of
   yours). Skills on the cards are tiles with a cooldown sweep that flash when they come back, and
-  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D219](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
+  clicking one readies it; the touch skill buttons sweep too. The row of cards grows up from the bottom edge as tall as its cards need, so six with a pouch stay on the screen ([D231](06-decisions.md)); `tests/hud_shot.tscn` photographs it. All in `src/skirmish/skirmish_fx.gd`
   and `skirmish_slot.gd`; the sizes are `rules` in `data/skirmish.json`. Trees stand on the crags,
   walls and some of the edge, and bushes in the brush (`decor` in the same file).
 - **Sound and a level gained** (2026-10-13). Swings, bowshots, hits and criticals, blocks, a spell
@@ -401,6 +401,38 @@ call to make fighting tactics "a much larger portion of the game".
 now keep away. Iris went from 13% to 37%, Diana from 62% to 73% (she shoots from behind her wolf),
 Atlas from 55% to 57%; the close fighters lost a little (Ares 60% to 52%, Cassius 60% to 53%).
 Janus (20% to 13%) and Pluto (23% to 20%) still lose most one against one.
+
+### Stances
+
+**Built 2026-10-17** ([D209](06-decisions.md), for [D195](06-decisions.md), call BC). The tactics
+above were watched, not played; a stance is the player's say in them. Each party card shows its
+fighter's stance as a word beside the name. A click (a tap) on the word steps to the next; with
+fighters picked, a key each sets it (O, F, B, G, H, all rebindable in Controls). A stance only
+changes which of the fighter's doctrine moves are tried first and which are left out, and adds one
+move of its own (Guard's escort); no number changes. It is kept on the character, so the next fight
+and the save keep it. Enemies, allies and anyone while the game plays itself (Auto, the who-wins
+bouts, the soak and the bot climbs) fight their own way whatever the card says, and the card's word
+greys out under Auto.
+
+| Stance | Key | What changes | Tried first | Left out |
+| --- | --- | --- | --- | --- |
+| Own way | O | nothing: the doctrine as it is (the default) | | |
+| Close in | F | goes and finds the fight anywhere on the field, as Auto does | dodge, flank | kite, hang back, break off |
+| Keep away | B | keeps a gap while friends fight; a bow or a spell keeps shooting, a sword waits | dodge, kite, break off, hang back | flank, guard |
+| Guard | G | steps in for a hurt friend; more than 2 tiles from the leader, walks back beside them (every 2 s; "keeps by Cato") | dodge, guard, escort | break off, hang back |
+| Hold | H | keeps this ground and fights only what comes into reach, as H always did; H again is Own way | | |
+
+`data/skirmish.json` → `tactics.stances` holds each one's word, key action, moves and tip, and
+`escort_reach` and `escort_every` the new move's two numbers. `SkirmishBrain.moves` puts a stance
+on a doctrine; `Fighter.set_stance` and `playing_stance` keep it and say when it counts.
+
+**What it did.** On Own way nothing changed: six who-wins bouts (seed 7, level 5) came out the same
+to the second as on main, and the soak, the climb suite and every suite pass. On the proving ground
+(Cato, Vesta and Iris against six brigands at level 9, twelve seeds each, the whole party in one
+stance) every stance won all twelve: Own way in 38 s with two thirds of the party's health left,
+Close in 24 s (0.74), Guard 28 s (0.67), Hold 59 s (0.74) and Keep away 68 s (0.59). So a stance is
+a real choice and none of them throws a fight. The words, the keys, the escort's two tiles and that a
+stance lasts between fights are **Inferred** (agenda 124 and 133).
 
 ## Who wins?
 

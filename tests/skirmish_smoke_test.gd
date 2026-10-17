@@ -179,6 +179,8 @@ func _run() -> void:
 	await _check_touch()
 	await _check_box_select()
 	await _check_cards_fit()
+	await _check_lineup()
+	await _check_upper_bite()
 	await _check_fight_rules()
 	await _check_surround()
 	await _check_allies_and_auto()
@@ -187,6 +189,8 @@ func _run() -> void:
 	await _check_conditions()
 	_check_bout()
 	await _check_tactics()
+	await _check_stances()
+	await _check_scars()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -329,7 +333,7 @@ func _check_box_select() -> void:
 
 
 ## Six on the field with a pouch of draughts: every party card sits inside the screen, and the
-## fight's log above them, not under them ([D219], play-test 4: the cards ran off the bottom).
+## fight's log above them, not under them ([D231], play-test 4: the cards ran off the bottom).
 func _check_cards_fit() -> void:
 	var before := GameState.roster
 	GameState.roster = Company.found("atlas", ["vesta", "iris", "juno", "cato", "ares"])
@@ -353,6 +357,48 @@ func _check_cards_fit() -> void:
 		fight.queue_free()
 		await get_tree().process_frame
 	GameState.roster = before
+## As a fight starts it says who stands against the party, for the play log (Ewan's log said only
+## "verdant_pass" for every fight): the foes with their levels, nobody of the party's side.
+func _check_lineup() -> void:
+	var said: Array[String] = []
+	var hear := func(line: String) -> void: said.append(line)
+	EventBus.battle_lineup.connect(hear)
+	var fight := await _new_fight()
+	EventBus.battle_lineup.disconnect(hear)
+	_expect(said.size() == 1, "a fight said who it was against %d times" % said.size())
+	if said.size() == 1:
+		_expect(said[0].contains(" L"), "the fight's line-up gives no levels: %s" % said[0])
+		for f: Fighter in fight.party_fighters():
+			_expect(not said[0].contains(f.unit.display_name), "the line-up names %s of the party: %s" % [f.unit.display_name, said[0]])
+	fight.queue_free()
+	await get_tree().process_frame
+## The Tower's upper floors bite harder (D222): the walked floors not at all, floor 6 at `base`,
+## higher a floor after, never past `most`; a foe given `bite` hits that much harder in the fight.
+func _check_upper_bite() -> void:
+	var rules: Dictionary = Database.world_rules["tower"]["upper_bite"]
+	var from := int(rules["from_floor"])
+	_expect(is_equal_approx(Encounter.upper_bite(from - 1), 1.0), "a walked floor's foes bite harder")
+	_expect(is_equal_approx(Encounter.upper_bite(from), float(rules["base"])), "floor %d does not bite at base" % from)
+	_expect(Encounter.upper_bite(20) > Encounter.upper_bite(from), "floor 20 bites no harder than floor %d" % from)
+	_expect(Encounter.upper_bite(100) <= float(rules["most"]) + 0.001, "a high floor bites past the most")
+	var met := Encounter.for_tower(GameState.world, GameState.world.tower(), 12, GameState.party_characters(), RandomNumberGenerator.new())
+	for entry: Dictionary in met["map"]["enemies"]:
+		_expect(is_equal_approx(float(entry.get("bite", 1.0)), Encounter.upper_bite(12)), "a floor 12 foe does not bite as floor 12 says")
+	var attack := {}
+	for bite: float in [1.0, 2.0]:
+		var map := _proving_ground()
+		map["enemies"] = [{"unit": "brigand", "cell": [6, 1], "level": 8, "bite": bite}]
+		var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+		fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+		add_child(fight)
+		await get_tree().process_frame
+		for f: Fighter in fight.fighters:
+			if not f.unit.sides_with_party():
+				attack[bite] = f.unit.attack
+		fight.queue_free()
+		await get_tree().process_frame
+	_expect(attack.size() == 2 and int(attack[2.0]) >= int(attack[1.0]) * 2 - 1,
+		"a foe with bite 2 does not hit twice as hard: %s" % [attack])
 
 
 func _new_fight() -> Node2D:
@@ -563,6 +609,42 @@ func _check_allies_and_auto() -> void:
 ## practice counts, the journal fills, a healer is remembered, draughts are
 ## spent from the stores, wounds carry out, an ambush gives the party the jump,
 ## and a fall the company cannot reach is settled for real by [Fate].
+## Scars ([D218], from Kenshi): whoever went down in a fight the company won, and lives, comes out
+## with a little more health for good; up to `scars.most`; kept in the save.
+func _check_scars() -> void:
+	GameState.heal_party()
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"title": "The road", "map": _proving_ground()}, "return_scene": "world", "touch": false}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	var party: Array[Fighter] = fight.party_fighters()
+	if party.size() < 2:
+		_expect(false, "scars: no party to scar")
+		fight.queue_free()
+		return
+	var hurt: Character = party[1].unit.character
+	var spared: Character = party[0].unit.character
+	var before := hurt.max_hp()
+	var spared_before := spared.scars
+	party[1].went_down = true
+	fight.victory = true
+	fight._settle_the_party()
+	var per := int(Database.world_rules.get("scars", {}).get("max_hp", 3))
+	_expect(hurt.scars == 1, "scars: %s went down and got up, and has %d scars" % [hurt.display_name, hurt.scars])
+	_expect(hurt.max_hp() == before + per, "scars: a scar gave %d health, not %d" % [hurt.max_hp() - before, per])
+	_expect(spared.scars == spared_before, "scars: %s never went down and was scarred" % spared.display_name)
+	_expect(Character.from_dict(hurt.to_dict()).scars == 1, "scars: a scar was lost in the save")
+	var most := int(Database.world_rules.get("scars", {}).get("most", 5))
+	for i in most + 3:
+		hurt.scar()
+	_expect(hurt.scars == most, "scars: %d scars, past the most (%d)" % [hurt.scars, most])
+	hurt.scars = 0
+	fight.queue_free()
+	await get_tree().process_frame
+	print("scars: down and back up in a won fight leaves +%d health for good, up to %d" % [per, most])
+
+
 func _check_the_world_hears() -> void:
 	var started: Array = []
 	var finished: Array = []
@@ -864,6 +946,97 @@ func _check_tactics() -> void:
 				"circling should end at Iris's side or back, not where she is looking")
 	fight.queue_free()
 	GameState.roster = kept_roster
+
+
+## Stances ([D195]): every card opens on Own way, the doctrine as it is; a key or a click on
+## the card's word changes it; Keep away puts falling back first and leaves out circling,
+## Close in the other way round, Guard walks back to the leader, Hold keeps the ground and
+## H again lets go. A stance is kept on the character for the next fight and in the save,
+## and Auto fights everyone their own way whatever their card says.
+func _check_stances() -> void:
+	# The touch check held the lead, and a stance is kept: start this one from Own way.
+	for character: Character in GameState.party_characters():
+		character.stance = "own"
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": _proving_ground()}, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var party: Array[Fighter] = fight.party_fighters()
+	var by_id := {}
+	for f: Fighter in party:
+		by_id[f.unit.template_id] = f
+	_expect(by_id.has("cato") and by_id.has("vesta") and by_id.has("iris"), "the company is not Cato, Vesta and Iris")
+	if not (by_id.has("cato") and by_id.has("vesta") and by_id.has("iris")):
+		fight.queue_free()
+		return
+	var cato: Fighter = by_id["cato"]
+	var vesta: Fighter = by_id["vesta"]
+	var iris: Fighter = by_id["iris"]
+	_expect(Fighter.stances() == ["own", "close", "away", "guard", "hold"], "the stances are not the five: %s" % str(Fighter.stances()))
+	for f: Fighter in party:
+		_expect(f.stance == "own", "%s opened a fight in %s, not Own way" % [f.unit.display_name, f.stance])
+		_expect(SkirmishBrain.moves(f, tactics) == SkirmishBrain.doctrine(f, tactics)["moves"],
+				"Own way is not %s's doctrine as it is" % f.unit.display_name)
+	_expect(fight.hud._card_stances.size() == party.size() and fight.hud._card_stances[0].text == "Own way",
+			"the cards do not say their stance")
+
+	fight._select([iris])
+	fight.act("stance_away")
+	_expect(iris.stance == "away" and iris.unit.character.stance == "away", "Keep away did not take on Iris or her character")
+	var away := SkirmishBrain.moves(iris, tactics)
+	_expect(away.slice(0, 2) == ["dodge", "kite"] and not away.has("flank"), "Keep away does not put falling back first: %s" % str(away))
+	fight._select([cato])
+	fight.act("stance_close")
+	var close := SkirmishBrain.moves(cato, tactics)
+	_expect(close.slice(0, 2) == ["dodge", "flank"] and not close.has("break"), "Close in does not put circling first: %s" % str(close))
+	_expect(cato.stance_says("seek"), "Close in does not go and find the fight")
+	fight.hud.stance_clicked.emit(party.find(cato))
+	_expect(cato.stance == "away", "a click on the card's stance did not step to the next")
+	_expect(fight.hud._card_stances[party.find(cato)].text == "Keep away", "the card did not change its word")
+
+	# Guard: Vesta, four tiles from the leader with nobody hurt, makes her way back to him.
+	fight._select([vesta])
+	fight.act("stance_guard")
+	var foe: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())[0]
+	_expect(cato.unit.character.is_player, "Cato does not lead the company")
+	vesta.unit.cell = cato.unit.cell + Vector2i(4, 0)
+	vesta.tactic_wait = 0.0
+	var back := SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics)
+	_expect(str(back.get("why", "")) == "escort", "Guard far from the leader did not go back to him: %s" % str(back))
+	if str(back.get("why", "")) == "escort":
+		var beside: bool = fight.pathfinder.cells_in_range(cato.unit.cell, 1, 2).any(func(c: Vector2i) -> bool: return back["goal"].call(c))
+		_expect(beside and not back["goal"].call(cato.unit.cell + Vector2i(4, 0)), "Guard's walk back does not end beside the leader")
+	vesta.unit.cell = cato.unit.cell + Vector2i(1, 1)
+	_expect(SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics).get("why", "") != "escort",
+			"Guard beside the leader still walked back to him")
+
+	# Hold, as H always did; H again is Own way.
+	fight.act("hold")
+	_expect(vesta.stance == "hold" and vesta.holding() and vesta.activity() == "holding", "H did not hold Vesta")
+	_expect(fight.hud._card_stances[party.find(vesta)].text == "Hold", "the card does not say Hold")
+
+	# The game playing itself: every fighter its own way, nobody held by a card.
+	Pace.auto = true
+	_expect(SkirmishBrain.moves(iris, tactics) == SkirmishBrain.doctrine(iris, tactics)["moves"], "Auto fought Iris to her card")
+	_expect(not vesta.holding(), "Auto left Vesta holding")
+	Pace.auto = false
+	fight.act("hold")
+	_expect(vesta.stance == "own" and not vesta.holding(), "H again did not let Vesta go")
+
+	# Kept: the save carries it, and the next fight opens in it.
+	_expect(Character.from_dict(iris.unit.character.to_dict()).stance == "away", "the save lost Iris's stance")
+	fight.queue_free()
+	await get_tree().process_frame
+	var next: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	next.boot_payload = {"encounter": {"map": _proving_ground()}, "sandbox": true}
+	add_child(next)
+	await get_tree().process_frame
+	var iris_again: Array = next.party_fighters().filter(func(f: Fighter) -> bool: return f.unit.template_id == "iris")
+	_expect(not iris_again.is_empty() and iris_again[0].stance == "away", "Iris's stance was not kept for the next fight")
+	for f: Fighter in next.party_fighters():
+		f.set_stance("own")
+	next.queue_free()
 
 
 ## What a move does shows on whoever it lands on ([D192]): a knockback moves them a tile or more
