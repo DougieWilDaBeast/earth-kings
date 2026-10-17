@@ -31,10 +31,15 @@ const GroundGen := preload("res://src/area/ground_gen.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const LandMap := preload("res://src/ui/land_map.gd")
+const LandMapScreen := preload("res://src/ui/land_map_screen.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
+## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
+const CORNER_MAP_SIZE := 180.0
+const CORNER_MAP_CELL := 12.0
 ## How often the compass asks where the objective is, in seconds.
 const COMPASS_EVERY := 0.25
 const AutoRoad := preload("res://src/world/auto_road.gd")
@@ -129,6 +134,10 @@ var _walked: float = 0.0
 var _strolled: float = 0.0
 ## The needle pointing at the First Hour's objective (D95), top left under the place's name.
 var _compass: Control
+## The map in the top right corner while walking the land, and the large one over the ground
+## (M or the journal), which the party walks on under ([D232]).
+var _corner_map: Control
+var _map_screen: CanvasLayer
 ## The Tower on the edge of the screen while it is far off (D108), on the land only.
 var _far_tower: Control
 var _compass_clock := COMPASS_EVERY
@@ -303,6 +312,8 @@ func _ready() -> void:
 	_place.get_parent().add_child(_compass)
 	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
+	if _land_mode:
+		_put_up_the_maps()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
 	_lay_out_acts()
@@ -2008,6 +2019,9 @@ func _physics_process(delta: float) -> void:
 	# player lets go of the keys, or everyone freezes mid-stride where they stood.
 	_settle_followers(delta)
 	var axis := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	# With the large map open the keys look about the map; the party walks on as it was (D232).
+	if _map_open():
+		axis = Vector2.ZERO
 	if axis != Vector2.ZERO:
 		# Taking the keys back calls off whatever the player was walking towards.
 		_approach = null
@@ -3013,6 +3027,12 @@ func _pair_rule(key: String, fallback: Vector2i) -> Vector2i:
 func _open_the_map() -> void:
 	if _leaving or not is_inside_tree():
 		return
+	# On the land the map opens over the ground and the party walks on under it (D232); inside a
+	# place, or on a floor of the Tower, the continent opens as it always has.
+	if _map_screen != null:
+		_map_screen.toggle()
+		_quiet_while_spoken_to()
+		return
 	_leaving = true
 	var back := _here_payload()
 	back["held"] = _held
@@ -3298,6 +3318,8 @@ func _quiet_while_spoken_to() -> void:
 	_hint.visible = not quiet
 	if _compass != null:
 		_compass.visible = not quiet and _compass.has_meta("aimed")
+	if _corner_map != null:
+		_corner_map.visible = not quiet and not _map_open()
 	if _act_bar != null:
 		_act_bar.visible = not quiet
 	if not quiet and not _held_notes.is_empty():
@@ -3305,6 +3327,33 @@ func _quiet_while_spoken_to() -> void:
 		_held_notes.clear()
 		for line: String in held:
 			_note(line)
+
+
+## The corner map and the large one ([D232]): the corner map in the top right, under the touch
+## bar when there is one; a click on it opens the large map, which opens over the ground.
+func _put_up_the_maps() -> void:
+	_corner_map = LandMap.new()
+	_corner_map.full = false
+	_corner_map.cell_px = CORNER_MAP_CELL
+	_corner_map.size = Vector2.ONE * CORNER_MAP_SIZE
+	_corner_map.anchor_left = 1.0
+	_corner_map.anchor_right = 1.0
+	_corner_map.offset_left = -CORNER_MAP_SIZE - 14.0
+	_corner_map.offset_right = -14.0
+	_corner_map.offset_top = 14.0 + (TouchControls.BAR_DROP if Pace.is_touch_enabled() else 0.0)
+	_corner_map.offset_bottom = _corner_map.offset_top + CORNER_MAP_SIZE
+	_corner_map.tooltip_text = "Click to open the map (M). Right-click a place: Go here, or Place a marker."
+	_place.get_parent().add_child(_corner_map)
+	_corner_map.said.connect(_note)
+	_corner_map.open_requested.connect(_open_the_map)
+	_map_screen = LandMapScreen.new()
+	add_child(_map_screen)
+	_map_screen.said.connect(_note)
+	_map_screen.closed.connect(_quiet_while_spoken_to)
+
+
+func _map_open() -> bool:
+	return _map_screen != null and _map_screen.is_open()
 
 
 ## Aim the compass at the objective ([method AutoRoad.objective]). On the land it

@@ -193,7 +193,7 @@ tip now says so).
    lead to a hut near the crater, they wake there, and he hands over the journal ("you came down with
    this too"). The crater is no safe place.
 2. **A small square map** in the corner with north, east, south and west on its sides, instead of the
-   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it.
+   compass; right-click a place for "Go here" (Auto) or "Place a marker", the marker shown on it. Built ([D232](06-decisions.md)).
 3. **The far Tower** at the screen's edge is too big and distracting: a better way to show where it
    is; and the Tower should rise, not look flat.
 4. **Life on the land**: animals, birds that move and fly off as you come near, bees and butterflies;
@@ -234,7 +234,7 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    of their own.
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
-   waypoints, clicked to go (play-test 3, item 2).
+   waypoints, clicked to go (play-test 3, item 2). Built ([D232](06-decisions.md)), his first pick.
 3. **Roads and ways**: more paths, dirt roads and signposts; work out the kinds of road and way
    there are (footpaths, carriage roads, bog roads and more), ask which to use, then an art request
    and build them. He picked **footpaths and dirt tracks** (2026-10-17): built, with signposts

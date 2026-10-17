@@ -35,6 +35,7 @@ const WorldEnd := preload("res://src/world/world_end.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Markers := preload("res://src/world/markers.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -350,6 +351,8 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	for notice: String in Siblings.on_arrive(world, target):
 		_note(notice)
+	# A place picked on the map to go to is let go of once it is stood on ([D232]).
+	Markers.on_arrive(target)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)

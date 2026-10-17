@@ -208,7 +208,10 @@ each, each ending playable:
    ([D179](06-decisions.md)). Play-test 4 (2026-10-17, a new game as Janus): its first fixes are built
    ([D189](06-decisions.md): a pin where you click, speeds 1×/2×/3×/5×, harder fought floors, the
    baker's bread, birds that fly about) and his new asks are listed, **planned**, waiting on his order
-   ([28](28-the-first-hour.md#play-test-4s-asks)); of the roads and ways he picked footpaths and dirt
+   ([28](28-the-first-hour.md#play-test-4s-asks)); the first he picked, the map over the ground, is
+   built ([D232](06-decisions.md): a corner map, right-click Go here or Place a marker, the party
+   walking on under it), and the party cards and the followers' facing are fixed ([D231](06-decisions.md),
+   [D214](06-decisions.md)); of the roads and ways he picked footpaths and dirt
    tracks, built with signposts where three ways meet ([D233](06-decisions.md), art A32). Five real players, named by the
    founders, play a build from `e3ed512` on with the play log on (call AV, 2026-10-16); their logs and
    Ewan's notes are written up, then design meeting 5 with the newcomer's timed run. What only the

@@ -803,20 +803,45 @@ func _check_the_ground_is_the_game() -> void:
 	ground._point_the_compass()
 	_expect(ground._compass != null and ground._compass.has_meta("aimed"), "the ground has no compass pointing anywhere")
 
-	# The map is the journal's, opened with M straight from the ground (D95), and
-	# puts the party back where it stood.
+	# The map is the journal's, opened with M straight from the ground (D95). On the land it opens
+	# over the ground, which goes on under it (D232): the same ground, the keys looking about the
+	# map rather than walking, and M or Esc putting it away.
 	var m := InputEventKey.new()
 	m.keycode = KEY_M
 	m.pressed = true
+	var was_ground := ground
 	ground._unhandled_input(m)
 	await _settle()
-	var shown := _current_scene()
-	_expect(shown != null and shown.get("_view") == shown.View.MAP, "the journal's map did not open the continent as a map")
-	if shown != null and shown.get("_view") == shown.View.MAP:
-		var stood := world.player_cell
-		shown._process(0.1)
-		_expect(world.player_cell == stood, "the map can be walked")
-		shown._unhandled_input(_action("ui_cancel"))
+	var screen: CanvasLayer = ground.get("_map_screen")
+	_expect(_current_scene() == was_ground, "M on the land left the ground for a map screen")
+	_expect(screen != null and screen.is_open(), "M on the land did not open the map over the ground")
+	_expect(ground.get("_corner_map") != null, "the land has no map in its corner")
+	if screen != null and screen.is_open():
+		_expect(not (ground.get("_corner_map") as Control).visible, "the corner map stays up under the large one")
+		var stood: Vector2 = ground._leader.position
+		Input.action_press("move_right")
+		for i in 10:
+			ground._physics_process(1.0 / 60.0)
+		Input.action_release("move_right")
+		_expect(ground._leader.position == stood, "with the map open the keys walked the party instead of moving the map")
+		screen._input(_action("ui_cancel"))
+		await _settle()
+		_expect(not screen.is_open(), "Esc did not put the map away")
+		# A click on the corner map opens the large one; a right-click on a place offers Go here
+		# and Place a marker, and a marker placed can be taken off again (D232).
+		var corner: Control = ground.get("_corner_map")
+		corner._click(Vector2(4.0, 4.0))
+		_expect(screen.is_open(), "a click on the corner map did not open the large map")
+		var big: Control = screen.get("map")
+		var spot := world.player_cell + Vector2i(2, 0)
+		var offered: Array[int] = big.menu_for(spot)
+		_expect(offered == [big.MENU_GO, big.MENU_MARK], "a right-click on the map offers %s, not Go here and Place a marker" % [offered])
+		big.choose(spot, big.MENU_MARK)
+		_expect(not preload("res://src/world/markers.gd").at(spot).is_empty(), "Place a marker put no marker down")
+		_expect(big.menu_for(spot).has(big.MENU_UNMARK), "a marker on the map cannot be taken off")
+		big.choose(spot, big.MENU_UNMARK)
+		_expect(preload("res://src/world/markers.gd").all().is_empty(), "Take the marker off left it")
+		screen.close()
 		await _settle()
 	ground = _current_scene()
 	_expect(ground != null and ground.get("map") is AreaMap and ground.map.id == area_id, "putting the map away did not come back to the same ground")

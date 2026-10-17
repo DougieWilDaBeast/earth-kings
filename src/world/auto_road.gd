@@ -174,6 +174,13 @@ static func errand(world: World) -> Vector2i:
 	var rest := rest_stop(world)
 	if rest.x >= 0:
 		return rest
+	# A place picked on the map, or a marker followed, is walked to straight: no turning aside for
+	# a band on the way, which walked the party off the other way from where it was sent ([D232]).
+	var chosen := Quests.followed(world, quests(world))
+	if str(chosen.get("kind", "")) == "marker":
+		var marked: Vector2i = chosen["cell"]
+		if marked != world.player_cell and not Pace.avoided.has(marked):
+			return marked
 	var target := Vector2i(-1, -1)
 	var best := DETOUR + 1
 	var bands: Array = world.prowlers if Pace.auto_style == "aggressive" else []

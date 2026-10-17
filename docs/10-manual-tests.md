@@ -307,6 +307,10 @@ Start a run (not the tutorial) and walk.
 | D5.15 | In a fight you can win, let one of the party go down, get them back up, and win | At the end: "… will carry a scar from that … +3 health for good"; their journal page shows Scars 1, +3 health ([D218](06-decisions.md)) |
 | D5.16 | Shut three gates of the same faction (the same keeper at the far side) | By the third at the latest, "{keeper} falls, and what it guarded falls with it: …" and the prize is worn or packed; a miss before says what it carries ([D219](06-decisions.md)) |
 | D5.17 | Beat bands on the land until "a scrap of map … 1 of 3", then two more | "The 3 scraps fit. An X, … leagues …": a red X on the map (M), "The X on your map" in the quest list (L); walk there and a find is dug up, gear in it ([D220](06-decisions.md)) |
+| D5.18 | Walk the land and look at the top right | A small square map with N, E, S and W on its sides, you in the middle, and an arrow at its edge (or a ring) for what the compass follows ([D232](06-decisions.md)) |
+| D5.19 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
+| D5.20 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
+| D5.21 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
 | D5.22 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D233](06-decisions.md)) |
 | D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
 
