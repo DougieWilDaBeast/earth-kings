@@ -660,6 +660,12 @@ func _check_encounters(world: World) -> void:
 	_expect(at_first["enemies"].size() == 3, "a band of three fields %d on the First Hour" % at_first["enemies"].size())
 	_expect(_top_level(at_first) <= maxi(1, _top_level(at_even) + roundi(Difficulty.dial("enemy_level"))),
 		"a First Hour band stands at level %d against %d on Even" % [_top_level(at_first), _top_level(at_even)])
+	# And a gate's keeper, which met a lone fresh lead two levels over its floor.
+	var kept := Encounter.for_gate(world, gate, 0, true, party, kind_dice)
+	var keeper: Dictionary = kept["enemies"].filter(func(e: Dictionary) -> bool: return e.get("boss", false))[0]
+	var keeper_level := Difficulty.levelled(maxi(Encounter.party_level(party), gate.expected_level()) + 2)
+	_expect(int(keeper["level"]) == keeper_level,
+		"a First Hour gate's keeper stands at level %d, not %d" % [int(keeper["level"]), keeper_level])
 	GameState.difficulty = setting
 
 

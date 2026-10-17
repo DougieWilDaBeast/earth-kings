@@ -1008,10 +1008,10 @@
 		"frozen_wolfman": 3
 	},
 	"hazards": {
-		"_about": "What a land does to whoever walks it unprotected: every `stride` pixels walked on its ground, each party member without a piece of gear or a charm whose `proof` names the hazard loses `share` of their health, never below `floor` of it. Walking cannot kill anyone (**Inferred**).",
+		"_about": "What a land does to whoever walks it unprotected: every `stride` pixels walked on its ground, each party member without a piece of gear or a charm whose `proof` names the hazard loses `share` of their health, never below `floor` of it (half since D211: at a quarter a fresh lead walking alone met the first band and fell). Walking cannot kill anyone (**Inferred**).",
 		"stride": 640,
 		"share": 0.04,
-		"floor": 0.25,
+		"floor": 0.5,
 		"cold": {
 			"name": "the cold",
 			"line": "The cold is getting into %s."

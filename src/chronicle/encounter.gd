@@ -99,7 +99,9 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	if final:
 		var guardian := Faction.champion(faction)
 		enemies = _pick(pool, 2, level, rng)
-		enemies.append({ "unit": guardian, "level": level + 2, "boss": true })
+		# The keeper takes the setting's level dial like its floor ([D211]): on the First Hour a lone
+		# lead at level 2 met the wild's Ogre at 4 at the first gate.
+		enemies.append({ "unit": guardian, "level": Difficulty.levelled(level + 2), "boss": true })
 		title = "%s keeps the far side of %s." % [
 			Database.unit_template(guardian).get("display_name", "Something"), site.display_name
 		]
