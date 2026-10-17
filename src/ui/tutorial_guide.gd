@@ -1,18 +1,29 @@
 extends CanvasLayer
-## The tutorial (D73): a card in the corner that walks a new player through the game in the
-## training village, one step at a time, and ticks each off as they do it.
+## Atlas's last stand ([D191], once D73's tour): a new player's first game. A card in the corner
+## walks them through the last day of Atlas's world in Hearthwick, one step at a time, ticking
+## each off as they do it, and ends in a fight he cannot win.
 ##
-## Asked for with [signal EventBus.tutorial_requested]. It starts a run that is never saved
-## ([member GameState.rehearsing]), opens the village, and listens: to
-## [signal EventBus.player_did] for what the player does, to the party screen and the journal
-## opening, and to the flags conversations set. The steps are `data/tutorial.json`. Leaving the
-## village (or the fights started from it) for anywhere else ends it.
+## Asked for with [signal EventBus.tutorial_requested] (New Game, for a player who has never
+## finished it). It starts a run that is never saved ([member GameState.rehearsing]), opens the
+## village, and listens: to [signal EventBus.player_did] for what the player does, to the party
+## screen and the journal opening, and to the flags conversations set. The steps are
+## `data/tutorial.json`. When the `doom` step's fight ends, Atlas falls for good: he is written into
+## the record of the fallen as the first world that ended ([Sixteen], [Siblings]), his fall is told,
+## and the quiz picks who comes next, with the opening after it showing his world going dark.
+## Leaving the village (or its fights) for anywhere else ends it, unfinished, and it starts again
+## on the next New Game.
 ##
 ## Lives under the game's root, so it outlasts the scenes it guides through. Loaded by path ([D41]).
 
 const DATA_PATH := "res://data/tutorial.json"
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
+## Where the player's own settings live; finishing the last stand is remembered there. Tests
+## point it somewhere else so a player's own settings are never touched.
+static var settings_path := "user://settings.cfg"
+## Seconds the lost fight stays on screen before the fall is told over it.
+const FALL_PAUSE := 1.6
 ## How long a step stays on the card, ticked, before the next comes up.
 const DONE_PAUSE := 1.2
 ## Scenes the tutorial goes on through. Anywhere else, it is over.
@@ -26,6 +37,10 @@ var _rules: Dictionary = {}
 var _index: int = -1
 var _active: bool = false
 var _done: bool = false
+## Whether this last stand counts: Atlas is not yet among the fallen. Played again once he is,
+## it is only a replay, and nothing is written down.
+var _counts: bool = false
+var _fall_layer: CanvasLayer
 
 var _panel: PanelContainer
 var _count: Label
@@ -47,6 +62,12 @@ func _ready() -> void:
 	EventBus.party_screen_requested.connect(func() -> void: _on_opened("party"))
 	EventBus.journal_requested.connect(func() -> void: _on_opened("journal"))
 	EventBus.scene_changed.connect(_on_scene_changed)
+	# A fight here is put down on the village's own ground (D98), not a scene of its own: the card
+	# moves aside for it, and back when it is over.
+	EventBus.battle_started.connect(func(_map_id: String) -> void:
+		if _active:
+			_dock("skirmish")
+	)
 
 
 func is_running() -> bool:
@@ -58,11 +79,60 @@ func step_id() -> String:
 	return str(_steps[_index].get("id", "")) if _active and _index >= 0 and _index < _steps.size() else ""
 
 
-## A practice run that is never saved, the training village, and the first step.
+## Whether this player has played the last stand through to Atlas's fall ([D191]).
+static func finished_once() -> bool:
+	var config := ConfigFile.new()
+	config.load(settings_path)
+	return bool(config.get_value("tutorial", "finished", false))
+
+
+static func _mark_finished() -> void:
+	var config := ConfigFile.new()
+	config.load(settings_path)
+	config.set_value("tutorial", "finished", true)
+	config.save(settings_path)
+
+
+## The lead of the last stand: Atlas (`data/tutorial.json` → `lead`).
+static func lead_id() -> String:
+	var parsed: Variant = SaveFile.read(DATA_PATH)
+	return str((parsed if typeof(parsed) == TYPE_DICTIONARY else {}).get("lead", "atlas"))
+
+
+## Skip the last stand (offered once it has been played through): Atlas still falls, off
+## screen, so the run begins as it would have, with the next of the sixteen ([D191]).
+static func skip_it() -> void:
+	var lead := lead_id()
+	if lead == "" or Sixteen.fallen_heroes().has(lead):
+		return
+	var parsed: Variant = SaveFile.read(DATA_PATH)
+	var rules: Dictionary = parsed if typeof(parsed) == TYPE_DICTIONARY else {}
+	Sixteen.fall(lead, _seed_the_next({
+		"hero": lead, "name": str(Database.unit_template(lead).get("display_name", lead.capitalize())),
+		"temper": Database.hero_temper(lead),
+		"level": 1, "floor": 0, "steps": 0,
+		"killer": str(rules.get("fall", {}).get("killer", "")), "remembered": false,
+		"weapon": Siblings.signature_of(lead), "last_stand": true,
+	}))
+
+
+## The worlds after the first that ended are built from its seed ([Siblings]). Atlas's last stand
+## is the same village for everyone, so the worlds after it are built from a seed of this player's
+## own, and no two players walk the same land.
+static func _seed_the_next(world: Dictionary) -> Dictionary:
+	var fresh := randi()
+	world["seed"] = fresh
+	world["base_seed"] = fresh
+	world["sibling"] = 0
+	return world
+
+
+## A run that is never saved, the village, and the first step.
 func start() -> void:
 	if _steps.is_empty():
 		push_error("Tutorial: %s has no steps" % DATA_PATH)
 		return
+	_counts = not Sixteen.fallen_heroes().has(str(_rules.get("lead", "")))
 	GameState.new_game(int(_rules.get("seed", 0)), str(_rules.get("lead", "")), true)
 	_active = true
 	_dock("area")
@@ -102,7 +172,14 @@ func _done_rule() -> Dictionary:
 
 
 func _on_player_did(what: String) -> void:
+	if _active and what.begins_with("fight_"):
+		_dock("area")
 	if not _active or _done:
+		return
+	# The last fight, won or lost: Atlas's world ends with him.
+	if _index >= 0 and _index < _steps.size() and bool(_steps[_index].get("doom", false)) \
+			and what.begins_with("fight_"):
+		_the_fall()
 		return
 	var wanted := str(_done_rule().get("did", ""))
 	if wanted == "":
@@ -119,6 +196,13 @@ func _on_opened(screen: String) -> void:
 ## Anywhere the tutorial does not go means it is over: the title, a run of the player's own, the
 ## save loaded from the menu.
 func _on_scene_changed(scene_key: String) -> void:
+	# While the fall is told, the lost fight going back to the village is under it. Anywhere
+	# else (the quiz, or the title from the menu) and the telling is over.
+	if _fall_layer != null:
+		if scene_key != "temper_quiz" and scene_key != "title":
+			return
+		_fall_layer.queue_free()
+		_fall_layer = null
 	if _active and not ITS_SCENES.has(scene_key):
 		stop()
 		return
@@ -161,16 +245,18 @@ func _show(index: int) -> void:
 	# What a step sets in motion when it comes up: the practice band coming out for the fight.
 	for key: Variant in step.get("on_start", {}).get("set_flag", []):
 		GameState.set_flag(str(key))
-	_count.text = "TUTORIAL  %d of %d" % [index + 1, _steps.size()]
+	_count.text = "ATLAS'S LAST STAND  %d of %d" % [index + 1, _steps.size()]
 	_count.remove_theme_color_override("font_color")
 	_title.text = str(step.get("title", ""))
 	_body.text = str(step.get("text", ""))
 	var button := str(step.get("done", {}).get("button", ""))
 	_main_button.visible = button != ""
 	_main_button.text = button
-	_skip_button.visible = button == ""
+	# The last fight is not one to skip.
+	_skip_button.visible = button == "" and not bool(step.get("doom", false))
 	_back_button.visible = bool(step.get("finish", false))
-	_end_button.visible = not bool(step.get("finish", false))
+	# A new player's last stand is played through; a replay can be left.
+	_end_button.visible = not bool(step.get("finish", false)) and not _counts
 	_panel.visible = true
 	_fit.call_deferred()
 
@@ -180,6 +266,91 @@ func _show(index: int) -> void:
 func _fit() -> void:
 	_panel.offset_bottom = _panel.offset_top
 	_panel.reset_size()
+
+
+## Atlas falls for good. Written down as the first world that ended (unless he already has, when
+## this was a replay), his fall told over the lost fight, and then who comes next.
+func _the_fall() -> void:
+	_done = true
+	_panel.visible = false
+	await get_tree().create_timer(FALL_PAUSE, true, false, true).timeout
+	var lead := str(_rules.get("lead", ""))
+	var fall: Dictionary = _rules.get("fall", {})
+	if _counts and GameState.world != null and GameState.roster != null:
+		var world := Siblings.remember(GameState.world, GameState.roster, GameState.ledger)
+		if world.is_empty():
+			world = {"hero": lead}
+		world["last_stand"] = true
+		world["killer"] = str(fall.get("killer", ""))
+		world["floor"] = 0
+		_seed_the_next(world)
+		Sixteen.fall(lead, world)
+	_mark_finished()
+	_tell_the_fall(fall)
+
+
+func _tell_the_fall(fall: Dictionary) -> void:
+	_fall_layer = CanvasLayer.new()
+	_fall_layer.layer = 95
+	add_child(_fall_layer)
+	var shade := ColorRect.new()
+	shade.color = Color(0, 0, 0, 0.0)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_fall_layer.add_child(shade)
+	var box := VBoxContainer.new()
+	box.set_anchors_preset(Control.PRESET_CENTER)
+	box.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	box.grow_vertical = Control.GROW_DIRECTION_BOTH
+	box.custom_minimum_size = Vector2(720, 0)
+	box.add_theme_constant_override("separation", 18)
+	shade.add_child(box)
+	var shown: Array[Control] = []
+	for line: Variant in fall.get("lines", []):
+		var said := Label.new()
+		said.text = str(line)
+		said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		said.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		said.add_theme_font_size_override("font_size", 20)
+		said.modulate.a = 0.0
+		box.add_child(said)
+		shown.append(said)
+	var next := Button.new()
+	next.text = str(fall.get("button", "Choose who comes next")) if _counts else "Back to the title"
+	next.theme_type_variation = &"GrandButton"
+	next.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	next.modulate.a = 0.0
+	box.add_child(next)
+	Sfx.attend(next)
+	next.pressed.connect(_after_the_fall)
+	var tween := create_tween().set_ignore_time_scale(true)
+	tween.tween_property(shade, "color:a", 1.0, 1.2)
+	for said in shown:
+		tween.tween_property(said, "modulate:a", 1.0, 0.9)
+		tween.tween_interval(0.5)
+	tween.tween_property(next, "modulate:a", 1.0, 0.4)
+	tween.tween_callback(next.grab_focus)
+
+
+## Into the quiz, which picks the next of the sixteen; the opening plays once they are picked,
+## with Atlas's world seen ending. A replay goes back to the title.
+func _after_the_fall() -> void:
+	_active = false
+	_panel.visible = false
+	if _fall_layer != null:
+		_fall_layer.queue_free()
+		_fall_layer = null
+	if not _counts:
+		EventBus.request_scene.emit("title", {})
+		return
+	EventBus.request_scene.emit("temper_quiz", {
+		"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(), "opening": true,
+	})
+
+
+## Whether Atlas's fall is being told: the last fight is over and the game waits on the button.
+func is_telling_the_fall() -> bool:
+	return _fall_layer != null
 
 
 func _on_main_pressed() -> void:

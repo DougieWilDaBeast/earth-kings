@@ -68,6 +68,10 @@
 			"title": ["The last standing quest: Ascend to heaven."]
 		}
 	},
+	"last_stand": {
+		"_doc": "D191: the ending shot's lines on a new player's first life, when the world seen ending is Atlas's, the last stand they just played. Inferred (agenda item 122).",
+		"ending": ["You have seen one of the worlds end already.", "{other} fell in Hearthwick, at the edge of his own village, and his world went dark with him. It never comes back."]
+	},
 	"shots": [
 		{
 			"shot": "void",

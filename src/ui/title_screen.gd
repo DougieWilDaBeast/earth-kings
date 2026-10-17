@@ -13,6 +13,7 @@ const SETTINGS_PATH := "user://settings.cfg"
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 
 ## Left edge of the menu column, and the gap above the logo once it is up.
 const MARGIN_X := 72.0
@@ -69,8 +70,6 @@ var _lead_name := ""
 var _hints: Dictionary = {}
 var _marker_tween: Tween
 var _prompt_tween: Tween
-## Whether the tour has been offered on this screen yet (D73).
-var _offered := false
 
 
 func _ready() -> void:
@@ -101,7 +100,7 @@ func _ready() -> void:
 	_hints = {
 		_continue_button: "Carry on as %s." % _lead_name if _lead_name != "" else "Carry on where you left off.",
 		_new_game_button: "A new fall. Sixteen come down out of the sky, and one of them is you.",
-		_tutorial_button: "A ten-minute tour of a training village. Nothing in it is saved.",
+		_tutorial_button: "Atlas's last stand: the last day of his world. Played again, nothing is written down.",
 		_how_to_play_button: "Walking, fighting, and the people who travel with you.",
 		_extras_button: "Training Ground, Coliseum, Museum and Credits.",
 		_quit_button: "Leave the game. The world keeps until you come back.",
@@ -244,9 +243,6 @@ func _focus_first() -> void:
 		_new_game_button.grab_focus()
 	else:
 		_continue_button.grab_focus()
-	if not _offered:
-		_offered = true
-		_offer_the_tour()
 
 
 # --- layout -------------------------------------------------------------------
@@ -430,8 +426,16 @@ func _on_continue_pressed() -> void:
 
 ## A new game plays the opening (docs/25) once the lead is picked: `opening` rides
 ## the quiz and the pick so the lead who falls in it is the one chosen.
-## The first life is always the First Hour's lead (D106): the quiz waits for the next one.
+## Before anyone has fallen, a new game is Atlas's last stand ([D191]): a new player plays it
+## through, and someone who has once is asked whether to play it again or skip it. Either way
+## Atlas falls first, and the quiz picks who comes after him.
 func _on_new_game_pressed() -> void:
+	if Sixteen.worlds().is_empty() and not Sixteen.fallen_heroes().has(TutorialGuide.lead_id()):
+		if not TutorialGuide.finished_once():
+			EventBus.tutorial_requested.emit()
+		else:
+			_offer_the_skip()
+		return
 	var first := FirstHour.first_life()
 	if first != "":
 		GameState.new_game(0, first)
@@ -443,17 +447,11 @@ func _on_new_game_pressed() -> void:
 	})
 
 
-## The very first time the game is opened, with no run to continue, the tutorial is offered
-## (D73). Asked once per player (`settings.cfg`, section "tutorial"); the button stays either way.
-func _offer_the_tour() -> void:
-	var config := ConfigFile.new()
-	config.load(SETTINGS_PATH)
-	if bool(config.get_value("tutorial", "offered", false)) or GameState.has_save() \
-			or DisplayServer.get_name() == "headless":
-		return
-	config.set_value("tutorial", "offered", true)
-	config.save(SETTINGS_PATH)
-
+## Someone who has played Atlas's last stand through is asked, on a new game before anyone has
+## fallen, whether to play it again or skip it ([D191]). Skipped, Atlas falls off screen and the
+## quiz picks who comes next.
+func _offer_the_skip() -> void:
+	var words_of: Dictionary = (SaveFile.read("res://data/tutorial.json") as Dictionary).get("skip", {})
 	var shade := ColorRect.new()
 	shade.color = Color(0, 0, 0, 0.82)
 	shade.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -478,32 +476,40 @@ func _offer_the_tour() -> void:
 	box.add_theme_constant_override("separation", 14)
 	margin.add_child(box)
 	var heading := Label.new()
-	heading.text = "New to Earth Kings?"
+	heading.text = str(words_of.get("title", "Atlas's last stand"))
 	heading.add_theme_font_size_override("font_size", 28)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(heading)
 	var words := Label.new()
-	words.text = "Take the ten-minute tour: walk a village, talk, trade, do a favour and win\na sparring fight. Nothing in it is saved. You can take it again from the menu."
+	words.text = str(words_of.get("text", "Play it again, or skip it?"))
+	words.custom_minimum_size = Vector2(560, 0)
+	words.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	words.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(words)
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 16)
 	box.add_child(row)
-	var take := Button.new()
-	take.text = "Take the tour"
-	take.theme_type_variation = &"GrandButton"
-	var later := Button.new()
-	later.text = "Not now"
-	for button: Button in [take, later]:
+	var play := Button.new()
+	play.text = str(words_of.get("play", "Play it"))
+	play.theme_type_variation = &"GrandButton"
+	var skip := Button.new()
+	skip.text = str(words_of.get("skip", "Skip it"))
+	var back := Button.new()
+	back.text = str(words_of.get("back", "Back"))
+	for button: Button in [play, skip, back]:
 		row.add_child(button)
 		Sfx.attend(button)
-	take.pressed.connect(func() -> void:
+	back.pressed.connect(shade.queue_free)
+	play.pressed.connect(func() -> void:
 		shade.queue_free()
 		EventBus.tutorial_requested.emit()
 	)
-	later.pressed.connect(func() -> void:
+	skip.pressed.connect(func() -> void:
 		shade.queue_free()
-		_new_game_button.grab_focus()
+		TutorialGuide.skip_it()
+		EventBus.request_scene.emit("temper_quiz", {
+			"fallen": Sixteen.fallen_tempers(), "fallen_heroes": Sixteen.fallen_heroes(), "opening": true,
+		})
 	)
-	take.grab_focus()
+	play.grab_focus()

@@ -34,6 +34,8 @@ const Land := preload("res://src/area/land.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
+const Sixteen := preload("res://src/chronicle/sixteen.gd")
+const Siblings := preload("res://src/chronicle/siblings.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -58,6 +60,7 @@ func _ready() -> void:
 	_check_the_builder_and_the_healer()
 	_check_story_npcs()
 	await _check_tutorial()
+	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
 	await _check_the_land()
@@ -478,6 +481,101 @@ func _check_tutorial() -> void:
 	if GameState.rehearsing:
 		_fail("tutorial: a new run after it was still a rehearsal")
 	print("tutorial: %d steps, never saved, walked through to '%s'" % [rules["steps"].size(), "buy"])
+
+
+## Atlas's last stand (D191): its last step calls out a band Atlas cannot beat; when that fight
+## ends he is written into the record of the fallen as the first world that ended, the fall is
+## told, and the quiz picks who comes next. Played again once he has fallen it writes nothing and
+## goes back to the title; skipped, he still falls. Uses its own copies of the record and of the
+## settings, never the player's.
+func _check_last_stand() -> void:
+	var rules: Dictionary = SaveFile.read("res://data/tutorial.json")
+	var last: Dictionary = rules["steps"][-1]
+	if not bool(last.get("doom", false)):
+		_fail("last stand: the tutorial's last step is not the doomed fight")
+	var village: Dictionary = SaveFile.read("res://data/areas/%s.json" % rules["area"])
+	var doomed := (village.get("bands", []) as Array).filter(
+		func(band: Dictionary) -> bool: return bool(band.get("doomed", false)))
+	if doomed.is_empty():
+		_fail("last stand: Hearthwick has no doomed band")
+	elif not (last.get("on_start", {}).get("set_flag", []) as Array).has(doomed[0].get("requires", "")):
+		_fail("last stand: the last step does not call the doomed band out")
+
+	var record_was := Sixteen.path
+	var settings_was: String = TutorialGuide.settings_path
+	Sixteen.path = "user://earth-kings.sixteen.last-stand-test.json"
+	TutorialGuide.settings_path = "user://settings.last-stand-test.cfg"
+	for each in [Sixteen.path, TutorialGuide.settings_path]:
+		if FileAccess.file_exists(each):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(each))
+
+	# The first time: played through, Atlas falls and is written down.
+	var guide: Node = TutorialGuide.new()
+	add_child(guide)
+	guide.call("start")
+	guide.call("_show", (rules["steps"] as Array).size() - 1)
+	if not GameState.has_flag(str(doomed[0].get("requires", "") if not doomed.is_empty() else "")):
+		_fail("last stand: reaching the last step did not call out the band")
+	_requests.clear()
+	EventBus.player_did.emit("fight_lost")
+	await get_tree().create_timer(TutorialGuide.FALL_PAUSE + 0.4).timeout
+	var lead := str(rules["lead"])
+	if not Sixteen.fallen_heroes().has(lead):
+		_fail("last stand: losing the last fight did not write %s down as fallen" % lead)
+	var ended: Array = Sixteen.worlds()
+	if ended.size() != 1 or not bool(ended[0].get("last_stand", false)) or str(ended[0].get("hero", "")) != lead:
+		_fail("last stand: the world that ended is not Atlas's last stand (%s)" % [ended])
+	elif int(ended[0].get("base_seed", 0)) == int(rules["seed"]):
+		_fail("last stand: the worlds after it would be built on the last stand's own seed, the same for everyone")
+	if not guide.call("is_telling_the_fall"):
+		_fail("last stand: the fall was not told")
+	if not TutorialGuide.finished_once():
+		_fail("last stand: finishing it was not remembered")
+	guide.call("_after_the_fall")
+	if _requests.is_empty() or _requests[-1]["key"] != "temper_quiz" or not bool(_requests[-1]["payload"].get("opening", false)):
+		_fail("last stand: after the fall it did not go to the quiz and the opening")
+	elif not (_requests[-1]["payload"].get("fallen_heroes", []) as Array).has(lead):
+		_fail("last stand: the quiz could still pick Atlas")
+	if FirstHour.first_life() != "":
+		_fail("last stand: after it, New Game would still be Atlas (%s)" % FirstHour.first_life())
+	guide.queue_free()
+
+	# The next world is built from his, with his echo in it.
+	GameState.new_game(SEED, "janus")
+	Siblings.arrive(GameState.world, GameState.roster, Sixteen.worlds())
+	if Siblings.echo_of(GameState.world, lead).is_empty():
+		_fail("last stand: the next world has no echo of Atlas")
+
+	# Played again: nothing more is written, and it ends at the title.
+	guide = TutorialGuide.new()
+	add_child(guide)
+	guide.call("start")
+	guide.call("_show", (rules["steps"] as Array).size() - 1)
+	_requests.clear()
+	EventBus.player_did.emit("fight_won")
+	await get_tree().create_timer(TutorialGuide.FALL_PAUSE + 0.4).timeout
+	if Sixteen.worlds().size() != 1:
+		_fail("last stand: a replay wrote another world down")
+	guide.call("_after_the_fall")
+	if _requests.is_empty() or _requests[-1]["key"] != "title":
+		_fail("last stand: a replay did not end at the title")
+	guide.queue_free()
+
+	# Skipped: he still falls, once.
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
+	TutorialGuide.skip_it()
+	TutorialGuide.skip_it()
+	if Sixteen.worlds().size() != 1 or not bool(Sixteen.worlds()[0].get("last_stand", false)):
+		_fail("last stand: skipping it did not write Atlas's fall down once (%s)" % [Sixteen.worlds()])
+
+	for each in [Sixteen.path, TutorialGuide.settings_path]:
+		if FileAccess.file_exists(each):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(each))
+	Sixteen.path = record_was
+	TutorialGuide.settings_path = settings_was
+	EventBus.scene_changed.emit("title")
+	GameState.new_game(SEED)
+	print("last stand: Atlas falls once, the quiz is next, a replay writes nothing, a skip still falls")
 
 
 ## The tutorial's sparring pair (D75): not in the village until the fight step calls it, then

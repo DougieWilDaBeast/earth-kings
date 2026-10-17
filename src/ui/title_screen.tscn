@@ -216,7 +216,7 @@ text = "New Game"
 [node name="TutorialButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Tutorial"
+text = "Atlas's Last Stand"
 
 [node name="HowToPlayButton" type="Button" parent="Menu/MainList"]
 unique_name_in_owner = true

@@ -1,14 +1,14 @@
 {
-  "_comment": "The tutorial (D73): a tour of the game in the training village (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button` (a button on the card). Nothing in the tutorial is saved. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight step calls out the village's practice band (`bands` in its area, D75).",
+  "_comment": "Atlas's last stand (D191, replacing D73's tour): a new player's first game. It is the last day of Atlas's own world, in Hearthwick (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd: the game's ways taught one step at a time, then a fight Atlas cannot win. He falls for good: he is written into the record of the fallen (src/chronicle/sixteen.gd) and his world is the first that ended, so the next lead is picked by the quiz, the opening shows his world going dark, his ghost sits at the fire and his weapon falls into the next world. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' or '_' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button`. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight steps call out the village's bands (`bands` in its area, D75). The step with `doom` is the last: when its fight ends, `fall` is shown and Atlas is written down. Nothing else here is saved.",
   "area": "tutorial",
   "seed": 20261012,
   "lead": "atlas",
   "steps": [
     {
       "id": "welcome",
-      "title": "Welcome to Earth Kings",
-      "text": "You lead a small company through a hostile world: walking the land, talking to the people in it, fighting what pours out of the gates, and climbing the Tower. Your people grow stronger, and they can die for good.\n\nThis tour takes about ten minutes. Nothing in it is saved.",
-      "done": { "button": "Show me" }
+      "title": "The last day of Atlas's world",
+      "text": "You are Atlas, one of the sixteen, in the world that is his. Learn its ways here: walking, talking, trading, fighting.\n\nNothing you do in Hearthwick is saved. What happens to Atlas is.",
+      "done": { "button": "Begin" }
     },
     {
       "id": "walk",
@@ -79,22 +79,34 @@
     },
     {
       "id": "world",
-      "title": "What's out there",
-      "text": "In a real run the land is a map you walk across, black until you've been there. You'll find villages and keeps to rest and trade in, libraries that teach, huts, the Adventurers Guild with paid contracts, and the gates: portals where monsters pour out. Out in the country, bands patrol with their red ground showing, just like the sparring pair. Shut a gate by fighting through it; leave one open too long and it breaks.\n\nThe Tower rises over everything, a hundred floors of it.",
+      "title": "What lies beyond Hearthwick",
+      "text": "Every world of the sixteen is like this one. The land is a map you walk across, black until you've been there: villages and keeps to rest and trade in, libraries that teach, huts, the Adventurers Guild with paid contracts, and the gates, where monsters pour out. Bands patrol with their red ground showing, like the sparring pair. Shut a gate by fighting through it; leave one open too long and it breaks.\n\nThe Tower rises over everything, a hundred floors of it.",
       "done": { "button": "Next" }
     },
     {
-      "id": "death",
-      "title": "When someone falls",
-      "text": "A fighter who goes down may not get up: a charm, a friend still standing or a book they've read can save them. Companions can die and the story goes on. When your own hero falls, that world ends — and the next of the sixteen heroes picks up in a world of their own.\n\nPress Esc at any time for the menu and How to Play.",
-      "done": { "button": "Next" }
-    },
-    {
-      "id": "finish",
-      "title": "That's the tour",
-      "text": "You've walked, talked, traded, done a favour, opened a chest and won a fight. Everything else you'll find on the road.\n\nReady to begin? A new run starts with four questions that pick your hero.",
-      "done": { "button": "Start a new run" },
-      "finish": true
+      "id": "doom",
+      "title": "The gate in the hills breaks",
+      "text": "A gate nobody shut has broken. What was behind it is coming down the road into Hearthwick, its red ground ahead of it.\n\nAtlas cannot beat it. Fight it anyway: step into the red. In Earth Kings a fall is for good — when your lead dies, their world ends with them.",
+      "done": { "did": "fight_" },
+      "doom": true,
+      "on_start": { "set_flag": ["tut:doom"] }
     }
-  ]
+  ],
+  "fall": {
+    "killer": "the Frostbitten",
+    "lines": [
+      "Atlas falls in Hearthwick, and does not get up.",
+      "With him goes his world: the village, the road, the Tower over it, all of it going dark.",
+      "That is how it is for the sixteen. One life, one world. When a lead dies, their world ends, and the next of them begins again in another, knowing only what you learned.",
+      "Fifteen are left."
+    ],
+    "button": "Choose who comes next"
+  },
+  "skip": {
+    "title": "Atlas's last stand",
+    "text": "You've played Atlas's last stand before. Play it again, or skip it? Skipped, he still falls: the run begins with the next of the sixteen.",
+    "play": "Play it",
+    "skip": "Skip it",
+    "back": "Back"
+  }
 }
