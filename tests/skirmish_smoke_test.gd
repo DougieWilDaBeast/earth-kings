@@ -546,7 +546,7 @@ func _check_surround() -> void:
 	for f: Fighter in fight.fighters:
 		if f.is_party() or not f.is_standing():
 			continue
-		# At arm's length, the diagonals too: a blow reaches them since D245.
+		# At arm's length, the diagonals too: a blow reaches them since D246.
 		var off := f.unit.cell - cato.unit.cell
 		if maxi(absi(off.x), absi(off.y)) == 1:
 			adjacent += 1

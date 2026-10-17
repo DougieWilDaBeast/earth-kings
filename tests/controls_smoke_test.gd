@@ -1069,7 +1069,7 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	print("roadside: stepped in and fought on the ground where it was staged")
 
 
-## D245 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
+## D246 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
 ## ("jumping the screen left and right") and flew off for good (a black screen). Followed back and
 ## forth at 5x, it stays on what it follows.
 func _check_the_camera_at_speed() -> void:
@@ -1086,7 +1086,7 @@ func _check_the_camera_at_speed() -> void:
 		var at := rig.get_screen_center_position()
 		worst = maxf(worst, at.length() if at.is_finite() else INF)
 	# Its smoothing runs at the 1x rate whatever the pace (frames here come too fast for the overshoot
-	# itself to show; the virtual-screen run in D245 is where it flew off before the fix).
+	# itself to show; the virtual-screen run in D246 is where it flew off before the fix).
 	var follow := float(rig.get("follow_speed"))
 	var at_pace := rig.position_smoothing_speed * Engine.time_scale
 	Engine.time_scale = kept

@@ -52,7 +52,7 @@ static func is_valid_target(user: Unit, ability: Dictionary, target: Unit) -> bo
 
 
 ## Whether [param to] is in reach of [param ability] from [param from]. A blow at arm's length
-## (`range` 1) reaches the diagonal cells too ([D245], play-test 6: two fighters a diagonal apart
+## (`range` 1) reaches the diagonal cells too ([D246], play-test 6: two fighters a diagonal apart
 ## both stepped sideways to square up, over and over, "running parallel with each other and not
 ## getting my hits off"); anything with a longer reach counts steps as before.
 static func in_range(ability: Dictionary, from: Vector2i, to: Vector2i) -> bool:

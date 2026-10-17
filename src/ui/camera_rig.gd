@@ -97,7 +97,7 @@ func recentre(immediate: bool = false) -> void:
 
 
 func _process(delta: float) -> void:
-	# The follow is smoothed in the player's seconds, not the game's ([D245], play-test 6): the
+	# The follow is smoothed in the player's seconds, not the game's ([D246], play-test 6): the
 	# camera's own smoothing steps by the game's delta, and at 5x a step overshot, swung back
 	# further each frame ("jumping the screen left and right, up and down") and at last flew off
 	# for good, leaving the screen black. The speed is divided by the game's pace to cancel it.

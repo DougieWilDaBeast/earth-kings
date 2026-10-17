@@ -521,6 +521,16 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
 once the party is within this many tiles of it; on the map view it is said at once.
 
+## `world_rules.json` → `play_hud` — the panel on the screen while walking (D244)
+
+`top` (and `top_narrow` on a screen narrower than `narrow_below`) is how far down it sits; `face` and `bar_width` are pixels; a member's health bar turns amber under `hurt_below` of their
+health and red under `low_below`; `purse` is the purse's words (`{gold}`) and `tooltip` what
+hovering the panel says (`purse` also takes `{draughts}`, what is in the packs to eat or drink).
+`most_alerts` alerts are shown under it ([D245](06-decisions.md)); `alerts` has `hurt_below` (the share of
+health under which someone is badly hurt) and, for each of `hurt`, `no_draughts`, `held`, `siege`,
+`path`, `power` and `treasure`, its `text` and its `detail` on hover; `more` is said when there are
+more. Read by `src/ui/play_hud.gd` and `src/ui/alerts.gd`.
+
 ## `world_rules.json` → `path_help` — a path in more words (D237)
 
 `roles`: each says `say` of a path whose growth a level is `at_least` / `at_most` the stats it

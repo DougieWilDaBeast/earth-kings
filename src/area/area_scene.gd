@@ -31,6 +31,7 @@ const GroundGen := preload("res://src/area/ground_gen.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const PlayHud := preload("res://src/ui/play_hud.gd")
 const LandMap := preload("res://src/ui/land_map.gd")
 const LandMapScreen := preload("res://src/ui/land_map_screen.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
@@ -103,6 +104,8 @@ var _approach_path: Array[Vector2] = []
 var _click_path: Array[Vector2] = []
 ## The pin where a click sent the party, and the line to it ([D189]).
 var _waymark: Node2D
+## The small panel of the company's health and the purse ([D244]).
+var _play_hud: Control
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -204,7 +207,7 @@ const GATE_REACH := 12.0
 const AUTO_BAND_SIGHT := 18
 ## Where the log's right edge stands on a screen wide enough for it.
 const LOG_WIDTH := 900.0
-## How long a line stays in the log, in the player's seconds ([D245]).
+## How long a line stays in the log, in the player's seconds ([D246]).
 const NOTE_SECONDS := 8.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
 var _settling: bool = false
@@ -263,7 +266,7 @@ func _ready() -> void:
 	_tower_floor = int(boot_payload.get("tower_floor", 0))
 	get_viewport().size_changed.connect(_fit_the_log)
 	_fit_the_log.call_deferred()
-	# What can be done here, on one line that never runs up into the log ([D245], play-test 6:
+	# What can be done here, on one line that never runs up into the log ([D246], play-test 6:
 	# "so much text here that is crossing over each other"): cut short with an ellipsis instead.
 	_hint.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_hint.clip_text = true
@@ -325,6 +328,10 @@ func _ready() -> void:
 	_place.get_parent().add_child(_compass)
 	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
+	# The company and the purse, under the compass ([D244]).
+	_play_hud = PlayHud.new()
+	_play_hud.position = Vector2(14.0, float(PlayHud.rules().get("top", 128)))
+	_place.get_parent().add_child(_play_hud)
 	if _land_mode:
 		_put_up_the_maps()
 	Pad.changed.connect(_on_pad_changed)
@@ -628,7 +635,7 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
-## How many levels a gate may stand above the company before going in is asked twice ([D245]).
+## How many levels a gate may stand above the company before going in is asked twice ([D246]).
 const GATE_WARN_LEVELS := 6
 ## Until when (ms) a second press goes into the gate that was warned of.
 var _gate_warned_until: int = 0
@@ -665,7 +672,7 @@ func _gate_too_strong(gate: Site) -> bool:
 	return gate.expected_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
 
 
-## Where a company resting on this floor sits, for their fire ([D245]).
+## Where a company resting on this floor sits, for their fire ([D246]).
 var _climbers_rest_at: Array[Vector2i] = []
 
 
@@ -1099,7 +1106,7 @@ func _fog_the_place() -> void:
 		move_child(layer, ui.get_index())
 
 
-## A company resting on a Tower floor sits round a small fire of its own ([D245], play-test 6:
+## A company resting on a Tower floor sits round a small fire of its own ([D246], play-test 6:
 ## "they're just standing there doing nothing"), and faces it.
 func _light_the_climbers_fire() -> void:
 	if _climbers_rest_at.is_empty():
@@ -2060,6 +2067,9 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 func _physics_process(delta: float) -> void:
 	_let_old_notes_go()
+	if _play_hud != null:
+		# Out of the way of a fight on this ground (it has its own cards) and of any box that is open.
+		_play_hud.visible = _fight == null and not _overlay_open()
 	if _waymark != null:
 		_waymark.show_way(_leader.position if _leader != null else Vector2.ZERO,
 			_click_path if _leader != null and _fight == null else ([] as Array[Vector2]))
@@ -2757,7 +2767,7 @@ func _call_the_watch(field: Dictionary) -> void:
 	_note(str(rules.get("joined_line", "The Watch come running.")))
 
 
-## Another company within `join_cells` of a fight comes running and fights beside the party ([D245],
+## Another company within `join_cells` of a fight comes running and fights beside the party ([D246],
 ## play-test 6: "I think that the parties in the floor also will be fighting with you as well"):
 ## climbers on the road ([D215]) or resting on a Tower floor, at the company's level. Out of sight
 ## while it lasts, back where they were after, like the Watch.
@@ -3208,7 +3218,7 @@ func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
 		return
 	var act := str(each.get("act", ""))
-	# A gate far above the company asks twice ([D245], play-test 6: a level 9 company walked into an
+	# A gate far above the company asks twice ([D246], play-test 6: a level 9 company walked into an
 	# S-rank gate by the Tower and met its level 19 keepers without a word of warning).
 	if act == "_enter_gate_here" and not _sure_of_the_gate():
 		return
@@ -3447,13 +3457,13 @@ func _note(line: String) -> void:
 	_show_the_log()
 
 
-## The log as it stands, on a faint backing while it says anything ([D245]).
+## The log as it stands, on a faint backing while it says anything ([D246]).
 func _show_the_log() -> void:
 	_log.text = "\n".join(_notes)
 	_log.add_theme_stylebox_override("normal", _quiet_backing() if not _notes.is_empty() else StyleBoxEmpty.new())
 
 
-## Lines that have been up `NOTE_SECONDS` of the player's time go ([D245], play-test 6: "you get
+## Lines that have been up `NOTE_SECONDS` of the player's time go ([D246], play-test 6: "you get
 ## bombarded with text at the bottom of the screen. I think it should be a lot more sleeker").
 func _let_old_notes_go() -> void:
 	# The hint line's strip only while it says something.

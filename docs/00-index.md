@@ -70,6 +70,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 - [08 — Quests and a living world](investigation/08-quests-and-a-living-world.md) — _Baldur's Gate 3_, _The Witcher 3_ and _Skyrim_, and a proposal for what replaces the step clock (2026-10-12, **Inferred**)
 - [09 — The lands of the continent](investigation/09-lands-of-the-continent.md) — _Necesse_, _Terraria_, _Valheim_ and _Don't Starve_, and the eighteen lands built from them ([D66](06-decisions.md), 2026-10-12)
 - [10 — Who wins? shows](investigation/10-who-wins-shows.md) — a channel of simulated "who wins?" fights, read off its frames, and the show built from it ([D180](06-decisions.md), 2026-10-16)
+- [11 — RimWorld's Play Screen, for Earth Kings](investigation/11-rimworld-play-screen.md)
 
 ## Working rules
 

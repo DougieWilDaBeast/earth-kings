@@ -375,7 +375,7 @@ func _out_to_a_gate_and_back() -> void:
 	_expect(str(enter.get("prompt", "")).ends_with("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
 		"gate: standing at %s does not offer to enter it (offers %s)" % [gate.display_name, land.get("_acts")])
 	land.call("_do_act", enter)
-	# A gate far above the company asks twice (D245): the first E says so, the second goes in.
+	# A gate far above the company asks twice (D246): the first E says so, the second goes in.
 	if bool(land.call("_gate_too_strong", gate)):
 		_expect(land.get("_fight") == null and int(land.get("_gate_warned_until")) > 0,
 			"gate: %s, far above the company, was gone into without a word" % gate.display_name)

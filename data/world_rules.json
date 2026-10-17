@@ -62,7 +62,7 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
-		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D245), and a company on a floor sits round a fire of its own. Inferred: every number, name and line.",
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own. Inferred: every number, name and line.",
 		"climbers": {
 			"road_chance": 0.3,
 			"join_cells": 10,
@@ -490,6 +490,31 @@
 			"label": "The X on your map",
 			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
 		}
+	},
+	"play_hud": {
+		"_comment": "D244 (doug-md, 2026-10-17: a small UI for the main screen while playing): the panel under the compass on the ground (top pixels down; top_narrow on a screen narrower than narrow_below, under the top row of buttons), one row a member of the company (face, name, level, a health bar) and the purse. face: the face's size in pixels; bar_width: the health bar's; a bar turns amber under hurt_below of full health and red under low_below. purse: its words ({gold}, {draughts}). tooltip: what hovering it says.",
+		"top": 128,
+		"top_narrow": 168,
+		"narrow_below": 760,
+		"face": 30,
+		"bar_width": 96,
+		"hurt_below": 0.6,
+		"low_below": 0.3,
+		"purse": "{gold} gold  ·  {draughts} to eat or drink",
+		"most_alerts": 4,
+		"alerts": {
+			"_comment": "D245 (after RimWorld's alerts): what wants attention, said under the company, most urgent first. hurt_below: the share of health under which someone counts as badly hurt. Each kind has text (on the panel) and detail (on hover); more is said when there are more than most_alerts.",
+			"hurt_below": 0.5,
+			"hurt": { "text": "{name} is badly hurt", "detail": "{hp} of {max} health. Rest at a village, an inn or a keep, or give them something to eat or drink from the packs (P)." },
+			"no_draughts": { "text": "Nothing in the packs to mend with", "detail": "No food or draughts to give the hurt. Bread and draughts are sold in towns." },
+			"held": { "text": "{name} is held for ransom", "detail": "{ransom} gold, or win them back by force. Press to follow the way there." },
+			"siege": { "text": "{place} is under attack", "detail": "Get there and help hold it, or it may fall." },
+			"path": { "text": "{name} has a path to choose", "detail": "Press to open the party screen and choose it." },
+			"power": { "text": "{name} has a power to take", "detail": "Press to open the party screen and take it." },
+			"treasure": { "text": "An X on your map", "detail": "Three scraps made it. Press to follow it." },
+			"more": "and {count} more"
+		},
+		"tooltip": "Your company. Press for the party screen (P)."
 	},
 	"path_help": {
 		"_comment": "D237 (doug-md, play-test 4: a question mark on each path's banner that says what it is in more words): the words for SheetParts.class_help. roles: each fits a path whose growth per level is at_least / at_most these, and (has) whose starting moves include a heal or a shot from range; the first most_roles that fit are said. lines: grows ({max_hp}, {attack}, {defense}, {speed}), starts, move ({name}, {text}), themes ({themes}).",
