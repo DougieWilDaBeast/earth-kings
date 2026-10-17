@@ -165,7 +165,7 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
 | A draught or herb on a party card | That fighter uses it: 1.5 s, open to blows but not to stuns ([D59](06-decisions.md)) |
 | `H` | Hold: stay put and only hit what is in reach |
 | `Space` (`command_wait`) | Pause. Orders given while paused are carried out on resume. The fight **opens paused** |
-| `T` (`battle_speed`) | Speed x1 → x1.5 → x2 |
+| `T` (`battle_speed`) | Speed x1 → x2 → x3 → x5 ([D189](06-decisions.md); was x1.5 and x2, D59) |
 | `Z` | Auto-pause: off → when someone goes down (the default) → also when a skill comes back for a unit with Auto Skill off. Kept for the session |
 | `N` | The journal |
 | `Esc` (or Back, or a pad's B) | Puts a readied skill away; with none readied, the menu |

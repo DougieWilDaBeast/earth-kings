@@ -132,7 +132,9 @@ func _bird(delta: float) -> void:
 	if _rest > 0.0:
 		return
 	_rest = _rng.randf_range(0.8, 3.2)
-	if _rng.randf() < 0.45:
+	if _rng.randf() < float(rule("wander_flight", 0.0)):
+		_wander()
+	elif _rng.randf() < 0.45:
 		_sprite.flip_h = not _sprite.flip_h
 	else:
 		var step := Vector2.RIGHT.rotated(_rng.randf() * TAU) * _rng.randf_range(6.0, 16.0)
@@ -157,6 +159,22 @@ func _take_off() -> void:
 		_gone = -1.0
 	_launch(land, float(rule("flight_seconds", 1.4)), float(rule("flight_height", 70.0)))
 	_sprite.flip_h = away.x < 0.0
+
+
+## Up for the joy of it ([D189]): a loop out over the ground, wings going, and down a few cells off
+## where it can stand, coming back towards home as often as not.
+func _wander() -> void:
+	var reach: Array = rule("wander_cells", [3.0, 7.0])
+	var heading := Vector2.RIGHT.rotated(_rng.randf() * TAU)
+	if position.distance_to(home) > AreaMap.CELL * 4.0:
+		heading = (home - position).normalized().rotated(_rng.randf_range(-0.6, 0.6))
+	var span := _rng.randf_range(float(reach[0]), float(reach[1])) * AreaMap.CELL
+	var spot := position + heading * span
+	if can_land.is_valid() and not bool(can_land.call(spot)):
+		return
+	_sprite.flip_h = heading.x < 0.0
+	_launch(spot, float(rule("flight_seconds", 1.4)) * span / (AreaMap.CELL * 5.0) + 0.4,
+		float(rule("flight_height", 70.0)) * 0.8)
 
 
 func _launch(to: Vector2, seconds: float, height: float) -> void:

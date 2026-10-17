@@ -38,7 +38,7 @@
 		}
 	},
 	"life": {
-		"_comment": "Life on the land (D179): birds, butterflies, bees, grasshoppers and snails, laid down a few to a tile and moving about; which picture does what is its `life` in props.json. per_tile: how many of each a tile of open country gets on average (a land's `life` in biomes.json scales it; a place gets half). art: the pictures each is drawn from. shy_cells: how close the party comes before a bird takes off; flee_cells [min, max]: how far it flies; flight_seconds and flight_height: the flight; away_seconds: how long one with nowhere to land stays gone. road_watch: on the First Hour's road a pair of the city's Watch walks a tile of it in chance of the tiles, with these units, name, lines said at each end and talk.",
+		"_comment": "Life on the land (D179): birds, butterflies, bees, grasshoppers and snails, laid down a few to a tile and moving about; which picture does what is its `life` in props.json. per_tile: how many of each a tile of open country gets on average (a land's `life` in biomes.json scales it; a place gets half). art: the pictures each is drawn from. shy_cells: how close the party comes before a bird takes off; flee_cells [min, max]: how far it flies; flight_seconds and flight_height: the flight; away_seconds: how long one with nowhere to land stays gone. wander_flight: the chance, each time a bird has stood a while, that it goes up on a loop over the ground and comes down somewhere else, unscared (D189, play-test 4: \"I want them flying around\"); wander_cells [min, max] how far. road_watch: on the First Hour's road a pair of the city's Watch walks a tile of it in chance of the tiles, with these units, name, lines said at each end and talk.",
 		"per_tile": { "bird": 3, "flutter": 3, "hop": 1.5, "crawl": 1 },
 		"art": {
 			"bird": ["nature/finch", "nature/sparrow", "nature/irish_bird", "nature/irish_bird_2", "nature/white_dove"],
@@ -47,6 +47,8 @@
 			"crawl": ["nature/snail", "nature/spider"]
 		},
 		"shy_cells": 2.4,
+		"wander_flight": 0.18,
+		"wander_cells": [3.0, 7.0],
 		"flee_cells": [5.0, 9.0],
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
@@ -215,10 +217,13 @@
 		"gold_per_floor": 60,
 		"doctrine_every": 5,
 		"tree_every": 10,
-		"level_base": 2,
-		"levels_per_floor": 0.3,
+		"_comment_fought": "D189 (play-test 4: floors 6 to 20 were easier than 1 to 5, fights over in three seconds): a fought floor's foes start where floor 5's keeper left off and climb from there, are never below the party's own level (`meet_the_party`), and bring one more for every member past `foes_per_member_past` (`foes_max` at most).",
+		"level_base": 4,
+		"levels_per_floor": 0.4,
+		"meet_the_party": true,
+		"foes_per_member_past": 2,
 		"foes_min": 2,
-		"foes_max": 4,
+		"foes_max": 6,
 		"chapters_per_extra_foe": 4,
 		"cohorts": [
 			{ "to": 15, "factions": ["the_ooze", "the_wild"] },
