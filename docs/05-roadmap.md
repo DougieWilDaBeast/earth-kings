@@ -338,6 +338,10 @@ each, each ending playable:
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
    [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps built, [D220](06-decisions.md); a band led to the Watch built, [D236](06-decisions.md)), stories inside gates (#288) and ground that changes the fight (#289).
+24. **Sound in the browser, and New Game on a phone** — built ([D234](06-decisions.md), [D235](06-decisions.md), #292,
+   2026-10-17, `dougie`'s report): the browser build was silent because its buses were made at runtime;
+   they are in `default_bus_layout.tres` now. A player with a save is asked whether to play the last stand
+   or skip it. Both are heard and seen on the phone after the next itch push.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

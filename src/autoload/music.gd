@@ -67,6 +67,8 @@ func set_muted(silent: bool) -> void:
 	_save_settings()
 
 
+## The bus comes from `default_bus_layout.tres`. One added here at runtime is silent in
+## the browser build, music and fight sounds alike ([D234]); this is only a fallback.
 func _ensure_bus() -> void:
 	if AudioServer.get_bus_index(BUS) != -1:
 		return
