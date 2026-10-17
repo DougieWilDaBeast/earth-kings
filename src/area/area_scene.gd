@@ -106,6 +106,12 @@ var _waymark: Node2D
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
+## The way to a band's red that a party walking itself is making for, and where along it ([D215]).
+var _auto_band_path: Array = []
+var _auto_band_index: int = 0
+var _auto_band_target := Vector2i(-1, -1)
+## When a party walking itself passively may next work its way out again round a band (ms).
+var _auto_reroute_at: int = 0
 ## On the land: the tile the party is walking itself into, and the tile it set off from ([D94]).
 var _auto_tile: Vector2i = Vector2i(-1, -1)
 var _auto_from: Vector2i = Vector2i(-1, -1)
@@ -190,6 +196,8 @@ const FIGHT_ACTS := ["_enter_gate_here"]
 const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
+## How near, in cells, a band's red must be for a party walking itself to make for it ([D215]).
+const AUTO_BAND_SIGHT := 18
 ## Where the log's right edge stands on a screen wide enough for it.
 const LOG_WIDTH := 900.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
@@ -207,6 +215,10 @@ var _roadside_staged := ""
 var _roadside_nodes: Array[Node2D] = []
 ## The attackers of the roadside scene staged here, where its fight puts them (D207).
 var _roadside_foes: Array[Node2D] = []
+## The middle of the roadside scene staged here, and whether what is going on there has been said
+## yet: it is said in the log as the party comes near (D216), not in a box when it is come upon.
+var _roadside_middle := Vector2i(-1, -1)
+var _roadside_told := false
 var _held_fight: String = ""
 var _held_done: String = ""
 ## cell -> a memory of the lead's lying there, not yet picked up (D103).
@@ -258,6 +270,7 @@ func _ready() -> void:
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
+		_admit_climbers_to_the_floor()
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
@@ -442,6 +455,7 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 			jobs.append(_put_fire.bind(cell))
 	_admit_the_others_to(tile)
 	_admit_the_road_watch(tile)
+	_admit_the_climbers(tile)
 	for person: Dictionary in map.people:
 		if person.get("_tile") == tile:
 			jobs.append(_put_person.bind(person))
@@ -541,6 +555,104 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
 				  "line": str(lines[rng.randi() % lines.size()]) if not lines.is_empty() else "" },
 			],
+		})
+
+
+## Other companies on their way to the Tower ([D215], play-test 4: "other people trying to climb
+## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
+## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
+func _admit_the_climbers(tile: Vector2i) -> void:
+	var land := map as Land
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var units: Array = rules.get("units", [])
+	var companies: Array = rules.get("companies", [])
+	if units.is_empty() or companies.is_empty():
+		return
+	if map.people.any(func(p: Dictionary) -> bool: return p.get("_tile") == tile and str(p.get("_area", "")) == "road_watch"):
+		return
+	var chunk: Dictionary = land.chunks.get(tile, {})
+	if chunk.is_empty() or str(chunk.get("kind", "")) != "ground":
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "climbers"])
+	if rng.randf() >= float(rules.get("road_chance", 0.3)):
+		return
+	var road: Array[Vector2i] = []
+	var area := land.slot_rect(tile)
+	for y in range(area.position.y, area.end.y):
+		for x in range(area.position.x, area.end.x):
+			var cell := Vector2i(x, y)
+			if land.terrain_at(cell) == "road" and land.is_walkable(cell):
+				road.append(cell)
+	if road.size() < 8:
+		return
+	var a: Vector2i = road[0]
+	var b: Vector2i = road[-1]
+	for cell: Vector2i in road:
+		if (cell - road[0]).length_squared() > (b - road[0]).length_squared():
+			b = cell
+	for cell: Vector2i in road:
+		if (cell - b).length_squared() > (a - b).length_squared():
+			a = cell
+	var company := str(companies[rng.randi() % companies.size()])
+	var size: Array = rules.get("size", [2, 3])
+	var lines: Array = rules.get("lines", [])
+	var stay: Array = rules.get("stay", [3.0, 6.0])
+	var behind := [Vector2i.ZERO, Vector2i(1, 0), Vector2i(0, 1)]
+	for i in rng.randi_range(int(size[0]), int(size[1])):
+		var from := _free_spot_near(a + behind[i % behind.size()])
+		var to := _free_spot_near(b + behind[i % behind.size()])
+		map.people.append({
+			"name": company, "unit": str(units[rng.randi() % units.size()]),
+			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "climbers",
+			"talk": rules.get("talk", {}),
+			"rounds": [
+				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
+				{ "cell": [from.x, from.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
+				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
+			],
+		})
+
+
+## Another company resting on a Tower floor, by the stair up ([D215]): they got here first, and will
+## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
+func _admit_climbers_to_the_floor() -> void:
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var floors: Dictionary = rules.get("on_the_floors", {})
+	var units: Array = rules.get("units", [])
+	var companies: Array = rules.get("companies", [])
+	if floors.is_empty() or units.is_empty() or companies.is_empty() or map.stairs.is_empty():
+		return
+	if _tower_floor < int(floors.get("from", 2)) or GameState.world == null:
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([GameState.world.world_seed, _tower_floor, "climbers"])
+	if rng.randf() >= float(floors.get("chance", 0.4)):
+		return
+	var company := str(companies[rng.randi() % companies.size()])
+	var stair: Vector2i = map.stairs[0]
+	var resting := [Vector2i(-3, 3), Vector2i(-2, 4), Vector2i(-4, 4)]
+	var size: Array = rules.get("size", [2, 3])
+	var taken: Dictionary = {}
+	for cell: Vector2i in map.stairs:
+		taken[cell] = true
+	for i in rng.randi_range(int(size[0]), int(size[1])):
+		var at := Vector2i(-1, -1)
+		var near: Vector2i = stair + (resting[i % resting.size()] as Vector2i)
+		for radius in range(0, 5):
+			for dy in range(-radius, radius + 1):
+				for dx in range(-radius, radius + 1):
+					var cand := near + Vector2i(dx, dy)
+					if at.x < 0 and map.is_walkable(cand) and not taken.has(cand):
+						at = cand
+		if at.x < 0:
+			continue
+		taken[at] = true
+		map.people.append({
+			"name": company, "unit": str(units[rng.randi() % units.size()]),
+			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
+			"talk": floors.get("talk", {}),
 		})
 
 
@@ -1041,7 +1153,11 @@ func _stage_roadside(event_id: String) -> void:
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	if ahead == Vector2i.ZERO:
 		ahead = Vector2i.DOWN
-	var middle := _free_spot_near(map.cell_at(_leader.position) + ahead * 4)
+	# Stood well down the road (D216: seen coming, not put in front of the party).
+	var off := int(Database.roadside.get("rules", {}).get("stage_cells", 4))
+	var middle := _free_spot_near(map.cell_at(_leader.position) + ahead * off)
+	_roadside_middle = middle
+	_roadside_told = false
 	for entry: Dictionary in stage.get("props", []):
 		var offset: Array = entry.get("offset", [0, 0])
 		var at := _free_spot_near(middle + Vector2i(int(offset[0]), int(offset[1])))
@@ -1060,6 +1176,18 @@ func _stage_roadside(event_id: String) -> void:
 		_actors.add_child(driver)
 		_roadside_nodes.append(driver)
 		look_at = driver.position
+	# Whoever stands with the scene and will fight beside the party: the Watch beset (D215), back to
+	# back in the middle of it, facing out at the ones round them.
+	var standing := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1)]
+	var allies: Array = stage.get("allies", [])
+	for i in mini(allies.size(), standing.size()):
+		var ally: Dictionary = allies[i]
+		var guard := AreaActor.for_person({ "name": str(ally.get("name", "someone")), "unit": str(ally.get("unit", "")) })
+		guard.position = map.centre_of(_free_spot_near(middle + standing[i]))
+		guard.face(guard.position - look_at if i > 0 else Vector2(0, -1))
+		guard.set_interactive(false)
+		_actors.add_child(guard)
+		_roadside_nodes.append(guard)
 	var round_them := [Vector2i(-2, 0), Vector2i(2, -1), Vector2i(0, -2), Vector2i(-1, 2), Vector2i(3, 1)]
 	var pack: Array = event.get("pack", [])
 	for i in mini(pack.size(), round_them.size()):
@@ -1072,6 +1200,34 @@ func _stage_roadside(event_id: String) -> void:
 		_roadside_nodes.append(figure)
 
 
+## What is going on at the roadside scene, said in the log once the party is near enough to see
+## (`tell_cells`, D216), with how to step in.
+func _tell_the_roadside() -> void:
+	if _roadside_staged == "" or _roadside_told or _leader == null:
+		return
+	var near := int(Database.roadside.get("rules", {}).get("tell_cells", 5))
+	if (map.cell_at(_leader.position) - _roadside_middle).length() > near:
+		return
+	_roadside_told = true
+	for line: Variant in Roadside.seen(_roadside_staged):
+		_note(str(line))
+	_note("%s to step in, or walk on by." % (Pad.key("interact") if Pad.using_pad else "E"))
+
+
+## Walking itself aggressively (D216), the company goes to a roadside scene and steps in; walking any
+## other way it walks on by. [constant Vector2.INF] when there is nothing to go to.
+func _auto_roadside_axis() -> Vector2:
+	if Pace.auto_style != "aggressive" or _roadside_staged == "" or _asking or _leader == null:
+		return Vector2.INF
+	if not _acts.any(func(each: Dictionary) -> bool: return str(each.get("act", "")) == "_step_into_the_road"):
+		return Vector2.INF
+	var here := map.cell_at(_leader.position)
+	if (here - _roadside_middle).length() <= 3.0:
+		_do_act({ "act": "_step_into_the_road" })
+		return Vector2.ZERO
+	return (map.centre_of(_roadside_middle) - _leader.position).normalized()
+
+
 func _clear_roadside() -> void:
 	for node: Node2D in _roadside_nodes:
 		if is_instance_valid(node):
@@ -1079,6 +1235,7 @@ func _clear_roadside() -> void:
 	_roadside_nodes.clear()
 	_roadside_foes.clear()
 	_roadside_staged = ""
+	_roadside_told = false
 
 
 func _put_chest(cell: Vector2i) -> AreaProp:
@@ -1458,6 +1615,12 @@ func _land_auto_axis() -> Vector2:
 	var to_door := _auto_door_axis(world)
 	if to_door != Vector2.INF:
 		return to_door
+	var to_scene := _auto_roadside_axis()
+	if to_scene != Vector2.INF:
+		return to_scene
+	var to_band := _auto_band_axis()
+	if to_band != Vector2.INF:
+		return to_band
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1468,10 +1631,17 @@ func _land_auto_axis() -> Vector2:
 		if _auto_tile == world.player_cell:
 			_auto_tile = Vector2i(-1, -1)
 			return Vector2.ZERO
-		_auto_exit_path = land.find_cell_path(here, land.slot_rect(_auto_tile).get_center())
+		_auto_exit_path = _auto_way(land, here, land.slot_rect(_auto_tile).get_center())
 		_auto_exit_index = 0
 		if _auto_exit_path.size() > 1 and _leader.position.distance_to(_auto_exit_path[0]) < 20.0:
 			_auto_exit_index = 1
+	# Walking passively, a band that has patrolled across the way it worked out sends it round again.
+	if Pace.auto_style == "passive" and _auto_exit_index < _auto_exit_path.size() \
+			and Time.get_ticks_msec() >= _auto_reroute_at \
+			and _red_at(map.cell_at(_auto_exit_path[_auto_exit_index])):
+		_auto_reroute_at = Time.get_ticks_msec() + 500
+		_auto_exit_path = _auto_way(land, here, land.slot_rect(_auto_tile).get_center())
+		_auto_exit_index = 1 if _auto_exit_path.size() > 1 else 0
 	if _auto_exit_index < _auto_exit_path.size():
 		var waypoint := _auto_exit_path[_auto_exit_index]
 		if _leader.position.distance_to(waypoint) < 16.0:
@@ -1482,13 +1652,69 @@ func _land_auto_axis() -> Vector2:
 	# The tile it makes for was not laid out yet when the way was worked out (the land ahead is laid
 	# out a little a frame, D178): worked out again once it is, rather than walking at it blind.
 	if _auto_exit_path.is_empty() and land.is_held(_auto_tile):
-		_auto_exit_path = land.find_cell_path(here, land.slot_rect(_auto_tile).get_center())
+		_auto_exit_path = _auto_way(land, here, land.slot_rect(_auto_tile).get_center())
 		_auto_exit_index = 1 if _auto_exit_path.size() > 1 else 0
 		if not _auto_exit_path.is_empty():
 			return (_auto_exit_path[_auto_exit_index] - _leader.position).normalized()
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## Whether a band on this ground is watching [param cell].
+func _red_at(cell: Vector2i) -> bool:
+	return _watches.any(func(watch: Node2D) -> bool: return watch.watched.has(cell))
+
+
+## The way a party walking itself takes across the land to [param to]: walking passively ([D216]),
+## round every band's red when there is a way round, straight through it only when there is not.
+func _auto_way(land: Land, here: Vector2i, to: Vector2i) -> Array[Vector2]:
+	if Pace.auto_style == "passive" and not _watches.is_empty():
+		var red: Dictionary = {}
+		for watch: Node2D in _watches:
+			for cell: Vector2i in watch.watched:
+				if cell != here:
+					red[cell] = true
+		var round := land.find_cell_path(here, to, red)
+		if not round.is_empty():
+			return round
+	return land.find_cell_path(here, to)
+
+
+## Walking itself aggressively ([D216]), a band standing in sight on this ground is the fight worth
+## the detour Auto turned aside for
+## ([method AutoRoad.errand]): it walks into the band's nearest red cell, rather than standing on the
+## band's tile waiting for it to look, or stepping off and back on for ever ([D215]: with bands by the
+## road, Auto did both for minutes). [constant Vector2.INF] when there is none in sight.
+func _auto_band_axis() -> Vector2:
+	if Pace.auto_style != "aggressive" or _watches.is_empty() or _spotted or _leader == null:
+		return Vector2.INF
+	var here := map.cell_at(_leader.position)
+	var best := Vector2i(-1, -1)
+	var far := AUTO_BAND_SIGHT * AUTO_BAND_SIGHT
+	for watch: Node2D in _watches:
+		if bool(watch.band.get("spar", false)):
+			continue
+		for cell: Vector2i in watch.watched:
+			var apart := (cell - here).length_squared()
+			if apart < far:
+				far = apart
+				best = cell
+	if best.x < 0:
+		_auto_band_path.clear()
+		return Vector2.INF
+	if best != _auto_band_target or _auto_band_path.is_empty():
+		_auto_band_target = best
+		_auto_band_path = map.find_cell_path(here, best)
+		_auto_band_index = 1 if _auto_band_path.size() > 1 else 0
+	if _auto_band_index < _auto_band_path.size():
+		var waypoint: Vector2 = _auto_band_path[_auto_band_index]
+		if _leader.position.distance_to(waypoint) < 16.0:
+			_auto_band_index += 1
+			if _auto_band_index < _auto_band_path.size():
+				waypoint = _auto_band_path[_auto_band_index]
+		return (waypoint - _leader.position).normalized()
+	return (map.centre_of(best) - _leader.position).normalized()
 
 
 ## A party walking itself to the Tower does not stop where it crosses onto the Tower's tile, out
@@ -1779,6 +2005,7 @@ func _physics_process(delta: float) -> void:
 	if _land_mode:
 		_hold_more()
 	_refresh_prompt()
+	_tell_the_roadside()
 	if not map.bands.is_empty():
 		_practice_clock += delta
 		if _practice_clock >= 0.5:

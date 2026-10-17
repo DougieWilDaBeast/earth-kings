@@ -18,6 +18,7 @@ const SEED := 20260827
 const WINDOW := Vector2i(1280, 720)
 ## Frames to let a deferred layout or a scene swap land.
 const SETTLE := 6
+const AutoRoad := preload("res://src/world/auto_road.gd")
 
 var _failures: Array[String] = []
 var _game: Node
@@ -935,6 +936,29 @@ func _check_a_band_on_the_ground() -> void:
 		patrolled += 0.1
 	_expect((on_ground.figures[0] as Node2D).position != post, "the band stood still instead of patrolling")
 	_expect(not ground._spotted, "the band's patrol walked it into sight of where the party came in")
+	# The three ways of walking itself (D216): only an aggressive party turns aside for the band; a
+	# passive one works its way round the band's red.
+	var kept_style := Pace.auto_style
+	Pace.auto_style = "aggressive"
+	var aggressive_goes := AutoRoad.errand(world)
+	Pace.auto_style = "mixed"
+	var mixed_goes := AutoRoad.errand(world)
+	_expect(Pace.AUTO_STYLES.size() == 3 and mixed_goes != band.cell, "walking itself mixed, the party still turned aside for a band")
+	_expect(aggressive_goes == band.cell or Pathfinder.distance(band.cell, world.player_cell) == 0 or Pathfinder.distance(band.cell, world.player_cell) > AutoRoad.DETOUR,
+			"walking itself aggressively, the party did not turn aside for the band (went for %s, band at %s)" % [aggressive_goes, band.cell])
+	var red_cells: Array = (on_ground.watched as Dictionary).keys()
+	var beyond: Vector2i = red_cells[0]
+	for cell: Vector2i in red_cells:
+		if (cell - arrived).length_squared() > (beyond - arrived).length_squared():
+			beyond = cell
+	beyond += Vector2i(signi(beyond.x - arrived.x), signi(beyond.y - arrived.y)) * 2
+	Pace.auto_style = "passive"
+	var round: Array = ground.call("_auto_way", ground.map, arrived, beyond)
+	var through_red := round.any(func(p: Vector2) -> bool: return on_ground.watched.has(ground.map.cell_at(p)) and ground.map.cell_at(p) != beyond)
+	var straight: Array = ground.map.find_cell_path(arrived, beyond)
+	if not straight.is_empty() and not round.is_empty() and round != straight:
+		_expect(not through_red, "walking itself passively, the party's way still crosses the band's red")
+	Pace.auto_style = kept_style
 	# A step into the red.
 	var into: Vector2i = (on_ground.watched as Dictionary).keys()[0]
 	var asked := _requests.size()
@@ -1011,6 +1035,9 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 	ground.call("_stage_roadside", event)
 	var staged: Array = ground.get("_roadside_foes")
 	_expect(not staged.is_empty(), "the roadside scene stood nobody on the ground to fight")
+	# Seen coming (D216): stood well down the road, not in front of the party.
+	var apart: Vector2i = (ground.get("_roadside_middle") as Vector2i) - (ground.map as AreaMap).cell_at(ground._leader.position)
+	_expect(apart.length() >= 5.0, "the roadside scene was stood %.1f cells off, right in front of the party" % apart.length())
 	# Counted now: the fight clears the scene away, and with it this list.
 	var staged_count := staged.size()
 	var asked := _requests.size()

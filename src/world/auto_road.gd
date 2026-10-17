@@ -167,8 +167,8 @@ static func cell_of(at: Variant) -> Vector2i:
 
 
 ## What the party walks towards when nobody is steering: a fight worth the
-## detour, then the objective (D95), then the nearest gate still standing, then
-## the Tower.
+## detour (only when it walks itself aggressively, [D216]), then the objective (D95), then the
+## nearest gate still standing, then the Tower.
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
 	var rest := rest_stop(world)
@@ -183,8 +183,13 @@ static func errand(world: World) -> Vector2i:
 			return marked
 	var target := Vector2i(-1, -1)
 	var best := DETOUR + 1
-	for band: Prowler in world.prowlers:
+	var bands: Array = world.prowlers if Pace.auto_style == "aggressive" else []
+	for band: Prowler in bands:
 		var reach := Pathfinder.distance(band.cell, world.player_cell)
+		# A band on the tile the party stands on is met on the ground if it is walked into; stood still
+		# for, it may never look (D215: with bands by the road, Auto stood on their tiles for minutes).
+		if reach == 0:
+			continue
 		if reach < best:
 			best = reach
 			target = band.cell

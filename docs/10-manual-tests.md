@@ -259,6 +259,12 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
 | D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 | D3.8 | Meet a scene on the road ("A cart has been stopped…") and step in | The fight is on the road where the scene stands, the attackers where they were; no fight screen ([D207](06-decisions.md)) |
+| D3.10 | Walk the First Hour's road from the crater to the first gate | Two or three bands camped a little off the road on the way, some of them brigands, none on the cobbles or at a town's gate ([D215](06-decisions.md)) |
+| D3.11 | Walk the roads a few tiles out from a town for a while | Now and then "The Watch is fighting on the road ahead": two watchmen back to back with brigands or wolves round them. Step in and they fight beside you, then pay you; walk on and it costs a little renown ([D215](06-decisions.md)) |
+| D3.12 | Look along the road, and climb to floor 2 or above | A company of two or three climbers walking the road, who talk ("Another one for the Tower?"); on some floors a company resting by the stair ([D215](06-decisions.md)) |
+| D3.13 | Esc → the menu's **Auto: Mixed** button, pressed three times | Aggressive, Passive, Mixed in turn, each with a line on what it does; the choice is kept after the game is closed; the top bar says "Auto: Aggressive" (or the rest) while Auto is on ([D216](06-decisions.md)) |
+| D3.14 | Switch Auto on near a band, once in each style | Aggressive turns aside and walks into its red; Mixed walks its way and fights only if seen; Passive walks round the red ([D216](06-decisions.md)) |
+| D3.15 | Walk the road until a roadside scene comes up (with Auto on, too) | Its title in the log and the scene standing well down the road; no box, and Auto keeps walking. Close to it, what is happening there in the log and "E to step in, or walk on by" ([D216](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
@@ -305,6 +311,8 @@ Start a run (not the tutorial) and walk.
 | D5.19 | Press M on the land, with Auto on | The map opens over the ground and the party keeps walking under it; WASD moves the map, not the party; M or Esc puts it away |
 | D5.20 | Right-click open ground on the map, Go here | A green pin there, a dotted line to it, Auto turns on and the party walks there, past any band; on arriving Auto hands back and the pin is gone |
 | D5.21 | Right-click, Place a marker; then press L | A numbered gold pin; L steps the compass onto "Marker 1"; click the pin to walk to it; right-click it to take it off |
+| D5.22 | Walk out of a village along the land | A two-cell dirt track of pale packed earth runs off towards the next village; every other way across a tile is a narrow footpath ([D233](06-decisions.md)) |
+| D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
 
 ## H — Conversation and the camp
 
