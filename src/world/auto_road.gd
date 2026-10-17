@@ -175,6 +175,10 @@ static func errand(world: World) -> Vector2i:
 	var best := DETOUR + 1
 	for band: Prowler in world.prowlers:
 		var reach := Pathfinder.distance(band.cell, world.player_cell)
+		# A band on the tile the party stands on is met on the ground if it is walked into; stood still
+		# for, it may never look (D210: with bands by the road, Auto stood on their tiles for minutes).
+		if reach == 0:
+			continue
 		if reach < best:
 			best = reach
 			target = band.cell

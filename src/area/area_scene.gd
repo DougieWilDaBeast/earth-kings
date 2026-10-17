@@ -101,6 +101,10 @@ var _waymark: Node2D
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
+## The way to a band's red that a party walking itself is making for, and where along it ([D210]).
+var _auto_band_path: Array = []
+var _auto_band_index: int = 0
+var _auto_band_target := Vector2i(-1, -1)
 ## On the land: the tile the party is walking itself into, and the tile it set off from ([D94]).
 var _auto_tile: Vector2i = Vector2i(-1, -1)
 var _auto_from: Vector2i = Vector2i(-1, -1)
@@ -181,6 +185,8 @@ const FIGHT_ACTS := ["_enter_gate_here"]
 const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
 ## How far, in cells, the party may stand from a gate's doorway for its keepers to come out of it.
 const GATE_REACH := 12.0
+## How near, in cells, a band's red must be for a party walking itself to make for it ([D210]).
+const AUTO_BAND_SIGHT := 18
 ## Where the log's right edge stands on a screen wide enough for it.
 const LOG_WIDTH := 900.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
@@ -535,7 +541,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 		})
 
 
-## Other companies on their way to the Tower ([D208], play-test 4: "other people trying to climb
+## Other companies on their way to the Tower ([D210], play-test 4: "other people trying to climb
 ## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
 ## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
 func _admit_the_climbers(tile: Vector2i) -> void:
@@ -592,7 +598,7 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
-## Another company resting on a Tower floor, by the stair up ([D208]): they got here first, and will
+## Another company resting on a Tower floor, by the stair up ([D210]): they got here first, and will
 ## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
 func _admit_climbers_to_the_floor() -> void:
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
@@ -611,10 +617,21 @@ func _admit_climbers_to_the_floor() -> void:
 	var stair: Vector2i = map.stairs[0]
 	var resting := [Vector2i(-3, 3), Vector2i(-2, 4), Vector2i(-4, 4)]
 	var size: Array = rules.get("size", [2, 3])
+	var taken: Dictionary = {}
+	for cell: Vector2i in map.stairs:
+		taken[cell] = true
 	for i in rng.randi_range(int(size[0]), int(size[1])):
-		var at: Vector2i = stair + (resting[i % resting.size()] as Vector2i)
-		if not map.is_walkable(at):
+		var at := Vector2i(-1, -1)
+		var near: Vector2i = stair + (resting[i % resting.size()] as Vector2i)
+		for radius in range(0, 5):
+			for dy in range(-radius, radius + 1):
+				for dx in range(-radius, radius + 1):
+					var cand := near + Vector2i(dx, dy)
+					if at.x < 0 and map.is_walkable(cand) and not taken.has(cand):
+						at = cand
+		if at.x < 0:
 			continue
+		taken[at] = true
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
@@ -1138,7 +1155,7 @@ func _stage_roadside(event_id: String) -> void:
 		_actors.add_child(driver)
 		_roadside_nodes.append(driver)
 		look_at = driver.position
-	# Whoever stands with the scene and will fight beside the party: the Watch beset (D208), back to
+	# Whoever stands with the scene and will fight beside the party: the Watch beset (D210), back to
 	# back in the middle of it, facing out at the ones round them.
 	var standing := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1)]
 	var allies: Array = stage.get("allies", [])
@@ -1547,6 +1564,9 @@ func _land_auto_axis() -> Vector2:
 	var to_door := _auto_door_axis(world)
 	if to_door != Vector2.INF:
 		return to_door
+	var to_band := _auto_band_axis()
+	if to_band != Vector2.INF:
+		return to_band
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1578,6 +1598,41 @@ func _land_auto_axis() -> Vector2:
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## A band standing in sight on this ground is the fight worth the detour Auto turned aside for
+## ([method AutoRoad.errand]): it walks into the band's nearest red cell, rather than standing on the
+## band's tile waiting for it to look, or stepping off and back on for ever ([D210]: with bands by the
+## road, Auto did both for minutes). [constant Vector2.INF] when there is none in sight.
+func _auto_band_axis() -> Vector2:
+	if _watches.is_empty() or _spotted or _leader == null:
+		return Vector2.INF
+	var here := map.cell_at(_leader.position)
+	var best := Vector2i(-1, -1)
+	var far := AUTO_BAND_SIGHT * AUTO_BAND_SIGHT
+	for watch: Node2D in _watches:
+		if bool(watch.band.get("spar", false)):
+			continue
+		for cell: Vector2i in watch.watched:
+			var apart := (cell - here).length_squared()
+			if apart < far:
+				far = apart
+				best = cell
+	if best.x < 0:
+		_auto_band_path.clear()
+		return Vector2.INF
+	if best != _auto_band_target or _auto_band_path.is_empty():
+		_auto_band_target = best
+		_auto_band_path = map.find_cell_path(here, best)
+		_auto_band_index = 1 if _auto_band_path.size() > 1 else 0
+	if _auto_band_index < _auto_band_path.size():
+		var waypoint: Vector2 = _auto_band_path[_auto_band_index]
+		if _leader.position.distance_to(waypoint) < 16.0:
+			_auto_band_index += 1
+			if _auto_band_index < _auto_band_path.size():
+				waypoint = _auto_band_path[_auto_band_index]
+		return (waypoint - _leader.position).normalized()
+	return (map.centre_of(best) - _leader.position).normalized()
 
 
 ## A party walking itself to the Tower does not stop where it crosses onto the Tower's tile, out

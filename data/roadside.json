@@ -1,6 +1,6 @@
 {
 	"rules": {
-		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd. An event's `stage` is what stands a few cells ahead on the ground when it is come upon (D131): its props (art, offset from the scene's middle), and who is being set on (`victim`, a unit); its `pack` stand round them. A scene with `near_town` (D208) is the town's Watch beset: offered only within `town_reach` tiles of a standing town but, like every scene, never within `clear_of_sites` of a place (a ring of road out past its gate), at `near_town_chance` a step, the others only in open country at `chance`. Its stage's `allies` stand with it and fight beside the party; `purse_line` is how its purse is said.",
+		"note": "Scenes you come upon in the open, between one place and the next. See src/chronicle/roadside.gd. An event's `stage` is what stands a few cells ahead on the ground when it is come upon (D131): its props (art, offset from the scene's middle), and who is being set on (`victim`, a unit); its `pack` stand round them. A scene with `near_town` (D210) is the town's Watch beset: offered only within `town_reach` tiles of a standing town but, like every scene, never within `clear_of_sites` of a place (a ring of road out past its gate), at `near_town_chance` a step, the others only in open country at `chance`. Its stage's `allies` stand with it and fight beside the party; `purse_line` is how its purse is said.",
 		"chance": 0.05,
 		"rest_steps": 40,
 		"clear_of_sites": 3,

@@ -258,6 +258,9 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
 | D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 | D3.8 | Meet a scene on the road ("A cart has been stopped…") and step in | The fight is on the road where the scene stands, the attackers where they were; no fight screen ([D207](06-decisions.md)) |
+| D3.10 | Walk the First Hour's road from the crater to the first gate | Two or three bands camped a little off the road on the way, some of them brigands, none on the cobbles or at a town's gate ([D210](06-decisions.md)) |
+| D3.11 | Walk the roads a few tiles out from a town for a while | Now and then "The Watch is fighting on the road ahead": two watchmen back to back with brigands or wolves round them. Step in and they fight beside you, then pay you; walk on and it costs a little renown ([D210](06-decisions.md)) |
+| D3.12 | Look along the road, and climb to floor 2 or above | A company of two or three climbers walking the road, who talk ("Another one for the Tower?"); on some floors a company resting by the stair ([D210](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
