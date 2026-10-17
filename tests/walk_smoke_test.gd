@@ -10,6 +10,7 @@ const CheckFilter := preload("res://tests/check_filter.gd")
 const Company := preload("res://tests/company.gd")
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Fall := preload("res://src/chronicle/fall.gd")
@@ -535,7 +536,28 @@ func _check_tower() -> void:
 				"floor %d has nobody on it to fight for real" % n)
 		if n == 5:
 			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor 5 has no keeper")
-	_expect(Chapters.walked_floor_area(6) == "", "floor 6 is walked, past the First Hour")
+	# Every floor above is walked too, on a borrowed plan (D207), with bands of its own.
+	for n: int in [6, 9, 10, 37, world.tower_floors()]:
+		var plan := Chapters.walked_floor_area(n)
+		_expect(plan != "" and plan != Chapters.walked_floor_area(5) and Chapters.borrows_a_plan(n),
+				"floor %d is not walked on a borrowed plan (%s)" % [n, plan])
+		if plan == "":
+			continue
+		var stocked: Array = TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)])
+		var own := not stocked.is_empty()
+		for b: Dictionary in stocked:
+			own = own and bool(b.get("held", false)) and str(b.get("key", "")).begins_with("tower%d_" % n) \
+					and str(b.get("done_flag", "")) == "done:%s" % b.get("key", "")
+		_expect(own, "floor %d's bands are not its own: %s" % [n, stocked])
+		_expect(stocked == TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)]),
+				"floor %d is stocked differently each time it is walked" % n)
+		if n == world.tower_floors():
+			_expect(stocked.size() == 1 and bool(stocked[0].get("boss", false)) and stocked[0]["at"] == [12, 4],
+					"the top floor's keeper does not stand before the stair: %s" % [stocked])
+		else:
+			_expect(stocked.all(func(b: Dictionary) -> bool: return not bool(b.get("boss", false))),
+					"floor %d has a keeper it should not" % n)
+	_expect(Chapters.walked_floor_area(world.tower_floors() + 1) == "", "a floor past the top is walked")
 
 	# Standing on the stair is the floor won: the continent pays it out.
 	GameState.pending_outcome = { "kind": "tower", "cell": tower.cell, "floor": 1 }

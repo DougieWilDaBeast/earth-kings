@@ -284,7 +284,10 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
 and since [D204](06-decisions.md) with no stop before it and no box round it: the fight is on as the
 band shouts (about a tenth of a second, was over a second of heads turning and a rush), the band
 closes in fighting from where it stood, and the field (24×16 to 36×24 cells, six round everyone) has
-no edge drawn and nothing dimmed; the edge shows faintly only while the pointer is out past it.
+no edge drawn and nothing dimmed; the edge shows faintly only while the pointer is out past it. Since
+[D207](06-decisions.md) no fight in a run has a screen of its own: Tower floors 6 up are walked, a
+roadside fight is fought where its scene stands, and a town's or a captive's fight just ahead of the
+party; only the hidden training ground and coliseum keep the fight screen.
 
 - the field is the encounter's map (or an authored one), with the party mustered on its spawns,
   the enemy at their levels (a levelled foe is a throwaway character raised by
