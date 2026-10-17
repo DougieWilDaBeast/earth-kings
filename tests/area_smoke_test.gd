@@ -34,6 +34,7 @@ const Land := preload("res://src/area/land.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
+const Chapters := preload("res://src/chronicle/chapters.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 
@@ -710,6 +711,36 @@ func _check_tower_floor() -> void:
 	again.queue_free()
 	await get_tree().process_frame
 
+	# Floor 6 (D207): walked on a borrowed plan, its bands the floor's own, fought on its ground.
+	var plan := Chapters.walked_floor_area(6)
+	var six: Node = load("res://src/area/area_scene.tscn").instantiate()
+	six.set("boot_payload", { "area_id": plan, "return_scene": "world", "tower_floor": 6 })
+	add_child(six)
+	for i in 10:
+		await get_tree().process_frame
+	var on_six: Array = six.get("_watches")
+	_expect(not on_six.is_empty() and on_six.all(func(w: Node2D) -> bool: return str(w.band.get("key", "")).begins_with("tower6_")),
+			"tower floor: floor 6's bands are not its own")
+	if not on_six.is_empty():
+		var w6: Node2D = on_six[0]
+		var m6: AreaMap = six.get("map")
+		var into6: Vector2i = (w6.watched as Dictionary).keys()[0]
+		six.call("_check_the_watch", m6.cell_at(six.get("_leader").position))
+		six.get("_leader").position = m6.centre_of(into6)
+		six.call("_check_the_watch", into6)
+		var waited6 := 0.0
+		while waited6 < 3.0 and six.get("_fight") == null:
+			await get_tree().create_timer(0.05).timeout
+			waited6 += 0.05
+		var fight6: Node2D = six.get("_fight")
+		_expect(fight6 != null and bool(fight6.get("in_place")), "tower floor: floor 6 was not fought on its ground")
+		_expect(not _requests.any(func(r: Dictionary) -> bool: return r["key"] == "skirmish"), "tower floor: floor 6 opened a fight screen")
+		if fight6 != null:
+			fight6.set_process(false)
+	six.queue_free()
+	GameState.pending_outcome = {}
+	await get_tree().process_frame
+
 	# Atlas's chapter-one memory (D103): the buckle lies on floor 5 for him and nobody else.
 	GameState.new_game(SEED, "atlas")
 	var asked: Array[String] = []
@@ -1130,7 +1161,7 @@ func _check_play_test_four() -> void:
 	print("play-test 4: a click puts a pin and a line, a shut door is tried once, the baker bakes, speeds 1/2/3/5")
 
 
-## Footpaths, dirt tracks and signposts ([D206]): tracks join the places people live, a tile on
+## Footpaths, dirt tracks and signposts ([D212]): tracks join the places people live, a tile on
 ## one has the track's ground and sheet, every tile's worn paths are footpaths, and where three ways
 ## meet a signpost stands and names somewhere each way.
 func _check_tracks() -> void:

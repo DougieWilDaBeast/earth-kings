@@ -10,6 +10,9 @@ extends Node
 
 const SEED := 20260829
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const AutoRoad := preload("res://src/world/auto_road.gd")
+const Route := preload("res://src/world/route.gd")
+const Guild := preload("res://src/chronicle/guild.gd")
 ## Frames a scene change is given to settle before the check gives up on it.
 const PATIENCE := 240
 
@@ -27,6 +30,8 @@ func _ready() -> void:
 	await _climb_to_the_top()
 	_new_run()
 	await _auto_climbs()
+	_new_run()
+	await _auto_walks_to_the_door()
 	_new_run()
 	await _roadside_stands()
 	await _the_warden_counts()
@@ -232,6 +237,48 @@ func _auto_climbs() -> void:
 				"climb: Auto on a floor with a memory lying there did not head for it before the stair")
 			floor_now.set("_memories", {})
 			(floor_now.get("_auto_exit_path") as Array).clear()
+
+
+## D197: Auto, a gate shut and the Tower next, walks from two tiles off over the Tower's tile to its
+## door and stops there, "E to climb" up; switched on again at the door it goes in. Before, it
+## stopped where it crossed onto the tile and, switched on again, wandered off and back for good.
+func _auto_walks_to_the_door() -> void:
+	var world: World = GameState.world
+	var tower := world.tower()
+	GameState.set_flag(AutoRoad.TOWN_REACHED)
+	GameState.set_flag(Guild.VISITED)
+	for gate: Site in world.sites_of_kind(Site.GATE):
+		gate.cleared = true
+		break
+	world.prowlers.clear()
+	var start := Vector2i(-1, -1)
+	for side: Vector2i in [Vector2i(0, 2), Vector2i(0, -2), Vector2i(2, 0), Vector2i(-2, 0)]:
+		var cell := tower.cell + side
+		if world.is_walkable(cell) and Route.between(world, cell, tower.cell, 0).size() == 2:
+			start = cell
+			break
+	if start.x < 0:
+		_fail("auto to the door: no open ground two tiles from the Tower")
+		return
+	world.player_cell = start
+	EventBus.request_scene.emit("world", {})
+	var land := await _scene_where(func(s: Node) -> bool: return _is_land(s))
+	if land == null:
+		_fail("auto to the door: the land never came up")
+		return
+	_expect(bool(AutoRoad.objective(world).get("door", false)), "auto to the door: the Tower is not where Auto is headed (%s)" % AutoRoad.objective(world))
+	Pace.auto = true
+	var at_door := await _scene_where(func(s: Node) -> bool: return _is_land(s) and s.get("_auto_at_door") == true, PATIENCE * 30)
+	if at_door == null:
+		_fail("auto to the door: Auto never stood at the Tower's door (at %s, auto %s, on %s)" % [world.player_cell, Pace.auto, _describe(_current())])
+		Pace.auto = false
+		return
+	_expect(not Pace.auto, "auto to the door: Auto walked on past the Tower's door without handing back")
+	_expect(world.player_cell == tower.cell, "auto to the door: stopped at %s, not on the Tower's tile" % world.player_cell)
+	Pace.auto = true
+	var inside := await _scene_where(func(s: Node) -> bool: return _floor_of(s) == 1, PATIENCE * 4)
+	Pace.auto = false
+	_expect(inside != null, "auto to the door: switched on again at the door, Auto did not go in (on %s)" % _describe(_current()))
 
 
 ## D131: a roadside scene come upon on the land stands there to be seen (the cart, the driver, the

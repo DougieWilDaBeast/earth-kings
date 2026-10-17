@@ -383,7 +383,7 @@
 			"feature": "dirt"
 		},
 		"footpath": {
-			"_comment": "D206: every tile's worn paths, drawn in house (tools/draw_tracks.py) until A32. See-through off the path, so it lies over any land's ground.",
+			"_comment": "D212: every tile's worn paths, drawn in house (tools/draw_tracks.py) until A32. See-through off the path, so it lies over any land's ground.",
 			"texture": "res://art/tilesets/footpath.png",
 			"tile_size": 64,
 			"lower": "none",
@@ -391,7 +391,7 @@
 			"feature": "footpath"
 		},
 		"track": {
-			"_comment": "D206: the dirt tracks between the places people live, drawn in house (tools/draw_tracks.py) until A32.",
+			"_comment": "D212: the dirt tracks between the places people live, drawn in house (tools/draw_tracks.py) until A32.",
 			"texture": "res://art/tilesets/track.png",
 			"tile_size": 64,
 			"lower": "none",

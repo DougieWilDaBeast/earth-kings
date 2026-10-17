@@ -62,6 +62,10 @@ func _ready() -> void:
 	cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return (a - at).length_squared() < (b - at).length_squared())
 	ground._check_the_watch(at)
 	ground._leader.position = ground.map.centre_of(cells[0])
+	# How long from being seen to the fight running: the stop before a fight.
+	var seen_at := Time.get_ticks_msec()
+	EventBus.battle_started.connect(func(_id: String) -> void:
+		print("seen to fight: %d ms" % (Time.get_ticks_msec() - seen_at)), CONNECT_ONE_SHOT)
 	ground._check_the_watch(cells[0])
 	await _frames(20)
 	await _shoot("seen")
