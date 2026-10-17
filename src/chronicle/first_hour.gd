@@ -48,6 +48,23 @@ static func first_life() -> String:
 	return lead
 
 
+## The lead the quiz would deal a new player after Atlas's last stand, picked by [param world_seed]
+## so a run can be walked again ([D197]): the self-play tools play a life a player lives, not Atlas,
+## whose only life since [D191] is the last stand. Only leads the quiz deals now (AQ) are dealt.
+static func dealt_lead(world_seed: int) -> String:
+	var withheld := unwritten_tempers(PackedStringArray())
+	var leads: Array[String] = []
+	var codes: Array = Database.temper_types().keys()
+	codes.sort()
+	for code: String in codes:
+		var hero := Database.temper_hero(code)
+		if hero != "" and hero != Roster.FIRST_LEAD and not withheld.has(code):
+			leads.append(hero)
+	if leads.is_empty():
+		return Roster.FIRST_LEAD
+	return leads[posmod(hash(world_seed), leads.size())]
+
+
 ## AQ: while some of the sixteen have no chapter one yet, the quiz deals only those who do, so a
 ## second life does not climb to an empty alcove on floor 5. The tempers to hold back, on top of the
 ## [param fallen]; none once every living lead has a chapter one, or when holding them back would

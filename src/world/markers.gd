@@ -1,5 +1,5 @@
 extends RefCounted
-## The player's own marks on the map ([D205], `doug-md`, play-tests 3 and 4): a place right-clicked
+## The player's own marks on the map ([D211], `doug-md`, play-tests 3 and 4): a place right-clicked
 ## on the map and marked ("Waypoint marker"), or one picked to go to ("Go to location").
 ##
 ## A marker is a quest like any other ([D190]): it is in the quest list, the compass and the corner

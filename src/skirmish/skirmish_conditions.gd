@@ -237,6 +237,8 @@ func _bite(f: Fighter, kind: String, amount: int, by: Variant) -> void:
 	if amount <= 0:
 		return
 	fight._hit_style = kind
+	if by is Fighter:
+		f.struck_by = (by as Fighter).unit
 	f.unit.take_damage(amount)
 	fight._hit_style = ""
 	if f.unit.is_alive():

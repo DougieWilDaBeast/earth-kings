@@ -135,7 +135,9 @@ static func road_objective(world: World) -> Dictionary:
 			and not GameState.has_flag(Guild.VISITED) and Guild.has_hall(tower):
 		return {"cell": tower.cell, "label": "The Guild, at the Tower's door", "stop": true}
 
-	if not shut_one:
+	# A chapter closed shuts the stair again until a gate is shut (D101): the next gate, not the
+	# Tower, is where the party goes then ([D197]: it paced on the Tower's tile after floor 5).
+	if not shut_one or (tower != null and Chapters.sealed(world)):
 		var lead := GameState.roster.player() if GameState.roster != null else null
 		var lead_level := lead.level if lead != null else 1
 		var first: Site = null
@@ -151,9 +153,10 @@ static func road_objective(world: World) -> Dictionary:
 			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.rank], "stop": false}
 
 	if tower != null and not world.tower_is_topped():
-		# The first floors are walked by hand, so a party walking itself stops at the door (D102).
+		# The first floors are walked by hand, so a party walking itself stops at the door (D102):
+		# on the ground the door itself, across the tile, not the tile's edge (`door`, [D197]).
 		var walked := Chapters.walked_floor_area(world.tower_floor + 1) != ""
-		return {"cell": tower.cell, "label": tower.display_name, "stop": walked}
+		return {"cell": tower.cell, "label": tower.display_name, "stop": walked, "door": walked}
 	return {}
 
 
@@ -169,7 +172,7 @@ static func cell_of(at: Variant) -> Vector2i:
 static func errand(world: World) -> Vector2i:
 	_keep_to(world)
 	# A place picked on the map, or a marker followed, is walked to straight: no turning aside for
-	# a band on the way, which walked the party off the other way from where it was sent ([D205]).
+	# a band on the way, which walked the party off the other way from where it was sent ([D211]).
 	var chosen := Quests.followed(world, quests(world))
 	if str(chosen.get("kind", "")) == "marker":
 		var marked: Vector2i = chosen["cell"]

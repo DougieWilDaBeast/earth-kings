@@ -1,5 +1,5 @@
 extends Control
-## The map of the continent drawn over the ground ([D205]): small in a corner of the screen while
+## The map of the continent drawn over the ground ([D211]): small in a corner of the screen while
 ## walking, or large when opened with M or from the journal. Either way the party keeps walking
 ## under it.
 ##

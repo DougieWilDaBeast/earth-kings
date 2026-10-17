@@ -1,0 +1,22 @@
+name: plan-sync
+
+# Labels and milestones on GitHub follow .github/plan.json (docs/32).
+on:
+  push:
+    branches: [main]
+    paths: [.github/plan.json, tools/plan.py]
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Labels and milestones match the plan
+        run: python3 tools/plan.py sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

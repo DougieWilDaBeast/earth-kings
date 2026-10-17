@@ -186,8 +186,11 @@ func _cause_of_it(name_text: String) -> String:
 	if not _lead_is_dead():
 		return "They are held somewhere out there, and the company has nobody left to lead it."
 	for entry: Dictionary in Ledger.the_fallen(GameState.world, GameState.roster):
-		if entry.get("name", "") == name_text and str(entry.get("killer", "")) != "":
-			return "Cut down by %s, at level %d." % [entry["killer"], int(entry.get("level", 1))]
+		var by := str(entry.get("killed_by", ""))
+		if by == "" and str(entry.get("killer", "")) not in ["", "default"]:
+			by = "a " + str(entry["killer"])
+		if entry.get("name", "") == name_text and by != "":
+			return "Cut down by %s, at level %d." % [by, int(entry.get("level", 1))]
 	return "Their world goes dark with them."
 
 
