@@ -1,0 +1,22 @@
+name: Something to make or change
+description: A feature, content, art, music, words or business job
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: One or two lines. Where it came from (voice note, play-test, meeting) if you know.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options: [feature, content, art, music, words, business, question]
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: How we'll know it is finished. Leave empty and Claude writes it.
