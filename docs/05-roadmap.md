@@ -341,7 +341,13 @@ each, each ending playable:
 24. **Sound in the browser, and New Game on a phone** — built ([D234](06-decisions.md), [D235](06-decisions.md), #292,
    2026-10-17, `dougie`'s report): the browser build was silent because its buses were made at runtime;
    they are in `default_bus_layout.tres` now. A player with a save is asked whether to play the last stand
-   or skip it. Both are heard and seen on the phone after the next itch push.
+   or skip it. Both went to itch in build `1daa322` (2026-10-17 17:39), the first build with sound;
+   `dougie` listens to the five in-house themes on it and keeps or drops each (#218).
+25. **`doug-md`'s later play-test fixes** — built (2026-10-17, his own PRs): the Tower's floors 6 up hit
+   harder, 1.2 times from floor 6 and a little more each floor ([D222](06-decisions.md), #280); a question
+   mark on each path at level 2 says what kind of fighter it makes ([D237](06-decisions.md), #254); a place
+   on the ground comes into sight when it can be seen, not four tiles off ([D238](06-decisions.md), #253).
+   The next itch push carries them, with the land journals (#284, PR #298) once they merge.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
