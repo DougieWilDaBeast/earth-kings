@@ -595,11 +595,36 @@ func _class_card(character: Character, class_id: String) -> Control:
 	column.add_theme_constant_override("separation", 8)
 	card.add_child(column)
 
+	var banner := HBoxContainer.new()
 	var title := Label.new()
 	title.text = SheetParts.class_title(class_id)
 	title.add_theme_font_size_override("font_size", 21)
 	title.add_theme_color_override("font_color", colour.lightened(0.3))
-	column.add_child(title)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	banner.add_child(title)
+	column.add_child(banner)
+	# A question mark at the right of the banner ([D237]): hover it for the path in more words, or
+	# press it (on a phone there is no hover) to open them on the card.
+	var help_text := SheetParts.class_help(class_id)
+	var more := Label.new()
+	more.text = help_text
+	more.visible = false
+	more.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	more.add_theme_font_size_override("font_size", 12)
+	more.add_theme_color_override("font_color", Color(0.9, 0.9, 0.93))
+	var ask := Button.new()
+	ask.name = "PathHelp"
+	ask.text = "?"
+	ask.tooltip_text = help_text
+	ask.focus_mode = Control.FOCUS_NONE
+	ask.custom_minimum_size = Vector2(30, 30)
+	ask.add_theme_stylebox_override("normal", SheetParts.box(colour.darkened(0.6), colour, 1, 15))
+	ask.add_theme_stylebox_override("hover", SheetParts.box(colour.darkened(0.3), colour.lightened(0.4), 2, 15))
+	ask.add_theme_stylebox_override("pressed", SheetParts.box(colour.darkened(0.7), colour, 1, 15))
+	ask.pressed.connect(func() -> void: more.visible = not more.visible)
+	Sfx.attend(ask)
+	banner.add_child(ask)
+	column.add_child(more)
 
 	var themes := Label.new()
 	themes.text = "Powers of %s" % "  ·  ".join(SheetParts.theme_names(class_id))

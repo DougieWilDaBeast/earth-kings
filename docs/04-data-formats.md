@@ -521,6 +521,14 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
 once the party is within this many tiles of it; on the map view it is said at once.
 
+## `world_rules.json` → `path_help` — a path in more words (D237)
+
+`roles`: each says `say` of a path whose growth a level is `at_least` / `at_most` the stats it
+names and, with `has` (`heal` or `range`), whose starting moves include one; the first `most_roles`
+that fit are said. `lines`: `grows` (`{max_hp}`, `{attack}`, `{defense}`, `{speed}`), `starts`,
+`move` (`{name}`, `{text}`, one per starting move) and `themes` (`{themes}`). Read by
+`SheetParts.class_help` for the **?** on each path card.
+
 ## `world_rules.json` → `scars` — what going down leaves behind (D218)
 
 `max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
