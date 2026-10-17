@@ -329,7 +329,7 @@ func _check_box_select() -> void:
 
 
 ## Six on the field with a pouch of draughts: every party card sits inside the screen, and the
-## fight's log above them, not under them ([D213], play-test 4: the cards ran off the bottom).
+## fight's log above them, not under them ([D219], play-test 4: the cards ran off the bottom).
 func _check_cards_fit() -> void:
 	var before := GameState.roster
 	GameState.roster = Company.found("atlas", ["vesta", "iris", "juno", "cato", "ares"])

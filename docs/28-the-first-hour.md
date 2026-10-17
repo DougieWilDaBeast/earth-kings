@@ -247,7 +247,7 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    somewhere else and put back.
 8. **Towers that match their land**: the scenery round a tower to fit the ground it stands on.
 9. **The bottom of the screen**: the fight's party cards ran off the bottom with a party of six
-   (his answer, 2026-10-17). Fixed ([D213](06-decisions.md)).
+   (his answer, 2026-10-17). Fixed ([D219](06-decisions.md)).
 10. **Followers facing the way they walk** when walking down. Not reproduced: a suite walking a party
     of three down, up and down again finds them facing the leader's way. **To ask him where it was.**
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
