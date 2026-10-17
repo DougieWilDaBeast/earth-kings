@@ -218,8 +218,9 @@ and every bounty a board tried to post came out blank.
 ## Autoload order
 
 `EventBus` → `Database` → `GameState` → `Music` → `Sfx` → `Pace` → `Pad` → `PlayLog`. Database must be up before
-anything reads content; GameState reads content while restoring a save, and Music/Sfx wire audio
-buses and settings from `user://settings.cfg`. `Pace` owns `Engine.time_scale` and whether the game
+anything reads content; GameState reads content while restoring a save, and Music/Sfx apply the player's
+volume from `user://settings.cfg` to their buses, which live in `default_bus_layout.tres` (a bus made at
+runtime is silent in the browser build, [D234](06-decisions.md)). `Pace` owns `Engine.time_scale` and whether the game
 is playing itself, so both survive a scene swap — a soak started on the road carries through the
 fight it walks into. `Pad` remembers whether a game pad or a keyboard was touched last, says the
 right button in hint lines (`Pad.key("interact")` is "A" or "E"), and keeps a button focused on
