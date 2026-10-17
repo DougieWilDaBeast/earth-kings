@@ -9,7 +9,7 @@
     ",": "dirt",
     "m": "meadow"
   },
-  "hint": "WASD to walk  ·  click anyone marked to talk, anything marked ? to look at it  ·  P party  ·  N journal  ·  Esc menu  ·  the road south ends the tour",
+  "hint": "WASD to walk  ·  click anyone marked to talk, anything marked ? to look at it  ·  P party  ·  N journal  ·  Esc menu  ·  the road south leaves Hearthwick",
   "spawn": [
     12,
     13
@@ -70,7 +70,7 @@
         10
       ],
       "name": "the signpost",
-      "line": "North: the square. East: the ring of stones. South: the road out, and the end of the tour."
+      "line": "North: the square. East: the ring of stones. South: the road out of Hearthwick."
     },
     {
       "art": "village/well",
@@ -477,6 +477,27 @@
       "requires": "tut:spar_ready",
       "requires_not": "tut:sparred",
       "done_flag": "tut:sparred"
+    },
+    {
+      "key": "tut_doom",
+      "pack": [
+        "frozen_wolfman",
+        "ice_wolf",
+        "ice_wolf"
+      ],
+      "label": "What came out of the broken gate",
+      "faction": "",
+      "at": [
+        16,
+        11
+      ],
+      "reach": 3,
+      "level": 10,
+      "spar": true,
+      "doomed": true,
+      "requires": "tut:doom",
+      "requires_not": "tut:doomed",
+      "done_flag": "tut:doomed"
     }
   ],
   "dressing": [

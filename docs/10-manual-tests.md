@@ -258,19 +258,22 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.6 | Win the fight                                        | Back on the same ground, on the spot you were seen; the band gone from the ground and the journal's map |
 | D3.7 | Walk towards a band two tiles away                   | It is already on the land, patrolling its own patch, before you reach it ([D84](06-decisions.md)) |
 
-## D4 — The tutorial ([D73](06-decisions.md))
+## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
 
-Delete `settings.cfg` and the save from the user folder first, to be a new player.
+Delete `settings.cfg`, `earth-kings.sixteen.json` and the save from the user folder first, to be a new player.
 
 | #    | Do this                                               | Expect                                                                                  |
 | ---- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| D4.1 | Open the game                                         | After the opening, "New to Earth Kings?" over the title; **Take the tour** has focus     |
-| D4.2 | Close and open the game again                         | No offer the second time; **Tutorial** is in the title menu                              |
-| D4.3 | Take the tour and follow every card                   | Each step ticks "done" and the next comes up; the card never sits on the conversation box |
-| D4.4 | Press Esc → Save during the tour                      | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
-| D4.5 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a paused fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
-| D4.6 | Walk the road south out of Hearthwick                 | Back at the title, the card gone                                                        |
-| D4.7 | Finish the tour and press **Start a new run**         | The questions that pick a hero; the new run saves as normal                         |
+| D4.1 | Open the game and press **New Game**                  | No offer over the title; New Game opens Hearthwick as Atlas, the card saying "The last day of Atlas's world", no **End tutorial** button |
+| D4.2 | Follow every card                                     | Each step ticks "done" and the next comes up; the card never sits on the conversation box |
+| D4.3 | Press Esc → Save during it                            | "Nothing in the tutorial is saved."; Continue on the title still loads your own run      |
+| D4.4 | Reach the fight step, find the sparring pair south of the square, step into their red | Before the step they are not there; then they patrol with red ground. Stepping in opens a fight on the village ground, the card on the left; after it, back on the same spot and the pair gone |
+| D4.5 | Walk the road south out of Hearthwick                 | Back at the title, the card gone; New Game starts the last stand again                  |
+| D4.6 | Reach the last card, _The gate in the hills breaks_   | A band from the broken gate (the Frostbitten and two ice wolves) stands where the sparring pair stood, its red ground showing; no **Skip this step** |
+| D4.7 | Step into the band's red                              | The card moves left; the company is down within seconds; the screen goes black and Atlas's fall is told, ending "Fifteen are left." and **Choose who comes next** |
+| D4.8 | Press **Choose who comes next**, answer, pick         | The quiz never deals Atlas; the whole opening plays, its ending shot "Atlas fell in Hearthwick…", his ghost at the fire; you land on the road to the great city |
+| D4.9 | Back at the title, press **Atlas's Last Stand**       | It plays again with **End tutorial** on the card; at the end, **Back to the title**, and nothing more is written down |
+| D4.10 | Delete `earth-kings.sixteen.json` only, then **New Game** | "You've played Atlas's last stand before. Play it again, or skip it?"; **Skip it** goes to the quiz with Atlas fallen; **Back** closes the card |
 ## D5 — One land ([D84](06-decisions.md))
 
 Start a run (not the tutorial) and walk.

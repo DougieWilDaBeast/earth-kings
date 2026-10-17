@@ -407,6 +407,18 @@ func _check_opening_again(data: Dictionary, asked: Array) -> void:
 	_expect(second.finished and asked.size() == 1 and asked[0][0] == "world", "the second life's opening did not start the run")
 	second.queue_free()
 
+	# D191: after Atlas's last stand, a new player's first life plays the whole opening, with
+	# Atlas's world the one seen ending.
+	var after_stand := _opening_for("cato", ["atlas"], {"hero": "atlas", "name": "Atlas", "floor": 0, "last_stand": true})
+	var all_ids: Array = (data.get("shots", []) as Array).map(func(shot: Dictionary) -> String: return str(shot.get("shot", "")))
+	var stand_ids: Array = after_stand.shots.map(func(shot: Dictionary) -> String: return str(shot.get("shot", "")))
+	_expect(stand_ids == all_ids, "after the last stand the opening plays %s, not all of it" % [stand_ids])
+	_expect(after_stand._other == "atlas", "after the last stand the world seen ending is not Atlas's (%s)" % after_stand._other)
+	var stand_said := _opening_lines(after_stand)
+	_expect(stand_said.has("Atlas fell in Hearthwick, at the edge of his own village, and his world went dark with him. It never comes back."),
+			"after the last stand the ending shot does not say where Atlas fell: %s" % [stand_said])
+	after_stand.queue_free()
+
 	var on_road := _opening_for("juno", ["atlas", "cato"], {"hero": "cato", "name": "Cato", "floor": 0, "killer": "Ogre"})
 	_expect(_opening_lines(on_road).has("Cato fell on the road, to an ogre, and never learned what he carried down."),
 			"a lead killed on the road is not said to fall there: %s" % [_opening_lines(on_road)])

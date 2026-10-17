@@ -399,10 +399,11 @@ sizes are set beside a person: a tree three people tall, a bird the size of a bi
 - `buildings` — `scale`, footprint `size` and what each picture looks like; seven are copies of
   another, and say so. One may give a `path` to a picture outside `art/buildings/` (a portal as a door).
 
-## `tutorial.json` — the tutorial (D73)
+## `tutorial.json` — Atlas's last stand (D191, once D73's tutorial)
 
 Read by `src/ui/tutorial_guide.gd`. `area` is the village it runs in, `seed` and `lead` the
-practice run it starts (never saved). Each step has a `title`, `text`, and what makes it `done`:
+run it starts (never saved; `lead` is the one who falls). Each step has a `title`, `text`, and what
+makes it `done`:
 
 ```json
 { "id": "talk", "title": "Talking", "text": "Walk up to Maren…", "done": { "did": "talked:Maren the Guide" } }
@@ -414,11 +415,18 @@ practice run it starts (never saved). Each step has a `title`, `text`, and what 
 - `opened` — `party` or `journal`, when that screen opens.
 - `button` — a button on the card, with that text.
 - A step may also carry `on_start` → `set_flag` (a list), set the moment it comes up: the fight
-  step calls the village's sparring pair out ([D75](06-decisions.md)). A step with `finish: true` is the last: its
-  button starts a new run, and **Back to the title** sits beside it.
+  step calls the village's sparring pair out ([D75](06-decisions.md)).
+- The step with `doom: true` is the last ([D191](06-decisions.md)): its `on_start` calls out the
+  village's `doomed` band, and when that fight ends, won or lost, `fall` is told on a black screen:
+  `lines` one after another and `button` (the way on to the quiz). `fall.killer` is written into
+  the record of the fallen as what killed the lead.
 
-Every step can also be skipped, and the tutorial ended, from the card. The area suite checks each
-step points at someone or something in the village.
+`skip` is the card a New Game shows someone who has played it through before (while nobody has
+fallen): `title`, `text`, and the buttons `play`, `skip` and `back`.
+
+Every step but the last can be skipped from the card; a replay (the lead already fallen) can be
+ended from it too. The area suite checks each step points at someone or something in the village,
+and plays the last fight's ending through against a copy of the record of the fallen.
 
 Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `AreaBuilding`,
 `AreaMap` (what blocks) and the battle's scenery.
@@ -524,8 +532,9 @@ bring its system back.
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
 `FirstHour.mark_line()`, read by `Chapters.seal_line`).
 
-`first_life` (`atlas`) is the lead New Game starts as while no world has ended; after a death the
-quiz picks the next lead ([D106](06-decisions.md), `FirstHour.first_life()`).
+`first_life` (`atlas`) is the lead New Game would start as while no world has ended
+([D106](06-decisions.md), `FirstHour.first_life()`); since [D191](06-decisions.md) a New Game with
+nobody fallen is Atlas's last stand instead, and the quiz picks the lead after his fall.
 
 `warden` is what the floor 5 keeper says as its fight begins ([D184](06-decisions.md)): `band` (the
 keeper's band key, `tower5_keeper`), `speaker` (the name in the box), `ordinals` (the words for first
@@ -571,7 +580,9 @@ plus `at` (the cell it would rather stand on: it only has to not be looking at t
 `level`, `requires` / `requires_not` (flags: it comes out when they allow, looked at twice a second)
 and `done_flag` (set when it is fought). One with `"spar": true` is practice: it is fought straight
 from the area as a sandbox fight on that ground (nobody can die, nothing counted) and back to the
-same spot, never through the world. The tutorial's sparring pair is one. One with `"held": true` is
+same spot, never through the world. The tutorial's sparring pair is one, and so is the band out of
+the broken gate at the end of Atlas's last stand, marked `"doomed": true` ([D191](06-decisions.md)):
+how that fight ends is the tutorial's to settle, not the fight's. One with `"held": true` is
 fought for real on that ground ([D102](06-decisions.md)): the continent settles it like any fight,
 `done_flag` is set only if it is won, and lost or got clear of sends the party back out (`lost` is
 the line said); `boss` makes its first unit a keeper. The Tower's walked floors hold these, and a

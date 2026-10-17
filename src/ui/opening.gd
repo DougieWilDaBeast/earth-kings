@@ -107,6 +107,17 @@ func _remember_the_fallen() -> void:
 	_dead_world = boot_payload.get("last_world", worlds.back() if not worlds.is_empty() else {})
 	var dead := str(_dead_world.get("hero", ""))
 	_other = dead if _fallen.has(dead) else str(_fallen.back())
+	# A new player's first life (D191): the only world that has ended is the one they just
+	# played, Atlas's last stand. They have never seen the opening, so it plays whole, with his
+	# world seen ending and his ghost at the fire, rather than the replay for who is left.
+	if _fallen.size() == 1 and bool(_dead_world.get("last_stand", false)):
+		var told: Dictionary = _data.get("last_stand", {})
+		# A copy: the shots are the game's own data, shared with every opening after this one.
+		shots = shots.duplicate(true)
+		for shot: Dictionary in shots:
+			if told.has(str(shot.get("shot", ""))):
+				shot["lines"] = (told[str(shot["shot"])] as Array).duplicate()
+		return
 	var replay: Array = _data.get("replay", [])
 	var swaps: Dictionary = _data.get("by_left", {}).get(stage(), {})
 	var kept: Array = []

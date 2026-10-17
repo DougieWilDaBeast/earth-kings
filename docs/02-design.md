@@ -33,11 +33,16 @@ milestones instead, with no time pressure. That is planned (M18), not built.
 | A **library**              | Read what is on its shelf; teach it to the party                                                             |
 | A **village / keep / hut** | Rest and recover; safe ground, encounters go quiet                                                           |
 
-**The tutorial** ([D73](06-decisions.md)–[D75](06-decisions.md)). The first time the game opens with no
-run to continue, the title offers a tour; afterwards its **Tutorial** button. It is a practice run
-in Hearthwick, a training village, guided by a card that moves on as the player does what it asks
-(`data/tutorial.json`), with a sparring pair met on the village ground as its fight. Nothing in it is
-saved, filed or able to die.
+**Atlas's last stand** ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md)–[D75](06-decisions.md)).
+A new player's first New Game: the last day of Atlas's world, in Hearthwick, a training village,
+guided by a card that moves on as the player does what it asks (`data/tutorial.json`), with a
+sparring pair met on the village ground as its practice fight. Its last step calls out a band from a
+broken gate that the company cannot beat; when that fight ends Atlas falls for good, written into the
+record of the fallen as the first world that ended, and the quiz picks who comes next. The opening
+then shows his world going dark. Nothing else in it is saved. Someone who has played it through is
+asked on a later New Game (while nobody has fallen) whether to play it again or skip it; skipped,
+Atlas still falls. The title's **Atlas's Last Stand** button plays it again once he has fallen, as a
+replay that writes nothing.
 
 ## Characters
 

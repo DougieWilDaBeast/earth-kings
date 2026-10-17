@@ -132,7 +132,10 @@ static func auto_stop_line() -> String:
 ## Climbers who are not leads are never counted; at most the number of `warden.ordinals`.
 static func challenger(lead_id: String) -> int:
 	var ordinals: Array = Database.world_rules.get("first_hour", {}).get("warden", {}).get("ordinals", [])
-	var before := Sixteen.fallen_heroes().filter(func(hero) -> bool: return str(hero) != lead_id).size()
+	# Atlas's last stand (D191) never reached the Tower: he is not one of the challengers.
+	var stood := Sixteen.last_stand_heroes()
+	var before := Sixteen.fallen_heroes().filter(
+		func(hero) -> bool: return str(hero) != lead_id and not stood.has(str(hero))).size()
 	return clampi(before + 1, 1, maxi(ordinals.size(), 1))
 
 

@@ -2,10 +2,14 @@
 
 **Built 2026-10-12** (on `feat/body-scale`, pushed after its pull request had merged, so it reached the game on 2026-10-14, [D88](06-decisions.md)) at `doug-md`'s request: "a cinematic at the start of a new game that
 incorporates everything that we have discussed as how we want the game to be".
-A **New Game** plays it once the lead is known (Atlas, the first life, [D106](06-decisions.md); later
-in the temper quiz or from _Show me all sixteen_), and the lead is the one seen landing and waiting at the fire; then the run
-begins on the landing in the world (`data/fall.json` → `landing`) as before. The tutorial does not
-play it.
+A **New Game** plays it once the lead is known (picked in the temper quiz or from _Show me all
+sixteen_), and the lead is the one seen landing and waiting at the fire; then the run begins on the
+landing in the world (`data/fall.json` → `landing`) as before. A new player comes to it straight
+from **Atlas's last stand** ([D191](06-decisions.md)): Atlas has just fallen in Hearthwick, the quiz
+has picked who comes next, and the opening plays **whole**, the how-to-play shots too, with Atlas's
+world the one seen ending ("You have seen one of the worlds end already. Atlas fell in Hearthwick,
+at the edge of his own village, and his world went dark with him. It never comes back.";
+`last_stand` in `opening.json`, **Inferred**) and his ghost at the fire in the end shot.
 
 **Every life after the first plays it again** ([D135](06-decisions.md)): after a death the quiz
 picks the next lead, and the opening plays before they land, a little changed for who is left, until

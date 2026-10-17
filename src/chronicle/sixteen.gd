@@ -36,6 +36,28 @@ static func worlds() -> Array:
 	return _read().get("worlds", [])
 
 
+## The worlds in [param past] that ended in a run of the player's own: all but Atlas's last stand
+## ([D191]), which is the tutorial's. While there are none, the next run is the player's first life:
+## they land on the road to the great city, their first gate's crossing is certain, and the floor 5
+## keeper calls them the first challenger.
+static func lives_in(past: Array) -> Array:
+	return past.filter(func(world) -> bool: return not bool((world as Dictionary).get("last_stand", false)))
+
+
+## Whether the next run is the player's first life ([method lives_in]).
+static func first_life() -> bool:
+	return lives_in(worlds()).is_empty()
+
+
+## The leads who fell in a last stand, not a run of the player's own ([D191]).
+static func last_stand_heroes() -> Array:
+	var out: Array = []
+	for world: Dictionary in worlds():
+		if bool(world.get("last_stand", false)):
+			out.append(str(world.get("hero", "")))
+	return out
+
+
 ## Write a dead lead down. Their temper goes too, if they have one, and with
 ## [param world] the world that ended with them is kept, marked gone for good.
 static func fall(hero_id: String, world: Dictionary = {}) -> void:
