@@ -5,7 +5,7 @@ start to fill out and collect and create and finish milestones as we move this g
 against three guides to the stages of making a game ([D202](06-decisions.md)). This doc has three
 parts: where Earth Kings stands in those stages, what still gets expensive to change, and the loop
 every piece of work goes round. The loop is how the project already works, written down in one
-place, with additions marked **Planned** until the founders say yes; the inbox is built ([D203](06-decisions.md)). The write-up with the
+place, with additions marked **Planned** until the founders say yes; the inbox is built ([D205](06-decisions.md)). The write-up with the
 research behind it is the project's
 [stages and pipeline page](https://claude.ai/artifact/PJaxFbEwGwJiGxrHYGv8Vp).
 
@@ -75,7 +75,7 @@ Every piece of work, from a voice note to a bug found by the soak, goes round th
 
 ### Bugs: four severities
 
-Built as labels ([D203](06-decisions.md)). Severity is set when a bug is sorted (step 2).
+Built as labels ([D205](06-decisions.md)). Severity is set when a bug is sorted (step 2).
 
 | Severity | Meaning | Rule |
 | --- | --- | --- |
@@ -149,7 +149,7 @@ or a reason for one of its **Planned** parts.
 
 ## The inbox
 
-**GitHub, made strict** (`dougie`, 2026-10-17, call BH, [D203](06-decisions.md)). Work that does not exist
+**GitHub, made strict** (`dougie`, 2026-10-17, call BH, [D205](06-decisions.md)). Work that does not exist
 yet is a GitHub issue; what exists and what was decided stays in these docs, because the code and the
 tests read them and they change in the same PR as the code ([D139](06-decisions.md)).
 

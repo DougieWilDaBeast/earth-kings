@@ -286,7 +286,7 @@ each, each ending playable:
    against this one, the loop every piece of work goes round, cost tiers, bug severities and the states
    of a milestone, in [32](32-the-pipeline.md). Milestones 12 to 17 are **planned**: the game at release on
    one page, the business basics ([30](30-questions-for-the-founders.md), questions 28 to 32), alpha, beta,
-   launch and after launch. The inbox is built ([D203](06-decisions.md), call BH): GitHub issues, labels and
+   launch and after launch. The inbox is built ([D205](06-decisions.md), call BH): GitHub issues, labels and
    milestones from `.github/plan.json`, a `plan` check on every PR, a daily sort and a status issue; `dougie`
    makes the board and protects `main` from his checklist. When the Steam page goes up waits on `dougie`.
 
