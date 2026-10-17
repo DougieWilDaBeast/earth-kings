@@ -235,7 +235,13 @@ static func _land_foes(world: World, cell: Vector2i) -> Array:
 		return []
 	var share := float(Database.biomes.get("land_foe_share", 0.7))
 	var roll := float(absi(hash([world.world_seed, cell.x, cell.y, "foes"])) % 1000) / 1000.0
-	return foes if roll < share else []
+	if roll >= share:
+		return []
+	# The great beasts wait for the party to grow (`foe_levels`, [D211]).
+	var level := party_level(GameState.party_characters()) if GameState.roster != null else 1
+	var gates: Dictionary = Database.biomes.get("foe_levels", {})
+	var ready := foes.filter(func(id: String) -> bool: return int(gates.get(id, 0)) <= level)
+	return ready
 
 
 ## One floor of the Tower. Floors are 1-based and never scale down to meet you; they do scale up

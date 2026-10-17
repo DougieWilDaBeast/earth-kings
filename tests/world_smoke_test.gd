@@ -802,6 +802,10 @@ func _check_lands(world: World) -> void:
 			var band := Encounter._band_at(world, cell, rng)
 			for unit_id: String in band.pack:
 				_expect(locals.has(unit_id), "a band in the %s fields %s, who does not live there" % [land, unit_id])
+				# D211: the great beasts wait for the party to grow.
+				var grown := Encounter.party_level(GameState.party_characters())
+				_expect(int(Database.biomes.get("foe_levels", {}).get(unit_id, 0)) <= grown,
+					"a band in the %s fields %s against a party at level %d" % [land, unit_id, grown])
 	_expect(local_bands > 0, "no band anywhere is made of what lives in its land")
 	var strange := 0
 	for land: String in ["slime", "crystal", "fungal", "mist"]:

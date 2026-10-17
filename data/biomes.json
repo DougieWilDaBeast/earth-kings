@@ -999,6 +999,14 @@
 		}
 	},
 	"land_foe_share": 0.7,
+	"_comment_foe_levels": "D211: a land's great beasts stay out of the bands it deals until the party's level reaches the number here, so a fresh lead walking alone meets the land's smaller things first (src/chronicle/encounter.gd _land_foes). **Inferred**: which beasts and level 3.",
+	"foe_levels": {
+		"tree_sentinel": 3,
+		"axe_bear": 3,
+		"flame_lion": 3,
+		"sword_bear": 3,
+		"frozen_wolfman": 3
+	},
 	"hazards": {
 		"_about": "What a land does to whoever walks it unprotected: every `stride` pixels walked on its ground, each party member without a piece of gear or a charm whose `proof` names the hazard loses `share` of their health, never below `floor` of it. Walking cannot kill anyone (**Inferred**).",
 		"stride": 640,
