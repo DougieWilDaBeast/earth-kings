@@ -31,6 +31,9 @@ func _shoot_at(size: Vector2i) -> void:
 	if party.size() >= 3:
 		party[1].hp = maxi(1, party[1].max_hp() / 2)
 		party[2].hp = maxi(1, party[2].max_hp() / 5)
+		# A path owed, so the mark and the alerts show too (D245).
+		party[1].pending_class_choice = true
+		GameState.stores.clear()
 	await _frames(20)
 	await RenderingServer.frame_post_draw
 	var path := "res://.art_stage/play_hud_%dx%d.png" % [size.x, size.y]

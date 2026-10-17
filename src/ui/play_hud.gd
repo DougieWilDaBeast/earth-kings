@@ -4,12 +4,25 @@ extends PanelContainer
 ## health bar that goes from green through amber to red — and the purse under them. Press it for
 ## the party screen. It keeps itself up to date (a few times a second), so nothing has to tell it.
 ##
+## Under them, after RimWorld's alerts ([D245]), a short list of what wants attention now (a path
+## owed, someone badly hurt, one of yours held, an X on the map: [Alerts]), each one pressed to do
+## something about it; and a mark (!) beside anyone with a path or a power to take.
+##
 ## Sizes and colours are `data/world_rules.json` → `play_hud`. Loaded by path ([D41]).
 
+const Alerts := preload("res://src/ui/alerts.gd")
+const Quests := preload("res://src/world/quests.gd")
 const REFRESH := 0.25
+## An alert's colour by how much it matters.
+const URGENT := Color(0.95, 0.45, 0.38)
+const OWED := Color(0.965, 0.827, 0.443)
+const NOTE := Color(0.86, 0.86, 0.9)
 
 var _rows: VBoxContainer
 var _purse: Label
+var _alerts: VBoxContainer
+## What the alerts last showed, so they are only rebuilt when that changes.
+var _alerted: String = ""
 var _clock: float = 0.0
 ## What the rows last showed, so they are only rebuilt when the company changes.
 var _shown: String = ""
@@ -49,6 +62,9 @@ func _ready() -> void:
 	_purse.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.08))
 	_purse.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_child(_purse)
+	_alerts = VBoxContainer.new()
+	_alerts.add_theme_constant_override("separation", 1)
+	column.add_child(_alerts)
 	refresh()
 
 
@@ -79,11 +95,65 @@ func _gui_input(event: InputEvent) -> void:
 ## The company and the purse as they are now.
 func refresh() -> void:
 	var party: Array = GameState.party_characters() if GameState.roster != null else []
-	var key := ",".join(party.map(func(c: Character) -> String: return "%s:%d:%d:%d" % [c.id, c.level, c.current_hp(), c.max_hp()]))
+	var key := ",".join(party.map(func(c: Character) -> String: return "%s:%d:%d:%d:%s" % [
+		c.id, c.level, c.current_hp(), c.max_hp(), owes(c)]))
 	if key != _shown:
 		_shown = key
 		_build_rows(party)
-	_purse.text = str(rules().get("purse", "{gold} gold")).format({"gold": GameState.gold})
+	_purse.text = str(rules().get("purse", "{gold} gold")).format({"gold": GameState.gold, "draughts": Alerts.draughts()})
+	var wanted := Alerts.gather()
+	var said := ",".join(wanted.map(func(a: Dictionary) -> String: return "%s:%s" % [a["id"], a["text"]]))
+	if said != _alerted:
+		_alerted = said
+		_build_alerts(wanted)
+
+
+## Whether [param character] has a path or a power waiting to be taken.
+static func owes(character: Character) -> bool:
+	return character.pending_class_choice or character.rungs > 0
+
+
+func _build_alerts(wanted: Array[Dictionary]) -> void:
+	for child in _alerts.get_children():
+		_alerts.remove_child(child)
+		child.queue_free()
+	var most := int(rules().get("most_alerts", 4))
+	for index in mini(wanted.size(), most):
+		_alerts.add_child(_alert_button(wanted[index]))
+	if wanted.size() > most:
+		var more := Label.new()
+		more.text = str(Alerts.rules().get("more", "and {count} more")).format({"count": wanted.size() - most})
+		more.add_theme_font_size_override("font_size", 11)
+		more.add_theme_color_override("font_color", NOTE)
+		more.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_alerts.add_child(more)
+
+
+func _alert_button(alert: Dictionary) -> Button:
+	var button := Button.new()
+	button.text = "! " + str(alert["text"])
+	button.tooltip_text = str(alert["detail"])
+	button.flat = true
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.focus_mode = Control.FOCUS_NONE
+	button.add_theme_font_size_override("font_size", 12)
+	var kind := str(alert["id"]).get_slice(":", 0)
+	var colour := URGENT if kind in ["hurt", "held", "siege"] else (OWED if kind in ["path", "power", "treasure"] else NOTE)
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
+		button.add_theme_color_override(state, colour if state == "font_color" else colour.lightened(0.3))
+	button.add_theme_constant_override("outline_size", 4)
+	button.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.08))
+	button.pressed.connect(func() -> void: act_on(alert))
+	return button
+
+
+## Do what an alert asks: open the party screen, or set the compass on what it names.
+static func act_on(alert: Dictionary) -> void:
+	match str(alert.get("act", "")):
+		"party":
+			EventBus.party_screen_requested.emit()
+		"follow":
+			Quests.follow(str(alert.get("follow", "")))
 
 
 func _build_rows(party: Array) -> void:
@@ -108,7 +178,7 @@ func _build_rows(party: Array) -> void:
 		words.add_theme_constant_override("separation", 2)
 		words.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var line := Label.new()
-		line.text = "%s  L%d" % [character.display_name, character.level]
+		line.text = "%s  L%d%s" % [character.display_name, character.level, "  !" if owes(character) else ""]
 		line.add_theme_font_size_override("font_size", 12)
 		line.add_theme_color_override("font_color", Color(0.93, 0.92, 0.88))
 		line.add_theme_constant_override("outline_size", 4)
