@@ -26,7 +26,7 @@ var chunks: Dictionary = {}
 ## Campfires standing on the land, by cell.
 var fires: Dictionary = {}
 ## The shallows are walked through, not round, while the company carries a land journal's stilts or
-## boots ([D236]). Whoever is on the land with them, a band or a fight, finds the same ground.
+## boots ([D239]). Whoever is on the land with them, a band or a fight, finds the same ground.
 var wading: bool = false
 
 ## Cell -> the building standing on it.

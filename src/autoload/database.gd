@@ -76,7 +76,7 @@ var opening: Dictionary = {}
 var props: Dictionary = {}
 ## The "Who wins?" show: its timings and words (`data/who_wins.json`, [D180]).
 var who_wins: Dictionary = {}
-## A page in the journal for each land, and the trinket each one pays (`data/land_journals.json`, [D236]).
+## A page in the journal for each land, and the trinket each one pays (`data/land_journals.json`, [D239]).
 var land_journals: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.

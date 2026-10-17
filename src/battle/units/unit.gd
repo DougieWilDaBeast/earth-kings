@@ -147,7 +147,7 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 		unit.hp = mini(unit.hp, unit.max_hp)
 		unit.attack = Difficulty.scaled(unit.attack, "enemy_attack")
 	elif unit_team != Team.ALLY:
-		# What the land journals' trinkets give every fighter of the company ([D236]).
+		# What the land journals' trinkets give every fighter of the company ([D239]).
 		var world: World = GameState.world
 		unit.attack += roundi(LandJournals.effect(world, "attack"))
 		unit.defense += roundi(LandJournals.effect(world, "defense"))

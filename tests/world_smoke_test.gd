@@ -1012,7 +1012,7 @@ func _check_round_trip(world: World, hero: Character) -> void:
 		)
 
 
-## A journal for each land (D236): a page opens on first setting foot in a land, its lines cross off
+## A journal for each land (D239): a page opens on first setting foot in a land, its lines cross off
 ## as they are done, the last turns up the land's trinket, and the trinket does what it says, kept
 ## in the save.
 func _check_land_journals(world: World) -> void:

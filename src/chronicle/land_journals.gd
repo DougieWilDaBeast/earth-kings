@@ -1,5 +1,5 @@
 extends RefCounted
-## A journal for each land ([D236], from Necesse; Ewan's "what other games do well", #270 keep 2):
+## A journal for each land ([D239], from Necesse; Ewan's "what other games do well", #270 keep 2):
 ## the first time the party sets foot in one of the eighteen lands, the journal gets a page for it,
 ## a short list of things to do there (walk it, find what somebody left, beat its bands, stand in
 ## one of its places, shut one of its gates). Crossing off the last line turns up that land's

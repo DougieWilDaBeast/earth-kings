@@ -516,6 +516,11 @@ opened, a ward forced) is under `land_<x>_<y>_<land>`, or under the place's own 
 anything in a place, so it is the same chest it always was. A single tile's ground on its own is
 still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 
+## `world_rules.json` → `atlas` → `said_within` (D238)
+
+Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
+once the party is within this many tiles of it; on the map view it is said at once.
+
 ## `world_rules.json` → `scars` — what going down leaves behind (D218)
 
 `max_hp` is the health a scar adds for good, `most` the most scars one fighter carries, and `line`
@@ -537,7 +542,7 @@ it digs up a find of `richness` (see `loot`) that always holds something to carr
 (`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
 and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
 
-## `land_journals.json` — a journal for each land (D236)
+## `land_journals.json` — a journal for each land (D239)
 
 `entries` is what a land's page can ask, in order: `{ kind, count, text }`, `kind` one of `walk`
 (stretches of the land walked, never more than it has), `landmark` (things somebody left stood at on
@@ -668,6 +673,12 @@ whatever lives there. `roadside.json`: a scene with `near_town` is offered only 
 `chance`; no scene is ever within `clear_of_sites` of a place. `purse_line` is how a scene's purse is
 said (`%d` the gold). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
 with no box and without stopping a party walking itself ([D216](06-decisions.md)).
+
+**A band led to the Watch** ([D236](06-decisions.md)). `world_rules.json` → `life.road_watch`: a band
+that sets on the party within `join_cells` of the Watch walking the road brings them into the fight
+on the party's side, at the company's level, with `joined_line` in the log; won, `thanks` are said and
+`purse_base` + `purse_per_level` × the company's level gold paid (`purse_line`, `%d` the gold), and
+`renown` written where it happened.
 
 **`world_rules.json` → `auto_styles`** ([D216](06-decisions.md)): `names` and `blurbs` of the three
 ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, kept in

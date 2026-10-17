@@ -216,7 +216,8 @@ tip now says so).
    trees not through walls; shadows from a sun; walks that face the way they go and livelier idles;
    Twin Blade's picture; portraits whose hair fits the frame; Sky's tail (A28); something inside
    houses; a bench and a chest that look placed; a lighthouse that suits the scene.
-13. **Coldrun "comes into sight"** before it can be seen.
+13. **Coldrun "comes into sight"** before it can be seen. Fixed ([D238](06-decisions.md)): walking the
+    ground, the line waits until the place is within a tile, about what the screen shows.
 
 ### Play-test 4's asks
 
@@ -269,7 +270,9 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
 Ableton tracks and, until his cues arrive, five stand-ins made in code by `tools/make_music.py`
 ([D185](06-decisions.md)), all in D minor and sharing the memory theme's first notes, A D C A. What
-plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both):
+plays where (`data/music.json`: a scene's set, a place's over it, a dialogue's over both).
+Every itch build up to `3fe49a5` was silent in the browser, phone and desktop alike: the buses were made at
+runtime, which the browser build never sounds ([D234](06-decisions.md)). The next push carries the fix.
 
 | Where | Plays | Whose |
 | --- | --- | --- |

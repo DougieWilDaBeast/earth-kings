@@ -358,7 +358,7 @@ func _show_quests_page() -> void:
 		_page.add_child(said)
 
 
-## A page for each land set foot in ([D236]): its lines, crossed off as they are done, and the
+## A page for each land set foot in ([D239]): its lines, crossed off as they are done, and the
 ## trinket it pays, or pays already.
 func _show_lands(world: World) -> void:
 	var pages := LandJournals.pages(world)

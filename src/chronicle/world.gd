@@ -90,7 +90,7 @@ var echoes: Dictionary = {}
 var treasure: Dictionary = {}
 ## Faction id -> how many of its gate keepers have fallen since one last gave up its prize ([D219]).
 var keepers: Dictionary = {}
-## A journal page for each land the party has set foot in, and what is crossed off it ([D236],
+## A journal page for each land the party has set foot in, and what is crossed off it ([D239],
 ## `src/chronicle/land_journals.gd`): land id -> `{ needs, got, walked, stood, done }`.
 var lands: Dictionary = {}
 ## The party's map ([D50], `src/chronicle/atlas.gd`): one bit a tile for ground

@@ -187,6 +187,8 @@ var _spotted: bool = false
 ## The fight going on on this ground, if there is one; the band's watch it came from.
 var _fight: Node2D = null
 var _fight_watch: Node2D = null
+## The Watch off the road fighting beside the party just now (D236), out of their walk until it ends.
+var _watch_fighting: Array[AreaActor] = []
 ## A band's fight has been asked of the continent and not yet put down.
 var _awaiting_fight: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
@@ -2078,7 +2080,7 @@ func _physics_process(delta: float) -> void:
 
 
 ## Bog and snow drag at the feet; open ground does not. A land journal's boots or sandals put some
-## of it back ([D236]).
+## of it back ([D239]).
 func _walk_speed() -> float:
 	var stride := 1.0 + LandJournals.effect(GameState.world, "stride") if _land_mode else 1.0
 	return WALK_SPEED * clampf(float(_land.get("slow", 1.0)) * stride, 0.3, 1.5)
@@ -2348,7 +2350,7 @@ func _arrive_at(cell: Vector2i) -> void:
 
 
 ## Something somebody left out in the open country (standing stones, a cairn, a cold camp, a cache)
-## crosses a line off that land's page ([D236]); the last line turns up its trinket.
+## crosses a line off that land's page ([D239]); the last line turns up its trinket.
 func _found_on_the_land(cell: Vector2i) -> void:
 	if not _land_mode or str((map as Land).chunk_at(cell).get("kind", "")) != "ground":
 		return
@@ -2497,7 +2499,7 @@ func _post_band(band: Dictionary) -> Node2D:
 		keep_to = (map as Land).slot_rect(tile)
 		told = band.duplicate()
 		told["where"] = "here"
-	# A trinket from a land journal keeps the party out of a band's eye a step or two longer ([D236]).
+	# A trinket from a land journal keeps the party out of a band's eye a step or two longer ([D239]).
 	var hush := LandJournals.effect(GameState.world, "hush") if _land_mode else 0.0
 	var watch: Node2D = AreaWatch.place(map, told, arrived, taken, float(_land.get("sight", 0)) - hush, keep_to)
 	if watch == null:
@@ -2669,9 +2671,41 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	if bool(watch.band.get("held", false)):
 		_fight_held(watch, field, ambush)
 		return
+	_call_the_watch(field)
 	# The continent deals the band out and answers with the fight, which is put down right here.
 	_awaiting_fight = true
 	_ask_the_continent({ "fight": str(watch.band.get("key", "")), "field": field })
+
+
+## Trouble led to the Watch ([D236], #270 keep 7): a pair of the Watch walking the road within
+## `join_cells` sees the band set on the party, comes running and fights beside it, at the company's
+## level. They are out of their walk while the fight lasts and back in it after; won, the continent
+## pays their bounty.
+func _call_the_watch(field: Dictionary) -> void:
+	_watch_fighting.clear()
+	if not _land_mode or _leader == null:
+		return
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("road_watch", {})
+	var reach := float(rules.get("join_cells", 0)) * AreaMap.CELL
+	if reach <= 0.0:
+		return
+	var level := maxi(1, Encounter.party_level(GameState.party_characters()))
+	var allies: Array = field.get("allies", [])
+	for actor: AreaActor in _people:
+		var person: Dictionary = actor.get_meta("person", {})
+		if str(person.get("_area", "")) != "road_watch" or not actor.visible:
+			continue
+		if actor.position.distance_to(_leader.position) > reach:
+			continue
+		allies.append({ "unit": str(person.get("unit", "")), "level": level, "name": str(person.get("name", "a watchman")) })
+		_watch_fighting.append(actor)
+	if _watch_fighting.is_empty():
+		return
+	field["allies"] = allies
+	field["watch"] = _watch_fighting.size()
+	for actor: AreaActor in _watch_fighting:
+		actor.visible = false
+	_note(str(rules.get("joined_line", "The Watch come running.")))
 
 
 ## A practice band (`spar`): the same fight on the same ground, but as practice — nobody can
@@ -2876,6 +2910,10 @@ func _after_the_fight() -> void:
 			Pace.auto = true
 	_fight.queue_free()
 	_fight = null
+	for actor: AreaActor in _watch_fighting:
+		if is_instance_valid(actor):
+			actor.visible = true
+	_watch_fighting.clear()
 	$UI.visible = true
 	_regather_at(stood)
 	_stand_down()

@@ -145,6 +145,9 @@ var _art: Dictionary = {}
 var _last_view: Vector3 = Vector3.INF
 ## Tiles fading onto the map, cell -> seconds of fade left.
 var _fading: Dictionary = {}
+## Places seen on the map but not yet on the screen, walking the ground ([D238]): cell -> name,
+## said when the party is near enough to see them for itself.
+var _sightings: Dictionary = {}
 var _view: View = View.WALK
 ## Where the party stood when this scene opened, to tell whether anything done
 ## here moved them.
@@ -354,7 +357,7 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	# A place picked on the map to go to is let go of once it is stood on ([D232]).
 	Markers.on_arrive(target)
-	# A page for each land, and a line crossed off for a stretch walked or a place stood in ([D236]).
+	# A page for each land, and a line crossed off for a stretch walked or a place stood in ([D239]).
 	var trinkets_before := LandJournals.carried(world).size()
 	_land_journal(LandJournals.on_arrive(world, target), trinkets_before)
 	# The country fills its empty stretches back in while you are looking away.
@@ -368,6 +371,7 @@ func _step(direction: Vector2i) -> void:
 	_centre_camera()
 	_map.queue_redraw()
 
+	_say_sightings()
 	var site := world.site_at(target)
 	if site != null:
 		_arrive_at(site)
@@ -648,7 +652,7 @@ func _settle_up(won: bool) -> void:
 			else:
 				GameState.delving = []
 				var was_sealed := world.tower_sealed_at >= 0
-				# Asked before it shuts: a shut gate can heal the land round it into another ([D236]).
+				# Asked before it shuts: a shut gate can heal the land round it into another ([D239]).
 				var trinkets_before := LandJournals.carried(world).size()
 				var journal_lines := LandJournals.on_gate_shut(world, site)
 				world.close_gate(site)
@@ -735,11 +739,15 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			var trinkets_before := LandJournals.carried(world).size()
 			_land_journal(LandJournals.on_band_beaten(world, cell), trinkets_before)
+			# Led to the Watch, and fought with them (D236): their bounty, and their thanks.
+			if int(outcome.get("watch", 0)) > 0:
+				for line: String in Roadside.watch_thanks(world, cell, party):
+					_note(line)
 	_map.queue_redraw()
 	_refresh()
 
 
-## Lines from the land journals ([D236]). When they turned up a trinket (the company carried
+## Lines from the land journals ([D239]). When they turned up a trinket (the company carried
 ## [param carried] before) its line is said in a box too, so it is not lost in the log.
 func _land_journal(lines: Array[String], carried: int) -> void:
 	for line: String in lines:
@@ -1896,7 +1904,8 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 	if bool(field.get("ambush", false)):
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
-	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell }, {
+	# The Watch who came running to it (D236) are thanked for after a win.
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)) }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
@@ -2457,9 +2466,26 @@ func _on_ground_revealed(cells: Array) -> void:
 		var site := world.site_at(cell)
 		if site != null and Atlas.is_explored(world, cell) and not world.marked.has("%d,%d" % [cell.x, cell.y]) \
 				and site.kind != Site.TOWER and site.kind != Site.HOME and site.kind != Site.GRAVE:
-			_note(Atlas.line("seen", {"place": site.display_name}))
+			_sightings[cell] = site.display_name
+	_say_sightings()
 	# The ground has to be laid out again whether or not anything is fading.
 	_map.queue_redraw()
+
+
+## A place comes into sight once it can be seen ([D238], play-test 3: "Coldrun comes into sight"
+## before it was on the screen). On the map that is as soon as it is drawn in; walking the ground,
+## only within `world_rules.atlas.said_within` tiles of the party, which is about what the screen
+## shows; until then it waits.
+func _say_sightings() -> void:
+	if _sightings.is_empty():
+		return
+	var within := int(Atlas.rules().get("said_within", 1))
+	for cell: Vector2i in _sightings.keys():
+		var apart := (cell - world.player_cell).abs()
+		if _view == View.GROUND and maxi(apart.x, apart.y) > within:
+			continue
+		_note(Atlas.line("seen", {"place": str(_sightings[cell])}))
+		_sightings.erase(cell)
 
 
 ## Ground somebody has eyes on, in the colours of whoever is watching it.
