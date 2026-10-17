@@ -521,6 +521,12 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
 once the party is within this many tiles of it; on the map view it is said at once.
 
+## `world_rules.json` → `play_hud` — the panel on the screen while walking (D244)
+
+`face` and `bar_width` are pixels; a member's health bar turns amber under `hurt_below` of their
+health and red under `low_below`; `purse` is the purse's words (`{gold}`) and `tooltip` what
+hovering the panel says. Read by `src/ui/play_hud.gd`.
+
 ## `world_rules.json` → `path_help` — a path in more words (D237)
 
 `roles`: each says `say` of a path whose growth a level is `at_least` / `at_most` the stats it

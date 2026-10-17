@@ -31,6 +31,7 @@ const GroundGen := preload("res://src/area/ground_gen.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const PlayHud := preload("res://src/ui/play_hud.gd")
 const LandMap := preload("res://src/ui/land_map.gd")
 const LandMapScreen := preload("res://src/ui/land_map_screen.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
@@ -103,6 +104,8 @@ var _approach_path: Array[Vector2] = []
 var _click_path: Array[Vector2] = []
 ## The pin where a click sent the party, and the line to it ([D189]).
 var _waymark: Node2D
+## The small panel of the company's health and the purse ([D244]).
+var _play_hud: Control
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -314,6 +317,10 @@ func _ready() -> void:
 	_place.get_parent().add_child(_compass)
 	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
+	# The company and the purse, under the compass ([D244]).
+	_play_hud = PlayHud.new()
+	_play_hud.position = Vector2(14.0, float(PlayHud.rules().get("top", 128)))
+	_place.get_parent().add_child(_play_hud)
 	if _land_mode:
 		_put_up_the_maps()
 	Pad.changed.connect(_on_pad_changed)
@@ -1991,6 +1998,9 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _play_hud != null:
+		# Out of the way of a fight on this ground (it has its own cards) and of any box that is open.
+		_play_hud.visible = _fight == null and not _overlay_open()
 	if _waymark != null:
 		_waymark.show_way(_leader.position if _leader != null else Vector2.ZERO,
 			_click_path if _leader != null and _fight == null else ([] as Array[Vector2]))

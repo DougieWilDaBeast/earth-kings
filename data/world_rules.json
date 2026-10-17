@@ -489,6 +489,18 @@
 			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
 		}
 	},
+	"play_hud": {
+		"_comment": "D244 (doug-md, 2026-10-17: a small UI for the main screen while playing): the panel under the compass on the ground (top pixels down; top_narrow on a screen narrower than narrow_below, under the top row of buttons), one row a member of the company (face, name, level, a health bar) and the purse. face: the face's size in pixels; bar_width: the health bar's; a bar turns amber under hurt_below of full health and red under low_below. purse: its words ({gold}). tooltip: what hovering it says.",
+		"top": 128,
+		"top_narrow": 168,
+		"narrow_below": 760,
+		"face": 30,
+		"bar_width": 96,
+		"hurt_below": 0.6,
+		"low_below": 0.3,
+		"purse": "{gold} gold",
+		"tooltip": "Your company. Press for the party screen (P)."
+	},
 	"path_help": {
 		"_comment": "D237 (doug-md, play-test 4: a question mark on each path's banner that says what it is in more words): the words for SheetParts.class_help. roles: each fits a path whose growth per level is at_least / at_most these, and (has) whose starting moves include a heal or a shot from range; the first most_roles that fit are said. lines: grows ({max_hp}, {attack}, {defense}, {speed}), starts, move ({name}, {text}), themes ({themes}).",
 		"most_roles": 3,
