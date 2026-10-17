@@ -1,6 +1,6 @@
 extends Node
 ## Photograph fights that used to open a screen of their own and are fought on the ground now
-## ([D205]): floor 6 of the Tower walked on a borrowed plan, and a roadside fight stepped into on the
+## ([D207]): floor 6 of the Tower walked on a borrowed plan, and a roadside fight stepped into on the
 ## land. Needs a display (xvfb-run), not --headless.
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/fight_screens_shot.tscn

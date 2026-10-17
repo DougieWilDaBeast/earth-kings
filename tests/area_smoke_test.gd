@@ -710,7 +710,7 @@ func _check_tower_floor() -> void:
 	again.queue_free()
 	await get_tree().process_frame
 
-	# Floor 6 (D205): walked on a borrowed plan, its bands the floor's own, fought on its ground.
+	# Floor 6 (D207): walked on a borrowed plan, its bands the floor's own, fought on its ground.
 	var plan := Chapters.walked_floor_area(6)
 	var six: Node = load("res://src/area/area_scene.tscn").instantiate()
 	six.set("boot_payload", { "area_id": plan, "return_scene": "world", "tower_floor": 6 })

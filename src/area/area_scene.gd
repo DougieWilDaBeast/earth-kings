@@ -175,7 +175,7 @@ var _fight_watch: Node2D = null
 var _awaiting_fight: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
-## Doings that start a fight, fought here on this ground with no screen of its own ([D205]): the
+## Doings that start a fight, fought here on this ground with no screen of its own ([D207]): the
 ## gate's at its doorway (D162), a roadside fight where its scene is staged, and the rest just ahead
 ## of the party. Only a gate is gone into by a party walking itself ([const FIGHT_ACTS]).
 const GROUND_FIGHT_ACTS := ["_enter_gate_here", "_step_into_the_road", "_defend_here", "_raid_here", "_fight_for_captive"]
@@ -196,7 +196,7 @@ var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
 var _roadside_staged := ""
 var _roadside_nodes: Array[Node2D] = []
-## The attackers of the roadside scene staged here, where its fight puts them (D205).
+## The attackers of the roadside scene staged here, where its fight puts them (D207).
 var _roadside_foes: Array[Node2D] = []
 var _held_fight: String = ""
 var _held_done: String = ""
@@ -246,7 +246,7 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
-	# A floor above the walked ones, walked on one of their plans (D205): its bands are its own foes.
+	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 	_lay_out_memories()
@@ -2481,7 +2481,7 @@ func _lay_out_memories() -> void:
 	if _land_mode or GameState.roster == null or GameState.roster.player() == null:
 		return
 	var area_id := str(boot_payload.get("area_id", ""))
-	# A floor walked on another's plan (D205) is not where that floor's keepsakes lie.
+	# A floor walked on another's plan (D207) is not where that floor's keepsakes lie.
 	if _tower_floor > 0 and TowerFloors.Chapters.borrows_a_plan(_tower_floor):
 		return
 	for memory: Dictionary in Memories.lying_in(area_id, GameState.roster.player().template_id):
@@ -2714,7 +2714,7 @@ func _gate_field() -> Dictionary:
 	return field
 
 
-## The patch of ground a roadside fight is fought on ([D205]): the party where it stands and the
+## The patch of ground a roadside fight is fought on ([D207]): the party where it stands and the
 ## attackers where the scene stages them; with nothing staged, just ahead of the party.
 func _roadside_field() -> Dictionary:
 	var foes: Array = []
@@ -2725,7 +2725,7 @@ func _roadside_field() -> Dictionary:
 	return _field_round(foes, false) if not foes.is_empty() else _field_ahead()
 
 
-## The patch of ground a fight with nobody yet standing on it is fought on ([D205]): a town's raiders,
+## The patch of ground a fight with nobody yet standing on it is fought on ([D207]): a town's raiders,
 ## its guards, a captive's keepers. The party where it stands, and them a few strides ahead of it.
 func _field_ahead() -> Dictionary:
 	var here := map.cell_at(_leader.position)
@@ -2818,7 +2818,7 @@ func _do_act(each: Dictionary) -> void:
 		return
 	var act := str(each.get("act", ""))
 	if GROUND_FIGHT_ACTS.has(act):
-		# Gone into here, not on a fight screen (D162, D205): the continent deals the fight and it is
+		# Gone into here, not on a fight screen (D162, D207): the continent deals the fight and it is
 		# put down on this ground, the way a band met on it is.
 		if not _asking:
 			_awaiting_fight = true

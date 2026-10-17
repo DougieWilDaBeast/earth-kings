@@ -36,7 +36,7 @@ static func chapters(world: World) -> int:
 
 
 ## The area [param floor] is walked on (D102), else "". The first `walked_floors` have their own;
-## every floor above borrows one of their plans (`borrowed_plans`, [D205]), so no floor is fought
+## every floor above borrows one of their plans (`borrowed_plans`, [D207]), so no floor is fought
 ## as a battle on a screen of its own: see [method borrows_a_plan] and `tower_floors.gd`.
 static func walked_floor_area(floor: int) -> String:
 	if floor < 1:
@@ -51,7 +51,7 @@ static func walked_floor_area(floor: int) -> String:
 	return area_id if Database.has_area(area_id) else ""
 
 
-## Whether [param floor] is walked on another floor's plan ([D205]): its bands are then the floor's
+## Whether [param floor] is walked on another floor's plan ([D207]): its bands are then the floor's
 ## own foes, not the plan's.
 static func borrows_a_plan(floor: int) -> bool:
 	return floor > int(rules().get("walked_floors", 0)) and walked_floor_area(floor) != ""

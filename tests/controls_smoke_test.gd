@@ -956,7 +956,7 @@ func _check_a_band_on_the_ground() -> void:
 	print("band: patrolled, saw the party step in, and was fought on the same ground")
 
 
-## Somebody else's fight on the road, stepped into (D205): fought on that ground where its scene is
+## Somebody else's fight on the road, stepped into (D207): fought on that ground where its scene is
 ## staged, the attackers where they stood, with no fight screen; the same for a town defended.
 func _check_a_roadside_fight_on_the_ground() -> void:
 	var world: World = GameState.world

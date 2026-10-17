@@ -1,5 +1,5 @@
 extends RefCounted
-## The Tower's floors above the walked ones ([D205]): walked too, on a borrowed plan.
+## The Tower's floors above the walked ones ([D207]): walked too, on a borrowed plan.
 ##
 ## Floors 1 to `walked_floors` have ground of their own (D102). Every floor above borrows one of their
 ## plans in turn (`tower.borrowed_plans` in `data/world_rules.json`, [method Chapters.walked_floor_area]),

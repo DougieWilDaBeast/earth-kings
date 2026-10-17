@@ -208,9 +208,9 @@
 	"tower": {
 		"floors": 100,
 		"floors_per_chapter": 5,
-		"_comment_walked": "D102: floors 1 to walked_floors are walked, each on its own ground (`walked_area`, with the floor number), with bands watching it and the stair up at the far end; the last is kept by a keeper. Above them a floor was fought as one battle on a screen of its own; since D205 it borrows one of their plans (borrowed_plans).",
+		"_comment_walked": "D102: floors 1 to walked_floors are walked, each on its own ground (`walked_area`, with the floor number), with bands watching it and the stair up at the far end; the last is kept by a keeper. Above them a floor was fought as one battle on a screen of its own; since D207 it borrows one of their plans (borrowed_plans).",
 		"walked_floors": 5,
-		"_comment_borrowed_plans": "D205: every floor above the walked ones is walked too, on one of their plans in turn (tower_floor_N for N in this list; floor 5's is left out, its keeper being the Warden of the Fifth). Its bands are its own: each of the plan's bands is the floor's foes as a fought floor would have them (level_base, levels_per_floor, meet_the_party, the cohort, foes_min to foes_max), and on the top floor the plan's first band is the Spire Apex's keeper and the rest stand down. Until the Second Hour gives floors 6 to 10 their own rooms (D196).",
+		"_comment_borrowed_plans": "D207: every floor above the walked ones is walked too, on one of their plans in turn (tower_floor_N for N in this list; floor 5's is left out, its keeper being the Warden of the Fifth). Its bands are its own: each of the plan's bands is the floor's foes as a fought floor would have them (level_base, levels_per_floor, meet_the_party, the cohort, foes_min to foes_max), and on the top floor the plan's first band is the Spire Apex's keeper and the rest stand down. Until the Second Hour gives floors 6 to 10 their own rooms (D196).",
 		"borrowed_plans": [1, 2, 3, 4],
 		"walked_area": "tower_floor_%d",
 		"chapter_keys": ["gate_shut", "town_saved"],

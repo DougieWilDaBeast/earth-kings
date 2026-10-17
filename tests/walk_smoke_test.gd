@@ -536,7 +536,7 @@ func _check_tower() -> void:
 				"floor %d has nobody on it to fight for real" % n)
 		if n == 5:
 			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor 5 has no keeper")
-	# Every floor above is walked too, on a borrowed plan (D205), with bands of its own.
+	# Every floor above is walked too, on a borrowed plan (D207), with bands of its own.
 	for n: int in [6, 9, 10, 37, world.tower_floors()]:
 		var plan := Chapters.walked_floor_area(n)
 		_expect(plan != "" and plan != Chapters.walked_floor_area(5) and Chapters.borrows_a_plan(n),
