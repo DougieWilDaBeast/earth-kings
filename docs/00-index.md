@@ -35,6 +35,7 @@ The working documentation for the game. Read in order; each doc is short on purp
 | 29  | [The store page](29-the-store-page.md)               | **A draft, not published**: the name, five lines and five shots for the Steam page, each promising only what the First Hour shows |
 | 30  | [Questions for the founders](30-questions-for-the-founders.md) | **What only Will and Ewan can answer**, read aloud and answered by voice note: who, why it matters, and the default |
 | 31  | [What needs music](31-music.md)                  | **Planned**: which scenes need music and in what order, the memory theme first, for when the music is made |
+| 32  | [How work moves](32-the-pipeline.md)                 | **The stages and the pipeline**: where the game stands in the stages of making a game, what is still expensive to change, and the loop every piece of work goes round, with the milestones from here |
 
 ## Deciding the world
 
