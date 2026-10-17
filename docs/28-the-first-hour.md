@@ -70,7 +70,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    left, story shots only ([D135](06-decisions.md)).
 
 **How hard.** The First Hour setting sits just easier than Even, a little harder since
-[D187](06-decisions.md) (foes hit for 0.85 with 0.9 of their health; the party at 1.3 health and 1.2
+[D188](06-decisions.md) (foes hit for 0.85 with 0.9 of their health; the party at 1.3 health and 1.2
 attack): foes two levels down, half healed
 after a fight, about a level a fight, the bands on the Tower's floors at the level written for them (the setting's
 two levels off is not applied there), so the floor 5 keeper stands at level 9 ([D113](06-decisions.md), kept

@@ -250,7 +250,7 @@ each, each ending playable:
    opening's replay thinning as fewer are left (brief items 3 and 6).
    `doug-md` answered his half on 2026-10-16 ([D186](06-decisions.md)): the music order is in
    [31](31-music.md) (**planned**). The hour is a little harder on Ewan's word, `dougie`'s call AZ
-   ([D187](06-decisions.md)). Still open: the falling weapon (agenda 101) and which lead will not climb (agenda 75).
+   ([D188](06-decisions.md)). Still open: the falling weapon (agenda 101) and which lead will not climb (agenda 75).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
