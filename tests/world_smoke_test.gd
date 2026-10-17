@@ -623,6 +623,7 @@ func _check_encounters(world: World) -> void:
 	_expect(int(World.from_dict(world.to_dict()).keepers.get(faction, -1)) == 2, "the keepers' count was lost in the save")
 	world.keepers.erase(faction)
 	print("keepers: the %s keeper's %s came on keeper %d" % [faction, prize, tries])
+	_check_treasure(world)
 	var delve := Encounter.for_gate(world, gate, 0, true, party, world.rng)
 	_check_field(delve, "gate")
 	_expect(delve["enemies"].size() >= 3, "a guarded gate fielded only %d" % delve["enemies"].size())
@@ -695,6 +696,44 @@ func _check_encounters(world: World) -> void:
 			"%s (rank %s) is kept by its faction's champion, %s" % [lesser.display_name, lesser.rank, held["unit"]])
 		break
 	GameState.difficulty = setting
+
+
+## Treasure maps (D220): scraps from beaten bands; the last makes an X a few days off, which the
+## quest list follows, the save keeps, and standing on digs up a find with something to carry.
+func _check_treasure(world: World) -> void:
+	var Treasure := preload("res://src/chronicle/treasure.gd")
+	var steps_were := world.steps
+	var need := int(Database.world_rules.get("treasure", {}).get("pieces", 3))
+	world.treasure = { "pieces": need - 1 }
+	var said: Array[String] = []
+	for i in 400:
+		world.steps = steps_were + i
+		said = Treasure.on_band_beaten(world, world.player_cell)
+		if Treasure.at(world).x >= 0:
+			break
+	var x := Treasure.at(world)
+	_expect(x.x >= 0, "treasure: the last scrap made no X in 400 bands")
+	if x.x < 0:
+		world.steps = steps_were
+		world.treasure = {}
+		return
+	_expect(not said.is_empty() and str(said[0]).contains("X"), "treasure: the X was not said (%s)" % [said])
+	_expect(world.site_at(x) == null and world.is_walkable(x), "treasure: the X is on a place or in the water")
+	_expect(Treasure.pieces(world) == 0, "treasure: scraps left over after the X")
+	for i in 50:
+		world.steps += 1
+		Treasure.on_band_beaten(world, world.player_cell)
+	_expect(Treasure.pieces(world) == 0, "treasure: scraps turned up while an X was waiting")
+	_expect(Treasure.at(World.from_dict(world.to_dict())) == x, "treasure: the X was lost in the save")
+	var listed := (preload("res://src/world/quests.gd")).all(world, {}).filter(func(e: Dictionary) -> bool: return str(e.get("id", "")) == "treasure")
+	_expect(listed.size() == 1 and listed[0]["cell"] == x, "treasure: the quest list does not follow the X")
+	_expect(Treasure.dig(world, x + Vector2i(1, 0)).is_empty(), "treasure: dug up next to the X")
+	var haul := Treasure.dig(world, x)
+	_expect(str(haul.get("item", "")) != "" and int(haul.get("gold", 0)) > 0, "treasure: the X held %s" % [haul])
+	_expect(Treasure.at(world).x < 0, "treasure: the X stayed after it was dug")
+	world.steps = steps_were
+	world.treasure = {}
+	print("treasure: %d scraps make an X %s off; dug, it holds %s and %d gold" % [need, Roadside.bearing(world.player_cell, x), haul.get("item", ""), int(haul.get("gold", 0))])
 
 
 ## Every generated battlefield has to be one a fight can actually happen on.

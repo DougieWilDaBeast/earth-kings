@@ -295,7 +295,9 @@ each, each ending playable:
    open item is now an issue on the board (#210 to #258); the Second Hour is #231 to #234, coins #235.
    `dougie` answered question 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)):
    all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
-   back 27 October. The rest of 28 is question 33 (#276).
+   back 27 October. Later that day ([D228](06-decisions.md) to [D230](06-decisions.md)): Early Access, aimed at
+   January or February 2027; the split after Steam's cut and costs, the rest of the small print near payday;
+   a one-off price with a free First Hour leaned to but not settled, the price and platforms a call for him (#212).
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
@@ -327,7 +329,7 @@ each, each ending playable:
    (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
-   [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps being built), stories inside gates (#288) and ground that changes the fight (#289).
+   [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps built, [D220](06-decisions.md)), stories inside gates (#288) and ground that changes the fight (#289).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

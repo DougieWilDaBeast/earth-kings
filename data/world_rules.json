@@ -373,6 +373,22 @@
 			"missed": "Every {keeper} carries {prize}. This one had lost it somewhere. The next will not have."
 		}
 	},
+	"treasure": {
+		"_comment": "D220 (from Necesse's map fragments, picked by doug-md 2026-10-17): a band beaten on the land carries a torn treasure-map piece on piece_chance; pieces of them make an X on the map, between near and far steps of walking off (a little of the ground round it charted, chart_radius). Standing on it digs up a find of richness (a cache is about 0.5 to 1.5) that always holds something to carry. One X at a time. lines: piece ({held}, {need}), whole ({need}, {bearing}, {region}), dug, and the quest list's label and detail ({region}).",
+		"piece_chance": 0.25,
+		"pieces": 3,
+		"near": 6,
+		"far": 14,
+		"chart_radius": 2,
+		"richness": 2.5,
+		"lines": {
+			"piece": "One of them was carrying a scrap of map, torn from something bigger: {held} of {need}.",
+			"whole": "The {need} scraps fit. An X, {bearing}, out in {region}. Somebody buried something and never came back for it.",
+			"dug": "This is where the X was. The ground has been turned before, a long time ago. Something is still down there.",
+			"label": "The X on your map",
+			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
+		}
+	},
 	"atlas": {
 		"sight": 4,
 		"always_known": ["tower", "home"],
