@@ -25,15 +25,13 @@ little harder ([D188](06-decisions.md)). The falling weapon is settled since, as
 who the five real players are ([D217](06-decisions.md)), and sent them to Will to look over. Settled:
 25 (Liber), 26 (Will's weapon, heard of by rumour), 27 (the buckle). Will answered his halves the same day
 ([D212](06-decisions.md), [D213](06-decisions.md), [D228](06-decisions.md) to [D230](06-decisions.md)): both say 50/50 (28)
-and Early Access (32); on 30 both lean to a one-off price with a free demo, still open until Will takes the
-team's research; on 31 Will says January or February and Ewan has no plans yet, so it is asked again on 2026-10-31.
+and Early Access (32); on 30 both lean to a one-off price with a free demo, and Will took the team's price and platforms on 2026-10-18 ([D255](06-decisions.md)); on 31 Will says January or February and Ewan has no plans yet, so it is asked again on 2026-10-31.
 
 **Still open (2026-10-17, 18:00).** Everything else here is answered and struck through.
 
 | Question | Whose | What is left | Issue |
 | --- | --- | --- | --- |
-| 30. How does it earn? | Will | The price and the platform order, put to him as one call (BN): Steam first at $15 to $20 with the First Hour free, phones after 1.0, recommended (the team's research is `business/pricing-2026-10-17.md` in the project's shared files) | [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212) |
-| 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; the year is **Inferred** (agenda 145) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
+| 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
 | 33. The rest of the agreement | Ewan, then both | Ewan's nod on 50/50 after the store's cut and costs; before the first sale, who owns the code, the art, the music and the name, and who decides when you disagree | [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276) |
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
@@ -45,7 +43,7 @@ earns, when it comes out, and Early Access or not. **When** (`dougie`, 2026-10-1
 [D208](06-decisions.md)): both founders answer them by voice note before the Steam page goes up, 28 first.
 Will answered 29 and his half of 28 on 2026-10-17 ([D212](06-decisions.md), [D213](06-decisions.md)); what 28 left
 open is question 33, with Ewan's word on the split. Will answered 31 to 33 and gave his lean on 30 later the same day
-([D228](06-decisions.md) to [D230](06-decisions.md)); 30's price and platforms go back to him as one call from the team. Ewan's halves are still to come.
+([D228](06-decisions.md) to [D230](06-decisions.md)); 30's price and platforms went back to him as one call, and he took the recommended one on 2026-10-18 ([D255](06-decisions.md)). Ewan's halves are still to come.
 
 **On the board** since 2026-10-17 ([D208](06-decisions.md)): every open question here is also an issue labelled
 "waits on Will" or "waits on Ewan", closed when its answer is written up here.
@@ -345,7 +343,7 @@ _Default:_ as now; the build does not spend money.
 
 _Answered 2026-10-17:_ **Will:** PixelLab.ai at 22 euro a month, which he pays; its credits come back on 27 October 2026 ("October 27th pixellab.ai 22 euro cost.", [transcript](worldbuilding/voice-notes/2026-10-17-dougie-business.md), [D213](06-decisions.md)). The AI subscriptions and the Steam fee were not named.
 
-**30. How does it earn?** (Both) [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212)
+~~**30. How does it earn?**~~ (Both) [#212](https://github.com/DougieWilDaBeast/earth-kings/issues/212)
 A one-off price with the First Hour as a free demo (the retreat's lean, how-and-where call G), or
 something else; free on itch forever or not.
 _Why:_ the store page, the demo and the size of the first release all follow from it.
@@ -353,12 +351,14 @@ _Default:_ a one-off price with a free demo; no price set until milestone 12 is 
 
 _Partly answered 2026-10-17 (Will's half):_ **Will:** maybe a one-off price with the First Hour as a free demo, or donations; not figured out yet. He does not know what a game of this depth would earn or should cost on phones or desktop, and would not keep it to Steam alone if it goes on phones ([transcript](worldbuilding/voice-notes/2026-10-17-dougie-business-2.md), [D228](06-decisions.md)). The price and the platform order are the team's to research and put to him as one call; this question stays open until he takes it. **Ewan:** "A one-off price with a free demo" ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)).
 
+_Answered 2026-10-18:_ **Will:** "All recommended" (call BN, [D255](06-decisions.md)): Steam first, Early Access at $15 to $20; the First Hour free on itch and as the Steam demo; phones after the full release at $7 to $10; donations only as an optional extra.
+
 ~~**31. When, roughly, should it come out?**~~ (Both) [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213)
 Not a date: a season or a year, so the milestones have something to aim at.
 _Why:_ a Steam Next Fest can be entered once, and they fall in February, June and October.
 _Default:_ open; asked again once the Second Hour is played and timed.
 
-_Answered 2026-10-17 (Will's half):_ **Will:** January or February (2027, agenda 145), nearly finished or in a great state to have people on ([D229](06-decisions.md)). **Ewan:** no plans yet; "I think we will know in by the end of this month", so asked again on 2026-10-31 ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)).
+_Answered 2026-10-17 (Will's half):_ **Will:** January or February (2027, confirmed 2026-10-18, [D255](06-decisions.md)), nearly finished or in a great state to have people on ([D229](06-decisions.md)). **Ewan:** no plans yet; "I think we will know in by the end of this month", so asked again on 2026-10-31 ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-founders-questions-2.md), [D217](06-decisions.md)).
 
 ~~**32. Early Access, or a finished release?**~~ (Both) [#214](https://github.com/DougieWilDaBeast/earth-kings/issues/214)
 Early Access is the roguelite norm (Slay the Spire went in with two of its four characters, Hades
