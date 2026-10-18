@@ -1,5 +1,5 @@
 extends RefCounted
-## The inside of a gate, one floor at a time (D247): walked, like the Tower's floors.
+## The inside of a gate, one floor at a time (D248): walked, like the Tower's floors.
 ##
 ## Play-test 6 (doug-md): "When I enter.or get close to a gate, I want to be able to enter into the gate
 ## and fight the monsters there and create a whole area where I can fight the monsters in it." So E at

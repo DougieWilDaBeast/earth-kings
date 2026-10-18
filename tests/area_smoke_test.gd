@@ -660,7 +660,7 @@ func _check_practice_band() -> void:
 
 ## A floor of the Tower is walked (D102): its band is fought for real on its own ground, and
 ## standing on the stair up wins the floor, paid out by the continent as a won Tower fight.
-## D247 (play-test 6): a gate gone into is walked. Every kind of gate lays out a floor that loads,
+## D248 (play-test 6): a gate gone into is walked. Every kind of gate lays out a floor that loads,
 ## whose way down can be walked to from the doorway past every band; the floor's bands are held and
 ## fought where they stand, with the Guild's people beside the party; the way down goes on to the
 ## next floor, and on the last floor it stays shut until the keeper is down, then shuts the gate.

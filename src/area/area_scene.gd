@@ -217,7 +217,7 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
-## Inside a gate (D247): the gate's cell on the continent (or -1, -1), the floor (0 first), whether it
+## Inside a gate (D248): the gate's cell on the continent (or -1, -1), the floor (0 first), whether it
 ## is the last, and the flag its keeper's fall sets, without which the last floor's way down is shut.
 var _gate_cell := Vector2i(-1, -1)
 var _gate_depth := 0
@@ -1547,7 +1547,7 @@ func _door() -> AreaProp:
 	return null
 
 
-## Whether this is a floor walked to a stair at its far end: the Tower's ([D102]) or a gate's (D247).
+## Whether this is a floor walked to a stair at its far end: the Tower's ([D102]) or a gate's (D248).
 func _walked_floor() -> bool:
 	return _tower_floor > 0 or _in_a_gate()
 
@@ -1893,7 +1893,7 @@ func _auto_axis() -> Vector2:
 	# a memory of the lead's lying there it picks up first (D150: it walked past the buckle).
 	var climbing := _walked_floor() and not map.stairs.is_empty()
 	var keepsake: Variant = _memories.keys()[0] if climbing and not _memories.is_empty() else null
-	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D247).
+	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D248).
 	var keeper := _keeper_cell() if climbing else Vector2i(-1, -1)
 	if keepsake == null and keeper.x >= 0:
 		keepsake = keeper
@@ -2970,7 +2970,7 @@ func _climb_the_stair() -> void:
 	var world: World = GameState.world
 	if _in_a_gate():
 		# The floor is won: the continent pays it out as a gate floor fought at the door was (or shuts
-		# the gate, on its last), then opens the next floor straight away (D247).
+		# the gate, on its last), then opens the next floor straight away (D248).
 		GameState.pending_outcome = { "kind": "gate", "cell": _gate_cell, "final": _gate_final, "walked": true }
 		GameState.set_flag("last_victory", true)
 		EventBus.request_scene.emit("world", { "gate_on": true })

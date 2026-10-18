@@ -643,7 +643,7 @@ func _settle_up(won: bool) -> void:
 				for line: String in Spoils.for_gate_floor(world, site, party):
 					_note(line)
 				GameState.delving = [site.cell.x, site.cell.y]
-				# Walked, the way down is taken straight on (D247); at the door, it waits on E.
+				# Walked, the way down is taken straight on (D248); at the door, it waits on E.
 				if not bool(outcome.get("walked", false)):
 					_note("Floor %d of %s waits below: E to go down, or walk away and come back later." % [
 						site.depth() + 1, site.display_name
@@ -1023,7 +1023,7 @@ func _enter_gate(site: Site) -> void:
 	else:
 		_note("%s stands open." % site.label())
 	var allies := Guild.allies_for(world, site, GameState.errands, party)
-	# On the ground a gate is gone into (D247): its floor is walked, chamber to chamber, its bands
+	# On the ground a gate is gone into (D248): its floor is walked, chamber to chamber, its bands
 	# fought where they stand, and the way down taken at the far end.
 	if _view == View.GROUND and GateInside.walked():
 		if not allies.is_empty():
@@ -1108,7 +1108,7 @@ func _climb_on() -> void:
 	_climb(site)
 
 
-## A gate's floor walked to its far end: straight on down to the next, while the gate stands (D247).
+## A gate's floor walked to its far end: straight on down to the next, while the gate stands (D248).
 ## Its last floor won, the gate is shut, and the party is back on the ground at its mouth.
 func _gate_on() -> void:
 	var site := world.site_at(world.player_cell)
@@ -1137,7 +1137,7 @@ func _climb_here() -> void:
 ## mouth of it and it fills in behind you.
 func _lose_the_ground(site: Site) -> void:
 	GameState.delving = []
-	# Its bands stand again, the next time it is gone into (D247).
+	# Its bands stand again, the next time it is gone into (D248).
 	if site != null:
 		site.data["delves"] = int(site.data.get("delves", 0)) + 1
 	if site == null or site.depth() <= 0:

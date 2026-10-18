@@ -660,7 +660,7 @@ never below the party's average level when `meet_the_party` is true, and there a
 them, one more every `chapters_per_extra_foe` chapters, and one more for every member past
 `foes_per_member_past` (2), at most `foes_max` (6) ([D189](06-decisions.md)).
 
-A gate's floors are walked the same way ([D247](06-decisions.md)): E at a gate on the ground opens the
+A gate's floors are walked the same way ([D248](06-decisions.md)): E at a gate on the ground opens the
 floor the party is on, laid out by `src/chronicle/gate_inside.gd` and registered as an area
 (`gate_inside_<x>_<y>_<depth>`; an area opened with `gate_cell`, `gate_depth`, `gate_final`, `gate_keeper`
 and `allies` in its payload is a gate's floor). `world_rules.json` → `gate.inside` says how: `width` +
@@ -676,7 +676,7 @@ delve is lost, so a lost delve's bands stand again. The way down settles as a ga
 `gate_band`, and lost, the delve is lost.
 
 An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
-`GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway off the ground ([D162](06-decisions.md); on the ground it is gone into, [D247](06-decisions.md)), a roadside
+`GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway off the ground ([D162](06-decisions.md); on the ground it is gone into, [D248](06-decisions.md)), a roadside
 fight with its attackers where the scene stages them (`stage` in `roadside.json`; a stage's
 `allies`, such as the Watch beset by a town, [D215](06-decisions.md), stand in the middle of it and
 fight beside the party), and a town

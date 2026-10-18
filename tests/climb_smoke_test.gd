@@ -381,7 +381,7 @@ func _out_to_a_gate_and_back() -> void:
 		_expect(land.get("_fight") == null and int(land.get("_gate_warned_until")) > 0,
 			"gate: %s, far above the company, was gone into without a word" % gate.display_name)
 		land.call("_do_act", enter)
-	# Gone into (D247): its first floor is walked, not fought at the doorway.
+	# Gone into (D248): its first floor is walked, not fought at the doorway.
 	var inside := await _scene_where(func(s: Node) -> bool: return _gate_floor_of(s) == 1)
 	if inside == null:
 		_fail("gate: E at %s did not open its first floor (on %s)" % [gate.display_name, _describe(_current())])
@@ -492,7 +492,7 @@ func _floor_of(scene: Node) -> int:
 	return int(scene.get("_tower_floor"))
 
 
-## Which floor of a gate this is (1 the first), or 0 when it is not inside one (D247).
+## Which floor of a gate this is (1 the first), or 0 when it is not inside one (D248).
 func _gate_floor_of(scene: Node) -> int:
 	if scene == null or scene.get_script() != preload("res://src/area/area_scene.gd") or not scene.is_node_ready():
 		return 0

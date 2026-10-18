@@ -369,7 +369,7 @@ each, each ending playable:
    on his order: Stormreach walked outside, fights inside a gate (built, item 29), Tower floors that grow, climbers with
    a part to play, hamlets and homesteads worth going to, paths and gates' ground that fit, carriages
    ([28](28-the-first-hour.md#play-test-6s-asks)).
-29. **Fights inside gates** — built (`doug-md`, play-test 6, his first pick of its asks, [D247](06-decisions.md)):
+29. **Fights inside gates** — built (`doug-md`, play-test 6, his first pick of its asks, [D248](06-decisions.md)):
    E at a gate opens its floor, chambers in rock from the doorway to the way down, a band in each, the
    keeper before the way down on the last floor; walked straight on down, walked back out of the
    doorway. Outside a gate, fights are a gate break's.

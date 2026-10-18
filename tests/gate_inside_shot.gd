@@ -1,5 +1,5 @@
 extends Node
-## Photograph a gate gone into from the land ([D247]): its first floor as the party comes in, the
+## Photograph a gate gone into from the land ([D248]): its first floor as the party comes in, the
 ## same floor drawn whole, a band of it fought where it stands, and each kind of gate's floor seen
 ## whole. Needs a display (xvfb-run), not --headless.
 ##
