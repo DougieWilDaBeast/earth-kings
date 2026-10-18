@@ -41,6 +41,7 @@ const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
+const Arcs := preload("res://src/chronicle/arcs.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -2103,9 +2104,12 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 	_leader.face(sitter.position - _leader.position)
 	_camera.focus_on(_leader.position.lerp(sitter.position, 0.5))
 
-	var exchange := Banter.between(
-		GameState.world, _leader_character, them, Banter.REST, GameState.world.rng
-	)
+	# Their own arc, or the leader's, comes before anything else said at the fire (D250).
+	var exchange := Arcs.at_the_fire(GameState.world, GameState.roster, _leader_character, them)
+	if exchange.is_empty():
+		exchange = Banter.between(
+			GameState.world, _leader_character, them, Banter.REST, GameState.world.rng
+		)
 	if exchange.is_empty():
 		# Nothing left between the two of them, so they fall back on the run itself.
 		var rng := RandomNumberGenerator.new()

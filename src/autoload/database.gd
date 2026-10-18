@@ -78,6 +78,8 @@ var props: Dictionary = {}
 var who_wins: Dictionary = {}
 ## A page in the journal for each land, and the trinket each one pays (`data/land_journals.json`, [D239]).
 var land_journals: Dictionary = {}
+## The sixteen's own arcs: a personal quest each, told at the fire (`data/arcs.json`, [D250]).
+var arcs: Dictionary = {}
 
 ## Abilities invented at runtime by [AbilityGrammar]; restored from the save.
 var _generated_abilities: Dictionary = {}
@@ -134,6 +136,7 @@ func _ready() -> void:
 	props = _load_json("%s/props.json" % DATA_DIR)
 	who_wins = _load_json("%s/who_wins.json" % DATA_DIR)
 	land_journals = _load_json("%s/land_journals.json" % DATA_DIR)
+	arcs = _load_json("%s/arcs.json" % DATA_DIR)
 
 
 func terrain_type(id: String) -> Dictionary:

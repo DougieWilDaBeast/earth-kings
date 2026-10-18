@@ -88,6 +88,8 @@ var hearth_vigour: int = 0
 var scars: int = 0
 ## Other character id -> how well the two of them get on (see [Banter]).
 var bonds: Dictionary = {}
+## What their own arc left them with, for good ([D250]): stat key -> amount.
+var marks: Dictionary = {}
 ## How they fight when the player is playing ([D195]): a key of `tactics.stances` in
 ## `data/skirmish.json`. Kept between fights; "own" is the fighter's own doctrine.
 var stance: String = "own"
@@ -311,7 +313,7 @@ func knows(doctrine_id: String) -> bool:
 func _stat(key: String, fallback: int) -> int:
 	var base := float(template().get(key, fallback))
 	var growth := float(class_data().get("growth", {}).get(key, 0.0))
-	return roundi(base + growth * float(level - 1)) + Doctrine.bonus(self, key)
+	return roundi(base + growth * float(level - 1)) + Doctrine.bonus(self, key) + int(marks.get(key, 0))
 
 
 # --- serialisation ------------------------------------------------------------
@@ -353,6 +355,7 @@ func to_dict() -> Dictionary:
 		"hearth_vigour": hearth_vigour,
 		"scars": scars,
 		"bonds": bonds,
+		"marks": marks,
 		"stance": stance,
 	}
 
@@ -397,5 +400,7 @@ static func from_dict(data: Dictionary) -> Character:
 	character.scars = int(data.get("scars", 0))
 	for other_id: String in data.get("bonds", {}):
 		character.bonds[other_id] = int(data["bonds"][other_id])
+	for key: String in data.get("marks", {}):
+		character.marks[key] = int(data["marks"][key])
 	character.stance = str(data.get("stance", "own"))
 	return character

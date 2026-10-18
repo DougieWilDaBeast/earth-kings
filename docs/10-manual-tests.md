@@ -338,6 +338,8 @@ Start a run (not the tutorial) and walk.
 | D5.36 | Shut Greyhollow and talk to someone there with things to say; later, once word has walked to the city (a tile every 14 steps), the Watch or the innkeep in Stormreach | Before their hello: "You're the one who shut Greyhollow..." (or one like it), once; talk again and it is not said ([D249](06-decisions.md)) |
 | D5.37 | Beat three bands of legionnaires on the land, then walk into a fourth's sight | After the third: "The Heart Empire have lost 3 bands to you now..."; the fourth sees you a cell further and shouts "That's them!" (or one like it), not "There!" |
 | D5.38 | Raid a village, then walk into it and talk to someone with things to say | They bring up the burning, then turn you away more often than not; 15 gold or Hear me out gets you in |
+| D5.39 | With Bellona walking with you, stand on the Tower's floor 5, then rest and sit by her at the fire | She tells of the gate she shut and asks for two things; the journal's quests page lists "Bellona's: Twenty" under _Their own_ ([D250](06-decisions.md)) |
+| D5.40 | Stop for somebody on the road, then shut a gate, sitting by her at the fire after each | She says the twenty is given; after the gate, she finishes it, and "+2 guard, for good"; the journal says finished |
 
 ## H — Conversation and the camp
 

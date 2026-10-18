@@ -597,6 +597,20 @@ open country can be walked through), `hush` (cells off a band's sight on the lan
 `{of}`), `finished` (`{land}`, `{trinket}`, `{what}`) and `annal`. The world keeps `lands`: land id ->
 `{ needs, got, walked, stood, done }`.
 
+## `arcs.json` — the sixteen's own arcs (D250)
+
+`opens_floor` is the Tower floor the company must have stood on before one of the sixteen walking
+with it opens theirs (a lead opens theirs with their chapter one). `arcs` maps a hero id to `{ title,
+opened, stages, finished, reward }`. `stages`, in order: `ask` (the journal's line), `until` (`count`
+deeds since the stage opened matching any of `deeds`), optional `skip_if` (the same, counted from the
+start of the world, checked as the arc opens) with `skipped`, and `done`. `opened`, `skipped`, `done`
+and `finished` are variants, `{ when, lines }`, the first whose `when` holds is said: `deed` (a match
+against any deed this world), `met`, `with`, `fallen` (hero ids) and `not` (any of those that must not
+hold). Each line is `{ speaker, text }`, `speaker` `{owner}` or `{listener}`. A deed match is `{ kind,
+told }`, `told` the start of the deed's `told`. `reward`: `marks` (stat key -> amount, added to the
+owner for good, kept on the character), `bond` (warmth with the listener), `line` (said last) and
+`annal`. The world keeps `arcs`: hero id -> `{ stage, since, done }`. Read by `src/chronicle/arcs.gd`.
+
 ## `world_rules.json` → `renown` — deeds, and the world remembering them (D249)
 
 Every deed worth telling is written down where it happened (the world's `deeds`: `{ kind, cell,
