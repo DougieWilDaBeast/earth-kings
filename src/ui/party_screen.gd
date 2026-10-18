@@ -46,6 +46,9 @@ const RUNG_ROPE := Vector2(48, 6)
 ## The width a rung's name may wrap to under its stone.
 const RUNG_NAME_WIDTH := 150
 
+## How tall the roster stands over the open character on an upright phone: two cards, then it scrolls.
+const ROSTER_UPRIGHT_HEIGHT := 190.0
+
 const GOLD := Color(0.965, 0.827, 0.443)
 const QUIET := Color(0.62, 0.65, 0.72)
 const GAIN := Color(0.55, 0.86, 0.55)
@@ -66,6 +69,10 @@ enum Page { GEAR, POWERS, PRACTICE }
 @onready var _gear_tab: Button = %GearTab
 @onready var _powers_tab: Button = %PowersTab
 @onready var _practice_tab: Button = %PracticeTab
+@onready var _column: VBoxContainer = $Backdrop/Margin/Column
+@onready var _header: HBoxContainer = $Backdrop/Margin/Column/Header
+@onready var _body: BoxContainer = $Backdrop/Margin/Column/Body
+@onready var _roster_scroll: ScrollContainer = $Backdrop/Margin/Column/Body/RosterScroll
 
 var _notice: String = ""
 ## Whoever is opened out on the right. Held by id rather than by reference, so
@@ -92,6 +99,25 @@ func _ready() -> void:
 	_practice_tab.pressed.connect(func() -> void: _turn_to(Page.PRACTICE))
 	for button: Button in [_close_btn, _stash_btn, _gear_tab, _powers_tab, _practice_tab]:
 		Sfx.attend(button)
+	get_viewport().size_changed.connect(_fit_to_screen)
+	_fit_to_screen()
+
+
+## The roster beside the open character on a wide screen; above them on a phone held upright, which
+## is 540 of the game's pixels across, too narrow for both side by side (D241). The purse drops
+## under the title there too, so Strongbox and Close stay on the screen.
+func _fit_to_screen() -> void:
+	var view := get_viewport().get_visible_rect().size
+	var narrow := view.x < view.y
+	_body.vertical = narrow
+	($Backdrop/Margin/Column/Body/DetailPanel as Control).size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_roster_scroll.custom_minimum_size = Vector2(0, ROSTER_UPRIGHT_HEIGHT) if narrow else Vector2(330, 0)
+	var purse_home: Node = _column if narrow else _header
+	if _purse.get_parent() != purse_home:
+		_purse.get_parent().remove_child(_purse)
+		purse_home.add_child(_purse)
+		purse_home.move_child(_purse, 1)
+	_purse.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if narrow else TextServer.AUTOWRAP_OFF
 
 
 func is_open() -> bool:
@@ -595,11 +621,36 @@ func _class_card(character: Character, class_id: String) -> Control:
 	column.add_theme_constant_override("separation", 8)
 	card.add_child(column)
 
+	var banner := HBoxContainer.new()
 	var title := Label.new()
 	title.text = SheetParts.class_title(class_id)
 	title.add_theme_font_size_override("font_size", 21)
 	title.add_theme_color_override("font_color", colour.lightened(0.3))
-	column.add_child(title)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	banner.add_child(title)
+	column.add_child(banner)
+	# A question mark at the right of the banner ([D237]): hover it for the path in more words, or
+	# press it (on a phone there is no hover) to open them on the card.
+	var help_text := SheetParts.class_help(class_id)
+	var more := Label.new()
+	more.text = help_text
+	more.visible = false
+	more.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	more.add_theme_font_size_override("font_size", 12)
+	more.add_theme_color_override("font_color", Color(0.9, 0.9, 0.93))
+	var ask := Button.new()
+	ask.name = "PathHelp"
+	ask.text = "?"
+	ask.tooltip_text = help_text
+	ask.focus_mode = Control.FOCUS_NONE
+	ask.custom_minimum_size = Vector2(30, 30)
+	ask.add_theme_stylebox_override("normal", SheetParts.box(colour.darkened(0.6), colour, 1, 15))
+	ask.add_theme_stylebox_override("hover", SheetParts.box(colour.darkened(0.3), colour.lightened(0.4), 2, 15))
+	ask.add_theme_stylebox_override("pressed", SheetParts.box(colour.darkened(0.7), colour, 1, 15))
+	ask.pressed.connect(func() -> void: more.visible = not more.visible)
+	Sfx.attend(ask)
+	banner.add_child(ask)
+	column.add_child(more)
 
 	var themes := Label.new()
 	themes.text = "Powers of %s" % "  ·  ".join(SheetParts.theme_names(class_id))

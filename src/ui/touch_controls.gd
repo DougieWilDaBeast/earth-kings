@@ -31,6 +31,9 @@ const STEER_RADIUS := 78.0
 const DEADZONE := 18.0
 ## Clearance kept inside the screen's safe area, for rounded corners.
 const EDGE_PAD := 14.0
+## How tall the Act, Back and Next cluster stands in the bottom corner (its scene's offsets), so a
+## fight's own buttons can keep above it.
+const CLUSTER_HEIGHT := 212.0
 ## Past this much of a lean the axis counts, which leaves the corners as
 ## diagonals rather than making them a fight between two directions.
 const LEAN := 0.38

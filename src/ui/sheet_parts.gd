@@ -109,6 +109,69 @@ static func grant_names(class_id: String) -> Array[String]:
 	return out
 
 
+## The longer word on a path ([D237], `doug-md`, play-test 4: "include what each path is in greater
+## detail, if you hover over a question mark"): what kind of fighter it makes, what it grows each
+## level, what it starts with and what each of those does, and where its later powers come from.
+## Built from the class's own numbers and moves, so it never says something the path does not do;
+## the words are `data/world_rules.json` → `path_help`.
+static func class_help(class_id: String) -> String:
+	var rules: Dictionary = Database.world_rules.get("path_help", {})
+	var said: Dictionary = rules.get("lines", {})
+	var data := Database.character_class(class_id)
+	var growth: Dictionary = data.get("growth", {})
+	var parts: Array[String] = []
+	var kinds: Array[String] = []
+	for role: Dictionary in rules.get("roles", []):
+		if _role_fits(role, growth, data.get("grants", [])):
+			kinds.append(str(role.get("say", "")))
+		if kinds.size() >= int(rules.get("most_roles", 3)):
+			break
+	if not kinds.is_empty():
+		parts.append(" ".join(kinds))
+	parts.append(str(said.get("grows", "")).format({
+		"max_hp": String.num(float(growth.get("max_hp", 0)), 1).trim_suffix(".0"),
+		"attack": String.num(float(growth.get("attack", 0)), 1).trim_suffix(".0"),
+		"defense": String.num(float(growth.get("defense", 0)), 1).trim_suffix(".0"),
+		"speed": String.num(float(growth.get("speed", 0)), 1).trim_suffix(".0"),
+	}))
+	var moves: Array[String] = []
+	for ability_id: String in data.get("grants", []):
+		var ability := Database.ability(ability_id)
+		moves.append(str(said.get("move", "{name}: {text}")).format({
+			"name": str(ability.get("display_name", ability_id)),
+			"text": str(ability.get("description", "")),
+		}))
+	if not moves.is_empty():
+		parts.append(str(said.get("starts", "")) + "\n" + "\n".join(moves))
+	var themes := theme_names(class_id)
+	if not themes.is_empty():
+		parts.append(str(said.get("themes", "")).format({"themes": ", ".join(themes)}))
+	return "\n\n".join(parts.filter(func(part: String) -> bool: return part.strip_edges() != ""))
+
+
+## Whether a path is the kind a `path_help.roles` entry describes: every stat at least or at most
+## what it names, and its moves including a heal or a shot from range when it asks.
+static func _role_fits(role: Dictionary, growth: Dictionary, grants: Array) -> bool:
+	var least: Dictionary = role.get("at_least", {})
+	for stat: String in least:
+		if float(growth.get(stat, 0.0)) < float(least[stat]):
+			return false
+	var most: Dictionary = role.get("at_most", {})
+	for stat: String in most:
+		if float(growth.get(stat, 0.0)) > float(most[stat]):
+			return false
+	var needs := str(role.get("has", ""))
+	if needs == "":
+		return true
+	for ability_id: String in grants:
+		var ability := Database.ability(ability_id)
+		if needs == "heal" and bool(ability.get("heal", false)):
+			return true
+		if needs == "range" and str(ability.get("target", "")) == "enemy" and int(ability.get("min_range", 1)) >= 2:
+			return true
+	return false
+
+
 static func theme_names(class_id: String) -> Array[String]:
 	var out: Array[String] = []
 	for theme: String in Database.character_class(class_id).get("themes", []):

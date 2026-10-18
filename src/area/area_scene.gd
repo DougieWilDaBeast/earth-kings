@@ -31,6 +31,7 @@ const GroundGen := preload("res://src/area/ground_gen.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
+const PlayHud := preload("res://src/ui/play_hud.gd")
 const LandMap := preload("res://src/ui/land_map.gd")
 const LandMapScreen := preload("res://src/ui/land_map_screen.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
@@ -104,6 +105,8 @@ var _approach_path: Array[Vector2] = []
 var _click_path: Array[Vector2] = []
 ## The pin where a click sent the party, and the line to it ([D189]).
 var _waymark: Node2D
+## The small panel of the company's health and the purse ([D244]).
+var _play_hud: Control
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -147,6 +150,8 @@ var _held_notes: Array[String] = []
 ## Held while an exchange is playing over their heads.
 var _chatting: bool = false
 var _notes: Array[String] = []
+var _note_times: Array[int] = []
+var _hint_backed := true
 var _visited_spots: Dictionary = {}
 ## cell -> the [AreaProp] drawn for the chest there, so it can be shown opened.
 var _chest_props: Dictionary = {}
@@ -203,6 +208,8 @@ const GATE_REACH := 12.0
 const AUTO_BAND_SIGHT := 18
 ## Where the log's right edge stands on a screen wide enough for it.
 const LOG_WIDTH := 900.0
+## How long a line stays in the log, in the player's seconds ([D246]).
+const NOTE_SECONDS := 8.0
 ## The continent has been asked to settle a fight fought here, not to take a step.
 var _settling: bool = false
 ## The area's own bands already standing here, by key, and how long since their flags were looked at.
@@ -211,6 +218,12 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
+## Inside a gate (D248): the gate's cell on the continent (or -1, -1), the floor (0 first), whether it
+## is the last, and the flag its keeper's fall sets, without which the last floor's way down is shut.
+var _gate_cell := Vector2i(-1, -1)
+var _gate_depth := 0
+var _gate_final := false
+var _gate_keeper := ""
 ## The door the party is standing in, so a shut one is tried once per arrival, not every frame.
 var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
@@ -258,8 +271,20 @@ func _ready() -> void:
 	_acts = boot_payload.get("actions", [])
 	_held = boot_payload.get("held", {})
 	_tower_floor = int(boot_payload.get("tower_floor", 0))
+	var gate_at: Array = boot_payload.get("gate_cell", [])
+	if gate_at.size() == 2:
+		_gate_cell = Vector2i(int(gate_at[0]), int(gate_at[1]))
+		_gate_depth = int(boot_payload.get("gate_depth", 0))
+		_gate_final = bool(boot_payload.get("gate_final", false))
+		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
 	get_viewport().size_changed.connect(_fit_the_log)
 	_fit_the_log.call_deferred()
+	# What can be done here, on one line that never runs up into the log ([D246], play-test 6:
+	# "so much text here that is crossing over each other"): cut short with an ellipsis instead.
+	_hint.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_hint.clip_text = true
+	_hint.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_hint.add_theme_stylebox_override("normal", _quiet_backing())
 	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
 	if _land_mode:
 		map = Land.around(GameState.world, GameState.world.player_cell)
@@ -296,6 +321,7 @@ func _ready() -> void:
 	_spawn_people()
 	_post_the_watch()
 	_spawn_fire()
+	_light_the_climbers_fire()
 	if _land_mode:
 		var world: World = GameState.world
 		_camera.frame(Rect2(Vector2.ZERO, Vector2(world.size * (map as Land).slot) * AreaMap.CELL))
@@ -316,6 +342,10 @@ func _ready() -> void:
 	_place.get_parent().add_child(_compass)
 	_compass.pressed.connect(_next_quest)
 	_point_the_compass()
+	# The company and the purse, under the compass ([D244]).
+	_play_hud = PlayHud.new()
+	_play_hud.position = Vector2(14.0, float(PlayHud.rules().get("top", 128)))
+	_place.get_parent().add_child(_play_hud)
 	if _land_mode:
 		_put_up_the_maps()
 	Pad.changed.connect(_on_pad_changed)
@@ -619,6 +649,47 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
+## How many levels a gate may stand above the company before going in is asked twice ([D246]).
+const GATE_WARN_LEVELS := 6
+## Until when (ms) a second press goes into the gate that was warned of.
+var _gate_warned_until: int = 0
+
+
+## The gate here, when it is far above the company: the first press says so and the second, within
+## a few seconds, goes in. A party walking itself never goes in (see [method _gate_too_strong]).
+func _sure_of_the_gate() -> bool:
+	var gate := _gate_here()
+	if gate == null or not _gate_too_strong(gate):
+		return true
+	if Pace.auto:
+		return false
+	if Time.get_ticks_msec() < _gate_warned_until:
+		_gate_warned_until = 0
+		return true
+	_gate_warned_until = Time.get_ticks_msec() + 4000
+	_note("%s is a rank %s gate: what keeps it is about level %d, and the company is level %d. %s again to go in anyway." % [
+		gate.display_name, gate.rank, gate.expected_level(), Encounter.party_level(GameState.party_characters()),
+		Pad.key("interact") if Pad.using_pad else "E"])
+	return false
+
+
+func _gate_here() -> Site:
+	var world: World = GameState.world
+	if world == null:
+		return null
+	var site := world.site_at(world.player_cell)
+	return site if site != null and site.kind == Site.GATE else null
+
+
+## A gate whose keepers stand `GATE_WARN_LEVELS` or more above the company.
+func _gate_too_strong(gate: Site) -> bool:
+	return gate.expected_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
+
+
+## Where a company resting on this floor sits, for their fire ([D246]).
+var _climbers_rest_at: Array[Vector2i] = []
+
+
 ## Another company resting on a Tower floor, by the stair up ([D215]): they got here first, and will
 ## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
 func _admit_climbers_to_the_floor() -> void:
@@ -653,6 +724,7 @@ func _admit_climbers_to_the_floor() -> void:
 		if at.x < 0:
 			continue
 		taken[at] = true
+		_climbers_rest_at.append(at)
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
@@ -1046,6 +1118,21 @@ func _fog_the_place() -> void:
 	var ui := get_node_or_null("UI")
 	if ui != null:
 		move_child(layer, ui.get_index())
+
+
+## A company resting on a Tower floor sits round a small fire of its own ([D246], play-test 6:
+## "They are literally just standing there with icons above their head."), and faces it.
+func _light_the_climbers_fire() -> void:
+	if _climbers_rest_at.is_empty():
+		return
+	var middle := Vector2.ZERO
+	for cell: Vector2i in _climbers_rest_at:
+		middle += Vector2(cell)
+	var at := _free_spot_near(Vector2i((middle / float(_climbers_rest_at.size())).round()) + Vector2i(1, 0))
+	_put_fire(at)
+	for actor: AreaActor in _people:
+		if str((actor.get_meta("person", {}) as Dictionary).get("_area", "")) == "climbers_floor":
+			actor.face(map.centre_of(at) - actor.position)
 
 
 func _spawn_fire() -> void:
@@ -1462,9 +1549,45 @@ func _door() -> AreaProp:
 	return null
 
 
+## Whether this is a floor walked to a stair at its far end: the Tower's ([D102]) or a gate's (D248).
+func _walked_floor() -> bool:
+	return _tower_floor > 0 or _in_a_gate()
+
+
+func _in_a_gate() -> bool:
+	return _gate_cell.x >= 0
+
+
+## Whether the far stair can be taken: always, but on a gate's last floor only once its keeper is down.
+func _way_down_open() -> bool:
+	return not (_in_a_gate() and _gate_final and _gate_keeper != "" and not GameState.has_flag(_gate_keeper))
+
+
+## Where the band whose fall opens the way down stands, while it stands; else (-1, -1).
+func _keeper_cell() -> Vector2i:
+	if _way_down_open():
+		return Vector2i(-1, -1)
+	for band: Dictionary in map.bands:
+		if "done:%s" % str(band.get("key", "")) == _gate_keeper:
+			var at: Array = band.get("at", [0, 0])
+			return Vector2i(int(at[0]), int(at[1]))
+	return Vector2i(-1, -1)
+
+
+## What taking the far stair is called here.
+func _stair_line() -> String:
+	if not _in_a_gate():
+		return "climb to floor %d" % (_tower_floor + 1)
+	var site := GameState.world.site_at(_gate_cell) if GameState.world != null else null
+	var gate_name := site.display_name if site != null else "the gate"
+	if _gate_final:
+		return "shut %s" % gate_name
+	return "go down to floor %d of %d" % [_gate_depth + 2, site.floors() if site != null else _gate_depth + 2]
+
+
 ## Whether the leader stands on the stair up, or a step from it, on a floor of the Tower.
 func _at_the_stair() -> bool:
-	if _tower_floor <= 0 or map.stairs.is_empty() or _leader == null:
+	if not _walked_floor() or map.stairs.is_empty() or _leader == null:
 		return false
 	var here := map.cell_at(_leader.position)
 	for stair: Vector2i in map.stairs:
@@ -1477,7 +1600,9 @@ func _prompt_text() -> String:
 	if _hovered != null:
 		return "Click to %s" % _hovered.prompt()
 	if _at_the_stair():
-		return "%s to climb to floor %d" % [Pad.key("interact") if Pad.using_pad else "E", _tower_floor + 1]
+		if not _way_down_open():
+			return "The way down will not open while its keeper stands."
+		return "%s to %s" % [Pad.key("interact") if Pad.using_pad else "E", _stair_line()]
 	if _nearby != null:
 		var doing := _act_of(_nearby)
 		if not doing.is_empty():
@@ -1768,8 +1893,12 @@ func _auto_door_axis(world: World) -> Vector2:
 func _auto_axis() -> Vector2:
 	# On a floor of the Tower, Auto makes for the stair and climbs it (D115), never the way out;
 	# a memory of the lead's lying there it picks up first (D150: it walked past the buckle).
-	var climbing := _tower_floor > 0 and not map.stairs.is_empty()
+	var climbing := _walked_floor() and not map.stairs.is_empty()
 	var keepsake: Variant = _memories.keys()[0] if climbing and not _memories.is_empty() else null
+	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D248).
+	var keeper := _keeper_cell() if climbing else Vector2i(-1, -1)
+	if keepsake == null and keeper.x >= 0:
+		keepsake = keeper
 	if climbing and keepsake == null and _at_the_stair():
 		if not _talking and not _leaving:
 			_climb_the_stair()
@@ -1993,6 +2122,10 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_let_old_notes_go()
+	if _play_hud != null:
+		# Out of the way of a fight on this ground (it has its own cards) and of any box that is open.
+		_play_hud.visible = _fight == null and not _overlay_open()
 	if _waymark != null:
 		_waymark.show_way(_leader.position if _leader != null else Vector2.ZERO,
 			_click_path if _leader != null and _fight == null else ([] as Array[Vector2]))
@@ -2323,7 +2456,7 @@ func _arrive_at(cell: Vector2i) -> void:
 		_remember(cell)
 	# The stair asks before it climbs (meeting 3: walking onto it ended the floor, a step past
 	# whatever lay beside it): standing at it says "E to climb", and E climbs.
-	if _tower_floor > 0 and map.stairs.has(cell):
+	if _walked_floor() and map.stairs.has(cell):
 		return
 	if not _land_mode and (map.is_exit(cell) or _is_edge_cell(cell)):
 		_handle_exit(cell)
@@ -2476,7 +2609,8 @@ func _post_the_watch() -> void:
 	_bands_told = boot_payload.get("bands", [])
 	for band: Dictionary in _bands_told:
 		_post_band(band)
-	_post_practice_bands()
+	# Said once for all of them below, not once a band (play-test 6: "bombarded with text").
+	_post_practice_bands(true)
 	if not _watches.is_empty():
 		_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % _watches[0].band.get("label", "A band"))
 		EventBus.tip_moment.emit("ground_watch", {})
@@ -2569,14 +2703,14 @@ func _post_bands_for(tile: Vector2i) -> void:
 
 ## The area's own bands whose flags now let them be here and that are not here yet: at the start,
 ## and again whenever a flag may have changed (the tutorial sets one when its fight step begins).
-func _post_practice_bands() -> void:
+func _post_practice_bands(quiet: bool = false) -> void:
 	for band: Dictionary in map.bands:
 		var key := str(band.get("key", ""))
 		if _posted_practice.has(key) or not AreaMap._flags_allow(band):
 			continue
 		_posted_practice[key] = true
 		var watch := _post_band(band)
-		if watch != null and _leader != null and not _talking:
+		if watch != null and _leader != null and not _talking and not quiet:
 			_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % band.get("label", "A band"))
 
 
@@ -2669,9 +2803,12 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 		_spar_with(watch, field, ambush)
 		return
 	if bool(watch.band.get("held", false)):
+		_watch_fighting.clear()
+		_call_the_climbers(field)
 		_fight_held(watch, field, ambush)
 		return
 	_call_the_watch(field)
+	_call_the_climbers(field)
 	# The continent deals the band out and answers with the fight, which is put down right here.
 	_awaiting_fight = true
 	_ask_the_continent({ "fight": str(watch.band.get("key", "")), "field": field })
@@ -2706,6 +2843,36 @@ func _call_the_watch(field: Dictionary) -> void:
 	for actor: AreaActor in _watch_fighting:
 		actor.visible = false
 	_note(str(rules.get("joined_line", "The Watch come running.")))
+
+
+## Another company within `join_cells` of a fight comes running and fights beside the party ([D246],
+## play-test 6: "I think that the parties in the floor also will be fighting with you as well"):
+## climbers on the road ([D215]) or resting on a Tower floor, at the company's level. Out of sight
+## while it lasts, back where they were after, like the Watch.
+func _call_the_climbers(field: Dictionary) -> void:
+	if _leader == null:
+		return
+	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var reach := float(rules.get("join_cells", 0)) * AreaMap.CELL
+	if reach <= 0.0:
+		return
+	var level := maxi(1, Encounter.party_level(GameState.party_characters()))
+	var allies: Array = field.get("allies", [])
+	var company := ""
+	for actor: AreaActor in _people:
+		var person: Dictionary = actor.get_meta("person", {})
+		if not ["climbers", "climbers_floor"].has(str(person.get("_area", ""))) or not actor.visible:
+			continue
+		if actor.position.distance_to(_leader.position) > reach:
+			continue
+		allies.append({ "unit": str(person.get("unit", "")), "level": level, "name": str(person.get("name", "a climber")) })
+		_watch_fighting.append(actor)
+		actor.visible = false
+		company = str(person.get("name", "A company"))
+	if company == "":
+		return
+	field["allies"] = allies
+	_note(str(rules.get("joined_line", "%s join the fight.")).replace("%s", company.capitalize()))
 
 
 ## A practice band (`spar`): the same fight on the same ground, but as practice — nobody can
@@ -2743,6 +2910,18 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"kind": "tower_band", "enemies": enemies,
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
+	if _in_a_gate():
+		# Lost inside a gate, the delve is lost with it: back out at its mouth, its floors filled in.
+		GameState.pending_outcome = {
+			"kind": "gate_band", "cell": _gate_cell, "enemies": enemies,
+			"lost": "You are thrown back out of the gate's mouth.",
+		}
+		# Whoever the Guild sent in with the party fights every fight in here beside it (D147).
+		var allies: Array = field.get("allies", [])
+		for ally: Dictionary in boot_payload.get("allies", []):
+			allies.append(ally.duplicate())
+		if not allies.is_empty():
+			field["allies"] = allies
 	_held_done = str(watch.band.get("done_flag", ""))
 	# D184 (D174): the floor 5 keeper speaks as its fight begins, and knows which of the sixteen
 	# this lead is. Shown the way Sennet's word is (D161); a fight played by hand waits for the box.
@@ -2807,8 +2986,18 @@ func _remember(cell: Vector2i) -> void:
 func _climb_the_stair() -> void:
 	if _leaving:
 		return
+	if not _way_down_open():
+		_note("The way down will not open while its keeper stands.")
+		return
 	_leaving = true
 	var world: World = GameState.world
+	if _in_a_gate():
+		# The floor is won: the continent pays it out as a gate floor fought at the door was (or shuts
+		# the gate, on its last), then opens the next floor straight away (D248).
+		GameState.pending_outcome = { "kind": "gate", "cell": _gate_cell, "final": _gate_final, "walked": true }
+		GameState.set_flag("last_victory", true)
+		EventBus.request_scene.emit("world", { "gate_on": true })
+		return
 	var tower := world.tower()
 	GameState.pending_outcome = {
 		"kind": "tower", "cell": tower.cell if tower != null else world.player_cell, "floor": _tower_floor,
@@ -2902,7 +3091,7 @@ func _after_the_fight() -> void:
 			stood = to_local(_fight.to_global(unit.position))
 			if (f.get("unit").get("character") as Character) == _leader_character:
 				break
-	if not sandbox and _tower_floor > 0:
+	if not sandbox and _walked_floor():
 		_held_fight = "won" if bool(_fight.get("victory")) else ("fled" if bool(_fight.get("fled_field")) else "lost")
 	if _auto_after_fight:
 		_auto_after_fight = false
@@ -3129,6 +3318,10 @@ func _do_act(each: Dictionary) -> void:
 	if _leaving or _talking:
 		return
 	var act := str(each.get("act", ""))
+	# A gate far above the company asks twice ([D246], play-test 6: a level 9 company walked into an
+	# S-rank gate by the Tower and met its level 19 keepers without a word of warning).
+	if act == "_enter_gate_here" and not _sure_of_the_gate():
+		return
 	if GROUND_FIGHT_ACTS.has(act):
 		# Gone into here, not on a fight screen (D162, D207): the continent deals the fight and it is
 		# put down on this ground, the way a band met on it is.
@@ -3357,9 +3550,52 @@ func _note(line: String) -> void:
 	if not _notes.is_empty() and _notes.back() == line:
 		return
 	_notes.append(line)
+	_note_times.append(Time.get_ticks_msec())
 	if _notes.size() > 3:
 		_notes = _notes.slice(_notes.size() - 3)
+		_note_times = _note_times.slice(_note_times.size() - 3)
+	_show_the_log()
+
+
+## The log as it stands, on a faint backing while it says anything ([D246]).
+func _show_the_log() -> void:
 	_log.text = "\n".join(_notes)
+	_log.add_theme_stylebox_override("normal", _quiet_backing() if not _notes.is_empty() else StyleBoxEmpty.new())
+
+
+## Lines that have been up `NOTE_SECONDS` of the player's time go ([D246], play-test 6: "you get
+## bombarded with text at the bottom of the screen. I think it should be a lot more sleeker").
+func _let_old_notes_go() -> void:
+	# The hint line's strip only while it says something.
+	var hint_backed := _hint.text.strip_edges() != ""
+	if hint_backed != _hint_backed:
+		_hint_backed = hint_backed
+		_hint.add_theme_stylebox_override("normal", _quiet_backing() if hint_backed else StyleBoxEmpty.new())
+	if _notes.is_empty():
+		return
+	var now := Time.get_ticks_msec()
+	var kept: Array[String] = []
+	var kept_times: Array[int] = []
+	for i in _notes.size():
+		if now - _note_times[i] < int(NOTE_SECONDS * 1000.0):
+			kept.append(_notes[i])
+			kept_times.append(_note_times[i])
+	if kept.size() != _notes.size():
+		_notes = kept
+		_note_times = kept_times
+		_show_the_log()
+
+
+## A faint dark strip behind the log and the hint line, so they read over any ground.
+func _quiet_backing() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(0.04, 0.04, 0.06, 0.55)
+	box.set_corner_radius_all(4)
+	box.content_margin_left = 8.0
+	box.content_margin_right = 8.0
+	box.content_margin_top = 3.0
+	box.content_margin_bottom = 3.0
+	return box
 
 
 ## The log is laid out 900 wide; on a screen narrower than that (a phone held upright, D163) it
@@ -3426,7 +3662,7 @@ func _point_the_compass() -> void:
 	var world: World = GameState.world
 	# On a floor of the Tower the only way on is the stair up (D102), and a memory lying there is
 	# pointed at first, so nobody walks past it (D107).
-	if _tower_floor > 0 and not map.stairs.is_empty() and _leader != null:
+	if _walked_floor() and not map.stairs.is_empty() and _leader != null:
 		_compass.set_meta("aimed", true)
 		_compass.visible = not _overlay_open()
 		var here := map.cell_at(_leader.position)
@@ -3434,7 +3670,12 @@ func _point_the_compass() -> void:
 			var glint: Vector2i = _memories.keys()[0]
 			_compass.point(Vector2(glint - here), "Something glints", 0)
 			return
-		_compass.point(Vector2(map.stairs[0] - here), "The stair to floor %d" % (_tower_floor + 1), 0)
+		var keeper := _keeper_cell()
+		if keeper.x >= 0:
+			_compass.point(Vector2(keeper - here), "Its keeper", 0)
+			return
+		_compass.point(Vector2(map.stairs[0] - here),
+			("The way down" if not _gate_final else "The far side") if _in_a_gate() else "The stair to floor %d" % (_tower_floor + 1), 0)
 		return
 	var tower := world.tower()
 	if _far_tower != null and _leader != null and tower != null:

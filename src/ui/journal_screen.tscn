@@ -55,9 +55,10 @@ custom_minimum_size = Vector2(110, 48)
 size_flags_vertical = 4
 text = "Close"
 
-[node name="Tabs" type="HBoxContainer" parent="Backdrop/Margin/Book/Column"]
+[node name="Tabs" type="HFlowContainer" parent="Backdrop/Margin/Book/Column"]
 unique_name_in_owner = true
-theme_override_constants/separation = 6
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 4
 
 [node name="SheetButton" type="Button" parent="Backdrop/Margin/Book/Column/Tabs"]
 unique_name_in_owner = true
@@ -83,7 +84,7 @@ text = "Quests & the Fallen"
 unique_name_in_owner = true
 text = "The Map (M)"
 
-[node name="Spread" type="HBoxContainer" parent="Backdrop/Margin/Book/Column"]
+[node name="Spread" type="BoxContainer" parent="Backdrop/Margin/Book/Column"]
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 

@@ -89,6 +89,8 @@ const LIST_FACE := 36
 @onready var _quests_btn: Button = %QuestsButton
 @onready var _map_btn: Button = %MapButton
 @onready var _close_btn: Button = %CloseButton
+@onready var _page_scroll: ScrollContainer = $Backdrop/Margin/Book/Column/Spread/RightLeaf/PageScroll
+@onready var _spread: BoxContainer = $Backdrop/Margin/Book/Column/Spread
 
 var _showing: String = ""
 var _tab: Tab = Tab.SHEET
@@ -102,6 +104,8 @@ func _ready() -> void:
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.journal_requested.connect(open)
 	_dress_book()
+	get_viewport().size_changed.connect(_fit_to_screen)
+	_fit_to_screen()
 	_sheet_btn.pressed.connect(func() -> void: _set_tab(Tab.SHEET))
 	_bestiary_btn.pressed.connect(func() -> void: _set_tab(Tab.BESTIARY))
 	_routes_btn.pressed.connect(func() -> void: _set_tab(Tab.ROUTES))
@@ -952,12 +956,42 @@ func _dress_book() -> void:
 	_title.add_theme_constant_override("outline_size", 3)
 	_title.add_theme_color_override("font_outline_color", LEATHER_EDGE)
 
-	var tabs := %Tabs as HBoxContainer
-	tabs.add_theme_constant_override("separation", 6)
+	# The ribbons wrap onto a second row on a phone held upright (D241).
+	var tabs := %Tabs as HFlowContainer
+	tabs.add_theme_constant_override("h_separation", 6)
+	tabs.add_theme_constant_override("v_separation", 4)
 	(tabs.get_parent() as VBoxContainer).add_theme_constant_override("separation", 0)
 	_ribbon_dress(_close_btn, LEATHER.lightened(0.12), true)
 	_close_btn.add_theme_font_override("font", serif)
 	_ribbon_dress(_map_btn, MAP_RIBBON, false)
+
+
+
+## How tall the list stands over the page on a phone held upright.
+const LIST_UPRIGHT_HEIGHT := 170.0
+
+
+## The list beside the page on a wide screen; above it on a phone held upright, which is 540 of the
+## game's pixels across, too narrow for a book's two leaves side by side (D241). The count beside
+## the title wraps there rather than pushing Close off the edge.
+func _fit_to_screen() -> void:
+	var view := get_viewport().get_visible_rect().size
+	var narrow := view.x < view.y
+	_spread.vertical = narrow
+	_left_leaf.custom_minimum_size = Vector2(0, LIST_UPRIGHT_HEIGHT) if narrow else Vector2(240, 0)
+	_left_leaf.size_flags_vertical = Control.SIZE_FILL if narrow else Control.SIZE_EXPAND_FILL
+	_spine.custom_minimum_size = Vector2(0, 8) if narrow else Vector2(16, 0)
+	_right_leaf.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# A page's widest line (a face beside its bars, a power's reach) can be wider than an upright
+	# leaf; it slides sideways there rather than pushing the book off the screen.
+	_page_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO if narrow \
+			else ScrollContainer.SCROLL_MODE_DISABLED
+	var side := 10 if narrow else 36
+	var margin := $Backdrop/Margin as MarginContainer
+	margin.add_theme_constant_override("margin_left", side)
+	margin.add_theme_constant_override("margin_right", side)
+	_fullness.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if narrow else TextServer.AUTOWRAP_OFF
+	_fullness.size_flags_horizontal = Control.SIZE_EXPAND_FILL if narrow else Control.SIZE_FILL
 
 
 ## Ink for the leaves: every label, and the plain buttons the lists are made of,
