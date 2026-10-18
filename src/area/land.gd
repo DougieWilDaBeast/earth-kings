@@ -78,8 +78,11 @@ func hold(tile: Vector2i) -> Dictionary:
 	chunk["place_rect"] = _rect(place.get("rect", []), origin) if not place.is_empty() else Rect2i()
 	chunks[tile] = chunk
 	var mine: Array[Dictionary] = []
+	# What has been built since the place was laid out clears its ground of anything drawn there ([D251]).
+	var raised := (laid.get("buildings", []) as Array).filter(func(b: Dictionary) -> bool:
+		return b.has("requires") and _flags_allow(b))
 	for prop: Dictionary in laid.get("props", []):
-		if not _flags_allow(prop):
+		if not _flags_allow(prop) or _cleared_by(prop, raised):
 			continue
 		var placed := prop.duplicate(true)
 		placed["cell"] = _cell(prop.get("cell", [0, 0]), origin)
@@ -99,6 +102,8 @@ func hold(tile: Vector2i) -> Dictionary:
 		if spot.has("set_flag"):
 			spot_flags[at] = str(spot["set_flag"])
 	for entry: Dictionary in laid.get("buildings", []):
+		if not _flags_allow(entry):
+			continue
 		var building := entry.duplicate(true)
 		building["cell"] = _cell(entry.get("cell", [0, 0]), origin)
 		var look := Database.building_art(str(entry.get("art", "")))
@@ -113,6 +118,8 @@ func hold(tile: Vector2i) -> Dictionary:
 			for x in range(foot.position.x, foot.end.x):
 				_building_cells[Vector2i(x, y)] = building
 	for person: Dictionary in laid.get("people", []):
+		if not _flags_allow(person):
+			continue
 		var placed := person.duplicate(true)
 		placed["cell"] = [int(person.get("cell", [0, 0])[0]) + origin.x, int(person.get("cell", [0, 0])[1]) + origin.y]
 		for stop: Dictionary in placed.get("rounds", []):

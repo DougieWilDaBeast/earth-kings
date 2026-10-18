@@ -94,8 +94,10 @@ static func load_area(area_id: String) -> AreaMap:
 		map.chests[_to_cell(chest.get("cell", [0, 0]))] = chest
 	# `dressing` is scenery written by tools/dress_areas.py, kept apart from the props an area's
 	# author placed so it can be written again without touching theirs.
+	var raised := (data.get("buildings", []) as Array).filter(func(b: Dictionary) -> bool:
+		return b.has("requires") and _flags_allow(b))
 	for prop: Dictionary in data.get("props", []) + data.get("dressing", []):
-		if not _flags_allow(prop):
+		if not _flags_allow(prop) or _cleared_by(prop, raised):
 			continue
 		var placed := prop.duplicate(true)
 		placed["cell"] = _to_cell(prop.get("cell", [0, 0]))
@@ -105,6 +107,8 @@ static func load_area(area_id: String) -> AreaMap:
 		map.props.append(placed)
 		map._index_prop(placed)
 	for entry: Dictionary in data.get("buildings", []):
+		if not _flags_allow(entry):
+			continue
 		var building := entry.duplicate(true)
 		building["cell"] = _to_cell(entry.get("cell", [0, 0]))
 		# A building drawn from a picture stands on that picture's footprint unless it says otherwise,
@@ -118,7 +122,8 @@ static func load_area(area_id: String) -> AreaMap:
 		building["door"] = _to_cell(entry.get("door", front_door if not look.is_empty() else entry.get("cell", [0, 0])))
 		map.buildings.append(building)
 	for person: Dictionary in data.get("people", []):
-		map.people.append(person)
+		if _flags_allow(person):
+			map.people.append(person)
 	if data.has("fire"):
 		map.fire = _to_cell(data["fire"])
 	for pair: Array in data.get("seats", []):
@@ -281,6 +286,20 @@ static func base_cells(prop: Dictionary) -> Array[Vector2i]:
 		for dx in maxi(1, size.x):
 			out.append(cell + Vector2i(dx - (size.x - 1) / 2, -dy))
 	return out
+
+
+## Whether [param prop] stands where one of [param raised] has been built since ([D251]: Muck Muck's
+## buildings at the crater): on its footprint or a cell round it. Both in the place's own cells.
+static func _cleared_by(prop: Dictionary, raised: Array) -> bool:
+	# Something that waits on a flag of its own was put there on purpose: a wall, the smith's anvil.
+	if prop.has("requires"):
+		return false
+	var at := _to_cell(prop.get("cell", [0, 0]))
+	for building: Dictionary in raised:
+		var size := _to_cell(building.get("size", Database.building_art(str(building.get("art", ""))).get("size", [3, 3])))
+		if Rect2i(_to_cell(building.get("cell", [0, 0])), size).grow(1).has_point(at):
+			return true
+	return false
 
 
 ## Whether a prop is there at all: one with `requires` only turns up once those flags are set

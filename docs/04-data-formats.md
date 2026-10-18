@@ -319,6 +319,14 @@ rounds does not `wander`. Every stop has to be walkable from where they stand.
 ([D85](06-decisions.md)): on the ring of cells round it, a tower at each corner and either side of
 each exit, a gap in front of each exit, and a lane kept clear outside. The place needs two cells
 spare each way in its tile. The pictures are `art/props/walls/<build>_run`, `_side` and `_tower`.
+`walls_requires` (flags) puts them up only once those are set: the crater's wall, built by Muck Muck
+([D251](06-decisions.md)).
+
+**Built later** ([D251](06-decisions.md)): a building or a person may carry `requires` /
+`requires_not` (flags) like a prop, and is there only while they allow. A building with `requires`
+that stands clears its footprint and a cell round it of every prop without flags of its own (the
+trees that grew where Muck Muck built). `home.json` holds the crater town this way, behind
+`town:smithy`, `town:infirmary` and `town:wall`.
 
 **`covers`** on a place ([w, h]) stands it over that many tiles of the land, not one ([D247](06-decisions.md)),
 with the tile `anchor` ([x, y] within it, [0, 0] when absent) on its site. It is laid out whole in the

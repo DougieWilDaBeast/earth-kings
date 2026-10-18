@@ -528,7 +528,11 @@ static func _raise_walls(made: Dictionary, rect: Rect2i, place: Dictionary, land
 				by_gate = by_gate or gaps.has(at + dir)
 			var piece := "tower" if corner or by_gate \
 				else ("run" if y == ring.position.y or y == last.y else "side")
-			(made["props"] as Array).append({ "art": "walls/%s_%s" % [build, piece], "cell": [x, y], "solid": true })
+			var wall := { "art": "walls/%s_%s" % [build, piece], "cell": [x, y], "solid": true }
+			# A wall still to be built stands only once it is ([D251]: the crater's).
+			if place.has("walls_requires"):
+				wall["requires"] = place["walls_requires"]
+			(made["props"] as Array).append(wall)
 
 
 ## Which way is out of a place from [param at], one of its edge cells: down unless it is on another edge.

@@ -134,6 +134,90 @@
         3,
         11
       ]
+    },
+    {
+      "art": "village/anvil",
+      "cell": [
+        5,
+        1
+      ],
+      "requires": [
+        "town:smithy"
+      ]
+    },
+    {
+      "art": "village/well",
+      "cell": [
+        5,
+        10
+      ],
+      "requires": [
+        "town:wall"
+      ]
+    }
+  ],
+  "_town": "D251: what Muck Muck builds at the crater, ordered from him in Stormreach (data/areas/city_streets.json): each building, its people and its props stand once its flag is set (town:smithy, town:infirmary, town:wall), and clear the ground under and round them. The wall is the timber walls round the place (walls_requires). Inferred: every name, place and word (agenda row 164).",
+  "walls": "timber",
+  "walls_requires": ["town:wall"],
+  "buildings": [
+    {
+      "name": "the smithy",
+      "art": "lit_house",
+      "cell": [
+        1,
+        0
+      ],
+      "requires": [
+        "town:smithy"
+      ],
+      "shut": [
+        "The forge is banked. Hald is out front, at the anvil.",
+        "Inside: bellows, tongs, and a cat asleep on the warm stone."
+      ]
+    },
+    {
+      "name": "the infirmary",
+      "art": "plaster_house",
+      "cell": [
+        13,
+        0
+      ],
+      "requires": [
+        "town:infirmary"
+      ],
+      "shut": [
+        "Clean cots in rows, and the smell of boiled linen. Ness sees people outside, in the light.",
+        "Shut, to keep the draught off whoever is lying in there."
+      ]
+    },
+    {
+      "name": "a settler's cottage",
+      "art": "red_roof_house",
+      "cell": [
+        1,
+        10
+      ],
+      "requires": [
+        "town:wall"
+      ],
+      "shut": [
+        "Somebody's washing hangs over the door. They came because of the wall.",
+        "Locked. A child's face at the window, then gone."
+      ]
+    },
+    {
+      "name": "a settler's lodge",
+      "art": "hunting_lodge",
+      "cell": [
+        13,
+        10
+      ],
+      "requires": [
+        "town:wall"
+      ],
+      "shut": [
+        "Antlers on the gable, and nobody home. Out hunting, by the look of the empty rack."
+      ]
     }
   ],
   "people": [
@@ -155,6 +239,140 @@
         "The Guild hands out the gates nobody else wants. Shut one, and they'll let you climb.",
         "I had a master once. He'd have known what to make of you falling out of the sky."
       ]
+    },
+    {
+      "name": "Hald the smith",
+      "unit": "dwarf_smith",
+      "cell": [
+        5,
+        2
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "requires": [
+        "town:smithy"
+      ],
+      "chatter": [
+        "Muck Muck built the roof. I built the fire. Ask him which matters.",
+        "Iron's iron. Bring me something worth hitting."
+      ],
+      "talk": {
+        "hello": [
+          "Hald. Smith. Muck Muck said there was a forge going begging out here, and there was.",
+          "Good ground, this. Flat, and nobody's grandfather buried under it."
+        ],
+        "again": "Back for more iron?",
+        "sells": [
+          {
+            "item": "iron_blade",
+            "restock": true
+          },
+          {
+            "item": "steel_blade"
+          },
+          {
+            "item": "hunting_bow",
+            "restock": true
+          },
+          {
+            "item": "orrery_staff",
+            "restock": true
+          },
+          {
+            "item": "padded_coat",
+            "restock": true
+          },
+          {
+            "item": "scale_shirt"
+          },
+          {
+            "item": "owl_helm"
+          }
+        ],
+        "shop": "Your forge, your prices. I still have to eat.",
+        "bye": "Mind the sparks."
+      }
+    },
+    {
+      "name": "Ness the healer",
+      "unit": "town_elder",
+      "cell": [
+        12,
+        2
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "requires": [
+        "town:infirmary"
+      ],
+      "chatter": [
+        "Clean hands, hot water, and nobody shouting. That's most of it.",
+        "Sinner taught me. Don't tell her I said so."
+      ],
+      "talk": {
+        "hello": [
+          "Ness. I mend people. Out here it's cheaper than in the city, and the beds are yours anyway."
+        ],
+        "heal": {
+          "price": 25,
+          "q": "Patch up my companions.",
+          "done": "There. Go easy on them for a day. You won't, but I said it.",
+          "whole": "Nobody here needs me. Good.",
+          "whole_q": "Can you look us over?"
+        },
+        "bye": "Come back in one piece."
+      }
+    },
+    {
+      "name": "a settler",
+      "unit": "town_farmer",
+      "cell": [
+        4,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "requires": [
+        "town:wall"
+      ],
+      "chatter": [
+        "We heard there was a wall going up out here. A wall, and nobody's lord.",
+        "First crop's in by the rim. The ground's warm. It grows like it's in a hurry."
+      ]
+    },
+    {
+      "name": "a settler",
+      "unit": "town_fisher",
+      "cell": [
+        12,
+        9
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "requires": [
+        "town:wall"
+      ],
+      "chatter": [
+        "My mother says it's bad luck to live where something fell out of the sky. My mother lives in Stormreach.",
+        "They say you came down right there. In the middle. On fire."
+      ],
+      "talk": {
+        "hello": [
+          "We came for the wall. Stayed for the quiet. What can I tell you?"
+        ],
+        "news": true,
+        "bye": "Mind how you go."
+      }
     }
   ],
   "rows": [
