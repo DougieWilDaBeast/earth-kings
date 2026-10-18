@@ -3454,6 +3454,14 @@ func _leave() -> void:
 func _enter(building: Dictionary) -> void:
 	var inside: String = building.get("area", "")
 	EventBus.player_did.emit("door:%s" % str(building.get("name", "")))
+	# A door that only opens once something is yours (`area_requires`; your house, D252).
+	var title := str(building.get("name", ""))
+	if building.has("area_requires"):
+		for flag: String in building["area_requires"]:
+			if not GameState.has_flag(flag):
+				inside = ""
+		if inside != "":
+			title = str(building.get("owned_name", title))
 	if building.has("fight"):
 		_spar(building)
 		return
@@ -3479,7 +3487,7 @@ func _enter(building: Dictionary) -> void:
 	var outside := _doorstep_payload(doorstep)
 	EventBus.request_scene.emit("area", {
 		"area_id": inside,
-		"title": building.get("name", ""),
+		"title": title,
 		"return_scene": "area",
 		"return_payload": outside,
 	})
@@ -3888,13 +3896,20 @@ func _exit_tree() -> void:
 ## The innkeep sells a night (`inn_room_paid`); here it becomes a room of this inn (`inn_room_at`),
 ## its bed pinned with a dotted line to it, and the compass on it. Sleeping in it patches everyone
 ## up, sends them off the better for it (`vigour`, as a bed at home does) and is a place the game
-## saves. One night a payment.
+## saves. One night a payment, unless the room is kept for good: an inn's `lease` is the flag that
+## makes its room yours every night (the Flagon's room two, then your house in Stormreach; D252).
 const ROOM_PAID := "inn_room_paid"
 const ROOM_AT := "inn_room_at"
 
 
 func _inn() -> Dictionary:
 	return Database.area(map.id).get("inn", {}) if map != null else {}
+
+
+## Whether this inn's room is kept for the company for good ([D252]).
+func _leased() -> bool:
+	var lease := str(_inn().get("lease", ""))
+	return lease != "" and GameState.has_flag(lease)
 
 
 func _is_an_inns_bed(cell: Vector2i) -> bool:
@@ -3908,7 +3923,8 @@ func _is_an_inns_bed(cell: Vector2i) -> bool:
 func _your_bed() -> Vector2i:
 	var inn := _inn()
 	var rooms: Array = inn.get("bedrooms", [])
-	if rooms.is_empty() or str(GameState.flags.get(ROOM_AT, "")) != map.id or not GameState.has_flag(ROOM_PAID):
+	var paid_here := str(GameState.flags.get(ROOM_AT, "")) == map.id and GameState.has_flag(ROOM_PAID)
+	if rooms.is_empty() or not (paid_here or _leased()):
 		return Vector2i(-1, -1)
 	var yours: Dictionary = rooms[clampi(int(inn.get("yours", 0)), 0, rooms.size() - 1)]
 	return AreaMap.to_cell(yours.get("bed", [-1, -1]))
@@ -3924,9 +3940,9 @@ func _your_room_name() -> String:
 
 ## After a conversation: a night just paid for here becomes this inn's room.
 func _settle_the_room() -> void:
-	if _inn().is_empty() or not GameState.has_flag(ROOM_PAID):
+	if _inn().is_empty() or not (GameState.has_flag(ROOM_PAID) or _leased()):
 		return
-	if str(GameState.flags.get(ROOM_AT, "")) == "":
+	if GameState.has_flag(ROOM_PAID) and not _leased() and str(GameState.flags.get(ROOM_AT, "")) == "":
 		GameState.set_flag(ROOM_AT, map.id)
 		_note("%s is yours for the night. Follow the line to it, and E by the bed to sleep." % _your_room_name())
 	_show_the_room()
@@ -4001,11 +4017,14 @@ func _sleep_in_the_room() -> void:
 			bettered.append(character.display_name)
 	GameState.roster.rest()
 	GameState.heal_party()
-	GameState.flags.erase(ROOM_PAID)
-	GameState.flags.erase(ROOM_AT)
+	# A room kept for good stays yours; a night paid for is let go ([D252]).
+	if not _leased():
+		GameState.flags.erase(ROOM_PAID)
+		GameState.flags.erase(ROOM_AT)
 	_show_the_room()
 	EventBus.player_did.emit("slept:%s" % place)
-	_note("You sleep in %s at %s, and wake with the house already loud below." % [_your_room_name().to_lower(), place])
+	var woke := str(inn.get("woke", ""))
+	_note(woke if woke != "" else "You sleep in %s at %s, and wake with the house already loud below." % [_your_room_name().to_lower(), place])
 	if not bettered.is_empty():
 		_note("%s wake up the better for it (+%d health)." % [" and ".join(bettered), vigour])
 	_night_falls()

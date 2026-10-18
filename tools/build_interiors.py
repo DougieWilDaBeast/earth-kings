@@ -202,6 +202,23 @@ ROOMS: dict[str, dict] = {
         ],
         people=[(8, 3), (4, 3), (13, 6)], spots=[(8, 4), (12, 3)], chests=[(2, 2)],
     ),
+    # Your own house in Stormreach (D252, Ewan's #270 keep 5, from Kenshi): a narrow house off the
+    # east street, bought from the Steward. A bed of your own, the strongbox, a hearth.
+    "city_house": dict(
+        size=(11, 9), door=5, floor="oak", wall="timber", tint="#efdcc4",
+        rugs=[(3, 4, 5, 3, "#3b4a6b", "#b89a5a"), (7, 1, 3, 2, "#5a2e2a", "#b89a5a")],
+        glows=[(3, 1, 3, "#ff9a40", 0.45), (8, 3, 2, "#ffcf80", 0.25), (2, 6, 2, "#ffcf80", 0.2)],
+        props=[
+            ("interior/fireplace", 2, 0, TWO_ON_WALL), ("village/log_pile", 1, 1, None),
+            ("interior/banner_blue", 5, 0, ON_WALL), ("interior/shelf_bottles", 7, 0, TWO_ON_WALL),
+            ("bed", 8, 1, None), ("drawers_wood", 9, 3, None), ("oil_lamp", 9, 4, None),
+            ("interior/table_round", 5, 5, None), ("chair", 4, 5, None), ("chair", 6, 5, None),
+            ("interior/bookshelf", 1, 4, None), ("interior/sword_rack", 9, 6, None),
+            ("interior/crates", 1, 7, None), ("potted_plant", 9, 7, None),
+        ],
+        people=[], spots=[(5, 2), (3, 6)], chests=[(1, 2)],
+        named={(8, 1): ("your bed", "Your own bed. Nobody else's boots have been in it since you bought the place.")},
+    ),
 }
 
 
@@ -350,7 +367,9 @@ def build(area_id: str) -> None:
     if "floors" in room:
         data["interior"]["floors"] = [{"rect": [x, y, fw, fh], "floor": f} for x, y, fw, fh, f in room["floors"]]
     if "inn_block" in room:
-        data["inn"] = room["inn_block"]
+        # A room let for good and the words on waking are the area's own (D252), not the layout's.
+        kept = {k: v for k, v in data.get("inn", {}).items() if k in ("lease", "woke")}
+        data["inn"] = {**room["inn_block"], **kept}
     props = []
     for art, x, y, offset in room["props"]:
         entry: dict = {"art": art, "cell": [x, y]}
@@ -359,6 +378,8 @@ def build(area_id: str) -> None:
         if (x, y) in room.get("beds", []) and art == "bed":
             entry["name"] = "a bed"
             entry["line"] = "A bed made up for the night."
+        elif (x, y) in room.get("named", {}):
+            entry["name"], entry["line"] = room["named"][(x, y)]
         elif "inn" in room and art == "village/bread_oven" and (x, y) == (1, 1):
             entry["name"] = "the kitchen's oven"
             entry["line"] = "The oven's still warm. Something with onions in it went out of here not long ago."

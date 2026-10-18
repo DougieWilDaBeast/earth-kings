@@ -2051,8 +2051,14 @@
         50,
         18
       ],
+      "area": "city_house",
+      "area_requires": [
+        "home:house"
+      ],
+      "owned_name": "your house",
       "shut": [
-        "Nobody in."
+        "Nobody in. A board nailed across the door says the house is the Margrave's, and the Steward will hear offers.",
+        "Empty since the winter. Through the shutters: a hearth, a bed frame, and a lot of dust waiting for somebody."
       ]
     },
     {
@@ -2620,6 +2626,29 @@
           {
             "q": "Who is the Margrave?",
             "a": "The Margrave holds the city for the crown, and the crown has not been seen in forty years. Draw what conclusions you like, quietly."
+          },
+          {
+            "q": "The narrow house on the east street. Is it for sale?",
+            "requires_not": [
+              "home:room",
+              "home:house"
+            ],
+            "a": "To people who live in the city, yes. You sleep in a ditch, by the look of you. Take a room somewhere and keep it, and come back when you are a resident."
+          },
+          {
+            "q": "We keep a room at the Flagon now. The narrow house (900 gold)?",
+            "cost": 900,
+            "requires": "home:room",
+            "requires_not": [
+              "home:house"
+            ],
+            "set_flag": "home:house",
+            "a": "Nine hundred. Sign here. And here. The key. The roof is sound, the chimney draws, and the last tenant is not coming back for anything, so don't ask. It's yours: your bed, your strongbox, your door. The Margrave thanks you for your residence, through me."
+          },
+          {
+            "q": "About our house.",
+            "requires": "home:house",
+            "a": "Your house is on the books and the books are in order. That is all I ever wish to say about any house."
           }
         ],
         "bye": "Good day."

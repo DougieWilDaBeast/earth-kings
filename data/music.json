@@ -20,6 +20,7 @@
 		"city": "city",
 		"city_streets": "city",
 		"city_tavern": "city",
+		"city_house": "city",
 		"tower_floor_1": "tower",
 		"tower_floor_2": "tower",
 		"tower_floor_3": "tower",

@@ -357,7 +357,9 @@ area always comes out the same.
 **Buildings** with an `art` (a key of `props.json` → `buildings`) are drawn from that picture at its
 `scale`, on its footprint `size`, with the door in the middle of the front row unless `door` says
 otherwise; `scale`, `size`, `flip` and `lived_in` may be given. A building with no `area` behind
-its door says its `shut` line (a string or a list) when walked into. A building with a `fight`
+its door says its `shut` line (a string or a list) when walked into; one with `area_requires`
+(flags) opens on its `area` only once those are set, and says `shut` until then, its inside then
+titled `owned_name` (your house in Stormreach, [D252](06-decisions.md)). A building with a `fight`
 (`terrain`, `title`, `enemies` as `[{ "unit", "level" }]`, and `scene`, `skirmish` by default) is a
 door into a training fight that comes back out of the same door; nothing in it counts.
 
@@ -482,6 +484,10 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
   `the_innkeeper`, or a `talk` ask with `cost` and `set_flag`) becomes room `yours` of the inn it was
   bought in (`inn_room_at`). Its bed is pinned with a line to it and the compass points there; E by
   it sleeps: everyone patched up, each at least `vigour` extra health as a bed at home gives, a save.
+- `lease` (a flag) keeps room `yours` the company's every night while it is set: no night to pay
+  for, and it is not let go once slept in ([D252](06-decisions.md): the Flagon's room two,
+  `home:room`, and your house in Stormreach, `city_house`, `home:house`). `woke` is said on waking
+  instead of the inn's line. Both are the area's own and kept when the tool lays the room out again.
 
 ## `world_map.json` — the one world ([D91](06-decisions.md), [D92](06-decisions.md))
 
