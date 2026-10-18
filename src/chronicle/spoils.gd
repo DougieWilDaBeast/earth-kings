@@ -77,7 +77,7 @@ static func for_gate(world: World, site: Site, party: Array) -> Array:
 	Renown.record(
 		world, Renown.GATE_SHUT, site.cell,
 		int(Renown.rules().get("gate_shut", 2)) * (Site.rank_index(site.rank) + 1),
-		"the %s-rank gate at %s was shut" % [site.rank, site.display_name]
+		"the %s-rank gate at %s was shut" % [site.rank, site.display_name], "", site.display_name
 	)
 
 	lines.append_array(keeper_prize(world, site))

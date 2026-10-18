@@ -65,6 +65,9 @@ var codex: Dictionary = {}
 var trivia: Array = []
 ## Everything you have done that anyone would repeat, and where (see [Renown]).
 var deeds: Array = []
+## Bands beaten, by the faction they were: faction id -> count. Past a point a faction holds a grudge
+## ([D249], see `remembered.gd`).
+var grudges: Dictionary = {}
 ## Live story threads, id -> { stage, entered_at, memory, tags, done } (see [Skein]).
 var threads: Dictionary = {}
 ## What you have worked out about what you fight (see [Journal]).
@@ -351,6 +354,7 @@ func to_dict() -> Dictionary:
 		"codex": codex,
 		"trivia": trivia,
 		"deeds": deeds,
+		"grudges": grudges,
 		"threads": threads,
 		"journal": journal,
 		"routes": routes,
@@ -402,6 +406,7 @@ static func from_dict(payload: Dictionary) -> World:
 	world.codex = payload.get("codex", {})
 	world.trivia = payload.get("trivia", [])
 	world.deeds = payload.get("deeds", [])
+	world.grudges = payload.get("grudges", {})
 	world.threads = payload.get("threads", {})
 	world.journal = payload.get("journal", {})
 	world.routes = payload.get("routes", [])

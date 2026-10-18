@@ -120,7 +120,8 @@ static func close() -> void:
 		if GameState.world != null:
 			Renown.record(
 				GameState.world, "tournament_won", GameState.world.player_cell, 4,
-				"won %d gold in the arena tournament" % earned_purse
+				"won %d gold in the arena tournament" % earned_purse,
+				"won the arena tournament"
 			)
 
 

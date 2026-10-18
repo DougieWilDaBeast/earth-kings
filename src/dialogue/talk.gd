@@ -8,6 +8,8 @@ extends RefCounted
 ## its own, so the box, the portraits, the checks and the `once` replies all work the same way.
 ## See `docs/04-data-formats.md` → `talk`. Loaded by path ([D41]).
 
+const Remembered := preload("res://src/chronicle/remembered.gd")
+
 const END := "end"
 ## What the party says to leave, when the block gives nothing of its own.
 const GOODBYE := "Goodbye."
@@ -30,18 +32,26 @@ static func open(area_id: String, person: Dictionary, roll: float = -1.0) -> Str
 	var id := dialogue_id(area_id, person)
 	var talk: Dictionary = person.get("talk", {})
 	var name_ := str(person.get("name", "Someone"))
+	# The world remembers (D249): where the company is disliked, they would sooner not talk to it,
+	# and what they have heard of it they say first.
+	if not talk.has("refuse") and GameState.world != null \
+			and Remembered.is_cold(GameState.world, GameState.world.player_cell):
+		talk = talk.duplicate()
+		talk["refuse"] = Remembered.cold_refusal()
 	var nodes := build(name_, talk, GameState.has_flag(met_flag(area_id, person)),
-		roll if roll >= 0.0 else randf(), met_flag(area_id, person))
+		roll if roll >= 0.0 else randf(), met_flag(area_id, person), Remembered.recall(GameState.world, id))
 	Database.register_dialogue(id, {
 		"cast": { name_: str(person.get("unit", "")) },
-		"start": "door" if nodes.has("door") else "hello",
+		"start": "recall" if nodes.has("recall") else "door" if nodes.has("door") else "hello",
 		"nodes": nodes,
 	})
 	return id
 
 
-## The nodes themselves. Kept free of the area so it can be checked without one.
-static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_key: String) -> Dictionary:
+## The nodes themselves. Kept free of the area so it can be checked without one. [param recall] is
+## what they bring up before anything else, if anything ([D249]).
+static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_key: String,
+		recall: String = "") -> Dictionary:
 	var nodes := {}
 	var menu: Array = []
 
@@ -97,6 +107,8 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 	var refuse: Dictionary = talk.get("refuse", {})
 	if not refuse.is_empty() and _refuses(refuse, roll):
 		_add_refusal(nodes, name_, refuse)
+	if recall != "":
+		nodes["recall"] = { "speaker": name_, "text": recall, "next": "door" if nodes.has("door") else "hello" }
 	return nodes
 
 

@@ -597,6 +597,29 @@ open country can be walked through), `hush` (cells off a band's sight on the lan
 `{of}`), `finished` (`{land}`, `{trinket}`, `{what}`) and `annal`. The world keeps `lands`: land id ->
 `{ needs, got, walked, stood, done }`.
 
+## `world_rules.json` → `renown` — deeds, and the world remembering them (D249)
+
+Every deed worth telling is written down where it happened (the world's `deeds`: `{ kind, cell,
+step, weight, line }`, with `told` and `place` when it can be brought up), and word of it walks out a
+tile every `steps_per_tile` steps. Standing at a place adds up the weights heard there: `known_at`
+of them makes you known, `renowned_at` renowned, `feared_at` below nothing feared; prices swing
+`price_swing` a point within `price_cap`. `gate_shut`, `town_saved`, `town_raided` and
+`tower_topped` are the weights of those deeds.
+
+`remembered` is what people do with it ([D249](06-decisions.md), `src/chronicle/remembered.gd`):
+`kinds` holds the lines a deed is brought up with, by kind, `warm` (weight 0 or more) and `cold`,
+plus `told` (the deed as said to the doer, with `{place}`); a deed of no kind of its own that was
+written down with `told` uses `kinds.told`'s lines (`{told}`). Anyone with a `talk` block says the
+newest one heard at the place before their hello, once each; a townsperson who only chats takes one
+into their chatter on `aside_chance`. At standing `cold_at` or below, anyone with a `talk` block and
+no refusal of their own refuses with `cold` (a `refuse` block: `chance`, `bribe`, `bribe_q` with
+`%d`, `check`, `text`, `won`, `still_no`, `leave`). A faction whose own bands are beaten `grudge_at`
+times (`no_grudge` never) holds a grudge: `grudge_line` (`{faction}`, `{count}`) is said once, and
+its bands see `grudge_sight` cells further and shout one of `grudge_shouts`. A world that ends keeps
+`dream_most` of its lead's deeds in its echo (`deeds`: `{ cell, told, weight }`); in a later world,
+somebody within `dream_reach` tiles of one says one of `dreamt` (`{name}`, `{told}`) once. The world
+keeps `grudges`: faction id -> bands beaten.
+
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on

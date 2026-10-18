@@ -27,15 +27,23 @@ static func steps_per_tile() -> int:
 
 
 ## Write a deed down where it happened. [param weight] is positive for things
-## that make people glad to see you and negative for the other kind.
-static func record(world: World, kind: String, cell: Vector2i, weight: int, line: String) -> void:
-	world.deeds.append({
+## that make people glad to see you and negative for the other kind. [param told] is the deed the
+## way somebody would say it to the doer's face ("claimed the bounty on Red Jack"), and [param place]
+## where it happened, by name: with either, the people who hear of it can bring it up ([D249]).
+static func record(world: World, kind: String, cell: Vector2i, weight: int, line: String,
+		told: String = "", place: String = "") -> void:
+	var deed := {
 		"kind": kind,
 		"cell": [cell.x, cell.y],
 		"step": world.steps,
 		"weight": weight,
 		"line": line,
-	})
+	}
+	if told != "":
+		deed["told"] = told
+	if place != "":
+		deed["place"] = place
+	world.deeds.append(deed)
 
 
 ## How far word of [param deed] has travelled by now, in tiles.

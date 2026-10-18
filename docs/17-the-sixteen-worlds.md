@@ -243,5 +243,10 @@ Built 2026-10-12 for M15 (`src/chronicle/siblings.gd`, `src/world/world_end.gd`,
   seat, the fire showing through them. They answer how they fell, what went well, what they found
   out there and where their weapon is. What they found is the journal, shared a line or three at
   first by temper, two more every night after, and all of it once their weapon is found.
+- **The dream** ([D249](06-decisions.md), **Inferred**). The world that ends keeps six of its lead's
+  weightiest deeds (a gate shut, a town held or burned, someone pulled off the road). In the worlds
+  after, somebody to talk to at a place within a tile of one has dreamt it, and says so once before
+  their hello: "I dreamt of someone with that mark on them. Pluto, they were called. They shut
+  Greyhollow."
 - **The journal page** (_Quests & the Fallen_) says which world of the sixteen this is and what has
   come through from each one that ended.

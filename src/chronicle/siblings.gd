@@ -24,13 +24,15 @@ extends RefCounted
 ## The when, the where and the how much are all **Inferred** (agenda items 50
 ## to 55). Everything lives in [member World.echoes], so it saves with the
 ## world: `{ sibling, base_seed, past: [echo] }`, each echo
-## `{ hero, name, temper, level, floor, killer, well, pages, self, arrived,
-## visits, weapon: { id, cell, landed, heard, found } }`.
+## `{ hero, name, temper, level, floor, killer, well, pages, deeds, self, arrived,
+## visits, weapon: { id, cell, landed, heard, found } }`; `deeds` are dreamt of in the worlds after
+## ([D249], `remembered.gd`).
 ##
 ## Loaded by path ([D41]). Pure logic: no nodes.
 
 const Fall := preload("res://src/chronicle/fall.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
+const Remembered := preload("res://src/chronicle/remembered.gd")
 
 ## A ghost is spoken to under this, plus their place in the past.
 const GHOST_PREFIX := "ghost:"
@@ -86,6 +88,8 @@ static func remember(world: World, roster: Roster, ledger: Dictionary) -> Dictio
 		"weapon": signature_of(lead.template_id),
 		"well": _what_went_well(world, ledger),
 		"pages": journal_pages(world, ledger),
+		# A few of what they did, for somebody in the worlds after to have dreamt (D249).
+		"deeds": Remembered.keep(world),
 		# The personality they started with ([D52]), not what the run made of it.
 		"self": {
 			"class_id": lead.class_id,

@@ -116,10 +116,8 @@ static func meeting(world: World, cell: Vector2i, event_id: String, party: Array
 ## country has a way of finding out what sort you are.
 static func walk_by(world: World, cell: Vector2i, event_id: String) -> Array:
 	var lines: Array = event(event_id).get("walked_by", []).duplicate()
-	Renown.record(
-		world, "thread", cell, int(rules().get("renown_walked_by", -2)),
-		"stood by while %s" % title(event_id).to_lower().trim_suffix(".")
-	)
+	var what := "stood by while %s" % title(event_id).to_lower().trim_suffix(".")
+	Renown.record(world, "thread", cell, int(rules().get("renown_walked_by", -2)), what, what)
 	return lines
 
 
@@ -134,7 +132,8 @@ static func watch_thanks(world: World, cell: Vector2i, party: Array) -> Array:
 	var purse := int(watch.get("purse_base", 25)) + int(watch.get("purse_per_level", 10)) * Encounter.party_level(party)
 	GameState.gold += purse
 	lines.append(str(watch.get("purse_line", "%d gold: the Watch's bounty.")) % purse)
-	Renown.record(world, "thread", cell, int(watch.get("renown", 2)), "fought a band off the road beside the Watch")
+	var what := "fought a band off the road beside the Watch"
+	Renown.record(world, "thread", cell, int(watch.get("renown", 2)), what, what)
 	return lines
 
 
@@ -149,10 +148,8 @@ static func saved(world: World, cell: Vector2i, event_id: String, party: Array) 
 	GameState.gold += purse
 	lines.append(str(data.get("purse_line", "There is %d gold in it, counted out on the boards.")) % purse)
 
-	Renown.record(
-		world, "thread", cell, int(rules().get("renown_saved", 3)),
-		"pulled somebody off the road at %s" % _place(world, cell)
-	)
+	var what := "pulled somebody off the road at %s" % _place(world, cell)
+	Renown.record(world, "thread", cell, int(rules().get("renown_saved", 3)), what, what)
 
 	if bool(data.get("escort", false)):
 		var to := _somewhere_to_take_them(world, cell)
@@ -258,10 +255,8 @@ static func on_arrive(world: World, site: Site, party: Array) -> Array:
 		"They pay you %d gold, and mean the rest of it." % paid,
 	]
 	lines.append_array(_open_route(world, from, site))
-	Renown.record(
-		world, "thread", site.cell, int(rules().get("renown_delivered", 2)),
-		"saw somebody safely into %s" % site.display_name
-	)
+	var what := "saw somebody safely into %s" % site.display_name
+	Renown.record(world, "thread", site.cell, int(rules().get("renown_delivered", 2)), what, what, site.display_name)
 	return lines
 
 

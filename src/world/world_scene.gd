@@ -37,6 +37,7 @@ const Biome := preload("res://src/chronicle/biome.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Markers := preload("res://src/world/markers.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
+const Remembered := preload("res://src/chronicle/remembered.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 
 const CELL := 24
@@ -548,7 +549,7 @@ func _watch_check(cell: Vector2i) -> void:
 	var terrain := world.terrain_id_at(cell)
 	if terrain in ["brush", "forest", "marsh"] or band.cell == cell:
 		meeting["ambush"] = true
-	_begin_battle(meeting, { "kind": "band", "cell": cell })
+	_begin_battle(meeting, { "kind": "band", "cell": cell, "pack": band.pack })
 
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Dictionary = {}) -> void:
@@ -742,6 +743,12 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			var trinkets_before := LandJournals.carried(world).size()
 			_land_journal(LandJournals.on_band_beaten(world, cell), trinkets_before)
+			# Its faction counts it, and past a point holds a grudge (D249).
+			var beaten: Variant = outcome.get("band", null)
+			var grudge := Remembered.on_band_beaten(world,
+				(beaten as Prowler).pack if beaten is Prowler else outcome.get("pack", []))
+			if grudge != "":
+				_note(grudge)
 			# Led to the Watch, and fought with them (D236): their bounty, and their thanks.
 			if int(outcome.get("watch", 0)) > 0:
 				for line: String in Roadside.watch_thanks(world, cell, party):

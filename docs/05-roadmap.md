@@ -336,7 +336,7 @@ each, each ending playable:
    in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
    **built**, [D239](06-decisions.md): a page for each land set foot in, up to five things to do there, and
    one of eighteen trinkets for finishing it, which walk faster, wade the shallows, slip past bands, keep
-   a hazard off or fight harder), the world remembering (#286, next), companions whose arcs react
+   a hazard off or fight harder), the world remembering (#286, **built**, [D249](06-decisions.md): the people you talk to bring up what you did once word of it has reached them, a place that has heard the worst turns you away until a coin or a word wins it round, a faction that keeps losing bands to you knows you on sight, and a later world's people have dreamt what an earlier lead did), companions whose arcs react
    (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
