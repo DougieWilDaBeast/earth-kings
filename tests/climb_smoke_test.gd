@@ -334,8 +334,9 @@ func _floor_is_dressed(on: Node, floor: int) -> void:
 	_expect(runes >= 4, "floor %d: only %d lit runes on its walls" % [floor, runes])
 
 
-## The nearest open gate deeper than one floor: walked onto, its first floor won, walked away from.
-## The walk away is a walk, not the gate's next floor (B2).
+## The nearest open gate deeper than one floor: walked onto, gone into, its first floor walked to the
+## way down, out of the second floor's doorway, and walked away from. The walk away is a walk, not
+## the gate's next floor (B2).
 func _out_to_a_gate_and_back() -> void:
 	var world: World = GameState.world
 	var gate: Site = null
@@ -375,33 +376,28 @@ func _out_to_a_gate_and_back() -> void:
 	_expect(str(enter.get("prompt", "")).ends_with("to enter %s (rank %s)" % [gate.display_name, gate.rank]),
 		"gate: standing at %s does not offer to enter it (offers %s)" % [gate.display_name, land.get("_acts")])
 	land.call("_do_act", enter)
-	# Fought where the party stands, on the land, never on a fight screen of its own (D162).
-	var fight: Node = null
-	for i in PATIENCE:
-		await get_tree().process_frame
-		if _current() != land:
-			break
-		fight = land.get("_fight")
-		if fight != null:
-			break
-	if fight == null:
-		_fail("gate: E at %s started no fight on the land (on %s)" % [gate.display_name, _describe(_current())])
+	# Gone into (D247): its first floor is walked, not fought at the doorway.
+	var inside := await _scene_where(func(s: Node) -> bool: return _gate_floor_of(s) == 1)
+	if inside == null:
+		_fail("gate: E at %s did not open its first floor (on %s)" % [gate.display_name, _describe(_current())])
 		return
-	_expect(bool(fight.get("in_place")) and fight.get_parent() == land,
-		"gate: %s's fight is not laid on the land it was gone into from" % gate.display_name)
-	_expect(not (fight.get("encounter") as Dictionary).get("enemies", []).is_empty(),
-		"gate: %s's fight on the land has nobody keeping the gate" % gate.display_name)
-	# Won, as the fight settles it.
-	fight.set("victory", true)
-	GameState.set_flag("last_victory", true)
-	fight.emit_signal("gone")
-	for i in PATIENCE:
-		await get_tree().process_frame
-		if land.get("_fight") == null and not bool(land.get("_asking")) and not bool(land.get("_talking")):
-			break
-	_expect(_is_land(_current()) and _current() == land,
-		"gate: winning %s's first floor did not stay on the land (on %s)" % [gate.display_name, _describe(_current())])
+	_expect(inside.get("_gate_cell") == gate.cell, "gate: the floor gone into is not %s's" % gate.display_name)
+	_expect(not (inside.get("_watches") as Array).is_empty(), "gate: nobody holds %s's first floor" % gate.display_name)
+	# The way down, taken: the floor is won, and the next is opened straight on.
+	inside.call("_climb_the_stair")
+	var second := await _scene_where(func(s: Node) -> bool: return _gate_floor_of(s) == 2)
+	if second == null:
+		_fail("gate: the way down from %s's first floor led to %s" % [gate.display_name, _describe(_current())])
+		return
 	_expect(gate.depth() == 1, "gate: %s's first floor won but its depth is %d" % [gate.display_name, gate.depth()])
+	# The doorway behind: back out on the land at the gate, the floor won kept.
+	second.call("_leave")
+	land = await _scene_where(func(s: Node) -> bool: return _is_land(s))
+	if land == null:
+		_fail("gate: walking out of %s's doorway led to %s" % [gate.display_name, _describe(_current())])
+		return
+	_expect(world.player_cell == gate.cell, "gate: out of %s's doorway the party is not at the gate" % gate.display_name)
+	_expect(gate.depth() == 1, "gate: walking out of %s lost the floor won" % gate.display_name)
 	land.call("_ask_the_continent", { "step": [-into.x, -into.y] })
 	await _frames(30)
 	var after := _current()
@@ -491,11 +487,22 @@ func _floor_of(scene: Node) -> int:
 	return int(scene.get("_tower_floor"))
 
 
+## Which floor of a gate this is (1 the first), or 0 when it is not inside one (D247).
+func _gate_floor_of(scene: Node) -> int:
+	if scene == null or scene.get_script() != preload("res://src/area/area_scene.gd") or not scene.is_node_ready():
+		return 0
+	if (scene.get("_gate_cell") as Vector2i).x < 0:
+		return 0
+	return int(scene.get("_gate_depth")) + 1
+
+
 func _describe(scene: Node) -> String:
 	if scene == null:
 		return "nothing"
 	if _is_land(scene):
 		return "the land"
+	if _gate_floor_of(scene) > 0:
+		return "gate floor %d" % _gate_floor_of(scene)
 	if _floor_of(scene) > 0:
 		return "floor %d" % _floor_of(scene)
 	return str(scene.name)

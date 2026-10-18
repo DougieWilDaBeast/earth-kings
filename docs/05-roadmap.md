@@ -362,6 +362,10 @@ each, each ending playable:
    built ([D245](06-decisions.md)). **Planned** from the same look: letters for the world's big moments,
    an inspect card for anyone clicked on the ground, sums on hover for every number, speed keys on the
    ground.
+29. **Fights inside gates** — built (`doug-md`, play-test 6, his first pick of its asks, [D247](06-decisions.md)):
+   E at a gate opens its floor, chambers in rock from the doorway to the way down, a band in each, the
+   keeper before the way down on the last floor; walked straight on down, walked back out of the
+   doorway. Outside a gate, fights are a gate break's.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

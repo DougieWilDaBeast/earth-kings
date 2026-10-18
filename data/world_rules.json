@@ -362,6 +362,25 @@
 		"break_chance": 0.75,
 		"break_danger": 0.25,
 		"break_level_bonus": 3,
+		"_comment_inside": "D247 (doug-md, play-test 6: \"When I enter.or get close to a gate, I want to be able to enter into the gate and fight the monsters there and create a whole area where I can fight the monsters in it. I don't want to have to fight the monsters outside the gate.\"): going into a gate opens its inside, one floor at a time, walked like the Tower's floors (src/chronicle/gate_inside.gd). Each floor is a run of chambers from the doorway at the bottom to the way down at the top, width + width_per_rank x the rank's place (E 0 to S 5) wide and height + height_per_rank high, with chambers + chambers_per_rank of them; a band of the gate's own holds every chamber but the first, and on the last floor the keeper holds the last, before the way down, which does not open until it falls. The ground and walls are the gate's own look (themes, by the gate's place, with the ground sheets drawn bottom first; default for any other); band_reach is how far a chamber's band sees. Walking back out of the doorway leaves the gate. Inferred: every number and every look.",
+		"inside": {
+			"width": 34,
+			"width_per_rank": 4,
+			"height": 26,
+			"height_per_rank": 3,
+			"chambers": 3,
+			"chambers_per_rank": 0.6,
+			"band_reach": 3,
+			"themes": {
+				"default": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
+				"gate": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
+				"gate_barrow": {"floor": "street_paving", "path": "dirt", "wall": "crag", "cover": "meadow", "layers": ["dirt", "street_paving", "meadow", "crag"]},
+				"gate_ash": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "dirt", "layers": ["stone", "dirt", "crag"]},
+				"gate_drowned": {"floor": "stone", "path": "sand", "wall": "water", "cover": "grass", "layers": ["water", "stone", "sand"]},
+				"gate_dune": {"floor": "sand", "path": "stone", "wall": "crag", "cover": "sand", "layers": ["sand", "stone", "crag"]}
+			},
+			"hint": "Bands hold the chambers. The way down is at the far end; the doorway behind you is the way out."
+		},
 		"objectives": {
 			"rout": {
 				"display_name": "Rout",

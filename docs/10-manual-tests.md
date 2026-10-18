@@ -267,6 +267,10 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.13 | Esc → the menu's **Auto: Mixed** button, pressed three times | Aggressive, Passive, Mixed in turn, each with a line on what it does; the choice is kept after the game is closed; the top bar says "Auto: Aggressive" (or the rest) while Auto is on ([D216](06-decisions.md)) |
 | D3.14 | Switch Auto on near a band, once in each style | Aggressive turns aside and walks into its red; Mixed walks its way and fights only if seen; Passive walks round the red ([D216](06-decisions.md)) |
 | D3.15 | Walk the road until a roadside scene comes up (with Auto on, too) | Its title in the log and the scene standing well down the road; no box, and Auto keeps walking. Close to it, what is happening there in the log and "E to step in, or walk on by" ([D216](06-decisions.md)) |
+| D3.21 | Walk to the first gate and press E beside it | No fight at the doorway: a floor of rock chambers opens, the gate's own look, bands standing in the chambers past the first, the compass on the way down; one line in the log about the red ground ([D247](06-decisions.md)) |
+| D3.22 | On a gate of two floors or more, fight through to the far end and press E at the way down | The floor is paid out and the next floor opens straight away; walk back out of its doorway and you are at the gate, and E goes on from the floor reached |
+| D3.23 | On a gate's last floor, walk to the way down before the keeper falls | "The way down will not open while its keeper stands"; the compass points at the keeper; beat it and E at the way down shuts the gate |
+| D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))

@@ -213,6 +213,12 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
+## Inside a gate (D247): the gate's cell on the continent (or -1, -1), the floor (0 first), whether it
+## is the last, and the flag its keeper's fall sets, without which the last floor's way down is shut.
+var _gate_cell := Vector2i(-1, -1)
+var _gate_depth := 0
+var _gate_final := false
+var _gate_keeper := ""
 ## The door the party is standing in, so a shut one is tried once per arrival, not every frame.
 var _on_doorstep: Vector2i = Vector2i(-1, -1)
 ## The roadside scene stood on the ground ahead (D131), and what was put there for it.
@@ -260,6 +266,12 @@ func _ready() -> void:
 	_acts = boot_payload.get("actions", [])
 	_held = boot_payload.get("held", {})
 	_tower_floor = int(boot_payload.get("tower_floor", 0))
+	var gate_at: Array = boot_payload.get("gate_cell", [])
+	if gate_at.size() == 2:
+		_gate_cell = Vector2i(int(gate_at[0]), int(gate_at[1]))
+		_gate_depth = int(boot_payload.get("gate_depth", 0))
+		_gate_final = bool(boot_payload.get("gate_final", false))
+		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
 	get_viewport().size_changed.connect(_fit_the_log)
 	_fit_the_log.call_deferred()
 	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
@@ -1467,9 +1479,45 @@ func _door() -> AreaProp:
 	return null
 
 
+## Whether this is a floor walked to a stair at its far end: the Tower's ([D102]) or a gate's (D247).
+func _walked_floor() -> bool:
+	return _tower_floor > 0 or _in_a_gate()
+
+
+func _in_a_gate() -> bool:
+	return _gate_cell.x >= 0
+
+
+## Whether the far stair can be taken: always, but on a gate's last floor only once its keeper is down.
+func _way_down_open() -> bool:
+	return not (_in_a_gate() and _gate_final and _gate_keeper != "" and not GameState.has_flag(_gate_keeper))
+
+
+## Where the band whose fall opens the way down stands, while it stands; else (-1, -1).
+func _keeper_cell() -> Vector2i:
+	if _way_down_open():
+		return Vector2i(-1, -1)
+	for band: Dictionary in map.bands:
+		if "done:%s" % str(band.get("key", "")) == _gate_keeper:
+			var at: Array = band.get("at", [0, 0])
+			return Vector2i(int(at[0]), int(at[1]))
+	return Vector2i(-1, -1)
+
+
+## What taking the far stair is called here.
+func _stair_line() -> String:
+	if not _in_a_gate():
+		return "climb to floor %d" % (_tower_floor + 1)
+	var site := GameState.world.site_at(_gate_cell) if GameState.world != null else null
+	var gate_name := site.display_name if site != null else "the gate"
+	if _gate_final:
+		return "shut %s" % gate_name
+	return "go down to floor %d of %d" % [_gate_depth + 2, site.floors() if site != null else _gate_depth + 2]
+
+
 ## Whether the leader stands on the stair up, or a step from it, on a floor of the Tower.
 func _at_the_stair() -> bool:
-	if _tower_floor <= 0 or map.stairs.is_empty() or _leader == null:
+	if not _walked_floor() or map.stairs.is_empty() or _leader == null:
 		return false
 	var here := map.cell_at(_leader.position)
 	for stair: Vector2i in map.stairs:
@@ -1482,7 +1530,9 @@ func _prompt_text() -> String:
 	if _hovered != null:
 		return "Click to %s" % _hovered.prompt()
 	if _at_the_stair():
-		return "%s to climb to floor %d" % [Pad.key("interact") if Pad.using_pad else "E", _tower_floor + 1]
+		if not _way_down_open():
+			return "The way down will not open while its keeper stands."
+		return "%s to %s" % [Pad.key("interact") if Pad.using_pad else "E", _stair_line()]
 	if _nearby != null:
 		var doing := _act_of(_nearby)
 		if not doing.is_empty():
@@ -1773,8 +1823,12 @@ func _auto_door_axis(world: World) -> Vector2:
 func _auto_axis() -> Vector2:
 	# On a floor of the Tower, Auto makes for the stair and climbs it (D115), never the way out;
 	# a memory of the lead's lying there it picks up first (D150: it walked past the buckle).
-	var climbing := _tower_floor > 0 and not map.stairs.is_empty()
+	var climbing := _walked_floor() and not map.stairs.is_empty()
 	var keepsake: Variant = _memories.keys()[0] if climbing and not _memories.is_empty() else null
+	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D247).
+	var keeper := _keeper_cell() if climbing else Vector2i(-1, -1)
+	if keepsake == null and keeper.x >= 0:
+		keepsake = keeper
 	if climbing and keepsake == null and _at_the_stair():
 		if not _talking and not _leaving:
 			_climb_the_stair()
@@ -2329,7 +2383,7 @@ func _arrive_at(cell: Vector2i) -> void:
 		_remember(cell)
 	# The stair asks before it climbs (meeting 3: walking onto it ended the floor, a step past
 	# whatever lay beside it): standing at it says "E to climb", and E climbs.
-	if _tower_floor > 0 and map.stairs.has(cell):
+	if _walked_floor() and map.stairs.has(cell):
 		return
 	if not _land_mode and (map.is_exit(cell) or _is_edge_cell(cell)):
 		_handle_exit(cell)
@@ -2465,7 +2519,8 @@ func _post_the_watch() -> void:
 	_bands_told = boot_payload.get("bands", [])
 	for band: Dictionary in _bands_told:
 		_post_band(band)
-	_post_practice_bands()
+	# Said once for all of them below, not once a band (play-test 6: "bombarded with text").
+	_post_practice_bands(true)
 	if not _watches.is_empty():
 		_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % _watches[0].band.get("label", "A band"))
 		EventBus.tip_moment.emit("ground_watch", {})
@@ -2556,14 +2611,14 @@ func _post_bands_for(tile: Vector2i) -> void:
 
 ## The area's own bands whose flags now let them be here and that are not here yet: at the start,
 ## and again whenever a flag may have changed (the tutorial sets one when its fight step begins).
-func _post_practice_bands() -> void:
+func _post_practice_bands(quiet: bool = false) -> void:
 	for band: Dictionary in map.bands:
 		var key := str(band.get("key", ""))
 		if _posted_practice.has(key) or not AreaMap._flags_allow(band):
 			continue
 		_posted_practice[key] = true
 		var watch := _post_band(band)
-		if watch != null and _leader != null and not _talking:
+		if watch != null and _leader != null and not _talking and not quiet:
 			_note("%s — the ground it can see is marked. Step onto it and it fights you, here." % band.get("label", "A band"))
 
 
@@ -2730,6 +2785,18 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"kind": "tower_band", "enemies": enemies,
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
+	if _in_a_gate():
+		# Lost inside a gate, the delve is lost with it: back out at its mouth, its floors filled in.
+		GameState.pending_outcome = {
+			"kind": "gate_band", "cell": _gate_cell, "enemies": enemies,
+			"lost": "You are thrown back out of the gate's mouth.",
+		}
+		# Whoever the Guild sent in with the party fights every fight in here beside it (D147).
+		var allies: Array = field.get("allies", [])
+		for ally: Dictionary in boot_payload.get("allies", []):
+			allies.append(ally.duplicate())
+		if not allies.is_empty():
+			field["allies"] = allies
 	_held_done = str(watch.band.get("done_flag", ""))
 	# D184 (D174): the floor 5 keeper speaks as its fight begins, and knows which of the sixteen
 	# this lead is. Shown the way Sennet's word is (D161); a fight played by hand waits for the box.
@@ -2794,8 +2861,18 @@ func _remember(cell: Vector2i) -> void:
 func _climb_the_stair() -> void:
 	if _leaving:
 		return
+	if not _way_down_open():
+		_note("The way down will not open while its keeper stands.")
+		return
 	_leaving = true
 	var world: World = GameState.world
+	if _in_a_gate():
+		# The floor is won: the continent pays it out as a gate floor fought at the door was (or shuts
+		# the gate, on its last), then opens the next floor straight away (D247).
+		GameState.pending_outcome = { "kind": "gate", "cell": _gate_cell, "final": _gate_final, "walked": true }
+		GameState.set_flag("last_victory", true)
+		EventBus.request_scene.emit("world", { "gate_on": true })
+		return
 	var tower := world.tower()
 	GameState.pending_outcome = {
 		"kind": "tower", "cell": tower.cell if tower != null else world.player_cell, "floor": _tower_floor,
@@ -2889,7 +2966,7 @@ func _after_the_fight() -> void:
 			stood = to_local(_fight.to_global(unit.position))
 			if (f.get("unit").get("character") as Character) == _leader_character:
 				break
-	if not sandbox and _tower_floor > 0:
+	if not sandbox and _walked_floor():
 		_held_fight = "won" if bool(_fight.get("victory")) else ("fled" if bool(_fight.get("fled_field")) else "lost")
 	if _auto_after_fight:
 		_auto_after_fight = false
@@ -3413,7 +3490,7 @@ func _point_the_compass() -> void:
 	var world: World = GameState.world
 	# On a floor of the Tower the only way on is the stair up (D102), and a memory lying there is
 	# pointed at first, so nobody walks past it (D107).
-	if _tower_floor > 0 and not map.stairs.is_empty() and _leader != null:
+	if _walked_floor() and not map.stairs.is_empty() and _leader != null:
 		_compass.set_meta("aimed", true)
 		_compass.visible = not _overlay_open()
 		var here := map.cell_at(_leader.position)
@@ -3421,7 +3498,12 @@ func _point_the_compass() -> void:
 			var glint: Vector2i = _memories.keys()[0]
 			_compass.point(Vector2(glint - here), "Something glints", 0)
 			return
-		_compass.point(Vector2(map.stairs[0] - here), "The stair to floor %d" % (_tower_floor + 1), 0)
+		var keeper := _keeper_cell()
+		if keeper.x >= 0:
+			_compass.point(Vector2(keeper - here), "Its keeper", 0)
+			return
+		_compass.point(Vector2(map.stairs[0] - here),
+			("The way down" if not _gate_final else "The far side") if _in_a_gate() else "The stair to floor %d" % (_tower_floor + 1), 0)
 		return
 	var tower := world.tower()
 	if _far_tower != null and _leader != null and tower != null:

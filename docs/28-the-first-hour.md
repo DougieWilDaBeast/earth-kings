@@ -38,8 +38,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
-   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
-   the plaza, its keepers coming out of the doorway, with no fight screen ([D162](06-decisions.md)). Its plaza runs up to its gate, a
+   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Going in opens its floor, walked
+   chamber to chamber past the bands holding them to its keeper, before the way out at the far end
+   ([D247](06-decisions.md), play-test 6; until then its fight was fought on the plaza, [D162](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
