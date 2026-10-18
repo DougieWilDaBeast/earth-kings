@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "road", "edges", "scenery", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -62,6 +62,7 @@ func _ready() -> void:
 			"lands": _check_lands(world)
 			"land_journals": _check_land_journals(world)
 			"remembered": _check_remembered(world)
+			"arcs": _check_arcs(world)
 			"road": _check_road(world)
 			"edges": _check_edges(world)
 			"scenery": _check_scenery(world)
@@ -1082,6 +1083,80 @@ func _check_remembered(world: World) -> void:
 	world.grudges = saved["grudges"]
 	world.echoes = saved["echoes"]
 	world.player_cell = saved["cell"]
+	GameState.flags = saved["flags"]
+
+
+## Companions whose arcs react (D250): Bellona's opens at the fire once the company has stood on
+## floor 5, moves on only for what it asks, takes what the company did before into account, ends
+## with what it did on the way, and pays for good; as a lead, hers opens with her chapter one.
+func _check_arcs(world: World) -> void:
+	var Arcs := preload("res://src/chronicle/arcs.gd")
+	for hero_id: String in Database.arcs.get("arcs", {}):
+		_expect(not Database.hero(hero_id).is_empty(), "arcs: %s is not one of the sixteen" % hero_id)
+		for stage: Dictionary in Arcs.arc(hero_id).get("stages", []):
+			_expect(str(stage.get("ask", "")) != "" and not (stage.get("until", {}).get("deeds", []) as Array).is_empty(),
+				"arcs: a stage of %s's asks nothing" % hero_id)
+	var saved := { "deeds": world.deeds.duplicate(true), "arcs": world.arcs.duplicate(true), "floor": world.tower_floor,
+		"wanderers": world.wanderers.duplicate(true), "steps": world.steps, "flags": GameState.flags.duplicate(true) }
+	world.deeds = []
+	world.arcs = {}
+	world.wanderers = []
+	var roster := Company.found("juno", ["bellona"])
+	var juno := roster.player()
+	var bellona: Character = null
+	for character: Character in roster.characters:
+		if character.template_id == "bellona":
+			bellona = character
+	world.tower_floor = 0
+	_expect(Arcs.at_the_fire(world, roster, juno, bellona).is_empty(), "arcs: Bellona's opened before floor 5")
+	world.tower_floor = 5
+	var opened := Arcs.at_the_fire(world, roster, juno, bellona)
+	_expect(not opened.is_empty() and str(opened[0].get("speaker", "")) == bellona.display_name,
+		"arcs: Bellona's did not open at the fire (%s)" % [opened])
+	_expect(Arcs.at_the_fire(world, roster, juno, bellona).is_empty(), "arcs: a stage moved on with nothing done")
+	var pages := Arcs.pages(world)
+	_expect(pages.size() == 1 and (pages[0]["entries"] as Array).size() == 1 and not pages[0]["entries"][0]["done"],
+		"arcs: the journal shows %s" % [pages])
+	world.steps += 1
+	Renown.record(world, "thread", world.player_cell, 3, "pulled somebody off the road at Test Cross", "pulled somebody off the road at Test Cross")
+	_expect(Arcs.pages(world)[0]["entries"][0]["done"], "arcs: the journal does not tick a stage done")
+	_expect(not Arcs.at_the_fire(world, roster, juno, bellona).is_empty(), "arcs: nothing said when the road was given its twenty")
+	_expect(int(world.arcs["bellona"]["stage"]) == 1, "arcs: still on the first stage")
+	var guard := bellona.defense()
+	world.steps += 1
+	Renown.record(world, Renown.GATE_SHUT, world.player_cell, 2, "the E-rank gate at Test was shut", "", "Test")
+	var ended := Arcs.at_the_fire(world, roster, juno, bellona)
+	_expect(not ended.is_empty() and bool(world.arcs["bellona"]["done"]), "arcs: Bellona's did not finish")
+	_expect(bellona.defense() == guard + 2, "arcs: the reward did not take (%d, was %d)" % [bellona.defense(), guard])
+	_expect(int(Character.from_dict(bellona.to_dict()).marks.get("defense", 0)) == 2, "arcs: the reward is not kept in the save")
+	_expect(Arcs.at_the_fire(world, roster, juno, bellona).is_empty(), "arcs: said again after it ended")
+	_expect(int(World.from_dict(world.to_dict()).arcs.get("bellona", {}).get("stage", 0)) == 2, "arcs: not kept in the save")
+	# What the company did before: a road already given its twenty is done at once, and Ultor met
+	# changes how it ends.
+	world.arcs = {}
+	world.wanderers = [{ "id": "ultor", "met": 1, "joined": false }]
+	world.steps += 1
+	Arcs.at_the_fire(world, roster, juno, bellona)
+	_expect(int(world.arcs["bellona"]["stage"]) == 1, "arcs: the twenty already given was asked for again")
+	world.steps += 1
+	Renown.record(world, Renown.GATE_SHUT, world.player_cell, 2, "the E-rank gate at Test was shut", "", "Test")
+	var with_ultor := Arcs.at_the_fire(world, roster, juno, bellona)
+	_expect(with_ultor.any(func(l: Dictionary) -> bool: return str(l.get("text", "")).contains("Ultor")),
+		"arcs: meeting Ultor changed nothing (%s)" % [with_ultor])
+	# As the lead: hers opens with her chapter one, said to whoever sits with her.
+	world.arcs = {}
+	var led := Company.found("bellona", ["juno"])
+	var her := led.player()
+	var other: Character = led.characters[1]
+	_expect(Arcs.at_the_fire(world, led, her, other).is_empty(), "arcs: the lead's opened before her chapter one")
+	GameState.set_flag("memory:bellona_1")
+	var hers := Arcs.at_the_fire(world, led, her, other)
+	_expect(not hers.is_empty() and str(hers[0].get("speaker", "")) == her.display_name, "arcs: the lead's did not open with her chapter one")
+	world.deeds = saved["deeds"]
+	world.arcs = saved["arcs"]
+	world.tower_floor = saved["floor"]
+	world.wanderers = saved["wanderers"]
+	world.steps = saved["steps"]
 	GameState.flags = saved["flags"]
 
 

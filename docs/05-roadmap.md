@@ -337,7 +337,7 @@ each, each ending playable:
    **built**, [D239](06-decisions.md): a page for each land set foot in, up to five things to do there, and
    one of eighteen trinkets for finishing it, which walk faster, wade the shallows, slip past bands, keep
    a hazard off or fight harder), the world remembering (#286, **built**, [D249](06-decisions.md): the people you talk to bring up what you did once word of it has reached them, a place that has heard the worst turns you away until a coin or a word wins it round, a faction that keeps losing bands to you knows you on sight, and a later world's people have dreamt what an earlier lead did), companions whose arcs react
-   (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
+   (#283, **built** for Bellona, [D250](06-decisions.md): a short arc of her own, told at the fire after her chapter one, that ends by what the company did and who of the sixteen it met; the other fifteen **planned** in the same shape; bonds from before the descent learned as the game goes on, no romance played), a house in
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
    [D218](06-decisions.md); a gate keeper's prize built, [D219](06-decisions.md); treasure maps built, [D220](06-decisions.md); a band led to the Watch built, [D236](06-decisions.md)), stories inside gates (#288) and ground that changes the fight (#289).

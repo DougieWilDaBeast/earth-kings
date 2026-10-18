@@ -27,6 +27,7 @@ const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
 const Quests := preload("res://src/world/quests.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
+const Arcs := preload("res://src/chronicle/arcs.gd")
 
 signal closed
 
@@ -300,6 +301,7 @@ func _show_quests_page() -> void:
 		_page.add_child(HSeparator.new())
 
 	_show_lands(world)
+	_show_arcs(world)
 
 	var errands_title := _line("Errands taken", HEADING_COLOUR)
 	errands_title.add_theme_font_size_override("font_size", 18)
@@ -390,6 +392,28 @@ func _show_lands(world: World) -> void:
 			said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			_page.add_child(said)
 		_page.add_child(_line("  For finishing it: something from %s." % LandJournals.named(str(each.get("land", ""))), LABEL_COLOUR))
+	_page.add_child(HSeparator.new())
+
+
+## The sixteen's own arcs opened this world ([D250]): what each asks, crossed off as it is done.
+func _show_arcs(world: World) -> void:
+	var pages := Arcs.pages(world)
+	if pages.is_empty():
+		return
+	var title := _line("Their own", HEADING_COLOUR)
+	title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(title)
+	for each: Dictionary in pages:
+		var done := bool(each.get("done", false))
+		_page.add_child(_line(str(each.get("title", "")) + (" (finished)" if done else ""), KNOWN_COLOUR if done else LABEL_COLOUR))
+		if done:
+			continue
+		for entry: Dictionary in each.get("entries", []):
+			var ticked := bool(entry.get("done", false))
+			var said := _line("  %s %s" % ["[x]" if ticked else "[ ]", str(entry.get("text", ""))], LABEL_COLOUR if ticked else KNOWN_COLOUR)
+			said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_page.add_child(said)
+		_page.add_child(_line("  Talk it over at the fire.", LABEL_COLOUR))
 	_page.add_child(HSeparator.new())
 
 

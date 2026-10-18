@@ -1,0 +1,110 @@
+{
+	"_doc": "D250: companions whose arcs react (Ewan's #270 keep 1, from Baldur's Gate 3; issue #283). Each of the sixteen can have an arc: a short personal quest that opens after their chapter one (a lead, once it is found; one walking with the company, once the company has stood on the Tower's floor `opens_floor`), and is told at the fire. Read by src/chronicle/arcs.gd. `stages` in order: `ask` is the journal line, `until` what finishes it (`count` deeds since the stage opened that match any of `deeds`), `skip_if` lets what the company did before the arc opened finish it at once. `opened`, each stage's `done` and `finished` are lines said at the fire: a list of variants, the first whose `when` holds is said (`when` may hold `deed` (a match against any deed this world), `met`, `with` or `fallen`, each a hero id, and `not`, any of those that must not hold). A line's `speaker` is `{owner}` (whose arc it is) or `{listener}` (who they are talking to). A deed match is `kind`, and `told` the start of how it is said. `reward`: `marks` added to the owner for good (`attack`, `defense`, `max_hp`), `bond` warmth with whoever listened, and `annal`, written in the annals. Started with one lead, Bellona, to find the shape (the issue's word); the other fifteen follow. Every line and number is **Inferred** (agenda row 163).",
+	"opens_floor": 5,
+	"arcs": {
+		"bellona": {
+			"title": "Bellona's: Twenty",
+			"opened": [
+				{
+					"when": { "deed": { "kind": "thread", "told": "stood by while" } },
+					"lines": [
+						{ "speaker": "{owner}", "text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again." },
+						{ "speaker": "{owner}", "text": "And down here we've already left someone on a road. No wall, no order. We just kept walking." },
+						{ "speaker": "{listener}", "text": "So what do you want to do about it?" },
+						{ "speaker": "{owner}", "text": "Give someone their twenty. Then shut a gate and look over the wall first. Humour me." }
+					]
+				},
+				{
+					"lines": [
+						{ "speaker": "{owner}", "text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again." },
+						{ "speaker": "{listener}", "text": "Would you?" },
+						{ "speaker": "{owner}", "text": "Yes. But I'd like there to be a road somewhere I didn't shut. Give someone their twenty, then a gate, and I look over the wall first. Humour me." }
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Give somebody on the road their twenty: stop for them, see them home, or hold a town that is attacked.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{ "kind": "thread", "told": "pulled somebody off the road" },
+							{ "kind": "thread", "told": "saw somebody safely into" },
+							{ "kind": "town_saved" }
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{ "kind": "thread", "told": "pulled somebody off the road" },
+							{ "kind": "town_saved" }
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{ "speaker": "{owner}", "text": "We've stopped for people on the road before. I saw. That's the twenty, then. A gate's left." }
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{ "speaker": "{owner}", "text": "You stopped for them. Good. That's one I didn't count out." }
+							]
+						}
+					]
+				},
+				{
+					"ask": "Shut a gate with her, and let her look over the wall first.",
+					"until": { "count": 1, "deeds": [{ "kind": "gate_shut" }] }
+				}
+			],
+			"finished": [
+				{
+					"when": { "fallen": "ultor" },
+					"lines": [
+						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there." },
+						{ "speaker": "{owner}", "text": "And I thought of a boy. I don't know his face. One of us called Ultor fell, in a world that ended, and that's the name that came. I don't know why it hurts." },
+						{ "speaker": "{listener}", "text": "Maybe you knew him." },
+						{ "speaker": "{owner}", "text": "Maybe I owed him. I'll never know which now." }
+					]
+				},
+				{
+					"when": { "with": "ultor" },
+					"lines": [
+						{ "speaker": "{owner}", "text": "Ultor watched me the whole time we were in there. As if he was waiting to see if I'd look over the wall." },
+						{ "speaker": "{owner}", "text": "I did, this time. I don't know what he is to me. I think he does." }
+					]
+				},
+				{
+					"when": { "met": "ultor" },
+					"lines": [
+						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there." },
+						{ "speaker": "{owner}", "text": "There's one of us out there, Ultor. When we met he looked at me like I owed him something. I think I do. I don't know what yet." }
+					]
+				},
+				{
+					"when": { "deed": { "kind": "town_raided" } },
+					"lines": [
+						{ "speaker": "{owner}", "text": "We burned a town, and now we've shut a gate and called it good. I know how that sum comes out. I've done it before, above." },
+						{ "speaker": "{listener}", "text": "And?" },
+						{ "speaker": "{owner}", "text": "And I'll carry it. That's what a wall is for." }
+					]
+				},
+				{
+					"lines": [
+						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there. Nobody left outside." },
+						{ "speaker": "{owner}", "text": "I'll take it. Thank you for humouring me." }
+					]
+				}
+			],
+			"reward": {
+				"marks": { "defense": 2 },
+				"bond": 2,
+				"line": "Bellona stands a little squarer: +2 guard, for good. The Last Wall.",
+				"annal": "Bellona looked over the wall before the gate went dark, and nobody was left outside."
+			}
+		}
+	}
+}
