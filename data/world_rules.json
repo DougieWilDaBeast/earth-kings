@@ -48,6 +48,9 @@
 		},
 		"_comment_auto_rest": "D210 (call BL): a party walking itself whose health is under this share of its whole goes to the nearest place that heals it on arriving (a village, keep or hut; not the crater) before any band or the objective. Read by AutoRoad.rest_stop. **Inferred**: the share.",
 		"auto_rest_below": 0.5,
+		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
+		"auto_climb_above": 0.9,
+		"auto_turn_back_below": 0.6,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
 		"auto_stops": {
 			"gates": true,

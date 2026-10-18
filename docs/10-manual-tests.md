@@ -355,6 +355,7 @@ Start a run (not the tutorial) and walk.
 | D5.53 | With Pluto walking with you, stand on floor 5, sit by him at the fire; put down ten of one kind of foe, sit by him again; climb to floor 7 and sit by him | He opens "One at a Time" and the journal's quests page lists it; after the ten he says he knows how they move; on floor 7 he counts the company up the stair and "+1 attack and +1 guard, for good" ([D256](06-decisions.md)) |
 | D5.54 | With Cassius and Caesar both walking with you past floor 5, lose a fight, then win the arena tournament, sitting by Cassius after each | His ending is the one with Caesar cheering loudest; a world where Caesar has fallen ends it with the handshake he never gave |
 | D5.55 | Open the journal's quests page after floor 5 with four of the sixteen walking with you, sitting by each | Each has a story of their own, with its own title and two asks, none the same as Bellona's "Twenty" |
+| D5.56 | Turn Auto on at the Tower's door at under 90% health, then again on floor 2 once hurt under 60% | At the door the party walks off to the nearest village to rest first; on floor 2 it walks back out the way in, rests, and comes back up to floor 2, not floor 1 ([D258](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

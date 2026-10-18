@@ -226,6 +226,8 @@ var _practice_clock: float = 0.0
 ## The Tower's floor this is, when it is one that is walked ([D102]), else 0; and how the last
 ## held band's fight went ("won", "lost", "fled"), until the continent has settled it.
 var _tower_floor: int = 0
+## Auto, hurt on a floor of the Tower, is walking back down to rest ([D258]).
+var _auto_turned_back := false
 ## Inside a gate (D248): the gate's cell on the continent (or -1, -1), the floor (0 first), whether it
 ## is the last, and the flag its keeper's fall sets, without which the last floor's way down is shut.
 var _gate_cell := Vector2i(-1, -1)
@@ -1869,6 +1871,9 @@ func _auto_band_axis() -> Vector2:
 func _auto_door_axis(world: World) -> Vector2:
 	var goal := AutoRoad.objective(world)
 	var door := _door()
+	# Hurt, the party rests before it goes up ([D258]: it climbed on at a quarter of its health).
+	if AutoRoad.rest_stop(world).x >= 0:
+		door = null
 	if not bool(goal.get("door", false)) or goal.get("cell") != world.player_cell or door == null:
 		_auto_at_door = false
 		_auto_door_path.clear()
@@ -1909,6 +1914,17 @@ func _auto_axis() -> Vector2:
 	# On a floor of the Tower, Auto makes for the stair and climbs it (D115), never the way out;
 	# a memory of the lead's lying there it picks up first (D150: it walked past the buckle).
 	var climbing := _walked_floor() and not map.stairs.is_empty()
+	# Hurt on a floor of the Tower, it turns back down the way it came to rest, as a player would
+	# ([D258]: the bots climbed on hurt and fell on floors 1 to 3); the floors won stay won.
+	# Only with somewhere to rest: with nowhere known it went in and out of the door for good.
+	var turning_back := climbing and _tower_floor > 0 and not map.exits.is_empty() \
+			and AutoRoad.nearest_rest(GameState.world).x >= 0 \
+			and AutoRoad.hurt(float(Database.world_rules.get("first_hour", {}).get("auto_turn_back_below", 0.0)))
+	if turning_back != _auto_turned_back:
+		_auto_turned_back = turning_back
+		_auto_exit_path = []
+	if turning_back:
+		climbing = false
 	var keepsake: Variant = _memories.keys()[0] if climbing and not _memories.is_empty() else null
 	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D248).
 	var keeper := _keeper_cell() if climbing else Vector2i(-1, -1)
@@ -3904,7 +3920,8 @@ const ROOM_AT := "inn_room_at"
 
 
 func _inn() -> Dictionary:
-	return Database.area(map.id).get("inn", {}) if map != null else {}
+	# Generated ground (the land, a gate's floor) has no area file, and so no inn.
+	return Database.area(map.id).get("inn", {}) if map != null and Database.has_area(map.id) else {}
 
 
 ## Whether this inn's room is kept for the company for good ([D252]).
