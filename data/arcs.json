@@ -1,24 +1,255 @@
 {
-	"_doc": "D250: companions whose arcs react (Ewan's #270 keep 1, from Baldur's Gate 3; issue #283). Each of the sixteen can have an arc: a short personal quest that opens after their chapter one (a lead, once it is found; one walking with the company, once the company has stood on the Tower's floor `opens_floor`), and is told at the fire. Read by src/chronicle/arcs.gd. `stages` in order: `ask` is the journal line, `until` what finishes it (`count` deeds since the stage opened that match any of `deeds`), `skip_if` lets what the company did before the arc opened finish it at once. `opened`, each stage's `done` and `finished` are lines said at the fire: a list of variants, the first whose `when` holds is said (`when` may hold `deed` (a match against any deed this world), `met`, `with` or `fallen`, each a hero id, and `not`, any of those that must not hold). A line's `speaker` is `{owner}` (whose arc it is) or `{listener}` (who they are talking to). A deed match is `kind`, and `told` the start of how it is said. `reward`: `marks` added to the owner for good (`attack`, `defense`, `max_hp`), `bond` warmth with whoever listened, and `annal`, written in the annals. Started with one lead, Bellona, to find the shape (the issue's word); the other fifteen follow. Every line and number is **Inferred** (agenda row 163).",
+	"_doc": "D250: companions whose arcs react (Ewan's #270 keep 1, from Baldur's Gate 3; issue #283). Each of the sixteen can have an arc: a short personal quest that opens after their chapter one (a lead, once it is found; one walking with the company, once the company has stood on the Tower's floor `opens_floor`), and is told at the fire. Read by src/chronicle/arcs.gd. `stages` in order: `ask` is the journal line, `until` what finishes it (`count` deeds since the stage opened that match any of `deeds`), `skip_if` lets what the company did before the arc opened finish it at once. `opened`, each stage's `done` and `finished` are lines said at the fire: a list of variants, the first whose `when` holds is said (`when` may hold `deed` (a match against any deed this world), `met`, `with` or `fallen`, each a hero id, and `not`, any of those that must not hold). A line's `speaker` is `{owner}` (whose arc it is) or `{listener}` (who they are talking to). A deed match is `kind`, and `told` the start of how it is said. `reward`: `marks` added to the owner for good (`attack`, `defense`, `max_hp`), `bond` warmth with whoever listened, and `annal`, written in the annals. Started with one lead, Bellona, to find the shape (the issue's word); `dougie` kept the shape and the other fifteen were written the same way (D256, issue #326). A stage's `until` and `skip_if` may also ask (D256): `ledger`, tallies grown since the stage opened (any of the run's counters, such as `battles_won`, `battles_lost`, `kills`, `errands_done`, `recruited`, plus `places`, places walked, and `one_kind`, the most of one kind of foe put down; `skip_if` counts them from nothing); `floor`, a Tower floor stood on; `flag`, a flag set (or any of a list); `met_count`, how many of the sixteen met. A line's `when` may also hold `fallen_count` (at least that many of the sixteen fallen) and `flag`. Bellona's lines and numbers are **Inferred** (agenda row 163), the other fifteen's (agenda row 168).",
 	"opens_floor": 5,
 	"arcs": {
-		"bellona": {
-			"title": "Bellona's: Twenty",
+		"atlas": {
+			"title": "Atlas's: The Gift",
 			"opened": [
 				{
-					"when": { "deed": { "kind": "thread", "told": "stood by while" } },
 					"lines": [
-						{ "speaker": "{owner}", "text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again." },
-						{ "speaker": "{owner}", "text": "And down here we've already left someone on a road. No wall, no order. We just kept walking." },
-						{ "speaker": "{listener}", "text": "So what do you want to do about it?" },
-						{ "speaker": "{owner}", "text": "Give someone their twenty. Then shut a gate and look over the wall first. Humour me." }
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a courtyard. Somebody put Sky's reins in my hands and said she was mine. I was too small to hold them."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Who was it?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I don't know. I know how the story ends, mostly. Not that part. Let Sky carry me through a few fights, and take me up to the sixth floor. The next page is there."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Win three fights with Sky carrying him.",
+					"until": {
+						"ledger": {
+							"battles_won": 3
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Three. She never once looked back to see if I was still on. Whoever gave her to me knew she wouldn't."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Climb with him to the Tower's sixth floor.",
+					"until": {
+						"floor": 6
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The sixth floor. I thought the page would tell me who gave her to me. It tells me what happens to the sixteen at the top instead."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "And one of us has already fallen. The story I read had sixteen in it. It's wrong now, and I'm glad. Wrong means it can change."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Is that good?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "It's the only good thing I've read."
+						}
 					]
 				},
 				{
 					"lines": [
-						{ "speaker": "{owner}", "text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again." },
-						{ "speaker": "{listener}", "text": "Would you?" },
-						{ "speaker": "{owner}", "text": "Yes. But I'd like there to be a road somewhere I didn't shut. Give someone their twenty, then a gate, and I look over the wall first. Humour me." }
+						{
+							"speaker": "{owner}",
+							"text": "The sixth floor. Sky put her head down by the stair and wouldn't go on until I patted her. She's done that before, somewhere."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I still don't know who gave her to me. I know they meant me to get this far. That will do for now."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1
+				},
+				"bond": 2,
+				"line": "Atlas sits Sky a little easier: +1 attack, for good. The Gift.",
+				"annal": "Atlas rode Sky up to the sixth floor and did not look back to see if she would follow."
+			}
+		},
+		"janus": {
+			"title": "Janus's: The Hard Ones",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a door I slept against. I'd promised somebody I'd get up for the hard ones."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And this is one?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Not yet. A gate nobody understands would be. Shut one with me. Then the eighth floor: there's a hall up there full of doors, and I think one is mine."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Shut a gate with him.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "gate_shut"
+							}
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "gate_shut"
+							}
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "You've shut one already without me. Fine. I'll count it. I'd have slept through it anyway."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "That was hard. I stayed up for all of it. I'd forgotten I could."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Climb with him to the eighth floor, the hall of shut doors.",
+					"until": {
+						"floor": 8
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The doors on the eighth floor. Sixteen of them. One stands open."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "A door opens when one of us dies. I didn't know that until I saw it. I'd rather not have."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Do you know whose?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "No. I'm going to find out. That's a hard one. I'll get up for it."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The doors on the eighth floor, all shut. Sixteen. I sat against one, like I used to."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I didn't sleep. First time. I think that was the promise."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"max_hp": 4
+				},
+				"bond": 2,
+				"line": "Janus stays awake for it now: +4 health, for good. The Hard Ones.",
+				"annal": "Janus sat against a shut door on the eighth floor and did not sleep."
+			}
+		},
+		"bellona": {
+			"title": "Bellona's: Twenty",
+			"opened": [
+				{
+					"when": {
+						"deed": {
+							"kind": "thread",
+							"told": "stood by while"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "And down here we've already left someone on a road. No wall, no order. We just kept walking."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "So what do you want to do about it?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Give someone their twenty. Then shut a gate and look over the wall first. Humour me."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a gate. On the fifth floor, in a dent in a whistle. I shut it with people still on the road outside, and I'd do it again."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Would you?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Yes. But I'd like there to be a road somewhere I didn't shut. Give someone their twenty, then a gate, and I look over the wall first. Humour me."
+						}
 					]
 				}
 			],
@@ -28,82 +259,1707 @@
 					"until": {
 						"count": 1,
 						"deeds": [
-							{ "kind": "thread", "told": "pulled somebody off the road" },
-							{ "kind": "thread", "told": "saw somebody safely into" },
-							{ "kind": "town_saved" }
+							{
+								"kind": "thread",
+								"told": "pulled somebody off the road"
+							},
+							{
+								"kind": "thread",
+								"told": "saw somebody safely into"
+							},
+							{
+								"kind": "town_saved"
+							}
 						]
 					},
 					"skip_if": {
 						"count": 1,
 						"deeds": [
-							{ "kind": "thread", "told": "pulled somebody off the road" },
-							{ "kind": "town_saved" }
+							{
+								"kind": "thread",
+								"told": "pulled somebody off the road"
+							},
+							{
+								"kind": "town_saved"
+							}
 						]
 					},
 					"skipped": [
 						{
 							"lines": [
-								{ "speaker": "{owner}", "text": "We've stopped for people on the road before. I saw. That's the twenty, then. A gate's left." }
+								{
+									"speaker": "{owner}",
+									"text": "We've stopped for people on the road before. I saw. That's the twenty, then. A gate's left."
+								}
 							]
 						}
 					],
 					"done": [
 						{
 							"lines": [
-								{ "speaker": "{owner}", "text": "You stopped for them. Good. That's one I didn't count out." }
+								{
+									"speaker": "{owner}",
+									"text": "You stopped for them. Good. That's one I didn't count out."
+								}
 							]
 						}
 					]
 				},
 				{
 					"ask": "Shut a gate with her, and let her look over the wall first.",
-					"until": { "count": 1, "deeds": [{ "kind": "gate_shut" }] }
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "gate_shut"
+							}
+						]
+					}
 				}
 			],
 			"finished": [
 				{
-					"when": { "fallen": "ultor" },
+					"when": {
+						"fallen": "ultor"
+					},
 					"lines": [
-						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there." },
-						{ "speaker": "{owner}", "text": "And I thought of a boy. I don't know his face. One of us called Ultor fell, in a world that ended, and that's the name that came. I don't know why it hurts." },
-						{ "speaker": "{listener}", "text": "Maybe you knew him." },
-						{ "speaker": "{owner}", "text": "Maybe I owed him. I'll never know which now." }
+						{
+							"speaker": "{owner}",
+							"text": "I looked over the wall before it went dark. Nobody there."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "And I thought of a boy. I don't know his face. One of us called Ultor fell, in a world that ended, and that's the name that came. I don't know why it hurts."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Maybe you knew him."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Maybe I owed him. I'll never know which now."
+						}
 					]
 				},
 				{
-					"when": { "with": "ultor" },
+					"when": {
+						"with": "ultor"
+					},
 					"lines": [
-						{ "speaker": "{owner}", "text": "Ultor watched me the whole time we were in there. As if he was waiting to see if I'd look over the wall." },
-						{ "speaker": "{owner}", "text": "I did, this time. I don't know what he is to me. I think he does." }
+						{
+							"speaker": "{owner}",
+							"text": "Ultor watched me the whole time we were in there. As if he was waiting to see if I'd look over the wall."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I did, this time. I don't know what he is to me. I think he does."
+						}
 					]
 				},
 				{
-					"when": { "met": "ultor" },
+					"when": {
+						"met": "ultor"
+					},
 					"lines": [
-						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there." },
-						{ "speaker": "{owner}", "text": "There's one of us out there, Ultor. When we met he looked at me like I owed him something. I think I do. I don't know what yet." }
+						{
+							"speaker": "{owner}",
+							"text": "I looked over the wall before it went dark. Nobody there."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "There's one of us out there, Ultor. When we met he looked at me like I owed him something. I think I do. I don't know what yet."
+						}
 					]
 				},
 				{
-					"when": { "deed": { "kind": "town_raided" } },
+					"when": {
+						"deed": {
+							"kind": "town_raided"
+						}
+					},
 					"lines": [
-						{ "speaker": "{owner}", "text": "We burned a town, and now we've shut a gate and called it good. I know how that sum comes out. I've done it before, above." },
-						{ "speaker": "{listener}", "text": "And?" },
-						{ "speaker": "{owner}", "text": "And I'll carry it. That's what a wall is for." }
+						{
+							"speaker": "{owner}",
+							"text": "We burned a town, and now we've shut a gate and called it good. I know how that sum comes out. I've done it before, above."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "And I'll carry it. That's what a wall is for."
+						}
 					]
 				},
 				{
 					"lines": [
-						{ "speaker": "{owner}", "text": "I looked over the wall before it went dark. Nobody there. Nobody left outside." },
-						{ "speaker": "{owner}", "text": "I'll take it. Thank you for humouring me." }
+						{
+							"speaker": "{owner}",
+							"text": "I looked over the wall before it went dark. Nobody there. Nobody left outside."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll take it. Thank you for humouring me."
+						}
 					]
 				}
 			],
 			"reward": {
-				"marks": { "defense": 2 },
+				"marks": {
+					"defense": 2
+				},
 				"bond": 2,
 				"line": "Bellona stands a little squarer: +2 guard, for good. The Last Wall.",
 				"annal": "Bellona looked over the wall before the gate went dark, and nobody was left outside."
+			}
+		},
+		"cassius": {
+			"title": "Cassius's: The Monster's Part",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a festival. There was a mask nobody wanted, and I asked for it. Somebody had to play the monster so somebody else could play the hero."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And now?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Now I'd like to know what it's like from the other side. Lose a fight with me and get up again. Then take me to the arena, where a crowd picks a hero, and let's see who they boo."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Lose a fight with him, and live.",
+					"until": {
+						"ledger": {
+							"battles_lost": 1
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "There. That's what the monster feels at the end of the play. You get up and nobody claps. It's not so bad."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Win the arena tournament with him.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "tournament_won"
+							}
+						]
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "caesar"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "They cheered. For us. I kept waiting for somebody to step out of the crowd and take the part off me."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "There was one of us I think would have. Cassius, the monster, Caesar, the hero. He fell, and I never shook his hand."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "You knew him?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I knew his part. I played the other half of it. That's all I'll ever know now."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "caesar"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Caesar cheered loudest. As if it was his to give."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "He keeps looking at me as if we've met. Perhaps we did, in masks. I'm not going to make it easy for him."
+						}
+					]
+				},
+				{
+					"when": {
+						"met": "caesar"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "They cheered. I didn't know where to put my hands."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "There's one of us out there called Caesar, the kind a crowd picks. When we met he held his hand out to me as if he owed it. I didn't take it. I might, next time."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "They cheered. For us. For about a minute I wasn't anybody's monster."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Then I remembered I chose it, and I'd choose it again. But a minute's nice."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"defense": 1,
+					"max_hp": 2
+				},
+				"bond": 2,
+				"line": "Cassius takes the next hit a little better: +1 guard and +2 health, for good. The Monster's Part.",
+				"annal": "Cassius won the arena, and for a minute was nobody's monster."
+			}
+		},
+		"saturn": {
+			"title": "Saturn's: The Empty Place",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a table I laid for everyone, and a place that stayed empty. I still set it, in my head, every time we eat."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Whose was it?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I don't know. Bring someone new to our table, then find us a house, a whole one, in Stormreach. I want a table with room."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Take somebody new into the company.",
+					"until": {
+						"ledger": {
+							"recruited": 1
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Another one at the fire. Good. I'll set a place they don't have to ask for."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Buy the narrow house in Stormreach, a table with room.",
+					"until": {
+						"flag": "home:house"
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "A house, a table, and every place set. One of the sixteen has fallen, and I set theirs too. I always will."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Even not knowing who they were to you?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "That's why. A place doesn't ask."
+						}
+					]
+				},
+				{
+					"when": {
+						"deed": {
+							"kind": "town_raided"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "We burned a town on the way here. I set a place for them as well. It doesn't fix it. It's what I have."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "A house, a table, every place set. One is still empty. I don't mind it as much as I did."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Thank you. Sit. There's room."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"max_hp": 5
+				},
+				"bond": 3,
+				"line": "Saturn eats as well as feeds: +5 health, for good. The Empty Place.",
+				"annal": "Saturn laid a table in Stormreach with every place set, and one left for whoever was missing."
+			}
+		},
+		"vesta": {
+			"title": "Vesta's: The One Fire",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered the last fire in a house everyone left. They went back through a door to how things were. I stayed."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "You want a fire to keep."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "One that stays lit when we leave it. Have Muck Muck build the infirmary at the crater, and I'll keep its hearth. Then let my fire do its work: twelve of what we fight."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Have the crater's infirmary built, for her to keep its hearth.",
+					"until": {
+						"flag": "town:infirmary"
+					},
+					"skip_if": {
+						"flag": "town:infirmary"
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "The infirmary at the crater has a hearth already. Nobody's keeping it. I will."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Ness keeps the beds. I'll keep the fire. It'll be lit when we come back. That's the whole of it."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Put down twelve foes with her.",
+					"until": {
+						"ledger": {
+							"kills": 12
+						}
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Twelve. My fire took them clean. It only burns what's dead already."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "One of the sixteen fell. I lit a fire for them at the crater, and I'll keep it. Somebody has to stay."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "You're not going back either, are you."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "No. Back was never back."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Twelve. My fire only burns the dead, and it burned them."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "The hearth at the crater is lit. I'll keep it if everyone else leaves. I'd like it if you didn't."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1
+				},
+				"bond": 2,
+				"line": "Vesta's fire burns a little hotter: +1 attack, for good. The One Fire.",
+				"annal": "Vesta lit a hearth at the crater and said she would keep it if everyone else left."
+			}
+		},
+		"caesar": {
+			"title": "Caesar's: The Hero's Part",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a festival. I played the hero and everybody cheered. Somebody played the monster so I could, and I never asked who."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "So be a hero."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "That's the easy half. Hold a town when it's attacked, where nobody's cheering. Then five fights, and I get back up after every one."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Hold a town that is attacked.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "town_saved"
+							}
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "town_saved"
+							}
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "We held a town already. Nobody cheered. That's how it should be, I think."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Nobody cheered. They just went back in and shut their doors. That's the real part, isn't it."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Win five fights with him.",
+					"until": {
+						"ledger": {
+							"battles_won": 5
+						}
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "cassius"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Five. I kept getting up. And I thought about the monster at the festival."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "One of us called Cassius fell. The name came with the mask. I'll never get to ask him."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Ask him what?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Why he took it. So I could be the hero. I never even said thank you."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "cassius"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Cassius watched every fight like he was waiting for me to fall off a stage."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I didn't. I'm going to ask him one day what part he thinks I owe him."
+						}
+					]
+				},
+				{
+					"when": {
+						"met": "cassius"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Five. And there's one of us out there, Cassius, who wouldn't take my hand when we met."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I think he played something for me once. I'll find out what."
+						}
+					]
+				},
+				{
+					"when": {
+						"deed": {
+							"kind": "town_raided"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "We burned a town. Heroes don't. I know that's the festival talking. I'll carry it anyway."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Five, and I got up every time. Nobody cheered. I liked it better."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1,
+					"max_hp": 2
+				},
+				"bond": 3,
+				"line": "Caesar gets up quicker: +1 attack and +2 health, for good. The Hero's Part.",
+				"annal": "Caesar held a town where nobody cheered, and liked it better."
+			}
+		},
+		"iris": {
+			"title": "Iris's: Take the Shot",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a game. The last moment, and the shot was mine, and I passed. We lost."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Next time?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Next time I take it. Carry somebody home for me, that's the pass, I'm good at that. Then the shot: a bounty, and I want to be the one who claims it."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "See somebody safely into a town.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "saw somebody safely into"
+							}
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "saw somebody safely into"
+							}
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "We've seen somebody home already. That's the pass made. Now the shot."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "That's the pass. I could do that all day. Now the hard bit."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Claim a bounty from the board.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "bounty_claimed"
+							}
+						]
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I took it. Nobody to pass to, and I didn't look for anyone."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "One of the sixteen has fallen. I keep thinking I'd have passed to them. Now I can't, so I'll take every shot I'm given."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I took it. And it went in. Just like that."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "How does it feel?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Like I've been running the wrong way all my life. I'll pass again. Just not every time."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 2
+				},
+				"bond": 2,
+				"line": "Iris takes the shot now: +2 attack, for good. Take the Shot.",
+				"annal": "Iris claimed a bounty herself and passed it to nobody."
+			}
+		},
+		"pluto": {
+			"title": "Pluto's: One at a Time",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered standing at the top of a stair, alone, counting the ones who climbed with me. None of them made it."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "What do you want?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "To count properly. Ten of one kind of thing, put down, one at a time. Then the seventh floor. And this time nobody pays but me."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Put down ten of one kind of foe with him.",
+					"until": {
+						"ledger": {
+							"one_kind": 10
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Ten. I know how they move now. That's what counting's for."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Climb with him to the seventh floor.",
+					"until": {
+						"floor": 7
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The seventh floor. I counted us up the stair. One of the sixteen is missing from the count."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I said nobody pays but me. I was wrong already."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "It wasn't you."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "It's always the one counting."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The seventh floor. I counted us up the stair, and everyone's here."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll count again at the next one. I always will. Thank you for being there to count."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1,
+					"defense": 1
+				},
+				"bond": 2,
+				"line": "Pluto's count is steadier: +1 attack and +1 guard, for good. One at a Time.",
+				"annal": "Pluto counted the company up the stair to the seventh floor, one at a time."
+			}
+		},
+		"ceres": {
+			"title": "Ceres's: Keep Them All",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a granary full of children who weren't mine, and something walking the fields, and sitting on the lid all night."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Did you keep them?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I don't know how many. Pull somebody off the road for me. Then get Muck Muck to put a wall round the crater, so there's a lid on something."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Pull somebody off the road.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "pulled somebody off the road"
+							}
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "pulled somebody off the road"
+							}
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "We've pulled somebody off the road already. One kept. Good."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "One kept. I'll stop counting there. Counting's how you lose them."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Have the crater's wall built.",
+					"until": {
+						"flag": "town:wall"
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"deed": {
+							"kind": "thread",
+							"told": "stood by while"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "There's a wall round the crater now. And we let someone on the road go by."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I keep thinking of them outside it. I won't do that again."
+						}
+					]
+				},
+				{
+					"when": {
+						"deed": {
+							"kind": "town_raided"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "A wall round the crater. And we burned a town. I'd like to forget which one. I won't."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "A wall round the crater, and everyone inside it."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "All of them?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "All of them. This time."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"max_hp": 6
+				},
+				"bond": 2,
+				"line": "Ceres sits a little heavier on the lid: +6 health, for good. Keep Them All.",
+				"annal": "Ceres saw a wall go round the crater, with everyone inside it."
+			}
+		},
+		"cato": {
+			"title": "Cato's: The First Rule",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a list I wrote for if it went wrong. The first rule was find the others. Somebody wiped the last line."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "So we find the others."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "By the book. Two errands off a board first, done properly. Then two of the sixteen found and met. I'll write them down."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Finish two errands from a job board.",
+					"until": {
+						"ledger": {
+							"errands_done": 2
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Two, done and paid. Rules keep you alive. Now the first one on the list."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Meet two of the sixteen.",
+					"until": {
+						"met_count": 2
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "ultor"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Two found and written down. There was one name I'd have put first. Ultor. I don't know why."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "He's fallen. I'll write him anyway. Somebody wanted him left off once. Not on my list."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "ultor"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Two found, and Ultor with us. I wrote him down first. I don't know why I needed to."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Does he know?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "He doesn't need to. It's my list."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Two of us found and written down. The last line's still gone."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "That's two more than I had. Rules keep you alive. So does company."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"defense": 2
+				},
+				"bond": 2,
+				"line": "Cato's list holds: +2 guard, for good. The First Rule.",
+				"annal": "Cato found two of the sixteen and wrote them down, by the book."
+			}
+		},
+		"juno": {
+			"title": "Juno's: A Table Everyone Passes",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a cold room and an old cook who gave me the last of the pot and said he'd eaten. He hadn't."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And you want to feed people."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I want a table. Take the room at the Flagon, so there's somewhere to sit. Then find me four of the sixteen. Everyone passes my table sooner or later."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Take the Flagon's room in Stormreach.",
+					"until": {
+						"flag": [
+							"home:room",
+							"home:house"
+						]
+					},
+					"skip_if": {
+						"flag": [
+							"home:room",
+							"home:house"
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "We've a room in Stormreach already. Good. A table's a table."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "A room, a table, a pot. Nobody at it goes hungry. Not even you."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Meet four of the sixteen.",
+					"until": {
+						"met_count": 4
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen_count": 1
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Four of us, at my table, near enough. And one of the sixteen fallen. I'd have known where they were last seen."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll keep a plate for them. And I'll say I've eaten."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Have you?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "No."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Four of us met, and I know where they're all headed. That's what a table's for."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Eat. I already have."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"max_hp": 4
+				},
+				"bond": 3,
+				"line": "Juno eats her share, for once: +4 health, for good. A Table Everyone Passes.",
+				"annal": "Juno kept a table in Stormreach that four of the sixteen passed."
+			}
+		},
+		"ultor": {
+			"title": "Ultor's: The Whistle",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a road, a gate and a whistle. Somebody threw me under the gate and stayed outside."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And you'll find them."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll know the whistle. Until then I get stronger. Twenty of what we fight. Then a gate shut, and I'm on the right side of it this time."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Put down twenty foes with him.",
+					"until": {
+						"ledger": {
+							"kills": 20
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Twenty. That's the getting stronger. Now the gate."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Shut a gate with him, on the right side of it.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "gate_shut"
+							}
+						]
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "bellona"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The gate came down and I was inside. I listened for a whistle the whole time."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Bellona's fallen. One of us. I don't know why her name stopped me on the stair."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Maybe she's the one."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Then I'll never know which of us owed the other."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "bellona"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Bellona looked over the wall before it shut. Like she was counting."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I've heard her whistle at drill. I don't know why I can't stop listening to it."
+						}
+					]
+				},
+				{
+					"when": {
+						"met": "bellona"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Shut, with me inside. There's one of us out there, Bellona, who blows a whistle at her people like a gate's coming down."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll know it, when I'm sure."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Shut, with me on the right side. I chose you for it. That's what I do: I choose a captain."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Don't make me sorry."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 2
+				},
+				"bond": 3,
+				"line": "Ultor has chosen his captain: +2 attack, for good. The Whistle.",
+				"annal": "Ultor shut a gate from the right side of it, with the captain he chose."
+			}
+		},
+		"diana": {
+			"title": "Diana's: Who Does the Killing",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered a hill, and a village that feared it, and a wolf that let them think it was me. To keep them away from me."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Do you mind?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I don't know. Fight a band off the road beside the Watch, where people can see who does the killing. Then the ninth floor. There's something of mine there."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Fight a band off the road beside the Watch.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "fought a band off the road beside the Watch"
+							}
+						]
+					},
+					"skip_if": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "fought a band off the road beside the Watch"
+							}
+						]
+					},
+					"skipped": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "We've fought beside the Watch already. They saw. They'll still say it was the wolf."
+								}
+							]
+						}
+					],
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "They saw. They'll still say it was the wolf. Let them."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Climb with her to the ninth floor.",
+					"until": {
+						"floor": 9
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"deed": {
+							"kind": "town_raided"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The ninth floor. And we burned a town on the way. Now they're right to be afraid of me."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'd rather they were wrong."
+						}
+					]
+				},
+				{
+					"when": {
+						"deed": {
+							"kind": "town_saved"
+						}
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The ninth floor, and a town we held behind us. They'll say the wolf did that too."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Will you tell them?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "No. It kept them away from me. It kept them safe. That's the same thing."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "The ninth floor. I wasn't afraid on the stair. I was small once, and I wasn't afraid then either."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'd forgotten."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1,
+					"defense": 1
+				},
+				"bond": 2,
+				"line": "Diana stands her ground: +1 attack and +1 guard, for good. Who Does the Killing.",
+				"annal": "Diana climbed to the ninth floor and was not afraid on the stair."
+			}
+		},
+		"ares": {
+			"title": "Ares's: Put It on My Name",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered teaching somebody small to fight, and a cut rope on the yard gate, and lying for him. I was glad."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Who was he?"
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Don't know. So let's teach somebody else. Take on somebody new, and I'll show them. Then the arena, and everybody hears my name."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Take somebody new into the company, for him to teach.",
+					"until": {
+						"ledger": {
+							"recruited": 1
+						}
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "New one. Holds a blade like it's hot. Good. That's how I held it."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Win the arena tournament with him.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "tournament_won"
+							}
+						]
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "liber"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Won. They shouted my name. I wanted to hear somebody else's."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Liber. One of us, fell. That's the name that came. I lied for somebody once. I'd lie for him."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "You don't know it was him."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I know I'd have been glad."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "liber"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Won, and Liber shouting louder than the crowd. Fights like I taught him."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I didn't. Did I?"
+						}
+					]
+				},
+				{
+					"when": {
+						"met": "liber"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Won. And there's one of us out there, Liber, who looked at me like I'd done him a favour."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Put it on my name, whatever it was."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Won! Put it on my name. All of it. The good and the lies."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1,
+					"max_hp": 3
+				},
+				"bond": 2,
+				"line": "Ares lasts past his first ten seconds now: +1 attack and +3 health, for good. Put It on My Name.",
+				"annal": "Ares won the arena and wished they had shouted somebody else's name."
+			}
+		},
+		"liber": {
+			"title": "Liber's: The Cut Rope",
+			"opened": [
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "I remembered cutting a rope on a gate and running. Somebody let me go and took the blame."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "And you'd like to thank them."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'd like to pay it on. Cut somebody loose: pull them off the road. Then let's go, everywhere: eight places, never the same twice."
+						}
+					]
+				}
+			],
+			"stages": [
+				{
+					"ask": "Pull somebody off the road.",
+					"until": {
+						"count": 1,
+						"deeds": [
+							{
+								"kind": "thread",
+								"told": "pulled somebody off the road"
+							}
+						]
+					},
+					"done": [
+						{
+							"lines": [
+								{
+									"speaker": "{owner}",
+									"text": "Cut loose. They ran and didn't look back. Good. That's how you do it."
+								}
+							]
+						}
+					]
+				},
+				{
+					"ask": "Walk eight places with him.",
+					"until": {
+						"ledger": {
+							"places": 8
+						}
+					}
+				}
+			],
+			"finished": [
+				{
+					"when": {
+						"fallen": "ares"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Eight places. I looked for a big man in every one. Ares, his name came to me. He's fallen."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I wanted to say thank you. I never stay long enough to say anything."
+						},
+						{
+							"speaker": "{listener}",
+							"text": "Say it now."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "Thank you. There."
+						}
+					]
+				},
+				{
+					"when": {
+						"with": "ares"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Eight places, and Ares in every one of them, laughing. He wraps my hands before a fight. I never asked him to."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll say thank you properly one day."
+						}
+					]
+				},
+				{
+					"when": {
+						"met": "ares"
+					},
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Eight places. In one of them there was Ares, who looked at me as if I owed him for something. I think I do."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "I'll find him again and pay it."
+						}
+					]
+				},
+				{
+					"lines": [
+						{
+							"speaker": "{owner}",
+							"text": "Eight places, never the same twice. That's freedom. I'd like to share it with whoever let me go."
+						},
+						{
+							"speaker": "{owner}",
+							"text": "You'll do for now."
+						}
+					]
+				}
+			],
+			"reward": {
+				"marks": {
+					"attack": 1,
+					"max_hp": 2
+				},
+				"bond": 3,
+				"line": "Liber hits like he's free: +1 attack and +2 health, for good. The Cut Rope.",
+				"annal": "Liber walked eight places and stayed in none of them, and said thank you to someone at last."
 			}
 		}
 	}

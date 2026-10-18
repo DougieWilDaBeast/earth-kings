@@ -12,8 +12,12 @@ extends RefCounted
 ## the sixteen has been met or walks along, and who has fallen ([D223]: a bond from before the
 ## descent is learned as the game goes on, and grieved when the other half is gone).
 ##
-## Kept on the world as `arcs`: hero id -> `{ stage, since, done }`; `since` is the step the stage
-## opened, so only deeds after it count. The words and the reward are `data/arcs.json`. Loaded by
+## A stage asks for deeds ([Renown]), and may ask as well ([D256]) for the company's tallies to grow
+## (`ledger`: fights won, foes felled, places walked, one kind put down...), a Tower floor stood on,
+## a flag set (a room taken, a building built) or some of the sixteen met.
+##
+## Kept on the world as `arcs`: hero id -> `{ stage, since, at, done }`; `since` is the step the
+## stage opened, so only deeds after it count, and `at` the tallies then, so only what grew counts. The words and the reward are `data/arcs.json`. Loaded by
 ## path ([D41]).
 
 const Memories := preload("res://src/chronicle/memories.gd")
@@ -64,6 +68,65 @@ static func counted(world: World, need: Dictionary, from: int, to: int = -1) -> 
 	return count
 
 
+## Whether [param need] is met: its `deeds` counted since step [param from] (and before [param to]),
+## and whatever else it asks. `ledger` tallies are counted from [param at] (the tallies when the
+## stage opened; empty counts from nothing, as `skip_if` does).
+static func reached(world: World, need: Dictionary, from: int, at: Dictionary, to: int = -1) -> bool:
+	if need.is_empty():
+		return false
+	if not (need.get("deeds", []) as Array).is_empty() and counted(world, need, from, to) < int(need.get("count", 1)):
+		return false
+	var ledger: Dictionary = need.get("ledger", {})
+	if not ledger.is_empty():
+		var now := tally()
+		for key: String in ledger:
+			if grown(now, at, key) < int(ledger[key]):
+				return false
+	if need.has("floor") and world.tower_floor < int(need["floor"]):
+		return false
+	if need.has("flag"):
+		var flags: Array = need["flag"] if need["flag"] is Array else [need["flag"]]
+		if not flags.any(func(key: Variant) -> bool: return GameState.has_flag(str(key))):
+			return false
+	if need.has("met_count") and met_count(world) < int(need["met_count"]):
+		return false
+	return true
+
+
+## The company's tallies as an arc counts them: every [Ledger] counter, `places` (how many walked)
+## and `kinds` (foes put down, by kind).
+static func tally() -> Dictionary:
+	var ledger: Dictionary = GameState.ledger
+	var out := {}
+	for key: String in Ledger.KEYS:
+		out[key] = Ledger.count(ledger, key)
+	out["places"] = (ledger.get("places", []) as Array).size()
+	out["kinds"] = (ledger.get("kills_by", {}) as Dictionary).duplicate()
+	return out
+
+
+## How much tally [param key] grew from [param at] to [param now]; `one_kind` is the most of any
+## one kind of foe put down.
+static func grown(now: Dictionary, at: Dictionary, key: String) -> int:
+	if key == "one_kind":
+		var most := 0
+		var before: Dictionary = at.get("kinds", {})
+		var kinds: Dictionary = now.get("kinds", {})
+		for kind: String in kinds:
+			most = maxi(most, int(kinds[kind]) - int(before.get(kind, 0)))
+		return most
+	return int(now.get(key, 0)) - int(at.get(key, 0))
+
+
+## How many of the sixteen the company has met this world.
+static func met_count(world: World) -> int:
+	var count := 0
+	for each: Dictionary in world.wanderers:
+		if int(each.get("met", 0)) > 0 or bool(each.get("joined", false)):
+			count += 1
+	return count
+
+
 static func _met(world: World, hero_id: String) -> bool:
 	for each: Dictionary in world.wanderers:
 		if str(each.get("id", "")) == hero_id:
@@ -91,6 +154,15 @@ static func fallen(roster: Roster, hero_id: String) -> bool:
 	return false
 
 
+## How many of the sixteen have fallen: in this world, or as the lead of one that ended.
+static func fallen_count(roster: Roster) -> int:
+	var count := 0
+	for hero_id: String in Database.heroes:
+		if not hero_id.begins_with("_") and fallen(roster, hero_id):
+			count += 1
+	return count
+
+
 ## Whether everything [param when] asks holds.
 static func holds(world: World, roster: Roster, when: Dictionary) -> bool:
 	if when.has("deed") and counted(world, { "deeds": [when["deed"]] }, 0) == 0:
@@ -100,6 +172,10 @@ static func holds(world: World, roster: Roster, when: Dictionary) -> bool:
 	if when.has("with") and not _with(roster, str(when["with"])):
 		return false
 	if when.has("fallen") and not fallen(roster, str(when["fallen"])):
+		return false
+	if when.has("fallen_count") and fallen_count(roster) < int(when["fallen_count"]):
+		return false
+	if when.has("flag") and not GameState.has_flag(str(when["flag"])):
 		return false
 	if when.has("not"):
 		var not_: Dictionary = when["not"]
@@ -149,11 +225,11 @@ static func _tell(world: World, roster: Roster, owner: Character, listener: Char
 	if not world.arcs.has(id):
 		if not can_open(world, owner, is_lead):
 			return []
-		world.arcs[id] = { "stage": 0, "since": world.steps, "done": false }
+		world.arcs[id] = { "stage": 0, "since": world.steps, "at": tally(), "done": false }
 		lines.append_array(said(world, roster, data.get("opened", []), owner, listener))
 		var first: Dictionary = (data.get("stages", []) as Array)[0] if not (data.get("stages", []) as Array).is_empty() else {}
 		var skip: Dictionary = first.get("skip_if", {})
-		if skip.is_empty() or counted(world, skip, 0, world.steps + 1) < int(skip.get("count", 1)):
+		if not reached(world, skip, 0, {}, world.steps + 1):
 			return lines
 		lines.append_array(said(world, roster, first.get("skipped", []), owner, listener))
 		return lines + _advance(world, roster, owner, listener)
@@ -162,8 +238,7 @@ static func _tell(world: World, roster: Roster, owner: Character, listener: Char
 		return []
 	var stages: Array = data.get("stages", [])
 	var stage: Dictionary = stages[int(state.get("stage", 0))]
-	var until: Dictionary = stage.get("until", {})
-	if counted(world, until, int(state.get("since", 0))) < int(until.get("count", 1)):
+	if not reached(world, stage.get("until", {}), int(state.get("since", 0)), state.get("at", {})):
 		return []
 	lines.append_array(said(world, roster, stage.get("done", []), owner, listener))
 	return lines + _advance(world, roster, owner, listener)
@@ -176,6 +251,7 @@ static func _advance(world: World, roster: Roster, owner: Character, listener: C
 	var state: Dictionary = world.arcs[id]
 	state["stage"] = int(state.get("stage", 0)) + 1
 	state["since"] = world.steps
+	state["at"] = tally()
 	if int(state["stage"]) < (data.get("stages", []) as Array).size():
 		return []
 	state["done"] = true
@@ -208,8 +284,7 @@ static func pages(world: World) -> Array:
 		var stages: Array = data.get("stages", [])
 		for i in mini(at + 1, stages.size()):
 			# Done but not yet talked over at the fire is ticked too, so the journal says where it stands.
-			var ready := i == at and counted(world, stages[i].get("until", {}), int(state.get("since", 0))) \
-				>= int(stages[i].get("until", {}).get("count", 1))
+			var ready := i == at and reached(world, stages[i].get("until", {}), int(state.get("since", 0)), state.get("at", {}))
 			entries.append({ "text": str(stages[i].get("ask", "")), "done": i < at or ready })
 		out.append({ "title": str(data.get("title", id)), "done": bool(state.get("done", false)), "entries": entries })
 	return out
