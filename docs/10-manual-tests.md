@@ -343,6 +343,9 @@ Start a run (not the tutorial) and walk.
 | D5.41 | Shut a gate, walk into Stormreach with 600 gold and talk to Muck Muck | "Could you build something for us?" says the crater is your ground; "Build a smithy at the crater (300 gold)" and the same for an infirmary ([D251](06-decisions.md)) |
 | D5.42 | Pay for both, then walk back to the crater | A stone smithy top left with Hald at the anvil, a whitewashed infirmary top right with Ness; the trees that stood there are gone. Hald sells gear, Ness mends for 25 |
 | D5.43 | Pay Muck Muck for the wall (500) and walk back | A timber wall round the crater with its gate south, two houses at the bottom corners, a well and two settlers; one of them has news |
+| D5.44 | Walk into the Gilded Flagon with 250 gold and ask Marta "Let us keep room two for good" | 250 gold goes; room two is pinned "Your room" with the line to its bed, and she no longer sells a night ([D252](06-decisions.md)) |
+| D5.45 | Sleep in room two, walk out and back in | Everyone patched up and a save; room two is still pinned as yours, with nothing to pay |
+| D5.46 | Ask Steward Hobb (by the Margrave's hall) about the narrow house without a room, then with one and 900 gold; then walk in at its door off the east street | First he says to take a room; then it sells for 900. The door, shut before, opens on your house: a hearth, your bed (sleep: everyone patched up, +6 health, a save) and the strongbox |
 
 ## H — Conversation and the camp
 

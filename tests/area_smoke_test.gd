@@ -20,7 +20,7 @@ const AREAS := [
 	"tower", "home",
 	"tower_floor_1", "tower_floor_2", "tower_floor_3", "tower_floor_4", "tower_floor_5",
 	"camp", "tutorial",
-	"city", "city_streets", "city_tavern",
+	"city", "city_streets", "city_tavern", "city_house",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
@@ -62,6 +62,7 @@ func _ready() -> void:
 	_check_trading()
 	_check_the_builder_and_the_healer()
 	_check_the_crater_town()
+	await _check_a_house_in_stormreach()
 	_check_story_npcs()
 	await _check_tutorial()
 	await _check_last_stand()
@@ -439,6 +440,85 @@ func _check_the_crater_town() -> void:
 		GameState.flags.erase(key)
 	GameState.gold = GameState.DEFAULT_GOLD
 	print("crater town: smithy, infirmary and wall built, %d people" % built.people.size())
+
+
+## A house in Stormreach ([D252], Ewan's #270 keep 5, from Kenshi): Marta lets room two of the
+## Flagon for good, and it is then the company's every night without paying again; with a room kept,
+## Steward Hobb sells the narrow house off the east street, whose door then opens on a bed of the
+## company's own (a better night than an inn's) and the strongbox.
+func _check_a_house_in_stormreach() -> void:
+	GameState.new_game(SEED)
+	var person_in := func(area_id: String, name: String) -> Dictionary:
+		for person: Dictionary in AreaMap.load_area(area_id).people:
+			if person.get("name", "") == name:
+				return person
+		return {}
+	var asks := func(person: Dictionary, starts: String) -> Array:
+		var nodes: Dictionary = Talk.build(str(person["name"]), person["talk"], false, 0.5, "met:test")
+		return DialogueScript.available_options(nodes["menu"]).filter(func(o: Dictionary) -> bool:
+			return str(o.get("text", "")).begins_with(starts))
+	var take := func(person: Dictionary, option: Dictionary) -> void:
+		DialogueScript.apply_effects(option)
+		var nodes: Dictionary = Talk.build(str(person["name"]), person["talk"], false, 0.5, "met:test")
+		DialogueScript.apply_effects(nodes[str(option.get("goto", ""))])
+	var marta: Dictionary = person_in.call("city_tavern", "Marta the Landlady")
+	var hobb: Dictionary = person_in.call("city_streets", "Steward Hobb")
+	GameState.gold = 2000
+	if not (asks.call(hobb, "We keep a room") as Array).is_empty():
+		_fail("house: the Steward sells the house to a company with no room in the city")
+	var lease: Array = asks.call(marta, "Let us keep room two")
+	if lease.size() != 1:
+		_fail("house: Marta does not offer to let room two for good")
+		return
+	take.call(marta, lease[0])
+	if not GameState.has_flag("home:room") or GameState.gold != 1750:
+		_fail("house: keeping room two set nothing (%d gold left)" % GameState.gold)
+	if not (asks.call(marta, "A room for the night") as Array).is_empty():
+		_fail("house: Marta still sells a night with room two kept")
+	var sale: Array = asks.call(hobb, "We keep a room")
+	if sale.size() != 1:
+		_fail("house: the Steward does not sell the narrow house once a room is kept")
+		return
+	take.call(hobb, sale[0])
+	if not GameState.has_flag("home:house") or GameState.gold != 850:
+		_fail("house: buying the narrow house set nothing (%d gold left)" % GameState.gold)
+	var door := {}
+	for building: Dictionary in AreaMap.load_area("city_streets").buildings:
+		if building.get("area", "") == "city_house":
+			door = building
+	if door.is_empty() or not Database.has_area("city_house") or "home:house" not in door.get("area_requires", []):
+		_fail("house: the narrow house's door does not wait for it to be bought")
+
+	# Room two: the company's every night, and still theirs once slept in.
+	Company.join(GameState.roster, ["juno"])
+	var hurt: Character = GameState.party_characters()[0]
+	for area_id: String in ["city_tavern", "city_house"]:
+		var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+		scene.set("boot_payload", { "area_id": area_id, "return_scene": "world" })
+		add_child(scene)
+		await get_tree().process_frame
+		var bed: Vector2i = scene._your_bed()
+		if bed.x < 0 or scene._room_mark == null:
+			_fail("house: %s's bed is not the company's" % area_id)
+		else:
+			var map: AreaMap = scene.map
+			if map.find_cell_path(map.cell_at(scene._leader.position), bed + Vector2i.DOWN).is_empty():
+				_fail("house: nobody can walk to the bed in %s" % area_id)
+			hurt.hp = 1
+			hurt.hearth_vigour = 0
+			scene._try_the_bed(bed)
+			if hurt.current_hp() != hurt.max_hp() or hurt.hearth_vigour < int(Database.area(area_id)["inn"]["vigour"]):
+				_fail("house: a night in %s did not patch %s up" % [area_id, hurt.display_name])
+			if scene._your_bed().x < 0:
+				_fail("house: the bed in %s is let go once slept in" % area_id)
+		if area_id == "city_house":
+			var boxes: Array = (scene.map.chests.values() as Array).filter(func(c: Dictionary) -> bool: return bool(c.get("stash", false)))
+			if boxes.size() != 1:
+				_fail("house: no strongbox in the house")
+		scene.queue_free()
+		await get_tree().process_frame
+	GameState.new_game(SEED)
+	print("house: room two kept at the Flagon, the narrow house bought, both beds the company's every night")
 
 
 func _check_trading() -> void:

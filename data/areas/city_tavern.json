@@ -94,10 +94,25 @@
                         "q": "A room for the night. Forty?",
                         "cost": 40,
                         "requires_not": [
-                            "inn_room_paid"
+                            "inn_room_paid",
+                            "home:room"
                         ],
                         "set_flag": "inn_room_paid",
                         "a": "Forty, and it's yours till you've slept in it. Room two, along the passage at the back. The blue rug, not the red: the red's the card sharp's, and he bites."
+                    },
+                    {
+                        "q": "Let us keep room two for good (250 gold).",
+                        "cost": 250,
+                        "requires_not": [
+                            "home:room"
+                        ],
+                        "set_flag": "home:room",
+                        "a": "For good? Two hundred and fifty, and room two's yours whenever you're through that door: the bed made, the rug beaten, nobody else's boots under it. Sleep in it as often as you like. If you ever want walls of your own, the Steward up by the Margrave's hall has empty houses he'd sooner see lived in."
+                    },
+                    {
+                        "q": "Is room two still ours?",
+                        "requires": "home:room",
+                        "a": "Still yours. Blue rug. I had the card sharp moved to the red one, and he's taken it personally."
                     }
                 ],
                 "news": true,
@@ -826,6 +841,7 @@
                     1
                 ]
             }
-        ]
+        ],
+        "lease": "home:room"
     }
 }
