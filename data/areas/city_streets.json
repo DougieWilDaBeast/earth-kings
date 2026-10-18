@@ -3164,7 +3164,72 @@
           },
           {
             "q": "Could you build something for us?",
+            "requires_not": [
+              "carried:shut"
+            ],
             "a": "Bring me ground of your own and coin to match, and I'll put a roof on it that outlasts you. Until then, I've got a bathhouse."
+          },
+          {
+            "q": "Could you build something for us?",
+            "requires": [
+              "carried:shut"
+            ],
+            "requires_not": [
+              "town:begun"
+            ],
+            "a": "You've shut a gate, so the Guild will vouch for you, and you've ground of your own: that crater you came down in. Flattest ground for a mile, and you cleared it for free. Nobody will fight you for it. Pay me and I'll start: a smithy, an infirmary, then a wall, and people will come."
+          },
+          {
+            "q": "Build a smithy at the crater (300 gold).",
+            "requires": [
+              "carried:shut"
+            ],
+            "requires_not": [
+              "town:smithy"
+            ],
+            "cost": 300,
+            "set_flag": [
+              "town:smithy",
+              "town:begun"
+            ],
+            "a": "A forge, an anvil and a roof over both, and a smith to work them: I know one who's sick of the city. It'll be standing when you next walk in."
+          },
+          {
+            "q": "Build an infirmary at the crater (300 gold).",
+            "requires": [
+              "carried:shut"
+            ],
+            "requires_not": [
+              "town:infirmary"
+            ],
+            "cost": 300,
+            "set_flag": [
+              "town:infirmary",
+              "town:begun"
+            ],
+            "a": "Cots, clean water and a healer who isn't Sinner. Sinner taught her, mind. It'll be up when you're back."
+          },
+          {
+            "q": "Put a wall round the crater (500 gold).",
+            "requires": [
+              "town:smithy",
+              "town:infirmary"
+            ],
+            "requires_not": [
+              "town:wall"
+            ],
+            "cost": 500,
+            "set_flag": [
+              "town:wall"
+            ],
+            "a": "Timber, all the way round, with a gate on the south side. Folk go where there's a wall. You'll have neighbours by the time you see it."
+          },
+          {
+            "q": "How's our crater?",
+            "requires": [
+              "town:begun"
+            ],
+            "a": "Better than my bathhouse. Go and look at it."
           }
         ],
         "bye": "Off you go. Watch the scaffold."

@@ -61,6 +61,7 @@ func _ready() -> void:
 	await _check_camp()
 	_check_trading()
 	_check_the_builder_and_the_healer()
+	_check_the_crater_town()
 	_check_story_npcs()
 	await _check_tutorial()
 	await _check_last_stand()
@@ -378,6 +379,66 @@ func _check_the_builder_and_the_healer() -> void:
 		_fail("city: Sinner mends a company that cannot pay")
 	GameState.heal_party()
 	GameState.gold = GameState.DEFAULT_GOLD
+
+
+## Your own town at the crater ([D251]): nothing is built until a gate is shut; Muck Muck takes the
+## gold for a smithy and an infirmary, then a wall; each stands at the crater with its people, clear
+## of whatever grew there, and the wall rings it on the land.
+func _check_the_crater_town() -> void:
+	var town := ["town:smithy", "town:infirmary", "town:wall", "town:begun", "carried:shut"]
+	var empty := AreaMap.load_area("home")
+	if not empty.buildings.is_empty() or empty.people.size() != 1:
+		_fail("crater town: something stands at the crater before anything is built")
+	var streets := AreaMap.load_area("city_streets")
+	var muck := {}
+	for person: Dictionary in streets.people:
+		if person.get("name", "") == "Muck Muck":
+			muck = person
+	GameState.gold = 1000
+	var builds := func() -> Array:
+		var nodes: Dictionary = Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")
+		return DialogueScript.available_options(nodes["menu"]).filter(func(o: Dictionary) -> bool:
+			return str(o.get("text", "")).begins_with("Build") or str(o.get("text", "")).begins_with("Put a wall"))
+	if not (builds.call() as Array).is_empty():
+		_fail("crater town: Muck Muck builds before a gate is shut")
+	GameState.set_flag("carried:shut")
+	var offered: Array = builds.call()
+	if offered.size() != 2:
+		_fail("crater town: Muck Muck offers %d buildings, not the smithy and the infirmary" % offered.size())
+	for option: Dictionary in offered:
+		DialogueScript.apply_effects(option)
+		var nodes: Dictionary = Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")
+		DialogueScript.apply_effects(nodes[str(option.get("goto", ""))])
+	if not (GameState.has_flag("town:smithy") and GameState.has_flag("town:infirmary")) or GameState.gold != 400:
+		_fail("crater town: paying Muck Muck built nothing (%d gold left)" % GameState.gold)
+	GameState.gold = 1000
+	var wall: Array = builds.call()
+	if wall.size() != 1:
+		_fail("crater town: no wall offered once the smithy and infirmary stand")
+	GameState.set_flag("town:wall")
+	var built := AreaMap.load_area("home")
+	if built.buildings.size() != 4 or built.people.size() != 5:
+		_fail("crater town: %d buildings and %d people at the crater once all is built" % [built.buildings.size(), built.people.size()])
+	for building: Dictionary in built.buildings:
+		_check_building("home", built, building)
+		for prop: Dictionary in built.props:
+			if AreaMap.footprint(building).has_point(prop["cell"]):
+				_fail("crater town: %s stands on %s" % [building.get("name", ""), prop.get("art", "")])
+	for person: Dictionary in built.people:
+		_check_person("home", built, person)
+		if built.find_cell_path(built.spawn, AreaMap.to_cell(person.get("cell", [0, 0]))).is_empty():
+			_fail("crater town: %s cannot be walked to" % person.get("name", ""))
+	# On the land, the wall rings the crater only once it is built.
+	GameState.new_game(SEED)
+	var home: Site = GameState.world.sites_of_kind(Site.HOME)[0]
+	var walls := (GroundGen.slot(GameState.world, home.cell).get("props", []) as Array).filter(func(p: Dictionary) -> bool:
+		return str(p.get("art", "")).begins_with("walls/timber"))
+	if walls.is_empty() or walls.any(func(p: Dictionary) -> bool: return not p.has("requires")):
+		_fail("crater town: the crater's wall is not waiting to be built (%d pieces)" % walls.size())
+	for key: String in town:
+		GameState.flags.erase(key)
+	GameState.gold = GameState.DEFAULT_GOLD
+	print("crater town: smithy, infirmary and wall built, %d people" % built.people.size())
 
 
 func _check_trading() -> void:

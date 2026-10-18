@@ -340,6 +340,9 @@ Start a run (not the tutorial) and walk.
 | D5.38 | Raid a village, then walk into it and talk to someone with things to say | They bring up the burning, then turn you away more often than not; 15 gold or Hear me out gets you in |
 | D5.39 | With Bellona walking with you, stand on the Tower's floor 5, then rest and sit by her at the fire | She tells of the gate she shut and asks for two things; the journal's quests page lists "Bellona's: Twenty" under _Their own_ ([D250](06-decisions.md)) |
 | D5.40 | Stop for somebody on the road, then shut a gate, sitting by her at the fire after each | She says the twenty is given; after the gate, she finishes it, and "+2 guard, for good"; the journal says finished |
+| D5.41 | Shut a gate, walk into Stormreach with 600 gold and talk to Muck Muck | "Could you build something for us?" says the crater is your ground; "Build a smithy at the crater (300 gold)" and the same for an infirmary ([D251](06-decisions.md)) |
+| D5.42 | Pay for both, then walk back to the crater | A stone smithy top left with Hald at the anvil, a whitewashed infirmary top right with Ness; the trees that stood there are gone. Hald sells gear, Ness mends for 25 |
+| D5.43 | Pay Muck Muck for the wall (500) and walk back | A timber wall round the crater with its gate south, two houses at the bottom corners, a well and two settlers; one of them has news |
 
 ## H — Conversation and the camp
 
