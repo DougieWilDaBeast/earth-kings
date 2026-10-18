@@ -62,9 +62,11 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
-		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). Inferred: every number, name and line.",
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own. Inferred: every number, name and line.",
 		"climbers": {
 			"road_chance": 0.3,
+			"join_cells": 10,
+			"joined_line": "%s join the fight.",
 			"size": [
 				2,
 				3
@@ -363,6 +365,25 @@
 		"break_chance": 0.75,
 		"break_danger": 0.25,
 		"break_level_bonus": 3,
+		"_comment_inside": "D248 (doug-md, play-test 6: \"When I enter.or get close to a gate, I want to be able to enter into the gate and fight the monsters there and create a whole area where I can fight the monsters in it. I don't want to have to fight the monsters outside the gate.\"): going into a gate opens its inside, one floor at a time, walked like the Tower's floors (src/chronicle/gate_inside.gd). Each floor is a run of chambers from the doorway at the bottom to the way down at the top, width + width_per_rank x the rank's place (E 0 to S 5) wide and height + height_per_rank high, with chambers + chambers_per_rank of them; a band of the gate's own holds every chamber but the first, and on the last floor the keeper holds the last, before the way down, which does not open until it falls. The ground and walls are the gate's own look (themes, by the gate's place, with the ground sheets drawn bottom first; default for any other); band_reach is how far a chamber's band sees. Walking back out of the doorway leaves the gate. Inferred: every number and every look.",
+		"inside": {
+			"width": 34,
+			"width_per_rank": 4,
+			"height": 26,
+			"height_per_rank": 3,
+			"chambers": 3,
+			"chambers_per_rank": 0.6,
+			"band_reach": 3,
+			"themes": {
+				"default": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
+				"gate": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
+				"gate_barrow": {"floor": "street_paving", "path": "dirt", "wall": "crag", "cover": "meadow", "layers": ["dirt", "street_paving", "meadow", "crag"]},
+				"gate_ash": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "dirt", "layers": ["stone", "dirt", "crag"]},
+				"gate_drowned": {"floor": "stone", "path": "sand", "wall": "water", "cover": "grass", "layers": ["water", "stone", "sand"]},
+				"gate_dune": {"floor": "sand", "path": "stone", "wall": "crag", "cover": "sand", "layers": ["sand", "stone", "crag"]}
+			},
+			"hint": "Bands hold the chambers. The way down is at the far end; the doorway behind you is the way out."
+		},
 		"objectives": {
 			"rout": {
 				"display_name": "Rout",
@@ -489,6 +510,31 @@
 			"label": "The X on your map",
 			"detail": "Three torn scraps made a map: an X out in {region}, where somebody buried something."
 		}
+	},
+	"play_hud": {
+		"_comment": "D244 (doug-md, 2026-10-17: a small UI for the main screen while playing): the panel under the compass on the ground (top pixels down; top_narrow on a screen narrower than narrow_below, under the top row of buttons), one row a member of the company (face, name, level, a health bar) and the purse. face: the face's size in pixels; bar_width: the health bar's; a bar turns amber under hurt_below of full health and red under low_below. purse: its words ({gold}, {draughts}). tooltip: what hovering it says.",
+		"top": 128,
+		"top_narrow": 168,
+		"narrow_below": 760,
+		"face": 30,
+		"bar_width": 96,
+		"hurt_below": 0.6,
+		"low_below": 0.3,
+		"purse": "{gold} gold  ·  {draughts} to eat or drink",
+		"most_alerts": 4,
+		"alerts": {
+			"_comment": "D245 (after RimWorld's alerts): what wants attention, said under the company, most urgent first. hurt_below: the share of health under which someone counts as badly hurt. Each kind has text (on the panel) and detail (on hover); more is said when there are more than most_alerts.",
+			"hurt_below": 0.5,
+			"hurt": { "text": "{name} is badly hurt", "detail": "{hp} of {max} health. Rest at a village, an inn or a keep, or give them something to eat or drink from the packs (P)." },
+			"no_draughts": { "text": "Nothing in the packs to mend with", "detail": "No food or draughts to give the hurt. Bread and draughts are sold in towns." },
+			"held": { "text": "{name} is held for ransom", "detail": "{ransom} gold, or win them back by force. Press to follow the way there." },
+			"siege": { "text": "{place} is under attack", "detail": "Get there and help hold it, or it may fall." },
+			"path": { "text": "{name} has a path to choose", "detail": "Press to open the party screen and choose it." },
+			"power": { "text": "{name} has a power to take", "detail": "Press to open the party screen and take it." },
+			"treasure": { "text": "An X on your map", "detail": "Three scraps made it. Press to follow it." },
+			"more": "and {count} more"
+		},
+		"tooltip": "Your company. Press for the party screen (P)."
 	},
 	"path_help": {
 		"_comment": "D237 (doug-md, play-test 4: a question mark on each path's banner that says what it is in more words): the words for SheetParts.class_help. roles: each fits a path whose growth per level is at_least / at_most these, and (has) whose starting moves include a heal or a shot from range; the first most_roles that fit are said. lines: grows ({max_hp}, {attack}, {defense}, {speed}), starts, move ({name}, {text}), themes ({themes}).",

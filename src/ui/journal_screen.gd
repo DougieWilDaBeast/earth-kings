@@ -26,6 +26,7 @@ const Siblings := preload("res://src/chronicle/siblings.gd")
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
 const Quests := preload("res://src/world/quests.gd")
+const LandJournals := preload("res://src/chronicle/land_journals.gd")
 
 signal closed
 
@@ -298,6 +299,8 @@ func _show_quests_page() -> void:
 			_page.add_child(written)
 		_page.add_child(HSeparator.new())
 
+	_show_lands(world)
+
 	var errands_title := _line("Errands taken", HEADING_COLOUR)
 	errands_title.add_theme_font_size_override("font_size", 18)
 	_page.add_child(errands_title)
@@ -357,6 +360,37 @@ func _show_quests_page() -> void:
 		], KNOWN_COLOUR)
 		said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_page.add_child(said)
+
+
+## A page for each land set foot in ([D239]): its lines, crossed off as they are done, and the
+## trinket it pays, or pays already.
+func _show_lands(world: World) -> void:
+	var pages := LandJournals.pages(world)
+	if pages.is_empty():
+		return
+	var carried := LandJournals.carried(world).size()
+	var lands_title := _line("The lands (%d of %d pages finished)" % [carried, pages.size()], HEADING_COLOUR)
+	lands_title.add_theme_font_size_override("font_size", 18)
+	_page.add_child(lands_title)
+	for each: Dictionary in pages:
+		var trinket: Dictionary = each.get("trinket", {})
+		var done := bool(each.get("done", false))
+		_page.add_child(_line(str(each.get("heading", "")), KNOWN_COLOUR if done else LABEL_COLOUR))
+		if done:
+			var kept := _line("  Carried: the %s. %s" % [str(trinket.get("name", "")), LandJournals.describe(trinket)], KNOWN_COLOUR)
+			kept.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_page.add_child(kept)
+			continue
+		for entry: Dictionary in each.get("entries", []):
+			var got := int(entry.get("got", 0))
+			var of := int(entry.get("of", 1))
+			var mark := "[x]" if got >= of else "[ ]"
+			var counted := " (%d of %d)" % [got, of] if of > 1 and got < of else ""
+			var said := _line("  %s %s%s" % [mark, str(entry.get("text", "")), counted], LABEL_COLOUR if got >= of else KNOWN_COLOUR)
+			said.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			_page.add_child(said)
+		_page.add_child(_line("  For finishing it: something from %s." % LandJournals.named(str(each.get("land", ""))), LABEL_COLOUR))
+	_page.add_child(HSeparator.new())
 
 
 func _show_annals_page() -> void:

@@ -146,7 +146,7 @@
 			],
 			"cleared": false,
 			"data": {
-				"area": "city",
+				"area": "city_streets",
 				"city": true,
 				"faction": "freeholds"
 			},

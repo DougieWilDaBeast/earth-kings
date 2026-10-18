@@ -36,6 +36,8 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
 const Markers := preload("res://src/world/markers.gd")
+const LandJournals := preload("res://src/chronicle/land_journals.gd")
+const GateInside := preload("res://src/chronicle/gate_inside.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -356,6 +358,9 @@ func _step(direction: Vector2i) -> void:
 		_note(notice)
 	# A place picked on the map to go to is let go of once it is stood on ([D232]).
 	Markers.on_arrive(target)
+	# A page for each land, and a line crossed off for a stretch walked or a place stood in ([D239]).
+	var trinkets_before := LandJournals.carried(world).size()
+	_land_journal(LandJournals.on_arrive(world, target), trinkets_before)
 	# The country fills its empty stretches back in while you are looking away.
 	if world.steps % RESTOCK_INTERVAL == 0:
 		Encounter.restock(world, world.rng)
@@ -619,7 +624,7 @@ func _settle_up(won: bool) -> void:
 		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
 			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
 			world.tower_hoard = 0
-		if str(outcome.get("kind", "")) == "gate":
+		if str(outcome.get("kind", "")) in ["gate", "gate_band"]:
 			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
 		return
 
@@ -642,13 +647,19 @@ func _settle_up(won: bool) -> void:
 				for line: String in Spoils.for_gate_floor(world, site, party):
 					_note(line)
 				GameState.delving = [site.cell.x, site.cell.y]
-				_note("Floor %d of %s waits below: E to go down, or walk away and come back later." % [
-					site.depth() + 1, site.display_name
-				])
+				# Walked, the way down is taken straight on (D248); at the door, it waits on E.
+				if not bool(outcome.get("walked", false)):
+					_note("Floor %d of %s waits below: E to go down, or walk away and come back later." % [
+						site.depth() + 1, site.display_name
+					])
 			else:
 				GameState.delving = []
 				var was_sealed := world.tower_sealed_at >= 0
+				# Asked before it shuts: a shut gate can heal the land round it into another ([D239]).
+				var trinkets_before := LandJournals.carried(world).size()
+				var journal_lines := LandJournals.on_gate_shut(world, site)
 				world.close_gate(site)
+				_land_journal(journal_lines, trinkets_before)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
@@ -729,12 +740,24 @@ func _settle_up(won: bool) -> void:
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
+			var trinkets_before := LandJournals.carried(world).size()
+			_land_journal(LandJournals.on_band_beaten(world, cell), trinkets_before)
 			# Led to the Watch, and fought with them (D236): their bounty, and their thanks.
 			if int(outcome.get("watch", 0)) > 0:
 				for line: String in Roadside.watch_thanks(world, cell, party):
 					_note(line)
 	_map.queue_redraw()
 	_refresh()
+
+
+## Lines from the land journals ([D239]). When they turned up a trinket (the company carried
+## [param carried] before) its line is said in a box too, so it is not lost in the log.
+func _land_journal(lines: Array[String], carried: int) -> void:
+	for line: String in lines:
+		_note(line)
+	if LandJournals.carried(world).size() > carried and not lines.is_empty():
+		Sfx.play(Sfx.SELECT)
+		EventBus.conversation_requested.emit(_as_conversation([lines.back()]))
 
 
 ## A Tower chapter won may earn the company another seat (agenda item 35).
@@ -1019,13 +1042,31 @@ func _enter_gate(site: Site) -> void:
 			_note("Between its floors you can walk out, and the floors you won stay won.")
 	else:
 		_note("%s stands open." % site.label())
+	var allies := Guild.allies_for(world, site, GameState.errands, party)
+	# On the ground a gate is gone into (D248): its floor is walked, chamber to chamber, its bands
+	# fought where they stand, and the way down taken at the far end.
+	if _view == View.GROUND and GateInside.walked():
+		if not allies.is_empty():
+			_note(Guild.line("muster_with_you", {"count": allies.size(), "gate": site.display_name}))
+		_busy = true
+		EventBus.request_scene.emit("area", {
+			"area_id": GateInside.area_for(world, site, depth, party),
+			"title": "%s, floor %d" % [site.display_name, depth + 1],
+			"return_scene": "world",
+			"gate_cell": [site.cell.x, site.cell.y],
+			"gate_depth": depth,
+			"gate_final": final,
+			"gate_keeper": GateInside.keeper_flag(site, depth) if final else "",
+			"allies": allies,
+			"notes": _notices.duplicate(),
+		})
+		return
 	var aim := site.floor_objective()
 	if aim != Site.OBJECTIVE_ROUT:
 		_note("%s: %s" % [Site.objective_name(aim), Site.objective_brief(aim)])
 
 	# Shutting a gate is permanent, so it only shuts once the last floor is won.
 	var meeting := Encounter.for_gate(world, site, depth, final, party, world.rng)
-	var allies := Guild.allies_for(world, site, GameState.errands, party)
 	if not allies.is_empty():
 		BattleMapGen.add_allies(meeting["map"], allies)
 		_note(Guild.line("muster_with_you", {"count": allies.size(), "gate": site.display_name}))
@@ -1087,6 +1128,17 @@ func _climb_on() -> void:
 	_climb(site)
 
 
+## A gate's floor walked to its far end: straight on down to the next, while the gate stands (D248).
+## Its last floor won, the gate is shut, and the party is back on the ground at its mouth.
+func _gate_on() -> void:
+	var site := world.site_at(world.player_cell)
+	if site == null or site.kind != Site.GATE or site.cleared or not site.open:
+		return
+	if GameState.delving != [site.cell.x, site.cell.y]:
+		return
+	_enter_gate(site)
+
+
 ## The gate the party stands at, gone into when asked for (D116).
 func _enter_gate_here() -> void:
 	var site := world.site_at(world.player_cell)
@@ -1105,6 +1157,9 @@ func _climb_here() -> void:
 ## mouth of it and it fills in behind you.
 func _lose_the_ground(site: Site) -> void:
 	GameState.delving = []
+	# Its bands stand again, the next time it is gone into (D248).
+	if site != null:
+		site.data["delves"] = int(site.data.get("delves", 0)) + 1
 	if site == null or site.depth() <= 0:
 		return
 	site.data["depth"] = 0
@@ -1722,6 +1777,8 @@ func _do_what_the_ground_asked() -> void:
 		_fight_where_you_stand(str(boot_payload["fight"]), boot_payload.get("field", {}))
 	elif bool(boot_payload.get("climb_on", false)):
 		_climb_on()
+	elif bool(boot_payload.get("gate_on", false)):
+		_gate_on()
 	elif act != "" and GROUND_ACTS.has(act) and has_method(act):
 		# Some wait on a conversation; the ground is handed back once it is over.
 		await call(act)

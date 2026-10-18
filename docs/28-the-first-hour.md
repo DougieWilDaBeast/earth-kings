@@ -38,8 +38,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
-   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
-   the plaza, its keepers coming out of the doorway, with no fight screen ([D162](06-decisions.md)). Its plaza runs up to its gate, a
+   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Going in opens its floor, walked
+   chamber to chamber past the bands holding them to its keeper, before the way out at the far end
+   ([D248](06-decisions.md), play-test 6; until then its fight was fought on the plaza, [D162](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
@@ -203,7 +204,8 @@ tip now says so).
 5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
    archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
 6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
-   door that opens onto a city.
+   door that opens onto a city. Built ([D247](06-decisions.md), play-test 6, pick B): the city is walked on the land
+   with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places.
 8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
@@ -266,6 +268,33 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
     city or a stronghold.
 
+### Play-test 6's asks
+
+What `doug-md` asked for in play-test 6 ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-play-test-6.md))
+that needs more than a fix, **planned**, waiting on his order. Already done: the first fixes
+([D246](06-decisions.md)): the black screen and the jumping at 5×, fighters dancing side by side,
+text crossing at the bottom of the screen, a far-too-strong gate asking twice, climbers who fight.
+1. **Stormreach walked outside**: the city laid out in the open, big, the Tower beside it or in its
+   middle, not entered through a small building. Built ([D247](06-decisions.md), pick B): a walled city
+   on the land, the Tower just past its north gate.
+2. **Fights inside a gate**: going into a gate opens a whole area to fight through; fights outside a
+   gate only when it breaks (this turns back [D162](06-decisions.md)). His first pick (2026-10-18):
+   built ([D248](06-decisions.md), #314): each floor rock chambers from the doorway to the way down, a
+   band in each, the keeper before the way down on the last floor.
+3. **Tower floors that grow**: each floor bigger than the last, towards three hundred tiles.
+4. **Climbers with a part to play**: fighting monsters (or the party) on the floors, getting ready
+   or recovering; a short recruitment, joining arms with a company.
+5. **Places worth going to**: hamlets of three or four houses, a lone homestead behind a low wall,
+   more places to go inside; a reason to explore beyond Stormreach, the gate and the Tower. Art
+   for them when PixelLab's credits come back.
+6. **The paths and the gates' ground**: footpaths and tracks that run on without a hard cut and meet
+   cleanly where four cross; a gate's ground that fits the land round it, not a square; the hard
+   straight edge where a tile meets ground that cannot be walked.
+7. **The play screen after RimWorld**: little on screen, quick to move (begun in
+   [D244](06-decisions.md) and [D245](06-decisions.md)).
+8. **Carriages**, and other ways to travel.
+9. **5× speed** still runs heavy on a slower machine (the jumping is gone, [D246](06-decisions.md)).
+
 ## Music the hour still needs
 
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
@@ -325,3 +354,4 @@ decision numbers. Whoever pushes drafts it with the build; it goes up with the b
 | 2026-10-16 09:11 | `9c64cb3` | A gate's fight fought where the party stands, not on the old fight screen ([D162](06-decisions.md)), and a phone held upright laid out tall with the ground filling it and larger text ([D163](06-decisions.md)) |
 | 2026-10-17 08:26 | `3fe49a5` | Atlas's last stand as a new player's first game ([D191](06-decisions.md)), fight tactics on every side ([D187](06-decisions.md)), a slightly harder hour ([D188](06-decisions.md)), the quest list ([D190](06-decisions.md)), the Warden speaks and counts ([D184](06-decisions.md)), a word carried between lives ([D183](06-decisions.md)), in-house music and two fight sounds ([D185](06-decisions.md)), life on the land ([D179](06-decisions.md)), Muck Muck and Sinner ([D176](06-decisions.md)), copper coins ([D177](06-decisions.md)), play-test 3 and 4 fixes ([D178](06-decisions.md), [D189](06-decisions.md)) |
 | 2026-10-17 17:40 | `1daa322` | Sound in the browser at last ([D234](06-decisions.md)), New Game offers to skip the last stand when a save exists ([D235](06-decisions.md)), moves you can see land ([D192](06-decisions.md)), stances, a smarter Auto, people and bands on the road, fights beside the Watch, a map over the ground, footpaths and signposts, scars, keeper prizes, treasure maps, harder upper floors, Ewan's play-test fixes, his answers to the founders' questions |
+| 2026-10-18 11:22 | `ba09ffb` | A journal for each land with a trinket for finishing it, Stormreach walked outside ([D247](06-decisions.md)), gates you go inside and walk floor by floor ([D248](06-decisions.md)), a small company panel and a list of what wants attention while you walk, a ? on each path card, phones fit better on their side and upright, play-test 6's first fixes ([D246](06-decisions.md)) |

@@ -1,7 +1,8 @@
 extends Node
-## Photograph the great city ([D85]): its gate ward standing walled in its tile on the land, the
-## city through the great gate from high up and from the street, its people at their work a little
-## later, and the Gilded Flagon. Needs a display (xvfb-run).
+## Photograph the great city ([D85], walked outside since [D247]): Stormreach laid out on the land
+## over four tiles, from high up with the Tower at its north gate; the south gate, the high street,
+## the market a little later, the north gate with the Tower beyond; and the Gilded Flagon. Needs a
+## display (xvfb-run).
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/city_shot.tscn
 ##
@@ -30,36 +31,32 @@ func _ready() -> void:
 	world.prowlers.clear()
 	world.player_cell = city.cell
 	EventBus.request_scene.emit("world", {})
-	await _frames(90)
+	await _frames(120)
 	var ground := _active()
 	var camera = ground.get_node("Camera2D")
+	var land: AreaMap = ground.map
+	var slot := Vector2i(32, 22)
+	# The city's own cells (its streets start two in from the block's corner) as land cells.
+	var at := func(x: int, y: int) -> Vector2: return land.centre_of(city.cell * slot + Vector2i(2 + x, 2 + y))
 	camera.call("_apply_zoom", 0.42)
-	camera.focus_on(ground._leader.position + Vector2(0, -420), true)
-	await _frames(20)
-	await _shoot("ward")
-
-	EventBus.request_scene.emit("area", { "area_id": "city_streets", "title": "the city", "return_scene": "world" })
-	await _frames(60)
-	ground = _active()
-	camera = ground.get_node("Camera2D")
-	camera.call("_apply_zoom", 0.28)
-	camera.focus_on(ground.map.centre_of(Vector2i(30, 20)), true)
-	await _frames(20)
+	camera.focus_on(at.call(30, 8), true)
+	await _frames(30)
 	await _shoot("from_above")
-	camera.call("_apply_zoom", 0.8)
-	camera.focus_on(ground._leader.position + Vector2(0, -260), true)
+	camera.call("_apply_zoom", 0.55)
+	camera.focus_on(at.call(30, 34), true)
 	await _frames(20)
-	await _shoot("gate_square")
-	await get_tree().create_timer(12.0).timeout
-	camera.focus_on(ground.map.centre_of(Vector2i(14, 24)), true)
+	await _shoot("south_gate")
+	camera.focus_on(at.call(30, 20), true)
+	await _frames(10)
+	await _shoot("high_street")
+	await get_tree().create_timer(10.0).timeout
+	camera.focus_on(at.call(14, 26), true)
 	await _frames(10)
 	await _shoot("market_row")
-	camera.focus_on(ground.map.centre_of(Vector2i(46, 22)), true)
-	await _frames(10)
-	await _shoot("tavern_lane")
-	camera.focus_on(ground.map.centre_of(Vector2i(30, 8)), true)
-	await _frames(10)
-	await _shoot("cathedral")
+	camera.call("_apply_zoom", 0.4)
+	camera.focus_on(at.call(32, -6), true)
+	await _frames(20)
+	await _shoot("north_gate")
 
 	EventBus.request_scene.emit("area", { "area_id": "city_tavern", "title": "the Gilded Flagon", "return_scene": "world" })
 	await _frames(60)

@@ -90,6 +90,9 @@ var echoes: Dictionary = {}
 var treasure: Dictionary = {}
 ## Faction id -> how many of its gate keepers have fallen since one last gave up its prize ([D219]).
 var keepers: Dictionary = {}
+## A journal page for each land the party has set foot in, and what is crossed off it ([D239],
+## `src/chronicle/land_journals.gd`): land id -> `{ needs, got, walked, stood, done }`.
+var lands: Dictionary = {}
 ## The party's map ([D50], `src/chronicle/atlas.gd`): one bit a tile for ground
 ## it has seen, one for ground a map it carries has drawn in, and the places it
 ## has been told of, keyed "x,y".
@@ -360,6 +363,7 @@ func to_dict() -> Dictionary:
 		"echoes": echoes,
 		"keepers": keepers,
 		"treasure": treasure,
+		"lands": lands,
 		"explored": Atlas.encode(explored),
 		"charted": Atlas.encode(charted),
 		"marked": _sorted_keys(marked),
@@ -418,6 +422,19 @@ static func from_dict(payload: Dictionary) -> World:
 	var x_at: Array = treasure_.get("at", [])
 	if x_at.size() >= 2:
 		world.treasure["at"] = [int(x_at[0]), int(x_at[1])]
+	var lands_: Dictionary = payload.get("lands", {})
+	for land: String in lands_:
+		var book: Dictionary = lands_[land]
+		var needs: Dictionary = {}
+		var got: Dictionary = {}
+		for kind: String in book.get("needs", {}):
+			needs[kind] = int(book["needs"][kind])
+		for kind: String in book.get("got", {}):
+			got[kind] = int(book["got"][kind])
+		world.lands[land] = {
+			"needs": needs, "got": got, "walked": (book.get("walked", []) as Array).duplicate(),
+			"stood": (book.get("stood", []) as Array).duplicate(), "done": bool(book.get("done", false)),
+		}
 	world.explored = Atlas.decode(str(payload.get("explored", "")), world)
 	world.charted = Atlas.decode(str(payload.get("charted", "")), world)
 	for key: String in payload.get("marked", []):

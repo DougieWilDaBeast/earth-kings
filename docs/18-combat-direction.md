@@ -279,6 +279,10 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   frostbite), or every swing would. `src/skirmish/skirmish_conditions.gd`;
   `conditions` in `data/skirmish.json`. Before and after shots: `tests/fight_effects_shot.tscn`.
 
+**Reach.** A blow at arm's length (`range` 1) reaches the eight cells round a fighter, the diagonals too
+([D246](06-decisions.md)): with only the four beside, two fighters a diagonal apart stepped sideways
+together for ever. Anything with a longer reach counts steps.
+
 **Coming in** — everything the turn-based battle did on the way into a fight, it does
 ([D65](06-decisions.md)). A band met on the ground is fought on that ground ([D98](06-decisions.md)),
 and since [D204](06-decisions.md) with no stop before it and no box round it: the fight is on as the
