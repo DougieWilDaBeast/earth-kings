@@ -10,16 +10,27 @@ extends RefCounted
 ## first band is the Spire Apex's keeper and the rest stand down. The same floor of the same world is
 ## always stocked the same way.
 ##
+## Floors 6 to 10 (the Second Hour, [D254]) have ground of their own, but from `tower.own_bands_from`
+## up their bands are restocked the same way, all but the floor's keeper, so they climb as the floors
+## above them were tuned to.
+##
 ## Loaded by path, not by `class_name` ([D41]).
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+
+
+## Whether [param floor] has ground of its own whose bands are still the floor's foes ([D254]).
+static func own_bands_restocked(floor: int) -> bool:
+	var from := int(Chapters.rules().get("own_bands_from", 0))
+	return from > 0 and floor >= from and not Chapters.borrows_a_plan(floor) \
+		and Chapters.walked_floor_area(floor) != ""
 
 
 ## [param bands] (a plan's, as its area has them) restocked for [param floor] of [param world], met by
 ## [param party] (Characters). Floors with their own ground come back as they are. On the top floor
 ## the keeper stands before the first of [param stairs], as floor 5's does.
 static func restock(bands: Array, world: World, floor: int, party: Array, stairs: Array = []) -> Array:
-	if world == null or not Chapters.borrows_a_plan(floor):
+	if world == null or not (Chapters.borrows_a_plan(floor) or own_bands_restocked(floor)):
 		return bands
 	var tower := world.tower()
 	if tower == null:
@@ -32,6 +43,15 @@ static func restock(bands: Array, world: World, floor: int, party: Array, stairs
 		if top and i > 0:
 			break
 		var band: Dictionary = (bands[i] as Dictionary).duplicate(true)
+		# A floor's own keeper keeps its own shape ([D254]: the Keeper of the Tenth), never below the
+		# floor's foes.
+		if bool(band.get("boss", false)) and not Chapters.borrows_a_plan(floor):
+			var level_here := 1
+			for foe: Dictionary in Encounter.for_tower(world, tower, floor, party, rng).get("enemies", []):
+				level_here = maxi(level_here, int(foe.get("level", 1)))
+			band["level"] = maxi(int(band.get("level", 1)), level_here + 1)
+			out.append(band)
+			continue
 		var met := Encounter.for_tower(world, tower, floor, party, rng)
 		var pack: Array = []
 		var level := 1

@@ -1,0 +1,224 @@
+{
+    "display_name": "floor 7 of the Tower",
+    "_doc": "D254: the Second Hour's floor 7, laid out by tools/build_tower_floors.py; change it there.",
+    "layers": [
+        "tower_slab",
+        "tower_runner",
+        "tower_wall"
+    ],
+    "legend": {
+        "s": "tower_slab",
+        "f": "tower_runner",
+        "A": "tower_wall"
+    },
+    "tint": "#8d8aa0",
+    "hint": "WASD to walk  ·  the stair up is north  ·  a watchtower's stair climbs the west wall",
+    "spawn": [
+        12,
+        15
+    ],
+    "exits": [
+        [
+            12,
+            17
+        ],
+        [
+            13,
+            17
+        ]
+    ],
+    "stairs": [
+        [
+            12,
+            0
+        ],
+        [
+            13,
+            0
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                2,
+                6
+            ],
+            "line": "A watchtower's stair, cut into the wall and broken at the top. From up there you could see a long way down a road."
+        },
+        {
+            "cell": [
+                20,
+                10
+            ],
+            "line": "A cistern, dry as bone. The marks of the waterline are still on the stone, a long way above your head."
+        }
+    ],
+    "props": [
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                13,
+                1
+            ],
+            "flip": true
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                11,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                14,
+                0
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                10,
+                15
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                16,
+                15
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                2,
+                3
+            ]
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                1,
+                0
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                7,
+                1
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                17,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/rune_c",
+            "cell": [
+                22,
+                6
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                19,
+                9
+            ],
+            "offset": [
+                4,
+                3
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                21,
+                8
+            ],
+            "offset": [
+                -5,
+                2
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                23,
+                11
+            ]
+        }
+    ],
+    "bands": [
+        {
+            "key": "tower7_a",
+            "pack": [
+                "goblin",
+                "wolf"
+            ],
+            "label": "At the head of the floor",
+            "faction": "",
+            "at": [
+                12,
+                3
+            ],
+            "reach": 2,
+            "level": 6,
+            "held": true,
+            "requires_not": "done:tower7_a",
+            "done_flag": "done:tower7_a"
+        },
+        {
+            "key": "tower7_b",
+            "pack": [
+                "brigand_archer",
+                "wolf"
+            ],
+            "label": "In the cistern",
+            "faction": "",
+            "at": [
+                19,
+                8
+            ],
+            "reach": 2,
+            "level": 6,
+            "held": true,
+            "requires_not": "done:tower7_b",
+            "done_flag": "done:tower7_b"
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAffAAAAAAAAAAAA",
+        "AsssAAsssssffsssssAAAAAAAA",
+        "AsssAAssssssssssssAAAAAAAA",
+        "AsssssssssssssssssAAAAAAAA",
+        "AsssAAssssssssssssAAAAAAAA",
+        "AsssAAAAAAAssssAAAAAAAAAAA",
+        "AsssAAAAAAAssssAAAAAAAAAAA",
+        "AsssAAAAAAAssssAAsssssssAA",
+        "AsssAAAAAAAsssssssffffssAA",
+        "AsssAAAAAAAssssAAsffffssAA",
+        "AsssAAAAAAAssssAAsffffssAA",
+        "AsssAAAAAAAssssAAsssssssAA",
+        "AssssssssssssssAAAAAAAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAssffsssAAAAAAAAA",
+        "AAAAAAAAAAAAffAAAAAAAAAAAA"
+    ],
+    "dressing": []
+}

@@ -1,0 +1,256 @@
+{
+    "display_name": "floor 8 of the Tower",
+    "_doc": "D254: the Second Hour's floor 8, laid out by tools/build_tower_floors.py; change it there.",
+    "layers": [
+        "tower_slab",
+        "tower_runner",
+        "tower_wall"
+    ],
+    "legend": {
+        "s": "tower_slab",
+        "f": "tower_runner",
+        "A": "tower_wall"
+    },
+    "tint": "#928a9e",
+    "hint": "WASD to walk  ·  the stair up is north, past the bricked doors",
+    "spawn": [
+        12,
+        15
+    ],
+    "exits": [
+        [
+            12,
+            17
+        ],
+        [
+            13,
+            17
+        ]
+    ],
+    "stairs": [
+        [
+            12,
+            0
+        ],
+        [
+            13,
+            0
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                3,
+                1
+            ],
+            "line": "A doorway, bricked up. The mortar is newer than the wall round it."
+        },
+        {
+            "cell": [
+                8,
+                1
+            ],
+            "line": "Another door, bricked. Somebody has scratched a mark in the bricks, at a child's height."
+        },
+        {
+            "cell": [
+                18,
+                1
+            ],
+            "line": "A bricked door. Put your ear to it and there is nothing; not even an echo."
+        },
+        {
+            "cell": [
+                12,
+                9
+            ],
+            "line": "A square with no sky over it: stalls, a dry fountain, bunting rotted to threads. A festival was here once."
+        }
+    ],
+    "props": [
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                13,
+                1
+            ],
+            "flip": true
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                11,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                14,
+                0
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                10,
+                15
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                16,
+                15
+            ]
+        },
+        {
+            "art": "tower_inside/rune_c",
+            "cell": [
+                3,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                8,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                18,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_c",
+            "cell": [
+                23,
+                0
+            ]
+        },
+        {
+            "art": "village/fountain",
+            "cell": [
+                8,
+                8
+            ]
+        },
+        {
+            "art": "village/market_stall",
+            "cell": [
+                17,
+                6
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                10,
+                10
+            ],
+            "offset": [
+                6,
+                -4
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                15,
+                11
+            ],
+            "offset": [
+                -3,
+                5
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                6,
+                6
+            ],
+            "offset": [
+                2,
+                2
+            ]
+        },
+        {
+            "art": "lamp_post_twin",
+            "cell": [
+                19,
+                11
+            ]
+        }
+    ],
+    "bands": [
+        {
+            "key": "tower8_a",
+            "pack": [
+                "goblin",
+                "brigand_archer"
+            ],
+            "label": "Under the bricked doors",
+            "faction": "",
+            "at": [
+                6,
+                2
+            ],
+            "reach": 2,
+            "level": 6,
+            "held": true,
+            "requires_not": "done:tower8_a",
+            "done_flag": "done:tower8_a"
+        },
+        {
+            "key": "tower8_b",
+            "pack": [
+                "wolf",
+                "goblin"
+            ],
+            "label": "In the ruined square",
+            "faction": "",
+            "at": [
+                16,
+                9
+            ],
+            "reach": 2,
+            "level": 6,
+            "held": true,
+            "requires_not": "done:tower8_b",
+            "done_flag": "done:tower8_b"
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAffAAAAAAAAAAAA",
+        "AsssssssssssffsssssssssssA",
+        "AssssssssssssssssssssssssA",
+        "AssssssssssssssssssssssssA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAssffsssAAAAAAAAA",
+        "AAAAAAAAAAAAffAAAAAAAAAAAA"
+    ],
+    "dressing": []
+}

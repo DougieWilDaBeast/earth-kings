@@ -1,0 +1,234 @@
+{
+    "display_name": "floor 9 of the Tower",
+    "_doc": "D254: the Second Hour's floor 9, laid out by tools/build_tower_floors.py; change it there.",
+    "layers": [
+        "tower_slab",
+        "tower_runner",
+        "tower_wall"
+    ],
+    "legend": {
+        "s": "tower_slab",
+        "f": "tower_runner",
+        "A": "tower_wall"
+    },
+    "tint": "#8a8e98",
+    "hint": "WASD to walk  ·  the stair up is north, through the walled yard",
+    "spawn": [
+        12,
+        15
+    ],
+    "exits": [
+        [
+            12,
+            17
+        ],
+        [
+            13,
+            17
+        ]
+    ],
+    "stairs": [
+        [
+            12,
+            0
+        ],
+        [
+            13,
+            0
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                12,
+                7
+            ],
+            "line": "A yard with a wall round it, and a ring in the wall where something was chained."
+        },
+        {
+            "cell": [
+                3,
+                10
+            ],
+            "line": "A barracks: two cots, and a hearth that went out a long time ago. It is colder by it than away from it."
+        },
+        {
+            "cell": [
+                22,
+                9
+            ],
+            "line": "A dead tree, indoors. Its roots have lifted the floor."
+        }
+    ],
+    "props": [
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                13,
+                1
+            ],
+            "flip": true
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                11,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                14,
+                0
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                10,
+                15
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                16,
+                15
+            ]
+        },
+        {
+            "art": "village/well",
+            "cell": [
+                10,
+                6
+            ]
+        },
+        {
+            "art": "village/signpost",
+            "cell": [
+                15,
+                6
+            ]
+        },
+        {
+            "art": "bed_2",
+            "cell": [
+                1,
+                5
+            ]
+        },
+        {
+            "art": "bed_2",
+            "cell": [
+                1,
+                11
+            ]
+        },
+        {
+            "art": "camp/fire_dark",
+            "cell": [
+                3,
+                7
+            ]
+        },
+        {
+            "art": "nature/dead_tree",
+            "cell": [
+                23,
+                6
+            ]
+        },
+        {
+            "art": "nature/pebble",
+            "cell": [
+                22,
+                10
+            ],
+            "offset": [
+                3,
+                -2
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                6,
+                11
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                18,
+                11
+            ]
+        }
+    ],
+    "bands": [
+        {
+            "key": "tower9_a",
+            "pack": [
+                "wolf",
+                "goblin"
+            ],
+            "label": "In the walled yard",
+            "faction": "",
+            "at": [
+                8,
+                10
+            ],
+            "reach": 2,
+            "level": 7,
+            "held": true,
+            "requires_not": "done:tower9_a",
+            "done_flag": "done:tower9_a"
+        },
+        {
+            "key": "tower9_b",
+            "pack": [
+                "brigand_archer",
+                "goblin"
+            ],
+            "label": "By the yard wall",
+            "faction": "",
+            "at": [
+                17,
+                10
+            ],
+            "reach": 2,
+            "level": 7,
+            "held": true,
+            "requires_not": "done:tower9_b",
+            "done_flag": "done:tower9_b"
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAffAAAAAAAAAAAA",
+        "AAAAAAAAAssffssAAAAAAAAAAA",
+        "AAAAAAAAAssssssAAAAAAAAAAA",
+        "AAAAAAAAAssssssAAAAAAAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AssssAsssssssssssssAsssssA",
+        "AssssAsssssssssssssAsssssA",
+        "AssssAsssssssssssssAsssssA",
+        "AssssssssssssssssssssssssA",
+        "AssssAsssssssssssssAsssssA",
+        "AssssAsssssssssssssAsssssA",
+        "AssssAsssssssssssssAsssssA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAssffsssAAAAAAAAA",
+        "AAAAAAAAAAAAffAAAAAAAAAAAA"
+    ],
+    "dressing": []
+}

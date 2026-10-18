@@ -1,0 +1,248 @@
+{
+    "display_name": "floor 10 of the Tower",
+    "_doc": "D254: the Second Hour's floor 10, laid out by tools/build_tower_floors.py; change it there.",
+    "layers": [
+        "tower_slab",
+        "tower_runner",
+        "tower_wall"
+    ],
+    "legend": {
+        "s": "tower_slab",
+        "f": "tower_runner",
+        "A": "tower_wall"
+    },
+    "tint": "#9a86a0",
+    "hint": "WASD to walk  ·  the stair up is north, past the Keeper of the Tenth",
+    "spawn": [
+        12,
+        15
+    ],
+    "exits": [
+        [
+            12,
+            17
+        ],
+        [
+            13,
+            17
+        ]
+    ],
+    "stairs": [
+        [
+            12,
+            0
+        ],
+        [
+            13,
+            0
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                12,
+                11
+            ],
+            "line": "An antechamber, with benches along the walls, as if the climb up the Tower were a thing you waited your turn for."
+        },
+        {
+            "cell": [
+                8,
+                3
+            ],
+            "line": "The foot of the last stair of the chapter. The steps are worn hollow in the middle."
+        }
+    ],
+    "props": [
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                13,
+                1
+            ],
+            "flip": true
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                11,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                14,
+                0
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                10,
+                15
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                16,
+                15
+            ]
+        },
+        {
+            "art": "tower_inside/rune_c",
+            "cell": [
+                6,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                19,
+                0
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                10,
+                2
+            ]
+        },
+        {
+            "art": "brazier",
+            "cell": [
+                15,
+                2
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                6,
+                5
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                19,
+                5
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                5,
+                6
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                20,
+                6
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                6,
+                10
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                19,
+                10
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                8,
+                12
+            ]
+        }
+    ],
+    "bands": [
+        {
+            "key": "tower10_keeper",
+            "pack": [
+                "tenth_keeper",
+                "goblin",
+                "brigand_archer"
+            ],
+            "label": "The Keeper of the Tenth",
+            "faction": "",
+            "at": [
+                12,
+                4
+            ],
+            "reach": 2,
+            "level": 12,
+            "held": true,
+            "boss": true,
+            "lost": "The Keeper of the Tenth lets you go back down. It counts you as you go.",
+            "requires_not": "done:tower10_keeper",
+            "done_flag": "done:tower10_keeper"
+        },
+        {
+            "key": "tower10_a",
+            "pack": [
+                "wolf",
+                "brigand_archer"
+            ],
+            "label": "In the antechamber",
+            "faction": "",
+            "at": [
+                17,
+                9
+            ],
+            "reach": 2,
+            "level": 8,
+            "held": true,
+            "requires_not": "done:tower10_a",
+            "done_flag": "done:tower10_a"
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAffAAAAAAAAAAAA",
+        "AAAAAsssssssffsssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAssssssssssssssssAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAssssssssssssssssssAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAssffsssAAAAAAAAA",
+        "AAAAAAAAAAAAffAAAAAAAAAAAA"
+    ],
+    "dressing": []
+}

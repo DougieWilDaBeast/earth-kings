@@ -234,8 +234,8 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
    of floors 1 to 4, with their own foes and at least as many as the plan's bands (floor 6: two bands
    of two), the top floor's keeper before the stair; gate floors already were ([D162](06-decisions.md));
    a roadside fight is fought where its scene stands, a town defended or raided and a captive taken
-   back just ahead of the party. The Second Hour ([D196](06-decisions.md)) still gives 6 to 10 rooms
-   of their own.
+   back just ahead of the party. The Second Hour ([D196](06-decisions.md)) gives 6 to 10 rooms
+   of their own (built, [D254](06-decisions.md)).
 2. **The map**: click a place on it to "Go to location" or "Waypoint marker" (right-click); the
    party keeps walking while it is open; a small map in a top corner with the compass on it and the
    waypoints, clicked to go (play-test 3, item 2). Built ([D232](06-decisions.md)), his first pick.

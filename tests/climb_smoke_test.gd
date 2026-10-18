@@ -129,6 +129,12 @@ func _the_warden_counts() -> void:
 		var last := str(FirstHour.warden_line("tower5_keeper", next, "Them").get("text", ""))
 		_expect(last.contains("sixteenth and final challenger"), "climb: the sixteenth life heard \"%s\"" % last)
 	_expect(FirstHour.warden_line("tower5_a", next, "Them").is_empty(), "climb: a band that is not the keeper spoke the Warden's line")
+	# The Keeper of the Tenth ends the Second Hour the same way (D254): fought where it stands on
+	# floor 10, and it counts too.
+	var tenth := await _the_warden_says(next, 10, "tower10_keeper", "The Keeper of the Tenth")
+	_expect(tenth.contains("sixteenth"), "climb: the Keeper of the Tenth did not count the last life (\"%s\")" % tenth)
+	_expect(str(FirstHour.warden_line("tower10_keeper", "atlas", "Atlas").get("speaker", "")) == "The Keeper of the Tenth",
+			"climb: the Keeper of the Tenth has no line")
 	if FileAccess.file_exists(Sixteen.path):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Sixteen.path))
 	Sixteen.path = Sixteen.DEFAULT_PATH
@@ -136,22 +142,23 @@ func _the_warden_counts() -> void:
 
 ## [param lead] at the Tower's door, floor 5 opened, and the keeper's fight begun where it stands:
 ## what the conversation box was asked to show as it began.
-func _the_warden_says(lead: String) -> String:
+## [param floor] and [param band] name another keeper's floor ([D254]: the Keeper of the Tenth).
+func _the_warden_says(lead: String, floor: int = 5, band: String = "tower5_keeper", speaker: String = "The Warden of the Fifth") -> String:
 	GameState.new_game(SEED, lead)
 	GameState.set_flag("seen:prologue")
 	var world: World = GameState.world
 	world.tower_sealed_at = -1
-	world.tower_floor = 4
+	world.tower_floor = floor - 1
 	Pace.auto = false
-	if not await _in_by_the_door("for the Warden (%s)" % lead):
+	if not await _in_by_the_door("for the keeper of floor %d (%s)" % [floor, lead]):
 		return ""
 	var five := _current()
 	var keeper: Node2D = null
 	for watch: Node2D in five.get("_watches"):
-		if str(watch.band.get("key", "")) == "tower5_keeper":
+		if str(watch.band.get("key", "")) == band:
 			keeper = watch
 	if keeper == null:
-		_fail("climb: floor 5 has no keeper standing for %s" % lead)
+		_fail("climb: floor %d has no keeper standing for %s" % [floor, lead])
 		return ""
 	var heard: Array = []
 	var listen := func(lines: Array) -> void: heard.append_array(lines)
@@ -168,7 +175,7 @@ func _the_warden_says(lead: String) -> String:
 		if box != null and box.has_method("is_open") and box.is_open():
 			box.call("_advance")
 	for line: Variant in heard:
-		if line is Dictionary and str((line as Dictionary).get("speaker", "")) == "The Warden of the Fifth":
+		if line is Dictionary and str((line as Dictionary).get("speaker", "")) == speaker:
 			return str((line as Dictionary).get("text", ""))
 	return ""
 

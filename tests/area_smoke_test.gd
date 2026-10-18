@@ -1087,6 +1087,34 @@ func _check_tower_floor() -> void:
 					"tower floor: %s did not find their own memory, or found Atlas's" % lead)
 		theirs.queue_free()
 		await get_tree().process_frame
+	# The Second Hour (D254): every lead's chapter two lies on one of floors 6 to 10, where they can
+	# stand, for them alone, and finding it writes chapter two into the journal.
+	for lead: String in Database.memories:
+		if lead.begins_with("_"):
+			continue
+		var two: Array = Memories.of(lead).filter(func(m: Dictionary) -> bool: return int(m.get("chapter", 1)) == 2)
+		_expect(two.size() == 1, "second hour: %s has %d chapter twos, not one" % [lead, two.size()])
+		if two.size() != 1:
+			continue
+		var floor_id := str(two[0]["area"])
+		_expect(floor_id.begins_with("tower_floor_") and int(floor_id.trim_prefix("tower_floor_")) in range(6, 11),
+				"second hour: %s's chapter two lies off floors 6 to 10 (%s)" % [lead, floor_id])
+		GameState.new_game(SEED, lead)
+		var upper: Node = load("res://src/area/area_scene.tscn").instantiate()
+		upper.set("boot_payload", { "area_id": floor_id, "return_scene": "world", "tower_floor": int(floor_id.trim_prefix("tower_floor_")) })
+		add_child(upper)
+		for i in 5:
+			await get_tree().process_frame
+		var up_here: Dictionary = upper.get("_memories")
+		var ids: Array = up_here.values().map(func(m: Dictionary) -> String: return str(m.get("id", "")))
+		_expect(ids == ["%s_2" % lead], "second hour: %s sees %s on %s, not their own chapter two" % [lead, ids, floor_id])
+		if ids.size() == 1:
+			_expect((upper.get("map") as AreaMap).is_walkable(up_here.keys()[0]), "second hour: %s's keepsake lies where nobody can stand" % lead)
+			upper.call("_arrive_at", up_here.keys()[0])
+			_expect(Memories.found(lead).size() == 1 and int(Memories.found(lead)[0].get("chapter", 0)) == 2,
+					"second hour: %s did not find their chapter two" % lead)
+		upper.queue_free()
+		await get_tree().process_frame
 	# The Tower's door is the way up (D107): standing at it says how to climb, and the shaft stands over it (D108).
 	var foot: Node = load("res://src/area/area_scene.tscn").instantiate()
 	foot.set("boot_payload", { "area_id": "tower", "return_scene": "world" })
