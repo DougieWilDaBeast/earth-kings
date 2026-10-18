@@ -302,7 +302,8 @@ each, each ending playable:
    all profits 50/50 with `doug-md` (awaiting Ewan's word), PixelLab 22 euro a month paid by Will, credits
    back 27 October. Later that day ([D228](06-decisions.md) to [D230](06-decisions.md)): Early Access, aimed at
    January or February 2027; the split after Steam's cut and costs, the rest of the small print near payday;
-   a one-off price with a free First Hour leaned to but not settled, the price and platforms a call for him (#212).
+   a one-off price with a free First Hour leaned to; on 2026-10-18 he took the price and platforms ([D255](06-decisions.md)):
+   Steam Early Access at $15 to $20, the First Hour free on itch and as the demo, phones after 1.0 at $7 to $10.
 19. **`doug-md`'s play-test 4 asks go first** ([D204](06-decisions.md), 2026-10-17): ahead of item 17's
    list, one pull request at a time. (a) **Fights in real time where they happen**: part one built, no
    stop before a fight on the ground (about a tenth of a second from being seen, was over a second)
