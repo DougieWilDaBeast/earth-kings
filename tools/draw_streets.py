@@ -5,7 +5,7 @@
 
 Needs Pillow (`pip install pillow`), like tools/draw_road.py.
 
-Stormreach's gate ward (data/areas/city.json) and its streets (city_streets.json) were paved in the
+Stormreach's gate ward (once data/areas/city.json, folded into the streets by D247) and its streets (city_streets.json) were paved in the
 battle ground's ornate cream, gold and blue flags, the floor D133 took out of the Tower's yard: loud
 enough that the stalls, the people and the way on were hard to pick out. D136 draws the city's
 paving in house from the yard's own flags (tools/draw_yard.py), as a sheet in the 24 x 8 layout
@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import draw_yard  # noqa: E402  (the yard's flags, kerb colours and sheet layout)
 
 ROOT = Path(__file__).resolve().parent.parent
-AREAS = [ROOT / "data" / "areas" / "city.json", ROOT / "data" / "areas" / "city_streets.json"]
+AREAS = [ROOT / "data" / "areas" / "city_streets.json"]
 # The first gate (Greyhollow, D101) stands on the road out of the city: its plaza is the same stone.
 GATE = ROOT / "data" / "areas" / "gate_barrow.json"
 T = draw_yard.T

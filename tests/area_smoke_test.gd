@@ -20,7 +20,7 @@ const AREAS := [
 	"tower", "home",
 	"tower_floor_1", "tower_floor_2", "tower_floor_3", "tower_floor_4", "tower_floor_5",
 	"camp", "tutorial",
-	"city", "city_streets", "city_tavern",
+	"city_streets", "city_tavern",
 ]
 ## Longest a staged meeting is allowed to take before the talking starts.
 const CUTSCENE_PATIENCE := 20.0
