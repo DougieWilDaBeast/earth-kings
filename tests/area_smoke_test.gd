@@ -1056,6 +1056,17 @@ func _check_people_on_the_land() -> void:
 		var resting: Array = (scene.get("map") as AreaMap).people.filter(func(p: Dictionary) -> bool: return str(p.get("_area", "")) == "climbers_floor")
 		_expect(resting.size() >= 2 and not (resting[0].get("talk", {}) as Dictionary).get("hello", []).is_empty(),
 				"people: floor %d has no company resting by its stair to talk to (%d)" % [floor, resting.size()])
+		# D246: they sit round a fire of their own, and a fight near them is theirs too.
+		_expect(not (scene.get("_climbers_rest_at") as Array).is_empty(), "people: the company on floor %d has no fire to sit round" % floor)
+		var by_them: Array = (scene.get("_people") as Array).filter(func(a: Node) -> bool: return str((a.get_meta("person", {}) as Dictionary).get("_area", "")) == "climbers_floor")
+		if not by_them.is_empty():
+			(scene.get("_leader") as Node2D).position = (by_them[0] as Node2D).position
+			var joined := {}
+			scene.call("_call_the_climbers", joined)
+			_expect((joined.get("allies", []) as Array).size() == by_them.size(),
+					"people: the company on floor %d did not join a fight beside them (%s)" % [floor, joined])
+			for actor: Node in scene.get("_watch_fighting"):
+				actor.visible = true
 		scene.queue_free()
 		await get_tree().process_frame
 	print("people: %d bands by the road, the Watch beset by a town's road, climbers on floor %d" % [by_road, floor])
