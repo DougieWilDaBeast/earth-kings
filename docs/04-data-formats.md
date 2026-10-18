@@ -629,7 +629,14 @@ against any deed this world), `met`, `with`, `fallen` (hero ids) and `not` (any 
 hold). Each line is `{ speaker, text }`, `speaker` `{owner}` or `{listener}`. A deed match is `{ kind,
 told }`, `told` the start of the deed's `told`. `reward`: `marks` (stat key -> amount, added to the
 owner for good, kept on the character), `bond` (warmth with the listener), `line` (said last) and
-`annal`. The world keeps `arcs`: hero id -> `{ stage, since, done }`. Read by `src/chronicle/arcs.gd`.
+`annal`. All sixteen have one (D256). Besides `deeds`, an `until` or `skip_if` may ask (all of what
+it names must hold): `ledger` (tally -> how much it must grow since the stage opened, from nothing for
+`skip_if`: any of the run ledger's counters, such as `battles_won`, `battles_lost`, `kills`,
+`errands_done` or `recruited`, and `places`, places walked, or `one_kind`, the most of one kind of foe
+put down), `floor` (a Tower floor stood on), `flag` (a flag, or a list of which any will do) and
+`met_count` (how many of the sixteen met). A `when` may also hold `fallen_count` (at least that many of
+the sixteen fallen) and `flag`. The world keeps `arcs`: hero id -> `{ stage, since, at, done }`, `at`
+the tallies when the stage opened. Read by `src/chronicle/arcs.gd`.
 
 ## `world_rules.json` → `renown` — deeds, and the world remembering them (D249)
 

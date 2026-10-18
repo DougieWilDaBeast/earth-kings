@@ -1094,8 +1094,21 @@ func _check_arcs(world: World) -> void:
 	for hero_id: String in Database.arcs.get("arcs", {}):
 		_expect(not Database.hero(hero_id).is_empty(), "arcs: %s is not one of the sixteen" % hero_id)
 		for stage: Dictionary in Arcs.arc(hero_id).get("stages", []):
-			_expect(str(stage.get("ask", "")) != "" and not (stage.get("until", {}).get("deeds", []) as Array).is_empty(),
-				"arcs: a stage of %s's asks nothing" % hero_id)
+			var until: Dictionary = stage.get("until", {})
+			_expect(str(stage.get("ask", "")) != "" and not until.is_empty(), "arcs: a stage of %s's asks nothing" % hero_id)
+			for need: Dictionary in [until, stage.get("skip_if", {})]:
+				for key: String in need:
+					_expect(key in ["count", "deeds", "ledger", "floor", "flag", "met_count"], "arcs: %s's asks for %s" % [hero_id, key])
+				for key: String in need.get("ledger", {}):
+					_expect(key in Ledger.KEYS or key in ["places", "one_kind"], "arcs: %s's counts %s" % [hero_id, key])
+		var data := Arcs.arc(hero_id)
+		for variant: Dictionary in data.get("opened", []) + data.get("finished", []):
+			for key: String in variant.get("when", {}):
+				_expect(key in ["deed", "met", "with", "fallen", "fallen_count", "flag", "not"], "arcs: %s's says a line when %s" % [hero_id, key])
+		_expect(not data.get("finished", []).is_empty() and not (data["finished"][-1] as Dictionary).has("when"),
+			"arcs: %s's has no ending for when nothing else holds" % hero_id)
+	# Will kept Bellona's shape and the other fifteen were written the same way (D256).
+	_expect(Database.arcs.get("arcs", {}).size() == 16, "arcs: %d of the sixteen have one" % Database.arcs.get("arcs", {}).size())
 	var saved := { "deeds": world.deeds.duplicate(true), "arcs": world.arcs.duplicate(true), "floor": world.tower_floor,
 		"wanderers": world.wanderers.duplicate(true), "steps": world.steps, "flags": GameState.flags.duplicate(true) }
 	world.deeds = []
@@ -1143,8 +1156,47 @@ func _check_arcs(world: World) -> void:
 	var with_ultor := Arcs.at_the_fire(world, roster, juno, bellona)
 	_expect(with_ultor.any(func(l: Dictionary) -> bool: return str(l.get("text", "")).contains("Ultor")),
 		"arcs: meeting Ultor changed nothing (%s)" % [with_ultor])
-	# As the lead: hers opens with her chapter one, said to whoever sits with her.
+	# What else a stage can ask (D256): Pluto's ten of one kind count only what is put down after it
+	# opened, and the floor after; Cato's people met; Saturn's house, a flag.
 	world.arcs = {}
+	var saved_ledger: Dictionary = GameState.ledger.duplicate(true)
+	GameState.ledger = Ledger.fresh()
+	for i in 4:
+		Ledger.record_kill(GameState.ledger, "slime")
+	var climbed := Company.found("juno", ["pluto", "cato", "saturn"])
+	var pluto: Character = climbed.characters[1]
+	var cato: Character = climbed.characters[2]
+	var saturn: Character = climbed.characters[3]
+	world.tower_floor = 5
+	_expect(not Arcs.at_the_fire(world, climbed, juno, pluto).is_empty(), "arcs: Pluto's did not open")
+	for i in 9:
+		Ledger.record_kill(GameState.ledger, "slime")
+	_expect(Arcs.at_the_fire(world, climbed, juno, pluto).is_empty(), "arcs: Pluto's counted what was put down before it opened")
+	Ledger.record_kill(GameState.ledger, "slime")
+	_expect(not Arcs.at_the_fire(world, climbed, juno, pluto).is_empty() and int(world.arcs["pluto"]["stage"]) == 1,
+		"arcs: Pluto's ten of one kind did not count")
+	_expect(Arcs.at_the_fire(world, climbed, juno, pluto).is_empty(), "arcs: Pluto's floor 7 done on floor 5")
+	world.tower_floor = 7
+	var counted := Arcs.at_the_fire(world, climbed, juno, pluto)
+	_expect(bool(world.arcs["pluto"]["done"]) and pluto.marks.get("attack", 0) == 1, "arcs: Pluto's did not finish on floor 7 (%s)" % [counted])
+	Arcs.at_the_fire(world, climbed, juno, cato)
+	GameState.ledger["errands_done"] = 2
+	Arcs.at_the_fire(world, climbed, juno, cato)
+	world.wanderers = [{ "id": "ultor", "met": 1, "joined": false }]
+	_expect(Arcs.at_the_fire(world, climbed, juno, cato).is_empty(), "arcs: Cato's two met with one met")
+	world.wanderers.append({ "id": "iris", "met": 1, "joined": false })
+	_expect(not Arcs.at_the_fire(world, climbed, juno, cato).is_empty() and bool(world.arcs["cato"]["done"]), "arcs: Cato's did not finish with two met")
+	Arcs.at_the_fire(world, climbed, juno, saturn)
+	Ledger.add(GameState.ledger, "recruited")
+	Arcs.at_the_fire(world, climbed, juno, saturn)
+	_expect(Arcs.at_the_fire(world, climbed, juno, saturn).is_empty(), "arcs: Saturn's house done with no house")
+	GameState.set_flag("home:house")
+	_expect(not Arcs.at_the_fire(world, climbed, juno, saturn).is_empty() and bool(world.arcs["saturn"]["done"]), "arcs: Saturn's did not finish with the house")
+	GameState.ledger = saved_ledger
+	# As the lead: hers opens with her chapter one, said to whoever sits with her (below floor 5,
+	# so the one with her does not open theirs first).
+	world.arcs = {}
+	world.tower_floor = 0
 	var led := Company.found("bellona", ["juno"])
 	var her := led.player()
 	var other: Character = led.characters[1]

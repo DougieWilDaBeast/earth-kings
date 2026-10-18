@@ -352,6 +352,9 @@ Start a run (not the tutorial) and walk.
 | D5.50 | Climb as Atlas past floor 5 and walk floors 6 to 10 | Each floor is its own place (6 a long red gallery, 7 a watchtower stair, 8 bricked doors and a ruined square, 9 a walled yard with a well, 10 an antechamber before the last stair), two bands on each, the stair up at the top; none is a copy of floors 1 to 4 ([D254](06-decisions.md)) |
 | D5.51 | On floor 6 as Atlas, follow the compass to "Something glints" (bottom left of the gallery) and step on it | A torn page corner; Atlas's chapter two, "The Last Page", plays, and the journal's quests page has a new line under _What has come back_; a lead other than Atlas, Iris or Juno sees nothing glint on floor 6 |
 | D5.52 | Step into the Keeper of the Tenth's ground on floor 10 | It speaks before the fight ("Ten floors, Atlas…" on a first life) and fights with a goblin and an archer beside it; winning and taking the stair ends chapter two |
+| D5.53 | With Pluto walking with you, stand on floor 5, sit by him at the fire; put down ten of one kind of foe, sit by him again; climb to floor 7 and sit by him | He opens "One at a Time" and the journal's quests page lists it; after the ten he says he knows how they move; on floor 7 he counts the company up the stair and "+1 attack and +1 guard, for good" ([D256](06-decisions.md)) |
+| D5.54 | With Cassius and Caesar both walking with you past floor 5, lose a fight, then win the arena tournament, sitting by Cassius after each | His ending is the one with Caesar cheering loudest; a world where Caesar has fallen ends it with the handshake he never gave |
+| D5.55 | Open the journal's quests page after floor 5 with four of the sixteen walking with you, sitting by each | Each has a story of their own, with its own title and two asks, none the same as Bellona's "Twenty" |
 
 ## H — Conversation and the camp
 
