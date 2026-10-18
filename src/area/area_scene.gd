@@ -22,6 +22,7 @@ const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
+const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
@@ -105,6 +106,10 @@ var _approach_path: Array[Vector2] = []
 var _click_path: Array[Vector2] = []
 ## The pin where a click sent the party, and the line to it ([D189]).
 var _waymark: Node2D
+## An inn's room paid for here ([D242]): the pin and dotted line to its bed, and the words over it.
+var _room_mark: Node2D
+var _room_label: Label
+var _room_clock := 0.0
 ## The small panel of the company's health and the purse ([D244]).
 var _play_hud: Control
 var _approach_index: int = 0
@@ -304,6 +309,7 @@ func _ready() -> void:
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
 	move_child(_waymark, _actors.get_index())
+	_show_the_room()
 
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
@@ -1956,6 +1962,9 @@ func _act_of(thing: AreaThing) -> Dictionary:
 func _examine(thing: AreaProp) -> void:
 	_leader.face(thing.position - _leader.position)
 	EventBus.player_did.emit("examined:%s" % thing.display_name)
+	if _is_an_inns_bed(thing.cell):
+		_try_the_bed(thing.cell)
+		return
 	if map.wards.has(thing.cell):
 		_try_the_ward(thing.cell)
 		return
@@ -2043,6 +2052,7 @@ func _speak_with(them: AreaActor) -> void:
 	elif not them.chatter.is_empty():
 		them.say(them.chatter.pick_random())
 
+	_settle_the_room()
 	_camera.focus_on(_leader.position)
 	_hold_the_town(false)
 	_talking = false
@@ -2155,6 +2165,10 @@ func _physics_process(delta: float) -> void:
 	# Before the early-out below: the party has to keep closing the gap after the
 	# player lets go of the keys, or everyone freezes mid-stride where they stood.
 	_settle_followers(delta)
+	_room_clock -= delta
+	if _room_mark != null and _room_clock <= 0.0:
+		_room_clock = 0.25
+		_draw_the_way_to_bed()
 	var axis := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	# With the large map open the keys look about the map; the party walks on as it was (D232).
 	if _map_open():
@@ -3660,6 +3674,13 @@ func _point_the_compass() -> void:
 	if _compass == null or GameState.world == null:
 		return
 	var world: World = GameState.world
+	# A room paid for here: the needle goes to its bed (D242).
+	var bed := _your_bed()
+	if bed.x >= 0 and _leader != null:
+		_compass.set_meta("aimed", true)
+		_compass.visible = not _overlay_open()
+		_compass.point(Vector2(bed - map.cell_at(_leader.position)), "Your room", 0)
+		return
 	# On a floor of the Tower the only way on is the stair up (D102), and a memory lying there is
 	# pointed at first, so nobody walks past it (D107).
 	if _walked_floor() and not map.stairs.is_empty() and _leader != null:
@@ -3847,3 +3868,153 @@ func _toggle_act_focus() -> void:
 
 func _exit_tree() -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+
+# --- an inn's rooms ([D242]) --------------------------------------------------------------------
+
+
+## `doug-md`, play-test 4: "you pay for the [room], little marker will show you where your room is".
+## The innkeep sells a night (`inn_room_paid`); here it becomes a room of this inn (`inn_room_at`),
+## its bed pinned with a dotted line to it, and the compass on it. Sleeping in it patches everyone
+## up, sends them off the better for it (`vigour`, as a bed at home does) and is a place the game
+## saves. One night a payment.
+const ROOM_PAID := "inn_room_paid"
+const ROOM_AT := "inn_room_at"
+
+
+func _inn() -> Dictionary:
+	return Database.area(map.id).get("inn", {}) if map != null else {}
+
+
+func _is_an_inns_bed(cell: Vector2i) -> bool:
+	for room: Dictionary in _inn().get("bedrooms", []):
+		if AreaMap.to_cell(room.get("bed", [-1, -1])) == cell:
+			return true
+	return false
+
+
+## The bed of the room paid for, if it is in this inn; otherwise (-1, -1).
+func _your_bed() -> Vector2i:
+	var inn := _inn()
+	var rooms: Array = inn.get("bedrooms", [])
+	if rooms.is_empty() or str(GameState.flags.get(ROOM_AT, "")) != map.id or not GameState.has_flag(ROOM_PAID):
+		return Vector2i(-1, -1)
+	var yours: Dictionary = rooms[clampi(int(inn.get("yours", 0)), 0, rooms.size() - 1)]
+	return AreaMap.to_cell(yours.get("bed", [-1, -1]))
+
+
+func _your_room_name() -> String:
+	var inn := _inn()
+	var rooms: Array = inn.get("bedrooms", [])
+	if rooms.is_empty():
+		return "your room"
+	return str((rooms[clampi(int(inn.get("yours", 0)), 0, rooms.size() - 1)] as Dictionary).get("name", "your room"))
+
+
+## After a conversation: a night just paid for here becomes this inn's room.
+func _settle_the_room() -> void:
+	if _inn().is_empty() or not GameState.has_flag(ROOM_PAID):
+		return
+	if str(GameState.flags.get(ROOM_AT, "")) == "":
+		GameState.set_flag(ROOM_AT, map.id)
+		_note("%s is yours for the night. Follow the line to it, and E by the bed to sleep." % _your_room_name())
+	_show_the_room()
+	_point_the_compass()
+
+
+func _show_the_room() -> void:
+	var bed := _your_bed()
+	if bed.x < 0:
+		if _room_mark != null:
+			_room_mark.queue_free()
+			_room_mark = null
+		if _room_label != null:
+			_room_label.queue_free()
+			_room_label = null
+		return
+	if _room_mark == null:
+		_room_mark = AreaWaymark.new()
+		add_child(_room_mark)
+		move_child(_room_mark, _actors.get_index())
+		_room_label = Label.new()
+		_room_label.text = "Your room"
+		_room_label.add_theme_font_size_override("font_size", 14)
+		_room_label.add_theme_color_override("font_color", Color(1.0, 0.86, 0.42))
+		_room_label.add_theme_color_override("font_outline_color", Color.BLACK)
+		_room_label.add_theme_constant_override("outline_size", 4)
+		# Under the bed, on the room's own floor: above it stands the wall.
+		_room_label.position = map.centre_of(bed) + Vector2(-34.0, AreaMap.CELL * 0.45)
+		_room_label.z_index = 30
+		add_child(_room_label)
+	_room_clock = 0.0
+	_draw_the_way_to_bed()
+
+
+## The dotted line from the leader to beside the bed, along the way they would walk.
+func _draw_the_way_to_bed() -> void:
+	var bed := _your_bed()
+	if _room_mark == null or _leader == null or bed.x < 0:
+		return
+	var here := map.cell_at(_leader.position)
+	var goal := bed + Vector2i.DOWN
+	if not map.is_walkable(goal):
+		for side: Vector2i in [Vector2i.RIGHT, Vector2i.LEFT]:
+			if map.is_walkable(bed + side):
+				goal = bed + side
+				break
+	var way: Array[Vector2] = [] if here == goal else map.find_cell_path(here, goal)
+	_room_mark.show_way(_leader.position, way)
+
+
+## E by an inn's bed: the room paid for is slept in; any other is somebody's.
+func _try_the_bed(cell: Vector2i) -> void:
+	if cell != _your_bed():
+		if GameState.has_flag(ROOM_PAID) and str(GameState.flags.get(ROOM_AT, "")) == map.id:
+			_note("Somebody else's room. Yours is %s." % _your_room_name())
+		elif GameState.has_flag(ROOM_PAID):
+			_note("Your room for the night is at another inn.")
+		else:
+			_note("A bed made up for whoever pays the innkeep for it: %d gold a night." % int(_inn().get("price", 40)))
+		return
+	_sleep_in_the_room()
+
+
+func _sleep_in_the_room() -> void:
+	var inn := _inn()
+	var vigour := int(inn.get("vigour", 0))
+	var place := str(Database.area(map.id).get("display_name", "the inn"))
+	var bettered: Array[String] = []
+	for character: Character in GameState.party_characters():
+		if character.is_alive() and character.hearth_vigour < vigour:
+			character.hearth_vigour = vigour
+			bettered.append(character.display_name)
+	GameState.roster.rest()
+	GameState.heal_party()
+	GameState.flags.erase(ROOM_PAID)
+	GameState.flags.erase(ROOM_AT)
+	_show_the_room()
+	EventBus.player_did.emit("slept:%s" % place)
+	_note("You sleep in %s at %s, and wake with the house already loud below." % [_your_room_name().to_lower(), place])
+	if not bettered.is_empty():
+		_note("%s wake up the better for it (+%d health)." % [" and ".join(bettered), vigour])
+	_night_falls()
+	EventBus.safe_point_reached.emit(RunMode.REST, "you slept at %s" % place)
+	_point_the_compass()
+
+
+## A short dark while the party sleeps.
+func _night_falls() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 35
+	var dark := ColorRect.new()
+	dark.color = Color(0.0, 0.0, 0.02, 0.0)
+	dark.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(dark)
+	add_child(layer)
+	var fade := create_tween()
+	fade.tween_property(dark, "color:a", 0.92, 0.6)
+	fade.tween_interval(0.5)
+	fade.tween_property(dark, "color:a", 0.0, 0.9)
+	fade.tween_callback(layer.queue_free)
+

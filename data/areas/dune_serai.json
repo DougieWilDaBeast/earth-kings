@@ -8,26 +8,26 @@
     "tint": "#f0d4a8",
     "spawn": [
         7,
-        9
+        17
     ],
     "exits": [
         [
             7,
-            10
+            18
         ]
     ],
     "spots": [
         {
             "cell": [
                 7,
-                3
+                11
             ],
             "line": "Heavy carpets over the stone to keep the desert chill out after dusk."
         },
         {
             "cell": [
                 2,
-                2
+                10
             ],
             "line": "Clay amphoras filled with rosewater and dates."
         }
@@ -36,7 +36,7 @@
         {
             "cell": [
                 12,
-                2
+                10
             ],
             "line": "A cedar merchant box under a divan, smelling of clove and resin.",
             "art": "chest_gold",
@@ -46,24 +46,115 @@
     ],
     "props": [
         {
-            "art": "interior/amphorae",
+            "art": "village/bread_oven",
             "cell": [
                 1,
                 1
+            ],
+            "name": "the kitchen's oven",
+            "line": "The oven's still warm. Something with onions in it went out of here not long ago."
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                2,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                1,
+                3
+            ],
+            "offset": [
+                32,
+                0
             ]
         },
         {
             "art": "interior/amphorae",
+            "cell": [
+                4,
+                1
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                4,
+                4
+            ]
+        },
+        {
+            "art": "bed",
+            "cell": [
+                6,
+                1
+            ],
+            "name": "a bed",
+            "line": "A bed made up for the night."
+        },
+        {
+            "art": "drawers_red",
+            "cell": [
+                9,
+                1
+            ]
+        },
+        {
+            "art": "oil_lamp",
+            "cell": [
+                9,
+                4
+            ]
+        },
+        {
+            "art": "bed",
+            "cell": [
+                11,
+                1
+            ],
+            "name": "a bed",
+            "line": "A bed made up for the night."
+        },
+        {
+            "art": "drawers_wood",
             "cell": [
                 13,
                 1
             ]
         },
         {
+            "art": "oil_lamp",
+            "cell": [
+                13,
+                4
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                1,
+                9
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                13,
+                9
+            ]
+        },
+        {
             "art": "interior/banner_red",
             "cell": [
                 4,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -74,7 +165,7 @@
             "art": "interior/banner_red",
             "cell": [
                 10,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -85,7 +176,7 @@
             "art": "tapestry",
             "cell": [
                 7,
-                0
+                8
             ],
             "offset": [
                 0,
@@ -96,98 +187,98 @@
             "art": "oil_lamp",
             "cell": [
                 6,
-                1
+                9
             ]
         },
         {
             "art": "oil_lamp",
             "cell": [
                 8,
-                1
+                9
             ]
         },
         {
             "art": "village/fountain",
             "cell": [
                 7,
-                5
+                13
             ]
         },
         {
             "art": "sofa_gold",
             "cell": [
                 2,
-                3
+                11
             ]
         },
         {
             "art": "interior/cushions",
             "cell": [
                 3,
-                5
+                13
             ]
         },
         {
             "art": "interior/low_table",
             "cell": [
                 3,
-                4
+                12
             ]
         },
         {
             "art": "sofa_gold",
             "cell": [
                 12,
-                3
+                11
             ]
         },
         {
             "art": "interior/cushions",
             "cell": [
                 11,
-                5
+                13
             ]
         },
         {
             "art": "interior/low_table",
             "cell": [
                 11,
-                4
+                12
             ]
         },
         {
             "art": "potted_plant",
             "cell": [
                 1,
-                8
+                16
             ]
         },
         {
             "art": "potted_plant",
             "cell": [
                 13,
-                8
+                16
             ]
         },
         {
             "art": "interior/amphorae",
             "cell": [
                 13,
-                9
+                17
             ]
         },
         {
             "art": "interior/cushions",
             "cell": [
                 2,
-                9
+                17
             ]
         },
         {
             "art": "interior/low_table",
             "cell": [
                 11,
-                8
+                16
             ]
         }
     ],
@@ -197,7 +288,7 @@
             "unit": "innkeeper",
             "cell": [
                 7,
-                2
+                10
             ],
             "facing": [
                 0,
@@ -210,7 +301,7 @@
             "unit": "peasant",
             "cell": [
                 4,
-                7
+                15
             ],
             "facing": [
                 1,
@@ -227,7 +318,7 @@
             "unit": "ember_duelist",
             "cell": [
                 10,
-                6
+                14
             ],
             "facing": [
                 -1,
@@ -242,6 +333,14 @@
     ],
     "rows": [
         "###############",
+        "#....#....#...#",
+        "#....#....#...#",
+        "#....#....#...#",
+        "#....#....#...#",
+        "###.####.###.##",
+        "#.............#",
+        "#.............#",
+        "############.##",
         "#.............#",
         "#.............#",
         "#.............#",
@@ -261,7 +360,7 @@
             {
                 "rect": [
                     1,
-                    2,
+                    10,
                     4,
                     4
                 ],
@@ -271,7 +370,7 @@
             {
                 "rect": [
                     10,
-                    2,
+                    10,
                     4,
                     4
                 ],
@@ -281,7 +380,7 @@
             {
                 "rect": [
                     6,
-                    7,
+                    15,
                     3,
                     3
                 ],
@@ -291,19 +390,39 @@
             {
                 "rect": [
                     5,
-                    1,
+                    9,
                     5,
                     2
                 ],
                 "colour": "#7a2a50",
                 "trim": "#e0b060"
+            },
+            {
+                "rect": [
+                    6,
+                    2,
+                    4,
+                    2
+                ],
+                "colour": "#2e3e5a",
+                "trim": "#b89a5a"
+            },
+            {
+                "rect": [
+                    11,
+                    2,
+                    3,
+                    2
+                ],
+                "colour": "#5a2e2a",
+                "trim": "#b89a5a"
             }
         ],
         "glows": [
             {
                 "cell": [
                     7,
-                    5
+                    13
                 ],
                 "radius": 3.5,
                 "colour": "#ffe0a0",
@@ -312,7 +431,7 @@
             {
                 "cell": [
                     3,
-                    3
+                    11
                 ],
                 "radius": 2.5,
                 "colour": "#ffb060",
@@ -321,11 +440,106 @@
             {
                 "cell": [
                     11,
-                    3
+                    11
                 ],
                 "radius": 2.5,
                 "colour": "#ffb060",
                 "strength": 0.25
+            },
+            {
+                "cell": [
+                    1.5,
+                    1.5
+                ],
+                "radius": 2.5,
+                "colour": "#ff9a40",
+                "strength": 0.35
+            },
+            {
+                "cell": [
+                    9,
+                    3.5
+                ],
+                "radius": 1.8,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            },
+            {
+                "cell": [
+                    13,
+                    3.5
+                ],
+                "radius": 1.8,
+                "colour": "#ffcf80",
+                "strength": 0.25
+            }
+        ],
+        "floors": [
+            {
+                "rect": [
+                    1,
+                    1,
+                    4,
+                    4
+                ],
+                "floor": "tile"
+            },
+            {
+                "rect": [
+                    6,
+                    1,
+                    4,
+                    4
+                ],
+                "floor": "tile"
+            },
+            {
+                "rect": [
+                    11,
+                    1,
+                    3,
+                    4
+                ],
+                "floor": "tile"
+            }
+        ]
+    },
+    "inn": {
+        "price": 40,
+        "vigour": 4,
+        "yours": 1,
+        "kitchen": [
+            1,
+            1,
+            4,
+            4
+        ],
+        "bedrooms": [
+            {
+                "name": "Room one",
+                "rect": [
+                    6,
+                    1,
+                    4,
+                    4
+                ],
+                "bed": [
+                    6,
+                    1
+                ]
+            },
+            {
+                "name": "Room two",
+                "rect": [
+                    11,
+                    1,
+                    3,
+                    4
+                ],
+                "bed": [
+                    11,
+                    1
+                ]
             }
         ]
     }

@@ -9,6 +9,13 @@ street's flagstones with furniture round the edge. Each room here is laid out by
 standing up with what hangs on it, the side and front walls, a floor of its own, a hearth or a
 fire, a bar or a high seat, tables in the middle, rugs, and light where the fire and candles are.
 
+An inn (a room with `inn`) has rooms behind its taproom (`doug-md`, play-test 4: "create rooms...
+not just a square, small tile... a kitchen, the diner, and then the bedrooms, and then you pay for
+the [room], little marker will show you where your room is"; D242): a block of BEHIND rows laid on
+top of the taproom, with a kitchen on one side and bedrooms with a bed each along the rest, their
+doors onto a passage, and a way through the taproom's back wall into it. The taproom's own pieces
+move down with it. The area's `inn` block names the bedrooms and their beds, and which is let.
+
 The room's own words (its `spots`), its `talk`, its chests' contents and everything else in the
 area file are kept; only where things stand is rewritten, so the same room always comes out the
 same. Nothing is placed where it would stop the party reaching the door, a chest, a spot or
@@ -27,6 +34,11 @@ ROOT = Path(__file__).resolve().parent.parent
 AREAS = ROOT / "data" / "areas"
 PROPS = json.loads((ROOT / "data" / "props.json").read_text(encoding="utf-8"))
 
+# Rows an inn's rooms add above its taproom: the top wall, four rows of rooms, their wall with
+# doors, a passage two rows deep; the taproom's old back wall is the next row.
+BEHIND = 8
+ROOM_ROWS = 4
+
 # Raise a picture so it hangs on the back wall's face, or sit a two-cell piece across both cells.
 ON_WALL = [0, 18]
 ON_WALL_HIGH = [0, 6]
@@ -38,6 +50,7 @@ TWO_ON_WALL = [32, 18]
 # them, so their words and wares stay with them.
 ROOMS: dict[str, dict] = {
     "village_inn": dict(
+        inn=dict(name="the Ford and Crown", kitchen="flag", rooms="oak"),
         size=(15, 11), door=7, floor="oak", wall="timber", tint="#efdcc4",
         rugs=[(2, 1, 4, 3, "#7a2e2a", "#c9a45f"), (3, 5, 8, 3, "#3b4a6b", "#b89a5a")],
         glows=[(3.5, 1, 4.5, "#ff9a40", 0.5), (4, 6, 2, "#ffcf80", 0.25), (9, 6, 2, "#ffcf80", 0.25),
@@ -76,6 +89,7 @@ ROOMS: dict[str, dict] = {
         people=[(9, 2), (5, 4), (10, 5)], spots=[(7, 5), (9, 1)], chests=[(2, 3)],
     ),
     "city_tavern": dict(
+        inn=dict(name="the Gilded Flagon", kitchen="flag", rooms="oak"),
         size=(21, 13), door=10, floor="oak", wall="stone", tint="#f2dcbc",
         rugs=[(2, 2, 6, 3, "#7a2e2a", "#c9a45f"), (8, 5, 8, 4, "#3b4a6b", "#b89a5a")],
         glows=[(4.5, 1, 5, "#ff9a40", 0.5), (6, 6, 2, "#ffcf80", 0.25), (12, 6, 2, "#ffcf80", 0.25),
@@ -135,6 +149,7 @@ ROOMS: dict[str, dict] = {
         people=[(5, 2), (7, 4), (9, 8)], spots=[(7, 5), (5, 8)], chests=[(13, 2)],
     ),
     "dune_serai": dict(
+        inn=dict(name="the Oasis Serai", kitchen="tile", rooms="tile"),
         size=(15, 11), door=7, floor="tile", wall="adobe", tint="#f0d4a8",
         rugs=[(1, 2, 4, 4, "#8a2a24", "#e0b060"), (10, 2, 4, 4, "#28406a", "#e0b060"),
               (6, 7, 3, 3, "#6a3a1a", "#e0b060"), (5, 1, 5, 2, "#7a2a50", "#e0b060")],
@@ -214,19 +229,111 @@ def footprint(art: str, cell: tuple[int, int]) -> list[tuple[int, int]]:
     return [(cell[0] + dx - (w - 1) // 2, cell[1] - dy) for dy in range(max(1, d)) for dx in range(max(1, w))]
 
 
+def behind(room: dict) -> dict:
+    """The taproom moved down BEHIND rows, and the kitchen and bedrooms laid out over it."""
+    room = dict(room)
+    w, h = room["size"]
+    inn = room["inn"]
+    down = lambda c: (c[0], c[1] + BEHIND)
+    room["size"] = (w, h + BEHIND)
+    room["rugs"] = [(x, y + BEHIND, rw, rh, c, t) for x, y, rw, rh, c, t in room["rugs"]]
+    room["glows"] = [(x, y + BEHIND, r, c, s) for x, y, r, c, s in room["glows"]]
+    room["props"] = [(art, x, y + BEHIND, off) for art, x, y, off in room["props"]]
+    for key in ("people", "spots", "chests"):
+        room[key] = [down(c) for c in room[key]]
+
+    # Across the top: a kitchen, then bedrooms of three or four cells with a wall between.
+    kitchen = 5 if w >= 19 else 4
+    walls_x = [kitchen + 1]
+    rooms: list[tuple[int, int]] = []
+    x = kitchen + 2
+    span = (w - 1) - x
+    count = max(1, (span + 1) // 4)
+    widths = [(span - (count - 1)) // count] * count
+    for i in range((span - (count - 1)) % count):
+        widths[i] += 1
+    for i, rw in enumerate(widths):
+        rooms.append((x, rw))
+        x += rw
+        if i < count - 1:
+            walls_x.append(x)
+            x += 1
+    doors = [1 + kitchen // 2] + [rx + rw // 2 for rx, rw in rooms]
+    passage = ROOM_ROWS + 2
+
+    # The way through the taproom's back wall: a cell with nothing hung on the wall there and
+    # nothing standing in front of it, as near the bedrooms' end as can be.
+    hung = set()
+    standing = set()
+    for art, px, py, off in room["props"]:
+        if py == BEHIND:
+            hung |= {px, px + 1} if off in (TWO, TWO_ON_WALL) else {px}
+        elif solid(art, {}):
+            standing |= set(footprint(art, (px, py)))
+    taken = {c for c in room["people"]} | set(room["spots"]) | set(room["chests"])
+    through = None
+    for gx in list(range(w - 2, 0, -1)):
+        if gx not in hung and (gx, BEHIND + 1) not in standing and (gx, BEHIND + 1) not in taken:
+            through = gx
+            break
+    if through is None:
+        sys.exit("build_interiors: %s has no way through its back wall into the rooms" % room["inn"]["name"])
+
+    def wall_at(cx: int, cy: int) -> bool:
+        if cy == 0 or cx == 0 or cx == w - 1:
+            return True
+        if cy == ROOM_ROWS + 1:
+            return cx not in doors
+        if cy == BEHIND:
+            return cx != through
+        if 1 <= cy <= ROOM_ROWS:
+            return cx in walls_x
+        return False
+    room["behind_walls"] = wall_at
+
+    props = []
+    props += [("village/bread_oven", 1, 1, None), ("interior/shelf_bottles", 2, 0, TWO_ON_WALL),
+              ("interior/table_long", 1, 3, TWO), ("interior/amphorae", kitchen, 1, None),
+              ("village/barrels", kitchen, ROOM_ROWS, None)]
+    beds = []
+    for i, (rx, rw) in enumerate(rooms):
+        props += [("bed", rx, 1, None), ("drawers_wood" if i % 2 else "drawers_red", rx + rw - 1, 1, None),
+                  ("oil_lamp", rx + rw - 1, ROOM_ROWS, None)]
+        beds.append((rx, 1))
+    room["props"] = props + room["props"]
+    room["rugs"] = room["rugs"] + [(rx, 2, rw, 2, "#5a2e2a" if i % 2 else "#2e3e5a", "#b89a5a")
+                                   for i, (rx, rw) in enumerate(rooms)]
+    room["glows"] = room["glows"] + [(1.5, 1.5, 2.5, "#ff9a40", 0.35)] + [
+        (rx + rw - 1, ROOM_ROWS - 0.5, 1.8, "#ffcf80", 0.25) for rx, rw in rooms]
+    room["floors"] = [(1, 1, kitchen, ROOM_ROWS, inn.get("kitchen", "flag"))] + [
+        (rx, 1, rw, ROOM_ROWS, inn.get("rooms", "oak")) for rx, rw in rooms]
+    names = ["Room one", "Room two", "Room three", "Room four", "Room five"]
+    room["inn_block"] = {
+        "price": 40, "vigour": 4, "yours": min(1, len(beds) - 1),
+        "kitchen": [1, 1, kitchen, ROOM_ROWS],
+        "bedrooms": [{"name": names[i], "rect": [rx, 1, rw, ROOM_ROWS], "bed": [beds[i][0], beds[i][1]]}
+                     for i, (rx, rw) in enumerate(rooms)],
+    }
+    room["beds"] = beds
+    return room
+
+
 def build(area_id: str) -> None:
     room = ROOMS[area_id]
+    if "inn" in room:
+        room = behind(room)
     path = AREAS / f"{area_id}.json"
     text = path.read_text(encoding="utf-8")
     data = json.loads(text)
     w, h = room["size"]
     door = room["door"]
+    inner = room.get("behind_walls")
 
     rows = []
     for y in range(h):
         row = ""
         for x in range(w):
-            wall = y == 0 or y == h - 1 or x == 0 or x == w - 1
+            wall = y == 0 or y == h - 1 or x == 0 or x == w - 1 or (inner is not None and inner(x, y))
             row += "." if (not wall or (y == h - 1 and x == door)) else "#"
         rows.append(row)
     data["rows"] = rows
@@ -240,11 +347,21 @@ def build(area_id: str) -> None:
         "rugs": [{"rect": [x, y, rw, rh], "colour": c, "trim": t} for x, y, rw, rh, c, t in room["rugs"]],
         "glows": [{"cell": [x, y], "radius": r, "colour": c, "strength": s} for x, y, r, c, s in room["glows"]],
     }
+    if "floors" in room:
+        data["interior"]["floors"] = [{"rect": [x, y, fw, fh], "floor": f} for x, y, fw, fh, f in room["floors"]]
+    if "inn_block" in room:
+        data["inn"] = room["inn_block"]
     props = []
     for art, x, y, offset in room["props"]:
         entry: dict = {"art": art, "cell": [x, y]}
         if offset:
             entry["offset"] = list(offset)
+        if (x, y) in room.get("beds", []) and art == "bed":
+            entry["name"] = "a bed"
+            entry["line"] = "A bed made up for the night."
+        elif "inn" in room and art == "village/bread_oven" and (x, y) == (1, 1):
+            entry["name"] = "the kitchen's oven"
+            entry["line"] = "The oven's still warm. Something with onions in it went out of here not long ago."
         props.append(entry)
     data["props"] = props
     data["dressing"] = []
@@ -285,6 +402,10 @@ def build(area_id: str) -> None:
         for c in cells:
             if c not in seen and not (what == "door" and walkable(c)):
                 problems.append("%s at %s" % (what, c))
+    # A bed is slept in from beside it.
+    for c in room.get("beds", []):
+        if not any(n in seen for n in ((c[0] + 1, c[1]), (c[0] - 1, c[1]), (c[0], c[1] + 1))):
+            problems.append("a bed nobody can reach at %s" % (c,))
     for c in room["people"]:
         if not walkable(c):
             problems.append("person standing in something at %s" % (c,))

@@ -11,8 +11,10 @@ extends RefCounted
 ##                 "glows": [ { "cell": [x, y], "radius": 3, "colour": "#ffb060" } ] }
 ##
 ## The back wall (the top row) is drawn standing up, its face towards you, so a room reads as a
-## room and not a yard; the side and front walls are drawn from above. Pictures are in
-## `art/interior/` (stand-ins from tools/draw_interiors.py).
+## room and not a yard; so is any wall inside with floor in front of it (an inn's rooms behind
+## its taproom, [D242]); the side and front walls are drawn from above. A room can have floors of
+## its own over the main one (`floors`: `{ rect, floor }`, a kitchen's flags under bedrooms'
+## planks). Pictures are in `art/interior/` (stand-ins from tools/draw_interiors.py).
 
 const ROOT := "res://art/interior"
 ## How tall the back wall's picture is, against the cell it stands on.
@@ -40,6 +42,20 @@ static func paint(map: AreaMap, into: Node2D) -> void:
 		floor.region_rect = Rect2(0, 0, map.width * cell, map.height * cell)
 		into.add_child(floor)
 
+	for patch: Dictionary in spec.get("floors", []):
+		var own := _texture("floor_%s" % str(patch.get("floor", "oak")))
+		if own == null:
+			continue
+		var r: Array = patch.get("rect", [0, 0, 1, 1])
+		var piece := Sprite2D.new()
+		piece.texture = own
+		piece.centered = false
+		piece.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+		piece.region_enabled = true
+		piece.position = Vector2(float(r[0]), float(r[1])) * cell
+		piece.region_rect = Rect2(float(r[0]) * cell, float(r[1]) * cell, float(r[2]) * cell, float(r[3]) * cell)
+		into.add_child(piece)
+
 	var dressing := Node2D.new()
 	dressing.name = "Rugs"
 	dressing.draw.connect(_draw_rugs.bind(dressing, spec, map))
@@ -56,9 +72,9 @@ static func paint(map: AreaMap, into: Node2D) -> void:
 			var piece := Sprite2D.new()
 			piece.centered = false
 			piece.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			if y == 0 and face != null:
+			if _stands_up(map, at) and face != null:
 				piece.texture = face
-				piece.position = Vector2(x * cell, cell - WALL_HEIGHT)
+				piece.position = Vector2(x * cell, (y + 1) * cell - WALL_HEIGHT)
 			elif cap != null:
 				piece.texture = cap
 				piece.position = Vector2(x * cell, y * cell)
@@ -123,8 +139,23 @@ static func _draw_rugs(on: Node2D, spec: Dictionary, map: AreaMap) -> void:
 		var mat := Rect2(exit_cell.x * cell + 8, exit_cell.y * cell + 14, cell - 16, cell - 22)
 		on.draw_rect(mat, Color("#5a4632"))
 		on.draw_rect(mat.grow(-4), Color("#3e3024"), false, 2.0)
-	on.draw_rect(Rect2(0, cell, map.width * cell, SHADOW_DEPTH), SHADOW)
-	on.draw_rect(Rect2(0, cell, map.width * cell, SHADOW_DEPTH * 0.45), SHADOW)
+	# The shadow at the foot of every wall that stands up.
+	for y in map.height:
+		for x in map.width:
+			var at := Vector2i(x, y)
+			if map.terrain_at(at) != "wall" or not _stands_up(map, at):
+				continue
+			var foot := Rect2(x * cell, (y + 1) * cell, cell, SHADOW_DEPTH)
+			on.draw_rect(foot, SHADOW)
+			on.draw_rect(Rect2(foot.position, Vector2(cell, SHADOW_DEPTH * 0.45)), SHADOW)
+
+
+## A wall stands up, its face to you, when it is the back wall or has floor in front of it.
+static func _stands_up(map: AreaMap, at: Vector2i) -> bool:
+	if at.y == 0:
+		return true
+	var below := at + Vector2i.DOWN
+	return below.y < map.height - 1 and map.terrain_at(below) != "wall"
 
 
 static func _texture(name: String) -> Texture2D:

@@ -332,6 +332,9 @@ Start a run (not the tutorial) and walk.
 | D5.30 | Walk the ground with two or three in the company, one of them hurt | Under the compass, top left: a row each (face, name, level, health bar: green, amber under 60%, red under 30%) and the gold; press it and the party screen opens; it hides while talking and in a fight ([D244](06-decisions.md)) |
 | D5.31 | Let one of the company drop under half health with nothing in the packs, and level someone to 2 | Under the company: "! … is badly hurt" in red, "! Nothing in the packs to mend with", "! … has a path to choose" in gold, and a ! beside their name; hover one for more; press the path's and the party screen opens ([D245](06-decisions.md)) |
 | D5.32 | Walk the road from the crater to Stormreach and on to the Tower | No door: the city's south gate stands open ahead and its streets carry on from the land, two tiles by two inside its wall (the high street, market, tavern, Guild hall, toll house, Muck Muck and Sinner). Out of the north gate the Tower stands on its own just past the wall ([D247](06-decisions.md)) |
+| D5.33 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
+| D5.34 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
+| D5.35 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
 
 ## H — Conversation and the camp
 
