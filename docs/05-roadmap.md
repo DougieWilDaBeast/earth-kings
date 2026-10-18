@@ -129,7 +129,8 @@ each, each ending playable:
    clear. Tuned since by [D113](06-decisions.md): about a level a fight.
 5. The crater opening, the Tower's city and the Guild, to the first gate — built
    ([D101](06-decisions.md), design meeting 2's calls A to E). The first world's lead comes down 12
-   to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
+   to 16 tiles from Stormreach, which now stands at the Tower's foot (since [D247](06-decisions.md) a walled city
+   on the land, two tiles by two, walked into by its south gate with no door, the Tower just past its north gate); Bram pulls them out, Sky is in
    Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
    The opening shows another lead's world ending. The Tower's foot is rock and flagstone and its shaft

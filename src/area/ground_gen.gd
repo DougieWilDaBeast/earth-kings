@@ -74,6 +74,16 @@ static func for_cell(world: World, cell: Vector2i) -> String:
 ## the sheets that paint each part, bottom first), props, chests, spots, buildings, people, wards,
 ## fires, spawn, entries, place ({ id, rect } or empty), tint, hint, opening }`.
 static func slot(world: World, tile: Vector2i) -> Dictionary:
+	# A place bigger than a tile (a great city, [D247]) is laid out whole and cut a tile at a time.
+	var big := _big_place(world, tile)
+	if not big.is_empty():
+		var piece: Vector2i = big["piece"]
+		var big_key := "%d|%d,%d|big|%s|%d,%d" % [world.shape_seed(), tile.x, tile.y, big["id"], piece.x, piece.y]
+		if not _slots.has(big_key):
+			if _slots.size() > 400:
+				_slots.clear()
+			_slots[big_key] = _piece_of(world, tile, big)
+		return _slots[big_key]
 	var place_id := _place_in(world, tile)
 	var land := Biome.at(world, tile) if world.in_bounds(tile) else "grassland"
 	var kind := "ground"
@@ -158,6 +168,185 @@ static func _blend_edges(world: World, tile: Vector2i, land: String, made: Dicti
 
 ## Slots already laid out, by world, tile and what stands there.
 static var _slots: Dictionary = {}
+## World shape seed -> tile -> `{ id, piece, anchor_tile, block }` for every tile a place bigger than
+## one tile stands on ([D247]).
+static var _bigs: Dictionary = {}
+## World shape seed and place id -> that place laid out whole, before it is cut into tiles.
+static var _blocks: Dictionary = {}
+
+
+## The place bigger than a tile standing on [param tile], if any ([D247]): an area with `covers`
+## ([w, h], how many tiles of the land it covers) stands with the tile `anchor` ([x, y] within it,
+## [0, 0] when absent) on its site, and every tile it covers is a piece of it. `{ id, piece, block }`,
+## `block` being the first tile it covers; empty when no such place stands there.
+static func _big_place(world: World, tile: Vector2i) -> Dictionary:
+	var key := world.shape_seed()
+	if not _bigs.has(key):
+		if _bigs.size() > 4:
+			_bigs.clear()
+		var found: Dictionary = {}
+		for site: Site in world.sites:
+			var area_id := str(site.data.get("area", site.kind))
+			if not Database.has_area(area_id):
+				continue
+			var area := Database.area(area_id)
+			var tiles: Array = area.get("covers", [])
+			if tiles.size() < 2:
+				continue
+			var anchor: Array = area.get("anchor", [0, 0])
+			var block := site.cell - Vector2i(int(anchor[0]), int(anchor[1]))
+			for dy in int(tiles[1]):
+				for dx in int(tiles[0]):
+					found[block + Vector2i(dx, dy)] = {
+						"id": area_id, "piece": Vector2i(dx, dy), "block": block, "site": site.cell,
+					}
+		_bigs[key] = found
+	return (_bigs[key] as Dictionary).get(tile, {})
+
+
+## Whether [param tile] is covered by a place bigger than a tile ([D247]).
+static func in_big_place(world: World, tile: Vector2i) -> bool:
+	return not _big_place(world, tile).is_empty()
+
+
+## The whole of a place bigger than a tile, laid out as one ground the size of every tile it covers
+## ([D247]): its own ground in the middle, the land's floor round it, and its walls (when it has
+## them) with the lane outside them that the land's paths come in by.
+static func _block_of(world: World, big: Dictionary) -> Dictionary:
+	var key := "%d|%s" % [world.shape_seed(), big["id"]]
+	if _blocks.has(key):
+		return _blocks[key]
+	var place := Database.area(str(big["id"]))
+	var tiles: Array = place.get("covers", [1, 1])
+	var size: Array = Database.biomes.get("size", [32, 22])
+	var w := int(size[0]) * int(tiles[0])
+	var h := int(size[1]) * int(tiles[1])
+	var site_cell: Vector2i = big["site"]
+	var land := Biome.at(world, site_cell)
+	var biome := Biome.data(land)
+	var rows: Array = place.get("rows", [])
+	var legend: Dictionary = place.get("legend", {})
+	var pw := 0
+	for row: String in rows:
+		pw = maxi(pw, row.length())
+	var ph := rows.size()
+	var offset := Vector2i((w - pw) / 2, (h - ph) / 2)
+	var rect := Rect2i(offset, Vector2i(pw, ph))
+	var terrain := PackedStringArray()
+	terrain.resize(w * h)
+	terrain.fill(str(biome.get("ground", {}).get("floor", "grass")))
+	for y in ph:
+		var row: String = rows[y]
+		for x in pw:
+			var symbol := row.substr(x, 1) if x < row.length() else "."
+			terrain[(offset.y + y) * w + offset.x + x] = str(legend.get(symbol, "grass"))
+	var made := {
+		"size": [w, h], "terrain": terrain,
+		"patches": [
+			{ "layers": (biome.get("layers", ["dirt"]) as Array).duplicate(), "rect": [0, 0, w, h] },
+			{ "layers": place.get("layers", ["dirt"]), "rect": [offset.x, offset.y, pw, ph] },
+		],
+		"props": [], "chests": [], "spots": [], "buildings": [], "people": [], "wards": [], "fires": [],
+		"place": { "id": big["id"], "rect": [offset.x, offset.y, pw, ph] },
+		"tint": str(place.get("tint", biome.get("tint", ""))),
+		"hint": str(place.get("hint", "")),
+		"opening": str(place.get("opening", "")),
+	}
+	for entry: Dictionary in place.get("props", []) + place.get("dressing", []):
+		(made["props"] as Array).append(_moved(entry, offset))
+	for key_: String in ["chests", "spots", "buildings", "people", "wards"]:
+		for entry: Dictionary in place.get(key_, []):
+			(made[key_] as Array).append(_moved(entry, offset))
+	if place.has("fire"):
+		made["fires"] = [[int(place["fire"][0]) + offset.x, int(place["fire"][1]) + offset.y]]
+	var spawn: Array = place.get("spawn", [pw / 2, ph / 2])
+	made["spawn"] = [int(spawn[0]) + offset.x, int(spawn[1]) + offset.y]
+	if place.has("walls"):
+		_raise_walls(made, rect, place, land, w, h)
+	if _blocks.size() > 8:
+		_blocks.clear()
+	_blocks[key] = made
+	return made
+
+
+## One tile's piece of a place bigger than a tile ([D247]): its share of the ground, of everything
+## standing on it (in the tile's own cells), and the ways in from the land round it, which come in
+## where the land's paths meet the edge and walk the lane outside the walls to a gate.
+static func _piece_of(world: World, tile: Vector2i, big: Dictionary) -> Dictionary:
+	var whole := _block_of(world, big)
+	var size: Array = Database.biomes.get("size", [32, 22])
+	var w := int(size[0])
+	var h := int(size[1])
+	var piece: Vector2i = big["piece"]
+	var origin := piece * Vector2i(w, h)
+	var bounds := Rect2i(origin, Vector2i(w, h))
+	var whole_w := int(whole["size"][0])
+	var whole_terrain: PackedStringArray = whole["terrain"]
+	var terrain := PackedStringArray()
+	terrain.resize(w * h)
+	for y in h:
+		for x in w:
+			terrain[y * w + x] = whole_terrain[(origin.y + y) * whole_w + origin.x + x]
+	var made := {
+		"id": big["id"], "size": [w, h], "terrain": terrain, "patches": [],
+		"tint": whole["tint"], "hint": whole["hint"],
+		# Said once, coming into the tile the place's site stands on.
+		"opening": whole["opening"] if tile == big["site"] else "",
+	}
+	for patch: Dictionary in whole["patches"]:
+		var r: Array = patch["rect"]
+		var cut := Rect2i(int(r[0]), int(r[1]), int(r[2]), int(r[3])).intersection(bounds)
+		if cut.size.x > 0 and cut.size.y > 0:
+			made["patches"].append({ "layers": patch["layers"], "rect": [cut.position.x - origin.x, cut.position.y - origin.y, cut.size.x, cut.size.y] })
+	for key: String in ["props", "chests", "spots", "buildings", "people", "wards"]:
+		var mine: Array = []
+		for entry: Dictionary in whole[key]:
+			var at: Array = entry.get("cell", [0, 0])
+			if bounds.has_point(Vector2i(int(at[0]), int(at[1]))):
+				mine.append(_moved(entry, -origin))
+		made[key] = mine
+	var fires: Array = []
+	for pair: Array in whole["fires"]:
+		if bounds.has_point(Vector2i(int(pair[0]), int(pair[1]))):
+			fires.append([int(pair[0]) - origin.x, int(pair[1]) - origin.y])
+	made["fires"] = fires
+	# The place's rect in this tile's cells, so a cell anywhere in it reads as the place's own.
+	var r: Array = whole["place"]["rect"]
+	made["place"] = { "id": big["id"], "rect": [int(r[0]) - origin.x, int(r[1]) - origin.y, int(r[2]), int(r[3])] }
+	var spawn: Array = whole["spawn"]
+	var at_spawn := Vector2i(int(spawn[0]), int(spawn[1])) - origin
+	if not Rect2i(Vector2i.ZERO, Vector2i(w, h)).has_point(at_spawn) or not _open(terrain, at_spawn, w):
+		at_spawn = _nearest_open(terrain, Vector2i(w / 2, h / 2), w, h)
+	made["spawn"] = [at_spawn.x, at_spawn.y]
+	var entries := {}
+	for side: String in SIDES:
+		var dir: Vector2i = SIDES[side]
+		var next := tile + dir
+		if _big_place(world, next).get("id", "") == big["id"] or not world.in_bounds(next) or not world.is_walkable(next):
+			entries[side] = [at_spawn.x, at_spawn.y]
+			continue
+		# Where the land's path from next door meets this edge: on the lane outside the walls.
+		var along := _gap_start(world, tile, next, w if dir.y != 0 else h)
+		var meet := _edge_cell(side, along + GAP / 2, w, h)
+		entries[side] = [meet.x, meet.y]
+	made["entries"] = entries
+	made["kind"] = "place"
+	made["land"] = Biome.at(world, tile) if world.in_bounds(tile) else "grassland"
+	return made
+
+
+static func _open(terrain: PackedStringArray, at: Vector2i, w: int) -> bool:
+	return bool(Database.area_terrain(terrain[at.y * w + at.x]).get("walkable", true))
+
+
+static func _nearest_open(terrain: PackedStringArray, from: Vector2i, w: int, h: int) -> Vector2i:
+	for radius in maxi(w, h):
+		for dy in range(-radius, radius + 1):
+			for dx in range(-radius, radius + 1):
+				var at := from + Vector2i(dx, dy)
+				if at.x >= 0 and at.y >= 0 and at.x < w and at.y < h and _open(terrain, at, w):
+					return at
+	return from
 
 
 ## The place whose inside stands on [param tile] in the land: one with an area of its own, and not

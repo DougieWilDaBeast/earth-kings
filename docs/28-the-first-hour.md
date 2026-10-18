@@ -203,7 +203,8 @@ tip now says so).
 5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
    archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
 6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
-   door that opens onto a city.
+   door that opens onto a city. Built ([D247](06-decisions.md), play-test 6, pick B): the city is walked on the land
+   with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places.
 8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
