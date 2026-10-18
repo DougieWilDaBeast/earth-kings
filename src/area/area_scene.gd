@@ -38,6 +38,7 @@ const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
+const LandJournals := preload("res://src/chronicle/land_journals.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -287,6 +288,7 @@ func _ready() -> void:
 	_land_mode = bool(boot_payload.get("land", false)) and GameState.world != null
 	if _land_mode:
 		map = Land.around(GameState.world, GameState.world.player_cell)
+		(map as Land).wading = LandJournals.wades(GameState.world)
 		map.spawn = _land_start()
 	else:
 		map = AreaMap.load_area(boot_payload.get("area_id", "village"))
@@ -2210,9 +2212,11 @@ func _physics_process(delta: float) -> void:
 		_mind_the_border()
 
 
-## Bog and snow drag at the feet; open ground does not.
+## Bog and snow drag at the feet; open ground does not. A land journal's boots or sandals put some
+## of it back ([D239]).
 func _walk_speed() -> float:
-	return WALK_SPEED * clampf(float(_land.get("slow", 1.0)), 0.3, 1.5)
+	var stride := 1.0 + LandJournals.effect(GameState.world, "stride") if _land_mode else 1.0
+	return WALK_SPEED * clampf(float(_land.get("slow", 1.0)) * stride, 0.3, 1.5)
 
 
 ## The cold, the heat or the ooze, wearing at whoever walks this ground without
@@ -2230,7 +2234,7 @@ func _weather(walked: float) -> void:
 	_weathered = 0.0
 	var told: Dictionary = rules.get(hazard, {})
 	for member: Character in GameState.party_characters():
-		if Biome.spared(member, hazard):
+		if Biome.spared(member, hazard) or LandJournals.spares(GameState.world, hazard):
 			continue
 		var low := ceili(float(member.max_hp()) * float(rules.get("floor", 0.25)))
 		var now := member.current_hp()
@@ -2473,8 +2477,25 @@ func _arrive_at(cell: Vector2i) -> void:
 		_note(map.spots[cell])
 		if map.spot_flags.has(cell):
 			GameState.set_flag(map.spot_flags[cell])
+		_found_on_the_land(cell)
 	if map.chests.has(cell):
 		_open_chest(cell)
+
+
+## Something somebody left out in the open country (standing stones, a cairn, a cold camp, a cache)
+## crosses a line off that land's page ([D239]); the last line turns up its trinket.
+func _found_on_the_land(cell: Vector2i) -> void:
+	if not _land_mode or str((map as Land).chunk_at(cell).get("kind", "")) != "ground":
+		return
+	var world: World = GameState.world
+	var before := LandJournals.carried(world).size()
+	var lines := LandJournals.on_landmark(world, (map as Land).tile_of(cell))
+	for line: String in lines:
+		_note(line)
+	if LandJournals.carried(world).size() > before and not lines.is_empty():
+		(map as Land).wading = LandJournals.wades(world)
+		Sfx.play(Sfx.SELECT)
+		EventBus.conversation_requested.emit([{ "speaker": "", "text": lines.back() }])
 
 
 func _is_edge_cell(cell: Vector2i) -> bool:
@@ -2612,7 +2633,9 @@ func _post_band(band: Dictionary) -> Node2D:
 		keep_to = (map as Land).slot_rect(tile)
 		told = band.duplicate()
 		told["where"] = "here"
-	var watch: Node2D = AreaWatch.place(map, told, arrived, taken, float(_land.get("sight", 0)), keep_to)
+	# A trinket from a land journal keeps the party out of a band's eye a step or two longer ([D239]).
+	var hush := LandJournals.effect(GameState.world, "hush") if _land_mode else 0.0
+	var watch: Node2D = AreaWatch.place(map, told, arrived, taken, float(_land.get("sight", 0)) - hush, keep_to)
 	if watch == null:
 		return null
 	_layers.add_child(watch)
