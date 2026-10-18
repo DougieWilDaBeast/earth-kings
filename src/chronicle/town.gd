@@ -97,7 +97,7 @@ static func save(site: Site, world: World) -> Array[String]:
 	var line := "%s was held against a raid" % site.display_name
 	Renown.record(
 		world, Renown.TOWN_SAVED, site.cell,
-		int(Renown.rules().get("town_saved", 5)), line
+		int(Renown.rules().get("town_saved", 5)), line, "", site.display_name
 	)
 	Annals.record(world, "%s was relieved and saved from siege." % site.display_name)
 	return [
@@ -124,7 +124,7 @@ static func raid(site: Site, world: World, roster: Roster) -> Array[String]:
 	var line := "%s was put to the torch" % site.display_name
 	Renown.record(
 		world, Renown.TOWN_RAIDED, site.cell,
-		int(Renown.rules().get("town_raided", -7)), line
+		int(Renown.rules().get("town_raided", -7)), line, "", site.display_name
 	)
 	Annals.record(world, "%s was pillaged and sacked by the company." % site.display_name)
 	lines.append("There were witnesses. There always are.")

@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "road", "edges", "scenery", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "road", "edges", "scenery", "round_trip", "one_world",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -61,6 +61,7 @@ func _ready() -> void:
 			"walking": _check_walking(world)
 			"lands": _check_lands(world)
 			"land_journals": _check_land_journals(world)
+			"remembered": _check_remembered(world)
 			"road": _check_road(world)
 			"edges": _check_edges(world)
 			"scenery": _check_scenery(world)
@@ -1015,6 +1016,75 @@ func _check_round_trip(world: World, hero: Character) -> void:
 ## A journal for each land (D239): a page opens on first setting foot in a land, its lines cross off
 ## as they are done, the last turns up the land's trinket, and the trinket does what it says, kept
 ## in the save.
+## The world remembers (D249): somebody who has heard of a deed brings it up once, by name; a place
+## that has heard the worst turns the company away; a faction that keeps losing bands holds a grudge;
+## and a later world has dreamt what an earlier lead did.
+func _check_remembered(world: World) -> void:
+	var Remembered := preload("res://src/chronicle/remembered.gd")
+	var Talk := preload("res://src/dialogue/talk.gd")
+	var saved := { "deeds": world.deeds.duplicate(true), "grudges": world.grudges.duplicate(true),
+		"echoes": world.echoes.duplicate(true), "flags": GameState.flags.duplicate(true), "cell": world.player_cell }
+	world.deeds = []
+	world.grudges = {}
+	var here := world.player_cell
+	_expect(Remembered.recall(world, "test:watch") == "", "remembered: brought up a deed before there was one")
+	Renown.record(world, Renown.GATE_SHUT, here, 4, "the E-rank gate at Testhollow was shut", "", "Testhollow")
+	var said := Remembered.recall(world, "test:watch")
+	_expect(said.contains("Testhollow"), "remembered: the shut gate was not brought up by name (%s)" % said)
+	_expect(Remembered.recall(world, "test:watch") == "", "remembered: the same deed brought up twice")
+	_expect(Remembered.recall(world, "test:innkeeper").contains("Testhollow"), "remembered: a second person had not heard")
+	_expect(Remembered.aside(world, 0.0).contains("Testhollow"), "remembered: a townsperson never says it")
+	_expect(Remembered.aside(world, 1.0) == "", "remembered: a townsperson always says it")
+	# Word walks: somebody far off has not heard yet.
+	var far := here + Vector2i(30, 0)
+	world.player_cell = far
+	_expect(Remembered.recall(world, "test:far") == "", "remembered: word of it got thirty tiles in no time")
+	world.player_cell = here
+	_expect(not Remembered.is_cold(world, here), "remembered: cold after a gate was shut")
+	Renown.record(world, Renown.TOWN_RAIDED, here, -7, "Testford was put to the torch", "", "Testford")
+	_expect(Remembered.is_cold(world, here), "remembered: not cold where a town was burned")
+	var recall := Remembered.recall(world, "test:watch")
+	_expect(recall.contains("Testford"), "remembered: the burning was not brought up (%s)" % recall)
+	var talk := { "hello": "Hello.", "refuse": Remembered.cold_refusal() }
+	var nodes: Dictionary = Talk.build("Wat", talk, false, 0.0, "met:test", recall)
+	_expect(nodes.has("door") and nodes.has("recall") and nodes["recall"]["next"] == "door",
+		"remembered: a cold place lets the company straight in (%s)" % [nodes.keys()])
+	_expect((nodes["door"]["options"] as Array).size() >= 3, "remembered: no way round the cold shoulder")
+	_expect(not Talk.build("Wat", { "hello": "Hello." }, false, 0.0, "met:test").has("recall"),
+		"remembered: something brought up with nothing to say")
+	# A grudge: three bands of the Heart Empire beaten, and none for beasts.
+	var legion := ["legion_copper", "legion_copper"]
+	_expect(Remembered.faction_of(legion) == "heart_empire", "remembered: legion_copper is not the Heart Empire's")
+	_expect(Remembered.on_band_beaten(world, legion) == "" and Remembered.on_band_beaten(world, legion) == "",
+		"remembered: a grudge after one band")
+	_expect(not Remembered.holds_grudge(world, "heart_empire"), "remembered: a grudge too soon")
+	_expect(Remembered.on_band_beaten(world, legion) != "", "remembered: no word of the grudge starting")
+	_expect(Remembered.holds_grudge(world, "heart_empire") and Remembered.grudge_sight(world, legion) > 0.0,
+		"remembered: the grudge does not sharpen their eyes")
+	_expect(Remembered.shout(world, legion, 0) != "There!", "remembered: a band with a grudge just shouts There!")
+	var beasts := ["wolf"]
+	for i in 5:
+		Remembered.on_band_beaten(world, beasts)
+	_expect(Remembered.shout(world, beasts, 0) == "There!", "remembered: the wild holds a grudge")
+	var round_trip := World.from_dict(world.to_dict())
+	_expect(int(round_trip.grudges.get("heart_empire", 0)) == 3, "remembered: grudges are not kept in the save")
+	# A later world: somebody here dreamt it, once.
+	var kept := Remembered.keep(world)
+	_expect(kept.size() == 2 and str(kept[0].get("told", "")).contains("Testford"),
+		"remembered: an ending world keeps %s" % [kept])
+	world.echoes = { "past": [{ "name": "Pluto", "deeds": kept }] }
+	var dreamt := Remembered.dream(world, here, "test:dreamer")
+	_expect(dreamt.contains("Pluto"), "remembered: no dream of the earlier lead (%s)" % dreamt)
+	Remembered.dream(world, here, "test:dreamer")
+	_expect(Remembered.dream(world, here, "test:dreamer") == "", "remembered: the same dream told again")
+	_expect(Remembered.dream(world, far, "test:far") == "", "remembered: dreamt thirty tiles away")
+	world.deeds = saved["deeds"]
+	world.grudges = saved["grudges"]
+	world.echoes = saved["echoes"]
+	world.player_cell = saved["cell"]
+	GameState.flags = saved["flags"]
+
+
 func _check_land_journals(world: World) -> void:
 	var LandJournals := preload("res://src/chronicle/land_journals.gd")
 	var trinkets: Dictionary = Database.land_journals.get("trinkets", {})

@@ -40,6 +40,7 @@ const FarTower := preload("res://src/ui/far_tower.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
+const Remembered := preload("res://src/chronicle/remembered.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -1477,6 +1478,12 @@ func _put_person(person: Dictionary, seated: Variant = null) -> AreaActor:
 		_seated[actor] = seated
 	actor.set_interactive(seated != null or _has_something_to_say(person))
 	actor.chatter = person.get("chatter", [])
+	# Some of the people who only chat have heard what the company did here, and say so as it
+	# passes (D249).
+	if not actor.chatter.is_empty() and not person.has("ghost"):
+		var aside := Remembered.aside(GameState.world, randf(), str(person.get("name", "")))
+		if aside != "":
+			actor.chatter = actor.chatter + [aside]
 	if person.has("ghost"):
 		# The same face as in life, with the fire showing through it.
 		actor.modulate = Color(0.72, 0.86, 1.0, 0.55)

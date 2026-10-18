@@ -298,10 +298,8 @@ static func _settle(accepted: Array, errand: Dictionary, world: World) -> Array[
 	lines.append("%d gold, and the thanks of %s." % [gold, errand.get("giver", "someone")])
 
 	if errand.get("kind", "") == BOUNTY:
-		Renown.record(
-			world, "bounty_claimed", world.player_cell, 3,
-			"claimed the bounty on %s" % str(errand.get("target_name", "a prowler"))
-		)
+		var what := "claimed the bounty on %s" % str(errand.get("target_name", "a prowler"))
+		Renown.record(world, "bounty_claimed", world.player_cell, 3, what, what)
 		lines.append("Word spreads of your deed. (+3 Renown)")
 
 	var doctrine_id: String = errand.get("doctrine", "")

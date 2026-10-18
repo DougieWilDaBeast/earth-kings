@@ -335,6 +335,9 @@ Start a run (not the tutorial) and walk.
 | D5.33 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
 | D5.34 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
 | D5.35 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
+| D5.36 | Shut Greyhollow and talk to someone there with things to say; later, once word has walked to the city (a tile every 14 steps), the Watch or the innkeep in Stormreach | Before their hello: "You're the one who shut Greyhollow..." (or one like it), once; talk again and it is not said ([D249](06-decisions.md)) |
+| D5.37 | Beat three bands of legionnaires on the land, then walk into a fourth's sight | After the third: "The Heart Empire have lost 3 bands to you now..."; the fourth sees you a cell further and shouts "That's them!" (or one like it), not "There!" |
+| D5.38 | Raid a village, then walk into it and talk to someone with things to say | They bring up the burning, then turn you away more often than not; 15 gold or Hear me out gets you in |
 
 ## H — Conversation and the camp
 

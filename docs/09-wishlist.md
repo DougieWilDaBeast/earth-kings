@@ -232,8 +232,9 @@ In addition:
 > routes with him. Implement renown, so people start to know you — whether you're good or bad, if
 > you're raiding people or destroying civilians or stealing.
 
-**Built.** [`Renown`](../src/chronicle/renown.gd) does the standing/notoriety part and
-[`Skein`](../src/chronicle/skein.gd) is the engine for consequences that arrive later.
+**Built.** [`Renown`](../src/chronicle/renown.gd) does the standing/notoriety part,
+[`remembered.gd`](../src/chronicle/remembered.gd) has people say it to your face ([D249](06-decisions.md)),
+and [`Skein`](../src/chronicle/skein.gd) is the engine for consequences that arrive later.
 [`Roadside`](../src/chronicle/roadside.gd) over `data/roadside.json` is the memo, in order:
 
 You come over a rise in open country — never within three tiles of a site, never twice in forty

@@ -26,6 +26,8 @@ signal moved
 
 ## The watched cells: a red wash that breathes, a grid over each, and a hard line round the edge of
 ## all of them in the band's own colours, strong enough to read under any place's light.
+const Remembered := preload("res://src/chronicle/remembered.gd")
+
 const DANGER := Color("#ff3b2f")
 const WASH := 0.26
 const BREATH := 0.08
@@ -90,6 +92,8 @@ static func place(map: AreaMap, band_: Dictionary, arrived: Vector2i, taken: Dic
 	watch.colour = Color(str(watch.band.get("banner", "#c0392b")))
 	# The land has its say too (`sight` in its effects, D71): mist and jungle close a band's eyes in.
 	watch.sight = maxf(1.0, float(rule("sight_base", 2)) + float(rule("sight_per_reach", 1.5)) * float(watch.band.get("reach", 2)) + land_sight)
+	# A faction that has lost enough bands to the company looks for it (D249).
+	watch.sight += Remembered.grudge_sight(GameState.world, watch.band.get("pack", []))
 	var at: Vector2i = watch._where_to_stand(arrived, taken)
 	if at.x < 0:
 		watch.free()
@@ -177,7 +181,7 @@ func raise_the_alarm(point: Vector2, ambushed: bool = false) -> void:
 		figure.face(point - figure.position)
 	# Out of cover and on them before they know it: nobody has time to shout.
 	if not figures.is_empty() and not ambushed:
-		figures[0].say("There!")
+		figures[0].say(Remembered.shout(GameState.world, band.get("pack", []), randi()))
 	_clock = 0.0
 	modulate = Color(1.4, 1.1, 1.1)
 

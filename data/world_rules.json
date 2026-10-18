@@ -460,7 +460,56 @@
 		"gate_shut": 2,
 		"town_saved": 5,
 		"town_raided": -7,
-		"tower_topped": 8
+		"tower_topped": 8,
+		"remembered": {
+			"_comment": "D249 (the world remembers, Ewan's #270 keep 6, issue #286). Read by src/chronicle/remembered.gd. Somebody with a talk block (the Watch, an innkeeper, anyone you can ask things) brings up the newest deed whose word has reached their place, once each, before their hello; a townsperson who only chats says it instead of their chatter on aside_chance. kinds holds the lines by deed kind: warm for a deed people were glad of, cold for one they were not; a deed with no kind of its own is said with told when it was written down the way you would say it to the doer's face. {place} is where it happened, {told} what was done, {name} who did it. Where the company's standing is at or below cold_at, anyone with a talk block and no refusal of their own turns it away on cold.chance, and a coin (cold.bribe) or a word wins them round. A faction whose own bands the company has beaten grudge_at times (none of no_grudge) holds a grudge: its bands see grudge_sight cells further and shout one of grudge_shouts on seeing the company. In a later world, somebody at a place within dream_reach tiles of where an earlier lead did something (dream_most of each lead's deeds are kept) tells of it once, as a dream (dreamt). Every number and word is Inferred (agenda row 162).",
+			"aside_chance": 0.35,
+			"cold_at": -3,
+			"cold": {
+				"chance": 0.6,
+				"bribe": 15,
+				"text": ["We know what you did. We've nothing for you.", "You've a nerve, walking in here after that.", "Go on. Keep walking."],
+				"bribe_q": "Here. %d gold says we start again.",
+				"check": { "skill": "wits", "dc": 12 },
+				"check_q": "That wasn't the whole story. Hear me out.",
+				"leave": "Fair enough.",
+				"won": "...Fine. Say what you came to say, then.",
+				"still_no": "No. Out."
+			},
+			"grudge_at": 3,
+			"grudge_sight": 1.0,
+			"no_grudge": ["the_wild", "the_ooze"],
+			"grudge_shouts": ["That's them! The ones who cut down ours!", "It's the marked one! For the others!", "That's the lot who did for our kin. Take them!"],
+			"grudge_line": "{faction} have lost {count} bands to you now. They will know you on sight.",
+			"dream_reach": 1,
+			"dream_most": 6,
+			"dreamt": [
+				"Odd, you turning up. I dreamt of someone with that mark on them. {name}, they were called. They {told}. Then the dream went dark.",
+				"You'll think me soft, but I've dreamt this before. Someone like you, the mark and all. {name}. They {told}, and then they were gone."
+			],
+			"kinds": {
+				"gate_shut": {
+					"warm": ["You're the one who shut {place}, aren't you? We felt it go quiet.", "{place} is shut. That was you. Folk here sleep a bit easier for it.", "They say the light at {place} went out with you stood in front of it."],
+					"told": "shut {place}"
+				},
+				"town_saved": {
+					"warm": ["You held {place} when the raid came. Word got here before you did.", "{place} would be ash without you. Somebody's cousin was there."],
+					"told": "held {place} against a raid"
+				},
+				"town_raided": {
+					"cold": ["You're the ones who put {place} to the torch.", "We heard about {place}. Everyone's heard about {place}.", "There's folk here with family in {place}. Mind yourself."],
+					"told": "put {place} to the torch"
+				},
+				"tower_topped": {
+					"warm": ["You stood on top of the Tower. I'll be telling my grandchildren I met you."],
+					"told": "stood on top of the Tower"
+				},
+				"told": {
+					"warm": ["Word's come here of you. You {told}.", "I heard you {told}. Good on you."],
+					"cold": ["I heard you {told}. Not much of a thing to be known for.", "You {told}, they say. People remember that sort of thing."]
+				}
+			}
+		}
 	},
 	"loot": {
 		"gold_base": 40,
