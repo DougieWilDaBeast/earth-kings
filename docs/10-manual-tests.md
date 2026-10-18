@@ -325,6 +325,7 @@ Start a run (not the tutorial) and walk.
 | D5.26 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D238](06-decisions.md)) |
 | D5.30 | Walk the ground with two or three in the company, one of them hurt | Under the compass, top left: a row each (face, name, level, health bar: green, amber under 60%, red under 30%) and the gold; press it and the party screen opens; it hides while talking and in a fight ([D244](06-decisions.md)) |
 | D5.31 | Let one of the company drop under half health with nothing in the packs, and level someone to 2 | Under the company: "! … is badly hurt" in red, "! Nothing in the packs to mend with", "! … has a path to choose" in gold, and a ! beside their name; hover one for more; press the path's and the party screen opens ([D245](06-decisions.md)) |
+| D5.32 | Walk the road from the crater to Stormreach and on to the Tower | No door: the city's south gate stands open ahead and its streets carry on from the land, two tiles by two inside its wall (the high street, market, tavern, Guild hall, toll house, Muck Muck and Sinner). Out of the north gate the Tower stands on its own just past the wall ([D247](06-decisions.md)) |
 
 ## H — Conversation and the camp
 
