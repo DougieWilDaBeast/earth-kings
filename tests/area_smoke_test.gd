@@ -38,6 +38,7 @@ const Chapters := preload("res://src/chronicle/chapters.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Company := preload("res://tests/company.gd")
+const GateInside := preload("res://src/chronicle/gate_inside.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -65,6 +66,7 @@ func _ready() -> void:
 	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
+	await _check_inside_a_gate()
 	await _check_people_on_the_land()
 	await _check_the_land()
 	await _check_the_joined_land()
@@ -659,6 +661,144 @@ func _check_practice_band() -> void:
 
 ## A floor of the Tower is walked (D102): its band is fought for real on its own ground, and
 ## standing on the stair up wins the floor, paid out by the continent as a won Tower fight.
+## D248 (play-test 6): a gate gone into is walked. Every kind of gate lays out a floor that loads,
+## whose way down can be walked to from the doorway past every band; the floor's bands are held and
+## fought where they stand, with the Guild's people beside the party; the way down goes on to the
+## next floor, and on the last floor it stays shut until the keeper is down, then shuts the gate.
+func _check_inside_a_gate() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	var party := GameState.party_characters()
+	var kinds := {}
+	var deep: Site = null
+	for site: Site in world.sites_of_kind(Site.GATE):
+		var look := str(site.data.get("area", ""))
+		if site.floors() >= 2 and (deep == null or site.floors() < deep.floors()):
+			deep = site
+		if kinds.has(look):
+			continue
+		kinds[look] = true
+		for depth in [0, site.floors() - 1]:
+			var id := GateInside.area_for(world, site, depth, party)
+			var map := AreaMap.load_area(id)
+			_expect(map != null, "inside a gate: %s floor %d does not load" % [site.display_name, depth + 1])
+			if map == null:
+				continue
+			_expect(map.width * map.height >= 34 * 26, "inside a gate: %s floor %d is only %dx%d" % [site.display_name, depth + 1, map.width, map.height])
+			for sheet: String in map.layers:
+				_expect(not Database.tileset_sheet(sheet).is_empty(), "inside a gate: %s has no ground sheet '%s'" % [look, sheet])
+			_expect(map.stairs.size() == 2 and map.find_cell_path(map.spawn, map.stairs[0]).size() > 1,
+				"inside a gate: %s floor %d has no way from the doorway to the way down" % [site.display_name, depth + 1])
+			_expect(map.is_walkable(map.exits[1]) and map.is_exit(map.exits[1]),
+				"inside a gate: %s floor %d has no way back out" % [site.display_name, depth + 1])
+			_expect(map.bands.size() >= 1, "inside a gate: nobody holds %s floor %d" % [site.display_name, depth + 1])
+			var keepers := 0
+			for band: Dictionary in map.bands:
+				var at: Array = band.get("at", [0, 0])
+				_expect(bool(band.get("held", false)), "inside a gate: %s is not held" % band.get("key", ""))
+				_expect(map.find_cell_path(map.spawn, Vector2i(int(at[0]), int(at[1]))).size() > 1,
+					"inside a gate: %s stands where nobody can walk to" % band.get("key", ""))
+				if bool(band.get("boss", false)):
+					keepers += 1
+			_expect(keepers == (1 if depth == site.floors() - 1 else 0),
+				"inside a gate: %s floor %d has %d keepers" % [site.display_name, depth + 1, keepers])
+			# The same floor of the same gate is laid out the same way.
+			_expect(GateInside.layout(world, site, depth, party)["rows"] == Database.area(id)["rows"],
+				"inside a gate: %s floor %d is laid out differently a second time" % [site.display_name, depth + 1])
+	if deep == null:
+		_fail("inside a gate: no gate deeper than one floor")
+		return
+
+	# The first floor: a band fought where it stands, with the Guild's people; the way down goes on.
+	var ally := { "unit": "keep_watchman", "level": 3, "name": "a Guild blade" }
+	var first: Node = load("res://src/area/area_scene.tscn").instantiate()
+	first.set("boot_payload", {
+		"area_id": GateInside.area_for(world, deep, 0, party), "return_scene": "world",
+		"gate_cell": [deep.cell.x, deep.cell.y], "gate_depth": 0, "gate_final": false, "allies": [ally],
+	})
+	add_child(first)
+	for i in 10:
+		await get_tree().process_frame
+	var map: AreaMap = first.get("map")
+	var watches: Array = first.get("_watches")
+	_expect(watches.size() == map.bands.size(), "inside a gate: %d of %d bands stand on the floor" % [watches.size(), map.bands.size()])
+	if not watches.is_empty():
+		var watch: Node2D = watches[0]
+		var into: Vector2i = (watch.watched as Dictionary).keys()[0]
+		first.call("_check_the_watch", map.cell_at(first.get("_leader").position))
+		first.get("_leader").position = map.centre_of(into)
+		first.call("_check_the_watch", into)
+		var waited := 0.0
+		while waited < 3.0 and first.get("_fight") == null:
+			await get_tree().create_timer(0.05).timeout
+			waited += 0.05
+		var fight: Node2D = first.get("_fight")
+		_expect(fight != null and bool(fight.get("in_place")), "inside a gate: the band was not fought where it stood")
+		_expect(str(GameState.pending_outcome.get("kind", "")) == "gate_band" and GameState.pending_outcome.get("cell") == deep.cell,
+			"inside a gate: the band's fight is not settled as the gate's (%s)" % GameState.pending_outcome)
+		if fight != null:
+			var field: Dictionary = (fight.get("boot_payload") as Dictionary).get("field", {})
+			_expect((field.get("allies", []) as Array).any(func(a: Dictionary) -> bool: return str(a.get("name", "")) == "a Guild blade"),
+				"inside a gate: the Guild's people did not fight beside the party")
+			fight.set_process(false)
+	first.queue_free()
+	await get_tree().process_frame
+	GameState.pending_outcome = {}
+	_requests.clear()
+	var again: Node = load("res://src/area/area_scene.tscn").instantiate()
+	again.set("boot_payload", {
+		"area_id": GateInside.area_for(world, deep, 0, party), "return_scene": "world",
+		"gate_cell": [deep.cell.x, deep.cell.y], "gate_depth": 0, "gate_final": false,
+	})
+	add_child(again)
+	for i in 10:
+		await get_tree().process_frame
+	var down: AreaMap = again.get("map")
+	(again.get("_leader") as Node2D).position = down.centre_of(down.stairs[0] + Vector2i(0, 1))
+	_expect(str(again.call("_prompt_text")).ends_with("to go down to floor 2 of %d" % deep.floors()),
+		"inside a gate: at the way down nothing says how to take it (%s)" % again.call("_prompt_text"))
+	again.call("_climb_the_stair")
+	var on: Array = _requests.filter(func(r: Dictionary) -> bool: return r["key"] == "world")
+	_expect(not on.is_empty() and bool((on[0]["payload"] as Dictionary).get("gate_on", false)), "inside a gate: the way down went nowhere")
+	_expect(str(GameState.pending_outcome.get("kind", "")) == "gate" and not bool(GameState.pending_outcome.get("final", true))
+			and bool(GameState.pending_outcome.get("walked", false)) and GameState.has_flag("last_victory"),
+		"inside a gate: the way down did not win the floor (%s)" % GameState.pending_outcome)
+	GameState.pending_outcome = {}
+	GameState.set_flag("last_victory", false)
+	again.queue_free()
+	await get_tree().process_frame
+
+	# The last floor: shut until its keeper falls, and then the way out shuts the gate.
+	var last := deep.floors() - 1
+	var keeper := GateInside.keeper_flag(deep, last)
+	_requests.clear()
+	var bottom: Node = load("res://src/area/area_scene.tscn").instantiate()
+	bottom.set("boot_payload", {
+		"area_id": GateInside.area_for(world, deep, last, party), "return_scene": "world",
+		"gate_cell": [deep.cell.x, deep.cell.y], "gate_depth": last, "gate_final": true, "gate_keeper": keeper,
+	})
+	add_child(bottom)
+	for i in 10:
+		await get_tree().process_frame
+	var end: AreaMap = bottom.get("map")
+	_expect(end.bands.any(func(b: Dictionary) -> bool: return "done:%s" % str(b.get("key", "")) == keeper),
+		"inside a gate: the keeper's fall is not what opens the last floor's way down")
+	(bottom.get("_leader") as Node2D).position = end.centre_of(end.stairs[0] + Vector2i(0, 1))
+	_expect(str(bottom.call("_prompt_text")).contains("will not open"), "inside a gate: the way down is open with its keeper standing (%s)" % bottom.call("_prompt_text"))
+	bottom.call("_climb_the_stair")
+	_expect(_requests.is_empty() and GameState.pending_outcome.is_empty(), "inside a gate: the last floor was left past its keeper")
+	_expect(bottom.call("_keeper_cell") != Vector2i(-1, -1), "inside a gate: Auto would not know where the keeper stands")
+	GameState.set_flag(keeper)
+	_expect(str(bottom.call("_prompt_text")).ends_with("to shut %s" % deep.display_name), "inside a gate: with the keeper down nothing says the gate can be shut (%s)" % bottom.call("_prompt_text"))
+	bottom.call("_climb_the_stair")
+	_expect(str(GameState.pending_outcome.get("kind", "")) == "gate" and bool(GameState.pending_outcome.get("final", false)),
+		"inside a gate: the last floor's way out did not shut the gate")
+	GameState.pending_outcome = {}
+	GameState.set_flag("last_victory", false)
+	bottom.queue_free()
+	await get_tree().process_frame
+
+
 func _check_tower_floor() -> void:
 	GameState.new_game(SEED)
 	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()

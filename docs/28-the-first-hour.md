@@ -38,8 +38,9 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E
-   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Its fight is fought there on
-   the plaza, its keepers coming out of the doorway, with no fight screen ([D162](06-decisions.md)). Its plaza runs up to its gate, a
+   beside one goes in; walking onto it does not ([D116](06-decisions.md)). Going in opens its floor, walked
+   chamber to chamber past the bands holding them to its keeper, before the way out at the far end
+   ([D248](06-decisions.md), play-test 6; until then its fight was fought on the plaza, [D162](06-decisions.md)). Its plaza runs up to its gate, a
    standing doorway of rune stones with the gate's light turning in it ([D137](06-decisions.md),
    [D141](06-decisions.md)). Shutting it gives the Guild's mark. As it shuts, its light opens onto the
    same gate in another lead's world, and that lead, the original, is standing in it shutting their
@@ -277,7 +278,9 @@ text crossing at the bottom of the screen, a far-too-strong gate asking twice, c
    middle, not entered through a small building. Built ([D247](06-decisions.md), pick B): a walled city
    on the land, the Tower just past its north gate.
 2. **Fights inside a gate**: going into a gate opens a whole area to fight through; fights outside a
-   gate only when it breaks (this turns back [D162](06-decisions.md)).
+   gate only when it breaks (this turns back [D162](06-decisions.md)). His first pick (2026-10-18):
+   built ([D248](06-decisions.md), #314): each floor rock chambers from the doorway to the way down, a
+   band in each, the keeper before the way down on the last floor.
 3. **Tower floors that grow**: each floor bigger than the last, towards three hundred tiles.
 4. **Climbers with a part to play**: fighting monsters (or the party) on the floors, getting ready
    or recovering; a short recruitment, joining arms with a company.

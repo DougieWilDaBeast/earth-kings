@@ -272,6 +272,10 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.18 | Walk into a town with lots to do, then watch the log | The line along the bottom stays one line (ending in "…" if it is long); log lines go after about eight seconds; neither runs over the other ([D246](06-decisions.md)) |
 | D3.19 | Press E at a gate six or more levels above the company | A line saying how strong its keepers are; E again within four seconds goes in. Auto never goes in ([D246](06-decisions.md)) |
 | D3.20 | Climb to a floor with a company resting on it, and fight a band near them | They sit round a fire; when the fight starts near them, "… join the fight." and they fight beside you ([D246](06-decisions.md)) |
+| D3.21 | Walk to the first gate and press E beside it | No fight at the doorway: a floor of rock chambers opens, the gate's own look, bands standing in the chambers past the first, the compass on the way down; one line in the log about the red ground ([D248](06-decisions.md)) |
+| D3.22 | On a gate of two floors or more, fight through to the far end and press E at the way down | The floor is paid out and the next floor opens straight away; walk back out of its doorway and you are at the gate, and E goes on from the floor reached |
+| D3.23 | On a gate's last floor, walk to the way down before the keeper falls | "The way down will not open while its keeper stands"; the compass points at the keeper; beat it and E at the way down shuts the gate |
+| D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
