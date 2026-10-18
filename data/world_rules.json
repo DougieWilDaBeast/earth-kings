@@ -331,8 +331,9 @@
 		"chapters_per_extra_foe": 4,
 		"_comment_upper_bite": "D222 (doug-md's play log, 2026-10-17: floors 6 to 20 won with nobody below a quarter of their health): from `from_floor` up, every foe's attack is multiplied by `base`, climbing `per_floor` a floor, to `most` at most. Read by Encounter.upper_bite; the fight applies it as `bite` on the foe.",
 		"upper_bite": { "from_floor": 6, "base": 1.2, "per_floor": 0.025, "most": 2.0 },
+		"_comment_cohorts": "D243: each stretch of floors fields its factions in turn, a floor each. Up to 15 the Ember Wilds and the Wild; the Ooze stood there until 2026-10-17, so every odd floor from 7 to 15 was slimes, which a beginner practises on and a party of level 8 to 10 never felt (doug-md's play log: floors 11 to 15 easier than 1 to 5).",
 		"cohorts": [
-			{ "to": 15, "factions": ["the_ooze", "the_wild"] },
+			{ "to": 15, "factions": ["ember_wilds", "the_wild"] },
 			{ "to": 40, "factions": ["the_dusk", "broken_oath", "ember_wilds"] },
 			{ "to": 70, "factions": ["bamboo_court", "heart_empire", "the_dusk"] },
 			{ "to": 99, "factions": ["heart_empire"] }
