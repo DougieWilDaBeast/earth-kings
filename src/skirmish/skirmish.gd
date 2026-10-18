@@ -313,7 +313,9 @@ func _build_battlefield() -> void:
 ## the map. A levelled entry is a throwaway [Character], so it grows the way the
 ## party does; an entry may name itself, mark itself the keeper (`boss`), or
 ## pick its own side (`team`, for the coliseum's brawls), or hit harder than its level (`bite`, a
-## multiplier on its attack).
+## multiplier on its attack). A levelled entry can also come in a calling (`class`), carry a
+## piece of gear (`gear`, an equipment id) and fight in a stance (`stance`), as the party's own
+## do: the party clashes of `src/party_war/` give every fighter all three ([D257]).
 func _spawn_others(entries: Array, side: Unit.Team) -> void:
 	for entry: Dictionary in entries:
 		var cell := _to_cell(entry.get("cell", [0, 0]))
@@ -327,7 +329,11 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 			var foe := Character.create(str(entry.get("unit", "")))
 			if custom_name != "":
 				foe.display_name = custom_name
+			if entry.has("class"):
+				foe.class_id = str(entry["class"])
 			Progression.raise_quietly(foe, level, GameState.world)
+			if entry.has("gear"):
+				foe.equipment = str(entry["gear"])
 			unit = Unit.from_character(foe, unit_team, cell)
 		if custom_name != "":
 			unit.display_name = custom_name
@@ -336,7 +342,9 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 		# A foe can hit harder than its level says: the Tower's upper floors (D222).
 		if entry.has("bite") and float(entry["bite"]) > 0.0:
 			unit.attack = maxi(1, roundi(float(unit.attack) * float(entry["bite"])))
-		_enlist(unit)
+		var f := _enlist(unit)
+		if entry.has("stance"):
+			f.set_stance(str(entry["stance"]))
 
 
 ## The real-time form of an ambush's first-round initiative: the party moves

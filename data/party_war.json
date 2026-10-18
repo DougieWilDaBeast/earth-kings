@@ -1,0 +1,117 @@
+{
+  "_comment": "Party clashes and guild wars: random parties fight it out with nobody's hand on either (D257, docs/18 'Party clashes'). Every number and line here is Inferred (agenda row 169). Sizes and levels are drawn from the seed; each fighter carries a piece of real gear that suits them, fights in a stance, and each side shares a pouch of draughts. talk is said over a fighter's head in the recorded show: {name} is the speaker, {foe} the one they mean.",
+  "party_size": [1, 4],
+  "levels": [1, 10],
+  "lead_share": 0.6,
+  "units": ["brigand", "brigand_archer", "brigand_chief", "wolf", "goblin", "ogre", "legion_copper", "legion_black",
+            "fox_knight", "pig_warlock", "bird_archer", "duck_wizard", "sword_monkey", "axe_bear", "staff_panda",
+            "ice_wolf", "keep_watchman", "castellan", "element_monk", "red_panda_master"],
+  "gear_kinds": ["blade", "bow", "staff", "armour"],
+  "gear_price_base": 2500,
+  "gear_price_per_level": 2500,
+  "stances": ["own", "close", "away", "guard"],
+  "pouch": [1, 3],
+  "draughts": ["bread", "meat_pie", "cheese", "herbs", "red_draught", "blue_draught"],
+  "drink_below": 0.35,
+  "health_scale": 1.5,
+  "time_limit": 120.0,
+  "terrain": "grass",
+  "field": [18, 14],
+  "card_seconds": 3.5,
+  "fight_word_seconds": 0.9,
+  "end_seconds": 4.0,
+  "ko_slow_seconds": 1.0,
+  "ko_slow_scale": 0.35,
+  "talk_seconds": 2.4,
+  "talk_gap": 2.5,
+  "low_health": 0.3,
+  "camera_margin_cells": 3.0,
+  "camera_zoom_most": 2.0,
+  "sides": { "left": "#3a7bd6", "right": "#d64a3a" },
+  "words": {
+    "tag": "PARTY CLASH",
+    "war_tag": "GUILD WAR",
+    "fight": "FIGHT!",
+    "ko": "K.O.!",
+    "wins": "{name} WIN!",
+    "draw": "NOBODY WINS",
+    "standing": "{count} still standing after {seconds}s",
+    "pouch": "Pouch: {items}",
+    "empty_pouch": "Pouch: empty",
+    "party_of": "Band of {name}",
+    "next": "Fight {number} of {count}"
+  },
+  "talk": {
+    "_comment": "By doctrine (tactics.doctrines in skirmish.json), then 'any'. Occasions: open (as the fight starts), kill (felled a foe), low (under low_health), drink (reaches for a draught), friend_down (a friend fell), win (still standing at the end).",
+    "any": {
+      "open": ["For the company!", "Stay close. Nobody falls today.", "{foe} first. Then the rest."],
+      "kill": ["One less.", "Stay down, {foe}.", "Who's next?"],
+      "low": ["I can't take many more of those.", "Still standing. Barely.", "Cover me!"],
+      "drink": ["Give me a moment.", "Just a mouthful..."],
+      "friend_down": ["{foe}! No!", "They'll pay for that.", "Hold the line without them!"],
+      "win": ["It's over.", "Is that all you brought?", "Who's next?"]
+    },
+    "striker": {
+      "open": ["Let me at them.", "Last one standing buys the ale."],
+      "kill": ["Too slow, {foe}.", "Next!"],
+      "low": ["That one hurt. Good."]
+    },
+    "ranged": {
+      "open": ["Keep them off me and I'll do the rest.", "I have {foe} in my sights."],
+      "kill": ["Clean shot.", "Never saw it coming."],
+      "low": ["Too close! Get them off me!"]
+    },
+    "guardian": {
+      "open": ["Behind me. All of you.", "Nothing gets past."],
+      "low": ["I've had worse. Keep fighting."],
+      "friend_down": ["I should have been there."]
+    },
+    "anchor": {
+      "open": ["I'm not moving. Let them come.", "Plant your feet."],
+      "kill": ["You came to me. Mistake."]
+    },
+    "rooted": {
+      "open": ["The ground holds me. Let it hold you too."],
+      "low": ["Roots bend. They do not break."]
+    },
+    "keeper": {
+      "open": ["I'll keep you on your feet. Stay where I can reach you.", "Mind your health. I can't mend the dead."],
+      "friend_down": ["Hold on, {foe}, I'm coming!"],
+      "low": ["Who mends the mender?"]
+    },
+    "leader": {
+      "open": ["On me! Together, now!", "Pick a target. Hit it hard."],
+      "kill": ["That's how it's done. Again!"],
+      "win": ["Well fought. Every one of you."]
+    },
+    "brute": {
+      "open": ["Smash!", "Fresh meat."],
+      "kill": ["Ha!"]
+    }
+  },
+  "wars": {
+    "guild_vs_empire": {
+      "title": "The Muster at Stormreach",
+      "field": [30, 20],
+      "health_scale": 1.25,
+      "time_limit": 180.0,
+      "pouch": [6, 8],
+      "left": {
+        "name": "The Adventurers Guild",
+        "leads": 4,
+        "lead_levels": [6, 9],
+        "units": ["keep_watchman", "legion_copper", "castellan", "brigand_archer", "duck_wizard", "bird_archer", "red_panda_master", "staff_panda"],
+        "count": 8,
+        "levels": [4, 7]
+      },
+      "right": {
+        "name": "The Heart Empire",
+        "champion": "dirte",
+        "champion_level": 12,
+        "units": ["legion_copper", "legion_copper", "legion_black", "legion_black", "legion_silver", "legion_emerald", "legion_gold", "legion_white", "legion_magus", "legion_magus", "legion_copper", "legion_silver", "legion_black"],
+        "count": 13,
+        "levels": [6, 10]
+      }
+    }
+  }
+}

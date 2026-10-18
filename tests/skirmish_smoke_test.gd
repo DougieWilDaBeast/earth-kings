@@ -188,6 +188,7 @@ func _run() -> void:
 	await _check_signatures()
 	await _check_conditions()
 	_check_bout()
+	_check_party_war()
 	await _check_tactics()
 	await _check_stances()
 	await _check_scars()
@@ -919,6 +920,45 @@ func _check_bout() -> void:
 	print(WhoWins.verdict_line(wolf))
 	if wolf["winner"] == "ares":
 		_expect(int(wolf["right_hp"]) <= 0, "Diana lost while still standing: %s" % str(wolf))
+	GameState.roster = kept_roster
+
+
+## Party clashes ([D257]): a draw gives each side one to four fighters, each with a stance from
+## the data and gear that suits them; the field hands every fighter their gear, calling and
+## stance; and a clash fought hands off comes to an answer.
+func _check_party_war() -> void:
+	const PartyWar := preload("res://src/party_war/party_war.gd")
+	var kept_roster := GameState.roster
+	var setup: Dictionary = PartyWar.draw(41)
+	var stances: Array = Database.party_war.get("stances", [])
+	for side: String in ["left", "right"]:
+		var members: Array = setup[side]["members"]
+		_expect(members.size() >= 1 and members.size() <= 4, "a party of %d was drawn" % members.size())
+		for m: Dictionary in members:
+			_expect(stances.has(m["stance"]), "a stance not in the data: %s" % str(m))
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = PartyWar.stage(setup)
+	fight.manual = true
+	add_child(fight)
+	var drawn: Array = setup["left"]["members"] + setup["right"]["members"]
+	_expect(fight.fighters.filter(func(f: Fighter) -> bool: return f.bound_to == null).size() == drawn.size(),
+			"the field does not hold everyone drawn")
+	for f: Fighter in fight.fighters:
+		if f.bound_to != null:
+			continue
+		var match_: Array = drawn.filter(func(m: Dictionary) -> bool:
+			return m["unit"] == f.unit.template_id and m["stance"] == f.stance \
+					and m["gear"] == f.unit.character.equipment and m["class"] == f.unit.character.class_id)
+		_expect(not match_.is_empty(), "%s took the field without its gear, calling or stance" % f.unit.template_id)
+		if str(f.unit.character.equipment) != "":
+			_expect(Gear.suits(f.unit.character.equipment, f.unit.character),
+					"%s carries %s, which does not suit them" % [f.unit.template_id, f.unit.character.equipment])
+	remove_child(fight)
+	fight.free()
+	var result: Dictionary = PartyWar.run_quietly(self, PartyWar.draw(41))
+	print(PartyWar.row(result))
+	_expect(float(result["seconds"]) > 0.0 and str(result["winner"]) in ["left", "right", "none"],
+			"a clash came to no answer: %s" % str(result))
 	GameState.roster = kept_roster
 
 

@@ -76,6 +76,8 @@ var opening: Dictionary = {}
 var props: Dictionary = {}
 ## The "Who wins?" show: its timings and words (`data/who_wins.json`, [D180]).
 var who_wins: Dictionary = {}
+## Party clashes and guild wars: random parties for the show (`data/party_war.json`, [D257]).
+var party_war: Dictionary = {}
 ## A page in the journal for each land, and the trinket each one pays (`data/land_journals.json`, [D239]).
 var land_journals: Dictionary = {}
 ## The sixteen's own arcs: a personal quest each, told at the fire (`data/arcs.json`, [D250]).
@@ -135,6 +137,7 @@ func _ready() -> void:
 	opening = _load_json("%s/opening.json" % DATA_DIR)
 	props = _load_json("%s/props.json" % DATA_DIR)
 	who_wins = _load_json("%s/who_wins.json" % DATA_DIR)
+	party_war = _load_json("%s/party_war.json" % DATA_DIR)
 	land_journals = _load_json("%s/land_journals.json" % DATA_DIR)
 	arcs = _load_json("%s/arcs.json" % DATA_DIR)
 

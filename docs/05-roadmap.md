@@ -430,6 +430,11 @@ pull request is checked by CI (the suites, a soak, and the ledger).
    Planned: the aim line and ground ring before a big move, words when a signature goes off, a cut to
    speed lines on the last blow, music under the clip once the in-house themes land, and a look at the
    leads who lose most one against one (Iris, Janus, Pluto; agenda item 112).
+   **Party clashes and a guild war — built** (2026-10-18, [D257](06-decisions.md), #329): random
+   parties of one to four, with gear, stances, draughts and words over their heads, and the Guild
+   against the Heart Empire, as a table and as video (`tools/party_war.py`,
+   [18](18-combat-direction.md#party-clashes)). Planned: a look at how much the company's side is worth
+   (it decides two draws in five on its own), more wars under `wars`, and the clips tall for shorts.
 9. **Fight tactics — built** (2026-10-17, [D187](06-decisions.md), call BB). Every fighter on every
    side fights to a doctrine: dodging wind-ups, keeping distance, flanking, guarding the hurt,
    hanging back to heal, breaking off when low, and choosing whom to hit
