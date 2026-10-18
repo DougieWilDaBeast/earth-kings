@@ -410,6 +410,9 @@ Start a run (not the tutorial) and walk.
 | J8  | Walk into a keep's arena, win a round, press **Take the purse and leave** | Back on the keep's street by its door, the purse added to yours — never the title screen. The bottom-right button reads **Leave the arena**, not Back to Title |
 | J9  | Send a single hero (not the company) onto the sand from a keep, then leave | Your purse is what it was plus the winnings; the hero brings nothing into it |
 | J10 | Save from the menu while on the sand, then load                | Your own party comes back, not the copy that was fighting           |
+| J11 | `godot --path . res://src/party_war/party_war.tscn -- --fights=2 --seed=7` | A card with both sides (faces, levels, gear, stances, pouch), FIGHT!, rosters down both edges, words over heads, the log along the bottom, K.O.! and a banner; then the second clash, then it closes ([D257](06-decisions.md)) |
+| J12 | The same with `--war=guild_vs_empire --seed=1` | "GUILD WAR", twelve against fourteen on a wide field, Dirte among the Empire; the rosters fit down each edge |
+| J13 | `python3 tools/party_war.py table 20 --seed 1 --out /tmp/pw` | `results.csv` and `results.md` in /tmp/pw: 40 fights, each draw both ways round, with the size, level and stance tables |
 
 ## K — Museum
 

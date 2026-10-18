@@ -484,6 +484,56 @@ least. Those four are built to fight beside others, so this is not a balance ver
 but it is a list of who needs a look before a lead-against-lead knockout ([D171](06-decisions.md))
 is built (agenda item 112).
 
+## Party clashes
+
+**Built 2026-10-18** ([D257](06-decisions.md), issue #329), on `dougie`'s ask for fights between random
+parties "with combat, dialogs, items, strategies" as video, and a guild war. Two parties fight it out
+with nobody's hand on either, on the real skirmish in `bout` mode (a sandbox, as "Who wins?" is).
+
+**The draw** (`src/party_war/party_war.gd`, numbers and lines in `data/party_war.json`, all
+**Inferred**, agenda item 169): each side is one to four fighters; each fighter is one of the sixteen
+(six times in ten, never the same lead on both sides) or one of the units listed, at a level from 1 to
+10, in a calling drawn for them; each carries a piece of real gear from `data/equipment.json` that
+suits that calling, beats what they were issued and costs no more than its level allows; each fights
+in a stance (Own way, Close in, Keep away or Guard, [Stances](#stances)) on top of their doctrine
+([Tactics](#tactics)); and each side shares a pouch of one to three draughts, which a fighter under a
+third of their health reaches for. Health is half as much again as a company's. The left side fights
+as the company (the near-death window, friends who pull them back up, the graces); the right as the
+other side. For this the skirmish's map entries can now carry `class`, `gear` and `stance`, and an
+enemy given a stance fights in it.
+
+**The show** (`src/party_war/party_war_show.gd`): a card with both sides, each fighter's face, level,
+calling, gear and stance, and each pouch; FIGHT!; each side's roster down its edge with health, gear,
+stance and what they are busy with (drinking, winding up, down); the fight's own log along the bottom;
+the camera on whoever is still standing; words over a fighter's head as the fight opens, at a kill,
+when a friend falls, when they are low, when they drink and at the end, by doctrine (a ranged lead
+says "Clean shot.", a keeper "Who mends the mender?"); then K.O.! and the winner's banner. The moves,
+"circles", "guards Iris", "Blocked" and "DOWN" are the skirmish's own words, where they happen.
+
+**The guild war** (`wars.guild_vs_empire`): the Adventurers Guild (four of the sixteen at 6 to 9 and
+eight of the Guild's muster at 4 to 7) against the Heart Empire (Dirte at 12 and thirteen of the
+legion at 6 to 10) on a field 30 by 20. A war is any entry under `wars`; nothing else in the code
+names this one.
+
+| To | Run |
+| --- | --- |
+| A batch, each draw fought both ways round, as `results.csv` and `results.md` | `python3 tools/party_war.py table 150 --seed 1` |
+| Clashes in a row as one `.mp4` | `python3 tools/party_war.py clashes 5 --seed 7`, or `--seeds 1005,1009` from the table |
+| The guild war as an `.mp4` | `python3 tools/party_war.py war --seed 1` |
+| Watch in a window | `godot --path . res://src/party_war/party_war.tscn -- --fights=3 --seed=7` (or `--war=guild_vs_empire`) |
+
+**What the table says** (150 draws, each fought both ways round, 2026-10-18): a clash runs 4 to 118
+seconds, 28 in the middle, and one in eleven is still going at 120. **The company's side is worth
+more than anything drawn**: the left wins 70% and the right 21%; fought both ways round, the same
+party won both times in 43% of draws, the company's side won both times (the side decided it) in 41%,
+and the other side never won both. Being pulled back up from the near-death window is what does it.
+**Bodies count**: one more fighter wins 63%, two more 89%, three more 95%; with the levels on each
+side adding up to within three, the side with more bodies still wins 57%. **Levels count**: a lead of
+1 to 5 levels in total wins 60%, 11 to 20 wins 90%. Stance and lead-or-unit make no difference a
+batch this size can see (56% to 58% each). The guild war is close: on seeds 1 to 4 the Empire won
+three. These are hands-off fights, so they say what the rules are worth, not what a player gets
+out of them.
+
 ## Getting stronger
 
 Settled in the same session, and bound up with the fight ([D37](06-decisions.md)):

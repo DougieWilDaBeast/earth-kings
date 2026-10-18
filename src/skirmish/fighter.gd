@@ -192,9 +192,13 @@ func set_stance(name: String) -> void:
 
 
 ## The stance this fighter fights in right now: the player's, or "own" for enemies,
-## allies, and anyone while the game plays itself (Auto and the who-wins bouts).
+## allies, and anyone while the game plays itself (Auto and the who-wins bouts); an
+## enemy or ally the field gave a stance fights in it ([D257]).
 func playing_stance() -> String:
-	return stance if is_party() and not Pace.auto else "own"
+	if is_party():
+		return stance if not Pace.auto else "own"
+	# Anyone else keeps "own" unless the field gave them a stance ([D257]).
+	return stance
 
 
 ## Whether the stance it fights in now says [param key] (`seek`, `hold`).
