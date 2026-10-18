@@ -281,7 +281,8 @@ each, each ending playable:
    Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next (**built**, [D253](06-decisions.md)); (4) **the Second
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md); **built**,
-   [D254](06-decisions.md)), then sixteen self-played runs to floor 10 (2 to 5 falls; planned, #234); (5) `doug-md`'s play-test asks in his order. His play-test
+   [D254](06-decisions.md)), then sixteen self-played runs to floor 10 (2 to 5 falls; **run**, 4 falls with random companions,
+   [D258](06-decisions.md)); (5) `doug-md`'s play-test asks in his order. His play-test
    5 comes after (1) and (2), with a word on each in-house theme ([D198](06-decisions.md)); art on the
    credits' return in [D199](06-decisions.md)'s order; three new founders' questions in
    [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)). `dougie` took all four of the

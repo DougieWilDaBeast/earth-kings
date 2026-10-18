@@ -181,7 +181,53 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-17 | D197's fixes, reproduced and shown with self-played runs ([D206](06-decisions.md)) | this PR, after `afb8008` | Before (`4852d22`, Atlas): no run stood at the Tower's door in 15 minutes. After, as Atlas: seeds 77, 1, 2 at the door at 5:10, 3:08, 6:30, every chapter one closed, no fall before floor 5; a killer named on every fall. As dealt leads (Bellona, Iris, Pluto, Vesta, Diana): 6 of 8 fell on the road or at the first gate, at levels 1 to 4 |
 | 2026-10-17 | Auto rests when hurt, nine self-played runs as dealt leads ([D210](06-decisions.md)) | after #259 | After a lost fight Auto now rests in town (Iris back to 40 of 40). All eight runs still fell, nearly all at full health to their first road fights at levels 1 and 2 (Axe Bear, Flame Lion, Sword Monkey, Cutpurse): the stakes work, issue #230 |
 | 2026-10-17 | The First Hour's road for a lead walking alone, seven self-played runs as dealt leads and one as Atlas ([D211](06-decisions.md)) | after #262 | Before (main, seeds 1, 2, 3): every one fell, at levels 1 to 3, two in their first fight (a Flame Lion, a Sword Monkey met at a quarter health after the cold). After (seeds 1 to 6): no fall in a first fight; falls after five minutes at levels 3 to 7; Liber to floor 4, Iris to floor 3, Pluto shut a gate. Diana (77) at the door at 3:39 (7:35 before), Atlas at 4:55. Stances (#261) merged after these runs |
+| 2026-10-18 | The Second Hour's sixteen self-played climbs to floor 10 ([D258](06-decisions.md), #234; the table is below) | `e5628b9` and this PR | Alone, every climber fell by floor 6. With 0 to 3 companions rolled at random (`dougie`'s call): 6 of 16 reached floor 10, 4 fell (two to the Keeper of the Tenth's floor), 6 stalled. A party of three or more is fair; alone or with one, nobody reached floor 10 |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
+
+### The Second Hour's climbs
+
+Sixteen self-played climbs, seeds 1 to 16, each the lead the quiz deals, on the First Hour setting
+at 2×, stopped at floor 10 won or after 40 minutes (`tools/soak.gd --until-floor=10
+--companions=random`, [D258](06-decisions.md)). Each walks out with 0 to 3 companions of the inns'
+kinds at levels 1 to 6, rolled from the seed (`dougie`, 2026-10-18: "random amounts of random leveled
+companions to each climber, so that we can see value of parties"). Auto rests before it goes up,
+turns back down a floor when hurt, and after a chapter goes to the easiest gate. Main `e5628b9` with
+this PR's Auto changes. Floor is the one fought on.
+
+| Seed | Lead | Companions | Outcome | Time |
+| --- | --- | --- | --- | --- |
+| 1 | Janus | Bram 1, Bram 6, Sera 6 | **Floor 10 won**, level 5 | 6:04 |
+| 2 | Liber | Bram 4 | Fell on floor 10 to the Keeper of the Tenth, level 7 | 6:52 |
+| 3 | Iris | Bram 2 | Fell on floor 5 to the Warden of the Fifth, level 4 | 3:50 |
+| 4 | Pluto | Toln 1, Toln 3 | **Floor 10 won**, level 8 | 6:31 |
+| 5 | Vesta | Bram 3, Bram 1 | **Floor 10 won**, level 7 | 7:00 |
+| 6 | Liber | none | Stalled after floor 3, level 6 | 40:00 |
+| 7 | Ceres | Toln 3 | Stalled after floor 4, level 5 | 40:00 |
+| 8 | Ares | Toln 2 | Stalled after floor 9, level 9 | 40:00 |
+| 9 | Bellona | none | Fell on floor 10 to a goblin, level 9 | 15:14 |
+| 10 | Juno | Sera 5, Bram 2 | **Floor 10 won**, level 7 | 6:42 |
+| 11 | Ultor | Toln 2, Bram 2 | **Floor 10 won**, level 8 | 11:24 |
+| 12 | Liber | none | Stalled after floor 1, level 5 | 40:00 |
+| 13 | Cassius | Sera 4, Sera 1, Toln 4 | Fell on floor 10 to a poacher, level 8 (Toln with him) | 6:13 |
+| 14 | Iris | Bram 2, Toln 3, Bram 1 | Stuck at the Tower's door after floor 5, level 4 | 5:30 |
+| 15 | Juno | Toln 6, Sera 2, Sera 4 | **Floor 10 won**, level 8 | 6:54 |
+| 16 | Ares | none | Stalled after floor 7, level 9 | 40:00 |
+
+**4 falls in 16**, inside [D197](06-decisions.md)'s 2 to 5. Six reached floor 10, all with two or three
+companions, in 6 to 11 minutes. By party: with two companions 4 of 4 won; with three, 2 of 4 won and 1
+fell; with one, 2 of 4 fell and none won; alone, 1 of 4 fell and none won. The stalled runs were hurt
+with nowhere known to rest (Stormreach is walked into, not rested at by arriving), so Auto went in and
+out of the door; it now turns back only when there is somewhere to rest. The first batch, everyone
+alone and no companions, fell 13 of 13 by floor 6 (one on floor 1, two on 3, seven on 4 to the Warden
+or its Bog Jellies, three on floor 6), and is why Auto rests and turns back.
+
+**How long the Second Hour took to build** (#234): the build half, floors 6 to 10, the sixteen chapter
+twos into the game, the Keeper of the Tenth, suites and docs ([D254](06-decisions.md), PR #324), took
+one Claude thread about 30 minutes (17:59 to 18:29 UTC, 2026-10-18), with the plan ([D196](06-decisions.md))
+and the chapter-two drafts ([D182](06-decisions.md)) already written. The runs and the Auto fixes they
+turned up took about four hours (18:30 to 22:40), most of it waiting on the runs, which play in real time.
+Art (A34 to A36) is not drawn yet. **Inferred**, for sizing the hours after it: about half a day of one
+thread a hour of play once its words and plan exist, plus the art.
 
 ### Play-test 3's asks
 
