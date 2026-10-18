@@ -18,6 +18,7 @@ signal closed
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 ## Class colours, growth bars and the shapes of powers ([D66]).
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 ## Pieces out of the packs offered per person. The page scrolls, so this is
 ## about what is worth reading rather than what fits on one row.
@@ -336,8 +337,8 @@ func _rebuild() -> void:
 				_build_practice_page(shown, party)
 
 	var codex := GameState.world.codex_understanding()
-	_purse.text = "%d gold  ·  %d in the packs  ·  Codex %d%%  ·  step %d%s" % [
-		GameState.gold, GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps,
+	_purse.text = "%s  ·  %d in the packs  ·  Codex %d%%  ·  step %d%s" % [
+		Coins.text(GameState.gold), GameState.stores.size(), roundi(codex * 100.0), GameState.world.steps,
 		"" if GameState.away.is_empty() else "  ·  %d away" % GameState.away.size(),
 	]
 	# How full the company is and how the next seat is earned (agenda item 35).

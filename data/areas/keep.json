@@ -52,7 +52,7 @@
         5
       ],
       "line": "An armoury chest in the corner of the yard, unlocked and half empty.",
-      "gold": 60,
+      "gold": 1500,
       "item": "bone_sword"
     },
     {
@@ -61,7 +61,7 @@
         10
       ],
       "line": "A footlocker nobody has claimed since the last watch changed.",
-      "gold": 175,
+      "gold": 4500,
       "item": "grave_token",
       "key": "gate_key"
     }

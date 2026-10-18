@@ -56,7 +56,7 @@
         4
       ],
       "line": "A tackle crate wedged under the boards, swollen shut with damp.",
-      "gold": 70,
+      "gold": 2000,
       "item": "knotted_cord"
     },
     {
@@ -65,7 +65,7 @@
         12
       ],
       "line": "A votive box on a post, left for the water and never collected.",
-      "gold": 120
+      "gold": 3000
     }
   ],
   "props": [

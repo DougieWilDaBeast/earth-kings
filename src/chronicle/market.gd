@@ -102,7 +102,7 @@ static func hire_offer(site: Site) -> Dictionary:
 
 
 static func hire_cost(offer: Dictionary) -> int:
-	return int(rules().get("cost_base", 70)) + int(rules().get("cost_per_level", 35)) * int(offer.get("level", 1))
+	return int(rules().get("cost_base", 2000)) + int(rules().get("cost_per_level", 1000)) * int(offer.get("level", 1))
 
 
 ## What they will take to walk with you, knowing what they know about you.

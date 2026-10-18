@@ -56,7 +56,7 @@
         10
       ],
       "line": "A felling crate: wedges, spare heads, and coin the foreman forgot he hid.",
-      "gold": 95,
+      "gold": 2500,
       "item": "bone_sword"
     },
     {
@@ -65,7 +65,7 @@
         7
       ],
       "line": "A stump hollowed out and packed with rags, and something heavier under them.",
-      "gold": 130
+      "gold": 3500
     }
   ],
   "props": [
@@ -326,8 +326,8 @@
       "talk": {
         "refuse": {
           "text": "Nobody here by that name. Never heard of him. Lovely fellow, though.",
-          "bribe": 10,
-          "bribe_q": "Ten gold says you've heard of him.",
+          "bribe": 300,
+          "bribe_q": "Three silver says you've heard of him.",
           "won": "Funny. It's all come back to me.",
           "won_flag": "nix:paid",
           "unless": "nix:paid",
@@ -343,11 +343,11 @@
         "sells": [
           {
             "item": "black_feather",
-            "price": 90
+            "price": 2300
           },
           {
             "item": "salt_pouch",
-            "price": 70
+            "price": 1800
           }
         ],
         "shop": "Lucky things. Fell off a cart. Several carts.",

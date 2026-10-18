@@ -919,7 +919,7 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 	if bool(mark.get("chest", false)):
 		chests.append({
 			"cell": [at.x, at.y], "art": "chest_broken",
-			"gold": 20 + absi(hash([cell.x, cell.y])) % 60,
+			"gold": 500 * (1 + absi(hash([cell.x, cell.y])) % 3),
 			"line": "Under the roots: a box gone soft with damp, and coin inside it.",
 		})
 

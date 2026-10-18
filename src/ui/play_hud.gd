@@ -12,6 +12,7 @@ extends PanelContainer
 
 const Alerts := preload("res://src/ui/alerts.gd")
 const Quests := preload("res://src/world/quests.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 const REFRESH := 0.25
 ## An alert's colour by how much it matters.
 const URGENT := Color(0.95, 0.45, 0.38)
@@ -100,7 +101,7 @@ func refresh() -> void:
 	if key != _shown:
 		_shown = key
 		_build_rows(party)
-	_purse.text = str(rules().get("purse", "{gold} gold")).format({"gold": GameState.gold, "draughts": Alerts.draughts()})
+	_purse.text = str(rules().get("purse", "{gold}")).format({"gold": Coins.text(GameState.gold), "draughts": Alerts.draughts()})
 	var wanted := Alerts.gather()
 	var said := ",".join(wanted.map(func(a: Dictionary) -> String: return "%s:%s" % [a["id"], a["text"]]))
 	if said != _alerted:

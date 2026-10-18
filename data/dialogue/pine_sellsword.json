@@ -38,8 +38,8 @@
 				},
 				{
 					"text": "Drink on us.",
-					"requires_gold": 15,
-					"gold": -15,
+					"requires_gold": 400,
+					"gold": -400,
 					"goto": "the_drink"
 				}
 			]
@@ -56,8 +56,8 @@
 				{ "text": "Did he ever come?", "requires": "tem_marked_you", "once": true, "goto": "he_came" },
 				{
 					"text": "Drink on us. Again.",
-					"requires_gold": 15,
-					"gold": -15,
+					"requires_gold": 400,
+					"gold": -400,
 					"goto": "the_drink"
 				},
 				{ "text": "Keep your seat, Tem.", "goto": "end" }

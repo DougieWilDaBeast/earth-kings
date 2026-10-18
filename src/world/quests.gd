@@ -19,6 +19,7 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Markers := preload("res://src/world/markers.gd")
 const Treasure := preload("res://src/chronicle/treasure.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 ## The flag holding the id of the entry being followed, or nothing.
 const FOLLOWED := "quest:followed"
@@ -64,9 +65,9 @@ static func all(world: World, road: Dictionary) -> Array[Dictionary]:
 				"cell": held,
 				"label": "Free %s" % character.display_name,
 				"stop": true,
-				"detail": "%s is being held at %s for %d gold." % [
+				"detail": "%s is being held at %s for %s." % [
 					character.display_name, site.display_name if site != null else "a camp",
-					int(character.captive.get("ransom", 0)),
+					Coins.text(int(character.captive.get("ransom", 0))),
 				],
 			})
 	var x_marks := Treasure.quest(world)

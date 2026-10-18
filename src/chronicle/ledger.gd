@@ -6,6 +6,8 @@ extends RefCounted
 ## dug, floors climbed and places named are read back off the [World] itself
 ## when the summary is built, so this stays a short list of plain counters.
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 const KEYS := [
 	"gold_earned", "gold_spent", "kills", "battles_won", "battles_lost",
 	"errands_done", "chests_opened", "recruited", "damage_dealt", "damage_taken",
@@ -91,9 +93,9 @@ static func chapters(world: World, roster: Roster, ledger: Dictionary) -> Array:
 		{
 			"title": "The purse",
 			"rows": [
-				["Gold taken", str(count(ledger, "gold_earned"))],
-				["Gold spent", str(count(ledger, "gold_spent"))],
-				["Left in the purse", str(GameState.gold)],
+				["Money taken", Coins.text(count(ledger, "gold_earned"))],
+				["Money spent", Coins.text(count(ledger, "gold_spent"))],
+				["Left in the purse", Coins.text(GameState.gold)],
 				["Chests opened", str(count(ledger, "chests_opened"))],
 			],
 		},
@@ -134,11 +136,11 @@ static func epitaph(world: World, roster: Roster, ledger: Dictionary) -> String:
 	var lead := roster.player()
 	var who: String = lead.display_name if lead != null else "The company"
 	if world != null and world.tower_topped:
-		return "%s conquered all %d floors of the Tower, taking %d gold and overcoming %d foes." % [
-			who, world.tower_floors(), count(ledger, "gold_earned"), count(ledger, "kills")
+		return "%s conquered all %d floors of the Tower, taking %s and overcoming %d foes." % [
+			who, world.tower_floors(), Coins.text(count(ledger, "gold_earned")), count(ledger, "kills")
 		]
-	return "%s walked %d steps, took %d gold, and put down %d of what was waiting." % [
-		who, world.steps, count(ledger, "gold_earned"), count(ledger, "kills")
+	return "%s walked %d steps, took %s, and put down %d of what was waiting." % [
+		who, world.steps, Coins.text(count(ledger, "gold_earned")), count(ledger, "kills")
 	]
 
 

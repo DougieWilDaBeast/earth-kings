@@ -78,7 +78,7 @@
       ],
       "line": "A strongbox lashed to the arch itself, above the waterline by a hand.",
       "art": "chest_silver",
-      "gold": 400,
+      "gold": 10000,
       "item": "frost_staff"
     },
     {
@@ -88,7 +88,7 @@
       ],
       "line": "A net bag snagged on the causeway edge, heavy with what it caught.",
       "art": "chest_broken",
-      "gold": 150,
+      "gold": 4000,
       "item": "blue_draught"
     }
   ],

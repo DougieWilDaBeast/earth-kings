@@ -5,6 +5,8 @@ extends Control
 ## open it is a between-rounds landing, showing what the last wave cost and what
 ## the next one pays. Everything here is separate from the run — see [Arena].
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 const HEADING := Color(0.965, 0.827, 0.443)
 const LABEL := Color(0.66, 0.64, 0.59)
 const VALUE := Color(0.90, 0.87, 0.79)
@@ -161,9 +163,9 @@ func _refresh_choosing() -> void:
 		_body.add_child(_line("Nobody has lasted a round on this card yet.", LABEL))
 	else:
 		_body.add_child(_line(
-			"Best so far: %d round%s, %d gold." % [
+			"Best so far: %d round%s, %s." % [
 				int(best.get("rounds", 0)), "" if int(best.get("rounds", 0)) == 1 else "s",
-				int(best.get("purse", 0)),
+				Coins.text(int(best.get("purse", 0))),
 			], HEADING
 		))
 
@@ -188,12 +190,12 @@ func _settle_the_round() -> void:
 		return
 
 	var paid := Arena.won()
-	_blurb.text = "The round is yours. %d gold, and the gate opens again." % paid
+	_blurb.text = "The round is yours. %s, and the gate opens again." % Coins.text(paid)
 	_show_the_company()
 	_body.add_child(_line(
-		"Round %d pays %d." % [Arena.round_number(), Arena.reward(Arena.round_number())], HEADING
+		"Round %d pays %s." % [Arena.round_number(), Coins.text(Arena.reward(Arena.round_number()))], HEADING
 	))
-	_body.add_child(_line("Purse so far: %d gold." % Arena.purse(), VALUE))
+	_body.add_child(_line("Purse so far: %s." % Coins.text(Arena.purse()), VALUE))
 
 	var again := Button.new()
 	again.theme_type_variation = &"GrandButton"
@@ -217,8 +219,8 @@ func _settle_the_round() -> void:
 func _show_the_loss() -> void:
 	var lasted := Arena.round_number() - 1
 	Arena.lost()
-	_blurb.text = "They carry you off. %d round%s, %d gold, and the crowd already looking past you." % [
-		lasted, "" if lasted == 1 else "s", Arena.purse()
+	_blurb.text = "They carry you off. %d round%s, %s, and the crowd already looking past you." % [
+		lasted, "" if lasted == 1 else "s", Coins.text(Arena.purse())
 	]
 	_show_the_company()
 	Arena.close()

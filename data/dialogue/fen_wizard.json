@@ -38,8 +38,8 @@
 				},
 				{
 					"text": "Buy your village a dry winter.",
-					"requires_gold": 25,
-					"gold": -25,
+					"requires_gold": 600,
+					"gold": -600,
 					"set_flag": "paid_the_fen",
 					"goto": "paid"
 				}
@@ -66,8 +66,8 @@
 				},
 				{
 					"text": "Another twenty-five for the tar.",
-					"requires_gold": 25,
-					"gold": -25,
+					"requires_gold": 600,
+					"gold": -600,
 					"goto": "paid"
 				},
 				{ "text": "Nothing. Mind your board.", "goto": "end" }

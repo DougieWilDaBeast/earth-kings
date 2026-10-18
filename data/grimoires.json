@@ -1,6 +1,6 @@
 {
-	"price_base": 90,
-	"price_spread": 70,
+	"price_base": 2500,
+	"price_spread": 2000,
 	"weights": {
 		"doctrine": 0.3,
 		"trivia": 0.45,

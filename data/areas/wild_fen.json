@@ -123,7 +123,7 @@
             ],
             "line": "A tarred creel wedged in the reeds, holding gold and a heavy gate key.",
             "art": "chest_broken",
-            "gold": 140,
+            "gold": 3500,
             "key": "gate_key",
             "item": "herbs"
         },
@@ -134,7 +134,7 @@
             ],
             "line": "A strongbox lashed to a sunken weir with oiled leather cord.",
             "art": "chest_iron",
-            "gold": 195,
+            "gold": 5000,
             "item": "potion_blue"
         },
         {
@@ -144,7 +144,7 @@
             ],
             "line": "A gold-banded smuggler chest hidden behind the rusted sluice.",
             "art": "chest_gold",
-            "gold": 250,
+            "gold": 6500,
             "item": "black_feather"
         }
     ],

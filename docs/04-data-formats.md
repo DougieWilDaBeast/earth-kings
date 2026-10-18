@@ -3,6 +3,12 @@
 Everything in `data/` is plain JSON so content can be added without opening the editor and diffs
 stay readable. All of it is read-only at runtime.
 
+**Money is copper** ([D253](06-decisions.md)): every amount in `data/` (a price, a `cost`, a chest's or
+a reward's `gold`, a bribe, a purse) is counted in copper, 100 to a silver, 100 silver to a gold,
+100 gold to a platinum, and the game says it in coins (`src/chronicle/coins.gd`: "1 gold 60 silver").
+A key named `gold` is the old name and still means money, in copper. Words that put an amount in a
+line take it as `%s` or `{gold}` / `{price}` / `{ransom}`, already said in coins.
+
 ## `terrain.json` — tile types
 
 ```json
@@ -291,7 +297,7 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
     [8, 0]
   ],
   "props": [{ "art": "barrel", "cell": [6, 10] }],
-  "chests": [{ "cell": [12, 4], "gold": 45, "item": "bone_sword" }],
+  "chests": [{ "cell": [12, 4], "gold": 1000, "item": "bone_sword" }],
   "wards": [{ "cell": [10, 8], "ability": "cleave", "key": "iron_key" }],
   "spots": [{ "cell": [5, 5], "line": "A mossy sundial." }],
   "people": [
@@ -370,25 +376,25 @@ door into a training fight that comes back out of the same door; nothing in it c
   "hello": ["Fresh this morning! Most of it."], "again": "You came back!",
   "ask": [{ "q": "What's good today?", "a": "The cheese.", "requires": "flag", "once": true,
             "reward": 10, "item": "apple", "cost": 5, "check": { "skill": "wits", "dc": 10 }, "no": "Mind your own." }],
-  "sells": [{ "item": "bread" }, { "item": "whetstone", "price": 60, "restock": true }],
-  "job": { "flag": "job:wat_stone", "done_flag": "found:wat_stone", "offer": "...", "done": "...", "gold": 30, "item": "hearth_coin" },
+  "sells": [{ "item": "bread" }, { "item": "whetstone", "price": 1500, "restock": true }],
+  "job": { "flag": "job:wat_stone", "done_flag": "found:wat_stone", "offer": "...", "done": "...", "gold": 750, "item": "hearth_coin" },
   "refuse": { "chance": 0.4, "text": "Not now.", "unless": "smith:won", "bribe": 5,
               "check": { "skill": "might", "dc": 11 }, "won": "Fine.", "won_flag": "smith:won", "still_no": "No." },
-  "heal": { "price": 40, "q": "Patch up my companions.", "done": "There.", "whole_q": "Can you look us over?", "whole": "Nobody here needs me." },
+  "heal": { "price": 1000, "q": "Patch up my companions.", "done": "There.", "whole_q": "Can you look us over?", "whole": "Nobody here needs me." },
   "news": true, "more": "Anything else?", "leave": "Goodbye.", "bye": "Mind the geese."
 }
 ```
 
 - `hello` opens it (`again` from the second time); every text may be a list, one picked each time.
 - `ask` — the questions the party can put. An answer that pays (`reward` gold, an `item`) is said
-  once. `cost` is gold to ask; a `check` rolls for it, and on a miss they say `no`.
+  once. `cost` is copper to ask; a `check` rolls for it, and on a miss they say `no`.
 - `sells` — one reply per thing, at the market's price for it (`Market.price_of`, through the
   difficulty's `price` dial) unless `price` is given. Each sells once unless `restock`.
 - `job` — a favour: asked for, taken on (sets `flag`), and paid (`gold`, `item`) once `done_flag`
   is set by something found elsewhere — a prop's or a spot's `set_flag`.
 - `refuse` — whether they will talk at all: on their `chance` each time (1.0, every time) until an
   `unless` flag is set. A `bribe` and a `check` are ways round it; `won_flag` makes it stick.
-- `heal` — they mend the whole company for `price` gold (through the difficulty's `price` dial), as a
+- `heal` — they mend the whole company for `price` copper (through the difficulty's `price` dial), as a
   rest does: `q` is offered while anyone is hurt and the purse can pay, and they say `done`; with
   nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D176](06-decisions.md)).
 - `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
@@ -475,7 +481,7 @@ Read by `Database.prop_size` / `Database.building_art`; used by `AreaProp`, `Are
 ## `areas/*.json` → `inn` — rooms to let ([D242](06-decisions.md))
 
 ```json
-"inn": { "price": 40, "vigour": 4, "yours": 1, "kitchen": [1, 1, 4, 4],
+"inn": { "price": 1000, "vigour": 4, "yours": 1, "kitchen": [1, 1, 4, 4],
   "bedrooms": [ { "name": "Room one", "rect": [6, 1, 4, 4], "bed": [6, 1] }, { "name": "Room two", ... } ] }
 ```
 
@@ -777,13 +783,13 @@ and at least `clear_of_places` tiles from any place, topped up with the rest of 
 whatever lives there. `roadside.json`: a scene with `near_town` is offered only within the rules'
 `town_reach` tiles of a standing town, at `near_town_chance` a step, the rest only in open country at
 `chance`; no scene is ever within `clear_of_sites` of a place. `purse_line` is how a scene's purse is
-said (`%d` the gold). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
+said (`%s` the money, in coins). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
 with no box and without stopping a party walking itself ([D216](06-decisions.md)).
 
 **A band led to the Watch** ([D236](06-decisions.md)). `world_rules.json` → `life.road_watch`: a band
 that sets on the party within `join_cells` of the Watch walking the road brings them into the fight
 on the party's side, at the company's level, with `joined_line` in the log; won, `thanks` are said and
-`purse_base` + `purse_per_level` × the company's level gold paid (`purse_line`, `%d` the gold), and
+`purse_base` + `purse_per_level` × the company's level copper paid (`purse_line`, `%s` the money, in coins), and
 `renown` written where it happened.
 
 **`world_rules.json` → `auto_styles`** ([D216](06-decisions.md)): `names` and `blurbs` of the three
@@ -823,7 +829,7 @@ that tile. `key` is where the band settled and who is in it, so it stays the sam
 
 ```json
 {
-  "contract": { "gold_base": 60, "gold_per_rank": 90, "giver": "the Adventurers Guild" },
+  "contract": { "gold_base": 1500, "gold_per_rank": 2500, "giver": "the Adventurers Guild" },
   "states": { "open": "standing open", "broken": "BROKEN, and pouring", "brewing": "brewing, not yet open" },
   "lines": { "welcome": "The Guild hall at {hall}. …", "taken": "… shut {gate}. {gold} gold …" }
 }

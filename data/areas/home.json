@@ -82,7 +82,7 @@
       ],
       "line": "A satchel thrown clear in the fall. Nobody else would want it.",
       "art": "strongbox",
-      "gold": 60
+      "gold": 1500
     }
   ],
   "props": [
@@ -318,7 +318,7 @@
           "Ness. I mend people. Out here it's cheaper than in the city, and the beds are yours anyway."
         ],
         "heal": {
-          "price": 25,
+          "price": 650,
           "q": "Patch up my companions.",
           "done": "There. Go easy on them for a day. You won't, but I said it.",
           "whole": "Nobody here needs me. Good.",

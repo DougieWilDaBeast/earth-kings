@@ -1,4 +1,5 @@
 {
+	"_coins": "D253: every amount of money in data/ is copper (100 a silver, 100 silver a gold, 100 gold a platinum); see src/chronicle/coins.gd and docs/26.",
 	"tracks": {
 		"_comment": "D233: dirt tracks between the places people live (src/area/tracks.gd). Each place is joined to its nearest `links` others no further than `reach` tiles; a signpost stands where `signpost_ways` or more ways leave open ground.",
 		"kinds": ["village", "keep", "hut", "library"],
@@ -157,9 +158,9 @@
 			"join_cells": 10,
 			"joined_line": "The Watch see it start, and come running.",
 			"thanks": ["\"That's one band fewer on our road,\" says the older of them, getting his breath back.", "\"Bring us the next lot too. We'd sooner fight them here than find what they left.\""],
-			"purse_base": 25,
-			"purse_per_level": 10,
-			"purse_line": "He counts %d gold into your hand: the Watch's bounty on their heads.",
+			"purse_base": 650,
+			"purse_per_level": 250,
+			"purse_line": "He counts %s into your hand: the Watch's bounty on their heads.",
 			"renown": 2
 		}
 	},
@@ -318,7 +319,7 @@
 		"chapter_keys": ["gate_shut", "town_saved"],
 		"chapter_upkeeps": 3,
 		"gates_woken_per_chapter": 2,
-		"gold_per_floor": 60,
+		"gold_per_floor": 1500,
 		"doctrine_every": 5,
 		"tree_every": 10,
 		"_comment_fought": "D189 (play-test 4: floors 6 to 20 were easier than 1 to 5, fights over in three seconds): a fought floor's foes start where floor 5's keeper left off and climb from there, are never below the party's own level (`meet_the_party`), and bring one more for every member past `foes_per_member_past` (`foes_max` at most).",
@@ -422,14 +423,14 @@
 		"healer_assists_needed": 5
 	},
 	"captive": {
-		"ransom_base": 120,
-		"ransom_per_level": 25,
+		"ransom_base": 3000,
+		"ransom_per_level": 600,
 		"deadline_steps": 900,
 		"sold_chance": 0.5
 	},
 	"recruit": {
-		"cost_base": 70,
-		"cost_per_level": 35,
+		"cost_base": 2000,
+		"cost_per_level": 1000,
 		"pool_size": 2,
 		"refresh_steps": 400,
 		"_comment_wares_on_show": "D146 (the designers' fortnight, F4): how many of a place's wares are laid out at once; Z turns to the next and B buys the one in hand.",
@@ -444,10 +445,10 @@
 	"home": {
 		"beds": [
 			{ "id": "straw", "display_name": "A straw pallet", "cost": 0, "vigour": 0 },
-			{ "id": "rope", "display_name": "A rope cot", "cost": 200, "vigour": 4 },
-			{ "id": "feather", "display_name": "A feather bed", "cost": 550, "vigour": 9 },
-			{ "id": "eiderdown", "display_name": "An eiderdown bed", "cost": 1300, "vigour": 15 },
-			{ "id": "canopy", "display_name": "A canopied bed", "cost": 2800, "vigour": 22 }
+			{ "id": "rope", "display_name": "A rope cot", "cost": 5000, "vigour": 4 },
+			{ "id": "feather", "display_name": "A feather bed", "cost": 15000, "vigour": 9 },
+			{ "id": "eiderdown", "display_name": "An eiderdown bed", "cost": 40000, "vigour": 15 },
+			{ "id": "canopy", "display_name": "A canopied bed", "cost": 90000, "vigour": 22 }
 		]
 	},
 	"renown": {
@@ -467,9 +468,9 @@
 			"cold_at": -3,
 			"cold": {
 				"chance": 0.6,
-				"bribe": 15,
+				"bribe": 400,
 				"text": ["We know what you did. We've nothing for you.", "You've a nerve, walking in here after that.", "Go on. Keep walking."],
-				"bribe_q": "Here. %d gold says we start again.",
+				"bribe_q": "Here. %s says we start again.",
 				"check": { "skill": "wits", "dc": 12 },
 				"check_q": "That wasn't the whole story. Hear me out.",
 				"leave": "Fair enough.",
@@ -512,8 +513,8 @@
 		}
 	},
 	"loot": {
-		"gold_base": 40,
-		"gold_spread": 60,
+		"gold_base": 1000,
+		"gold_spread": 1500,
 		"item_chance": 0.35,
 		"resale": 0.5,
 		"cache_chance": 0.04
@@ -569,14 +570,14 @@
 		"bar_width": 96,
 		"hurt_below": 0.6,
 		"low_below": 0.3,
-		"purse": "{gold} gold  ·  {draughts} to eat or drink",
+		"purse": "{gold}  ·  {draughts} to eat or drink",
 		"most_alerts": 4,
 		"alerts": {
 			"_comment": "D245 (after RimWorld's alerts): what wants attention, said under the company, most urgent first. hurt_below: the share of health under which someone counts as badly hurt. Each kind has text (on the panel) and detail (on hover); more is said when there are more than most_alerts.",
 			"hurt_below": 0.5,
 			"hurt": { "text": "{name} is badly hurt", "detail": "{hp} of {max} health. Rest at a village, an inn or a keep, or give them something to eat or drink from the packs (P)." },
 			"no_draughts": { "text": "Nothing in the packs to mend with", "detail": "No food or draughts to give the hurt. Bread and draughts are sold in towns." },
-			"held": { "text": "{name} is held for ransom", "detail": "{ransom} gold, or win them back by force. Press to follow the way there." },
+			"held": { "text": "{name} is held for ransom", "detail": "{ransom}, or win them back by force. Press to follow the way there." },
 			"siege": { "text": "{place} is under attack", "detail": "Get there and help hold it, or it may fall." },
 			"path": { "text": "{name} has a path to choose", "detail": "Press to open the party screen and choose it." },
 			"power": { "text": "{name} has a power to take", "detail": "Press to open the party screen and take it." },
@@ -622,11 +623,11 @@
 		}
 	},
 	"town": {
-		"purse_base": 120,
-		"purse_per_rank": 90,
+		"purse_base": 3000,
+		"purse_per_rank": 2300,
 		"threat_after_steps": 240,
 		"falls_after_steps": 900,
-		"defence_reward": 160
+		"defence_reward": 4000
 	},
 	"season": {
 		"steps_per_season": 120

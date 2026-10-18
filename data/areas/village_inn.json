@@ -38,7 +38,7 @@
                 15
             ],
             "line": "A traveller's pack left under the bench, and no traveller with it.",
-            "gold": 45,
+            "gold": 1000,
             "item": "knotted_cord"
         }
     ],
@@ -69,7 +69,7 @@
             ],
             "wander": 2,
             "chatter": [
-                "Forty for the room. Forty! I have slept in the field for nothing my whole life.",
+                "Ten silver for the room. Ten silver! I have slept in the field for nothing my whole life.",
                 "Mind the beam. Everyone says it after."
             ]
         },
@@ -559,7 +559,7 @@
         }
     ],
     "inn": {
-        "price": 40,
+        "price": 1000,
         "vigour": 4,
         "yours": 1,
         "kitchen": [

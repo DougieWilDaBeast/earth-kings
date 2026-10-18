@@ -83,7 +83,7 @@
       ],
       "line": "A pack nobody came back for. It has been here a while.",
       "art": "chest_iron",
-      "gold": 160,
+      "gold": 4000,
       "item": "soldiers_ring"
     },
     {
@@ -93,7 +93,7 @@
       ],
       "line": "Coin scattered where somebody dropped it running.",
       "art": "coin_pile",
-      "gold": 210
+      "gold": 5500
     },
     {
       "cell": [
@@ -102,7 +102,7 @@
       ],
       "line": "Past the grate, and nobody has been past the grate in a long time.",
       "art": "chest_gold",
-      "gold": 420,
+      "gold": 10500,
       "item": "black_feather"
     }
   ],

@@ -8,6 +8,7 @@ const CHARMS := [
 ]
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 
 static func tower_rules() -> Dictionary:
@@ -21,10 +22,10 @@ static func for_tower_floor(world: World, floor_number: int, party: Array) -> Ar
 	var lines: Array = []
 
 	# By the chapter, not the floor: a hundred floors priced by the floor would pay thousands a fight.
-	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 60)) * Chapters.chapter_of(floor_number), "gold")
+	var gold := Difficulty.scaled(int(rules.get("gold_per_floor", 1500)) * Chapters.chapter_of(floor_number), "gold")
 	world.tower_hoard += gold
-	lines.append("Floor %d yields %d gold. You are carrying %d out of here, if you get out." % [
-		floor_number, gold, world.tower_hoard
+	lines.append("Floor %d yields %s. You are carrying %s out of here, if you get out." % [
+		floor_number, Coins.text(gold), Coins.text(world.tower_hoard)
 	])
 
 	var every_doctrine := int(rules.get("doctrine_every", 3))
@@ -70,9 +71,9 @@ static func for_gate_floor(world: World, site: Site, party: Array) -> Array:
 ## Paid for shutting a gate for good.
 static func for_gate(world: World, site: Site, party: Array) -> Array:
 	var lines: Array = []
-	var gold := Difficulty.scaled(40 * (Site.rank_index(site.rank) + 1), "gold")
+	var gold := Difficulty.scaled(1000 * (Site.rank_index(site.rank) + 1), "gold")
 	GameState.gold += gold
-	lines.append("%s is shut. %d gold recovered." % [site.display_name, gold])
+	lines.append("%s is shut. %s recovered." % [site.display_name, Coins.text(gold)])
 
 	Renown.record(
 		world, Renown.GATE_SHUT, site.cell,

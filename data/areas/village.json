@@ -59,7 +59,7 @@
       ],
       "line": "A strongbox behind the firewood, and the lock already broken.",
       "art": "strongbox",
-      "gold": 85,
+      "gold": 2000,
       "item": "knotted_cord"
     },
     {
@@ -68,7 +68,7 @@
         12
       ],
       "line": "Somebody buried a jar under the fence and did not come back for it.",
-      "gold": 140
+      "gold": 3500
     }
   ],
   "props": [
@@ -435,7 +435,7 @@
           "hand_over": "Here's your stone.",
           "not_yet": "Not yet.",
           "done": "That's it! That's the one! ...It's warmer than I remember. Here. I found this in a goose. Don't ask which goose.",
-          "gold": 30,
+          "gold": 750,
           "item": "hearth_coin"
         },
         "bye": [
@@ -466,7 +466,7 @@
             "The fox looks at you, then at your purse, then pointedly away.",
             "The fox yawns, very wide, so you can see all of its teeth."
           ],
-          "bribe": 5,
+          "bribe": 150,
           "bribe_q": "Toss it a coin.",
           "won": "The coin vanishes. The fox sits, and waits, and seems to expect a question.",
           "won_flag": "fox:paid",
@@ -635,7 +635,7 @@
           },
           {
             "item": "whetstone",
-            "price": 60
+            "price": 1500
           }
         ],
         "shop": "Good honest iron. None of your shine.",

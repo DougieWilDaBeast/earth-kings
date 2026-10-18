@@ -9,6 +9,7 @@ extends RefCounted
 ## See `docs/04-data-formats.md` → `talk`. Loaded by path ([D41]).
 
 const Remembered := preload("res://src/chronicle/remembered.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 const END := "end"
 ## What the party says to leave, when the block gives nothing of its own.
@@ -127,7 +128,7 @@ static func _add_refusal(nodes: Dictionary, name_: String, refuse: Dictionary) -
 	var bribe := int(refuse.get("bribe", 0))
 	if bribe > 0:
 		options.append({
-			"text": str(refuse.get("bribe_q", "Would %d gold change your mind?" % bribe)),
+			"text": str(refuse.get("bribe_q", "Would %s change your mind?" % Coins.text(bribe))),
 			"requires_gold": bribe, "gold": -bribe, "goto": "won_over",
 		})
 	if refuse.has("check"):
@@ -156,7 +157,7 @@ static func _add_shop(nodes: Dictionary, name_: String, talk: Dictionary, sells:
 		var price := price_of(ware)
 		var bought_id := "bought%d" % index
 		options.append(_gated(ware, {
-			"text": "%s — %d gold" % [Gear.display_name(item), price],
+			"text": "%s — %s" % [Gear.display_name(item), Coins.text(price)],
 			"requires_gold": price, "gold": -price, "goto": bought_id,
 			"once": not bool(ware.get("restock", false)),
 		}))
@@ -173,9 +174,9 @@ static func _add_shop(nodes: Dictionary, name_: String, talk: Dictionary, sells:
 ## Mending the whole company for a price ([D176]): offered while anyone in it is hurt and the purse
 ## can pay; with nobody hurt, a look-over that costs nothing.
 static func _add_healing(nodes: Dictionary, menu: Array, name_: String, heal: Dictionary) -> void:
-	var price := maxi(1, roundi(float(heal.get("price", 40)) * Difficulty.dial("price")))
+	var price := maxi(1, roundi(float(heal.get("price", 1000)) * Difficulty.dial("price")))
 	menu.append({
-		"text": "%s — %d gold" % [str(heal.get("q", "Patch up my companions.")), price],
+		"text": "%s — %s" % [str(heal.get("q", "Patch up my companions.")), Coins.text(price)],
 		"requires_wounded": true, "requires_gold": price, "gold": -price, "heal": true, "goto": "healed",
 	})
 	menu.append({

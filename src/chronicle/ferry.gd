@@ -6,8 +6,10 @@ extends RefCounted
 ## deep bays and sounds costs hundreds of steps. A coastal settlement with access
 ## to deep water offers passage to other ports for a modest fare.
 
-const BASE_FARE := 25
-const FARE_PER_TILE := 0.6
+const Coins := preload("res://src/chronicle/coins.gd")
+
+const BASE_FARE := 600
+const FARE_PER_TILE := 15.0
 const PASSAGE_STEPS_RATIO := 0.4
 
 
@@ -64,7 +66,7 @@ static func sail(world: World, from: Site, to: Site) -> Dictionary:
 		return { "success": false, "line": "Nowhere to cast off for." }
 	var cost := fare(world, from, to)
 	if GameState.gold < cost:
-		return { "success": false, "line": "The boatman wants %d gold for passage, and you are short." % cost }
+		return { "success": false, "line": "The boatman wants %s for passage, and you are short." % Coins.text(cost) }
 	GameState.gold -= cost
 	var elapsed := passage_steps(from, to)
 	world.steps += elapsed

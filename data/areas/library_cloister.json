@@ -72,7 +72,7 @@
    ],
    "line": "A press of spare quires, ruled and never written on.",
    "art": "chest_iron",
-   "gold": 130,
+   "gold": 3500,
    "item": "knotted_cord"
   },
   {
@@ -82,7 +82,7 @@
    ],
    "line": "The almoner's box. It is not locked, which says something about the house.",
    "art": "chest_silver",
-   "gold": 220,
+   "gold": 5500,
    "item": "hearth_coin"
   }
  ],

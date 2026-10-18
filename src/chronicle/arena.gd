@@ -12,6 +12,7 @@ extends RefCounted
 ## destroyed and rebuilt every time a wave starts.
 
 const SaveFile := preload("res://src/chronicle/save_file.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 ## Written down between sessions: how far anyone has ever got.
 const PATH := "user://earth-kings.arena.json"
@@ -120,7 +121,7 @@ static func close() -> void:
 		if GameState.world != null:
 			Renown.record(
 				GameState.world, "tournament_won", GameState.world.player_cell, 4,
-				"won %d gold in the arena tournament" % earned_purse,
+				"won %s in the arena tournament" % Coins.text(earned_purse),
 				"won the arena tournament"
 			)
 
@@ -183,7 +184,7 @@ static func lost() -> void:
 
 
 static func reward(number: int) -> int:
-	var base := float(rules().get("purse_per_round", 60))
+	var base := float(rules().get("purse_per_round", 1500))
 	var growth := pow(float(rules().get("purse_growth", 1.35)), float(number - 1))
 	return roundi(base * growth * wager_multiplier())
 

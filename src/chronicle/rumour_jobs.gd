@@ -71,7 +71,7 @@ static func _job(rumour: Dictionary, world: World, site: Site) -> Dictionary:
 			job["target"] = str(survivor["unit"])
 			job["target_name"] = str(survivor.get("name", survivor["unit"]))
 			job["count"] = 1
-			job["gold"] = int(Errand.rules().get("bounty_reward", 130))
+			job["gold"] = int(Errand.rules().get("bounty_reward", 3500))
 			fill = {"name": job["target_name"], "place": str(survivor.get("place", "the frontier"))}
 		"gate", "siege":
 			var there: Site = rumour["site"]

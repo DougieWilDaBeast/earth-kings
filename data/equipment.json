@@ -33,7 +33,7 @@
 		"kind": "blade",
 		"suits": ["sworn_blade", "magic_swordsman", "raider"],
 		"attack": 3,
-		"price": 90
+		"price": 2000
 	},
 	"steel_blade": {
 		"display_name": "Steel Blade",
@@ -41,7 +41,7 @@
 		"kind": "blade",
 		"suits": ["sworn_blade", "magic_swordsman", "raider"],
 		"attack": 6,
-		"price": 210
+		"price": 5500
 	},
 	"silver_blade": {
 		"display_name": "Silver Blade",
@@ -50,7 +50,7 @@
 		"suits": ["sworn_blade", "magic_swordsman"],
 		"attack": 8,
 		"defense": 1,
-		"price": 380
+		"price": 10000
 	},
 	"ember_blade": {
 		"proof": ["cold"],
@@ -59,7 +59,7 @@
 		"kind": "blade",
 		"suits": ["magic_swordsman"],
 		"attack": 11,
-		"price": 620
+		"price": 17000
 	},
 	"rune_blade": {
 		"display_name": "Rune Blade",
@@ -68,7 +68,7 @@
 		"suits": ["magic_swordsman", "hedge_priest"],
 		"attack": 9,
 		"defense": 2,
-		"price": 700
+		"price": 20000
 	},
 	"thorn_blade": {
 		"display_name": "Thorn Blade",
@@ -76,7 +76,7 @@
 		"kind": "blade",
 		"suits": ["raider", "wildling"],
 		"attack": 10,
-		"price": 540
+		"price": 14000
 	},
 	"gilt_blade": {
 		"display_name": "Gilt Blade",
@@ -85,7 +85,7 @@
 		"suits": ["sworn_blade"],
 		"attack": 12,
 		"defense": 1,
-		"price": 820
+		"price": 25000
 	},
 	"storm_blade": {
 		"display_name": "Storm Blade",
@@ -93,7 +93,7 @@
 		"kind": "blade",
 		"suits": ["magic_swordsman", "wildling"],
 		"attack": 13,
-		"price": 950
+		"price": 30000
 	},
 
 	"hunting_bow": {
@@ -102,7 +102,7 @@
 		"kind": "bow",
 		"suits": ["longbow", "wildling"],
 		"attack": 4,
-		"price": 120
+		"price": 2800
 	},
 	"horn_bow": {
 		"display_name": "Horn Bow",
@@ -110,7 +110,7 @@
 		"kind": "bow",
 		"suits": ["longbow", "wildling"],
 		"attack": 7,
-		"price": 300
+		"price": 7500
 	},
 	"yew_longbow": {
 		"display_name": "Yew Longbow",
@@ -118,7 +118,7 @@
 		"kind": "bow",
 		"suits": ["longbow"],
 		"attack": 11,
-		"price": 660
+		"price": 18000
 	},
 
 	"orrery_staff": {
@@ -128,7 +128,7 @@
 		"suits": ["hedge_priest", "magic_swordsman"],
 		"attack": 5,
 		"defense": 1,
-		"price": 180
+		"price": 4000
 	},
 	"lantern_staff": {
 		"display_name": "Lantern Staff",
@@ -137,7 +137,7 @@
 		"suits": ["hedge_priest"],
 		"attack": 6,
 		"defense": 2,
-		"price": 290
+		"price": 7000
 	},
 	"skull_staff": {
 		"display_name": "Skull Staff",
@@ -145,7 +145,7 @@
 		"kind": "staff",
 		"suits": ["hedge_priest"],
 		"attack": 9,
-		"price": 470
+		"price": 12000
 	},
 	"frost_staff": {
 		"proof": ["heat"],
@@ -155,7 +155,7 @@
 		"suits": ["hedge_priest", "magic_swordsman"],
 		"attack": 10,
 		"defense": 1,
-		"price": 610
+		"price": 16000
 	},
 	"comet_staff": {
 		"display_name": "Comet Staff",
@@ -163,7 +163,7 @@
 		"kind": "staff",
 		"suits": ["hedge_priest"],
 		"attack": 13,
-		"price": 880
+		"price": 28000
 	},
 
 	"padded_coat": {
@@ -172,7 +172,7 @@
 		"icon": "armour/armour_amber_coat",
 		"kind": "armour",
 		"defense": 3,
-		"price": 80
+		"price": 1800
 	},
 	"scale_shirt": {
 		"display_name": "Scale Shirt",
@@ -180,7 +180,7 @@
 		"kind": "armour",
 		"suits": ["sworn_blade", "raider", "magic_swordsman"],
 		"defense": 6,
-		"price": 240
+		"price": 6000
 	},
 	"bark_harness": {
 		"display_name": "Bark Harness",
@@ -188,7 +188,7 @@
 		"kind": "armour",
 		"suits": ["wildling", "longbow"],
 		"defense": 5,
-		"price": 200
+		"price": 5000
 	},
 	"filigree_plate": {
 		"display_name": "Filigree Plate",
@@ -196,7 +196,7 @@
 		"kind": "armour",
 		"suits": ["sworn_blade"],
 		"defense": 9,
-		"price": 520
+		"price": 14000
 	},
 	"gilded_plate": {
 		"display_name": "Gilded Plate",
@@ -205,7 +205,7 @@
 		"suits": ["sworn_blade", "raider"],
 		"defense": 12,
 		"attack": 1,
-		"price": 780
+		"price": 24000
 	},
 	"feather_mail": {
 		"proof": ["cold"],
@@ -214,7 +214,7 @@
 		"kind": "armour",
 		"suits": ["longbow", "wildling", "hedge_priest"],
 		"defense": 7,
-		"price": 400
+		"price": 10000
 	},
 	"halo_robe": {
 		"proof": ["heat"],
@@ -224,7 +224,7 @@
 		"suits": ["hedge_priest"],
 		"defense": 8,
 		"attack": 2,
-		"price": 690
+		"price": 19000
 	},
 	"owl_helm": {
 		"display_name": "Owl Helm",
@@ -232,7 +232,7 @@
 		"kind": "armour",
 		"suits": ["sworn_blade", "longbow"],
 		"defense": 4,
-		"price": 160
+		"price": 4000
 	},
 
 	"whetstone": {
@@ -292,7 +292,7 @@
 		"icon": "bread",
 		"kind": "draught",
 		"mends": 20,
-		"price": 30,
+		"price": 50,
 		"text": "Ada will not say what meat. Ada will say it is hot."
 	},
 	"honey_cake": {
@@ -300,7 +300,7 @@
 		"icon": "bread",
 		"kind": "draught",
 		"mends": 12,
-		"price": 16,
+		"price": 15,
 		"text": "Sticky, sweet, and gone before you have decided to save it."
 	},
 	"cheese": {
@@ -308,7 +308,7 @@
 		"icon": "cheese",
 		"kind": "draught",
 		"mends": 18,
-		"price": 28,
+		"price": 40,
 		"text": "Keeps for a month and tastes like it."
 	},
 	"apple": {
@@ -316,7 +316,7 @@
 		"icon": "apple",
 		"kind": "draught",
 		"mends": 10,
-		"price": 12,
+		"price": 8,
 		"text": "Somebody's orchard, and nobody asked whose."
 	},
 	"herbs": {
@@ -324,7 +324,7 @@
 		"icon": "herbs",
 		"kind": "draught",
 		"mends": 24,
-		"price": 45,
+		"price": 150,
 		"text": "Chewed, not brewed. It works faster and it is worse."
 	},
 	"ale_flask": {
@@ -332,7 +332,7 @@
 		"icon": "ale_barrel",
 		"kind": "draught",
 		"mends": 16,
-		"price": 26,
+		"price": 30,
 		"text": "Warm, flat, and the best part of somebody's day."
 	},
 	"red_draught": {
@@ -340,7 +340,7 @@
 		"icon": "potion_red",
 		"kind": "draught",
 		"mends": 40,
-		"price": 95,
+		"price": 2000,
 		"text": "The common one. Every apothecary from here to the coast sells it."
 	},
 	"blue_draught": {
@@ -348,7 +348,7 @@
 		"icon": "potion_blue",
 		"kind": "draught",
 		"mends": 65,
-		"price": 170,
+		"price": 4500,
 		"text": "Cold going down, and it keeps working after you have stopped noticing."
 	},
 	"green_draught": {
@@ -356,7 +356,7 @@
 		"icon": "potion_green",
 		"kind": "draught",
 		"mends": 90,
-		"price": 280,
+		"price": 8000,
 		"text": "Tastes of a hedgerow after rain. Nobody will say what is in it."
 	},
 	"amber_draught": {
@@ -364,7 +364,7 @@
 		"icon": "potion_amber",
 		"kind": "draught",
 		"mends": 140,
-		"price": 460,
+		"price": 16000,
 		"text": "In a bottle worth more than the road you found it on."
 	},
 	"oathkeeper": {

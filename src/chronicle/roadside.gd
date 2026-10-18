@@ -16,6 +16,8 @@ extends RefCounted
 ## Pure logic over `data/roadside.json`. Everything is kept on [World] so it
 ## saves and reloads with the country it happened in.
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 ## How far a route pays for, in steps, before the arrangement lapses.
 const ROUTE_LIFE := 900
 
@@ -129,9 +131,9 @@ static func walk_by(world: World, cell: Vector2i, event_id: String) -> Array:
 static func watch_thanks(world: World, cell: Vector2i, party: Array) -> Array:
 	var watch: Dictionary = Database.world_rules.get("life", {}).get("road_watch", {})
 	var lines: Array = watch.get("thanks", []).duplicate()
-	var purse := int(watch.get("purse_base", 25)) + int(watch.get("purse_per_level", 10)) * Encounter.party_level(party)
+	var purse := int(watch.get("purse_base", 650)) + int(watch.get("purse_per_level", 250)) * Encounter.party_level(party)
 	GameState.gold += purse
-	lines.append(str(watch.get("purse_line", "%d gold: the Watch's bounty.")) % purse)
+	lines.append(str(watch.get("purse_line", "%s: the Watch's bounty.")) % Coins.text(purse))
 	var what := "fought a band off the road beside the Watch"
 	Renown.record(world, "thread", cell, int(watch.get("renown", 2)), what, what)
 	return lines
@@ -143,10 +145,10 @@ static func saved(world: World, cell: Vector2i, event_id: String, party: Array) 
 	var data := event(event_id)
 	var lines: Array = data.get("saved", []).duplicate()
 
-	var purse := int(rules().get("purse_base", 55)) \
-		+ int(rules().get("purse_per_level", 22)) * Encounter.party_level(party)
+	var purse := int(rules().get("purse_base", 1400)) \
+		+ int(rules().get("purse_per_level", 550)) * Encounter.party_level(party)
 	GameState.gold += purse
-	lines.append(str(data.get("purse_line", "There is %d gold in it, counted out on the boards.")) % purse)
+	lines.append(str(data.get("purse_line", "There is %s in it, counted out on the boards.")) % Coins.text(purse))
 
 	var what := "pulled somebody off the road at %s" % _place(world, cell)
 	Renown.record(world, "thread", cell, int(rules().get("renown_saved", 3)), what, what)
@@ -242,8 +244,8 @@ static func on_arrive(world: World, site: Site, party: Array) -> Array:
 	if to == null or to.cell != site.cell:
 		return _check_patience(world)
 
-	var paid := int(rules().get("delivery_base", 90)) \
-		+ int(rules().get("delivery_per_level", 30)) * Encounter.party_level(party)
+	var paid := int(rules().get("delivery_base", 2250)) \
+		+ int(rules().get("delivery_per_level", 750)) * Encounter.party_level(party)
 	GameState.gold += paid
 
 	var from_pair: Array = world.escort.get("from", [site.cell.x, site.cell.y])
@@ -252,7 +254,7 @@ static func on_arrive(world: World, site: Site, party: Array) -> Array:
 
 	var lines: Array = [
 		"%s takes them in, and they are somebody's problem but yours now." % site.display_name,
-		"They pay you %d gold, and mean the rest of it." % paid,
+		"They pay you %s, and mean the rest of it." % Coins.text(paid),
 	]
 	lines.append_array(_open_route(world, from, site))
 	var what := "saw somebody safely into %s" % site.display_name
@@ -277,7 +279,7 @@ static func _check_patience(world: World) -> Array:
 ## An arrangement between two places, paying a little at every upkeep. The
 ## oldest is dropped when there are too many: goodwill does not stack forever.
 static func _open_route(world: World, from: Vector2i, to: Site) -> Array:
-	var pay := int(rules().get("route_pay", 18))
+	var pay := int(rules().get("route_pay", 450))
 	world.routes.append({
 		"to": [to.cell.x, to.cell.y],
 		"from": [from.x, from.y],
@@ -290,10 +292,10 @@ static func _open_route(world: World, from: Vector2i, to: Site) -> Array:
 	while world.routes.size() > cap:
 		dropped = str(world.routes[0].get("name", ""))
 		world.routes.pop_front()
-	Annals.record(world, "A commercial road opened to %s (%d gold per upkeep)." % [to.display_name, pay])
+	Annals.record(world, "A commercial road opened to %s (%s per upkeep)." % [to.display_name, Coins.text(pay)])
 	var lines: Array = [
-		"A road you can send goods down. %s pays %d a season, so long as it lasts." % [
-			to.display_name, pay
+		"A road you can send goods down. %s pays %s a season, so long as it lasts." % [
+			to.display_name, Coins.text(pay)
 		]
 	]
 	if dropped != "":
@@ -318,7 +320,7 @@ static func upkeep(world: World) -> Array:
 		lines.append("The %s road stops paying. These things run their course." % route.get("name", ""))
 	if takings > 0:
 		GameState.gold += takings
-		lines.append("%d gold comes in off the roads." % takings)
+		lines.append("%s comes in off the roads." % Coins.text(takings))
 	return lines
 
 
@@ -326,7 +328,7 @@ static func upkeep(world: World) -> Array:
 static func summary(world: World) -> Array:
 	var lines: Array = []
 	for route: Dictionary in world.routes:
-		lines.append("%s  —  %d a season" % [route.get("name", ""), int(route.get("pay", 0))])
+		lines.append("%s  —  %s a season" % [route.get("name", ""), Coins.text(int(route.get("pay", 0)))])
 	return lines
 
 

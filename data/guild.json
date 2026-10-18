@@ -1,7 +1,7 @@
 {
 	"contract": {
-		"gold_base": 60,
-		"gold_per_rank": 90,
+		"gold_base": 1500,
+		"gold_per_rank": 2500,
 		"giver": "the Adventurers Guild"
 	},
 	"muster": {
@@ -16,23 +16,23 @@
 		"max_allies": 4,
 		"ally_level_bonus": 1,
 		"units": ["keep_watchman", "legion_copper", "castellan", "brigand_archer"],
-		"gold": 240
+		"gold": 6000
 	},
 	"map": {
-		"price": 50,
+		"price": 1200,
 		"radius": 18,
 		"max_marks": 5,
 		"marks": ["village", "keep", "library", "hut", "gate"],
 		"lines": {
 			"offer": "A map of the country round {hall}: the lie of the land, and the places the clerk thinks worth knowing.",
 			"owned": "You have copied the map of the country round {hall}.",
-			"button": "Buy the map ({price} gold)",
-			"bought": "The clerk rolls out a map of the country round {hall} and you copy it into yours for {price} gold. {places}",
+			"button": "Buy the map ({price})",
+			"bought": "The clerk rolls out a map of the country round {hall} and you copy it into yours for {price}. {places}",
 			"marked": "Marked on it: {places}.",
 			"nothing_marked": "Nothing on it you did not know of, but the ground is drawn in.",
 			"nothing_new": "The clerk's map of the country round {hall} shows nothing yours does not.",
 			"already": "You have already copied the map at {hall}.",
-			"poor": "The map is {price} gold, and you do not have it."
+			"poor": "The map is {price}, and you do not have it."
 		}
 	},
 	"states": {
@@ -44,7 +44,7 @@
 		"welcome": "The Guild hall at {hall}. A board of gates, ranked worst first, and a clerk who has seen too many of them.",
 		"empty": "Every gate the Guild knows of is shut. The clerk looks almost disappointed.",
 		"no_hall": "There is no Guild hall here.",
-		"taken": "The clerk writes it down: the company is to shut {gate}. {gold} gold when it is done.",
+		"taken": "The clerk writes it down: the company is to shut {gate}. {gold} when it is done.",
 		"full": "You have as much work in hand as anyone should. Finish something first.",
 		"already": "That one is already yours.",
 		"not_open": "{gate} is not open yet. The Guild does not pay for gates nobody can walk into.",

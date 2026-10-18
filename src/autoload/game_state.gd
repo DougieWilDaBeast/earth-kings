@@ -13,9 +13,9 @@ const SAVE_PATH := "user://earth-kings.save.json"
 ## 3: alignment retired in favour of creeds, and the four other authored history
 ## pools added, so a v2 character carries ids that no longer resolve.
 ## Raising this needs a step in `src/chronicle/save_migrations.gd` ([D56]).
-const SAVE_VERSION := 3
+const SAVE_VERSION := 4
 
-const DEFAULT_GOLD := 250
+const DEFAULT_GOLD := 6000
 
 var world: World
 var roster: Roster

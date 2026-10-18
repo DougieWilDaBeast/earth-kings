@@ -4,12 +4,14 @@
     python3 tools/economy/proposed_prices.py            -> docs/26-coins-and-prices.md
 
 Every amount is in copper: 100 copper a silver, 100 silver a gold, 100 gold a
-platinum (D177; first proposed with bronze as the smallest coin, D89). Nothing
-here is in data/ yet: once the prices are checked they are written into the
-data files and the game shows them in coins.
+platinum (D177; first proposed with bronze as the smallest coin, D89). Written
+into data/ by tools/economy/to_coins.py on 2026-10-18 (D253); its "Was" column
+reads data/equipment.json, which is copper since, so this is the record of that
+table and is not run again. Change a price in data/ now.
 Standard library only.
 """
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -178,6 +180,8 @@ def markdown(table: dict) -> str:
 
 
 if __name__ == "__main__":
+    if "_coins" in (ROOT / "data" / "world_rules.json").read_text(encoding="utf-8"):
+        sys.exit("proposed_prices: data/ is in coins already (D253); this table is a record now")
     table = rows()
     (ROOT / "docs" / "26-coins-and-prices.md").write_text(markdown(table), encoding="utf-8")
     (Path(__file__).parent / "proposed_prices.json").write_text(json.dumps(table, indent=1), encoding="utf-8")
