@@ -1070,7 +1070,7 @@ func _check_a_roadside_fight_on_the_ground() -> void:
 
 
 ## D246 (play-test 6): at 5x the camera's smoothing overshot, swung back further every frame
-## ("jumping the screen left and right") and flew off for good (a black screen). Followed back and
+## ("Jumping the screen left and right") and flew off for good (a black screen). Followed back and
 ## forth at 5x, it stays on what it follows.
 func _check_the_camera_at_speed() -> void:
 	var rig: Camera2D = load("res://src/ui/camera_rig.gd").new()

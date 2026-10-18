@@ -1107,7 +1107,7 @@ func _fog_the_place() -> void:
 
 
 ## A company resting on a Tower floor sits round a small fire of its own ([D246], play-test 6:
-## "they're just standing there doing nothing"), and faces it.
+## "They are literally just standing there with icons above their head."), and faces it.
 func _light_the_climbers_fire() -> void:
 	if _climbers_rest_at.is_empty():
 		return
