@@ -1527,6 +1527,29 @@
 		"body_scale": 1.5,
 		"sprite_dir": "res://art/big/tower_warden/idle"
 	},
+	"tenth_keeper": {
+		"display_name": "The Keeper of the Tenth",
+		"_doc": "D254: the keeper at the foot of the tenth floor's stair, which ends the Second Hour as the Warden of the Fifth ends the first. A stand-in look (the colossal titan's) until its own is drawn (docs/24, A36). **Inferred**: name, look and numbers.",
+		"job": "Keeper",
+		"max_hp": 110,
+		"attack": 19,
+		"defense": 11,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"cleave",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8b0f0",
+		"body_scale": 1.6,
+		"sprite_dir": "res://art/big/colossal_titan/idle"
+	},
 	"ooze_knight": {
 		"display_name": "The Amber Knight",
 		"job": "Wild",

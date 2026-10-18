@@ -529,7 +529,7 @@ func _check_tower() -> void:
 	if not climb.is_empty() and climb["key"] == "area":
 		_expect(int(climb["payload"]["tower_floor"]) == 1 and Database.has_area(str(climb["payload"]["area_id"])),
 				"the Tower opened onto the wrong floor: %s" % [climb["payload"]])
-	for n in range(1, 6):
+	for n in range(1, 11):
 		var floor_area := Chapters.walked_floor_area(n)
 		_expect(floor_area != "", "floor %d of the Tower is not walked" % n)
 		var data := Database.area(floor_area)
@@ -537,10 +537,27 @@ func _check_tower() -> void:
 		var bands: Array = data.get("bands", [])
 		_expect(not bands.is_empty() and bands.all(func(b: Dictionary) -> bool: return bool(b.get("held", false))),
 				"floor %d has nobody on it to fight for real" % n)
-		if n == 5:
-			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor 5 has no keeper")
+		if n == 5 or n == 10:
+			_expect(bands.any(func(b: Dictionary) -> bool: return bool(b.get("boss", false))), "floor %d has no keeper" % n)
+		_expect(n == 5 or n == 10 or not Chapters.ends_chapter(world, n), "floor %d ends a chapter" % n)
+	# The Second Hour (D254): floors 6 to 10 have ground of their own, but their bands are the floor's
+	# foes, all but the Keeper of the Tenth, who keeps its shape and is never below them.
+	for n in range(6, 11):
+		_expect(Chapters.walked_floor_area(n) == "tower_floor_%d" % n and not Chapters.borrows_a_plan(n),
+				"floor %d is not walked on its own ground" % n)
+		var stocked_here: Array = TowerFloors.restock(Database.area("tower_floor_%d" % n).get("bands", []), world, n, GameState.party_characters())
+		var keepers := stocked_here.filter(func(b: Dictionary) -> bool: return bool(b.get("boss", false)))
+		_expect(keepers.size() == (1 if n == 10 else 0), "floor %d has the wrong keepers: %s" % [n, keepers])
+		for b: Dictionary in stocked_here:
+			_expect(bool(b.get("held", false)) and not (b.get("pack", []) as Array).is_empty(), "floor %d has a band nobody holds: %s" % [n, b])
+		if n == 10 and keepers.size() == 1:
+			_expect(keepers[0]["key"] == "tower10_keeper" and (keepers[0]["pack"] as Array).has("tenth_keeper"),
+					"the tenth floor's keeper is not the Keeper of the Tenth: %s" % [keepers[0]])
+			var others := stocked_here.filter(func(b: Dictionary) -> bool: return not bool(b.get("boss", false)))
+			for b: Dictionary in others:
+				_expect(int(keepers[0]["level"]) > int(b.get("level", 1)), "the Keeper of the Tenth is below its floor's foes")
 	# Every floor above is walked too, on a borrowed plan (D207), with bands of its own.
-	for n: int in [6, 9, 10, 37, world.tower_floors()]:
+	for n: int in [11, 14, 15, 37, world.tower_floors()]:
 		var plan := Chapters.walked_floor_area(n)
 		_expect(plan != "" and plan != Chapters.walked_floor_area(5) and Chapters.borrows_a_plan(n),
 				"floor %d is not walked on a borrowed plan (%s)" % [n, plan])

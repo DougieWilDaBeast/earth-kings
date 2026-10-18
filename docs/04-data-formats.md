@@ -692,7 +692,8 @@ keeper's band key, `tower5_keeper`), `speaker` (the name in the box), `ordinals`
 to sixteenth), `first_line` (the first life's), `line` (every later life's) and `last_line` (the
 sixteenth's); `{ordinal}` is the word and `{name}` the lead. Which challenger a lead is comes from the
 leads already fallen (`Sixteen.fallen_heroes`, kept outside the save, [D47](06-decisions.md)); read by
-`FirstHour.warden_line`, shown by `area_scene._fight_held`.
+`FirstHour.warden_line`, shown by `area_scene._fight_held`. `tenth_keeper` is the same for the Keeper of
+the Tenth on floor 10 (`tower10_keeper`, [D254](06-decisions.md)).
 
 ## `world_rules.json` → `difficulty` — settings (D104)
 
@@ -742,7 +743,10 @@ fought for real on that ground ([D102](06-decisions.md)): the continent settles 
 the line said); `boss` makes its first unit a keeper. The Tower's walked floors hold these, and a
 `stairs` list of cells: on an area opened with `tower_floor` in its payload, standing on one wins
 that floor. `world_rules.json` → `tower.walked_floors` (5) and `walked_area` (`tower_floor_%d`)
-say which floors have ground of their own. Every floor above is walked too ([D207](06-decisions.md)), on
+say which floors have ground of their own (10 since the Second Hour, [D254](06-decisions.md); floor 10's
+keeper is the Keeper of the Tenth). From `own_bands_from` (6) up, a floor with ground of its own has its
+bands restocked the same way as a borrowed one's below, all but its keeper, which keeps its shape at two
+levels over the floor's foes at least. Every floor above is walked too ([D207](06-decisions.md)), on
 one of their plans in turn (`borrowed_plans`, [1, 2, 3, 4]: floor 5's is left out for its Warden),
 its bands restocked by `src/chronicle/tower_floors.gd` with keys and flags of their own
 (`tower<floor>_a`, `done:tower<floor>_a`) and never fewer foes than the plan's band had; no
@@ -801,7 +805,9 @@ ways a party walks itself (`aggressive`, `mixed`, `passive`; `Pace.auto_style`, 
 Keyed by lead (`atlas`), a list of memories in chapter order: `id`, `chapter`, `title`, `object` (what
 it is), `area` and `cell` (where it lies), `art` (the prop drawn there), `scene` (lines, each
 `{ speaker, text }`, played when it is picked up) and `journal` (the line written under _What has
-come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memory:<id>` flags.
+come back_). Read by `src/chronicle/memories.gd`; found ones are the run's `memory:<id>` flags. Chapter
+one lies on floor 5 for every lead; chapter two (`<lead>_2`) on one of floors 6 to 10 ([D254](06-decisions.md)),
+written from the drafts by `tools/chapter_twos.py`, with where it lies taken from `tools/build_tower_floors.py`.
 
 ## `crossings.json` — gates as crossings between the worlds (D152)
 

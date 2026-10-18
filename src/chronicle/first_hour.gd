@@ -159,9 +159,14 @@ static func challenger(lead_id: String) -> int:
 ## What the floor 5 keeper says as the fight with band [param band_key] begins (D184): the
 ## challenger it counts [param lead_id] as, by [param lead_name]. {} for any other band, or with no
 ## `first_hour.warden` in the rules; otherwise `{speaker, text}`, a line for the conversation box.
+## The Keeper of the Tenth (`first_hour.tenth_keeper`, [D254]) speaks the same way.
 static func warden_line(band_key: String, lead_id: String, lead_name: String) -> Dictionary:
-	var rules: Dictionary = Database.world_rules.get("first_hour", {}).get("warden", {})
-	if rules.is_empty() or band_key == "" or band_key != str(rules.get("band", "")):
+	var rules: Dictionary = {}
+	for key: String in ["warden", "tenth_keeper"]:
+		var keeper: Dictionary = Database.world_rules.get("first_hour", {}).get(key, {})
+		if band_key != "" and band_key == str(keeper.get("band", "")):
+			rules = keeper
+	if rules.is_empty():
 		return {}
 	var ordinals: Array = rules.get("ordinals", [])
 	var count := challenger(lead_id)

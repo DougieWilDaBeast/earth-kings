@@ -1,5 +1,5 @@
 {
-	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft; Cato's (the quiz's most common second lead) is the 2026-10-15 draft Will kept, in the same alcove, which only he finds; Janus, Bellona, Cassius, Saturn, Pluto, Ultor and Liber, the leads with enough founder material (Will, 2026-10-15), lie there too (D138), and so do Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana, drafted from Will's three inspiration volumes and rewritten by the creatives' meeting (D151), so all sixteen have one; the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open.",
+	"_doc": "D103: every five floors a lead finds something in the Tower that gives a chapter of who they were back (D53). Each memory is a found object: `area` and `cell` say where it lies (on the way to the stair, and the compass points at it first, D107), `art` the prop drawn there (a stand-in until art request A10 is made), `scene` the lines played when it is picked up, and `journal` the line written into the journal's Quests page. Only the lead it belongs to finds it. Read by src/chronicle/memories.gd. Atlas's chapter one is the meeting 2 draft; Cato's (the quiz's most common second lead) is the 2026-10-15 draft Will kept, in the same alcove, which only he finds; Janus, Bellona, Cassius, Saturn, Pluto, Ultor and Liber, the leads with enough founder material (Will, 2026-10-15), lie there too (D138), and so do Ares, Caesar, Vesta, Iris, Ceres, Juno and Diana, drafted from Will's three inspiration volumes and rewritten by the creatives' meeting (D151), so all sixteen have one; the working draft (call F); **Inferred** and the founders' to rewrite; the faces stay blank while CH10 is open. Chapter two (D254, the Second Hour) lies on floors 6 to 10, one keepsake a lead, written from the chapter-two drafts by tools/chapter_twos.py; **Inferred** too.",
 	"atlas": [
 		{
 			"id": "atlas_1",
@@ -51,6 +51,57 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a courtyard, and a voice, and that Sky was a gift. I don't remember who gave it."
+		},
+		{
+			"id": "atlas_2",
+			"chapter": 2,
+			"title": "Chapter two: The Last Page",
+			"object": "a torn page corner: carried",
+			"area": "tower_floor_6",
+			"cell": [
+				3,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Pinned under a loose stone on the landing: the torn corner of a page, the ink gone brown, one word left on it. _Carried._"
+				},
+				{
+					"speaker": "",
+					"text": "Atlas reads it before he means to, the way he reads everything, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Lamplight on shelves that climb out of sight, white stone to the ceiling, before the fall. He is small enough to sit in the reading chair with his feet off the floor. Someone is reading to him from a very old book."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Sixteen go down. Some climb back. At the top they are made to fight each other, until one is left. That's the end. That's always been the end."
+				},
+				{
+					"speaker": "Atlas",
+					"text": "Then I'll go. Somebody should know the ending, and still be there when it comes."
+				},
+				{
+					"speaker": "",
+					"text": "The voice closes the book and does not argue, as if it knew he would say it. He tries to see whose hands are on the cover. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Atlas wakes on the sixth floor with the scrap in his fist and knows one thing he did not know before: he was not sent down. He asked to go, because he had read to the last page, and he went to change it."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Last Page."
+				}
+			],
+			"journal": "Floor 6. I remembered a library, and the end of a story with sixteen in it. The ones who climb are set against each other at the top. I asked to go down anyway."
 		}
 	],
 	"cato": [
@@ -108,6 +159,65 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a list I wrote for if it went wrong. The first rule was find the others. Somebody wiped the last one before I could read it."
+		},
+		{
+			"id": "cato_2",
+			"chapter": 2,
+			"title": "Chapter two: The Roll",
+			"object": "a wax tablet's frame, a line scored in the wood",
+			"area": "tower_floor_10",
+			"cell": [
+				6,
+				8
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Face-down on the bench by the keeper's door: the frame of a wax tablet, the wax long gone. Something is scored into the bare wood where a stylus once went through."
+				},
+				{
+					"speaker": "",
+					"text": "Cato reads it with his thumb, as he would a seal, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Inside a wall of white stone, the night it held, before the fall. Cato sits at a table by the gate with a lamp and the roll, writing down every name that comes in off the road."
+				},
+				{
+					"speaker": "",
+					"text": "A whistle. The gate comes down. And under it, last, on his belly, a boy with a knife in his teeth. Not on any roll."
+				},
+				{
+					"speaker": "",
+					"text": "Cato writes him in at the bottom, as the boy says it: _Ultor. Came in under the gate. Will not forgive it._"
+				},
+				{
+					"speaker": "A voice",
+					"text": "Leave that one off. Let him be nobody. Nobody hunts a nobody."
+				},
+				{
+					"speaker": "Cato",
+					"text": "Everyone goes on the roll. That's what a roll is for."
+				},
+				{
+					"speaker": "",
+					"text": "The voice takes the tablet from him, gently, and he lets it. He tries to see whose face it is. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Cato wakes on the tenth floor with the frame in his fist and knows one thing he did not know before: he wrote Ultor's name down before he ever hunted him. Somebody he trusted wanted that boy forgotten, to keep him safe, and Cato would not let him be."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Roll."
+				}
+			],
+			"journal": "Floor 10. I remembered a gate, and a roll of names, and a boy who came in under it last. I wrote him down: Ultor. Someone wanted him left off. The last line of the list is still gone."
 		}
 	],
 	"janus": [
@@ -165,6 +275,65 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a door I slept against, and a promise to get up for the hard ones. I don't remember who I promised."
+		},
+		{
+			"id": "janus_2",
+			"chapter": 2,
+			"title": "Chapter two: The Other Side",
+			"object": "a blank key with no teeth",
+			"area": "tower_floor_8",
+			"cell": [
+				21,
+				2
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Balanced on the sill of the one doorway nobody bricked up: a key with no teeth, never cut, the bow worn smooth by somebody's thumb."
+				},
+				{
+					"speaker": "",
+					"text": "Janus tries it in the air, in no lock at all, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "The shut door from before, the night after he promised, and for once he is awake. He opens it. It was never locked; it was only heavy."
+				},
+				{
+					"speaker": "",
+					"text": "Behind it is a round room of white stone with sixteen more doors in its wall, every one shut, every one humming like a hive."
+				},
+				{
+					"speaker": "A voice",
+					"text": "One for each of you. Each one stays shut while its keeper lives. When one dies, theirs opens, and everything behind it can come through."
+				},
+				{
+					"speaker": "Janus",
+					"text": "And this room? Whose is this?"
+				},
+				{
+					"speaker": "A voice",
+					"text": "Nobody's. That's why I'm giving it to you."
+				},
+				{
+					"speaker": "",
+					"text": "The voice puts a blank key in his hand and leaves him there. He tries to see whose face it is. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Janus wakes on the eighth floor with the key in his fist and knows one thing he did not know before: the gates down here are those doors, and the room between them was given to him. The promise was not to get up. It was to keep watch on the doors."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Other Side."
+				}
+			],
+			"journal": "Floor 8. I remembered opening the door at last. Behind it, sixteen more, one for each of us, shut until one of us dies. Somebody gave me the room in the middle, and a key that fits nothing yet."
 		}
 	],
 	"bellona": [
@@ -222,6 +391,65 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a gate, and people still on the road, and that I shut it. I would do it again. I don't remember who was outside."
+		},
+		{
+			"id": "bellona_2",
+			"chapter": 2,
+			"title": "Chapter two: The Count of Twenty",
+			"object": "the snapped point of Ultor's knife",
+			"area": "tower_floor_7",
+			"cell": [
+				2,
+				1
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Wedged in the top step of the broken stair, as if it struck there and stayed: the point of a knife, a thumb's width of steel, bent."
+				},
+				{
+					"speaker": "",
+					"text": "Bellona works it free with her nail and knows, before she knows why, where it was meant to go, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "The same wall, an hour after the gate came down, before the fall. The road outside has gone quiet. She stands where she gave the order and counts to twenty, slowly, where nobody can hear."
+				},
+				{
+					"speaker": "",
+					"text": "Something comes up the wall stair fast and low. A boy, with a knife. It goes for her throat, cuts the whistle's cord, and snaps on the mail at her collar."
+				},
+				{
+					"speaker": "",
+					"text": "Her soldiers have him down in a breath. One asks his name, with a boot on his back. \"Ultor,\" he says, into the stone. \"Remember it.\""
+				},
+				{
+					"speaker": "A voice",
+					"text": "He came at the commander. You know what the order is."
+				},
+				{
+					"speaker": "Bellona",
+					"text": "Let him go. He's earned one."
+				},
+				{
+					"speaker": "",
+					"text": "They let him go. She tries to see whose voice it was that told her the order. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Bellona wakes on the seventh floor with the steel in her fist and knows one thing she did not know before: the boy from the road has a name, Ultor, and she let him go. She would do it again. He will come again, and she knew it then."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Count of Twenty."
+				}
+			],
+			"journal": "Floor 7. I remembered the hour after the gate. A boy came up the stair for me and broke his knife on my mail. His name is Ultor. I let him go."
 		}
 	],
 	"cassius": [
@@ -279,6 +507,65 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a festival, and a mask nobody wanted, and that I took it. Nobody made me the monster. I asked."
+		},
+		{
+			"id": "cassius_2",
+			"chapter": 2,
+			"title": "Chapter two: The Hand",
+			"object": "a trodden winner's ribbon",
+			"area": "tower_floor_8",
+			"cell": [
+				7,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Caught under the broken leg of a market stall: a winner's ribbon, blue once, trodden flat, a heel-print still on it."
+				},
+				{
+					"speaker": "",
+					"text": "Cassius picks it up by one end, as if it might bite, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Behind the stalls, after the game, before the fall. He sits in the dust with the cracked mask in his lap. Out in the square, they are still cheering."
+				},
+				{
+					"speaker": "",
+					"text": "The hero comes round the stalls alone, with the crown still on, and holds out his hand. Cassius looks at it and does not take it."
+				},
+				{
+					"speaker": "",
+					"text": "The smallest child, the one he took the mask from, crouches beside him when the hero has gone and pushes the ribbon into his hand. \"They threw it for Caesar. I picked it up for you.\""
+				},
+				{
+					"speaker": "A voice",
+					"text": "He meant it, you know, the hand. Caesar means everything he does. That's what you can't forgive him."
+				},
+				{
+					"speaker": "Cassius",
+					"text": "I can forgive him anything. It's them I can't."
+				},
+				{
+					"speaker": "",
+					"text": "He nods at the noise. He tries to see whose face it is, the one who knows him that well. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Cassius wakes on the eighth floor with the ribbon in his fist and knows one thing he did not know before: the hero has a name, Caesar, and offered him a hand, and he refused it. He still cannot say whether that was principle or pride."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Hand."
+				}
+			],
+			"journal": "Floor 8. I remembered the hero's hand after the festival. His name was Caesar. I didn't take it. A child gave me the ribbon they threw for him."
 		}
 	],
 	"saturn": [
@@ -336,6 +623,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a table I laid for everyone, and one place that stayed empty. I don't remember whose it was. I still set it."
+		},
+		{
+			"id": "saturn_2",
+			"chapter": 2,
+			"title": "Chapter two: The Easy Way Up",
+			"object": "one buckled sandal",
+			"area": "tower_floor_10",
+			"cell": [
+				7,
+				3
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Set neatly at the foot of the last stair, as if somebody stepped out of it and went on: one sandal, worn thin, its strap still buckled."
+				},
+				{
+					"speaker": "",
+					"text": "Saturn kneels to put it straight, as he would for a guest, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Dawn on a rooftop, before the fall, and above it a light that is not the sun, coming down like a ladder. People are climbing it. Nobody climbs it carrying anything."
+				},
+				{
+					"speaker": "A voice",
+					"text": "There's a way up that doesn't hurt. They've promised. You don't have to earn it. Come with me."
+				},
+				{
+					"speaker": "Saturn",
+					"text": "When everyone can come, I'll come. Not before."
+				},
+				{
+					"speaker": "",
+					"text": "The one he loves goes up the light, and steps out of a sandal on the way, and does not look down. Nobody who climbs it is ever seen again. He tries to see their face at the top. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "He goes down and lays the table, and keeps their place."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Saturn wakes on the tenth floor with the sandal in his hands and knows one thing he did not know before: the empty place belongs to someone who took the easy way up, and it was a lie. Somebody up there sells an ascension that is not one. He means to make them answer for it."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Easy Way Up."
+				}
+			],
+			"journal": "Floor 10. I remembered a light like a ladder, and the one I loved going up it without me. Nobody came back down. It was not heaven. Somebody lied to them."
 		}
 	],
 	"pluto": [
@@ -393,6 +735,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered standing at the top of a stair, alone, counting the ones who climbed with me. None of them made it. This time nobody pays but me."
+		},
+		{
+			"id": "pluto_2",
+			"chapter": 2,
+			"title": "Chapter two: The Rounds",
+			"object": "a black stone token, one notch",
+			"area": "tower_floor_10",
+			"cell": [
+				11,
+				1
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "On the top step, where a winner would stand: a token of black stone the size of a coin, a single notch cut into it."
+				},
+				{
+					"speaker": "",
+					"text": "Pluto weighs it, the way he weighs everything, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "The foot of the stair, this time, before the fall, and a crowd all round it, high up on benches, too far off to see. The ones who will climb are standing in a line. He knows every one of them."
+				},
+				{
+					"speaker": "",
+					"text": "Every hundred steps the climb stops, and two of them are set against each other, and only one goes on. He goes on, every time."
+				},
+				{
+					"speaker": "A voice",
+					"text": "You can stop. Lose one. Nobody would know you meant it."
+				},
+				{
+					"speaker": "Pluto",
+					"text": "They'd know. And they'd only have to fight someone worse."
+				},
+				{
+					"speaker": "",
+					"text": "He wins the last round at the top and is given the token, and the crowd is already leaving. He tries to see the face of the one who said he could stop. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Pluto wakes on the tenth floor with the token in his fist and knows one thing he did not know before: the top was a contest, and every notch on the tally was someone he beat on the way up. Somebody holds another. This time he means to be the one who ends it."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Rounds."
+				}
+			],
+			"journal": "Floor 10. I remembered the stair again, from the bottom. It was a contest. Every one of them I counted, I beat. There's going to be another one."
 		}
 	],
 	"ultor": [
@@ -450,6 +847,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a road, a gate, and a whistle. Someone threw me under it and stayed outside. I don't remember their face. I'll know the whistle."
+		},
+		{
+			"id": "ultor_2",
+			"chapter": 2,
+			"title": "Chapter two: The Name",
+			"object": "the cut whistle cord",
+			"area": "tower_floor_7",
+			"cell": [
+				2,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Under the rubble at the foot of the stair: a short length of cord, cut through, a knot at one end where something hung."
+				},
+				{
+					"speaker": "",
+					"text": "Ultor knows the cut, because he made it, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "An hour after the gate, inside it, before the fall. Somebody at a table by the gate is writing his name down; he can hear the stylus scratch. He takes the knife from his teeth and goes looking for the whistle."
+				},
+				{
+					"speaker": "",
+					"text": "He finds it on the wall, at a throat. He cuts the cord. The blade breaks on the mail beneath, a thumb's width from the guard."
+				},
+				{
+					"speaker": "",
+					"text": "They have him on the stone before the whistle hits the ground. A boot on his back. Somebody shouts for the commander by name: \"Bellona!\""
+				},
+				{
+					"speaker": "Bellona",
+					"text": "Let him go. He's earned one."
+				},
+				{
+					"speaker": "",
+					"text": "Nobody has ever let him go before. He does not thank her. He looks up to see the face that blew the whistle. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Ultor wakes on the seventh floor with the cord in his fist and knows one thing he did not know before: the whistle has a name, Bellona. And she let him live, once, which is worse than anything she could have done."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Name."
+				}
+			],
+			"journal": "Floor 7. I remembered the hour after the gate. I went for the one with the whistle and broke my knife. They called her Bellona. She let me go. I'll know the name now, as well as the whistle."
 		}
 	],
 	"liber": [
@@ -507,6 +959,65 @@
 				}
 			],
 			"journal": "Floor 5. I remembered cutting a rope on a gate and running. Someone let me go and took the blame. I want to find them and say thank you."
+		},
+		{
+			"id": "liber_2",
+			"chapter": 2,
+			"title": "Chapter two: The Wraps",
+			"object": "linen hand-wraps, bloodied",
+			"area": "tower_floor_9",
+			"cell": [
+				11,
+				7
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Hanging from the windlass of a dry well: a strip of linen wound for a small fist, stiff and brown with old blood, still the shape of a hand."
+				},
+				{
+					"speaker": "",
+					"text": "Liber slips his fingers into it, and it nearly fits, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Noon in the yard, before the fall, and he has been hitting the wooden sword with his bare hands until they split. The big one is laughing so hard he has to sit down."
+				},
+				{
+					"speaker": "",
+					"text": "The big one winds linen round the small split fists, slowly, one and then the other."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Ares! Bring the little one in, it's time!"
+				},
+				{
+					"speaker": "",
+					"text": "He does not move. He finishes the second hand first."
+				},
+				{
+					"speaker": "Ares",
+					"text": "Hands are for holding on, Liber. Fists are for when you have to. Don't get them mixed up."
+				},
+				{
+					"speaker": "",
+					"text": "Then he lets Liber knock him down with the sword, and lies in the dust pretending it hurt. Liber tries to see the face of whoever called them in. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Liber wakes on the ninth floor with the wraps on his hand and knows one thing he did not know before: the big one has a name, Ares, and he is family. The one who set him free is somewhere down here too, and Liber has a thank you to deliver."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Wraps."
+				}
+			],
+			"journal": "Floor 9. I remembered the big one wrapping my hands in the yard. His name is Ares. He's my family. He let me go. I'm going to find him and say thank you, properly this time."
 		}
 	],
 	"ares": [
@@ -564,6 +1075,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered teaching someone small to fight, and a cut rope on the yard gate, and lying for him. I was glad. I don't remember who he was."
+		},
+		{
+			"id": "ares_2",
+			"chapter": 2,
+			"title": "Chapter two: Put It on My Name",
+			"object": "one worn chain link",
+			"area": "tower_floor_9",
+			"cell": [
+				16,
+				7
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Looped over the post in the middle of the yard: one link of iron chain, worn bright on the inside where it rubbed."
+				},
+				{
+					"speaker": "",
+					"text": "Ares rubs his wrist without meaning to, laughs at himself, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Morning, before the fall, in the same yard. He is chained to the post with his arms up and has been all night. His back is open. The rope on the yard gate has been mended."
+				},
+				{
+					"speaker": "",
+					"text": "Someone stands in front of him with the cut end of that rope in their hand."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Say it was Liber. Say his name, and you come down, and we send riders after him."
+				},
+				{
+					"speaker": "Ares",
+					"text": "Liber? Never heard of him. HA! I forgot the gate. Put it on my name."
+				},
+				{
+					"speaker": "",
+					"text": "They put it on his name, and it costs him the day, and the next, and he laughs through all of it. He tries to see the face of the one holding the rope. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Ares wakes on the ninth floor with the link in his fist and knows one thing he did not know before: the small one he let go is Liber, his own kin, and Ares knew his name the whole time. Whoever sends Ares after outlaws had better not send him after that one."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, Put It on My Name."
+				}
+			],
+			"journal": "Floor 9. I remembered the morning after the gate. They chained me to the post and asked me for his name. Liber. I said I'd never heard of him. I'd say it again."
 		}
 	],
 	"caesar": [
@@ -621,6 +1187,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a festival where I played the hero and everyone cheered. Someone played the monster so I could. I never asked who."
+		},
+		{
+			"id": "caesar_2",
+			"chapter": 2,
+			"title": "Chapter two: Who Was Under It",
+			"object": "a red clay horn from the mask",
+			"area": "tower_floor_8",
+			"cell": [
+				18,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "In the gutter by the dry fountain: a chip of painted clay, a horn, faded red, broken off a mask."
+				},
+				{
+					"speaker": "",
+					"text": "Caesar turns it over, looking for the rest of the face, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Evening, before the fall, and the festival packed away. He has come back to the square alone. The crown is in his pocket. The monster's mask lies in the dust where it was dropped, a horn knocked off it."
+				},
+				{
+					"speaker": "",
+					"text": "He asks everyone who is left who wore it. Nobody knows. Then the smallest child says, as if it were obvious: \"Cassius. He took it so I wouldn't have to.\""
+				},
+				{
+					"speaker": "A voice",
+					"text": "Leave it. You were the hero. That's a good thing to have been."
+				},
+				{
+					"speaker": "Caesar",
+					"text": "Then I'll go and tell him he was the best monster I ever fought! He'll cheer up. Everyone does."
+				},
+				{
+					"speaker": "",
+					"text": "He knocks at Cassius's door until dark. It does not open. He tries to see the face of the one who told him to leave it. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Caesar wakes on the eighth floor with the horn in his fist and knows one thing he did not know before: the monster had a name, Cassius, and chose the mask so somebody smaller would not have to. Caesar never got him to open the door. He means to keep knocking."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, Who Was Under It."
+				}
+			],
+			"journal": "Floor 8. I remembered going back for the monster after the festival. His name was Cassius. He took the mask for a little one. He wouldn't open the door. I'll find him."
 		}
 	],
 	"vesta": [
@@ -678,6 +1299,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered the last fire in an emptying house, and a door back to how things were, and everyone going through it. I stayed and kept the fire. I still would."
+		},
+		{
+			"id": "vesta_2",
+			"chapter": 2,
+			"title": "Chapter two: The One Who Came Back",
+			"object": "a white hearthstone, burnt black",
+			"area": "tower_floor_9",
+			"cell": [
+				4,
+				9
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Under the ash in a cold chimney corner: a lump of hearthstone, white on one face and burnt black on the other. It is warm."
+				},
+				{
+					"speaker": "",
+					"text": "Vesta holds it to her cheek before she can think better of it, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Winter in the empty house, before the fall, months after they all went. The fire is low and she is feeding it one stick at a time. Someone is standing in the room with her, thin, smiling the old smile."
+				},
+				{
+					"speaker": "A voice",
+					"text": "It isn't how it was, over there. It's how we wanted it. It never ends. Come anyway. Please."
+				},
+				{
+					"speaker": "Vesta",
+					"text": "You're cold. Come to the fire."
+				},
+				{
+					"speaker": "",
+					"text": "They come closer to the fire, and the light goes through them, and they are not there; only ash on the hearth, settling. She tries to see their face as it goes. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "She sweeps the ash into the hearth and keeps the fire going, and does not cry where anyone could see."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Vesta wakes on the ninth floor with the stone in her hands and knows one thing she did not know before: the way back is the dead wearing better days. Her fire was never only for her. It is what shows them for what they are."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The One Who Came Back."
+				}
+			],
+			"journal": "Floor 9. I remembered one of them coming back, to ask me again. My fire went through them. They were ash. The way back was never back. It was dying, dressed up."
 		}
 	],
 	"iris": [
@@ -735,6 +1411,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a game, and the last moment of it, and that the shot was mine. I passed. We lost. Next time I take it."
+		},
+		{
+			"id": "iris_2",
+			"chapter": 2,
+			"title": "Chapter two: The First Rumour",
+			"object": "a torn yellow armband",
+			"area": "tower_floor_6",
+			"cell": [
+				6,
+				7
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Tied round a pillar at shoulder height, at the far end of the gallery: a yellow armband, knotted where it was torn from a sleeve."
+				},
+				{
+					"speaker": "",
+					"text": "Iris unties it with her teeth, quick, the way she does everything, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Dusk against the courtyard wall, the same evening, before the fall. The one she passed to, the one who missed, is sitting against the wall with their colours torn off, and nobody will go near them."
+				},
+				{
+					"speaker": "",
+					"text": "Iris sits down beside them. Neither of them says anything for a long time."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Everyone's saying it was their miss. You could tell them you passed. You could tell them the truth."
+				},
+				{
+					"speaker": "Iris",
+					"text": "I'll tell them I slipped. They'll believe me. They always believe me."
+				},
+				{
+					"speaker": "",
+					"text": "By morning everyone knows Iris slipped. It is the first story she ever started. She tries to see the face of the one who asked for the truth. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Iris wakes on the sixth floor with the armband in her fist and knows one thing she did not know before: the first rumour she ever carried was a lie to cover somebody else. She has carried everyone's news since, so she never has to carry her own."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The First Rumour."
+				}
+			],
+			"journal": "Floor 6. I remembered after the game. The one I passed to missed, and everyone blamed them. I said I slipped. That was the first rumour I ever started."
 		}
 	],
 	"ceres": [
@@ -792,6 +1523,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a granary full of children who weren't mine, something walking the fields, and sitting on the pit lid all night. I don't know how many I kept. This time I'll keep them all."
+		},
+		{
+			"id": "ceres_2",
+			"chapter": 2,
+			"title": "Chapter two: The Thirteenth",
+			"object": "a tiny shoe full of grain",
+			"area": "tower_floor_7",
+			"cell": [
+				21,
+				9
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Upright at the bottom of the dry cistern: a child's shoe, very small, full to the top with grain."
+				},
+				{
+					"speaker": "",
+					"text": "Ceres tips the grain out into her palm to see if it is good, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Grey light, before the fall, before sunrise. She gets up off the pit lid with legs gone dead under her and starts lifting them out of the grain by feel, one at a time, saying each name."
+				},
+				{
+					"speaker": "",
+					"text": "She stops at a hand she does not know. Small, cold, holding on to hers very hard. Nobody answers to it."
+				},
+				{
+					"speaker": "A voice",
+					"text": "That isn't one of them. You know it isn't. Put it back."
+				},
+				{
+					"speaker": "Ceres",
+					"text": "Then it's one of mine now. I've fed stranger."
+				},
+				{
+					"speaker": "",
+					"text": "She lifts it out with the others and does not look at it until it is in the sun. She tries to see the face of the one who told her to put it back. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Ceres wakes on the seventh floor with the shoe in her fist and knows one thing she did not know before: there was one in the grain she never put there, and she kept it with the rest. She still does not know how many of hers came out. She knows that one did."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Thirteenth."
+				}
+			],
+			"journal": "Floor 7. I remembered the morning, lifting them out of the grain by feel. There was a hand I didn't know. I kept that one too. I still don't know how many of mine there were."
 		}
 	],
 	"juno": [
@@ -849,6 +1635,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a cold room, and an old cook who gave me the last of the pot and said he'd eaten. He hadn't. Nobody at my table goes hungry."
+		},
+		{
+			"id": "juno_2",
+			"chapter": 2,
+			"title": "Chapter two: The Back Door",
+			"object": "a cook's apron string, knotted",
+			"area": "tower_floor_6",
+			"cell": [
+				21,
+				11
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Hanging from the last hook in the empty storeroom: a cook's apron string, knotted twice round nothing, as if the waist it was tied on has gone."
+				},
+				{
+					"speaker": "",
+					"text": "Juno unpicks the knot because she cannot bear a bad knot, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "Snow in the kitchen yard of the great house, years on, before the fall. She is grown. The old cook stands in it with his bundle, sent out for feeding a child who was being punished. Everyone knows which child."
+				},
+				{
+					"speaker": "",
+					"text": "Nobody in the house will look at him. Juno comes out the back with a plate, the first she ever cooked, and puts it in his hands."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Go back in, girl. They'll take it out on you. You've a place here. I haven't."
+				},
+				{
+					"speaker": "Juno",
+					"text": "Then I haven't either. Eat. Go on. I've had mine."
+				},
+				{
+					"speaker": "",
+					"text": "She had not. He knows it by the look of her and eats anyway, because she wants him to. She tries to see his face, past the snow. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Juno wakes on the sixth floor with the apron string in her fist and knows one thing she did not know before: she was not sent away from the great house. She walked out of it after him, with a plate, and never went back. Every inn she has kept since is that back door."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Back Door."
+				}
+			],
+			"journal": "Floor 6. I remembered the old cook turned out in the snow for feeding me. I went after him with a plate and said I'd eaten. I hadn't. I never went back in."
 		}
 	],
 	"diana": [
@@ -906,6 +1747,61 @@
 				}
 			],
 			"journal": "Floor 5. I remembered a hill, and a village that feared it, and the wolf that could have gone down any night and never did. It let them think it was me. To keep them away from me."
+		},
+		{
+			"id": "diana_2",
+			"chapter": 2,
+			"title": "Chapter two: The Trap",
+			"object": "a small sprung iron trap",
+			"area": "tower_floor_9",
+			"cell": [
+				22,
+				8
+			],
+			"art": "coin_pile",
+			"scene": [
+				{
+					"speaker": "",
+					"text": "Half buried among the roots of the dead tree: a small iron trap, rusted, its jaws pried open and bent back."
+				},
+				{
+					"speaker": "",
+					"text": "Diana goes very still, the way she does when the wolf goes still, and the floor goes out from under the world."
+				},
+				{
+					"speaker": "",
+					"text": "The hill's foot in winter, years before the hill was hers, before the fall. She is small, and alone, and something in the snow is screaming. A wolf cub, its foreleg in a trap."
+				},
+				{
+					"speaker": "",
+					"text": "A man from the village comes down the path with a club, not hurrying."
+				},
+				{
+					"speaker": "A voice",
+					"text": "Leave it, girl. It'll grow up and come for us. They always do."
+				},
+				{
+					"speaker": "Diana",
+					"text": "Then it can come for me first."
+				},
+				{
+					"speaker": "",
+					"text": "She opens the jaws with her hands, and they cut her, and she does not let go until the cub is out. The man does not come one step nearer. She tries to see his face. The face will not come."
+				},
+				{
+					"speaker": "",
+					"text": "White."
+				},
+				{
+					"speaker": "",
+					"text": "Diana wakes on the ninth floor with the trap in her hands and knows one thing she did not know before: she was not always the frightened one. Once she went down the hill alone, and put her hands in iron, and the wolf has been paying it back ever since."
+				},
+				{
+					"speaker": "",
+					"text": "A new page in the journal: Chapter two, The Trap."
+				}
+			],
+			"journal": "Floor 9. I remembered a cub in a trap at the hill's foot, and a man with a club, and opening it with my hands. I was not afraid. I was small, and I wasn't afraid."
 		}
 	]
 }

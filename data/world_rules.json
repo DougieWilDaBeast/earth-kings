@@ -37,6 +37,15 @@
 			"line": "The {ordinal} challenger approaches. {name}. I know your face; I knew the ones before you.",
 			"last_line": "The sixteenth and final challenger approaches. {name}. There is nobody after you."
 		},
+		"_comment_tenth_keeper": "D254: the Keeper of the Tenth, at the top of the Second Hour, speaks once as its fight begins as the Warden does, and counts the same way. **Inferred**: every word.",
+		"tenth_keeper": {
+			"band": "tower10_keeper",
+			"speaker": "The Keeper of the Tenth",
+			"ordinals": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth"],
+			"first_line": "Ten floors, {name}, and you remember two chapters of yourself. The Warden counted you first. So do I.",
+			"line": "{name}. The {ordinal} to reach the tenth. The ones before you remembered as much, and it did not carry them up.",
+			"last_line": "{name}. The sixteenth. When you are gone the stair has nobody left to keep it from."
+		},
 		"_comment_auto_rest": "D210 (call BL): a party walking itself whose health is under this share of its whole goes to the nearest place that heals it on arriving (a village, keep or hut; not the crater) before any band or the objective. Read by AutoRoad.rest_stop. **Inferred**: the share.",
 		"auto_rest_below": 0.5,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
@@ -312,8 +321,10 @@
 		"floors": 100,
 		"floors_per_chapter": 5,
 		"_comment_walked": "D102: floors 1 to walked_floors are walked, each on its own ground (`walked_area`, with the floor number), with bands watching it and the stair up at the far end; the last is kept by a keeper. Above them a floor was fought as one battle on a screen of its own; since D207 it borrows one of their plans (borrowed_plans).",
-		"walked_floors": 5,
-		"_comment_borrowed_plans": "D207: every floor above the walked ones is walked too, on one of their plans in turn (tower_floor_N for N in this list; floor 5's is left out, its keeper being the Warden of the Fifth). Its bands are its own: each of the plan's bands is the floor's foes as a fought floor would have them (level_base, levels_per_floor, meet_the_party, the cohort, foes_min to foes_max), and on the top floor the plan's first band is the Spire Apex's keeper and the rest stand down. Until the Second Hour gives floors 6 to 10 their own rooms (D196).",
+		"walked_floors": 10,
+		"_comment_own_bands_from": "D254: from this floor up, a floor with ground of its own (6 to 10, the Second Hour) has its bands restocked with the floor's own foes as a borrowed plan's are (tower_floors.gd), all but its keeper, so the Second Hour climbs as D189, D222 and D243 tuned the floors above it.",
+		"own_bands_from": 6,
+		"_comment_borrowed_plans": "D207: every floor above the walked ones is walked too, on one of their plans in turn (tower_floor_N for N in this list; floor 5's is left out, its keeper being the Warden of the Fifth). Its bands are its own: each of the plan's bands is the floor's foes as a fought floor would have them (level_base, levels_per_floor, meet_the_party, the cohort, foes_min to foes_max), and on the top floor the plan's first band is the Spire Apex's keeper and the rest stand down. Floors 6 to 10 have their own rooms since the Second Hour (D196, D254); floors 11 up borrow 1 to 4.",
 		"borrowed_plans": [1, 2, 3, 4],
 		"walked_area": "tower_floor_%d",
 		"chapter_keys": ["gate_shut", "town_saved"],

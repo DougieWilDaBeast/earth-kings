@@ -1,0 +1,274 @@
+{
+    "display_name": "floor 6 of the Tower",
+    "_doc": "D254: the Second Hour's floor 6, laid out by tools/build_tower_floors.py; change it there.",
+    "layers": [
+        "tower_slab",
+        "tower_runner",
+        "tower_wall"
+    ],
+    "legend": {
+        "s": "tower_slab",
+        "f": "tower_runner",
+        "A": "tower_wall"
+    },
+    "tint": "#8a8fa8",
+    "hint": "WASD to walk  ·  the stair up is north, through the long gallery",
+    "spawn": [
+        12,
+        15
+    ],
+    "exits": [
+        [
+            12,
+            17
+        ],
+        [
+            13,
+            17
+        ]
+    ],
+    "stairs": [
+        [
+            12,
+            0
+        ],
+        [
+            13,
+            0
+        ]
+    ],
+    "spots": [
+        {
+            "cell": [
+                12,
+                13
+            ],
+            "line": "The gallery's runner is worn pale down the middle, by feet that all went the same way."
+        },
+        {
+            "cell": [
+                5,
+                11
+            ],
+            "line": "A landing, and a stair from it that goes down two steps and stops at a wall. Somebody bricked it up from this side."
+        },
+        {
+            "cell": [
+                20,
+                12
+            ],
+            "line": "A storeroom, cold enough for your breath to show. The crates are empty, and stacked as if somebody meant to come back for them."
+        }
+    ],
+    "props": [
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                12,
+                1
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                13,
+                1
+            ],
+            "flip": true
+        },
+        {
+            "art": "tower_inside/rune_a",
+            "cell": [
+                11,
+                0
+            ]
+        },
+        {
+            "art": "tower_inside/rune_b",
+            "cell": [
+                14,
+                0
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                10,
+                15
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                16,
+                15
+            ]
+        },
+        {
+            "art": "interior/banner_blue",
+            "cell": [
+                4,
+                4
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                8,
+                4
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_blue",
+            "cell": [
+                17,
+                4
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/banner_red",
+            "cell": [
+                21,
+                4
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                1,
+                5
+            ]
+        },
+        {
+            "art": "lamp_globe",
+            "cell": [
+                24,
+                5
+            ]
+        },
+        {
+            "art": "tower_inside/stair_up",
+            "cell": [
+                2,
+                9
+            ]
+        },
+        {
+            "art": "tower_inside/rune_c",
+            "cell": [
+                7,
+                9
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                18,
+                9
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                19,
+                9
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                24,
+                9
+            ]
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                22,
+                9
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                24,
+                12
+            ]
+        }
+    ],
+    "bands": [
+        {
+            "key": "tower6_a",
+            "pack": [
+                "goblin",
+                "wolf"
+            ],
+            "label": "In the long gallery",
+            "faction": "",
+            "at": [
+                5,
+                7
+            ],
+            "reach": 2,
+            "level": 5,
+            "held": true,
+            "requires_not": "done:tower6_a",
+            "done_flag": "done:tower6_a"
+        },
+        {
+            "key": "tower6_b",
+            "pack": [
+                "goblin",
+                "brigand_archer"
+            ],
+            "label": "Across the gallery",
+            "faction": "",
+            "at": [
+                20,
+                7
+            ],
+            "reach": 2,
+            "level": 5,
+            "held": true,
+            "requires_not": "done:tower6_b",
+            "done_flag": "done:tower6_b"
+        }
+    ],
+    "rows": [
+        "AAAAAAAAAAAAffAAAAAAAAAAAA",
+        "AAAAAAAAAssffssAAAAAAAAAAA",
+        "AAAAAAAAAssssssAAAAAAAAAAA",
+        "AAAAAAAAAssssssAAAAAAAAAAA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AssssssssssssssssssssssssA",
+        "AffffffffffffffffffffffffA",
+        "AssssssssssssssssssssssssA",
+        "AAAAsAAAAAAssssAAAAAAAsAAA",
+        "AssssssssAAssssAAssssssssA",
+        "AssssssssAAssssAAssssssssA",
+        "AssssssssAAssssAAssssssssA",
+        "AssssssssAAssssAAssssssssA",
+        "AAAAAAAAAAAssssAAAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAsssssssAAAAAAAAA",
+        "AAAAAAAAAAssffsssAAAAAAAAA",
+        "AAAAAAAAAAAAffAAAAAAAAAAAA"
+    ],
+    "dressing": []
+}

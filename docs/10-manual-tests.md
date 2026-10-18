@@ -349,6 +349,9 @@ Start a run (not the tutorial) and walk.
 | D5.47 | Start a new game and look at the purse under the compass, then open the party screen (P) | "60 silver" in both; no amount anywhere says "gold" unless it is gold coins ([D253](06-decisions.md)) |
 | D5.48 | Buy a loaf from Hesk, then win a fight and open a chest | The loaf costs copper ("20 copper"); the fight and the chest pay in silver ("17 silver 50 copper.") and the purse goes up by it |
 | D5.49 | Load a save made before this build | It loads; the purse is 25 copper for each gold it had (250 gold becomes 62 silver 50 copper) |
+| D5.50 | Climb as Atlas past floor 5 and walk floors 6 to 10 | Each floor is its own place (6 a long red gallery, 7 a watchtower stair, 8 bricked doors and a ruined square, 9 a walled yard with a well, 10 an antechamber before the last stair), two bands on each, the stair up at the top; none is a copy of floors 1 to 4 ([D254](06-decisions.md)) |
+| D5.51 | On floor 6 as Atlas, follow the compass to "Something glints" (bottom left of the gallery) and step on it | A torn page corner; Atlas's chapter two, "The Last Page", plays, and the journal's quests page has a new line under _What has come back_; a lead other than Atlas, Iris or Juno sees nothing glint on floor 6 |
+| D5.52 | Step into the Keeper of the Tenth's ground on floor 10 | It speaks before the fight ("Ten floors, Atlas…" on a first life) and fights with a goblin and an archer beside it; winning and taking the stair ends chapter two |
 
 ## H — Conversation and the camp
 
