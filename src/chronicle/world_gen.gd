@@ -30,10 +30,10 @@ const AREA_POOLS := {
 	Site.HOME: ["home"],
 }
 
-## The great cities ([D85]): walled, with a gate ward on the land and the city itself through the
-## great gate. Each is dealt to a village, nearest the middle of the continent first, so the
-## city stands where the roads would meet.
-const CITY_AREAS := ["city"]
+## The great cities ([D85]): walled, and since [D247] laid out on the land whole, over a block of
+## tiles, walked in through an open gate rather than a door. Each is dealt to a village, nearest the
+## middle of the continent first, so the city stands where the roads would meet.
+const CITY_AREAS := ["city_streets"]
 
 const COUNTS := {
 	Site.KEEP: 5,

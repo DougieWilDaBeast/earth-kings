@@ -267,6 +267,15 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.13 | Esc → the menu's **Auto: Mixed** button, pressed three times | Aggressive, Passive, Mixed in turn, each with a line on what it does; the choice is kept after the game is closed; the top bar says "Auto: Aggressive" (or the rest) while Auto is on ([D216](06-decisions.md)) |
 | D3.14 | Switch Auto on near a band, once in each style | Aggressive turns aside and walks into its red; Mixed walks its way and fights only if seen; Passive walks round the red ([D216](06-decisions.md)) |
 | D3.15 | Walk the road until a roadside scene comes up (with Auto on, too) | Its title in the log and the scene standing well down the road; no box, and Auto keeps walking. Close to it, what is happening there in the log and "E to step in, or walk on by" ([D216](06-decisions.md)) |
+| D3.16 | Fight a band at 5×, changing the speed during the fight | The view stays on the fight, no jumping side to side, and never goes black ([D246](06-decisions.md)) |
+| D3.17 | Watch two melee fighters meet on a diagonal | One of them swings; they do not step sideways together over and over ([D246](06-decisions.md)) |
+| D3.18 | Walk into a town with lots to do, then watch the log | The line along the bottom stays one line (ending in "…" if it is long); log lines go after about eight seconds; neither runs over the other ([D246](06-decisions.md)) |
+| D3.19 | Press E at a gate six or more levels above the company | A line saying how strong its keepers are; E again within four seconds goes in. Auto never goes in ([D246](06-decisions.md)) |
+| D3.20 | Climb to a floor with a company resting on it, and fight a band near them | They sit round a fire; when the fight starts near them, "… join the fight." and they fight beside you ([D246](06-decisions.md)) |
+| D3.21 | Walk to the first gate and press E beside it | No fight at the doorway: a floor of rock chambers opens, the gate's own look, bands standing in the chambers past the first, the compass on the way down; one line in the log about the red ground ([D248](06-decisions.md)) |
+| D3.22 | On a gate of two floors or more, fight through to the far end and press E at the way down | The floor is paid out and the next floor opens straight away; walk back out of its doorway and you are at the gate, and E goes on from the floor reached |
+| D3.23 | On a gate's last floor, walk to the way down before the keeper falls | "The way down will not open while its keeper stands"; the compass points at the keeper; beat it and E at the way down shuts the gate |
+| D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
@@ -318,9 +327,14 @@ Start a run (not the tutorial) and walk.
 | D5.23 | Follow a track to where three ways meet, and press E by the signpost | "A signpost." and, for each way, the nearest village or the Tower and how many tiles |
 | D5.24 | On the road from the crater, walk off it into a band's red with two of the Watch close by | "The Watch see it start, and come running": two of the Watch fight beside you; won, they thank you and pay a bounty in gold ([D236](06-decisions.md)) |
 | D5.26 | Walk the ground towards a town you have not seen (Coldrun from Stormreach) | It shows on the map (M) early, but "… comes into sight." is said only once it is about on screen, a tile off ([D238](06-decisions.md)) |
-| D5.27 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
-| D5.28 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
-| D5.29 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
+| D5.27 | Walk into a land you have not been in, then open the journal (J), Quests | "A new page in the journal: ..."; under _The lands_ its page, up to five lines with boxes; walk five tiles of it, stand at a ring of stones or a cairn there, beat two bands on it (and a place or gate if it lists one): each line says so as it is crossed off, and the last turns up its trinket in a box, carried on the page ([D239](06-decisions.md)) |
+| D5.28 | Finish the bog's page (Heron Stilts), then walk at a pool on the bog's ground | The party walks through the pool instead of round it ([D239](06-decisions.md)) |
+| D5.30 | Walk the ground with two or three in the company, one of them hurt | Under the compass, top left: a row each (face, name, level, health bar: green, amber under 60%, red under 30%) and the gold; press it and the party screen opens; it hides while talking and in a fight ([D244](06-decisions.md)) |
+| D5.31 | Let one of the company drop under half health with nothing in the packs, and level someone to 2 | Under the company: "! … is badly hurt" in red, "! Nothing in the packs to mend with", "! … has a path to choose" in gold, and a ! beside their name; hover one for more; press the path's and the party screen opens ([D245](06-decisions.md)) |
+| D5.32 | Walk the road from the crater to Stormreach and on to the Tower | No door: the city's south gate stands open ahead and its streets carry on from the land, two tiles by two inside its wall (the high street, market, tavern, Guild hall, toll house, Muck Muck and Sinner). Out of the north gate the Tower stands on its own just past the wall ([D247](06-decisions.md)) |
+| D5.33 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
+| D5.34 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
+| D5.35 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
 
 ## H — Conversation and the camp
 

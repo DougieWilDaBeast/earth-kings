@@ -129,7 +129,8 @@ each, each ending playable:
    clear. Tuned since by [D113](06-decisions.md): about a level a fight.
 5. The crater opening, the Tower's city and the Guild, to the first gate — built
    ([D101](06-decisions.md), design meeting 2's calls A to E). The first world's lead comes down 12
-   to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
+   to 16 tiles from Stormreach, which now stands at the Tower's foot (since [D247](06-decisions.md) a walled city
+   on the land, two tiles by two, walked into by its south gate with no door, the Tower just past its north gate); Bram pulls them out, Sky is in
    Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
    The opening shows another lead's world ending. The Tower's foot is rock and flagstone and its shaft
@@ -333,7 +334,9 @@ each, each ending playable:
    issue #270; questions 34 to 38 in [30](30-questions-for-the-founders.md)): twelve ideas kept, eleven cut,
    the list as he wrote it. **Planned**, big pieces first and always one being built, small ones alongside
    in other threads ([D226](06-decisions.md), loosening [D194](06-decisions.md)): the land journals (#284,
-   a trinket can change how you move or fight), the world remembering (#286), companions whose arcs react
+   **built**, [D239](06-decisions.md): a page for each land set foot in, up to five things to do there, and
+   one of eighteen trinkets for finishing it, which walk faster, wade the shallows, slip past bands, keep
+   a hazard off or fight harder), the world remembering (#286, next), companions whose arcs react
    (#283; bonds from before the descent learned as the game goes on, no romance played), a house in
    Stormreach then the town at the crater (#285, #258), the second half harder as the Tower climbs and
    faster when the world is neglected (#287); with them the quick wins (#272 to #275: scars built,
@@ -354,6 +357,25 @@ each, each ending playable:
    take as many columns as fit above the pad. Reaches the phone with the next itch push. Held upright, the
    party screen and the journal now fit too: roster and list above, ribbons wrapping
    ([D241](06-decisions.md), #302).
+27. **The play screen** (`doug-md`, 2026-10-17 and 2026-10-18): a small panel under the compass on the
+   ground with the company's faces, levels and health bars and the purse — built ([D244](06-decisions.md));
+   after RimWorld's play screen ([investigation/11](investigation/11-rimworld-play-screen.md)), what wants
+   attention listed under it (someone badly hurt, nothing to mend with, one held, a town attacked, a path
+   or power owed, an X on the map), each pressed to act on, and a mark on anyone owed a path or power —
+   built ([D245](06-decisions.md)). **Planned** from the same look: letters for the world's big moments,
+   an inspect card for anyone clicked on the ground, sums on hover for every number, speed keys on the
+   ground.
+28. **Play-test 6** (`doug-md`, 2026-10-17): the first fixes — built ([D246](06-decisions.md)): no black
+   screen and no jumping at 5× (the camera smooths at its own pace), no fighters dancing side by side (a
+   blow reaches the diagonals), one line of what can be done and a log that clears itself, a gate far
+   above the company asks twice, climbers who join a fight and rest round a fire. **Planned**, waiting
+   on his order: Stormreach walked outside (built, [D247](06-decisions.md)), fights inside a gate (built, item 29), Tower floors that grow, climbers with
+   a part to play, hamlets and homesteads worth going to, paths and gates' ground that fit, carriages
+   ([28](28-the-first-hour.md#play-test-6s-asks)).
+29. **Fights inside gates** — built (`doug-md`, play-test 6, his first pick of its asks, [D248](06-decisions.md)):
+   E at a gate opens its floor, chambers in rock from the doorway to the way down, a band in each, the
+   keeper before the way down on the last floor; walked straight on down, walked back out of the
+   doorway. Outside a gate, fights are a gate break's.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

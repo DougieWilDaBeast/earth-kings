@@ -51,10 +51,16 @@ static func is_valid_target(user: Unit, ability: Dictionary, target: Unit) -> bo
 	return false
 
 
+## Whether [param to] is in reach of [param ability] from [param from]. A blow at arm's length
+## (`range` 1) reaches the diagonal cells too ([D246], play-test 6: two fighters a diagonal apart
+## both stepped sideways to square up, over and over, "running parallel with each other and not
+## getting my hits off"); anything with a longer reach counts steps as before.
 static func in_range(ability: Dictionary, from: Vector2i, to: Vector2i) -> bool:
 	var distance := Pathfinder.distance(from, to)
 	var min_range := int(ability.get("min_range", 1))
 	var max_range := int(ability.get("range", 1))
+	if max_range == 1 and min_range <= 1 and absi(from.x - to.x) == 1 and absi(from.y - to.y) == 1:
+		return true
 	return distance >= min_range and distance <= max_range
 
 

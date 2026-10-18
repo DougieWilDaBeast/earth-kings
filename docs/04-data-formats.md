@@ -284,7 +284,7 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
   "name": "Fen-on-the-Hill",
   "tileset": "village",
   "legend": { ".": "grass", "~": "water", "#": "crag", "=": "dirt" },
-  "tiles": ["#######....######", "##....======...##"],
+  "rows": ["#######....######", "##....======...##"],
   "spawn": [8, 12],
   "exits": [
     [8, 14],
@@ -319,6 +319,12 @@ rounds does not `wander`. Every stop has to be walkable from where they stand.
 ([D85](06-decisions.md)): on the ring of cells round it, a tower at each corner and either side of
 each exit, a gap in front of each exit, and a lane kept clear outside. The place needs two cells
 spare each way in its tile. The pictures are `art/props/walls/<build>_run`, `_side` and `_tower`.
+
+**`covers`** on a place ([w, h]) stands it over that many tiles of the land, not one ([D247](06-decisions.md)),
+with the tile `anchor` ([x, y] within it, [0, 0] when absent) on its site. It is laid out whole in the
+middle of a ground w slots by h, the land's floor round it, and cut into one piece per tile; paths
+from the land meet its exits, and sides between its pieces are open. Stormreach (`city_streets`,
+[2, 2]) is the one so far.
 
 **Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
 in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,
@@ -504,7 +510,8 @@ run's seed still deals, is [27](27-the-world.md).
 
 - `size` — cells across and down of every generated ground, and of every tile's slot on the land
   ([D84](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
-  middle of its tile's slot with the land's ground round it. `landmark_chance` — the share of
+  middle of its tile's slot with the land's ground round it, unless it `covers` more tiles than one
+  ([D247](06-decisions.md)). `landmark_chance` — the share of
   grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
 - `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
   the sheets they are drawn with, bottom first. Cover is walkable and blocks a band's sight.
@@ -536,6 +543,16 @@ still made the old way (`ground_<x>_<y>_<land>`) for anything that asks for one.
 Walking the ground, a place newly drawn on the map is said to come into sight (`lines.seen`) only
 once the party is within this many tiles of it; on the map view it is said at once.
 
+## `world_rules.json` → `play_hud` — the panel on the screen while walking (D244)
+
+`top` (and `top_narrow` on a screen narrower than `narrow_below`) is how far down it sits; `face` and `bar_width` are pixels; a member's health bar turns amber under `hurt_below` of their
+health and red under `low_below`; `purse` is the purse's words (`{gold}`) and `tooltip` what
+hovering the panel says (`purse` also takes `{draughts}`, what is in the packs to eat or drink).
+`most_alerts` alerts are shown under it ([D245](06-decisions.md)); `alerts` has `hurt_below` (the share of
+health under which someone is badly hurt) and, for each of `hurt`, `no_draughts`, `held`, `siege`,
+`path`, `power` and `treasure`, its `text` and its `detail` on hover; `more` is said when there are
+more. Read by `src/ui/play_hud.gd` and `src/ui/alerts.gd`.
+
 ## `world_rules.json` → `path_help` — a path in more words (D237)
 
 `roles`: each says `say` of a path whose growth a level is `at_least` / `at_most` the stats it
@@ -564,6 +581,21 @@ A band beaten on the land carries a scrap on `piece_chance`; `pieces` of them ma
 it digs up a find of `richness` (see `loot`) that always holds something to carry. `lines`: `piece`
 (`{held}`, `{need}`), `whole` (`{need}`, `{bearing}`, `{region}`), `dug`, and the quest list's `label`
 and `detail` (`{region}`). The world keeps `treasure`: `{ pieces, at }`.
+
+## `land_journals.json` — a journal for each land (D239)
+
+`entries` is what a land's page can ask, in order: `{ kind, count, text }`, `kind` one of `walk`
+(stretches of the land walked, never more than it has), `landmark` (things somebody left stood at on
+its open ground), `bands` (bands beaten on its ground), `place` (its places stood in, only on a land
+with one that is not a gate) and `gate` (its gates shut, only on a land with an open one); `text` takes
+`{count}` and `{land}`. `trinkets` maps each land id of `biomes.json` to `{ name, text, effects }`;
+`effects` may hold `stride` (a share added to walking speed on the land), `wade` (true: shallow pools of
+open country can be walked through), `hush` (cells off a band's sight on the land), `attack`, `defense`
+(added to every fighter of the party), `health` (a share added to their health in a fight) and `proof`
+(hazard ids of `biomes.json` kept off the whole company). Effects of every trinket carried add up, within
+`stride_most` and `hush_most`. `lines`: `opened` (`{land}`), `ticked` (`{land}`, `{entry}`, `{done}`,
+`{of}`), `finished` (`{land}`, `{trinket}`, `{what}`) and `annal`. The world keeps `lands`: land id ->
+`{ needs, got, walked, stood, done }`.
 
 ## `world_rules.json` → `life` — the land's small life and the road's Watch (D179)
 
@@ -665,8 +697,23 @@ never below the party's average level when `meet_the_party` is true, and there a
 them, one more every `chapters_per_extra_foe` chapters, and one more for every member past
 `foes_per_member_past` (2), at most `foes_max` (6) ([D189](06-decisions.md)).
 
+A gate's floors are walked the same way ([D248](06-decisions.md)): E at a gate on the ground opens the
+floor the party is on, laid out by `src/chronicle/gate_inside.gd` and registered as an area
+(`gate_inside_<x>_<y>_<depth>`; an area opened with `gate_cell`, `gate_depth`, `gate_final`, `gate_keeper`
+and `allies` in its payload is a gate's floor). `world_rules.json` → `gate.inside` says how: `width` +
+`width_per_rank` × the rank's place (E 0 to S 5) wide and `height` + `height_per_rank` high, `chambers` +
+`chambers_per_rank` chambers joined by passages from the doorway (the bottom row, its `exits`) to the way
+down (its `stairs`, the top row), a held band of the gate's own seeing `band_reach` in every chamber but
+the first (`Encounter.for_gate` deals each), and on the last floor its keeper (`boss`, one more reach) in
+the last chamber, whose `done_flag` the way down waits on. `themes` (by the gate's own area, `default` for
+any other) give `floor`, `path`, `wall` and `cover` terrains and the ground sheets drawn, bottom first
+(`layers`); `hint` is the floor's hint line. Bands' keys carry the site's `delves`, counted up each time a
+delve is lost, so a lost delve's bands stand again. The way down settles as a gate floor did
+(`kind` `gate`, `walked`) and opens the next floor straight away; a band's fight there settles as
+`gate_band`, and lost, the delve is lost.
+
 An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
-`GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway ([D162](06-decisions.md)), a roadside
+`GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway off the ground ([D162](06-decisions.md); on the ground it is gone into, [D248](06-decisions.md)), a roadside
 fight with its attackers where the scene stages them (`stage` in `roadside.json`; a stage's
 `allies`, such as the Watch beset by a town, [D215](06-decisions.md), stand in the middle of it and
 fight beside the party), and a town

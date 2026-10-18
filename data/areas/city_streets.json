@@ -1,6 +1,6 @@
 {
-  "display_name": "the city",
-  "hint": "WASD to walk  ·  E to talk  ·  the gate south is the way back out",
+  "display_name": "Stormreach",
+  "hint": "WASD to walk  ·  E to talk  ·  the north gate for the Tower, the south gate for the road",
   "layers": [
     "dirt",
     "street_paving",
@@ -14,6 +14,14 @@
     "m": "meadow",
     "~": "water"
   },
+  "covers": [
+    2,
+    2
+  ],
+  "anchor": [
+    0,
+    0
+  ],
   "spawn": [
     29,
     37
@@ -26,6 +34,14 @@
     [
       30,
       39
+    ],
+    [
+      32,
+      0
+    ],
+    [
+      33,
+      0
     ]
   ],
   "spots": [
@@ -80,6 +96,20 @@
         36
       ],
       "line": "Cabbages and beans in rows by the south wall. Every inch inside the walls is worth growing something on."
+    },
+    {
+      "cell": [
+        30,
+        38
+      ],
+      "line": "The south gate stands open. The queue to come in through it does not move."
+    },
+    {
+      "cell": [
+        5,
+        34
+      ],
+      "line": "Caravans camp here the night before, so they are first through in the morning. They are never first."
     }
   ],
   "chests": [
@@ -108,6 +138,15 @@
       "line": "A sack dropped in the alley. Whoever ran from the Watch dropped it.",
       "gold": 40,
       "item": "whetstone"
+    },
+    {
+      "cell": [
+        56,
+        34
+      ],
+      "line": "A crate fallen off a cart, and nobody has come back for it.",
+      "gold": 55,
+      "item": "salt_pouch"
     }
   ],
   "props": [
@@ -532,7 +571,7 @@
       ]
     },
     {
-      "art": "walls/stone_run",
+      "art": "walls/stone_tower",
       "cell": [
         31,
         0
@@ -549,21 +588,7 @@
       "art": "walls/stone_run",
       "cell": [
         32,
-        0
-      ]
-    },
-    {
-      "art": "walls/stone_run",
-      "cell": [
-        32,
         39
-      ]
-    },
-    {
-      "art": "walls/stone_run",
-      "cell": [
-        33,
-        0
       ]
     },
     {
@@ -574,7 +599,7 @@
       ]
     },
     {
-      "art": "walls/stone_run",
+      "art": "walls/stone_tower",
       "cell": [
         34,
         0
@@ -1715,6 +1740,63 @@
         43,
         5
       ]
+    },
+    {
+      "art": "village/signpost",
+      "cell": [
+        27,
+        38
+      ],
+      "line": "One arm points north, up the high street: THE TOWER. The other points out of the gate: EVERYWHERE ELSE."
+    },
+    {
+      "art": "village/trough",
+      "cell": [
+        35,
+        38
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        4,
+        34
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        8,
+        32
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        20,
+        34
+      ]
+    },
+    {
+      "art": "camp/fire_ring",
+      "cell": [
+        9,
+        34
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        37,
+        35
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        34,
+        37
+      ]
     }
   ],
   "buildings": [
@@ -1850,7 +1932,7 @@
         16
       ],
       "shut": [
-        "The city's Guild hall: a long room of maps and arguments. Wenna at the gate keeps the contracts."
+        "The city's Guild hall: a long room of maps and arguments. Wenna at its door keeps the contracts."
       ]
     },
     {
@@ -2241,6 +2323,36 @@
       ],
       "shut": [
         "The shutters are blue. The door is shut."
+      ]
+    },
+    {
+      "name": "the toll house",
+      "art": "lit_house",
+      "cell": [
+        14,
+        35
+      ],
+      "door": [
+        15,
+        36
+      ],
+      "shut": [
+        "The toll house is shut. The tollmaster collects outside, where he can see you coming."
+      ]
+    },
+    {
+      "name": "the waystation",
+      "art": "hunting_lodge",
+      "cell": [
+        43,
+        35
+      ],
+      "door": [
+        44,
+        36
+      ],
+      "shut": [
+        "Full. A caravan from the south has every bed and most of the floor."
       ]
     }
   ],
@@ -3098,16 +3210,212 @@
         },
         "bye": "Go carefully. I'd rather not see you again soon."
       }
+    },
+    {
+      "name": "Wenna the Guild Clerk",
+      "unit": "guild_clerk",
+      "cell": [
+        23,
+        17
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "guild": true,
+      "chatter": [
+        "Contracts for the city are posted inside. Contracts for everywhere else, out here with me.",
+        "Every company passes this gate eventually. I keep the list."
+      ]
+    },
+    {
+      "name": "Tollmaster Crane",
+      "unit": "castellan",
+      "cell": [
+        24,
+        36
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Name, business, and a copper for the gate.",
+        "No goats past the gate. No exceptions. Two exceptions."
+      ],
+      "talk": {
+        "hello": [
+          "Name, business, and a copper for the gate. The copper is the important part.",
+          "Through you go. Mind the queue. Mind the goats."
+        ],
+        "ask": [
+          {
+            "q": "What's in there?",
+            "a": "Everything. A cathedral, a market, the Watch, the Gilded Flagon. Ten thousand people who all think they're the only one in a hurry."
+          },
+          {
+            "q": "Who rules the city?",
+            "a": "The Margrave, on paper. The Watch, on the street. The brewers, after dark."
+          },
+          {
+            "q": "Why the walls?",
+            "a": "The gates out there. When one breaks, everything in the country runs for somewhere with walls. We'd like it to be us they run to, not us they run over."
+          }
+        ],
+        "bye": "Keep your purse in front of you. The city's honest. Mostly."
+      }
+    },
+    {
+      "name": "a pilgrim come for the dawn rite",
+      "unit": "town_elder",
+      "cell": [
+        30,
+        29
+      ],
+      "facing": [
+        0,
+        -1
+      ],
+      "wander": 2,
+      "chatter": [
+        "Three days walking to hear one rite. I'll be late for it, I know I will.",
+        "They say the Cathedral looks at the Tower. I want to see that."
+      ]
+    },
+    {
+      "name": "Hask the Caravan Guard",
+      "unit": "bird_archer",
+      "cell": [
+        6,
+        33
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "chatter": [
+        "Forty days from the dunes and the gate shuts on us at dusk.",
+        "Ask me about wolves. No, don't."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            6,
+            33
+          ],
+          "line": "Warms his hands at the cold fire, out of habit."
+        },
+        {
+          "cell": [
+            12,
+            33
+          ],
+          "line": "Counts the barrels again.",
+          "stay": 4
+        },
+        {
+          "cell": [
+            18,
+            33
+          ],
+          "line": "Waters the mules at the trough."
+        }
+      ]
+    },
+    {
+      "name": "Peg the Goat-seller",
+      "unit": "peasant",
+      "cell": [
+        36,
+        36
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Goats! Fine goats! Not allowed in the city, so cheap!"
+      ],
+      "talk": {
+        "hello": "Goats! Fine goats! Not allowed in the city, which is why they're cheap.",
+        "ask": [
+          {
+            "q": "Why aren't goats allowed in?",
+            "a": "One ate the Margrave's hat. Not the Margrave's. The old one's. Grudges in there go back."
+          }
+        ],
+        "sells": [
+          {
+            "item": "cheese"
+          },
+          {
+            "item": "bread"
+          },
+          {
+            "item": "apple",
+            "restock": true
+          }
+        ],
+        "shop": "No goats for you, then. Cheese? It's goat.",
+        "bye": "Tell them in there Peg sent you. They won't care, but tell them."
+      }
+    },
+    {
+      "name": "Ensign Rowe of the Watch",
+      "unit": "legion_copper",
+      "cell": [
+        45,
+        33
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "chatter": [
+        "Keep moving.",
+        "Gate's open, walls are up, everybody's happy."
+      ],
+      "rounds": [
+        {
+          "cell": [
+            45,
+            33
+          ],
+          "line": "Looks out down the road.",
+          "stay": 6
+        },
+        {
+          "cell": [
+            56,
+            33
+          ],
+          "line": "Walks the inside of the wall."
+        },
+        {
+          "cell": [
+            42,
+            33
+          ],
+          "line": "Checks the far corner."
+        },
+        {
+          "cell": [
+            39,
+            38
+          ],
+          "line": "Has a word with whoever's at the gate."
+        }
+      ]
     }
   ],
   "rows": [
-    "............................................................",
-    "............................................................",
-    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
-    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
-    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
-    "...................................mmmmm.mmmmmmmmmmmmmmmmm..",
-    "............................oooo.........mmmmmmmmmmmmmmmmm..",
+    "................................oo..........................",
+    "................................oo..........................",
+    "................................oo.mmmmm.mmmmmmmmmmmmmmmmm..",
+    "................................oo.mmmmm.mmmmmmmmmmmmmmmmm..",
+    "................................oo.mmmmm.mmmmmmmmmmmmmmmmm..",
+    "................................oo.mmmmm.mmmmmmmmmmmmmmmmm..",
+    "............................oooooo.......mmmmmmmmmmmmmmmmm..",
     "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
     "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
     "...oooooooooooooooooooooooooooooooooooo..mmmmm~~~~~~mmmmmm..",
@@ -3143,121 +3451,112 @@
     "............................................................"
   ],
   "dressing": [
-    {"art": "nature/round_tree", "cell": [53, 14], "offset": [4, -1]},
-    {"art": "nature/great_oak", "cell": [3, 35], "offset": [9, 5], "flip": true},
-    {"art": "nature/round_tree", "cell": [4, 3], "offset": [8, -2]},
-    {"art": "nature/old_apple_tree", "cell": [39, 4], "offset": [-4, -5]},
-    {"art": "nature/sycamore_tree", "cell": [52, 9], "offset": [-9, 2], "flip": true},
-    {"art": "nature/birch", "cell": [45, 7], "offset": [-10, 1], "flip": true},
-    {"art": "nature/autumn_tree", "cell": [11, 35], "offset": [-8, -5], "flip": true},
-    {"art": "nature/apple_tree", "cell": [7, 14], "offset": [-10, 4]},
-    {"art": "nature/apple_tree", "cell": [39, 33], "offset": [-10, -3], "flip": true},
-    {"art": "nature/copse", "cell": [24, 28], "offset": [-3, 0], "flip": true},
-    {"art": "nature/birch", "cell": [45, 16], "offset": [-6, -1], "flip": true},
-    {"art": "nature/great_oak", "cell": [24, 3], "offset": [1, 5], "flip": true},
-    {"art": "nature/old_apple_tree", "cell": [42, 5], "offset": [-8, 2], "flip": true},
-    {"art": "nature/old_apple_tree", "cell": [2, 14], "offset": [-6, 1], "flip": true},
-    {"art": "nature/great_oak", "cell": [57, 15], "offset": [4, -5]},
-    {"art": "nature/autumn_tree", "cell": [52, 4], "offset": [6, -3], "flip": true},
-    {"art": "nature/old_apple_tree", "cell": [14, 35], "offset": [-1, 0], "flip": true},
-    {"art": "nature/round_tree", "cell": [55, 35], "offset": [7, -2]},
-    {"art": "nature/great_oak_2", "cell": [44, 2], "offset": [4, 4]},
-    {"art": "nature/sycamore_tree", "cell": [20, 4], "offset": [10, -3]},
-    {"art": "nature/round_tree", "cell": [25, 25], "offset": [-2, -4], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [47, 5], "offset": [6, 7], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [47, 6], "offset": [3, -3]},
-    {"art": "nature/grass_tuft", "cell": [21, 33], "offset": [-1, -3]},
-    {"art": "nature/wildflowers_blue", "cell": [35, 6], "offset": [-5, 3], "flip": true},
-    {"art": "nature/clover_3", "cell": [58, 20], "offset": [0, -5], "flip": true},
-    {"art": "nature/hedge_4", "cell": [51, 14], "offset": [-6, 5], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [1, 28], "offset": [-5, -5], "flip": true},
-    {"art": "nature/fern", "cell": [45, 5], "offset": [5, -1], "flip": true},
-    {"art": "nature/clover", "cell": [18, 34], "offset": [11, -2], "flip": true},
-    {"art": "nature/clover", "cell": [34, 2], "offset": [-5, 5], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [22, 6], "offset": [-8, 1], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [26, 22], "offset": [1, -1], "flip": true},
-    {"art": "nature/fern", "cell": [51, 38], "offset": [-11, 5], "flip": true},
-    {"art": "nature/clover_3", "cell": [58, 1], "offset": [12, -6], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [38, 35], "offset": [7, -4]},
-    {"art": "nature/hedge", "cell": [10, 2], "offset": [-1, 7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [40, 13], "offset": [-10, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [52, 7], "offset": [11, 5]},
-    {"art": "nature/clover_3", "cell": [9, 19], "offset": [5, 1]},
-    {"art": "nature/hedge_2", "cell": [33, 13], "offset": [14, 0], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [36, 1], "offset": [-11, 3]},
-    {"art": "nature/grass_tuft", "cell": [1, 2], "offset": [-14, -4]},
-    {"art": "nature/clover_3", "cell": [56, 12], "offset": [2, -7]},
-    {"art": "nature/hedge", "cell": [45, 36], "offset": [1, 5], "flip": true},
-    {"art": "nature/fern", "cell": [19, 12], "offset": [13, 0]},
-    {"art": "nature/clover_3", "cell": [41, 2], "offset": [7, -7]},
-    {"art": "nature/fern", "cell": [3, 15], "offset": [-2, 5], "flip": true},
-    {"art": "nature/hedge_2", "cell": [47, 2], "offset": [-13, -2], "flip": true},
-    {"art": "nature/fern", "cell": [56, 7], "offset": [-8, -1]},
-    {"art": "nature/hedge", "cell": [19, 15], "offset": [-13, -6], "flip": true},
-    {"art": "nature/hedge", "cell": [1, 35], "offset": [14, -1]},
-    {"art": "nature/wildflowers_orange", "cell": [52, 14], "offset": [-6, -3]},
-    {"art": "nature/grass_tuft", "cell": [38, 1], "offset": [-9, 5], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [47, 37], "offset": [10, 7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [3, 1], "offset": [-12, -7]},
-    {"art": "nature/clover_2", "cell": [42, 4], "offset": [14, 2]},
-    {"art": "nature/grass_tuft", "cell": [37, 30], "offset": [-9, 0]},
-    {"art": "nature/wildflowers_orange", "cell": [20, 19], "offset": [2, -4]},
-    {"art": "nature/clover_2", "cell": [25, 29], "offset": [8, 7], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [58, 29], "offset": [-5, 1], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [57, 13], "offset": [7, 6], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [52, 6], "offset": [-2, -5]},
-    {"art": "nature/grass_tuft", "cell": [10, 15], "offset": [-11, 2]},
-    {"art": "nature/hedge_2", "cell": [42, 12], "offset": [-12, -4]},
-    {"art": "nature/grass_tuft", "cell": [35, 2], "offset": [3, 5], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [45, 19], "offset": [4, 3], "flip": true},
-    {"art": "nature/wildflowers_blue", "cell": [18, 14], "offset": [8, 6]},
-    {"art": "nature/wildflowers_orange", "cell": [41, 37], "offset": [-4, 1]},
-    {"art": "nature/hedge", "cell": [58, 28], "offset": [-7, 7], "flip": true},
-    {"art": "nature/fern", "cell": [22, 4], "offset": [-14, 2], "flip": true},
-    {"art": "nature/hedge_2", "cell": [37, 1], "offset": [-1, -7], "flip": true},
-    {"art": "nature/clover_2", "cell": [48, 37], "offset": [0, -3], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [19, 18], "offset": [-8, -4]},
-    {"art": "nature/grass_tuft", "cell": [24, 38], "offset": [-11, -1]},
-    {"art": "nature/fern", "cell": [52, 15], "offset": [-13, -2]},
-    {"art": "nature/thistle", "cell": [44, 4], "offset": [-3, -6]},
-    {"art": "nature/fern", "cell": [19, 17], "offset": [11, -1]},
-    {"art": "nature/wildflowers_blue", "cell": [44, 12], "offset": [14, 3]},
-    {"art": "nature/clover_2", "cell": [53, 6], "offset": [-4, 6]},
-    {"art": "nature/wildflowers_blue", "cell": [37, 28], "offset": [-9, 2], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [20, 1], "offset": [11, 5], "flip": true},
-    {"art": "nature/clover", "cell": [45, 6], "offset": [6, 2], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [57, 38], "offset": [-8, -7], "flip": true},
-    {"art": "nature/clover_2", "cell": [26, 6], "offset": [-5, -1], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [47, 36], "offset": [-4, -7]},
-    {"art": "nature/thistle", "cell": [45, 1], "offset": [13, 3], "flip": true},
-    {"art": "nature/clover_2", "cell": [31, 1], "offset": [-6, 7], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [38, 38], "offset": [1, -6], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [49, 34], "offset": [-11, -7]},
-    {"art": "nature/clover", "cell": [58, 15], "offset": [1, -3]},
-    {"art": "nature/wildflowers_red", "cell": [49, 15], "offset": [-3, -4]},
-    {"art": "nature/wildflowers_blue", "cell": [8, 35], "offset": [-14, -6]},
-    {"art": "nature/clover_2", "cell": [42, 1], "offset": [10, -2], "flip": true},
-    {"art": "nature/wildflowers_orange", "cell": [4, 15], "offset": [-3, 5]},
-    {"art": "nature/hedge_2", "cell": [34, 27], "offset": [14, -7]},
-    {"art": "nature/clover", "cell": [38, 33], "offset": [-5, 1], "flip": true},
-    {"art": "nature/thistle", "cell": [55, 13], "offset": [6, -3]},
-    {"art": "nature/clover_2", "cell": [11, 17], "offset": [-1, 2], "flip": true},
-    {"art": "nature/clover_3", "cell": [19, 2], "offset": [4, -7], "flip": true},
-    {"art": "nature/grass_tuft", "cell": [13, 2], "offset": [-2, -3], "flip": true},
-    {"art": "nature/clover_3", "cell": [57, 34], "offset": [-10, -3]},
-    {"art": "nature/thistle", "cell": [55, 11], "offset": [5, 4], "flip": true},
-    {"art": "nature/wildflowers_red", "cell": [6, 1], "offset": [12, -1]},
-    {"art": "nature/irish_bird", "cell": [34, 28], "offset": [2, 4]},
-    {"art": "nature/white_dove", "cell": [5, 38], "offset": [11, 4]},
-    {"art": "nature/white_dove", "cell": [55, 1], "offset": [11, -1], "flip": true},
-    {"art": "nature/irish_bird", "cell": [26, 29], "offset": [0, -6], "flip": true},
-    {"art": "nature/butterfly_blue", "cell": [17, 2], "offset": [14, 1]},
-    {"art": "nature/ants", "cell": [48, 27], "offset": [8, 2]},
-    {"art": "nature/snail", "cell": [36, 35], "offset": [7, 0]},
-    {"art": "nature/ants", "cell": [32, 20], "offset": [-8, -7], "flip": true},
-    {"art": "nature/white_dove", "cell": [18, 20], "offset": [-6, -6]},
-    {"art": "nature/irish_bird_2", "cell": [32, 24], "offset": [7, 5], "flip": true},
-    {"art": "nature/grasshopper", "cell": [1, 19], "offset": [6, -7], "flip": true},
-    {"art": "nature/white_dove", "cell": [21, 2], "offset": [-10, 6]}
+    {"art": "nature/round_tree", "cell": [41, 36], "offset": [-9, 5]},
+    {"art": "nature/old_apple_tree", "cell": [15, 2], "offset": [6, 5], "flip": true},
+    {"art": "nature/apple_tree", "cell": [44, 7], "offset": [-6, 4], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [57, 18], "offset": [-6, 1], "flip": true},
+    {"art": "nature/apple_tree", "cell": [10, 2], "offset": [5, -5], "flip": true},
+    {"art": "nature/apple_tree", "cell": [53, 36], "offset": [10, -5]},
+    {"art": "nature/birch", "cell": [20, 18], "offset": [-10, 1], "flip": true},
+    {"art": "nature/apple_tree", "cell": [40, 3], "offset": [7, -2], "flip": true},
+    {"art": "nature/autumn_tree", "cell": [55, 14], "offset": [-8, -5], "flip": true},
+    {"art": "nature/copse", "cell": [3, 2], "offset": [-3, 0], "flip": true},
+    {"art": "nature/birch", "cell": [46, 18], "offset": [-6, -1], "flip": true},
+    {"art": "nature/great_oak", "cell": [44, 3], "offset": [1, 5], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [56, 3], "offset": [-8, 2], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [49, 37], "offset": [-6, 1], "flip": true},
+    {"art": "nature/great_oak", "cell": [26, 24], "offset": [4, -5]},
+    {"art": "nature/autumn_tree", "cell": [51, 5], "offset": [6, -3], "flip": true},
+    {"art": "nature/old_apple_tree", "cell": [46, 37], "offset": [-1, 0], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [40, 15], "offset": [10, -3]},
+    {"art": "nature/round_tree", "cell": [10, 16], "offset": [-2, -4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [58, 11], "offset": [5, 1], "flip": true},
+    {"art": "nature/clover", "cell": [37, 19], "offset": [-11, -6]},
+    {"art": "nature/wildflowers_red", "cell": [1, 16], "offset": [3, -3]},
+    {"art": "nature/grass_tuft", "cell": [24, 29], "offset": [-1, -3]},
+    {"art": "nature/wildflowers_blue", "cell": [8, 15], "offset": [-5, 3], "flip": true},
+    {"art": "nature/clover_3", "cell": [27, 29], "offset": [0, -5], "flip": true},
+    {"art": "nature/hedge_4", "cell": [49, 38], "offset": [-6, 5], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [40, 10], "offset": [-5, -5], "flip": true},
+    {"art": "nature/fern", "cell": [54, 13], "offset": [5, -1], "flip": true},
+    {"art": "nature/clover", "cell": [57, 12], "offset": [11, -2], "flip": true},
+    {"art": "nature/clover", "cell": [45, 18], "offset": [-5, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [55, 5], "offset": [-8, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [48, 4], "offset": [1, -1], "flip": true},
+    {"art": "nature/fern", "cell": [32, 27], "offset": [-11, 5], "flip": true},
+    {"art": "nature/clover_3", "cell": [36, 1], "offset": [12, -6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [57, 7], "offset": [7, -4]},
+    {"art": "nature/hedge", "cell": [16, 2], "offset": [-1, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [34, 4], "offset": [-10, -7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [56, 8], "offset": [11, 5]},
+    {"art": "nature/clover_3", "cell": [42, 3], "offset": [5, 1]},
+    {"art": "nature/hedge_2", "cell": [49, 3], "offset": [14, 0], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [41, 2], "offset": [-11, 3]},
+    {"art": "nature/grass_tuft", "cell": [54, 4], "offset": [-14, -4]},
+    {"art": "nature/clover_3", "cell": [35, 3], "offset": [2, -7]},
+    {"art": "nature/hedge", "cell": [47, 15], "offset": [1, 5], "flip": true},
+    {"art": "nature/fern", "cell": [34, 6], "offset": [13, 0]},
+    {"art": "nature/clover_3", "cell": [33, 19], "offset": [7, -7]},
+    {"art": "nature/fern", "cell": [58, 9], "offset": [-2, 5], "flip": true},
+    {"art": "nature/hedge_2", "cell": [45, 4], "offset": [-13, -2], "flip": true},
+    {"art": "nature/fern", "cell": [52, 14], "offset": [-8, -1]},
+    {"art": "nature/hedge", "cell": [57, 6], "offset": [-13, -6], "flip": true},
+    {"art": "nature/hedge", "cell": [8, 36], "offset": [14, -1]},
+    {"art": "nature/wildflowers_orange", "cell": [40, 34], "offset": [-6, -3]},
+    {"art": "nature/grass_tuft", "cell": [50, 36], "offset": [-9, 5], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [53, 8], "offset": [10, 7], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [43, 2], "offset": [-12, -7]},
+    {"art": "nature/clover_2", "cell": [41, 35], "offset": [14, 2]},
+    {"art": "nature/grass_tuft", "cell": [45, 17], "offset": [-9, 0]},
+    {"art": "nature/wildflowers_orange", "cell": [25, 5], "offset": [2, -4]},
+    {"art": "nature/clover_2", "cell": [45, 9], "offset": [8, 7], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [39, 1], "offset": [-5, 1], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [19, 36], "offset": [7, 6], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [1, 23], "offset": [-2, -5]},
+    {"art": "nature/grass_tuft", "cell": [53, 2], "offset": [-11, 2]},
+    {"art": "nature/hedge_2", "cell": [19, 10], "offset": [-12, -4]},
+    {"art": "nature/grass_tuft", "cell": [52, 15], "offset": [3, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [55, 3], "offset": [4, 3], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [1, 20], "offset": [8, 6]},
+    {"art": "nature/wildflowers_orange", "cell": [27, 1], "offset": [-4, 1]},
+    {"art": "nature/hedge", "cell": [27, 6], "offset": [-7, 7], "flip": true},
+    {"art": "nature/fern", "cell": [47, 19], "offset": [-14, 2], "flip": true},
+    {"art": "nature/hedge_2", "cell": [46, 5], "offset": [-1, -7], "flip": true},
+    {"art": "nature/clover_2", "cell": [50, 3], "offset": [0, -3], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [57, 4], "offset": [-8, -4]},
+    {"art": "nature/grass_tuft", "cell": [53, 6], "offset": [-11, -1]},
+    {"art": "nature/fern", "cell": [50, 4], "offset": [-13, -2]},
+    {"art": "nature/thistle", "cell": [51, 36], "offset": [-3, -6]},
+    {"art": "nature/fern", "cell": [20, 29], "offset": [11, -1]},
+    {"art": "nature/wildflowers_blue", "cell": [49, 15], "offset": [14, 3]},
+    {"art": "nature/clover_2", "cell": [26, 13], "offset": [-4, 6]},
+    {"art": "nature/wildflowers_blue", "cell": [34, 27], "offset": [-9, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [41, 13], "offset": [11, 5], "flip": true},
+    {"art": "nature/clover", "cell": [2, 30], "offset": [6, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [38, 33], "offset": [-8, -7], "flip": true},
+    {"art": "nature/clover_2", "cell": [1, 25], "offset": [-5, -1], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [3, 5], "offset": [-4, -7]},
+    {"art": "nature/thistle", "cell": [2, 27], "offset": [13, 3], "flip": true},
+    {"art": "nature/clover_2", "cell": [19, 2], "offset": [-6, 7], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [9, 1], "offset": [1, -6], "flip": true},
+    {"art": "nature/wildflowers_red", "cell": [47, 1], "offset": [-11, -7]},
+    {"art": "nature/clover", "cell": [42, 10], "offset": [1, -3]},
+    {"art": "nature/wildflowers_red", "cell": [50, 38], "offset": [-3, -4]},
+    {"art": "nature/wildflowers_blue", "cell": [56, 1], "offset": [-14, -6]},
+    {"art": "nature/clover_2", "cell": [33, 25], "offset": [10, -2], "flip": true},
+    {"art": "nature/wildflowers_orange", "cell": [35, 29], "offset": [-3, 5]},
+    {"art": "nature/hedge_2", "cell": [7, 36], "offset": [14, -7]},
+    {"art": "nature/bee", "cell": [34, 28], "offset": [14, -4], "flip": true},
+    {"art": "nature/sparrow", "cell": [5, 38], "offset": [9, 7], "flip": true},
+    {"art": "nature/white_dove", "cell": [55, 1], "offset": [-12, 0]},
+    {"art": "nature/butterfly", "cell": [26, 29], "offset": [7, 1], "flip": true},
+    {"art": "nature/white_dove", "cell": [17, 2], "offset": [-10, -4], "flip": true},
+    {"art": "nature/irish_bird_3", "cell": [48, 27], "offset": [-3, -2], "flip": true},
+    {"art": "nature/grasshopper", "cell": [47, 5], "offset": [13, -6]},
+    {"art": "nature/butterfly_blue", "cell": [32, 20], "offset": [1, -3]},
+    {"art": "nature/ants", "cell": [18, 20], "offset": [-6, 7], "flip": true},
+    {"art": "nature/white_dove", "cell": [32, 24], "offset": [-9, -6]},
+    {"art": "nature/irish_bird_3", "cell": [1, 19], "offset": [8, 0]},
+    {"art": "nature/irish_bird_2", "cell": [21, 2], "offset": [6, 1], "flip": true}
   ]
 }
