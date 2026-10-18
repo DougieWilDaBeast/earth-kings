@@ -284,7 +284,7 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
   "name": "Fen-on-the-Hill",
   "tileset": "village",
   "legend": { ".": "grass", "~": "water", "#": "crag", "=": "dirt" },
-  "tiles": ["#######....######", "##....======...##"],
+  "rows": ["#######....######", "##....======...##"],
   "spawn": [8, 12],
   "exits": [
     [8, 14],
@@ -319,6 +319,12 @@ rounds does not `wander`. Every stop has to be walkable from where they stand.
 ([D85](06-decisions.md)): on the ring of cells round it, a tower at each corner and either side of
 each exit, a gap in front of each exit, and a lane kept clear outside. The place needs two cells
 spare each way in its tile. The pictures are `art/props/walls/<build>_run`, `_side` and `_tower`.
+
+**`covers`** on a place ([w, h]) stands it over that many tiles of the land, not one ([D247](06-decisions.md)),
+with the tile `anchor` ([x, y] within it, [0, 0] when absent) on its site. It is laid out whole in the
+middle of a ground w slots by h, the land's floor round it, and cut into one piece per tile; paths
+from the land meet its exits, and sides between its pieces are open. Stormreach (`city_streets`,
+[2, 2]) is the one so far.
 
 **Props.** Each picture is drawn at the size `data/props.json` gives its kind (see below) and stands
 in the way if its kind does. An entry may override any of it: `scale`, `solid`, `base` ([width,
@@ -489,7 +495,8 @@ run's seed still deals, is [27](27-the-world.md).
 
 - `size` — cells across and down of every generated ground, and of every tile's slot on the land
   ([D84](06-decisions.md)): a place's area (no bigger than it, less two each way) stands in the
-  middle of its tile's slot with the land's ground round it. `landmark_chance` — the share of
+  middle of its tile's slot with the land's ground round it, unless it `covers` more tiles than one
+  ([D247](06-decisions.md)). `landmark_chance` — the share of
   grounds with something somebody left (a cold camp, a stone ring, a cairn, a cache).
 - `ground` — the four area terrains (`tilesets.json` → `terrains`) the land is made of; `layers`,
   the sheets they are drawn with, bottom first. Cover is walkable and blocks a band's sight.

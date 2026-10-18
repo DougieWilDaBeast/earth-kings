@@ -129,7 +129,8 @@ each, each ending playable:
    clear. Tuned since by [D113](06-decisions.md): about a level a fight.
 5. The crater opening, the Tower's city and the Guild, to the first gate — built
    ([D101](06-decisions.md), design meeting 2's calls A to E). The first world's lead comes down 12
-   to 16 tiles from Stormreach, which now stands at the Tower's foot; Bram pulls them out, Sky is in
+   to 16 tiles from Stormreach, which now stands at the Tower's foot (since [D247](06-decisions.md) a walled city
+   on the land, two tiles by two, walked into by its south gate with no door, the Tower just past its north gate); Bram pulls them out, Sky is in
    Atlas's crater and carries him on the ground; the Guild keeps the Tower's door and nobody climbs
    until a gate is shut; the open rank E gate Greyhollow stands 8 tiles from the city in every world.
    The opening shows another lead's world ending. The Tower's foot is rock and flagstone and its shaft
@@ -366,7 +367,7 @@ each, each ending playable:
    screen and no jumping at 5× (the camera smooths at its own pace), no fighters dancing side by side (a
    blow reaches the diagonals), one line of what can be done and a log that clears itself, a gate far
    above the company asks twice, climbers who join a fight and rest round a fire. **Planned**, waiting
-   on his order: Stormreach walked outside, fights inside a gate (built, item 29), Tower floors that grow, climbers with
+   on his order: Stormreach walked outside (built, [D247](06-decisions.md)), fights inside a gate (built, item 29), Tower floors that grow, climbers with
    a part to play, hamlets and homesteads worth going to, paths and gates' ground that fit, carriages
    ([28](28-the-first-hour.md#play-test-6s-asks)).
 29. **Fights inside gates** — built (`doug-md`, play-test 6, his first pick of its asks, [D248](06-decisions.md)):

@@ -75,6 +75,7 @@ func _ready() -> void:
 	await _check_play_test_four()
 	await _check_followers_face()
 	_check_tracks()
+	_check_open_city()
 	await _check_play_hud()
 
 	print("")
@@ -1544,6 +1545,41 @@ func _check_tracks() -> void:
 	if standing.size() != 1 or not says.begins_with("A signpost.") or says.contains("Where You Fell"):
 		_fail("tracks: the signpost at %s stands %d times and says %s" % [post, standing.size(), says])
 	print("tracks: %d of %d places joined, a track laid on its tiles, a signpost: %s" % [joined, Tracks.places(world).size(), says])
+
+
+## Stormreach walked outside ([D247]): the city stands on the land over two tiles by two, with
+## every one of its people standing in one piece of it, and the Tower just north of its north gate
+## (one tile, not a piece of the city).
+func _check_open_city() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	var city: Site = null
+	for site: Site in world.sites:
+		if str(site.data.get("area", "")) == "city_streets":
+			city = site
+	if city == null:
+		_fail("open city: no site stands as city_streets")
+		return
+	var area := Database.area("city_streets")
+	var people := 0
+	for dy in 2:
+		for dx in 2:
+			var tile := city.cell + Vector2i(dx, dy)
+			if not GroundGen.in_big_place(world, tile):
+				_fail("open city: %s is not a piece of Stormreach" % [tile])
+				continue
+			var slot := GroundGen.slot(world, tile)
+			if str(slot.get("place", {}).get("id", "")) != "city_streets":
+				_fail("open city: the piece at %s is not Stormreach's ground (%s)" % [tile, slot.get("place", {})])
+			people += (slot.get("people", []) as Array).size()
+	if people != (area.get("people", []) as Array).size():
+		_fail("open city: %d people stand in its pieces, the city has %d" % [people, (area.get("people", []) as Array).size()])
+	var tower := world.site_at(city.cell + Vector2i(0, -1))
+	if tower == null or tower.kind != "tower" or GroundGen.in_big_place(world, tower.cell):
+		_fail("open city: the Tower does not stand alone just north of the city (%s)" % [tower])
+	if GroundGen.in_big_place(world, city.cell + Vector2i(2, 0)) or GroundGen.in_big_place(world, city.cell + Vector2i(0, 2)):
+		_fail("open city: Stormreach covers more than two tiles by two")
+	print("open city: Stormreach over 4 tiles, %d people in it, the Tower to the north" % people)
 
 
 ## Play-test 3's small fixes ([D178]): a click on open ground walks the party there; Atlas met

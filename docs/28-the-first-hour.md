@@ -204,7 +204,8 @@ tip now says so).
 5. **Every fight where it happens**: the roadside toll, defending a town under siege (Coldrun, with
    archers on its towers), and Tower floors 6 up, not a separate arena; a short scene before choosing.
 6. **Stormreach built round the Tower**: the Tower in the middle and the town all round it, not a
-   door that opens onto a city.
+   door that opens onto a city. Built ([D247](06-decisions.md), play-test 6, pick B): the city is walked on the land
+   with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places.
 8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
@@ -274,7 +275,8 @@ that needs more than a fix, **planned**, waiting on his order. Already done: the
 ([D246](06-decisions.md)): the black screen and the jumping at 5×, fighters dancing side by side,
 text crossing at the bottom of the screen, a far-too-strong gate asking twice, climbers who fight.
 1. **Stormreach walked outside**: the city laid out in the open, big, the Tower beside it or in its
-   middle, not entered through a small building.
+   middle, not entered through a small building. Built ([D247](06-decisions.md), pick B): a walled city
+   on the land, the Tower just past its north gate.
 2. **Fights inside a gate**: going into a gate opens a whole area to fight through; fights outside a
    gate only when it breaks (this turns back [D162](06-decisions.md)). His first pick (2026-10-18):
    built ([D248](06-decisions.md), #314): each floor rock chambers from the doorway to the way down, a
