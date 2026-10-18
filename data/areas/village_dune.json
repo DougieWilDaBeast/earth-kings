@@ -57,7 +57,7 @@
       ],
       "line": "A bronze casket half-buried under feed sacks.",
       "art": "chest_gold",
-      "gold": 125,
+      "gold": 3000,
       "item": "soldiers_ring"
     },
     {
@@ -67,7 +67,7 @@
       ],
       "line": "A caravan lockbox wedged between stone curbing.",
       "art": "strongbox",
-      "gold": 180
+      "gold": 4500
     }
   ],
   "props": [
@@ -319,8 +319,8 @@
       "talk": {
         "refuse": {
           "text": "Keep moving. Keep the gate clear of pack beasts.",
-          "bribe": 10,
-          "bribe_q": "Ten gold for a minute of your time?",
+          "bribe": 300,
+          "bribe_q": "Three silver for a minute of your time?",
           "won": "...A minute. The sun's hot and the captain's asleep.",
           "won_flag": "tariq:paid",
           "unless": "tariq:paid",
@@ -401,8 +401,8 @@
           "chance": 0.5,
           "unless": "ibb:won",
           "text": "Ibb is counting. Ibb does not stop counting for anyone.",
-          "bribe": 3,
-          "bribe_q": "Add three gold to the pile.",
+          "bribe": 100,
+          "bribe_q": "Add a silver to the pile.",
           "won": "Three! A good number. Ibb is listening.",
           "won_flag": "ibb:won",
           "leave": "Let it count."

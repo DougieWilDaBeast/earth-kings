@@ -278,7 +278,7 @@ each, each ending playable:
    at a time, in this order, all **planned**: (1) Auto walks on from the first gate to the Tower's yard
    door, one save per arrival at the city, a fall names its killer, and the soak plays a lead the quiz
    deals ([D197](06-decisions.md)); (2) stances on the fighter cards, Own way, Close in, Keep away, Guard,
-   Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next; (4) **the Second
+   Hold ([D195](06-decisions.md), call BC; **built**, [D209](06-decisions.md)); (3) coins in four metals, `doug-md`'s next (**built**, [D253](06-decisions.md)); (4) **the Second
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md)), then sixteen
    self-played runs to floor 10 (2 to 5 falls); (5) `doug-md`'s play-test asks in his order. His play-test
@@ -702,9 +702,9 @@ built; the one view and the end of the step clock wait on agenda items 20 and 21
 - One world, the same every run ✅ (2026-10-14, [D91](06-decisions.md), [D92](06-decisions.md)):
   `doug-md`'s Map F frozen into `data/world_map.json` with the Tower in the middle; its lands and
   ground the same every run too; improved by hand from here ([27](27-the-world.md))
-- Coins and prices (agenda item 60, planned): four coins, copper to platinum ([D177](06-decisions.md)),
-  and every price set again, proposed in [26](26-coins-and-prices.md) for `doug-md` to check
-  ([D89](06-decisions.md), [D90](06-decisions.md))
+- Coins and prices (agenda item 60) ✅ (2026-10-18, [D253](06-decisions.md)): four coins, copper to
+  platinum ([D177](06-decisions.md)), every price set again as [26](26-coins-and-prices.md) proposed
+  ([D89](06-decisions.md), [D90](06-decisions.md)); `doug-md` still to check the numbers (agenda row 166)
 - Planar areas that differ (agenda item 62) ✅ (2026-10-12, [D66](06-decisions.md)): eighteen lands
   ([investigation/09](investigation/09-lands-of-the-continent.md)), placed by the world's shape and
   reshaped round gates; every tile of open country its own ground, with ways out only where the land

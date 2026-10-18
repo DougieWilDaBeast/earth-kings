@@ -483,7 +483,7 @@ func _check_grimoires(world: World) -> void:
 	_expect(not Grimoire.buy_and_read(site, reader, world).is_empty(), "a refused sale said nothing")
 	_expect(not Grimoire.offer(site).is_empty(), "the shelf lost a book that was never paid for")
 
-	GameState.gold = 100000
+	GameState.gold = 2000000
 	var outcomes: Dictionary = {}
 	for i in 300:
 		site.data["grimoire"] = {}

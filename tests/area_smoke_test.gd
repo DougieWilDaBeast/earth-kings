@@ -26,6 +26,7 @@ const AREAS := [
 const CUTSCENE_PATIENCE := 20.0
 const SaveFile := preload("res://src/chronicle/save_file.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
@@ -395,7 +396,7 @@ func _check_the_crater_town() -> void:
 	for person: Dictionary in streets.people:
 		if person.get("name", "") == "Muck Muck":
 			muck = person
-	GameState.gold = 1000
+	GameState.gold = 20000
 	var builds := func() -> Array:
 		var nodes: Dictionary = Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")
 		return DialogueScript.available_options(nodes["menu"]).filter(func(o: Dictionary) -> bool:
@@ -410,9 +411,9 @@ func _check_the_crater_town() -> void:
 		DialogueScript.apply_effects(option)
 		var nodes: Dictionary = Talk.build("Muck Muck", muck["talk"], false, 0.5, "met:test")
 		DialogueScript.apply_effects(nodes[str(option.get("goto", ""))])
-	if not (GameState.has_flag("town:smithy") and GameState.has_flag("town:infirmary")) or GameState.gold != 400:
+	if not (GameState.has_flag("town:smithy") and GameState.has_flag("town:infirmary")) or GameState.gold != 5000:
 		_fail("crater town: paying Muck Muck built nothing (%d gold left)" % GameState.gold)
-	GameState.gold = 1000
+	GameState.gold = 20000
 	var wall: Array = builds.call()
 	if wall.size() != 1:
 		_fail("crater town: no wall offered once the smithy and infirmary stand")
@@ -463,7 +464,7 @@ func _check_a_house_in_stormreach() -> void:
 		DialogueScript.apply_effects(nodes[str(option.get("goto", ""))])
 	var marta: Dictionary = person_in.call("city_tavern", "Marta the Landlady")
 	var hobb: Dictionary = person_in.call("city_streets", "Steward Hobb")
-	GameState.gold = 2000
+	GameState.gold = 40000
 	if not (asks.call(hobb, "We keep a room") as Array).is_empty():
 		_fail("house: the Steward sells the house to a company with no room in the city")
 	var lease: Array = asks.call(marta, "Let us keep room two")
@@ -471,7 +472,7 @@ func _check_a_house_in_stormreach() -> void:
 		_fail("house: Marta does not offer to let room two for good")
 		return
 	take.call(marta, lease[0])
-	if not GameState.has_flag("home:room") or GameState.gold != 1750:
+	if not GameState.has_flag("home:room") or GameState.gold != 34000:
 		_fail("house: keeping room two set nothing (%d gold left)" % GameState.gold)
 	if not (asks.call(marta, "A room for the night") as Array).is_empty():
 		_fail("house: Marta still sells a night with room two kept")
@@ -480,7 +481,7 @@ func _check_a_house_in_stormreach() -> void:
 		_fail("house: the Steward does not sell the narrow house once a room is kept")
 		return
 	take.call(hobb, sale[0])
-	if not GameState.has_flag("home:house") or GameState.gold != 850:
+	if not GameState.has_flag("home:house") or GameState.gold != 11500:
 		_fail("house: buying the narrow house set nothing (%d gold left)" % GameState.gold)
 	var door := {}
 	for building: Dictionary in AreaMap.load_area("city_streets").buildings:
@@ -1495,7 +1496,7 @@ func _check_play_hud() -> void:
 		var party := GameState.party_characters()
 		_expect_tut(hud._rows.get_child_count() == party.size(),
 			"play hud: %d rows for a company of %d" % [hud._rows.get_child_count(), party.size()])
-		_expect_tut(hud._purse.text.contains(str(GameState.gold)), "play hud: the purse says %s, not %d" % [hud._purse.text, GameState.gold])
+		_expect_tut(hud._purse.text.contains(Coins.text(GameState.gold)), "play hud: the purse says %s, not %s" % [hud._purse.text, Coins.text(GameState.gold)])
 		var hurt: Character = party[0]
 		var was := hurt.hp
 		hurt.hp = maxi(1, hurt.max_hp() / 5)

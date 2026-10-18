@@ -7,6 +7,7 @@ extends CanvasLayer
 const Guild := preload("res://src/chronicle/guild.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 var _root: Control
 var _title: Label
@@ -78,7 +79,7 @@ func _rebuild() -> void:
 ## The hall's map of its own country ([D50]): bought once, copied into yours.
 func _map_row(world: World, hall: Site) -> Control:
 	var lines: Dictionary = Atlas.guild_terms().get("lines", {})
-	var tokens := {"hall": hall.display_name, "price": Atlas.guild_map_price()}
+	var tokens := {"hall": hall.display_name, "price": Coins.text(Atlas.guild_map_price())}
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	var bought := Atlas.guild_map_bought(hall)

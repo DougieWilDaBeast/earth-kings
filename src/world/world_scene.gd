@@ -39,6 +39,7 @@ const Markers := preload("res://src/world/markers.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -623,7 +624,7 @@ func _settle_up(won: bool) -> void:
 			Pace.avoided[outcome.get("cell", world.player_cell)] = true
 		_note(str(outcome.get("lost", "You came away with nothing.")))
 		if str(outcome.get("kind", "")) == "tower" and world.tower_hoard > 0:
-			_note("%d gold goes down the stair with everything else you were carrying." % world.tower_hoard)
+			_note("%s goes down the stair with everything else you were carrying." % Coins.text(world.tower_hoard))
 			world.tower_hoard = 0
 		if str(outcome.get("kind", "")) in ["gate", "gate_band"]:
 			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
@@ -708,8 +709,8 @@ func _settle_up(won: bool) -> void:
 					int(Renown.rules().get("tower_topped", 8)) * 2,
 					"the company conquered the pinnacle of the Tower"
 				)
-				Annals.record(world, "The company stood upon the summit of the Tower, claiming %d gold." % hoard)
-				_note("The clouds part over the continent. You stand atop the conquered Tower! %d gold claimed from the hoard." % hoard)
+				Annals.record(world, "The company stood upon the summit of the Tower, claiming %s." % Coins.text(hoard))
+				_note("The clouds part over the continent. You stand atop the conquered Tower! %s claimed from the hoard." % Coins.text(hoard))
 				for hero: Character in party:
 					hero.hearth_vigour += 8
 				_celebrate_tower_conquest()
@@ -918,7 +919,7 @@ func _check_for_captives(site: Site) -> void:
 	if _captive_here == null:
 		return
 	var price := int(_captive_here.captive.get("ransom", 0))
-	_note("%s is being held here. They want %d gold." % [_captive_here.display_name, price])
+	_note("%s is being held here. They want %s." % [_captive_here.display_name, Coins.text(price)])
 
 
 func _captive_at(site: Site) -> Character:
@@ -1099,7 +1100,7 @@ func _climb(site: Site) -> void:
 		next_floor, world.tower_floors(), Chapters.chapter_of(next_floor), Chapters.chapters(world),
 	])
 	if world.tower_hoard > 0:
-		_note("You are still carrying %d gold. Lose here and it stays here." % world.tower_hoard)
+		_note("You are still carrying %s. Lose here and it stays here." % Coins.text(world.tower_hoard))
 	# The first floors are walked: their own ground, bands watching it, and the stair up at the
 	# far end, kept on the last of them by a keeper (D102).
 	var walked := Chapters.walked_floor_area(next_floor)
@@ -1181,7 +1182,7 @@ func _carry_the_hoard_out() -> void:
 	var carried := world.tower_hoard
 	world.tower_hoard = 0
 	GameState.gold += carried
-	_note("You walk away from the Tower with %d gold." % carried)
+	_note("You walk away from the Tower with %s." % Coins.text(carried))
 
 
 func _standing_at_the_tower() -> bool:
@@ -1267,10 +1268,10 @@ func _doings_here() -> Array[Dictionary]:
 	if _captive_here != null:
 		return [
 			_doable(
-				"%s to ransom %s for %d gold" % [
-					_key("captive_ransom"), _captive_here.display_name, int(_captive_here.captive.get("ransom", 0))
+				"%s to ransom %s for %s" % [
+					_key("captive_ransom"), _captive_here.display_name, Coins.text(int(_captive_here.captive.get("ransom", 0)))
 				],
-				"Ransom (%d gold)" % int(_captive_here.captive.get("ransom", 0)), _ransom_here
+				"Ransom (%s)" % Coins.text(int(_captive_here.captive.get("ransom", 0))), _ransom_here
 			),
 			_doable("%s to take them back by force." % _key("captive_rescue"), "Take by force", _fight_for_captive),
 		]
@@ -1347,19 +1348,19 @@ func _doings_here() -> Array[Dictionary]:
 		var offer := Market.hire_offer(site)
 		if not offer.is_empty():
 			parts.append(_doable(
-				"%s to hire %s (level %d, %d gold)" % [
-					_key("site_hire"), offer["display_name"], offer["level"], Market.asking_hire_cost(site, world, offer)
+				"%s to hire %s (level %d, %s)" % [
+					_key("site_hire"), offer["display_name"], offer["level"], Coins.text(Market.asking_hire_cost(site, world, offer))
 				],
-				"Hire %s (%d gold)" % [
-					offer["display_name"], Market.asking_hire_cost(site, world, offer)
+				"Hire %s (%s)" % [
+					offer["display_name"], Coins.text(Market.asking_hire_cost(site, world, offer))
 				], _hire_here
 			))
 		var ware := Market.in_hand(site)
 		if ware != "":
 			var ware_name: String = Database.equipment_piece(ware).get("display_name", ware)
 			parts.append(_doable(
-				"%s to buy %s (%d gold)" % [_key("site_buy"), ware_name, Market.asking_price(site, world, ware)],
-				"Buy %s (%d gold)" % [ware_name, Market.asking_price(site, world, ware)],
+				"%s to buy %s (%s)" % [_key("site_buy"), ware_name, Coins.text(Market.asking_price(site, world, ware))],
+				"Buy %s (%s)" % [ware_name, Coins.text(Market.asking_price(site, world, ware))],
 				_buy_here
 			))
 			var shown := Market.on_show(site).size()
@@ -1369,15 +1370,15 @@ func _doings_here() -> Array[Dictionary]:
 				))
 		if not FirstHour.hides("grimoires") and not Grimoire.offer(site).is_empty():
 			parts.append(_doable(
-				"%s for the book, unread (%d gold)" % [_key("site_grimoire"), Grimoire.price(site)],
-				"The book (%d gold)" % Grimoire.price(site), _buy_grimoire_here
+				"%s for the book, unread (%s)" % [_key("site_grimoire"), Coins.text(Grimoire.price(site))],
+				"The book (%s)" % Coins.text(Grimoire.price(site)), _buy_grimoire_here
 			))
 		if not FirstHour.hides("ferries") and Ferry.is_port(world, site.cell):
 			var dest := Ferry.next_port(world, site.cell)
 			if dest != null:
 				parts.append(_doable(
-					"%s to sail to %s (%d gold)" % [_key("", "O"), dest.display_name, Ferry.fare(world, site, dest)],
-					"Sail to %s (%d gold)" % [dest.display_name, Ferry.fare(world, site, dest)],
+					"%s to sail to %s (%s)" % [_key("", "O"), dest.display_name, Coins.text(Ferry.fare(world, site, dest))],
+					"Sail to %s (%s)" % [dest.display_name, Coins.text(Ferry.fare(world, site, dest))],
 					_sail_here
 				))
 		if not parts.is_empty():
@@ -1540,13 +1541,13 @@ func _home_actions(site: Site) -> Array[Dictionary]:
 	return [
 		_telling(Home.bed_name(site)),
 		_doable(
-			"%s for %s (%d gold, +%d HP)" % [
+			"%s for %s (%s, +%d HP)" % [
 				_key("", "U"), better.get("display_name", "a better bed").to_lower(),
-				int(better.get("cost", 0)),
+				Coins.text(int(better.get("cost", 0))),
 				int(better.get("vigour", 0)),
 			],
-			"%s (%d gold)" % [
-				better.get("display_name", "a better bed"), int(better.get("cost", 0))
+			"%s (%s)" % [
+				better.get("display_name", "a better bed"), Coins.text(int(better.get("cost", 0)))
 			],
 			_upgrade_bed_here
 		),
@@ -2040,7 +2041,7 @@ func _hire_here() -> void:
 
 	var hired := Market.hire(site, GameState.roster, world)
 	if hired == null:
-		_note("You cannot afford %d gold." % Market.asking_hire_cost(site, world, offer))
+		_note("You cannot afford %s." % Coins.text(Market.asking_hire_cost(site, world, offer)))
 		return
 	_note("%s falls in with you." % hired.display_name)
 	_refresh()
@@ -2159,9 +2160,9 @@ func _ransom_here() -> void:
 		return
 	var price := int(_captive_here.captive.get("ransom", 0))
 	if not Captivity.ransom(_captive_here, GameState.roster):
-		_note("They want %d gold and you do not have it." % price)
+		_note("They want %s and you do not have it." % Coins.text(price))
 		return
-	_note("%s is bought back for %d gold." % [_captive_here.display_name, price])
+	_note("%s is bought back for %s." % [_captive_here.display_name, Coins.text(price)])
 	_captive_here = null
 	_refresh()
 	_say_what_can_be_done()
@@ -2259,8 +2260,8 @@ func _refresh() -> void:
 	var region: String = world.region_at(world.player_cell)
 	var where: String = site.label() if site != null else world.terrain_at(world.player_cell).get("name", "open ground")
 	var when := "  ·  %s (%s)" % [Season.label(world), s["clover_name"]] if seasons else ""
-	_place.text = "%s  ·  %s%s  ·  %d gold  ·  step %d  ·  %d bands abroad" % [
-		where, region, when, GameState.gold, world.steps, world.prowlers.size()
+	_place.text = "%s  ·  %s%s  ·  %s  ·  step %d  ·  %d bands abroad" % [
+		where, region, when, Coins.text(GameState.gold), world.steps, world.prowlers.size()
 	]
 
 	var entries: Array[String] = []

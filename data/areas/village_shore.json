@@ -58,7 +58,7 @@
         2
       ],
       "line": "A salt barrel with a false bottom, which is exactly where you looked.",
-      "gold": 80,
+      "gold": 2000,
       "item": "grave_token"
     },
     {
@@ -67,7 +67,7 @@
         14
       ],
       "line": "A sea chest come in on the tide, still locked, still heavy.",
-      "gold": 165
+      "gold": 4000
     }
   ],
   "buildings": [
@@ -188,7 +188,7 @@
           },
           {
             "item": "salt_pouch",
-            "price": 55
+            "price": 1400
           }
         ],
         "shop": "Salt, ale, and bread that's only a bit salty.",

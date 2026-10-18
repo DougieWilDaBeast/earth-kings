@@ -119,7 +119,7 @@
         36
       ],
       "line": "A strongbox wedged behind a rain barrel, and the barrel was the only lock.",
-      "gold": 60
+      "gold": 1500
     },
     {
       "cell": [
@@ -127,7 +127,7 @@
         37
       ],
       "line": "A loose cobble by the wall, with somebody's savings under it.",
-      "gold": 35,
+      "gold": 1000,
       "item": "salt_pouch"
     },
     {
@@ -136,7 +136,7 @@
         19
       ],
       "line": "A sack dropped in the alley. Whoever ran from the Watch dropped it.",
-      "gold": 40,
+      "gold": 1000,
       "item": "whetstone"
     },
     {
@@ -145,7 +145,7 @@
         34
       ],
       "line": "A crate fallen off a cart, and nobody has come back for it.",
-      "gold": 55,
+      "gold": 1500,
       "item": "salt_pouch"
     }
   ],
@@ -2417,7 +2417,7 @@
           "hand_over": "He was asleep in the reeds by the pond. He's home.",
           "not_yet": "Not yet.",
           "done": "PUDDING. You great orange idiot. ...Thank you. Here, and take a loaf, and don't argue.",
-          "gold": 25,
+          "gold": 650,
           "item": "bread"
         },
         "bye": "Mind the step. Everybody minds the step."
@@ -2465,7 +2465,7 @@
           "hand_over": "All three are lit.",
           "not_yet": "Not yet.",
           "done": "Thank you. I'll say their names at dusk. If you'd like a name said, tell me, and I'll say that too.",
-          "gold": 20,
+          "gold": 500,
           "item": "red_draught"
         },
         "bye": "Go carefully. The Tower is patient."
@@ -2553,7 +2553,7 @@
           "hand_over": "Here: a crown, struck through, and a date three days off.",
           "not_yet": "Not yet.",
           "done": "Three days. Right. You've done the city a service, and the city will forget it by morning. I won't.",
-          "gold": 35
+          "gold": 900
         },
         "bye": "Move along."
       }
@@ -2593,7 +2593,7 @@
           "hand_over": "Hobb has it.",
           "not_yet": "Not yet.",
           "done": "Good. Then I get paid, and so do you.",
-          "gold": 20
+          "gold": 500
         },
         "bye": "Don't sign anything you can't read."
       }
@@ -2636,14 +2636,14 @@
             "a": "To people who live in the city, yes. You sleep in a ditch, by the look of you. Take a room somewhere and keep it, and come back when you are a resident."
           },
           {
-            "q": "We keep a room at the Flagon now. The narrow house (900 gold)?",
-            "cost": 900,
+            "q": "We keep a room at the Flagon now. The narrow house (2 gold 25 silver)?",
+            "cost": 22500,
             "requires": "home:room",
             "requires_not": [
               "home:house"
             ],
             "set_flag": "home:house",
-            "a": "Nine hundred. Sign here. And here. The key. The roof is sound, the chimney draws, and the last tenant is not coming back for anything, so don't ask. It's yours: your bed, your strongbox, your door. The Margrave thanks you for your residence, through me."
+            "a": "Two gold and twenty-five silver. Sign here. And here. The key. The roof is sound, the chimney draws, and the last tenant is not coming back for anything, so don't ask. It's yours: your bed, your strongbox, your door. The Margrave thanks you for your residence, through me."
           },
           {
             "q": "About our house.",
@@ -3053,7 +3053,7 @@
           {
             "q": "Sing something.",
             "a": "♪ One climbed for gold and one climbed for fame, and one climbed because the others came. And one sat down at the foot of the stair, and said, I'll stay. Somebody should be there. ♪",
-            "cost": 1
+            "cost": 25
           },
           {
             "q": "Who was the one who sat down?",
@@ -3209,14 +3209,14 @@
             "a": "You've shut a gate, so the Guild will vouch for you, and you've ground of your own: that crater you came down in. Flattest ground for a mile, and you cleared it for free. Nobody will fight you for it. Pay me and I'll start: a smithy, an infirmary, then a wall, and people will come."
           },
           {
-            "q": "Build a smithy at the crater (300 gold).",
+            "q": "Build a smithy at the crater (75 silver).",
             "requires": [
               "carried:shut"
             ],
             "requires_not": [
               "town:smithy"
             ],
-            "cost": 300,
+            "cost": 7500,
             "set_flag": [
               "town:smithy",
               "town:begun"
@@ -3224,14 +3224,14 @@
             "a": "A forge, an anvil and a roof over both, and a smith to work them: I know one who's sick of the city. It'll be standing when you next walk in."
           },
           {
-            "q": "Build an infirmary at the crater (300 gold).",
+            "q": "Build an infirmary at the crater (75 silver).",
             "requires": [
               "carried:shut"
             ],
             "requires_not": [
               "town:infirmary"
             ],
-            "cost": 300,
+            "cost": 7500,
             "set_flag": [
               "town:infirmary",
               "town:begun"
@@ -3239,7 +3239,7 @@
             "a": "Cots, clean water and a healer who isn't Sinner. Sinner taught her, mind. It'll be up when you're back."
           },
           {
-            "q": "Put a wall round the crater (500 gold).",
+            "q": "Put a wall round the crater (1 gold 25 silver).",
             "requires": [
               "town:smithy",
               "town:infirmary"
@@ -3247,7 +3247,7 @@
             "requires_not": [
               "town:wall"
             ],
-            "cost": 500,
+            "cost": 12500,
             "set_flag": [
               "town:wall"
             ],
@@ -3296,7 +3296,7 @@
           }
         ],
         "heal": {
-          "price": 40,
+          "price": 1000,
           "q": "Patch up my companions.",
           "done": "There. Whole again, every one of them. Try to stay that way.",
           "whole": "Nobody here needs me. Come back when somebody does.",

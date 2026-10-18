@@ -84,7 +84,7 @@
       ],
       "line": "A chest of things too odd to shelve and too good to burn.",
       "art": "chest_dark",
-      "gold": 180,
+      "gold": 4500,
       "item": "skull_staff"
     },
     {
@@ -94,7 +94,7 @@
       ],
       "line": "The librarian's own press, and the librarian has been gone some time.",
       "art": "chest_crystal",
-      "gold": 260,
+      "gold": 6500,
       "item": "black_feather"
     },
     {
@@ -104,7 +104,7 @@
       ],
       "line": "Past the door, at the back of the deep presses, in a box that was never meant to come out.",
       "art": "chest_gold",
-      "gold": 430,
+      "gold": 11000,
       "item": "comet_staff"
     }
   ],
@@ -250,7 +250,7 @@
       "talk": {
         "refuse": {
           "text": "Odger is dusting. Odger will be dusting for some time.",
-          "bribe": 5,
+          "bribe": 150,
           "bribe_q": "Offer to hold the duster.",
           "won": "Nobody's ever offered. Alright. Quickly.",
           "won_flag": "odger:won",

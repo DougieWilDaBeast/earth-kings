@@ -1,7 +1,7 @@
 {
 	"rules": {
 		"note": "Waves, not a story. Nobody dies here and nothing you win leaves the sand.",
-		"purse_per_round": 60,
+		"purse_per_round": 1500,
 		"purse_growth": 1.35,
 		"level_per_round": 1.4,
 		"base_count": 2,

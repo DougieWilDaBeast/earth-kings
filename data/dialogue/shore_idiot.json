@@ -38,8 +38,8 @@
 				},
 				{
 					"text": "Here. Eat something.",
-					"requires_gold": 5,
-					"gold": -5,
+					"requires_gold": 100,
+					"gold": -100,
 					"goto": "the_meal"
 				}
 			]
@@ -61,8 +61,8 @@
 				},
 				{
 					"text": "Here. Eat something.",
-					"requires_gold": 5,
-					"gold": -5,
+					"requires_gold": 100,
+					"gold": -100,
 					"goto": "the_meal"
 				},
 				{ "text": "Keep counting, Codge.", "goto": "end" }

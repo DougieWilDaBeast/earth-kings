@@ -18,6 +18,8 @@ extends RefCounted
 ##
 ## Words and numbers are `world_rules.json` → `renown.remembered`. Loaded by path ([D41]).
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 ## The flag a person sets once they have brought a deed up, so it is said to the company once.
 const RECALLED := "recalled:"
 const DREAMT := "dreamt:"
@@ -117,8 +119,8 @@ static func is_cold(world: World, cell: Vector2i) -> bool:
 static func cold_refusal() -> Dictionary:
 	var cold: Dictionary = (rules().get("cold", {}) as Dictionary).duplicate(true)
 	var bribe := int(cold.get("bribe", 0))
-	if cold.has("bribe_q") and str(cold["bribe_q"]).contains("%d"):
-		cold["bribe_q"] = str(cold["bribe_q"]) % bribe
+	if cold.has("bribe_q") and str(cold["bribe_q"]).contains("%s"):
+		cold["bribe_q"] = str(cold["bribe_q"]) % Coins.text(bribe)
 	return cold
 
 

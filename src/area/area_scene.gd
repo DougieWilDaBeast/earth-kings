@@ -50,6 +50,7 @@ const COMPASS_EVERY := 0.25
 const AutoRoad := preload("res://src/world/auto_road.gd")
 ## The fight, put down on this ground when a band is met ([method _fight_here]).
 const SKIRMISH := preload("res://src/skirmish/skirmish.tscn")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 const WALK_SPEED := 190.0
 ## How long laying out the land ahead may take in one frame, in milliseconds, and how near a tile's
@@ -4001,7 +4002,7 @@ func _try_the_bed(cell: Vector2i) -> void:
 		elif GameState.has_flag(ROOM_PAID):
 			_note("Your room for the night is at another inn.")
 		else:
-			_note("A bed made up for whoever pays the innkeep for it: %d gold a night." % int(_inn().get("price", 40)))
+			_note("A bed made up for whoever pays the innkeep for it: %s a night." % Coins.text(int(_inn().get("price", 1000))))
 		return
 	_sleep_in_the_room()
 

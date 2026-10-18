@@ -214,7 +214,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G6g | Auto on floor 5 as Atlas | Auto walks to the buckle before the stair; at the keeper the fight opens paused, "Auto stops here: this fight is yours."; win it and Auto walks on ([D150](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
 | G7  | Climb a second floor without leaving      | The hoard grows, and you are warned what you stand to lose                                    |
-| G8  | Walk off the Tower step                   | "You walk away from the Tower with N gold" and the purse goes up                              |
+| G8  | Walk off the Tower step                   | "You walk away from the Tower with N silver" (or gold) and the purse goes up                              |
 | G9  | Lose a floor while holding a hoard        | The hoard is gone                                                                             |
 | G10 | Win floor 5                               | "Chapter 1 of the Tower is behind you", the census ("sixteen still stand"), news of gates opening, and "The stair above is sealed" |
 | G11 | Step onto the Tower again                 | The seal line, and no fight                                                                   |
@@ -240,12 +240,12 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.4 | Speak to **Hesk the Stallholder**, ask a question, then buy a loaf | The question is answered; the loaf costs gold and goes in the packs; the loaf is then gone from the list |
 | D2.5 | Speak to **the fox in a stolen hat**                      | It will not talk; toss it a coin and it will, and it stays willing next time                   |
 | D2.6 | Speak to **Dunmore the Smith** a few times                | Sometimes he is too busy; working the bellows (a Might roll) can win him over                   |
-| D2.7 | Take **Wat**'s favour, look at the grey stone by the pond, go back to him | The stone is only there once the favour is taken; he pays 30 gold and a Hearth Coin, once |
+| D2.7 | Take **Wat**'s favour, look at the grey stone by the pond, go back to him | The stone is only there once the favour is taken; he pays 7 silver 50 copper and a Hearth Coin, once |
 | D2.8 | Look at a gate, the Tower, the salt hamlet's lighthouse   | The portal glows, the Tower's runes pulse, the lighthouse beam sweeps                           |
 | D2.9 | Look at the world map                                     | Gates are portals, villages cottages, huts a log lodge; no cream squares behind any castle      |
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 | D2.11 | In Stormreach's streets, find **Muck Muck** by the ruined bathhouse and ask why everyone asks him | He is the builder they come to whenever something needs building ([D176](06-decisions.md)) |
-| D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 40 gold is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
+| D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 10 silver is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
 
 ## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
@@ -333,19 +333,22 @@ Start a run (not the tutorial) and walk.
 | D5.31 | Let one of the company drop under half health with nothing in the packs, and level someone to 2 | Under the company: "! … is badly hurt" in red, "! Nothing in the packs to mend with", "! … has a path to choose" in gold, and a ! beside their name; hover one for more; press the path's and the party screen opens ([D245](06-decisions.md)) |
 | D5.32 | Walk the road from the crater to Stormreach and on to the Tower | No door: the city's south gate stands open ahead and its streets carry on from the land, two tiles by two inside its wall (the high street, market, tavern, Guild hall, toll house, Muck Muck and Sinner). Out of the north gate the Tower stands on its own just past the wall ([D247](06-decisions.md)) |
 | D5.33 | Walk into the Gilded Flagon in Stormreach (or the Oasis Serai) | Behind the taproom a passage, a kitchen with an oven, and two or three bedrooms with a bed each ([D242](06-decisions.md)) |
-| D5.34 | Ask Marta (or the innkeep) for a room, pay 40 | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
+| D5.34 | Ask Marta (or the innkeep) for a room, pay 10 silver | "Room two is yours for the night"; a gold pin on its bed, a dotted line to it, "Your room" under it, and the compass says Your room |
 | D5.35 | E by another bed, then by yours | "Somebody else's room"; then a short dark, everyone patched up and "+4 health", a save; the pin is gone |
 | D5.36 | Shut Greyhollow and talk to someone there with things to say; later, once word has walked to the city (a tile every 14 steps), the Watch or the innkeep in Stormreach | Before their hello: "You're the one who shut Greyhollow..." (or one like it), once; talk again and it is not said ([D249](06-decisions.md)) |
 | D5.37 | Beat three bands of legionnaires on the land, then walk into a fourth's sight | After the third: "The Heart Empire have lost 3 bands to you now..."; the fourth sees you a cell further and shouts "That's them!" (or one like it), not "There!" |
-| D5.38 | Raid a village, then walk into it and talk to someone with things to say | They bring up the burning, then turn you away more often than not; 15 gold or Hear me out gets you in |
+| D5.38 | Raid a village, then walk into it and talk to someone with things to say | They bring up the burning, then turn you away more often than not; 4 silver or Hear me out gets you in |
 | D5.39 | With Bellona walking with you, stand on the Tower's floor 5, then rest and sit by her at the fire | She tells of the gate she shut and asks for two things; the journal's quests page lists "Bellona's: Twenty" under _Their own_ ([D250](06-decisions.md)) |
 | D5.40 | Stop for somebody on the road, then shut a gate, sitting by her at the fire after each | She says the twenty is given; after the gate, she finishes it, and "+2 guard, for good"; the journal says finished |
-| D5.41 | Shut a gate, walk into Stormreach with 600 gold and talk to Muck Muck | "Could you build something for us?" says the crater is your ground; "Build a smithy at the crater (300 gold)" and the same for an infirmary ([D251](06-decisions.md)) |
-| D5.42 | Pay for both, then walk back to the crater | A stone smithy top left with Hald at the anvil, a whitewashed infirmary top right with Ness; the trees that stood there are gone. Hald sells gear, Ness mends for 25 |
-| D5.43 | Pay Muck Muck for the wall (500) and walk back | A timber wall round the crater with its gate south, two houses at the bottom corners, a well and two settlers; one of them has news |
-| D5.44 | Walk into the Gilded Flagon with 250 gold and ask Marta "Let us keep room two for good" | 250 gold goes; room two is pinned "Your room" with the line to its bed, and she no longer sells a night ([D252](06-decisions.md)) |
+| D5.41 | Shut a gate, walk into Stormreach with 1 gold 50 silver and talk to Muck Muck | "Could you build something for us?" says the crater is your ground; "Build a smithy at the crater (75 silver)" and the same for an infirmary ([D251](06-decisions.md)) |
+| D5.42 | Pay for both, then walk back to the crater | A stone smithy top left with Hald at the anvil, a whitewashed infirmary top right with Ness; the trees that stood there are gone. Hald sells gear, Ness mends for 6 silver 50 copper |
+| D5.43 | Pay Muck Muck for the wall (1 gold 25 silver) and walk back | A timber wall round the crater with its gate south, two houses at the bottom corners, a well and two settlers; one of them has news |
+| D5.44 | Walk into the Gilded Flagon with 60 silver and ask Marta "Let us keep room two for good" | 60 silver goes; room two is pinned "Your room" with the line to its bed, and she no longer sells a night ([D252](06-decisions.md)) |
 | D5.45 | Sleep in room two, walk out and back in | Everyone patched up and a save; room two is still pinned as yours, with nothing to pay |
-| D5.46 | Ask Steward Hobb (by the Margrave's hall) about the narrow house without a room, then with one and 900 gold; then walk in at its door off the east street | First he says to take a room; then it sells for 900. The door, shut before, opens on your house: a hearth, your bed (sleep: everyone patched up, +6 health, a save) and the strongbox |
+| D5.46 | Ask Steward Hobb (by the Margrave's hall) about the narrow house without a room, then with one and 2 gold 25 silver; then walk in at its door off the east street | First he says to take a room; then it sells for 2 gold 25 silver. The door, shut before, opens on your house: a hearth, your bed (sleep: everyone patched up, +6 health, a save) and the strongbox |
+| D5.47 | Start a new game and look at the purse under the compass, then open the party screen (P) | "60 silver" in both; no amount anywhere says "gold" unless it is gold coins ([D253](06-decisions.md)) |
+| D5.48 | Buy a loaf from Hesk, then win a fight and open a chest | The loaf costs copper ("20 copper"); the fight and the chest pay in silver ("17 silver 50 copper.") and the purse goes up by it |
+| D5.49 | Load a save made before this build | It loads; the purse is 25 copper for each gold it had (250 gold becomes 62 silver 50 copper) |
 
 ## H — Conversation and the camp
 
@@ -397,9 +400,9 @@ Start a run (not the tutorial) and walk.
 | J4  | Take the next round wounded                                 | You are **not** fully healed — wounds carry between rounds              |
 | J5  | Lose a round                                                | "They carry you off", the rounds and purse are recorded, and it is over |
 | J6  | Retire with a purse, then look at the card again            | The best night shows your run                                           |
-| J7  | Go to the Coliseum mid-run, then Back to Title and Continue | **Your real party is untouched** — same people, same HP, same gold      |
-| J8  | Walk into a keep's arena, win a round, press **Take the purse and leave** | Back on the keep's street by its door, the purse added to your gold — never the title screen. The bottom-right button reads **Leave the arena**, not Back to Title |
-| J9  | Send a single hero (not the company) onto the sand from a keep, then leave | Your gold is what it was plus the purse; the hero brings nothing into it |
+| J7  | Go to the Coliseum mid-run, then Back to Title and Continue | **Your real party is untouched** — same people, same HP, same purse     |
+| J8  | Walk into a keep's arena, win a round, press **Take the purse and leave** | Back on the keep's street by its door, the purse added to yours — never the title screen. The bottom-right button reads **Leave the arena**, not Back to Title |
+| J9  | Send a single hero (not the company) onto the sand from a keep, then leave | Your purse is what it was plus the winnings; the hero brings nothing into it |
 | J10 | Save from the menu while on the sand, then load                | Your own party comes back, not the copy that was fighting           |
 
 ## K — Museum

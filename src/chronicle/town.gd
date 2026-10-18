@@ -8,6 +8,7 @@ extends RefCounted
 ## the country talks about it afterwards (see [Renown]).
 
 const Fall := preload("res://src/chronicle/fall.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 const THREATENED := "threatened"
 const SAVED := "saved"
 const SACKED := "sacked"
@@ -33,8 +34,8 @@ static func is_threatened(site: Site) -> bool:
 
 ## What is in the strongbox. Keeps hold more than huts do.
 static func purse(site: Site) -> int:
-	var base := int(rules().get("purse_base", 120))
-	var per_rank := int(rules().get("purse_per_rank", 90))
+	var base := int(rules().get("purse_base", 3000))
+	var per_rank := int(rules().get("purse_per_rank", 2300))
 	var standing := 2 if site.kind == Site.KEEP else (1 if site.kind == Site.VILLAGE else 0)
 	return base + per_rank * standing
 
@@ -92,7 +93,7 @@ static func save(site: Site, world: World) -> Array[String]:
 	site.data.erase("threatened_by")
 	site.data[SAVED] = true
 
-	var reward := int(rules().get("defence_reward", 160))
+	var reward := int(rules().get("defence_reward", 4000))
 	GameState.gold += reward
 	var line := "%s was held against a raid" % site.display_name
 	Renown.record(
@@ -101,7 +102,7 @@ static func save(site: Site, world: World) -> Array[String]:
 	)
 	Annals.record(world, "%s was relieved and saved from siege." % site.display_name)
 	return [
-		"%s holds. They give you %d gold and every name they know." % [site.display_name, reward],
+		"%s holds. They give you %s and every name they know." % [site.display_name, Coins.text(reward)],
 		"Word of this will get about.",
 	]
 
@@ -115,7 +116,7 @@ static func raid(site: Site, world: World, roster: Roster) -> Array[String]:
 	site.data["hire"] = {}
 	site.data.erase("threatened_at")
 
-	var lines: Array[String] = ["You take %d gold out of %s." % [haul, site.display_name]]
+	var lines: Array[String] = ["You take %s out of %s." % [Coins.text(haul), site.display_name]]
 	if world.rng.randf() < 0.5:
 		var found := Loot.roll(world, 1.0)
 		found["gold"] = 0

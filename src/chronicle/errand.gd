@@ -12,6 +12,7 @@ extends RefCounted
 ## Loaded by path ([D41]): regional names (see its header).
 const Names := preload("res://src/chronicle/names.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 const FETCH := "fetch"
 const DELIVER := "deliver"
@@ -166,7 +167,7 @@ static func progress(errand: Dictionary) -> String:
 
 
 static func detail(errand: Dictionary) -> String:
-	return "%s  (%d gold)" % [errand.get("text", ""), int(errand.get("gold", 0))]
+	return "%s  (%s)" % [errand.get("text", ""), Coins.text(int(errand.get("gold", 0)))]
 
 
 # --- composition --------------------------------------------------------------
@@ -218,7 +219,7 @@ static func _compose_bounty(errand: Dictionary, site: Site, world: World) -> voi
 	errand["text"] = "A dangerous %s has been prowling near %s. Slay it for the bounty." % [
 		target_name, site.display_name
 	]
-	errand["gold"] = int(rules().get("bounty_reward", 130))
+	errand["gold"] = int(rules().get("bounty_reward", 3500))
 
 
 static func _compose_cull(errand: Dictionary, site: Site, world: World) -> void:
@@ -233,7 +234,7 @@ static func _compose_cull(errand: Dictionary, site: Site, world: World) -> void:
 		"count": count,
 		"target": Database.unit_template(target).get("display_name", target).to_lower(),
 	})
-	errand["gold"] = count * int(rules().get("cull_reward_per_head", 30))
+	errand["gold"] = count * int(rules().get("cull_reward_per_head", 800))
 
 
 static func _compose_deliver(errand: Dictionary, site: Site, world: World) -> void:
@@ -256,7 +257,7 @@ static func _point_at(errand: Dictionary, cell: Vector2i, place: String, site: S
 	errand["to_name"] = place
 	var walk := Pathfinder.distance(site.cell, cell)
 	# Paid for the walking, because the walking is what it costs.
-	errand["gold"] = int(rules().get("reward_base", 40)) + walk * int(rules().get("reward_per_distance", 3))
+	errand["gold"] = int(rules().get("reward_base", 1000)) + walk * int(rules().get("reward_per_distance", 75))
 	if errand.get("kind", "") == LOOK:
 		errand["gold"] = roundi(float(errand["gold"]) * 0.6)
 
@@ -295,7 +296,7 @@ static func _settle(accepted: Array, errand: Dictionary, world: World) -> Array[
 	var gold := int(errand.get("gold", 0))
 	GameState.gold += gold
 	Ledger.add(GameState.ledger, "errands_done")
-	lines.append("%d gold, and the thanks of %s." % [gold, errand.get("giver", "someone")])
+	lines.append("%s, and the thanks of %s." % [Coins.text(gold), errand.get("giver", "someone")])
 
 	if errand.get("kind", "") == BOUNTY:
 		var what := "claimed the bounty on %s" % str(errand.get("target_name", "a prowler"))

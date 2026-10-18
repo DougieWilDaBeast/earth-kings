@@ -886,7 +886,7 @@ func _check_town_and_captives() -> void:
 	var world: World = GameState.world
 	var town := _site_where(func(s: Site) -> bool: return s.kind == Site.VILLAGE)
 	Market.refresh(town, world)
-	GameState.gold = 5000
+	GameState.gold = 200000
 
 	# Hiring: parties are temporary, and everyone has a price.
 	# Forced rather than rolled, so the path is actually exercised every run.
@@ -898,9 +898,9 @@ func _check_town_and_captives() -> void:
 	GameState.gold = cost - 1
 	_expect(Market.hire(town, GameState.roster, world) == null, "hired without the money")
 
-	GameState.gold = 5000
+	GameState.gold = 200000
 	var hired := Market.hire(town, GameState.roster, world)
-	_expect(hired != null, "could not hire with 5000 gold in hand")
+	_expect(hired != null, "could not hire with 20 gold in hand")
 	if hired != null:
 		_expect(GameState.roster.party.size() == before + 1, "the hire never joined the party")
 		_expect(GameState.roster.by_id(hired.id) != null, "the hire is not on the roster")
@@ -945,7 +945,7 @@ func _check_town_and_captives() -> void:
 	if not goods.is_empty():
 		var equipment_id: String = Market.in_hand(town)
 		var purse := GameState.gold
-		_expect(Market.buy(town, equipment_id, GameState.roster.player(), world), "could not buy with 5000 gold")
+		_expect(Market.buy(town, equipment_id, GameState.roster.player(), world), "could not buy with 20 gold")
 		_expect(GameState.gold < purse, "buying cost nothing")
 		_expect(equipment_id not in Market.wares(town), "the shop still has the thing it sold")
 		print("market: bought %s for %d gold" % [equipment_id, purse - GameState.gold])
@@ -960,7 +960,7 @@ func _check_town_and_captives() -> void:
 
 	GameState.gold = 0
 	_expect(not Captivity.ransom(taken, GameState.roster), "bought a captive back with no money")
-	GameState.gold = 5000
+	GameState.gold = 200000
 	_expect(Captivity.ransom(taken, GameState.roster), "could not buy a captive back")
 	_expect(taken.is_alive(), "the ransomed captive is not free")
 	_expect(taken.id in GameState.roster.party, "the ransomed captive did not rejoin")

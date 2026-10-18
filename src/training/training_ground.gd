@@ -5,6 +5,8 @@ extends Control
 ## Nothing here writes to the save. Training fights run with `sandbox` set, so
 ## the party walks out of them whole (see `src/skirmish/skirmish.gd`).
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 const ROTATIONS := ["south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west"]
 ## Cardinals are the only rotations [Unit] actually draws; the rest are stock.
 const USED_ROTATIONS := ["south", "north", "east", "west"]
@@ -541,10 +543,10 @@ func _build_gear_tab() -> void:
 			frame.texture = load(path)
 			row.add_child(frame)
 
-		row.add_child(_wrapped("%s (%s)\nattack +%d · defense +%d · grace %d%% · %d gold\n%s" % [
+		row.add_child(_wrapped("%s (%s)\nattack +%d · defense +%d · grace %d%% · %s\n%s" % [
 			piece.get("display_name", id), id,
 			int(piece.get("attack", 0)), int(piece.get("defense", 0)),
-			roundi(float(piece.get("grace", 0.0)) * 100.0), Market.price_of(id),
+			roundi(float(piece.get("grace", 0.0)) * 100.0), Coins.text(Market.price_of(id)),
 			piece.get("text", ""),
 		]))
 		page.add_child(row)

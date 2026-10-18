@@ -55,7 +55,7 @@
         8
       ],
       "line": "A quartermaster's chest, inventoried in a hand that stops mid-line.",
-      "gold": 90,
+      "gold": 2500,
       "item": "bone_sword"
     },
     {
@@ -64,7 +64,7 @@
         5
       ],
       "line": "A strongbox let into the rampart, and the key long since thrown into the scrub.",
-      "gold": 190,
+      "gold": 5000,
       "item": "grave_token"
     }
   ],

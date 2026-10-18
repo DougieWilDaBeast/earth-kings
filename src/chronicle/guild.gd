@@ -16,6 +16,7 @@ const OPEN := "open"
 const BROKEN := "broken"
 const BREWING := "brewing"
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 
 static func rules() -> Dictionary:
@@ -79,13 +80,13 @@ static func describe(entry: Dictionary) -> String:
 		entry["rank"], entry["name"], str(states.get(entry["state"], entry["state"])),
 		int(entry["floors"]), "" if int(entry["floors"]) == 1 else "s",
 		Site.objective_name(str(entry["objective"])), str(entry["bearing"]),
-		"yours" if entry["contracted"] else "%d gold" % int(entry["pay"]),
+		"yours" if entry["contracted"] else Coins.text(int(entry["pay"])),
 	]
 
 
 static func pay_for(gate: Site) -> int:
 	var terms: Dictionary = rules().get("contract", {})
-	return int(terms.get("gold_base", 60)) + int(terms.get("gold_per_rank", 90)) * Site.rank_index(gate.rank)
+	return int(terms.get("gold_base", 1500)) + int(terms.get("gold_per_rank", 2500)) * Site.rank_index(gate.rank)
 
 
 static func is_contracted(accepted: Array, cell: Vector2i) -> bool:
@@ -124,7 +125,7 @@ static func take(world: World, hall: Site, gate: Site, accepted: Array) -> Strin
 	})
 	# The clerk shows you where it is: it goes on your map ([D50]).
 	Atlas.mark(world, gate)
-	return line("taken", {"gate": gate.display_name, "gold": gold})
+	return line("taken", {"gate": gate.display_name, "gold": Coins.text(gold)})
 
 
 # --- musters ------------------------------------------------------------------
@@ -203,7 +204,7 @@ static func join(world: World, muster: Dictionary, accepted: Array) -> String:
 		"to_name": muster.get("hall_name", "the hall"),
 		"gate": [gate_cell.x, gate_cell.y],
 		"gate_name": muster.get("gate_name", "the gate"),
-		"gold": int(muster_rules().get("gold", 240)),
+		"gold": int(muster_rules().get("gold", 6000)),
 		"posted_at": world.steps,
 	})
 	return line("muster_joined", {"hall": muster.get("hall_name", ""), "gate": muster.get("gate_name", "")})

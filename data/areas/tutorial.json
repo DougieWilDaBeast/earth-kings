@@ -58,7 +58,7 @@
         10
       ],
       "line": "A chest left by the cart, and nobody about to argue whose it is.",
-      "gold": 40,
+      "gold": 1000,
       "item": "apple"
     }
   ],
@@ -354,8 +354,8 @@
             "The fox looks at you, then at your purse, then pointedly away.",
             "The fox yawns, very wide, so you can see all of its teeth."
           ],
-          "bribe": 2,
-          "bribe_q": "Toss it a coin. (2 gold)",
+          "bribe": 50,
+          "bribe_q": "Toss it a coin. (50 copper)",
           "check": {
             "skill": "wits",
             "dc": 8
@@ -413,7 +413,7 @@
           "hand_over": "Here's your horse.",
           "not_yet": "Not yet.",
           "done": "That's him! Thank you! Here, Da gave me these for being good. You've been better.",
-          "gold": 15,
+          "gold": 400,
           "item": "apple"
         },
         "bye": "Bye!"

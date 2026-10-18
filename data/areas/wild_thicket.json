@@ -123,7 +123,7 @@
             ],
             "line": "A trapper cache hidden under tangled ivy, containing gear and an iron key.",
             "art": "chest_dark",
-            "gold": 110,
+            "gold": 3000,
             "key": "iron_key",
             "item": "salt_pouch"
         },
@@ -134,7 +134,7 @@
             ],
             "line": "A hollow in the briar with a sturdy chest mended with leather straps.",
             "art": "chest_silver",
-            "gold": 185,
+            "gold": 4500,
             "item": "grave_token"
         },
         {
@@ -144,7 +144,7 @@
             ],
             "line": "An iron chest tucked behind the trapper shed with seasoned supplies.",
             "art": "chest_iron",
-            "gold": 220,
+            "gold": 5500,
             "item": "iron_blade"
         }
     ],

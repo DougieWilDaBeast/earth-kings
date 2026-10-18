@@ -6,6 +6,8 @@ extends Control
 ## front of the hall, unfinished. Nothing here can be spent or resumed. It is
 ## the one place the game remembers people after their run is overwritten.
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 const HEADING := Color(0.965, 0.827, 0.443)
 const LABEL := Color(0.66, 0.64, 0.59)
 const VALUE := Color(0.90, 0.87, 0.79)
@@ -96,7 +98,7 @@ func _numbers(journey: Dictionary) -> Array:
 	return [
 		["Steps walked", str(int(journey.get("steps", 0)))],
 		["Season", s_text],
-		["Gold taken", str(int(journey.get("gold", 0)))],
+		["Money taken", Coins.text(int(journey.get("gold", 0)))],
 		["Enemies put down", str(int(journey.get("kills", 0)))],
 		["Battles won", str(int(journey.get("battles_won", 0)))],
 		["Battles lost", str(int(journey.get("battles_lost", 0)))],

@@ -4,13 +4,13 @@
 		"chance": 0.05,
 		"rest_steps": 40,
 		"clear_of_sites": 3,
-		"purse_base": 55,
-		"purse_per_level": 22,
+		"purse_base": 1400,
+		"purse_per_level": 550,
 		"escort_span": 26,
 		"escort_patience": 260,
-		"delivery_base": 90,
-		"delivery_per_level": 30,
-		"route_pay": 18,
+		"delivery_base": 2250,
+		"delivery_per_level": 750,
+		"route_pay": 450,
 		"route_cap": 5,
 		"renown_saved": 3,
 		"renown_walked_by": -2,
@@ -102,7 +102,7 @@
 				"The last of them runs for the grass.",
 				"The older of the two lowers his spear and looks you over. \"We'll remember that,\" he says. \"The Watch remembers.\""
 			],
-			"purse_line": "He presses %d gold on you: the Watch's bounty on their heads.",
+			"purse_line": "He presses %s on you: the Watch's bounty on their heads.",
 			"pack": [
 				"brigand",
 				"brigand",
@@ -139,7 +139,7 @@
 				"The wolves break and go back to the open country.",
 				"\"Thought that was us,\" says one of them, and laughs too long. \"Thank you. Truly.\""
 			],
-			"purse_line": "They empty a pouch into your hand: %d gold, all they have on them.",
+			"purse_line": "They empty a pouch into your hand: %s, all they have on them.",
 			"pack": [
 				"wolf",
 				"wolf",

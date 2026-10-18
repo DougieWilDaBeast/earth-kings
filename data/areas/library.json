@@ -61,7 +61,7 @@
       ],
       "line": "A case at the end of the stacks, and the catch has gone soft with age.",
       "art": "chest_dark",
-      "gold": 110,
+      "gold": 3000,
       "item": "whetstone"
     },
     {
@@ -71,7 +71,7 @@
       ],
       "line": "A drawer of nothing but ink, and one thing that is not ink.",
       "art": "drawers_wood",
-      "gold": 70,
+      "gold": 2000,
       "item": "salt_pouch"
     }
   ],

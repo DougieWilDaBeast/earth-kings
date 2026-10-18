@@ -6,6 +6,8 @@ extends RefCounted
 ## and the bed you put in it is the only thing you own that makes people
 ## permanently tougher. Beds go up in tiers and never come back down.
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 static func rules() -> Dictionary:
 	return Database.world_rules.get("home", {})
 
@@ -49,11 +51,11 @@ static func upgrade(site: Site) -> Array[String]:
 
 	var cost := int(better.get("cost", 0))
 	if GameState.gold < cost:
-		return ["%s costs %d gold, and you do not have it." % [better.get("display_name", "A bed"), cost]]
+		return ["%s costs %s, and you do not have it." % [better.get("display_name", "A bed"), Coins.text(cost)]]
 
 	GameState.gold -= cost
 	site.data["bed"] = tier(site) + 1
-	return ["%s goes into %s for %d gold." % [better.get("display_name", "A bed"), site.display_name, cost]]
+	return ["%s goes into %s for %s." % [better.get("display_name", "A bed"), site.display_name, Coins.text(cost)]]
 
 
 ## A night at home: everyone is patched up, and whoever slept there carries the

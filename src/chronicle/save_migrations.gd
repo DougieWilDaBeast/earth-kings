@@ -15,10 +15,12 @@ extends RefCounted
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 ## The versions a step starts from; each is run by [method _step]. 1 (before
 ## the world was walked, 2026-08-27) is not here: the run was a single fight
 ## then, and there is nothing in it a walked world could start from.
-const STEPS := [2]
+const STEPS := [2, 3]
 
 
 ## Whether a save written at [param from] can be brought up to [param to].
@@ -49,6 +51,8 @@ static func _step(from: int, data: Dictionary) -> void:
 	match from:
 		2:
 			_from_2(data)
+		3:
+			_from_3(data)
 
 
 ## 2 -> 3: alignment was retired for creeds, and a character's history became
@@ -74,3 +78,14 @@ static func _from_2(data: Dictionary) -> void:
 			entry[field] = str(source.get(field, ""))
 		if Database.lore_piece("backgrounds", str(entry.get("background", ""))).is_empty():
 			entry["background"] = str(source.get("background", ""))
+
+
+## 3 -> 4: money is counted in copper, four coins of a hundred each ([D253]); before, it was
+## counted in gold. The purse and what is carried down the Tower become copper at
+## [constant Coins.OLD_GOLD] to the old gold, as docs/26 set the prices. A ransom, an errand or a
+## route already agreed keeps the number it was agreed at; they are small and pass.
+static func _from_3(data: Dictionary) -> void:
+	data["gold"] = int(data.get("gold", 0)) * Coins.OLD_GOLD
+	var world: Dictionary = data.get("world", {})
+	if world.has("tower_hoard"):
+		world["tower_hoard"] = int(world["tower_hoard"]) * Coins.OLD_GOLD

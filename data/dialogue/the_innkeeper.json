@@ -34,8 +34,8 @@
 				},
 				{
 					"text": "Two silver for whatever the house is pouring.",
-					"requires_gold": 20,
-					"gold": -20,
+					"requires_gold": 200,
+					"gold": -200,
 					"goto": "poured"
 				},
 				{ "text": "Nothing. We're only out of the rain.", "goto": "end" }
@@ -63,8 +63,8 @@
 				},
 				{
 					"text": "A round for the room, on us.",
-					"requires_gold": 40,
-					"gold": -40,
+					"requires_gold": 1000,
+					"gold": -1000,
 					"set_flag": "bought_the_house_a_round",
 					"goto": "the_round"
 				},
@@ -73,13 +73,13 @@
 		},
 		"beds": {
 			"speaker": "Bole the Innkeep",
-			"text": "Forty for the room, and I'll not charge you for the snoring. Come back when you've slept somewhere worse.",
+			"text": "Ten silver for the room, and I'll not charge you for the snoring. Come back when you've slept somewhere worse.",
 			"options": [
 				{
-					"text": "Forty it is. Which room?",
+					"text": "Ten silver it is. Which room?",
 					"requires_not": ["inn_room_paid"],
-					"requires_gold": 40,
-					"gold": -40,
+					"requires_gold": 1000,
+					"gold": -1000,
 					"set_flag": "inn_room_paid",
 					"goto": "room_paid"
 				},
@@ -94,7 +94,7 @@
 		},
 		"room_held": {
 			"speaker": "Bole the Innkeep",
-			"text": "Then go and sleep in it. I've had my forty.",
+			"text": "Then go and sleep in it. I've had my ten silver.",
 			"next": "end"
 		},
 		"the_quiet_table": {

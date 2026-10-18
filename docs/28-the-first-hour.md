@@ -34,7 +34,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
    the Guild's master, stands beside him and can mark a lead too ([D154](06-decisions.md)). Nobody climbs
    until a gate is shut ([D101](06-decisions.md)). A market lays out three wares: Z turns to the next,
    B buys the one in hand ([D146](06-decisions.md)). In the streets, Muck Muck the builder stands by
-   the ruined bathhouse, and Sinner, a cleric, mends the whole company for 40 gold at the old shrine
+   the ruined bathhouse, and Sinner, a cleric, mends the whole company for 10 silver (40 gold before the four coins, D253) at the old shrine
    ([D176](06-decisions.md)).
 5. **The first gate.** Two are offered, both rank E and open in every world: Greyhollow, eight tiles
    south of the city at the road's end, and Elderford, nine tiles north ([D147](06-decisions.md)). E

@@ -79,7 +79,7 @@
       ],
       "line": "A satchel under a leaning stone, out of the rain and out of mind.",
       "art": "chest_broken",
-      "gold": 140,
+      "gold": 3500,
       "item": "grave_token"
     },
     {
@@ -89,7 +89,7 @@
       ],
       "line": "Coin pressed into the turf, one piece at a time, over years.",
       "art": "coin_pile",
-      "gold": 190
+      "gold": 5000
     },
     {
       "cell": [
@@ -98,7 +98,7 @@
       ],
       "line": "Inside the mound, where the grave goods were laid out for somebody who did not stay.",
       "art": "chest_gold",
-      "gold": 440,
+      "gold": 11000,
       "item": "bone_sword"
     }
   ],

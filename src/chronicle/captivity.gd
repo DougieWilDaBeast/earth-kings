@@ -26,7 +26,7 @@ static func take(character: Character, world: World, site: Site) -> void:
 
 
 static func ransom_for(character: Character) -> int:
-	return int(rules().get("ransom_base", 120)) + int(rules().get("ransom_per_level", 25)) * character.level
+	return int(rules().get("ransom_base", 3000)) + int(rules().get("ransom_per_level", 600)) * character.level
 
 
 static func held_at(character: Character) -> Vector2i:

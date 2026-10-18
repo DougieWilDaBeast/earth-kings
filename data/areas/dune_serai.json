@@ -40,7 +40,7 @@
             ],
             "line": "A cedar merchant box under a divan, smelling of clove and resin.",
             "art": "chest_gold",
-            "gold": 90,
+            "gold": 2500,
             "item": "hearth_coin"
         }
     ],
@@ -505,7 +505,7 @@
         ]
     },
     "inn": {
-        "price": 40,
+        "price": 1000,
         "vigour": 4,
         "yours": 1,
         "kitchen": [

@@ -73,7 +73,7 @@
       ],
       "line": "A footlocker at the wall, and the name on it worn to nothing.",
       "art": "chest_silver",
-      "gold": 240,
+      "gold": 6000,
       "item": "hearth_coin"
     },
     {
@@ -83,7 +83,7 @@
       ],
       "line": "Somebody's whole purse, left where the stair begins.",
       "art": "chest_gold",
-      "gold": 320
+      "gold": 8000
     }
   ],
   "props": [

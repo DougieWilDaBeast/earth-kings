@@ -77,7 +77,7 @@
       ],
       "line": "A caravan chest thrown against the sandstone base, baked dry.",
       "art": "chest_gold",
-      "gold": 175,
+      "gold": 4500,
       "item": "ember_blade"
     },
     {
@@ -87,7 +87,7 @@
       ],
       "line": "Sunken coins welded together by ancient heat.",
       "art": "coin_pile",
-      "gold": 220
+      "gold": 5500
     },
     {
       "cell": [
@@ -96,7 +96,7 @@
       ],
       "line": "Past the brass portal, resting in an altar niche untended for centuries.",
       "art": "chest_silver",
-      "gold": 450,
+      "gold": 11500,
       "item": "gilt_blade"
     }
   ],

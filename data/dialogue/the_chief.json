@@ -37,9 +37,9 @@
 					}
 				},
 				{
-					"text": "A hundred gold, and the valley never hears your name again.",
-					"requires_gold": 100,
-					"gold": -100,
+					"text": "Twenty-five silver, and the valley never hears your name again.",
+					"requires_gold": 2500,
+					"gold": -2500,
 					"set_flag": "chief_bribed",
 					"goto": "bribe"
 				}
@@ -65,8 +65,8 @@
 				},
 				{
 					"text": "Another hundred. Same terms.",
-					"requires_gold": 100,
-					"gold": -100,
+					"requires_gold": 2500,
+					"gold": -2500,
 					"goto": "bribe"
 				}
 			]

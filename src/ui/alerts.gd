@@ -10,6 +10,7 @@ extends RefCounted
 
 const Treasure := preload("res://src/chronicle/treasure.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 
 static func rules() -> Dictionary:
@@ -55,7 +56,7 @@ static func gather() -> Array[Dictionary]:
 		if character.status != Fate.CAPTURED or world == null:
 			continue
 		out.append(_entry("held:" + character.id, "held", { "name": character.display_name,
-			"ransom": int(character.captive.get("ransom", 0)), "steps": Captivity.steps_left(character, world) },
+			"ransom": Coins.text(int(character.captive.get("ransom", 0))), "steps": Captivity.steps_left(character, world) },
 			"follow", "captive:%s" % character.template_id))
 	if world != null:
 		for site: Site in world.sites:

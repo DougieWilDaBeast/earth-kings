@@ -17,6 +17,8 @@ extends RefCounted
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 
 static func rules() -> Dictionary:
 	return Database.world_rules.get("atlas", {})
@@ -188,7 +190,7 @@ static func guild_terms() -> Dictionary:
 
 
 static func guild_map_price() -> int:
-	return Difficulty.scaled(int(guild_terms().get("price", 50)), "price")
+	return Difficulty.scaled(int(guild_terms().get("price", 1200)), "price")
 
 
 static func guild_map_bought(hall: Site) -> bool:
@@ -206,14 +208,14 @@ static func buy_guild_map(world: World, hall: Site) -> Dictionary:
 		return {"ok": false, "line": str(lines.get("already", "")).format({"hall": hall.display_name})}
 	var price := guild_map_price()
 	if GameState.gold < price:
-		return {"ok": false, "line": str(lines.get("poor", "")).format({"price": price})}
+		return {"ok": false, "line": str(lines.get("poor", "")).format({"price": Coins.text(price)})}
 	GameState.gold -= price
 	hall.data["map_bought"] = true
 	var radius := int(terms.get("radius", 18))
 	var drawn := chart_around(world, hall.cell, radius)
 	var marked := _mark_near(world, hall.cell, radius, terms.get("marks", []), int(terms.get("max_marks", 5)), hall)
 	var said := str(lines.get("bought", "")).format({
-		"hall": hall.display_name, "price": price,
+		"hall": hall.display_name, "price": Coins.text(price),
 		"places": str(lines.get("marked", "")).format({"places": _list(marked)}) if not marked.is_empty()
 			else str(lines.get("nothing_marked", "")),
 	})

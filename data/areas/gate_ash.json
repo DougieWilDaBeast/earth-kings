@@ -84,7 +84,7 @@
       ],
       "line": "A footlocker, scorched to the bands but shut, which is the only reason it is still worth opening.",
       "art": "chest_iron",
-      "gold": 165,
+      "gold": 4000,
       "item": "ember_blade"
     },
     {
@@ -94,7 +94,7 @@
       ],
       "line": "Coin run together into a lump and prised apart again by somebody patient.",
       "art": "coin_pile",
-      "gold": 230
+      "gold": 6000
     },
     {
       "cell": [
@@ -103,7 +103,7 @@
       ],
       "line": "Past the neck, in the glass, where nothing has walked since it cooled.",
       "art": "chest_gold",
-      "gold": 460,
+      "gold": 11500,
       "item": "gilt_blade"
     }
   ],

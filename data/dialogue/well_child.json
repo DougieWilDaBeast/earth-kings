@@ -28,8 +28,8 @@
 				},
 				{
 					"text": "Here. Buy your family something.",
-					"requires_gold": 10,
-					"gold": -10,
+					"requires_gold": 250,
+					"gold": -250,
 					"set_flag": "kind_to_the_cabin_hand",
 					"goto": "coin"
 				}
@@ -47,8 +47,8 @@
 				{ "text": "Anything new in the water?", "goto": "the_pond" },
 				{
 					"text": "Here. Same as last time.",
-					"requires_gold": 10,
-					"gold": -10,
+					"requires_gold": 250,
+					"gold": -250,
 					"goto": "coin"
 				},
 				{ "text": "Stay out of the reeds, Pell.", "goto": "end" }

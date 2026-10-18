@@ -61,7 +61,7 @@
                 18
             ],
             "line": "A dice-cup left on a table with the stake still under it.",
-            "gold": 30
+            "gold": 1000
         }
     ],
     "people": [
@@ -91,23 +91,23 @@
                         "a": "Old Corrin by the fire has climbed the Tower and come down again, which is rarer than it sounds. The card table will rob you. The bard won't stop."
                     },
                     {
-                        "q": "A room for the night. Forty?",
-                        "cost": 40,
+                        "q": "A room for the night. Ten silver?",
+                        "cost": 1000,
                         "requires_not": [
                             "inn_room_paid",
                             "home:room"
                         ],
                         "set_flag": "inn_room_paid",
-                        "a": "Forty, and it's yours till you've slept in it. Room two, along the passage at the back. The blue rug, not the red: the red's the card sharp's, and he bites."
+                        "a": "Ten silver, and it's yours till you've slept in it. Room two, along the passage at the back. The blue rug, not the red: the red's the card sharp's, and he bites."
                     },
                     {
-                        "q": "Let us keep room two for good (250 gold).",
-                        "cost": 250,
+                        "q": "Let us keep room two for good (60 silver).",
+                        "cost": 6000,
                         "requires_not": [
                             "home:room"
                         ],
                         "set_flag": "home:room",
-                        "a": "For good? Two hundred and fifty, and room two's yours whenever you're through that door: the bed made, the rug beaten, nobody else's boots under it. Sleep in it as often as you like. If you ever want walls of your own, the Steward up by the Margrave's hall has empty houses he'd sooner see lived in."
+                        "a": "For good? Sixty silver, and room two's yours whenever you're through that door: the bed made, the rug beaten, nobody else's boots under it. Sleep in it as often as you like. If you ever want walls of your own, the Steward up by the Margrave's hall has empty houses he'd sooner see lived in."
                     },
                     {
                         "q": "Is room two still ours?",
@@ -145,7 +145,7 @@
                     "hand_over": "One barrel, barely dented.",
                     "not_yet": "Not yet.",
                     "done": "Lovely. That's a round on the house, and coin besides. Don't tell the regulars about the round.",
-                    "gold": 40,
+                    "gold": 1000,
                     "item": "ale_flask"
                 },
                 "bye": "Mind the step on your way out. Mind it more on your way back in."
@@ -221,7 +221,7 @@
                     {
                         "q": "Play a hand.",
                         "a": "...And that's mine, and that's mine, and that, I'm afraid, is also mine. Again?",
-                        "cost": 5
+                        "cost": 150
                     },
                     {
                         "q": "Heard anything?",
@@ -792,7 +792,7 @@
         ]
     },
     "inn": {
-        "price": 40,
+        "price": 1000,
         "vigour": 4,
         "yours": 1,
         "kitchen": [

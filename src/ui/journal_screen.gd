@@ -28,6 +28,7 @@ const AutoRoad := preload("res://src/world/auto_road.gd")
 const Quests := preload("res://src/world/quests.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 signal closed
 
@@ -229,7 +230,7 @@ func _rebuild() -> void:
 			for idx in world.routes.size():
 				var route: Dictionary = world.routes[idx]
 				var button := Button.new()
-				button.text = "%s (%d gold)" % [route.get("name", "Route"), int(route.get("pay", 0))]
+				button.text = "%s (%s)" % [route.get("name", "Route"), Coins.text(int(route.get("pay", 0)))]
 				button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 				button.pressed.connect(func() -> void:
 					_selected_route_idx = idx
@@ -545,7 +546,7 @@ func _show_routes_page() -> void:
 		details.add_child(_line("Destination Settlement", LABEL_COLOUR))
 		details.add_child(_line(name_str, KNOWN_COLOUR))
 		details.add_child(_line("Seasonal Income", LABEL_COLOUR))
-		details.add_child(_line("%d gold per upkeep" % pay, KNOWN_COLOUR))
+		details.add_child(_line("%s per upkeep" % Coins.text(pay), KNOWN_COLOUR))
 		details.add_child(_line("Remaining Contract", LABEL_COLOUR))
 		details.add_child(_line("%d steps remaining" % left, KNOWN_COLOUR))
 		_page.add_child(details)

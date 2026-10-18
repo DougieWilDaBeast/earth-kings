@@ -12,6 +12,7 @@ extends RefCounted
 
 ## Loaded by path ([D41]).
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 
 
 static func rules() -> Dictionary:
@@ -63,14 +64,14 @@ static func stow(equipment_id: String, roster: Roster) -> String:
 		return "The %s goes in the packs." % name_
 	var worth := roundi(float(Market.price_of(equipment_id)) * float(rules().get("resale", 0.5)))
 	GameState.gold += worth
-	return "Nobody has a use for the %s. It goes for %d gold." % [name_, worth]
+	return "Nobody has a use for the %s. It goes for %s." % [name_, Coins.text(worth)]
 
 
 ## Roll what is inside a container of a given richness. Gold is always there;
 ## something to carry is not.
 static func roll(world: World, richness: float) -> Dictionary:
-	var base := int(rules().get("gold_base", 40))
-	var spread := maxi(1, int(rules().get("gold_spread", 60)))
+	var base := int(rules().get("gold_base", 1000))
+	var spread := maxi(1, int(rules().get("gold_spread", 1500)))
 	var haul := {
 		"gold": Difficulty.scaled(
 			roundi((base + world.rng.randi() % spread) * maxf(0.2, richness)), "gold"
@@ -92,7 +93,7 @@ static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	var gold := int(haul.get("gold", 0))
 	if gold > 0:
 		GameState.gold += gold
-		lines.append("%d gold." % gold)
+		lines.append("%s." % Coins.text(gold))
 	var found_key: String = haul.get("key", "")
 	if found_key != "" and not GameState.keys.has(found_key):
 		GameState.keys.append(found_key)

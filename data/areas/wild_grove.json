@@ -130,7 +130,7 @@
             ],
             "line": "A leather-bound strongbox tucked deep in the roots of a hollow sycamore.",
             "art": "chest_iron",
-            "gold": 95,
+            "gold": 2500,
             "key": "iron_key",
             "item": "whetstone"
         },
@@ -141,7 +141,7 @@
             ],
             "line": "A stone cache nestled among deep roots in the secluded glade, sealed against rain.",
             "art": "chest_crystal",
-            "gold": 190,
+            "gold": 5000,
             "item": "black_feather"
         },
         {
@@ -151,7 +151,7 @@
             ],
             "line": "A gilded reliquary chest resting on an ancient stone altar inside the barrow.",
             "art": "chest_gold",
-            "gold": 240,
+            "gold": 6000,
             "item": "knotted_cord"
         }
     ],

@@ -6,6 +6,8 @@ extends RefCounted
 ## real doctrine, and a good number are somebody's sheep ledger. The price is
 ## agreed before the book is opened, which is the entire risk.
 
+const Coins := preload("res://src/chronicle/coins.gd")
+
 const DOCTRINE := "doctrine"
 const TRIVIA := "trivia"
 const DUD := "dud"
@@ -28,7 +30,7 @@ static func stock(site: Site, world: World) -> void:
 	site.data["grimoire"] = {
 		"cover": covers[world.rng.randi() % covers.size()],
 		"patter": patter[world.rng.randi() % patter.size()],
-		"price": int(rules().get("price_base", 90)) + world.rng.randi() % maxi(1, int(rules().get("price_spread", 70))),
+		"price": int(rules().get("price_base", 2500)) + world.rng.randi() % maxi(1, int(rules().get("price_spread", 2000))),
 	}
 
 
@@ -44,12 +46,12 @@ static func buy_and_read(site: Site, reader: Character, world: World) -> Array[S
 		return []
 	var cost := int(book.get("price", 0))
 	if GameState.gold < cost:
-		return ["The asking price is %d gold, and you do not have it." % cost]
+		return ["The asking price is %s, and you do not have it." % Coins.text(cost)]
 
 	GameState.gold -= cost
 	site.data["grimoire"] = {}
 
-	var lines: Array[String] = ["%s, for %d gold. %s" % [book.get("cover", "A book"), cost, book.get("patter", "")]]
+	var lines: Array[String] = ["%s, for %s. %s" % [book.get("cover", "A book"), Coins.text(cost), book.get("patter", "")]]
 	match _roll_kind(world):
 		DOCTRINE:
 			lines.append_array(_open_doctrine(reader, world))

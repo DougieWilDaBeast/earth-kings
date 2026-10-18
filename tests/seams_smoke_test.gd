@@ -245,7 +245,8 @@ func _check_old_saves() -> void:
 	GameState.new_game(5)
 	_expect(GameState.load_save(), "a version 2 save would not load")
 	var back := GameState.roster.by_id(lead_id)
-	_expect(GameState.gold == 612, "a version 2 save came back with %d gold, not 612" % GameState.gold)
+	# Version 3 counted gold; 4 counts copper, 25 to the old gold (D253).
+	_expect(GameState.gold == 612 * 25, "a version 2 save came back with %d copper, not 612 gold's worth" % GameState.gold)
 	_expect(back != null and back.hearth_vigour == 2, "the bed's extra HP did not survive the step from 2")
 	_expect(want_creed != "" and back != null and back.creed == want_creed,"the lead's creed was not filled in from their hero record")
 	Database.heroes["caesar"]["creed"] = kept_creed

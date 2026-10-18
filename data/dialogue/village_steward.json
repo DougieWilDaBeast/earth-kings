@@ -38,8 +38,8 @@
 				},
 				{
 					"text": "Take this for the grain store. Don't make a speech about it.",
-					"requires_gold": 60,
-					"gold": -60,
+					"requires_gold": 1500,
+					"gold": -1500,
 					"once": true,
 					"set_flag": "paid_the_village",
 					"goto": "the_gift"
@@ -67,8 +67,8 @@
 				},
 				{
 					"text": "Take this for the grain store. Don't make a speech about it.",
-					"requires_gold": 60,
-					"gold": -60,
+					"requires_gold": 1500,
+					"gold": -1500,
 					"once": true,
 					"set_flag": "paid_the_village",
 					"goto": "the_gift"

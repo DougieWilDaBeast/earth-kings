@@ -28,8 +28,8 @@
 				},
 				{
 					"text": "Ale for the whole room.",
-					"requires_gold": 20,
-					"gold": -20,
+					"requires_gold": 500,
+					"gold": -500,
 					"set_flag": "bought_the_bell_a_round",
 					"goto": "the_round"
 				},
@@ -60,8 +60,8 @@
 				},
 				{
 					"text": "Ale for the room, and keep the change.",
-					"requires_gold": 20,
-					"gold": -20,
+					"requires_gold": 500,
+					"gold": -500,
 					"goto": "the_round"
 				},
 				{ "text": "Just drying out. Carry on.", "goto": "end" }

@@ -33,8 +33,8 @@
 				},
 				{
 					"text": "Something for the cold, and no questions from us.",
-					"requires_gold": 30,
-					"gold": -30,
+					"requires_gold": 800,
+					"gold": -800,
 					"set_flag": "keep_admitted",
 					"goto": "the_coin"
 				},
@@ -62,8 +62,8 @@
 				{ "text": "How's the wife?", "once": true, "goto": "the_wife" },
 				{
 					"text": "Something for the cold.",
-					"requires_gold": 30,
-					"gold": -30,
+					"requires_gold": 800,
+					"gold": -800,
 					"goto": "the_coin"
 				},
 				{ "text": "Keep your watch.", "goto": "end" }
