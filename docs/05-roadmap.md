@@ -363,6 +363,13 @@ each, each ending playable:
    built ([D245](06-decisions.md)). **Planned** from the same look: letters for the world's big moments,
    an inspect card for anyone clicked on the ground, sums on hover for every number, speed keys on the
    ground.
+28. **Play-test 6** (`doug-md`, 2026-10-17): the first fixes — built ([D246](06-decisions.md)): no black
+   screen and no jumping at 5× (the camera smooths at its own pace), no fighters dancing side by side (a
+   blow reaches the diagonals), one line of what can be done and a log that clears itself, a gate far
+   above the company asks twice, climbers who join a fight and rest round a fire. **Planned**, waiting
+   on his order: Stormreach walked outside (built, [D247](06-decisions.md)), fights inside a gate, Tower floors that grow, climbers with
+   a part to play, hamlets and homesteads worth going to, paths and gates' ground that fit, carriages
+   ([28](28-the-first-hour.md#play-test-6s-asks)).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

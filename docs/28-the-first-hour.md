@@ -267,6 +267,31 @@ Already done: the first fixes ([D189](06-decisions.md)). Some repeat play-test 3
 11. **A town of your own**, later in the game: settle a village, people come to it, it grows to a
     city or a stronghold.
 
+### Play-test 6's asks
+
+What `doug-md` asked for in play-test 6 ([transcript](worldbuilding/voice-notes/2026-10-17-doug-md-play-test-6.md))
+that needs more than a fix, **planned**, waiting on his order. Already done: the first fixes
+([D246](06-decisions.md)): the black screen and the jumping at 5×, fighters dancing side by side,
+text crossing at the bottom of the screen, a far-too-strong gate asking twice, climbers who fight.
+1. **Stormreach walked outside**: the city laid out in the open, big, the Tower beside it or in its
+   middle, not entered through a small building. Built ([D247](06-decisions.md), pick B): a walled city
+   on the land, the Tower just past its north gate.
+2. **Fights inside a gate**: going into a gate opens a whole area to fight through; fights outside a
+   gate only when it breaks (this turns back [D162](06-decisions.md)).
+3. **Tower floors that grow**: each floor bigger than the last, towards three hundred tiles.
+4. **Climbers with a part to play**: fighting monsters (or the party) on the floors, getting ready
+   or recovering; a short recruitment, joining arms with a company.
+5. **Places worth going to**: hamlets of three or four houses, a lone homestead behind a low wall,
+   more places to go inside; a reason to explore beyond Stormreach, the gate and the Tower. Art
+   for them when PixelLab's credits come back.
+6. **The paths and the gates' ground**: footpaths and tracks that run on without a hard cut and meet
+   cleanly where four cross; a gate's ground that fits the land round it, not a square; the hard
+   straight edge where a tile meets ground that cannot be walked.
+7. **The play screen after RimWorld**: little on screen, quick to move (begun in
+   [D244](06-decisions.md) and [D245](06-decisions.md)).
+8. **Carriages**, and other ways to travel.
+9. **5× speed** still runs heavy on a slower machine (the jumping is gone, [D246](06-decisions.md)).
+
 ## Music the hour still needs
 
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two

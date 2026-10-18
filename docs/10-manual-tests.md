@@ -267,6 +267,11 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.13 | Esc → the menu's **Auto: Mixed** button, pressed three times | Aggressive, Passive, Mixed in turn, each with a line on what it does; the choice is kept after the game is closed; the top bar says "Auto: Aggressive" (or the rest) while Auto is on ([D216](06-decisions.md)) |
 | D3.14 | Switch Auto on near a band, once in each style | Aggressive turns aside and walks into its red; Mixed walks its way and fights only if seen; Passive walks round the red ([D216](06-decisions.md)) |
 | D3.15 | Walk the road until a roadside scene comes up (with Auto on, too) | Its title in the log and the scene standing well down the road; no box, and Auto keeps walking. Close to it, what is happening there in the log and "E to step in, or walk on by" ([D216](06-decisions.md)) |
+| D3.16 | Fight a band at 5×, changing the speed during the fight | The view stays on the fight, no jumping side to side, and never goes black ([D246](06-decisions.md)) |
+| D3.17 | Watch two melee fighters meet on a diagonal | One of them swings; they do not step sideways together over and over ([D246](06-decisions.md)) |
+| D3.18 | Walk into a town with lots to do, then watch the log | The line along the bottom stays one line (ending in "…" if it is long); log lines go after about eight seconds; neither runs over the other ([D246](06-decisions.md)) |
+| D3.19 | Press E at a gate six or more levels above the company | A line saying how strong its keepers are; E again within four seconds goes in. Auto never goes in ([D246](06-decisions.md)) |
+| D3.20 | Climb to a floor with a company resting on it, and fight a band near them | They sit round a fire; when the fight starts near them, "… join the fight." and they fight beside you ([D246](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
