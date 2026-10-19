@@ -18,7 +18,15 @@
 		"near_town_chance": 0.12,
 		"stage_cells": 10,
 		"tell_cells": 5,
-		"town_reach": 6
+		"town_reach": 6,
+		"_comment_clock": "D286 (is it fun: seven minutes from the crater to the gate with nothing in them): the road keeps a clock as well as its dice. `first_after` steps into a new world, then every `every` steps (a span, read off the seed), something is on the road: one of `kinds` by weight, never the same kind twice running. `band`: a band stood `band_ahead` steps on the way the party is walking, to be fought on the ground (D272) or walked round; said with a line from `band_lines`. `scene`: one of the scenes below, called up without the rest or the dice (a traveller instead where a scene cannot stand). `traveller`: somebody passing with a line (`travellers`); {town} is the nearest standing town, {gate} the nearest open gate, {gate_way} how far and which way, and naming a gate puts it on the map. `find`: something left by the road (`finds`), as rich as `finds.richness`. Never within `clear_of_sites` of a place, nor while walking somebody home; a scene the dice bring resets the clock too. **Inferred**: the pace and the mix are guesses for Ewan's next play-test (agenda row 197).",
+		"clock": {
+			"first_after": 3,
+			"every": [6, 9],
+			"clear_of_sites": 1,
+			"band_ahead": [3, 4],
+			"kinds": { "band": 3, "traveller": 3, "find": 2, "scene": 2 }
+		}
 	},
 
 	"events": {
@@ -160,5 +168,71 @@
 				]
 			}
 		}
-}
+},
+	"band_lines": [
+		"Smoke from a cookfire just off the road ahead, and somebody standing up beside it to see who is coming.",
+		"Something has come down out of the rough ground and is standing on the road ahead, looking your way.",
+		"Tracks on the road, fresh, going the way you are going. Whatever made them has stopped not far on.",
+		"A shape on the road ahead that was not there a moment ago. Then another beside it."
+	],
+	"travellers": [
+		{
+			"who": "A woman with a handcart full of pans passes you going the other way.",
+			"lines": [
+				"\"Sold half of these in {town},\" she says, \"and bought the rest back cheaper. Don't ask me how.\""
+			]
+		},
+		{
+			"who": "A boy driving three goats stops to let you by.",
+			"lines": [
+				"\"There's a hole in the air out past the hills,\" he says. \"{gate}. Dad says don't go near. You're going near, aren't you.\""
+			]
+		},
+		{
+			"who": "A Guild runner, mud to the knee, slows to a walk beside you.",
+			"lines": [
+				"\"{gate}'s open, {gate_way} from here. Nobody's shut it yet.\"",
+				"\"If it's you that does, Sennet will want to hear.\""
+			]
+		},
+		{
+			"who": "An old man sits on a milestone, eating an onion like an apple.",
+			"lines": [
+				"\"Walked this road sixty years,\" he says. \"Never seen it so quiet. Quiet's the bad kind.\""
+			]
+		},
+		{
+			"who": "Two pilgrims in grey, roped together at the waist, pass without looking up.",
+			"lines": [
+				"One of them says, to nobody: \"The Tower was here before the land was.\""
+			]
+		},
+		{
+			"who": "A carter waters his horse at the ditch.",
+			"lines": [
+				"\"Going to {town}? Watch the gate guard on the left. Takes a copper to look the other way, and looks anyway.\""
+			]
+		},
+		{
+			"who": "A tinker with a mule and a cough passes, then turns round.",
+			"lines": [
+				"\"Something came out of {gate} last night,\" he says. \"{gate_way}. I'd go round, if I was you, but you've the look of someone who doesn't.\""
+			]
+		},
+		{
+			"who": "A girl with a basket of eggs walks with you a while.",
+			"lines": [
+				"\"Everyone says the lead before you was bigger,\" she says, and then goes red, and turns off at the next track."
+			]
+		}
+	],
+	"finds": {
+		"richness": 0.8,
+		"lines": [
+			"A pack lies in the ditch, strap cut, nobody near it.",
+			"Under a cairn by the road somebody has hidden something and not come back for it.",
+			"A dead mule by the road, still wearing its load.",
+			"A strongbox sits in the long grass, lid sprung, not quite empty."
+		]
+	}
 }

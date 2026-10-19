@@ -408,6 +408,10 @@ each, each ending playable:
    hitting them.
 34. **Heals keep pace with health** — built ([D284](06-decisions.md), 2026-10-19): a mend heals 10% more
    for every level past 3 (2.4 times at level 17), as health grows; the first levels are as they were.
+35. **Something on the road every few minutes** — built ([D286](06-decisions.md), 2026-10-19): the road keeps a
+   clock, and every 6 to 9 steps there is a band ahead, a roadside scene, a traveller with a line or a find.
+   Next: Ewan walks from the crater to the gate and says if it feels alive; then the First Hour's 14
+   tutorial steps, as their own piece.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

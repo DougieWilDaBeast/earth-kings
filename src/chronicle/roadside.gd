@@ -17,6 +17,7 @@ extends RefCounted
 ## saves and reloads with the country it happened in.
 
 const Coins := preload("res://src/chronicle/coins.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 ## How far a route pays for, in steps, before the arrangement lapses.
 const ROUTE_LIFE := 900
@@ -39,15 +40,16 @@ static func event(event_id: String) -> Dictionary:
 
 ## Is there a scene on this tile? Open country only: a fight in earshot of a
 ## town is the town's business, and one on top of the last is not a road, it is
-## a corridor. Returns the event id, or an empty string.
-static func look(world: World, cell: Vector2i) -> String:
+## a corridor. Returns the event id, or an empty string. [param forced] is the road's clock calling
+## for one ([D286]): no rest and no dice, the rest of the rules the same.
+static func look(world: World, cell: Vector2i, forced: bool = false) -> String:
 	# Hidden in the First Hour until its people and cart are drawn (D121): a box that stops you with
 	# nothing on screen, said the same way each time.
 	if FirstHour.hides("roadside"):
 		return ""
 	if escorting(world):
 		return ""
-	if world.steps - world.roadside_at < int(rules().get("rest_steps", 40)):
+	if not forced and world.steps - world.roadside_at < int(rules().get("rest_steps", 40)):
 		return ""
 	# Near a town it is the town's Watch beset ([D215], `near_town` scenes); out in the open
 	# country, everyone else's.
@@ -56,13 +58,15 @@ static func look(world: World, cell: Vector2i) -> String:
 		return ""
 	var by_town := near_town(world, cell)
 	var chance := float(rules().get("near_town_chance", 0.0)) if by_town else float(rules().get("chance", 0.05))
-	if world.rng.randf() >= chance:
+	if not forced and world.rng.randf() >= chance:
 		return ""
 	var ids: Array = events().keys().filter(func(id) -> bool:
 		return bool(event(str(id)).get("near_town", false)) == by_town)
 	if ids.is_empty():
 		return ""
 	world.roadside_at = world.steps
+	# A scene is the clock's happening too, so the next one waits its turn after it.
+	world.happening_at = world.steps
 	return str(ids[world.rng.randi() % ids.size()])
 
 
@@ -80,12 +84,138 @@ static func near_town(world: World, cell: Vector2i) -> bool:
 	return false
 
 
-static func _near_a_site(world: World, cell: Vector2i) -> bool:
-	var clear := int(rules().get("clear_of_sites", 3))
+static func _near_a_site(world: World, cell: Vector2i, clear: int = -1) -> bool:
+	if clear < 0:
+		clear = int(rules().get("clear_of_sites", 3))
 	for site: Site in world.sites:
 		if absi(site.cell.x - cell.x) <= clear and absi(site.cell.y - cell.y) <= clear:
 			return true
 	return false
+
+
+# --- the road's clock ---------------------------------------------------------
+#
+# Is it fun ([D286]): seven minutes from the crater to the gate with nothing in them, because a scene
+# rests 40 steps and then comes on one step in twenty, and the walk from the crater to the gate is 25
+# to 30 steps.
+# So the road keeps a clock as well as its dice: every `every` steps (the first after `first_after`)
+# something is on it, one of `kinds` by weight and never the same kind twice running. A `band` is
+# stood on the road ahead to be fought on the ground ([D272]); a `scene` is one of the scenes above,
+# called up; a `traveller` passes with a line (`travellers`), and one naming a gate puts it on the
+# map; a `find` is something left by the road (`finds`). `clock` in `data/roadside.json`.
+
+
+static func clock() -> Dictionary:
+	return rules().get("clock", {})
+
+
+## What the road's clock has put on [param cell], if anything is due: "band", "scene", "traveller",
+## "find", or an empty string. Never at a place's door (`clock.clear_of_sites`), nor while walking
+## somebody home; a step that is due but too near a place waits for the next.
+static func due(world: World, cell: Vector2i) -> String:
+	var paced := clock()
+	var kinds: Dictionary = paced.get("kinds", {})
+	if kinds.is_empty() or escorting(world):
+		return ""
+	if world.steps - world.happening_at < gap(world):
+		return ""
+	if _near_a_site(world, cell, int(paced.get("clear_of_sites", 2))):
+		return ""
+	var kind := _pick_kind(world, kinds)
+	world.happening_at = world.steps
+	world.happening_last = kind
+	return kind
+
+
+## Steps from the last happening to the next: `first_after` from a new world's first step, then
+## somewhere in `every` ([min, max]), read off the seed and the step so the dice fall as they did.
+static func gap(world: World) -> int:
+	var paced := clock()
+	if world.happening_at <= 0:
+		return int(paced.get("first_after", 6))
+	var every: Array = paced.get("every", [10, 14])
+	var low := int(every[0]) if every.size() > 0 else 10
+	var high := maxi(low, int(every[1]) if every.size() > 1 else low)
+	return low + absi(hash([world.world_seed, world.happening_at, "road_clock"])) % (high - low + 1)
+
+
+static func _pick_kind(world: World, kinds: Dictionary) -> String:
+	var pool: Array = kinds.keys().filter(func(k) -> bool: return str(k) != world.happening_last)
+	if pool.is_empty():
+		pool = kinds.keys()
+	pool.sort()
+	var total := 0
+	for k in pool:
+		total += maxi(0, int(kinds[k]))
+	if total <= 0:
+		return str(pool[0])
+	var roll := absi(hash([world.world_seed, world.steps, "road_kind"])) % total
+	for k in pool:
+		roll -= maxi(0, int(kinds[k]))
+		if roll < 0:
+			return str(k)
+	return str(pool[-1])
+
+
+## Somebody passing the other way, and what they say: a list of lines, empty when nobody fits.
+## `{town}` is the nearest standing town, `{gate}` the nearest open gate and `{gate_way}` how far
+## and which way it lies; a traveller who names a gate puts it on the map.
+static func traveller(world: World, cell: Vector2i) -> Array:
+	var town := _nearest(world, cell, func(s: Site) -> bool:
+		return Town.is_settlement(s) and not Town.is_ruined(s))
+	var gate := _nearest(world, cell, func(s: Site) -> bool:
+		return s.kind == Site.GATE and s.open and not s.cleared)
+	var fits: Array = Database.roadside.get("travellers", []).filter(func(t: Dictionary) -> bool:
+		var said := " ".join(t.get("lines", []))
+		return (town != null or not said.contains("{town}")) and (gate != null or not said.contains("{gate"))
+	)
+	if fits.is_empty():
+		return []
+	var one: Dictionary = fits[absi(hash([world.world_seed, world.steps, "traveller"])) % fits.size()]
+	var fill := {
+		"town": town.display_name if town != null else "",
+		"gate": gate.display_name if gate != null else "",
+		"gate_way": bearing(cell, gate.cell) if gate != null else "",
+	}
+	var lines: Array = [str(one.get("who", "Somebody passes you on the road."))]
+	for line: String in one.get("lines", []):
+		lines.append(line.format(fill))
+	if gate != null and " ".join(one.get("lines", [])).contains("{gate") and Atlas.mark(world, gate):
+		lines.append("You put %s on the map where they said." % gate.display_name)
+	return lines
+
+
+## The line said over something left by the road (`finds.lines`), and how rich it is.
+static func find_line(world: World) -> String:
+	var lines: Array = Database.roadside.get("finds", {}).get("lines", [])
+	if lines.is_empty():
+		return "Something has been left by the road."
+	return str(lines[absi(hash([world.world_seed, world.steps, "find"])) % lines.size()])
+
+
+static func find_richness() -> float:
+	return float(Database.roadside.get("finds", {}).get("richness", 0.8))
+
+
+## What is said as a band is seen on the road ahead (`band_lines`).
+static func band_line(world: World) -> String:
+	var lines: Array = Database.roadside.get("band_lines", [])
+	if lines.is_empty():
+		return "Something is moving on the road ahead."
+	return str(lines[absi(hash([world.world_seed, world.steps, "band"])) % lines.size()])
+
+
+static func _nearest(world: World, cell: Vector2i, keep: Callable) -> Site:
+	var best: Site = null
+	var best_d := 1 << 20
+	for site: Site in world.sites:
+		if not keep.call(site):
+			continue
+		var d := Pathfinder.distance(site.cell, cell)
+		if d < best_d:
+			best_d = d
+			best = site
+	return best
 
 
 ## What you see when you come over the rise.
