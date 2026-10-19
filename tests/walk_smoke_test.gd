@@ -1510,7 +1510,13 @@ func _check_sixteen() -> void:
 	_expect(Siblings.ghosts(world).is_empty(), "Caesar's ghost was at the fire before he had anything to tell")
 	lead.level = 4
 	world.tower_floor = 3
+	# Play-test 7: the ground is seen to shake when it comes down, not only said to.
+	var shaken: Array = []
+	var on_shaken := func(seconds: float, pixels: float) -> void: shaken.append(seconds * pixels)
+	EventBus.ground_shaken.connect(on_shaken)
 	_expect(not Siblings.upkeep(world).is_empty() and bool(weapon.get("landed", false)), "Caesar's weapon never came down")
+	EventBus.ground_shaken.disconnect(on_shaken)
+	_expect(shaken.size() == 1 and float(shaken[0]) > 0.0, "Caesar's weapon came down and the ground did not shake")
 	_expect(Chapters.census(world) == 15, "the census still read sixteen at Caesar's floor")
 	_expect(not Siblings.rumour(world).is_empty() and Siblings.heard_weapons(world).size() == 1, "no rumour points at Caesar's weapon")
 	var cell := Wanderers.cell_of(weapon.get("cell", []))

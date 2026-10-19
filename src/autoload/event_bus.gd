@@ -90,6 +90,9 @@ signal ground_revealed(cells: Array)
 
 ## Human-readable combat log line, rendered by the battle HUD.
 signal battle_log(line: String)
+## The ground shakes where the party stands (a weapon from a fallen world landing): whatever view is
+## up shakes for [param seconds], [param pixels] at its worst (play-test 7).
+signal ground_shaken(seconds: float, pixels: float)
 ## A line for the bottom of an area's screen: something handed over in a conversation, say.
 signal area_note(line: String)
 ## Something the player did, for whatever is watching for it (the tutorial, D73): "walked",

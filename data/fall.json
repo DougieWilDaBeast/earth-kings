@@ -100,6 +100,8 @@
 			"ending_skip": "Any key to look away",
 			"landing": "There is talk already, in {place}, of somebody called {name}. You have never met them. The name sits in your chest like a stone.",
 			"weapon_lands": "Something falls out of a clear sky far to the {way}, trailing fire, and the ground shakes. The company stops talking for a while.",
+			"_doc_weapon_shake": "Play-test 7 (doug-md: \"it would be important to showcase the ground shaking\"): when a weapon lands the view shakes for `seconds`, `pixels` at its worst, fading out.",
+			"weapon_shake": { "seconds": 1.4, "pixels": 9 },
 			"weapon_annal": "{weapon}, made for {name} in another world, fell from the sky.",
 			"weapon_rumour": "A crater opened to the {way} of {place}, they say, near where you yourself came down, with a weapon standing up out of it. Nobody who has tried to swing it could make it behave.",
 			"weapon_found": "In the crater lies {weapon}, made for {name}, who died in another world. It is heavy in your hands in a way that has nothing to do with weight.",

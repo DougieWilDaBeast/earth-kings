@@ -282,7 +282,8 @@ each, each ending playable:
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md); **built**,
    [D254](06-decisions.md)), then sixteen self-played runs to floor 10 (2 to 5 falls; **run**, 4 falls with random companions,
-   [D258](06-decisions.md)); (5) `doug-md`'s play-test asks in his order. His play-test
+   [D258](06-decisions.md)); (5) `doug-md`'s play-test asks in his order (play-test 7, 2026-10-18, added fifteen, [28](28-the-first-hour.md#play-test-7s-asks); its
+   first fixes built, [D259](06-decisions.md)). His play-test
    5 comes after (1) and (2), with a word on each in-house theme ([D198](06-decisions.md)); art on the
    credits' return in [D199](06-decisions.md)'s order; three new founders' questions in
    [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)). `dougie` took all four of the

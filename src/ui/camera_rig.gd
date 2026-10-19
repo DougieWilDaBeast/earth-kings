@@ -45,6 +45,10 @@ var claims_the_view: bool = true
 ## Drawing back over the whole framed area (the world ending): the view may hold all of it, with
 ## nothing round it, even on a screen held upright.
 var _whole: bool = false
+## Seconds of shaking left, how long it was to last and how far at its worst ([method shake]).
+var _shake_left: float = 0.0
+var _shake_for: float = 0.0
+var _shake_pixels: float = 0.0
 ## Further than any ground the game lays out, in pixels: a view out here has been flung off.
 const LOST := 10000000.0
 
@@ -88,6 +92,16 @@ func pull_back(seconds: float) -> Tween:
 	return tween
 
 
+## Shake the view for [param seconds], [param pixels] screen pixels at first and fading out: the
+## ground moving under the party (play-test 7). Counted in the player's seconds, whatever the speed.
+func shake(seconds: float, pixels: float) -> void:
+	if seconds <= 0.0 or pixels <= 0.0:
+		return
+	_shake_left = seconds
+	_shake_for = seconds
+	_shake_pixels = pixels
+
+
 ## Throw away the player's panning and go back to what the scene is following.
 func recentre(immediate: bool = false) -> void:
 	_pan = Vector2.ZERO
@@ -108,6 +122,10 @@ func _process(delta: float) -> void:
 			or absf(get_screen_center_position().x) > LOST or absf(get_screen_center_position().y) > LOST:
 		position = _reachable(_focus) if _focus.is_finite() else Vector2.ZERO
 		reset_smoothing()
+	if _shake_left > 0.0:
+		_shake_left = maxf(_shake_left - delta / maxf(Engine.time_scale, 0.01), 0.0)
+		var worst := _shake_pixels * _shake_left / _shake_for / maxf(zoom.x, 0.01)
+		offset = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * worst
 	# The right stick looks around anywhere. The movement keys only do where
 	# nothing else wants them, and never on a pad, whose left stick is driving
 	# a menu or a cursor wherever the keys would have panned.

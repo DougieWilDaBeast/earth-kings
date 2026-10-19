@@ -322,6 +322,7 @@ func _ready() -> void:
 	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
+	EventBus.ground_shaken.connect(_camera.shake)
 	_paint_layers()
 	_light_the_place()
 	_spawn_buildings()
