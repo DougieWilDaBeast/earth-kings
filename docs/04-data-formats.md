@@ -704,6 +704,15 @@ Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `capt
 bring its system back. `dispatch` came out with [D278](06-decisions.md): sending your own people away opens
 once the company has shut a gate.
 
+## `world_rules.json` → `caves` — the caves under the hills (D282)
+
+A walkable tile whose terrain is one of `terrains` has a cave mouth on `chance` (a hash of the world and
+the tile, so the same tiles every time). The mouth is a building (`art`, `name`) put into the tile's
+ground by `GroundGen.slot`, carrying `cave: [x, y]`; walked into, `src/chronicle/caves.gd` lays the cave out
+as one gate floor (`GateInside.layout`) of a rank from `ranks`, with the stair walled off, its bands
+keyed `done:cave_<x>_<y>_...` and `lost` said on a loss, and one cache by the deepest band of
+`gold_low` to `gold_high` copper and one of `finds`.
+
 ## `world_rules.json` → `crafting` — mixing and honing (D280)
 
 `mix` is the recipes the party screen offers from the packs: `{ makes, needs: { item: count } }`
