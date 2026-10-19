@@ -423,6 +423,29 @@
 		"tier": 5,
 		"tint": "#c1a4ff"
 	},
+	"ogrekin": {
+		"display_name": "Ogrekin",
+		"job": "Wild",
+		"max_hp": 51,
+		"attack": 13,
+		"defense": 5,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"cleave"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8a6a4a",
+		"body_scale": 1.2,
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"ogre": {
 		"display_name": "Ogre",
 		"job": "Wild",
@@ -444,7 +467,115 @@
 		"kind": "beast",
 		"color": "#8a6a4a",
 		"body_scale": 1.6,
-		"sprite_dir": "res://art/tier1/club_ogre/idle"
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 2
+	},
+	"high_ogre": {
+		"display_name": "High Ogre",
+		"job": "Wild",
+		"max_hp": 105,
+		"attack": 22,
+		"defense": 12,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"cleave",
+			"crush",
+			"strike",
+			"earthshake",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8a6a4a",
+		"body_scale": 1.79,
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"ogre_brute": {
+		"display_name": "Ogre Brute",
+		"job": "Wild",
+		"max_hp": 144,
+		"attack": 27,
+		"defense": 14,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"cleave",
+			"crush",
+			"strike",
+			"earthshake"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8a6a4a",
+		"body_scale": 2.08,
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"ogre_warlord": {
+		"display_name": "Ogre Warlord",
+		"job": "Wild",
+		"max_hp": 203,
+		"attack": 32,
+		"defense": 17,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"crush",
+			"cleave",
+			"strike",
+			"earthshake",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8a6a4a",
+		"body_scale": 2.32,
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"ogre_mage": {
+		"display_name": "Ogre Mage",
+		"job": "Wild",
+		"max_hp": 125,
+		"attack": 27,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"ember",
+			"pyre",
+			"earthshake",
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8a6a4a",
+		"body_scale": 1.68,
+		"sprite_dir": "res://art/tier1/club_ogre/idle",
+		"family": "ogre",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"sky": {
 		"display_name": "Sky",
@@ -510,6 +641,29 @@
 		"color": "#c2a678",
 		"sprite_dir": "res://art/tier1/cabin_boy/idle"
 	},
+	"wisp_mote": {
+		"display_name": "Mote",
+		"job": "Wild",
+		"max_hp": 14,
+		"attack": 8,
+		"defense": 1,
+		"move": 4,
+		"jump": 3,
+		"speed": 16,
+		"abilities": [
+			"gust"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#5fbfa8",
+		"body_scale": 0.56,
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"feather_wisp": {
 		"display_name": "Wisp",
 		"job": "Wild",
@@ -530,7 +684,113 @@
 		"kind": "wild",
 		"color": "#5fbfa8",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/tier1/feather_wisp/idle"
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 2
+	},
+	"bright_wisp": {
+		"display_name": "Bright Wisp",
+		"job": "Wild",
+		"max_hp": 30,
+		"attack": 15,
+		"defense": 1,
+		"move": 4,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"gust",
+			"spark",
+			"dart"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#5fbfa8",
+		"body_scale": 0.84,
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"storm_wisp": {
+		"display_name": "Storm Wisp",
+		"job": "Wild",
+		"max_hp": 41,
+		"attack": 18,
+		"defense": 2,
+		"move": 4,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"gust",
+			"spark",
+			"dart",
+			"chain_bolt"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#5fbfa8",
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"wisp_lord": {
+		"display_name": "Wisp Lord",
+		"job": "Wild",
+		"max_hp": 57,
+		"attack": 22,
+		"defense": 2,
+		"move": 4,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"chain_bolt",
+			"gust",
+			"spark",
+			"dart",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#5fbfa8",
+		"body_scale": 1.09,
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"will_o_wisp": {
+		"display_name": "Will-o'-the-Wisp",
+		"job": "Wild",
+		"max_hp": 35,
+		"attack": 18,
+		"defense": 1,
+		"move": 4,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"spark",
+			"chain_bolt",
+			"thunderhead",
+			"gust"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#5fbfa8",
+		"body_scale": 0.79,
+		"sprite_dir": "res://art/tier1/feather_wisp/idle",
+		"family": "feather_wisp",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"fox_knight": {
 		"display_name": "Fox Fire Knight",
@@ -579,6 +839,29 @@
 		"color": "#d67ab5",
 		"sprite_dir": "res://art/tier1/pig_warlock/idle"
 	},
+	"sapling_sentinel": {
+		"display_name": "Sapling Sentinel",
+		"job": "Wild",
+		"max_hp": 62,
+		"attack": 10,
+		"defense": 7,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"cleave"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6d8f5a",
+		"body_scale": 1.27,
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"tree_sentinel": {
 		"display_name": "Sentinel",
 		"job": "Wild",
@@ -600,7 +883,115 @@
 		"kind": "wild",
 		"color": "#6d8f5a",
 		"body_scale": 1.7,
-		"sprite_dir": "res://art/big/tree_sentinel/idle"
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 2
+	},
+	"oak_sentinel": {
+		"display_name": "Oak Sentinel",
+		"job": "Wild",
+		"max_hp": 130,
+		"attack": 19,
+		"defense": 16,
+		"move": 2,
+		"jump": 1,
+		"speed": 6,
+		"abilities": [
+			"cleave",
+			"earthshake",
+			"stand_fast",
+			"crush",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6d8f5a",
+		"body_scale": 1.9,
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"ironbark": {
+		"display_name": "Ironbark",
+		"job": "Wild",
+		"max_hp": 178,
+		"attack": 22,
+		"defense": 19,
+		"move": 2,
+		"jump": 1,
+		"speed": 6,
+		"abilities": [
+			"cleave",
+			"earthshake",
+			"stand_fast",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6d8f5a",
+		"body_scale": 2.21,
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"elder_sentinel": {
+		"display_name": "Elder Sentinel",
+		"job": "Wild",
+		"max_hp": 250,
+		"attack": 27,
+		"defense": 23,
+		"move": 2,
+		"jump": 1,
+		"speed": 6,
+		"abilities": [
+			"crush",
+			"cleave",
+			"earthshake",
+			"stand_fast",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6d8f5a",
+		"body_scale": 2.46,
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"greenwarden": {
+		"display_name": "Greenwarden",
+		"job": "Wild",
+		"max_hp": 154,
+		"attack": 22,
+		"defense": 12,
+		"move": 2,
+		"jump": 1,
+		"speed": 6,
+		"abilities": [
+			"mend",
+			"soothing_spring",
+			"earthshake",
+			"stand_fast"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6d8f5a",
+		"body_scale": 1.78,
+		"sprite_dir": "res://art/big/tree_sentinel/idle",
+		"family": "tree_sentinel",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"turret_cannon": {
 		"display_name": "Cannon",
@@ -1148,6 +1539,30 @@
 		"color": "#b0553c",
 		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
+	"bear_cub": {
+		"display_name": "Bear Cub",
+		"job": "Wild",
+		"max_hp": 53,
+		"attack": 12,
+		"defense": 5,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"cleave"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
+		"kind": "beast",
+		"color": "#8a6440",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"axe_bear": {
 		"display_name": "Axe Bear",
 		"job": "Wild",
@@ -1169,7 +1584,143 @@
 		"kind": "beast",
 		"color": "#8a6440",
 		"body_scale": 1.5,
-		"sprite_dir": "res://art/big/axe_bear/idle"
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 2
+	},
+	"axe_bear_veteran": {
+		"display_name": "Axe Bear Veteran",
+		"job": "Wild",
+		"max_hp": 111,
+		"attack": 21,
+		"defense": 12,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"cleave",
+			"whirl",
+			"strike",
+			"lunge"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
+		"kind": "beast",
+		"color": "#8a6440",
+		"body_scale": 1.68,
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"great_axe_bear": {
+		"display_name": "Great Axe Bear",
+		"job": "Wild",
+		"max_hp": 152,
+		"attack": 26,
+		"defense": 14,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"cleave",
+			"whirl",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
+		"kind": "beast",
+		"color": "#8a6440",
+		"body_scale": 1.95,
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"axe_bear_chieftain": {
+		"display_name": "Axe Bear Chieftain",
+		"job": "Wild",
+		"max_hp": 213,
+		"attack": 31,
+		"defense": 17,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"crush",
+			"cleave",
+			"whirl",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
+		"kind": "beast",
+		"color": "#8a6440",
+		"body_scale": 2.17,
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"bear_shaman": {
+		"display_name": "Bear Shaman",
+		"job": "Wild",
+		"max_hp": 131,
+		"attack": 26,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"mend",
+			"earthshake",
+			"stand_fast",
+			"strike"
+		],
+		"classes": [
+			"wildling",
+			"sworn_blade"
+		],
+		"kind": "beast",
+		"color": "#8a6440",
+		"body_scale": 1.58,
+		"sprite_dir": "res://art/big/axe_bear/idle",
+		"family": "axe_bear",
+		"tier": 5,
+		"tint": "#c1a4ff"
+	},
+	"monkey_scamp": {
+		"display_name": "Monkey Scamp",
+		"job": "Sworn Blade",
+		"max_hp": 27,
+		"attack": 10,
+		"defense": 3,
+		"move": 5,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#c08a52",
+		"flash_step": 3,
+		"body_scale": 0.64,
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 1,
+		"tint": "#d8cbb4"
 	},
 	"sword_monkey": {
 		"display_name": "Sword Monkey",
@@ -1192,7 +1743,119 @@
 		"flash_step": 3,
 		"color": "#c08a52",
 		"body_scale": 0.85,
-		"sprite_dir": "res://art/tier1/sword_monkey/idle"
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 2
+	},
+	"high_sword_monkey": {
+		"display_name": "High Sword Monkey",
+		"job": "Sworn Blade",
+		"max_hp": 57,
+		"attack": 18,
+		"defense": 6,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"strike",
+			"cleave",
+			"lunge"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#c08a52",
+		"flash_step": 3,
+		"body_scale": 0.95,
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"blade_ape": {
+		"display_name": "Blade Ape",
+		"job": "Sworn Blade",
+		"max_hp": 78,
+		"attack": 21,
+		"defense": 8,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"strike",
+			"cleave",
+			"crush"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#c08a52",
+		"flash_step": 3,
+		"body_scale": 1.1,
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"monkey_king": {
+		"display_name": "Monkey King",
+		"job": "Sworn Blade",
+		"max_hp": 109,
+		"attack": 25,
+		"defense": 10,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"crush",
+			"strike",
+			"cleave",
+			"haymaker"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#c08a52",
+		"flash_step": 3,
+		"body_scale": 1.23,
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"monkey_sage": {
+		"display_name": "Monkey Sage",
+		"job": "Sworn Blade",
+		"max_hp": 67,
+		"attack": 21,
+		"defense": 5,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"gust",
+			"spark",
+			"dart",
+			"mend"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#c08a52",
+		"flash_step": 3,
+		"body_scale": 0.89,
+		"sprite_dir": "res://art/tier1/sword_monkey/idle",
+		"family": "sword_monkey",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"golden_knight": {
 		"display_name": "Golden Knight",
@@ -1217,6 +1880,29 @@
 		"color": "#d4af49",
 		"sprite_dir": "res://art/units/golden_knight/idle"
 	},
+	"caterpillar_larva": {
+		"display_name": "Larva",
+		"job": "Wild",
+		"max_hp": 38,
+		"attack": 9,
+		"defense": 6,
+		"move": 2,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fa05c",
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"caterpillar_warrior": {
 		"display_name": "Caterpillar Warrior",
 		"job": "Wild",
@@ -1237,7 +1923,114 @@
 		"kind": "wild",
 		"color": "#7fa05c",
 		"body_scale": 1.3,
-		"sprite_dir": "res://art/big/caterpillar_warrior/idle"
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 2
+	},
+	"silk_warrior": {
+		"display_name": "Silk Warrior",
+		"job": "Wild",
+		"max_hp": 78,
+		"attack": 16,
+		"defense": 13,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"strike",
+			"mend",
+			"shield_bash",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fa05c",
+		"body_scale": 1.46,
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"chrysalis_knight": {
+		"display_name": "Chrysalis Knight",
+		"job": "Wild",
+		"max_hp": 107,
+		"attack": 20,
+		"defense": 16,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"strike",
+			"mend",
+			"shield_bash",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fa05c",
+		"body_scale": 1.69,
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"moth_lord": {
+		"display_name": "Moth Lord",
+		"job": "Wild",
+		"max_hp": 151,
+		"attack": 23,
+		"defense": 19,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"crush",
+			"strike",
+			"mend",
+			"shield_bash",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fa05c",
+		"body_scale": 1.89,
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"dust_moth": {
+		"display_name": "Dust Moth",
+		"job": "Wild",
+		"max_hp": 93,
+		"attack": 20,
+		"defense": 10,
+		"move": 2,
+		"jump": 1,
+		"speed": 7,
+		"abilities": [
+			"gust",
+			"grief",
+			"mend",
+			"dart"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#7fa05c",
+		"body_scale": 1.37,
+		"sprite_dir": "res://art/big/caterpillar_warrior/idle",
+		"family": "caterpillar_warrior",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"timeless_one": {
 		"display_name": "Timeless One",
@@ -1263,6 +2056,29 @@
 		"color": "#9a7fd6",
 		"sprite_dir": "res://art/units/timeless_one/idle"
 	},
+	"blood_midge": {
+		"display_name": "Blood Midge",
+		"job": "Wild",
+		"max_hp": 18,
+		"attack": 9,
+		"defense": 1,
+		"move": 5,
+		"jump": 4,
+		"speed": 17,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#a8465a",
+		"body_scale": 0.5,
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"blood_mosquito": {
 		"display_name": "Blood Mosquito",
 		"job": "Wild",
@@ -1281,7 +2097,108 @@
 		"kind": "beast",
 		"color": "#a8465a",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/tier1/blood_mosquito/idle"
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 2
+	},
+	"bloodfly": {
+		"display_name": "Bloodfly",
+		"job": "Wild",
+		"max_hp": 38,
+		"attack": 16,
+		"defense": 3,
+		"move": 5,
+		"jump": 4,
+		"speed": 16,
+		"abilities": [
+			"strike",
+			"dart"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#a8465a",
+		"body_scale": 0.67,
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"bloated_mosquito": {
+		"display_name": "Bloated Mosquito",
+		"job": "Wild",
+		"max_hp": 52,
+		"attack": 20,
+		"defense": 3,
+		"move": 5,
+		"jump": 4,
+		"speed": 16,
+		"abilities": [
+			"strike",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#a8465a",
+		"body_scale": 0.78,
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"mosquito_queen": {
+		"display_name": "Mosquito Queen",
+		"job": "Wild",
+		"max_hp": 73,
+		"attack": 23,
+		"defense": 4,
+		"move": 5,
+		"jump": 4,
+		"speed": 16,
+		"abilities": [
+			"lunge",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#a8465a",
+		"body_scale": 0.87,
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"plague_drone": {
+		"display_name": "Plague Drone",
+		"job": "Wild",
+		"max_hp": 45,
+		"attack": 20,
+		"defense": 2,
+		"move": 5,
+		"jump": 4,
+		"speed": 16,
+		"abilities": [
+			"grief",
+			"lament",
+			"dart",
+			"gust"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#a8465a",
+		"body_scale": 0.63,
+		"sprite_dir": "res://art/tier1/blood_mosquito/idle",
+		"family": "blood_mosquito",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"legion_copper": {
 		"display_name": "Copper Legionnaire",
@@ -1960,6 +2877,30 @@
 		"body_scale": 0.75,
 		"sprite_dir": "res://art/tier1/ember_lizard/idle"
 	},
+	"sproutling": {
+		"display_name": "Sproutling",
+		"job": "Wild",
+		"max_hp": 26,
+		"attack": 8,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
+		"kind": "wild",
+		"color": "#7fc06a",
+		"body_scale": 0.56,
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"seed_beast": {
 		"display_name": "Mossback",
 		"job": "Wild",
@@ -1980,7 +2921,115 @@
 		"kind": "wild",
 		"color": "#7fc06a",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/tier1/seed_beast/idle"
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 2
+	},
+	"thornback": {
+		"display_name": "Thornback",
+		"job": "Wild",
+		"max_hp": 54,
+		"attack": 15,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike",
+			"mend",
+			"lunge"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
+		"kind": "wild",
+		"color": "#7fc06a",
+		"body_scale": 0.84,
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"rootback": {
+		"display_name": "Rootback",
+		"job": "Wild",
+		"max_hp": 74,
+		"attack": 18,
+		"defense": 11,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike",
+			"mend",
+			"crush"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
+		"kind": "wild",
+		"color": "#7fc06a",
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"old_mossback": {
+		"display_name": "Old Mossback",
+		"job": "Wild",
+		"max_hp": 104,
+		"attack": 22,
+		"defense": 13,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"crush",
+			"strike",
+			"mend",
+			"haymaker"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
+		"kind": "wild",
+		"color": "#7fc06a",
+		"body_scale": 1.09,
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"bloomcaller": {
+		"display_name": "Bloomcaller",
+		"job": "Wild",
+		"max_hp": 64,
+		"attack": 18,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"mend",
+			"soothing_spring",
+			"hearthlight",
+			"warding_touch"
+		],
+		"classes": [
+			"wildling",
+			"hedge_priest"
+		],
+		"kind": "wild",
+		"color": "#7fc06a",
+		"body_scale": 0.79,
+		"sprite_dir": "res://art/tier1/seed_beast/idle",
+		"family": "seed_beast",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"mending_lion": {
 		"display_name": "Mending Lion",
