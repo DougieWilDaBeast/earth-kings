@@ -303,6 +303,33 @@ party; only the hidden training ground and coliseum keep the fight screen.
 - anything the party has not met before opens a page in the **journal** (not in a sandbox);
 - `EventBus.battle_started` is told the map.
 
+**On the ground it is dangerous, and it turns** ([D272](06-decisions.md), call BQ, 2026-10-19).
+Before, every fight on the land was won: hits on a company in good iron landed for 1 or 2, and
+nothing in a fight asked anything. Now, from `ground` in `data/encounters.json` (every number
+**Inferred**, agenda 183):
+
+- against a company of two or more, a band of the land stands `level` 2 higher (on the First Hour
+  setting that takes its -2 back off, so a band is at the company's level) and comes **as many as
+  the company**: the rest were in cover, and the log says "2 more of them come out of cover". A lead
+  walking alone keeps [D211](06-decisions.md)'s band, two levels down and its own size;
+- its foes, and a roadside scene's, **bite** 1.25 times their level and **graze**: every blow gets at
+  least 30% of its weight past armour (`AbilityResolver.apply`, the `graze` meta), so `max(1, hit − defence)`
+  no longer takes a wolf's bite to 1;
+- **the fight turns**: the first time one of the company falls under 45% of their health, a fight
+  played by hand stops, and a card asks what now. **1 Stand** (fight on), **2 Pull them back** (the
+  hurt one leaves the field at once, safe, and the rest fight on without them; not offered when they
+  are the whole company), **3 Break off** (everyone standing leaves the field at once, a quarter of
+  the silver carried is thrown behind, nothing is won, the band is still out there, and anyone
+  already down is left to it). Space is Stand. It asks once a fight; Auto fights on and says so.
+  The Tower and the gates are not touched.
+
+Measured on the ground (Cato, Vesta and Iris at levels 4 and 8 against three wolves, hands off,
+`.art_stage` probe of `area_scene`): before, every fight won with enemy hits of 1 to 2. After,
+standing won 11 of 12, the fight turned in 8 of 12, 6 to 15 seconds in, and Cato came out at 7% to
+55%; the one loss was the whole company. Pulling Cato back saved him every time, and Vesta and
+Iris then won 2 of 6 alone; breaking off saved everyone for the silver. A first pass at bite 1.4
+and graze 0.35 lost 5 of 12 standing and was too much.
+
 **Winning** is routing the other side, unless a gate says otherwise: on a **keeper** floor the
 fight is won the moment every keeper is down, and on a **heart** floor the moment a party member
 stands on the heart ([D45](06-decisions.md)). Losing is every party member down.
