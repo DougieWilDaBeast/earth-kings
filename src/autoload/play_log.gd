@@ -20,6 +20,11 @@ const MAX_LINES := 400
 const FLUSH_EVERY := 5.0
 ## The same error over and over is one line with a count, not a page of it.
 const MAX_ERRORS := 40
+## The frame rate is looked at over this many real seconds, and written down only when it was poor,
+## under [constant SLOW_FPS] on average, with the longest frame in it (play-test 7: "massive frame
+## rate drop" in Stormreach, and nothing in the log to say how big, or where).
+const PACE_WINDOW := 10.0
+const SLOW_FPS := 40
 
 var _lines: PackedStringArray = []
 var _steps: int = 0
@@ -35,6 +40,11 @@ var _fight_began: int = -1
 var _dirty: bool = false
 var _since_flush: float = 0.0
 var _errors_seen: Dictionary = {}
+## The frames of the current window, the longest of them, and when it and the last frame began.
+var _window_frames: int = 0
+var _window_slowest: int = 0
+var _window_began: int = -1
+var _frame_began: int = -1
 
 var _mutex := Mutex.new()
 ## Errors land here from whatever thread raised them; [method _process] takes them in.
@@ -104,6 +114,38 @@ func _process(delta: float) -> void:
 	_since_flush += delta
 	if _dirty and _since_flush >= FLUSH_EVERY:
 		flush()
+	_watch_the_frame_rate()
+
+
+## Real time, not the game's: at 5x a frame's delta is five times what the player waited.
+func _watch_the_frame_rate() -> void:
+	var now := Time.get_ticks_usec()
+	if _frame_began < 0:
+		_frame_began = now
+		_window_began = now
+		return
+	_window_slowest = maxi(_window_slowest, (now - _frame_began) / 1000)
+	_frame_began = now
+	_window_frames += 1
+	var seconds := float(now - _window_began) / 1000000.0
+	if seconds < PACE_WINDOW:
+		return
+	var fps := roundi(float(_window_frames) / seconds)
+	if fps < SLOW_FPS:
+		note("  frame rate %d fps, slowest frame %d ms, at %s" % [fps, _window_slowest, _where()])
+	_window_frames = 0
+	_window_slowest = 0
+	_window_began = now
+
+
+## The place the party stands in or on, by name, for a line about the game rather than the run.
+func _where() -> String:
+	var world: World = GameState.world
+	if world != null:
+		var site := world.site_at(world.player_cell)
+		if site != null:
+			return site.display_name
+	return _ground_place if _ground_place != "" else _last_place
 
 
 func _notification(what: int) -> void:
