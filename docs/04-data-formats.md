@@ -775,12 +775,24 @@ and `allies` in its payload is a gate's floor). `world_rules.json` → `gate.ins
 `chambers_per_rank` chambers joined by passages from the doorway (the bottom row, its `exits`) to the way
 down (its `stairs`, the top row), a held band of the gate's own seeing `band_reach` in every chamber but
 the first (`Encounter.for_gate` deals each), and on the last floor its keeper (`boss`, one more reach) in
-the last chamber, whose `done_flag` the way down waits on. `themes` (by the gate's own area, `default` for
-any other) give `floor`, `path`, `wall` and `cover` terrains and the ground sheets drawn, bottom first
-(`layers`); `hint` is the floor's hint line. Bands' keys carry the site's `delves`, counted up each time a
+the last chamber, whose `done_flag` the way down waits on; on every other floor, with `rout`, the way
+down waits on every band of the floor (`rout_line` says so), and the keeper's fall scatters whatever is
+left (`scatter_line`) ([D261](06-decisions.md)). A chamber of rank `from_rank_two_bands` or above holds a
+second band when it rolls under `two_band_chance`; the keeper is `keeper_stout` (one a rank, E to S) times
+as hard to put down (`stout` on its band and its fight's foe, its health times it). `grounds` are the
+kinds of ground a floor is laid in (`floor`, `path`, `wall` and `cover` terrains, the ground sheets drawn
+bottom first as `layers`, `open` to widen chambers and passages, `name`; a kind with `biome` takes that
+land's `_floor`, `_bare`, `_liquid` and `_cover` and its three sheets unless it names its own); the first
+floor is the kind `by_area` names for the gate's mouth, else `by_land` for the land under it, and a deeper
+floor of a gate of rank `from_rank_vary` or above is another kind, rolled from the gate and the floor.
+`hint` is the floor's hint line. Bands' keys carry the site's `delves`, counted up each time a
 delve is lost, so a lost delve's bands stand again. The way down settles as a gate floor did
 (`kind` `gate`, `walked`) and opens the next floor straight away; a band's fight there settles as
 `gate_band`, and lost, the delve is lost.
+
+A shut gate's mouth ([D261](06-decisions.md)): `gate.shut` → `art` replaces the landmark in the gate's own
+area where it stood (the gate lying broken), its `people` are put in the mouth as an area's are, and
+`cheer` is said as the gate shuts (`src/area/ground_gen.gd`, `world_scene.gd`).
 
 An area's doings that start a fight are fought on that ground too ([D207](06-decisions.md),
 `GROUND_FIGHT_ACTS` in `area_scene.gd`): a gate at its doorway off the ground ([D162](06-decisions.md); on the ground it is gone into, [D248](06-decisions.md)), a roadside

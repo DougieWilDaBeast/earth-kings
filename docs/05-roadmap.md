@@ -383,7 +383,9 @@ each, each ending playable:
    left behind after the wilds, a company on a Tower floor joins any fight there, the talk box and hint strip only as big as
    what they say, a cache drawn as what is in it (A37 for its own art), and the view shakes when a weapon lands. His
    fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), ordered by `dougie` ([D260](06-decisions.md)):
-   **gates that grow** next, then **five tiers of each monster**, both **planned**; the climbers' stone, Sennet seen from
+   **gates that grow** built ([D261](06-decisions.md): ground of their own, longer by rank, shut when all are down or
+   the keeper falls, left broken with folk cheering; how long each rank takes in [28](28-the-first-hour.md#gates-that-grow)),
+   then **five tiers of each monster**, **planned**; the climbers' stone, Sennet seen from
    afar, the journal at the side and Stormreach's frame rate as small pieces alongside.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
