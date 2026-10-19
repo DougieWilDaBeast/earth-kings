@@ -2945,6 +2945,29 @@
 		"color": "#6f7fc0",
 		"sprite_dir": "res://art/units/storm_blade/idle"
 	},
+	"sea_foal": {
+		"display_name": "Sea Foal",
+		"job": "Wild",
+		"max_hp": 20,
+		"attack": 8,
+		"defense": 2,
+		"move": 5,
+		"jump": 3,
+		"speed": 15,
+		"abilities": [
+			"brine_spray"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#4fb6e0",
+		"body_scale": 0.6,
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"sea_horse": {
 		"display_name": "Sea Horse",
 		"job": "Wild",
@@ -2965,7 +2988,138 @@
 		"kind": "wild",
 		"color": "#4fb6e0",
 		"body_scale": 0.8,
-		"sprite_dir": "res://art/tier1/sea_horse/idle"
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 2
+	},
+	"surf_horse": {
+		"display_name": "Surf Horse",
+		"job": "Wild",
+		"max_hp": 40,
+		"attack": 15,
+		"defense": 4,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"brine_spray",
+			"tidal_surge",
+			"soothing_spring",
+			"undertow"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#4fb6e0",
+		"body_scale": 0.9,
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"tide_charger": {
+		"display_name": "Tide Charger",
+		"job": "Wild",
+		"max_hp": 56,
+		"attack": 18,
+		"defense": 5,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"brine_spray",
+			"tidal_surge",
+			"soothing_spring",
+			"crushing_wave"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#4fb6e0",
+		"body_scale": 1.04,
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"kelpie": {
+		"display_name": "Kelpie",
+		"job": "Wild",
+		"max_hp": 78,
+		"attack": 22,
+		"defense": 6,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"crushing_wave",
+			"brine_spray",
+			"tidal_surge",
+			"soothing_spring",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#4fb6e0",
+		"body_scale": 1.16,
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"spring_steed": {
+		"display_name": "Spring Steed",
+		"job": "Wild",
+		"max_hp": 48,
+		"attack": 18,
+		"defense": 3,
+		"move": 5,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"soothing_spring",
+			"tidal_surge",
+			"mend",
+			"brine_spray"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#4fb6e0",
+		"body_scale": 0.84,
+		"sprite_dir": "res://art/tier1/sea_horse/idle",
+		"family": "sea_horse",
+		"tier": 5,
+		"tint": "#c1a4ff"
+	},
+	"tideling": {
+		"display_name": "Tideling",
+		"job": "Wild",
+		"max_hp": 30,
+		"attack": 10,
+		"defense": 4,
+		"move": 4,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"undertow"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "wild",
+		"color": "#2f7fb5",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 1,
+		"tint": "#d8cbb4"
 	},
 	"sea_man": {
 		"display_name": "Tideborn",
@@ -2987,7 +3141,143 @@
 		],
 		"kind": "wild",
 		"color": "#2f7fb5",
-		"sprite_dir": "res://art/tier1/sea_man/idle"
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 2
+	},
+	"tide_warrior": {
+		"display_name": "Tide Warrior",
+		"job": "Wild",
+		"max_hp": 62,
+		"attack": 19,
+		"defense": 8,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"undertow",
+			"tidal_surge",
+			"brine_spray",
+			"strike"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "wild",
+		"color": "#2f7fb5",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"deep_brute": {
+		"display_name": "Deep Brute",
+		"job": "Wild",
+		"max_hp": 85,
+		"attack": 22,
+		"defense": 10,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"undertow",
+			"tidal_surge",
+			"brine_spray",
+			"crushing_wave"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "wild",
+		"color": "#2f7fb5",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"tide_chieftain": {
+		"display_name": "Tide Chieftain",
+		"job": "Wild",
+		"max_hp": 120,
+		"attack": 27,
+		"defense": 11,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"crushing_wave",
+			"undertow",
+			"tidal_surge",
+			"brine_spray",
+			"haymaker"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "wild",
+		"color": "#2f7fb5",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"tide_caller": {
+		"display_name": "Tide Caller",
+		"job": "Wild",
+		"max_hp": 74,
+		"attack": 22,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"crushing_wave",
+			"undertow",
+			"soothing_spring",
+			"tidal_surge"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "wild",
+		"color": "#2f7fb5",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/sea_man/idle",
+		"family": "sea_man",
+		"tier": 5,
+		"tint": "#c1a4ff"
+	},
+	"tide_cub": {
+		"display_name": "Tide Cub",
+		"job": "Wild",
+		"max_hp": 40,
+		"attack": 13,
+		"defense": 5,
+		"move": 5,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"crushing_wave"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#3fa6dc",
+		"flash_step": 3,
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 1,
+		"tint": "#d8cbb4"
 	},
 	"tide_lion": {
 		"display_name": "Tide Lion",
@@ -3011,7 +3301,147 @@
 		"kind": "beast",
 		"flash_step": 3,
 		"color": "#3fa6dc",
-		"sprite_dir": "res://art/tier1/tide_lion/idle"
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 2
+	},
+	"surge_lion": {
+		"display_name": "Surge Lion",
+		"job": "Wild",
+		"max_hp": 84,
+		"attack": 22,
+		"defense": 10,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"crushing_wave",
+			"tidal_surge",
+			"undertow",
+			"brine_spray",
+			"lunge"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#3fa6dc",
+		"flash_step": 3,
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"maelstrom_lion": {
+		"display_name": "Maelstrom Lion",
+		"job": "Wild",
+		"max_hp": 115,
+		"attack": 27,
+		"defense": 13,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"crushing_wave",
+			"tidal_surge",
+			"undertow",
+			"brine_spray",
+			"crush"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#3fa6dc",
+		"flash_step": 3,
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"sea_king": {
+		"display_name": "Sea King",
+		"job": "Wild",
+		"max_hp": 161,
+		"attack": 32,
+		"defense": 15,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"crush",
+			"crushing_wave",
+			"tidal_surge",
+			"undertow",
+			"brine_spray"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#3fa6dc",
+		"flash_step": 3,
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"reef_oracle": {
+		"display_name": "Reef Oracle",
+		"job": "Wild",
+		"max_hp": 99,
+		"attack": 27,
+		"defense": 8,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"soothing_spring",
+			"undertow",
+			"crushing_wave",
+			"mend"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#3fa6dc",
+		"flash_step": 3,
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/tide_lion/idle",
+		"family": "tide_lion",
+		"tier": 5,
+		"tint": "#c1a4ff"
+	},
+	"slimelet": {
+		"display_name": "Slimelet",
+		"job": "Wild",
+		"max_hp": 12,
+		"attack": 5,
+		"defense": 1,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8873f",
+		"body_scale": 0.5,
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 1,
+		"tint": "#d8cbb4"
 	},
 	"slime": {
 		"display_name": "Slime",
@@ -3031,7 +3461,108 @@
 		"kind": "wild",
 		"color": "#c8873f",
 		"body_scale": 0.6,
-		"sprite_dir": "res://art/tier1/slime/idle"
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 2
+	},
+	"great_slime": {
+		"display_name": "Great Slime",
+		"job": "Wild",
+		"max_hp": 24,
+		"attack": 9,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8873f",
+		"body_scale": 0.67,
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"hob_slime": {
+		"display_name": "Hob Slime",
+		"job": "Wild",
+		"max_hp": 33,
+		"attack": 10,
+		"defense": 3,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8873f",
+		"body_scale": 0.78,
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"slime_chieftain": {
+		"display_name": "Slime Chieftain",
+		"job": "Wild",
+		"max_hp": 47,
+		"attack": 13,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"crush",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8873f",
+		"body_scale": 0.87,
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"acid_slime": {
+		"display_name": "Acid Slime",
+		"job": "Wild",
+		"max_hp": 29,
+		"attack": 10,
+		"defense": 2,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"brine_spray",
+			"undertow",
+			"strike",
+			"mend"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#c8873f",
+		"body_scale": 0.63,
+		"sprite_dir": "res://art/tier1/slime/idle",
+		"family": "slime",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"blue_slime": {
 		"display_name": "Bog Jelly",
@@ -3187,6 +3718,30 @@
 		"color": "#8f7fb5",
 		"sprite_dir": "res://art/tier1/lizard_wizard/idle"
 	},
+	"eye_flinger": {
+		"display_name": "Eye Flinger",
+		"job": "Longbow",
+		"max_hp": 31,
+		"attack": 11,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 11,
+		"abilities": [
+			"arc_shot"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#d2622f",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"eye_slinger": {
 		"display_name": "Eye Slinger",
 		"job": "Longbow",
@@ -3207,7 +3762,118 @@
 		],
 		"kind": "beast",
 		"color": "#d2622f",
-		"sprite_dir": "res://art/tier1/eye_slinger/idle"
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 2
+	},
+	"sharp_eye": {
+		"display_name": "Sharp Eye",
+		"job": "Longbow",
+		"max_hp": 65,
+		"attack": 20,
+		"defense": 9,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"arc_shot",
+			"spark",
+			"ember",
+			"snipe"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#d2622f",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"eye_hurler": {
+		"display_name": "Eye Hurler",
+		"job": "Longbow",
+		"max_hp": 89,
+		"attack": 24,
+		"defense": 11,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"arc_shot",
+			"spark",
+			"ember",
+			"volley"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#d2622f",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"eye_master": {
+		"display_name": "Eye Master",
+		"job": "Longbow",
+		"max_hp": 125,
+		"attack": 29,
+		"defense": 13,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"volley",
+			"arc_shot",
+			"spark",
+			"ember",
+			"haymaker"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#d2622f",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"eye_seer": {
+		"display_name": "Eye Seer",
+		"job": "Longbow",
+		"max_hp": 77,
+		"attack": 24,
+		"defense": 7,
+		"move": 3,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"spark",
+			"chain_bolt",
+			"thunderhead",
+			"ember"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#d2622f",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/eye_slinger/idle",
+		"family": "eye_slinger",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"ice_wolf_pup": {
 		"display_name": "Ice Wolf Pup",
@@ -3690,6 +4356,30 @@
 		"tier": 5,
 		"tint": "#c1a4ff"
 	},
+	"mending_cub": {
+		"display_name": "Mending Cub",
+		"job": "Hedge Priest",
+		"max_hp": 35,
+		"attack": 10,
+		"defense": 4,
+		"move": 4,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"mend"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e0c05a",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"mending_lion": {
 		"display_name": "Mending Lion",
 		"job": "Hedge Priest",
@@ -3709,7 +4399,115 @@
 		],
 		"kind": "beast",
 		"color": "#e0c05a",
-		"sprite_dir": "res://art/tier1/mending_lion/idle"
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 2
+	},
+	"warden_lion": {
+		"display_name": "Warden Lion",
+		"job": "Hedge Priest",
+		"max_hp": 73,
+		"attack": 18,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"mend",
+			"strike",
+			"lunge"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e0c05a",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"stone_lion": {
+		"display_name": "Stone Lion",
+		"job": "Hedge Priest",
+		"max_hp": 100,
+		"attack": 21,
+		"defense": 11,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"mend",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e0c05a",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"lion_patriarch": {
+		"display_name": "Lion Patriarch",
+		"job": "Hedge Priest",
+		"max_hp": 140,
+		"attack": 25,
+		"defense": 13,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"crush",
+			"mend",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e0c05a",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"hearth_lion": {
+		"display_name": "Hearth Lion",
+		"job": "Hedge Priest",
+		"max_hp": 86,
+		"attack": 21,
+		"defense": 7,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"mend",
+			"hearthlight",
+			"warding_touch",
+			"second_wind"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e0c05a",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/mending_lion/idle",
+		"family": "mending_lion",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"flame_cub": {
 		"display_name": "Flame Cub",
