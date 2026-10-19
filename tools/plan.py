@@ -38,7 +38,7 @@ DECISION_ROW = re.compile(r"^\| D(\d+) \|", re.M)
 FORM_ANSWER = re.compile(r"^### (.+?)\s*\n+(?!###)(.+?)\s*$", re.M)
 # Which form questions become labels: {value} is the whole answer, {first} its first word.
 FORM_LABELS = {"Kind": "kind: {value}", "How bad": "{first}"}
-BOARD_URL = "https://github.com/DougieWilDaBeast/earth-kings/projects"
+BOARD_URL = "https://github.com/users/DougieWilDaBeast/projects/1"
 
 
 def api(method, path, body=None):
