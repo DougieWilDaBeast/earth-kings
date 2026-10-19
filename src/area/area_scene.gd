@@ -1031,7 +1031,10 @@ func _turn_the_light(tint: String) -> void:
 func _spawn_party() -> void:
 	_actors.y_sort_enabled = true
 	var start := map.spawn
-	if boot_payload.has("spawn_cell"):
+	# On the land a way in is the tile's own, and [method _land_start] has already put it in the
+	# tile: read again here it was a cell in the land's far corner, and only the lead was stepped
+	# back onto the tile after (play-test 7: out of the ancient grove "my party disappeared").
+	if boot_payload.has("spawn_cell") and not _land_mode:
 		start = AreaMap.to_cell(boot_payload["spawn_cell"])
 	if not map.is_walkable(start):
 		for radius in range(1, 6):
