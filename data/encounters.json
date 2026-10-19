@@ -38,10 +38,31 @@
 	"bands": 46,
 	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
 	"champion_from": "C",
-	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Only goblins have five so far. Inferred: every name, weight and number. Read by Tiers.",
+	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins, wolves and 20 more monsters have five so far (D262 to D269). Inferred: every name, weight and number. Read by Tiers.",
 	"tiers": {
 		"families": {
-			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]]
+			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]],
+			"wolf": ["wolf_cub", "wolf", "grey_wolf", "dire_wolf", ["pack_alpha", "moon_howler"]],
+			"ogre": ["ogrekin", "ogre", "high_ogre", "ogre_brute", ["ogre_warlord", "ogre_mage"]],
+			"axe_bear": ["bear_cub", "axe_bear", "axe_bear_veteran", "great_axe_bear", ["axe_bear_chieftain", "bear_shaman"]],
+			"sword_monkey": ["monkey_scamp", "sword_monkey", "high_sword_monkey", "blade_ape", ["monkey_king", "monkey_sage"]],
+			"blood_mosquito": ["blood_midge", "blood_mosquito", "bloodfly", "bloated_mosquito", ["mosquito_queen", "plague_drone"]],
+			"seed_beast": ["sproutling", "seed_beast", "thornback", "rootback", ["old_mossback", "bloomcaller"]],
+			"caterpillar_warrior": ["caterpillar_larva", "caterpillar_warrior", "silk_warrior", "chrysalis_knight", ["moth_lord", "dust_moth"]],
+			"feather_wisp": ["wisp_mote", "feather_wisp", "bright_wisp", "storm_wisp", ["wisp_lord", "will_o_wisp"]],
+			"tree_sentinel": ["sapling_sentinel", "tree_sentinel", "oak_sentinel", "ironbark", ["elder_sentinel", "greenwarden"]],
+			"frozen_wolfman": ["frostnipped", "frozen_wolfman", "rimebitten", "frost_brute", ["winter_lord", "frost_seer"]],
+			"ice_wolf": ["ice_wolf_pup", "ice_wolf", "rime_wolf", "glacier_wolf", ["winter_alpha", "frost_howler"]],
+			"ember_lizard": ["ember_eft", "ember_lizard", "cinder_lizard", "magma_lizard", ["salamander_lord", "flame_tongue"]],
+			"flame_lion": ["flame_cub", "flame_lion", "blaze_lion", "inferno_lion", ["sun_king", "ember_priestess"]],
+			"flame_dove": ["spark_chick", "flame_dove", "blaze_dove", "fire_hawk", ["phoenix_lord", "ash_crow"]],
+			"pig_warlock": ["pig_acolyte", "pig_warlock", "high_warlock", "hog_warlock", ["warlock_lord", "boar_sorcerer"]],
+			"slime": ["slimelet", "slime", "great_slime", "hob_slime", ["slime_chieftain", "acid_slime"]],
+			"sea_horse": ["sea_foal", "sea_horse", "surf_horse", "tide_charger", ["kelpie", "spring_steed"]],
+			"sea_man": ["tideling", "sea_man", "tide_warrior", "deep_brute", ["tide_chieftain", "tide_caller"]],
+			"tide_lion": ["tide_cub", "tide_lion", "surge_lion", "maelstrom_lion", ["sea_king", "reef_oracle"]],
+			"mending_lion": ["mending_cub", "mending_lion", "warden_lion", "stone_lion", ["lion_patriarch", "hearth_lion"]],
+			"eye_slinger": ["eye_flinger", "eye_slinger", "sharp_eye", "eye_hurler", ["eye_master", "eye_seer"]]
 		},
 		"by_level": [
 			{ "from": 1, "weights": [6, 4, 0, 0, 0] },

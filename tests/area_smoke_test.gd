@@ -40,6 +40,7 @@ const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Company := preload("res://tests/company.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
+const Climbers := preload("res://src/chronicle/climbers.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -81,6 +82,7 @@ func _ready() -> void:
 	await _check_followers_face()
 	await _check_play_test_seven()
 	await _check_sennet_from_afar()
+	_check_the_climbers_stone()
 	_check_tracks()
 	_check_open_city()
 	await _check_play_hud()
@@ -1889,6 +1891,39 @@ func _check_sennet_from_afar() -> void:
 		_fail("Sennet from afar: he is still there once he has finished speaking")
 	land.queue_free()
 	await get_tree().process_frame
+
+
+## The climbers' stone at the Tower's door (play-test 7, call BR3): it stands at the Tower's foot,
+## and reads the leads who climbed before, highest first, then this lead while they climb.
+func _check_the_climbers_stone() -> void:
+	var stones: Array = (Database.area("tower").get("props", []) as Array).filter(func(p: Dictionary) -> bool:
+		return str(p.get("reads", "")) == "climbers")
+	if stones.size() != 1:
+		_fail("climbers' stone: %d stones that read the climbers at the Tower's foot, not one" % stones.size())
+	GameState.new_game(SEED, "juno")
+	var lead := GameState.roster.player()
+	var past := [
+		{ "name": "Atlas", "floor": 2, "gone": true },
+		{ "name": "Vesta", "floor": 9, "gone": true },
+		{ "name": "Cato", "floor": 0, "gone": true },
+	]
+	GameState.world.tower_floor = 0
+	var read := Climbers.lines(GameState.world, lead, past)
+	var vesta := read.find("Vesta, floor 9.")
+	var atlas := read.find("Atlas, floor 2.")
+	if vesta < 0 or atlas < 0 or vesta > atlas or not read.has("Cato, who never climbed."):
+		_fail("climbers' stone: the fallen are not read highest first (%s)" % str(read))
+	if read.any(func(line: String) -> bool: return line.begins_with(lead.display_name)):
+		_fail("climbers' stone: %s is on it before setting foot on a floor" % lead.display_name)
+	GameState.world.tower_floor = 4
+	read = Climbers.lines(GameState.world, lead, past)
+	if not read.has("%s, floor 4, and still climbing." % lead.display_name):
+		_fail("climbers' stone: the lead climbing is not on it (%s)" % str(read))
+	read = Climbers.lines(GameState.world, lead, [])
+	if read.size() < 2:
+		_fail("climbers' stone: nothing on it with nobody before (%s)" % str(read))
+	else:
+		print("climbers' stone: %d lines, highest first, the lead while they climb" % read.size())
 	GameState.new_game(SEED)
 
 

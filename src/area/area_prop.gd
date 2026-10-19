@@ -33,6 +33,9 @@ var find_flag: String = ""
 var found_line: String = ""
 ## A doing of the place's that this thing is the way into (the Tower's door climbs, D107), or "".
 var act: String = ""
+## What is written on it, worked out when it is read rather than written in the area: "climbers",
+## the names on the stone at the Tower's door (play-test 7, call BR3).
+var reads: String = ""
 ## A size set by the area for this one prop, or 0 for its kind's ([Database.prop_size]).
 var scale_override: float = 0.0
 
@@ -79,6 +82,7 @@ static func from_entry(entry: Dictionary) -> AreaProp:
 	node.find_flag = str(entry.get("set_flag", ""))
 	node.found_line = str(entry.get("found_line", ""))
 	node.act = str(entry.get("act", ""))
+	node.reads = str(entry.get("reads", ""))
 	if entry.has("gold") or entry.has("item"):
 		node.haul = { "gold": int(entry.get("gold", 0)), "item": entry.get("item", "") }
 	node.set_interactive(node.line != "")

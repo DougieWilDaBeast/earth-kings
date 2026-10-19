@@ -819,7 +819,8 @@ with no box and without stopping a party walking itself ([D216](06-decisions.md)
 names each family's kinds, lesser to top (`lesser`, plain, high, hob, then a list for the top, a
 chieftain or a caster); a pool or band naming the plain kind deals it as one of the five, at the odds
 of the last `by_level` row whose `from` is at or under the fight's level (`weights`, lesser to top), and
-no more than `top_a_fight` come out at the top. A keeper is not dealt; a band on the land is dealt when
+no more than `top_a_fight` come out at the top. A tier with no passives or role of its own in
+`skirmish.json` (`by_template`, `role_by_template`) fights with its family's. A keeper is not dealt; a band on the land is dealt when
 it is put down, so it is seen as what it is (`Tiers`).
 
 **A band led to the Watch** ([D236](06-decisions.md)). `world_rules.json` → `life.road_watch`: a band

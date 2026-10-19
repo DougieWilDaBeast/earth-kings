@@ -385,8 +385,8 @@ each, each ending playable:
    fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), ordered by `dougie` ([D260](06-decisions.md)):
    **gates that grow** built ([D261](06-decisions.md): ground of their own, longer by rank, shut when all are down or
    the keeper falls, left broken with folk cheering; how long each rank takes in [28](28-the-first-hour.md#gates-that-grow)),
-   then **five tiers of each monster**, the goblins' built ([D262](06-decisions.md): lesser, plain, high, hob, and a
-   chieftain or a shaman, dealt by the fight's level; the other monsters **planned**); the climbers' stone, Sennet seen from
+   then **five tiers of each monster**, the goblins', the wolves' and 20 more monsters' built ([D262](06-decisions.md), [D264](06-decisions.md)
+   and [D267](06-decisions.md) to [D269](06-decisions.md): lesser, plain, high, hob, and a chieftain or a caster, dealt by the fight's level; the gates' monsters **planned**); the climbers' stone (built, [D266](06-decisions.md)), Sennet seen from
    afar (built, [D265](06-decisions.md)), the journal at the side and Stormreach's frame rate as small pieces alongside (the frame rate
    built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
    the map, and the play log says when the frame rate drops).

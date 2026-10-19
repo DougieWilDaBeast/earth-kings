@@ -592,35 +592,44 @@ func _check_roster(world: World) -> void:
 ## monster with no tiers are dealt as they were named; each tier stronger than the one below.
 func _check_tiers() -> void:
 	print("")
-	var kinds := Tiers.every_kind()
-	_expect(kinds.size() == 6, "tiers: goblins come in %d kinds, not lesser to chieftain and caster" % kinds.size())
+	var families: Array = Tiers.rules().get("families", {}).keys()
+	_expect(families.has("goblin") and families.has("wolf"), "tiers: families are only %s" % [families])
+	for family: String in families:
+		_check_a_family(family)
+
+
+func _check_a_family(family: String) -> void:
+	var line := Tiers.kinds(family)
+	_expect(line.size() == 5 and line[4] is Array and str(line[1]) == family,
+		"tiers: %s is not lesser, %s, high, hob and a top of one or more" % [line, family])
 	var health := -1
-	for kind: Variant in Tiers.kinds("goblin"):
+	for kind: Variant in line:
 		var first := str(kind[0]) if kind is Array else str(kind)
 		var unit := Database.unit_template(first)
-		_expect(str(unit.get("family", "")) == "goblin", "tiers: %s is not a goblin in data/units.json" % first)
+		_expect(str(unit.get("family", "")) == family, "tiers: %s is not a %s in data/units.json" % [first, family])
 		_expect(int(unit.get("max_hp", 0)) > health, "tiers: %s is no stronger than the tier below" % first)
 		health = int(unit.get("max_hp", 0))
+	var tops: Array = line[4]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 262
 	var seen := { 1: {}, 24: {} }
 	for level: int in seen:
 		for i in 200:
 			rng.randi()
-			var fight: Array = [{ "unit": "goblin" }, { "unit": "goblin" }, { "unit": "goblin" }, { "unit": "wolf" },
-				{ "unit": "goblin", "boss": true }]
+			var fight: Array = [{ "unit": family }, { "unit": family }, { "unit": family }, { "unit": "brigand" },
+				{ "unit": family, "boss": true }]
 			Tiers.deal(fight, level, rng)
-			var tops := fight.filter(func(e: Dictionary) -> bool: return str(e["unit"]) in ["goblin_chieftain", "goblin_shaman"])
-			_expect(tops.size() <= 1, "tiers: a level %d fight dealt %d chieftains and casters" % [level, tops.size()])
-			_expect(str(fight[3]["unit"]) == "wolf" and str(fight[4]["unit"]) == "goblin",
-				"tiers: a wolf or a keeper was dealt as something else (%s)" % [fight])
+			var at_top := fight.filter(func(e: Dictionary) -> bool: return tops.has(str(e["unit"])))
+			_expect(at_top.size() <= 1, "tiers: a level %d fight dealt %d %s" % [level, at_top.size(), tops])
+			_expect(str(fight[3]["unit"]) == "brigand" and str(fight[4]["unit"]) == family,
+				"tiers: a brigand or a keeper was dealt as something else (%s)" % [fight])
 			for entry: Dictionary in fight.slice(0, 3):
 				seen[level][str(entry["unit"])] = true
-	_expect((seen[1] as Dictionary).keys().all(func(k: String) -> bool: return k in ["goblin_lesser", "goblin"]),
+	_expect((seen[1] as Dictionary).keys().all(func(k: String) -> bool: return k == str(line[0]) or k == family),
 		"tiers: a level 1 fight met %s" % [(seen[1] as Dictionary).keys()])
-	_expect(seen[24].has("hobgoblin") and seen[24].has("goblin_chieftain") and seen[24].has("goblin_shaman")
-		and not seen[24].has("goblin_lesser"), "tiers: a level 24 fight met %s" % [(seen[24] as Dictionary).keys()])
-	print("tiers: level 1 met %s; level 24 met %s" % [(seen[1] as Dictionary).keys(), (seen[24] as Dictionary).keys()])
+	_expect(seen[24].has(str(line[3])) and tops.all(func(k: String) -> bool: return seen[24].has(k))
+		and not seen[24].has(str(line[0])), "tiers: a level 24 fight met %s" % [(seen[24] as Dictionary).keys()])
+	print("tiers: %s at level 1 met %s; at 24 %s" % [family, (seen[1] as Dictionary).keys(), (seen[24] as Dictionary).keys()])
 
 
 func _check_encounters(world: World) -> void:
