@@ -147,14 +147,14 @@ func _check_touch_reaches_the_game() -> void:
 
 	# And the other way: the bare-letter shortcuts still want a real key, or
 	# every action sent would trip whichever letter it landed on.
-	_expect(not _journal.is_open(), "a synthesised action reached a bare-letter shortcut")
+	_expect(not _journal.is_showing(), "a synthesised action reached a bare-letter shortcut")
 	# A raw touch must fall through the letter block rather than be read as one.
 	var touch := InputEventScreenTouch.new()
 	touch.index = 0
 	touch.pressed = true
 	touch.position = Vector2(10, 10)
 	world._unhandled_input(touch)
-	_expect(not _journal.is_open(), "a screen touch was read as a letter key")
+	_expect(not _journal.is_showing(), "a screen touch was read as a letter key")
 	_expect(not _party.is_open(), "a screen touch was read as a letter key")
 
 
@@ -220,6 +220,18 @@ func _check_the_controls_come_back() -> void:
 	var root: Control = _touch.get_node("Root")
 	_expect(root.visible, "the controls are not up in the walk scene to begin with")
 
+	# The journal at the side lets the walk go on, so the controls stay up with it (D271);
+	# opened over the whole screen it takes them away like the rest.
+	var was_docked: bool = JournalScreen.docked
+	JournalScreen.docked = true
+	EventBus.journal_requested.emit()
+	await _settle()
+	_expect(_journal.is_showing() and not _journal.is_open(), "the journal did not open at the side")
+	_expect(root.visible, "the controls went away under the journal at the side")
+	_journal.close()
+	await _settle()
+	JournalScreen.docked = false
+
 	for screen: Array in [
 		[EventBus.party_screen_requested, _party, "the party screen"],
 		[EventBus.journal_requested, _journal, "the journal"],
@@ -239,9 +251,15 @@ func _check_the_controls_come_back() -> void:
 		await _settle()
 		_expect(not overlay.is_open(), "%s did not close" % what)
 		_expect(root.visible, "the controls never came back after %s shut" % what)
+	JournalScreen.docked = was_docked
 
 
 # --- a way out without a keyboard ---------------------------------------------
+
+
+## On screen at all: the journal at the side is up without holding the game (D271).
+func _up(overlay: Node) -> bool:
+	return overlay.is_showing() if overlay.has_method("is_showing") else overlay.is_open()
 
 
 ## Escape was the only way out of most of these, and a phone has no Escape.
@@ -260,7 +278,7 @@ func _check_everything_closes_without_a_key() -> void:
 		await _settle()
 		overlay._unhandled_input(_action("ui_cancel"))
 		await _settle()
-		_expect(not overlay.is_open(), "%s would not take Back for an answer" % what)
+		_expect(not _up(overlay), "%s would not take Back for an answer" % what)
 
 		# And a button on the screen itself, for a player who never finds Back.
 		opening.emit()
@@ -271,7 +289,7 @@ func _check_everything_closes_without_a_key() -> void:
 			_expect(close_btn.is_visible_in_tree(), "%s's close button is not on screen" % what)
 			close_btn.pressed.emit()
 			await _settle()
-			_expect(not overlay.is_open(), "%s's close button did not close it" % what)
+			_expect(not _up(overlay), "%s's close button did not close it" % what)
 
 	# The overlay's own Back sends the same thing every screen already answers.
 	var back: Button = _touch.get_node("Root").find_child("BackButton", true, false)
