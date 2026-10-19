@@ -61,6 +61,8 @@ var colour: Color = Color.WHITE
 var body_scale: float = 1.0
 ## A tier's shade over the art it shares with its family (`tint`, D262), until it has art of its own.
 var tint: Color = Color.WHITE
+## Which of its family's five this is (D262), 1 to 5; 0 for anything that is no tier.
+var tier: int = 0
 ## Laid flat by a knockdown: 0 standing, 1 on the ground ([D192]). Drawn tipped onto its side.
 var lying: float = 0.0
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
@@ -100,6 +102,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.colour = Color(data.get("color", "#cccccc"))
 	unit.body_scale = clampf(float(data.get("body_scale", 1.0)), BODY_SCALE_MIN, BODY_SCALE_MAX)
 	unit.tint = Color(str(data.get("tint", "#ffffff")))
+	unit.tier = int(data.get("tier", 0))
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
 	unit.run_frames = _load_run(template_id_)
 	unit.action_frames = _load_actions(template_id_)
@@ -445,3 +448,6 @@ func _draw_hp_bar(sprite: Texture2D) -> void:
 	var ratio := float(hp) / float(max_hp)
 	draw_rect(Rect2(origin, Vector2(width, 4)), Color(0, 0, 0, 0.6))
 	draw_rect(Rect2(origin, Vector2(width * ratio, 4)), Color(0.3, 0.85, 0.4))
+	# A tier of a monster (D275) shows its rank as pips over the bar, one to five, in its shade.
+	for i in tier:
+		draw_rect(Rect2(origin + Vector2(i * 5.0, -5.0), Vector2(3, 3)), Color(tint, 0.95))

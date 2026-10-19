@@ -27,6 +27,7 @@ static func for_unit(unit: Unit) -> Array:
 	var data := Database.skirmish
 	var ids: Array[String] = []
 	_add(ids, data.get("by_template", {}).get(unit.template_id, data.get("by_template", {}).get(_family(unit), [])))
+	_add(ids, data.get("by_tier", {}).get(_tier_key(unit), {}).get("passives", []))
 	var classes: Array = []
 	if unit.character != null and unit.character.class_id != "":
 		classes.append(unit.character.class_id)
@@ -77,6 +78,9 @@ static func role_for(unit: Unit) -> String:
 	var named := str(data.get("role_by_template", {}).get(unit.template_id, data.get("role_by_template", {}).get(_family(unit), "")))
 	if named != "":
 		return named
+	var by_tier := str(data.get("by_tier", {}).get(_tier_key(unit), {}).get("role", ""))
+	if by_tier != "":
+		return by_tier
 	for ability_id: String in unit.abilities:
 		var ability := Database.ability(ability_id)
 		if bool(ability.get("heal", false)) and not bool(ability.get("bonus", false)) \
@@ -99,3 +103,16 @@ static func role(id: String) -> Dictionary:
 ## has its own.
 static func _family(unit: Unit) -> String:
 	return str(Database.unit_template(unit.template_id).get("family", ""))
+
+
+## Which row of `by_tier` a tier of a monster fights by (D275): its tier, 1 to 5, and the top's caster
+## (the second of the top's kinds) as "5_caster". "" for a unit that is no tier of anything.
+static func _tier_key(unit: Unit) -> String:
+	var template := Database.unit_template(unit.template_id)
+	var tier := int(template.get("tier", 0))
+	if tier <= 0:
+		return ""
+	var line: Array = Tiers.kinds(str(template.get("family", "")))
+	if tier == line.size() and line.back() is Array and (line.back() as Array).find(unit.template_id) > 0:
+		return "%d_caster" % tier
+	return str(tier)

@@ -457,7 +457,22 @@
 			"keep_away": 2,
 			"retreat_every": 2.5,
 			"heal_below": 0.85
+		},
+		"craven": {
+			"display_name": "Craven",
+			"description": "Fights while it is winning; badly hurt, it breaks and runs, and turns only when cornered.",
+			"flee_below": 0.4,
+			"flee_gap": 4,
+			"retreat_every": 1.5
 		}
+	},
+	"_comment_by_tier": "D275: what each tier of a monster (D262) brings beside its family's own passives and role. The lesser runs when hurt, the high charges and goes for the flank, the hob fights harder near death, the chieftain spurs its kin, the top's caster finds the weak spot. A row's passives add to the family's; its role stands in for the family's unless role_by_template names one.",
+	"by_tier": {
+		"1": { "role": "craven" },
+		"3": { "passives": ["hunters_angle"], "role": "charger" },
+		"4": { "passives": ["last_stand"] },
+		"5": { "passives": ["war_cry"] },
+		"5_caster": { "passives": ["keen_eye"] }
 	},
 	"role_by_template": {
 		"brigand": "charger",
