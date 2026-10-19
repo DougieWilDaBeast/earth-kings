@@ -346,8 +346,10 @@ text crossing at the bottom of the screen, a far-too-strong gate asking twice, c
 ### Play-test 7's asks
 
 What `doug-md` asked for in play-test 7 ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md))
-that needs more than a fix, **planned**, waiting on the founders' order (he asked for each to be weighed,
-not all built). Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
+that needs more than a fix, **planned**, in the founders' order ([D260](06-decisions.md), call BR, 2026-10-19): items 1
+and 4 next, in that order; 11 (Sennet), 12 (the journal at the side first), 15 and the climbers' stone (from 2) as small
+pieces now; 14 yes; 7, 8 and 10 after the gates and tiers; who wields what stays as it is. The six and the
+Tower's agelessness (2) are canon, the six's names `doug-md`'s. Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
 standing by on floor 2, the boxes at the bottom far too big, a cache always a coin pile (art A37 asked
 for), the ground said to shake but not seen to. Some repeat play-test 6's (noted).
 1. **Gates that grow** (grows play-test 6, item 2): ground of its own kind inside (frost, fire, grass,

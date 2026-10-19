@@ -382,7 +382,9 @@ each, each ending playable:
 30. **Play-test 7** (`doug-md`, 2026-10-18): the first fixes — built ([D259](06-decisions.md)): the party no longer
    left behind after the wilds, a company on a Tower floor joins any fight there, the talk box and hint strip only as big as
    what they say, a cache drawn as what is in it (A37 for its own art), and the view shakes when a weapon lands. His
-   fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), waiting on the founders.
+   fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), ordered by `dougie` ([D260](06-decisions.md)):
+   **gates that grow** next, then **five tiers of each monster**, both **planned**; the climbers' stone, Sennet seen from
+   afar, the journal at the side and Stormreach's frame rate as small pieces alongside.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
