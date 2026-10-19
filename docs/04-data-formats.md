@@ -704,6 +704,15 @@ Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `capt
 bring its system back. `dispatch` came out with [D278](06-decisions.md): sending your own people away opens
 once the company has shut a gate.
 
+## `world_rules.json` → `moods` — how each of the company feels (D279)
+
+`base` plus every thought carried is a mood (`Character.mood()`). `thoughts` are keyed by id: `label`
+(`label_against` when it is worth less than nothing), `mood`, `lasts` (steps), `stack` (how many at once),
+and `by_group` (worth by temper group NT, NF, SJ, SP). `src/chronicle/moods.gd` gives them once a step
+from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fell` (a bond of
+`friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
+`defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
+
 ## `world_rules.json` → `dispatch` — sending your own people out (D38, D278)
 
 `steps_per_tile` and `hunt_distance` time an errand; `trouble_*`, `win_base`, `win_per_level` and

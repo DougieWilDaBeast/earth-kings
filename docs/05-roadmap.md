@@ -393,7 +393,8 @@ each, each ending playable:
    (built, [D274](06-decisions.md), the rules in [13](13-heroes-and-tempers.md#the-lines)). After gates and tiers
    comes `dougie`'s list (BR9), one at a time: **recruiting anyone** built ([D277](06-decisions.md): a Charisma
    check, and a no won round by their favour or a few fights), sending your own people out built ([D278](06-decisions.md):
-   a band to shut a gate on the odds, open once a gate is shut), then moods, crafting, caves and heights (all **planned**).
+   a band to shut a gate on the odds, open once a gate is shut), moods built ([D279](06-decisions.md): thoughts that
+   make a mood, which nudges a fight), then crafting, caves and heights (all **planned**).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
    from the review "Is this game fun?"). A band of the land comes as many as the company and its blows get
    through armour; the first time one of the company is badly hurt, a fight played by hand asks stand, pull

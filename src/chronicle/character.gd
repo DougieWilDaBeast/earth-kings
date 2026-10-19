@@ -93,6 +93,9 @@ var marks: Dictionary = {}
 ## How they fight when the player is playing ([D195]): a key of `tactics.stances` in
 ## `data/skirmish.json`. Kept between fights; "own" is the fighter's own doctrine.
 var stance: String = "own"
+## What they are carrying in their head ([D279], [Moods]): `{ id, label, mood, until }`, until a
+## world step. Their sum and a base make their mood.
+var thoughts: Array = []
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -313,7 +316,27 @@ func knows(doctrine_id: String) -> bool:
 func _stat(key: String, fallback: int) -> int:
 	var base := float(template().get(key, fallback))
 	var growth := float(class_data().get("growth", {}).get(key, 0.0))
-	return roundi(base + growth * float(level - 1)) + Doctrine.bonus(self, key) + int(marks.get(key, 0))
+	return roundi(base + growth * float(level - 1)) + Doctrine.bonus(self, key) + int(marks.get(key, 0)) \
+		+ mood_edge(key)
+
+
+## How they feel, as a number ([D279]): the base, and every thought they carry.
+func mood() -> int:
+	var value := int(Database.world_rules.get("moods", {}).get("base", 50))
+	for thought: Dictionary in thoughts:
+		value += int(thought.get("mood", 0))
+	return value
+
+
+## What their mood does to [param key] in a fight: the band's own nudge, 0 for most moods.
+func mood_edge(key: String) -> int:
+	if thoughts.is_empty():
+		return 0
+	var value := mood()
+	for each: Dictionary in Database.world_rules.get("moods", {}).get("bands", []):
+		if value < int(each.get("below", 0)):
+			return int(each.get(key, 0))
+	return 0
 
 
 # --- serialisation ------------------------------------------------------------
@@ -356,6 +379,7 @@ func to_dict() -> Dictionary:
 		"scars": scars,
 		"bonds": bonds,
 		"marks": marks,
+		"thoughts": thoughts,
 		"stance": stance,
 	}
 
@@ -403,4 +427,10 @@ static func from_dict(data: Dictionary) -> Character:
 	for key: String in data.get("marks", {}):
 		character.marks[key] = int(data["marks"][key])
 	character.stance = str(data.get("stance", "own"))
+	for thought: Variant in data.get("thoughts", []):
+		if thought is Dictionary:
+			character.thoughts.append({
+				"id": str(thought.get("id", "")), "label": str(thought.get("label", "")),
+				"mood": int(thought.get("mood", 0)), "until": int(thought.get("until", 0)),
+			})
 	return character
