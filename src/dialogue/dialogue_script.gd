@@ -10,6 +10,7 @@ extends RefCounted
 ## Node id that closes the conversation.
 const END := "end"
 const DIE_SIDES := 20
+const Recruits := preload("res://src/chronicle/recruits.gd")
 
 ## Check name -> how it reads on screen. The stat behind each is [method _skill_value].
 const SKILLS := {
@@ -17,6 +18,7 @@ const SKILLS := {
 	"guard": "Guard",
 	"wits": "Wits",
 	"renown": "Renown",
+	"charisma": "Charisma",
 }
 
 ## Line list -> the variant said last time, so the same wording never comes up twice running.
@@ -192,6 +194,8 @@ static func _skill_value(character: Character, skill: String) -> int:
 			return character.speed()
 		"renown":
 			return character.level * 2 + Renown.notoriety(GameState.world, GameState.world.player_cell)
+		"charisma":
+			return Recruits.charisma(character)
 		_:
 			return character.attack()
 

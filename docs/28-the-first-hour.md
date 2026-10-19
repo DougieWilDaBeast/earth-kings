@@ -374,7 +374,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    an icon beside each item (art from PixelLab).
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons").
-8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no; **sending your own
+8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
+   [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
+   Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
    people out** on quests and into gates on Auto; **moods after RimWorld**, and some who will not climb.
 9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.

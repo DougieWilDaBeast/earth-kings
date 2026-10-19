@@ -44,6 +44,7 @@ const Remembered := preload("res://src/chronicle/remembered.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
+const Recruits := preload("res://src/chronicle/recruits.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -1507,6 +1508,11 @@ func _put_person(person: Dictionary, seated: Variant = null) -> AreaActor:
 		actor.modulate = Color(0.72, 0.86, 1.0, 0.55)
 	_actors.add_child(actor)
 	_people.append(actor)
+	# Gone to walk with the company ([D277]): their place stands empty.
+	if Recruits.has_joined(str(person.get("_area", map.id)), person):
+		actor.set_interactive(false)
+		actor.visible = false
+		return actor
 	var reach := float(person.get("wander", 0.0))
 	var rounds: Array = person.get("rounds", [])
 	if not rounds.is_empty() and seated == null:
@@ -2127,6 +2133,7 @@ func _speak_with(them: AreaActor) -> void:
 		var talk_id: String = Talk.open(str(person.get("_area", map.id)), person)
 		EventBus.dialogue_requested.emit(talk_id)
 		await EventBus.dialogue_finished
+		_take_on_the_asked(them)
 	elif not them.chatter.is_empty():
 		them.say(them.chatter.pick_random())
 
@@ -2154,6 +2161,20 @@ func _speak_to_the_fallen(them: AreaActor, hero_id: String) -> void:
 	_nearby = null
 	_hovered = null
 	# They fall in behind the party now, where they can be seen following (Ewan's play-test 2).
+	_fall_in()
+
+
+## Somebody asked to walk with the company said yes ([D277]): they step out of the crowd and fall
+## in behind, like one of the sixteen.
+func _take_on_the_asked(them: AreaActor) -> void:
+	for recruit: Character in Recruits.settle(GameState.world, GameState.roster, GameState.flags, GameState.ledger):
+		_note(Recruits.joined_line(recruit.display_name))
+	if not Recruits.has_joined(str((them.get_meta("person", {}) as Dictionary).get("_area", map.id)), them.get_meta("person", {})):
+		return
+	them.set_interactive(false)
+	them.visible = false
+	_nearby = null
+	_hovered = null
 	_fall_in()
 
 

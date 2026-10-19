@@ -10,6 +10,7 @@ extends RefCounted
 
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const Recruits := preload("res://src/chronicle/recruits.gd")
 
 const END := "end"
 ## What the party says to leave, when the block gives nothing of its own.
@@ -40,7 +41,8 @@ static func open(area_id: String, person: Dictionary, roll: float = -1.0) -> Str
 		talk = talk.duplicate()
 		talk["refuse"] = Remembered.cold_refusal()
 	var nodes := build(name_, talk, GameState.has_flag(met_flag(area_id, person)),
-		roll if roll >= 0.0 else randf(), met_flag(area_id, person), Remembered.recall(GameState.world, id))
+		roll if roll >= 0.0 else randf(), met_flag(area_id, person), Remembered.recall(GameState.world, id),
+		Recruits.offer(area_id, person))
 	Database.register_dialogue(id, {
 		"cast": { name_: str(person.get("unit", "")) },
 		"start": "recall" if nodes.has("recall") else "door" if nodes.has("door") else "hello",
@@ -50,9 +52,10 @@ static func open(area_id: String, person: Dictionary, roll: float = -1.0) -> Str
 
 
 ## The nodes themselves. Kept free of the area so it can be checked without one. [param recall] is
-## what they bring up before anything else, if anything ([D249]).
+## what they bring up before anything else, if anything ([D249]); [param recruit] is asking them to
+## walk with the company, when they could be asked ([D277], [method Recruits.offer]).
 static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_key: String,
-		recall: String = "") -> Dictionary:
+		recall: String = "", recruit: Dictionary = {}) -> Dictionary:
 	var nodes := {}
 	var menu: Array = []
 
@@ -100,6 +103,9 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 	var job: Dictionary = talk.get("job", {})
 	if not job.is_empty():
 		_add_job(nodes, menu, name_, job)
+
+	if not recruit.is_empty():
+		_add_recruiting(nodes, menu, name_, recruit)
 
 	menu.append({ "text": str(talk.get("leave", GOODBYE)), "goto": "bye" })
 	nodes["menu"] = { "speaker": name_, "text": talk.get("more", MORE), "options": menu }
@@ -231,6 +237,37 @@ static func _add_job(nodes: Dictionary, menu: Array, name_: String, job: Diction
 	if job.has("item"):
 		payout["item"] = job["item"]
 	nodes["job_paid"] = payout
+
+
+## Asking them to walk with the company ([D277]): a Charisma check the first time; after a no, what
+## they asked of you, and once that is done, a yes without a roll. Joining happens when the
+## conversation is over ([method Recruits.settle]), so a yes ends it.
+static func _add_recruiting(nodes: Dictionary, menu: Array, name_: String, recruit: Dictionary) -> void:
+	nodes["recruit_yes"] = {
+		"speaker": name_, "text": recruit.get("yes", "All right."), "set_flag": recruit["yes_flag"], "next": END,
+	}
+	match str(recruit.get("state", "ask")):
+		"full":
+			menu.append({ "text": str(recruit["ask_q"]), "goto": "recruit_full" })
+			nodes["recruit_full"] = { "speaker": name_, "text": recruit.get("full", "No room."), "next": "menu" }
+		"waiting":
+			menu.append({ "text": str(recruit["again_q"]), "goto": "recruit_wait" })
+			nodes["recruit_wait"] = { "speaker": name_, "text": recruit.get("waiting", "Not yet."), "next": "menu" }
+		"trusted":
+			menu.append({ "text": str(recruit["again_q"]), "goto": "recruit_trusted" })
+			nodes["recruit_trusted"] = {
+				"speaker": name_, "text": recruit.get("trusted", "All right."),
+				"set_flag": recruit["yes_flag"], "next": END,
+			}
+		_:
+			menu.append({
+				"text": str(recruit["ask_q"]), "requires_not": [recruit["no_flag"]],
+				"check": { "skill": "charisma", "dc": int(recruit.get("dc", 13)),
+					"success": "recruit_yes", "failure": "recruit_no" },
+			})
+			nodes["recruit_no"] = {
+				"speaker": name_, "text": recruit.get("no", "No."), "set_flag": recruit["no_flag"], "next": "menu",
+			}
 
 
 ## An option carries the same flag gates as the thing it came from.

@@ -41,6 +41,7 @@ const Siblings := preload("res://src/chronicle/siblings.gd")
 const Company := preload("res://tests/company.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
+const Recruits := preload("res://src/chronicle/recruits.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -66,6 +67,7 @@ func _ready() -> void:
 	_check_the_crater_town()
 	await _check_a_house_in_stormreach()
 	_check_story_npcs()
+	_check_recruiting()
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
@@ -153,8 +155,9 @@ func _check_area(area_id: String) -> void:
 ## and sells only things that exist ([Talk]).
 func _check_talk(area_id: String, person: Dictionary) -> void:
 	var who: String = person.get("name", "someone")
+	var offer := Recruits.offer(area_id, person)
 	for roll: float in [0.0, 0.99]:
-		var nodes: Dictionary = Talk.build(who, person["talk"], false, roll, "met:test")
+		var nodes: Dictionary = Talk.build(who, person["talk"], false, roll, "met:test", "", offer)
 		if not nodes.has("hello") or not nodes.has("menu"):
 			_fail("%s: %s's talk has no greeting or no menu" % [area_id, who])
 		for node_id: String in nodes:
@@ -174,6 +177,65 @@ func _check_talk(area_id: String, person: Dictionary) -> void:
 	var job: Dictionary = person["talk"].get("job", {})
 	if not job.is_empty() and (str(job.get("flag", "")) == "" or str(job.get("done_flag", "")) == ""):
 		_fail("%s: %s's job has no flag or no done_flag" % [area_id, who])
+
+
+## Asking anyone to walk with the company ([D277]): a Charisma check, a no that names what would
+## win them over, a yes once that is done, and a place left empty where they stood.
+func _check_recruiting() -> void:
+	var people := {}
+	for area_id: String in ["home", "village", "tutorial", "keep_hall"]:
+		for person: Dictionary in Database.area(area_id).get("people", []):
+			people[str(person.get("name", ""))] = [area_id, person]
+	for name_: String in ["Hesk the Stallholder", "Ness the healer", "Maren the Guide", "Dirte, the God of Kings"]:
+		if Recruits.askable(people[name_][0], people[name_][1]):
+			_fail("recruiting: %s can be asked to leave their post" % name_)
+	var settler: Dictionary = people["a settler"][1]
+	if not Recruits.askable("home", settler) or Recruits.dc(settler) != int(Recruits.rules().get("dc", 0)):
+		_fail("recruiting: a settler cannot be asked, or is as hard to ask as the story folk")
+	if Recruits.dc(people["Bram the Sworn Blade"][1]) <= Recruits.dc(settler):
+		_fail("recruiting: Bram is no harder to talk round than a settler")
+	var wat_ask := Recruits.trust_ask("village", people["Wat the Village Idiot"][1])
+	if not wat_ask.has("job"):
+		_fail("recruiting: Wat's trust is not his own favour")
+
+	var offer := Recruits.offer("home", settler)
+	var nodes: Dictionary = Talk.build("a settler", settler["talk"], false, 0.5, "met:test", "", offer)
+	var ask: Array = (nodes["menu"]["options"] as Array).filter(
+		func(o: Dictionary) -> bool: return str(o.get("check", {}).get("skill", "")) == "charisma")
+	if offer.get("state") != "ask" or ask.is_empty():
+		_fail("recruiting: a settler offers no Charisma check (state %s)" % offer.get("state"))
+		return
+	# Said no: the conversation over, they remember what they asked and how far the company had got.
+	GameState.set_flag(str(offer["no_flag"]))
+	Recruits.settle(GameState.world, GameState.roster, GameState.flags, GameState.ledger)
+	if Recruits.state("home", settler, GameState.ledger, true) != "waiting":
+		_fail("recruiting: a settler who said no is not waiting on anything")
+	var held: Dictionary = GameState.flags.get(Recruits.TRUST + Recruits.key("home", settler), {})
+	Ledger.add(GameState.ledger, str(held.get("ledger", "kills")), int(held.get("need", 1)))
+	if Recruits.state("home", settler, GameState.ledger, true) != "trusted":
+		_fail("recruiting: doing what a settler asked did not win them over (%s)" % str(held))
+	offer = Recruits.offer("home", settler)
+	nodes = Talk.build("a settler", settler["talk"], false, 0.5, "met:test", "", offer)
+	if not nodes.has("recruit_trusted") or nodes["recruit_trusted"].get("set_flag") != offer["yes_flag"]:
+		_fail("recruiting: a won-over settler does not come without a roll")
+	if Recruits.state("home", settler, GameState.ledger, false) != "full":
+		_fail("recruiting: a full company is not told so")
+	# Said yes: they join at the lead's level, under a name of their own, and leave the place empty.
+	var before := GameState.roster.party.size()
+	var seats := GameState.roster.seats
+	GameState.roster.seats = maxi(seats, before + 1)
+	GameState.set_flag(str(offer["yes_flag"]))
+	var came: Array = Recruits.settle(GameState.world, GameState.roster, GameState.flags, GameState.ledger)
+	if came.size() != 1 or GameState.roster.party.size() != before + 1:
+		_fail("recruiting: a settler said yes and did not join (%d came)" % came.size())
+	else:
+		var joined: Character = came[0]
+		if joined.display_name.begins_with("a ") or joined.level != GameState.roster.player().level:
+			_fail("recruiting: the settler joined as '%s' at level %d" % [joined.display_name, joined.level])
+		GameState.roster.dismiss(joined.id)
+	if not Recruits.has_joined("home", settler) or Recruits.askable("home", settler):
+		_fail("recruiting: a settler who joined can still be asked")
+	GameState.roster.seats = seats
 
 
 ## A door has to be on the house it belongs to, and lead somewhere real.
