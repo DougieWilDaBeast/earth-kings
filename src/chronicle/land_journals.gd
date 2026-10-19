@@ -55,7 +55,15 @@ static func _needs(world: World, land: String) -> Dictionary:
 	var stretches := 0
 	var places := 0
 	var gates := 0
+	# Only as many stretches as the page could ask for are counted: the whole map, cell by cell, was
+	# a stall of a fifth of a second the first step into every land (play-test 7, the frame rate).
+	var most := 0
+	for entry: Dictionary in rules().get("entries", []):
+		if str(entry.get("kind", "")) == "walk":
+			most = maxi(most, maxi(1, int(entry.get("count", 1))))
 	for y in world.size.y:
+		if stretches >= most:
+			break
 		for x in world.size.x:
 			var cell := Vector2i(x, y)
 			if world.is_walkable(cell) and land_at(world, cell) == land:
