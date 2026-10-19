@@ -387,7 +387,7 @@ each, each ending playable:
    the keeper falls, left broken with folk cheering; how long each rank takes in [28](28-the-first-hour.md#gates-that-grow)),
    then **five tiers of each monster**, the goblins', the wolves' and 24 more monsters' built ([D262](06-decisions.md), [D264](06-decisions.md)
    and [D267](06-decisions.md) to [D270](06-decisions.md): lesser, plain, high, hob, and a chieftain or a caster, dealt by the fight's level; the named one-off monsters keep one kind); the climbers' stone (built, [D266](06-decisions.md)), Sennet seen from
-   afar (built, [D265](06-decisions.md)), the journal at the side and Stormreach's frame rate as small pieces alongside (the frame rate
+   afar (built, [D265](06-decisions.md)), the journal at the side (built, [D271](06-decisions.md)) and Stormreach's frame rate as small pieces alongside (the frame rate
    built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
    the map, and the play log says when the frame rate drops).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,

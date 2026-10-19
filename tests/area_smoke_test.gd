@@ -83,6 +83,7 @@ func _ready() -> void:
 	await _check_play_test_seven()
 	await _check_sennet_from_afar()
 	_check_the_climbers_stone()
+	await _check_the_journal_at_the_side()
 	_check_tracks()
 	_check_open_city()
 	await _check_play_hud()
@@ -1924,6 +1925,51 @@ func _check_the_climbers_stone() -> void:
 		_fail("climbers' stone: nothing on it with nobody before (%s)" % str(read))
 	else:
 		print("climbers' stone: %d lines, highest first, the lead while they climb" % read.size())
+
+
+## The journal open at the side while the game goes on (play-test 7, call BR7): the party walks with
+## it open; opened over the whole screen it holds the walk up, as before; asked for again, it shuts.
+func _check_the_journal_at_the_side() -> void:
+	GameState.new_game(SEED)
+	GameState.set_flag("seen:prologue")
+	get_window().size = Vector2i(1600, 900)
+	var journal: Node = load("res://src/ui/journal_screen.tscn").instantiate()
+	add_child(journal)
+	var land: Node = load("res://src/area/area_scene.tscn").instantiate()
+	land.set("boot_payload", { "land": true, "title": "The land", "actions": [], "bands": [], "held": {} })
+	add_child(land)
+	for i in 10:
+		await get_tree().process_frame
+	var was_docked: bool = JournalScreen.docked
+	for side: bool in [true, false]:
+		JournalScreen.docked = side
+		EventBus.journal_requested.emit()
+		await get_tree().process_frame
+		if not journal.is_showing() or journal.is_open() == side:
+			_fail("journal %s: showing %s, holding the game %s" % [
+				"at the side" if side else "full", journal.is_showing(), journal.is_open()])
+		var from: Vector2 = land._leader.position
+		for direction: String in ["move_right", "move_down", "move_left", "move_up"]:
+			Input.action_press(direction)
+			for i in 12:
+				await get_tree().physics_frame
+			Input.action_release(direction)
+		var moved := (land._leader.position as Vector2).distance_to(from) > 1.0
+		if side and not moved:
+			_fail("journal at the side: the party does not walk while it is open")
+		elif not side and moved:
+			_fail("journal full: the party walks under it")
+		EventBus.journal_requested.emit()
+		await get_tree().process_frame
+		if journal.is_showing():
+			_fail("journal %s: asked for again, it stays open" % ("at the side" if side else "full"))
+	print("journal at the side: the party walks with it open; full, it waits; asked again, it shuts")
+	JournalScreen.docked = was_docked
+	land.queue_free()
+	journal.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
 	GameState.new_game(SEED)
 
 
