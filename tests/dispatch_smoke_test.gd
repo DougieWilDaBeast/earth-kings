@@ -10,6 +10,7 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Company := preload("res://tests/company.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 var _failures: Array[String] = []
 
@@ -102,6 +103,7 @@ func _ready() -> void:
 	GameState.difficulty = Difficulty.DEFAULT
 	_expect(soaked_back > soaked_dead, "sending someone away is more likely to kill them than not")
 	_check_muster(world)
+	_check_gate_band(world)
 	_check_rumour_jobs(world, roster)
 	_finish()
 
@@ -167,6 +169,65 @@ func _check_muster(world: World) -> void:
 	gate.broken = restored.broken
 	gate.cleared = restored.cleared
 	world.musters = kept_musters
+
+
+## A band of the company's own sent to shut a gate ([D278]): closed until a gate has been shut,
+## two sent to the same gate go together, and they come back having shut it, or not all of them do.
+func _check_gate_band(world: World) -> void:
+	var gates: Array[Site] = world.sites_of_kind(Site.GATE)
+	var kept := gates.map(func(g: Site) -> Dictionary: return g.to_dict())
+	var kept_rng := world.rng.state
+	for g: Site in gates:
+		g.cleared = false
+		g.open = true
+	_expect(not Dispatch.unlocked(world), "sending people out was open before any gate was shut")
+	gates[0].cleared = true
+	gates[0].open = false
+	_expect(Dispatch.unlocked(world), "shutting a gate did not open sending people out")
+	var gate: Site = gates[1]
+	Atlas.mark(world, gate)
+	_expect(Dispatch.open_gates(world).has(gate), "a known open gate could not be sent to")
+	_expect(not Dispatch.open_gates(world).has(gates[0]), "a shut gate could be sent to")
+
+	for won: bool in [true, false]:
+		gate.rank = "E"
+		gate.open = true
+		gate.cleared = false
+		var roster := Company.found()
+		var lead := roster.player()
+		var first: Character = roster.party_members()[1]
+		var second: Character = roster.party_members()[2]
+		var away: Array = []
+		var errands: Array = []
+		var alone := Dispatch.gate_chance([first], gate)
+		_expect(Dispatch.send_to_gate(world, roster, away, first, gate) != "", "nobody could be sent to a gate")
+		_expect(Dispatch.send_to_gate(world, roster, away, second, gate) != "", "a second could not follow the first")
+		_expect(away.size() == 1 and (away[0]["band"] as Array).size() == 2, "two sent to one gate did not go together")
+		_expect(Dispatch.gate_chance([first, second], gate) > alone, "a second pair of hands did not help")
+		_expect(roster.party_members() == [lead], "the band did not leave the marching order")
+		var rules: Dictionary = Database.world_rules["dispatch"]
+		var kept_rules := rules.duplicate()
+		rules["gate_min"] = 1.0 if won else 0.0
+		rules["gate_max"] = 1.0 if won else 0.0
+		world.steps = int(away[0]["out_at"])
+		var lines := Dispatch.walk(world, roster, away, errands)
+		print("  gate band %s: %s" % ["won" if won else "lost", " / ".join(lines)])
+		_expect(gate.cleared == won, "a band that %s left the gate %s" % ["won" if won else "lost", "shut" if gate.cleared else "open"])
+		if not away.is_empty():
+			world.steps = int(away[0]["back_at"])
+			Dispatch.walk(world, roster, away, errands)
+		_expect(away.is_empty(), "the band never came home")
+		if won:
+			_expect(roster.party.has(first.id) and roster.party.has(second.id), "a band that shut its gate did not come back")
+		for key: String in kept_rules:
+			rules[key] = kept_rules[key]
+	for i in gates.size():
+		var restored := Site.from_dict(kept[i])
+		gates[i].rank = restored.rank
+		gates[i].open = restored.open
+		gates[i].broken = restored.broken
+		gates[i].cleared = restored.cleared
+	world.rng.state = kept_rng
 
 
 ## What the host passes on can post work: one job per rumour, never twice, and

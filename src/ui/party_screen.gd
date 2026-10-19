@@ -188,6 +188,16 @@ func send_away(character: Character, errand: Dictionary) -> bool:
 	return true
 
 
+## Send [param character] to shut [param gate], with anyone already on the road to it ([D278]).
+func send_to_gate(character: Character, gate: Site) -> bool:
+	var line := Dispatch.send_to_gate(GameState.world, GameState.roster, GameState.away, character, gate)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
 func toggle_yoke(character: Character) -> void:
 	character.yoke = not character.yoke
 	_notice = "%s %s the Training Yoke." % [
@@ -966,17 +976,34 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 		_page_box.add_child(_quiet_line("Nothing they could pass on to anybody here."))
 
 	var roster: Roster = GameState.roster
-	# Hidden for the First Hour (D97): nobody is sent off on errands of their own.
+	# Hidden for the First Hour (D97) until D278: open once the company has shut a gate of its own.
 	if not FirstHour.hides("dispatch"):
 		_page_box.add_child(_heading("Send away"))
 		var open := Dispatch.open_errands(GameState.errands)
+		var gates := Dispatch.open_gates(GameState.world)
 		if character.is_player:
 			_page_box.add_child(_quiet_line("The lead goes where the company goes."))
+		elif not Dispatch.unlocked(GameState.world):
+			_page_box.add_child(_quiet_line("Shut a gate first. Then the Guild will let you send your own people out."))
 		elif not Dispatch.can_send(character, roster, GameState.away):
 			_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
-		elif open.is_empty():
-			_page_box.add_child(_quiet_line("No errand to give them. Take one from a settlement's board first."))
+		elif open.is_empty() and gates.is_empty():
+			_page_box.add_child(_quiet_line("No errand to give them and no gate you know of. Take one from a settlement's board first."))
 		else:
+			for gate: Site in gates:
+				var band := Dispatch.band_for(GameState.away, gate)
+				var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
+				var odds := Dispatch.gate_chance(Dispatch.members(roster, band) + [character], gate)
+				var send := Button.new()
+				send.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+				send.focus_mode = Control.FOCUS_NONE
+				send.alignment = HORIZONTAL_ALIGNMENT_LEFT
+				send.text = "Send %s%s to shut %s (%s-rank, about %d in 10)" % [
+					character.display_name, with, gate.display_name, gate.rank, roundi(odds * 10.0)]
+				send.tooltip_text = "They walk there on their own, go in, and shut it if they can. If they cannot, each of them may fall. Send more to the same gate before they get there and they go together."
+				send.pressed.connect(func() -> void: send_to_gate(character, gate))
+				Sfx.attend(send)
+				_page_box.add_child(send)
 			for errand: Dictionary in open:
 				var go := Button.new()
 				go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)

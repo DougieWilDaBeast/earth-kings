@@ -14,6 +14,9 @@ extends RefCounted
 ## Loaded by path rather than by `class_name`, so a checkout the editor has not
 ## rescanned still parses (the skirmish's lesson).
 
+const Guild := preload("res://src/chronicle/guild.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
+
 ## Who took an errand, written on the errand itself.
 const TAKEN_BY := "sent"
 
@@ -85,6 +88,9 @@ static func send(
 static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> Array[String]:
 	var lines: Array[String] = []
 	for job: Dictionary in away.duplicate():
+		if job.has("gate"):
+			lines.append_array(_walk_band(world, roster, away, accepted, job))
+			continue
 		var character := roster.by_id(str(job.get("id", "")))
 		if character == null:
 			away.erase(job)
@@ -215,6 +221,156 @@ static func _fight(
 	return lines
 
 
+# --- a band of your own into a gate ([D278]) -----------------------------------
+#
+# Ewan's play-test 7: "send your own characters to do quests so they go on auto mode ... and travel
+# across into a dungeon gate". A band walks to a gate the company knows of on the same clock as
+# everything else, goes in on its own, and shuts it on the odds: its level against the gate's rank,
+# and every extra pair of hands. Lost, each of them rolls for their life as in any fall.
+
+
+## Gates a band could be sent to: open, never shut, and known to the company.
+static func open_gates(world: World) -> Array[Site]:
+	var out: Array[Site] = []
+	for site: Site in world.sites:
+		if site.kind == Site.GATE and site.open and not site.cleared and Atlas.knows(world, site):
+			out.append(site)
+	return out
+
+
+## Whether sending somebody away is open yet: once the company has shut a gate of its own (the
+## Guild's mark), its people may be sent out on their own ([D278]).
+static func unlocked(world: World) -> bool:
+	if world == null:
+		return false
+	for site: Site in world.sites:
+		if site.kind == Site.GATE and site.cleared:
+			return true
+	return false
+
+
+## The band on the road to [param gate] that has not got there yet, which more can catch up with.
+static func band_for(away: Array, gate: Site) -> Dictionary:
+	for job: Dictionary in away:
+		if job.has("gate") and _cell(job["gate"]) == gate.cell and not bool(job.get("arrived", false)):
+			return job
+	return {}
+
+
+## Send [param character] to shut [param gate], with whoever is already on the road to it.
+## Returns the line to show, or "" if they cannot go.
+static func send_to_gate(world: World, roster: Roster, away: Array, character: Character, gate: Site) -> String:
+	if not can_send(character, roster, away) or gate == null or not gate.open or gate.cleared:
+		return ""
+	roster.party.erase(character.id)
+	var band := band_for(away, gate)
+	if not band.is_empty():
+		(band["band"] as Array).append(character.id)
+		return "%s goes after the others to %s." % [character.display_name, gate.display_name]
+	var tiles := maxi(1, Pathfinder.distance(world.player_cell, gate.cell))
+	var out_steps := maxi(1, roundi(tiles * float(rules().get("steps_per_tile", 1.0))))
+	var inside := gate.floors() * int(rules().get("steps_per_floor", 4))
+	away.append({
+		"id": character.id,
+		"band": [character.id],
+		"gate": [gate.cell.x, gate.cell.y],
+		"to": [gate.cell.x, gate.cell.y],
+		"to_name": gate.display_name,
+		"from": [world.player_cell.x, world.player_cell.y],
+		"sent_at": world.steps,
+		"out_at": world.steps + out_steps + inside,
+		"back_at": world.steps + out_steps * 2 + inside,
+		"arrived": false,
+	})
+	return "%s sets off to shut %s (%s-rank). Back in about %d steps." % [
+		character.display_name, gate.display_name, gate.rank, out_steps * 2 + inside,
+	]
+
+
+## The chance a band shuts [param gate]: its average level against what the rank expects, and a
+## little more for every pair of hands past the first.
+static func gate_chance(band: Array, gate: Site) -> float:
+	if band.is_empty():
+		return 0.0
+	var levels := 0.0
+	for character: Character in band:
+		levels += character.level
+	var r := rules()
+	var odds := float(r.get("gate_win_base", 0.5)) \
+		+ float(r.get("gate_per_level", 0.06)) * (levels / band.size() - gate.expected_level()) \
+		+ float(r.get("gate_per_hand", 0.1)) * (band.size() - 1)
+	return clampf(odds, float(r.get("gate_min", 0.05)), float(r.get("gate_max", 0.95)))
+
+
+static func members(roster: Roster, job: Dictionary) -> Array:
+	var out: Array = []
+	for id: Variant in job.get("band", []):
+		var character := roster.by_id(str(id))
+		if character != null:
+			out.append(character)
+	return out
+
+
+static func _walk_band(world: World, roster: Roster, away: Array, accepted: Array, job: Dictionary) -> Array[String]:
+	var lines: Array[String] = []
+	var band := members(roster, job)
+	if band.is_empty():
+		away.erase(job)
+		return lines
+	if not bool(job.get("arrived", false)) and world.steps >= int(job.get("out_at", 0)):
+		job["arrived"] = true
+		lines.append_array(_storm(world, roster, away, accepted, job, band))
+	if away.has(job) and bool(job.get("arrived", false)) and world.steps >= int(job.get("back_at", 0)):
+		away.erase(job)
+		for character: Character in members(roster, job):
+			if roster.enlist(character.id):
+				lines.append("%s is back with the company." % character.display_name)
+			else:
+				lines.append("%s is back, but there is no room in the company. They will wait to be asked." % character.display_name)
+	return lines
+
+
+## The band goes in. Won, the gate is shut as if the company had shut it; lost, it stays open and
+## every one of them rolls for their life, the others standing by them.
+static func _storm(world: World, roster: Roster, away: Array, accepted: Array, job: Dictionary, band: Array) -> Array[String]:
+	var lines: Array[String] = []
+	var gate := world.site_at(_cell(job.get("gate", [])))
+	var names := ", ".join(band.map(func(c: Character) -> String: return c.display_name))
+	if gate == null or not gate.open or gate.cleared:
+		lines.append("%s found %s already shut, and turned for home." % [names, job.get("to_name", "the gate")])
+		return lines
+	var foe := _local_foe(world, gate.cell)
+	if world.rng.randf() < gate_chance(band, gate):
+		for character: Character in band:
+			var lost := world.rng.randf_range(0.3, 0.6)
+			character.hp = maxi(1, character.current_hp() - roundi(float(character.max_hp()) * lost))
+			for line in Progression.award_kill(character, foe, gate.expected_level() + gate.floors(), [], true, world):
+				lines.append(str(line))
+		world.close_gate(gate)
+		lines.push_front("%s went into %s on their own and shut it." % [names, gate.display_name])
+		Annals.record(world, "The %s-rank gate at %s was shut by %s, sent out by the company." % [gate.rank, gate.display_name, names])
+		for line in Spoils.for_gate(world, gate, band):
+			lines.append(str(line))
+		lines.append_array(Errand.on_gate_shut(accepted, gate.cell, world))
+		lines.append_array(Guild.on_gate_shut(world, gate))
+		return lines
+	lines.append("%s went into %s and could not shut it." % [names, gate.display_name])
+	var kind := str(Database.unit_template(foe).get("kind", "default"))
+	for character: Character in band:
+		var others := band.filter(func(c: Character) -> bool: return c != character)
+		var outcome := Fate.resolve(character, {"allies": others, "enemy_kind": kind, "world": world, "cell": gate.cell}, world.rng)
+		lines.append(str(outcome["line"]))
+		if outcome["outcome"] == Fate.ALIVE:
+			character.hp = maxi(1, character.max_hp() / 5)
+			continue
+		(job["band"] as Array).erase(character.id)
+		if outcome["outcome"] == Fate.DEAD:
+			Memorial.raise(world, character, gate.cell, foe)
+	if (job["band"] as Array).is_empty():
+		away.erase(job)
+	return lines
+
+
 # --- odds ---------------------------------------------------------------------
 
 
@@ -244,7 +400,7 @@ static func win_chance(character: Character, foe_level: int) -> float:
 
 static func job_for(away: Array, character_id: String) -> Dictionary:
 	for job: Dictionary in away:
-		if str(job.get("id", "")) == character_id:
+		if str(job.get("id", "")) == character_id or (job.get("band", []) as Array).has(character_id):
 			return job
 	return {}
 
@@ -260,6 +416,13 @@ static func errand_for(accepted: Array, character_id: String) -> Dictionary:
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
+	if job.has("gate"):
+		var names: Array = members(roster, job).map(func(c: Character) -> String: return c.display_name)
+		who = ", ".join(names) if not names.is_empty() else who
+		if not bool(job.get("arrived", false)):
+			return "%s — on the road to shut %s, about %d steps from it" % [
+				who, job.get("to_name", "the gate"), maxi(0, int(job.get("out_at", 0)) - world.steps),
+			]
 	if bool(job.get("arrived", false)):
 		if bool(job.get("waits", false)) and world.steps >= int(job.get("back_at", 0)):
 			return "%s — waiting with the muster at %s" % [who, job.get("to_name", "the hall")]
