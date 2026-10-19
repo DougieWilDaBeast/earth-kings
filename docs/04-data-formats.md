@@ -676,7 +676,9 @@ block, above). `climbers` ([D215](06-decisions.md)): on `road_chance` of the roa
 is not walking, a company of `size` [min, max] (bodies from `units`, named one of `companies`)
 walks the road there and back, the first of them saying one of `lines` at each end, and talks
 (`talk`); `on_the_floors`, from floor `from` at `chance`, a company rests by a Tower floor's stair
-and talks (`talk`). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+and talks (`talk`). A company within `join_cells` of a fight joins it ([D246](06-decisions.md)); with
+`on_the_floors.join_anywhere` one resting on a floor joins a fight anywhere on that floor
+([D259](06-decisions.md)). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 

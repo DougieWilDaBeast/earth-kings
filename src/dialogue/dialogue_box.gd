@@ -22,6 +22,16 @@ const AUTO_REPLY_LIMIT := 12
 ## the replies grow with it.
 const TOUCH_OPTION_FONT := 16
 const TOUCH_OPTION_HEIGHT := 52
+## The box is only as big as what it says (play-test 7: "the text boxes around the text are way
+## too big"): no wider than these, narrower when the line is short, and only as tall as its lines.
+const MOUSE_WIDTH := 480.0
+const TOUCH_WIDTH := 880.0
+## Never narrower than this, so a one-word line still reads as a box and not a tag.
+const LEAST_WIDTH := 220.0
+## Kept clear between the box and the sides of the screen.
+const EDGE := 16.0
+## A little room past the widest line, so the last word never sits on the border.
+const SLACK := 8.0
 
 @onready var _panel: PanelContainer = %Panel
 @onready var _portrait: TextureRect = %Portrait
@@ -44,6 +54,8 @@ var _news_back: String = ""
 var _news_asked: bool = false
 var _auto_wait: float = 0.0
 var _auto_replies: int = 0
+## The widest the box may grow, by the input in use.
+var _most_width: float = MOUSE_WIDTH
 
 
 func _ready() -> void:
@@ -56,12 +68,11 @@ func _ready() -> void:
 	EventBus.conversation_requested.connect(play_lines)
 
 
-## Four replies at eleven points is a paragraph on a phone. On a touchscreen
-## the box takes the bottom half of the screen so each reply is worth aiming at.
+## Four replies at eleven points is a paragraph on a phone. On a touchscreen the box may grow
+## wider and its words bigger, so each reply is worth aiming at; it is still only as tall as what
+## it says.
 func _fit_for_thumbs() -> void:
-	_panel.offset_left = -440.0
-	_panel.offset_right = 440.0
-	_panel.offset_top = -320.0
+	_most_width = TOUCH_WIDTH
 	_panel.offset_bottom = -20.0
 	_body.add_theme_font_size_override("font_size", 17)
 	_speaker.add_theme_font_size_override("font_size", 18)
@@ -263,11 +274,14 @@ func _finish() -> void:
 
 func _show(speaker: String, body: String) -> void:
 	_speaker.text = speaker
+	# A line nobody says has no name over it, and no empty row where the name would be.
+	_speaker.visible = speaker != ""
 	_body.text = body
 	_show_portrait(speaker)
 	_clear_options()
 	if _pending_goto != "" or _reflect_back != "" or _news_back != "":
 		_hint.text = _go_on_text()
+		_fit_to_text()
 		return
 
 	_shown_options = DialogueScript.available_options(_node, _current_id)
@@ -285,6 +299,39 @@ func _show(speaker: String, body: String) -> void:
 		if Pad.using_pad:
 			_hint.text = "D-pad to the reply you want, %s to say it" % Pad.key("ui_accept")
 		_options.get_child(0).grab_focus()
+	_fit_to_text()
+
+
+## As wide as the widest line wants (up to [member _most_width] and the screen), and as tall as the
+## wrapped lines are: the box is set to nothing high, and its contents push it up from the bottom.
+## Done again a frame later, once the words have wrapped at the new width.
+func _fit_to_text() -> void:
+	var widest := maxf(_line_width(_speaker, _speaker.text), _line_width(_hint, _hint.text))
+	for paragraph: String in _body.text.split("\n"):
+		widest = maxf(widest, _line_width(_body, paragraph))
+	if not _shown_options.is_empty():
+		widest = _most_width
+	var margin: Control = _panel.get_child(0)
+	var around := _panel.get_theme_stylebox("panel").get_minimum_size().x \
+			+ margin.get_theme_constant("margin_left") + margin.get_theme_constant("margin_right")
+	if _portrait.visible:
+		around += _portrait.custom_minimum_size.x + float(_portrait.get_parent().get_theme_constant("separation"))
+	var room := get_viewport().get_visible_rect().size.x - EDGE * 2.0
+	var width := minf(clampf(widest + around + SLACK, LEAST_WIDTH, _most_width), room)
+	_panel.offset_left = -width / 2.0
+	_panel.offset_right = width / 2.0
+	_shrink_to_lines()
+	_shrink_to_lines.call_deferred()
+
+
+func _shrink_to_lines() -> void:
+	_panel.offset_top = _panel.offset_bottom
+
+
+## How wide [param text] is on one line in [param label]'s font.
+func _line_width(label: Label, text: String) -> float:
+	var font := label.get_theme_font("font")
+	return font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, label.get_theme_font_size("font_size")).x
 
 
 func _go_on_text() -> String:

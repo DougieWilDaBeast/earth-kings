@@ -1,0 +1,400 @@
+00:22:52   talked:Ser Valis the Golden Knight
+00:22:55   talked:Brannagh the Guild Clerk
+00:22:55 saved (guild): you signed the Guild's register
+00:22:59   talked:the Fox Fire Knight
+00:23:18   talked:Ilm the Butler
+00:24:57   talked:a knight of the muster
+00:25:00   talked:a knight of the muster
+00:25:03   chest
+00:26:56   talked:Ilm the Butler
+00:27:02   door:the proving arena
+00:27:32   door:the muster hall
+00:27:32 > the muster hall
+00:27:35   walked 1 step
+00:27:35   talked:the Timeless One
+00:27:38   talked:the Timeless One
+00:27:41   talked:the Timeless One
+00:27:47 > Where You Fell
+00:27:50   walked 1 step
+00:27:50   door:the proving arena
+00:27:53   talked:a knight of the muster
+00:28:05   talked:a watchman of Stormreach
+00:28:19 FIGHT Where You Fell at 2x vs Cinder Newt L1 · party Juno L1 46/46, Pluto L1 30/30, Vesta L1 44/44, Atlas L1 30/30
+00:28:22 LEVEL Atlas reached L2
+00:28:22   WON in 2s (2x, fight clock 5s) · party Juno L1 45/46, Pluto L1 28/30, Vesta L1 44/44, Atlas L2 33/33
+00:28:55   examined:something left here
+00:32:05   chest
+00:33:05   chest
+00:33:07   examined:the brass gate
+00:33:10 > Mournreach, floor 1
+00:33:16   walked 1 step
+00:33:16 FIGHT Mournreach, floor 1 at 2x vs Cinder Newt L1 · party Juno L1 46/46, Pluto L1 30/30, Vesta L1 44/44, Atlas L2 33/33
+00:33:18   WON in 2s (2x, fight clock 4s) · party Juno L1 45/46, Pluto L1 29/30, Vesta L1 44/44, Atlas L2 33/33
+00:33:25 FIGHT Mournreach, floor 1 at 2x vs Mossback L1, Cinder Newt L1 · party Juno L1 45/46, Pluto L1 29/30, Vesta L1 44/44, Atlas L2 33/33
+00:33:28 LEVEL Pluto reached L2
+00:33:29 LEVEL Atlas reached L3
+00:33:29 LEVEL Juno reached L2
+00:33:29 LEVEL Pluto reached L3
+00:33:29 LEVEL Vesta reached L2
+00:33:29   WON in 4s (2x, fight clock 9s) · party Juno L2 51/51, Pluto L3 38/40, Vesta L2 48/48, Atlas L3 36/36
+00:33:40 > Mournreach (E-rank gate)
+00:33:40 > [world]
+00:33:47   walked 1 step
+00:33:47 > Mournreach, floor 1
+00:33:50   walked 1 step
+00:33:50 > Mournreach (E-rank gate)
+00:33:50 > [world]
+00:34:49   walked 1 step
+00:34:49   Juno became provisioner
+00:35:44 FIGHT Mournreach (E-rank gate) at 2x vs Cutpurse L3 · party Juno L2 51/51, Pluto L3 38/40, Vesta L2 48/48, Atlas L3 36/36
+00:35:47 LEVEL Juno reached L3
+00:35:47   WON in 2s (2x, fight clock 6s) · party Juno L3 53/56, Pluto L3 40/40, Vesta L2 48/48, Atlas L3 36/36
+00:36:09 FIGHT Mournreach (E-rank gate) at 2x vs Mending Lion L2 · party Juno L3 53/56, Pluto L3 40/40, Vesta L2 48/48, Atlas L3 36/36
+00:36:11 LEVEL Atlas reached L4
+00:36:11   WON in 2s (2x, fight clock 4s) · party Juno L3 54/56, Pluto L3 40/40, Vesta L2 48/48, Atlas L4 39/39
+00:37:03   speed 3x
+00:37:04   speed 5x
+00:37:57 FIGHT Mournreach (E-rank gate) at 5x vs Caterpillar Warrior L1 · party Juno L3 54/56, Pluto L3 40/40, Vesta L2 48/48, Atlas L4 39/39
+00:37:58   WON in 1s (5x, fight clock 5s) · party Juno L3 55/56, Pluto L3 40/40, Vesta L2 48/48, Atlas L4 39/39
+00:38:29   speed 1x
+00:38:31   speed 2x
+00:38:39   talked:Ondry the Keeper
+00:40:10   talked:Toln the Hedge Priest
+00:40:22   speed 3x
+00:41:18 > Greyhollow, floor 1
+00:41:38 FIGHT Greyhollow, floor 1 at 3x vs Blood Mosquito L1 · party Juno L3 46/64, Pluto L3 34/40, Vesta L2 42/48, Atlas L4 33/39
+00:41:39   WON in 0s (3x, fight clock 3s) · party Juno L3 46/64, Pluto L3 35/40, Vesta L2 38/48, Atlas L4 33/39
+00:41:45   walked 1 step
+00:41:45 FIGHT Greyhollow, floor 1 at 3x vs Wolf L3, Blood Mosquito L3 · party Juno L3 46/64, Pluto L3 35/40, Vesta L2 38/48, Atlas L4 33/39
+00:41:47 LEVEL Vesta reached L3
+00:41:47 LEVEL Juno reached L4
+00:41:47 LEVEL Pluto reached L4
+00:41:48 LEVEL Pluto reached L5
+00:41:48   WON in 3s (3x, fight clock 10s) · party Juno L4 56/69, Pluto L5 49/50, Vesta L3 26/52, Atlas L4 36/39
+00:41:52 > Greyhollow (E-rank gate)
+00:41:52 > [world]
+00:41:52 saved (gate): you shut Greyhollow
+00:42:06   walked 1 step
+00:42:06   chest
+00:42:44 saved (guild): you signed the Guild's register
+00:42:53   examined:a sword in the floor
+00:42:56   examined:a sword in the floor
+00:42:57   examined:a sword in the floor
+00:42:58   talked:Bell the Cabin Hand
+00:43:07   talked:Buri Deepforge
+00:43:12   examined:a hand in a jar
+00:43:16   talked:Old Halloran, the Guild's Master
+00:43:16 saved (guild): you signed the Guild's register
+00:43:19   examined:the Tower's door
+00:43:19 > TOWER FLOOR 1
+00:43:25   walked 1 step
+00:43:25 FIGHT TOWER FLOOR 1 at 3x vs Goblin L2, Slime L2 · party Juno L4 56/69, Pluto L5 49/50, Vesta L3 26/52, Atlas L4 36/39
+00:43:26 LEVEL Atlas reached L5
+00:43:26 LEVEL Juno reached L5
+00:43:26   WON in 1s (3x, fight clock 3s) · party Juno L5 62/74, Pluto L5 50/50, Vesta L3 34/52, Atlas L5 39/42
+00:43:28 FIGHT TOWER FLOOR 1 at 3x vs Goblin L2, Wolf L2 · party Juno L5 62/74, Pluto L5 50/50, Vesta L3 34/52, Atlas L5 39/42
+00:43:29   WON in 1s (3x, fight clock 2s) · party Juno L5 59/74, Pluto L5 50/50, Vesta L3 34/52, Atlas L5 39/42
+00:43:36 > TOWER FLOOR 2
+00:43:36 > [world]
+00:43:40   walked 1 step
+00:43:40 FIGHT TOWER FLOOR 2 at 3x vs Poacher L3, Slime L3 · party Juno L5 59/74, Pluto L5 50/50, Vesta L3 34/52, Atlas L5 39/42
+00:43:43   WON in 2s (3x, fight clock 7s) · party Juno L5 61/74, Pluto L5 48/50, Vesta L3 37/52, Atlas L5 41/42
+00:43:46   talked:Hob's Lot
+00:43:51   talked:Hob's Lot
+00:44:16 FIGHT TOWER FLOOR 2 at 3x vs Wolf L3 x2 · party Juno L5 61/74, Pluto L5 48/50, Vesta L3 37/52, Atlas L5 41/42
+00:44:18   WON in 2s (3x, fight clock 5s) · party Juno L5 41/74, Pluto L5 46/50, Vesta L3 43/52, Atlas L5 41/42
+00:44:23 > TOWER FLOOR 3
+00:44:23 > [world]
+00:44:27   walked 1 step
+00:44:27 FIGHT TOWER FLOOR 3 at 3x vs The Amber Knight L3 · party Juno L5 41/74, Pluto L5 46/50, Vesta L3 43/52, Atlas L5 41/42
+00:44:29 LEVEL Atlas reached L6
+00:44:29   WON in 1s (3x, fight clock 4s) · party Juno L5 51/74, Pluto L5 49/50, Vesta L3 44/52, Atlas L6 44/45
+00:44:34 FIGHT TOWER FLOOR 3 at 3x vs Sword Monkey L4, Goblin L4 · party Juno L5 51/74, Pluto L5 49/50, Vesta L3 44/52, Atlas L6 44/45
+00:44:36 LEVEL Pluto reached L6
+00:44:36   WON in 1s (3x, fight clock 5s) · party Juno L5 53/74, Pluto L6 54/55, Vesta L3 46/52, Atlas L6 45/45
+00:44:38   speed 5x
+00:44:39   speed 1x
+00:44:41 > TOWER FLOOR 4
+00:44:41 > [world]
+00:44:45   walked 1 step
+00:44:45 FIGHT TOWER FLOOR 4 at 1x vs The Amber Knight L4, Wisp L4 · party Juno L5 53/74, Pluto L6 54/55, Vesta L3 46/52, Atlas L6 45/45
+00:44:53 LEVEL Pluto reached L7
+00:44:53   WON in 8s (1x, fight clock 8s) · party Juno L5 57/74, Pluto L7 58/60, Vesta L3 49/52, Atlas L6 45/45
+00:45:20 FIGHT TOWER FLOOR 4 at 1x vs Frostbitten L4 · party Juno L5 74/74, Pluto L7 58/60, Vesta L3 49/52, Atlas L6 45/45
+00:45:29   WON in 8s (1x, fight clock 9s) · party Juno L5 63/74, Pluto L7 54/60, Vesta L3 52/52, Atlas L6 45/45
+00:45:35 > TOWER FLOOR 5
+00:45:35 > [world]
+00:46:46   walked 1 step
+00:46:46 FIGHT TOWER FLOOR 5 at 1x vs The Warden of the Fifth L9, Bog Jelly L9 x2 · party Juno L5 63/74, Pluto L7 54/60, Vesta L3 52/52, Atlas L6 45/45
+00:46:54 LEVEL Pluto reached L8
+00:46:57 LEVEL Atlas reached L7
+00:46:57 LEVEL Juno reached L6
+00:46:57 LEVEL Vesta reached L4
+00:46:57 LEVEL Vesta reached L5
+00:46:59 LEVEL Atlas reached L8
+00:46:59   WON in 13s (1x, fight clock 11s) · party Juno L6 74/79, Pluto L8 62/65, Vesta L5 60/60, Atlas L8 51/51
+00:47:03 FIGHT TOWER FLOOR 5 at 1x vs Poacher L4, Cutpurse L4, Slime L4 · party Juno L6 74/79, Pluto L8 62/65, Vesta L5 60/60, Atlas L8 51/51
+00:47:09   WON in 6s (1x, fight clock 6s) · party Juno L6 78/79, Pluto L8 65/65, Vesta L5 60/60, Atlas L8 51/51
+00:47:16   talked:the Ninth Stair
+00:47:21 > The Tower
+00:47:21 > [world]
+00:47:21 saved (chapter): chapter 1 of the Tower closed
+00:47:31   walked 1 step
+00:47:31 saved (rest): you rested at Stormreach
+00:47:31 saved (town): you reached Stormreach
+00:47:40   speed 2x
+00:47:54   door:the chandler's
+00:47:56   door:the butcher's
+00:47:58   door:a baker's widow's
+00:48:00   door:the tailor's
+00:48:02   door:a crowded house
+00:48:03   door:the old shrine
+00:48:05   door:the toll house
+00:48:08   talked:Sinner
+00:48:19   door:the ruined bathhouse
+00:48:21   door:a sailmaker's
+00:48:27   door:a fence's house
+00:48:30   door:a house with blue shutters
+00:48:35   door:a quiet house
+00:48:37   talked:Captain Edda of the Watch
+00:49:03   talked:Gunnar the Brewer
+00:49:16   talked:Fennick the Scrivener
+00:49:21   talked:Wenna the Guild Clerk
+00:49:21 saved (guild): you signed the Guild's register
+00:49:24   door:the Adventurers' Guild hall
+00:49:26   door:the scrivener's
+00:49:28   door:the apothecary
+00:49:29   door:a tall house
+00:49:34   talked:Brother Oswin
+00:49:40   door:the Cathedral of the Ascent
+00:49:51   door:the counting house
+00:49:53   talked:Steward Hobb
+00:50:05   talked:Ada the Baker
+00:51:20   talked:Sinner
+00:51:29   examined:something left here
+00:51:37   speed 3x
+00:51:37   speed 5x
+00:51:38   speed 1x
+00:51:38   speed 2x
+00:51:38   speed 3x
+00:51:38   speed 5x
+00:51:59 > Elderford, floor 1
+00:51:59 FIGHT Elderford, floor 1 at 5x vs Goblin L4 · party Juno L6 79/79, Pluto L8 65/65, Vesta L5 60/60, Atlas L8 51/51
+00:51:59 LEVEL Vesta reached L6
+00:51:59   WON in 0s (5x, fight clock 2s) · party Juno L6 79/79, Pluto L8 65/65, Vesta L6 64/64, Atlas L8 51/51
+00:52:01   walked 1 step
+00:52:01 FIGHT Elderford, floor 1 at 5x vs Sword Monkey L6, Goblin L6 · party Juno L6 79/79, Pluto L8 65/65, Vesta L6 64/64, Atlas L8 51/51
+00:52:08 LEVEL Juno reached L7
+00:52:08 LEVEL Pluto reached L9
+00:52:08   WON in 6s (5x, fight clock 5s) · party Juno L7 63/84, Pluto L9 70/70, Vesta L6 64/64, Atlas L8 51/51
+00:52:10 > Elderford (E-rank gate)
+00:52:10 > [world]
+00:52:10 saved (gate): you shut Elderford
+00:53:04   walked 1 step
+00:53:04 > TOWER FLOOR 6
+00:53:06   walked 1 step
+00:53:06 FIGHT TOWER FLOOR 6 at 5x vs Sword Monkey L5 x2, Goblin L5 · party Juno L7 84/84, Pluto L9 70/78, Vesta L6 64/72, Atlas L8 51/59
+00:53:08   WON in 1s (5x, fight clock 8s) · party Juno L7 84/84, Pluto L9 72/78, Vesta L6 65/72, Atlas L8 51/59
+00:53:09 FIGHT TOWER FLOOR 6 at 5x vs Goblin L6, Wolf L6 x2 · party Juno L7 84/84, Pluto L9 72/78, Vesta L6 65/72, Atlas L8 51/59
+00:53:11   WON in 1s (5x, fight clock 4s) · party Juno L7 81/84, Pluto L9 78/78, Vesta L6 66/72, Atlas L8 53/59
+00:53:12   speed 1x
+00:55:07   talked:the Grey Oath
+00:55:13 > TOWER FLOOR 7
+00:55:13 > [world]
+00:55:27   walked 1 step
+00:55:27 FIGHT TOWER FLOOR 7 at 1x vs Mending Lion L6, Mossback L6 x2 · party Juno L7 81/84, Pluto L9 78/78, Vesta L6 66/72, Atlas L8 53/59
+00:55:41   WON in 13s (1x, fight clock 13s) · party Juno L7 66/84, Pluto L9 78/78, Vesta L6 68/72, Atlas L8 55/59
+00:55:47 FIGHT TOWER FLOOR 7 at 1x vs Ember Dove L6, Mending Lion L6 x2 · party Juno L7 66/84, Pluto L9 78/78, Vesta L6 68/72, Atlas L8 55/59
+00:56:09   WON in 21s (1x, fight clock 21s) · party Juno L7 82/84, Pluto L9 39/78, Vesta L6 70/72, Atlas L8 55/59
+00:56:19 > TOWER FLOOR 8
+00:56:19 > [world]
+00:56:23 FIGHT TOWER FLOOR 8 at 1x vs Sword Monkey L5, Goblin L5 x2 · party Juno L7 82/84, Pluto L9 39/78, Vesta L6 70/72, Atlas L8 55/59
+00:56:34   WON in 11s (1x, fight clock 11s) · party Juno L7 84/84, Pluto L9 56/78, Vesta L6 72/72, Atlas L8 59/59
+00:56:41   walked 1 step
+00:56:41 FIGHT TOWER FLOOR 8 at 1x vs Wolf L4, Sword Monkey L4, Goblin L4 · party Juno L7 84/84, Pluto L9 56/78, Vesta L6 72/72, Atlas L8 59/59
+00:56:48   WON in 7s (1x, fight clock 7s) · party Juno L7 84/84, Pluto L9 70/78, Vesta L6 72/72, Atlas L8 59/59
+00:57:02   talked:Hob's Lot
+00:57:08 > TOWER FLOOR 9
+00:57:08 > [world]
+00:57:10 FIGHT TOWER FLOOR 9 at 1x vs Mending Lion L7 x2, Ember Dove L7 · party Juno L7 84/84, Pluto L9 70/78, Vesta L6 72/72, Atlas L8 59/59
+00:57:21   WON in 11s (1x, fight clock 11s) · party Juno L7 84/84, Pluto L9 78/78, Vesta L6 72/72, Atlas L8 59/59
+00:57:23 FIGHT TOWER FLOOR 9 at 1x vs Ember Dove L7 x3 · party Juno L7 84/84, Pluto L9 78/78, Vesta L6 72/72, Atlas L8 59/59
+00:57:29 LEVEL Vesta reached L7
+00:57:33   WON in 10s (1x, fight clock 10s) · party Juno L7 64/84, Pluto L9 78/78, Vesta L7 76/76, Atlas L8 59/59
+00:57:36   walked 1 step
+00:57:50   talked:the Lantern Company
+00:57:53 > TOWER FLOOR 10
+00:57:53 > [world]
+00:57:57   walked 1 step
+00:57:57 FIGHT TOWER FLOOR 10 at 1x vs Goblin L7 x2, Wolf L7 · party Juno L7 64/84, Pluto L9 78/78, Vesta L7 76/76, Atlas L8 59/59
+00:58:06   WON in 8s (1x, fight clock 8s) · party Juno L7 69/84, Pluto L9 78/78, Vesta L7 76/76, Atlas L8 59/59
+00:58:12 FIGHT TOWER FLOOR 10 at 1x vs The Keeper of the Tenth L12, Goblin L12, Poacher L12 · party Juno L7 69/84, Pluto L9 78/78, Vesta L7 76/76, Atlas L8 59/59
+00:58:38 LEVEL Pluto reached L10
+00:58:38 LEVEL Juno reached L8
+00:58:38 LEVEL Vesta reached L8
+00:58:38 LEVEL Atlas reached L9
+00:58:38   WON in 26s (1x, fight clock 13s) · party Juno L8 86/89, Pluto L10 78/83, Vesta L8 80/80, Atlas L9 62/62
+00:58:42   talked:the Lantern Company
+00:58:49 > The Tower
+00:58:49 > [world]
+00:58:49 saved (chapter): chapter 2 of the Tower closed
+00:58:57 saved (guild): you signed the Guild's register
+00:59:11   speed 2x
+00:59:11   walked 1 step
+00:59:11   speed 3x
+00:59:14   speed 5x
+01:00:51 > The Wilds (The High Barrows)
+01:00:52   walked 1 step
+01:00:52 > The High Barrows  ·  barrow downs
+01:00:52 > [world]
+01:00:53   walked 1 step
+01:01:21 > Eldervale, floor 1
+01:01:25 FIGHT Eldervale, floor 1 at 5x vs The Blind Rider L7 · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:26   WON in 0s (5x, fight clock 5s) · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:31   walked 1 step
+01:01:31 FIGHT Eldervale, floor 1 at 5x vs Eye Slinger L6 · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:32   WON in 0s (5x, fight clock 3s) · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:33 FIGHT Eldervale, floor 1 at 5x vs Eye Slinger L7 · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:34   WON in 1s (5x, fight clock 5s) · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:36 > Eldervale, floor 2
+01:01:36 > [world]
+01:01:40   walked 1 step
+01:01:40 FIGHT Eldervale, floor 2 at 5x vs Ice Wolf L6 · party Juno L8 93/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:41   WON in 0s (5x, fight clock 3s) · party Juno L8 78/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:45 FIGHT Eldervale, floor 2 at 5x vs Wraith L9, Ice Wolf L9 · party Juno L8 78/93, Pluto L10 83/83, Vesta L8 80/80, Atlas L9 62/62
+01:01:52 LEVEL Pluto reached L11
+01:01:52 LEVEL Vesta reached L9
+01:01:55 LEVEL Atlas reached L10
+01:01:55   WON in 9s (5x, fight clock 11s) · party Juno L8 48/96, Pluto L11 68/88, Vesta L9 84/84, Atlas L10 65/65
+01:01:57 > Eldervale (D-rank gate)
+01:01:57 > [world]
+01:01:57 saved (gate): you shut Eldervale
+01:05:04   walked 1 step
+01:05:04 saved (rest): you rested at Stormreach
+01:05:04 saved (town): you reached Stormreach
+01:05:24 FIGHT Eldervale (D-rank gate) at 5x vs Cabin Hand L6, Sleepless Blade L6 · party Juno L8 96/96, Pluto L11 88/88, Vesta L9 84/84, Atlas L10 65/65
+01:05:29   speed 1x
+01:05:49 > Stormreach
+01:05:49 > [world]
+01:06:05   walked 1 step
+01:06:05   talked:Brother Oswin
+01:06:12   speed 2x
+01:06:13   speed 3x
+01:06:18   talked:Ada the Baker
+01:06:36 saved (town): you reached Stormreach
+01:06:47   examined:the Tower's door
+01:06:47 > TOWER FLOOR 11
+01:06:51   speed 5x
+01:06:54   walked 1 step
+01:06:54 FIGHT TOWER FLOOR 11 at 5x vs Flame Lion L6 x2, Ember Dove L6 · party Juno L8 96/96, Pluto L11 88/88, Vesta L9 84/84, Atlas L10 65/65
+01:06:54   speed 1x
+01:06:57   speed 2x
+01:07:00   WON in 5s (5x/1x/2x, fight clock 9s) · party Juno L8 80/96, Pluto L11 78/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:04 FIGHT TOWER FLOOR 11 at 2x vs Flame Lion L8, Mending Lion L8, Ember Dove L8 · party Juno L8 80/96, Pluto L11 78/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:10   WON in 5s (2x, fight clock 11s) · party Juno L8 88/96, Pluto L11 84/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:12 > TOWER FLOOR 12
+01:07:12 > [world]
+01:07:14   walked 1 step
+01:07:14 FIGHT TOWER FLOOR 12 at 2x vs Frostbitten L8 x2, Wolf L8 · party Juno L8 88/96, Pluto L11 84/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:22   WON in 7s (2x, fight clock 14s) · party Juno L8 56/96, Pluto L11 78/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:29 FIGHT TOWER FLOOR 12 at 2x vs Sword Monkey L8 x2, Frostbitten L8 · party Juno L8 56/96, Pluto L11 78/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:32   WON in 3s (2x, fight clock 6s) · party Juno L8 70/96, Pluto L11 86/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:38 > TOWER FLOOR 13
+01:07:38 > [world]
+01:07:41   walked 1 step
+01:07:41 FIGHT TOWER FLOOR 13 at 2x vs Mending Lion L7 x2, Flame Lion L7 · party Juno L8 70/96, Pluto L11 86/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:46   WON in 4s (2x, fight clock 9s) · party Juno L8 79/96, Pluto L11 77/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:48 FIGHT TOWER FLOOR 13 at 2x vs Flame Lion L8, Mending Lion L8, Ember Dove L8 · party Juno L8 79/96, Pluto L11 77/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:55   WON in 6s (2x, fight clock 12s) · party Juno L8 91/96, Pluto L11 75/88, Vesta L9 84/84, Atlas L10 65/65
+01:07:57 > TOWER FLOOR 14
+01:07:57 > [world]
+01:07:59   walked 1 step
+01:07:59 FIGHT TOWER FLOOR 14 at 2x vs Sword Monkey L9 x3 · party Juno L8 91/96, Pluto L11 75/88, Vesta L9 84/84, Atlas L10 65/65
+01:08:15   WON in 16s (2x, fight clock 19s) · party Juno L8 50/99, Pluto L11 82/88, Vesta L9 51/84, Atlas L10 65/65
+01:08:30 FIGHT TOWER FLOOR 14 at 2x vs Sword Monkey L8, Wolf L8, Frostbitten L8 · party Juno L8 99/99, Pluto L11 82/92, Vesta L9 51/88, Atlas L10 65/69
+01:08:36   WON in 6s (2x, fight clock 12s) · party Juno L8 99/99, Pluto L11 92/92, Vesta L9 44/88, Atlas L10 65/69
+01:08:41 > TOWER FLOOR 15
+01:08:41 > [world]
+01:08:47   walked 1 step
+01:08:47 FIGHT TOWER FLOOR 15 at 2x vs Ember Dove L8 x3 · party Juno L8 99/99, Pluto L11 92/92, Vesta L9 44/88, Atlas L10 65/69
+01:08:53   WON in 5s (2x, fight clock 11s) · party Juno L8 99/99, Pluto L11 92/92, Vesta L9 68/88, Atlas L10 69/69
+01:08:57 FIGHT TOWER FLOOR 15 at 2x vs Mending Lion L8 x2, Flame Lion L8 · party Juno L8 99/99, Pluto L11 92/92, Vesta L9 68/88, Atlas L10 69/69
+01:09:04   WON in 7s (2x, fight clock 15s) · party Juno L8 99/99, Pluto L11 92/92, Vesta L9 88/88, Atlas L10 69/69
+01:09:07 > The Tower
+01:09:07 > [world]
+01:09:07 saved (chapter): chapter 3 of the Tower closed
+01:09:28   walked 1 step
+01:09:28 saved (guild): you signed the Guild's register
+01:09:31   speed 3x
+01:11:34   speed 5x
+01:11:34   speed 1x
+01:11:35   speed 2x
+01:11:35   speed 3x
+01:11:36   speed 5x
+01:11:45 saved (town): you reached Witherreach
+01:11:59 > Stormwater, floor 1
+01:12:02   walked 1 step
+01:12:02 FIGHT Stormwater, floor 1 at 5x vs The Amber Knight L6 · party Juno L8 99/99, Pluto L11 80/92, Vesta L9 76/88, Atlas L10 60/69
+01:12:03 LEVEL Juno reached L9
+01:12:03   WON in 0s (5x, fight clock 3s) · party Juno L9 104/104, Pluto L11 87/92, Vesta L9 78/88, Atlas L10 62/69
+01:12:07 FIGHT Stormwater, floor 1 at 5x vs The Mother Ooze L9, The Amber Knight L9 · party Juno L9 104/104, Pluto L11 87/92, Vesta L9 78/88, Atlas L10 62/69
+01:12:08   speed 1x
+01:12:15   speed 2x
+01:12:18   WON in 10s (5x/1x/2x, fight clock 7s) · party Juno L9 101/104, Pluto L11 92/92, Vesta L9 83/88, Atlas L10 66/69
+01:12:21 > Stormwater (E-rank gate)
+01:12:21 > [world]
+01:12:21 saved (gate): you shut Stormwater
+01:12:28   walked 1 step
+01:12:28   speed 3x
+01:12:58   speed 5x
+01:12:59   speed 1x
+01:12:59   speed 2x
+01:13:00   speed 3x
+01:13:00   speed 5x
+01:13:42 FIGHT Stormwater (E-rank gate) at 5x vs Brigand L7, Poacher L6 · party Juno L9 104/104, Pluto L11 92/92, Vesta L9 83/88, Atlas L10 66/69
+01:13:43 LEVEL Atlas reached L11
+01:13:43   WON in 0s (5x, fight clock 5s) · party Juno L9 103/104, Pluto L11 90/92, Vesta L9 86/88, Atlas L11 71/72
+01:13:50   speed 1x
+01:13:55 > TOWER FLOOR 16
+01:13:58   walked 1 step
+01:13:58   speed 2x
+01:13:59 FIGHT TOWER FLOOR 16 at 2x vs Wraith L8, Eye Slinger L8, Ice Wolf L8 · party Juno L9 103/104, Pluto L11 90/92, Vesta L9 86/88, Atlas L11 71/72
+01:13:59   speed 3x
+01:14:03 LEVEL Pluto reached L12
+01:14:04   WON in 5s (2x/3x, fight clock 14s) · party Juno L9 54/107, Pluto L12 73/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:09 FIGHT TOWER FLOOR 16 at 3x vs Wraith L8, Eye Slinger L8, Ice Wolf L8 · party Juno L9 54/107, Pluto L12 73/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:13   WON in 4s (3x, fight clock 12s) · party Juno L9 54/107, Pluto L12 59/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:16 > TOWER FLOOR 17
+01:14:16 > [world]
+01:14:19   walked 1 step
+01:14:19 FIGHT TOWER FLOOR 17 at 3x vs Pirate Man L10, Cutpurse L10 x2 · party Juno L9 54/107, Pluto L12 59/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:22   WON in 3s (3x, fight clock 9s) · party Juno L9 81/107, Pluto L12 64/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:24 FIGHT TOWER FLOOR 17 at 3x vs Pirate Man L10 x2, Cutpurse L10 · party Juno L9 81/107, Pluto L12 64/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:28   WON in 3s (3x, fight clock 10s) · party Juno L9 90/107, Pluto L12 88/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:29 > TOWER FLOOR 18
+01:14:29 > [world]
+01:14:30   walked 1 step
+01:14:30 FIGHT TOWER FLOOR 18 at 3x vs Mending Lion L10, Flame Lion L10, Ember Dove L10 · party Juno L9 90/107, Pluto L12 88/97, Vesta L9 88/88, Atlas L11 72/72
+01:14:32 LEVEL Vesta reached L10
+01:14:35   WON in 4s (3x, fight clock 13s) · party Juno L9 65/107, Pluto L12 97/97, Vesta L10 92/92, Atlas L11 72/72
+01:14:38 FIGHT TOWER FLOOR 18 at 3x vs Flame Lion L10, Ember Dove L10 x2 · party Juno L9 65/107, Pluto L12 97/97, Vesta L10 92/92, Atlas L11 72/72
+01:14:41   WON in 3s (3x, fight clock 9s) · party Juno L9 77/107, Pluto L12 97/97, Vesta L10 92/92, Atlas L11 72/72
+01:14:42 > TOWER FLOOR 19
+01:14:42 > [world]
+01:14:46   walked 1 step
+01:14:46 FIGHT TOWER FLOOR 19 at 3x vs The Shadow L10, Ice Wolf L10 x2 · party Juno L9 77/107, Pluto L12 97/97, Vesta L10 92/92, Atlas L11 72/72
+01:14:50 LEVEL Juno reached L10
+01:14:50   WON in 3s (3x, fight clock 11s) · party Juno L10 90/112, Pluto L12 90/97, Vesta L10 57/92, Atlas L11 72/72
+01:14:52 FIGHT TOWER FLOOR 19 at 3x vs The Shadow L11 x2, Wraith L11 · party Juno L10 90/112, Pluto L12 90/97, Vesta L10 57/92, Atlas L11 72/72
+01:14:55   WON in 2s (3x, fight clock 8s) · party Juno L10 77/112, Pluto L12 93/97, Vesta L10 62/92, Atlas L11 72/72
+01:14:56 > TOWER FLOOR 20
+01:14:56 > [world]
+01:14:57   walked 1 step
+01:14:57 FIGHT TOWER FLOOR 20 at 3x vs Brigand L10 x3 · party Juno L10 77/112, Pluto L12 93/97, Vesta L10 62/92, Atlas L11 72/72
+01:14:58 LEVEL Atlas reached L12
+01:15:00   WON in 2s (3x, fight clock 8s) · party Juno L10 59/112, Pluto L12 97/97, Vesta L10 67/92, Atlas L12 75/75
+01:15:03 FIGHT TOWER FLOOR 20 at 3x vs Pirate Man L10, Brigand L10 x2 · party Juno L10 59/112, Pluto L12 97/97, Vesta L10 67/92, Atlas L12 75/75
+01:15:09   WON in 5s (3x, fight clock 16s) · party Juno L10 83/112, Pluto L12 76/97, Vesta L10 59/92, Atlas L12 75/75
+01:15:14 > The Tower
+01:15:14 > [world]
+01:15:14 saved (chapter): chapter 4 of the Tower closed

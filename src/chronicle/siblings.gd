@@ -389,6 +389,9 @@ static func come_through(world: World, echo: Dictionary) -> Array:
 	weapon["landed"] = true
 	var cell := cell_of(weapon.get("cell", []))
 	Annals.record(world, _say(str(lines().get("weapon_annal", "")), echo, world, null))
+	# Seen as well as said (play-test 7: "something to give visual aid ... instead of what's being said").
+	var shake: Dictionary = lines().get("weapon_shake", {})
+	EventBus.ground_shaken.emit(float(shake.get("seconds", 0.0)), float(shake.get("pixels", 0.0)))
 	return [_say(str(lines().get("weapon_lands", "")), echo, world, null, Fall.way(world.player_cell, cell))]
 
 

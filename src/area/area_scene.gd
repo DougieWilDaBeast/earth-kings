@@ -160,6 +160,8 @@ var _chatting: bool = false
 var _notes: Array[String] = []
 var _note_times: Array[int] = []
 var _hint_backed := true
+## The hint line its strip was last fitted to, so it is measured only when it changes.
+var _hint_fitted := ""
 var _visited_spots: Dictionary = {}
 ## cell -> the [AreaProp] drawn for the chest there, so it can be shown opened.
 var _chest_props: Dictionary = {}
@@ -288,6 +290,7 @@ func _ready() -> void:
 		_gate_final = bool(boot_payload.get("gate_final", false))
 		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
 	get_viewport().size_changed.connect(_fit_the_log)
+	get_viewport().size_changed.connect(_fit_the_hint)
 	_fit_the_log.call_deferred()
 	# What can be done here, on one line that never runs up into the log ([D246], play-test 6:
 	# "so much text here that is crossing over each other"): cut short with an ellipsis instead.
@@ -322,6 +325,7 @@ func _ready() -> void:
 	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
+	EventBus.ground_shaken.connect(_camera.shake)
 	_paint_layers()
 	_light_the_place()
 	_spawn_buildings()
@@ -1030,7 +1034,10 @@ func _turn_the_light(tint: String) -> void:
 func _spawn_party() -> void:
 	_actors.y_sort_enabled = true
 	var start := map.spawn
-	if boot_payload.has("spawn_cell"):
+	# On the land a way in is the tile's own, and [method _land_start] has already put it in the
+	# tile: read again here it was a cell in the land's far corner, and only the lead was stepped
+	# back onto the tile after (play-test 7: out of the ancient grove "my party disappeared").
+	if boot_payload.has("spawn_cell") and not _land_mode:
 		start = AreaMap.to_cell(boot_payload["spawn_cell"])
 	if not map.is_walkable(start):
 		for radius in range(1, 6):
@@ -1222,14 +1229,15 @@ func _put_spire(prop: Dictionary) -> Node2D:
 
 
 ## Something the continent found left on this step, put down a little ahead of the party where it
-## can be seen, and picked up with E like anything else worth stopping for.
+## can be seen, and picked up with E like anything else worth stopping for. It is drawn as what is
+## in it: coin as the coin pile, a sword as a sword ([Loot.cache_art]).
 func _put_cache(haul: Dictionary) -> AreaProp:
 	if _leader == null or haul.is_empty():
 		return null
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	var at := _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
 	var node := AreaProp.from_entry({
-		"art": "coin_pile", "cell": at, "name": "something left here",
+		"art": Loot.cache_art(haul), "cell": at, "name": "something left here",
 		"line": "Something left here a long while ago, and nobody came back for it.",
 	})
 	node.haul = haul.duplicate()
@@ -2890,7 +2898,10 @@ func _call_the_watch(field: Dictionary) -> void:
 ## Another company within `join_cells` of a fight comes running and fights beside the party ([D246],
 ## play-test 6: "I think that the parties in the floor also will be fighting with you as well"):
 ## climbers on the road ([D215]) or resting on a Tower floor, at the company's level. Out of sight
-## while it lasts, back where they were after, like the Watch.
+## while it lasts, back where they were after, like the Watch. A company resting on a floor comes
+## running to a fight anywhere on that floor when `on_the_floors.join_anywhere` says so (play-test 7:
+## Hob's Lot sat by floor 2's stair while a poacher and a slime who spot the party up to twelve cells
+## from there were fought, out of `join_cells`).
 func _call_the_climbers(field: Dictionary) -> void:
 	if _leader == null:
 		return
@@ -2898,14 +2909,16 @@ func _call_the_climbers(field: Dictionary) -> void:
 	var reach := float(rules.get("join_cells", 0)) * AreaMap.CELL
 	if reach <= 0.0:
 		return
+	var whole_floor := bool((rules.get("on_the_floors", {}) as Dictionary).get("join_anywhere", false))
 	var level := maxi(1, Encounter.party_level(GameState.party_characters()))
 	var allies: Array = field.get("allies", [])
 	var company := ""
 	for actor: AreaActor in _people:
 		var person: Dictionary = actor.get_meta("person", {})
-		if not ["climbers", "climbers_floor"].has(str(person.get("_area", ""))) or not actor.visible:
+		var area := str(person.get("_area", ""))
+		if not ["climbers", "climbers_floor"].has(area) or not actor.visible:
 			continue
-		if actor.position.distance_to(_leader.position) > reach:
+		if not (whole_floor and area == "climbers_floor") and actor.position.distance_to(_leader.position) > reach:
 			continue
 		allies.append({ "unit": str(person.get("unit", "")), "level": level, "name": str(person.get("name", "a climber")) })
 		_watch_fighting.append(actor)
@@ -3621,6 +3634,8 @@ func _let_old_notes_go() -> void:
 	if hint_backed != _hint_backed:
 		_hint_backed = hint_backed
 		_hint.add_theme_stylebox_override("normal", _quiet_backing() if hint_backed else StyleBoxEmpty.new())
+	if _hint.text != _hint_fitted:
+		_fit_the_hint()
 	if _notes.is_empty():
 		return
 	var now := Time.get_ticks_msec()
@@ -3654,6 +3669,21 @@ func _fit_the_log() -> void:
 	if not is_inside_tree():
 		return
 	_log.offset_right = minf(LOG_WIDTH, get_viewport().get_visible_rect().size.x - 16.0)
+
+
+## The hint line's strip is as long as what it says (play-test 7: "the text boxes around the text
+## are way too big. At the bottom of my screen"), not the width of the screen; a line too long for
+## the screen still stops at its edge and is cut short ([D246]).
+func _fit_the_hint() -> void:
+	if not is_inside_tree():
+		return
+	_hint_fitted = _hint.text
+	var font := _hint.get_theme_font("font")
+	var wanted := font.get_string_size(_hint.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _hint.get_theme_font_size("font_size")).x
+	wanted += _quiet_backing().get_minimum_size().x + 2.0
+	var room := get_viewport().get_visible_rect().size.x - _hint.offset_left - 16.0
+	_hint.anchor_right = 0.0
+	_hint.offset_right = _hint.offset_left + minf(wanted, room)
 
 
 ## One message at a time (D95): while a box is open (the landing's words, a

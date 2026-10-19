@@ -182,6 +182,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-17 | Auto rests when hurt, nine self-played runs as dealt leads ([D210](06-decisions.md)) | after #259 | After a lost fight Auto now rests in town (Iris back to 40 of 40). All eight runs still fell, nearly all at full health to their first road fights at levels 1 and 2 (Axe Bear, Flame Lion, Sword Monkey, Cutpurse): the stakes work, issue #230 |
 | 2026-10-17 | The First Hour's road for a lead walking alone, seven self-played runs as dealt leads and one as Atlas ([D211](06-decisions.md)) | after #262 | Before (main, seeds 1, 2, 3): every one fell, at levels 1 to 3, two in their first fight (a Flame Lion, a Sword Monkey met at a quarter health after the cold). After (seeds 1 to 6): no fall in a first fight; falls after five minutes at levels 3 to 7; Liber to floor 4, Iris to floor 3, Pluto shut a gate. Diana (77) at the door at 3:39 (7:35 before), Atlas at 4:55. Stances (#261) merged after these runs |
 | 2026-10-18 | The Second Hour's sixteen self-played climbs to floor 10 ([D258](06-decisions.md), #234; the table is below) | `e5628b9` and this PR | Alone, every climber fell by floor 6. With 0 to 3 companions rolled at random (`dougie`'s call): 6 of 16 reached floor 10, 4 fell (two to the Keeper of the Tenth's floor), 6 stalled. A party of three or more is fair; alone or with one, nobody reached floor 10 |
+| 2026-10-18 23:16 | Ewan's (`doug-md`) play-test 7, about an hour, a new game as Juno (the fourth life of the world) with Pluto, Vesta and Atlas, in his Godot, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md), [play log](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.playlog.txt)) | his Godot, main of 2026-10-18 evening (`e5628b9` or later: the Keeper of the Tenth is in it) | Liked going into the gates ("Great addition") and Stormreach walked outside ("This looks fantastic"). His log: the Tower from floor 1 to 20 and four gates shut in about 53 minutes, chapters 1 to 4 closed; 58 fights, none lost, nobody below half their health after any; on the fight clock floors 1 to 5 a median of 5.5 seconds, 6 to 20 about 11, the land and gates 5; the Warden of the Fifth and the Keeper of the Tenth each down in under 15. A party of four is past fair, the same as the Second Hour's climbs. First fixes [D259](06-decisions.md); his bigger asks [below](#play-test-7s-asks) |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
 
 ### The Second Hour's climbs
@@ -341,6 +342,41 @@ text crossing at the bottom of the screen, a far-too-strong gate asking twice, c
    [D244](06-decisions.md) and [D245](06-decisions.md)).
 8. **Carriages**, and other ways to travel.
 9. **5× speed** still runs heavy on a slower machine (the jumping is gone, [D246](06-decisions.md)).
+
+### Play-test 7's asks
+
+What `doug-md` asked for in play-test 7 ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md))
+that needs more than a fix, **planned**, waiting on the founders' order (he asked for each to be weighed,
+not all built). Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
+standing by on floor 2, the boxes at the bottom far too big, a cache always a coin pile (art A37 asked
+for), the ground said to shake but not seen to. Some repeat play-test 6's (noted).
+1. **Gates that grow** (grows play-test 6, item 2): ground of its own kind inside (frost, fire, grass,
+   cave, open plain); length by rank, an S-rank gate 10 to 15 minutes with a boss fight of 5 to 7; shut
+   only when every monster in it is dead, or its lord falls and the rest scatter; the gate left broken on
+   the ground after; the people round it cheering, and the tale told on.
+2. **A legendary company of six**: humans who climbed long ago and are still alive high up (about floor
+   70), since nobody ages inside the Tower; their monuments, tales and who they were before, on the
+   land. And **climbers' names on the Tower**, a board of how high each got. Canon: the founders'.
+3. **The world's history**: how Earth Kings came to be the way it is, so the game is more than the climb.
+4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
+   **creatures that fit the land** they are in (no grasshoppers in magma).
+5. **Bodies that stay** after a fight, searched for loot.
+6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
+   an icon beside each item (art from PixelLab).
+7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
+   (he said both "only weapons they're affiliated with" and "everyone can use the same weapons").
+8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no; **sending your own
+   people out** on quests and into gates on Auto; **moods after RimWorld**, and some who will not climb.
+9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
+   every place with loot, a quest or a story; small houses, a family, a caravan, traders.
+10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat.
+11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar; walking into a gate
+    or the grove, not cut to it; the chapter visions shown as pictures.
+12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
+    journal open at the side while the game keeps going.
+13. **Sound and music**: a big music update; a sound for every monster; better effects.
+14. **A writers' pass** over every line every character says.
+15. **The frame rate walking Stormreach** ("massive frame rate drop").
 
 ## Music the hour still needs
 

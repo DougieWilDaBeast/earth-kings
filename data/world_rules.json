@@ -75,7 +75,7 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
-		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own. Inferred: every number, name and line.",
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own; with on_the_floors.join_anywhere a company resting on a floor joins a fight anywhere on that floor (play-test 7: floor 2's bands spot the party twelve cells from the stair). Inferred: every number, name and line.",
 		"climbers": {
 			"road_chance": 0.3,
 			"join_cells": 10,
@@ -132,6 +132,7 @@
 			"on_the_floors": {
 				"from": 2,
 				"chance": 0.4,
+				"join_anywhere": true,
 				"talk": {
 					"hello": [
 						"Easy. We're not what lives up here. Just resting our feet before the stair.",
@@ -531,7 +532,15 @@
 		"gold_spread": 1500,
 		"item_chance": 0.35,
 		"resale": 0.5,
-		"cache_chance": 0.04
+		"cache_chance": 0.04,
+		"cache_art": {
+			"_comment": "Play-test 7 (doug-md: \"when I click this gold pile ... it is a sword\"): how a cache found on the ground is drawn, by what is in it. Looked up by the piece's kind (Gear.kind, or `charm` for a charm), then by its icon's folder (bone_sword has no kind but a blade icon; never for a charm), then `item` for any other piece; `coin` when it holds only coin. Each is a picture under art/props. The weapons are the Tower's shattered sword and the rest a strongbox until A37 brings a sword, a bow, a staff and a bundle lying on the ground. Read by Loot.cache_art.",
+			"coin": "coin_pile",
+			"blade": "landmark/sword_shattered",
+			"bow": "landmark/sword_shattered",
+			"staff": "landmark/sword_shattered",
+			"item": "strongbox"
+		}
 	},
 	"scars": {
 		"_comment": "D218 (from Kenshi's toughness, picked by doug-md 2026-10-17): a fighter who goes down in a fight the company wins, and lives, gains max_hp health for good, up to most scars. line is said at the fight's end ({name}, {hp}, {scars}).",

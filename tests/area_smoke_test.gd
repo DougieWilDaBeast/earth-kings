@@ -78,6 +78,7 @@ func _ready() -> void:
 	await _check_play_test_four()
 	await _check_inn_rooms()
 	await _check_followers_face()
+	await _check_play_test_seven()
 	_check_tracks()
 	_check_open_city()
 	await _check_play_hud()
@@ -1239,6 +1240,28 @@ func _check_people_on_the_land() -> void:
 					"people: the company on floor %d did not join a fight beside them (%s)" % [floor, joined])
 			for actor: Node in scene.get("_watch_fighting"):
 				actor.visible = true
+			(scene.get("_watch_fighting") as Array).clear()
+			# Play-test 7: Hob's Lot sat by floor 2's stair while the party fought a band that spots it
+			# twelve cells off. From the farthest cell any of the floor's bands sees, they still come.
+			var map: AreaMap = scene.get("map")
+			var far := Vector2i(-1, -1)
+			var apart := 0.0
+			for watch: Node2D in scene.get("_watches"):
+				for cell: Vector2i in watch.get("watched"):
+					var nearest := INF
+					for actor: Node2D in by_them:
+						nearest = minf(nearest, Vector2(cell - map.cell_at(actor.position)).length())
+					if nearest > apart:
+						apart = nearest
+						far = cell
+			if far.x >= 0:
+				(scene.get("_leader") as Node2D).position = map.centre_of(far)
+				var far_joined := {}
+				scene.call("_call_the_climbers", far_joined)
+				_expect((far_joined.get("allies", []) as Array).size() == by_them.size(),
+						"people: the company on floor %d stood by while the party fought %.1f cells off (play-test 7)" % [floor, apart])
+				for actor: Node in scene.get("_watch_fighting"):
+					actor.visible = true
 		scene.queue_free()
 		await get_tree().process_frame
 	print("people: %d bands by the road, the Watch beset by a town's road, climbers on floor %d" % [by_road, floor])
@@ -1673,6 +1696,87 @@ func _check_followers_face() -> void:
 	else:
 		print("followers: walking up and then down, everyone following faces the way they walk")
 	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## The party still walks behind the leader after the wilds (play-test 7: "When I entered the
+## ancient grove and left the ancient grove, then my party disappeared ... I don't see the
+## characters beside me"). A party of four goes into the ancient grove off the continent, walks out
+## of its east edge, takes the step on the continent the way the game does, and is put down on the
+## land: three followers stand on the ground beside the lead, seen.
+func _check_play_test_seven() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno", "cato", "vesta"])
+	var world: World = GameState.world
+	var from := Vector2i(-1, -1)
+	for y in range(2, world.size.y - 2):
+		for x in range(2, world.size.x - 2):
+			var tile := Vector2i(x, y)
+			if from.x < 0 and world.is_walkable(tile) and world.is_walkable(tile + Vector2i.RIGHT) \
+					and world.site_at(tile) == null and world.site_at(tile + Vector2i.RIGHT) == null \
+					and world.distance_to_haven(tile) > 4:
+				from = tile
+	if from.x < 0:
+		_fail("play-test 7: no open tile with open ground east of it")
+		return
+	world.player_cell = from
+	GameState.land_cell = null
+	GameState.set_flag("seen:prologue")
+	_requests.clear()
+	var grove: Node = load("res://src/area/area_scene.tscn").instantiate()
+	grove.set("boot_payload", {
+		"area_id": "wild_grove", "title": "The Wilds", "return_scene": "world", "planar_mode": true,
+	})
+	add_child(grove)
+	await get_tree().process_frame
+	var edge := Vector2i(grove.map.width - 1, 10)
+	grove._leader.position = grove.map.centre_of(edge)
+	grove._handle_exit(edge)
+	var asked: Array = _requests.filter(func(r: Dictionary) -> bool: return str(r["key"]) == "world")
+	grove.queue_free()
+	await get_tree().process_frame
+	if asked.is_empty():
+		_fail("play-test 7: walking off the grove's east edge asked the continent for nothing")
+		return
+	_requests.clear()
+	var continent: Node = load("res://src/world/world_scene.tscn").instantiate()
+	continent.set("boot_payload", asked[0]["payload"])
+	# Swapped in as the game swaps it in, so it takes the step and hands the ground back.
+	continent.add_to_group(EventBus.ACTIVE_SCENE_GROUP)
+	add_child(continent)
+	await get_tree().process_frame
+	var ground: Array = _requests.filter(func(r: Dictionary) -> bool: return str(r["key"]) == "area")
+	continent.queue_free()
+	await get_tree().process_frame
+	if ground.is_empty() or not bool(ground[0]["payload"].get("land", false)):
+		_fail("play-test 7: the step out of the grove did not put the party back on the land (%s)" % str(_requests))
+		return
+	var land: Node = load("res://src/area/area_scene.tscn").instantiate()
+	land.set("boot_payload", ground[0]["payload"])
+	add_child(land)
+	for i in 30:
+		await get_tree().process_frame
+	var leader: AreaActor = land._leader
+	# The tile's way in is a cell of the tile; read as a cell of the whole land it put everyone in
+	# the land's far corner, and only the lead was stepped back onto the tile.
+	if land.map.tile_of(land.map.cell_at(leader.position)) != world.player_cell:
+		_fail("play-test 7: out of the grove, the lead stands on %s, not the tile the continent has them on (%s)" % [
+			land.map.tile_of(land.map.cell_at(leader.position)), world.player_cell])
+	# The continent's next word puts a lead off the tile back on it, and leaves the rest behind.
+	EventBus.continent_answered.emit({ "land": true, "title": "The Wilds", "actions": [], "bands": [], "notes": [], "held": {} })
+	for i in 12:
+		await get_tree().process_frame
+	var beside: Array = land.get_node("Actors").get_children().filter(func(n: Node) -> bool:
+		return n is AreaActor and n != leader and not n.is_queued_for_deletion() \
+			and (n as AreaActor).visible and land._followers.has(n) \
+			and (n as Node2D).position.distance_to(leader.position) < 6.0 * AreaMap.CELL)
+	if beside.size() != GameState.party_characters().size() - 1:
+		_fail("play-test 7: out of the grove, %d of %d followers stand beside the lead (%d followers kept)" % [
+			beside.size(), GameState.party_characters().size() - 1, (land._followers as Array).size()])
+	else:
+		print("play-test 7: out of the grove and onto the land, all %d followers walk beside the lead" % beside.size())
+	land.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)
 

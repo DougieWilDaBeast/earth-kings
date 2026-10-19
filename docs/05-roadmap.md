@@ -282,7 +282,8 @@ each, each ending playable:
    Hour**: Tower floors 6 to 10 on their own floors, laid out from the chapter twos' rooms, each lead's
    chapter-two keepsake on its floor, a keeper on floor 10 ([D196](06-decisions.md); **built**,
    [D254](06-decisions.md)), then sixteen self-played runs to floor 10 (2 to 5 falls; **run**, 4 falls with random companions,
-   [D258](06-decisions.md)); (5) `doug-md`'s play-test asks in his order. His play-test
+   [D258](06-decisions.md)); (5) `doug-md`'s play-test asks in his order (play-test 7, 2026-10-18, added fifteen, [28](28-the-first-hour.md#play-test-7s-asks); its
+   first fixes built, [D259](06-decisions.md)). His play-test
    5 comes after (1) and (2), with a word on each in-house theme ([D198](06-decisions.md)); art on the
    credits' return in [D199](06-decisions.md)'s order; three new founders' questions in
    [30](30-questions-for-the-founders.md), 25 to 27 ([D200](06-decisions.md)). `dougie` took all four of the
@@ -378,6 +379,10 @@ each, each ending playable:
    E at a gate opens its floor, chambers in rock from the doorway to the way down, a band in each, the
    keeper before the way down on the last floor; walked straight on down, walked back out of the
    doorway. Outside a gate, fights are a gate break's.
+30. **Play-test 7** (`doug-md`, 2026-10-18): the first fixes — built ([D259](06-decisions.md)): the party no longer
+   left behind after the wilds, a company on a Tower floor joins any fight there, the talk box and hint strip only as big as
+   what they say, a cache drawn as what is in it (A37 for its own art), and the view shakes when a weapon lands. His
+   fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), waiting on the founders.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
