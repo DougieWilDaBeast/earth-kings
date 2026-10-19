@@ -1075,6 +1075,7 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   "role_by_template": { "brigand_archer": "kiter" },
   "by_tier": { "1": { "role": "craven" }, "3": { "passives": ["hunters_angle"], "role": "charger" },
                "5_caster": { "passives": ["keen_eye"] } },
+  "family_tricks": { "from": 4, "families": { "goblin": ["spite"], "slime": ["ooze_back"] } },
   "role_by_kind": { "beast": "charger" },
   "ranged_role": "kiter",
   "healer_role": "healer",
@@ -1128,7 +1129,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   level, and is gone after the fight.
 - A unit's passives are gathered from `by_template` (a tier of a monster falls back to its family's),
   then its tier's row in `by_tier` ([D275](06-decisions.md): `"1"` to `"5"`, and `"5_caster"` for the
-  second of a family's top kinds), then each of its classes in `by_class`, then each ability it knows in
+  second of a family's top kinds), then, from the tier `family_tricks.from` up, its family's trick
+  ([D276](06-decisions.md)), then each of its classes in `by_class`, then each ability it knows in
   `by_ability`, and capped at `rules.max_passives`.
 - `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the
   fighting), `last_stand` (with `threshold`), `reset_on_ally_down`, or `aura`, whose `grants` may

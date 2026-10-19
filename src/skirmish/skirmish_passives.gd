@@ -28,6 +28,9 @@ static func for_unit(unit: Unit) -> Array:
 	var ids: Array[String] = []
 	_add(ids, data.get("by_template", {}).get(unit.template_id, data.get("by_template", {}).get(_family(unit), [])))
 	_add(ids, data.get("by_tier", {}).get(_tier_key(unit), {}).get("passives", []))
+	var tricks: Dictionary = data.get("family_tricks", {})
+	if int(Database.unit_template(unit.template_id).get("tier", 0)) >= int(tricks.get("from", 99)):
+		_add(ids, tricks.get("families", {}).get(_family(unit), []))
 	var classes: Array = []
 	if unit.character != null and unit.character.class_id != "":
 		classes.append(unit.character.class_id)
