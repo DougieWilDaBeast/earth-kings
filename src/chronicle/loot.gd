@@ -87,6 +87,25 @@ static func roll(world: World, richness: float) -> Dictionary:
 	return haul
 
 
+## The picture a haul lying on the ground is drawn as (`cache_art` in the loot rules): the coin pile
+## when it is only coin, else what the piece in it looks like (play-test 7: a gold pile that was a
+## sword).
+static func cache_art(haul: Dictionary) -> String:
+	var arts: Dictionary = rules().get("cache_art", {})
+	var coin := str(arts.get("coin", "coin_pile"))
+	var item := str(haul.get("item", ""))
+	if item == "":
+		return coin
+	# A charm is drawn with a staff's or a kit's icon, but it is no weapon lying there.
+	var kind := "charm" if Gear.is_charm(item) else Gear.kind(item)
+	if arts.has(kind):
+		return str(arts[kind])
+	var folder := str(Database.equipment_piece(item).get("icon", "")).get_slice("/", 0)
+	if kind != "charm" and folder != "" and arts.has(folder):
+		return str(arts[folder])
+	return str(arts.get("item", coin))
+
+
 ## Pay out a haul and return the lines worth showing.
 static func claim(haul: Dictionary, roster: Roster) -> Array[String]:
 	var lines: Array[String] = []

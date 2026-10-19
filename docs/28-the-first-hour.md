@@ -347,7 +347,9 @@ text crossing at the bottom of the screen, a far-too-strong gate asking twice, c
 
 What `doug-md` asked for in play-test 7 ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md))
 that needs more than a fix, **planned**, waiting on the founders' order (he asked for each to be weighed,
-not all built). Already done: the first fixes ([D259](06-decisions.md)). Some repeat play-test 6's (noted).
+not all built). Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
+standing by on floor 2, the boxes at the bottom far too big, a cache always a coin pile (art A37 asked
+for), the ground said to shake but not seen to. Some repeat play-test 6's (noted).
 1. **Gates that grow** (grows play-test 6, item 2): ground of its own kind inside (frost, fire, grass,
    cave, open plain); length by rank, an S-rank gate 10 to 15 minutes with a boss fight of 5 to 7; shut
    only when every monster in it is dead, or its lord falls and the rest scatter; the gate left broken on

@@ -160,6 +160,8 @@ var _chatting: bool = false
 var _notes: Array[String] = []
 var _note_times: Array[int] = []
 var _hint_backed := true
+## The hint line its strip was last fitted to, so it is measured only when it changes.
+var _hint_fitted := ""
 var _visited_spots: Dictionary = {}
 ## cell -> the [AreaProp] drawn for the chest there, so it can be shown opened.
 var _chest_props: Dictionary = {}
@@ -288,6 +290,7 @@ func _ready() -> void:
 		_gate_final = bool(boot_payload.get("gate_final", false))
 		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
 	get_viewport().size_changed.connect(_fit_the_log)
+	get_viewport().size_changed.connect(_fit_the_hint)
 	_fit_the_log.call_deferred()
 	# What can be done here, on one line that never runs up into the log ([D246], play-test 6:
 	# "so much text here that is crossing over each other"): cut short with an ellipsis instead.
@@ -1226,14 +1229,15 @@ func _put_spire(prop: Dictionary) -> Node2D:
 
 
 ## Something the continent found left on this step, put down a little ahead of the party where it
-## can be seen, and picked up with E like anything else worth stopping for.
+## can be seen, and picked up with E like anything else worth stopping for. It is drawn as what is
+## in it: coin as the coin pile, a sword as a sword ([Loot.cache_art]).
 func _put_cache(haul: Dictionary) -> AreaProp:
 	if _leader == null or haul.is_empty():
 		return null
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	var at := _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
 	var node := AreaProp.from_entry({
-		"art": "coin_pile", "cell": at, "name": "something left here",
+		"art": Loot.cache_art(haul), "cell": at, "name": "something left here",
 		"line": "Something left here a long while ago, and nobody came back for it.",
 	})
 	node.haul = haul.duplicate()
@@ -3630,6 +3634,8 @@ func _let_old_notes_go() -> void:
 	if hint_backed != _hint_backed:
 		_hint_backed = hint_backed
 		_hint.add_theme_stylebox_override("normal", _quiet_backing() if hint_backed else StyleBoxEmpty.new())
+	if _hint.text != _hint_fitted:
+		_fit_the_hint()
 	if _notes.is_empty():
 		return
 	var now := Time.get_ticks_msec()
@@ -3663,6 +3669,21 @@ func _fit_the_log() -> void:
 	if not is_inside_tree():
 		return
 	_log.offset_right = minf(LOG_WIDTH, get_viewport().get_visible_rect().size.x - 16.0)
+
+
+## The hint line's strip is as long as what it says (play-test 7: "the text boxes around the text
+## are way too big. At the bottom of my screen"), not the width of the screen; a line too long for
+## the screen still stops at its edge and is cut short ([D246]).
+func _fit_the_hint() -> void:
+	if not is_inside_tree():
+		return
+	_hint_fitted = _hint.text
+	var font := _hint.get_theme_font("font")
+	var wanted := font.get_string_size(_hint.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _hint.get_theme_font_size("font_size")).x
+	wanted += _quiet_backing().get_minimum_size().x + 2.0
+	var room := get_viewport().get_visible_rect().size.x - _hint.offset_left - 16.0
+	_hint.anchor_right = 0.0
+	_hint.offset_right = _hint.offset_left + minf(wanted, room)
 
 
 ## One message at a time (D95): while a box is open (the landing's words, a

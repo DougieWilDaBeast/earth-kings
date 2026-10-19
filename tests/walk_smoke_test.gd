@@ -1051,9 +1051,21 @@ func _check_loot() -> void:
 	Loot.claim({ "gold": 0, "item": "grave_token" }, GameState.roster)
 	_expect(GameState.roster.player().charms.size() == charms + 1, "the charm went nowhere")
 
+	# A cache lying on the ground looks like what is in it (play-test 7: "when I click this gold
+	# pile ... it is a sword"): coin as the coin pile, a sword never as coin, a charm never as a sword.
+	var coin_art := Loot.cache_art({ "gold": 90, "item": "" })
+	_expect(coin_art == "coin_pile", "a cache of coin is drawn as '%s'" % coin_art)
+	for sword: String in ["bone_sword", "iron_blade", "yew_longbow", "frost_staff"]:
+		var art := Loot.cache_art({ "gold": 90, "item": sword })
+		_expect(art != coin_art and AreaProp.has_art(art), "a cache holding the %s is drawn as '%s'" % [sword, art])
+	for other: String in ["grave_token", "padded_coat", "bread"]:
+		var art := Loot.cache_art({ "gold": 90, "item": other })
+		_expect(art != coin_art and art != Loot.cache_art({ "item": "iron_blade" }) and AreaProp.has_art(art),
+				"a cache holding the %s is drawn as '%s'" % [other, art])
+
 	var haul := Loot.roll(world, 1.0)
 	_expect(int(haul.get("gold", 0)) > 0, "a rolled cache held no gold at all")
-	print("loot: sword worn, spare packed, blade swapped, charm pocketed, cache rolled %d gold" % int(haul["gold"]))
+	print("loot: sword worn, spare packed, blade swapped, charm pocketed, caches drawn as found, cache rolled %d gold" % int(haul["gold"]))
 
 
 ## Word does not teleport. What you do is known where you did it at once, and

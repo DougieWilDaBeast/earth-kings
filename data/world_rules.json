@@ -532,7 +532,15 @@
 		"gold_spread": 1500,
 		"item_chance": 0.35,
 		"resale": 0.5,
-		"cache_chance": 0.04
+		"cache_chance": 0.04,
+		"cache_art": {
+			"_comment": "Play-test 7 (doug-md: \"when I click this gold pile ... it is a sword\"): how a cache found on the ground is drawn, by what is in it. Looked up by the piece's kind (Gear.kind, or `charm` for a charm), then by its icon's folder (bone_sword has no kind but a blade icon; never for a charm), then `item` for any other piece; `coin` when it holds only coin. Each is a picture under art/props. The weapons are the Tower's shattered sword and the rest a strongbox until A37 brings a sword, a bow, a staff and a bundle lying on the ground. Read by Loot.cache_art.",
+			"coin": "coin_pile",
+			"blade": "landmark/sword_shattered",
+			"bow": "landmark/sword_shattered",
+			"staff": "landmark/sword_shattered",
+			"item": "strongbox"
+		}
 	},
 	"scars": {
 		"_comment": "D218 (from Kenshi's toughness, picked by doug-md 2026-10-17): a fighter who goes down in a fight the company wins, and lives, gains max_hp health for good, up to most scars. line is said at the fight's end ({name}, {hp}, {scars}).",

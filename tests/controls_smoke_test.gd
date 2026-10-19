@@ -61,6 +61,7 @@ func _ready() -> void:
 	_check_the_overlay_keeps_off_the_hud("world")
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
+	await _check_the_box_fits_its_words()
 	_check_settings_are_kept()
 	await _check_the_music()
 	await _check_the_play_log()
@@ -423,6 +424,40 @@ func _enter(scene_key: String) -> void:
 		payload = {"walk": true}
 	EventBus.request_scene.emit(scene_key, payload)
 	await _settle()
+
+
+## Play-test 7: "the text boxes around the text are way too big." A line said on the land is in a box
+## only as tall as its lines and, when short, only as wide as its words; a long one is kept on the
+## screen. The suite runs as a touchscreen, where the box used to stand 300 high whatever it said.
+func _check_the_box_fits_its_words() -> void:
+	await _clear_dialogue()
+	var panel: Control = _dialogue.get_node("Panel")
+	var screen: Rect2 = _dialogue.get_viewport().get_visible_rect()
+	var widths: Array[float] = []
+	for text: String in ["Something left here.", "New down, are you? Nobody climbs the Tower without the Guild's mark, and the mark is earned at a gate. Greyhollow is open and near. Shut it, then find me at the Tower's door. ".repeat(3)]:
+		EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": text }])
+		await _settle()
+		var need := panel.get_combined_minimum_size().y
+		if panel.size.y > need + 2.0:
+			_failures.append("the talk box stands %d high for %d of words: \"%s\"" % [panel.size.y, need, text.left(30)])
+		if not screen.grow(1.0).encloses(panel.get_global_rect()):
+			_failures.append("the talk box runs off the screen: %s on %s" % [panel.get_global_rect(), screen])
+		widths.append(panel.size.x)
+		await _clear_dialogue()
+	if widths.size() == 2 and widths[0] >= widths[1]:
+		_failures.append("a short line is in as wide a box as a long one (%d, %d)" % [widths[0], widths[1]])
+	# And the hint line's strip along the bottom of the ground is as long as what it says.
+	var strips := 0
+	for area: Node in get_tree().root.find_children("*", "", true, false):
+		if not area.has_method("_fit_the_hint"):
+			continue
+		strips += 1
+		var hint: Label = area.get("_hint")
+		var said := hint.get_theme_font("font").get_string_size(hint.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+				hint.get_theme_font_size("font_size")).x
+		if hint.text != "" and hint.size.x > said + 40.0:
+			_failures.append("the hint strip is %d long for %d of words: \"%s\"" % [hint.size.x, said, hint.text.left(30)])
+	print("talk box: %d wide for a short line, %d for a long one; %d hint strip(s) fitted" % [widths[0], widths[1], strips])
 
 
 ## Anything the scene opened of its own accord, answered, so the next check

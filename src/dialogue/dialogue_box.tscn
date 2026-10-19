@@ -27,7 +27,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -240.0
-offset_top = -110.0
+offset_top = -14.0
 offset_right = 240.0
 offset_bottom = -14.0
 grow_horizontal = 2
@@ -63,7 +63,6 @@ text = "Speaker"
 
 [node name="BodyLabel" type="Label" parent="Panel/Margin/Row/Lines"]
 unique_name_in_owner = true
-size_flags_vertical = 3
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.9, 0.88, 0.82, 1)
 theme_override_constants/line_spacing = 1

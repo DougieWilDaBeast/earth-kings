@@ -276,6 +276,8 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.22 | On a gate of two floors or more, fight through to the far end and press E at the way down | The floor is paid out and the next floor opens straight away; walk back out of its doorway and you are at the gate, and E goes on from the floor reached |
 | D3.23 | On a gate's last floor, walk to the way down before the keeper falls | "The way down will not open while its keeper stands"; the compass points at the keeper; beat it and E at the way down shuts the gate |
 | D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
+| D3.25 | Walk into Stormreach for the first time (Sennet's line), then on a touchscreen | The box at the bottom is only as tall as Sennet's lines and no wider than it needs; a one-line remark is a small box; the hint strip is as long as its line ([D259](06-decisions.md)) |
+| D3.26 | Walk the land until "Something has been left here", and look at what lies ahead | Coin alone is a coin pile; a blade, bow or staff is a sword lying there; anything else a strongbox ([D259](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
