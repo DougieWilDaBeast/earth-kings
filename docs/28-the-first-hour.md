@@ -450,6 +450,13 @@ Where the lead still falls, foes pile onto whoever leads, and Juno (a `keeper`, 
 off alone to the edge of the ground and falls there; that is fighters' behaviour, not a gate's pitch, and is
 left as its own piece. Four clocks shared one machine, so their 1× times run long and are not given here.
 
+**The party keeps together** ([D281](06-decisions.md), agenda 192). The piece above, built: the company
+comes to a hurt lead, keeps within 3 tiles of each other, and stands against a foe already hitting them.
+Measured the same way (geared, pitched, seeds 77 and 5), with it and with it turned off (`keep_together`):
+B gates shut 4 of 4 either way; A gates shut 1 of 2 with it, 0 of 2 without (the lead fell in both).
+Where Juno still fell, she fell beside Vesta and Atlas, to two or three foes at once in a few seconds;
+Vesta's Mend heals 15 against Juno's 504 at level 17, which is the next piece.
+
 ## Music the hour still needs
 
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two
