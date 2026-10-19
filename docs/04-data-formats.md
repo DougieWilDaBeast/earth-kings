@@ -700,8 +700,17 @@ and talks (`talk`). A company within `join_cells` of a fight joins it ([D246](06
 `hidden` names the systems that are built but out of reach until the First Hour is done
 ([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
 Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
-`dispatch`, `seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
-bring its system back.
+`seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
+bring its system back. `dispatch` came out with [D278](06-decisions.md): sending your own people away opens
+once the company has shut a gate.
+
+## `world_rules.json` → `dispatch` — sending your own people out (D38, D278)
+
+`steps_per_tile` and `hunt_distance` time an errand; `trouble_*`, `win_base`, `win_per_level` and
+`danger_levels` settle a meeting on the road. A band sent to shut a gate spends `steps_per_floor` a floor
+inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average level − the gate's
+expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
+(`src/chronicle/dispatch.gd`).
 
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,

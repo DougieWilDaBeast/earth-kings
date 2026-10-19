@@ -22,7 +22,7 @@
 	},
 	"first_hour": {
 		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
-		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "beds"],
+		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "seasons", "beds"],
 		"_comment_guild_mark": "D101: nobody climbs without the Guild's mark. With `guild_mark` on, every run starts with the Tower's stair sealed, the way a chapter's end seals it (src/chronicle/chapters.gd), and the first gate the company shuts opens it. `mark_line` is what the Tower's doorkeeper says while it is shut. **Inferred**: the mark is earned by shutting any gate, with or without the Guild's contract on it.",
 		"guild_mark": true,
 		"mark_line": "Nobody climbs without the Guild's mark. Sennet keeps the Guild's register: shut a gate and he marks you for the Tower.",
@@ -473,7 +473,14 @@
 		"trouble_max": 0.7,
 		"win_base": 0.6,
 		"win_per_level": 0.08,
-		"danger_levels": 10
+		"danger_levels": 10,
+		"_comment_gates": "D278 (Ewan's play-test 7: 'send your own characters to do quests so they go on auto mode ... into a dungeon gate'): a band of the company's own people sent to a known gate walks there on the clock, spends steps_per_floor a floor inside, and shuts it on gate_win_base + gate_per_level x (the band's average level - the gate's expected level) + gate_per_hand for every member past the first, kept between gate_min and gate_max. Sending anyone away opens once the company has shut a gate of its own.",
+		"steps_per_floor": 4,
+		"gate_win_base": 0.5,
+		"gate_per_level": 0.06,
+		"gate_per_hand": 0.1,
+		"gate_min": 0.05,
+		"gate_max": 0.95
 	},
 	"experience": {
 		"first_kill_multiplier": 2,
