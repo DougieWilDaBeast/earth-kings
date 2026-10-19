@@ -495,6 +495,41 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"recruit_anyone": {
+		"_comment": "D277 (Ewan's play-test 7: 'you can ask someone to join you, they might say no ... do quests with them and gain their trust'). Anyone with a talk block can be asked to walk with the company, unless they keep a post (sells, heal, guild), stand in an area in no_areas, are named in stays, or say \"recruit\": false. The ask is a Charisma check: d20 + half the best talker's charisma (level x per_level + notoriety, + outward for an E temper) against dc, or story_dc for one of the story folk (data/story_npcs.json). A no is not the end: they name a way to earn their trust (their own favour, if they have one, else one of trust), and once the company has done it they come without a roll. Folk with no name of their own ('a settler') take one when they join.",
+		"dc": 13,
+		"story_dc": 17,
+		"per_level": 2,
+		"outward": 4,
+		"no_areas": ["tutorial", "road_watch", "climbers", "climbers_floor"],
+		"stays": ["Dirte, the God of Kings", "Muck Muck", "Steward Hobb", "Tollmaster Crane"],
+		"trust": [
+			{ "ledger": "battles_won", "need": 3, "line": "Win three fights with that lot behind you, then ask me again." },
+			{ "ledger": "errands_done", "need": 2, "line": "Do two jobs for folk who need them done. Then we'll talk." },
+			{ "ledger": "kills", "need": 12, "line": "Put a dozen of the things out there in the ground first. I want to see you can." },
+			{ "ledger": "chests_opened", "need": 3, "line": "Bring back something worth the walk. Three hauls, say. Then I'll know you come home." }
+		],
+		"job_trust": "Do that favour for me first. Then I'll know what you're worth.",
+		"ask_q": "Walk with us.",
+		"again_q": "About walking with us...",
+		"yes": [
+			"All right. I've stood here long enough.",
+			"Give me a moment to fetch my things. Right. Lead on.",
+			"I'd been hoping someone would ask."
+		],
+		"no": [
+			"You? I don't know you.",
+			"No. Not yet, anyway.",
+			"I've a life here. Ask me when you've given me a reason."
+		],
+		"waiting": "You know what I said. Nothing's changed.",
+		"trusted": [
+			"You did it, then. I said I'd come, and I will.",
+			"Fair's fair. I'll walk with you."
+		],
+		"full": "There's no room in that company for one more. Make some and ask me again.",
+		"joined_note": "{name} falls in with you."
+	},
 	"codex": {
 		"power_per_understanding": 0.2,
 		"trivia_weight": 0.4,

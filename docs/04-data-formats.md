@@ -403,6 +403,17 @@ door into a training fight that comes back out of the same door; nothing in it c
   nobody hurt, `whole_q` is offered instead and they say `whole`, for nothing ([D176](06-decisions.md)).
 - `news` adds "Heard any news?" (the innkeepers' rumours); a person with `talk` and `chatter` still
   mutters as you pass.
+- **Asking them to walk with the company** ([D277](06-decisions.md), [`src/chronicle/recruits.gd`](../src/chronicle/recruits.gd)):
+  anyone with `talk` gets "Walk with us." unless they keep a post (`sells`, `heal`, `guild`), stand in an
+  area in `world_rules.json` → `recruit_anyone` → `no_areas`, are named in its `stays`, or say
+  `"recruit": false`. It is a Charisma check (d20 + half the best talker's charisma: level × `per_level`,
+  plus what folk here have heard of the company, plus `outward` for an E temper) against `dc`, or
+  `story_dc` for one of the story folk, or the person's own `recruit_dc`. A no names what would win them
+  over: their own `job`, if they have one (done when it is paid), else one of `trust` (a Ledger counter
+  grown by `need` from where it stood when they said no). Done, they come without a roll. They join at
+  the lead's level when the conversation ends (unnamed folk, "a settler", take a name), and their place
+  stands empty after. `talk.recruit` overrides any line: `q`, `again_q`, `yes`, `no`, `waiting`,
+  `trusted`, `full`.
 
 ## `props.json` — how big every prop and building is drawn
 
