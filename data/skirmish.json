@@ -26,7 +26,7 @@
 		"swings_per_practice": 3
 	},
 	"tactics": {
-		"_comment": "How every fighter moves and picks its foe besides walking up and swinging (D187, all Inferred). Every side thinks with these: enemies, allies, the party fighting on its own, Auto, and both leads in a who-wins bout. A fighter's doctrine comes from its lead (leads), else its enemy role (roles), else brute. moves are tried in order each think; focus says whom it would rather hit: hurt (a foe low on health), marked (a foe Iris has marked) and soft (a foe that heals or shoots), each worth that many tiles of walking.",
+		"_comment": "How every fighter moves and picks its foe besides walking up and swinging (D187, all Inferred). Every side thinks with these: enemies, allies, the party fighting on its own, Auto, and both leads in a who-wins bout. A fighter's doctrine comes from its lead (leads), else its enemy role (roles), else brute. moves are tried in order each think; focus says whom it would rather hit: hurt (a foe low on health), marked (a foe Iris has marked) and soft (a foe that heals or shoots), each worth that many tiles of walking. The player's party keeps together round its lead (D281, keep_together): with the lead under rally_below of their health and a foe on them, a companion within rally_reach tiles comes to stand between them (every rally_every seconds); no fall-back move (kite, hang back, break off) takes one of the party further than keep_with tiles from every friend still standing, and nobody hangs back from a foe already at their elbow hitting them.",
 		"on": true,
 		"dodge_window": 1.6,
 		"dodge_from": 1.0,
@@ -41,6 +41,11 @@
 		"break_below": 0.3,
 		"break_every": 8.0,
 		"break_to": 4,
+		"keep_together": true,
+		"rally_below": 0.5,
+		"rally_reach": 8,
+		"rally_every": 2.0,
+		"keep_with": 3,
 		"switch_margin": 1.5,
 		"give_up": 1.5,
 		"doctrines": {
@@ -61,7 +66,7 @@
 			"bellona": "leader"
 		},
 		"roles": { "charger": "striker", "skirmisher": "ranged", "mender": "keeper" },
-		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off", "escort": "keeps by {name}" },
+		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off", "escort": "keeps by {name}", "rally": "stands by {name}" },
 		"escort_reach": 2,
 		"escort_every": 2.0,
 		"stances": {

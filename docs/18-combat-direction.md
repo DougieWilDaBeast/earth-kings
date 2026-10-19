@@ -411,6 +411,7 @@ brute's. A doctrine is the moves it tries, in order, and its **focus**: whom it 
 | Guard | A friend within 4 tiles is under half health with a foe on them: steps in beside them and takes that foe on (every 3 s) | guards Vesta |
 | Hang back | A healer with friends fighting in front: keeps 3 tiles from every foe, and does not walk in to swing | hangs back |
 | Break off | Under 30% health with a friend still fighting: gets 4 tiles clear for a while (every 8 s), where Catch Breath and its like mend | breaks off |
+| Rally | The player's party only ([D281](06-decisions.md)), tried first after dodge: the lead is under half health with a foe on them, and this companion is within 8 tiles: comes to stand between them, or back beside the lead (every 2 s) | stands by Juno |
 
 | Doctrine | Moves | Focus (tiles of walking a foe is worth) | Who |
 | --- | --- | --- | --- |
@@ -422,6 +423,13 @@ brute's. A doctrine is the moves it tries, in order, and its **focus**: whom it 
 | Rooted | dodge | hurt 0.5 | Ceres (standing still plants her tile) |
 | Keeper | dodge, hang back, kite, break off | hurt 1, marked 1 | Vesta, Juno; menders |
 | Leader | dodge, guard, flank, break off | hurt 1, marked 1, healers and shooters 0.5 | Bellona |
+
+**The party keeps together** ([D281](06-decisions.md), `keep_together`): besides rallying, no move
+of the player's party (kite, hang back, break off) takes a fighter further than 3 tiles (`keep_with`)
+from every friend still standing, and nobody hangs back from a foe already at their elbow hitting them;
+they fight it. Before this, Juno (a keeper who swings up close) hung back from whatever came at her,
+so she hardly swung, and the foes chasing her drove her alone to the edge of the ground, where she
+fell. Foes, allies of a fight and the who-wins bouts fight as they did.
 
 A fighter keeps its foe unless another is worth 1.5 tiles more (`switch_margin`), so nobody
 flickers between two. Everything here is **Inferred** (agenda items 116 to 118), from the founders'
