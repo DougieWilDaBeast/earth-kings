@@ -616,13 +616,13 @@ func _check_a_family(family: String) -> void:
 	for level: int in seen:
 		for i in 200:
 			rng.randi()
-			var fight: Array = [{ "unit": family }, { "unit": family }, { "unit": family }, { "unit": "ogre" },
+			var fight: Array = [{ "unit": family }, { "unit": family }, { "unit": family }, { "unit": "brigand" },
 				{ "unit": family, "boss": true }]
 			Tiers.deal(fight, level, rng)
 			var at_top := fight.filter(func(e: Dictionary) -> bool: return tops.has(str(e["unit"])))
 			_expect(at_top.size() <= 1, "tiers: a level %d fight dealt %d %s" % [level, at_top.size(), tops])
-			_expect(str(fight[3]["unit"]) == "ogre" and str(fight[4]["unit"]) == family,
-				"tiers: an ogre or a keeper was dealt as something else (%s)" % [fight])
+			_expect(str(fight[3]["unit"]) == "brigand" and str(fight[4]["unit"]) == family,
+				"tiers: a brigand or a keeper was dealt as something else (%s)" % [fight])
 			for entry: Dictionary in fight.slice(0, 3):
 				seen[level][str(entry["unit"])] = true
 	_expect((seen[1] as Dictionary).keys().all(func(k: String) -> bool: return k == str(line[0]) or k == family),
