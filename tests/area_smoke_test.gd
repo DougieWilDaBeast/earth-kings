@@ -70,6 +70,7 @@ func _ready() -> void:
 	await _check_practice_band()
 	await _check_tower_floor()
 	await _check_inside_a_gate()
+	_check_gates_grow()
 	await _check_people_on_the_land()
 	await _check_the_land()
 	await _check_the_joined_land()
@@ -79,6 +80,7 @@ func _ready() -> void:
 	await _check_inn_rooms()
 	await _check_followers_face()
 	await _check_play_test_seven()
+	await _check_sennet_from_afar()
 	_check_tracks()
 	_check_open_city()
 	await _check_play_hud()
@@ -899,6 +901,11 @@ func _check_inside_a_gate() -> void:
 		await get_tree().process_frame
 	var down: AreaMap = again.get("map")
 	(again.get("_leader") as Node2D).position = down.centre_of(down.stairs[0] + Vector2i(0, 1))
+	# D261 (play-test 7): every band on the floor first, then the way down.
+	_expect(str(again.call("_prompt_text")).contains("will not open"), "inside a gate: the way down is open with the floor's bands standing (%s)" % again.call("_prompt_text"))
+	_expect(again.call("_keeper_cell") != Vector2i(-1, -1), "inside a gate: Auto would not know which band to go for first")
+	for band: Dictionary in down.bands:
+		GameState.set_flag("done:%s" % str(band.get("key", "")))
 	_expect(str(again.call("_prompt_text")).ends_with("to go down to floor 2 of %d" % deep.floors()),
 		"inside a gate: at the way down nothing says how to take it (%s)" % again.call("_prompt_text"))
 	again.call("_climb_the_stair")
@@ -932,7 +939,13 @@ func _check_inside_a_gate() -> void:
 	bottom.call("_climb_the_stair")
 	_expect(_requests.is_empty() and GameState.pending_outcome.is_empty(), "inside a gate: the last floor was left past its keeper")
 	_expect(bottom.call("_keeper_cell") != Vector2i(-1, -1), "inside a gate: Auto would not know where the keeper stands")
-	GameState.set_flag(keeper)
+	# The keeper's fall scatters the rest of the floor (D261), as a won held fight sets it.
+	bottom.set("_held_fight", "won")
+	bottom.set("_held_done", keeper)
+	bottom.call("_after_held_fight")
+	_expect((bottom.get("_watches") as Array).is_empty(), "inside a gate: the rest of the floor stood its ground after the keeper fell")
+	_expect(end.bands.all(func(b: Dictionary) -> bool: return GameState.has_flag("done:%s" % str(b.get("key", "")))),
+		"inside a gate: the bands that scattered are back the next time")
 	_expect(str(bottom.call("_prompt_text")).ends_with("to shut %s" % deep.display_name), "inside a gate: with the keeper down nothing says the gate can be shut (%s)" % bottom.call("_prompt_text"))
 	bottom.call("_climb_the_stair")
 	_expect(str(GameState.pending_outcome.get("kind", "")) == "gate" and bool(GameState.pending_outcome.get("final", false)),
@@ -941,6 +954,62 @@ func _check_inside_a_gate() -> void:
 	GameState.set_flag("last_victory", false)
 	bottom.queue_free()
 	await get_tree().process_frame
+
+
+## Gates that grow (play-test 7, D261): a gate's first floor is the ground of the land round it, every
+## kind of ground lays out and draws; the longer the rank, the more floors, chambers and bands, and the
+## harder its keeper; a shut gate's mouth has the gate lying broken and folk come to cheer.
+func _check_gates_grow() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	var party := GameState.party_characters()
+	var rules := GateInside.rules()
+	for kind: String in rules.get("grounds", {}):
+		var look := GateInside.look_of(rules["grounds"][kind])
+		for sheet: String in look.get("layers", []):
+			_expect(not Database.tileset_sheet(sheet).is_empty(), "gates grow: %s has no ground sheet '%s'" % [kind, sheet])
+		for part: String in ["floor", "path", "wall", "cover"]:
+			_expect(not Database.area_terrain(str(look.get(part, ""))).is_empty(), "gates grow: %s's %s '%s' is no ground" % [kind, part, look.get(part, "")])
+		_expect(not bool(Database.area_terrain(str(look.get("wall", ""))).get("walkable", true)), "gates grow: %s's walls can be walked through" % kind)
+	var gates := world.sites_of_kind(Site.GATE)
+	for site: Site in gates:
+		var expected := str(rules.get("by_area", {}).get(str(site.data.get("area", "")), ""))
+		if expected == "":
+			expected = str(rules.get("by_land", {}).get(Biome.at(world, site.cell), "cave"))
+		var floor_one := GateInside.layout(world, site, 0, party)
+		_expect(str(floor_one.get("ground", "")) == str(rules["grounds"][expected].get("name", "")),
+			"gates grow: %s's first floor is %s, not the land's %s" % [site.display_name, floor_one.get("ground", ""), expected])
+	# The longer the rank, the longer the gate: E one floor, S five, more bands to a floor, a stouter keeper.
+	var e_gate: Site = gates[0]
+	var old_rank := e_gate.rank
+	e_gate.rank = "E"
+	var e_floors := e_gate.floors()
+	var e_bands := (GateInside.layout(world, e_gate, 0, party)["bands"] as Array).size()
+	e_gate.rank = "S"
+	var s_floors := e_gate.floors()
+	var s_bands := (GateInside.layout(world, e_gate, 0, party)["bands"] as Array).size()
+	var s_last: Array = GateInside.layout(world, e_gate, s_floors - 1, party)["bands"]
+	var s_keeper: Array = s_last.filter(func(b: Dictionary) -> bool: return bool(b.get("boss", false)))
+	_expect(e_floors == 1 and s_floors == 5, "gates grow: an E gate is %d floors and an S gate %d" % [e_floors, s_floors])
+	_expect(s_bands >= e_bands + 3, "gates grow: an S gate's floor holds %d bands, an E gate's %d" % [s_bands, e_bands])
+	_expect(s_keeper.size() == 1 and float(s_keeper[0].get("stout", 1.0)) >= 3.0, "gates grow: an S gate's keeper is no harder to put down")
+	var kinds := {}
+	for depth in s_floors:
+		kinds[str(GateInside.layout(world, e_gate, depth, party).get("ground", ""))] = true
+	_expect(kinds.size() >= 3, "gates grow: an S gate's five floors are all of %d kinds" % kinds.size())
+	e_gate.rank = old_rank
+	# Shut, its mouth shows it lying broken, and folk come to look.
+	var before := GroundGen.slot(world, e_gate.cell)
+	world.close_gate(e_gate)
+	var after := GroundGen.slot(world, e_gate.cell)
+	var art := str(Database.world_rules["gate"]["shut"]["art"])
+	_expect(not (before.get("props", []) as Array).any(func(p: Dictionary) -> bool: return str(p.get("art", "")) == art)
+			and (after.get("props", []) as Array).any(func(p: Dictionary) -> bool: return str(p.get("art", "")) == art),
+		"gates grow: a shut gate does not lie broken where it stood (%s: %s)" % [after.get("kind", ""),
+			(after.get("props", []) as Array).map(func(p: Dictionary) -> String: return str(p.get("art", ""))).filter(func(a: String) -> bool: return a.begins_with("landmark"))])
+	_expect((after.get("people", []) as Array).size() >= (before.get("people", []) as Array).size() + 3,
+		"gates grow: nobody comes to cheer at a shut gate")
+	_expect(ResourceLoader.exists("res://art/props/%s.png" % art), "gates grow: the broken gate has no picture")
 
 
 func _check_tower_floor() -> void:
@@ -1776,6 +1845,48 @@ func _check_play_test_seven() -> void:
 			beside.size(), GameState.party_characters().size() - 1, (land._followers as Array).size()])
 	else:
 		print("play-test 7: out of the grove and onto the land, all %d followers walk beside the lead" % beside.size())
+	land.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## Sennet speaking from afar is seen as a ghost of himself (play-test 7, call BR8): his face washed
+## blue in the box, his figure beside the lead on the land while he talks, gone when he is done.
+func _check_sennet_from_afar() -> void:
+	GameState.new_game(SEED)
+	GameState.set_flag("seen:prologue")
+	var seen := DialogueScript.afar("Sennet")
+	if seen.is_empty() or Database.unit_face(str(seen.get("unit", ""))) == null:
+		_fail("Sennet from afar: no figure to show him by (%s)" % str(seen))
+		return
+	var nodes := DialogueScript.nodes_from_lines([{ "speaker": "Sennet", "text": "Hear me.", "afar": true }])
+	if not bool((nodes.values()[0] as Dictionary).get("afar", false)):
+		_fail("Sennet from afar: a line said from afar forgets it on its way to the box")
+	var land: Node = load("res://src/area/area_scene.tscn").instantiate()
+	land.set("boot_payload", { "land": true, "title": "The land", "actions": [], "bands": [], "held": {} })
+	add_child(land)
+	for i in 10:
+		await get_tree().process_frame
+	EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": "Hear me.", "afar": true }])
+	for i in 50:
+		await get_tree().process_frame
+	var ghost: AreaActor = land._ghost
+	if ghost == null or ghost.display_name != "Sennet":
+		_fail("Sennet from afar: nobody stands beside the lead while he speaks")
+	else:
+		var wash := ghost.modulate
+		var drawn: Variant = (ghost.material as ShaderMaterial).get_shader_parameter("wash") if ghost.material is ShaderMaterial else null
+		if wash.a >= 0.9 or not drawn is Color or (drawn as Color).b <= (drawn as Color).r:
+			_fail("Sennet from afar: he is drawn solid or not blue (%s, %s)" % [str(wash), str(drawn)])
+		elif ghost.position.distance_to(land._leader.position) > 3.0 * AreaMap.CELL:
+			_fail("Sennet from afar: he stands %.0f px from the lead, not beside them" % ghost.position.distance_to(land._leader.position))
+		else:
+			print("Sennet from afar: a blue ghost (%s) beside the lead while he speaks" % str(wash))
+	EventBus.dialogue_finished.emit("")
+	await get_tree().create_timer(0.8).timeout
+	await get_tree().process_frame
+	if ghost != null and is_instance_valid(ghost) and not ghost.is_queued_for_deletion():
+		_fail("Sennet from afar: he is still there once he has finished speaking")
 	land.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)

@@ -7,6 +7,10 @@
 		"reach": 22,
 		"signpost_ways": 3
 	},
+	"from_afar": {
+		"_comment": "Who speaks from afar is seen as a ghost of themselves (play-test 7, doug-md: Sennet 'as a ghostly blue figure'; call BR8). A line sent with `afar` by a speaker named here shows their face in the talk box washed in `tint`, and on the ground their figure stands `beside` cells off the lead's shoulder in the same wash, coming in over `fade` seconds and flickering by `flicker`, gone when the talk is over. Read by src/dialogue/dialogue_script.gd and src/area/area_scene.gd.",
+		"Sennet": { "unit": "timeless_one", "tint": "#6fb4ff", "alpha": 0.8, "beside": 1.4, "fade": 0.6, "flicker": 0.2 }
+	},
 	"first_hour": {
 		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
 		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "beds"],
@@ -376,7 +380,7 @@
 	},
 	"gate": {
 		"floors_base": 1,
-		"floors_per_rank": 0.6,
+		"floors_per_rank": 0.8,
 		"break_after_steps": 600,
 		"break_chance": 0.75,
 		"break_danger": 0.25,
@@ -388,17 +392,47 @@
 			"height": 26,
 			"height_per_rank": 3,
 			"chambers": 3,
-			"chambers_per_rank": 0.6,
+			"chambers_per_rank": 0.8,
+			"_comment_length": "Gates that grow (D261): the longer the rank the longer the gate: floors_per_rank (with floors_base, Site.floors) and chambers_per_rank make an E gate one floor of three chambers and an S gate five floors of seven; a chamber of rank from_rank_two_bands or above holds two bands when it rolls under two_band_chance. The keeper is keeper_stout times as hard to put down at each rank (E to S), so an S keeper's fight runs minutes, not seconds. On every floor but the last the way down opens only once every band on it is down (rout); on the last, the keeper's fall scatters whatever is left (scatter_line). Inferred: every number.",
+			"from_rank_two_bands": 3,
+			"two_band_chance": 0.5,
+			"keeper_stout": [1.0, 1.25, 1.5, 2.0, 2.5, 3.0],
+			"rout": true,
+			"rout_line": "The way down will not open while anything on this floor still stands.",
+			"scatter_line": "With its keeper down, everything else in the gate breaks and scatters into the dark.",
 			"band_reach": 3,
-			"themes": {
-				"default": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
-				"gate": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"]},
-				"gate_barrow": {"floor": "street_paving", "path": "dirt", "wall": "crag", "cover": "meadow", "layers": ["dirt", "street_paving", "meadow", "crag"]},
-				"gate_ash": {"floor": "stone", "path": "dirt", "wall": "crag", "cover": "dirt", "layers": ["stone", "dirt", "crag"]},
-				"gate_drowned": {"floor": "stone", "path": "sand", "wall": "water", "cover": "grass", "layers": ["water", "stone", "sand"]},
-				"gate_dune": {"floor": "sand", "path": "stone", "wall": "crag", "cover": "sand", "layers": ["sand", "stone", "crag"]}
+			"_comment_grounds": "Gates that grow (play-test 7, D261): a gate's inside is ground of its own kind. The first floor is the kind of the land the gate stands on (by_land, by Biome id; by_area first, for a gate whose mouth has a look of its own); deeper floors of a gate of rank from_rank_vary or above take another kind each, rolled from the gate and floor. A kind with `biome` takes that land's floor, bare ground (the path), pool (the walls, unless `wall` says) and cover, and its sheets; `open` widens its chambers by two cells a step and its passages by two, so a plain is open ground and a cave is tight. Inferred: every kind, its look and which land gives which.",
+			"grounds": {
+				"cave": {"name": "a cave", "floor": "stone", "path": "dirt", "wall": "crag", "cover": "grass", "layers": ["stone", "dirt", "crag"], "open": 0},
+				"frost": {"name": "frozen ground", "biome": "snow", "wall": "crag", "open": 1},
+				"fire": {"name": "burning ground", "biome": "ash", "open": 1},
+				"grass": {"name": "grassland", "floor": "grass", "path": "footpath", "wall": "crag", "cover": "meadow", "layers": ["footpath", "meadow", "crag"], "open": 2},
+				"plain": {"name": "an open plain", "biome": "savanna", "open": 3},
+				"swamp": {"name": "a drowned wood", "biome": "swamp", "open": 1},
+				"crystal": {"name": "a crystal cave", "biome": "crystal", "wall": "crag", "open": 0},
+				"fungal": {"name": "a fungus cave", "biome": "fungal", "open": 0},
+				"jungle": {"name": "a jungle", "biome": "jungle", "open": 2},
+				"drowned": {"name": "a drowned hall", "floor": "stone", "path": "sand", "wall": "water", "cover": "grass", "layers": ["water", "stone", "sand"], "open": 1}
 			},
+			"by_land": {
+				"grassland": "grass", "forest": "grass", "blossom": "grass", "snow": "frost", "taiga": "frost",
+				"dune": "plain", "badlands": "plain", "savanna": "plain", "ash": "fire", "blight": "cave",
+				"slime": "swamp", "bog": "swamp", "swamp": "swamp", "crystal": "crystal", "fungal": "fungal",
+				"barrow": "cave", "jungle": "jungle", "mist": "cave"
+			},
+			"by_area": {"gate_drowned": "drowned"},
+			"from_rank_vary": 2,
 			"hint": "Bands hold the chambers. The way down is at the far end; the doorway behind you is the way out."
+		},
+		"_comment_shut": "Gates that grow (play-test 7, D261: \"when you defeat a gate or shut a gate, then it should turn off and break apart and be lying on the floor. And I think it would be good to hear cheers from the people around the gates\"): a shut gate's mouth shows `art` (drawn in house by tools/draw_broken_gate.py until A38) where the gate stood, and `people` come to look at it, cheering and promising to tell it on (the deed is carried by the world remembers, D249). `cheer` is said as the party comes out of the gate it shut. Inferred: who, where and every line.",
+		"shut": {
+			"art": "landmark/gate_broken",
+			"cheer": "Folk who were keeping well back from the gate come running as it falls, cheering, and the tale is going round before you are clear of it.",
+			"people": [
+				{"name": "a woman from the hamlet", "unit": "town_farmer", "cell": [7, 7], "facing": [0, -1], "wander": 1, "chatter": ["You shut it! It has been howling at us since the spring.", "My boy will want to hear this from you, not from me. He won't believe me.", "We'll tell it everywhere, how you went in and it came down behind you."]},
+				{"name": "an old carter", "unit": "town_elder", "cell": [9, 6], "facing": [0, -1], "wander": 1, "chatter": ["Look at it. Lying there like any old stones.", "Thank you. I mean it. Thank you.", "Your name'll be in every taproom from here to the city by the week's end."]},
+				{"name": "a trader passing", "unit": "town_trader", "cell": [9, 9], "facing": [0, -1], "wander": 2, "chatter": ["I'll be telling this one on the road for a year.", "Drinks are on me the next time we're under the same roof."]}
+			]
 		},
 		"objectives": {
 			"rout": {

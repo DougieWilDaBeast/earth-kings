@@ -663,6 +663,10 @@ func _settle_up(won: bool) -> void:
 				world.close_gate(site)
 				_land_journal(journal_lines, trinkets_before)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
+				# The folk round it come running to cheer (play-test 7, D261); the deed goes round (D249).
+				var cheer := str(Database.world_rules.get("gate", {}).get("shut", {}).get("cheer", ""))
+				if cheer != "":
+					_note(cheer)
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
 				for line: String in Errand.on_gate_shut(GameState.errands, site.cell, world):
@@ -861,7 +865,7 @@ func _arrive_at(site: Site) -> void:
 			var line := FirstHour.gate_line(gate.display_name)
 			if line != "":
 				_note("Sennet: " + line)
-				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line }])
+				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line, "afar": true }])
 		if _saved_in_town.get("cell", Vector2i(-1, -1)) != site.cell or int(_saved_in_town.get("world", 0)) != world.get_instance_id():
 			_saved_in_town = { "world": world.get_instance_id(), "cell": site.cell }
 			EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)

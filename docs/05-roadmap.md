@@ -382,7 +382,14 @@ each, each ending playable:
 30. **Play-test 7** (`doug-md`, 2026-10-18): the first fixes — built ([D259](06-decisions.md)): the party no longer
    left behind after the wilds, a company on a Tower floor joins any fight there, the talk box and hint strip only as big as
    what they say, a cache drawn as what is in it (A37 for its own art), and the view shakes when a weapon lands. His
-   fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), waiting on the founders.
+   fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), ordered by `dougie` ([D260](06-decisions.md)):
+   **gates that grow** built ([D261](06-decisions.md): ground of their own, longer by rank, shut when all are down or
+   the keeper falls, left broken with folk cheering; how long each rank takes in [28](28-the-first-hour.md#gates-that-grow)),
+   then **five tiers of each monster**, the goblins' built ([D262](06-decisions.md): lesser, plain, high, hob, and a
+   chieftain or a shaman, dealt by the fight's level; the other monsters **planned**); the climbers' stone, Sennet seen from
+   afar (built, [D265](06-decisions.md)), the journal at the side and Stormreach's frame rate as small pieces alongside (the frame rate
+   built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
+   the map, and the play log says when the frame rate drops).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
    from the review "Is this game fun?"). A band of the land comes as many as the company and its blows get
    through armour; the first time one of the company is badly hurt, a fight played by hand asks stand, pull

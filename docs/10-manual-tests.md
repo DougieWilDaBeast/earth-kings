@@ -358,6 +358,9 @@ Start a run (not the tutorial) and walk.
 | D5.54 | With Cassius and Caesar both walking with you past floor 5, lose a fight, then win the arena tournament, sitting by Cassius after each | His ending is the one with Caesar cheering loudest; a world where Caesar has fallen ends it with the handshake he never gave |
 | D5.55 | Open the journal's quests page after floor 5 with four of the sixteen walking with you, sitting by each | Each has a story of their own, with its own title and two asks, none the same as Bellona's "Twenty" |
 | D5.56 | Turn Auto on at the Tower's door at under 90% health, then again on floor 2 once hurt under 60% | At the door the party walks off to the nearest village to rest first; on floor 2 it walks back out the way in, rests, and comes back up to floor 2, not floor 1 ([D258](06-decisions.md)) |
+| D5.57 | Go into a gate on snow, then one on ash, then a rank C gate's second floor | Snow ground with ice for walls; ash with lava; the C gate's second floor a different kind from its first ([D261](06-decisions.md)) |
+| D5.58 | On a gate's first floor, walk past a band to the way down; then put the band down | "The way down will not open while anything on this floor still stands"; once it is down, the way down opens. Auto walks to each band in turn |
+| D5.59 | Shut a gate, walk out, and walk back past it | "Folk ... come running as it falls, cheering"; the gate lies broken in its mouth and three folk stand there thanking you |
 
 ## H — Conversation and the camp
 

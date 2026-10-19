@@ -14,7 +14,7 @@ const Company := preload("res://tests/company.gd")
 ## Every check, in the order a full run takes them. `--check=` picks from these.
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
-	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world",
+	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -67,6 +67,7 @@ func _ready() -> void:
 			"edges": _check_edges(world)
 			"scenery": _check_scenery(world)
 			"round_trip": _check_round_trip(world, hero)
+			"tiers": _check_tiers()
 
 	print("")
 	if _failures.is_empty():
@@ -586,6 +587,42 @@ func _check_roster(world: World) -> void:
 # --- encounters ---------------------------------------------------------------
 
 
+## D262 (play-test 7): five tiers of each monster, dealt by the fight's level. A low fight meets the
+## lesser and the plain, a high one the hob and the top; never more than one top a fight; a keeper and a
+## monster with no tiers are dealt as they were named; each tier stronger than the one below.
+func _check_tiers() -> void:
+	print("")
+	var kinds := Tiers.every_kind()
+	_expect(kinds.size() == 6, "tiers: goblins come in %d kinds, not lesser to chieftain and caster" % kinds.size())
+	var health := -1
+	for kind: Variant in Tiers.kinds("goblin"):
+		var first := str(kind[0]) if kind is Array else str(kind)
+		var unit := Database.unit_template(first)
+		_expect(str(unit.get("family", "")) == "goblin", "tiers: %s is not a goblin in data/units.json" % first)
+		_expect(int(unit.get("max_hp", 0)) > health, "tiers: %s is no stronger than the tier below" % first)
+		health = int(unit.get("max_hp", 0))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 262
+	var seen := { 1: {}, 24: {} }
+	for level: int in seen:
+		for i in 200:
+			rng.randi()
+			var fight: Array = [{ "unit": "goblin" }, { "unit": "goblin" }, { "unit": "goblin" }, { "unit": "wolf" },
+				{ "unit": "goblin", "boss": true }]
+			Tiers.deal(fight, level, rng)
+			var tops := fight.filter(func(e: Dictionary) -> bool: return str(e["unit"]) in ["goblin_chieftain", "goblin_shaman"])
+			_expect(tops.size() <= 1, "tiers: a level %d fight dealt %d chieftains and casters" % [level, tops.size()])
+			_expect(str(fight[3]["unit"]) == "wolf" and str(fight[4]["unit"]) == "goblin",
+				"tiers: a wolf or a keeper was dealt as something else (%s)" % [fight])
+			for entry: Dictionary in fight.slice(0, 3):
+				seen[level][str(entry["unit"])] = true
+	_expect((seen[1] as Dictionary).keys().all(func(k: String) -> bool: return k in ["goblin_lesser", "goblin"]),
+		"tiers: a level 1 fight met %s" % [(seen[1] as Dictionary).keys()])
+	_expect(seen[24].has("hobgoblin") and seen[24].has("goblin_chieftain") and seen[24].has("goblin_shaman")
+		and not seen[24].has("goblin_lesser"), "tiers: a level 24 fight met %s" % [(seen[24] as Dictionary).keys()])
+	print("tiers: level 1 met %s; level 24 met %s" % [(seen[1] as Dictionary).keys(), (seen[24] as Dictionary).keys()])
+
+
 func _check_encounters(world: World) -> void:
 	print("")
 	var party := Company.found().party_members()
@@ -890,7 +927,9 @@ func _check_lands(world: World) -> void:
 			local_bands += 1
 			var band := Encounter._band_at(world, cell, rng)
 			for unit_id: String in band.pack:
-				_expect(locals.has(unit_id), "a band in the %s fields %s, who does not live there" % [land, unit_id])
+				# A goblin that lives there may come as any of its five tiers (D262).
+				var family := str(Database.unit_template(unit_id).get("family", unit_id))
+				_expect(locals.has(unit_id) or locals.has(family), "a band in the %s fields %s, who does not live there" % [land, unit_id])
 				# D211: the great beasts wait for the party to grow.
 				var grown := Encounter.party_level(GameState.party_characters())
 				_expect(int(Database.biomes.get("foe_levels", {}).get(unit_id, 0)) <= grown,

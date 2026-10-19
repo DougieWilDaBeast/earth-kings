@@ -354,6 +354,10 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 		# A foe can hit harder than its level says: the Tower's upper floors (D222).
 		if entry.has("bite") and float(entry["bite"]) > 0.0:
 			unit.attack = maxi(1, roundi(float(unit.attack) * float(entry["bite"])))
+		# A big gate's keeper is harder to put down than its level says (play-test 7, D261).
+		if entry.has("stout") and float(entry["stout"]) > 1.0:
+			unit.max_hp = maxi(1, roundi(float(unit.max_hp) * float(entry["stout"])))
+			unit.hp = unit.max_hp
 		# And get part of every blow through armour: the bands of the land ([D272]).
 		if entry.has("graze") and float(entry["graze"]) > 0.0:
 			unit.set_meta("graze", float(entry["graze"]))

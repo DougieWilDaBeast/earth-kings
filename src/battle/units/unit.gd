@@ -59,6 +59,8 @@ var colour: Color = Color.WHITE
 ## How tall this body stands against an ordinary one (`body_scale` in `data/units.json`, D56).
 ## A big unit still holds one tile; it grows up from its feet.
 var body_scale: float = 1.0
+## A tier's shade over the art it shares with its family (`tint`, D262), until it has art of its own.
+var tint: Color = Color.WHITE
 ## Laid flat by a knockdown: 0 standing, 1 on the ground ([D192]). Drawn tipped onto its side.
 var lying: float = 0.0
 ## Facing -> [Texture2D] from the template's `sprite_dir`; empty falls back to a token.
@@ -97,6 +99,7 @@ static func create(template_id_: String, unit_team: Team, start_cell: Vector2i) 
 	unit.abilities = data.get("abilities", ["strike"])
 	unit.colour = Color(data.get("color", "#cccccc"))
 	unit.body_scale = clampf(float(data.get("body_scale", 1.0)), BODY_SCALE_MIN, BODY_SCALE_MAX)
+	unit.tint = Color(str(data.get("tint", "#ffffff")))
 	unit.sprites = _load_sprites(data.get("sprite_dir", ""), template_id_)
 	unit.run_frames = _load_run(template_id_)
 	unit.action_frames = _load_actions(template_id_)
@@ -346,7 +349,7 @@ func _draw() -> void:
 	if facing == Vector2i.UP:
 		_draw_weapon()
 	if sprite != null:
-		draw_texture_rect(sprite, _sprite_rect(sprite), false)
+		draw_texture_rect(sprite, _sprite_rect(sprite), false, tint)
 	if facing != Vector2i.UP:
 		_draw_weapon()
 	_draw_hp_bar(sprite)
@@ -359,7 +362,7 @@ func _draw_lying(sprite: Texture2D) -> void:
 	draw_set_transform(feet, side * lying * PI * 0.5)
 	var rect := _sprite_rect(sprite)
 	rect.position -= feet
-	draw_texture_rect(sprite, rect, false)
+	draw_texture_rect(sprite, rect, false, tint)
 	draw_set_transform(Vector2.ZERO)
 
 

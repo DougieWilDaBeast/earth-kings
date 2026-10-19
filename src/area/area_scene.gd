@@ -42,6 +42,7 @@ const Memories := preload("res://src/chronicle/memories.gd")
 const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
+const GateInside := preload("res://src/chronicle/gate_inside.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -97,6 +98,8 @@ var _seated: Dictionary = {}
 var _seat_for: Dictionary = {}
 ## Whoever is walking, as the roster knows them.
 var _leader_character: Character
+## Whoever is speaking from afar, standing beside the lead as a ghost of themselves while they talk.
+var _ghost: AreaActor = null
 ## Auto stopped for this fight (D150), and takes the walk back up if it is won.
 var _auto_after_fight := false
 ## Who or what the leader is standing close enough to deal with, or null.
@@ -322,6 +325,8 @@ func _ready() -> void:
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
+	EventBus.conversation_requested.connect(_see_who_speaks_from_afar)
+	EventBus.dialogue_finished.connect(func(_id: String) -> void: _let_the_ghost_go())
 	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
@@ -1583,20 +1588,53 @@ func _in_a_gate() -> bool:
 	return _gate_cell.x >= 0
 
 
-## Whether the far stair can be taken: always, but on a gate's last floor only once its keeper is down.
+## Whether the far stair can be taken: always on the Tower; on a gate's last floor only once its keeper
+## is down, and on its other floors only once every band on it is (`gate.inside.rout`, play-test 7: "In
+## order for the gates to be closed, they have to kill all of the mobs in the dungeon").
 func _way_down_open() -> bool:
-	return not (_in_a_gate() and _gate_final and _gate_keeper != "" and not GameState.has_flag(_gate_keeper))
+	if not _in_a_gate():
+		return true
+	if _gate_final:
+		return _gate_keeper == "" or GameState.has_flag(_gate_keeper)
+	return not _routs() or _standing_bands().is_empty()
 
 
-## Where the band whose fall opens the way down stands, while it stands; else (-1, -1).
+## Why the way down will not open: its keeper, or (D261) whatever else on the floor still stands.
+func _way_down_shut_line() -> String:
+	if _gate_final:
+		return "The way down will not open while its keeper stands."
+	return str(GateInside.rules().get("rout_line", "The way down will not open yet."))
+
+
+func _routs() -> bool:
+	return bool(GateInside.rules().get("rout", false))
+
+
+## The bands of this floor still standing on it (one that found nowhere to stand holds nothing up).
+func _standing_bands() -> Array:
+	var posted := {}
+	for watch: Node2D in _watches:
+		posted[str(watch.band.get("key", ""))] = true
+	return map.bands.filter(func(band: Dictionary) -> bool:
+		return posted.has(str(band.get("key", ""))) and not GameState.has_flag("done:%s" % str(band.get("key", ""))))
+
+
+## Where the band whose fall the way down waits on stands, while it stands; else (-1, -1). On a gate's
+## last floor it is the keeper; on its others the nearest band still standing.
 func _keeper_cell() -> Vector2i:
 	if _way_down_open():
 		return Vector2i(-1, -1)
-	for band: Dictionary in map.bands:
-		if "done:%s" % str(band.get("key", "")) == _gate_keeper:
-			var at: Array = band.get("at", [0, 0])
-			return Vector2i(int(at[0]), int(at[1]))
-	return Vector2i(-1, -1)
+	var best := Vector2i(-1, -1)
+	for band: Dictionary in _standing_bands():
+		if _gate_final and "done:%s" % str(band.get("key", "")) != _gate_keeper:
+			continue
+		var at := Vector2i(int(band.get("at", [0, 0])[0]), int(band.get("at", [0, 0])[1]))
+		for watch: Node2D in _watches:
+			if str(watch.band.get("key", "")) == str(band.get("key", "")) and not watch.members.is_empty():
+				at = watch.members[0]
+		if best.x < 0 or _leader == null or _leader.position.distance_to(map.centre_of(at)) < _leader.position.distance_to(map.centre_of(best)):
+			best = at
+	return best
 
 
 ## What taking the far stair is called here.
@@ -1626,7 +1664,7 @@ func _prompt_text() -> String:
 		return "Click to %s" % _hovered.prompt()
 	if _at_the_stair():
 		if not _way_down_open():
-			return "The way down will not open while its keeper stands."
+			return _way_down_shut_line()
 		return "%s to %s" % [Pad.key("interact") if Pad.using_pad else "E", _stair_line()]
 	if _nearby != null:
 		var doing := _act_of(_nearby)
@@ -1934,7 +1972,8 @@ func _auto_axis() -> Vector2:
 	if turning_back:
 		climbing = false
 	var keepsake: Variant = _memories.keys()[0] if climbing and not _memories.is_empty() else null
-	# On a gate's last floor the keeper is gone for first: the way down is shut until it falls (D248).
+	# In a gate whatever the way down waits on is gone for first: on its last floor the keeper (D248), on
+	# the others the nearest band still standing (D261).
 	var keeper := _keeper_cell() if climbing else Vector2i(-1, -1)
 	if keepsake == null and keeper.x >= 0:
 		keepsake = keeper
@@ -2959,6 +2998,9 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		var foe := { "unit": str(unit_id), "level": level }
 		if boss and first:
 			foe["boss"] = true
+			# A big gate's keeper takes minutes to put down, not seconds (play-test 7, D261).
+			if float(watch.band.get("stout", 1.0)) > 1.0:
+				foe["stout"] = float(watch.band["stout"])
 		first = false
 		enemies.append(foe)
 	GameState.pending_outcome = {
@@ -3005,11 +3047,30 @@ func _after_held_fight() -> void:
 	if how == "won":
 		if done != "":
 			GameState.set_flag(done)
+		# Walked by Auto, the next band (or the way down) is made for afresh.
+		_auto_exit_path.clear()
+		if _in_a_gate() and done != "" and done == _gate_keeper:
+			_scatter_the_rest()
 		return
 	if GameState.roster.run_is_over():
 		return
 	_leaving = true
 	EventBus.request_scene.emit(_return_scene, _return_payload)
+
+
+## A gate's keeper down: whatever else stands in it breaks and runs (play-test 7: "killing the lord and
+## the monsters scatter away and they don't fight").
+func _scatter_the_rest() -> void:
+	var fled := false
+	for watch: Node2D in _watches.duplicate():
+		var flag := str(watch.band.get("done_flag", ""))
+		if flag != "":
+			GameState.set_flag(flag)
+		_take_off(watch)
+		fled = true
+	_auto_exit_path.clear()
+	if fled:
+		_note(str(GateInside.rules().get("scatter_line", "")))
 
 
 ## Whatever the lead left of themselves on this ground (D103), put down where it lies.
@@ -3042,7 +3103,7 @@ func _climb_the_stair() -> void:
 	if _leaving:
 		return
 	if not _way_down_open():
-		_note("The way down will not open while its keeper stands.")
+		_note(_way_down_shut_line())
 		return
 	_leaving = true
 	var world: World = GameState.world
@@ -4096,3 +4157,58 @@ func _night_falls() -> void:
 	fade.tween_property(dark, "color:a", 0.0, 0.9)
 	fade.tween_callback(layer.queue_free)
 
+
+## Somebody speaking from afar (Sennet, at the first town) is seen beside the lead while they talk:
+## their own figure, washed blue and see-through, coming in and flickering (play-test 7, call BR8;
+## `data/world_rules.json` → `from_afar`).
+func _see_who_speaks_from_afar(lines: Array) -> void:
+	if _leader == null or _fight != null or not is_inside_tree():
+		return
+	for line: Variant in lines:
+		if typeof(line) != TYPE_DICTIONARY or not bool((line as Dictionary).get("afar", false)):
+			continue
+		var speaker := str((line as Dictionary).get("speaker", ""))
+		var seen := DialogueScript.afar(speaker)
+		if seen.is_empty():
+			continue
+		_let_the_ghost_go()
+		var ghost := AreaActor.for_person({ "name": speaker, "unit": str(seen.get("unit", "")) })
+		var wash := DialogueScript.afar_wash(seen)
+		var beside := float(seen.get("beside", 1.4)) * AreaMap.CELL
+		var at := _leader.position + Vector2(beside, 0)
+		if not _can_stand(at) and _can_stand(_leader.position - Vector2(beside, 0)):
+			at = _leader.position - Vector2(beside, 0)
+		ghost.position = at
+		ghost.material = DialogueScript.afar_material(seen)
+		for part: Node in ghost.find_children("*", "CanvasItem", true, false):
+			(part as CanvasItem).use_parent_material = true
+		ghost.modulate = Color(1, 1, 1, 0.0)
+		_actors.add_child(ghost)
+		ghost.face(_leader.position - at)
+		_leader.face(at - _leader.position)
+		_ghost = ghost
+		var flicker := float(seen.get("flicker", 0.12))
+		var come := ghost.create_tween()
+		come.tween_property(ghost, "modulate:a", wash.a, float(seen.get("fade", 0.6)))
+		# A light that does not quite hold: up and down a little while they speak.
+		come.tween_callback(func() -> void:
+			var waver := ghost.create_tween().set_loops()
+			waver.tween_property(ghost, "modulate:a", maxf(0.1, wash.a - flicker), 0.45)
+			waver.tween_property(ghost, "modulate:a", wash.a, 0.55)
+			ghost.set_meta("waver", waver))
+		ghost.set_meta("waver", come)
+		return
+
+
+func _let_the_ghost_go() -> void:
+	if _ghost == null or not is_instance_valid(_ghost):
+		_ghost = null
+		return
+	var going := _ghost
+	_ghost = null
+	var waver: Variant = going.get_meta("waver", null)
+	if waver is Tween:
+		(waver as Tween).kill()
+	var fade := going.create_tween()
+	fade.tween_property(going, "modulate:a", 0.0, 0.4)
+	fade.tween_callback(going.queue_free)

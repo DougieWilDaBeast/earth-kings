@@ -38,6 +38,21 @@
 	"bands": 46,
 	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
 	"champion_from": "C",
+	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Only goblins have five so far. Inferred: every name, weight and number. Read by Tiers.",
+	"tiers": {
+		"families": {
+			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]]
+		},
+		"by_level": [
+			{ "from": 1, "weights": [6, 4, 0, 0, 0] },
+			{ "from": 4, "weights": [3, 5, 2, 0, 0] },
+			{ "from": 8, "weights": [1, 4, 4, 1, 0] },
+			{ "from": 12, "weights": [0, 2, 4, 3, 1] },
+			{ "from": 16, "weights": [0, 1, 3, 4, 2] },
+			{ "from": 20, "weights": [0, 0, 2, 4, 4] }
+		],
+		"top_a_fight": 1
+	},
 	"sight": 2,
 	"_comment_near_the_road": "D215 (play-test 4: \"I still haven't encountered a single person I can fight\"): the danger rating leaves the First Hour's road empty, so `bands` more always camp `from` to `to` tiles off it (never on it) and at least `clear_of_places` tiles from any place (a town's gate and the Tower's foot stay walkable), topped up with the rest; `people_share` of them are two or three of `people`, the rest whatever lives there. Read by Encounter._restock_the_road.",
 	"near_the_road": {

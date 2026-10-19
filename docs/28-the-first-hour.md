@@ -346,20 +346,25 @@ text crossing at the bottom of the screen, a far-too-strong gate asking twice, c
 ### Play-test 7's asks
 
 What `doug-md` asked for in play-test 7 ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md))
-that needs more than a fix, **planned**, waiting on the founders' order (he asked for each to be weighed,
-not all built). Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
+that needs more than a fix, **planned**, in the founders' order ([D260](06-decisions.md), call BR, 2026-10-19): items 1
+and 4 next, in that order; 11 (Sennet), 12 (the journal at the side first), 15 and the climbers' stone (from 2) as small
+pieces now; 14 yes; 7, 8 and 10 after the gates and tiers; who wields what stays as it is. The six and the
+Tower's agelessness (2) are canon, the six's names `doug-md`'s. Already done: the first fixes ([D259](06-decisions.md)): the party gone after the wilds, Hob's Lot
 standing by on floor 2, the boxes at the bottom far too big, a cache always a coin pile (art A37 asked
 for), the ground said to shake but not seen to. Some repeat play-test 6's (noted).
 1. **Gates that grow** (grows play-test 6, item 2): ground of its own kind inside (frost, fire, grass,
    cave, open plain); length by rank, an S-rank gate 10 to 15 minutes with a boss fight of 5 to 7; shut
    only when every monster in it is dead, or its lord falls and the rest scatter; the gate left broken on
-   the ground after; the people round it cheering, and the tale told on.
+   the ground after; the people round it cheering, and the tale told on. **Built** ([D261](06-decisions.md),
+   [below](#gates-that-grow)).
 2. **A legendary company of six**: humans who climbed long ago and are still alive high up (about floor
    70), since nobody ages inside the Tower; their monuments, tales and who they were before, on the
    land. And **climbers' names on the Tower**, a board of how high each got. Canon: the founders'.
 3. **The world's history**: how Earth Kings came to be the way it is, so the game is more than the climb.
 4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
-   **creatures that fit the land** they are in (no grasshoppers in magma).
+   **creatures that fit the land** they are in (no grasshoppers in magma). The goblins' five **built**
+   ([D262](06-decisions.md)), dealt by the fight's level, art asked for (A39); the other monsters and
+   creatures that fit the land still **planned**.
 5. **Bodies that stay** after a fight, searched for loot.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab).
@@ -370,13 +375,48 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat.
-11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar; walking into a gate
-    or the grove, not cut to it; the chapter visions shown as pictures.
+11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
+    [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
+    into a gate or the grove, not cut to it; the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
 14. **A writers' pass** over every line every character says.
-15. **The frame rate walking Stormreach** ("massive frame rate drop").
+15. **The frame rate walking Stormreach** ("massive frame rate drop"): built ([D263](06-decisions.md)). The
+    townsfolk's ways and a land's first page were the costs found; the play log now writes a line when ten
+    seconds run under 40 fps (`frame rate 31 fps, slowest frame 180 ms, at Stormreach`), so the next play-test
+    says what his machine does.
+
+### Gates that grow
+
+Play-test 7's first ask, built ([D261](06-decisions.md), agenda 172). Inside, a gate is ground of its own
+kind, the kind of the land it stands on for its first floor (ten kinds in `gate.inside.grounds`); a deeper
+floor of a C gate or bigger is another kind. It grows by rank: E one floor of three chambers up to S five
+floors of seven, a second band in half the chambers from B. On each floor but the last the way down opens
+only when every band on it is down; on the last, its keeper's fall scatters the rest. A shut gate lies
+broken where it stood, three folk round it cheering.
+
+How long a gate takes, by `tools/gate_clock.tscn` (Juno leading Pluto, Vesta and Atlas at the rank's
+level, Auto walking, headless at 5× and read back at 1×; 2026-10-19, before the keeper's toughness was cut
+to the numbers in D261). A gate's foes are always at least the party's level plus the floor's depth
+(`Encounter`), so raising the party (`--above`) does not make it easier.
+
+| Rank | Floors | Walked to the end | Fights | Longest fight |
+| --- | --- | --- | --- | --- |
+| E | 1 | shut, 0:36 to 0:47 | 2 | 0:18 |
+| D | 2 | shut, 1:33 | 5 | 0:12 |
+| C | 3 | shut, 3:49 to 5:28 (one in four runs lost Juno) | 10 to 12 | 0:35 |
+| B | 3 | shut once in 6:24 (18 fights, four levels up); else Juno fell at 2 to 7 minutes | 1 to 19 | 1:10 |
+| A | 4 | Juno fell, or a fight lost, at 2 to 10 minutes; never shut | 1 to 10 | 0:59 |
+| S | 5 | still on floor 3 or 4 when lost, at 10:05 to 15:01 | 15 to 22 | 4:37 |
+
+What it says: an S gate already runs past Ewan's 10 to 15 minutes before its keeper, and its deep fights
+already run minutes; the keeper's fight was not reached in any run, so its 5 to 7 minutes is not measured.
+And in the clock, a party of four at the rank's level loses its lead in most B, A and S gates, even put back
+to full health after every fight (`--rested`), which main does too (B: Juno fell in the first fight; A:
+after eight). That is the opposite of Ewan's hand (58 fights won, mostly E and D gates), and it is for the
+monster tiers and the dangerous ground fights to settle. Two runs stopped with nothing moving, both after a
+fall: a companion falling mid-fight, and the whole party down outside a fight with Juno still standing.
 
 ## Music the hour still needs
 
