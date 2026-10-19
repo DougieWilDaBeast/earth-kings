@@ -34,6 +34,9 @@ signal closed
 
 enum Tab { SHEET, BESTIARY, ROUTES, ANNALS, QUESTS }
 
+## The dark over the game behind the open book; none while it is at the side.
+const BACKDROP := Color(0.02, 0.015, 0.01, 0.84)
+
 ## Ink on parchment ([D66]).
 const UNKNOWN_COLOUR := Color(0.60, 0.52, 0.40)
 const KNOWN_COLOUR := Color(0.20, 0.13, 0.08)
@@ -94,6 +97,16 @@ const LIST_FACE := 36
 @onready var _page_scroll: ScrollContainer = $Backdrop/Margin/Book/Column/Spread/RightLeaf/PageScroll
 @onready var _spread: BoxContainer = $Backdrop/Margin/Book/Column/Spread
 
+## The journal at the side of the screen, the game going on beside it (play-test 7, call BR7:
+## "so that the game keeps moving instead of stopping every time you go to open up your journal").
+## Kept between openings; a phone held upright, too narrow for a page beside the game, opens it
+## full.
+static var docked: bool = true
+## The share of the screen's width the book takes at the side.
+const DOCKED_SHARE := 0.42
+const DOCKED_LEAST := 470.0
+
+var _dock_btn: Button
 var _showing: String = ""
 var _tab: Tab = Tab.SHEET
 var _selected_route_idx: int = 0
@@ -104,7 +117,19 @@ var _sheet_id: String = ""
 func _ready() -> void:
 	_backdrop.hide()
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
-	EventBus.journal_requested.connect(open)
+	# Asked for again while it is open, it shuts: at the side it no longer takes the keys away.
+	EventBus.journal_requested.connect(func() -> void: close() if is_showing() else open())
+	_dock_btn = Button.new()
+	_dock_btn.custom_minimum_size = Vector2(110, 48)
+	_dock_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_dock_btn.pressed.connect(func() -> void:
+		docked = not docked
+		_fit_to_screen()
+		# Whatever hides while the screen is taken (the buttons on the ground) looks again.
+		EventBus.overlay_closed.emit())
+	_close_btn.get_parent().add_child(_dock_btn)
+	_close_btn.get_parent().move_child(_dock_btn, _close_btn.get_index())
+	Sfx.attend(_dock_btn)
 	_dress_book()
 	get_viewport().size_changed.connect(_fit_to_screen)
 	_fit_to_screen()
@@ -148,12 +173,26 @@ func open_tab() -> String:
 	return ["company", "bestiary", "routes", "annals", "quests"][_tab]
 
 
+## Whether the journal holds the game up: open over the whole screen. At the side it does not, and
+## the walk, the fight and the keys go on as if it were shut ([method is_showing] says it is there).
 func is_open() -> bool:
+	return _backdrop.visible and not _at_the_side()
+
+
+## Whether the journal is on the screen, at the side or over all of it.
+func is_showing() -> bool:
 	return _backdrop.visible
+
+
+## Whether it is open at the side: asked for, and room for it beside the game.
+func _at_the_side() -> bool:
+	var view := get_viewport().get_visible_rect().size
+	return docked and view.x >= view.y
 
 
 func open() -> void:
 	_backdrop.show()
+	_fit_to_screen()
 	_rebuild()
 
 
@@ -171,7 +210,7 @@ func open_map() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_open() or not event.is_pressed() or event.is_echo():
+	if not is_showing() or not event.is_pressed() or event.is_echo():
 		return
 	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.keycode == KEY_N):
 		get_viewport().set_input_as_handled()
@@ -1001,7 +1040,8 @@ const LIST_UPRIGHT_HEIGHT := 170.0
 ## the title wraps there rather than pushing Close off the edge.
 func _fit_to_screen() -> void:
 	var view := get_viewport().get_visible_rect().size
-	var narrow := view.x < view.y
+	var side_on := _at_the_side()
+	var narrow := view.x < view.y or side_on
 	_spread.vertical = narrow
 	_left_leaf.custom_minimum_size = Vector2(0, LIST_UPRIGHT_HEIGHT) if narrow else Vector2(240, 0)
 	_left_leaf.size_flags_vertical = Control.SIZE_FILL if narrow else Control.SIZE_EXPAND_FILL
@@ -1015,8 +1055,27 @@ func _fit_to_screen() -> void:
 	var margin := $Backdrop/Margin as MarginContainer
 	margin.add_theme_constant_override("margin_left", side)
 	margin.add_theme_constant_override("margin_right", side)
-	_fullness.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if narrow else TextServer.AUTOWRAP_OFF
-	_fullness.size_flags_horizontal = Control.SIZE_EXPAND_FILL if narrow else Control.SIZE_FILL
+	# At the side: the right of the screen, nothing dimmed, and the game under the rest of it
+	# takes the mouse as if the book were shut.
+	if side_on:
+		margin.add_theme_constant_override("margin_left", int(view.x - maxf(DOCKED_LEAST, view.x * DOCKED_SHARE)))
+		margin.add_theme_constant_override("margin_right", 8)
+	_backdrop.color = Color(0, 0, 0, 0) if side_on else BACKDROP
+	_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE if side_on else Control.MOUSE_FILTER_STOP
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE if side_on else Control.MOUSE_FILTER_PASS
+	_book.mouse_filter = Control.MOUSE_FILTER_STOP
+	if _dock_btn != null:
+		_dock_btn.visible = view.x >= view.y
+		_dock_btn.text = "Full page" if docked else "To the side"
+
+	var upright := view.x < view.y
+	_fullness.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if upright else TextServer.AUTOWRAP_OFF
+	_fullness.size_flags_horizontal = Control.SIZE_EXPAND_FILL if upright else Control.SIZE_FILL
+	# At the side the header has a third of the room it had: the count goes, the title is cut short.
+	_fullness.visible = not side_on
+	_title.clip_text = side_on
+	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_title.add_theme_font_size_override("font_size", 21 if side_on else 26)
 
 
 ## Ink for the leaves: every label, and the plain buttons the lists are made of,

@@ -380,7 +380,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
-    journal open at the side while the game keeps going.
+    journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
+    right, the game going on; Full page puts it over everything). Moving and resizing panels: **planned**.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
 14. **A writers' pass** over every line every character says.
 15. **The frame rate walking Stormreach** ("massive frame rate drop"): built ([D263](06-decisions.md)). The
