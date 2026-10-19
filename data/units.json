@@ -816,6 +816,30 @@
 		"color": "#e0603a",
 		"sprite_dir": "res://art/tier1/fox_knight/idle"
 	},
+	"pig_acolyte": {
+		"display_name": "Acolyte",
+		"job": "Wild",
+		"max_hp": 29,
+		"attack": 11,
+		"defense": 2,
+		"move": 3,
+		"jump": 3,
+		"speed": 11,
+		"abilities": [
+			"ember"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d67ab5",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"pig_warlock": {
 		"display_name": "Warlock",
 		"job": "Wild",
@@ -837,7 +861,119 @@
 		],
 		"kind": "wild",
 		"color": "#d67ab5",
-		"sprite_dir": "res://art/tier1/pig_warlock/idle"
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 2
+	},
+	"high_warlock": {
+		"display_name": "High Warlock",
+		"job": "Wild",
+		"max_hp": 59,
+		"attack": 20,
+		"defense": 5,
+		"move": 3,
+		"jump": 3,
+		"speed": 10,
+		"abilities": [
+			"ember",
+			"pyre",
+			"grief",
+			"lament",
+			"scorch"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d67ab5",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"hog_warlock": {
+		"display_name": "Hog Warlock",
+		"job": "Wild",
+		"max_hp": 81,
+		"attack": 24,
+		"defense": 6,
+		"move": 3,
+		"jump": 3,
+		"speed": 10,
+		"abilities": [
+			"ember",
+			"pyre",
+			"grief",
+			"lament"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d67ab5",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"warlock_lord": {
+		"display_name": "Warlock Lord",
+		"job": "Wild",
+		"max_hp": 114,
+		"attack": 29,
+		"defense": 8,
+		"move": 3,
+		"jump": 3,
+		"speed": 10,
+		"abilities": [
+			"pyre",
+			"ember",
+			"grief",
+			"lament",
+			"haymaker"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d67ab5",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"boar_sorcerer": {
+		"display_name": "Boar Sorcerer",
+		"job": "Wild",
+		"max_hp": 70,
+		"attack": 24,
+		"defense": 4,
+		"move": 3,
+		"jump": 3,
+		"speed": 10,
+		"abilities": [
+			"pyre",
+			"keening",
+			"lament",
+			"grief"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#d67ab5",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/pig_warlock/idle",
+		"family": "pig_warlock",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"sapling_sentinel": {
 		"display_name": "Sapling Sentinel",
@@ -1039,6 +1175,29 @@
 		"color": "#b8632f",
 		"sprite_dir": "res://art/tier1/ember_duelist/idle"
 	},
+	"spark_chick": {
+		"display_name": "Spark Chick",
+		"job": "Wild",
+		"max_hp": 13,
+		"attack": 8,
+		"defense": 1,
+		"move": 5,
+		"jump": 3,
+		"speed": 17,
+		"abilities": [
+			"ember"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#e8a35f",
+		"body_scale": 0.5,
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"flame_dove": {
 		"display_name": "Ember Dove",
 		"job": "Wild",
@@ -1060,7 +1219,115 @@
 		"kind": "wild",
 		"color": "#e8a35f",
 		"body_scale": 0.65,
-		"sprite_dir": "res://art/tier1/flame_dove/idle"
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 2
+	},
+	"blaze_dove": {
+		"display_name": "Blaze Dove",
+		"job": "Wild",
+		"max_hp": 27,
+		"attack": 14,
+		"defense": 3,
+		"move": 5,
+		"jump": 3,
+		"speed": 16,
+		"abilities": [
+			"ember",
+			"scorch",
+			"pyre",
+			"firebrand",
+			"dart"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#e8a35f",
+		"body_scale": 0.73,
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"fire_hawk": {
+		"display_name": "Fire Hawk",
+		"job": "Wild",
+		"max_hp": 37,
+		"attack": 16,
+		"defense": 3,
+		"move": 5,
+		"jump": 3,
+		"speed": 16,
+		"abilities": [
+			"ember",
+			"scorch",
+			"pyre",
+			"firebrand"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#e8a35f",
+		"body_scale": 0.85,
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"phoenix_lord": {
+		"display_name": "Phoenix Lord",
+		"job": "Wild",
+		"max_hp": 52,
+		"attack": 20,
+		"defense": 4,
+		"move": 5,
+		"jump": 3,
+		"speed": 16,
+		"abilities": [
+			"pyre",
+			"ember",
+			"scorch",
+			"firebrand",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#e8a35f",
+		"body_scale": 0.94,
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"ash_crow": {
+		"display_name": "Ash Crow",
+		"job": "Wild",
+		"max_hp": 32,
+		"attack": 16,
+		"defense": 2,
+		"move": 5,
+		"jump": 3,
+		"speed": 16,
+		"abilities": [
+			"pyre",
+			"grief",
+			"firebrand",
+			"gust"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#e8a35f",
+		"body_scale": 0.68,
+		"sprite_dir": "res://art/tier1/flame_dove/idle",
+		"family": "flame_dove",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"hat_fox": {
 		"display_name": "Cutpurse",
@@ -1085,6 +1352,29 @@
 		"body_scale": 0.8,
 		"sprite_dir": "res://art/tier1/hat_fox/idle"
 	},
+	"frostnipped": {
+		"display_name": "Frostnipped",
+		"job": "Wild",
+		"max_hp": 44,
+		"attack": 12,
+		"defense": 4,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"frostbite"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8fb6cc",
+		"body_scale": 1.01,
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"frozen_wolfman": {
 		"display_name": "Frostbitten",
 		"job": "Wild",
@@ -1106,7 +1396,116 @@
 		"kind": "beast",
 		"color": "#8fb6cc",
 		"body_scale": 1.35,
-		"sprite_dir": "res://art/big/frozen_wolfman/idle"
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 2
+	},
+	"rimebitten": {
+		"display_name": "Rimebitten",
+		"job": "Wild",
+		"max_hp": 92,
+		"attack": 21,
+		"defense": 9,
+		"move": 5,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"blizzard",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8fb6cc",
+		"body_scale": 1.51,
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"frost_brute": {
+		"display_name": "Frost Brute",
+		"job": "Wild",
+		"max_hp": 126,
+		"attack": 26,
+		"defense": 11,
+		"move": 5,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"blizzard",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8fb6cc",
+		"body_scale": 1.76,
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"winter_lord": {
+		"display_name": "Winter Lord",
+		"job": "Wild",
+		"max_hp": 177,
+		"attack": 31,
+		"defense": 13,
+		"move": 5,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"crush",
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"blizzard"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8fb6cc",
+		"body_scale": 1.96,
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"frost_seer": {
+		"display_name": "Frost Seer",
+		"job": "Wild",
+		"max_hp": 109,
+		"attack": 26,
+		"defense": 7,
+		"move": 5,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"blizzard",
+			"glacial_chill",
+			"ice_shard",
+			"frostbite"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#8fb6cc",
+		"body_scale": 1.42,
+		"sprite_dir": "res://art/big/frozen_wolfman/idle",
+		"family": "frozen_wolfman",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"devil_butler": {
 		"display_name": "The Butler",
@@ -2810,6 +3209,29 @@
 		"color": "#d2622f",
 		"sprite_dir": "res://art/tier1/eye_slinger/idle"
 	},
+	"ice_wolf_pup": {
+		"display_name": "Ice Wolf Pup",
+		"job": "Wild",
+		"max_hp": 34,
+		"attack": 11,
+		"defense": 4,
+		"move": 5,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"frostbite"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#cfe6f2",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"ice_wolf": {
 		"display_name": "Ice Wolf",
 		"job": "Wild",
@@ -2829,7 +3251,114 @@
 		],
 		"kind": "beast",
 		"color": "#cfe6f2",
-		"sprite_dir": "res://art/tier1/ice_wolf/idle"
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 2
+	},
+	"rime_wolf": {
+		"display_name": "Rime Wolf",
+		"job": "Wild",
+		"max_hp": 70,
+		"attack": 20,
+		"defense": 8,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"hamstring"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#cfe6f2",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"glacier_wolf": {
+		"display_name": "Glacier Wolf",
+		"job": "Wild",
+		"max_hp": 96,
+		"attack": 24,
+		"defense": 10,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#cfe6f2",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"winter_alpha": {
+		"display_name": "Winter Alpha",
+		"job": "Wild",
+		"max_hp": 135,
+		"attack": 29,
+		"defense": 11,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"crush",
+			"frostbite",
+			"ice_shard",
+			"glacial_chill",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#cfe6f2",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"frost_howler": {
+		"display_name": "Frost Howler",
+		"job": "Wild",
+		"max_hp": 83,
+		"attack": 24,
+		"defense": 6,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"blizzard",
+			"keening",
+			"ice_shard",
+			"glacial_chill"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#cfe6f2",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/ice_wolf/idle",
+		"family": "ice_wolf",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"dusk_shadow": {
 		"display_name": "The Shadow",
@@ -2855,6 +3384,29 @@
 		"color": "#2f2b3a",
 		"sprite_dir": "res://art/tier1/dusk_shadow/idle"
 	},
+	"ember_eft": {
+		"display_name": "Ember Eft",
+		"job": "Wild",
+		"max_hp": 17,
+		"attack": 8,
+		"defense": 2,
+		"move": 4,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"ember"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e8873f",
+		"body_scale": 0.56,
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"ember_lizard": {
 		"display_name": "Cinder Newt",
 		"job": "Wild",
@@ -2875,7 +3427,114 @@
 		"kind": "beast",
 		"color": "#e8873f",
 		"body_scale": 0.75,
-		"sprite_dir": "res://art/tier1/ember_lizard/idle"
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 2
+	},
+	"cinder_lizard": {
+		"display_name": "Cinder Lizard",
+		"job": "Wild",
+		"max_hp": 35,
+		"attack": 14,
+		"defense": 4,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"ember",
+			"scorch",
+			"firebrand",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e8873f",
+		"body_scale": 0.84,
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"magma_lizard": {
+		"display_name": "Magma Lizard",
+		"job": "Wild",
+		"max_hp": 48,
+		"attack": 16,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"ember",
+			"scorch",
+			"firebrand",
+			"pyre"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e8873f",
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"salamander_lord": {
+		"display_name": "Salamander Lord",
+		"job": "Wild",
+		"max_hp": 68,
+		"attack": 20,
+		"defense": 6,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"pyre",
+			"ember",
+			"scorch",
+			"firebrand",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e8873f",
+		"body_scale": 1.09,
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"flame_tongue": {
+		"display_name": "Flame Tongue",
+		"job": "Wild",
+		"max_hp": 42,
+		"attack": 16,
+		"defense": 3,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"pyre",
+			"scorch",
+			"firebrand",
+			"ember"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#e8873f",
+		"body_scale": 0.79,
+		"sprite_dir": "res://art/tier1/ember_lizard/idle",
+		"family": "ember_lizard",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"sproutling": {
 		"display_name": "Sproutling",
@@ -3052,6 +3711,31 @@
 		"color": "#e0c05a",
 		"sprite_dir": "res://art/tier1/mending_lion/idle"
 	},
+	"flame_cub": {
+		"display_name": "Flame Cub",
+		"job": "Wild",
+		"max_hp": 46,
+		"attack": 13,
+		"defense": 5,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"ember"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#e0602f",
+		"flash_step": 2,
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"flame_lion": {
 		"display_name": "Flame Lion",
 		"job": "Wild",
@@ -3074,7 +3758,124 @@
 		"kind": "beast",
 		"flash_step": 2,
 		"color": "#e0602f",
-		"sprite_dir": "res://art/tier1/flame_lion/idle"
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 2
+	},
+	"blaze_lion": {
+		"display_name": "Blaze Lion",
+		"job": "Wild",
+		"max_hp": 94,
+		"attack": 24,
+		"defense": 10,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"ember",
+			"scorch",
+			"pyre",
+			"firebrand",
+			"lunge"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#e0602f",
+		"flash_step": 2,
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"inferno_lion": {
+		"display_name": "Inferno Lion",
+		"job": "Wild",
+		"max_hp": 130,
+		"attack": 28,
+		"defense": 13,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"ember",
+			"scorch",
+			"pyre",
+			"firebrand",
+			"crush"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#e0602f",
+		"flash_step": 2,
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"sun_king": {
+		"display_name": "Sun King",
+		"job": "Wild",
+		"max_hp": 182,
+		"attack": 34,
+		"defense": 15,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"crush",
+			"ember",
+			"scorch",
+			"pyre",
+			"firebrand"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#e0602f",
+		"flash_step": 2,
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"ember_priestess": {
+		"display_name": "Ember Priestess",
+		"job": "Wild",
+		"max_hp": 112,
+		"attack": 28,
+		"defense": 8,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"pyre",
+			"firebrand",
+			"mend",
+			"scorch"
+		],
+		"classes": [
+			"wildling",
+			"magic_swordsman"
+		],
+		"kind": "beast",
+		"color": "#e0602f",
+		"flash_step": 2,
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/flame_lion/idle",
+		"family": "flame_lion",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"peasant": {
 		"display_name": "Freeholder",

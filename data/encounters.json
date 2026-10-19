@@ -38,7 +38,7 @@
 	"bands": 46,
 	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
 	"champion_from": "C",
-	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins, wolves (D264) and eight wild beasts (D267) have five so far. Inferred: every name, weight and number. Read by Tiers.",
+	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins, wolves and 14 more monsters have five so far (D262 to D268). Inferred: every name, weight and number. Read by Tiers.",
 	"tiers": {
 		"families": {
 			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]],
@@ -50,7 +50,13 @@
 			"seed_beast": ["sproutling", "seed_beast", "thornback", "rootback", ["old_mossback", "bloomcaller"]],
 			"caterpillar_warrior": ["caterpillar_larva", "caterpillar_warrior", "silk_warrior", "chrysalis_knight", ["moth_lord", "dust_moth"]],
 			"feather_wisp": ["wisp_mote", "feather_wisp", "bright_wisp", "storm_wisp", ["wisp_lord", "will_o_wisp"]],
-			"tree_sentinel": ["sapling_sentinel", "tree_sentinel", "oak_sentinel", "ironbark", ["elder_sentinel", "greenwarden"]]
+			"tree_sentinel": ["sapling_sentinel", "tree_sentinel", "oak_sentinel", "ironbark", ["elder_sentinel", "greenwarden"]],
+			"frozen_wolfman": ["frostnipped", "frozen_wolfman", "rimebitten", "frost_brute", ["winter_lord", "frost_seer"]],
+			"ice_wolf": ["ice_wolf_pup", "ice_wolf", "rime_wolf", "glacier_wolf", ["winter_alpha", "frost_howler"]],
+			"ember_lizard": ["ember_eft", "ember_lizard", "cinder_lizard", "magma_lizard", ["salamander_lord", "flame_tongue"]],
+			"flame_lion": ["flame_cub", "flame_lion", "blaze_lion", "inferno_lion", ["sun_king", "ember_priestess"]],
+			"flame_dove": ["spark_chick", "flame_dove", "blaze_dove", "fire_hawk", ["phoenix_lord", "ash_crow"]],
+			"pig_warlock": ["pig_acolyte", "pig_warlock", "high_warlock", "hog_warlock", ["warlock_lord", "boar_sorcerer"]]
 		},
 		"by_level": [
 			{ "from": 1, "weights": [6, 4, 0, 0, 0] },
