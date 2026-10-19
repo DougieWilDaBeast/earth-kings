@@ -745,9 +745,16 @@ func _check_encounters(world: World) -> void:
 	# And a gate's keeper, which met a lone fresh lead two levels over its floor.
 	var kept := Encounter.for_gate(world, gate, 0, true, party, kind_dice)
 	var keeper: Dictionary = kept["enemies"].filter(func(e: Dictionary) -> bool: return e.get("boss", false))[0]
-	var keeper_level := Difficulty.levelled(maxi(Encounter.party_level(party), gate.expected_level()) + 2)
+	var keeper_level := Difficulty.levelled(maxi(Encounter.party_level(party), gate.expected_level()) \
+			+ int(Encounter._by_rank("level", Site.rank_index(gate.rank), 0)) + 2)
 	_expect(int(keeper["level"]) == keeper_level,
 		"a First Hour gate's keeper stands at level %d, not %d" % [int(keeper["level"]), keeper_level])
+	# A big gate's bands stand lower and climb slower ([D273]); E to C as they were.
+	_expect(Encounter._by_rank("level", 0, 99) == 0.0 and Encounter._by_rank("per_floor", 2, 0) == 1.0,
+		"a small gate's bands were moved by the big gates' pitch")
+	_expect(Encounter._by_rank("level", 3, 0) < 0.0 and Encounter._by_rank("level", 5, 0) <= Encounter._by_rank("level", 3, 0) \
+			and Encounter._by_rank("per_floor", 4, 1.0) < 1.0,
+		"a big gate's bands are not pitched lower: B %s, S %s" % [Encounter._by_rank("level", 3, 0), Encounter._by_rank("level", 5, 0)])
 	# A lesser gate is kept by the strongest of its floor, not the faction's champion.
 	for lesser: Site in world.sites_of_kind(Site.GATE):
 		if Site.rank_index(lesser.rank) >= Site.rank_index(str(Database.encounters.get("champion_from", "E"))):

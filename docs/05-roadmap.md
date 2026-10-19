@@ -395,6 +395,10 @@ each, each ending playable:
    from the review "Is this game fun?"). A band of the land comes as many as the company and its blows get
    through armour; the first time one of the company is badly hurt, a fight played by hand asks stand, pull
    them back or break off for silver. The Tower and the gates are untouched. Next: Ewan plays it.
+32. **Big gates pitched** — built ([D273](06-decisions.md), 2026-10-19): a B gate's bands stand 2 levels lower, an
+   A or S gate's 4, climbing half a level a floor, and the gate clock's party carries gear for its level. The
+   clock's party of four now shuts most B and S gates. Next: Ewan plays a B gate. **Planned**: fighters
+   keep by the lead, where the lead still falls alone.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
