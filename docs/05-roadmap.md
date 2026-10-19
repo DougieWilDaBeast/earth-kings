@@ -388,7 +388,9 @@ each, each ending playable:
    then **five tiers of each monster**, the goblins' and the wolves' built ([D262](06-decisions.md),
    [D264](06-decisions.md): lesser, plain, high, hob, and a chieftain or a caster, dealt by the fight's level; the other
    monsters **planned**); the climbers' stone, Sennet seen from
-   afar, the journal at the side and Stormreach's frame rate as small pieces alongside.
+   afar, the journal at the side and Stormreach's frame rate as small pieces alongside (the frame rate
+   built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
+   the map, and the play log says when the frame rate drops).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

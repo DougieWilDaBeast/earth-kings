@@ -13,10 +13,6 @@ extends AreaMap
 
 const GroundGen := preload("res://src/area/ground_gen.gd")
 
-## How far a path is looked for round where it starts and ends, before looking wider.
-const PATH_MARGIN := 10
-const PATH_MARGIN_WIDE := 28
-
 var world: World
 ## The size of one tile's slot, in cells.
 var slot := Vector2i(32, 22)
@@ -27,10 +23,20 @@ var chunks: Dictionary = {}
 var fires: Dictionary = {}
 ## The shallows are walked through, not round, while the company carries a land journal's stilts or
 ## boots ([D239]). Whoever is on the land with them, a band or a fight, finds the same ground.
-var wading: bool = false
+var wading: bool = false:
+	set(on):
+		if on != wading:
+			_grid = null
+			for chunk: Dictionary in chunks.values():
+				chunk.erase("_walkable")
+		wading = on
 
 ## Cell -> the building standing on it.
 var _building_cells: Dictionary = {}
+## The held land as one grid to find ways over, kept until what is held changes: worked out afresh
+## for every way, it was every townsperson in Stormreach going round the streets weighing up a
+## thousand cells each (play-test 7: "massive frame rate drop" in the city).
+var _grid: AStarGrid2D = null
 
 
 ## The land round [param tile], held [param radius] tiles each way.
@@ -69,6 +75,7 @@ func is_held(tile: Vector2i) -> bool:
 func hold(tile: Vector2i) -> Dictionary:
 	if chunks.has(tile):
 		return chunks[tile]
+	_grid = null
 	var laid := GroundGen.slot(world, tile)
 	var chunk := laid.duplicate()
 	var origin := tile * slot
@@ -152,6 +159,7 @@ func hold(tile: Vector2i) -> Dictionary:
 func release(tile: Vector2i) -> void:
 	if not chunks.has(tile):
 		return
+	_grid = null
 	chunks.erase(tile)
 	var area := slot_rect(tile)
 	props = props.filter(func(prop: Dictionary) -> bool: return prop.get("_tile") != tile)
@@ -280,8 +288,8 @@ func patches_of(tile: Vector2i) -> Array:
 	return out
 
 
-## A way from [param from_cell] to [param to_cell] over the held land, worked out over the ground
-## between them rather than all of it (the land is far too big for one grid).
+## A way from [param from_cell] to [param to_cell] over the held land, on one grid kept for all of
+## it ([method _held_grid]).
 ## With [param avoid] (cells as keys), a way that keeps off them, or none ([D216]: a party walking
 ## itself passively goes round a band's red).
 func find_cell_path(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
@@ -300,42 +308,82 @@ func find_cell_path(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = 
 		if best == Vector2i(-1, -1):
 			return []
 		to_cell = best
-	for margin: int in [PATH_MARGIN, PATH_MARGIN_WIDE]:
-		var path := _path_within(from_cell, to_cell, margin, avoid)
-		if not path.is_empty():
-			return path
-	return []
+	return _path_within(from_cell, to_cell, avoid)
 
 
-func _path_within(from_cell: Vector2i, to_cell: Vector2i, margin: int, avoid: Dictionary = {}) -> Array[Vector2]:
-	var lo := Vector2i(mini(from_cell.x, to_cell.x), mini(from_cell.y, to_cell.y)) - Vector2i.ONE * margin
-	var hi := Vector2i(maxi(from_cell.x, to_cell.x), maxi(from_cell.y, to_cell.y)) + Vector2i.ONE * margin
-	var region := Rect2i(lo, hi - lo + Vector2i.ONE).intersection(bounds())
-	var grid := AStarGrid2D.new()
-	grid.region = region
-	grid.cell_size = Vector2(CELL, CELL)
-	grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-	grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	grid.update()
-	for y in range(region.position.y, region.end.y):
-		for x in range(region.position.x, region.end.x):
-			var cell := Vector2i(x, y)
-			if not is_walkable(cell) or avoid.has(cell):
-				grid.set_point_solid(cell, true)
-	if grid.is_point_solid(from_cell):
+func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
+	var grid := _held_grid()
+	# What is shut for this way alone is opened again after it.
+	var shut: Array[Vector2i] = []
+	for cell: Vector2i in avoid:
+		if grid.is_in_boundsv(cell) and not grid.is_point_solid(cell):
+			grid.set_point_solid(cell, true)
+			shut.append(cell)
+	var opened := grid.is_in_boundsv(from_cell) and grid.is_point_solid(from_cell)
+	if opened:
 		grid.set_point_solid(from_cell, false)
 	var path: Array[Vector2] = []
 	for cell: Vector2i in grid.get_id_path(from_cell, to_cell):
 		path.append(centre_of(cell))
+	if opened:
+		grid.set_point_solid(from_cell, true)
+	for cell: Vector2i in shut:
+		grid.set_point_solid(cell, false)
 	return path
+
+
+## The grid over everything held, every cell that cannot be walked shut; laid out again when the
+## held land changes, from what each tile already knows of its own ground ([method _walkable_in]).
+func _held_grid() -> AStarGrid2D:
+	if _grid != null:
+		return _grid
+	var region := bounds()
+	_grid = AStarGrid2D.new()
+	_grid.region = region
+	_grid.cell_size = Vector2(CELL, CELL)
+	_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	_grid.update()
+	# Between held tiles is nowhere: shut, then each tile opened and its own shut cells shut again.
+	_grid.fill_solid_region(region, true)
+	for tile: Vector2i in chunks:
+		_grid.fill_solid_region(slot_rect(tile), false)
+		var origin := tile * slot
+		var open := _walkable_in(tile)
+		for i in open.size():
+			if open[i] == 0:
+				_grid.set_point_solid(origin + Vector2i(i % slot.x, i / slot.x), true)
+	return _grid
+
+
+## Which of [param tile]'s cells can be walked, one byte a cell, row by row; worked out once a tile
+## is held and kept with it.
+func _walkable_in(tile: Vector2i) -> PackedByteArray:
+	var chunk: Dictionary = chunks[tile]
+	if chunk.has("_walkable"):
+		return chunk["_walkable"]
+	var origin := tile * slot
+	var open := PackedByteArray()
+	open.resize(slot.x * slot.y)
+	for y in slot.y:
+		for x in slot.x:
+			open[y * slot.x + x] = 1 if is_walkable(origin + Vector2i(x, y)) else 0
+	chunk["_walkable"] = open
+	return open
 
 
 func setup_astar() -> void:
 	pass
 
 
-func update_cell_solid(_cell: Vector2i, _is_solid: bool) -> void:
-	pass
+## A ward forced, a prop gone: the kept grid and the tile's own count of its ground follow.
+func update_cell_solid(cell: Vector2i, is_solid: bool) -> void:
+	var chunk: Dictionary = chunks.get(tile_of(cell), {})
+	if chunk.has("_walkable"):
+		var local: Vector2i = cell - (chunk["origin"] as Vector2i)
+		(chunk["_walkable"] as PackedByteArray)[local.y * slot.x + local.x] = 0 if is_solid else 1
+	if _grid != null and _grid.is_in_boundsv(cell):
+		_grid.set_point_solid(cell, is_solid)
 
 
 static func _cell(pair: Variant, origin: Vector2i) -> Vector2i:

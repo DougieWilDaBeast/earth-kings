@@ -220,6 +220,7 @@ func place(prop: Dictionary) -> void:
 	props.append(placed)
 	_index_prop(placed)
 	_blocked.erase(placed["cell"])
+	update_cell_solid(placed["cell"], not is_walkable(placed["cell"]))
 
 
 func _index_prop(prop: Dictionary) -> void:
