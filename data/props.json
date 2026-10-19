@@ -211,6 +211,7 @@
     "landmark/gate_tree": "portal",
     "landmark/gate_stones": "portal",
     "landmark/gate_dark": "portal",
+    "landmark/gate_broken": "portal",
     "landmark/gate_gold": "portal",
     "landmark/hand_jar": { "kind": "relic", "scale": 1.5, "solid": true },
     "landmark/sword_storm": "relic",

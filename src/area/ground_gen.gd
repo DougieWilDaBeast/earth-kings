@@ -93,7 +93,8 @@ static func slot(world: World, tile: Vector2i) -> Dictionary:
 		kind = "rock"
 	elif place_id != "":
 		kind = "place"
-	var key := "%d|%d,%d|%s|%s|%s" % [world.shape_seed(), tile.x, tile.y, land, kind, place_id]
+	var shut := place_id != "" and _shut_gate(world, tile)
+	var key := "%d|%d,%d|%s|%s|%s|%s" % [world.shape_seed(), tile.x, tile.y, land, kind, place_id, shut]
 	if _slots.has(key):
 		return _slots[key]
 	var made: Dictionary
@@ -102,6 +103,8 @@ static func slot(world: World, tile: Vector2i) -> Dictionary:
 			made = _barrier(world, tile, kind, land)
 		"place":
 			made = _around_place(world, tile, land, place_id)
+			if shut:
+				_break_the_gate(made)
 		_:
 			made = _as_slot(_lay_out(world, tile, land, true, Vector2i(-1, -1), Rect2i()))
 			made["id"] = "land_%d_%d_%s" % [tile.x, tile.y, land]
@@ -363,6 +366,37 @@ static func _place_in(world: World, tile: Vector2i) -> String:
 	if site.data.has("ward") and not Ward.is_site_open(site):
 		return ""
 	return area_id
+
+
+## Whether [param tile] holds a gate that has been shut.
+static func _shut_gate(world: World, tile: Vector2i) -> bool:
+	var site := world.site_at(tile)
+	return site != null and site.kind == Site.GATE and site.cleared
+
+
+## A shut gate's mouth (play-test 7, D261): the gate lying broken where it stood, and folk come to
+## look at it and cheer (`gate.shut` in `data/world_rules.json`).
+static func _break_the_gate(made: Dictionary) -> void:
+	var shut: Dictionary = Database.world_rules.get("gate", {}).get("shut", {})
+	if shut.is_empty():
+		return
+	var place: Dictionary = made.get("place", {})
+	var rect: Array = place.get("rect", [0, 0, 0, 0])
+	var offset := Vector2i(int(rect[0]), int(rect[1]))
+	var inside := Rect2i(offset, Vector2i(int(rect[2]), int(rect[3])))
+	var props: Array = []
+	for prop: Dictionary in made.get("props", []):
+		# The gate is the landmark in its own mouth (each kind has its own picture).
+		var at: Array = prop.get("cell", [-1, -1])
+		if str(prop.get("art", "")).begins_with("landmark/") and inside.has_point(Vector2i(int(at[0]), int(at[1]))):
+			props.append({ "art": str(shut.get("art", "")), "cell": prop.get("cell", [0, 0]) })
+		else:
+			props.append(prop)
+	made["props"] = props
+	var people: Array = (made.get("people", []) as Array).duplicate()
+	for person: Dictionary in shut.get("people", []):
+		people.append(_moved(person, offset))
+	made["people"] = people
 
 
 ## A laid-out ground (rows and a legend) as a slot: a name per cell, one patch over all of it.

@@ -355,7 +355,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 1. **Gates that grow** (grows play-test 6, item 2): ground of its own kind inside (frost, fire, grass,
    cave, open plain); length by rank, an S-rank gate 10 to 15 minutes with a boss fight of 5 to 7; shut
    only when every monster in it is dead, or its lord falls and the rest scatter; the gate left broken on
-   the ground after; the people round it cheering, and the tale told on.
+   the ground after; the people round it cheering, and the tale told on. **Built** ([D261](06-decisions.md),
+   [below](#gates-that-grow)).
 2. **A legendary company of six**: humans who climbed long ago and are still alive high up (about floor
    70), since nobody ages inside the Tower; their monuments, tales and who they were before, on the
    land. And **climbers' names on the Tower**, a board of how high each got. Canon: the founders'.
@@ -379,6 +380,37 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
 14. **A writers' pass** over every line every character says.
 15. **The frame rate walking Stormreach** ("massive frame rate drop").
+
+### Gates that grow
+
+Play-test 7's first ask, built ([D261](06-decisions.md), agenda 172). Inside, a gate is ground of its own
+kind, the kind of the land it stands on for its first floor (ten kinds in `gate.inside.grounds`); a deeper
+floor of a C gate or bigger is another kind. It grows by rank: E one floor of three chambers up to S five
+floors of seven, a second band in half the chambers from B. On each floor but the last the way down opens
+only when every band on it is down; on the last, its keeper's fall scatters the rest. A shut gate lies
+broken where it stood, three folk round it cheering.
+
+How long a gate takes, by `tools/gate_clock.tscn` (Juno leading Pluto, Vesta and Atlas at the rank's
+level, Auto walking, headless at 5× and read back at 1×; 2026-10-19, before the keeper's toughness was cut
+to the numbers in D261). A gate's foes are always at least the party's level plus the floor's depth
+(`Encounter`), so raising the party (`--above`) does not make it easier.
+
+| Rank | Floors | Walked to the end | Fights | Longest fight |
+| --- | --- | --- | --- | --- |
+| E | 1 | shut, 0:36 to 0:47 | 2 | 0:18 |
+| D | 2 | shut, 1:33 | 5 | 0:12 |
+| C | 3 | shut, 3:49 to 5:28 (one in four runs lost Juno) | 10 to 12 | 0:35 |
+| B | 3 | shut once in 6:24 (18 fights, four levels up); else Juno fell at 2 to 7 minutes | 1 to 19 | 1:10 |
+| A | 4 | Juno fell, or a fight lost, at 2 to 10 minutes; never shut | 1 to 10 | 0:59 |
+| S | 5 | still on floor 3 or 4 when lost, at 10:05 to 15:01 | 15 to 22 | 4:37 |
+
+What it says: an S gate already runs past Ewan's 10 to 15 minutes before its keeper, and its deep fights
+already run minutes; the keeper's fight was not reached in any run, so its 5 to 7 minutes is not measured.
+And in the clock, a party of four at the rank's level loses its lead in most B, A and S gates, even put back
+to full health after every fight (`--rested`), which main does too (B: Juno fell in the first fight; A:
+after eight). That is the opposite of Ewan's hand (58 fights won, mostly E and D gates), and it is for the
+monster tiers and the dangerous ground fights to settle. Two runs stopped with nothing moving, both after a
+fall: a companion falling mid-fight, and the whole party down outside a fight with Juno still standing.
 
 ## Music the hour still needs
 

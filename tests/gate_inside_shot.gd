@@ -42,21 +42,30 @@ func _ready() -> void:
 		await _walk_into(floor, watches[0])
 		await get_tree().create_timer(2.5).timeout
 		await _shoot("fight")
-	# Each kind of gate's look, its last floor whole.
-	var seen := {}
-	for site: Site in world.sites_of_kind(Site.GATE):
-		var look := str(site.data.get("area", ""))
-		if seen.has(look):
-			continue
-		seen[look] = true
-		var last := site.floors() - 1
+	# Each kind of ground a gate is laid in ([D261], play-test 7), its first floor whole.
+	var rules: Dictionary = GateInside.rules()
+	var by_area: Dictionary = rules.get("by_area", {})
+	var look := str(gate.data.get("area", ""))
+	for kind: String in rules.get("grounds", {}):
+		by_area[look] = kind
+		rules["by_area"] = by_area
 		EventBus.request_scene.emit("area", {
-			"area_id": GateInside.area_for(world, site, last, GameState.party_characters()), "return_scene": "world",
-			"gate_cell": [site.cell.x, site.cell.y], "gate_depth": last, "gate_final": true,
-			"gate_keeper": GateInside.keeper_flag(site, last),
+			"area_id": GateInside.area_for(world, gate, 0, GameState.party_characters()), "return_scene": "world",
+			"gate_cell": [gate.cell.x, gate.cell.y], "gate_depth": 0, "gate_final": false,
 		})
 		await _frames(90)
-		await _whole(_active(), look)
+		await _whole(_active(), "ground_" + kind)
+	by_area.erase(look)
+	# Shut, it lies broken in its mouth and folk come to look ([D261]).
+	world.close_gate(gate)
+	world.player_cell = gate.cell
+	EventBus.request_scene.emit("world", {})
+	await _frames(150)
+	var mouth := _active()
+	var eye = mouth.get_node("Camera2D")
+	eye.focus_on((mouth.get("_leader") as Node2D).position + Vector2(0, -560), true)
+	await _frames(20)
+	await _shoot("shut")
 	get_tree().quit(0)
 
 

@@ -663,6 +663,10 @@ func _settle_up(won: bool) -> void:
 				world.close_gate(site)
 				_land_journal(journal_lines, trinkets_before)
 				Annals.record(world, "The %s-rank gate at %s was shut forever." % [site.rank, site.display_name])
+				# The folk round it come running to cheer (play-test 7, D261); the deed goes round (D249).
+				var cheer := str(Database.world_rules.get("gate", {}).get("shut", {}).get("cheer", ""))
+				if cheer != "":
+					_note(cheer)
 				for line: String in Spoils.for_gate(world, site, party):
 					_note(line)
 				for line: String in Errand.on_gate_shut(GameState.errands, site.cell, world):

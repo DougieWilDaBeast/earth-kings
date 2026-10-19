@@ -395,7 +395,13 @@ func _out_to_a_gate_and_back() -> void:
 		return
 	_expect(inside.get("_gate_cell") == gate.cell, "gate: the floor gone into is not %s's" % gate.display_name)
 	_expect(not (inside.get("_watches") as Array).is_empty(), "gate: nobody holds %s's first floor" % gate.display_name)
-	# The way down, taken: the floor is won, and the next is opened straight on.
+	# Shut while anything on the floor stands (D261): the stair is tried and does not open.
+	inside.call("_climb_the_stair")
+	await _frames(10)
+	_expect(_gate_floor_of(_current()) == 1, "gate: %s's way down opened with its floor still held" % gate.display_name)
+	# Every band down, the way down taken: the floor is won, and the next is opened straight on.
+	for band: Dictionary in inside.get("map").bands:
+		GameState.set_flag("done:%s" % str(band.get("key", "")))
 	inside.call("_climb_the_stair")
 	var second := await _scene_where(func(s: Node) -> bool: return _gate_floor_of(s) == 2)
 	if second == null:
