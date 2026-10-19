@@ -96,6 +96,9 @@ var stance: String = "own"
 ## What they are carrying in their head ([D279], [Moods]): `{ id, label, mood, until }`, until a
 ## world step. Their sum and a base make their mood.
 var thoughts: Array = []
+## Weapons a smith has honed for them ([D280], [Crafting]): equipment id -> notches, each a point of
+## attack while they carry that weapon.
+var honed: Dictionary = {}
 
 
 static func create(template_id_: String, name_override: String = "", player: bool = false) -> Character:
@@ -380,6 +383,7 @@ func to_dict() -> Dictionary:
 		"bonds": bonds,
 		"marks": marks,
 		"thoughts": thoughts,
+		"honed": honed,
 		"stance": stance,
 	}
 
@@ -427,6 +431,8 @@ static func from_dict(data: Dictionary) -> Character:
 	for key: String in data.get("marks", {}):
 		character.marks[key] = int(data["marks"][key])
 	character.stance = str(data.get("stance", "own"))
+	for weapon: String in data.get("honed", {}):
+		character.honed[weapon] = int(data["honed"][weapon])
 	for thought: Variant in data.get("thoughts", []):
 		if thought is Dictionary:
 			character.thoughts.append({

@@ -111,6 +111,9 @@ static func bonus(equipment_id: String, character: Character) -> Dictionary:
 		return { "attack": 0, "defense": 0 }
 	var attack := int(data.get("attack", 0))
 	var defense := int(data.get("defense", 0))
+	# A smith's notches on this weapon, for whoever had it honed (D280).
+	if attack > 0 and character != null:
+		attack += int(character.honed.get(equipment_id, 0))
 	if suits(equipment_id, character):
 		return { "attack": attack, "defense": defense }
 	return {

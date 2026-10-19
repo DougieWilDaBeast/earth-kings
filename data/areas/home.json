@@ -259,6 +259,7 @@
         "Iron's iron. Bring me something worth hitting."
       ],
       "talk": {
+        "hone": { "q": "Can you put an edge on our weapons?", "offer": "Let me see what you carry. Coin first, and I don't do miracles.", "done": "There. Mind the edge." },
         "hello": [
           "Hald. Smith. Muck Muck said there was a forge going begging out here, and there was.",
           "Good ground, this. Flat, and nobody's grandfather buried under it."

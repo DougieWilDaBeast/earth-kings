@@ -502,6 +502,20 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"crafting": {
+		"_comment": "D280 (Ewan's play-test 7: 'combine herbs together to make potions, upgrade weapons ... you can buy weapons or you can make them in the blacksmith'). mix: recipes the party screen offers from the packs, anywhere (src/chronicle/crafting.gd). A smith with a talk block's `hone` puts a notch on a weapon somebody carries: +1 attack a notch for that person with that weapon, up to hone_most; a notch costs (hone_base + the weapon's price x hone_share) x the notch, through the difficulty's price dial.",
+		"mix": [
+			{ "makes": "red_draught", "needs": { "herbs": 3 } },
+			{ "makes": "blue_draught", "needs": { "herbs": 2, "redcap": 1 } },
+			{ "makes": "green_draught", "needs": { "frostmoss": 2, "red_draught": 1 } },
+			{ "makes": "amber_draught", "needs": { "blue_draught": 1, "green_draught": 1, "redcap": 1 } }
+		],
+		"mixed_line": "Ground, steeped and strained: a {made}.",
+		"hone_most": 3,
+		"hone_base": 800,
+		"hone_share": 0.25,
+		"honed_line": "{name}'s {weapon} comes back keener (+{notch})."
+	},
 	"moods": {
 		"_comment": "D279 (Ewan's play-test 7: 'a system where characters have emotions ... use inspiration from RimWorld ... so that the characters feel more life-like'; 'some characters won't want to join you in the pursuit of climbing the tower'). A mood is base plus every thought carried (src/chronicle/moods.gd). Thoughts are noticed once a step from what changed: a fight won or lost, a gate shut, a floor of the Tower climbed, a friend (a bond of friend_bond or more) dead. by_group sets a thought's worth by temper group (NT, NF, SJ, SP, as the wanderers read them), so the cold-eyed are glad to climb and the rest are not. A band nudges attack and defense; below break_below, now and then (break_chance a step), one of the company sits out break_steps steps. The lead never does.",
 		"base": 50,
