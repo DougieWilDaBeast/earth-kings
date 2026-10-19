@@ -405,8 +405,9 @@ each, each ending playable:
    clock's party of four now shuts most B and S gates. Next: Ewan plays a B gate.
 33. **The party keeps together** — built ([D281](06-decisions.md), 2026-10-19): companions come to a hurt
    lead, nobody falls back further than 3 tiles from the rest, and nobody hangs back from a foe already
-   hitting them. **Planned**: healing that keeps up with health at higher levels (a Mend heals 15 against
-   a lead's 500 at level 17), the biggest reason a lead still falls under a band's pile-on.
+   hitting them.
+34. **Heals keep pace with health** — built ([D284](06-decisions.md), 2026-10-19): a mend heals 10% more
+   for every level past 3 (2.4 times at level 17), as health grows; the first levels are as they were.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
