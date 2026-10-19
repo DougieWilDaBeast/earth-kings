@@ -43,6 +43,7 @@ const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
+const Climbers := preload("res://src/chronicle/climbers.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -2043,6 +2044,11 @@ func _examine(thing: AreaProp) -> void:
 	var doing := _act_of(thing)
 	if not doing.is_empty():
 		_do_act(doing)
+		return
+	if thing.reads == "climbers":
+		# Read in a box, not the log: a stone of names wants reading down (play-test 7, call BR3).
+		var names := Climbers.lines(GameState.world, GameState.roster.player() if GameState.roster != null else null)
+		EventBus.conversation_requested.emit([{ "speaker": thing.display_name.capitalize(), "text": "\n".join(names) }])
 		return
 	_note(thing.line)
 	# A way in that is shut says why (the Tower's stair, sealed until the Guild's mark).
