@@ -89,6 +89,10 @@ static func _from_template(name: String, template_id: String) -> AreaActor:
 	actor._rotations = _load_rotations(template.get("sprite_dir", ""))
 	actor._run = _load_run(template_id)
 	actor._build_sprite(Color(template.get("color", "#cccccc")))
+	# A tier's shade over its family's art (D262).
+	if template.has("tint") and not actor._rotations.is_empty():
+		actor._tint = Color(str(template["tint"]))
+		actor._sprite.modulate = actor._tint
 	return actor
 
 
