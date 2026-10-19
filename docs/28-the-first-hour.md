@@ -407,8 +407,9 @@ broken where it stood, three folk round it cheering.
 
 How long a gate takes, by `tools/gate_clock.tscn` (Juno leading Pluto, Vesta and Atlas at the rank's
 level, Auto walking, headless at 5× and read back at 1×; 2026-10-19, before the keeper's toughness was cut
-to the numbers in D261). A gate's foes are always at least the party's level plus the floor's depth
-(`Encounter`), so raising the party (`--above`) does not make it easier.
+to the numbers in D261). A gate's foes stand at the party's level or the rank's, whichever is higher,
+plus the floor's depth (`Encounter`; a B gate or bigger lower since [D273](06-decisions.md)), so raising
+the party (`--above`) does not make it easier.
 
 | Rank | Floors | Walked to the end | Fights | Longest fight |
 | --- | --- | --- | --- | --- |
@@ -426,6 +427,24 @@ to full health after every fight (`--rested`), which main does too (B: Juno fell
 after eight). That is the opposite of Ewan's hand (58 fights won, mostly E and D gates), and it is for the
 monster tiers and the dangerous ground fights to settle. Two runs stopped with nothing moving, both after a
 fall: a companion falling mid-fight, and the whole party down outside a fight with Juno still standing.
+
+**Big gates pitched** ([D273](06-decisions.md), agenda 184, issue #357). Most of the lost leads above came from
+the clock: it raised the party to the rank's level and left them on their starting gear. The clock now gives
+each the best piece a player of that level could have bought (`--bare` for the old way). Geared, B gates as
+they stood still lost the lead in 2 of 4 runs, and the gate monsters' tiers ([D270](06-decisions.md)) made A
+gates harder. So a big gate's bands now stand lower (`gate.pitch`): B 2 levels down, A and S 4 down, half a
+level a floor; E, D and C as before. Measured on main with the tiers, rested, Auto, seeds 77, 5, 9 and 11:
+
+| Rank | Before (bare) | Geared, as they stood | Geared and pitched |
+| --- | --- | --- | --- |
+| B | lead fell 4 of 4 | shut 2 of 4, lead fell 2 | shut 3 of 4, lead fell once (second fight) |
+| A | lead fell 1 of 1 | lead fell 2 of 2 (after the tiers) | shut 1 of 3, lead fell once, keeper's fight lost once |
+| S | | | shut 2 of 2 (38 to 41 fights) |
+| C | | | shut (10 fights) |
+
+Where the lead still falls, foes pile onto whoever leads, and Juno (a `keeper`, fighting from behind) backs
+off alone to the edge of the ground and falls there; that is fighters' behaviour, not a gate's pitch, and is
+left as its own piece. Four clocks shared one machine, so their 1× times run long and are not given here.
 
 ## Music the hour still needs
 

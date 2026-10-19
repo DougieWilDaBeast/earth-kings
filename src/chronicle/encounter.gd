@@ -90,7 +90,11 @@ static func _pool_on(faction: String, terrain: String, level: int) -> Array:
 
 ## One floor of a gate delve. [param depth] is 0-based; the last is the guardian.
 static func for_gate(world: World, site: Site, depth: int, final: bool, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var level := maxi(_party_level(party), site.expected_level()) + depth
+	# A gate's bands stand at the party's level or the rank's, whichever is higher, moved by the rank's
+	# pitch, and climb by the rank's step a floor (`gate.pitch`, [D273]).
+	var rank := Site.rank_index(site.rank)
+	var level := maxi(_party_level(party), site.expected_level()) + int(_by_rank("level", rank, 0)) \
+			+ floori(float(depth) * float(_by_rank("per_floor", rank, 1.0)))
 	# A gate belongs to whoever came through it (see [WorldGen]).
 	var faction: String = site.data.get("faction", Faction.FALLBACK)
 	var pool := _pool_on(faction, world.terrain_id_at(site.cell), level)
@@ -120,6 +124,13 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	if meeting["objective"] == Site.OBJECTIVE_HEART:
 		BattleMapGen.mark_heart(meeting["map"])
 	return meeting
+
+
+## A gate's [param key] in `world_rules.gate.pitch` at [param rank] (E 0 to S 5): one value a rank, the last
+## standing for any bigger.
+static func _by_rank(key: String, rank: int, fallback: float) -> float:
+	var each: Array = Database.world_rules.get("gate", {}).get("pitch", {}).get(key, [])
+	return float(each[mini(rank, each.size() - 1)]) if not each.is_empty() else fallback
 
 
 ## The people holding one of yours. They are not a gate garrison, they are a

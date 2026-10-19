@@ -394,6 +394,8 @@
 		"break_chance": 0.75,
 		"break_danger": 0.25,
 		"break_level_bonus": 3,
+		"_comment_pitch": "How hard a gate's bands stand against the party (D273), one value a rank from E to S: a band stands at the party's level or the gate's rank level (Site.expected_level), whichever is higher, plus level, plus per_floor for every floor down (rounded down). E, D and C keep what they had (0, and a whole level a floor). Before D273 every rank had that, and the gate clock's party of four at a B, A or S gate's own level lost its lead in most runs. Inferred: every number.",
+		"pitch": { "level": [0, 0, 0, -2, -4, -4], "per_floor": [1, 1, 1, 0.5, 0.5, 0.5] },
 		"_comment_inside": "D248 (doug-md, play-test 6: \"When I enter.or get close to a gate, I want to be able to enter into the gate and fight the monsters there and create a whole area where I can fight the monsters in it. I don't want to have to fight the monsters outside the gate.\"): going into a gate opens its inside, one floor at a time, walked like the Tower's floors (src/chronicle/gate_inside.gd). Each floor is a run of chambers from the doorway at the bottom to the way down at the top, width + width_per_rank x the rank's place (E 0 to S 5) wide and height + height_per_rank high, with chambers + chambers_per_rank of them; a band of the gate's own holds every chamber but the first, and on the last floor the keeper holds the last, before the way down, which does not open until it falls. The ground and walls are the gate's own look (themes, by the gate's place, with the ground sheets drawn bottom first; default for any other); band_reach is how far a chamber's band sees. Walking back out of the doorway leaves the gate. Inferred: every number and every look.",
 		"inside": {
 			"width": 34,

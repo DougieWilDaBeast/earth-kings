@@ -3,12 +3,16 @@ extends Node
 ## minutes and 10, 15 minutes and the boss fight is tough ... 5 to 7 1/2 minutes").
 ##
 ##   godot --headless --path . res://tools/gate_clock.tscn -- --rank=S [--speed=5] [--seed=77]
-##       [--lead=juno] [--with=pluto,vesta,atlas] [--above=0] [--rested]
+##       [--lead=juno] [--with=pluto,vesta,atlas] [--above=0] [--rested] [--bare]
 ##
 ## Boots the whole game, puts a party of four (play-test 7's) at the level the gate's rank asks for
 ## (Site.expected_level, plus `--above`) at a gate of that rank, goes in and lets Auto walk it at
 ## `--speed`. Says, in the player's seconds at 1× (the clock times the speed), how long the gate took
 ## from the doorway to shut, how long its keeper's fight ran, how many fights, and whether anyone fell.
+## Each of the party carries the best piece of gear a player of that level could buy (priced as the
+## party clashes price it, `gear_price_base` and `gear_price_per_level` in `data/party_war.json`), as
+## they would by then; `--bare` sends them in with what they started with ([D273]: at level 13 on
+## starting gear the clock lost its lead in most B gates).
 ## `--rested` puts the party back to full health after every won fight, as a player who drinks and
 ## rests between fights would: it times a gate's length, not whether the party lasts it.
 ## Headless, like the soak: read the numbers as the game's own clock, not a browser's.
@@ -29,6 +33,7 @@ func _ready() -> void:
 	var lead := "juno"
 	var joined := ["pluto", "vesta", "atlas"]
 	var above := 0
+	var bare := false
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--rank="):
 			rank = arg.trim_prefix("--rank=").to_upper()
@@ -38,6 +43,8 @@ func _ready() -> void:
 			world_seed = int(arg.trim_prefix("--seed="))
 		elif arg.begins_with("--lead="):
 			lead = arg.trim_prefix("--lead=")
+		elif arg == "--bare":
+			bare = true
 		elif arg == "--rested":
 			_rested = true
 		elif arg.begins_with("--with="):
@@ -70,6 +77,8 @@ func _ready() -> void:
 	var level := gate.expected_level() + above
 	for hero: Character in GameState.party_characters():
 		Progression.raise_quietly(hero, level, world)
+		if not bare:
+			_gear_up(hero)
 		hero.hp = hero.max_hp()
 	EventBus.request_scene.emit("world", {})
 	await get_tree().create_timer(2.0, true, false, true).timeout
@@ -135,3 +144,20 @@ func _say_where_stuck() -> void:
 		front.get("_awaiting_fight"), front.get("_fight"), front.get("_talking"), front.get("_leaving"),
 		(front.get("_auto_exit_path") as Array).size(), (front.get("_auto_band_path") as Array).size(), Pace.auto,
 		GameState.party_characters().map(func(hero: Character) -> String: return "%s %d" % [hero.id, hero.hp])])
+
+
+## The best piece of gear [param hero] could have bought by their level, if it beats what they carry.
+func _gear_up(hero: Character) -> void:
+	var rules: Dictionary = Database.party_war
+	var ceiling := float(rules.get("gear_price_base", 2500)) + float(rules.get("gear_price_per_level", 2500)) * hero.level
+	var best := ""
+	var best_worth := Gear.carried_worth(hero)
+	for id: String in Database.equipment:
+		var piece := Gear.piece(id)
+		if piece.has("signature") or float(piece.get("price", 0)) > ceiling or not Gear.suits(id, hero):
+			continue
+		if Gear.worth(id, hero) > best_worth:
+			best_worth = Gear.worth(id, hero)
+			best = id
+	if best != "":
+		hero.equipment = best
