@@ -48,11 +48,11 @@
       "kill": ["One less.", "Stay down, {foe}.", "Who's next?"],
       "low": ["I can't take many more of those.", "Still standing. Barely.", "Cover me!"],
       "drink": ["Give me a moment.", "Just a mouthful..."],
-      "friend_down": ["{foe}! No!", "They'll pay for that.", "Hold the line without them!"],
-      "win": ["It's over.", "Is that all you brought?", "Who's next?"]
+      "friend_down": ["{foe}! No!", "They'll pay for that.", "Close up. Hold without them!"],
+      "win": ["It's over.", "Is that all you brought?", "Anyone else?"]
     },
     "striker": {
-      "open": ["Let me at them.", "Last one standing buys the ale."],
+      "open": ["Let me at them.", "First one down buys the ale."],
       "kill": ["Too slow, {foe}.", "Next!"],
       "low": ["That one hurt. Good."]
     },
@@ -75,7 +75,7 @@
       "low": ["Roots bend. They do not break."]
     },
     "keeper": {
-      "open": ["I'll keep you on your feet. Stay where I can reach you.", "Mind your health. I can't mend the dead."],
+      "open": ["I'll keep you on your feet. Stay where I can reach you.", "Don't die on me. I can't mend the dead."],
       "friend_down": ["Hold on, {foe}, I'm coming!"],
       "low": ["Who mends the mender?"]
     },

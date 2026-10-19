@@ -150,7 +150,7 @@
 					"when": { "steps_since_stage": 80 },
 					"then": [
 						{
-							"rumour": "deep tremors shake the high country; ancient seals are failing under the earth",
+							"rumour": "the ground shakes in the high country, and the old seals under it are giving way",
 							"at": "last_deed",
 							"weight": -1
 						},
@@ -168,11 +168,11 @@
 								"rank": "S",
 								"near": "last_deed",
 								"faction": "the_dusk",
-								"hint": "A terrifying rift has torn through the rock, spilling shadows across the crags."
+								"hint": "The rock has split open. What spills out over the crags is darker than shade."
 							}
 						},
 						{
-							"rumour": "an abyssal rift has opened where no gate ever stood before",
+							"rumour": "the rock has opened where no gate ever stood",
 							"at": "here",
 							"weight": -2
 						},
@@ -192,7 +192,7 @@
 					"when": { "steps_since_stage": 50 },
 					"then": [
 						{
-							"rumour": "mercenary captains have taken coins to track you down; they watch the crossroads",
+							"rumour": "sellswords have been paid to find you, and they are sitting at the crossroads",
 							"at": "here",
 							"weight": -2
 						},
@@ -205,12 +205,12 @@
 					"deadline": 300,
 					"goto": "they_scattered",
 					"then": [
-						{ "hint": "A blood bounty hangs over your head. Mercenaries linger at the gatehouse." },
+						{ "hint": "There is a price on your head, and the men who took it are waiting at the gatehouse." },
 						{ "tag": "hunters_confronted" },
 						{ "remember": { "bounty_faced": true } }
 					],
 					"instead": [
-						{ "hint": "The mercenary cohort gave up waiting and rode out elsewhere." }
+						{ "hint": "The hired men got tired of waiting and rode out." }
 					]
 				},
 				{
@@ -218,7 +218,7 @@
 					"when": { "steps_since_stage": 100 },
 					"then": [
 						{
-							"rumour": "the warband that swore blood against you has run out of purse and disbanded",
+							"rumour": "the sellswords who were after you ran out of pay and went home",
 							"at": "here",
 							"weight": 1
 						},
@@ -237,7 +237,7 @@
 					"when": { "steps_since_stage": 60 },
 					"then": [
 						{
-							"rumour": "the light over the Spire has changed; heralds carry word of the ascended champion",
+							"rumour": "the light over the Spire has changed, and heralds are out with word of who climbed it",
 							"at": "last_deed",
 							"weight": 4
 						},
@@ -249,7 +249,7 @@
 					"when": { "steps_since_stage": 100 },
 					"then": [
 						{
-							"rumour": "the mountain passes grow quiet as the Spire's shadow recedes across the continent",
+							"rumour": "the passes have gone quiet; whatever came down off the Spire has stopped coming",
 							"at": "here",
 							"weight": 2
 						},

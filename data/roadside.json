@@ -39,7 +39,7 @@
 			],
 			"asks": [
 				"\"You'll want paying,\" he says, counting it out on the boards. \"Everyone does.\"",
-				"\"But there's better than coin, if you've the patience. Get me and this cart as far as %s and I'll see you right, and keep seeing you right after.\""
+				"\"But there's better than coin, if you've the patience. Get me and this cart as far as %s and I'll see you right, then and after.\""
 			],
 			"pack": ["brigand", "brigand", "brigand_archer", "brigand_chief"],
 			"escort": true,
@@ -60,7 +60,7 @@
 				"A woman crawls out of the ditch where she had the sense to go, and looks at the wagon, and then at you."
 			],
 			"asks": [
-				"\"That was everything,\" she says. \"All of it. Every bolt of it.\"",
+				"\"That was everything,\" she says. \"Every bolt of cloth I had.\"",
 				"\"There's a cousin in %s who owes me a start. Walk me there and you'll have a share of whatever I make after.\""
 			],
 			"pack": ["brigand", "brigand_archer", "brigand_archer"],
@@ -75,7 +75,7 @@
 				"They want a toll. They are not the sort who stop at a toll."
 			],
 			"walked_by": [
-				"You pay, because it is cheaper than the alternative, and it costs you the taste of it all afternoon."
+				"You pay. It is cheaper than a fight, and the taste of it stays with you all afternoon."
 			],
 			"saved": [
 				"The rope comes down. The road is a road again.",

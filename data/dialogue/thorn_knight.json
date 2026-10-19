@@ -68,7 +68,7 @@
 		},
 		"the_muster": {
 			"speaker": "Ser Valis the Golden Knight",
-			"text": "Sixty to the gates. The rest to whichever lord promised bread last. I don't blame them and I'd thank you not to make me.",
+			"text": "Sixty to the gates. The rest to whichever lord promised bread last. I do not blame them, and I would thank you not to make me.",
 			"next": "end"
 		},
 		"seen_through": {
@@ -79,12 +79,12 @@
 		},
 		"not_seen": {
 			"speaker": "Ser Valis the Golden Knight",
-			"text": "It's armour. It scours. Try being inside it for a season.",
+			"text": "It is armour. It scours. Try living inside it for a season.",
 			"next": "end"
 		},
 		"the_offer": {
 			"speaker": "Ser Valis the Golden Knight",
-			"text": "Then you'll be the first company that offered before asking the price. Go up. I'll take the ramp.",
+			"text": "Then you will be the first company that offered before asking the price. Go up. I will take the ramp.",
 			"set_flag": "thorn_wall_offered",
 			"next": "end"
 		},
@@ -106,7 +106,7 @@
 		"the_nights": {
 			"speaker": "Ser Valis the Golden Knight",
 			"text": [
-				"I stopped counting at forty, which is itself a kind of answer.",
+				"I stopped counting at forty. Take that as your answer.",
 				"Enough that the scrub has learned where I stand. That is the part that worries me.",
 				"Fewer than there will be. Ask me a question with an end to it."
 			],

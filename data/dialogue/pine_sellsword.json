@@ -71,7 +71,7 @@
 		},
 		"for_coin": {
 			"speaker": "Tem the Sword Monkey",
-			"text": "For coin, for a roof, for a reason. Mostly the reason. Coin I can get anywhere and roofs are cheap this year.",
+			"text": "For a reason, mostly. Coin I can get anywhere, and roofs are cheap this year.",
 			"next": "end"
 		},
 		"caught_out": {
@@ -105,7 +105,7 @@
 		},
 		"he_came": {
 			"speaker": "Tem the Sword Monkey",
-			"text": "He came, saw you'd been sitting where I was, and left again. So whatever you are, he already knows. I'd think about that on the road.",
+			"text": "He came, saw me sharing a table with you, and left again. So whatever you are, he already knows. I'd think about that on the road.",
 			"next": "end"
 		}
 	}

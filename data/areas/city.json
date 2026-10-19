@@ -203,7 +203,7 @@
       "guild": true,
       "chatter": [
         "Contracts for the city are posted inside. Contracts for everywhere else, out here with me.",
-        "Every company passes this gate eventually. I keep the list."
+        "Every company comes through this gate in the end. I keep the list, and I cross them off it."
       ]
     },
     {
@@ -237,10 +237,10 @@
           },
           {
             "q": "Why the walls?",
-            "a": "The gates out there. When one breaks, everything in the country runs for somewhere with walls. We'd like it to be us they run to, not us they run over."
+            "a": "Because of the gates out there. When one breaks, the whole country runs for the nearest wall. We'd sooner they ran to us than over us."
           }
         ],
-        "bye": "Keep your purse in front of you. The city's honest. Mostly."
+        "bye": "Keep your purse in front of you, and your hand on it."
       }
     },
     {
@@ -257,7 +257,7 @@
       "wander": 2,
       "chatter": [
         "Three days walking to hear one rite. I'll be late for it, I know I will.",
-        "They say the Cathedral looks at the Tower. I want to see that."
+        "They say the Cathedral was built facing the Tower. I want to see it before my eyes go."
       ]
     },
     {
@@ -319,7 +319,7 @@
         "ask": [
           {
             "q": "Why aren't goats allowed in?",
-            "a": "One ate the Margrave's hat. Not the Margrave's. The old one's. Grudges in there go back."
+            "a": "One ate the Margrave's hat. Not this Margrave, his father. Grudges in there outlive the people."
           }
         ],
         "sells": [
@@ -350,8 +350,8 @@
         1
       ],
       "chatter": [
-        "Keep moving.",
-        "Gate's open, walls are up, everybody's happy."
+        "Off the road, please. Carts coming.",
+        "Gate's open, walls are up. Nothing to report. I'd quite like something to report."
       ],
       "rounds": [
         {

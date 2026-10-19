@@ -79,7 +79,7 @@
 		},
 		"missed_the_stump": {
 			"speaker": "Bruin the Axe Bear",
-			"text": "You buried it and now you'll get to learn the second half of the job. Pull.",
+			"text": "You've buried it. Now learn the second half of the job. Pull.",
 			"next": "end"
 		},
 		"passing": {
@@ -103,7 +103,7 @@
 		},
 		"the_offer": {
 			"speaker": "Bruin the Axe Bear",
-			"text": "I'm good for it. Say the word and I'll leave the axe in a stump for the first time in nine years. Just be sure it's a word worth the walk.",
+			"text": "I'm good for it. Say the word and I'll leave the axe in a stump for the first time in nine years.",
 			"next": "end"
 		}
 	}

@@ -68,8 +68,8 @@
                 "scorch",
                 "ember"
             ],
-            "denied": "A heavy waterlogged driftwood trunk blocks the boardwalk to the west island. It takes a sharp blade or heavy blow to cut through.",
-            "opened": "With a splintering crack, the waterlogged trunk is hewn apart, clearing the way to the island!"
+            "denied": "A waterlogged trunk lies across the boardwalk to the west island. It wants a sharp blade or a heavy blow.",
+            "opened": "The trunk splits with a wet crack, and the way to the island is clear."
         },
         {
             "cell": [
@@ -81,8 +81,8 @@
             "key": "gate_key",
             "ability": "crush",
             "prop": "village/log_pile",
-            "denied": "A rusted iron sluice gate is padlocked against the weir. It requires the Gate Key (or Crush) to force open.",
-            "opened": "The rusted padlock shatters, and the heavy sluice gate swings open!"
+            "denied": "A rusted sluice gate, padlocked against the weir. The Gate Key opens it, or Crush forces it.",
+            "opened": "The padlock shatters and the sluice gate grinds open."
         }
     ],
     "spots": [
@@ -105,14 +105,14 @@
                 24,
                 5
             ],
-            "line": "A fisherman hollow sheltered beneath weeping willows."
+            "line": "A fisherman's hollow under the willows, out of the wind."
         },
         {
             "cell": [
                 23,
                 16
             ],
-            "line": "Smuggler marks chiseled into the stone weir."
+            "line": "Smugglers' marks cut into the stone of the weir."
         }
     ],
     "chests": [
@@ -121,7 +121,7 @@
                 24,
                 4
             ],
-            "line": "A tarred creel wedged in the reeds, holding gold and a heavy gate key.",
+            "line": "A tarred creel wedged in the reeds, heavy with gold and a gate key.",
             "art": "chest_broken",
             "gold": 3500,
             "key": "gate_key",
@@ -142,7 +142,7 @@
                 24,
                 16
             ],
-            "line": "A gold-banded smuggler chest hidden behind the rusted sluice.",
+            "line": "A smuggler's chest with gold bands, hidden behind the rusted sluice.",
             "art": "chest_gold",
             "gold": 6500,
             "item": "black_feather"

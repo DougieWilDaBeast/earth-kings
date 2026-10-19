@@ -238,3 +238,25 @@ Two rules:
 Their five history fields — background, grudge, hearth, creed, oath — stay blank. Those are
 written separately and cast late; see [14 — Lore Pools](14-lore-pools.md). A character has to read
 as themselves before any of it is attached.
+
+## The lines
+
+Every line said in the game had one writers' pass on 2026-10-19 ([D274](06-decisions.md), `doug-md`'s
+play-test 7, item 14): about 430 of some 3,850 lines in `data/` rewritten, the rest left as they were.
+A line written since keeps to the same rules:
+
+- **Its speaker's own voice.** Thirty folk of Stormreach are thirty people, not one wry narrator; a fen is
+  patient and damp, a shore wreck-wary. Ser Valis speaks without contractions; Atlas too.
+- **Plain and spare.** British English, short sentences, concrete things over abstractions; the Tower
+  takes a capital.
+- **No stock tics.** No em-dash in a line; no "its own kind of", "a new kind of", "the part nobody",
+  "and somehow", "something about the way"; no quip tacked on a sad line, no closing aphorism on every line.
+- **Not a template.** The memories keep their refrain ("the floor goes out from under the world", "White.",
+  the journal page), but each closes in its own way.
+- **Prices said are prices paid.** A line that names a cost names the one the option charges (100 copper is
+  a silver, [26](26-coins-and-prices.md)).
+
+`python3 tools/lines.py` lists any tic left in `data/` (none since the pass); `python3 tools/lines.py --script
+out.md` writes every line, file by file, as one script to read through. Cato's chapter one (the draft `dougie`
+kept) was not touched. `tools/chapter_twos.py` writes the chapter twos from the shared drafts, so running it
+again undoes the pass on them unless the drafts are brought in line first.

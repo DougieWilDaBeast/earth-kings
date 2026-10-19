@@ -262,7 +262,7 @@
 		"icon": "kit/kit_fisher",
 		"charm": true,
 		"grace": 0.2,
-		"text": "Thrown over the shoulder, mostly out of habit."
+		"text": "A pinch over the left shoulder, mostly out of habit."
 	},
 	"black_feather": {
 		"display_name": "Black Feather",
@@ -609,7 +609,7 @@
 		"signature": "ares",
 		"attack": 32,
 		"defense": 4,
-		"text": "A greataxe that lands like a mountain the first time, and only the first time."
+		"text": "A greataxe that comes down like a rockfall the first time, and only the first time."
 	},
 	"open_hands": {
 		"display_name": "Open Hands",

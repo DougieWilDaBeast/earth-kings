@@ -82,7 +82,7 @@
         4,
         8
       ],
-      "line": "A footlocker, scorched to the bands but shut, which is the only reason it is still worth opening.",
+      "line": "A footlocker scorched to the bands, but shut. Whatever is inside missed the fire.",
       "art": "chest_iron",
       "gold": 4000,
       "item": "ember_blade"
@@ -229,7 +229,7 @@
       "wander": 2,
       "chatter": [
         "It burned for nine days. Nobody lit it and nobody put it out.",
-        "Everything past the neck is still warm. It has been still warm for a lifetime.",
+        "Everything past the neck is still warm. It has been warm for a lifetime.",
         "Breathe through cloth. I am not being dramatic.",
         "You will come out grey. Everyone comes out grey."
       ]
@@ -284,7 +284,7 @@
           },
           {
             "q": "Why the gate?",
-            "a": "The worst fights come through doors like this one. One of them will finally be the one that lets me rest."
+            "a": "The worst fights come through doors like this one. Sooner or later, one of them lets me rest."
           }
         ],
         "bye": [

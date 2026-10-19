@@ -39,7 +39,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "Something's been keeping pace with us since the ridge." },
-				{ "who": "b", "text": "I know. Don't turn round. It stops being curious the moment we look interested." }
+				{ "who": "b", "text": "I know. Don't turn round. Let it think we haven't seen it." }
 			]
 		},
 		{
@@ -84,7 +84,7 @@
 			"mood": "cold",
 			"lines": [
 				{ "who": "a", "text": "Must you breathe like that?" },
-				{ "who": "b", "text": "It's breathing. That is the entire range of options available to me." }
+				{ "who": "b", "text": "It's breathing. I only know the one way." }
 			]
 		},
 		{
@@ -111,7 +111,7 @@
 			"bond": 1,
 			"lines": [
 				{ "who": "a", "text": "{fallen} would have hated this stretch." },
-				{ "who": "b", "text": "{fallen} hated every stretch. That was most of the charm of them." }
+				{ "who": "b", "text": "{fallen} hated every stretch. Said so, too, every mile of it." }
 			]
 		},
 		{
@@ -136,7 +136,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "That went well." },
-				{ "who": "b", "text": "That went quickly. They're not the same thing, and one day the difference is going to matter." }
+				{ "who": "b", "text": "That went quickly. It isn't the same thing." }
 			]
 		},
 		{
@@ -146,7 +146,7 @@
 			"lines": [
 				{ "who": "a", "text": "You put yourself between me and the second one." },
 				{ "who": "b", "text": "You'd have done it." },
-				{ "who": "a", "text": "I'd have thought about it first. That's the part I'm turning over." }
+				{ "who": "a", "text": "I'd have thought about it first. You didn't." }
 			]
 		},
 		{
@@ -155,7 +155,7 @@
 			"bond": -1,
 			"lines": [
 				{ "who": "a", "text": "You broke the line." },
-				{ "who": "b", "text": "I broke the line because the line was about to have you killed in it." }
+				{ "who": "b", "text": "I broke the line because it was about to get you killed." }
 			]
 		},
 		{
@@ -183,7 +183,7 @@
 			"lines": [
 				{ "who": "a", "text": "Tell the one about the ferryman again." },
 				{ "who": "b", "text": "You've heard it." },
-				{ "who": "a", "text": "I've heard your version. It gets a boat longer every time and I want to see where it ends." },
+				{ "who": "a", "text": "I've heard yours. The boat gets longer every time. I want to see how long." },
 				{ "who": "b", "text": "...It was a barge, by the end. Sit down." }
 			]
 		},
@@ -203,7 +203,7 @@
 			"mood": "cold",
 			"lines": [
 				{ "who": "a", "text": "You've taken the good side of the fire again." },
-				{ "who": "b", "text": "I got here first. That's the whole of the system and it has served us well." }
+				{ "who": "b", "text": "I got here first. Same as every night." }
 			]
 		},
 		{
@@ -214,7 +214,7 @@
 				{ "who": "a", "text": "There's a place at this fire nobody's sitting in." },
 				{ "who": "b", "text": "I noticed. I've been not-looking at it for an hour." },
 				{ "who": "a", "text": "Say their name, then. {fallen}. It's easier the second time." },
-				{ "who": "b", "text": "{fallen}. ...It isn't, but go on and I'll keep up." }
+				{ "who": "b", "text": "{fallen}. ...It isn't." }
 			]
 		},
 		{
@@ -234,7 +234,7 @@
 			"lines": [
 				{ "who": "a", "text": "The ground's settled. It looks like it's always been here." },
 				{ "who": "b", "text": "Give it a year and somebody will walk past without slowing down." },
-				{ "who": "a", "text": "Then we'll slow down twice, and it'll come out even." }
+				{ "who": "a", "text": "Then we'll come back, and slow down." }
 			]
 		},
 		{
@@ -245,7 +245,7 @@
 			"lines": [
 				{ "who": "a", "text": "{fallen} would have hated this. All of us stood about being solemn." },
 				{ "who": "b", "text": "They'd have told us to get on. Loudly, and about four times." },
-				{ "who": "a", "text": "Then let's get on. That's the eulogy they'd have picked." }
+				{ "who": "a", "text": "Then let's get on." }
 			]
 		},
 		{
@@ -264,7 +264,7 @@
 			"bond": 1,
 			"lines": [
 				{ "who": "a", "text": "Do you think they knew? At the end of it." },
-				{ "who": "b", "text": "I think they were busy. I've decided that's a mercy and I'm not revisiting it." }
+				{ "who": "b", "text": "I think they were busy. I'm calling that a mercy." }
 			]
 		},
 		{
@@ -301,7 +301,7 @@
 			"lines": [
 				{ "who": "a", "text": "Sit still. You're pulling it open every time you reach for the pot." },
 				{ "who": "b", "text": "Then pass me the pot." },
-				{ "who": "a", "text": "That is a much better solution than the one I was building up to. Here." }
+				{ "who": "a", "text": "That's better than what I was going to say. Here." }
 			]
 		},
 		{
@@ -338,10 +338,10 @@
 			"mood": "warm",
 			"bond": 2,
 			"lines": [
-				{ "who": "a", "text": "If we came into money — real money — what would you do?" },
-				{ "who": "b", "text": "Buy a bed. A specific bed. I've thought about this more than is healthy." },
+				{ "who": "a", "text": "If we came into money, real money, what would you do?" },
+				{ "who": "b", "text": "Buy a bed. One bed in particular. I've thought about it a good deal." },
 				{ "who": "a", "text": "Go on then. Describe the bed." },
-				{ "who": "b", "text": "It's a bed. It's indoors. That's the whole of the fantasy and I'm not ashamed." }
+				{ "who": "b", "text": "It's a bed. It's indoors. That's all of it." }
 			]
 		},
 		{
@@ -370,7 +370,7 @@
 			"lines": [
 				{ "who": "a", "text": "Your turn to cook." },
 				{ "who": "b", "text": "It was my turn last night." },
-				{ "who": "a", "text": "It was, and that's precisely why I'd like you to have another go at it." }
+				{ "who": "a", "text": "It was. Have another go at it." }
 			]
 		},
 		{
@@ -399,7 +399,7 @@
 			"lines": [
 				{ "who": "a", "text": "Give me your boots." },
 				{ "who": "b", "text": "Why." },
-				{ "who": "a", "text": "Because you've been walking wrong for two days and I'd like to know which of us is at fault." }
+				{ "who": "a", "text": "You've been limping two days. It's the boots or it's you." }
 			]
 		},
 		{
@@ -408,7 +408,7 @@
 			"lines": [
 				{ "who": "a", "text": "There's a light out east. Been there an hour." },
 				{ "who": "b", "text": "Somebody else's fire." },
-				{ "who": "a", "text": "That's what I thought. Odd, to find that comforting." }
+				{ "who": "a", "text": "That's what I thought. I'll watch it a while anyway." }
 			]
 		},
 		{
@@ -428,7 +428,7 @@
 				{ "who": "a", "text": "You could take the far side of the fire." },
 				{ "who": "b", "text": "I could." },
 				{ "who": "a", "text": "..." },
-				{ "who": "b", "text": "I'm not going to, but I appreciate you laying it out so clearly." }
+				{ "who": "b", "text": "I'm not going to." }
 			]
 		},
 		{
@@ -446,7 +446,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "How long since we slept somewhere we weren't listening?" },
-				{ "who": "b", "text": "I'd have to count, and I'd rather go on not knowing." }
+				{ "who": "b", "text": "I'd have to count. I'd rather not." }
 			]
 		},
 		{
@@ -477,7 +477,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "Anyone counting?" },
-				{ "who": "b", "text": "I stopped. It was making me a person I didn't want to be by suppertime." }
+				{ "who": "b", "text": "I stopped. I didn't like what it was doing to me." }
 			]
 		},
 		{
@@ -488,7 +488,7 @@
 				{ "who": "a", "text": "That was close." },
 				{ "who": "b", "text": "It was not close." },
 				{ "who": "a", "text": "You went down on one knee." },
-				{ "who": "b", "text": "I was checking the ground. Tactically." }
+				{ "who": "b", "text": "I was looking at the ground." }
 			]
 		},
 		{
@@ -496,7 +496,7 @@
 			"mood": "cold",
 			"lines": [
 				{ "who": "a", "text": "You were slow on the left." },
-				{ "who": "b", "text": "And you were nowhere at all, so let's call it even and walk." }
+				{ "who": "b", "text": "And you were nowhere at all. Walk." }
 			]
 		},
 		{
@@ -505,7 +505,7 @@
 			"lines": [
 				{ "who": "a", "text": "One of them was younger than me." },
 				{ "who": "b", "text": "You don't know that." },
-				{ "who": "a", "text": "No. I've decided not to know it. It's working, mostly." }
+				{ "who": "a", "text": "No. I've decided not to." }
 			]
 		},
 		{
@@ -515,7 +515,7 @@
 			"lines": [
 				{ "who": "a", "text": "Good throw, that last one." },
 				{ "who": "b", "text": "I was aiming at the other one." },
-				{ "who": "a", "text": "Then it was a superb throw and we'll never speak of it again." }
+				{ "who": "a", "text": "Then it was a good throw, and nobody saw otherwise." }
 			]
 		},
 		{
@@ -542,7 +542,7 @@
 			"needs": "deed",
 			"lines": [
 				{ "who": "a", "text": "This'll get told wrong too, you know. Like \"{deed}\"." },
-				{ "who": "b", "text": "Let it. The wrong version's shorter and I've a long way to walk." }
+				{ "who": "b", "text": "Let it. The wrong one's shorter." }
 			]
 		},
 		{
@@ -553,7 +553,7 @@
 				{ "who": "a", "text": "You put yourself between me and that." },
 				{ "who": "b", "text": "I was closer." },
 				{ "who": "a", "text": "You were not closer. You moved to be closer." },
-				{ "who": "b", "text": "Then I was closer. Look at the state of my arm and let it go." }
+				{ "who": "b", "text": "Then I was closer. Let it go." }
 			]
 		},
 
@@ -562,7 +562,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "Every milestone out here's been chipped off." },
-				{ "who": "b", "text": "Somebody didn't want to be found. Or didn't want us finding them." }
+				{ "who": "b", "text": "Somebody didn't want this road followed." }
 			]
 		},
 		{
@@ -572,7 +572,7 @@
 			"lines": [
 				{ "who": "a", "text": "Name three things you miss." },
 				{ "who": "b", "text": "Bread. Doors. Being bored." },
-				{ "who": "a", "text": "Bored. That's a good one. I'd forgotten bored was available." }
+				{ "who": "a", "text": "Bored. I'd forgotten bored." }
 			]
 		},
 		{
@@ -589,7 +589,7 @@
 			"lines": [
 				{ "who": "a", "text": "This isn't the way." },
 				{ "who": "b", "text": "It's a way." },
-				{ "who": "a", "text": "That is the most expensive sentence you've ever said to me." }
+				{ "who": "a", "text": "You said that at the last ford." }
 			]
 		},
 		{
@@ -605,8 +605,8 @@
 			"mood": "warm",
 			"bond": 1,
 			"lines": [
-				{ "who": "a", "text": "If I go down out here, don't carry me. Just the sword." },
-				{ "who": "b", "text": "I'll carry you and the sword, and complain the whole way, and you'll have to listen." }
+				{ "who": "a", "text": "If it comes to it, don't carry me. Take the sword." },
+				{ "who": "b", "text": "I'll carry both, and complain the whole way." }
 			]
 		},
 		{
@@ -616,7 +616,7 @@
 			"lines": [
 				{ "who": "a", "text": "Slow up. You're favouring it." },
 				{ "who": "b", "text": "We've light left." },
-				{ "who": "a", "text": "We've light left because we're slowing up. That's how the light works." }
+				{ "who": "a", "text": "We'll lose more of it carrying you. Slow up." }
 			]
 		},
 		{
@@ -634,7 +634,7 @@
 			"lines": [
 				{ "who": "a", "text": "We could have taken the coin and gone home." },
 				{ "who": "b", "text": "Whose home?" },
-				{ "who": "a", "text": "That is exactly the answer I didn't want and precisely the one I expected." }
+				{ "who": "a", "text": "That's the answer I was afraid of." }
 			]
 		},
 		{
@@ -642,7 +642,7 @@
 			"mood": "any",
 			"lines": [
 				{ "who": "a", "text": "{place}, is it? I'd pictured it bigger." },
-				{ "who": "b", "text": "Everything's bigger from a long way off. That's most of why people set out." }
+				{ "who": "b", "text": "Everything's bigger from a long way off." }
 			]
 		},
 		{
@@ -650,7 +650,7 @@
 			"mood": "warm",
 			"bond": 1,
 			"lines": [
-				{ "who": "a", "text": "You walk on the outside of me. Every road. You think I've not clocked it." },
+				{ "who": "a", "text": "You walk on the outside of me. Every road. You think I've not seen." },
 				{ "who": "b", "text": "Habit." },
 				{ "who": "a", "text": "It's a good habit. Carry on." }
 			]
@@ -662,38 +662,38 @@
 			"bond": 1,
 			"lines": [
 				{ "who": "a", "text": "We're four, and we walk like we're five. Still leaving the gap." },
-				{ "who": "b", "text": "{fallen} would've filled it by now with talking. Let it stay empty a bit longer." }
+				{ "who": "b", "text": "{fallen} would have filled it with talking by now. Leave it empty a while yet." }
 			]
 		}
 	],
 	"reflections": [
-		{ "about": "deed", "text": "You'll have heard by now — {deed}. That was us. I'm still deciding how I feel about it." },
+		{ "about": "deed", "text": "You'll have heard by now: {deed}. That was us. I've not made my mind up about it." },
 		{ "about": "deed", "text": "People keep telling the story back to us wrong. {deed}, they say, as if it were tidy. It wasn't." },
 		{ "about": "deed", "text": "Word runs faster than we walk. {deed}, and here we are, hearing about ourselves in a stranger's mouth." },
 		{ "about": "fallen", "text": "{fallen} would have had something to say about all this. Probably something unhelpful, and probably right." },
-		{ "about": "fallen", "text": "We buried {fallen} and kept walking. That's the part nobody puts in the songs — the walking after." },
+		{ "about": "fallen", "text": "We buried {fallen} and kept walking. Nobody stopped. I keep thinking somebody should have." },
 		{ "about": "fallen", "text": "I still count us wrong. Every morning I count one too many, and then I remember {fallen}." },
-		{ "about": "friend", "text": "{friend} pulled me out of a fight I had no business being in. I've not found the words for it yet, so I'm using these ones." },
+		{ "about": "friend", "text": "{friend} pulled me out of a fight I had no business being in. I've not thanked them properly. I don't know how." },
 		{ "about": "friend", "text": "Whatever happens here, {friend} and I have come through worse standing closer together." },
 		{ "about": "battles", "at_least": 3, "text": "That's {battles} fields we've walked off, and I remember the ground better than the reasons." },
 		{ "about": "battles", "at_least": 6, "text": "{battles} of them now. I used to be sick after. I'd rather have kept that, if I'm honest." },
 		{ "about": "battles", "at_least": 10, "text": "Somewhere behind us are {battles} fields where somebody's son didn't get up. I'd like this to be worth that." },
-		{ "about": "floors", "at_least": 1, "text": "Every floor of that tower we climb, the air gets older. I don't think it's meant to be breathed by us." },
+		{ "about": "floors", "at_least": 1, "text": "Every floor of the Tower we climb, the air gets older. I don't think it's meant to be breathed by us." },
 		{ "about": "floors", "at_least": 3, "text": "We are {floors} floors up a thing that was built to keep people out. Nobody has said yet what it was keeping in." },
 		{ "about": "miles", "at_least": 400, "text": "I could draw this country from memory now. Every ford, every bad hill. I'd rather have learnt it some other way." },
-		{ "about": "wounded", "text": "We came in here bleeding and we're standing about making conversation. That's the trade, I suppose." },
+		{ "about": "wounded", "text": "We came in here bleeding and we're stood about making conversation. Somebody sit down." },
 		{ "about": "company", "at_least": 4, "text": "There are more of us than there were. I keep waiting to be told which one of us is the mistake." },
 		{ "about": "gold", "at_least": 800, "text": "We're carrying enough coin to buy a farm, and not one of us has said the word out loud." },
 		{ "about": "", "text": "{place}. Another one. They start to run together, and then one of them turns out to matter." },
-		{ "about": "", "text": "Say what you like about the road — it hasn't finished with us yet, and I've stopped expecting it to." },
+		{ "about": "", "text": "The road hasn't finished with us. I've stopped waiting for it to." },
 
-		{ "about": "deed", "text": "There's a version of \"{deed}\" going round where I come off well. I've not corrected anyone, and that's its own small crime." },
-		{ "about": "deed", "text": "\"{deed}\" — that's what they'll put on it. Four words for a whole bad afternoon." },
+		{ "about": "deed", "text": "There's a version of \"{deed}\" going round where I come off well. I've not corrected anyone." },
+		{ "about": "deed", "text": "\"{deed}\". That's what they'll put on it. One line for a whole bad afternoon." },
 		{ "about": "fallen", "text": "I still set out {fallen}'s bowl. Two weeks now. I've stopped pretending it's absent-mindedness." },
 		{ "about": "fallen", "text": "The worst of it is how ordinary the morning after was. Same bread. Same weather. {fallen} just wasn't in it." },
 		{ "about": "fallen", "text": "I've started telling {fallen} things at the end of the day. Out loud, once. I'd rather nobody heard, and I'd rather keep doing it." },
 		{ "about": "friend", "text": "{friend} has been wrong about almost everything since we met and right about the only two that counted." },
-		{ "about": "friend", "text": "I don't know what {friend} makes of me. I've decided that not asking is a kind of courage." },
+		{ "about": "friend", "text": "I don't know what {friend} makes of me. I've never asked, and I don't mean to." },
 		{ "about": "friend", "text": "If it came to it, {friend} would go back for me. I know that the way you know the ground is there." },
 		{ "about": "battles", "at_least": 2, "text": "Two fields, and I can still tell you what the light was doing at both. I'm told that stops." },
 		{ "about": "battles", "at_least": 15, "text": "{battles}. At some point the number stopped meaning fights and started meaning me." },
@@ -701,13 +701,13 @@
 		{ "about": "floors", "at_least": 8, "text": "I've stopped counting down to the top. I count up from the door, so there's always been a door." },
 		{ "about": "miles", "at_least": 100, "text": "A hundred-odd miles of it now, and not one of them felt like progress at the time." },
 		{ "about": "miles", "at_least": 800, "text": "There's country behind us I'll never see again and didn't look at properly the once." },
-		{ "about": "wounded", "text": "Everyone's carrying something. Nobody's said so. That'll hold until it very suddenly doesn't." },
-		{ "about": "company", "at_least": 2, "text": "Two of us. That's not a company, that's a habit, and I'd defend it in front of anyone." },
+		{ "about": "wounded", "text": "Everyone's carrying a wound. Nobody's said so. Somebody had better, soon." },
+		{ "about": "company", "at_least": 2, "text": "Two of us. Hardly a company. I'd not trade it." },
 		{ "about": "company", "at_least": 3, "text": "Three of us, and we've worked out who talks in the morning and who doesn't. That took longer than the fighting did." },
 		{ "about": "gold", "at_least": 300, "text": "Enough coin to stop for a season. Nobody's suggested it. I'd like to know which of us says it first." },
-		{ "about": "gold", "at_least": 1500, "text": "We could buy the inn. Both inns. And we'll spend it on arrows, because that is apparently who we are." },
+		{ "about": "gold", "at_least": 1500, "text": "We could buy the inn. Both inns. We'll spend it on arrows." },
 		{ "about": "", "text": "I keep expecting somebody to arrive and tell us we're doing this wrong. Nobody's come. That's worse." },
-		{ "about": "", "text": "There's a version of me that turned back at the first gate. I think about him. I don't envy him, quite." },
+		{ "about": "", "text": "There's a version of me that turned back at the first gate. I think about that one. I don't envy them. Not quite." },
 		{ "about": "", "text": "Nobody set out to be this. You take one job in {place}, and then the next one is already waiting." }
 	]
 }

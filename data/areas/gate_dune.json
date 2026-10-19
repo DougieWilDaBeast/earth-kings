@@ -35,8 +35,8 @@
       "name": "the brass gate",
       "ability": "crush",
       "key": "gate_key",
-      "denied": "A gate of verdigris-crusted brass, locked into the sandstone archway. Shatter it, or turn the warden's key, and not otherwise.",
-      "opened": "The brass gate shrieks and falls outward into the dunes."
+      "denied": "A gate of brass gone green, locked into the sandstone arch. Shatter it, or turn the warden's key, and not otherwise.",
+      "opened": "The brass gate shrieks and falls outward into the sand."
     }
   ],
   "spots": [
@@ -45,21 +45,21 @@
         8,
         2
       ],
-      "line": "Beyond the brass gate the stairs plunge beneath the desert floor into absolute black."
+      "line": "Past the brass gate the stair goes down under the sand, into the dark."
     },
     {
       "cell": [
         5,
         6
       ],
-      "line": "Pillars scored by ten thousand sandstorms, their inscriptions ground smooth."
+      "line": "Pillars scoured by sandstorms. Whatever was cut into them has been ground away."
     },
     {
       "cell": [
         11,
         6
       ],
-      "line": "Sun-bleached bones of a desert lizard, half-covered by drifting silt."
+      "line": "The bones of a big lizard, bleached white, half under the drift."
     },
     {
       "cell": [
@@ -75,7 +75,7 @@
         3,
         8
       ],
-      "line": "A caravan chest thrown against the sandstone base, baked dry.",
+      "line": "A caravan chest, thrown against the sandstone and baked dry.",
       "art": "chest_gold",
       "gold": 4500,
       "item": "ember_blade"
@@ -85,7 +85,7 @@
         13,
         8
       ],
-      "line": "Sunken coins welded together by ancient heat.",
+      "line": "Coins half buried in the sand, welded together by old heat.",
       "art": "coin_pile",
       "gold": 5500
     },
@@ -94,7 +94,7 @@
         11,
         2
       ],
-      "line": "Past the brass portal, resting in an altar niche untended for centuries.",
+      "line": "Past the brass gate, in an altar niche nobody has tended for centuries.",
       "art": "chest_silver",
       "gold": 11500,
       "item": "gilt_blade"
@@ -172,9 +172,9 @@
       ],
       "wander": 2,
       "chatter": [
-        "Nothing walks out of this gate in the daylight. In the dark, we do not sleep.",
-        "The heat in the sands is nothing compared to the heat two flights below.",
-        "Check your water skins before you step past the threshold."
+        "Nothing walks out of this gate in daylight. After dark, nobody here sleeps.",
+        "You think the sand is hot. Wait until two flights down.",
+        "Check your waterskins before you cross the threshold."
       ]
     },
     {
@@ -190,8 +190,8 @@
       ],
       "wander": 1,
       "chatter": [
-        "Heat shimmering off the dunes plays tricks on eyes.",
-        "If the brass rings begin to vibrate, step back immediately."
+        "The heat off the dunes plays tricks. Trust nothing out there.",
+        "If the brass rings start to hum, step back. Do not wait to see why."
       ]
     }
   ],

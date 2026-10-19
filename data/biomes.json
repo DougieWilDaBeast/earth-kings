@@ -692,7 +692,7 @@
 			],
 			"tint": "#8098c8",
 			"life": 0.6,
-			"line": "Mushrooms taller than a house, glowing in their own light.",
+			"line": "Mushrooms taller than a house, glowing by their own light.",
 			"props": {
 				"trees": [
 					"biome/giant_morel",
@@ -743,7 +743,7 @@
 			],
 			"tint": "#f8e8f0",
 			"life": 1.5,
-			"line": "Petals on the wind. Nothing here wants to hurt you, yet.",
+			"line": "Petals on the wind. Nothing here wants to hurt you. Yet.",
 			"props": {
 				"trees": [
 					"biome/blossom_tree",
@@ -846,7 +846,7 @@
 			],
 			"tint": "#a8d8a0",
 			"life": 1.4,
-			"line": "Green on green, vines like ropes, and the air is hot and wet.",
+			"line": "Green on green and vines thick as rope. The air is hot and wet.",
 			"props": {
 				"trees": [
 					"biome/jungle_canopy",

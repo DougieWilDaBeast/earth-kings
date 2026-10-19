@@ -52,7 +52,7 @@
 		},
 		{
 			"title": "Seed for the spring",
-			"text": "{place} lost their store to the rain. It will keep. Walk carefully with it."
+			"text": "{place} lost their seed store to the rain. This is the last of ours. Walk carefully with it."
 		},
 		{
 			"title": "Six coppers",
@@ -100,7 +100,7 @@
 		},
 		{
 			"title": "Where the field was",
-			"text": "There was a battle at {place}, long enough ago that the grass has forgotten it. Stand there a while."
+			"text": "There was a battle at {place}, so long ago the grass has forgotten it. Stand there a while. Somebody should."
 		},
 		{
 			"title": "The view",

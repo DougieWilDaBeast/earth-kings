@@ -165,13 +165,13 @@
       ],
       "talk": {
         "hello": [
-          "Every net on the frames and not one of them wet since spring. What can I get you?",
+          "Salt and Line. There's no fish, before you ask. What'll it be?",
           "Ahoy. That's a joke. We say ahoy here as a joke."
         ],
         "ask": [
           {
             "q": "Who keeps the light?",
-            "a": "Nobody, since the keeper went up one night and didn't come down. It still turns. Don't ask me how. I asked once and didn't sleep for a week."
+            "a": "Nobody, since the keeper went up one night and never came down. It still turns. I asked who turns it, once. I didn't sleep for a week."
           },
           {
             "q": "Why don't the boats go out?",
@@ -322,7 +322,7 @@
         1
       ],
       "chatter": [
-        "The sea gives. The sea takes the net as well, mind."
+        "The sea gives. Then it wants the net back."
       ],
       "rounds": [
         {

@@ -68,8 +68,8 @@
                 "scorch",
                 "ember"
             ],
-            "denied": "A weathered mountain pine has collapsed across the ridge path. It takes a keen edge or heavy strike to cut through.",
-            "opened": "With a clean sweep of the blade, the pine trunk is cleaved through, opening the path to the high shelf!"
+            "denied": "A wind-killed pine lies across the ridge path. It wants a keen edge or a heavy strike.",
+            "opened": "The pine comes apart, and the path to the high shelf is open."
         },
         {
             "cell": [
@@ -81,8 +81,8 @@
             "key": "iron_key",
             "ability": "crush",
             "prop": "village/log_pile",
-            "denied": "A heavy iron-strapped gate bars the ancient mine opening. It requires an Iron Key or Crush to force open.",
-            "opened": "The lock breaks with a loud echo, and the mine gate swings open!"
+            "denied": "An iron-strapped gate bars the old mine. An Iron Key opens it, or Crush.",
+            "opened": "The lock breaks with a noise that goes a long way down, and the gate swings open."
         }
     ],
     "spots": [
@@ -112,7 +112,7 @@
                 24,
                 16
             ],
-            "line": "Old mine rails running into the shadows of the rock face."
+            "line": "Old mine rails, running into the dark under the rock face."
         }
     ],
     "chests": [
@@ -121,7 +121,7 @@
                 24,
                 5
             ],
-            "line": "A cleft in the eastern shelf holding an iron key and ancient gold.",
+            "line": "A cleft in the eastern shelf, and in it an iron key and some very old gold.",
             "art": "chest_iron",
             "gold": 3500,
             "key": "iron_key",
@@ -142,7 +142,7 @@
                 25,
                 16
             ],
-            "line": "A miner strongbox tucked in the shadows behind the gate.",
+            "line": "A miner's strongbox in the dark behind the gate.",
             "art": "chest_gold",
             "gold": 6500,
             "item": "iron_blade"

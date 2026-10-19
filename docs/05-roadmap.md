@@ -389,7 +389,8 @@ each, each ending playable:
    and [D267](06-decisions.md) to [D270](06-decisions.md): lesser, plain, high, hob, and a chieftain or a caster, dealt by the fight's level; the named one-off monsters keep one kind); the climbers' stone (built, [D266](06-decisions.md)), Sennet seen from
    afar (built, [D265](06-decisions.md)), the journal at the side and Stormreach's frame rate as small pieces alongside (the frame rate
    built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
-   the map, and the play log says when the frame rate drops).
+   the map, and the play log says when the frame rate drops); and a writers' pass over every line
+   (built, [D274](06-decisions.md), the rules in [13](13-heroes-and-tempers.md#the-lines)).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

@@ -53,7 +53,7 @@
 		"again": {
 			"speaker": "Rook the Watchman",
 			"text": [
-				"It's you. Go up — I'll not do the whole speech twice in one season.",
+				"It's you. Go up. I'll not do the whole speech twice in one season.",
 				"Same causeway, same wind. You're the only thing that changes out here.",
 				"They've stopped asking me who you are. That's either good for you or very bad."
 			],
@@ -88,7 +88,7 @@
 		},
 		"backed_down": {
 			"speaker": "Rook the Watchman",
-			"text": "Steady. Steady. I've a wife inside that wall and I'd like to see her again — go up.",
+			"text": "Steady. Steady. I've a wife inside that wall and I'd like to see her again. Go up.",
 			"next": "end"
 		},
 		"the_watch": {

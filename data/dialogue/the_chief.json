@@ -64,7 +64,7 @@
 					"check": { "skill": "wits", "dc": 13, "success": "thinner", "failure": "laughed_off" }
 				},
 				{
-					"text": "Another hundred. Same terms.",
+					"text": "Another twenty-five silver. Same terms.",
 					"requires_gold": 2500,
 					"gold": -2500,
 					"goto": "bribe"
@@ -89,7 +89,7 @@
 		},
 		"laughed_off": {
 			"speaker": "Ganel",
-			"text": "Try that again when you've grown into your armour. Weapons up — the rest is talk.",
+			"text": "Try that again when you've grown into your armour. Weapons up. The rest is talk.",
 			"next": "end"
 		},
 		"bribe": {

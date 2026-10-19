@@ -20,28 +20,28 @@
 	},
 	"says": {
 		"atlas": "You shut yours as well. Then it was not chance that the two doors faced each other. Look at me properly; there will not be time twice.",
-		"janus": "Oh. Oh, that is interesting. The other side is the same gate. Stay there, I want to see what happens when it—",
+		"janus": "Oh. Oh, that is interesting. The other side is the same gate. Stay there, I want to see what happens when it...",
 		"bellona": "You. Hold your side. Whatever comes through here does not reach your world while I stand. Do the same for mine.",
 		"cassius": "Another one with the mark, in another world. So which of us is the copy? Don't answer. You would only say me.",
 		"saturn": "You look tired too. I am glad someone is holding the other side. Go carefully. Mine keeps taking people.",
 		"vesta": "Don't step through. Whatever you are looking for, it is not on this side. Keep your own fire.",
-		"caesar": "Hey! HEY! You've got the mark! I'm Caesar! Who are y— no, wait, it's closing, don't—",
+		"caesar": "Hey! HEY! You've got the mark! I'm Caesar! Who are y... no, wait, it's closing, don't...",
 		"iris": "You! I've heard about you. No I haven't, I've heard about someone like you, somewhere like here. Tell everyone I said hello!",
 		"pluto": "The same gate. The same stones, the same count of floors. So there is more than one of everything. Noted.",
 		"ceres": "Are you eating? You don't look like you're eating. There's no time. Just eat something, on your side.",
-		"cato": "Name, world, business. No? Then I will write down that you exist. Somebody should.",
+		"cato": "Name, world, business. No? Then I will write down that you exist, and the date.",
 		"juno": "There you are. I keep a place set for everyone with the mark, and I never know which world to set it in. Eat when you can.",
 		"ultor": "You're not the one either.",
 		"diana": "Please don't come through. He doesn't like doors. I'm sorry. I'm glad you're there.",
 		"ares": "HA! Another world, and still someone with the mark at the door! Next time come through and have a go!",
-		"liber": "There's another world through there? Of course there is. Hold it, I'm coming— no? The next one, then."
+		"liber": "There's another world through there? Of course there is. Hold it, I'm coming. No? The next one, then."
 	},
 	"carried": {
 		"_doc": "D183, from D172 (dougie, 2026-10-16: \"if you enter a gate with your character, let's say Pluto, then now any other additional world after that that enters the gate should hear what Pluto said ... if you end up dying with Pluto, you get to hear Pluto talking or get word that he's there\"). A word carries between lives. As a lead shuts a gate, their `left` line is written beside the fallen, outside the save (user://earth-kings.sixteen.json, D47). A later lead in a world of the same sixteen who shuts the same gate hears the latest word another lead left there: `voice`. Failing that, at the first gate a life shuts, the lead who fell last is heard: their last word as `voice`, or `word_of` them if they never shut a gate. One line, no answer; it plays after the crossing if there is one, and `journal` writes it down. Read by src/chronicle/crossing.gd. Every word, and which gate it is heard at, is **Inferred** (agenda item 106).",
 		"voice": [
 			{ "speaker": "", "text": "{gate} goes dark slowly. Through the last of the light, faint, comes a voice from another world: {name}'s." },
 			{ "speaker": "{name}", "text": "{word}" },
-			{ "speaker": "", "text": "{lead} calls back. The light is already gone, and nothing else came through." }
+			{ "speaker": "", "text": "{lead} calls back. The light is already gone, and nothing else comes through." }
 		],
 		"word_of": [
 			{ "speaker": "", "text": "{gate} goes dark slowly. Nobody speaks through the last of the light, but something carries: a name, {name}, and the mark, and a world that has ended." },
@@ -59,7 +59,7 @@
 			"saturn": "That is another one shut. Whoever is next, go carefully. Sleep when you can.",
 			"vesta": "Keep your fire lit, whoever you are. This one is out.",
 			"caesar": "I'M CAESAR! I shut this one! If you can hear me, I shut it FIRST!",
-			"iris": "Hello, whoever's next! This one's done. Tell everyone I said hello!",
+			"iris": "Hello, whoever's next! This one's done. Pass it on, would you?",
 			"pluto": "Shut. Floors counted, stones counted. If you are counting too, the number is the same.",
 			"ceres": "Shut. Now whoever you are, sit down and eat something.",
 			"cato": "Gate shut. Written down. If you hear this, you exist too. Write that down.",

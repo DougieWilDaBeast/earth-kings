@@ -42,7 +42,7 @@
         9,
         12
       ],
-      "line": "The causeway is the only way across the moat."
+      "line": "The causeway is the only way across. The moat does not move."
     }
   ],
   "chests": [
@@ -231,7 +231,7 @@
       "wander": 2,
       "chatter": [
         "The hall is aired daily. Nobody comes, but it is aired.",
-        "My contract predates the family. They were most surprised too."
+        "My contract predates the family. They were as surprised as anyone."
       ],
       "talk": {
         "hello": "Welcome to the causeway keep. Do wipe your boots. Do wipe your sword.",

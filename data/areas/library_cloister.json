@@ -40,7 +40,7 @@
     3,
     5
    ],
-   "line": "The walk. Copied out here in good light until the light goes."
+   "line": "The walk, where they copy in good light until the light goes."
   },
   {
    "cell": [
@@ -80,7 +80,7 @@
     13,
     10
    ],
-   "line": "The almoner's box. It is not locked, which says something about the house.",
+   "line": "The almoner's box. Nobody here has thought to lock it.",
    "art": "chest_silver",
    "gold": 5500,
    "item": "hearth_coin"
@@ -240,7 +240,7 @@
    ],
    "wander": 2,
    "chatter": [
-    "Forty-one years on the same shelf of it. I am nearly at the end of the first half.",
+    "Forty-one years on the same shelf. I am nearly halfway along it.",
     "My hand is going. I am training a boy who is worse than me and getting better.",
     "They ring for meals. You will hear it. Everyone hears it."
    ]

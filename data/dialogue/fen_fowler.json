@@ -10,7 +10,7 @@
 			"text": [
 				"Sit where you like. Everyone who comes in wet sits by the bell, and everyone who comes in armed sits by the door. You're both, so choose.",
 				"Careful of the boards by the water. They're older than the village and prouder than the priest.",
-				"Don't stand between me and the reeds. Nothing personal — I've lost two dinners that way this week."
+				"Don't stand between me and the reeds. Nothing personal. I've lost two dinners that way this week."
 			],
 			"options": [
 				{
@@ -103,7 +103,7 @@
 			"text": [
 				"A boat with nobody in it and the oars still shipped. I burnt it. Don't ask me why.",
 				"Birds going up at dusk with nothing under them. Three nights running.",
-				"Less than usual, and that's the part I don't like."
+				"Less than usual. I don't like less than usual."
 			],
 			"next": "end"
 		},
