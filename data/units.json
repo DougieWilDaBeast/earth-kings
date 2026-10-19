@@ -148,6 +148,29 @@
 		"color": "#7d7f8a",
 		"sprite_dir": "res://art/tier1/wolf/idle"
 	},
+	"goblin_lesser": {
+		"display_name": "Lesser Goblin",
+		"job": "Wild",
+		"max_hp": 16,
+		"attack": 6,
+		"defense": 2,
+		"move": 4,
+		"jump": 1,
+		"speed": 12,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6f9350",
+		"body_scale": 0.7,
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 1,
+		"tint": "#c9c2a4"
+	},
 	"goblin": {
 		"display_name": "Goblin",
 		"job": "Wild",
@@ -166,7 +189,112 @@
 		"kind": "wild",
 		"color": "#6f9350",
 		"body_scale": 0.85,
-		"sprite_dir": "res://art/tier1/goblin/idle"
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 2
+	},
+	"goblin_high": {
+		"display_name": "High Goblin",
+		"job": "Wild",
+		"max_hp": 32,
+		"attack": 12,
+		"defense": 4,
+		"move": 4,
+		"jump": 1,
+		"speed": 11,
+		"abilities": [
+			"strike",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6f9350",
+		"body_scale": 0.95,
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 3,
+		"tint": "#9fc6ff"
+	},
+	"hobgoblin": {
+		"display_name": "Hobgoblin",
+		"job": "Wild",
+		"max_hp": 46,
+		"attack": 15,
+		"defense": 6,
+		"move": 4,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"cleave",
+			"strike",
+			"kick"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6f9350",
+		"body_scale": 1.15,
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"goblin_chieftain": {
+		"display_name": "Goblin Chieftain",
+		"job": "Wild",
+		"max_hp": 66,
+		"attack": 18,
+		"defense": 8,
+		"move": 4,
+		"jump": 1,
+		"speed": 10,
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"raider",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6f9350",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"goblin_shaman": {
+		"display_name": "Goblin Shaman",
+		"job": "Wild",
+		"max_hp": 40,
+		"attack": 15,
+		"defense": 4,
+		"move": 3,
+		"jump": 1,
+		"speed": 11,
+		"abilities": [
+			"ember",
+			"spark",
+			"mend",
+			"strike"
+		],
+		"classes": [
+			"hedge_priest",
+			"wildling"
+		],
+		"kind": "wild",
+		"color": "#6f9350",
+		"body_scale": 1.0,
+		"sprite_dir": "res://art/tier1/goblin/idle",
+		"family": "goblin",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"ogre": {
 		"display_name": "Ogre",

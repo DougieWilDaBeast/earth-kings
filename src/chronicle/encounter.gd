@@ -272,7 +272,8 @@ static func _can_camp_at(world: World, cell: Vector2i) -> bool:
 static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -> Prowler:
 	var terrain := world.terrain_id_at(cell)
 	var faction := Faction.pick_on(terrain, rng)
-	var pool := _pool_on(faction, terrain, _danger_at(world, cell) * 3 + 1)
+	var level := _danger_at(world, cell) * 3 + 1
+	var pool := _pool_on(faction, terrain, level)
 	# Most bands are whatever lives in that land: ice wolves on the snow, slimes
 	# in the fen (`doug-md`, 2026-10-13). Decided from the cell, not the dice, so
 	# the run's dice fall the same as before.
@@ -283,6 +284,8 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 	# The setting's count dial is taken when the band is made, so it fights as many as are seen ([D211]).
 	for i in clampi(Difficulty.counted(1 + _danger_at(world, cell)), 1, 4):
 		pack.append(pool[rng.randi() % pool.size()])
+	# Seen as what it is: a goblin band shows its hobgoblin before the fight (D262).
+	pack = Tiers.deal_pack(pack, level, rng)
 	var band := Prowler.create(cell, pack, int(Database.encounters.get("sight", Prowler.BASE_SIGHT)))
 	band.faction = faction
 	return band
@@ -404,6 +407,8 @@ static func _pick(pool: Array, count: int, level: int, rng: RandomNumberGenerato
 			"unit": pool[rng.randi() % pool.size()],
 			"level": Difficulty.levelled(level + rng.randi_range(-1, 1)),
 		})
+	# A family's plain kind comes as one of its five tiers (D262).
+	Tiers.deal(out, level, rng)
 	return out
 
 

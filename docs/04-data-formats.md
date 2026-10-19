@@ -42,6 +42,10 @@ The base stat block a `Character` is built from, and what a monster is.
   held to 0.5–3.0). A big unit still holds one tile and grows up from its feet ([D57](06-decisions.md)).
 - `sprite_dir` — a folder holding `north.png` / `south.png` / `east.png` / `west.png`. Omit to
   render a coloured token instead.
+- `family`, `tier`, `tint` — a monster's place in its family's five tiers ([D262](06-decisions.md)):
+  `family` is the plain kind's id (`goblin`), `tier` 1 (lesser) to 5 (chieftain or caster), and
+  `tint` a colour laid over the family's shared art, in a fight and on the ground, until the tier has
+  art of its own (A39). Which tier a fight meets is `encounters.json` → `tiers`.
 
 ## `classes.json` — main classes
 
@@ -810,6 +814,13 @@ whatever lives there. `roadside.json`: a scene with `near_town` is offered only 
 `chance`; no scene is ever within `clear_of_sites` of a place. `purse_line` is how a scene's purse is
 said (`%s` the money, in coins). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
 with no box and without stopping a party walking itself ([D216](06-decisions.md)).
+
+**Five tiers of each monster** ([D262](06-decisions.md)). `encounters.json` → `tiers`: `families`
+names each family's kinds, lesser to top (`lesser`, plain, high, hob, then a list for the top, a
+chieftain or a caster); a pool or band naming the plain kind deals it as one of the five, at the odds
+of the last `by_level` row whose `from` is at or under the fight's level (`weights`, lesser to top), and
+no more than `top_a_fight` come out at the top. A keeper is not dealt; a band on the land is dealt when
+it is put down, so it is seen as what it is (`Tiers`).
 
 **A band led to the Watch** ([D236](06-decisions.md)). `world_rules.json` → `life.road_watch`: a band
 that sets on the party within `join_cells` of the Watch walking the road brings them into the fight
