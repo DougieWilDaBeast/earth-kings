@@ -359,7 +359,11 @@ energy, and what is written back — is in [18 — The fight](18-combat-directio
 - **Falling** is a twelve-second window a companion can reach; after it, [Fate](#falling--death-and-its-graces) decides.
 - **Facing matters**: side hits deal 1.1×, back hits 1.2× ([D59](06-decisions.md)). Units turn as they move.
 - Damage is `max(1, attack × power − defense)` with ±10% variance; everyone fights with three times
-  their health (`HEALTH_SCALE`), and wounds carry out as a share.
+  their health (`HEALTH_SCALE`), and wounds carry out as a share. A foe of the ground also **grazes**
+  ([D272](06-decisions.md)): at least 30% of its blow gets past armour.
+- **On the ground a fight turns** ([D272](06-decisions.md)): the first time one of the company is
+  badly hurt, a fight played by hand stops and asks: stand, pull the hurt one off the field, or
+  break off, throwing down a quarter of the silver carried to get everyone clear. Bands there come as many as the company (a lead alone meets them as [D211](06-decisions.md) left them).
 - **Flash step** (`flash_step`, from a template or a class) has no real-time form yet: the stat is
   kept, and nothing in the fight uses it.
 - **It is heard** ([D76](06-decisions.md)): swings, shots, hits and criticals, blocks, a spell

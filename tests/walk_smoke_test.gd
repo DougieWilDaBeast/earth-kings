@@ -322,8 +322,9 @@ func _check_watchers() -> void:
 		var meeting: Dictionary = fight["payload"]["encounter"]
 		_expect(meeting["kind"] == Encounter.WILD, "being spotted started a %s fight" % meeting["kind"])
 		_expect(
-			meeting["enemies"].size() == band.pack.size(),
-			"the band fielded %d of its %d" % [meeting["enemies"].size(), band.pack.size()]
+			meeting["enemies"].size() == maxi(band.pack.size(), Encounter.answering(GameState.party_characters().size())),
+			"the band fielded %d of its %d against a company of %d" % [meeting["enemies"].size(), band.pack.size(),
+				GameState.party_characters().size()]
 		)
 		_check_field(meeting, "band")
 	_expect(not world.prowlers.has(band), "the band that spotted us is still out on the map")
