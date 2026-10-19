@@ -1073,6 +1073,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   "roles": { "charger": { "display_name": "Charger", "description": "…", "charge_from": 3,
                           "pace": 1.7, "charge_bonus": 0.4 } },
   "role_by_template": { "brigand_archer": "kiter" },
+  "by_tier": { "1": { "role": "craven" }, "3": { "passives": ["hunters_angle"], "role": "charger" },
+               "5_caster": { "passives": ["keen_eye"] } },
   "role_by_kind": { "beast": "charger" },
   "ranged_role": "kiter",
   "healer_role": "healer",
@@ -1124,16 +1126,19 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   (`lasts`, `might`, `haste`, `tired_might`, `tired_slow`), `bare_hands` (`every`, `per_step`,
   `most`). A companion (bearer, wolf, a shade) fights beside the party as an ally, at its owner's
   level, and is gone after the fight.
-- A unit's passives are gathered from `by_template`, then each of its classes in `by_class`, then
-  each ability it knows in `by_ability`, and capped at `rules.max_passives`.
+- A unit's passives are gathered from `by_template` (a tier of a monster falls back to its family's),
+  then its tier's row in `by_tier` ([D275](06-decisions.md): `"1"` to `"5"`, and `"5_caster"` for the
+  second of a family's top kinds), then each of its classes in `by_class`, then each ability it knows in
+  `by_ability`, and capped at `rules.max_passives`.
 - `effect` is one of `lifesteal`, `thorns`, `flank_bonus`, `crit`, `echo`, `regen` (out of the
   fighting), `last_stand` (with `threshold`), `reset_on_ally_down`, or `aura`, whose `grants` may
   hold `guard` (less damage taken), `haste` (faster basic attacks) and `regen` (health a second),
   each a share. `also` adds a second effect to the same passive, e.g. `{ "flank_bonus": 0.15 }`.
-- An enemy's role is `role_by_template`, else `healer_role` if it carries a non-bonus heal for an
+- An enemy's role is `role_by_template`, else its tier's `by_tier` role, else `healer_role` if it carries a non-bonus heal for an
   ally with a reach of two or more, else `ranged_role` if its basic attack reaches three, else
   `role_by_kind`. Role keys: `charge_from`, `pace`, `charge_bonus` (charger), `keep_away`,
-  `retreat_every` (kiter and healer), `heal_below` (healer). A role with only a name changes nothing.
+  `retreat_every` (kiter and healer), `heal_below` (healer), `flee_below` and `flee_gap` (craven: under that
+  share of its health it runs until no foe is within `flee_gap` tiles, and stands there). A role with only a name changes nothing.
 
 ## `sfx.json` — what the fight sounds like ([D76](06-decisions.md))
 

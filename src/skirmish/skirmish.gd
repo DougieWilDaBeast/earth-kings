@@ -1040,17 +1040,23 @@ func _move_first(f: Fighter, foe: Unit) -> bool:
 func _keep_away(f: Fighter, ability: Dictionary, foe: Unit) -> bool:
 	var role := f.role_data()
 	var gap := int(role.get("keep_away", 0))
-	if gap <= 0 or f.retreat_wait > 0.0 or f.is_party():
+	# A craven one (D275) stands and fights until it is hurt badly enough, then runs for good.
+	var fleeing := float(f.unit.hp) < float(f.unit.max_hp) * float(role.get("flee_below", 0.0))
+	if fleeing:
+		gap = int(role.get("flee_gap", 4))
+	if gap <= 0 or f.is_party():
 		return false
 	if _nearest_hostile_distance(f, f.unit.cell) >= gap:
+		return fleeing
+	if f.retreat_wait > 0.0:
 		return false
 	var reach := int(ability.get("range", 1))
 	var safe := func(c: Vector2i) -> bool:
 		return _nearest_hostile_distance(f, c) >= gap \
-				and Pathfinder.distance(c, foe.cell) <= maxi(reach, gap + 1)
+				and (fleeing or Pathfinder.distance(c, foe.cell) <= maxi(reach, gap + 1))
 	f.retreat_wait = float(role.get("retreat_every", 3.0))
 	if _step_towards(f, safe):
-		fx.popup("falls back", f.unit.position, SkirmishFx.WORD, 12)
+		fx.popup("flees" if fleeing else "falls back", f.unit.position, SkirmishFx.WORD, 12)
 		return true
 	return false
 

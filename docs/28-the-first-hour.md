@@ -366,7 +366,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
    **creatures that fit the land** they are in (no grasshoppers in magma). The goblins', the wolves' and 24 more monsters' five **built** ([D262](06-decisions.md), [D264](06-decisions.md) and [D267](06-decisions.md) to [D270](06-decisions.md)), dealt by the fight's level, art asked for (A39, A40 and A42 to A45).
    The named one-off monsters keep one kind; creatures that fit the land still **planned**. `doug-md`, 2026-10-19:
-   "The more monster tiers the better. Give more variety for long term game"; more than five a family is **planned**. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
+   "The more monster tiers the better. Give more variety for long term game"; more than five a family is **planned**. Each tier fights its own way, built ([D275](06-decisions.md)): the lesser runs when badly hurt,
+   the high charges and flanks, the hob fights harder near death, the chieftain spurs its kin, the caster finds the weak spot; pips over the bar show the rank. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
 5. **Bodies that stay** after a fight, searched for loot.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab).
