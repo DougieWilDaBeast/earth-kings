@@ -599,6 +599,29 @@
 		"body_scale": 1.5,
 		"sprite_dir": "res://art/big/sky/idle"
 	},
+	"shade": {
+		"display_name": "Shade",
+		"job": "Wild",
+		"max_hp": 30,
+		"attack": 12,
+		"defense": 3,
+		"move": 4,
+		"jump": 3,
+		"speed": 14,
+		"abilities": [
+			"keening"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#5a4a7d",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"wraith": {
 		"display_name": "Wraith",
 		"job": "Wild",
@@ -619,7 +642,115 @@
 		],
 		"kind": "beast",
 		"color": "#5a4a7d",
-		"sprite_dir": "res://art/tier1/wraith/idle"
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 2
+	},
+	"dread_wraith": {
+		"display_name": "Dread Wraith",
+		"job": "Wild",
+		"max_hp": 62,
+		"attack": 21,
+		"defense": 6,
+		"move": 4,
+		"jump": 3,
+		"speed": 13,
+		"abilities": [
+			"keening",
+			"grief",
+			"lament",
+			"strike",
+			"frostbite"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#5a4a7d",
+		"body_scale": 1.12,
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"grave_wraith": {
+		"display_name": "Grave Wraith",
+		"job": "Wild",
+		"max_hp": 85,
+		"attack": 26,
+		"defense": 8,
+		"move": 4,
+		"jump": 3,
+		"speed": 13,
+		"abilities": [
+			"keening",
+			"grief",
+			"lament",
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#5a4a7d",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"wraith_lord": {
+		"display_name": "Wraith Lord",
+		"job": "Wild",
+		"max_hp": 120,
+		"attack": 31,
+		"defense": 10,
+		"move": 4,
+		"jump": 3,
+		"speed": 13,
+		"abilities": [
+			"keening",
+			"grief",
+			"lament",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#5a4a7d",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"banshee": {
+		"display_name": "Banshee",
+		"job": "Wild",
+		"max_hp": 74,
+		"attack": 26,
+		"defense": 5,
+		"move": 4,
+		"jump": 3,
+		"speed": 13,
+		"abilities": [
+			"keening",
+			"lament",
+			"grief",
+			"frostbite"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#5a4a7d",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/wraith/idle",
+		"family": "wraith",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"cabin_boy": {
 		"display_name": "Cabin Hand",
@@ -1129,6 +1260,29 @@
 		"tier": 5,
 		"tint": "#c1a4ff"
 	},
+	"swivel_gun": {
+		"display_name": "Swivel Gun",
+		"job": "Wild",
+		"max_hp": 32,
+		"attack": 13,
+		"defense": 5,
+		"move": 1,
+		"jump": 0,
+		"speed": 8,
+		"abilities": [
+			"arc_shot"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "default",
+		"color": "#8fa3b8",
+		"body_scale": 0.94,
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"turret_cannon": {
 		"display_name": "Cannon",
 		"job": "Wild",
@@ -1149,7 +1303,114 @@
 		"kind": "default",
 		"color": "#8fa3b8",
 		"body_scale": 1.25,
-		"sprite_dir": "res://art/big/turret_cannon/idle"
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 2
+	},
+	"heavy_cannon": {
+		"display_name": "Heavy Cannon",
+		"job": "Wild",
+		"max_hp": 68,
+		"attack": 24,
+		"defense": 10,
+		"move": 1,
+		"jump": 0,
+		"speed": 7,
+		"abilities": [
+			"arc_shot",
+			"chain_bolt",
+			"pyre",
+			"snipe"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "default",
+		"color": "#8fa3b8",
+		"body_scale": 1.4,
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"bombard": {
+		"display_name": "Bombard",
+		"job": "Wild",
+		"max_hp": 92,
+		"attack": 28,
+		"defense": 13,
+		"move": 1,
+		"jump": 0,
+		"speed": 7,
+		"abilities": [
+			"arc_shot",
+			"chain_bolt",
+			"pyre",
+			"volley"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "default",
+		"color": "#8fa3b8",
+		"body_scale": 1.62,
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"great_bombard": {
+		"display_name": "Great Bombard",
+		"job": "Wild",
+		"max_hp": 130,
+		"attack": 34,
+		"defense": 15,
+		"move": 1,
+		"jump": 0,
+		"speed": 7,
+		"abilities": [
+			"volley",
+			"arc_shot",
+			"chain_bolt",
+			"pyre",
+			"firebrand"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "default",
+		"color": "#8fa3b8",
+		"body_scale": 1.81,
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"arc_cannon": {
+		"display_name": "Arc Cannon",
+		"job": "Wild",
+		"max_hp": 80,
+		"attack": 28,
+		"defense": 8,
+		"move": 1,
+		"jump": 0,
+		"speed": 7,
+		"abilities": [
+			"chain_bolt",
+			"thunderhead",
+			"spark",
+			"arc_shot"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "default",
+		"color": "#8fa3b8",
+		"body_scale": 1.31,
+		"sprite_dir": "res://art/big/turret_cannon/idle",
+		"family": "turret_cannon",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"ember_duelist": {
 		"display_name": "Duelist",
@@ -2851,6 +3112,31 @@
 		"color": "#7a5ac0",
 		"sprite_dir": "res://art/tier1/element_monk/idle"
 	},
+	"sword_cub": {
+		"display_name": "Sword Cub",
+		"job": "Sworn Blade",
+		"max_hp": 43,
+		"attack": 13,
+		"defense": 5,
+		"move": 4,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"cleave"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#3a3a44",
+		"flash_step": 2,
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"sword_bear": {
 		"display_name": "Sword Bear",
 		"job": "Sworn Blade",
@@ -2873,7 +3159,146 @@
 		"flash_step": 2,
 		"color": "#3a3a44",
 		"body_scale": 1.3,
-		"sprite_dir": "res://art/big/sword_bear/idle"
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 2
+	},
+	"blade_bear": {
+		"display_name": "Blade Bear",
+		"job": "Sworn Blade",
+		"max_hp": 89,
+		"attack": 24,
+		"defense": 12,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike",
+			"whirl"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#3a3a44",
+		"flash_step": 2,
+		"body_scale": 1.46,
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"war_bear": {
+		"display_name": "War Bear",
+		"job": "Sworn Blade",
+		"max_hp": 122,
+		"attack": 28,
+		"defense": 14,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"cleave",
+			"sunder",
+			"strike",
+			"crush"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#3a3a44",
+		"flash_step": 2,
+		"body_scale": 1.69,
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"bear_warlord": {
+		"display_name": "Bear Warlord",
+		"job": "Sworn Blade",
+		"max_hp": 172,
+		"attack": 34,
+		"defense": 17,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"crush",
+			"cleave",
+			"sunder",
+			"strike",
+			"haymaker"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#3a3a44",
+		"flash_step": 2,
+		"body_scale": 1.89,
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"rune_bear": {
+		"display_name": "Rune Bear",
+		"job": "Sworn Blade",
+		"max_hp": 106,
+		"attack": 28,
+		"defense": 9,
+		"move": 4,
+		"jump": 2,
+		"speed": 12,
+		"abilities": [
+			"stand_fast",
+			"earthshake",
+			"mend",
+			"strike"
+		],
+		"classes": [
+			"sworn_blade",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#3a3a44",
+		"flash_step": 2,
+		"body_scale": 1.37,
+		"sprite_dir": "res://art/big/sword_bear/idle",
+		"family": "sword_bear",
+		"tier": 5,
+		"tint": "#c1a4ff"
+	},
+	"musket_cub": {
+		"display_name": "Musket Cub",
+		"job": "Longbow",
+		"max_hp": 40,
+		"attack": 13,
+		"defense": 6,
+		"move": 3,
+		"jump": 1,
+		"speed": 9,
+		"abilities": [
+			"arc_shot"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#dfe6ec",
+		"body_scale": 0.98,
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 1,
+		"tint": "#d8cbb4"
 	},
 	"cannon_bear": {
 		"display_name": "Cannon Bear",
@@ -2896,7 +3321,118 @@
 		"kind": "beast",
 		"color": "#dfe6ec",
 		"body_scale": 1.3,
-		"sprite_dir": "res://art/big/cannon_bear/idle"
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 2
+	},
+	"mortar_bear": {
+		"display_name": "Mortar Bear",
+		"job": "Longbow",
+		"max_hp": 84,
+		"attack": 22,
+		"defense": 13,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"arc_shot",
+			"scorch",
+			"pyre",
+			"snipe"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#dfe6ec",
+		"body_scale": 1.46,
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"siege_bear": {
+		"display_name": "Siege Bear",
+		"job": "Longbow",
+		"max_hp": 115,
+		"attack": 27,
+		"defense": 16,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"arc_shot",
+			"scorch",
+			"pyre",
+			"volley"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#dfe6ec",
+		"body_scale": 1.69,
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 4,
+		"tint": "#ff9f86"
+	},
+	"bear_gunmaster": {
+		"display_name": "Bear Gunmaster",
+		"job": "Longbow",
+		"max_hp": 161,
+		"attack": 32,
+		"defense": 19,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"volley",
+			"arc_shot",
+			"scorch",
+			"pyre",
+			"haymaker"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#dfe6ec",
+		"body_scale": 1.89,
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"powder_bear": {
+		"display_name": "Powder Bear",
+		"job": "Longbow",
+		"max_hp": 99,
+		"attack": 27,
+		"defense": 10,
+		"move": 3,
+		"jump": 1,
+		"speed": 8,
+		"abilities": [
+			"firebrand",
+			"pyre",
+			"scorch",
+			"chain_bolt"
+		],
+		"classes": [
+			"longbow",
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#dfe6ec",
+		"body_scale": 1.37,
+		"sprite_dir": "res://art/big/cannon_bear/idle",
+		"family": "cannon_bear",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"avatar_adept": {
 		"display_name": "The Adept",
