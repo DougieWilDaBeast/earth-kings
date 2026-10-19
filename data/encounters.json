@@ -38,10 +38,11 @@
 	"bands": 46,
 	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
 	"champion_from": "C",
-	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Only goblins have five so far. Inferred: every name, weight and number. Read by Tiers.",
+	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins and wolves have five so far (D264). Inferred: every name, weight and number. Read by Tiers.",
 	"tiers": {
 		"families": {
-			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]]
+			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]],
+			"wolf": ["wolf_cub", "wolf", "grey_wolf", "dire_wolf", ["pack_alpha", "moon_howler"]]
 		},
 		"by_level": [
 			{ "from": 1, "weights": [6, 4, 0, 0, 0] },

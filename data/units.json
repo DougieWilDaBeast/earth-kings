@@ -128,6 +128,29 @@
 		"color": "#a33b3b",
 		"sprite_dir": "res://art/tier1/mace_pirate/idle"
 	},
+	"wolf_cub": {
+		"display_name": "Wolf Cub",
+		"job": "Wild",
+		"max_hp": 18,
+		"attack": 7,
+		"defense": 1,
+		"move": 5,
+		"jump": 2,
+		"speed": 15,
+		"abilities": [
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7d7f8a",
+		"body_scale": 0.75,
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 1,
+		"tint": "#d8cbb4"
+	},
 	"wolf": {
 		"display_name": "Wolf",
 		"job": "Wild",
@@ -146,7 +169,111 @@
 		],
 		"kind": "beast",
 		"color": "#7d7f8a",
-		"sprite_dir": "res://art/tier1/wolf/idle"
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 2
+	},
+	"grey_wolf": {
+		"display_name": "Grey Wolf",
+		"job": "Wild",
+		"max_hp": 36,
+		"attack": 13,
+		"defense": 3,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"strike",
+			"hamstring",
+			"lunge"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7d7f8a",
+		"body_scale": 1.1,
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 3,
+		"tint": "#a9b8d6"
+	},
+	"dire_wolf": {
+		"display_name": "Dire Wolf",
+		"job": "Wild",
+		"max_hp": 52,
+		"attack": 16,
+		"defense": 5,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"strike",
+			"hamstring",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7d7f8a",
+		"body_scale": 1.3,
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 4,
+		"tint": "#8f7a70"
+	},
+	"pack_alpha": {
+		"display_name": "Pack Alpha",
+		"job": "Wild",
+		"max_hp": 72,
+		"attack": 19,
+		"defense": 6,
+		"move": 5,
+		"jump": 2,
+		"speed": 14,
+		"abilities": [
+			"lunge",
+			"hamstring",
+			"cleave",
+			"crush"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7d7f8a",
+		"body_scale": 1.45,
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 5,
+		"tint": "#ffd36e"
+	},
+	"moon_howler": {
+		"display_name": "Moon Howler",
+		"job": "Wild",
+		"max_hp": 44,
+		"attack": 15,
+		"defense": 3,
+		"move": 5,
+		"jump": 2,
+		"speed": 13,
+		"abilities": [
+			"keening",
+			"gust",
+			"second_wind",
+			"strike"
+		],
+		"classes": [
+			"wildling"
+		],
+		"kind": "beast",
+		"color": "#7d7f8a",
+		"body_scale": 1.05,
+		"sprite_dir": "res://art/tier1/wolf/idle",
+		"family": "wolf",
+		"tier": 5,
+		"tint": "#c1a4ff"
 	},
 	"goblin_lesser": {
 		"display_name": "Lesser Goblin",
