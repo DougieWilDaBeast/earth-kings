@@ -7,6 +7,10 @@
 		"reach": 22,
 		"signpost_ways": 3
 	},
+	"from_afar": {
+		"_comment": "Who speaks from afar is seen as a ghost of themselves (play-test 7, doug-md: Sennet 'as a ghostly blue figure'; call BR8). A line sent with `afar` by a speaker named here shows their face in the talk box washed in `tint`, and on the ground their figure stands `beside` cells off the lead's shoulder in the same wash, coming in over `fade` seconds and flickering by `flicker`, gone when the talk is over. Read by src/dialogue/dialogue_script.gd and src/area/area_scene.gd.",
+		"Sennet": { "unit": "timeless_one", "tint": "#6fb4ff", "alpha": 0.8, "beside": 1.4, "fade": 0.6, "flicker": 0.2 }
+	},
 	"first_hour": {
 		"_comment": "The First Hour's cut list (D95, D97): systems built but hidden until the First Hour plays from the crater to floor 5. Read by src/chronicle/first_hour.gd. Take a name out of `hidden` to bring its system back. coliseum: the Extras entry and the keep doors; training: the Extras entry (the suites still use it); museum: the Extras entry; trivia: no facts found; grimoires: no books for sale; ferries: no sailing; captivity: nobody is taken alive; nemesis: no foe remembers you; dispatch: nobody is sent on errands from the party screen; seasons: no season on the bar, in the journal or the news; beds: no bed to buy in the crater, which is where the lead fell, not a home (D178); The roadside scenes (D121) came back once drawn and stood on the ground (D131).",
 		"hidden": ["coliseum", "training", "museum", "trivia", "grimoires", "ferries", "captivity", "nemesis", "dispatch", "seasons", "beds"],
