@@ -78,7 +78,7 @@
 		},
 		"the_last_lot": {
 			"speaker": "Alder the Steward",
-			"text": "Took the grain and the name of protectors with it. If you're the same, take it now and spare us the speech.",
+			"text": "Called themselves protectors and took the grain. If you're the same, take it now and spare us the speech.",
 			"options": [
 				{
 					"text": "We're not. You'll have it back if we find it.",
@@ -90,7 +90,7 @@
 		},
 		"work": {
 			"speaker": "Alder the Steward",
-			"text": "There's always work. Whether there's coin behind it is a different question — ask at the board and don't hold your breath.",
+			"text": "There's always work. Whether there's coin behind it is another question. Ask at the board, and don't hold your breath.",
 			"next": "end"
 		},
 		"read_the_village": {

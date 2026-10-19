@@ -22,7 +22,7 @@
 			{ "speaker": "Bram", "text": "That's the Tower, off to the {tower_way}, and {city} at the foot of it, to the {city_way}. The Guild's there. Nobody goes up that thing without the Guild's say-so." },
 			{ "speaker": "Bram", "heard_gate": true, "text": "One more thing. I keep dreaming of somebody who came down like you, shut {last_gate} for the Guild, and went up that thing and never came back down. Make of it what you like." },
 			{ "speaker": "{name}", "unless": ["cato", "janus", "bellona", "cassius", "saturn", "pluto", "ultor", "liber", "ares", "caesar", "vesta", "iris", "ceres", "juno", "diana"], "text": "Up. Whatever I was, it was up there. I am going back." },
-			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody up there kept rules. I'll learn theirs." },
+			{ "speaker": "{name}", "lead": "cato", "text": "Good. Somebody here keeps rules. I'll learn theirs." },
 			{ "speaker": "{name}", "lead": "janus", "text": "A tower nobody is allowed to climb. Mm. That is the first interesting thing anyone has said to me." },
 			{ "speaker": "{name}", "lead": "bellona", "text": "Then the Guild is the chain of command here. Good. I'll know where I stand by nightfall." },
 			{ "speaker": "{name}", "lead": "cassius", "text": "And who decided the Guild gets the say-so? I'll ask them. Then I'll climb it anyway." },
@@ -30,7 +30,7 @@
 			{ "speaker": "{name}", "lead": "pluto", "text": "The Guild's mark. Fine. I've started at the bottom before." },
 			{ "speaker": "{name}", "lead": "ultor", "text": "I don't need anybody's say-so. I'm looking for someone. If they went up it, so will I." },
 			{ "speaker": "{name}", "lead": "liber", "text": "Say-so? Ha! I'll climb it, and they can tell me off at the top." },
-			{ "speaker": "{name}", "lead": "ares", "text": "HA! Then I'll go and get their say-so, and then I'll go up it." },
+			{ "speaker": "{name}", "lead": "ares", "text": "HA! Then I'll get their say-so, and then I'll go up it." },
 			{ "speaker": "{name}", "lead": "caesar", "text": "Then I'll get their say-so! Where do I sign? You'll hear them cheer for me yet." },
 			{ "speaker": "{name}", "lead": "vesta", "text": "Everyone always wants up. I'll climb it. I'm not promising to stay up there." },
 			{ "speaker": "{name}", "lead": "iris", "text": "The Guild! Then everyone who's anyone goes through there. Perfect. Who else did you pull out?" },
@@ -104,9 +104,9 @@
 			"weapon_shake": { "seconds": 1.4, "pixels": 9 },
 			"weapon_annal": "{weapon}, made for {name} in another world, fell from the sky.",
 			"weapon_rumour": "A crater opened to the {way} of {place}, they say, near where you yourself came down, with a weapon standing up out of it. Nobody who has tried to swing it could make it behave.",
-			"weapon_found": "In the crater lies {weapon}, made for {name}, who died in another world. It is heavy in your hands in a way that has nothing to do with weight.",
+			"weapon_found": "In the crater lies {weapon}, made for {name}, who died in another world. It is heavier than it should be.",
 			"weapon_found_annal": "The company dug {weapon} out of its crater. It was made for {name}.",
-			"echo_seen": "Something about {name} catches in your throat. Somewhere else, they died. Here, they never fell.",
+			"echo_seen": "You know {name}'s face. Somewhere else, they died. Here, they never fell.",
 			"echo_ask": "Have we met before?",
 			"echo_answer": {
 				"NT": "No. I would remember; I remember everything since the crater. You are looking at me as if I owed you something. I do not, yet.",
@@ -179,10 +179,10 @@
 				"NT": [ "You have it too. Good. I had begun to think I was the only one who woke up in a crater with a head full of nothing. I am working out what we were. Books first." ],
 				"NF": [ "I knew someone would come. I dreamed of falling, and of other people falling beside me. You were one of them, I think." ],
 				"SJ": [ "You fell too, didn't you? Then we are owed an explanation, and I mean to have it in order: what happened, who did it, and what is to be done about it." ],
-				"SP": [ "Another one off the same cart, then. Don't look so grim. We're alive, the ground's solid, and there's a fight somewhere near here. That's a start." ]
+				"SP": [ "Another one off the same cart, then. Don't look so grim. We're alive, and there's a fight somewhere near here." ]
 			},
 			"again": {
-				"NT": [ "{lead}. I have a theory about the Tower now. It is not finished. Neither are we." ],
+				"NT": [ "{lead}. I have a theory about the Tower now. You will hear it when I can prove it." ],
 				"NF": [ "You came back. Most people don't. Sit a while, if you like." ],
 				"SJ": [ "{lead}. You keep turning up. Either we were meant to, or you are following me." ],
 				"SP": [ "{lead}! Still breathing. Good. I've been somewhere loud since I saw you last." ]
@@ -195,7 +195,7 @@
 					"SP": "A library, if you can believe it. Me. Somebody there owes me answers, and I'll take them in any order."
 				},
 				"tower": "The Tower. I keep walking towards it without deciding to.",
-				"keep": "A keep. Walls, banners, people who think they are in charge. Somebody there knows something, or will fight me for not knowing.",
+				"keep": "A keep. Walls, and people who think they are in charge. Somebody there knows something, or will fight me over it.",
 				"village": "A village. People who cook. I would like to remember what it is to be ordinary.",
 				"gate": "A gate has opened. I can feel it from here, like a draught under a door. I'm going in.",
 				"hut": "Somewhere small and out of the way. I think better where nobody is looking at me."
@@ -210,7 +210,7 @@
 			"seen_note": "{name}, {title}, is here. They carry the mark you share.",
 			"rumour": [
 				"Travellers talk of {name}, {title}, seen lately at {place}. They say there is something odd about the eyes.",
-				"Somebody calling themselves {name} passed through {place}, asking questions nobody could answer.",
+				"Somebody calling themselves {name} passed through {place}, asking about the sky.",
 				"Word from {place}: {name}, {title}, turned up there out of nowhere, like they'd fallen from the sky."
 			],
 			"rumour_road": "{name}, {title}, was last seen on the road, heading for {place}."

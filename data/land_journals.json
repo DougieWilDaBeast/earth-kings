@@ -43,7 +43,7 @@
 		},
 		"savanna": {
 			"name": "Lion's Mane Torc",
-			"text": "A ring of beaten gold, still smelling faintly of the plains.",
+			"text": "A ring of beaten gold. It still smells of dry grass and lion.",
 			"effects": { "attack": 2, "health": 0.05 }
 		},
 		"ash": {

@@ -31,7 +31,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He tries to see whose voice it is. The face will not come."
+					"text": "He turns to find who is speaking. There is a shape against the light, and no more."
 				},
 				{
 					"speaker": "",
@@ -43,14 +43,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Atlas wakes on the fifth floor with the buckle in his fist and Sky's head under his other hand, and knows one thing he did not know before: Sky was given, not found. Somebody up there meant him to be carried, and meant him to arrive."
+					"text": "The fifth floor again, cold under him, the buckle in his fist and Sky's head under his other hand. Sky was given, not found. Somebody up there meant him to be carried, and meant him to arrive."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Weight."
 				}
 			],
-			"journal": "Floor 5. I remembered a courtyard, and a voice, and that Sky was a gift. I don't remember who gave it."
+			"journal": "Floor 5. I remembered a white courtyard and a voice, and that Sky was a gift, though not who gave him."
 		},
 		{
 			"id": "atlas_2",
@@ -86,7 +86,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The voice closes the book and does not argue, as if it knew he would say it. He tries to see whose hands are on the cover. The face will not come."
+					"text": "The voice closes the book and does not argue, as if it knew he would say it. Above the hands on the cover there is only lamplight."
 				},
 				{
 					"speaker": "",
@@ -94,14 +94,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Atlas wakes on the sixth floor with the scrap in his fist and knows one thing he did not know before: he was not sent down. He asked to go, because he had read to the last page, and he went to change it."
+					"text": "On the sixth floor, the scrap still in his fist, Atlas has it at last. He was not sent down. He asked to go, because he had read to the last page, and he went to change it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Last Page."
 				}
 			],
-			"journal": "Floor 6. I remembered a library, and the end of a story with sixteen in it. The ones who climb are set against each other at the top. I asked to go down anyway."
+			"journal": "Floor 6. I read the old book to its end, where the sixteen who climb are set against each other at the top, and I asked to go down anyway."
 		}
 	],
 	"cato": [
@@ -202,7 +202,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The voice takes the tablet from him, gently, and he lets it. He tries to see whose face it is. The face will not come."
+					"text": "The voice takes the tablet from him, gently, and he lets it. He looks up to put a name to the hand. The lamp has burnt too low."
 				},
 				{
 					"speaker": "",
@@ -210,14 +210,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Cato wakes on the tenth floor with the frame in his fist and knows one thing he did not know before: he wrote Ultor's name down before he ever hunted him. Somebody he trusted wanted that boy forgotten, to keep him safe, and Cato would not let him be."
+					"text": "The tenth floor, and the frame in his fist. He wrote Ultor's name down before he ever hunted him. Somebody he trusted wanted that boy forgotten, to keep him safe, and Cato would not leave him off."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Roll."
 				}
 			],
-			"journal": "Floor 10. I remembered a gate, and a roll of names, and a boy who came in under it last. I wrote him down: Ultor. Someone wanted him left off. The last line of the list is still gone."
+			"journal": "Floor 10. The night the gate held, I put the last one in on the roll, a boy called Ultor, though someone wanted him left off."
 		}
 	],
 	"janus": [
@@ -259,7 +259,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He says yes, mostly so the voice will let him sleep. He tries to see whose face it is. The face will not come."
+					"text": "He says yes, mostly so the voice will let him sleep, and does not open his eyes to see who asked. Now he cannot."
 				},
 				{
 					"speaker": "",
@@ -267,14 +267,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Janus wakes on the fifth floor with the pin in his fist, and knows one thing he did not know before: the gates were never what got him up. A promise did. He made it to somebody, and he meant it more than he let them see."
+					"text": "Janus comes to on the fifth floor with the pin in his fist and lies there, working it out. It was never the gates that got him up. It was a promise, made to somebody, and he meant it more than he let them see."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Shut Door."
 				}
 			],
-			"journal": "Floor 5. I remembered a door I slept against, and a promise to get up for the hard ones. I don't remember who I promised."
+			"journal": "Floor 5. I slept against a shut door once and promised somebody I would get up for the hard ones, and I cannot think who."
 		},
 		{
 			"id": "janus_2",
@@ -318,7 +318,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The voice puts a blank key in his hand and leaves him there. He tries to see whose face it is. The face will not come."
+					"text": "The voice puts a blank key in his hand and leaves him there. By the time he thinks to turn round, the doorway is empty."
 				},
 				{
 					"speaker": "",
@@ -326,14 +326,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Janus wakes on the eighth floor with the key in his fist and knows one thing he did not know before: the gates down here are those doors, and the room between them was given to him. The promise was not to get up. It was to keep watch on the doors."
+					"text": "The eighth floor, and the key in his fist. So the gates down here are those doors, and the room between them is his. The promise was never only to get up. It was to keep watch on them."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Other Side."
 				}
 			],
-			"journal": "Floor 8. I remembered opening the door at last. Behind it, sixteen more, one for each of us, shut until one of us dies. Somebody gave me the room in the middle, and a key that fits nothing yet."
+			"journal": "Floor 8. Behind the door were sixteen more, one for each of us and shut until its keeper dies, and somebody gave me the room between them and a key that fits nothing yet."
 		}
 	],
 	"bellona": [
@@ -375,7 +375,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She blows the whistle, and the gate comes down, and she does not look over the wall. She tries to see whose voice asked for twenty. The face will not come."
+					"text": "She blows the whistle, and the gate comes down, and she does not look over the wall. She never turns to see who asked for twenty."
 				},
 				{
 					"speaker": "",
@@ -383,14 +383,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Bellona wakes on the fifth floor with the whistle in her fist and knows one thing she did not know before: she has given that order already, once, above. The fear was never of giving it. It was of being the one who can."
+					"text": "Bellona is on her feet on the fifth floor before she is properly awake, the whistle in her fist. She has given that order before, once, above. The fear was never of giving it. It was of being the one who can."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Order."
 				}
 			],
-			"journal": "Floor 5. I remembered a gate, and people still on the road, and that I shut it. I would do it again. I don't remember who was outside."
+			"journal": "Floor 5. I shut a gate on people still running for it, and I would do it again, but I do not know who was outside."
 		},
 		{
 			"id": "bellona_2",
@@ -410,7 +410,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "Bellona works it free with her nail and knows, before she knows why, where it was meant to go, and the floor goes out from under the world."
+					"text": "Bellona works it free with a thumbnail, and knows where it was aimed before she knows why, and the floor goes out from under the world."
 				},
 				{
 					"speaker": "",
@@ -434,7 +434,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "They let him go. She tries to see whose voice it was that told her the order. The face will not come."
+					"text": "They let him go. She looks along the wall for whoever quoted her own orders at her, and cannot pick them out among the helmets."
 				},
 				{
 					"speaker": "",
@@ -442,14 +442,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Bellona wakes on the seventh floor with the steel in her fist and knows one thing she did not know before: the boy from the road has a name, Ultor, and she let him go. She would do it again. He will come again, and she knew it then."
+					"text": "The seventh floor, and the steel in her fist. The boy from the road is called Ultor, and she let him go. He will come again. She knew that when she gave the order, and gave it anyway."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Count of Twenty."
 				}
 			],
-			"journal": "Floor 7. I remembered the hour after the gate. A boy came up the stair for me and broke his knife on my mail. His name is Ultor. I let him go."
+			"journal": "Floor 7. A boy called Ultor came up the wall stair for me and broke his knife on my mail, and I let him go."
 		}
 	],
 	"cassius": [
@@ -491,7 +491,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The voice laughs, not unkindly. They'll remember you in it, it says. He tries to see whose face it is, past the eyeholes. The face will not come."
+					"text": "The voice laughs, not unkindly, and says they will remember him in it. He looks out through the eyeholes for whoever said it. The holes are too small."
 				},
 				{
 					"speaker": "",
@@ -499,14 +499,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Cassius wakes on the fifth floor with the mask in his fist and knows one thing he did not know before: nobody ever made him the monster. He asked for it, to spare somebody smaller, and he would ask again."
+					"text": "On the fifth floor the mask is still grinning in his fist. Nobody ever made Cassius the monster. He asked for it, to spare somebody smaller, and he would ask again."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Mask."
 				}
 			],
-			"journal": "Floor 5. I remembered a festival, and a mask nobody wanted, and that I took it. Nobody made me the monster. I asked."
+			"journal": "Floor 5. Nobody made me the monster at the festival; I took the mask out of a smaller child's hands and asked for it."
 		},
 		{
 			"id": "cassius_2",
@@ -550,7 +550,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He nods at the noise. He tries to see whose face it is, the one who knows him that well. The face will not come."
+					"text": "He nods at the noise. Whoever knows him that well is standing just behind him, and he will not give them the satisfaction of looking round."
 				},
 				{
 					"speaker": "",
@@ -558,14 +558,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Cassius wakes on the eighth floor with the ribbon in his fist and knows one thing he did not know before: the hero has a name, Caesar, and offered him a hand, and he refused it. He still cannot say whether that was principle or pride."
+					"text": "Cassius wakes on the eighth floor with the ribbon wound round his fingers. The hero was Caesar. He held out his hand, and Cassius left it hanging. He has argued it both ways since, principle and pride, and won neither."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Hand."
 				}
 			],
-			"journal": "Floor 8. I remembered the hero's hand after the festival. His name was Caesar. I didn't take it. A child gave me the ribbon they threw for him."
+			"journal": "Floor 8. The hero was called Caesar, and I would not take his hand, so a child gave me the ribbon they threw for him."
 		}
 	],
 	"saturn": [
@@ -607,7 +607,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He fills the empty bowl anyway, and it cracks in his hands. He tries to see whose face is across the table. The face will not come."
+					"text": "He fills the empty bowl anyway, and it cracks in his hands. Across the table, where a face should be, there is only the chair."
 				},
 				{
 					"speaker": "",
@@ -615,14 +615,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Saturn wakes on the fifth floor with the bowl in his hands and knows one thing he did not know before: the loss did not start here. He brought it down with him. Somebody did not come back above, and he has been setting their place ever since."
+					"text": "Saturn wakes on the fifth floor holding the bowl as you hold a thing that has broken once. The loss did not start here. He brought it down with him. Somebody above did not come back, and he has set their place ever since."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Mended Bowl."
 				}
 			],
-			"journal": "Floor 5. I remembered a table I laid for everyone, and one place that stayed empty. I don't remember whose it was. I still set it."
+			"journal": "Floor 5. I laid a table for everyone once and one place stayed empty, and I still set it, though I cannot remember whose it is."
 		},
 		{
 			"id": "saturn_2",
@@ -658,7 +658,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The one he loves goes up the light, and steps out of a sandal on the way, and does not look down. Nobody who climbs it is ever seen again. He tries to see their face at the top. The face will not come."
+					"text": "The one he loves goes up the light, and steps out of a sandal on the way, and does not look down. Nobody who climbs it is ever seen again. At the top the light is too bright to make them out."
 				},
 				{
 					"speaker": "",
@@ -670,14 +670,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Saturn wakes on the tenth floor with the sandal in his hands and knows one thing he did not know before: the empty place belongs to someone who took the easy way up, and it was a lie. Somebody up there sells an ascension that is not one. He means to make them answer for it."
+					"text": "On the tenth floor Saturn sets the sandal down beside him, straight. The empty place is theirs, and the easy way up was a lie. Somebody up there sells an ascension that is not one. They will answer for it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Easy Way Up."
 				}
 			],
-			"journal": "Floor 10. I remembered a light like a ladder, and the one I loved going up it without me. Nobody came back down. It was not heaven. Somebody lied to them."
+			"journal": "Floor 10. The one I loved climbed a light like a ladder without me, and nobody came back down, because it was never heaven and somebody lied to them."
 		}
 	],
 	"pluto": [
@@ -719,7 +719,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He means it the way he means a ledger. He tries to see whose face is asking. The face will not come."
+					"text": "He means it the way he means a ledger. He does not look round at who asked. He is still counting."
 				},
 				{
 					"speaker": "",
@@ -727,14 +727,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Pluto wakes on the fifth floor with the stick in his fist and knows one thing he did not know before: he has been at the top, and the certainty was right. He got there alone, over everyone who climbed with him, and it was not worth it."
+					"text": "Pluto wakes on the fifth floor with the stick in his fist and the count unfinished. He was right: he has been at the top. He got there alone, over everyone who climbed with him, and it was not worth it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Tally."
 				}
 			],
-			"journal": "Floor 5. I remembered standing at the top of a stair, alone, counting the ones who climbed with me. None of them made it. This time nobody pays but me."
+			"journal": "Floor 5. I stood alone at the top of the stair, counting the ones who climbed with me, and this time nobody pays for it but me."
 		},
 		{
 			"id": "pluto_2",
@@ -774,7 +774,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He wins the last round at the top and is given the token, and the crowd is already leaving. He tries to see the face of the one who said he could stop. The face will not come."
+					"text": "He wins the last round at the top and is given the token, and the crowd is already leaving. The one who said he could stop has gone with them."
 				},
 				{
 					"speaker": "",
@@ -782,14 +782,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Pluto wakes on the tenth floor with the token in his fist and knows one thing he did not know before: the top was a contest, and every notch on the tally was someone he beat on the way up. Somebody holds another. This time he means to be the one who ends it."
+					"text": "Pluto wakes on the tenth floor with the token's one notch under his thumb. The top was a contest, and every notch on the tally was someone he beat on the way up. Somebody means to hold another. This time Pluto ends it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Rounds."
 				}
 			],
-			"journal": "Floor 10. I remembered the stair again, from the bottom. It was a contest. Every one of them I counted, I beat. There's going to be another one."
+			"journal": "Floor 10. The stair was a contest and every notch on my tally someone I beat, and there is going to be another one."
 		}
 	],
 	"ultor": [
@@ -827,7 +827,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The hand lets go of his collar and shoves him into the gap under the closing gate, and the one it belongs to stays on the road. He tries to see their face. The face will not come."
+					"text": "The hand lets go of his collar and shoves him into the gap under the closing gate, and the one it belongs to stays on the road. He twists round to see their face, and the gate is in the way."
 				},
 				{
 					"speaker": "",
@@ -839,14 +839,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ultor wakes on the fifth floor with the hilt in his fist and knows one thing he did not know before: he does not hate a face. He hates whoever blew that whistle. And the one he would have followed anywhere died on the wrong side of it."
+					"text": "Ultor wakes on the fifth floor with the hilt in his fist. It was never a face he hated. It was whoever blew that whistle. The one he would have followed anywhere died on the wrong side of it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Wrong Side."
 				}
 			],
-			"journal": "Floor 5. I remembered a road, a gate, and a whistle. Someone threw me under it and stayed outside. I don't remember their face. I'll know the whistle."
+			"journal": "Floor 5. Someone shoved me under a closing gate and stayed on the road, and I don't have their face, but I'll know the whistle."
 		},
 		{
 			"id": "ultor_2",
@@ -886,7 +886,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "Nobody has ever let him go before. He does not thank her. He looks up to see the face that blew the whistle. The face will not come."
+					"text": "Nobody has ever let him go before. He does not thank her. He tries to look up at her, and the boot on his back keeps his face in the stone."
 				},
 				{
 					"speaker": "",
@@ -894,14 +894,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ultor wakes on the seventh floor with the cord in his fist and knows one thing he did not know before: the whistle has a name, Bellona. And she let him live, once, which is worse than anything she could have done."
+					"text": "Ultor wakes on the seventh floor winding the cord round two fingers. The whistle has a name now: Bellona. She let him live, once. That is worse than anything else she could have done to him."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Name."
 				}
 			],
-			"journal": "Floor 7. I remembered the hour after the gate. I went for the one with the whistle and broke my knife. They called her Bellona. She let me go. I'll know the name now, as well as the whistle."
+			"journal": "Floor 7. I cut the whistle from her throat and broke my knife on her mail, and they called her Bellona, and she let me go."
 		}
 	],
 	"liber": [
@@ -943,7 +943,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "Liber goes, and does not look back, and is happy the whole way down the road. He tries to remember the big one's face. The face will not come."
+					"text": "Liber goes, and does not look back, and is happy the whole way down the road. He never looked back, so he has no face to remember."
 				},
 				{
 					"speaker": "",
@@ -951,14 +951,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Liber wakes on the fifth floor with the rope in his fist and knows one thing he did not know before: somebody set him free once, and paid for it, and never told him. He would like very much to say thank you."
+					"text": "Liber wakes on the fifth floor grinning, the rope in his fist, and then stops grinning. Somebody set him free once, and paid for it, and never told him. He would very much like to say thank you."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Cut Rope."
 				}
 			],
-			"journal": "Floor 5. I remembered cutting a rope on a gate and running. Someone let me go and took the blame. I want to find them and say thank you."
+			"journal": "Floor 5. I cut the rope on a gate and ran, and someone took the blame for it, and I mean to find them and say thank you."
 		},
 		{
 			"id": "liber_2",
@@ -1002,7 +1002,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "Then he lets Liber knock him down with the sword, and lies in the dust pretending it hurt. Liber tries to see the face of whoever called them in. The face will not come."
+					"text": "Then he lets Liber knock him down with the sword, and lies in the dust pretending it hurt. Whoever called them in is only a voice from a doorway, and the doorway stays dark."
 				},
 				{
 					"speaker": "",
@@ -1010,14 +1010,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Liber wakes on the ninth floor with the wraps on his hand and knows one thing he did not know before: the big one has a name, Ares, and he is family. The one who set him free is somewhere down here too, and Liber has a thank you to deliver."
+					"text": "Liber wakes on the ninth floor with the wraps still on his hand, and leaves them there. The big one is Ares, and Ares is family. He is somewhere down here too, and Liber owes him a thank you."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Wraps."
 				}
 			],
-			"journal": "Floor 9. I remembered the big one wrapping my hands in the yard. His name is Ares. He's my family. He let me go. I'm going to find him and say thank you, properly this time."
+			"journal": "Floor 9. The big one who wrapped my hands and let me go is Ares, my family, and I'm going to find him and thank him properly."
 		}
 	],
 	"ares": [
@@ -1059,7 +1059,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He takes the punishment, and he is glad the whole time. He tries to see whose face the small one had. The face will not come."
+					"text": "He takes the punishment, and he is glad the whole time. He tries to call up the small one's face, and gets only a back, running."
 				},
 				{
 					"speaker": "",
@@ -1067,14 +1067,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ares wakes on the fifth floor with the sword in his fist and knows one thing he did not know before: he has let someone go before, and lied for them, and never once been sorry. Whoever sends him after an outlaw had better not send him after that one."
+					"text": "Ares wakes on the fifth floor laughing, the little sword in his fist. He has let someone go before, and lied for it, and never once been sorry. Whoever sends him after outlaws had better not send him after that one."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The One He Let Go."
 				}
 			],
-			"journal": "Floor 5. I remembered teaching someone small to fight, and a cut rope on the yard gate, and lying for him. I was glad. I don't remember who he was."
+			"journal": "Floor 5. I taught someone small to fight and lied for him when he cut the yard gate's rope, and I was glad to, whoever he was."
 		},
 		{
 			"id": "ares_2",
@@ -1114,7 +1114,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "They put it on his name, and it costs him the day, and the next, and he laughs through all of it. He tries to see the face of the one holding the rope. The face will not come."
+					"text": "They put it on his name, and it costs him the day, and the next, and he laughs through all of it. He keeps his eyes on the gate, never on the one holding the rope."
 				},
 				{
 					"speaker": "",
@@ -1122,14 +1122,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ares wakes on the ninth floor with the link in his fist and knows one thing he did not know before: the small one he let go is Liber, his own kin, and Ares knew his name the whole time. Whoever sends Ares after outlaws had better not send him after that one."
+					"text": "Ares wakes on the ninth floor and rubs his wrist again. The small one was Liber, his own kin, and Ares had the name the whole time they were asking for it. Let them ask again."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, Put It on My Name."
 				}
 			],
-			"journal": "Floor 9. I remembered the morning after the gate. They chained me to the post and asked me for his name. Liber. I said I'd never heard of him. I'd say it again."
+			"journal": "Floor 9. They chained me to the post and asked me for Liber's name, and I said I'd never heard of him, and I'd say it again."
 		}
 	],
 	"caesar": [
@@ -1171,7 +1171,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He wants to ask who was under the mask, and he does not, and the crowd carries him off. He tries to see the monster's face. The face will not come."
+					"text": "He wants to ask who was under the mask, and he does not, and the crowd carries him off. Over their heads he looks back for the monster's face, and sees only the mask."
 				},
 				{
 					"speaker": "",
@@ -1179,14 +1179,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Caesar wakes on the fifth floor with the crown in his fist and knows one thing he did not know before: every cheer he ever had, somebody stood in the dust for. He never once asked who. He means to start."
+					"text": "Caesar wakes on the fifth floor with the crown bent round in his fist. For every cheer he ever had, somebody stood in the dust, and he never once asked who. He will ask now."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Hero's Part."
 				}
 			],
-			"journal": "Floor 5. I remembered a festival where I played the hero and everyone cheered. Someone played the monster so I could. I never asked who."
+			"journal": "Floor 5. I played the hero at a festival and everyone cheered, and someone played the monster so I could, and I never asked who."
 		},
 		{
 			"id": "caesar_2",
@@ -1226,7 +1226,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He knocks at Cassius's door until dark. It does not open. He tries to see the face of the one who told him to leave it. The face will not come."
+					"text": "He knocks at Cassius's door until dark. It does not open. The one who told him to leave it has gone, and he never thought to look at them."
 				},
 				{
 					"speaker": "",
@@ -1234,14 +1234,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Caesar wakes on the eighth floor with the horn in his fist and knows one thing he did not know before: the monster had a name, Cassius, and chose the mask so somebody smaller would not have to. Caesar never got him to open the door. He means to keep knocking."
+					"text": "On the eighth floor Caesar sits up with the horn in his fist. The monster was Cassius, who took the mask so somebody smaller would not have to. The door never opened. Caesar is still knocking."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, Who Was Under It."
 				}
 			],
-			"journal": "Floor 8. I remembered going back for the monster after the festival. His name was Cassius. He took the mask for a little one. He wouldn't open the door. I'll find him."
+			"journal": "Floor 8. The monster was Cassius, who took the mask for a little one, and he would not open his door to me, so I'll find him."
 		}
 	],
 	"vesta": [
@@ -1283,7 +1283,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She tries to see whose voice it was, the one who asked her last. The face will not come."
+					"text": "The one who asked her last stood in the doorway, and the light behind them took the face with it."
 				},
 				{
 					"speaker": "",
@@ -1291,14 +1291,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Vesta wakes on the fifth floor with the lamp in her hands and knows one thing she did not know before: she has been offered the way back once already, and said no, and been left alone for it. She would say no again."
+					"text": "Vesta wakes on the fifth floor with the lamp still warm in her hands. She has been offered the way back once already. She said no, and they left her alone for it. She would say no again."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The One Who Stayed."
 				}
 			],
-			"journal": "Floor 5. I remembered the last fire in an emptying house, and a door back to how things were, and everyone going through it. I stayed and kept the fire. I still would."
+			"journal": "Floor 5. Everyone went through the door back to how things were, and I stayed and kept the fire, and I still would."
 		},
 		{
 			"id": "vesta_2",
@@ -1334,7 +1334,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "They come closer to the fire, and the light goes through them, and they are not there; only ash on the hearth, settling. She tries to see their face as it goes. The face will not come."
+					"text": "They come closer to the fire, and the light goes through them, and they are not there; only ash on the hearth, settling. The face goes first."
 				},
 				{
 					"speaker": "",
@@ -1346,14 +1346,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Vesta wakes on the ninth floor with the stone in her hands and knows one thing she did not know before: the way back is the dead wearing better days. Her fire was never only for her. It is what shows them for what they are."
+					"text": "On the ninth floor the stone is still warm against her cheek. The way back is the dead wearing better days. Her fire was never only for her. It shows them for what they are."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The One Who Came Back."
 				}
 			],
-			"journal": "Floor 9. I remembered one of them coming back, to ask me again. My fire went through them. They were ash. The way back was never back. It was dying, dressed up."
+			"journal": "Floor 9. One of them came back to ask me again, and my fire went through them, and the way back was only dying, dressed up."
 		}
 	],
 	"iris": [
@@ -1395,7 +1395,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "The voice does not argue. It only says, so were you. She tries to see whose face it is. The face will not come."
+					"text": "The voice does not argue. It only says: so were you. She is already running back up the pitch, and never sees who said it."
 				},
 				{
 					"speaker": "",
@@ -1403,14 +1403,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Iris wakes on the fifth floor with the ball under her foot and knows one thing she did not know before: the flinch has a name. Once, when it mattered most, the shot was hers, and she gave it away. Next time she means to take it."
+					"text": "Iris wakes on the fifth floor with the ball under her foot. So the flinch has a name. Once, when it mattered most, the shot was hers, and she gave it away. Next time she takes it."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Pass."
 				}
 			],
-			"journal": "Floor 5. I remembered a game, and the last moment of it, and that the shot was mine. I passed. We lost. Next time I take it."
+			"journal": "Floor 5. The shot was mine in the last moment of the game, and I passed, and we lost, and next time I take it."
 		},
 		{
 			"id": "iris_2",
@@ -1450,7 +1450,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "By morning everyone knows Iris slipped. It is the first story she ever started. She tries to see the face of the one who asked for the truth. The face will not come."
+					"text": "By morning everyone knows Iris slipped. It is the first story she ever started. Whoever asked her for the truth is lost in the telling."
 				},
 				{
 					"speaker": "",
@@ -1458,14 +1458,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Iris wakes on the sixth floor with the armband in her fist and knows one thing she did not know before: the first rumour she ever carried was a lie to cover somebody else. She has carried everyone's news since, so she never has to carry her own."
+					"text": "Iris is up off the sixth floor before she has properly woken, the armband in her fist. Her first rumour was a lie to cover somebody else. She has carried everyone's news since, so she never has to carry her own."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The First Rumour."
 				}
 			],
-			"journal": "Floor 6. I remembered after the game. The one I passed to missed, and everyone blamed them. I said I slipped. That was the first rumour I ever started."
+			"journal": "Floor 6. Everyone blamed the one I passed to for the miss, so I told them I slipped, and that was the first rumour I ever started."
 		}
 	],
 	"ceres": [
@@ -1507,7 +1507,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She lifts the last child into the grain pit, sits down on its lid, and does not get up until morning. She tries to see the face of the one who told her to run. The face will not come."
+					"text": "She lifts the last child into the grain pit, sits down on its lid, and does not get up until morning. She never looks round to see who said she couldn't."
 				},
 				{
 					"speaker": "",
@@ -1515,14 +1515,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ceres wakes on the fifth floor with the dolly in her fist and knows one thing she did not know before: the village is not the first harvest she has hidden children in. She does not know how many were still in the grain when the sun came up. This time she means to count all of them."
+					"text": "Ceres wakes on the fifth floor with the dolly in her fist. The village is not the first harvest she has hidden children in. She never learnt how many were alive at sunrise. This time she will count every one."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Last Sheaf."
 				}
 			],
-			"journal": "Floor 5. I remembered a granary full of children who weren't mine, something walking the fields, and sitting on the pit lid all night. I don't know how many I kept. This time I'll keep them all."
+			"journal": "Floor 5. I sat all night on a pit lid over children who weren't mine while something walked the fields, and I don't know how many I kept, but this time I'll keep them all."
 		},
 		{
 			"id": "ceres_2",
@@ -1562,7 +1562,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She lifts it out with the others and does not look at it until it is in the sun. She tries to see the face of the one who told her to put it back. The face will not come."
+					"text": "She lifts it out with the others and does not look at it until it is in the sun. She does not look at the one who told her to put it back, either."
 				},
 				{
 					"speaker": "",
@@ -1570,14 +1570,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Ceres wakes on the seventh floor with the shoe in her fist and knows one thing she did not know before: there was one in the grain she never put there, and she kept it with the rest. She still does not know how many of hers came out. She knows that one did."
+					"text": "Ceres wakes on the seventh floor and pours the grain back into the shoe, every seed. One in the pit was never hers, and she kept it with the rest. She still does not know how many of hers came out. That one did."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Thirteenth."
 				}
 			],
-			"journal": "Floor 7. I remembered the morning, lifting them out of the grain by feel. There was a hand I didn't know. I kept that one too. I still don't know how many of mine there were."
+			"journal": "Floor 7. Lifting them out of the grain at dawn I found a hand I didn't know, and kept that one too, and I still don't know how many of mine there were."
 		}
 	],
 	"juno": [
@@ -1615,7 +1615,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "He had not. She knows it by how thin he is, and eats anyway, because he wants her to. She tries to see his face, past the steam. The face will not come."
+					"text": "He had not. She knows it by how thin he is, and eats anyway, because he wants her to. His face is behind the steam, and the steam does not clear."
 				},
 				{
 					"speaker": "",
@@ -1627,14 +1627,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Juno wakes on the fifth floor with the spoon in her fist and knows one thing she did not know before: somebody went hungry so she could eat, and never said so. Every table she has laid since has been her paying it back."
+					"text": "Juno wakes on the fifth floor with the spoon in her fist, the crack under her thumb. Somebody went hungry so she could eat, and never said so. Every table she has laid since is her paying it back."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Last Plate."
 				}
 			],
-			"journal": "Floor 5. I remembered a cold room, and an old cook who gave me the last of the pot and said he'd eaten. He hadn't. Nobody at my table goes hungry."
+			"journal": "Floor 5. An old cook gave me the last of the pot and said he'd eaten, and he hadn't, so nobody at my table goes hungry."
 		},
 		{
 			"id": "juno_2",
@@ -1674,7 +1674,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She had not. He knows it by the look of her and eats anyway, because she wants him to. She tries to see his face, past the snow. The face will not come."
+					"text": "She had not. He knows it by the look of her and eats anyway, because she wants him to. The snow is between them, and it will not stop falling."
 				},
 				{
 					"speaker": "",
@@ -1682,14 +1682,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Juno wakes on the sixth floor with the apron string in her fist and knows one thing she did not know before: she was not sent away from the great house. She walked out of it after him, with a plate, and never went back. Every inn she has kept since is that back door."
+					"text": "On the sixth floor Juno ties the apron string round her own waist, properly. She was not sent from the great house. She walked out after him with a plate and never went back. Every inn she has kept is that back door."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Back Door."
 				}
 			],
-			"journal": "Floor 6. I remembered the old cook turned out in the snow for feeding me. I went after him with a plate and said I'd eaten. I hadn't. I never went back in."
+			"journal": "Floor 6. They turned the old cook out in the snow for feeding me, so I went after him with a plate and never went back in."
 		}
 	],
 	"diana": [
@@ -1731,7 +1731,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She says it to the wolf, quietly, not to them. The wolf only puts its head on her knee and stays. She tries to see the face of the one calling. The face will not come."
+					"text": "She says it to the wolf, quietly, not to them. The wolf only puts its head on her knee and stays. The one calling is a lantern at the foot of the hill, and she does not go down to see more."
 				},
 				{
 					"speaker": "",
@@ -1739,14 +1739,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Diana wakes on the fifth floor with the collar in her hands and knows one thing she did not know before: the wolf could have gone down the hill any night it liked. It stayed, and let them fear her, so nobody would ever climb up to find out how frightened she was."
+					"text": "Diana wakes on the fifth floor with the collar held against her. The wolf could have gone down the hill any night it liked. It stayed, and let them fear her, so nobody would climb up and find how frightened she was."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter one, The Collar."
 				}
 			],
-			"journal": "Floor 5. I remembered a hill, and a village that feared it, and the wolf that could have gone down any night and never did. It let them think it was me. To keep them away from me."
+			"journal": "Floor 5. The wolf could have gone down the hill any night, and it stayed and let the village think the danger was me, to keep them away from me."
 		},
 		{
 			"id": "diana_2",
@@ -1786,7 +1786,7 @@
 				},
 				{
 					"speaker": "",
-					"text": "She opens the jaws with her hands, and they cut her, and she does not let go until the cub is out. The man does not come one step nearer. She tries to see his face. The face will not come."
+					"text": "She opens the jaws with her hands, and they cut her, and she does not let go until the cub is out. The man does not come one step nearer. She never looks up from the cub to see his face."
 				},
 				{
 					"speaker": "",
@@ -1794,14 +1794,14 @@
 				},
 				{
 					"speaker": "",
-					"text": "Diana wakes on the ninth floor with the trap in her hands and knows one thing she did not know before: she was not always the frightened one. Once she went down the hill alone, and put her hands in iron, and the wolf has been paying it back ever since."
+					"text": "Diana wakes on the ninth floor with the trap in her lap, and looks at her palms. She was not always the frightened one. Once she went down the hill alone and put her hands in iron, and the wolf has repaid it since."
 				},
 				{
 					"speaker": "",
 					"text": "A new page in the journal: Chapter two, The Trap."
 				}
 			],
-			"journal": "Floor 9. I remembered a cub in a trap at the hill's foot, and a man with a club, and opening it with my hands. I was not afraid. I was small, and I wasn't afraid."
+			"journal": "Floor 9. I opened a trap on a wolf cub with my bare hands while a man with a club watched, and I was small, and I was not afraid."
 		}
 	]
 }

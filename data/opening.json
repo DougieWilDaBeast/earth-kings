@@ -47,20 +47,20 @@
 	},
 	"by_left": {
 		"many": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. {Left} are still standing."],
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. {Left} are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "{Fallen} of the worlds have already gone dark."],
 			"ending": ["In another world, it has just ended.", "{fell}"],
 			"end": ["If you fall, your world ends with you.", "One of the {left_after} after you goes on, from the beginning.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
 		},
 		"two": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. Two are still standing."],
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. Two are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fourteen worlds are dark. Two are left, and only one will be there at the end."],
 			"ending": ["In another world, it has just ended.", "{fell}"],
 			"impact": ["Of the two left, one is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
 			"end": ["If you fall, your world ends with you.", "The last of you goes on alone.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
 		},
 		"last": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.", "Sixteen of them, each given a world. One is still standing."],
+			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. One is still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fifteen worlds are dark. This is the last."],
 			"ending": ["In the last world but this one, it has just ended.", "{fell}"],
 			"impact": ["The last of them is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
@@ -85,7 +85,7 @@
 			"shot": "sixteen",
 			"time": 7.5,
 			"lines": [
-				"A shield-bearer, a hunter, a keeper of fires, a duelist who never lost.",
+				"A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.",
 				"Sixteen of them, and each would be given a world."
 			]
 		},
@@ -134,7 +134,7 @@
 			"time": 8.0,
 			"lines": [
 				"The world will not wait for you.",
-				"Towns trade and quarrel. A gate left alone breaks open. Miss a deadline and someone dies, or someone else is paid."
+				"Towns trade and quarrel. A gate left alone breaks open. Come too late and someone dies, or someone else is paid."
 			]
 		},
 		{

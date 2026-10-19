@@ -4,7 +4,7 @@
 		{ "under": 300, "text": "The grass has started to come back over it." },
 		{ "under": 900, "text": "Long enough that you had stopped walking this way on purpose." },
 		{ "under": 2400, "text": "Long enough that you have to think about the face." },
-		{ "under": 999999, "text": "Long enough that you had stopped counting, which is its own kind of answer." }
+		{ "under": 999999, "text": "Long enough that you had stopped counting the days." }
 	],
 	"first_visit": [
 		"You stand at it a while. Nobody says very much.",
@@ -20,7 +20,7 @@
 	],
 	"inheritance": [
 		"They told you this once, and you had not thought about it since.",
-		"You remember them explaining it badly, and it lands anyway.",
+		"You remember them explaining it badly. It makes sense now.",
 		"It was their book. Somebody may as well carry it."
 	],
 	"reinforced": "You talk about them for a while. Everything you were carrying sits a little firmer.",

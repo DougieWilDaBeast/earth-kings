@@ -37,7 +37,7 @@
 	},
 	"the_tide": {
 		"display_name": "The Tide",
-		"blurb": "Things with water where their hair should be. They keep to the shallows and the wet ground behind them, and they take the drowning personally \u2014 either as a rescue or as a recruitment.",
+		"blurb": "Things with water where their hair should be. They keep to the shallows and the wet ground behind them, and they take the drowning personally, as a rescue or as a recruitment.",
 		"banner": "#3f8fd2",
 		"hold": "res://art/world/hold_blue.png",
 		"seat": "gate",
@@ -112,7 +112,7 @@
 	},
 	"the_wild": {
 		"display_name": "The Wild",
-		"blurb": "Not a faction and it would not understand the word. It is simply what the country does to anything that stands still in it for long enough.",
+		"blurb": "Not a faction, and it would not understand the word. It is simply what the country does to anything that stands still in it for long enough.",
 		"banner": "#7f8c5a",
 		"hold": "res://art/world/hold_grey.png",
 		"seat": "gate",

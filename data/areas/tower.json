@@ -254,7 +254,7 @@
       "wander": 1,
       "chatter": [
         "I am Sennet. I keep the Guild's register: shut a gate and I mark you for the Tower.",
-        "I write the names down, going up. It is not much, but it is what I can do.",
+        "I write the names down, going up. Somebody should.",
         "Each floor is older than the one under it. Do not ask me how.",
         "Some come down. I have stopped guessing which."
       ],
@@ -364,7 +364,7 @@
         ],
         "again": [
           "Back. Buckle's still cracked.",
-          "You again. I've been counting the faults in this tower. I've stopped at nine hundred."
+          "You again. I've been counting the faults in this Tower. I stopped at nine hundred."
         ],
         "ask": [
           {

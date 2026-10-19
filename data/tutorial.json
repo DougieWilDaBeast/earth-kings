@@ -43,7 +43,7 @@
     {
       "id": "favour",
       "title": "Doing a favour",
-      "text": "People ask for help. Ask Wren if she needs a hand, find what she lost — things worth a look are marked ? — then go back and tell her.",
+      "text": "People ask for help. Ask Wren if she needs a hand, find what she lost (things worth a look are marked ?), then go back and tell her.",
       "done": { "flag": "job:tut_horse:paid" }
     },
     {
@@ -55,7 +55,7 @@
     {
       "id": "doors",
       "title": "Doors",
-      "text": "Walk into a door. Some houses you can go inside — the inn has people of its own — and some are shut and say why. Come back out the way you went in.",
+      "text": "Walk into a door. Some houses you can go inside, and the inn has people of its own; some are shut and say why. Come back out the way you went in.",
       "done": { "did": "door:" }
     },
     {
@@ -86,7 +86,7 @@
     {
       "id": "doom",
       "title": "The gate in the hills breaks",
-      "text": "A gate nobody shut has broken. What was behind it is coming down the road into Hearthwick, its red ground ahead of it.\n\nAtlas cannot beat it. Fight it anyway: step into the red. In Earth Kings a fall is for good — when your lead dies, their world ends with them.",
+      "text": "A gate nobody shut has broken. What was behind it is coming down the road into Hearthwick, its red ground ahead of it.\n\nAtlas cannot beat it. Fight it anyway: step into the red. In Earth Kings a fall is for good: when your lead dies, their world ends with them.",
       "done": { "did": "fight_" },
       "doom": true,
       "on_start": { "set_flag": ["tut:doom"] }

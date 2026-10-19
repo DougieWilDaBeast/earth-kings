@@ -74,7 +74,7 @@
 	"the_short_answer": {
 		"display_name": "The Short Answer",
 		"blurb": "Whatever is in the way stops being in the way.",
-		"text": "No banner and no restraint. Not cruelty for its own sake — simply nothing that has ever been allowed to weigh against getting what is wanted.",
+		"text": "No banner and no restraint. Not cruelty for its own sake. Only that nothing has ever been allowed to weigh against getting what is wanted.",
 		"holds": ["ruin"],
 		"despises": ["mercy"],
 		"tags": ["war", "fear"],

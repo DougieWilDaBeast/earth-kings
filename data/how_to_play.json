@@ -8,7 +8,7 @@
 				"New here? Your first New Game is Atlas's last stand: the last day of his world, in a training village, where you learn the game. It ends in a fight he cannot win, and he falls for good. Atlas's Last Stand, on the title screen, plays it again, with nothing written down.",
 				"WASD or the arrow keys walk the land, or click the ground to walk there. It runs on without a break: villages, keeps and gates stand in it and you walk straight in. Every tile of the map you cross is a step, and every step advances the world clock.",
 				"The line at the bottom always says what you can do where you stand: in a town, H hires, B buys and J reads the board, without leaving the street.",
-				"N opens the journal. M opens the map over the ground, and the party keeps walking under it: the continent, black where you have never been, with your objective marked. Right-click a place on it to Go here (Auto walks you there) or Place a marker; click a marker to go to it; WASD or a drag looks about, the wheel zooms, C comes back to the party; M or Esc puts it away. A small map sits in the top right corner as you walk, with north, east, south and west on its sides and an arrow at its edge to whatever you are following; click it to open the big one. The compass under the place's name points at the objective, and Auto (Q) walks there. Its first page, The Company, is a sheet for each companion: every number, and what a level adds.",
+				"N opens the journal. M opens the map over the ground, and the party keeps walking under it: the continent, black where you have never been, with your objective marked. Right-click a place on it to Go here (Auto walks you there) or Place a marker; click a marker to go to it; WASD or a drag looks about, the wheel zooms, C comes back to the party; M or Esc puts it away. A small map sits in the top right corner as you walk, with north, east, south and west on its sides and an arrow at its edge to whatever you are following; click it to open the big one. The compass under the place's name points at the objective, and Auto (Q) walks there. The journal's first page, The Company, is a sheet for each companion: every number, and what a level adds.",
 				"The compass follows one thing you are working towards: the road to the Tower, an errand, a friend held for ransom. Press L, or click the compass, to follow the next; the journal's Quests page lists them all, with Follow beside each.",
 				"Esc opens the menu: save, load, sound, fullscreen and these pages. F11 switches fullscreen anywhere.",
 				"Q hands the run to the game on the road or in a town, and it walks, fights and answers for itself. Q again takes it back anywhere, even in the middle of a fight, which then pauses for your first order. T cycles the speed everywhere.",
@@ -20,7 +20,7 @@
 			"lines": [
 				"Bands patrol out in the country, and the ground they can see is painted red, moving with them. Trees, rocks and long grass hide you. You can watch them walk the land from one place to the next. Step into the red, or let them walk into view of you, and they charge, and the fight is fought right there. Bursting out of long grass at them is an ambush.",
 				"Danger is a property of place. Near an open gate the country is thick with bands out of what came through it; near a hearth it goes quiet, and nothing camps within sight of home.",
-				"Gates never reopen once shut — but one left standing open too long breaks, and what was behind it comes out levelled up.",
+				"Gates never reopen once shut, but one left standing open too long breaks, and what was behind it comes out levelled up.",
 				"A gate left open puts the nearest settlement under siege. Walk in while it is happening and V fights the besiegers off. Leave it too long and the town falls."
 			]
 		},
@@ -50,7 +50,7 @@
 		{
 			"heading": "Characters and death",
 			"lines": [
-				"Falling is usually fatal. A downed character can be helped up for a few seconds; after that they roll their graces — a charm carried, an ally still standing, a book they read, the ground they fell on — and dies if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
+				"Falling is usually fatal. A downed character can be helped up for a few seconds; after that they roll their graces (a charm carried, an ally still standing, a book they read, the ground they fell on) and die if none of them land. Raiders may take them alive instead; R ransoms them, F takes them back by force.",
 				"The run follows you, not the party. Companions can all die and the story goes on; when your own character falls, it stops. Hire replacements in towns.",
 				"Experience comes from the first of each kind. A kind of enemy teaches whoever kills it first, once. The way to grow is to go and meet something new.",
 				"Level 2 is a choice. A level gained shows as a gold flicker on whoever gained it and a line at the top right; when it says a path is waiting, press P and pick their class from its card."
@@ -69,7 +69,7 @@
 			"lines": [
 				"P opens the party screen, where the run is managed: pick a class from its card, teach a book to someone who lacks it, and see what each character has read and what is close to fading. On the Powers page a glowing stone is a power you can take; press it.",
 				"The Training Yoke trades 25% of attack for 50% more experience. The Practice page sends a companion off to walk an errand while you walk.",
-				"It also shows the Codex — how much of the world's power grammar has been catalogued. N opens the journal."
+				"It also shows the Codex: how much of the world's power grammar has been catalogued. N opens the journal."
 			]
 		}
 	]

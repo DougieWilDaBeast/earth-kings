@@ -32,7 +32,7 @@
         12,
         7
       ],
-      "line": "A bazaar square covered in awnings of coarse linen."
+      "line": "A bazaar square under awnings of coarse linen."
     },
     {
       "cell": [
@@ -65,7 +65,7 @@
         4,
         12
       ],
-      "line": "A caravan lockbox wedged between stone curbing.",
+      "line": "A caravan lockbox wedged between the kerbstones.",
       "art": "strongbox",
       "gold": 4500
     }
@@ -296,7 +296,7 @@
       ],
       "wander": 3,
       "chatter": [
-        "Sands shift two miles a season. Maps are a luxury out there.",
+        "The sand moves two miles a season. Nobody out there trusts a map.",
         "Water is coin here. Spend neither without reason."
       ]
     },
@@ -377,7 +377,7 @@
           }
         ],
         "shop": "For the stomach, and for the stomach's enemies.",
-        "sold": "Mind it doesn't melt.",
+        "sold": "Keep it out of the sun.",
         "bye": "Come back hungry."
       },
       "chatter": [

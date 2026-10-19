@@ -258,7 +258,7 @@
       "talk": {
         "hello": [
           "Bleeding? No? Pity. Buying, then.",
-          "Four hands, four knives, and every one of them clean. Mostly."
+          "Four hands, and every one of them clean. Near enough."
         ],
         "ask": [
           {
@@ -332,7 +332,7 @@
             "dc": 9
           },
           "check_q": "Point out the heron he's missed.",
-          "won": "...Huh. Good eyes. Alright, what is it?",
+          "won": "...Huh. Good eyes. All right, what is it?",
           "won_flag": "halder:won",
           "still_no": "That's a post."
         },
@@ -413,7 +413,7 @@
         1
       ],
       "chatter": [
-        "Everything here is wet, and the rest is wetter."
+        "Everything here is wet. What isn't yet is only waiting."
       ],
       "rounds": [
         {

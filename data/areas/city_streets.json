@@ -58,7 +58,7 @@
         37,
         4
       ],
-      "line": "The shrine of the unnamed: a cairn of offering-stones and three candle stubs. You light them. One goes out, and then, when you look again, it is burning.",
+      "line": "The shrine of the unnamed: a cairn of offering-stones and three candle stubs. You light them. One goes out. When you look again, it is burning.",
       "set_flag": "found:city_candles"
     },
     {
@@ -2380,7 +2380,7 @@
       ],
       "talk": {
         "hello": [
-          "Bread? Rolls? A cat? I'll pay you for the cat. I don't sell cats. I'm missing one.",
+          "Bread? Rolls? You've not seen a ginger cat? Fat, looks offended? He's mine.",
           "Morning! It's always morning in a bakery. That's the trouble."
         ],
         "again": "Back for more? Good. Everybody comes back. It's the yeast.",
@@ -2420,7 +2420,7 @@
           "gold": 650,
           "item": "bread"
         },
-        "bye": "Mind the step. Everybody minds the step."
+        "bye": "Go on, before it cools."
       }
     },
     {
@@ -2435,7 +2435,7 @@
         1
       ],
       "chatter": [
-        "The Cathedral faces the Tower. Everything in this city faces the Tower, one way or another.",
+        "The Cathedral faces the Tower. So does every grave in our yard.",
         "Dawn rite at dawn. Dusk rite at dusk. We are not imaginative."
       ],
       "talk": {
@@ -2450,7 +2450,7 @@
           },
           {
             "q": "Does everyone want to climb the Tower?",
-            "a": "No. Most of the people in this city came here instead of climbing. Some of them came here instead of dying. It's not the same thing, but it's close."
+            "a": "No. Most of the people in this city came here instead of climbing. Some came here instead of dying. I don't ask them which."
           }
         ],
         "job": {
@@ -2507,7 +2507,7 @@
             "restock": true
           }
         ],
-        "shop": "Ale. That's it. That's the list.",
+        "shop": "Ale. If you wanted anything else, you've come to the wrong door.",
         "bye": "Mind the vats."
       }
     },
@@ -2524,7 +2524,7 @@
       ],
       "chatter": [
         "The Watch sees everything. The Watch just doesn't always say.",
-        "Keep it moving."
+        "Don't loiter by the Margrave's door. He hates a crowd."
       ],
       "talk": {
         "hello": [
@@ -2555,7 +2555,7 @@
           "done": "Three days. Right. You've done the city a service, and the city will forget it by morning. I won't.",
           "gold": 900
         },
-        "bye": "Move along."
+        "bye": "Go on. And keep out of the alleys after dark."
       }
     },
     {
@@ -2712,7 +2712,7 @@
         0
       ],
       "chatter": [
-        "Round and round. The city's a wheel and I'm the spoke that walks."
+        "West wall, east wall, Tavern Lane, back. Twenty years. My boots know it without me."
       ],
       "rounds": [
         {
@@ -2757,7 +2757,7 @@
         1
       ],
       "chatter": [
-        "Heavy. Everything's heavy. That's the job."
+        "Barrel up, barrel down. My back's older than I am."
       ],
       "rounds": [
         {
@@ -2887,7 +2887,7 @@
         1
       ],
       "chatter": [
-        "The city makes more mess than I can sweep. I sweep anyway."
+        "Horse muck, cabbage leaves, and a tooth this morning. Somebody's tooth."
       ],
       "rounds": [
         {
@@ -3060,7 +3060,7 @@
             "a": "Nobody knows. That's why it's a good song."
           }
         ],
-        "bye": "Mind how you go. Or don't. It's your song."
+        "bye": "Mind how you go. If you don't come back, I'll put you in a verse."
       }
     },
     {
@@ -3110,7 +3110,7 @@
       ],
       "wander": 3,
       "chatter": [
-        "Guild's got nothing but rats and letters. I didn't learn three swords for rats.",
+        "Guild's got nothing but rats and letters. I didn't learn the sword to stick rats.",
         "Heard there's a gate breaking in the east. Heard it twice."
       ]
     },
@@ -3179,7 +3179,7 @@
       "talk": {
         "hello": [
           "Muck Muck. Builder. If it's standing in this city, odds are I put it there, or I'm the one they called when it fell down.",
-          "Mind the rubble. That bathhouse came down before my time. Going back up in it."
+          "Mind the rubble. That's the bathhouse, or it will be again."
         ],
         "again": "Back again? Something needs building, then. It always does.",
         "ask": [
@@ -3291,8 +3291,8 @@
             "a": "Because I was one, loudly, for a long time. Then I learned to close wounds instead of opening them. The name stayed. I kept it so I don't forget."
           },
           {
-            "q": "Are you a priest of the cathedral?",
-            "a": "The cathedral and I have an arrangement. They don't come down here, and I don't go up there."
+            "q": "Are you a priest of the Cathedral?",
+            "a": "The Cathedral and I have an arrangement. They don't come down here, and I don't go up there."
           }
         ],
         "heal": {
@@ -3302,7 +3302,7 @@
           "whole": "Nobody here needs me. Come back when somebody does.",
           "whole_q": "Can you look us over?"
         },
-        "bye": "Go carefully. I'd rather not see you again soon."
+        "bye": "Out you go. I'd rather not see you again soon."
       }
     },
     {
@@ -3319,7 +3319,7 @@
       "guild": true,
       "chatter": [
         "Contracts for the city are posted inside. Contracts for everywhere else, out here with me.",
-        "Every company passes this gate eventually. I keep the list."
+        "Every company comes through this gate in the end. I keep the list, and I cross them off it."
       ]
     },
     {
@@ -3353,10 +3353,10 @@
           },
           {
             "q": "Why the walls?",
-            "a": "The gates out there. When one breaks, everything in the country runs for somewhere with walls. We'd like it to be us they run to, not us they run over."
+            "a": "Because of the gates out there. When one breaks, the whole country runs for the nearest wall. We'd sooner they ran to us than over us."
           }
         ],
-        "bye": "Keep your purse in front of you. The city's honest. Mostly."
+        "bye": "Keep your purse in front of you, and your hand on it."
       }
     },
     {
@@ -3373,7 +3373,7 @@
       "wander": 2,
       "chatter": [
         "Three days walking to hear one rite. I'll be late for it, I know I will.",
-        "They say the Cathedral looks at the Tower. I want to see that."
+        "They say the Cathedral was built facing the Tower. I want to see it before my eyes go."
       ]
     },
     {
@@ -3435,7 +3435,7 @@
         "ask": [
           {
             "q": "Why aren't goats allowed in?",
-            "a": "One ate the Margrave's hat. Not the Margrave's. The old one's. Grudges in there go back."
+            "a": "One ate the Margrave's hat. Not this Margrave, his father. Grudges in there outlive the people."
           }
         ],
         "sells": [
@@ -3466,8 +3466,8 @@
         1
       ],
       "chatter": [
-        "Keep moving.",
-        "Gate's open, walls are up, everybody's happy."
+        "Off the road, please. Carts coming.",
+        "Gate's open, walls are up. Nothing to report. I'd quite like something to report."
       ],
       "rounds": [
         {

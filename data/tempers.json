@@ -56,14 +56,14 @@
 			"prompt": "Someone you hired three weeks ago is slowing the company down, and knows it.",
 			"options": [
 				{ "key": "T", "text": "Pay them out and part at the next town. The road does not care who tried." },
-				{ "key": "F", "text": "Keep them on. They came when it was asked, and that is worth carrying." }
+				{ "key": "F", "text": "Keep them on. They came when you asked, and that is worth carrying." }
 			]
 		},
 		{
 			"axis": "JP",
 			"prompt": "Dawn, and a gate two days east. You are carrying four days of food.",
 			"options": [
-				{ "key": "J", "text": "Fix the route tonight — where you sleep, and where you turn back." },
+				{ "key": "J", "text": "Fix the route tonight: where you sleep, and where you turn back." },
 				{ "key": "P", "text": "Start walking. The country will tell you what it wants on the way." }
 			]
 		}

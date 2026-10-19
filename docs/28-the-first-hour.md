@@ -384,7 +384,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
     right, the game going on; Full page puts it over everything). Moving and resizing panels: **planned**.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
-14. **A writers' pass** over every line every character says.
+14. **A writers' pass** over every line every character says. Built ([D274](06-decisions.md)): about 430 of 3,850
+    lines rewritten, the rules for new lines in [13](13-heroes-and-tempers.md#the-lines).
 15. **The frame rate walking Stormreach** ("massive frame rate drop"): built ([D263](06-decisions.md)). The
     townsfolk's ways and a land's first page were the costs found; the play log now writes a line when ten
     seconds run under 40 fps (`frame rate 31 fps, slowest frame 180 ms, at Stormreach`), so the next play-test

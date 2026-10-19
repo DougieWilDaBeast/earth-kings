@@ -9,7 +9,7 @@
 			"speaker": "Bole the Innkeep",
 			"text": [
 				"Mind the beam. Beds are through the back, ale is out here, and trouble goes back out the door it came in by.",
-				"Wipe the road off before you sit on my settle. Beds through the back, drink out here, trouble outside.",
+				"Wipe the road off before you sit on my settle. If you've brought trouble, it waits outside.",
 				"You'll want the far bench. The near one's got a leg that argues, and so has the man on it."
 			],
 			"options": [
@@ -73,7 +73,7 @@
 		},
 		"beds": {
 			"speaker": "Bole the Innkeep",
-			"text": "Ten silver for the room, and I'll not charge you for the snoring. Come back when you've slept somewhere worse.",
+			"text": "Ten silver for the room, and I'll not charge you for the snoring.",
 			"options": [
 				{
 					"text": "Ten silver it is. Which room?",

@@ -14,7 +14,7 @@
 			"id": "map",
 			"when": "map",
 			"title": "The road",
-			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. M opens the map; the compass points where to go. Esc opens the menu — How to Play is in there."
+			"text": "WASD or the arrow keys walk the land; it runs on, and the towns stand in it. M opens the map; the compass points where to go. Esc opens the menu, with How to Play in it."
 		},
 		{
 			"id": "step",
@@ -44,7 +44,7 @@
 			"id": "downed",
 			"when": "downed",
 			"title": "Falling is usually fatal",
-			"text": "A downed character has a few seconds for a friend to reach them — right-click them. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
+			"text": "A downed character has a few seconds for a friend to reach them: right-click them. If nobody does, they roll their graces: a charm carried, an ally still standing, a book read, the ground they fell on. If none land, they are gone for good."
 		},
 		{
 			"id": "settlement",
@@ -62,7 +62,7 @@
 			"id": "library",
 			"when": "library",
 			"title": "A library",
-			"text": "Someone in the party reads what is on the shelf. Books grant knowledge, and knowledge left unused fades — the party screen (P) shows what is close to going."
+			"text": "Someone in the party reads what is on the shelf. Books grant knowledge, and knowledge left unused fades. The party screen (P) shows what is close to going."
 		},
 		{
 			"id": "home",
@@ -80,13 +80,13 @@
 			"id": "tower",
 			"when": "tower",
 			"title": "The Tower",
-			"text": "A hundred floors, in chapters of five, each floor paying gold. What you win up here is only yours once you walk off its step — lose a floor and the hoard stays behind."
+			"text": "A hundred floors, in chapters of five, each floor paying gold. What you win up here is only yours once you walk off its step. Lose a floor and the hoard stays behind."
 		},
 		{
 			"id": "errand",
 			"when": "errand",
 			"title": "An errand",
-			"text": "Its mark is on the map. Walk it yourself, or send a companion from the party screen's Practice page — they come back, or meet something on the road alone."
+			"text": "Its mark is on the map. Walk it yourself, or send a companion from the party screen's Practice page. They come back, or meet something on the road alone."
 		},
 		{
 			"id": "guild",
@@ -98,13 +98,13 @@
 			"id": "season",
 			"when": "season",
 			"title": "The season has turned",
-			"text": "Seasons turn every 120 steps — Lesser Green, Green, Brown and Ice. The clover by the top bar says which one you are walking in."
+			"text": "Seasons turn every 120 steps: Lesser Green, Green, Brown and Ice. The clover by the top bar says which one you are walking in."
 		},
 		{
 			"id": "autoplay",
 			"when": "autoplay",
 			"title": "Let it play itself",
-			"text": "Q hands the run to the game — it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back, even mid-fight."
+			"text": "Q hands the run to the game, and it walks, fights and answers for itself. T cycles the speed. Press Q again to take the party back, even mid-fight."
 		}
 	]
 }

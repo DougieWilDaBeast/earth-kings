@@ -252,7 +252,7 @@
           "text": "Odger is dusting. Odger will be dusting for some time.",
           "bribe": 150,
           "bribe_q": "Offer to hold the duster.",
-          "won": "Nobody's ever offered. Alright. Quickly.",
+          "won": "Nobody's ever offered. All right. Quickly.",
           "won_flag": "odger:won",
           "unless": "odger:won",
           "leave": "Leave him to the dust."
@@ -299,11 +299,11 @@
           },
           {
             "q": "What do you want?",
-            "a": "It lifts one tattered sleeve toward the ceiling, toward every kingdom above it, and lets it fall."
+            "a": "It lifts one tattered sleeve towards the ceiling, towards every kingdom above it, and lets it fall."
           },
           {
             "q": "Can you speak?",
-            "a": "No tongue. No breath. The silence gets heavier, which is perhaps an answer."
+            "a": "No tongue. No breath. The silence only gets heavier."
           }
         ],
         "bye": [

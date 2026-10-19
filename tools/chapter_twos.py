@@ -7,7 +7,8 @@ The drafts (D182; **Inferred**, the founders' to rewrite) live in the project's 
 markdown file a lead: its ten boxes under "## The memory" become the scene, its "Journal line" the
 journal, its README row the keepsake's name. Where each keepsake lies is tools/build_tower_floors.py's
 `KEEPSAKES`. A lead's chapter two already in memories.json is written again, so the tool can be run
-after a draft changes. Standard library only.
+after a draft changes; the writers' pass (D274) edited the chapter twos in memories.json
+after, so bring the drafts in line before running it again. Standard library only.
 """
 from __future__ import annotations
 

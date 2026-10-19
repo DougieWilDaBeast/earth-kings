@@ -400,7 +400,7 @@
 	},
 	"brine_spray": {
 		"display_name": "Brine Spray",
-		"description": "Stinging salt water flung quick and close.",
+		"description": "Salt water in the eyes, from close enough to spit.",
 		"target": "enemy",
 		"min_range": 1,
 		"range": 2,
@@ -412,7 +412,7 @@
 	},
 	"crushing_wave": {
 		"display_name": "Crushing Wave",
-		"description": "A cresting swell brought down with the weight of the sea.",
+		"description": "The sea, stood on end and dropped on them.",
 		"target": "enemy",
 		"min_range": 1,
 		"range": 2,
@@ -424,7 +424,7 @@
 	},
 	"soothing_spring": {
 		"display_name": "Soothing Spring",
-		"description": "Clear fresh water that cools the heat of wounds.",
+		"description": "Cold, clean water over the wound. It stops stinging.",
 		"target": "ally",
 		"min_range": 0,
 		"range": 3,
@@ -437,7 +437,7 @@
 
 	"frostbite": {
 		"display_name": "Frostbite",
-		"description": "A numbing nip of winter that bites deep into flesh.",
+		"description": "Cold put into the flesh until the flesh stops arguing.",
 		"target": "enemy",
 		"min_range": 1,
 		"range": 2,
@@ -449,7 +449,7 @@
 	},
 	"glacial_chill": {
 		"display_name": "Glacial Chill",
-		"description": "Rime and frozen breath blown across a distance.",
+		"description": "Breath blown across the field, frosting what it lands on.",
 		"target": "enemy",
 		"min_range": 1,
 		"range": 3,
@@ -461,7 +461,7 @@
 	},
 	"ice_shard": {
 		"display_name": "Ice Shard",
-		"description": "A splinter of sharp black ice loosed in an instant.",
+		"description": "A splinter of black ice, thrown before it can melt.",
 		"target": "enemy",
 		"min_range": 1,
 		"range": 3,
@@ -474,7 +474,7 @@
 	},
 	"blizzard": {
 		"display_name": "Blizzard",
-		"description": "A howling flurry of driven snow and hail.",
+		"description": "A white-out brought down on one patch of ground.",
 		"target": "enemy",
 		"min_range": 2,
 		"range": 4,

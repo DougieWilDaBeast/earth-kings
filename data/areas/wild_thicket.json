@@ -68,8 +68,8 @@
                 "ember",
                 "firebrand"
             ],
-            "denied": "A thick wall of thorny briars and twisted branches chokes the western hollow. It takes a sharp edge or flame to cut through.",
-            "opened": "The briars are hacked away in a flurry of blows, opening the path into the secluded hollow!"
+            "denied": "Briars and twisted branches choke the way into the western hollow. A sharp edge or a flame will clear them.",
+            "opened": "The briars come away under the blows, and the hollow is open."
         },
         {
             "cell": [
@@ -81,8 +81,8 @@
             "key": "iron_key",
             "ability": "crush",
             "prop": "village/log_pile",
-            "denied": "A heavy iron gate bars the trapper sanctuary. It requires an Iron Key or Crush to force open.",
-            "opened": "The lock gives with a heavy clatter, and the iron gate swings open!"
+            "denied": "An iron gate bars the trappers' shelter. An Iron Key opens it, or Crush.",
+            "opened": "The lock gives with a heavy clatter, and the gate swings open."
         }
     ],
     "spots": [
@@ -105,14 +105,14 @@
                 23,
                 5
             ],
-            "line": "Fur caught on the thorns in a line, all going the same way toward an old cache."
+            "line": "Fur caught on the thorns in a line, all going one way, towards an old cache."
         },
         {
             "cell": [
                 24,
                 15
             ],
-            "line": "An abandoned trapper camp, quiet beneath the rustling leaves."
+            "line": "A trappers' camp, long left. The leaves move and nothing else does."
         }
     ],
     "chests": [
@@ -121,7 +121,7 @@
                 24,
                 4
             ],
-            "line": "A trapper cache hidden under tangled ivy, containing gear and an iron key.",
+            "line": "A trapper's cache under the ivy, with gear in it and an iron key.",
             "art": "chest_dark",
             "gold": 3000,
             "key": "iron_key",
@@ -132,7 +132,7 @@
                 5,
                 4
             ],
-            "line": "A hollow in the briar with a sturdy chest mended with leather straps.",
+            "line": "A hollow in the briar, and a chest in it, mended with leather straps.",
             "art": "chest_silver",
             "gold": 4500,
             "item": "grave_token"
@@ -142,7 +142,7 @@
                 24,
                 14
             ],
-            "line": "An iron chest tucked behind the trapper shed with seasoned supplies.",
+            "line": "An iron chest behind the trappers' shed, packed with seasoned supplies.",
             "art": "chest_iron",
             "gold": 5500,
             "item": "iron_blade"

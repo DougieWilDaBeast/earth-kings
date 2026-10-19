@@ -65,7 +65,7 @@
 					"check": { "skill": "renown", "dc": 11, "success": "the_reading", "failure": "no_reading" }
 				},
 				{
-					"text": "Another twenty-five for the tar.",
+					"text": "Another six silver for the tar.",
 					"requires_gold": 600,
 					"gold": -600,
 					"goto": "paid"
@@ -86,7 +86,7 @@
 		},
 		"read_the_charm": {
 			"speaker": "Wick the Duck Wizard",
-			"text": "...It is. I cut it in the dark with the water coming up. If you can see that, you can see what's coming out of the gates — stay a while.",
+			"text": "...It is. I cut it in the dark with the water coming up. If you can see that, you can see what's coming out of the gates. Stay a while.",
 			"next": "end"
 		},
 		"misread_the_charm": {
@@ -111,7 +111,7 @@
 		},
 		"the_reading": {
 			"speaker": "Wick the Duck Wizard",
-			"text": "People who've begun to be a thing that happens to places, rather than people who arrive at them. Sit down. That's not a compliment, it's a warning.",
+			"text": "Folk who used to arrive at places, and are turning into something that happens to them. Sit down. That's a warning, not a compliment.",
 			"next": "end"
 		},
 		"no_reading": {

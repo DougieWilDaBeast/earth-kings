@@ -129,7 +129,7 @@
 				"ask": [
 					{
 						"q": "Who are you?",
-						"a": "A company. Nobody you've heard of. Yet. We've the Guild's mark and the better part of a map."
+						"a": "A company. Nobody you've heard of, yet. We've the Guild's mark and the better part of a map."
 					},
 					{
 						"q": "Have you been up the Tower?",
@@ -158,7 +158,7 @@
 						},
 						{
 							"q": "Going on?",
-							"a": "When the shaking stops. Go first if you're in a hurry. We won't mind the company on the way down."
+							"a": "When my hands stop shaking. Go on ahead if you're in a hurry."
 						}
 					],
 					"bye": "Mind the stair. It's steeper than it looks."
@@ -438,8 +438,8 @@
 			"art": "landmark/gate_broken",
 			"cheer": "Folk who were keeping well back from the gate come running as it falls, cheering, and the tale is going round before you are clear of it.",
 			"people": [
-				{"name": "a woman from the hamlet", "unit": "town_farmer", "cell": [7, 7], "facing": [0, -1], "wander": 1, "chatter": ["You shut it! It has been howling at us since the spring.", "My boy will want to hear this from you, not from me. He won't believe me.", "We'll tell it everywhere, how you went in and it came down behind you."]},
-				{"name": "an old carter", "unit": "town_elder", "cell": [9, 6], "facing": [0, -1], "wander": 1, "chatter": ["Look at it. Lying there like any old stones.", "Thank you. I mean it. Thank you.", "Your name'll be in every taproom from here to the city by the week's end."]},
+				{"name": "a woman from the hamlet", "unit": "town_farmer", "cell": [7, 7], "facing": [0, -1], "wander": 1, "chatter": ["You shut it! It has been howling at us since the spring.", "My boy will want to hear this from you, not from me. He won't believe me.", "Is it done? Truly done? Somebody pinch me."]},
+				{"name": "an old carter", "unit": "town_elder", "cell": [9, 6], "facing": [0, -1], "wander": 1, "chatter": ["Look at it. Lying there like any old stones.", "I've carted past that thing every week for a year. Thank you.", "Your name'll be in every taproom from here to the city by the week's end."]},
 				{"name": "a trader passing", "unit": "town_trader", "cell": [9, 9], "facing": [0, -1], "wander": 2, "chatter": ["I'll be telling this one on the road for a year.", "Drinks are on me the next time we're under the same roof."]}
 			]
 		},
@@ -538,7 +538,7 @@
 			"grudge_at": 3,
 			"grudge_sight": 1.0,
 			"no_grudge": ["the_wild", "the_ooze"],
-			"grudge_shouts": ["That's them! The ones who cut down ours!", "It's the marked one! For the others!", "That's the lot who did for our kin. Take them!"],
+			"grudge_shouts": ["That's them! The ones who cut down ours!", "It's the marked one! For our dead!", "That's the lot who did for our kin. Take them!"],
 			"grudge_line": "{faction} have lost {count} bands to you now. They will know you on sight.",
 			"dream_reach": 1,
 			"dream_most": 6,
@@ -565,7 +565,7 @@
 				},
 				"told": {
 					"warm": ["Word's come here of you. You {told}.", "I heard you {told}. Good on you."],
-					"cold": ["I heard you {told}. Not much of a thing to be known for.", "You {told}, they say. People remember that sort of thing."]
+					"cold": ["I heard you {told}. Poor thing to be known for.", "You {told}, they say. People remember that sort of thing."]
 				}
 			}
 		}

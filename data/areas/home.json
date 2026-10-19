@@ -235,7 +235,7 @@
       "wander": 2,
       "chatter": [
         "I'll keep the fire a while. Somebody ought to, the first night.",
-        "Stormreach is at the Tower's foot. You can't miss the Tower, and you can't miss the city under it.",
+        "Stormreach is at the Tower's foot. Walk at the Tower and you'll walk into the city.",
         "The Guild hands out the gates nobody else wants. Shut one, and they'll let you climb.",
         "I had a master once. He'd have known what to make of you falling out of the sky."
       ]
@@ -368,7 +368,7 @@
       ],
       "talk": {
         "hello": [
-          "We came for the wall. Stayed for the quiet. What can I tell you?"
+          "We came for the wall, and the quiet kept us. What do you want to know?"
         ],
         "news": true,
         "bye": "Mind how you go."

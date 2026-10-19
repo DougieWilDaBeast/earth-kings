@@ -178,7 +178,7 @@
                     },
                     {
                         "q": "Does anyone not want to climb?",
-                        "a": "Half this city. They came to the walls instead. There's a living to be made down here, and the Tower doesn't care who climbs it."
+                        "a": "Half this city. They came to the walls instead. There's a living to be made down here, and the Tower doesn't miss the ones who stay."
                     }
                 ],
                 "bye": "Go up if you're going. Come down if you can."
@@ -198,7 +198,7 @@
             "chatter": [
                 "♪ Fill the flagon, fill it high ♪",
                 "♪ ...the Tower's tall but so am I ♪",
-                "Requests cost extra. Silence costs double."
+                "Lark sings in the street for coppers. I sing in here for ale. Guess which of us is warm."
             ]
         },
         {
@@ -216,7 +216,7 @@
                 "Friendly game? Very friendly. You'll hardly feel it."
             ],
             "talk": {
-                "hello": "Cards? Dice? Conversation? Conversation's free. Mostly.",
+                "hello": "Cards? Dice? Conversation? Conversation's free. The rest isn't.",
                 "ask": [
                     {
                         "q": "Play a hand.",

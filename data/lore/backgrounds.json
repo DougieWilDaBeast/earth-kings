@@ -9,7 +9,7 @@
 	},
 	"apprentice_smith": {
 		"display_name": "Apprentice Smith",
-		"blurb": "Raised at the hearth-forge with hammer and anvil. Forged in loss when raiders sacked the town.",
+		"blurb": "Raised at a village forge, and still has the arms for it. The village is gone.",
 		"text": "Put to the forge young, kept there by a master who taught by silence and correction. The work was honest and the town was small, and both were gone inside an afternoon.",
 		"tags": [
 			"forge",
@@ -25,7 +25,7 @@
 	},
 	"exiled_noble": {
 		"display_name": "Exiled Noble",
-		"blurb": "Cast down from halls of ancestral power. Carries heraldic pride, high arms, and an unyielding code.",
+		"blurb": "Born to a house that has lost its hall. Still sits at the head of any table.",
 		"text": "Born to a name that opened doors, and kept the name after the doors were shut. Walks like the hall is still standing, because somebody has to.",
 		"tags": [
 			"court",
@@ -41,7 +41,7 @@
 	},
 	"cloistered_scholar": {
 		"display_name": "Cloistered Scholar",
-		"blurb": "Taught in quiet libraries and hillside hermitages. Seeks lost lore, doctrine, and understanding.",
+		"blurb": "Taught among cold stone and copied pages. Reads whatever is left lying about, and keeps it.",
 		"text": "Years of copied pages and cold stone, learning that knowledge fades unless it is used. Left when the war came close enough to hear from the scriptorium.",
 		"tags": [
 			"cloister",
@@ -59,7 +59,7 @@
 	},
 	"wilderness_stray": {
 		"display_name": "Wilderness Stray",
-		"blurb": "Grew up in wild woods, mountain passes, and hidden rivers. Unbound by town law, attuned to nature.",
+		"blurb": "Grew up in the woods, under no town's law. Knows which water is safe to drink.",
 		"text": "No village raised them and no bell marked their days. They learned weather, track and water the way other children learn a trade.",
 		"tags": [
 			"wild",
@@ -74,7 +74,7 @@
 	},
 	"outcast_drifter": {
 		"display_name": "Outcast Drifter",
-		"blurb": "No village hearth welcomes them, and no bell rings their arrival. Walks the treacherous fringes.",
+		"blurb": "Turned away at every door, and sleeps where nobody else will.",
 		"text": "Turned out of somewhere for something, and has stopped correcting the story. Sleeps closer to the gates than anyone sensible would.",
 		"tags": [
 			"exile",

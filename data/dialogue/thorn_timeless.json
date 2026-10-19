@@ -67,7 +67,7 @@
 		},
 		"before": {
 			"speaker": "the Timeless One",
-			"text": "A gate. Not one of yours — one that stayed shut. Somebody built a keep on top of it, which is either the wisest or the stupidest thing anyone has done in this country.",
+			"text": "A gate. Not one of yours. One that stayed shut. Somebody built a keep on top of it, which is either the wisest or the stupidest thing anyone has done in this country.",
 			"set_flag": "heard_of_the_buried_gate",
 			"next": "end"
 		},

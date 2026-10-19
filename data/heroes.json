@@ -14,7 +14,7 @@
 		"companions": [],
 		"found_at": "library",
 		"elsewhere": "being carried to the oldest library within reach",
-		"first": "You will want to know why I am sitting on a library step. Someone carried me here. They have gone now. Don't apologise for staring; everyone does. What you need to know for the next step is this: the books will not help you, and I will.",
+		"first": "You will want to know why I am sitting on a library step. Someone carried me here. They have gone now. Don't apologise for staring; everyone does. What you need for the next step is this: the books will not help you. I will.",
 		"rumour": "At {place} there is a boy who cannot walk, reading as if the books owed him something. They call him {name}, and some of them call him the Baggage."
 	},
 	"janus": {
@@ -104,7 +104,7 @@
 		"companions": [],
 		"found_at": "hut",
 		"elsewhere": "keeping one fire lit where she landed, alone if she has to",
-		"first": "You can warm your hands. I will not ask where you are going and you will not ask me to come. What is true now is this fire, and this night. That is all I have to tell you.",
+		"first": "You can warm your hands. I will not ask where you are going, and you will not ask me to come. There is this fire, and this night. That is all I have.",
 		"rumour": "Out past {place} somebody keeps a fire burning every night, alone. {name}, they say. She sends everyone away in the morning."
 	},
 	"caesar": {
@@ -191,7 +191,7 @@
 		"creed": "",
 		"oath": "",
 		"origin": "",
-		"blurb": "He works the bounty office and knows its rules better than the people who wrote them, because rules keep you alive. He never hopes for the best; he prepares for the worst, and he is usually right.",
+		"blurb": "He works the bounty office and knows its rules better than the people who wrote them, because rules keep you alive. He does not hope. He prepares, and he is usually right.",
 		"companions": [],
 		"found_at": "keep",
 		"elsewhere": "at the Guild's bounty office, where the rules are kept",
@@ -209,7 +209,7 @@
 		"creed": "",
 		"oath": "",
 		"origin": "",
-		"blurb": "She runs an inn that everyone passes through, and nobody at her table goes hungry, enemies included. She fights with her feet, because her hands are for the kitchen. Because everyone passes through, she knows where all the others were last seen.",
+		"blurb": "She runs an inn that everyone passes through, and nobody at her table goes hungry, enemies included. She fights with her feet, because her hands are for the kitchen, and she knows where every one of the others was last seen.",
 		"companions": [],
 		"found_at": "village",
 		"elsewhere": "running an inn that everyone passes through",
@@ -263,7 +263,7 @@
 		"creed": "",
 		"oath": "",
 		"origin": "",
-		"blurb": "Loud, laughing, the strongest of his generation, and the champion of whichever kingdom he landed in. He is loyal to it while seeing all its faults. The heaviest first ten seconds in the game, then he tires.",
+		"blurb": "Loud, laughing, the strongest of his generation, and the champion of whichever kingdom he landed in. He is loyal to it and sees every fault it has. Nobody hits harder in the first ten seconds of a fight. Then he tires.",
 		"companions": [],
 		"found_at": "keep",
 		"elsewhere": "champion of the nearest kingdom, sent after its outlaws",
@@ -285,7 +285,7 @@
 		"companions": [],
 		"found_at": "hut",
 		"elsewhere": "moving on, never in the same place twice; at sea if there is sea",
-		"first": "You fell too? Ha! That's great. Not the falling, the meeting. Where are you going? Doesn't matter. Wherever it is, it's got to be better than standing still.",
+		"first": "You fell too? Ha! Good. Not the falling, the meeting. Where are you going? Doesn't matter. Wherever it is, it's got to be better than standing still.",
 		"rumour": "{name} came through {place} two days back and left the next morning. Picked a fight with a lord's men and laughed the whole time. Nobody knows where he went.",
 		"restless": true
 	}

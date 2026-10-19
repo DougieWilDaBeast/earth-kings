@@ -396,7 +396,7 @@
       ],
       "wander": 3,
       "chatter": [
-        "I counted the geese twice and got a different answer twice.",
+        "I counted the geese twice and got two answers.",
         "Steward says stand somewhere else. I've stood everywhere else.",
         "You've got the good boots and all."
       ],
@@ -473,14 +473,14 @@
           "leave": "Leave the fox be.",
           "unless": "fox:paid"
         },
-        "hello": "The fox tilts the hat at you. It is, somehow, a greeting.",
+        "hello": "The fox tips the hat an inch. That is all the greeting you will get.",
         "ask": [
           {
             "q": "Whose hat is that?",
             "a": "The fox adjusts the hat. It is the fox's hat now, the look says, and that is the end of it."
           },
           {
-            "q": "Where's the good stuff hidden?",
+            "q": "Where's anything worth taking hidden?",
             "a": "Its tail flicks towards the woodpile, then towards the fence by the meadow. Then it pretends it did nothing of the kind."
           }
         ],

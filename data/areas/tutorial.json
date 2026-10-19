@@ -151,7 +151,7 @@
         11
       ],
       "name": "a log pile",
-      "line": "Logs, stacked by somebody who cared about it.",
+      "line": "Logs, stacked by somebody who took care over it.",
       "found_line": "And underneath, a little carved wooden horse. That will be Wren's.",
       "set_flag": "found:tut_horse",
       "requires": "job:tut_horse",
@@ -367,11 +367,11 @@
           "unless": "tut:fox",
           "leave": "Leave the fox be."
         },
-        "hello": "The fox tilts its hat at you. It is, somehow, a greeting.",
+        "hello": "The fox tilts its hat at you. From a fox, that is a greeting.",
         "ask": [
           {
             "q": "Why won't you talk to anyone?",
-            "a": "Everybody wants something from a fox, the look says. At least you paid."
+            "a": "Everybody wants something from a fox, the look says. You, at least, paid."
           },
           {
             "q": "Know any secrets?",
