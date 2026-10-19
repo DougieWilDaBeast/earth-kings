@@ -1018,6 +1018,12 @@ func _check_tier_ways() -> void:
 	_expect(role_of.call("goblin_shaman") == "healer", "the shaman does not hang back and mend: %s" % role_of.call("goblin_shaman"))
 	_expect(has.call("pack_alpha", "pack_hunter") and has.call("pack_alpha", "war_cry"), "the pack alpha lost the pack or the cry")
 	_expect(role_of.call("goblin") != "craven" and role_of.call("brigand") == "charger", "a plain kind or a brigand fights a tier's way")
+	# Each family's own trick ([D276]), from the hob up: every family has one, the plain kind has none.
+	var tricks: Dictionary = Database.skirmish["family_tricks"]
+	for family: String in Database.encounters["tiers"]["families"]:
+		_expect(tricks["families"].has(family), "%s has no trick of its own" % family)
+	_expect(has.call("hobgoblin", "spite") and not has.call("goblin", "spite"), "the goblins' spite is not from the hob up")
+	_expect(has.call("dire_wolf", "howl") and has.call("dire_wolf", "pack_hunter"), "a dire wolf lost the howl or the pack")
 	var fight := await _new_fight()
 	var foe: Fighter = null
 	for f: Fighter in fight.fighters:
