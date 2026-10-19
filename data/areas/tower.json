@@ -357,6 +357,7 @@
       ],
       "story_npc": "dwarf_smith",
       "talk": {
+        "hone": { "q": "Can you put an edge on our weapons?", "offer": "Deepforge steel takes an edge like nothing up top. Show me.", "done": "There. Mind the edge." },
         "hello": [
           "Hm. Your buckle's cracked. Second hole from the end.",
           "Mind that stair. Fourth stone's got a fault in it the size of my thumb.",

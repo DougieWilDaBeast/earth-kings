@@ -42,6 +42,7 @@ const Company := preload("res://tests/company.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
+const Crafting := preload("res://src/chronicle/crafting.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -68,6 +69,7 @@ func _ready() -> void:
 	await _check_a_house_in_stormreach()
 	_check_story_npcs()
 	_check_recruiting()
+	_check_crafting()
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
@@ -236,6 +238,50 @@ func _check_recruiting() -> void:
 	if not Recruits.has_joined("home", settler) or Recruits.askable("home", settler):
 		_fail("recruiting: a settler who joined can still be asked")
 	GameState.roster.seats = seats
+
+
+## Making things ([D280]): herbs mixed into a draught out of the packs, and a smith honing a weapon
+## a notch for coin, kept on that person for that weapon.
+func _check_crafting() -> void:
+	var kept_stores := GameState.stores.duplicate()
+	var red: Dictionary = Crafting.recipes().filter(func(r: Dictionary) -> bool: return r["makes"] == "red_draught")[0]
+	for i in 3:
+		GameState.stores.append("herbs")
+	var before := GameState.stores.count("red_draught")
+	if Crafting.mix(red, GameState.stores) == "" or GameState.stores.count("red_draught") != before + 1:
+		_fail("crafting: three Bitter Herbs did not mix into a Red Draught")
+	if GameState.stores.count("herbs") != kept_stores.count("herbs"):
+		_fail("crafting: mixing did not use up the herbs")
+	if Crafting.mix(red, GameState.stores) != "" and kept_stores.count("herbs") < 3:
+		_fail("crafting: a draught mixed out of nothing")
+
+	var smith := {}
+	for person: Dictionary in Database.area("home").get("people", []):
+		if person.get("name", "") == "Hald the smith":
+			smith = person
+	var wielder: Character = GameState.party_characters()[0]
+	var kept_weapon := wielder.equipment
+	wielder.equipment = "iron_blade"
+	wielder.honed.erase("iron_blade")
+	var blunt := int(Gear.bonus("iron_blade", wielder)["attack"])
+	var nodes: Dictionary = Talk.build("Hald", smith.get("talk", {}), true, 0.5, "met:test")
+	var offers: Array = nodes.get("hone", {}).get("options", []).filter(func(o: Dictionary) -> bool: return o.get("hone", "") == wielder.id)
+	if offers.is_empty():
+		_fail("crafting: Hald offers no edge for %s's Iron Blade" % wielder.display_name)
+	else:
+		GameState.gold = int(offers[0]["requires_gold"]) + 10
+		DialogueScript.apply_effects(offers[0])
+		if int(Gear.bonus("iron_blade", wielder)["attack"]) != blunt + 1 or GameState.gold != 10:
+			_fail("crafting: Hald took %d and the blade is %+d" % [int(offers[0]["requires_gold"]), int(Gear.bonus("iron_blade", wielder)["attack"]) - blunt])
+		if int(Character.from_dict(wielder.to_dict()).honed.get("iron_blade", 0)) != 1:
+			_fail("crafting: a honed blade did not survive a save")
+	for i in 5:
+		Crafting.hone(wielder)
+	if int(wielder.honed.get("iron_blade", 0)) != int(Crafting.rules().get("hone_most", 3)):
+		_fail("crafting: a blade took more notches than the most")
+	wielder.honed.erase("iron_blade")
+	wielder.equipment = kept_weapon
+	GameState.stores = kept_stores
 
 
 ## A door has to be on the house it belongs to, and lead somewhere real.

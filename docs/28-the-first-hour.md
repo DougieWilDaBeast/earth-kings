@@ -373,7 +373,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab).
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
-   (he said both "only weapons they're affiliated with" and "everyone can use the same weapons").
+   (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
+   ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
+   weapon a notch at a time; anyone still wields anything. Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
    Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own

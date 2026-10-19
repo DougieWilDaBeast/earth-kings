@@ -11,6 +11,7 @@ extends RefCounted
 const END := "end"
 const DIE_SIDES := 20
 const Recruits := preload("res://src/chronicle/recruits.gd")
+const Crafting := preload("res://src/chronicle/crafting.gd")
 
 ## Check name -> how it reads on screen. The stat behind each is [method _skill_value].
 const SKILLS := {
@@ -181,6 +182,10 @@ static func apply_effects(source: Dictionary) -> void:
 	var item := str(source.get("item", ""))
 	if item != "" and GameState.roster != null:
 		EventBus.area_note.emit(Loot.take(item, GameState.roster))
+	# A smith's notch on somebody's weapon (D280).
+	var honing := str(source.get("hone", ""))
+	if honing != "" and GameState.roster != null and GameState.roster.by_id(honing) != null:
+		EventBus.area_note.emit(Crafting.hone(GameState.roster.by_id(honing)))
 	if bool(source.get("heal", false)) and GameState.roster != null:
 		GameState.heal_party()
 		EventBus.area_note.emit("Everyone is patched up.")

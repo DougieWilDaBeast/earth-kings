@@ -17,6 +17,7 @@ signal closed
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
+const Crafting := preload("res://src/chronicle/crafting.gd")
 ## Class colours, growth bars and the shapes of powers ([D66]).
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
@@ -182,6 +183,16 @@ func teach(teacher: Character, student: Character, doctrine_id: String) -> bool:
 ## (see `src/chronicle/dispatch.gd`).
 func send_away(character: Character, errand: Dictionary) -> bool:
 	var line := Dispatch.send(GameState.world, GameState.roster, GameState.away, character, errand)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
+## Mix [param recipe] out of the packs ([D280]).
+func mix(recipe: Dictionary) -> bool:
+	var line := Crafting.mix(recipe, GameState.stores)
 	if line == "":
 		return false
 	_notice = line
@@ -780,6 +791,21 @@ func _build_gear_page(character: Character) -> void:
 				break
 			_page_box.add_child(_offer_row(character, equipment_id))
 			shown += 1
+
+	# Herbs and draughts out of the packs into something stronger (D280).
+	_page_box.add_child(_heading("Mixing"))
+	var mixable := Crafting.recipes().filter(func(r: Dictionary) -> bool: return Crafting.can_mix(r, GameState.stores))
+	if mixable.is_empty():
+		_page_box.add_child(_quiet_line("Nothing in the packs to mix. Herbs, a redcap or frostmoss make draughts."))
+	for recipe: Dictionary in mixable:
+		var stir := Button.new()
+		stir.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		stir.focus_mode = Control.FOCUS_NONE
+		stir.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		stir.text = "Mix a %s" % Crafting.recipe_text(recipe)
+		stir.pressed.connect(func() -> void: mix(recipe))
+		Sfx.attend(stir)
+		_page_box.add_child(stir)
 
 	var thirsty := character.current_hp() < character.max_hp()
 	_page_box.add_child(_heading("Food and physic"))

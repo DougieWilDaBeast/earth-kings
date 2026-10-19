@@ -42,7 +42,7 @@ static func askable(area_id: String, person: Dictionary) -> bool:
 	var talk: Dictionary = person.get("talk", {})
 	if talk.is_empty() or not bool(person.get("recruit", true)):
 		return false
-	if talk.has("sells") or talk.has("heal") or bool(person.get("guild", false)):
+	if talk.has("sells") or talk.has("heal") or talk.has("hone") or bool(person.get("guild", false)):
 		return false
 	if Database.unit_template(str(person.get("unit", ""))).is_empty():
 		return false

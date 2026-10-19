@@ -11,6 +11,7 @@ extends RefCounted
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
+const Crafting := preload("res://src/chronicle/crafting.gd")
 
 const END := "end"
 ## What the party says to leave, when the block gives nothing of its own.
@@ -96,6 +97,10 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 	var heal: Dictionary = talk.get("heal", {})
 	if not heal.is_empty():
 		_add_healing(nodes, menu, name_, heal)
+
+	var hone: Dictionary = talk.get("hone", {})
+	if not hone.is_empty():
+		_add_honing(nodes, menu, name_, hone)
 
 	if bool(talk.get("news", false)):
 		menu.append({ "text": str(talk.get("news_q", "Heard any news?")), "news": true })
@@ -191,6 +196,29 @@ static func _add_healing(nodes: Dictionary, menu: Array, name_: String, heal: Di
 	})
 	nodes["healed"] = { "speaker": name_, "text": heal.get("done", "There. Whole again."), "next": "menu" }
 	nodes["whole"] = { "speaker": name_, "text": heal.get("whole", "Nobody here needs me."), "next": "menu" }
+
+
+## A smith hones a weapon a notch for coin ([D280], [Crafting]): one reply for each of the company
+## carrying a weapon that can take another, priced by the weapon and the notch.
+static func _add_honing(nodes: Dictionary, menu: Array, name_: String, hone: Dictionary) -> void:
+	var options: Array = []
+	for character: Character in GameState.party_characters():
+		if not Crafting.can_hone(character):
+			continue
+		var price := Crafting.hone_price(character)
+		options.append({
+			"text": "%s's %s (+%d) — %s" % [character.display_name, Gear.display_name(character.equipment),
+				int(character.honed.get(character.equipment, 0)) + 1, Coins.text(price)],
+			"requires_gold": price, "gold": -price, "hone": character.id, "goto": "honed",
+		})
+	if options.is_empty():
+		menu.append({ "text": str(hone.get("q", "Can you put an edge on our weapons?")), "goto": "hone_none" })
+		nodes["hone_none"] = { "speaker": name_, "text": hone.get("none", "Nothing there I can make better."), "next": "menu" }
+		return
+	menu.append({ "text": str(hone.get("q", "Can you put an edge on our weapons?")), "goto": "hone" })
+	options.append({ "text": str(hone.get("done_q", "That's all.")), "goto": "menu" })
+	nodes["hone"] = { "speaker": name_, "text": hone.get("offer", "Let me see them. Coin first."), "options": options }
+	nodes["honed"] = { "speaker": name_, "text": hone.get("done", "There. Mind the edge."), "next": "hone" }
 
 
 static func price_of(ware: Dictionary) -> int:

@@ -592,6 +592,7 @@
         0
       ],
       "talk": {
+        "hone": { "q": "Can you put an edge on our weapons?", "offer": "Put it on the bench. If the steel is good I can make it better.", "done": "There. Mind the edge." },
         "refuse": {
           "chance": 0.4,
           "unless": "smith:won",

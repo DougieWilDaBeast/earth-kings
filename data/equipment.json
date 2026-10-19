@@ -327,6 +327,22 @@
 		"price": 150,
 		"text": "Chewed, not brewed. It works faster and it is worse."
 	},
+	"redcap": {
+		"display_name": "Redcap",
+		"icon": "herbs",
+		"kind": "draught",
+		"mends": 8,
+		"price": 300,
+		"text": "A mushroom from under the old trees. Eaten raw it does little. Mixed, it does more."
+	},
+	"frostmoss": {
+		"display_name": "Frostmoss",
+		"icon": "herbs",
+		"kind": "draught",
+		"mends": 10,
+		"price": 600,
+		"text": "Grows where nothing else will. Cold in the mouth, and better in a draught."
+	},
 	"ale_flask": {
 		"display_name": "Flask of Ale",
 		"icon": "ale_barrel",
