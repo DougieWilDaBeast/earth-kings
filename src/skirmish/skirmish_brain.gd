@@ -120,6 +120,11 @@ static func moves(fighter: Fighter, tactics: Dictionary) -> Array:
 ##   few seconds (Catch Breath and its like mend out of the fighting).
 ## - **escort** (the Guard stance's): more than two tiles from the party's leader, it
 ##   makes its way back beside them.
+## In the player's party ([D281]) two more hold for everyone: **rally**, tried first after
+## dodge: when the lead is under half health with a foe on them, a companion within reach
+## goes and stands between them, or comes back beside them; and **keep with the band**: no
+## move takes a fighter further than `keep_with` tiles from every friend still standing,
+## and nobody hangs back from a foe already hitting them.
 static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, tactics: Dictionary) -> Dictionary:
 	if not bool(tactics.get("on", true)) or fighter.aboard != null or foe == null:
 		return {}
@@ -128,17 +133,31 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 	var away := foe.cell
 	var friends := fighters.filter(func(o: Fighter) -> bool:
 		return o != fighter and o.is_standing() and not o.unit.is_hostile_to(me))
-	for move: String in moves(fighter, tactics):
+	# The player's party keeps together round its lead ([D281]).
+	var lead := _party_lead(fighter, friends) if bool(tactics.get("keep_together", true)) else null
+	var banded := lead != null and not friends.is_empty()
+	var keep := int(tactics.get("keep_with", 3))
+	var with_band := func(c: Vector2i) -> bool:
+		return not banded or friends.any(func(o: Fighter) -> bool: return Pathfinder.distance(c, o.unit.cell) <= keep)
+	var hunted := fighters.any(func(o: Fighter) -> bool:
+		return o.is_standing() and o.unit.is_hostile_to(me) and o.target == me and Pathfinder.distance(o.unit.cell, me.cell) <= 1)
+	var tried: Array = moves(fighter, tactics).duplicate()
+	if lead != null and lead != me:
+		tried.insert(1 if tried.has("dodge") else 0, "rally")
+	for move: String in tried:
 		var plan := {}
 		match move:
 			"dodge":
 				plan = _dodge(fighter, fighters, tactics)
+			"rally":
+				if fighter.tactic_wait <= 0.0:
+					plan = _rally(fighter, fighters, lead, tactics)
 			"kite":
 				if fighter.tactic_wait <= 0.0 and swing >= int(tactics.get("kite_from_reach", 2)) \
 						and fighter.retreat_wait <= 0.0 and _nearest_hostile(me, me.cell, fighters) <= 1:
 					plan = {"why": "kite", "wait": float(tactics.get("kite_every", 2.5)), "goal": func(c: Vector2i) -> bool:
 						return _nearest_hostile(me, c, fighters) >= 2 and Pathfinder.distance(c, away) <= swing \
-								and _free(c, fighter, fighters)}
+								and _free(c, fighter, fighters) and with_band.call(c)}
 			"flank":
 				if fighter.tactic_wait <= 0.0 and swing == 1 and Pathfinder.distance(me.cell, away) == 1 \
 						and AbilityResolver.flank_of(me.cell, foe) == AbilityResolver.Flank.FRONT:
@@ -151,11 +170,12 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 				if fighter.tactic_wait <= 0.0:
 					plan = _guard(fighter, fighters, friends, tactics)
 			"hang_back":
-				if not friends.is_empty() and friends.any(func(o: Fighter) -> bool: return o.target != null):
+				if not friends.is_empty() and friends.any(func(o: Fighter) -> bool: return o.target != null) \
+						and not (banded and hunted):
 					var gap := int(tactics.get("hang_back", 3))
 					if _nearest_hostile(me, me.cell, fighters) < gap and fighter.tactic_wait <= 0.0:
 						plan = {"why": "hang_back", "wait": 2.0, "goal": func(c: Vector2i) -> bool:
-							return _nearest_hostile(me, c, fighters) >= gap and _free(c, fighter, fighters)}
+							return _nearest_hostile(me, c, fighters) >= gap and _free(c, fighter, fighters) and with_band.call(c)}
 					elif not AbilityResolver.in_range(Database.ability(fighter.basic), me.cell, away):
 						plan = {"why": "hold"}
 			"escort":
@@ -167,7 +187,7 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 						and friends.any(func(o: Fighter) -> bool: return o.target != null):
 					var to := int(tactics.get("break_to", 4))
 					plan = {"why": "break", "wait": float(tactics.get("break_every", 8.0)), "goal": func(c: Vector2i) -> bool:
-						return _nearest_hostile(me, c, fighters) >= to and _free(c, fighter, fighters)}
+						return _nearest_hostile(me, c, fighters) >= to and _free(c, fighter, fighters) and with_band.call(c)}
 		if not plan.is_empty():
 			return plan
 	return {}
@@ -226,6 +246,46 @@ static func _guard(fighter: Fighter, fighters: Array[Fighter], friends: Array, t
 					return Pathfinder.distance(c, attacker) == 1 and Pathfinder.distance(c, ward) <= 2 \
 							and _free(c, fighter, fighters)}
 	return {}
+
+
+## The player's lead, when [param fighter] is in the player's party (itself, if it is the lead); null
+## for anyone else, so foes, allies of a fight and who-wins bouts fight as they always have.
+static func _party_lead(fighter: Fighter, friends: Array) -> Unit:
+	var me := fighter.unit
+	if me.team != Unit.Team.PLAYER:
+		return null
+	if me.character != null and me.character.is_player:
+		return me
+	for friend: Fighter in friends:
+		if friend.unit.team == Unit.Team.PLAYER and friend.unit.character != null and friend.unit.character.is_player:
+			return friend.unit
+	return null
+
+
+## To the lead's side when they are under `rally_below` of their health with a foe on them
+## ([D281]): between them and that foe, or beside them if nobody is at their elbow yet.
+static func _rally(fighter: Fighter, fighters: Array[Fighter], lead: Unit, tactics: Dictionary) -> Dictionary:
+	var me := fighter.unit
+	var share := float(lead.hp) / float(maxi(1, lead.max_hp))
+	if share >= float(tactics.get("rally_below", 0.5)) \
+			or Pathfinder.distance(me.cell, lead.cell) > int(tactics.get("rally_reach", 8)):
+		return {}
+	var ward := lead.cell
+	var every := float(tactics.get("rally_every", 2.0))
+	for other in fighters:
+		if other.is_standing() and other.unit.is_hostile_to(me) and other.target == lead \
+				and Pathfinder.distance(other.unit.cell, ward) <= 1:
+			var attacker := other.unit.cell
+			if Pathfinder.distance(me.cell, attacker) == 1 and fighter.target == other.unit:
+				return {}
+			return {"why": "rally", "wait": every, "target": other.unit, "ally": lead.display_name,
+				"goal": func(c: Vector2i) -> bool:
+					return Pathfinder.distance(c, attacker) == 1 and Pathfinder.distance(c, ward) <= 2 \
+							and _free(c, fighter, fighters)}
+	if Pathfinder.distance(me.cell, ward) <= 2:
+		return {}
+	return {"why": "rally", "wait": every, "ally": lead.display_name, "goal": func(c: Vector2i) -> bool:
+		return Pathfinder.distance(c, ward) <= 2 and _free(c, fighter, fighters)}
 
 
 ## Back beside the party's leader, when this fighter is not the leader and has drifted

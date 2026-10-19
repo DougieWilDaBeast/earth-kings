@@ -192,6 +192,7 @@ func _run() -> void:
 	await _check_tactics()
 	await _check_tier_ways()
 	await _check_stances()
+	await _check_keeping_together()
 	await _check_the_turn()
 	await _check_scars()
 
@@ -1042,6 +1043,65 @@ func _check_tier_ways() -> void:
 	foe.unit.hp = maxi(1, int(foe.unit.max_hp * 0.2))
 	var before := foe.unit.cell
 	_expect(fight._keep_away(foe, ability, cato.unit) and foe.unit.cell != before, "a craven one badly hurt did not run")
+	fight.queue_free()
+
+
+## The party keeps together round its lead ([D281]): with Cato under half health and a foe on him,
+## Vesta five tiles off comes to stand between them; Vesta with a foe already hitting her does not hang
+## back from it; and no falling back takes her further than `keep_with` tiles from every friend.
+func _check_keeping_together() -> void:
+	for character: Character in GameState.party_characters():
+		character.stance = "own"
+	var fight := await _new_fight()
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	var iris := _by_template(fight, "iris")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	if cato == null or vesta == null or iris == null or foes.is_empty():
+		_expect(false, "the proving ground has no company and foe to keep together with")
+		fight.queue_free()
+		return
+	var foe: Fighter = foes[0]
+	_expect(cato.unit.character.is_player, "Cato does not lead the company")
+	for other: Fighter in foes.slice(1):
+		other.unit.cell = Vector2i(0, 0)
+	cato.unit.cell = Vector2i(6, 6)
+	foe.unit.cell = Vector2i(7, 6)
+	foe.target = cato.unit
+	cato.target = foe.unit
+	iris.unit.cell = Vector2i(6, 9)
+	vesta.unit.cell = Vector2i(1, 6)
+	vesta.tactic_wait = 0.0
+	cato.unit.hp = maxi(1, int(cato.unit.max_hp * 0.3))
+	var rally := SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics)
+	_expect(str(rally.get("why", "")) == "rally", "Vesta did not come to Cato under half health: %s" % str(rally))
+	if str(rally.get("why", "")) == "rally":
+		_expect(rally.get("target") == foe.unit and rally["goal"].call(Vector2i(7, 7)) and not rally["goal"].call(Vector2i(1, 6)),
+				"the rally does not end between Cato and the foe on him")
+	cato.unit.hp = cato.unit.max_hp
+	_expect(str(SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics).get("why", "")) != "rally",
+			"Vesta rallied to a Cato at full health")
+	# A foe at Vesta's elbow hitting her: she fights it, not hangs back from it.
+	vesta.unit.cell = Vector2i(5, 7)
+	var near: Fighter = foes[1] if foes.size() > 1 else foe
+	near.unit.cell = Vector2i(5, 8)
+	near.target = vesta.unit
+	vesta.tactic_wait = 0.0
+	_expect(str(SkirmishBrain.pick_tactic(vesta, fight.fighters, near.unit, tactics).get("why", "")) != "hang_back",
+			"Vesta hung back from a foe already hitting her")
+	near.target = cato.unit
+	var back := SkirmishBrain.pick_tactic(vesta, fight.fighters, near.unit, tactics)
+	if str(back.get("why", "")) == "hang_back":
+		var keep := int(tactics["keep_with"])
+		var alone: Array = fight.pathfinder.cells_in_range(vesta.unit.cell, 1, 12).filter(func(c: Vector2i) -> bool:
+			return Pathfinder.distance(c, cato.unit.cell) > keep and Pathfinder.distance(c, iris.unit.cell) > keep)
+		_expect(not alone.any(func(c: Vector2i) -> bool: return back["goal"].call(c)),
+				"hanging back may take Vesta further than %d tiles from the whole company" % keep)
+	tactics["keep_together"] = false
+	var apart := SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics)
+	tactics["keep_together"] = true
+	_expect(str(apart.get("why", "")) != "rally", "keep_together off still rallied")
 	fight.queue_free()
 
 
