@@ -11,6 +11,7 @@ const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Company := preload("res://tests/company.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Moods := preload("res://src/chronicle/moods.gd")
 
 var _failures: Array[String] = []
 
@@ -104,6 +105,7 @@ func _ready() -> void:
 	_expect(soaked_back > soaked_dead, "sending someone away is more likely to kill them than not")
 	_check_muster(world)
 	_check_gate_band(world)
+	_check_moods(world)
 	_check_rumour_jobs(world, roster)
 	_finish()
 
@@ -228,6 +230,56 @@ func _check_gate_band(world: World) -> void:
 		gates[i].broken = restored.broken
 		gates[i].cleared = restored.cleared
 	world.rng.state = kept_rng
+
+
+## How each of them feels ([D279]): a fight won, a floor climbed and a friend lost become thoughts,
+## the mood they make nudges a fight, it saves, and at the end of their rope one of them sits out.
+func _check_moods(world: World) -> void:
+	var roster := Company.found()
+	var flags := {}
+	var ledger := Ledger.fresh()
+	var away: Array = []
+	var kept_floor := world.tower_floor
+	var kept_steps := world.steps
+	var one: Character = roster.party_members()[1]
+	var two: Character = roster.party_members()[2]
+	var calm := one.attack()
+	Moods.tick(world, roster, away, flags, ledger)
+	_expect(one.thoughts.is_empty() and one.mood() == int(Moods.rules().get("base", 50)), "a mood began with something on its mind")
+	ledger["battles_won"] = 1
+	world.tower_floor += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var ids: Array = one.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(ids.has("won_fight") and ids.has("climbed"), "a fight won and a floor climbed went unnoticed: %s" % str(ids))
+	var climbed: Dictionary = Moods.rules()["thoughts"]["climbed"]
+	var worth := int(climbed.get("by_group", {}).get(Moods.group(one), climbed.get("mood", 0)))
+	var held: Array = one.thoughts.filter(func(t: Dictionary) -> bool: return t["id"] == "climbed")
+	_expect(int(held[0]["mood"]) == worth, "%s's temper did not decide how climbing felt" % one.display_name)
+	one.bonds[two.id] = 5
+	two.status = Fate.DEAD
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var grief: Array = one.thoughts.filter(func(t: Dictionary) -> bool: return t["id"] == "friend_fell")
+	_expect(not grief.is_empty() and str(grief[0]["label"]).contains(two.display_name), "%s did not grieve %s" % [one.display_name, two.display_name])
+	two.status = Fate.ALIVE
+	var saved := Character.from_dict(one.to_dict())
+	_expect(saved.thoughts.size() == one.thoughts.size() and saved.mood() == one.mood(), "thoughts did not survive a save")
+	one.thoughts.append({ "id": "test", "label": "test", "mood": -80, "until": world.steps + 1000 })
+	_expect(str(Moods.band(one).get("id", "")) == "broken" and one.attack() < calm, "at the end of their rope, %s fought as hard as ever" % one.display_name)
+	var rules: Dictionary = Database.world_rules["moods"]
+	var kept_chance: float = rules["break_chance"]
+	rules["break_chance"] = 1.0
+	world.steps += 1
+	var lines := Moods.tick(world, roster, away, flags, ledger)
+	print("  moods: %s / %s" % [Moods.summary(one), " / ".join(lines)])
+	_expect(not roster.party.has(one.id) and away.size() == 1, "%s at the end of their rope never sat out" % one.display_name)
+	_expect(roster.party.has(roster.player().id), "the lead walked off in a mood")
+	world.steps = int(away[0]["back_at"]) if not away.is_empty() else world.steps
+	Dispatch.walk(world, roster, away, [])
+	_expect(away.is_empty() and roster.party.has(one.id), "%s never came back from sitting out" % one.display_name)
+	rules["break_chance"] = kept_chance
+	world.tower_floor = kept_floor
+	world.steps = kept_steps
 
 
 ## What the host passes on can post work: one job per rumour, never twice, and

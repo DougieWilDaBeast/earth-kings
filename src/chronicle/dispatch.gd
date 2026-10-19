@@ -416,6 +416,8 @@ static func errand_for(accepted: Array, character_id: String) -> Dictionary:
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
+	if bool(job.get("sulk", false)):
+		return "%s — off on their own a while, about %d steps more" % [who, maxi(0, int(job.get("back_at", 0)) - world.steps)]
 	if job.has("gate"):
 		var names: Array = members(roster, job).map(func(c: Character) -> String: return c.display_name)
 		who = ", ".join(names) if not names.is_empty() else who

@@ -502,6 +502,30 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"moods": {
+		"_comment": "D279 (Ewan's play-test 7: 'a system where characters have emotions ... use inspiration from RimWorld ... so that the characters feel more life-like'; 'some characters won't want to join you in the pursuit of climbing the tower'). A mood is base plus every thought carried (src/chronicle/moods.gd). Thoughts are noticed once a step from what changed: a fight won or lost, a gate shut, a floor of the Tower climbed, a friend (a bond of friend_bond or more) dead. by_group sets a thought's worth by temper group (NT, NF, SJ, SP, as the wanderers read them), so the cold-eyed are glad to climb and the rest are not. A band nudges attack and defense; below break_below, now and then (break_chance a step), one of the company sits out break_steps steps. The lead never does.",
+		"base": 50,
+		"friend_bond": 3,
+		"bands": [
+			{ "below": 20, "id": "broken", "name": "At the end of their rope", "attack": -2, "defense": -1 },
+			{ "below": 35, "id": "low", "name": "Low", "attack": -1 },
+			{ "below": 65, "id": "steady", "name": "Steady" },
+			{ "below": 80, "id": "content", "name": "Content" },
+			{ "below": 10000, "id": "glad", "name": "In good heart", "attack": 1 }
+		],
+		"thoughts": {
+			"won_fight": { "label": "Came through a fight", "mood": 4, "lasts": 60, "stack": 3 },
+			"lost_fight": { "label": "Beaten", "mood": -10, "lasts": 120 },
+			"shut_gate": { "label": "Shut a gate", "mood": 10, "lasts": 240, "by_group": { "SP": 14 } },
+			"climbed": { "label": "Climbed higher", "label_against": "Dragged up the Tower", "mood": -3, "lasts": 120, "stack": 3, "by_group": { "NT": 8 } },
+			"friend_fell": { "label": "Lost {name}", "mood": -25, "lasts": 600, "stack": 4 }
+		},
+		"break_below": 20,
+		"break_chance": 0.1,
+		"break_steps": 40,
+		"break_place": "somewhere quiet",
+		"break_line": "{name} has had enough, and goes off on their own a while."
+	},
 	"recruit_anyone": {
 		"_comment": "D277 (Ewan's play-test 7: 'you can ask someone to join you, they might say no ... do quests with them and gain their trust'). Anyone with a talk block can be asked to walk with the company, unless they keep a post (sells, heal, guild), stand in an area in no_areas, are named in stays, or say \"recruit\": false. The ask is a Charisma check: d20 + half the best talker's charisma (level x per_level + notoriety, + outward for an E temper) against dc, or story_dc for one of the story folk (data/story_npcs.json). A no is not the end: they name a way to earn their trust (their own favour, if they have one, else one of trust), and once the company has done it they come without a roll. Folk with no name of their own ('a settler') take one when they join.",
 		"dc": 13,

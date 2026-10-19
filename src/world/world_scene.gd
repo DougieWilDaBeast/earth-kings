@@ -20,6 +20,7 @@ extends Node2D
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Moods := preload("res://src/chronicle/moods.gd")
 const Names := preload("res://src/chronicle/names.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
@@ -1204,6 +1205,9 @@ func _check_party() -> void:
 
 	# Whoever was sent away is on the same clock as everyone else.
 	for line: String in Dispatch.walk(world, GameState.roster, GameState.away, GameState.errands):
+		_note(line)
+	# How each of them feels about what has happened since the last step (D279).
+	for line: String in Moods.tick(world, GameState.roster, GameState.away, GameState.flags, GameState.ledger):
 		_note(line)
 
 	# Nobody waits forever for their friends.

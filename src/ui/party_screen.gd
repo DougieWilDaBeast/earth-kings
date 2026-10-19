@@ -16,6 +16,7 @@ signal closed
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
+const Moods := preload("res://src/chronicle/moods.gd")
 ## Class colours, growth bars and the shapes of powers ([D66]).
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
@@ -923,6 +924,10 @@ func _build_powers_page(character: Character) -> void:
 
 
 func _build_practice_page(character: Character, party: Array[Character]) -> void:
+	# How they feel, and why (D279).
+	_page_box.add_child(_heading("Mood"))
+	_page_box.add_child(_quiet_line(Moods.summary(character)))
+
 	_page_box.add_child(_heading("Read"))
 	_page_box.add_child(_quiet_line(_doctrine_summary(character)))
 
