@@ -865,7 +865,7 @@ func _arrive_at(site: Site) -> void:
 			var line := FirstHour.gate_line(gate.display_name)
 			if line != "":
 				_note("Sennet: " + line)
-				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line }])
+				EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": line, "afar": true }])
 		if _saved_in_town.get("cell", Vector2i(-1, -1)) != site.cell or int(_saved_in_town.get("world", 0)) != world.get_instance_id():
 			_saved_in_town = { "world": world.get_instance_id(), "cell": site.cell }
 			EventBus.safe_point_reached.emit.call_deferred(RunMode.TOWN, "you reached %s" % site.display_name)

@@ -98,6 +98,8 @@ var _seated: Dictionary = {}
 var _seat_for: Dictionary = {}
 ## Whoever is walking, as the roster knows them.
 var _leader_character: Character
+## Whoever is speaking from afar, standing beside the lead as a ghost of themselves while they talk.
+var _ghost: AreaActor = null
 ## Auto stopped for this fight (D150), and takes the walk back up if it is won.
 var _auto_after_fight := false
 ## Who or what the leader is standing close enough to deal with, or null.
@@ -323,6 +325,8 @@ func _ready() -> void:
 	_land = Biome.effects(Biome.at(GameState.world, GameState.world.player_cell) if _land_mode \
 		else str(Database.area(map.id).get("biome", "")))
 	EventBus.area_note.connect(_note)
+	EventBus.conversation_requested.connect(_see_who_speaks_from_afar)
+	EventBus.dialogue_finished.connect(func(_id: String) -> void: _let_the_ghost_go())
 	_tell_where_we_are()
 	# On the land every step is answered; anywhere, a band's fight is (step 4 of the First Hour).
 	EventBus.continent_answered.connect(_on_continent_answered)
@@ -4153,3 +4157,58 @@ func _night_falls() -> void:
 	fade.tween_property(dark, "color:a", 0.0, 0.9)
 	fade.tween_callback(layer.queue_free)
 
+
+## Somebody speaking from afar (Sennet, at the first town) is seen beside the lead while they talk:
+## their own figure, washed blue and see-through, coming in and flickering (play-test 7, call BR8;
+## `data/world_rules.json` → `from_afar`).
+func _see_who_speaks_from_afar(lines: Array) -> void:
+	if _leader == null or _fight != null or not is_inside_tree():
+		return
+	for line: Variant in lines:
+		if typeof(line) != TYPE_DICTIONARY or not bool((line as Dictionary).get("afar", false)):
+			continue
+		var speaker := str((line as Dictionary).get("speaker", ""))
+		var seen := DialogueScript.afar(speaker)
+		if seen.is_empty():
+			continue
+		_let_the_ghost_go()
+		var ghost := AreaActor.for_person({ "name": speaker, "unit": str(seen.get("unit", "")) })
+		var wash := DialogueScript.afar_wash(seen)
+		var beside := float(seen.get("beside", 1.4)) * AreaMap.CELL
+		var at := _leader.position + Vector2(beside, 0)
+		if not _can_stand(at) and _can_stand(_leader.position - Vector2(beside, 0)):
+			at = _leader.position - Vector2(beside, 0)
+		ghost.position = at
+		ghost.material = DialogueScript.afar_material(seen)
+		for part: Node in ghost.find_children("*", "CanvasItem", true, false):
+			(part as CanvasItem).use_parent_material = true
+		ghost.modulate = Color(1, 1, 1, 0.0)
+		_actors.add_child(ghost)
+		ghost.face(_leader.position - at)
+		_leader.face(at - _leader.position)
+		_ghost = ghost
+		var flicker := float(seen.get("flicker", 0.12))
+		var come := ghost.create_tween()
+		come.tween_property(ghost, "modulate:a", wash.a, float(seen.get("fade", 0.6)))
+		# A light that does not quite hold: up and down a little while they speak.
+		come.tween_callback(func() -> void:
+			var waver := ghost.create_tween().set_loops()
+			waver.tween_property(ghost, "modulate:a", maxf(0.1, wash.a - flicker), 0.45)
+			waver.tween_property(ghost, "modulate:a", wash.a, 0.55)
+			ghost.set_meta("waver", waver))
+		ghost.set_meta("waver", come)
+		return
+
+
+func _let_the_ghost_go() -> void:
+	if _ghost == null or not is_instance_valid(_ghost):
+		_ghost = null
+		return
+	var going := _ghost
+	_ghost = null
+	var waver: Variant = going.get_meta("waver", null)
+	if waver is Tween:
+		(waver as Tween).kill()
+	var fade := going.create_tween()
+	fade.tween_property(going, "modulate:a", 0.0, 0.4)
+	fade.tween_callback(going.queue_free)

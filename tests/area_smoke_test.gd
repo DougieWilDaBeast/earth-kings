@@ -80,6 +80,7 @@ func _ready() -> void:
 	await _check_inn_rooms()
 	await _check_followers_face()
 	await _check_play_test_seven()
+	await _check_sennet_from_afar()
 	_check_tracks()
 	_check_open_city()
 	await _check_play_hud()
@@ -1844,6 +1845,48 @@ func _check_play_test_seven() -> void:
 			beside.size(), GameState.party_characters().size() - 1, (land._followers as Array).size()])
 	else:
 		print("play-test 7: out of the grove and onto the land, all %d followers walk beside the lead" % beside.size())
+	land.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## Sennet speaking from afar is seen as a ghost of himself (play-test 7, call BR8): his face washed
+## blue in the box, his figure beside the lead on the land while he talks, gone when he is done.
+func _check_sennet_from_afar() -> void:
+	GameState.new_game(SEED)
+	GameState.set_flag("seen:prologue")
+	var seen := DialogueScript.afar("Sennet")
+	if seen.is_empty() or Database.unit_face(str(seen.get("unit", ""))) == null:
+		_fail("Sennet from afar: no figure to show him by (%s)" % str(seen))
+		return
+	var nodes := DialogueScript.nodes_from_lines([{ "speaker": "Sennet", "text": "Hear me.", "afar": true }])
+	if not bool((nodes.values()[0] as Dictionary).get("afar", false)):
+		_fail("Sennet from afar: a line said from afar forgets it on its way to the box")
+	var land: Node = load("res://src/area/area_scene.tscn").instantiate()
+	land.set("boot_payload", { "land": true, "title": "The land", "actions": [], "bands": [], "held": {} })
+	add_child(land)
+	for i in 10:
+		await get_tree().process_frame
+	EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": "Hear me.", "afar": true }])
+	for i in 50:
+		await get_tree().process_frame
+	var ghost: AreaActor = land._ghost
+	if ghost == null or ghost.display_name != "Sennet":
+		_fail("Sennet from afar: nobody stands beside the lead while he speaks")
+	else:
+		var wash := ghost.modulate
+		var drawn: Variant = (ghost.material as ShaderMaterial).get_shader_parameter("wash") if ghost.material is ShaderMaterial else null
+		if wash.a >= 0.9 or not drawn is Color or (drawn as Color).b <= (drawn as Color).r:
+			_fail("Sennet from afar: he is drawn solid or not blue (%s, %s)" % [str(wash), str(drawn)])
+		elif ghost.position.distance_to(land._leader.position) > 3.0 * AreaMap.CELL:
+			_fail("Sennet from afar: he stands %.0f px from the lead, not beside them" % ghost.position.distance_to(land._leader.position))
+		else:
+			print("Sennet from afar: a blue ghost (%s) beside the lead while he speaks" % str(wash))
+	EventBus.dialogue_finished.emit("")
+	await get_tree().create_timer(0.8).timeout
+	await get_tree().process_frame
+	if ghost != null and is_instance_valid(ghost) and not ghost.is_queued_for_deletion():
+		_fail("Sennet from afar: he is still there once he has finished speaking")
 	land.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)

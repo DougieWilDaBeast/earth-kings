@@ -68,6 +68,29 @@ static func cast(dialogue_id: String) -> Dictionary:
 ## The forward-facing sprite of whoever is talking, or null when the line comes
 ## from nobody in particular — narration, or the result of a check. Roadside
 ## banter names no cast, so the roster is asked who goes by that name.
+## How [param speaker] is seen while speaking from afar (`data/world_rules.json` → `from_afar`): their
+## `unit`, the `tint` washed over them, how see-through, how far beside the lead. Empty for anyone
+## nobody has said how to show.
+static func afar(speaker: String) -> Dictionary:
+	return Database.world_rules.get("from_afar", {}).get(speaker, {})
+
+
+## The wash a ghost is drawn in: its tint at its `alpha`.
+static func afar_wash(seen: Dictionary) -> Color:
+	var wash := Color(str(seen.get("tint", "#8cc4ff")))
+	wash.a = float(seen.get("alpha", 0.6))
+	return wash
+
+
+## What draws a picture as that ghost: its tint as light (`src/area/ghost.gdshader`), how see-through
+## left to the modulate.
+static func afar_material(seen: Dictionary) -> ShaderMaterial:
+	var material := ShaderMaterial.new()
+	material.shader = load("res://src/area/ghost.gdshader")
+	material.set_shader_parameter("wash", Color(afar_wash(seen), 1.0))
+	return material
+
+
 static func portrait(dialogue_id: String, speaker: String) -> Texture2D:
 	var unit_id: String = cast(dialogue_id).get(speaker, "")
 	if unit_id == "" and speaker != "":
@@ -197,6 +220,7 @@ static func nodes_from_lines(lines: Array) -> Dictionary:
 		out["line_%d" % i] = {
 			"speaker": line.get("speaker", ""),
 			"text": line.get("text", ""),
+			"afar": bool(line.get("afar", false)),
 			"next": "line_%d" % (i + 1) if i + 1 < spoken.size() else END,
 		}
 	return out
