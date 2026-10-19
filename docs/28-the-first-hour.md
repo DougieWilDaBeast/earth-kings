@@ -362,9 +362,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    land. And **climbers' names on the Tower**, a board of how high each got. Canon: the founders'.
 3. **The world's history**: how Earth Kings came to be the way it is, so the game is more than the climb.
 4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
-   **creatures that fit the land** they are in (no grasshoppers in magma). The goblins' five **built**
-   ([D262](06-decisions.md)), dealt by the fight's level, art asked for (A39); the other monsters and
-   creatures that fit the land still **planned**.
+   **creatures that fit the land** they are in (no grasshoppers in magma). The goblins' and the wolves' five
+   **built** ([D262](06-decisions.md), [D264](06-decisions.md)), dealt by the fight's level, art asked for (A39, A40);
+   the other monsters and creatures that fit the land still **planned**.
 5. **Bodies that stay** after a fight, searched for loot.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab).

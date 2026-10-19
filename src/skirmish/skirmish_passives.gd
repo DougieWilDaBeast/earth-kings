@@ -26,7 +26,7 @@ static func passive(id: String) -> Dictionary:
 static func for_unit(unit: Unit) -> Array:
 	var data := Database.skirmish
 	var ids: Array[String] = []
-	_add(ids, data.get("by_template", {}).get(unit.template_id, []))
+	_add(ids, data.get("by_template", {}).get(unit.template_id, data.get("by_template", {}).get(_family(unit), [])))
 	var classes: Array = []
 	if unit.character != null and unit.character.class_id != "":
 		classes.append(unit.character.class_id)
@@ -74,7 +74,7 @@ static func bears_shield(unit: Unit) -> bool:
 ## The role an enemy fights in, or "" for one that simply walks up and swings.
 static func role_for(unit: Unit) -> String:
 	var data := Database.skirmish
-	var named := str(data.get("role_by_template", {}).get(unit.template_id, ""))
+	var named := str(data.get("role_by_template", {}).get(unit.template_id, data.get("role_by_template", {}).get(_family(unit), "")))
 	if named != "":
 		return named
 	for ability_id: String in unit.abilities:
@@ -93,3 +93,9 @@ static func role_for(unit: Unit) -> String:
 
 static func role(id: String) -> Dictionary:
 	return Database.skirmish.get("roles", {}).get(id, {})
+
+
+## The family a tier of a monster belongs to (D262): its passives and role are its family's unless it
+## has its own.
+static func _family(unit: Unit) -> String:
+	return str(Database.unit_template(unit.template_id).get("family", ""))
