@@ -193,6 +193,7 @@ func _run() -> void:
 	await _check_tier_ways()
 	await _check_stances()
 	await _check_keeping_together()
+	_check_heal_growth()
 	await _check_the_turn()
 	await _check_scars()
 
@@ -1103,6 +1104,27 @@ func _check_keeping_together() -> void:
 	tactics["keep_together"] = true
 	_expect(str(apart.get("why", "")) != "rally", "keep_together off still rallied")
 	fight.queue_free()
+
+
+## A mend grows with its caster's level ([D284]): as it was up to `heal_from_level`, more after, and
+## the same for a unit with no level.
+func _check_heal_growth() -> void:
+	var rules: Dictionary = Database.skirmish["rules"]
+	var from := int(rules["heal_from_level"])
+	var early := Character.create("vesta")
+	var later := Character.create("vesta")
+	Progression.raise_quietly(later, 17, null)
+	var early_unit := Unit.from_character(early, Unit.Team.PLAYER, Vector2i.ZERO)
+	var later_unit := Unit.from_character(later, Unit.Team.PLAYER, Vector2i.ZERO)
+	var plain := Unit.create("wolf", Unit.Team.ENEMY, Vector2i.ZERO)
+	_expect(early.level <= from and is_equal_approx(AbilityResolver.heal_growth(early_unit), 1.0),
+			"a level %d mend was changed: %s" % [early.level, AbilityResolver.heal_growth(early_unit)])
+	var want := 1.0 + float(rules["heal_per_level"]) * float(17 - from)
+	_expect(is_equal_approx(AbilityResolver.heal_growth(later_unit), want) and want > 2.0,
+			"a level 17 mend heals %s times, not %s" % [AbilityResolver.heal_growth(later_unit), want])
+	_expect(is_equal_approx(AbilityResolver.heal_growth(plain), 1.0), "a unit with no level mends differently")
+	for unit: Unit in [early_unit, later_unit, plain]:
+		unit.free()
 
 
 ## Stances ([D195]): every card opens on Own way, the doctrine as it is; a key or a click on

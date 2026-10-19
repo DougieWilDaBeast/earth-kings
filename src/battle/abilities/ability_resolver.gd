@@ -82,7 +82,7 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 	var name: String = ability.get("display_name", "Attack")
 	var skill := Proficiency.multiplier(user.character, ability_id)
 	if ability.get("heal", false):
-		var healing := _roll(roundi(float(ability.get("power", 10)) * skill))
+		var healing := _roll(roundi(float(ability.get("power", 10)) * skill * heal_growth(user)))
 		target.heal(healing)
 		return "%s used %s — %s recovers %d HP." % [user.display_name, name, target.display_name, healing]
 
@@ -120,6 +120,18 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 	if not target.is_alive():
 		line += " %s falls." % target.display_name
 	return line
+
+
+## How much more a mend from [param user] heals for their level ([D284]): health grows with every
+## level and a spell's power did not, so a mend that was a tenth of a lead at level 1 was a thirtieth
+## at 17. From `heal_from_level` it grows `heal_per_level` a level; below it, and for a unit with no
+## level, it is as it was.
+static func heal_growth(user: Unit) -> float:
+	if user == null or user.character == null:
+		return 1.0
+	var rules: Dictionary = Database.skirmish.get("rules", {})
+	var over := user.character.level - int(rules.get("heal_from_level", 3))
+	return 1.0 + float(rules.get("heal_per_level", 0.0)) * float(maxi(0, over))
 
 
 static func _roll(base: int) -> int:

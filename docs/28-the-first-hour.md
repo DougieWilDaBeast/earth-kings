@@ -457,6 +457,13 @@ B gates shut 4 of 4 either way; A gates shut 1 of 2 with it, 0 of 2 without (the
 Where Juno still fell, she fell beside Vesta and Atlas, to two or three foes at once in a few seconds;
 Vesta's Mend heals 15 against Juno's 504 at level 17, which is the next piece.
 
+**Heals keep pace** ([D284](06-decisions.md), agenda 195). A mend now heals 10% more for every level past 3.
+Measured with a party of four (Juno, Vesta, Pluto, Atlas) against four and five of the land's foes, twelve
+fights each, with it and with mends flat: level 3 the same to the blow; level 9 the same; level 17 against
+five, every fight won and the lead never down with it, one lost and the lead down without (the company
+ending at 72% of its health against 68%). The gate clock (A gates, two runs each) could not tell them
+apart: one shut and one stuck either way, the stuck runs Auto halting after a fall ([D261](06-decisions.md)).
+
 ## Music the hour still needs
 
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two

@@ -23,7 +23,10 @@
 		"block_per_defence": 0.01,
 		"block_max": 0.4,
 		"ambush_head_start": 2.0,
-		"swings_per_practice": 3
+		"swings_per_practice": 3,
+		"_comment_heal": "A mend grows with its caster's level (D284): health grows every level and a spell's power did not, so Vesta's Mend (16) was a tenth of Juno at level 1 and a thirtieth at 17. From heal_from_level it heals heal_per_level more a level (level 17: 2.4 times); below it, as it was. Draughts already grow by kind and regen by share of health. Inferred: both numbers.",
+		"heal_from_level": 3,
+		"heal_per_level": 0.1
 	},
 	"tactics": {
 		"_comment": "How every fighter moves and picks its foe besides walking up and swinging (D187, all Inferred). Every side thinks with these: enemies, allies, the party fighting on its own, Auto, and both leads in a who-wins bout. A fighter's doctrine comes from its lead (leads), else its enemy role (roles), else brute. moves are tried in order each think; focus says whom it would rather hit: hurt (a foe low on health), marked (a foe Iris has marked) and soft (a foe that heals or shoots), each worth that many tiles of walking. The player's party keeps together round its lead (D281, keep_together): with the lead under rally_below of their health and a foe on them, a companion within rally_reach tiles comes to stand between them (every rally_every seconds); no fall-back move (kite, hang back, break off) takes one of the party further than keep_with tiles from every friend still standing, and nobody hangs back from a foe already at their elbow hitting them.",
