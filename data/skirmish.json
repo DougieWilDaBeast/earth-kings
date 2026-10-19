@@ -253,6 +253,155 @@
 			"effect": "echo",
 			"value": 0.15,
 			"also": { "lifesteal": 0.1 }
+		},
+		"spite": {
+			"display_name": "Spite",
+			"description": "When one of its own goes down, every skill comes back at once.",
+			"effect": "reset_on_ally_down"
+		},
+		"howl": {
+			"display_name": "Howl",
+			"description": "Its side within 3 tiles attack 10% faster.",
+			"effect": "aura",
+			"radius": 3,
+			"grants": {
+				"haste": 0.1
+			}
+		},
+		"heavy_hands": {
+			"display_name": "Heavy Hands",
+			"description": "+15% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.15
+		},
+		"mauling": {
+			"display_name": "Mauling",
+			"description": "A basic attack has a 20% chance to strike twice.",
+			"effect": "echo",
+			"value": 0.2
+		},
+		"flurry": {
+			"display_name": "Flurry",
+			"description": "A basic attack has a 30% chance to strike twice.",
+			"effect": "echo",
+			"value": 0.3
+		},
+		"drink_deep": {
+			"display_name": "Drink Deep",
+			"description": "Heals for 30% of the damage dealt.",
+			"effect": "lifesteal",
+			"value": 0.3
+		},
+		"green_shade": {
+			"display_name": "Green Shade",
+			"description": "Its side within 1 tile recover 1.5% of their health every second.",
+			"effect": "aura",
+			"radius": 1,
+			"grants": {
+				"regen": 0.015
+			}
+		},
+		"silk_ward": {
+			"display_name": "Silk Ward",
+			"description": "Its side within 1 tile take 12% less damage.",
+			"effect": "aura",
+			"radius": 1,
+			"grants": {
+				"guard": 0.12
+			}
+		},
+		"flicker": {
+			"display_name": "Flicker",
+			"description": "+15% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.15
+		},
+		"bark": {
+			"display_name": "Bark",
+			"description": "Anyone striking from an adjacent tile takes 25% of the blow back.",
+			"effect": "thorns",
+			"value": 0.25
+		},
+		"rime_hide": {
+			"display_name": "Rime Hide",
+			"description": "Anyone striking from an adjacent tile takes 20% of the blow back.",
+			"effect": "thorns",
+			"value": 0.2
+		},
+		"hot_scales": {
+			"display_name": "Hot Scales",
+			"description": "Anyone striking from an adjacent tile takes 20% of the blow back.",
+			"effect": "thorns",
+			"value": 0.2
+		},
+		"pride": {
+			"display_name": "Pride",
+			"description": "Its side within 2 tiles attack 15% faster.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": {
+				"haste": 0.15
+			}
+		},
+		"rekindle": {
+			"display_name": "Rekindle",
+			"description": "Out of the fighting for 4 seconds, recovers 5% of health every second.",
+			"effect": "regen",
+			"value": 0.05
+		},
+		"dark_tithe": {
+			"display_name": "Dark Tithe",
+			"description": "Heals for 15% of the damage dealt.",
+			"effect": "lifesteal",
+			"value": 0.15
+		},
+		"ooze_back": {
+			"display_name": "Ooze Back",
+			"description": "Out of the fighting for 4 seconds, recovers 5% of health every second.",
+			"effect": "regen",
+			"value": 0.05
+		},
+		"riptide": {
+			"display_name": "Riptide",
+			"description": "Hits from the side or behind deal 25% more.",
+			"effect": "flank_bonus",
+			"value": 0.25
+		},
+		"shoal": {
+			"display_name": "Shoal",
+			"description": "Its side within 2 tiles take 10% less damage.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": {
+				"guard": 0.1
+			}
+		},
+		"warm_mane": {
+			"display_name": "Warm Mane",
+			"description": "Its side within 2 tiles recover 1% of their health every second.",
+			"effect": "aura",
+			"radius": 2,
+			"grants": {
+				"regen": 0.01
+			}
+		},
+		"deadeye": {
+			"display_name": "Deadeye",
+			"description": "+20% chance to land a critical hit.",
+			"effect": "crit",
+			"value": 0.2
+		},
+		"grave_hunger": {
+			"display_name": "Grave Hunger",
+			"description": "Heals for 20% of the damage dealt.",
+			"effect": "lifesteal",
+			"value": 0.2
+		},
+		"shrapnel": {
+			"display_name": "Shrapnel",
+			"description": "Anyone striking from an adjacent tile takes 20% of the blow back.",
+			"effect": "thorns",
+			"value": 0.2
 		}
 	},
 	"signatures": {
@@ -457,6 +606,53 @@
 			"keep_away": 2,
 			"retreat_every": 2.5,
 			"heal_below": 0.85
+		},
+		"craven": {
+			"display_name": "Craven",
+			"description": "Fights while it is winning; badly hurt, it breaks and runs, and turns only when cornered.",
+			"flee_below": 0.4,
+			"flee_gap": 4,
+			"retreat_every": 1.5
+		}
+	},
+	"_comment_by_tier": "D275: what each tier of a monster (D262) brings beside its family's own passives and role. The lesser runs when hurt, the high charges and goes for the flank, the hob fights harder near death, the chieftain spurs its kin, the top's caster finds the weak spot. A row's passives add to the family's; its role stands in for the family's unless role_by_template names one.",
+	"by_tier": {
+		"1": { "role": "craven" },
+		"3": { "passives": ["hunters_angle"], "role": "charger" },
+		"4": { "passives": ["last_stand"] },
+		"5": { "passives": ["war_cry"] },
+		"5_caster": { "passives": ["keen_eye"] }
+	},
+	"_comment_family_tricks": "D276: each monster family's own trick, carried by its tiers from the hob up (`from`), beside its tier's way of fighting (by_tier): goblins' spite when one of theirs falls, the wolves' howl, the slime oozing back, the tree's bark, and so on.",
+	"family_tricks": {
+		"from": 4,
+		"families": {
+			"goblin": ["spite"],
+			"wolf": ["howl"],
+			"ogre": ["heavy_hands"],
+			"axe_bear": ["mauling"],
+			"sword_monkey": ["flurry"],
+			"blood_mosquito": ["drink_deep"],
+			"seed_beast": ["green_shade"],
+			"caterpillar_warrior": ["silk_ward"],
+			"feather_wisp": ["flicker"],
+			"tree_sentinel": ["bark"],
+			"frozen_wolfman": ["rime_hide"],
+			"ice_wolf": ["howl"],
+			"ember_lizard": ["hot_scales"],
+			"flame_lion": ["pride"],
+			"flame_dove": ["rekindle"],
+			"pig_warlock": ["dark_tithe"],
+			"slime": ["ooze_back"],
+			"sea_horse": ["riptide"],
+			"sea_man": ["shoal"],
+			"tide_lion": ["pride"],
+			"mending_lion": ["warm_mane"],
+			"eye_slinger": ["deadeye"],
+			"wraith": ["grave_hunger"],
+			"sword_bear": ["mauling"],
+			"cannon_bear": ["deadeye"],
+			"turret_cannon": ["shrapnel"]
 		}
 	},
 	"role_by_template": {

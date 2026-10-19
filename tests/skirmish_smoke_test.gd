@@ -190,6 +190,7 @@ func _run() -> void:
 	_check_bout()
 	_check_party_war()
 	await _check_tactics()
+	await _check_tier_ways()
 	await _check_stances()
 	await _check_the_turn()
 	await _check_scars()
@@ -993,6 +994,55 @@ func _check_tactics() -> void:
 				"circling should end at Iris's side or back, not where she is looking")
 	fight.queue_free()
 	GameState.roster = kept_roster
+
+
+## Tiers fight their own way ([D275]): the lesser is craven, the high charges and flanks, the hob
+## fights harder near death, the chieftain spurs its kin, the caster finds the weak spot; a family's
+## own passive (the wolves' pack) stays. A craven one badly hurt runs, and stops running once clear.
+func _check_tier_ways() -> void:
+	var has := func(template: String, passive: String) -> bool:
+		var unit := Unit.create(template, Unit.Team.ENEMY, Vector2i.ZERO)
+		var ids: Array = SkirmishPassives.for_unit(unit).map(func(p: Dictionary) -> String: return str(p["id"]))
+		unit.free()
+		return ids.has(passive)
+	var role_of := func(template: String) -> String:
+		var unit := Unit.create(template, Unit.Team.ENEMY, Vector2i.ZERO)
+		var named := SkirmishPassives.role_for(unit)
+		unit.free()
+		return named
+	_expect(role_of.call("goblin_lesser") == "craven", "a lesser goblin is not craven: %s" % role_of.call("goblin_lesser"))
+	_expect(role_of.call("goblin_high") == "charger" and has.call("goblin_high", "hunters_angle"), "a high goblin does not charge and flank")
+	_expect(has.call("hobgoblin", "last_stand"), "a hobgoblin does not fight harder near death")
+	_expect(has.call("goblin_chieftain", "war_cry"), "a goblin chieftain does not spur its kin")
+	_expect(has.call("goblin_shaman", "keen_eye") and not has.call("goblin_shaman", "war_cry"), "the shaman fights as a chieftain")
+	_expect(role_of.call("goblin_shaman") == "healer", "the shaman does not hang back and mend: %s" % role_of.call("goblin_shaman"))
+	_expect(has.call("pack_alpha", "pack_hunter") and has.call("pack_alpha", "war_cry"), "the pack alpha lost the pack or the cry")
+	_expect(role_of.call("goblin") != "craven" and role_of.call("brigand") == "charger", "a plain kind or a brigand fights a tier's way")
+	# Each family's own trick ([D276]), from the hob up: every family has one, the plain kind has none.
+	var tricks: Dictionary = Database.skirmish["family_tricks"]
+	for family: String in Database.encounters["tiers"]["families"]:
+		_expect(tricks["families"].has(family), "%s has no trick of its own" % family)
+	_expect(has.call("hobgoblin", "spite") and not has.call("goblin", "spite"), "the goblins' spite is not from the hob up")
+	_expect(has.call("dire_wolf", "howl") and has.call("dire_wolf", "pack_hunter"), "a dire wolf lost the howl or the pack")
+	var fight := await _new_fight()
+	var foe: Fighter = null
+	for f: Fighter in fight.fighters:
+		if not f.is_party():
+			foe = f
+			break
+	var cato := _by_template(fight, "cato")
+	if foe == null or cato == null:
+		fight.queue_free()
+		return
+	foe.role = "craven"
+	foe.retreat_wait = 0.0
+	foe.unit.cell = cato.unit.cell + Vector2i(1, 0)
+	var ability := Database.ability(foe.basic)
+	_expect(not fight._keep_away(foe, ability, cato.unit), "a craven one at full health ran")
+	foe.unit.hp = maxi(1, int(foe.unit.max_hp * 0.2))
+	var before := foe.unit.cell
+	_expect(fight._keep_away(foe, ability, cato.unit) and foe.unit.cell != before, "a craven one badly hurt did not run")
+	fight.queue_free()
 
 
 ## Stances ([D195]): every card opens on Own way, the doctrine as it is; a key or a click on
