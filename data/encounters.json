@@ -38,7 +38,7 @@
 	"bands": 46,
 	"_comment_champion_from": "D211: a gate of this rank or higher is kept by its faction's champion (factions.json); a lesser one by the strongest its floor fields, so a fresh lead's first gate (rank E) is not kept by the wild's Ogre. **Inferred**: rank C.",
 	"champion_from": "C",
-	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins, wolves and 20 more monsters have five so far (D262 to D269). Inferred: every name, weight and number. Read by Tiers.",
+	"_comment_tiers": "Five tiers of each monster (D262, doug-md's play-test 7: lesser, plain, high, hob, and a chieftain or a caster). A pool naming a family's plain kind (tier 2 in data/units.json) deals one of the family's five instead, by the fight's level: the last row of `by_level` whose `from` is at or under it gives the odds, lesser to top. The top tier is one of its kinds at random, and a fight holds at most `top_a_fight` of them (more come down a tier). A keeper is never dealt down. Goblins, wolves and 24 more monsters have five so far (D262 to D270). Inferred: every name, weight and number. Read by Tiers.",
 	"tiers": {
 		"families": {
 			"goblin": ["goblin_lesser", "goblin", "goblin_high", "hobgoblin", ["goblin_chieftain", "goblin_shaman"]],
@@ -62,7 +62,11 @@
 			"sea_man": ["tideling", "sea_man", "tide_warrior", "deep_brute", ["tide_chieftain", "tide_caller"]],
 			"tide_lion": ["tide_cub", "tide_lion", "surge_lion", "maelstrom_lion", ["sea_king", "reef_oracle"]],
 			"mending_lion": ["mending_cub", "mending_lion", "warden_lion", "stone_lion", ["lion_patriarch", "hearth_lion"]],
-			"eye_slinger": ["eye_flinger", "eye_slinger", "sharp_eye", "eye_hurler", ["eye_master", "eye_seer"]]
+			"eye_slinger": ["eye_flinger", "eye_slinger", "sharp_eye", "eye_hurler", ["eye_master", "eye_seer"]],
+			"wraith": ["shade", "wraith", "dread_wraith", "grave_wraith", ["wraith_lord", "banshee"]],
+			"sword_bear": ["sword_cub", "sword_bear", "blade_bear", "war_bear", ["bear_warlord", "rune_bear"]],
+			"cannon_bear": ["musket_cub", "cannon_bear", "mortar_bear", "siege_bear", ["bear_gunmaster", "powder_bear"]],
+			"turret_cannon": ["swivel_gun", "turret_cannon", "heavy_cannon", "bombard", ["great_bombard", "arc_cannon"]]
 		},
 		"by_level": [
 			{ "from": 1, "weights": [6, 4, 0, 0, 0] },

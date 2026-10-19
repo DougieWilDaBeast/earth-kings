@@ -1,24 +1,33 @@
 name: plan-daily
 
-# Once a day and on every merge to main: unsorted issues are labelled
-# "needs sort", and the status issue is rewritten (docs/32).
+# Once a day, on every merge to main and whenever an issue is opened or edited:
+# form answers become labels, unsorted issues get "needs sort", and the status
+# issue is rewritten (docs/32).
 on:
   schedule:
     - cron: "17 6 * * *"
   push:
     branches: [main]
+  issues:
+    types: [opened, edited]
   workflow_dispatch:
 
 permissions:
   issues: write
 
+concurrency:
+  group: plan-daily
+  cancel-in-progress: false
+
 jobs:
   sort-and-status:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # The status issue's own edits would otherwise re-run this job.
+    if: github.event_name != 'issues' || !contains(github.event.issue.labels.*.name, 'status')
     steps:
       - uses: actions/checkout@v7
-      - name: Label unsorted issues
+      - name: Label issues from their form answers, and unsorted ones
         run: python3 tools/plan.py sort
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
