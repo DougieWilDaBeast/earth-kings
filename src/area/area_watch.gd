@@ -449,7 +449,11 @@ func _where_to_stand(arrived: Vector2i, taken: Dictionary) -> Vector2i:
 		# Too close to where the party came in counts against it more than anything else.
 		if away < far:
 			score += 1000.0 - away
-		if _map.terrain_at(cell) in ["dirt", "stone", "flagstone", "street_paving", "yard_paving"]:
+		# A band the road's clock stood ahead waits on the way itself, to be met or gone round ([D286]).
+		if bool(band.get("waylay", false)):
+			if _map.terrain_at(cell) in ["road", "track", "footpath"]:
+				score -= 6.0
+		elif _map.terrain_at(cell) in ["dirt", "stone", "flagstone", "street_paving", "yard_paving"]:
 			score += 2.0
 		if score < best_score:
 			best_score = score

@@ -25,6 +25,9 @@ var pack: Array = []
 var sight: int = BASE_SIGHT
 ## Whose people these are (see [Faction]), for the banner the map paints them in.
 var faction: String = Faction.FALLBACK
+## Stood on the road by the road's clock ([D286]): on the ground it waits on the way itself, not off
+## to one side of it.
+var waylays: bool = false
 
 
 static func create(cell_: Vector2i, pack_: Array, sight_: int = BASE_SIGHT) -> Prowler:
@@ -103,7 +106,7 @@ func to_dict() -> Dictionary:
 		"pack": pack,
 		"sight": sight,
 		"faction": faction,
-	}
+	}.merged({ "waylays": true } if waylays else {})
 
 
 static func from_dict(payload: Dictionary) -> Prowler:
@@ -115,4 +118,5 @@ static func from_dict(payload: Dictionary) -> Prowler:
 	band.pack = payload.get("pack", [])
 	band.sight = int(payload.get("sight", BASE_SIGHT))
 	band.faction = str(payload.get("faction", Faction.FALLBACK))
+	band.waylays = bool(payload.get("waylays", false))
 	return band

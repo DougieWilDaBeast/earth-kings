@@ -315,6 +315,37 @@ static func first_blood(world: World, rng: RandomNumberGenerator) -> void:
 	world.prowlers.append(_band_at(world, candidates[rng.randi() % candidates.size()], rng))
 
 
+## The road's clock calling for a band ([D286]): one stood [param ahead] steps on, the way the party
+## is walking ([param heading]), on open ground and not at anybody's door, there to be seen and fought
+## on the ground ([D272]) or walked round. Null when there is nowhere to stand it.
+static func band_ahead(world: World, heading: Vector2i, ahead: Array, rng: RandomNumberGenerator) -> Prowler:
+	var near := int(ahead[0]) if ahead.size() > 0 else 3
+	var far := maxi(near, int(ahead[1]) if ahead.size() > 1 else near)
+	var best := Vector2i(-1, -1)
+	var best_score := -INF
+	for y in range(-far, far + 1):
+		for x in range(-far, far + 1):
+			var cell := world.player_cell + Vector2i(x, y)
+			var reach := Pathfinder.distance(cell, world.player_cell)
+			if reach < near or reach > far or not world.in_bounds(cell):
+				continue
+			if not world.is_walkable(cell) or world.site_at(cell) != null \
+					or world.prowlers.any(func(b: Prowler) -> bool: return b.cell == cell):
+				continue
+			# Ahead, and on the line the party walks rather than off to one side.
+			var score := float(heading.x * x + heading.y * y) - 1.5 * absf(float(heading.x * y - heading.y * x)) \
+					+ rng.randf() * 0.5
+			if score > best_score:
+				best_score = score
+				best = cell
+	if best.x < 0:
+		return null
+	var band := _band_at(world, best, rng)
+	band.waylays = true
+	world.prowlers.append(band)
+	return band
+
+
 static func _can_camp_at(world: World, cell: Vector2i) -> bool:
 	if not world.is_walkable(cell) or world.site_at(cell) != null:
 		return false

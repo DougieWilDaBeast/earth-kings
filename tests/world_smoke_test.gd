@@ -15,6 +15,7 @@ const Company := preload("res://tests/company.gd")
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
 	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
+	"road_clock",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -64,6 +65,7 @@ func _ready() -> void:
 			"remembered": _check_remembered(world)
 			"arcs": _check_arcs(world)
 			"road": _check_road(world)
+			"road_clock": _check_road_clock()
 			"edges": _check_edges(world)
 			"scenery": _check_scenery(world)
 			"round_trip": _check_round_trip(world, hero)
@@ -990,6 +992,63 @@ func _check_road(world: World) -> void:
 			crossed += 1
 	_expect(crossed > 0, "no open ground between the crater and the city shows the road")
 	print("road: %d stops, %d tiles on the way to the city show it underfoot" % [stops.size(), crossed])
+
+
+## D286: the road keeps a clock. Nothing before `first_after` steps, then something every `every`
+## steps in open country, never the same kind twice running, every kind in time; a traveller's words
+## come filled in; a band stands ahead of the way the party walks; the clock keeps through a save.
+func _check_road_clock() -> void:
+	var world := WorldGen.generate(SEED)
+	var paced := Roadside.clock()
+	var open := Vector2i(-1, -1)
+	for y in world.size.y:
+		for x in world.size.x:
+			var c := Vector2i(x, y)
+			if open.x < 0 and world.is_walkable(c) and not Roadside._near_a_site(world, c, int(paced.get("clear_of_sites", 2)) + 4):
+				open = c
+	_expect(open.x >= 0, "road clock: no open country to walk in")
+	if open.x < 0:
+		return
+	world.steps = int(paced.get("first_after", 6)) - 1
+	_expect(Roadside.due(world, open) == "", "road clock: something came before first_after")
+	world.steps += 1
+	var first := Roadside.due(world, open)
+	_expect(first != "", "road clock: nothing came at first_after")
+	var seen := { first: true }
+	var last := first
+	var gaps: Array = []
+	for i in 40:
+		var wait := Roadside.gap(world)
+		var every: Array = paced.get("every", [10, 14])
+		gaps.append(wait)
+		_expect(wait >= int(every[0]) and wait <= int(every[1]), "road clock: a gap of %d is outside %s" % [wait, every])
+		world.steps += wait - 1
+		_expect(Roadside.due(world, open) == "", "road clock: something came a step early")
+		world.steps += 1
+		var kind := Roadside.due(world, open)
+		_expect(kind != "" and kind != last, "road clock: '%s' came after '%s'" % [kind, last])
+		seen[kind] = true
+		last = kind
+	for kind: String in paced.get("kinds", {}):
+		_expect(seen.has(kind), "road clock: no %s in forty happenings" % kind)
+	var site: Site = world.sites[0]
+	world.steps += 100
+	_expect(Roadside.due(world, site.cell) == "", "road clock: something came on a place's doorstep")
+	# A traveller: every brace filled, and one naming a gate puts it on the map.
+	for i in 30:
+		world.steps += 1
+		for line: String in Roadside.traveller(world, open):
+			_expect(not line.contains("{"), "road clock: a traveller's line came out unfilled: %s" % line)
+	# A band stands ahead of the way the party walks.
+	world.player_cell = open
+	var before := world.prowlers.size()
+	var band := Encounter.band_ahead(world, Vector2i.RIGHT, paced.get("band_ahead", [3, 4]), world.rng)
+	_expect(band != null and world.prowlers.size() == before + 1, "road clock: no band stood on the road")
+	if band != null:
+		_expect(band.cell.x > open.x, "road clock: the band stood behind the party (%s from %s)" % [band.cell, open])
+	var back := World.from_dict(JSON.parse_string(JSON.stringify(world.to_dict())))
+	_expect(back.happening_at == world.happening_at and back.happening_last == world.happening_last, "road clock: lost in the save")
+	print("road clock: first at step %d, then every %s steps; kinds seen %s" % [int(paced.get("first_after", 6)), gaps.slice(0, 8), seen.keys()])
 
 
 ## D128: where one land meets another, the next land's floor runs a few cells in, and no deeper.

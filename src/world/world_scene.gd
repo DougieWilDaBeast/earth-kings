@@ -132,6 +132,8 @@ var _bubble: SpeechBubble = null
 var _captive_here: Character = null
 ## A scene happening in front of the party that they have not answered yet.
 var _roadside_here: String = ""
+## The way the last step went, so the road's clock stands a band ahead of the party, not behind ([D286]).
+var _heading: Vector2i = Vector2i.ZERO
 ## The town the party was last saved in for arriving, `{ world, cell }`, so walking in and out over
 ## a city's edge is one save, not one a crossing ([D197]: eleven in four minutes at Stormreach).
 ## Forgotten once the party is more than [constant AWAY_FROM_TOWN] tiles off, so the next coming in
@@ -339,6 +341,7 @@ func _step(direction: Vector2i) -> void:
 			_note(line)
 		_roadside_here = ""
 	_wild_here = ""
+	_heading = direction
 	world.player_cell = target
 	if not _saved_in_town.is_empty() and (int(_saved_in_town["world"]) != world.get_instance_id() \
 			or Pathfinder.distance(target, _saved_in_town["cell"]) > AWAY_FROM_TOWN):
@@ -414,6 +417,8 @@ func _look_down_the_road(cell: Vector2i) -> void:
 		return
 	var found := Roadside.look(world, cell)
 	if found == "":
+		found = _road_clock(cell)
+	if found == "":
 		return
 	_roadside_here = found
 	# Seen from down the road, not put in front of the party with a box ([D216], `doug-md`: "I also
@@ -423,6 +428,35 @@ func _look_down_the_road(cell: Vector2i) -> void:
 	_note(Roadside.title(found))
 	if _view != View.GROUND:
 		EventBus.conversation_requested.emit(_as_conversation(Roadside.seen(found)))
+
+
+## Something on the road every few minutes ([D286], `clock` in `data/roadside.json`): a band stood
+## ahead, a traveller's word, something left by the road, or one of the scenes, called up. Returns a
+## scene's id when the clock called one, for the road to stand it as any other.
+func _road_clock(cell: Vector2i) -> String:
+	var kind := Roadside.due(world, cell)
+	match kind:
+		"scene":
+			var scene := Roadside.look(world, cell, true)
+			if scene != "":
+				return scene
+			_say_lines(Roadside.traveller(world, cell))
+		"band":
+			var ahead: Array = Roadside.clock().get("band_ahead", [3, 4])
+			if Encounter.band_ahead(world, _heading, ahead, world.rng) != null:
+				_note(Roadside.band_line(world))
+				_warm_art()
+				_map.queue_redraw()
+		"traveller":
+			_say_lines(Roadside.traveller(world, cell))
+		"find":
+			_lay_a_cache(cell, Roadside.find_richness(), Roadside.find_line(world))
+	return ""
+
+
+func _say_lines(lines: Array) -> void:
+	for line: String in lines:
+		_note(line)
 
 
 ## Step in. The purse and everything after it waits on winning.
@@ -523,16 +557,21 @@ func _dig_for_treasure(cell: Vector2i) -> bool:
 func _look_for_a_cache(cell: Vector2i) -> void:
 	if _busy or world.rng.randf() >= float(Loot.rules().get("cache_chance", 0.04)):
 		return
-	var haul := Loot.roll(world, 0.5 + Encounter.chance_at(world, cell) * 2.0)
+	_lay_a_cache(cell, 0.5 + Encounter.chance_at(world, cell) * 2.0, "Something has been left here, and left a long while.")
+
+
+## A haul left on [param cell], said with [param line]: on the ground it lies there to be picked up.
+func _lay_a_cache(cell: Vector2i, richness: float, line: String) -> void:
+	var haul := Loot.roll(world, richness)
 	haul["map"] = bool(haul.get("map", false)) or Atlas.finds_map(world, cell, "cache_map_chance")
 	if _view == View.GROUND:
 		# On the ground it lies there to be seen and picked up, not paid in out of sight.
 		_cache_found = haul
-		_note("Something has been left here, and left a long while. It lies on the ground close by.")
+		_note("%s It lies on the ground close by." % line)
 		return
-	_note("Something has been left here, and left a long while.")
-	for line: String in Loot.claim(haul, GameState.roster):
-		_note(line)
+	_note(line)
+	for each: String in Loot.claim(haul, GameState.roster):
+		_note(each)
 
 
 ## The only way a fight starts in the open: somebody was watching the tile you
@@ -1928,7 +1967,7 @@ func _bands_here() -> Array:
 			continue
 		out.append({
 			"key": _band_key(band), "pack": band.pack, "sight": band.sight, "reach": band.reach(world),
-			"faction": band.faction, "label": band.label(),
+			"faction": band.faction, "label": band.label(), "waylay": band.waylays,
 			"from": [signi(apart.x), signi(apart.y)],
 			"tile": [band.cell.x, band.cell.y],
 		})
