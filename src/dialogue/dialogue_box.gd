@@ -362,8 +362,13 @@ func _could_ask_news() -> bool:
 
 ## Whoever is talking is shown as they are drawn in the world, so a line never
 ## comes out of a face that does not belong to it.
+## Somebody speaking from afar is a ghost of themselves: their face, washed blue (play-test 7).
 func _show_portrait(speaker: String) -> void:
 	var face := DialogueScript.portrait(_current_id, speaker)
+	var seen := DialogueScript.afar(speaker) if bool(_node.get("afar", false)) else {}
+	if not seen.is_empty():
+		face = Database.unit_face(str(seen.get("unit", "")))
+	_portrait.material = DialogueScript.afar_material(seen) if not seen.is_empty() else null
 	_portrait.texture = face
 	_portrait.visible = face != null
 

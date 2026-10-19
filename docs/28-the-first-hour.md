@@ -375,8 +375,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat.
-11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar; walking into a gate
-    or the grove, not cut to it; the chapter visions shown as pictures.
+11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
+    [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
+    into a gate or the grove, not cut to it; the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
