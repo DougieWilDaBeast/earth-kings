@@ -5,8 +5,8 @@
     python3 tools/plan.py sync                 # labels and milestones match .github/plan.json
     python3 tools/plan.py check-pr             # a pull request closes an issue, and its D numbers are new
     python3 tools/plan.py check-decisions BASE # only the D-number half, against a base commit
-    python3 tools/plan.py sort                 # open issues with no kind or no milestone get "needs sort"
-    python3 tools/plan.py status               # rewrite the status issue: milestones, what waits on whom
+    python3 tools/plan.py sort                 # form answers become labels; unsorted issues get "needs sort"
+    python3 tools/plan.py status               # rewrite the status issue: what waits on whom, milestones
     python3 tools/plan.py delete-branches FILE # delete the branches named in FILE (one a line)
 
 Everything but check-decisions talks to the GitHub API with GITHUB_TOKEN for
@@ -34,6 +34,11 @@ STATUS_TITLE = "Status: what is in flight"
 LINKED = re.compile(r"\b(close[sd]?|fix(e[sd])?|resolve[sd]?|refs?)\s+#\d+", re.I)
 EXEMPT = re.compile(r"\b(docs-only|no issue:)", re.I)
 DECISION_ROW = re.compile(r"^\| D(\d+) \|", re.M)
+# An issue form's answers, as GitHub writes them into the body: "### Label\n\nAnswer".
+FORM_ANSWER = re.compile(r"^### (.+?)\s*\n+(?!###)(.+?)\s*$", re.M)
+# Which form questions become labels: {value} is the whole answer, {first} its first word.
+FORM_LABELS = {"Kind": "kind: {value}", "How bad": "{first}"}
+BOARD_URL = "https://github.com/DougieWilDaBeast/earth-kings/projects"
 
 
 def api(method, path, body=None):
@@ -136,11 +141,31 @@ def names(issue):
     return {l["name"] for l in issue["labels"]}
 
 
+def form_labels(issue, known):
+    """Labels the issue form's answers ask for ("How bad: S1 crash..." is "S1 crash or stuck")."""
+    wanted = set()
+    for question, answer in FORM_ANSWER.findall(issue.get("body") or ""):
+        pattern = FORM_LABELS.get(question)
+        if not pattern or answer == "_No response_":
+            continue
+        name = pattern.format(value=answer, first=answer.split()[0])
+        match = [k for k in known if k == name or k.startswith(name + " ")]
+        if match:
+            wanted.add(match[0])
+    return wanted
+
+
 def sort():
+    known = [l["name"] for l in json.loads(PLAN.read_text())["labels"]]
     for issue in open_issues():
         labels = names(issue)
         if "status" in labels:
             continue
+        add = form_labels(issue, known) - labels
+        if add:
+            api("POST", f"{repo()}/issues/{issue['number']}/labels", {"labels": sorted(add)})
+            print("labelled from form:", issue["number"], sorted(add))
+            labels |= add
         unsorted = not any(n.startswith("kind: ") for n in labels) or issue["milestone"] is None
         if unsorted and "needs sort" not in labels:
             api("POST", f"{repo()}/issues/{issue['number']}/labels", {"labels": ["needs sort"]})
@@ -157,8 +182,12 @@ def line(issue):
 def status():
     issues = [i for i in open_issues() if "status" not in names(i)]
     parts = ["_Kept up to date by `tools/plan.py status` on every merge to main and once a day; "
-             "do not edit by hand. How the work moves: docs/32._", ""]
-    for who in ("Will", "Ewan"):
+             "do not edit by hand. How the work moves: docs/32._", "",
+             f"**Board:** {BOARD_URL}", ""]
+    # A section per "waits on" label in plan.json, so a new person needs no code change.
+    people = [l["name"][len("waits on "):] for l in json.loads(PLAN.read_text())["labels"]
+              if l["name"].startswith("waits on ")]
+    for who in people:
         waiting = [i for i in issues if f"waits on {who}" in names(i)]
         parts.append(f"## Waiting on {who} ({len(waiting)})")
         parts += [line(i) for i in waiting] or ["Nothing."]
