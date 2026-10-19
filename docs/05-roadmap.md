@@ -385,7 +385,8 @@ each, each ending playable:
    fifteen bigger asks are in [28](28-the-first-hour.md#play-test-7s-asks), ordered by `dougie` ([D260](06-decisions.md)):
    **gates that grow** built ([D261](06-decisions.md): ground of their own, longer by rank, shut when all are down or
    the keeper falls, left broken with folk cheering; how long each rank takes in [28](28-the-first-hour.md#gates-that-grow)),
-   then **five tiers of each monster**, **planned**; the climbers' stone, Sennet seen from
+   then **five tiers of each monster**, the goblins' built ([D262](06-decisions.md): lesser, plain, high, hob, and a
+   chieftain or a shaman, dealt by the fight's level; the other monsters **planned**); the climbers' stone, Sennet seen from
    afar, the journal at the side and Stormreach's frame rate as small pieces alongside.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
