@@ -725,7 +725,21 @@ func _check_encounters(world: World) -> void:
 	var kind_dice := RandomNumberGenerator.new()
 	kind_dice.seed = 211
 	var at_first := Encounter.for_band(world, band, party, kind_dice)
-	_expect(at_first["enemies"].size() == 3, "a band of three fields %d on the First Hour" % at_first["enemies"].size())
+	_expect(at_first["enemies"].size() == maxi(3, Encounter.answering(party.size())),
+		"a band of three fields %d on the First Hour" % at_first["enemies"].size())
+	# D272: a band answers the company with as many as it is, the rest out of cover, and all of it
+	# hits harder than its level and gets some of every blow past armour.
+	var lone := Prowler.create(world.player_cell, ["wolf"])
+	var answered := Encounter.for_band(world, lone, party, kind_dice)
+	_expect(answered["enemies"].size() == Encounter.answering(party.size()),
+		"a lone wolf met a company of %d with %d" % [party.size(), answered["enemies"].size()])
+	_expect(answered["enemies"].size() == 1 or str(answered.get("more", "")).contains("more"),
+		"the rest of a band came out of cover unsaid")
+	_expect(Encounter.answering(4) == 4 and Encounter.company_level(1) == 0 and Encounter.company_level(3) > 0,
+		"a band of the land does not answer a company of four, or stands higher against a lead alone")
+	_expect((answered["enemies"] as Array).all(func(e: Dictionary) -> bool:
+		return float(e.get("graze", 0.0)) > 0.0 and float(e.get("bite", 1.0)) > 1.0),
+		"a band of the land neither bites nor grazes: %s" % [answered["enemies"]])
 	_expect(_top_level(at_first) <= maxi(1, _top_level(at_even) + roundi(Difficulty.dial("enemy_level"))),
 		"a First Hour band stands at level %d against %d on Even" % [_top_level(at_first), _top_level(at_even)])
 	# And a gate's keeper, which met a lone fresh lead two levels over its floor.

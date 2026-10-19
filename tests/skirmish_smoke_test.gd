@@ -191,6 +191,7 @@ func _run() -> void:
 	_check_party_war()
 	await _check_tactics()
 	await _check_stances()
+	await _check_the_turn()
 	await _check_scars()
 
 
@@ -1242,3 +1243,83 @@ func _open_line(fight: Node2D, length: int, besides: Array) -> Array:
 
 func _popped(fight: Node2D, text: String) -> bool:
 	return fight.fx._popups.any(func(p: Dictionary) -> bool: return str(p["text"]) == text)
+
+
+## D272 (call BQ): a foe of the ground gets some of every blow past armour; a fight on the ground
+## turns once, the first time one of the company is badly hurt, and asks stand, pull back or break
+## off; breaking off throws down silver and sends everyone for the edge; Auto fights on.
+func _check_the_turn() -> void:
+	var fight := await _new_fight()
+	var cato := _by_template(fight, "cato")
+	var foe: Fighter = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())[0]
+	cato.unit.defense = 9999
+	var before := cato.unit.hp
+	AbilityResolver.apply(foe.unit, {"power": 1.0}, cato.unit)
+	_expect(before - cato.unit.hp == 1, "armour no blow gets past took %d" % (before - cato.unit.hp))
+	foe.unit.set_meta("graze", 0.5)
+	before = cato.unit.hp
+	AbilityResolver.apply(foe.unit, {"power": 1.0}, cato.unit)
+	_expect(before - cato.unit.hp >= maxi(2, floori(foe.unit.attack * 0.4)),
+		"a grazing blow of %d took %d through armour" % [foe.unit.attack, before - cato.unit.hp])
+	cato.unit.defense = 0
+	fight.queue_free()
+
+	var auto_was := Pace.auto
+	var gold_was := GameState.gold
+	Pace.auto = false
+	GameState.gold = 1000
+	var choices_seen: Array = []
+	for choice: String in ["break", "pull", "stand"]:
+		fight = await _new_fight()
+		fight.ground_fight = true
+		fight.in_place = true
+		cato = _by_template(fight, "cato")
+		cato.unit.take_damage(cato.unit.hp - roundi(cato.unit.max_hp * 0.2))
+		_expect(fight.turning == cato and fight.paused and fight.hud.turn_showing(),
+			"the fight did not turn on %s at a fifth of their health" % cato.unit.display_name)
+		choices_seen = fight.turn_choices().map(func(c: Dictionary) -> String: return str(c["id"]))
+		_expect(choices_seen == ["stand", "pull", "break"], "the turned fight offers %s" % [choices_seen])
+		var thrown: int = fight._dropped()
+		var gold_before := GameState.gold
+		fight.choose_turn(choice)
+		_expect(fight.turning == null and not fight.paused and not fight.hud.turn_showing(),
+			"choosing %s left the fight stopped" % choice)
+		var cleared: Array = fight.party_fighters().filter(func(f: Fighter) -> bool: return f.fled)
+		match choice:
+			"break":
+				_expect(thrown > 0 and GameState.gold == gold_before - thrown,
+					"breaking off threw down %d of %d" % [gold_before - GameState.gold, thrown])
+				_expect(cleared.size() == fight.party_fighters().size(), "not everyone broke off: %d" % cleared.size())
+				fight.tick()
+				_expect(fight.over and fight.fled_field and not fight.victory, "breaking off did not end the fight as got clear")
+			"pull":
+				_expect(cleared.size() == 1 and cleared[0] == cato, "pulling %s back sent %s" % [cato.unit.display_name, cleared.map(func(f: Fighter) -> String: return f.unit.display_name)])
+				_expect(GameState.gold == gold_before, "pulling back cost silver")
+				fight.tick()
+				_expect(not fight.over, "pulling one back ended the fight")
+			"stand":
+				_expect(cleared.is_empty() and GameState.gold == gold_before, "standing sent someone off or cost silver")
+		# It asks once.
+		var vesta := _by_template(fight, "vesta")
+		if vesta != null and vesta.is_standing():
+			vesta.unit.take_damage(vesta.unit.hp - 1)
+			_expect(fight.turning == null, "the fight turned twice")
+		fight.queue_free()
+
+	# Auto fights on, and says so; a fight that is not the ground's never turns.
+	Pace.auto = true
+	fight = await _new_fight()
+	fight.ground_fight = true
+	fight.in_place = true
+	cato = _by_template(fight, "cato")
+	cato.unit.take_damage(cato.unit.hp - 1)
+	_expect(fight.turned and fight.turning == null and not fight.hud.turn_showing(), "Auto stopped for the turn")
+	fight.queue_free()
+	Pace.auto = false
+	fight = await _new_fight()
+	cato = _by_template(fight, "cato")
+	cato.unit.take_damage(cato.unit.hp - 1)
+	_expect(not fight.turned, "a fight off the ground turned")
+	fight.queue_free()
+	Pace.auto = auto_was
+	GameState.gold = gold_was

@@ -231,12 +231,56 @@ static func _restock_the_road(world: World, rng: RandomNumberGenerator) -> void:
 ## is a band, so the setting's level dial applies here as it does in [method _pick] ([D211]):
 ## before, a fresh lead met bands at their full level on the First Hour.
 static func for_band(world: World, band: Prowler, party: Array, rng: RandomNumberGenerator) -> Dictionary:
-	var level := _party_level(party) + _danger_at(world, band.cell)
+	var level := _party_level(party) + _danger_at(world, band.cell) + company_level(party.size())
 	var enemies: Array = []
 	for unit_id: String in band.pack:
 		enemies.append({"unit": unit_id, "level": Difficulty.levelled(level + rng.randi_range(-1, 1))})
+	# As many as the company, or near it ([D272]): the rest were in cover, and come out now.
+	var more := 0
+	while not band.pack.is_empty() and enemies.size() < answering(party.size()):
+		enemies.append({"unit": band.pack[rng.randi() % band.pack.size()],
+				"level": Difficulty.levelled(level + rng.randi_range(-1, 1))})
+		more += 1
 	Nemesis.inject_survivor(world, enemies)
-	return _build(world, band.cell, WILD, enemies, rng, "%s %s seen you." % [band.label(), "has" if band.pack.size() <= 1 else "have"])
+	_on_the_ground(enemies)
+	var meeting := _build(world, band.cell, WILD, enemies, rng, "%s %s seen you." % [band.label(), "has" if band.pack.size() <= 1 else "have"])
+	if more > 0:
+		meeting["more"] = str(ground().get("more_line", "{n} more come out of cover.")).format({"n": more})
+	return meeting
+
+
+## How a fight on the ground is fought ([D272], `ground` in `encounters.json`): every band of the
+## land and every roadside fight. The Tower and the gates are left as they are.
+static func ground() -> Dictionary:
+	return Database.encounters.get("ground", {})
+
+
+## How much higher a band stands against a company of [param party_size]: `level` once it is
+## `company_from` strong; a lead walking alone keeps [D211]'s two levels down.
+static func company_level(party_size: int) -> int:
+	var rules := ground()
+	return int(rules.get("level", 0)) if party_size >= int(rules.get("company_from", 2)) else 0
+
+
+## How many a band comes at a company of [param party_size] with: at least `least`, and as many
+## as the company when `match_party` says so.
+static func answering(party_size: int) -> int:
+	var rules := ground()
+	var wanted := int(rules.get("least", 1))
+	if bool(rules.get("match_party", false)):
+		wanted = maxi(wanted, party_size)
+	return wanted
+
+
+## Foes of the ground hit harder than their level (`bite`) and get part of every blow past
+## armour (`graze`), so a company in good iron still feels them.
+static func _on_the_ground(enemies: Array) -> void:
+	var rules := ground()
+	for entry: Dictionary in enemies:
+		if float(rules.get("bite", 1.0)) != 1.0:
+			entry["bite"] = float(entry.get("bite", 1.0)) * float(rules["bite"])
+		if float(rules.get("graze", 0.0)) > 0.0:
+			entry["graze"] = float(rules["graze"])
 
 
 ## A run that opens on an empty country teaches nothing about the country. One
@@ -380,6 +424,7 @@ static func for_roadside(
 			"unit": entry["unit"],
 			"level": Difficulty.levelled(int(entry["level"])),
 		})
+	_on_the_ground(counted)
 	return _build(world, cell, WILD, counted, rng, title)
 
 

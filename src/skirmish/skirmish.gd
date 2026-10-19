@@ -38,6 +38,7 @@ const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const Coins := preload("res://src/chronicle/coins.gd")
 const Land := preload("res://src/area/land.gd")
 
 signal finished(victory: bool)
@@ -163,6 +164,13 @@ var _kept_tallying: bool = true
 var _opening: Array[String] = []
 ## Whether the clock has been started yet, for the first-time tip on facing.
 var _started: bool = false
+## A fight met on the ground ([D272]): a band of the land or a roadside scene, fought where it was
+## met. Only these turn ([method _check_the_turn]).
+var ground_fight: bool = false
+## The fight has turned once already: it asks only the first time.
+var turned: bool = false
+## Whoever the fight turned on, while the card asking what now is up.
+var turning: Fighter = null
 
 
 func _ready() -> void:
@@ -186,6 +194,7 @@ func _ready() -> void:
 	signatures = SkirmishSignatures.new(self)
 	conditions = SkirmishConditions.new(self)
 	_build_battlefield()
+	ground_fight = in_place and not sandbox and not bout and str(encounter.get("kind", "")) == Encounter.WILD
 	_fill_pouch()
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
@@ -301,6 +310,9 @@ func _build_battlefield() -> void:
 		_opening.append("Ambush! The company is on them before they are ready.")
 	if not map.get("allies", []).is_empty():
 		_opening.append("%d stand with you." % map["allies"].size())
+	# The rest of the band was in cover, and comes out now ([D272]).
+	if str(encounter.get("more", "")) != "":
+		_opening.append(str(encounter["more"]))
 	var confrontation := str(encounter.get("confrontation", ""))
 	if confrontation != "":
 		_opening.append(confrontation)
@@ -346,6 +358,9 @@ func _spawn_others(entries: Array, side: Unit.Team) -> void:
 		if entry.has("stout") and float(entry["stout"]) > 1.0:
 			unit.max_hp = maxi(1, roundi(float(unit.max_hp) * float(entry["stout"])))
 			unit.hp = unit.max_hp
+		# And get part of every blow through armour: the bands of the land ([D272]).
+		if entry.has("graze") and float(entry["graze"]) > 0.0:
+			unit.set_meta("graze", float(entry["graze"]))
 		var f := _enlist(unit)
 		if entry.has("stance"):
 			f.set_stance(str(entry["stance"]))
@@ -1677,6 +1692,84 @@ func _auto_pause(why: String) -> void:
 	_say("Paused. %s" % why if why != "" else "Paused.")
 
 
+## The fight turns ([D272], call BQ): on the ground, the first time one of the company falls below
+## `turn.below` of their health, a fight played by hand stops and asks what now: stand, pull the
+## hurt one back off the field, or break off. Auto fights on.
+func _check_the_turn(f: Fighter) -> void:
+	if not ground_fight or turned or over or not f.is_party() or f.unit.character == null:
+		return
+	var rules: Dictionary = Encounter.ground().get("turn", {})
+	if rules.is_empty() or not f.is_standing() or _share_left(f) >= float(rules.get("below", 0.4)):
+		return
+	if not fighters.any(func(other: Fighter) -> bool: return not other.unit.sides_with_party() and other.is_standing()):
+		return
+	turned = true
+	if Pace.auto:
+		_say(str(rules.get("auto_line", "")).format({"name": f.unit.display_name}))
+		return
+	turning = f
+	paused = true
+	_accumulator = 0.0
+	hud.show_turn(str(rules.get("title", "")), str(rules.get("text", "")).format({
+		"name": f.unit.display_name, "left": "%d%%" % roundi(100.0 * _share_left(f)),
+	}), turn_choices())
+
+
+## What the turned fight offers: stand; pull the hurt one back (not when they are the whole
+## company); break off. Each is {id, label, tip}.
+func turn_choices() -> Array:
+	var rules: Dictionary = Encounter.ground().get("turn", {})
+	if turning == null:
+		return []
+	var words := {"name": turning.unit.display_name, "coins": Coins.text(_dropped())}
+	var out: Array = [{"id": "stand", "label": str(rules.get("stand", "Stand")).format(words),
+			"tip": str(rules.get("stand_tip", "")).format(words)}]
+	var others := party_fighters().filter(func(o: Fighter) -> bool:
+		return o != turning and o.unit.character != null and o.is_standing() and o.aboard != turning)
+	if not others.is_empty():
+		out.append({"id": "pull", "label": str(rules.get("pull", "Pull back")).format(words),
+				"tip": str(rules.get("pull_tip", "")).format(words)})
+	out.append({"id": "break", "label": str(rules.get("break", "Break off")).format(words),
+			"tip": str(rules.get("break_tip", "")).format(words)})
+	return out
+
+
+## The silver thrown down to break off: `turn.drop` of what the company carries.
+func _dropped() -> int:
+	return roundi(float(maxi(0, GameState.gold)) * float(Encounter.ground().get("turn", {}).get("drop", 0.0)))
+
+
+## The answer to the turned fight, then the clock runs again.
+func choose_turn(choice: String) -> void:
+	if turning == null:
+		return
+	var f := turning
+	turning = null
+	hud.hide_turn()
+	var rules: Dictionary = Encounter.ground().get("turn", {})
+	var words := {"name": f.unit.display_name, "coins": Coins.text(_dropped())}
+	match choice:
+		"pull":
+			# Off the field at once, with whatever carries them: the rest close up and fight on.
+			_say(str(rules.get("pull_line", "")).format(words))
+			_get_clear(f.aboard as Fighter if f.aboard != null else f)
+		"break":
+			# The silver is thrown, the band stops for it, and the company is gone: nothing won,
+			# the band still out there, and anyone already down left to it.
+			var thrown := _dropped()
+			_say(str(rules.get("break_line", "")).format(words))
+			if thrown > 0:
+				GameState.gold -= thrown
+			for other in party_fighters():
+				if other.is_standing() and other.aboard == null:
+					_get_clear(other)
+		_:
+			_say(str(rules.get("stand_line", "")).format(words))
+	EventBus.player_did.emit("turn_" + choice)
+	set_paused(false)
+	hud.refresh()
+
+
 func _fall(f: Fighter, say_so: bool = true) -> void:
 	f.near_death = 0.0
 	f.fallen = true
@@ -1851,12 +1944,18 @@ func _see_who_got_clear() -> void:
 		var moving := f.stepping or (mount != null and mount.stepping)
 		if not f.has_meta("fleeing") or not f.is_standing() or moving or not _on_the_edge(f.unit.cell):
 			continue
-		for other in fighters:
-			if other == f or other == mount or other.aboard == f or other.bound_to == f:
-				other.fled = true
-				other.unit.visible = false
-				selected.erase(other)
-		_say("%s gets clear." % f.unit.display_name)
+		_get_clear(f)
+
+
+## [param f] is out of the fight, alive, with whatever carries them, rides them or is bound to them.
+func _get_clear(f: Fighter) -> void:
+	var mount := f.aboard as Fighter
+	for other in fighters:
+		if other == f or other == mount or other.aboard == f or other.bound_to == f:
+			other.fled = true
+			other.unit.visible = false
+			selected.erase(other)
+	_say("%s gets clear." % f.unit.display_name)
 
 
 ## Send everyone selected to [param cell], each to their own tile around it.
@@ -1882,6 +1981,15 @@ func _free_cell_near(cell: Vector2i, taken: Array[Vector2i], mover: Fighter) -> 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if over:
+		return
+	# The fight has turned and asks what now ([D272]): 1, 2 or 3 answers it.
+	if turning != null and event is InputEventKey and event.pressed and not event.echo \
+			and event.keycode >= KEY_1 and event.keycode <= KEY_3:
+		get_viewport().set_input_as_handled()
+		var choices := turn_choices()
+		var index: int = event.keycode - KEY_1
+		if index < choices.size():
+			choose_turn(str(choices[index]["id"]))
 		return
 	# Handed over, the party is taken back with the same key that handed it
 	# over (Q on a keyboard), here as on the road. That key readies the first
@@ -2132,7 +2240,13 @@ func act(action: String) -> void:
 		_arm(int(action.trim_prefix("slot")))
 		hud.refresh()
 		return
+	if action.begins_with("turn_"):
+		choose_turn(action.trim_prefix("turn_"))
+		return
 	match action:
+		"pause" when turning != null:
+			# Going on with the card up is standing.
+			choose_turn("stand")
 		"pause":
 			set_paused(not paused)
 			_say("Paused." if paused else "")
@@ -2365,6 +2479,7 @@ func _on_unit_damaged(unit: Node, amount: int) -> void:
 	if f == null or amount <= 0:
 		return
 	f.since_hit = 0.0
+	_check_the_turn(f)
 	fx.flash(f.unit)
 	if f.unit.is_alive():
 		f.unit.play("hit")

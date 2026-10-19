@@ -68,6 +68,10 @@ var _card_names: Array[RichTextLabel] = []
 var _button_sweeps: Dictionary = {}
 ## Whoever the pointer is over: name, health, role and passives.
 var _inspect: PanelContainer
+## The card a turned fight asks on ([D272]): stand, pull back, break off.
+var _turn: PanelContainer = null
+## Its own layer, over the tip cards (layer 6), so a tip never sits on the question.
+var _turn_layer: CanvasLayer = null
 var _inspect_text: RichTextLabel
 var _inspected: Fighter = null
 var _lines: Array[String] = []
@@ -561,3 +565,90 @@ func show_result(won: bool, fled := false) -> void:
 			Color(1.0, 0.86, 0.4) if won else (Color(0.8, 0.85, 0.95) if fled else Color(1.0, 0.45, 0.4)))
 	_result.visible = true
 	refresh()
+
+
+## The fight has turned ([D272]): a card in the middle of the screen with [param choices]
+## ({id, label, tip}), a button each, numbered for the keys 1 to 3. A press says the choice back
+## to the fight as `turn_<id>`.
+func show_turn(title: String, text: String, choices: Array) -> void:
+	hide_turn()
+	_turn_layer = CanvasLayer.new()
+	_turn_layer.layer = 7
+	add_child(_turn_layer)
+	_turn = PanelContainer.new()
+	_turn.anchor_left = 0.5
+	_turn.anchor_right = 0.5
+	_turn.anchor_top = 0.12
+	_turn.anchor_bottom = 0.12
+	_turn.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_turn.mouse_filter = Control.MOUSE_FILTER_STOP
+	var frame := _panel_style(Color(PANEL, 0.97))
+	frame.border_color = STANCE
+	frame.set_border_width_all(2)
+	frame.content_margin_left = 16
+	frame.content_margin_right = 16
+	frame.content_margin_top = 12
+	frame.content_margin_bottom = 12
+	_turn.add_theme_stylebox_override("panel", frame)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 8)
+	_turn.add_child(column)
+	var heading := Label.new()
+	heading.text = title
+	heading.add_theme_font_size_override("font_size", 22)
+	heading.add_theme_color_override("font_color", STANCE)
+	column.add_child(heading)
+	var words := Label.new()
+	words.text = text
+	words.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var width := minf(420.0, get_viewport().get_visible_rect().size.x - 64.0)
+	words.custom_minimum_size = Vector2(width, 0)
+	words.add_theme_font_size_override("font_size", 15)
+	column.add_child(words)
+	for i in choices.size():
+		var choice: Dictionary = choices[i]
+		var button := Button.new()
+		button.focus_mode = Control.FOCUS_NONE
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.text = "%d  %s" % [i + 1, str(choice.get("label", ""))] if not _skirmish.touch \
+				else str(choice.get("label", ""))
+		button.tooltip_text = str(choice.get("tip", ""))
+		button.custom_minimum_size = Vector2(0, 34 if not _skirmish.touch else 48)
+		var id := str(choice.get("id", ""))
+		button.pressed.connect(func() -> void: action_pressed.emit("turn_" + id))
+		column.add_child(button)
+		var tip := Label.new()
+		tip.text = str(choice.get("tip", ""))
+		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tip.custom_minimum_size = Vector2(width, 0)
+		tip.add_theme_font_size_override("font_size", 12)
+		tip.add_theme_color_override("font_color", WAITING)
+		column.add_child(tip)
+	_turn_layer.add_child(_turn)
+	_fit_turn.call_deferred()
+
+
+## Wrapped words are measured narrow first, which leaves the card too tall; once laid out at its
+## width it is shrunk back to them, and centred.
+func _fit_turn() -> void:
+	if _turn == null:
+		return
+	_turn.offset_top = 0.0
+	_turn.offset_bottom = 0.0
+	_turn.reset_size()
+	var size := _turn.get_combined_minimum_size()
+	_turn.offset_left = -size.x / 2.0
+	_turn.offset_right = size.x / 2.0
+	_turn.offset_bottom = size.y
+
+
+func hide_turn() -> void:
+	if _turn_layer != null:
+		_turn_layer.queue_free()
+		_turn_layer = null
+	_turn = null
+
+
+## Whether the turned fight's card is up.
+func turn_showing() -> bool:
+	return _turn != null

@@ -391,6 +391,10 @@ each, each ending playable:
    built, [D263](06-decisions.md): ways on the land on one kept grid, a land's page opened without reading
    the map, and the play log says when the frame rate drops); and a writers' pass over every line
    (built, [D274](06-decisions.md), the rules in [13](13-heroes-and-tempers.md#the-lines)).
+31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
+   from the review "Is this game fun?"). A band of the land comes as many as the company and its blows get
+   through armour; the first time one of the company is badly hurt, a fight played by hand asks stand, pull
+   them back or break off for silver. The Tower and the gates are untouched. Next: Ewan plays it.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

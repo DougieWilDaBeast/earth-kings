@@ -103,7 +103,11 @@ static func apply(user: Unit, ability: Dictionary, target: Unit, ability_id: Str
 		ambush_hit = true
 		user.remove_meta("ambush_advantage")
 	var flank := flank_of(user.cell, target)
-	var damage := maxi(1, roundi(raw * float(FLANK_MULTIPLIER[flank])) - target.defense)
+	var swung := raw * float(FLANK_MULTIPLIER[flank])
+	# A foe that grazes ([D272], ground fights) gets some of every blow past armour, so a guard
+	# that would have taken it to 1 only softens it.
+	var graze := float(user.get_meta("graze", 0.0))
+	var damage := maxi(maxi(1, roundi(swung) - target.defense), roundi(swung * graze))
 	target.take_damage(damage)
 	var tags: String = FLANK_LABEL[flank]
 	if grudge_hit:
