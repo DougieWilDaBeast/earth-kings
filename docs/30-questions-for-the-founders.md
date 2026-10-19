@@ -416,6 +416,19 @@ _Answered 2026-10-17:_ **Will:** Ewan's list as it is, nothing moved between kee
 pieces first, one always being built, with the smaller ones done alongside in other threads ("you do
 progressing through the big ones always, and then at the same time ... the smaller ones", [D226](06-decisions.md)).
 
+## 10. Asked by play-test 7
+
+Added 2026-10-19 from `doug-md`'s seventh play-test ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md)):
+`dougie` made a legendary company of six, still alive high in the Tower, canon, and nobody ages inside
+it ([D260](06-decisions.md)). Ewan offered to be asked about them ("Ask me questions").
+
+**39. The six: who were they?** (Ewan) Their names, what each was before the Tower, how they came to
+climb together, how long ago, and which of them the land still tells tales of (and where their
+monuments stand).
+
+**40. Earth Kings' history: how did the world come to be the way it is?** (Both) What came before the
+Tower and the gates, and why the world is hostile; the game's "more than a climb" ([28](28-the-first-hour.md#play-test-7s-asks), item 3).
+
 ## Will's to-dos (not questions)
 
 These need Will's own GitHub account; nothing waits on them except tidiness. Will said on 2026-10-17 he will do them (call BG, [D201](06-decisions.md)).
