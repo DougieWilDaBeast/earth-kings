@@ -1239,6 +1239,28 @@ func _check_people_on_the_land() -> void:
 					"people: the company on floor %d did not join a fight beside them (%s)" % [floor, joined])
 			for actor: Node in scene.get("_watch_fighting"):
 				actor.visible = true
+			(scene.get("_watch_fighting") as Array).clear()
+			# Play-test 7: Hob's Lot sat by floor 2's stair while the party fought a band that spots it
+			# twelve cells off. From the farthest cell any of the floor's bands sees, they still come.
+			var map: AreaMap = scene.get("map")
+			var far := Vector2i(-1, -1)
+			var apart := 0.0
+			for watch: Node2D in scene.get("_watches"):
+				for cell: Vector2i in watch.get("watched"):
+					var nearest := INF
+					for actor: Node2D in by_them:
+						nearest = minf(nearest, Vector2(cell - map.cell_at(actor.position)).length())
+					if nearest > apart:
+						apart = nearest
+						far = cell
+			if far.x >= 0:
+				(scene.get("_leader") as Node2D).position = map.centre_of(far)
+				var far_joined := {}
+				scene.call("_call_the_climbers", far_joined)
+				_expect((far_joined.get("allies", []) as Array).size() == by_them.size(),
+						"people: the company on floor %d stood by while the party fought %.1f cells off (play-test 7)" % [floor, apart])
+				for actor: Node in scene.get("_watch_fighting"):
+					actor.visible = true
 		scene.queue_free()
 		await get_tree().process_frame
 	print("people: %d bands by the road, the Watch beset by a town's road, climbers on floor %d" % [by_road, floor])

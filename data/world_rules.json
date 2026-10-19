@@ -75,7 +75,7 @@
 		"flight_seconds": 1.4,
 		"flight_height": 70.0,
 		"away_seconds": 12.0,
-		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own. Inferred: every number, name and line.",
+		"_comment_climbers": "D215 (play-test 4: \"Other people trying to climb the tower.\" \"I want to see more people in the environment.\"): other companies on their way up. On a road tile the Watch is not walking, at road_chance, a company of size[0] to size[1] walks the road there and back, the first of them saying one of lines at each end; on_the_floors, from floor `from` at `chance`, a company rests by the stair up. Their bodies are units (stand-ins until art row A33 is drawn), their name one of companies. They talk as any person (talk, on_the_floors.talk). A company within join_cells of a fight comes running and fights beside the party (D246), and a company on a floor sits round a fire of its own; with on_the_floors.join_anywhere a company resting on a floor joins a fight anywhere on that floor (play-test 7: floor 2's bands spot the party twelve cells from the stair). Inferred: every number, name and line.",
 		"climbers": {
 			"road_chance": 0.3,
 			"join_cells": 10,
@@ -132,6 +132,7 @@
 			"on_the_floors": {
 				"from": 2,
 				"chance": 0.4,
+				"join_anywhere": true,
 				"talk": {
 					"hello": [
 						"Easy. We're not what lives up here. Just resting our feet before the stair.",

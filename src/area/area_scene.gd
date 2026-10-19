@@ -2891,7 +2891,10 @@ func _call_the_watch(field: Dictionary) -> void:
 ## Another company within `join_cells` of a fight comes running and fights beside the party ([D246],
 ## play-test 6: "I think that the parties in the floor also will be fighting with you as well"):
 ## climbers on the road ([D215]) or resting on a Tower floor, at the company's level. Out of sight
-## while it lasts, back where they were after, like the Watch.
+## while it lasts, back where they were after, like the Watch. A company resting on a floor comes
+## running to a fight anywhere on that floor when `on_the_floors.join_anywhere` says so (play-test 7:
+## Hob's Lot sat by floor 2's stair while a poacher and a slime who spot the party up to twelve cells
+## from there were fought, out of `join_cells`).
 func _call_the_climbers(field: Dictionary) -> void:
 	if _leader == null:
 		return
@@ -2899,14 +2902,16 @@ func _call_the_climbers(field: Dictionary) -> void:
 	var reach := float(rules.get("join_cells", 0)) * AreaMap.CELL
 	if reach <= 0.0:
 		return
+	var whole_floor := bool((rules.get("on_the_floors", {}) as Dictionary).get("join_anywhere", false))
 	var level := maxi(1, Encounter.party_level(GameState.party_characters()))
 	var allies: Array = field.get("allies", [])
 	var company := ""
 	for actor: AreaActor in _people:
 		var person: Dictionary = actor.get_meta("person", {})
-		if not ["climbers", "climbers_floor"].has(str(person.get("_area", ""))) or not actor.visible:
+		var area := str(person.get("_area", ""))
+		if not ["climbers", "climbers_floor"].has(area) or not actor.visible:
 			continue
-		if actor.position.distance_to(_leader.position) > reach:
+		if not (whole_floor and area == "climbers_floor") and actor.position.distance_to(_leader.position) > reach:
 			continue
 		allies.append({ "unit": str(person.get("unit", "")), "level": level, "name": str(person.get("name", "a climber")) })
 		_watch_fighting.append(actor)
