@@ -78,10 +78,10 @@
             ],
             "name": "sunken sluice gate",
             "kind": "gate",
-            "key": "gate_key",
+            "key": "iron_key",
             "ability": "crush",
             "prop": "village/log_pile",
-            "denied": "A rusted sluice gate, padlocked against the weir. The Gate Key opens it, or Crush forces it.",
+            "denied": "A rusted sluice gate, padlocked against the weir. An Iron Key opens it, or Crush forces it.",
             "opened": "The padlock shatters and the sluice gate grinds open."
         }
     ],
@@ -121,10 +121,10 @@
                 24,
                 4
             ],
-            "line": "A tarred creel wedged in the reeds, heavy with gold and a gate key.",
+            "line": "A tarred creel wedged in the reeds, heavy with gold and an iron key.",
             "art": "chest_broken",
             "gold": 3500,
-            "key": "gate_key",
+            "key": "iron_key",
             "item": "herbs"
         },
         {
@@ -247,7 +247,7 @@
             ]
         },
         {
-            "name": "Wick, who is fishing",
+            "name": "Tam, who is fishing",
             "unit": "drunk_elf",
             "cell": [
                 16,

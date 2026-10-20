@@ -212,6 +212,9 @@ var _fight_watch: Node2D = null
 var _watch_fighting: Array[AreaActor] = []
 ## A band's fight has been asked of the continent and not yet put down.
 var _awaiting_fight: bool = false
+## The lead is winding up a first strike on a band ([D300]); the next fight put down opens with it.
+var _winding_up: bool = false
+var _striking_first: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
 ## Doings that start a fight, fought here on this ground with no screen of its own ([D207]): the
@@ -1682,6 +1685,9 @@ func _prompt_text() -> String:
 			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
 		return "Click to %s" % _nearby.prompt()
 	var here := _acts_text()
+	var strike := str(AreaWatch.rule("first_strike_hint", "")) if _strike_target() != null else ""
+	if strike != "":
+		return strike if here == "" else "%s  ·  %s" % [here, strike]
 	if here != "":
 		return here
 	# How to walk is said until the player has walked; after that, in a run, the
@@ -2895,12 +2901,12 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	_approach = null
 	_approach_path.clear()
 	_hold_the_town(true)
-	var ambush: bool = map.in_bounds(came_from) and watch.in_cover(came_from)
+	var ambush: bool = _striking_first or (map.in_bounds(came_from) and watch.in_cover(came_from))
 	watch.raise_the_alarm(_leader.position, ambush)
 	var many := (watch.band.get("pack", []) as Array).size() > 1
-	if ambush:
+	if ambush and not _striking_first:
 		_note("Out of the long grass and on %s before they know it." % str(watch.band.get("label", "them")))
-	else:
+	elif not ambush:
 		_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
 		# A beat for the shout to be read before they come, if the rules give one (none since D204:
 		# the fight is on as they shout); an ambush never gives them one.
@@ -3150,6 +3156,52 @@ func _climb_the_stair() -> void:
 	EventBus.request_scene.emit("world", { "climb_on": true })
 
 
+## A band the lead could strike first ([D288], [D300]): one of its figures within
+## `first_strike_reach` cells, and the leader standing out of its sight. The nearest, or null.
+func _strike_target() -> Node2D:
+	if _leader == null or _spotted or _leaving or _talking or _winding_up or _fight != null:
+		return null
+	var reach := float(AreaWatch.rule("first_strike_reach", 0)) * AreaMap.CELL
+	if reach <= 0.0:
+		return null
+	var here := map.cell_at(_leader.position)
+	var best: Node2D = null
+	var nearest := reach
+	for watch: Node2D in _watches:
+		if watch.watched.has(here) or watch.figures.is_empty():
+			continue
+		for figure: Node2D in watch.figures:
+			var apart := figure.position.distance_to(_leader.position)
+			if apart <= nearest:
+				nearest = apart
+				best = watch
+	return best
+
+
+## The lead turns to the band and winds up ([D300]); a moment later the blow is loosed and the
+## fight is on, opened by it. Seen first, while winding up, and the strike is lost.
+func _wind_up(watch: Node2D) -> void:
+	_winding_up = true
+	_approach = null
+	_approach_path.clear()
+	_click_path.clear()
+	if not watch.figures.is_empty():
+		_leader.face((watch.figures[0] as Node2D).position - _leader.position)
+	_note("%s winds up a strike..." % (_leader_character.display_name if _leader_character != null else "The lead"))
+	var wind := create_tween()
+	wind.tween_property(_leader, "modulate", Color(1.6, 1.3, 0.8), float(AreaWatch.rule("first_strike_seconds", 0.8)))
+	await wind.finished
+	if not is_inside_tree():
+		return
+	_winding_up = false
+	if _leader != null:
+		_leader.modulate = Color.WHITE
+	if _spotted or _leaving or _talking or not _watches.has(watch):
+		return
+	_striking_first = true
+	_seen_by(watch, Vector2i(-1, -1))
+
+
 ## The band rushes the party: part of the way, facing them, so the fight opening is something
 ## seen happen rather than a cut.
 func _charge(watch: Node2D) -> void:
@@ -3178,12 +3230,28 @@ func _fight_here(payload: Dictionary) -> void:
 	var asked := payload.duplicate()
 	asked["in_place"] = true
 	asked["paused"] = false
+	if _striking_first:
+		_striking_first = false
+		var encounter: Dictionary = (asked.get("encounter", {}) as Dictionary).duplicate()
+		encounter["first_strike"] = true
+		encounter["ambush"] = true
+		# Not "… have seen you": they had not.
+		if _fight_watch != null and is_instance_valid(_fight_watch):
+			encounter["title"] = str(AreaWatch.rule("first_strike_title", "{band}, struck first")).format(
+					{"band": str(_fight_watch.band.get("label", "them"))})
+		asked["encounter"] = encounter
 	# AM (D150): a party walking itself stops for a fight that matters and hands it over, paused;
 	# it walks on by itself again once that fight is won.
 	var lead := GameState.roster.player() if GameState.roster != null else null
-	if Pace.auto and not bool(asked.get("sandbox", false)) and FirstHour.auto_stops_for(
+	var stops := Pace.auto and not bool(asked.get("sandbox", false)) and FirstHour.auto_stops_for(
 			(asked.get("encounter", {}) as Dictionary).get("enemies", []),
-			str(GameState.pending_outcome.get("kind", "")), lead.level if lead != null else 1):
+			str(GameState.pending_outcome.get("kind", "")), lead.level if lead != null else 1)
+	# A band of the land is fought running, Auto or not ([D288], [D300]): Auto says it is a hard one
+	# and fights on, and Q still takes it back. Gates and keepers still stop and hand it over.
+	if stops and str((asked.get("encounter", {}) as Dictionary).get("kind", "")) == Encounter.WILD:
+		stops = false
+		_note(FirstHour.auto_runs_line())
+	if stops:
 		Pace.auto = false
 		_auto_after_fight = true
 		asked["paused"] = true
@@ -3301,6 +3369,7 @@ func _regather_at(point: Vector2) -> void:
 ## Back to walking: nobody is looking, the town moves again, and the cell stood on is not a fresh
 ## step into anyone's sight.
 func _stand_down() -> void:
+	_striking_first = false
 	_spotted = false
 	_leaving = false
 	_talking = false
@@ -3961,6 +4030,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_engage(_nearby)
 		return
+	if event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_G and not _leaving and not _talking:
+		var target := _strike_target()
+		if target != null:
+			get_viewport().set_input_as_handled()
+			_wind_up(target)
+			return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto

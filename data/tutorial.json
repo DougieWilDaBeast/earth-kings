@@ -1,95 +1,75 @@
 {
-  "_comment": "Atlas's last stand (D191, replacing D73's tour): a new player's first game. It is the last day of Atlas's own world, in Hearthwick (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd: the game's ways taught one step at a time, then a fight Atlas cannot win. He falls for good: he is written into the record of the fallen (src/chronicle/sixteen.gd) and his world is the first that ended, so the next lead is picked by the quiz, the opening shows his world going dark, his ghost sits at the fire and his weapon falls into the next world. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' or '_' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button`. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight steps call out the village's bands (`bands` in its area, D75). The step with `doom` is the last: when its fight ends, `fall` is shown and Atlas is written down. Nothing else here is saved.",
+  "_comment": "Atlas's last stand (D191, replacing D73's tour; cut from 14 steps to 7 by D300): a new player's first game. It is the last day of Atlas's own world, in Hearthwick (data/areas/tutorial.json), run by src/ui/tutorial_guide.gd: the game's ways taught one step at a time, then a fight Atlas cannot win. He falls for good: he is written into the record of the fallen (src/chronicle/sixteen.gd) and his world is the first that ended, so the next lead is picked by the quiz, the opening shows his world going dark, his ghost sits at the fire and his weapon falls into the next world. Each step is done when its `done` happens: `did` (what EventBus.player_did says; a value ending in ':' or '_' matches any name), `flag` (set in GameState), `opened` ('party' or 'journal'), or `button`. A step may have `on_start` → `set_flag` (a list), set as it comes up: the fight steps call out the village's bands (`bands` in its area, D75). The step with `doom` is the last: when its fight ends, `fall` is shown and Atlas is written down. Nothing else here is saved.",
   "area": "tutorial",
   "seed": 20261012,
   "lead": "atlas",
   "steps": [
     {
-      "id": "welcome",
-      "title": "The last day of Atlas's world",
-      "text": "You are Atlas, one of the sixteen, in the world that is his. Learn its ways here: walking, talking, trading, fighting.\n\nNothing you do in Hearthwick is saved. What happens to Atlas is.",
-      "done": { "button": "Begin" }
-    },
-    {
       "id": "walk",
-      "title": "Walking",
-      "text": "Move with WASD or the arrow keys, or click the ground to walk there. Your company follows the leader.\n\nThe mouse wheel zooms; the line along the bottom always says what you can do where you stand.",
-      "done": { "did": "walked" }
+      "title": "The last day of Atlas's world",
+      "text": "You are Atlas, one of the sixteen, in the world that is his. Nothing you do in Hearthwick is saved. What happens to Atlas is.\n\nMove with WASD or the arrow keys, or click the ground to walk there. Your company follows the leader. The line along the bottom always says what you can do where you stand.",
+      "done": {
+        "did": "walked"
+      }
     },
     {
       "id": "talk",
       "title": "Talking",
-      "text": "Anyone with a ! over them has something to say. Walk up to Maren the Guide, by the signpost, and click her (or stand close and press E).",
-      "done": { "did": "talked:Maren the Guide" }
-    },
-    {
-      "id": "ask",
-      "title": "Asking questions",
-      "text": "Conversations give you replies to pick. Ask Maren something: what the gates are, what the Tower is, what happens when someone falls.",
-      "done": { "flag": "tut:asked" }
+      "text": "Anyone with a ! over them has something to say. Walk up to Maren the Guide, by the signpost, and click her (or stand close and press E). Then ask her something: what the gates are, what the Tower is, what happens when someone falls.",
+      "done": {
+        "flag": "tut:asked"
+      }
     },
     {
       "id": "buy",
       "title": "Buying",
-      "text": "Pim keeps the stall. Ask what he's selling and buy something: food and draughts heal between fights, and gear makes your people stronger. Your gold is in the party screen.",
-      "done": { "flag": "tut:bought" }
-    },
-    {
-      "id": "refuse",
-      "title": "Not everyone wants to talk",
-      "text": "Smudge, the fox in the hat, won't speak to you. Some people need a coin, a good roll, or a reason. Find a way round it.",
-      "done": { "flag": "tut:fox" }
+      "text": "Pim keeps the stall. Ask what he's selling and buy something: food and draughts heal between fights, and gear makes your people stronger.\n\nNot everyone will talk: Smudge, the fox in the hat, wants a coin, a good roll or a reason.",
+      "done": {
+        "flag": "tut:bought"
+      }
     },
     {
       "id": "favour",
       "title": "Doing a favour",
-      "text": "People ask for help. Ask Wren if she needs a hand, find what she lost (things worth a look are marked ?), then go back and tell her.",
-      "done": { "flag": "job:tut_horse:paid" }
-    },
-    {
-      "id": "chest",
-      "title": "Chests",
-      "text": "There's a chest by the cart. Walk onto it to open it. Each one opens once, and what's inside is yours.",
-      "done": { "did": "chest" }
-    },
-    {
-      "id": "doors",
-      "title": "Doors",
-      "text": "Walk into a door. Some houses you can go inside, and the inn has people of its own; some are shut and say why. Come back out the way you went in.",
-      "done": { "did": "door:" }
+      "text": "People ask for help. Ask Wren if she needs a hand, find what she lost (things worth a look are marked ?), then go back and tell her.\n\nWalk onto a chest to open it, and into a door to go inside.",
+      "done": {
+        "flag": "job:tut_horse:paid"
+      }
     },
     {
       "id": "party",
       "title": "Your company",
-      "text": "Press P for the party screen: everyone's health, gear and abilities, and where you choose a class when someone is ready to grow. Close it with Esc.",
-      "done": { "opened": "party" }
-    },
-    {
-      "id": "journal",
-      "title": "The journal",
-      "text": "Press N for the journal: every creature you've met, the roads you've walked and the story of your run so far.",
-      "done": { "opened": "journal" }
+      "text": "Press P for the party screen: everyone's health, gear and abilities, and where you choose a class when someone is ready to grow. N opens the journal: every creature you've met and the story of your run. Esc closes either.",
+      "done": {
+        "opened": "party"
+      }
     },
     {
       "id": "fight",
       "title": "A sparring fight",
-      "text": "Captain Harrow's sparring pair are out in the field south of the square now. The red cells are what they can see, and they move as the pair patrols. Step into the red and the fight starts right there, on this ground. Long grass hides you, and bursting out of it at them is an ambush.\n\nSpace pauses and unpauses it. Left-click or drag a box to pick fighters; right-click to move or attack. Q W E R use skills. Nobody can die in practice.",
-      "done": { "did": "fight_" },
-      "on_start": { "set_flag": ["tut:spar_ready"] }
-    },
-    {
-      "id": "world",
-      "title": "What lies beyond Hearthwick",
-      "text": "Every world of the sixteen is like this one. The land is a map you walk across, black until you've been there: villages and keeps to rest and trade in, libraries that teach, huts, the Adventurers Guild with paid contracts, and the gates, where monsters pour out. Bands patrol with their red ground showing, like the sparring pair. Shut a gate by fighting through it; leave one open too long and it breaks.\n\nThe Tower rises over everything, a hundred floors of it.",
-      "done": { "button": "Next" }
+      "text": "Captain Harrow's sparring pair are out in the field south of the square now. The red cells are what they can see. Step into the red and the fight is on at once, right there on this ground. Out of their sight, press G to wind up a first strike: it lands before they turn. Long grass hides you, and bursting out of it at them is an ambush.\n\nSpace pauses and unpauses. Left-click or drag a box to pick fighters; right-click to move or attack. Q W E R use skills. Nobody can die in practice.",
+      "done": {
+        "did": "fight_"
+      },
+      "on_start": {
+        "set_flag": [
+          "tut:spar_ready"
+        ]
+      }
     },
     {
       "id": "doom",
       "title": "The gate in the hills breaks",
-      "text": "A gate nobody shut has broken. What was behind it is coming down the road into Hearthwick, its red ground ahead of it.\n\nAtlas cannot beat it. Fight it anyway: step into the red. In Earth Kings a fall is for good: when your lead dies, their world ends with them.",
-      "done": { "did": "fight_" },
+      "text": "Every world of the sixteen is like this one: a land to walk, villages and keeps, the Guild's paid contracts, the Tower over everything, and the gates, where monsters pour out. Shut a gate by fighting through it; leave one open too long and it breaks.\n\nOne has broken. What was behind it is coming down the road into Hearthwick, its red ground ahead of it. Atlas cannot beat it. Fight it anyway: step into the red. In Earth Kings a fall is for good: when your lead dies, their world ends with them.",
+      "done": {
+        "did": "fight_"
+      },
       "doom": true,
-      "on_start": { "set_flag": ["tut:doom"] }
+      "on_start": {
+        "set_flag": [
+          "tut:doom"
+        ]
+      }
     }
   ],
   "fall": {

@@ -420,6 +420,9 @@ each, each ending playable:
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
       person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
       story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).
+      **Built** ([D300](06-decisions.md), 2026-10-20): Auto no longer stops for a band of the land, tips wait for
+      a fight to end, G strikes first, a Send button on each card with a town to meet in and a crow, the band
+      on the map, the four story fixes, and the last stand in 7 steps.
    B. Levelling in gates: levels only from new foes in a gate, experience in the Tower, a log of foes per
       character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378).
    C. The land: caves (#371, [D282](06-decisions.md)), then heights, ledges, cliffs and ways up; places worth

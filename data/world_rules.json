@@ -64,12 +64,13 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
-		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
+		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops. Since D300 a band of the land (a wild fight) never stops it: it is fought running and `ground_line` is said instead.",
 		"auto_stops": {
 			"gates": true,
 			"keepers": true,
 			"above_level": 1,
-			"line": "Auto stops here: this fight is yours."
+			"line": "Auto stops here: this fight is yours.",
+			"ground_line": "A hard one. Auto fights on: Q takes the party back."
 		}
 	},
 	"life": {
@@ -218,7 +219,12 @@
 		"pull_back_seconds": 0.9,
 		"land_patrol_reach": 6,
 		"land_patrol_points": 4,
-		"travel_step_seconds": 0.5
+		"travel_step_seconds": 0.5,
+		"_comment_first_strike": "A first strike (D288, D300): standing out of a band's sight with one of its figures within first_strike_reach cells, G (or a click on the band) winds the lead up for first_strike_seconds, turned to it; then the fight opens as an ambush and the lead's blow lands at once (skirmish.json -> first_strike). Seen while winding up, the strike is lost and the fight is an ordinary one.",
+		"first_strike_reach": 8,
+		"first_strike_seconds": 0.8,
+		"first_strike_hint": "G: strike first",
+		"first_strike_title": "{band}, struck before they knew it"
 	},
 	"modes": {
 		"setting": "classic",
@@ -482,7 +488,9 @@
 		"gate_per_level": 0.06,
 		"gate_per_hand": 0.1,
 		"gate_min": 0.05,
-		"gate_max": 0.95
+		"gate_max": 0.95,
+		"_comment_meet": "D294, D300 (founders' meeting: 'clear that rank E gate and meet me back at Stormreach'; if you are not there, a crow brings word): sent with a village, keep or the house to meet in, they walk there from where the job was done, a tile a step. With the company there they fall in; if not, crow_line is said and they wait there until it comes. With none named they come back to wherever the company is, as before.",
+		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
 	},
 	"experience": {
 		"first_kill_multiplier": 2,

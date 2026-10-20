@@ -223,6 +223,52 @@ func _check_gate_band(world: World) -> void:
 			_expect(roster.party.has(first.id) and roster.party.has(second.id), "a band that shut its gate did not come back")
 		for key: String in kept_rules:
 			rules[key] = kept_rules[key]
+
+	# Sent with a town to meet in ([D294], [D300]): back there, a crow says so if the company is
+	# elsewhere, they wait, and they fall in when it comes.
+	var places := Dispatch.meeting_places(world)
+	var town: Site = null
+	for site: Site in world.sites:
+		if site.kind == Site.VILLAGE:
+			town = site
+			break
+	if town != null:
+		Atlas.mark(world, town)
+		places = Dispatch.meeting_places(world)
+	_expect(town != null and places.has(town), "a known village is no place to meet")
+	if town != null:
+		gate.rank = "E"
+		gate.open = true
+		gate.cleared = false
+		var roster := Company.found()
+		var lead := roster.player()
+		var first: Character = roster.party_members()[1]
+		var away: Array = []
+		var rules: Dictionary = Database.world_rules["dispatch"]
+		var kept_rules := rules.duplicate()
+		rules["gate_min"] = 1.0
+		rules["gate_max"] = 1.0
+		var kept_cell := world.player_cell
+		var said := Dispatch.send_to_gate(world, roster, away, first, gate, town)
+		_expect(said.contains(town.display_name), "the band was not told where to meet: %s" % said)
+		world.steps = int(away[0]["out_at"])
+		Dispatch.walk(world, roster, away, [])
+		_expect(Dispatch.where_now(away[0], world) == gate.cell, "the band was not drawn at its gate")
+		world.player_cell = gate.cell if gate.cell != town.cell else town.cell + Vector2i.RIGHT
+		world.steps = int(away[0]["back_at"])
+		var crow := Dispatch.walk(world, roster, away, [])
+		print("  met at %s: %s" % [town.display_name, " / ".join(crow)])
+		_expect(crow.any(func(l: String) -> bool: return l.contains("crow")) and away.size() == 1, "nobody brought word the band was back")
+		_expect(Dispatch.where_now(away[0], world) == town.cell, "a band waiting was not drawn where it waits")
+		_expect(not roster.party.has(first.id), "a band waiting at a town fell in from afar")
+		world.player_cell = town.cell
+		world.steps += 1
+		Dispatch.walk(world, roster, away, [])
+		_expect(away.is_empty() and roster.party.has(first.id), "the band did not fall in when the company reached the town")
+		_expect(roster.party_members()[0] == lead, "the lead lost the front")
+		world.player_cell = kept_cell
+		for key: String in kept_rules:
+			rules[key] = kept_rules[key]
 	for i in gates.size():
 		var restored := Site.from_dict(kept[i])
 		gates[i].rank = restored.rank

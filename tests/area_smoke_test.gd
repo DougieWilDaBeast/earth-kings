@@ -760,10 +760,10 @@ func _check_tutorial() -> void:
 	GameState.reached(RunMode.REST, "tutorial")
 	if GameState.has_save() != had_save or (had_save and FileAccess.get_file_as_string(GameState.SAVE_PATH) != before):
 		_fail("tutorial: a save was written during the tutorial")
-	if guide.call("step_id") != "welcome":
+	if guide.call("step_id") != "walk":
 		_fail("tutorial: it did not start on its first step (on '%s')" % guide.call("step_id"))
-	guide.call("_on_main_pressed")
-	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	if (rules["steps"] as Array).size() > 8:
+		_fail("tutorial: %d steps, more than the 7 or so D300 cut it to" % (rules["steps"] as Array).size())
 	EventBus.player_did.emit("walked")
 	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
 	EventBus.player_did.emit("talked:Maren the Guide")

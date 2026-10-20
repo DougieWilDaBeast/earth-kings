@@ -189,6 +189,8 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | F17 | Practice page                                          | What they have read, every move with its proficiency, and who they can teach                           |
 | F18 | Level somebody to 2                                    | A path to choose, on the card and at the head of the pane, until it is answered                        |
 | F19 | Save, quit, load                                       | Gear, packs, practice, trees and the marching order all exactly as they were                           |
+| F20 | Shut a gate, then open the party screen                | A **Send** button beside every card but the lead's; it opens "Send … on a mission": **Meet me at** (press it to cycle the towns you know), the gates and errands ([D300](06-decisions.md)) |
+| F21 | Send someone to a gate to meet you at a town, and walk elsewhere | The map shows their face on the road with a line ahead of it; when they are back, "A crow finds the company: … are back at …"; walk to that town and they fall in ([D300](06-decisions.md)) |
 
 ## G — Gates and the Tower
 
@@ -278,6 +280,9 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
 | D3.25 | Walk into Stormreach for the first time (Sennet's line), then on a touchscreen | The box at the bottom is only as tall as Sennet's lines and no wider than it needs; a one-line remark is a small box; the hint strip is as long as its line ([D259](06-decisions.md)) |
 | D3.26 | Walk the land until "Something has been left here", and look at what lies ahead | Coin alone is a coin pile; a blade, bow or staff is a sword lying there; anything else a strongbox ([D259](06-decisions.md)) |
+| D3.27 | Stand out of a band's red with it a few strides off, and press G | The bottom line says "G: strike first"; the lead turns to it and glows for a moment, then the fight is on: "First strike!" over the lead and a big hit on the nearest of them before they move ([D300](06-decisions.md)) |
+| D3.28 | With Auto on, walk into a band two levels over you | No stop and no paused fight: "A hard one. Auto fights on" and the fight runs; Q takes the party back. A gate's fight still stops ([D300](06-decisions.md)) |
+| D3.29 | Meet your first band of a new run with tips on | No tip card over the fight; the fight tips come up once it is over ([D300](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
@@ -296,6 +301,7 @@ Delete `settings.cfg`, `earth-kings.sixteen.json` and the save from the user fol
 | D4.8 | Press **Choose who comes next**, answer, pick         | The quiz never deals Atlas; the whole opening plays, its ending shot "Atlas fell in Hearthwick…", his ghost at the fire; you land on the road to the great city |
 | D4.9 | Back at the title, press **Atlas's Last Stand**       | It plays again with **End tutorial** on the card; at the end, **Back to the title**, and nothing more is written down |
 | D4.10 | Delete `earth-kings.sixteen.json` only, then **New Game** | "You've played Atlas's last stand before. Play it again, or skip it?"; **Skip it** goes to the quiz with Atlas fallen; **Back** closes the card |
+| D4.11 | Count the cards from New Game to the doomed fight | Seven: walking, talking, buying, a favour, your company, the sparring fight, the gate in the hills ([D300](06-decisions.md)) |
 ## D5 — One land ([D84](06-decisions.md))
 
 Start a run (not the tutorial) and walk.

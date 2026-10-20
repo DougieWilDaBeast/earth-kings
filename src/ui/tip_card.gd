@@ -57,6 +57,14 @@ func dismiss() -> void:
 
 
 func _process(delta: float) -> void:
+	# A fight runs from the moment it is met ([D300]): a card waits until it is over, and one up
+	# when it starts goes back in the queue, rather than a box over the fight.
+	if _fight_on():
+		if _panel.visible:
+			_queue.push_front(_showing)
+			_showing = {}
+			_panel.hide()
+		return
 	# One message at a time: a card waits for the box in front of it to close.
 	if not _panel.visible and not _queue.is_empty() and not _something_is_open():
 		_next()
@@ -137,6 +145,13 @@ func _next() -> void:
 	_panel.show()
 	_panel.modulate.a = 0.0
 	create_tween().tween_property(_panel, "modulate:a", 1.0, 0.25)
+
+
+func _fight_on() -> bool:
+	for fight in get_tree().get_nodes_in_group(EventBus.FIGHT_GROUP):
+		if not bool(fight.get("over")):
+			return true
+	return false
 
 
 func _something_is_open() -> bool:
