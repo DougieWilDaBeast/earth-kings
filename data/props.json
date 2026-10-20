@@ -327,6 +327,7 @@
     "_about": "A building with an `art` is drawn from art/buildings/<art>.png at `scale`, standing on a footprint `size` cells wide and deep, its door in the middle of the front row. A building without one is still drawn as a plain house.",
     "red_roof_house": { "scale": 3.0, "size": [3, 2], "look": "a tiled cottage with a sun sign over the door" },
     "guild_house": { "scale": 3.0, "size": [3, 2], "look": "a dark timber-framed house" },
+    "cave_mouth": { "scale": 3.0, "size": [3, 2], "look": "a hump of rock with a dark way in at its foot (D282, drawn in house by tools/draw_cave_mouth.py until A48)" },
     "guild_hall": { "scale": 3.0, "size": [3, 2], "look": "a tile-roofed hall with an AG sign" },
     "timber_tower": { "scale": 3.0, "size": [3, 2], "look": "the same hall as guild_hall" },
     "hunting_lodge": { "scale": 3.0, "size": [3, 2], "look": "a log lodge with antlers on the gable" },
