@@ -437,7 +437,10 @@ each, each ending playable:
       both sides hear, the bonus for fights shared, and a formation breaking on a low mood ([D306](06-decisions.md)).
       Not yet: the wheel on a held key, a leader's orders beyond the call-out, foes in formation, trust breaking one.
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
-      ([D290](06-decisions.md), #382).
+      ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
+      is laid out at the climb and grows with height, every third floor from 12 is shared with a company who
+      fight beside the party, and from 25 every fifth floor has people living by the stair. Not yet: the floors'
+      3D look, gear seen on the floor and on fighters (art), what a living floor offers.
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
@@ -685,6 +688,9 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
   village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and
   S-rank gates that gather armies ✅ (a Guild muster that goes in beside the company, or alone —
   [D46](06-decisions.md))
+- The Tower past floor 10 ✅ (2026-10-20, [D307](06-decisions.md)): from floor 11 every floor is laid out
+  at the climb and grows with height, every third floor from 12 is shared with a company who fight beside
+  the party, and from 25 every fifth has people living by the stair
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal

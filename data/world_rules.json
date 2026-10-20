@@ -373,7 +373,32 @@
 			{ "to": 70, "factions": ["bamboo_court", "heart_empire", "the_dusk"] },
 			{ "to": 99, "factions": ["heart_empire"] }
 		],
-		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"]
+		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"],
+		"_comment_grown": "D290, D307 (meeting six, piece F): every floor from grown.from up is laid out at the climb (TowerFloors.ensure_grown, registered as `area` with the floor number) rather than borrowing floors 1 to 4's plans: a run of chambers from the way in at the bottom to the stair at the top, in the Tower's own stone, the higher the bigger (width and height grow width_per_floor and height_per_floor a floor over floor 10, to widest and tallest; chambers grow one every chambers_every floors, to most_chambers), and a band of the floor's own in every chamber but the first (band_pack is a stand-in the floor's foes replace, TowerFloors.restock). A shared floor (shared_from, then every shared_every) has another company climbing it: shared_size of life.climbers.units at the party's level, named from life.climbers.companies, who fight every fight on the floor beside the party (shared_line). From living_from, every living_every floors people have set up by the stair and live there (living_size of them, living_line, living_talk). Inferred: every number, which floors are shared, where the first living floor is.",
+		"grown": {
+			"from": 11,
+			"area": "tower_floor_grown_%d",
+			"width": 26, "height": 18, "width_per_floor": 0.6, "height_per_floor": 0.4, "widest": 60, "tallest": 44,
+			"chambers": 3, "chambers_every": 5, "most_chambers": 7,
+			"band_pack": ["goblin", "goblin"],
+			"hint": "WASD to walk  ·  the stair up is north, at the far end  ·  bands hold the chambers",
+			"tint": "#8a8fa8",
+			"shared_from": 12, "shared_every": 3, "shared_size": [2, 3],
+			"shared_line": "Another company is on this floor: {company}. They are going up too, and they fight beside you.",
+			"living_from": 25, "living_every": 5, "living_size": [3, 4],
+			"living_line": "People live on this floor. {company} set up by the stair long ago, and they are not going higher.",
+			"living_talk": {
+				"hello": [
+					"Welcome to the floor. We don't climb any more; we keep it.",
+					"You're going up? Then you'll want to rest first. Everyone does, here."
+				],
+				"ask": [
+					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." },
+					{ "q": "What's above?", "a": "More floors, bigger each time. Companies go up past us every season. Fewer come down." }
+				],
+				"bye": "Mind the stair. We'll be here when you come down, if you do."
+			}
+		}
 	},
 	"party": {
 		"seats_base": 4,
@@ -604,7 +629,7 @@
 		"story_dc": 17,
 		"per_level": 2,
 		"outward": 4,
-		"no_areas": ["tutorial", "road_watch", "climbers", "climbers_floor"],
+		"no_areas": ["tutorial", "road_watch", "climbers", "climbers_floor", "floor_folk"],
 		"stays": ["Dirte, the God of Kings", "Muck Muck", "Steward Hobb", "Tollmaster Crane"],
 		"trust": [
 			{ "ledger": "battles_won", "need": 3, "line": "Win three fights with that lot behind you, then ask me again." },
