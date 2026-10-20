@@ -541,6 +541,9 @@ func _badge_for(character: Character) -> String:
 		return "+ %d power%s to take" % [character.rungs, "" if character.rungs == 1 else "s"]
 	if character.yoke:
 		return "yoked"
+	# The natural leader, out of the fights ([D306]).
+	if Formations.leader_of(GameState.party_characters()) == character:
+		return Formations.badge(character)
 	return ""
 
 
@@ -619,7 +622,12 @@ func _build_head(character: Character, party: Array[Character]) -> void:
 		var formation := Button.new()
 		formation.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
 		formation.focus_mode = Control.FOCUS_NONE
-		formation.text = "Formation: %s" % Formations.word(GameState.formation, party.size())
+		var leader := Formations.leader_of(party)
+		var said := Formations.word(GameState.formation, party.size())
+		if GameState.formation == "auto" and leader != null:
+			said = "%s (%s, %s)" % [Formations.word("auto"), Formations.word(Formations.recommend(party.size(), leader)),
+					str(Formations.leader_rules().get("call", "{name}'s call")).format({"name": leader.display_name})]
+		formation.text = "Formation: %s" % said
 		formation.tooltip_text = Formations.tip(GameState.formation)
 		formation.pressed.connect(func() -> void:
 			GameState.formation = Formations.next(GameState.formation)

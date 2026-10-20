@@ -92,6 +92,9 @@ static func moves(fighter: Fighter, tactics: Dictionary) -> Array:
 	var own: Array = doctrine(fighter, tactics).get("moves", [])
 	var stance := Fighter.stance_data(fighter.playing_stance())
 	var first: Array = stance.get("first", [])
+	# Called out ([D306]): while the shout lasts, getting clear comes before anything else.
+	if fighter.warned > 0.0:
+		first = (Formations.callout_rules().get("warned_first", []) as Array) + first
 	if first.is_empty() and not stance.has("drop"):
 		return own
 	var drop: Array = stance.get("drop", [])
@@ -235,6 +238,9 @@ static func _guard(fighter: Fighter, fighters: Array[Fighter], friends: Array, t
 	var worst_share := below
 	for friend: Fighter in friends:
 		var share := float(friend.unit.hp) / float(maxi(1, friend.unit.max_hp))
+		# A friend the other side has called out ([D306]) needs a body in front of them now.
+		if friend.warned > 0.0:
+			share = 0.0
 		if share >= worst_share or Pathfinder.distance(me.cell, friend.unit.cell) > reach:
 			continue
 		worst = friend

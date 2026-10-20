@@ -103,6 +103,21 @@
 		"form_every": 1.5,
 		"slack": 1,
 		"hold_guard": 0.08,
+		"_comment_leader": "D289, D306 (piece E2; all Inferred). A natural leader comes out of the fights: the party member with the most fights won (from_won or more; ties to the higher level, then the marching order), who need not be the lead you play. They recommend a shape (shapes_by_line, by the line they fight in) which Auto takes; the player may pick another. In a fight the leader (else the lead) calls out when they go for a soft foe (callouts: healer for a mender, archer for a shooter), once per foe, a word both sides hear: the foe called is warned for warned_for seconds, tries warned_first moves first and its friends guard it; a foe's boss calls the same on the party, and the one called is warned the same way. A companion whose mood is under break_below_mood does not fall in and holds no slot (a formation breaking on mood). A bonus for fights shared: a party fighter is spared shared.per_fight of every blow, and lands as much more, for every fight won beside the others present (their average), up to shared.cap.",
+		"leader": {
+			"from_won": 3,
+			"shapes_by_line": { "back": "wedge", "front": "diamond", "flank": "line" },
+			"badge": "leads the fights ({won} won)",
+			"call": "{name}'s call"
+		},
+		"callouts": {
+			"healer": "Get the healer!",
+			"archer": "On the archer!",
+			"warned_for": 3.0,
+			"warned_first": ["break", "hang_back", "kite"]
+		},
+		"break_below_mood": 35,
+		"shared": { "per_fight": 0.004, "cap": 0.08 },
 		"shapes": {
 			"line": {
 				"word": "Line", "tip": "Everyone abreast of the lead: every blade in front, nobody behind.",

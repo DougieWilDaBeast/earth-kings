@@ -779,6 +779,32 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
+## `world_rules.json` → `gate.fallen` — demon kings of fallen worlds (D293, D304)
+
+Read by `Site.demon_king()`, `Site.demon_words()`, `Encounter.for_gate()`, `GateInside._bands()` and
+`Spoils.for_gate()`. In a world with a record of the fallen (`world.echoes.past`), a gate of rank `from`
+or above is held by a fallen lead's demon king when its cell hashes under `base` plus `per_fallen` for
+each of the fallen (in a hundred); which of the fallen, by the same hash. Kept on the gate as
+`data.demon` (the hero id, or `""`) the first time it is gone into, with `data.demon_seen`. The keeper is
+that hero's own unit at the floor's keeper level plus `levels`, never under the level the echo fell at,
+`stout_times` as stout as the rank's keeper; every band in the gate stands `band_levels` higher. Lines
+`line` (going in), `title` (the keeper's), `label` (the map and the fight: `{name}` only) and `shut_line`
+take `{name}`, `{demon}`, `{gate}`, `{they}`, `{their}`, `{them}` and each capitalised, from the hero's
+`pronoun` in `heroes.json`.
+
+## `world_rules.json` → `gate.instant` — the Gate Key tears a gate (D293, D304)
+
+Read by `Spoils.gate_key()`, `Site.key_rank()`, `Site.tear()` and the world scene's `_tear_gate_here`.
+`key` is the key's id in `GameState.keys`; `Spoils.gate_key` adds it as a gate is shut (always with
+`from_double` on a double gate, else one gate in `found_one_in` of rank `found_from` or above, hashed from
+the gate's cell), never while one is held, and keeps the gate's rank in `GameState.flags["gate_key:rank"]`
+(`found_line`, `{rank}`, `{gate}`). With it in hand, the interact key on open ground (the hint says
+`prompt`, `{rank}`) calls `Site.tear`: a `Site` of kind gate, `open`, `opened_at` the world's step, held by
+one of `Faction.seated_at("gate")`, named from `names` in turn (then "the Tear N"), with `data`
+`{ area: "gate", faction, instant: true, torn_at, seen_true: true, double: false }`, appended to
+`world.sites` on the company's cell or the nearest open one within two; `torn_line` (`{gate}`, `{rank}`)
+is said and the key is erased when `spent`. It saves and loads with the other sites.
+
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
 Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight hand-off in

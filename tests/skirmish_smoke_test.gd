@@ -195,6 +195,7 @@ func _run() -> void:
 	await _check_stances()
 	await _check_keeping_together()
 	await _check_formations()
+	await _check_leader_and_callouts()
 	_check_heal_growth()
 	await _check_the_turn()
 	await _check_scars()
@@ -1187,6 +1188,91 @@ func _check_formations() -> void:
 	GameState.formation = kept
 	print("formations: %s dealt %s; Vesta's slot %s behind a Cato facing up, held for %.0f%% guard" % [
 		"diamond", dealt, slot, float(rules.get("hold_guard", 0.0)) * 100.0])
+	fight.queue_free()
+
+
+## The leader, call-outs and fights shared ([D289], [D306]): the one with the most fights won leads
+## and recommends a shape; the caller's shout warns the foe it names; fights won together are a
+## little guard and might; a companion at the end of their rope holds no slot.
+func _check_leader_and_callouts() -> void:
+	var fight := await _new_fight()
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	var iris := _by_template(fight, "iris")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	if cato == null or vesta == null or iris == null or foes.size() < 2:
+		_expect(false, "the proving ground has no company to lead")
+		fight.queue_free()
+		return
+	var party: Array = [cato.unit.character, vesta.unit.character, iris.unit.character]
+	for c: Character in party:
+		c.fights = {}
+		c.shared = {}
+		c.thoughts = []
+	_expect(Formations.leader_of(party) == null, "somebody led before winning a fight")
+	Formations.record_fight(party, true)
+	Formations.record_fight(party, true)
+	Formations.record_fight(party, false)
+	_expect(int(vesta.unit.character.fights.get("won", 0)) == 2 and int(vesta.unit.character.fights.get("lost", 0)) == 1,
+			"fights not counted: %s" % [vesta.unit.character.fights])
+	_expect(int(vesta.unit.character.shared.get(cato.unit.character.id, 0)) == 2, "fights shared not counted: %s" % [vesta.unit.character.shared])
+	_expect(Formations.leader_of(party) == null, "two wins made a leader (from_won is %d)" % int(Formations.leader_rules().get("from_won", 3)))
+	vesta.unit.character.fights["won"] = 5
+	_expect(Formations.leader_of(party) == vesta.unit.character, "Vesta with the most fights won does not lead")
+	_expect(Formations.leader_fighter(fight.fighters) == vesta, "the leader among the fighters is not Vesta")
+	_expect(Formations.recommend(3, vesta.unit.character) == "wedge", "a mender leading did not call for a wedge: %s" % Formations.recommend(3, vesta.unit.character))
+	_expect(Formations.badge(vesta.unit.character).contains("5"), "the badge does not say how many: %s" % Formations.badge(vesta.unit.character))
+	var kept := GameState.formation
+	GameState.formation = "auto"
+	cato.unit.cell = Vector2i(6, 6)
+	cato.unit.facing = Vector2i.UP
+	vesta.unit.cell = Vector2i(2, 2)
+	iris.unit.cell = Vector2i(9, 9)
+	for other: Fighter in foes:
+		other.unit.cell = Vector2i(0, 0)
+	_expect(Formations.slot_cell(iris, fight.fighters) == Vector2i(7, 7), "on Auto the wedge Vesta called for did not put Iris at Cato's shoulder: %s" % Formations.slot_cell(iris, fight.fighters))
+	_expect(Formations.slot_cell(vesta, fight.fighters) == Vector2i(5, 7), "Vesta's own slot in her wedge is %s" % Formations.slot_cell(vesta, fight.fighters))
+	# Fights shared: a little of every blow, capped.
+	var bonus := Formations.shared_bonus(vesta, fight.fighters)
+	_expect(bonus > 0.0 and bonus <= float(Formations.rules().get("shared", {}).get("cap", 0.08)), "the shared bonus is %f" % bonus)
+	vesta.unit.character.shared[cato.unit.character.id] = 1000
+	vesta.unit.character.shared[iris.unit.character.id] = 1000
+	_expect(is_equal_approx(Formations.shared_bonus(vesta, fight.fighters), float(Formations.rules().get("shared", {}).get("cap", 0.08))), "the shared bonus is not capped")
+	_expect(Formations.shared_bonus(foes[0], fight.fighters) == 0.0, "a foe got the party's shared bonus")
+	# At the end of their rope, nobody holds a slot.
+	vesta.unit.character.thoughts = [{ "id": "test", "label": "test", "mood": -40, "until": 999999 }]
+	_expect(Formations.broken(vesta.unit.character), "a mood of %d is not broken" % vesta.unit.character.mood())
+	_expect(Formations.slot_cell(vesta, fight.fighters) == Formations.NONE, "Vesta at the end of her rope still held a slot")
+	vesta.unit.character.thoughts = []
+	# Call-outs: the leader shouts on going for a mender, and the one called is warned.
+	var soft: Fighter = null
+	for other: Fighter in foes:
+		if Formations.is_soft(other):
+			soft = other
+	if soft == null:
+		soft = foes[1]
+		soft.heal_below = 0.9
+	var word := Formations.callout(vesta, soft, fight.fighters)
+	_expect(word != "", "the leader going for a soft foe said nothing")
+	_expect(Formations.callout(iris, soft, fight.fighters) == "", "Iris, not leading, called out")
+	_expect(Formations.callout(vesta, foes[0] if foes[0] != soft else foes[1], fight.fighters) == "" or Formations.is_soft(foes[0]), "a plain foe was called out")
+	vesta.target = soft.unit
+	soft.warned = 0.0
+	fight._call_out(vesta)
+	_expect(soft.warned > 0.0, "the foe called out was not warned")
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var tried := SkirmishBrain.moves(soft, tactics)
+	_expect(tried.size() > 0 and str(tried[0]) == str((Formations.callout_rules().get("warned_first", []) as Array)[0]), "a warned foe does not try to get clear first: %s" % [tried])
+	soft.warned = 0.0
+	_expect(Formations.calls_for_its_side(foes[0], fight.fighters) or foes.any(func(f: Fighter) -> bool: return Formations.calls_for_its_side(f, fight.fighters)), "no foe calls for its side")
+	print("leader: Vesta leads on %d won, calls for a %s; shared bonus %.1f%% a fight, capped at %.0f%%; \"%s\" warns the one it names for %.0f s" % [
+		Formations.won(vesta.unit.character), Formations.recommend(3, vesta.unit.character),
+		float(Formations.rules().get("shared", {}).get("per_fight", 0.0)) * 100.0, float(Formations.rules().get("shared", {}).get("cap", 0.0)) * 100.0,
+		word, float(Formations.callout_rules().get("warned_for", 0.0))])
+	GameState.formation = kept
+	for c: Character in party:
+		c.fights = {}
+		c.shared = {}
 	fight.queue_free()
 
 

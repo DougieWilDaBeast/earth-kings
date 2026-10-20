@@ -95,13 +95,31 @@ static func for_gate(world: World, site: Site, depth: int, final: bool, party: A
 	var rank := Site.rank_index(site.rank)
 	var level := maxi(_party_level(party), site.expected_level()) + int(_by_rank("level", rank, 0)) \
 			+ floori(float(depth) * float(_by_rank("per_floor", rank, 1.0)))
+	# A fallen lead's demon king holds some gates of a world after a fall ([D304]), and what came
+	# through with them stands every band of it higher.
+	var past: Array = world.echoes.get("past", [])
+	var demon := site.demon_king(past)
+	var fallen := Site.fallen_rules()
+	if demon != "":
+		level += int(fallen.get("band_levels", 0))
 	# A gate belongs to whoever came through it (see [WorldGen]).
 	var faction: String = site.data.get("faction", Faction.FALLBACK)
 	var pool := _pool_on(faction, world.terrain_id_at(site.cell), level)
 
 	var enemies: Array
 	var title: String
-	if final:
+	if final and demon != "":
+		# The keeper is the fallen lead themselves, never under the level they fell at.
+		var fell := 1
+		for echo: Dictionary in past:
+			if str(echo.get("hero", "")) == demon:
+				fell = int(echo.get("level", 1))
+		enemies = _pick(pool, 2, level, rng)
+		enemies.append({
+			"unit": demon, "level": Difficulty.levelled(maxi(level + 2, fell) + int(fallen.get("levels", 0))), "boss": true,
+		})
+		title = str(fallen.get("title", "{demon} keeps the far side of {gate}.")).format(site.demon_words(demon))
+	elif final:
 		# A lesser gate is kept by the strongest its floor fields, not the faction's champion ([D211]).
 		var guardian := Faction.champion(faction)
 		if Site.rank_index(site.rank) < Site.rank_index(str(Database.encounters.get("champion_from", "E"))):

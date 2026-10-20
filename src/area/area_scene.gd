@@ -2601,13 +2601,14 @@ func _formation_slots() -> Dictionary:
 	var companions: Array = []
 	for i in range(1, members.size()):
 		companions.append(members[i].template_id)
-	var shape := Formations.chosen(members.size())
+	var shape := Formations.chosen(members.size(), Formations.leader_of(members))
 	if shape == "":
 		return out
 	var dealt := Formations.assign(shape, companions)
 	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
 	for i in companions.size():
-		if dealt.has(companions[i]):
+		# One in no state to hold a formation walks the trail instead ([D306]).
+		if dealt.has(companions[i]) and not Formations.broken(members[i + 1]):
 			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
 	return out
 

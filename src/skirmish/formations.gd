@@ -18,6 +18,7 @@ extends RefCounted
 ## Loaded by path, not by `class_name` ([D41]). Pure logic: no nodes.
 
 const Fighter := preload("res://src/skirmish/fighter.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 const NONE := Vector2i(-9999, -9999)
 
@@ -74,12 +75,151 @@ static func auto_for(size: int) -> String:
 	return str(rules().get("fallback", "")) if not shapes().is_empty() else ""
 
 
-## The shape the party is in now: the player's pick, or the one picked for [param size].
-static func chosen(size: int) -> String:
+## The shape the party is in now: the player's pick, or on `auto` the leader's recommendation
+## ([param leader], a Character or null) when there is one, else the one picked for [param size].
+static func chosen(size: int, leader: Character = null) -> String:
 	var id := str(GameState.formation)
 	if id == "auto" or not shapes().has(id):
-		id = auto_for(size)
+		id = recommend(size, leader)
 	return id if shapes().has(id) else ""
+
+
+## The shape the leader would call for ([D306]): by the line they fight in (`leader.shapes_by_line`),
+## or the one picked for [param size] when nobody leads yet or the data names no shape.
+static func recommend(size: int, leader: Character) -> String:
+	if leader != null:
+		var by_line: Dictionary = rules().get("leader", {}).get("shapes_by_line", {})
+		var shape := str(by_line.get(line_of(leader.template_id), ""))
+		if shapes().has(shape):
+			return shape
+	return auto_for(size)
+
+
+# --- the leader ([D289], [D306]) -----------------------------------------------------
+
+
+static func leader_rules() -> Dictionary:
+	return rules().get("leader", {})
+
+
+## Fights [param character] has won.
+static func won(character: Character) -> int:
+	return int(character.fights.get("won", 0)) if character != null else 0
+
+
+## The natural leader among [param characters]: the most fights won, `from_won` or more; ties to the
+## higher level, then the order given. Null while nobody has won enough. Need not be the lead.
+static func leader_of(characters: Array) -> Character:
+	var best: Character = null
+	var floor_won := int(leader_rules().get("from_won", 3))
+	for character: Character in characters:
+		if character == null or won(character) < floor_won:
+			continue
+		if best == null or won(character) > won(best) or (won(character) == won(best) and character.level > best.level):
+			best = character
+	return best
+
+
+## The leader among the party's standing fighters, or null.
+static func leader_fighter(fighters: Array) -> Fighter:
+	var characters: Array = []
+	var by_character := {}
+	for f: Fighter in fighters:
+		if f.is_party() and f.is_standing() and f.unit.character != null:
+			characters.append(f.unit.character)
+			by_character[f.unit.character] = f
+	var leader := leader_of(characters)
+	return by_character.get(leader) if leader != null else null
+
+
+## The badge on the leader's card: "leads the fights (7 won)".
+static func badge(character: Character) -> String:
+	return str(leader_rules().get("badge", "leads the fights ({won} won)")).format({"won": won(character)})
+
+
+## Whether [param character] is in no state to hold a formation ([D289]: "a formation can break on
+## bad leadership and bad calls, through moods"): their mood under `break_below_mood`.
+static func broken(character: Character) -> bool:
+	if character == null or character.thoughts.is_empty():
+		return false
+	return character.mood() < int(rules().get("break_below_mood", 0))
+
+
+# --- fights shared ([D289], [D306]) ----------------------------------------------------
+
+
+## The share of every blow [param fighter] is spared, and lands over, for the fights won beside the
+## others of the party standing with them: `shared.per_fight` each (their average), up to `shared.cap`.
+static func shared_bonus(fighter: Fighter, fighters: Array) -> float:
+	if not fighter.is_party() or fighter.unit.character == null:
+		return 0.0
+	var mine: Character = fighter.unit.character
+	var total := 0
+	var others := 0
+	for other: Fighter in fighters:
+		if other == fighter or not other.is_party() or not other.is_standing() or other.unit.character == null:
+			continue
+		total += int(mine.shared.get(other.unit.character.id, 0))
+		others += 1
+	if others == 0:
+		return 0.0
+	var shared: Dictionary = rules().get("shared", {})
+	return minf(float(shared.get("cap", 0.0)), float(shared.get("per_fight", 0.0)) * float(total) / float(others))
+
+
+## Written as a fight ends ([param victory]) for the party's [param characters] who were in it: each
+## came through one more, and, won, one more beside each of the others.
+static func record_fight(characters: Array, victory: bool) -> void:
+	for character: Character in characters:
+		var key := "won" if victory else "lost"
+		character.fights[key] = int(character.fights.get(key, 0)) + 1
+		if not victory:
+			continue
+		for other: Character in characters:
+			if other != character:
+				character.shared[other.id] = int(character.shared.get(other.id, 0)) + 1
+
+
+# --- call-outs ([D289], [D306]) ----------------------------------------------------------
+
+
+static func callout_rules() -> Dictionary:
+	return rules().get("callouts", {})
+
+
+## A foe worth a shout: one who mends, or one who shoots.
+static func is_soft(fighter: Fighter) -> bool:
+	return fighter.heal_below > SkirmishRules.AUTO_HEAL_BELOW or int(Database.ability(fighter.basic).get("range", 1)) > 1
+
+
+## Whether [param fighter] is the one who calls for its side: the party's leader (else its lead), or
+## a foe band's boss (else the first of them standing).
+static func calls_for_its_side(fighter: Fighter, fighters: Array) -> bool:
+	if fighter.is_party():
+		var leader := leader_fighter(fighters)
+		return fighter == (leader if leader != null else lead_of(fighters))
+	if fighter.unit.sides_with_party():
+		return false
+	var first: Fighter = null
+	for other: Fighter in fighters:
+		if not other.is_standing() or other.unit.sides_with_party():
+			continue
+		if other.unit.has_meta("boss") and bool(other.unit.get_meta("boss")):
+			return other == fighter
+		if first == null:
+			first = other
+	return first == fighter
+
+
+## The words [param caller] shouts on going for [param target], or "" for nothing worth a shout: a
+## mender ("Get the healer!") or a shooter ("On the archer!").
+static func callout(caller: Fighter, target: Fighter, fighters: Array) -> String:
+	if target == null or not callout_rules().has("warned_for") or not calls_for_its_side(caller, fighters):
+		return ""
+	if not is_soft(target):
+		return ""
+	var key := "healer" if target.heal_below > SkirmishRules.AUTO_HEAL_BELOW else "archer"
+	return str(callout_rules().get(key, ""))
 
 
 ## The slots of [param shape_id] for [param companions] of them (never more than the shape has), each
@@ -196,8 +336,12 @@ static func slot_cell(fighter: Fighter, fighters: Array) -> Vector2i:
 	for other: Fighter in fighters:
 		if other.is_party() and other.is_standing() and other != lead and other.unit.character != null:
 			companions.append(other.unit.character.template_id)
-	var shape := chosen(companions.size() + 1)
-	if shape == "":
+	var characters: Array = []
+	for other: Fighter in fighters:
+		if other.is_party() and other.is_standing() and other.unit.character != null:
+			characters.append(other.unit.character)
+	var shape := chosen(companions.size() + 1, leader_of(characters))
+	if shape == "" or broken(fighter.unit.character):
 		return NONE
 	var dealt := assign(shape, companions)
 	if not dealt.has(fighter.unit.character.template_id):
