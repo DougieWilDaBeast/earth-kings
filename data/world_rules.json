@@ -451,6 +451,16 @@
 				{"name": "a trader passing", "unit": "town_trader", "cell": [9, 9], "facing": [0, -1], "wander": 2, "chatter": ["I'll be telling this one on the road for a year.", "Drinks are on me the next time we're under the same roof."]}
 			]
 		},
+		"_comment_reading": "D293, D302: a gate's rank is a reading. From rank wrong_from (C) up, one gate in wrong_one_in reads a rank lower than it is, until the company goes in (misread_line). A double gate (double_base in a hundred, and double_per_fallen more for every world already ended, decided the first time it is gone into) climbs a rank the first time it is entered (double_line), and its way out stays shut (sealed_line) until its keeper falls or the company is thrown out. Both are fixed by where the gate stands. **Inferred**: every number and line.",
+		"reading": {
+			"wrong_one_in": 10,
+			"wrong_from": "C",
+			"double_base": 10,
+			"double_per_fallen": 10,
+			"misread_line": "{gate} read {read}-rank from outside. Inside, it is {rank}.",
+			"double_line": "The air thickens as you go in. {gate} was a double gate: its rank climbs from {was} to {rank}, and the way out shuts behind you.",
+			"sealed_line": "The way out is shut. A double gate lets nobody out until its keeper falls."
+		},
 		"objectives": {
 			"rout": {
 				"display_name": "Rout",

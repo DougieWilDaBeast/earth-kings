@@ -113,7 +113,7 @@ static func take(world: World, hall: Site, gate: Site, accepted: Array) -> Strin
 		"kind": Errand.GATE,
 		"title": "Shut %s" % gate.display_name,
 		"text": "The Guild wants the %s-rank gate at %s shut. %s." % [
-			gate.rank, gate.display_name, Site.objective_name(gate.objective())
+			gate.reading(), gate.display_name, Site.objective_name(gate.objective())
 		],
 		"giver": str(rules().get("contract", {}).get("giver", "the Adventurers Guild")),
 		"from": [hall.cell.x, hall.cell.y],

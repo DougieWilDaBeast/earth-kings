@@ -1082,6 +1082,11 @@ func _enter_gate(site: Site) -> void:
 	if not site.open:
 		_note("%s is shut." % site.label())
 		return
+	# Its reading put right, and a double gate sprung ([D302]); never the First Hour's two gates.
+	if Siblings.is_first_hour_gate(site) and not site.data.has("double"):
+		site.data["double"] = false
+	for line: String in site.gone_into(int(world.echoes.get("sibling", 0))):
+		_note(line)
 
 	var party := GameState.party_characters()
 	var depth := site.depth()
@@ -1357,7 +1362,7 @@ func _doings_here() -> Array[Dictionary]:
 			parts.append(_telling(Chapters.seal_line(world)))
 		if site.kind == Site.GATE and site.open and not site.cleared:
 			parts.append(_doable(
-				"%s to enter %s (rank %s)" % [_key("interact"), site.display_name, site.rank],
+				"%s to enter %s (rank %s)" % [_key("interact"), site.display_name, site.reading()],
 				"Enter %s" % site.display_name, _enter_gate_here
 			))
 		if site.data.has("ward") and not Ward.is_site_open(site):
