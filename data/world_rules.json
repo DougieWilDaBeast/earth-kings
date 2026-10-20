@@ -572,6 +572,14 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"_comment_heights": "D287, D308 (meeting six, piece C2, the first ground with heights): a terrain in tilesets.json with `height` stands that many heights up; a step down is free, a step up one height only onto or off a cell in the area's `ways_up` (a slope drawn there), two or more never (AreaMap.may_step). A drop of hurt_from heights or more hurts everyone walking: share of their health for each height past the first, never below floor of it (hurt_line, {fell}); dropping one says nothing. Trying to climb a shelf with no way up says blocked_line once a cell. Fights, Auto's paths and click-to-walk do not yet know heights; death from the clouds waits for a mountain area. Inferred: every number and line.",
+	"heights": {
+		"hurt_from": 2,
+		"share": 0.15,
+		"floor": 0.1,
+		"blocked_line": "The shelf is too high to climb here. Find a slope.",
+		"hurt_line": "A drop of {fell}. Everyone lands hard."
+	},
 	"caves": {
 		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
 		"terrains": ["hill"],

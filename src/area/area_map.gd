@@ -54,6 +54,11 @@ var bands: Array = []
 var astar: AStarGrid2D = null
 
 var _terrain: Array[String] = []
+## Cells where higher ground can be climbed onto, or climbed off, from the ground a height below
+## ([D308]): a slope, a ladder, a rope. Anywhere else a shelf is only dropped off.
+var ways_up: Dictionary = {}
+## Whether any terrain of this area stands a height up, so the step rule and the ledges apply.
+var _heights_vary: bool = false
 ## Cells a piece of furniture is standing on, which nobody walks through.
 var _blocked: Dictionary = {}
 ## Cell -> the props standing on it, so asking what is on a cell is not a walk through all of them.
@@ -81,6 +86,11 @@ static func load_area(area_id: String) -> AreaMap:
 
 	for sheet_id: String in data.get("layers", ["dirt"]):
 		map.layers.append(sheet_id)
+	for terrain_id: Variant in legend.values():
+		if int(Database.area_terrain(str(terrain_id)).get("height", 0)) != 0:
+			map._heights_vary = true
+	for pair: Array in data.get("ways_up", []):
+		map.ways_up[_to_cell(pair)] = true
 	map.spawn = _to_cell(data.get("spawn", [0, 0]))
 	for pair: Array in data.get("exits", []):
 		map.exits.append(_to_cell(pair))
@@ -274,6 +284,39 @@ func is_walkable(cell: Vector2i) -> bool:
 	if not building.is_empty() and building["door"] != cell:
 		return false
 	return bool(Database.area_terrain(terrain_at(cell)).get("walkable", true))
+
+
+# --- heights ([D287], [D308]) --------------------------------------------------------------
+
+
+## Whether this ground has any higher ground on it.
+func has_heights() -> bool:
+	return _heights_vary
+
+
+## How many heights up [param cell] stands: its terrain's `height` (`tilesets.json`), 0 for most.
+func height_at(cell: Vector2i) -> int:
+	if not _heights_vary:
+		return 0
+	return int(Database.area_terrain(terrain_at(cell)).get("height", 0))
+
+
+## Whether a walker on [param from] may step onto [param to]: down is always free, up one height only
+## onto or off a way up (a slope), up two or more never. [param to] still has to be walkable.
+func may_step(from: Vector2i, to: Vector2i) -> bool:
+	if not _heights_vary or from == to:
+		return true
+	var rise := height_at(to) - height_at(from)
+	if rise <= 0:
+		return true
+	return rise == 1 and (ways_up.has(to) or ways_up.has(from))
+
+
+## How many heights a walker drops stepping from [param from] to [param to]; 0 for level or up.
+func drop(from: Vector2i, to: Vector2i) -> int:
+	if not _heights_vary:
+		return 0
+	return maxi(0, height_at(from) - height_at(to))
 
 
 ## The cells a solid prop stands on: its own, or a `base` [width, depth] centred on it and
