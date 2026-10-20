@@ -139,6 +139,8 @@ static func layout(world: World, site: Site, depth: int, party: Array) -> Dictio
 		"stairs": [[down.x, 0], [down.x + 1, 0]],
 		"bands": _bands(world, site, depth, final, party, rooms, down, rng, grid),
 		"gate_inside": true,
+		# A first of a kind teaches in here (D301); a cave keeps this when it is laid out like a gate.
+		"teaches": true,
 	}
 
 

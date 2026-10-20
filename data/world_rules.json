@@ -485,6 +485,8 @@
 		"gate_max": 0.95
 	},
 	"experience": {
+		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",
+		"levels_only_in_gates": true,
 		"first_kill_multiplier": 2,
 		"assists_needed": 10,
 		"healer_assists_needed": 5

@@ -68,6 +68,26 @@ static func first_kill_xp(level: int) -> int:
 	return roundi(float(bounty_for(level)) * float(_rules().get("first_kill_multiplier", 2)))
 
 
+## Whether a first of a kind teaches only inside a gate (or a cave), and the land and the Tower
+## teach practice alone ([D301], the founders' meeting of 2026-10-20: "what if it's only every new
+## enemy you face in a gate?").
+static func levels_only_in_gates() -> bool:
+	return bool(_rules().get("levels_only_in_gates", false))
+
+
+## A [param kind] fell where it teaches nothing: everyone there who has not learned from it yet notes
+## it in their log of foes, to look for in a gate.
+static func _meet(killer: Character, kind: String, involved: Array) -> void:
+	var everyone: Array = [killer] + involved
+	var seen: Array = []
+	for other: Variant in everyone:
+		var c: Character = other if other is Character else null
+		if c == null or seen.has(c) or not c.is_alive() or has_beaten(c, kind):
+			continue
+		seen.append(c)
+		c.met[kind] = int(c.met.get(kind, 0)) + 1
+
+
 static func has_beaten(character: Character, kind: String) -> bool:
 	return character != null and character.beaten.has(kind)
 
@@ -86,10 +106,13 @@ static func has_beaten(character: Character, kind: String) -> bool:
 ## [Proficiency] counts. Returns lines for the battle log.
 static func award_kill(
 	killer: Character, kind: String, level: int, involved: Array, boss: bool, world: World,
-	healers: Array = []
+	healers: Array = [], teaches: bool = true
 ) -> Array:
 	var lines: Array = []
 	if kind == "":
+		return lines
+	if not teaches:
+		_meet(killer, kind, involved)
 		return lines
 	var worth := first_kill_xp(level)
 	var name := str(Database.unit_template(kind).get("display_name", kind))

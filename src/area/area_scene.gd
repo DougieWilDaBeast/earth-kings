@@ -377,6 +377,7 @@ func _ready() -> void:
 	_warm_the_party()
 	for line: String in boot_payload.get("notes", []):
 		_note(line)
+	_call_out_the_looked_for()
 	if _land_mode:
 		_open_on(str(_here_chunk().get("opening", "")))
 	else:
@@ -1590,6 +1591,25 @@ func _door() -> AreaProp:
 ## Whether this is a floor walked to a stair at its far end: the Tower's ([D102]) or a gate's (D248).
 func _walked_floor() -> bool:
 	return _tower_floor > 0 or _in_a_gate()
+
+
+## In a gate or a cave (where a first of a kind teaches, D301): anyone in the company looking out
+## for a kind that holds a chamber here hears it said.
+func _call_out_the_looked_for() -> void:
+	if _land_mode or not (_in_a_gate() or bool(Database.area(map.id).get("teaches", false))):
+		return
+	var here: Array = []
+	for band: Dictionary in Database.area(map.id).get("bands", []):
+		if str(band.get("done_flag", "")) != "" and GameState.has_flag(str(band["done_flag"])):
+			continue
+		for kind: Variant in band.get("pack", []):
+			if not here.has(str(kind)):
+				here.append(str(kind))
+	for member: Character in GameState.party_characters():
+		for kind: String in member.look_for:
+			if here.has(kind) and not member.beaten.has(kind):
+				_note("%s: there is a %s in here, the kind I was looking out for." % [
+					member.display_name, str(Database.unit_template(kind).get("display_name", kind))])
 
 
 func _in_a_gate() -> bool:
@@ -3056,7 +3076,11 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 	if not said.is_empty():
 		_note("%s: %s" % [said["speaker"], said["text"]])
 	_fight_here({
-		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush },
+		"encounter": {
+			"enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush,
+			# Inside a gate, or a cave laid out like one, a first of a kind teaches (D301).
+			"teaches": _in_a_gate() or bool(Database.area(map.id).get("teaches", false)),
+		},
 		"field": field,
 	})
 	if not said.is_empty():

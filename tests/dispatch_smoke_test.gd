@@ -66,7 +66,8 @@ func _ready() -> void:
 	world.steps = int(job["out_at"])
 	_walk()
 	_expect(Errand.is_complete(cull), "a won hunt did not count its kills")
-	_expect(Progression.has_beaten(juno, "wolf") or juno.beaten.has("wolf"), "she learned nothing from the hunt")
+	# A hunt on the land teaches no level now (D301); the wolves go in her log of foes instead.
+	_expect(not juno.beaten.has("wolf") and int(juno.met.get("wolf", 0)) >= 1, "a hunt on the land taught her a level, or nothing went in her log")
 	world.steps = int(job["back_at"])
 	gold = GameState.gold
 	_walk()

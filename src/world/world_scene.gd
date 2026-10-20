@@ -724,6 +724,8 @@ func _settle_up(won: bool) -> void:
 				EventBus.safe_point_reached.emit.call_deferred(RunMode.GATE, "you shut %s" % site.display_name)
 		"tower":
 			world.tower_floor = int(outcome.get("floor", world.tower_floor))
+			for hero: Character in party:
+				hero.climbed = maxi(hero.climbed, world.tower_floor)
 			for line: String in Spoils.for_tower_floor(world, world.tower_floor, party):
 				_note(line)
 			# Tower ascents take time in the outside world: each floor advances one upkeep interval
@@ -1119,6 +1121,8 @@ func _enter_gate(site: Site) -> void:
 
 	# Shutting a gate is permanent, so it only shuts once the last floor is won.
 	var meeting := Encounter.for_gate(world, site, depth, final, party, world.rng)
+	# A gate is where a first of a kind teaches (D301).
+	meeting["teaches"] = true
 	if not allies.is_empty():
 		BattleMapGen.add_allies(meeting["map"], allies)
 		_note(Guild.line("muster_with_you", {"count": allies.size(), "gate": site.display_name}))
