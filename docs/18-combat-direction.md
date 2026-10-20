@@ -510,10 +510,37 @@ so a stance's own come first); a companion standing within a tile of its slot ta
 blow (`hold_guard`), the Formation aura's idea as the bonus for holding one. Enemies, allies and the
 who-wins bouts fight as they did.
 
-**Still to come** (piece E2): the wheel on a held key, a leader who rises out of the fights and
-recommends a shape, call-outs both sides hear, the bonus for fights shared, foes in formation, and a
-formation breaking on mood or trust. The five shapes' cells, the lines, the sheet's button rather
-than a wheel, the 40 pixels, the fall-in ending on contact and the 8% are **Inferred** (agenda 213).
+The five shapes' cells, the lines, the sheet's button rather than a wheel, the 40 pixels, the fall-in
+ending on contact and the 8% are **Inferred** (agenda 213).
+
+### The leader, call-outs and fights shared
+
+**Built 2026-10-20** ([D306](06-decisions.md), piece E2, from [D289](06-decisions.md)). `doug-md`: "a
+natural leader comes out of the fights and need not be the lead you play"; `dougie`: "short call-outs in a
+fight, not chatter, heard by both sides, so a shout of 'get the healer' warns the foe", and "a bonus for
+fights shared, across every role, so a seasoned party works as a unit even without a leader".
+
+- **The leader.** Each of the company counts the fights they came through (won and lost). The one with
+  the most won, three or more (ties to the higher level, then the marching order), leads the fights; the
+  card says so (*leads the fights (7 won)*). They call for a shape by the line they fight in: a mender or
+  a shooter a wedge (the mender inside the V), a blade a diamond, anyone else a line; *Auto* takes it
+  (*Formation: Auto (Wedge, Vesta's call)*), and the player may pick another.
+- **Call-outs.** When a side's caller (the party's leader, else its lead; a foe band's boss, else the first
+  of them) goes for a mender or a shooter, they shout it once per foe: "Get the healer!", "On the archer!",
+  over their head and in the log. Both sides hear: the one called is warned for 3 s and tries to get clear
+  first (break off, hang back, kite), and a friend within reach guards them as if they were under half
+  health. A shout warns the foe, as `dougie` asked; it is a choice with a cost.
+- **Fights shared.** Each keeps how many fights they won beside each of the others. In a fight a party
+  fighter is spared 0.4% of every blow, and lands 0.4% more, for every fight won beside the others
+  standing with them (their average), up to 8%.
+- **Breaking.** A companion whose mood is under 35 ([D279](06-decisions.md)) holds no slot and does not
+  fall in, on the ground or in a fight.
+
+`data/skirmish.json` → `formations.leader`, `callouts`, `shared` and `break_below_mood` hold the numbers
+and words. **Still to come**: the wheel on a held key, a leader's orders beyond the call-out, plans made
+between fights and kept quiet in them, foes in formation, and trust breaking a formation. Fights won as
+the measure, three as the floor, the shapes called for, the two shouts and their 3 s, 0.4% and 8%, and 35
+are **Inferred** (agenda 214).
 
 ## Who wins?
 
