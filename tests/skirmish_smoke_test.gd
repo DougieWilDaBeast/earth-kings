@@ -20,6 +20,7 @@ const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const Company := preload("res://tests/company.gd")
@@ -193,6 +194,8 @@ func _run() -> void:
 	await _check_tier_ways()
 	await _check_stances()
 	await _check_keeping_together()
+	await _check_formations()
+	await _check_leader_and_callouts()
 	_check_heal_growth()
 	await _check_the_turn()
 	await _check_scars()
@@ -1103,6 +1106,173 @@ func _check_keeping_together() -> void:
 	var apart := SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics)
 	tactics["keep_together"] = true
 	_expect(str(apart.get("why", "")) != "rally", "keep_together off still rallied")
+	fight.queue_free()
+
+
+## Formations ([D289], [D305]): every shape seats the party in its own cells, the mender is dealt to
+## the back and a blade to the front, the shape turns with the lead, and in a fight a companion falls
+## in to its slot until the party is in contact, holding it for a little guard.
+func _check_formations() -> void:
+	var rules: Dictionary = Database.skirmish.get("formations", {})
+	_expect(Formations.on(), "formations are off")
+	for shape: String in Formations.shapes():
+		for n in range(1, 6):
+			var slots := Formations.slots(shape, n)
+			_expect(slots.size() == n, "%s has %d slots for %d companions" % [shape, slots.size(), n])
+			var seen: Array = []
+			for slot: Dictionary in slots:
+				_expect(slot["at"] != Vector2i.ZERO and not seen.has(slot["at"]), "%s puts two in one cell, or one on the lead" % shape)
+				seen.append(slot["at"])
+	_expect(Formations.auto_for(4) == "diamond" and Formations.auto_for(6) == "pyramid" and Formations.auto_for(2) == "line",
+			"auto picks %s for two, %s for four and %s for six" % [Formations.auto_for(2), Formations.auto_for(4), Formations.auto_for(6)])
+	_expect(Formations.next("auto") != "auto" and Formations.next(Formations.names().back()) == "auto", "the shapes do not go round")
+	_expect(Formations.line_of("vesta") == "back" and Formations.line_of("ares") == "front" and Formations.line_of("iris") == "back",
+			"lines: Vesta %s, Ares %s, Iris %s" % [Formations.line_of("vesta"), Formations.line_of("ares"), Formations.line_of("iris")])
+	var dealt := Formations.assign("diamond", ["ares", "vesta", "iris"])
+	_expect(dealt.get("vesta") == Vector2i(0, -1) and dealt.get("ares") == Vector2i(0, 1) and dealt.has("iris"),
+			"the diamond did not put Vesta behind and Ares ahead: %s" % [dealt])
+	_expect(Formations.assign("diamond", ["ares", "vesta", "iris"]) == dealt, "the same party was dealt twice differently")
+	# The shape turns with the lead: forward is the way they face, x their right hand.
+	_expect(Formations.cell_for(Vector2i(1, 1), Vector2i(5, 5), Vector2i.DOWN) == Vector2i(4, 6), "facing down, a right-forward slot is not down and screen-left")
+	_expect(Formations.cell_for(Vector2i(1, 1), Vector2i(5, 5), Vector2i.UP) == Vector2i(6, 4), "facing up, a right-forward slot is not up and screen-right")
+	_expect(Formations.cell_for(Vector2i(0, -2), Vector2i(5, 5), Vector2i.RIGHT) == Vector2i(3, 5), "facing right, two behind is not two to the left")
+	_expect(Formations.point_for(Vector2i(0, -1), Vector2(100, 100), Vector2.UP, 40.0) == Vector2(100, 140), "a slot behind on the ground is not 40 pixels below")
+
+	for character: Character in GameState.party_characters():
+		character.stance = "own"
+	var kept := GameState.formation
+	GameState.formation = "diamond"
+	var fight := await _new_fight()
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	var iris := _by_template(fight, "iris")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	if cato == null or vesta == null or iris == null or foes.is_empty():
+		_expect(false, "the proving ground has no company to form up")
+		fight.queue_free()
+		GameState.formation = kept
+		return
+	for other: Fighter in foes:
+		other.unit.cell = Vector2i(0, 0)
+	cato.unit.cell = Vector2i(6, 6)
+	cato.unit.facing = Vector2i.UP
+	vesta.unit.cell = Vector2i(2, 2)
+	iris.unit.cell = Vector2i(9, 9)
+	vesta.tactic_wait = 0.0
+	var slot := Formations.slot_cell(vesta, fight.fighters)
+	_expect(slot == Vector2i(6, 7), "Vesta's slot behind Cato facing up is %s, not (6, 7)" % slot)
+	_expect(Formations.slot_cell(cato, fight.fighters) == Formations.NONE, "the lead was given a slot")
+	var foe: Fighter = foes[0]
+	var plan := SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics)
+	_expect(str(plan.get("why", "")) == "form", "Vesta did not fall in with nobody in contact: %s" % str(plan))
+	if str(plan.get("why", "")) == "form":
+		_expect(plan["goal"].call(Vector2i(6, 7)) and plan["goal"].call(Vector2i(5, 7)) and not plan["goal"].call(Vector2i(2, 2)),
+				"falling in does not end at Vesta's slot")
+	_expect(not Formations.holding(vesta, fight.fighters) and Formations.hold_guard(vesta, fight.fighters) == 0.0,
+			"Vesta far from her slot counted as holding it")
+	vesta.unit.cell = Vector2i(6, 7)
+	vesta.tactic_wait = 0.0
+	_expect(Formations.holding(vesta, fight.fighters) and Formations.hold_guard(vesta, fight.fighters) > 0.0, "Vesta in her slot is not holding it")
+	_expect(str(SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics).get("why", "")) != "form", "Vesta in her slot still fell in")
+	# A foe at Cato's elbow: the party is in contact, and nobody falls in any more.
+	vesta.unit.cell = Vector2i(2, 2)
+	vesta.tactic_wait = 0.0
+	foe.unit.cell = Vector2i(7, 6)
+	foe.target = cato.unit
+	_expect(Formations.in_contact(fight.fighters), "a foe at Cato's elbow is not contact")
+	_expect(str(SkirmishBrain.pick_tactic(vesta, fight.fighters, foe.unit, tactics).get("why", "")) != "form", "Vesta fell in while Cato was fighting")
+	rules["on"] = false
+	_expect(Formations.slot_cell(vesta, fight.fighters) == Formations.NONE, "formations off still dealt a slot")
+	rules["on"] = true
+	GameState.formation = kept
+	print("formations: %s dealt %s; Vesta's slot %s behind a Cato facing up, held for %.0f%% guard" % [
+		"diamond", dealt, slot, float(rules.get("hold_guard", 0.0)) * 100.0])
+	fight.queue_free()
+
+
+## The leader, call-outs and fights shared ([D289], [D306]): the one with the most fights won leads
+## and recommends a shape; the caller's shout warns the foe it names; fights won together are a
+## little guard and might; a companion at the end of their rope holds no slot.
+func _check_leader_and_callouts() -> void:
+	var fight := await _new_fight()
+	var cato := _by_template(fight, "cato")
+	var vesta := _by_template(fight, "vesta")
+	var iris := _by_template(fight, "iris")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	if cato == null or vesta == null or iris == null or foes.size() < 2:
+		_expect(false, "the proving ground has no company to lead")
+		fight.queue_free()
+		return
+	var party: Array = [cato.unit.character, vesta.unit.character, iris.unit.character]
+	for c: Character in party:
+		c.fights = {}
+		c.shared = {}
+		c.thoughts = []
+	_expect(Formations.leader_of(party) == null, "somebody led before winning a fight")
+	Formations.record_fight(party, true)
+	Formations.record_fight(party, true)
+	Formations.record_fight(party, false)
+	_expect(int(vesta.unit.character.fights.get("won", 0)) == 2 and int(vesta.unit.character.fights.get("lost", 0)) == 1,
+			"fights not counted: %s" % [vesta.unit.character.fights])
+	_expect(int(vesta.unit.character.shared.get(cato.unit.character.id, 0)) == 2, "fights shared not counted: %s" % [vesta.unit.character.shared])
+	_expect(Formations.leader_of(party) == null, "two wins made a leader (from_won is %d)" % int(Formations.leader_rules().get("from_won", 3)))
+	vesta.unit.character.fights["won"] = 5
+	_expect(Formations.leader_of(party) == vesta.unit.character, "Vesta with the most fights won does not lead")
+	_expect(Formations.leader_fighter(fight.fighters) == vesta, "the leader among the fighters is not Vesta")
+	_expect(Formations.recommend(3, vesta.unit.character) == "wedge", "a mender leading did not call for a wedge: %s" % Formations.recommend(3, vesta.unit.character))
+	_expect(Formations.badge(vesta.unit.character).contains("5"), "the badge does not say how many: %s" % Formations.badge(vesta.unit.character))
+	var kept := GameState.formation
+	GameState.formation = "auto"
+	cato.unit.cell = Vector2i(6, 6)
+	cato.unit.facing = Vector2i.UP
+	vesta.unit.cell = Vector2i(2, 2)
+	iris.unit.cell = Vector2i(9, 9)
+	for other: Fighter in foes:
+		other.unit.cell = Vector2i(0, 0)
+	_expect(Formations.slot_cell(iris, fight.fighters) == Vector2i(7, 7), "on Auto the wedge Vesta called for did not put Iris at Cato's shoulder: %s" % Formations.slot_cell(iris, fight.fighters))
+	_expect(Formations.slot_cell(vesta, fight.fighters) == Vector2i(5, 7), "Vesta's own slot in her wedge is %s" % Formations.slot_cell(vesta, fight.fighters))
+	# Fights shared: a little of every blow, capped.
+	var bonus := Formations.shared_bonus(vesta, fight.fighters)
+	_expect(bonus > 0.0 and bonus <= float(Formations.rules().get("shared", {}).get("cap", 0.08)), "the shared bonus is %f" % bonus)
+	vesta.unit.character.shared[cato.unit.character.id] = 1000
+	vesta.unit.character.shared[iris.unit.character.id] = 1000
+	_expect(is_equal_approx(Formations.shared_bonus(vesta, fight.fighters), float(Formations.rules().get("shared", {}).get("cap", 0.08))), "the shared bonus is not capped")
+	_expect(Formations.shared_bonus(foes[0], fight.fighters) == 0.0, "a foe got the party's shared bonus")
+	# At the end of their rope, nobody holds a slot.
+	vesta.unit.character.thoughts = [{ "id": "test", "label": "test", "mood": -40, "until": 999999 }]
+	_expect(Formations.broken(vesta.unit.character), "a mood of %d is not broken" % vesta.unit.character.mood())
+	_expect(Formations.slot_cell(vesta, fight.fighters) == Formations.NONE, "Vesta at the end of her rope still held a slot")
+	vesta.unit.character.thoughts = []
+	# Call-outs: the leader shouts on going for a mender, and the one called is warned.
+	var soft: Fighter = null
+	for other: Fighter in foes:
+		if Formations.is_soft(other):
+			soft = other
+	if soft == null:
+		soft = foes[1]
+		soft.heal_below = 0.9
+	var word := Formations.callout(vesta, soft, fight.fighters)
+	_expect(word != "", "the leader going for a soft foe said nothing")
+	_expect(Formations.callout(iris, soft, fight.fighters) == "", "Iris, not leading, called out")
+	_expect(Formations.callout(vesta, foes[0] if foes[0] != soft else foes[1], fight.fighters) == "" or Formations.is_soft(foes[0]), "a plain foe was called out")
+	vesta.target = soft.unit
+	soft.warned = 0.0
+	fight._call_out(vesta)
+	_expect(soft.warned > 0.0, "the foe called out was not warned")
+	var tactics: Dictionary = Database.skirmish["tactics"]
+	var tried := SkirmishBrain.moves(soft, tactics)
+	_expect(tried.size() > 0 and str(tried[0]) == str((Formations.callout_rules().get("warned_first", []) as Array)[0]), "a warned foe does not try to get clear first: %s" % [tried])
+	soft.warned = 0.0
+	_expect(Formations.calls_for_its_side(foes[0], fight.fighters) or foes.any(func(f: Fighter) -> bool: return Formations.calls_for_its_side(f, fight.fighters)), "no foe calls for its side")
+	print("leader: Vesta leads on %d won, calls for a %s; shared bonus %.1f%% a fight, capped at %.0f%%; \"%s\" warns the one it names for %.0f s" % [
+		Formations.won(vesta.unit.character), Formations.recommend(3, vesta.unit.character),
+		float(Formations.rules().get("shared", {}).get("per_fight", 0.0)) * 100.0, float(Formations.rules().get("shared", {}).get("cap", 0.0)) * 100.0,
+		word, float(Formations.callout_rules().get("warned_for", 0.0))])
+	GameState.formation = kept
+	for c: Character in party:
+		c.fights = {}
+		c.shared = {}
 	fight.queue_free()
 
 

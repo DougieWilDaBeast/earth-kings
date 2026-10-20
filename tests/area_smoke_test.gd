@@ -30,6 +30,7 @@ const Coins := preload("res://src/chronicle/coins.gd")
 const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
@@ -86,6 +87,7 @@ func _ready() -> void:
 	await _check_play_test_four()
 	await _check_inn_rooms()
 	await _check_followers_face()
+	await _check_formation_walk()
 	await _check_play_test_seven()
 	await _check_sennet_from_afar()
 	_check_the_climbers_stone()
@@ -1907,6 +1909,75 @@ func _check_followers_face() -> void:
 		_fail("followers face the wrong way: %s (and %d more)" % [wrong[0], wrong.size() - 1])
 	else:
 		print("followers: walking up and then down, everyone following faces the way they walk")
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## The party walks in its formation ([D289], [D305]): in a column, after a walk up open ground, each
+## follower stands in single file behind the lead, a slot apart, facing the way the lead faces.
+func _check_formation_walk() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno", "cato", "vesta"])
+	var kept := GameState.formation
+	GameState.formation = "column"
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "city_streets", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var followers: Array = scene._followers
+	var top := Vector2i(-1, -1)
+	for y in range(1, map.height - 15):
+		for x in range(1, map.width - 1):
+			if top.x >= 0:
+				break
+			var clear := true
+			for dy in 15:
+				for dx in [-1, 0, 1]:
+					if not map.is_walkable(Vector2i(x + dx, y + dy)):
+						clear = false
+			if clear:
+				top = Vector2i(x, y)
+	if followers.size() != 3 or top.x < 0:
+		_fail("formation: %d followers, and open ground at %s" % [followers.size(), top])
+		scene.queue_free()
+		await get_tree().process_frame
+		GameState.formation = kept
+		return
+	var bottom := map.centre_of(top + Vector2i(0, 14))
+	scene._leader.position = bottom
+	for f: Node2D in followers:
+		f.position = bottom
+	scene._reseed_crumbs()
+	var delta := 1.0 / 60.0
+	for frame in 150:
+		scene._leader.position += Vector2.UP * scene._walk_speed() * delta
+		scene._leader.face(Vector2.UP)
+		scene._drop_crumbs()
+		scene._settle_followers(delta)
+	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
+	var lead: Vector2 = scene._leader.position
+	var wrong: Array[String] = []
+	var behind: Array[float] = []
+	for i in followers.size():
+		var at: Vector2 = followers[i].position
+		behind.append(at.y - lead.y)
+		if absf(at.x - lead.x) > 6.0 or at.y <= lead.y + spacing * 0.5 or at.y > lead.y + spacing * 3.5:
+			wrong.append("follower %d stands at %s, the lead at %s" % [i, at, lead])
+		var facing: Vector2 = followers[i].get("_facing")
+		if facing.dot(Vector2.UP) < 0.5:
+			wrong.append("follower %d faces %s in a column walking up" % [i, facing])
+	behind.sort()
+	for k in range(1, behind.size()):
+		if absf(behind[k] - behind[k - 1] - spacing) > 8.0:
+			wrong.append("the column's gaps are %s, not %.0f apart" % [behind, spacing])
+			break
+	if not wrong.is_empty():
+		_fail("formation: %s (and %d more)" % [wrong[0], wrong.size() - 1])
+	else:
+		print("formation: walking up in a column, three stand in single file %s behind the lead" % [behind])
+	GameState.formation = kept
 	scene.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)

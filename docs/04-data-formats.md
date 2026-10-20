@@ -1148,6 +1148,34 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
 - `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
+## `skirmish.json` → `formations` — the shapes the party walks and fights in (D289, D305)
+
+Read by `src/skirmish/formations.gd` (pure; loaded by path), the area scene's `_settle_followers`,
+`SkirmishBrain._form`, the fight's guard multiplier and the party screen. `on` turns it all off.
+`shapes` is each shape's `word`, `tip` and `slots`: the companions' places round the lead, who is always
+at the origin, each `{ at: [across, forward], line }` with the lead's right and the way they face
+positive, and `line` one of `front`, `flank`, `back`. `line_by_doctrine` says which line a lead's
+tactics doctrine belongs in; anyone else is read from their abilities (a mend on an ally at range 2 or
+more: back; a first blow at range 3 or more: back; else front; nothing: flank). `Formations.assign`
+deals the back line first, then the front, then the rest, each to the nearest line it would rather
+stand in, from every slot of the shape. `GameState.formation` holds the pick (`auto` or a shape id;
+saved); `auto_by_size` picks by the party's size (the lead counted), `fallback` below the smallest
+written, `auto_word` and `auto_tip` are the picker's words. `ground_spacing` is pixels a slot on the
+ground; `form_every` is the fall-in's wait, `slack` how near a slot counts as held, `hold_guard` the
+share of every blow a fighter holding its slot is spared; `tactics.words.form` is the word over its head.
+
+The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
+anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
+`shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
+`auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
+`callouts`: `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
+a foe band's boss or first standing, once per foe, `skirmish._call_out`), `warned_for` the seconds the one
+named is warned (`Fighter.warned`), and `warned_first` the moves it tries first while it lasts; a warned
+friend counts as under half health to `SkirmishBrain._guard`. `break_below_mood`: under it a companion
+holds no slot (`Formations.broken`). `shared`: `per_fight` of every blow spared and landed over for each
+fight won beside the others standing with them (`Character.shared`, other id -> fights, their average),
+up to `cap` (`Formations.shared_bonus`).
+
 ## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
 Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).

@@ -37,6 +37,7 @@ const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
 const Land := preload("res://src/area/land.gd")
@@ -918,6 +919,7 @@ func _tick_fighter(f: Fighter) -> void:
 	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
 	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
+	f.warned = maxf(0.0, f.warned - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 	conditions.tick(f)
@@ -992,6 +994,7 @@ func _think(f: Fighter) -> bool:
 			_begin_cast(f, int(plan["slot"]), who, who.cell)
 			return true
 	if f.order == Fighter.Order.NONE:
+		var was := f.target
 		var reach := -1
 		if f.is_party():
 			reach = _basic_reach(f) if f.holding() else SkirmishRules.PARTY_AGGRO_RANGE
@@ -1003,7 +1006,28 @@ func _think(f: Fighter) -> bool:
 		# come, unless told to hold.
 		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
 			f.target = SkirmishBrain.pick_target(f, fighters)
+		if f.target != null and f.target != was:
+			_call_out(f)
 	return false
+
+
+## A short call-out as a side's caller goes for a soft foe ([D289], [D306]): "Get the healer!",
+## heard by both sides, so the one called knows to get clear and their friends to cover them. Once
+## per foe called.
+func _call_out(f: Fighter) -> void:
+	var target := _fighter_of(f.target)
+	if target == null:
+		return
+	var key := "called:%d" % f.target.get_instance_id()
+	if f.has_meta(key):
+		return
+	var word := Formations.callout(f, target, fighters)
+	if word == "":
+		return
+	f.set_meta(key, true)
+	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
+	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
+	_say("%s: \"%s\"" % [f.unit.display_name, word])
 
 
 func _party_engaged() -> bool:
@@ -1169,9 +1193,14 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
 		tags.append("charge")
 	multiplier *= signatures.might(f, victim) * conditions.taken_scale(victim)
+	# A party that has fought together lands a little more ([D306]).
+	multiplier *= 1.0 + Formations.shared_bonus(f, fighters)
 	if victim != null:
+		# Holding a slot in the party's formation is a little guard too ([D305]), and so are the
+		# fights shared ([D306]).
 		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5),
-				_aura(victim, "guard") + signatures.guard(victim))
+				_aura(victim, "guard") + signatures.guard(victim) + Formations.hold_guard(victim, fighters)
+				+ Formations.shared_bonus(victim, fighters))
 	# Caesar beside them takes part of it on himself.
 	var guardian := signatures.shield_for(victim)
 	if guardian != null:
@@ -1906,6 +1935,12 @@ func _carry_wounds() -> void:
 ## keep their wounds as a share; anyone the company could not reach once it was
 ## beaten falls for real; whoever [Fate] has already settled is left as it said.
 func _settle_the_party() -> void:
+	# The fights each came through, and beside whom ([D306]).
+	var present: Array = []
+	for f in party_fighters():
+		if f.unit.character != null and not bout:
+			present.append(f.unit.character)
+	Formations.record_fight(present, victory)
 	for f in party_fighters():
 		var who := f.unit.character
 		if who == null or not f.settled.is_empty():
@@ -2500,6 +2535,15 @@ func _unit_at(cell: Vector2i) -> Unit:
 func _unit_at_or_downed(cell: Vector2i) -> Unit:
 	var f := occupant(cell)
 	return f.unit if f != null else null
+
+
+func _fighter_of(unit: Unit) -> Fighter:
+	if unit == null:
+		return null
+	for f in fighters:
+		if f.unit == unit:
+			return f
+	return null
 
 
 func _basic_reach(f: Fighter) -> int:
