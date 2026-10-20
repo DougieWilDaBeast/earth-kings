@@ -30,11 +30,14 @@ const Markers := preload("res://src/world/markers.gd")
 const AutoRoad := preload("res://src/world/auto_road.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
 
 const UNKNOWN := Color(0.035, 0.035, 0.05)
 const FRAME := Color(0.98, 0.86, 0.52, 0.9)
 const BACKING := Color(0.04, 0.04, 0.06, 0.82)
 const PARTY := Color(0.98, 0.95, 0.85)
+## Somebody of the company's out on a mission ([D300]).
+const SENT := Color(0.55, 0.8, 0.98)
 const GOAL := Color(1.0, 0.82, 0.3)
 const MARKER := Color(0.98, 0.78, 0.25)
 const GOING := Color(0.45, 0.9, 0.55)
@@ -272,6 +275,7 @@ func _draw() -> void:
 	var goal := AutoRoad.objective(world) if not GameState.rehearsing else {}
 	_draw_goal(world, goal)
 	_draw_markers()
+	_draw_sent(world)
 	_draw_party(world)
 	if not full:
 		_draw_frame()
@@ -380,6 +384,32 @@ func _draw_markers() -> void:
 		draw_circle(head, 5.0, colour)
 		if not go:
 			_label_plain(str(placed), head + Vector2(-3.0, 4.0), 9, Color(0.1, 0.08, 0.05))
+
+
+## The company's own people out on missions ([D294], [D300]: "of course" the band sent out is seen):
+## a small face where each job is on its road now, with a line to where it is going.
+func _draw_sent(world: World) -> void:
+	if GameState.roster == null:
+		return
+	for job: Dictionary in GameState.away:
+		var cell := Dispatch.where_now(job, world)
+		if cell == Vector2i(-1, -1):
+			continue
+		var at := point_of(cell)
+		if not Rect2(Vector2.ZERO, size).has_point(at):
+			continue
+		var heading: Variant = job.get("meet", [world.player_cell.x, world.player_cell.y]) \
+				if bool(job.get("arrived", false)) else job.get("to")
+		if heading is Array and (heading as Array).size() >= 2 and not bool(job.get("waiting", false)):
+			_dashes(at, point_of(Vector2i(int(heading[0]), int(heading[1]))), Color(SENT, 0.45))
+		var ring := maxf(4.0, cell_px * 0.36)
+		draw_circle(at, ring + 1.5, Color(0.08, 0.07, 0.08))
+		draw_circle(at, ring, SENT)
+		var who := GameState.roster.by_id(str(job.get("id", "")))
+		var face: Texture2D = Database.unit_face(who.template_id) if who != null else null
+		if face != null:
+			var tall := ring * 2.4
+			draw_texture_rect(face, Rect2(at - Vector2(tall * 0.5, tall * 0.7), Vector2(tall, tall)), false)
 
 
 func _pin_head(cell: Vector2i) -> Vector2:

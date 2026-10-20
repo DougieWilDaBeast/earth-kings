@@ -49,7 +49,7 @@ static func open_errands(accepted: Array) -> Array:
 ## Send [param character] to do [param errand]. Returns the line to show, or ""
 ## if they cannot go.
 static func send(
-	world: World, roster: Roster, away: Array, character: Character, errand: Dictionary
+	world: World, roster: Roster, away: Array, character: Character, errand: Dictionary, meet: Site = null
 ) -> String:
 	if not can_send(character, roster, away) or str(errand.get(TAKEN_BY, "")) != "":
 		return ""
@@ -75,8 +75,9 @@ static func send(
 		# Somebody standing with a muster waits for it to go in (see `guild.gd`).
 		"waits": kind == Errand.MUSTER,
 	})
-	return "%s sets off to see to \"%s\". Back in about %d steps." % [
-		character.display_name, errand.get("title", "the errand"), out_steps * 2,
+	var back := _meet_at(away[-1], meet, target)
+	return "%s sets off to see to \"%s\". Back %s in about %d steps." % [
+		character.display_name, errand.get("title", "the errand"), _back_where(away[-1]), back,
 	]
 
 
@@ -88,6 +89,9 @@ static func send(
 static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> Array[String]:
 	var lines: Array[String] = []
 	for job: Dictionary in away.duplicate():
+		if bool(job.get("waiting", false)):
+			lines.append_array(_met(world, roster, away, job))
+			continue
 		if job.has("gate"):
 			lines.append_array(_walk_band(world, roster, away, accepted, job))
 			continue
@@ -109,6 +113,97 @@ static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> 
 					continue
 			lines.append_array(_come_back(world, roster, away, accepted, job, character, errand))
 	return lines
+
+
+# --- meeting again ([D294], [D300]) ----------------------------------------------
+#
+# Ewan at the founders' meeting: "clear that rank E gate and meet me back at Stormreach"; and if
+# you are not there, a crow or a pigeon brings word that they are back. A job sent with a place to
+# meet walks from where it was done to that place; if the company is there it falls in, and if not
+# a crow says so and they wait there until the company comes.
+
+
+## Places the company can name to meet again: villages, keeps and the house, known to it.
+static func meeting_places(world: World) -> Array[Site]:
+	var out: Array[Site] = []
+	if world == null:
+		return out
+	for site: Site in world.sites:
+		if site.kind in [Site.VILLAGE, Site.KEEP, Site.HOME] and Atlas.knows(world, site):
+			out.append(site)
+	return out
+
+
+## Write [param meet] on [param job] and set when they are back: there from [param done_at], or
+## back to the company as before with no place named. Returns the steps until they are back.
+static func _meet_at(job: Dictionary, meet: Site, done_at: Vector2i) -> int:
+	var out_steps := int(job.get("out_at", 0)) - int(job.get("sent_at", 0))
+	if meet == null:
+		return int(job.get("back_at", 0)) - int(job.get("sent_at", 0))
+	var tiles := maxi(1, Pathfinder.distance(done_at, meet.cell))
+	var home_steps := maxi(1, roundi(tiles * float(rules().get("steps_per_tile", 1.0))))
+	job["meet"] = [meet.cell.x, meet.cell.y]
+	job["meet_name"] = meet.display_name
+	job["back_at"] = int(job.get("out_at", 0)) + home_steps
+	return out_steps + home_steps
+
+
+static func _back_where(job: Dictionary) -> String:
+	return "at %s" % job["meet_name"] if job.has("meet") else "with the company"
+
+
+## Back from the job at a place to meet: with the company there, nothing is said here and they
+## fall in as before; without it, a crow brings word and they wait there. Returns the crow's line.
+static func _home(world: World, roster: Roster, away: Array, job: Dictionary, names: Array) -> Array[String]:
+	var lines: Array[String] = []
+	if job.has("meet") and world.player_cell != _cell(job["meet"]):
+		job["waiting"] = true
+		job["arrived"] = true
+		lines.append(str(rules().get("crow_line", "A crow finds the company: {names} {are} back at {place}, and {wait} there.")).format({
+			"names": ", ".join(names), "place": job.get("meet_name", "the meeting place"),
+			"are": "is" if names.size() == 1 else "are", "wait": "waits" if names.size() == 1 else "wait",
+		}))
+		return lines
+	away.erase(job)
+	return lines
+
+
+## The company has come to where somebody waits for it: they fall in.
+static func _met(world: World, roster: Roster, away: Array, job: Dictionary) -> Array[String]:
+	var lines: Array[String] = []
+	if world.player_cell != _cell(job.get("meet", [])):
+		return lines
+	away.erase(job)
+	var who: Array = members(roster, job) if job.has("band") else [roster.by_id(str(job.get("id", "")))]
+	for character: Variant in who:
+		if character == null:
+			continue
+		if roster.enlist((character as Character).id):
+			lines.append("%s was waiting at %s, and falls in." % [(character as Character).display_name, job.get("meet_name", "the meeting place")])
+		else:
+			lines.append("%s is waiting at %s, but there is no room in the company. They will wait to be asked." % [(character as Character).display_name, job.get("meet_name", "the meeting place")])
+	return lines
+
+
+## Where a job is now on the land, for the map ([D300]): along the road out, at the place, or on
+## the road to where it meets the company. A cell, or (-1, -1) for a job with no road.
+static func where_now(job: Dictionary, world: World) -> Vector2i:
+	var from := _cell(job.get("from", []))
+	var to := _cell(job.get("to", []))
+	if from == Vector2i(-1, -1) or to == Vector2i(-1, -1) or bool(job.get("sulk", false)):
+		return Vector2i(-1, -1)
+	var back := _cell(job.get("meet", [])) if job.has("meet") else from
+	if bool(job.get("waiting", false)):
+		return back
+	var sent := int(job.get("sent_at", 0))
+	var out_at := int(job.get("out_at", sent))
+	var back_at := int(job.get("back_at", out_at))
+	var now := world.steps
+	if now <= out_at:
+		var t := clampf(float(now - sent) / float(maxi(1, out_at - sent)), 0.0, 1.0)
+		return Vector2i(Vector2(from).lerp(Vector2(to), t).round())
+	var u := clampf(float(now - out_at) / float(maxi(1, back_at - out_at)), 0.0, 1.0)
+	return Vector2i(Vector2(to).lerp(Vector2(back if job.has("meet") else world.player_cell), u).round())
 
 
 static func _still_waiting(job: Dictionary, errand: Dictionary) -> bool:
@@ -177,6 +272,12 @@ static func _come_back(
 		if Errand.is_complete(errand):
 			lines.append("\"%s\" is settled." % errand.get("title", "The errand"))
 			lines.append_array(Errand._settle(accepted, errand, world))
+	if job.has("meet"):
+		away.append(job)
+		var crow := _home(world, roster, away, job, [character.display_name])
+		if not crow.is_empty():
+			lines.append_array(crow)
+			return lines
 	if roster.enlist(character.id):
 		lines.append("%s is back with the company." % character.display_name)
 	else:
@@ -259,7 +360,7 @@ static func band_for(away: Array, gate: Site) -> Dictionary:
 
 ## Send [param character] to shut [param gate], with whoever is already on the road to it.
 ## Returns the line to show, or "" if they cannot go.
-static func send_to_gate(world: World, roster: Roster, away: Array, character: Character, gate: Site) -> String:
+static func send_to_gate(world: World, roster: Roster, away: Array, character: Character, gate: Site, meet: Site = null) -> String:
 	if not can_send(character, roster, away) or gate == null or not gate.open or gate.cleared:
 		return ""
 	roster.party.erase(character.id)
@@ -282,8 +383,9 @@ static func send_to_gate(world: World, roster: Roster, away: Array, character: C
 		"back_at": world.steps + out_steps * 2 + inside,
 		"arrived": false,
 	})
-	return "%s sets off to shut %s (%s-rank). Back in about %d steps." % [
-		character.display_name, gate.display_name, gate.rank, out_steps * 2 + inside,
+	var back := _meet_at(away[-1], meet, gate.cell)
+	return "%s sets off to shut %s (%s-rank). Back %s in about %d steps." % [
+		character.display_name, gate.display_name, gate.rank, _back_where(away[-1]), back,
 	]
 
 
@@ -321,6 +423,9 @@ static func _walk_band(world: World, roster: Roster, away: Array, accepted: Arra
 		job["arrived"] = true
 		lines.append_array(_storm(world, roster, away, accepted, job, band))
 	if away.has(job) and bool(job.get("arrived", false)) and world.steps >= int(job.get("back_at", 0)):
+		var crow := _home(world, roster, away, job, members(roster, job).map(func(c: Character) -> String: return c.display_name))
+		if not crow.is_empty():
+			return lines + crow
 		away.erase(job)
 		for character: Character in members(roster, job):
 			if roster.enlist(character.id):
@@ -416,6 +521,9 @@ static func errand_for(accepted: Array, character_id: String) -> Dictionary:
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
+	if bool(job.get("waiting", false)):
+		var names: Array = members(roster, job).map(func(c: Character) -> String: return c.display_name) if job.has("band") else [who]
+		return "%s — back, and waiting for you at %s" % [", ".join(names), job.get("meet_name", "the meeting place")]
 	if bool(job.get("sulk", false)):
 		return "%s — off on their own a while, about %d steps more" % [who, maxi(0, int(job.get("back_at", 0)) - world.steps)]
 	if job.has("gate"):

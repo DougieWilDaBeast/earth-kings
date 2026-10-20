@@ -58,7 +58,8 @@ const GAIN := Color(0.55, 0.86, 0.55)
 const LOSS := Color(0.92, 0.52, 0.48)
 const WARNING := Color(0.95, 0.72, 0.35)
 
-enum Page { GEAR, POWERS, PRACTICE }
+## MISSION has no tab: it is opened from the "Send" beside a card ([D300]).
+enum Page { GEAR, POWERS, PRACTICE, MISSION }
 
 @onready var _backdrop: ColorRect = %Backdrop
 @onready var _roster_list: VBoxContainer = %RosterList
@@ -83,6 +84,9 @@ var _notice: String = ""
 var _shown_id: String = ""
 var _page: Page = Page.GEAR
 var _card_height: int = CARD_HEIGHT
+## Where somebody sent on a mission is told to meet the company again: an index into
+## [method Dispatch.meeting_places], or -1 for wherever the company is ([D300]).
+var _meet_index: int = -1
 
 
 func _ready() -> void:
@@ -181,8 +185,8 @@ func teach(teacher: Character, student: Character, doctrine_id: String) -> bool:
 
 ## Hand an accepted errand to [param character] and send them off to do it
 ## (see `src/chronicle/dispatch.gd`).
-func send_away(character: Character, errand: Dictionary) -> bool:
-	var line := Dispatch.send(GameState.world, GameState.roster, GameState.away, character, errand)
+func send_away(character: Character, errand: Dictionary, meet: Site = null) -> bool:
+	var line := Dispatch.send(GameState.world, GameState.roster, GameState.away, character, errand, meet)
 	if line == "":
 		return false
 	_notice = line
@@ -201,8 +205,8 @@ func mix(recipe: Dictionary) -> bool:
 
 
 ## Send [param character] to shut [param gate], with anyone already on the road to it ([D278]).
-func send_to_gate(character: Character, gate: Site) -> bool:
-	var line := Dispatch.send_to_gate(GameState.world, GameState.roster, GameState.away, character, gate)
+func send_to_gate(character: Character, gate: Site, meet: Site = null) -> bool:
+	var line := Dispatch.send_to_gate(GameState.world, GameState.roster, GameState.away, character, gate, meet)
 	if line == "":
 		return false
 	_notice = line
@@ -357,6 +361,8 @@ func _rebuild() -> void:
 				_build_powers_page(shown)
 			Page.PRACTICE:
 				_build_practice_page(shown, party)
+			Page.MISSION:
+				_build_mission_page(shown)
 
 	var codex := GameState.world.codex_understanding()
 	_purse.text = "%s  ·  %d in the packs  ·  Codex %d%%  ·  step %d%s" % [
@@ -399,7 +405,32 @@ func _card_row(character: Character, index: int, count: int, shown: Character) -
 	arrows.add_child(_order_button(character, -1, index > 0))
 	arrows.add_child(_order_button(character, 1, index < count - 1))
 	row.add_child(arrows)
+	if _missions_open() and not character.is_player:
+		row.add_child(_mission_button(character))
 	return row
+
+
+## Whether people can be sent on missions yet: not in the First Hour (D97) until the company
+## has shut a gate of its own ([D278]).
+func _missions_open() -> bool:
+	return not FirstHour.hides("dispatch") and Dispatch.unlocked(GameState.world)
+
+
+## "Send" beside a card ([D294], [D300]): opens the mission page on that person.
+func _mission_button(character: Character) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(64, ORDER_BUTTON.y)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.focus_mode = Control.FOCUS_NONE
+	button.text = "Send"
+	button.disabled = not Dispatch.can_send(character, GameState.roster, GameState.away)
+	button.tooltip_text = "Send %s on a mission: a gate to shut or an errand, and a town to meet you in." % character.display_name
+	button.pressed.connect(func() -> void:
+		_shown_id = character.id
+		_page_scroll.scroll_vertical = 0
+		_turn_to(Page.MISSION))
+	Sfx.attend(button)
+	return button
 
 
 func _order_button(character: Character, delta: int, allowed: bool) -> Button:
@@ -1006,50 +1037,89 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 	if taught == 0:
 		_page_box.add_child(_quiet_line("Nothing they could pass on to anybody here."))
 
-	var roster: Roster = GameState.roster
-	# Hidden for the First Hour (D97) until D278: open once the company has shut a gate of its own.
 	if not FirstHour.hides("dispatch"):
-		_page_box.add_child(_heading("Send away"))
-		var open := Dispatch.open_errands(GameState.errands)
-		var gates := Dispatch.open_gates(GameState.world)
+		_page_box.add_child(_heading("Send on a mission"))
 		if character.is_player:
 			_page_box.add_child(_quiet_line("The lead goes where the company goes."))
 		elif not Dispatch.unlocked(GameState.world):
 			_page_box.add_child(_quiet_line("Shut a gate first. Then the Guild will let you send your own people out."))
-		elif not Dispatch.can_send(character, roster, GameState.away):
-			_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
-		elif open.is_empty() and gates.is_empty():
-			_page_box.add_child(_quiet_line("No errand to give them and no gate you know of. Take one from a settlement's board first."))
 		else:
-			for gate: Site in gates:
-				var band := Dispatch.band_for(GameState.away, gate)
-				var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
-				var odds := Dispatch.gate_chance(Dispatch.members(roster, band) + [character], gate)
-				var send := Button.new()
-				send.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
-				send.focus_mode = Control.FOCUS_NONE
-				send.alignment = HORIZONTAL_ALIGNMENT_LEFT
-				send.text = "Send %s%s to shut %s (%s-rank, about %d in 10)" % [
-					character.display_name, with, gate.display_name, gate.rank, roundi(odds * 10.0)]
-				send.tooltip_text = "They walk there on their own, go in, and shut it if they can. If they cannot, each of them may fall. Send more to the same gate before they get there and they go together."
-				send.pressed.connect(func() -> void: send_to_gate(character, gate))
-				Sfx.attend(send)
-				_page_box.add_child(send)
-			for errand: Dictionary in open:
-				var go := Button.new()
-				go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
-				go.focus_mode = Control.FOCUS_NONE
-				go.alignment = HORIZONTAL_ALIGNMENT_LEFT
-				go.text = "Send %s: %s" % [character.display_name, Errand.summary(errand)]
-				go.tooltip_text = "They leave the company, walk it while you walk, and come back — if nothing finds them on the road."
-				go.pressed.connect(func() -> void: send_away(character, errand))
-				Sfx.attend(go)
-				_page_box.add_child(go)
+			var go := Button.new()
+			go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+			go.focus_mode = Control.FOCUS_NONE
+			go.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			go.text = "Send %s on a mission" % character.display_name
+			go.pressed.connect(func() -> void: _turn_to(Page.MISSION))
+			Sfx.attend(go)
+			_page_box.add_child(go)
+	_away_list()
 
+
+## The mission page ([D294], [D300]): a gate to shut or an errand to see to, and a town to meet the
+## company in afterwards; with none named they come back to wherever the company is, and a crow
+## brings word when they are back somewhere the company is not.
+func _build_mission_page(character: Character) -> void:
+	var roster: Roster = GameState.roster
+	_page_box.add_child(_heading("Send %s on a mission" % character.display_name))
+	var open := Dispatch.open_errands(GameState.errands)
+	var gates := Dispatch.open_gates(GameState.world)
+	if character.is_player:
+		_page_box.add_child(_quiet_line("The lead goes where the company goes."))
+	elif not _missions_open():
+		_page_box.add_child(_quiet_line("Shut a gate first. Then the Guild will let you send your own people out."))
+	elif not Dispatch.can_send(character, roster, GameState.away):
+		_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
+	elif open.is_empty() and gates.is_empty():
+		_page_box.add_child(_quiet_line("No errand to give them and no gate you know of. Take one from a settlement's board first."))
+	else:
+		var places := Dispatch.meeting_places(GameState.world)
+		if _meet_index >= places.size():
+			_meet_index = -1
+		var meet: Site = places[_meet_index] if _meet_index >= 0 else null
+		var where := Button.new()
+		where.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		where.focus_mode = Control.FOCUS_NONE
+		where.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		where.text = "Meet me at: %s" % (meet.display_name if meet != null else "wherever the company is")
+		where.tooltip_text = "Where they come back to when it is done. If you are not there, a crow brings word, and they wait for you."
+		where.disabled = places.is_empty()
+		where.pressed.connect(func() -> void:
+			_meet_index = _meet_index + 1 if _meet_index + 1 < places.size() else -1
+			_rebuild())
+		Sfx.attend(where)
+		_page_box.add_child(where)
+		for gate: Site in gates:
+			var band := Dispatch.band_for(GameState.away, gate)
+			var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
+			var odds := Dispatch.gate_chance(Dispatch.members(roster, band) + [character], gate)
+			var send := Button.new()
+			send.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+			send.focus_mode = Control.FOCUS_NONE
+			send.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			send.text = "Shut %s%s (%s-rank, about %d in 10)" % [
+				gate.display_name, with, gate.rank, roundi(odds * 10.0)]
+			send.tooltip_text = "They walk there on their own, go in, and shut it if they can. If they cannot, each of them may fall. Send more to the same gate before they get there and they go together."
+			send.pressed.connect(func() -> void: send_to_gate(character, gate, meet))
+			Sfx.attend(send)
+			_page_box.add_child(send)
+		for errand: Dictionary in open:
+			var go := Button.new()
+			go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+			go.focus_mode = Control.FOCUS_NONE
+			go.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			go.text = Errand.summary(errand)
+			go.tooltip_text = "They leave the company, walk it while you walk, and come back — if nothing finds them on the road."
+			go.pressed.connect(func() -> void: send_away(character, errand, meet))
+			Sfx.attend(go)
+			_page_box.add_child(go)
+	_away_list()
+
+
+func _away_list() -> void:
 	if not GameState.away.is_empty():
 		_page_box.add_child(_heading("Away"))
 		for job: Dictionary in GameState.away:
-			_page_box.add_child(_quiet_line(Dispatch.summary(job, roster, GameState.world)))
+			_page_box.add_child(_quiet_line(Dispatch.summary(job, GameState.roster, GameState.world)))
 
 
 ## Every kind of enemy this character has learned from, and the ones they are

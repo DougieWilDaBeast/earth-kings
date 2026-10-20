@@ -171,9 +171,12 @@ var ground_fight: bool = false
 var turned: bool = false
 ## Whoever the fight turned on, while the card asking what now is up.
 var turning: Fighter = null
+## The fight was opened by a first strike that landed ([method _strike_first]).
+var first_struck: bool = false
 
 
 func _ready() -> void:
+	add_to_group(EventBus.FIGHT_GROUP)
 	map_id = str(boot_payload.get("map_id", DEFAULT_MAP))
 	in_place = bool(boot_payload.get("in_place", false))
 	encounter = boot_payload.get("encounter", {})
@@ -217,6 +220,8 @@ func _ready() -> void:
 	_say("The fight is paused — %s to begin." % begin if paused else "The fight is on.")
 	for line in _opening:
 		_say(line)
+	if bool(encounter.get("first_strike", false)):
+		_strike_first()
 	Sfx.cue("engage")
 	EventBus.battle_lineup.emit(_lineup())
 	EventBus.battle_started.emit(map_id)
@@ -377,6 +382,37 @@ func _give_the_party_the_jump() -> void:
 		else:
 			f.attack_timer += head_start
 			f.think_timer += head_start
+
+
+## A first strike ([D288], [D300]): wound up out of the band's sight on the ground, the lead's own
+## swing lands on the nearest foe as the fight opens, before the other side has turned, at
+## `first_strike.power` times its weight.
+func _strike_first() -> void:
+	var party := party_fighters()
+	if party.is_empty():
+		return
+	var lead: Fighter = party[0]
+	for f: Fighter in party:
+		if f.unit.character != null and f.unit.character.is_player:
+			lead = f
+	var foe: Unit = null
+	for f: Fighter in fighters:
+		if f.unit.sides_with_party() or not f.is_standing():
+			continue
+		if foe == null or Pathfinder.distance(lead.unit.cell, f.unit.cell) < Pathfinder.distance(lead.unit.cell, foe.cell):
+			foe = f.unit
+	if foe == null:
+		return
+	var rules: Dictionary = Database.skirmish.get("first_strike", {})
+	var ability := Database.ability(lead.basic).duplicate()
+	ability["power"] = float(ability.get("power", 1.0)) * float(rules.get("power", 2.0))
+	lead.unit.face_towards(foe.cell)
+	lead.unit.play("attack")
+	fx.popup(str(rules.get("word", "First strike!")), lead.unit.position, SkirmishFx.HURT, 15)
+	_say(str(rules.get("line", "{name} strikes first.")).format({"name": lead.unit.display_name, "foe": foe.display_name}))
+	_strike(lead, foe, ability, lead.basic)
+	lead.attack_timer = SkirmishRules.attack_interval(lead.unit)
+	first_struck = true
 
 
 func _set_objective(map: Dictionary) -> void:

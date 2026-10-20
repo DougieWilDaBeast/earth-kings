@@ -9,8 +9,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 ## The route
 
 1. **New Game.** A new player plays **Atlas's last stand** ([D191](06-decisions.md)): the last day of
-   Atlas's world in Hearthwick, the game's ways taught on a card, then a band out of a broken gate he
-   cannot beat. He falls for good, and the quiz picks the first life of the player's own, on the
+   Atlas's world in Hearthwick, the game's ways taught on a card in seven steps (fourteen until
+   [D300](06-decisions.md)), then a band out of a broken gate he cannot beat. He falls for good, and the quiz picks the first life of the player's own, on the
    **First Hour** setting, where a fall is for good ([D104](06-decisions.md)). The opening plays whole,
    with Atlas's world the one seen ending ([25](25-the-opening.md)). (Until D191 the first life was
    Atlas himself, with no quiz, [D106](06-decisions.md); `first_hour.first_life` still names him.)

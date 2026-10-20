@@ -1,4 +1,10 @@
 {
+	"first_strike": {
+		"_comment": "D288, D300: a fight opened by a first strike (area_scene.gd winds it up out of the band's sight). As the fight opens the lead's own swing lands on the nearest foe at power times its weight, before the other side moves; the rest is an ambush (passives.ambush_head_start).",
+		"power": 2.0,
+		"word": "First strike!",
+		"line": "{name} strikes first: {foe} never saw it coming."
+	},
 	"rules": {
 		"max_passives": 3,
 		"base_crit": 0.05,

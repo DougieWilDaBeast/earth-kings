@@ -729,6 +729,12 @@ inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average
 expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
 (`src/chronicle/dispatch.gd`).
 
+Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
+`Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
+a tile a step. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
+`waiting`, until the company stands on that tile. `Dispatch.where_now` is where a job is on the land, for
+the map.
+
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
 `FirstHour.mark_line()`, read by `Chapters.seal_line`).
@@ -779,6 +785,10 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   the pointer is out past it, where a right-click sends whoever is picked to get clear. The field carries
   `view` (the ground camera's `centre` in ground pixels and its `zoom`): the fight opens on it and
   draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
+- **A first strike** ([D300](06-decisions.md)): out of the band's sight with one of its figures within
+  `first_strike_reach` cells, G winds the lead up for `first_strike_seconds` and `first_strike_hint` is said
+  on the bottom line; then the band is met as an ambush with `first_strike` on its encounter, and the
+  fight lands the lead's blow first (`skirmish.json` → `first_strike`). Seen while winding up, it is lost.
 
 An area may hold **bands of its own** (`bands` in its JSON, [D75](06-decisions.md)), in the same shape
 plus `at` (the cell it would rather stand on: it only has to not be looking at the party already),
@@ -1096,6 +1106,10 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
 ## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
 Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
+
+`first_strike` ([D300](06-decisions.md)): a fight whose encounter carries `first_strike` opens with the
+lead's own swing on the nearest foe at `power` times its weight, with `word` over the lead and `line`
+(`{name}`, `{foe}`) in the log; the fight records `first_struck`.
 
 ```json
 {
