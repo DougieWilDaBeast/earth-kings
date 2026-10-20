@@ -413,6 +413,27 @@ each, each ending playable:
    clock, and every 6 to 9 steps there is a band ahead, a roadside scene, a traveller with a line or a find.
    Next: Ewan walks from the crater to the gate and says if it feels alive; then the First Hour's 14
    tutorial steps, as their own piece.
+36. **The founders' meeting and design meeting six's work order** (2026-10-20, [D287](06-decisions.md) to
+   [D299](06-decisions.md); questions 41 to 46 in [30](30-questions-for-the-founders.md)). **Planned**, one game
+   pull request at a time, each ending playable:
+   0. Push main to itch and `doug-md`'s play-test 8 on it, solo and as four, on `dougie`'s word.
+   A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
+      person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
+      story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).
+   B. Levelling in gates: levels only from new foes in a gate, experience in the Tower, a log of foes per
+      character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378).
+   C. The land: caves (#371, [D282](06-decisions.md)), then heights, ledges, cliffs and ways up; places worth
+      going to; creatures that match the land ([D287](06-decisions.md), #379).
+   D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
+      ([D293](06-decisions.md), #380).
+   E. Formations, a leader who rises, call-outs and a bonus for fights shared ([D289](06-decisions.md), #381).
+   F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
+      ([D290](06-decisions.md), #382).
+   G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
+      question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
+   Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
+   heights), the fallen weapon's cinematic ([D296](06-decisions.md)), and a look at a small on-device model
+   for fight plans ([D298](06-decisions.md), #385).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
