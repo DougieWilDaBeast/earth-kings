@@ -89,7 +89,7 @@
 	},
 
 	"formations": {
-		"_comment": "Formations (D289, D305; all Inferred). The player's party walks and fights in a shape: the lead at the origin, each companion in a slot, `at` [across (the lead's right is positive), forward (ahead is positive)], in a `line` (front, flank, back). Companions are dealt slots by what they fight with (line_by_doctrine by a lead's tactics doctrine, else read from their abilities: a mender or a shooter is back, one who swings up close front, the rest flank): the back line is dealt first, then the front, then the rest, each to the nearest line it would rather stand in. The player picks a shape on the party screen; `auto` picks by how many walk (auto_by_size, the lead counted; fallback below the smallest written). On the ground the followers walk to their slots, ground_spacing pixels a slot, and fall back to the trail where a slot cannot be stood on. In a fight the party falls in round the lead (the `form` move, every form_every seconds) until anyone of it is in contact with a foe; a companion standing within slack of its slot gets hold_guard off every blow, the Formation aura's idea as the bonus for holding one. Enemies and allies keep to their own ways.",
+		"_comment": "Formations (D289, D305; all Inferred). The player's party walks and fights in a shape: the lead at the origin, each companion in a slot, `at` [across (the lead's right is positive), forward (ahead is positive)], in a `line` (front, flank, back). Companions are dealt slots by what they fight with (line_by_doctrine by a lead's tactics doctrine, else read from their abilities: a mender or a shooter is back, one who swings up close front, the rest flank): the back line is dealt first, then the front, then the rest, each to the nearest line it would rather stand in, from the first as many slots as there are companions (a shape's slots are written in the order they fill, so a small party keeps a compact shape with no holes). The player picks a shape on the party screen; `auto` picks by how many walk (auto_by_size, the lead counted; fallback below the smallest written). On the ground the followers walk to their slots, ground_spacing pixels a slot, and fall back to the trail where a slot cannot be stood on. In a fight the party falls in round the lead (the `form` move, every form_every seconds) until anyone of it is in contact with a foe; a companion standing within slack of its slot gets hold_guard off every blow, the Formation aura's idea as the bonus for holding one. Enemies and allies keep to their own ways.",
 		"on": true,
 		"auto_word": "Auto",
 		"auto_tip": "The party picks a shape by how many walk: two abreast, three in a wedge, four in a diamond, six in a pyramid.",
@@ -107,36 +107,36 @@
 			"line": {
 				"word": "Line", "tip": "Everyone abreast of the lead: every blade in front, nobody behind.",
 				"slots": [
-					{ "at": [-1, 0], "line": "front" }, { "at": [1, 0], "line": "front" }, { "at": [-2, 0], "line": "front" },
-					{ "at": [2, 0], "line": "front" }, { "at": [-3, 0], "line": "front" }
+					{ "at": [-1, 0], "line": "front" }, { "at": [1, 0], "line": "front" }, { "at": [-2, 0], "line": "flank" },
+					{ "at": [2, 0], "line": "flank" }, { "at": [-3, 0], "line": "back" }
 				]
 			},
 			"column": {
 				"word": "Column", "tip": "Single file behind the lead, for a narrow way; the mender last.",
 				"slots": [
-					{ "at": [0, -1], "line": "front" }, { "at": [0, -2], "line": "flank" }, { "at": [0, -3], "line": "flank" },
-					{ "at": [0, -4], "line": "back" }, { "at": [0, -5], "line": "back" }
+					{ "at": [0, -1], "line": "front" }, { "at": [0, -2], "line": "flank" }, { "at": [0, -3], "line": "back" },
+					{ "at": [0, -4], "line": "flank" }, { "at": [0, -5], "line": "back" }
 				]
 			},
 			"diamond": {
 				"word": "Diamond", "tip": "The lead in the middle: a blade ahead, one at each side, the mender behind.",
 				"slots": [
-					{ "at": [0, 1], "line": "front" }, { "at": [-1, 0], "line": "flank" }, { "at": [1, 0], "line": "flank" },
-					{ "at": [0, -1], "line": "back" }, { "at": [-1, -1], "line": "back" }
+					{ "at": [0, 1], "line": "front" }, { "at": [0, -1], "line": "back" }, { "at": [-1, 0], "line": "flank" },
+					{ "at": [1, 0], "line": "flank" }, { "at": [-1, -1], "line": "back" }
 				]
 			},
 			"wedge": {
-				"word": "Wedge", "tip": "The lead at the point, blades at each shoulder, the rest behind them.",
+				"word": "Wedge", "tip": "The lead at the point, blades at each shoulder, the mender inside the V.",
 				"slots": [
-					{ "at": [-1, -1], "line": "front" }, { "at": [1, -1], "line": "front" }, { "at": [-2, -2], "line": "flank" },
-					{ "at": [2, -2], "line": "flank" }, { "at": [0, -2], "line": "back" }
+					{ "at": [-1, -1], "line": "front" }, { "at": [1, -1], "line": "front" }, { "at": [0, -2], "line": "back" },
+					{ "at": [-2, -2], "line": "flank" }, { "at": [2, -2], "line": "flank" }
 				]
 			},
 			"pyramid": {
-				"word": "Pyramid", "tip": "One, two and three: the lead, two blades behind, three behind them.",
+				"word": "Pyramid", "tip": "One, two and three: the lead, two blades behind, a row of three behind them.",
 				"slots": [
 					{ "at": [-1, -1], "line": "front" }, { "at": [1, -1], "line": "front" }, { "at": [-2, -2], "line": "flank" },
-					{ "at": [2, -2], "line": "flank" }, { "at": [0, -2], "line": "back" }
+					{ "at": [0, -2], "line": "back" }, { "at": [2, -2], "line": "flank" }
 				]
 			}
 		}

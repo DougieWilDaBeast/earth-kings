@@ -118,9 +118,9 @@ static func line_of(template_id: String) -> String:
 ## the party's order): template id -> `at`. The back line is dealt first (the mender matters most),
 ## then the front, then the rest, each to the nearest line it would rather stand in.
 static func assign(shape_id: String, companions: Array) -> Dictionary:
-	# Every slot of the shape is open, not the first few: a party of three in a diamond puts its
-	# mender behind the lead, not at a flank, because the back slot comes later in the list.
-	var open := slots(shape_id, (shapes().get(shape_id, {}).get("slots", []) as Array).size())
+	# Only the first as many slots as there are companions are open, so a small party keeps a
+	# compact shape with no holes in it; a shape's slots are written in the order they fill.
+	var open := slots(shape_id, companions.size())
 	var out := {}
 	var order := { "back": 0, "front": 1, "flank": 2 }
 	var dealt: Array = companions.duplicate()
