@@ -438,7 +438,8 @@ each, each ending playable:
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
    heights), the fallen weapon's cinematic ([D296](06-decisions.md)), and a look at a small on-device model
-   for fight plans ([D298](06-decisions.md), #385).
+   for fight plans ([D298](06-decisions.md), #385): first pass written ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
+   the fight run with and without it is still to do.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone

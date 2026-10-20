@@ -404,7 +404,8 @@ party fighting on its own, Auto, both leads in a bout), so the tactics are in th
 (`SkirmishBrain.pick_tactic`, `doctrine`, and the focus in `pick_target`) and change every fight in
 the game. They are hand-written rules, not a learned model: they run at once in the browser and on
 phones, a seed still gives the same fight, and every move can be read and tuned in
-`data/skirmish.json` → `tactics`.
+`data/skirmish.json` → `tactics`. What a learned model behind the same seam would cost, and the
+offline table to try before one, is [investigation 12](investigation/12-a-small-model-for-fight-plans.md) ([D298](06-decisions.md)).
 
 Each fighter has a **doctrine**: the lead's own (`leads`), else its enemy role's (`roles`), else a
 brute's. A doctrine is the moves it tries, in order, and its **focus**: whom it would walk further for.
