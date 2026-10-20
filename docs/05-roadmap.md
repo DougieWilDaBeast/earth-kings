@@ -395,7 +395,8 @@ each, each ending playable:
    check, and a no won round by their favour or a few fights), sending your own people out built ([D278](06-decisions.md):
    a band to shut a gate on the odds, open once a gate is shut), moods built ([D279](06-decisions.md): thoughts that
    make a mood, which nudges a fight), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
-   edge on a weapon), then caves and heights (**planned**).
+   edge on a weapon), caves built ([D282](06-decisions.md): a mouth on some hills, a gate-like floor behind it), then
+   heights (**planned**).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
    from the review "Is this game fun?"). A band of the land comes as many as the company and its blows get
    through armour; the first time one of the company is badly hurt, a fight played by hand asks stand, pull

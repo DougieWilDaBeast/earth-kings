@@ -43,6 +43,7 @@ const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
+const Caves := preload("res://src/chronicle/caves.gd")
 
 var _requests: Array[Dictionary] = []
 var _failures: Array[String] = []
@@ -70,6 +71,7 @@ func _ready() -> void:
 	_check_story_npcs()
 	_check_recruiting()
 	_check_crafting()
+	await _check_caves()
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
@@ -282,6 +284,36 @@ func _check_crafting() -> void:
 	wielder.honed.erase("iron_blade")
 	wielder.equipment = kept_weapon
 	GameState.stores = kept_stores
+
+
+## Caves on the land ([D282]): some hills have a mouth on their ground, the same ones every time, and
+## behind it a place of its own with bands to fight, a cache, and only the way out it came in by.
+func _check_caves() -> void:
+	var world: World = GameState.world
+	var found := Vector2i(-1, -1)
+	var hills := 0
+	for y in world.size.y:
+		for x in world.size.x:
+			if world.terrain_id_at(Vector2i(x, y)) != "hill" or not world.is_walkable(Vector2i(x, y)):
+				continue
+			hills += 1
+			if found.x < 0 and Caves.has_cave(world, Vector2i(x, y)) and GroundGen.slot(world, Vector2i(x, y)).get("kind") == "ground":
+				found = Vector2i(x, y)
+	if found.x < 0:
+		_fail("caves: no cave mouth on any of %d hill tiles" % hills)
+		return
+	if not Caves.has_cave(world, found):
+		_fail("caves: a cave mouth moved between two looks")
+	var slot := GroundGen.slot(world, found)
+	var mouths: Array = (slot.get("buildings", []) as Array).filter(func(b: Dictionary) -> bool: return b.has("cave"))
+	if mouths.is_empty():
+		_fail("caves: the hill at %s has a cave but no mouth on its ground" % found)
+	var id := Caves.area_for(world, found, GameState.party_characters())
+	var cave: Dictionary = Database.area(id)
+	if cave.has("stairs") or (cave.get("bands", []) as Array).is_empty() or (cave.get("chests", []) as Array).size() != 1:
+		_fail("caves: the cave at %s has stairs, no bands or no cache" % found)
+	print("  cave at %s: %d bands, cache %s" % [found, (cave.get("bands", []) as Array).size(), str(cave.get("chests", []))])
+	await _check_area(id)
 
 
 ## A door has to be on the house it belongs to, and lead somewhere real.

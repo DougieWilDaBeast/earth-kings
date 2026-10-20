@@ -512,6 +512,19 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"caves": {
+		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
+		"terrains": ["hill"],
+		"chance": 0.3,
+		"ranks": ["E", "E", "D", "D", "C"],
+		"name": "the cave",
+		"art": "cave_mouth",
+		"hint": "WASD to walk  ·  the way out is the way you came",
+		"lost": "You crawl back out into the light, and they are still down there.",
+		"gold_low": 400,
+		"gold_high": 1500,
+		"finds": ["redcap", "frostmoss", "herbs"]
+	},
 	"crafting": {
 		"_comment": "D280 (Ewan's play-test 7: 'combine herbs together to make potions, upgrade weapons ... you can buy weapons or you can make them in the blacksmith'). mix: recipes the party screen offers from the packs, anywhere (src/chronicle/crafting.gd). A smith with a talk block's `hone` puts a notch on a weapon somebody carries: +1 attack a notch for that person with that weapon, up to hone_most; a notch costs (hone_base + the weapon's price x hone_share) x the notch, through the difficulty's price dial.",
 		"mix": [

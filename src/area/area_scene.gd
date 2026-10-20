@@ -45,6 +45,7 @@ const Arcs := preload("res://src/chronicle/arcs.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
+const Caves := preload("res://src/chronicle/caves.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
 const CORNER_MAP_SIZE := 180.0
 const CORNER_MAP_CELL := 12.0
@@ -3652,6 +3653,9 @@ func _enter(building: Dictionary) -> void:
 	if building.has("fight"):
 		_spar(building)
 		return
+	# A cave under the hill (D282): laid out as the party walks in, for the party it is.
+	if building.has("cave"):
+		inside = Caves.area_for(GameState.world, AreaMap.to_cell(building["cave"]), GameState.party_characters())
 	# Hidden for the First Hour (D97), the coliseum's door is only a shut door.
 	if inside == "coliseum" and not FirstHour.hides("coliseum"):
 		_leaving = true

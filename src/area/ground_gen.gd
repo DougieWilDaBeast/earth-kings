@@ -17,6 +17,7 @@ extends RefCounted
 const Biome := preload("res://src/chronicle/biome.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Tracks := preload("res://src/area/tracks.gd")
+const Caves := preload("res://src/chronicle/caves.gd")
 
 const FLOOR := "."
 const BARE := ","
@@ -109,6 +110,8 @@ static func slot(world: World, tile: Vector2i) -> Dictionary:
 			made = _as_slot(_lay_out(world, tile, land, true, Vector2i(-1, -1), Rect2i()))
 			made["id"] = "land_%d_%d_%s" % [tile.x, tile.y, land]
 			_blend_edges(world, tile, land, made)
+			# Some hills have a way in under them (D282).
+			Caves.add_mouth(world, tile, made)
 	made["kind"] = kind
 	made["land"] = land
 	if _slots.size() > 400:
