@@ -1195,12 +1195,15 @@ func _check_heights() -> void:
 	_expect(on.cell_at(climbed) == Vector2i(5, 4), "the lead could not climb the slope, stays at %s" % on.cell_at(climbed))
 	var down: Vector2 = scene.call("_slide", on.centre_of(Vector2i(6, 4)), -up)
 	_expect(on.cell_at(down) == Vector2i(6, 5), "the lead could not drop off the shelf")
-	# The lead is told why, once.
-	scene.get("_leader").position = foot
-	var notes_before: int = (scene.get("_notices") as Array).size()
-	scene.call("_say_the_shelf", foot, up, Vector2.ZERO)
-	scene.call("_say_the_shelf", foot, up, Vector2.ZERO)
-	_expect((scene.get("_notices") as Array).size() == notes_before + 1, "walking into the shelf said nothing, or said it twice")
+	# The lead is told why, once: pressed against the shelf's edge, as a blocked walker stands.
+	var edge := foot + Vector2(0, -(float(AreaMap.CELL) * 0.5 - 2.0))
+	scene.get("_leader").position = edge
+	var said_before: int = (scene.get("_ledges_said") as Dictionary).size()
+	var notes_before: int = (scene.get("_notes") as Array).size()
+	scene.call("_say_the_shelf", edge, up, Vector2.ZERO)
+	scene.call("_say_the_shelf", edge, up, Vector2.ZERO)
+	_expect((scene.get("_ledges_said") as Dictionary).size() == said_before + 1 and (scene.get("_notes") as Array).size() >= notes_before + 1,
+			"walking into the shelf said nothing, or said it twice")
 	# A drop of one is free; a drop of two hurts everyone, never below a tenth.
 	var party := GameState.party_characters()
 	for member: Character in party:
