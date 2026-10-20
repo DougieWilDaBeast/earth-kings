@@ -37,6 +37,8 @@ const AreaCritter := preload("res://src/area/area_critter.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
+const Fighter := preload("res://src/skirmish/fighter.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Company := preload("res://tests/company.gd")
@@ -77,6 +79,7 @@ func _ready() -> void:
 	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
+	await _check_tower_grows()
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
@@ -1155,6 +1158,110 @@ func _check_gates_grow() -> void:
 	_expect((after.get("people", []) as Array).size() >= (before.get("people", []) as Array).size() + 3,
 		"gates grow: nobody comes to cheer at a shut gate")
 	_expect(ResourceLoader.exists("res://art/props/%s.png" % art), "gates grow: the broken gate has no picture")
+
+
+## The Tower past floor 10 ([D290], [D307]): a floor from 11 up is laid out at the climb, the higher
+## the bigger, its stair reachable from the way in and a band of its own in every chamber but the
+## first; every third floor from 12 is shared with a company who fight beside the party; from 25
+## every fifth has people living by the stair.
+func _check_tower_grows() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	_expect(TowerFloors.is_grown(11) and not TowerFloors.is_grown(10), "floor 11 does not grow, or floor 10 does")
+	_expect(Chapters.walked_floor_area(12) == TowerFloors.grown_area_id(12), "the stair below does not know floor 12's id")
+	_expect(Chapters.borrows_a_plan(12), "a grown floor's bands would not be restocked")
+	var small := TowerFloors.grown_size(12)
+	var big := TowerFloors.grown_size(60)
+	_expect(big.x > small.x and big.y > small.y and big.x <= 60 and big.y <= 44, "floors do not grow with height: %s then %s" % [small, big])
+	var party := GameState.party_characters()
+	for floor in [11, 12, 25, 100]:
+		var id := TowerFloors.ensure_grown(world, floor)
+		var area := Database.area(id)
+		var rows: Array = area.get("rows", [])
+		var height := rows.size()
+		var width := str(rows[0]).length() if height > 0 else 0
+		_expect(height >= 18 and width >= 26, "floor %d is %d by %d" % [floor, width, height])
+		var stairs: Array = area.get("stairs", [])
+		var spawn: Array = area.get("spawn", [])
+		_expect(stairs.size() == 2 and spawn.size() == 2 and (area.get("exits", []) as Array).size() == 3, "floor %d has no stair, spawn or way out" % floor)
+		# Everywhere worth going is reached from the way in.
+		var open := func(c: Vector2i) -> bool:
+			return c.y >= 0 and c.y < height and c.x >= 0 and c.x < width and str(rows[c.y])[c.x] != "A"
+		var seen := {}
+		var queue: Array = [Vector2i(int(spawn[0]), int(spawn[1]))]
+		seen[queue[0]] = true
+		while not queue.is_empty():
+			var at: Vector2i = queue.pop_front()
+			for step in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+				var next: Vector2i = at + step
+				if open.call(next) and not seen.has(next):
+					seen[next] = true
+					queue.append(next)
+		_expect(seen.has(Vector2i(int(stairs[0][0]), int(stairs[0][1]))), "floor %d's stair cannot be reached from the way in" % floor)
+		var bands: Array = area.get("bands", [])
+		_expect(bands.size() >= 2, "floor %d has %d bands" % [floor, bands.size()])
+		for band: Dictionary in bands:
+			var at: Array = band.get("at", [0, 0])
+			_expect(seen.has(Vector2i(int(at[0]), int(at[1]))), "floor %d's band %s stands where nobody can reach" % [floor, band.get("key", "")])
+			_expect(str(band.get("key", "")).begins_with("tower%d_" % floor), "floor %d's band is called %s" % [floor, band.get("key", "")])
+		var props: Array = area.get("props", [])
+		var stair_props := props.filter(func(p: Dictionary) -> bool: return str(p.get("art", "")) == "tower_inside/stair_up").size()
+		var runes := props.filter(func(p: Dictionary) -> bool: return str(p.get("art", "")).begins_with("tower_inside/rune_")).size()
+		_expect(stair_props == 2 and runes >= 4, "floor %d is dressed with %d stair halves and %d runes" % [floor, stair_props, runes])
+		var restocked := TowerFloors.restock(bands, world, floor, party, [Vector2i(int(stairs[0][0]), int(stairs[0][1]))])
+		_expect(restocked.size() >= 1 and restocked.all(func(b: Dictionary) -> bool: return (b.get("pack", []) as Array).size() >= 2),
+				"floor %d's bands were not restocked with the floor's own" % floor)
+		if floor == 100:
+			_expect(restocked.size() == 1 and bool(restocked[0].get("boss", false)), "the top floor is not kept by its keeper alone")
+	# Shared and living floors.
+	_expect(TowerFloors.is_shared(12) and not TowerFloors.is_shared(11) and TowerFloors.is_shared(15), "the shared floors are not every third from 12")
+	var company := TowerFloors.company_with_you(world, 12, party)
+	_expect(company.size() >= 2 and company.all(func(a: Dictionary) -> bool: return str(a.get("unit", "")) != "" and int(a.get("level", 0)) >= 1),
+			"floor 12's company is %s" % [company])
+	_expect(TowerFloors.company_with_you(world, 11, party).is_empty(), "floor 11 has a company on it")
+	_expect(TowerFloors.floor_line(world, 12).contains(TowerFloors.company_on(world, 12)), "floor 12's line does not name its company")
+	_expect(TowerFloors.is_living(25) and TowerFloors.is_living(30) and not TowerFloors.is_living(26) and not TowerFloors.is_shared(30),
+			"the living floors are not 25 and every fifth")
+	var living: Array = Database.area(TowerFloors.ensure_grown(world, 25)).get("people", [])
+	_expect(living.size() >= 3 and living.all(func(p: Dictionary) -> bool: return not (p.get("talk", {}) as Dictionary).is_empty()),
+			"floor 25 has %d people living on it" % living.size())
+	_expect((Database.area(TowerFloors.grown_area_id(12)).get("people", []) as Array).is_empty(), "people live on floor 12")
+	print("tower grows: floor 12 is %s, floor 60 %s; %s climb floor 12 with you (%d); %d live on floor 25" % [
+		small, big, TowerFloors.company_on(world, 12), company.size(), living.size()])
+
+	# Walked: floor 12 opens, its bands the floor's own, and the company fights beside the party.
+	GameState.pending_outcome = {}
+	var twelve: Node = load("res://src/area/area_scene.tscn").instantiate()
+	twelve.set("boot_payload", { "area_id": TowerFloors.grown_area_id(12), "return_scene": "world", "tower_floor": 12, "allies": company })
+	add_child(twelve)
+	for i in 10:
+		await get_tree().process_frame
+	var on_twelve: Array = twelve.get("_watches")
+	_expect(not on_twelve.is_empty() and on_twelve.all(func(w: Node2D) -> bool: return str(w.band.get("key", "")).begins_with("tower12_")),
+			"tower grows: floor 12's bands are not its own (%d)" % on_twelve.size())
+	var m12: AreaMap = twelve.get("map")
+	_expect(not m12.stairs.is_empty() and m12.is_walkable(m12.stairs[0]), "tower grows: floor 12 has no stair to stand on")
+	if not on_twelve.is_empty():
+		var w12: Node2D = on_twelve[0]
+		var into12: Vector2i = (w12.watched as Dictionary).keys()[0]
+		twelve.call("_check_the_watch", m12.cell_at(twelve.get("_leader").position))
+		twelve.get("_leader").position = m12.centre_of(into12)
+		twelve.call("_check_the_watch", into12)
+		var waited12 := 0.0
+		while waited12 < 3.0 and twelve.get("_fight") == null:
+			await get_tree().create_timer(0.1).timeout
+			waited12 += 0.1
+		var fight12: Node2D = twelve.get("_fight")
+		_expect(fight12 != null, "tower grows: floor 12's band did not fight")
+		if fight12 != null:
+			# Atlas's bearer stands on the allies' side too, bound to him; the company is everyone else.
+			var with_you: Array = fight12.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY and f.bound_to == null)
+			_expect(with_you.size() == company.size(), "tower grows: %d of the company fight beside the party, not %d" % [with_you.size(), company.size()])
+			fight12.set_process(false)
+	GameState.pending_outcome = {}
+	twelve.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
 
 
 func _check_tower_floor() -> void:

@@ -19,6 +19,7 @@ extends Node2D
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
 const Names := preload("res://src/chronicle/names.gd")
@@ -1154,6 +1155,15 @@ func _climb(site: Site) -> void:
 	# The first floors are walked: their own ground, bands watching it, and the stair up at the
 	# far end, kept on the last of them by a keeper (D102).
 	var walked := Chapters.walked_floor_area(next_floor)
+	# A floor that grows is laid out as the stair is climbed ([D307]), and a shared one has another
+	# company on it who fight beside the party.
+	var allies: Array = []
+	if TowerFloors.is_grown(next_floor):
+		walked = TowerFloors.ensure_grown(world, next_floor)
+		allies = TowerFloors.company_with_you(world, next_floor, GameState.party_characters())
+		var line := TowerFloors.floor_line(world, next_floor)
+		if line != "":
+			_note(line)
 	if walked != "":
 		_busy = true
 		EventBus.request_scene.emit("area", {
@@ -1161,6 +1171,7 @@ func _climb(site: Site) -> void:
 			"title": "The Tower, floor %d" % next_floor,
 			"return_scene": "world",
 			"tower_floor": next_floor,
+			"allies": allies,
 			# What the floor below paid, and the floor's own line, said on the way up.
 			"notes": _notices.duplicate(),
 		})

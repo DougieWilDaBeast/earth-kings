@@ -728,6 +728,9 @@ func _admit_climbers_to_the_floor() -> void:
 		return
 	if _tower_floor < int(floors.get("from", 2)) or GameState.world == null:
 		return
+	# A shared floor has its own company climbing it, and a lived-on floor its people ([D307]).
+	if TowerFloors.is_shared(_tower_floor) or TowerFloors.is_living(_tower_floor):
+		return
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash([GameState.world.world_seed, _tower_floor, "climbers"])
 	if rng.randf() >= float(floors.get("chance", 0.4)):
@@ -3086,6 +3089,12 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"kind": "tower_band", "enemies": enemies,
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
+	# On a shared Tower floor the company climbing it fights beside the party ([D307]).
+	if _tower_floor > 0 and not _in_a_gate() and not (boot_payload.get("allies", []) as Array).is_empty():
+		var with_you: Array = field.get("allies", [])
+		for ally: Dictionary in boot_payload.get("allies", []):
+			with_you.append(ally.duplicate())
+		field["allies"] = with_you
 	if _in_a_gate():
 		# Lost inside a gate, the delve is lost with it: back out at its mouth, its floors filled in.
 		GameState.pending_outcome = {

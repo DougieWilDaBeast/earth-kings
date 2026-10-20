@@ -14,9 +14,19 @@ extends RefCounted
 ## up their bands are restocked the same way, all but the floor's keeper, so they climb as the floors
 ## above them were tuned to.
 ##
+## From `tower.grown.from` up ([D290], [D307]) a floor is laid out here at the climb instead: a run of
+## chambers in the Tower's own stone, the higher the bigger, with a band of the floor's own in every
+## chamber but the first ([method ensure_grown]); every third floor from 12 is shared with another
+## company who fight beside the party ([method company_with_you]), and from 25 every fifth has people
+## living by the stair.
+##
 ## Loaded by path, not by `class_name` ([D41]).
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+
+const SLAB := "s"
+const RUNNER := "f"
+const WALL := "A"
 
 
 ## Whether [param floor] has ground of its own whose bands are still the floor's foes ([D254]).
@@ -82,3 +92,235 @@ static func restock(bands: Array, world: World, floor: int, party: Array, stairs
 		band["done_flag"] = "done:%s" % key
 		out.append(band)
 	return out
+
+
+# --- floors that grow ([D290], [D307]) ---------------------------------------------------
+
+
+static func grown_rules() -> Dictionary:
+	return Chapters.rules().get("grown", {})
+
+
+## Whether [param floor] is laid out at the climb rather than on a borrowed plan.
+static func is_grown(floor: int) -> bool:
+	var from := int(grown_rules().get("from", 0))
+	return from > 0 and floor >= from and floor <= int(Chapters.rules().get("floors", 100))
+
+
+static func grown_area_id(floor: int) -> String:
+	return str(grown_rules().get("area", "tower_floor_grown_%d")) % floor
+
+
+## How wide and high [param floor] is: the base frame, grown a little every floor over the walked ones.
+static func grown_size(floor: int) -> Vector2i:
+	var r := grown_rules()
+	var over := maxi(0, floor - int(Chapters.rules().get("walked_floors", 10)))
+	var width := mini(int(r.get("widest", 60)), int(r.get("width", 26)) + roundi(float(r.get("width_per_floor", 0.6)) * float(over)))
+	var height := mini(int(r.get("tallest", 44)), int(r.get("height", 18)) + roundi(float(r.get("height_per_floor", 0.4)) * float(over)))
+	return Vector2i(width, height)
+
+
+static func grown_chambers(floor: int) -> int:
+	var r := grown_rules()
+	var over := maxi(0, floor - int(Chapters.rules().get("walked_floors", 10)))
+	return mini(int(r.get("most_chambers", 7)), int(r.get("chambers", 3)) + over / maxi(1, int(r.get("chambers_every", 5))))
+
+
+## A shared floor: another company is climbing it too ([D290]).
+static func is_shared(floor: int) -> bool:
+	var r := grown_rules()
+	var from := int(r.get("shared_from", 0))
+	return is_grown(floor) and from > 0 and floor >= from and (floor - from) % maxi(1, int(r.get("shared_every", 3))) == 0 and not is_living(floor)
+
+
+## A floor people live on ([D290]: "by floor 25 or 30 people have set up base").
+static func is_living(floor: int) -> bool:
+	var r := grown_rules()
+	var from := int(r.get("living_from", 0))
+	return is_grown(floor) and from > 0 and floor >= from and (floor - from) % maxi(1, int(r.get("living_every", 5))) == 0
+
+
+## The name of the company on [param floor], the same every time for this world.
+static func company_on(world: World, floor: int) -> String:
+	var companies: Array = Database.world_rules.get("life", {}).get("climbers", {}).get("companies", ["another company"])
+	if companies.is_empty():
+		return "another company"
+	return str(companies[absi(hash([world.world_seed, "tower company", floor])) % companies.size()])
+
+
+## The company climbing a shared [param floor] beside the party, as a fight's allies: each
+## `{ unit, level, name }`, at the party's level. Empty on a floor of the party's own.
+static func company_with_you(world: World, floor: int, party: Array) -> Array:
+	if not is_shared(floor):
+		return []
+	var r := grown_rules()
+	var climbers: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
+	var units: Array = climbers.get("units", ["keep_watchman"])
+	var size: Array = r.get("shared_size", [2, 3])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, "tower company", floor])
+	var count := rng.randi_range(int(size[0]), int(size[1]))
+	var level := Encounter.party_level(party)
+	var out: Array = []
+	for i in count:
+		out.append({ "unit": str(units[rng.randi() % units.size()]), "level": level, "name": company_on(world, floor) })
+	return out
+
+
+## The line said on the way up a shared or a living floor, or "".
+static func floor_line(world: World, floor: int) -> String:
+	var r := grown_rules()
+	if is_living(floor):
+		return str(r.get("living_line", "")).format({ "company": company_on(world, floor) })
+	if is_shared(floor):
+		return str(r.get("shared_line", "")).format({ "company": company_on(world, floor) })
+	return ""
+
+
+## [param floor] of [param world] laid out and registered, ready for the area scene: returns its id.
+## The same floor of the same world is always laid out the same way. Its bands are stand-ins the
+## floor's own foes replace as the floor opens ([method restock]).
+static func ensure_grown(world: World, floor: int) -> String:
+	var id := grown_area_id(floor)
+	if Database.has_area(id):
+		return id
+	Database.register_area(id, layout(world, floor))
+	return id
+
+
+## The floor itself, in an area's shape.
+static func layout(world: World, floor: int) -> Dictionary:
+	var r := grown_rules()
+	var size := grown_size(floor)
+	var width := size.x
+	var height := size.y
+	var count := grown_chambers(floor)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, "tower grown", floor])
+	var grid: Array = []
+	for y in height:
+		var row: Array = []
+		row.resize(width)
+		row.fill(WALL)
+		grid.append(row)
+	# The chambers, bottom to top, swinging from side to side so the way up winds.
+	var rooms: Array[Rect2i] = []
+	for i in count:
+		var t := float(i) / float(maxi(1, count - 1))
+		var cy := roundi(lerpf(float(height - 5), 4.0, t))
+		var half_w := rng.randi_range(3, 4 + width / 12)
+		var half_h := rng.randi_range(2, 2 + height / 12)
+		var side := (i % 2) * 2 - 1
+		var cx := width / 2 + side * rng.randi_range(0, width / 4)
+		if i == 0 or i == count - 1:
+			cx = width / 2 + rng.randi_range(-1, 1)
+		cx = clampi(cx, half_w + 2, width - half_w - 3)
+		cy = clampi(cy, half_h + 2, height - half_h - 3)
+		rooms.append(Rect2i(cx - half_w, cy - half_h, half_w * 2 + 1, half_h * 2 + 1))
+	for room in rooms:
+		for y in range(room.position.y, room.end.y):
+			for x in range(room.position.x, room.end.x):
+				grid[y][x] = SLAB
+	for i in range(1, rooms.size()):
+		_carve_way(grid, _centre(rooms[i - 1]), _centre(rooms[i]), rng)
+	# The way in below the first chamber, and the stair above the last.
+	var door := Vector2i(_centre(rooms[0]).x, height - 1)
+	_carve_way(grid, _centre(rooms[0]), door, rng)
+	var stair := Vector2i(_centre(rooms[-1]).x, 0)
+	_carve_way(grid, _centre(rooms[-1]), Vector2i(stair.x, 1), rng)
+	for x in width:
+		if absi(x - door.x) > 1:
+			grid[height - 1][x] = WALL
+		if x != stair.x and x != stair.x + 1:
+			grid[0][x] = WALL
+	grid[0][stair.x] = RUNNER
+	grid[0][stair.x + 1] = RUNNER
+	grid[1][stair.x + 1] = RUNNER
+	for x in [0, width - 1]:
+		for y in height:
+			grid[y][x] = WALL
+	var rows: Array = []
+	for row: Array in grid:
+		rows.append("".join(PackedStringArray(row)))
+	# The stair, lit runes either side of it and along the top wall, and lamps by the way in.
+	var props: Array = [
+		{ "art": "tower_inside/stair_up", "cell": [stair.x, 1] },
+		{ "art": "tower_inside/stair_up", "cell": [stair.x + 1, 1], "flip": true },
+		{ "art": "tower_inside/rune_a", "cell": [stair.x - 1, 0] },
+		{ "art": "tower_inside/rune_b", "cell": [stair.x + 2, 0] },
+		{ "art": "tower_inside/rune_c", "cell": [clampi(stair.x - 6, 1, width - 2), 0] },
+		{ "art": "tower_inside/rune_c", "cell": [clampi(stair.x + 7, 1, width - 2), 0] },
+		{ "art": "lamp_globe", "cell": [clampi(door.x - 3, 1, width - 2), height - 3] },
+		{ "art": "lamp_globe", "cell": [clampi(door.x + 3, 1, width - 2), height - 3] },
+	]
+	# A band of the floor's own in every chamber but the first: a stand-in pack the floor's foes
+	# replace ([method restock]), the keeper of the top floor among them.
+	var bands: Array = []
+	for i in range(1, rooms.size()):
+		var at := _centre(rooms[i])
+		var key := "tower%d_%s" % [floor, char(97 + i)]
+		bands.append({
+			"key": key, "pack": (r.get("band_pack", ["goblin", "goblin"]) as Array).duplicate(), "label": "Floor %d" % floor,
+			"faction": "", "at": [at.x, at.y], "reach": 2, "level": 1, "held": true,
+			"requires_not": "done:%s" % key, "done_flag": "done:%s" % key,
+		})
+	# People living on the floor, by the way in, who will talk ([D290]).
+	var people: Array = []
+	if is_living(floor):
+		var sizes: Array = r.get("living_size", [3, 4])
+		var units: Array = Database.world_rules.get("life", {}).get("climbers", {}).get("units", ["keep_watchman"])
+		var company := company_on(world, floor)
+		var spots := [Vector2i(-3, -1), Vector2i(3, -1), Vector2i(-2, -3), Vector2i(2, -3)]
+		for i in rng.randi_range(int(sizes[0]), int(sizes[1])):
+			var at := Vector2i(door.x, height - 3) + (spots[i % spots.size()] as Vector2i)
+			if at.x <= 0 or at.x >= width - 1 or at.y <= 0 or grid[at.y][at.x] == WALL:
+				continue
+			people.append({
+				"name": company, "unit": str(units[rng.randi() % units.size()]), "cell": [at.x, at.y],
+				"facing": [0, 1], "_area": "floor_folk", "talk": r.get("living_talk", {}),
+			})
+	return {
+		"display_name": "floor %d of the Tower" % floor,
+		"layers": ["tower_slab", "tower_runner", "tower_wall"],
+		"legend": { SLAB: "tower_slab", RUNNER: "tower_runner", WALL: "tower_wall" },
+		"tint": str(r.get("tint", "#8a8fa8")),
+		"hint": str(r.get("hint", "")),
+		"rows": rows,
+		"spawn": [door.x, height - 3],
+		"exits": [[door.x - 1, height - 1], [door.x, height - 1], [door.x + 1, height - 1]],
+		"stairs": [[stair.x, 0], [stair.x + 1, 0]],
+		"props": props,
+		"bands": bands,
+		"people": people,
+		"spots": [],
+	}
+
+
+static func _centre(room: Rect2i) -> Vector2i:
+	return room.position + room.size / 2
+
+
+## A way from [param from] to [param to]: across, then up or down, three wide, a runner down its middle.
+static func _carve_way(grid: Array, from: Vector2i, to: Vector2i, rng: RandomNumberGenerator) -> void:
+	var cells: Array[Vector2i] = []
+	var bend := Vector2i(to.x, from.y) if rng.randf() < 0.5 else Vector2i(from.x, to.y)
+	for leg: Array in [[from, bend], [bend, to]]:
+		var a: Vector2i = leg[0]
+		var b: Vector2i = leg[1]
+		var step := Vector2i(signi(b.x - a.x), signi(b.y - a.y))
+		var at := a
+		cells.append(at)
+		while at != b:
+			at += step
+			cells.append(at)
+	var height := grid.size()
+	var width := (grid[0] as Array).size()
+	for cell in cells:
+		for y in range(cell.y - 1, cell.y + 2):
+			for x in range(cell.x - 1, cell.x + 2):
+				if y >= 0 and y < height and x >= 0 and x < width and grid[y][x] == WALL:
+					grid[y][x] = SLAB
+	for cell in cells:
+		if cell.y >= 0 and cell.y < height and cell.x >= 0 and cell.x < width:
+			grid[cell.y][cell.x] = RUNNER
+

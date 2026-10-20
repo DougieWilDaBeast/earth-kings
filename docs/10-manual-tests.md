@@ -229,6 +229,8 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G18 | With an S-rank gate open, walk on until an upkeep passes, then open the Guild at the nearest hall | "The Guild is raising a muster…" in the log; the muster's strength at the top of the hall |
 | G19 | **Stand with them**, then walk into that gate | "N of the muster go into … beside you"; blue-ringed allies on the back row fight with you |
 | G20 | Stand with a muster, then send a companion on it from the Practice page | They wait at the hall ("waiting with the muster"); when it goes in they come back paid, or roll for their life |
+| G21 | Climb past floor 10 (floor 11, then 12) | Each floor is a run of chambers of its own, bigger than floors 1 to 10, the stair at the far end and a band in every chamber but the first; floor 12 says another company is on it, and they fight beside you ([D307](06-decisions.md)) |
+| G22 | Climb to floor 25 | People stand by the way in and talk: they live here and are not going higher; no company fights beside you on it ([D307](06-decisions.md)) |
 
 ## D2 — Towns, wilds and the people in them ([D62](06-decisions.md))
 

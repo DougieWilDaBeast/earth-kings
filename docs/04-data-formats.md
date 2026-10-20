@@ -779,6 +779,26 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
+## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
+
+Read by `src/chronicle/tower_floors.gd` (`is_grown`, `ensure_grown`, `layout`, `company_with_you`,
+`floor_line`) and `Chapters.walked_floor_area`, which returns `area` (with the floor number) for any floor
+from `from` up, so the stair below knows the floor's id before `ensure_grown` registers it
+(`Database.register_area`) as the stair is climbed (`world_scene._climb`). A floor is `width` by `height`
+at floor 10, growing `width_per_floor` and `height_per_floor` a floor (rounded) to `widest` and `tallest`,
+with `chambers` chambers, one more every `chambers_every` floors to `most_chambers`; the way in is at the
+bottom (`spawn`, `exits`), the stair at the top (`stairs`), the chambers joined by three-wide ways with a
+runner down the middle; the legend is the Tower's slab, runner and wall, `tint` and `hint` its own. Every
+chamber but the first holds a band keyed `tower<floor>_<letter>` with `band_pack` as a stand-in that
+`TowerFloors.restock` replaces with the floor's foes (the same as a borrowed plan's, so `borrows_a_plan` is
+true of a grown floor); `props` carry the stair's two halves, four runes and two lamps. A floor is shared
+(`is_shared`) from `shared_from` every `shared_every` floors unless it is lived on: `company_with_you`
+gives `shared_size` of `life.climbers.units` at the party's level, named by `company_on` from
+`life.climbers.companies`, handed to the area scene as `allies`, who fight every fight on the floor beside
+the party; `shared_line` (`{company}`) is said on the way up. A floor is lived on (`is_living`) from
+`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words,
+`living_line` said on the way up.
+
 ## `world_rules.json` → `gate.fallen` — demon kings of fallen worlds (D293, D304)
 
 Read by `Site.demon_king()`, `Site.demon_words()`, `Encounter.for_gate()`, `GateInside._bands()` and
