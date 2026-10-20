@@ -145,9 +145,78 @@ static func objective_brief(id: String) -> String:
 func label() -> String:
 	if kind == GATE:
 		if broken:
-			return "%s (BROKEN %s-rank gate)" % [display_name, rank]
-		return "%s (%s-rank gate)" % [display_name, rank]
+			return "%s (BROKEN %s-rank gate)" % [display_name, reading()]
+		return "%s (%s-rank gate)" % [display_name, reading()]
 	return display_name
+
+
+# --- readings and double gates ([D293], [D302]) -----------------------------------
+#
+# The founders: a gate's rank is a reading, its energy and the foes inside, that lets you predict
+# what you will face, and it can be wrong; a double gate's rank climbs once you are in, and you
+# cannot leave until it is done. Both are fixed by where the gate stands, so a seeded run reads the
+# same every time.
+
+
+static func reading_rules() -> Dictionary:
+	return Database.world_rules.get("gate", {}).get("reading", {})
+
+
+## The rank a gate reads as from outside. A misread gate (one in `wrong_one_in` from `wrong_from`
+## up) reads a rank lower than it is, until the company has been in and seen.
+func reading() -> String:
+	if kind != GATE or rank == "" or bool(data.get("seen_true", false)) or not misread():
+		return rank
+	return RANKS[maxi(0, rank_index(rank) - 1)]
+
+
+## Whether this gate's reading is wrong ([D302]): never below `wrong_from` (C).
+func misread() -> bool:
+	var rules := reading_rules()
+	var one_in := int(rules.get("wrong_one_in", 0))
+	if one_in <= 0 or rank_index(rank) < rank_index(str(rules.get("wrong_from", "C"))):
+		return false
+	return absi(hash([cell.x, cell.y, "reading"])) % one_in == 0
+
+
+## The level the reading says to expect inside.
+func reading_level() -> int:
+	return 1 + rank_index(reading()) * 4
+
+
+## Whether this is a double gate ([D302]): `double_base` in a hundred, and `double_per_fallen` more
+## for every world already ended, decided the first time it is gone into and kept.
+func is_double(fallen: int = 0) -> bool:
+	if data.has("double"):
+		return bool(data["double"])
+	var rules := reading_rules()
+	var chance := int(rules.get("double_base", 0)) + int(rules.get("double_per_fallen", 0)) * fallen
+	return chance > 0 and rank_index(rank) < RANKS.size() - 1 and absi(hash([cell.x, cell.y, "double"])) % 100 < chance
+
+
+## The company goes in. A misread gate shows what it is; a double gate, the first time, climbs a
+## rank and shuts its way out until its keeper falls. Returns the lines to say.
+func gone_into(fallen: int) -> Array[String]:
+	var lines: Array[String] = []
+	var rules := reading_rules()
+	if kind != GATE:
+		return lines
+	if misread() and not bool(data.get("seen_true", false)):
+		lines.append(str(rules.get("misread_line", "")).format({"gate": display_name, "read": reading(), "rank": rank}))
+	data["seen_true"] = true
+	if not data.has("double"):
+		data["double"] = is_double(fallen)
+	if bool(data["double"]) and not bool(data.get("sprung", false)):
+		var was := rank
+		rank = RANKS[mini(RANKS.size() - 1, rank_index(rank) + 1)]
+		data["sprung"] = true
+		lines.append(str(rules.get("double_line", "")).format({"gate": display_name, "was": was, "rank": rank}))
+	return lines
+
+
+## Whether the way out is shut: a double gate once sprung, until it is shut.
+func sealed_in() -> bool:
+	return kind == GATE and bool(data.get("sprung", false)) and not cleared
 
 
 func to_dict() -> Dictionary:

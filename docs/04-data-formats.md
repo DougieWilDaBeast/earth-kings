@@ -769,6 +769,16 @@ the Tenth on floor 10 (`tower10_keeper`, [D254](06-decisions.md)).
 mercy: `gentle` (shown as Story, no permadeath), `first_hour`, `even` (the game as written),
 `hard` (Unkind); `breeze` is for testing. The difficulty button cycles them in that order.
 
+## `world_rules.json` → `gate.reading` — readings and double gates (D293, D302)
+
+Read by `Site.reading()`, `Site.misread()`, `Site.is_double()` and `Site.gone_into()` in
+`src/chronicle/site.gd`. From `wrong_from` up, one gate in `wrong_one_in` reads a rank lower than it is
+until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.seen_true` then holds).
+`double_base` in a hundred, plus `double_per_fallen` for each world ended before this one
+(`world.echoes.sibling`), are double: decided the first time in (`data.double`), a double gate climbs one
+rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
+it is shut. Both are fixed by the gate's cell, not the world's dice.
+
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
 Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight hand-off in
