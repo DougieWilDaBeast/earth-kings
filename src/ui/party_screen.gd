@@ -21,6 +21,7 @@ const Crafting := preload("res://src/chronicle/crafting.gd")
 ## Class colours, growth bars and the shapes of powers ([D66]).
 const SheetParts := preload("res://src/ui/sheet_parts.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 
 ## Pieces out of the packs offered per person. The page scrolls, so this is
 ## about what is worth reading rather than what fits on one row.
@@ -612,6 +613,19 @@ func _build_head(character: Character, party: Array[Character]) -> void:
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
 	_head.add_child(buttons)
+
+	# The party's formation ([D305]), on the lead's own sheet: a tap steps to the next shape.
+	if character.is_player and Formations.on():
+		var formation := Button.new()
+		formation.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		formation.focus_mode = Control.FOCUS_NONE
+		formation.text = "Formation: %s" % Formations.word(GameState.formation, party.size())
+		formation.tooltip_text = Formations.tip(GameState.formation)
+		formation.pressed.connect(func() -> void:
+			GameState.formation = Formations.next(GameState.formation)
+			_rebuild())
+		Sfx.attend(formation)
+		buttons.add_child(formation)
 
 	var yoke := Button.new()
 	yoke.custom_minimum_size = Vector2(0, ROW_BUTTON.y)

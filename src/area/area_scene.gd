@@ -17,6 +17,7 @@ extends Node2D
 ## ([signal EventBus.continent_requested]) while the party walks on, the tiles ahead are laid out
 ## a frame at a time and the ones far behind are let go.
 
+const Formations := preload("res://src/skirmish/formations.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
@@ -2545,14 +2546,27 @@ func _drop_crumbs() -> void:
 func _settle_followers(delta: float) -> void:
 	if _followers.is_empty() or _leader == null:
 		return
+	# The party's formation ([D305]): each follower has a slot round the lead, and walks to it
+	# where it can be stood on; where it cannot (a door, a wall), the trail behind the lead.
+	var slots := _formation_slots()
 	for index in _followers.size():
 		var follower := _followers[index]
 		var target_dist := float(index + 1) * FOLLOWER_DISTANCE
 		var target_pos := _point_along_trail(target_dist)
+		var formed := false
+		if slots.has(index):
+			var spot: Vector2 = slots[index]
+			if _can_stand(spot):
+				target_pos = spot
+				formed = true
 		var to_target := target_pos - follower.position
 		var far := to_target.length()
 
 		if far <= FOLLOW_DEADZONE:
+			if formed:
+				# Settled in a slot: face the way the lead faces.
+				follower.face(_leader.facing())
+				continue
 			# When settled, face along the trail towards the member ahead
 			var ahead_dist := maxf(0.0, target_dist - 10.0)
 			var ahead_pos := _point_along_trail(ahead_dist)
@@ -2572,6 +2586,30 @@ func _settle_followers(delta: float) -> void:
 		if step.length() > 0.5:
 			follower.face(step)
 		follower.position = _slide(follower.position, step)
+
+
+## Where each follower's slot is right now ([D305]): follower index -> point, for the party's
+## shape round the lead as they face. Empty with formations off, or when the followers are not
+## the party (someone has just joined or gone, and `_fall_in` has not put them down yet).
+func _formation_slots() -> Dictionary:
+	var out := {}
+	if not Formations.on() or _leader == null:
+		return out
+	var members := GameState.party_characters()
+	if members.size() != _followers.size() + 1:
+		return out
+	var companions: Array = []
+	for i in range(1, members.size()):
+		companions.append(members[i].template_id)
+	var shape := Formations.chosen(members.size())
+	if shape == "":
+		return out
+	var dealt := Formations.assign(shape, companions)
+	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
+	for i in companions.size():
+		if dealt.has(companions[i]):
+			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
+	return out
 
 
 func _arrive_at(cell: Vector2i) -> void:

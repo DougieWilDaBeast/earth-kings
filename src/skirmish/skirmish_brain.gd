@@ -13,6 +13,7 @@ extends RefCounted
 ## the editor since this landed would otherwise fail to parse the whole skirmish.
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 
 
 ## The foe [param fighter] should be swinging at. Keeps its current target while
@@ -144,6 +145,9 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 	var tried: Array = moves(fighter, tactics).duplicate()
 	if lead != null and lead != me:
 		tried.insert(1 if tried.has("dodge") else 0, "rally")
+		# And, when nothing else is called for, falls in to its slot round the lead until the party
+		# is in contact ([D305]): last, so a stance's own moves (Guard's escort) come first.
+		tried.append("form")
 	for move: String in tried:
 		var plan := {}
 		match move:
@@ -152,6 +156,9 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 			"rally":
 				if fighter.tactic_wait <= 0.0:
 					plan = _rally(fighter, fighters, lead, tactics)
+			"form":
+				if fighter.tactic_wait <= 0.0 and not hunted:
+					plan = _form(fighter, fighters)
 			"kite":
 				if fighter.tactic_wait <= 0.0 and swing >= int(tactics.get("kite_from_reach", 2)) \
 						and fighter.retreat_wait <= 0.0 and _nearest_hostile(me, me.cell, fighters) <= 1:
@@ -286,6 +293,19 @@ static func _rally(fighter: Fighter, fighters: Array[Fighter], lead: Unit, tacti
 		return {}
 	return {"why": "rally", "wait": every, "ally": lead.display_name, "goal": func(c: Vector2i) -> bool:
 		return Pathfinder.distance(c, ward) <= 2 and _free(c, fighter, fighters)}
+
+
+## To its slot in the party's formation ([D289], [D305]), while nobody of the party is in contact
+## with a foe: the party walks up in its shape and breaks into its doctrines once the fight is joined.
+static func _form(fighter: Fighter, fighters: Array[Fighter]) -> Dictionary:
+	var slot := Formations.slot_cell(fighter, fighters)
+	if slot == Formations.NONE or Formations.in_contact(fighters):
+		return {}
+	var slack := int(Formations.rules().get("slack", 1))
+	if Pathfinder.distance(fighter.unit.cell, slot) <= slack:
+		return {}
+	return {"why": "form", "wait": float(Formations.rules().get("form_every", 1.5)), "goal": func(c: Vector2i) -> bool:
+		return Pathfinder.distance(c, slot) <= slack and _free(c, fighter, fighters)}
 
 
 ## Back beside the party's leader, when this fighter is not the leader and has drifted

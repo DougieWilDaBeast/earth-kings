@@ -285,6 +285,8 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.29 | Meet your first band of a new run with tips on | No tip card over the fight; the fight tips come up once it is over ([D300](06-decisions.md)) |
 | D3.30 | Go into gates of rank C and up until one says "read … from outside. Inside, it is …" | Its label on the map gave the lower rank before; after, the true one ([D302](06-decisions.md)) |
 | D3.31 | Go into gates until one says it "was a double gate", then walk back to its doorway | Its rank climbed one; "The way out is shut"; beat its keeper and the way out is open again ([D302](06-decisions.md)) |
+| D3.34 | With three or more walking, open the party sheet (P) on the lead and tap *Formation* until it says *Column*, then walk up open ground | The followers file in behind the lead, a short step apart, facing the way the lead faces; through a door they fall back into a trail ([D305](06-decisions.md)) |
+| D3.35 | Set *Formation: Diamond* and walk onto red ground a few strides from a band | Before anyone is in reach, the companions walk to their places round the lead ("falls in"), the mender behind; once a blow is traded everyone fights as their doctrine and stance say ([D305](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))

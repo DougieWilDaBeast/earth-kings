@@ -58,6 +58,9 @@ var camp_stash: Array = []
 ## Keys found and kept. Not equipment — they weigh nothing and open one thing
 ## each (see [Ward]).
 var keys: Array = []
+## The shape the party walks and fights in ([D305], `formations` in `data/skirmish.json`): a shape's
+## id, or `auto` for the one picked by how many walk.
+var formation: String = "auto"
 ## What the fight being walked into will settle on the way back, if it is won.
 ## Deliberately not saved: a battle abandoned mid-fight is simply never settled.
 var pending_outcome: Dictionary = {}
@@ -228,6 +231,7 @@ func new_game(world_seed: int = 0, lead_id: String = "", rehearsal: bool = false
 	stores = []
 	camp_stash = []
 	keys = []
+	formation = "auto"
 	last_save_note = ""
 	last_save_steps = 0
 
@@ -328,6 +332,7 @@ func save(note: String = "") -> void:
 		"stores": stores,
 		"camp_stash": camp_stash,
 		"keys": keys,
+		"formation": formation,
 		"ledger": ledger,
 	}
 	# Never over the top of the last good save: see [method SaveFile.write].
@@ -407,6 +412,7 @@ func load_save() -> bool:
 	stores = data.get("stores", [])
 	camp_stash = data.get("camp_stash", [])
 	keys = data.get("keys", [])
+	formation = str(data.get("formation", "auto"))
 	return true
 
 

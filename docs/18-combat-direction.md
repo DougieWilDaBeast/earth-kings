@@ -480,6 +480,41 @@ Close in 24 s (0.74), Guard 28 s (0.67), Hold 59 s (0.74) and Keep away 68 s (0.
 a real choice and none of them throws a fight. The words, the keys, the escort's two tiles and that a
 stance lasts between fights are **Inferred** (agenda 124 and 133).
 
+### Formations
+
+**Built 2026-10-20** ([D305](06-decisions.md), meeting six's piece E1, from [D289](06-decisions.md)).
+`doug-md`: "the healer at the back, heavy hitters at the front, others on the flanks (a diamond for
+four, a pyramid of one, two and three for six)". Five shapes, in `data/skirmish.json` → `formations`,
+each a set of cells round the lead, who is always the origin, so a shape turns with whoever is played:
+
+| Shape | Who stands where (the lead at ·) |
+| --- | --- |
+| Line | everyone abreast of the lead, blades to either side |
+| Column | single file behind the lead; the mender last |
+| Diamond | a blade ahead, one at each flank, the mender behind |
+| Wedge | the lead at the point, blades at each shoulder, the rest behind them |
+| Pyramid | one, two and three: the lead, two blades, then three |
+
+Companions are dealt slots by what they fight with: a mender or a shooter (the ranged and keeper
+doctrines, or a mend or a bow read from a recruit's abilities) to the back line first, one who swings
+up close to the front, anyone else to the flanks; the same party is dealt the same way every time. The
+player picks a shape on the lead's party sheet (*Formation: Diamond*; a tap steps to the next) or
+leaves it on *Auto*, which picks by how many walk (two abreast, three a wedge, four a diamond, five a
+wedge, six a pyramid). The pick is kept in the save.
+
+**Walking**: the followers walk to their slots round the lead, 40 pixels a slot, and wherever a slot
+cannot be stood on (a door, a wall, a narrow way) that follower falls back to the trail behind the
+lead, so a corridor still files them. **Fighting**: until anyone of the party is in contact with a foe,
+a companion with nothing else to do falls in to its slot ("falls in", every 1.5 s, the last move tried,
+so a stance's own come first); a companion standing within a tile of its slot takes 8% less of every
+blow (`hold_guard`), the Formation aura's idea as the bonus for holding one. Enemies, allies and the
+who-wins bouts fight as they did.
+
+**Still to come** (piece E2): the wheel on a held key, a leader who rises out of the fights and
+recommends a shape, call-outs both sides hear, the bonus for fights shared, foes in formation, and a
+formation breaking on mood or trust. The five shapes' cells, the lines, the sheet's button rather
+than a wheel, the 40 pixels, the fall-in ending on contact and the 8% are **Inferred** (agenda 213).
+
 ## Who wins?
 
 **Built 2026-10-16** ([D180](06-decisions.md), call AY), after `dougie` pointed at a channel of

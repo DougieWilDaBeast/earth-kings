@@ -431,6 +431,8 @@ each, each ending playable:
       ([D293](06-decisions.md), #380). Readings and double gates **built** ([D302](06-decisions.md), 2026-10-20);
       demon kings and instant gates next.
    E. Formations, a leader who rises, call-outs and a bonus for fights shared ([D289](06-decisions.md), #381).
+      **Built in part**: the five shapes, walked and fought in, picked on the party sheet, and the guard for holding
+      one ([D305](06-decisions.md), 2026-10-20); the leader, call-outs, the shared-fights bonus and the wheel next.
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382).
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer

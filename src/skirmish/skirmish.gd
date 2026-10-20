@@ -37,6 +37,7 @@ const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
 const Land := preload("res://src/area/land.gd")
@@ -1170,8 +1171,9 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		tags.append("charge")
 	multiplier *= signatures.might(f, victim) * conditions.taken_scale(victim)
 	if victim != null:
+		# Holding a slot in the party's formation is a little guard too ([D305]).
 		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5),
-				_aura(victim, "guard") + signatures.guard(victim))
+				_aura(victim, "guard") + signatures.guard(victim) + Formations.hold_guard(victim, fighters))
 	# Caesar beside them takes part of it on himself.
 	var guardian := signatures.shield_for(victim)
 	if guardian != null:
