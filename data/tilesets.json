@@ -55,8 +55,7 @@
 		},
 		"raised": {
 			"display_name": "higher ground",
-			"walkable": true
-		},
+			"walkable": true, "height": 1},
 		"cinder": {
 			"display_name": "burnt rubble",
 			"walkable": true

@@ -779,6 +779,18 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308)
+
+Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
+`_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
+`height` (the shelves' `raised` is 1) stands that many heights up; an area whose legend uses one has
+heights. `ways_up` in the area's file is the cells where higher ground can be stepped onto, or off, from
+a height below (the author draws a slope prop, `landmark/slope`, on each); everywhere else a step up is
+refused and a step down is free (`may_step`), two or more up never. `heights`: `hurt_from` heights of drop
+before it hurts, `share` of everyone's health for each height past the first, `floor` the share nobody
+falls below, `hurt_line` (`{fell}`) and `blocked_line` (said once a cell when the lead walks into a shelf
+with no way up). The ledges node draws a rim on the top of every drop and a shadow on the ground below.
+
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
 Read by `src/chronicle/tower_floors.gd` (`is_grown`, `ensure_grown`, `layout`, `company_with_you`,

@@ -80,6 +80,7 @@ func _ready() -> void:
 	await _check_practice_band()
 	await _check_tower_floor()
 	await _check_tower_grows()
+	await _check_heights()
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
@@ -1158,6 +1159,67 @@ func _check_gates_grow() -> void:
 	_expect((after.get("people", []) as Array).size() >= (before.get("people", []) as Array).size() + 3,
 		"gates grow: nobody comes to cheer at a shut gate")
 	_expect(ResourceLoader.exists("res://art/props/%s.png" % art), "gates grow: the broken gate has no picture")
+
+
+## Heights on the wind scarp ([D287], [D308]): the shelves are a height up from the bare earth, dropped
+## off anywhere and climbed only at a slope; a drop of two hurts everyone; the edges are drawn.
+func _check_heights() -> void:
+	GameState.new_game(SEED)
+	var map := AreaMap.load_area("wild_scarp")
+	_expect(map != null and map.has_heights(), "the wind scarp has no heights")
+	if map == null:
+		return
+	_expect(map.height_at(Vector2i(14, 10)) == 0 and map.height_at(Vector2i(6, 3)) == 1, "bare earth is %d up and the shelf %d" % [map.height_at(Vector2i(14, 10)), map.height_at(Vector2i(6, 3))])
+	_expect(map.ways_up.size() >= 6 and map.ways_up.has(Vector2i(5, 4)), "the scarp has %d ways up" % map.ways_up.size())
+	_expect(not map.may_step(Vector2i(6, 5), Vector2i(6, 4)), "the shelf was climbed where there is no slope")
+	_expect(map.may_step(Vector2i(5, 5), Vector2i(5, 4)), "the slope at (5, 4) cannot be climbed")
+	_expect(map.may_step(Vector2i(6, 4), Vector2i(6, 5)) and map.drop(Vector2i(6, 4), Vector2i(6, 5)) == 1, "the shelf cannot be dropped off, or the drop is not one")
+	_expect(map.may_step(Vector2i(6, 4), Vector2i(7, 4)) and map.drop(Vector2i(6, 4), Vector2i(7, 4)) == 0, "walking along the shelf is not free")
+	_expect(map.props.any(func(p: Dictionary) -> bool: return str(p.get("art", "")) == "landmark/slope" and p.get("cell") == Vector2i(5, 4)), "no slope is drawn at (5, 4)")
+	var flat := AreaMap.load_area("city_streets")
+	_expect(flat != null and not flat.has_heights() and flat.may_step(Vector2i(3, 3), Vector2i(3, 4)), "flat ground has heights")
+
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_scarp", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var on: AreaMap = scene.map
+	_expect((scene.get("_layers") as Node).get_node_or_null("Ledges") != null, "the shelf edges are not drawn")
+	# Walking at the shelf from the bare earth: stopped where there is no slope, up where there is one.
+	var foot := on.centre_of(Vector2i(6, 5))
+	var up := Vector2(0, -float(AreaMap.CELL))
+	var stopped: Vector2 = scene.call("_slide", foot, up)
+	_expect(on.cell_at(stopped) == Vector2i(6, 5), "the lead walked up the shelf with no slope, to %s" % on.cell_at(stopped))
+	var at_slope := on.centre_of(Vector2i(5, 5))
+	var climbed: Vector2 = scene.call("_slide", at_slope, up)
+	_expect(on.cell_at(climbed) == Vector2i(5, 4), "the lead could not climb the slope, stays at %s" % on.cell_at(climbed))
+	var down: Vector2 = scene.call("_slide", on.centre_of(Vector2i(6, 4)), -up)
+	_expect(on.cell_at(down) == Vector2i(6, 5), "the lead could not drop off the shelf")
+	# The lead is told why, once.
+	scene.get("_leader").position = foot
+	var notes_before: int = (scene.get("_notices") as Array).size()
+	scene.call("_say_the_shelf", foot, up, Vector2.ZERO)
+	scene.call("_say_the_shelf", foot, up, Vector2.ZERO)
+	_expect((scene.get("_notices") as Array).size() == notes_before + 1, "walking into the shelf said nothing, or said it twice")
+	# A drop of one is free; a drop of two hurts everyone, never below a tenth.
+	var party := GameState.party_characters()
+	for member: Character in party:
+		member.hp = member.max_hp()
+	scene.get("_leader").position = on.centre_of(Vector2i(6, 5))
+	scene.call("_fall", on.centre_of(Vector2i(6, 4)))
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() == c.max_hp()), "a drop of one hurt")
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	var was: Dictionary = Database.area_terrain("raised").duplicate()
+	(Database.tilesets["terrains"] as Dictionary)["raised"]["height"] = 2
+	scene.call("_fall", on.centre_of(Vector2i(6, 4)))
+	(Database.tilesets["terrains"] as Dictionary)["raised"] = was
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() < c.max_hp()), "a drop of two hurt nobody")
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() >= ceili(float(c.max_hp()) * float(rules.get("floor", 0.1)))), "a fall took someone below the floor")
+	print("heights: the wind scarp's shelves are %d up, %d slopes; a drop of two costs %.0f%% of everyone's health" % [
+		on.height_at(Vector2i(6, 3)), on.ways_up.size(), float(rules.get("share", 0.15)) * 100.0])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
 
 
 ## The Tower past floor 10 ([D290], [D307]): a floor from 11 up is laid out at the climb, the higher

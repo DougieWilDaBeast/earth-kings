@@ -25,6 +25,7 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const AreaLedges := preload("res://src/area/area_ledges.gd")
 const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -266,6 +267,8 @@ var _memories: Dictionary = {}
 ## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
 ## has been asked to take a step and not answered yet.
 var _land_mode: bool = false
+## Shelf edges the party has already been told cannot be climbed ([D308]).
+var _ledges_said: Dictionary = {}
 var _tile_ground: Dictionary = {}
 var _tile_things: Dictionary = {}
 var _to_hold: Array[Vector2i] = []
@@ -428,6 +431,12 @@ func _paint_layers() -> void:
 		InteriorPainter.paint(map, _layers)
 		return
 	GroundPainter.paint(map, _layers)
+	# The edges of higher ground, over the ground and under everyone ([D308]).
+	if map.has_heights():
+		var ledges := AreaLedges.new()
+		ledges.name = "Ledges"
+		ledges.map = map
+		_layers.add_child(ledges)
 
 
 # --- the land ([D84]) -----------------------------------------------------------------
@@ -2307,6 +2316,9 @@ func _physics_process(delta: float) -> void:
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
+	if map.has_heights():
+		_fall(before)
+		_say_the_shelf(before, stride, moved)
 	# Auto walking into something and not moving works its way out again, rather than pressing on
 	# at a waypoint it cannot reach ([D197]).
 	_auto_blocked = _auto_blocked + 1 if Pace.auto and moved.length_squared() <= 0.01 else 0
@@ -2422,39 +2434,74 @@ const WALKED_FLAG := "seen:walked"
 ## against a pond still slides along it.
 func _slide(from: Vector2, step: Vector2) -> Vector2:
 	var out := from
-	if _can_stand(Vector2(from.x + step.x, out.y)):
+	if _can_step(from, Vector2(from.x + step.x, out.y)):
 		out.x += step.x
-	elif absf(step.y) > 0.001 and _can_stand(Vector2(from.x, out.y + step.y)):
+	elif absf(step.y) > 0.001 and _can_step(from, Vector2(from.x, out.y + step.y)):
 		pass
 	else:
 		# Horizontal blocked; attempt subtle corner nudge up/down to slide smoothly around corners
 		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
-			if _can_stand(Vector2(from.x + step.x, out.y + nudge)):
+			if _can_step(from, Vector2(from.x + step.x, out.y + nudge)):
 				out.y += minf(absf(step.x), nudge)
 				out.x += step.x
 				break
-			elif _can_stand(Vector2(from.x + step.x, out.y - nudge)):
+			elif _can_step(from, Vector2(from.x + step.x, out.y - nudge)):
 				out.y -= minf(absf(step.x), nudge)
 				out.x += step.x
 				break
 
-	if _can_stand(Vector2(out.x, from.y + step.y)):
+	if _can_step(from, Vector2(out.x, from.y + step.y)):
 		out.y += step.y
-	elif absf(step.x) > 0.001 and _can_stand(Vector2(out.x + step.x, from.y)):
+	elif absf(step.x) > 0.001 and _can_step(from, Vector2(out.x + step.x, from.y)):
 		pass
 	else:
 		# Vertical blocked; attempt subtle corner nudge left/right to slide smoothly around corners
 		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
-			if _can_stand(Vector2(out.x + nudge, from.y + step.y)):
+			if _can_step(from, Vector2(out.x + nudge, from.y + step.y)):
 				out.x += minf(absf(step.y), nudge)
 				out.y += step.y
 				break
-			elif _can_stand(Vector2(out.x - nudge, from.y + step.y)):
+			elif _can_step(from, Vector2(out.x - nudge, from.y + step.y)):
 				out.x -= minf(absf(step.y), nudge)
 				out.y += step.y
 				break
 
 	return out
+
+
+## Standing room at [param to], stepped to from [param from]: higher ground is only climbed at a
+## way up, and only dropped off otherwise ([D308]).
+func _can_step(from: Vector2, to: Vector2) -> bool:
+	return _can_stand(to) and map.may_step(map.cell_at(from), map.cell_at(to))
+
+
+## The lead stepped from [param before] to where they stand: a drop of a height or more, and what it
+## costs ([D308]): the first height is free, each past `hurt_from` takes `share` of everyone's
+## health, never below `floor` of it.
+func _fall(before: Vector2) -> void:
+	var fell := map.drop(map.cell_at(before), map.cell_at(_leader.position))
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	if fell < int(rules.get("hurt_from", 2)):
+		return
+	var share := float(rules.get("share", 0.15)) * float(fell - int(rules.get("hurt_from", 2)) + 1)
+	for member: Character in GameState.party_characters():
+		var low := ceili(float(member.max_hp()) * float(rules.get("floor", 0.1)))
+		member.hp = maxi(low, member.current_hp() - maxi(1, roundi(float(member.max_hp()) * share)))
+	_note(str(rules.get("hurt_line", "A drop of {fell}. Everyone lands hard.")).format({ "fell": fell }))
+
+
+## Walking into a shelf with no way up says so, once a cell ([D308]).
+func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
+	if not map.has_heights() or moved.length_squared() > 0.01 or stride == Vector2.ZERO:
+		return
+	var ahead := map.cell_at(before + stride.normalized() * (BODY_RADIUS + 4.0))
+	var here := map.cell_at(before)
+	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
+		return
+	if _ledges_said.has(ahead):
+		return
+	_ledges_said[ahead] = true
+	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
 
 
 func _can_stand(point: Vector2) -> bool:
@@ -2559,7 +2606,7 @@ func _settle_followers(delta: float) -> void:
 		var formed := false
 		if slots.has(index):
 			var spot: Vector2 = slots[index]
-			if _can_stand(spot):
+			if _can_stand(spot) and map.height_at(map.cell_at(spot)) == map.height_at(map.cell_at(_leader.position)):
 				target_pos = spot
 				formed = true
 		var to_target := target_pos - follower.position
