@@ -461,6 +461,31 @@
 			"double_line": "The air thickens as you go in. {gate} was a double gate: its rank climbs from {was} to {rank}, and the way out shuts behind you.",
 			"sealed_line": "The way out is shut. A double gate lets nobody out until its keeper falls."
 		},
+		"_comment_fallen": "D293, D304 (meeting six, piece D2): in a world after a lead has fallen, some gates hold a demon king, a fallen lead come through wearing their face. From rank from (C) up, base in a hundred, and per_fallen more for every world already ended (the record of the fallen, echoes.past), decided by where the gate stands and kept once seen (data.demon); which of the fallen, by the same hash. Its keeper is the fallen lead's own unit, at the floor's keeper level plus levels and never under the level they fell at, stout_times as hard to put down as the rank's keeper; every band in the gate stands band_levels higher (the hostile forces that came through with them). Going in says line; the map label and the keeper's title carry label and title; the shut gate says shut_line. Words: {name}, {demon}, {gate}, {they}, {their}, {them} and the same capitalised. **Inferred**: every number and line.",
+		"fallen": {
+			"from": "C",
+			"base": 10,
+			"per_fallen": 10,
+			"levels": 2,
+			"stout_times": 1.5,
+			"band_levels": 1,
+			"label": "Demon King {name}",
+			"line": "Something of a burned world holds {gate}, and no reading saw it from outside: {demon}.",
+			"title": "{demon} keeps the far side of {gate}. {Their} world burned, and what came through wears {their} face.",
+			"shut_line": "{demon} is put down. What came through with {them} goes back to ash, and {their} world stays burned."
+		},
+		"_comment_instant": "D293, D304 (meeting six, piece D2): the Gate Key (key, in GameState.keys) tears an instant gate where it is turned. It is found when the company shuts a gate: always a double gate's (from_double), else one gate in found_one_in of rank found_from or above, fixed by where the gate stands, and never while one is held; the key keeps the rank of the gate it came out of. E on open ground with the key in hand (prompt, {rank}) tears a gate of that rank there, or on the nearest open cell within two when a place stands here: open from that step, held by a faction seated at gates, named names in turn, walked and shut like any other; spent says whether the key is used up. lines: found_line and torn_line ({gate}, {rank}). **Inferred**: every number and line.",
+		"instant": {
+			"key": "gate_key",
+			"from_double": true,
+			"found_from": "C",
+			"found_one_in": 4,
+			"spent": true,
+			"names": ["the Torn Gate", "the Second Tear", "the Third Tear", "the Fourth Tear"],
+			"found_line": "Among what the keeper kept, a key with no lock, warm to the hand: the Gate Key. Turned on open ground it tears a {rank}-rank gate where you stand.",
+			"torn_line": "The key turns in nothing, and the ground opens: {gate}, a {rank}-rank gate where there was none. Whatever is in it will come out.",
+			"prompt": "to turn the Gate Key here (a {rank}-rank gate opens where you stand)"
+		},
 		"objectives": {
 			"rout": {
 				"display_name": "Rout",
