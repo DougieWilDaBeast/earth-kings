@@ -459,6 +459,28 @@ B gates shut 4 of 4 either way; A gates shut 1 of 2 with it, 0 of 2 without (the
 Where Juno still fell, she fell beside Vesta and Atlas, to two or three foes at once in a few seconds;
 Vesta's Mend heals 15 against Juno's 504 at level 17, which is the next piece.
 
+**Heals keep pace** ([D284](06-decisions.md), agenda 195). A mend now heals 10% more for every level past 3.
+Measured with a party of four (Juno, Vesta, Pluto, Atlas) against four and five of the land's foes, twelve
+fights each, with it and with mends flat: level 3 the same to the blow; level 9 the same; level 17 against
+five, every fight won and the lead never down with it, one lost and the lead down without (the company
+ending at 72% of its health against 68%). The gate clock (A gates, two runs each) could not tell them
+apart: one shut and one stuck either way, the stuck runs Auto halting after a fall ([D261](06-decisions.md)).
+
+**Something on the road every few minutes** ([D286](06-decisions.md), agenda 197). The fun review's walk from
+the crater to the gate had nothing in it for seven minutes: a roadside scene rested 40 steps and then came
+one step in twenty, and the walk is 25 to 30 steps. The road now keeps a clock: 3 steps in, then every 6 to
+9, a band waiting on the road ahead, a roadside scene, a traveller with a line, or something left by the
+road. Self-played as Atlas at 2× (seeds 77 and 2, four minutes each), before and after:
+
+| Seed | Before | After |
+|---|---|---|
+| 77 | nothing on the road; the gate at 2:00 | a band (fought and won on the road), a traveller, a second band, a find; the gate at 2:00 |
+| 2 | nothing on the road; the gate at 2:30 | a find, a roadside scene (walked by), a band; the gate at 2:30 |
+
+Auto walking itself keeps to its way, so a band it does not walk into is gone round; a player walking by
+hand sees it on the road and chooses. Both runs then stood at the Tower's door with Auto stuck there, the
+same before and after.
+
 ## Music the hour still needs
 
 The fan covers are out of every build ([D100](06-decisions.md)). The hour plays on Ewan's two

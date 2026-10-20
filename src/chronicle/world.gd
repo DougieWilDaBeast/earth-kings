@@ -82,6 +82,9 @@ var annals: Array = []
 var escort: Dictionary = {}
 ## The step the last roadside scene played out on, so they do not crowd.
 var roadside_at: int = -999
+## The step the road's clock last put something on the road, and what kind ([D286], [Roadside]).
+var happening_at: int = 0
+var happening_last: String = ""
 ## Enemies who crawled away alive and wander with a grudge (see [Nemesis]).
 var survivors: Array = []
 ## Guild musters gathering for S-rank gates (see `src/chronicle/guild.gd`).
@@ -364,6 +367,8 @@ func to_dict() -> Dictionary:
 		"annals": annals,
 		"escort": escort,
 		"roadside_at": roadside_at,
+		"happening_at": happening_at,
+		"happening_last": happening_last,
 		"survivors": survivors,
 		"musters": musters,
 		"wanderers": wanderers,
@@ -417,6 +422,9 @@ static func from_dict(payload: Dictionary) -> World:
 	world.annals = payload.get("annals", [])
 	world.escort = payload.get("escort", {})
 	world.roadside_at = int(payload.get("roadside_at", -999))
+	# A save from before the road's clock waits a while before its first happening.
+	world.happening_at = int(payload.get("happening_at", world.steps))
+	world.happening_last = str(payload.get("happening_last", ""))
 	world.survivors = payload.get("survivors", [])
 	world.musters = payload.get("musters", [])
 	world.wanderers = payload.get("wanderers", [])

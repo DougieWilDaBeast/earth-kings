@@ -861,6 +861,15 @@ whatever lives there. `roadside.json`: a scene with `near_town` is offered only 
 said (`%s` the money, in coins). A scene is stood `stage_cells` ahead and told in the log within `tell_cells`,
 with no box and without stopping a party walking itself ([D216](06-decisions.md)).
 
+**The road's clock** ([D286](06-decisions.md)). `roadside.json` → `rules.clock`: `first_after` steps into a
+new world, then every `every` steps (a `[min, max]` span read off the seed), one of `kinds` by weight is
+put on the road, never the same kind twice running and never within `clear_of_sites` of a place or
+while walking somebody home: `band` (a band stood `band_ahead` steps on, the way the party walks, waiting
+on the road itself on the ground (`waylays` on the band), said with a line from `band_lines`), `scene` (one of the `events`, called up without `rest_steps` or `chance`;
+a traveller instead where none can stand), `traveller` (one of `travellers`: `who`, then `lines`, with
+`{town}`, `{gate}` and `{gate_way}` filled in; one naming a gate puts it on the map) and `find` (a haul as
+rich as `finds.richness`, said with one of `finds.lines`). A scene the dice bring restarts the clock.
+
 **Five tiers of each monster** ([D262](06-decisions.md)). `encounters.json` → `tiers`: `families`
 names each family's kinds, lesser to top (`lesser`, plain, high, hob, then a list for the top, a
 chieftain or a caster); a pool or band naming the plain kind deals it as one of the five, at the odds

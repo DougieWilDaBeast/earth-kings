@@ -229,6 +229,12 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   be pinned. A **Mender** (anything carrying a heal it can throw two tiles) heals its own side
   under 85% health instead of 60%, and hangs back the same way. Everyone else is a Brawler.
   Hovering any unit shows its role and passives.
+- **A mend grows with its caster's level** (2026-10-19, [D284](06-decisions.md), **Inferred**). A
+  spell that heals (Mend, Warding Touch, Stand Fast, Hearthlight, Second Wind, Soothing Spring, Hold
+  Fast) heals its power up to level 3, then 10% more for every level after (`heal_from_level`,
+  `heal_per_level` in `rules`): 2.4 times at level 17. Health grows with every level and a spell's
+  power did not, so Vesta's Mend was a tenth of Juno at level 1 and a thirtieth at 17. Draughts
+  already grow by kind, and regeneration by share of health. Both sides' menders grow alike.
 - **Energy, stuns, charged spells, items and shields** (2026-10-12, [D59](06-decisions.md), from
   `doug-md`'s twenty hours of _Dungeon Settlers_). Each card has an energy bar of ten pips; skills
   drain it and a fighter who runs dry is **tired**, swinging only, until it is half full again.
