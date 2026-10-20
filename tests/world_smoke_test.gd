@@ -15,7 +15,7 @@ const Company := preload("res://tests/company.gd")
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
 	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
-	"road_clock",
+	"road_clock", "fallen_gates",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -48,6 +48,7 @@ func _ready() -> void:
 		match name:
 			"world": _check_world(world)
 			"one_world": _check_one_world()
+			"fallen_gates": _check_fallen_gates(world)
 			"progression": _check_progression(hero, world)
 			"doctrine": _check_doctrine(hero, world)
 			"class_choice": _check_class_choice(world)
@@ -116,6 +117,87 @@ func _check_one_world() -> void:
 	a.tiles[0] = "changed"
 	var c := WorldGen.generate(SEED)
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
+
+
+## A fallen lead's demon king holds some gates of the world after, and the Gate Key tears a gate
+## where it is turned ([D293], [D304]).
+func _check_fallen_gates(world: World) -> void:
+	print("")
+	var kept_echoes := world.echoes
+	var kept_keys := GameState.keys.duplicate()
+	var kept_flags := GameState.flags.duplicate()
+	var kept_sites := world.sites.size()
+	var past: Array = [{ "hero": "iris", "name": "Iris", "level": 9 }]
+	world.echoes = { "sibling": 1, "past": past }
+
+	# No fall, no demon king; and never below rank C.
+	var quiet := Site.create(Site.GATE, Vector2i(1, 1), "Quiet")
+	quiet.rank = "B"
+	_expect(quiet.demon_king([]) == "", "a gate held a demon king before anyone fell")
+	var held := 0
+	for i in 1000:
+		var gate := Site.create(Site.GATE, Vector2i(i % 100, i / 100), "G%d" % i)
+		gate.rank = "B"
+		if gate.demon_king(past) != "":
+			held += 1
+	_expect(held > 120 and held < 280, "%d of 1000 B gates held a demon king with one world fallen, not about one in five" % held)
+	var low := 0
+	for i in 200:
+		var gate := Site.create(Site.GATE, Vector2i(i % 100, i / 100), "E%d" % i)
+		gate.rank = "E"
+		if gate.demon_king(past) != "":
+			low += 1
+	_expect(low == 0, "%d E gates held a demon king" % low)
+	print("demon kings: %d of 1000 B gates with one world fallen" % held)
+
+	# The keeper is the fallen lead, named, and never under the level they fell at.
+	var ashen := Site.create(Site.GATE, Vector2i(5, 5), "Ashen")
+	ashen.rank = "C"
+	ashen.data["demon"] = "iris"
+	var party := Company.found().party_members()
+	var met := Encounter.for_gate(world, ashen, 0, true, party, world.rng)
+	var bosses: Array = met.get("enemies", []).filter(func(f: Dictionary) -> bool: return bool(f.get("boss", false)))
+	_expect(bosses.size() == 1 and str(bosses[0].get("unit", "")) == "iris", "the demon king's gate was not kept by Iris (%s)" % [bosses])
+	_expect(not bosses.is_empty() and int(bosses[0].get("level", 0)) >= 9, "Demon King Iris stood under the level she fell at")
+	_expect(str(met.get("title", "")).contains("Demon King Iris"), "the keeper's title does not name the demon king: %s" % met.get("title", ""))
+	var said := ashen.gone_into(1, past)
+	_expect(ashen.label().contains("Demon King Iris"), "the map label does not name the demon king: %s" % ashen.label())
+	_expect(said.any(func(l: String) -> bool: return l.contains("Demon King Iris")), "going in did not say who holds it")
+	_expect(ashen.gone_into(1, past).is_empty(), "the demon king was announced twice")
+	var words := ashen.demon_words("iris")
+	_expect(str(words.get("their", "")) == "her" and str(words.get("Their", "")) == "Her", "Iris's words are not hers: %s" % [words])
+	_expect(Site.from_dict(ashen.to_dict()).label() == ashen.label(), "the demon king was lost in the save")
+
+	# The Gate Key: a shut double gate always gives it, once, with the gate's rank; then it tears a gate.
+	GameState.keys = []
+	GameState.flags.erase("gate_key:rank")
+	_expect(Site.key_rank() == "", "a key was in hand before any was found")
+	var twice := Site.create(Site.GATE, Vector2i(7, 7), "Twice")
+	twice.rank = "C"
+	twice.data["double"] = true
+	var found := Spoils.gate_key(world, twice)
+	_expect(GameState.keys.has("gate_key") and not found.is_empty(), "a shut double gate gave no Gate Key")
+	_expect(Site.key_rank() == "C", "the key did not keep its gate's rank (%s)" % Site.key_rank())
+	_expect(Spoils.gate_key(world, twice).is_empty(), "a second key came while one was held")
+	var from := world.player_cell
+	var torn := Site.tear(world, from, Site.key_rank())
+	_expect(torn != null, "the Gate Key tore nothing")
+	if torn != null:
+		_expect(torn.kind == Site.GATE and torn.open and torn.rank == "C" and not torn.cleared, "the torn gate is not an open C gate")
+		_expect(world.site_at(torn.cell) == torn and Pathfinder.distance(torn.cell, from) <= 2, "the torn gate is not where the key was turned")
+		_expect(world.is_walkable(torn.cell), "the torn gate stands on unwalkable ground")
+		_expect(str(torn.data.get("faction", "")) != "" and torn.floors() >= 1, "the torn gate has no holder or no floors")
+		_expect(not torn.misread() or torn.reading() == torn.rank, "a torn gate's rank is not what the key said")
+		var again := World.from_dict(world.to_dict()).site_at(torn.cell)
+		_expect(again != null and bool(again.data.get("instant", false)) and again.open, "the torn gate was lost in the save")
+		var second := Site.tear(world, from, "D")
+		_expect(second != null and second.display_name != torn.display_name and second.cell != torn.cell, "two torn gates share a name or a cell")
+		print("torn gates: %s at %s, then %s at %s" % [torn.display_name, torn.cell, second.display_name if second != null else "", second.cell if second != null else Vector2i.ZERO])
+
+	world.sites.resize(kept_sites)
+	world.echoes = kept_echoes
+	GameState.keys = kept_keys
+	GameState.flags = kept_flags
 
 
 ## A gate's rank is a reading, and a double gate climbs once gone into ([D293], [D302]).

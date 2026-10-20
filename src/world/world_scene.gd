@@ -111,6 +111,7 @@ const GROUND_ACTS := {
 	"_speak_with_wanderer": KEY_X,
 	"_upgrade_bed_here": KEY_U,
 	"_step_into_the_wild": "interact",
+	"_tear_gate_here": "interact",
 }
 @onready var _map: Node2D = $Map
 @onready var _camera: CameraRig = $Camera2D
@@ -1085,7 +1086,7 @@ func _enter_gate(site: Site) -> void:
 	# Its reading put right, and a double gate sprung ([D302]); never the First Hour's two gates.
 	if Siblings.is_first_hour_gate(site) and not site.data.has("double"):
 		site.data["double"] = false
-	for line: String in site.gone_into(int(world.echoes.get("sibling", 0))):
+	for line: String in site.gone_into(int(world.echoes.get("sibling", 0)), Siblings.past(world)):
 		_note(line)
 
 	var party := GameState.party_characters()
@@ -1438,6 +1439,17 @@ func _doings_here() -> Array[Dictionary]:
 
 	if Roadside.escorting(world):
 		return [_telling(Roadside.escort_prompt(world))]
+
+	# The Gate Key in hand, on open ground: E tears a gate here ([D304]).
+	var torn_rank := Site.key_rank()
+	if site == null and torn_rank != "":
+		return [
+			_doable(
+				"%s %s" % [_key("interact"), str(Site.instant_rules().get("prompt", "to turn the Gate Key here")).format({"rank": torn_rank})],
+				"Turn the Gate Key", _tear_gate_here
+			),
+			_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
+		]
 
 	return [
 		_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
@@ -2046,6 +2058,9 @@ func _close_map() -> void:
 
 func _walk_into_site() -> void:
 	var site := world.site_at(world.player_cell)
+	if site == null and Site.key_rank() != "":
+		_tear_gate_here()
+		return
 	if site != null and site.kind == Site.TOWER and world.tower_topped:
 		_busy = true
 		_note("The company ascends the throne of the Tower, their legend etched into the stones.")
@@ -2078,6 +2093,31 @@ func _walk_into_site() -> void:
 		"return_scene": "world",
 		"planar_mode": true,
 	})
+
+
+## The Gate Key turned where the company stands ([D293], [D304]): a gate of the key's rank is torn
+## open here, or on the nearest open ground, and the key is spent. For good or ill: it is a place to
+## level the company, and an open gate, which spills.
+func _tear_gate_here() -> void:
+	var rank := Site.key_rank()
+	if rank == "" or _busy or world.site_at(world.player_cell) != null:
+		return
+	var gate := Site.tear(world, world.player_cell, rank)
+	if gate == null:
+		_note("There is no ground here for a gate.")
+		return
+	var rules := Site.instant_rules()
+	if bool(rules.get("spent", true)):
+		GameState.keys.erase(str(rules.get("key", "gate_key")))
+	Atlas.mark(world, gate)
+	Annals.record(world, "The Gate Key was turned in %s: %s, a %s-rank gate, torn open where there was none." % [
+		world.region_at(gate.cell), gate.display_name, gate.rank,
+	])
+	_note(str(rules.get("torn_line", "")).format({"gate": gate.display_name, "rank": gate.rank}))
+	_warm_art()
+	_map.queue_redraw()
+	_refresh()
+	_say_what_can_be_done()
 
 
 func _hire_here() -> void:

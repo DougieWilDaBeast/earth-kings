@@ -150,6 +150,12 @@ static func _bands(world: World, site: Site, depth: int, final: bool, party: Arr
 	var reach := int(rules().get("band_reach", 3))
 	var rank := Site.rank_index(site.rank)
 	var stout: Array = rules().get("keeper_stout", [])
+	# A demon king is harder to put down again than the rank's keeper ([D304]).
+	var tough := 1.0
+	if not stout.is_empty():
+		tough = float(stout[mini(rank, stout.size() - 1)])
+	if site.demon_king(world.echoes.get("past", [])) != "":
+		tough *= float(Site.fallen_rules().get("stout_times", 1.0))
 	# A bigger gate's chambers hold two bands now and then: the longer the rank, the longer the gate.
 	var holds: Array = []
 	for i in range(1, rooms.size()):
@@ -192,7 +198,7 @@ static func _bands(world: World, site: Site, depth: int, final: bool, party: Arr
 			"reach": reach + (1 if keeper else 0),
 			"level": level,
 			"boss": keeper,
-			"stout": float(stout[mini(rank, stout.size() - 1)]) if keeper and not stout.is_empty() else 1.0,
+			"stout": tough if keeper else 1.0,
 			"held": true,
 			"requires_not": "done:%s" % key,
 			"done_flag": "done:%s" % key,

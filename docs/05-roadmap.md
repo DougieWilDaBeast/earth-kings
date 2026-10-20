@@ -428,8 +428,9 @@ each, each ending playable:
    C. The land: caves (#371, [D282](06-decisions.md)), then heights, ledges, cliffs and ways up; places worth
       going to; creatures that match the land ([D287](06-decisions.md), #379).
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
-      ([D293](06-decisions.md), #380). Readings and double gates **built** ([D302](06-decisions.md), 2026-10-20);
-      demon kings and instant gates next.
+      ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);
+      demon kings of fallen worlds and the Gate Key that tears a gate where it is turned ([D304](06-decisions.md),
+      2026-10-20).
    E. Formations, a leader who rises, call-outs and a bonus for fights shared ([D289](06-decisions.md), #381).
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382).
