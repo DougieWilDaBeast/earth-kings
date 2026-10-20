@@ -1097,7 +1097,7 @@ func _build_mission_page(character: Character) -> void:
 			send.focus_mode = Control.FOCUS_NONE
 			send.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			send.text = "Shut %s%s (%s-rank, about %d in 10)" % [
-				gate.display_name, with, gate.rank, roundi(odds * 10.0)]
+				gate.display_name, with, gate.reading(), roundi(odds * 10.0)]
 			send.tooltip_text = "They walk there on their own, go in, and shut it if they can. If they cannot, each of them may fall. Send more to the same gate before they get there and they go together."
 			send.pressed.connect(func() -> void: send_to_gate(character, gate, meet))
 			Sfx.attend(send)

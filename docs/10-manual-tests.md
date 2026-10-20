@@ -283,6 +283,8 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.27 | Stand out of a band's red with it a few strides off, and press G | The bottom line says "G: strike first"; the lead turns to it and glows for a moment, then the fight is on: "First strike!" over the lead and a big hit on the nearest of them before they move ([D300](06-decisions.md)) |
 | D3.28 | With Auto on, walk into a band two levels over you | No stop and no paused fight: "A hard one. Auto fights on" and the fight runs; Q takes the party back. A gate's fight still stops ([D300](06-decisions.md)) |
 | D3.29 | Meet your first band of a new run with tips on | No tip card over the fight; the fight tips come up once it is over ([D300](06-decisions.md)) |
+| D3.30 | Go into gates of rank C and up until one says "read … from outside. Inside, it is …" | Its label on the map gave the lower rank before; after, the true one ([D302](06-decisions.md)) |
+| D3.31 | Go into gates until one says it "was a double gate", then walk back to its doorway | Its rank climbed one; "The way out is shut"; beat its keeper and the way out is open again ([D302](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))

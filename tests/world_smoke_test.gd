@@ -118,7 +118,51 @@ func _check_one_world() -> void:
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
 
 
+## A gate's rank is a reading, and a double gate climbs once gone into ([D293], [D302]).
+func _check_readings() -> void:
+	var misread := 0
+	var doubled := 0
+	var lying: Site = null
+	for i in 1000:
+		var gate := Site.create(Site.GATE, Vector2i(i % 40, i / 40), "Gate %d" % i)
+		gate.rank = "B"
+		if gate.misread():
+			misread += 1
+			lying = gate
+		if gate.is_double(0):
+			doubled += 1
+		var low := Site.create(Site.GATE, gate.cell, "Low")
+		low.rank = "D"
+		_expect(not low.misread(), "a D-rank gate read wrong")
+	_expect(misread > 50 and misread < 150, "%d of 1000 B-rank gates read wrong, not about one in ten" % misread)
+	_expect(doubled > 50 and doubled < 150, "%d of 1000 gates were double, not about one in ten" % doubled)
+	if lying != null:
+		_expect(lying.reading() == "C" and lying.label().contains("C-rank"), "a misread B gate reads %s" % lying.reading())
+		var said := lying.gone_into(0)
+		_expect(lying.reading() == "B" and said.size() >= 1, "going into a misread gate did not show what it is")
+	var double := Site.create(Site.GATE, Vector2i(3, 3), "Twice")
+	double.rank = "E"
+	double.data["double"] = true
+	var floors := double.floors()
+	var lines := double.gone_into(0)
+	_expect(double.rank == "D" and double.sealed_in(), "a double gate did not climb and shut its way out (%s)" % double.rank)
+	_expect(lines.any(func(l: String) -> bool: return l.contains("double")), "nobody said it was a double gate")
+	double.gone_into(0)
+	_expect(double.rank == "D", "a double gate climbed twice")
+	_expect(double.floors() >= floors, "a double gate got shallower")
+	double.cleared = true
+	_expect(not double.sealed_in(), "a shut double gate kept its way out shut")
+	var more := 0
+	for i in 400:
+		var gate := Site.create(Site.GATE, Vector2i(i, 7), "G")
+		gate.rank = "C"
+		if gate.is_double(3):
+			more += 1
+	_expect(more > 400 * 0.3, "three fallen worlds did not make double gates commoner (%d of 400)" % more)
+
+
 func _check_world(world: World) -> void:
+	_check_readings()
 	_expect(world.tiles.size() == world.size.y, "world has %d rows" % world.tiles.size())
 	for row: String in world.tiles:
 		if row.length() != world.size.x:

@@ -385,7 +385,7 @@ static func send_to_gate(world: World, roster: Roster, away: Array, character: C
 	})
 	var back := _meet_at(away[-1], meet, gate.cell)
 	return "%s sets off to shut %s (%s-rank). Back %s in about %d steps." % [
-		character.display_name, gate.display_name, gate.rank, _back_where(away[-1]), back,
+		character.display_name, gate.display_name, gate.reading(), _back_where(away[-1]), back,
 	]
 
 

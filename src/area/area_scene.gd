@@ -694,7 +694,7 @@ func _sure_of_the_gate() -> bool:
 		return true
 	_gate_warned_until = Time.get_ticks_msec() + 4000
 	_note("%s is a rank %s gate: what keeps it is about level %d, and the company is level %d. %s again to go in anyway." % [
-		gate.display_name, gate.rank, gate.expected_level(), Encounter.party_level(GameState.party_characters()),
+		gate.display_name, gate.reading(), gate.reading_level(), Encounter.party_level(GameState.party_characters()),
 		Pad.key("interact") if Pad.using_pad else "E"])
 	return false
 
@@ -709,7 +709,7 @@ func _gate_here() -> Site:
 
 ## A gate whose keepers stand `GATE_WARN_LEVELS` or more above the company.
 func _gate_too_strong(gate: Site) -> bool:
-	return gate.expected_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
+	return gate.reading_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
 
 
 ## Where a company resting on this floor sits, for their fire ([D246]).
@@ -2663,6 +2663,12 @@ func _direction_name(dir: Vector2i) -> String:
 func _handle_exit(cell: Vector2i) -> void:
 	if _leaving:
 		return
+	# A double gate lets nobody out until its keeper falls ([D302]).
+	if _in_a_gate() and GameState.world != null:
+		var gate := GameState.world.site_at(_gate_cell)
+		if gate != null and gate.sealed_in():
+			_note(str(Site.reading_rules().get("sealed_line", "The way out is shut.")))
+			return
 	var dir := _cardinal_direction_of(cell)
 	# On the ground every road leads somewhere on the continent: out the way it
 	# points, rather than back up to a view nobody plays in.
