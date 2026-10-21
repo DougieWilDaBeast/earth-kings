@@ -452,7 +452,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 
 What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
 that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
-11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 (built, [D330](06-decisions.md)) and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 (built, [D330](06-decisions.md)) and 5 (built, [D331](06-decisions.md)); later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
 ([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".
@@ -469,7 +469,9 @@ loaded ahead. Some repeat earlier asks (noted).
    an errand's giver who remembers meets the company on the road with thanks and coin.
 4. **Letting people go**: disband a companion so they go their own way in the world. **Built** ([D326](06-decisions.md)):
    Let go beside each card, asked once, gone from the roster.
-5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
+5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to. **Built**
+   ([D331](06-decisions.md)): a thin bar under each health bar, hungry after about three days on the land, starving
+   hurts but never fells; food eaten whole when hungry, a bed fills everyone, Auto eats under the line.
 6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
    instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
    ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.

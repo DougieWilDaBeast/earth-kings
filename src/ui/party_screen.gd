@@ -230,6 +230,41 @@ func enchant(character: Character, rune: Dictionary) -> bool:
 	return true
 
 
+## Put [param character] on Auto: they pick their own work, and the next when they are back ([D349]).
+func send_on_auto(character: Character) -> bool:
+	var line := Dispatch.send_on_auto(GameState.world, GameState.roster, GameState.away, GameState.errands, character)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
+func _auto_off_button(character: Character) -> Button:
+	var off := Button.new()
+	off.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+	off.focus_mode = Control.FOCUS_NONE
+	off.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	off.text = "Take %s off Auto" % character.display_name
+	off.tooltip_text = "They finish what they are on and stay with the company after."
+	off.pressed.connect(func() -> void:
+		Dispatch.call_back(character)
+		_notice = "%s comes off Auto." % character.display_name
+		_rebuild())
+	Sfx.attend(off)
+	return off
+
+
+## Send [param character] to clear [param wild] ([D348]).
+func send_to_wild(character: Character, wild: Site, meet: Site = null) -> bool:
+	var line := Dispatch.send_to_wild(GameState.world, GameState.roster, GameState.away, character, wild, meet)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
 ## Send [param character] to shut [param gate], with anyone already on the road to it ([D278]).
 func send_to_gate(character: Character, gate: Site, meet: Site = null) -> bool:
 	var line := Dispatch.send_to_gate(GameState.world, GameState.roster, GameState.away, character, gate, meet)
@@ -1174,6 +1209,8 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			go.pressed.connect(func() -> void: _turn_to(Page.MISSION))
 			Sfx.attend(go)
 			_page_box.add_child(go)
+			if Dispatch.on_auto(character):
+				_page_box.add_child(_auto_off_button(character))
 	_away_list()
 
 
@@ -1185,14 +1222,15 @@ func _build_mission_page(character: Character) -> void:
 	_page_box.add_child(_heading("Send %s on a mission" % character.display_name))
 	var open := Dispatch.open_errands(GameState.errands)
 	var gates := Dispatch.open_gates(GameState.world)
+	var wilds := Dispatch.open_wilds(GameState.world)
 	if character.is_player:
 		_page_box.add_child(_quiet_line("The lead goes where the company goes."))
 	elif not _missions_open():
 		_page_box.add_child(_quiet_line("Shut a gate first. Then the Guild will let you send your own people out."))
 	elif not Dispatch.can_send(character, roster, GameState.away):
 		_page_box.add_child(_quiet_line("Not now — someone has to stay with the lead, and they have to be on their feet."))
-	elif open.is_empty() and gates.is_empty():
-		_page_box.add_child(_quiet_line("No errand to give them and no gate you know of. Take one from a settlement's board first."))
+	elif open.is_empty() and gates.is_empty() and wilds.is_empty():
+		_page_box.add_child(_quiet_line("No errand to give them, and no gate or wild place you know of. Take one from a settlement's board first."))
 	else:
 		var places := Dispatch.meeting_places(GameState.world)
 		if _meet_index >= places.size():
@@ -1210,6 +1248,19 @@ func _build_mission_page(character: Character) -> void:
 			_rebuild())
 		Sfx.attend(where)
 		_page_box.add_child(where)
+		# On Auto (D349): they pick their own work, and the next when they are back.
+		var choice := Dispatch.pick(GameState.world, roster, GameState.away, GameState.errands, character)
+		var auto := Button.new()
+		auto.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		auto.focus_mode = Control.FOCUS_NONE
+		auto.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		auto.text = "Send %s on Auto (%s)" % [character.display_name,
+				"nothing within reach worth the risk to them" if choice.is_empty() else "would %s first" % choice["name"]]
+		auto.tooltip_text = "They pick their own work from what the company knows, by the odds and by their nature and mood: the bold take the hard gate, the careful the sure errand. Back with the company, they take the next, until you call them back or they come back hurt."
+		auto.disabled = choice.is_empty()
+		auto.pressed.connect(func() -> void: send_on_auto(character))
+		Sfx.attend(auto)
+		_page_box.add_child(auto)
 		for gate: Site in gates:
 			var band := Dispatch.band_for(GameState.away, gate)
 			var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
@@ -1224,6 +1275,21 @@ func _build_mission_page(character: Character) -> void:
 			send.pressed.connect(func() -> void: send_to_gate(character, gate, meet))
 			Sfx.attend(send)
 			_page_box.add_child(send)
+		# A wild place heard of, its guard still standing (D348).
+		var guard_level := maxi(1, Encounter.party_level(roster.party_members()))
+		for wild: Site in wilds:
+			var band := Dispatch.band_for(GameState.away, wild)
+			var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
+			var odds := Dispatch.wild_chance(Dispatch.members(roster, band) + [character], int(band.get("guard_level", guard_level)))
+			var clear := Button.new()
+			clear.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+			clear.focus_mode = Control.FOCUS_NONE
+			clear.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			clear.text = "Clear %s%s (about %d in 10)" % [wild.display_name, with, roundi(odds * 10.0)]
+			clear.tooltip_text = "They walk there on their own, drive off what keeps it if they can, and bring back what the chests hold. If they cannot, each of them may fall."
+			clear.pressed.connect(func() -> void: send_to_wild(character, wild, meet))
+			Sfx.attend(clear)
+			_page_box.add_child(clear)
 		for errand: Dictionary in open:
 			var go := Button.new()
 			go.custom_minimum_size = Vector2(0, ROW_BUTTON.y)

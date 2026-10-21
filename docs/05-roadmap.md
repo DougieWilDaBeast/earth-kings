@@ -393,7 +393,7 @@ each, each ending playable:
    (built, [D274](06-decisions.md), the rules in [13](13-heroes-and-tempers.md#the-lines)). After gates and tiers
    comes `dougie`'s list (BR9), one at a time: **recruiting anyone** built ([D277](06-decisions.md): a Charisma
    check, and a no won round by their favour or a few fights), sending your own people out built ([D278](06-decisions.md):
-   a band to shut a gate on the odds, open once a gate is shut), moods built ([D279](06-decisions.md): thoughts that
+   a band to shut a gate on the odds, open once a gate is shut; and to clear a wild place heard of, [D348](06-decisions.md); and on Auto, picking their own work by the odds, their temper and their mood, [D349](06-decisions.md)), moods built ([D279](06-decisions.md): thoughts that
    make a mood, which nudges a fight; deeper since [D347](06-decisions.md): a friend beside them, a fall seen,
    a friend gone, rest and care, the mood on each card and in what they say), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
    edge on a weapon), caves built ([D282](06-decisions.md): a mouth on some hills, a gate-like floor behind it), then
@@ -422,7 +422,7 @@ each, each ending playable:
       [D324](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D325](06-decisions.md)):
       disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in
       (**built**, [D326](06-decisions.md));
-      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger after B; the writers' pass, city doors, groves and the opening later.
+      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger (**built**, [D331](06-decisions.md)) after B; the writers' pass, city doors, groves and the opening later.
       The opening's remake is settled in shape (call BZ, [D328](06-decisions.md)): 14 shots in three acts, the lead's
       chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end; built with the game's own sprites and a camera on every shot
       ([D340](06-decisions.md); art A58-A61 asked for after 27 October).

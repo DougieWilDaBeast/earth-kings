@@ -769,6 +769,15 @@ once the company has shut a gate; `nemesis` with [D330](06-decisions.md).
 (`world.thankful`); on `meet_share` a traveller on the road's clock is one of them, giving `gift_share` of
 the errand's pay and saying `lines` (`{giver}`, `{title}`, `{place}`, `{gift}`). Read by `src/chronicle/nemesis.gd`.
 
+## `world_rules.json` → `hunger` — how full everyone is (D331)
+
+`on` turns it on. Each member's `fed` (1 full to 0, saved with them as `fed` and `fed_step`) goes down `per_step`
+for every step on the land; under `hungry_below` they are hungry (`hungry_line`, `{name}`, said once, and an amber
+bar under their health on the walking panel); at nothing they lose `starving_hurt` of their health a step, never
+the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend` for each point it `mends`, and can
+be eaten at full health when hungry; a rest in a bed fills everyone. With Auto on, anyone under `auto_eat_below`
+eats the least food in the packs. Read by `src/chronicle/hunger.gd`.
+
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 
 A walkable tile whose terrain is one of `terrains` has a cave mouth on `chance` (a hash of the world and
@@ -870,7 +879,11 @@ next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`
 `danger_levels` settle a meeting on the road. A band sent to shut a gate spends `steps_per_floor` a floor
 inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average level − the gate's
 expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
-(`src/chronicle/dispatch.gd`).
+(`src/chronicle/dispatch.gd`). A band sent to clear a wild place (D348: heard of, its guard standing; a job
+in `GameState.away` with `wild` and `guard_level`, the company's level when the first set off) spends
+`steps_in_wild` steps there and wins on `wild_win_base` + `gate_per_level` × (its average level −
+`guard_level`) + `gate_per_hand` a member past the first, in the same bounds: the guard's done flag set, every
+chest's flag set and its haul claimed, and a `wild` errand for it complete. Somebody sent on Auto (D349) has the run's flag `auto:<id>` (`true`, or `"idle"` once they have said there is nothing worth it) and picks from `dispatch.auto`: within `reach` tiles, each errand at `errand_odds`, each gate and wild place at its own odds, scored as the odds + boldness × `worth[kind]` and never under `least_odds` − boldness × `bold_floor`; boldness is `bold_base` + `bold_letters` for each letter of their temper + `bold_per_mood` × (mood − the moods' base), between 0 and 1. Back with the company, under `rest_below` of their health they come off Auto (`hurt_line`); otherwise they take the next (`set_off_line`), or say `idle_line` once.
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
