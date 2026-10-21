@@ -835,8 +835,14 @@ an `item`, picked once a run into the packs.
 (`label_against` when it is worth less than nothing), `mood`, `lasts` (steps), `stack` (how many at once),
 and `by_group` (worth by temper group NT, NF, SJ, SP). `src/chronicle/moods.gd` gives them once a step
 from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fell` (a bond of
-`friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
+`friend_bond` or more; `{name}` is the fallen), and since D347 `saw_fall` (one who was not a friend),
+`parted` (a friend let go; `{name}` is them), `with_friend` (a friend in the party, every
+step), `rested` (`Moods.rested`, at a rest point), `looked_after` (a healer's mend) and `kitted` (an edge or
+a rune on their weapon). `bands` (by `below`) name the mood and add to `attack` and
 `defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
+The band's name shows on each party card. `Moods.feeling` is `low` (the two lowest bands) or `glad` (the
+two highest) or nothing: an exchange or a reflection in `banter.json` with `"feeling"` is only spoken by one
+who feels that way, and one with no `feeling` by anyone.
 
 ## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
 

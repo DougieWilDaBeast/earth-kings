@@ -1180,7 +1180,14 @@
 			"lost_fight": { "label": "Beaten", "mood": -10, "lasts": 120 },
 			"shut_gate": { "label": "Shut a gate", "mood": 10, "lasts": 240, "by_group": { "SP": 14 } },
 			"climbed": { "label": "Climbed higher", "label_against": "Dragged up the Tower", "mood": -3, "lasts": 120, "stack": 3, "by_group": { "NT": 8 } },
-			"friend_fell": { "label": "Lost {name}", "mood": -25, "lasts": 600, "stack": 4 }
+			"friend_fell": { "label": "Lost {name}", "mood": -25, "lasts": 600, "stack": 4 },
+			"_comment_more": "D347 (call BR's moods, built on): a fall seen of someone who was not a friend; a friend gone their own way (let go, or left); a night's rest; a friend marching beside them, renewed while they do; being looked after (the company mended by a healer for coin) and a better edge on their own weapon (honed or enchanted). Hunger joins them when it lands. Inferred: every label and number.",
+			"saw_fall": { "label": "Saw {name} fall", "mood": -8, "lasts": 300, "stack": 3 },
+			"parted": { "label": "{name} went their own way", "mood": -6, "lasts": 240, "stack": 2 },
+			"rested": { "label": "A night's rest", "mood": 6, "lasts": 180 },
+			"with_friend": { "label": "Walking with {name}", "mood": 3, "lasts": 20 },
+			"looked_after": { "label": "Looked after", "mood": 5, "lasts": 180 },
+			"kitted": { "label": "A better edge", "mood": 6, "lasts": 300 }
 		},
 		"break_below": 20,
 		"break_chance": 0.1,
