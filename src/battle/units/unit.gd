@@ -75,6 +75,8 @@ var action_frames: Dictionary = {}
 ## The equipped piece from `data/equipment.json`, plus its rotation art.
 var weapon: Dictionary = {}
 var weapon_sprites: Dictionary = {}
+## Armour worn ([D357]), drawn over the body by [method draw_worn].
+var armour: String = ""
 
 ## Set while the unit is crossing the ground, so it is drawn mid-stride.
 var _running: bool = false
@@ -143,6 +145,12 @@ static func from_character(source: Character, unit_team: Team, start_cell: Vecto
 	var carried := Gear.bonus(source.equipment, source) if source.equipment != "" else {}
 	unit.attack = source.attack() + int(carried.get("attack", unit.weapon.get("attack", 0)))
 	unit.defense = source.defense() + int(carried.get("defense", unit.weapon.get("defense", 0)))
+	# Armour worn as well as the weapon held ([D357]).
+	if source.armour != "":
+		var worn := Gear.bonus(source.armour, source)
+		unit.attack += int(worn.get("attack", 0))
+		unit.defense += int(worn.get("defense", 0))
+		unit.armour = source.armour
 	unit.move_points = source.move_points()
 	unit.jump = source.jump()
 	unit.flash_step = source.flash_step()
@@ -362,9 +370,38 @@ func _draw() -> void:
 		_draw_weapon()
 	if sprite != null:
 		draw_texture_rect(sprite, _sprite_rect(sprite), false, tint)
+		draw_worn(self, sprite, _sprite_rect(sprite), armour, str(SPRITE_ROTATIONS.get(facing, "south")), tint)
 	if facing != Vector2i.UP:
 		_draw_weapon()
 	_draw_hp_bar(sprite)
+
+
+## Armour drawn over a body ([D357], art A64): its own picture for the facing once it is in
+## (`worn.sprite_dir`/<armour id>/<facing>.png, the body's size), and until then the chest of the body
+## itself drawn again in the armour's colour (`worn.colours`), so plate reads as plate and a coat as a
+## coat. Rules in `data/skirmish.json` → `worn`; the party screen draws its figure the same way.
+static func draw_worn(canvas: CanvasItem, sprite: Texture2D, rect: Rect2, armour_id: String, facing_name: String = "south", tint: Color = Color.WHITE) -> void:
+	if armour_id == "" or sprite == null:
+		return
+	var rules: Dictionary = Database.skirmish.get("worn", {})
+	var art := "%s/%s/%s.png" % [str(rules.get("sprite_dir", "res://art/units/worn")), armour_id, facing_name]
+	if ResourceLoader.exists(art):
+		canvas.draw_texture_rect(load(art) as Texture2D, rect, false, tint)
+		return
+	# Until then a plate of the armour's colour over the chest (a helm's cap over the head), outlined
+	# dark: `band` is its top and bottom as shares of the body's height, `width` its share of the width.
+	var band: Array = (rules.get("bands", {}) as Dictionary).get(armour_id, rules.get("band", [0.4, 0.66]))
+	var colour := Color(str((rules.get("colours", {}) as Dictionary).get(armour_id, rules.get("colour", "#9aa3ad"))))
+	colour.a = float(rules.get("alpha", 0.85))
+	var wide := rect.size.x * float((rules.get("widths", {}) as Dictionary).get(armour_id, rules.get("width", 0.34)))
+	var top := rect.position.y + rect.size.y * float(band[0])
+	var plate := Rect2(rect.position.x + (rect.size.x - wide) / 2.0, top, wide, rect.size.y * (float(band[1]) - float(band[0])))
+	var face := StyleBoxFlat.new()
+	face.bg_color = colour * tint
+	face.border_color = Color(0.08, 0.06, 0.06, colour.a)
+	face.set_border_width_all(maxi(1, roundi(rect.size.x / 64.0)))
+	face.set_corner_radius_all(roundi(wide * 0.25))
+	canvas.draw_style_box(face, plate)
 
 
 ## Knocked flat: the body tipped over at the feet, away from the way it looks.

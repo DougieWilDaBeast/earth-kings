@@ -140,6 +140,38 @@ static func bonus(equipment_id: String, character: Character) -> Dictionary:
 	}
 
 
+## Armour is worn as well as a weapon is held ([D357]): a coat, a shirt of scales, a helm.
+const ARMOUR := "armour"
+## The two places a piece goes on somebody ([D357]).
+const WEAPON_SLOT := "weapon"
+const ARMOUR_SLOT := "armour"
+
+
+static func is_armour(equipment_id: String) -> bool:
+	return kind(equipment_id) == ARMOUR
+
+
+## Which of the two places [param equipment_id] goes: on the body, or in the hand.
+static func slot_of(equipment_id: String) -> String:
+	return ARMOUR_SLOT if is_armour(equipment_id) else WEAPON_SLOT
+
+
+## What [param character] has in [param slot] now ("" for nothing handed out).
+static func worn_in(character: Character, slot: String) -> String:
+	return character.armour if slot == ARMOUR_SLOT else character.equipment
+
+
+## Put [param equipment_id] where it goes on [param character], and say what was there before ("" for
+## nothing), so the caller can put it in the packs.
+static func put_on(character: Character, equipment_id: String) -> String:
+	var displaced := worn_in(character, slot_of(equipment_id))
+	if slot_of(equipment_id) == ARMOUR_SLOT:
+		character.armour = equipment_id
+	else:
+		character.equipment = equipment_id
+	return displaced
+
+
 ## The one number used to compare two pieces for one person.
 static func worth(equipment_id: String, character: Character) -> int:
 	var gain := bonus(equipment_id, character)
@@ -149,7 +181,15 @@ static func worth(equipment_id: String, character: Character) -> int:
 ## What swapping to this piece would do, measured against whatever they are
 ## fighting with now rather than against an empty hand.
 static func swing(equipment_id: String, character: Character) -> int:
-	return worth(equipment_id, character) - carried_worth(character)
+	if slot_of(equipment_id) == ARMOUR_SLOT:
+		return worth(equipment_id, character) - (worth(character.armour, character) if character.armour != "" else 0)
+	return worth(equipment_id, character) - _in_hand_worth(character)
+
+
+## What the weapon in their hand is worth, the one they came with when none has been handed out.
+static func _in_hand_worth(character: Character) -> int:
+	var gain := bonus(character.equipment, character) if character.equipment != "" else _issued(character)
+	return int(gain["attack"]) + int(gain["defense"])
 
 
 ## What [param character] already fights with: the piece handed out, or the one
@@ -157,9 +197,11 @@ static func swing(equipment_id: String, character: Character) -> int:
 ## the first scene holding a bone sword nobody gave him, and a swap measured
 ## against an empty hand reads better than it fights.
 static func carried(character: Character) -> Dictionary:
-	if character.equipment != "":
-		return bonus(character.equipment, character)
-	return _issued(character)
+	var gain := bonus(character.equipment, character) if character.equipment != "" else _issued(character)
+	if character.armour != "":
+		var worn := bonus(character.armour, character)
+		return { "attack": int(gain["attack"]) + int(worn["attack"]), "defense": int(gain["defense"]) + int(worn["defense"]) }
+	return gain
 
 
 ## The one number that stands for whatever they are fighting with now.
@@ -172,8 +214,24 @@ static func carried_worth(character: Character) -> int:
 ## [param equipment_id] — the same sum [method Unit.from_character] makes, so
 ## the equip menu shows the figures the fight will use rather than a guess.
 ## Pass an empty id to ask what they are worth carrying nothing.
+##
+## The piece goes where it goes ([D357]): armour on the body with the weapon they hold kept, a weapon
+## in the hand with what they wear kept.
 static func fielded(character: Character, equipment_id: String) -> Dictionary:
-	var gain := bonus(equipment_id, character) if equipment_id != "" else _issued(character)
+	var in_hand := equipment_id if equipment_id != "" and slot_of(equipment_id) == WEAPON_SLOT else (
+			character.equipment if equipment_id != "" else "")
+	var worn := equipment_id if equipment_id != "" and slot_of(equipment_id) == ARMOUR_SLOT else character.armour
+	var hand := bonus(in_hand, character) if in_hand != "" else _issued(character)
+	var body := bonus(worn, character) if worn != "" else { "attack": 0, "defense": 0 }
+	return {
+		"attack": character.attack() + int(hand.get("attack", 0)) + int(body.get("attack", 0)),
+		"defense": character.defense() + int(hand.get("defense", 0)) + int(body.get("defense", 0)),
+	}
+
+
+## The numbers [param character] takes onto the field as they stand now, weapon and armour.
+static func fielded_now(character: Character) -> Dictionary:
+	var gain := carried(character)
 	return {
 		"attack": character.attack() + int(gain.get("attack", 0)),
 		"defense": character.defense() + int(gain.get("defense", 0)),
@@ -193,11 +251,15 @@ static func best_offer(character: Character) -> String:
 
 ## Hand somebody the best thing in the packs. False when nothing in there beats
 ## what they are already fighting with.
+##
+## The best for the hand and the best for the body, each against what is there now ([D357]).
 static func optimise(character: Character) -> bool:
-	var best := best_offer(character)
-	if best == "":
-		return false
-	return equip(character, best)
+	var took := false
+	for slot: String in [WEAPON_SLOT, ARMOUR_SLOT]:
+		var ranked := offers(character, slot)
+		if not ranked.is_empty() and swing(ranked[0], character) > 0:
+			took = equip(character, ranked[0]) or took
+	return took
 
 
 ## A short line for the party screen: what it gives, and whether it fits.
@@ -227,28 +289,34 @@ static func equip(character: Character, equipment_id: String) -> bool:
 	if not GameState.stores.has(equipment_id) or is_charm(equipment_id) or is_draught(equipment_id):
 		return false
 	GameState.stores.erase(equipment_id)
-	var displaced := character.equipment
-	character.equipment = equipment_id
+	var displaced := put_on(character, equipment_id)
 	if displaced != "":
 		GameState.stores.append(displaced)
 	return true
 
 
-## Take what somebody is carrying off them and put it in the packs.
-static func unequip(character: Character) -> bool:
-	if character.equipment == "":
+## Take what somebody is carrying (or, with [param slot] `armour`, wearing) off them and put it in the
+## packs.
+static func unequip(character: Character, slot: String = WEAPON_SLOT) -> bool:
+	var had := worn_in(character, slot)
+	if had == "":
 		return false
-	GameState.stores.append(character.equipment)
-	character.equipment = ""
+	GameState.stores.append(had)
+	if slot == ARMOUR_SLOT:
+		character.armour = ""
+	else:
+		character.equipment = ""
 	return true
 
 
 ## What is in the packs that would suit [param character] better than what they
-## already have, best first.
-static func offers(character: Character) -> Array:
+## already have, best first; with [param slot], only what goes there ([D357]).
+static func offers(character: Character, slot: String = "") -> Array:
 	var out: Array = []
 	for equipment_id: String in GameState.stores:
-		if not is_charm(equipment_id) and not is_draught(equipment_id) and not out.has(equipment_id):
+		if is_charm(equipment_id) or is_draught(equipment_id) or kind(equipment_id) == "making" or out.has(equipment_id):
+			continue
+		if slot == "" or slot_of(equipment_id) == slot:
 			out.append(equipment_id)
 	out.sort_custom(func(a: String, b: String) -> bool:
 		return swing(a, character) > swing(b, character)

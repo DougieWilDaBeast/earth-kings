@@ -56,6 +56,8 @@ var is_player: bool = false
 var charms: Array = []
 ## Bought gear, overriding whatever the template came with.
 var equipment: String = ""
+## Armour worn, apart from the weapon in the hand ([D357]).
+var armour: String = ""
 
 ## Generated skill trees unlocked at levels 5 and 10 (see [AbilityGrammar]).
 var trees: Array = []
@@ -391,6 +393,7 @@ func to_dict() -> Dictionary:
 		"is_player": is_player,
 		"charms": charms,
 		"equipment": equipment,
+		"armour": armour,
 		"trees": trees,
 		"rungs": rungs,
 		"fed": fed,
@@ -440,6 +443,11 @@ static func from_dict(data: Dictionary) -> Character:
 	character.is_player = bool(data.get("is_player", false))
 	character.charms = data.get("charms", [])
 	character.equipment = data.get("equipment", "")
+	character.armour = str(data.get("armour", ""))
+	# A save from before armour had a place of its own wore it in the hand ([D357]).
+	if character.armour == "" and str(Database.equipment_piece(character.equipment).get("kind", "")) == "armour":
+		character.armour = character.equipment
+		character.equipment = ""
 	character.trees = data.get("trees", [])
 	character.rungs = int(data.get("rungs", 0))
 	character.fed = float(data.get("fed", 1.0))

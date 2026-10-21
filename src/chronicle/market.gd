@@ -79,7 +79,10 @@ static func buy(site: Site, equipment_id: String, buyer: Character, world: World
 		# Food and physic go in the packs, not on the person who paid for it.
 		GameState.stores.append(equipment_id)
 	else:
-		buyer.equipment = equipment_id
+		# Worn where it goes ([D357]); what it replaces goes in the packs, not on the floor.
+		var displaced := Gear.put_on(buyer, equipment_id)
+		if displaced != "":
+			GameState.stores.append(displaced)
 	return true
 
 

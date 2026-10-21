@@ -33,6 +33,8 @@ const DRAUGHT_OFFERS := 4
 const TREE_AT := Progression.FIRST_TREE_LEVEL
 ## Big enough to tell a sword from a robe at a glance, small enough for a row.
 const ICON_SIZE := Vector2(32, 32)
+## The fighter drawn large on the equipment screen ([D357]).
+const FIGURE_SIZE := Vector2(112, 132)
 ## The face on a card. Drawn from the same art the character walks around in.
 const FACE_SIZE := Vector2(56, 56)
 ## Tall enough to put a thumb on without hitting the card above.
@@ -300,7 +302,7 @@ func shift(character: Character, delta: int) -> bool:
 ## compared to anything. False when the packs hold nothing better.
 func optimise(character: Character) -> bool:
 	var best := Gear.best_offer(character)
-	if best == "" or not Gear.equip(character, best):
+	if best == "" or not Gear.optimise(character):
 		return false
 	_notice = "%s takes up the %s — the best in the packs." % [
 		character.display_name, Gear.display_name(best)
@@ -318,9 +320,9 @@ func equip(character: Character, equipment_id: String) -> bool:
 	return true
 
 
-func unequip(character: Character) -> bool:
-	var had := character.equipment
-	if not Gear.unequip(character):
+func unequip(character: Character, slot: String = Gear.WEAPON_SLOT) -> bool:
+	var had := Gear.worn_in(character, slot)
+	if not Gear.unequip(character, slot):
 		return false
 	_notice = "%s puts the %s in the packs." % [character.display_name, Gear.display_name(had)]
 	_rebuild()
@@ -596,8 +598,10 @@ func _card_for(character: Character, current: bool) -> Control:
 		badge_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		lines.add_child(badge_line)
 
-	if character.equipment != "":
-		var worn := _icon(character.equipment)
+	for piece: String in [character.equipment, character.armour]:
+		if piece == "":
+			continue
+		var worn := _icon(piece)
 		worn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		worn.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(worn)
@@ -864,29 +868,27 @@ func _class_card(character: Character, class_id: String) -> Control:
 # --- gear: what is worn, and what swapping to it would do ---------------------
 
 
+## The equipment screen ([D357], `doug-md`'s play-test 7: "weapons and armour shown on the fighter; an
+## equipment screen"): the fighter drawn large in what they wear, beside the hand and the body, each
+## with what is there and a button to take it off; the numbers they fight at under them.
 func _build_gear_page(character: Character) -> void:
 	_page_box.add_child(_heading("Worn"))
 
-	var worn := HBoxContainer.new()
-	worn.add_theme_constant_override("separation", 8)
-	var in_hand := character.equipment if character.equipment != "" else Gear.issued_id(character)
-	if in_hand != "":
-		worn.add_child(_icon(in_hand))
-	var worn_text := Label.new()
-	worn_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	worn_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	worn_text.add_theme_color_override("font_color", Color(0.84, 0.79, 0.66))
-	worn_text.text = _gear_summary(character)
-	worn.add_child(worn_text)
-	if character.equipment != "":
-		var stow := Button.new()
-		stow.custom_minimum_size = ROW_BUTTON
-		stow.focus_mode = Control.FOCUS_NONE
-		stow.text = "Stow"
-		stow.pressed.connect(func() -> void: unequip(character))
-		Sfx.attend(stow)
-		worn.add_child(stow)
-	_page_box.add_child(worn)
+	var outfit := HBoxContainer.new()
+	outfit.add_theme_constant_override("separation", 14)
+	outfit.add_child(_figure(character))
+	var slots := VBoxContainer.new()
+	slots.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slots.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slots.add_theme_constant_override("separation", 6)
+	slots.add_child(_slot_row(character, Gear.WEAPON_SLOT))
+	slots.add_child(_slot_row(character, Gear.ARMOUR_SLOT))
+	var now := Gear.fielded_now(character)
+	var numbers := _quiet_line("Fights at %d attack, %d guard." % [int(now["attack"]), int(now["defense"])])
+	numbers.name = "FightsAt"
+	slots.add_child(numbers)
+	outfit.add_child(slots)
+	_page_box.add_child(outfit)
 
 	if not character.charms.is_empty():
 		_page_box.add_child(_heading("Carried"))
@@ -993,6 +995,67 @@ func _build_gear_page(character: Character) -> void:
 		_page_box.add_child(_quiet_line("Nothing in the packs to eat or drink."))
 
 
+## The fighter as they stand in the fight, drawn large: their own picture and what they wear over it,
+## the same way the field draws it ([method Unit.draw_worn]).
+func _figure(character: Character) -> Control:
+	var figure := Control.new()
+	figure.name = "Figure"
+	figure.custom_minimum_size = FIGURE_SIZE
+	figure.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	figure.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var sprite := Database.unit_face(character.template_id)
+	figure.draw.connect(func() -> void:
+		figure.draw_style_box(SheetParts.box(Color(0.06, 0.06, 0.09, 0.8), Color(0.965, 0.827, 0.443, 0.3)), Rect2(Vector2.ZERO, figure.size))
+		if sprite == null:
+			return
+		var whole := sprite.get_size()
+		var fit := minf(figure.size.x / whole.x, figure.size.y / whole.y)
+		var drawn := whole * fit
+		var rect := Rect2((figure.size - drawn) / 2.0, drawn)
+		figure.draw_texture_rect(sprite, rect, false)
+		Unit.draw_worn(figure, sprite, rect, character.armour)
+	)
+	return figure
+
+
+## One of the two places gear goes, as it is now: in the hand (the weapon they came with when none
+## has been handed out) or on the body, and a button that puts it in the packs.
+func _slot_row(character: Character, slot: String) -> Control:
+	var row := HBoxContainer.new()
+	row.name = "Slot_" + slot
+	row.add_theme_constant_override("separation", 8)
+	var title := Label.new()
+	title.custom_minimum_size = Vector2(64, 0)
+	title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	title.add_theme_font_size_override("font_size", 13)
+	title.add_theme_color_override("font_color", QUIET)
+	title.text = "In hand" if slot == Gear.WEAPON_SLOT else "Worn"
+	row.add_child(title)
+	var piece := Gear.worn_in(character, slot)
+	var shown := piece if piece != "" or slot == Gear.ARMOUR_SLOT else Gear.issued_id(character)
+	if shown != "":
+		row.add_child(_icon(shown))
+	var text := Label.new()
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.add_theme_color_override("font_color", Color(0.84, 0.79, 0.66))
+	if slot == Gear.WEAPON_SLOT:
+		text.text = _gear_summary(character)
+	else:
+		text.text = "%s (%s)" % [Gear.display_name(piece), Gear.summary(piece, character)] if piece != "" else "Nothing worn over their clothes."
+	row.add_child(text)
+	if piece != "":
+		var off := Button.new()
+		off.custom_minimum_size = ROW_BUTTON
+		off.focus_mode = Control.FOCUS_NONE
+		off.text = "Stow" if slot == Gear.WEAPON_SLOT else "Take Off"
+		off.pressed.connect(func() -> void: unequip(character, slot))
+		Sfx.attend(off)
+		row.add_child(off)
+	return row
+
+
 ## One piece out of the packs, said the way an equip screen says it: what it is,
 ## what it would do to the numbers, and the button that does it.
 func _offer_row(character: Character, equipment_id: String) -> Control:
@@ -1024,14 +1087,15 @@ func _offer_row(character: Character, equipment_id: String) -> Control:
 	swing.custom_minimum_size = Vector2(190, 0)
 	swing.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	swing.add_theme_constant_override("separation", 1)
+	var now := Gear.fielded_now(character)
 	swing.add_child(_change_line(
 		"Atk",
-		_attack_with(character, character.equipment),
+		int(now["attack"]),
 		_attack_with(character, equipment_id)
 	))
 	swing.add_child(_change_line(
 		"Grd",
-		_guard_with(character, character.equipment),
+		int(now["defense"]),
 		_guard_with(character, equipment_id)
 	))
 	row.add_child(swing)
@@ -1039,7 +1103,7 @@ func _offer_row(character: Character, equipment_id: String) -> Control:
 	var take := Button.new()
 	take.custom_minimum_size = ROW_BUTTON
 	take.focus_mode = Control.FOCUS_NONE
-	take.text = "Equip"
+	take.text = "Wear" if Gear.is_armour(equipment_id) else "Equip"
 	take.pressed.connect(func() -> void: equip(character, equipment_id))
 	Sfx.attend(take)
 	row.add_child(take)

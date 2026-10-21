@@ -65,8 +65,8 @@ static func apply(character: Character, gift: Dictionary) -> void:
 			if float(Database.equipment_piece(item_id).get("grace", 0.0)) > 0.0:
 				if item_id not in character.charms:
 					character.charms.append(item_id)
-			elif character.equipment == "":
-				character.equipment = item_id
+			elif Gear.worn_in(character, Gear.slot_of(item_id)) == "":
+				Gear.put_on(character, item_id)
 		"gold":
 			# Gold belongs to the run, not the person, so only the lead brings
 			# it. Otherwise every hire would pay the company to take them on.
