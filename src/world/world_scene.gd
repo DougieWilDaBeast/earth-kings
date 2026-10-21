@@ -596,7 +596,7 @@ func _watch_check(cell: Vector2i) -> void:
 	var terrain := world.terrain_id_at(cell)
 	if terrain in ["brush", "forest", "marsh"] or band.cell == cell:
 		meeting["ambush"] = true
-	_begin_battle(meeting, { "kind": "band", "cell": cell, "pack": band.pack })
+	_begin_battle(meeting, { "kind": "band", "cell": cell, "pack": band.pack, "carries": band.carries })
 
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Dictionary = {}) -> void:
@@ -674,6 +674,12 @@ func _settle_up(won: bool) -> void:
 			world.tower_hoard = 0
 		if str(outcome.get("kind", "")) in ["gate", "gate_band"]:
 			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
+		# Lost to the band over a fallen weapon ([D311]): another is on the crater by now.
+		if str(outcome.get("carries", "")) != "":
+			var retaken := Siblings.weapon_retaken(world, str(outcome["carries"]))
+			if retaken != "":
+				_note(retaken)
+				_map.queue_redraw()
 		return
 
 	var party := GameState.party_characters()
@@ -789,6 +795,11 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 		"band":
+			# The band stood over a fallen weapon ([D311]): it lies free now.
+			if str(outcome.get("carries", "")) != "":
+				var freed := Siblings.weapon_freed(world, str(outcome["carries"]))
+				if freed != "":
+					_note(freed)
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
@@ -2035,7 +2046,7 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
 	# The Watch who came running to it (D236) are thanked for after a win.
-	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)) }, {
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)), "carries": band.carries }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})

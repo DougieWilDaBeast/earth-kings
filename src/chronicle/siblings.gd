@@ -392,7 +392,60 @@ static func come_through(world: World, echo: Dictionary) -> Array:
 	# Seen as well as said (play-test 7: "something to give visual aid ... instead of what's being said").
 	var shake: Dictionary = lines().get("weapon_shake", {})
 	EventBus.ground_shaken.emit(float(shake.get("seconds", 0.0)), float(shake.get("pixels", 0.0)))
-	return [_say(str(lines().get("weapon_lands", "")), echo, world, null, Fall.way(world.player_cell, cell))]
+	var out: Array = [_say(str(lines().get("weapon_lands", "")), echo, world, null, Fall.way(world.player_cell, cell))]
+	# Anyone can pick it up, a monster too ([D296], [D311]): a band of the land may be on it first.
+	var chance := float(rules().get("weapon", {}).get("taken_chance", 0.0))
+	if chance > 0.0 and float(absi(hash([world.world_seed, str(echo.get("hero", "")), "weapon taken"])) % 1000) / 1000.0 < chance:
+		var band := take_weapon(world, echo)
+		if band != null:
+			out.append(_say(str(lines().get("weapon_taken", "")).replace("{band}", band.label().capitalize()), echo, world, null))
+	return out
+
+
+## A band of the land stands over [param echo]'s weapon ([D311]): the weapon is theirs until they are
+## beaten. Returns the band, or null when the crater has no ground for one.
+static func take_weapon(world: World, echo: Dictionary) -> Prowler:
+	var weapon: Dictionary = echo.get("weapon", {})
+	var cell := cell_of(weapon.get("cell", []))
+	if not world.is_walkable(cell):
+		return null
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, str(echo.get("hero", "")), cell.x, cell.y, "weapon band"])
+	var band := Encounter._band_at(world, cell, rng)
+	band.carries = str(echo.get("hero", ""))
+	world.prowlers.append(band)
+	weapon["taken"] = true
+	return band
+
+
+## The band standing over [param hero]'s weapon, if one still is.
+static func weapon_holder(world: World, hero: String) -> Prowler:
+	for band: Prowler in world.prowlers:
+		if band.carries == hero:
+			return band
+	return null
+
+
+## The band over [param hero]'s weapon is beaten: it lies free again. The line, or "".
+static func weapon_freed(world: World, hero: String) -> String:
+	var echo := echo_of(world, hero)
+	var weapon: Dictionary = echo.get("weapon", {})
+	if echo.is_empty() or not bool(weapon.get("taken", false)):
+		return ""
+	weapon["taken"] = false
+	return _say(str(lines().get("weapon_freed", "")), echo, world, null)
+
+
+## The company lost to the band over [param hero]'s weapon: another is on the crater by the time they
+## could come back. The line, or "".
+static func weapon_retaken(world: World, hero: String) -> String:
+	var echo := echo_of(world, hero)
+	if echo.is_empty() or bool(echo.get("weapon", {}).get("found", false)):
+		return ""
+	var band := take_weapon(world, echo)
+	if band == null:
+		return ""
+	return _say(str(lines().get("weapon_retaken", "")).replace("{band}", band.label().capitalize()), echo, world, null)
 
 
 ## Walking onto the crater: the weapon goes into the packs. Nobody is suited to
@@ -405,6 +458,12 @@ static func on_arrive(world: World, cell: Vector2i) -> Array:
 			continue
 		if cell_of(weapon.get("cell", [])) != cell:
 			continue
+		# Something stands over it ([D311]): it will take a fight first.
+		var holder := weapon_holder(world, str(echo.get("hero", "")))
+		if bool(weapon.get("taken", false)) and holder != null:
+			out.append(_say(str(lines().get("weapon_held", "")).replace("{band}", holder.label().capitalize()), echo, world, null))
+			continue
+		weapon["taken"] = false
 		weapon["found"] = true
 		weapon["heard"] = true
 		GameState.stores.append(str(weapon.get("id", "")))
@@ -424,7 +483,10 @@ static func rumour(world: World) -> String:
 		var place := _nearest_named(world, cell)
 		weapon["heard"] = true
 		var from: Vector2i = place.cell if place != null else world.player_cell
-		return _say(str(lines().get("weapon_rumour", "")), echo, world, place, Fall.way(from, cell))
+		var said := _say(str(lines().get("weapon_rumour", "")), echo, world, place, Fall.way(from, cell))
+		if bool(weapon.get("taken", false)) and weapon_holder(world, str(echo.get("hero", ""))) != null:
+			said += " " + _say(str(lines().get("weapon_rumour_taken", "")), echo, world, place)
+		return said
 	return ""
 
 
