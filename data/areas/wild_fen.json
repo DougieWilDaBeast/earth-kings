@@ -1,5 +1,6 @@
 {
     "display_name": "the drowned fen",
+    "lure": "duckboards into the reeds, dark water, and a key the fen keeps",
     "layers": [
         "water",
         "dirt",

@@ -15,10 +15,12 @@ const Company := preload("res://tests/company.gd")
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
 	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
-	"road_clock", "fallen_gates",
+	"road_clock", "fallen_gates", "wilds",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Route := preload("res://src/world/route.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
@@ -49,6 +51,7 @@ func _ready() -> void:
 			"world": _check_world(world)
 			"one_world": _check_one_world()
 			"fallen_gates": _check_fallen_gates(world)
+			"wilds": _check_wilds(world)
 			"progression": _check_progression(hero, world)
 			"doctrine": _check_doctrine(hero, world)
 			"class_choice": _check_class_choice(world)
@@ -117,6 +120,46 @@ func _check_one_world() -> void:
 	a.tiles[0] = "changed"
 	var c := WorldGen.generate(SEED)
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
+
+
+## Places worth going to ([D287], [D309]): a dozen wild places on the map, each on its own kind of ground
+## with an inside and a lure, unknown until found or heard of at rest; the host's word marks the nearest.
+func _check_wilds(world: World) -> void:
+	print("")
+	var wilds := Wilds.all(world)
+	_expect(wilds.size() >= 10, "the map has %d wild places" % wilds.size())
+	var kinds := {}
+	for place: Site in wilds:
+		_expect(world.is_walkable(place.cell), "%s stands on unwalkable ground" % place.display_name)
+		var area := str(place.data.get("area", ""))
+		_expect(Database.has_area(area) and str(Database.area(area).get("lure", "")) != "", "%s has no inside or no lure (%s)" % [place.display_name, area])
+		kinds[area] = true
+		for other: Site in world.sites:
+			if other != place and other.kind != Site.WILD:
+				_expect(Pathfinder.distance(place.cell, other.cell) >= 5, "%s is on top of %s" % [place.display_name, other.display_name])
+		_expect(not Atlas.knows(world, place), "%s is known before anyone found it" % place.display_name)
+	_expect(kinds.size() >= 4, "the wild places are only %d kinds" % kinds.size())
+	# Heard of at rest: the nearest unknown is marked and named with its lure.
+	var village: Site = world.sites_of_kind(Site.VILLAGE)[0]
+	var nearest := Wilds.nearest_unknown(world, village.cell, 200)
+	_expect(nearest != null, "no wild place is unknown to %s" % village.display_name)
+	var said := Wilds.rumour(world, village)
+	_expect(said != "" and nearest != null and said.contains(nearest.display_name) and said.contains(Wilds.lure_of(nearest)),
+			"the host's word does not name the nearest wild and what it holds: %s" % said)
+	_expect(nearest != null and Atlas.knows(world, nearest), "the wild spoken of is not on the map")
+	var again := Wilds.rumour(world, village)
+	_expect(again == "" or not again.contains(nearest.display_name), "the host spoke of the same wild twice")
+	# Found: a line once, a page in the annals, kept in the save.
+	var annals_before := world.annals.size()
+	var first := Wilds.found(world, nearest)
+	_expect(first != "" and world.annals.size() == annals_before + 1 and bool(nearest.data.get("found", false)), "finding a wild place said nothing or wrote nothing")
+	_expect(Wilds.found(world, nearest) == "", "a wild place was found twice")
+	var saved := World.from_dict(world.to_dict())
+	_expect(bool(saved.site_at(nearest.cell).data.get("found", false)) and Atlas.knows(saved, saved.site_at(nearest.cell)), "the found wild was lost in the save")
+	print("wilds: %d places of %d kinds; %s" % [wilds.size(), kinds.size(), said])
+	# Tidy: nothing of this is kept for the checks after.
+	nearest.data.erase("found")
+	world.annals.resize(annals_before)
 
 
 ## A fallen lead's demon king holds some gates of the world after, and the Gate Key tears a gate
