@@ -4,6 +4,7 @@ extends Node
 ##
 ##   godot --headless --path . res://tests/area_smoke_test.tscn
 
+const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SEED := 20260829
 const AREAS := [
 	"village", "village_inn",
@@ -291,6 +292,52 @@ func _check_crafting() -> void:
 	if int(wielder.honed.get("iron_blade", 0)) != int(Crafting.rules().get("hone_most", 3)):
 		_fail("crafting: a blade took more notches than the most")
 	wielder.honed.erase("iron_blade")
+
+	# Enchanting (D299 item 3): a rune out of the packs on the weapon they carry, a fight passive of
+	# theirs while they carry it, kept through a save, one a weapon.
+	wielder.enchanted.erase("iron_blade")
+	var keen := Crafting.enchantment("keen")
+	var rime := Crafting.enchantment("rime")
+	if keen.is_empty() or rime.is_empty():
+		_fail("enchanting: no Keen or Rime rune in crafting.enchant")
+	else:
+		var plain := Unit.from_character(wielder, Unit.Team.PLAYER, Vector2i.ZERO)
+		var crit_before := 0.0
+		for p: Dictionary in SkirmishPassives.for_unit(plain):
+			if str(p.get("effect", "")) == "crit":
+				crit_before += float(p.get("value", 0.0))
+		plain.free()
+		if Crafting.enchant(wielder, keen, GameState.stores) != "":
+			_fail("enchanting: a Keen Rune laid out of empty packs")
+		for item: String in keen["needs"]:
+			for i in int(keen["needs"][item]):
+				GameState.stores.append(item)
+		if Crafting.enchant(wielder, keen, GameState.stores) == "" or str(wielder.enchanted.get("iron_blade", "")) != "keen":
+			_fail("enchanting: the Keen Rune did not go on the Iron Blade")
+		for item: String in keen["needs"]:
+			if GameState.stores.count(item) != kept_stores.count(item):
+				_fail("enchanting: laying the rune did not use up the %s" % item)
+		if Crafting.can_enchant(wielder, keen, GameState.stores):
+			_fail("enchanting: the same rune could go on twice")
+		var keyed := Unit.from_character(wielder, Unit.Team.PLAYER, Vector2i.ZERO)
+		var crit_after := 0.0
+		for p: Dictionary in SkirmishPassives.for_unit(keyed):
+			if str(p.get("effect", "")) == "crit":
+				crit_after += float(p.get("value", 0.0))
+		keyed.free()
+		if not is_equal_approx(crit_after - crit_before, float(keen["value"])):
+			_fail("enchanting: the Keen Rune gave %+.2f crit in a fight, not %+.2f" % [crit_after - crit_before, float(keen["value"])])
+		if str(Character.from_dict(wielder.to_dict()).enchanted.get("iron_blade", "")) != "keen":
+			_fail("enchanting: a rune did not survive a save")
+		for item: String in rime["needs"]:
+			for i in int(rime["needs"][item]):
+				GameState.stores.append(item)
+		if Crafting.enchant(wielder, rime, GameState.stores).find("gone") < 0 or str(wielder.enchanted["iron_blade"]) != "rime":
+			_fail("enchanting: a second rune did not take the first one's place")
+		wielder.equipment = kept_weapon
+		if Crafting.rune_passive(wielder).is_empty() == false and kept_weapon != "iron_blade":
+			_fail("enchanting: a rune went with them off the weapon it is on")
+	wielder.enchanted.erase("iron_blade")
 	wielder.equipment = kept_weapon
 	GameState.stores = kept_stores
 
