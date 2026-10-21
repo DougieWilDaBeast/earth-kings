@@ -19,6 +19,7 @@ extends Node2D
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
+const Wilds := preload("res://src/chronicle/wilds.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
@@ -501,6 +502,9 @@ const WILD_AREAS := {
 
 func _check_wild_exploration(cell: Vector2i) -> void:
 	if _busy or _roadside_here != "":
+		return
+	# A wild place on the map is walked into as a place ([D309]), not stumbled on.
+	if world.site_at(cell) != null:
 		return
 	var t := world.terrain_id_at(cell)
 	if not WILD_AREAS.has(t):
@@ -1001,6 +1005,12 @@ func _rest_at(site: Site) -> void:
 		var word := Wanderers.rumour(world)
 		if word != "":
 			_note(word)
+			_map.queue_redraw()
+	# And of a wild place worth going to, not yet known ([D309]).
+	if site.kind != Site.HUT and randf() < float(Wilds.rules().get("rumour_chance", 0.5)):
+		var place := Wilds.rumour(world, site)
+		if place != "":
+			_note(place)
 			_map.queue_redraw()
 	# Something out of the sky is the first thing anybody talks about (M15).
 	if site.kind != Site.HUT and Siblings.heard_weapons(world).is_empty():
@@ -2093,6 +2103,11 @@ func _walk_into_site() -> void:
 			else "There is nothing here to walk into."
 		)
 		return
+	if site != null and site.kind == Site.WILD:
+		var found := Wilds.found(world, site)
+		if found != "":
+			_note(found)
+			_map.queue_redraw()
 	if _view == View.GROUND:
 		# The door is open now: the ground is the place's inside, with what it offers.
 		_go_to_ground(true)

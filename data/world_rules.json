@@ -580,6 +580,18 @@
 		"blocked_line": "The shelf is too high to climb here. Find a slope.",
 		"hurt_line": "A drop of {fell}. Everyone lands hard."
 	},
+	"_comment_wilds": "D287, D309 (meeting six, piece C3): places worth going to. The wilds are sites of kind `wild` on the map (tools/place_wilds.py puts per_world of them on their own kind of ground), unknown until the party walks onto one or hears of it. At rest in a village or a keep, on rumour_chance, the host speaks of the nearest wild not yet known within rumour_within tiles (rumour_line: {host}, {wild}, {way}, {days} at steps_per_day a day, {lure} from the area's own `lure`), which marks it on the map. Walking into one for the first time says found_line and writes it in the annals. Inferred: every number and line.",
+	"wilds": {
+		"rumour_chance": 0.5,
+		"rumour_within": 36,
+		"steps_per_day": 8,
+		"rumour_line": "{host} speaks of {wild}, {way} of here, {days} off: {lure}. It is marked on your map.",
+		"found_line": "{wild}. Few come this way; the ones who did left things behind.",
+		"_comment_guard": "Creatures that match the land (D287): a band of the land's own foes (biomes.json `foes`, the great beasts held back by `foe_levels`, else the faction that walks the ground) stands by the chest farthest from the way in, `guard_size` of them at the party's level, seeing `guard_reach` cells; beaten, it stays beaten for the run (its done flag).",
+		"guard_size": 3,
+		"guard_reach": 3,
+		"guard_label": "{what} of {land}"
+	},
 	"caves": {
 		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
 		"terrains": ["hill"],

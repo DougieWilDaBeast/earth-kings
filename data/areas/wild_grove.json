@@ -1,5 +1,6 @@
 {
     "display_name": "the ancient grove",
+    "lure": "a ring of mossed boulders under the high boughs, and what somebody left under them",
     "layers": [
         "dirt",
         "meadow"

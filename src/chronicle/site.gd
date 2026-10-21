@@ -12,6 +12,8 @@ const HUT := "hut"
 const HOME := "home"
 ## Where somebody of yours went down (see [Memorial]).
 const GRAVE := "grave"
+## A wild place worth going to ([D309]): a grove, a fen, a scarp, with something in it.
+const WILD := "wild"
 
 ## Gate difficulty, weakest first. A gate's rank sets its guardian and its reward.
 const RANKS := ["E", "D", "C", "B", "A", "S"]
@@ -36,6 +38,8 @@ const ART := {
 	GRAVE: "res://art/world/tomb.png",
 	# Where the lead fell: a crater, not a castle ([D178]).
 	HOME: "res://art/world/crater.png",
+	# A standing stone marks a wild place on the map ([D309]).
+	WILD: "res://art/props/landmark/rune_stone.png",
 }
 
 ## A village grown into a great walled city ([D85]) is drawn as one on the map.
@@ -57,6 +61,7 @@ const COLOURS := {
 	HUT: Color(0.78, 0.66, 0.48),
 	GRAVE: Color(0.62, 0.62, 0.66),
 	HOME: Color(0.96, 0.6, 0.35),
+	WILD: Color(0.5, 0.72, 0.45),
 }
 
 var kind: String = VILLAGE

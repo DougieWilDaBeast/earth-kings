@@ -378,6 +378,7 @@ Start a run (not the tutorial) and walk.
 | D5.57 | Go into a gate on snow, then one on ash, then a rank C gate's second floor | Snow ground with ice for walls; ash with lava; the C gate's second floor a different kind from its first ([D261](06-decisions.md)) |
 | D5.58 | On a gate's first floor, walk past a band to the way down; then put the band down | "The way down will not open while anything on this floor still stands"; once it is down, the way down opens. Auto walks to each band in turn |
 | D5.59 | Shut a gate, walk out, and walk back past it | "Folk ... come running as it falls, cheering"; the gate lies broken in its mouth and three folk stand there thanking you |
+| D5.60 | Rest at a village a few times, then walk to the standing stone the host spoke of | "The host speaks of … It is marked on your map"; a standing stone appears on the map; E there walks into the wild place, which says what it keeps once, and the journal's annals have it ([D309](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

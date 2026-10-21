@@ -26,6 +26,7 @@ const Talk := preload("res://src/dialogue/talk.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const AreaLedges := preload("res://src/area/area_ledges.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
 const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -326,6 +327,9 @@ func _ready() -> void:
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
+	# A wild place is guarded by the land's own creatures ([D309]).
+	elif map.id.begins_with("wild_") and GameState.world != null:
+		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)

@@ -848,6 +848,198 @@
 			"open": false,
 			"opened_at": 0,
 			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				39,
+				36
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_scarp"
+			},
+			"display_name": "the wind scarp",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				98,
+				36
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_grove"
+			},
+			"display_name": "the ancient grove",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				70,
+				90
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_fen"
+			},
+			"display_name": "the drowned fen",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				27,
+				100
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_oasis"
+			},
+			"display_name": "the quiet oasis",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				50,
+				90
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_thicket"
+			},
+			"display_name": "the thorn thicket",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				92,
+				90
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_scarp"
+			},
+			"display_name": "the high shelf",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				65,
+				29
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_grove"
+			},
+			"display_name": "the mossed grove",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				44,
+				49
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_fen"
+			},
+			"display_name": "the black fen",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				64,
+				104
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_oasis"
+			},
+			"display_name": "the palm spring",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				104,
+				87
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_thicket"
+			},
+			"display_name": "the briar maze",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				51,
+				29
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_scarp"
+			},
+			"display_name": "the gull scarp",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				59,
+				46
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_grove"
+			},
+			"display_name": "the hush wood",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
 		}
 	],
 	"size": [
