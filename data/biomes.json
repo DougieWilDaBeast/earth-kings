@@ -157,6 +157,7 @@
 			],
 			"tint": "#d8e4f2",
 			"life": 0.3,
+			"life_art": {"bird": ["nature/sparrow", "nature/white_dove"], "flutter": [], "hop": [], "crawl": []},
 			"line": "Snow to the knee, and the cold gets in everywhere.",
 			"props": {
 				"trees": [
@@ -214,6 +215,7 @@
 			],
 			"tint": "#f3dcb0",
 			"life": 0.4,
+			"life_art": {"bird": ["nature/sparrow"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider"]},
 			"line": "Sand, heat, and nothing to hide behind.",
 			"props": {
 				"trees": [],
@@ -270,6 +272,7 @@
 			],
 			"tint": "#f0b890",
 			"life": 0.4,
+			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider"]},
 			"line": "Red rock cut into canyons by water long gone.",
 			"props": {
 				"trees": [],
@@ -374,6 +377,7 @@
 			],
 			"tint": "#b8a8a0",
 			"life": 0.1,
+			"life_art": {"bird": [], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "Ash falls like snow, and the ground is warm underfoot.",
 			"props": {
 				"trees": [
@@ -429,6 +433,7 @@
 			],
 			"tint": "#c890a8",
 			"life": 0.1,
+			"life_art": {"bird": [], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "The land here is sick, and it is spreading from the gate.",
 			"props": {
 				"trees": [
@@ -479,6 +484,7 @@
 			],
 			"tint": "#b8e0a8",
 			"life": 0.5,
+			"life_art": {"bird": ["nature/white_dove"], "flutter": [], "hop": [], "crawl": ["nature/snail"]},
 			"line": "Everything glistens. Some of it moves.",
 			"props": {
 				"trees": [],
@@ -501,6 +507,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 3,
 				"cover": 2,
 				"bare": 2,
@@ -532,6 +539,7 @@
 			],
 			"tint": "#b0aa80",
 			"life": 0.8,
+			"life_art": {"bird": ["nature/irish_bird", "nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Black water and soft ground that takes a boot and keeps it.",
 			"props": {
 				"trees": [
@@ -557,6 +565,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 4,
 				"cover": 3,
 				"bare": 3,
@@ -587,6 +596,7 @@
 			],
 			"tint": "#90b8a0",
 			"life": 1.0,
+			"life_art": {"bird": ["nature/irish_bird", "nature/finch"], "flutter": ["nature/butterfly", "nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Warm, wet and loud with things you cannot see.",
 			"props": {
 				"trees": [
@@ -612,6 +622,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 3.5,
 				"cover": 3,
 				"bare": 1,
@@ -643,6 +654,7 @@
 			],
 			"tint": "#c8d0ff",
 			"life": 0.4,
+			"life_art": {"bird": ["nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": []},
 			"line": "Crystal grows out of the ground here, humming to itself.",
 			"props": {
 				"trees": [],
@@ -692,6 +704,7 @@
 			],
 			"tint": "#8098c8",
 			"life": 0.6,
+			"life_art": {"bird": ["nature/irish_bird_2"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Mushrooms taller than a house, glowing by their own light.",
 			"props": {
 				"trees": [
@@ -796,6 +809,7 @@
 			],
 			"tint": "#b0b8b0",
 			"life": 0.5,
+			"life_art": {"bird": ["nature/irish_bird_2"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "Grey hills over old graves. The stones have names on them.",
 			"props": {
 				"trees": [],
@@ -904,6 +918,7 @@
 			],
 			"tint": "#d0dce0",
 			"life": 0.6,
+			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2", "nature/white_dove"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "Dark spruce in deep snow. Every sound carries.",
 			"props": {
 				"trees": [
@@ -958,6 +973,7 @@
 			],
 			"tint": "#b0b4d0",
 			"life": 0.5,
+			"life_art": {"bird": ["nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "A fog that never lifts. Shapes move in it, and not all of them are trees.",
 			"props": {
 				"trees": [
@@ -999,6 +1015,7 @@
 		}
 	},
 	"land_foe_share": 0.7,
+	"_comment_life_art": "D336 (play-test 7: 'creatures that match the land, no grasshopper in magma'; D287): a land's life_art names the pictures each kind of life on the land (world_rules.json -> life.art) is drawn from there; a kind it gives no pictures has none there, and a land with no life_art has all of them. Read by AreaScene._life_for. **Inferred** (agenda 244): which land keeps what, out of the pictures there are; the land's own creatures wait on art (A56).",
 	"_comment_foe_levels": "D211: a land's great beasts stay out of the bands it deals until the party's level reaches the number here, so a fresh lead walking alone meets the land's smaller things first (src/chronicle/encounter.gd _land_foes). **Inferred**: which beasts and level 3.",
 	"foe_levels": {
 		"tree_sentinel": 3,
