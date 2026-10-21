@@ -177,7 +177,7 @@
 						}
 					],
 					"bye": "Keep a light by you.",
-					"floor_bye": "Mind the dark corners. We've not drawn them yet."
+					"floor_bye": "Keep to the lit side. We've not drawn the dark corners yet."
 				},
 				"the Ninth Stair": {
 					"hello": [
@@ -214,7 +214,7 @@
 						"Hello there! Don't mind the smell of goat. We had a goat. Long story."
 					],
 					"floor_hello": [
-						"Pull up a bit of floor. Hob's doing the stew. Don't ask what's in it.",
+						"Pull up a bit of floor. Hob's doing the stew. It isn't the goat. Probably.",
 						"Another company! Hob, they've found us. Sit down, sit down."
 					],
 					"shared_hello": [
@@ -447,7 +447,7 @@
 					},
 					{
 						"q": "Why are two companies on one floor?",
-						"a": "Every third floor or so the Tower lets two companies on at once. Nobody knows why. We just say thank you."
+						"a": "Every third floor or so the Tower lets two companies on at once. The Guild has a theory. Nobody believes it. We just say thank you."
 					},
 					{
 						"q": "What's on floor {next}?",
@@ -744,7 +744,7 @@
 					{ "q": "Do companies stop here often?", "a": "A few a season. Most rest a night and go on. There's a mark on the wall for every one that comes back down past us." },
 					{ "q": "How many marks are on the wall?", "a": "Count them if you like. It won't take you long." },
 					{ "q": "Are there more floors like this?", "a": "Every few floors somebody has settled. We trade between them when anyone is going that way." },
-					{ "q": "Is it safe here?", "a": "Safer than the floor below. Nothing comes down the stair while folk live by it. Nobody knows why, and nobody asks." },
+					{ "q": "Is it safe here?", "a": "Safer than the floor below. Nothing comes down the stair while folk live by it. We don't ask it why, in case it stops." },
 					{ "q": "Have you seen the six?", "a": "No. People who say they have usually want something from you." }
 				],
 				"bye": "Mind the stair. We'll be here when you come down, if you do."
@@ -757,7 +757,7 @@
 					"Sit. Nothing comes down the stair that we have not seen before."
 				],
 				"ask": [
-					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." },
+					{ "q": "You keep the beds?", "a": "The beds, the fire and the stair. Nobody here has grown a day older since they came, so nobody has had to give the work up." },
 					{ "q": "How long have you kept this floor?", "a": "Since before the stair above was found. Long enough that I stopped asking how long." },
 					{ "q": "Who keeps the floors above?", "a": "Others like us, here and there. Some are kinder than me. Some charge more." }
 				],
@@ -768,7 +768,7 @@
 					"whole": "You are whole already. Rest anyway, if you like; it costs nothing to sit.",
 					"whole_q": "Can we sit a while?"
 				},
-				"bye": "Mind the stair. We'll be here when you come down, if you do."
+				"bye": "Go up rested. We will keep the fire in for you."
 			},
 			"living_trader": {
 				"name": "the one who sells",
@@ -1075,7 +1075,7 @@
 			"chapter": { "for": "until the next chapter of the Tower closes", "price": 2.0 }
 		},
 		"lines": {
-			"offer": "{name}, {job_name}, level {level}, {for} — {price}",
+			"offer": "{name}, {job_name}, level {level}, {for}: {price}",
 			"hired": "{name} takes the coin, counts it twice, and falls in.",
 			"done": "{name}'s job is done. They take their pay and go their own way.",
 			"none": "Nobody on the book today. Come back in a while."
