@@ -430,7 +430,7 @@ each, each ending playable:
    B. Levelling in gates: levels only from new foes in a gate, experience in the Tower, a log of foes per
       character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378). **Built**
       ([D301](06-decisions.md), 2026-10-21): levels only from kinds first put down in a gate or cave, a log of foes
-      with kinds to look out for, Auto hunting gates while the Tower outmatches it, floor 5's keeper at level 6,
+      with kinds to look out for, Auto hunting gates while the Tower outmatches it (floor 5's keeper and floors 6 up left as they were, to revisit),
       sixteen self-played runs in [28](28-the-first-hour.md). **Next**, and not
       yet started on main: C, D, E and F were built ahead of it on today's levelling (2026-10-20 and 21), so its
       sixteen runs also cover the demon kings, double gates, the Gate Key's gates, floors 11 to 20 with their

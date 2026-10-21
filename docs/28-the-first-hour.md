@@ -79,9 +79,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 [D188](06-decisions.md) (foes hit for 0.85 with 0.9 of their health; the party at 1.3 health and 1.2
 attack): foes two levels down, half healed
 after a fight, about a level a fight, the bands on the Tower's floors at the level written for them (the setting's
-two levels off is not applied there), so the floor 5 keeper stands at level 6 ([D113](06-decisions.md), kept
-by [D117](06-decisions.md), corrected by [D150](06-decisions.md); 9 until [D301](06-decisions.md), when levels came to come only
-from gates). **Saves**: on walking into a town or the city (once an arrival: in and out over its edge is not saved again until the party has been three tiles off, [D206](06-decisions.md)), opening the register,
+two levels off is not applied there), so the floor 5 keeper stands at level 9 ([D113](06-decisions.md), kept
+by [D117](06-decisions.md), corrected by [D150](06-decisions.md); left at 9 by [D301](06-decisions.md)). **Saves**: on walking into a town or the city (once an arrival: in and out over its edge is not saved again until the party has been three tiles off, [D206](06-decisions.md)), opening the register,
 shutting a gate, as well as setting out and resting ([D112](06-decisions.md)). **The play log**:
 Copy or Save play log in the system menu hands a tester's run over ([D125](06-decisions.md)).
 
@@ -225,8 +224,7 @@ alone and no companions, fell 13 of 13 by floor 6 (one on floor 1, two on 3, sev
 or its Bog Jellies, three on floor 6), and is why Auto rests and turns back.
 
 **Levelling in gates** ([D301](06-decisions.md), #378): sixteen self-played runs of ten minutes at five times
-speed, seeds 101 to 108, each once alone and once with random companions, on this PR's code (main after
-#415). Levels come only from new kinds in a gate. Level after the first gate, then the floor won and the
+speed, seeds 101 to 108, each once alone and once with random companions, on main after #415 with D301. Levels come only from new kinds in a gate. Level after the first gate, then the floor won and the
 level at the end. Floor is the highest won.
 
 | Seed | Lead | Companions | After the first gate | Outcome |
@@ -254,7 +252,9 @@ brings a lead to level 3 or 4 (12 of 16; Diana, the slowest learner, 1 to 2). Fl
 one party in eight reached floor 10, against six in sixteen in 6 to 11 minutes before. Three earlier rounds
 found the faults fixed with it: Auto stalled on the way to the Tower in every run (a tree over a tile's edge),
 stood at a gate too strong to go into, paced one tile's border for minutes, and climbed on into the Warden at
-level 3. Logs: `/mnt/project-files/simulations/2026-10-21-levelling-in-gates/`.
+level 3. These runs had floor 5's keeper at level 6 and floors 6 up a level higher for each of the company
+past the first; `dougie` put both back as they were (keeper 9, floors flat), to revisit once a later lead carries
+strength from the worlds before ([D301](06-decisions.md)). Logs: `/mnt/project-files/simulations/2026-10-21-levelling-in-gates/`.
 
 **How long the Second Hour took to build** (#234): the build half, floors 6 to 10, the sixteen chapter
 twos into the game, the Keeper of the Tenth, suites and docs ([D254](06-decisions.md), PR #324), took
