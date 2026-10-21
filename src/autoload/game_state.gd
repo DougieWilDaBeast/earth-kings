@@ -53,6 +53,9 @@ var away: Array = []
 var delving: Array = []
 ## Equipment the party is carrying and nobody is wearing (see [Loot], [Gear]).
 var stores: Array = []
+## Whether the party stands by a fire or a hearth just now ([D346]): set by the ground as the lead
+## walks, read by the party screen for what a fire lets it brew. Never saved.
+var at_hearth: bool = false
 ## Surplus equipment and supplies deposited at the campfire strongbox.
 var camp_stash: Array = []
 ## Keys found and kept. Not equipment — they weigh nothing and open one thing

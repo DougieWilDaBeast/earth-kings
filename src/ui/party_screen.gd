@@ -902,17 +902,19 @@ func _build_gear_page(character: Character) -> void:
 			_page_box.add_child(_offer_row(character, equipment_id))
 			shown += 1
 
-	# Herbs and draughts out of the packs into something stronger (D280).
+	# Herbs and draughts out of the packs into something stronger (D280), more for less by a fire (D346).
 	_page_box.add_child(_heading("Mixing"))
-	var mixable := Crafting.recipes().filter(func(r: Dictionary) -> bool: return Crafting.can_mix(r, GameState.stores))
+	var mixable := Crafting.mixable_here(GameState.at_hearth).filter(func(r: Dictionary) -> bool: return Crafting.can_mix(r, GameState.stores))
 	if mixable.is_empty():
 		_page_box.add_child(_quiet_line("Nothing in the packs to mix. Herbs, a redcap or frostmoss make draughts."))
+	if not GameState.at_hearth:
+		_page_box.add_child(_quiet_line("By a fire the same herbs go further."))
 	for recipe: Dictionary in mixable:
 		var stir := Button.new()
 		stir.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
 		stir.focus_mode = Control.FOCUS_NONE
 		stir.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		stir.text = "Mix a %s" % Crafting.recipe_text(recipe)
+		stir.text = ("Brew a %s by the fire" if str(recipe.get("at", "")) == Crafting.HEARTH else "Mix a %s") % Crafting.recipe_text(recipe)
 		stir.pressed.connect(func() -> void: mix(recipe))
 		Sfx.attend(stir)
 		_page_box.add_child(stir)

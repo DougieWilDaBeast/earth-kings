@@ -34,8 +34,8 @@ static func take(equipment_id: String, roster: Roster) -> String:
 		keeper.charms.append(equipment_id)
 		return "%s pockets the %s." % [keeper.display_name, name_]
 
-	# Food and physic go straight in the packs, to be spent later.
-	if Gear.is_draught(equipment_id):
+	# Food and physic go straight in the packs, to be spent later, and so do a smith's makings (D346).
+	if Gear.is_draught(equipment_id) or Gear.kind(equipment_id) == "making":
 		GameState.stores.append(equipment_id)
 		return "The %s goes in the packs." % name_
 

@@ -1094,6 +1094,19 @@
 			"frostmoss": { "art": "nature/mushroom_blue", "name": "frostmoss", "line": "Frostmoss, pale and cold to the touch. You peel a strip off the stone.", "spent_line": "" }
 		}
 	},
+	"makings_on_land": {
+		"_comment": "D346 (the settled BR list, 2026-10-19: crafting; D280's 'forging a new weapon from parts is later'): what a smith forges with, found on the open land like the herbs (D335) and by a roll of their own, so the herbs stand where they stood: about per_tile a tile of a land that has any (by_land), picked once a run into the packs. looks gives each its art (art_wanted, A62, drawn in its place once made), name and line. **Inferred** (agenda 254): which lands have what, and how many.",
+		"per_tile": 0.4,
+		"by_land": {
+			"forest": ["ash_stave"], "taiga": ["ash_stave"], "blossom": ["ash_stave"], "jungle": ["ash_stave"], "grassland": ["ash_stave"],
+			"badlands": ["iron_ore"], "barrow": ["iron_ore"], "dune": ["iron_ore"], "ash": ["iron_ore"], "blight": ["iron_ore"],
+			"snow": ["iron_ore"], "crystal": ["iron_ore"], "savanna": ["ash_stave", "iron_ore"]
+		},
+		"looks": {
+			"ash_stave": { "art": "nature/bramble", "art_wanted": "nature/ash_bough", "name": "a fallen ash bough", "line": "A fallen ash bough, straight and seasoned. You trim a stave from it.", "spent_line": "" },
+			"iron_ore": { "art": "nature/pebble", "art_wanted": "nature/iron_seam", "name": "a seam of iron", "line": "Rust-red stone where the ground has split. You knock out what ore you can carry.", "spent_line": "" }
+		}
+	},
 	"caravans": {
 		"_comment": "D334 (D287: 'places worth going to (... hamlets, caravans)'): a caravan is a wild place that walks. Each upkeep it rolls up to tiles_per_upkeep tiles on towards the next town of its route, by the way a party would walk (looked for no further than longest tiles), never onto ground within clear_of_sites of another place nor within party_clear of the party, and never while the party is that close. Within stand_off of the town it stands for rest_upkeeps upkeeps, then sets off for the next. src/chronicle/caravans.gd. **Inferred** (agenda 242): the pace and the rests.",
 		"tiles_per_upkeep": 3,
@@ -1122,9 +1135,21 @@
 			{ "makes": "red_draught", "needs": { "herbs": 3 } },
 			{ "makes": "blue_draught", "needs": { "herbs": 2, "redcap": 1 } },
 			{ "makes": "green_draught", "needs": { "frostmoss": 2, "red_draught": 1 } },
-			{ "makes": "amber_draught", "needs": { "blue_draught": 1, "green_draught": 1, "redcap": 1 } }
+			{ "makes": "amber_draught", "needs": { "blue_draught": 1, "green_draught": 1, "redcap": 1 } },
+			{ "makes": "red_draught", "needs": { "herbs": 2 }, "at": "hearth" },
+			{ "makes": "blue_draught", "needs": { "herbs": 1, "redcap": 1 }, "at": "hearth" },
+			{ "makes": "green_draught", "needs": { "frostmoss": 1, "red_draught": 1 }, "at": "hearth" },
+			{ "makes": "iron_blade", "needs": { "iron_ore": 3, "ash_stave": 1 }, "at": "smithy", "fee": 300 },
+			{ "makes": "hunting_bow", "needs": { "ash_stave": 2, "knotted_cord": 1 }, "at": "smithy", "fee": 300 },
+			{ "makes": "orrery_staff", "needs": { "ash_stave": 2, "iron_ore": 1, "black_feather": 1 }, "at": "smithy", "fee": 500 },
+			{ "makes": "owl_helm", "needs": { "iron_ore": 4 }, "at": "smithy", "fee": 400 }
 		],
+		"_comment_where": "D346: a recipe with at 'hearth' is mixed from the party screen only within hearth_reach cells of a fire (a camp's, a caravan's, the climbers' on a floor) or anywhere in an area that says hearth: true (an inn, a tavern): a fire draws more out of the herbs. One with at 'smithy' is forged by a smith whose talk has `forge`, for its fee (through the price dial), out of what the company gathered on the land (makings_on_land) and carries; a rune's or a recipe's makings carried as a charm count, and are spent. **Inferred** (agenda 254): every recipe and fee.",
+		"hearth_reach": 3,
 		"mixed_line": "Ground, steeped and strained: a {made}.",
+		"brewed_line": "Steeped over the fire, slow, nothing wasted: a {made}.",
+		"forged_line": "Hammered, quenched and handed over: a {made}. It goes in the packs.",
+		"forge_short_line": "The makings are not all there any more.",
 		"hone_most": 3,
 		"hone_base": 800,
 		"hone_share": 0.25,

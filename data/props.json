@@ -101,6 +101,8 @@
     "nature/snow_hare": { "kind": "critter", "life": "hop", "scale": 1.0 },
     "nature/ember_beetle": { "kind": "critter", "life": "crawl", "scale": 1.6 },
     "nature/moth": { "kind": "critter", "life": "flutter", "scale": 1.6 },
+    "nature/ash_bough": "ground",
+    "nature/iron_seam": "ground",
 
     "bed": "big_furniture",
     "bed_2": "big_furniture",

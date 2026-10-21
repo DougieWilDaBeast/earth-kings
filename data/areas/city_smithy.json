@@ -30,6 +30,12 @@
                     "offer": "Lay them on the bench. Master checks my work, so it'll be good.",
                     "done": "There. Mind the edge."
                 },
+                "forge": {
+                    "q": "Could you make us something?",
+                    "offer": "Out of that? Master says ash and ore is how every smith started. I can do it.",
+                    "none": "Bring me ore off the bare ground and ash staves out of the woods, and I'll make you a blade or a bow. The fee's for the coal.",
+                    "done": "Done. Don't tell Master I used his good tongs."
+                },
                 "bye": "Keep it oiled. Rust is slower than a goblin, but it gets there."
             },
             "cell": [
