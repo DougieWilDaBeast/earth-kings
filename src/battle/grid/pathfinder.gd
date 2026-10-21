@@ -25,7 +25,7 @@ func build_move_field(
 		for next in _grid.neighbours(current):
 			if not _grid.is_walkable(next) or blocks_movement.call(next):
 				continue
-			if absi(_grid.height_at(next) - _grid.height_at(current)) > jump:
+			if not _grid.may_step(current, next, jump):
 				continue
 			var next_cost := current_cost + _grid.move_cost(next)
 			if next_cost > move_points:
@@ -88,7 +88,7 @@ func path_to_nearest(
 		for next in _grid.neighbours(current):
 			if not _grid.is_walkable(next) or blocks_movement.call(next):
 				continue
-			if absi(_grid.height_at(next) - _grid.height_at(current)) > jump:
+			if not _grid.may_step(current, next, jump):
 				continue
 			var next_cost := current_cost + _grid.move_cost(next)
 			if field.can_reach(next) and field.cost_to(next) <= next_cost:

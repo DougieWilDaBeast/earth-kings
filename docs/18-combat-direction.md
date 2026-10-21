@@ -284,6 +284,12 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   never carries these, even where it is the same move (the fire mages' ember, the frost wolves'
   frostbite), or every swing would. `src/skirmish/skirmish_conditions.gd`;
   `conditions` in `data/skirmish.json`. Before and after shots: `tests/fight_effects_shot.tscn`.
+- **Heights in a fight** (2026-10-21, [D313](06-decisions.md), from both founders at the founders' meeting,
+  [D287](06-decisions.md): "a fighter on a height can be shoved off it"). A fight laid over ground with heights
+  ([D308](06-decisions.md), the wind scarp) takes the ground's heights and slopes: a fighter steps down
+  anywhere and up only at a slope, so the brains walk to the slopes; a body is never shoved up a ledge
+  (**Pinned**), and shoved off one it falls, **Off the edge**, a tenth of its health for every height and
+  knocked down 1.2 s where it lands. A hand-made field's heights stay the jump's. **Inferred** (agenda 221).
 
 **Reach.** A blow at arm's length (`range` 1) reaches the eight cells round a fighter, the diagonals too
 ([D246](06-decisions.md)): with only the four beside, two fighters a diagonal apart stepped sideways

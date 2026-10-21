@@ -188,6 +188,7 @@ func _run() -> void:
 	await _check_the_world_hears()
 	await _check_signatures()
 	await _check_conditions()
+	await _check_heights_in_a_fight()
 	_check_bout()
 	_check_party_war()
 	await _check_tactics()
@@ -1392,6 +1393,80 @@ func _check_stances() -> void:
 ## (fewer on a big body, none on a keeper or into a wall, and the word says so), slows, burns,
 ## bleeds, knockdowns and sunders stay on them with an icon and wear off, a resisted one says so,
 ## and a skill that comes down where a dodger stood says "Dodged!".
+## Heights inside a fight ([D287], [D313]): a field with heights of its own is climbed only at a way up
+## and dropped off anywhere; a body is never shoved up a ledge, and shoved off one it falls, hurt a
+## share of its health a height, and lies knocked down where it lands.
+func _check_heights_in_a_fight() -> void:
+	var map := _proving_ground()
+	var heights: Array = []
+	for y in 11:
+		var row := ""
+		for x in 14:
+			row += "1" if (y == 3 or y == 4) and (x == 4 or x == 5) else "0"
+		heights.append(row)
+	map["heights"] = heights
+	map["ways_up"] = [[4, 4]]
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = true
+	var grid: BattleGrid = fight.grid
+	_expect(grid.ledged and grid.height_at(Vector2i(4, 3)) == 1 and grid.height_at(Vector2i(6, 3)) == 0, "the field did not take its heights")
+	_expect(not grid.may_step(Vector2i(5, 5), Vector2i(5, 4), 1), "a fighter climbed the shelf where there is no way up")
+	_expect(grid.may_step(Vector2i(4, 5), Vector2i(4, 4), 1) and grid.may_step(Vector2i(5, 4), Vector2i(5, 5), 1),
+			"the slope cannot be climbed, or the shelf not dropped off")
+	var nobody := func(_c: Vector2i) -> bool: return false
+	var field: MoveField = fight.pathfinder.build_move_field(Vector2i(6, 3), 3, 1, nobody)
+	_expect(not field.can_reach(Vector2i(5, 3)) and field.can_reach(Vector2i(6, 5)), "a move field went straight up the shelf, or not along the ground")
+	var plain := _proving_ground()
+	var flat := BattleGrid.new()
+	flat.load_map(plain)
+	_expect(not flat.ledged and flat.may_step(Vector2i(8, 2), Vector2i(9, 1), 1) and not flat.may_step(Vector2i(10, 6), Vector2i(11, 6), 0),
+			"a hand-made field's heights are no longer the jump's")
+	flat.free()
+	var cato := _by_template(fight, "cato")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	var foe: Fighter = foes[0]
+	if cato == null or foe == null:
+		_expect(false, "no Cato or no foe on the field")
+		fight.queue_free()
+		return
+	var place := func(f: Fighter, cell: Vector2i) -> void:
+		f.stepping = false
+		f.unit.cell = cell
+		f.unit.position = fight.grid.cell_to_world(cell)
+	var tough := func(f: Fighter) -> void:
+		f.unit.max_hp = 1000
+		f.unit.hp = 1000
+		f.conditions.clear()
+		f.stunned = 0.0
+	for other: Fighter in foes:
+		place.call(other, Vector2i(12, 8))
+	# Shoved off the shelf's edge (a kick's knockback): down a tile, a tenth of their health gone, and flat on the ground.
+	place.call(cato, Vector2i(5, 3))
+	place.call(foe, Vector2i(5, 4))
+	tough.call(foe)
+	fight.conditions.shove(cato, foe, "knockback", 1)
+	_expect(foe.unit.cell == Vector2i(5, 5), "a shove at the edge did not put the foe off it: at %s" % foe.unit.cell)
+	var share := float(Database.world_rules.get("heights", {}).get("shoved_off", {}).get("share", 0.1))
+	_expect(foe.unit.hp == 1000 - roundi(1000.0 * share), "the fall took %d, not %d" % [1000 - foe.unit.hp, roundi(1000.0 * share)])
+	_expect(foe.conditions.has("knockdown") and foe.stunned > 0.0, "the foe did not lie where he fell")
+	_expect(_popped(fight, "Off the edge"), "the fall was not said over the foe")
+	# Shoved at the shelf from below: pinned against it, never up.
+	place.call(cato, Vector2i(5, 6))
+	place.call(foe, Vector2i(5, 5))
+	tough.call(foe)
+	fight.conditions.shove(cato, foe, "knockback", 1)
+	_expect(foe.unit.cell == Vector2i(5, 5) and foe.unit.hp == 1000, "a shove at the shelf from below moved the foe up it, or hurt him for it")
+	_expect(_popped(fight, "Pinned"), "a shove into the shelf did not say Pinned")
+	print("heights in a fight: a kick off the edge takes %.0f%% of the body's health and lays it flat %.1f s; nothing is shoved up a ledge" % [
+		share * 100.0, float(Database.world_rules.get("heights", {}).get("shoved_off", {}).get("down_seconds", 1.2))])
+	fight.queue_free()
+	await get_tree().process_frame
+
+
 func _check_conditions() -> void:
 	var fight := await _new_fight()
 	fight.paused = true

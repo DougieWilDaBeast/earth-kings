@@ -529,6 +529,21 @@ func _ground_field() -> Dictionary:
 		"player_spawns": spawns,
 		"enemies": _spread_out(enemies, rows),
 	}
+	# Ground with heights carries them into the fight ([D313]): a row of digits a cell, and where
+	# the slopes are, so the fighters climb and are shoved as the walkers are ([D308]).
+	if ground != null and ground.has_heights():
+		var heights: Array = []
+		var ways: Array = []
+		for y in size.y:
+			var row := ""
+			for x in size.x:
+				var cell := origin + Vector2i(x, y)
+				row += str(clampi(ground.height_at(cell), 0, 9))
+				if ground.ways_up.has(cell):
+					ways.append([x, y])
+			heights.append(row)
+		laid["heights"] = heights
+		laid["ways_up"] = ways
 	# A gate's fight on the ground (D162): the Guild's people fall in beside the party, and a heart
 	# floor's heart is the gate's doorway.
 	var allies: Array = []
