@@ -432,6 +432,7 @@ each, each ending playable:
       yet started on main: C, D, E and F were built ahead of it on today's levelling (2026-10-20 and 21), so its
       sixteen runs also cover the demon kings, double gates, the Gate Key's gates, floors 11 to 20 with their
       shared floors, the living floor's rest, the sword in the yard and the toll for walking out of a fight.
+      It goes in alone: nothing else merges into the game until its sixteen runs are green ([D323](06-decisions.md)).
    C. The land: caves (#371, [D282](06-decisions.md)), then heights, ledges, cliffs and ways up; places worth
       going to; creatures that match the land ([D287](06-decisions.md), #379). **Built in part**: caves ([D282](06-decisions.md));
       heights on the wind scarp, dropped off anywhere and climbed only at a slope, a drop of two hurting, the edges
@@ -445,6 +446,13 @@ each, each ending playable:
       fight is gone ([D321](06-decisions.md), 2026-10-21). Next: ladders and walls that can be scaled
       ([D287](06-decisions.md)), heights on the world map, hamlets and caravans as places, creatures of the land
       beyond the biomes' own foes, and herbs on the land ([D299](06-decisions.md): straight after enchanting).
+      **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
+      ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and
+      planned for C's rest: heights only stand in two kinds of wild place, so the land itself is still flat ("it's
+      a 2D world at the minute") and every hill and crag land should get shelves on [D308](06-decisions.md)'s rules;
+      a slope is the only way up, where `dougie` asked to "scale walls or scale these heights" (a ladder, a rope, a
+      climb); an edge is a rim and a shadow, with no rock face to give it the 3D look (A49, A50); and being higher
+      gives nothing in a fight (a blow or a shot from above).
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
       ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);
       demon kings of fallen worlds and the Gate Key that tears a gate where it is turned ([D304](06-decisions.md),
@@ -456,18 +464,20 @@ each, each ending playable:
       A band of foes falls in too, round its boss, in the shape its size picks, facing the party ([D315](06-decisions.md),
       2026-10-21), and on the ground a band of three or more walks in its shape too ([D320](06-decisions.md), 2026-10-21).
       Not yet: the wheel on a held key, a leader's orders beyond the call-out, trust breaking one, and Charisma
-      in who leads (the room's reading in [D299](06-decisions.md); built, the leader is fights won, ties to level).
+      in who leads, settled as a tie-break that lifts up to two wins ([D323](06-decisions.md), #411).
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
       is laid out at the climb and grows with height, every third floor from 12 is shared with a company who
       fight beside the party, and from 25 every fifth floor has people living by the stair. A living floor rests the
       company for coin and sells bread, herbs and a draught, marked up ([D317](06-decisions.md), 2026-10-21). Not yet:
-      the floors' 3D look, gear seen on the floor and on fighters (art).
+      the floors' 3D look, gear seen on the floor and on fighters (art). The grown floors stay; hand-laid floors
+      with keepsakes and chapter threes come later as their own piece ([D323](06-decisions.md)).
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
-   2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), has no piece of its own yet.
+   2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), comes after B and before C's rest
+   ([D323](06-decisions.md)).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
    heights: A49 to A54 in [24](24-art-requests.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
