@@ -593,6 +593,7 @@
       ],
       "talk": {
         "hone": { "q": "Can you put an edge on our weapons?", "offer": "Put it on the bench. If the steel is good I can make it better.", "done": "There. Mind the edge." },
+        "forge": { "q": "Could you make us something?", "offer": "Good ore, that. Tell me what you want of it.", "none": "Ore from the hard country and an ash stave or two, and I'll make you a blade, a bow or a helm. You pay for the fire.", "done": "There. Plain work, but it's honest." },
         "refuse": {
           "chance": 0.4,
           "unless": "smith:won",

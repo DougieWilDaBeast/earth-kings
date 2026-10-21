@@ -365,6 +365,7 @@
       "story_npc": "dwarf_smith",
       "talk": {
         "hone": { "q": "Can you put an edge on our weapons?", "offer": "Deepforge steel takes an edge like nothing up top. Show me.", "done": "There. Mind the edge." },
+        "forge": { "q": "Could you make us something?", "offer": "Surface ore. Soft stuff. It'll still kill a goblin. What do you want?", "none": "Bring me ore and ash wood and I'll make you something. Not a miracle. Something.", "done": "There. Let it cool before you swing it." },
         "hello": [
           "Hm. Your buckle's cracked. Second hole from the end.",
           "Mind that stair. Fourth stone's got a fault in it the size of my thumb.",

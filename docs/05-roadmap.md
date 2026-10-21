@@ -466,7 +466,9 @@ each, each ending playable:
       ([D337](06-decisions.md), 2026-10-21, held until B is in). A blow or a shot from higher ground lands harder, and the
       map of the continent shows heights, hills and crags lit and peaked ([D343](06-decisions.md), 2026-10-21). The art
       waiting on PixelLab (A51 to A61) has a place to land and is read there, so 27 October is only generating and
-      `tools/take_art.py take <id>` ([D344](06-decisions.md), 2026-10-21). Next: hills
+      `tools/take_art.py take <id>` ([D344](06-decisions.md), 2026-10-21). Crafting grows: ore and ash staves to gather
+      on the land, draughts brewed for less by a fire, and simple gear forged at a smithy out of them
+      ([D346](06-decisions.md), 2026-10-21). Next: hills
       and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and

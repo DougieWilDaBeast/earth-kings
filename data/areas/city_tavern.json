@@ -1,5 +1,6 @@
 {
     "display_name": "the Gilded Flagon",
+    "hearth": true,
     "layers": [],
     "legend": {
         ".": "floor",

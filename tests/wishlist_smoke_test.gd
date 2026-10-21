@@ -7,6 +7,7 @@ extends Node
 ##   godot --headless --path . res://tests/wishlist_smoke_test.tscn
 
 const SEED := 20260901
+const Crafting := preload("res://src/chronicle/crafting.gd")
 
 var _failures: Array[String] = []
 
@@ -147,6 +148,11 @@ func _check_content() -> void:
 			continue
 		if Gear.is_draught(equipment_id):
 			_expect(Gear.mends(equipment_id) > 0, "draught %s mends nothing" % equipment_id)
+			continue
+		# A smith's makings (D346) are worth something only to a smith.
+		if Gear.kind(equipment_id) == "making":
+			_expect(Crafting.recipes().any(func(r: Dictionary) -> bool: return (r.get("needs", {}) as Dictionary).has(equipment_id)),
+					"making %s goes into nothing" % equipment_id)
 			continue
 		_expect(
 			int(piece.get("attack", 0)) + int(piece.get("defense", 0)) > 0,

@@ -84,6 +84,7 @@ func _ready() -> void:
 	_check_sellswords()
 	_check_drinkers_in_the_flagon()
 	_check_crafting()
+	_check_forging_and_the_hearth()
 	await _check_caves()
 	_check_rises()
 	_check_herbs_on_the_land()
@@ -91,6 +92,7 @@ func _ready() -> void:
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
+	await _check_by_the_fire()
 	await _check_tower_floor()
 	await _check_tower_grows()
 	await _check_heights()
@@ -512,6 +514,75 @@ func _check_crafting() -> void:
 	GameState.stores = kept_stores
 
 
+## Crafting by a fire and at a smithy ([D346]): a fire's recipes only by a fire or in an inn, a smith
+## forging gear out of ore and ash for his fee, never paid when the makings have gone, a making picked
+## up going in the packs, and a rune's makings carried as a charm counted and spent.
+func _check_forging_and_the_hearth() -> void:
+	var kept_stores := GameState.stores.duplicate()
+	var kept_gold := GameState.gold
+	var by_fire := func(r: Dictionary) -> bool: return str(r.get("at", "")) == Crafting.HEARTH
+	if Crafting.mixable_here(false).any(by_fire) or not Crafting.mixable_here(true).any(by_fire):
+		_fail("hearth: a fire's recipe offered away from a fire, or none beside one")
+	if not AreaMap.load_area("village_inn").hearth or AreaMap.load_area("home").hearth:
+		_fail("hearth: the inn has no hearth to brew by, or the yard has one")
+	var cheap: Array = Crafting.recipes_at(Crafting.HEARTH).filter(func(r: Dictionary) -> bool: return r["makes"] == "red_draught")
+	GameState.stores = ["herbs", "herbs"]
+	if cheap.is_empty() or Crafting.mix(cheap[0], GameState.stores) == "" or GameState.stores != ["red_draught"]:
+		_fail("hearth: two herbs by the fire did not make a Red Draught: %s" % [GameState.stores])
+	# Picked up off the land, ore and ash go in the packs.
+	GameState.stores = []
+	Loot.take("iron_ore", GameState.roster)
+	if GameState.stores != ["iron_ore"]:
+		_fail("makings: iron ore picked up did not go in the packs: %s" % [GameState.stores])
+	# Hald forges an Iron Blade out of three ore and a stave, for his fee.
+	var smith := {}
+	for person: Dictionary in Database.area("home").get("people", []):
+		if person.get("name", "") == "Hald the smith":
+			smith = person
+	GameState.stores = ["iron_ore", "iron_ore", "iron_ore", "ash_stave", "herbs"]
+	var nodes: Dictionary = Talk.build("Hald", smith.get("talk", {}), true, 0.5, "met:test")
+	var blade: Array = nodes.get("forge", {}).get("options", []).filter(func(o: Dictionary) -> bool:
+		return int(o.get("forge", -1)) >= 0 and str(Crafting.recipes()[int(o["forge"])]["makes"]) == "iron_blade")
+	if blade.is_empty():
+		_fail("forging: Hald offers no Iron Blade for three ore and a stave")
+	else:
+		var fee := int(blade[0]["requires_gold"])
+		GameState.gold = fee + 10
+		DialogueScript.apply_effects(blade[0])
+		if GameState.gold != 10 or GameState.stores != ["herbs", "iron_blade"]:
+			_fail("forging: after the blade the purse is %d and the packs %s" % [GameState.gold, GameState.stores])
+		DialogueScript.apply_effects(blade[0])
+		if GameState.gold != 10 or GameState.stores.count("iron_blade") != 1:
+			_fail("forging: a blade forged again with the makings gone, or paid for")
+		if fee <= 0:
+			_fail("forging: Hald works for nothing")
+	GameState.stores = []
+	var empty: Dictionary = Talk.build("Hald", smith.get("talk", {}), true, 0.5, "met:test")
+	if not empty.has("forge_none") or empty.has("forge"):
+		_fail("forging: Hald offers to forge out of empty packs")
+	# A rune's makings bought from a trader are pocketed as charms, and still count.
+	var keeper: Character = GameState.roster.player()
+	var wielder: Character = GameState.party_characters()[0]
+	var kept_weapon := wielder.equipment
+	wielder.equipment = "iron_blade"
+	wielder.enchanted.erase("iron_blade")
+	Loot.take("whetstone", GameState.roster)
+	GameState.stores = ["herbs", "herbs"]
+	var keen := Crafting.enchantment("keen")
+	if not keeper.charms.has("whetstone") or not Crafting.can_enchant(wielder, keen, GameState.stores):
+		_fail("enchanting: a whetstone bought (a charm) does not count for a Keen Rune")
+	else:
+		var charms := keeper.charms.count("whetstone")
+		Crafting.enchant(wielder, keen, GameState.stores)
+		if keeper.charms.count("whetstone") != charms - 1 or not GameState.stores.is_empty():
+			_fail("enchanting: the whetstone charm or the herbs were not spent")
+	wielder.enchanted.erase("iron_blade")
+	wielder.equipment = kept_weapon
+	GameState.stores = kept_stores
+	GameState.gold = kept_gold
+	print("crafting: two herbs make a Red Draught by a fire; Hald forges an Iron Blade from 3 ore and a stave; a charm counts for a rune")
+
+
 ## Ladders and the rope ([D337]): a ladder on the cloud peak climbs a face two heights up that nothing
 ## else does; a plain face a height up on the scarp is no way up until the company carries a rope, and
 ## then it is, for a way found as well as a step; the rope is sold where a climber would look for one.
@@ -560,6 +631,8 @@ func _check_ladders_and_rope() -> void:
 func _check_herbs_on_the_land() -> void:
 	var world: World = GameState.world
 	var by_land: Dictionary = Database.world_rules.get("herbs_on_land", {}).get("by_land", {})
+	# A smith's makings ([D346]) lie on the land the same way, by a roll of their own.
+	var makings_by_land: Dictionary = Database.world_rules.get("makings_on_land", {}).get("by_land", {})
 	var found := {}
 	var looked := 0
 	var picked := false
@@ -579,10 +652,11 @@ func _check_herbs_on_the_land() -> void:
 			var terrain: PackedStringArray = slot["terrain"]
 			for prop: Dictionary in slot["props"]:
 				var herb := str(prop.get("item", ""))
-				if herb == "" or not ["herbs", "redcap", "frostmoss"].has(herb):
+				if herb == "" or not ["herbs", "redcap", "frostmoss", "ash_stave", "iron_ore"].has(herb):
 					continue
 				found[herb] = int(found.get(herb, 0)) + 1
-				if not (by_land.get(land, []) as Array).has(herb):
+				var grows: Array = makings_by_land.get(land, []) if herb in ["ash_stave", "iron_ore"] else by_land.get(land, [])
+				if not grows.has(herb):
 					_fail("herbs: %s grows on %s, which does not grow it" % [herb, land])
 				var on := terrain[int(prop["cell"][1]) * w + int(prop["cell"][0])]
 				if ["footpath", "track", "road", "water"].has(on):
@@ -596,6 +670,8 @@ func _check_herbs_on_the_land() -> void:
 					GameState.stores.erase(herb)
 	if found.size() < 2:
 		_fail("herbs: only %s growing on %d tiles of the land" % [found, looked])
+	if not found.has("ash_stave") and not found.has("iron_ore"):
+		_fail("makings: no ash stave or iron ore on %d tiles of the land" % looked)
 	print("herbs on the land: %s on %d tiles" % [found, looked])
 
 
@@ -1283,6 +1359,32 @@ func _check_last_stand() -> void:
 	EventBus.scene_changed.emit("title")
 	GameState.new_game(SEED)
 	print("last stand: Atlas falls once, the quiz is next, a replay writes nothing, a skip still falls")
+
+
+## By the fire ([D346]): standing at a camp's fire the party screen can brew a fire's recipes; walked
+## away from it, it cannot; out of the place, nobody is by a fire.
+func _check_by_the_fire() -> void:
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "camp" })
+	add_child(scene)
+	for i in 10:
+		await get_tree().process_frame
+	var map: AreaMap = scene.get("map")
+	var leader: Node2D = scene.get("_leader")
+	if leader == null or map.fire.x < 0:
+		_fail("hearth: the camp has no fire or no lead")
+	else:
+		leader.position = map.centre_of(map.fire + Vector2i(0, 2))
+		scene.call("_mark_the_hearth")
+		var by := GameState.at_hearth
+		leader.position = map.centre_of(Vector2i(1, map.height - 2) if map.fire.x > 6 else Vector2i(map.width - 2, map.height - 2))
+		scene.call("_mark_the_hearth")
+		if not by or GameState.at_hearth:
+			_fail("hearth: two cells from the camp's fire is %s, far off is %s" % [by, GameState.at_hearth])
+	scene.queue_free()
+	await get_tree().process_frame
+	if GameState.at_hearth:
+		_fail("hearth: still by the fire after leaving the camp")
 
 
 ## The tutorial's sparring pair (D75): not in the village until the fight step calls it, then

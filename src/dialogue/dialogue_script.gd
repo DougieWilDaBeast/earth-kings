@@ -173,6 +173,11 @@ static func best_for(skill: String) -> Character:
 ## Flags set or cleared, gold gained or spent, an `item` handed over, and `heal` (the company
 ## mended, as a rest does) by a node or a reply.
 static func apply_effects(source: Dictionary) -> void:
+	# A smith's forging (D346) is paid only while the packs still hold the makings.
+	var forging := int(source.get("forge", -1))
+	if forging >= 0 and (forging >= Crafting.recipes().size() or not Crafting.can_mix(Crafting.recipes()[forging], GameState.stores)):
+		EventBus.area_note.emit(str(Crafting.rules().get("forge_short_line", "The makings are not all there any more.")))
+		return
 	for key: String in _as_array(source.get("set_flag", [])):
 		GameState.set_flag(key)
 	for key: String in _as_array(source.get("clear_flag", [])):
@@ -190,6 +195,9 @@ static func apply_effects(source: Dictionary) -> void:
 		EventBus.area_note.emit(Crafting.hone(GameState.roster.by_id(honing)))
 		if GameState.world != null:
 			Moods.think(GameState.roster.by_id(honing), "kitted", GameState.world.steps)
+	# A smith's forging out of what the company gathered (D346).
+	if forging >= 0:
+		EventBus.area_note.emit(Crafting.mix(Crafting.recipes()[forging], GameState.stores))
 	# A sellsword off the Flagon's book, paid for (D295).
 	if source.has("hire") and GameState.roster != null:
 		var hired := Sellswords.hire(GameState.world, GameState.roster, int(source["hire"]))

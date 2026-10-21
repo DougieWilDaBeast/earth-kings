@@ -103,6 +103,10 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 	if not hone.is_empty():
 		_add_honing(nodes, menu, name_, hone)
 
+	var forge: Dictionary = talk.get("forge", {})
+	if not forge.is_empty():
+		_add_forging(nodes, menu, name_, forge)
+
 	if bool(talk.get("news", false)):
 		menu.append({ "text": str(talk.get("news_q", "Heard any news?")), "news": true })
 
@@ -224,6 +228,30 @@ static func _add_honing(nodes: Dictionary, menu: Array, name_: String, hone: Dic
 	options.append({ "text": str(hone.get("done_q", "That's all.")), "goto": "menu" })
 	nodes["hone"] = { "speaker": name_, "text": hone.get("offer", "Let me see them. Coin first."), "options": options }
 	nodes["honed"] = { "speaker": name_, "text": hone.get("done", "There. Mind the edge."), "next": "hone" }
+
+
+## A smith forges simple gear out of what the company gathered ([D346], [Crafting]): one reply for each
+## of the smithy's recipes the packs hold the makings of, priced at its fee.
+static func _add_forging(nodes: Dictionary, menu: Array, name_: String, forge: Dictionary) -> void:
+	var options: Array = []
+	var all := Crafting.recipes()
+	for i in all.size():
+		var recipe: Dictionary = all[i]
+		if str(recipe.get("at", "")) != Crafting.SMITHY or not Crafting.can_mix(recipe, GameState.stores):
+			continue
+		var fee := Crafting.fee(recipe)
+		options.append({
+			"text": "%s — %s" % [Crafting.recipe_text(recipe), Coins.text(fee)],
+			"requires_gold": fee, "gold": -fee, "forge": i, "goto": "forged",
+		})
+	if options.is_empty():
+		menu.append({ "text": str(forge.get("q", "Could you make us something?")), "goto": "forge_none" })
+		nodes["forge_none"] = { "speaker": name_, "text": forge.get("none", "Bring me the makings and I will."), "next": "menu" }
+		return
+	menu.append({ "text": str(forge.get("q", "Could you make us something?")), "goto": "forge" })
+	options.append({ "text": str(forge.get("done_q", "That's all.")), "goto": "menu" })
+	nodes["forge"] = { "speaker": name_, "text": forge.get("offer", "Show me what you brought."), "options": options }
+	nodes["forged"] = { "speaker": name_, "text": forge.get("done", "There. Mind it while it cools."), "next": "forge" }
 
 
 ## The sellswords' book ([D295], [Sellswords]): one reply for each still on the board, paid up

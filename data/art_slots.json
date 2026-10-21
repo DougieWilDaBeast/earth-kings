@@ -1,5 +1,5 @@
 {
-	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 to A61, D344). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day.",
+	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 on, D344). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day.",
 	"requests": {
 		"A51": {
 			"what": "Tower floors with depth",
@@ -265,6 +265,30 @@
 				}
 			],
 			"shows": "The opening's ending shot (data/opening.json -> art.burning_world, D340)."
+		},
+		"A62": {
+			"what": "A smith's makings on the land",
+			"files": [
+				{
+					"name": "ash_bough.png",
+					"to": "art/props/nature/ash_bough.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the bramble"
+				},
+				{
+					"name": "iron_seam.png",
+					"to": "art/props/nature/iron_seam.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "the pebble"
+				}
+			],
+			"shows": "The ash staves and iron ore on the open land (world_rules.json -> makings_on_land, art_wanted; src/area/ground_gen.gd _herbs), D346."
 		}
 	}
 }
