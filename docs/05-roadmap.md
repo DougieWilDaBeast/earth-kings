@@ -431,9 +431,10 @@ each, each ending playable:
       drawn ([D308](06-decisions.md), 2026-10-20); the wilds as places on the map, heard of at rest and marked, each
       with what it holds and a guard of the land's own creatures by its far chest ([D309](06-decisions.md), 2026-10-21). A board can post clearing a wild the party has heard of ([D310](06-decisions.md), 2026-10-21). Every way found on
       high ground (a click, Auto, a band, a person) goes round by a slope ([D312](06-decisions.md), 2026-10-21). A fight on
-      high ground keeps to the slopes, and a body shoved off an edge falls, hurt and flat ([D313](06-decisions.md), 2026-10-21). Next: a mountain with
+      high ground keeps to the slopes, and a body shoved off an edge falls, hurt and flat ([D313](06-decisions.md), 2026-10-21). Every wild
+      tells a story in three pages stood on, written in the annals when the last is read ([D314](06-decisions.md), 2026-10-21). Next: a mountain with
       the clouds below, heights on the world map,
-      hamlets and caravans as places, creatures of the land beyond the biomes' own foes, a story in each wild.
+      hamlets and caravans as places, creatures of the land beyond the biomes' own foes.
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
       ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);
       demon kings of fallen worlds and the Gate Key that tears a gate where it is turned ([D304](06-decisions.md),

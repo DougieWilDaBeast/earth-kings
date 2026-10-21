@@ -315,6 +315,11 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 }
 ```
 
+A spot with `"page": true` is a page of the place's story (D314): said like any spot when stood on, kept once a
+run as the flag `story:<area>:<x>:<y>`, and when every page of the place is read the area's `story.end` is said
+and written in the annals (`world_rules.json` → `wilds.story_annals`, flag `story:<area>:told`). The five wilds
+have three pages each.
+
 A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
 still keeps one). Every keep and village area has one: a `guild_clerk`.
 A person with `story_npc` is one of the original twelve, or a companion standing with them

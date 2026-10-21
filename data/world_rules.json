@@ -595,7 +595,9 @@
 		"_comment_guard": "Creatures that match the land (D287): a band of the land's own foes (biomes.json `foes`, the great beasts held back by `foe_levels`, else the faction that walks the ground) stands by the chest farthest from the way in, `guard_size` of them at the party's level, seeing `guard_reach` cells; beaten, it stays beaten for the run (its done flag).",
 		"guard_size": 3,
 		"guard_reach": 3,
-		"guard_label": "{what} of {land}"
+		"guard_label": "{what} of {land}",
+		"_comment_story": "D314 (D287: 'a quest or a story in each'): every wild tells a story in three pages, spots with `page` in the area, each said once a run when stood on and kept as a flag (story:<area>:<x>:<y>); the last page read says the area's `story.end` and writes story_annals in the annals (story:<area>:told).",
+		"story_annals": "{wild}: {end}"
 	},
 	"caves": {
 		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
