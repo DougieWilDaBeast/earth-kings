@@ -94,6 +94,7 @@ func _ready() -> void:
 	_backdrop.hide()
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.party_screen_requested.connect(open)
+	EventBus.quick_wheel_chose.connect(_on_wheel)
 	EventBus.growth_choice_requested.connect(func(who: RefCounted) -> void:
 		var character := who as Character
 		if character != null:
@@ -135,6 +136,18 @@ func is_open() -> bool:
 func open() -> void:
 	_backdrop.show()
 	_rebuild()
+
+
+## "Send away" on the quick wheel ([D326]): the mission page, on the first who could be sent.
+func _on_wheel(id: String) -> void:
+	if id != "send":
+		return
+	for character: Character in GameState.roster.party_members():
+		if Dispatch.can_send(character, GameState.roster, GameState.away):
+			_shown_id = character.id
+			_page = Page.MISSION
+			break
+	open()
 
 
 ## Open on [param character] at whatever they are owed: a path (which takes
@@ -339,6 +352,9 @@ func _rebuild() -> void:
 	_card_height = CARD_HEIGHT if party.size() <= 4 else COMPACT_CARD_HEIGHT
 	for i in party.size():
 		_roster_list.add_child(_card_row(party[i], i, party.size(), shown))
+	# Whoever is away, under the cards: how far off and how long until they are back ([D326]).
+	for job: Dictionary in GameState.away:
+		_roster_list.add_child(_quiet_line("%s — %s" % [_away_names(job), Dispatch.reading_words(job, GameState.world)]))
 
 	# Until a path is chosen the page is the choice, and the tabs wait.
 	var tabs_wait := shown == null or shown.pending_class_choice
@@ -408,7 +424,38 @@ func _card_row(character: Character, index: int, count: int, shown: Character) -
 	row.add_child(arrows)
 	if _missions_open() and not character.is_player:
 		row.add_child(_mission_button(character))
+	if not character.is_player:
+		row.add_child(_let_go_button(character))
 	return row
+
+
+## "Let go" beside a card ([D326]): pressed once it asks, pressed again they go their own way.
+func _let_go_button(character: Character) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(64, ORDER_BUTTON.y)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.focus_mode = Control.FOCUS_NONE
+	button.text = "Let go"
+	button.disabled = not Dispatch.job_for(GameState.away, character.id).is_empty()
+	button.tooltip_text = "Part ways with %s for good. They go their own way in the world." % character.display_name
+	button.pressed.connect(func() -> void:
+		if button.text != "Sure?":
+			button.text = "Sure?"
+			return
+		let_go(character))
+	Sfx.attend(button)
+	return button
+
+
+## Part ways with [param character] for good ([D326]).
+func let_go(character: Character) -> bool:
+	if GameState.roster.let_go(character.id) == null:
+		return false
+	_notice = "%s goes their own way." % character.display_name
+	if _shown_id == character.id:
+		_shown_id = GameState.roster.player().id
+	_rebuild()
+	return true
 
 
 ## Whether people can be sent on missions yet: not in the First Hour (D97) until the company
@@ -1135,6 +1182,14 @@ func _build_mission_page(character: Character) -> void:
 			Sfx.attend(go)
 			_page_box.add_child(go)
 	_away_list()
+
+
+func _away_names(job: Dictionary) -> String:
+	var who: Array = Dispatch.members(GameState.roster, job) if job.has("band") \
+			else [GameState.roster.by_id(str(job.get("id", "")))]
+	var names: Array = who.filter(func(c: Variant) -> bool: return c != null) \
+			.map(func(c: Character) -> String: return c.display_name)
+	return ", ".join(names) if not names.is_empty() else "Somebody"
 
 
 func _away_list() -> void:

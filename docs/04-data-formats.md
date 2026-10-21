@@ -756,6 +756,16 @@ from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fe
 `friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
 `defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
 
+## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
+
+`on`; `hold`, the seconds the middle button is held still before the ring opens round the pointer (a
+press that moves first is the camera's drag); `walking`, the choices on the land, and `fighting`, while a
+fight is on, each `{ "id", "label" }`. Ids: `eat` (on the land the worst hurt eats the least food that
+mends them, a draught when there is no food; in a fight the picked fighter, or the worst hurt, takes the
+least in the pouch, food first), `party`, `send` (the party screen's mission page on the first who could
+go), `formation` (the next shape), `map`, `journal`, `auto`, and in a fight `stance` (the picked fighters'
+next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`).
+
 ## `world_rules.json` → `dispatch` — sending your own people out (D38, D278)
 
 `steps_per_tile` and `hunt_distance` time an errand; `trouble_*`, `win_base`, `win_per_level` and
@@ -766,7 +776,8 @@ expected level) + `gate_per_hand` for each member past the first, kept between `
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
-a tile a step. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
+a tile a step. `Dispatch.reading` is how far a job is from the company and the steps until it is back
+(D326), said under the party's cards and beside its face on the map. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
 `waiting`, until the company stands on that tile. `Dispatch.where_now` is where a job is on the land, for
 the map.
 
@@ -1324,7 +1335,9 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
   once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
 the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
 clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoever gets clear fades over
-`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `reach_the_fallen` (D326): with `on`, one of
+the company down with nobody on the way is gone to by the nearest member under no order and not busy
+(`line`, `{who}` and `{name}`); with `close_round`, the rest who are free turn on the foe nearest the fallen. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.

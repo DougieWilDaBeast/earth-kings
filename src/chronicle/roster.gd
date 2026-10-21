@@ -137,6 +137,19 @@ func dismiss(character_id: String) -> bool:
 	return true
 
 
+## Let somebody go for good ([D326], Ewan's play-test 8: "when I'm finished with these
+## characters... they can send off and do whatever they want in the world"): off the marching
+## order and off the roster, so nobody calls them back to the fire. Not the player. Returns who
+## went, or null.
+func let_go(character_id: String) -> Character:
+	var character := by_id(character_id)
+	if character == null or character.is_player:
+		return null
+	party.erase(character_id)
+	characters.erase(character)
+	return character
+
+
 func rest() -> void:
 	for character in party_members():
 		if character.is_alive():

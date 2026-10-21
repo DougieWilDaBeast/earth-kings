@@ -12,6 +12,7 @@ const Guild := preload("res://src/chronicle/guild.gd")
 const Company := preload("res://tests/company.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
+const QuickWheel := preload("res://src/ui/quick_wheel.gd")
 
 var _failures: Array[String] = []
 
@@ -107,6 +108,7 @@ func _ready() -> void:
 	_check_gate_band(world)
 	_check_moods(world)
 	_check_rumour_jobs(world, roster)
+	_check_play_test_eight(world, roster)
 	_finish()
 
 
@@ -404,6 +406,43 @@ func _soak(world: World) -> Dictionary:
 		Difficulty.current(), outcomes["back"], outcomes["captured"], outcomes["dead"],
 	])
 	return outcomes
+
+
+## Play-test 8's asks, call BX ([D326]): a job says how far off it is and how long until it is
+## back; the quick wheel's slices and its Eat (food first); a companion let go is gone for good.
+func _check_play_test_eight(world: World, roster: Roster) -> void:
+	var from := world.player_cell
+	var job := {"id": "nobody", "from": [from.x, from.y], "to": [from.x + 6, from.y],
+			"sent_at": world.steps, "out_at": world.steps + 6, "back_at": world.steps + 12, "arrived": false}
+	var kept_steps := world.steps
+	world.steps += 3
+	var read := Dispatch.reading(job, world)
+	_expect(int(read["tiles"]) == 3 and int(read["steps"]) == 9, "a job half way out read %s" % [read])
+	_expect(Dispatch.reading_words(job, world) == "3 tiles off, back in about 9 steps",
+			"a job's reading said \"%s\"" % Dispatch.reading_words(job, world))
+	job["waiting"] = true
+	_expect(int(Dispatch.reading(job, world)["steps"]) == -1, "a band waiting at its meeting place gave steps to come")
+	world.steps = kept_steps
+
+	_expect(QuickWheel.sector_of(Vector2(0, -50), 6) == 0, "straight up was not the wheel's first slice")
+	_expect(QuickWheel.sector_of(Vector2(50, 0), 4) == 1 and QuickWheel.sector_of(Vector2(0, 50), 4) == 2 \
+			and QuickWheel.sector_of(Vector2(-50, 0), 4) == 3, "the wheel's slices do not go round clockwise")
+
+	var hungry: Character = roster.party_members()[roster.party_members().size() - 1]
+	var kept_stores := GameState.stores.duplicate()
+	GameState.stores.clear()
+	GameState.stores.append_array(["red_draught", "bread"])
+	hungry.hp = maxi(1, hungry.max_hp() / 3)
+	var line := QuickWheel.feed_the_hurt()
+	_expect(line.contains("eats the Loaf") and GameState.stores.has("red_draught") and not GameState.stores.has("bread"),
+			"the wheel's Eat did not feed the hurt one food first: \"%s\"" % line)
+	GameState.stores.clear()
+	GameState.stores.append_array(kept_stores)
+
+	_expect(roster.let_go(roster.player().id) == null, "the lead could be let go")
+	var going: Character = roster.party_members()[roster.party_members().size() - 1]
+	_expect(roster.let_go(going.id) == going, "a companion could not be let go")
+	_expect(roster.by_id(going.id) == null and not roster.party.has(going.id), "a companion let go was still on the roster")
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:
