@@ -156,6 +156,21 @@ func _check_wilds(world: World) -> void:
 	var first := Wilds.found(world, nearest)
 	_expect(first != "" and world.annals.size() == annals_before + 1 and bool(nearest.data.get("found", false)), "finding a wild place said nothing or wrote nothing")
 	_expect(Wilds.found(world, nearest) == "", "a wild place was found twice")
+	# Its quest is found at the wild itself ([D316]): walking in takes clearing it, for the nearest settlement known.
+	var errands_before: Array = GameState.errands.duplicate()
+	var posted_before := GameState.flags.duplicate()
+	GameState.errands = []
+	var taken := RumourJobs.found_at_the_wild(world, nearest)
+	var quest: Dictionary = GameState.errands[0] if GameState.errands.size() == 1 else {}
+	_expect(taken != "" and str(quest.get("kind", "")) == Errand.WILD and str(quest.get("flag", "")) == Wilds.guard_flag(nearest)
+			and int(quest.get("gold", 0)) > 0, "walking into a wild did not take its quest: %s / %s" % [taken, quest])
+	var payer := world.site_at(Errand._cell_of(quest.get("from", [])))
+	_expect(payer != null and Errand._is_settlement(payer) and Atlas.knows(world, payer) and str(quest.get("giver", "")).contains(payer.display_name),
+			"the wild's quest is paid nowhere, or nowhere on the map: %s" % [quest.get("from")])
+	_expect(RumourJobs.found_at_the_wild(world, nearest) == "" and GameState.errands.size() == 1, "the wild's quest was taken twice")
+	_expect(GameState.has_flag(RumourJobs.POSTED_FLAG + "wild:%s" % nearest.display_name), "the board may still post a quest the company already has")
+	GameState.errands = errands_before
+	GameState.flags = posted_before
 	var saved := World.from_dict(world.to_dict())
 	_expect(bool(saved.site_at(nearest.cell).data.get("found", false)) and Atlas.knows(saved, saved.site_at(nearest.cell)), "the found wild was lost in the save")
 	# The land's own creatures guard the far chest of every wild.

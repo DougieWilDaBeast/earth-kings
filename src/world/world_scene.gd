@@ -20,6 +20,7 @@ extends Node2D
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Wilds := preload("res://src/chronicle/wilds.gd")
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
@@ -2119,6 +2120,10 @@ func _walk_into_site() -> void:
 		if found != "":
 			_note(found)
 			_map.queue_redraw()
+		# Its quest is found here too ([D316]): clearing it, for the nearest settlement known.
+		var quest_taken := RumourJobs.found_at_the_wild(world, site)
+		if quest_taken != "":
+			_note(quest_taken)
 	if _view == View.GROUND:
 		# The door is open now: the ground is the place's inside, with what it offers.
 		_go_to_ground(true)

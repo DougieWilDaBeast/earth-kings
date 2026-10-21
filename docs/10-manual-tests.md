@@ -253,6 +253,7 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 10 silver is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
 | D2.13 | Walk into the wind scarp and up to one of its shelves | The shelf's edge has a dark rim and a shadow below it; the lead stops at it ("The shelf is too high to climb here. Find a slope."); at a slope they walk up; off any edge they drop down, and the followers file to the slope ([D308](06-decisions.md)) |
 | D2.14 | In any wild, walk its open ground off the straight ways and stand on the three places its story is told (near what it speaks of) | Each page is said once; the third says the whole story ("The ancient grove: a woodcutter came forty days ...") and the annals carry it; walking the pages again says the lines but writes nothing ([D314](06-decisions.md)) |
+| D2.15 | Rest at a village, then walk into a wild you have not cleared, with fewer than three errands | On the way in: "Something keeps the hush wood. Clear it, and the host at ... will pay to hear it. It is among your errands."; the errand points at the wild and is handed back at that village; the village's board never posts the same wild ([D316](06-decisions.md)) |
 
 ## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
