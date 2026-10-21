@@ -2330,6 +2330,18 @@ func _talk_around_the_fire(sitter: AreaActor) -> void:
 # --- walking ------------------------------------------------------------------
 
 
+## Whether the lead stands by a fire or inside a place with a hearth ([D346]), for the party screen.
+func _mark_the_hearth() -> void:
+	var near := map.hearth
+	if not near and _leader != null:
+		var reach := float(Database.world_rules.get("crafting", {}).get("hearth_reach", 3)) * float(AreaMap.CELL)
+		for fire: Node in get_tree().get_nodes_in_group(AreaFire.GROUP):
+			if fire is Node2D and is_ancestor_of(fire) and (fire as Node2D).global_position.distance_to(_leader.global_position) <= reach:
+				near = true
+				break
+	GameState.at_hearth = near
+
+
 func _physics_process(delta: float) -> void:
 	_let_old_notes_go()
 	if _play_hud != null:
@@ -2346,6 +2358,7 @@ func _physics_process(delta: float) -> void:
 	if _compass_clock <= 0.0:
 		_compass_clock = COMPASS_EVERY
 		_point_the_compass()
+		_mark_the_hearth()
 	if _leaving or _leader == null or _talking or _overlay_open():
 		return
 	if _land_mode:
@@ -4372,6 +4385,7 @@ func _toggle_act_focus() -> void:
 
 func _exit_tree() -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	GameState.at_hearth = false
 
 
 # --- an inn's rooms ([D242]) --------------------------------------------------------------------

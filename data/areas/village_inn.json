@@ -1,5 +1,6 @@
 {
     "display_name": "the Ford and Crown",
+    "hearth": true,
     "layers": [],
     "legend": {
         ".": "floor",

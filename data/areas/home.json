@@ -260,6 +260,7 @@
       ],
       "talk": {
         "hone": { "q": "Can you put an edge on our weapons?", "offer": "Let me see what you carry. Coin first, and I don't do miracles.", "done": "There. Mind the edge." },
+        "forge": { "q": "Could you make us something?", "offer": "You've brought the makings. Coin for the fire, and I'll see what they want to be.", "none": "I don't make something out of nothing. Ore and ash, and coin for the fire.", "done": "There. It'll serve." },
         "hello": [
           "Hald. Smith. Muck Muck said there was a forge going begging out here, and there was.",
           "Good ground, this. Flat, and nobody's grandfather buried under it."

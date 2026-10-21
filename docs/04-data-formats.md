@@ -797,6 +797,21 @@ passive's (`data/skirmish.json` → `passives`): theirs while they carry that we
 `max_passives` (`Character.enchanted`: weapon id → rune id, one a weapon). `enchanted_line` says it, and
 `replaced_line` when a new rune takes an old one's place.
 
+A recipe may say where it is made (D346): `at: "hearth"` is offered on the party screen only while
+`GameState.at_hearth` (the lead within `hearth_reach` cells of a fire on the ground, or in an area with
+`hearth: true`, an inn or a tavern), said by `brewed_line`; `at: "smithy"` is forged by a smith whose talk
+has `forge` (`q`, `offer`, `none`, `done`, `done_q`), for its `fee` through the price dial, said by
+`forged_line` (`forge_short_line` when the makings went before it was paid). What a recipe or a rune needs
+counts the packs and any of the company's charms (a rune's makings bought from a trader are pocketed as
+charms), and is spent from the packs first.
+
+## `world_rules.json` → `makings_on_land` — what a smith forges with (D346)
+
+Laid as `herbs_on_land` is, by a roll of its own: about `per_tile` a tile of a land named in `by_land`;
+`looks` gives each its `art`, `art_wanted` (drawn in its place once that picture exists, A62), `name`,
+`line` and `spent_line`. The items (`ash_stave`, `iron_ore`) are `kind: "making"` in `equipment.json`:
+picked up, they go in the packs.
+
 ## `world_rules.json` → `herbs_on_land` — what the land grows wild (D335)
 
 About `per_tile` patches a tile of open land (none round a place), each one of what its land grows

@@ -256,6 +256,20 @@
 		"grace": 0.35,
 		"text": "Struck for a town that is not there any more."
 	},
+	"ash_stave": {
+		"display_name": "Ash Stave",
+		"icon": "kit/kit_wildling",
+		"kind": "making",
+		"price": 120,
+		"text": "Straight, seasoned and light. A smith can make a bow or a staff of it, or a hilt."
+	},
+	"iron_ore": {
+		"display_name": "Iron Ore",
+		"icon": "kit/kit_sapper",
+		"kind": "making",
+		"price": 150,
+		"text": "Heavy, rust-red and no use to anyone but a smith."
+	},
 	"climbing_rope": {
 		"display_name": "Climbing Rope",
 		"icon": "kit/kit_fisher",

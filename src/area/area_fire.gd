@@ -29,7 +29,12 @@ var _flicker: float = 1.0
 var _light: PointLight2D
 
 
+## The group every fire on the ground is in, for brewing beside one ([D346]).
+const GROUP := "hearths"
+
+
 func _ready() -> void:
+	add_to_group(GROUP)
 	_light = PointLight2D.new()
 	_light.texture = _glow_texture()
 	_light.color = Color(1.0, 0.72, 0.38)

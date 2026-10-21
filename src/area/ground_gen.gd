@@ -809,6 +809,8 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	# Herbs to pick, by their own roll so nothing else on the ground moves for them (D335).
 	if open_land and reserved.size == Vector2i.ZERO:
 		_herbs(world, cell, land, grid, kept, blocked, props, w, h)
+		# And the makings a smith forges with ([D346]), by a roll of their own again.
+		_herbs(world, cell, land, grid, kept, blocked, props, w, h, "makings_on_land", "makings")
 
 	var rows: Array = []
 	for row in grid:
@@ -1092,18 +1094,20 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 ## What the land grows wild ([D335], [D299]: "herbs on the land"; `world_rules.json` → `herbs_on_land`):
 ## about `per_tile` patches a tile of a land that grows any (`by_land`), each one of its herbs, off the
 ## paths and the water and clear of anything standing, picked once a run into the packs.
+## The makings on the land ([D346], `makings_on_land`) are laid the same way by their own roll; a look's
+## `art_wanted` (art still to be made, docs/24) is drawn in place of its `art` once it is in.
 static func _herbs(world: World, cell: Vector2i, land: String, grid: Array, kept: Dictionary,
-		blocked: Dictionary, props: Array, w: int, h: int) -> void:
-	var rules: Dictionary = Database.world_rules.get("herbs_on_land", {})
+		blocked: Dictionary, props: Array, w: int, h: int, rules_key: String = "herbs_on_land", roll: String = "herbs") -> void:
+	var rules: Dictionary = Database.world_rules.get(rules_key, {})
 	var grows: Array = rules.get("by_land", {}).get(land, [])
 	if grows.is_empty():
 		return
 	var rng := RandomNumberGenerator.new()
-	rng.seed = hash([world.shape_seed(), cell.x, cell.y, "herbs"])
+	rng.seed = hash([world.shape_seed(), cell.x, cell.y, roll])
 	var taken := {}
 	for prop: Dictionary in props:
 		taken[Vector2i(int(prop["cell"][0]), int(prop["cell"][1]))] = true
-	var looks: Dictionary = rules.get("herbs", {})
+	var looks: Dictionary = rules.get("herbs", rules.get("looks", {}))
 	for i in _count(float(rules.get("per_tile", 0.6)), rng):
 		var herb := str(grows[rng.randi() % grows.size()])
 		var look: Dictionary = looks.get(herb, {})
@@ -1111,8 +1115,11 @@ static func _herbs(world: World, cell: Vector2i, land: String, grid: Array, kept
 			var at := Vector2i(rng.randi_range(2, w - 3), rng.randi_range(2, h - 3))
 			if kept.has(at) or blocked.has(at) or taken.has(at) or grid[at.y][at.x] == LIQUID:
 				continue
+			var art := str(look.get("art", "nature/fern"))
+			if AreaProp.has_art(str(look.get("art_wanted", ""))):
+				art = str(look["art_wanted"])
 			props.append({
-				"art": str(look.get("art", "nature/fern")), "cell": [at.x, at.y], "solid": false,
+				"art": art, "cell": [at.x, at.y], "solid": false,
 				"name": str(look.get("name", "herbs")), "item": herb,
 				"line": str(look.get("line", "Something green worth picking.")),
 				"spent_line": str(look.get("spent_line", "")),

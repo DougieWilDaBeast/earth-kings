@@ -35,6 +35,8 @@ var props: Array[Dictionary] = []
 var people: Array[Dictionary] = []
 ## A campfire burning here, or (-1, -1) for a place with no fire.
 var fire: Vector2i = Vector2i(-1, -1)
+## A hearth anywhere inside (an inn, a tavern: the area's `hearth`), to brew by ([D346]).
+var hearth: bool = false
 ## Where the party sits when there is a fire to sit around.
 var seats: Array[Vector2i] = []
 ## cell -> a thing in the way that is not a wall (see [Ward]).
@@ -151,6 +153,7 @@ static func load_area(area_id: String) -> AreaMap:
 			map.people.append(person)
 	if data.has("fire"):
 		map.fire = _to_cell(data["fire"])
+	map.hearth = bool(data.get("hearth", false))
 	for pair: Array in data.get("seats", []):
 		map.seats.append(_to_cell(pair))
 	for entry: Dictionary in data.get("wards", []):
