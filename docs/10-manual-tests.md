@@ -380,6 +380,7 @@ Start a run (not the tutorial) and walk.
 | D5.59 | Shut a gate, walk out, and walk back past it | "Folk ... come running as it falls, cheering"; the gate lies broken in its mouth and three folk stand there thanking you |
 | D5.60 | Rest at a village a few times, then walk to the standing stone the host spoke of | "The host speaks of … It is marked on your map"; a standing stone appears on the map; E there walks into the wild place, which says what it keeps once, and the journal's annals have it ([D309](06-decisions.md)) |
 | D5.61 | Hear of a wild place at rest, then rest again and read the board | *What keeps the hush wood* is on the board, paid for the walk; take it, clear the band by the wild's far chest, come back: "is settled" and the coin ([D310](06-decisions.md)) |
+| D5.62 | In a world after a fall, climb as far as the dead lead did and walk to the crater | Half the time "Something was on it before the dust settled": a band stands over the crater; walking onto it says it will take a fight; beat the band and the weapon lies free; lose and another band is on it ([D311](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

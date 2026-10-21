@@ -1552,6 +1552,16 @@ func _check_sixteen() -> void:
 	await get_tree().process_frame
 	var ghost_id := Siblings.ghost_talk(world, 0)
 	_expect(Database.dialogue(ghost_id).get("nodes", {}).has("weapon"), "Caesar's ghost cannot say where his weapon went")
+	# Anyone can pick it up, a monster too ([D311]): a band may stand over it, and holds it until beaten.
+	if not bool(weapon.get("taken", false)):
+		_expect(Siblings.take_weapon(world, echo) != null, "no band could stand over Caesar's weapon")
+	var holder := Siblings.weapon_holder(world, "caesar")
+	_expect(holder != null and holder.cell == cell and bool(weapon.get("taken", false)), "nobody stands over Caesar's weapon")
+	var held := Siblings.on_arrive(world, cell)
+	_expect(not held.is_empty() and not GameState.stores.has("every_morning") and str(held[0]).contains("fight"), "the weapon was picked up from under the band: %s" % [held])
+	_expect(Siblings.rumour(world).contains("den"), "the rumour does not say something has the crater")
+	world.prowlers.erase(holder)
+	_expect(Siblings.weapon_freed(world, "caesar") != "" and not bool(weapon.get("taken", false)), "beating the band did not free the weapon")
 	_expect(not Siblings.on_arrive(world, cell).is_empty() and GameState.stores.has("every_morning"), "walking onto the crater did not find Caesar's weapon")
 	_expect(Siblings.pages_shared(echo) == (echo.get("pages", []) as Array).size(), "finding the weapon did not open the ghost fully")
 

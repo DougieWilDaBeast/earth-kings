@@ -449,7 +449,8 @@ each, each ending playable:
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
-   heights), the fallen weapon's cinematic ([D296](06-decisions.md)), and a look at a small on-device model
+   heights), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
+   may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
    for fight plans ([D298](06-decisions.md), #385): first pass written ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
    the fight run with and without it is still to do.
 
