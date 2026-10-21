@@ -141,6 +141,16 @@ func _check_wilds(world: World) -> void:
 				_expect(Pathfinder.distance(place.cell, other.cell) >= 5, "%s is on top of %s" % [place.display_name, other.display_name])
 		_expect(not Atlas.knows(world, place), "%s is known before anyone found it" % place.display_name)
 	_expect(kinds.size() >= 4, "the wild places are only %d kinds" % kinds.size())
+	# Hamlets (D329): a few crofts each, with folk who sell, one with a job, a trouble to clear (the
+	# guard, under the hamlet's own name for it), drawn on the map as houses, not as a stone.
+	for area: String in ["hamlet_fold", "hamlet_mill", "hamlet_salt"]:
+		_expect(kinds.has(area), "no %s on the map" % area)
+		var inside := Database.area(area)
+		var sells := (inside.get("people", []) as Array).filter(func(p: Dictionary) -> bool: return p.get("talk", {}).has("sells"))
+		var jobs := (inside.get("people", []) as Array).filter(func(p: Dictionary) -> bool: return p.get("talk", {}).has("job"))
+		_expect(not sells.is_empty() and not jobs.is_empty(), "%s has nobody selling or nobody with a job" % area)
+		_expect(str(inside.get("found_line", "")) != "" and str(inside.get("guard_label", "")).contains("{what}"), "%s has no found line or no name for its trouble" % area)
+		_expect(ResourceLoader.exists(str(inside.get("map_art", ""))), "%s is drawn with no picture on the map" % area)
 	# Heard of at rest: the nearest unknown is marked and named with its lure.
 	var village: Site = world.sites_of_kind(Site.VILLAGE)[0]
 	var nearest := Wilds.nearest_unknown(world, village.cell, 200)

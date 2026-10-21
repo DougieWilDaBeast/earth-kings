@@ -441,8 +441,10 @@ each, each ending playable:
       clouds below: the cloud peak, three heights up, two on each world's crag; a body shoved into the clouds in a
       fight is gone ([D321](06-decisions.md), 2026-10-21). Rises on every tile of the land, a height up with a rock
       face, more on hills and crag, climbed only at a slope ([D324](06-decisions.md), 2026-10-21, held until B is in).
+      Six hamlets on the map, three kinds (a sheepfold, a mill, salt pans), each with folk who sell, a job, a trouble
+      and a story ([D329](06-decisions.md), 2026-10-21, held until B is in).
       Next: ladders and walls that can be scaled ([D287](06-decisions.md)), hills and mountains on the land more
-      than a height up, hamlets and caravans as places, creatures of the land
+      than a height up, caravans as places, creatures of the land
       beyond the biomes' own foes, and herbs on the land ([D299](06-decisions.md): straight after enchanting).
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and

@@ -1072,6 +1072,102 @@
 			"open": false,
 			"opened_at": 0,
 			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				106,
+				57
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_fold"
+			},
+			"display_name": "Ewe's Hollow",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				114,
+				75
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_mill"
+			},
+			"display_name": "Millrace",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				40,
+				107
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_salt"
+			},
+			"display_name": "Saltcote",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				24,
+				57
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_fold"
+			},
+			"display_name": "Lambsend",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				23,
+				88
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_mill"
+			},
+			"display_name": "the Wheelwater",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				79,
+				109
+			],
+			"cleared": false,
+			"data": {
+				"area": "hamlet_salt"
+			},
+			"display_name": "the Brine Huts",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
 		}
 	],
 	"size": [

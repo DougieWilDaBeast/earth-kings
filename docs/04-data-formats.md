@@ -527,13 +527,18 @@ the seed the lands and the ground inside each tile are drawn from. How to change
 run's seed still deals, is [27](27-the-world.md).
 
 Sites of kind `wild` (D309) are the wild places worth going to, written by `tools/place_wilds.py`
-(twelve, each on its own kind of ground, five tiles clear of any place and twelve of each other,
+(twelve, then two cloud peaks and six hamlets, each on its own kind of ground, five tiles clear of any place and twelve of each other,
 `data.area` the inside); every other site is left as it is. Each wild area's file carries a `lure`,
 what it holds in a host's words. `world_rules.json` → `wilds`: `rumour_chance` at rest in a village or
 a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the days said, `rumour_line`
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
 `src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
 (`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
+**Hamlets** (D329) are wild sites too, dealt last by the same tool (`hamlet_fold` on grass, `hamlet_mill` on
+forest and brush, `hamlet_salt` on sand, two of each, 24 tiles or more from the crater): a few crofts with
+folk, one who sells and one with a `job`. A wild area may carry its own `found_line` and `guard_label` (its
+trouble, where the guard stands, "{what} at the fold"), and a `map_art` it is drawn with on the map in place
+of the standing stone. An area with a `lure` is stocked with its guard whatever its id.
 `errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
 wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
 the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is

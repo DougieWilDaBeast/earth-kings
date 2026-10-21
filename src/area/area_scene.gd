@@ -329,7 +329,7 @@ func _ready() -> void:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
 	# A wild place is guarded by the land's own creatures ([D309]).
-	elif map.id.begins_with("wild_") and GameState.world != null:
+	elif (map.id.begins_with("wild_") or Database.area(map.id).has("lure")) and GameState.world != null:
 		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
