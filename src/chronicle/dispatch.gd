@@ -114,6 +114,7 @@ static func walk(world: World, roster: Roster, away: Array, accepted: Array) -> 
 				if not away.has(job):
 					continue
 			lines.append_array(_come_back(world, roster, away, accepted, job, character, errand))
+	lines.append_array(_auto_again(world, roster, away, accepted))
 	return lines
 
 
@@ -602,6 +603,141 @@ static func _storm(world: World, roster: Roster, away: Array, accepted: Array, j
 	return lines
 
 
+# --- on Auto ([D294], [D349]) ---------------------------------------------------
+#
+# Ewan's play-test 7: "send your own characters to do quests so they go on auto mode"; the founders'
+# meeting: companies "run on Auto by their moods and nature". Somebody sent on Auto picks their own
+# work from what the company knows, and when they fall in again takes the next, until called back or
+# hurt. The bold take the hard gate; the careful take the sure errand. Rules in `world_rules.json` →
+# `dispatch.auto`. Who is on Auto is a flag of the run, so it saves with everything else.
+
+
+const AUTO := "auto:"
+
+
+static func auto_rules() -> Dictionary:
+	return rules().get("auto", {})
+
+
+## Whether [param character] is on Auto: out on a job of their choosing, or with the company waiting
+## for one.
+static func on_auto(character: Character) -> bool:
+	return character != null and GameState.flags.has(AUTO + character.id)
+
+
+## Take [param character] off Auto. They finish what they are on and come back as anyone would.
+static func call_back(character: Character) -> void:
+	if character != null:
+		GameState.flags.erase(AUTO + character.id)
+
+
+## How bold they are on their own, 0 to 1: their temper's letters and how they feel.
+static func boldness(character: Character) -> float:
+	var r := auto_rules()
+	var bold := float(r.get("bold_base", 0.4))
+	var letters: Dictionary = r.get("bold_letters", {})
+	for letter in character.temper.to_upper():
+		bold += float(letters.get(letter, 0.0))
+	var base := int(Database.world_rules.get("moods", {}).get("base", 50))
+	bold += float(r.get("bold_per_mood", 0.005)) * float(character.mood() - base)
+	return clampf(bold, 0.0, 1.0)
+
+
+## What [param character] would take on Auto now: {"kind": "errand"|"gate"|"wild", "errand" or "site",
+## "odds", "name"}, or {} when nothing within reach is worth the risk to them.
+static func pick(world: World, roster: Roster, away: Array, accepted: Array, character: Character) -> Dictionary:
+	if world == null or character == null:
+		return {}
+	var r := auto_rules()
+	var bold := boldness(character)
+	var least := float(r.get("least_odds", 0.6)) - bold * float(r.get("bold_floor", 0.2))
+	var reach := int(r.get("reach", 80))
+	var worth: Dictionary = r.get("worth", {})
+	var options: Array[Dictionary] = []
+	for errand: Dictionary in open_errands(accepted):
+		options.append({"kind": "errand", "errand": errand, "odds": float(r.get("errand_odds", 0.85)),
+				"cell": _target_of(errand, world), "name": "see to \"%s\"" % errand.get("title", "an errand")})
+	for gate: Site in open_gates(world):
+		var band := band_for(away, gate)
+		options.append({"kind": "gate", "site": gate, "odds": gate_chance(members(roster, band) + [character], gate),
+				"cell": gate.cell, "name": "shut %s" % gate.display_name})
+	var guard_level := maxi(1, Encounter.party_level(roster.party_members()))
+	for wild: Site in open_wilds(world):
+		var band := band_for(away, wild)
+		options.append({"kind": "wild", "site": wild, "odds": wild_chance(members(roster, band) + [character], int(band.get("guard_level", guard_level))),
+				"cell": wild.cell, "name": "clear %s" % wild.display_name})
+	var best := {}
+	var best_score := -INF
+	for option: Dictionary in options:
+		var tiles := Pathfinder.distance(world.player_cell, option["cell"])
+		if float(option["odds"]) < least or tiles > reach:
+			continue
+		# Nearer first between two alike.
+		var score := float(option["odds"]) + bold * float(worth.get(option["kind"], 0.0)) - 0.001 * tiles
+		if score > best_score:
+			best_score = score
+			best = option
+	return best
+
+
+## Put [param character] on Auto and send them off on what they pick. Returns the line to show, or ""
+## if they cannot go or nothing is worth it to them.
+static func send_on_auto(world: World, roster: Roster, away: Array, accepted: Array, character: Character) -> String:
+	if not can_send(character, roster, away):
+		return ""
+	var choice := pick(world, roster, away, accepted, character)
+	if choice.is_empty():
+		return ""
+	var line := _go(world, roster, away, character, choice)
+	if line != "":
+		GameState.flags[AUTO + character.id] = true
+	return line
+
+
+static func _go(world: World, roster: Roster, away: Array, character: Character, choice: Dictionary) -> String:
+	var line := ""
+	match str(choice.get("kind", "")):
+		"errand":
+			line = send(world, roster, away, character, choice["errand"])
+		"gate":
+			line = send_to_gate(world, roster, away, character, choice["site"])
+		"wild":
+			line = send_to_wild(world, roster, away, character, choice["site"])
+	if line == "":
+		return ""
+	return str(auto_rules().get("set_off_line", "On Auto: {line}")).format({"line": line})
+
+
+## Everyone on Auto who is back with the company takes the next job, unless they came back hurt.
+## Somebody with nothing to pick is told so once and waits with the company, still on Auto.
+static func _auto_again(world: World, roster: Roster, away: Array, accepted: Array) -> Array[String]:
+	var lines: Array[String] = []
+	if roster == null:
+		return lines
+	var r := auto_rules()
+	for character: Character in roster.party_members():
+		var key := AUTO + character.id
+		if not GameState.flags.has(key) or not job_for(away, character.id).is_empty():
+			continue
+		if not character.is_available() or character.current_hp() < roundi(character.max_hp() * float(r.get("rest_below", 0.5))):
+			GameState.flags.erase(key)
+			lines.append(str(r.get("hurt_line", "{name} comes back hurt, and comes off Auto to mend.")).format({"name": character.display_name}))
+			continue
+		if not can_send(character, roster, away):
+			continue
+		var choice := pick(world, roster, away, accepted, character)
+		if choice.is_empty():
+			if GameState.flags[key] == true:
+				GameState.flags[key] = "idle"
+				lines.append(str(r.get("idle_line", "{name} is on Auto, with nothing worth the risk.")).format({"name": character.display_name}))
+			continue
+		var line := _go(world, roster, away, character, choice)
+		if line != "":
+			GameState.flags[key] = true
+			lines.append(line)
+	return lines
+
+
 # --- odds ---------------------------------------------------------------------
 
 
@@ -668,8 +804,17 @@ static func reading_words(job: Dictionary, world: World) -> String:
 	return ", ".join(parts)
 
 
-## One line for the party screen: who, where, how long.
+## One line for the party screen: who, where, how long, and whether they chose it on Auto ([D349]).
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
+	var line := _summary(job, roster, world)
+	var who: Array = members(roster, job) if job.has("band") else [roster.by_id(str(job.get("id", "")))]
+	for character: Variant in who:
+		if on_auto(character as Character):
+			return line + " (on Auto)"
+	return line
+
+
+static func _summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))
 	var who := character.display_name if character != null else "Somebody"
 	if bool(job.get("waiting", false)):

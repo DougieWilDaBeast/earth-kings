@@ -228,6 +228,31 @@ func enchant(character: Character, rune: Dictionary) -> bool:
 	return true
 
 
+## Put [param character] on Auto: they pick their own work, and the next when they are back ([D349]).
+func send_on_auto(character: Character) -> bool:
+	var line := Dispatch.send_on_auto(GameState.world, GameState.roster, GameState.away, GameState.errands, character)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
+func _auto_off_button(character: Character) -> Button:
+	var off := Button.new()
+	off.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+	off.focus_mode = Control.FOCUS_NONE
+	off.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	off.text = "Take %s off Auto" % character.display_name
+	off.tooltip_text = "They finish what they are on and stay with the company after."
+	off.pressed.connect(func() -> void:
+		Dispatch.call_back(character)
+		_notice = "%s comes off Auto." % character.display_name
+		_rebuild())
+	Sfx.attend(off)
+	return off
+
+
 ## Send [param character] to clear [param wild] ([D348]).
 func send_to_wild(character: Character, wild: Site, meet: Site = null) -> bool:
 	var line := Dispatch.send_to_wild(GameState.world, GameState.roster, GameState.away, character, wild, meet)
@@ -1180,6 +1205,8 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 			go.pressed.connect(func() -> void: _turn_to(Page.MISSION))
 			Sfx.attend(go)
 			_page_box.add_child(go)
+			if Dispatch.on_auto(character):
+				_page_box.add_child(_auto_off_button(character))
 	_away_list()
 
 
@@ -1217,6 +1244,19 @@ func _build_mission_page(character: Character) -> void:
 			_rebuild())
 		Sfx.attend(where)
 		_page_box.add_child(where)
+		# On Auto (D349): they pick their own work, and the next when they are back.
+		var choice := Dispatch.pick(GameState.world, roster, GameState.away, GameState.errands, character)
+		var auto := Button.new()
+		auto.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		auto.focus_mode = Control.FOCUS_NONE
+		auto.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		auto.text = "Send %s on Auto (%s)" % [character.display_name,
+				"nothing within reach worth the risk to them" if choice.is_empty() else "would %s first" % choice["name"]]
+		auto.tooltip_text = "They pick their own work from what the company knows, by the odds and by their nature and mood: the bold take the hard gate, the careful the sure errand. Back with the company, they take the next, until you call them back or they come back hurt."
+		auto.disabled = choice.is_empty()
+		auto.pressed.connect(func() -> void: send_on_auto(character))
+		Sfx.attend(auto)
+		_page_box.add_child(auto)
 		for gate: Site in gates:
 			var band := Dispatch.band_for(GameState.away, gate)
 			var with := "" if band.is_empty() else " with %s" % ", ".join(Dispatch.members(roster, band).map(func(c: Character) -> String: return c.display_name))
