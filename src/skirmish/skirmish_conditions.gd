@@ -139,9 +139,16 @@ func shove(f: Fighter, victim: Fighter, kind: String, tiles: int) -> int:
 	var cell := victim.unit.cell
 	var stood_at := grid.height_at(cell)
 	var moved := 0
+	var over := false
 	for _i in tiles:
 		var next := cell + way
 		if kind == "pull" and next == from:
+			break
+		# Over the edge into the clouds below a mountain's top ([D321]): the last step anyone takes.
+		if grid.clouds.has(next) and fight.occupant(next, victim) == null:
+			cell = next
+			moved += 1
+			over = true
 			break
 		if not grid.is_walkable(next) or fight.occupant(next, victim) != null \
 				or not grid.may_shove(cell, next, victim.unit.jump):
@@ -171,6 +178,10 @@ func shove(f: Fighter, victim: Fighter, kind: String, tiles: int) -> int:
 		fight.fx.popup(str(said.get("pinned", "Pinned")), victim.step_to + Vector2(0, -24), SkirmishFx.HURT, 12, 1.1)
 	fight._say("%s is %s %d tile%s." % [victim.unit.display_name,
 			"knocked back" if kind == "knockback" else "dragged in", moved, "" if moved == 1 else "s"])
+	if over:
+		if not fight.over_into_clouds(victim, f, cell - way):
+			moved -= 1
+		return moved
 	if grid.ledged and grid.height_at(cell) < stood_at:
 		_off_the_edge(f, victim, stood_at - grid.height_at(cell))
 	return moved

@@ -433,8 +433,9 @@ each, each ending playable:
       high ground (a click, Auto, a band, a person) goes round by a slope ([D312](06-decisions.md), 2026-10-21). A fight on
       high ground keeps to the slopes, and a body shoved off an edge falls, hurt and flat ([D313](06-decisions.md), 2026-10-21). Every wild
       tells a story in three pages stood on, written in the annals when the last is read ([D314](06-decisions.md), 2026-10-21). Walking
-      into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). Next: a mountain with
-      the clouds below, heights on the world map,
+      into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). A mountain with the
+      clouds below: the cloud peak, three heights up, two on each world's crag; a body shoved into the clouds in a
+      fight is gone ([D321](06-decisions.md), 2026-10-21). Next: heights on the world map,
       hamlets and caravans as places, creatures of the land beyond the biomes' own foes.
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
       ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);

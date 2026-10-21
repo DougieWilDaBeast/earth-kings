@@ -1040,6 +1040,38 @@
 			"open": false,
 			"opened_at": 0,
 			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				52,
+				64
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_peak"
+			},
+			"display_name": "the cloud peak",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
+		},
+		{
+			"broken": false,
+			"cell": [
+				49,
+				76
+			],
+			"cleared": false,
+			"data": {
+				"area": "wild_peak"
+			},
+			"display_name": "the white horn",
+			"kind": "wild",
+			"open": false,
+			"opened_at": 0,
+			"rank": ""
 		}
 	],
 	"size": [

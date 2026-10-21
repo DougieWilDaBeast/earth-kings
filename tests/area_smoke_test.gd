@@ -16,7 +16,7 @@ const AREAS := [
 	"library", "library_cloister", "library_vault",
 	"gate", "gate_barrow", "gate_drowned", "gate_ash", "gate_dune",
 	"hut", "hut_stilt", "hut_cairn", "hut_orchard",
-	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis",
+	"wild_grove", "wild_fen", "wild_scarp", "wild_thicket", "wild_oasis", "wild_peak",
 	"tower", "home",
 	"tower_floor_1", "tower_floor_2", "tower_floor_3", "tower_floor_4", "tower_floor_5",
 	"camp", "tutorial",
@@ -1256,7 +1256,7 @@ func _check_heights() -> void:
 ## stood on, in any order; the last read says the story's end and writes it in the annals, once.
 func _check_wild_stories() -> void:
 	GameState.new_game(SEED)
-	for area_id: String in ["wild_grove", "wild_thicket", "wild_fen", "wild_oasis", "wild_scarp"]:
+	for area_id: String in ["wild_grove", "wild_thicket", "wild_fen", "wild_oasis", "wild_scarp", "wild_peak"]:
 		var map := AreaMap.load_area(area_id)
 		var end := str((Database.area(area_id).get("story", {}) as Dictionary).get("end", ""))
 		_expect(map != null and map.story_pages.size() == 3 and end != "", "%s has %d pages of its story, or no end" % [area_id, map.story_pages.size() if map != null else 0])

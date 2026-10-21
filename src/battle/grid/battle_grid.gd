@@ -28,6 +28,9 @@ var _ground_decor: Dictionary = {}
 ## digits in the map), over the terrain's; and the cells where a height can be climbed (`ways_up`).
 var _heights: Dictionary = {}  ## Vector2i -> int
 var ways_up: Dictionary = {}  ## Vector2i -> true
+## Cells of cloud below a mountain's top ([D321], `clouds` in the map): never stood on, and a body
+## shoved into one is gone.
+var clouds: Dictionary = {}  ## Vector2i -> true
 ## Whether this field walks its heights the ground's way ([D308]): down anywhere, up only at a way up.
 var ledged: bool = false
 
@@ -77,6 +80,9 @@ func load_map(map: Dictionary) -> void:
 			_heights[Vector2i(x, y)] = row[x].to_int()
 	for pair: Variant in map.get("ways_up", []):
 		ways_up[Vector2i(int(pair[0]), int(pair[1]))] = true
+	clouds.clear()
+	for pair: Variant in map.get("clouds", []):
+		clouds[Vector2i(int(pair[0]), int(pair[1]))] = true
 	queue_redraw()
 
 

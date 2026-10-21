@@ -26,6 +26,7 @@ const Talk := preload("res://src/dialogue/talk.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const AreaLedges := preload("res://src/area/area_ledges.gd")
+const AreaClouds := preload("res://src/area/area_clouds.gd")
 const Wilds := preload("res://src/chronicle/wilds.gd")
 const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
@@ -435,6 +436,12 @@ func _paint_layers() -> void:
 		InteriorPainter.paint(map, _layers)
 		return
 	GroundPainter.paint(map, _layers)
+	# The clouds below a mountain's top ([D321]), under the edges' rims.
+	if map.has_clouds():
+		var clouds := AreaClouds.new()
+		clouds.name = "Clouds"
+		clouds.map = map
+		_layers.add_child(clouds)
 	# The edges of higher ground, over the ground and under everyone ([D308]).
 	if map.has_heights():
 		var ledges := AreaLedges.new()
@@ -2533,6 +2540,11 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 		return
 	var ahead := map.cell_at(before + stride.normalized() * (BODY_RADIUS + 4.0))
 	var here := map.cell_at(before)
+	# At the edge of the clouds ([D321]): nobody walks off, and the lead says why, once a cell.
+	if ahead != here and map.is_cloud(ahead) and not _ledges_said.has(ahead):
+		_ledges_said[ahead] = true
+		_note(str(Database.world_rules.get("heights", {}).get("cloud_line", "Below the edge there is only cloud.")))
+		return
 	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
 		return
 	if _ledges_said.has(ahead):

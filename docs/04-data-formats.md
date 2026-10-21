@@ -803,7 +803,7 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
-## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308)
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308, D321)
 
 Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
 `_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
@@ -820,6 +820,11 @@ On ground with heights `find_cell_path` (a click, Auto, a band, a person at work
 `shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
 knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
 `may_shove` rule a ledged field.
+A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top: never walked
+(`AreaMap.is_cloud`, `has_clouds`), drawn by `src/area/area_clouds.gd`, and said once a cell as
+`cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a
+body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
+`summit` (3) stand on the stone and snow sheets.
 
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
@@ -1411,7 +1416,8 @@ For set pieces. Wild encounters and delves generate their maps instead.
 All rows must be the same length, and every spawn must sit on walkable terrain. A field may carry
 `heights` (one row of digits a tile row, a height a cell, over the terrain's own) and `ways_up` (cells where
 a height is climbed): then it is *ledged* (D313), walked and shoved the ground's way (D308) rather than the
-jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`).
+jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`), and
+`clouds` (cells of cloud, D321) where the area has any: never stood on, and a body shoved into one is gone.
 
 ## `dialogue/*.json`
 

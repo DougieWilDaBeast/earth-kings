@@ -189,6 +189,7 @@ func _run() -> void:
 	await _check_signatures()
 	await _check_conditions()
 	await _check_heights_in_a_fight()
+	await _check_into_the_clouds()
 	_check_bout()
 	_check_party_war()
 	await _check_tactics()
@@ -1703,6 +1704,63 @@ func _open_line(fight: Node2D, length: int, besides: Array) -> Array:
 			if out.size() == length:
 				return out
 	return []
+
+
+## Into the clouds ([D287]: "a fall there is death"; [D321]): a body shoved into a cloud cell below a
+## mountain's top goes over and is gone, a foe dead and credited to whoever shoved it, one of the company
+## out of the fight; a fall into the clouds has nobody to pull them back and nobody to take them.
+func _check_into_the_clouds() -> void:
+	var map := _proving_ground()
+	var rows: Array = map["tiles"]
+	rows[3] = str(rows[3]).substr(0, 9) + "#" + str(rows[3]).substr(10)
+	map["tiles"] = rows
+	map["heights"] = rows.map(func(_r: String) -> String: return "00000000000000")
+	map["ways_up"] = []
+	map["clouds"] = [[9, 3]]
+	var fight: Node2D = load("res://src/skirmish/skirmish.tscn").instantiate()
+	fight.boot_payload = {"encounter": {"map": map}, "touch": false, "sandbox": true}
+	add_child(fight)
+	await get_tree().process_frame
+	fight.manual = true
+	fight.paused = true
+	var grid: BattleGrid = fight.grid
+	_expect(grid.clouds.has(Vector2i(9, 3)) and not grid.is_walkable(Vector2i(9, 3)), "the field did not take its clouds, or they can be stood on")
+	var cato := _by_template(fight, "cato")
+	var foes: Array = fight.fighters.filter(func(f: Fighter) -> bool: return not f.is_party())
+	if cato == null or foes.size() < 2:
+		_expect(false, "no Cato or too few foes on the field")
+		fight.queue_free()
+		return
+	var place := func(f: Fighter, cell: Vector2i) -> void:
+		f.stepping = false
+		f.unit.cell = cell
+		f.unit.position = fight.grid.cell_to_world(cell)
+	for other: Fighter in foes:
+		place.call(other, Vector2i(12, 8))
+	var foe: Fighter = foes[0]
+	foe.unit.max_hp = 1000
+	foe.unit.hp = 1000
+	place.call(cato, Vector2i(7, 3))
+	place.call(foe, Vector2i(8, 3))
+	fight.conditions.shove(cato, foe, "knockback", 2)
+	_expect(foe.fallen and not foe.unit.is_alive() and foe.unit.cell == Vector2i(9, 3), "a foe shoved into the clouds is not gone: fallen %s, at %s" % [foe.fallen, foe.unit.cell])
+	_expect(_popped(fight, "Into the clouds"), "going over into the clouds was not said")
+	# One of the company goes over the same way, and is out of it.
+	var shover: Fighter = foes[1]
+	place.call(shover, Vector2i(7, 3))
+	place.call(cato, Vector2i(8, 3))
+	cato.conditions.clear()
+	cato.stunned = 0.0
+	fight.conditions.shove(shover, cato, "knockback", 1)
+	_expect(cato.fallen and not cato.is_standing() and not cato.is_downed(), "Cato went into the clouds and is still in the fight, or lies there to be reached")
+	# Nobody takes a body out of the clouds.
+	var who: Character = GameState.party_characters()[0] if not GameState.party_characters().is_empty() else null
+	if who != null:
+		_expect(not Fate.graces_for(who, {"allies": [], "no_capture": true}).any(func(g: Dictionary) -> bool: return g["reason"] == Fate.BY_CAPTURE),
+				"a fall into the clouds can still end with being taken alive")
+	print("into the clouds: shoved over the edge of a mountain's top, a foe is dead and one of the company out of the fight")
+	fight.queue_free()
+	await get_tree().process_frame
 
 
 func _popped(fight: Node2D, text: String) -> bool:
