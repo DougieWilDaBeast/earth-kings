@@ -97,6 +97,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		if AreaProp.is_solid(placed):
 			for cell: Vector2i in base_cells(placed):
 				_blocked[cell] = true
+				_spilled(cell, tile)
 		props.append(placed)
 		_index_prop(placed)
 	for chest: Dictionary in laid.get("chests", []):
@@ -126,6 +127,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		for y in range(foot.position.y, foot.end.y):
 			for x in range(foot.position.x, foot.end.x):
 				_building_cells[Vector2i(x, y)] = building
+				_spilled(Vector2i(x, y), tile)
 	for person: Dictionary in laid.get("people", []):
 		if not _flags_allow(person):
 			continue
@@ -155,6 +157,15 @@ func hold(tile: Vector2i) -> Dictionary:
 	for cell in stood_on:
 		_blocked.erase(cell)
 	return chunk
+
+
+## A thing of [param tile]'s standing over its edge onto [param cell] of a tile held before it: that
+## tile's own count of its ground is worked out again, or the kept grid walked Auto into a tree
+## sticking over from the next tile and held it there for good.
+func _spilled(cell: Vector2i, tile: Vector2i) -> void:
+	var other := tile_of(cell)
+	if other != tile and chunks.has(other):
+		(chunks[other] as Dictionary).erase("_walkable")
 
 
 ## Let [param tile] go: everything standing in it comes off the land.

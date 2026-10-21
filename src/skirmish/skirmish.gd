@@ -1033,7 +1033,7 @@ func _call_out(f: Fighter) -> void:
 	var target := _fighter_of(f.target)
 	if target == null:
 		return
-	var key := "called:%d" % f.target.get_instance_id()
+	var key := "called_%d" % f.target.get_instance_id()
 	if f.has_meta(key):
 		return
 	var word := Formations.callout(f, target, fighters)

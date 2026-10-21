@@ -737,6 +737,20 @@ as one gate floor (`GateInside.layout`) of a rank from `ranks`, with the stair w
 keyed `done:cave_<x>_<y>_...` and `lost` said on a loss, and one cache by the deepest band of
 `gold_low` to `gold_high` copper and one of `finds`.
 
+## `world_rules.json` → `experience` → `levels_only_in_gates` — levels come from gates (D301)
+
+With `levels_only_in_gates` true, a kind of foe teaches (`Character.beaten`, the levels of
+[D113](06-decisions.md)) only when it falls in a fight that `teaches`: a gate's floors (`GateInside.layout`
+sets `teaches`, and so does a gate met on the world map), a cave (it is laid out as a gate floor), or an
+area marked `teaches` in `data/areas/`. A fight on the land, on the Tower's floors or on the road
+(`Dispatch`) still gives experience and practice, but a kind first met there goes into the character's
+`met` (kind -> times seen fall) and is not learned; it still teaches the first time it falls in a gate.
+`first_hour` → `auto_hunt_gates_over`: a party walking itself makes for the easiest open gate instead of
+the Tower while the next floor's foes stand more than that many levels over the company
+(`AutoRoad.stair_too_hard`). Each character saves `met`, `look_for` (kinds marked "look out for" on the
+log of foes, called out when one stands in a gate the party walks into) and `climbed` (the highest
+Tower floor won with the company).
+
 ## `world_rules.json` → `crafting` — mixing and honing (D280)
 
 `mix` is the recipes the party screen offers from the packs: `{ makes, needs: { item: count } }`

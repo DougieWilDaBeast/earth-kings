@@ -1227,6 +1227,10 @@ func _climb_on() -> void:
 		return
 	if Chapters.walked_floor_area(world.tower_floor + 1) == "":
 		return
+	# A party walking itself comes out to learn in a gate when the floor above outmatches it ([D301]:
+	# levels come only from gates; it climbed on into the Warden at level 3).
+	if Pace.auto and AutoRoad.stair_too_hard(world):
+		return
 	_climb(site)
 
 

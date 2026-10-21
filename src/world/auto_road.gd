@@ -9,6 +9,7 @@ extends RefCounted
 
 const Route := preload("res://src/world/route.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
@@ -21,6 +22,8 @@ const TOWN_REACHED := "objective:town"
 ## How far the party will turn aside for a band while walking itself. The road
 ## to anywhere is thick with them, so chasing every one means never arriving.
 const DETOUR := 6
+## Levels over the company at which a gate is too strong to walk into unasked ([D246]).
+const GATE_WARN_LEVELS := 6
 const STEPS: Array[Vector2i] = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
 ## The world the way below was worked out in; a new run starts it again.
@@ -160,12 +163,56 @@ static func road_objective(world: World) -> Dictionary:
 		if first != null:
 			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.reading()], "stop": false}
 
+	# The stair is too hard for the company's level (D301: levels come only in gates): the easiest
+	# gate standing, to learn from new foes, before the Tower again.
+	# Never above the lead's rank (D97): with none at it, the Tower after all.
+	if tower != null and not world.tower_is_topped() and stair_too_hard(world):
+		var lead := GameState.roster.player() if GameState.roster != null else null
+		var lead_level := lead.level if lead != null else 1
+		var easiest: Site = null
+		for gate: Site in gates:
+			if gate.open and not gate.cleared and not Pace.avoided.has(gate.cell) and not too_strong(gate) \
+					and gate.expected_level() <= lead_level \
+					and (easiest == null or gate.expected_level() < easiest.expected_level()
+						or (gate.expected_level() == easiest.expected_level()
+							and Pathfinder.distance(here, gate.cell) < Pathfinder.distance(here, easiest.cell))):
+				easiest = gate
+		if easiest != null:
+			return {"cell": easiest.cell, "label": "%s (rank %s)" % [easiest.display_name, easiest.reading()], "stop": false}
+
 	if tower != null and not world.tower_is_topped():
 		# The first floors are walked by hand, so a party walking itself stops at the door (D102):
 		# on the ground the door itself, across the tile, not the tile's edge (`door`, [D197]).
 		var walked := Chapters.walked_floor_area(world.tower_floor + 1) != ""
 		return {"cell": tower.cell, "label": tower.display_name, "stop": walked, "door": walked}
 	return {}
+
+
+## Whether the next floor of the Tower stands more than `first_hour.auto_hunt_gates_over` levels above
+## the company (D301): its walked bands as they are, its keeper less `auto_hunt_keepers_over`, or the
+## Tower's own level where its bands are restocked. Off (never too hard) while levels come from anywhere.
+static func stair_too_hard(world: World) -> bool:
+	if not Progression.levels_only_in_gates() or GameState.roster == null:
+		return false
+	var over := int(_rules().get("auto_hunt_gates_over", 99))
+	var next := world.tower_floor + 1
+	var level := Encounter.tower_level(next)
+	var area_id := Chapters.walked_floor_area(next)
+	if area_id != "" and not Chapters.borrows_a_plan(next) and not TowerFloors.own_bands_restocked(next):
+		level = 1
+		# The floor's own bands; a keeper is meant to stand above the company, by up to
+		# `auto_hunt_keepers_over` levels more.
+		var keeper_allowance := int(_rules().get("auto_hunt_keepers_over", 0))
+		for band: Dictionary in Database.area(area_id).get("bands", []):
+			var band_level := int(band.get("level", 1))
+			level = maxi(level, band_level - keeper_allowance if bool(band.get("boss", false)) else band_level)
+	return level > Encounter.party_level(GameState.party_characters()) + over
+
+
+## A gate whose keepers stand [constant GATE_WARN_LEVELS] or more above the company: asked twice
+## before going in by hand ([D246]), never gone into by a party walking itself.
+static func too_strong(gate: Site) -> bool:
+	return gate.reading_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
 
 
 static func cell_of(at: Variant) -> Vector2i:

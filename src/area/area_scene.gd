@@ -690,8 +690,6 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
-## How many levels a gate may stand above the company before going in is asked twice ([D246]).
-const GATE_WARN_LEVELS := 6
 ## Until when (ms) a second press goes into the gate that was warned of.
 var _gate_warned_until: int = 0
 
@@ -722,9 +720,9 @@ func _gate_here() -> Site:
 	return site if site != null and site.kind == Site.GATE else null
 
 
-## A gate whose keepers stand `GATE_WARN_LEVELS` or more above the company.
+## A gate whose keepers stand `AutoRoad.GATE_WARN_LEVELS` or more above the company.
 func _gate_too_strong(gate: Site) -> bool:
-	return gate.reading_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
+	return AutoRoad.too_strong(gate)
 
 
 ## Where a company resting on this floor sits, for their fire ([D246]).
