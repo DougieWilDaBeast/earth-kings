@@ -206,6 +206,7 @@ func _run() -> void:
 	await _check_scars()
 	await _check_walking_out()
 	await _check_reaching_the_fallen()
+	_check_hand_fight_speed()
 
 
 ## Passives come from the data and do something; enemies get their roles; and a
@@ -1959,3 +1960,21 @@ func _check_reaching_the_fallen() -> void:
 	_expect(cato.stance != was, "the wheel's Stance left Cato's stance as it was")
 	fight.queue_free()
 	await get_tree().process_frame
+
+
+## D329 (play-test 8's wolves): a fight played by hand eases a fast walk down to 2x and gives it
+## back after; a speed picked in the fight is kept.
+func _check_hand_fight_speed() -> void:
+	Pace.reset()
+	for _i in 3:
+		Pace.cycle_speed()
+	_expect(Pace.speed() == 5.0, "three presses did not reach 5x")
+	Pace.ease_to(2.0)
+	_expect(Pace.speed() == 2.0, "a hand-played fight started at %sx" % Pace.speed())
+	Pace.ease_back()
+	_expect(Pace.speed() == 5.0, "the walking speed did not come back after the fight (%sx)" % Pace.speed())
+	Pace.ease_to(2.0)
+	Pace.cycle_speed()
+	Pace.ease_back()
+	_expect(Pace.speed() == 3.0, "a speed picked in the fight was not kept (%sx)" % Pace.speed())
+	Pace.reset()
