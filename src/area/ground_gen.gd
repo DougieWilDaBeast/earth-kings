@@ -426,6 +426,7 @@ static func _as_slot(area: Dictionary) -> Dictionary:
 		"spawn": area.get("spawn", [w / 2, rows.size() / 2]),
 		"entries": area.get("entries", {}),
 		"ways_up": area.get("ways_up", []),
+		"ladders": area.get("ladders", []),
 		"place": {},
 		"tint": str(area.get("tint", "")),
 		"hint": str(area.get("hint", "")),
@@ -514,6 +515,12 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 		for entry: Dictionary in place.get(key, []):
 			moved.append(_moved(entry, offset))
 		made[key] = moved
+	# A place's own ways up its heights come with it onto the land (D308, D333).
+	for key: String in ["ways_up", "ladders"]:
+		var ways: Array = (made.get(key, []) as Array).duplicate()
+		for pair: Array in place.get(key, []):
+			ways.append([int(pair[0]) + offset.x, int(pair[1]) + offset.y])
+		made[key] = ways
 	if place.has("walls"):
 		_raise_walls(made, rect, place, land, w, h)
 	if place.has("fire"):
@@ -799,6 +806,10 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 				blocked[post] = true
 				break
 
+	# Herbs to pick, by their own roll so nothing else on the ground moves for them (D331).
+	if open_land and reserved.size == Vector2i.ZERO:
+		_herbs(world, cell, land, grid, kept, blocked, props, w, h)
+
 	var rows: Array = []
 	for row in grid:
 		rows.append("".join(row))
@@ -1076,6 +1087,38 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 			"gold": 500 * (1 + absi(hash([cell.x, cell.y])) % 3),
 			"line": "Under the roots: a box gone soft with damp, and coin inside it.",
 		})
+
+
+## What the land grows wild ([D331], [D299]: "herbs on the land"; `world_rules.json` → `herbs_on_land`):
+## about `per_tile` patches a tile of a land that grows any (`by_land`), each one of its herbs, off the
+## paths and the water and clear of anything standing, picked once a run into the packs.
+static func _herbs(world: World, cell: Vector2i, land: String, grid: Array, kept: Dictionary,
+		blocked: Dictionary, props: Array, w: int, h: int) -> void:
+	var rules: Dictionary = Database.world_rules.get("herbs_on_land", {})
+	var grows: Array = rules.get("by_land", {}).get(land, [])
+	if grows.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.shape_seed(), cell.x, cell.y, "herbs"])
+	var taken := {}
+	for prop: Dictionary in props:
+		taken[Vector2i(int(prop["cell"][0]), int(prop["cell"][1]))] = true
+	var looks: Dictionary = rules.get("herbs", {})
+	for i in _count(float(rules.get("per_tile", 0.6)), rng):
+		var herb := str(grows[rng.randi() % grows.size()])
+		var look: Dictionary = looks.get(herb, {})
+		for _try in 12:
+			var at := Vector2i(rng.randi_range(2, w - 3), rng.randi_range(2, h - 3))
+			if kept.has(at) or blocked.has(at) or taken.has(at) or grid[at.y][at.x] == LIQUID:
+				continue
+			props.append({
+				"art": str(look.get("art", "nature/fern")), "cell": [at.x, at.y], "solid": false,
+				"name": str(look.get("name", "herbs")), "item": herb,
+				"line": str(look.get("line", "Something green worth picking.")),
+				"spent_line": str(look.get("spent_line", "")),
+			})
+			taken[at] = true
+			break
 
 
 ## Whether [param at] is next to a worn path or the road.

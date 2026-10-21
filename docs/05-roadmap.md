@@ -444,9 +444,12 @@ each, each ending playable:
       Six hamlets on the map, three kinds (a sheepfold, a mill, salt pans), each with folk who sell, a job, a trouble
       and a story ([D329](06-decisions.md), 2026-10-21, held until B is in). Two caravans that go a round of four towns,
       one selling the makings of runes, one herbs and bread ([D330](06-decisions.md), 2026-10-21, held until B is in).
-      Next: ladders and walls that can be scaled ([D287](06-decisions.md)), hills and mountains on the land more
-      than a height up, creatures of the land
-      beyond the biomes' own foes, and herbs on the land ([D299](06-decisions.md): straight after enchanting).
+      Herbs on the land to pick, by what each land grows ([D331](06-decisions.md), 2026-10-21, held until B is in).
+      Life on the land that matches it, no grasshopper in the ash ([D332](06-decisions.md), 2026-10-21, held until B is in;
+      the lands' own creatures are art A56).
+      Ladders that climb two heights, on the cloud peak and the scarp, and a Climbing Rope that scales any face a height up
+      ([D333](06-decisions.md), 2026-10-21, held until B is in). Next: hills and mountains on the land more than a height
+      up, town walls to scale.
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and
       planned for C's rest: heights only stand in two kinds of wild place, so the land itself is still flat ("it's

@@ -377,7 +377,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
    weapon a notch at a time; anyone still wields anything. Enchanting ([D328](06-decisions.md)): four runes from
-   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Forging from parts is **planned**.
+   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Herbs grow on the
+   land to pick, by what each land grows ([D331](06-decisions.md)). Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
    Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
@@ -391,7 +392,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     ([D282](06-decisions.md)): a mouth on about three hill tiles in ten, a place of its own behind it with bands,
     a keeper and a cache. Heights built: the wind scarp's shelves ([D308](06-decisions.md)), the cloud peak
     three heights up ([D321](06-decisions.md)), and rises of the land's own floor on every tile, a height up
-    with a rock face below, climbed only at a slope, more on hills and crag ([D324](06-decisions.md)).
+    with a rock face below, climbed only at a slope, more on hills and crag ([D324](06-decisions.md)). Ladders that
+    climb two heights, and a Climbing Rope that scales any face a height up ([D333](06-decisions.md)).
     Six hamlets to come upon, a sheepfold, a mill and salt pans, each with folk who sell, a job and a trouble
     ([D329](06-decisions.md)). Two caravans that walk between the towns, one selling the makings of runes
     ([D330](06-decisions.md)).

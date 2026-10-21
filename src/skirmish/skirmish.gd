@@ -540,7 +540,7 @@ func _ground_field() -> Dictionary:
 			for x in size.x:
 				var cell := origin + Vector2i(x, y)
 				row += str(clampi(ground.height_at(cell), 0, 9))
-				if ground.ways_up.has(cell):
+				if ground.ways_up.has(cell) or ground.ladders.has(cell):
 					ways.append([x, y])
 				if ground.is_cloud(cell):
 					clouds.append([x, y])

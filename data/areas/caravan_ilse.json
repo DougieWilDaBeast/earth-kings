@@ -219,6 +219,9 @@
           {
             "item": "salt_pouch",
             "restock": true
+          },
+          {
+            "item": "climbing_rope"
           }
         ],
         "shop": "Dear, because I carried it. Worth it, because you can't get it anywhere else.",

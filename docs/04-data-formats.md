@@ -715,7 +715,8 @@ keeps `grudges`: faction id -> bands beaten.
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
 average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
-pictures each is drawn from. A bird takes off when the party comes within `shy_cells`, flies
+pictures each is drawn from, unless the land's own `life_art` in `biomes.json` names them for that kind
+(D332: none where it names none, so no grasshopper in the ash). A bird takes off when the party comes within `shy_cells`, flies
 `flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
 to land is gone `away_seconds`. A bird that has stood a while goes up on a loop of its own on
 `wander_flight` of its rests, `wander_cells` [min, max] cells, and comes down where it can stand
@@ -761,6 +762,14 @@ somebody carries: +1 attack for that person with that weapon (`Character.honed`)
 passive's (`data/skirmish.json` → `passives`): theirs while they carry that weapon, over and above
 `max_passives` (`Character.enchanted`: weapon id → rune id, one a weapon). `enchanted_line` says it, and
 `replaced_line` when a new rune takes an old one's place.
+
+## `world_rules.json` → `herbs_on_land` — what the land grows wild (D331)
+
+About `per_tile` patches a tile of open land (none round a place), each one of what its land grows
+(`by_land`: land id → item ids; a land not named grows none), off the paths, the water and anything
+standing. `herbs` gives each item its `art`, `name`, `line` (said as it is picked) and `spent_line`.
+Laid by their own roll in `GroundGen._herbs`, so nothing else on the ground moves; a patch is a prop with
+an `item`, picked once a run into the packs.
 
 ## `world_rules.json` → `moods` — how each of the company feels (D279)
 
@@ -820,7 +829,7 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
-## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308, D321)
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up` and `ladders`, `world_rules.json` → `heights` (D287, D308, D321, D333)
 
 Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
 `_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
@@ -842,6 +851,12 @@ A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top
 `cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a
 body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
 `summit` (3) stand on the stone and snow sheets.
+`ladders` (D333) in an area's file are cells with a ladder against the face below (the author draws
+`landmark/ladder` on each, in house by `tools/draw_ladder.py` until A57): climbed up as far as
+`heights.ladder_most` (2), and taken onto the land with the place, like its `ways_up`. A company carrying
+`heights.rope_item` (the Climbing Rope, a charm; in the packs or worn) may step up any face one height
+(`AreaMap.scaling`, set as an area opens and again, with `rope_line`, the first time the lead walks at a
+face after getting one); a way found reads it too. Fights keep to slopes and ladders.
 
 ## `world_rules.json` → `heights.land` — rises on the land (D324)
 

@@ -624,7 +624,11 @@
 		"hurt_from": 2,
 		"share": 0.15,
 		"floor": 0.1,
-		"blocked_line": "The shelf is too high to climb here. Find a slope.",
+		"blocked_line": "The shelf is too high to climb here. Find a slope, or carry a rope.",
+		"_comment_ladders": "D333 (D287: 'walls and heights can be scaled some way'): a ladder (an area's `ladders`, drawn landmark/ladder) is climbed up as far as ladder_most heights; a Climbing Rope carried (rope_item, in the packs or worn by anyone in the company) makes every face one height up a way up, for the lead, the company and Auto alike. Fights keep to slopes and ladders. **Inferred** (agenda 241): two heights a ladder, and the rope.",
+		"ladder_most": 2,
+		"rope_item": "climbing_rope",
+		"rope_line": "The rope goes over the edge, and up you go.",
 		"hurt_line": "A drop of {fell}. Everyone lands hard.",
 		"_comment_paths": "D312: on ground with heights every way found (a click, Auto, a band on its rounds, a person at work) steps only where a walker may, so it goes round by a slope rather than at the shelf; a drop that would hurt counts path_drop_cost cells more, so a way round is taken when there is one. A click on a shelf with no way up from here says no_way_line, once a cell.",
 		"path_drop_cost": 6,
@@ -651,6 +655,20 @@
 		"guard_label": "{what} of {land}",
 		"_comment_story": "D314 (D287: 'a quest or a story in each'): every wild tells a story in three pages, spots with `page` in the area, each said once a run when stood on and kept as a flag (story:<area>:<x>:<y>); the last page read says the area's `story.end` and writes story_annals in the annals (story:<area>:told).",
 		"story_annals": "{wild}: {end}"
+	},
+	"herbs_on_land": {
+		"_comment": "D331 (D299: 'herbs on the land'; Ewan's play-test 7: 'combine herbs together to make potions'): about per_tile patches a tile of open land, each one of what its land grows (by_land, a land not named grows none), off the paths and the water, picked once a run into the packs (a prop with an item, src/area/ground_gen.gd _herbs). herbs gives each its art, name and lines. **Inferred** (agenda 239): which lands grow what, and how many.",
+		"per_tile": 0.6,
+		"by_land": {
+			"grassland": ["herbs"], "blossom": ["herbs"], "savanna": ["herbs"], "forest": ["herbs", "redcap"],
+			"jungle": ["herbs", "redcap"], "bog": ["redcap"], "swamp": ["redcap"], "fungal": ["redcap"], "mist": ["redcap", "herbs"],
+			"snow": ["frostmoss"], "taiga": ["frostmoss", "herbs"], "crystal": ["frostmoss"]
+		},
+		"herbs": {
+			"herbs": { "art": "nature/fern", "name": "bitter herbs", "line": "Bitter herbs, the kind a draught wants. You pick a handful.", "spent_line": "" },
+			"redcap": { "art": "nature/mushrooms", "name": "redcaps", "line": "Redcaps in the damp, bright as a warning. You cut the best of them.", "spent_line": "" },
+			"frostmoss": { "art": "nature/mushroom_blue", "name": "frostmoss", "line": "Frostmoss, pale and cold to the touch. You peel a strip off the stone.", "spent_line": "" }
+		}
 	},
 	"caravans": {
 		"_comment": "D330 (D287: 'places worth going to (... hamlets, caravans)'): a caravan is a wild place that walks. Each upkeep it rolls up to tiles_per_upkeep tiles on towards the next town of its route, by the way a party would walk (looked for no further than longest tiles), never onto ground within clear_of_sites of another place nor within party_clear of the party, and never while the party is that close. Within stand_off of the town it stands for rest_upkeeps upkeeps, then sets off for the next. src/chronicle/caravans.gd. **Inferred** (agenda 238): the pace and the rests.",

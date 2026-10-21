@@ -78,6 +78,8 @@ func _ready() -> void:
 	_check_crafting()
 	await _check_caves()
 	_check_rises()
+	_check_herbs_on_the_land()
+	_check_ladders_and_rope()
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
@@ -93,6 +95,7 @@ func _ready() -> void:
 	await _check_the_joined_land()
 	await _check_play_test_three()
 	await _check_life_on_the_land()
+	_check_life_matches_the_land()
 	await _check_play_test_four()
 	await _check_inn_rooms()
 	await _check_followers_face()
@@ -342,6 +345,93 @@ func _check_crafting() -> void:
 	wielder.enchanted.erase("iron_blade")
 	wielder.equipment = kept_weapon
 	GameState.stores = kept_stores
+
+
+## Ladders and the rope ([D333]): a ladder on the cloud peak climbs a face two heights up that nothing
+## else does; a plain face a height up on the scarp is no way up until the company carries a rope, and
+## then it is, for a way found as well as a step; the rope is sold where a climber would look for one.
+func _check_ladders_and_rope() -> void:
+	var peak := AreaMap.load_area("wild_peak")
+	var ladder := Vector2i(5, 6)
+	var foot := ladder + Vector2i.DOWN
+	if not peak.ladders.has(ladder) or peak.height_at(ladder) - peak.height_at(foot) != 2:
+		_fail("ladders: the peak's ladder at %s does not stand against a face two heights up" % ladder)
+	elif not peak.may_step(foot, ladder):
+		_fail("ladders: the peak's ladder at %s does not climb" % ladder)
+	var unladdered := ladder + Vector2i.LEFT
+	if peak.height_at(unladdered) - peak.height_at(unladdered + Vector2i.DOWN) == 2 and peak.may_step(unladdered + Vector2i.DOWN, unladdered):
+		_fail("ladders: the face beside the peak's ladder is climbed without one")
+	var scarp := AreaMap.load_area("wild_scarp")
+	var face := Vector2i(-1, -1)
+	for y in scarp.height - 1:
+		for x in scarp.width:
+			var top := Vector2i(x, y)
+			var below := top + Vector2i.DOWN
+			if face.x < 0 and scarp.is_walkable(top) and scarp.is_walkable(below) and scarp.height_at(top) - scarp.height_at(below) == 1 \
+					and not scarp.ways_up.has(top) and not scarp.ladders.has(top) and not scarp.ways_up.has(below):
+				face = top
+	if face.x < 0:
+		_fail("ladders: no plain face on the scarp to try a rope on")
+		return
+	if scarp.may_step(face + Vector2i.DOWN, face):
+		_fail("ladders: the scarp's face at %s is climbed with no rope" % face)
+	scarp.set_scaling(true)
+	if not scarp.may_step(face + Vector2i.DOWN, face):
+		_fail("ladders: a rope does not climb the scarp's face at %s" % face)
+	var way := scarp.find_path(scarp.centre_of(face + Vector2i.DOWN), scarp.centre_of(face))
+	if way.size() > 3:
+		_fail("ladders: with a rope the way up the face at %s still goes round (%d steps)" % [face, way.size()])
+	var sold := false
+	for area_id: String in ["caravan_ilse", "hamlet_salt"]:
+		for person: Dictionary in Database.area(area_id).get("people", []):
+			for offer: Dictionary in person.get("talk", {}).get("sells", []):
+				sold = sold or str(offer.get("item", "")) == "climbing_rope"
+	if not sold or not Gear.is_charm("climbing_rope"):
+		_fail("ladders: nobody sells a Climbing Rope, or it is not a charm")
+
+
+## Herbs on the land ([D331]): the open land grows what its land grows, off the paths and the water,
+## the same every time, picked into the packs.
+func _check_herbs_on_the_land() -> void:
+	var world: World = GameState.world
+	var by_land: Dictionary = Database.world_rules.get("herbs_on_land", {}).get("by_land", {})
+	var found := {}
+	var looked := 0
+	var picked := false
+	for y in range(0, world.size.y, 3):
+		for x in range(0, world.size.x, 3):
+			var tile := Vector2i(x, y)
+			if not world.is_walkable(tile) or world.site_at(tile) != null:
+				continue
+			var slot := GroundGen.slot(world, tile)
+			if slot.get("kind") != "ground":
+				continue
+			looked += 1
+			if looked > 160:
+				break
+			var land := str(slot.get("land", ""))
+			var w := int(slot["size"][0])
+			var terrain: PackedStringArray = slot["terrain"]
+			for prop: Dictionary in slot["props"]:
+				var herb := str(prop.get("item", ""))
+				if herb == "" or not ["herbs", "redcap", "frostmoss"].has(herb):
+					continue
+				found[herb] = int(found.get(herb, 0)) + 1
+				if not (by_land.get(land, []) as Array).has(herb):
+					_fail("herbs: %s grows on %s, which does not grow it" % [herb, land])
+				var on := terrain[int(prop["cell"][1]) * w + int(prop["cell"][0])]
+				if ["footpath", "track", "road", "water"].has(on):
+					_fail("herbs: %s on %s at %s, on the %s" % [herb, tile, prop["cell"], on])
+				if not picked:
+					picked = true
+					var had := GameState.stores.count(herb)
+					var lines := Loot.claim({ "gold": 0, "item": herb }, GameState.roster)
+					if GameState.stores.count(herb) != had + 1 or lines.is_empty():
+						_fail("herbs: picking %s put nothing in the packs" % herb)
+					GameState.stores.erase(herb)
+	if found.size() < 2:
+		_fail("herbs: only %s growing on %d tiles of the land" % [found, looked])
+	print("herbs on the land: %s on %d tiles" % [found, looked])
 
 
 ## Caves on the land ([D282]): some hills have a mouth on their ground, the same ones every time, and
@@ -2840,6 +2930,28 @@ func _check_play_test_three() -> void:
 ## Life on the land ([D179]): the tiles round the party have birds, butterflies and the like on
 ## them; a bird takes off when the leader walks up to it and comes down further off; and on the
 ## First Hour's road the city's Watch walks its rounds.
+## Creatures that match the land ([D332], "no grasshopper in magma"): each land's own pictures of life are
+## pictures of that kind of life, and the burnt and blighted lands have no bees, butterflies or
+## grasshoppers.
+func _check_life_matches_the_land() -> void:
+	var lands: Dictionary = Database.biomes.get("biomes", {})
+	var named := 0
+	for land: String in lands:
+		var own: Dictionary = lands[land].get("life_art", {})
+		if not own.is_empty():
+			named += 1
+		for kind: String in own:
+			for art: String in own[kind]:
+				if AreaCritter.life_of(art) != kind:
+					_fail("life: %s's %s is drawn as %s, which is not a %s" % [land, kind, art, kind])
+	for land: String in ["ash", "blight", "snow"]:
+		var own: Dictionary = lands.get(land, {}).get("life_art", {})
+		if not (own.get("hop", ["?"]) as Array).is_empty() or not (own.get("flutter", ["?"]) as Array).is_empty():
+			_fail("life: a grasshopper or a butterfly in the %s" % land)
+	if named < 8:
+		_fail("life: only %d lands have creatures of their own" % named)
+
+
 func _check_life_on_the_land() -> void:
 	var world: World = GameState.world
 	var road_tile := Vector2i(-1, -1)

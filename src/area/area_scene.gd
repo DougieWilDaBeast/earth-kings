@@ -324,6 +324,8 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
+	# A rope carried makes any face a height up a way up ([D333]).
+	map.set_scaling(_carries_rope())
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
@@ -571,8 +573,10 @@ func _life_for(tile: Vector2i) -> Array[Dictionary]:
 	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
 	var area := land.slot_rect(tile)
 	var per_tile: Dictionary = rules.get("per_tile", {})
+	# Creatures that match the land (D332): a land's own pictures for each kind, none where it gives none.
+	var own: Dictionary = Biome.data(str(chunk.get("land", ""))).get("life_art", {})
 	for kind: String in ["bird", "flutter", "hop", "crawl"]:
-		var arts: Array = rules.get("art", {}).get(kind, [])
+		var arts: Array = own.get(kind, rules.get("art", {}).get(kind, []))
 		if arts.is_empty():
 			continue
 		var mean := float(per_tile.get(kind, 0.0)) * share
@@ -2556,10 +2560,26 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 		return
 	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
 		return
+	# A rope bought or picked up since the party came in is a rope all the same ([D333]).
+	if not map.scaling and _carries_rope():
+		map.set_scaling(true)
+		_note(str(Database.world_rules.get("heights", {}).get("rope_line", "The rope goes over the edge.")))
+		return
 	if _ledges_said.has(ahead):
 		return
 	_ledges_said[ahead] = true
 	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
+
+
+## Whether the company carries a climbing rope ([D333]): in the packs, or worn by any of them.
+func _carries_rope() -> bool:
+	var rope := str(Database.world_rules.get("heights", {}).get("rope_item", "climbing_rope"))
+	if GameState.stores.has(rope):
+		return true
+	for character: Character in GameState.party_characters():
+		if character.charms.has(rope):
+			return true
+	return false
 
 
 func _can_stand(point: Vector2) -> bool:

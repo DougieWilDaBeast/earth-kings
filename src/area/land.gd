@@ -152,6 +152,8 @@ func hold(tile: Vector2i) -> Dictionary:
 	# Rises of the land's floor, climbed only at their slopes ([D324]).
 	for pair: Variant in laid.get("ways_up", []):
 		ways_up[_cell(pair, origin)] = true
+	for pair: Variant in laid.get("ladders", []):
+		ladders[_cell(pair, origin)] = true
 	chunk["_heights"] = _has_heights(laid.get("terrain", PackedStringArray()))
 	_heights_vary = chunks.values().any(func(c: Dictionary) -> bool: return bool(c.get("_heights", false)))
 	# Where somebody is meant to stand stays open, whatever is drawn there.
@@ -178,7 +180,7 @@ func release(tile: Vector2i) -> void:
 	props = props.filter(func(prop: Dictionary) -> bool: return prop.get("_tile") != tile)
 	buildings = buildings.filter(func(b: Dictionary) -> bool: return b.get("_tile") != tile)
 	people = people.filter(func(p: Dictionary) -> bool: return p.get("_tile") != tile)
-	for table: Dictionary in [chests, spots, spot_flags, story_pages, wards, fires, _blocked, _building_cells, _props_at, ways_up]:
+	for table: Dictionary in [chests, spots, spot_flags, story_pages, wards, fires, _blocked, _building_cells, _props_at, ways_up, ladders]:
 		for cell: Vector2i in table.keys():
 			if area.has_point(cell):
 				table.erase(cell)
@@ -440,9 +442,13 @@ func _held_steps() -> AStar2D:
 				if rise == 0:
 					_steps.connect_points(id, next_id)
 					continue
-				var by_slope := ways_up.has(Vector2i(x, y)) or ways_up.has(Vector2i(nx, ny))
-				var there := rise < 0 or (rise == 1 and by_slope)
-				var back := rise > 0 or (rise == -1 and by_slope)
+				var by_slope := scaling or ways_up.has(Vector2i(x, y)) or ways_up.has(Vector2i(nx, ny))
+				var reach := 1
+				if ladders.has(Vector2i(x, y)) or ladders.has(Vector2i(nx, ny)):
+					by_slope = true
+					reach = ladder_most()
+				var there := rise < 0 or (rise <= reach and by_slope)
+				var back := rise > 0 or (-rise <= reach and by_slope)
 				if there and back:
 					_steps.connect_points(id, next_id)
 				elif there:
@@ -519,3 +525,10 @@ static func _rect(values: Variant, origin: Vector2i) -> Rect2i:
 	if at.size() < 4:
 		return Rect2i()
 	return Rect2i(Vector2i(int(at[0]), int(at[1])) + origin, Vector2i(int(at[2]), int(at[3])))
+
+
+## Carry a rope or not ([D333]): the held graph of steps is laid out again.
+func set_scaling(on: bool) -> void:
+	if on != scaling:
+		_steps = null
+	scaling = on
