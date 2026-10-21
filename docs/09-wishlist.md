@@ -28,8 +28,9 @@ color and lighting while focusing the eye on the title and moving characters.
 
 > When the cinematic ends for Earth Kings, a character's voice should say —
 
-**Settled, planned.** `dougie` chose the line on 2026-10-21 (call BZ, [D328](06-decisions.md)): Bram, from the
-crater, "Give me your hand.", with the landing's first box following on. It comes with the remade opening.
+**Settled, built.** `dougie` chose the line on 2026-10-21 (call BZ, [D328](06-decisions.md)): Bram, from the
+crater, "Give me your hand.", with the landing's first box following on. **Built** as the remade opening's
+last line, under the title ([D340](06-decisions.md)); a spoken voice waits on a recording.
 
 ## W3 — A coliseum
 
