@@ -1195,6 +1195,30 @@ func _check_heights() -> void:
 	_expect(on.cell_at(climbed) == Vector2i(5, 4), "the lead could not climb the slope, stays at %s" % on.cell_at(climbed))
 	var down: Vector2 = scene.call("_slide", on.centre_of(Vector2i(6, 4)), -up)
 	_expect(on.cell_at(down) == Vector2i(6, 5), "the lead could not drop off the shelf")
+	# A way found over the scarp (a click, Auto, a band) goes round by a slope, never up the shelf ([D312]).
+	var way := on.find_cell_path(Vector2i(6, 5), Vector2i(6, 3))
+	var legal := way.size() >= 2
+	for i in range(1, way.size()):
+		legal = legal and on.may_step(on.cell_at(way[i - 1]), on.cell_at(way[i]))
+	_expect(legal and way.any(func(p: Vector2) -> bool: return on.ways_up.has(on.cell_at(p))),
+			"the way up the shelf does not go by a slope: %s" % [way.map(func(p: Vector2) -> Vector2i: return on.cell_at(p))])
+	var down_way := on.find_cell_path(Vector2i(6, 3), Vector2i(6, 5))
+	_expect(down_way.size() == 3, "the way down off the shelf is %d steps, not straight down" % down_way.size())
+	scene.get("_leader").position = on.centre_of(Vector2i(6, 5))
+	scene.call("_walk_to", on.centre_of(Vector2i(6, 3)))
+	_expect((scene.get("_click_path") as Array).size() >= 3, "a click on the shelf did not walk round by the slope")
+	(scene.get("_click_path") as Array).clear()
+	# With no way up at all, a click on the shelf walks nowhere and is told so, once.
+	var ways := on.ways_up.duplicate()
+	on.ways_up = {}
+	var told_before: int = (scene.get("_ledges_said") as Dictionary).size()
+	var notes_were: int = (scene.get("_notes") as Array).size()
+	scene.call("_walk_to", on.centre_of(Vector2i(7, 3)))
+	scene.call("_walk_to", on.centre_of(Vector2i(7, 3)))
+	on.ways_up = ways
+	_expect((scene.get("_click_path") as Array).is_empty() and (scene.get("_ledges_said") as Dictionary).size() == told_before + 1
+			and (scene.get("_notes") as Array).size() >= notes_were + 1,
+			"a click on a shelf with no way up walked, or was not told once")
 	# The lead is told why, once: pressed against the shelf's edge, as a blocked walker stands.
 	var edge := foot + Vector2(0, -(float(AreaMap.CELL) * 0.5 - 2.0))
 	scene.get("_leader").position = edge
@@ -1218,8 +1242,8 @@ func _check_heights() -> void:
 	(Database.tilesets["terrains"] as Dictionary)["raised"] = was
 	_expect(party.all(func(c: Character) -> bool: return c.current_hp() < c.max_hp()), "a drop of two hurt nobody")
 	_expect(party.all(func(c: Character) -> bool: return c.current_hp() >= ceili(float(c.max_hp()) * float(rules.get("floor", 0.1)))), "a fall took someone below the floor")
-	print("heights: the wind scarp's shelves are %d up, %d slopes; a drop of two costs %.0f%% of everyone's health" % [
-		on.height_at(Vector2i(6, 3)), on.ways_up.size(), float(rules.get("share", 0.15)) * 100.0])
+	print("heights: the wind scarp's shelves are %d up, %d slopes; a drop of two costs %.0f%% of everyone's health; a click up the shelf walks %d cells round by the slope" % [
+		on.height_at(Vector2i(6, 3)), on.ways_up.size(), float(rules.get("share", 0.15)) * 100.0, way.size() - 1])
 	scene.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)

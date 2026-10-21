@@ -210,6 +210,9 @@ func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
 			to_cell = best_neighbor
 		else:
 			return []
+	# Ground with heights is walked only where a walker may step ([D312]).
+	if _heights_vary:
+		return _height_path(from_cell, to_cell)
 	var cell_path := astar.get_id_path(from_cell, to_cell)
 	var path: Array[Vector2] = []
 	for cell in cell_path:
@@ -317,6 +320,56 @@ func drop(from: Vector2i, to: Vector2i) -> int:
 	if not _heights_vary:
 		return 0
 	return maxi(0, height_at(from) - height_at(to))
+
+
+## A way over ground with heights ([D312]): the shortest by cells that steps only where a walker may
+## ([method may_step]: down anywhere, up only at a way up), a drop that would hurt counted as
+## `heights.path_drop_cost` cells more, so a walk goes round by the slope rather than at the shelf and
+## off a long drop only when there is no other way. Empty when there is none. Flat ground keeps the
+## grid's own search; the grid's shut cells (walls, a ward) are shut here too.
+func _height_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
+	var path: Array[Vector2] = []
+	if from_cell == to_cell:
+		path.append(centre_of(from_cell))
+		return path
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	var hurt_from := int(rules.get("hurt_from", 2))
+	var drop_cost := float(rules.get("path_drop_cost", 6))
+	var cost: Dictionary = { from_cell: 0.0 }
+	var came: Dictionary = {}
+	var open: Array = [[_as_the_crow_flies(from_cell, to_cell), 0.0, from_cell]]
+	while not open.is_empty():
+		var best := 0
+		for i in range(1, open.size()):
+			if open[i][0] < open[best][0]:
+				best = i
+		var here: Array = open.pop_at(best)
+		var cell: Vector2i = here[2]
+		if cell == to_cell:
+			break
+		if float(here[1]) > float(cost[cell]):
+			continue
+		for step: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var next := cell + step
+			if not in_bounds(next) or astar.is_point_solid(next) or not may_step(cell, next):
+				continue
+			var so_far := float(cost[cell]) + 1.0 + (drop_cost if drop(cell, next) >= hurt_from else 0.0)
+			if not cost.has(next) or so_far < float(cost[next]):
+				cost[next] = so_far
+				came[next] = cell
+				open.append([so_far + _as_the_crow_flies(next, to_cell), so_far, next])
+	if not came.has(to_cell):
+		return path
+	var back := to_cell
+	while back != from_cell:
+		path.push_front(centre_of(back))
+		back = came[back]
+	path.push_front(centre_of(from_cell))
+	return path
+
+
+static func _as_the_crow_flies(a: Vector2i, b: Vector2i) -> float:
+	return float(absi(a.x - b.x) + absi(a.y - b.y))
 
 
 ## The cells a solid prop stands on: its own, or a `base` [width, depth] centred on it and
