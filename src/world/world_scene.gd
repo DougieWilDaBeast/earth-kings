@@ -453,7 +453,8 @@ func _road_clock(cell: Vector2i) -> String:
 				_warm_art()
 				_map.queue_redraw()
 		"traveller":
-			_say_lines(Roadside.traveller(world, cell))
+			# Somebody the company did right by, now and then, instead of a stranger ([D330]).
+			_say_lines(Nemesis.thanks_met(world) if Nemesis.thanks_due(world) else Roadside.traveller(world, cell))
 		"find":
 			_lay_a_cache(cell, Roadside.find_richness(), Roadside.find_line(world))
 	return ""

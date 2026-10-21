@@ -745,10 +745,19 @@ and `src/area/area_scene.gd`.
 
 `hidden` names the systems that are built but out of reach until the First Hour is done
 ([D95](06-decisions.md)). `src/chronicle/first_hour.gd` (`FirstHour.hides(name)`) is the only reader.
-Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`, `nemesis`,
+Names: `coliseum`, `training`, `museum`, `trivia`, `grimoires`, `ferries`, `captivity`,
 `seasons`, `beds` (no bed to buy in the crater, [D178](06-decisions.md)). Take a name out to
 bring its system back. `dispatch` came out with [D278](06-decisions.md): sending your own people away opens
-once the company has shut a gate.
+once the company has shut a gate; `nemesis` with [D330](06-decisions.md).
+
+## `world_rules.json` → `nemesis` — survivors who come back, and thanks (D330)
+
+`survive_chance` that a broken band leaves a survivor (never one of `non_sentient`), named from
+`epithets`, said with `escaped_line` (`{name}`); `return_chance` that one leads a band met on the road,
+`level_per_return` levels up for each time they have come back, saying `confront_lines` in turn (`{name}`,
+`{place}`); beaten again, `finished_line`. `thanks`: on `chance` a settled errand's giver remembers it
+(`world.thankful`); on `meet_share` a traveller on the road's clock is one of them, giving `gift_share` of
+the errand's pay and saying `lines` (`{giver}`, `{title}`, `{place}`, `{gift}`). Read by `src/chronicle/nemesis.gd`.
 
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 

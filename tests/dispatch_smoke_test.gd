@@ -110,6 +110,7 @@ func _ready() -> void:
 	_check_moods(world)
 	_check_rumour_jobs(world, roster)
 	_check_play_test_eight(world, roster)
+	_check_nemesis(world)
 	_finish()
 
 
@@ -444,6 +445,43 @@ func _check_play_test_eight(world: World, roster: Roster) -> void:
 	var going: Character = roster.party_members()[roster.party_members().size() - 1]
 	_expect(roster.let_go(going.id) == going, "a companion could not be let go")
 	_expect(roster.by_id(going.id) == null and not roster.party.has(going.id), "a companion let go was still on the roster")
+
+
+## D330 (call BX): a survivor gets away, comes back a level up each time and says so, and is
+## finished when beaten again; an errand's giver remembers, and on the road gives back half its pay.
+func _check_nemesis(world: World) -> void:
+	var rules: Dictionary = Database.world_rules["nemesis"]
+	var kept := rules.duplicate(true)
+	var kept_survivors := world.survivors.duplicate()
+	world.survivors.clear()
+	rules["survive_chance"] = 1.0
+	rules["return_chance"] = 1.0
+	var at := world.player_cell
+	_expect(Nemesis.on_battle_won(world, [{"unit": "goblin", "level": 3}], at) != "" and world.survivors.size() == 1,
+			"nobody got away from a band broken with survive_chance 1")
+	var band: Array = [{"unit": "wolf", "level": 3}]
+	Nemesis.inject_survivor(world, band)
+	_expect(band[0]["unit"] == "goblin" and bool(band[0].get("survivor", false)) and int(band[0]["level"]) == 4,
+			"the survivor did not lead the next band a level up: %s" % [band[0]])
+	_expect(Nemesis.check_confrontation(world, {"enemies": band}) != "", "the survivor said nothing on coming back")
+	var again: Array = [{"unit": "wolf", "level": 3}]
+	Nemesis.inject_survivor(world, again)
+	_expect(int(again[0]["level"]) == 5, "a second return was not another level up (%d)" % int(again[0]["level"]))
+	_expect(Nemesis.on_battle_won(world, again, at).contains("will not crawl away") and world.survivors.is_empty(),
+			"beating the survivor again did not finish them")
+
+	rules["thanks"]["chance"] = 1.0
+	var kept_thankful := world.thankful.duplicate()
+	world.thankful.clear()
+	Nemesis.remember_thanks(world, {"giver": "Ada the Baker", "title": "the flour", "from_name": "Stormreach", "gold": 40})
+	_expect(world.thankful.size() == 1, "a settled errand's giver did not remember it")
+	var gold := GameState.gold
+	var lines := Nemesis.thanks_met(world)
+	_expect(GameState.gold - gold == 20 and world.thankful.is_empty() and str(lines[0]).contains("Ada the Baker"),
+			"meeting Ada on the road gave %d and said %s" % [GameState.gold - gold, lines])
+	world.thankful = kept_thankful
+	world.survivors = kept_survivors
+	Database.world_rules["nemesis"] = kept
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:
