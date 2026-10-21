@@ -275,9 +275,23 @@ static func layout(world: World, floor: int) -> Dictionary:
 			var at := Vector2i(door.x, height - 3) + (spots[i % spots.size()] as Vector2i)
 			if at.x <= 0 or at.x >= width - 1 or at.y <= 0 or grid[at.y][at.x] == WALL:
 				continue
+			# What the floor offers ([D317]): its first rests the company for coin, its second sells.
+			var talk: Dictionary = r.get("living_talk", {})
+			if people.size() == 0 and r.has("living_host"):
+				talk = r["living_host"]
+			elif people.size() == 1 and r.has("living_trader"):
+				talk = (r["living_trader"] as Dictionary).duplicate(true)
+				var markup := float(talk.get("markup", 1.0))
+				var wares: Array = []
+				for ware: Dictionary in talk.get("sells", []):
+					var priced := ware.duplicate()
+					if not priced.has("price"):
+						priced["price"] = maxi(1, roundi(float(Market.price_of(str(priced.get("item", "")))) * markup))
+					wares.append(priced)
+				talk["sells"] = wares
 			people.append({
-				"name": company, "unit": str(units[rng.randi() % units.size()]), "cell": [at.x, at.y],
-				"facing": [0, 1], "_area": "floor_folk", "talk": r.get("living_talk", {}),
+				"name": str(talk.get("name", company)), "unit": str(units[rng.randi() % units.size()]), "cell": [at.x, at.y],
+				"facing": [0, 1], "_area": "floor_folk", "talk": talk,
 			})
 	return {
 		"display_name": "floor %d of the Tower" % floor,

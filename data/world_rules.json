@@ -397,6 +397,43 @@
 					{ "q": "What's above?", "a": "More floors, bigger each time. Companies go up past us every season. Fewer come down." }
 				],
 				"bye": "Mind the stair. We'll be here when you come down, if you do."
+			},
+			"_comment_living_offers": "D317 (D290: 'by floor 25 or 30 people have set up base and live there'): what a living floor offers. The first of its people is the host, who rests the whole company for living_host.heal.price (Talk's mend of everyone hurt, nothing when nobody is), the second the trader, who sells living_trader.sells at the Market's price times living_trader.markup, restocked; the rest talk as living_talk. Inferred: the price, the wares and the mark-up.",
+			"living_host": {
+				"name": "the one who keeps the floor",
+				"hello": [
+					"You'll want to rest before the stair. Everyone does, here; it is what we are for.",
+					"Sit. Nothing comes down the stair that we have not seen before."
+				],
+				"ask": [
+					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." }
+				],
+				"heal": {
+					"price": 1500,
+					"q": "Let us rest here.",
+					"done": "There. Sleep came easier than you thought it would. Go up when you are ready.",
+					"whole": "You are whole already. Rest anyway, if you like; it costs nothing to sit.",
+					"whole_q": "Can we sit a while?"
+				},
+				"bye": "Mind the stair. We'll be here when you come down, if you do."
+			},
+			"living_trader": {
+				"name": "the one who sells",
+				"hello": [
+					"Everything up here came up the stair on somebody's back. The price says so.",
+					"Bread, herbs, a draught. Nobody carries more than that this high."
+				],
+				"shop_q": "What have you got?",
+				"shop": "What came up the stair. Coin first, mind.",
+				"sold": "Carried up for you, in a way.",
+				"shop_done": "That's all.",
+				"markup": 1.5,
+				"sells": [
+					{ "item": "bread", "restock": true },
+					{ "item": "herbs", "restock": true },
+					{ "item": "red_draught", "restock": true }
+				],
+				"bye": "Climb well. Come back down with something to sell me."
 			}
 		}
 	},

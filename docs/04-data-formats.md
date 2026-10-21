@@ -836,7 +836,9 @@ gives `shared_size` of `life.climbers.units` at the party's level, named by `com
 `life.climbers.companies`, handed to the area scene as `allies`, who fight every fight on the floor beside
 the party; `shared_line` (`{company}`) is said on the way up. A floor is lived on (`is_living`) from
 `living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words,
-`living_line` said on the way up.
+`living_line` said on the way up. `living_host` and `living_trader` (D317) are the first two's words and
+`name`: the host's `heal` rests the whole company for its `price` (Talk's mend), the trader's `sells` are
+restocked wares priced by `TowerFloors` at the Market's price times `markup`.
 
 ## `world_rules.json` → `gate.fallen` — demon kings of fallen worlds (D293, D304)
 
