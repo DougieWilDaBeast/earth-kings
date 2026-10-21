@@ -96,6 +96,11 @@ static func _from_template(name: String, template_id: String) -> AreaActor:
 	return actor
 
 
+## The way this actor is facing, one of eight.
+func facing() -> Vector2:
+	return _facing
+
+
 func face(direction: Vector2) -> void:
 	if direction == Vector2.ZERO:
 		return

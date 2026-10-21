@@ -162,6 +162,8 @@ Every fight: walk into a band, a gate or the Tower. Or Title → **Training** �
 | RT36 | Look at the skill tiles on a card with long names (Shield Bash, Warding Touch) | Each name fits its tile, shrunk or on two lines; none is cut off |
 | RT37 | Fight with the sound on: swing, shoot, use a skill with a wind-up, block with a shield bearer, stun, drink a draught, win and lose | Each is heard: swings and twangs, thumps on a hit and a crack on a critical, a clang on a block, a rising hum then a burst, a chime on a heal, gulps, a low fall when one of yours goes down, a fanfare or a sinking chord at the end; a crowd swinging is a clatter, not a roar ([D76](06-decisions.md)) |
 | RT38 | In a fight, click the gold word beside a fighter's name; then pick someone and press **O F B G H** in turn | The word steps Own way, Close in, Keep away, Guard, Hold and round; each key sets its stance, said over their head and in the log; Close in walks off after foes, Keep away steps back, Guard walks back to the leader, Hold stands; the next fight opens with the same words; press **Q** and the words grey out ([D209](06-decisions.md)) |
+| RT39 | Meet a band of three or more on the ground and hang back a moment before closing | They walk up in a shape round their boss (three a wedge, four a diamond), "falls in" over the ones moving to their slots, the shape facing you; once any of them is on you they fight as before ([D315](06-decisions.md)) |
+| RT40 | Meet a band on the land with some coin in the purse; right-click beyond the field's edge with everyone picked | "Making for the edge of the field. Whatever is dropped in the running stays dropped."; each who reaches it loses a tenth of their health ("… gets clear, with a parting blow for it"), never falling; once all are clear the purse is a tenth lighter and the band is still out there ([D319](06-decisions.md)) |
 
 ## F — Party menu (**P**)
 
@@ -189,6 +191,8 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | F17 | Practice page                                          | What they have read, every move with its proficiency, and who they can teach                           |
 | F18 | Level somebody to 2                                    | A path to choose, on the card and at the head of the pane, until it is answered                        |
 | F19 | Save, quit, load                                       | Gear, packs, practice, trees and the marching order all exactly as they were                           |
+| F20 | Shut a gate, then open the party screen                | A **Send** button beside every card but the lead's; it opens "Send … on a mission": **Meet me at** (press it to cycle the towns you know), the gates and errands ([D300](06-decisions.md)) |
+| F21 | Send someone to a gate to meet you at a town, and walk elsewhere | The map shows their face on the road with a line ahead of it; when they are back, "A crow finds the company: … are back at …"; walk to that town and they fall in ([D300](06-decisions.md)) |
 
 ## G — Gates and the Tower
 
@@ -227,6 +231,10 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G18 | With an S-rank gate open, walk on until an upkeep passes, then open the Guild at the nearest hall | "The Guild is raising a muster…" in the log; the muster's strength at the top of the hall |
 | G19 | **Stand with them**, then walk into that gate | "N of the muster go into … beside you"; blue-ringed allies on the back row fight with you |
 | G20 | Stand with a muster, then send a companion on it from the Practice page | They wait at the hall ("waiting with the muster"); when it goes in they come back paid, or roll for their life |
+| G21 | Climb past floor 10 (floor 11, then 12) | Each floor is a run of chambers of its own, bigger than floors 1 to 10, the stair at the far end and a band in every chamber but the first; floor 12 says another company is on it, and they fight beside you ([D307](06-decisions.md)) |
+| G22 | Climb to floor 25 | People stand by the way in and talk: they live here and are not going higher; no company fights beside you on it ([D307](06-decisions.md)) |
+| G23 | On floor 25, hurt, speak to the first and the second person by the way in | The first offers *Let us rest here* for 1,500 copper and mends everyone; the second sells bread, herbs and a red draught at half again the Market's price, and again after you buy ([D317](06-decisions.md)) |
+| G24 | At the Tower's foot, look at the sword in the floor; then look again | One pull: one time in six the lightning goes out and a Silver Blade is handed to whoever gains most; else the stone keeps it; the second look says you have had your pull, and a new run is a new throw ([D318](06-decisions.md)) |
 
 ## D2 — Towns, wilds and the people in them ([D62](06-decisions.md))
 
@@ -246,6 +254,9 @@ Walk **the ford village** first, then any other village, a wild area and a gate.
 | D2.10 | Walk every exit of a wild area                           | Nothing laid down blocks the road out                                                          |
 | D2.11 | In Stormreach's streets, find **Muck Muck** by the ruined bathhouse and ask why everyone asks him | He is the builder they come to whenever something needs building ([D176](06-decisions.md)) |
 | D2.12 | Get someone hurt, then find **Sinner** at the old shrine and ask her to patch up your companions | 10 silver is taken and everyone's health is full; asked again with nobody hurt, she only looks you over, free |
+| D2.13 | Walk into the wind scarp and up to one of its shelves | The shelf's edge has a dark rim and a shadow below it; the lead stops at it ("The shelf is too high to climb here. Find a slope."); at a slope they walk up; off any edge they drop down, and the followers file to the slope ([D308](06-decisions.md)) |
+| D2.14 | In any wild, walk its open ground off the straight ways and stand on the three places its story is told (near what it speaks of) | Each page is said once; the third says the whole story ("The ancient grove: a woodcutter came forty days ...") and the annals carry it; walking the pages again says the lines but writes nothing ([D314](06-decisions.md)) |
+| D2.15 | Rest at a village, then walk into a wild you have not cleared, with fewer than three errands | On the way in: "Something keeps the hush wood. Clear it, and the host at ... will pay to hear it. It is among your errands."; the errand points at the wild and is handed back at that village; the village's board never posts the same wild ([D316](06-decisions.md)) |
 
 ## D3 — A band on the ground ([D66](06-decisions.md), [D68](06-decisions.md), [D72](06-decisions.md))
 
@@ -278,6 +289,18 @@ Start a run and walk until the bottom line says a band has marked the ground it 
 | D3.24 | Lose a fight inside a gate | Back outside at its mouth with the floors filled in; going in again, its first floor's bands stand again |
 | D3.25 | Walk into Stormreach for the first time (Sennet's line), then on a touchscreen | The box at the bottom is only as tall as Sennet's lines and no wider than it needs; a one-line remark is a small box; the hint strip is as long as its line ([D259](06-decisions.md)) |
 | D3.26 | Walk the land until "Something has been left here", and look at what lies ahead | Coin alone is a coin pile; a blade, bow or staff is a sword lying there; anything else a strongbox ([D259](06-decisions.md)) |
+| D3.27 | Stand out of a band's red with it a few strides off, and press G | The bottom line says "G: strike first"; the lead turns to it and glows for a moment, then the fight is on: "First strike!" over the lead and a big hit on the nearest of them before they move ([D300](06-decisions.md)) |
+| D3.28 | With Auto on, walk into a band two levels over you | No stop and no paused fight: "A hard one. Auto fights on" and the fight runs; Q takes the party back. A gate's fight still stops ([D300](06-decisions.md)) |
+| D3.29 | Meet your first band of a new run with tips on | No tip card over the fight; the fight tips come up once it is over ([D300](06-decisions.md)) |
+| D3.30 | Go into gates of rank C and up until one says "read … from outside. Inside, it is …" | Its label on the map gave the lower rank before; after, the true one ([D302](06-decisions.md)) |
+| D3.31 | Go into gates until one says it "was a double gate", then walk back to its doorway | Its rank climbed one; "The way out is shut"; beat its keeper and the way out is open again ([D302](06-decisions.md)) |
+| D3.32 | In a world after a lead has fallen, go into gates of rank C and up until one says "Something of a burned world holds …" | The map label and the keeper's fight name Demon King <the fallen lead>; the keeper wears their face and stands at or over the level they fell at; shutting it says what came through goes back to ash ([D304](06-decisions.md)) |
+| D3.33 | Shut a double gate, then stand on open ground and press E | "the Gate Key" came out of the shut gate; the bottom line offers to turn it here; a gate of the shut gate's rank opens where you stand, open and walkable, and the key is gone ([D304](06-decisions.md)) |
+| D3.34 | With three or more walking, open the party sheet (P) on the lead and tap *Formation* until it says *Column*, then walk up open ground | The followers file in behind the lead, a short step apart, facing the way the lead faces; through a door they fall back into a trail ([D305](06-decisions.md)) |
+| D3.35 | Set *Formation: Diamond* and walk onto red ground a few strides from a band | Before anyone is in reach, the companions walk to their places round the lead ("falls in"), the mender behind; once a blow is traded everyone fights as their doctrine and stance say ([D305](06-decisions.md)) |
+| D3.36 | Win three fights with the same company, then open the party sheet | One card says *leads the fights (3 won)*, not always the lead's; on the lead's sheet *Formation: Auto* names the shape they call for and whose call it is ([D306](06-decisions.md)) |
+| D3.37 | Fight a band with a mender or an archer in it, and watch the leader's target | "Get the healer!" or "On the archer!" over the leader's head and in the log, once; the one named backs off for a moment and a foe steps in front of them ([D306](06-decisions.md)) |
+| D3.38 | Watch a band of three or more patrol on open ground, then along a path through trees | In the open they walk as a wedge or a diamond round the one in front, facing the way they go; through the trees they file behind it; the fight opens with them in their shape ([D320](06-decisions.md)) |
 | D3.9 | Climb past floor 5 (floor 6 on)                      | A Tower floor you walk, laid out like one of floors 1 to 4, with two bands of the floor's own foes (named "Floor 6 — Cohort of …"); stepping into their red fights them on the floor; the stair climbs on ([D207](06-decisions.md)) |
 
 ## D4 — Atlas's last stand ([D191](06-decisions.md), once the tutorial of [D73](06-decisions.md))
@@ -296,6 +319,7 @@ Delete `settings.cfg`, `earth-kings.sixteen.json` and the save from the user fol
 | D4.8 | Press **Choose who comes next**, answer, pick         | The quiz never deals Atlas; the whole opening plays, its ending shot "Atlas fell in Hearthwick…", his ghost at the fire; you land on the road to the great city |
 | D4.9 | Back at the title, press **Atlas's Last Stand**       | It plays again with **End tutorial** on the card; at the end, **Back to the title**, and nothing more is written down |
 | D4.10 | Delete `earth-kings.sixteen.json` only, then **New Game** | "You've played Atlas's last stand before. Play it again, or skip it?"; **Skip it** goes to the quiz with Atlas fallen; **Back** closes the card |
+| D4.11 | Count the cards from New Game to the doomed fight | Seven: walking, talking, buying, a favour, your company, the sparring fight, the gate in the hills ([D300](06-decisions.md)) |
 ## D5 — One land ([D84](06-decisions.md))
 
 Start a run (not the tutorial) and walk.
@@ -361,6 +385,11 @@ Start a run (not the tutorial) and walk.
 | D5.57 | Go into a gate on snow, then one on ash, then a rank C gate's second floor | Snow ground with ice for walls; ash with lava; the C gate's second floor a different kind from its first ([D261](06-decisions.md)) |
 | D5.58 | On a gate's first floor, walk past a band to the way down; then put the band down | "The way down will not open while anything on this floor still stands"; once it is down, the way down opens. Auto walks to each band in turn |
 | D5.59 | Shut a gate, walk out, and walk back past it | "Folk ... come running as it falls, cheering"; the gate lies broken in its mouth and three folk stand there thanking you |
+| D5.60 | Rest at a village a few times, then walk to the standing stone the host spoke of | "The host speaks of … It is marked on your map"; a standing stone appears on the map; E there walks into the wild place, which says what it keeps once, and the journal's annals have it ([D309](06-decisions.md)) |
+| D5.61 | Hear of a wild place at rest, then rest again and read the board | *What keeps the hush wood* is on the board, paid for the walk; take it, clear the band by the wild's far chest, come back: "is settled" and the coin ([D310](06-decisions.md)) |
+| D5.62 | In a world after a fall, climb as far as the dead lead did and walk to the crater | Half the time "Something was on it before the dust settled": a band stands over the crater; walking onto it says it will take a fight; beat the band and the weapon lies free; lose and another band is on it ([D311](06-decisions.md)) |
+| D5.63 | On the wind scarp, stand on the bare earth below a shelf and click on the shelf; then turn Auto on | The party walks to the nearest slope and up it, never straight at the shelf; Auto makes for the way out by the slopes; a click on a shelf with no slope says "There is no way up to there from here." once ([D312](06-decisions.md)) |
+| D5.64 | On the wind scarp, draw the guard into a fight at a shelf's edge; kick one of them off it, and have one kick you from below | Kicked off the edge: the body slides down a tile, "Off the edge", a tenth of its health gone, flat for a moment; kicked at the shelf from below: "Pinned", nobody goes up; the guard walks to the slopes to reach you, never straight up ([D313](06-decisions.md)) |
 
 ## H — Conversation and the camp
 

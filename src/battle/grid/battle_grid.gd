@@ -24,6 +24,12 @@ var _pointer_out: bool = false
 
 var _terrain_ids: Dictionary = {}  ## Vector2i -> terrain id String
 var _ground_decor: Dictionary = {}
+## Heights the field carries of its own ([D313]: a fight on ground with heights, `heights` rows of
+## digits in the map), over the terrain's; and the cells where a height can be climbed (`ways_up`).
+var _heights: Dictionary = {}  ## Vector2i -> int
+var ways_up: Dictionary = {}  ## Vector2i -> true
+## Whether this field walks its heights the ground's way ([D308]): down anywhere, up only at a way up.
+var ledged: bool = false
 
 const _NEIGHBOUR_OFFSETS: Array[Vector2i] = [
 	Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)
@@ -61,6 +67,16 @@ func load_map(map: Dictionary) -> void:
 		for x in row.length():
 			var symbol := row[x]
 			_terrain_ids[Vector2i(x, y)] = legend.get(symbol, "grass")
+	_heights.clear()
+	ways_up.clear()
+	ledged = map.has("heights")
+	var heights: Array = map.get("heights", [])
+	for y in heights.size():
+		var row := str(heights[y])
+		for x in row.length():
+			_heights[Vector2i(x, y)] = row[x].to_int()
+	for pair: Variant in map.get("ways_up", []):
+		ways_up[Vector2i(int(pair[0]), int(pair[1]))] = true
 	queue_redraw()
 
 
@@ -82,7 +98,29 @@ func move_cost(cell: Vector2i) -> int:
 
 
 func height_at(cell: Vector2i) -> int:
+	if _heights.has(cell):
+		return int(_heights[cell])
 	return int(terrain_at(cell).get("height", 0))
+
+
+## Whether a fighter who can jump [param jump] may step from [param from] onto [param to]: on a
+## hand-made field as far up or down as the jump; on ground with heights ([D313], [member ledged],
+## the walker's rule of [D308]) down anywhere, up one height only onto or off a way up.
+func may_step(from: Vector2i, to: Vector2i, jump: int) -> bool:
+	var rise := height_at(to) - height_at(from)
+	if not ledged:
+		return absi(rise) <= jump
+	if rise <= 0:
+		return true
+	return rise == 1 and (ways_up.has(to) or ways_up.has(from))
+
+
+## Whether a body can be shoved from [param from] onto [param to]: on ground with heights never up
+## a ledge, however small ([D313]); on a hand-made field no higher than its jump.
+func may_shove(from: Vector2i, to: Vector2i, jump: int) -> bool:
+	if ledged:
+		return height_at(to) <= height_at(from)
+	return height_at(to) - height_at(from) <= jump
 
 
 func is_walkable(cell: Vector2i) -> bool:

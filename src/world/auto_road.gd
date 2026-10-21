@@ -158,7 +158,7 @@ static func road_objective(world: World) -> Dictionary:
 						and (first == null or gate.expected_level() < first.expected_level()):
 					first = gate
 		if first != null:
-			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.rank], "stop": false}
+			return {"cell": first.cell, "label": "%s (rank %s)" % [first.display_name, first.reading()], "stop": false}
 
 	if tower != null and not world.tower_is_topped():
 		# The first floors are walked by hand, so a party walking itself stops at the door (D102):

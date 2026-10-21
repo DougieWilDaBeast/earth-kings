@@ -23,6 +23,8 @@ var stairs: Array[Vector2i] = []
 var spots: Dictionary = {}
 ## cell -> a flag standing there sets: something found for somebody's favour ([Talk]).
 var spot_flags: Dictionary = {}
+## The spots that are pages of the place's story ([D314]): cell -> true.
+var story_pages: Dictionary = {}
 ## cell -> what is in the chest sitting on it; opened ones stay opened.
 var chests: Dictionary = {}
 ## Houses standing in the area: solid ground with one door leading inside.
@@ -54,6 +56,11 @@ var bands: Array = []
 var astar: AStarGrid2D = null
 
 var _terrain: Array[String] = []
+## Cells where higher ground can be climbed onto, or climbed off, from the ground a height below
+## ([D308]): a slope, a ladder, a rope. Anywhere else a shelf is only dropped off.
+var ways_up: Dictionary = {}
+## Whether any terrain of this area stands a height up, so the step rule and the ledges apply.
+var _heights_vary: bool = false
 ## Cells a piece of furniture is standing on, which nobody walks through.
 var _blocked: Dictionary = {}
 ## Cell -> the props standing on it, so asking what is on a cell is not a walk through all of them.
@@ -81,6 +88,11 @@ static func load_area(area_id: String) -> AreaMap:
 
 	for sheet_id: String in data.get("layers", ["dirt"]):
 		map.layers.append(sheet_id)
+	for terrain_id: Variant in legend.values():
+		if int(Database.area_terrain(str(terrain_id)).get("height", 0)) != 0:
+			map._heights_vary = true
+	for pair: Array in data.get("ways_up", []):
+		map.ways_up[_to_cell(pair)] = true
 	map.spawn = _to_cell(data.get("spawn", [0, 0]))
 	for pair: Array in data.get("exits", []):
 		map.exits.append(_to_cell(pair))
@@ -90,6 +102,8 @@ static func load_area(area_id: String) -> AreaMap:
 		map.spots[_to_cell(spot.get("cell", [0, 0]))] = spot.get("line", "")
 		if spot.has("set_flag"):
 			map.spot_flags[_to_cell(spot.get("cell", [0, 0]))] = str(spot["set_flag"])
+		if bool(spot.get("page", false)):
+			map.story_pages[_to_cell(spot.get("cell", [0, 0]))] = true
 	for chest: Dictionary in data.get("chests", []):
 		map.chests[_to_cell(chest.get("cell", [0, 0]))] = chest
 	# `dressing` is scenery written by tools/dress_areas.py, kept apart from the props an area's
@@ -200,6 +214,9 @@ func find_cell_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
 			to_cell = best_neighbor
 		else:
 			return []
+	# Ground with heights is walked only where a walker may step ([D312]).
+	if _heights_vary:
+		return _height_path(from_cell, to_cell)
 	var cell_path := astar.get_id_path(from_cell, to_cell)
 	var path: Array[Vector2] = []
 	for cell in cell_path:
@@ -274,6 +291,89 @@ func is_walkable(cell: Vector2i) -> bool:
 	if not building.is_empty() and building["door"] != cell:
 		return false
 	return bool(Database.area_terrain(terrain_at(cell)).get("walkable", true))
+
+
+# --- heights ([D287], [D308]) --------------------------------------------------------------
+
+
+## Whether this ground has any higher ground on it.
+func has_heights() -> bool:
+	return _heights_vary
+
+
+## How many heights up [param cell] stands: its terrain's `height` (`tilesets.json`), 0 for most.
+func height_at(cell: Vector2i) -> int:
+	if not _heights_vary:
+		return 0
+	return int(Database.area_terrain(terrain_at(cell)).get("height", 0))
+
+
+## Whether a walker on [param from] may step onto [param to]: down is always free, up one height only
+## onto or off a way up (a slope), up two or more never. [param to] still has to be walkable.
+func may_step(from: Vector2i, to: Vector2i) -> bool:
+	if not _heights_vary or from == to:
+		return true
+	var rise := height_at(to) - height_at(from)
+	if rise <= 0:
+		return true
+	return rise == 1 and (ways_up.has(to) or ways_up.has(from))
+
+
+## How many heights a walker drops stepping from [param from] to [param to]; 0 for level or up.
+func drop(from: Vector2i, to: Vector2i) -> int:
+	if not _heights_vary:
+		return 0
+	return maxi(0, height_at(from) - height_at(to))
+
+
+## A way over ground with heights ([D312]): the shortest by cells that steps only where a walker may
+## ([method may_step]: down anywhere, up only at a way up), a drop that would hurt counted as
+## `heights.path_drop_cost` cells more, so a walk goes round by the slope rather than at the shelf and
+## off a long drop only when there is no other way. Empty when there is none. Flat ground keeps the
+## grid's own search; the grid's shut cells (walls, a ward) are shut here too.
+func _height_path(from_cell: Vector2i, to_cell: Vector2i) -> Array[Vector2]:
+	var path: Array[Vector2] = []
+	if from_cell == to_cell:
+		path.append(centre_of(from_cell))
+		return path
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	var hurt_from := int(rules.get("hurt_from", 2))
+	var drop_cost := float(rules.get("path_drop_cost", 6))
+	var cost: Dictionary = { from_cell: 0.0 }
+	var came: Dictionary = {}
+	var open: Array = [[_as_the_crow_flies(from_cell, to_cell), 0.0, from_cell]]
+	while not open.is_empty():
+		var best := 0
+		for i in range(1, open.size()):
+			if open[i][0] < open[best][0]:
+				best = i
+		var here: Array = open.pop_at(best)
+		var cell: Vector2i = here[2]
+		if cell == to_cell:
+			break
+		if float(here[1]) > float(cost[cell]):
+			continue
+		for step: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var next := cell + step
+			if not in_bounds(next) or astar.is_point_solid(next) or not may_step(cell, next):
+				continue
+			var so_far := float(cost[cell]) + 1.0 + (drop_cost if drop(cell, next) >= hurt_from else 0.0)
+			if not cost.has(next) or so_far < float(cost[next]):
+				cost[next] = so_far
+				came[next] = cell
+				open.append([so_far + _as_the_crow_flies(next, to_cell), so_far, next])
+	if not came.has(to_cell):
+		return path
+	var back := to_cell
+	while back != from_cell:
+		path.push_front(centre_of(back))
+		back = came[back]
+	path.push_front(centre_of(from_cell))
+	return path
+
+
+static func _as_the_crow_flies(a: Vector2i, b: Vector2i) -> float:
+	return float(absi(a.x - b.x) + absi(a.y - b.y))
 
 
 ## The cells a solid prop stands on: its own, or a `base` [width, depth] centred on it and

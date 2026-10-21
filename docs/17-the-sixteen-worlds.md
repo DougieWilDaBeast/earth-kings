@@ -121,7 +121,8 @@ still standing.
    die.
 3. **The dead lead's signature weapon.** Every one of the sixteen has a weapon made for them. When
    they die it **crash-lands somewhere in the next world** — god-tier, but nobody is proficient with
-   it, and somebody else may have found it first. Rumours lead to it. **Finding it is what opens the
+   it, and somebody else may have found it first: half the time a band of the land stands over the crater
+   and has to be beaten before it can be picked up ([D311](06-decisions.md)). Rumours lead to it. **Finding it is what opens the
    ghost fully.** Where it lands the first time: **anywhere the company can walk**, found by rumour (`doug-md`,
    2026-10-12, [D60](06-decisions.md); built; waits on `doug-md`).
 

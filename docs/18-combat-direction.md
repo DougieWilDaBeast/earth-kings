@@ -284,6 +284,12 @@ a wild fight with the starting party. The checklist is [10 — Manual tests, E2]
   never carries these, even where it is the same move (the fire mages' ember, the frost wolves'
   frostbite), or every swing would. `src/skirmish/skirmish_conditions.gd`;
   `conditions` in `data/skirmish.json`. Before and after shots: `tests/fight_effects_shot.tscn`.
+- **Heights in a fight** (2026-10-21, [D313](06-decisions.md), from both founders at the founders' meeting,
+  [D287](06-decisions.md): "a fighter on a height can be shoved off it"). A fight laid over ground with heights
+  ([D308](06-decisions.md), the wind scarp) takes the ground's heights and slopes: a fighter steps down
+  anywhere and up only at a slope, so the brains walk to the slopes; a body is never shoved up a ledge
+  (**Pinned**), and shoved off one it falls, **Off the edge**, a tenth of its health for every height and
+  knocked down 1.2 s where it lands. A hand-made field's heights stay the jump's. **Inferred** (agenda 221).
 
 **Reach.** A blow at arm's length (`range` 1) reaches the eight cells round a fighter, the diagonals too
 ([D246](06-decisions.md)): with only the four beside, two fighters a diagonal apart stepped sideways
@@ -367,7 +373,11 @@ stands on the heart ([D45](06-decisions.md)). Losing is every party member down.
   and falls for real as above;
 - the lost leave the marching order, a won map is marked cleared, `last_victory` is set, and
   `EventBus.battle_finished` is told `{victory, map_id}`;
-- after two seconds the fight hands back to its `return_scene`, with its `return_payload`.
+- after two seconds the fight hands back to its `return_scene`, with its `return_payload`;
+- **walked out of** (2026-10-21, [D319](06-decisions.md), Ewan's ask #243): whoever reaches the field's edge
+  takes a parting blow of a tenth of their health, never a fall, and when the whole company gets clear of a
+  band of the land the band keeps a tenth of the company's coin, dropped in the running; a gate's or the
+  Tower's fight keeps no coin. `rules.flee` in `data/skirmish.json`.
 
 **A sandbox fight** (`sandbox` in the payload: training and the coliseum) writes none of that. The
 run's ledger is switched off for it, nobody's fall is settled (the graces roll through
@@ -404,7 +414,8 @@ party fighting on its own, Auto, both leads in a bout), so the tactics are in th
 (`SkirmishBrain.pick_tactic`, `doctrine`, and the focus in `pick_target`) and change every fight in
 the game. They are hand-written rules, not a learned model: they run at once in the browser and on
 phones, a seed still gives the same fight, and every move can be read and tuned in
-`data/skirmish.json` → `tactics`.
+`data/skirmish.json` → `tactics`. What a learned model behind the same seam would cost, and the
+offline table to try before one, is [investigation 12](investigation/12-a-small-model-for-fight-plans.md) ([D298](06-decisions.md)).
 
 Each fighter has a **doctrine**: the lead's own (`leads`), else its enemy role's (`roles`), else a
 brute's. A doctrine is the moves it tries, in order, and its **focus**: whom it would walk further for.
@@ -478,6 +489,73 @@ stance) every stance won all twelve: Own way in 38 s with two thirds of the part
 Close in 24 s (0.74), Guard 28 s (0.67), Hold 59 s (0.74) and Keep away 68 s (0.59). So a stance is
 a real choice and none of them throws a fight. The words, the keys, the escort's two tiles and that a
 stance lasts between fights are **Inferred** (agenda 124 and 133).
+
+### Formations
+
+**Built 2026-10-20** ([D305](06-decisions.md), meeting six's piece E1, from [D289](06-decisions.md)).
+`doug-md`: "the healer at the back, heavy hitters at the front, others on the flanks (a diamond for
+four, a pyramid of one, two and three for six)". Five shapes, in `data/skirmish.json` → `formations`,
+each a set of cells round the lead, who is always the origin, so a shape turns with whoever is played:
+
+| Shape | Who stands where (the lead at ·) |
+| --- | --- |
+| Line | everyone abreast of the lead, blades to either side |
+| Column | single file behind the lead; the mender last |
+| Diamond | a blade ahead, one at each flank, the mender behind |
+| Wedge | the lead at the point, blades at each shoulder, the rest behind them |
+| Pyramid | one, two and three: the lead, two blades, then three |
+
+Companions are dealt slots by what they fight with: a mender or a shooter (the ranged and keeper
+doctrines, or a mend or a bow read from a recruit's abilities) to the back line first, one who swings
+up close to the front, anyone else to the flanks; the same party is dealt the same way every time. The
+player picks a shape on the lead's party sheet (*Formation: Diamond*; a tap steps to the next) or
+leaves it on *Auto*, which picks by how many walk (two abreast, three a wedge, four a diamond, five a
+wedge, six a pyramid). The pick is kept in the save.
+
+**Walking**: the followers walk to their slots round the lead, 40 pixels a slot, and wherever a slot
+cannot be stood on (a door, a wall, a narrow way) that follower falls back to the trail behind the
+lead, so a corridor still files them. **Fighting**: until anyone of the party is in contact with a foe,
+a companion with nothing else to do falls in to its slot ("falls in", every 1.5 s, the last move tried,
+so a stance's own come first); a companion standing within a tile of its slot takes 8% less of every
+blow (`hold_guard`), the Formation aura's idea as the bonus for holding one. Enemies, allies and the
+who-wins bouts fight as they did.
+
+The five shapes' cells, the lines, the sheet's button rather than a wheel, the 40 pixels, the fall-in
+ending on contact and the 8% are **Inferred** (agenda 213).
+
+### The leader, call-outs and fights shared
+
+**Built 2026-10-20** ([D306](06-decisions.md), piece E2, from [D289](06-decisions.md)). `doug-md`: "a
+natural leader comes out of the fights and need not be the lead you play"; `dougie`: "short call-outs in a
+fight, not chatter, heard by both sides, so a shout of 'get the healer' warns the foe", and "a bonus for
+fights shared, across every role, so a seasoned party works as a unit even without a leader".
+
+- **The leader.** Each of the company counts the fights they came through (won and lost). The one with
+  the most won, three or more (ties to the higher level, then the marching order), leads the fights; the
+  card says so (*leads the fights (7 won)*). They call for a shape by the line they fight in: a mender or
+  a shooter a wedge (the mender inside the V), a blade a diamond, anyone else a line; *Auto* takes it
+  (*Formation: Auto (Wedge, Vesta's call)*), and the player may pick another.
+- **Call-outs.** When a side's caller (the party's leader, else its lead; a foe band's boss, else the first
+  of them) goes for a mender or a shooter, they shout it once per foe: "Get the healer!", "On the archer!",
+  over their head and in the log. Both sides hear: the one called is warned for 3 s and tries to get clear
+  first (break off, hang back, kite), and a friend within reach guards them as if they were under half
+  health. A shout warns the foe, as `dougie` asked; it is a choice with a cost.
+- **Fights shared.** Each keeps how many fights they won beside each of the others. In a fight a party
+  fighter is spared 0.4% of every blow, and lands 0.4% more, for every fight won beside the others
+  standing with them (their average), up to 8%.
+- **Breaking.** A companion whose mood is under 35 ([D279](06-decisions.md)) holds no slot and does not
+  fall in, on the ground or in a fight.
+
+`data/skirmish.json` → `formations.leader`, `callouts`, `shared` and `break_below_mood` hold the numbers
+and words. A band of foes falls in too (2026-10-21, [D315](06-decisions.md)): from three standing, round its
+boss or its first, in the shape the party's Auto would pick for its size, facing the nearest of the party,
+until any of it is in contact; holding a slot earns a foe nothing (`formations.foes`). On the ground a band of three
+or more patrols and travels in the same shape round the one in front, falling back to single file where a slot
+cannot be stood on ([D320](06-decisions.md)). **Still to come**: the
+wheel on a held key, a leader's orders beyond the call-out, plans made between fights and kept quiet in
+them, and trust breaking a formation. Fights won as
+the measure, three as the floor, the shapes called for, the two shouts and their 3 s, 0.4% and 8%, and 35
+are **Inferred** (agenda 214).
 
 ## Who wins?
 

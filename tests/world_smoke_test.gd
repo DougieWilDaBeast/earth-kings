@@ -15,10 +15,14 @@ const Company := preload("res://tests/company.gd")
 const CHECKS := [
 	"world", "progression", "doctrine", "class_choice", "fate", "roster", "encounters",
 	"errands", "trivia", "grimoires", "memorials", "dialogue", "walking", "lands", "land_journals", "remembered", "arcs", "road", "edges", "scenery", "round_trip", "one_world", "tiers",
-	"road_clock",
+	"road_clock", "fallen_gates", "wilds",
 ]
 
 const Biome := preload("res://src/chronicle/biome.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Route := preload("res://src/world/route.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
@@ -48,6 +52,8 @@ func _ready() -> void:
 		match name:
 			"world": _check_world(world)
 			"one_world": _check_one_world()
+			"fallen_gates": _check_fallen_gates(world)
+			"wilds": _check_wilds(world)
 			"progression": _check_progression(hero, world)
 			"doctrine": _check_doctrine(hero, world)
 			"class_choice": _check_class_choice(world)
@@ -118,7 +124,222 @@ func _check_one_world() -> void:
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
 
 
+## Places worth going to ([D287], [D309]): a dozen wild places on the map, each on its own kind of ground
+## with an inside and a lure, unknown until found or heard of at rest; the host's word marks the nearest.
+func _check_wilds(world: World) -> void:
+	print("")
+	var wilds := Wilds.all(world)
+	_expect(wilds.size() >= 10, "the map has %d wild places" % wilds.size())
+	var kinds := {}
+	for place: Site in wilds:
+		_expect(world.is_walkable(place.cell), "%s stands on unwalkable ground" % place.display_name)
+		var area := str(place.data.get("area", ""))
+		_expect(Database.has_area(area) and str(Database.area(area).get("lure", "")) != "", "%s has no inside or no lure (%s)" % [place.display_name, area])
+		kinds[area] = true
+		for other: Site in world.sites:
+			if other != place and other.kind != Site.WILD:
+				_expect(Pathfinder.distance(place.cell, other.cell) >= 5, "%s is on top of %s" % [place.display_name, other.display_name])
+		_expect(not Atlas.knows(world, place), "%s is known before anyone found it" % place.display_name)
+	_expect(kinds.size() >= 4, "the wild places are only %d kinds" % kinds.size())
+	# Heard of at rest: the nearest unknown is marked and named with its lure.
+	var village: Site = world.sites_of_kind(Site.VILLAGE)[0]
+	var nearest := Wilds.nearest_unknown(world, village.cell, 200)
+	_expect(nearest != null, "no wild place is unknown to %s" % village.display_name)
+	var said := Wilds.rumour(world, village)
+	_expect(said != "" and nearest != null and said.contains(nearest.display_name) and said.contains(Wilds.lure_of(nearest)),
+			"the host's word does not name the nearest wild and what it holds: %s" % said)
+	_expect(nearest != null and Atlas.knows(world, nearest), "the wild spoken of is not on the map")
+	var again := Wilds.rumour(world, village)
+	_expect(again == "" or not again.contains(nearest.display_name), "the host spoke of the same wild twice")
+	# Found: a line once, a page in the annals, kept in the save.
+	var annals_before := world.annals.size()
+	var first := Wilds.found(world, nearest)
+	_expect(first != "" and world.annals.size() == annals_before + 1 and bool(nearest.data.get("found", false)), "finding a wild place said nothing or wrote nothing")
+	_expect(Wilds.found(world, nearest) == "", "a wild place was found twice")
+	# Its quest is found at the wild itself ([D316]): walking in takes clearing it, for the nearest settlement known.
+	var errands_before: Array = GameState.errands.duplicate()
+	var posted_before := GameState.flags.duplicate()
+	GameState.errands = []
+	var taken := RumourJobs.found_at_the_wild(world, nearest)
+	var quest: Dictionary = GameState.errands[0] if GameState.errands.size() == 1 else {}
+	_expect(taken != "" and str(quest.get("kind", "")) == Errand.WILD and str(quest.get("flag", "")) == Wilds.guard_flag(nearest)
+			and int(quest.get("gold", 0)) > 0, "walking into a wild did not take its quest: %s / %s" % [taken, quest])
+	var payer := world.site_at(Errand._cell_of(quest.get("from", [])))
+	_expect(payer != null and Errand._is_settlement(payer) and Atlas.knows(world, payer) and str(quest.get("giver", "")).contains(payer.display_name),
+			"the wild's quest is paid nowhere, or nowhere on the map: %s" % [quest.get("from")])
+	_expect(RumourJobs.found_at_the_wild(world, nearest) == "" and GameState.errands.size() == 1, "the wild's quest was taken twice")
+	_expect(GameState.has_flag(RumourJobs.POSTED_FLAG + "wild:%s" % nearest.display_name), "the board may still post a quest the company already has")
+	GameState.errands = errands_before
+	GameState.flags = posted_before
+	var saved := World.from_dict(world.to_dict())
+	_expect(bool(saved.site_at(nearest.cell).data.get("found", false)) and Atlas.knows(saved, saved.site_at(nearest.cell)), "the found wild was lost in the save")
+	# The land's own creatures guard the far chest of every wild.
+	var inside := AreaMap.load_area(str(nearest.data.get("area", "")))
+	var stocked := Wilds.stock(inside, world, nearest.cell, GameState.party_characters(), inside.bands)
+	_expect(stocked.size() == inside.bands.size() + 1, "%s has no guard" % nearest.display_name)
+	if stocked.size() == inside.bands.size() + 1:
+		var guard: Dictionary = stocked.back()
+		var at := Vector2i(int(guard["at"][0]), int(guard["at"][1]))
+		_expect((guard.get("pack", []) as Array).size() == int(Wilds.rules().get("guard_size", 3)) and inside.is_walkable(at)
+				and bool(guard.get("held", false)) and str(guard.get("done_flag", "")).begins_with("done:wild_guard_"),
+				"the guard is not a held band of three on open ground: %s" % [guard])
+		_expect(stocked == Wilds.stock(inside, world, nearest.cell, GameState.party_characters(), inside.bands), "the guard is dealt differently each time")
+		print("wilds: %s is guarded by %s" % [nearest.display_name, guard.get("label", "")])
+	# A quest in a wild place ([D310]): once heard of, the board can post clearing it.
+	var board_before: Variant = village.data.get("errand")
+	village.data.erase("errand")
+	var flags_before := GameState.flags.duplicate()
+	var job := {}
+	for i in 12:
+		job = RumourJobs.compose(world, village)
+		if str(job.get("kind", "")) == Errand.WILD:
+			break
+	_expect(str(job.get("kind", "")) == Errand.WILD and Atlas.knows(world, world.site_at(Errand._cell_of(job.get("to", [])))),
+			"the board did not post clearing a wild the party has heard of: %s" % [job])
+	if str(job.get("kind", "")) == Errand.WILD:
+		_expect(str(job.get("title", "")).contains("What keeps") and int(job.get("gold", 0)) > 0 and str(job.get("flag", "")).begins_with("done:wild_guard_"),
+				"the wild job is not worded or paid: %s" % [job])
+		_expect(not Errand.is_complete(job) and Errand.progress(job).begins_with("clear"), "the wild job is done before the guard is")
+		GameState.set_flag(str(job["flag"]))
+		_expect(Errand.is_complete(job) and Errand.progress(job) == "cleared", "beating the guard did not finish the job")
+		_expect(Dispatch.open_errands([job]).is_empty(), "a wild job can be sent a companion on")
+	GameState.flags = flags_before
+	if board_before != null:
+		village.data["errand"] = board_before
+	else:
+		village.data.erase("errand")
+	print("wilds: %d places of %d kinds; %s" % [wilds.size(), kinds.size(), said])
+	# Tidy: nothing of this is kept for the checks after.
+	nearest.data.erase("found")
+	world.annals.resize(annals_before)
+
+
+## A fallen lead's demon king holds some gates of the world after, and the Gate Key tears a gate
+## where it is turned ([D293], [D304]).
+func _check_fallen_gates(world: World) -> void:
+	print("")
+	var kept_echoes := world.echoes
+	var kept_keys := GameState.keys.duplicate()
+	var kept_flags := GameState.flags.duplicate()
+	var kept_sites := world.sites.size()
+	var past: Array = [{ "hero": "iris", "name": "Iris", "level": 9 }]
+	world.echoes = { "sibling": 1, "past": past }
+
+	# No fall, no demon king; and never below rank C.
+	var quiet := Site.create(Site.GATE, Vector2i(1, 1), "Quiet")
+	quiet.rank = "B"
+	_expect(quiet.demon_king([]) == "", "a gate held a demon king before anyone fell")
+	var held := 0
+	for i in 1000:
+		var gate := Site.create(Site.GATE, Vector2i(i % 100, i / 100), "G%d" % i)
+		gate.rank = "B"
+		if gate.demon_king(past) != "":
+			held += 1
+	_expect(held > 120 and held < 280, "%d of 1000 B gates held a demon king with one world fallen, not about one in five" % held)
+	var low := 0
+	for i in 200:
+		var gate := Site.create(Site.GATE, Vector2i(i % 100, i / 100), "E%d" % i)
+		gate.rank = "E"
+		if gate.demon_king(past) != "":
+			low += 1
+	_expect(low == 0, "%d E gates held a demon king" % low)
+	print("demon kings: %d of 1000 B gates with one world fallen" % held)
+
+	# The keeper is the fallen lead, named, and never under the level they fell at.
+	var ashen := Site.create(Site.GATE, Vector2i(5, 5), "Ashen")
+	ashen.rank = "C"
+	ashen.data["demon"] = "iris"
+	var party := Company.found().party_members()
+	var met := Encounter.for_gate(world, ashen, 0, true, party, world.rng)
+	var bosses: Array = met.get("enemies", []).filter(func(f: Dictionary) -> bool: return bool(f.get("boss", false)))
+	_expect(bosses.size() == 1 and str(bosses[0].get("unit", "")) == "iris", "the demon king's gate was not kept by Iris (%s)" % [bosses])
+	_expect(not bosses.is_empty() and int(bosses[0].get("level", 0)) >= 9, "Demon King Iris stood under the level she fell at")
+	_expect(str(met.get("title", "")).contains("Demon King Iris"), "the keeper's title does not name the demon king: %s" % met.get("title", ""))
+	var said := ashen.gone_into(1, past)
+	_expect(ashen.label().contains("Demon King Iris"), "the map label does not name the demon king: %s" % ashen.label())
+	_expect(said.any(func(l: String) -> bool: return l.contains("Demon King Iris")), "going in did not say who holds it")
+	_expect(ashen.gone_into(1, past).is_empty(), "the demon king was announced twice")
+	var words := ashen.demon_words("iris")
+	_expect(str(words.get("their", "")) == "her" and str(words.get("Their", "")) == "Her", "Iris's words are not hers: %s" % [words])
+	_expect(Site.from_dict(ashen.to_dict()).label() == ashen.label(), "the demon king was lost in the save")
+
+	# The Gate Key: a shut double gate always gives it, once, with the gate's rank; then it tears a gate.
+	GameState.keys = []
+	GameState.flags.erase("gate_key:rank")
+	_expect(Site.key_rank() == "", "a key was in hand before any was found")
+	var twice := Site.create(Site.GATE, Vector2i(7, 7), "Twice")
+	twice.rank = "C"
+	twice.data["double"] = true
+	var found := Spoils.gate_key(world, twice)
+	_expect(GameState.keys.has("gate_key") and not found.is_empty(), "a shut double gate gave no Gate Key")
+	_expect(Site.key_rank() == "C", "the key did not keep its gate's rank (%s)" % Site.key_rank())
+	_expect(Spoils.gate_key(world, twice).is_empty(), "a second key came while one was held")
+	var from := world.player_cell
+	var torn := Site.tear(world, from, Site.key_rank())
+	_expect(torn != null, "the Gate Key tore nothing")
+	if torn != null:
+		_expect(torn.kind == Site.GATE and torn.open and torn.rank == "C" and not torn.cleared, "the torn gate is not an open C gate")
+		_expect(world.site_at(torn.cell) == torn and Pathfinder.distance(torn.cell, from) <= 2, "the torn gate is not where the key was turned")
+		_expect(world.is_walkable(torn.cell), "the torn gate stands on unwalkable ground")
+		_expect(str(torn.data.get("faction", "")) != "" and torn.floors() >= 1, "the torn gate has no holder or no floors")
+		_expect(not torn.misread() or torn.reading() == torn.rank, "a torn gate's rank is not what the key said")
+		var again := World.from_dict(world.to_dict()).site_at(torn.cell)
+		_expect(again != null and bool(again.data.get("instant", false)) and again.open, "the torn gate was lost in the save")
+		var second := Site.tear(world, from, "D")
+		_expect(second != null and second.display_name != torn.display_name and second.cell != torn.cell, "two torn gates share a name or a cell")
+		print("torn gates: %s at %s, then %s at %s" % [torn.display_name, torn.cell, second.display_name if second != null else "", second.cell if second != null else Vector2i.ZERO])
+
+	world.sites.resize(kept_sites)
+	world.echoes = kept_echoes
+	GameState.keys = kept_keys
+	GameState.flags = kept_flags
+
+
+## A gate's rank is a reading, and a double gate climbs once gone into ([D293], [D302]).
+func _check_readings() -> void:
+	var misread := 0
+	var doubled := 0
+	var lying: Site = null
+	for i in 1000:
+		var gate := Site.create(Site.GATE, Vector2i(i % 40, i / 40), "Gate %d" % i)
+		gate.rank = "B"
+		if gate.misread():
+			misread += 1
+			lying = gate
+		if gate.is_double(0):
+			doubled += 1
+		var low := Site.create(Site.GATE, gate.cell, "Low")
+		low.rank = "D"
+		_expect(not low.misread(), "a D-rank gate read wrong")
+	_expect(misread > 50 and misread < 150, "%d of 1000 B-rank gates read wrong, not about one in ten" % misread)
+	_expect(doubled > 50 and doubled < 150, "%d of 1000 gates were double, not about one in ten" % doubled)
+	if lying != null:
+		_expect(lying.reading() == "C" and lying.label().contains("C-rank"), "a misread B gate reads %s" % lying.reading())
+		var said := lying.gone_into(0)
+		_expect(lying.reading() == "B" and said.size() >= 1, "going into a misread gate did not show what it is")
+	var double := Site.create(Site.GATE, Vector2i(3, 3), "Twice")
+	double.rank = "E"
+	double.data["double"] = true
+	var floors := double.floors()
+	var lines := double.gone_into(0)
+	_expect(double.rank == "D" and double.sealed_in(), "a double gate did not climb and shut its way out (%s)" % double.rank)
+	_expect(lines.any(func(l: String) -> bool: return l.contains("double")), "nobody said it was a double gate")
+	double.gone_into(0)
+	_expect(double.rank == "D", "a double gate climbed twice")
+	_expect(double.floors() >= floors, "a double gate got shallower")
+	double.cleared = true
+	_expect(not double.sealed_in(), "a shut double gate kept its way out shut")
+	var more := 0
+	for i in 400:
+		var gate := Site.create(Site.GATE, Vector2i(i, 7), "G")
+		gate.rank = "C"
+		if gate.is_double(3):
+			more += 1
+	_expect(more > 400 * 0.3, "three fallen worlds did not make double gates commoner (%d of 400)" % more)
+
+
 func _check_world(world: World) -> void:
+	_check_readings()
 	_expect(world.tiles.size() == world.size.y, "world has %d rows" % world.tiles.size())
 	for row: String in world.tiles:
 		if row.length() != world.size.x:

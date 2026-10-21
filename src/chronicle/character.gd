@@ -101,6 +101,11 @@ var marks: Dictionary = {}
 ## How they fight when the player is playing ([D195]): a key of `tactics.stances` in
 ## `data/skirmish.json`. Kept between fights; "own" is the fighter's own doctrine.
 var stance: String = "own"
+## Fights they came through, `{ won, lost }` ([D306]): the one with the most won leads the fights.
+var fights: Dictionary = {}
+## Other character id -> fights won beside them ([D306]): a party that has fought together works
+## as a unit, a little, even without a leader.
+var shared: Dictionary = {}
 ## What they are carrying in their head ([D279], [Moods]): `{ id, label, mood, until }`, until a
 ## world step. Their sum and a base make their mood.
 var thoughts: Array = []
@@ -396,6 +401,8 @@ func to_dict() -> Dictionary:
 		"thoughts": thoughts,
 		"honed": honed,
 		"stance": stance,
+		"fights": fights,
+		"shared": shared,
 	}
 
 
@@ -449,6 +456,10 @@ static func from_dict(data: Dictionary) -> Character:
 	character.stance = str(data.get("stance", "own"))
 	for weapon: String in data.get("honed", {}):
 		character.honed[weapon] = int(data["honed"][weapon])
+	for key: String in data.get("fights", {}):
+		character.fights[key] = int(data["fights"][key])
+	for other_id: String in data.get("shared", {}):
+		character.shared[other_id] = int(data["shared"][other_id])
 	for thought: Variant in data.get("thoughts", []):
 		if thought is Dictionary:
 			character.thoughts.append({

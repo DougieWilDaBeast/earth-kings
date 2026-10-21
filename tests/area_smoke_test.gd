@@ -30,12 +30,15 @@ const Coins := preload("res://src/chronicle/coins.gd")
 const TutorialGuide := preload("res://src/ui/tutorial_guide.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
 const Land := preload("res://src/area/land.gd")
 const AreaCritter := preload("res://src/area/area_critter.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Memories := preload("res://src/chronicle/memories.gd")
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
+const Fighter := preload("res://src/skirmish/fighter.gd")
 const Sixteen := preload("res://src/chronicle/sixteen.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
 const Company := preload("res://tests/company.gd")
@@ -76,6 +79,10 @@ func _ready() -> void:
 	await _check_last_stand()
 	await _check_practice_band()
 	await _check_tower_floor()
+	await _check_tower_grows()
+	await _check_heights()
+	await _check_wild_stories()
+	await _check_band_shape_on_the_ground()
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
@@ -86,9 +93,11 @@ func _ready() -> void:
 	await _check_play_test_four()
 	await _check_inn_rooms()
 	await _check_followers_face()
+	await _check_formation_walk()
 	await _check_play_test_seven()
 	await _check_sennet_from_afar()
 	_check_the_climbers_stone()
+	await _check_the_sword_in_the_yard()
 	await _check_the_journal_at_the_side()
 	_check_tracks()
 	_check_open_city()
@@ -760,10 +769,10 @@ func _check_tutorial() -> void:
 	GameState.reached(RunMode.REST, "tutorial")
 	if GameState.has_save() != had_save or (had_save and FileAccess.get_file_as_string(GameState.SAVE_PATH) != before):
 		_fail("tutorial: a save was written during the tutorial")
-	if guide.call("step_id") != "welcome":
+	if guide.call("step_id") != "walk":
 		_fail("tutorial: it did not start on its first step (on '%s')" % guide.call("step_id"))
-	guide.call("_on_main_pressed")
-	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
+	if (rules["steps"] as Array).size() > 8:
+		_fail("tutorial: %d steps, more than the 7 or so D300 cut it to" % (rules["steps"] as Array).size())
 	EventBus.player_did.emit("walked")
 	await get_tree().create_timer(TutorialGuide.DONE_PAUSE + 0.2).timeout
 	EventBus.player_did.emit("talked:Maren the Guide")
@@ -1153,6 +1162,296 @@ func _check_gates_grow() -> void:
 	_expect((after.get("people", []) as Array).size() >= (before.get("people", []) as Array).size() + 3,
 		"gates grow: nobody comes to cheer at a shut gate")
 	_expect(ResourceLoader.exists("res://art/props/%s.png" % art), "gates grow: the broken gate has no picture")
+
+
+## Heights on the wind scarp ([D287], [D308]): the shelves are a height up from the bare earth, dropped
+## off anywhere and climbed only at a slope; a drop of two hurts everyone; the edges are drawn.
+func _check_heights() -> void:
+	GameState.new_game(SEED)
+	var map := AreaMap.load_area("wild_scarp")
+	_expect(map != null and map.has_heights(), "the wind scarp has no heights")
+	if map == null:
+		return
+	_expect(map.height_at(Vector2i(14, 10)) == 0 and map.height_at(Vector2i(6, 3)) == 1, "bare earth is %d up and the shelf %d" % [map.height_at(Vector2i(14, 10)), map.height_at(Vector2i(6, 3))])
+	_expect(map.ways_up.size() >= 6 and map.ways_up.has(Vector2i(5, 4)), "the scarp has %d ways up" % map.ways_up.size())
+	_expect(not map.may_step(Vector2i(6, 5), Vector2i(6, 4)), "the shelf was climbed where there is no slope")
+	_expect(map.may_step(Vector2i(5, 5), Vector2i(5, 4)), "the slope at (5, 4) cannot be climbed")
+	_expect(map.may_step(Vector2i(6, 4), Vector2i(6, 5)) and map.drop(Vector2i(6, 4), Vector2i(6, 5)) == 1, "the shelf cannot be dropped off, or the drop is not one")
+	_expect(map.may_step(Vector2i(6, 4), Vector2i(7, 4)) and map.drop(Vector2i(6, 4), Vector2i(7, 4)) == 0, "walking along the shelf is not free")
+	_expect(map.props.any(func(p: Dictionary) -> bool: return str(p.get("art", "")) == "landmark/slope" and p.get("cell") == Vector2i(5, 4)), "no slope is drawn at (5, 4)")
+	var flat := AreaMap.load_area("city_streets")
+	_expect(flat != null and not flat.has_heights() and flat.may_step(Vector2i(3, 3), Vector2i(3, 4)), "flat ground has heights")
+
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_scarp", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var on: AreaMap = scene.map
+	_expect((scene.get("_layers") as Node).get_node_or_null("Ledges") != null, "the shelf edges are not drawn")
+	# Walking at the shelf from the bare earth: stopped where there is no slope, up where there is one.
+	var foot := on.centre_of(Vector2i(6, 5))
+	var up := Vector2(0, -float(AreaMap.CELL))
+	var stopped: Vector2 = scene.call("_slide", foot, up)
+	_expect(on.cell_at(stopped) == Vector2i(6, 5), "the lead walked up the shelf with no slope, to %s" % on.cell_at(stopped))
+	var at_slope := on.centre_of(Vector2i(5, 5))
+	var climbed: Vector2 = scene.call("_slide", at_slope, up)
+	_expect(on.cell_at(climbed) == Vector2i(5, 4), "the lead could not climb the slope, stays at %s" % on.cell_at(climbed))
+	var down: Vector2 = scene.call("_slide", on.centre_of(Vector2i(6, 4)), -up)
+	_expect(on.cell_at(down) == Vector2i(6, 5), "the lead could not drop off the shelf")
+	# A way found over the scarp (a click, Auto, a band) goes round by a slope, never up the shelf ([D312]).
+	var way := on.find_cell_path(Vector2i(6, 5), Vector2i(6, 3))
+	var legal := way.size() >= 2
+	for i in range(1, way.size()):
+		legal = legal and on.may_step(on.cell_at(way[i - 1]), on.cell_at(way[i]))
+	_expect(legal and way.any(func(p: Vector2) -> bool: return on.ways_up.has(on.cell_at(p))),
+			"the way up the shelf does not go by a slope: %s" % [way.map(func(p: Vector2) -> Vector2i: return on.cell_at(p))])
+	var down_way := on.find_cell_path(Vector2i(6, 3), Vector2i(6, 5))
+	_expect(down_way.size() == 3, "the way down off the shelf is %d steps, not straight down" % down_way.size())
+	scene.get("_leader").position = on.centre_of(Vector2i(6, 5))
+	scene.call("_walk_to", on.centre_of(Vector2i(6, 3)))
+	_expect((scene.get("_click_path") as Array).size() >= 3, "a click on the shelf did not walk round by the slope")
+	(scene.get("_click_path") as Array).clear()
+	# With no way up at all, a click on the shelf walks nowhere and is told so, once.
+	var ways := on.ways_up.duplicate()
+	on.ways_up = {}
+	var told_before: int = (scene.get("_ledges_said") as Dictionary).size()
+	var notes_were: int = (scene.get("_notes") as Array).size()
+	scene.call("_walk_to", on.centre_of(Vector2i(7, 3)))
+	scene.call("_walk_to", on.centre_of(Vector2i(7, 3)))
+	on.ways_up = ways
+	_expect((scene.get("_click_path") as Array).is_empty() and (scene.get("_ledges_said") as Dictionary).size() == told_before + 1
+			and (scene.get("_notes") as Array).size() >= notes_were + 1,
+			"a click on a shelf with no way up walked, or was not told once")
+	# The lead is told why, once: pressed against the shelf's edge, as a blocked walker stands.
+	var edge := foot + Vector2(0, -(float(AreaMap.CELL) * 0.5 - 2.0))
+	scene.get("_leader").position = edge
+	var said_before: int = (scene.get("_ledges_said") as Dictionary).size()
+	var notes_before: int = (scene.get("_notes") as Array).size()
+	scene.call("_say_the_shelf", edge, up, Vector2.ZERO)
+	scene.call("_say_the_shelf", edge, up, Vector2.ZERO)
+	_expect((scene.get("_ledges_said") as Dictionary).size() == said_before + 1 and (scene.get("_notes") as Array).size() >= notes_before + 1,
+			"walking into the shelf said nothing, or said it twice")
+	# A drop of one is free; a drop of two hurts everyone, never below a tenth.
+	var party := GameState.party_characters()
+	for member: Character in party:
+		member.hp = member.max_hp()
+	scene.get("_leader").position = on.centre_of(Vector2i(6, 5))
+	scene.call("_fall", on.centre_of(Vector2i(6, 4)))
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() == c.max_hp()), "a drop of one hurt")
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	var was: Dictionary = Database.area_terrain("raised").duplicate()
+	(Database.tilesets["terrains"] as Dictionary)["raised"]["height"] = 2
+	scene.call("_fall", on.centre_of(Vector2i(6, 4)))
+	(Database.tilesets["terrains"] as Dictionary)["raised"] = was
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() < c.max_hp()), "a drop of two hurt nobody")
+	_expect(party.all(func(c: Character) -> bool: return c.current_hp() >= ceili(float(c.max_hp()) * float(rules.get("floor", 0.1)))), "a fall took someone below the floor")
+	print("heights: the wind scarp's shelves are %d up, %d slopes; a drop of two costs %.0f%% of everyone's health; a click up the shelf walks %d cells round by the slope" % [
+		on.height_at(Vector2i(6, 3)), on.ways_up.size(), float(rules.get("share", 0.15)) * 100.0, way.size() - 1])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## A story in each wild ([D287], [D314]): three pages on open ground, each said and kept once a run when
+## stood on, in any order; the last read says the story's end and writes it in the annals, once.
+func _check_wild_stories() -> void:
+	GameState.new_game(SEED)
+	for area_id: String in ["wild_grove", "wild_thicket", "wild_fen", "wild_oasis", "wild_scarp"]:
+		var map := AreaMap.load_area(area_id)
+		var end := str((Database.area(area_id).get("story", {}) as Dictionary).get("end", ""))
+		_expect(map != null and map.story_pages.size() == 3 and end != "", "%s has %d pages of its story, or no end" % [area_id, map.story_pages.size() if map != null else 0])
+		if map == null:
+			continue
+		for cell: Vector2i in map.story_pages:
+			var clear := map.is_walkable(cell) and not map.chests.has(cell) and not map.exits.has(cell) \
+					and not map.people.any(func(p: Dictionary) -> bool: return AreaMap.to_cell(p.get("cell", [0, 0])) == cell)
+			_expect(clear and str(map.spots.get(cell, "")) != "", "%s's page at %s is not on open ground with words" % [area_id, cell])
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_grove", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var on: AreaMap = scene.map
+	var annals_before: int = GameState.world.annals.size()
+	var pages: Array = on.story_pages.keys()
+	scene.call("_read_a_page", pages[0])
+	scene.call("_read_a_page", pages[1])
+	_expect(GameState.has_flag("story:wild_grove:%d:%d" % [pages[0].x, pages[0].y]) and not GameState.has_flag("story:wild_grove:told")
+			and GameState.world.annals.size() == annals_before, "two pages told the whole story, or were not kept")
+	scene.call("_read_a_page", pages[2])
+	var told := str(Database.world_rules.get("wilds", {}).get("story_annals", "{wild}: {end}")).format(
+			{ "wild": on.display_name.left(1).to_upper() + on.display_name.substr(1), "end": str((Database.area("wild_grove").get("story", {}) as Dictionary).get("end", "")) })
+	_expect(GameState.has_flag("story:wild_grove:told") and GameState.world.annals.size() == annals_before + 1
+			and (scene.get("_notes") as Array).has(told), "the last page did not tell the story's end, or did not write it")
+	scene.call("_read_a_page", pages[2])
+	scene.call("_read_a_page", pages[0])
+	_expect(GameState.world.annals.size() == annals_before + 1, "a story was written twice")
+	print("wild stories: five wilds, three pages each; %s" % told)
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## A band keeps its shape on the ground ([D315], [D320]): the guard of a wild, three figures, walks in a
+## wedge round the one in front, each figure at its slot where the slot can be stood on, else on the trail.
+func _check_band_shape_on_the_ground() -> void:
+	GameState.new_game(SEED)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_grove", "return_scene": "world" })
+	add_child(scene)
+	for i in 3:
+		await get_tree().process_frame
+	var watch: Node2D = null
+	for each: Node2D in scene.get("_watches"):
+		if (each.get("figures") as Array).size() >= 3:
+			watch = each
+	_expect(watch != null, "the grove has no band of three figures on its ground")
+	if watch == null:
+		scene.queue_free()
+		return
+	var figures: Array = watch.get("figures")
+	var slots: Dictionary = watch.get("_slots")
+	_expect(slots.size() == figures.size() - 1 and not slots.has(0), "a band of %d has %d slots" % [figures.size(), slots.size()])
+	var map: AreaMap = scene.get("map")
+	var open := Vector2i(-1, -1)
+	for y in range(2, map.height - 2):
+		for x in range(2, map.width - 2):
+			var fine := true
+			for dy in range(-2, 3):
+				for dx in range(-2, 3):
+					fine = fine and map.is_walkable(Vector2i(x + dx, y + dy)) and watch.region.has_point(Vector2i(x + dx, y + dy))
+			if fine and open.x < 0:
+				open = Vector2i(x, y)
+	_expect(open.x >= 0, "no open ground to walk the band on")
+	if open.x >= 0:
+		watch.set("_lead_at", map.centre_of(open))
+		watch.call("_walk_the_figures", Vector2.RIGHT, 100000.0)
+		var spacing := float(Formations.foe_rules().get("ground_spacing", 40.0))
+		var in_place := 0
+		for i in range(1, figures.size()):
+			var want: Vector2 = Formations.point_for(slots[i], map.centre_of(open), Vector2.RIGHT, spacing)
+			if (figures[i] as Node2D).position.distance_to(want) < 1.0:
+				in_place += 1
+		_expect(in_place == figures.size() - 1, "%d of %d figures stand in the band's shape" % [in_place, figures.size() - 1])
+		_expect(Formations.point_for(slots[1], Vector2.ZERO, Vector2.RIGHT, spacing) != Vector2.ZERO, "a slot sits on the one in front")
+	print("band shape: %s walks as a %s of %d on the ground" % [watch.band.get("label", "a band"), Formations.word(Formations.auto_for(figures.size())), figures.size()])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## The Tower past floor 10 ([D290], [D307]): a floor from 11 up is laid out at the climb, the higher
+## the bigger, its stair reachable from the way in and a band of its own in every chamber but the
+## first; every third floor from 12 is shared with a company who fight beside the party; from 25
+## every fifth has people living by the stair.
+func _check_tower_grows() -> void:
+	GameState.new_game(SEED)
+	var world: World = GameState.world
+	_expect(TowerFloors.is_grown(11) and not TowerFloors.is_grown(10), "floor 11 does not grow, or floor 10 does")
+	_expect(Chapters.walked_floor_area(12) == TowerFloors.grown_area_id(12), "the stair below does not know floor 12's id")
+	_expect(Chapters.borrows_a_plan(12), "a grown floor's bands would not be restocked")
+	var small := TowerFloors.grown_size(12)
+	var big := TowerFloors.grown_size(60)
+	_expect(big.x > small.x and big.y > small.y and big.x <= 60 and big.y <= 44, "floors do not grow with height: %s then %s" % [small, big])
+	var party := GameState.party_characters()
+	for floor in [11, 12, 25, 100]:
+		var id := TowerFloors.ensure_grown(world, floor)
+		var area := Database.area(id)
+		var rows: Array = area.get("rows", [])
+		var height := rows.size()
+		var width := str(rows[0]).length() if height > 0 else 0
+		_expect(height >= 18 and width >= 26, "floor %d is %d by %d" % [floor, width, height])
+		var stairs: Array = area.get("stairs", [])
+		var spawn: Array = area.get("spawn", [])
+		_expect(stairs.size() == 2 and spawn.size() == 2 and (area.get("exits", []) as Array).size() == 3, "floor %d has no stair, spawn or way out" % floor)
+		# Everywhere worth going is reached from the way in.
+		var open := func(c: Vector2i) -> bool:
+			return c.y >= 0 and c.y < height and c.x >= 0 and c.x < width and str(rows[c.y])[c.x] != "A"
+		var seen := {}
+		var queue: Array = [Vector2i(int(spawn[0]), int(spawn[1]))]
+		seen[queue[0]] = true
+		while not queue.is_empty():
+			var at: Vector2i = queue.pop_front()
+			for step in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+				var next: Vector2i = at + step
+				if open.call(next) and not seen.has(next):
+					seen[next] = true
+					queue.append(next)
+		_expect(seen.has(Vector2i(int(stairs[0][0]), int(stairs[0][1]))), "floor %d's stair cannot be reached from the way in" % floor)
+		var bands: Array = area.get("bands", [])
+		_expect(bands.size() >= 2, "floor %d has %d bands" % [floor, bands.size()])
+		for band: Dictionary in bands:
+			var at: Array = band.get("at", [0, 0])
+			_expect(seen.has(Vector2i(int(at[0]), int(at[1]))), "floor %d's band %s stands where nobody can reach" % [floor, band.get("key", "")])
+			_expect(str(band.get("key", "")).begins_with("tower%d_" % floor), "floor %d's band is called %s" % [floor, band.get("key", "")])
+		var props: Array = area.get("props", [])
+		var stair_props := props.filter(func(p: Dictionary) -> bool: return str(p.get("art", "")) == "tower_inside/stair_up").size()
+		var runes := props.filter(func(p: Dictionary) -> bool: return str(p.get("art", "")).begins_with("tower_inside/rune_")).size()
+		_expect(stair_props == 2 and runes >= 4, "floor %d is dressed with %d stair halves and %d runes" % [floor, stair_props, runes])
+		var restocked := TowerFloors.restock(bands, world, floor, party, [Vector2i(int(stairs[0][0]), int(stairs[0][1]))])
+		_expect(restocked.size() >= 1 and restocked.all(func(b: Dictionary) -> bool: return (b.get("pack", []) as Array).size() >= 2),
+				"floor %d's bands were not restocked with the floor's own" % floor)
+		if floor == 100:
+			_expect(restocked.size() == 1 and bool(restocked[0].get("boss", false)), "the top floor is not kept by its keeper alone")
+	# Shared and living floors.
+	_expect(TowerFloors.is_shared(12) and not TowerFloors.is_shared(11) and TowerFloors.is_shared(15), "the shared floors are not every third from 12")
+	var company := TowerFloors.company_with_you(world, 12, party)
+	_expect(company.size() >= 2 and company.all(func(a: Dictionary) -> bool: return str(a.get("unit", "")) != "" and int(a.get("level", 0)) >= 1),
+			"floor 12's company is %s" % [company])
+	_expect(TowerFloors.company_with_you(world, 11, party).is_empty(), "floor 11 has a company on it")
+	_expect(TowerFloors.floor_line(world, 12).contains(TowerFloors.company_on(world, 12)), "floor 12's line does not name its company")
+	_expect(TowerFloors.is_living(25) and TowerFloors.is_living(30) and not TowerFloors.is_living(26) and not TowerFloors.is_shared(30),
+			"the living floors are not 25 and every fifth")
+	var living: Array = Database.area(TowerFloors.ensure_grown(world, 25)).get("people", [])
+	_expect(living.size() >= 3 and living.all(func(p: Dictionary) -> bool: return not (p.get("talk", {}) as Dictionary).is_empty()),
+			"floor 25 has %d people living on it" % living.size())
+	_expect((Database.area(TowerFloors.grown_area_id(12)).get("people", []) as Array).is_empty(), "people live on floor 12")
+	# What a living floor offers ([D317]): its first rests the company for coin, its second sells, marked up.
+	var host: Dictionary = living[0].get("talk", {}) if living.size() > 0 else {}
+	var trader: Dictionary = living[1].get("talk", {}) if living.size() > 1 else {}
+	var rest_price := int((host.get("heal", {}) as Dictionary).get("price", 0))
+	_expect(living.size() > 0 and rest_price > 0 and str(living[0].get("name", "")) != TowerFloors.company_on(world, 25),
+			"floor 25's host rests nobody, or has no name of their own: %s" % [host])
+	var wares: Array = trader.get("sells", [])
+	var priced := func(w: Dictionary) -> bool: return not Database.equipment_piece(str(w.get("item", ""))).is_empty() and int(w.get("price", 0)) > int(Market.price_of(str(w.get("item", "")))) and bool(w.get("restock", false))
+	_expect(wares.size() >= 2 and wares.all(priced), "floor 25's trader sells nothing, or at no mark-up, or once: %s" % [wares])
+	_expect(living.size() > 2 and ((living[2].get("talk", {}) as Dictionary).get("sells", []) as Array).is_empty()
+			and ((living[2].get("talk", {}) as Dictionary).get("heal", {}) as Dictionary).is_empty(), "everyone on floor 25 sells or heals")
+	print("tower grows: floor 12 is %s, floor 60 %s; %s climb floor 12 with you (%d); %d live on floor 25, a rest there costs %d and the trader has %d wares" % [
+		small, big, TowerFloors.company_on(world, 12), company.size(), living.size(), rest_price, wares.size()])
+
+	# Walked: floor 12 opens, its bands the floor's own, and the company fights beside the party.
+	GameState.pending_outcome = {}
+	var twelve: Node = load("res://src/area/area_scene.tscn").instantiate()
+	twelve.set("boot_payload", { "area_id": TowerFloors.grown_area_id(12), "return_scene": "world", "tower_floor": 12, "allies": company })
+	add_child(twelve)
+	for i in 10:
+		await get_tree().process_frame
+	var on_twelve: Array = twelve.get("_watches")
+	_expect(not on_twelve.is_empty() and on_twelve.all(func(w: Node2D) -> bool: return str(w.band.get("key", "")).begins_with("tower12_")),
+			"tower grows: floor 12's bands are not its own (%d)" % on_twelve.size())
+	var m12: AreaMap = twelve.get("map")
+	_expect(not m12.stairs.is_empty() and m12.is_walkable(m12.stairs[0]), "tower grows: floor 12 has no stair to stand on")
+	if not on_twelve.is_empty():
+		var w12: Node2D = on_twelve[0]
+		var into12: Vector2i = (w12.watched as Dictionary).keys()[0]
+		twelve.call("_check_the_watch", m12.cell_at(twelve.get("_leader").position))
+		twelve.get("_leader").position = m12.centre_of(into12)
+		twelve.call("_check_the_watch", into12)
+		var waited12 := 0.0
+		while waited12 < 3.0 and twelve.get("_fight") == null:
+			await get_tree().create_timer(0.1).timeout
+			waited12 += 0.1
+		var fight12: Node2D = twelve.get("_fight")
+		_expect(fight12 != null, "tower grows: floor 12's band did not fight")
+		if fight12 != null:
+			# Atlas's bearer stands on the allies' side too, bound to him; the company is everyone else.
+			var with_you: Array = fight12.fighters.filter(func(f: Fighter) -> bool: return f.unit.team == Unit.Team.ALLY and f.bound_to == null)
+			_expect(with_you.size() == company.size(), "tower grows: %d of the company fight beside the party, not %d" % [with_you.size(), company.size()])
+			fight12.set_process(false)
+	GameState.pending_outcome = {}
+	twelve.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
 
 
 func _check_tower_floor() -> void:
@@ -1912,6 +2211,75 @@ func _check_followers_face() -> void:
 	GameState.new_game(SEED)
 
 
+## The party walks in its formation ([D289], [D305]): in a column, after a walk up open ground, each
+## follower stands in single file behind the lead, a slot apart, facing the way the lead faces.
+func _check_formation_walk() -> void:
+	GameState.new_game(SEED)
+	Company.join(GameState.roster, ["juno", "cato", "vesta"])
+	var kept := GameState.formation
+	GameState.formation = "column"
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "city_streets", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var map: AreaMap = scene.map
+	var followers: Array = scene._followers
+	var top := Vector2i(-1, -1)
+	for y in range(1, map.height - 15):
+		for x in range(1, map.width - 1):
+			if top.x >= 0:
+				break
+			var clear := true
+			for dy in 15:
+				for dx in [-1, 0, 1]:
+					if not map.is_walkable(Vector2i(x + dx, y + dy)):
+						clear = false
+			if clear:
+				top = Vector2i(x, y)
+	if followers.size() != 3 or top.x < 0:
+		_fail("formation: %d followers, and open ground at %s" % [followers.size(), top])
+		scene.queue_free()
+		await get_tree().process_frame
+		GameState.formation = kept
+		return
+	var bottom := map.centre_of(top + Vector2i(0, 14))
+	scene._leader.position = bottom
+	for f: Node2D in followers:
+		f.position = bottom
+	scene._reseed_crumbs()
+	var delta := 1.0 / 60.0
+	for frame in 150:
+		scene._leader.position += Vector2.UP * scene._walk_speed() * delta
+		scene._leader.face(Vector2.UP)
+		scene._drop_crumbs()
+		scene._settle_followers(delta)
+	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
+	var lead: Vector2 = scene._leader.position
+	var wrong: Array[String] = []
+	var behind: Array[float] = []
+	for i in followers.size():
+		var at: Vector2 = followers[i].position
+		behind.append(at.y - lead.y)
+		if absf(at.x - lead.x) > 6.0 or at.y <= lead.y + spacing * 0.5 or at.y > lead.y + spacing * 3.5:
+			wrong.append("follower %d stands at %s, the lead at %s" % [i, at, lead])
+		var facing: Vector2 = followers[i].get("_facing")
+		if facing.dot(Vector2.UP) < 0.5:
+			wrong.append("follower %d faces %s in a column walking up" % [i, facing])
+	behind.sort()
+	for k in range(1, behind.size()):
+		if absf(behind[k] - behind[k - 1] - spacing) > 8.0:
+			wrong.append("the column's gaps are %s, not %.0f apart" % [behind, spacing])
+			break
+	if not wrong.is_empty():
+		_fail("formation: %s (and %d more)" % [wrong[0], wrong.size() - 1])
+	else:
+		print("formation: walking up in a column, three stand in single file %s behind the lead" % [behind])
+	GameState.formation = kept
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
 ## The party still walks behind the leader after the wilds (play-test 7: "When I entered the
 ## ancient grove and left the ancient grove, then my party disappeared ... I don't see the
 ## characters beside me"). A party of four goes into the ancient grove off the continent, walks out
@@ -2036,6 +2404,45 @@ func _check_sennet_from_afar() -> void:
 
 ## The climbers' stone at the Tower's door (play-test 7, call BR3): it stands at the Tower's foot,
 ## and reads the leads who climbed before, highest first, then this lead while they climb.
+## The sword in the Tower's yard ([D318]; play-test 3, item 8): pulled with a throw of the dice, once a run;
+## lost, it stays in the stone and every look after says so; won, the blade is handed over.
+func _check_the_sword_in_the_yard() -> void:
+	GameState.new_game(SEED)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "tower", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var sword: AreaProp = null
+	for thing: AreaProp in scene.get("_things"):
+		if thing.art == "landmark/sword_storm":
+			sword = thing
+	_expect(sword != null and not sword.try_once.is_empty() and float(sword.try_once.get("chance", 0.0)) > 0.0
+			and not Database.equipment_piece(str(sword.try_once.get("item", ""))).is_empty(), "the sword in the yard cannot be tried, or wins nothing")
+	if sword == null or sword.try_once.is_empty():
+		scene.queue_free()
+		return
+	var try: Dictionary = sword.try_once
+	var flag := "tried:tower:%d:%d" % [sword.cell.x, sword.cell.y]
+	var before: int = (scene.get("_notes") as Array).size()
+	scene.call("_try_once", sword, 1.0)
+	var notes: Array = scene.get("_notes")
+	_expect(notes.size() == before + 1 and str(notes.back()) == str(try.get("lose", "")) and GameState.has_flag(flag) and not GameState.has_flag(flag + ":won"),
+			"a lost pull said nothing, or the wrong thing, or was not kept")
+	scene.call("_try_once", sword, 0.0)
+	notes = scene.get("_notes")
+	_expect(str(notes.back()) == str(try.get("tried", "")) and sword.line == str(try.get("tried", "")) and not GameState.has_flag(flag + ":won"),
+			"the sword could be pulled at twice")
+	GameState.flags.erase(flag)
+	scene.call("_try_once", sword, 0.0)
+	notes = scene.get("_notes")
+	_expect(notes.has(str(try.get("win", ""))) and GameState.has_flag(flag + ":won"),
+			"a won pull did not hand the sword over: %s" % [notes.slice(maxi(0, notes.size() - 3))])
+	print("the sword in the yard: one pull a run at %.0f%%, for a %s" % [float(try.get("chance", 0.0)) * 100.0, Gear.display_name(str(try.get("item", "")))])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
 func _check_the_climbers_stone() -> void:
 	var stones: Array = (Database.area("tower").get("props", []) as Array).filter(func(p: Dictionary) -> bool:
 		return str(p.get("reads", "")) == "climbers")

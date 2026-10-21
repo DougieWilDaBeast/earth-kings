@@ -33,6 +33,9 @@ var find_flag: String = ""
 var found_line: String = ""
 ## A doing of the place's that this thing is the way into (the Tower's door climbs, D107), or "".
 var act: String = ""
+## Something tried once a run with a throw of the dice when it is looked at ([D318]: the sword in the
+## Tower's yard): `chance`, the `item` won, and the `win`, `lose` and `tried` lines; empty for most.
+var try_once: Dictionary = {}
 ## What is written on it, worked out when it is read rather than written in the area: "climbers",
 ## the names on the stone at the Tower's door (play-test 7, call BR3).
 var reads: String = ""
@@ -83,6 +86,7 @@ static func from_entry(entry: Dictionary) -> AreaProp:
 	node.found_line = str(entry.get("found_line", ""))
 	node.act = str(entry.get("act", ""))
 	node.reads = str(entry.get("reads", ""))
+	node.try_once = entry.get("try", {})
 	if entry.has("gold") or entry.has("item"):
 		node.haul = { "gold": int(entry.get("gold", 0)), "item": entry.get("item", "") }
 	node.set_interactive(node.line != "")

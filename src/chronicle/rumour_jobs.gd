@@ -13,6 +13,8 @@ extends RefCounted
 ## Loaded by path, not by `class_name` ([D41]).
 
 const POSTED_FLAG := "rumour_job:"
+const Wilds := preload("res://src/chronicle/wilds.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 
 static func rules() -> Dictionary:
@@ -35,6 +37,54 @@ static func post(world: World) -> String:
 	return said
 
 
+## The nearest settlement to [param from] (a village, a keep or a hut, not ruined) the party knows of,
+## else the nearest at all; null when the world has none.
+static func nearest_settlement(world: World, from: Vector2i) -> Site:
+	var best: Site = null
+	var best_far := 1 << 30
+	for known: bool in [true, false]:
+		for site: Site in world.sites:
+			if not site.kind in [Site.VILLAGE, Site.KEEP, Site.HUT] or Town.is_ruined(site) or (known and not Atlas.knows(world, site)):
+				continue
+			var far := Pathfinder.distance(from, site.cell)
+			if far < best_far:
+				best = site
+				best_far = far
+		if best != null:
+			return best
+	return best
+
+
+## A wild's quest found at the wild itself ([D316]; [D310]'s *not yet*): walking into [param site], a
+## wild whose guard still stands, with no job for it posted or taken and room for one more, the
+## company takes clearing it on the spot, for the nearest settlement it knows of (else the nearest at
+## all, which goes on the map), who pays there (`rumours.wild_found`); the board never posts the same
+## wild after. The line said, or "".
+static func found_at_the_wild(world: World, site: Site) -> String:
+	if world == null or site == null or site.kind != Site.WILD or Wilds.cleared(site):
+		return ""
+	var key := "wild:%s" % site.display_name
+	if GameState.has_flag(POSTED_FLAG + key) or GameState.errands.size() >= Errand.max_accepted():
+		return ""
+	var from := nearest_settlement(world, site.cell)
+	if from == null or from.cell == site.cell:
+		return ""
+	Atlas.mark_cell(world, from.cell)
+	var job := _job({ "kind": "wild", "key": key, "site": site }, world, from)
+	var words: Dictionary = rules().get("wild_found", {})
+	var fill := { "place": site.display_name, "lure": Wilds.lure_of(site), "from": from.display_name, "giver": str(job.get("giver", "")) }
+	if words.has("title"):
+		job["title"] = str(words["title"]).format(fill)
+	if words.has("text"):
+		job["text"] = str(words["text"]).format(fill)
+	job.erase("posted")
+	job["posted_at"] = world.steps
+	job["found_here"] = true
+	GameState.errands.append(job)
+	GameState.set_flag(POSTED_FLAG + key)
+	return str(words.get("taken", "Something keeps {place}. {giver} will pay to hear it cleared.")).format(fill)
+
+
 ## A job from one rumour not yet posted, or empty if there is none.
 static func compose(world: World, site: Site) -> Dictionary:
 	var open: Array = []
@@ -47,6 +97,10 @@ static func compose(world: World, site: Site) -> Dictionary:
 	for town: Site in world.sites:
 		if town != site and Town.is_threatened(town):
 			open.append({"kind": "siege", "key": "siege:%s" % town.display_name, "site": town})
+	# A wild place the party has heard of, not yet cleared of what keeps it ([D310]).
+	for wild: Site in Wilds.all(world):
+		if Atlas.knows(world, wild) and not Wilds.cleared(wild):
+			open.append({"kind": "wild", "key": "wild:%s" % wild.display_name, "site": wild})
 	open = open.filter(func(r: Dictionary) -> bool: return not GameState.has_flag(POSTED_FLAG + str(r["key"])))
 	if open.is_empty():
 		return {}
@@ -78,6 +132,12 @@ static func _job(rumour: Dictionary, world: World, site: Site) -> Dictionary:
 			job["kind"] = Errand.LOOK if rumour["kind"] == "gate" else Errand.DELIVER
 			Errand._point_at(job, there.cell, there.display_name, site, world)
 			fill = {"place": there.display_name}
+		"wild":
+			var there: Site = rumour["site"]
+			job["kind"] = Errand.WILD
+			Errand._point_at(job, there.cell, there.display_name, site, world)
+			job["flag"] = Wilds.guard_flag(there)
+			fill = {"place": there.display_name, "lure": Wilds.lure_of(there)}
 	job["gold"] = roundi(float(job["gold"]) * float(Errand.rules().get("rumour_reward_multiplier", 1.5)))
 	job["title"] = str(words.get("title", "Word on the road")).format(fill)
 	job["text"] = str(words.get("text", "")).format(fill)

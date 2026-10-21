@@ -9,8 +9,8 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 ## The route
 
 1. **New Game.** A new player plays **Atlas's last stand** ([D191](06-decisions.md)): the last day of
-   Atlas's world in Hearthwick, the game's ways taught on a card, then a band out of a broken gate he
-   cannot beat. He falls for good, and the quiz picks the first life of the player's own, on the
+   Atlas's world in Hearthwick, the game's ways taught on a card in seven steps (fourteen until
+   [D300](06-decisions.md)), then a band out of a broken gate he cannot beat. He falls for good, and the quiz picks the first life of the player's own, on the
    **First Hour** setting, where a fall is for good ([D104](06-decisions.md)). The opening plays whole,
    with Atlas's world the one seen ending ([25](25-the-opening.md)). (Until D191 the first life was
    Atlas himself, with no quiz, [D106](06-decisions.md); `first_hour.first_life` still names him.)
@@ -255,7 +255,8 @@ tip now says so).
    with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places.
-8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
+8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once. Built
+   ([D318](06-decisions.md), 2026-10-21): one pull a run, one chance in six, a Silver Blade.
 9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
    stairs that look like they go up and cannot be walked through; perhaps "Are you sure?" before
    leaving floor 5.

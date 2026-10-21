@@ -315,6 +315,11 @@ Each site interior, village, keep, gate dungeon, and wilderness area:
 }
 ```
 
+A spot with `"page": true` is a page of the place's story (D314): said like any spot when stood on, kept once a
+run as the flag `story:<area>:<x>:<y>`, and when every page of the place is read the area's `story.end` is said
+and written in the annals (`world_rules.json` → `wilds.story_annals`, flag `story:<area>:told`). The five wilds
+have three pages each.
+
 A person with `"guild": true` opens the Adventurers Guild hall when spoken to (if the settlement
 still keeps one). Every keep and village area has one: a `guild_clerk`.
 A person with `story_npc` is one of the original twelve, or a companion standing with them
@@ -349,7 +354,10 @@ in the way if its kind does. An entry may override any of it: `scale`, `solid`, 
 depth] cells a solid prop blocks, centred on its cell and running back from it), `flip` (mirrored)
 and `offset` ([dx, dy] pixels off the middle of its cell). A prop can be part of a favour: `set_flag`
 is set the first time it is looked at, with `found_line` said then; `requires` / `requires_not`
-(flags) decide whether it is there at all. A cell the author means somebody to stand on (spawn,
+(flags) decide whether it is there at all. A prop with `try` (`chance`, `item`, `win`, `lose`, `tried`)
+is tried once a run with a throw of the dice when it is looked at (D318, the sword in the Tower's yard):
+the first look rolls and hands the item over or not, every look after says `tried`; `AreaProp.try_once`,
+the area scene's `_try_once`, flags `tried:<area>:<x>:<y>` and `:won`. A cell the author means somebody to stand on (spawn,
 exits, spots, chests, seats, anyone standing there) is never blocked, whatever is drawn on it.
 A spot may carry `set_flag` too. A prop with `act` (a doing of the place's, such as `_climb_here`
 on the Tower's runes) is the way into it: standing at it the hint says that doing's prompt, and
@@ -517,6 +525,22 @@ Every run is played on this map; a run copies it and never writes back. `size` i
 as a save writes a site (`kind`, `cell`, `display_name`, `rank`, `open`, `data`); `from_seed` is
 the seed the lands and the ground inside each tile are drawn from. How to change it, and what the
 run's seed still deals, is [27](27-the-world.md).
+
+Sites of kind `wild` (D309) are the wild places worth going to, written by `tools/place_wilds.py`
+(twelve, each on its own kind of ground, five tiles clear of any place and twelve of each other,
+`data.area` the inside); every other site is left as it is. Each wild area's file carries a `lure`,
+what it holds in a host's words. `world_rules.json` → `wilds`: `rumour_chance` at rest in a village or
+a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the days said, `rumour_line`
+(`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
+`src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
+(`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
+`errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
+wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
+the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is
+set, handed back at the board; never one a companion is sent on. `rumours.wild_found` (`title`, `text`, `taken`;
+`{place}`, `{lure}`, `{giver}`, `{from}`) is the same job taken on the way into a wild whose guard stands, for the
+nearest settlement known, else the nearest at all, marked on the map (`RumourJobs.found_at_the_wild`, D316); `found_here` marks it, and the board's posted flag is
+set so it is never posted twice.
 
 ## `biomes.json` — the lands, and how each one's ground is laid out
 
@@ -738,6 +762,12 @@ inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average
 expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
 (`src/chronicle/dispatch.gd`).
 
+Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
+`Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
+a tile a step. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
+`waiting`, until the company stands on that tile. `Dispatch.where_now` is where a job is on the land, for
+the map.
+
 `guild_mark` (true) starts every run with the Tower's stair sealed until a gate is shut, and
 `mark_line` is what the doorkeeper says meanwhile ([D101](06-decisions.md); `FirstHour.wants_guild_mark()`,
 `FirstHour.mark_line()`, read by `Chapters.seal_line`).
@@ -762,6 +792,82 @@ the Tenth on floor 10 (`tower10_keeper`, [D254](06-decisions.md)).
 `post_battle_heal`, `xp`, `gold`, `price`), read by `src/chronicle/difficulty.gd`. In order of
 mercy: `gentle` (shown as Story, no permadeath), `first_hour`, `even` (the game as written),
 `hard` (Unkind); `breeze` is for testing. The difficulty button cycles them in that order.
+
+## `world_rules.json` → `gate.reading` — readings and double gates (D293, D302)
+
+Read by `Site.reading()`, `Site.misread()`, `Site.is_double()` and `Site.gone_into()` in
+`src/chronicle/site.gd`. From `wrong_from` up, one gate in `wrong_one_in` reads a rank lower than it is
+until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.seen_true` then holds).
+`double_base` in a hundred, plus `double_per_fallen` for each world ended before this one
+(`world.echoes.sibling`), are double: decided the first time in (`data.double`), a double gate climbs one
+rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
+it is shut. Both are fixed by the gate's cell, not the world's dice.
+
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308)
+
+Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
+`_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
+`height` (the shelves' `raised` is 1) stands that many heights up; an area whose legend uses one has
+heights. `ways_up` in the area's file is the cells where higher ground can be stepped onto, or off, from
+a height below (the author draws a slope prop, `landmark/slope`, on each); everywhere else a step up is
+refused and a step down is free (`may_step`), two or more up never. `heights`: `hurt_from` heights of drop
+before it hurts, `share` of everyone's health for each height past the first, `floor` the share nobody
+falls below, `hurt_line` (`{fell}`) and `blocked_line` (said once a cell when the lead walks into a shelf
+with no way up). The ledges node draws a rim on the top of every drop and a shadow on the ground below.
+On ground with heights `find_cell_path` (a click, Auto, a band, a person at work) finds its way with `_height_path`
+(D312): the shortest by cells stepping only where `may_step` allows, a drop of `hurt_from` or more counted as
+`path_drop_cost` (6) cells more; a click on open ground with no way to it says `no_way_line` once a cell.
+`shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
+knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
+`may_shove` rule a ledged field.
+
+## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
+
+Read by `src/chronicle/tower_floors.gd` (`is_grown`, `ensure_grown`, `layout`, `company_with_you`,
+`floor_line`) and `Chapters.walked_floor_area`, which returns `area` (with the floor number) for any floor
+from `from` up, so the stair below knows the floor's id before `ensure_grown` registers it
+(`Database.register_area`) as the stair is climbed (`world_scene._climb`). A floor is `width` by `height`
+at floor 10, growing `width_per_floor` and `height_per_floor` a floor (rounded) to `widest` and `tallest`,
+with `chambers` chambers, one more every `chambers_every` floors to `most_chambers`; the way in is at the
+bottom (`spawn`, `exits`), the stair at the top (`stairs`), the chambers joined by three-wide ways with a
+runner down the middle; the legend is the Tower's slab, runner and wall, `tint` and `hint` its own. Every
+chamber but the first holds a band keyed `tower<floor>_<letter>` with `band_pack` as a stand-in that
+`TowerFloors.restock` replaces with the floor's foes (the same as a borrowed plan's, so `borrows_a_plan` is
+true of a grown floor); `props` carry the stair's two halves, four runes and two lamps. A floor is shared
+(`is_shared`) from `shared_from` every `shared_every` floors unless it is lived on: `company_with_you`
+gives `shared_size` of `life.climbers.units` at the party's level, named by `company_on` from
+`life.climbers.companies`, handed to the area scene as `allies`, who fight every fight on the floor beside
+the party; `shared_line` (`{company}`) is said on the way up. A floor is lived on (`is_living`) from
+`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words,
+`living_line` said on the way up. `living_host` and `living_trader` (D317) are the first two's words and
+`name`: the host's `heal` rests the whole company for its `price` (Talk's mend), the trader's `sells` are
+restocked wares priced by `TowerFloors` at the Market's price times `markup`.
+
+## `world_rules.json` → `gate.fallen` — demon kings of fallen worlds (D293, D304)
+
+Read by `Site.demon_king()`, `Site.demon_words()`, `Encounter.for_gate()`, `GateInside._bands()` and
+`Spoils.for_gate()`. In a world with a record of the fallen (`world.echoes.past`), a gate of rank `from`
+or above is held by a fallen lead's demon king when its cell hashes under `base` plus `per_fallen` for
+each of the fallen (in a hundred); which of the fallen, by the same hash. Kept on the gate as
+`data.demon` (the hero id, or `""`) the first time it is gone into, with `data.demon_seen`. The keeper is
+that hero's own unit at the floor's keeper level plus `levels`, never under the level the echo fell at,
+`stout_times` as stout as the rank's keeper; every band in the gate stands `band_levels` higher. Lines
+`line` (going in), `title` (the keeper's), `label` (the map and the fight: `{name}` only) and `shut_line`
+take `{name}`, `{demon}`, `{gate}`, `{they}`, `{their}`, `{them}` and each capitalised, from the hero's
+`pronoun` in `heroes.json`.
+
+## `world_rules.json` → `gate.instant` — the Gate Key tears a gate (D293, D304)
+
+Read by `Spoils.gate_key()`, `Site.key_rank()`, `Site.tear()` and the world scene's `_tear_gate_here`.
+`key` is the key's id in `GameState.keys`; `Spoils.gate_key` adds it as a gate is shut (always with
+`from_double` on a double gate, else one gate in `found_one_in` of rank `found_from` or above, hashed from
+the gate's cell), never while one is held, and keeps the gate's rank in `GameState.flags["gate_key:rank"]`
+(`found_line`, `{rank}`, `{gate}`). With it in hand, the interact key on open ground (the hint says
+`prompt`, `{rank}`) calls `Site.tear`: a `Site` of kind gate, `open`, `opened_at` the world's step, held by
+one of `Faction.seated_at("gate")`, named from `names` in turn (then "the Tear N"), with `data`
+`{ area: "gate", faction, instant: true, torn_at, seen_true: true, double: false }`, appended to
+`world.sites` on the company's cell or the nearest open one within two; `torn_line` (`{gate}`, `{rank}`)
+is said and the key is erased when `spent`. It saves and loads with the other sites.
 
 ## `world_rules.json` → `ground_watch` — bands met on the ground (D66, D68, D72)
 
@@ -788,6 +894,10 @@ Read by `src/area/area_watch.gd` (the band on the ground) and the ground's fight
   the pointer is out past it, where a right-click sends whoever is picked to get clear. The field carries
   `view` (the ground camera's `centre` in ground pixels and its `zoom`): the fight opens on it and
   draws back over `pull_back_seconds`. Out of cover into the red sets `ambush`.
+- **A first strike** ([D300](06-decisions.md)): out of the band's sight with one of its figures within
+  `first_strike_reach` cells, G winds the lead up for `first_strike_seconds` and `first_strike_hint` is said
+  on the bottom line; then the band is met as an ambush with `first_strike` on its encounter, and the
+  fight lands the lead's blow first (`skirmish.json` → `first_strike`). Seen while winding up, it is lost.
 
 An area may hold **bands of its own** (`bands` in its JSON, [D75](06-decisions.md)), in the same shape
 plus `at` (the cell it would rather stand on: it only has to not be looking at the party already),
@@ -950,6 +1060,12 @@ loot, `cache_map_chance` for a cache in the open, `chest_map_chance` for a chest
 
 ## `fall.json` — the fall, the landing, and the others (M13)
 
+`siblings.weapon.taken_chance` (D311) is how often a band of the land is standing over a fallen weapon's
+crater as it lands (`Siblings.take_weapon`; the band's `carries` is the hero, kept in the save); the
+lines `weapon_taken`, `weapon_held`, `weapon_freed`, `weapon_retaken` and `weapon_rumour_taken` take
+`{band}` and the usual `{weapon}`, `{name}`, `{way}`. A band fight's outcome carries `carries`; won, the
+weapon is freed, lost, another band is put on it (`world_scene._settle_up`).
+
 Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M15)
 `src/chronicle/siblings.gd`. See [17](17-the-sixteen-worlds.md).
 
@@ -1102,9 +1218,46 @@ Every number behind [D11](06-decisions.md), tunable without touching code.
   falls back to `default`. Set a kind to `0.0` and it takes no prisoners.
 - `escape_recovery` / `capture_recovery` are the fraction of max HP a survivor comes back with.
 
+## `skirmish.json` → `formations` — the shapes the party walks and fights in (D289, D305)
+
+Read by `src/skirmish/formations.gd` (pure; loaded by path), the area scene's `_settle_followers`,
+`SkirmishBrain._form`, the fight's guard multiplier and the party screen. `on` turns it all off.
+`shapes` is each shape's `word`, `tip` and `slots`: the companions' places round the lead, who is always
+at the origin, each `{ at: [across, forward], line }` with the lead's right and the way they face
+positive, and `line` one of `front`, `flank`, `back`. `line_by_doctrine` says which line a lead's
+tactics doctrine belongs in; anyone else is read from their abilities (a mend on an ally at range 2 or
+more: back; a first blow at range 3 or more: back; else front; nothing: flank). `Formations.assign`
+deals the back line first, then the front, then the rest, each to the nearest line it would rather
+stand in, from every slot of the shape. `GameState.formation` holds the pick (`auto` or a shape id;
+saved); `auto_by_size` picks by the party's size (the lead counted), `fallback` below the smallest
+written, `auto_word` and `auto_tip` are the picker's words. `ground_spacing` is pixels a slot on the
+ground; `form_every` is the fall-in's wait, `slack` how near a slot counts as held, `hold_guard` the
+share of every blow a fighter holding its slot is spared; `tactics.words.form` is the word over its head.
+`foes` (D315): `on`, `from` (how many of a band standing before it falls in) and `hold_guard` (what a foe
+holding its slot is spared, none); a band's shape is `auto_by_size` for its size, round its boss or first
+standing (`Formations.band_slot_cell`, `band_in_contact`; the brain's `form_band` move). `ground` and
+`ground_spacing` (D320): on the ground a band of `from` or more figures walks in the same shape round the one
+in front, that many pixels a slot (`AreaWatch._deal_the_shape`, `slot_point`), the trail where a slot cannot be stood on.
+
+The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
+anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
+`shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
+`auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
+`callouts`: `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
+a foe band's boss or first standing, once per foe, `skirmish._call_out`), `warned_for` the seconds the one
+named is warned (`Fighter.warned`), and `warned_first` the moves it tries first while it lasts; a warned
+friend counts as under half health to `SkirmishBrain._guard`. `break_below_mood`: under it a companion
+holds no slot (`Formations.broken`). `shared`: `per_fight` of every blow spared and landed over for each
+fight won beside the others standing with them (`Character.shared`, other id -> fights, their average),
+up to `cap` (`Formations.shared_bonus`).
+
 ## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
 Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
+
+`first_strike` ([D300](06-decisions.md)): a fight whose encounter carries `first_strike` opens with the
+lead's own swing on the nearest foe at `power` times its weight, with `word` over the lead and `line`
+(`{name}`, `{foe}`) in the log; the fight records `first_struck`.
 
 ```json
 {
@@ -1115,7 +1268,8 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
              "energy_recover_at": 0.5, "charged_from": 2.0, "charged_power": 1.6,
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
-             "ambush_head_start": 2.0, "swings_per_practice": 3 },
+             "ambush_head_start": 2.0, "swings_per_practice": 3,
+             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -1149,7 +1303,9 @@ Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
   `use_item_time` seconds, mends the item's `mends` × `HEALTH_SCALE`, and a fighter has at most
   `items_per_fighter` a fight.
 - `ambush_head_start` — seconds an ambushed side's opening is held back while the party acts at
-  once. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+  once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
+the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
+clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.
@@ -1252,7 +1408,10 @@ For set pieces. Wild encounters and delves generate their maps instead.
 }
 ```
 
-All rows must be the same length, and every spawn must sit on walkable terrain.
+All rows must be the same length, and every spawn must sit on walkable terrain. A field may carry
+`heights` (one row of digits a tile row, a height a cell, over the terrain's own) and `ways_up` (cells where
+a height is climbed): then it is *ledged* (D313), walked and shoved the ground's way (D308) rather than the
+jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`).
 
 ## `dialogue/*.json`
 

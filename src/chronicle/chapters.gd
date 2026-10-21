@@ -41,6 +41,11 @@ static func chapters(world: World) -> int:
 static func walked_floor_area(floor: int) -> String:
 	if floor < 1:
 		return ""
+	# A floor that grows ([D307]) is laid out at the climb (TowerFloors.ensure_grown): its id is
+	# known before it is registered, so the stair below can go on to it.
+	var grown: Dictionary = rules().get("grown", {})
+	if int(grown.get("from", 0)) > 0 and floor >= int(grown.get("from", 0)) and floor <= int(rules().get("floors", 100)):
+		return str(grown.get("area", "tower_floor_grown_%d")) % floor
 	var plan := floor
 	if floor > int(rules().get("walked_floors", 0)):
 		var borrowed: Array = rules().get("borrowed_plans", [])

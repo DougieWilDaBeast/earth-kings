@@ -137,13 +137,14 @@ func shove(f: Fighter, victim: Fighter, kind: String, tiles: int) -> int:
 		return 0
 	var grid: BattleGrid = fight.grid
 	var cell := victim.unit.cell
+	var stood_at := grid.height_at(cell)
 	var moved := 0
 	for _i in tiles:
 		var next := cell + way
 		if kind == "pull" and next == from:
 			break
 		if not grid.is_walkable(next) or fight.occupant(next, victim) != null \
-				or grid.height_at(next) - grid.height_at(cell) > victim.unit.jump:
+				or not grid.may_shove(cell, next, victim.unit.jump):
 			break
 		cell = next
 		moved += 1
@@ -170,7 +171,25 @@ func shove(f: Fighter, victim: Fighter, kind: String, tiles: int) -> int:
 		fight.fx.popup(str(said.get("pinned", "Pinned")), victim.step_to + Vector2(0, -24), SkirmishFx.HURT, 12, 1.1)
 	fight._say("%s is %s %d tile%s." % [victim.unit.display_name,
 			"knocked back" if kind == "knockback" else "dragged in", moved, "" if moved == 1 else "s"])
+	if grid.ledged and grid.height_at(cell) < stood_at:
+		_off_the_edge(f, victim, stood_at - grid.height_at(cell))
 	return moved
+
+
+## Shoved off an edge on ground with heights ([D313]; [D287]: "a fighter on a height can be shoved
+## off it"): a share of their health for every height fallen, and they lie knocked down where they
+## land. Nothing on a hand-made field, whose heights the jump already rules.
+func _off_the_edge(f: Fighter, victim: Fighter, fell: int) -> void:
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("shoved_off", {})
+	var down := float(rules.get("down_seconds", 1.2))
+	fight.fx.popup(str(rules.get("word", "Off the edge")), victim.step_to + Vector2(0, -24), SkirmishFx.HURT, 13, 1.1)
+	fight._say(str(rules.get("line", "{who} is knocked off the edge, a drop of {fell}.")).format(
+			{ "who": victim.unit.display_name, "fell": fell }))
+	if down > 0.0 and fight._stun(victim, f, down, str(entry("knockdown").get("word", "Knocked down"))):
+		var had: Dictionary = victim.conditions.get("knockdown", {})
+		victim.conditions["knockdown"] = {"left": maxf(down, float(had.get("left", 0.0))), "total": down,
+				"by": f, "bite": 0, "tick": 1.0}
+	_bite(victim, "fall", maxi(1, roundi(float(victim.unit.max_hp) * float(rules.get("share", 0.1)) * float(fell))), f)
 
 
 ## A shove that did not move them still rocks them on their feet.
@@ -244,7 +263,8 @@ func _bite(f: Fighter, kind: String, amount: int, by: Variant) -> void:
 	if f.unit.is_alive():
 		return
 	var killer := by as Fighter
-	fight._say("%s %s." % [f.unit.display_name, "burns to death" if kind == "burn" else "bleeds out"])
+	fight._say("%s %s." % [f.unit.display_name,
+			"burns to death" if kind == "burn" else ("bleeds out" if kind == "bleed" else "does not get up")])
 	if killer != null:
 		fight._award_kill(killer.unit, f.unit)
 		fight.signatures.killed(killer, f)

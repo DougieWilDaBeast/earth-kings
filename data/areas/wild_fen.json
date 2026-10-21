@@ -1,5 +1,9 @@
 {
     "display_name": "the drowned fen",
+    "lure": "duckboards into the reeds, dark water, and a key the fen keeps",
+    "story": {
+        "end": "somebody mended the duckboards each spring until a boat was broken for planks, the smugglers crossed their own marks out, and a child drew the dark water with a face."
+    },
     "layers": [
         "water",
         "dirt",
@@ -78,14 +82,38 @@
             ],
             "name": "sunken sluice gate",
             "kind": "gate",
-            "key": "gate_key",
+            "key": "iron_key",
             "ability": "crush",
             "prop": "village/log_pile",
-            "denied": "A rusted sluice gate, padlocked against the weir. The Gate Key opens it, or Crush forces it.",
+            "denied": "A rusted sluice gate, padlocked against the weir. An Iron Key opens it, or Crush forces it.",
             "opened": "The padlock shatters and the sluice gate grinds open."
         }
     ],
     "spots": [
+        {
+            "cell": [
+                6,
+                5
+            ],
+            "line": "The duckboards were mended every spring by the same hand, then not. The last plank is a boat's.",
+            "page": true
+        },
+        {
+            "cell": [
+                22,
+                16
+            ],
+            "line": "Smugglers' marks on the weir: a moon, three strokes, and a cross cut through all of it, deeper than the rest.",
+            "page": true
+        },
+        {
+            "cell": [
+                23,
+                5
+            ],
+            "line": "In the fisherman's hollow, a slate with the fen scratched on it by a child. The dark water is drawn as a face.",
+            "page": true
+        },
         {
             "cell": [
                 15,
@@ -121,10 +149,10 @@
                 24,
                 4
             ],
-            "line": "A tarred creel wedged in the reeds, heavy with gold and a gate key.",
+            "line": "A tarred creel wedged in the reeds, heavy with gold and an iron key.",
             "art": "chest_broken",
             "gold": 3500,
-            "key": "gate_key",
+            "key": "iron_key",
             "item": "herbs"
         },
         {
@@ -247,7 +275,7 @@
             ]
         },
         {
-            "name": "Wick, who is fishing",
+            "name": "Tam, who is fishing",
             "unit": "drunk_elf",
             "cell": [
                 16,

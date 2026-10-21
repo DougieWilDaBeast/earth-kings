@@ -19,6 +19,9 @@ extends Node2D
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
+const Wilds := preload("res://src/chronicle/wilds.gd")
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
 const Names := preload("res://src/chronicle/names.gd")
@@ -41,6 +44,7 @@ const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 const CELL := 24
 ## Seconds between steps while a direction is held down.
@@ -111,6 +115,7 @@ const GROUND_ACTS := {
 	"_speak_with_wanderer": KEY_X,
 	"_upgrade_bed_here": KEY_U,
 	"_step_into_the_wild": "interact",
+	"_tear_gate_here": "interact",
 }
 @onready var _map: Node2D = $Map
 @onready var _camera: CameraRig = $Camera2D
@@ -500,6 +505,9 @@ const WILD_AREAS := {
 func _check_wild_exploration(cell: Vector2i) -> void:
 	if _busy or _roadside_here != "":
 		return
+	# A wild place on the map is walked into as a place ([D309]), not stumbled on.
+	if world.site_at(cell) != null:
+		return
 	var t := world.terrain_id_at(cell)
 	if not WILD_AREAS.has(t):
 		return
@@ -590,7 +598,7 @@ func _watch_check(cell: Vector2i) -> void:
 	var terrain := world.terrain_id_at(cell)
 	if terrain in ["brush", "forest", "marsh"] or band.cell == cell:
 		meeting["ambush"] = true
-	_begin_battle(meeting, { "kind": "band", "cell": cell, "pack": band.pack })
+	_begin_battle(meeting, { "kind": "band", "cell": cell, "pack": band.pack, "carries": band.carries })
 
 
 func _begin_battle(meeting: Dictionary, outcome: Dictionary = {}, extra: Dictionary = {}) -> void:
@@ -653,7 +661,13 @@ func _settle_up(won: bool) -> void:
 			world.prowlers.append(band)
 		if Pace.auto:
 			Pace.avoided[outcome.get("cell", world.player_cell)] = true
-		_note("You get clear of them. They are still out there.")
+		# A band of the land keeps a share of the company's coin, dropped in the running ([D319]).
+		var toll := SkirmishRules.flee_toll(GameState.gold) if band is Prowler else 0
+		if toll > 0:
+			GameState.gold -= toll
+			_note(str(SkirmishRules.flee_rules().get("dropped_line", "You get clear of them, {coin} the lighter. They are still out there.")).format({ "coin": Coins.text(toll) }))
+		else:
+			_note("You get clear of them. They are still out there.")
 		return
 	for notice: String in Skein.on_battle(world, { "victory": won, "kind": str(outcome.get("kind", "")) }):
 		_note(notice)
@@ -668,6 +682,12 @@ func _settle_up(won: bool) -> void:
 			world.tower_hoard = 0
 		if str(outcome.get("kind", "")) in ["gate", "gate_band"]:
 			_lose_the_ground(world.site_at(outcome.get("cell", world.player_cell)))
+		# Lost to the band over a fallen weapon ([D311]): another is on the crater by now.
+		if str(outcome.get("carries", "")) != "":
+			var retaken := Siblings.weapon_retaken(world, str(outcome["carries"]))
+			if retaken != "":
+				_note(retaken)
+				_map.queue_redraw()
 		return
 
 	var party := GameState.party_characters()
@@ -785,6 +805,11 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 		"band":
+			# The band stood over a fallen weapon ([D311]): it lies free now.
+			if str(outcome.get("carries", "")) != "":
+				var freed := Siblings.weapon_freed(world, str(outcome["carries"]))
+				if freed != "":
+					_note(freed)
 			# A torn piece of somebody's treasure map, now and then ([D220]).
 			for line: String in Treasure.on_band_beaten(world, cell):
 				_note(line)
@@ -1002,6 +1027,12 @@ func _rest_at(site: Site) -> void:
 		if word != "":
 			_note(word)
 			_map.queue_redraw()
+	# And of a wild place worth going to, not yet known ([D309]).
+	if site.kind != Site.HUT and randf() < float(Wilds.rules().get("rumour_chance", 0.5)):
+		var place := Wilds.rumour(world, site)
+		if place != "":
+			_note(place)
+			_map.queue_redraw()
 	# Something out of the sky is the first thing anybody talks about (M15).
 	if site.kind != Site.HUT and Siblings.heard_weapons(world).is_empty():
 		var fallen := Siblings.rumour(world)
@@ -1084,6 +1115,11 @@ func _enter_gate(site: Site) -> void:
 	if not site.open:
 		_note("%s is shut." % site.label())
 		return
+	# Its reading put right, and a double gate sprung ([D302]); never the First Hour's two gates.
+	if Siblings.is_first_hour_gate(site) and not site.data.has("double"):
+		site.data["double"] = false
+	for line: String in site.gone_into(int(world.echoes.get("sibling", 0)), Siblings.past(world)):
+		_note(line)
 
 	var party := GameState.party_characters()
 	var depth := site.depth()
@@ -1152,6 +1188,15 @@ func _climb(site: Site) -> void:
 	# The first floors are walked: their own ground, bands watching it, and the stair up at the
 	# far end, kept on the last of them by a keeper (D102).
 	var walked := Chapters.walked_floor_area(next_floor)
+	# A floor that grows is laid out as the stair is climbed ([D307]), and a shared one has another
+	# company on it who fight beside the party.
+	var allies: Array = []
+	if TowerFloors.is_grown(next_floor):
+		walked = TowerFloors.ensure_grown(world, next_floor)
+		allies = TowerFloors.company_with_you(world, next_floor, GameState.party_characters())
+		var line := TowerFloors.floor_line(world, next_floor)
+		if line != "":
+			_note(line)
 	if walked != "":
 		_busy = true
 		EventBus.request_scene.emit("area", {
@@ -1159,6 +1204,7 @@ func _climb(site: Site) -> void:
 			"title": "The Tower, floor %d" % next_floor,
 			"return_scene": "world",
 			"tower_floor": next_floor,
+			"allies": allies,
 			# What the floor below paid, and the floor's own line, said on the way up.
 			"notes": _notices.duplicate(),
 		})
@@ -1361,7 +1407,7 @@ func _doings_here() -> Array[Dictionary]:
 			parts.append(_telling(Chapters.seal_line(world)))
 		if site.kind == Site.GATE and site.open and not site.cleared:
 			parts.append(_doable(
-				"%s to enter %s (rank %s)" % [_key("interact"), site.display_name, site.rank],
+				"%s to enter %s (rank %s)" % [_key("interact"), site.display_name, site.reading()],
 				"Enter %s" % site.display_name, _enter_gate_here
 			))
 		if site.data.has("ward") and not Ward.is_site_open(site):
@@ -1437,6 +1483,17 @@ func _doings_here() -> Array[Dictionary]:
 
 	if Roadside.escorting(world):
 		return [_telling(Roadside.escort_prompt(world))]
+
+	# The Gate Key in hand, on open ground: E tears a gate here ([D304]).
+	var torn_rank := Site.key_rank()
+	if site == null and torn_rank != "":
+		return [
+			_doable(
+				"%s %s" % [_key("interact"), str(Site.instant_rules().get("prompt", "to turn the Gate Key here")).format({"rank": torn_rank})],
+				"Turn the Gate Key", _tear_gate_here
+			),
+			_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
+		]
 
 	return [
 		_doable("%s for the party" % _key("open_party"), "The Party", _open_party),
@@ -2001,7 +2058,7 @@ func _fight_where_you_stand(key: String, field: Dictionary) -> void:
 		meeting["ambush"] = true
 	# Kept, so a party that walks off the field leaves the band where it was.
 	# The Watch who came running to it (D236) are thanked for after a win.
-	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)) }, {
+	_begin_battle(meeting, { "band": band, "kind": "band", "cell": band.cell, "watch": int(field.get("watch", 0)), "carries": band.carries }, {
 		"live": true, "field": field,
 		"return_payload": {"back": boot_payload.get("back", {})},
 	})
@@ -2045,6 +2102,9 @@ func _close_map() -> void:
 
 func _walk_into_site() -> void:
 	var site := world.site_at(world.player_cell)
+	if site == null and Site.key_rank() != "":
+		_tear_gate_here()
+		return
 	if site != null and site.kind == Site.TOWER and world.tower_topped:
 		_busy = true
 		_note("The company ascends the throne of the Tower, their legend etched into the stones.")
@@ -2066,6 +2126,15 @@ func _walk_into_site() -> void:
 			else "There is nothing here to walk into."
 		)
 		return
+	if site != null and site.kind == Site.WILD:
+		var found := Wilds.found(world, site)
+		if found != "":
+			_note(found)
+			_map.queue_redraw()
+		# Its quest is found here too ([D316]): clearing it, for the nearest settlement known.
+		var quest_taken := RumourJobs.found_at_the_wild(world, site)
+		if quest_taken != "":
+			_note(quest_taken)
 	if _view == View.GROUND:
 		# The door is open now: the ground is the place's inside, with what it offers.
 		_go_to_ground(true)
@@ -2077,6 +2146,31 @@ func _walk_into_site() -> void:
 		"return_scene": "world",
 		"planar_mode": true,
 	})
+
+
+## The Gate Key turned where the company stands ([D293], [D304]): a gate of the key's rank is torn
+## open here, or on the nearest open ground, and the key is spent. For good or ill: it is a place to
+## level the company, and an open gate, which spills.
+func _tear_gate_here() -> void:
+	var rank := Site.key_rank()
+	if rank == "" or _busy or world.site_at(world.player_cell) != null:
+		return
+	var gate := Site.tear(world, world.player_cell, rank)
+	if gate == null:
+		_note("There is no ground here for a gate.")
+		return
+	var rules := Site.instant_rules()
+	if bool(rules.get("spent", true)):
+		GameState.keys.erase(str(rules.get("key", "gate_key")))
+	Atlas.mark(world, gate)
+	Annals.record(world, "The Gate Key was turned in %s: %s, a %s-rank gate, torn open where there was none." % [
+		world.region_at(gate.cell), gate.display_name, gate.rank,
+	])
+	_note(str(rules.get("torn_line", "")).format({"gate": gate.display_name, "rank": gate.rank}))
+	_warm_art()
+	_map.queue_redraw()
+	_refresh()
+	_say_what_can_be_done()
 
 
 func _hire_here() -> void:

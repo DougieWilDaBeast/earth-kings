@@ -1,5 +1,9 @@
 {
     "display_name": "the quiet oasis",
+    "lure": "a spring under the limestone, and the tracks of four things that drink there",
+    "story": {
+        "end": "four things drink at night and a fifth after them, somebody sat all night with a knife and the dates, and something has tried the merchants' gate for years."
+    },
     "layers": [
         "water",
         "sand",
@@ -86,6 +90,30 @@
         }
     ],
     "spots": [
+        {
+            "cell": [
+                6,
+                4
+            ],
+            "line": "Four things drink here at night, and a fifth, smaller, that comes only when the four have gone.",
+            "page": true
+        },
+        {
+            "cell": [
+                23,
+                4
+            ],
+            "line": "Date stones under the palms, split clean down the middle. Whoever ate here had a knife and all night.",
+            "page": true
+        },
+        {
+            "cell": [
+                23,
+                16
+            ],
+            "line": "The vault's pillars are scored at knee height, the height of the gate's bar. Something has tried that gate for years.",
+            "page": true
+        },
         {
             "cell": [
                 14,

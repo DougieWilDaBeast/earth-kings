@@ -337,7 +337,7 @@
         "ask": [
           {
             "q": "Anything worth stealing round here?",
-            "a": "The foreman's strongbox. Don't. He sleeps on it, and he's a light sleeper with a heavy axe."
+            "a": "The foreman's strongbox. Don't. He's been gone two seasons and nobody has touched it since. Nobody here is that brave, or that sure he isn't coming back."
           }
         ],
         "sells": [
@@ -367,7 +367,7 @@
         1
       ],
       "chatter": [
-        "Cut a pine, plant a pine. The foreman counts."
+        "Cut a pine, plant a pine. The foreman counted, before he went. We still do."
       ],
       "rounds": [
         {

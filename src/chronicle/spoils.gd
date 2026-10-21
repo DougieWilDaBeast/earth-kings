@@ -82,12 +82,38 @@ static func for_gate(world: World, site: Site, party: Array) -> Array:
 	)
 
 	lines.append_array(keeper_prize(world, site))
+	# A demon king put down ([D304]), and the Gate Key a keeper may have kept.
+	var demon := str(site.data.get("demon", ""))
+	if demon != "" and str(Site.fallen_rules().get("shut_line", "")) != "":
+		lines.append(str(Site.fallen_rules().get("shut_line", "")).format(site.demon_words(demon)))
+	lines.append_array(gate_key(world, site))
 
 	# The harder the gate, the likelier something written was behind it.
 	var chance := 0.2 + 0.12 * float(Site.rank_index(site.rank))
 	if not party.is_empty() and world.rng.randf() < chance:
 		lines.append_array(_grant_doctrine(world, party))
 	return lines
+
+
+## The Gate Key ([D293], [D304]), found as a gate is shut: always a double gate's, else one gate in
+## `found_one_in` of `found_from` or above, by where the gate stands; never while one is held. The
+## key keeps the rank of the gate it came out of (`GameState.flags`), for the gate it will tear.
+static func gate_key(world: World, site: Site) -> Array:
+	var rules := Site.instant_rules()
+	var key := str(rules.get("key", ""))
+	if key == "" or GameState.keys.has(key) or site.kind != Site.GATE:
+		return []
+	var found := bool(rules.get("from_double", true)) and bool(site.data.get("double", false))
+	if not found:
+		var one_in := int(rules.get("found_one_in", 0))
+		found = one_in > 0 and Site.rank_index(site.rank) >= Site.rank_index(str(rules.get("found_from", "C"))) \
+				and absi(hash([world.world_seed, site.cell.x, site.cell.y, "gate key"])) % one_in == 0
+	if not found:
+		return []
+	GameState.keys.append(key)
+	GameState.flags[key + ":rank"] = site.rank
+	var line := str(rules.get("found_line", ""))
+	return [line.format({"rank": site.rank, "gate": site.display_name})] if line != "" else []
 
 
 ## The gate's keeper and its prize ([D219], from Necesse's bosses): every faction's keeper carries

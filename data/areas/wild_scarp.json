@@ -1,406 +1,1215 @@
 {
-    "display_name": "the wind scarp",
-    "layers": [
-        "raised",
-        "crag",
-        "dirt"
+  "display_name": "the wind scarp",
+  "layers": [
+    "raised",
+    "crag",
+    "dirt"
+  ],
+  "hint": "WASD to walk  ·  E to examine or cut obstacles  ·  the shelves are higher ground: drop off anywhere, climb at a slope  ·  exits in all four directions",
+  "legend": {
+    ",": "dirt",
+    "r": "raised",
+    "A": "crag"
+  },
+  "tint": "#9099a6",
+  "spawn": [
+    14,
+    10
+  ],
+  "exits": [
+    [
+      14,
+      0
     ],
-    "hint": "WASD to walk  ·  E to examine or cut obstacles  ·  exits in all four directions",
-    "legend": {
-        ",": "dirt",
-        "r": "raised",
-        "A": "crag"
-    },
-    "tint": "#9099a6",
-    "spawn": [
-        14,
-        10
+    [
+      15,
+      0
     ],
-    "exits": [
-        [
-            14,
-            0
-        ],
-        [
-            15,
-            0
-        ],
-        [
-            14,
-            19
-        ],
-        [
-            15,
-            19
-        ],
-        [
-            0,
-            9
-        ],
-        [
-            0,
-            10
-        ],
-        [
-            29,
-            9
-        ],
-        [
-            29,
-            10
-        ]
+    [
+      14,
+      19
     ],
-    "wards": [
-        {
-            "cell": [
-                8,
-                5
-            ],
-            "name": "fallen mountain pine",
-            "kind": "tree",
-            "prop": "nature/holly_tree",
-            "cleared_art": "nature/thistle",
-            "abilities": [
-                "cleave",
-                "strike",
-                "sunder",
-                "crush",
-                "scorch",
-                "ember"
-            ],
-            "denied": "A wind-killed pine lies across the ridge path. It wants a keen edge or a heavy strike.",
-            "opened": "The pine comes apart, and the path to the high shelf is open."
-        },
-        {
-            "cell": [
-                20,
-                15
-            ],
-            "name": "the stone mine gate",
-            "kind": "gate",
-            "key": "iron_key",
-            "ability": "crush",
-            "prop": "village/log_pile",
-            "denied": "An iron-strapped gate bars the old mine. An Iron Key opens it, or Crush.",
-            "opened": "The lock breaks with a noise that goes a long way down, and the gate swings open."
-        }
+    [
+      15,
+      19
     ],
-    "spots": [
-        {
-            "cell": [
-                15,
-                11
-            ],
-            "line": "The whole country opens out from here, and none of it looks like it belongs to anyone."
-        },
-        {
-            "cell": [
-                5,
-                4
-            ],
-            "line": "Wind off the high western edge, steady enough to lean on."
-        },
-        {
-            "cell": [
-                24,
-                4
-            ],
-            "line": "A high stone cairn. Somebody counted the stones onto it one at a time."
-        },
-        {
-            "cell": [
-                24,
-                16
-            ],
-            "line": "Old mine rails, running into the dark under the rock face."
-        }
+    [
+      0,
+      9
     ],
-    "chests": [
-        {
-            "cell": [
-                24,
-                5
-            ],
-            "line": "A cleft in the eastern shelf, and in it an iron key and some very old gold.",
-            "art": "chest_iron",
-            "gold": 3500,
-            "key": "iron_key",
-            "item": "whetstone"
-        },
-        {
-            "cell": [
-                5,
-                5
-            ],
-            "line": "A bundle pushed as far back into the stone shelf as an arm can reach.",
-            "art": "chest_silver",
-            "gold": 5000,
-            "item": "grave_token"
-        },
-        {
-            "cell": [
-                25,
-                16
-            ],
-            "line": "A miner's strongbox in the dark behind the gate.",
-            "art": "chest_gold",
-            "gold": 6500,
-            "item": "iron_blade"
-        }
+    [
+      0,
+      10
     ],
-    "props": [
-        {
-            "art": "nature/thistle",
-            "cell": [
-                6,
-                4
-            ]
-        },
-        {
-            "art": "nature/thistle",
-            "cell": [
-                22,
-                4
-            ]
-        },
-        {
-            "art": "nature/ivy",
-            "cell": [
-                6,
-                16
-            ]
-        },
-        {
-            "art": "nature/holly_tree_2",
-            "cell": [
-                22,
-                16
-            ]
-        },
-        {
-            "art": "nature/wildflowers_orange",
-            "cell": [
-                11,
-                7
-            ]
-        },
-        {
-            "art": "nature/wildflowers_blue",
-            "cell": [
-                18,
-                7
-            ]
-        },
-        {
-            "art": "nature/irish_bird_4",
-            "cell": [
-                13,
-                8
-            ]
-        },
-        {
-            "art": "camp/embers",
-            "cell": [
-                16,
-                8
-            ]
-        },
-        {
-            "art": "nature/holly_tree",
-            "cell": [
-                3,
-                2
-            ]
-        },
-        {
-            "art": "nature/rose_stem",
-            "cell": [
-                26,
-                3
-            ]
-        },
-        {
-            "art": "nature/old_apple_tree",
-            "cell": [
-                3,
-                13
-            ]
-        },
-        {
-            "art": "nature/round_tree",
-            "cell": [
-                26,
-                14
-            ]
-        }
+    [
+      29,
+      9
     ],
-    "people": [
-        {
-            "name": "Vell of the High Ground",
-            "unit": "bird_archer",
-            "cell": [
-                14,
-                12
-            ],
-            "facing": [
-                0,
-                1
-            ],
-            "wander": 3,
-            "chatter": [
-                "I can see four days of your road from here. None of it is good.",
-                "Sit if you like. Don't stand near the edge in this wind.",
-                "Fire's cold. I don't light it where things can see it.",
-                "Everything that comes up here comes up the way you did."
-            ]
-        },
-        {
-            "name": "Oran the Eightfold Monk",
-            "unit": "element_monk",
-            "cell": [
-                21,
-                13
-            ],
-            "facing": [
-                0,
-                1
-            ],
-            "story_npc": "element_monk",
-            "talk": {
-                "hello": [
-                    "The wind here is wrong by about a season. You feel it too.",
-                    "You arrived as a gust. Most people do."
-                ],
-                "again": [
-                    "The currents said you'd come back. They are usually right.",
-                    "Welcome. It snowed here yesterday. It is summer."
-                ],
-                "ask": [
-                    {
-                        "q": "What are the Eight Currents?",
-                        "a": "Stone, gale, ember, tide, lightning, frost, void and dawn. I was taught to let them pass through me. Lately they push."
-                    },
-                    {
-                        "q": "Why come down from the caves?",
-                        "a": "The step clock is running fast. Snow in summer, peat burning in winter. The elements are weeping. Someone has to find out what hurts them."
-                    },
-                    {
-                        "q": "Who is with you?",
-                        "a": "An adept whose soul is a conduit. She does not talk much. Neither do I, until recently."
-                    }
-                ],
-                "bye": [
-                    "Life and death are only weather.",
-                    "Go. Watch the sky."
-                ]
-            }
-        },
-        {
-            "name": "the Adept",
-            "unit": "avatar_adept",
-            "cell": [
-                22,
-                13
-            ],
-            "facing": [
-                0,
-                1
-            ],
-            "story_npc": "element_monk",
-            "chatter": [
-                "The currents run thin here.",
-                "He listens. I carry."
-            ]
-        }
-    ],
-    "rows": [
-        "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA",
-        "ArrrArrrrrrArr,,rrArrrrrrArrrA",
-        "AArrrrrrArrrrr,,rrrrrrArrrrrrA",
-        "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
-        "ArArrrrrrArrrr,,ArrrrrrrrrrrrA",
-        "Arr,,,,,,,,,,,,,,,,,,,,,,,,ArA",
-        "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
-        "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
-        "ArrrArrrrrrArr,,rrArrrrrrArrrA",
-        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
-        "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
-        "ArrrrrArrrrrrA,,rrrrArrrrrrArA",
-        "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
-        "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
-        "Arr,,,,,,,,,,,,,,,,,,,,,,,,rrA",
-        "AArrrrrrrrrrrr,,rrrrrrrrrrrrrA",
-        "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
-        "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
-        "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA"
-    ],
-    "dressing": [
-        {"art": "nature/bare_tree", "cell": [21, 18], "offset": [2, -3]},
-        {"art": "nature/holly_tree", "cell": [10, 1], "offset": [9, -5], "flip": true},
-        {"art": "nature/holly_tree", "cell": [25, 2], "offset": [0, -4], "flip": true},
-        {"art": "nature/dead_tree", "cell": [11, 18], "offset": [7, -5]},
-        {"art": "nature/dead_tree", "cell": [28, 5], "offset": [-9, 3]},
-        {"art": "nature/holly_tree", "cell": [5, 1], "offset": [5, 1], "flip": true},
-        {"art": "nature/bare_tree", "cell": [18, 18], "offset": [9, -2]},
-        {"art": "nature/dead_tree", "cell": [18, 12], "offset": [-5, 2]},
-        {"art": "nature/dead_tree", "cell": [7, 18], "offset": [-5, -1]},
-        {"art": "nature/dead_tree", "cell": [4, 18], "offset": [-7, -2]},
-        {"art": "nature/holly_tree", "cell": [1, 13], "offset": [-4, -4]},
-        {"art": "nature/bare_tree", "cell": [17, 1], "offset": [2, 2]},
-        {"art": "nature/crystal_spikes", "cell": [11, 2], "offset": [-12, 4]},
-        {"art": "nature/crystal_spikes", "cell": [7, 1], "offset": [0, 2]},
-        {"art": "nature/crystal_spikes", "cell": [24, 12], "offset": [-4, -7]},
-        {"art": "nature/thistle", "cell": [24, 14], "offset": [13, 0]},
-        {"art": "nature/briar_bush", "cell": [19, 4], "offset": [6, -1]},
-        {"art": "nature/grass_tuft", "cell": [18, 2], "offset": [1, -2], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [3, 6], "offset": [11, -5]},
-        {"art": "nature/pebble", "cell": [10, 9], "offset": [0, -5], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [16, 15], "offset": [13, 5], "flip": true},
-        {"art": "nature/thistle", "cell": [17, 10], "offset": [14, 6]},
-        {"art": "nature/pebble", "cell": [18, 16], "offset": [-1, 6], "flip": true},
-        {"art": "nature/pebble", "cell": [28, 18], "offset": [-8, -4]},
-        {"art": "nature/briar_bush", "cell": [22, 11], "offset": [-3, 1], "flip": true},
-        {"art": "nature/thistle", "cell": [11, 4], "offset": [0, -4], "flip": true},
-        {"art": "nature/pebble", "cell": [6, 1], "offset": [-10, 5]},
-        {"art": "nature/grass_tuft", "cell": [24, 8], "offset": [-6, -5], "flip": true},
-        {"art": "nature/thistle", "cell": [13, 17], "offset": [10, -7]},
-        {"art": "nature/grass_tuft", "cell": [15, 8], "offset": [2, 3], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [21, 2], "offset": [9, 5], "flip": true},
-        {"art": "nature/pebble", "cell": [21, 9], "offset": [1, 4], "flip": true},
-        {"art": "nature/pebble", "cell": [12, 9], "offset": [11, -6]},
-        {"art": "nature/grass_tuft", "cell": [19, 14], "offset": [9, -5], "flip": true},
-        {"art": "nature/pebble", "cell": [25, 18], "offset": [-9, -3]},
-        {"art": "nature/thistle", "cell": [2, 1], "offset": [13, -5]},
-        {"art": "nature/pebble", "cell": [10, 10], "offset": [-12, 3], "flip": true},
-        {"art": "nature/thistle", "cell": [26, 10], "offset": [3, -6], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [18, 10], "offset": [-8, 4]},
-        {"art": "nature/pebble", "cell": [23, 1], "offset": [-2, -1], "flip": true},
-        {"art": "nature/thistle", "cell": [2, 13], "offset": [4, -7], "flip": true},
-        {"art": "nature/pebble", "cell": [17, 3], "offset": [-5, -4], "flip": true},
-        {"art": "nature/pebble", "cell": [21, 15], "offset": [-7, -3], "flip": true},
-        {"art": "nature/pebble", "cell": [7, 10], "offset": [6, -2], "flip": true},
-        {"art": "nature/bramble_2", "cell": [7, 2], "offset": [-6, -2]},
-        {"art": "nature/pebble", "cell": [4, 13], "offset": [-3, 6], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [7, 12], "offset": [-13, -2], "flip": true},
-        {"art": "nature/pebble", "cell": [27, 8], "offset": [5, 5]},
-        {"art": "nature/grass_tuft", "cell": [22, 5], "offset": [8, -7]},
-        {"art": "nature/pebble", "cell": [18, 17], "offset": [10, -1], "flip": true},
-        {"art": "nature/thistle", "cell": [6, 14], "offset": [-10, 3]},
-        {"art": "nature/thistle", "cell": [28, 2], "offset": [1, -4], "flip": true},
-        {"art": "nature/pebble", "cell": [27, 11], "offset": [5, -7], "flip": true},
-        {"art": "nature/bramble_2", "cell": [13, 4], "offset": [-10, -2]},
-        {"art": "nature/pebble", "cell": [24, 13], "offset": [-13, -7]},
-        {"art": "nature/pebble", "cell": [1, 12], "offset": [-11, -2], "flip": true},
-        {"art": "nature/briar_bush", "cell": [12, 2], "offset": [-14, 2]},
-        {"art": "nature/thistle", "cell": [9, 5], "offset": [-14, 3]},
-        {"art": "nature/pebble", "cell": [27, 2], "offset": [-6, -3], "flip": true},
-        {"art": "nature/pebble", "cell": [4, 17], "offset": [9, 3]},
-        {"art": "nature/pebble", "cell": [7, 5], "offset": [11, -4], "flip": true},
-        {"art": "nature/grass_tuft", "cell": [2, 14], "offset": [9, -3]},
-        {"art": "nature/grasshopper", "cell": [21, 4], "offset": [9, 2]},
-        {"art": "nature/sparrow", "cell": [3, 14], "offset": [-9, 4], "flip": true},
-        {"art": "nature/grasshopper", "cell": [20, 11], "offset": [3, 1]},
-        {"art": "nature/ants", "cell": [9, 15], "offset": [-14, -6]}
+    [
+      29,
+      10
     ]
+  ],
+  "wards": [
+    {
+      "cell": [
+        8,
+        5
+      ],
+      "name": "fallen mountain pine",
+      "kind": "tree",
+      "prop": "nature/holly_tree",
+      "cleared_art": "nature/thistle",
+      "abilities": [
+        "cleave",
+        "strike",
+        "sunder",
+        "crush",
+        "scorch",
+        "ember"
+      ],
+      "denied": "A wind-killed pine lies across the ridge path. It wants a keen edge or a heavy strike.",
+      "opened": "The pine comes apart, and the path to the high shelf is open."
+    },
+    {
+      "cell": [
+        20,
+        15
+      ],
+      "name": "the stone mine gate",
+      "kind": "gate",
+      "key": "iron_key",
+      "ability": "crush",
+      "prop": "village/log_pile",
+      "denied": "An iron-strapped gate bars the old mine. An Iron Key opens it, or Crush.",
+      "opened": "The lock breaks with a noise that goes a long way down, and the gate swings open."
+    }
+  ],
+  "spots": [
+    {
+      "cell": [
+        23,
+        4
+      ],
+      "line": "The cairn's stones were counted on one a year. There are more of them than any one person has years.",
+      "page": true
+    },
+    {
+      "cell": [
+        23,
+        16
+      ],
+      "line": "The mine rails run into the dark on new sleepers under old iron. Somebody still goes in.",
+      "page": true
+    },
+    {
+      "cell": [
+        6,
+        4
+      ],
+      "line": "On the high shelf a shelter of stacked slate faces east, where the gates open at dawn. Somebody watches them from here.",
+      "page": true
+    },
+    {
+      "cell": [
+        15,
+        11
+      ],
+      "line": "The whole country opens out from here, and none of it looks like it belongs to anyone."
+    },
+    {
+      "cell": [
+        5,
+        4
+      ],
+      "line": "Wind off the high western edge, steady enough to lean on."
+    },
+    {
+      "cell": [
+        24,
+        4
+      ],
+      "line": "A high stone cairn. Somebody counted the stones onto it one at a time."
+    },
+    {
+      "cell": [
+        24,
+        16
+      ],
+      "line": "Old mine rails, running into the dark under the rock face."
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        24,
+        5
+      ],
+      "line": "A cleft in the eastern shelf, and in it an iron key and some very old gold.",
+      "art": "chest_iron",
+      "gold": 3500,
+      "key": "iron_key",
+      "item": "whetstone"
+    },
+    {
+      "cell": [
+        5,
+        5
+      ],
+      "line": "A bundle pushed as far back into the stone shelf as an arm can reach.",
+      "art": "chest_silver",
+      "gold": 5000,
+      "item": "grave_token"
+    },
+    {
+      "cell": [
+        25,
+        16
+      ],
+      "line": "A miner's strongbox in the dark behind the gate.",
+      "art": "chest_gold",
+      "gold": 6500,
+      "item": "iron_blade"
+    }
+  ],
+  "props": [
+    {
+      "art": "nature/thistle",
+      "cell": [
+        6,
+        4
+      ]
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        22,
+        4
+      ]
+    },
+    {
+      "art": "nature/ivy",
+      "cell": [
+        6,
+        16
+      ]
+    },
+    {
+      "art": "nature/holly_tree_2",
+      "cell": [
+        22,
+        16
+      ]
+    },
+    {
+      "art": "nature/wildflowers_orange",
+      "cell": [
+        11,
+        7
+      ]
+    },
+    {
+      "art": "nature/wildflowers_blue",
+      "cell": [
+        18,
+        7
+      ]
+    },
+    {
+      "art": "nature/irish_bird_4",
+      "cell": [
+        13,
+        8
+      ]
+    },
+    {
+      "art": "camp/embers",
+      "cell": [
+        16,
+        8
+      ]
+    },
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        3,
+        2
+      ]
+    },
+    {
+      "art": "nature/rose_stem",
+      "cell": [
+        26,
+        3
+      ]
+    },
+    {
+      "art": "nature/old_apple_tree",
+      "cell": [
+        3,
+        13
+      ]
+    },
+    {
+      "art": "nature/round_tree",
+      "cell": [
+        26,
+        14
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        5,
+        4
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        24,
+        4
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        5,
+        16
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        24,
+        16
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        13,
+        8
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        16,
+        8
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        13,
+        11
+      ]
+    },
+    {
+      "art": "landmark/slope",
+      "cell": [
+        17,
+        11
+      ]
+    }
+  ],
+  "people": [
+    {
+      "name": "Vell of the High Ground",
+      "unit": "bird_archer",
+      "cell": [
+        14,
+        12
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 3,
+      "chatter": [
+        "I can see four days of your road from here. None of it is good.",
+        "Sit if you like. Don't stand near the edge in this wind.",
+        "Fire's cold. I don't light it where things can see it.",
+        "Everything that comes up here comes up the way you did."
+      ]
+    },
+    {
+      "name": "Oran the Eightfold Monk",
+      "unit": "element_monk",
+      "cell": [
+        21,
+        13
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "element_monk",
+      "talk": {
+        "hello": [
+          "The wind here is wrong by about a season. You feel it too.",
+          "You arrived as a gust. Most people do."
+        ],
+        "again": [
+          "The currents said you'd come back. They are usually right.",
+          "Welcome. It snowed here yesterday. It is summer."
+        ],
+        "ask": [
+          {
+            "q": "What are the Eight Currents?",
+            "a": "Stone, gale, ember, tide, lightning, frost, void and dawn. I was taught to let them pass through me. Lately they push."
+          },
+          {
+            "q": "Why come down from the caves?",
+            "a": "The step clock is running fast. Snow in summer, peat burning in winter. The elements are weeping. Someone has to find out what hurts them."
+          },
+          {
+            "q": "Who is with you?",
+            "a": "An adept whose soul is a conduit. She does not talk much. Neither do I, until recently."
+          }
+        ],
+        "bye": [
+          "Life and death are only weather.",
+          "Go. Watch the sky."
+        ]
+      }
+    },
+    {
+      "name": "the Adept",
+      "unit": "avatar_adept",
+      "cell": [
+        22,
+        13
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "story_npc": "element_monk",
+      "chatter": [
+        "The currents run thin here.",
+        "He listens. I carry."
+      ]
+    }
+  ],
+  "rows": [
+    "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA",
+    "ArrrArrrrrrArr,,rrArrrrrrArrrA",
+    "AArrrrrrArrrrr,,rrrrrrArrrrrrA",
+    "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
+    "ArArrrrrrArrrr,,ArrrrrrrrrrrrA",
+    "Arr,,,,,,,,,,,,,,,,,,,,,,,,ArA",
+    "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
+    "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
+    "ArrrArrrrrrArr,,rrArrrrrrArrrA",
+    ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+    ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+    "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
+    "ArrrrrArrrrrrA,,rrrrArrrrrrArA",
+    "ArrrrrrrrrArrr,,rArrrrrrrrrrrA",
+    "Arrrrrrrrrrrrr,,rrrrrrrrrrrrAA",
+    "Arr,,,,,,,,,,,,,,,,,,,,,,,,rrA",
+    "AArrrrrrrrrrrr,,rrrrrrrrrrrrrA",
+    "ArrrrrrrrrrrAr,,rrrArrrrrrrrrA",
+    "ArArrrrrrArrrr,,ArrrrrrArrrrrA",
+    "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA"
+  ],
+  "dressing": [
+    {
+      "art": "nature/bare_tree",
+      "cell": [
+        21,
+        18
+      ],
+      "offset": [
+        2,
+        -3
+      ]
+    },
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        10,
+        1
+      ],
+      "offset": [
+        9,
+        -5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        25,
+        2
+      ],
+      "offset": [
+        0,
+        -4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/dead_tree",
+      "cell": [
+        11,
+        18
+      ],
+      "offset": [
+        7,
+        -5
+      ]
+    },
+    {
+      "art": "nature/dead_tree",
+      "cell": [
+        28,
+        5
+      ],
+      "offset": [
+        -9,
+        3
+      ]
+    },
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        5,
+        1
+      ],
+      "offset": [
+        5,
+        1
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/bare_tree",
+      "cell": [
+        18,
+        18
+      ],
+      "offset": [
+        9,
+        -2
+      ]
+    },
+    {
+      "art": "nature/dead_tree",
+      "cell": [
+        18,
+        12
+      ],
+      "offset": [
+        -5,
+        2
+      ]
+    },
+    {
+      "art": "nature/dead_tree",
+      "cell": [
+        7,
+        18
+      ],
+      "offset": [
+        -5,
+        -1
+      ]
+    },
+    {
+      "art": "nature/dead_tree",
+      "cell": [
+        4,
+        18
+      ],
+      "offset": [
+        -7,
+        -2
+      ]
+    },
+    {
+      "art": "nature/holly_tree",
+      "cell": [
+        1,
+        13
+      ],
+      "offset": [
+        -4,
+        -4
+      ]
+    },
+    {
+      "art": "nature/bare_tree",
+      "cell": [
+        17,
+        1
+      ],
+      "offset": [
+        2,
+        2
+      ]
+    },
+    {
+      "art": "nature/crystal_spikes",
+      "cell": [
+        11,
+        2
+      ],
+      "offset": [
+        -12,
+        4
+      ]
+    },
+    {
+      "art": "nature/crystal_spikes",
+      "cell": [
+        7,
+        1
+      ],
+      "offset": [
+        0,
+        2
+      ]
+    },
+    {
+      "art": "nature/crystal_spikes",
+      "cell": [
+        24,
+        12
+      ],
+      "offset": [
+        -4,
+        -7
+      ]
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        24,
+        14
+      ],
+      "offset": [
+        13,
+        0
+      ]
+    },
+    {
+      "art": "nature/briar_bush",
+      "cell": [
+        19,
+        4
+      ],
+      "offset": [
+        6,
+        -1
+      ]
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        18,
+        2
+      ],
+      "offset": [
+        1,
+        -2
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        3,
+        6
+      ],
+      "offset": [
+        11,
+        -5
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        10,
+        9
+      ],
+      "offset": [
+        0,
+        -5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        16,
+        15
+      ],
+      "offset": [
+        13,
+        5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        17,
+        10
+      ],
+      "offset": [
+        14,
+        6
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        18,
+        16
+      ],
+      "offset": [
+        -1,
+        6
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        28,
+        18
+      ],
+      "offset": [
+        -8,
+        -4
+      ]
+    },
+    {
+      "art": "nature/briar_bush",
+      "cell": [
+        22,
+        11
+      ],
+      "offset": [
+        -3,
+        1
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        11,
+        4
+      ],
+      "offset": [
+        0,
+        -4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        6,
+        1
+      ],
+      "offset": [
+        -10,
+        5
+      ]
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        24,
+        8
+      ],
+      "offset": [
+        -6,
+        -5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        13,
+        17
+      ],
+      "offset": [
+        10,
+        -7
+      ]
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        15,
+        8
+      ],
+      "offset": [
+        2,
+        3
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        21,
+        2
+      ],
+      "offset": [
+        9,
+        5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        21,
+        9
+      ],
+      "offset": [
+        1,
+        4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        12,
+        9
+      ],
+      "offset": [
+        11,
+        -6
+      ]
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        19,
+        14
+      ],
+      "offset": [
+        9,
+        -5
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        25,
+        18
+      ],
+      "offset": [
+        -9,
+        -3
+      ]
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        2,
+        1
+      ],
+      "offset": [
+        13,
+        -5
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        10,
+        10
+      ],
+      "offset": [
+        -12,
+        3
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        26,
+        10
+      ],
+      "offset": [
+        3,
+        -6
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        18,
+        10
+      ],
+      "offset": [
+        -8,
+        4
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        23,
+        1
+      ],
+      "offset": [
+        -2,
+        -1
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        2,
+        13
+      ],
+      "offset": [
+        4,
+        -7
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        17,
+        3
+      ],
+      "offset": [
+        -5,
+        -4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        21,
+        15
+      ],
+      "offset": [
+        -7,
+        -3
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        7,
+        10
+      ],
+      "offset": [
+        6,
+        -2
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/bramble_2",
+      "cell": [
+        7,
+        2
+      ],
+      "offset": [
+        -6,
+        -2
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        4,
+        13
+      ],
+      "offset": [
+        -3,
+        6
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        7,
+        12
+      ],
+      "offset": [
+        -13,
+        -2
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        27,
+        8
+      ],
+      "offset": [
+        5,
+        5
+      ]
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        22,
+        5
+      ],
+      "offset": [
+        8,
+        -7
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        18,
+        17
+      ],
+      "offset": [
+        10,
+        -1
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        6,
+        14
+      ],
+      "offset": [
+        -10,
+        3
+      ]
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        28,
+        2
+      ],
+      "offset": [
+        1,
+        -4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        27,
+        11
+      ],
+      "offset": [
+        5,
+        -7
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/bramble_2",
+      "cell": [
+        13,
+        4
+      ],
+      "offset": [
+        -10,
+        -2
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        24,
+        13
+      ],
+      "offset": [
+        -13,
+        -7
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        1,
+        12
+      ],
+      "offset": [
+        -11,
+        -2
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/briar_bush",
+      "cell": [
+        12,
+        2
+      ],
+      "offset": [
+        -14,
+        2
+      ]
+    },
+    {
+      "art": "nature/thistle",
+      "cell": [
+        9,
+        5
+      ],
+      "offset": [
+        -14,
+        3
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        27,
+        2
+      ],
+      "offset": [
+        -6,
+        -3
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        4,
+        17
+      ],
+      "offset": [
+        9,
+        3
+      ]
+    },
+    {
+      "art": "nature/pebble",
+      "cell": [
+        7,
+        5
+      ],
+      "offset": [
+        11,
+        -4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grass_tuft",
+      "cell": [
+        2,
+        14
+      ],
+      "offset": [
+        9,
+        -3
+      ]
+    },
+    {
+      "art": "nature/grasshopper",
+      "cell": [
+        21,
+        4
+      ],
+      "offset": [
+        9,
+        2
+      ]
+    },
+    {
+      "art": "nature/sparrow",
+      "cell": [
+        3,
+        14
+      ],
+      "offset": [
+        -9,
+        4
+      ],
+      "flip": true
+    },
+    {
+      "art": "nature/grasshopper",
+      "cell": [
+        20,
+        11
+      ],
+      "offset": [
+        3,
+        1
+      ]
+    },
+    {
+      "art": "nature/ants",
+      "cell": [
+        9,
+        15
+      ],
+      "offset": [
+        -14,
+        -6
+      ]
+    }
+  ],
+  "ways_up": [
+    [
+      5,
+      4
+    ],
+    [
+      24,
+      4
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      24,
+      16
+    ],
+    [
+      13,
+      8
+    ],
+    [
+      16,
+      8
+    ],
+    [
+      13,
+      11
+    ],
+    [
+      17,
+      11
+    ]
+  ],
+  "_doc": "D308: the wind scarp is the first ground with heights. Its shelves (`raised`) are a height up from the bare earth; `ways_up` are the cells where they can be climbed, each with a slope drawn on it.",
+  "lure": "an old mine behind an iron gate, and a cairn on the high shelf",
+  "story": {
+    "end": "the cairn has a stone for every year of more than one life, somebody still walks the old mine, and somebody watches the gates from the high shelf."
+  }
 }

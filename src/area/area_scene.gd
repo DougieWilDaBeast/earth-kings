@@ -17,6 +17,7 @@ extends Node2D
 ## ([signal EventBus.continent_requested]) while the party walks on, the tiles ahead are laid out
 ## a frame at a time and the ones far behind are let go.
 
+const Formations := preload("res://src/skirmish/formations.gd")
 const Guild := preload("res://src/chronicle/guild.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
@@ -24,6 +25,8 @@ const Atlas := preload("res://src/chronicle/atlas.gd")
 const Talk := preload("res://src/dialogue/talk.gd")
 const RunMode := preload("res://src/chronicle/run_mode.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
+const AreaLedges := preload("res://src/area/area_ledges.gd")
+const Wilds := preload("res://src/chronicle/wilds.gd")
 const InteriorPainter := preload("res://src/area/interior_painter.gd")
 const AreaWatch := preload("res://src/area/area_watch.gd")
 const Biome := preload("res://src/chronicle/biome.gd")
@@ -212,6 +215,9 @@ var _fight_watch: Node2D = null
 var _watch_fighting: Array[AreaActor] = []
 ## A band's fight has been asked of the continent and not yet put down.
 var _awaiting_fight: bool = false
+## The lead is winding up a first strike on a band ([D300]); the next fight put down opens with it.
+var _winding_up: bool = false
+var _striking_first: bool = false
 ## The place's doings that start a fight, fought on this ground rather than on a screen of its own.
 const FIGHT_ACTS := ["_enter_gate_here"]
 ## Doings that start a fight, fought here on this ground with no screen of its own ([D207]): the
@@ -262,6 +268,8 @@ var _memories: Dictionary = {}
 ## and tile -> everything standing in it), the tiles still to lay out, and whether the continent
 ## has been asked to take a step and not answered yet.
 var _land_mode: bool = false
+## Shelf edges the party has already been told cannot be climbed ([D308]).
+var _ledges_said: Dictionary = {}
 var _tile_ground: Dictionary = {}
 var _tile_things: Dictionary = {}
 var _to_hold: Array[Vector2i] = []
@@ -319,6 +327,9 @@ func _ready() -> void:
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
+	# A wild place is guarded by the land's own creatures ([D309]).
+	elif map.id.begins_with("wild_") and GameState.world != null:
+		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
 	add_child(_waymark)
@@ -425,6 +436,12 @@ func _paint_layers() -> void:
 		InteriorPainter.paint(map, _layers)
 		return
 	GroundPainter.paint(map, _layers)
+	# The edges of higher ground, over the ground and under everyone ([D308]).
+	if map.has_heights():
+		var ledges := AreaLedges.new()
+		ledges.name = "Ledges"
+		ledges.map = map
+		_layers.add_child(ledges)
 
 
 # --- the land ([D84]) -----------------------------------------------------------------
@@ -692,7 +709,7 @@ func _sure_of_the_gate() -> bool:
 		return true
 	_gate_warned_until = Time.get_ticks_msec() + 4000
 	_note("%s is a rank %s gate: what keeps it is about level %d, and the company is level %d. %s again to go in anyway." % [
-		gate.display_name, gate.rank, gate.expected_level(), Encounter.party_level(GameState.party_characters()),
+		gate.display_name, gate.reading(), gate.reading_level(), Encounter.party_level(GameState.party_characters()),
 		Pad.key("interact") if Pad.using_pad else "E"])
 	return false
 
@@ -707,7 +724,7 @@ func _gate_here() -> Site:
 
 ## A gate whose keepers stand `GATE_WARN_LEVELS` or more above the company.
 func _gate_too_strong(gate: Site) -> bool:
-	return gate.expected_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
+	return gate.reading_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
 
 
 ## Where a company resting on this floor sits, for their fire ([D246]).
@@ -724,6 +741,9 @@ func _admit_climbers_to_the_floor() -> void:
 	if floors.is_empty() or units.is_empty() or companies.is_empty() or map.stairs.is_empty():
 		return
 	if _tower_floor < int(floors.get("from", 2)) or GameState.world == null:
+		return
+	# A shared floor has its own company climbing it, and a lived-on floor its people ([D307]).
+	if TowerFloors.is_shared(_tower_floor) or TowerFloors.is_living(_tower_floor):
 		return
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash([GameState.world.world_seed, _tower_floor, "climbers"])
@@ -1702,6 +1722,9 @@ func _prompt_text() -> String:
 			return "%s to %s" % [Pad.key("interact"), _nearby.prompt()]
 		return "Click to %s" % _nearby.prompt()
 	var here := _acts_text()
+	var strike := str(AreaWatch.rule("first_strike_hint", "")) if _strike_target() != null else ""
+	if strike != "":
+		return strike if here == "" else "%s  ·  %s" % [here, strike]
 	if here != "":
 		return here
 	# How to walk is said until the player has walked; after that, in a run, the
@@ -1784,6 +1807,12 @@ func _click_step() -> Vector2:
 func _walk_to(point: Vector2) -> void:
 	var way := map.find_path(_leader.position, point)
 	if way.size() < 2:
+		# Open ground with no way to it from here, on ground with heights, is a shelf with no way up:
+		# said once a cell ([D312]).
+		var there := map.cell_at(point)
+		if map.has_heights() and map.is_walkable(there) and there != map.cell_at(_leader.position) and not _ledges_said.has(there):
+			_ledges_said[there] = true
+			_note(str(Database.world_rules.get("heights", {}).get("no_way_line", "There is no way up to there from here.")))
 		return
 	way.remove_at(0)
 	# The last step is to where the click was, not the middle of its cell.
@@ -2077,6 +2106,9 @@ func _examine(thing: AreaProp) -> void:
 		var names := Climbers.lines(GameState.world, GameState.roster.player() if GameState.roster != null else null)
 		EventBus.conversation_requested.emit([{ "speaker": thing.display_name.capitalize(), "text": "\n".join(names) }])
 		return
+	if not thing.try_once.is_empty():
+		_try_once(thing)
+		return
 	_note(thing.line)
 	# A way in that is shut says why (the Tower's stair, sealed until the Guild's mark).
 	if thing.act != "":
@@ -2317,6 +2349,9 @@ func _physics_process(delta: float) -> void:
 	var moved := _leader.position - before
 	if moved.length_squared() > 0.01:
 		_leader.face(moved)
+	if map.has_heights():
+		_fall(before)
+		_say_the_shelf(before, stride, moved)
 	# Auto walking into something and not moving works its way out again, rather than pressing on
 	# at a waypoint it cannot reach ([D197]).
 	_auto_blocked = _auto_blocked + 1 if Pace.auto and moved.length_squared() <= 0.01 else 0
@@ -2432,39 +2467,98 @@ const WALKED_FLAG := "seen:walked"
 ## against a pond still slides along it.
 func _slide(from: Vector2, step: Vector2) -> Vector2:
 	var out := from
-	if _can_stand(Vector2(from.x + step.x, out.y)):
+	if _can_step(from, Vector2(from.x + step.x, out.y)):
 		out.x += step.x
-	elif absf(step.y) > 0.001 and _can_stand(Vector2(from.x, out.y + step.y)):
+	elif absf(step.y) > 0.001 and _can_step(from, Vector2(from.x, out.y + step.y)):
 		pass
 	else:
 		# Horizontal blocked; attempt subtle corner nudge up/down to slide smoothly around corners
 		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
-			if _can_stand(Vector2(from.x + step.x, out.y + nudge)):
+			if _can_step(from, Vector2(from.x + step.x, out.y + nudge)):
 				out.y += minf(absf(step.x), nudge)
 				out.x += step.x
 				break
-			elif _can_stand(Vector2(from.x + step.x, out.y - nudge)):
+			elif _can_step(from, Vector2(from.x + step.x, out.y - nudge)):
 				out.y -= minf(absf(step.x), nudge)
 				out.x += step.x
 				break
 
-	if _can_stand(Vector2(out.x, from.y + step.y)):
+	if _can_step(from, Vector2(out.x, from.y + step.y)):
 		out.y += step.y
-	elif absf(step.x) > 0.001 and _can_stand(Vector2(out.x + step.x, from.y)):
+	elif absf(step.x) > 0.001 and _can_step(from, Vector2(out.x + step.x, from.y)):
 		pass
 	else:
 		# Vertical blocked; attempt subtle corner nudge left/right to slide smoothly around corners
 		for nudge in [2.0, 4.0, 6.0, 8.0, 10.0]:
-			if _can_stand(Vector2(out.x + nudge, from.y + step.y)):
+			if _can_step(from, Vector2(out.x + nudge, from.y + step.y)):
 				out.x += minf(absf(step.y), nudge)
 				out.y += step.y
 				break
-			elif _can_stand(Vector2(out.x - nudge, from.y + step.y)):
+			elif _can_step(from, Vector2(out.x - nudge, from.y + step.y)):
 				out.x -= minf(absf(step.y), nudge)
 				out.y += step.y
 				break
 
 	return out
+
+
+## Standing room at [param to], stepped to from [param from]: higher ground is only climbed at a
+## way up, and only dropped off otherwise ([D308]).
+func _can_step(from: Vector2, to: Vector2) -> bool:
+	return _can_stand(to) and map.may_step(map.cell_at(from), map.cell_at(to))
+
+
+## The lead stepped from [param before] to where they stand: a drop of a height or more, and what it
+## costs ([D308]): the first height is free, each past `hurt_from` takes `share` of everyone's
+## health, never below `floor` of it.
+func _fall(before: Vector2) -> void:
+	var fell := map.drop(map.cell_at(before), map.cell_at(_leader.position))
+	var rules: Dictionary = Database.world_rules.get("heights", {})
+	if fell < int(rules.get("hurt_from", 2)):
+		return
+	var share := float(rules.get("share", 0.15)) * float(fell - int(rules.get("hurt_from", 2)) + 1)
+	for member: Character in GameState.party_characters():
+		var low := ceili(float(member.max_hp()) * float(rules.get("floor", 0.1)))
+		member.hp = maxi(low, member.current_hp() - maxi(1, roundi(float(member.max_hp()) * share)))
+	_note(str(rules.get("hurt_line", "A drop of {fell}. Everyone lands hard.")).format({ "fell": fell }))
+
+
+## Something tried once a run with a throw of the dice ([D318]; play-test 3, item 8: the sword in the
+## Tower's yard, "pulled with a dice roll, once"). The first look rolls against `try.chance` (a roll
+## given is used, for the suites): won, the prize is taken and `win` said; lost, `lose`. Every look
+## after says `tried`. The run keeps the try as a flag, won or lost.
+func _try_once(thing: AreaProp, roll: float = -1.0) -> void:
+	var try: Dictionary = thing.try_once
+	var local := map.local_of(thing.cell)
+	var flag := "tried:%s:%d:%d" % [map.area_of(thing.cell), local.x, local.y]
+	if GameState.has_flag(flag):
+		_note(str(try.get("tried", thing.line)))
+		return
+	GameState.set_flag(flag)
+	thing.line = str(try.get("tried", thing.line))
+	if roll < 0.0:
+		roll = randf()
+	if roll < float(try.get("chance", 0.0)):
+		GameState.set_flag(flag + ":won")
+		_note(str(try.get("win", "It comes free.")))
+		for line: String in Loot.claim({ "item": str(try.get("item", "")) }, GameState.roster):
+			_note(line)
+	else:
+		_note(str(try.get("lose", "It does not move.")))
+
+
+## Walking into a shelf with no way up says so, once a cell ([D308]).
+func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
+	if not map.has_heights() or moved.length_squared() > 0.01 or stride == Vector2.ZERO:
+		return
+	var ahead := map.cell_at(before + stride.normalized() * (BODY_RADIUS + 4.0))
+	var here := map.cell_at(before)
+	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
+		return
+	if _ledges_said.has(ahead):
+		return
+	_ledges_said[ahead] = true
+	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
 
 
 func _can_stand(point: Vector2) -> bool:
@@ -2559,14 +2653,27 @@ func _drop_crumbs() -> void:
 func _settle_followers(delta: float) -> void:
 	if _followers.is_empty() or _leader == null:
 		return
+	# The party's formation ([D305]): each follower has a slot round the lead, and walks to it
+	# where it can be stood on; where it cannot (a door, a wall), the trail behind the lead.
+	var slots := _formation_slots()
 	for index in _followers.size():
 		var follower := _followers[index]
 		var target_dist := float(index + 1) * FOLLOWER_DISTANCE
 		var target_pos := _point_along_trail(target_dist)
+		var formed := false
+		if slots.has(index):
+			var spot: Vector2 = slots[index]
+			if _can_stand(spot) and map.height_at(map.cell_at(spot)) == map.height_at(map.cell_at(_leader.position)):
+				target_pos = spot
+				formed = true
 		var to_target := target_pos - follower.position
 		var far := to_target.length()
 
 		if far <= FOLLOW_DEADZONE:
+			if formed:
+				# Settled in a slot: face the way the lead faces.
+				follower.face(_leader.facing())
+				continue
 			# When settled, face along the trail towards the member ahead
 			var ahead_dist := maxf(0.0, target_dist - 10.0)
 			var ahead_pos := _point_along_trail(ahead_dist)
@@ -2586,6 +2693,31 @@ func _settle_followers(delta: float) -> void:
 		if step.length() > 0.5:
 			follower.face(step)
 		follower.position = _slide(follower.position, step)
+
+
+## Where each follower's slot is right now ([D305]): follower index -> point, for the party's
+## shape round the lead as they face. Empty with formations off, or when the followers are not
+## the party (someone has just joined or gone, and `_fall_in` has not put them down yet).
+func _formation_slots() -> Dictionary:
+	var out := {}
+	if not Formations.on() or _leader == null:
+		return out
+	var members := GameState.party_characters()
+	if members.size() != _followers.size() + 1:
+		return out
+	var companions: Array = []
+	for i in range(1, members.size()):
+		companions.append(members[i].template_id)
+	var shape := Formations.chosen(members.size(), Formations.leader_of(members))
+	if shape == "":
+		return out
+	var dealt := Formations.assign(shape, companions)
+	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
+	for i in companions.size():
+		# One in no state to hold a formation walks the trail instead ([D306]).
+		if dealt.has(companions[i]) and not Formations.broken(members[i + 1]):
+			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
+	return out
 
 
 func _arrive_at(cell: Vector2i) -> void:
@@ -2614,9 +2746,40 @@ func _arrive_at(cell: Vector2i) -> void:
 		_note(map.spots[cell])
 		if map.spot_flags.has(cell):
 			GameState.set_flag(map.spot_flags[cell])
+		if map.story_pages.has(cell):
+			_read_a_page(cell)
 		_found_on_the_land(cell)
 	if map.chests.has(cell):
 		_open_chest(cell)
+
+
+## A page of the place's story ([D314]; [D287]: "a quest or a story in each"), stood on: its line is
+## said each time, kept as a flag the first time this run, and when the last page of the place's
+## story is read its end is said and written in the annals. Read in any order.
+func _read_a_page(cell: Vector2i) -> void:
+	var area := map.area_of(cell)
+	var local := map.local_of(cell)
+	var flag := "story:%s:%d:%d" % [area, local.x, local.y]
+	if GameState.has_flag(flag) or GameState.has_flag("story:%s:told" % area):
+		return
+	GameState.set_flag(flag)
+	var data: Dictionary = Database.area(area)
+	for spot: Dictionary in data.get("spots", []):
+		if not bool(spot.get("page", false)):
+			continue
+		var page := AreaMap.to_cell(spot.get("cell", [0, 0]))
+		if not GameState.has_flag("story:%s:%d:%d" % [area, page.x, page.y]):
+			return
+	var end := str((data.get("story", {}) as Dictionary).get("end", ""))
+	if end == "":
+		return
+	GameState.set_flag("story:%s:told" % area)
+	var wild := str(data.get("display_name", area))
+	var told := str(Database.world_rules.get("wilds", {}).get("story_annals", "{wild}: {end}")).format(
+			{ "wild": wild.left(1).to_upper() + wild.substr(1), "end": end })
+	_note(told)
+	if GameState.world != null:
+		Annals.record(GameState.world, told)
 
 
 ## Something somebody left out in the open country (standing stones, a cairn, a cold camp, a cache)
@@ -2677,6 +2840,12 @@ func _direction_name(dir: Vector2i) -> String:
 func _handle_exit(cell: Vector2i) -> void:
 	if _leaving:
 		return
+	# A double gate lets nobody out until its keeper falls ([D302]).
+	if _in_a_gate() and GameState.world != null:
+		var gate := GameState.world.site_at(_gate_cell)
+		if gate != null and gate.sealed_in():
+			_note(str(Site.reading_rules().get("sealed_line", "The way out is shut.")))
+			return
 	var dir := _cardinal_direction_of(cell)
 	# On the ground every road leads somewhere on the continent: out the way it
 	# points, rather than back up to a view nobody plays in.
@@ -2915,12 +3084,12 @@ func _seen_by(watch: Node2D, came_from: Vector2i) -> void:
 	_approach = null
 	_approach_path.clear()
 	_hold_the_town(true)
-	var ambush: bool = map.in_bounds(came_from) and watch.in_cover(came_from)
+	var ambush: bool = _striking_first or (map.in_bounds(came_from) and watch.in_cover(came_from))
 	watch.raise_the_alarm(_leader.position, ambush)
 	var many := (watch.band.get("pack", []) as Array).size() > 1
-	if ambush:
+	if ambush and not _striking_first:
 		_note("Out of the long grass and on %s before they know it." % str(watch.band.get("label", "them")))
-	else:
+	elif not ambush:
 		_note("%s %s seen you!" % [str(watch.band.get("label", "Something")), "have" if many else "has"])
 		# A beat for the shout to be read before they come, if the rules give one (none since D204:
 		# the fight is on as they shout); an ambush never gives them one.
@@ -3055,6 +3224,12 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 		"kind": "tower_band", "enemies": enemies,
 		"lost": str(watch.band.get("lost", "You come back down the stair, and they are still up there.")),
 	}
+	# On a shared Tower floor the company climbing it fights beside the party ([D307]).
+	if _tower_floor > 0 and not _in_a_gate() and not (boot_payload.get("allies", []) as Array).is_empty():
+		var with_you: Array = field.get("allies", [])
+		for ally: Dictionary in boot_payload.get("allies", []):
+			with_you.append(ally.duplicate())
+		field["allies"] = with_you
 	if _in_a_gate():
 		# Lost inside a gate, the delve is lost with it: back out at its mouth, its floors filled in.
 		GameState.pending_outcome = {
@@ -3174,6 +3349,52 @@ func _climb_the_stair() -> void:
 	EventBus.request_scene.emit("world", { "climb_on": true })
 
 
+## A band the lead could strike first ([D288], [D300]): one of its figures within
+## `first_strike_reach` cells, and the leader standing out of its sight. The nearest, or null.
+func _strike_target() -> Node2D:
+	if _leader == null or _spotted or _leaving or _talking or _winding_up or _fight != null:
+		return null
+	var reach := float(AreaWatch.rule("first_strike_reach", 0)) * AreaMap.CELL
+	if reach <= 0.0:
+		return null
+	var here := map.cell_at(_leader.position)
+	var best: Node2D = null
+	var nearest := reach
+	for watch: Node2D in _watches:
+		if watch.watched.has(here) or watch.figures.is_empty():
+			continue
+		for figure: Node2D in watch.figures:
+			var apart := figure.position.distance_to(_leader.position)
+			if apart <= nearest:
+				nearest = apart
+				best = watch
+	return best
+
+
+## The lead turns to the band and winds up ([D300]); a moment later the blow is loosed and the
+## fight is on, opened by it. Seen first, while winding up, and the strike is lost.
+func _wind_up(watch: Node2D) -> void:
+	_winding_up = true
+	_approach = null
+	_approach_path.clear()
+	_click_path.clear()
+	if not watch.figures.is_empty():
+		_leader.face((watch.figures[0] as Node2D).position - _leader.position)
+	_note("%s winds up a strike..." % (_leader_character.display_name if _leader_character != null else "The lead"))
+	var wind := create_tween()
+	wind.tween_property(_leader, "modulate", Color(1.6, 1.3, 0.8), float(AreaWatch.rule("first_strike_seconds", 0.8)))
+	await wind.finished
+	if not is_inside_tree():
+		return
+	_winding_up = false
+	if _leader != null:
+		_leader.modulate = Color.WHITE
+	if _spotted or _leaving or _talking or not _watches.has(watch):
+		return
+	_striking_first = true
+	_seen_by(watch, Vector2i(-1, -1))
+
+
 ## The band rushes the party: part of the way, facing them, so the fight opening is something
 ## seen happen rather than a cut.
 func _charge(watch: Node2D) -> void:
@@ -3202,12 +3423,28 @@ func _fight_here(payload: Dictionary) -> void:
 	var asked := payload.duplicate()
 	asked["in_place"] = true
 	asked["paused"] = false
+	if _striking_first:
+		_striking_first = false
+		var encounter: Dictionary = (asked.get("encounter", {}) as Dictionary).duplicate()
+		encounter["first_strike"] = true
+		encounter["ambush"] = true
+		# Not "… have seen you": they had not.
+		if _fight_watch != null and is_instance_valid(_fight_watch):
+			encounter["title"] = str(AreaWatch.rule("first_strike_title", "{band}, struck first")).format(
+					{"band": str(_fight_watch.band.get("label", "them"))})
+		asked["encounter"] = encounter
 	# AM (D150): a party walking itself stops for a fight that matters and hands it over, paused;
 	# it walks on by itself again once that fight is won.
 	var lead := GameState.roster.player() if GameState.roster != null else null
-	if Pace.auto and not bool(asked.get("sandbox", false)) and FirstHour.auto_stops_for(
+	var stops := Pace.auto and not bool(asked.get("sandbox", false)) and FirstHour.auto_stops_for(
 			(asked.get("encounter", {}) as Dictionary).get("enemies", []),
-			str(GameState.pending_outcome.get("kind", "")), lead.level if lead != null else 1):
+			str(GameState.pending_outcome.get("kind", "")), lead.level if lead != null else 1)
+	# A band of the land is fought running, Auto or not ([D288], [D300]): Auto says it is a hard one
+	# and fights on, and Q still takes it back. Gates and keepers still stop and hand it over.
+	if stops and str((asked.get("encounter", {}) as Dictionary).get("kind", "")) == Encounter.WILD:
+		stops = false
+		_note(FirstHour.auto_runs_line())
+	if stops:
 		Pace.auto = false
 		_auto_after_fight = true
 		asked["paused"] = true
@@ -3325,6 +3562,7 @@ func _regather_at(point: Vector2) -> void:
 ## Back to walking: nobody is looking, the town moves again, and the cell stood on is not a fresh
 ## step into anyone's sight.
 func _stand_down() -> void:
+	_striking_first = false
 	_spotted = false
 	_leaving = false
 	_talking = false
@@ -3985,6 +4223,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_engage(_nearby)
 		return
+	if event is InputEventKey and event.is_pressed() and not event.is_echo() \
+			and event.keycode == KEY_G and not _leaving and not _talking:
+		var target := _strike_target()
+		if target != null:
+			get_viewport().set_input_as_handled()
+			_wind_up(target)
+			return
 	if event.is_action_pressed("battle_auto"):
 		get_viewport().set_input_as_handled()
 		Pace.auto = not Pace.auto

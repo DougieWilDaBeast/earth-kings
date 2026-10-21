@@ -1,5 +1,9 @@
 {
     "display_name": "the thorn thicket",
+    "lure": "a snare set well and never come back for, and the thing it was set for",
+    "story": {
+        "end": "the trappers set a snare for something with hands, counted it coming closer on the shed wall, and left without their boots."
+    },
     "layers": [
         "dirt",
         "meadow"
@@ -86,6 +90,30 @@
         }
     ],
     "spots": [
+        {
+            "cell": [
+                7,
+                4
+            ],
+            "line": "The snare was set for something with hands: the loop sits at wrist height, and the peg is iron.",
+            "page": true
+        },
+        {
+            "cell": [
+                23,
+                13
+            ],
+            "line": "A trapper's tally on the shed wall: pelts, then days, then nothing but strokes, each a little nearer the door than the last.",
+            "page": true
+        },
+        {
+            "cell": [
+                25,
+                15
+            ],
+            "line": "The camp was left in a hurry. A kettle still on its hook, boots by the fire, and no bootprints on the way out.",
+            "page": true
+        },
         {
             "cell": [
                 14,

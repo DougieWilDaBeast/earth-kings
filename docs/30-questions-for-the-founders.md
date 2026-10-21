@@ -32,13 +32,9 @@ and Early Access (32); on 30 both lean to a one-off price with a free demo, and 
 | Question | Whose | What is left | Issue |
 | --- | --- | --- | --- |
 | 31. When? | Ewan | His word on January or February 2027, asked again on 2026-10-31; Will confirmed the year on 2026-10-18 ([D255](06-decisions.md)) | [#213](https://github.com/DougieWilDaBeast/earth-kings/issues/213) (closed on Will's half) |
-| 33. The rest of the agreement | Both | Ownership answered 2026-10-20 (jointly, [D297](06-decisions.md)); left: who decides when you disagree, and the paper before the first sale | [#276](https://github.com/DougieWilDaBeast/earth-kings/issues/276) |
-| 41. Levels on the open land | Both | Default: caves teach like gates, the land teaches experience only | — |
-| 42. The other sixteen of the 32 | Both | Default: the twelve and four new people | — |
-| 43. Sellers, healers, stewards | Both | Default: not in the company; they can work on your land | — |
-| 44. The Forgotten Order's names | Ewan | Default: the writers draft six by-names, Ewan picks | — |
-| 45. The guild day | Both | Ten questions, by voice note, before any guild building | — |
-| 46. The world's history | Both | Eleven questions, by voice note | — |
+| 44. The Forgotten Order's names | Ewan | Six drafted (2026-10-20); Ewan picks or changes | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
+| 45. The guild day | Both | Ten questions, by voice note, before any guild building | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
+| 46. The world's history | Both | Eleven questions, by voice note this week | [#384](https://github.com/DougieWilDaBeast/earth-kings/issues/384) |
 
 **Added 2026-10-17 by design meeting 5** ([D200](06-decisions.md)): three more, 25 to 27, at the end; two
 for Ewan, one for Ewan with Will's half already given. Each has the room's recommendation as its default.
@@ -387,6 +383,8 @@ _Answered 2026-10-17 (Will's word):_ **Will:** 50/50 is after Steam's cut and th
 
 _Answered in part 2026-10-20_ in the founders' meeting, Ewan there ([part 2](worldbuilding/voice-notes/2026-10-20-founders-meeting-part-2.md), [D297](06-decisions.md)): **Will:** the code, the art and the rest are owned "jointly, me and you, all together", written up for the first sale, the profits split between you. Still open: who decides when you disagree.
 
+_Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): you decide together; when stuck, it waits a week and you talk again; it is written down before the first sale. Question 33 is settled.
+
 ## 9. Asked by Ewan's "what other games do well"
 
 Added 2026-10-17 from `doug-md`'s write-up of six games (Necesse, Kenshi, Dungeon Settlers, Terraria,
@@ -452,21 +450,32 @@ Added 2026-10-20 by design meeting six ([D299](06-decisions.md)), which read the
 [part 2](worldbuilding/voice-notes/2026-10-20-founders-meeting-part-2.md)) into work. Each has the room's
 recommendation as its default.
 
-**41. Does a fight on the open land teach levels?** (Both) You level only from new foes in a gate, and
+~~**41. Does a fight on the open land teach levels?**~~ (Both) You level only from new foes in a gate, and
 the Tower teaches experience, not levels ([D292](06-decisions.md)). The road, the wilds and caves were not said.
 _Default:_ caves count as gates; the open land teaches experience only, like the Tower.
+_Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): caves count as gates; the open land and the Tower teach experience only.
 
-**42. Who are the other sixteen of the thirty-two?** (Both) The sixteen leads and sixteen more can be
+~~**42. Who are the other sixteen of the thirty-two?**~~ (Both) The sixteen leads and sixteen more can be
 recruited ([D295](06-decisions.md)). _Default:_ the twelve met in the world (Bram, Sera, Toln and the rest)
 and four new people the writers draft for the founders to name.
+_Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): the twelve met in the world and four new people, drafted by the writers for the founders to name.
 
-**43. Can sellers, healers and stewards join?** (Both) Today they keep their posts (agenda 188); "you
+~~**43. Can sellers, healers and stewards join?**~~ (Both) Today they keep their posts (agenda 188); "you
 should be able to recruit absolutely everybody, maybe not all". _Default:_ they do not join the company,
 but once you have a guild they can come and work on your land.
+_Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): they do not join the company; once you have a guild they can come and work on your land.
 
 **44. The Forgotten Order's six: what are they called?** (Ewan) Follows 39 and [D291](06-decisions.md).
 _Default:_ the writers draft six by-names as the fables tell them (demigod-like, beside the sixteen's gods),
 true names kept for later like the Order's own, and Ewan picks or changes them.
+_Answered 2026-10-20:_ **Will:** "All recommended" (call BV, [D303](06-decisions.md)): the writers draft, Ewan picks or changes. **Drafted 2026-10-20** (agenda 210), each as the fables call them, true names kept back like the Order's own:
+1. **Aeneas, the Last Out of the Fire**: led them in; the fables say he carried the other five out of a burning world first.
+2. **Orion, the Hunter Who Climbs**: went ahead on every floor and came back to say what waited.
+3. **Atalanta, the Runner**: never lost a race on the land, and in the Tower ran messages between floors nobody else could reach.
+4. **Castor, the Twin Who Stayed**: his brother turned back at the door; the tales argue about which of them was the brave one.
+5. **Penthesilea, the Spear Queen**: the one the land's monuments show, spear down, facing the Tower.
+6. **Asclepius, the Mender**: kept the six alive for a hundred years; some say he is why none of them has aged.
+**Ewan:** keep, change or replace any; say "skip" to leave a name open.
 
 **45. The guild day.** (Both) Ewan asked for a day on the guild alone, from a list of questions
 ([D294](06-decisions.md)). Nothing of companies of your own or the guild is built before it. The list:
@@ -481,6 +490,7 @@ true names kept for later like the Order's own, and Ewan picks or changes them.
 9. Rival guilds (the Guild against the Heart Empire is built as a show, [D257](06-decisions.md)): do you fight them?
 10. When your lead falls and the next life begins, is the guild still yours?
 _Default:_ answered by voice note, one number at a time, before any of it is built.
+_Answered (how) 2026-10-20:_ **Will:** "All recommended" ([D303](06-decisions.md)): by voice note, one number at a time, before any of it is built.
 
 **46. The world's history.** (Both) Drafted from what the ledger already holds ([D296](06-decisions.md)); say "skip" to any.
 1. What stood here before the Tower? Was there an age without gates?
@@ -495,6 +505,7 @@ _Default:_ answered by voice note, one number at a time, before any of it is bui
 10. Why does Stormreach stand at the Tower's foot?
 11. Has any world fallen before the game begins, and is there a demon king already?
 _Default:_ open; the history waits on these.
+_Answered (how) 2026-10-20:_ **Will:** "All recommended" ([D303](06-decisions.md)): by voice note this week.
 
 ## Will's to-dos (not questions)
 

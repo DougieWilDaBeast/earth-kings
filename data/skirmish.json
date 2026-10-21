@@ -1,4 +1,10 @@
 {
+	"first_strike": {
+		"_comment": "D288, D300: a fight opened by a first strike (area_scene.gd winds it up out of the band's sight). As the fight opens the lead's own swing lands on the nearest foe at power times its weight, before the other side moves; the rest is an ambush (passives.ambush_head_start).",
+		"power": 2.0,
+		"word": "First strike!",
+		"line": "{name} strikes first: {foe} never saw it coming."
+	},
 	"rules": {
 		"max_passives": 3,
 		"base_crit": 0.05,
@@ -24,6 +30,14 @@
 		"block_max": 0.4,
 		"ambush_head_start": 2.0,
 		"swings_per_practice": 3,
+		"_comment_flee": "D319 (Ewan, D118: 'an open fight you can walk out of'; issue #243: 'at a cost'). Getting clear of a fight costs: whoever reaches the edge takes a parting blow of flee.parting_blow of their health as they go, never a fall (cleared_line, {who}); when the whole company gets clear of a band of the land, the band keeps flee.gold_share of the company's coin, dropped in the running (dropped_line, {coin}); the order to the edge says so (making_line). A fight left inside a gate or the Tower keeps no coin. Inferred: the tenth and the tenth.",
+		"flee": {
+			"parting_blow": 0.1,
+			"gold_share": 0.1,
+			"making_line": "Making for the edge of the field. Whatever is dropped in the running stays dropped.",
+			"cleared_line": "{who} gets clear, with a parting blow for it.",
+			"dropped_line": "You get clear of them, {coin} the lighter for what was dropped in the running. They are still out there."
+		},
 		"_comment_heal": "A mend grows with its caster's level (D284): health grows every level and a spell's power did not, so Vesta's Mend (16) was a tenth of Juno at level 1 and a thirtieth at 17. From heal_from_level it heals heal_per_level more a level (level 17: 2.4 times); below it, as it was. Draughts already grow by kind and regen by share of health. Inferred: both numbers.",
 		"heal_from_level": 3,
 		"heal_per_level": 0.1
@@ -69,7 +83,7 @@
 			"bellona": "leader"
 		},
 		"roles": { "charger": "striker", "skirmisher": "ranged", "mender": "keeper" },
-		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off", "escort": "keeps by {name}", "rally": "stands by {name}" },
+		"words": { "dodge": "dodges", "kite": "falls back", "flank": "circles", "guard": "guards {name}", "hang_back": "hangs back", "break": "breaks off", "escort": "keeps by {name}", "rally": "stands by {name}", "form": "falls in" },
 		"escort_reach": 2,
 		"escort_every": 2.0,
 		"stances": {
@@ -82,6 +96,76 @@
 		}
 	},
 
+	"formations": {
+		"_comment": "Formations (D289, D305; all Inferred). The player's party walks and fights in a shape: the lead at the origin, each companion in a slot, `at` [across (the lead's right is positive), forward (ahead is positive)], in a `line` (front, flank, back). Companions are dealt slots by what they fight with (line_by_doctrine by a lead's tactics doctrine, else read from their abilities: a mender or a shooter is back, one who swings up close front, the rest flank): the back line is dealt first, then the front, then the rest, each to the nearest line it would rather stand in, from the first as many slots as there are companions (a shape's slots are written in the order they fill, so a small party keeps a compact shape with no holes). The player picks a shape on the party screen; `auto` picks by how many walk (auto_by_size, the lead counted; fallback below the smallest written). On the ground the followers walk to their slots, ground_spacing pixels a slot, and fall back to the trail where a slot cannot be stood on. In a fight the party falls in round the lead (the `form` move, every form_every seconds) until anyone of it is in contact with a foe; a companion standing within slack of its slot gets hold_guard off every blow, the Formation aura's idea as the bonus for holding one. Enemies and allies keep to their own ways.",
+		"on": true,
+		"auto_word": "Auto",
+		"auto_tip": "The party picks a shape by how many walk: two abreast, three in a wedge, four in a diamond, six in a pyramid.",
+		"fallback": "line",
+		"auto_by_size": { "2": "line", "3": "wedge", "4": "diamond", "5": "wedge", "6": "pyramid" },
+		"line_by_doctrine": {
+			"ranged": "back", "keeper": "back",
+			"striker": "front", "guardian": "front", "anchor": "front", "brute": "front", "rooted": "front", "leader": "front"
+		},
+		"ground_spacing": 40.0,
+		"form_every": 1.5,
+		"slack": 1,
+		"hold_guard": 0.08,
+		"_comment_foes": "D289, D315 (piece E's last; Inferred). A band of foes falls in too: from foes.from of them standing, round its caller (its boss, else the first of them standing, D306), in the shape auto_by_size picks for its size, each dealt a slot by what it fights with (line_of), the shape facing the nearest of the party; a foe walks to its slot (the form move, form_every) while none of the band is in contact with the party, and is spared foes.hold_guard of every blow for holding it (none). On the ground too (D320, foes.ground): a band of foes.from or more figures patrols and travels in the same shape round the one in front, ground_spacing pixels a slot, each figure falling back to the trail where its slot cannot be stood on.",
+		"foes": { "on": true, "from": 3, "hold_guard": 0.0, "ground": true, "ground_spacing": 40.0 },
+		"_comment_leader": "D289, D306 (piece E2; all Inferred). A natural leader comes out of the fights: the party member with the most fights won (from_won or more; ties to the higher level, then the marching order), who need not be the lead you play. They recommend a shape (shapes_by_line, by the line they fight in) which Auto takes; the player may pick another. In a fight the leader (else the lead) calls out when they go for a soft foe (callouts: healer for a mender, archer for a shooter), once per foe, a word both sides hear: the foe called is warned for warned_for seconds, tries warned_first moves first and its friends guard it; a foe's boss calls the same on the party, and the one called is warned the same way. A companion whose mood is under break_below_mood does not fall in and holds no slot (a formation breaking on mood). A bonus for fights shared: a party fighter is spared shared.per_fight of every blow, and lands as much more, for every fight won beside the others present (their average), up to shared.cap.",
+		"leader": {
+			"from_won": 3,
+			"shapes_by_line": { "back": "wedge", "front": "diamond", "flank": "line" },
+			"badge": "leads the fights ({won} won)",
+			"call": "{name}'s call"
+		},
+		"callouts": {
+			"healer": "Get the healer!",
+			"archer": "On the archer!",
+			"warned_for": 3.0,
+			"warned_first": ["break", "hang_back", "kite"]
+		},
+		"break_below_mood": 35,
+		"shared": { "per_fight": 0.004, "cap": 0.08 },
+		"shapes": {
+			"line": {
+				"word": "Line", "tip": "Everyone abreast of the lead: every blade in front, nobody behind.",
+				"slots": [
+					{ "at": [-1, 0], "line": "front" }, { "at": [1, 0], "line": "front" }, { "at": [-2, 0], "line": "flank" },
+					{ "at": [2, 0], "line": "flank" }, { "at": [-3, 0], "line": "back" }
+				]
+			},
+			"column": {
+				"word": "Column", "tip": "Single file behind the lead, for a narrow way; the mender last.",
+				"slots": [
+					{ "at": [0, -1], "line": "front" }, { "at": [0, -2], "line": "flank" }, { "at": [0, -3], "line": "back" },
+					{ "at": [0, -4], "line": "flank" }, { "at": [0, -5], "line": "back" }
+				]
+			},
+			"diamond": {
+				"word": "Diamond", "tip": "The lead in the middle: a blade ahead, one at each side, the mender behind.",
+				"slots": [
+					{ "at": [0, 1], "line": "front" }, { "at": [0, -1], "line": "back" }, { "at": [-1, 0], "line": "flank" },
+					{ "at": [1, 0], "line": "flank" }, { "at": [-1, -1], "line": "back" }
+				]
+			},
+			"wedge": {
+				"word": "Wedge", "tip": "The lead at the point, blades at each shoulder, the mender inside the V.",
+				"slots": [
+					{ "at": [-1, -1], "line": "front" }, { "at": [1, -1], "line": "front" }, { "at": [0, -2], "line": "back" },
+					{ "at": [-2, -2], "line": "flank" }, { "at": [2, -2], "line": "flank" }
+				]
+			},
+			"pyramid": {
+				"word": "Pyramid", "tip": "One, two and three: the lead, two blades behind, a row of three behind them.",
+				"slots": [
+					{ "at": [-1, -1], "line": "front" }, { "at": [1, -1], "line": "front" }, { "at": [-2, -2], "line": "flank" },
+					{ "at": [0, -2], "line": "back" }, { "at": [2, -2], "line": "flank" }
+				]
+			}
+		}
+	},
 	"passives": {
 		"shieldwall": {
 			"display_name": "Shieldwall",

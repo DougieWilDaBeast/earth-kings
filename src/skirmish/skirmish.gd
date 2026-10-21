@@ -37,6 +37,7 @@ const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const SkirmishSignatures := preload("res://src/skirmish/skirmish_signatures.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 const GroundPainter := preload("res://src/area/ground_painter.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
 const Land := preload("res://src/area/land.gd")
@@ -171,9 +172,12 @@ var ground_fight: bool = false
 var turned: bool = false
 ## Whoever the fight turned on, while the card asking what now is up.
 var turning: Fighter = null
+## The fight was opened by a first strike that landed ([method _strike_first]).
+var first_struck: bool = false
 
 
 func _ready() -> void:
+	add_to_group(EventBus.FIGHT_GROUP)
 	map_id = str(boot_payload.get("map_id", DEFAULT_MAP))
 	in_place = bool(boot_payload.get("in_place", false))
 	encounter = boot_payload.get("encounter", {})
@@ -217,6 +221,8 @@ func _ready() -> void:
 	_say("The fight is paused — %s to begin." % begin if paused else "The fight is on.")
 	for line in _opening:
 		_say(line)
+	if bool(encounter.get("first_strike", false)):
+		_strike_first()
 	Sfx.cue("engage")
 	EventBus.battle_lineup.emit(_lineup())
 	EventBus.battle_started.emit(map_id)
@@ -379,6 +385,37 @@ func _give_the_party_the_jump() -> void:
 			f.think_timer += head_start
 
 
+## A first strike ([D288], [D300]): wound up out of the band's sight on the ground, the lead's own
+## swing lands on the nearest foe as the fight opens, before the other side has turned, at
+## `first_strike.power` times its weight.
+func _strike_first() -> void:
+	var party := party_fighters()
+	if party.is_empty():
+		return
+	var lead: Fighter = party[0]
+	for f: Fighter in party:
+		if f.unit.character != null and f.unit.character.is_player:
+			lead = f
+	var foe: Unit = null
+	for f: Fighter in fighters:
+		if f.unit.sides_with_party() or not f.is_standing():
+			continue
+		if foe == null or Pathfinder.distance(lead.unit.cell, f.unit.cell) < Pathfinder.distance(lead.unit.cell, foe.cell):
+			foe = f.unit
+	if foe == null:
+		return
+	var rules: Dictionary = Database.skirmish.get("first_strike", {})
+	var ability := Database.ability(lead.basic).duplicate()
+	ability["power"] = float(ability.get("power", 1.0)) * float(rules.get("power", 2.0))
+	lead.unit.face_towards(foe.cell)
+	lead.unit.play("attack")
+	fx.popup(str(rules.get("word", "First strike!")), lead.unit.position, SkirmishFx.HURT, 15)
+	_say(str(rules.get("line", "{name} strikes first.")).format({"name": lead.unit.display_name, "foe": foe.display_name}))
+	_strike(lead, foe, ability, lead.basic)
+	lead.attack_timer = SkirmishRules.attack_interval(lead.unit)
+	first_struck = true
+
+
 func _set_objective(map: Dictionary) -> void:
 	objective = str(encounter.get("objective", Site.OBJECTIVE_ROUT))
 	if objective == Site.OBJECTIVE_HEART:
@@ -492,6 +529,21 @@ func _ground_field() -> Dictionary:
 		"player_spawns": spawns,
 		"enemies": _spread_out(enemies, rows),
 	}
+	# Ground with heights carries them into the fight ([D313]): a row of digits a cell, and where
+	# the slopes are, so the fighters climb and are shoved as the walkers are ([D308]).
+	if ground != null and ground.has_heights():
+		var heights: Array = []
+		var ways: Array = []
+		for y in size.y:
+			var row := ""
+			for x in size.x:
+				var cell := origin + Vector2i(x, y)
+				row += str(clampi(ground.height_at(cell), 0, 9))
+				if ground.ways_up.has(cell):
+					ways.append([x, y])
+			heights.append(row)
+		laid["heights"] = heights
+		laid["ways_up"] = ways
 	# A gate's fight on the ground (D162): the Guild's people fall in beside the party, and a heart
 	# floor's heart is the gate's doorway.
 	var allies: Array = []
@@ -882,6 +934,7 @@ func _tick_fighter(f: Fighter) -> void:
 	f.retreat_wait = maxf(0.0, f.retreat_wait - SkirmishRules.TICK)
 	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
+	f.warned = maxf(0.0, f.warned - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 	conditions.tick(f)
@@ -956,6 +1009,7 @@ func _think(f: Fighter) -> bool:
 			_begin_cast(f, int(plan["slot"]), who, who.cell)
 			return true
 	if f.order == Fighter.Order.NONE:
+		var was := f.target
 		var reach := -1
 		if f.is_party():
 			reach = _basic_reach(f) if f.holding() else SkirmishRules.PARTY_AGGRO_RANGE
@@ -967,7 +1021,28 @@ func _think(f: Fighter) -> bool:
 		# come, unless told to hold.
 		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
 			f.target = SkirmishBrain.pick_target(f, fighters)
+		if f.target != null and f.target != was:
+			_call_out(f)
 	return false
+
+
+## A short call-out as a side's caller goes for a soft foe ([D289], [D306]): "Get the healer!",
+## heard by both sides, so the one called knows to get clear and their friends to cover them. Once
+## per foe called.
+func _call_out(f: Fighter) -> void:
+	var target := _fighter_of(f.target)
+	if target == null:
+		return
+	var key := "called:%d" % f.target.get_instance_id()
+	if f.has_meta(key):
+		return
+	var word := Formations.callout(f, target, fighters)
+	if word == "":
+		return
+	f.set_meta(key, true)
+	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
+	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
+	_say("%s: \"%s\"" % [f.unit.display_name, word])
 
 
 func _party_engaged() -> bool:
@@ -1133,9 +1208,14 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
 		tags.append("charge")
 	multiplier *= signatures.might(f, victim) * conditions.taken_scale(victim)
+	# A party that has fought together lands a little more ([D306]).
+	multiplier *= 1.0 + Formations.shared_bonus(f, fighters)
 	if victim != null:
+		# Holding a slot in the party's formation is a little guard too ([D305]), and so are the
+		# fights shared ([D306]).
 		multiplier *= 1.0 - minf(SkirmishPassives.rule("guard_cap", 0.5),
-				_aura(victim, "guard") + signatures.guard(victim))
+				_aura(victim, "guard") + signatures.guard(victim) + Formations.hold_guard(victim, fighters)
+				+ Formations.shared_bonus(victim, fighters))
 	# Caesar beside them takes part of it on himself.
 	var guardian := signatures.shield_for(victim)
 	if guardian != null:
@@ -1876,6 +1956,12 @@ func _carry_wounds() -> void:
 ## keep their wounds as a share; anyone the company could not reach once it was
 ## beaten falls for real; whoever [Fate] has already settled is left as it said.
 func _settle_the_party() -> void:
+	# The fights each came through, and beside whom ([D306]).
+	var present: Array = []
+	for f in party_fighters():
+		if f.unit.character != null and not bout:
+			present.append(f.unit.character)
+	Formations.record_fight(present, victory)
 	for f in party_fighters():
 		var who := f.unit.character
 		if who == null or not f.settled.is_empty():
@@ -1941,7 +2027,9 @@ func _make_for_the_edge(beyond: Vector2i) -> void:
 		taken.append(spot)
 		f.set_meta("fleeing", true)
 		order_move(f, spot)
-	_say("Making for the edge of the field." if selected.size() > 1 else "%s makes for the edge of the field." % selected[0].unit.display_name)
+	# The order says what it costs ([D319]).
+	_say(str(SkirmishRules.flee_rules().get("making_line",
+			"Making for the edge of the field." if selected.size() > 1 else "%s makes for the edge of the field." % selected[0].unit.display_name)))
 
 
 func _on_the_edge(cell: Vector2i) -> bool:
@@ -1962,12 +2050,21 @@ func _see_who_got_clear() -> void:
 ## [param f] is out of the fight, alive, with whatever carries them, rides them or is bound to them.
 func _get_clear(f: Fighter) -> void:
 	var mount := f.aboard as Fighter
+	# A parting blow on the way off ([D319], Ewan's "at a cost"): a share of their health, never a fall.
+	var share := float(SkirmishRules.flee_rules().get("parting_blow", 0.0))
+	var struck := false
+	if share > 0.0 and f.is_party() and f.unit.is_alive() and not sandbox:
+		var blow := mini(maxi(1, roundi(float(f.unit.max_hp) * share)), f.unit.hp - 1)
+		if blow > 0:
+			f.unit.take_damage(blow)
+			struck = true
 	for other in fighters:
 		if other == f or other == mount or other.aboard == f or other.bound_to == f:
 			other.fled = true
 			other.unit.visible = false
 			selected.erase(other)
-	_say("%s gets clear." % f.unit.display_name)
+	_say(str(SkirmishRules.flee_rules().get("cleared_line", "{who} gets clear.")).format({ "who": f.unit.display_name }) if struck
+			else "%s gets clear." % f.unit.display_name)
 
 
 ## Send everyone selected to [param cell], each to their own tile around it.
@@ -2470,6 +2567,15 @@ func _unit_at(cell: Vector2i) -> Unit:
 func _unit_at_or_downed(cell: Vector2i) -> Unit:
 	var f := occupant(cell)
 	return f.unit if f != null else null
+
+
+func _fighter_of(unit: Unit) -> Fighter:
+	if unit == null:
+		return null
+	for f in fighters:
+		if f.unit == unit:
+			return f
+	return null
 
 
 func _basic_reach(f: Fighter) -> int:

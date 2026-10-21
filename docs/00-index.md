@@ -71,6 +71,7 @@ A critical evaluation and comprehensive investigation plan conducted from the pe
 - [09 — The lands of the continent](investigation/09-lands-of-the-continent.md) — _Necesse_, _Terraria_, _Valheim_ and _Don't Starve_, and the eighteen lands built from them ([D66](06-decisions.md), 2026-10-12)
 - [10 — Who wins? shows](investigation/10-who-wins-shows.md) — a channel of simulated "who wins?" fights, read off its frames, and the show built from it ([D180](06-decisions.md), 2026-10-16)
 - [11 — RimWorld's Play Screen, for Earth Kings](investigation/11-rimworld-play-screen.md)
+- [12 — A small on-device model for fight plans](investigation/12-a-small-model-for-fight-plans.md) — EmbeddingGemma 2, what would run it in Godot, what a native runtime costs the stack, and an offline table to try first ([D298](06-decisions.md), #385, 2026-10-20, **Inferred**)
 
 ## Working rules
 

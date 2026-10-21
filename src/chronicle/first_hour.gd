@@ -144,6 +144,11 @@ static func auto_stop_line() -> String:
 	return str(Database.world_rules.get("first_hour", {}).get("auto_stops", {}).get("line", ""))
 
 
+## What a band of the land says when Auto would once have stopped for it, and now fights on ([D300]).
+static func auto_runs_line() -> String:
+	return str(Database.world_rules.get("first_hour", {}).get("auto_stops", {}).get("ground_line", ""))
+
+
 ## D184 (D174): which of the sixteen [param lead_id] is in this run of worlds, counting from 1: one
 ## more than the leads already fallen ([method Sixteen.fallen_heroes], kept outside the save, D47).
 ## Climbers who are not leads are never counted; at most the number of `warden.ordinals`.

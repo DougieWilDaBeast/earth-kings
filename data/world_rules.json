@@ -64,12 +64,13 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
-		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops.",
+		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops. Since D300 a band of the land (a wild fight) never stops it: it is fought running and `ground_line` is said instead.",
 		"auto_stops": {
 			"gates": true,
 			"keepers": true,
 			"above_level": 1,
-			"line": "Auto stops here: this fight is yours."
+			"line": "Auto stops here: this fight is yours.",
+			"ground_line": "A hard one. Auto fights on: Q takes the party back."
 		}
 	},
 	"life": {
@@ -218,7 +219,12 @@
 		"pull_back_seconds": 0.9,
 		"land_patrol_reach": 6,
 		"land_patrol_points": 4,
-		"travel_step_seconds": 0.5
+		"travel_step_seconds": 0.5,
+		"_comment_first_strike": "A first strike (D288, D300): standing out of a band's sight with one of its figures within first_strike_reach cells, G (or a click on the band) winds the lead up for first_strike_seconds, turned to it; then the fight opens as an ambush and the lead's blow lands at once (skirmish.json -> first_strike). Seen while winding up, the strike is lost and the fight is an ordinary one.",
+		"first_strike_reach": 8,
+		"first_strike_seconds": 0.8,
+		"first_strike_hint": "G: strike first",
+		"first_strike_title": "{band}, struck before they knew it"
 	},
 	"modes": {
 		"setting": "classic",
@@ -367,7 +373,69 @@
 			{ "to": 70, "factions": ["bamboo_court", "heart_empire", "the_dusk"] },
 			{ "to": 99, "factions": ["heart_empire"] }
 		],
-		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"]
+		"apex": ["dirte", "wraith", "element_monk", "emo_swordsman"],
+		"_comment_grown": "D290, D307 (meeting six, piece F): every floor from grown.from up is laid out at the climb (TowerFloors.ensure_grown, registered as `area` with the floor number) rather than borrowing floors 1 to 4's plans: a run of chambers from the way in at the bottom to the stair at the top, in the Tower's own stone, the higher the bigger (width and height grow width_per_floor and height_per_floor a floor over floor 10, to widest and tallest; chambers grow one every chambers_every floors, to most_chambers), and a band of the floor's own in every chamber but the first (band_pack is a stand-in the floor's foes replace, TowerFloors.restock). A shared floor (shared_from, then every shared_every) has another company climbing it: shared_size of life.climbers.units at the party's level, named from life.climbers.companies, who fight every fight on the floor beside the party (shared_line). From living_from, every living_every floors people have set up by the stair and live there (living_size of them, living_line, living_talk). Inferred: every number, which floors are shared, where the first living floor is.",
+		"grown": {
+			"from": 11,
+			"area": "tower_floor_grown_%d",
+			"width": 26, "height": 18, "width_per_floor": 0.6, "height_per_floor": 0.4, "widest": 60, "tallest": 44,
+			"chambers": 3, "chambers_every": 5, "most_chambers": 7,
+			"band_pack": ["goblin", "goblin"],
+			"hint": "WASD to walk  ·  the stair up is north, at the far end  ·  bands hold the chambers",
+			"tint": "#8a8fa8",
+			"shared_from": 12, "shared_every": 3, "shared_size": [2, 3],
+			"shared_line": "Another company is on this floor: {company}. They are going up too, and they fight beside you.",
+			"living_from": 25, "living_every": 5, "living_size": [3, 4],
+			"living_line": "People live on this floor. {company} set up by the stair long ago, and they are not going higher.",
+			"living_talk": {
+				"hello": [
+					"Welcome to the floor. We don't climb any more; we keep it.",
+					"You're going up? Then you'll want to rest first. Everyone does, here."
+				],
+				"ask": [
+					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." },
+					{ "q": "What's above?", "a": "More floors, bigger each time. Companies go up past us every season. Fewer come down." }
+				],
+				"bye": "Mind the stair. We'll be here when you come down, if you do."
+			},
+			"_comment_living_offers": "D317 (D290: 'by floor 25 or 30 people have set up base and live there'): what a living floor offers. The first of its people is the host, who rests the whole company for living_host.heal.price (Talk's mend of everyone hurt, nothing when nobody is), the second the trader, who sells living_trader.sells at the Market's price times living_trader.markup, restocked; the rest talk as living_talk. Inferred: the price, the wares and the mark-up.",
+			"living_host": {
+				"name": "the one who keeps the floor",
+				"hello": [
+					"You'll want to rest before the stair. Everyone does, here; it is what we are for.",
+					"Sit. Nothing comes down the stair that we have not seen before."
+				],
+				"ask": [
+					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." }
+				],
+				"heal": {
+					"price": 1500,
+					"q": "Let us rest here.",
+					"done": "There. Sleep came easier than you thought it would. Go up when you are ready.",
+					"whole": "You are whole already. Rest anyway, if you like; it costs nothing to sit.",
+					"whole_q": "Can we sit a while?"
+				},
+				"bye": "Mind the stair. We'll be here when you come down, if you do."
+			},
+			"living_trader": {
+				"name": "the one who sells",
+				"hello": [
+					"Everything up here came up the stair on somebody's back. The price says so.",
+					"Bread, herbs, a draught. Nobody carries more than that this high."
+				],
+				"shop_q": "What have you got?",
+				"shop": "What came up the stair. Coin first, mind.",
+				"sold": "Carried up for you, in a way.",
+				"shop_done": "That's all.",
+				"markup": 1.5,
+				"sells": [
+					{ "item": "bread", "restock": true },
+					{ "item": "herbs", "restock": true },
+					{ "item": "red_draught", "restock": true }
+				],
+				"bye": "Climb well. Come back down with something to sell me."
+			}
+		}
 	},
 	"party": {
 		"seats_base": 4,
@@ -445,6 +513,41 @@
 				{"name": "a trader passing", "unit": "town_trader", "cell": [9, 9], "facing": [0, -1], "wander": 2, "chatter": ["I'll be telling this one on the road for a year.", "Drinks are on me the next time we're under the same roof."]}
 			]
 		},
+		"_comment_reading": "D293, D302: a gate's rank is a reading. From rank wrong_from (C) up, one gate in wrong_one_in reads a rank lower than it is, until the company goes in (misread_line). A double gate (double_base in a hundred, and double_per_fallen more for every world already ended, decided the first time it is gone into) climbs a rank the first time it is entered (double_line), and its way out stays shut (sealed_line) until its keeper falls or the company is thrown out. Both are fixed by where the gate stands. **Inferred**: every number and line.",
+		"reading": {
+			"wrong_one_in": 10,
+			"wrong_from": "C",
+			"double_base": 10,
+			"double_per_fallen": 10,
+			"misread_line": "{gate} read {read}-rank from outside. Inside, it is {rank}.",
+			"double_line": "The air thickens as you go in. {gate} was a double gate: its rank climbs from {was} to {rank}, and the way out shuts behind you.",
+			"sealed_line": "The way out is shut. A double gate lets nobody out until its keeper falls."
+		},
+		"_comment_fallen": "D293, D304 (meeting six, piece D2): in a world after a lead has fallen, some gates hold a demon king, a fallen lead come through wearing their face. From rank from (C) up, base in a hundred, and per_fallen more for every world already ended (the record of the fallen, echoes.past), decided by where the gate stands and kept once seen (data.demon); which of the fallen, by the same hash. Its keeper is the fallen lead's own unit, at the floor's keeper level plus levels and never under the level they fell at, stout_times as hard to put down as the rank's keeper; every band in the gate stands band_levels higher (the hostile forces that came through with them). Going in says line; the map label and the keeper's title carry label and title; the shut gate says shut_line. Words: {name}, {demon}, {gate}, {they}, {their}, {them} and the same capitalised. **Inferred**: every number and line.",
+		"fallen": {
+			"from": "C",
+			"base": 10,
+			"per_fallen": 10,
+			"levels": 2,
+			"stout_times": 1.5,
+			"band_levels": 1,
+			"label": "Demon King {name}",
+			"line": "Something of a burned world holds {gate}, and no reading saw it from outside: {demon}.",
+			"title": "{demon} keeps the far side of {gate}. {Their} world burned, and what came through wears {their} face.",
+			"shut_line": "{demon} is put down. What came through with {them} goes back to ash, and {their} world stays burned."
+		},
+		"_comment_instant": "D293, D304 (meeting six, piece D2): the Gate Key (key, in GameState.keys) tears an instant gate where it is turned. It is found when the company shuts a gate: always a double gate's (from_double), else one gate in found_one_in of rank found_from or above, fixed by where the gate stands, and never while one is held; the key keeps the rank of the gate it came out of. E on open ground with the key in hand (prompt, {rank}) tears a gate of that rank there, or on the nearest open cell within two when a place stands here: open from that step, held by a faction seated at gates, named names in turn, walked and shut like any other; spent says whether the key is used up. lines: found_line and torn_line ({gate}, {rank}). **Inferred**: every number and line.",
+		"instant": {
+			"key": "gate_key",
+			"from_double": true,
+			"found_from": "C",
+			"found_one_in": 4,
+			"spent": true,
+			"names": ["the Torn Gate", "the Second Tear", "the Third Tear", "the Fourth Tear"],
+			"found_line": "Among what the keeper kept, a key with no lock, warm to the hand: the Gate Key. Turned on open ground it tears a {rank}-rank gate where you stand.",
+			"torn_line": "The key turns in nothing, and the ground opens: {gate}, a {rank}-rank gate where there was none. Whatever is in it will come out.",
+			"prompt": "to turn the Gate Key here (a {rank}-rank gate opens where you stand)"
+		},
 		"objectives": {
 			"rout": {
 				"display_name": "Rout",
@@ -482,7 +585,9 @@
 		"gate_per_level": 0.06,
 		"gate_per_hand": 0.1,
 		"gate_min": 0.05,
-		"gate_max": 0.95
+		"gate_max": 0.95,
+		"_comment_meet": "D294, D300 (founders' meeting: 'clear that rank E gate and meet me back at Stormreach'; if you are not there, a crow brings word): sent with a village, keep or the house to meet in, they walk there from where the job was done, a tile a step. With the company there they fall in; if not, crow_line is said and they wait there until it comes. With none named they come back to wherever the company is, as before.",
+		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
 	},
 	"experience": {
 		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",
@@ -505,6 +610,33 @@
 		"_comment_wares_on_show": "D146 (the designers' fortnight, F4): how many of a place's wares are laid out at once; Z turns to the next and B buys the one in hand.",
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
+	},
+	"_comment_heights": "D287, D308 (meeting six, piece C2, the first ground with heights): a terrain in tilesets.json with `height` stands that many heights up; a step down is free, a step up one height only onto or off a cell in the area's `ways_up` (a slope drawn there), two or more never (AreaMap.may_step). A drop of hurt_from heights or more hurts everyone walking: share of their health for each height past the first, never below floor of it (hurt_line, {fell}); dropping one says nothing. Trying to climb a shelf with no way up says blocked_line once a cell. Fights, Auto's paths and click-to-walk do not yet know heights; death from the clouds waits for a mountain area. Inferred: every number and line.",
+	"heights": {
+		"hurt_from": 2,
+		"share": 0.15,
+		"floor": 0.1,
+		"blocked_line": "The shelf is too high to climb here. Find a slope.",
+		"hurt_line": "A drop of {fell}. Everyone lands hard.",
+		"_comment_paths": "D312: on ground with heights every way found (a click, Auto, a band on its rounds, a person at work) steps only where a walker may, so it goes round by a slope rather than at the shelf; a drop that would hurt counts path_drop_cost cells more, so a way round is taken when there is one. A click on a shelf with no way up from here says no_way_line, once a cell.",
+		"path_drop_cost": 6,
+		"no_way_line": "There is no way up to there from here.",
+		"_comment_fights": "D313: a fight on ground with heights carries them. A fighter steps down anywhere and up one height only at a way up (a slope), as a walker does; a body is never shoved up a ledge, and shoved off one it falls: shoved_off.share of its health for every height fallen, and it lies knocked down for down_seconds, said as word over it and line in the log.",
+		"shoved_off": { "share": 0.1, "down_seconds": 1.2, "word": "Off the edge", "line": "{who} is knocked off the edge, a drop of {fell}." }
+	},
+	"_comment_wilds": "D287, D309 (meeting six, piece C3): places worth going to. The wilds are sites of kind `wild` on the map (tools/place_wilds.py puts per_world of them on their own kind of ground), unknown until the party walks onto one or hears of it. At rest in a village or a keep, on rumour_chance, the host speaks of the nearest wild not yet known within rumour_within tiles (rumour_line: {host}, {wild}, {way}, {days} at steps_per_day a day, {lure} from the area's own `lure`), which marks it on the map. Walking into one for the first time says found_line and writes it in the annals. Inferred: every number and line.",
+	"wilds": {
+		"rumour_chance": 0.5,
+		"rumour_within": 36,
+		"steps_per_day": 8,
+		"rumour_line": "{host} speaks of {wild}, {way} of here, {days} off: {lure}. It is marked on your map.",
+		"found_line": "{wild}. Few come this way; the ones who did left things behind.",
+		"_comment_guard": "Creatures that match the land (D287): a band of the land's own foes (biomes.json `foes`, the great beasts held back by `foe_levels`, else the faction that walks the ground) stands by the chest farthest from the way in, `guard_size` of them at the party's level, seeing `guard_reach` cells; beaten, it stays beaten for the run (its done flag).",
+		"guard_size": 3,
+		"guard_reach": 3,
+		"guard_label": "{what} of {land}",
+		"_comment_story": "D314 (D287: 'a quest or a story in each'): every wild tells a story in three pages, spots with `page` in the area, each said once a run when stood on and kept as a flag (story:<area>:<x>:<y>); the last page read says the area's `story.end` and writes story_annals in the annals (story:<area>:told).",
+		"story_annals": "{wild}: {end}"
 	},
 	"caves": {
 		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
@@ -563,7 +695,7 @@
 		"story_dc": 17,
 		"per_level": 2,
 		"outward": 4,
-		"no_areas": ["tutorial", "road_watch", "climbers", "climbers_floor"],
+		"no_areas": ["tutorial", "road_watch", "climbers", "climbers_floor", "floor_folk"],
 		"stays": ["Dirte, the God of Kings", "Muck Muck", "Steward Hobb", "Tollmaster Crane"],
 		"trust": [
 			{ "ledger": "battles_won", "need": 3, "line": "Win three fights with that lot behind you, then ask me again." },

@@ -51,3 +51,9 @@ The world is `data/world_map.json`. A run copies it and never writes back.
 away every hand edit, so it refuses unless given `-- --force`. The generator itself
 (`WorldGen.generate_random`) is kept for that tool and for worlds of another size;
 `tools/world_maps.tscn -- --seeds=11,77` draws what it makes from other seeds.
+
+The wild places on the map (D309) are written by `python3 tools/place_wilds.py` (`--dry` to see where
+they would go): twelve sites of kind `wild`, each on its own kind of ground, dealt from `from_seed`.
+Run it again after changing the tiles or moving a place; it leaves every other site alone. Each wild
+tells a story in three pages stood on, and its end goes in the annals (D314, `story` and `page` spots in
+`data/areas/wild_*.json`).

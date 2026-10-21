@@ -420,20 +420,46 @@ each, each ending playable:
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
       person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
       story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).
+      **Built** ([D300](06-decisions.md), 2026-10-20): Auto no longer stops for a band of the land, tips wait for
+      a fight to end, G strikes first, a Send button on each card with a town to meet in and a crow, the band
+      on the map, the four story fixes, and the last stand in 7 steps.
    B. Levelling in gates: levels only from new foes in a gate, experience in the Tower, a log of foes per
       character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378).
    C. The land: caves (#371, [D282](06-decisions.md)), then heights, ledges, cliffs and ways up; places worth
-      going to; creatures that match the land ([D287](06-decisions.md), #379).
+      going to; creatures that match the land ([D287](06-decisions.md), #379). **Built in part**: caves ([D282](06-decisions.md));
+      heights on the wind scarp, dropped off anywhere and climbed only at a slope, a drop of two hurting, the edges
+      drawn ([D308](06-decisions.md), 2026-10-20); the wilds as places on the map, heard of at rest and marked, each
+      with what it holds and a guard of the land's own creatures by its far chest ([D309](06-decisions.md), 2026-10-21). A board can post clearing a wild the party has heard of ([D310](06-decisions.md), 2026-10-21). Every way found on
+      high ground (a click, Auto, a band, a person) goes round by a slope ([D312](06-decisions.md), 2026-10-21). A fight on
+      high ground keeps to the slopes, and a body shoved off an edge falls, hurt and flat ([D313](06-decisions.md), 2026-10-21). Every wild
+      tells a story in three pages stood on, written in the annals when the last is read ([D314](06-decisions.md), 2026-10-21). Walking
+      into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). Next: a mountain with
+      the clouds below, heights on the world map,
+      hamlets and caravans as places, creatures of the land beyond the biomes' own foes.
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
-      ([D293](06-decisions.md), #380).
+      ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);
+      demon kings of fallen worlds and the Gate Key that tears a gate where it is turned ([D304](06-decisions.md),
+      2026-10-20).
    E. Formations, a leader who rises, call-outs and a bonus for fights shared ([D289](06-decisions.md), #381).
+      **Built** (2026-10-20): the five shapes, walked and fought in, picked on the party sheet, and the guard for
+      holding one ([D305](06-decisions.md)); a leader who rises out of the fights won and calls for a shape, call-outs
+      both sides hear, the bonus for fights shared, and a formation breaking on a low mood ([D306](06-decisions.md)).
+      A band of foes falls in too, round its boss, in the shape its size picks, facing the party ([D315](06-decisions.md),
+      2026-10-21), and on the ground a band of three or more walks in its shape too ([D320](06-decisions.md), 2026-10-21).
+      Not yet: the wheel on a held key, a leader's orders beyond the call-out, trust breaking one.
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
-      ([D290](06-decisions.md), #382).
+      ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
+      is laid out at the climb and grows with height, every third floor from 12 is shared with a company who
+      fight beside the party, and from 25 every fifth floor has people living by the stair. A living floor rests the
+      company for coin and sells bread, herbs and a draught, marked up ([D317](06-decisions.md), 2026-10-21). Not yet:
+      the floors' 3D look, gear seen on the floor and on fighters (art).
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
-   heights), the fallen weapon's cinematic ([D296](06-decisions.md)), and a look at a small on-device model
-   for fight plans ([D298](06-decisions.md), #385).
+   heights), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
+   may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
+   for fight plans ([D298](06-decisions.md), #385): first pass written ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
+   the fight run with and without it is still to do.
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
@@ -675,6 +701,9 @@ clocks, and a chapter's close moves them on further, until M18 replaces them ([D
   village — the gate register and contracts that pay when a gate is shut, **Y** or the clerk), and
   S-rank gates that gather armies ✅ (a Guild muster that goes in beside the company, or alone —
   [D46](06-decisions.md))
+- The Tower past floor 10 ✅ (2026-10-20, [D307](06-decisions.md)): from floor 11 every floor is laid out
+  at the climb and grows with height, every third floor from 12 is shared with a company who fight beside
+  the party, and from 25 every fifth has people living by the stair
 - ✅ Done when: a run cannot climb past floor five without having done something in the world, and
   the world is visibly different after it ([D34](06-decisions.md), [D35](06-decisions.md)) — **met**
   for chapters: `walk_smoke_test --check=chapters`, and a soak that tops the Tower answers each seal

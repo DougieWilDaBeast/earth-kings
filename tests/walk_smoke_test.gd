@@ -557,23 +557,28 @@ func _check_tower() -> void:
 			var others := stocked_here.filter(func(b: Dictionary) -> bool: return not bool(b.get("boss", false)))
 			for b: Dictionary in others:
 				_expect(int(keepers[0]["level"]) > int(b.get("level", 1)), "the Keeper of the Tenth is below its floor's foes")
-	# Every floor above is walked too, on a borrowed plan (D207), with bands of its own.
+	# Every floor above is walked too, laid out at the climb since D307 (on a borrowed plan before,
+	# D207), with bands of its own.
 	for n: int in [11, 14, 15, 37, world.tower_floors()]:
 		var plan := Chapters.walked_floor_area(n)
 		_expect(plan != "" and plan != Chapters.walked_floor_area(5) and Chapters.borrows_a_plan(n),
-				"floor %d is not walked on a borrowed plan (%s)" % [n, plan])
+				"floor %d is not walked on a plan of its own (%s)" % [n, plan])
 		if plan == "":
 			continue
-		var stocked: Array = TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)])
+		if TowerFloors.is_grown(n):
+			_expect(TowerFloors.ensure_grown(world, n) == plan, "floor %d was laid out under another id" % n)
+		var stair_cell: Array = Database.area(plan).get("stairs", [[12, 0]])[0]
+		var stair := Vector2i(int(stair_cell[0]), int(stair_cell[1]))
+		var stocked: Array = TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [stair])
 		var own := not stocked.is_empty()
 		for b: Dictionary in stocked:
 			own = own and bool(b.get("held", false)) and str(b.get("key", "")).begins_with("tower%d_" % n) \
 					and str(b.get("done_flag", "")) == "done:%s" % b.get("key", "")
 		_expect(own, "floor %d's bands are not its own: %s" % [n, stocked])
-		_expect(stocked == TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [Vector2i(12, 0)]),
+		_expect(stocked == TowerFloors.restock(Database.area(plan).get("bands", []), world, n, GameState.party_characters(), [stair]),
 				"floor %d is stocked differently each time it is walked" % n)
 		if n == world.tower_floors():
-			_expect(stocked.size() == 1 and bool(stocked[0].get("boss", false)) and stocked[0]["at"] == [12, 4],
+			_expect(stocked.size() == 1 and bool(stocked[0].get("boss", false)) and stocked[0]["at"] == [stair.x, stair.y + 4],
 					"the top floor's keeper does not stand before the stair: %s" % [stocked])
 		else:
 			_expect(stocked.all(func(b: Dictionary) -> bool: return not bool(b.get("boss", false))),
@@ -1547,6 +1552,16 @@ func _check_sixteen() -> void:
 	await get_tree().process_frame
 	var ghost_id := Siblings.ghost_talk(world, 0)
 	_expect(Database.dialogue(ghost_id).get("nodes", {}).has("weapon"), "Caesar's ghost cannot say where his weapon went")
+	# Anyone can pick it up, a monster too ([D311]): a band may stand over it, and holds it until beaten.
+	if not bool(weapon.get("taken", false)):
+		_expect(Siblings.take_weapon(world, echo) != null, "no band could stand over Caesar's weapon")
+	var holder := Siblings.weapon_holder(world, "caesar")
+	_expect(holder != null and holder.cell == cell and bool(weapon.get("taken", false)), "nobody stands over Caesar's weapon")
+	var held := Siblings.on_arrive(world, cell)
+	_expect(not held.is_empty() and not GameState.stores.has("every_morning") and str(held[0]).contains("fight"), "the weapon was picked up from under the band: %s" % [held])
+	_expect(Siblings.rumour(world).contains("den"), "the rumour does not say something has the crater")
+	world.prowlers.erase(holder)
+	_expect(Siblings.weapon_freed(world, "caesar") != "" and not bool(weapon.get("taken", false)), "beating the band did not free the weapon")
 	_expect(not Siblings.on_arrive(world, cell).is_empty() and GameState.stores.has("every_morning"), "walking onto the crater did not find Caesar's weapon")
 	_expect(Siblings.pages_shared(echo) == (echo.get("pages", []) as Array).size(), "finding the weapon did not open the ghost fully")
 
