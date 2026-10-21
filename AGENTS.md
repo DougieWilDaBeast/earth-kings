@@ -26,6 +26,8 @@ generated map tile by tile, fight on a tactics grid, grow characters who can die
   recorded wide and tall into `clips/` (needs ffmpeg; docs/18, "Who wins?").
 - Party clashes: `python3 tools/party_war.py all` — random parties of one to four and a guild war,
   as a results table and as video in `clips/` (docs/18, "Party clashes").
+- Plan table: `python3 tools/plan_table.py compare 100` — the party clashes with and without a small
+  model's fight plans (written offline by `make`; docs/investigation/12, D322).
 - CI runs all three on every pull request (`.github/workflows/smoke.yml`). Keep it green.
 
 ## Rules

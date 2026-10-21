@@ -459,8 +459,8 @@ each, each ending playable:
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
    heights), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
-   for fight plans ([D298](06-decisions.md), #385): first pass written ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
-   the fight run with and without it is still to do.
+   for fight plans ([D298](06-decisions.md), #385): **done** ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
+   its plans fought no better than the rules in 200 party clashes, so no runtime goes in ([D322](06-decisions.md), 2026-10-21).
 
 Updated 2026-10-13. Since 2026-10-12 the founders have settled the size, real-time fights and a
 class per character ([D63](06-decisions.md), [D64](06-decisions.md)), the turn-based battle is gone
