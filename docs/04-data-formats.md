@@ -425,6 +425,15 @@ door into a training fight that comes back out of the same door; nothing in it c
   the lead's level when the conversation ends (unnamed folk, "a settler", take a name), and their place
   stands empty after. `talk.recruit` overrides any line: `q`, `again_q`, `yes`, `no`, `waiting`,
   `trusted`, `full`.
+- `hires` — they keep the sellswords' book ([D345](06-decisions.md), [`src/chronicle/sellswords.gd`](../src/chronicle/sellswords.gd)):
+  `q` opens it, `offer` reads it out, one reply for each still on the board (offered while the purse
+  can pay and the company has a seat), `done` once one is hired, `none` when nobody is, `done_q` to
+  close it. A person with `hires` keeps a post and cannot be recruited. The board, the jobs, the
+  prices and the lines are `world_rules.json` → `sellswords`: `board_size` at once, dealt again every
+  `refresh_steps`; one of `templates` at the lead's level give or take one, for one of `jobs` (`for`
+  is how the book says it, `price` its weight), at `cost_base` + `cost_per_level` a level. A sellsword
+  carries `contract` (`job`, `paid`) and goes when a gate is shut (`gate`) or a chapter closes
+  (`chapter`).
 
 ## `props.json` — how big every prop and building is drawn
 
@@ -1223,6 +1232,9 @@ Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M
 - `wanderers.rules` — how long they stay (`stay_min`..`stay_max` steps), how fast they walk
   (`steps_per_tile`), the chance a rest at a settlement brings word of one (`rumour_at_rest`), and
   how many meetings an Outward (`E`) or Inward (`I`) temper needs before they will join.
+- `wanderers.tavern` — the Gilded Flagon as where they drink ([D345](06-decisions.md)): walking into
+  `area` (a room of the `city` area) may find one the company has not met there, once each `every`
+  world steps at `chance`, staying `stay_min`..`stay_max` as a stop of their own.
 - `wanderers.lines` — what they say. `first`, `again` by temper group; `heading` by kind of place;
   `rumour` and `rumour_road` for the inn; `{name}`, `{title}`, `{place}`, `{lead}` are filled in.
 - `siblings` (M15) — the worlds after the first. Everything in it is **Inferred**, agenda items 50

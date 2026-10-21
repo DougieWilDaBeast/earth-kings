@@ -415,7 +415,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    land to pick, by what each land grows ([D335](06-decisions.md)). Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
-   Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
+   Charisma check, and after a no their own favour or a few fights won to bring them round; sellswords for
+   coin off the Gilded Flagon's book, who go when the job is done, and the roaming leads drinking in the
+   Flagon, built [D345](06-decisions.md)); **sending your own
    people out** on quests and into gates on Auto (built, [D278](06-decisions.md): from the party screen once a
    gate is shut, a band to a gate shutting it on the odds); **moods after RimWorld**, and some who will not climb
    (built, [D279](06-decisions.md): thoughts from fights, gates, floors and friends lost; most feel dragged up the

@@ -177,6 +177,8 @@
 			"home_stay": 3.0,
 			"restless_stay": 0.35
 		},
+		"_doc_tavern": "D295: until the company has a tavern of its own (G, after the founders' guild day), the roaming leads it has not yet walked with drink in Stormreach's Gilded Flagon now and then. Walking into the Flagon (`area`, a room of `city`) may find one there: once each `every` world steps, at `chance`, one of the unmet who is not already in the city comes in from wherever they are and stays stay_min..stay_max steps, as a stop of their own. **Inferred**: every number.",
+		"tavern": { "area": "city_tavern", "city": "city_streets", "every": 300, "chance": 0.6 },
 		"lines": {
 			"_doc": "What they say when met. {name} is the wanderer, {title} their title, {place} where you are both standing, {next} the kind of place they mean to go next, {lead} the lead's name.",
 			"recognised": [
