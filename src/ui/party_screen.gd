@@ -205,6 +205,16 @@ func mix(recipe: Dictionary) -> bool:
 	return true
 
 
+## Lay [param rune] on [param character]'s weapon out of the packs ([D299] item 3).
+func enchant(character: Character, rune: Dictionary) -> bool:
+	var line := Crafting.enchant(character, rune, GameState.stores)
+	if line == "":
+		return false
+	_notice = line
+	_rebuild()
+	return true
+
+
 ## Send [param character] to shut [param gate], with anyone already on the road to it ([D278]).
 func send_to_gate(character: Character, gate: Site, meet: Site = null) -> bool:
 	var line := Dispatch.send_to_gate(GameState.world, GameState.roster, GameState.away, character, gate, meet)
@@ -859,6 +869,26 @@ func _build_gear_page(character: Character) -> void:
 		stir.pressed.connect(func() -> void: mix(recipe))
 		Sfx.attend(stir)
 		_page_box.add_child(stir)
+
+	# A rune on the weapon they carry, out of the packs (D299 item 3).
+	_page_box.add_child(_heading("Enchanting"))
+	var carried := Crafting.enchantment(str(character.enchanted.get(character.equipment, "")))
+	if not carried.is_empty():
+		_page_box.add_child(_quiet_line("%s carries the %s (%s)." % [Gear.display_name(character.equipment),
+				str(carried.get("display_name", "")), str(carried.get("description", ""))]))
+	var runes := Crafting.enchantments().filter(func(r: Dictionary) -> bool:
+		return Crafting.can_enchant(character, r, GameState.stores))
+	if runes.is_empty():
+		_page_box.add_child(_quiet_line("Nothing in the packs to lay on a weapon. A charm and herbs make a rune."))
+	for rune: Dictionary in runes:
+		var lay := Button.new()
+		lay.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		lay.focus_mode = Control.FOCUS_NONE
+		lay.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		lay.text = "Lay a %s" % Crafting.enchantment_text(rune)
+		lay.pressed.connect(func() -> void: enchant(character, rune))
+		Sfx.attend(lay)
+		_page_box.add_child(lay)
 
 	var thirsty := character.current_hp() < character.max_hp()
 	_page_box.add_child(_heading("Food and physic"))
