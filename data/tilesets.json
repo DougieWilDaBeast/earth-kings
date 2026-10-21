@@ -56,6 +56,18 @@
 		"raised": {
 			"display_name": "higher ground",
 			"walkable": true, "height": 1},
+		"high": {
+			"_comment": "The cloud peak's high rock, two heights up.",
+			"display_name": "high rock",
+			"walkable": true, "height": 2},
+		"summit": {
+			"_comment": "The cloud peak's summit snow, three heights up.",
+			"display_name": "the summit",
+			"walkable": true, "height": 3},
+		"cloud": {
+			"_comment": "The drop round a mountain's top: never walked, and a body shoved into it in a fight is gone (`clouds`).",
+			"display_name": "cloud, a long way down",
+			"walkable": false, "clouds": true},
 		"cinder": {
 			"display_name": "burnt rubble",
 			"walkable": true
@@ -453,6 +465,22 @@
 			"lower": "grass",
 			"upper": "raised",
 			"feature": "raised"
+		},
+		"high": {
+			"_comment": "The cloud peak's high rock, on the stone sheet until A50.",
+			"texture": "res://art/tilesets/grass_stone.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "high",
+			"feature": "high"
+		},
+		"summit": {
+			"_comment": "The cloud peak's summit, on the snow sheet until A50.",
+			"texture": "res://art/tilesets/biome/snow_ground.png",
+			"tile_size": 64,
+			"lower": "grass",
+			"upper": "summit",
+			"feature": "summit"
 		},
 		"thunderstone": {
 			"texture": "res://art/tilesets/thunderstone.png",

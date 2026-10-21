@@ -61,6 +61,8 @@ var _terrain: Array[String] = []
 var ways_up: Dictionary = {}
 ## Whether any terrain of this area stands a height up, so the step rule and the ledges apply.
 var _heights_vary: bool = false
+## Whether any terrain of this area is cloud round a mountain's top ([D321]), so the clouds are drawn.
+var _clouds: bool = false
 ## Cells a piece of furniture is standing on, which nobody walks through.
 var _blocked: Dictionary = {}
 ## Cell -> the props standing on it, so asking what is on a cell is not a walk through all of them.
@@ -91,6 +93,8 @@ static func load_area(area_id: String) -> AreaMap:
 	for terrain_id: Variant in legend.values():
 		if int(Database.area_terrain(str(terrain_id)).get("height", 0)) != 0:
 			map._heights_vary = true
+		if bool(Database.area_terrain(str(terrain_id)).get("clouds", false)):
+			map._clouds = true
 	for pair: Array in data.get("ways_up", []):
 		map.ways_up[_to_cell(pair)] = true
 	map.spawn = _to_cell(data.get("spawn", [0, 0]))
@@ -317,6 +321,17 @@ func may_step(from: Vector2i, to: Vector2i) -> bool:
 	if rise <= 0:
 		return true
 	return rise == 1 and (ways_up.has(to) or ways_up.has(from))
+
+
+## Whether any of this ground is cloud below a mountain's top ([D287], [D321]).
+func has_clouds() -> bool:
+	return _clouds
+
+
+## Whether [param cell] is cloud: never walked, drawn as the sky below, and in a fight a body shoved
+## into it is gone ([D321]).
+func is_cloud(cell: Vector2i) -> bool:
+	return _clouds and in_bounds(cell) and bool(Database.area_terrain(terrain_at(cell)).get("clouds", false))
 
 
 ## How many heights a walker drops stepping from [param from] to [param to]; 0 for level or up.

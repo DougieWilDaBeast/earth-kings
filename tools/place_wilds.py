@@ -8,7 +8,8 @@ The founders (D287): places worth going to, with loot, a quest or a story in eac
 (the ancient grove, the thorn thicket, the drowned fen, the quiet oasis, the wind scarp) were only
 stumbled on, one tile in sixteen, with no way to aim for one. This puts `per_world` of them on the
 map as sites of kind `wild`: on ground of their own kind (forest and brush for the grove and the
-thicket, marsh for the fen, sand for the oasis, hill for the scarp), never within `clear` tiles of
+thicket, marsh for the fen, sand for the oasis, hill for the scarp, and since D321 crag for the
+cloud peak), never within `clear` tiles of
 another place and `apart` tiles of each other, dealt from the map's own seed so the same map gets
 the same wilds. A run finds one by walking onto it, or hears of it at rest in a settlement
 (src/chronicle/wilds.gd), which marks it on the map. Every other site on the map is left as it is.
@@ -37,7 +38,11 @@ NAMES = {
     "wild_fen": ["the drowned fen", "the black fen", "the reed hollow"],
     "wild_oasis": ["the quiet oasis", "the palm spring", "the hidden well"],
     "wild_scarp": ["the wind scarp", "the high shelf", "the gull scarp"],
+    "wild_peak": ["the cloud peak", "the white horn"],
 }
+# D321: the mountains' own wild, the cloud peak, on crag, dealt after the twelve with a deal of its own
+# so the twelve stand where they stood.
+PEAKS = 2
 # How many of each kind the map gets, in the order they are dealt.
 DEAL = ["wild_scarp", "wild_grove", "wild_fen", "wild_oasis", "wild_thicket", "wild_scarp",
         "wild_grove", "wild_fen", "wild_oasis", "wild_thicket", "wild_scarp", "wild_grove"]
@@ -76,6 +81,18 @@ def main() -> None:
                 placed.append({
                     "broken": False, "cell": [cell[0], cell[1]], "cleared": False,
                     "data": {"area": area}, "display_name": names[index], "kind": "wild",
+                    "open": False, "opened_at": 0, "rank": "",
+                })
+                break
+    peaks = [(x, y) for y, row in enumerate(tiles) for x, symbol in enumerate(row) if LEGEND.get(symbol) == "crag"]
+    random.Random(int(data.get("from_seed", 1)) + 321).shuffle(peaks)
+    for index in range(PEAKS):
+        for cell in peaks:
+            if 2 <= cell[0] < len(tiles[0]) - 2 and 2 <= cell[1] < len(tiles) - 2 \
+                    and far(cell, taken, CLEAR) and far(cell, [tuple(p["cell"]) for p in placed], APART):
+                placed.append({
+                    "broken": False, "cell": [cell[0], cell[1]], "cleared": False,
+                    "data": {"area": "wild_peak"}, "display_name": NAMES["wild_peak"][index], "kind": "wild",
                     "open": False, "opened_at": 0, "rank": "",
                 })
                 break

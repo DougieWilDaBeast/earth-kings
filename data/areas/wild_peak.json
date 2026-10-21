@@ -1,0 +1,322 @@
+{
+ "display_name": "the cloud peak",
+ "layers": [
+  "raised",
+  "high",
+  "summit",
+  "crag",
+  "dirt"
+ ],
+ "hint": "WASD to walk  ·  E to examine  ·  three heights up, each climbed at a slope  ·  the clouds are a long way down  ·  the way out is south",
+ "legend": {
+  ",": "dirt",
+  "r": "raised",
+  "h": "high",
+  "s": "summit",
+  "A": "crag",
+  "c": "cloud"
+ },
+ "tint": "#a7b1c2",
+ "spawn": [
+  14,
+  17
+ ],
+ "exits": [
+  [
+   14,
+   19
+  ],
+  [
+   15,
+   19
+  ]
+ ],
+ "wards": [],
+ "spots": [
+  {
+   "cell": [
+    4,
+    15
+   ],
+   "line": "A climbing rope is pegged into the rock here, cut clean a man's height up. Somebody went up and did not want to be followed.",
+   "page": true
+  },
+  {
+   "cell": [
+    22,
+    7
+   ],
+   "line": "Boot nails driven into a crack as steps, nine of them, and then nothing. Whoever drove them went the long way round after all.",
+   "page": true
+  },
+  {
+   "cell": [
+    12,
+    3
+   ],
+   "line": "A flat stone on the summit with a name scratched into it. Under the name, in another hand: came down the quick way.",
+   "page": true
+  },
+  {
+   "cell": [
+    15,
+    2
+   ],
+   "line": "Below the edge there is nothing but cloud, white and slow and a very long way down. Nothing that goes into it comes back."
+  },
+  {
+   "cell": [
+    14,
+    12
+   ],
+   "line": "The wind takes the breath out of you before you can use it."
+  },
+  {
+   "cell": [
+    15,
+    8
+   ],
+   "line": "From here the shelves step down like a stair built for something larger."
+  }
+ ],
+ "chests": [
+  {
+   "cell": [
+    20,
+    2
+   ],
+   "line": "A climber's pack wedged under the summit rock, its straps frozen stiff.",
+   "art": "chest_silver",
+   "gold": 6000,
+   "item": "grave_token"
+  },
+  {
+   "cell": [
+    25,
+    7
+   ],
+   "line": "A tin box tucked behind the last of the boot nails.",
+   "art": "chest_iron",
+   "gold": 4000,
+   "item": "whetstone"
+  },
+  {
+   "cell": [
+    27,
+    15
+   ],
+   "line": "A cache under a flat stone at the foot of the climb, for the way down.",
+   "art": "chest_iron",
+   "gold": 2500,
+   "item": "iron_blade"
+  }
+ ],
+ "props": [
+  {
+   "art": "landmark/slope",
+   "cell": [
+    6,
+    13
+   ]
+  },
+  {
+   "art": "landmark/slope",
+   "cell": [
+    23,
+    13
+   ]
+  },
+  {
+   "art": "landmark/slope",
+   "cell": [
+    10,
+    9
+   ]
+  },
+  {
+   "art": "landmark/slope",
+   "cell": [
+    19,
+    9
+   ]
+  },
+  {
+   "art": "landmark/slope",
+   "cell": [
+    11,
+    5
+   ]
+  },
+  {
+   "art": "landmark/slope",
+   "cell": [
+    18,
+    5
+   ]
+  },
+  {
+   "art": "nature/thistle",
+   "cell": [
+    7,
+    15
+   ]
+  },
+  {
+   "art": "nature/grass_tuft",
+   "cell": [
+    22,
+    17
+   ]
+  },
+  {
+   "art": "nature/bare_tree",
+   "cell": [
+    4,
+    11
+   ]
+  },
+  {
+   "art": "nature/dead_tree",
+   "cell": [
+    25,
+    11
+   ]
+  },
+  {
+   "art": "nature/pebble",
+   "cell": [
+    8,
+    7
+   ]
+  },
+  {
+   "art": "nature/clover_ice",
+   "cell": [
+    17,
+    3
+   ]
+  },
+  {
+   "art": "nature/white_dove",
+   "cell": [
+    10,
+    4
+   ]
+  },
+  {
+   "art": "landmark/rune_stone",
+   "cell": [
+    13,
+    3
+   ]
+  }
+ ],
+ "people": [
+  {
+   "name": "Tamsin the Cloud-Watcher",
+   "unit": "red_panda_master",
+   "cell": [
+    16,
+    12
+   ],
+   "facing": [
+    0,
+    1
+   ],
+   "wander": 2,
+   "chatter": [
+    "Mind the edge at the top. The cloud looks soft. It is not.",
+    "I count who goes up and who comes down. The numbers are not the same.",
+    "Up the slopes, never the rock. The rock does not let go of you once you're on it.",
+    "On a clear morning you can see the Tower over the cloud. There are not many clear mornings."
+   ]
+  }
+ ],
+ "rows": [
+  "cccccccccccccccccccccccccccccc",
+  "ccccccccsssssssssssssscccccccc",
+  "ccccccccsAsssssssssssscccccccc",
+  "ccccccccssssssssssssAscccccccc",
+  "ccccccccsssssssssssssscccccccc",
+  "ccccccccsssssssssssssscccccccc",
+  "ccchhhhhhhhhhhhhhhhhhhhhhhhccc",
+  "ccchhAhhhhhhhhhhhhhhhhhhhhhccc",
+  "AAAhhhhhhhhhhhhhhhhhhhhhAhhAAA",
+  "AAAhhhhhhhhhhhhhhhhhhhhhhhhAAA",
+  "ArrrrrrrrrrrrrrrrrrrrrrrrrrrrA",
+  "ArrArrrrrrrrrArrrrrrrrrrrrrrrA",
+  "ArrrrrrrrrrrrrrrrrrrrrrrrrArrA",
+  "ArrrrrrrrrrrrrrrrrrrrrrrrrrrrA",
+  "A,,,,,,,,,,,,,,,,,,,,,,,,,,,,A",
+  "A,,,,,,,,,A,,,,,,,,,,,,,,,,,,A",
+  "A,A,,,,,,,,,,,,,,,,A,,,,,,,,,A",
+  "A,,,,,,,,,,,,,,,,,,,,,,,,,,A,A",
+  "A,,,,,,,,,,,,,,,,,,,,,,,,,,,,A",
+  "AAAAAAAAAAAAAA,,AAAAAAAAAAAAAA"
+ ],
+ "ways_up": [
+  [
+   6,
+   13
+  ],
+  [
+   23,
+   13
+  ],
+  [
+   10,
+   9
+  ],
+  [
+   19,
+   9
+  ],
+  [
+   11,
+   5
+  ],
+  [
+   18,
+   5
+  ]
+ ],
+ "_doc": "The cloud peak: a mountain three heights up, the clouds below it. Bare earth (0), the shelves (`raised`, 1), the high rock (`high`, 2) and the summit (`summit`, 3); `cloud` is the drop round the top, never walked, and a body shoved into it in a fight is gone. `ways_up` are the slopes.",
+ "lure": "a summit three heights up with the clouds below it, and what the last climber left at the top",
+ "story": {
+  "end": "a climber cut the rope behind them, made the summit and scratched a name on it, and somebody who came up after wrote down how they left."
+ },
+ "dressing": [
+  {"art": "nature/dead_tree", "cell": [7, 7], "offset": [3, 0]},
+  {"art": "nature/dead_tree", "cell": [19, 7], "offset": [-4, 2]},
+  {"art": "nature/dead_tree", "cell": [1, 10], "offset": [2, 3]},
+  {"art": "nature/bare_tree", "cell": [13, 7], "offset": [-7, 2]},
+  {"art": "nature/crystal_spikes", "cell": [17, 9], "offset": [-6, 4], "flip": true},
+  {"art": "nature/pebble", "cell": [4, 10], "offset": [5, 6], "flip": true},
+  {"art": "nature/pebble", "cell": [6, 11], "offset": [2, 0]},
+  {"art": "nature/pebble", "cell": [24, 18], "offset": [9, -2], "flip": true},
+  {"art": "nature/pebble", "cell": [25, 13], "offset": [-3, 3]},
+  {"art": "nature/pebble", "cell": [12, 18], "offset": [-3, 3]},
+  {"art": "nature/pebble", "cell": [14, 15], "offset": [7, -1], "flip": true},
+  {"art": "nature/thistle", "cell": [4, 13], "offset": [-3, -7], "flip": true},
+  {"art": "nature/pebble", "cell": [9, 7], "offset": [-11, 5]},
+  {"art": "nature/thistle", "cell": [20, 14], "offset": [-1, -2], "flip": true},
+  {"art": "nature/pebble", "cell": [3, 13], "offset": [6, -1], "flip": true},
+  {"art": "nature/thistle", "cell": [4, 9], "offset": [3, -6], "flip": true},
+  {"art": "nature/pebble", "cell": [15, 15], "offset": [3, 4], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [21, 16], "offset": [10, 2], "flip": true},
+  {"art": "nature/thistle", "cell": [12, 6], "offset": [4, 0], "flip": true},
+  {"art": "nature/pebble", "cell": [3, 10], "offset": [-3, 3]},
+  {"art": "nature/thistle", "cell": [25, 16], "offset": [-9, 4]},
+  {"art": "nature/grass_tuft", "cell": [18, 8], "offset": [4, 6]},
+  {"art": "nature/thistle", "cell": [10, 8], "offset": [8, 7], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [6, 9], "offset": [-6, -3]},
+  {"art": "nature/thistle", "cell": [7, 18], "offset": [-11, -1], "flip": true},
+  {"art": "nature/thistle", "cell": [24, 9], "offset": [-8, 0], "flip": true},
+  {"art": "nature/grass_tuft", "cell": [9, 8], "offset": [-3, 2], "flip": true},
+  {"art": "nature/pebble", "cell": [11, 8], "offset": [-3, -4], "flip": true},
+  {"art": "nature/thistle", "cell": [4, 8], "offset": [-9, 5], "flip": true},
+  {"art": "nature/pebble", "cell": [12, 8], "offset": [-12, -3]},
+  {"art": "nature/ants", "cell": [22, 10], "offset": [0, 7]},
+  {"art": "nature/grasshopper", "cell": [8, 11], "offset": [-5, -2], "flip": true}
+ ]
+}

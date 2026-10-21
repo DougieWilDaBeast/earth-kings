@@ -620,7 +620,13 @@
 		"path_drop_cost": 6,
 		"no_way_line": "There is no way up to there from here.",
 		"_comment_fights": "D313: a fight on ground with heights carries them. A fighter steps down anywhere and up one height only at a way up (a slope), as a walker does; a body is never shoved up a ledge, and shoved off one it falls: shoved_off.share of its health for every height fallen, and it lies knocked down for down_seconds, said as word over it and line in the log.",
-		"shoved_off": { "share": 0.1, "down_seconds": 1.2, "word": "Off the edge", "line": "{who} is knocked off the edge, a drop of {fell}." }
+		"shoved_off": { "share": 0.1, "down_seconds": 1.2, "word": "Off the edge", "line": "{who} is knocked off the edge, a drop of {fell}." },
+		"_comment_clouds": "D321: a mountain's top has the clouds below it (terrain `clouds` in tilesets.json). Walking, nobody steps off into them, and the lead says cloud_line once a cell. In a fight a body shoved into a cloud cell goes over and is gone: a foe dies there, credited to whoever shoved it; one of the company falls at once, with no friend near enough to pull them back, no hearth and nobody to take them, so only a charm, lore or luck saves them (and on a gentler setting they are pulled clear, out of the fight).",
+		"cloud_line": "Below the edge there is only cloud, white and slow and a very long way down.",
+		"into_clouds": {
+			"word": "Into the clouds",
+			"line": "{who} goes over the edge into the cloud, and is gone."
+		}
 	},
 	"_comment_wilds": "D287, D309 (meeting six, piece C3): places worth going to. The wilds are sites of kind `wild` on the map (tools/place_wilds.py puts per_world of them on their own kind of ground), unknown until the party walks onto one or hears of it. At rest in a village or a keep, on rumour_chance, the host speaks of the nearest wild not yet known within rumour_within tiles (rumour_line: {host}, {wild}, {way}, {days} at steps_per_day a day, {lure} from the area's own `lure`), which marks it on the map. Walking into one for the first time says found_line and writes it in the annals. Inferred: every number and line.",
 	"wilds": {
