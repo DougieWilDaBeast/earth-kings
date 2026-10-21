@@ -3408,9 +3408,10 @@ func _lay_out_memories() -> void:
 	# A floor walked on another's plan (D207) is not where that floor's keepsakes lie.
 	if _tower_floor > 0 and TowerFloors.Chapters.borrows_a_plan(_tower_floor):
 		return
-	for memory: Dictionary in Memories.lying_in(area_id, GameState.roster.player().template_id):
+	var lead_id: String = GameState.roster.player().template_id
+	for memory: Dictionary in Memories.lying_in(area_id, lead_id):
 		var cell := Memories.cell_of(memory)
-		map.place({ "art": str(memory.get("art", "coin_pile")), "cell": cell, "name": str(memory.get("object", "something")) })
+		map.place({ "art": Memories.art_of(memory, lead_id), "cell": cell, "name": str(memory.get("object", "something")) })
 		_memories[cell] = memory
 
 

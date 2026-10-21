@@ -951,8 +951,12 @@ fighter's weapon is drawn with when its piece in `equipment.json` has no `sprite
 folder has no `south.png` yet draws nothing in hand.
 `data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
 (`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
-list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`. Read by
+list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`, and `also` for
+earlier requests the same files answer (A58's are A10 to A25's keepsakes, D358). Read by
 `tools/take_art.py` and `tests/art_smoke_test`, never by the game.
+`data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
+--palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.
+Never read by the game.
 `from_above` (D343): on a ledged field a fighter higher than the one they hit lands `blow` more for every
 height up at arm's length and `shot` more a height for anything reaching further, counted to `most_heights`
 (`Skirmish.high_ground`; the log tags it *From above*). `on_the_map` (D343): the map of the continent draws a
