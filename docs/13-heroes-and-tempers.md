@@ -243,7 +243,7 @@ as themselves before any of it is attached.
 
 Every line said in the game had one writers' pass on 2026-10-19 ([D274](06-decisions.md), `doug-md`'s
 play-test 7, item 14): about 430 of some 3,850 lines in `data/` rewritten, the rest left as they were.
-A line written since keeps to the same rules:
+A second pass on 2026-10-21 ([D350](06-decisions.md)) read the 670 or so lines written since the first and changed 13. A line written since keeps to the same rules:
 
 - **Its speaker's own voice.** Thirty folk of Stormreach are thirty people, not one wry narrator; a fen is
   patient and damp, a shore wreck-wary. Ser Valis speaks without contractions; Atlas too. The seven
@@ -253,7 +253,7 @@ A line written since keeps to the same rules:
 - **Plain and spare.** British English, short sentences, concrete things over abstractions; the Tower
   takes a capital.
 - **No stock tics.** No em-dash in a line; no "its own kind of", "a new kind of", "the part nobody",
-  "and somehow", "something about the way"; no quip tacked on a sad line, no closing aphorism on every line.
+  "and somehow", "something about the way"; no quip tacked on a sad line, no closing aphorism on every line. Not everyone says goodbye with "Mind the ..."; nobody in the Tower says "nobody knows why" more than once.
 - **Not a template.** The memories keep their refrain ("the floor goes out from under the world", "White.",
   the journal page), but each closes in its own way.
 - **Prices said are prices paid.** A line that names a cost names the one the option charges (100 copper is

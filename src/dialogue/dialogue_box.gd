@@ -11,6 +11,8 @@ const WORDS_DROP := ScreenLayout.WORDS_DROP
 
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
+## How wide a piece's picture is drawn beside a reply that sells it ([D353]).
+const OPTION_ICON := 22
 ## The reply that is never written down in a file.
 const REFLECT_REPLY := "(Say nothing, and let one of your own speak.)"
 ## Asking for tidings and rumours of the realm.
@@ -425,6 +427,13 @@ func _option_button(slot: int, option: Dictionary) -> Button:
 	button.add_theme_stylebox_override("hover", opt_hover)
 	button.add_theme_stylebox_override("focus", opt_hover)
 
+	# A piece for sale is shown beside its name ([D353]).
+	var shown := Gear.icon(str(option.get("icon_item", ""))) if option.has("icon_item") else null
+	if shown != null:
+		button.icon = shown
+		button.expand_icon = false
+		button.add_theme_constant_override("icon_max_width", OPTION_ICON)
+		button.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	button.pressed.connect(_choose.bind(slot))
 	Sfx.attend(button)
 	return button

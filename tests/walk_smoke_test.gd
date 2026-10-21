@@ -805,6 +805,7 @@ func _check_party_screen(screen: PartyScreen) -> void:
 	])
 
 	_check_party_menu(screen, party)
+	_check_armour_worn(screen, party)
 
 
 ## The menu itself: setting the marching order, and the numbers the gear page
@@ -838,11 +839,51 @@ func _check_party_menu(screen: PartyScreen, party: Array[Character]) -> void:
 	else:
 		_expect(Gear.swing(best, lead) > 0, "Optimise offered a piece that is not an improvement")
 		_expect(screen.optimise(lead), "Optimise would not take up the best piece in the packs")
-		_expect(lead.equipment == best, "Optimise took up something other than the best piece")
+		_expect(Gear.worn_in(lead, Gear.slot_of(best)) == best, "Optimise took up something other than the best piece")
 	_expect(Gear.best_offer(lead) == "", "the packs still hold an improvement after Optimise")
 	print("party menu: order kept, %s carries %s" % [
 		lead.display_name, Gear.display_name(lead.equipment) if lead.equipment != "" else "nothing"
 	])
+
+
+## Armour has a place of its own ([D357]): worn with a weapon still in hand, both counted on the field
+## and on the page, kept through a save (and an old save's armour in the hand moved onto the body), and
+## the equipment screen drawing the fighter with a row for the hand and one for the body.
+func _check_armour_worn(screen: PartyScreen, party: Array[Character]) -> void:
+	var lead: Character = party[0]
+	GameState.stores.append("iron_blade")
+	GameState.stores.append("scale_shirt")
+	_expect(screen.equip(lead, "iron_blade") and screen.equip(lead, "scale_shirt"), "the blade or the shirt would not go on")
+	_expect(lead.equipment == "iron_blade" and lead.armour == "scale_shirt", "wearing the shirt took the blade out of %s's hand (%s, %s)" % [lead.display_name, lead.equipment, lead.armour])
+	screen.set("_shown_id", lead.id)
+	screen.set("_page", PartyScreen.Page.GEAR)
+	screen.call("_rebuild")
+	var page: Control = screen.get("_page_box")
+	_expect(page.find_child("Figure", true, false) != null and page.find_child("Slot_weapon", true, false) != null \
+			and page.find_child("Slot_armour", true, false) != null, "the gear page has no figure, or no row for the hand and the body")
+	var now := Gear.fielded_now(lead)
+	var unit := Unit.from_character(lead, Unit.Team.PLAYER, Vector2i.ZERO)
+	_expect(unit.armour == "scale_shirt", "the fighter on the field is not wearing the shirt")
+	_expect(int(now["defense"]) == lead.defense() + int(Gear.bonus("iron_blade", lead)["defense"]) + int(Gear.bonus("scale_shirt", lead)["defense"]),
+		"the shirt is not counted in the guard the page shows (%s)" % now)
+	var unshirted := Character.from_dict(lead.to_dict())
+	unshirted.armour = ""
+	var plain := Unit.from_character(unshirted, Unit.Team.PLAYER, Vector2i.ZERO)
+	_expect(unit.defense - plain.defense == int(Gear.bonus("scale_shirt", lead)["defense"]),
+		"on the field the shirt gives %d guard, not %d" % [unit.defense - plain.defense, int(Gear.bonus("scale_shirt", lead)["defense"])])
+	unit.free()
+	plain.free()
+	var saved := Character.from_dict(lead.to_dict())
+	_expect(saved.armour == "scale_shirt" and saved.equipment == "iron_blade", "the shirt did not come through a save")
+	var old := lead.to_dict()
+	old.erase("armour")
+	old["equipment"] = "padded_coat"
+	var moved := Character.from_dict(old)
+	_expect(moved.armour == "padded_coat" and moved.equipment == "", "an old save's coat in the hand was not put on the body")
+	_expect(screen.unequip(lead, Gear.ARMOUR_SLOT) and lead.armour == "" and GameState.stores.has("scale_shirt"), "the shirt would not come off into the packs")
+	_expect(lead.equipment == "iron_blade", "taking the shirt off took the blade too")
+	_expect(Gear.offers(lead, Gear.ARMOUR_SLOT).has("scale_shirt") and not Gear.offers(lead, Gear.ARMOUR_SLOT).has("steel_blade"), "the armour offers hold a blade, or not the shirt")
+	print("armour: %s holds the %s and wears the %s; %d guard with it" % [lead.display_name, Gear.display_name(lead.equipment), Gear.display_name("scale_shirt"), int(now["defense"])])
 
 
 func _check_run_ends() -> void:

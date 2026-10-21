@@ -180,6 +180,8 @@ static func _add_shop(nodes: Dictionary, name_: String, talk: Dictionary, sells:
 			"text": "%s — %s" % [Gear.display_name(item), Coins.text(price)],
 			"requires_gold": price, "gold": -price, "goto": bought_id,
 			"once": not bool(ware.get("restock", false)),
+			# Its picture beside it ([D353]; play-test 7: "a shop list with an icon beside each item").
+			"icon_item": item,
 		}))
 		nodes[bought_id] = {
 			"speaker": name_, "text": ware.get("line", talk.get("sold", "Pleasure doing business.")),

@@ -135,6 +135,8 @@ are stored inside the save's tree definitions, not in this file.
 }
 ```
 
+- `kind: "armour"` — worn on the body (`Character.armour`), beside the weapon held (`Character.equipment`)
+  since D357; both count on the field and on the party screen's equipment page.
 - `suits` — calling templates best suited to this weapon. Units in "wrong hands" suffer a misfit
   penalty on the bonus stats.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
@@ -605,6 +607,10 @@ set so it is never posted twice.
   is the faction that walks the terrain ([D71](06-decisions.md)). `foe_levels` keeps a land's great
   beasts out of the bands it deals until the party's level reaches the number given
   ([D211](06-decisions.md)); a land with nothing else left fields its faction instead.
+- `fit_the_land` — `natures`, each `{ units, never }`: those units never live in the `never` lands
+  ([D355](06-decisions.md)). A faction's band met or camped on the land is drawn only from what fits
+  there; with nothing of the faction's that fits, the land's own `foes` come. Gates and the Tower are
+  not filtered. Read by `Encounter.fits`.
 - `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
   `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
   thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).
@@ -957,6 +963,10 @@ land tile a fallen weapon came down on, until it is found (none stands until the
 `held` in `skirmish.json` (D344): by weapon `kind`, the `sprite_dir` of eight facings, `scale` and `offsets` a
 fighter's weapon is drawn with when its piece in `equipment.json` has no `sprite_dir` of its own; a kind whose
 folder has no `south.png` yet draws nothing in hand.
+`worn` in `skirmish.json` (D357): armour worn is drawn over the body from `sprite_dir`/<armour id>/<facing>.png at
+the body's size once that picture is in (A64); until then a plate of the armour's colour (`colours` by id, else
+`colour`, at `alpha`, outlined dark) over the chest: `band` its top and bottom as shares of the body's height and
+`width` its share of the width (`bands` and `widths` by armour id: the helm's is a cap over the head). The party screen's equipment figure is drawn the same way.
 `data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
 (`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
 list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`, and `also` for

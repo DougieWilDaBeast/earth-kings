@@ -311,6 +311,7 @@ func _ready() -> void:
 		_gate_depth = int(boot_payload.get("gate_depth", 0))
 		_gate_final = bool(boot_payload.get("gate_final", false))
 		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
+		_come_out_of_the_dark.call_deferred()
 	get_viewport().size_changed.connect(_fit_the_log)
 	get_viewport().size_changed.connect(_fit_the_hint)
 	_fit_the_log.call_deferred()
@@ -3699,10 +3700,8 @@ func _field_for(watch: Node2D, ambush: bool) -> Dictionary:
 	return _field_round(foes, ambush)
 
 
-## The patch of ground a gate's fight is fought on (D162): the party where it stands, and whatever
-## keeps the gate come out of its doorway (the gate's standing stones, its landmark) towards them.
-## With no doorway in reach they stand a few strides ahead. The doorway's front is the floor's heart.
-func _gate_field() -> Dictionary:
+## The gate's doorway nearest the party (its standing stones, its landmark), or (-1, -1) with none in reach.
+func _gate_door() -> Vector2i:
 	var here := map.cell_at(_leader.position)
 	var door := Vector2i(-1, -1)
 	var best := GATE_REACH + 1.0
@@ -3714,6 +3713,59 @@ func _gate_field() -> Dictionary:
 		if apart < best:
 			best = apart
 			door = at
+	return door
+
+
+## The company walks into the gate's doorway and fades as the light takes it, the screen going with
+## them (`gate.walk_in`); the floor inside comes up out of the same dark ([method _come_out_of_the_dark]).
+## Auto, and a gate with no doorway in reach, go straight in.
+func _walk_into_the_gate() -> void:
+	var rules: Dictionary = Database.world_rules.get("gate", {}).get("walk_in", {})
+	var door := _gate_door()
+	var seconds := float(rules.get("seconds", 0.0))
+	if Pace.auto or seconds <= 0.0 or door.x < 0 or _leader == null:
+		return
+	var at := map.centre_of(door)
+	var walk := create_tween().set_parallel(true)
+	for actor: AreaActor in [_leader] + _followers:
+		walk.tween_property(actor, "position", at, seconds).set_trans(Tween.TRANS_SINE)
+		walk.tween_property(actor, "modulate:a", 0.0, seconds).set_ease(Tween.EASE_IN)
+	walk.tween_property(_veil(), "color:a", 1.0, seconds).set_ease(Tween.EASE_IN)
+	await walk.finished
+
+
+## A gate's floor gone into by walking comes up out of the dark the company walked into.
+func _come_out_of_the_dark() -> void:
+	var seconds := float(Database.world_rules.get("gate", {}).get("walk_in", {}).get("seconds", 0.0))
+	if seconds <= 0.0 or Pace.auto:
+		return
+	var veil := _veil()
+	veil.color.a = 1.0
+	var lift := create_tween()
+	lift.tween_property(veil, "color:a", 0.0, seconds).set_ease(Tween.EASE_OUT)
+	lift.tween_callback(veil.queue_free)
+
+
+## A black sheet over everything, clear to begin with, for walking in and out of the light.
+func _veil() -> ColorRect:
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	add_child(layer)
+	var veil := ColorRect.new()
+	veil.color = Color(0.0, 0.0, 0.0, 0.0)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(veil)
+	veil.tree_exited.connect(layer.queue_free)
+	return veil
+
+
+## The patch of ground a gate's fight is fought on (D162): the party where it stands, and whatever
+## keeps the gate come out of its doorway (the gate's standing stones, its landmark) towards them.
+## With no doorway in reach they stand a few strides ahead. The doorway's front is the floor's heart.
+func _gate_field() -> Dictionary:
+	var here := map.cell_at(_leader.position)
+	var door := _gate_door()
 	if door.x < 0:
 		door = here + Vector2i(0, -5)
 	var towards := Vector2i(signi(here.x - door.x), signi(here.y - door.y))
@@ -3862,6 +3914,11 @@ func _do_act(each: Dictionary) -> void:
 	# S-rank gate by the Tower and met its level 19 keepers without a word of warning).
 	if act == "_enter_gate_here" and not _sure_of_the_gate():
 		return
+	# Walked into, not cut to ([D354]; play-test 7): the company steps into the doorway and is gone.
+	if act == "_enter_gate_here" and GateInside.walked() and not _asking:
+		_talking = true
+		await _walk_into_the_gate()
+		_talking = false
 	if GROUND_FIGHT_ACTS.has(act):
 		# Gone into here, not on a fight screen (D162, D207): the continent deals the fight and it is
 		# put down on this ground, the way a band met on it is.
