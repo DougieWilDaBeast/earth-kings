@@ -1875,6 +1875,12 @@ func _land_auto_axis() -> Vector2:
 	var to_band := _auto_band_axis()
 	if to_band != Vector2.INF:
 		return to_band
+	# A way across the land that dips through a tile beside on its way to the next is walked on, not
+	# asked again on the tile beside: asked there, the continent sent it straight back, and the party
+	# paced a tile's border for minutes ([D301]'s runs).
+	if _auto_tile.x >= 0 and _auto_from != world.player_cell and land.tile_of(here) != _auto_tile \
+			and _auto_exit_index < _auto_exit_path.size() and _on_the_way(land, land.tile_of(here)):
+		_auto_from = world.player_cell
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1913,6 +1919,14 @@ func _land_auto_axis() -> Vector2:
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## Whether the rest of the way Auto is walking passes through [param tile].
+func _on_the_way(land: Land, tile: Vector2i) -> bool:
+	for i in range(_auto_exit_index, _auto_exit_path.size()):
+		if land.tile_of(map.cell_at(_auto_exit_path[i])) == tile:
+			return true
+	return false
 
 
 ## Whether a band on this ground is watching [param cell].

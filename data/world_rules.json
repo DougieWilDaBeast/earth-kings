@@ -362,6 +362,8 @@
 		"_comment_fought": "D189 (play-test 4: floors 6 to 20 were easier than 1 to 5, fights over in three seconds): a fought floor's foes start where floor 5's keeper left off and climb from there, are never below the party's own level (`meet_the_party`), and bring one more for every member past `foes_per_member_past` (`foes_max` at most).",
 		"level_base": 4,
 		"levels_per_floor": 0.4,
+		"_comment_levels_per_member_past_one": "D301: a floor the Tower stocks itself (6 up) stands this many levels higher for each of the company past the first, so four no longer walk floors 6 to 20 at the level one would (meeting six: \"four is too easy\"). **Inferred**: the number.",
+		"levels_per_member_past_one": 1,
 		"meet_the_party": true,
 		"foes_per_member_past": 2,
 		"foes_min": 2,

@@ -196,7 +196,7 @@ static func stair_too_hard(world: World) -> bool:
 		return false
 	var over := int(_rules().get("auto_hunt_gates_over", 99))
 	var next := world.tower_floor + 1
-	var level := Encounter.tower_level(next)
+	var level := Encounter.tower_level(next, GameState.party_characters().size())
 	var area_id := Chapters.walked_floor_area(next)
 	if area_id != "" and not Chapters.borrows_a_plan(next) and not TowerFloors.own_bands_restocked(next):
 		level = 1

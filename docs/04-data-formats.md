@@ -751,7 +751,8 @@ area marked `teaches` in `data/areas/`. A fight on the land, on the Tower's floo
 the Tower while the next floor's foes stand more than that many levels over the company
 (`AutoRoad.stair_too_hard`). Each character saves `met`, `look_for` (kinds marked "look out for" on the
 log of foes, called out when one stands in a gate the party walks into) and `climbed` (the highest
-Tower floor won with the company).
+Tower floor won with the company). `tower` → `levels_per_member_past_one`: a floor the Tower stocks itself
+(`Encounter.tower_level`, floors 6 up) stands that many levels higher for each of the company past the first.
 
 ## `world_rules.json` → `crafting` — mixing and honing (D280)
 
