@@ -418,7 +418,7 @@ each, each ending playable:
    pull request at a time, each ending playable:
    0. Push main to itch and `doug-md`'s play-test 8 on it, solo and as four, on `dougie`'s word.
       **Done**: `6f8fcf6` pushed 2026-10-21 10:06, played by `doug-md` the same morning; first fixes
-      [D323](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D324](06-decisions.md)):
+      [D324](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D325](06-decisions.md)):
       disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in;
       the 2× cap, nemesis and hunger after B; the writers' pass, city doors, groves and the opening later.
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each

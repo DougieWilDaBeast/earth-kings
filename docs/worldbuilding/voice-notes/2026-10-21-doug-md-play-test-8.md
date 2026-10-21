@@ -13,7 +13,7 @@ transcribed: Teams' automatic transcription, unedited (it mishears names: "Fenni
 > Cal of Stormreach and Brother Oswin, later Orin, Captain Edda and Atlas: two gates shut, the Tower
 > from floor 1 to 15, chapters 1 to 3 closed, one company lost to wolves on the ground by the Tower.
 > Kept exactly as Teams transcribed it, one line as the file has it. What came of it:
-> [D323](../../06-decisions.md) and the play-test 8 asks in
+> [D324](../../06-decisions.md) and the play-test 8 asks in
 > [28](../../28-the-first-hour.md#play-test-8s-asks).
 
 > Earth Kings Play Test 8-20261021_101951-Meeting Transcript
