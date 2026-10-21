@@ -309,6 +309,9 @@ func _ready() -> void:
 		_gate_final = bool(boot_payload.get("gate_final", false))
 		_gate_keeper = str(boot_payload.get("gate_keeper", ""))
 		_come_out_of_the_dark.call_deferred()
+	elif bool(boot_payload.get("walked_in", false)):
+		# The grove, walked into among the trees ([D360]), comes up out of the same dark.
+		_come_out_of_the_dark.call_deferred()
 	get_viewport().size_changed.connect(_fit_the_log)
 	get_viewport().size_changed.connect(_fit_the_hint)
 	_fit_the_log.call_deferred()
@@ -3711,10 +3714,43 @@ func _gate_door() -> Vector2i:
 ## Auto, and a gate with no doorway in reach, go straight in.
 func _walk_into_the_gate() -> void:
 	var rules: Dictionary = Database.world_rules.get("gate", {}).get("walk_in", {})
-	var door := _gate_door()
-	var seconds := float(rules.get("seconds", 0.0))
-	if Pace.auto or seconds <= 0.0 or door.x < 0 or _leader == null:
+	if _leader == null:
 		return
+	await _walk_into(_gate_door(), float(rules.get("seconds", 0.0)))
+
+
+## Into the trees ([D360], play-test 7: "walking into a gate or the grove, not cut to it"): the
+## company walks in among the nearest trees in reach (`wilds.walk_in`), or straight on the way the
+## lead faces when there are none, and fades as the screen goes dark; the grove comes up out of it.
+func _walk_into_the_wild() -> void:
+	var rules: Dictionary = Database.world_rules.get("wilds", {}).get("walk_in", {})
+	if _leader == null:
+		return
+	var here := map.cell_at(_leader.position)
+	var reach := float(rules.get("reach", 8))
+	var into := Vector2i(-1, -1)
+	var best := reach + 1.0
+	for prop: Dictionary in map.props:
+		var art := str(prop.get("art", ""))
+		if not (art.contains("tree") or art.contains("oak") or art.contains("pine") or art.contains("willow")):
+			continue
+		var at: Vector2i = prop["cell"]
+		var apart := Vector2(at - here).length()
+		if apart >= 2.0 and apart < best:
+			best = apart
+			into = at
+	if into.x < 0:
+		var ahead := _leader.facing()
+		into = here + Vector2i(roundi(ahead.x), roundi(ahead.y)) * int(rules.get("ahead", 3))
+	await _walk_into(into, float(rules.get("seconds", 0.0)))
+
+
+## The company walks to [param cell] over [param seconds] and fades as the light (or the dark under
+## the trees) takes it, the screen going with them. Auto, or nowhere to walk to, goes straight on.
+func _walk_into(cell: Vector2i, seconds: float) -> void:
+	if Pace.auto or seconds <= 0.0 or cell.x < 0 or _leader == null:
+		return
+	var door := cell
 	var at := map.centre_of(door)
 	var walk := create_tween().set_parallel(true)
 	for actor: AreaActor in [_leader] + _followers:
@@ -3726,7 +3762,7 @@ func _walk_into_the_gate() -> void:
 
 ## A gate's floor gone into by walking comes up out of the dark the company walked into.
 func _come_out_of_the_dark() -> void:
-	var seconds := float(Database.world_rules.get("gate", {}).get("walk_in", {}).get("seconds", 0.0))
+	var seconds := float(Database.world_rules.get("wilds" if _gate_cell.x < 0 else "gate", {}).get("walk_in", {}).get("seconds", 0.0))
 	if seconds <= 0.0 or Pace.auto:
 		return
 	var veil := _veil()
@@ -3888,6 +3924,10 @@ func _do_act(each: Dictionary) -> void:
 	if act == "_enter_gate_here" and GateInside.walked() and not _asking:
 		_talking = true
 		await _walk_into_the_gate()
+		_talking = false
+	if act == "_step_into_the_wild" and _land_mode and not _asking:
+		_talking = true
+		await _walk_into_the_wild()
 		_talking = false
 	if GROUND_FIGHT_ACTS.has(act):
 		# Gone into here, not on a fight screen (D162, D207): the continent deals the fight and it is

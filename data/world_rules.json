@@ -1122,6 +1122,8 @@
 	},
 	"_comment_wilds": "D287, D309 (meeting six, piece C3): places worth going to. The wilds are sites of kind `wild` on the map (tools/place_wilds.py puts per_world of them on their own kind of ground), unknown until the party walks onto one or hears of it. At rest in a village or a keep, on rumour_chance, the host speaks of the nearest wild not yet known within rumour_within tiles (rumour_line: {host}, {wild}, {way}, {days} at steps_per_day a day, {lure} from the area's own `lure`), which marks it on the map. Walking into one for the first time says found_line and writes it in the annals. Inferred: every number and line.",
 	"wilds": {
+		"_comment_walk_in": "D360 (play-test 7, item 11: 'walking into a gate or the grove, not cut to it'): from the ground the company walks into the nearest trees within reach cells (or ahead cells the way the lead faces) over seconds, fading as the screen goes dark, and the grove comes up out of the same dark. Auto goes straight in. Inferred: the time, the reach.",
+		"walk_in": { "seconds": 0.8, "reach": 8, "ahead": 3 },
 		"rumour_chance": 0.5,
 		"rumour_within": 36,
 		"steps_per_day": 8,

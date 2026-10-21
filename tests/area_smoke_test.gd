@@ -97,6 +97,7 @@ func _ready() -> void:
 	await _check_tower_grows()
 	await _check_heights()
 	await _check_wild_stories()
+	await _check_walked_into_the_grove()
 	await _check_band_shape_on_the_ground()
 	await _check_inside_a_gate()
 	_check_gates_grow()
@@ -1789,6 +1790,33 @@ func _check_wild_stories() -> void:
 	print("wild stories: five wilds, three pages each; %s" % told)
 	scene.queue_free()
 	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## The grove walked into, not cut to ([D360], play-test 7): gone into from the ground it comes up out
+## of the dark, and the company walks off into the trees and fades as the screen goes dark.
+func _check_walked_into_the_grove() -> void:
+	GameState.new_game(SEED)
+	var was_auto := Pace.auto
+	Pace.auto = false
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_grove", "return_scene": "world", "walked_in": true })
+	add_child(scene)
+	for i in 2:
+		await get_tree().process_frame
+	var dark := scene.find_children("*", "ColorRect", true, false).filter(
+			func(c: ColorRect) -> bool: return c.color.a > 0.5 and c.color.r < 0.05)
+	_expect(not dark.is_empty(), "the grove walked into did not come up out of the dark")
+	var leader: Node2D = scene.get("_leader")
+	var map: AreaMap = scene.get("map")
+	var to: Vector2i = map.cell_at(leader.position) + Vector2i(0, -2)
+	await scene.call("_walk_into", to, 0.2)
+	_expect(leader.modulate.a < 0.05 and leader.position.distance_to(map.centre_of(to)) < 2.0,
+		"walking into the trees, the lead stood at %s at %.2f, not faded at %s" % [leader.position, leader.modulate.a, map.centre_of(to)])
+	print("grove: came up out of the dark, and the company walked into the trees and faded")
+	scene.queue_free()
+	await get_tree().process_frame
+	Pace.auto = was_auto
 	GameState.new_game(SEED)
 
 
