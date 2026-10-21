@@ -1015,7 +1015,7 @@
 		}
 	},
 	"land_foe_share": 0.7,
-	"_comment_life_art": "D332 (play-test 7: 'creatures that match the land, no grasshopper in magma'; D287): a land's life_art names the pictures each kind of life on the land (world_rules.json -> life.art) is drawn from there; a kind it gives no pictures has none there, and a land with no life_art has all of them. Read by AreaScene._life_for. **Inferred** (agenda 240): which land keeps what, out of the pictures there are; the land's own creatures wait on art (A56).",
+	"_comment_life_art": "D333 (play-test 7: 'creatures that match the land, no grasshopper in magma'; D287): a land's life_art names the pictures each kind of life on the land (world_rules.json -> life.art) is drawn from there; a kind it gives no pictures has none there, and a land with no life_art has all of them. Read by AreaScene._life_for. **Inferred** (agenda 241): which land keeps what, out of the pictures there are; the land's own creatures wait on art (A56).",
 	"_comment_foe_levels": "D211: a land's great beasts stay out of the bands it deals until the party's level reaches the number here, so a fresh lead walking alone meets the land's smaller things first (src/chronicle/encounter.gd _land_foes). **Inferred**: which beasts and level 3.",
 	"foe_levels": {
 		"tree_sentinel": 3,

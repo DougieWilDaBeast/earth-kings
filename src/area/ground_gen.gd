@@ -29,7 +29,7 @@ const ROAD := "="
 ## tile is one or the other ([D233]).
 const TRACK := ":"
 const FOOT := "_"
-## Higher ground: a rise of the land's own floor with a rock face below it ([D328]).
+## Higher ground: a rise of the land's own floor with a rock face below it ([D329]).
 const RISE := "^"
 ## What a path may not be worn over, and what nothing grows on.
 const WAYS := [ROAD, TRACK, FOOT]
@@ -515,7 +515,7 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 		for entry: Dictionary in place.get(key, []):
 			moved.append(_moved(entry, offset))
 		made[key] = moved
-	# A place's own ways up its heights come with it onto the land (D308, D333).
+	# A place's own ways up its heights come with it onto the land (D308, D334).
 	for key: String in ["ways_up", "ladders"]:
 		var ways: Array = (made.get(key, []) as Array).duplicate()
 		for pair: Array in place.get(key, []):
@@ -705,7 +705,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	for i in _count(float(features.get("outcrops", 1.0)), rng):
 		_outcrop(grid, kept, blocked, props, pool.get("rocks", []), _anywhere(rng, w, h), rng, w, h)
 
-	# Rises, so the land is not flat (D328): drawn by their own roll, so nothing else on the
+	# Rises, so the land is not flat (D329): drawn by their own roll, so nothing else on the
 	# ground moves for them.
 	var ways_up := _rises(world, cell, grid, kept, features, w, h)
 	for at: Vector2i in ways_up:
@@ -806,7 +806,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 				blocked[post] = true
 				break
 
-	# Herbs to pick, by their own roll so nothing else on the ground moves for them (D331).
+	# Herbs to pick, by their own roll so nothing else on the ground moves for them (D332).
 	if open_land and reserved.size == Vector2i.ZERO:
 		_herbs(world, cell, land, grid, kept, blocked, props, w, h)
 
@@ -946,7 +946,7 @@ static func _heights() -> Dictionary:
 ## The rises on a tile: the land's own count of them, more on hill country, each a lump of higher
 ## ground a height up that keeps off the paths, the water and the tile's edges (so where two tiles meet
 ## is always level) and is never so thin that its face has nothing above it. Each rise is climbed only
-## at its slopes ([D308], [D328]): returns them, a cell on the rise's edge with open ground below it,
+## at its slopes ([D308], [D329]): returns them, a cell on the rise's edge with open ground below it,
 ## one a rise and another for a big one, kept clear of anything growing.
 static func _rises(world: World, cell: Vector2i, grid: Array, kept: Dictionary, features: Dictionary,
 		w: int, h: int) -> Array[Vector2i]:
@@ -1089,7 +1089,7 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 		})
 
 
-## What the land grows wild ([D331], [D299]: "herbs on the land"; `world_rules.json` → `herbs_on_land`):
+## What the land grows wild ([D332], [D299]: "herbs on the land"; `world_rules.json` → `herbs_on_land`):
 ## about `per_tile` patches a tile of a land that grows any (`by_land`), each one of its herbs, off the
 ## paths and the water and clear of anything standing, picked once a run into the packs.
 static func _herbs(world: World, cell: Vector2i, land: String, grid: Array, kept: Dictionary,

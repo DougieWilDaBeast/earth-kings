@@ -9,7 +9,7 @@ The founders (D287): places worth going to, with loot, a quest or a story in eac
 stumbled on, one tile in sixteen, with no way to aim for one. This puts `per_world` of them on the
 map as sites of kind `wild`: on ground of their own kind (forest and brush for the grove and the
 thicket, marsh for the fen, sand for the oasis, hill for the scarp, and since D321 crag for the
-cloud peak; since D329 the hamlets on grass, wood and sand; since D330 two caravans outside towns,
+cloud peak; since D330 the hamlets on grass, wood and sand; since D331 two caravans outside towns,
 which then walk), never within `clear` tiles of
 another place and `apart` tiles of each other, dealt from the map's own seed so the same map gets
 the same wilds. A run finds one by walking onto it, or hears of it at rest in a settlement
@@ -47,13 +47,13 @@ NAMES = {
 # D321: the mountains' own wild, the cloud peak, on crag, dealt after the twelve with a deal of its own
 # so the twelve stand where they stood.
 PEAKS = 2
-# D329: the hamlets, a few crofts each with folk, a want and a trouble, dealt last with a deal of their
+# D330: the hamlets, a few crofts each with folk, a want and a trouble, dealt last with a deal of their
 # own, each on its own ground, so everything before them stands where it stood.
 HAMLETS = {"hamlet_fold": ["grass"], "hamlet_mill": ["forest", "brush"], "hamlet_salt": ["sand"]}
 HAMLETS_EACH = 2
 # Out past what the crater's first sight takes in, so a hamlet is come upon, not seen from the start.
 HOME_CLEAR = 24
-# D330: the caravans, wild places that walk (src/chronicle/caravans.gd). Each starts off the road outside
+# D331: the caravans, wild places that walk (src/chronicle/caravans.gd). Each starts off the road outside
 # a town far from the crater and goes round that town and the STOPS - 1 towns nearest after it.
 CARAVANS = {"caravan_ilse": "Mother Ilse's wagons", "caravan_red": "the Red Wagons"}
 STOPS = 4

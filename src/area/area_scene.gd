@@ -324,7 +324,7 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
-	# A rope carried makes any face a height up a way up ([D333]).
+	# A rope carried makes any face a height up a way up ([D334]).
 	map.set_scaling(_carries_rope())
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
@@ -498,7 +498,7 @@ func _paint_tile(tile: Vector2i) -> void:
 	var land := map as Land
 	var under := _ground_node(tile)
 	GroundPainter.paint_patches(map, land.patches_of(tile), under)
-	# The edges of the land's rises ([D328]), over the tile's ground.
+	# The edges of the land's rises ([D329]), over the tile's ground.
 	if bool(land.chunks.get(tile, {}).get("_heights", false)):
 		var ledges := AreaLedges.new()
 		ledges.name = "Ledges"
@@ -574,7 +574,7 @@ func _life_for(tile: Vector2i) -> Array[Dictionary]:
 	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
 	var area := land.slot_rect(tile)
 	var per_tile: Dictionary = rules.get("per_tile", {})
-	# Creatures that match the land (D332): a land's own pictures for each kind, none where it gives none.
+	# Creatures that match the land (D333): a land's own pictures for each kind, none where it gives none.
 	var own: Dictionary = Biome.data(str(chunk.get("land", ""))).get("life_art", {})
 	for kind: String in ["bird", "flutter", "hop", "crawl"]:
 		var arts: Array = own.get(kind, rules.get("art", {}).get(kind, []))
@@ -2592,7 +2592,7 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 		return
 	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
 		return
-	# A rope bought or picked up since the party came in is a rope all the same ([D333]).
+	# A rope bought or picked up since the party came in is a rope all the same ([D334]).
 	if not map.scaling and _carries_rope():
 		map.set_scaling(true)
 		_note(str(Database.world_rules.get("heights", {}).get("rope_line", "The rope goes over the edge.")))
@@ -2603,7 +2603,7 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
 
 
-## Whether the company carries a climbing rope ([D333]): in the packs, or worn by any of them.
+## Whether the company carries a climbing rope ([D334]): in the packs, or worn by any of them.
 func _carries_rope() -> bool:
 	var rope := str(Database.world_rules.get("heights", {}).get("rope_item", "climbing_rope"))
 	if GameState.stores.has(rope):
@@ -2768,7 +2768,7 @@ func _formation_slots() -> Dictionary:
 	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
 	for i in companions.size():
 		# One in no state to hold a formation walks the trail instead ([D306]).
-		# Nor one who has no trust in whoever calls the shape (D335).
+		# Nor one who has no trust in whoever calls the shape (D336).
 		var caller: Character = Formations.leader_of(members) if Formations.leader_of(members) != null else members[0]
 		if dealt.has(companions[i]) and not Formations.broken(members[i + 1], caller):
 			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)

@@ -1,5 +1,5 @@
 extends RefCounted
-## Caravans ([D287]: "places worth going to (... hamlets, caravans)"; [D330]): wild places that walk.
+## Caravans ([D287]: "places worth going to (... hamlets, caravans)"; [D331]): wild places that walk.
 ## A caravan is a site of kind `wild` whose `data.caravan` is its round, `route` (the towns it goes
 ## between, as cells), the `leg` it is on and how long it `rest`s. Every upkeep it rolls a few tiles on
 ## towards the next town by the way a party would walk (`Route.between`), stands off the road outside it

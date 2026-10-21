@@ -1,6 +1,6 @@
 extends Node
-## Photograph the three hamlets ([D329]): Ewe's Hollow, Millrace and Saltcote, and the two caravans
-## ([D330]), each from the middle.
+## Photograph the three hamlets ([D330]): Ewe's Hollow, Millrace and Saltcote, and the two caravans
+## ([D331]), each from the middle.
 ## Needs a display (xvfb-run).
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/hamlet_shot.tscn

@@ -109,7 +109,7 @@ static func won(character: Character) -> int:
 	return int(character.fights.get("won", 0)) if character != null else 0
 
 
-## The natural leader among [param characters] ([D306], [D334]): of everyone with `from_won` fights won or
+## The natural leader among [param characters] ([D306], [D335]): of everyone with `from_won` fights won or
 ## more, those within `charisma_lift` wins of the most won stand for it, and the one with the most
 ## Charisma ([Recruits.charisma]) leads; ties to the more fights won, then the higher level, then the order
 ## given. So the most fights won leads, Charisma breaks a tie, and a higher Charisma lifts someone up to
@@ -155,7 +155,7 @@ static func badge(character: Character) -> String:
 
 ## Whether [param character] is in no state to hold a formation ([D289]: "a formation can break on
 ## bad leadership and bad calls, through moods and trust"): their mood under `break_below_mood`, or
-## ([D335]) no trust in [param leader], who calls the shape: a bond with them at `break_below_bond` or
+## ([D336]) no trust in [param leader], who calls the shape: a bond with them at `break_below_bond` or
 ## under (the banter's cold, [Banter]).
 static func broken(character: Character, leader: Character = null) -> bool:
 	if character == null:
@@ -168,7 +168,7 @@ static func broken(character: Character, leader: Character = null) -> bool:
 	return character.mood() < int(rules().get("break_below_mood", 0))
 
 
-## The party fighters a call on [param called] turns ([D335]: the leader's orders beyond the call-out,
+## The party fighters a call on [param called] turns ([D336]: the leader's orders beyond the call-out,
 ## "go for the healer"): only a call by the natural leader is an order; it turns everyone standing of
 ## the party with no order of the player's, not told to hold, not broken, and within
 ## `callouts.order_reach` cells of the one called.

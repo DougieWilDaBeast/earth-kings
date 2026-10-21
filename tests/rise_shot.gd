@@ -1,6 +1,6 @@
 extends Node
 const GroundGen := preload("res://src/area/ground_gen.gd")
-## Photograph the rises on the land ([D328]): a hill tile with higher ground on it and its slopes,
+## Photograph the rises on the land ([D329]): a hill tile with higher ground on it and its slopes,
 ## from near and from high up. Needs a display (xvfb-run).
 ##
 ##   xvfb-run godot --path . --rendering-driver opengl3 res://tests/rise_shot.tscn

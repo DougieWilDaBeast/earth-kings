@@ -1311,7 +1311,7 @@ func _check_leader_and_callouts() -> void:
 	_expect(Formations.leader_of(party) == null, "two wins made a leader (from_won is %d)" % int(Formations.leader_rules().get("from_won", 3)))
 	vesta.unit.character.fights["won"] = 5
 	_expect(Formations.leader_of(party) == vesta.unit.character, "Vesta with the most fights won does not lead")
-	# Charisma in who leads ([D334]): it lifts someone up to charisma_lift wins behind, no further, and
+	# Charisma in who leads ([D335]): it lifts someone up to charisma_lift wins behind, no further, and
 	# breaks a tie.
 	var talker: Character = iris.unit.character
 	var kept_level := talker.level
@@ -1328,7 +1328,7 @@ func _check_leader_and_callouts() -> void:
 		_expect(Formations.leader_of(party) == by_charisma, "Charisma did not break a tie of fights won")
 	talker.level = kept_level
 	talker.fights["won"] = 2
-	# Trust ([D335]): a companion who has no trust in the one calling the shape holds no slot.
+	# Trust ([D336]): a companion who has no trust in the one calling the shape holds no slot.
 	var cold := int(Formations.rules().get("break_below_bond", -3))
 	var kept_bond := int(cato.unit.character.bonds.get(vesta.unit.character.id, 0))
 	cato.unit.character.bonds[vesta.unit.character.id] = cold
@@ -1336,7 +1336,7 @@ func _check_leader_and_callouts() -> void:
 	_expect(not Formations.broken(cato.unit.character), "Cato broke a shape nobody called")
 	cato.unit.character.bonds[vesta.unit.character.id] = kept_bond
 	_expect(not Formations.broken(cato.unit.character, vesta.unit.character), "Cato on even terms with Vesta breaks her shape")
-	# A call is an order ([D335]): those free near the one called turn on it; one told what to do does not.
+	# A call is an order ([D336]): those free near the one called turn on it; one told what to do does not.
 	var called: Fighter = foes[0]
 	iris.unit.cell = called.unit.cell + Vector2i(2, 0)
 	cato.unit.cell = called.unit.cell + Vector2i(0, 2)

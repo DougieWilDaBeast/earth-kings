@@ -447,15 +447,15 @@ each, each ending playable:
       into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). A mountain with the
       clouds below: the cloud peak, three heights up, two on each world's crag; a body shoved into the clouds in a
       fight is gone ([D321](06-decisions.md), 2026-10-21). Rises on every tile of the land, a height up with a rock
-      face, more on hills and crag, climbed only at a slope ([D328](06-decisions.md), 2026-10-21, held until B is in).
+      face, more on hills and crag, climbed only at a slope ([D329](06-decisions.md), 2026-10-21, held until B is in).
       Six hamlets on the map, three kinds (a sheepfold, a mill, salt pans), each with folk who sell, a job, a trouble
-      and a story ([D329](06-decisions.md), 2026-10-21, held until B is in). Two caravans that go a round of four towns,
-      one selling the makings of runes, one herbs and bread ([D330](06-decisions.md), 2026-10-21, held until B is in).
-      Herbs on the land to pick, by what each land grows ([D331](06-decisions.md), 2026-10-21, held until B is in).
-      Life on the land that matches it, no grasshopper in the ash ([D332](06-decisions.md), 2026-10-21, held until B is in;
+      and a story ([D330](06-decisions.md), 2026-10-21, held until B is in). Two caravans that go a round of four towns,
+      one selling the makings of runes, one herbs and bread ([D331](06-decisions.md), 2026-10-21, held until B is in).
+      Herbs on the land to pick, by what each land grows ([D332](06-decisions.md), 2026-10-21, held until B is in).
+      Life on the land that matches it, no grasshopper in the ash ([D333](06-decisions.md), 2026-10-21, held until B is in;
       the lands' own creatures are art A56).
       Ladders that climb two heights, on the cloud peak and the scarp, and a Climbing Rope that scales any face a height up
-      ([D333](06-decisions.md), 2026-10-21, held until B is in). Next: hills and mountains on the land more than a height
+      ([D334](06-decisions.md), 2026-10-21, held until B is in). Next: hills and mountains on the land more than a height
       up, town walls to scale.
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and
@@ -475,8 +475,8 @@ each, each ending playable:
       A band of foes falls in too, round its boss, in the shape its size picks, facing the party ([D315](06-decisions.md),
       2026-10-21), and on the ground a band of three or more walks in its shape too ([D320](06-decisions.md), 2026-10-21).
       Charisma in who leads, a tie-break that lifts someone up to two wins behind ([D323](06-decisions.md)): **built**
-      ([D334](06-decisions.md), 2026-10-21, held until B is in). The leader's call-out is an order the company answers,
-      and no trust in the leader breaks a formation ([D335](06-decisions.md), 2026-10-21, held until B is in). The wheel on
+      ([D335](06-decisions.md), 2026-10-21, held until B is in). The leader's call-out is an order the company answers,
+      and no trust in the leader breaks a formation ([D336](06-decisions.md), 2026-10-21, held until B is in). The wheel on
       a held key is play-test 8's quick wheel (#417). Not yet: plans made between fights, other orders (#411).
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor

@@ -38,7 +38,7 @@ var _building_cells: Dictionary = {}
 ## for every way, it was every townsperson in Stormreach going round the streets weighing up a
 ## thousand cells each (play-test 7: "massive frame rate drop" in the city).
 var _grid: AStarGrid2D = null
-## On held land with heights ([D328]), the same cells as a graph whose steps go one way where a rise
+## On held land with heights ([D329]), the same cells as a graph whose steps go one way where a rise
 ## is only dropped off ([AreaMap.may_step]), kept like [member _grid].
 var _steps: AStar2D = null
 
@@ -151,7 +151,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		wards[ward["cell"]] = ward
 	for pair: Array in laid.get("fires", []):
 		fires[_cell(pair, origin)] = tile
-	# Rises of the land's floor, climbed only at their slopes ([D328]).
+	# Rises of the land's floor, climbed only at their slopes ([D329]).
 	for pair: Variant in laid.get("ways_up", []):
 		ways_up[_cell(pair, origin)] = true
 	for pair: Variant in laid.get("ladders", []):
@@ -368,7 +368,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}
 		grid.set_point_solid(from_cell, true)
 	for cell: Vector2i in shut:
 		grid.set_point_solid(cell, false)
-	# On held land with heights ([D328]) the grid's way stands unless it climbs a rise where there is
+	# On held land with heights ([D329]) the grid's way stands unless it climbs a rise where there is
 	# no slope; then the way is found again on the graph that knows which way a step goes.
 	if _heights_vary:
 		for i in range(1, path.size()):
@@ -377,7 +377,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}
 	return path
 
 
-## A way over held land with heights ([D328]): on [member _steps], so it climbs a rise only at a slope
+## A way over held land with heights ([D329]): on [member _steps], so it climbs a rise only at a slope
 ## and drops off one anywhere ([D312]'s rule, with no extra cost: a rise is one height, which never hurts).
 func _path_over_heights(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
 	var steps := _held_steps()
@@ -538,7 +538,7 @@ static func _rect(values: Variant, origin: Vector2i) -> Rect2i:
 	return Rect2i(Vector2i(int(at[0]), int(at[1])) + origin, Vector2i(int(at[2]), int(at[3])))
 
 
-## Carry a rope or not ([D333]): the held graph of steps is laid out again.
+## Carry a rope or not ([D334]): the held graph of steps is laid out again.
 func set_scaling(on: bool) -> void:
 	if on != scaling:
 		_steps = null
