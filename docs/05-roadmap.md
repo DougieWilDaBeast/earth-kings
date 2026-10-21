@@ -449,8 +449,9 @@ each, each ending playable:
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
       is laid out at the climb and grows with height, every third floor from 12 is shared with a company who
-      fight beside the party, and from 25 every fifth floor has people living by the stair. Not yet: the floors'
-      3D look, gear seen on the floor and on fighters (art), what a living floor offers.
+      fight beside the party, and from 25 every fifth floor has people living by the stair. A living floor rests the
+      company for coin and sells bread, herbs and a draught, marked up ([D317](06-decisions.md), 2026-10-21). Not yet:
+      the floors' 3D look, gear seen on the floor and on fighters (art).
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
       question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,

@@ -1355,8 +1355,19 @@ func _check_tower_grows() -> void:
 	_expect(living.size() >= 3 and living.all(func(p: Dictionary) -> bool: return not (p.get("talk", {}) as Dictionary).is_empty()),
 			"floor 25 has %d people living on it" % living.size())
 	_expect((Database.area(TowerFloors.grown_area_id(12)).get("people", []) as Array).is_empty(), "people live on floor 12")
-	print("tower grows: floor 12 is %s, floor 60 %s; %s climb floor 12 with you (%d); %d live on floor 25" % [
-		small, big, TowerFloors.company_on(world, 12), company.size(), living.size()])
+	# What a living floor offers ([D317]): its first rests the company for coin, its second sells, marked up.
+	var host: Dictionary = living[0].get("talk", {}) if living.size() > 0 else {}
+	var trader: Dictionary = living[1].get("talk", {}) if living.size() > 1 else {}
+	var rest_price := int((host.get("heal", {}) as Dictionary).get("price", 0))
+	_expect(living.size() > 0 and rest_price > 0 and str(living[0].get("name", "")) != TowerFloors.company_on(world, 25),
+			"floor 25's host rests nobody, or has no name of their own: %s" % [host])
+	var wares: Array = trader.get("sells", [])
+	var priced := func(w: Dictionary) -> bool: return not Database.equipment_piece(str(w.get("item", ""))).is_empty() and int(w.get("price", 0)) > int(Market.price_of(str(w.get("item", "")))) and bool(w.get("restock", false))
+	_expect(wares.size() >= 2 and wares.all(priced), "floor 25's trader sells nothing, or at no mark-up, or once: %s" % [wares])
+	_expect(living.size() > 2 and ((living[2].get("talk", {}) as Dictionary).get("sells", []) as Array).is_empty()
+			and ((living[2].get("talk", {}) as Dictionary).get("heal", {}) as Dictionary).is_empty(), "everyone on floor 25 sells or heals")
+	print("tower grows: floor 12 is %s, floor 60 %s; %s climb floor 12 with you (%d); %d live on floor 25, a rest there costs %d and the trader has %d wares" % [
+		small, big, TowerFloors.company_on(world, 12), company.size(), living.size(), rest_price, wares.size()])
 
 	# Walked: floor 12 opens, its bands the floor's own, and the company fights beside the party.
 	GameState.pending_outcome = {}
