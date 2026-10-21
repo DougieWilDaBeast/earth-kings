@@ -972,12 +972,36 @@
 			{ "id": "formation", "label": "Formation" },
 			{ "id": "map", "label": "Map" },
 			{ "id": "journal", "label": "Journal" },
-			{ "id": "auto", "label": "Auto" }
+			{ "id": "auto", "label": "Auto" },
+			{ "id": "arrange", "label": "Arrange" }
 		],
 		"fighting": [
 			{ "id": "eat", "label": "Eat" },
 			{ "id": "stance", "label": "Stance" },
 			{ "id": "auto", "label": "Auto" }
+		]
+	},
+	"screen_layout": {
+		"_comment": "D351 (Ewan's play-test 8: 'when in-game I'm able to edit the size of them and choose where I want to place them on my screen'): src/ui/screen_layout.gd. From the menu's Arrange the Screen, or Arrange on the quick wheel, a frame is drawn round each panel of the walked ground's screen: dragged to move it; a panel with resize 'size' has a handle at its corner to make its box bigger or smaller; the wheel over any frame grows or shrinks it and its words, between least_scale and most_scale by scale_step. 'words' is the box people talk in. Kept in user://settings.cfg [layout] as a share of the screen; keep_showing pixels of a panel always stay on it.",
+		"on": true,
+		"menu": "Arrange the Screen",
+		"bar": "Drag a panel to move it, its corner to size it, the wheel over it to grow its words.",
+		"done": "Done",
+		"reset": "Put It All Back",
+		"handle": 14,
+		"least": [160, 40],
+		"least_scale": 0.6,
+		"most_scale": 2.0,
+		"scale_step": 0.1,
+		"keep_showing": 40,
+		"panels": [
+			{ "id": "place", "label": "Where you are", "resize": "scale" },
+			{ "id": "compass", "label": "Compass", "resize": "scale" },
+			{ "id": "hud", "label": "The company", "resize": "scale" },
+			{ "id": "map", "label": "Map", "resize": "scale" },
+			{ "id": "log", "label": "What happened", "resize": "size" },
+			{ "id": "hint", "label": "Hint", "resize": "scale" },
+			{ "id": "words", "label": "Conversations", "resize": "scale" }
 		]
 	},
 	"dispatch": {

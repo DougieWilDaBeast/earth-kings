@@ -10,11 +10,19 @@
     python3 tools/pixellab.py character sworn_blade 32            -> downloads/pixellab/sworn_blade_32.zip
     python3 tools/pixellab.py animate <character_id> "a single overhead sword slash" --name attack
     python3 tools/pixellab.py portrait art/size_test/32/sworn_blade/idle/south.png --size 160
+    python3 tools/pixellab.py vfx DROP-ZONE/A54/fall "a sword falling out of the sky in fire" --artist pro
+    python3 tools/pixellab.py object DROP-ZONE/A52/blade "a plain iron sword" --size 36 36 --directions 8
+    python3 tools/pixellab.py building DROP-ZONE/A51/kit "the Tower's old grey-blue stone" \
+        --walls "grey-blue stone block walls" --floor "worn grey-blue flagstones"
 
 The key is read from the environment, never from a file in the repo: PIXELLAB_API_KEY, or
 PIXELLAB. Every character and animation is downloaded as PixelLab's own export zip, the same
 zip the website gives, so the importer (`.\\ek.ps1 sizetest import ...`, tools/size_test.gd)
 puts it in place and keeps the prompt.
+
+`vfx`, `object` and `building` (PixelLab's newer tools, October 2026; docs/24) keep whatever the
+job gives back in the folder named, with its result.json; `--palette muted` holds a picture
+to the game's colours in data/palettes.json.
 
 `character` takes its prompt from the unit's `art/units/<id>/metadata.json` unless --prompt
 is given, so a unit regenerated at another size is described exactly as before ([19]).
@@ -266,6 +274,132 @@ def effect(args) -> None:
           "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
 
 
+## The game's palette for --palette: the muted, earthy colours every picture is held to ([D40]).
+PALETTES = ROOT / "data" / "palettes.json"
+
+
+def _fetch(url: str) -> bytes:
+    """A file a job points at: a link of PixelLab's own (sent with the key) or a plain download link."""
+    if url.startswith("/"):
+        url = API.rsplit("/v2", 1)[0] + url
+    # PixelLab's file host turns away Python's own user agent.
+    request = urllib.request.Request(url, headers={"User-Agent": "earth-kings-tools"})
+    if url.startswith(API.rsplit("/v2", 1)[0]):
+        request.add_header("Authorization", "Bearer " + _key())
+    with urllib.request.urlopen(request, timeout=300) as response:
+        return response.read()
+
+
+def _keep(result, dest: Path) -> list[str]:
+    """Everything a finished job gave back, into [dest]: its pictures (base64 or links) and result.json."""
+    dest.mkdir(parents=True, exist_ok=True)
+    kept: list[str] = []
+
+    def walk(value, name: str) -> object:
+        if isinstance(value, dict):
+            if isinstance(value.get("base64"), str):
+                path = dest / ("%s_%03d.png" % (name, len(kept)))
+                path.write_bytes(base64.b64decode(value["base64"].split(",")[-1]))
+                kept.append(path.name)
+                return {"saved": path.name}
+            return {key: walk(inner, key) for key, inner in value.items()}
+        if isinstance(value, list):
+            return [walk(inner, name) for inner in value]
+        if isinstance(value, str) and re.match(r"https?://\S+\.(png|gif|zip|json)(\?|$)", value):
+            path = dest / Path(value.split("?")[0]).name
+            path.write_bytes(_fetch(value))
+            kept.append(path.name)
+        return value
+
+    record = walk(result, "image")
+    (dest / "result.json").write_text(json.dumps(record, indent=1), encoding="utf-8")
+    return kept
+
+
+def _palette(name: str | None) -> dict | None:
+    if not name:
+        return None
+    palettes = json.loads(PALETTES.read_text(encoding="utf-8"))
+    if name not in palettes:
+        sys.exit("No palette %s in %s" % (name, PALETTES.relative_to(ROOT)))
+    return {"colors": palettes[name]["colors"], "name": name}
+
+
+def vfx(args) -> None:
+    """An animated effect from words by PixelLab's effects artist, around a sprite if given."""
+    before = _generations()
+    body = {"description": args.description, "artist": args.artist, "game_pack": True}
+    if args.sprite:
+        body["sprite"] = {"type": "base64", "base64": base64.b64encode(Path(args.sprite).read_bytes()).decode()}
+        body["sprite_frames"] = args.sprite_frames
+    if args.effect_id:
+        body["effect_id"] = args.effect_id
+    started = _call("POST", "/vfx", body)
+    if "quoted_generations" in started:
+        print("quoted: %s generations" % started["quoted_generations"])
+    result = _wait(started["background_job_id"])
+    kept = _keep(result, ROOT / args.dest)
+    _log({"kind": "vfx", "out": args.dest, "artist": args.artist, "prompt": args.description,
+          "effect_id": result.get("effect_id"), "files": kept,
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+    print("%s: %s" % (args.dest, ", ".join(kept)))
+
+
+def pro_object(args) -> None:
+    """A thing (a prop, a weapon) by Pro Flash: one facing, or all eight, held to a palette if asked."""
+    before = _generations()
+    body = {"description": args.description, "name": Path(args.dest).name, "view": args.view,
+            "n_directions": args.directions,
+            "image_size": {"width": args.size[0], "height": args.size[1]}}
+    palette = _palette(args.palette)
+    if palette:
+        body["target_palette"] = palette
+    started = _call("POST", "/create-object-pro-flash", body)
+    result = _wait(started["background_job_id"])
+    object_id = started.get("object_id") or result.get("object_id")
+    dest = ROOT / args.dest
+    kept = _keep(result, dest)
+    if object_id:
+        # Each facing as <facing>.png, the folder take_art.py looks for (art/items/bone_sword's shape).
+        made = _call("GET", "/objects/" + object_id)
+        for facing, url in (made.get("rotation_urls") or {}).items():
+            (dest / (facing + ".png")).write_bytes(_fetch(url))
+            kept.append(facing + ".png")
+    _log({"kind": "object", "out": args.dest, "size": args.size, "directions": args.directions,
+          "palette": args.palette, "prompt": args.description, "object_id": object_id, "files": kept,
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+    print("%s: %s" % (args.dest, ", ".join(kept)))
+
+
+def building(args) -> None:
+    """A construction kit by Tiles Pro: floor, walls that join, doorways, a pillar and a stair."""
+    before = _generations()
+    body = {"description": args.description, "tile_type": "square_topdown", "tile_size": args.size,
+            "tile_view": args.view, "tile_feature": "building",
+            "building_wall_description": args.walls, "building_floor_description": args.floor,
+            "building_wall_tiles": args.wall_tiles}
+    palette = _palette(args.palette)
+    if palette:
+        body["target_palette"] = palette
+    started = _call("POST", "/create-tiles-pro", body)
+    job = started.get("background_job_id")
+    result = _wait(job) if job else {}
+    tile_id = started.get("tile_id") or started.get("id")
+    if tile_id:
+        result = {"job": result, "tiles": _call("GET", "/tiles-pro/" + tile_id)}
+    dest = ROOT / args.dest
+    kept = _keep(result, dest)
+    # tile_<n>.png named for the piece it is (floor, wall_N, pillar, stairs_s_low ...).
+    for index, piece in enumerate((result.get("job") or {}).get("config_names") or []):
+        tile = dest / ("tile_%d.png" % index)
+        if tile.exists():
+            tile.replace(dest / (piece + ".png"))
+    _log({"kind": "building", "out": args.dest, "size": args.size, "prompt": args.description,
+          "walls": args.walls, "floor": args.floor, "files": kept,
+          "generations": before - _generations(), "date": time.strftime("%Y-%m-%d")})
+    print("%s: %d files" % (args.dest, len(kept)))
+
+
 ## What PixelLab calls a template animation, as the state the game calls it.
 STATE_NAMES = {"walking": "walk", "taking_a_punch": "hit", "falling_backward": "death", "attack_words": "attack"}
 DIRECTIONS = ("south", "south-east", "east", "north-east", "north", "north-west", "west", "south-west")
@@ -340,7 +474,8 @@ def main() -> None:
     a.add_argument("action", nargs="?", default="", help="what the move is, in words")
     a.add_argument("--name", default="attack", help="the state it becomes: attack, walk, death ...")
     a.add_argument("--template-animation", help="a PixelLab template instead of words (1 generation a direction)")
-    a.add_argument("--mode", help="v3 for words (the default), skeleton-v3 to pose a template steadily")
+    a.add_argument("--mode", help="v3 for words (the default); pixminimax, 1 generation a facing at 64 up to 8 "
+                                  "frames (frames a multiple of 4); skeleton-v3 to pose a template steadily")
     a.add_argument("--frames", type=int, default=8)
     a.add_argument("--directions", default="south,east,north,west")
     a.add_argument("--zip", help="zip name")
@@ -370,6 +505,32 @@ def main() -> None:
     e.add_argument("--view")
     e.add_argument("--still", help="start from this picture instead of drawing one from the description")
 
+    v = commands.add_parser("vfx", help="an animated effect by PixelLab's effects artist (lite 1 generation, pro 6)")
+    v.add_argument("dest", help="folder for the GIF, the strip and its JSON, e.g. DROP-ZONE/A54/fall")
+    v.add_argument("description")
+    v.add_argument("--artist", choices=["lite", "pro"], default="lite")
+    v.add_argument("--sprite", help="a PNG or GIF to make the effect around")
+    v.add_argument("--sprite-frames", type=int, default=1, help="frames in the sprite's PNG strip")
+    v.add_argument("--effect-id", help="change an effect made before")
+
+    o = commands.add_parser("object", help="a thing by Pro Flash, one facing or eight (about 5 + 1 at 64)")
+    o.add_argument("dest", help="folder for its facings, e.g. DROP-ZONE/A52/blade")
+    o.add_argument("description")
+    o.add_argument("--size", type=int, nargs=2, default=[64, 64], metavar=("W", "H"), help="16-256, steps of 4")
+    o.add_argument("--directions", type=int, choices=[1, 8], default=1)
+    o.add_argument("--view", default="low top-down", choices=["low top-down", "high top-down", "side"])
+    o.add_argument("--palette", help="a palette in data/palettes.json, e.g. muted")
+
+    b = commands.add_parser("building", help="a building kit by Tiles Pro: floor, walls, doorways, pillar, stair")
+    b.add_argument("dest")
+    b.add_argument("description")
+    b.add_argument("--walls", required=True, help="the wall material")
+    b.add_argument("--floor", required=True, help="the floor material")
+    b.add_argument("--size", type=int, default=64, help="tile size, 16-96 for a kit")
+    b.add_argument("--wall-tiles", type=int, default=2, help="wall height in tiles, 1-3")
+    b.add_argument("--view", default="low top-down", choices=["top-down", "high top-down", "low top-down"])
+    b.add_argument("--palette")
+
     args = parser.parse_args()
     if args.command == "balance":
         print(json.dumps(_call("GET", "/balance"), indent=1))
@@ -387,6 +548,12 @@ def main() -> None:
         image(args)
     elif args.command == "effect":
         effect(args)
+    elif args.command == "vfx":
+        vfx(args)
+    elif args.command == "object":
+        pro_object(args)
+    elif args.command == "building":
+        building(args)
     else:
         portrait(args)
 

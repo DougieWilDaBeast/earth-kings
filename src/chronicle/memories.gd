@@ -21,6 +21,17 @@ static func lying_in(area_id: String, lead_id: String) -> Array:
 		return str(memory.get("area", "")) == area_id and not is_found(memory))
 
 
+## The picture a memory lies as: the lead's own keepsake once it is drawn (A58 for chapter one,
+## the same picture the opening shows falling, `art/props/memories/<lead>.png`; A35 for chapter
+## two, `<lead>_2.png`), made once for both ([D358]); until then its own `art`, the coin pile.
+static func art_of(memory: Dictionary, lead_id: String) -> String:
+	var chapter := str(memory.get("chapter", "1"))
+	var own := "memories/%s" % lead_id if chapter == "1" else "memories/%s_%s" % [lead_id, chapter]
+	if AreaProp.has_art(own):
+		return own
+	return str(memory.get("art", "coin_pile"))
+
+
 static func is_found(memory: Dictionary) -> bool:
 	return GameState.has_flag(PREFIX + str(memory.get("id", "")))
 

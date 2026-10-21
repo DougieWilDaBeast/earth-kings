@@ -117,6 +117,18 @@ func _ready() -> void:
 	Pace.changed.connect(_update_auto_style_button)
 	_update_auto_style_button()
 	Sfx.attend(_auto_style_button)
+	# The play screen's panels moved and sized by hand ([D351]), off the walked ground's screen.
+	var arrange := Button.new()
+	arrange.name = "ArrangeButton"
+	arrange.text = str(Database.world_rules.get("screen_layout", {}).get("menu", "Arrange the Screen"))
+	arrange.size_flags_horizontal = _touch_button.size_flags_horizontal
+	arrange.custom_minimum_size = _touch_button.custom_minimum_size
+	_auto_style_button.add_sibling(arrange)
+	arrange.pressed.connect(func() -> void:
+		close()
+		EventBus.screen_arrange_requested.emit()
+	)
+	Sfx.attend(arrange)
 
 	_how_to_play_button.pressed.connect(func() -> void: EventBus.how_to_play_requested.emit())
 	_tips_button.toggled.connect(_on_tips_toggled)

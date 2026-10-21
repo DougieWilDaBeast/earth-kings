@@ -505,6 +505,9 @@ each, each ending playable:
       ([D345](06-decisions.md), 2026-10-21): sellswords for coin off the Gilded Flagon's book, who go when the
       job is done, and the Flagon as where the roaming leads are met. The tavern on your own land and the
       four new people of the 32 wait on G and the writers.
+   Also built, from play-test 8's ask 7 (and play-test 7's item 12): the walked ground's panels moved, sized and
+   grown by hand from the menu's Arrange the Screen, kept between runs ([D351](06-decisions.md), 2026-10-21). Not yet:
+   the fight's own cards and buttons, the screens (party, journal) and colours of the player's choosing.
    Also built, from play-test 7's item 6 ([D357](06-decisions.md), 2026-10-21): armour worn as well as a weapon held,
    an equipment screen with the fighter drawn in what they wear, and armour seen on fighters in its colour until
    A64's pictures are in. Not yet: more places to wear things (a helm and a coat at once), the art (A52, A64).
@@ -514,7 +517,7 @@ each, each ending playable:
    ([D323](06-decisions.md)): **built** ([D327](06-decisions.md), 2026-10-21), four runes from charms and herbs laid on
    the weapon somebody carries, each a fight passive while they carry it. Not yet: runes on armour, an enchanter.
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
-   heights: A49 to A54 in [24](24-art-requests.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
+   heights: A49 to A54 in [24](24-art-requests.md); the month's order and estimate, [D356](06-decisions.md); PixelLab's newer tools in `tools/pixellab.py`, [D358](06-decisions.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land
    may stand over the crater first, [D311](06-decisions.md), 2026-10-21), and a look at a small on-device model
    for fight plans ([D298](06-decisions.md), #385): **done** ([investigation 12](investigation/12-a-small-model-for-fight-plans.md));
    its plans fought no better than the rules in 200 party clashes, so no runtime goes in ([D322](06-decisions.md), 2026-10-21).

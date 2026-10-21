@@ -19,7 +19,37 @@
 drawn in house by the `tools/draw_*.py` scripts at the art's own size, and listed in
 [22](22-asset-provenance.md). A request stays open here until PixelLab art of the same name replaces
 the in-house stand-in; the keepsakes A10 to A25 are the coin pile until then. PixelLab's credits come back on
-**27 October 2026** (22 euro a month, paid by `dougie`, [D213](06-decisions.md)); the order then is [D199](06-decisions.md)'s, A9 first.
+**27 October 2026** (22 euro a month, paid by `dougie`, [D213](06-decisions.md)), 5,000 generations a month. The order then
+([D356](06-decisions.md)) is design meeting six's short list first, then [D199](06-decisions.md)'s, then the rest:
+
+1. **Day one:** A53, A37, A51, the heights (A49, A57, A55), A54, and A52 priced on one weapon (the blade) before the other five.
+2. **Then [D199](06-decisions.md)'s list:** A9; the keepsakes, made **once** for A58 and A10 to A25 alike (the same sixteen things,
+   one picture in both places); A26 and A27; A29; the opening's A59 to A61; A56 and A62.
+3. **Then the rest of Open**, the Second Hour's rows first. The monster tiers (A39 to A45, 130 bodies, about 6,500
+   generations) are more than a month: the goblins and the wolves (A39, A40) this month, a family a month after.
+
+PixelLab's newer tools fit some rows better than what was used last month, and `tools/pixellab.py` drives them
+([D358](06-decisions.md), each tried on 2026-10-21):
+
+    python3 tools/pixellab.py building DROP-ZONE/A51/kit "..." --walls "..." --floor "..." --palette muted
+    python3 tools/pixellab.py object DROP-ZONE/A52/blade "..." --size 36 36 --directions 8 --palette muted
+    python3 tools/pixellab.py vfx DROP-ZONE/A54/fall "..." --artist pro
+    python3 tools/pixellab.py animate <character_id> "..." --mode pixminimax --frames 8
+
+- **`building`**: a Tiles Pro kit of 80 named pieces (floor, the four walls, corners, a pillar, doorways, stairs,
+  slopes), 10 generations at 64. The Tower's grey-blue stone came out clean: A51's walls, pillar and stair.
+- **`object`**: a Pro Flash thing in eight facings, each `<facing>.png` as `take_art.py` wants, held to the
+  game's colours (`data/palettes.json`, `muted`), 6 generations at 36 × 36. A plain sword read well in every
+  facing: A52's price is about 6 a weapon kind.
+- **`vfx`**: PixelLab's effects artist. Its lite artist (1 generation) drew A54's fall too small and faint to use;
+  ask the pro artist (6) for the opening's and the fall's effects.
+- **`animate --mode pixminimax`**: 1 generation a facing at 64 for up to 8 frames, for fight sets and the tiers.
+- **PixelLab's MCP** is set up for Claude Code sessions in `.mcp.json`, with the key from the environment.
+
+The keepsakes are made once ([D358](06-decisions.md)): a chapter-one keepsake lies on floor 5 as
+`art/props/memories/<lead>.png` once A58 has drawn it, and a chapter-two one as `<lead>_2.png` (A35), so A10
+to A25 close with A58. `data/art_slots.json` has places for A32, A35, A38, A48 and A49 too. The month's estimate,
+row by row, and how to follow PixelLab's updates are in the project's `pixellab/2026-10-21-pixellab-plan.md`.
 
 Every request follows the [conventions in 19](19-asset-list.md#conventions): dark fantasy, muted
 colours ([D40](06-decisions.md)), the 64 class on the founders' base body ([D55](06-decisions.md)),

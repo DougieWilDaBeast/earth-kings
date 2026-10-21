@@ -855,6 +855,16 @@ The band's name shows on each party card. `Moods.feeling` is `low` (the two lowe
 two highest) or nothing: an exchange or a reflection in `banter.json` with `"feeling"` is only spoken by one
 who feels that way, and one with no `feeling` by anyone.
 
+## `world_rules.json` → `screen_layout` — the play screen arranged by hand (D351)
+
+`on`; `menu`, the system menu's button; `bar`, `done` and `reset`, the words while arranging; `panels`, each
+`{ "id", "label", "resize" }` (ids `place`, `compass`, `hud`, `map`, `log`, `hint`, and `words` for the box people
+talk in): `resize` `size` gives the frame a corner `handle` (pixels) that sizes the box, never under `least`
+[w, h]; every frame grows or shrinks with the wheel by `scale_step`, between `least_scale` and `most_scale`;
+`keep_showing` pixels of a panel always stay on the screen. What the player lays out is kept in
+`user://settings.cfg` → `[layout]`, one entry an id (`x`, `y` as a share of the screen, `w`, `h`, `scale`),
+read by `src/ui/screen_layout.gd`; Put It All Back empties it. `arrange` on the quick wheel opens it.
+
 ## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
 
 `on`; `hold`, the seconds the middle button is held still before the ring opens round the pointer (a
@@ -947,8 +957,12 @@ the body's size once that picture is in (A64); until then a plate of the armour'
 `width` its share of the width (`bands` and `widths` by armour id: the helm's is a cap over the head). The party screen's equipment figure is drawn the same way.
 `data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
 (`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
-list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`. Read by
+list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`, and `also` for
+earlier requests the same files answer (A58's are A10 to A25's keepsakes, D358). Read by
 `tools/take_art.py` and `tests/art_smoke_test`, never by the game.
+`data/palettes.json` (D358): colour lists a PixelLab picture is held to (`tools/pixellab.py object|building
+--palette <name>`, PixelLab's `target_palette`); `muted` is 48 colours taken from the art already in the game.
+Never read by the game.
 `from_above` (D343): on a ledged field a fighter higher than the one they hit lands `blow` more for every
 height up at arm's length and `shot` more a height for anything reaching further, counted to `most_heights`
 (`Skirmish.high_ground`; the log tags it *From above*). `on_the_map` (D343): the map of the continent draws a
