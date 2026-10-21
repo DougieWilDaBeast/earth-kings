@@ -549,7 +549,9 @@ fights shared, across every role, so a seasoned party works as a unit even witho
 `data/skirmish.json` → `formations.leader`, `callouts`, `shared` and `break_below_mood` hold the numbers
 and words. A band of foes falls in too (2026-10-21, [D315](06-decisions.md)): from three standing, round its
 boss or its first, in the shape the party's Auto would pick for its size, facing the nearest of the party,
-until any of it is in contact; holding a slot earns a foe nothing (`formations.foes`). **Still to come**: the
+until any of it is in contact; holding a slot earns a foe nothing (`formations.foes`). On the ground a band of three
+or more patrols and travels in the same shape round the one in front, falling back to single file where a slot
+cannot be stood on ([D320](06-decisions.md)). **Still to come**: the
 wheel on a held key, a leader's orders beyond the call-out, plans made between fights and kept quiet in
 them, and trust breaking a formation. Fights won as
 the measure, three as the floor, the shapes called for, the two shouts and their 3 s, 0.4% and 8%, and 35

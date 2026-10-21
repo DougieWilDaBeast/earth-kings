@@ -1235,7 +1235,9 @@ ground; `form_every` is the fall-in's wait, `slack` how near a slot counts as he
 share of every blow a fighter holding its slot is spared; `tactics.words.form` is the word over its head.
 `foes` (D315): `on`, `from` (how many of a band standing before it falls in) and `hold_guard` (what a foe
 holding its slot is spared, none); a band's shape is `auto_by_size` for its size, round its boss or first
-standing (`Formations.band_slot_cell`, `band_in_contact`; the brain's `form_band` move).
+standing (`Formations.band_slot_cell`, `band_in_contact`; the brain's `form_band` move). `ground` and
+`ground_spacing` (D320): on the ground a band of `from` or more figures walks in the same shape round the one
+in front, that many pixels a slot (`AreaWatch._deal_the_shape`, `slot_point`), the trail where a slot cannot be stood on.
 
 The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
 anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),

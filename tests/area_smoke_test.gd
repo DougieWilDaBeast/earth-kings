@@ -82,6 +82,7 @@ func _ready() -> void:
 	await _check_tower_grows()
 	await _check_heights()
 	await _check_wild_stories()
+	await _check_band_shape_on_the_ground()
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
@@ -1285,6 +1286,54 @@ func _check_wild_stories() -> void:
 	scene.call("_read_a_page", pages[0])
 	_expect(GameState.world.annals.size() == annals_before + 1, "a story was written twice")
 	print("wild stories: five wilds, three pages each; %s" % told)
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
+## A band keeps its shape on the ground ([D315], [D320]): the guard of a wild, three figures, walks in a
+## wedge round the one in front, each figure at its slot where the slot can be stood on, else on the trail.
+func _check_band_shape_on_the_ground() -> void:
+	GameState.new_game(SEED)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "wild_grove", "return_scene": "world" })
+	add_child(scene)
+	for i in 3:
+		await get_tree().process_frame
+	var watch: Node2D = null
+	for each: Node2D in scene.get("_watches"):
+		if (each.get("figures") as Array).size() >= 3:
+			watch = each
+	_expect(watch != null, "the grove has no band of three figures on its ground")
+	if watch == null:
+		scene.queue_free()
+		return
+	var figures: Array = watch.get("figures")
+	var slots: Dictionary = watch.get("_slots")
+	_expect(slots.size() == figures.size() - 1 and not slots.has(0), "a band of %d has %d slots" % [figures.size(), slots.size()])
+	var map: AreaMap = scene.get("map")
+	var open := Vector2i(-1, -1)
+	for y in range(2, map.height - 2):
+		for x in range(2, map.width - 2):
+			var fine := true
+			for dy in range(-2, 3):
+				for dx in range(-2, 3):
+					fine = fine and map.is_walkable(Vector2i(x + dx, y + dy)) and watch.region.has_point(Vector2i(x + dx, y + dy))
+			if fine and open.x < 0:
+				open = Vector2i(x, y)
+	_expect(open.x >= 0, "no open ground to walk the band on")
+	if open.x >= 0:
+		watch.set("_lead_at", map.centre_of(open))
+		watch.call("_walk_the_figures", Vector2.RIGHT, 100000.0)
+		var spacing := float(Formations.foe_rules().get("ground_spacing", 40.0))
+		var in_place := 0
+		for i in range(1, figures.size()):
+			var want: Vector2 = Formations.point_for(slots[i], map.centre_of(open), Vector2.RIGHT, spacing)
+			if (figures[i] as Node2D).position.distance_to(want) < 1.0:
+				in_place += 1
+		_expect(in_place == figures.size() - 1, "%d of %d figures stand in the band's shape" % [in_place, figures.size() - 1])
+		_expect(Formations.point_for(slots[1], Vector2.ZERO, Vector2.RIGHT, spacing) != Vector2.ZERO, "a slot sits on the one in front")
+	print("band shape: %s walks as a %s of %d on the ground" % [watch.band.get("label", "a band"), Formations.word(Formations.auto_for(figures.size())), figures.size()])
 	scene.queue_free()
 	await get_tree().process_frame
 	GameState.new_game(SEED)
