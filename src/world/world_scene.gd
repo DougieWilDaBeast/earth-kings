@@ -588,6 +588,27 @@ func _lay_a_cache(cell: Vector2i, richness: float, line: String) -> void:
 		_note(each)
 
 
+## A band beaten on the land leaves its fallen lying there ([D352], `loot.fallen`): on the ground they
+## are searched by walking up to them; off it, what they carried is taken at once.
+func _search_the_fallen(cell: Vector2i, enemies: Array) -> void:
+	var rules: Dictionary = Loot.rules().get("fallen", {})
+	if not bool(rules.get("on", false)) or enemies.is_empty():
+		return
+	var dice := RandomNumberGenerator.new()
+	dice.seed = hash([world.world_seed, world.steps, cell, "fallen"])
+	var haul := Loot.roll(world, float(rules.get("richness_per_foe", 0.15)) * enemies.size(), dice)
+	haul["name"] = str(rules.get("name", "the fallen"))
+	haul["line"] = str(rules.get("line", "They lie where they fell."))
+	haul["art"] = str(rules.get("art", ""))
+	if _view == View.GROUND:
+		_cache_found = haul
+		_note(str(rules.get("ground_line", "The fallen lie where they dropped.")))
+		return
+	_note(str(rules.get("searched_line", "The fallen are searched.")))
+	for each: String in Loot.claim(haul, GameState.roster):
+		_note(each)
+
+
 ## The only way a fight starts in the open: somebody was watching the tile you
 ## just walked onto. They come off the map, because they are in front of you now.
 func _watch_check(cell: Vector2i) -> void:
@@ -816,6 +837,8 @@ func _settle_up(won: bool) -> void:
 				_note(line)
 			EventBus.conversation_requested.emit(_as_conversation(lines))
 		"band":
+			# Bodies that stay ([D352]; play-test 7): the fallen are searched where they lie.
+			_search_the_fallen(cell, outcome.get("enemies", []))
 			# The band stood over a fallen weapon ([D311]): it lies free now.
 			if str(outcome.get("carries", "")) != "":
 				var freed := Siblings.weapon_freed(world, str(outcome["carries"]))

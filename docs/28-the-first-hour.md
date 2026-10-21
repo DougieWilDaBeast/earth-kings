@@ -400,16 +400,23 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 3. **The world's history**: how Earth Kings came to be the way it is, so the game is more than the climb.
 4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
    **creatures that fit the land** they are in (no grasshoppers in magma). The goblins', the wolves' and 24 more monsters' five **built** ([D262](06-decisions.md), [D264](06-decisions.md) and [D267](06-decisions.md) to [D270](06-decisions.md)), dealt by the fight's level, art asked for (A39, A40 and A42 to A45).
-   The named one-off monsters keep one kind; creatures that fit the land still **planned**. `doug-md`, 2026-10-19:
+   The named one-off monsters keep one kind. Creatures that fit the land **built** ([D355](06-decisions.md)): a
+   faction's band on the land is drawn only from what can live there (nothing of fire on the snow, nothing of the
+   cold on the dunes, no slime in the ash), the land's own creatures coming when none can; the land's own
+   creatures' art waits on A56. `doug-md`, 2026-10-19:
    "The more monster tiers the better. Give more variety for long term game"; more than five a family is **planned**. Each tier fights its own way, built ([D275](06-decisions.md)): the lesser runs when badly hurt,
    the high charges and flanks, the hob fights harder near death, the chieftain spurs its kin, the caster finds the weak spot; pips over the bar show the rank. Each family has a trick
    of its own from the hob up, built ([D276](06-decisions.md)): goblins' Spite, the wolves' Howl, the slime's Ooze Back. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
-5. **Bodies that stay** after a fight, searched for loot.
+5. **Bodies that stay** after a fight, searched for loot. **Built** ([D352](06-decisions.md)) for bands beaten on
+   the land: the fallen lie ahead of the party to walk up to and search (coin, sometimes a piece to carry);
+   drawn as a cache until art A63. The bodies of a gate's or the Tower's floors are **planned**.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
-   an icon beside each item (art from PixelLab). **Built** ([D357](06-decisions.md)): armour worn beside the weapon
-   held, both counted in a fight; the Gear page is an equipment screen, the fighter drawn large in what they wear
-   with a row for the hand and one for the body; armour seen on the fighter in its colour until its art (A64) is in;
-   a weapon in hand waits on A52.
+   an icon beside each item (art from PixelLab). The party screen shows what each carries with its picture, and a
+   weapon is drawn in the fighter's hand where its art is in ([D290](06-decisions.md), held art A52). **Built**
+   ([D353](06-decisions.md)): every ware a seller offers shows its picture beside its name and price. **Built**
+   ([D357](06-decisions.md)): armour worn beside the weapon held, both counted in a fight; the Gear page is an
+   equipment screen, the fighter drawn large in what they wear with a row for the hand and one for the body; armour
+   seen on the fighter as a plate of its colour until its art (A64) is in.
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
@@ -439,7 +446,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     ([D334](06-decisions.md)).
 11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
-    into a gate or the grove, not cut to it; the chapter visions shown as pictures.
+    into a gate or the grove, not cut to it (a gate built, [D354](06-decisions.md): the company walks into its
+    doorway and fades as the screen goes dark, and the floor inside comes up out of the dark; the grove
+    **planned**); the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
     right, the game going on; Full page puts it over everything). Moving and resizing panels: built ([D351](06-decisions.md)), as play-test 8's ask 7.

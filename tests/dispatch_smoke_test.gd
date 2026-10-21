@@ -117,6 +117,8 @@ func _ready() -> void:
 	_check_nemesis(world)
 	_check_hunger(world, roster)
 	_check_auto(world)
+	_check_the_fallen(world)
+	_check_fit_the_land()
 	_finish()
 
 
@@ -730,6 +732,33 @@ func _check_hunger(world: World, roster: Roster) -> void:
 	_expect(is_equal_approx(back.fed, lead.fed) and back.fed_step == lead.fed_step, "fed was not saved")
 	Pace.auto = kept_auto
 	GameState.stores = kept_stores
+
+
+## D352: the fallen of a band are searched on dice of their own, so the world's dice deal on as before.
+func _check_the_fallen(world: World) -> void:
+	var rules: Dictionary = Loot.rules().get("fallen", {})
+	_expect(bool(rules.get("on", false)) and str(rules.get("name", "")) != "", "the fallen have no rules")
+	var state := world.rng.state
+	var dice := RandomNumberGenerator.new()
+	dice.seed = 52
+	var haul := Loot.roll(world, float(rules["richness_per_foe"]) * 3, dice)
+	_expect(world.rng.state == state, "searching the fallen moved the world's dice")
+	_expect(int(haul.get("gold", 0)) > 0, "the fallen of three carried nothing: %s" % [haul])
+	dice.seed = 52
+	_expect(Loot.roll(world, float(rules["richness_per_foe"]) * 3, dice)["gold"] == haul["gold"],
+			"the same dice found something else on the same fallen")
+
+
+## D355: nothing of fire walks the snow, nothing of the cold the dunes, and a faction with nothing
+## that can live in a land sends the land's own instead.
+func _check_fit_the_land() -> void:
+	_expect(not Encounter.fits("flame_lion", "snow") and not Encounter.fits("ice_wolf", "dune"),
+			"a fire beast fits the snow or a cold one the dunes")
+	_expect(Encounter.fits("wolf", "snow") and Encounter.fits("flame_lion", "ash"), "a wolf will not walk the snow")
+	for level in [1, 10, 25]:
+		var pool := Encounter._pool_on("ember_wilds", "hill", level, "snow")
+		_expect(not pool.is_empty() and pool.all(func(id: String) -> bool: return Encounter.fits(id, "snow")),
+				"the ember wilds sent %s onto the snow at level %d" % [pool, level])
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:

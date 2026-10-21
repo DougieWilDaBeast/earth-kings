@@ -1015,6 +1015,15 @@
 		}
 	},
 	"land_foe_share": 0.7,
+	"fit_the_land": {
+		"_comment": "D355 (doug-md's play-test 7, item 4: creatures that fit the land they are in, 'no grasshoppers in magma'). A band of a faction met on the land, or camped on it, is drawn only from what can live there: each nature's `units` never live in its `never` lands (biome ids). When none of the faction's can, the land's own `foes` come instead. Gates and the Tower are their own ground and are not filtered. Read by Encounter.fits. Inferred: which creature is of which nature and where each will not go.",
+		"natures": {
+			"fire": { "units": ["ember_lizard", "flame_dove", "flame_lion"], "never": ["snow", "taiga", "bog", "swamp", "slime", "mist"] },
+			"cold": { "units": ["ice_wolf", "frozen_wolfman"], "never": ["dune", "ash", "savanna", "badlands", "jungle"] },
+			"wet": { "units": ["slime", "blue_slime", "ooze_knight", "king_slime", "sea_horse", "sea_man", "tide_lion", "blood_mosquito"], "never": ["dune", "ash", "badlands", "snow"] },
+			"warm": { "units": ["sword_monkey", "mending_lion"], "never": ["snow", "taiga"] }
+		}
+	},
 	"_comment_life_art": "D336 (play-test 7: 'creatures that match the land, no grasshopper in magma'; D287): a land's life_art names the pictures each kind of life on the land (world_rules.json -> life.art) is drawn from there; a kind it gives no pictures has none there, and a land with no life_art has all of them. Read by AreaScene._life_for. **Inferred** (agenda 244): which land keeps what, out of the pictures there are; the land's own creatures wait on art (A56).",
 	"_comment_foe_levels": "D211: a land's great beasts stay out of the bands it deals until the party's level reaches the number here, so a fresh lead walking alone meets the land's smaller things first (src/chronicle/encounter.gd _land_foes). **Inferred**: which beasts and level 3.",
 	"foe_levels": {

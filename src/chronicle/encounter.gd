@@ -70,7 +70,7 @@ static func wild(world: World, cell: Vector2i, party: Array, rng: RandomNumberGe
 		count = clampi(count + 1, 1, 4)
 
 	var faction := Faction.pick_on(terrain, rng)
-	var pool := _pool_on(faction, terrain, level)
+	var pool := _pool_on(faction, terrain, level, Biome.at(world, cell))
 	var title := "%s of %s are on the %s." % [
 		"Something" if count < 2 else "A band",
 		Faction.display_name(faction),
@@ -80,12 +80,29 @@ static func wild(world: World, cell: Vector2i, party: Array, rng: RandomNumberGe
 
 
 ## Who a piece of ground fields. The faction that walks it comes first; the old
-## terrain table is the floor under it, so ground nobody claims still fights.
-static func _pool_on(faction: String, terrain: String, level: int) -> Array:
+## terrain table is the floor under it, so ground nobody claims still fights. On the land
+## ([param land], a biome), only what can live there ([method fits]); when nothing of the
+## faction's can, the land's own come instead.
+static func _pool_on(faction: String, terrain: String, level: int, land: String = "") -> Array:
 	var pool := Faction.pool(faction, level)
 	if pool.is_empty():
 		pool = Database.encounters.get("wild", {}).get(terrain, ["wolf"])
-	return pool
+	if land == "":
+		return pool
+	var fitting := pool.filter(func(id: String) -> bool: return fits(id, land))
+	if not fitting.is_empty():
+		return fitting
+	var locals: Array = Biome.data(land).get("foes", [])
+	return locals if not locals.is_empty() else pool
+
+
+## Whether [param unit_id] can live in the land [param land] ([D355]; play-test 7: "no grasshoppers
+## in magma"): `fit_the_land` in `data/biomes.json` names what each nature never lives in.
+static func fits(unit_id: String, land: String) -> bool:
+	for nature: Dictionary in Database.biomes.get("fit_the_land", {}).get("natures", {}).values():
+		if unit_id in nature.get("units", []) and land in nature.get("never", []):
+			return false
+	return true
 
 
 ## One floor of a gate delve. [param depth] is 0-based; the last is the guardian.
@@ -377,7 +394,7 @@ static func _band_at(world: World, cell: Vector2i, rng: RandomNumberGenerator) -
 	var terrain := world.terrain_id_at(cell)
 	var faction := Faction.pick_on(terrain, rng)
 	var level := _danger_at(world, cell) * 3 + 1
-	var pool := _pool_on(faction, terrain, level)
+	var pool := _pool_on(faction, terrain, level, Biome.at(world, cell))
 	# Most bands are whatever lives in that land: ice wolves on the snow, slimes
 	# in the fen (`doug-md`, 2026-10-13). Decided from the cell, not the dice, so
 	# the run's dice fall the same as before.

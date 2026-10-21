@@ -68,19 +68,22 @@ static func stow(equipment_id: String, roster: Roster) -> String:
 
 ## Roll what is inside a container of a given richness. Gold is always there;
 ## something to carry is not.
-static func roll(world: World, richness: float) -> Dictionary:
+## [param dice]: other dice than the world's, so a roll made where none was made before leaves
+## what the world deals next as it was.
+static func roll(world: World, richness: float, dice: RandomNumberGenerator = null) -> Dictionary:
+	var rng := dice if dice != null else world.rng
 	var base := int(rules().get("gold_base", 1000))
 	var spread := maxi(1, int(rules().get("gold_spread", 1500)))
 	var haul := {
 		"gold": Difficulty.scaled(
-			roundi((base + world.rng.randi() % spread) * maxf(0.2, richness)), "gold"
+			roundi((base + rng.randi() % spread) * maxf(0.2, richness)), "gold"
 		),
 		"item": "",
 	}
-	if world.rng.randf() < float(rules().get("item_chance", 0.35)) * richness:
+	if rng.randf() < float(rules().get("item_chance", 0.35)) * richness:
 		var pool := _findable()
 		if not pool.is_empty():
-			haul["item"] = pool[world.rng.randi() % pool.size()]
+			haul["item"] = pool[rng.randi() % pool.size()]
 	# Rolled from a hash, not the dice, so a seeded run finds what it always did.
 	haul["map"] = Atlas.finds_map(world, [world.player_cell, haul["gold"], richness], "spoils_map_chance")
 	return haul
