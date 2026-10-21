@@ -20,6 +20,7 @@ extends Node2D
 
 ## Loaded by path: see its header for why it has no `class_name`.
 const Wilds := preload("res://src/chronicle/wilds.gd")
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
 const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const Moods := preload("res://src/chronicle/moods.gd")
