@@ -44,7 +44,7 @@ you saw, on which screen, and what you had done just before.
 
 | #   | Do this                                                              | Expect                                                                               |
 | --- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| B0  | New Game, answer the questions and begin                             | The opening plays ([25](25-the-opening.md)): thirteen shots with narration, your lead the one who lands; click or Space moves on a shot, Esc skips to the landing |
+| B0  | New Game, answer the questions and begin                             | The opening plays ([25](25-the-opening.md)): fourteen shots with narration and a moving camera, about 100 s, your lead the one who lands; click or Space moves on a shot, Esc skips to the landing |
 | B1  | New Game                                                             | Twelve heroes, gentlest first, each with its rating on the button (Steady → Ruinous) |
 | B2  | Arrow through them                                                   | Portrait, warband, stats and blurb all change to match                               |
 | B3  | Type `12345` in the Seed field and start                             | A run begins                                                                         |
@@ -215,7 +215,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G6b | Auto from the crater                               | Walking into Stormreach, Sennet says the mark is earned at a gate and names Greyhollow; the compass names Greyhollow and Auto walks there, not to the Tower's door ([D161](06-decisions.md)) |
 | G6c | Stand at the runes under the Tower                 | The hint says how to climb (or why the stair is shut); the Tower rises tall over the door; from the crater a tall shape stands on the screen's edge towards it ([D108](06-decisions.md)) |
 | G6d | On floor 5 as Atlas, before the buckle             | The compass says "Something glints" and points at it; once picked up it points at the stair ([D107](06-decisions.md)) |
-| G6e | Die as Atlas, Ascend, answer the quiz              | The opening plays again, shorter: Atlas grey in the ring, his world going dark, "Fifteen are still standing", then the new lead lands ([D135](06-decisions.md)) |
+| G6e | Die as Atlas, Ascend, answer the quiz              | The opening plays again, shorter: Atlas grey in the ring, his world going dark, "Fifteen are still standing", the stair and the end, about 60 s, then the new lead lands ([D135](06-decisions.md)) |
 | G6f | Shut Elderford (north of the city), then die and Ascend | The register listed Greyhollow and Elderford; in the next crater Bram dreams of somebody who shut Elderford and went up ([D147](06-decisions.md)) |
 | G6g | Auto on floor 5 as Atlas | Auto walks to the buckle before the stair; at the keeper the fight opens paused, "Auto stops here: this fight is yours."; win it and Auto walks on ([D150](06-decisions.md)) |
 | G6  | Climb a Tower floor                       | The gold is a **hoard**, not in your purse — "you are carrying N out of here, if you get out" |
@@ -519,8 +519,8 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 
 ## Known to be untestable here
 
-- **W2** — the voice line at the end of the cinematic. The line is chosen (Bram's "Give me your hand.",
-  [D328](06-decisions.md)) but not built yet, so there is nothing to test.
+- **W2** — the voice at the end of the cinematic. Bram's "Give me your hand." ([D328](06-decisions.md)) is shown
+  under the title ([D340](06-decisions.md)); a spoken voice waits on a recording, so there is nothing to hear yet.
 - Anything needing the other 68 units' run cycles (**E3** will stay "slides" until that art lands).
 
 ## What a fail should include
