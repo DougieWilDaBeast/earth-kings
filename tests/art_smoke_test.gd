@@ -150,6 +150,14 @@ func _check_art_slots() -> void:
 	var held: Dictionary = Database.skirmish.get("held", {})
 	for kind: String in ["blade", "spear", "bow", "staff", "axe", "hammer"]:
 		_expect(str(held.get(kind, {}).get("sprite_dir", "")).begins_with("res://art/units/held/"), "art slots: no held picture for a %s" % kind)
+	# A keepsake lies as its lead's own picture once drawn (A58, A35), the coin pile until then (D358).
+	var memories := preload("res://src/chronicle/memories.gd")
+	for lead: String in ["atlas", "cato"]:
+		var chapter_one: String = memories.art_of({ "chapter": "1", "art": "coin_pile" }, lead)
+		var drawn := ResourceLoader.exists("res://art/props/memories/%s.png" % lead)
+		_expect(chapter_one == ("memories/%s" % lead if drawn else "coin_pile"), "a chapter-one keepsake lies as %s" % chapter_one)
+		var chapter_two: String = memories.art_of({ "chapter": "2", "art": "coin_pile" }, lead)
+		_expect(chapter_two == "coin_pile" or chapter_two == "memories/%s_2" % lead, "a chapter-two keepsake lies as %s" % chapter_two)
 	print("art slots: %d requests, %d files, each with a size and a place to land" % [requests.size(), files])
 
 
