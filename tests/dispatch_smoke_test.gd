@@ -118,6 +118,7 @@ func _ready() -> void:
 	_check_hunger(world, roster)
 	_check_auto(world)
 	_check_the_fallen(world)
+	_check_fit_the_land()
 	_finish()
 
 
@@ -746,6 +747,18 @@ func _check_the_fallen(world: World) -> void:
 	dice.seed = 52
 	_expect(Loot.roll(world, float(rules["richness_per_foe"]) * 3, dice)["gold"] == haul["gold"],
 			"the same dice found something else on the same fallen")
+
+
+## D355: nothing of fire walks the snow, nothing of the cold the dunes, and a faction with nothing
+## that can live in a land sends the land's own instead.
+func _check_fit_the_land() -> void:
+	_expect(not Encounter.fits("flame_lion", "snow") and not Encounter.fits("ice_wolf", "dune"),
+			"a fire beast fits the snow or a cold one the dunes")
+	_expect(Encounter.fits("wolf", "snow") and Encounter.fits("flame_lion", "ash"), "a wolf will not walk the snow")
+	for level in [1, 10, 25]:
+		var pool := Encounter._pool_on("ember_wilds", "hill", level, "snow")
+		_expect(not pool.is_empty() and pool.all(func(id: String) -> bool: return Encounter.fits(id, "snow")),
+				"the ember wilds sent %s onto the snow at level %d" % [pool, level])
 
 
 func _errand(kind: String, to: Vector2i) -> Dictionary:
