@@ -34,6 +34,17 @@ static func is_draught(equipment_id: String) -> bool:
 	return kind(equipment_id) == "draught"
 
 
+## Food is eaten and a draught drunk (`taken` in the data, "drink" when it is not said):
+## Ewan's play-test 8 was offered a meat pie to drink.
+static func taken(equipment_id: String) -> String:
+	return str(piece(equipment_id).get("taken", "drink"))
+
+
+## "eats" or "drinks", for a line about somebody taking it.
+static func takes(equipment_id: String) -> String:
+	return "eats" if taken(equipment_id) == "eat" else "drinks"
+
+
 static func mends(equipment_id: String) -> int:
 	return int(piece(equipment_id).get("mends", 0))
 
@@ -48,8 +59,8 @@ static func drink(character: Character, equipment_id: String) -> String:
 	GameState.stores.erase(equipment_id)
 	var before := character.current_hp()
 	character.hp = mini(before + mends(equipment_id), character.max_hp())
-	return "%s takes the %s and comes back %d." % [
-		character.display_name, display_name(equipment_id), character.current_hp() - before
+	return "%s %s the %s and comes back %d." % [
+		character.display_name, takes(equipment_id), display_name(equipment_id), character.current_hp() - before
 	]
 
 

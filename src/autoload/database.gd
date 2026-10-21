@@ -195,8 +195,9 @@ func unit_frames(id: String, state: String, heading: String) -> Array:
 func warm_unit(id: String) -> void:
 	for state: String in ["walk", "run", "attack", "skill", "hit", "death"]:
 		for heading: String in ["south", "north", "east", "west", "south-east", "south-west", "north-east", "north-west"]:
-			if not _runs.has("%s/%s/%s" % [id, state, heading]):
-				_to_warm.append([id, state, heading])
+			var job := [id, state, heading]
+			if not _runs.has("%s/%s/%s" % job) and not _to_warm.has(job):
+				_to_warm.append(job)
 	set_process(not _to_warm.is_empty())
 
 

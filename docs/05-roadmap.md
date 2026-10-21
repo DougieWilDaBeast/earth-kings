@@ -417,6 +417,10 @@ each, each ending playable:
    [D299](06-decisions.md); questions 41 to 46 in [30](30-questions-for-the-founders.md)). **Planned**, one game
    pull request at a time, each ending playable:
    0. Push main to itch and `doug-md`'s play-test 8 on it, solo and as four, on `dougie`'s word.
+      **Done**: `6f8fcf6` pushed 2026-10-21 10:06, played by `doug-md` the same morning; first fixes
+      [D324](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D325](06-decisions.md)):
+      disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in;
+      the 2× cap, nemesis and hunger after B; the writers' pass, city doors, groves and the opening later.
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
       person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
       story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).
