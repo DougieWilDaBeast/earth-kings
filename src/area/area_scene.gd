@@ -1787,6 +1787,12 @@ func _click_step() -> Vector2:
 func _walk_to(point: Vector2) -> void:
 	var way := map.find_path(_leader.position, point)
 	if way.size() < 2:
+		# Open ground with no way to it from here, on ground with heights, is a shelf with no way up:
+		# said once a cell ([D312]).
+		var there := map.cell_at(point)
+		if map.has_heights() and map.is_walkable(there) and there != map.cell_at(_leader.position) and not _ledges_said.has(there):
+			_ledges_said[there] = true
+			_note(str(Database.world_rules.get("heights", {}).get("no_way_line", "There is no way up to there from here.")))
 		return
 	way.remove_at(0)
 	# The last step is to where the click was, not the middle of its cell.

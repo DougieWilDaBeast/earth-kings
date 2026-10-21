@@ -429,8 +429,9 @@ each, each ending playable:
       going to; creatures that match the land ([D287](06-decisions.md), #379). **Built in part**: caves ([D282](06-decisions.md));
       heights on the wind scarp, dropped off anywhere and climbed only at a slope, a drop of two hurting, the edges
       drawn ([D308](06-decisions.md), 2026-10-20); the wilds as places on the map, heard of at rest and marked, each
-      with what it holds and a guard of the land's own creatures by its far chest ([D309](06-decisions.md), 2026-10-21). A board can post clearing a wild the party has heard of ([D310](06-decisions.md), 2026-10-21). Next: a mountain with
-      the clouds below, a shove over an edge in a fight, heights on Auto's and click-to-walk paths and on the world map,
+      with what it holds and a guard of the land's own creatures by its far chest ([D309](06-decisions.md), 2026-10-21). A board can post clearing a wild the party has heard of ([D310](06-decisions.md), 2026-10-21). Every way found on
+      high ground (a click, Auto, a band, a person) goes round by a slope ([D312](06-decisions.md), 2026-10-21). Next: a mountain with
+      the clouds below, a shove over an edge in a fight, heights on the world map,
       hamlets and caravans as places, creatures of the land beyond the biomes' own foes, a story in each wild.
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
       ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);

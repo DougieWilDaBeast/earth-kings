@@ -578,7 +578,10 @@
 		"share": 0.15,
 		"floor": 0.1,
 		"blocked_line": "The shelf is too high to climb here. Find a slope.",
-		"hurt_line": "A drop of {fell}. Everyone lands hard."
+		"hurt_line": "A drop of {fell}. Everyone lands hard.",
+		"_comment_paths": "D312: on ground with heights every way found (a click, Auto, a band on its rounds, a person at work) steps only where a walker may, so it goes round by a slope rather than at the shelf; a drop that would hurt counts path_drop_cost cells more, so a way round is taken when there is one. A click on a shelf with no way up from here says no_way_line, once a cell.",
+		"path_drop_cost": 6,
+		"no_way_line": "There is no way up to there from here."
 	},
 	"_comment_wilds": "D287, D309 (meeting six, piece C3): places worth going to. The wilds are sites of kind `wild` on the map (tools/place_wilds.py puts per_world of them on their own kind of ground), unknown until the party walks onto one or hears of it. At rest in a village or a keep, on rumour_chance, the host speaks of the nearest wild not yet known within rumour_within tiles (rumour_line: {host}, {wild}, {way}, {days} at steps_per_day a day, {lure} from the area's own `lure`), which marks it on the map. Walking into one for the first time says found_line and writes it in the annals. Inferred: every number and line.",
 	"wilds": {

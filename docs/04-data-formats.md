@@ -803,6 +803,9 @@ refused and a step down is free (`may_step`), two or more up never. `heights`: `
 before it hurts, `share` of everyone's health for each height past the first, `floor` the share nobody
 falls below, `hurt_line` (`{fell}`) and `blocked_line` (said once a cell when the lead walks into a shelf
 with no way up). The ledges node draws a rim on the top of every drop and a shadow on the ground below.
+On ground with heights `find_cell_path` (a click, Auto, a band, a person at work) finds its way with `_height_path`
+(D312): the shortest by cells stepping only where `may_step` allows, a drop of `hurt_from` or more counted as
+`path_drop_cost` (6) cells more; a click on open ground with no way to it says `no_way_line` once a cell.
 
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
