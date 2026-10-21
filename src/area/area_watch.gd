@@ -27,6 +27,7 @@ signal moved
 ## The watched cells: a red wash that breathes, a grid over each, and a hard line round the edge of
 ## all of them in the band's own colours, strong enough to read under any place's light.
 const Remembered := preload("res://src/chronicle/remembered.gd")
+const Formations := preload("res://src/skirmish/formations.gd")
 
 const DANGER := Color("#ff3b2f")
 const WASH := 0.26
@@ -50,6 +51,11 @@ var colour: Color = Color(0.85, 0.2, 0.2)
 var sight: float = 4.0
 ## The figures, once made, in the order of [member members].
 var figures: Array = []
+## The shape the band walks in on the ground ([D320]): figure index -> its slot round the one in
+## front (the party's slots, [member Formations]); empty for a band too small, or with it off.
+var _slots: Dictionary = {}
+## The way the one in front last walked, which the shape faces along.
+var _heading: Vector2 = Vector2.DOWN
 
 ## Whether the band may walk just now: the area says no while somebody is talking, a menu is open,
 ## or the party is on its way out.
@@ -160,7 +166,42 @@ func make_figures(facing_towards: Vector2) -> Array:
 		figures.append(figure)
 	if not figures.is_empty():
 		_lead_at = figures[0].position
+	_deal_the_shape(pack)
 	return figures
+
+
+## A band of enough figures walks in a shape on the ground ([D320], the fight's way of [D315]): the one
+## in front at the origin, the rest dealt the slots of the shape the band's size picks, by what each
+## fights with, as a party's companions are.
+func _deal_the_shape(pack: Array) -> void:
+	_slots.clear()
+	var r: Dictionary = Formations.foe_rules()
+	if not Formations.on() or not bool(r.get("on", false)) or not bool(r.get("ground", false)) \
+			or figures.size() < int(r.get("from", 3)) or pack.is_empty():
+		return
+	var shape := Formations.auto_for(figures.size())
+	if shape == "":
+		return
+	var keys: Array = []
+	for i in range(1, figures.size()):
+		keys.append(str(i))
+	var dealt: Dictionary = Formations.assign_by(shape, keys, func(key: String) -> String:
+		return Formations.line_of(str(pack[int(key) % pack.size()])))
+	for key: String in dealt:
+		_slots[int(key)] = dealt[key]
+
+
+## Where figure [param i] should stand in the band's shape round the one in front as it faces, or
+## [constant Vector2.INF] when it has no slot or its slot cannot be stood on here.
+func slot_point(i: int) -> Vector2:
+	if not _slots.has(i):
+		return Vector2.INF
+	var spacing := float(Formations.foe_rules().get("ground_spacing", 40.0))
+	var point: Vector2 = Formations.point_for(_slots[i], _lead_at, _heading, spacing)
+	var cell := _map.cell_at(point)
+	if not _map.is_walkable(cell) or not region.has_point(cell) or not _map.may_step(_map.cell_at(_lead_at), cell):
+		return Vector2.INF
+	return point
 
 
 ## Every figure turns to the party once it is close enough to be worth a look (resting, not walking).
@@ -275,14 +316,19 @@ func _walk_the_figures(step: Vector2, most: float) -> void:
 	figures[0].position = _lead_at
 	if step.length_squared() > 0.01:
 		figures[0].face(step)
+		_heading = step
 	var gap := int(AreaMap.CELL * 0.8 / 6.0)
 	for i in range(1, figures.size()):
-		var back := _trail.size() - 1 - i * gap
-		if back < 0:
-			continue
 		var figure: Node2D = figures[i]
 		var was := figure.position
-		figure.position = figure.position.move_toward(_trail[back], most * 1.2)
+		# In the band's shape round the one in front ([D320]); along the trail where a slot cannot be stood on.
+		var target := slot_point(i)
+		if target == Vector2.INF:
+			var back := _trail.size() - 1 - i * gap
+			if back < 0:
+				continue
+			target = _trail[back]
+		figure.position = figure.position.move_toward(target, most * 1.2)
 		if figure.position.distance_squared_to(was) > 0.01:
 			figure.face(figure.position - was)
 
