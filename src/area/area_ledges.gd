@@ -11,7 +11,7 @@ const SHADOW_DEPTH := 12.0
 const LIP := Color(1.0, 1.0, 0.94, 0.22)
 
 var map: AreaMap = null
-## The cells drawn: the whole map, or on the land one tile's slot ([D327]).
+## The cells drawn: the whole map, or on the land one tile's slot ([D328]).
 var cells := Rect2i()
 
 

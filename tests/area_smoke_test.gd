@@ -464,7 +464,7 @@ func _check_caves() -> void:
 	await _check_area(id)
 
 
-## Rises on the land ([D327], after D283): some hill has one, a height up, off the tile's edges and off
+## Rises on the land ([D328], after D283): some hill has one, a height up, off the tile's edges and off
 ## the paths and water, and the ground draws it; every piece of it has a slope; on the land a way up onto
 ## it goes by a slope and a way down drops straight off.
 func _check_rises() -> void:

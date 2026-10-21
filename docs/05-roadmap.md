@@ -428,7 +428,10 @@ each, each ending playable:
       a fight to end, G strikes first, a Send button on each card with a town to meet in and a crow, the band
       on the map, the four story fixes, and the last stand in 7 steps.
    B. Levelling in gates: levels only from new foes in a gate, experience in the Tower, a log of foes per
-      character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378). **Next**, and not
+      character, and the numbers re-pitched by self-played runs ([D292](06-decisions.md), #378). **Built**
+      ([D301](06-decisions.md), 2026-10-21): levels only from kinds first put down in a gate or cave, a log of foes
+      with kinds to look out for, Auto hunting gates while the Tower outmatches it (floor 5's keeper and floors 6 up left as they were, to revisit),
+      sixteen self-played runs in [28](28-the-first-hour.md). **Next**, and not
       yet started on main: C, D, E and F were built ahead of it on today's levelling (2026-10-20 and 21), so its
       sixteen runs also cover the demon kings, double gates, the Gate Key's gates, floors 11 to 20 with their
       shared floors, the living floor's rest, the sword in the yard and the toll for walking out of a fight.
@@ -444,7 +447,7 @@ each, each ending playable:
       into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). A mountain with the
       clouds below: the cloud peak, three heights up, two on each world's crag; a body shoved into the clouds in a
       fight is gone ([D321](06-decisions.md), 2026-10-21). Rises on every tile of the land, a height up with a rock
-      face, more on hills and crag, climbed only at a slope ([D327](06-decisions.md), 2026-10-21, held until B is in).
+      face, more on hills and crag, climbed only at a slope ([D328](06-decisions.md), 2026-10-21, held until B is in).
       Six hamlets on the map, three kinds (a sheepfold, a mill, salt pans), each with folk who sell, a job, a trouble
       and a story ([D329](06-decisions.md), 2026-10-21, held until B is in). Two caravans that go a round of four towns,
       one selling the makings of runes, one herbs and bread ([D330](06-decisions.md), 2026-10-21, held until B is in).
@@ -487,7 +490,7 @@ each, each ending playable:
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
-   ([D323](06-decisions.md)): **built** ([D328](06-decisions.md), 2026-10-21), four runes from charms and herbs laid on
+   ([D323](06-decisions.md)): **built** ([D327](06-decisions.md), 2026-10-21), four runes from charms and herbs laid on
    the weapon somebody carries, each a fight passive while they carry it. Not yet: runes on armour, an enchanter.
    Alongside: art from 27 October (road events that read, gear seen on the floor and on fighters, the Tower,
    heights: A49 to A54 in [24](24-art-requests.md)), the fallen weapon's cinematic ([D296](06-decisions.md); the fight for it is built: a band of the land

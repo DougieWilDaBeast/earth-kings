@@ -29,7 +29,7 @@ const ROAD := "="
 ## tile is one or the other ([D233]).
 const TRACK := ":"
 const FOOT := "_"
-## Higher ground: a rise of the land's own floor with a rock face below it ([D327]).
+## Higher ground: a rise of the land's own floor with a rock face below it ([D328]).
 const RISE := "^"
 ## What a path may not be worn over, and what nothing grows on.
 const WAYS := [ROAD, TRACK, FOOT]
@@ -705,7 +705,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	for i in _count(float(features.get("outcrops", 1.0)), rng):
 		_outcrop(grid, kept, blocked, props, pool.get("rocks", []), _anywhere(rng, w, h), rng, w, h)
 
-	# Rises, so the land is not flat (D327): drawn by their own roll, so nothing else on the
+	# Rises, so the land is not flat (D328): drawn by their own roll, so nothing else on the
 	# ground moves for them.
 	var ways_up := _rises(world, cell, grid, kept, features, w, h)
 	for at: Vector2i in ways_up:
@@ -946,7 +946,7 @@ static func _heights() -> Dictionary:
 ## The rises on a tile: the land's own count of them, more on hill country, each a lump of higher
 ## ground a height up that keeps off the paths, the water and the tile's edges (so where two tiles meet
 ## is always level) and is never so thin that its face has nothing above it. Each rise is climbed only
-## at its slopes ([D308], [D327]): returns them, a cell on the rise's edge with open ground below it,
+## at its slopes ([D308], [D328]): returns them, a cell on the rise's edge with open ground below it,
 ## one a rise and another for a big one, kept clear of anything growing.
 static func _rises(world: World, cell: Vector2i, grid: Array, kept: Dictionary, features: Dictionary,
 		w: int, h: int) -> Array[Vector2i]:

@@ -302,7 +302,8 @@ static func _fight(
 		lines.append("%s ran into a %s near %s and came through it." % [
 			character.display_name, foe_name, job.get("to_name", "the road"),
 		])
-		for line in Progression.award_kill(character, foe, foe_level, [], false, world):
+		# On the road a first of a kind teaches only where the land teaches (D301).
+		for line in Progression.award_kill(character, foe, foe_level, [], false, world, [], not Progression.levels_only_in_gates()):
 			lines.append(str(line))
 		return lines
 

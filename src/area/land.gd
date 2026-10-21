@@ -38,7 +38,7 @@ var _building_cells: Dictionary = {}
 ## for every way, it was every townsperson in Stormreach going round the streets weighing up a
 ## thousand cells each (play-test 7: "massive frame rate drop" in the city).
 var _grid: AStarGrid2D = null
-## On held land with heights ([D327]), the same cells as a graph whose steps go one way where a rise
+## On held land with heights ([D328]), the same cells as a graph whose steps go one way where a rise
 ## is only dropped off ([AreaMap.may_step]), kept like [member _grid].
 var _steps: AStar2D = null
 
@@ -102,6 +102,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		if AreaProp.is_solid(placed):
 			for cell: Vector2i in base_cells(placed):
 				_blocked[cell] = true
+				_spilled(cell, tile)
 		props.append(placed)
 		_index_prop(placed)
 	for chest: Dictionary in laid.get("chests", []):
@@ -131,6 +132,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		for y in range(foot.position.y, foot.end.y):
 			for x in range(foot.position.x, foot.end.x):
 				_building_cells[Vector2i(x, y)] = building
+				_spilled(Vector2i(x, y), tile)
 	for person: Dictionary in laid.get("people", []):
 		if not _flags_allow(person):
 			continue
@@ -149,7 +151,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		wards[ward["cell"]] = ward
 	for pair: Array in laid.get("fires", []):
 		fires[_cell(pair, origin)] = tile
-	# Rises of the land's floor, climbed only at their slopes ([D327]).
+	# Rises of the land's floor, climbed only at their slopes ([D328]).
 	for pair: Variant in laid.get("ways_up", []):
 		ways_up[_cell(pair, origin)] = true
 	for pair: Variant in laid.get("ladders", []):
@@ -167,6 +169,15 @@ func hold(tile: Vector2i) -> Dictionary:
 	for cell in stood_on:
 		_blocked.erase(cell)
 	return chunk
+
+
+## A thing of [param tile]'s standing over its edge onto [param cell] of a tile held before it: that
+## tile's own count of its ground is worked out again, or the kept grid walked Auto into a tree
+## sticking over from the next tile and held it there for good.
+func _spilled(cell: Vector2i, tile: Vector2i) -> void:
+	var other := tile_of(cell)
+	if other != tile and chunks.has(other):
+		(chunks[other] as Dictionary).erase("_walkable")
 
 
 ## Let [param tile] go: everything standing in it comes off the land.
@@ -357,7 +368,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}
 		grid.set_point_solid(from_cell, true)
 	for cell: Vector2i in shut:
 		grid.set_point_solid(cell, false)
-	# On held land with heights ([D327]) the grid's way stands unless it climbs a rise where there is
+	# On held land with heights ([D328]) the grid's way stands unless it climbs a rise where there is
 	# no slope; then the way is found again on the graph that knows which way a step goes.
 	if _heights_vary:
 		for i in range(1, path.size()):
@@ -366,7 +377,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}
 	return path
 
 
-## A way over held land with heights ([D327]): on [member _steps], so it climbs a rise only at a slope
+## A way over held land with heights ([D328]): on [member _steps], so it climbs a rise only at a slope
 ## and drops off one anywhere ([D312]'s rule, with no extra cost: a rise is one height, which never hurts).
 func _path_over_heights(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
 	var steps := _held_steps()

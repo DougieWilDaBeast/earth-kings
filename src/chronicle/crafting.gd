@@ -90,7 +90,7 @@ static func hone(character: Character) -> String:
 # --- enchanting ---------------------------------------------------------------
 
 
-## Every enchantment ([D328], [D299] item 3; `crafting.enchant`): `{ id, display_name, description, effect,
+## Every enchantment ([D327], [D299] item 3; `crafting.enchant`): `{ id, display_name, description, effect,
 ## value, needs: { item: count } }`, its effect one of the fight's passive effects.
 static func enchantments() -> Array:
 	return rules().get("enchant", [])

@@ -759,26 +759,27 @@ func _check_the_world_hears() -> void:
 			ticks += 1
 		_expect(GameState.stores.count("herbs") == herbs_before - 1, "herbs used on the road were not taken from the stores")
 
-	# The first goblin down teaches; practice is counted; the journal writes it down.
+	# On the road the first goblin down teaches nothing but goes in the log of foes (D301); in a gate it
+	# teaches; practice is counted either way; the journal writes it down.
 	var killer: Fighter = party[0]
 	var practice_before := _practice(party)
-	var goblin: Fighter = null
-	for f: Fighter in fight.fighters:
-		if f.unit.template_id == "goblin" and f.is_standing():
-			goblin = f
-			break
 	var knew := Progression.has_beaten(killer.unit.character, "goblin")
+	_expect(not fight.teaches(), "a fight on the road teaches levels")
+	var goblin := _standing_goblin(fight)
 	if goblin != null:
-		goblin.unit.hp = 1
-		var swung := false
-		for _try in 20:
-			if fight._strike(killer, goblin.unit, Database.ability(killer.basic), killer.basic):
-				swung = true
-				break
-		_expect(swung and not goblin.is_standing(), "a goblin on one hit point stood")
-		_expect(knew or Progression.has_beaten(killer.unit.character, "goblin"),
-			"the first goblin down taught %s nothing" % killer.unit.display_name)
+		_cut_down(fight, killer, goblin)
+		_expect(knew or not Progression.has_beaten(killer.unit.character, "goblin"),
+			"a goblin down on the road taught %s a level" % killer.unit.display_name)
+		_expect(knew or int(killer.unit.character.met.get("goblin", 0)) >= 1,
+			"a goblin down on the road is not in %s's log of foes" % killer.unit.display_name)
 		_expect(Journal.is_felled(GameState.world, "goblin"), "the journal did not write down a goblin felled")
+	fight.encounter["teaches"] = true
+	goblin = _standing_goblin(fight)
+	if goblin != null:
+		_cut_down(fight, killer, goblin)
+		_expect(Progression.has_beaten(killer.unit.character, "goblin"),
+			"the first goblin down in a gate taught %s nothing" % killer.unit.display_name)
+	fight.encounter.erase("teaches")
 	var caster := _first_with_slots(party)
 	if caster != null:
 		caster.cooldowns[0] = 0.0
@@ -1419,6 +1420,23 @@ func _check_heal_growth() -> void:
 	_expect(is_equal_approx(AbilityResolver.heal_growth(plain), 1.0), "a unit with no level mends differently")
 	for unit: Unit in [early_unit, later_unit, plain]:
 		unit.free()
+
+
+func _standing_goblin(fight: Node2D) -> Fighter:
+	for f: Fighter in fight.fighters:
+		if f.unit.template_id == "goblin" and f.is_standing():
+			return f
+	return null
+
+
+func _cut_down(fight: Node2D, killer: Fighter, foe: Fighter) -> void:
+	foe.unit.hp = 1
+	var swung := false
+	for _try in 20:
+		if fight._strike(killer, foe.unit, Database.ability(killer.basic), killer.basic):
+			swung = true
+			break
+	_expect(swung and not foe.is_standing(), "a %s on one hit point stood" % foe.unit.display_name)
 
 
 ## Stances ([D195]): every card opens on Own way, the doctrine as it is; a key or a click on
