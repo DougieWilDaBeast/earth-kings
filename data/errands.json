@@ -133,6 +133,11 @@
 			"text": "The wards on {place} are broken. Somebody should go and look at what is walking out of it, and come back to say.",
 			"posted": "The village has put a purse on somebody going to look at {place}. It is on the board."
 		},
+		"wild": {
+			"title": "What keeps {place}",
+			"text": "Something has made its den at {place}: {lure}. Clear it, and come back and say what it was.",
+			"posted": "They will pay for {place} cleared of whatever keeps it, if you have been hearing about it. It is on the board."
+		},
 		"siege": {
 			"title": "Arrows for {place}",
 			"text": "{place} is under siege and running short. Get a bundle of arrows through to them before the palisade goes.",

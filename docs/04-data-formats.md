@@ -526,6 +526,10 @@ a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the d
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
 `src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
 (`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
+`errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
+wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
+the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is
+set, handed back at the board; never one a companion is sent on.
 
 ## `biomes.json` — the lands, and how each one's ground is laid out
 

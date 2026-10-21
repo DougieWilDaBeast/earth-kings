@@ -70,6 +70,16 @@ static func found(world: World, site: Site) -> String:
 	return str(rules().get("found_line", "{wild}.")).format({ "wild": site.display_name.capitalize(), "lure": lure_of(site) })
 
 
+## The flag the guard of [param site] sets when beaten: the key `stock` gives it, as a done flag.
+static func guard_flag(site: Site) -> String:
+	return "done:wild_guard_%s_%d_%d" % [str(site.data.get("area", "")), site.cell.x, site.cell.y]
+
+
+## Whether the guard of [param site] has been beaten this run.
+static func cleared(site: Site) -> bool:
+	return GameState.has_flag(guard_flag(site))
+
+
 ## The wild's guard ([D287]: creatures that match the land): a band of the land's own foes by the chest
 ## farthest from the way in, at the party's level, added to [param bands] (the area's own). Who stands
 ## there is the land at [param cell] on the map (`biomes.json` → `foes`, the great beasts held back by

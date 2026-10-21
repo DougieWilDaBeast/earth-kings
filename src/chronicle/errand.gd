@@ -21,6 +21,8 @@ const LOOK := "look"
 const BOUNTY := "bounty"
 ## A Guild contract to shut a gate (see `src/chronicle/guild.gd`). Only the company can do it.
 const GATE := "gate"
+## Clear a wild place of what keeps it ([D310]): done when its guard's flag is set, paid back at the board.
+const WILD := "wild"
 ## Standing with a Guild muster for an S-rank gate (see `src/chronicle/guild.gd`).
 const MUSTER := "muster"
 
@@ -107,6 +109,8 @@ static func is_complete(errand: Dictionary) -> bool:
 			return int(errand.get("done", 0)) >= int(errand.get("count", 1))
 		MUSTER:
 			return errand.get("outcome", "") == "won"
+		WILD:
+			return str(errand.get("flag", "")) != "" and GameState.has_flag(str(errand.get("flag", "")))
 	return false
 
 
@@ -154,6 +158,8 @@ static func progress(errand: Dictionary) -> String:
 			return "claimed" if is_complete(errand) else "slay %s" % errand.get("target_name", "the fugitive")
 		GATE:
 			return "shut %s" % errand.get("to_name", "the gate")
+		WILD:
+			return "cleared" if is_complete(errand) else "clear %s" % errand.get("to_name", "the wild")
 		MUSTER:
 			if errand.has("outcome"):
 				return "the muster went in"
