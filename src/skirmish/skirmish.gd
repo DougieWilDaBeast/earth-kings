@@ -1186,6 +1186,22 @@ func _swing(f: Fighter, foe: Unit, ability: Dictionary) -> void:
 		_strike(f, foe, ability, f.basic)
 
 
+## How much more a blow or a shot from [param from] lands on [param to] for standing higher
+## ([D343], the founders' ask at meeting six: "a blow or a shot from above"): on a field laid over
+## ground with heights ([D313]) a share a height above, up to `most_heights`, a blow at arm's length
+## its `blow` share and anything reaching further its `shot`. Nothing on level ground, from below or
+## on a hand-made field, whose heights are the jump's.
+func high_ground(from: Vector2i, to: Vector2i, ability: Dictionary) -> float:
+	if not grid.ledged:
+		return 0.0
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("from_above", {})
+	var up := mini(grid.height_at(from) - grid.height_at(to), int(rules.get("most_heights", 2)))
+	if up <= 0:
+		return 0.0
+	var shot := int(ability.get("range", 1)) > 1
+	return float(up) * float(rules.get("shot" if shot else "blow", 0.0))
+
+
 ## One blow or one heal from [param f] onto [param target], with everything the
 ## passives add around [method AbilityResolver.apply]: criticals, flank and
 ## last-stand bonuses, a charge, guard auras, lifesteal and thorns. Returns false
@@ -1233,6 +1249,11 @@ func _strike(f: Fighter, target: Unit, ability: Dictionary, ability_id: String) 
 		f.charging = false
 		multiplier *= 1.0 + float(f.role_data().get("charge_bonus", 0.0))
 		tags.append("charge")
+	# A blow or a shot from higher ground lands harder ([D343]).
+	var above := high_ground(f.unit.cell, target.cell, ability)
+	if above > 0.0:
+		multiplier *= 1.0 + above
+		tags.append("from above")
 	multiplier *= signatures.might(f, victim) * conditions.taken_scale(victim)
 	# A party that has fought together lands a little more ([D306]).
 	multiplier *= 1.0 + Formations.shared_bonus(f, fighters)

@@ -462,15 +462,18 @@ each, each ending playable:
       Life on the land that matches it, no grasshopper in the ash ([D336](06-decisions.md), 2026-10-21, held until B is in;
       the lands' own creatures are art A56).
       Ladders that climb two heights, on the cloud peak and the scarp, and a Climbing Rope that scales any face a height up
-      ([D337](06-decisions.md), 2026-10-21, held until B is in). Next: hills and mountains on the land more than a height
-      up, town walls to scale.
+      ([D337](06-decisions.md), 2026-10-21, held until B is in). A blow or a shot from higher ground lands harder, and the
+      map of the continent shows heights, hills and crags lit and peaked ([D343](06-decisions.md), 2026-10-21). Next: hills
+      and mountains on the land more than a height up, town walls to scale, the brains climbing for high ground.
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and
       planned for C's rest: heights only stand in two kinds of wild place, so the land itself is still flat ("it's
       a 2D world at the minute") and every hill and crag land should get shelves on [D308](06-decisions.md)'s rules;
       a slope is the only way up, where `dougie` asked to "scale walls or scale these heights" (a ladder, a rope, a
       climb); an edge is a rim and a shadow, with no rock face to give it the 3D look (A49, A50); and being higher
-      gives nothing in a fight (a blow or a shot from above).
+      gives nothing in a fight (a blow or a shot from above). Since answered: the rises ([D332](06-decisions.md)),
+      ladders and the rope ([D337](06-decisions.md)), the rise's rock face (A55) and high ground in a fight
+      ([D343](06-decisions.md)).
    D. Gates alive: readings, double gates, demon kings of fallen worlds, instant gates from a key
       ([D293](06-decisions.md), #380). **Built**: readings and double gates ([D302](06-decisions.md), 2026-10-20);
       demon kings of fallen worlds and the Gate Key that tears a gate where it is turned ([D304](06-decisions.md),
