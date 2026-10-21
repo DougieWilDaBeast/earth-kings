@@ -1,0 +1,188 @@
+{
+    "display_name": "the old shrine",
+    "_doc": "Play-test 8, ask 8 (call BX): the old shrine to the fallen, now the grocer's store room, where Old Wen still lights the candles. Laid out by tools/build_interiors.py.",
+    "people": [
+        {
+            "name": "Old Wen",
+            "unit": "town_elder",
+            "facing": [
+                0,
+                1
+            ],
+            "recruit": false,
+            "talk": {
+                "hello": [
+                    "You're welcome to sit. Mind the sacks; the grocer keeps his onions here.",
+                    "Shh. No, talk. The dead don't mind talk. It's the grocer who minds."
+                ],
+                "ask": [
+                    {
+                        "q": "Whose shrine was it?",
+                        "a": "The fallen's. Before the Cathedral was built, the city lit candles here for anyone who didn't come back from the Tower. Then the Cathedral took the names and the grocer took the room."
+                    },
+                    {
+                        "q": "Why do you light the candles?",
+                        "a": "Somebody ought to. My husband went up the year the bells were cast. I light one for him and one for whoever has nobody."
+                    },
+                    {
+                        "q": "Can we light one?",
+                        "a": "If you like. Say the name out loud. It doesn't have to be one I know."
+                    }
+                ],
+                "bye": "Come back if you lose someone. Or before."
+            },
+            "cell": [
+                5,
+                4
+            ]
+        }
+    ],
+    "spots": [
+        {
+            "line": "Candles on the old altar, between sacks of onions. Under the wax, names cut into the stone, worn almost smooth.",
+            "cell": [
+                4,
+                3
+            ]
+        }
+    ],
+    "chests": [],
+    "rows": [
+        "#########",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "####.####"
+    ],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "layers": [],
+    "spawn": [
+        4,
+        6
+    ],
+    "exits": [
+        [
+            4,
+            7
+        ]
+    ],
+    "tint": "#dcd8d0",
+    "interior": {
+        "floor": "flag",
+        "wall": "stone",
+        "rugs": [
+            {
+                "rect": [
+                    3,
+                    3,
+                    3,
+                    3
+                ],
+                "colour": "#4a3a2a",
+                "trim": "#a08a5a"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    4,
+                    2
+                ],
+                "radius": 3,
+                "colour": "#ffcf80",
+                "strength": 0.45
+            },
+            {
+                "cell": [
+                    2,
+                    1
+                ],
+                "radius": 1.5,
+                "colour": "#ffcf80",
+                "strength": 0.3
+            },
+            {
+                "cell": [
+                    6,
+                    1
+                ],
+                "radius": 1.5,
+                "colour": "#ffcf80",
+                "strength": 0.3
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "tapestry",
+            "cell": [
+                4,
+                0
+            ],
+            "offset": [
+                0,
+                6
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                4,
+                2
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                2,
+                1
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                6,
+                1
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                1,
+                6
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                7,
+                6
+            ]
+        },
+        {
+            "art": "interior/amphorae",
+            "cell": [
+                7,
+                3
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                1,
+                4
+            ]
+        }
+    ],
+    "dressing": []
+}

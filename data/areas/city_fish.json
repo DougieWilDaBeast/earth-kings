@@ -1,0 +1,320 @@
+{
+    "display_name": "the Sign of the Fish",
+    "_doc": "Play-test 8, ask 8 (call BX): the river folk's lodging house, its common room open; its beds are always full. Laid out by tools/build_interiors.py.",
+    "people": [
+        {
+            "name": "Mother Rook",
+            "unit": "town_innkeeper",
+            "facing": [
+                0,
+                1
+            ],
+            "recruit": false,
+            "talk": {
+                "hello": [
+                    "Ale or pie. There's no third thing.",
+                    "River folk sleep here. Land folk drink here and go home. Which are you?"
+                ],
+                "ask": [
+                    {
+                        "q": "Why the Sign of the Fish?",
+                        "a": "My grandfather caught one the size of a door, the year the river froze. The sign's the fish. The door's the door."
+                    },
+                    {
+                        "q": "Who drinks here?",
+                        "a": "Bargemen, pilots, anyone who works the river below the walls. They'd sooner sleep on their boats, but the boats are full of cargo."
+                    },
+                    {
+                        "q": "Have you a room?",
+                        "a": "Full. Always full. The barges come in faster than they go out. Try the Flagon."
+                    }
+                ],
+                "news": true,
+                "sells": [
+                    {
+                        "item": "ale_flask",
+                        "restock": true
+                    },
+                    {
+                        "item": "bread",
+                        "restock": true
+                    },
+                    {
+                        "item": "meat_pie",
+                        "restock": true
+                    }
+                ],
+                "shop": "Ale, bread and a pie. Don't ask what's in the pie.",
+                "bye": "Mind the step down. It's wet. It's always wet."
+            },
+            "cell": [
+                12,
+                2
+            ]
+        },
+        {
+            "name": "Jory the Pilot",
+            "unit": "town_fisher",
+            "facing": [
+                1,
+                0
+            ],
+            "recruit": false,
+            "talk": {
+                "hello": [
+                    "You're not river folk. Your boots are too dry.",
+                    "Pull up a stool, if you can find one that doesn't wobble."
+                ],
+                "ask": [
+                    {
+                        "q": "What does a pilot do?",
+                        "a": "Takes a barge through the shallows below the walls without putting it on the gravel. Easy, if you know where the gravel is. I know where the gravel is."
+                    },
+                    {
+                        "q": "Is the river safe?",
+                        "a": "Safer than the road, these days. Things from the gates don't care for running water. Mostly."
+                    },
+                    {
+                        "q": "Have you been up the Tower?",
+                        "a": "No. I've been down the river to the sea and back twenty times. That's far enough from home for anyone."
+                    }
+                ],
+                "bye": "Mind the gravel."
+            },
+            "cell": [
+                4,
+                4
+            ]
+        },
+        {
+            "name": "a bargeman asleep",
+            "unit": "town_farmer",
+            "facing": [
+                0,
+                1
+            ],
+            "chatter": [
+                "Mm. Not my watch.",
+                "Wake me at the lock."
+            ],
+            "cell": [
+                10,
+                7
+            ]
+        }
+    ],
+    "spots": [
+        {
+            "line": "Low ceiling, wet floor, and every table carved with the names of boats.",
+            "cell": [
+                7,
+                6
+            ]
+        },
+        {
+            "line": "Over the fire, a fish the size of a door, stuffed and badly mended. It looks annoyed.",
+            "cell": [
+                3,
+                2
+            ]
+        }
+    ],
+    "chests": [
+        {
+            "line": "A sailor's box left for the morning, and the morning came and went.",
+            "gold": 500,
+            "item": "salt_pouch",
+            "cell": [
+                13,
+                6
+            ]
+        }
+    ],
+    "rows": [
+        "###############",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#.............#",
+        "#######.#######"
+    ],
+    "legend": {
+        ".": "floor",
+        "#": "wall"
+    },
+    "layers": [],
+    "spawn": [
+        7,
+        8
+    ],
+    "exits": [
+        [
+            7,
+            9
+        ]
+    ],
+    "tint": "#c4d4bc",
+    "interior": {
+        "floor": "dark",
+        "wall": "damp",
+        "rugs": [
+            {
+                "rect": [
+                    5,
+                    4,
+                    5,
+                    3
+                ],
+                "colour": "#2e3e5a",
+                "trim": "#8a9a6a"
+            }
+        ],
+        "glows": [
+            {
+                "cell": [
+                    3.5,
+                    1
+                ],
+                "radius": 4,
+                "colour": "#ff9a40",
+                "strength": 0.45
+            },
+            {
+                "cell": [
+                    9,
+                    5
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.22
+            },
+            {
+                "cell": [
+                    12,
+                    3
+                ],
+                "radius": 2,
+                "colour": "#ffcf80",
+                "strength": 0.2
+            }
+        ]
+    },
+    "props": [
+        {
+            "art": "interior/fireplace",
+            "cell": [
+                3,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/ship_bell",
+            "cell": [
+                9,
+                0
+            ],
+            "offset": [
+                0,
+                18
+            ]
+        },
+        {
+            "art": "interior/shelf_bottles",
+            "cell": [
+                11,
+                0
+            ],
+            "offset": [
+                32,
+                18
+            ]
+        },
+        {
+            "art": "interior/keg_rack",
+            "cell": [
+                13,
+                1
+            ]
+        },
+        {
+            "art": "interior/bar_counter",
+            "cell": [
+                12,
+                3
+            ]
+        },
+        {
+            "art": "interior/table_long",
+            "cell": [
+                2,
+                5
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/bench_low",
+            "cell": [
+                2,
+                6
+            ],
+            "offset": [
+                32,
+                0
+            ]
+        },
+        {
+            "art": "interior/table_round",
+            "cell": [
+                9,
+                5
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                8,
+                5
+            ]
+        },
+        {
+            "art": "interior/stool",
+            "cell": [
+                10,
+                5
+            ]
+        },
+        {
+            "art": "village/barrels",
+            "cell": [
+                1,
+                8
+            ]
+        },
+        {
+            "art": "interior/crates",
+            "cell": [
+                13,
+                8
+            ]
+        },
+        {
+            "art": "interior/candelabra",
+            "cell": [
+                13,
+                5
+            ]
+        }
+    ],
+    "dressing": []
+}

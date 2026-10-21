@@ -426,6 +426,7 @@ each, each ending playable:
       chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end. **Planned.**
       The writers' pass on the Tower's people and the four stock lines is **built** ([D341](06-decisions.md)):
       the seven companies each in their own voice, more said on the shared and living floors.
+      More of the city's doors are **built** ([D342](06-decisions.md)): six rooms in Stormreach with their own people.
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
       person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
       story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).
