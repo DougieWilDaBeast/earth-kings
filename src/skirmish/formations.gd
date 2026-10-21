@@ -20,6 +20,7 @@ extends RefCounted
 const Fighter := preload("res://src/skirmish/fighter.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
+const Banter := preload("res://src/chronicle/banter.gd")
 
 const NONE := Vector2i(-9999, -9999)
 
@@ -153,11 +154,45 @@ static func badge(character: Character) -> String:
 
 
 ## Whether [param character] is in no state to hold a formation ([D289]: "a formation can break on
-## bad leadership and bad calls, through moods"): their mood under `break_below_mood`.
-static func broken(character: Character) -> bool:
-	if character == null or character.thoughts.is_empty():
+## bad leadership and bad calls, through moods and trust"): their mood under `break_below_mood`, or
+## ([D335]) no trust in [param leader], who calls the shape: a bond with them at `break_below_bond` or
+## under (the banter's cold, [Banter]).
+static func broken(character: Character, leader: Character = null) -> bool:
+	if character == null:
+		return false
+	if leader != null and leader != character \
+			and Banter.bond(character, leader) <= int(rules().get("break_below_bond", -3)):
+		return true
+	if character.thoughts.is_empty():
 		return false
 	return character.mood() < int(rules().get("break_below_mood", 0))
+
+
+## The party fighters a call on [param called] turns ([D335]: the leader's orders beyond the call-out,
+## "go for the healer"): only a call by the natural leader is an order; it turns everyone standing of
+## the party with no order of the player's, not told to hold, not broken, and within
+## `callouts.order_reach` cells of the one called.
+static func answer_call(caller: Fighter, called: Fighter, fighters: Array) -> Array:
+	var out: Array = []
+	var reach := int(callout_rules().get("order_reach", 0))
+	if reach <= 0 or caller == null or called == null or not caller.is_party():
+		return out
+	var characters: Array = []
+	for other: Fighter in fighters:
+		if other.is_party() and other.is_standing() and other.unit.character != null:
+			characters.append(other.unit.character)
+	var leader := leader_of(characters)
+	if leader == null or caller.unit.character != leader:
+		return out
+	for other: Fighter in fighters:
+		if other == caller or not other.is_party() or not other.is_standing() or other.hold:
+			continue
+		if other.order != Fighter.Order.NONE or broken(other.unit.character, leader):
+			continue
+		if Pathfinder.distance(other.unit.cell, called.unit.cell) > reach:
+			continue
+		out.append(other)
+	return out
 
 
 # --- fights shared ([D289], [D306]) ----------------------------------------------------
@@ -362,7 +397,7 @@ static func slot_cell(fighter: Fighter, fighters: Array) -> Vector2i:
 		if other.is_party() and other.is_standing() and other.unit.character != null:
 			characters.append(other.unit.character)
 	var shape := chosen(companions.size() + 1, leader_of(characters))
-	if shape == "" or broken(fighter.unit.character):
+	if shape == "" or broken(fighter.unit.character, leader_of(characters) if leader_of(characters) != null else lead.unit.character):
 		return NONE
 	var dealt := assign(shape, companions)
 	if not dealt.has(fighter.unit.character.template_id):

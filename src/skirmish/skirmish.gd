@@ -940,6 +940,7 @@ func _tick_fighter(f: Fighter) -> void:
 	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
 	f.warned = maxf(0.0, f.warned - SkirmishRules.TICK)
+	f.answering = maxf(0.0, f.answering - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 	conditions.tick(f)
@@ -1022,6 +1023,9 @@ func _think(f: Fighter) -> bool:
 			if (Pace.auto or f.stance_says("seek")) and not f.holding():
 				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
+		# A call answered holds while it lasts and the one called stands (D335).
+		if f.answering > 0.0 and f.called_on != null and is_standing(f.called_on):
+			f.target = f.called_on
 		# The company fights together: once one of them is in it, the rest
 		# come, unless told to hold.
 		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
@@ -1048,6 +1052,16 @@ func _call_out(f: Fighter) -> void:
 	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
 	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
 	_say("%s: \"%s\"" % [f.unit.display_name, word])
+	# A call is an order (D335): the company free to turn on the one called does.
+	var turned: Array = []
+	for other: Fighter in Formations.answer_call(f, target, fighters):
+		other.target = target.unit
+		other.called_on = target.unit
+		other.answering = float(Formations.callout_rules().get("answer_for", 4.0))
+		turned.append(other.unit.display_name)
+	if not turned.is_empty():
+		_say(str(Formations.callout_rules().get("answered", "{names} turn on {target}.")).format(
+				{ "names": " and ".join(turned), "target": target.unit.display_name }))
 
 
 func _party_engaged() -> bool:

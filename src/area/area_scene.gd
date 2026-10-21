@@ -2736,7 +2736,9 @@ func _formation_slots() -> Dictionary:
 	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
 	for i in companions.size():
 		# One in no state to hold a formation walks the trail instead ([D306]).
-		if dealt.has(companions[i]) and not Formations.broken(members[i + 1]):
+		# Nor one who has no trust in whoever calls the shape (D335).
+		var caller: Character = Formations.leader_of(members) if Formations.leader_of(members) != null else members[0]
+		if dealt.has(companions[i]) and not Formations.broken(members[i + 1], caller):
 			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
 	return out
 

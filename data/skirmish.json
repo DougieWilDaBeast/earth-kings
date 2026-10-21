@@ -206,9 +206,15 @@
 			"healer": "Get the healer!",
 			"archer": "On the archer!",
 			"warned_for": 3.0,
-			"warned_first": ["break", "hang_back", "kite"]
+			"warned_first": ["break", "hang_back", "kite"],
+			"_comment_orders": "D335: a call from the party's natural leader is an order: everyone of the party standing within order_reach cells of the one called, with no order of the player's, not told to hold and not broken, turns on it for answer_for seconds while it stands (answered says so in the log).",
+			"order_reach": 6,
+			"answer_for": 4.0,
+			"answered": "{names} turn on {target}."
 		},
 		"break_below_mood": 35,
+		"_comment_trust": "D335 (D289: 'a formation can break ... through moods and trust'): a companion whose bond with whoever calls the shape (the leader, else the lead) is break_below_bond or under holds no slot, on the ground or in a fight.",
+		"break_below_bond": -3,
 		"shared": { "per_fight": 0.004, "cap": 0.08 },
 		"shapes": {
 			"line": {

@@ -468,8 +468,9 @@ each, each ending playable:
       A band of foes falls in too, round its boss, in the shape its size picks, facing the party ([D315](06-decisions.md),
       2026-10-21), and on the ground a band of three or more walks in its shape too ([D320](06-decisions.md), 2026-10-21).
       Charisma in who leads, a tie-break that lifts someone up to two wins behind ([D323](06-decisions.md)): **built**
-      ([D334](06-decisions.md), 2026-10-21, held until B is in). Not yet: the wheel on a held key, a leader's orders
-      beyond the call-out, trust breaking one (#411).
+      ([D334](06-decisions.md), 2026-10-21, held until B is in). The leader's call-out is an order the company answers,
+      and no trust in the leader breaks a formation ([D335](06-decisions.md), 2026-10-21, held until B is in). The wheel on
+      a held key is play-test 8's quick wheel (#417). Not yet: plans made between fights, other orders (#411).
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
       is laid out at the climb and grows with height, every third floor from 12 is shared with a company who

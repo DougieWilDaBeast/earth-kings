@@ -1292,7 +1292,7 @@ anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record
 `charisma_lift` how many wins behind the most won a higher Charisma still leads from (D334; Charisma breaks a tie),
 `shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
 `auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
-`callouts`: `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
+`callouts`: `order_reach` and `answer_for` (D335: the natural leader's call turns everyone free within that many cells onto the one called, for that long, `answered` in the log); `break_below_bond` (D335) is the bond with whoever calls the shape at or under which a companion holds no slot. `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
 a foe band's boss or first standing, once per foe, `skirmish._call_out`), `warned_for` the seconds the one
 named is warned (`Fighter.warned`), and `warned_first` the moves it tries first while it lasts; a warned
 friend counts as under half health to `SkirmishBrain._guard`. `break_below_mood`: under it a companion

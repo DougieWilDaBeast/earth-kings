@@ -1327,6 +1327,22 @@ func _check_leader_and_callouts() -> void:
 		_expect(Formations.leader_of(party) == by_charisma, "Charisma did not break a tie of fights won")
 	talker.level = kept_level
 	talker.fights["won"] = 2
+	# Trust ([D335]): a companion who has no trust in the one calling the shape holds no slot.
+	var cold := int(Formations.rules().get("break_below_bond", -3))
+	var kept_bond := int(cato.unit.character.bonds.get(vesta.unit.character.id, 0))
+	cato.unit.character.bonds[vesta.unit.character.id] = cold
+	_expect(Formations.broken(cato.unit.character, vesta.unit.character), "Cato with a bond of %d to Vesta still holds her shape" % cold)
+	_expect(not Formations.broken(cato.unit.character), "Cato broke a shape nobody called")
+	cato.unit.character.bonds[vesta.unit.character.id] = kept_bond
+	_expect(not Formations.broken(cato.unit.character, vesta.unit.character), "Cato on even terms with Vesta breaks her shape")
+	# A call is an order ([D335]): those free near the one called turn on it; one told what to do does not.
+	var called: Fighter = foes[0]
+	iris.unit.cell = called.unit.cell + Vector2i(2, 0)
+	cato.unit.cell = called.unit.cell + Vector2i(0, 2)
+	cato.order = Fighter.Order.MOVE
+	var answering := Formations.answer_call(vesta, called, fight.fighters)
+	_expect(answering.has(iris) and not answering.has(cato), "the call turned %s" % [answering.map(func(a: Fighter) -> String: return a.unit.display_name)])
+	cato.order = Fighter.Order.NONE
 	_expect(Formations.leader_fighter(fight.fighters) == vesta, "the leader among the fighters is not Vesta")
 	_expect(Formations.recommend(3, vesta.unit.character) == "wedge", "a mender leading did not call for a wedge: %s" % Formations.recommend(3, vesta.unit.character))
 	_expect(Formations.badge(vesta.unit.character).contains("5"), "the badge does not say how many: %s" % Formations.badge(vesta.unit.character))

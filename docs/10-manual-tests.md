@@ -398,6 +398,7 @@ Start a run (not the tutorial) and walk.
 | D5.70 | Walk the open land a few tiles in the woods and on the grass, then in the snow; walk up to a fern or a cluster of mushrooms and press E; walk off and come back | Bitter Herbs on the grass, Redcap in the woods' damp, Frostmoss in the snow, each picked with a line into the packs, and gone once picked | D331 |
 | D5.71 | Walk the open land on the grass, then on the ash or the blight, then on the snow | Birds, butterflies, bees and grasshoppers on the grass; only spiders on the ash and the blight; only birds on the snow | D332 |
 | D5.72 | On the cloud peak, climb a ladder from the shelf to the high rock; on the scarp walk at a face with no slope; buy a Climbing Rope from Mother Ilse or at Saltcote and walk at the face again; click a cell up the face | The ladder climbs two heights; without a rope the face says find a slope, or carry a rope; with one the lead goes up it and the company follows, and a click goes straight up | D333 |
+| D5.73 | Win three fights with a company of three so a leader rises; in the next fight watch the leader's call-out | The leader shouts "Get the healer!" and the log says who turns on it; the others go for it unless you told them otherwise | D335 |
 
 ## H — Conversation and the camp
 
