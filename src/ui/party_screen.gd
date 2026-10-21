@@ -223,6 +223,8 @@ func enchant(character: Character, rune: Dictionary) -> bool:
 	var line := Crafting.enchant(character, rune, GameState.stores)
 	if line == "":
 		return false
+	if GameState.world != null:
+		Moods.think(character, "kitted", GameState.world.steps)
 	_notice = line
 	_rebuild()
 	return true
@@ -577,7 +579,9 @@ func _card_for(character: Character, current: bool) -> Control:
 	var class_line := Label.new()
 	class_line.add_theme_font_size_override("font_size", 12)
 	class_line.add_theme_color_override("font_color", QUIET)
-	class_line.text = "L%d %s" % [character.level, character.class_name_text()]
+	# How they feel, at a glance ([D347]); the why is on their practice page.
+	class_line.text = "L%d %s · %s" % [character.level, character.class_name_text(), str(Moods.band(character).get("name", "Steady"))]
+	class_line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	class_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	lines.add_child(class_line)
 

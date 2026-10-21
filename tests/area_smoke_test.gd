@@ -50,6 +50,8 @@ const Climbers := preload("res://src/chronicle/climbers.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
 const Caves := preload("res://src/chronicle/caves.gd")
+const Sellswords := preload("res://src/chronicle/sellswords.gd")
+const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const CompanyTalk := preload("res://src/chronicle/company_talk.gd")
 
 var _requests: Array[Dictionary] = []
@@ -79,6 +81,8 @@ func _ready() -> void:
 	_check_recruiting()
 	_check_company_voices()
 	_check_city_doors()
+	_check_sellswords()
+	_check_drinkers_in_the_flagon()
 	_check_crafting()
 	_check_forging_and_the_hearth()
 	await _check_caves()
@@ -331,6 +335,93 @@ func _check_recruiting() -> void:
 	if not Recruits.has_joined("home", settler) or Recruits.askable("home", settler):
 		_fail("recruiting: a settler who joined can still be asked")
 	GameState.roster.seats = seats
+
+
+## Sellswords off the Gilded Flagon's book ([D295]): Varro keeps the book and never joins; one hired
+## is paid for up front, marches, bonds with nobody, keeps their terms through a save, and goes when
+## the job they were hired for is done, not another.
+func _check_sellswords() -> void:
+	var varro: Dictionary = {}
+	for person: Dictionary in Database.area("city_tavern").get("people", []):
+		if str(person.get("talk", {}).get("hires", "")) != "":
+			varro = person
+	if varro.is_empty():
+		_fail("sellswords: nobody in the Gilded Flagon keeps the book")
+		return
+	if Recruits.askable("city_tavern", varro):
+		_fail("sellswords: %s can be asked to leave the book" % varro["name"])
+	var kept_gold := GameState.gold
+	var seats := GameState.roster.seats
+	GameState.roster.seats = maxi(seats, GameState.roster.party.size() + 1)
+	var board := Sellswords.board(GameState.world)
+	if board.size() != int(Sellswords.rules().get("board_size", 0)):
+		_fail("sellswords: the book holds %d, not %d" % [board.size(), int(Sellswords.rules().get("board_size", 0))])
+		GameState.roster.seats = seats
+		return
+	GameState.gold = int(board[0]["price"]) + 10
+	var nodes: Dictionary = Talk.build(str(varro["name"]), varro["talk"], false, 0.5, "met:test")
+	var hires: Array = (nodes.get("hire", {}).get("options", []) as Array).filter(
+		func(o: Dictionary) -> bool: return o.has("hire"))
+	if hires.size() != board.size():
+		_fail("sellswords: the book's talk offers %d of %d" % [hires.size(), board.size()])
+	var before := GameState.roster.party.size()
+	DialogueScript.apply_effects(hires[0] if not hires.is_empty() else {"hire": int(board[0]["index"])})
+	var hired: Character = GameState.roster.party_members().back()
+	if GameState.roster.party.size() != before + 1 or not Sellswords.is_sellsword(hired):
+		_fail("sellswords: hiring the first on the book did not bring a sellsword")
+	else:
+		if GameState.gold != 10:
+			_fail("sellswords: hired for %s but the purse holds %d of 10" % [Coins.text(int(board[0]["price"])), GameState.gold])
+		if not hired.bonds.is_empty():
+			_fail("sellswords: a sellsword came with bonds (%s)" % str(hired.bonds))
+		if Sellswords.board(GameState.world).size() != board.size() - 1:
+			_fail("sellswords: the one hired is still on the book")
+		if Character.from_dict(hired.to_dict()).contract != hired.contract:
+			_fail("sellswords: the terms do not survive a save")
+		var job := str(hired.contract.get("job", ""))
+		var other := "chapter" if job == "gate" else "gate"
+		if not Sellswords.on_job(GameState.roster, other).is_empty() or GameState.roster.by_id(hired.id) == null:
+			_fail("sellswords: a sellsword hired for a %s left when a %s was done" % [job, other])
+		var said := Sellswords.on_job(GameState.roster, job)
+		if said.size() != 1 or GameState.roster.by_id(hired.id) != null:
+			_fail("sellswords: a sellsword hired for a %s stayed after it was done" % job)
+	GameState.gold = kept_gold
+	GameState.roster.seats = seats
+
+
+## The Flagon as where the roaming leads are met until the company has a tavern ([D295]): walking
+## in finds, a while at a time, one of the unmet drinking there, and nobody new in the same while.
+func _check_drinkers_in_the_flagon() -> void:
+	var world: World = GameState.world
+	var city: Site = null
+	for site: Site in world.sites:
+		if str(site.data.get("area", site.kind)) == "city_streets":
+			city = site
+	if city == null or world.wanderers.is_empty():
+		_fail("the Flagon: no city, or nobody roaming (%d)" % world.wanderers.size())
+		return
+	var kept_steps := world.steps
+	var kept := world.wanderers.duplicate(true)
+	var came := ""
+	for i in 20:
+		world.steps = kept_steps + i * int(Wanderers.rules().get("tavern", {}).get("every", 300))
+		for each: Dictionary in world.wanderers:
+			if Wanderers.cell_of(each.get("at", [])) == city.cell:
+				each["at"] = [-1, -1]
+		came = Wanderers.drink(world, city, "city_tavern")
+		if came != "":
+			break
+	if came == "":
+		_fail("the Flagon: twenty whiles and none of the roaming leads came in for a drink")
+	else:
+		if Wanderers.here(world, city.cell).filter(func(e: Dictionary) -> bool: return str(e["id"]) == came).is_empty():
+			_fail("the Flagon: %s came in but is not in the city" % came)
+		if Wanderers.drink(world, city, "city_tavern") != "":
+			_fail("the Flagon: a second lead came in the same while")
+		if Wanderers.drink(world, city, "city_streets") != "":
+			_fail("the Flagon: the street drew a lead in as the tavern does")
+	world.steps = kept_steps
+	world.wanderers = kept
 
 
 ## Making things ([D280]): herbs mixed into a draught out of the packs, and a smith honing a weapon

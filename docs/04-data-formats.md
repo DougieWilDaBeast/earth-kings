@@ -425,6 +425,15 @@ door into a training fight that comes back out of the same door; nothing in it c
   the lead's level when the conversation ends (unnamed folk, "a settler", take a name), and their place
   stands empty after. `talk.recruit` overrides any line: `q`, `again_q`, `yes`, `no`, `waiting`,
   `trusted`, `full`.
+- `hires` — they keep the sellswords' book ([D345](06-decisions.md), [`src/chronicle/sellswords.gd`](../src/chronicle/sellswords.gd)):
+  `q` opens it, `offer` reads it out, one reply for each still on the board (offered while the purse
+  can pay and the company has a seat), `done` once one is hired, `none` when nobody is, `done_q` to
+  close it. A person with `hires` keeps a post and cannot be recruited. The board, the jobs, the
+  prices and the lines are `world_rules.json` → `sellswords`: `board_size` at once, dealt again every
+  `refresh_steps`; one of `templates` at the lead's level give or take one, for one of `jobs` (`for`
+  is how the book says it, `price` its weight), at `cost_base` + `cost_per_level` a level. A sellsword
+  carries `contract` (`job`, `paid`) and goes when a gate is shut (`gate`) or a chapter closes
+  (`chapter`).
 
 ## `props.json` — how big every prop and building is drawn
 
@@ -826,8 +835,14 @@ an `item`, picked once a run into the packs.
 (`label_against` when it is worth less than nothing), `mood`, `lasts` (steps), `stack` (how many at once),
 and `by_group` (worth by temper group NT, NF, SJ, SP). `src/chronicle/moods.gd` gives them once a step
 from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fell` (a bond of
-`friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
+`friend_bond` or more; `{name}` is the fallen), and since D347 `saw_fall` (one who was not a friend),
+`parted` (a friend let go; `{name}` is them), `with_friend` (a friend in the party, every
+step), `rested` (`Moods.rested`, at a rest point), `looked_after` (a healer's mend) and `kitted` (an edge or
+a rune on their weapon). `bands` (by `below`) name the mood and add to `attack` and
 `defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
+The band's name shows on each party card. `Moods.feeling` is `low` (the two lowest bands) or `glad` (the
+two highest) or nothing: an exchange or a reflection in `banter.json` with `"feeling"` is only spoken by one
+who feels that way, and one with no `feeling` by anyone.
 
 ## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
 
@@ -1242,6 +1257,9 @@ Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M
 - `wanderers.rules` — how long they stay (`stay_min`..`stay_max` steps), how fast they walk
   (`steps_per_tile`), the chance a rest at a settlement brings word of one (`rumour_at_rest`), and
   how many meetings an Outward (`E`) or Inward (`I`) temper needs before they will join.
+- `wanderers.tavern` — the Gilded Flagon as where they drink ([D345](06-decisions.md)): walking into
+  `area` (a room of the `city` area) may find one the company has not met there, once each `every`
+  world steps at `chance`, staying `stay_min`..`stay_max` as a stop of their own.
 - `wanderers.lines` — what they say. `first`, `again` by temper group; `heading` by kind of place;
   `rumour` and `rumour_road` for the inn; `{name}`, `{title}`, `{place}`, `{lead}` are filled in.
 - `siblings` (M15) — the worlds after the first. Everything in it is **Inferred**, agenda items 50

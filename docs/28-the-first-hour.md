@@ -415,11 +415,14 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    land to pick, by what each land grows ([D335](06-decisions.md)). Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
-   Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
+   Charisma check, and after a no their own favour or a few fights won to bring them round; sellswords for
+   coin off the Gilded Flagon's book, who go when the job is done, and the roaming leads drinking in the
+   Flagon, built [D345](06-decisions.md)); **sending your own
    people out** on quests and into gates on Auto (built, [D278](06-decisions.md): from the party screen once a
    gate is shut, a band to a gate shutting it on the odds); **moods after RimWorld**, and some who will not climb
    (built, [D279](06-decisions.md): thoughts from fights, gates, floors and friends lost; most feel dragged up the
-   Tower; at the bottom one walks off a while).
+   Tower; at the bottom one walks off a while; since [D347](06-decisions.md) a friend beside them, a fall seen, a
+   friend gone, rest and care move it too, it shows on each card, and low or glad colours their lines).
 9. **Places worth going to** (repeats play-test 6, item 5): the reading hall at Ondry's has no walls;
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat. Caves built

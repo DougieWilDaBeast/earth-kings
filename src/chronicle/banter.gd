@@ -20,6 +20,7 @@ const ROAD := "road"
 const REST := "rest"
 const AFTER_BATTLE := "after_battle"
 const GRAVE := "grave"
+const Moods := preload("res://src/chronicle/moods.gd")
 
 
 static func rules() -> Dictionary:
@@ -135,8 +136,12 @@ static func _exchange(
 	rng: RandomNumberGenerator,
 	context: Dictionary
 ) -> Array:
+	# How the one who speaks first feels colours what they say ([D347]): an exchange with a
+	# `feeling` is only for someone low, or glad.
+	var feeling := Moods.feeling(a)
 	var pool: Array = Database.banter.get("exchanges", []).filter(
-		func(e: Dictionary) -> bool: return _fits(e, occasion, mood(a, b), context)
+		func(e: Dictionary) -> bool:
+			return _fits(e, occasion, mood(a, b), context) and str(e.get("feeling", feeling)) == feeling
 	)
 	if pool.is_empty():
 		return []

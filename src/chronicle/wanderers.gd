@@ -235,6 +235,38 @@ static func here(world: World, cell: Vector2i) -> Array[Dictionary]:
 	return out
 
 
+## The Gilded Flagon ([D295]): until the company has a tavern of its own, walking into the city's
+## tavern now and then finds one of the roaming leads it has not walked with drinking there, come
+## in from wherever they were (`tavern` in `data/fall.json`). At most one a while, and only one of
+## them in the city at a time. Returns who came in, "" for nobody.
+static func drink(world: World, site: Site, area_id: String) -> String:
+	var tavern: Dictionary = rules().get("tavern", {})
+	if world == null or site == null or tavern.is_empty() or area_id != str(tavern.get("area", "")):
+		return ""
+	if str(site.data.get("area", site.kind)) != str(tavern.get("city", "")) or not here(world, site.cell).is_empty():
+		return ""
+	var at := world.steps / maxi(1, int(tavern.get("every", 300)))
+	var flag := "flagon:drink:%d" % at
+	if GameState.has_flag(flag):
+		return ""
+	GameState.set_flag(flag)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.world_seed, at, "flagon"])
+	if rng.randf() >= float(tavern.get("chance", 0.5)):
+		return ""
+	var unmet: Array[Dictionary] = []
+	for each: Dictionary in world.wanderers:
+		if not bool(each.get("joined", false)) and int(each.get("met", 0)) == 0:
+			unmet.append(each)
+	if unmet.is_empty():
+		return ""
+	var each: Dictionary = unmet[rng.randi() % unmet.size()]
+	each["at"] = [site.cell.x, site.cell.y]
+	each["to"] = []
+	each["stay_until"] = world.steps + rng.randi_range(int(pace().get("stay_min", 60)), int(pace().get("stay_max", 180)))
+	return str(each.get("id", ""))
+
+
 ## Walking onto a place where one of them stands: you see them, and the mark.
 static func on_arrive(world: World, site: Site) -> Array:
 	var out: Array = []
