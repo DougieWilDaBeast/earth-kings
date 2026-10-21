@@ -254,6 +254,12 @@ static func layout(world: World, floor: int) -> Dictionary:
 		{ "art": "lamp_globe", "cell": [clampi(door.x - 3, 1, width - 2), height - 3] },
 		{ "art": "lamp_globe", "cell": [clampi(door.x + 3, 1, width - 2), height - 3] },
 	]
+	# Pillars at the back corners of each chamber wide enough for them, once their picture (A51) is
+	# in; they stand in nobody's way, so no way up is ever cut.
+	for room in rooms:
+		if room.size.x >= 7:
+			props.append({ "art": "tower_inside/pillar", "cell": [room.position.x, room.position.y], "solid": false })
+			props.append({ "art": "tower_inside/pillar", "cell": [room.end.x - 1, room.position.y], "solid": false })
 	# A band of the floor's own in every chamber but the first: a stand-in pack the floor's foes
 	# replace ([method restock]), the keeper of the top floor among them.
 	var bands: Array = []

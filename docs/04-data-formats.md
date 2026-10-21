@@ -900,6 +900,15 @@ On ground with heights `find_cell_path` (a click, Auto, a band, a person at work
 `shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
 knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
 `may_shove` rule a ledged field.
+`siblings.weapon.crater_art` in `fall.json` (D344): the picture of the scorched ground laid in the middle of the
+land tile a fallen weapon came down on, until it is found (none stands until the picture is in, A54).
+`held` in `skirmish.json` (D344): by weapon `kind`, the `sprite_dir` of eight facings, `scale` and `offsets` a
+fighter's weapon is drawn with when its piece in `equipment.json` has no `sprite_dir` of its own; a kind whose
+folder has no `south.png` yet draws nothing in hand.
+`data/art_slots.json` (D344): the art still to be made (docs/24 from A51): for each request its `files`
+(`name` dropped, `to` under art/, `size` [w, h], `rotations` for a folder of facings, `each` to repeat one for a
+list, `prop: false` for a picture under art/props not laid as a prop, `stand_in`) and `shows`. Read by
+`tools/take_art.py` and `tests/art_smoke_test`, never by the game.
 `from_above` (D343): on a ledged field a fighter higher than the one they hit lands `blow` more for every
 height up at arm's length and `shot` more a height for anything reaching further, counted to `most_heights`
 (`Skirmish.high_ground`; the log tags it *From above*). `on_the_map` (D343): the map of the continent draws a

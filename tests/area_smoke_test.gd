@@ -3121,8 +3121,20 @@ func _check_life_matches_the_land() -> void:
 					_fail("life: %s's %s is drawn as %s, which is not a %s" % [land, kind, art, kind])
 	for land: String in ["ash", "blight", "snow"]:
 		var own: Dictionary = lands.get(land, {}).get("life_art", {})
-		if not (own.get("hop", ["?"]) as Array).is_empty() or not (own.get("flutter", ["?"]) as Array).is_empty():
-			_fail("life: a grasshopper or a butterfly in the %s" % land)
+		if not own.has("hop") or not own.has("flutter"):
+			_fail("life: the %s does not say what hops and flutters there" % land)
+		for art: String in (own.get("hop", []) as Array) + (own.get("flutter", []) as Array):
+			if art.begins_with("nature/grasshopper") or art.begins_with("nature/butterfly") or art.begins_with("nature/bee"):
+				_fail("life: a grasshopper or a butterfly in the %s" % land)
+	# The lands' own creatures (A56) wait for their pictures: a land names them now and they are
+	# laid only once drawn, so until then the land is as it was.
+	for art: String in ["nature/crow", "nature/frog", "nature/lizard", "nature/snow_hare", "nature/ember_beetle", "nature/moth"]:
+		var lives := false
+		for land: String in lands:
+			for kind: String in lands[land].get("life_art", {}):
+				lives = lives or (lands[land]["life_art"][kind] as Array).has(art)
+		if not lives:
+			_fail("life: %s lives in no land" % art)
 	if named < 8:
 		_fail("life: only %d lands have creatures of their own" % named)
 
