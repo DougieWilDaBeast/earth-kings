@@ -769,6 +769,15 @@ once the company has shut a gate; `nemesis` with [D330](06-decisions.md).
 (`world.thankful`); on `meet_share` a traveller on the road's clock is one of them, giving `gift_share` of
 the errand's pay and saying `lines` (`{giver}`, `{title}`, `{place}`, `{gift}`). Read by `src/chronicle/nemesis.gd`.
 
+## `world_rules.json` → `hunger` — how full everyone is (D331)
+
+`on` turns it on. Each member's `fed` (1 full to 0, saved with them as `fed` and `fed_step`) goes down `per_step`
+for every step on the land; under `hungry_below` they are hungry (`hungry_line`, `{name}`, said once, and an amber
+bar under their health on the walking panel); at nothing they lose `starving_hurt` of their health a step, never
+the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend` for each point it `mends`, and can
+be eaten at full health when hungry; a rest in a bed fills everyone. With Auto on, anyone under `auto_eat_below`
+eats the least food in the packs. Read by `src/chronicle/hunger.gd`.
+
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 
 A walkable tile whose terrain is one of `terrains` has a cave mouth on `chance` (a hash of the world and

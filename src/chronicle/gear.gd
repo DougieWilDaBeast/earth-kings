@@ -14,6 +14,8 @@ const MISFIT_SHARE := 0.4
 ## And what it costs on top, for a piece badly out of its calling.
 const MISFIT_PENALTY := 2
 
+const Hunger := preload("res://src/chronicle/hunger.gd")
+
 static var _icons: Dictionary = {}
 
 
@@ -54,11 +56,16 @@ static func mends(equipment_id: String) -> int:
 static func drink(character: Character, equipment_id: String) -> String:
 	if not is_draught(equipment_id) or not GameState.stores.has(equipment_id):
 		return ""
-	if character.current_hp() >= character.max_hp():
+	# Food is worth eating whole when hungry ([D331]).
+	var feeds := Hunger.feeds(equipment_id) if Hunger.on() else 0.0
+	if character.current_hp() >= character.max_hp() and (feeds <= 0.0 or not Hunger.is_hungry(character)):
 		return ""
 	GameState.stores.erase(equipment_id)
 	var before := character.current_hp()
 	character.hp = mini(before + mends(equipment_id), character.max_hp())
+	character.fed = minf(1.0, character.fed + feeds)
+	if character.current_hp() == before:
+		return "%s %s the %s." % [character.display_name, takes(equipment_id), display_name(equipment_id)]
 	return "%s %s the %s and comes back %d." % [
 		character.display_name, takes(equipment_id), display_name(equipment_id), character.current_hp() - before
 	]

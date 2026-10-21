@@ -19,6 +19,7 @@ extends Node2D
 ## Every step advances the world clock, so travel is never free.
 
 ## Loaded by path: see its header for why it has no `class_name`.
+const Hunger := preload("res://src/chronicle/hunger.gd")
 const Wilds := preload("res://src/chronicle/wilds.gd")
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const TowerFloors := preload("res://src/chronicle/tower_floors.gd")
@@ -1308,6 +1309,9 @@ func _check_party() -> void:
 
 	# Whoever was sent away is on the same clock as everyone else.
 	for line: String in Dispatch.walk(world, GameState.roster, GameState.away, GameState.errands):
+		_note(line)
+	# Emptier with every step, and Auto eats when it must ([D331]).
+	for line: String in Hunger.tick(world, GameState.roster):
 		_note(line)
 	# How each of them feels about what has happened since the last step (D279).
 	for line: String in Moods.tick(world, GameState.roster, GameState.away, GameState.flags, GameState.ledger):
