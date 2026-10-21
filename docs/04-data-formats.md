@@ -778,6 +778,14 @@ the last point. Food (`taken: "eat"` in `equipment.json`) fills `feeds_per_mend`
 be eaten at full health when hungry; a rest in a bed fills everyone. With Auto on, anyone under `auto_eat_below`
 eats the least food in the packs. Read by `src/chronicle/hunger.gd`.
 
+## `world_rules.json` → `loot.fallen` — the fallen searched (D352)
+
+`on` turns it on. A band beaten on the land leaves its fallen lying there: what they carried is a loot roll of
+`richness_per_foe` for each of the band, on dice of its own (seeded from the world, the step and the tile, so the
+world's own dice deal on as before). On the ground it lies ahead of the party as a thing called `name`, saying
+`line` when looked at, drawn as `art` (the cache's picture while it is empty) and said with `ground_line`; off the
+ground it is taken at once, said with `searched_line`. Read by `_search_the_fallen` in `src/world/world_scene.gd`.
+
 ## `world_rules.json` → `caves` — the caves under the hills (D282)
 
 A walkable tile whose terrain is one of `terrains` has a cave mouth on `chance` (a hash of the world and

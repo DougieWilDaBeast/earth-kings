@@ -404,7 +404,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    "The more monster tiers the better. Give more variety for long term game"; more than five a family is **planned**. Each tier fights its own way, built ([D275](06-decisions.md)): the lesser runs when badly hurt,
    the high charges and flanks, the hob fights harder near death, the chieftain spurs its kin, the caster finds the weak spot; pips over the bar show the rank. Each family has a trick
    of its own from the hob up, built ([D276](06-decisions.md)): goblins' Spite, the wolves' Howl, the slime's Ooze Back. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
-5. **Bodies that stay** after a fight, searched for loot.
+5. **Bodies that stay** after a fight, searched for loot. **Built** ([D352](06-decisions.md)) for bands beaten on
+   the land: the fallen lie ahead of the party to walk up to and search (coin, sometimes a piece to carry);
+   drawn as a cache until art A63. The bodies of a gate's or the Tower's floors are **planned**.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
    an icon beside each item (art from PixelLab).
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
