@@ -44,6 +44,7 @@ const LandJournals := preload("res://src/chronicle/land_journals.gd")
 const Remembered := preload("res://src/chronicle/remembered.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const Sellswords := preload("res://src/chronicle/sellswords.gd")
 const SkirmishRules := preload("res://src/skirmish/skirmish_rules.gd")
 
 const CELL := 24
@@ -737,6 +738,9 @@ func _settle_up(won: bool) -> void:
 					_note(line)
 				for line: String in Guild.on_gate_shut(world, site):
 					_note(line)
+				# A sellsword hired for a gate has done the job (D295).
+				for line: String in Sellswords.on_job(GameState.roster, "gate"):
+					_note(line)
 				# A gate is a seam between the sixteen worlds (D152): as it shuts, someone may be on the far side.
 				var crossing := Crossing.on_gate_shut(world, site)
 				if crossing != "":
@@ -763,6 +767,8 @@ func _settle_up(won: bool) -> void:
 				for line: String in FirstHour.put_out_a_light(world, world.tower_floor, company):
 					_note(line)
 				for line: String in Chapters.turn(world, world.tower_floor):
+					_note(line)
+				for line: String in Sellswords.on_job(GameState.roster, "chapter"):
 					_note(line)
 				# Once the whole fight is settled, not halfway through it.
 				EventBus.safe_point_reached.emit.call_deferred(

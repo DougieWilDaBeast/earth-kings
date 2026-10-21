@@ -110,6 +110,7 @@ func _ready() -> void:
 	_check_gate_band(world)
 	_check_wild_band(world)
 	_check_moods(world)
+	_check_moods_more(world)
 	_check_rumour_jobs(world, roster)
 	_check_play_test_eight(world, roster)
 	_check_nemesis(world)
@@ -401,6 +402,62 @@ func _check_moods(world: World) -> void:
 	_expect(away.is_empty() and roster.party.has(one.id), "%s never came back from sitting out" % one.display_name)
 	rules["break_chance"] = kept_chance
 	world.tower_floor = kept_floor
+	world.steps = kept_steps
+
+
+## Moods built on ([D347]): a friend marching beside them, a fall seen of somebody who was not a
+## friend, a friend gone their own way, a night's rest; and how they feel colours what they say.
+func _check_moods_more(world: World) -> void:
+	var roster := Company.found()
+	var flags := {}
+	var ledger := Ledger.fresh()
+	var away: Array = []
+	var kept_steps := world.steps
+	var party := roster.party_members()
+	var one: Character = party[1]
+	var two: Character = party[2]
+	var three: Character = party[3] if party.size() > 3 else party[0]
+	one.bonds[two.id] = 5
+	Moods.tick(world, roster, away, flags, ledger)
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var ids: Array = one.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(ids.has("with_friend"), "%s walked beside a friend and felt nothing: %s" % [one.display_name, str(ids)])
+	three.bonds.erase(two.id)
+	one.thoughts.clear()
+	three.thoughts.clear()
+	two.status = Fate.DEAD
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	ids = three.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(three == party[0] or ids.has("saw_fall"), "%s saw %s fall and felt nothing: %s" % [three.display_name, two.display_name, str(ids)])
+	ids = one.thoughts.map(func(t: Dictionary) -> String: return str(t["id"]))
+	_expect(ids.has("friend_fell") and not ids.has("saw_fall"), "%s grieved a friend as a stranger: %s" % [one.display_name, str(ids)])
+	two.status = Fate.ALIVE
+	one.thoughts.clear()
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	roster.let_go(two.id)
+	world.steps += 1
+	Moods.tick(world, roster, away, flags, ledger)
+	var parted: Array = one.thoughts.filter(func(t: Dictionary) -> bool: return t["id"] == "parted")
+	_expect(not parted.is_empty() and str(parted[0]["label"]).contains(two.display_name), "%s's friend went their own way unnoticed" % one.display_name)
+	Moods.rested(roster, world.steps)
+	_expect(one.thoughts.any(func(t: Dictionary) -> bool: return t["id"] == "rested"), "a night's rest did nothing for %s" % one.display_name)
+	one.thoughts.append({ "id": "test", "label": "test", "mood": -80, "until": world.steps + 1000 })
+	_expect(Moods.feeling(one) == "low", "%s at the end of their rope does not feel low" % one.display_name)
+	var heard := 0
+	var rng := RandomNumberGenerator.new()
+	for i in 60:
+		rng.seed = i
+		var said := Banter.between(world, one, roster.player(), Banter.ROAD, rng)
+		if not said.is_empty() and str(said[0]["speaker"]) == one.display_name:
+			for exchange: Dictionary in Database.banter.get("exchanges", []):
+				if str(exchange.get("feeling", "")) == "glad" and str(exchange["lines"][0]["text"]) == str(said[0]["text"]):
+					_expect(false, "%s, low, said a glad line: %s" % [one.display_name, said[0]["text"]])
+				if str(exchange.get("feeling", "")) == "low" and str(exchange["lines"][0]["text"]) == str(said[0]["text"]):
+					heard += 1
+	_expect(heard > 0, "%s, low, never said a low line in sixty tries" % one.display_name)
 	world.steps = kept_steps
 
 

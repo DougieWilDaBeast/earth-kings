@@ -106,6 +106,10 @@ var fights: Dictionary = {}
 ## Other character id -> fights won beside them ([D306]): a party that has fought together works
 ## as a unit, a little, even without a leader.
 var shared: Dictionary = {}
+## A sellsword's terms ([D295], [Sellswords]): `{ job, paid }`, the job they were hired for ("gate"
+## or "chapter") and what they were paid. Empty for everyone who walks with the company for its own
+## sake; a sellsword goes when the job is done.
+var contract: Dictionary = {}
 ## What they are carrying in their head ([D279], [Moods]): `{ id, label, mood, until }`, until a
 ## world step. Their sum and a base make their mood.
 var thoughts: Array = []
@@ -407,6 +411,7 @@ func to_dict() -> Dictionary:
 		"stance": stance,
 		"fights": fights,
 		"shared": shared,
+		"contract": contract,
 	}
 
 
@@ -466,6 +471,7 @@ static func from_dict(data: Dictionary) -> Character:
 		character.fights[key] = int(data["fights"][key])
 	for other_id: String in data.get("shared", {}):
 		character.shared[other_id] = int(data["shared"][other_id])
+	character.contract = (data.get("contract", {}) as Dictionary).duplicate()
 	for thought: Variant in data.get("thoughts", []):
 		if thought is Dictionary:
 			character.thoughts.append({

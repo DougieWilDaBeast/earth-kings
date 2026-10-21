@@ -82,9 +82,12 @@ static func tick(world: World, roster: Roster, away: Array, flags: Dictionary, l
 	for character: Character in roster.characters:
 		if character.status == Fate.DEAD:
 			fallen.append(character.id)
+	var here: Array = []
+	for character: Character in roster.characters:
+		here.append(character.id)
 	var current := {
 		"won": int(ledger.get("battles_won", 0)), "lost": int(ledger.get("battles_lost", 0)),
-		"floor": world.tower_floor, "gates": gates, "fallen": fallen,
+		"floor": world.tower_floor, "gates": gates, "fallen": fallen, "here": here, "names": _names(roster),
 	}
 	var seen: Variant = flags.get(SEEN)
 	flags[SEEN] = current
@@ -102,16 +105,65 @@ static func tick(world: World, roster: Roster, away: Array, flags: Dictionary, l
 			think(character, "shut_gate", now)
 		if current["floor"] > int(was.get("floor", 0)):
 			think(character, "climbed", now)
+		# A friend marching beside them ([D306]'s bonds), for as long as they do ([D347]).
+		for other: Character in party:
+			if other != character and _friends(character, other.id):
+				think(character, "with_friend", now, { "name": other.display_name })
+				break
 	for id: String in fallen:
 		if (was.get("fallen", []) as Array).has(id):
 			continue
 		var dead := roster.by_id(id)
+		var named := { "name": dead.display_name if dead != null else "a friend" }
 		for character: Character in roster.characters:
-			if character.status == Fate.ALIVE and character.id != id \
-					and int(character.bonds.get(id, 0)) >= int(rules().get("friend_bond", 3)):
-				think(character, "friend_fell", now, { "name": dead.display_name if dead != null else "a friend" })
+			if character.status != Fate.ALIVE or character.id == id:
+				continue
+			if _friends(character, id):
+				think(character, "friend_fell", now, named)
+			elif party.has(character):
+				# Somebody they were not close to, but they saw it ([D347]).
+				think(character, "saw_fall", now, named)
+	# A friend gone their own way: let go, or a sellsword whose job was done ([D347]).
+	for id: Variant in was.get("here", []):
+		if here.has(id) or fallen.has(id):
+			continue
+		for character: Character in roster.characters:
+			if character.status == Fate.ALIVE and _friends(character, str(id)):
+				think(character, "parted", now, { "name": str((was.get("names", {}) as Dictionary).get(id, "a friend")) })
 	lines.append_array(_breaks(world, roster, away, party))
 	return lines
+
+
+## A night's rest ([D347]): everyone marching is the better for it.
+static func rested(roster: Roster, now: int) -> void:
+	if roster == null:
+		return
+	for character: Character in roster.party_members():
+		if character.is_alive():
+			think(character, "rested", now)
+
+
+## Whether [param character] counts [param other_id] a friend: a bond of `friend_bond` or more.
+static func _friends(character: Character, other_id: String) -> bool:
+	return int(character.bonds.get(other_id, 0)) >= int(rules().get("friend_bond", 3))
+
+
+static func _names(roster: Roster) -> Dictionary:
+	var out := {}
+	for character: Character in roster.characters:
+		out[character.id] = character.display_name
+	return out
+
+
+## Whether [param character] is low (Low, or at the end of their rope) or glad (Content, or in good
+## heart): what colours what they say ([D347]). "" for steady.
+static func feeling(character: Character) -> String:
+	var id := str(band(character).get("id", "steady"))
+	if id in ["broken", "low"]:
+		return "low"
+	if id in ["content", "glad"]:
+		return "glad"
+	return ""
 
 
 ## Somebody at the end of their rope may walk off and sit it out. Never the lead, and never the

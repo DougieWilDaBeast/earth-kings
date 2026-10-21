@@ -394,7 +394,8 @@ each, each ending playable:
    comes `dougie`'s list (BR9), one at a time: **recruiting anyone** built ([D277](06-decisions.md): a Charisma
    check, and a no won round by their favour or a few fights), sending your own people out built ([D278](06-decisions.md):
    a band to shut a gate on the odds, open once a gate is shut; and to clear a wild place heard of, [D348](06-decisions.md)), moods built ([D279](06-decisions.md): thoughts that
-   make a mood, which nudges a fight), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
+   make a mood, which nudges a fight; deeper since [D347](06-decisions.md): a friend beside them, a fall seen,
+   a friend gone, rest and care, the mood on each card and in what they say), crafting built ([D280](06-decisions.md): herbs mixed into draughts, a smith's
    edge on a weapon), caves built ([D282](06-decisions.md): a mouth on some hills, a gate-like floor behind it), then
    heights (**planned**).
 31. **Fights on the ground are dangerous, and they turn** — built ([D272](06-decisions.md), call BQ, 2026-10-19,
@@ -500,7 +501,10 @@ each, each ending playable:
       the floors' 3D look, gear seen on the floor and on fighters (art). The grown floors stay; hand-laid floors
       with keepsakes and chapter threes come later as their own piece ([D323](06-decisions.md)).
    G. Your guild, companies of your own, the 32, a tavern and mercenaries, after the founders answer
-      question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384).
+      question 45 ([D294](06-decisions.md), [D295](06-decisions.md), #383; the questions #384). Built ahead of it
+      ([D345](06-decisions.md), 2026-10-21): sellswords for coin off the Gilded Flagon's book, who go when the
+      job is done, and the Flagon as where the roaming leads are met. The tavern on your own land and the
+      four new people of the 32 wait on G and the writers.
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
