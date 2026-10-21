@@ -410,6 +410,10 @@ func _draw_sent(world: World) -> void:
 		if face != null:
 			var tall := ring * 2.4
 			draw_texture_rect(face, Rect2(at - Vector2(tall * 0.5, tall * 0.7), Vector2(tall, tall)), false)
+		# How far off and how long until they are back, beside them ([D326]).
+		var words := Dispatch.reading_words(job, world)
+		if words != "":
+			_label_plain(words, at + Vector2(ring + 4.0, 4.0), 10, SENT.lightened(0.4))
 
 
 func _pin_head(cell: Vector2i) -> Vector2:
@@ -470,6 +474,9 @@ func _site_art(site: Site) -> Texture2D:
 		path = Faction.hold_art(str(site.data.get("faction", "")))
 	elif bool(site.data.get("city", false)):
 		path = Site.CITY_ART
+	elif site.kind == Site.WILD:
+		# A hamlet or a caravan is drawn as one, not as a standing stone (D333).
+		path = str(Database.area(str(site.data.get("area", ""))).get("map_art", ""))
 	if path == "":
 		path = str(Site.ART.get(site.kind, ""))
 	if path == "":

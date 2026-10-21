@@ -529,13 +529,24 @@ the seed the lands and the ground inside each tile are drawn from. How to change
 run's seed still deals, is [27](27-the-world.md).
 
 Sites of kind `wild` (D309) are the wild places worth going to, written by `tools/place_wilds.py`
-(twelve, each on its own kind of ground, five tiles clear of any place and twelve of each other,
+(twelve, then two cloud peaks and six hamlets, each on its own kind of ground, five tiles clear of any place and twelve of each other,
 `data.area` the inside); every other site is left as it is. Each wild area's file carries a `lure`,
 what it holds in a host's words. `world_rules.json` → `wilds`: `rumour_chance` at rest in a village or
 a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the days said, `rumour_line`
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
 `src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
 (`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
+**Hamlets** (D333) are wild sites too, dealt last by the same tool (`hamlet_fold` on grass, `hamlet_mill` on
+forest and brush, `hamlet_salt` on sand, two of each, 24 tiles or more from the crater): a few crofts with
+folk, one who sells and one with a `job`. A wild area may carry its own `found_line` and `guard_label` (its
+trouble, where the guard stands, "{what} at the fold"), and a `map_art` it is drawn with on the map in place
+of the standing stone. An area with a `lure` is stocked with its guard whatever its id.
+**Caravans** (D334, `caravan_ilse`, `caravan_red`) are wild sites whose `data.caravan` is their round:
+`route` (town cells), `leg` (the town it is bound for) and `rest` (upkeeps it still stands). They have no
+chest, so no guard and no job to clear them (`Wilds.guarded`). `world_rules.json` → `caravans`:
+`tiles_per_upkeep` rolled on an upkeep by the party's way (looked for no further than `longest`), never
+within `clear_of_sites` of another place or `party_clear` of the party, nor while the party is that close;
+within `stand_off` of the town it stands `rest_upkeeps`, then sets off for the next (`src/chronicle/caravans.gd`).
 `errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
 wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
 the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is
@@ -706,7 +717,8 @@ keeps `grudges`: faction id -> bands beaten.
 
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
 average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
-pictures each is drawn from. A bird takes off when the party comes within `shy_cells`, flies
+pictures each is drawn from, unless the land's own `life_art` in `biomes.json` names them for that kind
+(D336: none where it names none, so no grasshopper in the ash). A bird takes off when the party comes within `shy_cells`, flies
 `flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
 to land is gone `away_seconds`. A bird that has stood a while goes up on a loop of its own on
 `wander_flight` of its rests, `wander_cells` [min, max] cells, and comes down where it can stand
@@ -717,9 +729,17 @@ block, above). `climbers` ([D215](06-decisions.md)): on `road_chance` of the roa
 is not walking, a company of `size` [min, max] (bodies from `units`, named one of `companies`)
 walks the road there and back, the first of them saying one of `lines` at each end, and talks
 (`talk`); `on_the_floors`, from floor `from` at `chance`, a company rests by a Tower floor's stair
-and talks (`talk`). A company within `join_cells` of a fight joins it ([D246](06-decisions.md)); with
+and talks. A company within `join_cells` of a fight joins it ([D246](06-decisions.md)); with
 `on_the_floors.join_anywhere` one resting on a floor joins a fight anywhere on that floor
-([D259](06-decisions.md)). Read by `src/area/area_critter.gd` and `src/area/area_scene.gd`.
+([D259](06-decisions.md)). How each company talks ([D341](06-decisions.md), `src/chronicle/company_talk.gd`):
+`voices` has one entry per company with its `hello` (on the road), `floor_hello` (resting on a floor),
+`shared_hello` (climbing a shared floor), its answers to the three questions anyone asks (`who`, `up` on
+the road, `up_here` on a floor, `advice`), `own` (two `{ q, a }` only it is asked) and `bye` / `floor_bye`;
+the party words the three from `wording` and takes its leave with one of `leave`; `place_asks` of `asks.road`,
+`asks.floor` or `asks.shared` (each `{ q, a }`, a floor's kept to `from`..`to`) come up too, drawn the same
+way each time the company is met in the same place. `{floor}` and `{next}` are the floor and the one above. A
+company without a voice talks as `talk` (road) or `on_the_floors.talk`. Read by `src/area/area_critter.gd`
+and `src/area/area_scene.gd`.
 
 ## `world_rules.json` → `first_hour` — the cut list (D97)
 
@@ -767,6 +787,14 @@ passive's (`data/skirmish.json` → `passives`): theirs while they carry that we
 `max_passives` (`Character.enchanted`: weapon id → rune id, one a weapon). `enchanted_line` says it, and
 `replaced_line` when a new rune takes an old one's place.
 
+## `world_rules.json` → `herbs_on_land` — what the land grows wild (D335)
+
+About `per_tile` patches a tile of open land (none round a place), each one of what its land grows
+(`by_land`: land id → item ids; a land not named grows none), off the paths, the water and anything
+standing. `herbs` gives each item its `art`, `name`, `line` (said as it is picked) and `spent_line`.
+Laid by their own roll in `GroundGen._herbs`, so nothing else on the ground moves; a patch is a prop with
+an `item`, picked once a run into the packs.
+
 ## `world_rules.json` → `moods` — how each of the company feels (D279)
 
 `base` plus every thought carried is a mood (`Character.mood()`). `thoughts` are keyed by id: `label`
@@ -775,6 +803,16 @@ and `by_group` (worth by temper group NT, NF, SJ, SP). `src/chronicle/moods.gd` 
 from what changed: `won_fight`, `lost_fight`, `shut_gate`, `climbed`, `friend_fell` (a bond of
 `friend_bond` or more; `{name}` is the fallen). `bands` (by `below`) name the mood and add to `attack` and
 `defense`; under `break_below`, on `break_chance` a step, one walks off for `break_steps` (`break_line`).
+
+## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
+
+`on`; `hold`, the seconds the middle button is held still before the ring opens round the pointer (a
+press that moves first is the camera's drag); `walking`, the choices on the land, and `fighting`, while a
+fight is on, each `{ "id", "label" }`. Ids: `eat` (on the land the worst hurt eats the least food that
+mends them, a draught when there is no food; in a fight the picked fighter, or the worst hurt, takes the
+least in the pouch, food first), `party`, `send` (the party screen's mission page on the first who could
+go), `formation` (the next shape), `map`, `journal`, `auto`, and in a fight `stance` (the picked fighters'
+next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`).
 
 ## `world_rules.json` → `dispatch` — sending your own people out (D38, D278)
 
@@ -786,7 +824,8 @@ expected level) + `gate_per_hand` for each member past the first, kept between `
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
-a tile a step. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
+a tile a step. `Dispatch.reading` is how far a job is from the company and the steps until it is back
+(D326), said under the party's cards and beside its face on the map. Back there with the company elsewhere it says `crow_line` (`{names}`, `{place}`, and `{are}` / `{wait}` for one or many) and waits,
 `waiting`, until the company stands on that tile. `Dispatch.where_now` is where a job is on the land, for
 the map.
 
@@ -825,7 +864,7 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
-## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308, D321)
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up` and `ladders`, `world_rules.json` → `heights` (D287, D308, D321, D337)
 
 Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
 `_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
@@ -847,6 +886,23 @@ A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top
 `cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a
 body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
 `summit` (3) stand on the stone and snow sheets.
+`ladders` (D337) in an area's file are cells with a ladder against the face below (the author draws
+`landmark/ladder` on each, in house by `tools/draw_ladder.py` until A57): climbed up as far as
+`heights.ladder_most` (2), and taken onto the land with the place, like its `ways_up`. A company carrying
+`heights.rope_item` (the Climbing Rope, a charm; in the packs or worn) may step up any face one height
+(`AreaMap.scaling`, set as an area opens and again, with `rope_line`, the first time the lead walks at a
+face after getting one); a way found reads it too. Fights keep to slopes and ladders.
+
+## `world_rules.json` → `heights.land` — rises on the land (D332)
+
+Every generated ground (`GroundGen._lay_out`) gets `rises` lumps of higher ground on average, a land's
+`features.rises` in `biomes.json` winning, plus `on_terrain[<world terrain>]` more. Each is laid as the
+`^` symbol, cell `terrain` (`rise`: walkable, `height` 1, in `tilesets.json` `terrains`), by its own roll
+so nothing else moves; it keeps `margin` cells off the tile's edges and one cell off paths and water, and
+a tile with any gets the `sheet` overlay (`tools/draw_rises.py`) under its ways. Every piece of higher
+ground gets a way up (`GroundGen._slopes`): an edge cell with open ground in front, the south side first,
+a second from `second_slope_from` cells, `slope_art` drawn on it; the slot's `ways_up` lists them and
+`Land.hold` puts them on the land, where ways are found on `Land._held_steps` (one-way off a rise).
 
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
@@ -864,8 +920,10 @@ true of a grown floor); `props` carry the stair's two halves, four runes and two
 (`is_shared`) from `shared_from` every `shared_every` floors unless it is lived on: `company_with_you`
 gives `shared_size` of `life.climbers.units` at the party's level, named by `company_on` from
 `life.climbers.companies`, handed to the area scene as `allies`, who fight every fight on the floor beside
-the party; `shared_line` (`{company}`) is said on the way up. A floor is lived on (`is_living`) from
-`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words,
+the party; `shared_line` (`{company}`) is said on the way up, and two of the company wait by the way in to
+talk in its voice (`life.climbers.voices`, [D341](06-decisions.md)). A floor is lived on (`is_living`) from
+`living_from` every `living_every` floors: `living_size` people by the way in, `living_talk` their words
+(those past the host and the trader also asked `pool_shown` of its `pool`, the same each time),
 `living_line` said on the way up. `living_host` and `living_trader` (D317) are the first two's words and
 `name`: the host's `heal` rests the whole company for its `price` (Talk's mend), the trader's `sells` are
 restocked wares priced by `TowerFloors` at the Market's price times `markup`.
@@ -1268,9 +1326,10 @@ in front, that many pixels a slot (`AreaWatch._deal_the_shape`, `slot_point`), t
 
 The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
 anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
+`charisma_lift` how many wins behind the most won a higher Charisma still leads from (D338; Charisma breaks a tie),
 `shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
 `auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
-`callouts`: `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
+`callouts`: `order_reach` and `answer_for` (D339: the natural leader's call turns everyone free within that many cells onto the one called, for that long, `answered` in the log); `break_below_bond` (D339) is the bond with whoever calls the shape at or under which a companion holds no slot. `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
 a foe band's boss or first standing, once per foe, `skirmish._call_out`), `warned_for` the seconds the one
 named is warned (`Fighter.warned`), and `warned_first` the moves it tries first while it lasts; a warned
 friend counts as under half health to `SkirmishBrain._guard`. `break_below_mood`: under it a companion
@@ -1306,6 +1365,7 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
              "ambush_head_start": 2.0, "swings_per_practice": 3,
+             "hand_fight_speed": 2.0,
              "flee": { "parting_blow": 0.1, "gold_share": 0.1, "fade": 0.6, "cleared_word": "Clear",
                        "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
@@ -1344,7 +1404,10 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
   once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
 the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
 clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoever gets clear fades over
-`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `hand_fight_speed` (D329): the most a fight
+played by hand starts at (`Pace.ease_to`), the walking speed given back when it ends. `reach_the_fallen` (D326): with `on`, one of
+the company down with nobody on the way is gone to by the nearest member under no order and not busy
+(`line`, `{who}` and `{name}`); with `close_round`, the rest who are free turn on the foe nearest the fallen. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.

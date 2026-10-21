@@ -411,7 +411,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
    weapon a notch at a time; anyone still wields anything. Enchanting ([D327](06-decisions.md)): four runes from
-   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Forging from parts is **planned**.
+   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Herbs grow on the
+   land to pick, by what each land grows ([D335](06-decisions.md)). Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
    Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
@@ -423,7 +424,13 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat. Caves built
     ([D282](06-decisions.md)): a mouth on about three hill tiles in ten, a place of its own behind it with bands,
-    a keeper and a cache. Heights still **planned**.
+    a keeper and a cache. Heights built: the wind scarp's shelves ([D308](06-decisions.md)), the cloud peak
+    three heights up ([D321](06-decisions.md)), and rises of the land's own floor on every tile, a height up
+    with a rock face below, climbed only at a slope, more on hills and crag ([D332](06-decisions.md)). Ladders that
+    climb two heights, and a Climbing Rope that scales any face a height up ([D337](06-decisions.md)).
+    Six hamlets to come upon, a sheepfold, a mill and salt pans, each with folk who sell, a job and a trouble
+    ([D333](06-decisions.md)). Two caravans that walk between the towns, one selling the makings of runes
+    ([D334](06-decisions.md)).
 11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.
@@ -442,25 +449,33 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 
 What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
 that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
-11 now (held until milestone B is in); after B the 2× cap, 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
 ([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".
 2. **More to say**: the same four lines (who are you, have you been up the Tower, any advice, goodbye) on
-   everyone; far more for the people met in the Tower.
+   everyone; far more for the people met in the Tower. **Built** ([D341](06-decisions.md)): each of the seven
+   companies speaks in its own voice on the road, resting on a floor and climbing a shared floor beside the
+   party (which it now waits on, by the way in, to talk); the party asks its questions a few ways; two more
+   only that company is asked, and two drawn from where it is met and fitted to the floor; the folk living
+   on a floor have eight more things to say between them, the host and the trader two each.
 3. **A nemesis system** after Shadow of Mordor: people remember what you did, hold grudges or thanks, and
    some come for you. A first version is built and hidden for the First Hour ([D97](06-decisions.md):
    `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back).
-4. **Letting people go**: disband a companion so they go their own way in the world.
+4. **Letting people go**: disband a companion so they go their own way in the world. **Built** ([D326](06-decisions.md)):
+   Let go beside each card, asked once, gone from the roster.
 5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
 6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
-   instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)).
+   instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
+   ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
 7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
 8. **More buildings to go into** in the city; most doors are shut.
 9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
 10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
+    **Built** ([D326](06-decisions.md)): tiles off and steps to come, under the cards and beside its face on the map.
 11. **Getting the fallen up**: when one goes down, one of the rest goes to them while the others fight on,
-    and the formation closes round it.
+    and the formation closes round it. **Built** ([D326](06-decisions.md)): the nearest free member goes unasked, the rest
+    turn on the foe nearest the fallen.
 
 ### Gates that grow
 

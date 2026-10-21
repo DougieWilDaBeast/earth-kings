@@ -519,6 +519,31 @@ static func errand_for(accepted: Array, character_id: String) -> Dictionary:
 	return {}
 
 
+## How far off a job is and how long until it is back with the company or at its meeting place
+## ([D326], Ewan's play-test 8: "an indication of how far away and how long it will take"):
+## {"tiles": n, "steps": n}, steps -1 while it waits on something (a muster, the company).
+static func reading(job: Dictionary, world: World) -> Dictionary:
+	var at := where_now(job, world)
+	var tiles := Pathfinder.distance(at, world.player_cell) if at != Vector2i(-1, -1) else -1
+	var steps := maxi(0, int(job.get("back_at", 0)) - world.steps)
+	if bool(job.get("waiting", false)) or (bool(job.get("waits", false)) and bool(job.get("arrived", false))):
+		steps = -1
+	return {"tiles": tiles, "steps": steps}
+
+
+## The reading as a few words: "12 tiles off, back in about 20 steps".
+static func reading_words(job: Dictionary, world: World) -> String:
+	var read := reading(job, world)
+	var parts: Array[String] = []
+	if int(read["tiles"]) >= 0:
+		parts.append("here" if int(read["tiles"]) == 0 else "%d tile%s off" % [read["tiles"], "" if int(read["tiles"]) == 1 else "s"])
+	if int(read["steps"]) > 0:
+		parts.append("back in about %d step%s" % [read["steps"], "" if int(read["steps"]) == 1 else "s"])
+	elif int(read["steps"]) < 0:
+		parts.append("waiting")
+	return ", ".join(parts)
+
+
 ## One line for the party screen: who, where, how long.
 static func summary(job: Dictionary, roster: Roster, world: World) -> String:
 	var character := roster.by_id(str(job.get("id", "")))

@@ -26,6 +26,7 @@ const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Route := preload("res://src/world/route.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
+const Caravans := preload("res://src/chronicle/caravans.gd")
 
 var _failures: Array[String] = []
 
@@ -124,6 +125,50 @@ func _check_one_world() -> void:
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
 
 
+## Caravans ([D334]): wild places that walk. Each rolls on towards the next town of its round an upkeep
+## at a time, by the way a party would walk, stands outside a town a while, never rolls onto another
+## place or while the party is close, keeps its mark on the map as it goes, and has no guard, so no job.
+func _check_caravans(world: World) -> void:
+	var caravans := Caravans.all(world)
+	_expect(caravans.size() >= 2, "the map has %d caravans" % caravans.size())
+	if caravans.is_empty():
+		return
+	var kept_cell := world.player_cell
+	var kept: Array = caravans.map(func(c: Site) -> Dictionary: return { "cell": c.cell, "data": c.data.duplicate(true) })
+	var wagons: Site = caravans[0]
+	_expect(not Wilds.guarded(wagons) and RumourJobs.found_at_the_wild(world, wagons) == "", "a caravan is kept by a guard, or has a job to clear it")
+	# The party beside it: it does not move.
+	world.player_cell = wagons.cell + Vector2i(1, 0)
+	var before := wagons.cell
+	wagons.data["caravan"]["rest"] = 0
+	Caravans.roll(world, wagons)
+	_expect(wagons.cell == before, "a caravan rolled off from beside the party")
+	# The party far off: over some upkeeps it goes the round, town to town, and stays on the map.
+	world.player_cell = Vector2i(2, 2)
+	world.marked[Atlas._key(wagons.cell)] = true
+	var legs := {}
+	var moved := 0
+	var worst := 99
+	for i in 160:
+		var from := wagons.cell
+		if Caravans.roll(world, wagons):
+			moved += 1
+			_expect(Pathfinder.distance(from, wagons.cell) <= 2 * int(Caravans.rules().get("tiles_per_upkeep", 3)), "a caravan jumped from %s to %s" % [from, wagons.cell])
+		legs[int(wagons.data["caravan"]["leg"])] = true
+		for other: Site in world.sites:
+			if other != wagons:
+				worst = mini(worst, maxi(absi(other.cell.x - wagons.cell.x), absi(other.cell.y - wagons.cell.y)))
+	_expect(moved >= 10 and legs.size() >= 3, "a caravan moved %d times and went %d legs of its round" % [moved, legs.size()])
+	_expect(worst > int(Caravans.rules().get("clear_of_sites", 2)), "a caravan rolled within %d of another place" % worst)
+	_expect(Atlas.knows(world, wagons), "a caravan on the map fell off it as it rolled")
+	print("caravans: %d on the map; %s rolled %d times over %d legs, to %s" % [caravans.size(), wagons.display_name, moved, legs.size(), wagons.cell])
+	for i in caravans.size():
+		world.marked.erase(Atlas._key(caravans[i].cell))
+		caravans[i].cell = kept[i]["cell"]
+		caravans[i].data = kept[i]["data"]
+	world.player_cell = kept_cell
+
+
 ## Places worth going to ([D287], [D309]): a dozen wild places on the map, each on its own kind of ground
 ## with an inside and a lure, unknown until found or heard of at rest; the host's word marks the nearest.
 func _check_wilds(world: World) -> void:
@@ -136,11 +181,24 @@ func _check_wilds(world: World) -> void:
 		var area := str(place.data.get("area", ""))
 		_expect(Database.has_area(area) and str(Database.area(area).get("lure", "")) != "", "%s has no inside or no lure (%s)" % [place.display_name, area])
 		kinds[area] = true
+		# A caravan stands off the road outside a town (D334); everything else keeps its distance.
+		var apart := 3 if place.data.has("caravan") else 5
 		for other: Site in world.sites:
 			if other != place and other.kind != Site.WILD:
-				_expect(Pathfinder.distance(place.cell, other.cell) >= 5, "%s is on top of %s" % [place.display_name, other.display_name])
+				_expect(Pathfinder.distance(place.cell, other.cell) >= apart, "%s is on top of %s" % [place.display_name, other.display_name])
 		_expect(not Atlas.knows(world, place), "%s is known before anyone found it" % place.display_name)
 	_expect(kinds.size() >= 4, "the wild places are only %d kinds" % kinds.size())
+	# Hamlets (D333): a few crofts each, with folk who sell, one with a job, a trouble to clear (the
+	# guard, under the hamlet's own name for it), drawn on the map as houses, not as a stone.
+	for area: String in ["hamlet_fold", "hamlet_mill", "hamlet_salt"]:
+		_expect(kinds.has(area), "no %s on the map" % area)
+		var inside := Database.area(area)
+		var sells := (inside.get("people", []) as Array).filter(func(p: Dictionary) -> bool: return p.get("talk", {}).has("sells"))
+		var jobs := (inside.get("people", []) as Array).filter(func(p: Dictionary) -> bool: return p.get("talk", {}).has("job"))
+		_expect(not sells.is_empty() and not jobs.is_empty(), "%s has nobody selling or nobody with a job" % area)
+		_expect(str(inside.get("found_line", "")) != "" and str(inside.get("guard_label", "")).contains("{what}"), "%s has no found line or no name for its trouble" % area)
+		_expect(ResourceLoader.exists(str(inside.get("map_art", ""))), "%s is drawn with no picture on the map" % area)
+	_check_caravans(world)
 	# Heard of at rest: the nearest unknown is marked and named with its lure.
 	var village: Site = world.sites_of_kind(Site.VILLAGE)[0]
 	var nearest := Wilds.nearest_unknown(world, village.cell, 200)

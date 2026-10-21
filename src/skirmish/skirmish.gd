@@ -199,12 +199,15 @@ func _ready() -> void:
 	conditions = SkirmishConditions.new(self)
 	_build_battlefield()
 	ground_fight = in_place and not sandbox and not bout and str(encounter.get("kind", "")) == Encounter.WILD
+	if not sandbox and not bout and not Pace.auto:
+		Pace.ease_to(SkirmishPassives.rule("hand_fight_speed", 2.0))
 	_fill_pouch()
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
 	EventBus.unit_healed.connect(_on_unit_healed)
 	EventBus.levelled_up.connect(_on_levelled_up)
 	Pace.changed.connect(_on_pace_changed)
+	EventBus.quick_wheel_chose.connect(_on_wheel)
 	hud.setup(self)
 	hud.card_clicked.connect(_on_card_clicked)
 	hud.stance_clicked.connect(_on_stance_clicked)
@@ -248,8 +251,11 @@ func _lineup() -> String:
 
 func _exit_tree() -> void:
 	GameState.tallying = _kept_tallying
+	Pace.ease_back()
 	if Pace.changed.is_connected(_on_pace_changed):
 		Pace.changed.disconnect(_on_pace_changed)
+	if EventBus.quick_wheel_chose.is_connected(_on_wheel):
+		EventBus.quick_wheel_chose.disconnect(_on_wheel)
 
 
 ## Autoplay is switched from more places than this screen — the touch bar, a
@@ -540,7 +546,7 @@ func _ground_field() -> Dictionary:
 			for x in size.x:
 				var cell := origin + Vector2i(x, y)
 				row += str(clampi(ground.height_at(cell), 0, 9))
-				if ground.ways_up.has(cell):
+				if ground.ways_up.has(cell) or ground.ladders.has(cell):
 					ways.append([x, y])
 				if ground.is_cloud(cell):
 					clouds.append([x, y])
@@ -893,6 +899,7 @@ func tick() -> void:
 	sim_time += SkirmishRules.TICK
 	for f in fighters:
 		_tick_fighter(f)
+	_reach_the_fallen()
 	signatures.flush()
 	if in_place:
 		_see_who_got_clear()
@@ -940,6 +947,7 @@ func _tick_fighter(f: Fighter) -> void:
 	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
 	f.warned = maxf(0.0, f.warned - SkirmishRules.TICK)
+	f.answering = maxf(0.0, f.answering - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 	conditions.tick(f)
@@ -1022,6 +1030,9 @@ func _think(f: Fighter) -> bool:
 			if (Pace.auto or f.stance_says("seek")) and not f.holding():
 				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
+		# A call answered holds while it lasts and the one called stands (D339).
+		if f.answering > 0.0 and f.called_on != null and is_standing(f.called_on):
+			f.target = f.called_on
 		# The company fights together: once one of them is in it, the rest
 		# come, unless told to hold.
 		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
@@ -1048,6 +1059,16 @@ func _call_out(f: Fighter) -> void:
 	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
 	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
 	_say("%s: \"%s\"" % [f.unit.display_name, word])
+	# A call is an order (D339): the company free to turn on the one called does.
+	var turned: Array = []
+	for other: Fighter in Formations.answer_call(f, target, fighters):
+		other.target = target.unit
+		other.called_on = target.unit
+		other.answering = float(Formations.callout_rules().get("answer_for", 4.0))
+		turned.append(other.unit.display_name)
+	if not turned.is_empty():
+		_say(str(Formations.callout_rules().get("answered", "{names} turn on {target}.")).format(
+				{ "names": " and ".join(turned), "target": target.unit.display_name }))
 
 
 func _party_engaged() -> bool:
@@ -1382,6 +1403,63 @@ func _pursue_aid(f: Fighter) -> void:
 	var at := patient.unit.cell
 	if not _step_towards(f, func(c: Vector2i) -> bool: return Pathfinder.distance(c, at) == 1):
 		f.clear_order()
+
+
+## The fallen reached first ([D326], Ewan's play-test 8: "someone to prioritise getting them back
+## up while the other ones fight"): one of the company down with nobody on the way to them, the
+## nearest who is free (standing, under no order of the player's, not busy) goes to them, and the
+## rest who are free turn on whatever is nearest the fallen, so the company closes round them.
+func _reach_the_fallen() -> void:
+	var rules: Dictionary = SkirmishRules.reach_rules()
+	if not bool(rules.get("on", false)) or bout:
+		return
+	for patient: Fighter in party_fighters():
+		if not patient.is_downed() or _on_the_way_to(patient):
+			continue
+		var nearest: Fighter = null
+		var best := 1 << 30
+		for f: Fighter in party_fighters():
+			if f == patient or not _free_to_reach(f):
+				continue
+			var d := Pathfinder.distance(f.unit.cell, patient.unit.cell)
+			if d < best:
+				best = d
+				nearest = f
+		if nearest == null:
+			continue
+		order_aid(nearest, patient.unit)
+		_say(str(rules.get("line", "{who} goes to {name}.")).format(
+				{"who": nearest.unit.display_name, "name": patient.unit.display_name}))
+		if bool(rules.get("close_round", true)):
+			var threat := _foe_nearest(patient.unit.cell)
+			if threat != null:
+				for f: Fighter in party_fighters():
+					if f != nearest and _free_to_reach(f) and not f.holding():
+						f.target = threat.unit
+
+
+func _on_the_way_to(patient: Fighter) -> bool:
+	return party_fighters().any(func(f: Fighter) -> bool:
+		return f.is_standing() and f.order == Fighter.Order.AID and f.order_target == patient.unit)
+
+
+## Standing, under no order of the player's, and not in the middle of something.
+func _free_to_reach(f: Fighter) -> bool:
+	return f.is_standing() and f.order == Fighter.Order.NONE and f.aboard == null \
+			and not f.is_using() and not f.is_casting() and not f.is_stunned() and f.aiding <= 0.0
+
+
+func _foe_nearest(cell: Vector2i) -> Fighter:
+	var nearest: Fighter = null
+	var best := 1 << 30
+	for f: Fighter in fighters:
+		if f.unit.sides_with_party() or not f.is_standing():
+			continue
+		var d := Pathfinder.distance(f.unit.cell, cell)
+		if d < best:
+			best = d
+			nearest = f
+	return nearest
 
 
 func _keep_aiding(f: Fighter) -> void:
@@ -2448,6 +2526,37 @@ func set_stance(f: Fighter, stance: String) -> void:
 
 
 ## A click on the stance on a card: that fighter takes up the next one.
+## The quick wheel in a fight ([D326]): "stance" moves whoever is picked to their next stance;
+## "eat" has the one picked (or the worst hurt) take the least food in the pouch that mends them.
+func _on_wheel(id: String) -> void:
+	if over:
+		return
+	match id:
+		"stance":
+			var all := Fighter.stances()
+			for f: Fighter in selected:
+				if f.is_standing():
+					set_stance(f, all[(all.find(f.stance) + 1) % all.size()])
+			hud.refresh()
+		"eat":
+			var who: Fighter = selected[0] if not selected.is_empty() else null
+			if who == null:
+				for f: Fighter in party_fighters():
+					if f.is_standing() and (who == null or _share_left(f) < _share_left(who)):
+						who = f
+			if who == null:
+				return
+			var food: Array = pouch.keys().filter(func(item: String) -> bool:
+					return item_refusal(who, item) == "" and Gear.taken(item) == "eat")
+			var any: Array = pouch.keys().filter(func(item: String) -> bool: return item_refusal(who, item) == "")
+			var pick: Array = food if not food.is_empty() else any
+			if pick.is_empty():
+				_say("%s has nothing to eat or drink that would help." % who.unit.display_name)
+				return
+			pick.sort_custom(func(a: String, b: String) -> bool: return Gear.mends(a) < Gear.mends(b))
+			use_item(who, str(pick[0]))
+
+
 func _on_stance_clicked(index: int) -> void:
 	var party := party_fighters()
 	if index >= party.size() or not party[index].is_standing():

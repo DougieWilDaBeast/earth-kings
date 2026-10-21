@@ -17,12 +17,13 @@ extends RefCounted
 ## From `tower.grown.from` up ([D290], [D307]) a floor is laid out here at the climb instead: a run of
 ## chambers in the Tower's own stone, the higher the bigger, with a band of the floor's own in every
 ## chamber but the first ([method ensure_grown]); every third floor from 12 is shared with another
-## company who fight beside the party ([method company_with_you]), and from 25 every fifth has people
-## living by the stair.
+## company who fight beside the party ([method company_with_you]) and wait by the way in to talk, and from
+## 25 every fifth has people living by the stair.
 ##
 ## Loaded by path, not by `class_name` ([D41]).
 
 const Chapters := preload("res://src/chronicle/chapters.gd")
+const CompanyTalk := preload("res://src/chronicle/company_talk.gd")
 
 const SLAB := "s"
 const RUNNER := "f"
@@ -289,9 +290,27 @@ static func layout(world: World, floor: int) -> Dictionary:
 						priced["price"] = maxi(1, roundi(float(Market.price_of(str(priced.get("item", "")))) * markup))
 					wares.append(priced)
 				talk["sells"] = wares
+			else:
+				# The rest have more to say than the two questions ([CompanyTalk.drawn]).
+				talk = talk.duplicate(true)
+				var said := RandomNumberGenerator.new()
+				said.seed = hash([world.world_seed, "floor folk", floor, people.size()])
+				(talk["ask"] as Array).append_array(CompanyTalk.drawn(talk.get("pool", []), int(talk.get("pool_shown", 2)), said))
 			people.append({
 				"name": str(talk.get("name", company)), "unit": str(units[rng.randi() % units.size()]), "cell": [at.x, at.y],
 				"facing": [0, 1], "_area": "floor_folk", "talk": talk,
+			})
+	# The company climbing a shared floor, waiting by the way in to go up with the party ([CompanyTalk]).
+	if is_shared(floor) and not is_living(floor):
+		var units: Array = Database.world_rules.get("life", {}).get("climbers", {}).get("units", ["keep_watchman"])
+		var company := company_on(world, floor)
+		var talk := CompanyTalk.block(company, CompanyTalk.SHARED, floor, world.world_seed)
+		for at: Vector2i in [Vector2i(door.x - 2, height - 3), Vector2i(door.x + 2, height - 3)]:
+			if at.x <= 0 or at.x >= width - 1 or grid[at.y][at.x] == WALL:
+				continue
+			people.append({
+				"name": company, "unit": str(units[absi(hash([world.world_seed, floor, at])) % units.size()]),
+				"cell": [at.x, at.y], "facing": [0, -1], "_area": "shared_company", "talk": talk,
 			})
 	return {
 		"display_name": "floor %d of the Tower" % floor,

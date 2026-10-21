@@ -48,6 +48,7 @@ const Remembered := preload("res://src/chronicle/remembered.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
+const CompanyTalk := preload("res://src/chronicle/company_talk.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Caves := preload("res://src/chronicle/caves.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
@@ -324,12 +325,14 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
+	# A rope carried makes any face a height up a way up ([D337]).
+	map.set_scaling(_carries_rope())
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
 	# A wild place is guarded by the land's own creatures ([D309]).
-	elif map.id.begins_with("wild_") and GameState.world != null:
+	elif (map.id.begins_with("wild_") or Database.area(map.id).has("lure")) and GameState.world != null:
 		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
@@ -493,7 +496,16 @@ func _land_hint() -> String:
 
 ## One tile's ground, in a node of its own so it can be let go of with the tile.
 func _paint_tile(tile: Vector2i) -> void:
-	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), _ground_node(tile))
+	var land := map as Land
+	var under := _ground_node(tile)
+	GroundPainter.paint_patches(map, land.patches_of(tile), under)
+	# The edges of the land's rises ([D332]), over the tile's ground.
+	if bool(land.chunks.get(tile, {}).get("_heights", false)):
+		var ledges := AreaLedges.new()
+		ledges.name = "Ledges"
+		ledges.map = map
+		ledges.cells = land.slot_rect(tile)
+		under.add_child(ledges)
 
 
 ## The node [param tile]'s ground is painted into, under the bands' watched ground.
@@ -563,8 +575,10 @@ func _life_for(tile: Vector2i) -> Array[Dictionary]:
 	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
 	var area := land.slot_rect(tile)
 	var per_tile: Dictionary = rules.get("per_tile", {})
+	# Creatures that match the land (D336): a land's own pictures for each kind, none where it gives none.
+	var own: Dictionary = Biome.data(str(chunk.get("land", ""))).get("life_art", {})
 	for kind: String in ["bird", "flutter", "hop", "crawl"]:
-		var arts: Array = rules.get("art", {}).get(kind, [])
+		var arts: Array = own.get(kind, rules.get("art", {}).get(kind, []))
 		if arts.is_empty():
 			continue
 		var mean := float(per_tile.get(kind, 0.0)) * share
@@ -642,7 +656,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 
 ## Other companies on their way to the Tower ([D215], play-test 4: "other people trying to climb
 ## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
-## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
+## and will talk, each company in its own voice ([CompanyTalk]). Not on a tile the Watch is walking.
 func _admit_the_climbers(tile: Vector2i) -> void:
 	var land := map as Land
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
@@ -687,7 +701,7 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "climbers",
-			"talk": rules.get("talk", {}),
+			"talk": CompanyTalk.block(company, CompanyTalk.ROAD, 0, [tile.x, tile.y]),
 			"rounds": [
 				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
 				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
@@ -737,7 +751,8 @@ var _climbers_rest_at: Array[Vector2i] = []
 
 
 ## Another company resting on a Tower floor, by the stair up ([D215]): they got here first, and will
-## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
+## talk, in their company's voice and of the floor they are on ([CompanyTalk]). Floor 1 is never anyone's
+## but the party's.
 func _admit_climbers_to_the_floor() -> void:
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
 	var floors: Dictionary = rules.get("on_the_floors", {})
@@ -777,7 +792,7 @@ func _admit_climbers_to_the_floor() -> void:
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
-			"talk": floors.get("talk", {}),
+			"talk": CompanyTalk.block(company, CompanyTalk.FLOOR, _tower_floor, GameState.world.world_seed),
 		})
 
 
@@ -2579,10 +2594,26 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 		return
 	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
 		return
+	# A rope bought or picked up since the party came in is a rope all the same ([D337]).
+	if not map.scaling and _carries_rope():
+		map.set_scaling(true)
+		_note(str(Database.world_rules.get("heights", {}).get("rope_line", "The rope goes over the edge.")))
+		return
 	if _ledges_said.has(ahead):
 		return
 	_ledges_said[ahead] = true
 	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
+
+
+## Whether the company carries a climbing rope ([D337]): in the packs, or worn by any of them.
+func _carries_rope() -> bool:
+	var rope := str(Database.world_rules.get("heights", {}).get("rope_item", "climbing_rope"))
+	if GameState.stores.has(rope):
+		return true
+	for character: Character in GameState.party_characters():
+		if character.charms.has(rope):
+			return true
+	return false
 
 
 func _can_stand(point: Vector2) -> bool:
@@ -2739,7 +2770,9 @@ func _formation_slots() -> Dictionary:
 	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
 	for i in companions.size():
 		# One in no state to hold a formation walks the trail instead ([D306]).
-		if dealt.has(companions[i]) and not Formations.broken(members[i + 1]):
+		# Nor one who has no trust in whoever calls the shape (D339).
+		var caller: Character = Formations.leader_of(members) if Formations.leader_of(members) != null else members[0]
+		if dealt.has(companions[i]) and not Formations.broken(members[i + 1], caller):
 			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
 	return out
 

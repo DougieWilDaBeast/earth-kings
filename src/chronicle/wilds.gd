@@ -67,12 +67,19 @@ static func found(world: World, site: Site) -> String:
 	site.data["found"] = true
 	Atlas.mark(world, site)
 	Annals.record(world, "%s was found, %s." % [site.display_name.capitalize(), lure_of(site)])
-	return str(rules().get("found_line", "{wild}.")).format({ "wild": site.display_name.capitalize(), "lure": lure_of(site) })
+	var said := str(Database.area(str(site.data.get("area", ""))).get("found_line", rules().get("found_line", "{wild}.")))
+	return said.format({ "wild": site.display_name.capitalize(), "lure": lure_of(site) })
 
 
 ## The flag the guard of [param site] sets when beaten: the key `stock` gives it, as a done flag.
 static func guard_flag(site: Site) -> String:
 	return "done:wild_guard_%s_%d_%d" % [str(site.data.get("area", "")), site.cell.x, site.cell.y]
+
+
+## Whether [param site] is kept by a guard at all: a wild with no chest (a caravan, [D334]) has none,
+## so no job is posted or taken to clear it.
+static func guarded(site: Site) -> bool:
+	return site != null and not (Database.area(str(site.data.get("area", ""))).get("chests", []) as Array).is_empty()
 
 
 ## Whether the guard of [param site] has been beaten this run.
@@ -125,7 +132,7 @@ static func stock(map: AreaMap, world: World, cell: Vector2i, party: Array, band
 	var out := bands.duplicate()
 	out.append({
 		"key": key, "pack": pack, "level": level,
-		"label": str(r.get("guard_label", "{what} of {land}")).format({ "what": what, "land": Biome.display_name(land).to_lower() }),
+		"label": str(Database.area(map.id).get("guard_label", r.get("guard_label", "{what} of {land}"))).format({ "what": what, "land": Biome.display_name(land).to_lower() }),
 		"faction": "", "at": [at.x, at.y], "reach": int(r.get("guard_reach", 3)), "held": true,
 		"requires_not": "done:%s" % key, "done_flag": "done:%s" % key,
 	})

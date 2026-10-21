@@ -49,6 +49,8 @@ signal party_screen_requested
 signal growth_choice_requested(character: RefCounted)
 ## Ask the always-present journal to open.
 signal journal_requested
+## A choice taken on the quick wheel ([D326]): "eat", "stance", "party", "send", "formation" and so on.
+signal quick_wheel_chose(id: String)
 ## The journal's Map was pressed: whichever ground the party is on opens the
 ## continent as a map, and comes back to the same spot when it is put away.
 signal map_requested
