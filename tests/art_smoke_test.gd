@@ -51,6 +51,7 @@ func _ready() -> void:
 	DirAccess.remove_absolute(zip_path)
 	viewer.free()
 	_check_moves()
+	_check_art_slots()
 	_finish()
 
 
@@ -120,6 +121,36 @@ func _remove(folder: String) -> void:
 func _expect(condition: bool, message: String) -> void:
 	if not condition:
 		_failures.append(message)
+
+
+## The art still to be made has somewhere to land ([D344], `data/art_slots.json`): every request
+## open in docs/24 from A51 has a slot, every file a size and a place under art/, every prop a size
+## of its own in props.json, and every weapon kind a held picture the fighters read.
+func _check_art_slots() -> void:
+	var slots: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/art_slots.json"))
+	_expect(slots is Dictionary and slots.has("requests"), "data/art_slots.json does not read")
+	if not slots is Dictionary:
+		return
+	var requests: Dictionary = slots["requests"]
+	for id: String in ["A51", "A52", "A53", "A54", "A55", "A56", "A57", "A58", "A59", "A60", "A61"]:
+		_expect(requests.has(id), "art slots: no slot for %s" % id)
+	var files := 0
+	for id: String in requests:
+		_expect(str(requests[id].get("shows", "")) != "", "art slots: %s does not say where it shows" % id)
+		for entry: Dictionary in requests[id].get("files", []):
+			var names: Array = entry.get("each", [""])
+			for each: String in names:
+				var to := str(entry.get("to", "")).replace("{each}", each)
+				files += 1
+				_expect(to.begins_with("art/"), "art slots: %s lands outside art/: %s" % [id, to])
+				_expect(entry.has("size") and (entry["size"] as Array).size() == 2, "art slots: %s's %s has no size" % [id, to])
+				if to.begins_with("art/props/") and to.ends_with(".png") and bool(entry.get("prop", true)):
+					var art_id := to.trim_prefix("art/props/").trim_suffix(".png")
+					_expect(Database.props.get("art", {}).has(art_id), "art slots: %s has no size in props.json" % art_id)
+	var held: Dictionary = Database.skirmish.get("held", {})
+	for kind: String in ["blade", "spear", "bow", "staff", "axe", "hammer"]:
+		_expect(str(held.get(kind, {}).get("sprite_dir", "")).begins_with("res://art/units/held/"), "art slots: no held picture for a %s" % kind)
+	print("art slots: %d requests, %d files, each with a size and a place to land" % [requests.size(), files])
 
 
 func _finish() -> void:

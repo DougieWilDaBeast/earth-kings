@@ -157,7 +157,7 @@
 			],
 			"tint": "#d8e4f2",
 			"life": 0.3,
-			"life_art": {"bird": ["nature/sparrow", "nature/white_dove"], "flutter": [], "hop": [], "crawl": []},
+			"life_art": {"bird": ["nature/sparrow", "nature/white_dove"], "flutter": [], "hop": ["nature/snow_hare"], "crawl": []},
 			"line": "Snow to the knee, and the cold gets in everywhere.",
 			"props": {
 				"trees": [
@@ -215,7 +215,7 @@
 			],
 			"tint": "#f3dcb0",
 			"life": 0.4,
-			"life_art": {"bird": ["nature/sparrow"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider"]},
+			"life_art": {"bird": ["nature/sparrow"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider", "nature/lizard"]},
 			"line": "Sand, heat, and nothing to hide behind.",
 			"props": {
 				"trees": [],
@@ -272,7 +272,7 @@
 			],
 			"tint": "#f0b890",
 			"life": 0.4,
-			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider"]},
+			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2"], "flutter": [], "hop": ["nature/grasshopper"], "crawl": ["nature/spider", "nature/lizard"]},
 			"line": "Red rock cut into canyons by water long gone.",
 			"props": {
 				"trees": [],
@@ -377,7 +377,7 @@
 			],
 			"tint": "#b8a8a0",
 			"life": 0.1,
-			"life_art": {"bird": [], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
+			"life_art": {"bird": [], "flutter": [], "hop": [], "crawl": ["nature/spider", "nature/ember_beetle"]},
 			"line": "Ash falls like snow, and the ground is warm underfoot.",
 			"props": {
 				"trees": [
@@ -433,7 +433,7 @@
 			],
 			"tint": "#c890a8",
 			"life": 0.1,
-			"life_art": {"bird": [], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
+			"life_art": {"bird": ["nature/crow"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "The land here is sick, and it is spreading from the gate.",
 			"props": {
 				"trees": [
@@ -539,7 +539,7 @@
 			],
 			"tint": "#b0aa80",
 			"life": 0.8,
-			"life_art": {"bird": ["nature/irish_bird", "nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
+			"life_art": {"bird": ["nature/irish_bird", "nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": ["nature/frog"], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Black water and soft ground that takes a boot and keeps it.",
 			"props": {
 				"trees": [
@@ -596,7 +596,7 @@
 			],
 			"tint": "#90b8a0",
 			"life": 1.0,
-			"life_art": {"bird": ["nature/irish_bird", "nature/finch"], "flutter": ["nature/butterfly", "nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
+			"life_art": {"bird": ["nature/irish_bird", "nature/finch"], "flutter": ["nature/butterfly", "nature/butterfly_blue"], "hop": ["nature/frog"], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Warm, wet and loud with things you cannot see.",
 			"props": {
 				"trees": [
@@ -654,7 +654,7 @@
 			],
 			"tint": "#c8d0ff",
 			"life": 0.4,
-			"life_art": {"bird": ["nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": []},
+			"life_art": {"bird": ["nature/white_dove"], "flutter": ["nature/butterfly_blue", "nature/moth"], "hop": [], "crawl": []},
 			"line": "Crystal grows out of the ground here, humming to itself.",
 			"props": {
 				"trees": [],
@@ -704,7 +704,7 @@
 			],
 			"tint": "#8098c8",
 			"life": 0.6,
-			"life_art": {"bird": ["nature/irish_bird_2"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
+			"life_art": {"bird": ["nature/irish_bird_2"], "flutter": ["nature/butterfly_blue", "nature/moth"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "Mushrooms taller than a house, glowing by their own light.",
 			"props": {
 				"trees": [
@@ -809,7 +809,7 @@
 			],
 			"tint": "#b0b8b0",
 			"life": 0.5,
-			"life_art": {"bird": ["nature/irish_bird_2"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
+			"life_art": {"bird": ["nature/irish_bird_2", "nature/crow"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
 			"line": "Grey hills over old graves. The stones have names on them.",
 			"props": {
 				"trees": [],
@@ -918,7 +918,7 @@
 			],
 			"tint": "#d0dce0",
 			"life": 0.6,
-			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2", "nature/white_dove"], "flutter": [], "hop": [], "crawl": ["nature/spider"]},
+			"life_art": {"bird": ["nature/sparrow", "nature/irish_bird_2", "nature/white_dove"], "flutter": [], "hop": ["nature/snow_hare"], "crawl": ["nature/spider"]},
 			"line": "Dark spruce in deep snow. Every sound carries.",
 			"props": {
 				"trees": [
@@ -973,7 +973,7 @@
 			],
 			"tint": "#b0b4d0",
 			"life": 0.5,
-			"life_art": {"bird": ["nature/white_dove"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
+			"life_art": {"bird": ["nature/white_dove", "nature/crow"], "flutter": ["nature/butterfly_blue"], "hop": [], "crawl": ["nature/snail", "nature/spider"]},
 			"line": "A fog that never lifts. Shapes move in it, and not all of them are trees.",
 			"props": {
 				"trees": [

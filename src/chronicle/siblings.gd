@@ -503,6 +503,17 @@ static func _nearest_named(world: World, cell: Vector2i) -> Site:
 	return best
 
 
+## Where every fallen weapon not yet found came down, heard of or not: the ground it scorched
+## stands there ([D296], art A54).
+static func landed_weapons(world: World) -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	for echo: Dictionary in past(world):
+		var weapon: Dictionary = echo.get("weapon", {})
+		if bool(weapon.get("landed", false)) and not bool(weapon.get("found", false)):
+			out.append(cell_of(weapon.get("cell", [])))
+	return out
+
+
 ## Fallen weapons the company has word of and has not yet found, for the map:
 ## `[{ cell, id }]`.
 static func heard_weapons(world: World) -> Array:

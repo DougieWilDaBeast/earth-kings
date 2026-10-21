@@ -1,0 +1,270 @@
+{
+	"_about": "Where every piece of art still to be made lands, how big it must be and what in the game shows it, for the art waiting on PixelLab's credits (docs/24, A51 to A61, D344). `tools/take_art.py` reads it: `check` says, for each request, what is in DROP-ZONE/<id>/, what is already in place and what is still the stand-in; `take <id>` checks each file's size and moves it to `to`. A file is matched by its name (`name`, without the folder); a PixelLab zip is unpacked first. `size` is [width, height] in pixels; `rotations` is a folder of the eight facings (south.png, south-east.png, ... as art/items/bone_sword); `each` repeats a file for every name in it, `{each}` in `name` and `to`. `prop: false` marks a picture under art/props that is not laid as a prop (the opening draws it). `stand_in` says what shows until the art is in, `shows` where it is seen and what reads it, so nothing but generating is left on the day.",
+	"requests": {
+		"A51": {
+			"what": "Tower floors with depth",
+			"files": [
+				{
+					"name": "tower_slab.png",
+					"to": "art/tilesets/tower/tower_slab.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "tools/draw_tower_floors.py"
+				},
+				{
+					"name": "tower_wall.png",
+					"to": "art/tilesets/tower/tower_wall.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "tools/draw_tower_floors.py"
+				},
+				{
+					"name": "pillar.png",
+					"to": "art/props/tower_inside/pillar.png",
+					"size": [
+						64,
+						128
+					],
+					"stand_in": "nothing"
+				},
+				{
+					"name": "stair_up.png",
+					"to": "art/props/tower_inside/stair_up.png",
+					"size": [
+						64,
+						128
+					],
+					"stand_in": "tools/draw_tower_details.py (64 x 96)"
+				}
+			],
+			"shows": "Every Tower floor's slabs and walls (tilesets.json sheets tower_slab, tower_wall: the 24 x 8 corner sheet every PixelLab godot tileset shares); pillars at the back corners of each wide chamber on floors 11 up (src/chronicle/tower_floors.gd); the stair on every floor."
+		},
+		"A52": {
+			"what": "What a fighter carries, seen on them",
+			"files": [
+				{
+					"each": [
+						"blade",
+						"spear",
+						"bow",
+						"staff",
+						"axe",
+						"hammer"
+					],
+					"rotations": [
+						"south",
+						"south-east",
+						"east",
+						"north-east",
+						"north",
+						"north-west",
+						"west",
+						"south-west"
+					],
+					"name": "{each}",
+					"to": "art/units/held/{each}",
+					"size": [
+						37,
+						37
+					],
+					"stand_in": "nothing in hand"
+				}
+			],
+			"shows": "Every fighter whose weapon has no picture of its own, drawn over the body by its kind (data/skirmish.json -> held, src/battle/units/unit.gd _equip); scale and offsets by facing are in held, as art/items/bone_sword's are in equipment.json."
+		},
+		"A53": {
+			"what": "Road scenes that read",
+			"files": [
+				{
+					"name": "cart_stopped.png",
+					"to": "art/props/roadside/cart_stopped.png",
+					"size": [
+						128,
+						96
+					],
+					"stand_in": "tools/draw_roadside.py"
+				},
+				{
+					"name": "horse.png",
+					"to": "art/props/roadside/horse.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "nothing"
+				},
+				{
+					"name": "toll_rope.png",
+					"to": "art/props/roadside/toll_rope.png",
+					"size": [
+						96,
+						64
+					],
+					"stand_in": "tools/draw_roadside.py"
+				}
+			],
+			"shows": "The stopped cart on the road and in the caravans' camps, the horse standing by it (data/roadside.json, the escort's stage), the toll post."
+		},
+		"A54": {
+			"what": "The fallen weapon's fall, and the ground it scorches",
+			"files": [
+				{
+					"name": "weapon_fall.png",
+					"to": "art/fx/weapon_fall.png",
+					"size": [
+						512,
+						128
+					],
+					"stand_in": "nothing"
+				},
+				{
+					"name": "scorched_crater.png",
+					"to": "art/props/landmark/scorched_crater.png",
+					"size": [
+						128,
+						128
+					],
+					"stand_in": "nothing"
+				}
+			],
+			"shows": "The scorched ground in the middle of the land tile a fallen lead's weapon came down on, until it is found (data/fall.json -> siblings.weapon.crater_art, src/area/area_scene.gd). The fall's strip (8 frames of 64 x 128 side by side) waits for D296's small cinematic of the weapon falling, which is planned."
+		},
+		"A55": {
+			"what": "A rise of ground",
+			"files": [
+				{
+					"name": "rise.png",
+					"to": "art/tilesets/rise.png",
+					"size": [
+						1536,
+						512
+					],
+					"stand_in": "tools/draw_rises.py"
+				}
+			],
+			"shows": "Every rise on the land (tilesets.json sheet rise, D332)."
+		},
+		"A56": {
+			"what": "Creatures that match the land",
+			"files": [
+				{
+					"each": [
+						"crow",
+						"frog",
+						"lizard",
+						"snow_hare",
+						"ember_beetle",
+						"moth"
+					],
+					"name": "{each}.png",
+					"to": "art/props/nature/{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "nothing (the land keeps its other life)"
+				}
+			],
+			"shows": "The lands' own life (biomes.json life_art, D336): the crow in the barrow, the blight and the mist; the frog in the bog and the swamp; the lizard in the dune and the badlands; the snow hare in the snow and the taiga; the ember beetle in the ash; the moth in the fungal wood and the crystal. Each is laid only once its picture is in (src/area/area_scene.gd _life_for); how each moves is its life in props.json."
+		},
+		"A57": {
+			"what": "A ladder up a face",
+			"files": [
+				{
+					"name": "ladder.png",
+					"to": "art/props/landmark/ladder.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "tools/draw_ladder.py"
+				}
+			],
+			"shows": "The ladders on the cloud peak and the wind scarp (D337)."
+		},
+		"A58": {
+			"what": "The sixteen chapter-one objects",
+			"files": [
+				{
+					"each": [
+						"atlas",
+						"janus",
+						"bellona",
+						"cassius",
+						"saturn",
+						"vesta",
+						"caesar",
+						"iris",
+						"pluto",
+						"ceres",
+						"cato",
+						"juno",
+						"ultor",
+						"diana",
+						"ares",
+						"liber"
+					],
+					"name": "{each}.png",
+					"to": "art/props/memories/{each}.png",
+					"size": [
+						64,
+						64
+					],
+					"stand_in": "a shape drawn in code",
+					"prop": false
+				}
+			],
+			"shows": "The lead's object falling with them in the opening and picked up on floor 5 (data/opening.json -> objects, D340)."
+		},
+		"A59": {
+			"what": "A demon king's eyes in a gate",
+			"files": [
+				{
+					"name": "demon_gate.png",
+					"to": "art/props/landmark/demon_gate.png",
+					"size": [
+						128,
+						128
+					],
+					"stand_in": "a shape drawn in code",
+					"prop": false
+				}
+			],
+			"shows": "The opening's ending shot (data/opening.json -> art.demon_gate, D340)."
+		},
+		"A60": {
+			"what": "The ring of light",
+			"files": [
+				{
+					"name": "ring_of_light.png",
+					"to": "art/fx/ring_of_light.png",
+					"size": [
+						512,
+						512
+					],
+					"stand_in": "a glow drawn in code"
+				}
+			],
+			"shows": "The sixteen chosen, the opening's second shot (data/opening.json -> art.ring, D340)."
+		},
+		"A61": {
+			"what": "A burning world",
+			"files": [
+				{
+					"name": "burning_world.png",
+					"to": "art/fx/burning_world.png",
+					"size": [
+						1024,
+						256
+					],
+					"stand_in": "the globe drawn in code"
+				}
+			],
+			"shows": "The opening's ending shot (data/opening.json -> art.burning_world, D340)."
+		}
+	}
+}
