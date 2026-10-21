@@ -872,7 +872,7 @@ func _build_gear_page(character: Character) -> void:
 		_page_box.add_child(_draught_row(character, equipment_id))
 		poured += 1
 	if poured == 0:
-		_page_box.add_child(_quiet_line("Nothing in the packs to drink."))
+		_page_box.add_child(_quiet_line("Nothing in the packs to eat or drink."))
 
 
 ## One piece out of the packs, said the way an equip screen says it: what it is,
@@ -952,7 +952,7 @@ func _draught_row(character: Character, equipment_id: String) -> Control:
 	var pour := Button.new()
 	pour.custom_minimum_size = ROW_BUTTON
 	pour.focus_mode = Control.FOCUS_NONE
-	pour.text = "Drink"
+	pour.text = Gear.taken(equipment_id).capitalize()
 	pour.pressed.connect(func() -> void: drink(character, equipment_id))
 	Sfx.attend(pour)
 	row.add_child(pour)

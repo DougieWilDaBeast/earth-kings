@@ -139,6 +139,8 @@ are stored inside the save's tree definitions, not in this file.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
   or in a fight from the fighter's card, which takes 1.5 s (`"heal": 25`).
+- `taken: "eat"` — on a draught that is food (the loaf, the pie, cheese, herbs): the button says Eat and
+  the lines "eats" ([D324](06-decisions.md)); left out, it is drunk.
 - `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
   suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
   out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
@@ -817,7 +819,7 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
-## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308)
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up`, `world_rules.json` → `heights` (D287, D308, D321)
 
 Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
 `_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
@@ -834,6 +836,11 @@ On ground with heights `find_cell_path` (a click, Auto, a band, a person at work
 `shoved_off` (D313): `share` of a body's health for every height it is shoved off, `down_seconds` it lies
 knocked down, `word` over it and `line` (`{who}`, `{fell}`) in the fight's log; `BattleGrid.may_step` and
 `may_shove` rule a ledged field.
+A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top: never walked
+(`AreaMap.is_cloud`, `has_clouds`), drawn by `src/area/area_clouds.gd`, and said once a cell as
+`cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a
+body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
+`summit` (3) stand on the stone and snow sheets.
 
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
@@ -1265,6 +1272,16 @@ holds no slot (`Formations.broken`). `shared`: `per_fight` of every blow spared 
 fight won beside the others standing with them (`Character.shared`, other id -> fights, their average),
 up to `cap` (`Formations.shared_bonus`).
 
+## `skirmish.json` → `tactics.plan_table` — a model's plans, written offline (D298, D322)
+
+Read by `SkirmishBrain.table_move`: when `side` is `party`, `foes` or `all`, a fighter on that side
+tries `moves[situation]` before its doctrine's moves, where the situation is
+`SkirmishBrain.situation`'s five words (`close|ranged|mender` / `healthy|wounded|failing` /
+`near|clear` / `friend_hurt|friends_fine` / `windup|calm`) and a move is one of the brain's (`dodge`,
+`kite`, `flank`, `guard`, `hang_back`, `break`) or `strike` (no move). `side` is empty in the game;
+`party_war.tscn -- --plan-table=party` sets it for a run. Written by `tools/plan_table.py make` (with
+`model`, `prompt` and `made`); `tools/plan_table.py compare N` fights the clashes with and without it.
+
 ## `skirmish.json` — the fight's rules, passives, enemy roles and feel
 
 Read by the fight in `src/skirmish/` ([18](18-combat-direction.md#the-fight)).
@@ -1283,7 +1300,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
              "ambush_head_start": 2.0, "swings_per_practice": 3,
-             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
+             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "fade": 0.6, "cleared_word": "Clear",
+                       "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -1319,7 +1337,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
 - `ambush_head_start` — seconds an ambushed side's opening is held back while the party acts at
   once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
 the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
-clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoever gets clear fades over
+`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.
@@ -1425,7 +1444,8 @@ For set pieces. Wild encounters and delves generate their maps instead.
 All rows must be the same length, and every spawn must sit on walkable terrain. A field may carry
 `heights` (one row of digits a tile row, a height a cell, over the terrain's own) and `ways_up` (cells where
 a height is climbed): then it is *ledged* (D313), walked and shoved the ground's way (D308) rather than the
-jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`).
+jump's. A fight laid over an area with heights writes both from the area (`Skirmish._ground_field`), and
+`clouds` (cells of cloud, D321) where the area has any: never stood on, and a body shoved into one is gone.
 
 ## `dialogue/*.json`
 

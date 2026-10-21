@@ -449,7 +449,8 @@ static func _doing(f: Fighter) -> String:
 	if not f.is_standing():
 		return "down"
 	if f.is_using():
-		return "drinking %s" % Gear.display_name(str(f.using.get("item", "")))
+		var item := str(f.using.get("item", ""))
+		return "%s %s" % ["eating" if Gear.taken(item) == "eat" else "drinking", Gear.display_name(item)]
 	if f.is_casting():
 		return "winding up"
 	return ""

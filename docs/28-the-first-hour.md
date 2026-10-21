@@ -183,6 +183,7 @@ project's shared files (`meetings/`), not in this repository; the calls they mad
 | 2026-10-17 | The First Hour's road for a lead walking alone, seven self-played runs as dealt leads and one as Atlas ([D211](06-decisions.md)) | after #262 | Before (main, seeds 1, 2, 3): every one fell, at levels 1 to 3, two in their first fight (a Flame Lion, a Sword Monkey met at a quarter health after the cold). After (seeds 1 to 6): no fall in a first fight; falls after five minutes at levels 3 to 7; Liber to floor 4, Iris to floor 3, Pluto shut a gate. Diana (77) at the door at 3:39 (7:35 before), Atlas at 4:55. Stances (#261) merged after these runs |
 | 2026-10-18 | The Second Hour's sixteen self-played climbs to floor 10 ([D258](06-decisions.md), #234; the table is below) | `e5628b9` and this PR | Alone, every climber fell by floor 6. With 0 to 3 companions rolled at random (`dougie`'s call): 6 of 16 reached floor 10, 4 fell (two to the Keeper of the Tenth's floor), 6 stalled. A party of three or more is fair; alone or with one, nobody reached floor 10 |
 | 2026-10-18 23:16 | Ewan's (`doug-md`) play-test 7, about an hour, a new game as Juno (the fourth life of the world) with Pluto, Vesta and Atlas, in his Godot, thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.md), [play log](worldbuilding/voice-notes/2026-10-18-doug-md-play-test-7.playlog.txt)) | his Godot, main of 2026-10-18 evening (`e5628b9` or later: the Keeper of the Tenth is in it) | Liked going into the gates ("Great addition") and Stormreach walked outside ("This looks fantastic"). His log: the Tower from floor 1 to 20 and four gates shut in about 53 minutes, chapters 1 to 4 closed; 58 fights, none lost, nobody below half their health after any; on the fight clock floors 1 to 5 a median of 5.5 seconds, 6 to 20 about 11, the land and gates 5; the Warden of the Fifth and the Keeper of the Tenth each down in under 15. A party of four is past fair, the same as the Second Hour's climbs. First fixes [D259](06-decisions.md); his bigger asks [below](#play-test-7s-asks) |
+| 2026-10-21 09:19 | Ewan's (`doug-md`) play-test 8, about 40 minutes, a new game as Janus with Fennick the Scrivener, Cal of Stormreach and Brother Oswin (later Orin, Captain Edda and Atlas), thinking aloud ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md), [play log](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.playlog.txt)) | `6f8fcf6` (main with #386, #387) | Liked the formations ("working very well"), the Gilded Flagon ("looked very good") and a gate opening beside the Tower; "I think it is really good." His log: Greyhollow and Elderford shut, the Tower from floor 1 to 15, chapters 1 to 3 closed, 46 fights in about 40 minutes; one lost, four wolves on the ground by the Tower at 5×, Janus, Fennick and Cal dead and the run over. A `called:` error in nearly every fight (already fixed on main), 10 to 14 fps for the ten seconds after fights with new foes began, levels still won in the Tower and on the ground (milestone B, [D292](06-decisions.md)). First fixes [D324](06-decisions.md); his bigger asks [below](#play-test-8s-asks) |
 | planned | Five real people, chosen by the founders, with the play log on (call AV) | `e3ed512` or later | Then meeting 5. Who and when: [30](30-questions-for-the-founders.md), question 4 |
 
 ### The Second Hour's climbs
@@ -403,6 +404,30 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     seconds run under 40 fps (`frame rate 31 fps, slowest frame 180 ms, at Stormreach`), so the next play-test
     says what his machine does.
 
+### Play-test 8's asks
+
+What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
+that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
+11 now (held until milestone B is in); after B the 2× cap, 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
+loaded ahead. Some repeat earlier asks (noted).
+1. **The opening cinematic**, "a major update".
+2. **More to say**: the same four lines (who are you, have you been up the Tower, any advice, goodbye) on
+   everyone; far more for the people met in the Tower.
+3. **A nemesis system** after Shadow of Mordor: people remember what you did, hold grudges or thanks, and
+   some come for you. A first version is built and hidden for the First Hour ([D97](06-decisions.md):
+   `nemesis` in `first_hour.hidden`, a broken band's survivor who takes an epithet and comes back).
+4. **Letting people go**: disband a companion so they go their own way in the world.
+5. **A hunger bar** under every member, and **Auto eating and using what it carries** when it needs to.
+6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
+   instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)).
+7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
+8. **More buildings to go into** in the city; most doors are shut.
+9. **Groves that look like groves**, hard to find, with good things in them, even if their keeper has to be fought.
+10. **A sent-away band seen on its way**: how far off and how long until it is back ([D294](06-decisions.md)'s band on the map).
+11. **Getting the fallen up**: when one goes down, one of the rest goes to them while the others fight on,
+    and the formation closes round it.
+
 ### Gates that grow
 
 Play-test 7's first ask, built ([D261](06-decisions.md), agenda 172). Inside, a gate is ground of its own
@@ -543,3 +568,4 @@ decision numbers. Whoever pushes drafts it with the build; it goes up with the b
 | 2026-10-17 17:40 | `1daa322` | Sound in the browser at last ([D234](06-decisions.md)), New Game offers to skip the last stand when a save exists ([D235](06-decisions.md)), moves you can see land ([D192](06-decisions.md)), stances, a smarter Auto, people and bands on the road, fights beside the Watch, a map over the ground, footpaths and signposts, scars, keeper prizes, treasure maps, harder upper floors, Ewan's play-test fixes, his answers to the founders' questions |
 | 2026-10-18 11:22 | `ba09ffb` | A journal for each land with a trinket for finishing it, Stormreach walked outside ([D247](06-decisions.md)), gates you go inside and walk floor by floor ([D248](06-decisions.md)), a small company panel and a list of what wants attention while you walk, a ? on each path card, phones fit better on their side and upright, play-test 6's first fixes ([D246](06-decisions.md)) |
 | 2026-10-18 22:06 | `e5628b9` | The Second Hour: floors 6 to 10 with chapter twos and the Keeper of the Tenth ([D254](06-decisions.md)), no slimes above floor 5 ([D243](06-decisions.md)), the world remembers what you did ([D249](06-decisions.md)), a story for every companion ([D250](06-decisions.md), [D256](06-decisions.md)), inns with rooms ([D242](06-decisions.md)), a house in Stormreach ([D252](06-decisions.md)), your own town at the crater ([D251](06-decisions.md)), coins in four metals ([D253](06-decisions.md)) |
+| 2026-10-21 10:05 | `6f8fcf6` | Play-test 8's build, main after #387: fights that run on the open land and first strike with G, five tiers of every monster, gates that grow, caves under the hills, your own people sent into gates from each card's Send button, moods and crafting, the climbers' stone, Sennet as a ghost, the journal at the side, a writers' pass and a seven-step tutorial (#331 to #387, meeting six's [D287](06-decisions.md) to [D299](06-decisions.md)) |

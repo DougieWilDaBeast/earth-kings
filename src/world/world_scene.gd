@@ -499,6 +499,7 @@ const WILD_AREAS := {
 	"marsh": ["wild_fen"],
 	"hill": ["wild_scarp"],
 	"sand": ["wild_oasis"],
+	"crag": ["wild_peak"],
 }
 
 
@@ -528,6 +529,8 @@ func _wild_opening(terrain: String) -> String:
 			return "A line of duckboards runs off the track into the reeds."
 		"hill":
 			return "A goat path switches back up the rock towards the shelf."
+		"crag":
+			return "Slopes cut into the mountain climb, shelf over shelf, into the cloud."
 		"brush":
 			return "There is a gap in the thorn, and it has been kept open."
 		"sand":

@@ -283,6 +283,7 @@
 		"display_name": "Loaf",
 		"icon": "bread",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 14,
 		"price": 20,
 		"text": "Yesterday's, and still better than nothing."
@@ -291,6 +292,7 @@
 		"display_name": "Meat Pie",
 		"icon": "bread",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 20,
 		"price": 50,
 		"text": "Ada will not say what meat. Ada will say it is hot."
@@ -299,6 +301,7 @@
 		"display_name": "Honey Cake",
 		"icon": "bread",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 12,
 		"price": 15,
 		"text": "Sticky, sweet, and gone before you have decided to save it."
@@ -307,6 +310,7 @@
 		"display_name": "Hard Cheese",
 		"icon": "cheese",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 18,
 		"price": 40,
 		"text": "Keeps for a month and tastes like it."
@@ -315,6 +319,7 @@
 		"display_name": "Apple",
 		"icon": "apple",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 10,
 		"price": 8,
 		"text": "Somebody's orchard, and nobody asked whose."
@@ -323,6 +328,7 @@
 		"display_name": "Bitter Herbs",
 		"icon": "herbs",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 24,
 		"price": 150,
 		"text": "Chewed, not brewed. It works faster and it is worse."
@@ -331,6 +337,7 @@
 		"display_name": "Redcap",
 		"icon": "herbs",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 8,
 		"price": 300,
 		"text": "A mushroom from under the old trees. Eaten raw it does little. Mixed, it does more."
@@ -339,6 +346,7 @@
 		"display_name": "Frostmoss",
 		"icon": "herbs",
 		"kind": "draught",
+		"taken": "eat",
 		"mends": 10,
 		"price": 600,
 		"text": "Grows where nothing else will. Cold in the mouth, and better in a draught."

@@ -457,7 +457,7 @@ func _spawn_nature_decor(map: Dictionary) -> void:
 	for y in grid.height:
 		for x in grid.width:
 			var cell := Vector2i(x, y)
-			if cell in spawn_cells:
+			if cell in spawn_cells or grid.clouds.has(cell):
 				continue
 			var terrain_id := grid.terrain_id_at(cell)
 			var seed_val := absi(hash(cell))
@@ -534,6 +534,7 @@ func _ground_field() -> Dictionary:
 	if ground != null and ground.has_heights():
 		var heights: Array = []
 		var ways: Array = []
+		var clouds: Array = []
 		for y in size.y:
 			var row := ""
 			for x in size.x:
@@ -541,9 +542,13 @@ func _ground_field() -> Dictionary:
 				row += str(clampi(ground.height_at(cell), 0, 9))
 				if ground.ways_up.has(cell):
 					ways.append([x, y])
+				if ground.is_cloud(cell):
+					clouds.append([x, y])
 			heights.append(row)
 		laid["heights"] = heights
 		laid["ways_up"] = ways
+		if not clouds.is_empty():
+			laid["clouds"] = clouds
 	# A gate's fight on the ground (D162): the Guild's people fall in beside the party, and a heart
 	# floor's heart is the gate's doorway.
 	var allies: Array = []
@@ -755,7 +760,7 @@ func _finish_item(f: Fighter, thrower: Fighter = null) -> void:
 	f.unit.heal(amount)
 	Sfx.cue("drink")
 	fx.popup(Gear.display_name(item_id), f.unit.position + Vector2(0, -14), SkirmishFx.HEAL, 13)
-	_say("%s takes the %s." % [f.unit.display_name, Gear.display_name(item_id)])
+	_say("%s %s the %s." % [f.unit.display_name, Gear.takes(item_id), Gear.display_name(item_id)])
 	hud.refresh()
 
 
@@ -1686,9 +1691,10 @@ func _grace(f: Fighter) -> bool:
 ## is told, and the dead get a memorial and the threads' notice. Saved by a
 ## grace, they are back on their feet in the fight; pulled clear, taken or dead,
 ## they are out of it, and what [Fate] wrote stands ([D65]).
-func _settle_fallen(f: Fighter) -> void:
+func _settle_fallen(f: Fighter, over: Dictionary = {}) -> void:
 	var who := f.unit.character
 	var context := grace_context(f)
+	context.merge(over, true)
 	var killer := _killer_of(f)
 	context["enemy_kind"] = killer.kind() if killer != null else _killer_kind()
 	var outcome := Fate.resolve(who, context, GameState.world.rng)
@@ -1706,6 +1712,48 @@ func _settle_fallen(f: Fighter) -> void:
 		Memorial.raise(GameState.world, who, GameState.world.player_cell, str(context["enemy_kind"]), str(outcome["killer"]))
 		for line: String in Skein.on_character_fell(GameState.world, who.template_id):
 			_say(line)
+
+
+## Shoved over the edge into the clouds below a mountain's top ([D287]: "a fall there is death";
+## [D321]), from [param edge], by [param by]. Nobody can reach them. A foe is dead, credited to whoever
+## shoved it. One of the company falls at once, settled as any fall with no friend near enough to pull
+## them back, no hearth near and nobody to take them: a charm, lore or luck can still catch them, and
+## then they are back on the edge. Returns whether they went over.
+func over_into_clouds(f: Fighter, by: Fighter, edge: Vector2i) -> bool:
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("into_clouds", {})
+	if f.is_party() and not sandbox and f.unit.character != null:
+		f.unit.hp = 0
+		_settle_fallen(f, {"allies": [], "world": null, "no_capture": true})
+		if f.is_standing():
+			f.stepping = false
+			f.unit.cell = edge
+			f.unit.position = grid.cell_to_world(edge)
+			return false
+	f.unit.hp = 0
+	fx.popup(str(rules.get("word", "Into the clouds")), f.unit.position + Vector2(0, -24), SkirmishFx.HURT, 14, 1.3)
+	_say(str(rules.get("line", "{who} goes over the edge into the cloud, and is gone.")).format({"who": f.unit.display_name}))
+	if not f.is_party() and by != null:
+		_award_kill(by.unit, f.unit)
+		signatures.killed(by, f)
+	f.cast = {}
+	f.near_death = 0.0
+	f.target = null
+	conditions.clear(f)
+	f.clear_order()
+	selected.erase(f)
+	f.unit.set_running(false)
+	Sfx.cue("fall" if f.is_party() else "death")
+	_mourn(f)
+	f.fallen = true
+	if f.is_party():
+		f.went_down = true
+	# Gone into the white: the slide over the edge, then nothing.
+	var unit := f.unit
+	var fade := unit.create_tween()
+	fade.tween_interval(maxf(0.05, f.step_left))
+	fade.tween_property(unit, "modulate:a", 0.0, 0.45)
+	fade.tween_callback(func() -> void: unit.visible = false)
+	return true
 
 
 ## Off the ground with what a grace gives back (`escape_recovery` of their health).
@@ -2061,8 +2109,13 @@ func _get_clear(f: Fighter) -> void:
 	for other in fighters:
 		if other == f or other == mount or other.aboard == f or other.bound_to == f:
 			other.fled = true
-			other.unit.visible = false
 			selected.erase(other)
+			# Seen to go, not blinked out (Ewan's play-test 8: pulled back, his fighter "disappeared").
+			var unit := other.unit
+			fx.popup(str(SkirmishRules.flee_rules().get("cleared_word", "Clear")), unit.position, SkirmishFx.WORD, 14)
+			var fade := unit.create_tween()
+			fade.tween_property(unit, "modulate:a", 0.0, float(SkirmishRules.flee_rules().get("fade", 0.6)))
+			fade.tween_callback(func() -> void: unit.visible = false)
 	_say(str(SkirmishRules.flee_rules().get("cleared_line", "{who} gets clear.")).format({ "who": f.unit.display_name }) if struck
 			else "%s gets clear." % f.unit.display_name)
 
