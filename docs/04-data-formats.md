@@ -845,7 +845,7 @@ next). A choice is said on `EventBus.quick_wheel_chose` (`src/ui/quick_wheel.gd`
 `danger_levels` settle a meeting on the road. A band sent to shut a gate spends `steps_per_floor` a floor
 inside and shuts it on `gate_win_base` + `gate_per_level` × (the band's average level − the gate's
 expected level) + `gate_per_hand` for each member past the first, kept between `gate_min` and `gate_max`
-(`src/chronicle/dispatch.gd`). A band sent to clear a wild place (D347: heard of, its guard standing; a job
+(`src/chronicle/dispatch.gd`). A band sent to clear a wild place (D348: heard of, its guard standing; a job
 in `GameState.away` with `wild` and `guard_level`, the company's level when the first set off) spends
 `steps_in_wild` steps there and wins on `wild_win_base` + `gate_per_level` × (its average level −
 `guard_level`) + `gate_per_hand` a member past the first, in the same bounds: the guard's done flag set, every

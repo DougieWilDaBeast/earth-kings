@@ -394,7 +394,7 @@ static func send_to_gate(world: World, roster: Roster, away: Array, character: C
 	]
 
 
-# --- wild places ([D347]) --------------------------------------------------------
+# --- wild places ([D348]) --------------------------------------------------------
 #
 # The rest of Ewan's "send your own characters to do quests so they go on auto mode": a wild place the
 # company has heard of ([D309]) and whose guard still stands can be cleared by a band of its own, the

@@ -179,7 +179,7 @@ func _check_muster(world: World) -> void:
 	world.musters = kept_musters
 
 
-## A band of the company's own sent to clear a wild place ([D347]): only one heard of whose guard
+## A band of the company's own sent to clear a wild place ([D348]): only one heard of whose guard
 ## stands, two go together, and won, the guard is beaten, the chests come home and a job to clear it
 ## is done; lost, the guard still stands.
 func _check_wild_band(world: World) -> void:

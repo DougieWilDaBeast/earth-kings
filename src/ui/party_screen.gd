@@ -228,7 +228,7 @@ func enchant(character: Character, rune: Dictionary) -> bool:
 	return true
 
 
-## Send [param character] to clear [param wild] ([D347]).
+## Send [param character] to clear [param wild] ([D348]).
 func send_to_wild(character: Character, wild: Site, meet: Site = null) -> bool:
 	var line := Dispatch.send_to_wild(GameState.world, GameState.roster, GameState.away, character, wild, meet)
 	if line == "":
@@ -1231,7 +1231,7 @@ func _build_mission_page(character: Character) -> void:
 			send.pressed.connect(func() -> void: send_to_gate(character, gate, meet))
 			Sfx.attend(send)
 			_page_box.add_child(send)
-		# A wild place heard of, its guard still standing (D347).
+		# A wild place heard of, its guard still standing (D348).
 		var guard_level := maxi(1, Encounter.party_level(roster.party_members()))
 		for wild: Site in wilds:
 			var band := Dispatch.band_for(GameState.away, wild)
