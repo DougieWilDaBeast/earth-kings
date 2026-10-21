@@ -38,6 +38,7 @@ const AreaWaymark := preload("res://src/area/area_waymark.gd")
 const Compass := preload("res://src/ui/compass.gd")
 const PlayHud := preload("res://src/ui/play_hud.gd")
 const LandMap := preload("res://src/ui/land_map.gd")
+const ScreenLayout := preload("res://src/ui/screen_layout.gd")
 const LandMapScreen := preload("res://src/ui/land_map_screen.gd")
 const AreaSpire := preload("res://src/area/area_spire.gd")
 const FarTower := preload("res://src/ui/far_tower.gd")
@@ -126,6 +127,8 @@ var _room_label: Label
 var _room_clock := 0.0
 ## The small panel of the company's health and the purse ([D244]).
 var _play_hud: Control
+## The panels as the player has laid them out ([D351]).
+var _screen_layout: Control
 var _approach_index: int = 0
 var _auto_exit_path: Array[Vector2] = []
 var _auto_exit_index: int = 0
@@ -386,6 +389,7 @@ func _ready() -> void:
 	_place.get_parent().add_child(_play_hud)
 	if _land_mode:
 		_put_up_the_maps()
+	_hold_the_panels()
 	Pad.changed.connect(_on_pad_changed)
 	EventBus.map_requested.connect(_open_the_map)
 	_lay_out_acts()
@@ -4114,10 +4118,26 @@ func _quiet_backing() -> StyleBoxFlat:
 	return box
 
 
+## The panels the player may move and size ([D351]): over everything else on the screen, so its
+## frames are on top while it is arranged.
+func _hold_the_panels() -> void:
+	_screen_layout = ScreenLayout.new()
+	_place.get_parent().add_child(_screen_layout)
+	_screen_layout.hold("place", _place)
+	_screen_layout.hold("compass", _compass)
+	_screen_layout.hold("hud", _play_hud)
+	if _corner_map != null:
+		_screen_layout.hold("map", _corner_map)
+	_screen_layout.hold("log", _log)
+	_screen_layout.hold("hint", _hint)
+	EventBus.screen_arranged.connect(_fit_the_log)
+	EventBus.screen_arranged.connect(_fit_the_hint)
+
+
 ## The log is laid out 900 wide; on a screen narrower than that (a phone held upright, D163) it
 ## wraps inside the screen instead of running off its edge.
 func _fit_the_log() -> void:
-	if not is_inside_tree():
+	if not is_inside_tree() or ScreenLayout.is_laid("log"):
 		return
 	_log.offset_right = minf(LOG_WIDTH, get_viewport().get_visible_rect().size.x - 16.0)
 

@@ -6,6 +6,8 @@ extends CanvasLayer
 const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
 const Wanderers := preload("res://src/chronicle/wanderers.gd")
 const Siblings := preload("res://src/chronicle/siblings.gd")
+const ScreenLayout := preload("res://src/ui/screen_layout.gd")
+const WORDS_DROP := ScreenLayout.WORDS_DROP
 
 ## The reply the mouse is over, picked out from the rest.
 const OPTION_HOVER := Color(1.0, 0.88, 0.5)
@@ -56,6 +58,8 @@ var _auto_wait: float = 0.0
 var _auto_replies: int = 0
 ## The widest the box may grow, by the input in use.
 var _most_width: float = MOUSE_WIDTH
+## Where the box's bottom sits of itself, before the player moves it ([D351]).
+var _home_bottom: float = 0.0
 
 
 func _ready() -> void:
@@ -63,6 +67,11 @@ func _ready() -> void:
 	_panel.gui_input.connect(_on_panel_input)
 	if Pace.is_touch_enabled():
 		_fit_for_thumbs()
+	_home_bottom = _panel.offset_bottom
+	EventBus.screen_arranged.connect(func() -> void:
+		if _panel.visible:
+			_fit_to_text()
+	)
 	add_to_group(EventBus.MODAL_OVERLAY_GROUP)
 	EventBus.dialogue_requested.connect(play)
 	EventBus.conversation_requested.connect(play_lines)
@@ -316,16 +325,28 @@ func _fit_to_text() -> void:
 			+ margin.get_theme_constant("margin_left") + margin.get_theme_constant("margin_right")
 	if _portrait.visible:
 		around += _portrait.custom_minimum_size.x + float(_portrait.get_parent().get_theme_constant("separation"))
-	var room := get_viewport().get_visible_rect().size.x - EDGE * 2.0
+	var screen := get_viewport().get_visible_rect().size
+	var room := screen.x - EDGE * 2.0
 	var width := minf(clampf(widest + around + SLACK, LEAST_WIDTH, _most_width), room)
-	_panel.offset_left = -width / 2.0
-	_panel.offset_right = width / 2.0
+	# Wherever the player has put it, and as big ([D351]); its bottom middle stays on the screen.
+	var placed := ScreenLayout.words_place(screen)
+	var grown: float = placed["scale"]
+	var shift: Vector2 = placed["shift"]
+	var bottom := _home_bottom if shift == Vector2.ZERO else screen.y - WORDS_DROP + shift.y - screen.y
+	shift.x = clampf(shift.x, -screen.x / 2.0 + width * grown / 2.0 + EDGE, screen.x / 2.0 - width * grown / 2.0 - EDGE) \
+			if width * grown + EDGE * 2.0 < screen.x else 0.0
+	_panel.offset_left = -width / 2.0 + shift.x
+	_panel.offset_right = width / 2.0 + shift.x
+	_panel.offset_bottom = bottom
+	_panel.scale = Vector2.ONE * grown
 	_shrink_to_lines()
 	_shrink_to_lines.call_deferred()
 
 
 func _shrink_to_lines() -> void:
 	_panel.offset_top = _panel.offset_bottom
+	# Grown or shrunk about its bottom middle, so it stays where it was put.
+	_panel.pivot_offset = Vector2(_panel.size.x / 2.0, _panel.size.y)
 
 
 ## How wide [param text] is on one line in [param label]'s font.

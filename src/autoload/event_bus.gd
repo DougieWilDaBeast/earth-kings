@@ -51,6 +51,10 @@ signal growth_choice_requested(character: RefCounted)
 signal journal_requested
 ## A choice taken on the quick wheel ([D326]): "eat", "stance", "party", "send", "formation" and so on.
 signal quick_wheel_chose(id: String)
+## Arrange the play screen's panels ([D351]): the menu's Arrange the Screen, or Arrange on the wheel.
+signal screen_arrange_requested
+## A panel was moved, sized or put back ([D351]), so whatever fits itself round it fits again.
+signal screen_arranged
 ## The journal's Map was pressed: whichever ground the party is on opens the
 ## continent as a map, and comes back to the same spot when it is put away.
 signal map_requested

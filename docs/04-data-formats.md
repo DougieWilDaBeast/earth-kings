@@ -853,6 +853,16 @@ The band's name shows on each party card. `Moods.feeling` is `low` (the two lowe
 two highest) or nothing: an exchange or a reflection in `banter.json` with `"feeling"` is only spoken by one
 who feels that way, and one with no `feeling` by anyone.
 
+## `world_rules.json` → `screen_layout` — the play screen arranged by hand (D351)
+
+`on`; `menu`, the system menu's button; `bar`, `done` and `reset`, the words while arranging; `panels`, each
+`{ "id", "label", "resize" }` (ids `place`, `compass`, `hud`, `map`, `log`, `hint`, and `words` for the box people
+talk in): `resize` `size` gives the frame a corner `handle` (pixels) that sizes the box, never under `least`
+[w, h]; every frame grows or shrinks with the wheel by `scale_step`, between `least_scale` and `most_scale`;
+`keep_showing` pixels of a panel always stay on the screen. What the player lays out is kept in
+`user://settings.cfg` → `[layout]`, one entry an id (`x`, `y` as a share of the screen, `w`, `h`, `scale`),
+read by `src/ui/screen_layout.gd`; Put It All Back empties it. `arrange` on the quick wheel opens it.
+
 ## `world_rules.json` → `quick_wheel` — the ring on a held middle button (D326)
 
 `on`; `hold`, the seconds the middle button is held still before the ring opens round the pointer (a
@@ -873,7 +883,7 @@ expected level) + `gate_per_hand` for each member past the first, kept between `
 in `GameState.away` with `wild` and `guard_level`, the company's level when the first set off) spends
 `steps_in_wild` steps there and wins on `wild_win_base` + `gate_per_level` × (its average level −
 `guard_level`) + `gate_per_hand` a member past the first, in the same bounds: the guard's done flag set, every
-chest's flag set and its haul claimed, and a `wild` errand for it complete.
+chest's flag set and its haul claimed, and a `wild` errand for it complete. Somebody sent on Auto (D349) has the run's flag `auto:<id>` (`true`, or `"idle"` once they have said there is nothing worth it) and picks from `dispatch.auto`: within `reach` tiles, each errand at `errand_odds`, each gate and wild place at its own odds, scored as the odds + boldness × `worth[kind]` and never under `least_odds` − boldness × `bold_floor`; boldness is `bold_base` + `bold_letters` for each letter of their temper + `bold_per_mood` × (mood − the moods' base), between 0 and 1. Back with the company, under `rest_below` of their health they come off Auto (`hurt_line`); otherwise they take the next (`set_off_line`), or say `idle_line` once.
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,

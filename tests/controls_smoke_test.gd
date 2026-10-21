@@ -19,6 +19,7 @@ const WINDOW := Vector2i(1280, 720)
 ## Frames to let a deferred layout or a scene swap land.
 const SETTLE := 6
 const AutoRoad := preload("res://src/world/auto_road.gd")
+const ScreenLayout := preload("res://src/ui/screen_layout.gd")
 
 var _failures: Array[String] = []
 var _game: Node
@@ -62,6 +63,7 @@ func _ready() -> void:
 	_check_the_party_screen()
 	await _check_the_overlay_reads_the_scene()
 	await _check_the_box_fits_its_words()
+	await _check_the_screen_arranged()
 	_check_settings_are_kept()
 	await _check_the_music()
 	await _check_the_play_log()
@@ -476,6 +478,69 @@ func _check_the_box_fits_its_words() -> void:
 		if hint.text != "" and hint.size.x > said + 40.0:
 			_failures.append("the hint strip is %d long for %d of words: \"%s\"" % [hint.size.x, said, hint.text.left(30)])
 	print("talk box: %d wide for a short line, %d for a long one; %d hint strip(s) fitted" % [widths[0], widths[1], strips])
+
+
+## The play screen arranged by hand ([D351], Ewan's play-test 8): every panel framed, moved where it
+## is dragged, the log's box sized at its corner, the company grown with the wheel, the box people talk
+## in moved, all of it kept for the next time the ground is walked, never quite off the screen, and
+## put back with one press.
+func _check_the_screen_arranged() -> void:
+	await _clear_dialogue()
+	var ground: Node = null
+	for each: Node in get_tree().root.find_children("*", "", true, false):
+		if each.has_method("_hold_the_panels"):
+			ground = each
+	_expect(ground != null and ground.get("_screen_layout") != null, "the ground has no way to arrange its panels")
+	if ground == null or ground.get("_screen_layout") == null:
+		return
+	var layout: Control = ground._screen_layout
+	layout.put_back()
+	var log_label: Label = ground._log
+	var was := log_label.get_global_rect()
+	EventBus.screen_arrange_requested.emit()
+	_expect(layout.is_arranging() and layout.get_node("ArrangeBar").visible, "asking to arrange the screen did not frame its panels")
+	var frames: Dictionary = layout.frames()
+	for id: String in ["place", "compass", "hud", "log", "hint", "words"]:
+		_expect(frames.has(id), "no frame round the %s while arranging" % id)
+	_expect(ground.get("_corner_map") == null or frames.has("map"), "no frame round the corner map while arranging")
+	layout.drag("log", Vector2(200, -150))
+	await _settle()
+	_expect(log_label.get_global_rect().position.distance_to(was.position + Vector2(200, -150)) < 2.0,
+		"the log was dragged by (200, -150) and stands at %s from %s" % [log_label.get_global_rect().position, was.position])
+	var moved := log_label.get_global_rect()
+	layout.drag("log", Vector2(-100, 60), true)
+	await _settle()
+	_expect(absf(log_label.size.x - (moved.size.x - 100.0)) < 2.0 and absf(log_label.size.y - (moved.size.y + 60.0)) < 2.0,
+		"the log's corner was dragged and its box is %s from %s" % [log_label.size, moved.size])
+	var hud: Control = ground._play_hud
+	layout.grow("hud", 0.2)
+	_expect(is_equal_approx(hud.scale.x, 1.2), "the wheel over the company did not grow it (%s)" % hud.scale)
+	layout.drag("hud", Vector2(-5000, 0))
+	_expect(hud.get_global_rect().end.x >= 39.0, "the company was dragged clean off the screen")
+	layout.drag("words", Vector2(0, -200))
+	layout.finish()
+	_expect(not layout.is_arranging(), "Done did not end arranging")
+	var panel: Control = _dialogue.get_node("Panel")
+	EventBus.conversation_requested.emit([{ "speaker": "Sennet", "text": "Over here now." }])
+	await _settle()
+	var screen := panel.get_viewport().get_visible_rect().size
+	_expect(absf(panel.get_global_rect().end.y - (screen.y - 14.0 - 200.0)) < 3.0,
+		"the box people talk in was moved up 200 and its bottom is at %d of %d" % [panel.get_global_rect().end.y, screen.y])
+	await _clear_dialogue()
+	# Walked again, the ground lays its panels where they were left.
+	var kept := log_label.get_global_rect()
+	EventBus.request_scene.emit("world", {})
+	await _settle()
+	await _clear_dialogue()
+	ground = _current_scene()
+	if ground != null and ground.get("_log") != null:
+		_expect(ground._log.get_global_rect().position.distance_to(kept.position) < 2.0 and absf(ground._log.size.x - kept.size.x) < 2.0,
+			"the log was not where it was left when the ground came back: %s, left at %s" % [ground._log.get_global_rect(), kept])
+		ground._screen_layout.put_back()
+		await _settle()
+		_expect(ground._log.get_global_rect().position.distance_to(was.position) < 2.0 and ScreenLayout.saved_all().is_empty(),
+			"Put It All Back left the log at %s (it began at %s)" % [ground._log.get_global_rect().position, was.position])
+	print("arranged: log moved and sized, company grown, the talk box moved, kept, and put back")
 
 
 ## Anything the scene opened of its own accord, answered, so the next check
