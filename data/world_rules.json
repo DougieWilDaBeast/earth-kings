@@ -996,11 +996,26 @@
 		"gate_per_hand": 0.1,
 		"gate_min": 0.05,
 		"gate_max": 0.95,
-		"_comment_wilds": "D348 (the rest of Ewan's 'send your own characters to do quests so they go on auto mode'; D309, D310): a band sent to a wild place the company has heard of, whose guard still stands, walks there on the clock, spends steps_in_wild steps inside, and drives the guard off on wild_win_base + gate_per_level x (the band's average level - the guard's, which is the company's level when the first set off) + gate_per_hand for every member past the first, kept between gate_min and gate_max. Won: the guard is beaten for the run, the chests come home in the packs, and a job to clear it is done. Lost: each rolls for their life. **Inferred** (agenda 255).",
+		"_comment_wilds": "D348 (the rest of Ewan's 'send your own characters to do quests so they go on auto mode'; D309, D310): a band sent to a wild place the company has heard of, whose guard still stands, walks there on the clock, spends steps_in_wild steps inside, and drives the guard off on wild_win_base + gate_per_level x (the band's average level - the guard's, which is the company's level when the first set off) + gate_per_hand for every member past the first, kept between gate_min and gate_max. Won: the guard is beaten for the run, the chests come home in the packs, and a job to clear it is done. Lost: each rolls for their life. **Inferred** (agenda 256).",
 		"steps_in_wild": 6,
 		"wild_win_base": 0.4,
 		"_comment_meet": "D294, D300 (founders' meeting: 'clear that rank E gate and meet me back at Stormreach'; if you are not there, a crow brings word): sent with a village, keep or the house to meet in, they walk there from where the job was done, a tile a step. With the company there they fall in; if not, crow_line is said and they wait there until it comes. With none named they come back to wherever the company is, as before.",
-		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
+		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you.",
+		"_comment_auto": "D349 (BR9's 'sending your own people out on Auto'; D294: 'run on Auto by their moods and nature'): somebody sent on Auto picks their own work from what the company knows within auto.reach tiles (an errand taken, a gate, a wild place), goes, and when they fall in again takes the next, until called back or hurt below auto.rest_below of their health. Each job is weighed by its odds (an errand at errand_odds) plus boldness x what it is worth (worth); a job below least_odds - boldness x bold_floor is never taken. Boldness is bold_base, plus bold_letters for each letter of their temper, plus bold_per_mood for every point their mood stands above the base (less below it), kept between 0 and 1. **Inferred** (agenda 257): every number.",
+		"auto": {
+			"reach": 80,
+			"rest_below": 0.5,
+			"errand_odds": 0.85,
+			"least_odds": 0.6,
+			"bold_floor": 0.2,
+			"worth": { "errand": 0.0, "wild": 0.3, "gate": 0.5 },
+			"bold_base": 0.4,
+			"bold_letters": { "E": 0.1, "T": 0.1, "P": 0.15, "I": -0.05, "F": -0.1, "J": -0.1 },
+			"bold_per_mood": 0.005,
+			"set_off_line": "On Auto: {line}",
+			"idle_line": "{name} is on Auto, but there is nothing within reach worth the risk. They stay with the company until there is.",
+			"hurt_line": "{name} comes back hurt, and comes off Auto to mend."
+		}
 	},
 	"experience": {
 		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",

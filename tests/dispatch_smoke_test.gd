@@ -116,6 +116,7 @@ func _ready() -> void:
 	_check_play_test_eight(world, roster)
 	_check_nemesis(world)
 	_check_hunger(world, roster)
+	_check_auto(world)
 	_finish()
 
 
@@ -245,6 +246,81 @@ func _check_wild_band(world: World) -> void:
 			_expect(not Dispatch.open_wilds(world).has(wild), "a cleared wild place could still be sent to")
 		for key: String in kept_rules:
 			rules[key] = kept_rules[key]
+	GameState.flags = kept_flags
+	world.rng.state = kept_rng
+	world.marked = kept_marked
+	GameState.gold = kept_gold
+	GameState.stores = kept_stores
+
+
+## Somebody sent on Auto ([D349]) picks their own work by the odds and their nature: the careful the
+## sure errand, the bold the gate or the wild place; back with the company they take the next, and
+## come off Auto when they come back hurt. Nothing worth the risk, and they do not go.
+func _check_auto(world: World) -> void:
+	var kept_flags := GameState.flags.duplicate()
+	var kept_rng := world.rng.state
+	var kept_marked := world.marked.duplicate()
+	var kept_gold := GameState.gold
+	var kept_stores := GameState.stores.duplicate()
+	var rules: Dictionary = Database.world_rules["dispatch"]
+	var kept_rules := rules.duplicate(true)
+	var auto: Dictionary = rules["auto"]
+	for wild: Site in Wilds.all(world):
+		if Wilds.guarded(wild):
+			GameState.flags.erase(Wilds.guard_flag(wild))
+			Atlas.mark(world, wild)
+			break
+	rules["trouble_min"] = 0.0
+	rules["trouble_max"] = 0.0
+	rules["gate_min"] = 0.7
+	rules["gate_max"] = 0.7
+	var roster := Company.found()
+	var bold: Character = roster.party_members()[1]
+	var careful: Character = roster.party_members()[2]
+	bold.temper = "ESTP"
+	careful.temper = "ISFJ"
+	bold.thoughts = []
+	careful.thoughts = []
+	_expect(Dispatch.boldness(bold) > Dispatch.boldness(careful), "an ESTP was no bolder on their own than an ISFJ")
+	var calm := Dispatch.boldness(careful)
+	careful.thoughts = [{"mood": 30}]
+	_expect(Dispatch.boldness(careful) > calm, "a good mood did not make anyone bolder")
+	careful.thoughts = []
+	var away: Array = []
+	var errands: Array = [_errand("look", world.player_cell + Vector2i(4, 0))]
+	var sure := Dispatch.pick(world, roster, away, errands, careful)
+	var hard := Dispatch.pick(world, roster, away, errands, bold)
+	_expect(str(sure.get("kind", "")) == "errand", "the careful one on Auto did not take the sure errand (took %s)" % sure.get("kind", "nothing"))
+	_expect(str(hard.get("kind", "")) in ["gate", "wild"], "the bold one on Auto did not take the hard job (took %s)" % hard.get("kind", "nothing"))
+	auto["least_odds"] = 1.5
+	_expect(Dispatch.send_on_auto(world, roster, away, errands, careful) == "" and not Dispatch.on_auto(careful),
+			"somebody went on Auto with nothing worth the risk")
+	auto["least_odds"] = kept_rules["auto"]["least_odds"]
+	var line := Dispatch.send_on_auto(world, roster, away, errands, careful)
+	print("  " + line)
+	_expect(line != "" and Dispatch.on_auto(careful) and not roster.party.has(careful.id), "the careful one was not sent on Auto")
+	_expect(Dispatch.summary(away[0], roster, world).ends_with("(on Auto)"), "a job taken on Auto did not say so")
+	world.steps = int(away[0]["out_at"])
+	Dispatch.walk(world, roster, away, errands)
+	world.steps = int(Dispatch.job_for(away, careful.id).get("back_at", world.steps))
+	var lines := Dispatch.walk(world, roster, away, errands)
+	print("  auto: " + " / ".join(lines))
+	var next := Dispatch.job_for(away, careful.id)
+	_expect(not next.is_empty() and (next.has("gate") or next.has("wild")), "back from the errand on Auto, they did not take the next job")
+	if not next.is_empty():
+		rules["gate_min"] = 1.0
+		rules["gate_max"] = 1.0
+		careful.hp = 1
+		world.steps = int(next["out_at"])
+		Dispatch.walk(world, roster, away, errands)
+		careful.hp = 1
+		world.steps = int(Dispatch.job_for(away, careful.id).get("back_at", world.steps))
+		lines = Dispatch.walk(world, roster, away, errands)
+		print("  auto: " + " / ".join(lines))
+		_expect(not Dispatch.on_auto(careful) and Dispatch.job_for(away, careful.id).is_empty(), "somebody who came back hurt stayed on Auto")
+	Dispatch.call_back(bold)
+	for key: String in kept_rules:
+		rules[key] = kept_rules[key]
 	GameState.flags = kept_flags
 	world.rng.state = kept_rng
 	world.marked = kept_marked

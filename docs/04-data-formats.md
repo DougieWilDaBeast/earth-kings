@@ -873,7 +873,7 @@ expected level) + `gate_per_hand` for each member past the first, kept between `
 in `GameState.away` with `wild` and `guard_level`, the company's level when the first set off) spends
 `steps_in_wild` steps there and wins on `wild_win_base` + `gate_per_level` × (its average level −
 `guard_level`) + `gate_per_hand` a member past the first, in the same bounds: the guard's done flag set, every
-chest's flag set and its haul claimed, and a `wild` errand for it complete.
+chest's flag set and its haul claimed, and a `wild` errand for it complete. Somebody sent on Auto (D349) has the run's flag `auto:<id>` (`true`, or `"idle"` once they have said there is nothing worth it) and picks from `dispatch.auto`: within `reach` tiles, each errand at `errand_odds`, each gate and wild place at its own odds, scored as the odds + boldness × `worth[kind]` and never under `least_odds` − boldness × `bold_floor`; boldness is `bold_base` + `bold_letters` for each letter of their temper + `bold_per_mood` × (mood − the moods' base), between 0 and 1. Back with the company, under `rest_below` of their health they come off Auto (`hurt_line`); otherwise they take the next (`set_off_line`), or say `idle_line` once.
 
 Sent with a place to meet ([D300](06-decisions.md): a village, keep or the house the company knows,
 `Dispatch.meeting_places`), a job carries `meet` and `meet_name`, and walks there from where it was done,
