@@ -9,8 +9,7 @@ The founders (D287): places worth going to, with loot, a quest or a story in eac
 stumbled on, one tile in sixteen, with no way to aim for one. This puts `per_world` of them on the
 map as sites of kind `wild`: on ground of their own kind (forest and brush for the grove and the
 thicket, marsh for the fen, sand for the oasis, hill for the scarp, and since D321 crag for the
-cloud peak; since D329 the hamlets on grass, wood and sand; since D330 two caravans outside towns,
-which then walk), never within `clear` tiles of
+cloud peak), never within `clear` tiles of
 another place and `apart` tiles of each other, dealt from the map's own seed so the same map gets
 the same wilds. A run finds one by walking onto it, or hears of it at rest in a settlement
 (src/chronicle/wilds.gd), which marks it on the map. Every other site on the map is left as it is.
@@ -40,24 +39,10 @@ NAMES = {
     "wild_oasis": ["the quiet oasis", "the palm spring", "the hidden well"],
     "wild_scarp": ["the wind scarp", "the high shelf", "the gull scarp"],
     "wild_peak": ["the cloud peak", "the white horn"],
-    "hamlet_fold": ["Ewe's Hollow", "Lambsend"],
-    "hamlet_mill": ["Millrace", "the Wheelwater"],
-    "hamlet_salt": ["Saltcote", "the Brine Huts"],
 }
 # D321: the mountains' own wild, the cloud peak, on crag, dealt after the twelve with a deal of its own
 # so the twelve stand where they stood.
 PEAKS = 2
-# D329: the hamlets, a few crofts each with folk, a want and a trouble, dealt last with a deal of their
-# own, each on its own ground, so everything before them stands where it stood.
-HAMLETS = {"hamlet_fold": ["grass"], "hamlet_mill": ["forest", "brush"], "hamlet_salt": ["sand"]}
-HAMLETS_EACH = 2
-# Out past what the crater's first sight takes in, so a hamlet is come upon, not seen from the start.
-HOME_CLEAR = 24
-# D330: the caravans, wild places that walk (src/chronicle/caravans.gd). Each starts off the road outside
-# a town far from the crater and goes round that town and the STOPS - 1 towns nearest after it.
-CARAVANS = {"caravan_ilse": "Mother Ilse's wagons", "caravan_red": "the Red Wagons"}
-STOPS = 4
-UNWALKABLE = {"~", "#", "o", "l"}
 # How many of each kind the map gets, in the order they are dealt.
 DEAL = ["wild_scarp", "wild_grove", "wild_fen", "wild_oasis", "wild_thicket", "wild_scarp",
         "wild_grove", "wild_fen", "wild_oasis", "wild_thicket", "wild_scarp", "wild_grove"]
@@ -111,59 +96,6 @@ def main() -> None:
                     "open": False, "opened_at": 0, "rank": "",
                 })
                 break
-    rng = random.Random(int(data.get("from_seed", 1)) + 329)
-    home = [tuple(s["cell"]) for s in kept if s.get("kind") == "home"]
-    for index in range(HAMLETS_EACH):
-        for area, grounds in HAMLETS.items():
-            cells = [(x, y) for y, row in enumerate(tiles) for x, symbol in enumerate(row)
-                     if LEGEND.get(symbol, "grass") in grounds]
-            rng.shuffle(cells)
-            for cell in cells:
-                if 2 <= cell[0] < len(tiles[0]) - 2 and 2 <= cell[1] < len(tiles) - 2 \
-                        and far(cell, taken, CLEAR) and far(cell, [tuple(p["cell"]) for p in placed], APART) \
-                        and far(cell, home, HOME_CLEAR):
-                    placed.append({
-                        "broken": False, "cell": [cell[0], cell[1]], "cleared": False,
-                        "data": {"area": area}, "display_name": NAMES[area][index], "kind": "wild",
-                        "open": False, "opened_at": 0, "rank": "",
-                    })
-                    break
-    rng = random.Random(int(data.get("from_seed", 1)) + 330)
-    towns = [s for s in kept if s.get("kind") in ("village", "keep") and far(tuple(s["cell"]), home, HOME_CLEAR)]
-    rng.shuffle(towns)
-    for area, name in CARAVANS.items():
-        for first in towns:
-            route = [first]
-            while len(route) < STOPS:
-                rest = [t for t in towns if t not in route]
-                if not rest:
-                    break
-                last = tuple(route[-1]["cell"])
-                route.append(min(rest, key=lambda t: max(abs(t["cell"][0] - last[0]), abs(t["cell"][1] - last[1]))))
-            fx, fy = first["cell"]
-            start = None
-            for reach in range(3, 7):
-                for dx in range(-reach, reach + 1):
-                    for dy in range(-reach, reach + 1):
-                        cell = (fx + dx, fy + dy)
-                        if max(abs(dx), abs(dy)) != reach or start is not None:
-                            continue
-                        if not (0 <= cell[1] < len(tiles) and 0 <= cell[0] < len(tiles[0])):
-                            continue
-                        if tiles[cell[1]][cell[0]] in UNWALKABLE:
-                            continue
-                        if far(cell, taken, 3) and far(cell, [tuple(p["cell"]) for p in placed], 3) \
-                                and far(cell, home, HOME_CLEAR):
-                            start = cell
-            if start is None:
-                continue
-            placed.append({
-                "broken": False, "cell": [start[0], start[1]], "cleared": False,
-                "data": {"area": area, "caravan": {"route": [t["cell"] for t in route[1:] + route[:1]], "leg": 0, "rest": 0}},
-                "display_name": name, "kind": "wild", "open": False, "opened_at": 0, "rank": "",
-            })
-            towns.remove(first)
-            break
     for place in placed:
         print("%-20s %-13s at %s" % (place["display_name"], place["data"]["area"], place["cell"]))
     print("%d wild places" % len(placed))

@@ -11,17 +11,14 @@ const SHADOW_DEPTH := 12.0
 const LIP := Color(1.0, 1.0, 0.94, 0.22)
 
 var map: AreaMap = null
-## The cells drawn: the whole map, or on the land one tile's slot ([D327]).
-var cells := Rect2i()
 
 
 func _draw() -> void:
 	if map == null or not map.has_heights():
 		return
 	var size := float(AreaMap.CELL)
-	var drawn := cells if cells.size != Vector2i.ZERO else Rect2i(0, 0, map.width, map.height)
-	for y in range(drawn.position.y, drawn.end.y):
-		for x in range(drawn.position.x, drawn.end.x):
+	for y in map.height:
+		for x in map.width:
 			var cell := Vector2i(x, y)
 			var here := map.height_at(cell)
 			if here <= 0:

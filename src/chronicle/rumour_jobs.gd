@@ -61,7 +61,7 @@ static func nearest_settlement(world: World, from: Vector2i) -> Site:
 ## all, which goes on the map), who pays there (`rumours.wild_found`); the board never posts the same
 ## wild after. The line said, or "".
 static func found_at_the_wild(world: World, site: Site) -> String:
-	if world == null or site == null or site.kind != Site.WILD or not Wilds.guarded(site) or Wilds.cleared(site):
+	if world == null or site == null or site.kind != Site.WILD or Wilds.cleared(site):
 		return ""
 	var key := "wild:%s" % site.display_name
 	if GameState.has_flag(POSTED_FLAG + key) or GameState.errands.size() >= Errand.max_accepted():
@@ -99,7 +99,7 @@ static func compose(world: World, site: Site) -> Dictionary:
 			open.append({"kind": "siege", "key": "siege:%s" % town.display_name, "site": town})
 	# A wild place the party has heard of, not yet cleared of what keeps it ([D310]).
 	for wild: Site in Wilds.all(world):
-		if Atlas.knows(world, wild) and Wilds.guarded(wild) and not Wilds.cleared(wild):
+		if Atlas.knows(world, wild) and not Wilds.cleared(wild):
 			open.append({"kind": "wild", "key": "wild:%s" % wild.display_name, "site": wild})
 	open = open.filter(func(r: Dictionary) -> bool: return not GameState.has_flag(POSTED_FLAG + str(r["key"])))
 	if open.is_empty():

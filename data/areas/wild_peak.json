@@ -209,20 +209,6 @@
     13,
     3
    ]
-  },
-  {
-   "art": "landmark/ladder",
-   "cell": [
-    5,
-    6
-   ]
-  },
-  {
-   "art": "landmark/ladder",
-   "cell": [
-    24,
-    7
-   ]
   }
  ],
  "people": [
@@ -292,16 +278,6 @@
   [
    18,
    5
-  ]
- ],
- "ladders": [
-  [
-   5,
-   6
-  ],
-  [
-   24,
-   7
   ]
  ],
  "_doc": "The cloud peak: a mountain three heights up, the clouds below it. Bare earth (0), the shelves (`raised`, 1), the high rock (`high`, 2) and the summit (`summit`, 3); `cloud` is the drop round the top, never walked, and a body shoved into it in a fight is gone. `ways_up` are the slopes.",

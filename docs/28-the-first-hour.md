@@ -80,7 +80,7 @@ is next is in the [roadmap](05-roadmap.md#next-steps-in-order); this doc describ
 attack): foes two levels down, half healed
 after a fight, about a level a fight, the bands on the Tower's floors at the level written for them (the setting's
 two levels off is not applied there), so the floor 5 keeper stands at level 9 ([D113](06-decisions.md), kept
-by [D117](06-decisions.md), corrected by [D150](06-decisions.md)). **Saves**: on walking into a town or the city (once an arrival: in and out over its edge is not saved again until the party has been three tiles off, [D206](06-decisions.md)), opening the register,
+by [D117](06-decisions.md), corrected by [D150](06-decisions.md); left at 9 by [D301](06-decisions.md)). **Saves**: on walking into a town or the city (once an arrival: in and out over its edge is not saved again until the party has been three tiles off, [D206](06-decisions.md)), opening the register,
 shutting a gate, as well as setting out and resting ([D112](06-decisions.md)). **The play log**:
 Copy or Save play log in the system menu hands a tester's run over ([D125](06-decisions.md)).
 
@@ -222,6 +222,39 @@ with nowhere known to rest (Stormreach is walked into, not rested at by arriving
 out of the door; it now turns back only when there is somewhere to rest. The first batch, everyone
 alone and no companions, fell 13 of 13 by floor 6 (one on floor 1, two on 3, seven on 4 to the Warden
 or its Bog Jellies, three on floor 6), and is why Auto rests and turns back.
+
+**Levelling in gates** ([D301](06-decisions.md), #378): sixteen self-played runs of ten minutes at five times
+speed, seeds 101 to 108, each once alone and once with random companions, on main after #415 with D301. Levels come only from new kinds in a gate. Level after the first gate, then the floor won and the
+level at the end. Floor is the highest won.
+
+| Seed | Lead | Companions | After the first gate | Outcome |
+| --- | --- | --- | --- | --- |
+| 101 | Bellona | none | 4 | Floor 5 won, level 7, hunting gates |
+| 102 | Ares | none | 3 | Floor 7 won, level 6 |
+| 103 | Bellona | none | 3 | Floor 6 won, level 7 |
+| 104 | Ares | none | 3 | Floor 6 won, level 7 |
+| 105 | Cato | none | 3 | Floor 6 won, level 7 |
+| 106 | Diana | none | 2 | Fell on floor 5 to the Warden, level 2 (no gate at her rank left) |
+| 107 | Ultor | none | 3 | Fell on floor 5 to the Warden, level 4 |
+| 108 | Ares | none | 4 | Floor 8 won, level 8 |
+| 101 | Bellona | Bram 4, Sera 2 | 4 | Fell on the land to an Axe Bear, level 4 (1:23) |
+| 102 | Ares | Bram 3 | 3 | Floor 5 won, level 6, hunting gates |
+| 103 | Bellona | Bram 5, Toln 3, Sera 1 | 2 | Floor 8 won, level 5 |
+| 104 | Ares | Bram 5, Bram 3, Sera 1 | 2 | Floor 5 won, level 6, hunting gates |
+| 105 | Cato | Bram 5, Toln 3, Toln 5 | 3 | Floor 9 won, level 6 |
+| 106 | Diana | Toln 5, Toln 5 | 1 | Fell on floor 6 with Toln, level 7 (8:27) |
+| 107 | Ultor | Toln 3, Bram 6, Sera 2 | 4 | **Floor 10 won**, level 8 (9:20) |
+| 108 | Ares | Bram 4, Bram 6, Bram 1 | 4 | Fell on the land to a Dread Wraith, level 4 (1:14) |
+
+**5 falls in 16**, inside [D197](06-decisions.md)'s 2 to 5; no script errors and no stalls. The first gate
+brings a lead to level 3 or 4 (12 of 16; Diana, the slowest learner, 1 to 2). Floors 1 to 5 were won in 14 of
+16. Lone leads stand at floor 5 to 8 after ten minutes at level 6 to 8, going out to gates between climbs;
+one party in eight reached floor 10, against six in sixteen in 6 to 11 minutes before. Three earlier rounds
+found the faults fixed with it: Auto stalled on the way to the Tower in every run (a tree over a tile's edge),
+stood at a gate too strong to go into, paced one tile's border for minutes, and climbed on into the Warden at
+level 3. These runs had floor 5's keeper at level 6 and floors 6 up a level higher for each of the company
+past the first; `dougie` put both back as they were (keeper 9, floors flat), to revisit once a later lead carries
+strength from the worlds before ([D301](06-decisions.md)). Logs: `/mnt/project-files/simulations/2026-10-21-levelling-in-gates/`.
 
 **How long the Second Hour took to build** (#234): the build half, floors 6 to 10, the sixteen chapter
 twos into the game, the Keeper of the Tenth, suites and docs ([D254](06-decisions.md), PR #324), took
@@ -377,9 +410,8 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
-   weapon a notch at a time; anyone still wields anything. Enchanting ([D328](06-decisions.md)): four runes from
-   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Herbs grow on the
-   land to pick, by what each land grows ([D331](06-decisions.md)). Forging from parts is **planned**.
+   weapon a notch at a time; anyone still wields anything. Enchanting ([D327](06-decisions.md)): four runes from
+   charms and herbs laid on a carried weapon from the party screen, each a fight passive. Forging from parts is **planned**.
 8. **Recruiting anyone**, by charisma, or by quests that win their trust after a no (built,
    [D277](06-decisions.md): "Walk with us." on anyone with something to say who keeps no post, a
    Charisma check, and after a no their own favour or a few fights won to bring them round); **sending your own
@@ -391,13 +423,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat. Caves built
     ([D282](06-decisions.md)): a mouth on about three hill tiles in ten, a place of its own behind it with bands,
-    a keeper and a cache. Heights built: the wind scarp's shelves ([D308](06-decisions.md)), the cloud peak
-    three heights up ([D321](06-decisions.md)), and rises of the land's own floor on every tile, a height up
-    with a rock face below, climbed only at a slope, more on hills and crag ([D327](06-decisions.md)). Ladders that
-    climb two heights, and a Climbing Rope that scales any face a height up ([D333](06-decisions.md)).
-    Six hamlets to come upon, a sheepfold, a mill and salt pans, each with folk who sell, a job and a trouble
-    ([D329](06-decisions.md)). Two caravans that walk between the towns, one selling the makings of runes
-    ([D330](06-decisions.md)).
+    a keeper and a cache. Heights still **planned**.
 11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.

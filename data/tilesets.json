@@ -383,11 +383,6 @@
 		"street_paving": {
 			"display_name": "the city's paving",
 			"walkable": true
-		},
-		"rise": {
-			"_comment": "D327: a rise of the land's own floor, a height up, climbed only at a slope.",
-			"display_name": "higher ground",
-			"walkable": true, "height": 1
 		}
 	},
 	"sheets": {
@@ -1029,14 +1024,6 @@
 			"lower": "none",
 			"upper": "street_paving",
 			"feature": "street_paving"
-		},
-		"rise": {
-			"_comment": "D327: a rise of any land's floor, drawn in house (tools/draw_rises.py); see-through on top, a rock face below its south edge.",
-			"texture": "res://art/tilesets/rise.png",
-			"tile_size": 64,
-			"lower": "none",
-			"upper": "rise",
-			"feature": "rise"
 		}
 	}
 }

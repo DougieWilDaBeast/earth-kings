@@ -540,7 +540,7 @@ func _ground_field() -> Dictionary:
 			for x in size.x:
 				var cell := origin + Vector2i(x, y)
 				row += str(clampi(ground.height_at(cell), 0, 9))
-				if ground.ways_up.has(cell) or ground.ladders.has(cell):
+				if ground.ways_up.has(cell):
 					ways.append([x, y])
 				if ground.is_cloud(cell):
 					clouds.append([x, y])
@@ -940,7 +940,6 @@ func _tick_fighter(f: Fighter) -> void:
 	f.tactic_wait = maxf(0.0, f.tactic_wait - SkirmishRules.TICK)
 	f.tactic_left = maxf(0.0, f.tactic_left - SkirmishRules.TICK)
 	f.warned = maxf(0.0, f.warned - SkirmishRules.TICK)
-	f.answering = maxf(0.0, f.answering - SkirmishRules.TICK)
 	_regenerate(f)
 	signatures.tick(f)
 	conditions.tick(f)
@@ -1023,9 +1022,6 @@ func _think(f: Fighter) -> bool:
 			if (Pace.auto or f.stance_says("seek")) and not f.holding():
 				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
-		# A call answered holds while it lasts and the one called stands (D335).
-		if f.answering > 0.0 and f.called_on != null and is_standing(f.called_on):
-			f.target = f.called_on
 		# The company fights together: once one of them is in it, the rest
 		# come, unless told to hold.
 		if f.target == null and f.is_party() and not f.holding() and _party_engaged():
@@ -1052,16 +1048,6 @@ func _call_out(f: Fighter) -> void:
 	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
 	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
 	_say("%s: \"%s\"" % [f.unit.display_name, word])
-	# A call is an order (D335): the company free to turn on the one called does.
-	var turned: Array = []
-	for other: Fighter in Formations.answer_call(f, target, fighters):
-		other.target = target.unit
-		other.called_on = target.unit
-		other.answering = float(Formations.callout_rules().get("answer_for", 4.0))
-		turned.append(other.unit.display_name)
-	if not turned.is_empty():
-		_say(str(Formations.callout_rules().get("answered", "{names} turn on {target}.")).format(
-				{ "names": " and ".join(turned), "target": target.unit.display_name }))
 
 
 func _party_engaged() -> bool:
@@ -1585,6 +1571,12 @@ func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
 		Journal.note_felled(world, target.template_id)
 
 
+## Whether a first of a kind teaches here: everywhere, unless levels come only in gates ([D301]),
+## when only a fight whose encounter says `teaches` (in a gate, or a cave) does.
+func teaches() -> bool:
+	return bool(encounter.get("teaches", false)) or not Progression.levels_only_in_gates()
+
+
 ## Experience comes from the first of each kind, to whoever landed it; everyone
 ## else still standing on the party's side counts an assist, fewer needed for
 ## those who healed the killer ([D54]), and a keeper teaches them all ([D37],
@@ -1602,7 +1594,7 @@ func _award_kill(killer: Unit, victim: Unit) -> void:
 	var boss := victim.has_meta("boss") and bool(victim.get_meta("boss"))
 	for line: String in Progression.award_kill(
 		killer.character, victim.template_id, level, involved, boss, GameState.world,
-		_healed_by.get(killer, [])
+		_healed_by.get(killer, []), teaches()
 	):
 		_say(line)
 

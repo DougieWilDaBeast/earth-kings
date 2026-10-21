@@ -6,8 +6,6 @@ extends RefCounted
 ## [method generate_random] is the generator that world was first made with, kept
 ## for `tools/bake_world.tscn` and for worlds of another size.
 
-const Caravans := preload("res://src/chronicle/caravans.gd")
-
 const NAME_PREFIX := ["Grey", "Hollow", "Ash", "Wither", "Bright", "Storm", "Cold", "Elder", "Fen", "Mourn"]
 const NAME_SUFFIX := ["water", "ford", "reach", "hold", "march", "gate", "barrow", "vale", "run", "spire"]
 
@@ -65,7 +63,6 @@ static func from_map(map: Dictionary, world_seed: int) -> World:
 	world.tiles = (map.get("tiles", []) as Array).duplicate()
 	for entry: Dictionary in map.get("sites", []):
 		world.sites.append(Site.from_dict(entry.duplicate(true)))
-	Caravans.settle(world)
 	world.player_cell = _starting_cell(world)
 	return world
 

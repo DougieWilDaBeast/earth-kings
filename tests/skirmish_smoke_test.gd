@@ -21,7 +21,6 @@ const SkirmishBrain := preload("res://src/skirmish/skirmish_brain.gd")
 const SkirmishPassives := preload("res://src/skirmish/skirmish_passives.gd")
 const SkirmishFx := preload("res://src/skirmish/skirmish_fx.gd")
 const Formations := preload("res://src/skirmish/formations.gd")
-const Recruits := preload("res://src/chronicle/recruits.gd")
 const SkirmishMarks := preload("res://src/skirmish/skirmish_marks.gd")
 const SkirmishConditions := preload("res://src/skirmish/skirmish_conditions.gd")
 const Company := preload("res://tests/company.gd")
@@ -759,26 +758,27 @@ func _check_the_world_hears() -> void:
 			ticks += 1
 		_expect(GameState.stores.count("herbs") == herbs_before - 1, "herbs used on the road were not taken from the stores")
 
-	# The first goblin down teaches; practice is counted; the journal writes it down.
+	# On the road the first goblin down teaches nothing but goes in the log of foes (D301); in a gate it
+	# teaches; practice is counted either way; the journal writes it down.
 	var killer: Fighter = party[0]
 	var practice_before := _practice(party)
-	var goblin: Fighter = null
-	for f: Fighter in fight.fighters:
-		if f.unit.template_id == "goblin" and f.is_standing():
-			goblin = f
-			break
 	var knew := Progression.has_beaten(killer.unit.character, "goblin")
+	_expect(not fight.teaches(), "a fight on the road teaches levels")
+	var goblin := _standing_goblin(fight)
 	if goblin != null:
-		goblin.unit.hp = 1
-		var swung := false
-		for _try in 20:
-			if fight._strike(killer, goblin.unit, Database.ability(killer.basic), killer.basic):
-				swung = true
-				break
-		_expect(swung and not goblin.is_standing(), "a goblin on one hit point stood")
-		_expect(knew or Progression.has_beaten(killer.unit.character, "goblin"),
-			"the first goblin down taught %s nothing" % killer.unit.display_name)
+		_cut_down(fight, killer, goblin)
+		_expect(knew or not Progression.has_beaten(killer.unit.character, "goblin"),
+			"a goblin down on the road taught %s a level" % killer.unit.display_name)
+		_expect(knew or int(killer.unit.character.met.get("goblin", 0)) >= 1,
+			"a goblin down on the road is not in %s's log of foes" % killer.unit.display_name)
 		_expect(Journal.is_felled(GameState.world, "goblin"), "the journal did not write down a goblin felled")
+	fight.encounter["teaches"] = true
+	goblin = _standing_goblin(fight)
+	if goblin != null:
+		_cut_down(fight, killer, goblin)
+		_expect(Progression.has_beaten(killer.unit.character, "goblin"),
+			"the first goblin down in a gate taught %s nothing" % killer.unit.display_name)
+	fight.encounter.erase("teaches")
 	var caster := _first_with_slots(party)
 	if caster != null:
 		caster.cooldowns[0] = 0.0
@@ -1310,39 +1310,6 @@ func _check_leader_and_callouts() -> void:
 	_expect(Formations.leader_of(party) == null, "two wins made a leader (from_won is %d)" % int(Formations.leader_rules().get("from_won", 3)))
 	vesta.unit.character.fights["won"] = 5
 	_expect(Formations.leader_of(party) == vesta.unit.character, "Vesta with the most fights won does not lead")
-	# Charisma in who leads ([D334]): it lifts someone up to charisma_lift wins behind, no further, and
-	# breaks a tie.
-	var talker: Character = iris.unit.character
-	var kept_level := talker.level
-	talker.level = vesta.unit.character.level + 6
-	var lift := int(Formations.leader_rules().get("charisma_lift", 2))
-	talker.fights["won"] = 5 - lift
-	_expect(Formations.leader_of(party) == talker, "Iris, %d behind with more Charisma, does not lead" % lift)
-	talker.fights["won"] = 5 - lift - 1
-	_expect(Formations.leader_of(party) == vesta.unit.character, "Charisma lifted Iris from %d wins behind" % (lift + 1))
-	talker.level = vesta.unit.character.level
-	talker.fights["won"] = 5
-	var by_charisma := talker if Recruits.charisma(talker) > Recruits.charisma(vesta.unit.character) else vesta.unit.character
-	if Recruits.charisma(talker) != Recruits.charisma(vesta.unit.character):
-		_expect(Formations.leader_of(party) == by_charisma, "Charisma did not break a tie of fights won")
-	talker.level = kept_level
-	talker.fights["won"] = 2
-	# Trust ([D335]): a companion who has no trust in the one calling the shape holds no slot.
-	var cold := int(Formations.rules().get("break_below_bond", -3))
-	var kept_bond := int(cato.unit.character.bonds.get(vesta.unit.character.id, 0))
-	cato.unit.character.bonds[vesta.unit.character.id] = cold
-	_expect(Formations.broken(cato.unit.character, vesta.unit.character), "Cato with a bond of %d to Vesta still holds her shape" % cold)
-	_expect(not Formations.broken(cato.unit.character), "Cato broke a shape nobody called")
-	cato.unit.character.bonds[vesta.unit.character.id] = kept_bond
-	_expect(not Formations.broken(cato.unit.character, vesta.unit.character), "Cato on even terms with Vesta breaks her shape")
-	# A call is an order ([D335]): those free near the one called turn on it; one told what to do does not.
-	var called: Fighter = foes[0]
-	iris.unit.cell = called.unit.cell + Vector2i(2, 0)
-	cato.unit.cell = called.unit.cell + Vector2i(0, 2)
-	cato.order = Fighter.Order.MOVE
-	var answering := Formations.answer_call(vesta, called, fight.fighters)
-	_expect(answering.has(iris) and not answering.has(cato), "the call turned %s" % [answering.map(func(a: Fighter) -> String: return a.unit.display_name)])
-	cato.order = Fighter.Order.NONE
 	_expect(Formations.leader_fighter(fight.fighters) == vesta, "the leader among the fighters is not Vesta")
 	_expect(Formations.recommend(3, vesta.unit.character) == "wedge", "a mender leading did not call for a wedge: %s" % Formations.recommend(3, vesta.unit.character))
 	_expect(Formations.badge(vesta.unit.character).contains("5"), "the badge does not say how many: %s" % Formations.badge(vesta.unit.character))
@@ -1419,6 +1386,23 @@ func _check_heal_growth() -> void:
 	_expect(is_equal_approx(AbilityResolver.heal_growth(plain), 1.0), "a unit with no level mends differently")
 	for unit: Unit in [early_unit, later_unit, plain]:
 		unit.free()
+
+
+func _standing_goblin(fight: Node2D) -> Fighter:
+	for f: Fighter in fight.fighters:
+		if f.unit.template_id == "goblin" and f.is_standing():
+			return f
+	return null
+
+
+func _cut_down(fight: Node2D, killer: Fighter, foe: Fighter) -> void:
+	foe.unit.hp = 1
+	var swung := false
+	for _try in 20:
+		if fight._strike(killer, foe.unit, Database.ability(killer.basic), killer.basic):
+			swung = true
+			break
+	_expect(swung and not foe.is_standing(), "a %s on one hit point stood" % foe.unit.display_name)
 
 
 ## Stances ([D195]): every card opens on Own way, the doctrine as it is; a key or a click on

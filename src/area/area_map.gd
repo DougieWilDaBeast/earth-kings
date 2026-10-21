@@ -59,11 +59,6 @@ var _terrain: Array[String] = []
 ## Cells where higher ground can be climbed onto, or climbed off, from the ground a height below
 ## ([D308]): a slope, a ladder, a rope. Anywhere else a shelf is only dropped off.
 var ways_up: Dictionary = {}
-## Ladders ([D333]): cells where a ladder stands against a face, climbed up as far as `ladder_most`
-## heights (`world_rules.json` → `heights`), a slope's way for a taller face.
-var ladders: Dictionary = {}
-## Whether the party carries a climbing rope ([D333]): any face one height up is a way up, as at a slope.
-var scaling: bool = false
 ## Whether any terrain of this area stands a height up, so the step rule and the ledges apply.
 var _heights_vary: bool = false
 ## Whether any terrain of this area is cloud round a mountain's top ([D321]), so the clouds are drawn.
@@ -102,8 +97,6 @@ static func load_area(area_id: String) -> AreaMap:
 			map._clouds = true
 	for pair: Array in data.get("ways_up", []):
 		map.ways_up[_to_cell(pair)] = true
-	for pair: Array in data.get("ladders", []):
-		map.ladders[_to_cell(pair)] = true
 	map.spawn = _to_cell(data.get("spawn", [0, 0]))
 	for pair: Array in data.get("exits", []):
 		map.exits.append(_to_cell(pair))
@@ -320,27 +313,14 @@ func height_at(cell: Vector2i) -> int:
 
 
 ## Whether a walker on [param from] may step onto [param to]: down is always free, up one height only
-## onto or off a way up (a slope), or anywhere with a rope ([member scaling]), up a ladder as far as it
-## reaches ([D333]), up two or more otherwise never. [param to] still has to be walkable.
+## onto or off a way up (a slope), up two or more never. [param to] still has to be walkable.
 func may_step(from: Vector2i, to: Vector2i) -> bool:
 	if not _heights_vary or from == to:
 		return true
 	var rise := height_at(to) - height_at(from)
 	if rise <= 0:
 		return true
-	if ladders.has(to) or ladders.has(from):
-		return rise <= ladder_most()
-	return rise == 1 and (scaling or ways_up.has(to) or ways_up.has(from))
-
-
-## How many heights a ladder climbs ([D333]).
-static func ladder_most() -> int:
-	return int(Database.world_rules.get("heights", {}).get("ladder_most", 2))
-
-
-## Carry a rope or not ([D333]); a way already found is found again.
-func set_scaling(on: bool) -> void:
-	scaling = on
+	return rise == 1 and (ways_up.has(to) or ways_up.has(from))
 
 
 ## Whether any of this ground is cloud below a mountain's top ([D287], [D321]).

@@ -324,14 +324,12 @@ func _ready() -> void:
 		push_error("Area: no such area '%s'" % boot_payload.get("area_id", ""))
 		EventBus.request_scene.emit(_return_scene, _return_payload)
 		return
-	# A rope carried makes any face a height up a way up ([D333]).
-	map.set_scaling(_carries_rope())
 	# A floor above the walked ones, walked on one of their plans (D207): its bands are its own foes.
 	if _tower_floor > 0:
 		map.bands = TowerFloors.restock(map.bands, GameState.world, _tower_floor, GameState.party_characters(), map.stairs)
 		_admit_climbers_to_the_floor()
 	# A wild place is guarded by the land's own creatures ([D309]).
-	elif (map.id.begins_with("wild_") or Database.area(map.id).has("lure")) and GameState.world != null:
+	elif map.id.begins_with("wild_") and GameState.world != null:
 		map.bands = Wilds.stock(map, GameState.world, GameState.world.player_cell, GameState.party_characters(), map.bands)
 	_lay_out_memories()
 	_waymark = AreaWaymark.new()
@@ -391,6 +389,7 @@ func _ready() -> void:
 	_warm_the_party()
 	for line: String in boot_payload.get("notes", []):
 		_note(line)
+	_call_out_the_looked_for()
 	if _land_mode:
 		_open_on(str(_here_chunk().get("opening", "")))
 	else:
@@ -494,16 +493,7 @@ func _land_hint() -> String:
 
 ## One tile's ground, in a node of its own so it can be let go of with the tile.
 func _paint_tile(tile: Vector2i) -> void:
-	var land := map as Land
-	var under := _ground_node(tile)
-	GroundPainter.paint_patches(map, land.patches_of(tile), under)
-	# The edges of the land's rises ([D327]), over the tile's ground.
-	if bool(land.chunks.get(tile, {}).get("_heights", false)):
-		var ledges := AreaLedges.new()
-		ledges.name = "Ledges"
-		ledges.map = map
-		ledges.cells = land.slot_rect(tile)
-		under.add_child(ledges)
+	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), _ground_node(tile))
 
 
 ## The node [param tile]'s ground is painted into, under the bands' watched ground.
@@ -573,10 +563,8 @@ func _life_for(tile: Vector2i) -> Array[Dictionary]:
 	rng.seed = hash([GameState.world.shape_seed(), tile.x, tile.y, "life"])
 	var area := land.slot_rect(tile)
 	var per_tile: Dictionary = rules.get("per_tile", {})
-	# Creatures that match the land (D332): a land's own pictures for each kind, none where it gives none.
-	var own: Dictionary = Biome.data(str(chunk.get("land", ""))).get("life_art", {})
 	for kind: String in ["bird", "flutter", "hop", "crawl"]:
-		var arts: Array = own.get(kind, rules.get("art", {}).get(kind, []))
+		var arts: Array = rules.get("art", {}).get(kind, [])
 		if arts.is_empty():
 			continue
 		var mean := float(per_tile.get(kind, 0.0)) * share
@@ -709,8 +697,6 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		})
 
 
-## How many levels a gate may stand above the company before going in is asked twice ([D246]).
-const GATE_WARN_LEVELS := 6
 ## Until when (ms) a second press goes into the gate that was warned of.
 var _gate_warned_until: int = 0
 
@@ -741,9 +727,9 @@ func _gate_here() -> Site:
 	return site if site != null and site.kind == Site.GATE else null
 
 
-## A gate whose keepers stand `GATE_WARN_LEVELS` or more above the company.
+## A gate whose keepers stand `AutoRoad.GATE_WARN_LEVELS` or more above the company.
 func _gate_too_strong(gate: Site) -> bool:
-	return gate.reading_level() >= Encounter.party_level(GameState.party_characters()) + GATE_WARN_LEVELS
+	return AutoRoad.too_strong(gate)
 
 
 ## Where a company resting on this floor sits, for their fire ([D246]).
@@ -1632,6 +1618,25 @@ func _walked_floor() -> bool:
 	return _tower_floor > 0 or _in_a_gate()
 
 
+## In a gate or a cave (where a first of a kind teaches, D301): anyone in the company looking out
+## for a kind that holds a chamber here hears it said.
+func _call_out_the_looked_for() -> void:
+	if _land_mode or not (_in_a_gate() or bool(Database.area(map.id).get("teaches", false))):
+		return
+	var here: Array = []
+	for band: Dictionary in Database.area(map.id).get("bands", []):
+		if str(band.get("done_flag", "")) != "" and GameState.has_flag(str(band["done_flag"])):
+			continue
+		for kind: Variant in band.get("pack", []):
+			if not here.has(str(kind)):
+				here.append(str(kind))
+	for member: Character in GameState.party_characters():
+		for kind: String in member.look_for:
+			if here.has(kind) and not member.beaten.has(kind):
+				_note("%s: there is a %s in here, the kind I was looking out for." % [
+					member.display_name, str(Database.unit_template(kind).get("display_name", kind))])
+
+
 func _in_a_gate() -> bool:
 	return _gate_cell.x >= 0
 
@@ -1870,6 +1875,12 @@ func _land_auto_axis() -> Vector2:
 	var to_band := _auto_band_axis()
 	if to_band != Vector2.INF:
 		return to_band
+	# A way across the land that dips through a tile beside on its way to the next is walked on, not
+	# asked again on the tile beside: asked there, the continent sent it straight back, and the party
+	# paced a tile's border for minutes ([D301]'s runs).
+	if _auto_tile.x >= 0 and _auto_from != world.player_cell and land.tile_of(here) != _auto_tile \
+			and _auto_exit_index < _auto_exit_path.size() and _on_the_way(land, land.tile_of(here)):
+		_auto_from = world.player_cell
 	# Asked again once the step is taken, or when the party was put somewhere else (a fight).
 	if _auto_tile.x < 0 or _auto_from != world.player_cell or land.tile_of(here) == _auto_tile:
 		if _asking:
@@ -1908,6 +1919,14 @@ func _land_auto_axis() -> Vector2:
 	# No way worked out across the land: straight at it, and the border does the rest.
 	var middle := map.centre_of(land.slot_rect(_auto_tile).get_center())
 	return (middle - _leader.position).normalized()
+
+
+## Whether the rest of the way Auto is walking passes through [param tile].
+func _on_the_way(land: Land, tile: Vector2i) -> bool:
+	for i in range(_auto_exit_index, _auto_exit_path.size()):
+		if land.tile_of(map.cell_at(_auto_exit_path[i])) == tile:
+			return true
+	return false
 
 
 ## Whether a band on this ground is watching [param cell].
@@ -2560,26 +2579,10 @@ func _say_the_shelf(before: Vector2, stride: Vector2, moved: Vector2) -> void:
 		return
 	if ahead == here or not map.is_walkable(ahead) or map.may_step(here, ahead):
 		return
-	# A rope bought or picked up since the party came in is a rope all the same ([D333]).
-	if not map.scaling and _carries_rope():
-		map.set_scaling(true)
-		_note(str(Database.world_rules.get("heights", {}).get("rope_line", "The rope goes over the edge.")))
-		return
 	if _ledges_said.has(ahead):
 		return
 	_ledges_said[ahead] = true
 	_note(str(Database.world_rules.get("heights", {}).get("blocked_line", "The shelf is too high to climb here. Find a slope.")))
-
-
-## Whether the company carries a climbing rope ([D333]): in the packs, or worn by any of them.
-func _carries_rope() -> bool:
-	var rope := str(Database.world_rules.get("heights", {}).get("rope_item", "climbing_rope"))
-	if GameState.stores.has(rope):
-		return true
-	for character: Character in GameState.party_characters():
-		if character.charms.has(rope):
-			return true
-	return false
 
 
 func _can_stand(point: Vector2) -> bool:
@@ -2736,9 +2739,7 @@ func _formation_slots() -> Dictionary:
 	var spacing := float(Formations.rules().get("ground_spacing", 40.0))
 	for i in companions.size():
 		# One in no state to hold a formation walks the trail instead ([D306]).
-		# Nor one who has no trust in whoever calls the shape (D335).
-		var caller: Character = Formations.leader_of(members) if Formations.leader_of(members) != null else members[0]
-		if dealt.has(companions[i]) and not Formations.broken(members[i + 1], caller):
+		if dealt.has(companions[i]) and not Formations.broken(members[i + 1]):
 			out[i] = Formations.point_for(dealt[companions[i]], _leader.position, _leader.facing(), spacing)
 	return out
 
@@ -3284,7 +3285,11 @@ func _fight_held(watch: Node2D, field: Dictionary, ambush: bool) -> void:
 	if not said.is_empty():
 		_note("%s: %s" % [said["speaker"], said["text"]])
 	_fight_here({
-		"encounter": { "enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush },
+		"encounter": {
+			"enemies": enemies, "title": str(watch.band.get("label", "A fight")), "ambush": ambush,
+			# Inside a gate, or a cave laid out like one, a first of a kind teaches (D301).
+			"teaches": _in_a_gate() or bool(Database.area(map.id).get("teaches", false)),
+		},
 		"field": field,
 	})
 	if not said.is_empty():

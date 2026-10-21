@@ -64,6 +64,9 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
+		"_comment_auto_hunt": "D301: with levels only in gates, a party walking itself goes to the easiest gate standing instead of the Tower while the next floor's foes stand more than auto_hunt_gates_over levels above the company, or its keeper more than auto_hunt_keepers_over (AutoRoad.stair_too_hard). **Inferred**: both margins.",
+		"auto_hunt_gates_over": 0,
+		"auto_hunt_keepers_over": 2,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops. Since D300 a band of the land (a wild fight) never stops it: it is fought running and `ground_line` is said instead.",
 		"auto_stops": {
 			"gates": true,
@@ -590,6 +593,8 @@
 		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
 	},
 	"experience": {
+		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",
+		"levels_only_in_gates": true,
 		"first_kill_multiplier": 2,
 		"assists_needed": 10,
 		"healer_assists_needed": 5
@@ -611,24 +616,10 @@
 	},
 	"_comment_heights": "D287, D308 (meeting six, piece C2, the first ground with heights): a terrain in tilesets.json with `height` stands that many heights up; a step down is free, a step up one height only onto or off a cell in the area's `ways_up` (a slope drawn there), two or more never (AreaMap.may_step). A drop of hurt_from heights or more hurts everyone walking: share of their health for each height past the first, never below floor of it (hurt_line, {fell}); dropping one says nothing. Trying to climb a shelf with no way up says blocked_line once a cell. Fights, Auto's paths and click-to-walk do not yet know heights; death from the clouds waits for a mountain area. Inferred: every number and line.",
 	"heights": {
-		"land": {
-			"_comment": "D327 (after D283, Ewan's play-test 7: 'the world is very flat ... you need to be able to tier it in heights'; and D287's heights on the world map): every generated ground of the land gets rises of its own floor, a height up, climbed only at a slope like the scarp's shelves (D308). `rises` of them on average (a land's biomes.json features.rises wins), plus `on_terrain` more on that world terrain. A rise keeps `margin` cells off the tile's edges so where tiles meet is level, and a cell off every path and water. Each piece of higher ground gets a slope (`slope_art`) on an edge with open ground in front, the south first, and a second from `second_slope_from` cells. The `sheet` (tools/draw_rises.py) draws the rise's face. Laid by their own roll, so nothing else on a ground moves for them (src/area/ground_gen.gd).",
-			"rises": 0.6,
-			"on_terrain": { "hill": 2.0, "crag": 3.0 },
-			"margin": 4,
-			"terrain": "rise",
-			"sheet": "rise",
-			"slope_art": "landmark/slope",
-			"second_slope_from": 14
-		},
 		"hurt_from": 2,
 		"share": 0.15,
 		"floor": 0.1,
-		"blocked_line": "The shelf is too high to climb here. Find a slope, or carry a rope.",
-		"_comment_ladders": "D333 (D287: 'walls and heights can be scaled some way'): a ladder (an area's `ladders`, drawn landmark/ladder) is climbed up as far as ladder_most heights; a Climbing Rope carried (rope_item, in the packs or worn by anyone in the company) makes every face one height up a way up, for the lead, the company and Auto alike. Fights keep to slopes and ladders. **Inferred** (agenda 241): two heights a ladder, and the rope.",
-		"ladder_most": 2,
-		"rope_item": "climbing_rope",
-		"rope_line": "The rope goes over the edge, and up you go.",
+		"blocked_line": "The shelf is too high to climb here. Find a slope.",
 		"hurt_line": "A drop of {fell}. Everyone lands hard.",
 		"_comment_paths": "D312: on ground with heights every way found (a click, Auto, a band on its rounds, a person at work) steps only where a walker may, so it goes round by a slope rather than at the shelf; a drop that would hurt counts path_drop_cost cells more, so a way round is taken when there is one. A click on a shelf with no way up from here says no_way_line, once a cell.",
 		"path_drop_cost": 6,
@@ -656,29 +647,6 @@
 		"_comment_story": "D314 (D287: 'a quest or a story in each'): every wild tells a story in three pages, spots with `page` in the area, each said once a run when stood on and kept as a flag (story:<area>:<x>:<y>); the last page read says the area's `story.end` and writes story_annals in the annals (story:<area>:told).",
 		"story_annals": "{wild}: {end}"
 	},
-	"herbs_on_land": {
-		"_comment": "D331 (D299: 'herbs on the land'; Ewan's play-test 7: 'combine herbs together to make potions'): about per_tile patches a tile of open land, each one of what its land grows (by_land, a land not named grows none), off the paths and the water, picked once a run into the packs (a prop with an item, src/area/ground_gen.gd _herbs). herbs gives each its art, name and lines. **Inferred** (agenda 239): which lands grow what, and how many.",
-		"per_tile": 0.6,
-		"by_land": {
-			"grassland": ["herbs"], "blossom": ["herbs"], "savanna": ["herbs"], "forest": ["herbs", "redcap"],
-			"jungle": ["herbs", "redcap"], "bog": ["redcap"], "swamp": ["redcap"], "fungal": ["redcap"], "mist": ["redcap", "herbs"],
-			"snow": ["frostmoss"], "taiga": ["frostmoss", "herbs"], "crystal": ["frostmoss"]
-		},
-		"herbs": {
-			"herbs": { "art": "nature/fern", "name": "bitter herbs", "line": "Bitter herbs, the kind a draught wants. You pick a handful.", "spent_line": "" },
-			"redcap": { "art": "nature/mushrooms", "name": "redcaps", "line": "Redcaps in the damp, bright as a warning. You cut the best of them.", "spent_line": "" },
-			"frostmoss": { "art": "nature/mushroom_blue", "name": "frostmoss", "line": "Frostmoss, pale and cold to the touch. You peel a strip off the stone.", "spent_line": "" }
-		}
-	},
-	"caravans": {
-		"_comment": "D330 (D287: 'places worth going to (... hamlets, caravans)'): a caravan is a wild place that walks. Each upkeep it rolls up to tiles_per_upkeep tiles on towards the next town of its route, by the way a party would walk (looked for no further than longest tiles), never onto ground within clear_of_sites of another place nor within party_clear of the party, and never while the party is that close. Within stand_off of the town it stands for rest_upkeeps upkeeps, then sets off for the next. src/chronicle/caravans.gd. **Inferred** (agenda 238): the pace and the rests.",
-		"tiles_per_upkeep": 3,
-		"rest_upkeeps": 2,
-		"stand_off": 3,
-		"clear_of_sites": 2,
-		"party_clear": 2,
-		"longest": 240
-	},
 	"caves": {
 		"_comment": "D282 (Ewan's play-test 7: 'a cave system, so like in pokémon. You can go into a cave and it'll be a whole different area'). A walkable tile of one of `terrains` has a cave mouth on `chance`, the same tiles every time for a world (src/chronicle/caves.gd). Inside it is laid out as one gate floor of a rank from `ranks` (by the same roll), in the gate's cave ground, with no way further down; its bands are held, its deepest the strongest, and a cache beside that one holds `gold_low`-`gold_high` copper and one of `finds`. Lost, the party is back outside the mouth (`lost`).",
 		"terrains": ["hill"],
@@ -705,7 +673,7 @@
 		"hone_base": 800,
 		"hone_share": 0.25,
 		"honed_line": "{name}'s {weapon} comes back keener (+{notch}).",
-		"_enchant": "D328, D299 item 3 (the founders: 'enchantments and other stuff you can put on your weapons'). A rune laid on the weapon somebody carries, from the packs, anywhere the party screen opens: its effect is one of the fight's passives (data/skirmish.json), theirs while they carry that weapon, over and above max_passives. One rune a weapon; a new one takes the old one's place.",
+		"_enchant": "D327, D299 item 3 (the founders: 'enchantments and other stuff you can put on your weapons'). A rune laid on the weapon somebody carries, from the packs, anywhere the party screen opens: its effect is one of the fight's passives (data/skirmish.json), theirs while they carry that weapon, over and above max_passives. One rune a weapon; a new one takes the old one's place.",
 		"enchant": [
 			{ "id": "keen", "display_name": "Keen Rune", "description": "+10% to land a critical hit", "effect": "crit", "value": 0.1, "needs": { "whetstone": 1, "herbs": 2 } },
 			{ "id": "thirsting", "display_name": "Thirsting Rune", "description": "heals for 10% of the damage dealt", "effect": "lifesteal", "value": 0.1, "needs": { "redcap": 2, "black_feather": 1 } },

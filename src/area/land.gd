@@ -27,7 +27,6 @@ var wading: bool = false:
 	set(on):
 		if on != wading:
 			_grid = null
-			_steps = null
 			for chunk: Dictionary in chunks.values():
 				chunk.erase("_walkable")
 		wading = on
@@ -38,9 +37,6 @@ var _building_cells: Dictionary = {}
 ## for every way, it was every townsperson in Stormreach going round the streets weighing up a
 ## thousand cells each (play-test 7: "massive frame rate drop" in the city).
 var _grid: AStarGrid2D = null
-## On held land with heights ([D327]), the same cells as a graph whose steps go one way where a rise
-## is only dropped off ([AreaMap.may_step]), kept like [member _grid].
-var _steps: AStar2D = null
 
 
 ## The land round [param tile], held [param radius] tiles each way.
@@ -80,7 +76,6 @@ func hold(tile: Vector2i) -> Dictionary:
 	if chunks.has(tile):
 		return chunks[tile]
 	_grid = null
-	_steps = null
 	var laid := GroundGen.slot(world, tile)
 	var chunk := laid.duplicate()
 	var origin := tile * slot
@@ -102,6 +97,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		if AreaProp.is_solid(placed):
 			for cell: Vector2i in base_cells(placed):
 				_blocked[cell] = true
+				_spilled(cell, tile)
 		props.append(placed)
 		_index_prop(placed)
 	for chest: Dictionary in laid.get("chests", []):
@@ -131,6 +127,7 @@ func hold(tile: Vector2i) -> Dictionary:
 		for y in range(foot.position.y, foot.end.y):
 			for x in range(foot.position.x, foot.end.x):
 				_building_cells[Vector2i(x, y)] = building
+				_spilled(Vector2i(x, y), tile)
 	for person: Dictionary in laid.get("people", []):
 		if not _flags_allow(person):
 			continue
@@ -149,13 +146,6 @@ func hold(tile: Vector2i) -> Dictionary:
 		wards[ward["cell"]] = ward
 	for pair: Array in laid.get("fires", []):
 		fires[_cell(pair, origin)] = tile
-	# Rises of the land's floor, climbed only at their slopes ([D327]).
-	for pair: Variant in laid.get("ways_up", []):
-		ways_up[_cell(pair, origin)] = true
-	for pair: Variant in laid.get("ladders", []):
-		ladders[_cell(pair, origin)] = true
-	chunk["_heights"] = _has_heights(laid.get("terrain", PackedStringArray()))
-	_heights_vary = chunks.values().any(func(c: Dictionary) -> bool: return bool(c.get("_heights", false)))
 	# Where somebody is meant to stand stays open, whatever is drawn there.
 	var stood_on: Array[Vector2i] = [_cell(laid.get("spawn", [0, 0]), origin)]
 	for chest: Dictionary in laid.get("chests", []):
@@ -169,34 +159,29 @@ func hold(tile: Vector2i) -> Dictionary:
 	return chunk
 
 
+## A thing of [param tile]'s standing over its edge onto [param cell] of a tile held before it: that
+## tile's own count of its ground is worked out again, or the kept grid walked Auto into a tree
+## sticking over from the next tile and held it there for good.
+func _spilled(cell: Vector2i, tile: Vector2i) -> void:
+	var other := tile_of(cell)
+	if other != tile and chunks.has(other):
+		(chunks[other] as Dictionary).erase("_walkable")
+
+
 ## Let [param tile] go: everything standing in it comes off the land.
 func release(tile: Vector2i) -> void:
 	if not chunks.has(tile):
 		return
 	_grid = null
-	_steps = null
 	chunks.erase(tile)
 	var area := slot_rect(tile)
 	props = props.filter(func(prop: Dictionary) -> bool: return prop.get("_tile") != tile)
 	buildings = buildings.filter(func(b: Dictionary) -> bool: return b.get("_tile") != tile)
 	people = people.filter(func(p: Dictionary) -> bool: return p.get("_tile") != tile)
-	for table: Dictionary in [chests, spots, spot_flags, story_pages, wards, fires, _blocked, _building_cells, _props_at, ways_up, ladders]:
+	for table: Dictionary in [chests, spots, spot_flags, story_pages, wards, fires, _blocked, _building_cells, _props_at]:
 		for cell: Vector2i in table.keys():
 			if area.has_point(cell):
 				table.erase(cell)
-	_heights_vary = chunks.values().any(func(c: Dictionary) -> bool: return bool(c.get("_heights", false)))
-
-
-## Whether any of [param terrain] stands a height up.
-static func _has_heights(terrain: PackedStringArray) -> bool:
-	var looked := {}
-	for id: String in terrain:
-		if looked.has(id):
-			continue
-		looked[id] = true
-		if int(Database.area_terrain(id).get("height", 0)) != 0:
-			return true
-	return false
 
 
 ## The tiles held, nearest [param to] first.
@@ -357,105 +342,7 @@ func _path_within(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}
 		grid.set_point_solid(from_cell, true)
 	for cell: Vector2i in shut:
 		grid.set_point_solid(cell, false)
-	# On held land with heights ([D327]) the grid's way stands unless it climbs a rise where there is
-	# no slope; then the way is found again on the graph that knows which way a step goes.
-	if _heights_vary:
-		for i in range(1, path.size()):
-			if not may_step(cell_at(path[i - 1]), cell_at(path[i])):
-				return _path_over_heights(from_cell, to_cell, avoid)
 	return path
-
-
-## A way over held land with heights ([D327]): on [member _steps], so it climbs a rise only at a slope
-## and drops off one anywhere ([D312]'s rule, with no extra cost: a rise is one height, which never hurts).
-func _path_over_heights(from_cell: Vector2i, to_cell: Vector2i, avoid: Dictionary = {}) -> Array[Vector2]:
-	var steps := _held_steps()
-	var region := bounds()
-	var id_of := func(cell: Vector2i) -> int:
-		return (cell.y - region.position.y) * region.size.x + (cell.x - region.position.x)
-	var path: Array[Vector2] = []
-	if not steps.has_point(id_of.call(to_cell)):
-		return path
-	var shut: Array[int] = []
-	for cell: Vector2i in avoid:
-		var id: int = id_of.call(cell)
-		if steps.has_point(id) and not steps.is_point_disabled(id):
-			steps.set_point_disabled(id, true)
-			shut.append(id)
-	# Standing somewhere no way is found from (a door, a fire), the walk starts from the nearest it is.
-	var from_id: int = id_of.call(from_cell)
-	var added := not steps.has_point(from_id)
-	if added:
-		steps.add_point(from_id, Vector2(from_cell))
-		for side: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
-			var next_id: int = id_of.call(from_cell + side)
-			if steps.has_point(next_id) and may_step(from_cell, from_cell + side):
-				steps.connect_points(from_id, next_id, false)
-	for id in steps.get_id_path(from_id, id_of.call(to_cell)):
-		path.append(centre_of(Vector2i(steps.get_point_position(id))))
-	if added:
-		steps.remove_point(from_id)
-	for id in shut:
-		steps.set_point_disabled(id, false)
-	return path
-
-
-## Every walkable cell held, joined to each neighbour it may step onto; laid out again when the held
-## land changes, like [method _held_grid].
-func _held_steps() -> AStar2D:
-	if _steps != null:
-		return _steps
-	var grid := _held_grid()
-	var region := bounds()
-	_steps = AStar2D.new()
-	_steps.reserve_space(region.size.x * region.size.y)
-	# Each cell's height read once, by terrain, rather than at every step weighed.
-	var tall := PackedInt32Array()
-	tall.resize(region.size.x * region.size.y)
-	var by_terrain := {}
-	for y in range(region.position.y, region.end.y):
-		for x in range(region.position.x, region.end.x):
-			var cell := Vector2i(x, y)
-			var id := (y - region.position.y) * region.size.x + (x - region.position.x)
-			if grid.is_point_solid(cell):
-				tall[id] = -1
-				continue
-			var terrain := terrain_at(cell)
-			if not by_terrain.has(terrain):
-				by_terrain[terrain] = int(Database.area_terrain(terrain).get("height", 0))
-			tall[id] = by_terrain[terrain]
-			_steps.add_point(id, Vector2(cell))
-	for y in range(region.position.y, region.end.y):
-		for x in range(region.position.x, region.end.x):
-			var id := (y - region.position.y) * region.size.x + (x - region.position.x)
-			if tall[id] < 0:
-				continue
-			for side: Vector2i in [Vector2i.RIGHT, Vector2i.DOWN]:
-				var nx := x + side.x
-				var ny := y + side.y
-				if nx >= region.end.x or ny >= region.end.y:
-					continue
-				var next_id := (ny - region.position.y) * region.size.x + (nx - region.position.x)
-				if tall[next_id] < 0:
-					continue
-				var rise := tall[next_id] - tall[id]
-				if rise == 0:
-					_steps.connect_points(id, next_id)
-					continue
-				var by_slope := scaling or ways_up.has(Vector2i(x, y)) or ways_up.has(Vector2i(nx, ny))
-				var reach := 1
-				if ladders.has(Vector2i(x, y)) or ladders.has(Vector2i(nx, ny)):
-					by_slope = true
-					reach = ladder_most()
-				var there := rise < 0 or (rise <= reach and by_slope)
-				var back := rise > 0 or (-rise <= reach and by_slope)
-				if there and back:
-					_steps.connect_points(id, next_id)
-				elif there:
-					_steps.connect_points(id, next_id, false)
-				elif back:
-					_steps.connect_points(next_id, id, false)
-	return _steps
 
 
 ## The grid over everything held, every cell that cannot be walked shut; laid out again when the
@@ -510,7 +397,6 @@ func update_cell_solid(cell: Vector2i, is_solid: bool) -> void:
 		(chunk["_walkable"] as PackedByteArray)[local.y * slot.x + local.x] = 0 if is_solid else 1
 	if _grid != null and _grid.is_in_boundsv(cell):
 		_grid.set_point_solid(cell, is_solid)
-	_steps = null
 
 
 static func _cell(pair: Variant, origin: Vector2i) -> Vector2i:
@@ -525,10 +411,3 @@ static func _rect(values: Variant, origin: Vector2i) -> Rect2i:
 	if at.size() < 4:
 		return Rect2i()
 	return Rect2i(Vector2i(int(at[0]), int(at[1])) + origin, Vector2i(int(at[2]), int(at[3])))
-
-
-## Carry a rope or not ([D333]): the held graph of steps is laid out again.
-func set_scaling(on: bool) -> void:
-	if on != scaling:
-		_steps = null
-	scaling = on

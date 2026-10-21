@@ -312,20 +312,6 @@
         17,
         11
       ]
-    },
-    {
-      "art": "landmark/ladder",
-      "cell": [
-        9,
-        3
-      ]
-    },
-    {
-      "art": "landmark/ladder",
-      "cell": [
-        20,
-        4
-      ]
     }
   ],
   "people": [
@@ -1219,16 +1205,6 @@
     [
       17,
       11
-    ]
-  ],
-  "ladders": [
-    [
-      9,
-      3
-    ],
-    [
-      20,
-      4
     ]
   ],
   "_doc": "D308: the wind scarp is the first ground with heights. Its shelves (`raised`) are a height up from the bare earth; `ways_up` are the cells where they can be climbed, each with a slope drawn on it.",

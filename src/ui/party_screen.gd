@@ -1066,8 +1066,25 @@ func _build_practice_page(character: Character, party: Array[Character]) -> void
 		]
 		_page_box.add_child(held)
 
-	_page_box.add_child(_heading("Learned from"))
+	# The log of foes ([D301]): what has taught them, what they have only seen fall outside a gate
+	# and can still learn from in one, and how far up the Tower they have got their experience.
+	_page_box.add_child(_heading("Log of foes"))
 	_page_box.add_child(_quiet_line(_beaten_summary(character)))
+	_page_box.add_child(_quiet_line(_climbed_line(character)))
+	for kind: String in still_to_learn(character):
+		var mark := Button.new()
+		mark.custom_minimum_size = Vector2(0, ROW_BUTTON.y)
+		mark.focus_mode = Control.FOCUS_NONE
+		mark.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		var watching := character.look_for.has(kind)
+		mark.text = "%s %s  (seen %d, not learned from)" % [
+			"Looking out for" if watching else "Look out for",
+			str(Database.unit_template(kind).get("display_name", kind)), int(character.met.get(kind, 0)),
+		]
+		mark.tooltip_text = "Only the first of a kind put down in a gate or a cave teaches. Marked, it is called out when one stands in a gate."
+		mark.pressed.connect(func() -> void: toggle_look_for(character, kind))
+		Sfx.attend(mark)
+		_page_box.add_child(mark)
 
 	_page_box.add_child(_heading("Teaching"))
 	var taught := 0
@@ -1183,7 +1200,7 @@ func _beaten_summary(character: Character) -> String:
 	for kind: String in character.beaten:
 		names.append(str(Database.unit_template(kind).get("display_name", kind)))
 	names.sort()
-	var text := "Nothing yet. The first of every kind of enemy teaches something; the second teaches only practice." \
+	var text := "Nothing yet. The first of every kind of enemy put down in a gate teaches something; the second teaches only practice." \
 			if names.is_empty() else "%d kinds: %s." % [names.size(), ", ".join(names)]
 	var helping: Array[String] = []
 	for kind: String in character.assists:
@@ -1197,6 +1214,32 @@ func _beaten_summary(character: Character) -> String:
 			", ".join(helping), Progression.assists_needed(true)
 		]
 	return text
+
+
+## Kinds [param character] has seen fall outside a gate and not yet learned from, by name.
+static func still_to_learn(character: Character) -> Array[String]:
+	var out: Array[String] = []
+	for kind: String in character.met:
+		if not character.beaten.has(kind):
+			out.append(kind)
+	out.sort_custom(func(a: String, b: String) -> bool:
+		return str(Database.unit_template(a).get("display_name", a)) < str(Database.unit_template(b).get("display_name", b)))
+	return out
+
+
+## Mark or unmark [param kind] for [param character] to look out for in a gate.
+func toggle_look_for(character: Character, kind: String) -> void:
+	if character.look_for.has(kind):
+		character.look_for.erase(kind)
+	else:
+		character.look_for.append(kind)
+	_rebuild()
+
+
+func _climbed_line(character: Character) -> String:
+	if character.climbed <= 0:
+		return "Has not climbed the Tower: no experience from it yet."
+	return "Climbed to floor %d of the Tower." % character.climbed
 
 
 func _has_something_to_teach(teacher: Character, party: Array[Character]) -> bool:
