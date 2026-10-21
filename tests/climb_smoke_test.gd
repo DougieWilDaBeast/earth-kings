@@ -28,10 +28,17 @@ func _ready() -> void:
 	await _two_packs_at_once()
 	_new_run()
 	await _climb_to_the_top()
+	# These watch Auto climb and walk to the door, not what it learns: with levels only from gates
+	# ([D301]) a level 1 Atlas would go gate hunting first ([method _outmatched_hunts_gates]).
+	var experience: Dictionary = Database.world_rules["experience"]
+	experience["levels_only_in_gates"] = false
 	_new_run()
 	await _auto_climbs()
 	_new_run()
 	await _auto_walks_to_the_door()
+	experience["levels_only_in_gates"] = true
+	_new_run()
+	_outmatched_hunts_gates()
 	_new_run()
 	await _roadside_stands()
 	await _the_warden_counts()
@@ -44,6 +51,22 @@ func _ready() -> void:
 		for failure in _failures:
 			print("FAIL: %s" % failure)
 		get_tree().quit(1)
+
+
+## [D301]: with levels only from gates, a company the next floor outmatches goes to a gate at its
+## rank, not the Tower, and is not sent up the stair from a floor it won; at the floor's level it climbs.
+func _outmatched_hunts_gates() -> void:
+	var world: World = GameState.world
+	var lead := GameState.roster.player()
+	lead.level = 1
+	_expect(AutoRoad.stair_too_hard(world), "outmatched: floor 1 is not too hard for a level 1 lead")
+	var to := world.site_at(AutoRoad.road_objective(world).get("cell", Vector2i(-1, -1)))
+	_expect(to == null or to.kind != Site.TOWER or not world.sites.any(func(gate: Site) -> bool:
+			return gate.kind == Site.GATE and gate.open and not gate.cleared and gate.expected_level() <= lead.level),
+		"outmatched: a level 1 lead with a gate at its rank was sent to the Tower")
+	lead.level = 8
+	_expect(not AutoRoad.stair_too_hard(world), "outmatched: floor 1 is too hard for a level 8 lead")
+	lead.level = 1
 
 
 ## Atlas, alone, at the Tower's foot with the Guild's mark (a gate already shut, D101).

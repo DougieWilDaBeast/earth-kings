@@ -419,7 +419,7 @@ static func _land_foes(world: World, cell: Vector2i) -> Array:
 ## rather than random mobs.
 static func for_tower(world: World, site: Site, floor_number: int, party: Array, rng: RandomNumberGenerator) -> Dictionary:
 	var rules: Dictionary = Database.world_rules.get("tower", {})
-	var level := roundi(float(rules.get("level_base", 2)) + float(floor_number) * float(rules.get("levels_per_floor", 0.3)))
+	var level := tower_level(floor_number)
 	if bool(rules.get("meet_the_party", false)) and not party.is_empty():
 		level = maxi(level, party_level(party))
 	var foes_min := int(rules.get("foes_min", 2))
@@ -535,6 +535,12 @@ static func _bite(enemies: Array, bite: float) -> void:
 		return
 	for entry: Dictionary in enemies:
 		entry["bite"] = bite
+
+
+## The level of [param floor_number]'s foes before they meet the party: the Tower's own climb.
+static func tower_level(floor_number: int) -> int:
+	var rules: Dictionary = Database.world_rules.get("tower", {})
+	return roundi(float(rules.get("level_base", 2)) + float(floor_number) * float(rules.get("levels_per_floor", 0.3)))
 
 
 static func party_level(party: Array) -> int:
