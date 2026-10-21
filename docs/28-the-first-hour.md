@@ -388,7 +388,9 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    every place with loot, a quest or a story; small houses, a family, a caravan, traders.
 10. **Caves** to go into, like Pokémon's, and **heights** on the land, which is flat. Caves built
     ([D282](06-decisions.md)): a mouth on about three hill tiles in ten, a place of its own behind it with bands,
-    a keeper and a cache. Heights still **planned**.
+    a keeper and a cache. Heights built: the wind scarp's shelves ([D308](06-decisions.md)), the cloud peak
+    three heights up ([D321](06-decisions.md)), and rises of the land's own floor on every tile, a height up
+    with a rock face below, climbed only at a slope, more on hills and crag ([D324](06-decisions.md)).
 11. **Seeing, not reading**: Sennet as a ghostly blue figure when he speaks from afar (built,
     [D265](06-decisions.md): his figure beside the lead in blue light, his face the same in the box); walking
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.

@@ -75,6 +75,7 @@ func _ready() -> void:
 	_check_recruiting()
 	_check_crafting()
 	await _check_caves()
+	_check_rises()
 	await _check_tutorial()
 	await _check_last_stand()
 	await _check_practice_band()
@@ -325,7 +326,97 @@ func _check_caves() -> void:
 	await _check_area(id)
 
 
-## A door has to be on the house it belongs to, and lead somewhere real.
+## Rises on the land ([D324], after D283): some hill has one, a height up, off the tile's edges and off
+## the paths and water, and the ground draws it; every piece of it has a slope; on the land a way up onto
+## it goes by a slope and a way down drops straight off.
+func _check_rises() -> void:
+	var world: World = GameState.world
+	var rules: Dictionary = Database.world_rules.get("heights", {}).get("land", {})
+	var margin := int(rules.get("margin", 4))
+	var looked := 0
+	for y in world.size.y:
+		for x in world.size.x:
+			var tile := Vector2i(x, y)
+			if world.terrain_id_at(tile) != "hill" or not world.is_walkable(tile) or world.site_at(tile) != null:
+				continue
+			var slot := GroundGen.slot(world, tile)
+			if slot.get("kind") != "ground":
+				continue
+			looked += 1
+			if looked > 40:
+				break
+			var terrain: PackedStringArray = slot["terrain"]
+			if not terrain.has("rise"):
+				continue
+			var w := int(slot["size"][0])
+			var h := int(slot["size"][1])
+			if int(Database.area_terrain("rise").get("height", 0)) != 1 or not Database.area_terrain("rise").get("walkable", false):
+				_fail("heights: higher ground is not a walkable height up")
+			var layers: Array = slot["patches"][0]["layers"]
+			if not layers.has("rise"):
+				_fail("heights: %s has rises but does not draw them (%s)" % [tile, layers])
+			var ways: Array = slot.get("ways_up", [])
+			var ways_at := {}
+			for pair: Array in ways:
+				ways_at[Vector2i(int(pair[0]), int(pair[1]))] = true
+			for i in terrain.size():
+				if terrain[i] != "rise":
+					continue
+				var at := Vector2i(i % w, i / w)
+				if at.x < margin or at.y < margin or at.x >= w - margin or at.y >= h - margin:
+					_fail("heights: a rise on %s comes to the tile's edge at %s" % [tile, at])
+					return
+				for dy in range(-1, 2):
+					for dx in range(-1, 2):
+						var near := terrain[(at.y + dy) * w + at.x + dx]
+						if ["footpath", "track", "road"].has(near) or near.ends_with("liquid") or near == "water":
+							_fail("heights: a rise on %s at %s touches %s" % [tile, at, near])
+							return
+			# Every piece of higher ground has a slope on it.
+			var seen := {}
+			for i in terrain.size():
+				var start := Vector2i(i % w, i / w)
+				if terrain[i] != "rise" or seen.has(start):
+					continue
+				var piece: Array[Vector2i] = [start]
+				seen[start] = true
+				var has_way := false
+				while not piece.is_empty():
+					var at: Vector2i = piece.pop_back()
+					has_way = has_way or ways_at.has(at)
+					for side: Vector2i in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+						var n := at + side
+						if n.x >= 0 and n.y >= 0 and n.x < w and n.y < h and not seen.has(n) and terrain[n.y * w + n.x] == "rise":
+							seen[n] = true
+							piece.append(n)
+				if not has_way:
+					_fail("heights: a rise on %s at %s has no slope" % [tile, start])
+					return
+			# On the land: up only by a slope, down anywhere.
+			var land := Land.around(world, tile, 0) as Land
+			var origin := tile * land.slot
+			var top := Vector2i(-1, -1)
+			var foot := Vector2i(-1, -1)
+			for i in terrain.size():
+				var at := Vector2i(i % w, i / w)
+				if terrain[i] == "rise" and not ways_at.has(at) and at.y + 1 < h and terrain[(at.y + 1) * w + at.x] != "rise" \
+						and land.is_walkable(origin + at) and land.is_walkable(origin + at + Vector2i.DOWN):
+					top = origin + at
+					foot = origin + at + Vector2i.DOWN
+					break
+			if top.x >= 0:
+				_expect(land.has_heights() and not land.may_step(foot, top) and land.may_step(top, foot), "heights: the land's rise on %s is climbed without a slope, or cannot be dropped off" % tile)
+				var up := land.find_cell_path(foot, top)
+				var legal := up.size() >= 2
+				for i in range(1, up.size()):
+					legal = legal and land.may_step(land.cell_at(up[i - 1]), land.cell_at(up[i]))
+				_expect(legal and up.size() > 2, "heights: a way up the land's rise on %s does not go by a slope (%d steps)" % [tile, up.size()])
+				_expect(land.find_cell_path(top, foot).size() == 2, "heights: the way down off the land's rise on %s is not one step" % tile)
+			print("  rises on %s: %d cells, %d slopes; walked up and off on the land: %s" % [tile, terrain.count("rise"), ways.size(), top.x >= 0])
+			return
+	_fail("heights: none of %d hill grounds has a rise" % looked)
+
+
 func _check_building(area_id: String, map: AreaMap, building: Dictionary) -> void:
 	var who: String = building.get("name", "a house")
 	var door: Vector2i = building["door"]

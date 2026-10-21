@@ -826,6 +826,17 @@ A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top
 body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
 `summit` (3) stand on the stone and snow sheets.
 
+## `world_rules.json` → `heights.land` — rises on the land (D324)
+
+Every generated ground (`GroundGen._lay_out`) gets `rises` lumps of higher ground on average, a land's
+`features.rises` in `biomes.json` winning, plus `on_terrain[<world terrain>]` more. Each is laid as the
+`^` symbol, cell `terrain` (`rise`: walkable, `height` 1, in `tilesets.json` `terrains`), by its own roll
+so nothing else moves; it keeps `margin` cells off the tile's edges and one cell off paths and water, and
+a tile with any gets the `sheet` overlay (`tools/draw_rises.py`) under its ways. Every piece of higher
+ground gets a way up (`GroundGen._slopes`): an edge cell with open ground in front, the south side first,
+a second from `second_slope_from` cells, `slope_art` drawn on it; the slot's `ways_up` lists them and
+`Land.hold` puts them on the land, where ways are found on `Land._held_steps` (one-way off a rise).
+
 ## `world_rules.json` → `tower.grown` — the floors past 10 (D290, D307)
 
 Read by `src/chronicle/tower_floors.gd` (`is_grown`, `ensure_grown`, `layout`, `company_with_you`,

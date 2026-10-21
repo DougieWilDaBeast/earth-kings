@@ -501,6 +501,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 3,
 				"cover": 2,
 				"bare": 2,
@@ -557,6 +558,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 4,
 				"cover": 3,
 				"bare": 3,
@@ -612,6 +614,7 @@
 				"small": 0.064
 			},
 			"features": {
+				"rises": 0.2,
 				"pools": 3.5,
 				"cover": 3,
 				"bare": 1,

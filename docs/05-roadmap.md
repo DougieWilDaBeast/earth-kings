@@ -439,8 +439,10 @@ each, each ending playable:
       tells a story in three pages stood on, written in the annals when the last is read ([D314](06-decisions.md), 2026-10-21). Walking
       into a wild whose guard stands takes its quest on the spot, for the nearest settlement known ([D316](06-decisions.md), 2026-10-21). A mountain with the
       clouds below: the cloud peak, three heights up, two on each world's crag; a body shoved into the clouds in a
-      fight is gone ([D321](06-decisions.md), 2026-10-21). Next: ladders and walls that can be scaled
-      ([D287](06-decisions.md)), heights on the world map, hamlets and caravans as places, creatures of the land
+      fight is gone ([D321](06-decisions.md), 2026-10-21). Rises on every tile of the land, a height up with a rock
+      face, more on hills and crag, climbed only at a slope ([D324](06-decisions.md), 2026-10-21, held until B is in).
+      Next: ladders and walls that can be scaled ([D287](06-decisions.md)), hills and mountains on the land more
+      than a height up, hamlets and caravans as places, creatures of the land
       beyond the biomes' own foes, and herbs on the land ([D299](06-decisions.md): straight after enchanting).
       **The heights against the founders' ask** (2026-10-21, for [D323](06-decisions.md)): kept are the one-way
       ledge, the ways up, a drop that hurts, the clouds that kill, and a shove off an edge. Still short of it, and

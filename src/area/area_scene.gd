@@ -492,7 +492,16 @@ func _land_hint() -> String:
 
 ## One tile's ground, in a node of its own so it can be let go of with the tile.
 func _paint_tile(tile: Vector2i) -> void:
-	GroundPainter.paint_patches(map, (map as Land).patches_of(tile), _ground_node(tile))
+	var land := map as Land
+	var under := _ground_node(tile)
+	GroundPainter.paint_patches(map, land.patches_of(tile), under)
+	# The edges of the land's rises ([D324]), over the tile's ground.
+	if bool(land.chunks.get(tile, {}).get("_heights", false)):
+		var ledges := AreaLedges.new()
+		ledges.name = "Ledges"
+		ledges.map = map
+		ledges.cells = land.slot_rect(tile)
+		under.add_child(ledges)
 
 
 ## The node [param tile]'s ground is painted into, under the bands' watched ground.
