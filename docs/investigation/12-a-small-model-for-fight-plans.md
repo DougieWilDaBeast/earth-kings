@@ -5,9 +5,10 @@
 ([D298](../06-decisions.md), #385, [part 1 of the transcript](../worldbuilding/voice-notes/2026-10-20-founders-meeting-part-1.md)).
 This is the investigation that row asked for, the first pass: what the model is, how big it is, what
 would run it inside a Godot build, what that costs against the stack rules, and the cheapest way to
-find out whether it fights better than the rules we have. **The fight run with and without it is not
-done yet**; the last section says how to do it. Nothing here is settled: the proposal at the end is
-**Inferred**, for the founders to keep or drop.
+find out whether it fights better than the rules we have. **The fight run with and without it was done
+on 2026-10-21** ([The run](#the-run-2026-10-21), [D322](../06-decisions.md)): the model's plans fight
+no better and no worse than the rules. Nothing here is settled: the proposals are **Inferred**, for the
+founders to keep or drop.
 
 ## What the game has today
 
@@ -126,6 +127,49 @@ brain. Run the sixteen bouts and a set of party clashes with the rules brain, th
 plans behind the same seam, and compare who wins, how long the fights run, and whether the words
 over the fighters' heads still read. That run is the next step on #385 and needs no change to the
 stack to start.
+
+## The run (2026-10-21)
+
+Done the offline way the proposal above describes, with nothing new in the build.
+
+- **The model ran.** EmbeddingGemma 2, the ggml team's Q8_0 GGUF (310 MB), served by llama.cpp's own
+  `llama-server` built from that day's source. The model's architecture (`gemma-embedding2`) is newer
+  than the last llama-cpp-python release (0.3.36), which refuses the file; any runtime in the game would
+  have to track llama.cpp that closely. On a 4-core cloud machine, CPU only: about **200 ms a sentence**
+  and about **430 MB of memory** while serving. Fine for a table written offline; too slow to ask once per
+  fighter per think in a real-time fight (the brain thinks many times a second for every fighter).
+- **The table.** The brain's situation was cut to five words (`SkirmishBrain.situation`): close, ranged
+  or mender; healthy, wounded or failing; a foe at the elbow or not; a friend under half health or not; a
+  foe winding up or not: **72 situations**. `tools/plan_table.py make` writes each as a sentence and each
+  of the seven plans (dodge, kite, flank, guard, hang back, break off, stand and fight) as a sentence,
+  embeds them, and keeps the nearest plan per situation in `data/skirmish.json` → `tactics.plan_table`.
+  With `side` set the brain tries that plan first, before its doctrine's; `side` is empty in the game.
+- **What the model picked.** With the model's search prompts it put **guard first in 71 of the 72**
+  situations, the gap between its first and second plan averaging 0.02 in cosine: it matched the word
+  "friend" that every situation sentence carries, not the fight. With its classification prompt the picks
+  read more like a person's (break off when failing in 16 of 24, dodge when a foe winds up in 13 of 36,
+  guard otherwise, never kite, flank or hang back), with an even smaller gap (0.008). The classification
+  table is the one kept in the data.
+- **The fights.** `tools/plan_table.py compare 100`: the party clashes' 100 draws, each fought both ways
+  round, first with the rules on both sides, then with the table driving the company's side.
+
+| Brain on the company's side | Fights | Company won | Mean seconds | Company's health left | Fights that changed winner |
+| --- | --- | --- | --- | --- | --- |
+| Rules only | 200 | 133 (66%) | 46.5 | 0.63 | |
+| The table, search prompts | 200 | 134 (67%) | 47.0 | 0.63 | 2 |
+| The table, classification prompts | 200 | 132 (66%) | 47.1 | 0.63 | 4 |
+
+  The table changes so little because a plan only does something when its own test passes (guard needs
+  a friend under half health and a foe on them, dodge a wind-up in reach); otherwise the doctrine's moves
+  run as before. In a check of 60 fights, 7 played out differently at all.
+
+**What it says (Inferred, for the founders).** An embedding model picks the plan whose words are
+nearest, and on this question that is close to a coin with "guard" on both sides: it adds nothing the
+five-word rules do not already do, and it would cost a native runtime, a quarter to a third of a
+gigabyte and the seeded fights. So: **no runtime and no change to the stack**. The table and the tool
+stay, off, as the seam a better model could be tried behind (one that reads a whole fight and was taught
+on fights, rather than one that matches sentences). The founders say whether that is worth a later look,
+or whether D298 closes here.
 
 ## Sources
 
