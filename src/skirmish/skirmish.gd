@@ -760,7 +760,7 @@ func _finish_item(f: Fighter, thrower: Fighter = null) -> void:
 	f.unit.heal(amount)
 	Sfx.cue("drink")
 	fx.popup(Gear.display_name(item_id), f.unit.position + Vector2(0, -14), SkirmishFx.HEAL, 13)
-	_say("%s takes the %s." % [f.unit.display_name, Gear.display_name(item_id)])
+	_say("%s %s the %s." % [f.unit.display_name, Gear.takes(item_id), Gear.display_name(item_id)])
 	hud.refresh()
 
 
@@ -2117,8 +2117,13 @@ func _get_clear(f: Fighter) -> void:
 	for other in fighters:
 		if other == f or other == mount or other.aboard == f or other.bound_to == f:
 			other.fled = true
-			other.unit.visible = false
 			selected.erase(other)
+			# Seen to go, not blinked out (Ewan's play-test 8: pulled back, his fighter "disappeared").
+			var unit := other.unit
+			fx.popup(str(SkirmishRules.flee_rules().get("cleared_word", "Clear")), unit.position, SkirmishFx.WORD, 14)
+			var fade := unit.create_tween()
+			fade.tween_property(unit, "modulate:a", 0.0, float(SkirmishRules.flee_rules().get("fade", 0.6)))
+			fade.tween_callback(func() -> void: unit.visible = false)
 	_say(str(SkirmishRules.flee_rules().get("cleared_line", "{who} gets clear.")).format({ "who": f.unit.display_name }) if struck
 			else "%s gets clear." % f.unit.display_name)
 

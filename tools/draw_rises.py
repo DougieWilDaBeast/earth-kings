@@ -6,7 +6,7 @@
 Needs Pillow (`pip install pillow`), like tools/draw_edges.py.
 
 Ewan's play-test 7 (2026-10-18): "the world is very flat ... you need to be able to tier it in
-heights. It would make paths environment look way better." D324 lays rises of a land's own floor
+heights. It would make paths environment look way better." D327 lays rises of a land's own floor
 on the generated ground (src/area/ground_gen.gd) and this sheet draws them over that floor, the
 way the edge sheets lie over the next land's: see-through on top but for a little light, an
 outline round the sides, and a face of rock below the south edge with its shadow at the foot.
@@ -95,7 +95,7 @@ def main() -> None:
     tilesets = json.loads(TILESETS.read_text())
     tilesets["terrains"]["rise"] = {"display_name": "higher ground", "walkable": True}
     tilesets["sheets"]["rise"] = {
-        "_comment": "D324: a rise of any land's floor, drawn in house (tools/draw_rises.py); see-through on top, a rock face below its south edge.",
+        "_comment": "D327: a rise of any land's floor, drawn in house (tools/draw_rises.py); see-through on top, a rock face below its south edge.",
         "texture": "res://art/tilesets/rise.png",
         "tile_size": T,
         "lower": "none",

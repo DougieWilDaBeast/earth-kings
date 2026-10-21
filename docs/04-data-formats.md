@@ -139,6 +139,8 @@ are stored inside the save's tree definitions, not in this file.
 - `charm: true` — a relic that grants a `grace` roll when its bearer falls, spent on trigger.
 - `kind: "draught"` — consumable items stored in `GameState.stores` and drunk on the party screen
   or in a fight from the fighter's card, which takes 1.5 s (`"heal": 25`).
+- `taken: "eat"` — on a draught that is food (the loaf, the pie, cheese, herbs): the button says Eat and
+  the lines "eats" ([D324](06-decisions.md)); left out, it is drunk.
 - `signature: "<hero id>"` — a weapon made for one of the sixteen (M15, [D33](06-decisions.md)). It
   suits nobody, whatever `suits` says, is never sold or looted, and only reaches a run by falling
   out of the sky after its owner has died in an earlier world (see `fall.json` → `siblings`).
@@ -858,7 +860,7 @@ body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The 
 (`AreaMap.scaling`, set as an area opens and again, with `rope_line`, the first time the lead walks at a
 face after getting one); a way found reads it too. Fights keep to slopes and ladders.
 
-## `world_rules.json` → `heights.land` — rises on the land (D324)
+## `world_rules.json` → `heights.land` — rises on the land (D327)
 
 Every generated ground (`GroundGen._lay_out`) gets `rises` lumps of higher ground on average, a land's
 `features.rises` in `biomes.json` winning, plus `on_terrain[<world terrain>]` more. Each is laid as the
@@ -1328,7 +1330,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
              "ambush_head_start": 2.0, "swings_per_practice": 3,
-             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
+             "flee": { "parting_blow": 0.1, "gold_share": 0.1, "fade": 0.6, "cleared_word": "Clear",
+                       "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
     "shieldwall": { "display_name": "Shieldwall", "description": "…", "effect": "aura",
                     "radius": 2, "grants": { "guard": 0.15 } }
@@ -1364,7 +1367,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
 - `ambush_head_start` — seconds an ambushed side's opening is held back while the party acts at
   once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
 the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
-clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
+clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoever gets clear fades over
+`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
 - `decor` — the props (`art/props/<id>.png`, sized by `props.json`'s `battle_scale`) planted on a
   field: `trees` on crags, walls and a third of the edge, `bushes` in the brush. Scenery only.

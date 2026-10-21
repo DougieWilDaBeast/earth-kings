@@ -316,6 +316,8 @@ func clear_order() -> void:
 func activity() -> String:
 	if fallen:
 		return "fallen"
+	if fled:
+		return "off the field, safe"
 	if is_downed():
 		return "near death %.0fs" % ceilf(near_death)
 	if is_stunned():
