@@ -48,6 +48,7 @@ const Remembered := preload("res://src/chronicle/remembered.gd")
 const Arcs := preload("res://src/chronicle/arcs.gd")
 const GateInside := preload("res://src/chronicle/gate_inside.gd")
 const Climbers := preload("res://src/chronicle/climbers.gd")
+const CompanyTalk := preload("res://src/chronicle/company_talk.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Caves := preload("res://src/chronicle/caves.gd")
 ## The corner map's side and the size of a cell on it, in pixels ([D232]): fifteen cells across.
@@ -655,7 +656,7 @@ func _admit_the_road_watch(tile: Vector2i) -> void:
 
 ## Other companies on their way to the Tower ([D215], play-test 4: "other people trying to climb
 ## the tower"): on some of the road's tiles, a company of two or three walks the road there and back,
-## and will talk (`life.climbers` in `world_rules.json`). Not on a tile the Watch is walking.
+## and will talk, each company in its own voice ([CompanyTalk]). Not on a tile the Watch is walking.
 func _admit_the_climbers(tile: Vector2i) -> void:
 	var land := map as Land
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
@@ -700,7 +701,7 @@ func _admit_the_climbers(tile: Vector2i) -> void:
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [from.x, from.y], "facing": [0, 1], "_tile": tile, "_area": "climbers",
-			"talk": rules.get("talk", {}),
+			"talk": CompanyTalk.block(company, CompanyTalk.ROAD, 0, [tile.x, tile.y]),
 			"rounds": [
 				{ "cell": [to.x, to.y], "stay": rng.randf_range(float(stay[0]), float(stay[1])),
 				  "line": str(lines[rng.randi() % lines.size()]) if i == 0 and not lines.is_empty() else "" },
@@ -750,7 +751,8 @@ var _climbers_rest_at: Array[Vector2i] = []
 
 
 ## Another company resting on a Tower floor, by the stair up ([D215]): they got here first, and will
-## talk (`life.climbers.on_the_floors`). Floor 1 is never anyone's but the party's.
+## talk, in their company's voice and of the floor they are on ([CompanyTalk]). Floor 1 is never anyone's
+## but the party's.
 func _admit_climbers_to_the_floor() -> void:
 	var rules: Dictionary = Database.world_rules.get("life", {}).get("climbers", {})
 	var floors: Dictionary = rules.get("on_the_floors", {})
@@ -790,7 +792,7 @@ func _admit_climbers_to_the_floor() -> void:
 		map.people.append({
 			"name": company, "unit": str(units[rng.randi() % units.size()]),
 			"cell": [at.x, at.y], "facing": [1, 0], "_area": "climbers_floor",
-			"talk": floors.get("talk", {}),
+			"talk": CompanyTalk.block(company, CompanyTalk.FLOOR, _tower_floor, GameState.world.world_seed),
 		})
 
 

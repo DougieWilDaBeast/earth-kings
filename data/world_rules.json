@@ -119,6 +119,342 @@
 				"the Saltmen",
 				"the Late Risers"
 			],
+			"_comment_voices": "Play-test 8, ask 2 (doug-md: the companies' talk was 'who are you, have you been up the Tower, any advice and goodbye' every time; call BX). Read by src/chronicle/company_talk.gd: each company in `companies` has its own voice here, its hello on the road, resting on a floor, or climbing a shared floor beside the party; its own answers to the three questions everyone asks (`who`, `up` on the road, `up_here` on a floor, `advice`), worded by the party from `wording`; two questions only it is asked (`own`); and its goodbye. `asks` are what else comes up where they are met, `place_asks` of them drawn the same way each time in the same place, each kept to floors `from` to `to`; `leave` is how the party takes its leave. `{floor}` and `{next}` are the floor met on and the one above. **Inferred** (agenda row on the companies' voices): every line here, for doug-md to mark.",
+			"voices": {
+				"the Copper Hands": {
+					"hello": [
+						"Copper Hands. If you're hiring, we cost more than we look. If you're not, we're walking the same way.",
+						"Mind your purse and we'll mind ours. Fair?"
+					],
+					"floor_hello": [
+						"Sit if you like. The floor's free. Nothing else up here is.",
+						"Copper Hands, resting. Don't touch the packs."
+					],
+					"shared_hello": [
+						"Same floor as us, then. We fight, you fight, and nobody argues over the chests till after."
+					],
+					"who": "Five of us once, four now, paid by whoever pays. The Guild's mark is on our papers and the debts are on our backs.",
+					"up": "To floor four, for a merchant who wanted a thing brought off it. He paid half. We're going back for the other half's worth.",
+					"up_here": "Since the last fire burned down. We count in fires up here. Nobody keeps days on floor {floor}.",
+					"advice": "Get paid before the stair, not after. And whatever drops, share it out on the spot. We've seen companies break over shares.",
+					"own": [
+						{
+							"q": "Why copper?",
+							"a": "Silver was taken. Gold sounded like boasting. Copper is what we were worth when we started."
+						},
+						{
+							"q": "Would you work for us?",
+							"a": "We work for coin, and you look short of it. Ask again when your purse weighs more than your sword."
+						}
+					],
+					"bye": "Coin's coin. Find us if you have some.",
+					"floor_bye": "Don't die owing anyone. It follows you."
+				},
+				"the Lantern Company": {
+					"hello": [
+						"Good day. We keep a lantern lit even at noon. An old habit, from inside.",
+						"You're for the Tower too? We'll trade maps, if you have any."
+					],
+					"floor_hello": [
+						"Quietly, please. We're drawing the floor.",
+						"Come into the light. Nothing up here likes it much."
+					],
+					"shared_hello": [
+						"We're mapping this floor as we go. Walk with us and you'll know where the walls are before you walk into them."
+					],
+					"who": "Mapmakers, mostly. The Guild buys our drawings of each floor, and the companies after us buy them from the Guild.",
+					"up": "Floors one to six, drawn twice over. The second time we found a room the first map missed. We've been careful since.",
+					"up_here": "Three lanterns' worth of oil. We count by oil. The map of floor {floor} is nearly done.",
+					"advice": "Light every corner before you step into it. If a room seems bigger than the floor it sits on, write that down and go round.",
+					"own": [
+						{
+							"q": "Can we see your map?",
+							"a": "This one isn't finished. Half a map is worse than none. It tells you where you're safe, and it's wrong."
+						},
+						{
+							"q": "Why the lanterns?",
+							"a": "Inside, the light goes wrong after a while. A flame you carry stays the colour it was. It tells you what's real."
+						}
+					],
+					"bye": "Keep a light by you.",
+					"floor_bye": "Mind the dark corners. We've not drawn them yet."
+				},
+				"the Ninth Stair": {
+					"hello": [
+						"Ninth Stair.",
+						"You've a look about you. First climb?"
+					],
+					"floor_hello": [
+						"Rest. We are.",
+						"Floor {floor}. We've seen worse. Not much worse."
+					],
+					"shared_hello": [
+						"Same floor, same stair. Keep up and we'll get along."
+					],
+					"who": "We took our name from the ninth floor. Six of us reached it. Three came back down.",
+					"up": "Nine floors. Then we turned round. No shame in turning round.",
+					"up_here": "Long enough to stop counting. You don't get older in here, so the days don't add up to anything.",
+					"advice": "Never go up a stair tired. Never go up one angry. Never go up one alone.",
+					"own": [
+						{
+							"q": "What was on the ninth floor?",
+							"a": "Ask me when I've had a drink. I'm not having one."
+						},
+						{
+							"q": "Why go back up?",
+							"a": "We left three of ours there. Somebody should go and see."
+						}
+					],
+					"bye": "Stair's waiting.",
+					"floor_bye": "Go on, then."
+				},
+				"Hob's Lot": {
+					"hello": [
+						"Hob's Lot, that's us. Hob's the big one. The rest of us are his cousins, or say we are.",
+						"Hello there! Don't mind the smell of goat. We had a goat. Long story."
+					],
+					"floor_hello": [
+						"Pull up a bit of floor. Hob's doing the stew. Don't ask what's in it.",
+						"Another company! Hob, they've found us. Sit down, sit down."
+					],
+					"shared_hello": [
+						"Oh good, company! Hob says the more of us there are the louder we are, and the louder we are the fewer of them come."
+					],
+					"who": "Hob, his cousins, and his cousins' cousins. We had a farm out on the flats till a gate opened in the bottom field. So now we climb.",
+					"up": "Floor two, for a bet. Floor three, by mistake. Hob wanted to see the top. We saw the next stair and that was plenty.",
+					"up_here": "Since Hob's boots went through at the heel. A while, then.",
+					"advice": "Eat first. Then fight. Then eat again. You'd be amazed how many lose for want of a dinner.",
+					"own": [
+						{
+							"q": "Which one is Hob?",
+							"a": "The big one. No, bigger. Him, by the pot."
+						},
+						{
+							"q": "What happened to the farm?",
+							"a": "Things came out of the gate and ate the sheep. The Guild shut it in the end. The sheep stayed eaten."
+						}
+					],
+					"bye": "Mind how you go! Hob says mind how you go.",
+					"floor_bye": "Save us a bit of floor up there."
+				},
+				"the Grey Oath": {
+					"hello": [
+						"We are the Grey Oath. We do not stop long.",
+						"Peace to you. We are going up, as you are."
+					],
+					"floor_hello": [
+						"Sit, if you wish. We keep a watch while we rest.",
+						"You have climbed well to reach floor {floor}. So have we."
+					],
+					"shared_hello": [
+						"We will fight beside you on this floor. Our oath does not forbid it."
+					],
+					"who": "We swore an oath at the Tower's door, over the names of those who did not come down. We climb until one of us stands where they fell.",
+					"up": "Each of us has been as high as the stone says. None of us higher. That is why we go again.",
+					"up_here": "We do not count it. The oath does not care how long it takes, and in here our bodies do not care either.",
+					"advice": "Say the names of your people before you climb, while they can hear you say them.",
+					"own": [
+						{
+							"q": "Whose names?",
+							"a": "Our own dead. They are not yours to carry, and we do not ask it of you."
+						},
+						{
+							"q": "What happens when you keep the oath?",
+							"a": "We have not thought so far ahead. That is the honest answer."
+						}
+					],
+					"bye": "Go with care.",
+					"floor_bye": "May you come down again."
+				},
+				"the Saltmen": {
+					"hello": [
+						"Saltmen, off the coast. We're a long way from the water and we'd thank you not to mention it.",
+						"Fair winds. There aren't any here, but fair winds."
+					],
+					"floor_hello": [
+						"Drop anchor a while. There's nothing to drop it into, mind.",
+						"Floor {floor}. Dry as a ship's biscuit and twice as stale."
+					],
+					"shared_hello": [
+						"Two crews, one floor. We've sailed with worse. Keep off our port side and we'll get on."
+					],
+					"who": "Fishermen, the lot of us, till the nets came up empty three seasons running. The Guild was paying for climbers. Climbing's rigging without the ship.",
+					"up": "Up to five and back, like a long tide. Out, turn, in. We'll go further on the next one.",
+					"up_here": "Two watches, maybe three. Hard to tell without a sky.",
+					"advice": "Tie yourselves together on the stairs. A rope's saved more of us than a sword has.",
+					"own": [
+						{
+							"q": "Do you miss the sea?",
+							"a": "Every step. You don't miss a thing like that less for being high up."
+						},
+						{
+							"q": "Why did the fish go?",
+							"a": "Same reason the sheep went inland, we think. Something came out of the water, and the fish had more sense than us."
+						}
+					],
+					"bye": "Keep your head above it.",
+					"floor_bye": "Mind the swell on the stair. There isn't one. Mind it anyway."
+				},
+				"the Late Risers": {
+					"hello": [
+						"Oh! Hello. Are we late? We're usually late.",
+						"Late Risers. We'd have been here sooner but there was breakfast."
+					],
+					"floor_hello": [
+						"Is it morning? It feels like morning. We're going up after a nap.",
+						"Hello! Have you any bread? We've run out. We always run out."
+					],
+					"shared_hello": [
+						"You're on this floor too? Somebody at the Guild must have mixed up the order again. Lucky you."
+					],
+					"who": "We meant to sign with the Copper Hands, but we slept through the day they took names. So we made our own company. Better name, anyway.",
+					"up": "Floor one, twice, and the start of two. We'd have done more, but somebody always needs a sit down.",
+					"up_here": "Ages. Or an hour. You can't tell in here, and none of us has got a day older, so it hardly matters.",
+					"advice": "Don't rush. Everyone rushes, and half of them are names on the stone now. We'd sooner be late.",
+					"own": [
+						{
+							"q": "Are you any good?",
+							"a": "We're still alive, aren't we? That's more than half the ones who started out with us."
+						},
+						{
+							"q": "Do you ever get up early?",
+							"a": "Once. It was horrible."
+						}
+					],
+					"bye": "See you up there! Eventually.",
+					"floor_bye": "Go on ahead. We'll catch you up. Probably."
+				}
+			},
+			"wording": {
+				"who": [
+					"Who are you?",
+					"Which company is this?",
+					"Whose company are you?",
+					"What do they call you?"
+				],
+				"up": [
+					"Have you been up the Tower?",
+					"How far up have you been?",
+					"Climbed it before?"
+				],
+				"up_here": [
+					"How long have you been up here?",
+					"Been resting long?",
+					"How long have you been on this floor?"
+				],
+				"advice": [
+					"Any advice?",
+					"What should we know?",
+					"Anything we should watch for?",
+					"What would you tell a company going up?"
+				]
+			},
+			"leave": [
+				"Goodbye.",
+				"We'll be on our way.",
+				"Good luck up there.",
+				"Take care.",
+				"That's all, thanks."
+			],
+			"place_asks": 2,
+			"asks": {
+				"road": [
+					{
+						"q": "Seen anything on the road?",
+						"a": "A gate open off to the side a day back. We gave it room. The Guild will have it marked by now."
+					},
+					{
+						"q": "Where are you headed?",
+						"a": "The Tower, same as everyone on this road. There's nowhere else it goes."
+					},
+					{
+						"q": "Is the Guild's mark hard to get?",
+						"a": "Shut a gate and it's yours. Shutting the gate is the hard part."
+					},
+					{
+						"q": "Do many come back?",
+						"a": "Enough that the road's busy. Not enough that the inns are full."
+					},
+					{
+						"q": "What's Stormreach like?",
+						"a": "Loud, walled and dear. Everything you need, at twice what it's worth."
+					}
+				],
+				"floor": [
+					{
+						"from": 2,
+						"to": 4,
+						"q": "What's on floor {next}?",
+						"a": "The same as this one, only more of it, and it knows you're coming."
+					},
+					{
+						"from": 2,
+						"to": 5,
+						"q": "Is floor five as bad as they say?",
+						"a": "Worse. Whatever keeps floor five has kept it a long time. Go up rested or don't go up."
+					},
+					{
+						"from": 6,
+						"to": 10,
+						"q": "Is it different past five?",
+						"a": "The floors have ground of their own from here. As if the Tower stopped copying itself."
+					},
+					{
+						"from": 11,
+						"to": 999,
+						"q": "Why do the floors keep growing?",
+						"a": "Nobody knows. Every floor's a room or two bigger than the one below, as if the Tower were still being built from the inside."
+					},
+					{
+						"from": 11,
+						"to": 999,
+						"q": "What's on floor {next}?",
+						"a": "Rooms, more of them, and something in each. Clear them one at a time and rest between."
+					},
+					{
+						"from": 2,
+						"to": 999,
+						"q": "Does anything come down the stair?",
+						"a": "Not while you sit by it. That's why everyone rests here."
+					},
+					{
+						"from": 2,
+						"to": 999,
+						"q": "Have you seen other companies?",
+						"a": "Bits of them. Packs left on a stair. A cold fire. You learn not to look too closely."
+					},
+					{
+						"from": 20,
+						"to": 999,
+						"q": "Have you heard of the six who went up long ago?",
+						"a": "They say the six are still alive, near floor seventy. Nobody ages in here. Whether they're still themselves is another question."
+					},
+					{
+						"from": 20,
+						"to": 999,
+						"q": "Are there people living up here?",
+						"a": "Higher up, some floors have folk who stopped climbing and stayed. They'll rest you for coin. Fair enough, this high."
+					}
+				],
+				"shared": [
+					{
+						"q": "Shall we take the rooms together?",
+						"a": "We'd planned on it. Clear a room, rest, then the next. We'll meet you at the stair."
+					},
+					{
+						"q": "Who leads, when it starts?",
+						"a": "Whoever's at the front. That's how it goes up here."
+					},
+					{
+						"q": "Why are two companies on one floor?",
+						"a": "Every third floor or so the Tower lets two companies on at once. Nobody knows why. We just say thank you."
+					},
+					{
+						"q": "What's on floor {next}?",
+						"a": "Bigger rooms. Same as every floor up here. We'll know when we get there."
+					}
+				]
+			},
 			"lines": [
 				"Tower by nightfall, if your legs hold.",
 				"Don't stop. Stop and you think about it.",
@@ -399,6 +735,18 @@
 					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." },
 					{ "q": "What's above?", "a": "More floors, bigger each time. Companies go up past us every season. Fewer come down." }
 				],
+				"_comment_pool": "Play-test 8, ask 2 ('a lot more dialogue options for characters that you meet in the towers'; call BX): each of the floor's folk past the host and the trader is also asked pool_shown of the pool, drawn by src/chronicle/company_talk.gd the same way every time for the same one. Inferred: every line.",
+				"pool_shown": 2,
+				"pool": [
+					{ "q": "Why did you stop climbing?", "a": "I got as high as I wanted to be. The stair kept going. I didn't." },
+					{ "q": "Do you ever go down?", "a": "Once, to the door. The light outside hurt my eyes. I came back up the same day." },
+					{ "q": "What do you eat up here?", "a": "What comes up the stair on somebody's back, and what grows under the lamps. Not much grows. Enough does." },
+					{ "q": "Do companies stop here often?", "a": "A few a season. Most rest a night and go on. There's a mark on the wall for every one that comes back down past us." },
+					{ "q": "How many marks are on the wall?", "a": "Count them if you like. It won't take you long." },
+					{ "q": "Are there more floors like this?", "a": "Every few floors somebody has settled. We trade between them when anyone is going that way." },
+					{ "q": "Is it safe here?", "a": "Safer than the floor below. Nothing comes down the stair while folk live by it. Nobody knows why, and nobody asks." },
+					{ "q": "Have you seen the six?", "a": "No. People who say they have usually want something from you." }
+				],
 				"bye": "Mind the stair. We'll be here when you come down, if you do."
 			},
 			"_comment_living_offers": "D317 (D290: 'by floor 25 or 30 people have set up base and live there'): what a living floor offers. The first of its people is the host, who rests the whole company for living_host.heal.price (Talk's mend of everyone hurt, nothing when nobody is), the second the trader, who sells living_trader.sells at the Market's price times living_trader.markup, restocked; the rest talk as living_talk. Inferred: the price, the wares and the mark-up.",
@@ -409,7 +757,9 @@
 					"Sit. Nothing comes down the stair that we have not seen before."
 				],
 				"ask": [
-					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." }
+					{ "q": "You live here?", "a": "Twenty years, some of us. Nobody ages in here, so nobody has to leave. The stair above is for the young." },
+					{ "q": "How long have you kept this floor?", "a": "Since before the stair above was found. Long enough that I stopped asking how long." },
+					{ "q": "Who keeps the floors above?", "a": "Others like us, here and there. Some are kinder than me. Some charge more." }
 				],
 				"heal": {
 					"price": 1500,
@@ -425,6 +775,10 @@
 				"hello": [
 					"Everything up here came up the stair on somebody's back. The price says so.",
 					"Bread, herbs, a draught. Nobody carries more than that this high."
+				],
+				"ask": [
+					{ "q": "Who carries it all up?", "a": "Climbers, mostly, paid in what they'd sooner not carry back down. Bread for a sword, once. You'd be surprised." },
+					{ "q": "Do you buy?", "a": "Not up here. Sell what you find at the bottom, where somebody needs it." }
 				],
 				"shop_q": "What have you got?",
 				"shop": "What came up the stair. Coin first, mind.",

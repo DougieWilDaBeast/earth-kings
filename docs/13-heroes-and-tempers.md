@@ -246,7 +246,10 @@ play-test 7, item 14): about 430 of some 3,850 lines in `data/` rewritten, the r
 A line written since keeps to the same rules:
 
 - **Its speaker's own voice.** Thirty folk of Stormreach are thirty people, not one wry narrator; a fen is
-  patient and damp, a shore wreck-wary. Ser Valis speaks without contractions; Atlas too.
+  patient and damp, a shore wreck-wary. Ser Valis speaks without contractions; Atlas too. The seven
+  companies climbing the Tower are seven voices too ([D341](06-decisions.md), play-test 8): the Copper Hands
+  count coin, the Lantern Company draws maps, the Ninth Stair says little, Hob's Lot says a lot, the Grey
+  Oath speaks without contractions, the Saltmen talk like the boats they left, the Late Risers are late.
 - **Plain and spare.** British English, short sentences, concrete things over abstractions; the Tower
   takes a capital.
 - **No stock tics.** No em-dash in a line; no "its own kind of", "a new kind of", "the part nobody",
