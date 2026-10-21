@@ -233,6 +233,7 @@ the right under Gear, Powers and Practice. Every target is sized for a thumb.
 | G21 | Climb past floor 10 (floor 11, then 12) | Each floor is a run of chambers of its own, bigger than floors 1 to 10, the stair at the far end and a band in every chamber but the first; floor 12 says another company is on it, and they fight beside you ([D307](06-decisions.md)) |
 | G22 | Climb to floor 25 | People stand by the way in and talk: they live here and are not going higher; no company fights beside you on it ([D307](06-decisions.md)) |
 | G23 | On floor 25, hurt, speak to the first and the second person by the way in | The first offers *Let us rest here* for 1,500 copper and mends everyone; the second sells bread, herbs and a red draught at half again the Market's price, and again after you buy ([D317](06-decisions.md)) |
+| G24 | At the Tower's foot, look at the sword in the floor; then look again | One pull: one time in six the lightning goes out and a Silver Blade is handed to whoever gains most; else the stone keeps it; the second look says you have had your pull, and a new run is a new throw ([D318](06-decisions.md)) |
 
 ## D2 — Towns, wilds and the people in them ([D62](06-decisions.md))
 

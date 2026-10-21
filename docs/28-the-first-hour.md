@@ -255,7 +255,8 @@ tip now says so).
    with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
    town; more named places.
-8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once.
+8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once. Built
+   ([D318](06-decisions.md), 2026-10-21): one pull a run, one chance in six, a Silver Blade.
 9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;
    stairs that look like they go up and cannot be walked through; perhaps "Are you sure?" before
    leaving floor 5.

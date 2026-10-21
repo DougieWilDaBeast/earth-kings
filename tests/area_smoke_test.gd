@@ -96,6 +96,7 @@ func _ready() -> void:
 	await _check_play_test_seven()
 	await _check_sennet_from_afar()
 	_check_the_climbers_stone()
+	await _check_the_sword_in_the_yard()
 	await _check_the_journal_at_the_side()
 	_check_tracks()
 	_check_open_city()
@@ -2354,6 +2355,45 @@ func _check_sennet_from_afar() -> void:
 
 ## The climbers' stone at the Tower's door (play-test 7, call BR3): it stands at the Tower's foot,
 ## and reads the leads who climbed before, highest first, then this lead while they climb.
+## The sword in the Tower's yard ([D318]; play-test 3, item 8): pulled with a throw of the dice, once a run;
+## lost, it stays in the stone and every look after says so; won, the blade is handed over.
+func _check_the_sword_in_the_yard() -> void:
+	GameState.new_game(SEED)
+	var scene: Node = load("res://src/area/area_scene.tscn").instantiate()
+	scene.set("boot_payload", { "area_id": "tower", "return_scene": "world" })
+	add_child(scene)
+	await get_tree().process_frame
+	var sword: AreaProp = null
+	for thing: AreaProp in scene.get("_things"):
+		if thing.art == "landmark/sword_storm":
+			sword = thing
+	_expect(sword != null and not sword.try_once.is_empty() and float(sword.try_once.get("chance", 0.0)) > 0.0
+			and not Database.equipment_piece(str(sword.try_once.get("item", ""))).is_empty(), "the sword in the yard cannot be tried, or wins nothing")
+	if sword == null or sword.try_once.is_empty():
+		scene.queue_free()
+		return
+	var try: Dictionary = sword.try_once
+	var flag := "tried:tower:%d:%d" % [sword.cell.x, sword.cell.y]
+	var before: int = (scene.get("_notes") as Array).size()
+	scene.call("_try_once", sword, 1.0)
+	var notes: Array = scene.get("_notes")
+	_expect(notes.size() == before + 1 and str(notes.back()) == str(try.get("lose", "")) and GameState.has_flag(flag) and not GameState.has_flag(flag + ":won"),
+			"a lost pull said nothing, or the wrong thing, or was not kept")
+	scene.call("_try_once", sword, 0.0)
+	notes = scene.get("_notes")
+	_expect(str(notes.back()) == str(try.get("tried", "")) and sword.line == str(try.get("tried", "")) and not GameState.has_flag(flag + ":won"),
+			"the sword could be pulled at twice")
+	GameState.flags.erase(flag)
+	scene.call("_try_once", sword, 0.0)
+	notes = scene.get("_notes")
+	_expect(notes.has(str(try.get("win", ""))) and GameState.has_flag(flag + ":won"),
+			"a won pull did not hand the sword over: %s" % [notes.slice(maxi(0, notes.size() - 3))])
+	print("the sword in the yard: one pull a run at %.0f%%, for a %s" % [float(try.get("chance", 0.0)) * 100.0, Gear.display_name(str(try.get("item", "")))])
+	scene.queue_free()
+	await get_tree().process_frame
+	GameState.new_game(SEED)
+
+
 func _check_the_climbers_stone() -> void:
 	var stones: Array = (Database.area("tower").get("props", []) as Array).filter(func(p: Dictionary) -> bool:
 		return str(p.get("reads", "")) == "climbers")

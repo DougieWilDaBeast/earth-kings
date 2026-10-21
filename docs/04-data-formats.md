@@ -354,7 +354,10 @@ in the way if its kind does. An entry may override any of it: `scale`, `solid`, 
 depth] cells a solid prop blocks, centred on its cell and running back from it), `flip` (mirrored)
 and `offset` ([dx, dy] pixels off the middle of its cell). A prop can be part of a favour: `set_flag`
 is set the first time it is looked at, with `found_line` said then; `requires` / `requires_not`
-(flags) decide whether it is there at all. A cell the author means somebody to stand on (spawn,
+(flags) decide whether it is there at all. A prop with `try` (`chance`, `item`, `win`, `lose`, `tried`)
+is tried once a run with a throw of the dice when it is looked at (D318, the sword in the Tower's yard):
+the first look rolls and hands the item over or not, every look after says `tried`; `AreaProp.try_once`,
+the area scene's `_try_once`, flags `tried:<area>:<x>:<y>` and `:won`. A cell the author means somebody to stand on (spawn,
 exits, spots, chests, seats, anyone standing there) is never blocked, whatever is drawn on it.
 A spot may carry `set_flag` too. A prop with `act` (a doing of the place's, such as `_climb_here`
 on the Tower's runes) is the way into it: standing at it the hint says that doing's prompt, and
