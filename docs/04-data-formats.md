@@ -1041,6 +1041,12 @@ loot, `cache_map_chance` for a cache in the open, `chest_map_chance` for a chest
 
 ## `fall.json` — the fall, the landing, and the others (M13)
 
+`siblings.weapon.taken_chance` (D311) is how often a band of the land is standing over a fallen weapon's
+crater as it lands (`Siblings.take_weapon`; the band's `carries` is the hero, kept in the save); the
+lines `weapon_taken`, `weapon_held`, `weapon_freed`, `weapon_retaken` and `weapon_rumour_taken` take
+`{band}` and the usual `{weapon}`, `{name}`, `{way}`. A band fight's outcome carries `carries`; won, the
+weapon is freed, lost, another band is put on it (`world_scene._settle_up`).
+
 Read by `src/chronicle/fall.gd`, `src/chronicle/wanderers.gd` and (`siblings`, M15)
 `src/chronicle/siblings.gd`. See [17](17-the-sixteen-worlds.md).
 
