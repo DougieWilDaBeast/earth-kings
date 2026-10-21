@@ -13,6 +13,8 @@ extends RefCounted
 ## Loaded by path, not by `class_name` ([D41]).
 
 const POSTED_FLAG := "rumour_job:"
+const Wilds := preload("res://src/chronicle/wilds.gd")
+const Atlas := preload("res://src/chronicle/atlas.gd")
 
 
 static func rules() -> Dictionary:
@@ -47,6 +49,10 @@ static func compose(world: World, site: Site) -> Dictionary:
 	for town: Site in world.sites:
 		if town != site and Town.is_threatened(town):
 			open.append({"kind": "siege", "key": "siege:%s" % town.display_name, "site": town})
+	# A wild place the party has heard of, not yet cleared of what keeps it ([D310]).
+	for wild: Site in Wilds.all(world):
+		if Atlas.knows(world, wild) and not Wilds.cleared(wild):
+			open.append({"kind": "wild", "key": "wild:%s" % wild.display_name, "site": wild})
 	open = open.filter(func(r: Dictionary) -> bool: return not GameState.has_flag(POSTED_FLAG + str(r["key"])))
 	if open.is_empty():
 		return {}
@@ -78,6 +84,12 @@ static func _job(rumour: Dictionary, world: World, site: Site) -> Dictionary:
 			job["kind"] = Errand.LOOK if rumour["kind"] == "gate" else Errand.DELIVER
 			Errand._point_at(job, there.cell, there.display_name, site, world)
 			fill = {"place": there.display_name}
+		"wild":
+			var there: Site = rumour["site"]
+			job["kind"] = Errand.WILD
+			Errand._point_at(job, there.cell, there.display_name, site, world)
+			job["flag"] = Wilds.guard_flag(there)
+			fill = {"place": there.display_name, "lure": Wilds.lure_of(there)}
 	job["gold"] = roundi(float(job["gold"]) * float(Errand.rules().get("rumour_reward_multiplier", 1.5)))
 	job["title"] = str(words.get("title", "Word on the road")).format(fill)
 	job["text"] = str(words.get("text", "")).format(fill)

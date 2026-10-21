@@ -21,6 +21,8 @@ const CHECKS := [
 const Biome := preload("res://src/chronicle/biome.gd")
 const Wilds := preload("res://src/chronicle/wilds.gd")
 const Atlas := preload("res://src/chronicle/atlas.gd")
+const RumourJobs := preload("res://src/chronicle/rumour_jobs.gd")
+const Dispatch := preload("res://src/chronicle/dispatch.gd")
 const FirstRoad := preload("res://src/area/first_road.gd")
 const Route := preload("res://src/world/route.gd")
 const GroundGen := preload("res://src/area/ground_gen.gd")
@@ -168,6 +170,29 @@ func _check_wilds(world: World) -> void:
 				"the guard is not a held band of three on open ground: %s" % [guard])
 		_expect(stocked == Wilds.stock(inside, world, nearest.cell, GameState.party_characters(), inside.bands), "the guard is dealt differently each time")
 		print("wilds: %s is guarded by %s" % [nearest.display_name, guard.get("label", "")])
+	# A quest in a wild place ([D310]): once heard of, the board can post clearing it.
+	var board_before: Variant = village.data.get("errand")
+	village.data.erase("errand")
+	var flags_before := GameState.flags.duplicate()
+	var job := {}
+	for i in 12:
+		job = RumourJobs.compose(world, village)
+		if str(job.get("kind", "")) == Errand.WILD:
+			break
+	_expect(str(job.get("kind", "")) == Errand.WILD and Atlas.knows(world, world.site_at(Errand._cell_of(job.get("to", [])))),
+			"the board did not post clearing a wild the party has heard of: %s" % [job])
+	if str(job.get("kind", "")) == Errand.WILD:
+		_expect(str(job.get("title", "")).contains("What keeps") and int(job.get("gold", 0)) > 0 and str(job.get("flag", "")).begins_with("done:wild_guard_"),
+				"the wild job is not worded or paid: %s" % [job])
+		_expect(not Errand.is_complete(job) and Errand.progress(job).begins_with("clear"), "the wild job is done before the guard is")
+		GameState.set_flag(str(job["flag"]))
+		_expect(Errand.is_complete(job) and Errand.progress(job) == "cleared", "beating the guard did not finish the job")
+		_expect(Dispatch.open_errands([job]).is_empty(), "a wild job can be sent a companion on")
+	GameState.flags = flags_before
+	if board_before != null:
+		village.data["errand"] = board_before
+	else:
+		village.data.erase("errand")
 	print("wilds: %d places of %d kinds; %s" % [wilds.size(), kinds.size(), said])
 	# Tidy: nothing of this is kept for the checks after.
 	nearest.data.erase("found")

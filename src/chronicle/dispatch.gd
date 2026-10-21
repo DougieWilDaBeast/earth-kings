@@ -42,7 +42,8 @@ static func can_send(character: Character, roster: Roster, away: Array) -> bool:
 static func open_errands(accepted: Array) -> Array:
 	return accepted.filter(
 		func(errand: Dictionary) -> bool:
-			return str(errand.get(TAKEN_BY, "")) == "" and str(errand.get("kind", "")) != Errand.GATE
+			return str(errand.get(TAKEN_BY, "")) == "" and str(errand.get("kind", "")) != Errand.GATE \
+					and str(errand.get("kind", "")) != Errand.WILD
 	)
 
 
