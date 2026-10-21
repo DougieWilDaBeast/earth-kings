@@ -258,22 +258,28 @@ static func line_of(template_id: String) -> String:
 ## the party's order): template id -> `at`. The back line is dealt first (the mender matters most),
 ## then the front, then the rest, each to the nearest line it would rather stand in.
 static func assign(shape_id: String, companions: Array) -> Dictionary:
+	return assign_by(shape_id, companions, func(id: String) -> String: return line_of(id))
+
+
+## [method assign] for any keys: [param line_for] says which line each of [param keys] belongs in
+## (a band's foes are keyed by their place in it, [D315], since two wolves share a template).
+static func assign_by(shape_id: String, keys: Array, line_for: Callable) -> Dictionary:
 	# Only the first as many slots as there are companions are open, so a small party keeps a
 	# compact shape with no holes in it; a shape's slots are written in the order they fill.
-	var open := slots(shape_id, companions.size())
+	var open := slots(shape_id, keys.size())
 	var out := {}
 	var order := { "back": 0, "front": 1, "flank": 2 }
-	var dealt: Array = companions.duplicate()
+	var dealt: Array = keys.duplicate()
 	dealt.sort_custom(func(a: String, b: String) -> bool:
-		var la := int(order.get(line_of(a), 2))
-		var lb := int(order.get(line_of(b), 2))
-		return la < lb if la != lb else companions.find(a) < companions.find(b))
+		var la := int(order.get(line_for.call(a), 2))
+		var lb := int(order.get(line_for.call(b), 2))
+		return la < lb if la != lb else keys.find(a) < keys.find(b))
 	var prefer := {
 		"back": ["back", "flank", "front"], "front": ["front", "flank", "back"], "flank": ["flank", "front", "back"],
 	}
 	for who: String in dealt:
 		var picked := -1
-		for line: String in prefer.get(line_of(who), prefer["flank"]):
+		for line: String in prefer.get(line_for.call(who), prefer["flank"]):
 			for i in open.size():
 				if str(open[i]["line"]) == line:
 					picked = i
@@ -370,6 +376,91 @@ static func holding(fighter: Fighter, fighters: Array) -> bool:
 	return Pathfinder.distance(fighter.unit.cell, slot) <= int(rules().get("slack", 1))
 
 
-## The guard a fighter holding its slot gets ([D289]: "holding one is a bonus").
+## The guard a fighter holding its slot gets ([D289]: "holding one is a bonus"); a foe holding its
+## band's slot gets `foes.hold_guard` ([D315]).
 static func hold_guard(fighter: Fighter, fighters: Array) -> float:
-	return float(rules().get("hold_guard", 0.0)) if holding(fighter, fighters) else 0.0
+	if holding(fighter, fighters):
+		return float(rules().get("hold_guard", 0.0))
+	var band := band_slot_cell(fighter, fighters)
+	if band != NONE and Pathfinder.distance(fighter.unit.cell, band) <= int(rules().get("slack", 1)):
+		return float(foe_rules().get("hold_guard", 0.0))
+	return 0.0
+
+
+# --- a band of foes in formation ([D289], [D315]) ------------------------------------------------
+
+
+static func foe_rules() -> Dictionary:
+	return rules().get("foes", {})
+
+
+## The foe who sets the band's shape: its boss, else the first of them standing ([D306]'s caller).
+static func band_caller(fighters: Array) -> Fighter:
+	var first: Fighter = null
+	for other: Fighter in fighters:
+		if not other.is_standing() or other.is_party() or other.unit.sides_with_party():
+			continue
+		if other.unit.has_meta("boss") and bool(other.unit.get_meta("boss")):
+			return other
+		if first == null:
+			first = other
+	return first
+
+
+## The nearest standing fighter of the party's side to [param from], or null.
+static func nearest_of_the_party(from: Vector2i, fighters: Array) -> Fighter:
+	var best: Fighter = null
+	var best_far := 999
+	for other: Fighter in fighters:
+		if not other.is_standing() or not (other.is_party() or other.unit.sides_with_party()):
+			continue
+		var far := Pathfinder.distance(from, other.unit.cell)
+		if far < best_far:
+			best = other
+			best_far = far
+	return best
+
+
+## The slot cell a foe should be on in its band's shape ([D315]): round the band's caller, the shape
+## facing the nearest of the party, each dealt a slot by what it fights with, in the shape the band's
+## size picks. [constant NONE] for the caller, anyone of the party's side, a band of fewer than
+## `foes.from` standing, or with it off.
+static func band_slot_cell(fighter: Fighter, fighters: Array) -> Vector2i:
+	var r := foe_rules()
+	if not on() or not bool(r.get("on", false)) or fighter.is_party() or fighter.unit.sides_with_party():
+		return NONE
+	var caller := band_caller(fighters)
+	if caller == null or caller == fighter:
+		return NONE
+	var band: Array = []
+	for other: Fighter in fighters:
+		if other.is_standing() and other != caller and not other.is_party() and not other.unit.sides_with_party():
+			band.append(other)
+	if band.size() + 1 < int(r.get("from", 3)):
+		return NONE
+	var shape := auto_for(band.size() + 1)
+	if shape == "":
+		return NONE
+	var keys: Array = []
+	for i in band.size():
+		keys.append(str(i))
+	var dealt := assign_by(shape, keys, func(key: String) -> String:
+		return line_of((band[int(key)] as Fighter).unit.template_id))
+	var mine := str(band.find(fighter))
+	if not dealt.has(mine):
+		return NONE
+	var toward := nearest_of_the_party(caller.unit.cell, fighters)
+	var facing: Vector2i = caller.unit.facing if toward == null else toward.unit.cell - caller.unit.cell
+	return cell_for(dealt[mine], caller.unit.cell, facing)
+
+
+## Whether anyone of the band is in contact with the party's side: within a tile of one of them.
+static func band_in_contact(fighters: Array) -> bool:
+	for f: Fighter in fighters:
+		if not f.is_standing() or f.is_party() or f.unit.sides_with_party():
+			continue
+		for other: Fighter in fighters:
+			if other.is_standing() and (other.is_party() or other.unit.sides_with_party()) \
+					and Pathfinder.distance(other.unit.cell, f.unit.cell) <= 1:
+				return true
+	return false

@@ -443,7 +443,8 @@ each, each ending playable:
       **Built** (2026-10-20): the five shapes, walked and fought in, picked on the party sheet, and the guard for
       holding one ([D305](06-decisions.md)); a leader who rises out of the fights won and calls for a shape, call-outs
       both sides hear, the bonus for fights shared, and a formation breaking on a low mood ([D306](06-decisions.md)).
-      Not yet: the wheel on a held key, a leader's orders beyond the call-out, foes in formation, trust breaking one.
+      A band of foes falls in too, round its boss, in the shape its size picks, facing the party ([D315](06-decisions.md),
+      2026-10-21). Not yet: the wheel on a held key, a leader's orders beyond the call-out, trust breaking one.
    F. The Tower past floor 10: bigger floors, shared floors, the first people living in it
       ([D290](06-decisions.md), #382). **Built** ([D307](06-decisions.md), 2026-10-20): from floor 11 every floor
       is laid out at the climb and grows with height, every third floor from 12 is shared with a company who

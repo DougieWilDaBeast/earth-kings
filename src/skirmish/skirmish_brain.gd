@@ -151,6 +151,9 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 		# And, when nothing else is called for, falls in to its slot round the lead until the party
 		# is in contact ([D305]): last, so a stance's own moves (Guard's escort) come first.
 		tried.append("form")
+	elif me.team != Unit.Team.PLAYER and not me.sides_with_party() and bool(Formations.foe_rules().get("on", false)):
+		# A band of foes falls in too ([D315]), round its caller, while none of it is in contact.
+		tried.append("form_band")
 	for move: String in tried:
 		var plan := {}
 		match move:
@@ -162,6 +165,9 @@ static func pick_tactic(fighter: Fighter, fighters: Array[Fighter], foe: Unit, t
 			"form":
 				if fighter.tactic_wait <= 0.0 and not hunted:
 					plan = _form(fighter, fighters)
+			"form_band":
+				if fighter.tactic_wait <= 0.0 and not hunted:
+					plan = _form_band(fighter, fighters)
 			"kite":
 				if fighter.tactic_wait <= 0.0 and swing >= int(tactics.get("kite_from_reach", 2)) \
 						and fighter.retreat_wait <= 0.0 and _nearest_hostile(me, me.cell, fighters) <= 1:
@@ -306,6 +312,20 @@ static func _rally(fighter: Fighter, fighters: Array[Fighter], lead: Unit, tacti
 static func _form(fighter: Fighter, fighters: Array[Fighter]) -> Dictionary:
 	var slot := Formations.slot_cell(fighter, fighters)
 	if slot == Formations.NONE or Formations.in_contact(fighters):
+		return {}
+	var slack := int(Formations.rules().get("slack", 1))
+	if Pathfinder.distance(fighter.unit.cell, slot) <= slack:
+		return {}
+	return {"why": "form", "wait": float(Formations.rules().get("form_every", 1.5)), "goal": func(c: Vector2i) -> bool:
+		return Pathfinder.distance(c, slot) <= slack and _free(c, fighter, fighters)}
+
+
+## To its slot in the band's shape ([D315]), while none of the band is in contact with the party: a
+## band walks up in its shape round its caller and breaks into its doctrines once the fight is joined,
+## as the party does.
+static func _form_band(fighter: Fighter, fighters: Array[Fighter]) -> Dictionary:
+	var slot := Formations.band_slot_cell(fighter, fighters)
+	if slot == Formations.NONE or Formations.band_in_contact(fighters):
 		return {}
 	var slack := int(Formations.rules().get("slack", 1))
 	if Pathfinder.distance(fighter.unit.cell, slot) <= slack:
