@@ -1167,6 +1167,9 @@ func _check_trading() -> void:
 	for option: Dictionary in nodes["shop"]["options"]:
 		if str(option.get("text", "")).begins_with("Loaf"):
 			loaf = option
+	# D353: each ware carries its picture, and the loaf has one to show.
+	if str(loaf.get("icon_item", "")) != "bread" or Gear.icon("bread") == null:
+		_fail("village: the loaf for sale has no picture beside it (%s)" % [loaf.get("icon_item", "")])
 	GameState.gold = 100
 	var stores := GameState.stores.size()
 	DialogueScript.apply_effects(loaf)

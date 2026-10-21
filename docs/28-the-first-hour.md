@@ -408,7 +408,10 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
    the land: the fallen lie ahead of the party to walk up to and search (coin, sometimes a piece to carry);
    drawn as a cache until art A63. The bodies of a gate's or the Tower's floors are **planned**.
 6. **Gear you can see**: weapons and armour shown on the fighter; an equipment screen; a shop list with
-   an icon beside each item (art from PixelLab).
+   an icon beside each item (art from PixelLab). The party screen shows what each carries with its picture, and a
+   weapon is drawn in the fighter's hand where its art is in ([D290](06-decisions.md), held art A52). **Built**
+   ([D353](06-decisions.md)): every ware a seller offers shows its picture beside its name and price. Armour seen on
+   the body is **planned** (art).
 7. **Crafting**: herbs into potions, a blacksmith who makes and upgrades weapons; and who can wield what
    (he said both "only weapons they're affiliated with" and "everyone can use the same weapons"). Built
    ([D280](06-decisions.md)): four draughts mixed from herbs on the party screen, and three smiths who hone a
