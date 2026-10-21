@@ -534,7 +534,10 @@ a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the d
 `errands.json` → `rumours.wild` (`title`, `text`, `posted`; `{place}`, `{lure}`) is the board's job to clear a
 wild the party has heard of (D310, `RumourJobs.compose`): an errand of kind `wild` pointed at the wild, paid for
 the walk times `rumour_reward_multiplier`, `flag` the guard's done flag (`Wilds.guard_flag`), complete when it is
-set, handed back at the board; never one a companion is sent on.
+set, handed back at the board; never one a companion is sent on. `rumours.wild_found` (`title`, `text`, `taken`;
+`{place}`, `{lure}`, `{giver}`, `{from}`) is the same job taken on the way into a wild whose guard stands, for the
+nearest settlement known, else the nearest at all, marked on the map (`RumourJobs.found_at_the_wild`, D316); `found_here` marks it, and the board's posted flag is
+set so it is never posted twice.
 
 ## `biomes.json` — the lands, and how each one's ground is laid out
 

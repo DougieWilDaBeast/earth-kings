@@ -138,6 +138,12 @@
 			"text": "Something has made its den at {place}: {lure}. Clear it, and come back and say what it was.",
 			"posted": "They will pay for {place} cleared of whatever keeps it, if you have been hearing about it. It is on the board."
 		},
+		"_comment_wild_found": "D316 (D310's not yet): walking into a wild whose guard still stands, with no job for it posted or taken and room for one more, takes clearing it on the spot, for the nearest settlement the party knows of ({giver}: the host or keeper at it), who pays there when it is done; `taken` is said on the way in. The board never posts the same wild after.",
+		"wild_found": {
+			"title": "What keeps {place}",
+			"text": "Something has made its den at {place}: {lure}. Clear it, and say so to {giver}; they will pay to hear it.",
+			"taken": "Something keeps {place}. Clear it, and {giver} will pay to hear it. It is among your errands."
+		},
 		"siege": {
 			"title": "Arrows for {place}",
 			"text": "{place} is under siege and running short. Get a bundle of arrows through to them before the palisade goes.",
