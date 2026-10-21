@@ -10,6 +10,9 @@ extends RefCounted
 ## A role with nothing but a name (the brawler) fights as everyone always has.
 
 
+const Crafting := preload("res://src/chronicle/crafting.gd")
+
+
 static func rule(key: String, fallback: float) -> float:
 	return float(Database.skirmish.get("rules", {}).get(key, fallback))
 
@@ -49,6 +52,10 @@ static func for_unit(unit: Unit) -> Array:
 			out.append(entry)
 		if out.size() >= cap:
 			break
+	# A rune on the weapon they carry, over and above ([D299] item 3).
+	var rune: Dictionary = Crafting.rune_passive(unit.character)
+	if not rune.is_empty():
+		out.append(rune)
 	return out
 
 
