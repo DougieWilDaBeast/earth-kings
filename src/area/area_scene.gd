@@ -1296,9 +1296,12 @@ func _put_cache(haul: Dictionary) -> AreaProp:
 		return null
 	var ahead := Vector2i((_leader.get("_facing") as Vector2).round()) if _leader.get("_facing") is Vector2 else Vector2i.DOWN
 	var at := _free_spot_near(map.cell_at(_leader.position) + ahead * 2)
+	# The fallen of a band ([D352]) carry their own name, words and picture.
+	var art := str(haul.get("art", ""))
 	var node := AreaProp.from_entry({
-		"art": Loot.cache_art(haul), "cell": at, "name": "something left here",
-		"line": "Something left here a long while ago, and nobody came back for it.",
+		"art": art if art != "" else Loot.cache_art(haul), "cell": at,
+		"name": str(haul.get("name", "something left here")),
+		"line": str(haul.get("line", "Something left here a long while ago, and nobody came back for it.")),
 	})
 	node.haul = haul.duplicate()
 	node.position = map.centre_of(at)

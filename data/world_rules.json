@@ -1363,6 +1363,16 @@
 		"item_chance": 0.35,
 		"resale": 0.5,
 		"cache_chance": 0.04,
+		"fallen": {
+			"_comment": "D352 (doug-md's play-test 7, item 5: 'bodies that stay after a fight, searched for loot'). A band beaten on the land leaves its fallen where they dropped: on the ground a thing to walk up to and search (name, line; drawn as art, the cache's picture until art row A63 brings the fallen), said with ground_line; off the ground searched at once (searched_line). What they carried is a loot roll of richness_per_foe for each of the band, on dice of its own. Read by world_scene._search_the_fallen. Inferred: every number and line.",
+			"on": true,
+			"richness_per_foe": 0.15,
+			"name": "the fallen",
+			"line": "They lie where they fell. Whatever they carried is yours now.",
+			"art": "",
+			"ground_line": "The fallen lie where they dropped. Search them before you go.",
+			"searched_line": "You search the fallen."
+		},
 		"cache_art": {
 			"_comment": "Play-test 7 (doug-md: \"when I click this gold pile ... it is a sword\"): how a cache found on the ground is drawn, by what is in it. Looked up by the piece's kind (Gear.kind, or `charm` for a charm), then by its icon's folder (bone_sword has no kind but a blade icon; never for a charm), then `item` for any other piece; `coin` when it holds only coin. Each is a picture under art/props. The weapons are the Tower's shattered sword and the rest a strongbox until A37 brings a sword, a bow, a staff and a bundle lying on the ground. Read by Loot.cache_art.",
 			"coin": "coin_pile",
