@@ -860,6 +860,8 @@
 			"from_rank_vary": 2,
 			"hint": "Bands hold the chambers. The way down is at the far end; the doorway behind you is the way out."
 		},
+		"_comment_walk_in": "D354 (play-test 7, item 11: 'walking into a gate or the grove, not cut to it'): gone into from the ground by a player (not Auto), the company walks into the gate's doorway over `seconds`, fading as the screen goes dark, and the floor inside comes up out of the dark over the same. 0 cuts straight in. Read by area_scene._walk_into_the_gate. Inferred: the time.",
+		"walk_in": { "seconds": 0.8 },
 		"_comment_shut": "Gates that grow (play-test 7, D261: \"when you defeat a gate or shut a gate, then it should turn off and break apart and be lying on the floor. And I think it would be good to hear cheers from the people around the gates\"): a shut gate's mouth shows `art` (drawn in house by tools/draw_broken_gate.py until A38) where the gate stood, and `people` come to look at it, cheering and promising to tell it on (the deed is carried by the world remembers, D249). `cheer` is said as the party comes out of the gate it shut. Inferred: who, where and every line.",
 		"shut": {
 			"art": "landmark/gate_broken",
