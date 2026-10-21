@@ -77,6 +77,10 @@ var tactic_wait: float = 0.0
 ## Seconds left of having been called out ([D306]): a shout of "Get the healer!" heard by the one
 ## it names, who tries to get clear first while it lasts.
 var warned: float = 0.0
+## The foe a call of the party's told this fighter to turn on ([D339]), and the seconds left of keeping
+## to it over its own choice.
+var called_on: Unit = null
+var answering: float = 0.0
 ## The skill this fighter last let go, by name (the show's corner badge, [D180]).
 var last_move: String = ""
 ## Times a grace stood this fighter back up in the near-death window.

@@ -1,0 +1,354 @@
+{
+  "display_name": "Saltcote",
+  "lure": "salt pans on the shore, a handful of fisher huts, and a salt-wife who will trade the last of the good salt to whoever empties her drying shed of what came up out of the water",
+  "found_line": "{wild}. White pans to the sea's edge, and nobody raking them.",
+  "guard_label": "{what} in the drying shed",
+  "map_art": "res://art/buildings/white_house.png",
+  "story": {
+    "end": "the pans were cut deeper for a richer salt, they broke through to a black water under the shore, and what came up the cut does not like the sun."
+  },
+  "layers": [
+    "sand",
+    "dirt",
+    "water"
+  ],
+  "hint": "WASD to walk  ·  E to talk or look  ·  ways out south, east and west",
+  "legend": {
+    ".": "sand",
+    ",": "dirt",
+    "w": "water",
+    "p": "dirt"
+  },
+  "tint": "#b8b09a",
+  "spawn": [
+    12,
+    15
+  ],
+  "exits": [
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      0,
+      9
+    ],
+    [
+      25,
+      8
+    ],
+    [
+      25,
+      9
+    ]
+  ],
+  "buildings": [
+    {
+      "name": "the salt-wife's hut",
+      "art": "white_house",
+      "cell": [
+        3,
+        4
+      ],
+      "door": [
+        4,
+        5
+      ],
+      "shut": "Salt in a crust on the doorstep, swept into a line nothing has crossed."
+    },
+    {
+      "name": "Coll's hut",
+      "art": "plaster_house",
+      "cell": [
+        7,
+        10
+      ],
+      "door": [
+        8,
+        11
+      ],
+      "shut": "Nets heaped by the door, half mended, and the smell of yesterday's catch."
+    },
+    {
+      "name": "the net loft",
+      "art": "village_house/south",
+      "cell": [
+        3,
+        11
+      ],
+      "door": [
+        4,
+        12
+      ],
+      "shut": "Floats and lines and a dried fish hung for luck."
+    }
+  ],
+  "props": [
+    {
+      "art": "village/barrels",
+      "cell": [
+        9,
+        5
+      ]
+    },
+    {
+      "art": "village/hide_rack",
+      "cell": [
+        10,
+        13
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        16,
+        11
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        14,
+        10
+      ]
+    },
+    {
+      "art": "camp/fire_boat",
+      "cell": [
+        19,
+        13
+      ]
+    },
+    {
+      "art": "village/signpost",
+      "cell": [
+        14,
+        15
+      ]
+    },
+    {
+      "art": "village/log_pile",
+      "cell": [
+        24,
+        11
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        21,
+        9
+      ]
+    }
+  ],
+  "chests": [
+    {
+      "cell": [
+        24,
+        5
+      ],
+      "line": "The salt-wife's coin chest, sunk in a corner of the drying shed under a sack of grey salt.",
+      "art": "chest_iron",
+      "gold": 3100,
+      "item": "salt_pouch"
+    },
+    {
+      "cell": [
+        1,
+        12
+      ],
+      "line": "A sea chest washed up and kept: a sailor's things, dry inside, and a black feather in the lid.",
+      "art": "chest_wood",
+      "gold": 1300,
+      "item": "black_feather"
+    }
+  ],
+  "spots": [
+    {
+      "cell": [
+        17,
+        7
+      ],
+      "line": "The newest pan is cut twice as deep as the rest. At the bottom the salt is grey, and wet, and warm.",
+      "page": true
+    },
+    {
+      "cell": [
+        21,
+        3
+      ],
+      "line": "A rake snapped at the handle, and drag marks from the deep pan to the drying shed.",
+      "page": true
+    },
+    {
+      "cell": [
+        23,
+        7
+      ],
+      "line": "The shed's shutters are nailed from the outside. Somebody inside nailed them back open.",
+      "page": true
+    },
+    {
+      "cell": [
+        6,
+        3
+      ],
+      "line": "The sea, close enough to spit in. Gulls on the posts watching the pans and not landing."
+    },
+    {
+      "cell": [
+        20,
+        15
+      ],
+      "line": "A fisher's knife in the sand by the boat fire, the good one, with a bone handle.",
+      "set_flag": "found:saltcote_knife"
+    }
+  ],
+  "people": [
+    {
+      "name": "Brenna the salt-wife",
+      "unit": "town_spice_seller",
+      "cell": [
+        11,
+        7
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 2,
+      "chatter": [
+        "Good white salt, the last of it. After this it's grey, and you don't want grey.",
+        "My mother cut these pans. I cut the deep one. I'll not cut another."
+      ],
+      "talk": {
+        "hello": [
+          "Salt, traveller? It keeps meat, it keeps wounds clean, and it keeps away what crawls. Most of what crawls.",
+          "You'll want the good salt. Everyone wants the good salt. There's less of it every week."
+        ],
+        "again": "Back for salt, or back for the shed?",
+        "ask": [
+          {
+            "q": "What's in the drying shed?",
+            "a": "Whatever came up the deep pan. It comes out at dusk and goes back at dawn and it eats the salt. Empty that shed and the box in the corner's yours."
+          },
+          {
+            "q": "Why not leave?",
+            "a": "Leave the pans? Where would I go, a town, and buy salt? I'd die of shame."
+          }
+        ],
+        "sells": [
+          {
+            "item": "salt_pouch",
+            "price": 1600
+          },
+          {
+            "item": "bread",
+            "restock": true
+          },
+          {
+            "item": "herbs"
+          },
+          {
+            "item": "climbing_rope"
+          }
+        ],
+        "shop": "The white is dear. The bread is not. The herbs I pick by the dune.",
+        "sold": "Keep it dry.",
+        "bye": "Off the pans at dusk."
+      }
+    },
+    {
+      "name": "Coll the fisher",
+      "unit": "town_fisher",
+      "cell": [
+        9,
+        9
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 2,
+      "chatter": [
+        "Fish won't come in close any more. The water's gone sour off the pans.",
+        "I lost my good knife running from the shed. My father's knife."
+      ],
+      "talk": {
+        "hello": "You'd not have seen a bone-handled knife, would you?",
+        "job": {
+          "flag": "job:saltcote_knife",
+          "done_flag": "found:saltcote_knife",
+          "offer": "My father's knife. I dropped it by the boat fire when it came out at me. I'll not go back there. Bring it and I'll pay what I've got.",
+          "done": "That's it. That's the one. Here: and a feather from the gull that tried to eat my catch, for luck.",
+          "gold": 700,
+          "item": "black_feather"
+        },
+        "bye": "Stay off the deep pan."
+      }
+    },
+    {
+      "name": "the salt-wife's mother",
+      "unit": "town_elder",
+      "cell": [
+        5,
+        7
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 1,
+      "chatter": [
+        "Forty years I raked these pans. Shallow. Always shallow. I told her.",
+        "The sea gives salt if you ask politely. She didn't ask, she dug."
+      ]
+    }
+  ],
+  "rows": [
+    "wwwwwwwwwwwwwwwwwwwwwwwwww",
+    "wwwwwwwwwwwwwwwwwwwwwwwwww",
+    "ww...ww...ww...ww...ww...w",
+    "...,,,,,,,,,,,,,,,,,,,,,,.",
+    "............,,.ppppppppp..",
+    "............,,.ppppppppp..",
+    "............,,.ppppppppp..",
+    "............,,,,,,,,,,,,,.",
+    ",,,,,,,,,,,,,,,,,,,,,,,,,,",
+    ",,,,,,,,,,,,,,,,,,,,,,,,,,",
+    "............,,............",
+    "............,,............",
+    "............,,............",
+    "............,,........,,,,",
+    ",,,,........,,........,,,,",
+    ",,,,........,,........,,,,",
+    ",,,,........,,........,,,,",
+    ",,,,........,,........,,,,"
+  ],
+  "dressing": [
+    {"art": "nature/pebble", "cell": [14, 14], "offset": [11, -3], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [10, 16], "offset": [9, -3], "flip": true},
+    {"art": "nature/cactus", "cell": [8, 15], "offset": [7, -5]},
+    {"art": "nature/grass_tuft", "cell": [14, 6], "offset": [-5, -3], "flip": true},
+    {"art": "nature/pebble", "cell": [16, 12], "offset": [5, -7]},
+    {"art": "nature/cactus", "cell": [16, 17], "offset": [10, 0]},
+    {"art": "nature/grass_tuft", "cell": [19, 12], "offset": [7, 2], "flip": true},
+    {"art": "nature/cactus", "cell": [9, 15], "offset": [-8, 1], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [23, 10], "offset": [-9, 7]},
+    {"art": "nature/cactus", "cell": [18, 16], "offset": [-3, 2]},
+    {"art": "nature/cactus", "cell": [25, 11], "offset": [-2, 5], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [11, 11], "offset": [13, -6], "flip": true},
+    {"art": "nature/snail", "cell": [1, 14], "offset": [-8, -4]},
+    {"art": "nature/white_dove", "cell": [13, 11], "offset": [-11, 0]},
+    {"art": "nature/sparrow", "cell": [15, 6], "offset": [-1, -6], "flip": true},
+    {"art": "nature/white_dove", "cell": [8, 17], "offset": [-11, -6]}
+  ]
+}

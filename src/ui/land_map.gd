@@ -474,6 +474,9 @@ func _site_art(site: Site) -> Texture2D:
 		path = Faction.hold_art(str(site.data.get("faction", "")))
 	elif bool(site.data.get("city", false)):
 		path = Site.CITY_ART
+	elif site.kind == Site.WILD:
+		# A hamlet or a caravan is drawn as one, not as a standing stone (D333).
+		path = str(Database.area(str(site.data.get("area", ""))).get("map_art", ""))
 	if path == "":
 		path = str(Site.ART.get(site.kind, ""))
 	if path == "":

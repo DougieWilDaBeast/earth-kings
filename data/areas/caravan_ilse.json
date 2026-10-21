@@ -1,0 +1,326 @@
+{
+  "display_name": "Mother Ilse's wagons",
+  "lure": "five wagons that walk between the towns, and a trader with the makings no town keeps: charms, feathers and grave-tokens, for a rune",
+  "found_line": "{wild}, drawn up off the road in a ring, the oxen out to graze. They will not be here long.",
+  "map_art": "res://art/props/roadside/cart_stopped.png",
+  "story": {
+    "end": "Ilse's husband drove the first wagon, a gate took the road he drove, and she has kept every town on it in salt and charms since, so nobody else goes looking for the makings on their own."
+  },
+  "layers": [
+    "dirt",
+    "meadow"
+  ],
+  "hint": "WASD to walk  ·  E to talk or look  ·  the road runs east and west",
+  "legend": {
+    ".": "grass",
+    ",": "dirt",
+    "m": "meadow"
+  },
+  "tint": "#a38f6a",
+  "spawn": [
+    11,
+    13
+  ],
+  "exits": [
+    [
+      11,
+      0
+    ],
+    [
+      12,
+      0
+    ],
+    [
+      11,
+      15
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      23,
+      7
+    ],
+    [
+      23,
+      8
+    ]
+  ],
+  "fire": [
+    11,
+    7
+  ],
+  "props": [
+    {
+      "art": "roadside/cart_stopped",
+      "cell": [
+        7,
+        3
+      ]
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        15,
+        3
+      ]
+    },
+    {
+      "art": "roadside/cart_stopped",
+      "cell": [
+        6,
+        10
+      ],
+      "flip": true
+    },
+    {
+      "art": "village/cart",
+      "cell": [
+        16,
+        11
+      ],
+      "flip": true
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        9,
+        3
+      ]
+    },
+    {
+      "art": "village/barrels",
+      "cell": [
+        14,
+        11
+      ]
+    },
+    {
+      "art": "village/trough",
+      "cell": [
+        18,
+        5
+      ]
+    },
+    {
+      "art": "camp/fire_tent",
+      "cell": [
+        18,
+        10
+      ]
+    },
+    {
+      "art": "village/market_stall",
+      "cell": [
+        13,
+        5
+      ]
+    },
+    {
+      "art": "village/bench",
+      "cell": [
+        9,
+        9
+      ]
+    }
+  ],
+  "spots": [
+    {
+      "cell": [
+        8,
+        4
+      ],
+      "line": "The lead wagon's tailboard is carved with a road, and a gate across it, and a name rubbed out.",
+      "page": true
+    },
+    {
+      "cell": [
+        16,
+        9
+      ],
+      "line": "A ledger left on the step: towns, and what each was short of, in the same hand for twenty years.",
+      "page": true
+    },
+    {
+      "cell": [
+        19,
+        11
+      ],
+      "line": "A man's coat, folded in the tent and never worn, with salt in the seams.",
+      "page": true
+    },
+    {
+      "cell": [
+        4,
+        8
+      ],
+      "line": "Ruts, deep and old: the wagons have stood here before, and will again."
+    }
+  ],
+  "people": [
+    {
+      "name": "Mother Ilse",
+      "unit": "town_spice_seller",
+      "cell": [
+        13,
+        6
+      ],
+      "facing": [
+        0,
+        1
+      ],
+      "wander": 1,
+      "chatter": [
+        "Everything a rune wants, and nothing a rune doesn't. Feathers. Cord. A token from a grave nobody misses.",
+        "We're gone at the next bell. Buy now or walk after us."
+      ],
+      "talk": {
+        "hello": [
+          "You've the look of folk who lay runes. Or want to. Come and see.",
+          "Charms, makings, a bit of salt. Towns don't stock them; towns don't know what they're for."
+        ],
+        "again": "Still here? So are we, for now.",
+        "ask": [
+          {
+            "q": "Where are you bound?",
+            "a": "Wherever's short. A town runs out of salt and charms, and then it runs out of luck. We come before the luck goes."
+          },
+          {
+            "q": "What's a rune want?",
+            "a": "A charm to hold it and something green to wake it. A whetstone and herbs for the keen one. The rest you'll learn."
+          }
+        ],
+        "sells": [
+          {
+            "item": "black_feather",
+            "restock": true
+          },
+          {
+            "item": "knotted_cord",
+            "restock": true
+          },
+          {
+            "item": "grave_token",
+            "restock": true
+          },
+          {
+            "item": "whetstone",
+            "restock": true
+          },
+          {
+            "item": "salt_pouch",
+            "restock": true
+          },
+          {
+            "item": "climbing_rope"
+          }
+        ],
+        "shop": "Dear, because I carried it. Worth it, because you can't get it anywhere else.",
+        "sold": "Lay it well.",
+        "bye": "Mind the road. It minds you back."
+      }
+    },
+    {
+      "name": "Corbin, who drives the oxen",
+      "unit": "peasant",
+      "cell": [
+        9,
+        8
+      ],
+      "facing": [
+        1,
+        0
+      ],
+      "wander": 2,
+      "chatter": [
+        "Twelve miles a day. Fourteen if the oxen like you. They don't like you.",
+        "We've been held up three times this year. Twice it was wolves. Once it was a toll."
+      ]
+    },
+    {
+      "name": "Hesk, who guards the wagons",
+      "unit": "keep_watchman",
+      "cell": [
+        16,
+        7
+      ],
+      "facing": [
+        -1,
+        0
+      ],
+      "wander": 2,
+      "chatter": [
+        "Keep your hands where Mother can see them. She's got eyes in the back of the wagon.",
+        "The road's worse than it was. Things come out of the gates now and walk it."
+      ]
+    }
+  ],
+  "rows": [
+    "...........,,...........",
+    "...........,,...........",
+    "...........,,...........",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    ",,,,,,,,,,,,,,,,,,,,,,,,",
+    ",,,,,,,,,,,,,,,,,,,,,,,,",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    ".......,,,,,,,,,,.......",
+    "...........,,...........",
+    "...........,,...........",
+    "...........,,..........."
+  ],
+  "dressing": [
+    {"art": "nature/autumn_tree", "cell": [4, 1], "offset": [-6, -4], "flip": true},
+    {"art": "nature/round_tree", "cell": [0, 3], "offset": [-4, 5]},
+    {"art": "nature/copse", "cell": [4, 14], "offset": [8, 2]},
+    {"art": "nature/copse", "cell": [19, 0], "offset": [-1, 0], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [1, 15], "offset": [2, 0], "flip": true},
+    {"art": "nature/copse", "cell": [20, 14], "offset": [-2, -2]},
+    {"art": "nature/birch", "cell": [8, 15], "offset": [3, 3]},
+    {"art": "nature/great_oak_2", "cell": [1, 11], "offset": [-6, -4]},
+    {"art": "nature/autumn_tree", "cell": [22, 2], "offset": [-9, 5]},
+    {"art": "nature/great_oak", "cell": [16, 0], "offset": [0, 2]},
+    {"art": "nature/autumn_tree", "cell": [23, 14], "offset": [-8, -3], "flip": true},
+    {"art": "nature/sycamore_tree", "cell": [15, 15], "offset": [-10, 0], "flip": true},
+    {"art": "nature/great_oak", "cell": [0, 0], "offset": [-10, -2], "flip": true},
+    {"art": "nature/clover", "cell": [13, 13], "offset": [-4, -4], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [4, 13], "offset": [11, -1]},
+    {"art": "nature/wildflowers_orange", "cell": [0, 12], "offset": [-1, -4], "flip": true},
+    {"art": "nature/clover", "cell": [14, 1], "offset": [1, 3], "flip": true},
+    {"art": "nature/thistle", "cell": [17, 0], "offset": [14, 2], "flip": true},
+    {"art": "nature/thistle", "cell": [1, 14], "offset": [-12, 6], "flip": true},
+    {"art": "nature/clover", "cell": [14, 14], "offset": [5, -5]},
+    {"art": "nature/clover_2", "cell": [21, 13], "offset": [-3, 1]},
+    {"art": "nature/rose_stem", "cell": [8, 1], "offset": [2, 0]},
+    {"art": "nature/thistle", "cell": [2, 2], "offset": [-12, 2], "flip": true},
+    {"art": "nature/clover_2", "cell": [4, 11], "offset": [13, 2]},
+    {"art": "nature/wildflowers_orange", "cell": [18, 0], "offset": [3, -3]},
+    {"art": "nature/thistle", "cell": [21, 4], "offset": [12, 6], "flip": true},
+    {"art": "nature/clover_3", "cell": [0, 1], "offset": [-9, 7], "flip": true},
+    {"art": "nature/wildflowers_blue", "cell": [23, 11], "offset": [9, 6], "flip": true},
+    {"art": "nature/clover_2", "cell": [21, 1], "offset": [-10, 3]},
+    {"art": "nature/wildflowers_blue", "cell": [1, 4], "offset": [-9, 2], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [13, 2], "offset": [-6, -3], "flip": true},
+    {"art": "nature/grass_tuft", "cell": [16, 2], "offset": [-2, -6]},
+    {"art": "nature/thistle", "cell": [1, 10], "offset": [3, -2], "flip": true},
+    {"art": "nature/clover", "cell": [4, 3], "offset": [9, 1], "flip": true},
+    {"art": "nature/fern", "cell": [20, 15], "offset": [-3, -7], "flip": true},
+    {"art": "nature/finch", "cell": [1, 0], "offset": [-9, 1]},
+    {"art": "nature/irish_bird", "cell": [11, 4], "offset": [10, -4], "flip": true},
+    {"art": "nature/grasshopper", "cell": [12, 3], "offset": [-9, -3]},
+    {"art": "nature/irish_bird_3", "cell": [6, 13], "offset": [-10, -4], "flip": true}
+  ]
+}

@@ -29,6 +29,8 @@ const ROAD := "="
 ## tile is one or the other ([D233]).
 const TRACK := ":"
 const FOOT := "_"
+## Higher ground: a rise of the land's own floor with a rock face below it ([D332]).
+const RISE := "^"
 ## What a path may not be worn over, and what nothing grows on.
 const WAYS := [ROAD, TRACK, FOOT]
 ## What stands where the ways meet (D233).
@@ -423,6 +425,8 @@ static func _as_slot(area: Dictionary) -> Dictionary:
 		"buildings": [], "people": [], "wards": [], "fires": [],
 		"spawn": area.get("spawn", [w / 2, rows.size() / 2]),
 		"entries": area.get("entries", {}),
+		"ways_up": area.get("ways_up", []),
+		"ladders": area.get("ladders", []),
 		"place": {},
 		"tint": str(area.get("tint", "")),
 		"hint": str(area.get("hint", "")),
@@ -511,6 +515,12 @@ static func _around_place(world: World, tile: Vector2i, land: String, place_id: 
 		for entry: Dictionary in place.get(key, []):
 			moved.append(_moved(entry, offset))
 		made[key] = moved
+	# A place's own ways up its heights come with it onto the land (D308, D337).
+	for key: String in ["ways_up", "ladders"]:
+		var ways: Array = (made.get(key, []) as Array).duplicate()
+		for pair: Array in place.get(key, []):
+			ways.append([int(pair[0]) + offset.x, int(pair[1]) + offset.y])
+		made[key] = ways
 	if place.has("walls"):
 		_raise_walls(made, rect, place, land, w, h)
 	if place.has("fire"):
@@ -695,6 +705,12 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 	for i in _count(float(features.get("outcrops", 1.0)), rng):
 		_outcrop(grid, kept, blocked, props, pool.get("rocks", []), _anywhere(rng, w, h), rng, w, h)
 
+	# Rises, so the land is not flat (D332): drawn by their own roll, so nothing else on the
+	# ground moves for them.
+	var ways_up := _rises(world, cell, grid, kept, features, w, h)
+	for at: Vector2i in ways_up:
+		props.append({ "art": str(_heights().get("slope_art", "landmark/slope")), "cell": [at.x, at.y] })
+
 	# Something somebody left (never in the ground round a place: the place is what is there).
 	var spots: Array = []
 	var chests: Array = []
@@ -790,12 +806,18 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 				blocked[post] = true
 				break
 
+	# Herbs to pick, by their own roll so nothing else on the ground moves for them (D335).
+	if open_land and reserved.size == Vector2i.ZERO:
+		_herbs(world, cell, land, grid, kept, blocked, props, w, h)
+
 	var rows: Array = []
 	for row in grid:
 		rows.append("".join(row))
 	var ground: Dictionary = biome.get("ground", {})
 	var layers: Array = (biome.get("layers", ["dirt"]) as Array).duplicate()
 	# The ways over the land's own ground: footpaths under tracks under the road.
+	if rows.any(func(row: String) -> bool: return row.contains(RISE)):
+		layers.append(str(_heights().get("sheet", "rise")))
 	layers.append("footpath")
 	if not tracks.is_empty():
 		layers.append("track")
@@ -808,7 +830,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 		"legend": {
 			FLOOR: str(ground.get("floor", "grass")), BARE: str(ground.get("bare", "dirt")),
 			LIQUID: str(ground.get("liquid", "water")), COVER: str(ground.get("cover", "meadow")),
-			ROAD: "road", TRACK: "track", FOOT: "footpath",
+			ROAD: "road", TRACK: "track", FOOT: "footpath", RISE: str(_heights().get("terrain", "rise")),
 		},
 		"tint": str(biome.get("tint", "")),
 		"hint": "WASD to walk" if open_land else "WASD to walk  ·  the ways out follow the land",
@@ -819,6 +841,7 @@ static func _lay_out(world: World, cell: Vector2i, land: String, open_land: bool
 		"props": props,
 		"spots": spots,
 		"chests": chests,
+		"ways_up": ways_up.map(func(at: Vector2i) -> Array: return [at.x, at.y]),
 	}
 
 
@@ -916,6 +939,111 @@ static func _blob(grid: Array, kept: Dictionary, symbol: String, centre: Vector2
 			grid[y][x] = symbol
 
 
+static func _heights() -> Dictionary:
+	return Database.world_rules.get("heights", {}).get("land", {})
+
+
+## The rises on a tile: the land's own count of them, more on hill country, each a lump of higher
+## ground a height up that keeps off the paths, the water and the tile's edges (so where two tiles meet
+## is always level) and is never so thin that its face has nothing above it. Each rise is climbed only
+## at its slopes ([D308], [D332]): returns them, a cell on the rise's edge with open ground below it,
+## one a rise and another for a big one, kept clear of anything growing.
+static func _rises(world: World, cell: Vector2i, grid: Array, kept: Dictionary, features: Dictionary,
+		w: int, h: int) -> Array[Vector2i]:
+	var rules := _heights()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.shape_seed(), cell.x, cell.y, "rises"])
+	var mean := float(features.get("rises", rules.get("rises", 0.0)))
+	mean += float((rules.get("on_terrain", {}) as Dictionary).get(world.terrain_id_at(cell), 0.0))
+	var margin := int(rules.get("margin", 4))
+	for i in _count(mean, rng):
+		var centre := Vector2i(rng.randi_range(margin + 2, w - margin - 3), rng.randi_range(margin + 1, h - margin - 2))
+		var rx := float(rng.randi_range(2, 4)) + rng.randf()
+		var ry := float(rng.randi_range(1, 3)) + rng.randf()
+		var cells: Array[Vector2i] = []
+		for y in range(centre.y - 5, centre.y + 6):
+			for x in range(centre.x - 6, centre.x + 7):
+				if x < margin or y < margin or x >= w - margin or y >= h - margin:
+					continue
+				if pow((x - centre.x) / rx, 2.0) + pow((y - centre.y) / ry, 2.0) > 1.0 + rng.randf() * 0.25:
+					continue
+				var at := Vector2i(x, y)
+				# A cell beside a path or the water stays level too, so the face never cuts a way.
+				var near := false
+				for dy in range(-1, 2):
+					for dx in range(-1, 2):
+						var n := at + Vector2i(dx, dy)
+						if kept.has(n) or grid[n.y][n.x] == LIQUID or WAYS.has(grid[n.y][n.x]):
+							near = true
+				if not near:
+					cells.append(at)
+		# No slivers: every cell of a rise has another of it above or below.
+		var held := {}
+		for at in cells:
+			held[at] = true
+		for at in cells:
+			if held.has(at + Vector2i.UP) or held.has(at + Vector2i.DOWN):
+				grid[at.y][at.x] = RISE
+	return _slopes(grid, kept, rng, rules, w, h)
+
+
+## A slope or two up every rise on [param grid] (each piece of higher ground, however the rises ran
+## together): an edge cell with open ground below it, the south side first, where the face is drawn
+## and the way up reads; the cell and the ground in front of it kept clear.
+static func _slopes(grid: Array, kept: Dictionary, rng: RandomNumberGenerator, rules: Dictionary,
+		w: int, h: int) -> Array[Vector2i]:
+	var ways: Array[Vector2i] = []
+	var seen := {}
+	var sides: Array[Vector2i] = [Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP]
+	var big := int(rules.get("second_slope_from", 14))
+	for y in h:
+		for x in w:
+			var start := Vector2i(x, y)
+			if seen.has(start) or grid[y][x] != RISE:
+				continue
+			var piece: Array[Vector2i] = []
+			var todo: Array[Vector2i] = [start]
+			seen[start] = true
+			while not todo.is_empty():
+				var at: Vector2i = todo.pop_back()
+				piece.append(at)
+				for side in sides:
+					var n := at + side
+					if n.x >= 0 and n.y >= 0 and n.x < w and n.y < h and not seen.has(n) and grid[n.y][n.x] == RISE:
+						seen[n] = true
+						todo.append(n)
+			# Edge cells with open ground in front, best side first.
+			var edges: Array = []
+			for at in piece:
+				for i in sides.size():
+					var n := at + sides[i]
+					if n.x < 1 or n.y < 1 or n.x >= w - 1 or n.y >= h - 1:
+						continue
+					var below: String = grid[n.y][n.x]
+					if below == RISE or below == LIQUID:
+						continue
+					edges.append([i, at, n])
+					break
+			if edges.is_empty():
+				continue
+			edges.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
+			var best: int = edges[0][0]
+			var first_side: Array = edges.filter(func(e: Array) -> bool: return e[0] == best)
+			var wanted := 2 if piece.size() >= big else 1
+			var chosen: Array = []
+			for _i in wanted:
+				var pick: Array = first_side[rng.randi_range(0, first_side.size() - 1)] if chosen.is_empty() \
+						else edges[rng.randi_range(0, edges.size() - 1)]
+				if chosen.any(func(c: Array) -> bool: return (c[1] as Vector2i).distance_to(pick[1]) < 4.0):
+					continue
+				chosen.append(pick)
+			for pick: Array in chosen:
+				ways.append(pick[1])
+				kept[pick[1]] = true
+				kept[pick[2]] = true
+	return ways
+
+
 static func _outcrop(grid: Array, kept: Dictionary, blocked: Dictionary, props: Array, rocks: Array,
 		centre: Vector2i, rng: RandomNumberGenerator, w: int, h: int) -> void:
 	if rocks.is_empty():
@@ -959,6 +1087,38 @@ static func _landmark(grid: Array, kept: Dictionary, blocked: Dictionary, props:
 			"gold": 500 * (1 + absi(hash([cell.x, cell.y])) % 3),
 			"line": "Under the roots: a box gone soft with damp, and coin inside it.",
 		})
+
+
+## What the land grows wild ([D335], [D299]: "herbs on the land"; `world_rules.json` → `herbs_on_land`):
+## about `per_tile` patches a tile of a land that grows any (`by_land`), each one of its herbs, off the
+## paths and the water and clear of anything standing, picked once a run into the packs.
+static func _herbs(world: World, cell: Vector2i, land: String, grid: Array, kept: Dictionary,
+		blocked: Dictionary, props: Array, w: int, h: int) -> void:
+	var rules: Dictionary = Database.world_rules.get("herbs_on_land", {})
+	var grows: Array = rules.get("by_land", {}).get(land, [])
+	if grows.is_empty():
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash([world.shape_seed(), cell.x, cell.y, "herbs"])
+	var taken := {}
+	for prop: Dictionary in props:
+		taken[Vector2i(int(prop["cell"][0]), int(prop["cell"][1]))] = true
+	var looks: Dictionary = rules.get("herbs", {})
+	for i in _count(float(rules.get("per_tile", 0.6)), rng):
+		var herb := str(grows[rng.randi() % grows.size()])
+		var look: Dictionary = looks.get(herb, {})
+		for _try in 12:
+			var at := Vector2i(rng.randi_range(2, w - 3), rng.randi_range(2, h - 3))
+			if kept.has(at) or blocked.has(at) or taken.has(at) or grid[at.y][at.x] == LIQUID:
+				continue
+			props.append({
+				"art": str(look.get("art", "nature/fern")), "cell": [at.x, at.y], "solid": false,
+				"name": str(look.get("name", "herbs")), "item": herb,
+				"line": str(look.get("line", "Something green worth picking.")),
+				"spent_line": str(look.get("spent_line", "")),
+			})
+			taken[at] = true
+			break
 
 
 ## Whether [param at] is next to a worn path or the road.
