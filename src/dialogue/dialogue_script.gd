@@ -12,6 +12,7 @@ const END := "end"
 const DIE_SIDES := 20
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
+const Sellswords := preload("res://src/chronicle/sellswords.gd")
 
 ## Check name -> how it reads on screen. The stat behind each is [method _skill_value].
 const SKILLS := {
@@ -194,6 +195,11 @@ static func apply_effects(source: Dictionary) -> void:
 	# A smith's forging out of what the company gathered (D346).
 	if forging >= 0:
 		EventBus.area_note.emit(Crafting.mix(Crafting.recipes()[forging], GameState.stores))
+	# A sellsword off the Flagon's book, paid for (D295).
+	if source.has("hire") and GameState.roster != null:
+		var hired := Sellswords.hire(GameState.world, GameState.roster, int(source["hire"]))
+		if hired != "":
+			EventBus.area_note.emit(hired)
 	if bool(source.get("heal", false)) and GameState.roster != null:
 		GameState.heal_party()
 		EventBus.area_note.emit("Everyone is patched up.")
@@ -221,6 +227,9 @@ static func _requirements_met(option: Dictionary) -> bool:
 		if GameState.has_flag(key):
 			return false
 	# Only while somebody in the company is hurt (true), or only while nobody is (false).
+	# Only while the company has a seat for one more.
+	if bool(option.get("requires_room", false)) and (GameState.roster == null or not GameState.roster.has_room()):
+		return false
 	if option.has("requires_wounded") and GameState.roster != null \
 			and bool(option["requires_wounded"]) != GameState.party_is_wounded():
 		return false

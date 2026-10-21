@@ -249,8 +249,8 @@
             ]
         },
         {
-            "name": "a sellsword and his drink",
-            "unit": "sword_monkey",
+            "name": "Varro, who keeps the book",
+            "unit": "legion_black",
             "cell": [
                 9,
                 17
@@ -259,9 +259,35 @@
                 0,
                 -1
             ],
+            "recruit": false,
             "chatter": [
-                "One more and I'll go up the Tower. One more after that and I'll go to bed."
-            ]
+                "The book's open. Coin first, names after.",
+                "Sellswords by the job. Not by the year: nobody lives that long."
+            ],
+            "talk": {
+                "hello": [
+                    "You'll want the book. Everyone who comes to this corner wants the book.",
+                    "Back for more hands? The book's open."
+                ],
+                "ask": [
+                    {
+                        "q": "What book?",
+                        "a": "The sellswords' book. Who's in the city, what they'll do and what they cost. They walk with you till the job's done: a gate shut, or a chapter of the Tower closed. Then they go, paid, and nobody owes anybody."
+                    },
+                    {
+                        "q": "Will they stay with us after?",
+                        "a": "No. That's the point of them. If you want somebody who stays, buy them a drink and ask. That's not my business."
+                    }
+                ],
+                "hires": {
+                    "q": "Who's on the book?",
+                    "offer": "Here's who's in the city. Pay's up front.",
+                    "done_q": "Not today.",
+                    "done": "Done. They're yours till the job's done, and not a day after.",
+                    "none": "Book's empty, or your company's full. Come back in a while."
+                },
+                "bye": "Mind your backs. Theirs are paid for."
+            }
         }
     ],
     "props": [
