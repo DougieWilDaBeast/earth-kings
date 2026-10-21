@@ -422,7 +422,8 @@ each, each ending playable:
       disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in;
       the 2× cap, nemesis and hunger after B; the writers' pass, city doors, groves and the opening later.
       The opening's remake is settled in shape (call BZ, [D328](06-decisions.md)): 14 shots in three acts, the lead's
-      chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end. **Planned.**
+      chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end; built with the game's own sprites and a camera on every shot
+      ([D340](06-decisions.md); art A58-A61 asked for after 27 October).
    A. Ground fights running, with a first strike ([D288](06-decisions.md)); "Send away" from a button on each
       person, with a place to meet, a crow's word and the band seen on the land ([D294](06-decisions.md)); the
       story fixes (Liber's blurb, the foreman, one Wick, the fen's Iron Key); the tutorial cut to about 7 steps (#377).

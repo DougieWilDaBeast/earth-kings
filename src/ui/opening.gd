@@ -1,15 +1,17 @@
 extends Control
 ## The opening cinematic: what a new game shows once you have chosen who you are
-## (docs/25). The words and the cast are `data/opening.json`; each kind of
-## picture (a `shot`) is drawn here, from the game's own sprites and shapes, so
-## it plays without any art made for it.
+## (docs/25; remade by call BZ, [D328]). The words, the cast and each shot's camera
+## are `data/opening.json`; each kind of picture (a `shot`) is drawn here, from the
+## game's own sprites and shapes, so it plays without any art made for it (art made
+## later, such as each lead's chapter-one object, is drawn when it exists).
 ##
 ## Click, Space or Enter moves on a shot; Esc skips to the end. When it ends the
 ## run begins in the world, on the landing, as it would have without it.
 
 ## Every kind of picture [method _draw] knows. A shot in the data naming
 ## anything else draws only the night sky.
-const SHOTS := ["void", "sixteen", "worlds", "ending", "fall", "impact", "tower", "living", "road", "company", "fight", "foe", "end", "title"]
+const SHOTS := ["void", "sixteen", "worlds", "ending", "fall", "impact", "tower", "land", "gate", "inside", "company",
+		"stair", "end", "title", "living", "road", "fight", "foe"]
 ## How long a line takes to fade in and out.
 const FADE := 0.45
 const NIGHT := Color(0.035, 0.04, 0.07)
@@ -58,6 +60,11 @@ var _caption: Label
 var _title: Label
 var _hint: Label
 var _rng := RandomNumberGenerator.new()
+## The camera over the shot being drawn ([method _camera]); every picture is drawn through it.
+var _cam := Transform2D.IDENTITY
+## Where the lead stands in the shot being drawn, as a share of the screen, for a camera that
+## looks at "lead".
+var _lead_at := Vector2(0.5, 0.5)
 
 
 func _ready() -> void:
@@ -92,6 +99,14 @@ func _load_cast() -> void:
 	if not _sprites.has("sixteen:" + _lead):
 		_sprites["sixteen:" + _lead] = _texture("res://art/sixteen/%s/idle/south.png" % _lead)
 	_sprites["fire"] = _texture("res://art/props/camp/campfire.png")
+	var helper := str(_data.get("helper", ""))
+	if helper != "":
+		var dir := str(Database.unit_template(helper).get("sprite_dir", ""))
+		_sprites["helper"] = _texture("%s/west.png" % dir) if dir != "" else null
+	_sprites["object"] = _texture(str(object_of(_lead).get("art", "")))
+	# Art asked for the film (docs/24), drawn over the shapes that stand in once it exists.
+	for key: String in (_data.get("art", {}) as Dictionary):
+		_sprites["art:" + key] = _texture(str(_data["art"][key]))
 
 
 ## On a life after the first, the opening is played again for who is left: only the
@@ -126,6 +141,7 @@ func _remember_the_fallen() -> void:
 		if not replay.is_empty() and not replay.has(id):
 			continue
 		var again := shot.duplicate(true)
+		again["time"] = float(again.get("time", 6.0)) * float(_data.get("replay_pace", 1.0))
 		if swaps.has(id):
 			again["lines"] = (swaps[id] as Array).duplicate()
 		if id == "impact" and pair_line() != "":
@@ -203,6 +219,17 @@ func _ended(wanted: String) -> String:
 		if hero != _lead:
 			return hero
 	return wanted
+
+
+## The thing [param hero]'s chapter one turns on ([D328]: it falls with them and is found on floor 5).
+func object_of(hero: String) -> Dictionary:
+	return (_data.get("objects", {}) as Dictionary).get(hero, {})
+
+
+## The lead's own colour, for the spark that stands in for their object and their light.
+func _colour_of(hero: String) -> Color:
+	var colour := str(Database.unit_template(hero).get("color", ""))
+	return Color.html(colour) if Color.html_is_valid(colour) else GOLD
 
 
 ## The name a line uses for whoever's world is seen ending.
@@ -353,6 +380,10 @@ func _draw() -> void:
 	var view := size
 	var p := clampf(elapsed / maxf(0.01, float(current().get("time", 6.0))), 0.0, 1.0)
 	draw_rect(Rect2(Vector2.ZERO, view), NIGHT)
+	if shot_id() == "sixteen":
+		_lead_at = _lead_spot(view) / view
+	_cam = _camera(view, p)
+	_xf()
 	match shot_id():
 		"void": _draw_void(view, p)
 		"sixteen": _draw_sixteen(view, p)
@@ -361,6 +392,10 @@ func _draw() -> void:
 		"fall": _draw_fall(view, p)
 		"impact": _draw_impact(view, p)
 		"tower": _draw_tower_shot(view, p)
+		"land": _draw_land(view, p)
+		"gate": _draw_gate(view, p)
+		"inside": _draw_inside(view, p)
+		"stair": _draw_stair(view, p)
 		"living": _draw_living(view, p)
 		"road": _draw_road(view, p)
 		"company": _draw_company(view, p)
@@ -368,10 +403,43 @@ func _draw() -> void:
 		"foe": _draw_foe(view, p)
 		"end": _draw_end(view, p)
 		"title": _draw_title(view, p)
-	# Black bars, as a film has.
+	# Black bars, as a film has, over the camera's moves.
+	_cam = Transform2D.IDENTITY
+	_xf()
 	var bar := view.y * 0.06
 	draw_rect(Rect2(0, 0, view.x, bar), Color.BLACK)
 	draw_rect(Rect2(0, view.y - bar, view.x, bar), Color.BLACK)
+
+
+## The camera for this shot at [param p] of the way through it: from the shot's `camera.from`
+## to its `to` ([zoom, x, y], x and y the point looked at as a share of the screen, "lead" for x
+## the lead wherever the shot last put them), eased, and kept from showing past the picture's edge.
+func _camera(view: Vector2, p: float) -> Transform2D:
+	var camera: Dictionary = current().get("camera", {})
+	if camera.is_empty():
+		return Transform2D.IDENTITY
+	var eased := p * p * (3.0 - 2.0 * p)
+	var from := _framing(camera.get("from", [1.0, 0.5, 0.5]))
+	var to := _framing(camera.get("to", [1.0, 0.5, 0.5]))
+	var zoom := maxf(1.0, lerpf(from.x, to.x, eased))
+	var look := Vector2(lerpf(from.y, to.y, eased), lerpf(from.z, to.z, eased))
+	var margin := 0.5 / zoom
+	look = Vector2(clampf(look.x, margin, 1.0 - margin), clampf(look.y, margin, 1.0 - margin))
+	return Transform2D(0.0, Vector2(zoom, zoom), 0.0, view * 0.5 - look * view * zoom)
+
+
+func _framing(at: Variant) -> Vector3:
+	var a: Array = at if at is Array else [1.0, 0.5, 0.5]
+	var x: Variant = a[1] if a.size() > 1 else 0.5
+	var y: Variant = a[2] if a.size() > 2 else 0.5
+	return Vector3(float(a[0]) if a.size() > 0 else 1.0,
+		_lead_at.x if str(x) == "lead" else float(x), _lead_at.y if str(y) == "lead" else float(y))
+
+
+## Draw from here on at [param offset], turned by [param turn] and grown by [param grow], through
+## the shot's camera.
+func _xf(offset := Vector2.ZERO, turn := 0.0, grow := 1.0) -> void:
+	draw_set_transform_matrix(_cam * Transform2D(turn, Vector2(grow, grow), 0.0, offset))
 
 
 func _draw_stars(view: Vector2, strength: float) -> void:
@@ -431,21 +499,117 @@ func _ring(view: Vector2, count: int) -> Array[Vector2]:
 	return out
 
 
+
+
+## Where the lead stands in the ring of the sixteen.
+func _lead_spot(view: Vector2) -> Vector2:
+	var heroes: Array = _data.get("sixteen", [])
+	var at := heroes.find(_lead)
+	return _ring(view, heroes.size())[at] if at >= 0 else view * Vector2(0.5, 0.44)
+
+
+## The lead's chapter-one object ([D328]): its art when there is some, else a spark of their colour.
+func _object(at: Vector2, height: float, alpha: float) -> void:
+	if _sprites.get("object") != null:
+		_glow(at, height * 0.6, _colour_of(_lead), alpha * 0.4)
+		_sprite("object", at + Vector2(0, height * 0.5), height, Color(1, 1, 1, alpha))
+		return
+	_glow(at, height * 0.5, _colour_of(_lead), alpha * (0.75 + 0.25 * sin(clock * 7.0)))
+
+
 func _draw_sixteen(view: Vector2, p: float) -> void:
 	_draw_stars(view, 0.6)
 	_glow(view * Vector2(0.5, 0.44), 60.0, GOLD, 0.5)
+	var ring: Texture2D = _sprites.get("art:ring")
+	if ring != null:
+		var across := Vector2(minf(view.x, view.y) * 0.95 * 1.45, minf(view.x, view.y) * 0.95)
+		draw_texture_rect(ring, Rect2(view * Vector2(0.5, 0.44) - across * 0.5, across), false, Color(1, 1, 1, 0.5))
 	var heroes: Array = _data.get("sixteen", [])
 	var spots := _ring(view, heroes.size())
-	var lit := int(p * float(heroes.size()) * 1.25)
+	# The others light one after another; the lead lights last, and brightest, in their own colour.
+	var others := heroes.filter(func(hero) -> bool: return str(hero) != _lead)
+	var lit := int(p * float(others.size()) * 1.35)
 	for i in heroes.size():
+		var hero := str(heroes[i])
 		# The fallen stand where they stood, grey, and never light.
-		if _fallen.has(str(heroes[i])):
-			_sprite("sixteen:" + str(heroes[i]), spots[i] + Vector2(0, 26), view.y * 0.11, Color(GHOST, 0.3))
+		if _fallen.has(hero):
+			_sprite("sixteen:" + hero, spots[i] + Vector2(0, 26), view.y * 0.11, Color(GHOST, 0.3))
 			continue
-		var on := i < lit
-		var strength := 1.0 if on else 0.18
+		if hero == _lead:
+			var mine := clampf((p - 0.72) / 0.2, 0.0, 1.0)
+			_glow(spots[i] + Vector2(0, -6), 26.0 + 22.0 * mine, _colour_of(_lead), 0.06 + 0.8 * mine)
+			_sprite("sixteen:" + hero, spots[i] + Vector2(0, 26), view.y * 0.11, Color(1, 1, 1, 0.18 + 0.82 * mine))
+			continue
+		var strength := 1.0 if others.find(hero) < lit else 0.18
 		_glow(spots[i] + Vector2(0, -6), 26.0, GOLD, 0.35 * strength)
-		_sprite("sixteen:" + str(heroes[i]), spots[i] + Vector2(0, 26), view.y * 0.11, Color(1, 1, 1, strength))
+		_sprite("sixteen:" + hero, spots[i] + Vector2(0, 26), view.y * 0.11, Color(1, 1, 1, strength))
+
+
+## One of the other worlds ending (D99): its lead stands on it, and it goes
+## dark under them and does not come back. At the last, a gate in the dark opens
+## its eyes: what is left of them waits there now ([D328]).
+func _draw_ending(view: Vector2, p: float) -> void:
+	_draw_stars(view, 0.5 * (1.0 - p * 0.6))
+	var at := view * Vector2(0.5, 0.46)
+	var radius := minf(view.x, view.y) * 0.17
+	# Behind it, the worlds that went before, already dark.
+	for k in maxi(0, _fallen.size() - 1):
+		var angle := TAU * float(k) / 15.0 - PI * 0.5
+		_globe(at + Vector2(cos(angle) * radius * 2.6, sin(angle) * radius * 1.7), radius * 0.22, 0.7, 1.0)
+	var dark := clampf((p - 0.3) / 0.45, 0.0, 1.0)
+	var gone := clampf((p - 0.8) / 0.2, 0.0, 1.0)
+	var burning: Texture2D = _sprites.get("art:burning_world")
+	if burning != null and dark > 0.0:
+		# Four frames side by side, the globe cracking into ash.
+		var frame := mini(3, int(dark * 4.0))
+		var cell := Vector2(burning.get_width() / 4.0, burning.get_height())
+		draw_texture_rect_region(burning, Rect2(at - Vector2(radius, radius), Vector2(radius, radius) * 2.0),
+				Rect2(Vector2(cell.x * frame, 0), cell), Color(1, 1, 1, 1.0 - gone * 0.85))
+	else:
+		_globe(at, radius, 1.0 - gone * 0.85, dark)
+	var feet := at + Vector2(0, -radius * 0.92)
+	_glow(feet + Vector2(0, -20), 30.0, GOLD, 0.4 * (1.0 - dark))
+	_sprite("sixteen:" + _other, feet, view.y * 0.12, Color(1, 1, 1, 1.0 - dark).lerp(Color(GHOST, 0.0), gone))
+	# The light going out of it, a crack at a time.
+	if dark > 0.0:
+		for k in 5:
+			var angle := TAU * float(k) / 5.0 + 0.4
+			var reach := radius * 0.95 * clampf(dark * 1.4 - float(k) * 0.08, 0.0, 1.0)
+			draw_line(at, at + Vector2(cos(angle), sin(angle)) * reach, Color(EMBER, 0.7 * (1.0 - gone)), 2.0, true)
+	if p > 0.82:
+		var eyes := clampf((p - 0.82) / 0.12, 0.0, 1.0)
+		var gate := at + Vector2(0, radius * 0.35)
+		if _sprites.get("art:demon_gate") != null:
+			_sprite("art:demon_gate", gate + Vector2(0, radius * 0.3), radius * 0.9, Color(1, 1, 1, eyes))
+			return
+		_sprite("gate", gate + Vector2(0, radius * 0.3), radius * 0.9, Color(0.4, 0.3, 0.35, eyes))
+		for side in [-1.0, 1.0]:
+			_glow(gate + Vector2(side * radius * 0.09, -radius * 0.25), 10.0, BLOOD, eyes)
+
+
+func _draw_fall(view: Vector2, p: float) -> void:
+	_draw_stars(view, 0.8)
+	var direction := Vector2(0.45, 1.0).normalized()
+	_rng.seed = 77
+	for i in 16:
+		var delay := _rng.randf_range(0.0, 0.45)
+		var start := Vector2(_rng.randf_range(-0.2, 0.9) * view.x, -view.y * _rng.randf_range(0.05, 0.4))
+		var travel := (p - delay) * view.y * 2.1
+		if travel <= 0.0:
+			continue
+		_streak(start + direction * travel, direction, 160.0, GOLD.lerp(EMBER, float(i) / 16.0), 4.0)
+	# The lead, tumbling through the middle of it, and the thing they carried falling beside them,
+	# until it slips away, towards where the Tower will be ([D328]).
+	var centre := view * Vector2(0.5, lerpf(0.36, 0.64, p))
+	_glow(centre, 40.0, _colour_of(_lead), 0.35)
+	_xf(centre, clock * 2.2)
+	_sprite("sixteen:" + _lead, Vector2(0, view.y * 0.06), view.y * 0.12)
+	_xf()
+	var away := clampf((p - 0.5) / 0.5, 0.0, 1.0)
+	var beside := centre + Vector2(view.y * 0.1, -view.y * 0.03)
+	_object(beside.lerp(view * Vector2(0.9, 0.95), away * away), view.y * 0.08, 1.0 - away * 0.6)
+	if p > 0.6:
+		_horizon(view, lerpf(1.1, 0.78, (p - 0.6) / 0.4))
 
 
 func _globe(at: Vector2, radius: float, alpha: float, dark := 0.0) -> void:
@@ -473,43 +637,8 @@ func _draw_worlds(view: Vector2, p: float) -> void:
 		_globe(spots[i], minf(view.x, view.y) * 0.04, fade, dark)
 
 
-## One of the other worlds ending (D99): its lead stands on it, and it goes
-## dark under them and does not come back.
-func _draw_ending(view: Vector2, p: float) -> void:
-	_draw_stars(view, 0.5 * (1.0 - p * 0.6))
-	var at := view * Vector2(0.5, 0.46)
-	var radius := minf(view.x, view.y) * 0.17
-	# Behind it, the worlds that went before, already dark.
-	for k in maxi(0, _fallen.size() - 1):
-		var angle := TAU * float(k) / 15.0 - PI * 0.5
-		_globe(at + Vector2(cos(angle) * radius * 2.6, sin(angle) * radius * 1.7), radius * 0.22, 0.7, 1.0)
-	var dark := clampf((p - 0.3) / 0.45, 0.0, 1.0)
-	var gone := clampf((p - 0.8) / 0.2, 0.0, 1.0)
-	_globe(at, radius, 1.0 - gone * 0.85, dark)
-	var feet := at + Vector2(0, -radius * 0.92)
-	_glow(feet + Vector2(0, -20), 30.0, GOLD, 0.4 * (1.0 - dark))
-	_sprite("sixteen:" + _other, feet, view.y * 0.12, Color(1, 1, 1, 1.0 - dark).lerp(Color(GHOST, 0.0), gone))
-	# The light going out of it, a crack at a time.
-	if dark > 0.0:
-		for k in 5:
-			var angle := TAU * float(k) / 5.0 + 0.4
-			var reach := radius * 0.95 * clampf(dark * 1.4 - float(k) * 0.08, 0.0, 1.0)
-			draw_line(at, at + Vector2(cos(angle), sin(angle)) * reach, Color(EMBER, 0.7 * (1.0 - gone)), 2.0, true)
 
 
-func _draw_fall(view: Vector2, p: float) -> void:
-	_draw_stars(view, 0.8)
-	var direction := Vector2(0.45, 1.0).normalized()
-	_rng.seed = 77
-	for i in 16:
-		var delay := _rng.randf_range(0.0, 0.45)
-		var start := Vector2(_rng.randf_range(-0.2, 0.9) * view.x, -view.y * _rng.randf_range(0.05, 0.4))
-		var travel := (p - delay) * view.y * 2.1
-		if travel <= 0.0:
-			continue
-		_streak(start + direction * travel, direction, 160.0, GOLD.lerp(EMBER, float(i) / 16.0), 4.0)
-	if p > 0.6:
-		_horizon(view, lerpf(1.1, 0.78, (p - 0.6) / 0.4))
 
 
 func _draw_impact(view: Vector2, p: float) -> void:
@@ -517,7 +646,7 @@ func _draw_impact(view: Vector2, p: float) -> void:
 	var shake := Vector2.ZERO
 	if p > hit and p < hit + 0.12:
 		shake = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * 10.0 * (1.0 - (p - hit) / 0.12)
-	draw_set_transform(shake)
+	_xf(shake)
 	_draw_stars(view, 0.5)
 	var ground := _horizon(view, 0.72)
 	var spot := Vector2(view.x * 0.58, ground + 6.0)
@@ -535,12 +664,21 @@ func _draw_impact(view: Vector2, p: float) -> void:
 		draw_arc(spot, after * view.x * 0.5, PI, TAU, 48, Color(GOLD, 0.6 * (1.0 - after)), 3.0, true)
 		# Somebody lying at the end of it.
 		var lead := "sixteen:" + _lead
-		draw_set_transform(spot + shake + Vector2(18, -10), PI * 0.5, Vector2.ONE)
+		_xf(spot + shake + Vector2(18, -10), PI * 0.5)
 		_sprite(lead, Vector2(0, 30), view.y * 0.09)
-		draw_set_transform(shake)
+		_xf(shake)
+		# A hand into the crater ([D328]): Bram's, and the landing's first words follow on.
+		if after > 0.7:
+			var reach := clampf((after - 0.7) / 0.25, 0.0, 1.0)
+			var rim := spot + Vector2(view.x * 0.16, -view.y * 0.05)
+			_sprite("helper", rim + Vector2(0, 8), view.y * 0.13, Color(1, 1, 1, reach))
+			var arm_from := rim + Vector2(-view.y * 0.03, -view.y * 0.07)
+			var arm_to := arm_from.lerp(spot + Vector2(34, -20), reach)
+			draw_line(arm_from, arm_to, Color(0.72, 0.56, 0.42, reach), 6.0, true)
+			draw_circle(arm_to, 6.0, Color(0.78, 0.62, 0.48, reach))
 	if p > hit and p < hit + 0.08:
 		draw_rect(Rect2(Vector2.ZERO, view), Color(1, 0.95, 0.85, 0.85 * (1.0 - (p - hit) / 0.08)))
-	draw_set_transform(Vector2.ZERO)
+	_xf()
 
 
 func _tower(view: Vector2, base: Vector2, height: float, alpha: float, lit: float) -> void:
@@ -557,12 +695,88 @@ func _tower(view: Vector2, base: Vector2, height: float, alpha: float, lit: floa
 	_glow(top, 24.0, GOLD, alpha * 0.8)
 
 
+
+
 func _draw_tower_shot(view: Vector2, p: float) -> void:
 	draw_rect(Rect2(Vector2.ZERO, view), DUSK)
 	_draw_stars(view, 0.4)
 	var ground := _horizon(view, 0.74)
-	_tower(view, Vector2(view.x * 0.62, ground), view.y * 0.68, 1.0, p * 0.5)
+	var base := Vector2(view.x * 0.58, ground)
+	var height := view.y * 0.68
+	_tower(view, base, height, 1.0, p * 0.6)
 	_sprite("sixteen:" + _lead, Vector2(view.x * 0.24, ground + 4), view.y * 0.12)
+	# Near floor 5, a window flares in the lead's colour: what fell with them is there ([D328]).
+	if p > 0.55:
+		var flare := clampf((p - 0.55) / 0.25, 0.0, 1.0)
+		_glow(base + Vector2(0, -height * 0.1), 14.0 + 10.0 * sin(clock * 6.0), _colour_of(_lead), flare)
+
+
+## Wide over the land the lead wakes in ([D328]): the city, the road with a carriage on it, a
+## village, a band on red ground, a cave; the camera pans across it.
+func _draw_land(view: Vector2, p: float) -> void:
+	draw_rect(Rect2(Vector2.ZERO, view), DUSK)
+	_draw_stars(view, 0.3)
+	var ground := _horizon(view, 0.52)
+	_sprite("keep", Vector2(view.x * 0.12, ground + 30), view.y * 0.2)
+	var road := PackedVector2Array()
+	for k in 17:
+		var u := float(k) / 16.0
+		road.append(Vector2(lerpf(0.18, 0.48, u) * view.x, ground + view.y * (0.12 + 0.04 * sin(u * 6.0))))
+	draw_polyline(road, Color(0.32, 0.27, 0.2), 14.0, true)
+	var cart := road[int(fposmod(clock * 0.08, 1.0) * 16.0)]
+	draw_rect(Rect2(cart + Vector2(-16, -20), Vector2(32, 14)), Color(0.36, 0.2, 0.12))
+	draw_rect(Rect2(cart + Vector2(-12, -18), Vector2(8, 6)), Color(GOLD, 0.7))
+	_sprite("town", Vector2(view.x * 0.52, ground + 40), view.y * 0.15)
+	# Red ground, and a band on it nobody should walk into yet.
+	var red := Vector2(view.x * 0.72, ground + view.y * 0.2)
+	draw_circle(red, view.y * 0.1, Color(0.32, 0.08, 0.07))
+	for k in 4:
+		_sprite("unit:" + str(_data.get("foe", "")), red + Vector2((k - 1.5) * 24.0, 10.0 - (k % 2) * 12.0), view.y * 0.07,
+				Color(0.5, 0.35, 0.35))
+	var cave := Vector2(view.x * 0.9, ground + view.y * 0.12)
+	draw_circle(cave, view.y * 0.09, Color(0.16, 0.15, 0.17))
+	draw_circle(cave + Vector2(0, view.y * 0.03), view.y * 0.045, Color(0.01, 0.01, 0.01))
+	_glow(cave + Vector2(0, view.y * 0.02), 8.0, BLOOD, 0.3 + 0.2 * sin(clock * 3.0))
+
+
+## A gate, its rank over it, and the camera pushing in through it.
+func _draw_gate(view: Vector2, p: float) -> void:
+	draw_rect(Rect2(Vector2.ZERO, view), Color(0.04, 0.03, 0.05))
+	var ground := _horizon(view, 0.74)
+	var gate := Vector2(view.x * 0.5, ground + 6)
+	_glow(gate + Vector2(0, -view.y * 0.14), 60.0 + 10.0 * sin(clock * 5.0), BLOOD, 0.5)
+	_sprite("gate", gate, view.y * 0.3)
+	draw_string(ThemeDB.fallback_font, gate + Vector2(-14, -view.y * 0.34), "E", HORIZONTAL_ALIGNMENT_LEFT, -1, 40, Color(GOLD, 0.9))
+	if p > 0.85:
+		draw_rect(Rect2(Vector2.ZERO, view), Color(0, 0, 0, (p - 0.85) / 0.15))
+
+
+## Inside a gate: the company in a wedge, the first strike, then the world stopped with a box drawn.
+func _draw_inside(view: Vector2, p: float) -> void:
+	draw_rect(Rect2(Vector2.ZERO, view), Color(0.08, 0.1, 0.08))
+	var paused := p > 0.45 and p < 0.85
+	var party: Array = _data.get("party", [])
+	var height := view.y * 0.12
+	var grey := Color(0.6, 0.6, 0.65) if paused else Color.WHITE
+	var wedge := [Vector2(0.36, 0.5), Vector2(0.29, 0.38), Vector2(0.29, 0.62), Vector2(0.22, 0.28), Vector2(0.22, 0.72)]
+	var charge := clampf(p / 0.3, 0.0, 1.0)
+	for i in mini(wedge.size(), party.size()):
+		var at: Vector2 = wedge[i] * view + Vector2(view.x * 0.08 * charge, 0)
+		_sprite("unit_east:" + str(party[i]), at, height, grey)
+	for k in 3:
+		_sprite("unit:" + str(_data.get("foe", "")), Vector2(view.x * (0.68 + 0.06 * k), view.y * (0.4 + 0.15 * k)), height * 1.3, grey, true)
+	if p > 0.28 and p < 0.45:
+		var flash := (p - 0.28) / 0.17
+		var hit := view * Vector2(0.58, 0.46)
+		draw_arc(hit, 20.0 + flash * 30.0, -1.0, 1.0, 12, Color(1, 1, 1, 1.0 - flash), 4.0, true)
+		draw_string(ThemeDB.fallback_font, hit + Vector2(36, -flash * 30.0), "24", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(GOLD, 1.0 - flash))
+	if paused:
+		draw_rect(Rect2(Vector2.ZERO, view), Color(0.1, 0.12, 0.2, 0.35))
+		draw_string(ThemeDB.fallback_font, Vector2(view.x * 0.5 - 18, view.y * 0.2), "II", HORIZONTAL_ALIGNMENT_LEFT, -1, 46, Color(0.9, 0.92, 1.0))
+		var drag := clampf((p - 0.5) / 0.25, 0.0, 1.0)
+		var box := Rect2(Vector2(view.x * 0.17, view.y * 0.2), Vector2(view.x * 0.32, view.y * 0.6) * drag)
+		draw_rect(box, Color(1.0, 0.86, 0.3, 0.12))
+		draw_rect(box, Color(1.0, 0.86, 0.3, 0.9), false, 2.0)
 
 
 func _draw_living(view: Vector2, p: float) -> void:
@@ -613,19 +827,6 @@ func _draw_road(view: Vector2, p: float) -> void:
 		draw_string(ThemeDB.fallback_font, at + Vector2(-8, -60), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, 40, Color(BLOOD, ambush))
 
 
-func _draw_company(view: Vector2, p: float) -> void:
-	draw_rect(Rect2(Vector2.ZERO, view), DUSK)
-	var ground := _horizon(view, 0.74)
-	var party: Array = _data.get("party", [])
-	var joined := clampi(1 + int(p * float(party.size()) * 1.4), 1, party.size())
-	for i in joined:
-		var x := view.x * (0.3 + 0.08 * float(i)) - fposmod(clock * 6.0, 6.0)
-		var tint := Color.WHITE
-		# Late on, one of them is no longer quite there.
-		if i == joined - 1 and p > 0.7:
-			tint = Color(GHOST, clampf(1.0 - (p - 0.7) / 0.3, 0.25, 1.0))
-		_sprite("unit_east:" + str(party[i]), Vector2(x, ground + 6), view.y * 0.13, tint)
-	_tower(view, Vector2(view.x * 0.9, ground), view.y * 0.5, 0.6, 0.0)
 
 
 func _draw_fight(view: Vector2, p: float) -> void:
@@ -671,6 +872,68 @@ func _draw_foe(view: Vector2, p: float) -> void:
 		draw_line(from, from.lerp(from + Vector2(height * 0.22, height * 0.12), scar), Color(BLOOD, 0.95), 4.0, true)
 
 
+
+
+## The company ([D328]): six join one by one; one goes down and is lifted; another goes down and
+## stays; five walk on.
+func _draw_company(view: Vector2, p: float) -> void:
+	draw_rect(Rect2(Vector2.ZERO, view), DUSK)
+	var ground := _horizon(view, 0.74)
+	var party: Array = _data.get("party", [])
+	var joined := clampi(1 + int(p / 0.4 * float(party.size())), 1, party.size())
+	var walk := clampf((p - 0.75) / 0.25, 0.0, 1.0) * view.x * 0.12
+	for i in joined:
+		var feet := Vector2(view.x * (0.24 + 0.09 * float(i)), ground + 6)
+		var key := "unit_east:" + str(party[i])
+		if i == 1 and p > 0.45 and p < 0.62:
+			# Down, and lifted again by the one beside them.
+			var up := clampf((p - 0.53) / 0.09, 0.0, 1.0)
+			_xf(feet + Vector2(0, -view.y * 0.03), lerpf(PI * 0.5, 0.0, up))
+			_sprite(key, Vector2(0, view.y * 0.06), view.y * 0.13)
+			_xf()
+			continue
+		if i == 4 and p > 0.62:
+			# Down, and this one stays where they fell.
+			var fade := clampf((p - 0.68) / 0.2, 0.0, 1.0)
+			_xf(feet + Vector2(0, -view.y * 0.03), PI * 0.5)
+			_sprite(key, Vector2(0, view.y * 0.06), view.y * 0.13, Color(1, 1, 1, 1.0).lerp(Color(GHOST, 0.35), fade))
+			_xf()
+			continue
+		_sprite(key, feet + Vector2(walk, 0), view.y * 0.13)
+	_tower(view, Vector2(view.x * 0.92, ground), view.y * 0.5, 0.6, 0.0)
+
+
+## The stair ([D328]): the lead climbs; at an alcove on floor 5 they find what fell with them,
+## pick it up, and the screen goes white.
+func _draw_stair(view: Vector2, p: float) -> void:
+	draw_rect(Rect2(Vector2.ZERO, view), Color(0.05, 0.05, 0.08))
+	var steps := 9
+	var rise := view.y * 0.065
+	var tread := view.x * 0.06
+	var start := Vector2(view.x * 0.16, view.y * 0.84)
+	for k in steps:
+		var at := start + Vector2(tread * k, -rise * k)
+		draw_rect(Rect2(at, Vector2(tread + 2, rise * (k + 1) + view.y * 0.2)), Color(0.13, 0.12, 0.15))
+		draw_line(at, at + Vector2(tread, 0), Color(0.3, 0.28, 0.33), 2.0)
+	var landing := start + Vector2(tread * steps, -rise * (steps - 1))
+	draw_rect(Rect2(landing, Vector2(view.x * 0.3, view.y * 0.5)), Color(0.13, 0.12, 0.15))
+	var alcove := landing + Vector2(view.x * 0.12, -view.y * 0.16)
+	draw_rect(Rect2(alcove + Vector2(-view.y * 0.07, -view.y * 0.02), Vector2(view.y * 0.14, view.y * 0.18)), Color(0.02, 0.02, 0.03))
+	draw_string(ThemeDB.fallback_font, alcove + Vector2(-view.y * 0.06, -view.y * 0.04), "5", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(GOLD, 0.6))
+	var climb := clampf(p / 0.6, 0.0, 1.0)
+	var feet := start.lerp(landing + Vector2(view.x * 0.06, 0), climb) + Vector2(tread * 0.5, 0)
+	var taken := p > 0.75
+	if not taken:
+		_object(alcove + Vector2(0, view.y * 0.1), view.y * 0.05, 1.0)
+	_sprite("sixteen:" + _lead, feet, view.y * 0.13)
+	if taken:
+		_object(feet + Vector2(view.y * 0.04, -view.y * 0.07), view.y * 0.04, 1.0)
+	if p > 0.8:
+		draw_rect(Rect2(Vector2.ZERO, view), Color(1, 1, 1, clampf((p - 0.8) / 0.15, 0.0, 1.0)))
+
+
+## A world ending with its lead ([D328]): it goes dark; their weapon streaks into the next world;
+## it lands in a scorched ring a monster comes towards; and a ghost waits at a fire.
 func _draw_end(view: Vector2, p: float) -> void:
 	_draw_stars(view, 0.6)
 	if stage() == "last":
@@ -679,20 +942,32 @@ func _draw_end(view: Vector2, p: float) -> void:
 	var mine := view * Vector2(0.3, 0.42)
 	var theirs := view * Vector2(0.74, 0.42)
 	var radius := minf(view.x, view.y) * 0.12
-	_globe(mine, radius, clampf(1.4 - p * 1.6, 0.0, 1.0), clampf(p / 0.3, 0.0, 1.0))
-	_globe(theirs, radius * 0.8, clampf(p * 2.0, 0.0, 1.0))
-	if p > 0.32 and p < 0.66:
-		var t := (p - 0.32) / 0.34
-		var head := mine.lerp(theirs, t) + Vector2(0, -sin(t * PI) * radius * 1.4)
-		_streak(head, (theirs - mine).normalized(), 120.0, EMBER, 5.0)
-	if p > 0.62:
-		var fire := Vector2(view.x * 0.62, view.y * 0.84)
-		var glow := 0.6 + 0.2 * sin(clock * 9.0)
-		_glow(fire + Vector2(0, -14), 40.0, EMBER, glow)
-		_sprite("fire", fire, view.y * 0.08)
-		# On the first life it is you who would wait there; after, the one who just fell does.
-		var ghost := _lead if _fallen.is_empty() else _other
-		_sprite("sixteen:" + ghost, fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55))
+	if p < 0.5:
+		_globe(mine, radius, clampf(1.6 - p * 3.2, 0.0, 1.0), clampf(p / 0.22, 0.0, 1.0))
+		_globe(theirs, radius * 0.8, clampf(p * 3.0, 0.0, 1.0))
+		if p > 0.22:
+			var t := (p - 0.22) / 0.28
+			var head := mine.lerp(theirs, t) + Vector2(0, -sin(t * PI) * radius * 1.4)
+			_streak(head, (theirs - mine).normalized(), 120.0, EMBER, 5.0)
+		return
+	var ground := _horizon(view, 0.8)
+	if p < 0.76:
+		# Where it came down: a scorched ring, the weapon standing in it, and something coming.
+		var landed := Vector2(view.x * 0.45, ground + 8)
+		draw_arc(landed, view.x * 0.06, PI, TAU, 24, Color(0.03, 0.02, 0.02), 10.0, true)
+		draw_arc(landed, view.x * 0.06, PI, TAU, 24, Color(EMBER, 0.5), 2.0, true)
+		draw_line(landed + Vector2(0, 6), landed + Vector2(6, -view.y * 0.12), Color(0.75, 0.75, 0.8), 4.0, true)
+		_glow(landed + Vector2(4, -view.y * 0.1), 10.0, EMBER, 0.6)
+		var near := (p - 0.5) / 0.26
+		_sprite("unit:" + str(_data.get("foe", "")), Vector2(lerpf(view.x * 0.95, view.x * 0.66, near), ground + 10),
+				view.y * 0.16, Color(0.45, 0.38, 0.4), true)
+		return
+	var fire := Vector2(view.x * 0.56, ground + 8)
+	_glow(fire + Vector2(0, -14), 40.0, EMBER, 0.6 + 0.2 * sin(clock * 9.0))
+	_sprite("fire", fire, view.y * 0.08)
+	# On the first life it is you who would wait there; after, the one who just fell does.
+	var ghost := _lead if _fallen.is_empty() else _other
+	_sprite("sixteen:" + ghost, fire + Vector2(-60, 0), view.y * 0.12, Color(GHOST, 0.55 * clampf((p - 0.76) / 0.1, 0.0, 1.0)))
 
 
 ## The last of the sixteen: no world after this one, and every one of the

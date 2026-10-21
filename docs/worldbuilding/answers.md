@@ -260,6 +260,7 @@ Every item here blocks something on the [roadmap](../05-roadmap.md). Most are on
 | 233 | D325 | **Inferred.** Call BX's order for play-test 8's asks: now (held until B is in) disband per card, the quick wheel on a held middle click (eat, send away, formation, stance, party sheet), the nearest free member reaching the fallen first, a sent-away band's distance and return time; after B the 2× cap, nemesis grown to remembered deeds, hunger with Auto eating; later the writers' pass on the Tower's people and the stock lines, more city doors, groves (art from 27 October), the opening cinematic. Recommended: `doug-md` says what else belongs on the wheel, whether a disbanded companion can be found again in the world, and whether the one reaching the fallen should be the healer first or the nearest. |
 | 235 | D327 | **Inferred.** Enchanting as built: four runes (Keen, Thirsting, Rime, Echo) made from charms and herbs the packs already carry, laid on the weapon somebody carries, anywhere from the party screen, one a weapon, each a fight passive (+10% crit, 10% lifesteal, 15% thorns, 10% strike twice). Recommended: `doug-md` says whether runes should come from an enchanter in a town instead of anywhere, and whether armour takes them too, once he has laid one in play-test 8. |
 | 236 | D328 | **Inferred.** The remade opening cinematic's words, shot lengths and camera moves (`/mnt/project-files/story/opening-cinematic-storyboard.md`), the drawn stand-ins for art not yet made, and the later-life line "Somewhere, a gate darkens. Demon King {dead} is waiting." Recommended: `doug-md` reads the script read straight through and marks the lines he would change, as with the every-line script ([D296](../06-decisions.md)). |
+| 248 | D340 | **Inferred.** The remade opening as drawn: each shot's camera move and length, the stand-ins for art not yet made (a spark of the lead's colour for their object, a dimmed gate with two red points for the demon king), the order of the company shot (the second to join goes down and is lifted, the fifth goes down and stays) and Bram's line as a caption under the title rather than a voice. Recommended: `doug-md` watches it on the next build and says what to change. |
 
 ## 2. Eleven Part I questions that need a straight answer
 
@@ -2608,7 +2609,7 @@ _Costs_ — it has to be _visible on the node map_ or it's a note nobody reads. 
 > All recommended
 > — dougie, 2026-10-21, call BZ (question 5, recommended: Bram, from the crater, "Give me your hand.")
 
-**Answered.** Bram speaks it, from the crater, as the film ends: "Give me your hand." The landing's first box follows on. [D328](../06-decisions.md); not built yet.
+**Answered.** Bram speaks it, from the crater, as the film ends: "Give me your hand." The landing's first box follows on. [D328](../06-decisions.md); built as the opening's last line, under the title ([D340](../06-decisions.md)).
 
 > the voice is reading, not narrating. One line, present tense, about someone the player hasn't met yet and will.
 > — `src-orv`, [16.2-omniscient-readers-viewpoint](../16-lineage/16.2-omniscient-readers-viewpoint.md)

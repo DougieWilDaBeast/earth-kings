@@ -1,5 +1,5 @@
 {
-	"_doc": "The opening cinematic, played after New Game once the lead is picked (src/ui/opening.gd, docs/25). Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines. Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
+	"_doc": "The opening cinematic, played after New Game once the lead is picked (src/ui/opening.gd, docs/25), remade by call BZ (D328): fourteen shots in three acts. Each shot is one picture, drawn in code, with its lines of narration shown one after another. `shot` picks the picture; `time` is how long the shot holds, in seconds, shared out evenly between its lines; `camera` moves across it, from `from` to `to`, each [zoom, x, y] with x and y the point looked at as a share of the screen (\"lead\" for x looks at the lead wherever the shot puts them). Click, Space or Enter moves to the next shot; Esc skips the rest. Rewrite the words freely; a new kind of picture needs code.",
 	"_doc_cast": "Who appears. `sixteen` are folders in art/sixteen/ (idle/south.png), in the order they stand in the ring; `lead` stands in for the lead who falls when none was picked (Atlas, as in every run with no pick) (the lead picked is the one shown); `party` and `foe` are unit templates in units.json; the party are six of the sixteen, never the old twelve (D79). The road (carriages) and foe (a foe remembers you) shots are cut for the First Hour (D97); their drawings stay in opening.gd for when those systems come back.",
 	"sixteen": ["ares", "atlas", "bellona", "caesar", "cassius", "cato", "ceres", "diana", "iris", "janus", "juno", "liber", "pluto", "saturn", "ultor", "vesta"],
 	"lead": "atlas",
@@ -7,8 +7,8 @@
 	"foe": "ogre",
 	"_doc_ending": "`ending` is the one of the sixteen whose world is seen ending in the `ending` shot, so a new player sees the hook before they live it (D99, D101); {other} in a line is their name. When they are the lead, the next of the sixteen stands in.",
 	"ending": "bellona",
-	"_doc_replay": "Every life after the first plays the opening again, after the quiz and before the landing (Will, 2026-10-15), with a slight change for who is left, until only one is. It plays only the `replay` shots: the story, not the how-to-play shots the player has already seen (call AC, about 55 s). The fallen stand grey in the ring and their worlds are dark; the `ending` shot shows the lead who has just died, not `ending`. `by_left` swaps whole shots' lines by how many of the sixteen are still alive: `many` (three or more), `two` and `last`. In those lines {Left} and {left} are how many are alive (in words, capital or not), {Fallen} how many have fallen, {left_after} how many would be left after the new lead, {dead} the lead who just died and {how} how they fell (`how`). Inferred: the words.",
-	"replay": ["void", "sixteen", "worlds", "ending", "fall", "impact", "end", "title"],
+	"_doc_replay": "Every life after the first plays the opening again, after the quiz and before the landing (Will, 2026-10-15), with a slight change for who is left, until only one is. It plays only the `replay` shots: the story, not the how-to-play shots the player has already seen (call AC; D328: about 60 s, each shot held `replay_pace` of its time). The fallen stand grey in the ring and their worlds are dark; the `ending` shot shows the lead who has just died, not `ending`. `by_left` swaps whole shots' lines by how many of the sixteen are still alive: `many` (three or more), `two` and `last`. In those lines {Left} and {left} are how many are alive (in words, capital or not), {Fallen} how many have fallen, {left_after} how many would be left after the new lead, {dead} the lead who just died and {how} how they fell (`how`). Inferred: the words.",
+	"replay": ["void", "sixteen", "worlds", "ending", "fall", "impact", "tower", "stair", "end", "title"],
 	"how": {
 		"floor": "on floor {floor} of the Tower",
 		"killer": "on the road, to {a_killer}",
@@ -47,127 +47,233 @@
 	},
 	"by_left": {
 		"many": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. {Left} are still standing."],
+			"sixteen": ["Sixteen were chosen. Half-gods, each the best there ever was at something.", "Sixteen of them, each given a world. {Left} are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "{Fallen} of the worlds have already gone dark."],
-			"ending": ["In another world, it has just ended.", "{fell}"],
-			"end": ["If you fall, your world ends with you.", "One of the {left_after} after you goes on, from the beginning.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
+			"ending": ["In another world, it has just ended.", "{fell}", "Somewhere, a gate darkens. Demon King {dead} is waiting."],
+			"end": ["If you fall, your world ends with you.", "One of the {left_after} after you goes on, from the beginning.", "{dead}'s weapon is already falling, somewhere. Get to it first."]
 		},
 		"two": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. Two are still standing."],
+			"sixteen": ["Sixteen were chosen. Half-gods, each the best there ever was at something.", "Sixteen of them, each given a world. Two are still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fourteen worlds are dark. Two are left, and only one will be there at the end."],
-			"ending": ["In another world, it has just ended.", "{fell}"],
-			"impact": ["Of the two left, one is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
-			"end": ["If you fall, your world ends with you.", "The last of you goes on alone.", "{dead}'s weapon is already falling, somewhere. Their ghost waits at the fire."]
+			"ending": ["In another world, it has just ended.", "{fell}", "Somewhere, a gate darkens. Demon King {dead} is waiting."],
+			"impact": ["Of the two left, one is you.", "You wake in a crater, with your name and nothing else."],
+			"end": ["If you fall, your world ends with you.", "The last of you goes on alone.", "{dead}'s weapon is already falling, somewhere. Get to it first."]
 		},
 		"last": {
-			"sixteen": ["A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.", "Sixteen of them, each given a world. One is still standing."],
+			"sixteen": ["Sixteen were chosen. Half-gods, each the best there ever was at something.", "Sixteen of them, each given a world. One is still standing."],
 			"worlds": ["Sixteen copies of one Earth were made. In the middle of every one, a Tower.", "Fifteen worlds are dark. This is the last."],
-			"ending": ["In the last world but this one, it has just ended.", "{fell}"],
-			"impact": ["The last of them is you.", "You wake at the bottom of a crater of burnt ground, with your name and nothing else."],
+			"ending": ["In the last world but this one, it has just ended.", "{fell}", "Somewhere, a gate darkens. Demon King {dead} is waiting."],
+			"impact": ["The last of them is you.", "You wake in a crater, with your name and nothing else."],
 			"end": ["There is nobody after you.", "If you fall, the sixteen are finished.", "Every one of the fallen is waiting at the fire."],
-			"title": ["The last standing quest: Ascend to heaven."]
+			"title": ["The last standing quest: Ascend to heaven.", "Bram: \"Give me your hand.\""]
 		}
 	},
 	"last_stand": {
 		"_doc": "D191: the ending shot's lines on a new player's first life, when the world seen ending is Atlas's, the last stand they just played. Inferred (agenda item 122).",
-		"ending": ["You have seen one of the worlds end already.", "{other} fell in Hearthwick, at the edge of his own village, and his world went dark with him. It never comes back."]
+		"ending": ["You have seen one of the worlds end already.", "{other} fell in Hearthwick, at the edge of his own village, and his world went dark with him. It never comes back.", "When a world burns, what is left of its keeper waits in the gates of the others."]
 	},
+	"_doc_objects": "D328: the one thing each lead's chapter one turns on (the story's `*-chapter-one.md`), seen falling with them in the `fall` shot and picked up on floor 5 in the `stair` shot. `art` is drawn when it exists (docs/24, A58); until then a spark of the lead's own colour (units.json `color`) stands in. **Inferred**: the art paths.",
+	"objects": {
+		"atlas": {
+			"name": "a bronze buckle",
+			"art": "res://art/props/memories/atlas.png"
+		},
+		"ares": {
+			"name": "a child's wooden sword",
+			"art": "res://art/props/memories/ares.png"
+		},
+		"bellona": {
+			"name": "a bronze signal whistle",
+			"art": "res://art/props/memories/bellona.png"
+		},
+		"caesar": {
+			"name": "a tin crown",
+			"art": "res://art/props/memories/caesar.png"
+		},
+		"cassius": {
+			"name": "a festival mask",
+			"art": "res://art/props/memories/cassius.png"
+		},
+		"cato": {
+			"name": "a bronze stylus",
+			"art": "res://art/props/memories/cato.png"
+		},
+		"ceres": {
+			"name": "a corn dolly",
+			"art": "res://art/props/memories/ceres.png"
+		},
+		"diana": {
+			"name": "a leather collar",
+			"art": "res://art/props/memories/diana.png"
+		},
+		"iris": {
+			"name": "a stitched leather ball",
+			"art": "res://art/props/memories/iris.png"
+		},
+		"janus": {
+			"name": "an iron hinge pin",
+			"art": "res://art/props/memories/janus.png"
+		},
+		"juno": {
+			"name": "a wooden spoon",
+			"art": "res://art/props/memories/juno.png"
+		},
+		"liber": {
+			"name": "a cut rope",
+			"art": "res://art/props/memories/liber.png"
+		},
+		"pluto": {
+			"name": "a tally stick",
+			"art": "res://art/props/memories/pluto.png"
+		},
+		"saturn": {
+			"name": "a mended clay bowl",
+			"art": "res://art/props/memories/saturn.png"
+		},
+		"ultor": {
+			"name": "a broken knife hilt",
+			"art": "res://art/props/memories/ultor.png"
+		},
+		"vesta": {
+			"name": "a clay oil lamp",
+			"art": "res://art/props/memories/vesta.png"
+		}
+	},
+	"_doc_art": "D328: art asked for the film (docs/24, A59-A61). Each is drawn when its file exists; until then the shapes drawn in code stand in. `demon_gate` (128 x 128) is the gate in the dark at the end of the `ending` shot; `ring` (512 x 512) is the ring of light under the sixteen; `burning_world` is four 256 x 256 frames side by side, the world in the `ending` shot cracking into ash.",
+	"art": {
+		"demon_gate": "res://art/props/landmark/demon_gate.png",
+		"ring": "res://art/fx/ring_of_light.png",
+		"burning_world": "res://art/fx/burning_world.png"
+	},
+	"helper": "bram",
+	"_doc_helper": "D328: whose hand reaches into the crater at the end of the `impact` shot, and who speaks the last line (W2): Bram, as the landing's first box (data/fall.json) follows on.",
+	"replay_pace": 0.8,
 	"shots": [
 		{
 			"shot": "void",
-			"time": 7.0,
-			"lines": [
-				"Before the worlds, there was a contest.",
-				"Sixteen were chosen for it. Half-gods, each the best there ever was at something."
-			]
+			"time": 6.0,
+			"camera": {
+				"from": [1.0, 0.5, 0.42],
+				"to": [1.35, 0.5, 0.42]
+			},
+			"lines": ["Before the worlds, there was a contest."]
 		},
 		{
 			"shot": "sixteen",
-			"time": 7.5,
-			"lines": [
-				"A shield-bearer, a hunter, a keeper of fires, a duellist who never lost.",
-				"Sixteen of them, and each would be given a world."
-			]
+			"time": 9.0,
+			"camera": {
+				"from": [1.0, 0.5, 0.5],
+				"to": [1.45, "lead", 0.42]
+			},
+			"lines": ["Sixteen were chosen. Half-gods, each the best there ever was at something."]
 		},
 		{
 			"shot": "worlds",
-			"time": 7.5,
-			"lines": [
-				"Sixteen copies of one Earth were made. In the middle of every one, a Tower.",
-				"Only one of the sixteen worlds will still be there at the end."
-			]
+			"time": 8.0,
+			"camera": {
+				"from": [1.3, 0.5, 0.45],
+				"to": [1.0, 0.5, 0.5]
+			},
+			"lines": ["Each was given a copy of one Earth, with a Tower at its middle.", "Only one of the sixteen worlds will still be there at the end."]
 		},
 		{
 			"shot": "ending",
 			"time": 8.0,
-			"lines": [
-				"In one of the other worlds, it is already over.",
-				"{other} fell on the Tower's stair, and that world went dark with them. It never comes back."
-			]
+			"camera": {
+				"from": [1.0, 0.5, 0.5],
+				"to": [1.4, 0.5, 0.5]
+			},
+			"lines": ["In one of the other worlds, it is already over.", "When a world burns, what is left of its keeper waits in the gates of the others."]
 		},
 		{
 			"shot": "fall",
 			"time": 7.0,
-			"lines": [
-				"Then they were thrown down.",
-				"They fell for a long time, and as they fell, they forgot."
-			]
+			"camera": {
+				"from": [1.2, 0.5, 0.4],
+				"to": [1.2, 0.5, 0.6]
+			},
+			"lines": ["They fell for a long time, and as they fell, they forgot."]
 		},
 		{
 			"shot": "impact",
-			"time": 7.5,
-			"lines": [
-				"One of them is you.",
-				"You wake at the bottom of a crater of burnt ground, with your name and nothing else."
-			]
+			"time": 8.0,
+			"camera": {
+				"from": [1.15, 0.5, 0.6],
+				"to": [1.3, 0.58, 0.62]
+			},
+			"lines": ["One of them is you. You wake in a crater, with your name and nothing else."]
 		},
 		{
 			"shot": "tower",
-			"time": 7.5,
-			"lines": [
-				"Over everything, the Tower stands. A hundred floors, and something at the top.",
-				"Every chapter you climb gives back a little of who you were."
-			]
+			"time": 7.0,
+			"camera": {
+				"from": [1.5, 0.58, 0.3],
+				"to": [1.4, 0.58, 0.62]
+			},
+			"lines": ["Over everything, the Tower. A hundred floors, and something at the top.", "Every chapter you climb gives back a little of who you were."]
 		},
 		{
-			"shot": "living",
+			"shot": "land",
+			"time": 7.0,
+			"camera": {
+				"from": [1.6, 0.31, 0.6],
+				"to": [1.6, 0.69, 0.6]
+			},
+			"lines": ["The world will not wait for you."]
+		},
+		{
+			"shot": "gate",
+			"time": 7.0,
+			"camera": {
+				"from": [1.0, 0.5, 0.55],
+				"to": [2.2, 0.5, 0.52]
+			},
+			"lines": ["Gates are where you grow. Every new kind of foe you put down in one makes you stronger."]
+		},
+		{
+			"shot": "inside",
 			"time": 8.0,
-			"lines": [
-				"The world will not wait for you.",
-				"Towns trade and quarrel. A gate left alone breaks open. Come too late and someone dies, or someone else is paid."
-			]
+			"camera": {
+				"from": [1.15, 0.4, 0.5],
+				"to": [1.15, 0.6, 0.5]
+			},
+			"lines": ["Fights run as you walk into them. Strike first, or stop the world, look, and choose."]
 		},
 		{
 			"shot": "company",
-			"time": 7.5,
-			"lines": [
-				"You will not climb it alone. Up to six will walk with you.",
-				"Not all of them will walk back. Here, the dead stay dead."
-			]
+			"time": 8.0,
+			"camera": {
+				"from": [1.2, 0.45, 0.6],
+				"to": [1.2, 0.55, 0.6]
+			},
+			"lines": ["You will not climb it alone. Up to six will walk with you.", "Here, the dead stay dead."]
 		},
 		{
-			"shot": "fight",
-			"time": 7.0,
-			"lines": [
-				"When it comes to blades, nobody waits their turn.",
-				"Stop the world, look, and choose. Then let it run."
-			]
+			"shot": "stair",
+			"time": 6.0,
+			"camera": {
+				"from": [1.2, 0.4, 0.6],
+				"to": [1.5, 0.64, 0.36]
+			},
+			"lines": ["The Tower is where you prove it."]
 		},
 		{
 			"shot": "end",
-			"time": 9.0,
-			"lines": [
-				"If you fall, your world ends with you.",
-				"You go on as one of the others, in their world, from the beginning.",
-				"Your weapon falls after you, somewhere. Your ghost waits at the fire."
-			]
+			"time": 10.0,
+			"camera": {
+				"from": [1.0, 0.5, 0.5],
+				"to": [1.15, 0.5, 0.55]
+			},
+			"lines": ["If you fall, your world ends with you, and one of the others begins again.", "What you carried falls after you. Get to it first."]
 		},
 		{
 			"shot": "title",
 			"time": 6.0,
-			"lines": [
-				"A new standing quest: Ascend to heaven."
-			]
+			"camera": {
+				"from": [1.0, 0.5, 0.5],
+				"to": [1.1, 0.5, 0.45]
+			},
+			"lines": ["The standing quest: Ascend to heaven.", "Bram: \"Give me your hand.\""]
 		}
 	]
 }
