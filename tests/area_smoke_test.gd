@@ -347,7 +347,7 @@ func _check_crafting() -> void:
 	GameState.stores = kept_stores
 
 
-## Ladders and the rope ([D334]): a ladder on the cloud peak climbs a face two heights up that nothing
+## Ladders and the rope ([D337]): a ladder on the cloud peak climbs a face two heights up that nothing
 ## else does; a plain face a height up on the scarp is no way up until the company carries a rope, and
 ## then it is, for a way found as well as a step; the rope is sold where a climber would look for one.
 func _check_ladders_and_rope() -> void:
@@ -390,7 +390,7 @@ func _check_ladders_and_rope() -> void:
 		_fail("ladders: nobody sells a Climbing Rope, or it is not a charm")
 
 
-## Herbs on the land ([D332]): the open land grows what its land grows, off the paths and the water,
+## Herbs on the land ([D335]): the open land grows what its land grows, off the paths and the water,
 ## the same every time, picked into the packs.
 func _check_herbs_on_the_land() -> void:
 	var world: World = GameState.world
@@ -464,7 +464,7 @@ func _check_caves() -> void:
 	await _check_area(id)
 
 
-## Rises on the land ([D329], after D283): some hill has one, a height up, off the tile's edges and off
+## Rises on the land ([D332], after D283): some hill has one, a height up, off the tile's edges and off
 ## the paths and water, and the ground draws it; every piece of it has a slope; on the land a way up onto
 ## it goes by a slope and a way down drops straight off.
 func _check_rises() -> void:
@@ -2930,7 +2930,7 @@ func _check_play_test_three() -> void:
 ## Life on the land ([D179]): the tiles round the party have birds, butterflies and the like on
 ## them; a bird takes off when the leader walks up to it and comes down further off; and on the
 ## First Hour's road the city's Watch walks its rounds.
-## Creatures that match the land ([D333], "no grasshopper in magma"): each land's own pictures of life are
+## Creatures that match the land ([D336], "no grasshopper in magma"): each land's own pictures of life are
 ## pictures of that kind of life, and the burnt and blighted lands have no bees, butterflies or
 ## grasshoppers.
 func _check_life_matches_the_land() -> void:

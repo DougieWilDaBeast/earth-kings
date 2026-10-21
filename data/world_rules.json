@@ -617,7 +617,7 @@
 	"_comment_heights": "D287, D308 (meeting six, piece C2, the first ground with heights): a terrain in tilesets.json with `height` stands that many heights up; a step down is free, a step up one height only onto or off a cell in the area's `ways_up` (a slope drawn there), two or more never (AreaMap.may_step). A drop of hurt_from heights or more hurts everyone walking: share of their health for each height past the first, never below floor of it (hurt_line, {fell}); dropping one says nothing. Trying to climb a shelf with no way up says blocked_line once a cell. Fights, Auto's paths and click-to-walk do not yet know heights; death from the clouds waits for a mountain area. Inferred: every number and line.",
 	"heights": {
 		"land": {
-			"_comment": "D329 (after D283, Ewan's play-test 7: 'the world is very flat ... you need to be able to tier it in heights'; and D287's heights on the world map): every generated ground of the land gets rises of its own floor, a height up, climbed only at a slope like the scarp's shelves (D308). `rises` of them on average (a land's biomes.json features.rises wins), plus `on_terrain` more on that world terrain. A rise keeps `margin` cells off the tile's edges so where tiles meet is level, and a cell off every path and water. Each piece of higher ground gets a slope (`slope_art`) on an edge with open ground in front, the south first, and a second from `second_slope_from` cells. The `sheet` (tools/draw_rises.py) draws the rise's face. Laid by their own roll, so nothing else on a ground moves for them (src/area/ground_gen.gd).",
+			"_comment": "D332 (after D283, Ewan's play-test 7: 'the world is very flat ... you need to be able to tier it in heights'; and D287's heights on the world map): every generated ground of the land gets rises of its own floor, a height up, climbed only at a slope like the scarp's shelves (D308). `rises` of them on average (a land's biomes.json features.rises wins), plus `on_terrain` more on that world terrain. A rise keeps `margin` cells off the tile's edges so where tiles meet is level, and a cell off every path and water. Each piece of higher ground gets a slope (`slope_art`) on an edge with open ground in front, the south first, and a second from `second_slope_from` cells. The `sheet` (tools/draw_rises.py) draws the rise's face. Laid by their own roll, so nothing else on a ground moves for them (src/area/ground_gen.gd).",
 			"rises": 0.6,
 			"on_terrain": { "hill": 2.0, "crag": 3.0 },
 			"margin": 4,
@@ -630,7 +630,7 @@
 		"share": 0.15,
 		"floor": 0.1,
 		"blocked_line": "The shelf is too high to climb here. Find a slope, or carry a rope.",
-		"_comment_ladders": "D334 (D287: 'walls and heights can be scaled some way'): a ladder (an area's `ladders`, drawn landmark/ladder) is climbed up as far as ladder_most heights; a Climbing Rope carried (rope_item, in the packs or worn by anyone in the company) makes every face one height up a way up, for the lead, the company and Auto alike. Fights keep to slopes and ladders. **Inferred** (agenda 242): two heights a ladder, and the rope.",
+		"_comment_ladders": "D337 (D287: 'walls and heights can be scaled some way'): a ladder (an area's `ladders`, drawn landmark/ladder) is climbed up as far as ladder_most heights; a Climbing Rope carried (rope_item, in the packs or worn by anyone in the company) makes every face one height up a way up, for the lead, the company and Auto alike. Fights keep to slopes and ladders. **Inferred** (agenda 245): two heights a ladder, and the rope.",
 		"ladder_most": 2,
 		"rope_item": "climbing_rope",
 		"rope_line": "The rope goes over the edge, and up you go.",
@@ -662,7 +662,7 @@
 		"story_annals": "{wild}: {end}"
 	},
 	"herbs_on_land": {
-		"_comment": "D332 (D299: 'herbs on the land'; Ewan's play-test 7: 'combine herbs together to make potions'): about per_tile patches a tile of open land, each one of what its land grows (by_land, a land not named grows none), off the paths and the water, picked once a run into the packs (a prop with an item, src/area/ground_gen.gd _herbs). herbs gives each its art, name and lines. **Inferred** (agenda 240): which lands grow what, and how many.",
+		"_comment": "D335 (D299: 'herbs on the land'; Ewan's play-test 7: 'combine herbs together to make potions'): about per_tile patches a tile of open land, each one of what its land grows (by_land, a land not named grows none), off the paths and the water, picked once a run into the packs (a prop with an item, src/area/ground_gen.gd _herbs). herbs gives each its art, name and lines. **Inferred** (agenda 243): which lands grow what, and how many.",
 		"per_tile": 0.6,
 		"by_land": {
 			"grassland": ["herbs"], "blossom": ["herbs"], "savanna": ["herbs"], "forest": ["herbs", "redcap"],
@@ -676,7 +676,7 @@
 		}
 	},
 	"caravans": {
-		"_comment": "D331 (D287: 'places worth going to (... hamlets, caravans)'): a caravan is a wild place that walks. Each upkeep it rolls up to tiles_per_upkeep tiles on towards the next town of its route, by the way a party would walk (looked for no further than longest tiles), never onto ground within clear_of_sites of another place nor within party_clear of the party, and never while the party is that close. Within stand_off of the town it stands for rest_upkeeps upkeeps, then sets off for the next. src/chronicle/caravans.gd. **Inferred** (agenda 239): the pace and the rests.",
+		"_comment": "D334 (D287: 'places worth going to (... hamlets, caravans)'): a caravan is a wild place that walks. Each upkeep it rolls up to tiles_per_upkeep tiles on towards the next town of its route, by the way a party would walk (looked for no further than longest tiles), never onto ground within clear_of_sites of another place nor within party_clear of the party, and never while the party is that close. Within stand_off of the town it stands for rest_upkeeps upkeeps, then sets off for the next. src/chronicle/caravans.gd. **Inferred** (agenda 242): the pace and the rests.",
 		"tiles_per_upkeep": 3,
 		"rest_upkeeps": 2,
 		"stand_off": 3,

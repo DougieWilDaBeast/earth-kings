@@ -536,12 +536,12 @@ a keep, `rumour_within` tiles for the nearest unknown, `steps_per_day` for the d
 (`{host}`, `{wild}`, `{way}`, `{days}`, `{lure}`) and `found_line` (`{wild}`, `{lure}`). Read by
 `src/chronicle/wilds.gd`; a found wild keeps `data.found`. `guard_size`, `guard_reach` and `guard_label`
 (`{what}`, `{land}`) are the band of the land's own foes `Wilds.stock` puts by the far chest as a wild opens.
-**Hamlets** (D330) are wild sites too, dealt last by the same tool (`hamlet_fold` on grass, `hamlet_mill` on
+**Hamlets** (D333) are wild sites too, dealt last by the same tool (`hamlet_fold` on grass, `hamlet_mill` on
 forest and brush, `hamlet_salt` on sand, two of each, 24 tiles or more from the crater): a few crofts with
 folk, one who sells and one with a `job`. A wild area may carry its own `found_line` and `guard_label` (its
 trouble, where the guard stands, "{what} at the fold"), and a `map_art` it is drawn with on the map in place
 of the standing stone. An area with a `lure` is stocked with its guard whatever its id.
-**Caravans** (D331, `caravan_ilse`, `caravan_red`) are wild sites whose `data.caravan` is their round:
+**Caravans** (D334, `caravan_ilse`, `caravan_red`) are wild sites whose `data.caravan` is their round:
 `route` (town cells), `leg` (the town it is bound for) and `rest` (upkeeps it still stands). They have no
 chest, so no guard and no job to clear them (`Wilds.guarded`). `world_rules.json` → `caravans`:
 `tiles_per_upkeep` rolled on an upkeep by the party's way (looked for no further than `longest`), never
@@ -718,7 +718,7 @@ keeps `grudges`: faction id -> bands beaten.
 `per_tile` is how many birds, flutterers, hoppers and crawlers a tile of open country gets on
 average, times its land's `life` in `biomes.json` (1 when absent), half in a place; `art` the
 pictures each is drawn from, unless the land's own `life_art` in `biomes.json` names them for that kind
-(D333: none where it names none, so no grasshopper in the ash). A bird takes off when the party comes within `shy_cells`, flies
+(D336: none where it names none, so no grasshopper in the ash). A bird takes off when the party comes within `shy_cells`, flies
 `flee_cells` [min, max] cells in `flight_seconds` up to `flight_height` pixels, and one with nowhere
 to land is gone `away_seconds`. A bird that has stood a while goes up on a loop of its own on
 `wander_flight` of its rests, `wander_cells` [min, max] cells, and comes down where it can stand
@@ -779,7 +779,7 @@ passive's (`data/skirmish.json` → `passives`): theirs while they carry that we
 `max_passives` (`Character.enchanted`: weapon id → rune id, one a weapon). `enchanted_line` says it, and
 `replaced_line` when a new rune takes an old one's place.
 
-## `world_rules.json` → `herbs_on_land` — what the land grows wild (D332)
+## `world_rules.json` → `herbs_on_land` — what the land grows wild (D335)
 
 About `per_tile` patches a tile of open land (none round a place), each one of what its land grows
 (`by_land`: land id → item ids; a land not named grows none), off the paths, the water and anything
@@ -845,7 +845,7 @@ until gone into (`misread_line`: `{gate}`, `{read}`, `{rank}`; the gate's `data.
 rank (`double_line`: `{gate}`, `{was}`, `{rank}`; `data.sprung`) and its way out says `sealed_line` until
 it is shut. Both are fixed by the gate's cell, not the world's dice.
 
-## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up` and `ladders`, `world_rules.json` → `heights` (D287, D308, D321, D334)
+## Heights on an area — `tilesets.json` → `terrains.<id>.height`, an area's `ways_up` and `ladders`, `world_rules.json` → `heights` (D287, D308, D321, D337)
 
 Read by `AreaMap` (`has_heights`, `height_at`, `may_step`, `drop`), the area scene (`_can_step` inside
 `_slide`, `_fall`, `_say_the_shelf`, a formation slot) and `src/area/area_ledges.gd`. A terrain with
@@ -867,14 +867,14 @@ A terrain with `clouds: true` (`cloud`, D321) is the drop round a mountain's top
 `cloud_line` when the lead walks at it. A fight laid over it writes `clouds` (cells) into the field, and a
 body shoved into one goes over (`into_clouds`: `word` and `line`, `{who}`). The cloud peak's `high` (2) and
 `summit` (3) stand on the stone and snow sheets.
-`ladders` (D334) in an area's file are cells with a ladder against the face below (the author draws
+`ladders` (D337) in an area's file are cells with a ladder against the face below (the author draws
 `landmark/ladder` on each, in house by `tools/draw_ladder.py` until A57): climbed up as far as
 `heights.ladder_most` (2), and taken onto the land with the place, like its `ways_up`. A company carrying
 `heights.rope_item` (the Climbing Rope, a charm; in the packs or worn) may step up any face one height
 (`AreaMap.scaling`, set as an area opens and again, with `rope_line`, the first time the lead walks at a
 face after getting one); a way found reads it too. Fights keep to slopes and ladders.
 
-## `world_rules.json` → `heights.land` — rises on the land (D329)
+## `world_rules.json` → `heights.land` — rises on the land (D332)
 
 Every generated ground (`GroundGen._lay_out`) gets `rises` lumps of higher ground on average, a land's
 `features.rises` in `biomes.json` winning, plus `on_terrain[<world terrain>]` more. Each is laid as the
@@ -1305,10 +1305,10 @@ in front, that many pixels a slot (`AreaWatch._deal_the_shape`, `slot_point`), t
 
 The leader, call-outs and fights shared (D306) live beside them. `leader`: `from_won` fights won before
 anyone leads (`Character.fights`, `{ won, lost }`, written by `Formations.record_fight` as a fight ends),
-`charisma_lift` how many wins behind the most won a higher Charisma still leads from (D335; Charisma breaks a tie),
+`charisma_lift` how many wins behind the most won a higher Charisma still leads from (D338; Charisma breaks a tie),
 `shapes_by_line` the shape a leader calls for by the line they fight in (`Formations.recommend`, which
 `auto` takes), `badge` the leader's card line (`{won}`) and `call` the picker's note (`{name}`).
-`callouts`: `order_reach` and `answer_for` (D336: the natural leader's call turns everyone free within that many cells onto the one called, for that long, `answered` in the log); `break_below_bond` (D336) is the bond with whoever calls the shape at or under which a companion holds no slot. `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
+`callouts`: `order_reach` and `answer_for` (D339: the natural leader's call turns everyone free within that many cells onto the one called, for that long, `answered` in the log); `break_below_bond` (D339) is the bond with whoever calls the shape at or under which a companion holds no slot. `healer` and `archer` are the shouts (`Formations.callout`, from the party's leader or lead and
 a foe band's boss or first standing, once per foe, `skirmish._call_out`), `warned_for` the seconds the one
 named is warned (`Fighter.warned`), and `warned_first` the moves it tries first while it lasts; a warned
 friend counts as under half health to `SkirmishBrain._guard`. `break_below_mood`: under it a companion

@@ -125,7 +125,7 @@ func _check_one_world() -> void:
 	_expect(c.sites[0].display_name != "changed by a run" and c.tiles[0] != "changed", "a run wrote back into the map")
 
 
-## Caravans ([D331]): wild places that walk. Each rolls on towards the next town of its round an upkeep
+## Caravans ([D334]): wild places that walk. Each rolls on towards the next town of its round an upkeep
 ## at a time, by the way a party would walk, stands outside a town a while, never rolls onto another
 ## place or while the party is close, keeps its mark on the map as it goes, and has no guard, so no job.
 func _check_caravans(world: World) -> void:
@@ -181,14 +181,14 @@ func _check_wilds(world: World) -> void:
 		var area := str(place.data.get("area", ""))
 		_expect(Database.has_area(area) and str(Database.area(area).get("lure", "")) != "", "%s has no inside or no lure (%s)" % [place.display_name, area])
 		kinds[area] = true
-		# A caravan stands off the road outside a town (D331); everything else keeps its distance.
+		# A caravan stands off the road outside a town (D334); everything else keeps its distance.
 		var apart := 3 if place.data.has("caravan") else 5
 		for other: Site in world.sites:
 			if other != place and other.kind != Site.WILD:
 				_expect(Pathfinder.distance(place.cell, other.cell) >= apart, "%s is on top of %s" % [place.display_name, other.display_name])
 		_expect(not Atlas.knows(world, place), "%s is known before anyone found it" % place.display_name)
 	_expect(kinds.size() >= 4, "the wild places are only %d kinds" % kinds.size())
-	# Hamlets (D330): a few crofts each, with folk who sell, one with a job, a trouble to clear (the
+	# Hamlets (D333): a few crofts each, with folk who sell, one with a job, a trouble to clear (the
 	# guard, under the hamlet's own name for it), drawn on the map as houses, not as a stone.
 	for area: String in ["hamlet_fold", "hamlet_mill", "hamlet_salt"]:
 		_expect(kinds.has(area), "no %s on the map" % area)

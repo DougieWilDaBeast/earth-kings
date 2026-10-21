@@ -59,10 +59,10 @@ var _terrain: Array[String] = []
 ## Cells where higher ground can be climbed onto, or climbed off, from the ground a height below
 ## ([D308]): a slope, a ladder, a rope. Anywhere else a shelf is only dropped off.
 var ways_up: Dictionary = {}
-## Ladders ([D334]): cells where a ladder stands against a face, climbed up as far as `ladder_most`
+## Ladders ([D337]): cells where a ladder stands against a face, climbed up as far as `ladder_most`
 ## heights (`world_rules.json` → `heights`), a slope's way for a taller face.
 var ladders: Dictionary = {}
-## Whether the party carries a climbing rope ([D334]): any face one height up is a way up, as at a slope.
+## Whether the party carries a climbing rope ([D337]): any face one height up is a way up, as at a slope.
 var scaling: bool = false
 ## Whether any terrain of this area stands a height up, so the step rule and the ledges apply.
 var _heights_vary: bool = false
@@ -321,7 +321,7 @@ func height_at(cell: Vector2i) -> int:
 
 ## Whether a walker on [param from] may step onto [param to]: down is always free, up one height only
 ## onto or off a way up (a slope), or anywhere with a rope ([member scaling]), up a ladder as far as it
-## reaches ([D334]), up two or more otherwise never. [param to] still has to be walkable.
+## reaches ([D337]), up two or more otherwise never. [param to] still has to be walkable.
 func may_step(from: Vector2i, to: Vector2i) -> bool:
 	if not _heights_vary or from == to:
 		return true
@@ -333,12 +333,12 @@ func may_step(from: Vector2i, to: Vector2i) -> bool:
 	return rise == 1 and (scaling or ways_up.has(to) or ways_up.has(from))
 
 
-## How many heights a ladder climbs ([D334]).
+## How many heights a ladder climbs ([D337]).
 static func ladder_most() -> int:
 	return int(Database.world_rules.get("heights", {}).get("ladder_most", 2))
 
 
-## Carry a rope or not ([D334]); a way already found is found again.
+## Carry a rope or not ([D337]); a way already found is found again.
 func set_scaling(on: bool) -> void:
 	scaling = on
 

@@ -1023,7 +1023,7 @@ func _think(f: Fighter) -> bool:
 			if (Pace.auto or f.stance_says("seek")) and not f.holding():
 				reach = -1
 		f.target = SkirmishBrain.pick_target(f, fighters, reach)
-		# A call answered holds while it lasts and the one called stands (D336).
+		# A call answered holds while it lasts and the one called stands (D339).
 		if f.answering > 0.0 and f.called_on != null and is_standing(f.called_on):
 			f.target = f.called_on
 		# The company fights together: once one of them is in it, the rest
@@ -1052,7 +1052,7 @@ func _call_out(f: Fighter) -> void:
 	target.warned = float(Formations.callout_rules().get("warned_for", 3.0))
 	fx.popup(word, f.unit.position, SkirmishFx.WORD, 14)
 	_say("%s: \"%s\"" % [f.unit.display_name, word])
-	# A call is an order (D336): the company free to turn on the one called does.
+	# A call is an order (D339): the company free to turn on the one called does.
 	var turned: Array = []
 	for other: Fighter in Formations.answer_call(f, target, fighters):
 		other.target = target.unit

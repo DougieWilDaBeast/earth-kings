@@ -5,7 +5,7 @@
 
 Needs Pillow (`pip install pillow`), like tools/draw_slope.py.
 
-The founders' meeting of 2026-10-20 (D287): "walls and heights can be scaled some way". D334 stands
+The founders' meeting of 2026-10-20 (D287): "walls and heights can be scaled some way". D337 stands
 ladders against the tallest faces, climbed as far as two heights, and draws one in house until art
 request A57 is made:
 
