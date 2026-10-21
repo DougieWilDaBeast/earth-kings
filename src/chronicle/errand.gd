@@ -303,6 +303,7 @@ static func _settle(accepted: Array, errand: Dictionary, world: World) -> Array[
 	GameState.gold += gold
 	Ledger.add(GameState.ledger, "errands_done")
 	lines.append("%s, and the thanks of %s." % [Coins.text(gold), errand.get("giver", "someone")])
+	Nemesis.remember_thanks(world, errand)
 
 	if errand.get("kind", "") == BOUNTY:
 		var what := "claimed the bounty on %s" % str(errand.get("target_name", "a prowler"))
