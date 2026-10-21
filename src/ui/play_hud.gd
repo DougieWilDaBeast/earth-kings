@@ -13,6 +13,7 @@ extends PanelContainer
 const Alerts := preload("res://src/ui/alerts.gd")
 const Quests := preload("res://src/world/quests.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
+const ScreenLayout := preload("res://src/ui/screen_layout.gd")
 const REFRESH := 0.25
 ## An alert's colour by how much it matters.
 const URGENT := Color(0.95, 0.45, 0.38)
@@ -81,6 +82,9 @@ func _process(delta: float) -> void:
 ## Under the compass; on a screen too narrow for the top row of buttons to stay right of it (a
 ## phone held upright), below that row instead.
 func _place() -> void:
+	# Put somewhere of the player's own ([D351]): it stays there.
+	if ScreenLayout.is_laid("hud"):
+		return
 	var narrow := get_viewport_rect().size.x < float(rules().get("narrow_below", 760))
 	position.y = float(rules().get("top_narrow" if narrow else "top", 128))
 

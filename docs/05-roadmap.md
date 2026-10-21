@@ -505,6 +505,9 @@ each, each ending playable:
       ([D345](06-decisions.md), 2026-10-21): sellswords for coin off the Gilded Flagon's book, who go when the
       job is done, and the Flagon as where the roaming leads are met. The tavern on your own land and the
       four new people of the 32 wait on G and the writers.
+   Also built, from play-test 8's ask 7 (and play-test 7's item 12): the walked ground's panels moved, sized and
+   grown by hand from the menu's Arrange the Screen, kept between runs ([D351](06-decisions.md), 2026-10-21). Not yet:
+   the fight's own cards and buttons, the screens (party, journal) and colours of the player's choosing.
    Also built, outside the order, from `doug-md`'s older asks: the sword in the Tower's yard, one pull a run
    ([D318](06-decisions.md), #249), and a fight you can walk out of, at a cost ([D319](06-decisions.md), #243), both
    2026-10-21. Crafting's next step, enchanting ([D299](06-decisions.md), item 3), after B and before C's rest
