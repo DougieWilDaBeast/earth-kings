@@ -1355,6 +1355,7 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
              "use_item_time": 1.5, "items_per_fighter": 2,
              "block_chance": 0.15, "block_per_defence": 0.01, "block_max": 0.4,
              "ambush_head_start": 2.0, "swings_per_practice": 3,
+             "hand_fight_speed": 2.0,
              "flee": { "parting_blow": 0.1, "gold_share": 0.1, "fade": 0.6, "cleared_word": "Clear",
                        "making_line": "…", "cleared_line": "…", "dropped_line": "…" } },
   "passives": {
@@ -1393,7 +1394,8 @@ lead's own swing on the nearest foe at `power` times its weight, with `word` ove
   once. `flee` (D319): what getting clear of a fight costs: `parting_blow` of a fighter's health on reaching
 the edge (never a fall), `gold_share` of the company's coin a band of the land keeps when everyone gets
 clear (`SkirmishRules.flee_toll`), and the three lines (`{who}`, `{coin}`); whoever gets clear fades over
-`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `reach_the_fallen` (D326): with `on`, one of
+`fade` seconds under `cleared_word` ([D324](06-decisions.md)). `hand_fight_speed` (D329): the most a fight
+played by hand starts at (`Pace.ease_to`), the walking speed given back when it ends. `reach_the_fallen` (D326): with `on`, one of
 the company down with nobody on the way is gone to by the nearest member under no order and not busy
 (`line`, `{who}` and `{name}`); with `close_round`, the rest who are free turn on the foe nearest the fallen. `swings_per_practice` — landed basic swings that count as one use toward proficiency;
   every skill that lands counts once. Both **Inferred** ([D65](06-decisions.md)).
