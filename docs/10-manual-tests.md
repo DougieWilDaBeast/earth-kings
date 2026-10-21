@@ -505,8 +505,8 @@ Plug in an Xbox or PlayStation pad before launching. A is Cross, B Circle, X Squ
 
 ## Known to be untestable here
 
-- **W2** — the voice line at the end of the cinematic. The memo cuts off before saying what the
-  voice says, so there is nothing to test.
+- **W2** — the voice line at the end of the cinematic. The line is chosen (Bram's "Give me your hand.",
+  [D328](06-decisions.md)) but not built yet, so there is nothing to test.
 - Anything needing the other 68 units' run cycles (**E3** will stay "slides" until that art lands).
 
 ## What a fail should include
