@@ -442,7 +442,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 
 What `doug-md` asked for in play-test 8 ([transcript](worldbuilding/voice-notes/2026-10-21-doug-md-play-test-8.md))
 that needs more than a fix, **planned**, in the order of call BX ([D325](06-decisions.md), 2026-10-21): 4, 6, 10 and
-11 now (held until milestone B is in); after B the 2× cap, 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
+11 now (held until milestone B is in); after B the 2× cap (built, [D329](06-decisions.md)), 3 and 5; later 2, 8, 9 (art from 27 October) and 1. Already done: the first fixes
 ([D324](06-decisions.md)): a fighter taken off the field seen to go, food eaten not drunk, foes' moves
 loaded ahead. Some repeat earlier asks (noted).
 1. **The opening cinematic**, "a major update".

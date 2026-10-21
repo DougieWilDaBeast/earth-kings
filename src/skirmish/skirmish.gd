@@ -199,6 +199,8 @@ func _ready() -> void:
 	conditions = SkirmishConditions.new(self)
 	_build_battlefield()
 	ground_fight = in_place and not sandbox and not bout and str(encounter.get("kind", "")) == Encounter.WILD
+	if not sandbox and not bout and not Pace.auto:
+		Pace.ease_to(SkirmishPassives.rule("hand_fight_speed", 2.0))
 	_fill_pouch()
 	marks.skirmish = self
 	EventBus.unit_damaged.connect(_on_unit_damaged)
@@ -249,6 +251,7 @@ func _lineup() -> String:
 
 func _exit_tree() -> void:
 	GameState.tallying = _kept_tallying
+	Pace.ease_back()
 	if Pace.changed.is_connected(_on_pace_changed):
 		Pace.changed.disconnect(_on_pace_changed)
 	if EventBus.quick_wheel_chose.is_connected(_on_wheel):

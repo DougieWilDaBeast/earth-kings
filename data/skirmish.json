@@ -47,6 +47,8 @@
 			"close_round": true,
 			"line": "{who} goes to {name}."
 		},
+		"_comment_hand_fight_speed": "D329 (Ewan's play-test 8: four wolves at 5x took three of the company before he could answer; held behind milestone B, call BW, then call BX). A fight played by hand starts no faster than this; the walking speed comes back when it ends, unless the player picked another speed in it. A party playing itself keeps its speed. Inferred: 2x.",
+		"hand_fight_speed": 2.0,
 		"heal_from_level": 3,
 		"heal_per_level": 0.1
 	},

@@ -21,6 +21,8 @@ var auto: bool = false:
 		changed.emit()
 
 var _step: int = 0
+## The walking speed a fight eased down from, or -1 ([method ease_to]).
+var _eased_from: int = -1
 
 ## How a party walking itself meets bands ([D216], `doug-md`): "aggressive" turns aside for any band
 ## near and walks into its red; "mixed" keeps to its way and fights what sees it; "passive" walks
@@ -162,6 +164,32 @@ func speed() -> float:
 
 func cycle_speed() -> void:
 	_step = (_step + 1) % SPEEDS.size()
+	_eased_from = -1
+	Engine.time_scale = speed()
+	changed.emit()
+
+
+## A fight played by hand starts no faster than [param most] ([D329], Ewan's play-test 8: a
+## company walked at 5x into four wolves and was gone before he could answer); the walking speed
+## comes back with [method ease_back], unless the player has picked another speed meanwhile.
+func ease_to(most: float) -> void:
+	if speed() <= most:
+		return
+	var to := 0
+	for i in SPEEDS.size():
+		if float(SPEEDS[i]) <= most:
+			to = i
+	_eased_from = _step
+	_step = to
+	Engine.time_scale = speed()
+	changed.emit()
+
+
+func ease_back() -> void:
+	if _eased_from < 0:
+		return
+	_step = _eased_from
+	_eased_from = -1
 	Engine.time_scale = speed()
 	changed.emit()
 
@@ -169,6 +197,7 @@ func cycle_speed() -> void:
 ## Back to walking pace and hands on the controls, for leaving a run.
 func reset() -> void:
 	_step = 0
+	_eased_from = -1
 	Engine.time_scale = 1.0
 	auto = false
 	avoided.clear()
