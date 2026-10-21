@@ -1447,10 +1447,16 @@ func _put_ward(cell: Vector2i) -> AreaProp:
 ## of are standing in it too, a little way in from where the party arrives.
 func _admit_the_others() -> void:
 	var world: World = GameState.world
-	if world == null or _return_scene != "world" or _land_mode:
+	if world == null or _land_mode:
 		return
 	var site := world.site_at(world.player_cell)
-	if site == null or str(site.data.get("area", site.kind)) != map.id:
+	if site == null:
+		return
+	# The Gilded Flagon, a room of the city, where the roaming leads may be drinking ([D295]);
+	# anywhere else, only the place itself.
+	if map.id == str(Wanderers.rules().get("tavern", {}).get("area", "")):
+		Wanderers.drink(world, site, map.id)
+	elif _return_scene != "world" or str(site.data.get("area", site.kind)) != map.id:
 		return
 	var offsets: Array[Vector2i] = [Vector2i(2, -2), Vector2i(-2, -2), Vector2i(3, 0), Vector2i(-3, 0), Vector2i(0, -3)]
 	var placed := 0

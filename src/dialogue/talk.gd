@@ -12,6 +12,7 @@ const Remembered := preload("res://src/chronicle/remembered.gd")
 const Coins := preload("res://src/chronicle/coins.gd")
 const Recruits := preload("res://src/chronicle/recruits.gd")
 const Crafting := preload("res://src/chronicle/crafting.gd")
+const Sellswords := preload("res://src/chronicle/sellswords.gd")
 
 const END := "end"
 ## What the party says to leave, when the block gives nothing of its own.
@@ -104,6 +105,10 @@ static func build(name_: String, talk: Dictionary, met: bool, roll: float, met_k
 
 	if bool(talk.get("news", false)):
 		menu.append({ "text": str(talk.get("news_q", "Heard any news?")), "news": true })
+
+	var hires: Dictionary = talk.get("hires", {})
+	if not hires.is_empty():
+		_add_hiring(nodes, menu, name_, hires)
 
 	var job: Dictionary = talk.get("job", {})
 	if not job.is_empty():
@@ -219,6 +224,26 @@ static func _add_honing(nodes: Dictionary, menu: Array, name_: String, hone: Dic
 	options.append({ "text": str(hone.get("done_q", "That's all.")), "goto": "menu" })
 	nodes["hone"] = { "speaker": name_, "text": hone.get("offer", "Let me see them. Coin first."), "options": options }
 	nodes["honed"] = { "speaker": name_, "text": hone.get("done", "There. Mind the edge."), "next": "hone" }
+
+
+## The sellswords' book ([D295], [Sellswords]): one reply for each still on the board, paid up
+## front, offered while the purse can pay and the company has a seat for them.
+static func _add_hiring(nodes: Dictionary, menu: Array, name_: String, hires: Dictionary) -> void:
+	var options: Array = []
+	for offer: Dictionary in Sellswords.board(GameState.world):
+		options.append({
+			"text": Sellswords.offer_text(offer), "requires_gold": int(offer["price"]), "requires_room": true,
+			"hire": int(offer["index"]), "goto": "hired",
+		})
+	menu.append({ "text": str(hires.get("q", "Anyone for hire?")), "goto": "hire" if not options.is_empty() else "hire_none" })
+	if options.is_empty():
+		nodes["hire_none"] = {
+			"speaker": name_, "text": hires.get("none", Sellswords.lines().get("none", "Nobody today.")), "next": "menu",
+		}
+		return
+	options.append({ "text": str(hires.get("done_q", "Not today.")), "goto": "menu" })
+	nodes["hire"] = { "speaker": name_, "text": hires.get("offer", "Here's who's on the book."), "options": options }
+	nodes["hired"] = { "speaker": name_, "text": hires.get("done", "Done. Pay's on the nail; they're yours."), "next": "menu" }
 
 
 static func price_of(ware: Dictionary) -> int:

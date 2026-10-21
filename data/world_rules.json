@@ -1011,6 +1011,24 @@
 		"wares_on_show": 3,
 		"templates": ["bram", "sera", "toln"]
 	},
+	"_comment_sellswords": "D295 (meeting six: mercenaries hired for gold who stay until the job is done; built as the Gilded Flagon's book, src/chronicle/sellswords.gd): `board_size` sellswords offered at once, dealt again every `refresh_steps` world steps; each one of `templates` at the lead's level give or take one, for one of `jobs` (gate: until the next gate is shut; chapter: until the next chapter of the Tower closes), at cost_base + cost_per_level a level, times the job's `price`, the difficulty's prices and the lead's haggling. They bond with nobody and are not among the 32 (D303). Inferred: every number, name and line.",
+	"sellswords": {
+		"board_size": 3,
+		"refresh_steps": 400,
+		"cost_base": 1500,
+		"cost_per_level": 800,
+		"templates": ["legion_copper", "legion_black", "ember_duelist", "bird_archer", "keep_watchman", "legion_magus"],
+		"jobs": {
+			"gate": { "for": "until the next gate is shut", "price": 1.0 },
+			"chapter": { "for": "until the next chapter of the Tower closes", "price": 2.0 }
+		},
+		"lines": {
+			"offer": "{name}, {job_name}, level {level}, {for} — {price}",
+			"hired": "{name} takes the coin, counts it twice, and falls in.",
+			"done": "{name}'s job is done. They take their pay and go their own way.",
+			"none": "Nobody on the book today. Come back in a while."
+		}
+	},
 	"_comment_heights": "D287, D308 (meeting six, piece C2, the first ground with heights): a terrain in tilesets.json with `height` stands that many heights up; a step down is free, a step up one height only onto or off a cell in the area's `ways_up` (a slope drawn there), two or more never (AreaMap.may_step). A drop of hurt_from heights or more hurts everyone walking: share of their health for each height past the first, never below floor of it (hurt_line, {fell}); dropping one says nothing. Trying to climb a shelf with no way up says blocked_line once a cell. Fights, Auto's paths and click-to-walk do not yet know heights; death from the clouds waits for a mountain area. Inferred: every number and line.",
 	"heights": {
 		"land": {
