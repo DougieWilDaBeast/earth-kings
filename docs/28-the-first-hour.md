@@ -439,7 +439,7 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
     into a gate or the grove, not cut to it; the chapter visions shown as pictures.
 12. **A play screen you arrange** (grows play-test 6, item 7): panels moved, resized and coloured; the
     journal open at the side while the game keeps going (built, [D271](06-decisions.md): N opens it down the
-    right, the game going on; Full page puts it over everything). Moving and resizing panels: **planned**.
+    right, the game going on; Full page puts it over everything). Moving and resizing panels: built ([D351](06-decisions.md)), as play-test 8's ask 7.
 13. **Sound and music**: a big music update; a sound for every monster; better effects.
 14. **A writers' pass** over every line every character says. Built ([D274](06-decisions.md)): about 430 of 3,850
     lines rewritten, the rules for new lines in [13](13-heroes-and-tempers.md#the-lines).
@@ -475,7 +475,10 @@ loaded ahead. Some repeat earlier asks (noted).
 6. **A quick wheel** on a held middle click, after Ark Survival Evolved's (eat, send a party, and so on)
    instead of the whole menu (grows formations' "the wheel on a held key", [D305](06-decisions.md)). **Built**
    ([D326](06-decisions.md)): held still 0.3 s, Eat, Party, Send away, Formation, Map, Journal and Auto on the land; Eat, Stance and Auto in a fight.
-7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12).
+7. **Text boxes sized right, and panels moved and resized** in the game (repeats play-test 7, item 12). **Built**
+   ([D351](06-decisions.md)): Arrange the Screen in the menu (or Arrange on the quick wheel) frames the place's name,
+   the compass, the company, the corner map, the log, the hint line and the box people talk in; drag one to move it,
+   the log's corner to size its box, the wheel over any to grow it and its words; kept until Put It All Back.
 8. **More buildings to go into** in the city; most doors are shut. **Built** ([D342](06-decisions.md)): six more
    doors open, the Cathedral of the Ascent (a blessing before the climb), the apothecary, the smithy (an edge
    on your weapons), the old shrine, the ruined bathhouse and the Sign of the Fish, each with its people.
