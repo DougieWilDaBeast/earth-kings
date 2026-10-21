@@ -605,6 +605,10 @@ set so it is never posted twice.
   is the faction that walks the terrain ([D71](06-decisions.md)). `foe_levels` keeps a land's great
   beasts out of the bands it deals until the party's level reaches the number given
   ([D211](06-decisions.md)); a land with nothing else left fields its faction instead.
+- `fit_the_land` — `natures`, each `{ units, never }`: those units never live in the `never` lands
+  ([D355](06-decisions.md)). A faction's band met or camped on the land is drawn only from what fits
+  there; with nothing of the faction's that fits, the land's own `foes` come. Gates and the Tower are
+  not filtered. Read by `Encounter.fits`.
 - `effects` — what the land does on its ground, all optional: `slow` (walking speed, 1 for none),
   `sight` (cells added to how far a band sees; mist and jungle take some away), `fog` (0 to 1, how
   thick the screen fogs towards its edges), `hazard` (`cold`, `heat`, `ooze`).

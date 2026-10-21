@@ -400,7 +400,10 @@ for), the ground said to shake but not seen to. Some repeat play-test 6's (noted
 3. **The world's history**: how Earth Kings came to be the way it is, so the game is more than the climb.
 4. **Five tiers of each monster** (lesser, plain, high, hob, and a chieftain or a caster), and
    **creatures that fit the land** they are in (no grasshoppers in magma). The goblins', the wolves' and 24 more monsters' five **built** ([D262](06-decisions.md), [D264](06-decisions.md) and [D267](06-decisions.md) to [D270](06-decisions.md)), dealt by the fight's level, art asked for (A39, A40 and A42 to A45).
-   The named one-off monsters keep one kind; creatures that fit the land still **planned**. `doug-md`, 2026-10-19:
+   The named one-off monsters keep one kind. Creatures that fit the land **built** ([D355](06-decisions.md)): a
+   faction's band on the land is drawn only from what can live there (nothing of fire on the snow, nothing of the
+   cold on the dunes, no slime in the ash), the land's own creatures coming when none can; the land's own
+   creatures' art waits on A56. `doug-md`, 2026-10-19:
    "The more monster tiers the better. Give more variety for long term game"; more than five a family is **planned**. Each tier fights its own way, built ([D275](06-decisions.md)): the lesser runs when badly hurt,
    the high charges and flanks, the hob fights harder near death, the chieftain spurs its kin, the caster finds the weak spot; pips over the bar show the rank. Each family has a trick
    of its own from the hob up, built ([D276](06-decisions.md)): goblins' Spite, the wolves' Howl, the slime's Ooze Back. S gates stay at five floors for now (`dougie`, 2026-10-19, call BS).
