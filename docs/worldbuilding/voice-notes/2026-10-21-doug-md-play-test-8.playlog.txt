@@ -1,0 +1,400 @@
+10:23:52 FIGHT Where You Fell at 2x vs Tideling L1 · party Janus L1 44/44
+10:23:53 ERROR Invalid metadata identifier: 'called:1514730953045'. (object.cpp:1037 set_meta)
+10:23:54   WON in 1s (2x, fight clock 3s) · party Janus L1 44/44
+10:23:54   frame rate 14 fps, slowest frame 7286 ms, at Where You Fell
+10:24:17   examined:something left here
+10:25:03   chest
+10:25:04   frame rate 32 fps, slowest frame 1298 ms, at Where You Fell
+10:25:14   frame rate 30 fps, slowest frame 1144 ms, at Where You Fell
+10:25:29   examined:it
+10:25:34   examined:it
+10:25:42 saved (town): you reached Stormreach
+10:25:44   talked:Fennick the Scrivener
+10:26:07   talked:Brother Oswin
+10:26:27   talked:Steward Hobb
+10:26:36   chest
+10:27:01   talked:Muck Muck
+10:27:18   door:the Cathedral of the Ascent
+10:27:28   examined:a sword in the floor
+10:27:32   examined:a sword in the floor
+10:27:36   talked:Buri Deepforge
+10:27:43   talked:Bell the Cabin Hand
+10:28:06   examined:the climbers' stone
+10:28:15   examined:the Tower's door
+10:28:19   talked:Sennet, the Guild's Doorkeeper
+10:28:19 saved (guild): you signed the Guild's register
+10:28:31   speed 3x
+10:28:31   speed 5x
+10:28:48 > Greyhollow, floor 1
+10:28:54   walked 1 step
+10:28:54 FIGHT Greyhollow, floor 1 at 5x vs Blood Midge L1 · party Janus L1 44/44, Fennick the Scrivener L1 38/38, Cal of Stormreach L1 38/38, Brother Oswin L1 24/24
+10:28:54   speed 1x
+10:28:54   frame rate 13 fps, slowest frame 4775 ms, at Greyhollow
+10:28:57 LEVEL Cal of Stormreach reached L2
+10:28:57   WON in 3s (5x/1x, fight clock 3s) · party Janus L1 44/44, Fennick the Scrivener L1 36/38, Cal of Stormreach L2 43/43, Brother Oswin L1 24/24
+10:29:02 FIGHT Greyhollow, floor 1 at 1x vs Goblin L1, Lesser Goblin L1 · party Janus L1 44/44, Fennick the Scrivener L1 36/38, Cal of Stormreach L2 43/43, Brother Oswin L1 24/24
+10:29:16 LEVEL Brother Oswin reached L2
+10:29:16 LEVEL Janus reached L2
+10:29:16 LEVEL Fennick the Scrivener reached L2
+10:29:16 LEVEL Cal of Stormreach reached L3
+10:29:17 LEVEL Cal of Stormreach reached L4
+10:29:17   WON in 15s (1x, fight clock 5s) · party Janus L2 48/48, Fennick the Scrivener L2 39/43, Cal of Stormreach L4 53/53, Brother Oswin L2 29/29
+10:29:21 > Greyhollow (E-rank gate)
+10:29:21 > [world]
+10:29:21 saved (gate): you shut Greyhollow
+10:29:27   walked 1 step
+10:29:27   speed 2x
+10:29:39   Janus became gatewalker
+10:29:48   speed 3x
+10:29:55   speed 5x
+10:30:08   examined:the Tower's door
+10:30:08 > TOWER FLOOR 1
+10:30:12   walked 1 step
+10:30:12 FIGHT TOWER FLOOR 1 at 5x vs Goblin L2, Slime L2 · party Janus L2 48/48, Fennick the Scrivener L2 39/43, Cal of Stormreach L4 53/53, Brother Oswin L2 29/29
+10:30:12   speed 1x
+10:30:18   WON in 5s (5x/1x, fight clock 6s) · party Janus L2 48/48, Fennick the Scrivener L2 39/43, Cal of Stormreach L4 53/53, Brother Oswin L2 24/29
+10:30:23 FIGHT TOWER FLOOR 1 at 1x vs Goblin L2, Wolf L2 · party Janus L2 48/48, Fennick the Scrivener L2 39/43, Cal of Stormreach L4 53/53, Brother Oswin L2 24/29
+10:30:28 LEVEL Janus reached L3
+10:30:30   WON in 6s (1x, fight clock 6s) · party Janus L3 49/52, Fennick the Scrivener L2 27/43, Cal of Stormreach L4 53/53, Brother Oswin L2 22/29
+10:30:33 > TOWER FLOOR 2
+10:30:33 > [world]
+10:30:36   walked 1 step
+10:30:41 FIGHT TOWER FLOOR 2 at 1x vs Poacher L3, Slime L3 · party Janus L3 49/52, Fennick the Scrivener L2 27/43, Cal of Stormreach L4 53/53, Brother Oswin L2 22/29
+10:30:41 ERROR Invalid metadata identifier: 'called:4423111681157'. (object.cpp:1037 set_meta)
+10:30:45   frame rate 30 fps, slowest frame 4858 ms, at The Tower
+10:30:47   WON in 5s (1x, fight clock 6s) · party Janus L3 41/52, Fennick the Scrivener L2 29/43, Cal of Stormreach L4 51/53, Brother Oswin L2 22/29
+10:30:57 FIGHT TOWER FLOOR 2 at 1x vs Wolf L3 x2 · party Janus L3 41/52, Fennick the Scrivener L2 29/43, Cal of Stormreach L4 51/53, Brother Oswin L2 22/29
+10:30:58 ERROR Invalid metadata identifier: 'called:4541525265595'. (object.cpp:1037 set_meta)
+10:31:02 LEVEL Fennick the Scrivener reached L3
+10:31:04   WON in 6s (1x, fight clock 6s) · party Janus L3 41/52, Fennick the Scrivener L3 34/48, Cal of Stormreach L4 51/53, Brother Oswin L2 22/29
+10:31:07 > TOWER FLOOR 3
+10:31:07 > [world]
+10:31:08   walked 1 step
+10:31:11 FIGHT TOWER FLOOR 3 at 1x vs The Amber Knight L3 · party Janus L3 41/52, Fennick the Scrivener L3 34/48, Cal of Stormreach L4 51/53, Brother Oswin L2 22/29
+10:31:19 LEVEL Fennick the Scrivener reached L4
+10:31:19   WON in 7s (1x, fight clock 8s) · party Janus L3 41/52, Fennick the Scrivener L4 36/53, Cal of Stormreach L4 51/53, Brother Oswin L2 15/29
+10:31:33 FIGHT TOWER FLOOR 3 at 1x vs Sword Monkey L4, Goblin L4 · party Janus L3 41/52, Fennick the Scrivener L4 36/53, Cal of Stormreach L4 51/53, Brother Oswin L2 15/29
+10:31:40 LEVEL Cal of Stormreach reached L5
+10:31:42   WON in 8s (1x, fight clock 8s) · party Janus L3 41/52, Fennick the Scrivener L4 27/53, Cal of Stormreach L5 51/58, Brother Oswin L2 15/29
+10:31:44   speed 2x
+10:32:03 > TOWER FLOOR 4
+10:32:03 > [world]
+10:32:07   walked 1 step
+10:32:07 FIGHT TOWER FLOOR 4 at 2x vs The Amber Knight L4, Wisp L4 · party Janus L3 41/52, Fennick the Scrivener L4 53/53, Cal of Stormreach L5 51/58, Brother Oswin L2 29/29
+10:32:07 ERROR Invalid metadata identifier: 'called:4904198346761'. (object.cpp:1037 set_meta)
+10:32:12 LEVEL Fennick the Scrivener reached L5
+10:32:12   WON in 5s (2x, fight clock 10s) · party Janus L3 31/52, Fennick the Scrivener L5 58/58, Cal of Stormreach L5 51/58, Brother Oswin L2 15/29
+10:32:28 FIGHT TOWER FLOOR 4 at 2x vs Frostbitten L4 · party Janus L3 52/52, Fennick the Scrivener L5 58/58, Cal of Stormreach L5 51/58, Brother Oswin L2 29/29
+10:32:28 ERROR Invalid metadata identifier: 'called:4999425821759'. (object.cpp:1037 set_meta)
+10:32:29 ERROR Invalid metadata identifier: 'called:4999778149868'. (object.cpp:1037 set_meta)
+10:32:31 LEVEL Fennick the Scrivener reached L6
+10:32:31   WON in 2s (2x, fight clock 6s) · party Janus L3 52/52, Fennick the Scrivener L6 63/63, Cal of Stormreach L5 36/58, Brother Oswin L2 29/29
+10:32:39 > TOWER FLOOR 5
+10:32:39 > [world]
+10:32:52   walked 1 step
+10:32:52 FIGHT TOWER FLOOR 5 at 2x vs The Warden of the Fifth L9, Bog Jelly L9 x2 · party Janus L3 52/52, Fennick the Scrivener L6 63/63, Cal of Stormreach L5 36/58, Brother Oswin L2 29/29
+10:32:54 ERROR Invalid metadata identifier: 'called:5160084445379'. (object.cpp:1037 set_meta)
+10:32:54 ERROR Invalid metadata identifier: 'called:5159899895929'. (object.cpp:1037 set_meta)
+10:32:57 LEVEL Janus reached L4
+10:32:57 LEVEL Janus reached L5
+10:33:00 LEVEL Cal of Stormreach reached L6
+10:33:02 LEVEL Janus reached L6
+10:33:02 LEVEL Fennick the Scrivener reached L7
+10:33:02 LEVEL Cal of Stormreach reached L7
+10:33:02 LEVEL Brother Oswin reached L3
+10:33:02 LEVEL Brother Oswin reached L4
+10:33:02 LEVEL Brother Oswin reached L5
+10:33:02   WON in 9s (2x, fight clock 15s) · party Janus L6 35/64, Fennick the Scrivener L7 62/68, Cal of Stormreach L7 48/68, Brother Oswin L5 31/44
+10:33:08 FIGHT TOWER FLOOR 5 at 2x vs Poacher L4, Cutpurse L4, Slime L4 · party Janus L6 35/64, Fennick the Scrivener L7 62/68, Cal of Stormreach L7 48/68, Brother Oswin L5 31/44
+10:33:13   WON in 5s (2x, fight clock 10s) · party Janus L6 40/64, Fennick the Scrivener L7 62/68, Cal of Stormreach L7 48/68, Brother Oswin L5 36/44
+10:33:16   talked:the Ninth Stair
+10:33:20   talked:the Ninth Stair
+10:33:28 > The Tower
+10:33:28 > [world]
+10:33:28 saved (chapter): chapter 1 of the Tower closed
+10:33:35   walked 1 step
+10:33:35   talked:Sennet, the Guild's Doorkeeper
+10:33:35 saved (guild): you signed the Guild's register
+10:33:45   speed 3x
+10:33:46   speed 5x
+10:33:47   speed 1x
+10:33:48   speed 2x
+10:33:48   speed 3x
+10:33:48   speed 5x
+10:33:55 FIGHT The Tower at 5x vs Brigand L9 x3, Cutpurse L9 · party Janus L6 40/64, Fennick the Scrivener L7 62/68, Cal of Stormreach L7 48/68, Brother Oswin L5 36/44
+10:33:55   frame rate 39 fps, slowest frame 2384 ms, at The Tower
+10:33:59 LEVEL Fennick the Scrivener reached L8
+10:34:00 LEVEL Janus reached L7
+10:34:00   WON in 4s (5x, fight clock 19s) · party Janus L7 34/68, Fennick the Scrivener L8 37/73, Cal of Stormreach L7 36/71, Brother Oswin L5 24/47
+10:34:26 FIGHT The Tower at 5x vs Wolf L9, Wolf Cub L7 x2, Wolf L7 · party Janus L7 68/68, Fennick the Scrivener L8 37/73, Cal of Stormreach L7 36/71, Brother Oswin L5 24/47
+10:34:37   turn_pull
+10:34:38 ERROR Invalid metadata identifier: 'called:6005924571104'. (object.cpp:1037 set_meta)
+10:34:45 FELL Janus: dead (by Wolf Cub)
+10:34:45 FELL Fennick the Scrivener: dead (by Wolf)
+10:34:45 FELL Cal of Stormreach: dead (by Wolf)
+10:34:45   LOST in 18s (5x, fight clock 11s) · party Brother Oswin L5 24/47
+10:34:46 RUN OVER: the last of the party is gone
+10:34:47 > [summary]
+10:34:52 > The Tower
+10:34:52 > [world]
+10:34:56   walked 1 step
+10:34:56 saved (rest): you rested at Stormreach
+10:34:56 saved (town): you reached Stormreach
+10:35:31   talked:Sinner
+10:35:39   talked:Ada the Baker
+10:36:38   speed 1x
+10:36:39   speed 2x
+10:36:44 FIGHT The Tower at 2x vs Cutpurse L7 x2, Brigand L7, Brigand L8 · party Janus L6 64/64, Fennick the Scrivener L7 68/68, Cal of Stormreach L7 68/68, Brother Oswin L5 44/44
+10:36:49 LEVEL Fennick the Scrivener reached L8
+10:36:53   turn_pull
+10:36:54 LEVEL Brother Oswin reached L6
+10:36:54   WON in 10s (2x, fight clock 15s) · party Janus L6 32/64, Fennick the Scrivener L8 61/73, Cal of Stormreach L7 46/68, Brother Oswin L6 44/49
+10:37:08   chest
+10:37:11 > Elderford, floor 1
+10:37:13 FIGHT Elderford, floor 1 at 2x vs Lesser Goblin L4 · party Janus L6 64/64, Fennick the Scrivener L8 61/73, Cal of Stormreach L7 58/68, Brother Oswin L6 44/49
+10:37:15   WON in 1s (2x, fight clock 3s) · party Janus L6 63/64, Fennick the Scrivener L8 60/73, Cal of Stormreach L7 58/68, Brother Oswin L6 44/49
+10:37:17   walked 1 step
+10:37:19 FIGHT Elderford, floor 1 at 2x vs Sword Monkey L6, High Goblin L6 · party Janus L6 63/64, Fennick the Scrivener L8 60/73, Cal of Stormreach L7 58/68, Brother Oswin L6 44/49
+10:37:19 ERROR Invalid metadata identifier: 'called:7260038247239'. (object.cpp:1037 set_meta)
+10:37:22 LEVEL Janus reached L7
+10:37:24   WON in 4s (2x, fight clock 9s) · party Janus L7 66/68, Fennick the Scrivener L8 57/73, Cal of Stormreach L7 53/68, Brother Oswin L6 36/49
+10:37:28 > Elderford (E-rank gate)
+10:37:28 > [world]
+10:37:28 saved (gate): you shut Elderford
+10:37:35   walked 1 step
+10:37:35   talked:Barnaby
+10:37:45   talked:Orin who came back
+10:38:20   examined:something left here
+10:38:33   speed 3x
+10:38:33   speed 5x
+10:38:41 > TOWER FLOOR 6
+10:38:43   walked 1 step
+10:38:43 FIGHT TOWER FLOOR 6 at 5x vs High Sword Monkey L5, Sword Monkey L5, High Goblin L5, Wolf L5 · party Janus L7 68/68, Fennick the Scrivener L8 73/73, Cal of Stormreach L7 65/68, Brother Oswin L6 36/49, Orin who came back L7 52/52
+10:38:43 ERROR Invalid metadata identifier: 'called:8109217034488'. (object.cpp:1037 set_meta)
+10:38:46   speed 1x
+10:38:48 ERROR Invalid metadata identifier: 'called:8109401583865'. (object.cpp:1037 set_meta)
+10:38:49 LEVEL Brother Oswin reached L7
+10:38:51 LEVEL Cal of Stormreach reached L8
+10:38:53   WON in 9s (5x/1x, fight clock 13s) · party Janus L7 55/68, Fennick the Scrivener L8 46/73, Cal of Stormreach L8 70/73, Brother Oswin L7 44/54, Orin who came back L7 52/52
+10:38:56 FIGHT TOWER FLOOR 6 at 1x vs Wolf Cub L6, Wolf L6, Sword Monkey L6, Lesser Goblin L6 · party Janus L7 55/68, Fennick the Scrivener L8 46/73, Cal of Stormreach L8 70/73, Brother Oswin L7 44/54, Orin who came back L7 52/52
+10:39:06   WON in 10s (1x, fight clock 10s) · party Janus L7 34/68, Fennick the Scrivener L8 42/73, Cal of Stormreach L8 70/73, Brother Oswin L7 43/54, Orin who came back L7 52/52
+10:39:29 > TOWER FLOOR 7
+10:39:29 > [world]
+10:39:40   walked 1 step
+10:39:40 FIGHT TOWER FLOOR 7 at 1x vs Mending Cub L6, Warden Lion L6, Mending Lion L6, Ember Dove L6 · party Janus L7 34/68, Fennick the Scrivener L8 42/73, Cal of Stormreach L8 70/73, Brother Oswin L7 43/54, Orin who came back L7 52/52
+10:39:40   frame rate 29 fps, slowest frame 4827 ms, at The Tower
+10:39:40 ERROR Invalid metadata identifier: 'called:8333914278529'. (object.cpp:1037 set_meta)
+10:39:51 ERROR Invalid metadata identifier: 'called:8371327471291'. (object.cpp:1037 set_meta)
+10:39:52 LEVEL Fennick the Scrivener reached L9
+10:39:59 LEVEL Brother Oswin reached L8
+10:40:02   WON in 22s (1x, fight clock 18s) · party Janus L7 34/68, Fennick the Scrivener L9 41/81, Cal of Stormreach L8 70/73, Brother Oswin L8 41/59, Orin who came back L7 44/52
+10:40:42 FIGHT TOWER FLOOR 7 at 1x vs Mending Lion L6, Sproutling L6 x3 · party Janus L7 68/68, Cal of Stormreach L8 70/73, Brother Oswin L8 41/59, Orin who came back L7 44/52
+10:40:42 ERROR Invalid metadata identifier: 'called:8628085993215'. (object.cpp:1037 set_meta)
+10:40:52 LEVEL Janus reached L8
+10:40:57 LEVEL Cal of Stormreach reached L9
+10:40:58   WON in 16s (1x, fight clock 16s) · party Janus L8 36/72, Cal of Stormreach L9 72/78, Brother Oswin L8 41/59, Orin who came back L7 52/52
+10:41:13 > TOWER FLOOR 7
+10:41:15 > TOWER FLOOR 8
+10:41:15 > [world]
+10:41:31 FIGHT TOWER FLOOR 8 at 1x vs Sword Monkey L6, Goblin L6 x2 · party Janus L8 72/72, Cal of Stormreach L9 72/78, Brother Oswin L8 59/59, Orin who came back L7 52/52
+10:41:33 ERROR Invalid metadata identifier: 'called:8920647078818'. (object.cpp:1037 set_meta)
+10:41:45   WON in 14s (1x, fight clock 14s) · party Janus L8 67/72, Cal of Stormreach L9 72/78, Brother Oswin L8 55/59, Orin who came back L7 49/52
+10:41:49   walked 1 step
+10:41:49 FIGHT TOWER FLOOR 8 at 1x vs Grey Wolf L5, Sword Monkey L5, High Goblin L5 · party Janus L8 67/72, Cal of Stormreach L9 72/78, Brother Oswin L8 55/59, Orin who came back L7 49/52
+10:41:52 ERROR Invalid metadata identifier: 'called:8984601832838'. (object.cpp:1037 set_meta)
+10:42:01   WON in 11s (1x, fight clock 11s) · party Janus L8 59/72, Cal of Stormreach L9 72/78, Brother Oswin L8 55/59, Orin who came back L7 52/52
+10:42:19 > TOWER FLOOR 9
+10:42:19 > [world]
+10:42:22 FIGHT TOWER FLOOR 9 at 1x vs Stone Lion L7, Ember Dove L7, Mending Lion L7 · party Janus L8 59/72, Cal of Stormreach L9 72/78, Brother Oswin L8 55/59, Orin who came back L7 52/52
+10:42:22 ERROR Invalid metadata identifier: 'called:9092747767266'. (object.cpp:1037 set_meta)
+10:42:22 ERROR Invalid metadata identifier: 'called:9092932317895'. (object.cpp:1037 set_meta)
+10:42:34 ERROR Invalid metadata identifier: 'called:9088889007489'. (object.cpp:1037 set_meta)
+10:42:37   WON in 14s (1x, fight clock 14s) · party Janus L8 58/72, Cal of Stormreach L9 64/78, Brother Oswin L8 55/59, Orin who came back L7 52/52
+10:42:39 FIGHT TOWER FLOOR 9 at 1x vs Ember Dove L7 x2, Blaze Dove L7 · party Janus L8 58/72, Cal of Stormreach L9 64/78, Brother Oswin L8 55/59, Orin who came back L7 52/52
+10:42:39 ERROR Invalid metadata identifier: 'called:9156232746397'. (object.cpp:1037 set_meta)
+10:42:44 LEVEL Cal of Stormreach reached L10
+10:42:47 ERROR Invalid metadata identifier: 'called:9156601847360'. (object.cpp:1037 set_meta)
+10:42:48   WON in 8s (1x, fight clock 8s) · party Janus L8 50/72, Cal of Stormreach L10 71/83, Brother Oswin L8 50/59, Orin who came back L7 48/52
+10:43:04   walked 1 step
+10:43:04 > TOWER FLOOR 10
+10:43:04 > [world]
+10:43:09 FIGHT TOWER FLOOR 10 at 1x vs High Goblin L7 x2, Wolf L7 · party Janus L8 50/72, Cal of Stormreach L10 71/83, Brother Oswin L8 50/59, Orin who came back L7 48/52
+10:43:11 ERROR Invalid metadata identifier: 'called:9275871079117'. (object.cpp:1037 set_meta)
+10:43:19   WON in 10s (1x, fight clock 10s) · party Janus L8 49/72, Cal of Stormreach L10 71/83, Brother Oswin L8 48/59, Orin who came back L7 49/52
+10:43:25   walked 1 step
+10:43:25 FIGHT TOWER FLOOR 10 at 1x vs The Keeper of the Tenth L12, Goblin L12, Poacher L12 · party Janus L8 49/72, Cal of Stormreach L10 71/83, Brother Oswin L8 48/59, Orin who came back L7 49/52
+10:43:44 ERROR Invalid metadata identifier: 'called:9354572997990'. (object.cpp:1037 set_meta)
+10:43:50 LEVEL Janus reached L9
+10:43:50 LEVEL Orin who came back reached L8
+10:43:50   WON in 24s (1x, fight clock 15s) · party Janus L9 40/79, Cal of Stormreach L10 83/83, Brother Oswin L8 32/59, Orin who came back L8 37/57
+10:44:01   talked:the Lantern Company
+10:44:06 > The Tower
+10:44:06 > [world]
+10:44:06 saved (chapter): chapter 2 of the Tower closed
+10:44:29   walked 1 step
+10:44:29   examined:the climbers' stone
+10:45:01   talked:Atlas
+10:45:05 saved (town): you reached Stormreach
+10:45:21 saved (rest): you rested at Stormreach
+10:45:34   speed 2x
+10:45:35   speed 3x
+10:46:02   speed 5x
+10:46:03 saved (town): you reached Stormreach
+10:46:49 FIGHT The Tower at 5x vs Brigand L6 · party Janus L9 79/79
+10:46:53   turn_stand
+10:46:53   WON in 4s (5x, fight clock 14s) · party Janus L9 40/79
+10:49:45 FIGHT The Tower at 5x vs Blood Midge L6 · party Janus L9 79/79
+10:49:46   WON in 1s (5x, fight clock 4s) · party Janus L9 77/79
+10:49:59 FIGHT The Tower at 5x vs Eye Flinger L8 · party Janus L9 77/79
+10:49:59 ERROR Invalid metadata identifier: 'called:11244140498862'. (object.cpp:1037 set_meta)
+10:50:00 LEVEL Janus reached L10
+10:50:00   WON in 1s (5x, fight clock 8s) · party Janus L10 50/83
+10:50:07 FIGHT The Tower at 5x vs Goblin L8 · party Janus L10 50/83
+10:50:08   WON in 1s (5x, fight clock 6s) · party Janus L10 42/83
+10:50:58   door:the Gilded Flagon
+10:50:58 > the Gilded Flagon
+10:51:02   walked 1 step
+10:51:02   talked:a card sharp
+10:51:09   talked:Old Corrin
+10:51:17   talked:Marta the Landlady
+10:51:37   examined:a bed
+10:51:37   slept:the Gilded Flagon
+10:51:37 saved (rest): you slept at the Gilded Flagon
+10:51:51 > The Tower
+10:51:56   walked 1 step
+10:51:56   speed 1x
+10:51:57   speed 2x
+10:51:58   door:a weaver's house
+10:52:00   door:the Sign of the Fish
+10:52:02   door:a quiet house
+10:52:05   door:a house with blue shutters
+10:52:06   door:a fence's house
+10:52:08   door:a sailmaker's
+10:52:10   door:the ruined bathhouse
+10:52:12   door:the waystation
+10:52:17   talked:Tollmaster Crane
+10:52:24   door:the toll house
+10:52:27   door:a baker's widow's
+10:52:29   door:the tailor's
+10:52:31   door:a crowded house
+10:52:32   door:the old shrine
+10:52:35   door:the stables
+10:52:38   door:the smithy
+10:52:40   door:the chandler's
+10:52:41   door:the butcher's
+10:52:44 saved (town): you reached Stormreach
+10:52:44   door:a carter's cottage
+10:52:46   door:the burnt chandlery
+10:52:48   door:the cooper's
+10:52:51   door:the Adventurers' Guild hall
+10:52:53   door:the scrivener's
+10:52:56   door:a lodging house
+10:52:58   door:the dyer's house
+10:52:59   door:a merchant's house
+10:53:08   door:the Cathedral of the Ascent
+10:53:11   door:the clock hall
+10:53:14   door:the counting house
+10:53:15   door:the Margrave's hall
+10:53:17   talked:Steward Hobb
+10:53:39   door:a narrow house
+10:53:41   talked:Captain Edda of the Watch
+10:53:51   door:the Watch house
+10:54:16   speed 3x
+10:54:16   speed 5x
+10:54:27 FIGHT The Tower at 5x vs Poacher L11, Brigand L10, Cabin Hand L10 · party Janus L10 87/87, Captain Edda of the Watch L10 109/109
+10:54:27 ERROR Invalid metadata identifier: 'called:12766656080739'. (object.cpp:1037 set_meta)
+10:54:29   turn_pull
+10:54:33 LEVEL Captain Edda of the Watch reached L11
+10:54:33   WON in 6s (5x, fight clock 22s) · party Janus L10 44/87, Captain Edda of the Watch L11 57/114
+10:54:51 FIGHT The Tower at 5x vs Brigand L8, Brigand L7, Poacher L9 · party Janus L10 87/87, Captain Edda of the Watch L11 114/114
+10:54:53 ERROR Invalid metadata identifier: 'called:13037255800772'. (object.cpp:1037 set_meta)
+10:54:54   WON in 2s (5x, fight clock 13s) · party Janus L10 74/87, Captain Edda of the Watch L11 107/114
+10:54:58 FIGHT The Tower at 5x vs Wolf Cub L11, Brigand L11 · party Janus L10 74/87, Captain Edda of the Watch L11 107/114
+10:55:01   turn_pull
+10:55:04   WON in 6s (5x, fight clock 14s) · party Janus L10 44/87, Captain Edda of the Watch L11 70/114
+10:55:40 saved (town): you reached Stormreach
+10:55:43 saved (guild): you signed the Guild's register
+10:56:09   speed 1x
+10:56:10   speed 2x
+10:56:10   speed 3x
+10:56:10   speed 5x
+10:56:53   talked:Sera the Longbow
+10:57:00   examined:fallen ancient oak
+10:57:01   chest
+10:57:07   examined:something left here
+10:57:23 saved (town): you reached Coldrun
+10:57:30   talked:Cato
+10:57:33   door:the great hall
+10:57:33 > the great hall
+10:57:36   walked 1 step
+10:57:36   talked:Dirte, the God of Kings
+10:57:41   talked:Castellan Ruve
+10:57:44   talked:Castellan Ruve
+10:57:47   talked:Castellan Ruve
+10:57:51 > The Tower
+10:58:27   walked 1 step
+10:58:27 saved (town): you reached Stormreach
+10:58:35   examined:the Tower's door
+10:58:35 > TOWER FLOOR 11
+10:58:44   walked 1 step
+10:58:44 FIGHT TOWER FLOOR 11 at 5x vs Flame Lion L8, Inferno Lion L8, Ember Dove L8, Fire Hawk L8, Warden Lion L8 · party Janus L10 87/87, Captain Edda of the Watch L11 114/114, Atlas L9 23/54, Orin who came back L8 8/57, Cal of Stormreach L10 49/83, Brother Oswin L8 9/59
+10:58:44   frame rate 10 fps, slowest frame 6551 ms, at The Tower
+10:58:44   speed 1x
+10:58:44 ERROR Invalid metadata identifier: 'called:16249069253840'. (object.cpp:1037 set_meta)
+10:59:04 ERROR Invalid metadata identifier: 'called:16211656052103'. (object.cpp:1037 set_meta)
+10:59:05 FELL Brother Oswin: dead (by Warden Lion)
+10:59:09 ERROR Invalid metadata identifier: 'called:16245395040531'. (object.cpp:1037 set_meta)
+10:59:13 LEVEL Atlas reached L10
+10:59:13   WON in 28s (5x/1x, fight clock 22s) · party Janus L10 84/87, Captain Edda of the Watch L11 77/114, Atlas L10 41/57, Orin who came back L8 55/57, Cal of Stormreach L10 42/83
+10:59:14 FIGHT TOWER FLOOR 11 at 1x vs Blaze Dove L8, Spark Chick L8, Mending Lion L8, Blaze Lion L8, Ember Dove L8 · party Janus L10 84/87, Captain Edda of the Watch L11 77/114, Atlas L10 41/57, Orin who came back L8 55/57, Cal of Stormreach L10 42/83
+10:59:14 ERROR Invalid metadata identifier: 'called:16431806689401'. (object.cpp:1037 set_meta)
+10:59:14 ERROR Invalid metadata identifier: 'called:16432175783198'. (object.cpp:1037 set_meta)
+10:59:18 LEVEL Cal of Stormreach reached L11
+10:59:21 LEVEL Orin who came back reached L9
+10:59:24 ERROR Invalid metadata identifier: 'called:16435849998208'. (object.cpp:1037 set_meta)
+10:59:26 LEVEL Captain Edda of the Watch reached L12
+10:59:29   WON in 15s (1x, fight clock 15s) · party Janus L10 59/87, Captain Edda of the Watch L12 119/119, Atlas L10 56/57, Orin who came back L9 62/62, Cal of Stormreach L11 44/88
+10:59:32 > TOWER FLOOR 12
+10:59:32 > [world]
+10:59:33 FIGHT TOWER FLOOR 12 at 1x vs High Sword Monkey L9 x2, Frostbitten L9 x2 · party Janus L10 59/87, Captain Edda of the Watch L12 119/119, Atlas L10 56/57, Orin who came back L9 62/62, Cal of Stormreach L11 44/88
+10:59:33 ERROR Invalid metadata identifier: 'called:16568641664204'. (object.cpp:1037 set_meta)
+10:59:39 ERROR Invalid metadata identifier: 'called:16568457109511'. (object.cpp:1037 set_meta)
+10:59:45 ERROR Invalid metadata identifier: 'called:16570470379027'. (object.cpp:1037 set_meta)
+10:59:48 ERROR Invalid metadata identifier: 'called:16567718917896'. (object.cpp:1037 set_meta)
+10:59:48   WON in 15s (1x, fight clock 15s) · party Janus L10 62/87, Captain Edda of the Watch L12 107/119, Atlas L10 56/57, Orin who came back L9 62/62, Cal of Stormreach L11 46/88
+10:59:50   walked 1 step
+10:59:50 FIGHT TOWER FLOOR 12 at 1x vs Frostbitten L9, Wolf L9, Rimebitten L9, Wolf Cub L9 · party Janus L10 62/87, Captain Edda of the Watch L12 107/119, Atlas L10 56/57, Orin who came back L9 62/62, Cal of Stormreach L11 46/88
+10:59:50 ERROR Invalid metadata identifier: 'called:16677123143516'. (object.cpp:1037 set_meta)
+10:59:50 ERROR Invalid metadata identifier: 'called:16672962392783'. (object.cpp:1037 set_meta)
+10:59:58 ERROR Invalid metadata identifier: 'called:16673331491697'. (object.cpp:1037 set_meta)
+10:59:59 LEVEL Atlas reached L11
+10:59:59   WON in 9s (1x, fight clock 9s) · party Janus L10 60/87, Captain Edda of the Watch L12 119/119, Atlas L11 59/60, Orin who came back L9 62/62, Cal of Stormreach L11 53/88
+11:00:02 > TOWER FLOOR 13
+11:00:02 > [world]
+11:00:03 FIGHT TOWER FLOOR 13 at 1x vs Mending Lion L8, Flame Lion L8, Warden Lion L8, Flame Cub L8 · party Janus L10 60/87, Captain Edda of the Watch L12 119/119, Atlas L11 59/60, Orin who came back L9 62/62, Cal of Stormreach L11 53/88
+11:00:15   WON in 12s (1x, fight clock 12s) · party Janus L10 44/87, Captain Edda of the Watch L12 119/119, Atlas L11 59/60, Orin who came back L9 57/62, Cal of Stormreach L11 53/88
+11:00:16   walked 1 step
+11:00:16 FIGHT TOWER FLOOR 13 at 1x vs Mending Lion L9 x2, Ember Dove L9 x2 · party Janus L10 44/87, Captain Edda of the Watch L12 119/119, Atlas L11 59/60, Orin who came back L9 57/62, Cal of Stormreach L11 53/88
+11:00:26   WON in 9s (1x, fight clock 9s) · party Janus L10 55/87, Captain Edda of the Watch L12 118/119, Atlas L11 59/60, Orin who came back L9 57/62, Cal of Stormreach L11 51/88
+11:00:29 > TOWER FLOOR 14
+11:00:29 > [world]
+11:00:29 FIGHT TOWER FLOOR 14 at 1x vs Sword Monkey L9 x2, High Sword Monkey L9, Grey Wolf L9 · party Janus L10 55/87, Captain Edda of the Watch L12 118/119, Atlas L11 59/60, Orin who came back L9 57/62, Cal of Stormreach L11 51/88
+11:00:38   WON in 8s (1x, fight clock 8s) · party Janus L10 55/87, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L11 66/88
+11:00:42   walked 1 step
+11:00:42 FIGHT TOWER FLOOR 14 at 1x vs Grey Wolf L8, Frostbitten L8 x2, Sword Monkey L8 · party Janus L10 55/87, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L11 66/88
+11:00:52 LEVEL Cal of Stormreach reached L12
+11:00:52   WON in 10s (1x, fight clock 10s) · party Janus L10 47/87, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 70/93
+11:00:54 > TOWER FLOOR 15
+11:00:54 > [world]
+11:00:55   walked 1 step
+11:00:55 FIGHT TOWER FLOOR 15 at 1x vs Blaze Dove L9, Ember Dove L9, Fire Hawk L9, Inferno Lion L9 · party Janus L10 47/87, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 70/93
+11:01:08   WON in 12s (1x, fight clock 13s) · party Janus L10 45/90, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 58/93
+11:01:09 FIGHT TOWER FLOOR 15 at 1x vs Warden Lion L8, Flame Lion L8, Ember Dove L8, Mending Lion L8 · party Janus L10 45/90, Captain Edda of the Watch L12 119/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 58/93
+11:01:22   WON in 12s (1x, fight clock 12s) · party Janus L10 54/90, Captain Edda of the Watch L12 118/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 73/93
+11:01:23 FIGHT TOWER FLOOR 15 at 1x vs Warden Lion L8 x2, Ember Dove L8, Flame Cub L8 · party Janus L10 54/90, Captain Edda of the Watch L12 118/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 73/93
+11:01:31   WON in 7s (1x, fight clock 7s) · party Janus L10 45/90, Captain Edda of the Watch L12 118/119, Atlas L11 60/60, Orin who came back L9 62/62, Cal of Stormreach L12 73/93
+11:01:34 > The Tower
+11:01:34 > [world]
+11:01:34 saved (chapter): chapter 3 of the Tower closed
+11:01:38   walked 1 step
+11:02:10 > [title]

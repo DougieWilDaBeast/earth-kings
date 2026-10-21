@@ -30,10 +30,12 @@
 		"block_max": 0.4,
 		"ambush_head_start": 2.0,
 		"swings_per_practice": 3,
-		"_comment_flee": "D319 (Ewan, D118: 'an open fight you can walk out of'; issue #243: 'at a cost'). Getting clear of a fight costs: whoever reaches the edge takes a parting blow of flee.parting_blow of their health as they go, never a fall (cleared_line, {who}); when the whole company gets clear of a band of the land, the band keeps flee.gold_share of the company's coin, dropped in the running (dropped_line, {coin}); the order to the edge says so (making_line). A fight left inside a gate or the Tower keeps no coin. Inferred: the tenth and the tenth.",
+		"_comment_flee": "D319 (Ewan, D118: 'an open fight you can walk out of'; issue #243: 'at a cost'). Getting clear of a fight costs: whoever reaches the edge takes a parting blow of flee.parting_blow of their health as they go, never a fall (cleared_line, {who}); when the whole company gets clear of a band of the land, the band keeps flee.gold_share of the company's coin, dropped in the running (dropped_line, {coin}); the order to the edge says so (making_line). A fight left inside a gate or the Tower keeps no coin. Whoever gets clear is seen to go: cleared_word over them and a fade of flee.fade seconds, and their card reads off the field, safe (D322, Ewan's play-test 8: a fighter pulled back 'disappeared'). Inferred: the tenth and the tenth.",
 		"flee": {
 			"parting_blow": 0.1,
 			"gold_share": 0.1,
+			"fade": 0.6,
+			"cleared_word": "Clear",
 			"making_line": "Making for the edge of the field. Whatever is dropped in the running stays dropped.",
 			"cleared_line": "{who} gets clear, with a parting blow for it.",
 			"dropped_line": "You get clear of them, {coin} the lighter for what was dropped in the running. They are still out there."

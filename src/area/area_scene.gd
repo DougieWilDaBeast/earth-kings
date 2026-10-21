@@ -2942,7 +2942,17 @@ func _post_band(band: Dictionary) -> Node2D:
 	watch.can_move = func() -> bool: return not (_talking or _leaving or _spotted or _overlay_open())
 	watch.moved.connect(_on_band_moved.bind(watch))
 	_watches.append(watch)
+	_warm_the_band(told)
 	return watch
+
+
+## A band's foes load a frame at a time while it is still walking about, the way the party's moves
+## do (D122): a fight with foes never seen before stopped the game for up to seven seconds as it
+## began (Ewan's play-test 8, D322). Whoever has joined since this place was entered is warmed too.
+func _warm_the_band(band: Dictionary) -> void:
+	for unit_id: Variant in band.get("pack", []):
+		Database.warm_unit(str(unit_id))
+	_warm_the_party()
 
 
 ## The continent's word on the bands about, after a step ([D84]): one that has moved tile walks
