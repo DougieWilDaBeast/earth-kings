@@ -101,6 +101,7 @@ func _ready() -> void:
 	await _check_inside_a_gate()
 	_check_gates_grow()
 	await _check_people_on_the_land()
+	await _check_the_board()
 	await _check_the_land()
 	await _check_the_joined_land()
 	await _check_play_test_three()
@@ -2170,6 +2171,56 @@ func _check_tower_floor() -> void:
 	await get_tree().process_frame
 	GameState.new_game(SEED)
 	print("tower floor: a band fought for real on floor 1, the stair up won the floor, Atlas found his buckle on floor 5, and the Tower's door says how to climb")
+
+
+## The board is read at the board (D359, Ewan's play-test 3): every village, keep and Stormreach has a
+## notice board on its ground that can be walked to, and J reads it only standing there; a hut,
+## with no board, is asked as before.
+func _check_the_board() -> void:
+	for area_id: String in ["village", "village_dune", "village_fen", "village_pines", "village_shore", "keep", "keep_thorn", "city", "city_streets"]:
+		var boards := (Database.area(area_id).get("props", []) as Array).filter(func(p: Dictionary) -> bool: return str(p.get("reads", "")) == "board")
+		_expect(boards.size() == 1, "board: %s has %d notice boards" % [area_id, boards.size()])
+		if boards.size() != 1:
+			continue
+		var ground := AreaMap.load_area(area_id)
+		var cell := Vector2i(int(boards[0]["cell"][0]), int(boards[0]["cell"][1]))
+		var reached := false
+		for step: Vector2i in [Vector2i(0, 1), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(2, 0), Vector2i(0, 0)]:
+			if ground.is_walkable(cell + step) and not ground.astar.get_id_path(ground.spawn, cell + step).is_empty():
+				reached = true
+				break
+		_expect(reached, "board: the notice board in %s cannot be walked to" % area_id)
+	var town: Node = load("res://src/area/area_scene.tscn").instantiate()
+	town.set("boot_payload", { "area_id": "village", "return_scene": "world" })
+	add_child(town)
+	for i in 5:
+		await get_tree().process_frame
+	var board: AreaProp = town.call("_board")
+	_expect(board != null, "board: the village's notice board is not on its ground")
+	if board != null:
+		var read := { "prompt": "J to read the board", "label": "Read the board", "act": "_errands_here", "key": "site_errands" }
+		var hire := { "prompt": "H to hire Ren", "label": "Hire Ren", "act": "_hire_here", "key": "site_hire" }
+		town.set("_acts", [read, hire])
+		town.set("_nearby", null)
+		var said := str(town.call("_acts_text"))
+		_expect(not said.contains("read the board") and said.contains("hire Ren"), "board: away from the board, the line still offers it: %s" % said)
+		_expect(bool(town.call("_held_at_the_board", read)) and not bool(town.call("_held_at_the_board", hire)), "board: away from it, the board could be read from anywhere in town")
+		town.set("_nearby", board)
+		_expect(str(town.call("_prompt_text")) == "J to read the board", "board: standing at the board does not say how to read it")
+		_expect(not bool(town.call("_held_at_the_board", read)) and (town.call("_act_of", board) as Dictionary) == read, "board: at the board, it cannot be read")
+		town.set("_acts", [hire])
+		_expect((town.call("_act_of", board) as Dictionary).is_empty(), "board: a bare board offers something")
+	town.queue_free()
+	await get_tree().process_frame
+	var hut: Node = load("res://src/area/area_scene.tscn").instantiate()
+	hut.set("boot_payload", { "area_id": "hut", "return_scene": "world" })
+	add_child(hut)
+	for i in 5:
+		await get_tree().process_frame
+	_expect(hut.call("_board") == null and not bool(hut.call("_held_at_the_board", { "act": "_errands_here" })), "board: a hut with no board holds its work back")
+	hut.queue_free()
+	await get_tree().process_frame
+	print("board: nine towns read their work at a notice board, a hut as before")
 
 
 ## People on the land (D215): bands always by the First Hour's road, the Watch beset on the roads

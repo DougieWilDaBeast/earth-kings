@@ -288,7 +288,8 @@ tip now says so).
    door that opens onto a city. Built ([D247](06-decisions.md), play-test 6, pick B): the city is walked on the land
    with no door, the Tower beside it to the north.
 7. **The Guild's board read at the board**, or in the Guild's hall (a tavern), not from anywhere in
-   town; more named places.
+   town; more named places. The board built ([D359](06-decisions.md), 2026-10-21): a notice board beside the
+   Guild's clerk in every village and keep and in Stormreach, read only standing at it; more named places still planned.
 8. **The sword in the Tower's yard** sunk in the ground, pulled with a dice roll, once. Built
    ([D318](06-decisions.md), 2026-10-21): one pull a run, one chance in six, a Silver Blade.
 9. **Tower floors** with themes (an ice floor of ice creatures, goblins in winter coats) and harder;

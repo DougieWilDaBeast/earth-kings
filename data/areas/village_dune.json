@@ -71,6 +71,7 @@
     }
   ],
   "props": [
+    {"art": "interior/muster_board", "reads": "board", "cell": [16, 9], "name": "the notice board", "line": "The notice board. Work pinned up by whoever needs it doing, and the Guild's seal on the ones that pay."},
     {
       "art": "village/well",
       "cell": [
