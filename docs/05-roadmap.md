@@ -422,7 +422,7 @@ each, each ending playable:
       [D324](06-decisions.md), his eleven asks in [28](28-the-first-hour.md#play-test-8s-asks) in call BX's order ([D325](06-decisions.md)):
       disband, the quick wheel, the fallen reached first and a sent band's return time now, held until B is in
       (**built**, [D326](06-decisions.md));
-      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger (**built**, [D331](06-decisions.md)) after B; play-test 7's fallen searched after a fight (**built**, [D352](06-decisions.md)) and wares shown with their pictures (**built**, [D353](06-decisions.md)); the writers' pass, city doors, groves and the opening later.
+      the 2× cap (**built**, [D329](06-decisions.md)), nemesis (**built**, [D330](06-decisions.md)) and hunger (**built**, [D331](06-decisions.md)) after B; play-test 7's fallen searched after a fight (**built**, [D352](06-decisions.md)) and wares shown with their pictures (**built**, [D353](06-decisions.md)) and a gate walked into, not cut to (**built**, [D354](06-decisions.md)); the writers' pass, city doors, groves and the opening later.
       The opening's remake is settled in shape (call BZ, [D328](06-decisions.md)): 14 shots in three acts, the lead's
       chapter-one object falling with them, a demon king in a gate, Bram's "Give me your hand." at the end; built with the game's own sprites and a camera on every shot
       ([D340](06-decisions.md); art A58-A61 asked for after 27 October).
