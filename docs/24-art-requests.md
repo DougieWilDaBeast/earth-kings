@@ -19,7 +19,21 @@
 drawn in house by the `tools/draw_*.py` scripts at the art's own size, and listed in
 [22](22-asset-provenance.md). A request stays open here until PixelLab art of the same name replaces
 the in-house stand-in; the keepsakes A10 to A25 are the coin pile until then. PixelLab's credits come back on
-**27 October 2026** (22 euro a month, paid by `dougie`, [D213](06-decisions.md)); the order then is [D199](06-decisions.md)'s, A9 first.
+**27 October 2026** (22 euro a month, paid by `dougie`, [D213](06-decisions.md)), 5,000 generations a month. The order then
+([D356](06-decisions.md)) is design meeting six's short list first, then [D199](06-decisions.md)'s, then the rest:
+
+1. **Day one:** A53, A37, A51, the heights (A49, A57, A55), A54, and A52 priced on one weapon (the blade) before the other five.
+2. **Then [D199](06-decisions.md)'s list:** A9; the keepsakes, made **once** for A58 and A10 to A25 alike (the same sixteen things,
+   one picture in both places); A26 and A27; A29; the opening's A59 to A61; A56 and A62.
+3. **Then the rest of Open**, the Second Hour's rows first. The monster tiers (A39 to A45, 130 bodies, about 6,500
+   generations) are more than a month: the goblins and the wolves (A39, A40) this month, a family a month after.
+
+PixelLab's newer tools fit some rows better than what was used last month: a **building kit** of floor, walls,
+pillar and stair (`/create-tiles-pro`, A51); **cliff tilesets** with a raised level and its face (`/create-tileset`
+with `transition_size` 1.0, A51, A55, A50); **VFX** (`/vfx`, A54's fall, A60, A61); **Pro Flash objects** in eight
+facings held to one palette (A52); and **PixMiniMax** animation at 1 generation a facing at 64 (`tools/pixellab.py
+animate --mode pixminimax`, fight sets and the tiers). The month's estimate, row by row, and how to follow PixelLab's
+updates are in the project's `pixellab/2026-10-21-pixellab-plan.md`.
 
 Every request follows the [conventions in 19](19-asset-list.md#conventions): dark fantasy, muted
 colours ([D40](06-decisions.md)), the 64 class on the founders' base body ([D55](06-decisions.md)),
