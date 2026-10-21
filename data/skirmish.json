@@ -924,6 +924,15 @@
 			"herbs": "herb"
 		}
 	},
+	"_comment_held": "D290 (what a fighter carries is seen on them), art A52: a weapon with no `sprite_dir` of its own is drawn as its `kind` is held, from that kind's eight facings (south.png, north-east.png, ... as art/items/bone_sword), at `scale` and `offsets` (pixels from the body's middle, by facing) as a piece in equipment.json gives them. A kind whose folder is empty is drawn with nothing in hand, as today. **Inferred** (agenda 252).",
+	"held": {
+		"blade": { "sprite_dir": "res://art/units/held/blade", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } },
+		"spear": { "sprite_dir": "res://art/units/held/spear", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } },
+		"bow": { "sprite_dir": "res://art/units/held/bow", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } },
+		"staff": { "sprite_dir": "res://art/units/held/staff", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } },
+		"axe": { "sprite_dir": "res://art/units/held/axe", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } },
+		"hammer": { "sprite_dir": "res://art/units/held/hammer", "scale": 0.8, "offsets": { "south": [-11, -2], "north": [11, -8], "east": [10, -4], "west": [-10, -4] } }
+	},
 	"decor": {
 		"trees": [
 			"nature/sycamore_tree", "nature/copse", "nature/apple_tree", "nature/birch",

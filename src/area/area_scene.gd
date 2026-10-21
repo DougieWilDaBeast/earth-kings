@@ -547,6 +547,11 @@ func _fill_jobs(tile: Vector2i) -> Array[Callable]:
 	for cell: Vector2i in land.fires:
 		if area.has_point(cell):
 			jobs.append(_put_fire.bind(cell))
+	# The ground a fallen lead's weapon scorched where it came down ([D296]), in the middle of its
+	# tile, once its picture (A54) is in; until then nothing stands there.
+	var crater := str(Database.fall.get("siblings", {}).get("weapon", {}).get("crater_art", ""))
+	if crater != "" and GameState.world != null and Siblings.landed_weapons(GameState.world).has(tile):
+		jobs.append(_put_prop.bind({ "art": crater, "cell": area.get_center(), "solid": false, "name": "scorched ground" }))
 	_admit_the_others_to(tile)
 	_admit_the_road_watch(tile)
 	_admit_the_climbers(tile)
@@ -578,7 +583,9 @@ func _life_for(tile: Vector2i) -> Array[Dictionary]:
 	# Creatures that match the land (D336): a land's own pictures for each kind, none where it gives none.
 	var own: Dictionary = Biome.data(str(chunk.get("land", ""))).get("life_art", {})
 	for kind: String in ["bird", "flutter", "hop", "crawl"]:
-		var arts: Array = own.get(kind, rules.get("art", {}).get(kind, []))
+		# A land's own creature still to be drawn (A56) is not laid until its picture is in.
+		var arts: Array = (own.get(kind, rules.get("art", {}).get(kind, [])) as Array).filter(
+				func(art: Variant) -> bool: return AreaProp.has_art(str(art)))
 		if arts.is_empty():
 			continue
 		var mean := float(per_tile.get(kind, 0.0)) * share
@@ -1318,6 +1325,9 @@ func _stage_roadside(event_id: String) -> void:
 	_roadside_middle = middle
 	_roadside_told = false
 	for entry: Dictionary in stage.get("props", []):
+		# A picture still to be made (the horse, A53) waits for its art.
+		if not AreaProp.has_art(str(entry.get("art", ""))):
+			continue
 		var offset: Array = entry.get("offset", [0, 0])
 		var at := _free_spot_near(middle + Vector2i(int(offset[0]), int(offset[1])))
 		var prop := AreaProp.from_entry({ "art": str(entry.get("art", "")), "cell": at, "solid": false,
