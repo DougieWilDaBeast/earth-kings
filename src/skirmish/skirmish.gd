@@ -1571,6 +1571,12 @@ func _note_in_the_journal(user: Unit, ability_id: String, target: Unit) -> void:
 		Journal.note_felled(world, target.template_id)
 
 
+## Whether a first of a kind teaches here: everywhere, unless levels come only in gates ([D301]),
+## when only a fight whose encounter says `teaches` (in a gate, or a cave) does.
+func teaches() -> bool:
+	return bool(encounter.get("teaches", false)) or not Progression.levels_only_in_gates()
+
+
 ## Experience comes from the first of each kind, to whoever landed it; everyone
 ## else still standing on the party's side counts an assist, fewer needed for
 ## those who healed the killer ([D54]), and a keeper teaches them all ([D37],
@@ -1588,7 +1594,7 @@ func _award_kill(killer: Unit, victim: Unit) -> void:
 	var boss := victim.has_meta("boss") and bool(victim.get_meta("boss"))
 	for line: String in Progression.award_kill(
 		killer.character, victim.template_id, level, involved, boss, GameState.world,
-		_healed_by.get(killer, [])
+		_healed_by.get(killer, []), teaches()
 	):
 		_say(line)
 

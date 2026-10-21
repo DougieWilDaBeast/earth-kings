@@ -75,6 +75,14 @@ var beaten: Dictionary = {}
 ## Unit template id -> kills of that kind this character helped with but did not
 ## land. Enough of them teach as much as landing one (see [Progression]).
 var assists: Dictionary = {}
+## Kinds this character has seen fall where they teach nothing, outside a gate ([D301]): kind -> times.
+## The log of foes shows these as still to learn from.
+var met: Dictionary = {}
+## Kinds this character has been told to look out for in a gate ([D301], the log of foes).
+var look_for: Array = []
+## The highest floor of the Tower this character has won ([D301]): the Tower is where experience is
+## got, so a strong recruit who has never climbed shows it.
+var climbed: int = 0
 ## Doctrine ids this character has read or been taught (never inherited).
 var doctrine: Array = []
 ## Doctrine id -> the world step it was last read, taught or used.
@@ -380,6 +388,9 @@ func to_dict() -> Dictionary:
 		"arms": arms,
 		"beaten": beaten,
 		"assists": assists,
+		"met": met,
+		"look_for": look_for,
+		"climbed": climbed,
 		"doctrine": doctrine,
 		"doctrine_seen": doctrine_seen,
 		"yoke": yoke,
@@ -428,6 +439,11 @@ static func from_dict(data: Dictionary) -> Character:
 		character.beaten[kind] = int(data["beaten"][kind])
 	for kind: String in data.get("assists", {}):
 		character.assists[kind] = int(data["assists"][kind])
+	for kind: String in data.get("met", {}):
+		character.met[kind] = int(data["met"][kind])
+	for kind: Variant in data.get("look_for", []):
+		character.look_for.append(str(kind))
+	character.climbed = int(data.get("climbed", 0))
 	character.doctrine = data.get("doctrine", [])
 	character.doctrine_seen = data.get("doctrine_seen", {})
 	character.yoke = bool(data.get("yoke", false))

@@ -64,6 +64,9 @@
 		"_comment_auto_climb": "D258: a party walking itself goes up the Tower only with its health at auto_climb_above of its whole or more, resting first (AutoRoad.rest_stop), and turns back down a floor to rest when under auto_turn_back_below (area_scene._auto_axis); the floors it won stay won. Before, the bots climbed on hurt and fell on floors 1 to 4 in every run. **Inferred**: both shares.",
 		"auto_climb_above": 0.9,
 		"auto_turn_back_below": 0.6,
+		"_comment_auto_hunt": "D301: with levels only in gates, a party walking itself goes to the easiest gate standing instead of the Tower while the next floor's foes stand more than auto_hunt_gates_over levels above the company, or its keeper more than auto_hunt_keepers_over (AutoRoad.stair_too_hard). **Inferred**: both margins.",
+		"auto_hunt_gates_over": 0,
+		"auto_hunt_keepers_over": 2,
 		"_comment_auto_stops": "AM (D150): a party walking itself (Auto) stops for a fight that matters and hands it over paused: a gate's fight (`gates`), a keeper (`keepers`), or a foe more than `above_level` levels over the lead. It takes the walk back up once that fight is won. `line` is what the fight says when it stops. Since D300 a band of the land (a wild fight) never stops it: it is fought running and `ground_line` is said instead.",
 		"auto_stops": {
 			"gates": true,
@@ -590,6 +593,8 @@
 		"crow_line": "A crow finds the company: {names} {are} back at {place}, and {wait} there for you."
 	},
 	"experience": {
+		"_comment_gates": "D301 (the founders' meeting of 2026-10-20): with levels_only_in_gates, the first of a kind teaches only when it falls inside a gate or a cave (a fight whose encounter says `teaches`); on the land and in the Tower it is only noted in the log of foes (character.met), and practice (proficiency) is what grows there.",
+		"levels_only_in_gates": true,
 		"first_kill_multiplier": 2,
 		"assists_needed": 10,
 		"healer_assists_needed": 5

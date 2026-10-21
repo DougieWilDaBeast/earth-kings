@@ -77,8 +77,25 @@ func _ready() -> void:
 	_expect(Proficiency.arms_rank(killer, kind) >= 1, "%d blows with a %s taught nothing" % [Proficiency.arms_steps()[0], kind])
 	_expect(Proficiency.multiplier(killer, "strike") > plain, "practice did not make the strike hit harder")
 
+	# Levels only in gates (D301): a first of a kind fallen where it does not teach pays nothing and goes
+	# in the log of foes of all there; the first one down in a gate still teaches after that.
+	_expect(Progression.levels_only_in_gates(), "levels are not only in gates")
+	before = _total_xp(killer)
+	var helped := _total_xp(helper)
+	Progression.award_kill(killer, "goblin", 3, [helper], false, world, [], false)
+	_expect(_total_xp(killer) == before and _total_xp(helper) == helped, "a goblin down on the land taught a level")
+	_expect(int(killer.met.get("goblin", 0)) == 1 and int(helper.met.get("goblin", 0)) == 1, "a goblin down on the land is not in the log of foes")
+	_expect(not helper.assists.has("goblin"), "an assist on the land counted towards a level")
+	Progression.award_kill(killer, "goblin", 3, [], false, world, [], true)
+	_expect(_total_xp(killer) > before and Progression.has_beaten(killer, "goblin"), "the first goblin down in a gate taught nothing")
+	Progression.award_kill(killer, "goblin", 3, [], false, world, [], false)
+	_expect(int(killer.met.get("goblin", 0)) == 1, "a kind already learned from went on in the log as still to learn")
+	killer.look_for.append("ogre")
+	killer.climbed = 4
+
 	# All of it travels in the save.
 	var copy := Character.from_dict(killer.to_dict())
+	_expect(copy.met == killer.met and copy.look_for == killer.look_for and copy.climbed == 4, "the log of foes was lost in the save")
 	_expect(copy.beaten == killer.beaten, "kinds beaten were lost in the save")
 	_expect(copy.arms == killer.arms, "weapon skill was lost in the save")
 	var helper_copy := Character.from_dict(helper.to_dict())
